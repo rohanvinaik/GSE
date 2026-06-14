@@ -1,0 +1,650 @@
+{
+  "workflow_id": "d7dbc677fbf8",
+  "scope": "file",
+  "target": "gse/teaching/feature_extractor.py",
+  "state": "NEEDS_DECOMPOSITION",
+  "step": "profile",
+  "config": {
+    "max_iterations": 5,
+    "target_spec_level": 0.8,
+    "target_kill_rate": 0.7,
+    "budget_ms": 30000,
+    "reconciliation_threshold": 0.7,
+    "workflow_dir": ".lintgate/platonic_workflows"
+  },
+  "primary_target": "gse/teaching/feature_extractor.py::FeatureExtractor._extract_from_trace",
+  "primary_next_action": "platonic_continue",
+  "primary_next_args": {
+    "path": "/Users/rohanvinaik/Projects/gse",
+    "workflow_id": "d7dbc677fbf8"
+  },
+  "autopilot_safe": true,
+  "blocking_reason": "Cross-lens evidence indicates structural decomposition is the next move.",
+  "reason_code": "NEEDS_DECOMPOSITION",
+  "human_review_required": true,
+  "evidence_summary": {
+    "assessment": {
+      "total_functions": 8,
+      "strategy_distribution": {
+        "auto_generate_unit": 8
+      },
+      "auto_generate_unit": 8,
+      "needs_decomposition": 0,
+      "majority_hard_veto": false
+    },
+    "health": {
+      "axes": {
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "convergence": 0.0,
+        "composition": 1.0,
+        "test_efficiency": 0.75
+      },
+      "scalar": 0.0,
+      "vetoed": true,
+      "vetoes": {
+        "discovery_artifact": true,
+        "mock_boundary": false,
+        "budget_instability": false
+      },
+      "reconciliation_active": false,
+      "axes_measured": {
+        "spec_level": true,
+        "kill_rate": true,
+        "convergence": true,
+        "composition": true,
+        "test_efficiency": true
+      }
+    },
+    "convergence": {
+      "total_targets": 8,
+      "converged": 0,
+      "halted": 0,
+      "eligible": 0,
+      "iterations": 16,
+      "elapsed_ms": 1198.0,
+      "ready_to_apply": false,
+      "targets": [
+        {
+          "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor._extract_from_trace",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor._map_to_network_primitive",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor._split_sentences",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor.extract_all_features",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor.extract_paragraph_features",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor.extract_sentence_features",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor.extract_text_features",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor.extract_word_features",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        }
+      ]
+    },
+    "validation": {
+      "analysis_id": "ee2ab2c771",
+      "summary": "test_rebuild_validate: FAIL | Failed: [FAIL] Generated run, [FAIL] Review ceiling",
+      "file": "/Users/rohanvinaik/Projects/gse/.lintgate/analysis/test_rebuild_validate/ee2ab2c771.json",
+      "queryable_sections": [
+        "status",
+        "metrics",
+        "actions",
+        "data"
+      ],
+      "next_actions": [
+        {
+          "tool": "test_rebuild_generate",
+          "args": {
+            "path": "/Users/rohanvinaik/Projects/gse",
+            "write": true
+          },
+          "reason": "Fix issues and regenerate",
+          "priority": 5
+        }
+      ]
+    },
+    "oracle_requests": [
+      {
+        "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor._extract_from_trace",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor._map_to_network_primitive",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor._split_sentences",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor.extract_all_features",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor.extract_paragraph_features",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor.extract_sentence_features",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor.extract_text_features",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor.extract_word_features",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor._extract_from_trace",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor._map_to_network_primitive",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor._split_sentences",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor.extract_all_features",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor.extract_paragraph_features",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor.extract_sentence_features",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor.extract_text_features",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor.extract_word_features",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      }
+    ]
+  },
+  "proposed_artifacts": [
+    {
+      "kind": "manifest",
+      "path": "/Users/rohanvinaik/Projects/gse/.lintgate/test_rebuild_manifest.json"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_teaching_feature_extractor.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_teaching_feature_extractor.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_teaching_feature_extractor.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_teaching_feature_extractor.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_teaching_feature_extractor.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_teaching_feature_extractor.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_teaching_feature_extractor.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_teaching_feature_extractor.py"
+    },
+    {
+      "kind": "validation",
+      "path": ".lintgate/test_rebuild_validation.json",
+      "ready_to_apply": false
+    }
+  ],
+  "history": [
+    {
+      "state": "NEEDS_DECOMPOSITION",
+      "step": "profile",
+      "reason_code": "NEEDS_DECOMPOSITION",
+      "summary": {
+        "iterations_completed": 2,
+        "ready_to_apply": false
+      }
+    }
+  ],
+  "rel_file": "gse/teaching/feature_extractor.py",
+  "manifest_path": "/Users/rohanvinaik/Projects/gse/.lintgate/test_rebuild_manifest.json",
+  "iterations_completed": 2,
+  "staged_artifacts": [
+    {
+      "generated_path": "tests/generated/test_gse_teaching_feature_extractor.py",
+      "staging_path": "/Users/rohanvinaik/Projects/gse/.lintgate/platonic_workflows/d7dbc677fbf8/staged/test_gse_teaching_feature_extractor.py",
+      "apply_destination": "tests/test_gse_teaching_feature_extractor.py",
+      "content_hash": "85c769357ae770dd6fb1d0d0886735d85ba4edc7976b6d14bc347046c1522414",
+      "source_iteration": 2
+    }
+  ],
+  "orch_state_snapshot": {
+    "targets": {
+      "gse/teaching/feature_extractor.py::FeatureExtractor._extract_from_trace": {
+        "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor._extract_from_trace",
+        "source_file": "gse/teaching/feature_extractor.py",
+        "target_test_file": "tests/generated/test_gse_teaching_feature_extractor.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946615508.991083
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946616576.676708
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/teaching/feature_extractor.py::FeatureExtractor._map_to_network_primitive": {
+        "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor._map_to_network_primitive",
+        "source_file": "gse/teaching/feature_extractor.py",
+        "target_test_file": "tests/generated/test_gse_teaching_feature_extractor.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946615509.0046251
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946616576.682458
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/teaching/feature_extractor.py::FeatureExtractor._split_sentences": {
+        "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor._split_sentences",
+        "source_file": "gse/teaching/feature_extractor.py",
+        "target_test_file": "tests/generated/test_gse_teaching_feature_extractor.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946615509.008208
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946616576.685625
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/teaching/feature_extractor.py::FeatureExtractor.extract_all_features": {
+        "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor.extract_all_features",
+        "source_file": "gse/teaching/feature_extractor.py",
+        "target_test_file": "tests/generated/test_gse_teaching_feature_extractor.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946615509.0113751
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946616576.688416
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/teaching/feature_extractor.py::FeatureExtractor.extract_paragraph_features": {
+        "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor.extract_paragraph_features",
+        "source_file": "gse/teaching/feature_extractor.py",
+        "target_test_file": "tests/generated/test_gse_teaching_feature_extractor.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946615509.014541
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946616576.694458
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/teaching/feature_extractor.py::FeatureExtractor.extract_sentence_features": {
+        "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor.extract_sentence_features",
+        "source_file": "gse/teaching/feature_extractor.py",
+        "target_test_file": "tests/generated/test_gse_teaching_feature_extractor.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946615509.0175409
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946616576.697541
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/teaching/feature_extractor.py::FeatureExtractor.extract_text_features": {
+        "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor.extract_text_features",
+        "source_file": "gse/teaching/feature_extractor.py",
+        "target_test_file": "tests/generated/test_gse_teaching_feature_extractor.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946615509.020375
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946616576.7004161
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/teaching/feature_extractor.py::FeatureExtractor.extract_word_features": {
+        "function_key": "gse/teaching/feature_extractor.py::FeatureExtractor.extract_word_features",
+        "source_file": "gse/teaching/feature_extractor.py",
+        "target_test_file": "tests/generated/test_gse_teaching_feature_extractor.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946615509.023375
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946616576.703166
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      }
+    },
+    "iteration_count": 16,
+    "start_ms": 946615378.7275,
+    "elapsed_ms": 1197.9760410785675
+  },
+  "validation_artifact_path": "/Users/rohanvinaik/Projects/gse/.lintgate/platonic_workflows/d7dbc677fbf8/validation.json",
+  "validation_reentry_count": 0
+}

@@ -1,0 +1,23 @@
+# Data haul — 21 GB (lexicon.db 2.3 GB + backup + data/external 15 GB).
+# Never vendored; not history-safe. Re-buildable / re-ingestable separately.
+data/
+
+# Virtual env & build artifacts
+.venv/
+*.egg-info/
+build/
+dist/
+
+# Python caches
+__pycache__/
+*.py[cod]
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.benchmarks/
+
+# Logs & local runtime
+logs/
+
+# OS / editor cruft
+.DS_Store

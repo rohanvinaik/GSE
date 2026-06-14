@@ -1,0 +1,2082 @@
+{
+  "workflow_id": "8a78c2a1ac98",
+  "scope": "file",
+  "target": "gse/encoders/paragraph_structure_encoder.py",
+  "state": "NEEDS_DECOMPOSITION",
+  "step": "profile",
+  "config": {
+    "max_iterations": 5,
+    "target_spec_level": 0.8,
+    "target_kill_rate": 0.7,
+    "budget_ms": 30000,
+    "reconciliation_threshold": 0.7,
+    "workflow_dir": ".lintgate/platonic_workflows"
+  },
+  "primary_target": "gse/encoders/paragraph_structure_encoder.py::GestaltCodebook.__init__",
+  "primary_next_action": "platonic_continue",
+  "primary_next_args": {
+    "path": "/Users/rohanvinaik/Projects/gse",
+    "workflow_id": "8a78c2a1ac98"
+  },
+  "autopilot_safe": true,
+  "blocking_reason": "Cross-lens evidence indicates structural decomposition is the next move.",
+  "reason_code": "NEEDS_DECOMPOSITION",
+  "human_review_required": true,
+  "evidence_summary": {
+    "assessment": {
+      "total_functions": 27,
+      "strategy_distribution": {
+        "manual_contract": 1,
+        "auto_generate_unit": 26
+      },
+      "auto_generate_unit": 26,
+      "needs_decomposition": 0,
+      "majority_hard_veto": false
+    },
+    "health": {
+      "axes": {
+        "spec_level": 0.1111111111111111,
+        "kill_rate": 0.2222222222222222,
+        "convergence": 0.0,
+        "composition": 1.0,
+        "test_efficiency": 0.7037037037037034
+      },
+      "scalar": 0.0,
+      "vetoed": true,
+      "vetoes": {
+        "discovery_artifact": true,
+        "mock_boundary": false,
+        "budget_instability": false
+      },
+      "reconciliation_active": false,
+      "axes_measured": {
+        "spec_level": true,
+        "kill_rate": true,
+        "convergence": true,
+        "composition": true,
+        "test_efficiency": true
+      }
+    },
+    "convergence": {
+      "total_targets": 26,
+      "converged": 0,
+      "halted": 0,
+      "eligible": 0,
+      "iterations": 57,
+      "elapsed_ms": 6563.1,
+      "ready_to_apply": false,
+      "targets": [
+        {
+          "function_key": "gse/encoders/paragraph_structure_encoder.py::GestaltCodebook.__init__",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 1.0,
+          "phase": "tail",
+          "iterations": 3,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/encoders/paragraph_structure_encoder.py::GestaltCodebook._generate_vectors",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/encoders/paragraph_structure_encoder.py::GestaltCodebook.get",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 1.0,
+          "phase": "tail",
+          "iterations": 3,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/encoders/paragraph_structure_encoder.py::IntensityTrajectory.from_values",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder.__init__",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 1.0,
+          "phase": "tail",
+          "iterations": 3,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._bind",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._build_paragraph_vector",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._bundle",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._compute_bank_activations",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._compute_coherence",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._compute_intensity",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._detect_gestalt_points",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._detect_relation_pair",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._detect_relations",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._extract_topic_chain",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._has_analogy",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._has_meta",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._hash_vector",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._identify_main_claim",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._segment",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder.encode",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder.similarity",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/encoders/paragraph_structure_encoder.py::RelationCodebook.__init__",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 1.0,
+          "phase": "tail",
+          "iterations": 3,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/encoders/paragraph_structure_encoder.py::RelationCodebook._generate_vectors",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/encoders/paragraph_structure_encoder.py::RelationCodebook.get",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 1.0,
+          "phase": "tail",
+          "iterations": 3,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/encoders/paragraph_structure_encoder.py::get_paragraph_encoder",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        }
+      ]
+    },
+    "validation": {
+      "analysis_id": "4497914192",
+      "summary": "test_rebuild_validate: FAIL | Failed: [FAIL] Generated run, [FAIL] Review ceiling",
+      "file": "/Users/rohanvinaik/Projects/gse/.lintgate/analysis/test_rebuild_validate/4497914192.json",
+      "queryable_sections": [
+        "status",
+        "metrics",
+        "actions",
+        "data"
+      ],
+      "next_actions": [
+        {
+          "tool": "test_rebuild_generate",
+          "args": {
+            "path": "/Users/rohanvinaik/Projects/gse",
+            "write": true
+          },
+          "reason": "Fix issues and regenerate",
+          "priority": 5
+        }
+      ]
+    },
+    "oracle_requests": [
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::GestaltCodebook.__init__",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::GestaltCodebook._generate_vectors",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::GestaltCodebook.get",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::IntensityTrajectory.from_values",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder.__init__",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._bind",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._build_paragraph_vector",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._bundle",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._compute_bank_activations",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._compute_coherence",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._compute_intensity",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._detect_gestalt_points",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._detect_relation_pair",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._detect_relations",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._extract_topic_chain",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._has_analogy",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._has_meta",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._hash_vector",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._identify_main_claim",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._segment",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder.encode",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder.similarity",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::RelationCodebook.__init__",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::RelationCodebook._generate_vectors",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::RelationCodebook.get",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::get_paragraph_encoder",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::GestaltCodebook.__init__",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::GestaltCodebook._generate_vectors",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::GestaltCodebook.get",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::IntensityTrajectory.from_values",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder.__init__",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._bind",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._build_paragraph_vector",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._bundle",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._compute_bank_activations",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._compute_coherence",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._compute_intensity",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._detect_gestalt_points",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._detect_relation_pair",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._detect_relations",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._extract_topic_chain",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._has_analogy",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._has_meta",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._hash_vector",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._identify_main_claim",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._segment",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder.encode",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder.similarity",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::RelationCodebook.__init__",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::RelationCodebook._generate_vectors",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::RelationCodebook.get",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::get_paragraph_encoder",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::GestaltCodebook.__init__",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::GestaltCodebook._generate_vectors",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::GestaltCodebook.get",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::IntensityTrajectory.from_values",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder.__init__",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._bind",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._build_paragraph_vector",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._bundle",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._compute_bank_activations",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._compute_coherence",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._compute_intensity",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._detect_gestalt_points",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._detect_relation_pair",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._detect_relations",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._extract_topic_chain",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._has_analogy",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._has_meta",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._hash_vector",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._identify_main_claim",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._segment",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder.encode",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder.similarity",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::RelationCodebook.__init__",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::RelationCodebook._generate_vectors",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::RelationCodebook.get",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::get_paragraph_encoder",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      }
+    ]
+  },
+  "proposed_artifacts": [
+    {
+      "kind": "manifest",
+      "path": "/Users/rohanvinaik/Projects/gse/.lintgate/test_rebuild_manifest.json"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py"
+    },
+    {
+      "kind": "validation",
+      "path": ".lintgate/test_rebuild_validation.json",
+      "ready_to_apply": false
+    }
+  ],
+  "history": [
+    {
+      "state": "NEEDS_DECOMPOSITION",
+      "step": "profile",
+      "reason_code": "NEEDS_DECOMPOSITION",
+      "summary": {
+        "iterations_completed": 3,
+        "ready_to_apply": false
+      }
+    }
+  ],
+  "rel_file": "gse/encoders/paragraph_structure_encoder.py",
+  "manifest_path": "/Users/rohanvinaik/Projects/gse/.lintgate/test_rebuild_manifest.json",
+  "iterations_completed": 3,
+  "staged_artifacts": [
+    {
+      "generated_path": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py",
+      "staging_path": "/Users/rohanvinaik/Projects/gse/.lintgate/platonic_workflows/8a78c2a1ac98/staged/test_gse_encoders_paragraph_structure_encoder.py",
+      "apply_destination": "tests/test_gse_encoders_paragraph_structure_encoder.py",
+      "content_hash": "9b72695819d8f4361b29b25522821ab6600f0db9050ac4e5fa14ea8bdc76fdb5",
+      "source_iteration": 3
+    }
+  ],
+  "orch_state_snapshot": {
+    "targets": {
+      "gse/encoders/paragraph_structure_encoder.py::GestaltCodebook.__init__": {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::GestaltCodebook.__init__",
+        "source_file": "gse/encoders/paragraph_structure_encoder.py",
+        "target_test_file": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 1.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 1.0,
+            "phase": "tail",
+            "timestamp_ms": 945919962.02875
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945923005.622541
+          },
+          {
+            "iteration": 3,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945926191.967375
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/encoders/paragraph_structure_encoder.py::GestaltCodebook._generate_vectors": {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::GestaltCodebook._generate_vectors",
+        "source_file": "gse/encoders/paragraph_structure_encoder.py",
+        "target_test_file": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945919962.035208
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945923005.640583
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/encoders/paragraph_structure_encoder.py::GestaltCodebook.get": {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::GestaltCodebook.get",
+        "source_file": "gse/encoders/paragraph_structure_encoder.py",
+        "target_test_file": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 1.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 1.0,
+            "phase": "tail",
+            "timestamp_ms": 945919962.0387499
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945923005.644416
+          },
+          {
+            "iteration": 3,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945926191.981083
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/encoders/paragraph_structure_encoder.py::IntensityTrajectory.from_values": {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::IntensityTrajectory.from_values",
+        "source_file": "gse/encoders/paragraph_structure_encoder.py",
+        "target_test_file": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945919962.041875
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945923005.647541
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder.__init__": {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder.__init__",
+        "source_file": "gse/encoders/paragraph_structure_encoder.py",
+        "target_test_file": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 1.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 1.0,
+            "phase": "tail",
+            "timestamp_ms": 945919962.0450001
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945923005.650916
+          },
+          {
+            "iteration": 3,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945926191.984583
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._bind": {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._bind",
+        "source_file": "gse/encoders/paragraph_structure_encoder.py",
+        "target_test_file": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945919962.0485
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945923005.6548331
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._build_paragraph_vector": {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._build_paragraph_vector",
+        "source_file": "gse/encoders/paragraph_structure_encoder.py",
+        "target_test_file": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945919962.051666
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945923005.658375
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._bundle": {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._bundle",
+        "source_file": "gse/encoders/paragraph_structure_encoder.py",
+        "target_test_file": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945919962.054875
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945923005.661958
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._compute_bank_activations": {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._compute_bank_activations",
+        "source_file": "gse/encoders/paragraph_structure_encoder.py",
+        "target_test_file": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945919962.0581249
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945923005.665541
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._compute_coherence": {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._compute_coherence",
+        "source_file": "gse/encoders/paragraph_structure_encoder.py",
+        "target_test_file": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945919962.0613331
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945923005.6690409
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._compute_intensity": {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._compute_intensity",
+        "source_file": "gse/encoders/paragraph_structure_encoder.py",
+        "target_test_file": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945919962.064375
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945923005.672083
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._detect_gestalt_points": {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._detect_gestalt_points",
+        "source_file": "gse/encoders/paragraph_structure_encoder.py",
+        "target_test_file": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945919962.067541
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945923005.678416
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._detect_relation_pair": {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._detect_relation_pair",
+        "source_file": "gse/encoders/paragraph_structure_encoder.py",
+        "target_test_file": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945919962.0705
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945923005.681625
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._detect_relations": {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._detect_relations",
+        "source_file": "gse/encoders/paragraph_structure_encoder.py",
+        "target_test_file": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945919962.073416
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945923005.684875
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._extract_topic_chain": {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._extract_topic_chain",
+        "source_file": "gse/encoders/paragraph_structure_encoder.py",
+        "target_test_file": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945919962.0765411
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945923005.68825
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._has_analogy": {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._has_analogy",
+        "source_file": "gse/encoders/paragraph_structure_encoder.py",
+        "target_test_file": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945919962.079416
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945923005.6915001
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._has_meta": {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._has_meta",
+        "source_file": "gse/encoders/paragraph_structure_encoder.py",
+        "target_test_file": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945919962.0825
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945923005.694708
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._hash_vector": {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._hash_vector",
+        "source_file": "gse/encoders/paragraph_structure_encoder.py",
+        "target_test_file": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945919962.0855
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945923005.697916
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._identify_main_claim": {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._identify_main_claim",
+        "source_file": "gse/encoders/paragraph_structure_encoder.py",
+        "target_test_file": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945919962.088416
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945923005.701041
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._segment": {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder._segment",
+        "source_file": "gse/encoders/paragraph_structure_encoder.py",
+        "target_test_file": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945919962.0911659
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945923005.704
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder.encode": {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder.encode",
+        "source_file": "gse/encoders/paragraph_structure_encoder.py",
+        "target_test_file": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945919962.093958
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945923005.707125
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder.similarity": {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::ParagraphStructureEncoder.similarity",
+        "source_file": "gse/encoders/paragraph_structure_encoder.py",
+        "target_test_file": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945919962.097
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945923005.710541
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/encoders/paragraph_structure_encoder.py::RelationCodebook.__init__": {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::RelationCodebook.__init__",
+        "source_file": "gse/encoders/paragraph_structure_encoder.py",
+        "target_test_file": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 1.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 1.0,
+            "phase": "tail",
+            "timestamp_ms": 945919962.0997081
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945923005.7133751
+          },
+          {
+            "iteration": 3,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945926191.9888331
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/encoders/paragraph_structure_encoder.py::RelationCodebook._generate_vectors": {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::RelationCodebook._generate_vectors",
+        "source_file": "gse/encoders/paragraph_structure_encoder.py",
+        "target_test_file": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945919962.1024159
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945923005.716333
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/encoders/paragraph_structure_encoder.py::RelationCodebook.get": {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::RelationCodebook.get",
+        "source_file": "gse/encoders/paragraph_structure_encoder.py",
+        "target_test_file": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 1.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 1.0,
+            "phase": "tail",
+            "timestamp_ms": 945919962.105
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945923005.719458
+          },
+          {
+            "iteration": 3,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945926191.9915409
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/encoders/paragraph_structure_encoder.py::get_paragraph_encoder": {
+        "function_key": "gse/encoders/paragraph_structure_encoder.py::get_paragraph_encoder",
+        "source_file": "gse/encoders/paragraph_structure_encoder.py",
+        "target_test_file": "tests/generated/test_gse_encoders_paragraph_structure_encoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945919962.10825
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 945923005.722833
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      }
+    },
+    "iteration_count": 57,
+    "start_ms": 945919628.930083,
+    "elapsed_ms": 6563.061833024025
+  },
+  "validation_artifact_path": "/Users/rohanvinaik/Projects/gse/.lintgate/platonic_workflows/8a78c2a1ac98/validation.json",
+  "validation_reentry_count": 0
+}

@@ -1,0 +1,1187 @@
+{
+  "workflow_id": "bc7b904620d6",
+  "scope": "file",
+  "target": "gse/api/decoder.py",
+  "state": "NEEDS_DECOMPOSITION",
+  "step": "profile",
+  "config": {
+    "max_iterations": 5,
+    "target_spec_level": 0.8,
+    "target_kill_rate": 0.7,
+    "budget_ms": 30000,
+    "reconciliation_threshold": 0.7,
+    "workflow_dir": ".lintgate/platonic_workflows"
+  },
+  "primary_target": "gse/api/decoder.py::GSEDecoder.__enter__",
+  "primary_next_action": "platonic_continue",
+  "primary_next_args": {
+    "path": "/Users/rohanvinaik/Projects/gse",
+    "workflow_id": "bc7b904620d6"
+  },
+  "autopilot_safe": true,
+  "blocking_reason": "Cross-lens evidence indicates structural decomposition is the next move.",
+  "reason_code": "NEEDS_DECOMPOSITION",
+  "human_review_required": true,
+  "evidence_summary": {
+    "assessment": {
+      "total_functions": 14,
+      "strategy_distribution": {
+        "auto_generate_unit": 14
+      },
+      "auto_generate_unit": 14,
+      "needs_decomposition": 0,
+      "majority_hard_veto": false
+    },
+    "health": {
+      "axes": {
+        "spec_level": 0.0,
+        "kill_rate": 0.21428571428571427,
+        "convergence": 0.0,
+        "composition": 1.0,
+        "test_efficiency": 0.7000000000000002
+      },
+      "scalar": 0.0,
+      "vetoed": true,
+      "vetoes": {
+        "discovery_artifact": true,
+        "mock_boundary": false,
+        "budget_instability": false
+      },
+      "reconciliation_active": false,
+      "axes_measured": {
+        "spec_level": true,
+        "kill_rate": true,
+        "convergence": true,
+        "composition": true,
+        "test_efficiency": true
+      }
+    },
+    "convergence": {
+      "total_targets": 14,
+      "converged": 0,
+      "halted": 0,
+      "eligible": 0,
+      "iterations": 31,
+      "elapsed_ms": 2240.7,
+      "ready_to_apply": false,
+      "targets": [
+        {
+          "function_key": "gse/api/decoder.py::GSEDecoder.__enter__",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 1.0,
+          "phase": "tail",
+          "iterations": 3,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/api/decoder.py::GSEDecoder.__exit__",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 1.0,
+          "phase": "tail",
+          "iterations": 3,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/api/decoder.py::GSEDecoder.__init__",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/api/decoder.py::GSEDecoder._build_lexeme_index",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/api/decoder.py::GSEDecoder._compute_bank_activity",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/api/decoder.py::GSEDecoder._encode_primitives",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/api/decoder.py::GSEDecoder._extract_attributes",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/api/decoder.py::GSEDecoder._extract_entities",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/api/decoder.py::GSEDecoder._extract_relations",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/api/decoder.py::GSEDecoder._find_nearest_lexemes",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/api/decoder.py::GSEDecoder._probe_primitives",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/api/decoder.py::GSEDecoder.close",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 1.0,
+          "phase": "tail",
+          "iterations": 3,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/api/decoder.py::GSEDecoder.decode",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/api/decoder.py::GSEDecoder.similarity",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        }
+      ]
+    },
+    "validation": {
+      "analysis_id": "f24c082531",
+      "summary": "test_rebuild_validate: FAIL | Failed: [FAIL] Generated run, [FAIL] Review ceiling",
+      "file": "/Users/rohanvinaik/Projects/gse/.lintgate/analysis/test_rebuild_validate/f24c082531.json",
+      "queryable_sections": [
+        "status",
+        "metrics",
+        "actions",
+        "data"
+      ],
+      "next_actions": [
+        {
+          "tool": "test_rebuild_generate",
+          "args": {
+            "path": "/Users/rohanvinaik/Projects/gse",
+            "write": true
+          },
+          "reason": "Fix issues and regenerate",
+          "priority": 5
+        }
+      ]
+    },
+    "oracle_requests": [
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder.__enter__",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder.__exit__",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder.__init__",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder._build_lexeme_index",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder._compute_bank_activity",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder._encode_primitives",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder._extract_attributes",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder._extract_entities",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder._extract_relations",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder._find_nearest_lexemes",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder._probe_primitives",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder.close",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder.decode",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder.similarity",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder.__enter__",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder.__exit__",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder.__init__",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder._build_lexeme_index",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder._compute_bank_activity",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder._encode_primitives",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder._extract_attributes",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder._extract_entities",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder._extract_relations",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder._find_nearest_lexemes",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder._probe_primitives",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder.close",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder.decode",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder.similarity",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder.__enter__",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder.__exit__",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder.__init__",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder._build_lexeme_index",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder._compute_bank_activity",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder._encode_primitives",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder._extract_attributes",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder._extract_entities",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder._extract_relations",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder._find_nearest_lexemes",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder._probe_primitives",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder.close",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder.decode",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/api/decoder.py::GSEDecoder.similarity",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      }
+    ]
+  },
+  "proposed_artifacts": [
+    {
+      "kind": "manifest",
+      "path": "/Users/rohanvinaik/Projects/gse/.lintgate/test_rebuild_manifest.json"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_api_decoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_api_decoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_api_decoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_api_decoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_api_decoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_api_decoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_api_decoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_api_decoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_api_decoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_api_decoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_api_decoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_api_decoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_api_decoder.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_api_decoder.py"
+    },
+    {
+      "kind": "validation",
+      "path": ".lintgate/test_rebuild_validation.json",
+      "ready_to_apply": false
+    }
+  ],
+  "history": [
+    {
+      "state": "NEEDS_DECOMPOSITION",
+      "step": "profile",
+      "reason_code": "NEEDS_DECOMPOSITION",
+      "summary": {
+        "iterations_completed": 3,
+        "ready_to_apply": false
+      }
+    }
+  ],
+  "rel_file": "gse/api/decoder.py",
+  "manifest_path": "/Users/rohanvinaik/Projects/gse/.lintgate/test_rebuild_manifest.json",
+  "iterations_completed": 3,
+  "staged_artifacts": [
+    {
+      "generated_path": "tests/generated/test_gse_api_decoder.py",
+      "staging_path": "/Users/rohanvinaik/Projects/gse/.lintgate/platonic_workflows/bc7b904620d6/staged/test_gse_api_decoder.py",
+      "apply_destination": "tests/test_gse_api_decoder.py",
+      "content_hash": "d0809eab9e7a41942ba76a71a7ade4b21c8ac19c92e0e9136f842a224c736f96",
+      "source_iteration": 3
+    }
+  ],
+  "orch_state_snapshot": {
+    "targets": {
+      "gse/api/decoder.py::GSEDecoder.__enter__": {
+        "function_key": "gse/api/decoder.py::GSEDecoder.__enter__",
+        "source_file": "gse/api/decoder.py",
+        "target_test_file": "tests/generated/test_gse_api_decoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 1.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 1.0,
+            "phase": "tail",
+            "timestamp_ms": 924703217.498625
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924704304.299083
+          },
+          {
+            "iteration": 3,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924705311.269833
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/api/decoder.py::GSEDecoder.__exit__": {
+        "function_key": "gse/api/decoder.py::GSEDecoder.__exit__",
+        "source_file": "gse/api/decoder.py",
+        "target_test_file": "tests/generated/test_gse_api_decoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 1.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 1.0,
+            "phase": "tail",
+            "timestamp_ms": 924703217.51
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924704304.315833
+          },
+          {
+            "iteration": 3,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924705311.2825
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/api/decoder.py::GSEDecoder.__init__": {
+        "function_key": "gse/api/decoder.py::GSEDecoder.__init__",
+        "source_file": "gse/api/decoder.py",
+        "target_test_file": "tests/generated/test_gse_api_decoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924703217.513708
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924704304.320541
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/api/decoder.py::GSEDecoder._build_lexeme_index": {
+        "function_key": "gse/api/decoder.py::GSEDecoder._build_lexeme_index",
+        "source_file": "gse/api/decoder.py",
+        "target_test_file": "tests/generated/test_gse_api_decoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924703217.5170001
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924704304.326458
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/api/decoder.py::GSEDecoder._compute_bank_activity": {
+        "function_key": "gse/api/decoder.py::GSEDecoder._compute_bank_activity",
+        "source_file": "gse/api/decoder.py",
+        "target_test_file": "tests/generated/test_gse_api_decoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924703217.520208
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924704304.332583
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/api/decoder.py::GSEDecoder._encode_primitives": {
+        "function_key": "gse/api/decoder.py::GSEDecoder._encode_primitives",
+        "source_file": "gse/api/decoder.py",
+        "target_test_file": "tests/generated/test_gse_api_decoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924703217.5233331
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924704304.3397499
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/api/decoder.py::GSEDecoder._extract_attributes": {
+        "function_key": "gse/api/decoder.py::GSEDecoder._extract_attributes",
+        "source_file": "gse/api/decoder.py",
+        "target_test_file": "tests/generated/test_gse_api_decoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924703217.526541
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924704304.342875
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/api/decoder.py::GSEDecoder._extract_entities": {
+        "function_key": "gse/api/decoder.py::GSEDecoder._extract_entities",
+        "source_file": "gse/api/decoder.py",
+        "target_test_file": "tests/generated/test_gse_api_decoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924703217.529708
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924704304.3460829
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/api/decoder.py::GSEDecoder._extract_relations": {
+        "function_key": "gse/api/decoder.py::GSEDecoder._extract_relations",
+        "source_file": "gse/api/decoder.py",
+        "target_test_file": "tests/generated/test_gse_api_decoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924703217.533
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924704304.3488749
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/api/decoder.py::GSEDecoder._find_nearest_lexemes": {
+        "function_key": "gse/api/decoder.py::GSEDecoder._find_nearest_lexemes",
+        "source_file": "gse/api/decoder.py",
+        "target_test_file": "tests/generated/test_gse_api_decoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924703217.536125
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924704304.351791
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/api/decoder.py::GSEDecoder._probe_primitives": {
+        "function_key": "gse/api/decoder.py::GSEDecoder._probe_primitives",
+        "source_file": "gse/api/decoder.py",
+        "target_test_file": "tests/generated/test_gse_api_decoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924703217.539166
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924704304.356916
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/api/decoder.py::GSEDecoder.close": {
+        "function_key": "gse/api/decoder.py::GSEDecoder.close",
+        "source_file": "gse/api/decoder.py",
+        "target_test_file": "tests/generated/test_gse_api_decoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 1.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 1.0,
+            "phase": "tail",
+            "timestamp_ms": 924703217.5423329
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924704304.359958
+          },
+          {
+            "iteration": 3,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924705311.28875
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/api/decoder.py::GSEDecoder.decode": {
+        "function_key": "gse/api/decoder.py::GSEDecoder.decode",
+        "source_file": "gse/api/decoder.py",
+        "target_test_file": "tests/generated/test_gse_api_decoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924703217.545416
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924704304.362875
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/api/decoder.py::GSEDecoder.similarity": {
+        "function_key": "gse/api/decoder.py::GSEDecoder.similarity",
+        "source_file": "gse/api/decoder.py",
+        "target_test_file": "tests/generated/test_gse_api_decoder.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924703217.548458
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 924704304.366083
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      }
+    },
+    "iteration_count": 31,
+    "start_ms": 924703070.555166,
+    "elapsed_ms": 2240.7340420484543
+  },
+  "validation_artifact_path": "/Users/rohanvinaik/Projects/gse/.lintgate/platonic_workflows/bc7b904620d6/validation.json",
+  "validation_reentry_count": 0
+}

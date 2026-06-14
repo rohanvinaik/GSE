@@ -1,0 +1,842 @@
+{
+  "workflow_id": "e23b613e2a0a",
+  "scope": "file",
+  "target": "gse/teaching/conversation_processor.py",
+  "state": "NEEDS_DECOMPOSITION",
+  "step": "profile",
+  "config": {
+    "max_iterations": 5,
+    "target_spec_level": 0.8,
+    "target_kill_rate": 0.7,
+    "budget_ms": 30000,
+    "reconciliation_threshold": 0.7,
+    "workflow_dir": ".lintgate/platonic_workflows"
+  },
+  "primary_target": "gse/teaching/conversation_processor.py::ConversationProcessor.__init__",
+  "primary_next_action": "platonic_continue",
+  "primary_next_args": {
+    "path": "/Users/rohanvinaik/Projects/gse",
+    "workflow_id": "e23b613e2a0a"
+  },
+  "autopilot_safe": true,
+  "blocking_reason": "Cross-lens evidence indicates structural decomposition is the next move.",
+  "reason_code": "NEEDS_DECOMPOSITION",
+  "human_review_required": true,
+  "evidence_summary": {
+    "assessment": {
+      "total_functions": 11,
+      "strategy_distribution": {
+        "auto_generate_unit": 11
+      },
+      "auto_generate_unit": 11,
+      "needs_decomposition": 0,
+      "majority_hard_veto": false
+    },
+    "health": {
+      "axes": {
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "convergence": 0.0,
+        "composition": 1.0,
+        "test_efficiency": 0.6181818181818183
+      },
+      "scalar": 0.0,
+      "vetoed": true,
+      "vetoes": {
+        "discovery_artifact": true,
+        "mock_boundary": false,
+        "budget_instability": false
+      },
+      "reconciliation_active": false,
+      "axes_measured": {
+        "spec_level": true,
+        "kill_rate": true,
+        "convergence": true,
+        "composition": true,
+        "test_efficiency": true
+      }
+    },
+    "convergence": {
+      "total_targets": 11,
+      "converged": 0,
+      "halted": 0,
+      "eligible": 0,
+      "iterations": 22,
+      "elapsed_ms": 1111.3,
+      "ready_to_apply": false,
+      "targets": [
+        {
+          "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor.__init__",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor._auto_detect_and_process",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor._clean_text",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor._process_claude_conversation",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor._process_gpt_conversation",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor.count_turns",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor.get_file_stats",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor.process_claude_file",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor.process_file",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor.process_gpt_file",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/teaching/conversation_processor.py::ConversationTurn.__str__",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        }
+      ]
+    },
+    "validation": {
+      "analysis_id": "7ce26b0c4e",
+      "summary": "test_rebuild_validate: FAIL | Failed: [FAIL] Generated run, [FAIL] Review ceiling",
+      "file": "/Users/rohanvinaik/Projects/gse/.lintgate/analysis/test_rebuild_validate/7ce26b0c4e.json",
+      "queryable_sections": [
+        "status",
+        "metrics",
+        "actions",
+        "data"
+      ],
+      "next_actions": [
+        {
+          "tool": "test_rebuild_generate",
+          "args": {
+            "path": "/Users/rohanvinaik/Projects/gse",
+            "write": true
+          },
+          "reason": "Fix issues and regenerate",
+          "priority": 5
+        }
+      ]
+    },
+    "oracle_requests": [
+      {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor.__init__",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor._auto_detect_and_process",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor._clean_text",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor._process_claude_conversation",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor._process_gpt_conversation",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor.count_turns",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor.get_file_stats",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor.process_claude_file",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor.process_file",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor.process_gpt_file",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationTurn.__str__",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor.__init__",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor._auto_detect_and_process",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor._clean_text",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor._process_claude_conversation",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor._process_gpt_conversation",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor.count_turns",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor.get_file_stats",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor.process_claude_file",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor.process_file",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor.process_gpt_file",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationTurn.__str__",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      }
+    ]
+  },
+  "proposed_artifacts": [
+    {
+      "kind": "manifest",
+      "path": "/Users/rohanvinaik/Projects/gse/.lintgate/test_rebuild_manifest.json"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_teaching_conversation_processor.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_teaching_conversation_processor.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_teaching_conversation_processor.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_teaching_conversation_processor.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_teaching_conversation_processor.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_teaching_conversation_processor.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_teaching_conversation_processor.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_teaching_conversation_processor.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_teaching_conversation_processor.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_teaching_conversation_processor.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_teaching_conversation_processor.py"
+    },
+    {
+      "kind": "validation",
+      "path": ".lintgate/test_rebuild_validation.json",
+      "ready_to_apply": false
+    }
+  ],
+  "history": [
+    {
+      "state": "NEEDS_DECOMPOSITION",
+      "step": "profile",
+      "reason_code": "NEEDS_DECOMPOSITION",
+      "summary": {
+        "iterations_completed": 2,
+        "ready_to_apply": false
+      }
+    }
+  ],
+  "rel_file": "gse/teaching/conversation_processor.py",
+  "manifest_path": "/Users/rohanvinaik/Projects/gse/.lintgate/test_rebuild_manifest.json",
+  "iterations_completed": 2,
+  "staged_artifacts": [
+    {
+      "generated_path": "tests/generated/test_gse_teaching_conversation_processor.py",
+      "staging_path": "/Users/rohanvinaik/Projects/gse/.lintgate/platonic_workflows/e23b613e2a0a/staged/test_gse_teaching_conversation_processor.py",
+      "apply_destination": "tests/test_gse_teaching_conversation_processor.py",
+      "content_hash": "5c32397b87a6fdb28f288f1c80450980da47937691313f84685692546418d370",
+      "source_iteration": 2
+    }
+  ],
+  "orch_state_snapshot": {
+    "targets": {
+      "gse/teaching/conversation_processor.py::ConversationProcessor.__init__": {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor.__init__",
+        "source_file": "gse/teaching/conversation_processor.py",
+        "target_test_file": "tests/generated/test_gse_teaching_conversation_processor.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946720287.1034161
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946721239.918916
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/teaching/conversation_processor.py::ConversationProcessor._auto_detect_and_process": {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor._auto_detect_and_process",
+        "source_file": "gse/teaching/conversation_processor.py",
+        "target_test_file": "tests/generated/test_gse_teaching_conversation_processor.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946720287.109875
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946721239.936916
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/teaching/conversation_processor.py::ConversationProcessor._clean_text": {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor._clean_text",
+        "source_file": "gse/teaching/conversation_processor.py",
+        "target_test_file": "tests/generated/test_gse_teaching_conversation_processor.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946720287.113416
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946721239.940666
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/teaching/conversation_processor.py::ConversationProcessor._process_claude_conversation": {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor._process_claude_conversation",
+        "source_file": "gse/teaching/conversation_processor.py",
+        "target_test_file": "tests/generated/test_gse_teaching_conversation_processor.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946720287.116333
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946721239.943833
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/teaching/conversation_processor.py::ConversationProcessor._process_gpt_conversation": {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor._process_gpt_conversation",
+        "source_file": "gse/teaching/conversation_processor.py",
+        "target_test_file": "tests/generated/test_gse_teaching_conversation_processor.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946720287.122166
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946721239.946625
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/teaching/conversation_processor.py::ConversationProcessor.count_turns": {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor.count_turns",
+        "source_file": "gse/teaching/conversation_processor.py",
+        "target_test_file": "tests/generated/test_gse_teaching_conversation_processor.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946720287.125541
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946721239.9497501
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/teaching/conversation_processor.py::ConversationProcessor.get_file_stats": {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor.get_file_stats",
+        "source_file": "gse/teaching/conversation_processor.py",
+        "target_test_file": "tests/generated/test_gse_teaching_conversation_processor.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946720287.128458
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946721239.952833
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/teaching/conversation_processor.py::ConversationProcessor.process_claude_file": {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor.process_claude_file",
+        "source_file": "gse/teaching/conversation_processor.py",
+        "target_test_file": "tests/generated/test_gse_teaching_conversation_processor.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946720287.131041
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946721239.9555
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/teaching/conversation_processor.py::ConversationProcessor.process_file": {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor.process_file",
+        "source_file": "gse/teaching/conversation_processor.py",
+        "target_test_file": "tests/generated/test_gse_teaching_conversation_processor.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946720287.133791
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946721239.958166
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/teaching/conversation_processor.py::ConversationProcessor.process_gpt_file": {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationProcessor.process_gpt_file",
+        "source_file": "gse/teaching/conversation_processor.py",
+        "target_test_file": "tests/generated/test_gse_teaching_conversation_processor.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946720287.136416
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946721239.960958
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/teaching/conversation_processor.py::ConversationTurn.__str__": {
+        "function_key": "gse/teaching/conversation_processor.py::ConversationTurn.__str__",
+        "source_file": "gse/teaching/conversation_processor.py",
+        "target_test_file": "tests/generated/test_gse_teaching_conversation_processor.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946720287.138958
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 946721239.963625
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      }
+    },
+    "iteration_count": 22,
+    "start_ms": 946720128.7042079,
+    "elapsed_ms": 1111.2598330974579
+  },
+  "validation_artifact_path": "/Users/rohanvinaik/Projects/gse/.lintgate/platonic_workflows/e23b613e2a0a/validation.json",
+  "validation_reentry_count": 0
+}

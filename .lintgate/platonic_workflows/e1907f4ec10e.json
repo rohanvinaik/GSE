@@ -1,0 +1,376 @@
+{
+  "workflow_id": "e1907f4ec10e",
+  "scope": "file",
+  "target": "gse/lexicon/numerals.py",
+  "state": "NEEDS_DECOMPOSITION",
+  "step": "profile",
+  "config": {
+    "max_iterations": 5,
+    "target_spec_level": 0.8,
+    "target_kill_rate": 0.7,
+    "budget_ms": 30000,
+    "reconciliation_threshold": 0.7,
+    "workflow_dir": ".lintgate/platonic_workflows"
+  },
+  "primary_target": "gse/lexicon/numerals.py::get_all_numerals",
+  "primary_next_action": "platonic_continue",
+  "primary_next_args": {
+    "path": "/Users/rohanvinaik/Projects/gse",
+    "workflow_id": "e1907f4ec10e"
+  },
+  "autopilot_safe": true,
+  "blocking_reason": "Cross-lens evidence indicates structural decomposition is the next move.",
+  "reason_code": "NEEDS_DECOMPOSITION",
+  "human_review_required": true,
+  "evidence_summary": {
+    "assessment": {
+      "total_functions": 4,
+      "strategy_distribution": {
+        "auto_generate_unit": 4
+      },
+      "auto_generate_unit": 4,
+      "needs_decomposition": 0,
+      "majority_hard_veto": false
+    },
+    "health": {
+      "axes": {
+        "spec_level": 0.0,
+        "kill_rate": 0.75,
+        "convergence": 0.0,
+        "composition": 1.0,
+        "test_efficiency": 0.7250000000000001
+      },
+      "scalar": 0.0,
+      "vetoed": true,
+      "vetoes": {
+        "discovery_artifact": true,
+        "mock_boundary": false,
+        "budget_instability": false
+      },
+      "reconciliation_active": false,
+      "axes_measured": {
+        "spec_level": true,
+        "kill_rate": true,
+        "convergence": true,
+        "composition": true,
+        "test_efficiency": true
+      }
+    },
+    "convergence": {
+      "total_targets": 4,
+      "converged": 0,
+      "halted": 0,
+      "eligible": 0,
+      "iterations": 11,
+      "elapsed_ms": 15162.4,
+      "ready_to_apply": false,
+      "targets": [
+        {
+          "function_key": "gse/lexicon/numerals.py::get_all_numerals",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 1.0,
+          "phase": "tail",
+          "iterations": 3,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/lexicon/numerals.py::get_numeral_encoding",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 1.0,
+          "phase": "tail",
+          "iterations": 3,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/lexicon/numerals.py::is_numeral",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 1.0,
+          "phase": "tail",
+          "iterations": 3,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        },
+        {
+          "function_key": "gse/lexicon/numerals.py::validate_mutual_transparency",
+          "status": "decompose",
+          "spec_level": 0.0,
+          "kill_rate": 0.0,
+          "phase": "tail",
+          "iterations": 2,
+          "halt_reason": "stall_in_tail",
+          "last_delta_spec": 0.0,
+          "last_delta_kill": 0.0
+        }
+      ]
+    },
+    "validation": {
+      "analysis_id": "ce305eebbf",
+      "summary": "test_rebuild_validate: FAIL | Failed: [FAIL] Review ceiling, [FAIL] Kill rate, [FAIL] Zero-kill",
+      "file": "/Users/rohanvinaik/Projects/gse/.lintgate/analysis/test_rebuild_validate/ce305eebbf.json",
+      "queryable_sections": [
+        "status",
+        "metrics",
+        "actions",
+        "data"
+      ],
+      "next_actions": [
+        {
+          "tool": "test_rebuild_generate",
+          "args": {
+            "path": "/Users/rohanvinaik/Projects/gse",
+            "write": true
+          },
+          "reason": "Fix issues and regenerate",
+          "priority": 5
+        }
+      ]
+    },
+    "oracle_requests": [
+      {
+        "function_key": "gse/lexicon/numerals.py::get_numeral_encoding",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/lexicon/numerals.py::get_numeral_encoding",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      },
+      {
+        "function_key": "gse/lexicon/numerals.py::get_numeral_encoding",
+        "category": "VALUE",
+        "mutation_diff": "",
+        "required_oracle_type": "value",
+        "context": {
+          "source": "manual_contract_reroute"
+        }
+      }
+    ]
+  },
+  "proposed_artifacts": [
+    {
+      "kind": "manifest",
+      "path": "/Users/rohanvinaik/Projects/gse/.lintgate/test_rebuild_manifest.json"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_lexicon_numerals.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_lexicon_numerals.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_lexicon_numerals.py"
+    },
+    {
+      "kind": "generated_test",
+      "path": "tests/generated/test_gse_lexicon_numerals.py"
+    },
+    {
+      "kind": "validation",
+      "path": ".lintgate/test_rebuild_validation.json",
+      "ready_to_apply": false
+    }
+  ],
+  "history": [
+    {
+      "state": "NEEDS_DECOMPOSITION",
+      "step": "profile",
+      "reason_code": "NEEDS_DECOMPOSITION",
+      "summary": {
+        "iterations_completed": 3,
+        "ready_to_apply": false
+      }
+    }
+  ],
+  "rel_file": "gse/lexicon/numerals.py",
+  "manifest_path": "/Users/rohanvinaik/Projects/gse/.lintgate/test_rebuild_manifest.json",
+  "iterations_completed": 3,
+  "staged_artifacts": [
+    {
+      "generated_path": "tests/generated/test_gse_lexicon_numerals.py",
+      "staging_path": "/Users/rohanvinaik/Projects/gse/.lintgate/platonic_workflows/e1907f4ec10e/staged/test_gse_lexicon_numerals.py",
+      "apply_destination": "tests/test_gse_lexicon_numerals.py",
+      "content_hash": "f9e0a889fead67ae5dcb0a1ba4b223a03cd1608542a00e544eaa0d5c7c7f8059",
+      "source_iteration": 3
+    }
+  ],
+  "orch_state_snapshot": {
+    "targets": {
+      "gse/lexicon/numerals.py::get_all_numerals": {
+        "function_key": "gse/lexicon/numerals.py::get_all_numerals",
+        "source_file": "gse/lexicon/numerals.py",
+        "target_test_file": "tests/generated/test_gse_lexicon_numerals.py",
+        "spec_level": 0.0,
+        "kill_rate": 1.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 1.0,
+            "phase": "tail",
+            "timestamp_ms": 922772358.715958
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 922780110.663375
+          },
+          {
+            "iteration": 3,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 922787465.104291
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/lexicon/numerals.py::get_numeral_encoding": {
+        "function_key": "gse/lexicon/numerals.py::get_numeral_encoding",
+        "source_file": "gse/lexicon/numerals.py",
+        "target_test_file": "tests/generated/test_gse_lexicon_numerals.py",
+        "spec_level": 0.0,
+        "kill_rate": 1.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 1.0,
+            "phase": "tail",
+            "timestamp_ms": 922772358.723416
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 922780110.671875
+          },
+          {
+            "iteration": 3,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 922787465.114291
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/lexicon/numerals.py::is_numeral": {
+        "function_key": "gse/lexicon/numerals.py::is_numeral",
+        "source_file": "gse/lexicon/numerals.py",
+        "target_test_file": "tests/generated/test_gse_lexicon_numerals.py",
+        "spec_level": 0.0,
+        "kill_rate": 1.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 1.0,
+            "phase": "tail",
+            "timestamp_ms": 922772358.727375
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 922780110.676625
+          },
+          {
+            "iteration": 3,
+            "spec_level": 0.0,
+            "kill_rate": 1.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 922787465.11925
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      },
+      "gse/lexicon/numerals.py::validate_mutual_transparency": {
+        "function_key": "gse/lexicon/numerals.py::validate_mutual_transparency",
+        "source_file": "gse/lexicon/numerals.py",
+        "target_test_file": "tests/generated/test_gse_lexicon_numerals.py",
+        "spec_level": 0.0,
+        "kill_rate": 0.0,
+        "phase": "tail",
+        "convergence_rate": 0.0,
+        "trajectory": [
+          {
+            "iteration": 1,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 922772358.7307501
+          },
+          {
+            "iteration": 2,
+            "spec_level": 0.0,
+            "kill_rate": 0.0,
+            "delta_spec": 0.0,
+            "delta_kill": 0.0,
+            "phase": "tail",
+            "timestamp_ms": 922780110.68525
+          }
+        ],
+        "status": "decompose",
+        "halt_reason": "stall_in_tail"
+      }
+    },
+    "iteration_count": 11,
+    "start_ms": 922772302.735708,
+    "elapsed_ms": 15162.383999943733
+  },
+  "validation_artifact_path": "/Users/rohanvinaik/Projects/gse/.lintgate/platonic_workflows/e1907f4ec10e/validation.json",
+  "validation_reentry_count": 0
+}

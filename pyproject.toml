@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["gse*"]
+exclude = ["tests*", "scripts*", "data*", "daemon*", "logs*", "prompts*"]
+
+[project]
+name = "gse"
+version = "2.0.0"
+description = "Geometric Semantic Encoding — hyperdimensional computing framework for semantic representation"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.24.0",
+    "scipy>=1.10.0",
+    "msgpack>=1.0.0",
+    "spacy>=3.7.0",
+    "scikit-learn>=1.3.0",
+]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+
+exclude = [
+    "data/external",
+    "scripts/_archive",
+    "gse/_archive",
+    "daemon",
+    ".lintgate",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+ignore = [
+    "E501",  # line length handled by formatter
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

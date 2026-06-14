@@ -1,0 +1,55 @@
+{
+  "workflow_id": "7325c8d215f0",
+  "scope": "file",
+  "target": "gse/composition/composer.py",
+  "state": "BLOCKED_NO_ELIGIBLE_TARGETS",
+  "step": "assess",
+  "config": {
+    "max_iterations": 5,
+    "target_spec_level": 0.8,
+    "target_kill_rate": 0.7,
+    "budget_ms": 30000,
+    "reconciliation_threshold": 0.7,
+    "workflow_dir": ".lintgate/platonic_workflows"
+  },
+  "primary_target": "",
+  "primary_next_action": "",
+  "primary_next_args": {},
+  "autopilot_safe": false,
+  "blocking_reason": "No eligible auto-generate targets remained after routing.",
+  "reason_code": "BLOCKED_NO_ELIGIBLE_TARGETS",
+  "human_review_required": false,
+  "evidence_summary": {
+    "total_functions": 7,
+    "strategy_distribution": {
+      "manual_contract": 7
+    },
+    "auto_generate_unit": 0,
+    "needs_decomposition": 0,
+    "majority_hard_veto": false
+  },
+  "proposed_artifacts": [],
+  "history": [
+    {
+      "state": "BLOCKED_NO_ELIGIBLE_TARGETS",
+      "step": "assess",
+      "reason_code": "BLOCKED_NO_ELIGIBLE_TARGETS",
+      "summary": {
+        "total_functions": 7,
+        "strategy_distribution": {
+          "manual_contract": 7
+        },
+        "auto_generate_unit": 0,
+        "needs_decomposition": 0,
+        "majority_hard_veto": false
+      }
+    }
+  ],
+  "rel_file": "gse/composition/composer.py",
+  "manifest_path": "/Users/rohanvinaik/Projects/gse/.lintgate/test_rebuild_manifest.json",
+  "iterations_completed": 0,
+  "staged_artifacts": [],
+  "orch_state_snapshot": {},
+  "validation_artifact_path": "",
+  "validation_reentry_count": 0
+}

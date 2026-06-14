@@ -1,0 +1,53 @@
+{
+  "ready_to_apply": false,
+  "review_ready_to_apply": false,
+  "gates": {
+    "preserve_tests_pass": true,
+    "generated_tests_run": true,
+    "generated_assertion_count": 3,
+    "review_share_ok": false,
+    "review_share": 1.0,
+    "no_artifact_auto_targets": true,
+    "fresh_sampling_details": [
+      {
+        "function_key": "gse/lexicon/numerals.py::get_all_numerals",
+        "status": "sampled",
+        "kill_rate": 1.0,
+        "total_mutants": 1,
+        "total_killed": 1,
+        "tests_loaded": 3,
+        "categories_tested": 1,
+        "is_pure": false
+      },
+      {
+        "function_key": "gse/lexicon/numerals.py::is_numeral",
+        "status": "sampled",
+        "kill_rate": 1.0,
+        "total_mutants": 0,
+        "total_killed": 0,
+        "tests_loaded": 3,
+        "categories_tested": 0,
+        "is_pure": true
+      },
+      {
+        "function_key": "gse/lexicon/numerals.py::validate_mutual_transparency",
+        "status": "sampled",
+        "kill_rate": 0.0,
+        "total_mutants": 9,
+        "total_killed": 0,
+        "tests_loaded": 3,
+        "categories_tested": 3,
+        "is_pure": true
+      }
+    ],
+    "kill_rate": 0.667,
+    "kill_rate_ok": false,
+    "zero_kill_rate": 0.333,
+    "zero_kill_ok": false,
+    "effectiveness_ok": true,
+    "hygiene_ok": true,
+    "hygiene_critical": 0,
+    "redundancy_ok": true,
+    "redundant_test_count": 0
+  }
+}
