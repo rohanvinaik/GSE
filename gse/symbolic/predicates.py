@@ -134,11 +134,31 @@ class Causation:
     conjunction: str = "so"
 
 
+@dataclass(frozen=True)
+class TypeAssertion:
+    """Entity asserted to be of a kind. Produced by the copula "X is a Y".
+
+    The assertion counterpart to :class:`TypeQuery` ("What is X?"): a
+    declarative "Spot is a dog" → ``TypeAssertion(entity=Spot, kind=dog)``.
+    Grounded in the NSM ``KIND`` prime — "X is one kind of Y". The
+    copula is recognized structurally from the encoder's syntactic-role
+    primitives (SYN_SUBJ + SYN_PRED[be] + SYN_COMPL); no operator token is
+    emitted for "is", so the synthesis happens in ``from_trace``.
+
+    Args:
+        entity: the subject being typed (e.g., ``Spot``, ``I``).
+        kind: the asserted type/class (e.g., ``dog``, ``person``).
+    """
+    entity: Expression
+    kind: Expression
+
+
 # A Predicate is any one of the semantic output types.
 Predicate = Union[
     Comparison,
     Equality,
     TypeQuery,
+    TypeAssertion,
     DegreeQuery,
     MinimalSufficiency,
     SetRestriction,

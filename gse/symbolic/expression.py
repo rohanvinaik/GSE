@@ -162,6 +162,59 @@ def _build_arg_expression(
     return result
 
 
+# Encoder syntactic-role primitives that mark the copula type-assertion
+# pattern "X is a Y". No COMP_* operator is emitted for the copula "be",
+# so the type assertion is synthesized here from these role tags.
+_COPULA_SUBJECT = "SYN_SUBJ"
+_COPULA_PREDICATE = "SYN_PRED"
+_COPULA_COMPLEMENT = "SYN_COMPL"
+_COPULA_LEMMA = "be"
+_NOMINAL_POS = frozenset({"NOUN", "PROPN"})
+
+
+def _try_copula_type_assertion(tokens: Sequence[TokenTrace]) -> Optional[Op]:
+    """Synthesize a TYPE_ASSERT ``Op`` from a copula "X is a Y" sentence.
+
+    The encoder tags the subject (SYN_SUBJ), the copula "be" (SYN_PRED),
+    and the predicate-nominal complement (SYN_COMPL) but emits no COMP_*
+    operator for "is", so no predicate would otherwise be produced. When
+    the full pattern is present with a *nominal* complement — not an
+    adjective, since "X is cute" is a property, not a type — build
+    ``Op("TYPE_ASSERT", args=[subject_span, complement_span])``; resolve()
+    collapses each span into an Entity. Returns ``None`` when the pattern
+    does not hold, so callers fall through to the default phrase build.
+    """
+    copula = next(
+        (t for t in tokens
+         if _COPULA_PREDICATE in t.sent_primitives and t.lemma == _COPULA_LEMMA),
+        None,
+    )
+    if copula is None:
+        return None
+    has_subject = any(_COPULA_SUBJECT in t.sent_primitives for t in tokens)
+    has_nominal_complement = any(
+        _COPULA_COMPLEMENT in t.sent_primitives and t.pos in _NOMINAL_POS
+        for t in tokens
+    )
+    if not (has_subject and has_nominal_complement):
+        return None
+
+    subject_atoms = [
+        _atom_from_token(t) for t in tokens if t.position < copula.position
+    ]
+    complement_atoms = [
+        _atom_from_token(t) for t in tokens if t.position > copula.position
+    ]
+    if not subject_atoms or not complement_atoms:
+        return None
+    return Op(
+        primitive="COPULA",
+        operation="TYPE_ASSERT",
+        arity=2,
+        args=[Phrase(atoms=subject_atoms), Phrase(atoms=complement_atoms)],
+    )
+
+
 def from_trace(trace: OperationTrace) -> Expression:
     """Build a symbolic Expression from an OperationTrace.
 
@@ -180,6 +233,11 @@ def from_trace(trace: OperationTrace) -> Expression:
     operators = sorted(trace.operators, key=lambda o: o.position)
 
     if not operators:
+        # No COMP_* operator, but a copula "X is a Y" carries a synthesized
+        # TYPE_ASSERT from the encoder's syntactic-role tags.
+        copula_op = _try_copula_type_assertion(tokens)
+        if copula_op is not None:
+            return copula_op
         # No operators — fold every content token into a Phrase / Atom.
         content_atoms = [_atom_from_token(t) for t in tokens]
         if len(content_atoms) == 1:

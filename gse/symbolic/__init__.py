@@ -47,6 +47,7 @@ from gse.symbolic.predicates import (
     MinimalSufficiency,
     Predicate,
     SetRestriction,
+    TypeAssertion,
     TypeQuery,
 )
 from gse.symbolic.queries import (
@@ -73,7 +74,7 @@ __all__ = [
     # Predicates
     "BoundaryCase", "Causation", "Comparison", "Contrast", "DegreeQuery",
     "Equality", "MinimalSufficiency", "Predicate", "SetRestriction",
-    "TypeQuery",
+    "TypeAssertion", "TypeQuery",
     # Dispatch
     "OPERATION_DISPATCH", "UnknownOperation", "evaluate", "evaluate_tree",
     # Resolution

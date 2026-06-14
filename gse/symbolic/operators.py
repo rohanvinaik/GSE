@@ -29,6 +29,7 @@ from gse.symbolic.predicates import (
     MinimalSufficiency,
     Predicate,
     SetRestriction,
+    TypeAssertion,
     TypeQuery,
 )
 
@@ -89,6 +90,18 @@ def type_query(op: Op) -> TypeQuery:
     """
     _require_arity(op, 1)
     return TypeQuery(entity=op.args[0])
+
+
+def type_assert(op: Op) -> TypeAssertion:
+    """COPULA / TYPE_ASSERT — declarative "X is a Y" type membership.
+
+    The assertion counterpart to TYPE_QUERY. Synthesized in ``from_trace``
+    from the copula pattern (SYN_SUBJ + SYN_PRED[be] + SYN_COMPL) since no
+    COMP_* operator token exists for "is". arity=2: the entity and the
+    asserted kind.
+    """
+    _require_arity(op, 2)
+    return TypeAssertion(entity=op.args[0], kind=op.args[1])
 
 
 def card_lower(op: Op) -> MinimalSufficiency:
@@ -169,6 +182,7 @@ OPERATION_DISPATCH: Dict[str, Callable[[Op], Predicate]] = {
     "BIND_EQ":        bind_eq,
     "DEGREE_QUERY":   degree_query,
     "TYPE_QUERY":     type_query,
+    "TYPE_ASSERT":    type_assert,
     "CARD_LOWER":     card_lower,
     "SET_RESTRICT":   set_restrict,
     "SCALAR_EXTREME": scalar_extreme,

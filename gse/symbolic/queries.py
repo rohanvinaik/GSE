@@ -31,6 +31,7 @@ from gse.symbolic.predicates import (
     MinimalSufficiency,
     Predicate,
     SetRestriction,
+    TypeAssertion,
     TypeQuery,
 )
 from gse.symbolic.resolution import Entity
@@ -111,8 +112,8 @@ def predicates(tree: TreeNode) -> List[Predicate]:
     """Return every Predicate in the tree (nested traversal)."""
     out: List[Predicate] = []
     _predicate_classes = (
-        Comparison, Equality, TypeQuery, DegreeQuery, MinimalSufficiency,
-        SetRestriction, BoundaryCase, Contrast, Causation,
+        Comparison, Equality, TypeQuery, TypeAssertion, DegreeQuery,
+        MinimalSufficiency, SetRestriction, BoundaryCase, Contrast, Causation,
     )
 
     def _walk(n: TreeNode) -> None:
@@ -138,6 +139,8 @@ def predicates(tree: TreeNode) -> List[Predicate]:
             _walk(n.lhs); _walk(n.rhs)
         elif isinstance(n, TypeQuery):
             _walk(n.entity)
+        elif isinstance(n, TypeAssertion):
+            _walk(n.entity); _walk(n.kind)
         elif isinstance(n, DegreeQuery):
             _walk(n.entity)
         elif isinstance(n, MinimalSufficiency):
