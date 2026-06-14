@@ -1,103 +1,154 @@
 """
-GSE - Geometric Semantic Encoding (v2)
+GSE - Geometric Semantic Encoding
 
-A hyperdimensional computing framework for semantic representation featuring:
-- 8192-D sparse ternary vectors with Hadamard-OTP encoding
-- 10 bipolar dimensions with exact antonym opposition (cosine = -1.0)
-- Hierarchical quantity/intensity modifiers
-- 5-level Merkle tree lexicon with O(42 + L/17) routing
-- Scale-specific learning networks with Hebbian adaptation
-- D/N sentence encoding for position recovery
+Functional core (deterministic, import-light):
+- gse.api      : text -> OperationTrace        (GSEEncoder)
+- gse.symbolic : OperationTrace -> typed Predicates
 
-Core Modules:
-- primitives_v2: 8 semantic banks, ~45 primitives
-- vectors_v2: Hadamard-OTP sparse vector operations
-- merkle: Tree-structured lexicon with SHA-256 verification
-- patterns: Scale-specific learning networks
-- scales: Syntactic structure encoding
-- encoders: D/N positional sentence encoding
-- pipeline_v2: Complete processing pipeline
+The v2 hyperdimensional stack (primitives_v2, vectors_v2, merkle, patterns,
+scales, encoders, pipeline_v2) is auxiliary and heavier (numpy/scipy). To keep
+the functional core importable without pulling that stack in, the v2 top-level
+names are exposed LAZILY via PEP 562 ``__getattr__``: ``from gse import
+GSEPipeline`` still works and imports on first access, but ``import gse.api`` /
+``import gse.symbolic`` no longer eagerly drag the v2 stack (and its numpy/scipy
+dependencies) into the process.
 
 Usage:
-    from gse import GSEPipeline
+    # functional core
+    from gse.api import GSEEncoder
+    from gse.symbolic import from_trace, resolve, evaluate_tree
 
+    # v2 pipeline (lazy)
+    from gse import GSEPipeline
     pipeline = GSEPipeline()
-    pipeline.add_word("happy", "ADJ", [("GOOD", "evaluation", 1), ("FEEL", "state", 1)])
     result = pipeline.encode_sentence("I feel happy")
 """
 
+from __future__ import annotations
+
+import importlib
+from typing import TYPE_CHECKING, Any
+
 __version__ = "2.0.0"
 
-# Core primitives and vectors
-# Encoders
-from gse.encoders import (
-    SentenceStructureEncoder,
-)
+if TYPE_CHECKING:  # eager imports for static analysis / IDEs only — no runtime cost
+    from gse.encoders import SentenceStructureEncoder
+    from gse.merkle import (
+        BankNode,
+        FamilyNode,
+        HDCFuzzyDecomposer,
+        HubNode,
+        LexemeNode,
+        MerkleBellmanFord,
+        MerkleHashChain,
+        MerkleLexiconTree,
+        MerkleNode,
+        RootNode,
+        SQLiteMerkleTranslator,
+    )
+    from gse.patterns import (
+        LearningNetwork,
+        OrchestratedPipeline,
+        OrchestratorNetwork,
+        ParagraphScaleNetwork,
+        ScaleNetworkCollection,
+        SentenceScaleNetwork,
+        TextScaleNetwork,
+        WordScaleNetwork,
+    )
+    from gse.pipeline_v2 import (
+        DecompositionResult,
+        EncodingResult,
+        GSEPipeline,
+        SimilarityResult,
+    )
+    from gse.primitives_v2 import (
+        ALL_HIERARCHY_LEVELS,
+        BIPOLAR_DIMENSIONS,
+        DIMS_PER_BANK,
+        HUB_PRIMITIVES,
+        N_BANKS,
+        PRIMITIVE_FAMILIES,
+        SEMANTIC_BANK_NAMES,
+        SEMANTIC_ROLES,
+        D,
+        SemanticBank,
+        get_bank_primitives,
+        get_dimension_range,
+    )
+    from gse.scales import (
+        SyntacticBank,
+        SyntacticPrimitive,
+        SyntacticPrimitiveEncoder,
+    )
+    from gse.vectors_v2 import (
+        HadamardOTPBasis,
+        SparseVector,
+        bind,
+        bundle,
+        compose_decomposition,
+        create_basis,
+        permute,
+    )
 
-# Merkle tree lexicon
-from gse.merkle import (
-    BankNode,
-    FamilyNode,
-    HDCFuzzyDecomposer,
-    HubNode,
-    LexemeNode,
-    MerkleBellmanFord,
-    MerkleHashChain,
-    MerkleLexiconTree,
-    MerkleNode,
-    RootNode,
-    SQLiteMerkleTranslator,
-)
-
-# Learning networks
-from gse.patterns import (
-    LearningNetwork,
-    OrchestratedPipeline,
-    OrchestratorNetwork,
-    ParagraphScaleNetwork,
-    ScaleNetworkCollection,
-    SentenceScaleNetwork,
-    TextScaleNetwork,
-    WordScaleNetwork,
-)
-
-# Main pipeline
-from gse.pipeline_v2 import (
-    DecompositionResult,
-    EncodingResult,
-    GSEPipeline,
-    SimilarityResult,
-)
-from gse.primitives_v2 import (
-    ALL_HIERARCHY_LEVELS,
-    BIPOLAR_DIMENSIONS,
-    DIMS_PER_BANK,
-    HUB_PRIMITIVES,
-    N_BANKS,
-    PRIMITIVE_FAMILIES,
-    SEMANTIC_BANK_NAMES,
-    SEMANTIC_ROLES,
-    D,
-    SemanticBank,
-    get_bank_primitives,
-    get_dimension_range,
-)
-
-# Syntactic structure
-from gse.scales import (
-    SyntacticBank,
-    SyntacticPrimitive,
-    SyntacticPrimitiveEncoder,
-)
-from gse.vectors_v2 import (
-    HadamardOTPBasis,
-    SparseVector,
-    bind,
-    bundle,
-    compose_decomposition,
-    create_basis,
-    permute,
-)
+# v2 top-level name -> submodule that defines it. Exposed lazily so that
+# importing the functional core (gse.api / gse.symbolic) does not import the
+# v2 stack. Resolved on first attribute access via __getattr__ below.
+_LAZY_IMPORTS = {
+    # Encoders
+    "SentenceStructureEncoder": "gse.encoders",
+    # Merkle tree lexicon
+    "BankNode": "gse.merkle",
+    "FamilyNode": "gse.merkle",
+    "HDCFuzzyDecomposer": "gse.merkle",
+    "HubNode": "gse.merkle",
+    "LexemeNode": "gse.merkle",
+    "MerkleBellmanFord": "gse.merkle",
+    "MerkleHashChain": "gse.merkle",
+    "MerkleLexiconTree": "gse.merkle",
+    "MerkleNode": "gse.merkle",
+    "RootNode": "gse.merkle",
+    "SQLiteMerkleTranslator": "gse.merkle",
+    # Learning networks
+    "LearningNetwork": "gse.patterns",
+    "OrchestratedPipeline": "gse.patterns",
+    "OrchestratorNetwork": "gse.patterns",
+    "ParagraphScaleNetwork": "gse.patterns",
+    "ScaleNetworkCollection": "gse.patterns",
+    "SentenceScaleNetwork": "gse.patterns",
+    "TextScaleNetwork": "gse.patterns",
+    "WordScaleNetwork": "gse.patterns",
+    # Main pipeline
+    "DecompositionResult": "gse.pipeline_v2",
+    "EncodingResult": "gse.pipeline_v2",
+    "GSEPipeline": "gse.pipeline_v2",
+    "SimilarityResult": "gse.pipeline_v2",
+    # Primitives
+    "ALL_HIERARCHY_LEVELS": "gse.primitives_v2",
+    "BIPOLAR_DIMENSIONS": "gse.primitives_v2",
+    "DIMS_PER_BANK": "gse.primitives_v2",
+    "HUB_PRIMITIVES": "gse.primitives_v2",
+    "N_BANKS": "gse.primitives_v2",
+    "PRIMITIVE_FAMILIES": "gse.primitives_v2",
+    "SEMANTIC_BANK_NAMES": "gse.primitives_v2",
+    "SEMANTIC_ROLES": "gse.primitives_v2",
+    "D": "gse.primitives_v2",
+    "SemanticBank": "gse.primitives_v2",
+    "get_bank_primitives": "gse.primitives_v2",
+    "get_dimension_range": "gse.primitives_v2",
+    # Syntactic structure
+    "SyntacticBank": "gse.scales",
+    "SyntacticPrimitive": "gse.scales",
+    "SyntacticPrimitiveEncoder": "gse.scales",
+    # Vectors
+    "HadamardOTPBasis": "gse.vectors_v2",
+    "SparseVector": "gse.vectors_v2",
+    "bind": "gse.vectors_v2",
+    "bundle": "gse.vectors_v2",
+    "compose_decomposition": "gse.vectors_v2",
+    "create_basis": "gse.vectors_v2",
+    "permute": "gse.vectors_v2",
+}
 
 __all__ = [
     # Version
@@ -157,3 +208,17 @@ __all__ = [
     "SimilarityResult",
     "DecompositionResult",
 ]
+
+
+def __getattr__(name: str) -> Any:
+    """PEP 562 lazy attribute access for the v2 stack (see module docstring)."""
+    module = _LAZY_IMPORTS.get(name)
+    if module is None:
+        raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+    value = getattr(importlib.import_module(module), name)
+    globals()[name] = value  # cache so subsequent access skips __getattr__
+    return value
+
+
+def __dir__() -> list[str]:
+    return sorted(__all__)
