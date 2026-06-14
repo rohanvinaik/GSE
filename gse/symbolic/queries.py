@@ -35,7 +35,6 @@ from gse.symbolic.predicates import (
 )
 from gse.symbolic.resolution import Entity
 
-
 # Anything that can show up in an evaluated symbolic tree.
 TreeNode = Union[Expression, Entity, Predicate]
 

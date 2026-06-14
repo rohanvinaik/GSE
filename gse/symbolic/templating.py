@@ -31,7 +31,6 @@ from gse.symbolic.predicates import (
 )
 from gse.symbolic.resolution import Entity
 
-
 TreeNode = Union[Expression, Entity, Predicate]
 
 

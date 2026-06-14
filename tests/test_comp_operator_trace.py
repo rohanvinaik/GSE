@@ -26,7 +26,6 @@ import pytest
 from gse.api import GSEEncoder
 from gse.primitives_v2 import COMP_METADATA
 
-
 # Representative sentence + the operator it should activate.
 # Lemma forms are drawn directly from COMP_METADATA keys; sentences are
 # minimal so the operator's role is unambiguous to spaCy.

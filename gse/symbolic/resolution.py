@@ -26,7 +26,6 @@ from typing import List, Optional
 
 from gse.symbolic.expression import Atom, Expression, Negation, Op, Phrase
 
-
 # spaCy POS classes used by the resolver.
 _ENTITY_POS = frozenset({"PROPN", "NOUN", "PRON"})
 _FUNCTION_POS = frozenset({"DET", "AUX", "PART", "ADP", "SCONJ", "CCONJ", "PUNCT"})

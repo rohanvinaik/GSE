@@ -19,5 +19,9 @@ __pycache__/
 # Logs & local runtime
 logs/
 
+# LintGate tool state — regenerable cache (analysis runs, spec cache,
+# staged workflows, runtime state). Same class as the caches above.
+.lintgate/
+
 # OS / editor cruft
 .DS_Store

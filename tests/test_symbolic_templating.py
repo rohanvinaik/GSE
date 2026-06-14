@@ -5,15 +5,11 @@ import pytest
 from gse.api import GSEEncoder
 from gse.symbolic import (
     Atom,
-    Comparison,
     Entity,
-    Op,
     entity_lemmas,
     evaluate_tree,
     from_trace,
-    is_argument_swap_of,
     is_logically_equal_to,
-    predicates,
     resolve,
     substitute,
 )

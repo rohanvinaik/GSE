@@ -49,7 +49,6 @@ from gse.symbolic.predicates import (
     SetRestriction,
     TypeQuery,
 )
-from gse.symbolic.resolution import Entity, resolve
 from gse.symbolic.queries import (
     axis_of_comparison,
     entities,
@@ -58,6 +57,7 @@ from gse.symbolic.queries import (
     is_logically_equal_to,
     predicates,
 )
+from gse.symbolic.resolution import Entity, resolve
 from gse.symbolic.serialization import (
     SerializationError,
     from_dict,

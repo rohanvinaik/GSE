@@ -138,13 +138,13 @@ def _print_report(report: Dict[str, Any]) -> None:
         f"{report['avg_violations_per_violating_lexeme']:.2f}"
     )
     print()
-    print(f"  Per-bipolar-pair violation frequency (top 10):")
+    print("  Per-bipolar-pair violation frequency (top 10):")
     items = list(report["per_bipolar_pair_violation_count"].items())[:10]
     for pair, count in items:
         bar = "█" * int(20 * count / max(items[0][1], 1)) if items else ""
         print(f"    {pair:24} {count:>8,}  {bar}")
     print()
-    print(f"  Worst-offender lexemes:")
+    print("  Worst-offender lexemes:")
     for entry in report["worst_offenders"][:10]:
         print(f"    {entry['lemma']:24} {entry['violations']} violations")
 

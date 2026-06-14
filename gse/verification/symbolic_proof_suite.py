@@ -30,8 +30,6 @@ from typing import List, Optional
 from gse.api import GSEEncoder
 from gse.symbolic import (
     Comparison,
-    Entity,
-    Op,
     entity_lemmas,
     evaluate_tree,
     from_trace,
@@ -236,7 +234,7 @@ def proof_bipolar_distinct_from_relational(encoder: GSEEncoder) -> ProofResult:
     (true bipolar primitives) have categorically different similarity
     profiles. Big/small should be more strongly opposed in EVAL bank than
     love/hate."""
-    from gse.primitives_v2 import SemanticBank, DIMS_PER_BANK
+    from gse.primitives_v2 import DIMS_PER_BANK, SemanticBank
     bs_pos = encoder.encode("big").vector
     bs_neg = encoder.encode("small").vector
     bs_eval = bs_pos.with_bank_only(SemanticBank.EVALUATORS.value, DIMS_PER_BANK).cosine(

@@ -33,7 +33,6 @@ from gse.symbolic.predicates import (
 )
 from gse.symbolic.resolution import Entity
 
-
 # All node types that can appear in a serialized tree. The
 # ``_kind`` field on the dict maps back to one of these.
 Node = Union[Expression, Entity, Predicate]
