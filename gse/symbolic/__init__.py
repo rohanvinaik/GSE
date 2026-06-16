@@ -67,6 +67,7 @@ from gse.symbolic.emit import (
     emit_contract,
     emit_json,
 )
+from gse.symbolic.genealogy_store import GenealogyStore
 from gse.symbolic.grounding import (
     GenealogyProvider,
     NullGenealogy,
@@ -96,7 +97,7 @@ __all__ = [
     # Resolution
     "Coordination", "Entity", "resolve",
     # Reference resolution (entity ids + type threads)
-    "GenealogyProvider", "NullGenealogy", "resolve_references",
+    "GenealogyProvider", "NullGenealogy", "resolve_references", "GenealogyStore",
     # Queries
     "axis_of_comparison", "clauses", "entities", "entity_lemmas",
     "is_argument_swap_of", "is_logically_equal_to", "predicates",
