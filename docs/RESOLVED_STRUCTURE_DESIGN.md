@@ -1,0 +1,219 @@
+# Resolved-Structure Architecture — Build Design
+
+> The agreed design for the next GSE lift: **emit resolved structure, not just
+> parsed structure**, on the live spine (`gse.api` + `gse.symbolic`). Companion
+> to `COMPLEX_SENTENCE_DESIGN.md` (which built the clause graph this resolves
+> over). Authoritative source: Rohan, then the code.
+>
+> **Status.** Design agreed 2026-06-16. Implementation staged below.
+
+---
+
+## 0. The one-line reduction
+
+Everything collapses to a single shift: GSE should **emit resolved structure,
+not just parsed structure.** "Resolved" deepens in three stages:
+
+```
+   predicates  ──▶  entities  ──▶  context
+   (Stage 1)        (Stage 2)      (Stage 3)
+   emit the         resolve refs   resolve scope:
+   clause graph     globally:      document span,
+   as a stable      coreference,   genre signature,
+   {op,args,        roles, type    confidence/
+   features}        threads        coherence
+   contract
+```
+
+The clause graph already exists (`COMPLEX_SENTENCE_DESIGN.md` — 13/13 proofs,
+345 tests). This effort makes its *output* resolved: an arg stops being a bare
+string and becomes an **entity reference** with stable identity and a type
+genealogy; the encode unit stops being one sentence and becomes a document; and
+every assignment carries a **confidence / coherence** signal.
+
+---
+
+## 1. The GSE ⟂ Genesis boundary (refinement, 2026-06-16)
+
+GSE is a **standalone NLP system**. Genesis cross-enhancements live in the
+Genesis project; the two are *interoperable but distinct*. The boundary:
+
+- **In GSE:** the determinism discipline (global resolution + the coherence /
+  confidence signal), document-scope encoding, and the HDC genre **signature**
+  (recognition *as emission*). GSE never imports a narrative concept.
+- **In Genesis:** the predicate-tree → Innerese **walker**, the archetype
+  **rule-inheritance**, k-line narrative-role retrieval, the narrative-WIN
+  oracle. These consume GSE's output across the §3 contract; they are not GSE's
+  concern.
+
+The seam between them is the predicate-tree contract (Stage 1). GSE emits it;
+Genesis's bridge walks it.
+
+---
+
+## 2. The headline insight: resolve globally, not per-token (the ARC-3 transfer)
+
+Today GSE resolves **locally** — `resolution.py` collapses a phrase to an
+`Entity` within its clause; role assignment is the spaCy dep→`SYN_ROLE` override
+in the encoder. There is no coreference, no stable identity across mentions, no
+type genealogy.
+
+Stage 2 replaces local guessing with **global constraint satisfaction over the
+contained problem** (the sentence, later the document) — the direct transfer of
+ARC-3's "global resolution of specific roles in a contained problem" to
+language. The resolver stays **deterministic**: a fixed-order / exact CSP with
+deterministic tiebreaks, never stochastic search. Determinism is preserved by
+construction, exactly as it is for every typed operator.
+
+---
+
+## 3. The emit contract (Stage 1) — mirror adapter-spec §5
+
+Per `Genesis/docs/gse_innerese_adapter_spec.md` §5, a node is
+`{op, args[], features{}}`:
+
+- `op` ∈ the operator set (`TYPE_ASSERT`, `COMPARISON`, `CAUSATION`,
+  `REL_RESTRICT`, `CONTROL`, `COORD`, …);
+- `args[]` are **entity references or nested predicate nodes** (recursion);
+- `features{}` carry `sign`, `axis`, `conjunction`, `tense`, …
+
+This is **flatter than GSE's internal `_kind` serialization** (which stays for
+GSE-internal round-trip). The emit surface is a *new, versioned entrypoint* that
+walks the evaluated predicate tree into the op-keyed envelope — the gold format
+Genesis's walker deserializes 1:1 over its proven `RoleFrames` constructors. The
+output contract mirrors the gold shape, not GSE's richer internal ontology.
+
+**Sequencing note.** Stage 1's *full* contract wants `args` as entity-refs
+(`{entity_id, lemma, type_thread[]}`), which are a Stage-2 product. So Stage 1
+ships the `{op, features{}}` envelope with bare nested structure; **args upgrade
+from strings to entity-refs when Stage 2 lands.** The contract is versioned so
+this is an explicit `v1 → v2` step, not a silent change.
+
+---
+
+## 4. Global entity & role resolution (Stage 2 — the real new engineering)
+
+The headline. Three resolution products, emitted as the upgraded `args`:
+
+- **(a) Coreference / stable identity.** Mentions of one referent → one stable
+  `entity_id`. A proper name keeps identity even when typed — fixes
+  `TypeAssertion` masking "Macbeth" as "thane" and `Control`'s untyped entity.
+  *Within-sentence first (string/lemma + role-compatibility); cross-sentence in
+  Stage 3.*
+- **(b) Role assignment.** Which resolved entity fills subject / object /
+  controller / antecedent, decided by **global** consistency over the clause
+  graph, not per-token.
+- **(c) Type genealogy (threads).** The entity's path (`thing → person →
+  thane`), because Genesis commonsense keys off threads. **Source: WordNet
+  hypernym chains** (with domain DBs — law, medicine, expanded dictionaries
+  incl. proper nouns — swapped in as needed). Sense-selection is the noisy step;
+  it is itself a coherence-scored assignment (§5), so a wrong sense is a
+  *flagged* thread, not a silent one.
+
+Emit shape per arg: `{entity_id, lemma, type_thread[]}`.
+
+---
+
+## 5. The coherence / confidence signal (Stage 3c) — the DNA-sharpened L2
+
+The old "spaCy proposes, core vetoes" becomes a **fidelity-tiered mismatch-repair
+engine**, repositioned as the *confidence output of the resolver* rather than a
+free-standing stack. Primitives are ported from destash `coherence.py` (weighted
+composite, hard gates, jaccard, `spearman`, variance-aware confidence) — those
+transfer; the two-strand wiring and the tier detectors are new GSE code.
+
+**The flag is the pairing, not a smarter read.** Two independent reads of each
+token/clause — Strand A = spaCy's `(POS, dep, head)`; Strand B = GSE's own
+grounding (lexicon primitives + the structural expectation the operator grammar
+imposes). The deterministic flag is the *structural non-pairing* of A and B;
+neither strand "knows" the right answer (mismatch repair: determinism from a
+stochastic substrate).
+
+**Fidelity tiers = the DNA stack, literally:**
+
+| Tier | DNA analogue | In GSE |
+|---|---|---|
+| 1 — self-contradiction (~10⁻⁷, rarest, no cross-ref) | molecule disagrees with itself | predicate tree disagrees with itself: an operator whose arity can't be filled from its own clause; a `Comparison` whose args ground non-comparable; a type thread incompatible with the role. Tree-only — spaCy not consulted. |
+| 2 — cross-strand (proofreading) | strand mispair | Strand A vs Strand B disagree; coherence composite < threshold → flag. |
+| 3 — persist | needs the next enzyme | a second independent read (alt segmentation / alt sense) still won't resolve → abstain or route. |
+
+**Eigen's error threshold is the stopping rule.** We do **not** drive flags to
+zero — a zero-contradiction encoding is fully predicted, therefore inert. The
+residual is the mutation load (genuine ambiguity, novel usage, garden-path).
+L2's output is **clean structure + a catalogued residual of flagged sites**, not
+"cleaned text."
+
+**Persist triage = coherence one level up.** `spearman` the flags against
+covariates: correlated ⇒ a *systematic* mechanism fault (distrust a spaCy
+tag-class or a lexicon row); uncorrelated ⇒ a SNP, catalog and move on.
+
+This closes the abstention proof `COMPLEX_SENTENCE_DESIGN.md` M3 deferred — the
+coherence composite *is* the ambiguity scorer the parser lacked — and the same
+signal doubles as the archetype coherence-veto Genesis needs.
+
+---
+
+## 6. Resolved context (Stage 3a/3b — gated on Stage 2)
+
+- **(a) Document / contextual scope.** Extend resolution from sentence to
+  paragraph/document — the clause-graph recursion lifted one level (completion
+  is recursion, not addition). Prereq for cross-sentence coreference (4a).
+- **(b) Genre signature.** An HDC document-genre signature (GSE already lives in
+  8192-dim HDC) emitted for Genesis's hierarchical archetype retrieval. GSE
+  *emits the signature*; Genesis owns the archetype rules that consume it.
+- sparse-wiki world-grounding (sibling project) is the connected-but-separable
+  world-salience track (`word-affect ⟂ world-salience`); integrated here, not
+  rebuilt here.
+
+---
+
+## 7. Determinism invariants (hold throughout)
+
+1. **The global resolver is a deterministic CSP** — fixed-order / exact, with
+   deterministic tiebreaks. No stochastic search.
+2. **The coherence flag is deterministic** even though both strands are
+   stochastic — it is a structural mismatch, computed by integer/set ops.
+3. **spaCy stays the only non-deterministic component**, and Stage 3c makes its
+   non-determinism *quarantined and monitored* (propose → veto), not load-bearing.
+4. **Single-clause / single-sentence traces stay byte-identical** when nothing
+   new fires — same back-compat discipline as `ClauseSpan` (emit new fields only
+   when non-empty).
+
+---
+
+## 8. Milestones
+
+- **M0 — Baseline commit.** Land the complex-sentence build as a clean tree so
+  resolution work is reviewable against it. *(prerequisite)*
+- **M1 — Emit contract (Stage 1).** Versioned `{op, args[], features{}}` emit
+  entrypoint mirroring adapter-spec §5; bare-string args (v1). Round-trip +
+  proof that it reproduces the §4 mapping targets.
+- **M2 — Global resolution (Stage 2, the headline).** Deterministic CSP for
+  coreference + role assignment; WordNet-backed type threads; args upgrade to
+  entity-refs (contract v2). The real new engineering.
+- **M3 — Coherence / confidence (Stage 3c).** Port `coherence.py` primitives;
+  two-strand reader; three fidelity-tier detectors; per-assignment confidence on
+  the trace; persist-triage. Closes the deferred abstention proof.
+- **M4 — Context (Stage 3a/3b).** Document-scope resolution + genre signature.
+  Gated on M2; unlocks Genesis Tier-2 archetype recognition.
+
+---
+
+## 9. Honest open risks
+
+- **WordNet sense-selection** is the noisy step in type threads. Mitigated by
+  making the sense a coherence-scored assignment (a wrong sense flags, not
+  silently mis-threads), but it is the load-bearing unknown in M2.
+- **Global CSP determinism under scale.** Exact CSP is deterministic but can be
+  costly; the fixed-order tiebreak must be specified so determinism never trades
+  against tractability silently.
+- **Error-threshold calibration.** "The right error rate, not zero" needs a
+  concrete threshold; picked empirically and logged, not hidden.
+
+---
+
+*Out of scope (Genesis-side, by §1): the Innerese walker, archetype
+rule-inheritance, k-line narrative-role retrieval, the narrative-WIN oracle.
+Out of scope (separable track): sparse-wiki rebuild; Layer-3 deterministic
+parser (the research tail — named in Genesis ARCHITECTURE.md, downstream of all
+of the above).*

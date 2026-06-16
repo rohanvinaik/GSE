@@ -61,6 +61,12 @@ from gse.symbolic.queries import (
     is_logically_equal_to,
     predicates,
 )
+from gse.symbolic.emit import (
+    CONTRACT_VERSION,
+    emit,
+    emit_contract,
+    emit_json,
+)
 from gse.symbolic.resolution import Coordination, Entity, resolve
 from gse.symbolic.serialization import (
     SerializationError,
@@ -80,6 +86,8 @@ __all__ = [
     "RelativeRestriction", "SetRestriction", "TypeAssertion", "TypeQuery",
     # Dispatch
     "OPERATION_DISPATCH", "UnknownOperation", "evaluate", "evaluate_tree",
+    # Emit contract (Genesis-facing §5 envelope)
+    "CONTRACT_VERSION", "emit", "emit_contract", "emit_json",
     # Resolution
     "Coordination", "Entity", "resolve",
     # Queries
