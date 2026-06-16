@@ -279,6 +279,7 @@ class GroundingFlag:
     tier: int
     kind: str          # "ungrounded" | "incomparable"
     confidence: float
+    pos: str = ""      # spaCy POS of the flagged token — the triage covariate
 
 
 def _strand_root(thread: Tuple[str, ...]) -> str:
@@ -332,7 +333,8 @@ def grounding_flags(node: Any, incomparable_threshold: float = 0.2) -> List[Grou
         seen.add(eid)
         grounded = bool(getattr(ent.head, "word_primitives", None)) or bool(ent.type_thread)
         if not grounded:
-            flags.append(GroundingFlag(ent.entity_id or "", ent.head.lemma, 2, "ungrounded", 0.0))
+            flags.append(GroundingFlag(ent.entity_id or "", ent.head.lemma, 2,
+                                       "ungrounded", 0.0, getattr(ent.head, "pos", "") or ""))
 
     # Tier 1 — incomparable operands (same strand, share ~only the root).
     for pred in _walk_predicates(node):
@@ -345,8 +347,109 @@ def grounding_flags(node: Any, incomparable_threshold: float = 0.2) -> List[Grou
             continue  # ungrounded (caught above) or cross-vocabulary (uncomparable by us)
         j = _jaccard(set(ta), set(tb))
         if j < incomparable_threshold:
-            lemma_a = getattr(getattr(a, "head", None), "lemma", "?")
+            head_a = getattr(a, "head", None)
+            lemma_a = getattr(head_a, "lemma", "?")
+            pos_a = getattr(head_a, "pos", "") or ""
             flags.append(GroundingFlag(getattr(a, "entity_id", "") or "",
-                                       lemma_a, 1, "incomparable", j))
+                                       lemma_a, 1, "incomparable", j, pos_a))
 
     return flags
+
+
+# ---------------------------------------------------------------------------
+# M3b — persist / Tier-3 triage (the "errors coherent with each other" level)
+# ---------------------------------------------------------------------------
+#
+# One level up from M3a: run the flags over a *corpus* and ask whether a flag
+# correlates with a covariate (the flagged token's spaCy tag-class). Correlated
+# ⇒ a *systematic* mechanism fault — distrust that class. Uncorrelated ⇒ a SNP,
+# catalogue it and move on. (DNA: a recurring lesion at one locus is a hotspot;
+# a one-off is a SNP.) The covariate is the spaCy POS — exactly "that label
+# class" in the propose→veto framing.
+
+
+def _spearman(x: List[float], y: List[float]) -> float:
+    """Spearman rank correlation (no-scipy, lifted from destash coherence.py)."""
+    n = len(x)
+    if n < 3:
+        return 0.0
+
+    def _rank(values: List[float]) -> List[float]:
+        indexed = sorted(enumerate(values), key=lambda t: t[1])
+        ranks = [0.0] * n
+        for rank_val, (orig_idx, _) in enumerate(indexed):
+            ranks[orig_idx] = float(rank_val + 1)
+        return ranks
+
+    rx, ry = _rank(x), _rank(y)
+    d_sq = sum((a - b) ** 2 for a, b in zip(rx, ry))
+    return 1 - (6 * d_sq) / (n * (n**2 - 1))
+
+
+@dataclass(frozen=True)
+class TriageResult:
+    """The systematic-vs-SNP split over a flag corpus.
+
+    ``systematic`` — tag-classes whose flag rate runs well above baseline (a
+    mechanism fault: distrust the class). Each entry is
+    ``(pos, rate, n_flagged, n_total)``. ``snps`` — the residual flags, each
+    idiosyncratic to its site. ``concentration`` — Spearman ρ between per-class
+    occurrence and flag counts: high ρ ⇒ flags spread proportionally (no
+    systematic locus); lower ρ ⇒ flags concentrate (a hotspot exists)."""
+    systematic: tuple
+    snps: tuple
+    concentration: float
+
+
+def triage_flags(
+    trees: Sequence[Any], min_support: int = 3, systematic_multiplier: float = 2.0
+) -> TriageResult:
+    """Split a corpus of flagged trees into systematic faults vs SNPs.
+
+    ``trees`` are *resolved* trees (post resolve_references). For each, the
+    entity population gives the denominators (by spaCy POS) and grounding_flags
+    gives the numerators. A POS class with support ≥ ``min_support`` and a flag
+    rate above ``systematic_multiplier`` × baseline is systematic; its flags are
+    a mechanism fault. All other flags are SNPs.
+    """
+    total_by_pos: Dict[str, int] = {}
+    flagged_by_pos: Dict[str, int] = {}
+    all_flags: List[GroundingFlag] = []
+
+    for tree in trees:
+        ents: List[Entity] = []
+        _collect_entities(tree, ents)
+        seen: set = set()
+        for ent in ents:
+            eid = ent.entity_id or f"@{_signature(ent)}"
+            if eid in seen:
+                continue
+            seen.add(eid)
+            p = getattr(ent.head, "pos", "") or "?"
+            total_by_pos[p] = total_by_pos.get(p, 0) + 1
+        for flag in grounding_flags(tree):
+            all_flags.append(flag)
+            key = flag.pos or "?"
+            flagged_by_pos[key] = flagged_by_pos.get(key, 0) + 1
+
+    total_sites = sum(total_by_pos.values()) or 1
+    baseline = sum(flagged_by_pos.values()) / total_sites
+
+    systematic = []
+    for pos, n_total in total_by_pos.items():
+        n_flagged = flagged_by_pos.get(pos, 0)
+        if n_total < min_support or n_flagged == 0:
+            continue
+        rate = n_flagged / n_total
+        if rate > baseline * systematic_multiplier:
+            systematic.append((pos, rate, n_flagged, n_total))
+
+    sys_pos = {p for p, _, _, _ in systematic}
+    snps = tuple(f for f in all_flags if (f.pos or "?") not in sys_pos)
+
+    poses = list(total_by_pos)
+    concentration = _spearman(
+        [float(total_by_pos[p]) for p in poses],
+        [float(flagged_by_pos.get(p, 0)) for p in poses],
+    )
+    return TriageResult(tuple(systematic), snps, concentration)

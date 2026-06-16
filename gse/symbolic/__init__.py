@@ -72,8 +72,10 @@ from gse.symbolic.grounding import (
     GenealogyProvider,
     GroundingFlag,
     NullGenealogy,
+    TriageResult,
     grounding_flags,
     resolve_references,
+    triage_flags,
 )
 from gse.symbolic.resolution import Coordination, Entity, resolve
 from gse.symbolic.serialization import (
@@ -100,8 +102,8 @@ __all__ = [
     "Coordination", "Entity", "resolve",
     # Reference resolution (entity ids + type threads)
     "GenealogyProvider", "NullGenealogy", "resolve_references", "GenealogyStore",
-    # Abstention signal (grounding confidence flags)
-    "GroundingFlag", "grounding_flags",
+    # Abstention signal (grounding confidence flags) + persist triage
+    "GroundingFlag", "grounding_flags", "TriageResult", "triage_flags",
     # Queries
     "axis_of_comparison", "clauses", "entities", "entity_lemmas",
     "is_argument_swap_of", "is_logically_equal_to", "predicates",
