@@ -183,19 +183,24 @@ signal doubles as the archetype coherence-veto Genesis needs.
 
 ## 8. Milestones
 
-- **M0 — Baseline commit.** Land the complex-sentence build as a clean tree so
-  resolution work is reviewable against it. *(prerequisite)*
-- **M1 — Emit contract (Stage 1).** Versioned `{op, args[], features{}}` emit
-  entrypoint mirroring adapter-spec §5; bare-string args (v1). Round-trip +
-  proof that it reproduces the §4 mapping targets.
-- **M2 — Global resolution (Stage 2, the headline).** Deterministic CSP for
-  coreference + role assignment; WordNet-backed type threads; args upgrade to
-  entity-refs (contract v2). The real new engineering.
-- **M3 — Coherence / confidence (Stage 3c).** Port `coherence.py` primitives;
-  two-strand reader; three fidelity-tier detectors; per-assignment confidence on
-  the trace; persist-triage. Closes the deferred abstention proof.
-- **M4 — Context (Stage 3a/3b).** Document-scope resolution + genre signature.
-  Gated on M2; unlocks Genesis Tier-2 archetype recognition.
+- **M0 — Baseline commit. ✅** Complex-sentence build landed clean (`43b632b`).
+- **M1 — Emit contract (Stage 1). ✅** Versioned `{op, args[], features{}}` emit
+  mirroring adapter-spec §5; v1 bare-string args, inferred v1/v2 (`bf334bc`).
+- **M2 — Global resolution (Stage 2, the headline). ✅**
+  - **M2.1 ✅** stable `entity_id` (coreference by id) + entity-ref contract v2,
+    DB-free via an injectable `GenealogyProvider` (`0a0647d`).
+  - **M2.2a ✅** the two-strand DB-backed `GenealogyStore` — WordNet word-threads
+    + the (now-fixed) sparse-wiki world-threads, Option-B GSE-local ingest
+    (`5e81b86`).
+  - **M2.2b ✅** coherence-scored sense selection — the sense that coheres wins,
+    margin-protected against noisy neighbours (`37fae98`).
+- **M3 — Coherence / confidence (Stage 3c).**
+  - **M3a ✅** `grounding_flags` — the abstention signal (Tier-2 ungrounded,
+    Tier-1 incomparable); closes the deferred abstention proof (`6988a14`).
+  - **M3b — TODO** the full spaCy-POS-vs-lexicon **cross-strand** reader (Tier-2
+    proper) + persist / Tier-3 triage (`spearman` over the flag corpus).
+- **M4 — Context (Stage 3a/3b). TODO** Document-scope resolution + genre
+  signature. Gated on M2; unlocks Genesis Tier-2 archetype recognition.
 
 ---
 
