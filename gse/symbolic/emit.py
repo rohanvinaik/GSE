@@ -26,8 +26,12 @@ from __future__ import annotations
 import json
 from typing import Any, Dict
 
-# Contract version. Bumped to "2.0" when leaf args become entity-refs (Stage 2).
+# Contract versions. v1 = bare-string args; v2 = entity-ref args
+# ({entity_id, lemma, type_thread}) once references are resolved. emit_contract
+# infers the version from whether any entity-ref is present, so a tree that
+# never ran resolve_references stays a clean v1 emit.
 CONTRACT_VERSION = "1.0"
+CONTRACT_VERSION_V2 = "2.0"
 
 # Predicate type name → (op token, ordered arg fields, feature fields).
 # The op vocabulary is the GSE→Genesis gold contract: the bridge's walker is
@@ -110,17 +114,41 @@ def emit(node: Any) -> Any:
             "features": {},
         }
 
-    # Entity / Atom / Phrase / bare value → leaf string.
+    # A reference-resolved Entity → v2 entity-ref. (Possessor folds into the
+    # surface lemma string; the ref's identity is the head's entity_id.)
+    if name == "Entity" and getattr(node, "entity_id", None) is not None:
+        return {
+            "entity_id": node.entity_id,
+            "lemma": _leaf_str(node),
+            "type_thread": list(node.type_thread),
+        }
+
+    # Entity (unresolved) / Atom / Phrase / bare value → leaf string (v1).
     return _leaf_str(node)
 
 
-def emit_contract(node: Any, version: str = CONTRACT_VERSION) -> Dict[str, Any]:
+def _has_entity_ref(payload: Any) -> bool:
+    """True if the emitted payload contains any v2 entity-ref."""
+    if isinstance(payload, dict):
+        if "entity_id" in payload:
+            return True
+        return any(_has_entity_ref(v) for v in payload.values())
+    if isinstance(payload, list):
+        return any(_has_entity_ref(v) for v in payload)
+    return False
+
+
+def emit_contract(node: Any, version: str | None = None) -> Dict[str, Any]:
     """Wrap :func:`emit` with the contract version envelope.
 
-    One sentence → one predicate tree → one contract dict. The Genesis bridge
-    keys off ``contract_version`` to know whether ``args`` leaves are strings
-    (v1) or entity-refs (v2)."""
-    return {"contract_version": version, "predicate": emit(node)}
+    One sentence → one predicate tree → one contract dict. The version is
+    inferred from the payload (``v2`` if any entity-ref is present, else
+    ``v1``), so the Genesis bridge knows whether ``args`` leaves are strings or
+    ``{entity_id, lemma, type_thread}``. Pass ``version`` to override."""
+    payload = emit(node)
+    if version is None:
+        version = CONTRACT_VERSION_V2 if _has_entity_ref(payload) else CONTRACT_VERSION
+    return {"contract_version": version, "predicate": payload}
 
 
 def emit_json(node: Any, indent: int = 2) -> str:

@@ -50,11 +50,20 @@ class Entity:
             comparison axis in "the tall dog" or "the dog is taller").
             Preserved through resolution so :func:`queries.axis_of_comparison`
             can recover it from a resolved Predicate.
+        entity_id: stable within-sentence referent id (e.g. ``"e0"``),
+            assigned by :func:`gse.symbolic.grounding.resolve_references`. Two
+            mentions of one referent share an id (coreference by id); ``None``
+            until references are resolved.
+        type_thread: root-first type genealogy
+            (e.g. ``("thing", "person", "thane")``), populated by a
+            ``GenealogyProvider`` during reference resolution. Empty until then.
     """
     head: Atom
     possessor: Optional["Entity"] = None
     role: Optional[str] = None
     modifier: Optional[Atom] = None
+    entity_id: Optional[str] = None
+    type_thread: tuple = ()
 
 
 @dataclass(frozen=True)

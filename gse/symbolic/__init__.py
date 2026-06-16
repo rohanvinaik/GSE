@@ -67,6 +67,11 @@ from gse.symbolic.emit import (
     emit_contract,
     emit_json,
 )
+from gse.symbolic.grounding import (
+    GenealogyProvider,
+    NullGenealogy,
+    resolve_references,
+)
 from gse.symbolic.resolution import Coordination, Entity, resolve
 from gse.symbolic.serialization import (
     SerializationError,
@@ -90,6 +95,8 @@ __all__ = [
     "CONTRACT_VERSION", "emit", "emit_contract", "emit_json",
     # Resolution
     "Coordination", "Entity", "resolve",
+    # Reference resolution (entity ids + type threads)
+    "GenealogyProvider", "NullGenealogy", "resolve_references",
     # Queries
     "axis_of_comparison", "clauses", "entities", "entity_lemmas",
     "is_argument_swap_of", "is_logically_equal_to", "predicates",

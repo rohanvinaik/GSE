@@ -84,13 +84,20 @@ def to_dict(node: Node) -> Dict[str, Any]:
             "args": [to_dict(a) for a in node.args],
         }
     if isinstance(node, Entity):
-        return {
+        d = {
             "_kind": "Entity",
             "head": to_dict(node.head),
             "possessor": to_dict(node.possessor) if node.possessor else None,
             "role": node.role,
             "modifier": to_dict(node.modifier) if node.modifier else None,
         }
+        # Reference-resolution fields (M2): emit only when set, so pre-resolution
+        # Entity payloads stay byte-identical to before.
+        if node.entity_id is not None:
+            d["entity_id"] = node.entity_id
+        if node.type_thread:
+            d["type_thread"] = list(node.type_thread)
+        return d
     if isinstance(node, Comparison):
         return {
             "_kind": "Comparison",
@@ -219,6 +226,8 @@ def from_dict(d: Dict[str, Any]) -> Node:
             possessor=from_dict(d["possessor"]) if d.get("possessor") else None,
             role=d.get("role"),
             modifier=from_dict(d["modifier"]) if d.get("modifier") else None,
+            entity_id=d.get("entity_id"),
+            type_thread=tuple(d.get("type_thread") or ()),
         )
     if kind == "Comparison":
         return Comparison(
