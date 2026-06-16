@@ -17,7 +17,7 @@ plugs in here without touching this contract.
 
 from __future__ import annotations
 
-from dataclasses import replace
+from dataclasses import dataclass, replace
 from typing import Any, Dict, List, Protocol, Sequence, Tuple, runtime_checkable
 
 from gse.symbolic.resolution import Entity
@@ -254,3 +254,99 @@ def resolve_references(node: Any, genealogy: GenealogyProvider | None = None) ->
         return replace(ent, entity_id=sig_to_id[sig], type_thread=sig_thread.get(sig, ()))
 
     return _map_entities(node, annotate)
+
+
+# ---------------------------------------------------------------------------
+# M3a — the abstention signal (grounding confidence, fidelity-tiered)
+# ---------------------------------------------------------------------------
+#
+# The deterministic core does not drive flags to zero (Eigen's error threshold):
+# the residual *is* the signal. grounding_flags() emits the catalogued residual
+# of low-confidence sites alongside the (still-derived) structure — closing the
+# abstention-under-ambiguity proof COMPLEX_SENTENCE_DESIGN.md M3 deferred.
+
+
+@dataclass(frozen=True)
+class GroundingFlag:
+    """A flagged grounding site — the abstention signal.
+
+    ``tier`` follows the DNA fidelity-tier model: 1 = self-contradiction (the
+    tree disagrees with itself, no cross-reference needed), 2 = cross-strand
+    (a read and its grounding disagree). ``confidence`` is the residual coherence
+    at the site (lower = weaker)."""
+    entity_id: str
+    lemma: str
+    tier: int
+    kind: str          # "ungrounded" | "incomparable"
+    confidence: float
+
+
+def _strand_root(thread: Tuple[str, ...]) -> str:
+    """The strand a thread belongs to, by its root node — so coherence is only
+    ever compared *within* a vocabulary (WordNet 'entity' ⟂ DBpedia 'Thing')."""
+    return thread[0] if thread else ""
+
+
+def _walk_predicates(node: Any):
+    """Yield every predicate node in the evaluated tree (pre-order)."""
+    name = type(node).__name__
+    if name in _OPERAND_FIELDS:
+        yield node
+        for f in _OPERAND_FIELDS[name]:
+            yield from _walk_predicates(getattr(node, f))
+    elif name == "Negation":
+        yield from _walk_predicates(node.operand)
+    elif name == "Op":
+        for a in node.args:
+            yield from _walk_predicates(a)
+    elif name == "Coordination":
+        for m in node.members:
+            yield from _walk_predicates(m)
+
+
+def grounding_flags(node: Any, incomparable_threshold: float = 0.2) -> List[GroundingFlag]:
+    """Catalogue the low-confidence grounding sites in a *resolved* tree.
+
+    Two fidelity-tiered checks, computable from the threads alone:
+
+    * **Tier 2 — ungrounded**: an entity neither the lexicon (word_primitives)
+      nor the genealogy (type_thread) can ground. GSE abstains *honestly* on
+      out-of-vocabulary words — and still derives the structure around them.
+    * **Tier 1 — incomparable**: a comparison/equality whose two operands are
+      grounded in the *same strand* yet share only the root (Jaccard below
+      threshold) — "you can't compare an animal to an abstraction." A
+      self-contradiction in the tree, no external reference needed.
+
+    Returns the residual; an empty list means a clean, confidently-grounded tree.
+    """
+    flags: List[GroundingFlag] = []
+
+    # Tier 2 — ungrounded entities (deduped by id).
+    collected: List[Entity] = []
+    _collect_entities(node, collected)
+    seen: set = set()
+    for ent in collected:
+        eid = ent.entity_id or f"@{_signature(ent)}"
+        if eid in seen:
+            continue
+        seen.add(eid)
+        grounded = bool(getattr(ent.head, "word_primitives", None)) or bool(ent.type_thread)
+        if not grounded:
+            flags.append(GroundingFlag(ent.entity_id or "", ent.head.lemma, 2, "ungrounded", 0.0))
+
+    # Tier 1 — incomparable operands (same strand, share ~only the root).
+    for pred in _walk_predicates(node):
+        if type(pred).__name__ not in ("Comparison", "Equality"):
+            continue
+        a, b = pred.lhs, pred.rhs
+        ta = tuple(getattr(a, "type_thread", ()) or ())
+        tb = tuple(getattr(b, "type_thread", ()) or ())
+        if not (ta and tb) or _strand_root(ta) != _strand_root(tb):
+            continue  # ungrounded (caught above) or cross-vocabulary (uncomparable by us)
+        j = _jaccard(set(ta), set(tb))
+        if j < incomparable_threshold:
+            lemma_a = getattr(getattr(a, "head", None), "lemma", "?")
+            flags.append(GroundingFlag(getattr(a, "entity_id", "") or "",
+                                       lemma_a, 1, "incomparable", j))
+
+    return flags
