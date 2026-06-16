@@ -18,16 +18,18 @@ from __future__ import annotations
 
 from typing import Callable, Dict
 
-from gse.symbolic.expression import Atom, Expression, Negation, Op, Phrase
+from gse.symbolic.expression import Atom, Negation, Op, Operand, Phrase
 from gse.symbolic.predicates import (
     BoundaryCase,
     Causation,
     Comparison,
     Contrast,
+    Control,
     DegreeQuery,
     Equality,
     MinimalSufficiency,
     Predicate,
+    RelativeRestriction,
     SetRestriction,
     TypeAssertion,
     TypeQuery,
@@ -162,6 +164,28 @@ def consequence(op: Op) -> Causation:
     return Causation(cause=op.args[0], effect=op.args[1], conjunction="so")
 
 
+def rel_restrict(op: Op) -> RelativeRestriction:
+    """REL_RESTRICT — antecedent entity restricted by a relative clause.
+
+    "The dog that barks" → ``RelativeRestriction(head=dog, restriction=barks)``.
+    Synthesized in ``from_trace`` from an embedded relative ClauseSpan; arity=2,
+    arg0 = the antecedent entity, arg1 = the relative clause's content.
+    """
+    _require_arity(op, 2)
+    return RelativeRestriction(head=op.args[0], restriction=op.args[1])
+
+
+def control(op: Op) -> Control:
+    """CONTROL — controller entity carries out the inner infinitival clause.
+
+    "Mike wants to leave" → ``Control(controller=Mike, inner=leave)``.
+    Synthesized in ``from_trace`` from an embedded control ClauseSpan; arity=2,
+    arg0 = the controller entity, arg1 = the inner clause's content.
+    """
+    _require_arity(op, 2)
+    return Control(controller=op.args[0], inner=op.args[1])
+
+
 def causal_source(op: Op) -> Causation:
     """COMP_BECAUSE / CAUSAL_SOURCE — left is effect, right is cause.
 
@@ -189,6 +213,8 @@ OPERATION_DISPATCH: Dict[str, Callable[[Op], Predicate]] = {
     "CONTRAST":       contrast,
     "CONSEQUENCE":    consequence,
     "CAUSAL_SOURCE":  causal_source,
+    "REL_RESTRICT":   rel_restrict,
+    "CONTROL":        control,
 }
 
 
@@ -203,7 +229,7 @@ def evaluate(op: Op) -> Predicate:
     return func(op)
 
 
-def evaluate_tree(expr: Expression):
+def evaluate_tree(expr: Operand):
     """Walk an Expression tree, evaluating every Op into a Predicate.
 
     Returns:

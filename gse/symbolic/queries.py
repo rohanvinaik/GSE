@@ -28,13 +28,15 @@ from gse.symbolic.predicates import (
     Contrast,
     DegreeQuery,
     Equality,
+    Control,
     MinimalSufficiency,
     Predicate,
+    RelativeRestriction,
     SetRestriction,
     TypeAssertion,
     TypeQuery,
 )
-from gse.symbolic.resolution import Entity
+from gse.symbolic.resolution import Coordination, Entity
 
 # Anything that can show up in an evaluated symbolic tree.
 TreeNode = Union[Expression, Entity, Predicate]
@@ -62,6 +64,10 @@ def entities(tree: TreeNode) -> List[Entity]:
             if n.possessor is not None:
                 _walk(n.possessor)
             return
+        if isinstance(n, Coordination):
+            for m in n.members:
+                _walk(m)
+            return
         if isinstance(n, Op):
             for a in n.args:
                 _walk(a)
@@ -80,6 +86,8 @@ def entities(tree: TreeNode) -> List[Entity]:
             _walk(n.lhs); _walk(n.rhs); return
         if isinstance(n, TypeQuery):
             _walk(n.entity); return
+        if isinstance(n, TypeAssertion):
+            _walk(n.entity); _walk(n.kind); return
         if isinstance(n, DegreeQuery):
             _walk(n.entity); return
         if isinstance(n, MinimalSufficiency):
@@ -92,6 +100,10 @@ def entities(tree: TreeNode) -> List[Entity]:
             _walk(n.left); _walk(n.right); return
         if isinstance(n, Causation):
             _walk(n.cause); _walk(n.effect); return
+        if isinstance(n, RelativeRestriction):
+            _walk(n.head); _walk(n.restriction); return
+        if isinstance(n, Control):
+            _walk(n.controller); _walk(n.inner); return
         # Atom — leaf, nothing to traverse further
 
     _walk(tree)
@@ -101,6 +113,24 @@ def entities(tree: TreeNode) -> List[Entity]:
 def entity_lemmas(tree: TreeNode) -> List[str]:
     """Convenience: the lemmas of every entity in document order."""
     return [e.head.lemma for e in entities(tree)]
+
+
+# Predicate types that mark a clause boundary or an embedded clause — the
+# multi-clause structures (decision B: clauses are implicit, discoverable here).
+_CLAUSE_PREDICATES = (Causation, RelativeRestriction, Control)
+
+
+def clauses(tree: TreeNode) -> List[Predicate]:
+    """Return the clause-level predicates in the tree, in document order.
+
+    A "clause" in the multi-clause sense surfaces as a clause-linking or
+    embedding predicate: a Causation (because/so joins two clauses), a
+    RelativeRestriction (who/which/that), or a Control ('to'). Per decision B
+    clauses are *implicit* — this walk is how you discover them. Returns ``[]``
+    for a single-clause sentence. Use ``entities(clause)`` for clause-scoped
+    entities, since :func:`entities` accepts any subtree node.
+    """
+    return [p for p in predicates(tree) if isinstance(p, _CLAUSE_PREDICATES)]
 
 
 # ---------------------------------------------------------------------------
@@ -114,6 +144,7 @@ def predicates(tree: TreeNode) -> List[Predicate]:
     _predicate_classes = (
         Comparison, Equality, TypeQuery, TypeAssertion, DegreeQuery,
         MinimalSufficiency, SetRestriction, BoundaryCase, Contrast, Causation,
+        RelativeRestriction, Control,
     )
 
     def _walk(n: TreeNode) -> None:
@@ -153,6 +184,10 @@ def predicates(tree: TreeNode) -> List[Predicate]:
             _walk(n.left); _walk(n.right)
         elif isinstance(n, Causation):
             _walk(n.cause); _walk(n.effect)
+        elif isinstance(n, RelativeRestriction):
+            _walk(n.head); _walk(n.restriction)
+        elif isinstance(n, Control):
+            _walk(n.controller); _walk(n.inner)
 
     _walk(tree)
     return out
@@ -206,6 +241,14 @@ def _first_adj_adv(node: TreeNode) -> Optional[str]:
         # Entity head shouldn't be an adjective, but check as a fallback
         if node.head.pos in ("ADJ", "ADV"):
             return node.head.lemma
+        return None
+    if isinstance(node, Coordination):
+        if node.modifier is not None:
+            return node.modifier.lemma
+        for m in node.members:
+            found = _first_adj_adv(m)
+            if found is not None:
+                return found
         return None
     if isinstance(node, Phrase):
         for a in node.atoms:
@@ -296,6 +339,12 @@ def _structural_signature(node: TreeNode):
             node.head.lemma,
             _structural_signature(node.possessor) if node.possessor else None,
         )
+    if isinstance(node, Coordination):
+        return (
+            "Coordination",
+            node.conjunction,
+            tuple(_structural_signature(m) for m in node.members),
+        )
     if isinstance(node, Comparison):
         return ("Comparison", node.sign, _structural_signature(node.lhs),
                 _structural_signature(node.rhs))
@@ -304,6 +353,9 @@ def _structural_signature(node: TreeNode):
                 _structural_signature(node.rhs))
     if isinstance(node, TypeQuery):
         return ("TypeQuery", _structural_signature(node.entity))
+    if isinstance(node, TypeAssertion):
+        return ("TypeAssertion", _structural_signature(node.entity),
+                _structural_signature(node.kind))
     if isinstance(node, DegreeQuery):
         return ("DegreeQuery", _structural_signature(node.entity))
     if isinstance(node, MinimalSufficiency):
@@ -321,4 +373,10 @@ def _structural_signature(node: TreeNode):
     if isinstance(node, Causation):
         return ("Causation", node.conjunction, _structural_signature(node.cause),
                 _structural_signature(node.effect))
+    if isinstance(node, RelativeRestriction):
+        return ("RelativeRestriction", _structural_signature(node.head),
+                _structural_signature(node.restriction))
+    if isinstance(node, Control):
+        return ("Control", _structural_signature(node.controller),
+                _structural_signature(node.inner))
     return ("Unknown", repr(node))

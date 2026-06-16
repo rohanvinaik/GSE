@@ -30,6 +30,7 @@ from typing import List, Optional
 from gse.api import GSEEncoder
 from gse.symbolic import (
     Comparison,
+    clauses,
     entity_lemmas,
     evaluate_tree,
     from_trace,
@@ -256,6 +257,195 @@ def proof_bipolar_distinct_from_relational(encoder: GSEEncoder) -> ProofResult:
     )
 
 
+def proof_clause_nesting(encoder: GSEEncoder) -> ProofResult:
+    """Multi-clause nesting (the inversion fix).
+
+    In "Rex barks because the dog is cuter than the cat", the within-clause
+    THAN comparison must nest as the *cause* of the clause-linking BECAUSE —
+    ``Causation(cause=Comparison(dog, cat), effect=rex)`` — not the positional
+    inverse ``Comparison(Causation(...), cat)``. See
+    ``docs/COMPLEX_SENTENCE_DESIGN.md`` §0.
+    """
+    tree = _pipeline(encoder, "Rex barks because the dog is cuter than the cat")
+    preds = predicates(tree)
+    caus = next((p for p in preds if type(p).__name__ == "Causation"), None)
+    if caus is None:
+        return ProofResult(
+            name="clause_nesting",
+            passed=False,
+            description="BECAUSE nests the THAN comparison as its cause.",
+            detail=f"no Causation; preds={[type(p).__name__ for p in preds]}",
+        )
+    cause_is_comparison = type(caus.cause).__name__ == "Comparison"
+    cause_has_pair = _contains_lemma(caus.cause, "dog") and _contains_lemma(caus.cause, "cat")
+    effect_has_rex = _contains_lemma(caus.effect, "rex")
+    return ProofResult(
+        name="clause_nesting",
+        passed=cause_is_comparison and cause_has_pair and effect_has_rex,
+        description="BECAUSE nests the THAN comparison as its cause, not the inverse.",
+        detail=(
+            f"cause_is_Comparison={cause_is_comparison}, "
+            f"cause⊇{{dog,cat}}={cause_has_pair}, effect∋rex={effect_has_rex}"
+        ),
+    )
+
+
+def proof_clause_order_distinct(encoder: GSEEncoder) -> ProofResult:
+    """Clause-order distinctness — the argument-swap jewel, lifted to clauses.
+
+    "Mike sang because Rex left" vs "Rex left because Mike sang" must be
+    *symbolically distinct* (cause/effect swapped) while staying *HDC-similar*
+    — the same result as dog/cat comparison swap, one scale up
+    (``complex_sentence_architecture.md`` §5).
+    """
+    a = _pipeline(encoder, "Mike sang because Rex left")
+    b = _pipeline(encoder, "Rex left because Mike sang")
+    sym_distinct = not is_logically_equal_to(a, b)
+    hdc_sim = encoder.encode("Mike sang because Rex left").vector.cosine(
+        encoder.encode("Rex left because Mike sang").vector
+    )
+    return ProofResult(
+        name="clause_order_distinct",
+        passed=sym_distinct and hdc_sim > 0.5,
+        description="X because Y ≠ Y because X symbolically, while HDC stays similar.",
+        detail=f"symbolic_distinct={sym_distinct}, hdc_sim={hdc_sim:.4f}",
+    )
+
+
+def proof_np_coordination(encoder: GSEEncoder) -> ProofResult:
+    """NP-coordination — set-union of subjects sharing one predicate.
+
+    "Spot and Rex are dogs" must recover *both* coordinated subjects (not drop
+    one) and apply the single predicate over the union
+    (``complex_sentence_architecture.md`` §3.3). The comparison form
+    "Spot and Rex are cuter than the cat" must likewise keep both subjects and
+    still recover the axis.
+    """
+    tree = _pipeline(encoder, "Spot and Rex are dogs")
+    lemmas = entity_lemmas(tree)
+    both_subjects = "spot" in lemmas and "rex" in lemmas
+    preds = predicates(tree)
+    has_type_assertion = any(type(p).__name__ == "TypeAssertion" for p in preds)
+
+    cmp_tree = _pipeline(encoder, "Spot and Rex are cuter than the cat")
+    cmp_lemmas = entity_lemmas(cmp_tree)
+    both_in_comparison = "spot" in cmp_lemmas and "rex" in cmp_lemmas
+
+    return ProofResult(
+        name="np_coordination",
+        passed=both_subjects and has_type_assertion and both_in_comparison,
+        description="'Spot and Rex are dogs' keeps both subjects under one predicate.",
+        detail=(
+            f"both_subjects={both_subjects}, TypeAssertion={has_type_assertion}, "
+            f"both_in_comparison={both_in_comparison} (lemmas={cmp_lemmas})"
+        ),
+    )
+
+
+def proof_relative_clause(encoder: GSEEncoder) -> ProofResult:
+    """Relative clause (embedded, nested span) restricts its antecedent.
+
+    "The dog that barks is big" → a RelativeRestriction whose head is the dog
+    and whose restriction asserts barking. And it must *compose in place*:
+    "The dog that barks is cuter than the cat" → a Comparison whose lhs is the
+    restricted dog, with both predicates recoverable (§M2b, the nested-span
+    embedding).
+    """
+    tree = _pipeline(encoder, "The dog that barks is big")
+    preds = predicates(tree)
+    rr = next((p for p in preds if type(p).__name__ == "RelativeRestriction"), None)
+    if rr is None:
+        return ProofResult(
+            name="relative_clause", passed=False,
+            description="Relative clause produces a RelativeRestriction.",
+            detail=f"preds={[type(p).__name__ for p in preds]}",
+        )
+    head_is_dog = _contains_lemma(rr.head, "dog")
+    restriction_is_bark = _contains_lemma(rr.restriction, "bark")
+
+    comp_tree = _pipeline(encoder, "The dog that barks is cuter than the cat")
+    names = [type(p).__name__ for p in predicates(comp_tree)]
+    composes = "Comparison" in names and "RelativeRestriction" in names
+
+    return ProofResult(
+        name="relative_clause",
+        passed=head_is_dog and restriction_is_bark and composes,
+        description="who/which/that restricts the antecedent and composes in place.",
+        detail=(
+            f"head∋dog={head_is_dog}, restriction∋bark={restriction_is_bark}, "
+            f"composes_with_comparison={composes} ({names})"
+        ),
+    )
+
+
+def proof_systematicity(encoder: GSEEncoder) -> ProofResult:
+    """Systematicity — woodles-and-weedles, lifted to clauses.
+
+    A multi-clause structure must decompose through the *same* machinery
+    regardless of the content words in it. We isolate GSE's content-independence
+    from spaCy's (fallible) parsing of nonsense words by substituting novel
+    lemmas onto the symbolic tree: the predicate types, nesting, and clause
+    count must be preserved while the entities become the novel ones. (Surface
+    parsing of nonsense words is bounded by the spaCy front-end — the one
+    non-deterministic component — which is why this operates on the tree.)
+    """
+    tree = _pipeline(encoder, "The dog that barks is cuter than the cat")
+    novel = substitute(tree, {"dog": "zorble", "cat": "florp", "bark": "blib"})
+
+    orig_types = [type(p).__name__ for p in predicates(tree)]
+    novel_types = [type(p).__name__ for p in predicates(novel)]
+    same_shape = orig_types == novel_types and len(clauses(tree)) == len(clauses(novel))
+
+    novel_lemmas = entity_lemmas(novel)
+    swapped = "zorble" in novel_lemmas and "florp" in novel_lemmas and "dog" not in novel_lemmas
+
+    return ProofResult(
+        name="systematicity",
+        passed=same_shape and swapped,
+        description="Novel content decomposes through the same clause machinery.",
+        detail=(
+            f"shape_preserved={same_shape} ({orig_types}), "
+            f"entities_swapped={swapped} ({novel_lemmas})"
+        ),
+    )
+
+
+def proof_control(encoder: GSEEncoder) -> ProofResult:
+    """Control 'to' — controller carries out the inner infinitival clause.
+
+    "Mike wants to leave" → ``Control(controller=Mike, inner=leave)`` (subject
+    control). "Lady Macbeth persuaded Macbeth to kill the king" → controller is
+    the object Macbeth (object control). And it must nest under a clause-linking
+    operator: "Mike wants to leave because Rex barks" → a Causation whose effect
+    is the Control (§M2c).
+    """
+    subj = _pipeline(encoder, "Mike wants to leave")
+    subj_ctrl = next(
+        (p for p in predicates(subj) if type(p).__name__ == "Control"), None
+    )
+    subj_ok = subj_ctrl is not None and _contains_lemma(subj_ctrl.controller, "mike")
+
+    obj = _pipeline(encoder, "Lady Macbeth persuaded Macbeth to kill the king")
+    obj_ctrl = next(
+        (p for p in predicates(obj) if type(p).__name__ == "Control"), None
+    )
+    obj_ok = obj_ctrl is not None and _contains_lemma(obj_ctrl.controller, "macbeth")
+
+    nested = _pipeline(encoder, "Mike wants to leave because Rex barks")
+    nested_names = [type(p).__name__ for p in predicates(nested)]
+    nests = "Causation" in nested_names and "Control" in nested_names
+
+    return ProofResult(
+        name="control",
+        passed=subj_ok and obj_ok and nests,
+        description="'to' control binds the controller and nests under because.",
+        detail=(
+            f"subject_control_mike={subj_ok}, object_control_macbeth={obj_ok}, "
+            f"nests_under_because={nests} ({nested_names})"
+        ),
+    )
+
+
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
@@ -297,6 +487,12 @@ PROOFS = [
     proof_causation_directionality,
     proof_json_roundtrip,
     proof_bipolar_distinct_from_relational,
+    proof_clause_nesting,
+    proof_clause_order_distinct,
+    proof_np_coordination,
+    proof_relative_clause,
+    proof_control,
+    proof_systematicity,
 ]
 
 

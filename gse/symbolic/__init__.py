@@ -42,23 +42,26 @@ from gse.symbolic.predicates import (
     Causation,
     Comparison,
     Contrast,
+    Control,
     DegreeQuery,
     Equality,
     MinimalSufficiency,
     Predicate,
+    RelativeRestriction,
     SetRestriction,
     TypeAssertion,
     TypeQuery,
 )
 from gse.symbolic.queries import (
     axis_of_comparison,
+    clauses,
     entities,
     entity_lemmas,
     is_argument_swap_of,
     is_logically_equal_to,
     predicates,
 )
-from gse.symbolic.resolution import Entity, resolve
+from gse.symbolic.resolution import Coordination, Entity, resolve
 from gse.symbolic.serialization import (
     SerializationError,
     from_dict,
@@ -72,15 +75,15 @@ __all__ = [
     # AST
     "Atom", "Expression", "Negation", "Op", "Phrase", "from_trace",
     # Predicates
-    "BoundaryCase", "Causation", "Comparison", "Contrast", "DegreeQuery",
-    "Equality", "MinimalSufficiency", "Predicate", "SetRestriction",
-    "TypeAssertion", "TypeQuery",
+    "BoundaryCase", "Causation", "Comparison", "Contrast", "Control",
+    "DegreeQuery", "Equality", "MinimalSufficiency", "Predicate",
+    "RelativeRestriction", "SetRestriction", "TypeAssertion", "TypeQuery",
     # Dispatch
     "OPERATION_DISPATCH", "UnknownOperation", "evaluate", "evaluate_tree",
     # Resolution
-    "Entity", "resolve",
+    "Coordination", "Entity", "resolve",
     # Queries
-    "axis_of_comparison", "entities", "entity_lemmas",
+    "axis_of_comparison", "clauses", "entities", "entity_lemmas",
     "is_argument_swap_of", "is_logically_equal_to", "predicates",
     # Serialization
     "SerializationError", "from_dict", "from_json", "to_dict", "to_json",

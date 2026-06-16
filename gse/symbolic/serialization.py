@@ -24,14 +24,17 @@ from gse.symbolic.predicates import (
     Causation,
     Comparison,
     Contrast,
+    Control,
     DegreeQuery,
     Equality,
     MinimalSufficiency,
     Predicate,
+    RelativeRestriction,
     SetRestriction,
+    TypeAssertion,
     TypeQuery,
 )
-from gse.symbolic.resolution import Entity
+from gse.symbolic.resolution import Coordination, Entity
 
 # All node types that can appear in a serialized tree. The
 # ``_kind`` field on the dict maps back to one of these.
@@ -143,6 +146,31 @@ def to_dict(node: Node) -> Dict[str, Any]:
             "effect": to_dict(node.effect),
             "conjunction": node.conjunction,
         }
+    if isinstance(node, TypeAssertion):
+        return {
+            "_kind": "TypeAssertion",
+            "entity": to_dict(node.entity),
+            "kind": to_dict(node.kind),
+        }
+    if isinstance(node, RelativeRestriction):
+        return {
+            "_kind": "RelativeRestriction",
+            "head": to_dict(node.head),
+            "restriction": to_dict(node.restriction),
+        }
+    if isinstance(node, Control):
+        return {
+            "_kind": "Control",
+            "controller": to_dict(node.controller),
+            "inner": to_dict(node.inner),
+        }
+    if isinstance(node, Coordination):
+        return {
+            "_kind": "Coordination",
+            "members": [to_dict(m) for m in node.members],
+            "conjunction": node.conjunction,
+            "modifier": to_dict(node.modifier) if node.modifier else None,
+        }
     raise SerializationError(f"Unknown node type: {type(node).__name__}")
 
 
@@ -233,6 +261,27 @@ def from_dict(d: Dict[str, Any]) -> Node:
             cause=from_dict(d["cause"]),
             effect=from_dict(d["effect"]),
             conjunction=d.get("conjunction", "so"),
+        )
+    if kind == "TypeAssertion":
+        return TypeAssertion(
+            entity=from_dict(d["entity"]),
+            kind=from_dict(d["kind"]),
+        )
+    if kind == "RelativeRestriction":
+        return RelativeRestriction(
+            head=from_dict(d["head"]),
+            restriction=from_dict(d["restriction"]),
+        )
+    if kind == "Control":
+        return Control(
+            controller=from_dict(d["controller"]),
+            inner=from_dict(d["inner"]),
+        )
+    if kind == "Coordination":
+        return Coordination(
+            members=tuple(from_dict(m) for m in d["members"]),
+            conjunction=d.get("conjunction", "and"),
+            modifier=from_dict(d["modifier"]) if d.get("modifier") else None,
         )
     raise SerializationError(f"Unknown _kind: {kind!r}")
 

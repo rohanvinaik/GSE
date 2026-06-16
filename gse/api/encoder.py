@@ -16,10 +16,12 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from gse.api.errors import OOVError, PrimitiveError
 from gse.api.trace import (
+    ClauseSpan,
     OperationTrace,
     OperatorTrace,
     TokenTrace,
 )
+from gse.symbolic.tiers import is_clause_linking
 from gse.vectors_v2 import (
     SparseVector,
     bind,
@@ -192,19 +194,128 @@ class GSEEncoder:
             if is_operator:
                 operator_indices.append(i)
 
-        # 3. Resolve operators
+        # 3. Plan clauses (sequential because/so splits + embedded relative
+        #    clauses), then resolve operators within their innermost clause.
+        n_tokens = len(token_vectors)
+        op_meta = [
+            (op_idx, token_vectors[op_idx][2].get("comp_operation"))
+            for op_idx in operator_indices
+        ]
+        sequential = self._segment_clauses(n_tokens, op_meta)
+        embedded = self._detect_embedded_clauses(doc)
+
+        # An embedded clause forces clause planning even without a sequential
+        # boundary: synthesize a single implicit main clause to hang it on.
+        if embedded and not sequential:
+            sequential = [(0, 0, n_tokens)]
+
+        # Unify into planned spans: (clause_id, start, end, kind, parent_id,
+        # attaches_to). Sequential clauses keep ids [0..k); embedded follow.
+        planned: List[Tuple[int, int, int, str, Optional[int], Optional[int]]] = [
+            (cid, s, e, "sequential", None, None) for cid, s, e in sequential
+        ]
+        next_id = len(sequential)
+        for s, e, kind, attaches in embedded:
+            parent = next(
+                (cid for cid, ps, pe, k, _, _ in planned
+                 if k == "sequential" and ps <= attaches < pe),
+                0,
+            )
+            planned.append((next_id, s, e, kind, parent, attaches))
+            next_id += 1
+
+        def _innermost_of(pos: int) -> Optional[tuple]:
+            """Smallest planned span containing pos (embedded beats parent)."""
+            best = None
+            for span in planned:
+                _, s, e, _, _, _ = span
+                if s <= pos < e and (best is None or (e - s) < (best[2] - best[1])):
+                    best = span
+            return best
+
+        def _sequential_of(pos: int) -> Optional[Tuple[int, int, int]]:
+            for cid, s, e in sequential:
+                if s <= pos < e:
+                    return (cid, s, e)
+            return None
+
+        # Token positions inside any embedded clause — kept out of a parent
+        # operator's arguments (but an operator inside the embedded clause keeps
+        # its own tokens).
+        embedded_tokens_by_clause: Dict[int, set] = {
+            cid: set(range(s, e))
+            for cid, s, e, k, _, _ in planned if k != "sequential"
+        }
+        all_embedded_tokens = set().union(
+            *embedded_tokens_by_clause.values()
+        ) if embedded_tokens_by_clause else set()
+
         operator_traces: List[OperatorTrace] = []
         operator_results: List[SparseVector] = []
+        op_trace_index: Dict[int, int] = {}  # op_idx → index in operator_traces
+        op_clause: Dict[int, int] = {}        # op_idx → innermost clause_id
 
         for op_idx in operator_indices:
             _, _, comp_meta = token_vectors[op_idx]
+            operation = comp_meta.get("comp_operation")
+            arg1_range: Optional[Tuple[int, int]] = None
+            arg2_range: Optional[Tuple[int, int]] = None
+
+            if planned and operation and is_clause_linking(operation):
+                # Operands are the sequential clauses left/right of the
+                # connective — whole clauses, not raw token spans.
+                left = _sequential_of(op_idx - 1)
+                right = _sequential_of(op_idx + 1)
+                if left:
+                    arg1_range = (left[1], left[2])
+                if right:
+                    arg2_range = (right[1], right[2])
+            this_clause_id: Optional[int] = None
+            if planned:
+                inner = _innermost_of(op_idx)
+                if inner:
+                    this_clause_id = inner[0]
+            if planned and not (operation and is_clause_linking(operation)):
+                # Within-clause operator: restrict args to its innermost clause
+                # (so a THAN inside a relative clause stays inside it).
+                c = _innermost_of(op_idx)
+                if c:
+                    op_clause[op_idx] = c[0]
+                    arg1_range = (c[1], op_idx)
+                    arg2_range = (op_idx + 1, c[2])
+
+            # Keep embedded-clause tokens out of this operator's args, except
+            # the operator's own embedded clause.
+            excluded = set(all_embedded_tokens)
+            if this_clause_id in embedded_tokens_by_clause:
+                excluded -= embedded_tokens_by_clause[this_clause_id]
+
             op_trace, result_vec = self._resolve_operator(
-                op_idx, comp_meta, token_vectors, token_traces
+                op_idx, comp_meta, token_vectors, token_traces,
+                arg1_range, arg2_range, excluded,
             )
             if op_trace:
+                op_trace_index[op_idx] = len(operator_traces)
                 operator_traces.append(op_trace)
                 if result_vec and result_vec.nnz > 0:
                     operator_results.append(result_vec)
+
+        # Build the clause spans for the trace (only when actually planned).
+        clauses: List[ClauseSpan] = []
+        for cid, s, e, kind, parent_id, attaches in planned:
+            within = [
+                op_trace_index[oi]
+                for oi in operator_indices
+                if oi in op_trace_index
+                and op_clause.get(oi) == cid
+            ]
+            clauses.append(
+                ClauseSpan(
+                    clause_id=cid, token_start=s, token_end=e,
+                    operator_indices=within, kind=kind,
+                    parent_id=parent_id, attaches_to_token=attaches,
+                )
+            )
 
         # 4. Position encoding + bundling
         components: List[SparseVector] = []
@@ -245,6 +356,7 @@ class GSEEncoder:
             word_primitive_activations=word_activations,
             sent_primitive_activations=sent_activations,
             vector_hash=vector_hash,
+            clauses=clauses,
         )
         trace.vector = sentence_vec
 
@@ -376,14 +488,101 @@ class GSEEncoder:
 
         return bundle(components)
 
+    def _segment_clauses(
+        self,
+        n_tokens: int,
+        op_meta: List[Tuple[int, Optional[str]]],
+    ) -> List[Tuple[int, int, int]]:
+        """Partition the token stream into clause spans at clause boundaries.
+
+        ``op_meta`` is ``[(op_idx, operation), ...]`` for every operator token.
+        A clause-linking operator (CONSEQUENCE, CAUSAL_SOURCE, …) is a boundary:
+        the connective token belongs to no clause, and the tokens on either side
+        form separate clauses.
+
+        Returns an ordered list of ``(clause_id, token_start, token_end)`` with
+        ``token_end`` exclusive, or ``[]`` when there is no clause-linking
+        operator (a single implicit clause — the existing single-clause path
+        handles it unchanged). M1 segments on clause-linking operators only;
+        clause punctuation is deferred to a later milestone.
+        """
+        boundaries = sorted(
+            idx for idx, operation in op_meta
+            if operation and is_clause_linking(operation)
+        )
+        if not boundaries:
+            return []
+
+        spans: List[Tuple[int, int, int]] = []
+        clause_id = 0
+        start = 0
+        for b in boundaries:
+            spans.append((clause_id, start, b))
+            clause_id += 1
+            start = b + 1  # skip the connective token itself
+        spans.append((clause_id, start, n_tokens))
+        return spans
+
+    def _detect_embedded_clauses(
+        self, doc,
+    ) -> List[Tuple[int, int, str, int]]:
+        """Find embedded clauses that nest inside a parent span.
+
+        Unlike because/so (which split the stream sequentially), relative
+        clauses (spaCy ``relcl``) and control complements (``xcomp`` with a
+        ``to`` particle) hang off a token *inside* a parent clause. Returns
+        ``(token_start, token_end, kind, attaches_to_token)`` per embedded
+        clause, where ``attaches_to_token`` is the antecedent (relative) or
+        controlling verb (control). See docs/COMPLEX_SENTENCE_DESIGN.md §M2.
+        """
+        embedded: List[Tuple[int, int, str, int]] = []
+        for tok in doc:
+            if tok.dep_ == "relcl":
+                sub = sorted(c.i for c in tok.subtree)
+                if sub:
+                    embedded.append((sub[0], sub[-1] + 1, "relative", tok.head.i))
+            elif tok.dep_ == "xcomp" and any(
+                c.dep_ == "aux" and c.lemma_ == "to" for c in tok.children
+            ):
+                # Infinitival control complement. Controller = the matrix verb's
+                # object (object control) else its subject (subject control).
+                sub = sorted(c.i for c in tok.subtree)
+                head = tok.head
+                controller = next(
+                    (c.i for c in head.children if c.dep_ in ("dobj", "obj")), None
+                )
+                if controller is None:
+                    controller = next(
+                        (c.i for c in head.children
+                         if c.dep_ in ("nsubj", "nsubjpass")), None
+                    )
+                if sub and controller is not None:
+                    embedded.append((sub[0], sub[-1] + 1, "control", controller))
+        return embedded
+
     def _resolve_operator(
         self,
         op_idx: int,
         comp_meta: Dict,
         token_vectors: List[Tuple[int, SparseVector, Dict]],
         token_traces: List[TokenTrace],
+        arg1_range: Optional[Tuple[int, int]] = None,
+        arg2_range: Optional[Tuple[int, int]] = None,
+        excluded_tokens: Optional[set] = None,
     ) -> Tuple[Optional[OperatorTrace], Optional[SparseVector]]:
-        """Resolve a compositional operator."""
+        """Resolve a compositional operator.
+
+        ``arg1_range`` / ``arg2_range`` are half-open ``[start, end)`` token
+        windows the two arguments are gathered from. They default to the whole
+        sentence — ``[0, op_idx)`` and ``[op_idx+1, n)`` — which reproduces the
+        original clause-blind behavior exactly. Clause segmentation passes
+        narrower windows so a within-clause operator can't reach across a
+        clause boundary, and a clause-linking operator takes whole clauses as
+        its two operands. ``excluded_tokens`` are positions to skip entirely —
+        used to keep an embedded clause's tokens (e.g. a relative clause) out of
+        the parent operator's arguments. See
+        ``docs/COMPLEX_SENTENCE_DESIGN.md`` §3.
+        """
         primitive = comp_meta.get("comp_primitive")
         operation = comp_meta.get("comp_operation")
         arity = comp_meta.get("comp_arity", 0)
@@ -391,8 +590,13 @@ class GSEEncoder:
         if not primitive or not operation:
             return None, None
 
-        # Find arguments based on position
-        # For binary operators: arg1 is before, arg2 is after
+        n = len(token_vectors)
+        a1s, a1e = arg1_range if arg1_range is not None else (0, op_idx)
+        a2s, a2e = arg2_range if arg2_range is not None else (op_idx + 1, n)
+        excluded = excluded_tokens or set()
+
+        # Find arguments within their windows.
+        # For binary operators: arg1 is the left window, arg2 the right.
         arg1_tokens = []
         arg2_tokens = []
         arg1_lemmas = []
@@ -401,16 +605,16 @@ class GSEEncoder:
         arg2_vecs = []
 
         for i, (pos, vec, _) in enumerate(token_vectors):
-            if i == op_idx:
+            if i == op_idx or i in excluded:
                 continue
 
             trace = token_traces[i]
             if vec.nnz > 0 and not trace.is_operator:
-                if i < op_idx:
+                if a1s <= i < a1e:
                     arg1_tokens.append(i)
                     arg1_lemmas.append(trace.lemma)
                     arg1_vecs.append(vec)
-                else:
+                elif a2s <= i < a2e:
                     arg2_tokens.append(i)
                     arg2_lemmas.append(trace.lemma)
                     arg2_vecs.append(vec)

@@ -17,7 +17,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Optional, Union
 
-from gse.symbolic.expression import Expression
+from gse.symbolic.expression import Operand
 
 
 @dataclass(frozen=True)
@@ -26,8 +26,8 @@ class Comparison:
 
     ``sign`` is ``+1`` if lhs > rhs, ``-1`` if lhs < rhs.
     """
-    lhs: Expression
-    rhs: Expression
+    lhs: Operand
+    rhs: Operand
     sign: int = +1
     axis: Optional[str] = None
 
@@ -38,15 +38,15 @@ class Equality:
 
     Symmetric, non-directional. Asserts equivalence on the implicit axis.
     """
-    lhs: Expression
-    rhs: Expression
+    lhs: Operand
+    rhs: Operand
     axis: Optional[str] = None
 
 
 @dataclass(frozen=True)
 class TypeQuery:
     """Query the SUBSTANTIVES-bank decomposition of an entity. COMP_WHAT."""
-    entity: Expression
+    entity: Operand
 
 
 @dataclass(frozen=True)
@@ -57,7 +57,7 @@ class DegreeQuery:
     following independent clause; the axis is read from that clause's
     content.
     """
-    entity: Expression
+    entity: Operand
     axis: Optional[str] = None
 
 
@@ -68,8 +68,8 @@ class MinimalSufficiency:
     v1 simplification of the architecture's cartesian-product cardinality
     example. The two args are the threshold thing and the purpose.
     """
-    threshold: Expression
-    purpose: Expression
+    threshold: Operand
+    purpose: Operand
 
 
 @dataclass(frozen=True)
@@ -79,8 +79,8 @@ class SetRestriction:
     The arg of the operator is the lone surviving member (``member``);
     the predicate is the surrounding sentence context (``predicate``).
     """
-    member: Expression
-    predicate: Expression
+    member: Operand
+    predicate: Operand
 
 
 @dataclass(frozen=True)
@@ -94,8 +94,8 @@ class BoundaryCase:
 
     Future work tracked in ``docs/PHASE_B_SCOPE.md``.
     """
-    entity: Expression
-    predicate: Expression
+    entity: Operand
+    predicate: Operand
     note: str = (
         "SCALAR_EXTREME / EVEN deferred — needs hierarchical network "
         "traversal coherence math; v1 records operation only."
@@ -110,8 +110,8 @@ class Contrast:
     expectation-violation beyond the tag (per user note about not
     building for Yoda).
     """
-    left: Expression
-    right: Expression
+    left: Operand
+    right: Operand
 
 
 @dataclass(frozen=True)
@@ -129,8 +129,8 @@ class Causation:
     ``effect`` fields always carry the semantically-correct directional
     content.
     """
-    cause: Expression
-    effect: Expression
+    cause: Operand
+    effect: Operand
     conjunction: str = "so"
 
 
@@ -149,8 +149,47 @@ class TypeAssertion:
         entity: the subject being typed (e.g., ``Spot``, ``I``).
         kind: the asserted type/class (e.g., ``dog``, ``person``).
     """
-    entity: Expression
-    kind: Expression
+    entity: Operand
+    kind: Operand
+
+
+@dataclass(frozen=True)
+class RelativeRestriction:
+    """An entity restricted by an embedded relative clause. REL_RESTRICT.
+
+    "The dog that barks" → ``RelativeRestriction(head=Entity(dog),
+    restriction=<barks>)``: the antecedent entity annotated with the predicate
+    that the relative clause asserts of it. The relativizer (that/who/which) is
+    dropped in ``from_trace``; the restriction is the relative clause's content,
+    which may itself be a nested predicate ("the dog that is cuter than the
+    cat"). The node wraps the antecedent *in place*, so it composes with any
+    main-clause operator the antecedent also participates in.
+
+    Args:
+        head: the antecedent entity being restricted.
+        restriction: the relative clause's asserted content over that entity.
+    """
+    head: Operand
+    restriction: Operand
+
+
+@dataclass(frozen=True)
+class Control:
+    """A control/raising construction — the controller performs the inner act.
+
+    "Mike wants to leave" → ``Control(controller=Mike, inner=leave)`` (subject
+    control). "Lady Macbeth persuaded Macbeth to kill the king" →
+    ``Control(controller=Macbeth, inner=<kill the king>)`` (object control). The
+    inner clause is the ``to``-complement; the infinitival "to" is a function
+    word and drops out in resolution. v1 binds the controller by the
+    object-else-subject heuristic; the matrix verb itself is not retained.
+
+    Args:
+        controller: the entity that carries out the inner action.
+        inner: the embedded (infinitival) clause's content.
+    """
+    controller: Operand
+    inner: Operand
 
 
 # A Predicate is any one of the semantic output types.
@@ -165,4 +204,6 @@ Predicate = Union[
     BoundaryCase,
     Contrast,
     Causation,
+    RelativeRestriction,
+    Control,
 ]

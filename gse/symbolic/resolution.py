@@ -30,6 +30,7 @@ from gse.symbolic.expression import Atom, Expression, Negation, Op, Phrase
 _ENTITY_POS = frozenset({"PROPN", "NOUN", "PRON"})
 _FUNCTION_POS = frozenset({"DET", "AUX", "PART", "ADP", "SCONJ", "CCONJ", "PUNCT"})
 _POSSESSIVE_PART_LEMMAS = frozenset({"'s", "’s", "'"})
+_COORDINATOR_LEMMAS = frozenset({"and", "or"})
 _PRONOUN_LEMMAS = frozenset({
     "he", "she", "it", "they", "him", "her", "them",
     "his", "hers", "its", "their", "theirs",
@@ -53,6 +54,24 @@ class Entity:
     head: Atom
     possessor: Optional["Entity"] = None
     role: Optional[str] = None
+    modifier: Optional[Atom] = None
+
+
+@dataclass(frozen=True)
+class Coordination:
+    """A set-union of coordinated entities sharing one predicate.
+
+    NP-level coordination: "Spot and Rex are dogs" → the subject is
+    ``Coordination((Entity(Spot), Entity(Rex)), conjunction="and")``, which the
+    clause's predicate (here a TypeAssertion) takes as a single operand. The
+    members are a tuple so the node stays hashable like :class:`Entity`.
+
+    ``modifier`` carries any ADJ/ADV comparison axis from the source Phrase
+    (e.g. "Spot and Rex are *cuter* than the cat") so ``axis_of_comparison``
+    can still recover it after resolution.
+    """
+    members: tuple
+    conjunction: str = "and"
     modifier: Optional[Atom] = None
 
 
@@ -128,8 +147,24 @@ def _collapse_phrase_to_entity(phrase: Phrase) -> Expression:
         # phrase return
         return phrase
 
-    # No possessive — pick the entity head (rightmost entity atom).
+    # Coordination: a CCONJ ("and"/"or") joining multiple entity heads is a
+    # set-union of entities ("Spot and Rex"), not a single entity. Build a
+    # Coordination over each entity atom rather than dropping all but one.
+    coordinator = next(
+        (a for a in atoms
+         if a.pos == "CCONJ" and a.lemma in _COORDINATOR_LEMMAS),
+        None,
+    )
     entity_atoms = [a for a in atoms if _is_entity_atom(a)]
+    if coordinator is not None and len(entity_atoms) > 1:
+        members = tuple(
+            Entity(head=a, role=a.role) for a in entity_atoms
+        )
+        return Coordination(
+            members=members, conjunction=coordinator.lemma, modifier=modifier
+        )
+
+    # No possessive — pick the entity head (rightmost entity atom).
     if len(entity_atoms) == 1:
         return Entity(
             head=entity_atoms[0],

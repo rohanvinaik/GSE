@@ -20,9 +20,12 @@ will dispatch on.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Sequence, Union
+from typing import TYPE_CHECKING, Dict, List, Optional, Sequence, Union
 
-from gse.api.trace import OperationTrace, OperatorTrace, TokenTrace
+from gse.api.trace import ClauseSpan, OperationTrace, OperatorTrace, TokenTrace
+
+if TYPE_CHECKING:
+    from gse.symbolic.predicates import Predicate
 
 
 @dataclass(frozen=True)
@@ -88,11 +91,18 @@ class Op:
     primitive: str
     operation: str
     arity: int
-    args: List["Expression"]
+    args: List["Operand"]
 
 
-# A symbolic Expression is one of the four node types above. Recursive.
+# A symbolic Expression is one of the four structural node types above.
 Expression = Union[Atom, Phrase, Negation, Op]
+
+# An Operand is anything an operator can take as an argument. At runtime,
+# evaluate_tree already feeds evaluated Predicates back in as operands to
+# clause-linking operators (a clause-predicate nested in another), so the
+# operand type is wider than Expression. "Predicate" is a forward reference
+# (predicates.py imports from this module) — kept as a string to avoid the cycle.
+Operand = Union[Atom, Phrase, Negation, "Op", "Predicate"]
 
 
 # ---------------------------------------------------------------------------
@@ -215,22 +225,177 @@ def _try_copula_type_assertion(tokens: Sequence[TokenTrace]) -> Optional[Op]:
     )
 
 
+def _build_operator_op(
+    op: OperatorTrace,
+    tokens: Sequence[TokenTrace],
+    operator_positions: Sequence[int],
+) -> Op:
+    """Build one ``Op`` node from an OperatorTrace, args from its token spans."""
+    args: List[Operand] = []
+    if op.arity >= 1:
+        args.append(_build_arg_expression(
+            op.arg1_tokens, tokens, operator_positions
+        ))
+    if op.arity >= 2:
+        args.append(_build_arg_expression(
+            op.arg2_tokens, tokens, operator_positions
+        ))
+    return Op(
+        primitive=op.primitive,
+        operation=op.operation,
+        arity=op.arity,
+        args=args,
+    )
+
+
+def _left_fold_operators(
+    built_ops: Sequence[Op],
+) -> Expression:
+    """Nest operators left-to-right: leftmost becomes arg1 of the next.
+
+    Reflects the state-based left-to-right order of operations from
+    ``sentence_architecture.md`` line 35. Used *within* a single clause, where
+    surface order is the right nesting; cross-clause nesting is handled by tier
+    in :func:`from_trace`, not here.
+    """
+    expr: Expression = built_ops[0]
+    for next_op in built_ops[1:]:
+        new_args = list(next_op.args)
+        if new_args:
+            new_args[0] = expr
+        expr = Op(
+            primitive=next_op.primitive,
+            operation=next_op.operation,
+            arity=next_op.arity,
+            args=new_args,
+        )
+    return expr
+
+
+def _build_clause_expr(
+    clause: ClauseSpan,
+    tokens: Sequence[TokenTrace],
+    operators: Sequence[OperatorTrace],
+    operator_positions: Sequence[int],
+    excluded: Optional[set] = None,
+    drop_relativizers: bool = False,
+) -> Expression:
+    """Build the Expression for one clause span.
+
+    A clause resolves through the *existing* single-clause logic: its
+    within-clause operators (if any) are built and left-folded; otherwise the
+    clause's content tokens fold into a copula TYPE_ASSERT or a Phrase / Atom.
+
+    ``excluded`` token positions are dropped (an embedded child clause's tokens
+    are excluded from the parent). ``drop_relativizers`` strips a leading
+    who/which/that pronoun — used when building a relative clause's restriction.
+    """
+    excluded = excluded or set()
+    clause_tokens = [
+        t for t in tokens
+        if clause.token_start <= t.position < clause.token_end
+        and t.position not in excluded
+        and not (drop_relativizers and _is_relativizer(t))
+    ]
+    clause_ops = [operators[i] for i in clause.operator_indices]
+
+    if not clause_ops:
+        copula_op = _try_copula_type_assertion(clause_tokens)
+        if copula_op is not None:
+            return copula_op
+        atoms = [_atom_from_token(t) for t in clause_tokens]
+        if not atoms:
+            return Phrase(atoms=[])
+        if len(atoms) == 1:
+            return atoms[0]
+        return Phrase(atoms=atoms)
+
+    built = [_build_operator_op(op, tokens, operator_positions) for op in clause_ops]
+    if len(built) == 1:
+        return built[0]
+    return _left_fold_operators(built)
+
+
+# Relativizer pronouns introducing a relative clause (dropped from the
+# restriction, which is asserted of the antecedent, not of the relativizer).
+_RELATIVIZER_LEMMAS = frozenset({"that", "who", "whom", "which", "whose"})
+
+
+def _is_relativizer(token: TokenTrace) -> bool:
+    return token.pos == "PRON" and token.lemma in _RELATIVIZER_LEMMAS
+
+
+def _wrap_antecedent(
+    expr: Expression, position: int, restriction: Operand,
+    operation: str = "REL_RESTRICT", primitive: str = "REL",
+) -> "tuple[Expression, bool]":
+    """Wrap the node containing ``position`` in an embedding operator.
+
+    Finds the Atom or Phrase that contains the antecedent / controller token and
+    replaces it with ``Op(operation, [<that node>, restriction])``, so the
+    embedded clause composes with whatever main-clause operator the node is also
+    an argument of. Used for both REL_RESTRICT (relative clauses) and CONTROL
+    ('to' complements). Returns ``(new_expr, wrapped)``; only the first match
+    wraps.
+    """
+    def _rel_op(node: Operand) -> Op:
+        return Op(primitive=primitive, operation=operation, arity=2,
+                  args=[node, restriction])
+
+    if isinstance(expr, Atom):
+        if expr.position == position:
+            return _rel_op(expr), True
+        return expr, False
+    if isinstance(expr, Phrase):
+        if any(a.position == position for a in expr.atoms):
+            return _rel_op(expr), True
+        return expr, False
+    if isinstance(expr, Op):
+        new_args: List[Operand] = []
+        wrapped = False
+        for a in expr.args:
+            if not wrapped and isinstance(a, (Atom, Phrase, Negation, Op)):
+                na, w = _wrap_antecedent(
+                    a, position, restriction, operation, primitive
+                )
+                new_args.append(na)
+                wrapped = wrapped or w
+            else:
+                new_args.append(a)
+        return Op(primitive=expr.primitive, operation=expr.operation,
+                  arity=expr.arity, args=new_args), wrapped
+    if isinstance(expr, Negation):
+        inner, w = _wrap_antecedent(
+            expr.operand, position, restriction, operation, primitive
+        )
+        return Negation(operand=inner), w
+    return expr, False
+
+
 def from_trace(trace: OperationTrace) -> Expression:
     """Build a symbolic Expression from an OperationTrace.
 
-    The top-level Expression is:
+    Single-clause (``trace.clauses`` empty):
 
-    * If there are no compositional operators, the sentence's content
-      atoms as a Phrase (or a single Atom for one-word inputs).
-    * If there's exactly one operator, that ``Op`` node with its
-      arguments built from ``arg{1,2}_tokens``.
-    * If there are multiple operators, they are nested left-to-right by
-      position: the leftmost becomes the innermost args of the next one
-      (a conservative left-fold reflecting that operators "look back"
-      for their left arg per architecture line 35).
+    * No operators → content atoms as a Phrase (or a single Atom), with a
+      copula "X is a Y" synthesized into a TYPE_ASSERT.
+    * One operator → that ``Op`` with args from ``arg{1,2}_tokens``.
+    * Multiple operators → left-folded by position.
+
+    Multi-clause (``trace.clauses`` populated): each clause span is resolved by
+    the single-clause logic above, then the **clause-linking** operators
+    (CONSEQUENCE, CAUSAL_SOURCE, …) are folded over the clause results in
+    surface order. This is what gives correct nesting — e.g. "Rex barks because
+    the dog is cuter than the cat" builds ``CAUSAL_SOURCE(rex-barks,
+    SET_DIFF(dog, cat))`` rather than the positional inversion. See
+    ``docs/COMPLEX_SENTENCE_DESIGN.md`` §0.
     """
     tokens = trace.tokens
     operators = sorted(trace.operators, key=lambda o: o.position)
+    operator_positions = [op.position for op in operators]
+
+    if trace.clauses:
+        return _from_trace_segmented(trace, tokens, operator_positions)
 
     if not operators:
         # No COMP_* operator, but a copula "X is a Y" carries a synthesized
@@ -244,41 +409,77 @@ def from_trace(trace: OperationTrace) -> Expression:
             return content_atoms[0]
         return Phrase(atoms=content_atoms)
 
-    operator_positions = [op.position for op in operators]
+    built_ops = [
+        _build_operator_op(op, tokens, operator_positions) for op in operators
+    ]
+    if len(built_ops) == 1:
+        return built_ops[0]
+    return _left_fold_operators(built_ops)
 
-    def _build_one_operator(op: OperatorTrace) -> Op:
-        args: List[Expression] = []
-        if op.arity >= 1:
-            args.append(_build_arg_expression(
-                op.arg1_tokens, tokens, operator_positions
-            ))
-        if op.arity >= 2:
-            args.append(_build_arg_expression(
-                op.arg2_tokens, tokens, operator_positions
-            ))
-        return Op(
+
+def _from_trace_segmented(
+    trace: OperationTrace,
+    tokens: Sequence[TokenTrace],
+    operator_positions: Sequence[int],
+) -> Expression:
+    """Tier-aware build for a segmented (multi-clause) trace.
+
+    Each clause span is resolved independently; clause-linking operators (those
+    not owned by any clause span) are folded over the clause results in surface
+    order. ``trace.operators`` is indexed positionally to match the indices
+    stored in each ``ClauseSpan.operator_indices``.
+    """
+    operators = trace.operators
+    all_clauses = sorted(trace.clauses, key=lambda c: c.clause_id)
+    sequential = [c for c in all_clauses if c.kind == "sequential"]
+    embedded = [c for c in all_clauses if c.kind != "sequential"]
+
+    # Tokens owned by embedded clauses are excluded from their parent's build.
+    embedded_tokens = set()
+    for emb in embedded:
+        embedded_tokens.update(range(emb.token_start, emb.token_end))
+
+    clause_exprs = [
+        _build_clause_expr(
+            c, tokens, operators, operator_positions, excluded=embedded_tokens
+        )
+        for c in sequential
+    ]
+
+    owned = {i for c in all_clauses for i in c.operator_indices}
+    linking_ops = sorted(
+        (op for i, op in enumerate(operators) if i not in owned),
+        key=lambda o: o.position,
+    )
+
+    # Fold clause-linking operators over the sequential clause expressions in
+    # surface order: c0 [op0] c1 [op1] c2 …
+    expr: Expression = clause_exprs[0]
+    for k, op in enumerate(linking_ops):
+        right: Operand = (
+            clause_exprs[k + 1] if k + 1 < len(clause_exprs) else Phrase(atoms=[])
+        )
+        expr = Op(
             primitive=op.primitive,
             operation=op.operation,
             arity=op.arity,
-            args=args,
+            args=[expr, right],
         )
 
-    built_ops = [_build_one_operator(op) for op in operators]
-    if len(built_ops) == 1:
-        return built_ops[0]
-
-    # Multiple operators: left-fold conservative nesting. The leftmost
-    # operator becomes arg1 of the next-leftmost, etc. Reflects the
-    # state-based left-to-right order of operations from line 35.
-    expr: Expression = built_ops[0]
-    for next_op in built_ops[1:]:
-        new_args = list(next_op.args)
-        if new_args:
-            new_args[0] = expr
-        expr = Op(
-            primitive=next_op.primitive,
-            operation=next_op.operation,
-            arity=next_op.arity,
-            args=new_args,
+    # Attach each embedded clause to its antecedent / controller in-place.
+    for emb in embedded:
+        if emb.attaches_to_token is None:
+            continue
+        inner = _build_clause_expr(
+            emb, tokens, operators, operator_positions,
+            drop_relativizers=(emb.kind == "relative"),
         )
+        if emb.kind == "relative":
+            expr, _ = _wrap_antecedent(expr, emb.attaches_to_token, inner)
+        elif emb.kind == "control":
+            expr, _ = _wrap_antecedent(
+                expr, emb.attaches_to_token, inner,
+                operation="CONTROL", primitive="CTRL",
+            )
+
     return expr

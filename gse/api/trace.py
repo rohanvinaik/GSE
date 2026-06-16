@@ -93,6 +93,37 @@ class OperatorTrace:
 
 
 @dataclass
+class ClauseSpan:
+    """One clause's token range within a multi-clause sentence.
+
+    Emitted by the encoder's segmentation pre-pass (see
+    ``docs/COMPLEX_SENTENCE_DESIGN.md`` §3) and consumed by
+    :func:`gse.symbolic.expression.from_trace` to build correctly-nested ASTs.
+
+    ``token_start`` is inclusive, ``token_end`` exclusive. ``operator_indices``
+    are indices into :attr:`OperationTrace.operators` for the *within-clause*
+    operators whose result belongs to this clause (clause-linking operators are
+    the glue *between* spans and are not listed in any span).
+    """
+    clause_id: int
+    token_start: int
+    token_end: int
+    operator_indices: List[int] = field(default_factory=list)
+
+    # Embedding (M2b/M2c). ``kind`` is "sequential" for a top-level clause split
+    # at a because/so boundary; "relative" for a who/which/that clause; "control"
+    # for a 'to' complement. Embedded clauses carry ``parent_id`` (the clause
+    # they nest inside) and ``attaches_to_token`` (the antecedent / controller
+    # token position in the parent). See docs/COMPLEX_SENTENCE_DESIGN.md §M2.
+    kind: str = "sequential"
+    parent_id: Optional[int] = None
+    attaches_to_token: Optional[int] = None
+
+    def to_dict(self) -> Dict:
+        return asdict(self)
+
+
+@dataclass
 class OperationTrace:
     """Complete trace of encoding operations."""
     input_text: str
@@ -114,6 +145,11 @@ class OperationTrace:
     version: str = "1.0"
     deterministic: bool = True
 
+    # Clause segmentation (multi-clause sentences only). Empty for single-clause
+    # inputs, which keeps their serialized traces byte-identical to pre-clause
+    # GSE. Populated only when ≥1 clause-linking operator splits the sentence.
+    clauses: List[ClauseSpan] = field(default_factory=list)
+
     # The actual vector (not serialized to JSON)
     _vector: Any = field(default=None, repr=False)
 
@@ -127,7 +163,7 @@ class OperationTrace:
 
     def to_dict(self) -> Dict:
         """Convert to dictionary (excluding vector)."""
-        return {
+        d = {
             "version": self.version,
             "input_text": self.input_text,
             "tokens": [t.to_dict() for t in self.tokens],
@@ -139,6 +175,11 @@ class OperationTrace:
             "vector_hash": self.vector_hash,
             "deterministic": self.deterministic,
         }
+        # Only emit clauses for multi-clause sentences, so single-clause traces
+        # stay byte-identical to pre-clause GSE.
+        if self.clauses:
+            d["clauses"] = [c.to_dict() for c in self.clauses]
+        return d
 
     def to_json(self, indent: int = 2) -> str:
         """Serialize to JSON (excluding vector)."""
@@ -158,6 +199,7 @@ class OperationTrace:
             vector_hash=d["vector_hash"],
             version=d.get("version", "1.0"),
             deterministic=d.get("deterministic", True),
+            clauses=[ClauseSpan(**c) for c in d.get("clauses", [])],
         )
 
     @classmethod

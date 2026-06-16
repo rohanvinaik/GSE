@@ -22,14 +22,17 @@ from gse.symbolic.predicates import (
     Causation,
     Comparison,
     Contrast,
+    Control,
     DegreeQuery,
     Equality,
     MinimalSufficiency,
     Predicate,
+    RelativeRestriction,
     SetRestriction,
+    TypeAssertion,
     TypeQuery,
 )
-from gse.symbolic.resolution import Entity
+from gse.symbolic.resolution import Coordination, Entity
 
 TreeNode = Union[Expression, Entity, Predicate]
 
@@ -185,6 +188,27 @@ def _walk(node: TreeNode, mapping: Mapping[str, Union[str, Entity, Atom]]) -> Tr
             cause=_walk(node.cause, mapping),
             effect=_walk(node.effect, mapping),
             conjunction=node.conjunction,
+        )
+    if isinstance(node, TypeAssertion):
+        return TypeAssertion(
+            entity=_walk(node.entity, mapping),
+            kind=_walk(node.kind, mapping),
+        )
+    if isinstance(node, RelativeRestriction):
+        return RelativeRestriction(
+            head=_walk(node.head, mapping),
+            restriction=_walk(node.restriction, mapping),
+        )
+    if isinstance(node, Control):
+        return Control(
+            controller=_walk(node.controller, mapping),
+            inner=_walk(node.inner, mapping),
+        )
+    if isinstance(node, Coordination):
+        return Coordination(
+            members=tuple(_walk(m, mapping) for m in node.members),
+            conjunction=node.conjunction,
+            modifier=node.modifier,
         )
 
     return node
