@@ -144,12 +144,81 @@ def _collect_entities(node: Any, out: List[Entity]) -> None:
 # ---------------------------------------------------------------------------
 
 
+def _jaccard(a: set, b: set) -> float:
+    """Node-set overlap — the coherence primitive (lifted from destash
+    coherence.py). 1.0 when both empty (vacuously coherent)."""
+    if not a and not b:
+        return 1.0
+    union = a | b
+    return len(a & b) / len(union) if union else 0.0
+
+
+# Minimum coherence advantage required to override the frequency-primary sense.
+# WordNet orders senses by frequency, a strong prior; a noisy context word must
+# not flip a clear primary. king↔bishop clears this easily (~0.5); a stray
+# overlap does not.
+_COHERENCE_MARGIN = 0.15
+
+
+def _select_by_coherence(
+    collected: List[Entity], genealogy: Any, margin: float = _COHERENCE_MARGIN
+) -> Dict[Tuple, Tuple[str, ...]]:
+    """Pick each referent's thread by coherence with the rest of the sentence.
+
+    Single deterministic pass. Each entity's candidate threads (all WordNet
+    senses + both strands) are scored by node-overlap (Jaccard) with the union
+    of the *other* entities' **primary** threads. The frequency-primary sense is
+    kept unless a candidate beats it by ``margin`` — so coherence *re-ranks* a
+    genuinely ambiguous word (king↔bishop) but never flips a clear primary on a
+    noisy neighbour. Coherence can only re-rank existing candidates, never
+    invent a thread.
+    """
+    cand: Dict[Tuple, List[Tuple[str, ...]]] = {}
+    for ent in collected:
+        sig = _signature(ent)
+        if sig in cand:
+            continue
+        cand[sig] = [
+            tuple(t)
+            for t in genealogy.candidates(
+                ent.head.lemma, getattr(ent.head, "pos", "") or "", _is_proper(ent)
+            )
+        ]
+
+    primary: Dict[Tuple, Tuple[str, ...]] = {
+        sig: (cs[0] if cs else ()) for sig, cs in cand.items()
+    }
+
+    chosen: Dict[Tuple, Tuple[str, ...]] = {}
+    for sig, cs in cand.items():
+        if len(cs) <= 1:
+            chosen[sig] = primary[sig]
+            continue
+        context: set = set()
+        for other_sig, thread in primary.items():
+            if other_sig != sig:
+                context |= set(thread)
+        prim = cs[0]
+        prim_score = _jaccard(set(prim), context)
+        best, best_score = prim, prim_score
+        for thread in cs[1:]:
+            score = _jaccard(set(thread), context)
+            if score > prim_score + margin and score > best_score:
+                best, best_score = thread, score
+        chosen[sig] = best
+
+    return chosen
+
+
 def resolve_references(node: Any, genealogy: GenealogyProvider | None = None) -> Any:
     """Annotate an evaluated tree with stable ids + type threads.
 
     1. Assign ``entity_id`` per distinct referent, in first-occurrence order by
        token position (deterministic; coreferent mentions share an id).
-    2. Populate ``type_thread`` from ``genealogy`` (default: empty threads).
+    2. Populate ``type_thread`` from ``genealogy``. If the provider exposes
+       ``candidates()``, the thread is chosen by **global coherence**
+       (sense/strand that coheres with the rest of the sentence); otherwise the
+       provider's single ``thread()`` is used (default: empty threads).
 
     Returns a new tree; the input is unmodified (frozen rebuild).
     """
@@ -166,8 +235,22 @@ def resolve_references(node: Any, genealogy: GenealogyProvider | None = None) ->
         if sig not in sig_to_id:
             sig_to_id[sig] = f"e{len(sig_to_id)}"
 
+    # Coherence-scored thread selection when the provider supports candidates.
+    if hasattr(genealogy, "candidates"):
+        sig_thread = _select_by_coherence(collected, genealogy)
+    else:
+        sig_thread = {}
+        for ent in collected:
+            sig = _signature(ent)
+            if sig not in sig_thread:
+                sig_thread[sig] = tuple(
+                    genealogy.thread(
+                        ent.head.lemma, getattr(ent.head, "pos", "") or "", _is_proper(ent)
+                    )
+                )
+
     def annotate(ent: Entity) -> Entity:
-        thread = tuple(genealogy.thread(ent.head.lemma, getattr(ent.head, "pos", "") or "", _is_proper(ent)))
-        return replace(ent, entity_id=sig_to_id[_signature(ent)], type_thread=thread)
+        sig = _signature(ent)
+        return replace(ent, entity_id=sig_to_id[sig], type_thread=sig_thread.get(sig, ()))
 
     return _map_entities(node, annotate)
