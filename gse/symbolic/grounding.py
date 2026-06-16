@@ -257,6 +257,97 @@ def resolve_references(node: Any, genealogy: GenealogyProvider | None = None) ->
 
 
 # ---------------------------------------------------------------------------
+# M4-3a — document scope (cross-sentence coreference + global ids + threads)
+# ---------------------------------------------------------------------------
+#
+# Completion is recursion, not addition: the within-sentence resolver lifts to a
+# document by minting ids over *all* the sentences' entities at once (so one
+# referent shares an id across sentences) and binding pronouns left unbound by
+# their own sentence to an antecedent in a prior one.
+
+
+def _is_pronoun(ent: Entity) -> bool:
+    # resolve() already rebinds *within-sentence* pronouns to their antecedent's
+    # head, so a head still tagged PRON here is one that found no local antecedent.
+    return getattr(ent.head, "pos", None) == "PRON"
+
+
+def _bind_document_pronouns(trees: Sequence[Any]) -> List[Any]:
+    """Bind cross-sentence pronouns to the most-recent prior non-pronoun entity.
+
+    v1, matching the within-sentence binder: nearest antecedent in document
+    order, no gender/number agreement."""
+    antecedents: List[Entity] = []
+    out: List[Any] = []
+    for tree in trees:
+        def bind(ent: Entity) -> Entity:
+            if _is_pronoun(ent) and antecedents:
+                ante = antecedents[-1]
+                return replace(ent, head=ante.head, possessor=ante.possessor)
+            return ent
+
+        bound = _map_entities(tree, bind)
+        post: List[Entity] = []
+        _collect_entities(bound, post)
+        for ent in post:
+            if not _is_pronoun(ent):
+                antecedents.append(ent)
+        out.append(bound)
+    return out
+
+
+def resolve_document(
+    trees: Sequence[Any], genealogy: GenealogyProvider | None = None
+) -> List[Any]:
+    """Resolve a *document* — an ordered list of evaluated clause trees.
+
+    Lifts resolve_references to document scope: cross-sentence pronouns are
+    bound to a prior antecedent, ``entity_id`` is minted globally (one referent
+    → one id across all sentences), and coherence-scored thread selection runs
+    over the **whole document's** entities. Returns the trees, each annotated.
+    """
+    if genealogy is None:
+        genealogy = NullGenealogy()
+
+    trees = _bind_document_pronouns(trees)
+
+    # All entities in document order: (sentence index, token position).
+    indexed: List[Tuple[int, Entity]] = []
+    flat: List[Entity] = []
+    for s_idx, tree in enumerate(trees):
+        ents: List[Entity] = []
+        _collect_entities(tree, ents)
+        for ent in ents:
+            indexed.append((s_idx, ent))
+            flat.append(ent)
+
+    sig_to_id: Dict[Tuple, str] = {}
+    for _, ent in sorted(indexed, key=lambda se: (se[0], _position(se[1]))):
+        sig = _signature(ent)
+        if sig not in sig_to_id:
+            sig_to_id[sig] = f"e{len(sig_to_id)}"
+
+    if hasattr(genealogy, "candidates"):
+        sig_thread = _select_by_coherence(flat, genealogy)
+    else:
+        sig_thread = {}
+        for ent in flat:
+            sig = _signature(ent)
+            if sig not in sig_thread:
+                sig_thread[sig] = tuple(
+                    genealogy.thread(
+                        ent.head.lemma, getattr(ent.head, "pos", "") or "", _is_proper(ent)
+                    )
+                )
+
+    def annotate(ent: Entity) -> Entity:
+        sig = _signature(ent)
+        return replace(ent, entity_id=sig_to_id[sig], type_thread=sig_thread.get(sig, ()))
+
+    return [_map_entities(tree, annotate) for tree in trees]
+
+
+# ---------------------------------------------------------------------------
 # M3a — the abstention signal (grounding confidence, fidelity-tiered)
 # ---------------------------------------------------------------------------
 #

@@ -74,6 +74,7 @@ from gse.symbolic.grounding import (
     NullGenealogy,
     TriageResult,
     grounding_flags,
+    resolve_document,
     resolve_references,
     triage_flags,
 )
@@ -100,8 +101,9 @@ __all__ = [
     "CONTRACT_VERSION", "emit", "emit_contract", "emit_json",
     # Resolution
     "Coordination", "Entity", "resolve",
-    # Reference resolution (entity ids + type threads)
-    "GenealogyProvider", "NullGenealogy", "resolve_references", "GenealogyStore",
+    # Reference resolution (entity ids + type threads) + document scope
+    "GenealogyProvider", "NullGenealogy", "resolve_references", "resolve_document",
+    "GenealogyStore",
     # Abstention signal (grounding confidence flags) + persist triage
     "GroundingFlag", "grounding_flags", "TriageResult", "triage_flags",
     # Queries
