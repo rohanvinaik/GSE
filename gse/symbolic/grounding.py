@@ -91,7 +91,10 @@ def _signature(entity: Entity) -> Tuple:
     M2.2 territory.
     """
     poss = _signature(entity.possessor) if entity.possessor is not None else None
-    return (entity.head.lemma, poss)
+    # A demi-word ("Lady Macbeth") is keyed by its whole span, so it stays a
+    # distinct referent from a bare head token ("Macbeth").
+    key = tuple(entity.span) if getattr(entity, "span", ()) else (entity.head.lemma,)
+    return (key, poss)
 
 
 def _position(entity: Entity) -> int:

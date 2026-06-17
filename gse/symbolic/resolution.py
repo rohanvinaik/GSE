@@ -57,6 +57,11 @@ class Entity:
         type_thread: root-first type genealogy
             (e.g. ``("thing", "person", "thane")``), populated by a
             ``GenealogyProvider`` during reference resolution. Empty until then.
+        span: the **demi-word** — the contiguous undifferentiated nominal lemmas
+            when the slot names one multi-token unit ("Lady Macbeth" →
+            ``("lady", "macbeth")``). Empty for a single-token referent. The
+            *structure* (one slot) decides it is one unit; identity keys off the
+            span, so "Lady Macbeth" ≠ "Macbeth" even before either grounds.
     """
     head: Atom
     possessor: Optional["Entity"] = None
@@ -64,6 +69,7 @@ class Entity:
     modifier: Optional[Atom] = None
     entity_id: Optional[str] = None
     type_thread: tuple = ()
+    span: tuple = ()
 
 
 @dataclass(frozen=True)
@@ -181,13 +187,16 @@ def _collapse_phrase_to_entity(phrase: Phrase) -> Expression:
             modifier=modifier,
         )
     if len(entity_atoms) > 1:
-        # Multiple entities without possessive — pick the last as head;
-        # B5 v1 doesn't model coordination ("Mike and Rex"). Surface as
-        # the rightmost head; the others are dropped from this entity.
+        # Multiple contiguous undifferentiated nominals with no coordinator and
+        # no possessive — a **demi-word** ("Lady Macbeth"). The structure (one
+        # slot, no coordination) says it is one unit; keep the whole span as the
+        # referent's identity (rightmost as the syntactic head), so it no longer
+        # collapses to its head token and unify with a bare "Macbeth".
         return Entity(
             head=entity_atoms[-1],
             role=entity_atoms[-1].role,
             modifier=modifier,
+            span=tuple(a.lemma for a in entity_atoms),
         )
 
     # No entity atoms at all — return atoms without function words,

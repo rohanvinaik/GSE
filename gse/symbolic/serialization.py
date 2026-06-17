@@ -98,6 +98,8 @@ def to_dict(node: Node) -> Dict[str, Any]:
             d["entity_id"] = node.entity_id
         if node.type_thread:
             d["type_thread"] = list(node.type_thread)
+        if node.span:
+            d["span"] = list(node.span)
         return d
     if isinstance(node, Comparison):
         return {
@@ -238,6 +240,7 @@ def from_dict(d: Dict[str, Any]) -> Node:
             modifier=from_dict(d["modifier"]) if d.get("modifier") else None,
             entity_id=d.get("entity_id"),
             type_thread=tuple(d.get("type_thread") or ()),
+            span=tuple(d.get("span") or ()),
         )
     if kind == "Comparison":
         return Comparison(

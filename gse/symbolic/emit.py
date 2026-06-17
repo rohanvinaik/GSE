@@ -65,6 +65,9 @@ def _leaf_str(node: Any) -> str:
     if name == "Phrase":
         return " ".join(a.lemma for a in node.atoms)
     if name == "Entity":
+        # A demi-word renders as its whole span ("lady macbeth").
+        if getattr(node, "span", ()):
+            return " ".join(node.span)
         s = node.head.lemma
         if getattr(node, "modifier", None) is not None:
             s = f"{_leaf_str(node.modifier)} {s}"
