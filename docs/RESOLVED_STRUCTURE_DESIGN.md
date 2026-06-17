@@ -197,10 +197,32 @@ signal doubles as the archetype coherence-veto Genesis needs.
 - **M3 — Coherence / confidence (Stage 3c).**
   - **M3a ✅** `grounding_flags` — the abstention signal (Tier-2 ungrounded,
     Tier-1 incomparable); closes the deferred abstention proof (`6988a14`).
-  - **M3b — TODO** the full spaCy-POS-vs-lexicon **cross-strand** reader (Tier-2
-    proper) + persist / Tier-3 triage (`spearman` over the flag corpus).
-- **M4 — Context (Stage 3a/3b). TODO** Document-scope resolution + genre
-  signature. Gated on M2; unlocks Genesis Tier-2 archetype recognition.
+  - **M3b ✅** persist / Tier-3 triage (`triage_flags`, `spearman` over the flag
+    corpus — systematic fault vs SNP) (`d16c553`). *The literal
+    POS-vs-lexicon cross-strand was dropped: `lexemes.pos` is empty and the NSM
+    decomposition describes meaning not category, so it has no sound Strand B —
+    M3a's ungrounded/incomparable ARE the sound cross-strand vetoes.*
+- **M4 — Context.**
+  - **M4-3a ✅** document-scope resolution — cross-sentence coreference +
+    document-global ids + document-wide coherence (`resolve_document`) (`89da152`).
+  - **M4-3b — TODO** the HDC genre signature (emitter-ready; consumer is Genesis).
+- **M5 — Faithful Innerese (the Genesis-walker must-haves). ✅**
+  - **Event roleframe** — the base-case predicate a plain verb clause was missing;
+    `EVENT(verb; agent, patient)`. Fixes Causation: cause/effect carry nested
+    Events, not flattened entities (`c73b2d0`).
+  - **Control restructure** — `CONTROL(verb, subject, controller, inner)`; "to"
+    dropped, inner agent = controller (`1840bfa`).
+  - **Proper-name identity** — proper nouns ground via the world strand only; a
+    PROPN absent from it flags rather than taking a bogus common-noun thread
+    (`786a6ce`).
+- **M6 — Demi-words. ✅** A multi-token nominal slot is one unit; the *structure*
+  does the segmentation (the slot is the boundary), identity keys off the whole
+  span ("Lady Macbeth" ≠ "Macbeth"), and a matched span grounds against the
+  dictionaries by its joined key (WordNet MWE / sparse-wiki label), ambiguity
+  resolved by the existing coherence selector (`0fb3afb`, `7b353df`).
+- **Inference ✅** transitive-closure logical reasoning over the clause graph
+  (`KnowledgeBase`: is-a syllogism + ordering, with derivation chains) — the
+  LSAT-style "zorble/florp" demo, real (`045ab61`, `gse/demo/reasoning.py`).
 
 ---
 

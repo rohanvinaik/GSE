@@ -253,6 +253,36 @@ Four stages, each a module:
 - **`templating.py`** — `substitute(tree, {lemma: new_lemma})` for structural
   substitution ("dog→rabbit, cat→mouse" preserves the comparison structure).
 
+#### Roleframes, resolution, grounding, inference (`docs/RESOLVED_STRUCTURE_DESIGN.md`)
+
+The operator set above covers the *special* operations; the base case — a plain
+verb clause — is the **`Event` roleframe** (`EVENT(verb; agent, patient)`,
+synthesized like the copula `TypeAssertion`), which is what lets a sub-clause
+survive as structure: a `Causation`'s cause/effect and a `Control`'s inner act
+are Events, not flattened entities. `Control(verb, subject, controller, inner)`
+and the copula `TypeAssertion(entity, kind)` round out the roleframe set — the
+whole point being a clause graph **isomorphic to Genesis's Innerese**, emitted by
+`emit.py` as the `{op, args, features}` contract.
+
+On top of evaluation, three resolution stages run (Stage 2–3):
+
+- **Reference resolution** (`grounding.py` — `resolve_references` /
+  `resolve_document`): stable `entity_id`s (coreference by id, cross-sentence),
+  and a **type genealogy** per entity from two orthogonal strands — *word*
+  (WordNet) and *world* ([sparse-wiki](../sparse-wiki-grounding)) — through an
+  injectable `GenealogyProvider` (`GenealogyStore` over `data/genealogy.db`),
+  with **coherence-scored sense selection**.
+- **Demi-words**: a multi-token nominal slot is one unit (the structure does the
+  segmentation); identity keys off the whole span, grounded against the
+  dictionaries by its joined key.
+- **Abstention** (`grounding_flags` / `triage_flags`): the DNA fidelity-tier
+  signal — self-contradiction, ungrounded, and corpus-level systematic-vs-SNP
+  triage. Proper nouns and OOV tokens flag rather than mis-ground.
+
+And **`inference.py`** (`KnowledgeBase`) adds transitive-closure logical reasoning
+over the clause graph — is-a syllogism + ordering with derivation chains (the
+`python -m gse.demo.reasoning` LSAT-style demo).
+
 ### Decoder · `gse/api/decoder.py`
 
 The reverse / geometric view. `GSEDecoder.decode(vector) -> DecodedSemantics`
