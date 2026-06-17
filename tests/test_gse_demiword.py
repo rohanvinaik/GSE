@@ -88,6 +88,26 @@ def test_demiword_grounds_via_span(encoder):
         assert ic and ic[0]["type_thread"][-1] == "ice_cream"   # the MWE entry, not "cream"
 
 
+@pytest.mark.skipif(not _DB.exists(), reason="genealogy.db not built")
+def test_lexicalized_adj_noun_promotes_to_demiword(encoder):
+    # "hot dog" is a WordNet MWE → promoted to one unit (span set); "big dog" is
+    # not lexicalized → stays compositional. WordNet's lexicalization is the gate.
+    from gse.symbolic import GenealogyStore
+
+    def first_entity(tree, store):
+        from gse.symbolic import entities
+        return entities(resolve_references(tree, store))
+
+    with GenealogyStore() as store:
+        hot = evaluate_tree(resolve(from_trace(encoder.encode("Mike ate a hot dog"))))
+        hot_ents = first_entity(hot, store)
+        assert any(e.span == ("hot", "dog") for e in hot_ents)     # promoted
+
+        big = evaluate_tree(resolve(from_trace(encoder.encode("Mike saw a big dog"))))
+        big_ents = first_entity(big, store)
+        assert all(e.span != ("big", "dog") for e in big_ents)     # not promoted
+
+
 def _all_refs(node, out=None):
     out = [] if out is None else out
     if isinstance(node, dict):

@@ -223,6 +223,33 @@ def _select_by_coherence(
     return chosen
 
 
+def _promote_demiwords(node: Any, genealogy: Any) -> Any:
+    """Promote a modifier+head slot to a demi-word when the joined span is a
+    lexicalized dictionary entry.
+
+    The structure reads "hot dog" as ADJ-modifier + NOUN ("a warm dog"), peeling
+    "hot" off. But "hot dog" is a *lexicalized* WordNet entry and "red car" is
+    not — so WordNet's own lexicalization is the commonness gate (your gradation,
+    pre-decided by lexicographers). When the compound is a dictionary key, promote
+    it to a single demi-word span (clearing the now-absorbed modifier); the
+    existing coherence selector then picks among the MWE's senses. "red car" / "big
+    dog" stay compositional. Only runs when a real dictionary is present.
+    """
+    def promote(ent: Entity) -> Entity:
+        if ent.span:                                  # already a demi-word
+            return ent
+        mod = getattr(ent, "modifier", None)
+        if mod is None or getattr(mod, "pos", None) != "ADJ":
+            return ent
+        compound = f"{mod.lemma} {ent.head.lemma}"
+        pos = getattr(ent.head, "pos", "") or ""
+        if genealogy.candidates(compound, pos, _is_proper(ent)):
+            return replace(ent, span=(mod.lemma, ent.head.lemma), modifier=None)
+        return ent
+
+    return _map_entities(node, promote)
+
+
 def resolve_references(node: Any, genealogy: GenealogyProvider | None = None) -> Any:
     """Annotate an evaluated tree with stable ids + type threads.
 
@@ -237,6 +264,11 @@ def resolve_references(node: Any, genealogy: GenealogyProvider | None = None) ->
     """
     if genealogy is None:
         genealogy = NullGenealogy()
+
+    # Promote lexicalized ADJ+NOUN compounds to demi-words before id minting, so
+    # "hot dog" gets one identity (not head "dog" + modifier "hot").
+    if hasattr(genealogy, "candidates"):
+        node = _promote_demiwords(node, genealogy)
 
     collected: List[Entity] = []
     _collect_entities(node, collected)
@@ -323,6 +355,8 @@ def resolve_document(
         genealogy = NullGenealogy()
 
     trees = _bind_document_pronouns(trees)
+    if hasattr(genealogy, "candidates"):
+        trees = [_promote_demiwords(t, genealogy) for t in trees]
 
     # All entities in document order: (sentence index, token position).
     indexed: List[Tuple[int, Entity]] = []
