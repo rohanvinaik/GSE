@@ -27,6 +27,7 @@ from gse.symbolic.predicates import (
     Control,
     DegreeQuery,
     Equality,
+    Event,
     MinimalSufficiency,
     Predicate,
     RelativeRestriction,
@@ -139,6 +140,13 @@ def to_dict(node: Node) -> Dict[str, Any]:
             "entity": to_dict(node.entity),
             "predicate": to_dict(node.predicate),
             "note": node.note,
+        }
+    if isinstance(node, Event):
+        return {
+            "_kind": "Event",
+            "verb": node.verb,
+            "agent": to_dict(node.agent),
+            "patient": to_dict(node.patient) if node.patient is not None else None,
         }
     if isinstance(node, Contrast):
         return {
@@ -262,6 +270,12 @@ def from_dict(d: Dict[str, Any]) -> Node:
             entity=from_dict(d["entity"]),
             predicate=from_dict(d["predicate"]),
             note=d.get("note", "deferred"),
+        )
+    if kind == "Event":
+        return Event(
+            verb=d["verb"],
+            agent=from_dict(d["agent"]),
+            patient=from_dict(d["patient"]) if d.get("patient") else None,
         )
     if kind == "Contrast":
         return Contrast(left=from_dict(d["left"]), right=from_dict(d["right"]))

@@ -26,6 +26,7 @@ from gse.symbolic.resolution import Entity
 # entity walker. Mirrors emit._PRED_SPEC's arg fields (single source would
 # couple the modules; kept parallel and asserted by tests instead).
 _OPERAND_FIELDS: Dict[str, Tuple[str, ...]] = {
+    "Event": ("agent", "patient"),
     "Comparison": ("lhs", "rhs"),
     "Equality": ("lhs", "rhs"),
     "TypeAssertion": ("entity", "kind"),

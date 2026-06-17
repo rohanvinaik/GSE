@@ -225,6 +225,36 @@ def _try_copula_type_assertion(tokens: Sequence[TokenTrace]) -> Optional[Op]:
     )
 
 
+def _try_event(tokens: Sequence[TokenTrace]) -> Optional[Op]:
+    """Synthesize an EVENT ``Op`` from a plain verb clause "X verbs Y".
+
+    The base case the operator set was missing: a clause with an ordinary content
+    verb (not the copula "be", not a COMP_* operator token) and no other
+    operator. Mirrors :func:`_try_copula_type_assertion` — the verb is detected by
+    POS (so it works for sub-clause verbs that aren't the sentence ROOT, e.g. the
+    ``became`` of "…because Duncan became happy"); subject = tokens before it,
+    object/complement = tokens after. Returns ``None`` when no content verb is
+    present, so callers fall through to the default phrase build.
+
+    The verb lemma rides on ``Op.primitive``; ``operators.event`` reads it back.
+    """
+    verb = next(
+        (t for t in tokens
+         if t.pos == "VERB" and t.lemma != _COPULA_LEMMA and not t.is_operator),
+        None,
+    )
+    if verb is None:
+        return None
+    subject_atoms = [_atom_from_token(t) for t in tokens if t.position < verb.position]
+    object_atoms = [_atom_from_token(t) for t in tokens if t.position > verb.position]
+    if not subject_atoms:
+        return None
+    args: List[Operand] = [Phrase(atoms=subject_atoms)]
+    if object_atoms:
+        args.append(Phrase(atoms=object_atoms))
+    return Op(primitive=verb.lemma, operation="EVENT", arity=len(args), args=args)
+
+
 def _build_operator_op(
     op: OperatorTrace,
     tokens: Sequence[TokenTrace],
@@ -303,6 +333,9 @@ def _build_clause_expr(
         copula_op = _try_copula_type_assertion(clause_tokens)
         if copula_op is not None:
             return copula_op
+        event_op = _try_event(clause_tokens)
+        if event_op is not None:
+            return event_op
         atoms = [_atom_from_token(t) for t in clause_tokens]
         if not atoms:
             return Phrase(atoms=[])
@@ -403,6 +436,9 @@ def from_trace(trace: OperationTrace) -> Expression:
         copula_op = _try_copula_type_assertion(tokens)
         if copula_op is not None:
             return copula_op
+        event_op = _try_event(tokens)
+        if event_op is not None:
+            return event_op
         # No operators — fold every content token into a Phrase / Atom.
         content_atoms = [_atom_from_token(t) for t in tokens]
         if len(content_atoms) == 1:

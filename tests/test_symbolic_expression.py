@@ -62,13 +62,18 @@ class TestFromTraceNoOperators:
         assert isinstance(expr, Atom)
         assert expr.lemma == "dog"
 
-    def test_multi_word_returns_phrase(self, encoder):
-        trace = encoder.encode("the dog ran fast")
-        expr = from_trace(trace)
+    def test_verb_clause_returns_event(self, encoder):
+        # A plain verb clause now synthesizes an EVENT roleframe (the base-case
+        # predicate), rather than collapsing to a bare Phrase.
+        expr = from_trace(encoder.encode("the dog ran fast"))
+        assert isinstance(expr, Op) and expr.operation == "EVENT"
+        assert expr.primitive == "run"  # the verb lemma rides on Op.primitive
+
+    def test_verbless_phrase_stays_phrase(self, encoder):
+        # No verb and no operator → still a bare Phrase of its content atoms.
+        expr = from_trace(encoder.encode("the big red ball"))
         assert isinstance(expr, Phrase)
-        # spaCy lemmatizes "ran" to "run"
-        lemmas = {a.lemma for a in expr.atoms}
-        assert {"dog", "run"} <= lemmas
+        assert "ball" in {a.lemma for a in expr.atoms}
 
 
 class TestFromTraceComparisonOperator:

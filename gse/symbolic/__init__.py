@@ -45,6 +45,7 @@ from gse.symbolic.predicates import (
     Control,
     DegreeQuery,
     Equality,
+    Event,
     MinimalSufficiency,
     Predicate,
     RelativeRestriction,
@@ -94,7 +95,7 @@ __all__ = [
     "Atom", "Expression", "Negation", "Op", "Phrase", "from_trace",
     # Predicates
     "BoundaryCase", "Causation", "Comparison", "Contrast", "Control",
-    "DegreeQuery", "Equality", "MinimalSufficiency", "Predicate",
+    "DegreeQuery", "Equality", "Event", "MinimalSufficiency", "Predicate",
     "RelativeRestriction", "SetRestriction", "TypeAssertion", "TypeQuery",
     # Dispatch
     "OPERATION_DISPATCH", "UnknownOperation", "evaluate", "evaluate_tree",

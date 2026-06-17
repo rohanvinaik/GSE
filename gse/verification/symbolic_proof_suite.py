@@ -466,8 +466,9 @@ def _contains_lemma(node, lemma: str) -> bool:
     if hasattr(node, "atoms"):  # Phrase
         return any(a.lemma == lemma for a in node.atoms)
     # Predicates with content fields
-    for fld in ("lhs", "rhs", "entity", "cause", "effect", "left", "right",
-                "threshold", "purpose", "member", "predicate"):
+    for fld in ("lhs", "rhs", "entity", "kind", "cause", "effect", "left", "right",
+                "threshold", "purpose", "member", "predicate",
+                "agent", "patient", "controller", "inner", "head", "restriction"):
         sub = getattr(node, fld, None)
         if sub is not None and _contains_lemma(sub, lemma):
             return True

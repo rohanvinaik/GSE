@@ -29,6 +29,7 @@ from gse.symbolic.predicates import (
     DegreeQuery,
     Equality,
     Control,
+    Event,
     MinimalSufficiency,
     Predicate,
     RelativeRestriction,
@@ -104,6 +105,11 @@ def entities(tree: TreeNode) -> List[Entity]:
             _walk(n.head); _walk(n.restriction); return
         if isinstance(n, Control):
             _walk(n.controller); _walk(n.inner); return
+        if isinstance(n, Event):
+            _walk(n.agent)
+            if n.patient is not None:
+                _walk(n.patient)
+            return
         # Atom — leaf, nothing to traverse further
 
     _walk(tree)
@@ -144,7 +150,7 @@ def predicates(tree: TreeNode) -> List[Predicate]:
     _predicate_classes = (
         Comparison, Equality, TypeQuery, TypeAssertion, DegreeQuery,
         MinimalSufficiency, SetRestriction, BoundaryCase, Contrast, Causation,
-        RelativeRestriction, Control,
+        RelativeRestriction, Control, Event,
     )
 
     def _walk(n: TreeNode) -> None:
@@ -188,6 +194,10 @@ def predicates(tree: TreeNode) -> List[Predicate]:
             _walk(n.head); _walk(n.restriction)
         elif isinstance(n, Control):
             _walk(n.controller); _walk(n.inner)
+        elif isinstance(n, Event):
+            _walk(n.agent)
+            if n.patient is not None:
+                _walk(n.patient)
 
     _walk(tree)
     return out

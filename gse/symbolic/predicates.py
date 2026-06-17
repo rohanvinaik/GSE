@@ -192,8 +192,32 @@ class Control:
     inner: Operand
 
 
+@dataclass(frozen=True)
+class Event:
+    """A verb roleframe — the base-case predicate for a plain clause.
+
+    "Duncan rewarded Macbeth" → ``Event(verb="reward", agent=duncan,
+    patient=macbeth)``; "Rex barks" → ``Event(verb="bark", agent=rex)``. This is
+    the predicate the operator set was missing: a clause with an ordinary
+    transitive/intransitive verb and no comparison/type/causation operator. It
+    maps 1:1 to Genesis's ``makeRoleFrame(subject, verb, object)`` — and, crucially,
+    it is what lets a *sub*-clause survive as structure instead of collapsing to
+    its salient entity (the cause/effect of a Causation, the inner act of a
+    Control are Events, not bare nouns).
+
+    Args:
+        verb: the clause's verb lemma (the relation).
+        agent: the subject filler.
+        patient: the object/complement filler, or ``None`` for an intransitive.
+    """
+    verb: str
+    agent: Operand
+    patient: Optional[Operand] = None
+
+
 # A Predicate is any one of the semantic output types.
 Predicate = Union[
+    Event,
     Comparison,
     Equality,
     TypeQuery,

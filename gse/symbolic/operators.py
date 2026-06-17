@@ -26,6 +26,7 @@ from gse.symbolic.predicates import (
     Contrast,
     Control,
     DegreeQuery,
+    Event,
     Equality,
     MinimalSufficiency,
     Predicate,
@@ -186,6 +187,23 @@ def control(op: Op) -> Control:
     return Control(controller=op.args[0], inner=op.args[1])
 
 
+def event(op: Op) -> Event:
+    """EVENT — a verb roleframe over its arguments (the base-case predicate).
+
+    "Duncan rewarded Macbeth" → ``Event(verb="reward", agent=duncan,
+    patient=macbeth)``. Synthesized in ``from_trace`` from a plain verb clause;
+    the verb lemma rides on ``Op.primitive``, arg0 = subject, arg1 = object (when
+    present, else intransitive).
+    """
+    if not op.args:
+        raise ValueError(f"EVENT expects ≥1 arg, got {op.arity}")
+    return Event(
+        verb=op.primitive,
+        agent=op.args[0],
+        patient=op.args[1] if len(op.args) > 1 else None,
+    )
+
+
 def causal_source(op: Op) -> Causation:
     """COMP_BECAUSE / CAUSAL_SOURCE — left is effect, right is cause.
 
@@ -215,6 +233,7 @@ OPERATION_DISPATCH: Dict[str, Callable[[Op], Predicate]] = {
     "CAUSAL_SOURCE":  causal_source,
     "REL_RESTRICT":   rel_restrict,
     "CONTROL":        control,
+    "EVENT":          event,
 }
 
 

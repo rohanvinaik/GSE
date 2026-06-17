@@ -37,6 +37,7 @@ CONTRACT_VERSION_V2 = "2.0"
 # The op vocabulary is the GSE→Genesis gold contract: the bridge's walker is
 # built to match these tokens. Aligned with adapter-spec §4/§5.
 _PRED_SPEC: Dict[str, tuple] = {
+    "Event": ("EVENT", ("agent", "patient"), ("verb",)),
     "Comparison": ("COMPARISON", ("lhs", "rhs"), ("sign", "axis")),
     "Equality": ("EQUALITY", ("lhs", "rhs"), ("axis",)),
     "TypeAssertion": ("TYPE_ASSERT", ("entity", "kind"), ()),
@@ -89,7 +90,9 @@ def emit(node: Any) -> Any:
         op, fields, feats = spec
         return {
             "op": op,
-            "args": [emit(getattr(node, f)) for f in fields],
+            # Skip optional operand fields that are None (e.g. an Event's patient
+            # for an intransitive verb).
+            "args": [emit(getattr(node, f)) for f in fields if getattr(node, f) is not None],
             "features": {k: getattr(node, k) for k in feats},
         }
 

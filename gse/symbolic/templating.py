@@ -25,6 +25,7 @@ from gse.symbolic.predicates import (
     Control,
     DegreeQuery,
     Equality,
+    Event,
     MinimalSufficiency,
     Predicate,
     RelativeRestriction,
@@ -145,6 +146,12 @@ def _walk(node: TreeNode, mapping: Mapping[str, Union[str, Entity, Atom]]) -> Tr
             args=[_walk(a, mapping) for a in node.args],
         )
 
+    if isinstance(node, Event):
+        return Event(
+            verb=node.verb,
+            agent=_walk(node.agent, mapping),
+            patient=_walk(node.patient, mapping) if node.patient is not None else None,
+        )
     if isinstance(node, Comparison):
         return Comparison(
             lhs=_walk(node.lhs, mapping),

@@ -81,11 +81,12 @@ class TestPredicates:
         preds = predicates(tree)
         assert any(isinstance(p, Causation) for p in preds)
 
-    def test_no_predicates_for_simple_sentence(self, encoder):
+    def test_verb_clause_has_event_predicate(self, encoder):
         tree = _pipeline(encoder, "the dog ran")
         preds = predicates(tree)
-        # No compositional operators → no predicates
-        assert preds == []
+        # A plain verb clause is now an Event roleframe (the base-case predicate).
+        assert len(preds) == 1 and type(preds[0]).__name__ == "Event"
+        assert preds[0].verb == "run"
 
 
 # ---------------------------------------------------------------------------
