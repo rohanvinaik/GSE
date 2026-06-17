@@ -175,21 +175,26 @@ class RelativeRestriction:
 
 @dataclass(frozen=True)
 class Control:
-    """A control/raising construction — the controller performs the inner act.
+    """A control/raising construction — the matrix verb + the controlled act.
 
-    "Mike wants to leave" → ``Control(controller=Mike, inner=leave)`` (subject
-    control). "Lady Macbeth persuaded Macbeth to kill the king" →
-    ``Control(controller=Macbeth, inner=<kill the king>)`` (object control). The
-    inner clause is the ``to``-complement; the infinitival "to" is a function
-    word and drops out in resolution. v1 binds the controller by the
-    object-else-subject heuristic; the matrix verb itself is not retained.
+    "Lady Macbeth persuaded Macbeth to kill the king" →
+    ``Control(verb="persuade", subject=LadyMacbeth, controller=Macbeth,
+    inner=Event("kill", Macbeth, king))`` (object control). "Mike wants to leave"
+    → ``Control(verb="want", subject=Mike, controller=Mike, inner=Event("leave",
+    Mike))`` (subject control). The infinitival "to" is dropped; the **inner act's
+    agent is the controller**, and that shared identity is what Genesis threads.
 
     Args:
         controller: the entity that carries out the inner action.
-        inner: the embedded (infinitival) clause's content.
+        inner: the inner (infinitival) clause as a predicate (an Event).
+        verb: the matrix verb lemma (persuade / want). "" when unrecovered.
+        subject: the matrix subject (the persuader / wanter). ``None`` when
+            unrecovered (a degraded fall-back from a non-Event matrix).
     """
     controller: Operand
     inner: Operand
+    verb: str = ""
+    subject: Optional[Operand] = None
 
 
 @dataclass(frozen=True)

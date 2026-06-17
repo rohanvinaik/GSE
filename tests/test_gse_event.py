@@ -20,7 +20,7 @@ from gse.symbolic import (
     resolve,
     to_dict,
 )
-from gse.symbolic.predicates import Causation, Event
+from gse.symbolic.predicates import Causation, Control, Event
 
 
 @pytest.fixture(scope="module")
@@ -83,3 +83,35 @@ def test_predicates_query_finds_event(encoder):
     preds = predicates(_pipe(encoder, "Duncan rewarded Macbeth because Duncan became happy"))
     names = [type(p).__name__ for p in preds]
     assert "Causation" in names and names.count("Event") == 2
+
+
+# -- Control: verb + subject + controller + inner (must-have #2) -------------
+
+
+def test_subject_control_full_shape(encoder):
+    tree = _pipe(encoder, "Mike wants to leave")
+    assert isinstance(tree, Control)
+    assert tree.verb == "want"
+    assert tree.subject.head.lemma == "mike"
+    assert tree.controller.head.lemma == "mike"            # subject control
+    assert isinstance(tree.inner, Event) and tree.inner.verb == "leave"
+    assert tree.inner.agent.head.lemma == "mike"           # inner agent = controller
+
+
+def test_object_control_drops_to_and_sets_inner_agent(encoder):
+    tree = _pipe(encoder, "Lady Macbeth persuaded Macbeth to kill the king")
+    assert isinstance(tree, Control) and tree.verb == "persuade"
+    assert tree.controller.head.lemma == "macbeth"
+    assert isinstance(tree.inner, Event) and tree.inner.verb == "kill"
+    # "to" dropped; the inner act's agent is the controller, object is the king.
+    assert tree.inner.agent.head.lemma == "macbeth"
+    assert tree.inner.patient.head.lemma == "king"
+
+
+def test_control_emits_four_pieces(encoder):
+    node = emit(_pipe(encoder, "Mike wants to leave"))
+    assert node["op"] == "CONTROL"
+    assert node["features"]["verb"] == "want"
+    # args = [subject, controller, inner-predicate]
+    assert node["args"][0] == "mike" and node["args"][1] == "mike"
+    assert isinstance(node["args"][2], dict) and node["args"][2]["op"] == "EVENT"

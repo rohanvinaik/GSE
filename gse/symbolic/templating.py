@@ -210,6 +210,8 @@ def _walk(node: TreeNode, mapping: Mapping[str, Union[str, Entity, Atom]]) -> Tr
         return Control(
             controller=_walk(node.controller, mapping),
             inner=_walk(node.inner, mapping),
+            verb=node.verb,
+            subject=_walk(node.subject, mapping) if node.subject is not None else None,
         )
     if isinstance(node, Coordination):
         return Coordination(

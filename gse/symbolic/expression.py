@@ -405,6 +405,56 @@ def _wrap_antecedent(
     return expr, False
 
 
+def _build_control(
+    matrix: Expression,
+    emb: ClauseSpan,
+    tokens: Sequence[TokenTrace],
+    operators: Sequence[OperatorTrace],
+    operator_positions: Sequence[int],
+) -> Expression:
+    """Lift a control construction into ``CONTROL(verb, subject, controller, inner)``.
+
+    The matrix clause (xcomp excluded) was already built — for object/subject
+    control it is an ``EVENT`` Op, e.g. ``EVENT(persuade; LadyMacbeth, Macbeth)``.
+    We read the matrix verb + subject + controller off it, build the inner
+    infinitival as an Event **whose agent is the controller** (the "to" dropped),
+    and assemble a single CONTROL Op ``[subject, controller, inner]`` (verb on
+    ``primitive``). When the matrix isn't a clean Event, fall back to the
+    in-place wrap (degraded — controller + inner only).
+    """
+    inner_tokens = [
+        t for t in tokens
+        if emb.token_start <= t.position < emb.token_end
+        and not (t.pos == "PART" and t.lemma == "to")
+    ]
+    inner_verb = next(
+        (t for t in inner_tokens if t.pos == "VERB" and not t.is_operator), None
+    )
+    if inner_verb is None or not (isinstance(matrix, Op) and matrix.operation == "EVENT"):
+        inner_expr = _build_clause_expr(emb, tokens, operators, operator_positions)
+        return _wrap_antecedent(
+            matrix, emb.attaches_to_token, inner_expr,
+            operation="CONTROL", primitive="CTRL",
+        )[0]
+
+    subject = matrix.args[0]
+    controller = matrix.args[1] if len(matrix.args) > 1 else matrix.args[0]
+    inner_obj = [
+        _atom_from_token(t) for t in inner_tokens if t.position > inner_verb.position
+    ]
+    inner_args: List[Operand] = [controller]
+    if inner_obj:
+        inner_args.append(Phrase(atoms=inner_obj))
+    inner_event = Op(
+        primitive=inner_verb.lemma, operation="EVENT",
+        arity=len(inner_args), args=inner_args,
+    )
+    return Op(
+        primitive=matrix.primitive, operation="CONTROL", arity=3,
+        args=[subject, controller, inner_event],
+    )
+
+
 def from_trace(trace: OperationTrace) -> Expression:
     """Build a symbolic Expression from an OperationTrace.
 
@@ -513,9 +563,6 @@ def _from_trace_segmented(
         if emb.kind == "relative":
             expr, _ = _wrap_antecedent(expr, emb.attaches_to_token, inner)
         elif emb.kind == "control":
-            expr, _ = _wrap_antecedent(
-                expr, emb.attaches_to_token, inner,
-                operation="CONTROL", primitive="CTRL",
-            )
+            expr = _build_control(expr, emb, tokens, operators, operator_positions)
 
     return expr

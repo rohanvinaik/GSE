@@ -178,6 +178,8 @@ def to_dict(node: Node) -> Dict[str, Any]:
             "_kind": "Control",
             "controller": to_dict(node.controller),
             "inner": to_dict(node.inner),
+            "verb": node.verb,
+            "subject": to_dict(node.subject) if node.subject is not None else None,
         }
     if isinstance(node, Coordination):
         return {
@@ -299,6 +301,8 @@ def from_dict(d: Dict[str, Any]) -> Node:
         return Control(
             controller=from_dict(d["controller"]),
             inner=from_dict(d["inner"]),
+            verb=d.get("verb", ""),
+            subject=from_dict(d["subject"]) if d.get("subject") else None,
         )
     if kind == "Coordination":
         return Coordination(

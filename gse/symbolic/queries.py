@@ -104,6 +104,8 @@ def entities(tree: TreeNode) -> List[Entity]:
         if isinstance(n, RelativeRestriction):
             _walk(n.head); _walk(n.restriction); return
         if isinstance(n, Control):
+            if n.subject is not None:
+                _walk(n.subject)
             _walk(n.controller); _walk(n.inner); return
         if isinstance(n, Event):
             _walk(n.agent)
@@ -193,6 +195,8 @@ def predicates(tree: TreeNode) -> List[Predicate]:
         elif isinstance(n, RelativeRestriction):
             _walk(n.head); _walk(n.restriction)
         elif isinstance(n, Control):
+            if n.subject is not None:
+                _walk(n.subject)
             _walk(n.controller); _walk(n.inner)
         elif isinstance(n, Event):
             _walk(n.agent)

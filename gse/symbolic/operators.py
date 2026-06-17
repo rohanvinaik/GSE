@@ -183,7 +183,12 @@ def control(op: Op) -> Control:
     Synthesized in ``from_trace`` from an embedded control ClauseSpan; arity=2,
     arg0 = the controller entity, arg1 = the inner clause's content.
     """
-    _require_arity(op, 2)
+    if op.arity >= 3:
+        return Control(
+            controller=op.args[1], inner=op.args[2],
+            verb=op.primitive, subject=op.args[0],
+        )
+    _require_arity(op, 2)  # degraded fall-back (non-Event matrix)
     return Control(controller=op.args[0], inner=op.args[1])
 
 
