@@ -50,6 +50,24 @@ def test_grounded_entity_not_flagged():
                    for f in grounding_flags(TypeAssertion(entity=e, kind=e)))
 
 
+def test_proper_noun_without_world_thread_flags():
+    # #3: a PROPN with no world thread flags — even with lexicon primitives —
+    # because a proper name's identity is its world thread, not a common-noun
+    # homograph decomposition (Rex is not "king").
+    rex = _ent("rex", "PROPN", 0, {"ALIVE": 1}, "e0", ())   # primitives, but no thread
+    dog = _ent("dog", "NOUN", 3, {"x": 1}, "e1", ("entity", "dog"))
+    flags = grounding_flags(TypeAssertion(entity=rex, kind=dog))
+    assert any(f.kind == "ungrounded" and f.lemma == "rex" and f.pos == "PROPN"
+               for f in flags)
+
+
+def test_proper_noun_with_world_thread_not_flagged():
+    # A PROPN that *does* have a (world) thread is grounded.
+    paris = _ent("paris", "PROPN", 0, {}, "e0", ("Thing", "Place", "City"))
+    assert not any(f.kind == "ungrounded"
+                   for f in grounding_flags(TypeAssertion(entity=paris, kind=paris)))
+
+
 # -- Tier 1: incomparable ---------------------------------------------------
 
 

@@ -423,7 +423,13 @@ def grounding_flags(node: Any, incomparable_threshold: float = 0.2) -> List[Grou
         if eid in seen:
             continue
         seen.add(eid)
-        grounded = bool(getattr(ent.head, "word_primitives", None)) or bool(ent.type_thread)
+        # A proper noun is grounded only by a *world* thread (its identity); its
+        # lexicon decomposition is a common-noun homograph, not who it is. A
+        # common noun is grounded by either the lexicon or a word thread.
+        if getattr(ent.head, "pos", None) == "PROPN":
+            grounded = bool(ent.type_thread)
+        else:
+            grounded = bool(getattr(ent.head, "word_primitives", None)) or bool(ent.type_thread)
         if not grounded:
             flags.append(GroundingFlag(ent.entity_id or "", ent.head.lemma, 2,
                                        "ungrounded", 0.0, getattr(ent.head, "pos", "") or ""))

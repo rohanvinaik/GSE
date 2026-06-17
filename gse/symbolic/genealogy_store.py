@@ -52,11 +52,17 @@ class GenealogyStore:
 
     # -- provider API -------------------------------------------------------
     def candidates(self, lemma: str, pos: str, is_proper: bool) -> List[Tuple[str, ...]]:
-        """All candidate threads, best-first. Proper noun → world strand first
-        (its own world identity), then WordNet as fallback/cross-check; common
-        noun → word strand only."""
+        """All candidate threads, best-first.
+
+        Proper noun → **world strand only** (its world identity). We do *not*
+        fall back to WordNet, because a proper name lemma collides with
+        common-noun homographs (Rex→king, Spot→topographic_point, Duncan→dancer)
+        — a silent common-noun thread is a wrong identity, worse than none. A
+        proper noun absent from the world strand gets an empty thread and
+        ``grounding_flags`` flags it (honest abstention). Common noun → word
+        strand."""
         if is_proper:
-            return self._world(lemma) + self._word(lemma)
+            return self._world(lemma)
         return self._word(lemma)
 
     def thread(self, lemma: str, pos: str, is_proper: bool) -> Sequence[str]:
