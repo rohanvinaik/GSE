@@ -68,6 +68,7 @@ from gse.symbolic.emit import (
     emit_json,
 )
 from gse.symbolic.genealogy_store import GenealogyStore
+from gse.symbolic.inference import Derivation, KnowledgeBase
 from gse.symbolic.grounding import (
     GenealogyProvider,
     GroundingFlag,
@@ -106,6 +107,8 @@ __all__ = [
     "GenealogyStore",
     # Abstention signal (grounding confidence flags) + persist triage
     "GroundingFlag", "grounding_flags", "TriageResult", "triage_flags",
+    # Logical inference (transitive closure over the clause graph)
+    "KnowledgeBase", "Derivation",
     # Queries
     "axis_of_comparison", "clauses", "entities", "entity_lemmas",
     "is_argument_swap_of", "is_logically_equal_to", "predicates",
