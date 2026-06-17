@@ -101,6 +101,15 @@ def _position(entity: Entity) -> int:
     return getattr(entity.head, "position", 0)
 
 
+def _lookup_key(entity: Entity) -> str:
+    """The genealogy key for an entity — its whole demi-word span ("ice cream",
+    "lady macbeth") when it has one, else the head lemma. The store's
+    ``candidates`` already accepts multi-token keys (WordNet MWEs + sparse-wiki
+    labels), so a matched span grounds confidently to its own entry."""
+    span = getattr(entity, "span", ())
+    return " ".join(span) if span else entity.head.lemma
+
+
 def _map_entities(node: Any, fn) -> Any:
     """Rebuild ``node`` applying ``fn`` to every :class:`Entity` leaf.
 
@@ -185,7 +194,7 @@ def _select_by_coherence(
         cand[sig] = [
             tuple(t)
             for t in genealogy.candidates(
-                ent.head.lemma, getattr(ent.head, "pos", "") or "", _is_proper(ent)
+                _lookup_key(ent), getattr(ent.head, "pos", "") or "", _is_proper(ent)
             )
         ]
 
@@ -249,7 +258,7 @@ def resolve_references(node: Any, genealogy: GenealogyProvider | None = None) ->
             if sig not in sig_thread:
                 sig_thread[sig] = tuple(
                     genealogy.thread(
-                        ent.head.lemma, getattr(ent.head, "pos", "") or "", _is_proper(ent)
+                        _lookup_key(ent), getattr(ent.head, "pos", "") or "", _is_proper(ent)
                     )
                 )
 
@@ -340,7 +349,7 @@ def resolve_document(
             if sig not in sig_thread:
                 sig_thread[sig] = tuple(
                     genealogy.thread(
-                        ent.head.lemma, getattr(ent.head, "pos", "") or "", _is_proper(ent)
+                        _lookup_key(ent), getattr(ent.head, "pos", "") or "", _is_proper(ent)
                     )
                 )
 

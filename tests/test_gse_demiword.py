@@ -67,3 +67,35 @@ def test_span_round_trips_serialization():
     back = from_dict(to_dict(e))
     assert back.span == ("lady", "macbeth")
     assert json.loads(json.dumps(to_dict(e)))["span"] == ["lady", "macbeth"]
+
+
+# -- part B: a matched span grounds to its own dictionary entry --------------
+
+from pathlib import Path  # noqa: E402
+
+_DB = Path("data/genealogy.db")
+
+
+@pytest.mark.skipif(not _DB.exists(), reason="genealogy.db not built")
+def test_demiword_grounds_via_span(encoder):
+    from gse.symbolic import GenealogyStore
+
+    with GenealogyStore() as store:
+        tree = resolve_references(
+            evaluate_tree(resolve(from_trace(encoder.encode("Mike likes ice cream")))), store)
+        node = emit(tree)
+        ic = [r for r in _all_refs(node) if r["lemma"] == "ice cream"]
+        assert ic and ic[0]["type_thread"][-1] == "ice_cream"   # the MWE entry, not "cream"
+
+
+def _all_refs(node, out=None):
+    out = [] if out is None else out
+    if isinstance(node, dict):
+        if "entity_id" in node:
+            out.append(node)
+        for v in node.values():
+            _all_refs(v, out)
+    elif isinstance(node, list):
+        for v in node:
+            _all_refs(v, out)
+    return out
