@@ -72,10 +72,13 @@ def ingest_sparse_wiki(conn: sqlite3.Connection) -> int:
         print(f"  WARNING: {SPARSE_WIKI} missing — world strand skipped.")
         return 0
     src = sqlite3.connect(f"file:{SPARSE_WIKI}?mode=ro", uri=True)
+    # Include depth-0 (untyped) entities too: a known Wikipedia entity that lacks
+    # a DBpedia type still grounds to ["Thing"] — "known world entity, type
+    # unspecified" — which distinguishes it from a genuinely unknown name (flagged).
     cur = src.execute(
         """SELECT e.label, dp.path_nodes, dp.path_depth
            FROM dimension_positions dp JOIN entities e ON dp.entity_id=e.id
-           WHERE dp.dimension='TAXONOMIC' AND dp.path_depth>0"""
+           WHERE dp.dimension='TAXONOMIC'"""
     )
     rows, n = [], 0
     for label, path_nodes, depth in cur:

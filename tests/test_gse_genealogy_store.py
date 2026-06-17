@@ -68,6 +68,12 @@ def test_unknown_lemma_returns_empty(store):
     assert store.thread("zzqxnotaword", "NOUN", False) == ()
 
 
+def test_pronoun_gets_no_thread(store):
+    # A pronoun's identity is its antecedent, not a WordNet homograph ("I"→iodine).
+    assert store.candidates("i", "PRON", is_proper=False) == []
+    assert store.thread("he", "PRON", is_proper=False) == ()
+
+
 # -- world strand (sparse-wiki) ---------------------------------------------
 
 

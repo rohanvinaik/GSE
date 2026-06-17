@@ -61,6 +61,8 @@ class GenealogyStore:
         proper noun absent from the world strand gets an empty thread and
         ``grounding_flags`` flags it (honest abstention). Common noun → word
         strand."""
+        if pos == "PRON":
+            return []   # a pronoun's identity is its antecedent, not "I"→iodine
         if is_proper:
             return self._world(lemma)
         return self._word(lemma)
