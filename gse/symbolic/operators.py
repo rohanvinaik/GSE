@@ -18,7 +18,7 @@ from __future__ import annotations
 
 from typing import Callable, Dict
 
-from gse.symbolic.expression import Atom, Negation, Op, Operand, Phrase
+from gse.symbolic.expression import Negation, Op, Operand
 from gse.symbolic.predicates import (
     BoundaryCase,
     Causation,
@@ -273,6 +273,10 @@ def evaluate_tree(expr: Operand):
             args=evaluated_args,
         ))
     if isinstance(expr, Negation):
-        inner = evaluate_tree(expr.operand)
-        return Negation(operand=inner) if isinstance(inner, (Atom, Phrase, Negation, Op)) else inner
+        # Preserve the sign around WHATEVER the operand evaluates to — including a
+        # Predicate (a negated event/type-assertion, "X does not harm Y"). The old
+        # guard kept the wrapper only around leaves/Ops and dropped it for
+        # Predicates, silently losing clausal negation; emit_contract already
+        # turns a Negation(Predicate) into {"op": "NOT", ...}.
+        return Negation(operand=evaluate_tree(expr.operand))
     return expr

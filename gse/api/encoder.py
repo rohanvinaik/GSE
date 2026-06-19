@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 from gse.api.errors import OOVError, PrimitiveError
+from gse.api.parse_repair import verbs_to_promote
 from gse.api.trace import (
     ClauseSpan,
     OperationTrace,
@@ -136,6 +137,11 @@ class GSEEncoder:
         # 1. Tokenize
         doc = self.nlp(text)
 
+        # 1b. Upstream parse repair: spaCy mistags some verbs as nouns
+        #     ("Macbeth murders Duncan"). Promote buried verbs to POS=VERB so the
+        #     position-based EVENT synthesis downstream finds a predicate.
+        promote_to_verb = verbs_to_promote(doc)
+
         # 2. Process each token
         token_traces: List[TokenTrace] = []
         token_vectors: List[Tuple[int, SparseVector, Dict]] = []
@@ -176,7 +182,7 @@ class GSEEncoder:
             token_trace = TokenTrace(
                 token=tok.text,
                 lemma=tok.lemma_.lower(),
-                pos=tok.pos_,
+                pos=("VERB" if i in promote_to_verb else tok.pos_),
                 position=i,
                 word_primitives=word_prims,
                 sent_primitives=sent_prims,

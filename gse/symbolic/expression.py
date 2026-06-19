@@ -182,7 +182,7 @@ _COPULA_LEMMA = "be"
 _NOMINAL_POS = frozenset({"NOUN", "PROPN"})
 
 
-def _try_copula_type_assertion(tokens: Sequence[TokenTrace]) -> Optional[Op]:
+def _try_copula_type_assertion(tokens: Sequence[TokenTrace]) -> Optional[Expression]:
     """Synthesize a TYPE_ASSERT ``Op`` from a copula "X is a Y" sentence.
 
     The encoder tags the subject (SYN_SUBJ), the copula "be" (SYN_PRED),
@@ -209,23 +209,28 @@ def _try_copula_type_assertion(tokens: Sequence[TokenTrace]) -> Optional[Op]:
     if not (has_subject and has_nominal_complement):
         return None
 
+    # Negated type assertion ("X is not a Y"): drop the marker, wrap in Negation.
+    negated = any(t.lemma in _NEGATION_LEMMAS for t in tokens)
     subject_atoms = [
-        _atom_from_token(t) for t in tokens if t.position < copula.position
+        _atom_from_token(t) for t in tokens
+        if t.position < copula.position and t.lemma not in _NEGATION_LEMMAS
     ]
     complement_atoms = [
-        _atom_from_token(t) for t in tokens if t.position > copula.position
+        _atom_from_token(t) for t in tokens
+        if t.position > copula.position and t.lemma not in _NEGATION_LEMMAS
     ]
     if not subject_atoms or not complement_atoms:
         return None
-    return Op(
+    assertion = Op(
         primitive="COPULA",
         operation="TYPE_ASSERT",
         arity=2,
         args=[Phrase(atoms=subject_atoms), Phrase(atoms=complement_atoms)],
     )
+    return Negation(operand=assertion) if negated else assertion
 
 
-def _try_event(tokens: Sequence[TokenTrace]) -> Optional[Op]:
+def _try_event(tokens: Sequence[TokenTrace]) -> Optional[Expression]:
     """Synthesize an EVENT ``Op`` from a plain verb clause "X verbs Y".
 
     The base case the operator set was missing: a clause with an ordinary content
@@ -245,14 +250,22 @@ def _try_event(tokens: Sequence[TokenTrace]) -> Optional[Op]:
     )
     if verb is None:
         return None
-    subject_atoms = [_atom_from_token(t) for t in tokens if t.position < verb.position]
-    object_atoms = [_atom_from_token(t) for t in tokens if t.position > verb.position]
+    # Clausal negation ("X does not harm Y"): NOT is a sign-direction argument
+    # (sentence_architecture.md), so drop the marker from the argument spans and
+    # wrap the synthesized EVENT in a Negation — the same node the in-span path
+    # (_build_arg_expression) and the emitter already understand.
+    negated = any(t.lemma in _NEGATION_LEMMAS for t in tokens)
+    subject_atoms = [_atom_from_token(t) for t in tokens
+                     if t.position < verb.position and t.lemma not in _NEGATION_LEMMAS]
+    object_atoms = [_atom_from_token(t) for t in tokens
+                    if t.position > verb.position and t.lemma not in _NEGATION_LEMMAS]
     if not subject_atoms:
         return None
     args: List[Operand] = [Phrase(atoms=subject_atoms)]
     if object_atoms:
         args.append(Phrase(atoms=object_atoms))
-    return Op(primitive=verb.lemma, operation="EVENT", arity=len(args), args=args)
+    event = Op(primitive=verb.lemma, operation="EVENT", arity=len(args), args=args)
+    return Negation(operand=event) if negated else event
 
 
 def _build_operator_op(
