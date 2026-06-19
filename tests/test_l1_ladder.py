@@ -163,11 +163,15 @@ def test_clean_rungs_not_degraded(enc, sentence):
 # Frontier — the roadmap. xfail until the feature lands, then flip to assert.
 # ===========================================================================
 
-@pytest.mark.xfail(reason="A3 control not built yet", strict=False)
-def test_frontier_control(enc):  # A3
-    d = _tree(enc, "Lady Macbeth wanted Macbeth to become king.")
+def test_rung4_control(enc):  # A3
+    # subject control — controller is the matrix subject (period-leak fixed)
+    d = _tree(enc, "Macbeth wanted to become king.")
     assert _op(d, "CONTROL") is not None
     assert _event_binds(d, "become", "macbeth", "king")
+    # object control — controller is the matrix object
+    d2 = _tree(enc, "Macbeth persuaded Duncan to flee.")
+    assert _op(d2, "CONTROL") is not None
+    assert _event_binds(d2, "flee", "duncan")
 
 
 @pytest.mark.xfail(reason="B clause-level coordination not built yet", strict=False)

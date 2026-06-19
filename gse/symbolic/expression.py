@@ -418,6 +418,16 @@ def _wrap_antecedent(
     return expr, False
 
 
+def _is_all_punct(node: Operand) -> bool:
+    """True for a Phrase/Atom made only of punctuation. A trailing '.' parses as
+    an object/arg and must not be read as a real participant (controller, patient)."""
+    if isinstance(node, Atom):
+        return not any(c.isalnum() for c in node.lemma)
+    if isinstance(node, Phrase):
+        return bool(node.atoms) and all(_is_all_punct(a) for a in node.atoms)
+    return False
+
+
 def _build_control(
     matrix: Expression,
     emb: ClauseSpan,
@@ -450,8 +460,12 @@ def _build_control(
             operation="CONTROL", primitive="CTRL",
         )[0]
 
-    subject = matrix.args[0]
-    controller = matrix.args[1] if len(matrix.args) > 1 else matrix.args[0]
+    # Drop a punctuation-only arg the matrix picked up (trailing '.'), so the
+    # controller is the real object (object control) or the subject (subject
+    # control), not the period.
+    clean_args = [a for a in matrix.args if not _is_all_punct(a)] or list(matrix.args)
+    subject = clean_args[0]
+    controller = clean_args[1] if len(clean_args) > 1 else clean_args[0]
     inner_obj = [
         _atom_from_token(t) for t in inner_tokens if t.position > inner_verb.position
     ]
@@ -496,13 +510,7 @@ def _build_complement(
     if isinstance(matrix, Op) and matrix.operation == "EVENT":
         # Drop a punctuation-only arg the matrix may have picked up (the trailing
         # "." parses as an object), so the complement is the clean patient.
-        base_args = [
-            a for a in matrix.args
-            if not (isinstance(a, Phrase) and a.atoms
-                    and all(isinstance(x, Atom)
-                            and not any(c.isalnum() for c in x.lemma)
-                            for x in a.atoms))
-        ]
+        base_args = [a for a in matrix.args if not _is_all_punct(a)]
         return Op(
             primitive=matrix.primitive, operation="EVENT",
             arity=len(base_args) + 1, args=base_args + [inner],
