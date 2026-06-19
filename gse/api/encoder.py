@@ -228,6 +228,17 @@ class GSEEncoder:
                  if k == "sequential" and ps <= attaches < pe),
                 0,
             )
+            # A complement whose clause sits in a *different* sequential clause
+            # than its matrix verb is really a so/because-linked clause (spaCy
+            # tags the consequence verb as ccomp); the clause-linker owns it.
+            if kind == "complement":
+                span_clause = next(
+                    (cid for cid, ps, pe, k, _, _ in planned
+                     if k == "sequential" and ps <= s < pe),
+                    parent,
+                )
+                if span_clause != parent:
+                    continue
             planned.append((next_id, s, e, kind, parent, attaches))
             gap_roles[next_id] = gap_role
             next_id += 1
@@ -591,6 +602,12 @@ class GSEEncoder:
                     )
                 if sub and controller is not None:
                     embedded.append((sub[0], sub[-1] + 1, "control", controller, None))
+            elif tok.dep_ == "ccomp":
+                # Clausal complement ("X predicted that Y verbs Z"): a full
+                # proposition that becomes the reporting verb's patient.
+                sub = sorted(c.i for c in tok.subtree)
+                if sub:
+                    embedded.append((sub[0], sub[-1] + 1, "complement", tok.head.i, None))
         return embedded
 
     def _resolve_operator(

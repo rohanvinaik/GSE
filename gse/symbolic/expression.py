@@ -468,6 +468,48 @@ def _build_control(
     )
 
 
+def _build_complement(
+    matrix: Expression,
+    emb: ClauseSpan,
+    tokens: Sequence[TokenTrace],
+    operators: Sequence[OperatorTrace],
+    operator_positions: Sequence[int],
+) -> Expression:
+    """Inject a clausal complement as the reporting verb's patient.
+
+    "The witches predicted that Macbeth would become king" → the matrix
+    EVENT(predict; witches) gains the complement proposition EVENT(become;
+    Macbeth, king) as its patient. The complement carries its own subject, so it
+    builds as a normal event once the 'that' mark and modal auxiliaries are
+    dropped (the copula "be" is kept). Falls back to the matrix unchanged when it
+    isn't a clean EVENT (e.g. an already-nested matrix), losing nothing vs today.
+    """
+    content = [
+        t for t in tokens
+        if emb.token_start <= t.position < emb.token_end
+        and not (t.pos == "SCONJ" and t.lemma == "that")
+        and not (t.pos == "AUX" and t.lemma != _COPULA_LEMMA)
+    ]
+    inner = _try_copula_type_assertion(content) or _try_event(content)
+    if inner is None:
+        inner = _build_clause_expr(emb, tokens, operators, operator_positions)
+    if isinstance(matrix, Op) and matrix.operation == "EVENT":
+        # Drop a punctuation-only arg the matrix may have picked up (the trailing
+        # "." parses as an object), so the complement is the clean patient.
+        base_args = [
+            a for a in matrix.args
+            if not (isinstance(a, Phrase) and a.atoms
+                    and all(isinstance(x, Atom)
+                            and not any(c.isalnum() for c in x.lemma)
+                            for x in a.atoms))
+        ]
+        return Op(
+            primitive=matrix.primitive, operation="EVENT",
+            arity=len(base_args) + 1, args=base_args + [inner],
+        )
+    return matrix
+
+
 def _build_relative_restriction(
     emb: ClauseSpan,
     tokens: Sequence[TokenTrace],
@@ -624,5 +666,7 @@ def _from_trace_segmented(
             expr, _ = _wrap_antecedent(expr, emb.attaches_to_token, inner)
         elif emb.kind == "control":
             expr = _build_control(expr, emb, tokens, operators, operator_positions)
+        elif emb.kind == "complement":
+            expr = _build_complement(expr, emb, tokens, operators, operator_positions)
 
     return expr
