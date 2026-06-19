@@ -468,6 +468,54 @@ def _build_control(
     )
 
 
+def _build_relative_restriction(
+    emb: ClauseSpan,
+    tokens: Sequence[TokenTrace],
+    operators: Sequence[OperatorTrace],
+    operator_positions: Sequence[int],
+) -> Expression:
+    """Build a relative clause's restriction with the antecedent bound into the
+    relativizer's gap (``emb.gap_role``, from the encoder).
+
+    "Macbeth who trusted the witches" → EVENT(trust; Macbeth, witches) [subject
+    gap]; "the king whom Macbeth murdered" → EVENT(murder; Macbeth, king) [object
+    gap]. Falls back to the plain build when the gap role is unknown or the clause
+    has no content verb (e.g. the copular relative "who was the king", already
+    handled correctly by the default path).
+    """
+    inner_tokens = [
+        t for t in tokens
+        if emb.token_start <= t.position < emb.token_end and not _is_relativizer(t)
+    ]
+    verb = next(
+        (t for t in inner_tokens
+         if t.pos == "VERB" and t.lemma != _COPULA_LEMMA and not t.is_operator),
+        None,
+    )
+    if (verb is None or emb.gap_role not in ("subject", "object")
+            or emb.attaches_to_token is None):
+        return _build_clause_expr(
+            emb, tokens, operators, operator_positions, drop_relativizers=True
+        )
+
+    antecedent = _atom_from_token(tokens[emb.attaches_to_token])
+    before = [_atom_from_token(t) for t in inner_tokens if t.position < verb.position]
+    after = [_atom_from_token(t) for t in inner_tokens if t.position > verb.position]
+    if emb.gap_role == "object":
+        agent_atoms, patient_atoms = before, [antecedent]
+    else:  # subject gap — antecedent is the agent
+        agent_atoms, patient_atoms = [antecedent], after
+
+    if not agent_atoms:
+        return _build_clause_expr(
+            emb, tokens, operators, operator_positions, drop_relativizers=True
+        )
+    args: List[Operand] = [Phrase(atoms=agent_atoms)]
+    if patient_atoms:
+        args.append(Phrase(atoms=patient_atoms))
+    return Op(primitive=verb.lemma, operation="EVENT", arity=len(args), args=args)
+
+
 def from_trace(trace: OperationTrace) -> Expression:
     """Build a symbolic Expression from an OperationTrace.
 
@@ -569,11 +617,10 @@ def _from_trace_segmented(
     for emb in embedded:
         if emb.attaches_to_token is None:
             continue
-        inner = _build_clause_expr(
-            emb, tokens, operators, operator_positions,
-            drop_relativizers=(emb.kind == "relative"),
-        )
         if emb.kind == "relative":
+            inner = _build_relative_restriction(
+                emb, tokens, operators, operator_positions
+            )
             expr, _ = _wrap_antecedent(expr, emb.attaches_to_token, inner)
         elif emb.kind == "control":
             expr = _build_control(expr, emb, tokens, operators, operator_positions)

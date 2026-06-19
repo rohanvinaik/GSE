@@ -221,13 +221,15 @@ class GSEEncoder:
             (cid, s, e, "sequential", None, None) for cid, s, e in sequential
         ]
         next_id = len(sequential)
-        for s, e, kind, attaches in embedded:
+        gap_roles: Dict[int, Optional[str]] = {}  # clause_id → relativizer gap role
+        for s, e, kind, attaches, gap_role in embedded:
             parent = next(
                 (cid for cid, ps, pe, k, _, _ in planned
                  if k == "sequential" and ps <= attaches < pe),
                 0,
             )
             planned.append((next_id, s, e, kind, parent, attaches))
+            gap_roles[next_id] = gap_role
             next_id += 1
 
         def _innermost_of(pos: int) -> Optional[tuple]:
@@ -320,6 +322,7 @@ class GSEEncoder:
                     clause_id=cid, token_start=s, token_end=e,
                     operator_indices=within, kind=kind,
                     parent_id=parent_id, attaches_to_token=attaches,
+                    gap_role=gap_roles.get(cid),
                 )
             )
 
@@ -531,22 +534,46 @@ class GSEEncoder:
 
     def _detect_embedded_clauses(
         self, doc,
-    ) -> List[Tuple[int, int, str, int]]:
+    ) -> List[Tuple[int, int, str, int, Optional[str]]]:
         """Find embedded clauses that nest inside a parent span.
 
         Unlike because/so (which split the stream sequentially), relative
         clauses (spaCy ``relcl``) and control complements (``xcomp`` with a
         ``to`` particle) hang off a token *inside* a parent clause. Returns
-        ``(token_start, token_end, kind, attaches_to_token)`` per embedded
-        clause, where ``attaches_to_token`` is the antecedent (relative) or
-        controlling verb (control). See docs/COMPLEX_SENTENCE_DESIGN.md §M2.
+        ``(token_start, token_end, kind, attaches_to_token, gap_role)`` per
+        embedded clause, where ``attaches_to_token`` is the antecedent (relative)
+        or controlling verb (control), and ``gap_role`` is the relativizer's gap
+        ("subject"/"object", else None). See docs/COMPLEX_SENTENCE_DESIGN.md §M2.
         """
-        embedded: List[Tuple[int, int, str, int]] = []
+        embedded: List[Tuple[int, int, str, int, Optional[str]]] = []
         for tok in doc:
             if tok.dep_ == "relcl":
                 sub = sorted(c.i for c in tok.subtree)
                 if sub:
-                    embedded.append((sub[0], sub[-1] + 1, "relative", tok.head.i))
+                    # The relativizer is the gap-filling child of the relcl verb;
+                    # its dep tells us whether the antecedent is subject or object.
+                    relzr = next(
+                        (c for c in tok.children
+                         if c.pos_ == "PRON"
+                         and c.lemma_.lower() in {"who", "whom", "which", "that", "whose"}),
+                        None,
+                    )
+                    gap_role: Optional[str] = None
+                    if relzr is not None:
+                        if relzr.lemma_.lower() == "whom":
+                            gap_role = "object"  # accusative — unambiguous
+                        elif relzr.dep_ in ("dobj", "obj", "pobj"):
+                            gap_role = "object"
+                        elif relzr.dep_ in ("nsubj", "nsubjpass"):
+                            # spaCy mistags object relatives ("whom/that X verbed")
+                            # as nsubj; a real subject sibling means the relativizer
+                            # is actually the object gap.
+                            other_subject = any(
+                                c.i != relzr.i and c.dep_ in ("nsubj", "nsubjpass")
+                                for c in tok.children
+                            )
+                            gap_role = "object" if other_subject else "subject"
+                    embedded.append((sub[0], sub[-1] + 1, "relative", tok.head.i, gap_role))
             elif tok.dep_ == "xcomp" and any(
                 c.dep_ == "aux" and c.lemma_ == "to" for c in tok.children
             ):
@@ -563,7 +590,7 @@ class GSEEncoder:
                          if c.dep_ in ("nsubj", "nsubjpass")), None
                     )
                 if sub and controller is not None:
-                    embedded.append((sub[0], sub[-1] + 1, "control", controller))
+                    embedded.append((sub[0], sub[-1] + 1, "control", controller, None))
         return embedded
 
     def _resolve_operator(

@@ -461,10 +461,15 @@ def _contains_lemma(node, lemma: str) -> bool:
         return False
     if hasattr(node, "lemma"):  # Atom
         return node.lemma == lemma
-    if hasattr(node, "args"):  # Op
+    if hasattr(node, "args"):  # Op — the verb lemma rides on ``primitive``
+        if getattr(node, "primitive", None) == lemma:
+            return True
         return any(_contains_lemma(a, lemma) for a in node.args)
     if hasattr(node, "atoms"):  # Phrase
         return any(a.lemma == lemma for a in node.atoms)
+    # The verb lemma of an evaluated Event/Control predicate is a string field.
+    if getattr(node, "verb", None) == lemma:
+        return True
     # Predicates with content fields
     for fld in ("lhs", "rhs", "entity", "kind", "cause", "effect", "left", "right",
                 "threshold", "purpose", "member", "predicate",
