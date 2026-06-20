@@ -94,17 +94,24 @@ arcs. If it gets spaCy's failures right, that validates the yank empirically.
 
 ---
 
-## Workstream 2 — Complete the single-sentence (L1) scale
+## Workstream 2 — Complete the single-sentence (L1) scale ✅ DONE
 
-**Remaining gaps** (all currently spaCy *arc* mis-parses → fold into WS1's clause layer):
-- **B — fronted subordinator** `Because X, Y`: connective at position 0 makes an empty
-  leading clause + merges both clauses. Architecture issue: `_segment_clauses` assumes
-  the connective *is* the boundary (true for medial `Y because X`, false fronted — the
-  boundary is the comma). Fix decouples connective-position from split-boundary.
-- **C — clause coordination** `X verbed Y and Z verbed W`: spaCy mis-parses the
-  transitive case (reads `Y and Z` as an NP, makes the 2nd verb a `ccomp`). Note: it
-  parses *simple* clause-coord fine (`Macbeth slept and Duncan died` → `conj(died, slept)`).
-- **D — conditionals** `if/then`: no `IMPLIES` operator at all (net-new).
+**All gaps closed** — and exactly as predicted, B/C/D fell out of the *one* arc-free
+clause mechanism rather than three bespoke spaCy patches:
+- **B — fronted subordinator** `Because X, Y` ✅ (`dc3a37a`). `_segment_clauses` now
+  detects a fronted connective (no predicate before it) and splits at the following
+  comma / `then`, decoupling connective-position from split-boundary.
+- **C — clause coordination** `X verbed Y and Z verbed W` ✅ (`0a0a5ff`, earlier) —
+  the arc-free verb-inventory signal (a predicate on both sides of `and`).
+- **D — conditionals** `if/then` ✅ (`dc3a37a`). New `IMPLIES` clause-linking op +
+  `Conditional` predicate via the 5-touchpoint pattern; `if` detected arc-free.
+  Fronted *and* medial agree (`If X then Y` ≡ `Y if X`).
+
+The **L1 compositionality ladder is fully green — 18 rungs, 0 xfailed.** The whole
+single-sentence operator set (EVENT, TYPE_ASSERT, SET_DIFF, CONTRAST, COORDINATION,
+REL_RESTRICT, CONTROL, complement-embedding, CAUSAL_SOURCE, CONSEQUENCE,
+CLAUSE_COORD, IMPLIES) is recovered deterministically. See the vision doc §IV-G/§IV-H
+(full-architecture trace) for the end-to-end demonstration.
 
 **NSM / grammar research (shared prerequisite for WS1 and WS2).**
 - **Wierzbicka / Goddard — NSM** (Natural Semantic Metalanguage). GSE's primitive basis
