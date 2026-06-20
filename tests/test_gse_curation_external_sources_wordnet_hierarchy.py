@@ -194,80 +194,54 @@ class TestLoad:
 # ---------- to_primitives ----------
 
 class TestToPrimitives:
-    def test_unknown_empty(self):
-        p = WordNetHierarchyParser()
-        p._loaded = True
-        p.to_primitives.cache_clear()
-        assert p.to_primitives("nonexistent_xyz") == {}
+    """``to_primitives`` reads the PRIMARY noun sense's IS-A path from real
+    WordNet — primary-sense only (no union-over-senses bleed) and no
+    meronym/holonym→PART (a genuine part gets PART from its IS-A ancestor
+    instead). Exercised against the real taxonomy via a loaded parser."""
 
-    def test_lexname_mapping(self):
-        p = WordNetHierarchyParser()
-        p._loaded = True
-        p.to_primitives.cache_clear()
-        p.entries["dog"] = [mk_entry(word="dog", lexname="noun.animal")]
-        result = p.to_primitives("dog")
-        assert result["ALIVE"] == 1
-        assert result["SOMETHING"] == 1
+    @pytest.fixture(scope="class")
+    def p(self):
+        parser = WordNetHierarchyParser()
+        parser.load()
+        return parser
 
-    def test_no_lexname_no_mapping(self):
-        p = WordNetHierarchyParser()
-        p._loaded = True
-        p.to_primitives.cache_clear()
-        p.entries["x"] = [mk_entry(word="x", lexname=None)]
-        # Should still call _apply_ancestor with _wn=None → no-op
-        assert p.to_primitives("x") == {}
+    def test_unknown_empty(self, p):
+        assert p.to_primitives("nonexistent_xyz_qqq") == {}
 
-    def test_unknown_lexname_ignored(self):
-        p = WordNetHierarchyParser()
-        p._loaded = True
-        p.to_primitives.cache_clear()
-        p.entries["x"] = [mk_entry(word="x", lexname="unknown.domain")]
-        assert p.to_primitives("x") == {}
+    def test_no_noun_sense_empty(self, p):
+        # purely adjectival — no noun synset → no category
+        assert p.to_primitives("very") == {}
 
-    def test_meronyms_add_part(self):
-        p = WordNetHierarchyParser()
-        p._loaded = True
-        p.to_primitives.cache_clear()
-        p.entries["car"] = [mk_entry(word="car", lexname="noun.artifact", mero=True)]
-        result = p.to_primitives("car")
-        assert result["PART"] == 1
+    def test_primary_sense_category(self, p):
+        # dog's primary noun sense is the animal → ALIVE + SOMETHING
+        d = p.to_primitives("dog")
+        assert d.get("ALIVE") == 1
+        assert d.get("SOMETHING") == 1
 
-    def test_holonyms_add_part(self):
-        p = WordNetHierarchyParser()
-        p._loaded = True
-        p.to_primitives.cache_clear()
-        # Has holonyms but not meronyms
-        p.entries["wheel"] = [mk_entry(word="wheel", lexname=None, mero=False, holo=True)]
-        result = p.to_primitives("wheel")
-        assert result["PART"] == 1
+    def test_primary_sense_no_secondary_bleed(self, p):
+        # the "contemptible person" sense of dog must NOT bleed SOMEONE in
+        assert "SOMEONE" not in p.to_primitives("dog")
 
-    def test_first_value_wins(self):
-        p = WordNetHierarchyParser()
-        p._loaded = True
-        p.to_primitives.cache_clear()
-        # Two entries with different lexnames
-        p.entries["x"] = [
-            mk_entry(word="x", lexname="noun.animal"),  # ALIVE=1, SOMETHING=1
-            mk_entry(word="x", lexname="noun.cognition"),  # THINK=1
-        ]
-        result = p.to_primitives("x")
-        assert result["ALIVE"] == 1
-        assert result["THINK"] == 1
+    def test_body_part_gets_part_via_isa(self, p):
+        # a genuine body part inherits BODY/PART from its body_part ancestor
+        d = p.to_primitives("hand")
+        assert d.get("BODY") == 1
+        assert d.get("PART") == 1
 
-    def test_case_insensitive(self):
-        p = WordNetHierarchyParser()
-        p._loaded = True
-        p.to_primitives.cache_clear()
-        p.entries["dog"] = [mk_entry(word="dog", lexname="noun.animal")]
-        result = p.to_primitives("DOG")
-        assert result["ALIVE"] == 1
+    def test_no_meronym_part(self, p):
+        # an artifact "has parts" but is NOT a part → no PART (dropped rule)
+        assert "PART" not in p.to_primitives("car")
+
+    def test_case_insensitive(self, p):
+        assert p.to_primitives("DOG") == p.to_primitives("dog")
 
     def test_auto_loads(self):
-        p = WordNetHierarchyParser()
-        p.to_primitives.cache_clear()
-        with patch.object(p, "load") as mock_load:
-            mock_load.side_effect = lambda: setattr(p, "_loaded", True)
-            p.to_primitives("x")
+        parser = WordNetHierarchyParser()
+        parser.to_primitives.cache_clear()
+        with patch.object(parser, "load") as mock_load:
+            mock_load.side_effect = lambda: setattr(parser, "_loaded", True)
+            # mocked load leaves _wn unset → returns {} without raising
+            assert parser.to_primitives("x") == {}
             mock_load.assert_called_once()
 
 

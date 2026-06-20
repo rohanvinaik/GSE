@@ -659,14 +659,22 @@ class GSEEncoder:
                 continue
 
             trace = token_traces[i]
-            if vec.nnz > 0 and not trace.is_operator:
-                if a1s <= i < a1e:
-                    arg1_tokens.append(i)
-                    arg1_lemmas.append(trace.lemma)
+            if trace.is_operator:
+                continue
+            # Structural membership is by position, NOT by vector content: a
+            # structural token (e.g. the coordinator "and") legitimately has no
+            # word-scale primitives in a clean lexicon, but must stay in the arg
+            # span so the resolver can see the coordination. Only NON-EMPTY
+            # vectors feed the HDC math (an empty vector contributes nothing).
+            if a1s <= i < a1e:
+                arg1_tokens.append(i)
+                arg1_lemmas.append(trace.lemma)
+                if vec.nnz > 0:
                     arg1_vecs.append(vec)
-                elif a2s <= i < a2e:
-                    arg2_tokens.append(i)
-                    arg2_lemmas.append(trace.lemma)
+            elif a2s <= i < a2e:
+                arg2_tokens.append(i)
+                arg2_lemmas.append(trace.lemma)
+                if vec.nnz > 0:
                     arg2_vecs.append(vec)
 
         # Apply operation
