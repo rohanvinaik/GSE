@@ -78,6 +78,9 @@ _RELATIVIZERS = {"who", "whom", "which", "that", "whose"}
 _CLAUSE_LINKER_LEMMAS = {"because", "so", "and", "or", "but", "if"}
 _NOMINAL_POS_ENC = {"PROPN", "NOUN", "PRON"}
 _SENT_END_PUNCT = {".", "!", "?"}
+# Possessive determiners (spaCy dep ``poss`` → SYN_DET) tagged PRON, not DET.
+_POSSESSIVE_DET = {"my", "your", "his", "her", "its", "our", "their", "whose"}
+_NEG_LEMMAS = {"not", "n't"}
 
 # TAM (Tense-Aspect-Mood) from morphological features
 MORPH_TO_TAM = {
@@ -132,6 +135,10 @@ class GSEEncoder:
         self.conn = sqlite3.connect(self.db_path)
         self.cursor = self.conn.cursor()
 
+        # WS1: derive core syntactic roles arc-free (positional) rather than from
+        # spaCy ``dep_``. Flipped off only by the parity harness to A/B the two.
+        self._arcfree_syn = True
+
     def encode(self, text: str) -> OperationTrace:
         """
         Encode text to HDC vector with full operation trace.
@@ -156,6 +163,10 @@ class GSEEncoder:
         #     clause-linking CLAUSE_COORD operator so it becomes a clause boundary.
         clause_coords = self._clause_coordinator_positions(doc, promote_to_verb)
 
+        # 1d. Arc-free core syntactic roles (positional), computed once for the
+        #     sentence. ``None`` falls the per-token extractor back to spaCy dep_.
+        syn_map = self._syn_roles(doc, promote_to_verb) if self._arcfree_syn else None
+
         # 2. Process each token
         token_traces: List[TokenTrace] = []
         token_vectors: List[Tuple[int, SparseVector, Dict]] = []
@@ -171,7 +182,7 @@ class GSEEncoder:
             # DYNAMIC: Replace core syntactic role primitives based on dependency parsing
             # This ensures argument order matters (dog as SUBJ vs dog as OBJ)
             # The dynamic primitives OVERRIDE static ones for core roles
-            dynamic_sent_prims = self._extract_dynamic_primitives(tok)
+            dynamic_sent_prims = self._extract_dynamic_primitives(tok, syn_map)
 
             # Remove static core role primitives - dynamic parsing is authoritative
             core_roles = {"SYN_SUBJ", "SYN_OBJ", "SYN_PRED", "SYN_COMPL"}
@@ -414,23 +425,77 @@ class GSEEncoder:
         """Batch encoding."""
         return [self.encode(t) for t in texts]
 
-    def _extract_dynamic_primitives(self, tok) -> Dict[str, int]:
+    def _syn_roles(self, doc, promote_to_verb: Optional[set] = None) -> Dict[int, str]:
+        """WS1 arc-free core syntactic roles, keyed by token position.
+
+        Replaces ``DEP_TO_SYNTACTIC[tok.dep_]`` for the core roles
+        (SUBJ/PRED/OBJ/COMPL) with a positional assignment relative to the
+        verb-inventory: a nominal before any predicate is the subject; the
+        predicate is PRED; a nominal/adjective after a *copula* is a complement,
+        after a content verb an object. Modifier roles (ADJ_MOD/ADV_MOD/DET) come
+        from coarse POS (the dep map already collapses amod/compound→ADJ_MOD,
+        advmod/neg→ADV_MOD, det/poss→DET, so only the coarse class matters). No
+        spaCy ``dep_`` — derived from POS + position + the predicate positions.
         """
-        Extract dynamic syntactic primitives from spaCy token.
+        toks = list(doc)
+        n = len(toks)
+        promote = promote_to_verb or set()
 
-        This is the key to argument-order sensitivity. By binding word vectors
-        with their syntactic roles (SUBJ vs OBJ), we ensure that:
-        - "The dog is cuter than the cat" ≠ "The cat is cuter than the dog"
+        def is_pred(k: int) -> bool:
+            t = toks[k]
+            return (k in promote or t.pos_ == "VERB"
+                    or (t.pos_ == "AUX" and t.lemma_.lower() == "be"))
 
-        The formal semantics basis: CCG/Montague-style function application
-        where syntactic position determines semantic role.
+        def is_copula(k: int) -> bool:
+            return toks[k].lemma_.lower() == "be"
+
+        preds = [k for k in range(n) if is_pred(k)]
+
+        def prev_pred(k: int) -> Optional[int]:
+            return max((p for p in preds if p < k), default=None)
+
+        def after_copula(k: int) -> bool:
+            """The nearest predicate before ``k`` is a copula with no content
+            predicate intervening — so ``k`` is a predicate complement."""
+            pp = prev_pred(k)
+            return (pp is not None and is_copula(pp)
+                    and not any(is_pred(j) for j in range(pp + 1, k)))
+
+        roles: Dict[int, str] = {}
+        for k, t in enumerate(toks):
+            pos, lemma = t.pos_, t.lemma_.lower()
+            if pos == "DET" or lemma in _POSSESSIVE_DET:
+                roles[k] = "SYN_DET"
+            elif lemma in _NEG_LEMMAS or pos == "ADV":
+                roles[k] = "SYN_ADV_MOD"
+            elif pos == "ADJ":
+                roles[k] = "SYN_COMPL" if after_copula(k) else "SYN_ADJ_MOD"
+            elif is_pred(k):
+                roles[k] = "SYN_PRED"
+            elif pos in _NOMINAL_POS_ENC:
+                if prev_pred(k) is None:
+                    roles[k] = "SYN_SUBJ"
+                else:
+                    roles[k] = "SYN_COMPL" if after_copula(k) else "SYN_OBJ"
+        return roles
+
+    def _extract_dynamic_primitives(
+        self, tok, syn_map: Optional[Dict[int, str]] = None,
+    ) -> Dict[str, int]:
+        """Dynamic syntactic + TAM primitives for one token.
+
+        Core syntactic role comes from the arc-free ``syn_map`` (by position)
+        when provided; otherwise it falls back to the legacy spaCy ``dep_`` map
+        (kept only for the parity harness). TAM is read from morphology — still
+        token-local, replaced when the token engine is swapped.
         """
-        primitives = {}
+        primitives: Dict[str, int] = {}
 
-        # Map dependency label to syntactic primitive
-        if tok.dep_ in DEP_TO_SYNTACTIC:
-            syn_prim = DEP_TO_SYNTACTIC[tok.dep_]
-            primitives[syn_prim] = 1
+        if syn_map is not None:
+            if tok.i in syn_map:
+                primitives[syn_map[tok.i]] = 1
+        elif tok.dep_ in DEP_TO_SYNTACTIC:               # legacy arc path (parity)
+            primitives[DEP_TO_SYNTACTIC[tok.dep_]] = 1
 
         # Extract TAM (Tense-Aspect-Mood) from morphology
         morph_str = str(tok.morph)

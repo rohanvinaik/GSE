@@ -71,13 +71,35 @@ def main() -> int:
         enc._detect_embedded_clauses = arcfree_method
         if free_struct != arc_struct or free_hash != arc_hash:
             tdiv.append((text, free_hash != arc_hash, free_struct != arc_struct))
-    enc.close()
     print(f"[embedded_clauses:trace] {len(corpus)} sentences — "
           f"{'OK' if not tdiv else f'{len(tdiv)} DIVERGENCES'}")
     for text, hdiff, sdiff in tdiv:
         flags = ("hash " if hdiff else "") + ("struct" if sdiff else "")
         print(f"    {text!r}  [{flags}]")
     overall_ok = overall_ok and not tdiv
+
+    # --- trace-level: arc-free SYN roles vs spaCy dep_ (the recalibration) ----
+    # This conversion CANNOT be byte-identical (the dep map depends on spaCy's
+    # ROOT selection / embedded-verb deps). Report struct vs hash-only churn:
+    # struct divergence = a real semantic change (must be 0); hash-only = the
+    # deliberate vector recalibration the roadmap flagged.
+    sdiv_struct, sdiv_hashonly = [], []
+    for text in corpus:
+        enc._arcfree_syn = True
+        free_struct, free_hash = trace_struct(text)
+        enc._arcfree_syn = False
+        arc_struct, arc_hash = trace_struct(text)
+        enc._arcfree_syn = True
+        if free_struct != arc_struct:
+            sdiv_struct.append(text)
+        elif free_hash != arc_hash:
+            sdiv_hashonly.append(text)
+    enc.close()
+    print(f"[syn_roles:trace] {len(corpus)} sentences — "
+          f"{len(sdiv_struct)} STRUCT, {len(sdiv_hashonly)} hash-only")
+    for text in sdiv_struct:
+        print(f"    STRUCT  {text!r}")
+    overall_ok = overall_ok and not sdiv_struct
 
     return 0 if overall_ok else 2
 
