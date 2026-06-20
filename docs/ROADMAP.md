@@ -131,9 +131,55 @@ all prior rungs passing. B/C/D rungs are waiting (`test_frontier_*`).
 
 ---
 
-## Workstream 3 — Beyond the sentence (PRESERVED; delayed to later today)
+## Workstream 3 — Beyond the sentence: the register-dispatcher flywheel ▶ ACTIVE
 
-The whole post-sentence architecture. Do not lose this.
+**This is now the active workstream, and it has a unifying frame that *subsumes* the
+old L2/L3/frames/irony plans (Rohan, 2026-06): the dogfooding flywheel.** Full design
+in memory `project_l2_voice_modes_flywheel.md`.
+
+**The architecture.** A learned **register-ID dispatcher** (a small Society-of-Mind
+router — Minsky, trained over GSE's deterministic feature profile, NOT over text)
+classifies a text's register, and that selects a stack of **register-conditioned
+repair scripts ("voice modes")**. The coherence gate is the *trigger* (a flagged
+degraded clause invokes a repair); the dispatcher is the *selector* (register → which
+scripts). This is the same propose→veto / coherence primitive at every scale.
+
+**Why it inverts classical AI's brittleness.** Classical AI was one global ruleset →
+O(n²) cross-talk → brittleness grows with coverage. Here the dispatcher **partitions
+the input**: each voice-mode script is scoped to ONE register, never sees the others,
+so adding a register adds an *isolated, bounded* script (additive, not multiplicative).
+The dispatcher is what makes narrow scripts safe — it is the keystone; **build it first.**
+
+**The flywheel.** Better scripts → better meaning extraction → ingest weirder input
+(twitter / lolcat / messy) → build narrower scripts → better refinement → better SoM
+training data → tighter register-ID → narrower scripts → … Coverage expands while the
+system gets *more* refined. A second loop: context-spell-check resolves proper
+nouns / neologisms → sharper targeting → makes **sparse-wiki world-grounding** more
+urgent *and* more effective. The register taxonomy is **hierarchical with
+rule-inheritance** (Genesis `ARCHITECTURE.md` Part II-B is the engine; a doc inherits
+the script stack down its root-to-leaf path).
+
+**Autonomy closure (the apex).** Because Genesis imputes missing elements + induces
+rules, it can *write the voice-mode scripts itself*: find a representation hole (a
+coherence failure the dogfooding diagnostic surfaces) → impute the missing meaning →
+generate the repair script; plus auto-audit/**merge** scripts that yield identical
+meaning-representation (coherence-preserving consolidation). The script library
+self-extends *and* self-prunes — the "ad infinitum" made real. (Genesis Part II-B
+Tier-3; gated on the WIN-oracle question.)
+
+**The facets this subsumes** (all "ID the register → apply its scripts"):
+frames / k-lines (the script stacks), genre-selection (the dispatcher), negative
+learning (k-line censors), irony/humor (L3 voice-modes, frame-conditioned),
+sparse-wiki grounding (the second-loop world layer).
+
+**Build order:** (1) the deterministic *signal layer* — `gse/discourse/profile.py`,
+text → GSE feature profile (DONE, validated on Brown). (2) the *corpus* — Brown
+(NLTK, genre-labeled) → labeled profile vectors (also the dogfooding failure-list).
+(3) the *dispatcher* — the SoM router, three-stage (per the SoM design doc). (4) the
+*voice-modes* (spell-check first) plug into the dispatcher. Sentence-scale (L1, WS1+WS2)
+is the substrate this all routes over — done.
+
+---
 
 **Unifying principle (Rohan's sparse-wiki insight): scope expansion *collapses*
 uncertainty, it doesn't expand it.** A clause is under-determined in isolation; each
