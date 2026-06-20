@@ -28,7 +28,12 @@ from typing import Any, List, Optional
 
 from gse.api.parse_repair import _has_adjective_sense, _has_verb_sense
 from gse.symbolic.expression import Atom, Negation, Phrase
-from gse.symbolic.predicates import Causation, ClauseCoordination, Contrast
+from gse.symbolic.predicates import (
+    Causation,
+    ClauseCoordination,
+    Conditional,
+    Contrast,
+)
 from gse.symbolic.resolution import Coordination, Entity
 
 _NOMINAL_POS = {"PROPN", "NOUN", "PRON"}
@@ -99,6 +104,9 @@ def coherence_report(tree: Any, trace) -> List[dict]:
         elif isinstance(node, (Contrast, ClauseCoordination)):
             visit(node.left)
             visit(node.right)
+        elif isinstance(node, Conditional):
+            visit(node.antecedent)
+            visit(node.consequent)
         elif isinstance(node, Negation):
             visit(node.operand)
         elif isinstance(node, _BARE):

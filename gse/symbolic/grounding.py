@@ -38,6 +38,7 @@ _OPERAND_FIELDS: Dict[str, Tuple[str, ...]] = {
     "Contrast": ("left", "right"),
     "ClauseCoordination": ("left", "right"),
     "Causation": ("cause", "effect"),
+    "Conditional": ("antecedent", "consequent"),
     "RelativeRestriction": ("head", "restriction"),
     "Control": ("subject", "controller", "inner"),
 }

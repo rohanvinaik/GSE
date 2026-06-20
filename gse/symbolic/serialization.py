@@ -22,6 +22,7 @@ from gse.symbolic.expression import Atom, Expression, Negation, Op, Phrase
 from gse.symbolic.predicates import (
     BoundaryCase,
     Causation,
+    Conditional,
     Comparison,
     ClauseCoordination,
     Contrast,
@@ -171,6 +172,13 @@ def to_dict(node: Node) -> Dict[str, Any]:
             "effect": to_dict(node.effect),
             "conjunction": node.conjunction,
         }
+    if isinstance(node, Conditional):
+        return {
+            "_kind": "Conditional",
+            "antecedent": to_dict(node.antecedent),
+            "consequent": to_dict(node.consequent),
+            "conjunction": node.conjunction,
+        }
     if isinstance(node, TypeAssertion):
         return {
             "_kind": "TypeAssertion",
@@ -302,6 +310,12 @@ def from_dict(d: Dict[str, Any]) -> Node:
             cause=from_dict(d["cause"]),
             effect=from_dict(d["effect"]),
             conjunction=d.get("conjunction", "so"),
+        )
+    if kind == "Conditional":
+        return Conditional(
+            antecedent=from_dict(d["antecedent"]),
+            consequent=from_dict(d["consequent"]),
+            conjunction=d.get("conjunction", "if"),
         )
     if kind == "TypeAssertion":
         return TypeAssertion(

@@ -42,6 +42,7 @@ from gse.symbolic.predicates import (
     Causation,
     ClauseCoordination,
     Comparison,
+    Conditional,
     Contrast,
     Control,
     DegreeQuery,
@@ -95,7 +96,7 @@ __all__ = [
     # AST
     "Atom", "Expression", "Negation", "Op", "Phrase", "from_trace",
     # Predicates
-    "BoundaryCase", "Causation", "ClauseCoordination", "Comparison", "Contrast", "Control",
+    "BoundaryCase", "Causation", "ClauseCoordination", "Comparison", "Conditional", "Contrast", "Control",
     "DegreeQuery", "Equality", "Event", "MinimalSufficiency", "Predicate",
     "RelativeRestriction", "SetRestriction", "TypeAssertion", "TypeQuery",
     # Dispatch

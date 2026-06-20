@@ -130,6 +130,21 @@ class ClauseCoordination:
 
 
 @dataclass(frozen=True)
+class Conditional:
+    """Antecedent ⇒ consequent. Produced by COMP_IF / IMPLIES.
+
+    "If X then Y" → ``Conditional(antecedent=X-clause, consequent=Y-clause)``: the
+    consequent is asserted *conditionally* on the antecedent, not categorically
+    (distinct from :class:`Causation`, which asserts both clauses and a causal
+    link between them). A clause-linking predicate, folded in ``from_trace`` like
+    the other clause linkers.
+    """
+    antecedent: Operand
+    consequent: Operand
+    conjunction: str = "if"
+
+
+@dataclass(frozen=True)
 class Causation:
     """Cause → effect. Produced by COMP_SO and COMP_BECAUSE.
 
@@ -249,6 +264,7 @@ Predicate = Union[
     Contrast,
     ClauseCoordination,
     Causation,
+    Conditional,
     RelativeRestriction,
     Control,
 ]

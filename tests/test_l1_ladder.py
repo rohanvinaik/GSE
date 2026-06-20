@@ -185,7 +185,31 @@ def test_frontier_clause_coordination(enc):  # B — landed (WS1: arc-free claus
     assert _event_binds(d, "kill", "macduff", "macbeth")
 
 
-@pytest.mark.xfail(reason="D conditionals not built yet", strict=False)
-def test_frontier_conditional(enc):  # D
+def test_frontier_conditional(enc):  # D — landed (WS1: fronted if/then → IMPLIES)
     d = _tree(enc, "If Macbeth murders Duncan then Macduff will flee.")
     assert _op(d, "IMPLIES") is not None
+    # antecedent (the if-clause) and consequent (the then-clause) each recovered,
+    # with correctly-bound arguments, neither swallowed into the other.
+    assert _event_binds(d, "murder", "macbeth", "duncan")
+    assert _event_binds(d, "flee", "macduff")
+    assert _event(_event(d, "murder"), "flee") is None
+    # Medial "Y if X" agrees with fronted: the if-clause is the antecedent in both.
+    m = _tree(enc, "Macduff flees if Macbeth murders Duncan")
+    assert _op(m, "IMPLIES") is not None
+    assert _event_binds(m, "murder", "macbeth", "duncan")
+    assert _event_binds(m, "flee", "macduff")
+
+
+def test_frontier_fronted_causal(enc):  # B — landed (WS1: fronted subordinator)
+    # "Because X, Y" — the connective is fronted (position 0); the boundary is the
+    # comma, not the connective. Same mechanism as the conditional, and the
+    # cause/effect inversion vs the medial case is handled (cause = the because-
+    # clause, effect = the main clause).
+    d = _tree(enc, "Because Macbeth murdered Duncan, Macduff fled.")
+    assert _op(d, "CAUSAL_SOURCE") is not None
+    assert _event_binds(d, "murder", "macbeth", "duncan")
+    assert _event_binds(d, "flee", "macduff")
+    # the fronted reading must match the medial one: X causes Y.
+    medial = _tree(enc, "Macduff fled because Macbeth murdered Duncan.")
+    assert _op(medial, "CAUSAL_SOURCE") is not None
+    assert _event_binds(medial, "murder", "macbeth", "duncan")

@@ -172,6 +172,11 @@ class GSEEncoder:
         #     clause-linking CLAUSE_COORD operator so it becomes a clause boundary.
         clause_coords = self._clause_coordinator_positions(doc, promote_to_verb)
 
+        # 1c'. Fronted conditional "if": a clause-initial "if" with a predicate in
+        #      its antecedent → the IMPLIES clause-linker. Not a lexicon operator
+        #      ("if" carries no comp_operation), so it is marked here like "and".
+        implies_positions = self._conditional_positions(doc, promote_to_verb)
+
         # 1d. Arc-free core syntactic roles (positional), computed once for the
         #     sentence. ``None`` falls the per-token extractor back to spaCy dep_.
         syn_map = self._syn_roles(doc, promote_to_verb) if self._arcfree_syn else None
@@ -187,6 +192,9 @@ class GSEEncoder:
             if i in clause_coords:
                 comp_meta = {"comp_primitive": "COMP_AND",
                              "comp_operation": "CLAUSE_COORD", "comp_arity": 2}
+            if i in implies_positions:
+                comp_meta = {"comp_primitive": "COMP_IF",
+                             "comp_operation": "IMPLIES", "comp_arity": 2}
 
             # DYNAMIC: Replace core syntactic role primitives based on dependency parsing
             # This ensures argument order matters (dog as SUBJ vs dog as OBJ)
@@ -244,7 +252,7 @@ class GSEEncoder:
             (op_idx, token_vectors[op_idx][2].get("comp_operation"))
             for op_idx in operator_indices
         ]
-        sequential = self._segment_clauses(n_tokens, op_meta)
+        sequential = self._segment_clauses(token_traces, op_meta)
         embedded = self._detect_embedded_clauses(doc, promote_to_verb)
 
         # An embedded clause forces clause planning even without a sequential
@@ -633,24 +641,55 @@ class GSEEncoder:
                     out.add(i)
         return out
 
+    def _conditional_positions(self, doc, promote_to_verb) -> set:
+        """Positions of a fronted conditional ``if`` — the IMPLIES clause-linker.
+
+        ``if`` carries no lexicon ``comp_operation`` (unlike because/so), so a
+        clause-initial ``if`` whose antecedent contains a content predicate is
+        marked here as the IMPLIES operator (arc-free; POS/lemma only). The
+        ``then``/comma boundary between antecedent and consequent is found by
+        :meth:`_segment_clauses`. Bare/medial ``if`` with no following predicate
+        is left alone.
+        """
+        toks = list(doc)
+        out = set()
+        for i, t in enumerate(toks):
+            if t.lemma_.lower() != "if":
+                continue
+            if any((j in promote_to_verb or toks[j].pos_ == "VERB")
+                   for j in range(i + 1, len(toks))):
+                out.add(i)
+        return out
+
     def _segment_clauses(
         self,
-        n_tokens: int,
+        tokens: List[TokenTrace],
         op_meta: List[Tuple[int, Optional[str]]],
     ) -> List[Tuple[int, int, int]]:
         """Partition the token stream into clause spans at clause boundaries.
 
         ``op_meta`` is ``[(op_idx, operation), ...]`` for every operator token.
-        A clause-linking operator (CONSEQUENCE, CAUSAL_SOURCE, …) is a boundary:
-        the connective token belongs to no clause, and the tokens on either side
-        form separate clauses.
+        A clause-linking operator (CONSEQUENCE, CAUSAL_SOURCE, IMPLIES, …) is a
+        boundary: the connective token belongs to no clause, and the clauses on
+        either side form separate spans.
 
-        Returns an ordered list of ``(clause_id, token_start, token_end)`` with
-        ``token_end`` exclusive, or ``[]`` when there is no clause-linking
-        operator (a single implicit clause — the existing single-clause path
-        handles it unchanged). M1 segments on clause-linking operators only;
-        clause punctuation is deferred to a later milestone.
+        Two shapes:
+
+        * **Medial** ``Y because X`` — the connective sits between two clauses;
+          split at the connective position (the original behavior).
+        * **Fronted** ``Because X, Y`` / ``If X then Y`` — the connective is at the
+          clause front (no predicate before it) and BOTH clauses sit to its right,
+          separated by the comma (because) or ``then`` (if). The connective and
+          that boundary marker belong to no clause. The two spans are emitted in
+          the **operator's arg order** so ``from_trace``'s surface fold builds the
+          right predicate without special-casing: CAUSAL_SOURCE wants
+          ``[effect=main, cause=dependent]`` (its builder swaps), IMPLIES wants
+          ``[antecedent=dependent, consequent=main]``.
+
+        Returns ``(clause_id, token_start, token_end)`` (end exclusive), or ``[]``
+        for a single implicit clause (the single-clause path handles it unchanged).
         """
+        n = len(tokens)
         boundaries = sorted(
             idx for idx, operation in op_meta
             if operation and is_clause_linking(operation)
@@ -658,6 +697,25 @@ class GSEEncoder:
         if not boundaries:
             return []
 
+        # Fronted subordinator: one clause-linking connective, no predicate before it.
+        first = boundaries[0]
+        has_pred_before = any(t.pos == "VERB" for t in tokens if t.position < first)
+        if len(boundaries) == 1 and not has_pred_before:
+            boundary = next(
+                (t.position for t in tokens
+                 if t.position > first and (t.lemma == "then" or t.token == ",")),
+                None,
+            )
+            if boundary is not None and boundary + 1 < n:
+                dep = (first + 1, boundary)        # dependent (subordinate) clause
+                main = (boundary + 1, n)           # main clause
+                # The subordinate clause is the arg1/right operand for every
+                # subordinator (CAUSAL_SOURCE, IMPLIES — their builders swap), so
+                # emit [main, dependent] uniformly. This matches the medial
+                # reading ("Y because/if X"), so fronted and medial agree.
+                return [(0, main[0], main[1]), (1, dep[0], dep[1])]
+
+        # Medial: split at each connective position.
         spans: List[Tuple[int, int, int]] = []
         clause_id = 0
         start = 0
@@ -665,7 +723,7 @@ class GSEEncoder:
             spans.append((clause_id, start, b))
             clause_id += 1
             start = b + 1  # skip the connective token itself
-        spans.append((clause_id, start, n_tokens))
+        spans.append((clause_id, start, n))
         return spans
 
     def _detect_embedded_clauses(

@@ -44,6 +44,8 @@ OPERATION_TIER = {
     "CLAUSE_COORD": OperationTier.CLAUSE_LINKING,
     "CAUSAL_SOURCE": OperationTier.CLAUSE_LINKING,
     "CONSEQUENCE": OperationTier.CLAUSE_LINKING,
+    # IMPLIES is clause-level "if X then Y" — a clause boundary like because/so.
+    "IMPLIES": OperationTier.CLAUSE_LINKING,
     "REL_RESTRICT": OperationTier.CLAUSE_LINKING,
     "CONTROL": OperationTier.CLAUSE_LINKING,
 }

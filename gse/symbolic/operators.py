@@ -24,6 +24,7 @@ from gse.symbolic.predicates import (
     Causation,
     Comparison,
     ClauseCoordination,
+    Conditional,
     Contrast,
     Control,
     DegreeQuery,
@@ -232,6 +233,18 @@ def causal_source(op: Op) -> Causation:
     return Causation(cause=op.args[1], effect=op.args[0], conjunction="because")
 
 
+def conditional(op: Op) -> Conditional:
+    """COMP_IF / IMPLIES — antecedent ⇒ consequent.
+
+    Like CAUSAL_SOURCE, the *subordinate* clause (the if-clause) is the arg1/right
+    operand in both readings — "Y if X" (medial) and "If X then Y" (fronted, where
+    the encoder presents the clauses as ``[consequent, antecedent]``). So the
+    if-clause is always the antecedent: antecedent = arg1, consequent = arg0.
+    """
+    _require_arity(op, 2)
+    return Conditional(antecedent=op.args[1], consequent=op.args[0])
+
+
 # ---------------------------------------------------------------------------
 # Dispatch
 # ---------------------------------------------------------------------------
@@ -250,6 +263,7 @@ OPERATION_DISPATCH: Dict[str, Callable[[Op], Predicate]] = {
     "CLAUSE_COORD":   clause_coordination,
     "CONSEQUENCE":    consequence,
     "CAUSAL_SOURCE":  causal_source,
+    "IMPLIES":        conditional,
     "REL_RESTRICT":   rel_restrict,
     "CONTROL":        control,
     "EVENT":          event,
