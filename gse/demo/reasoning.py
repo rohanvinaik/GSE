@@ -130,8 +130,9 @@ def run(encoder: GSEEncoder, genealogy=None) -> None:
     print(_rule())
     print("  Reasoning is set operations over a typed clause graph: the premises")
     print("  were English sentences; the conclusions are derivations with")
-    print("  provenance; the determinism is structural. (spaCy supplies POS/deps")
-    print("  up front; everything from the clause graph down is symbolic.)")
+    print("  provenance; the determinism is structural. (A deterministic")
+    print("  GSE-native front-end supplies POS; everything from the clause")
+    print("  structure down is symbolic — no statistical parser anywhere.)")
     print(_rule())
     print()
 

@@ -20,8 +20,9 @@ What it shows, by producing output you can read at a glance:
    produces the *same* structure.
 
 No neural network runs at the semantic layer. No GPU. No training. Laptop-class.
-spaCy (a small, fixed parser) is the only learned component, and it sits in
-front of the deterministic core.
+There is no learned component at all: a deterministic GSE-native front-end
+(rule tokenizer + WordNet lemmatizer + coarse-POS tagger) feeds the symbolic
+core — clause structure is derived from connectives and position, not statistics.
 """
 
 from __future__ import annotations
@@ -217,9 +218,9 @@ def run(encoder: GSEEncoder) -> None:
     print()
     print(_rule())
     print("  The structure above is built by integer set operations over a")
-    print("  precompiled lexicon — no model weights at the semantic layer, no")
-    print("  sampling, no API call. (spaCy, a small fixed parser, only supplies")
-    print("  parts of speech and dependencies up front.)")
+    print("  precompiled lexicon — no model weights anywhere, no sampling, no")
+    print("  API call. A deterministic GSE-native front-end supplies parts of")
+    print("  speech; clause structure is derived from connectives and position.)")
     print(_rule())
     print()
 
