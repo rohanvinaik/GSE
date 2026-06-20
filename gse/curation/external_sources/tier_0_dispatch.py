@@ -37,6 +37,15 @@ def _build_tier_0_set() -> FrozenSet[str]:
 
 TIER_0_PRIMITIVES: FrozenSet[str] = _build_tier_0_set()
 
+# Homograph exponents — primes whose English exponent SPELLING also carries a common,
+# UNRELATED sense: ``kind`` (nice, ADJ) ≠ the KIND prime ("a kind of"); ``like`` (enjoy,
+# VERB) ≠ the LIKE prime ("like this"). Matching on spelling alone shadowed the real word
+# (it got ``{KIND:1}``/``{LIKE:1}`` and was skipped from aggregation). The prime stays a
+# basis axis regardless; the WORD must decompose to its dominant sense instead. The closed
+# 68-prime basis makes this set enumerable — review the exponents, don't guess.
+# (KIND/LIKE confirmed 2026-06-20; see the negation re-assessment / lexicon-clean memory.)
+HOMOGRAPH_EXPONENTS: FrozenSet[str] = frozenset({"KIND", "LIKE"})
+
 
 def _normalize_lemma(lemma: str) -> str:
     """Map a spaCy-style lemma to the PRIMITIVE_REGISTRY key form.
@@ -54,11 +63,13 @@ def canonical_decomposition(lemma: str) -> Optional[Dict[str, int]]:
     Otherwise return ``None`` so the caller falls back to aggregation.
     """
     key = _normalize_lemma(lemma)
-    if key in TIER_0_PRIMITIVES:
+    if key in TIER_0_PRIMITIVES and key not in HOMOGRAPH_EXPONENTS:
         return {key: 1}
     return None
 
 
 def is_tier_0(lemma: str) -> bool:
-    """True if ``lemma`` has a definitional decomposition."""
-    return _normalize_lemma(lemma) in TIER_0_PRIMITIVES
+    """True if ``lemma`` has a definitional decomposition (a prime exponent that is not a
+    homograph of an unrelated common word)."""
+    key = _normalize_lemma(lemma)
+    return key in TIER_0_PRIMITIVES and key not in HOMOGRAPH_EXPONENTS
