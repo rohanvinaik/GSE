@@ -26,6 +26,13 @@ from nltk.corpus import wordnet as wn
 
 _NOMINAL_POS = {"PROPN", "NOUN", "PRON"}
 
+# Tokens skipped when finding the nearest *content* flanker (determiners and
+# punctuation sit between a verb and its arguments without being arguments).
+# Locality alone discriminates the copula cases the arc version drew via arcs:
+# "Duncan is a king" (right content = king → promote, feeds TYPE_ASSERT) vs
+# "Mike is taller than Rex" (right content = taller/ADJ → no promote).
+_SKIP_FLANK_POS = {"PUNCT", "DET"}
+
 
 def _has_verb_sense(lemma: str) -> bool:
     """Dictionary fact: does this lemma have a verb reading? (Not a verb list.)"""
@@ -53,9 +60,43 @@ def _entity_like(tok) -> bool:
 def verbs_to_promote(doc) -> Set[int]:
     """Token indices of buried (mis-tagged) verbs to promote to ``pos == VERB``.
 
-    A buried verb is a non-VERB token whose lemma has a verb sense and which is
-    flanked, within its dependency arc-neighbourhood (children + head), by
-    entity-like tokens on both sides.
+    A buried verb is a non-VERB token whose lemma has a verb sense and whose
+    nearest *content* token on each side (determiners/punctuation skipped) is
+    entity-like — the transitive-mistag signature (subject before, object
+    after). WS1: the flanking signal is *positional* (the token stream), NOT
+    spaCy dependency arcs — ``children``/``head`` are never read. Validated to
+    match the arc version on the bounded register (``scripts/ws1_parity.py``);
+    the coherence gate flags any tail divergence.
+    """
+    toks = list(doc)
+
+    def _nearest_content(i: int, step: int):
+        j = i + step
+        while 0 <= j < len(toks):
+            if toks[j].pos_ not in _SKIP_FLANK_POS:
+                return toks[j]
+            j += step
+        return None
+
+    promote: Set[int] = set()
+    for i, t in enumerate(toks):
+        if t.pos_ in ("VERB", "PUNCT"):
+            continue
+        if not _has_verb_sense(t.lemma_):
+            continue
+        left = _nearest_content(i, -1)
+        right = _nearest_content(i, +1)
+        if left is not None and right is not None \
+                and _entity_like(left) and _entity_like(right):
+            promote.add(t.i)
+    return promote
+
+
+def _verbs_to_promote_arcs(doc) -> Set[int]:
+    """Legacy arc-based reference — kept only for the WS1 parity harness.
+
+    Reads spaCy ``children``/``head``/``dep_``; the production path no longer
+    does. Delete once the parity gate is green and the engine swap lands.
     """
     promote: Set[int] = set()
     for t in doc:
@@ -64,7 +105,7 @@ def verbs_to_promote(doc) -> Set[int]:
         if not _has_verb_sense(t.lemma_):
             continue
         neighbors = list(t.children)
-        if t.head.i != t.i:  # not the ROOT (which heads itself)
+        if t.head.i != t.i:
             neighbors.append(t.head)
         ents = [n for n in neighbors if n.dep_ != "punct" and _entity_like(n)]
         if any(n.i < t.i for n in ents) and any(n.i > t.i for n in ents):
