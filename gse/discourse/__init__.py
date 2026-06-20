@@ -18,10 +18,20 @@ from gse.discourse.profile import (
     split_sentences,
     text_profile,
 )
+from gse.discourse.registers import (
+    ALL_GENRES,
+    GENRE_TO_CLASS,
+    REGISTER_TAXONOMY,
+    register_class_of,
+)
 
 __all__ = [
     "PROFILE_FIELDS",
     "TextProfile",
     "split_sentences",
     "text_profile",
+    "REGISTER_TAXONOMY",
+    "GENRE_TO_CLASS",
+    "ALL_GENRES",
+    "register_class_of",
 ]

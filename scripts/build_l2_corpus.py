@@ -47,17 +47,53 @@ _LISTS = [
     "Nine o'clock standup. Ten o'clock design review. Noon lunch. Two o'clock client call.",
 ]
 _VERSE_FILES = ["blake-poems.txt", "whitman-leaves.txt", "milton-paradise.txt"]
+_SHAKESPEARE_FILES = ["shakespeare-macbeth.txt", "shakespeare-hamlet.txt",
+                      "shakespeare-caesar.txt"]
+
+
+def _chunks(sents, max_sents: int, n_chunks: int):
+    for ci in range(n_chunks):
+        chunk = sents[ci * max_sents:(ci + 1) * max_sents]
+        if chunk:
+            yield ci, chunk
 
 
 def _providers(docs_per_genre: int, max_sents: int):
-    """Yield ``(register_class, genre, source, doc_id, text)`` across all sources."""
-    from nltk.corpus import brown, gutenberg
+    """Yield ``(register_class, genre, source, doc_id, text)`` across all sources.
+
+    Genres must be declared in ``gse.discourse.REGISTER_TAXONOMY`` (validated in
+    ``main``) so the corpus and the router share one label space.
+    """
+    from nltk.corpus import brown, gutenberg, nps_chat, reuters
 
     # SPEECH-derived prose — Brown's genre-balanced documents.
     for cat in brown.categories():
         for fid in brown.fileids(categories=cat)[:docs_per_genre]:
             yield ("speech", cat, "brown", f"brown/{fid}",
                    _join(brown.sents(fid)[:max_sents]))
+
+    # SPEECH · chat — NPS chat posts (fragmentary, conversational), chunked.
+    posts = nps_chat.posts()
+    for ci in range(docs_per_genre):
+        chunk = posts[ci * max_sents:(ci + 1) * max_sents]
+        if chunk:
+            yield ("speech", "chat", "nps_chat", f"chat/{ci}", _join(chunk))
+
+    # SPEECH · newswire — Reuters wire stories.
+    for fid in reuters.fileids()[:docs_per_genre]:
+        yield ("speech", "newswire", "reuters", f"newswire/{fid}",
+               _join(reuters.sents(fid)[:max_sents]))
+
+    # SPEECH · archaic_english — the 1611 KJV.
+    for ci, chunk in _chunks(gutenberg.sents("bible-kjv.txt"), max_sents, 4):
+        yield ("speech", "archaic_english", "gutenberg",
+               f"archaic/kjv-{ci}", _join(chunk))
+
+    # SPEECH · shakespeare — Early Modern verse drama.
+    for sf in _SHAKESPEARE_FILES:
+        for ci, chunk in _chunks(gutenberg.sents(sf), max_sents, 2):
+            yield ("speech", "shakespeare", "gutenberg",
+                   f"shakespeare/{sf}-{ci}", _join(chunk))
 
     # NON-SPEECH · poetry/verse — gutenberg verse, chunked.
     for vf in _VERSE_FILES:
@@ -113,14 +149,16 @@ def main() -> int:
     args = ap.parse_args()
 
     import nltk
-    for name, path in [("brown", "corpora/brown"), ("gutenberg", "corpora/gutenberg")]:
+    for name, path in [("brown", "corpora/brown"), ("gutenberg", "corpora/gutenberg"),
+                       ("nps_chat", "corpora/nps_chat"), ("reuters", "corpora/reuters"),
+                       ("punkt", "tokenizers/punkt")]:
         try:
             nltk.data.find(path)
         except LookupError:
             nltk.download(name, quiet=True)
 
     from gse.api import GSEEncoder
-    from gse.discourse import text_profile
+    from gse.discourse import register_class_of, text_profile
 
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -130,6 +168,12 @@ def main() -> int:
     with out.open("a") as fh:
         for reg_class, genre, source, doc_id, text in _providers(
                 args.docs_per_genre, args.max_sents):
+            # Keep providers and the taxonomy in sync: every emitted genre must be
+            # declared, and its declared class must match what the provider claims.
+            if register_class_of(genre) != reg_class:
+                raise ValueError(
+                    f"{doc_id}: genre {genre!r} is class {register_class_of(genre)!r}, "
+                    f"not {reg_class!r} — fix REGISTER_TAXONOMY or the provider")
             if doc_id in done or not text.strip():
                 continue
             p = text_profile(enc, text)
