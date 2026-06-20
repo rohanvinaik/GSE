@@ -36,16 +36,20 @@ over clause results by tier + surface order.**
 
 ## 1. Agreed decisions
 
-- **(A) Segmentation runs in the encoder.** It owns spaCy's dependency labels
-  (`mark`/`cc`/`relcl`) that mark boundaries. Clause spans are emitted into the
-  trace (the serialized contract); `from_trace` consumes them.
+- **(A) Segmentation runs in the encoder.** It derives clause boundaries
+  arc-free from connectives, the verb inventory, and token position (the
+  GSE-native front-end's `verbs_to_promote`/`_detect_embedded_clauses`) — the
+  deterministic replacement for the old `mark`/`cc`/`relcl` dependency-label cues.
+  Clause spans are emitted into the trace (the serialized contract); `from_trace`
+  consumes them.
 - **(B) Clauses are implicit.** No `Clause` AST node. A clause is just the
   `Expression`/`Predicate` a span resolves to, discoverable via a `clauses()`
   query walk. (More faithful to fluid NLP; any Genesis-side reification is manual
   later.)
 - **(C) Nesting comes from operator tier + surface order + the center-embedding
-  cap.** spaCy stays the boundary/role tagger it already is; its parse tree is
-  *not* imported as the nesting authority. Keeps the spaCy seam where
+  cap.** The GSE-native front-end stays the boundary/role tagger it already is;
+  no parse tree is imported as the nesting authority (the structure is derived
+  arc-free, so there is no tree to import). Keeps the front-end seam where
   `ARCHITECTURE.md` draws it.
 
 ---
@@ -79,7 +83,8 @@ documented candidate for promotion, out of this build's scope.
    Within-clause arg resolution runs *inside each span*. Clause-linking operators
    record their left/right operands by clause-id. Connectives with no lexicon
    operator row (`and`/`who`/`which`/`that`/`to`) are recognized structurally
-   from spaCy dep labels — same pattern as the copula `TYPE_ASSERT` synthesis.
+   from the native front-end's arc-free connective/position cues — same pattern
+   as the copula `TYPE_ASSERT` synthesis.
 4. **`gse/symbolic/expression.py`.** `Operand = Union[Atom, Phrase, Negation, Op,
    Predicate]`; annotate operand-bearing fields with it. Replace positional
    left-fold in `from_trace` with tier-aware build: within-clause `Op` per span,
@@ -104,9 +109,9 @@ documented candidate for promotion, out of this build's scope.
 Proven on `SO`/`BECAUSE` × `THAN` nesting (the inversion case) — no new operators,
 no DB changes. This is the keystone milestone; everything else layers on it.
 
-**M2 — New connectives.** Refined during the build once spaCy structure was
-inspected (the uniform "all clause-linking" assumption in §2 didn't survive
-contact):
+**M2 — New connectives.** Refined during the build once the native front-end's
+arc-free structure was inspected (the uniform "all clause-linking" assumption in
+§2 didn't survive contact):
 
 - **M2a — NP-coordination (`and`/`or`). DONE.** "Spot and Rex are dogs" is
   *set-union of subjects under one predicate*, not two clauses — so `COORDINATION`
@@ -133,14 +138,20 @@ gap now round-trip JSON) and extended `substitute()` to the new predicates.
 
 The **systematicity** proof operates on the symbolic tree via `substitute`
 rather than re-encoding nonsense words, because surface parsing of novel content
-is bounded by spaCy: it mis-tags "The zorble that blibs …" (blibs → NOUN/nsubj,
-no relcl), so the relative clause isn't detected. GSE's *symbolic* layer is
-content-independent; the limiting factor is the spaCy front-end. **Abstention**
-(the §5 weighted/abstain-under-ambiguity proof) is deferred with the sparse-wiki
-track — it needs ambiguity scoring the deterministic parser doesn't have.
+is bounded by the GSE-native front-end's coverage: it mis-tags "The zorble that
+blibs …" (blibs → NOUN, no relative clause detected), so the relative clause
+isn't found. This is now a *deterministic, inspectable* bounded-coverage limit
+(unknown out-of-register tokens), not a stochastic mis-parse. GSE's *symbolic*
+layer is content-independent; the limiting factor is the native front-end's
+register. **Abstention** (the §5 weighted/abstain-under-ambiguity proof) is
+deferred with the sparse-wiki track — it needs ambiguity scoring the
+deterministic parser doesn't have.
 
 Determinism guarantee is preserved throughout: every operator is a typed set
-operation; spaCy remains the only non-deterministic component.
+operation, and the front-end is now deterministic too — the whole pipeline,
+parse included, is deterministic end-to-end. There is no remaining
+non-deterministic component in the encoder/runtime (spaCy survives only in the
+offline lexicon-bootstrap definition-parser, which never runs at encode time).
 
 ## Showcase
 

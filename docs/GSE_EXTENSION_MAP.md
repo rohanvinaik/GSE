@@ -25,7 +25,7 @@
 
 ## Pipeline
 ```
-spaCy (front-end, only non-deterministic component)
+GSE-native front-end (tokenize + lemma + coarse-POS, deterministic; arc-free clause structure from connectives + verb-inventory + position)
  → gse/api/encoder.py        tokenize, dynamic role assignment, clause segmentation → OperationTrace
  → gse/symbolic/from_trace   → Expression AST
  → gse/symbolic/operators.py → predicates.py  (Comparison/TypeAssertion/Causation/Control/Event/…)
@@ -37,14 +37,14 @@ Three-stage resolution per `docs/RESOLVED_STRUCTURE_DESIGN.md` (predicate tree �
 ## Verified behaviour (raw `emit_contract`)
 - `a person betrays a king` → `EVENT(betray,[person,king])` with **full WordNet threads** (person→living_thing→…; king→…→king). **The type machinery already works.**
 - `Macbeth kills Duncan with a knife` → `e1.lemma="duncan knife"` — **instrument lumped into the object at the GSE level** (not the walker). Extension B.
-- `XX betrays YY` → one collapsed entity `lemma="xx betray yy"` — **spaCy mangles placeholder tokens before the symbolic core** (the vision doc's named soft spot). Extension A.
+- `XX betrays YY` → one collapsed entity `lemma="xx betray yy"` — **the front-end mishandles bare placeholder tokens before the symbolic core** (a bounded, deterministic limit: unknown all-caps sentinels fall outside the native tagger's register). Extension A.
 
 ## Extension A — typed variables (dual format)
 A variable is a **named, typed** placeholder. Two syntaxes, one mechanism:
 - **Winston (primary, human):** `X is a person.` declarations + `If X harms Y then Y harms X.`
 - **Ugly (scripts):** inline `${x:person}` — name+type together, no declaration block.
-Mechanism: **preprocess before spaCy** — substitute each variable occurrence (keyed by name) with a
-distinct clean sentinel noun spaCy parses cleanly; carry `is_variable` + `declared_type`; after emit,
+Mechanism: **preprocess before the front-end** — substitute each variable occurrence (keyed by name) with a
+distinct clean sentinel noun the native front-end parses cleanly; carry `is_variable` + `declared_type`; after emit,
 map sentinels back to variable refs and set `type_thread` from the declared type. Same name → same
 sentinel → GSE corefs → one variable; distinct names → distinct variables (two-same-type works).
 - Touch points: `encoder.py:375` `_extract_dynamic_primitives`; `trace.py` `TokenTrace` (+`is_variable`,`declared_type`); `resolution.py:114` preserve VAR; a variable genealogy provider; `emit.py:56` `_leaf_str`.
@@ -58,5 +58,5 @@ serialize in `emit.py` (`features.roles`) → recurse in `grounding.py:113` `_ma
 
 ## Risks / open questions
 - `with` = instrument vs co-agent: needs the coherence-scored sense selector to rank role senses.
-- PP-attachment ambiguity ("king of Scotland with a knife"): spaCy decides, can be wrong.
+- PP-attachment ambiguity ("king of Scotland with a knife"): the native front-end resolves it by a fixed positional rule, deterministic but coarse — can be wrong on the hard tail (an inspectable, bounded-coverage limit, not a stochastic one).
 - Variable scope is sentence-local today (`grounding.py:85`); cross-sentence is Stage-3 work.

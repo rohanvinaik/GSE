@@ -342,7 +342,6 @@ name = "gse"
 version = "2.0.0"
 source = { editable = "." }
 dependencies = [
-    { name = "en-core-web-sm" },
     { name = "msgpack" },
     { name = "nltk" },
     { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
@@ -351,6 +350,11 @@ dependencies = [
     { name = "scikit-learn", version = "1.8.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
     { name = "scipy", version = "1.15.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "scipy", version = "1.17.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+]
+
+[package.optional-dependencies]
+curation = [
+    { name = "en-core-web-sm" },
     { name = "spacy" },
 ]
 
@@ -361,14 +365,15 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "en-core-web-sm", url = "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl" },
+    { name = "en-core-web-sm", marker = "extra == 'curation'", url = "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl" },
     { name = "msgpack", specifier = ">=1.0.0" },
     { name = "nltk", specifier = ">=3.9.4" },
     { name = "numpy", specifier = ">=1.24.0" },
     { name = "scikit-learn", specifier = ">=1.3.0" },
     { name = "scipy", specifier = ">=1.10.0" },
-    { name = "spacy", specifier = ">=3.7.0" },
+    { name = "spacy", marker = "extra == 'curation'", specifier = ">=3.7.0" },
 ]
+provides-extras = ["curation"]
 
 [package.metadata.requires-dev]
 dev = [{ name = "pytest", specifier = ">=9.1.0" }]

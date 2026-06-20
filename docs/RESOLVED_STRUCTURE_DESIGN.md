@@ -54,8 +54,9 @@ Genesis's bridge walks it.
 ## 2. The headline insight: resolve globally, not per-token (the ARC-3 transfer)
 
 Today GSE resolves **locally** — `resolution.py` collapses a phrase to an
-`Entity` within its clause; role assignment is the spaCy dep→`SYN_ROLE` override
-in the encoder. There is no coreference, no stable identity across mentions, no
+`Entity` within its clause; role assignment is the arc-free `_syn_roles` →
+`SYN_ROLE` derivation in the encoder (from connectives + verb-inventory +
+position). There is no coreference, no stable identity across mentions, no
 type genealogy.
 
 Stage 2 replaces local guessing with **global constraint satisfaction over the
@@ -116,24 +117,26 @@ Emit shape per arg: `{entity_id, lemma, type_thread[]}`.
 
 ## 5. The coherence / confidence signal (Stage 3c) — the DNA-sharpened L2
 
-The old "spaCy proposes, core vetoes" becomes a **fidelity-tiered mismatch-repair
+The old "front-end proposes, core vetoes" becomes a **fidelity-tiered mismatch-repair
 engine**, repositioned as the *confidence output of the resolver* rather than a
 free-standing stack. Primitives are ported from destash `coherence.py` (weighted
 composite, hard gates, jaccard, `spearman`, variance-aware confidence) — those
 transfer; the two-strand wiring and the tier detectors are new GSE code.
 
 **The flag is the pairing, not a smarter read.** Two independent reads of each
-token/clause — Strand A = spaCy's `(POS, dep, head)`; Strand B = GSE's own
-grounding (lexicon primitives + the structural expectation the operator grammar
-imposes). The deterministic flag is the *structural non-pairing* of A and B;
-neither strand "knows" the right answer (mismatch repair: determinism from a
-stochastic substrate).
+token/clause — Strand A = the GSE-native front-end's `(coarse-POS, arc-free role,
+clause head)`; Strand B = GSE's own grounding (lexicon primitives + the
+structural expectation the operator grammar imposes). The deterministic flag is
+the *structural non-pairing* of A and B; neither strand "knows" the right answer
+(mismatch repair: a flagged residual surfaced from two deterministic reads —
+both strands are now deterministic, so the residual is bounded-coverage
+disagreement, not stochastic noise).
 
 **Fidelity tiers = the DNA stack, literally:**
 
 | Tier | DNA analogue | In GSE |
 |---|---|---|
-| 1 — self-contradiction (~10⁻⁷, rarest, no cross-ref) | molecule disagrees with itself | predicate tree disagrees with itself: an operator whose arity can't be filled from its own clause; a `Comparison` whose args ground non-comparable; a type thread incompatible with the role. Tree-only — spaCy not consulted. |
+| 1 — self-contradiction (~10⁻⁷, rarest, no cross-ref) | molecule disagrees with itself | predicate tree disagrees with itself: an operator whose arity can't be filled from its own clause; a `Comparison` whose args ground non-comparable; a type thread incompatible with the role. Tree-only — front-end not consulted. |
 | 2 — cross-strand (proofreading) | strand mispair | Strand A vs Strand B disagree; coherence composite < threshold → flag. |
 | 3 — persist | needs the next enzyme | a second independent read (alt segmentation / alt sense) still won't resolve → abstain or route. |
 
@@ -144,8 +147,8 @@ L2's output is **clean structure + a catalogued residual of flagged sites**, not
 "cleaned text."
 
 **Persist triage = coherence one level up.** `spearman` the flags against
-covariates: correlated ⇒ a *systematic* mechanism fault (distrust a spaCy
-tag-class or a lexicon row); uncorrelated ⇒ a SNP, catalog and move on.
+covariates: correlated ⇒ a *systematic* mechanism fault (distrust a native
+front-end tag-class or a lexicon row); uncorrelated ⇒ a SNP, catalog and move on.
 
 This closes the abstention proof `COMPLEX_SENTENCE_DESIGN.md` M3 deferred — the
 coherence composite *is* the ambiguity scorer the parser lacked — and the same
@@ -171,10 +174,17 @@ signal doubles as the archetype coherence-veto Genesis needs.
 
 1. **The global resolver is a deterministic CSP** — fixed-order / exact, with
    deterministic tiebreaks. No stochastic search.
-2. **The coherence flag is deterministic** even though both strands are
-   stochastic — it is a structural mismatch, computed by integer/set ops.
-3. **spaCy stays the only non-deterministic component**, and Stage 3c makes its
-   non-determinism *quarantined and monitored* (propose → veto), not load-bearing.
+2. **The coherence flag is deterministic** — both strands are now deterministic
+   (the GSE-native front-end carries no statistical model), and the flag is a
+   structural mismatch computed by integer/set ops. The residual it surfaces is
+   bounded-coverage disagreement, not stochastic noise.
+3. **The whole pipeline, including the parse, is deterministic** — spaCy is gone
+   from the encoder/runtime, so there is no non-deterministic component left to
+   quarantine. Stage 3c's mismatch-repair now catalogues the native front-end's
+   *bounded-coverage* limits (inspectable, reproducible) rather than veto-gating a
+   stochastic proposer. (spaCy survives only in the offline lexicon-bootstrap
+   definition-parser, `gse/curation/decomposition/definition_structure.py`, which
+   never runs at encode time.)
 4. **Single-clause / single-sentence traces stay byte-identical** when nothing
    new fires — same back-compat discipline as `ClauseSpan` (emit new fields only
    when non-empty).

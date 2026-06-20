@@ -15,10 +15,19 @@ dependencies = [
     "numpy>=1.24.0",
     "scipy>=1.10.0",
     "msgpack>=1.0.0",
-    "spacy>=3.7.0",
     "scikit-learn>=1.3.0",
-    "en-core-web-sm",
     "nltk>=3.9.4",
+]
+
+# spaCy is no longer required to run the encoder: the default GSE-native token
+# engine (gse/nlp/native.py) is deterministic and arc-free (WS1, docs/ROADMAP.md).
+# It is needed only for the lexicon bootstrap definition-parser
+# (gse/curation/decomposition/definition_structure.py), the opt-in
+# GSEEncoder(engine="spacy"), and the WS1 parity harness (scripts/ws1_parity.py).
+[project.optional-dependencies]
+curation = [
+    "spacy>=3.7.0",
+    "en-core-web-sm",
 ]
 
 [dependency-groups]

@@ -20,7 +20,10 @@
 
 GSE turns an English sentence into (a) a sparse ternary **HDC vector** and (b) a
 typed **symbolic AST** of predicates, deterministically and on a laptop. A
-sentence is parsed by spaCy, each token is looked up in a precompiled lexicon of
+sentence is parsed by the GSE-native front-end (a deterministic, pure-Python
+tokenizer + WordNet-morphy lemmatizer + coarse-POS tagger; clause structure is
+derived arc-free from connectives, verb-inventory, and position), each token is
+looked up in a precompiled lexicon of
 primitive decompositions, those primitives are encoded into an 8192-dim
 Hadamard-orthogonal vector space at two scales (word-scale meaning +
 sentence-scale syntax), and compositional operators (`than`, `as`, `so`,
@@ -39,7 +42,7 @@ layer; the same input always produces the same output.
             │
             ▼
    ┌─────────────────────┐
-   │  gse.api.GSEEncoder  │   spaCy parse + lexicon lookup + HDC ops
+   │  gse.api.GSEEncoder  │   GSE-native front-end (tokenize + lemma + coarse-POS, deterministic) + lexicon lookup + HDC ops
    │     .encode(text)    │
    └─────────────────────┘
             │   produces
@@ -82,7 +85,7 @@ provably distinct symbolically" — is exactly the split between these two paths
 from gse.api import GSEEncoder
 from gse.symbolic import from_trace, resolve, evaluate_tree, predicates
 
-enc   = GSEEncoder()                                  # opens data/lexicon.db, loads spaCy
+enc   = GSEEncoder()                                  # opens data/lexicon.db, GSE-native front-end (no spaCy)
 trace = enc.encode("The dog is cuter than the cat")   # → OperationTrace
 tree  = evaluate_tree(resolve(from_trace(trace)))      # → Comparison predicate
 predicates(tree)        # [Comparison(lhs=Entity(dog), rhs=Entity(cat), sign=+1)]
@@ -180,14 +183,21 @@ recalibration plus one resolution-layer coupling to fix (`np_coordination`).
 
 `GSEEncoder.encode(text) -> OperationTrace`. The steps:
 
-1. **Parse** — spaCy `en_core_web_sm` tokenizes, lemmatizes, dependency-parses,
-   and tags morphology. (spaCy is the one trained component, and it sits *in
-   front of* the semantic layer — see the determinism caveat in the survey.)
+1. **Parse** — the GSE-native front-end (`gse/nlp/native.py`, `NativeNLP`)
+   tokenizes, lemmatizes (WordNet morphy), and tags coarse POS. There is no
+   statistical model in this path: clause structure is derived *arc-free* from
+   connectives, the verb inventory, and token position (encoder methods
+   `verbs_to_promote`, `_detect_embedded_clauses`, `_syn_roles`), not from
+   dependency arcs. The front-end is fully deterministic, so it sits *in front
+   of* the semantic layer without introducing any stochasticity. (The opt-in
+   `GSEEncoder(engine="spacy")` path remains for the parity harness
+   `scripts/ws1_parity.py` only.)
 2. **Per-token lookup** — `_lookup_lexeme(lemma)` pulls word-scale + sentence-scale
    primitives and any compositional metadata from `data/lexicon.db`.
 3. **Dynamic syntactic roles** — `_extract_dynamic_primitives` overrides the
    static core-role primitives (`SYN_SUBJ`/`SYN_OBJ`/`SYN_PRED`/`SYN_COMPL`) using
-   the spaCy dependency label (`DEP_TO_SYNTACTIC` map) and TAM from morphology.
+   the arc-free roles computed by `_syn_roles` (from connectives, verb-inventory,
+   and position) and TAM from morphology.
    **This is what makes argument order matter** — "dog as subject" ≠ "dog as
    object."
 4. **Two-scale encoding** — word-scale primitives → `word_vec`, sentence-scale →
@@ -385,12 +395,15 @@ primitive set or working below the trace level.
 
 ## 5. Determinism & cost (why the positioning claims hold here)
 
-- **Determinism** — downstream of the spaCy parse there is no stochasticity: DB
-  lookups, fixed Hadamard bases, integer set operations, dispatch on string
-  labels. Same input → same vector hash → same predicates. The `deterministic`
-  flag on `OperationTrace` is structural, not aspirational.
-- **Cost** — the basis is ~1 MB of sparse vectors; per-sentence cost is a spaCy
-  parse plus O(tokens) HDC ops. No GPU, no training run, no scaling. Laptop-class.
+- **Determinism** — the *whole* pipeline, including the parse, is deterministic:
+  the GSE-native front-end (tokenize + lemma + coarse-POS) and arc-free clause
+  structure carry no statistical model, followed by DB lookups, fixed Hadamard
+  bases, integer set operations, and dispatch on string labels. Same input →
+  same vector hash → same predicates. The `deterministic` flag on
+  `OperationTrace` is structural, not aspirational.
+- **Cost** — the basis is ~1 MB of sparse vectors; per-sentence cost is a
+  pure-Python native parse plus O(tokens) HDC ops. No GPU, no training run, no
+  scaling. Laptop-class.
 - **Grounding** — `Comparison(lhs=dog, rhs=cat, sign=+1)` is derived from the
   SET_DIFF over primitive activations, not retrieved from a `taller(dog,cat)`
   predicate. The lexicon stores *primitives*, never pre-encoded answers.
