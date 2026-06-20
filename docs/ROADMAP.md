@@ -28,9 +28,33 @@ Suite green at 2225.
 
 ---
 
-## Workstream 1 — Replace spaCy with a deterministic, GSE-native parser
+## Workstream 1 — Replace spaCy with a deterministic, GSE-native parser ✅ DONE
 
-**"Launch spaCy into space."** Committed direction.
+**"Launch spaCy into space."** **Landed.** The runtime encoder path no longer
+uses spaCy. Delivered in arc-free-first order (each step parity-gated against
+spaCy on an 87-sentence golden register, suite green at every commit):
+
+1. **`verbs_to_promote`** (`253b780`) — the verb-POS-mistag repair derives its
+   flanking-entity signal from linear position, not `children`/`head`.
+2. **`_detect_embedded_clauses`** (`1a515c7`) — relative/control/complement
+   clauses bounded from the connective inventory + verb-inventory + position,
+   not `relcl`/`xcomp`/`ccomp` arcs. *Trace-byte-identical* to the arc version.
+3. **`_syn_roles`** (`31d557a`) — core syntactic roles (SUBJ/PRED/OBJ/COMPL)
+   assigned positionally, not from `dep_`. 0 struct divergence; vector
+   recalibration only (the deliberate one flagged below).
+4. **GSE-native token engine** (`86398cd`, `gse/nlp/native.py`) — deterministic
+   tokenizer + WordNet-morphy lemmatizer + coarse-UPOS tagger replace
+   `spacy.load`. `GSEEncoder(engine="native")` is the default; `"spacy"` remains
+   for the parity harness (`scripts/ws1_parity.py`, `ws1_characterize.py`).
+
+Full suite after the swap: 3941 passed; the 9 failures are pre-existing
+curation-env issues (none touch the encoder). spaCy is retired from the encoder;
+it remains only the **bootstrap definition-parser** for the lexicon build
+(`gse/curation/decomposition/definition_structure.py`) — explicitly in-scope to
+keep. Remaining tidiness (non-blocking): the legacy `*_arcs` reference functions
+in `parse_repair`/`encoder` are dead in production, kept only for the parity A/B.
+
+**Original rationale (retained for the record):**
 
 **Why.** (a) Determinism — spaCy (`en_core_web_sm`) is the *only* non-deterministic
 component, and the source of every parse bug we've patched. (b) Positioning — spaCy
@@ -173,7 +197,16 @@ a *computable* coherence metric + the world/commonsense model. One investment, t
 
 ## Open decisions (resume here)
 
-1. WS1 PoC before committing to yank spaCy? (recommended: yes — decisive + cheap)
-2. NSM research before the PoC (ground the design) or after (validate the build)?
-3. WS1 vs WS2 ordering — entangled: the deterministic parser dissolves B/C/D, so doing
-   WS1 first may make WS2 fall out rather than needing separate B/C/D builds.
+1. ~~WS1 PoC before committing to yank spaCy?~~ **Resolved** — PoC done (`24b8fd5`),
+   then the full yank landed (WS1 ✅).
+2. ~~NSM research before/after the PoC?~~ **Resolved** — research done
+   (`docs/NSM_GRAMMAR_MAPPING.md`); it grounded the connective inventory the
+   arc-free derivers use.
+3. ~~WS1 vs WS2 ordering~~ **Resolved** — WS1 first, as predicted: the arc-free
+   clause layer dissolved B/C into uniform connective cases (C coordination green;
+   B fronted-causal + D conditional remain as ladder rungs, now buildable on the
+   arc-free `_detect_embedded_clauses`/`_segment_clauses` rather than spaCy patches).
+
+**Next up:** finish the L1 ladder — **D conditional** (`IMPLIES`, still `xfail`)
+and **B fronted-causal** (the comma-boundary segmentation). Both are now isolated
+additions on the arc-free parser. Then WS3 (paragraph/L2, irony/humor) per below.
