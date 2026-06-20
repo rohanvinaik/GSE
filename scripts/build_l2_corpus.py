@@ -79,9 +79,11 @@ def _providers(docs_per_genre: int, max_sents: int):
                    _join(brown.sents(fid)[:max_sents]))
 
     # SPEECH · chat — NPS chat posts (fragmentary, conversational), chunked.
-    posts = nps_chat.posts()
+    # Strip the corpus's `U\d+` username-anonymization tokens (not chat language).
+    _user = re.compile(r"U\d+")
+    posts = [[w for w in p if not _user.fullmatch(w)] for p in nps_chat.posts()]
     for ci in range(docs_per_genre):
-        chunk = posts[ci * max_sents:(ci + 1) * max_sents]
+        chunk = [p for p in posts[ci * max_sents:(ci + 1) * max_sents] if p]
         if chunk:
             yield ("speech", "chat", "nps_chat", f"chat/{ci}", _join(chunk))
 
