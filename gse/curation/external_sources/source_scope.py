@@ -55,8 +55,9 @@ WORD_SCALE_EXCLUDED_PRIMITIVES: FrozenSet[str] = _build_word_scale_excluded()
 # are demonstrably outside the source's competence (e.g., NRC VAD voting
 # on logical-modal primitives like MUST/CAN).
 #
-# Sources NOT listed here are unrestricted (e.g., wiktionary_v2 which is
-# definition-based and broad-coverage by design).
+# Sources NOT listed here are unrestricted (vote on any primitive). The
+# degenerate broad-coverage source (wiktionary_v2) that this note once referenced
+# was retired 2026-06-20.
 SOURCE_PRIMITIVE_SCOPE: Mapping[str, Set[str]] = {
     # NRC Emotion Lexicon: 8 emotions + 2 sentiments. Affective signal only.
     "nrc_emotion": {"GOOD", "BAD", "FEEL", "WANT", "KNOW"},
@@ -89,7 +90,6 @@ SOURCE_PRIMITIVE_SCOPE: Mapping[str, Set[str]] = {
     "wordnet_hierarchy": {
         "SOMETHING", "SOMEONE", "ALIVE", "BODY", "PEOPLE", "PART", "KIND",
     },
-    # wiktionary_v2 deliberately omitted → unrestricted broad coverage.
 }
 
 

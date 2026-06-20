@@ -143,37 +143,20 @@ class ExternalSourcesIntegrator:
         except Exception as e:
             logger.warning(f"Failed to load WordNet hierarchy: {e}")
 
-        # Wiktionary v2 (primary lexeme spine — deterministic, source-grounded,
-        # ~1.3M words). Reads the pre-built v2 DB; no JSONL processing needed.
-        try:
-            from gse.curation.external_sources.wiktionary_v2 import (
-                WiktionaryPrimitivesV2Loader,
-            )
-            parser = WiktionaryPrimitivesV2Loader()
-            if parser.load():
-                self.parsers['wiktionary_v2'] = parser
-                stats['wiktionary_v2'] = len(parser.get_all_words())
-                logger.info(
-                    f"Loaded Wiktionary v2: {stats['wiktionary_v2']:,} words"
-                )
-        except Exception as e:
-            logger.warning(f"Failed to load Wiktionary v2: {e}")
+        # (wiktionary_v2 — the degenerate ~1.3M bag-of-words spine — was retired and
+        # purged 2026-06-20; the clean build scopes each remaining source to its
+        # domain. See docs/MORPHOLOGY_RESEARCH_BRIEF.md / lexicon-clean-build memory.)
 
         self._loaded = True
         return stats
 
     def get_primary_lexeme_words(self) -> Set[str]:
-        """The word list that drives the rebuild's lexeme creation.
-
-        Wiktionary v2 is the primary spine: 1.3M deterministically-decomposed
-        words. Falls back to the union of all loaded sources if v2 isn't
-        available (e.g., DB missing on a developer machine).
+        """The word list that drives lexeme creation — the union of all loaded scoped
+        sources. (The degenerate ``wiktionary_v2`` spine was retired; the clean build
+        scopes each source to its domain.)
         """
         if not self._loaded:
             self.load_all_sources()
-        v2 = self.parsers.get("wiktionary_v2")
-        if v2 is not None:
-            return {w.lower() for w in v2.get_all_words()}
         return self.get_all_words()
 
     def get_all_words(self) -> Set[str]:

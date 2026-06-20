@@ -85,7 +85,7 @@ provably distinct symbolically" — is exactly the split between these two paths
 from gse.api import GSEEncoder
 from gse.symbolic import from_trace, resolve, evaluate_tree, predicates
 
-enc   = GSEEncoder()                                  # opens data/lexicon.db, GSE-native front-end (no spaCy)
+enc   = GSEEncoder()                                  # opens data/lexicon_clean.db, GSE-native front-end (no spaCy)
 trace = enc.encode("The dog is cuter than the cat")   # → OperationTrace
 tree  = evaluate_tree(resolve(from_trace(trace)))      # → Comparison predicate
 predicates(tree)        # [Comparison(lhs=Entity(dog), rhs=Entity(cat), sign=+1)]
@@ -141,24 +141,25 @@ the `SYN_*` syntactic roles and `COMP_*` compositional operators. Carries
 - `bundle(vectors)` — majority-vote superposition; result similar to all inputs (set membership).
 - `permute(v, shift)` — circular shift; encodes token position.
 
-### Layer 1 — Lexicon data · `data/lexicon.db` (SQLite)
+### Layer 1 — Lexicon data · `data/lexicon_clean.db` (SQLite)
 
 The precompiled decompositions. **This is the live database the encoder opens by
-default** (`GSEEncoder(db_path="data/lexicon.db")`). Run commands from the repo
-root so the relative path resolves.
+default** (`GSEEncoder(db_path="data/lexicon_clean.db")`). Run commands from the repo
+root so the relative path resolves. *(The earlier degenerate bag-of-words
+`data/lexicon.db` — 1.36M lexemes with non-discriminative primitives — was purged
+2026-06-20; the clean DB is sparse and definitional.)*
 
-Live contents (June 2026):
+Live contents (clean rebuild, June 2026):
 
 | Table | Rows | Role |
 |---|---:|---|
-| `lexemes` | 1,355,619 | one row per (lemma, pos, sense); carries `comp_primitive`, `comp_arity`, `comp_operation` for operator words |
-| `primitive_values` | 13,679,042 | word-scale primitive activations per lexeme (74 distinct primitives) |
-| `sentence_primitive_values` | 30,619 | sentence-scale `SYN_*` / `COMP_*` activations (17 distinct) |
+| `lexemes` | 67,061 | one row per (lemma, pos, sense); carries `comp_primitive`, `comp_arity`, `comp_operation` for operator words |
+| `primitive_values` | 124,919 | word-scale primitive activations per lexeme (68 distinct primitives — the closed basis) |
+| `sentence_primitive_values` | 0 | sentence-scale `SYN_*`/`COMP_*` activations are computed *dynamically* at encode time (arc-free roles + TAM), not stored |
 
-Supporting tables: `decomposition_provenance`, `validation_results`,
-`llm_batches`, `processing_checkpoints` (build-time bookkeeping, not read at
-encode time). All lexeme `source` values are `llm` — the lexicon was generated
-by the curation pipeline (§6).
+Lexeme `source` values are `tier_0` (the 68 primes) / `layer1` / `layer2` /
+`operators` — the clean scoped build (`gse/curation/build_clean_layer1/layer2/
+operators.py`, §6), not the retired LLM bag-of-words pipeline.
 
 The encoder reads three queries only: lexeme row (for compositional metadata),
 `primitive_values`, and `sentence_primitive_values`. The DB is otherwise opaque
@@ -184,7 +185,15 @@ recalibration plus one resolution-layer coupling to fix (`np_coordination`).
 `GSEEncoder.encode(text) -> OperationTrace`. The steps:
 
 1. **Parse** — the GSE-native front-end (`gse/nlp/native.py`, `NativeNLP`)
-   tokenizes, lemmatizes (WordNet morphy), and tags coarse POS. There is no
+   tokenizes, lemmatizes, and tags coarse POS. Inflectional morphology is a
+   **word-scale operation** (`gse/nlp/morphology.py`), not bare suffix-stripping
+   (which mints non-words — `together`→`togeth`): an inflected surface collapses to
+   `base × grammatical-feature` by the same propose→coherence-resolve shape as the
+   spell-check (`gse/nlp/contractions.py`) — candidate bases proposed by the inverse
+   formation model, the one that *grounds* (the WordNet gradable-adjective oracle)
+   selected; this also resolves the `-er` collision (`bigger`/`teacher`/`water`) with
+   no disambiguation table. Comparative/superlative is the first instance
+   (`docs/MORPHOLOGY_RESEARCH_BRIEF.md`); WordNet morphy is the fallback. There is no
    statistical model in this path: clause structure is derived *arc-free* from
    connectives, the verb inventory, and token position (encoder methods
    `verbs_to_promote`, `_detect_embedded_clauses`, `_syn_roles`), not from

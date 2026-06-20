@@ -18,7 +18,7 @@ def main():
     # Encode command
     encode_parser = subparsers.add_parser("encode", help="Encode text to vector")
     encode_parser.add_argument("--text", "-t", required=True, help="Input text")
-    encode_parser.add_argument("--lexicon", "-l", default="data/lexicon.db")
+    encode_parser.add_argument("--lexicon", "-l", default="data/lexicon_clean.db")
 
     # Similarity command
     sim_parser = subparsers.add_parser("similarity", help="Compare two texts")
@@ -56,7 +56,7 @@ def main():
     pipeline = GSEPipeline()
 
     # Load lexicon if specified
-    lexicon_path = getattr(args, 'lexicon', 'data/lexicon.db')
+    lexicon_path = getattr(args, 'lexicon', 'data/lexicon_clean.db')
     try:
         import os
         if os.path.exists(lexicon_path):

@@ -26,6 +26,8 @@ from typing import Dict, Iterator, List, Optional
 
 from nltk.corpus import wordnet as wn
 
+from gse.nlp.morphology import resolve_degree
+
 # --- closed classes (finite function-word sets) ----------------------------
 _DET = {"the", "a", "an", "some", "any", "every", "each", "no", "this", "that",
         "these", "those", "all", "both", "neither", "either", "another"}
@@ -117,7 +119,17 @@ def _rule_lemma(word: str, pos: str) -> str:
                     and not wn.synsets(base, pos="a")
                     and wn.synsets(base[:-1], pos="a")):
                 base = base[:-1]
-            return base
+            # Gate: the strip may only FIRE if it yields a known adjective. Many words
+            # merely END in -er/-est without being comparatives (together, whatsoever,
+            # latter) — stripping would mint a non-word. If the base is not a known
+            # adjective the word "shouldn't have" the suffix, so the rule must not fire:
+            # leave the real surface word intact rather than mangling it. (Genuine
+            # comparatives whose base needs orthographic repair — nicer→"nice",
+            # earlier→"early" — are left as the real surface word and recovered
+            # downstream by the failed-word resolver / general spell-check, never by an
+            # inverse-spelling table here.)
+            if wn.synsets(base, pos="a"):
+                return base
     return word
 
 
@@ -251,12 +263,14 @@ class NativeNLP:
             return "VERB"
         if low.endswith(("ous", "ful", "less", "ive", "able", "ible")):
             return "ADJ"
-        # Comparative / superlative: the base (not the inflected surface) carries
-        # the adjective sense — "taller"/"bigger" → base "tall"/"big".
-        if low.endswith(("er", "est")) and not has_v:
-            base = _rule_lemma(low, "ADJ")
-            if has_a or wn.synsets(base, pos="a") or wn.synsets(base, pos="s"):
-                return "ADJ"
+        # Comparative / superlative (incl. suppletive better/best/worse): the
+        # morphology operation is the single source of truth for "is this a degree
+        # form?". A grounded degree form is an ADJ — except in clearly verbal position
+        # (after a modal/do/neg/"to"), where a homographic verb wins ("will best
+        # them"). Subsumes the old -er/-est heuristic and also catches the suppletives.
+        if resolve_degree(low) is not None and not (
+                prev in _AUX_MODAL or prev in _AUX_DO or prev in _NEG or prev == "to"):
+            return "ADJ"
 
         # Positional disambiguation relative to the verb-inventory / copula.
         if prev in _AUX_BE:                 # predicate complement after a copula
@@ -309,12 +323,15 @@ class NativeNLP:
         low = surf.lower()
         if low in _IRREGULAR_LEMMA:
             return _IRREGULAR_LEMMA[low]
-        # Comparative/superlative adjectives: the rule (with doubled-consonant
-        # collapse) before morphy, which returns "bigger" unchanged.
-        if pos == "ADJ" and (low.endswith("er") or low.endswith("est")):
-            ruled = _rule_lemma(low, pos)
-            if ruled != low:
-                return ruled
+        # Comparative/superlative: a word-scale morphological OPERATION — propose
+        # candidate bases via the inverse orthographic formation, select the one that
+        # grounds as a gradable adjective (gse/nlp/morphology.py; see
+        # docs/MORPHOLOGY_RESEARCH_BRIEF.md). Replaces the old suffix-strip. The base
+        # is the word-lens identity (the lemma); the degree is the sentence-lens half.
+        if pos in ("ADJ", "ADV"):
+            degree = resolve_degree(low)
+            if degree is not None:
+                return degree[0]
         wnl = _wn_lemma(low, pos)
         if wnl:
             return wnl

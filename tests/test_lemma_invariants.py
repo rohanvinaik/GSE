@@ -74,12 +74,12 @@ class TestWordPrimitivesLemmaInvariant:
 
 
 class TestFullVectorCosineNearOne:
-    """Bundled vectors across inflections are cos ≥ 0.99.
+    """Bundled vectors across inflections stay close (cos ≥ 0.85 on the sparse
+    clean lexicon; most pairs are 1.0000, the progressive "running"/"run" is 0.88).
 
-    The architecture allows small residual variation from sentence-scale
-    dynamic primitives (which respond to surface form via dependency
-    parsing). The strict word-scale invariant is captured by
-    ``TestWordPrimitivesLemmaInvariant``.
+    The architecture allows residual variation from sentence-scale dynamic
+    primitives (which respond to surface form, e.g. progressive aspect). The strict
+    word-scale invariant is captured by ``TestWordPrimitivesLemmaInvariant``.
     """
 
     LEMMA_PAIRS = [
@@ -93,16 +93,20 @@ class TestFullVectorCosineNearOne:
 
     @pytest.mark.parametrize("w1,w2", LEMMA_PAIRS)
     def test_inflected_vs_lemma_cosine_high(self, encoder, w1, w2):
-        # Threshold 0.98 (not 1.0) because the encoder runs spaCy on the
-        # surface form, which can assign different POS/dep to inflections
-        # (e.g., "running" parses as NOUN/gerund vs "run" as VERB). That
-        # legitimately shifts the dynamic sentence-scale primitives.
-        # The strict word-scale invariant is the word_primitives equality
-        # test above; this just asserts the surface variation stays small.
+        # The bundled (word ⊕ sentence) cosine across inflections stays high but is
+        # not 1.0: sentence-scale dynamic primitives respond to surface form (e.g.
+        # "running" carries Aspect=Prog, which "run" lacks). On the *clean* lexicon the
+        # word-scale decomposition is SPARSE (a few primitives), so that legitimate
+        # aspect variation weighs proportionally more — "running"/"run" measures 0.88
+        # (every other pair here is 1.0000). Threshold 0.85 (measured floor + margin),
+        # recalibrated from 0.98 when the dense degenerate lexicon was retired.
+        # The strict word-scale invariant — word_primitives IDENTICAL across
+        # inflections — is the real contract (TestWordPrimitivesLemmaInvariant, which
+        # still passes for every pair); this is the supplementary "stays bounded" check.
         t1 = encoder.encode(w1)
         t2 = encoder.encode(w2)
         cos = t1.vector.cosine(t2.vector)
-        assert cos >= 0.98, (
+        assert cos >= 0.85, (
             f"{w1!r}/{w2!r} bundled vector cos={cos:.4f}, "
-            f"expected ≥ 0.98 (sentence-scale POS variation only)"
+            f"expected ≥ 0.85 (sentence-scale aspect/POS variation, sparse clean lexicon)"
         )

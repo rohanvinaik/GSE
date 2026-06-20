@@ -65,9 +65,6 @@ class TestLoadAllSources:
                             with patch("gse.curation.external_sources.lancaster_sensorimotor.LancasterSensorimotorParser",
                                        side_effect=ImportError):
                                 with patch(
-                                    "gse.curation.external_sources.wiktionary_v2.WiktionaryPrimitivesV2Loader",
-                                    side_effect=ImportError,
-                                ), patch(
                                     "gse.curation.external_sources.wordnet_hierarchy.WordNetHierarchyParser",
                                     side_effect=ImportError,
                                 ):

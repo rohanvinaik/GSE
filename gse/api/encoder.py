@@ -110,7 +110,7 @@ class GSEEncoder:
         - Failed operators: Return None for operator result
     """
 
-    def __init__(self, db_path: str = "data/lexicon.db", strict: bool = False,
+    def __init__(self, db_path: str = "data/lexicon_clean.db", strict: bool = False,
                  engine: str = "native"):
         """
         Initialize encoder with bases and database.
