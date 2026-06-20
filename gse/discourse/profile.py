@@ -101,44 +101,52 @@ def text_profile(encoder, text: str, prime_basis: Sequence[str] | None = None) -
     op_counts: Dict[str, int] = {op: 0 for op in _OPERATIONS}
     n_clauses = n_embedded = n_tokens = n_content = n_func = n_oov = 0
     degraded = 0
+    failures = 0
     lemma_lens: List[int] = []
     prim_sums: Dict[str, float] = {p: 0.0 for p in prime_basis}
     per_sentence_valence: List[float] = []
     valences: List[int] = []
 
     for s in sents:
-        tr = encoder.encode(s)
-        resolved = resolve(from_trace(tr))
-        # Count operations off the resolved symbolic tree — EVENT / TYPE_ASSERT /
-        # REL_RESTRICT / CONTROL are synthesized there, not in trace.operators.
-        for node in _walk(to_dict(resolved)):
-            if node.get("_kind") == "Op" and node.get("operation") in op_counts:
-                op_counts[node["operation"]] += 1
-        n_clauses += max(len(tr.clauses), 1)
-        n_embedded += sum(1 for c in tr.clauses if c.kind in _EMBED_KINDS)
+        # Robust to the bounded register: a sentence GSE can't fully process must
+        # not crash the whole profile — count it as a failure (itself a genre
+        # signal: messy/long-tail registers fail more often) and move on.
+        try:
+            tr = encoder.encode(s)
+            resolved = resolve(from_trace(tr))
+            # Count operations off the resolved symbolic tree — EVENT / TYPE_ASSERT /
+            # REL_RESTRICT / CONTROL are synthesized there, not in trace.operators.
+            for node in _walk(to_dict(resolved)):
+                if node.get("_kind") == "Op" and node.get("operation") in op_counts:
+                    op_counts[node["operation"]] += 1
+            n_clauses += max(len(tr.clauses), 1)
+            n_embedded += sum(1 for c in tr.clauses if c.kind in _EMBED_KINDS)
 
-        sent_val: List[int] = []
-        for t in tr.tokens:
-            n_tokens += 1
-            if t.pos in _CONTENT_POS:
-                n_content += 1
-                lemma_lens.append(len(t.lemma))
-                wp, _sp, _m = encoder._lookup_lexeme(t.lemma)
-                if not wp:
-                    n_oov += 1
-                else:
-                    v = int(wp.get("GOOD", 0)) - int(wp.get("BAD", 0))
-                    sent_val.append(v)
-                    valences.append(v)
-            elif t.pos != "PUNCT":
-                n_func += 1
+            sent_val: List[int] = []
+            for t in tr.tokens:
+                n_tokens += 1
+                if t.pos in _CONTENT_POS:
+                    n_content += 1
+                    lemma_lens.append(len(t.lemma))
+                    wp, _sp, _m = encoder._lookup_lexeme(t.lemma)
+                    if not wp:
+                        n_oov += 1
+                    else:
+                        v = int(wp.get("GOOD", 0)) - int(wp.get("BAD", 0))
+                        sent_val.append(v)
+                        valences.append(v)
+                elif t.pos != "PUNCT":
+                    n_func += 1
 
-        for p, act in tr.word_primitive_activations.items():
-            if p in prim_sums:
-                prim_sums[p] += act
-        per_sentence_valence.append(mean(sent_val) if sent_val else 0.0)
-
-        degraded += len(coherence_report(evaluate_tree(resolved), tr))
+            for p, act in tr.word_primitive_activations.items():
+                if p in prim_sums:
+                    prim_sums[p] += act
+            per_sentence_valence.append(mean(sent_val) if sent_val else 0.0)
+            degraded += len(coherence_report(evaluate_tree(resolved), tr))
+        except Exception:
+            failures += 1
+            per_sentence_valence.append(0.0)
+            continue
 
     half = max(len(per_sentence_valence) // 2, 1)
     arc = (mean(per_sentence_valence[half:]) - mean(per_sentence_valence[:half])
