@@ -23,6 +23,7 @@ from gse.symbolic.predicates import (
     BoundaryCase,
     Causation,
     Comparison,
+    ClauseCoordination,
     Contrast,
     Control,
     DegreeQuery,
@@ -156,6 +157,13 @@ def to_dict(node: Node) -> Dict[str, Any]:
             "left": to_dict(node.left),
             "right": to_dict(node.right),
         }
+    if isinstance(node, ClauseCoordination):
+        return {
+            "_kind": "ClauseCoordination",
+            "left": to_dict(node.left),
+            "right": to_dict(node.right),
+            "conjunction": node.conjunction,
+        }
     if isinstance(node, Causation):
         return {
             "_kind": "Causation",
@@ -284,6 +292,11 @@ def from_dict(d: Dict[str, Any]) -> Node:
         )
     if kind == "Contrast":
         return Contrast(left=from_dict(d["left"]), right=from_dict(d["right"]))
+    if kind == "ClauseCoordination":
+        return ClauseCoordination(
+            left=from_dict(d["left"]), right=from_dict(d["right"]),
+            conjunction=d.get("conjunction", "and"),
+        )
     if kind == "Causation":
         return Causation(
             cause=from_dict(d["cause"]),

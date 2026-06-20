@@ -115,6 +115,21 @@ class Contrast:
 
 
 @dataclass(frozen=True)
+class ClauseCoordination:
+    """Two coordinate CLAUSES, both asserted independently. CLAUSE_COORD.
+
+    "X verbed Y and Z verbed W" → both clause results stand as separate,
+    non-nested predications. Distinct from the NP-level
+    :class:`gse.symbolic.resolution.Coordination` (a set-union of entities sharing
+    one predicate, e.g. "Spot and Rex are dogs"): this is clause-level, the
+    coordinate analogue of :class:`Contrast`.
+    """
+    left: Operand
+    right: Operand
+    conjunction: str = "and"
+
+
+@dataclass(frozen=True)
 class Causation:
     """Cause → effect. Produced by COMP_SO and COMP_BECAUSE.
 
@@ -232,6 +247,7 @@ Predicate = Union[
     SetRestriction,
     BoundaryCase,
     Contrast,
+    ClauseCoordination,
     Causation,
     RelativeRestriction,
     Control,

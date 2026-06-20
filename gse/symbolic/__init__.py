@@ -40,6 +40,7 @@ from gse.symbolic.operators import (
 from gse.symbolic.predicates import (
     BoundaryCase,
     Causation,
+    ClauseCoordination,
     Comparison,
     Contrast,
     Control,
@@ -94,7 +95,7 @@ __all__ = [
     # AST
     "Atom", "Expression", "Negation", "Op", "Phrase", "from_trace",
     # Predicates
-    "BoundaryCase", "Causation", "Comparison", "Contrast", "Control",
+    "BoundaryCase", "Causation", "ClauseCoordination", "Comparison", "Contrast", "Control",
     "DegreeQuery", "Equality", "Event", "MinimalSufficiency", "Predicate",
     "RelativeRestriction", "SetRestriction", "TypeAssertion", "TypeQuery",
     # Dispatch

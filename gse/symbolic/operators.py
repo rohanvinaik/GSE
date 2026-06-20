@@ -23,6 +23,7 @@ from gse.symbolic.predicates import (
     BoundaryCase,
     Causation,
     Comparison,
+    ClauseCoordination,
     Contrast,
     Control,
     DegreeQuery,
@@ -156,6 +157,18 @@ def contrast(op: Op) -> Contrast:
     return Contrast(left=op.args[0], right=op.args[1])
 
 
+def clause_coordination(op: Op) -> ClauseCoordination:
+    """CLAUSE_COORD — two coordinate clauses, both asserted independently.
+
+    "X verbed Y and Z verbed W" → ``ClauseCoordination(left=X-clause, right=Y-clause)``.
+    The coordinate analogue of CONTRAST; clause-level (distinct from the NP-level
+    ``resolution.Coordination`` set-union). Folded in ``from_trace`` like the other
+    clause-linking operators.
+    """
+    _require_arity(op, 2)
+    return ClauseCoordination(left=op.args[0], right=op.args[1], conjunction="and")
+
+
 def consequence(op: Op) -> Causation:
     """COMP_SO / CONSEQUENCE — left is cause, right is effect.
 
@@ -234,6 +247,7 @@ OPERATION_DISPATCH: Dict[str, Callable[[Op], Predicate]] = {
     "SET_RESTRICT":   set_restrict,
     "SCALAR_EXTREME": scalar_extreme,
     "CONTRAST":       contrast,
+    "CLAUSE_COORD":   clause_coordination,
     "CONSEQUENCE":    consequence,
     "CAUSAL_SOURCE":  causal_source,
     "REL_RESTRICT":   rel_restrict,

@@ -174,13 +174,12 @@ def test_rung4_control(enc):  # A3
     assert _event_binds(d2, "flee", "duncan")
 
 
-@pytest.mark.xfail(reason="B clause-level coordination not built yet", strict=False)
-def test_frontier_clause_coordination(enc):  # B
+def test_frontier_clause_coordination(enc):  # B — landed (WS1: arc-free clause-coord)
     d = _tree(enc, "Macbeth murdered Duncan and Macduff killed Macbeth.")
     murder, kill = _event(d, "murder"), _event(d, "kill")
     assert murder is not None and kill is not None
-    # the two clauses must be *coordinate*, not one swallowed into the other
-    # (today: murder[macbeth, Coordination[kill...]] — the structural failure B fixes)
+    # the two clauses are *coordinate*, not one swallowed into the other (the
+    # clause-coordinating "and" → CLAUSE_COORD boundary; both EVENTs stand apart)
     assert _event(murder, "kill") is None and _event(kill, "murder") is None
     assert _event_binds(d, "murder", "macbeth", "duncan")
     assert _event_binds(d, "kill", "macduff", "macbeth")

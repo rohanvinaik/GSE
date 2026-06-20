@@ -36,9 +36,12 @@ OPERATION_TIER = {
     "CONTRAST": OperationTier.WITHIN_CLAUSE,
     # COORDINATION is NP-level set-union (entities sharing one predicate, e.g.
     # "Spot and Rex are dogs") — handled in resolution as an entity grouping,
-    # within a single clause. Clause-level "and" ("Spot barks and Rex sleeps")
-    # is a deferred, separately-tiered case.
+    # within a single clause.
     "COORDINATION": OperationTier.WITHIN_CLAUSE,
+    # CLAUSE_COORD is clause-level "and" ("Macbeth murdered Duncan and Macduff
+    # killed Macbeth") — the encoder marks it (a predicate on each side) and it
+    # is a clause boundary, like because/so.
+    "CLAUSE_COORD": OperationTier.CLAUSE_LINKING,
     "CAUSAL_SOURCE": OperationTier.CLAUSE_LINKING,
     "CONSEQUENCE": OperationTier.CLAUSE_LINKING,
     "REL_RESTRICT": OperationTier.CLAUSE_LINKING,

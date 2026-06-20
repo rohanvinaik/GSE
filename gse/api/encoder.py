@@ -142,6 +142,12 @@ class GSEEncoder:
         #     position-based EVENT synthesis downstream finds a predicate.
         promote_to_verb = verbs_to_promote(doc)
 
+        # 1c. Clause-coordinating "and"/"or": a coordinator with a predicate on
+        #     BOTH sides joins two CLAUSES (WS1 — derived from the verb-inventory,
+        #     no spaCy arcs), distinct from NP/VP coordination. Marked as the
+        #     clause-linking CLAUSE_COORD operator so it becomes a clause boundary.
+        clause_coords = self._clause_coordinator_positions(doc, promote_to_verb)
+
         # 2. Process each token
         token_traces: List[TokenTrace] = []
         token_vectors: List[Tuple[int, SparseVector, Dict]] = []
@@ -150,6 +156,9 @@ class GSEEncoder:
         for i, tok in enumerate(doc):
             # Lexicon lookup (static primitives from database)
             word_prims, sent_prims, comp_meta = self._lookup_lexeme(tok.lemma_.lower())
+            if i in clause_coords:
+                comp_meta = {"comp_primitive": "COMP_AND",
+                             "comp_operation": "CLAUSE_COORD", "comp_arity": 2}
 
             # DYNAMIC: Replace core syntactic role primitives based on dependency parsing
             # This ensures argument order matters (dog as SUBJ vs dog as OBJ)
@@ -228,6 +237,17 @@ class GSEEncoder:
                  if k == "sequential" and ps <= attaches < pe),
                 0,
             )
+            # An embedded clause must not CROSS a sequential (clause-linking)
+            # boundary: spaCy sometimes spans an xcomp/relcl across a coordination
+            # or because/so split (e.g. it reads "Duncan and Macduff killed Macbeth"
+            # as an xcomp of "murdered"). If start and end-1 fall in different
+            # sequential clauses, drop the bogus embedding — the clause-linker owns it.
+            seq_start = next((cid for cid, ps, pe, k, _, _ in planned
+                              if k == "sequential" and ps <= s < pe), None)
+            seq_end = next((cid for cid, ps, pe, k, _, _ in planned
+                            if k == "sequential" and ps <= e - 1 < pe), None)
+            if seq_start is not None and seq_start != seq_end:
+                continue
             # A complement whose clause sits in a *different* sequential clause
             # than its matrix verb is really a so/because-linked clause (spaCy
             # tags the consequence verb as ccomp); the clause-linker owns it.
@@ -507,6 +527,29 @@ class GSEEncoder:
             return SparseVector.zeros(self.sent_basis.dimension)
 
         return bundle(components)
+
+    def _clause_coordinator_positions(self, doc, promote_to_verb) -> set:
+        """Positions of a coordinator (``and``/``or``) joining two CLAUSES — a
+        content predicate (verb / repair-promoted verb, NOT copula/aux) on BOTH
+        sides (the WS1 verb-inventory signal; arc-free, POS/lemma only).
+
+        NP coordination ("Spot and Rex are dogs" — only the copula, excluded) and
+        bare NP/adjective coordination have no predicate split, so they fall to the
+        existing within-clause resolution unchanged.
+        """
+        aux = {"be", "will", "would", "should", "could", "can", "must", "may",
+               "might", "to", "have", "do", "shall", "ought"}
+        preds = [
+            i for i, t in enumerate(doc)
+            if (i in promote_to_verb or t.pos_ == "VERB")
+            and t.lemma_.lower() not in aux
+        ]
+        out = set()
+        for i, t in enumerate(doc):
+            if t.pos_ == "CCONJ" and t.lemma_.lower() in ("and", "or"):
+                if any(p < i for p in preds) and any(p > i for p in preds):
+                    out.add(i)
+        return out
 
     def _segment_clauses(
         self,

@@ -47,6 +47,7 @@ _PRED_SPEC: Dict[str, tuple] = {
     "SetRestriction": ("SET_RESTRICT", ("member", "predicate"), ()),
     "BoundaryCase": ("BOUNDARY_CASE", ("entity", "predicate"), ("note",)),
     "Contrast": ("CONTRAST", ("left", "right"), ()),
+    "ClauseCoordination": ("CLAUSE_COORD", ("left", "right"), ("conjunction",)),
     "Causation": ("CAUSATION", ("cause", "effect"), ("conjunction",)),
     "RelativeRestriction": ("REL_RESTRICT", ("head", "restriction"), ()),
     "Control": ("CONTROL", ("subject", "controller", "inner"), ("verb",)),
