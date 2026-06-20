@@ -16,6 +16,13 @@ Branch `feat/resolved-structure`. Done and committed this session:
   A2 clausal-complement embedding, A3 control. All bind correctly.
 - **L1 compositionality ladder** (`tests/test_l1_ladder.py`): the spine that forces
   each feature to be additive; frontier rungs = the roadmap.
+- **Clean NSM lexicon rebuild** (`docs/LEXICON_REBUILD.md`, commit 66c4a4c): the
+  degenerate `lexicon.db` (bag-of-words primitives, `dog≈murder`) replaced by a clean
+  **67K-word** ternary lexicon at `data/lexicon_clean.db` — sparse (~1.9 primes/word),
+  discriminative + synonym-collapsing (dual margin +0.228), `test_l1_ladder` 15/15.
+  Directly addresses the leaf-grounding bottleneck below. Not yet the encoder default
+  (vector-path test tolerances assume the dense lexicon — a deliberate recalibration,
+  plus one resolution coupling `np_coordination` to fix).
 
 Suite green at 2225.
 

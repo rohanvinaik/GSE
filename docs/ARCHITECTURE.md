@@ -161,6 +161,18 @@ The encoder reads three queries only: lexeme row (for compositional metadata),
 `primitive_values`, and `sentence_primitive_values`. The DB is otherwise opaque
 to runtime.
 
+**Clean rebuild (`data/lexicon_clean.db`, 2026-06-20).** The live `lexicon.db`
+above is the *degenerate* lexicon — primitives extracted bag-of-words, so
+`dog≈murder`. A clean replacement has been built: **67,061 words**, sparse
+(~1.9 primes/word), discriminative + synonym-collapsing (dual margin +0.228), via
+the layered pipeline in [`LEXICON_REBUILD.md`](LEXICON_REBUILD.md) (grammatical
+words handled per [`NSM_GRAMMAR_MAPPING.md`](NSM_GRAMMAR_MAPPING.md)). It is **not
+yet the encoder default**: the symbolic path is validated on it
+(`tests/test_l1_ladder.py` 15/15), but the vector-path test tolerances were
+calibrated for the *dense* lexicon (word-meaning is preserved — `ran≡run` — only
+the sparse full-vector cosines shift), so the default-switch awaits a deliberate
+recalibration plus one resolution-layer coupling to fix (`np_coordination`).
+
 > The root-level `lexicon.db` (123 KB, 0 rows) is a stale empty stub. Do not
 > point the encoder at it. See [§7](#7-drift-map).
 
