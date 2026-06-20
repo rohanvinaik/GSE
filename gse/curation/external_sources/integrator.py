@@ -128,6 +128,21 @@ class ExternalSourcesIntegrator:
         except Exception as e:
             logger.warning(f"Failed to load Lancaster Sensorimotor: {e}")
 
+        # WordNet hierarchy (IS-A taxonomy → category / SUBSTANTIVES). The
+        # category source: grounds `animal→ALIVE`, `person→SOMEONE`, the molecules
+        # the dictionary genus chains can't reach. Scoped in source_scope.
+        try:
+            from gse.curation.external_sources.wordnet_hierarchy import (
+                WordNetHierarchyParser,
+            )
+            parser = WordNetHierarchyParser()
+            if parser.load():
+                self.parsers['wordnet_hierarchy'] = parser
+                stats['wordnet_hierarchy'] = len(parser.get_all_words())
+                logger.info(f"Loaded WordNet hierarchy: {stats['wordnet_hierarchy']} words")
+        except Exception as e:
+            logger.warning(f"Failed to load WordNet hierarchy: {e}")
+
         # Wiktionary v2 (primary lexeme spine — deterministic, source-grounded,
         # ~1.3M words). Reads the pre-built v2 DB; no JSONL processing needed.
         try:

@@ -81,6 +81,14 @@ SOURCE_PRIMITIVE_SCOPE: Mapping[str, Set[str]] = {
         "DO", "HAPPEN", "MOVE", "BE", "CAUSE",
         "SAY", "WORDS", "SOMEONE", "SOMETHING",
     },
+    # WordNet hierarchy: IS-A taxonomy. Its competence is *category* — the
+    # SUBSTANTIVES bank — which the dictionary genus chains cannot reach
+    # (Wiktionary defines `animal` as "a member of the kingdom Animalia", never
+    # "alive"). Scoped to category only so it contributes IS-A grounding and
+    # not the DO/CAUSE/THINK noise its union-over-senses also carries.
+    "wordnet_hierarchy": {
+        "SOMETHING", "SOMEONE", "ALIVE", "BODY", "PEOPLE", "PART", "KIND",
+    },
     # wiktionary_v2 deliberately omitted → unrestricted broad coverage.
 }
 

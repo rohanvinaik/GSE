@@ -210,36 +210,37 @@ class WordNetHierarchyParser(BaseExternalParser):
 
     @lru_cache(maxsize=10000)
     def to_primitives(self, word: str) -> Dict[str, int]:
-        """Map word to GSE primitives based on hierarchy position."""
+        """Map a word to GSE category primitives from its PRIMARY sense's IS-A path.
+
+        Two corrections over the original union-over-senses version (both found
+        in the Layer-1 audit):
+          * **Primary sense only.** WordNet orders senses by frequency, so the
+            primary synset is the everyday meaning. Unioning every sense bled
+            ``dog``/``sauce`` → ``SOMEONE`` from the "contemptible person" sense.
+          * **No meronym/holonym → PART.** "Has parts" is not the PART prime;
+            tagging it fired PART on nearly everything (``tau``, ``georgia``).
+            A genuine part still gets PART via its IS-A ancestor (``body_part`` →
+            ``BODY/PART`` in ROOT_CONCEPT_PRIMITIVES), so nothing real is lost.
+        """
         if not self._loaded:
             self.load()
-
-        word = word.lower()
-        entries = self.entries.get(word, [])
-        if not entries:
+        if self._wn is None:
             return {}
+        syns = self._wn.synsets(word.lower().replace(' ', '_'))
+        if not syns:
+            return {}
+        primary = syns[0]
 
         primitives: Dict[str, int] = {}
-
-        for entry in entries:
-            # Domain-based primitives (lexname)
-            if entry.lexname and entry.lexname in LEXNAME_TO_PRIMITIVE:
-                for prim, val in LEXNAME_TO_PRIMITIVE[entry.lexname].items():
-                    if prim not in primitives:
-                        primitives[prim] = val
-
-            # Part-whole relationships
-            if entry.has_meronyms:
-                if 'PART' not in primitives:
-                    primitives['PART'] = 1
-
-            if entry.has_holonyms:
-                if 'PART' not in primitives:
-                    primitives['PART'] = 1
-
-        # Check ancestor concepts for additional primitives
-        self._apply_ancestor_primitives(word, primitives)
-
+        lexname = primary.lexname() if hasattr(primary, 'lexname') else None
+        if lexname and lexname in LEXNAME_TO_PRIMITIVE:
+            for prim, val in LEXNAME_TO_PRIMITIVE[lexname].items():
+                primitives.setdefault(prim, val)
+        for path in primary.hypernym_paths():
+            for anc in path:
+                if anc.name() in ROOT_CONCEPT_PRIMITIVES:
+                    for prim, val in ROOT_CONCEPT_PRIMITIVES[anc.name()].items():
+                        primitives.setdefault(prim, val)
         return primitives
 
     def _apply_ancestor_primitives(self, word: str, primitives: Dict[str, int]):
