@@ -38,6 +38,29 @@ REGISTER_TAXONOMY: Dict[str, List[str]] = {
     ],
 }
 
+# --- the middle level: super-registers -----------------------------------------
+# Derived from hierarchical (ward) clustering of per-genre profile centroids on the
+# corpus (NOT hand-grouped) — the granularity the signal + data actually support.
+# A super-register is the unit a voice-mode toolkit attaches to (the Genesis-style
+# Compass: deduction baseline + censor + explanation, inherited down to the genre).
+SUPER_REGISTER_OF: Dict[str, str] = {
+    # NARRATIVE — fiction sub-genres (the dominant confusion cluster).
+    "adventure": "narrative", "fiction": "narrative", "mystery": "narrative",
+    "romance": "narrative", "science_fiction": "narrative",
+    # REPORTORIAL — factual/official prose.
+    "editorial": "reportorial", "government": "reportorial", "learned": "reportorial",
+    "news": "reportorial", "newswire": "reportorial",
+    # ESSAYISTIC — discursive/elevated prose.
+    "belles_lettres": "essayistic", "hobbies": "essayistic", "humor": "essayistic",
+    "lore": "essayistic", "religion": "essayistic", "reviews": "essayistic",
+    # LEXICALLY_DIVERGENT — high-OOV registers (slang vs archaic); they cluster
+    # together because both need lexical-repair voice-modes (different dictionaries).
+    "chat": "lexically_divergent", "shakespeare": "lexically_divergent",
+    # distinct singletons:
+    "archaic_english": "archaic",
+    "poetry": "poetry", "reference": "reference", "list": "list",
+}
+
 # Reverse index: genre → register_class.
 GENRE_TO_CLASS: Dict[str, str] = {
     g: cls for cls, genres in REGISTER_TAXONOMY.items() for g in genres
@@ -54,3 +77,13 @@ def register_class_of(genre: str) -> str:
     except KeyError as exc:
         raise KeyError(
             f"unknown genre {genre!r}; declare it in REGISTER_TAXONOMY") from exc
+
+
+def super_register_of(genre: str) -> str:
+    """The middle-level super-register for a fine genre (the toolkit-inheritance
+    unit). Raises on an undeclared genre."""
+    try:
+        return SUPER_REGISTER_OF[genre]
+    except KeyError as exc:
+        raise KeyError(
+            f"unknown genre {genre!r}; declare it in SUPER_REGISTER_OF") from exc

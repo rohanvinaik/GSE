@@ -30,6 +30,8 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--corpus", default=str(ROOT / "data" / "l2_corpus.jsonl"))
     ap.add_argument("--folds", type=int, default=4)
+    ap.add_argument("--level", default="super_register",
+                    choices=["genre", "super_register", "register_class"])
     ap.add_argument("--out", default=str(ROOT / "data" / "register_router.pt"))
     args = ap.parse_args()
 
@@ -40,22 +42,24 @@ def main() -> int:
     from sklearn.model_selection import StratifiedKFold
     from sklearn.preprocessing import StandardScaler
 
-    from gse.discourse import register_class_of
+    from gse.discourse import register_class_of, super_register_of
     from gse.discourse.router import BANKS, RegisterRouter
 
     torch.manual_seed(0)
     np.random.seed(0)
 
+    levelfn = {"genre": lambda g: g, "super_register": super_register_of,
+               "register_class": register_class_of}[args.level]
     rows = [json.loads(l) for l in open(args.corpus)]
-    genres = sorted({r["genre"] for r in rows})
-    gi = {g: i for i, g in enumerate(genres)}
+    labels = sorted({levelfn(r["genre"]) for r in rows})
+    li = {lab: i for i, lab in enumerate(labels)}
     X = np.array([r["vector"] for r in rows], dtype=np.float32)
-    y = np.array([gi[r["genre"]] for r in rows])
+    y = np.array([li[levelfn(r["genre"])] for r in rows])
     # bank slice boundaries (BANKS order, keys sorted — matches TextProfile.vector()).
     sizes = [len(rows[0]["banks"][b]) for b in BANKS]
     bnd = np.cumsum([0] + sizes)
-    print(f"corpus: {len(rows)} docs, {len(genres)} genres, {X.shape[1]}-dim "
-          f"({'+'.join(map(str, sizes))} banks)")
+    print(f"corpus: {len(rows)} docs | level={args.level} → {len(labels)} classes "
+          f"| {X.shape[1]}-dim ({'+'.join(map(str, sizes))} banks)")
 
     def slices(t):  # full tensor -> list of per-bank tensors
         return [t[:, bnd[i]:bnd[i + 1]] for i in range(len(BANKS))]
@@ -65,7 +69,7 @@ def main() -> int:
         xt = torch.tensor(scaler.transform(Xtr), dtype=torch.float32)
         yt = torch.tensor(ytr)
         bx = slices(xt)
-        m = RegisterRouter(sizes, X.shape[1], len(genres))
+        m = RegisterRouter(sizes, X.shape[1], len(labels))
         ce = nn.CrossEntropyLoss()
 
         def run(params, lr, epochs):
@@ -106,27 +110,30 @@ def main() -> int:
             specm = spec.mean(1).argmax(1).numpy()            # specialists alone (no trust)
         spec_acc.append((specm == y[te]).mean())
         comp_acc.append((comp == y[te]).mean())
-        rc_acc.append(np.mean([
-            register_class_of(genres[p]) == register_class_of(genres[t])
-            for p, t in zip(comp, y[te])]))
+        # coarse register_class agreement (poetry/reference/list = non_speech).
+        nonsp = {"poetry", "reference", "list"}
+        coarse = lambda lab: "non_speech" if lab in nonsp else "speech"
+        rc_acc.append(np.mean([coarse(labels[p]) == coarse(labels[t])
+                               for p, t in zip(comp, y[te])]))
         for p, t in zip(comp, y[te]):
             if p != t:
-                confusion[tuple(sorted((genres[t], genres[p])))] += 1
+                confusion[tuple(sorted((labels[t], labels[p])))] += 1
 
     def pm(a): return f"{np.mean(a):.3f} ± {np.std(a):.3f}"
-    print(f"\n  random baseline (1/{len(genres)})      = {1/len(genres):.3f}")
+    print(f"\n  random baseline (1/{len(labels)})      = {1/len(labels):.3f}")
     print(f"  logistic-regression baseline    = {pm(base_acc)}   (signal-quality floor)")
     print(f"  SoM specialists alone (no trust)= {pm(spec_acc)}")
     print(f"  SoM composed (trust orchestr.)  = {pm(comp_acc)}   <- compositional gain")
     print(f"  register_class (speech/nonsp.)  = {pm(rc_acc)}   (coarse axis)")
-    print("\n  most-confused genre pairs (grow the corpus here):")
+    print(f"\n  most-confused {args.level} pairs (grow the corpus here):")
     for (a, b), n in sorted(confusion.items(), key=lambda kv: -kv[1])[:8]:
         print(f"    {n}×  {a} ~ {b}")
 
     # Final model on all data, saved for the runtime dispatcher.
     m, scaler = train_fold(X, y)
-    torch.save({"state_dict": m.state_dict(), "genres": genres, "bank_sizes": sizes,
-                "full_dim": X.shape[1], "scaler_mean": scaler.mean_.tolist(),
+    torch.save({"state_dict": m.state_dict(), "labels": labels, "level": args.level,
+                "bank_sizes": sizes, "full_dim": X.shape[1],
+                "scaler_mean": scaler.mean_.tolist(),
                 "scaler_scale": scaler.scale_.tolist()}, args.out)
     print(f"\n[saved] final router → {args.out}")
     return 0

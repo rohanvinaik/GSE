@@ -22,7 +22,9 @@ from gse.discourse.registers import (
     ALL_GENRES,
     GENRE_TO_CLASS,
     REGISTER_TAXONOMY,
+    SUPER_REGISTER_OF,
     register_class_of,
+    super_register_of,
 )
 
 __all__ = [
@@ -32,6 +34,8 @@ __all__ = [
     "text_profile",
     "REGISTER_TAXONOMY",
     "GENRE_TO_CLASS",
+    "SUPER_REGISTER_OF",
     "ALL_GENRES",
     "register_class_of",
+    "super_register_of",
 ]
