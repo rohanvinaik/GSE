@@ -51,6 +51,16 @@ def _require_arity(op: Op, expected: int) -> None:
         )
 
 
+def _require_min_arity(op: Op, minimum: int) -> None:
+    """Unary operators tolerate an over-grabbed span: they use ``args[0]`` and
+    ignore extras (raising only on *zero* args), rather than crashing on the
+    bounded-register tail. Surfaced by the L2 parse audit: "even"/"what" in some
+    positions attach a second arg (e.g. "Even if all these operations …")."""
+    if len(op.args) < minimum:
+        raise ValueError(
+            f"{op.operation} expects ≥{minimum} arg(s), got {len(op.args)}")
+
+
 # ---------------------------------------------------------------------------
 # Per-operator semantic functions
 # ---------------------------------------------------------------------------
@@ -83,7 +93,7 @@ def degree_query(op: Op) -> DegreeQuery:
     following independent clause ending at clause-terminating punctuation.
     arity=1: the entity being queried.
     """
-    _require_arity(op, 1)
+    _require_min_arity(op, 1)
     return DegreeQuery(entity=op.args[0])
 
 
@@ -93,7 +103,7 @@ def type_query(op: Op) -> TypeQuery:
     User spec: "What is X?" returns X's KIND/SOMEONE/SOMETHING/PEOPLE/BODY
     primitive activations from its word_primitives.
     """
-    _require_arity(op, 1)
+    _require_min_arity(op, 1)
     return TypeQuery(entity=op.args[0])
 
 
@@ -128,7 +138,7 @@ def set_restrict(op: Op) -> SetRestriction:
     sentence context. For v1 we represent the predicate as the Op's
     arg with a note that the surrounding context is implicit.
     """
-    _require_arity(op, 1)
+    _require_min_arity(op, 1)
     # The arg of ONLY is the lone member (e.g., "Mike" in "Only Mike sings").
     # The predicate ("sings") is in the rest of the sentence — for v1 we
     # carry the arg as both member and predicate-context; a future B5/B3
@@ -143,7 +153,7 @@ def scalar_extreme(op: Op) -> BoundaryCase:
     operation without asserting the scalar-extreme universal. Deferred
     to future hierarchical-network-traversal work.
     """
-    _require_arity(op, 1)
+    _require_min_arity(op, 1)
     return BoundaryCase(entity=op.args[0], predicate=op.args[0])
 
 
