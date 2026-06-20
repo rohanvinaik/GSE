@@ -71,6 +71,14 @@ DEP_TO_SYNTACTIC = {
     "poss": "SYN_DET",
 }
 
+# WS1 arc-free clause-structure derivation: lexically-known relativizers and
+# clause-linking connectives (the boundary signals the embedded-clause deriver
+# uses instead of spaCy ``dep_``/``subtree``/``children``/``head``).
+_RELATIVIZERS = {"who", "whom", "which", "that", "whose"}
+_CLAUSE_LINKER_LEMMAS = {"because", "so", "and", "or", "but", "if"}
+_NOMINAL_POS_ENC = {"PROPN", "NOUN", "PRON"}
+_SENT_END_PUNCT = {".", "!", "?"}
+
 # TAM (Tense-Aspect-Mood) from morphological features
 MORPH_TO_TAM = {
     "Tense=Past": "SYN_TENSE_PAST",
@@ -217,7 +225,7 @@ class GSEEncoder:
             for op_idx in operator_indices
         ]
         sequential = self._segment_clauses(n_tokens, op_meta)
-        embedded = self._detect_embedded_clauses(doc)
+        embedded = self._detect_embedded_clauses(doc, promote_to_verb)
 
         # An embedded clause forces clause planning even without a sequential
         # boundary: synthesize a single implicit main clause to hang it on.
@@ -587,17 +595,109 @@ class GSEEncoder:
         return spans
 
     def _detect_embedded_clauses(
-        self, doc,
+        self, doc, promote_to_verb: Optional[set] = None,
     ) -> List[Tuple[int, int, str, int, Optional[str]]]:
-        """Find embedded clauses that nest inside a parent span.
+        """Find embedded clauses that nest inside a parent span — WS1 arc-free.
 
-        Unlike because/so (which split the stream sequentially), relative
-        clauses (spaCy ``relcl``) and control complements (``xcomp`` with a
-        ``to`` particle) hang off a token *inside* a parent clause. Returns
-        ``(token_start, token_end, kind, attaches_to_token, gap_role)`` per
-        embedded clause, where ``attaches_to_token`` is the antecedent (relative)
-        or controlling verb (control), and ``gap_role`` is the relativizer's gap
-        ("subject"/"object", else None). See docs/COMPLEX_SENTENCE_DESIGN.md §M2.
+        Unlike because/so (which split the stream sequentially), relative,
+        control, and complement clauses hang off a token *inside* a parent
+        clause. Their boundaries are derived from the lexically-known connective
+        inventory (relativizers who/whom/which/that, the infinitival ``to``, the
+        complementizer ``that``) + the verb-inventory (predicate positions,
+        copula included) + linear position — NO spaCy ``dep_``/``subtree``/
+        ``children``/``head``. Returns ``(token_start, token_end, kind,
+        attaches_to_token, gap_role)`` per embedded clause.
+
+        This is intentionally cleaner than the arc version: spaCy mis-reads a
+        coordination / so-consequence as a ``ccomp`` and the encoder then filters
+        those spurious complements (see ``encode`` §3); here the clause-linkers
+        own them, so they are never emitted. See docs/COMPLEX_SENTENCE_DESIGN.md §M2.
+        """
+        toks = list(doc)
+        n = len(toks)
+        promote = promote_to_verb or set()
+
+        def is_pred(k: int) -> bool:
+            t = toks[k]
+            return (k in promote or t.pos_ == "VERB"
+                    or (t.pos_ == "AUX" and t.lemma_.lower() == "be"))
+
+        def is_nominal(k: int) -> bool:
+            return toks[k].pos_ in _NOMINAL_POS_ENC
+
+        def next_pred(after: int) -> Optional[int]:
+            return next((k for k in range(after + 1, n) if is_pred(k)), None)
+
+        def clause_end(after: int) -> int:
+            """First clause-linker / sentence-final punct at or after ``after`` —
+            the right boundary of a non-bracketed embedded clause."""
+            for k in range(after, n):
+                if toks[k].lemma_.lower() in _CLAUSE_LINKER_LEMMAS:
+                    return k
+                if toks[k].pos_ == "PUNCT" and toks[k].text in _SENT_END_PUNCT:
+                    return k
+            return n
+
+        embedded: List[Tuple[int, int, str, int, Optional[str]]] = []
+        for i, tok in enumerate(toks):
+            lemma = tok.lemma_.lower()
+
+            # --- control: infinitival "to" + verb -------------------------------
+            if lemma == "to" and i + 1 < n and (
+                toks[i + 1].pos_ == "VERB" or (i + 1) in promote
+            ):
+                mverb = next((k for k in range(i - 1, -1, -1) if is_pred(k)), None)
+                if mverb is None:
+                    continue
+                # object control (a nominal between matrix verb and "to") else subject.
+                controller = next(
+                    (k for k in range(mverb + 1, i) if is_nominal(k)), None)
+                if controller is None:
+                    controller = next(
+                        (k for k in range(mverb - 1, -1, -1) if is_nominal(k)), None)
+                if controller is not None:
+                    embedded.append((i, clause_end(i + 1), "control", controller, None))
+                continue
+
+            # --- relative / complement: a relativizer or complementizer ---------
+            if lemma in _RELATIVIZERS:
+                p = i - 1
+                while p >= 0 and toks[p].text == ",":
+                    p -= 1
+                if p < 0:
+                    continue
+                # complementizer "that" after a reporting predicate.
+                if lemma == "that" and is_pred(p):
+                    embedded.append((i, clause_end(i + 1), "complement", p, None))
+                    continue
+                # relative clause: relativizer after a nominal antecedent.
+                if is_nominal(p):
+                    p1 = next_pred(i)
+                    if p1 is None:
+                        continue
+                    if i - 1 >= 0 and toks[i - 1].text == ",":  # non-restrictive
+                        end = next((k for k in range(p1 + 1, n)
+                                    if toks[k].text == ","), n)
+                    else:                                        # restrictive
+                        p2 = next_pred(p1)
+                        end = p2 if p2 is not None else n
+                    if lemma == "whom":
+                        gap_role: Optional[str] = "object"
+                    else:
+                        has_subj = any(is_nominal(k) for k in range(i + 1, p1))
+                        gap_role = "object" if has_subj else "subject"
+                    embedded.append((i, end, "relative", p, gap_role))
+                continue
+
+        return embedded
+
+    def _detect_embedded_clauses_arcs(
+        self, doc, promote_to_verb: Optional[set] = None,
+    ) -> List[Tuple[int, int, str, int, Optional[str]]]:
+        """Legacy arc-based reference — kept only for the WS1 parity harness.
+
+        Reads spaCy ``dep_``/``subtree``/``children``/``head``; the production
+        path no longer does. Delete once the engine swap lands.
         """
         embedded: List[Tuple[int, int, str, int, Optional[str]]] = []
         for tok in doc:

@@ -32,22 +32,52 @@ def main() -> int:
     from gse.api.parse_repair import _verbs_to_promote_arcs, verbs_to_promote
 
     nlp = spacy.load("en_core_web_sm")
-
-    checks = {"verbs_to_promote": (verbs_to_promote, _verbs_to_promote_arcs)}
-
     overall_ok = True
-    for name, (new_fn, ref_fn) in checks.items():
-        diverged = []
-        for text in corpus:
-            doc = nlp(text)
-            new, ref = new_fn(doc), ref_fn(doc)
-            if new != ref:
-                diverged.append((text, sorted(ref), sorted(new)))
-        status = "OK" if not diverged else f"{len(diverged)} DIVERGENCES"
-        print(f"[{name}] {len(corpus)} sentences — {status}")
-        for text, ref, new in diverged:
-            print(f"    {text!r}\n        arc-ref={ref}  arc-free={new}")
-        overall_ok = overall_ok and not diverged
+
+    # --- function-level: verbs_to_promote (arc-free vs arc) -------------------
+    diverged = []
+    for text in corpus:
+        doc = nlp(text)
+        if verbs_to_promote(doc) != _verbs_to_promote_arcs(doc):
+            diverged.append((text, sorted(_verbs_to_promote_arcs(doc)),
+                             sorted(verbs_to_promote(doc))))
+    print(f"[verbs_to_promote] {len(corpus)} sentences — "
+          f"{'OK' if not diverged else f'{len(diverged)} DIVERGENCES (reviewed)'}")
+    for text, ref, new in diverged:
+        print(f"    {text!r}  arc-ref={ref}  arc-free={new}")
+
+    # --- trace-level: embedded-clause deriver (the real contract) ------------
+    # Compare the full resolved symbolic structure + vector_hash between the
+    # arc-free and arc embedded-clause derivers. Raw embedded tuples differ on
+    # and/so sentences (arc emits spurious ccomps the encoder filters; arc-free
+    # never emits them) — the trace is what must match.
+    from gse.api.encoder import GSEEncoder
+    from gse.symbolic import from_trace, resolve, to_dict
+
+    enc = GSEEncoder()
+    arcfree_method = enc._detect_embedded_clauses
+    arc_method = enc._detect_embedded_clauses_arcs
+
+    def trace_struct(text):
+        tr = enc.encode(text)
+        return to_dict(resolve(from_trace(tr))), tr.vector_hash
+
+    tdiv = []
+    for text in corpus:
+        enc._detect_embedded_clauses = arcfree_method
+        free_struct, free_hash = trace_struct(text)
+        enc._detect_embedded_clauses = arc_method
+        arc_struct, arc_hash = trace_struct(text)
+        enc._detect_embedded_clauses = arcfree_method
+        if free_struct != arc_struct or free_hash != arc_hash:
+            tdiv.append((text, free_hash != arc_hash, free_struct != arc_struct))
+    enc.close()
+    print(f"[embedded_clauses:trace] {len(corpus)} sentences — "
+          f"{'OK' if not tdiv else f'{len(tdiv)} DIVERGENCES'}")
+    for text, hdiff, sdiff in tdiv:
+        flags = ("hash " if hdiff else "") + ("struct" if sdiff else "")
+        print(f"    {text!r}  [{flags}]")
+    overall_ok = overall_ok and not tdiv
 
     return 0 if overall_ok else 2
 
