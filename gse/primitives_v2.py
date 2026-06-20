@@ -155,6 +155,33 @@ def get_canonical_pole(primitive: str) -> Tuple[str, int]:
     return (dim.positive, dim.get_polarity(primitive))
 
 
+def negate_decomposition(primitives: Dict[str, int]) -> Dict[str, int]:
+    """Selective bipolar negation — the HDC face of word-scale negation.
+
+    Negation (``un-``/``dis-``/``in-`` … and the standalone ``NOT`` flip) inverts
+    a word's evaluative *poles* but leaves its non-evaluative content intact:
+    ``dislike = NOT(like)`` flips ONLY the {GOOD,BAD}-style bipolar axes;
+    intensity and the unipolar primes (DO, KNOW, FEEL, SOMETHING …) are
+    preserved (vision §IV-D). This is therefore NOT the blanket
+    ``SparseVector.negate()`` (which swaps every index, wrongly flipping unipolar
+    primes too) — it operates on the primitive *decomposition* and only touches
+    bipolar dimensions.
+
+    Each bipolar pole is first canonicalized to its positive pole, then its sign
+    is flipped — so the lexicon's dual convention is handled uniformly:
+    ``happy={GOOD:+1}`` → ``{GOOD:-1}`` and ``bad={BAD:+1}`` → ``{GOOD:+1}``
+    both come out right.
+    """
+    out: Dict[str, int] = {}
+    for prim, value in primitives.items():
+        if prim in BIPOLAR_PRIMITIVES:
+            canon, polarity = get_canonical_pole(prim)   # canon = positive pole
+            out[canon] = out.get(canon, 0) - (value * polarity)
+        else:
+            out[prim] = value
+    return out
+
+
 # =============================================================================
 # HIERARCHICAL MODIFIERS
 # =============================================================================

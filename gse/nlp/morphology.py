@@ -32,6 +32,22 @@ from nltk.corpus import wordnet as wn
 COMPARATIVE = "Degree=Cmp"
 SUPERLATIVE = "Degree=Sup"
 
+# Word-scale negation features. NEGATION = the evaluative sign-flip
+# (``unhappy`` = NOT(happy)); REVERSAL = action undoing (``unlock`` = undo lock),
+# a distinct, non-sign-flip semantics handled recognition-only in v1.
+NEGATION = "Polarity=Neg"
+REVERSAL = "Reversal=Yes"
+
+# Negation prefixes and whether each can also form a VERB reversal. ``un-``/``dis-``
+# form both adjectival negation (unkind/disloyal) AND verb reversal
+# (unlock/disconnect); ``in-``/``im-``/``il-``/``ir-``/``non-`` are negation-only.
+# Over-proposing is harmless — the grounding gate (a real adjective/verb must exist)
+# rejects false prefixes (uncle→cle, income→come-but-in-is-negation-only, internal→ternal).
+_NEG_PREFIXES = (
+    ("un", True), ("dis", True), ("non", False),
+    ("im", False), ("il", False), ("ir", False), ("in", False),
+)
+
 # Suppletive degree forms — a FINITE closed list (a fact of the language, like the
 # irregular-verb table; legitimately enumerable, NOT the rejected lookup DB).
 # Restricted to the unambiguous adjective suppletives; the overloaded quantifier
@@ -90,4 +106,30 @@ def resolve_degree(surface: str) -> Optional[Tuple[str, str]]:
                 if _is_gradable_adjective(cand):
                     return cand, feat
             return None  # ends in the suffix but no base grounds → not a degree form
+    return None
+
+
+def resolve_negation(surface: str) -> Optional[Tuple[str, str]]:
+    """The negation-prefix operation: ``surface → (base, feature)`` or ``None``.
+
+    The same propose→coherence-resolve shape as :func:`resolve_degree`: a negation
+    prefix is the marker, the base is proposed by stripping it, and the grounding
+    oracle decides. A stripped base that grounds as a gradable adjective is
+    **NEGATION** (``unkind``→``(kind, NEGATION)``, the evaluative sign-flip the
+    encoder applies via :func:`gse.primitives_v2.negate_decomposition`); for
+    ``un-``/``dis-`` a base that grounds as a verb is **REVERSAL**
+    (``unlock``→``(lock, REVERSAL)``, action-undoing — recognition-only in v1).
+
+    The grounding gate kills false prefixes exactly as the ``-er`` collision dies:
+    ``uncle``→``cle`` grounds as nothing → None; ``income``→``come`` is a verb but
+    ``in-`` is negation-only → None; ``insane``→``sane`` is an adjective → NEGATION.
+    """
+    low = surface.lower()
+    for pref, allow_reversal in _NEG_PREFIXES:
+        if low.startswith(pref) and len(low) > len(pref) + 2:
+            base = low[len(pref):]
+            if _is_gradable_adjective(base):
+                return base, NEGATION
+            if allow_reversal and wn.synsets(base, pos="v"):
+                return base, REVERSAL
     return None

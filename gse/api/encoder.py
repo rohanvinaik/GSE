@@ -16,6 +16,8 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from gse.api.errors import OOVError, PrimitiveError
 from gse.api.parse_repair import verbs_to_promote
+from gse.nlp.morphology import NEGATION, resolve_negation
+from gse.primitives_v2 import negate_decomposition
 from gse.api.trace import (
     ClauseSpan,
     OperationTrace,
@@ -188,7 +190,20 @@ class GSEEncoder:
 
         for i, tok in enumerate(doc):
             # Lexicon lookup (static primitives from database)
-            word_prims, sent_prims, comp_meta = self._lookup_lexeme(tok.lemma_.lower())
+            lemma = tok.lemma_.lower()
+            word_prims, sent_prims, comp_meta = self._lookup_lexeme(lemma)
+
+            # Word-scale negation (morphology-as-operation): `un-X` == negate(X).
+            # Compute-and-override so the encoding IS the sign-flipped base
+            # (representational collapse — the negated form lands on the base's
+            # form), not the noisy stored `un-` row. NEGATION only; REVERSAL
+            # (unlock) is recognition-only in v1 — not a sign flip. Falls back to
+            # the stored row when the base is OOV.
+            neg = resolve_negation(lemma)
+            if neg is not None and neg[1] == NEGATION:
+                base_prims, _, _ = self._lookup_lexeme(neg[0])
+                if base_prims:
+                    word_prims = negate_decomposition(base_prims)
             if i in clause_coords:
                 comp_meta = {"comp_primitive": "COMP_AND",
                              "comp_operation": "CLAUSE_COORD", "comp_arity": 2}
