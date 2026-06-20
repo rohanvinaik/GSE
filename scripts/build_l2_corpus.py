@@ -45,6 +45,12 @@ _LISTS = [
     "Call the dentist. Pay the electric bill. Pick up the dry cleaning. Email the landlord.",
     "Model X200. Sixteen gigabytes of memory. A five hundred gigabyte drive. Two USB ports.",
     "Nine o'clock standup. Ten o'clock design review. Noon lunch. Two o'clock client call.",
+    "Tomatoes. Onions. Garlic. Olive oil. Pasta. Parmesan. Fresh basil. A loaf of bread.",
+    "One ladder. A box of screws. Two paint cans. A roll of tape. Sandpaper. A drop cloth.",
+    "Towels. Sheets. A pillow. Soap. Shampoo. A first aid kit. Batteries. A flashlight.",
+    "Fever. Sore throat. Headache. A dry cough. Fatigue. Loss of appetite. Body aches.",
+    "Aisle four: cereal. Aisle seven: frozen goods. Aisle nine: cleaning supplies. Checkout.",
+    "Wrench. Screwdriver. Pliers. A hammer. A level. A tape measure. Safety goggles. Gloves.",
 ]
 _VERSE_FILES = ["blake-poems.txt", "whitman-leaves.txt", "milton-paradise.txt"]
 _SHAKESPEARE_FILES = ["shakespeare-macbeth.txt", "shakespeare-hamlet.txt",
@@ -84,25 +90,24 @@ def _providers(docs_per_genre: int, max_sents: int):
         yield ("speech", "newswire", "reuters", f"newswire/{fid}",
                _join(reuters.sents(fid)[:max_sents]))
 
-    # SPEECH · archaic_english — the 1611 KJV.
-    for ci, chunk in _chunks(gutenberg.sents("bible-kjv.txt"), max_sents, 4):
+    # SPEECH · archaic_english — the 1611 KJV (long → scales freely).
+    for ci, chunk in _chunks(gutenberg.sents("bible-kjv.txt"), max_sents, docs_per_genre):
         yield ("speech", "archaic_english", "gutenberg",
                f"archaic/kjv-{ci}", _join(chunk))
 
-    # SPEECH · shakespeare — Early Modern verse drama.
+    # SPEECH · shakespeare — Early Modern verse drama (split across the plays).
+    sh_per = max(2, docs_per_genre // len(_SHAKESPEARE_FILES))
     for sf in _SHAKESPEARE_FILES:
-        for ci, chunk in _chunks(gutenberg.sents(sf), max_sents, 2):
+        for ci, chunk in _chunks(gutenberg.sents(sf), max_sents, sh_per):
             yield ("speech", "shakespeare", "gutenberg",
                    f"shakespeare/{sf}-{ci}", _join(chunk))
 
-    # NON-SPEECH · poetry/verse — gutenberg verse, chunked.
+    # NON-SPEECH · poetry/verse — gutenberg verse, chunked (split across files).
+    po_per = max(2, docs_per_genre // len(_VERSE_FILES))
     for vf in _VERSE_FILES:
-        sents = gutenberg.sents(vf)
-        for ci in range(2):  # two chunks per verse file
-            chunk = sents[ci * max_sents:(ci + 1) * max_sents]
-            if chunk:
-                yield ("non_speech", "poetry", "gutenberg",
-                       f"poetry/{vf}-{ci}", _join(chunk))
+        for ci, chunk in _chunks(gutenberg.sents(vf), max_sents, po_per):
+            yield ("non_speech", "poetry", "gutenberg",
+                   f"poetry/{vf}-{ci}", _join(chunk))
 
     # NON-SPEECH · reference/wiki — clusters of Wiktionary glosses (plain-text defs).
     kaikki = ROOT / "data" / "external" / "wiktionary" / "kaikki-english.jsonl"
@@ -122,7 +127,7 @@ def _providers(docs_per_genre: int, max_sents: int):
                     yield ("non_speech", "reference", "wiktionary",
                            f"ref/{doc_i}", " ".join(glosses[:8]))
                     glosses, doc_i = [], doc_i + 1
-                    if doc_i >= 8:
+                    if doc_i >= docs_per_genre:
                         break
 
     # NON-SPEECH · lists — hand-curated (no clean dataset; classical-AI scale).
