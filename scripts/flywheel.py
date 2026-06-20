@@ -1,0 +1,72 @@
+#!/usr/bin/env python3
+"""The L2 dogfooding flywheel — one reproducible cycle, as a stable process.
+
+The loop that turns coverage into refinement instead of brittleness:
+
+    parse the corpus with GSE  →  train the register router  →
+    find the gaps (audit)      →  fix the CLEAN/structural ones  →  re-run
+
+This script automates the MEASURE half — rebuild → re-train → audit → emit the
+failure-shape worklist — as a single, compact, repeatable command. The FIX half is
+deliberately human: apply the clean/structural fixes the audit surfaces, DEFER the
+messy ones (more data often resolves them), then run again. The process is *stable*
+when a cycle's audit surfaces no new clean fix and the router's super-register
+confusion stops shrinking — that's convergence; grow the corpus and continue.
+
+Reuses the canonical scripts (build_l2_corpus / train_register_router /
+audit_l2_parses) — single source of truth, no reimplementation.
+
+Usage:
+    python scripts/flywheel.py               # full cycle (rebuild + re-train + audit)
+    python scripts/flywheel.py --no-rebuild  # iterate re-train + audit only (fast)
+    python scripts/flywheel.py --level genre # train/confuse at a different level
+"""
+from __future__ import annotations
+
+import argparse
+import subprocess
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+SCRIPTS = ROOT / "scripts"
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--no-rebuild", action="store_true",
+                    help="skip the corpus rebuild (re-train + audit only)")
+    ap.add_argument("--docs-per-genre", type=int, default=20)
+    ap.add_argument("--level", default="super_register",
+                    choices=["genre", "super_register", "register_class"])
+    args = ap.parse_args()
+
+    steps = []
+    if not args.no_rebuild:
+        steps.append(("REBUILD corpus (fresh — fixes change tokenization)",
+                      ["build_l2_corpus.py", "--docs-per-genre", str(args.docs_per_genre)]))
+    steps += [
+        (f"RE-TRAIN router ({args.level}) → accuracy + confusion",
+         ["train_register_router.py", "--level", args.level]),
+        ("AUDIT parses → failure-shape worklist",
+         ["audit_l2_parses.py", "--docs-per-genre", "8", "--max-sents", "30"]),
+    ]
+
+    for i, (name, cmd) in enumerate(steps, 1):
+        print(f"\n{'=' * 72}\n  FLYWHEEL [{i}/{len(steps)}]  {name}\n{'=' * 72}", flush=True)
+        r = subprocess.run([sys.executable, str(SCRIPTS / cmd[0]), *cmd[1:]], cwd=ROOT)
+        if r.returncode != 0:
+            print(f"\n  ✗ step failed: {name} — stopping the cycle.")
+            return 1
+
+    print(f"\n{'=' * 72}\n  CYCLE COMPLETE. Now the human half:\n"
+          "    • apply the CLEAN / structural fixes the audit surfaced,\n"
+          "    • DEFER the messy ones (more data may resolve them),\n"
+          "    • then re-run `python scripts/flywheel.py`.\n"
+          "  Stable when the audit shows no new clean fix and confusion stops\n"
+          f"  shrinking — then grow the corpus and continue.\n{'=' * 72}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
