@@ -256,9 +256,11 @@ def _try_event(tokens: Sequence[TokenTrace]) -> Optional[Expression]:
     # (_build_arg_expression) and the emitter already understand.
     negated = any(t.lemma in _NEGATION_LEMMAS for t in tokens)
     subject_atoms = [_atom_from_token(t) for t in tokens
-                     if t.position < verb.position and t.lemma not in _NEGATION_LEMMAS]
+                     if t.position < verb.position
+                     and t.pos != "PUNCT" and t.lemma not in _NEGATION_LEMMAS]
     object_atoms = [_atom_from_token(t) for t in tokens
-                    if t.position > verb.position and t.lemma not in _NEGATION_LEMMAS]
+                    if t.position > verb.position
+                    and t.pos != "PUNCT" and t.lemma not in _NEGATION_LEMMAS]
     if not subject_atoms:
         return None
     args: List[Operand] = [Phrase(atoms=subject_atoms)]
