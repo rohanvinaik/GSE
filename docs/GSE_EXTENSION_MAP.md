@@ -50,10 +50,14 @@ sentinel → GSE corefs → one variable; distinct names → distinct variables 
 - Touch points: `encoder.py:375` `_extract_dynamic_primitives`; `trace.py` `TokenTrace` (+`is_variable`,`declared_type`); `resolution.py:114` preserve VAR; a variable genealogy provider; `emit.py:56` `_leaf_str`.
 
 ## Extension B — case-role separation
-Collapse origin: `encoder.py:37` `DEP_TO_SYNTACTIC` maps `pobj`/`prep`/`obl` → `SYN_OBJ`, erasing role
-before resolve. Chain to fix: expand DEP map (`obl:agent`,`obl:instrument`,`case`) → new `CaseRole`
-node in `resolution.py` → optional `roles` field on `Event`/`Causation`/… in `predicates.py` →
-serialize in `emit.py` (`features.roles`) → recurse in `grounding.py:113` `_map_entities`.
+Collapse origin (arc-free path): `encoder.py` `_syn_roles` assigns `SYN_OBJ` positionally to *every*
+nominal after the predicate, so a PP object (`with a knife`) lands in the same role slot as the direct
+object, erasing the case distinction before resolve. (The legacy `DEP_TO_SYNTACTIC` `pobj`/`prep`/`obl`
+→`SYN_OBJ` map still exists but only on the opt-in `engine="spacy"` parity path.) Chain to fix: in
+`_syn_roles` / `_detect_embedded_clauses`, split a post-predicate PP nominal by its preposition
+(`with`→instrument, `by`→agent, `to`→recipient) instead of one flat `SYN_OBJ` → new `CaseRole` node in
+`resolution.py` → optional `roles` field on `Event`/`Causation`/… in `predicates.py` → serialize in
+`emit.py` (`features.roles`) → recurse in `grounding.py:113` `_map_entities`.
 **Backward-compat:** `roles` defaults empty → byte-identical traces when unused (`RESOLVED_STRUCTURE_DESIGN.md §7`).
 
 ## Risks / open questions
