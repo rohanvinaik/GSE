@@ -62,12 +62,18 @@ _IRREGULAR_LEMMA = {"is": "be", "am": "be", "are": "be", "was": "be",
                     "has": "have", "had": "have", "having": "have",
                     "does": "do", "did": "do", "doing": "do",
                     "saw": "see",
+                    # contraction parts (the post-apostrophe = a front-truncated
+                    # word); irregular n't-bases whose surface is a stub:
+                    "wo": "will", "ca": "can", "sha": "shall",
                     "n't": "not", "'s": "'s", "'re": "be", "'ve": "have",
                     "'ll": "will", "'d": "would", "'m": "be"}
 
 _PUNCT_RE = re.compile(r"[^\w\s]")
-# Tokenizer: words (incl. internal apostrophes split off below), or punctuation.
-_TOKEN_RE = re.compile(r"\w+|'s|n't|'re|'ve|'ll|'d|'m|[^\w\s]")
+# Tokenizer: words + contraction suffixes. The base-before-``n't`` and ``n't``
+# itself are matched BEFORE plain ``\w+`` so a greedy ``\w+`` can't eat the ``n``
+# ("didn't" → "did"+"n't", not "didn"+"'"+"t"; "won't" → "wo"+"n't"). The 's/'re/'ve
+# /'ll/'d/'m suffixes already split cleanly (the base has no ambiguity).
+_TOKEN_RE = re.compile(r"\w+(?=n't)|n't|'s|'re|'ve|'ll|'d|'m|\w+|[^\w\s]")
 
 
 def _wn_lemma(word: str, pos: str) -> Optional[str]:
