@@ -17,7 +17,7 @@ from typing import Any, Dict, List, Optional, Tuple
 from gse.api.errors import OOVError, PrimitiveError
 from gse.api.parse_repair import verbs_to_promote
 from gse.nlp.morphology import NEGATION, resolve_negation
-from gse.primitives_v2 import negate_decomposition
+from gse.primitives_v2 import BIPOLAR_PRIMITIVES, negate_decomposition
 from gse.api.trace import (
     ClauseSpan,
     OperationTrace,
@@ -188,6 +188,7 @@ class GSEEncoder:
         token_traces: List[TokenTrace] = []
         token_vectors: List[Tuple[int, SparseVector, Dict]] = []
         operator_indices: List[int] = []
+        pending_intensity: Optional[Dict[str, int]] = None  # intensifier→adjective carry
 
         for i, tok in enumerate(doc):
             # Lexicon lookup (static primitives from database)
@@ -205,6 +206,25 @@ class GSEEncoder:
                 base_prims, _, _ = self._lookup_lexeme(neg[0])
                 if base_prims:
                     word_prims = negate_decomposition(base_prims)
+
+            # B — intensifier→adjective binding: an INTENSITY-hierarchy modifier folds
+            # its HIER markers into a FOLLOWING adjective's bank (very big → BIG
+            # intensified via encode_hierarchy) and is itself absorbed. QUANTITY→noun
+            # binding is a separate pass (gated on a POS-tag fix).
+            if pending_intensity is not None:
+                word_prims = {**word_prims, **pending_intensity}
+                pending_intensity = None
+            elif ("INTENSITY" in word_prims
+                    and ("HIER_PLUS" in word_prims or "HIER_MINUS" in word_prims)
+                    and i + 1 < len(doc)
+                    # target = the next word's gradable (bipolar) bank — checked by
+                    # decomposition, not POS, so a mistagged adjective still binds.
+                    and any(p in BIPOLAR_PRIMITIVES
+                            for p in self._lookup_lexeme(doc[i + 1].lemma_.lower())[0])):
+                pending_intensity = {k: v for k, v in word_prims.items()
+                                     if k in ("HIER_PLUS", "HIER_MINUS")}
+                word_prims = {}  # the intensifier is absorbed into the adjective
+
             if i in clause_coords:
                 comp_meta = {"comp_primitive": "COMP_AND",
                              "comp_operation": "CLAUSE_COORD", "comp_arity": 2}
@@ -598,12 +618,22 @@ class GSEEncoder:
         level = primitives.get("HIER_PLUS", 0) - primitives.get("HIER_MINUS", 0)
         if level != 0:
             bases = [p for p in primitives if p not in ("HIER_PLUS", "HIER_MINUS")]
-            if len(bases) == 1:
-                base_vec = self.word_basis.get_primitive(bases[0])
+            # Stack the ordinal markers on the GRADABLE bank: the sole bipolar prim
+            # when present (very happy → markers on GOOD, FEEL preserved), else the
+            # sole base (very big → BIG). Any remaining bases bundle in flat.
+            bipolar = [p for p in bases if p in BIPOLAR_PRIMITIVES]
+            target = bipolar[0] if len(bipolar) == 1 else (
+                bases[0] if len(bases) == 1 else None)
+            if target is not None:
+                base_vec = self.word_basis.get_primitive(target)
                 marker = self.word_basis.get_primitive(
                     "HIER_PLUS" if level > 0 else "HIER_MINUS")
                 if base_vec is not None and marker is not None:
-                    return encode_hierarchy(base_vec, marker, abs(level))
+                    hier_vec = encode_hierarchy(base_vec, marker, abs(level))
+                    others = [self.word_basis.get_primitive(p) for p in bases
+                              if p != target]
+                    others = [v for v in others if v is not None]
+                    return bundle([hier_vec, *others]) if others else hier_vec
 
         components = []
         for prim, value in primitives.items():
