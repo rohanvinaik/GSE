@@ -153,6 +153,10 @@ def main() -> int:
     ap.add_argument("--docs-per-genre", type=int, default=8)
     ap.add_argument("--max-sents", type=int, default=40)
     ap.add_argument("--out", default=str(ROOT / "data" / "l2_corpus.jsonl"))
+    ap.add_argument("--fresh", action="store_true",
+                    help="re-encode from scratch: discard the existing corpus first so "
+                         "encoder/tokenizer enhancements actually take effect (the "
+                         "append/resume default never re-parses already-done docs)")
     args = ap.parse_args()
 
     import nltk
@@ -169,6 +173,9 @@ def main() -> int:
 
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
+    if args.fresh and out.exists():
+        out.unlink()
+        print(f"[fresh] discarded existing corpus → full re-encode ({out})")
     done = _already_done(out)
     enc = GSEEncoder()
     n_written = 0

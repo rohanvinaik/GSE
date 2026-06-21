@@ -43,21 +43,40 @@ def main() -> int:
 
     steps = []
     if not args.no_rebuild:
-        steps.append(("REBUILD corpus (fresh — fixes change tokenization)",
-                      ["build_l2_corpus.py", "--docs-per-genre", str(args.docs_per_genre)]))
+        # ALWAYS --fresh: encoder/tokenizer enhancements only take effect on a full
+        # re-encode. The append/resume default skips already-done docs, so without
+        # this the corpus silently keeps a stale encoding ("wrote 0 new records").
+        steps.append(("REBUILD corpus (FRESH re-encode — fixes change tokenization)",
+                      ["build_l2_corpus.py", "--fresh",
+                       "--docs-per-genre", str(args.docs_per_genre)]))
     steps += [
-        (f"RE-TRAIN router ({args.level}) → accuracy + confusion",
-         ["train_register_router.py", "--level", args.level]),
+        (f"RE-TRAIN hierarchical SoM (nested cascade) → accuracy + confusion",
+         ["train_register_router.py", "--nested", "--level", args.level]),
         ("AUDIT parses → failure-shape worklist",
          ["audit_l2_parses.py", "--docs-per-genre", "8", "--max-sents", "30"]),
     ]
 
-    for i, (name, cmd) in enumerate(steps, 1):
-        print(f"\n{'=' * 72}\n  FLYWHEEL [{i}/{len(steps)}]  {name}\n{'=' * 72}", flush=True)
-        r = subprocess.run([sys.executable, str(SCRIPTS / cmd[0]), *cmd[1:]], cwd=ROOT)
-        if r.returncode != 0:
-            print(f"\n  ✗ step failed: {name} — stopping the cycle.")
-            return 1
+    # Tee the whole run to a persistent file so NOTHING is lost — the SoM confusion
+    # (failure shapes) AND the audit worklist both land here, in addition to the
+    # audit's own data/flywheel_worklist.txt. A prior run was useless precisely
+    # because nothing was recorded.
+    runlog = ROOT / "data" / "flywheel_run.log"
+    with runlog.open("w") as logf:
+        for i, (name, cmd) in enumerate(steps, 1):
+            banner = f"\n{'=' * 72}\n  FLYWHEEL [{i}/{len(steps)}]  {name}\n{'=' * 72}"
+            print(banner, flush=True)
+            logf.write(banner + "\n"); logf.flush()
+            proc = subprocess.Popen(
+                [sys.executable, str(SCRIPTS / cmd[0]), *cmd[1:]], cwd=ROOT,
+                stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+            for line in proc.stdout:                # tee: live to stdout + the log
+                sys.stdout.write(line)
+                logf.write(line)
+            proc.wait()
+            if proc.returncode != 0:
+                print(f"\n  ✗ step failed: {name} — stopping the cycle.")
+                return 1
+    print(f"\n  [run log saved] {runlog}")
 
     print(f"\n{'=' * 72}\n  CYCLE COMPLETE. Now the human half:\n"
           "    • apply the CLEAN / structural fixes the audit surfaced,\n"

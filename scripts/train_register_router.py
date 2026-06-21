@@ -33,6 +33,10 @@ def main() -> int:
     ap.add_argument("--level", default="super_register",
                     choices=["genre", "super_register", "register_class"])
     ap.add_argument("--out", default=str(ROOT / "data" / "register_router.pt"))
+    ap.add_argument("--nested", action="store_true",
+                    help="train the hierarchical/nested SoM (a specialist per taxonomy "
+                         "node, confidence-gated descent) instead of the flat per-level "
+                         "model; reports register_class + super_register + genre accuracy")
     args = ap.parse_args()
 
     import numpy as np
@@ -60,6 +64,41 @@ def main() -> int:
     bnd = np.cumsum([0] + sizes)
     print(f"corpus: {len(rows)} docs | level={args.level} → {len(labels)} classes "
           f"| {X.shape[1]}-dim ({'+'.join(map(str, sizes))} banks)")
+
+    if args.nested:
+        # Hierarchical SoM: a specialist per taxonomy node, evaluated by confidence-
+        # gated descent. Stratify folds on super_register (the comparison level).
+        from gse.discourse.nested_router import NestedRouter
+        genres = np.array([r["genre"] for r in rows])
+        sup = np.array([super_register_of(g) for g in genres])
+        rc = np.array([register_class_of(g) for g in genres])
+        sup_labels = sorted(set(sup))
+        y_strat = np.array([sup_labels.index(s) for s in sup])
+        skf = StratifiedKFold(n_splits=args.folds, shuffle=True, random_state=0)
+        rc_acc, sup_acc, gen_acc = [], [], []
+        confusion = defaultdict(int)
+        for tr, te in skf.split(X, y_strat):
+            nr = NestedRouter(sizes, X.shape[1]).fit(X[tr], list(genres[tr]))
+            p_rc = nr.predict_at(X[te], "register_class")
+            p_sup = nr.predict_at(X[te], "super_register")
+            p_gen = nr.predict_at(X[te], "genre")
+            rc_acc.append(np.mean([a == b for a, b in zip(p_rc, rc[te])]))
+            sup_acc.append(np.mean([a == b for a, b in zip(p_sup, sup[te])]))
+            gen_acc.append(np.mean([a == b for a, b in zip(p_gen, genres[te])]))
+            for a, b in zip(p_sup, sup[te]):
+                if a != b:
+                    confusion[tuple(sorted((b, a)))] += 1
+        def _fmt(v):
+            return f"{np.mean(v):.3f} ± {np.std(v):.3f}"
+        print(f"\n  HIERARCHICAL SoM — {len(sup_labels)} super-registers, "
+              f"{len(set(genres))} genres, {len(nr.nodes)} node-specialists")
+        print(f"  register_class (root)            = {_fmt(rc_acc)}")
+        print(f"  super_register (descent)         = {_fmt(sup_acc)}   <- vs flat 0.713")
+        print(f"  genre (full descent)             = {_fmt(gen_acc)}   (leaf; sparse/fold)")
+        print(f"\n  most-confused super_register pairs (post-cascade):")
+        for (a, b), n in sorted(confusion.items(), key=lambda kv: -kv[1])[:8]:
+            print(f"    {n}×  {a} ~ {b}")
+        return 0
 
     def slices(t):  # full tensor -> list of per-bank tensors
         return [t[:, bnd[i]:bnd[i + 1]] for i in range(len(BANKS))]

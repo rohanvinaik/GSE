@@ -14,7 +14,8 @@ under the appropriate class.
 """
 from __future__ import annotations
 
-from typing import Dict, List
+from collections import defaultdict
+from typing import Dict, List, Optional, Sequence
 
 # register_class → genres. The structural top-line split.
 REGISTER_TAXONOMY: Dict[str, List[str]] = {
@@ -87,3 +88,50 @@ def super_register_of(genre: str) -> str:
     except KeyError as exc:
         raise KeyError(
             f"unknown genre {genre!r}; declare it in SUPER_REGISTER_OF") from exc
+
+
+# --- the resolution tree: the recognizer descends it, deepest-confident-node ----
+# The nested SoM router (gse.discourse.nested_router) is a specialist per INTERNAL
+# node, each classifying among that node's children. The tree is just the taxonomy
+# read top-down: ROOT → register_class → super_register → genre (leaves).
+ROOT = "*"
+
+# Super-registers, as a set, to classify a node by its level without a lookup table.
+_SUPER_REGISTERS = frozenset(SUPER_REGISTER_OF.values())
+
+
+def taxonomy_tree(genres: Optional[Sequence[str]] = None) -> Dict[str, List[str]]:
+    """Parent → sorted children for every INTERNAL node of the resolution tree.
+
+    Restricted to ``genres`` when given (so the cascade is built over exactly what
+    the corpus contains — a super-register with one present genre needs no router);
+    defaults to the full declared taxonomy. Leaves (genres) are not keys.
+    """
+    gs = sorted(set(genres)) if genres is not None else list(ALL_GENRES)
+    tree: Dict[str, set] = defaultdict(set)
+    for g in gs:
+        cls = register_class_of(g)
+        sup = super_register_of(g)
+        tree[ROOT].add(cls)
+        tree[cls].add(sup)
+        # Singleton super-registers (poetry/reference/list) have a single genre child
+        # WITH THE SAME NAME. Adding it makes a self-referential node
+        # (tree["poetry"] == ["poetry"]) — recursive nonsense that loops the descent.
+        # The super-register IS the leaf there; only add a genre child that refines it.
+        if g != sup:
+            tree[sup].add(g)
+    return {node: sorted(children) for node, children in tree.items()}
+
+
+def child_on_path(node: str, genre: str) -> Optional[str]:
+    """The child of ``node`` on the root→``genre`` path, or ``None`` if ``genre``
+    does not pass through ``node``. This is the per-node training label: at ROOT a
+    genre's label is its register_class, at a register_class node its super_register,
+    at a super_register node the genre itself."""
+    if node == ROOT:
+        return register_class_of(genre)
+    if node in REGISTER_TAXONOMY:                      # node is a register_class
+        return super_register_of(genre) if register_class_of(genre) == node else None
+    if node in _SUPER_REGISTERS:                       # node is a super_register
+        return genre if super_register_of(genre) == node else None
+    return None

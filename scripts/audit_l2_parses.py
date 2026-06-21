@@ -52,6 +52,8 @@ def main() -> int:
     exc_shapes: Counter = Counter()
     exc_example: dict = {}
     degraded_reasons: Counter = Counter()
+    degraded_by_super: Counter = Counter()
+    degraded_examples: list = []          # (reason, super_register, genre, clause, sentence)
     oov_by_super: dict = defaultdict(Counter)
     n_sents = 0
     n_exc = n_degraded = 0
@@ -66,8 +68,16 @@ def main() -> int:
                 resolved = resolve(from_trace(tr))
                 tree = evaluate_tree(resolved)
                 for d in coherence_report(tree, tr):
-                    degraded_reasons[d.get("reason", "?")] += 1
+                    reason = d.get("reason", "?")
+                    degraded_reasons[reason] += 1
+                    degraded_by_super[sr] += 1
                     n_degraded += 1
+                    # KEEP THE SHAPE: the collapsed clause surface + the sentence it
+                    # came from. coherence_report computes these; record them (capped
+                    # per reason) — this is the 90% of the flywheel's point.
+                    if sum(1 for e in degraded_examples if e[0] == reason) < 60:
+                        degraded_examples.append(
+                            (reason, sr, genre, d.get("clause", ""), " ".join(s.split())[:90]))
                 for t in tr.tokens:
                     if t.pos in _CONTENT and not enc._lookup_lexeme(t.lemma)[0]:
                         oov_by_super[sr][t.lemma] += 1
@@ -78,19 +88,48 @@ def main() -> int:
                 n_exc += 1
     enc.close()
 
-    print(f"\naudited {n_sents} sentences | {n_exc} exceptions, {n_degraded} degraded clauses\n")
-    print("=== EXCEPTION SHAPES (sentence-scale bugs to fix) ===")
+    out: list = []
+    def emit(line: str = "") -> None:
+        out.append(line)
+
+    emit(f"\naudited {n_sents} sentences | {n_exc} exceptions, {n_degraded} degraded clauses\n")
+    emit("=== EXCEPTION SHAPES (sentence-scale bugs to fix) ===")
     for k, n in exc_shapes.most_common():
         g, ex = exc_example[k]
-        print(f"  {n:4d}×  {k}\n          e.g. [{g}] {ex!r}")
-    print("\n=== DEGRADED-CLAUSE REASONS (partial-parse modes) ===")
+        emit(f"  {n:4d}×  {k}\n          e.g. [{g}] {ex!r}")
+
+    emit("\n=== DEGRADED-CLAUSE REASONS (partial-parse modes) ===")
     for r, n in degraded_reasons.most_common():
-        print(f"  {n:4d}×  {r}")
-    print("\n=== TOP OOV CONTENT WORDS per super-register (lexical-repair worklist) ===")
+        emit(f"  {n:4d}×  {r}")
+    emit("\n  degraded clauses BY super-register (which registers collapse):")
+    for sr, n in degraded_by_super.most_common():
+        emit(f"    {n:4d}×  {sr}")
+
+    # THE SHAPE: the actual collapsed clauses + the sentence each came from. This is
+    # the 90% — read these to know WHAT is failing and what voice-mode/fix it needs.
+    emit("\n=== DEGRADED-CLAUSE SHAPES (collapsed clause ⟵ source sentence) ===")
+    by_reason_super: dict = defaultdict(list)
+    for reason, sr, genre, clause, sent in degraded_examples:
+        by_reason_super[(reason, sr)].append((genre, clause, sent))
+    for (reason, sr), items in sorted(by_reason_super.items(), key=lambda kv: -len(kv[1])):
+        emit(f"\n  [{reason} · {sr}]  ({len(items)} shown)")
+        for genre, clause, sent in items[:6]:
+            emit(f"    collapsed→ {clause!r}")
+            emit(f"        from [{genre}]: {sent!r}")
+
+    emit("\n=== TOP OOV CONTENT WORDS per super-register (lexical-repair worklist) ===")
     for sr in sorted(oov_by_super):
         top = ", ".join(f"{w}({n})" for w, n in oov_by_super[sr].most_common(8))
         total = sum(oov_by_super[sr].values())
-        print(f"  {sr:18s} ({total} OOV)  {top}")
+        emit(f"  {sr:18s} ({total} OOV)  {top}")
+
+    report = "\n".join(out)
+    print(report)
+    # PERSIST the worklist so a run is never lost (the prior run was useless because
+    # nothing was recorded). Overwrites each run — the latest worklist is the artifact.
+    worklist = ROOT / "data" / "flywheel_worklist.txt"
+    worklist.write_text(report + "\n")
+    print(f"\n[worklist saved] {worklist}")
     return 0
 
 
