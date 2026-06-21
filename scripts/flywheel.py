@@ -37,10 +37,12 @@ def main() -> int:
     ap.add_argument("--no-rebuild", action="store_true",
                     help="skip the corpus rebuild (re-train + audit only)")
     ap.add_argument("--docs-per-genre", type=int, default=20)
+    ap.add_argument("--max-sents", type=int, default=40)
     ap.add_argument("--level", default="super_register",
                     choices=["genre", "super_register", "register_class"])
     args = ap.parse_args()
 
+    dpg, ms = str(args.docs_per_genre), str(args.max_sents)
     steps = []
     if not args.no_rebuild:
         # ALWAYS --fresh: encoder/tokenizer enhancements only take effect on a full
@@ -48,12 +50,16 @@ def main() -> int:
         # this the corpus silently keeps a stale encoding ("wrote 0 new records").
         steps.append(("REBUILD corpus (FRESH re-encode — fixes change tokenization)",
                       ["build_l2_corpus.py", "--fresh",
-                       "--docs-per-genre", str(args.docs_per_genre)]))
+                       "--docs-per-genre", dpg, "--max-sents", ms]))
     steps += [
         (f"RE-TRAIN hierarchical SoM (nested cascade) → accuracy + confusion",
          ["train_register_router.py", "--nested", "--level", args.level]),
+        # The audit MUST mirror the build's sampling — same docs-per-genre/max-sents —
+        # so the gap analysis covers the WHOLE grown corpus. Hardcoding it to a small
+        # fixed slice meant growing the corpus never broadened gap-finding (you'd just
+        # re-audit the same sentences forever).
         ("AUDIT parses → failure-shape worklist",
-         ["audit_l2_parses.py", "--docs-per-genre", "8", "--max-sents", "30"]),
+         ["audit_l2_parses.py", "--docs-per-genre", dpg, "--max-sents", ms]),
     ]
 
     # Tee the whole run to a persistent file so NOTHING is lost — the SoM confusion
