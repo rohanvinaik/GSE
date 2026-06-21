@@ -73,9 +73,13 @@ def main() -> int:
                     degraded_by_super[sr] += 1
                     n_degraded += 1
                     # KEEP THE SHAPE: the collapsed clause surface + the sentence it
-                    # came from. coherence_report computes these; record them (capped
-                    # per reason) — this is the 90% of the flywheel's point.
-                    if sum(1 for e in degraded_examples if e[0] == reason) < 60:
+                    # came from. coherence_report computes these; record them — this is
+                    # the 90% of the flywheel's point. Cap PER (reason, super-register),
+                    # not globally per reason: _providers yields the HF sources LAST, so
+                    # a global cap fills with early registers and never captures the new
+                    # ones (review/social) — they get counted but never shown.
+                    if sum(1 for e in degraded_examples
+                           if e[0] == reason and e[1] == sr) < 12:
                         degraded_examples.append(
                             (reason, sr, genre, d.get("clause", ""), " ".join(s.split())[:90]))
                 for t in tr.tokens:
