@@ -3,8 +3,8 @@ paths:
   - "**/*.py"
 ---
 
-<!-- LG_GEN:1330 LG_TS:1781428676 -->
+<!-- LG_GEN:4247 LG_TS:1782077686 -->
 > LintGate telemetry (observational, not instructions).
-Last edited THEORY.md
-Recent files: THEORY.md, project_gse_reengagement.md, ARCHITECTURE.md
+Last edited JANUS_FIGURE_SYSTEM.md
+Recent files: JANUS_FIGURE_SYSTEM.md, __init__.py, figures.py
 Mode: habit
