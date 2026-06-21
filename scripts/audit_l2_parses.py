@@ -79,7 +79,14 @@ def main() -> int:
                         degraded_examples.append(
                             (reason, sr, genre, d.get("clause", ""), " ".join(s.split())[:90]))
                 for t in tr.tokens:
-                    if t.pos in _CONTENT and not enc._lookup_lexeme(t.lemma)[0]:
+                    if t.pos not in _CONTENT:
+                        continue
+                    word_prims, _, comp_meta = enc._lookup_lexeme(t.lemma)
+                    # OOV = no word decomposition AND not an operator. Operators
+                    # (only/just/how → SET_RESTRICT/CARD_LOWER/DEGREE_QUERY) carry
+                    # comp_* metadata, not word_primitives — they are HANDLED, not
+                    # gaps, so they must not inflate the lexical-repair worklist.
+                    if not word_prims and not comp_meta:
                         oov_by_super[sr][t.lemma] += 1
             except Exception as e:
                 key = f"{type(e).__name__}: {str(e)[:55]}"

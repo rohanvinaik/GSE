@@ -35,6 +35,15 @@ from gse.primitives_v2 import (
 
 CLEAN_DB = "data/lexicon_clean.db"
 
+# Closed-class quantifier synonyms that are NOT themselves level names, mapped to the
+# system level they realize. A tiny, unambiguous set (NOT open lexical synonymy) — the
+# ordinal value still comes from the system's get_hierarchy_encoding, only the
+# surface→level link is named here. `most`→MANY (a large quantity; deliberately not
+# ALL, which would over-claim totality).
+_SYNONYM_LEVEL: Dict[str, str] = {
+    "much": "MANY", "most": "MANY", "lots": "MANY", "no": "NONE", "every": "ALL",
+}
+
 
 def _decomposition(level_name: str) -> Dict[str, int]:
     """{base: 1} plus N HIER_PLUS/HIER_MINUS markers — from the system's encoding."""
@@ -47,12 +56,12 @@ def _decomposition(level_name: str) -> Dict[str, int]:
 
 def main(clean_db: str = CLEAN_DB) -> dict:
     con = sqlite3.connect(clean_db)
-    # The hierarchy-level surface words = the level names, lowercased. QUANTITY +
-    # INTENSITY only (CERTAINTY is the modal track, out of scope).
+    # (surface_word, level_name) pairs: the level names themselves (identity), QUANTITY
+    # + INTENSITY only (CERTAINTY is the modal track), plus the closed synonym map.
     levels = list(QUANTITY_HIERARCHY) + list(INTENSITY_HIERARCHY)
+    pairs = [(n.lower(), n) for n in levels] + list(_SYNONYM_LEVEL.items())
     updated = inserted = 0
-    for level_name in levels:
-        word = level_name.lower()
+    for word, level_name in pairs:
         decomp = _decomposition(level_name)
         row = con.execute(
             "SELECT id FROM lexemes WHERE lemma=? LIMIT 1", (word,)).fetchone()
@@ -76,8 +85,8 @@ def main(clean_db: str = CLEAN_DB) -> dict:
             [(lex_id, p, v, 1.0, "quantifiers") for p, v in decomp.items()])
     con.commit()
     con.close()
-    stats = {"levels": len(levels), "updated_in_place": updated, "inserted": inserted}
-    print(f"Quantifier/intensifier layer: {len(levels)} hierarchy-level words "
+    stats = {"levels": len(pairs), "updated_in_place": updated, "inserted": inserted}
+    print(f"Quantifier/intensifier layer: {len(pairs)} hierarchy-level words "
           f"({updated} overwritten, {inserted} inserted)")
     return stats
 
