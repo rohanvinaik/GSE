@@ -3,8 +3,9 @@
 The copula carries no COMP_* operator (the encoder tags "is" as AUX /
 SYN_PRED), so the type assertion is synthesized in ``from_trace`` from the
 syntactic-role primitives SYN_SUBJ + SYN_PRED[be] + SYN_COMPL. Verifies the
-synthesis, the resolved entity/kind binding, the nominal-only guard, and
-that comparatives are unaffected.
+synthesis, the resolved entity/kind binding, that a predicate adjective binds
+the same way (decision A — "X is ADJ" is a TYPE_ASSERT, negation preserved),
+and that comparatives are unaffected.
 
 The "I is a person" case is the literal sentence that NPEs the Genesis core
 (``consciousness.ProblemSolverAuxiliaries:66``,
@@ -59,10 +60,22 @@ class TestCopulaTypeAssertion:
         assert _head(ta.entity).pos == "PRON"
         assert _head(ta.kind).lemma == "person"
 
-    def test_predicative_adjective_is_not_a_type_assertion(self, encoder):
-        # "X is cute" is a property, not a type — must NOT fire TYPE_ASSERT.
-        preds = predicates(_pipeline(encoder, "The dog is cute"))
-        assert not any(isinstance(p, TypeAssertion) for p in preds)
+    def test_predicative_adjective_is_a_type_assertion(self, encoder):
+        # Design decision A (flywheel worklist #2): a predicate adjective binds the
+        # same way as a predicate nominal — the entity takes on the complement's
+        # primitive decomposition — so "X is ADJ" fires TYPE_ASSERT. Previously it
+        # collapsed to a bare nominal (a degraded clause) and dropped negation.
+        ta = predicates(_pipeline(encoder, "The dog is cute"))[0]
+        assert isinstance(ta, TypeAssertion)
+        assert _head(ta.entity).lemma == "dog"
+        assert _head(ta.kind).lemma == "cute"
+
+    def test_negated_predicative_adjective_preserves_negation(self, encoder):
+        # The #2 correctness fix: "X is not ADJ" must NOT invert to "X is ADJ".
+        # The predication forms, and the existing clause-negation wrapper applies.
+        tree = _pipeline(encoder, "The dog is not cute")
+        assert type(tree).__name__ == "Negation"
+        assert isinstance(tree.operand, TypeAssertion)
 
     def test_comparative_unaffected(self, encoder):
         # Regression guard: the copula path must not disturb comparatives.

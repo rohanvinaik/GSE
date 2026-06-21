@@ -179,20 +179,27 @@ _COPULA_SUBJECT = "SYN_SUBJ"
 _COPULA_PREDICATE = "SYN_PRED"
 _COPULA_COMPLEMENT = "SYN_COMPL"
 _COPULA_LEMMA = "be"
-_NOMINAL_POS = frozenset({"NOUN", "PROPN"})
+# A predicate complement after the copula: a nominal (type membership — "X is a
+# king") OR an adjective (property attribution — "X is callous"). Per design
+# decision A (2026-06-20, flywheel worklist #2): both are the same "entity ≡ the
+# complement's primitive decomposition" binding, so both fold to ONE TypeAssertion
+# form. Predicate adjectives previously fell through to a bare-nominal collapse,
+# which silently dropped the clause's negation ("X is not callous" → "X callous").
+_COMPLEMENT_POS = frozenset({"NOUN", "PROPN", "ADJ"})
 
 
 def _try_copula_type_assertion(tokens: Sequence[TokenTrace]) -> Optional[Expression]:
-    """Synthesize a TYPE_ASSERT ``Op`` from a copula "X is a Y" sentence.
+    """Synthesize a TYPE_ASSERT ``Op`` from a copula "X is a Y" / "X is ADJ" clause.
 
-    The encoder tags the subject (SYN_SUBJ), the copula "be" (SYN_PRED),
-    and the predicate-nominal complement (SYN_COMPL) but emits no COMP_*
-    operator for "is", so no predicate would otherwise be produced. When
-    the full pattern is present with a *nominal* complement — not an
-    adjective, since "X is cute" is a property, not a type — build
-    ``Op("TYPE_ASSERT", args=[subject_span, complement_span])``; resolve()
-    collapses each span into an Entity. Returns ``None`` when the pattern
-    does not hold, so callers fall through to the default phrase build.
+    The encoder tags the subject (SYN_SUBJ), the copula "be" (SYN_PRED), and the
+    predicate complement (SYN_COMPL) but emits no COMP_* operator for "is", so no
+    predicate would otherwise be produced. When the full pattern is present with a
+    nominal OR adjective complement (:data:`_COMPLEMENT_POS`), build
+    ``Op("TYPE_ASSERT", args=[subject_span, complement_span])``; resolve() collapses
+    each span into an Entity. Only reached when the clause has NO operator (so
+    "X is taller than Y" stays a Comparison via COMP_THAN). A predicate adjective is
+    the same binding as a predicate nominal — the entity takes on the complement's
+    decomposition. Returns ``None`` when the pattern does not hold.
     """
     copula = next(
         (t for t in tokens
@@ -202,11 +209,11 @@ def _try_copula_type_assertion(tokens: Sequence[TokenTrace]) -> Optional[Express
     if copula is None:
         return None
     has_subject = any(_COPULA_SUBJECT in t.sent_primitives for t in tokens)
-    has_nominal_complement = any(
-        _COPULA_COMPLEMENT in t.sent_primitives and t.pos in _NOMINAL_POS
+    has_complement = any(
+        _COPULA_COMPLEMENT in t.sent_primitives and t.pos in _COMPLEMENT_POS
         for t in tokens
     )
-    if not (has_subject and has_nominal_complement):
+    if not (has_subject and has_complement):
         return None
 
     # Negated type assertion ("X is not a Y"): drop the marker, wrap in Negation.
