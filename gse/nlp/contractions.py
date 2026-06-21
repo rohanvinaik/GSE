@@ -57,6 +57,36 @@ def resolve_contraction(fragment: str, following: Optional[Any]) -> Optional[str
     if len(cands) == 1 or following is None:
         return cands[0]
     # ambiguous 'd/'s: a following past-participle → the perfect reading (had/has);
-    # otherwise the default (would/is). (Possessive 's — "Mike's dog" — is a separate
-    # branch needing the *preceding* nominal; deferred to the integrated pass.)
+    # otherwise the default (would/is). (Possessive 's — "Mike's dog" — is the
+    # THREE-way case; use resolve_apostrophe_s, which adds the clause-verb signal.)
     return cands[1] if _is_participle(following) else cands[0]
+
+
+# Result sentinel for the possessive reading of ``'s`` (not a word expansion).
+POSSESSIVE = "POSSESSIVE"
+
+
+def resolve_apostrophe_s(following: Optional[Any], verb_or_copula_after: bool) -> str:
+    """The integrated three-way ``'s`` resolver — the spell-check voice-mode completing
+    the ``possessive: see note`` deferral. ``'s`` is one of:
+
+    * ``has`` — the perfect, when the FOLLOWING token is a past participle
+      (``the fire's gone`` = the fire HAS gone). Checked FIRST so the participle is
+      not mistaken for a separate clause verb.
+    * ``POSSESSIVE`` — when ANOTHER verb/copula appears later, so ``'s`` is not the
+      clause's own predicate: the ``'s``-headed NP is an argument
+      (``White's suggestion flattered``) or a possessive subject of that verb
+      (``Brenner's voice was oily`` — the copula is ``was``, not ``'s``).
+    * ``is`` — the copula ONLY when nothing else could be the predicate
+      (``fire's too big`` = the fire IS too big), which flows into the copula
+      TYPE_ASSERT synthesis. Conservative by design: re-tag ``'s`` to a copula only
+      when confident; otherwise leave it for the (working) possessive path.
+
+    The caller supplies the context signals (the following token; whether any
+    verb/copula follows) — the candidate→context→resolve shape, one branch added.
+    """
+    if following is not None and _is_participle(following):
+        return "has"
+    if verb_or_copula_after:
+        return POSSESSIVE
+    return "is"

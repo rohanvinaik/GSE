@@ -26,6 +26,7 @@ from typing import Dict, Iterator, List, Optional
 
 from nltk.corpus import wordnet as wn
 
+from gse.nlp.contractions import resolve_apostrophe_s
 from gse.nlp.morphology import resolve_degree
 
 # --- closed classes (finite function-word sets) ----------------------------
@@ -195,7 +196,27 @@ class NativeNLP:
             lemma = self._lemma(surf, pos)
             morph = self._morph(surf, pos)
             tokens.append(NativeToken(surf, lemma, pos, i, morph))
+        self._resolve_apostrophe_s(tokens)
         return NativeDoc(tokens)
+
+    def _resolve_apostrophe_s(self, tokens: List["NativeToken"]) -> None:
+        """Spell-check voice-mode: re-tag a VERBAL ``'s`` to its copula/perfect verb so
+        the downstream copula TYPE_ASSERT synthesis fires (``fire's too big`` → fire IS
+        too big). Possessive ``'s`` is left as the PART — its resolution already works,
+        and re-tagging is conservative (only when nothing else could be the predicate).
+        See :func:`gse.nlp.contractions.resolve_apostrophe_s`."""
+        for i, t in enumerate(tokens):
+            if t.text != "'s" or t.pos_ != "PART":
+                continue
+            following = tokens[i + 1] if i + 1 < len(tokens) else None
+            verb_or_copula_after = any(
+                tokens[j].pos_ in ("VERB", "AUX") for j in range(i + 1, len(tokens)))
+            reading = resolve_apostrophe_s(following, verb_or_copula_after)
+            if reading == "is":
+                t.lemma_, t.pos_ = "be", "AUX"
+            elif reading == "has":
+                t.lemma_, t.pos_ = "have", "AUX"
+            # POSSESSIVE → leave the PART unchanged (the possessive path handles it).
 
     # --- POS ---------------------------------------------------------------
     def _pos(self, surf: str, i: int, surfaces: List[str]) -> str:
