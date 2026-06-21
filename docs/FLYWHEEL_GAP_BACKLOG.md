@@ -30,6 +30,18 @@
 
 ---
 
+## Contemporary-text finding (2026-06-21)
+
+Augmented the corpus with modern HF sources — `modern_news` (ag_news), `reviews_modern`
+(imdb), `twitter` (tweet_eval). **No new STRUCTURAL shape surfaced.** On 36K sentences of
+contemporary, messier text the collapse rate held at **0.444%** (the 1961-prose band), and
+the messiest register barely collapsed (`social` 6, `review` 9). The new registers'
+residual is purely **lexical coverage** — slang (`lol/oh/please`), names (`hepburn/ned`),
+the known function words. Hashtags/@mentions/emoji never even reach the OOV worklist (the
+tokenizer files them non-content). Minor curiosity: a stray `ly` token in social (an
+orphaned `-ly` adverb suffix? worth a glance). Diachronic `news` vs `modern_news` (same
+reportorial node) available for a later 1961-vs-2020s shape comparison.
+
 ## Lexical coverage
 
 | word(s) | example | notes |
