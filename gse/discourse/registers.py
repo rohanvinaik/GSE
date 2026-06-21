@@ -30,6 +30,10 @@ REGISTER_TAXONOMY: Dict[str, List[str]] = {
         "newswire",         # wire-service news
         "archaic_english",  # older English (e.g. the 1611 KJV)
         "shakespeare",      # Early Modern verse drama
+        # contemporary HF sources (augment — modern text vs the 1961 Brown):
+        "modern_news",      # ag_news — contemporary journalism (diachronic vs `news`)
+        "reviews_modern",   # imdb — contemporary informal opinion/reviews
+        "twitter",          # tweet_eval — social media (the messiest modern register)
     ],
     # NON-SPEECH: words that communicate but do not represent literal speech.
     "non_speech": [
@@ -51,6 +55,10 @@ SUPER_REGISTER_OF: Dict[str, str] = {
     # REPORTORIAL — factual/official prose.
     "editorial": "reportorial", "government": "reportorial", "learned": "reportorial",
     "news": "reportorial", "newswire": "reportorial",
+    "modern_news": "reportorial",   # diachronic augment of `news` (same node on purpose)
+    # NEW super-registers from the contemporary feed (new SoM specialists):
+    "reviews_modern": "review",     # contemporary opinion — its own specialist
+    "twitter": "social",            # social media — its own specialist (messiest)
     # ESSAYISTIC — discursive/elevated prose.
     "belles_lettres": "essayistic", "hobbies": "essayistic", "humor": "essayistic",
     "lore": "essayistic", "religion": "essayistic", "reviews": "essayistic",

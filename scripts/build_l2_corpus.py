@@ -64,6 +64,30 @@ def _chunks(sents, max_sents: int, n_chunks: int):
             yield ci, chunk
 
 
+def _hf_stream(name, cfg, field: str, n: int, max_sents: int, group: int = 1):
+    """Yield ``(doc_index, text)`` for up to ``n`` docs streamed from a HuggingFace
+    dataset (the contemporary-register augment — modern text vs the 1961 Brown).
+    Streaming = no multi-GB download. ``group`` short examples are concatenated into
+    one doc (tweets), and each doc is capped at ~``max_sents`` sentences (HF reviews
+    can be very long → bound the profile cost)."""
+    import datasets
+    ds = datasets.load_dataset(name, cfg, split="train", streaming=True)
+    it = iter(ds)
+    for di in range(n):
+        parts = []
+        for _ in range(group):
+            ex = next(it, None)
+            if ex is None:
+                break
+            t = (ex.get(field) or "").strip()
+            if t:
+                parts.append(t)
+        if not parts:
+            break
+        sents = re.split(r"(?<=[.!?])\s+", " ".join(parts))
+        yield di, " ".join(sents[:max_sents])
+
+
 def _providers(docs_per_genre: int, max_sents: int):
     """Yield ``(register_class, genre, source, doc_id, text)`` across all sources.
 
@@ -135,6 +159,17 @@ def _providers(docs_per_genre: int, max_sents: int):
     # NON-SPEECH · lists — hand-curated (no clean dataset; classical-AI scale).
     for i, txt in enumerate(_LISTS):
         yield ("non_speech", "list", "curated", f"list/{i}", txt)
+
+    # SPEECH · contemporary HF augment — modern text (vs the 1961 Brown), streamed.
+    # New super-registers `review`/`social` add SoM specialists; `modern_news` is the
+    # diachronic augment of `news` under reportorial.
+    for di, text in _hf_stream("ag_news", None, "text", docs_per_genre, max_sents):
+        yield ("speech", "modern_news", "ag_news", f"modern_news/{di}", text)
+    for di, text in _hf_stream("imdb", None, "text", docs_per_genre, max_sents):
+        yield ("speech", "reviews_modern", "imdb", f"reviews_modern/{di}", text)
+    for di, text in _hf_stream("tweet_eval", "emotion", "text", docs_per_genre,
+                               max_sents, group=15):
+        yield ("speech", "twitter", "tweet_eval", f"twitter/{di}", text)
 
 
 def _already_done(out: Path) -> set:
