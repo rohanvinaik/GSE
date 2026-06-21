@@ -186,6 +186,8 @@ _COPULA_LEMMA = "be"
 # form. Predicate adjectives previously fell through to a bare-nominal collapse,
 # which silently dropped the clause's negation ("X is not callous" → "X callous").
 _COMPLEMENT_POS = frozenset({"NOUN", "PROPN", "ADJ"})
+# The object of a predicate adjective's PP complement ("loyal to *Corwin*").
+_PP_OBJECT_POS = frozenset({"NOUN", "PROPN", "PRON"})
 
 
 def _try_copula_type_assertion(tokens: Sequence[TokenTrace]) -> Optional[Expression]:
@@ -208,7 +210,16 @@ def _try_copula_type_assertion(tokens: Sequence[TokenTrace]) -> Optional[Express
     )
     if copula is None:
         return None
-    has_subject = any(_COPULA_SUBJECT in t.sent_primitives for t in tokens)
+    # SYN_SUBJ marks the subject in a main clause. In a subordinate clause
+    # ("…because Doran is loyal to Maeve") the encoder may tag that subject
+    # SYN_OBJ instead, so also accept any entity token before the copula — the
+    # same positional subject the spans below already build from. Without this
+    # the subordinate copula bails here and collapses to a demi-word nominal.
+    has_subject = (
+        any(_COPULA_SUBJECT in t.sent_primitives for t in tokens)
+        or any(t.position < copula.position and t.pos in _PP_OBJECT_POS
+               for t in tokens)
+    )
     has_complement = any(
         _COPULA_COMPLEMENT in t.sent_primitives and t.pos in _COMPLEMENT_POS
         for t in tokens
@@ -222,11 +233,42 @@ def _try_copula_type_assertion(tokens: Sequence[TokenTrace]) -> Optional[Express
         _atom_from_token(t) for t in tokens
         if t.position < copula.position and t.lemma not in _NEGATION_LEMMAS
     ]
+    if not subject_atoms:
+        return None
+
+    # Relational predicate adjective — "X is ADJ ADP Y" ("loyal to Y", "angry
+    # at Y"). The PP complement makes this a RELATION between X and the PP's
+    # object, not the bare property attribution decision A handles: folding
+    # "loyal to Corwin" into one kind nominal drops both the preposition and Y,
+    # and (as a `because` cause clause) silently defeats rule learning. Build an
+    # EVENT keyed on the adjective so ADJ(X, Y) survives with both arguments.
+    after = [
+        t for t in tokens
+        if t.position > copula.position
+        and t.lemma not in _NEGATION_LEMMAS and t.pos != "PUNCT"
+    ]
+    adj_i = next((i for i, t in enumerate(after) if t.pos == "ADJ"), None)
+    if adj_i is not None:
+        rest = after[adj_i + 1:]
+        if rest and rest[0].pos == "ADP":
+            pp_object = [t for t in rest[1:] if t.pos in _PP_OBJECT_POS]
+            if pp_object:
+                event = Op(
+                    primitive=after[adj_i].lemma,
+                    operation="EVENT",
+                    arity=2,
+                    args=[
+                        Phrase(atoms=subject_atoms),
+                        Phrase(atoms=[_atom_from_token(t) for t in pp_object]),
+                    ],
+                )
+                return Negation(operand=event) if negated else event
+
     complement_atoms = [
         _atom_from_token(t) for t in tokens
         if t.position > copula.position and t.lemma not in _NEGATION_LEMMAS
     ]
-    if not subject_atoms or not complement_atoms:
+    if not complement_atoms:
         return None
     assertion = Op(
         primitive="COPULA",

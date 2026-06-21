@@ -17,7 +17,9 @@ import pytest
 
 from gse.api import GSEEncoder
 from gse.symbolic import (
+    Causation,
     Comparison,
+    Event,
     TypeAssertion,
     evaluate_tree,
     from_trace,
@@ -82,3 +84,37 @@ class TestCopulaTypeAssertion:
         preds = predicates(_pipeline(encoder, "The dog is cuter than the cat"))
         assert any(isinstance(p, Comparison) for p in preds)
         assert not any(isinstance(p, TypeAssertion) for p in preds)
+
+
+class TestRelationalPredicateAdjective:
+    """A predicate adjective with a PP complement ("X is loyal to Y") is a
+    RELATION between X and the PP's object, not bare property attribution: it
+    must become an Event keyed on the adjective so both arguments survive.
+    Folding "loyal to Corwin" into one kind nominal dropped the preposition and
+    the object, and (as a `because` cause clause) silently defeated learning.
+    """
+
+    def test_relational_adjective_is_an_event(self, encoder):
+        ev = predicates(_pipeline(encoder, "Maeve is loyal to Corwin"))[0]
+        assert isinstance(ev, Event)
+        assert ev.verb == "loyal"
+        assert _head(ev.agent).lemma == "maeve"
+        assert _head(ev.patient).lemma == "corwin"
+
+    def test_bare_predicate_adjective_stays_type_assertion(self, encoder):
+        # Guard the decision-A path: no PP complement → still a TypeAssertion.
+        ta = predicates(_pipeline(encoder, "Maeve is loyal"))[0]
+        assert isinstance(ta, TypeAssertion)
+        assert _head(ta.kind).lemma == "loyal"
+
+    def test_relational_adjective_in_because_clause_learns_a_clean_event(self, encoder):
+        # The silent-learning bug: the encoder tags the subordinate-clause
+        # subject SYN_OBJ, so the copula path bailed and the cause collapsed to a
+        # demi-word nominal ("doran maeve"), dropping "loyal". The cause must now
+        # be an Event(loyal, doran, maeve) the rule learner can generalize.
+        tree = _pipeline(encoder, "Doran protects Maeve because Doran is loyal to Maeve")
+        assert isinstance(tree, Causation)
+        assert isinstance(tree.cause, Event)
+        assert tree.cause.verb == "loyal"
+        assert _head(tree.cause.agent).lemma == "doran"
+        assert _head(tree.cause.patient).lemma == "maeve"
