@@ -38,8 +38,11 @@ from gse.symbolic.resolution import Coordination, Entity
 
 _NOMINAL_POS = {"PROPN", "NOUN", "PRON"}
 # Nodes that are bare nominals — a clause that resolves to one of these (rather
-# than a predicate) is a candidate collapse.
-_BARE = (Atom, Phrase, Entity, Coordination)
+# than a predicate) is a candidate collapse. A ``Coordination`` is NOT bare: it is
+# a coherent resolved structure (a set-union of coordinands — "Thunder and
+# Lightning", "here and there"), so it must not be flagged as a degraded collapse.
+# (Resolution already forms it correctly; the gate was over-flagging it.)
+_BARE = (Atom, Phrase, Entity)
 
 
 def _entity_like(tok) -> bool:
