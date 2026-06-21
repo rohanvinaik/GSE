@@ -41,7 +41,11 @@ CLEAN_DB = "data/lexicon_clean.db"
 # surface→level link is named here. `most`→MANY (a large quantity; deliberately not
 # ALL, which would over-claim totality).
 _SYNONYM_LEVEL: Dict[str, str] = {
+    # quantity
     "much": "MANY", "most": "MANY", "lots": "MANY", "no": "NONE", "every": "ALL",
+    "less": "SOME",   # the -1 decrease counterpart of more→MORE(+1)
+    # intensity (the gradable-adjective intensifiers surfaced by the flywheel)
+    "too": "VERY", "really": "VERY", "quite": "VERY",
 }
 
 
