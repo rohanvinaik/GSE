@@ -31,6 +31,7 @@ from gse.vectors_v2 import (
     bundle,
     create_basis,
     create_sentence_basis,
+    encode_hierarchy,
     permute,
 )
 
@@ -589,6 +590,20 @@ class GSEEncoder:
         """
         if not primitives:
             return SparseVector.zeros(self.word_basis.dimension)
+
+        # Hierarchical ordinal modifier: a base bank (QUANTITY/INTENSITY/CERTAINTY)
+        # carried with HIER_PLUS/HIER_MINUS markers encodes a scalar LEVEL as stacked
+        # permuted markers (many = QUANTITY + 2·HIER_PLUS), NOT a flat scalar. Route it
+        # to encode_hierarchy so the ordinal is real (the "no arbitrary scalars" design).
+        level = primitives.get("HIER_PLUS", 0) - primitives.get("HIER_MINUS", 0)
+        if level != 0:
+            bases = [p for p in primitives if p not in ("HIER_PLUS", "HIER_MINUS")]
+            if len(bases) == 1:
+                base_vec = self.word_basis.get_primitive(bases[0])
+                marker = self.word_basis.get_primitive(
+                    "HIER_PLUS" if level > 0 else "HIER_MINUS")
+                if base_vec is not None and marker is not None:
+                    return encode_hierarchy(base_vec, marker, abs(level))
 
         components = []
         for prim, value in primitives.items():
