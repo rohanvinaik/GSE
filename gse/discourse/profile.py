@@ -100,6 +100,7 @@ def text_profile(encoder, text: str, prime_basis: Sequence[str] | None = None) -
 
     op_counts: Dict[str, int] = {op: 0 for op in _OPERATIONS}
     n_clauses = n_embedded = n_tokens = n_content = n_func = n_oov = 0
+    n_past = 0
     degraded = 0
     failures = 0
     lemma_lens: List[int] = []
@@ -138,6 +139,16 @@ def text_profile(encoder, text: str, prime_basis: Sequence[str] | None = None) -
                 elif t.pos != "PUNCT":
                     n_func += 1
 
+            # Narrativity: does the sentence TELL a past event? Narrative prose is
+            # past-tense-heavy (story-telling), reviews/essays skew present (evaluating).
+            # SYN_TENSE_PAST is a SENTENCE-scale syntactic primitive (in the trace, not
+            # the word-primitive bank), so without this it never reached the SoM router —
+            # the measured reason narrative and review were inseparable (no profile
+            # feature with Cohen's d > 0.55).
+            if any("SYN_TENSE_PAST" in (getattr(t, "sent_primitives", None) or {})
+                   for t in tr.tokens):
+                n_past += 1
+
             for p, act in tr.word_primitive_activations.items():
                 if p in prim_sums:
                     prim_sums[p] += act
@@ -158,6 +169,7 @@ def text_profile(encoder, text: str, prime_basis: Sequence[str] | None = None) -
         "ops_per_sent": sum(op_counts.values()) / n,
         "tokens_per_sent": n_tokens / n,
         "embed_rate": n_embedded / n,
+        "past_tense_rate": n_past / n,   # narrativity: story-telling vs evaluating
     }
     coherence = {"degraded_rate": degraded / max(n_clauses, 1)}
     affect = {
@@ -182,7 +194,7 @@ def text_profile(encoder, text: str, prime_basis: Sequence[str] | None = None) -
 PROFILE_FIELDS: List[str] = (
     [f"op:{op}" for op in sorted(_OPERATIONS)]
     + [f"cx:{k}" for k in sorted(("clauses_per_sent", "ops_per_sent",
-                                  "tokens_per_sent", "embed_rate"))]
+                                  "tokens_per_sent", "embed_rate", "past_tense_rate"))]
     + ["coh:degraded_rate"]
     + [f"aff:{k}" for k in sorted(("valence_mean", "valence_spread", "valence_arc"))]
     + [f"reg:{k}" for k in sorted(("func_word_ratio", "oov_rate", "mean_lemma_len"))]
