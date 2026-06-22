@@ -66,17 +66,18 @@ def resolve_contraction(fragment: str, following: Optional[Any]) -> Optional[str
 POSSESSIVE = "POSSESSIVE"
 
 
-def resolve_apostrophe_s(following: Optional[Any], verb_or_copula_after: bool) -> str:
+def resolve_apostrophe_s(following: Optional[Any], verb_or_copula_in_clause: bool) -> str:
     """The integrated three-way ``'s`` resolver — the spell-check voice-mode completing
     the ``possessive: see note`` deferral. ``'s`` is one of:
 
     * ``has`` — the perfect, when the FOLLOWING token is a past participle
       (``the fire's gone`` = the fire HAS gone). Checked FIRST so the participle is
       not mistaken for a separate clause verb.
-    * ``POSSESSIVE`` — when ANOTHER verb/copula appears later, so ``'s`` is not the
-      clause's own predicate: the ``'s``-headed NP is an argument
-      (``White's suggestion flattered``) or a possessive subject of that verb
-      (``Brenner's voice was oily`` — the copula is ``was``, not ``'s``).
+    * ``POSSESSIVE`` — when ANOTHER verb/copula appears elsewhere in the clause (before
+      OR after), so ``'s`` is not the clause's own predicate: the ``'s``-headed NP is an
+      argument (``White's suggestion flattered``), a possessive subject of that verb
+      (``Brenner's voice was oily`` — the copula is ``was``, not ``'s``), or the object
+      of the matrix verb (``Gnash destroyed Pip's house`` — the verb is ``destroyed``).
     * ``is`` — the copula ONLY when nothing else could be the predicate
       (``fire's too big`` = the fire IS too big), which flows into the copula
       TYPE_ASSERT synthesis. Conservative by design: re-tag ``'s`` to a copula only
@@ -87,6 +88,6 @@ def resolve_apostrophe_s(following: Optional[Any], verb_or_copula_after: bool) -
     """
     if following is not None and _is_participle(following):
         return "has"
-    if verb_or_copula_after:
+    if verb_or_copula_in_clause:
         return POSSESSIVE
     return "is"

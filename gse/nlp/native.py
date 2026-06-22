@@ -71,6 +71,17 @@ _IRREGULAR_LEMMA = {"is": "be", "am": "be", "are": "be", "was": "be",
                     "n't": "not", "'s": "'s", "'re": "be", "'ve": "have",
                     "'ll": "will", "'d": "would", "'m": "be"}
 
+# Morphy-opaque irregular pasts: forms whose OWN surface is also a verb/noun lemma
+# ("fell"=cut-down AND past-of-fall; "rose"=a flower AND past-of-rise), so ``morphy``
+# returns the surface unchanged and the irregular-past POS rule (which needs lemma ≠
+# surface) misses them. A finite-verb position (not after a determiner/possessive)
+# disambiguates. The enumerable irregular table the morphology design explicitly
+# sanctions; extend as the register demands.
+_IRREGULAR_PAST_VERB = {
+    "fell": "fall", "rose": "rise", "bore": "bear",
+    "ground": "grind", "wound": "wind",
+}
+
 _PUNCT_RE = re.compile(r"[^\w\s]")
 # Tokenizer: words + contraction suffixes. The base-before-``n't`` and ``n't``
 # itself are matched BEFORE plain ``\w+`` so a greedy ``\w+`` can't eat the ``n``
@@ -209,14 +220,35 @@ class NativeNLP:
             if t.text != "'s" or t.pos_ != "PART":
                 continue
             following = tokens[i + 1] if i + 1 < len(tokens) else None
-            verb_or_copula_after = any(
-                tokens[j].pos_ in ("VERB", "AUX") for j in range(i + 1, len(tokens)))
-            reading = resolve_apostrophe_s(following, verb_or_copula_after)
+            # 's is possessive when the clause ALREADY has a predicate — a verb/copula
+            # elsewhere in the SAME clause, BEFORE or after the 's. (Scanning only AFTER
+            # missed the matrix verb in "Gnash destroyed Pip's house" / "...could not
+            # destroy Hew's house", misread the genitive as the copula, and dropped the
+            # verb.) Both directions, stopping at a clause boundary so a verb in a
+            # NEIGHBOURING clause ("Because Mike ran, Pip's happy") can't suppress a real
+            # copula.
+            verb_or_copula_in_clause = self._clause_has_predicate(tokens, i)
+            reading = resolve_apostrophe_s(following, verb_or_copula_in_clause)
             if reading == "is":
                 t.lemma_, t.pos_ = "be", "AUX"
             elif reading == "has":
                 t.lemma_, t.pos_ = "have", "AUX"
             # POSSESSIVE → leave the PART unchanged (the possessive path handles it).
+
+    # A clause boundary for the local 's scan: a connective or punctuation separates
+    # the genitive's clause from a neighbour's predicate.
+    _CLAUSE_BOUNDARY_POS = ("SCONJ", "CCONJ", "PUNCT")
+
+    def _clause_has_predicate(self, tokens: List["NativeToken"], i: int) -> bool:
+        """Is there a VERB/AUX in the same clause as ``tokens[i]`` (the ``'s``), excluding
+        it — scanning both directions and stopping at a clause boundary?"""
+        for rng in (range(i + 1, len(tokens)), range(i - 1, -1, -1)):
+            for j in rng:
+                if tokens[j].pos_ in self._CLAUSE_BOUNDARY_POS:
+                    break
+                if tokens[j].pos_ in ("VERB", "AUX"):
+                    return True
+        return False
 
     # --- POS ---------------------------------------------------------------
     def _pos(self, surf: str, i: int, surfaces: List[str]) -> str:
@@ -282,6 +314,9 @@ class NativeNLP:
         # ``-s`` forms are excluded here (handled positionally below).
         if (mv := wn.morphy(low, "v")) and mv != low and not low.endswith("s"):
             return "VERB"
+        # Morphy-opaque irregular past (fell/rose/…): a finite-verb position settles it.
+        if low in _IRREGULAR_PAST_VERB and prev not in _DET and prev not in _POSS_PRON:
+            return "VERB"
         if low.endswith(("ous", "ful", "less", "ive", "able", "ible")):
             return "ADJ"
         # Comparative / superlative (incl. suppletive better/best/worse): the
@@ -306,8 +341,9 @@ class NativeNLP:
             return "VERB"                   # content word after do/modal/neg/to
         if (prev in _DET or prev in _POSS_PRON) and has_n:
             return "NOUN"                   # head of a determined NP
-        if low.endswith("s") and has_v and not low.endswith("ss"):
-            return "VERB"                   # 3sg present (barks, murders, falls)
+        if low.endswith("s") and has_v and not low.endswith("ss") and prev not in _ADP:
+            return "VERB"                   # 3sg present (barks, murders, falls); but the
+                                            # object of a preposition is nominal ("of sticks")
 
         if has_n:
             return "NOUN"
@@ -344,6 +380,8 @@ class NativeNLP:
         low = surf.lower()
         if low in _IRREGULAR_LEMMA:
             return _IRREGULAR_LEMMA[low]
+        if pos == "VERB" and low in _IRREGULAR_PAST_VERB:   # fell→fall only when verbal
+            return _IRREGULAR_PAST_VERB[low]
         # Comparative/superlative: a word-scale morphological OPERATION — propose
         # candidate bases via the inverse orthographic formation, select the one that
         # grounds as a gradable adjective (gse/nlp/morphology.py; see

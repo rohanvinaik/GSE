@@ -174,6 +174,7 @@ class GSEEncoder:
         #     no spaCy arcs), distinct from NP/VP coordination. Marked as the
         #     clause-linking CLAUSE_COORD operator so it becomes a clause boundary.
         clause_coords = self._clause_coordinator_positions(doc, promote_to_verb)
+        clause_coords |= self._copula_clause_coordinator_positions(doc)
 
         # 1c'. Fronted conditional "if": a clause-initial "if" with a predicate in
         #      its antecedent → the IMPLIES clause-linker. Not a lexicon operator
@@ -699,6 +700,36 @@ class GSEEncoder:
             if t.pos_ == "CCONJ" and t.lemma_.lower() in ("and", "or"):
                 if any(p < i for p in preds) and any(p > i for p in preds):
                     out.add(i)
+        return out
+
+    def _copula_clause_coordinator_positions(self, doc) -> set:
+        """Positions separating coordinated COPULA clauses — ``"Pip is a pig, Bram is a
+        pig, and Hew is a pig"`` is THREE clauses, not NP coordination. The signal is
+        ≥2 copulas (``be``), EACH with its own nominal subject immediately before it;
+        the separator between adjacent copulas (the coordinator if the gap has one, else
+        the comma) is marked as a clause boundary. NP coordination (``"Pip, Bram, and
+        Hew are pigs"`` — one shared copula) and predicate coordination (``"He is tall
+        and strong"`` — one subject) have <2 subject-bearing copulas, so are untouched.
+        """
+        copulas = [i for i, t in enumerate(doc)
+                   if t.lemma_.lower() == "be" and t.pos_ in ("AUX", "VERB")]
+        if len(copulas) < 2:
+            return set()
+        if not all(ci > 0 and doc[ci - 1].pos_ in ("NOUN", "PROPN", "PRON")
+                   for ci in copulas):
+            return set()
+        out = set()
+        for a, b in zip(copulas, copulas[1:]):
+            coord = comma = None
+            for j in range(a + 1, b):
+                tj = doc[j]
+                if tj.pos_ == "CCONJ" and tj.lemma_.lower() in ("and", "or"):
+                    coord = j
+                elif tj.pos_ == "PUNCT" and tj.text == ",":
+                    comma = j
+            sep = coord if coord is not None else comma
+            if sep is not None:
+                out.add(sep)
         return out
 
     def _conditional_positions(self, doc, promote_to_verb) -> set:
