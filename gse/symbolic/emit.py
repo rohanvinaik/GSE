@@ -94,13 +94,28 @@ def emit(node: Any) -> Any:
     spec = _PRED_SPEC.get(name)
     if spec is not None:
         op, fields, feats = spec
-        return {
-            "op": op,
-            # Skip optional operand fields that are None (e.g. an Event's patient
-            # for an intransitive verb).
-            "args": [emit(getattr(node, f)) for f in fields if getattr(node, f) is not None],
-            "features": {k: getattr(node, k) for k in feats},
+        # Skip operand fields that are None (e.g. an intransitive Event's patient)
+        # OR that render to a BLANK leaf. An empty-string operand is a malformed
+        # contract — a sentence-initial "So" with no explicit cause, an infinitive
+        # with no controller — and a blank token crashes the consumer's WordNet
+        # stemmer (NPE-ing the whole sentence). Dropping it reduces arity, which the
+        # bridge's arity guards absorb. General over constructions, not a per-word patch.
+        args = []
+        for f in fields:
+            v = getattr(node, f)
+            if v is None:
+                continue
+            ev = emit(v)
+            if isinstance(ev, str) and not ev.strip():
+                continue
+            args.append(ev)
+        # Likewise drop blank feature values (e.g. a Control with an empty verb).
+        features = {
+            k: getattr(node, k)
+            for k in feats
+            if not (isinstance(getattr(node, k), str) and not getattr(node, k).strip())
         }
+        return {"op": op, "args": args, "features": features}
 
     if name == "Negation":
         return {"op": "NOT", "args": [emit(node.operand)], "features": {}}
