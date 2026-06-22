@@ -223,6 +223,14 @@ class NativeRepair:
         and, ONLY on a confident commit, return a patched map (token-index → role). A clean
         parse, an ambiguous bifurcation, or a no-candidate degraded parse all pass through
         unchanged — the repair never overrides a viable literal."""
+        # Tier-1 repair models a SINGLE clause (its prototypes are single-clause frames).
+        # A multi-clause sentence ("…because Doran is loyal to Maeve") carries one SYN_PRED
+        # per clause; scoring its cross-clause role bag mis-reads it as degraded, and a commit
+        # would replace the sentence-wide argument roles with one clause's frame — nulling every
+        # OTHER clause's roles (the copula-in-because regression). Out of scope for Tier-1: pass a
+        # multi-predicate sentence through untouched (per-clause repair is a later tier).
+        if sum(1 for r in syn_map.values() if r == "SYN_PRED") > 1:
+            return syn_map
         toks = list(doc)
         roles_tok: Dict[str, object] = {}
         for i in sorted(syn_map):
