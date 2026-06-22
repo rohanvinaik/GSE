@@ -257,9 +257,22 @@ class NativeNLP:
             return "PUNCT"
         if surf.replace(",", "").replace(".", "").isdigit():
             return "NUM"
-        if low in _AUX_BE or low in _AUX_MODAL or low in _AUX_DO or low in (
-                "has", "have", "had"):
-            return "AUX" if low not in ("has", "have", "had") else "VERB"
+        if low in _AUX_BE or low in _AUX_MODAL or low in _AUX_DO:
+            return "AUX"
+        if low in ("has", "have", "had"):
+            # Perfect auxiliary ("had murdered Duncan") vs main/possessive verb ("had a
+            # crown"): a determiner/pronoun/preposition next → the main verb; a verb
+            # (the participle) next → the perfect auxiliary. Scan past intervening
+            # adverbs/negation ("had never murdered"). Without this, "had" was tagged
+            # VERB and stole the predicate slot, dropping the real verb (have(x,y)).
+            j = i + 1
+            while j < len(surfaces) and (
+                    surfaces[j].lower().endswith("ly") or surfaces[j].lower() in _NEG):
+                j += 1
+            nxt = surfaces[j].lower() if j < len(surfaces) else ""
+            if nxt in _DET or nxt in _PRON or nxt in _POSS_PRON or nxt in _ADP:
+                return "VERB"
+            return "AUX" if self._looks_verbal(nxt) else "VERB"
         if low in _NEG:
             return "PART"
         if low == "to":
