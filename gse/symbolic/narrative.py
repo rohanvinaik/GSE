@@ -28,7 +28,8 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Set, Tuple
 
-from gse.symbolic.queries import predicates
+# queries.predicates() is intentionally NOT used — the skeleton needs a more complete walk
+# (see _collect_predicates below) that descends into coordination/conditional containers.
 
 _STATE_VERBS = {"be", "become", "is", "are", "was", "were", "remain", "turn"}
 
@@ -160,6 +161,50 @@ class Edge:
     provenance: List[str] = field(default_factory=list)         # heals applied (audit trail)
 
 
+_YIELD_PREDS = {"Event", "Causation", "Temporal", "TypeAssertion", "Comparison",
+                "Conditional", "Control", "RelativeRestriction", "Contrast", "ClauseCoordination"}
+_CONTAINER_FIELDS = {
+    "ClauseCoordination": ("left", "right"),
+    "Contrast": ("left", "right"),
+    "Causation": ("cause", "effect"),
+    "Temporal": ("setting", "event"),
+    "Conditional": ("antecedent", "consequent"),
+    "RelativeRestriction": ("head", "restriction"),
+    "Control": ("subject", "controller", "inner"),
+    "Event": ("agent", "patient"),
+    "Negation": ("operand",),
+}
+
+
+def _collect_predicates(tree: Any) -> List[Any]:
+    """A COMPLETE predicate walk for the skeleton. Like ``queries.predicates()`` but it ALSO
+    descends into ClauseCoordination / Coordination / Conditional / Temporal, so events nested
+    under a top-level coordination ("betrayed Aldric and murdered him") are not lost. Kept
+    LOCAL here so the shared ``queries.predicates()`` (relied on by inference.py) is untouched."""
+    out: List[Any] = []
+    seen: set = set()
+
+    def walk(n: Any) -> None:
+        if n is None or id(n) in seen:
+            return
+        seen.add(id(n))
+        nm = type(n).__name__
+        if nm in _YIELD_PREDS:
+            out.append(n)
+        if nm == "Coordination":
+            for m in getattr(n, "members", []) or []:
+                walk(m)
+        elif nm == "Op":
+            for a in getattr(n, "args", []) or []:
+                walk(a)
+        else:
+            for f in _CONTAINER_FIELDS.get(nm, ()):
+                walk(getattr(n, f, None))
+
+    walk(tree)
+    return out
+
+
 class NarrativeGraph:
     """Entities (+ role-timelines) and event/causal/temporal edges of a document."""
 
@@ -214,7 +259,7 @@ class NarrativeGraph:
     def from_document(cls, trees: List[Any], genealogy: Any = None) -> "NarrativeGraph":
         g = cls()
         for t, tree in enumerate(trees):
-            for p in predicates(tree):
+            for p in _collect_predicates(tree):
                 nm = type(p).__name__
                 ok = False
                 if nm == "TypeAssertion":
