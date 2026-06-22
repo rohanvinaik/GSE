@@ -38,6 +38,9 @@ _PRON = {"i", "you", "he", "she", "it", "we", "they", "me", "him", "her", "us",
          "themselves", "someone", "something", "anyone", "anything", "everyone",
          "everything", "nobody", "nothing"}
 _POSS_PRON = {"my", "your", "his", "her", "its", "our", "their"}
+# Nominative subject pronouns — a verb-capable word right after one is the clause predicate
+# "by exclusion" (the subject slot is filled; the predicate is the only role left to assign).
+_SUBJ_PRON = {"i", "you", "he", "she", "it", "we", "they", "who"}
 _ADP = {"of", "in", "on", "at", "to", "for", "from", "by", "with", "without",
         "into", "onto", "over", "under", "above", "below", "between", "among",
         "through", "across", "along", "toward", "towards", "about", "against",
@@ -283,14 +286,16 @@ class NativeNLP:
             return "PRON"
         if low in _DET and low not in _PRON:
             return "DET"
-        if low in _PRON:
+        if low in _PRON and low != "that":
             return "PRON"
         if low in _CCONJ:
             return "CCONJ"
         if low in _SCONJ and low not in ("that",):
             return "SCONJ"
         if low == "that":
-            return "SCONJ" if self._that_is_clausal(i, surfaces) else "DET"
+            # 'that' is genuinely 3-way (DET/SCONJ/PRON); resolved by enumerate-and-score,
+            # not the _PRON trap above (excluded) nor a next-token rule.
+            return self._resolve_that(i, surfaces)
         if low == "than":
             return "ADP"
         if low in _ADP:
@@ -310,6 +315,11 @@ class NativeNLP:
         has_n = bool(wn.synsets(low, pos="n"))
         has_a = bool(wn.synsets(low, pos="a") or wn.synsets(low, pos="s"))
         prev = surfaces[i - 1].lower() if i > 0 else ""
+        # A *demonstrative-or-relativizer* "that" before this word is NOT a determiner context:
+        # "the king that FELL" / "the sword that Macbeth HELD" — the verb after a relativizer
+        # "that" must stay a verb, not be nominalized like the head of "that DOG". (When "that"
+        # really is a determiner, the following word is a noun, which `has_n` tags NOUN anyway.)
+        prev_det = (prev in _DET or prev in _POSS_PRON) and prev != "that"
 
         # An isolated content word with a verb reading is the predicate (no
         # object-position context to make it a noun) — matches spaCy's default
@@ -329,10 +339,10 @@ class NativeNLP:
         # tool): a finite-verb position settles it, exactly as for the morphy-opaque
         # table below. The ``-s`` forms are excluded here (handled positionally below).
         if ((mv := wn.morphy(low, "v")) and mv != low and not low.endswith("s")
-                and not (has_n and (prev in _DET or prev in _POSS_PRON))):
+                and not (has_n and prev_det)):
             return "VERB"
         # Morphy-opaque irregular past (fell/rose/…): a finite-verb position settles it.
-        if low in _IRREGULAR_PAST_VERB and prev not in _DET and prev not in _POSS_PRON:
+        if low in _IRREGULAR_PAST_VERB and not prev_det:
             return "VERB"
         if low.endswith(("ous", "ful", "less", "ive", "able", "ible")):
             return "ADJ"
@@ -356,16 +366,22 @@ class NativeNLP:
         if (prev in _AUX_DO or prev in _AUX_MODAL or prev in _NEG
                 or prev == "to") and has_v:
             return "VERB"                   # content word after do/modal/neg/to
+        # Predicate by exclusion: a verb-capable word right after a nominative SUBJECT pronoun
+        # ("I know", "they think", "he wants") is the clause predicate — the subject slot is
+        # filled and the predicate is the only role left to assign, so a stray noun sense
+        # (know/think/want all have one) must not strand the clause verb-less.
+        if prev in _SUBJ_PRON and has_v:
+            return "VERB"
         # Pre-nominal adjective: a determiner-preceded word that is adjectival AND is
         # followed by a noun head is a modifier, not the NP head — "the old king" → old
         # is ADJ (king is the head), not the nominalized "the old". Without this, an adj
         # with a noun sense (old/young/rich/poor/great…) was tagged NOUN before the head,
         # garbling the NP ("old king" as one unit). Guards the DET→NOUN rule below.
         nxt = surfaces[i + 1].lower() if i + 1 < len(surfaces) else ""
-        if ((prev in _DET or prev in _POSS_PRON) and has_a and nxt
+        if (prev_det and has_a and nxt
                 and nxt not in _STOP and bool(wn.synsets(nxt, pos="n"))):
             return "ADJ"
-        if (prev in _DET or prev in _POSS_PRON) and has_n:
+        if prev_det and has_n:
             return "NOUN"                   # head of a determined NP
         if low.endswith("s") and has_v and not low.endswith("ss") and prev not in _ADP:
             return "VERB"                   # 3sg present (barks, murders, falls); but the
@@ -390,16 +406,53 @@ class NativeNLP:
         base = self._rule_base(low)
         return bool(wn.synsets(low, pos="v") or wn.synsets(base, pos="v"))
 
-    def _that_is_clausal(self, i: int, surfaces: List[str]) -> bool:
-        """"that" is a determiner before a noun phrase it heads ("that dog"),
-        else a complementizer/relativizer (clausal)."""
-        nxt = surfaces[i + 1].lower() if i + 1 < len(surfaces) else ""
-        if not nxt:
-            return True
-        # determiner if the next token is a (common) noun / adjective it modifies.
-        if nxt in _DET or nxt in _ADP or self._looks_verbal(nxt):
-            return True
-        return True  # default clausal; determiner "that NOUN" handled by next≈noun
+    def _resolve_that(self, i: int, surfaces: List[str]) -> str:
+        """Resolve the 3-way ambiguity of "that" by enumerate-and-score (not a next-token rule).
+
+        The three readings each imply a different clause decomposition:
+          * **DET** — determines the following nominal as an argument NP head ("that dog").
+          * **SCONJ** — a complementizer opening a finite subordinate clause ("…knows that she
+            left"): a main predicate before AND a subject+predicate after.
+          * **PRON** — a relativizer ("the king *that* fell": noun before + verb right after) or a
+            demonstrative subject ("*That* is mine": clause-initial + verb right after).
+
+        Each reading is scored by how well-formed the decomposition it induces is — predicates
+        homed in clauses with a present main clause, an orphaned verb penalised — with clause-token
+        balance as the tie-break. Generalises the parse-repair enumerate→score→commit shape to a
+        high-ambiguity function word. ("that DOG barks"=DET vs "knows that DOGS bark"=SCONJ turns
+        on whether what follows is an NP or a subject+predicate, i.e. mini-parsing; no next-token
+        rule can split them — the silent-PRON-trap residual this replaces.)
+        """
+        n = len(surfaces)
+
+        def pos_of(j: int) -> str:
+            if j < 0 or j >= n:
+                return ""
+            if surfaces[j].lower() == "that":
+                return ""               # an adjacent 'that' is no evidence (avoid recursion)
+            return self._pos(surfaces[j], j, surfaces)
+
+        prev, nxt = pos_of(i - 1), pos_of(i + 1)
+        # The GOVERNOR (the reliable preceding token) decides attachment — not the ambiguous
+        # following predicate, which can't be tagged in isolation:
+        #   noun/pronoun before → relativizer ("the king that fell") → PRON, the POS the
+        #                         relative-clause builder keys on (expression._is_relativizer);
+        #   verb before         → complementizer ("knows that she left") → SCONJ, a clean
+        #                         nested complement clause;
+        #   clause-initial/other:
+        #       nominal after   → demonstrative determiner ("that dog") → DET (filtered; deixis
+        #                         only, no propositional content);
+        #       predicate after → demonstrative pronoun ("that is mine") → PRON (a referent).
+        # Only the demonstrative PRON carries meaning; DET/SCONJ/relativizer are structural glue.
+        if prev in ("NOUN", "PROPN", "PRON"):
+            return "PRON"
+        if prev == "VERB":
+            return "SCONJ"
+        if nxt in ("NOUN", "PROPN", "ADJ"):
+            return "DET"
+        if nxt in ("VERB", "AUX"):
+            return "PRON"
+        return "DET"
 
     # --- lemma -------------------------------------------------------------
     def _lemma(self, surf: str, pos: str) -> str:
