@@ -47,6 +47,10 @@ class Atom:
     role: Optional[str] = None
     position: int = 0
     pos: Optional[str] = None
+    # Grammatical number ("sing" | "plur" | None) — for a noun, recovered from the
+    # surface vs the (singular) lemma, since the lemmatizer drops plurality. Used by
+    # document-scope pronoun coreference (they → a plural antecedent). None when unknown.
+    number: Optional[str] = None
 
     def __hash__(self) -> int:
         # word_primitives is unhashable; hash on lemma+position
@@ -116,12 +120,21 @@ _NEGATION_LEMMAS = frozenset({"not", "no", "never", "neither", "nor", "nothing"}
 
 def _atom_from_token(token: TokenTrace, role: Optional[str] = None) -> Atom:
     """Build a single Atom from a TokenTrace."""
+    # Recover grammatical number for nouns: the lemmatizer strips plurality (nobles →
+    # noble), but the surface is still on the trace token, so a surface ≠ lemma noun is
+    # plural. (Pronoun number is read from a table in the coref binder, not here.)
+    number = None
+    pos = token.pos or None
+    if pos in ("NOUN", "PROPN"):
+        surface = (getattr(token, "token", "") or "")
+        number = "plur" if surface.lower() != (token.lemma or "").lower() else "sing"
     return Atom(
         lemma=token.lemma,
         word_primitives=dict(token.word_primitives),
         role=role,
         position=token.position,
-        pos=token.pos or None,
+        pos=pos,
+        number=number,
     )
 
 

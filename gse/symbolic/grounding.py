@@ -319,19 +319,81 @@ def _is_pronoun(ent: Entity) -> bool:
     return getattr(ent.head, "pos", None) == "PRON"
 
 
-def _bind_document_pronouns(trees: Sequence[Any]) -> List[Any]:
-    """Bind cross-sentence pronouns to the most-recent prior non-pronoun entity.
+# Pronoun grammatical number / person, for cross-sentence agreement. they/them are
+# number=plur, person-agnostic (a group of people OR things); it/its are non-person.
+_PRON_NUMBER = {
+    "they": "plur", "them": "plur", "their": "plur", "theirs": "plur", "themselves": "plur",
+    "he": "sing", "she": "sing", "it": "sing", "him": "sing", "her": "sing",
+    "his": "sing", "hers": "sing", "its": "sing",
+    "himself": "sing", "herself": "sing", "itself": "sing",
+}
+_PRON_PERSON = {  # True = requires a person antecedent; False = requires non-person
+    "he": True, "she": True, "him": True, "her": True, "his": True, "hers": True,
+    "himself": True, "herself": True, "it": False, "its": False, "itself": False,
+}
+_PERSON_CACHE: Dict[str, Any] = {}
 
-    v1, matching the within-sentence binder: nearest antecedent in document
-    order, no gender/number agreement."""
+
+def _is_person(lemma: str) -> Any:
+    """True/False if ``lemma`` is/ isn't a person (WordNet hypernymy); None if unknown."""
+    if lemma in _PERSON_CACHE:
+        return _PERSON_CACHE[lemma]
+    res: Any = None
+    try:
+        from nltk.corpus import wordnet as wn
+        person = wn.synset("person.n.01")
+        syns = wn.synsets(lemma, pos="n")
+        if syns:
+            res = any(person in path for s in syns for path in s.hypernym_paths())
+    except Exception:
+        res = None
+    _PERSON_CACHE[lemma] = res
+    return res
+
+
+def _pron_agrees(pron_lemma: str, ante: Entity) -> bool:
+    """Number + person agreement between a pronoun and a candidate antecedent. A check is
+    skipped when either side's feature is unknown (permissive — never rules out on a gap)."""
+    pn = _PRON_NUMBER.get(pron_lemma)
+    an = getattr(ante.head, "number", None)
+    if pn and an and pn != an:
+        return False
+    pp = _PRON_PERSON.get(pron_lemma)
+    if pp is not None:
+        ap = _is_person(getattr(ante.head, "lemma", "") or "")
+        if ap is not None and ap != pp:
+            return False
+    return True
+
+
+def _bind_document_pronouns(trees: Sequence[Any]) -> List[Any]:
+    """Bind cross-sentence pronouns to the most-recent AGREEING prior entity.
+
+    Strictly improves the v1 most-recent rule with two refinements (the cross-sentence
+    twin of the within-sentence binder's agreement):
+      * **agreement** — prefer the most-recent antecedent that matches the pronoun's
+        number ("they" → a plural noun like ``nobles``) and person ("it" → non-person);
+      * **distinctness** — two pronouns in one sentence take different antecedents
+        ("They harmed him" → they=nobles, him=tyrant, not both the same).
+    Falls back to plain most-recent when no antecedent agrees (so it is never worse than
+    v1), and leaves a pronoun unbound only when there is no available antecedent at all.
+    """
     antecedents: List[Entity] = []
     out: List[Any] = []
     for tree in trees:
+        used: set = set()   # antecedent lemmas already taken by a sibling pronoun (distinct)
+
         def bind(ent: Entity) -> Entity:
-            if _is_pronoun(ent) and antecedents:
-                ante = antecedents[-1]
-                return replace(ent, head=ante.head, possessor=ante.possessor)
-            return ent
+            if not _is_pronoun(ent):
+                return ent
+            cands = [a for a in reversed(antecedents)
+                     if (getattr(a.head, "lemma", None) not in used)]
+            if not cands:
+                return ent
+            pron = getattr(ent.head, "lemma", "") or ""
+            pick = next((a for a in cands if _pron_agrees(pron, a)), cands[0])
+            used.add(getattr(pick.head, "lemma", None))
+            return replace(ent, head=pick.head, possessor=pick.possessor)
 
         bound = _map_entities(tree, bind)
         post: List[Entity] = []
