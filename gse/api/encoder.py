@@ -169,6 +169,17 @@ class GSEEncoder:
         # WS1: derive core syntactic roles arc-free (positional) rather than from
         # spaCy ``dep_``. Flipped off only by the parity harness to A/B the two.
         self._arcfree_syn = True
+        self._repair = None              # lazy native parse-repair (built on first encode)
+
+    def _parse_repair(self):
+        """Lazily build the native Tier-1 parse repair (the parse-strand of the multi-strand
+        error correction). Lazy + function-local import avoids the encoder↔repair circular
+        import; the repair's prototype derivation uses nlp + _syn_roles directly (never
+        encode), so there is no recursion."""
+        if self._repair is None:
+            from gse.api.native_repair import NativeRepair
+            self._repair = NativeRepair(self)
+        return self._repair
 
     def encode(self, text: str) -> OperationTrace:
         """
@@ -208,6 +219,17 @@ class GSEEncoder:
         # 1d. Arc-free core syntactic roles (positional), computed once for the
         #     sentence. ``None`` falls the per-token extractor back to spaCy dep_.
         syn_map = self._syn_roles(doc, promote_to_verb) if self._arcfree_syn else None
+        # 1d'. Parse-strand auto-repair: on a DEGRADED clause the native Tier-1 repair
+        #      re-assigns roles (commit only) before EVENT synthesis; clean parses pass
+        #      through untouched. Guarded so a repair failure never breaks encode.
+        if syn_map is not None and not getattr(self, "_in_repair", False):
+            try:
+                self._in_repair = True
+                syn_map = self._parse_repair().repair_syn_map(doc, syn_map)
+            except Exception:
+                pass
+            finally:
+                self._in_repair = False
 
         # 2. Process each token
         token_traces: List[TokenTrace] = []

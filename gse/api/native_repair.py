@@ -218,6 +218,31 @@ class NativeRepair:
                               {r: t.text for r, t in top.roles.items()})],
         }
 
+    def repair_syn_map(self, doc, syn_map: Dict[int, str]) -> Dict[int, str]:
+        """Encode-facing auto step: detect a degraded clause from its positional ``syn_map``
+        and, ONLY on a confident commit, return a patched map (token-index → role). A clean
+        parse, an ambiguous bifurcation, or a no-candidate degraded parse all pass through
+        unchanged — the repair never overrides a viable literal."""
+        toks = list(doc)
+        roles_tok: Dict[str, object] = {}
+        for i in sorted(syn_map):
+            if syn_map[i] in ARGUMENT_ROLES:
+                roles_tok.setdefault(syn_map[i], toks[i])
+        literal = {r: self._prims(t.lemma_) for r, t in roles_tok.items()}
+        lit_match = self._score_against(literal)
+        if lit_match and not self._false_clean_suspect(doc, lit_match[0][0], roles_tok):
+            return syn_map                                  # clean → untouched
+        cands = sorted(self._enumerate(doc), key=lambda c: -c.score)
+        if not cands:
+            return syn_map                                  # degraded, no candidate → literal
+        top = cands[0]
+        if [c for c in cands if top.score - c.score <= EPS and c.frame != top.frame]:
+            return syn_map                                  # bifurcate → don't override
+        patched = {i: r for i, r in syn_map.items() if r not in ARGUMENT_ROLES}
+        for r, t in top.roles.items():                      # commit: install repaired roles
+            patched[t.i] = r
+        return patched
+
 
 def _main() -> None:
     rep = NativeRepair()
