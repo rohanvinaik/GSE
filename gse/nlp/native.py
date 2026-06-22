@@ -310,9 +310,13 @@ class NativeNLP:
         if low.endswith("ed"):
             return "VERB" if has_v else ("ADJ" if has_a else "NOUN")
         # Irregular past / participle: morphy maps to a *different* verb lemma
-        # (sang→sing, left→leave, saw→see) — a verb even when also a noun. The
-        # ``-s`` forms are excluded here (handled positionally below).
-        if (mv := wn.morphy(low, "v")) and mv != low and not low.endswith("s"):
+        # (sang→sing, left→leave, saw→see) — a verb even when also a noun. But a
+        # determiner/possessive in front forces the nominal reading when the word
+        # has a noun sense (``the dove``=the bird, not past-of-dive; ``the saw``=the
+        # tool): a finite-verb position settles it, exactly as for the morphy-opaque
+        # table below. The ``-s`` forms are excluded here (handled positionally below).
+        if ((mv := wn.morphy(low, "v")) and mv != low and not low.endswith("s")
+                and not (has_n and (prev in _DET or prev in _POSS_PRON))):
             return "VERB"
         # Morphy-opaque irregular past (fell/rose/…): a finite-verb position settles it.
         if low in _IRREGULAR_PAST_VERB and prev not in _DET and prev not in _POSS_PRON:
@@ -378,7 +382,14 @@ class NativeNLP:
     # --- lemma -------------------------------------------------------------
     def _lemma(self, surf: str, pos: str) -> str:
         low = surf.lower()
-        if low in _IRREGULAR_LEMMA:
+        # _IRREGULAR_LEMMA holds POS-invariant maps (function words: be/have/do,
+        # contraction parts) plus open-class verb-pasts whose surface collides with a
+        # distinct noun ("saw"=past-of-see AND the cutting tool). For the latter, a
+        # NOUN reading must NOT inherit the verbal lemma — defer to POS-aware morphy
+        # below ("the saw" → "saw", not "see"), exactly as the _IRREGULAR_PAST_VERB
+        # table is gated to verbal position. Function words never tag NOUN, so they
+        # are unaffected.
+        if low in _IRREGULAR_LEMMA and not (pos == "NOUN" and wn.synsets(low, pos="n")):
             return _IRREGULAR_LEMMA[low]
         if pos == "VERB" and low in _IRREGULAR_PAST_VERB:   # fell→fall only when verbal
             return _IRREGULAR_PAST_VERB[low]

@@ -65,36 +65,14 @@ class Domain(Enum):
 # DETECTION MARKERS
 # =============================================================================
 
-GENRE_MARKERS = {
-    Genre.NARRATIVE: {
-        "markers": [
-            "once upon", "one day", "suddenly", "then", "finally",
-            "he said", "she said", "they went", "happened", "story"
-        ],
-        "features": ["past_tense", "character_mentions", "temporal_sequence"],
-    },
-    Genre.EXPOSITORY: {
-        "markers": [
-            "first", "second", "in addition", "for example", "therefore",
-            "means", "defined as", "consists of", "process", "method"
-        ],
-        "features": ["present_tense", "definitions", "explanations"],
-    },
-    Genre.ARGUMENTATIVE: {
-        "markers": [
-            "argue", "believe", "should", "must", "however", "although",
-            "evidence", "proves", "demonstrates", "conclusion", "therefore"
-        ],
-        "features": ["opinion_markers", "contrast_markers", "conclusions"],
-    },
-    Genre.DESCRIPTIVE: {
-        "markers": [
-            "beautiful", "large", "small", "looks like", "appears",
-            "color", "shape", "texture", "feels", "seems"
-        ],
-        "features": ["adjectives", "sensory_words", "present_tense"],
-    },
-}
+# Genre is NO LONGER detected by surface keywords. That legacy keyword bag
+# ("once upon a time" → NARRATIVE) classified a story by its *vocabulary* instead
+# of its *structure* — antithetical to GSE — and returned MIXED on any narrative
+# that didn't happen to use storytelling phrases. Genre now comes from the trained
+# Society-of-Mind register router over GSE's deterministic structural profile
+# (gse/encoders/som_genre.py → gse/discourse). REGISTER and DOMAIN remain on the
+# keyword detectors below for now (same rot, tracked follow-up: register is
+# SoM-resolvable; domain has no SoM taxonomy yet).
 
 REGISTER_MARKERS = {
     Register.FORMAL: {
@@ -161,8 +139,8 @@ DOMAIN_MARKERS = {
 
 
 def _build_default_detectors():
-    """Construct the legacy keyword detectors from the marker tables above."""
-    genre = KeywordDetector({g: info["markers"] for g, info in GENRE_MARKERS.items()})
+    """Construct the (still-keyword) REGISTER and DOMAIN detectors. Genre is no longer
+    keyword-detected — it comes from the SoM router (see :mod:`gse.encoders.som_genre`)."""
     register = KeywordDetector(
         {r: info["markers"] for r, info in REGISTER_MARKERS.items()},
         avoid={
@@ -172,7 +150,7 @@ def _build_default_detectors():
         },
     )
     domain = KeywordDetector({d: info["markers"] for d, info in DOMAIN_MARKERS.items()})
-    return genre, register, domain
+    return register, domain
 
 
 # =============================================================================
@@ -302,15 +280,19 @@ class TextStructureEncoder:
         self,
         dim: int = D,
         codebook: Optional[TextCodebook] = None,
-        genre_detector: Optional[KeywordDetector] = None,
+        genre_detector=None,
         register_detector: Optional[KeywordDetector] = None,
         domain_detector: Optional[KeywordDetector] = None,
     ):
         self.dim = dim
         self.codebook = codebook or TextCodebook(dim=dim)
 
-        default_genre, default_register, default_domain = _build_default_detectors()
-        self.genre_detector = genre_detector or default_genre
+        default_register, default_domain = _build_default_detectors()
+        # Genre has NO keyword default — it is the SoM router, injected by
+        # ``get_text_encoder`` (which has the GSEEncoder it needs). A bare
+        # TextStructureEncoder() with no genre_detector returns MIXED for every
+        # document rather than guessing from keywords.
+        self.genre_detector = genre_detector
         self.register_detector = register_detector or default_register
         self.domain_detector = domain_detector or default_domain
 
@@ -433,7 +415,13 @@ class TextStructureEncoder:
         return best, confidence
 
     def _detect_genre(self, text: str) -> Tuple[Genre, float]:
-        """Detect document genre."""
+        """Detect document genre via the SoM router (no keywords). Returns MIXED when
+        no genre detector is wired (a bare encoder) or the router abstains."""
+        if self.genre_detector is None:
+            return Genre.MIXED, 0.0
+        if hasattr(self.genre_detector, "classify"):     # SomGenreDetector
+            return self.genre_detector.classify(text)
+        # Back-compat: a keyword-style detector, if one is explicitly injected.
         return self._pick_top_category(self.genre_detector.detect(text), Genre.MIXED)
 
     def _detect_register(self, text: str) -> Tuple[Register, float]:
@@ -607,18 +595,39 @@ class TextStructureEncoder:
         return float(np.dot(enc1.vector, enc2.vector) / (norm1 * norm2))
 
 
-# Singleton encoder
-_text_encoder = None
+# Document-encoder cache, keyed by the GSEEncoder identity that backs the SoM genre
+# detector (id 0 = the lazily-built default encoder for standalone callers).
+_text_encoders: Dict[int, "TextStructureEncoder"] = {}
+_default_gse_encoder = None
 
 
-def get_text_encoder() -> TextStructureEncoder:
-    """Get or create the text encoder singleton."""
-    global _text_encoder
-    if _text_encoder is None:
-        _text_encoder = TextStructureEncoder()
-    return _text_encoder
+def _gse_encoder_for(encoder):
+    """The sentence-level GSEEncoder the SoM genre profile runs on. Reuses the caller's
+    (the bridge's warm one) when injected; else lazily builds and caches a default."""
+    global _default_gse_encoder
+    if encoder is not None:
+        return encoder
+    if _default_gse_encoder is None:
+        from gse.api import GSEEncoder
+        _default_gse_encoder = GSEEncoder()
+    return _default_gse_encoder
 
 
-def encode_text(text: str) -> TextEncoding:
-    """Convenience function to encode a document."""
-    return get_text_encoder().encode(text)
+def get_text_encoder(encoder=None) -> TextStructureEncoder:
+    """Get or create the document encoder, wired with the SoM genre detector. ``encoder``
+    is the sentence-level GSEEncoder the genre profile is computed on — inject the warm
+    one to avoid a second load (the bridge does)."""
+    key = id(encoder) if encoder is not None else 0
+    enc = _text_encoders.get(key)
+    if enc is None:
+        from gse.encoders.som_genre import SomGenreDetector
+        det = SomGenreDetector(_gse_encoder_for(encoder))
+        enc = TextStructureEncoder(genre_detector=det)
+        _text_encoders[key] = enc
+    return enc
+
+
+def encode_text(text: str, encoder=None) -> TextEncoding:
+    """Convenience function to encode a document. Pass the warm GSEEncoder so the SoM
+    genre profile reuses it instead of loading a second encoder."""
+    return get_text_encoder(encoder).encode(text)

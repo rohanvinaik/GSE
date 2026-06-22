@@ -13,7 +13,6 @@ import pytest
 import gse.encoders.text_structure_encoder as tsem
 from gse.encoders.text_structure_encoder import (
     DOMAIN_MARKERS,
-    GENRE_MARKERS,
     REGISTER_MARKERS,
     Domain,
     Genre,
@@ -28,9 +27,8 @@ from gse.encoders.text_structure_encoder import (
 # ---------- Marker tables ----------
 
 class TestMarkerTables:
-    def test_genre_markers_contain_narrative(self):
-        assert "story" in GENRE_MARKERS[Genre.NARRATIVE]["markers"]
-
+    # Genre is no longer keyword-detected (GENRE_MARKERS removed — it classified by
+    # vocabulary, not structure). Register/domain markers remain for now.
     def test_register_formal_avoid_list(self):
         assert "avoid" in REGISTER_MARKERS[Register.FORMAL]
         assert "gonna" in REGISTER_MARKERS[Register.FORMAL]["avoid"]
@@ -132,23 +130,27 @@ class TestHashVector:
 
 
 class TestDetectGenre:
-    def test_narrative_detected(self, encoder):
+    def test_bare_encoder_abstains_to_mixed(self, encoder):
+        # Genre is the SoM router now, not keywords. A bare encoder has no genre
+        # detector wired, so it abstains to MIXED for ANY text rather than guessing
+        # from storytelling vocabulary (the rot we removed).
         text = "Once upon a time, the king happened upon a story. One day he said he went."
-        genre, conf = encoder._detect_genre(text)
-        assert genre == Genre.NARRATIVE
-        assert conf > 0
-
-    def test_argumentative_detected(self, encoder):
-        text = ("I argue that this must be true. However, the evidence proves it. "
-                "Therefore, the conclusion demonstrates. We should believe this.")
-        genre, conf = encoder._detect_genre(text)
-        # Some argumentative markers also appear in expository — accept either
-        assert genre in (Genre.ARGUMENTATIVE, Genre.EXPOSITORY)
-
-    def test_low_confidence_returns_mixed(self, encoder):
-        # Empty text yields no markers → confidence = 0 < 0.3 → MIXED
-        genre, conf = encoder._detect_genre("")
+        genre, _ = encoder._detect_genre(text)
         assert genre == Genre.MIXED
+
+    def test_empty_returns_mixed(self, encoder):
+        genre, _ = encoder._detect_genre("")
+        assert genre == Genre.MIXED
+
+    def test_som_super_register_to_genre_mapping(self):
+        # The SoM resolves a super_register; only the prose registers map to a Genesis
+        # ground, the rest abstain (MIXED) by design.
+        from gse.encoders.som_genre import SomGenreDetector
+        m = SomGenreDetector.SUPER_TO_GENRE
+        assert m["narrative"] == "NARRATIVE"
+        assert m["reportorial"] == "EXPOSITORY"
+        assert m["essayistic"] == "ARGUMENTATIVE"
+        assert "poetry" not in m and "list" not in m and "reference" not in m
 
 
 class TestDetectRegister:

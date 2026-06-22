@@ -166,3 +166,34 @@ class NestedRouter:
         for path in self.predict_paths(X, gate=0.0):
             out.append(path[depth] if len(path) > depth else (path[-1] if path else None))
         return out
+
+    def save(self, path) -> None:
+        """Serialize to a TORCH-FREE artifact (pickled numpy): per-node specialist +
+        orchestrator weights as plain ndarrays, the node's StandardScaler stats, its
+        child labels, and the taxonomy tree — everything :mod:`gse.discourse.infer`
+        needs to run the gated descent with **no torch at load time**. Training stays
+        offline-with-torch; runtime inference is pure numpy, honoring GSE's no-GPU
+        design (the SoM is the one learned component, and even it need not drag torch
+        into the encoder venv). Pairs with :meth:`NumpyNestedRouter.load`."""
+        import pickle
+
+        nodes = {}
+        for node, d in self.nodes.items():
+            d["model"].eval()
+            weights = {k: v.detach().cpu().numpy().astype("float32")
+                       for k, v in d["model"].state_dict().items()}
+            nodes[node] = {
+                "weights": weights,
+                "scaler_mean": np.asarray(d["scaler"].mean_, dtype="float32"),
+                "scaler_scale": np.asarray(d["scaler"].scale_, dtype="float32"),
+                "labels": list(d["labels"]),
+            }
+        blob = {
+            "format": "gse-nested-router/1",
+            "sizes": list(self.sizes),
+            "full_dim": int(self.full_dim),
+            "tree": {k: list(v) for k, v in self.tree.items()},
+            "nodes": nodes,
+        }
+        with open(path, "wb") as f:
+            pickle.dump(blob, f, protocol=4)

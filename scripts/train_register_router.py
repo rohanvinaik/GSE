@@ -98,6 +98,15 @@ def main() -> int:
         print(f"\n  most-confused super_register pairs (post-cascade):")
         for (a, b), n in sorted(confusion.items(), key=lambda kv: -kv[1])[:8]:
             print(f"    {n}×  {a} ~ {b}")
+
+        # Final nested model on ALL data, persisted TORCH-FREE for the runtime
+        # dispatcher (gse.discourse.infer.NumpyNestedRouter). Previously the nested
+        # branch only cross-val-scored and discarded the model — so the SoM could
+        # never be deployed; this closes that gap.
+        out = str(Path(args.out).with_suffix(".nested.pkl"))
+        final = NestedRouter(sizes, X.shape[1]).fit(X, list(genres))
+        final.save(out)
+        print(f"\n[saved] final nested router → {out}  ({len(final.nodes)} node-specialists)")
         return 0
 
     def slices(t):  # full tensor -> list of per-bank tensors

@@ -143,9 +143,28 @@ class GSEEncoder:
             import spacy
             self.nlp = spacy.load("en_core_web_sm")
 
-        # Database connection
+        # Database connection. A relative db_path resolves against CWD, so a wrong
+        # path is the silent-empty-lexicon footgun: sqlite3.connect() *creates* an
+        # empty file rather than failing, leaving the lexical oracle blind with no
+        # error. Fail loud — a missing file or a zero-row lexicon is a broken brain,
+        # not a degraded one (distinct from ``strict=``, which governs OOV words at
+        # encode time, not a missing lexicon).
+        if not self.db_path.exists():
+            raise FileNotFoundError(
+                f"GSE lexicon not found: {self.db_path} (cwd={Path.cwd()}). Pass an "
+                "absolute db_path or run with cwd at the GSE project root.")
         self.conn = sqlite3.connect(self.db_path)
         self.cursor = self.conn.cursor()
+        try:
+            n_lexemes = self.cursor.execute("SELECT count(*) FROM lexemes").fetchone()[0]
+        except sqlite3.OperationalError as e:   # no 'lexemes' table → not a lexicon db
+            raise ValueError(
+                f"GSE lexicon {self.db_path} has no 'lexemes' table ({e}); it is not a "
+                "valid lexicon database.") from e
+        if n_lexemes == 0:
+            raise ValueError(
+                f"GSE lexicon {self.db_path} has 0 lexemes — the lexical oracle would "
+                "be blind. Refusing to construct a silently-empty encoder.")
 
         # WS1: derive core syntactic roles arc-free (positional) rather than from
         # spaCy ``dep_``. Flipped off only by the parity harness to A/B the two.
