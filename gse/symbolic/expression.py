@@ -302,7 +302,8 @@ def _try_copula_type_assertion(tokens: Sequence[TokenTrace]) -> Optional[Express
     return Negation(operand=assertion) if negated else assertion
 
 
-def _try_event(tokens: Sequence[TokenTrace]) -> Optional[Expression]:
+def _try_event(tokens: Sequence[TokenTrace],
+               shared_subject: Optional[Sequence] = None) -> Optional[Expression]:
     """Synthesize an EVENT ``Op`` from a plain verb clause "X verbs Y".
 
     The base case the operator set was missing: a clause with an ordinary content
@@ -334,7 +335,12 @@ def _try_event(tokens: Sequence[TokenTrace]) -> Optional[Expression]:
                     if t.position > verb.position
                     and t.pos != "PUNCT" and t.lemma not in _NEGATION_LEMMAS]
     if not subject_atoms:
-        return None
+        # VP-coordination with an elided shared subject ("Bertran [betrayed Aldric] and
+        # [murdered him]") — inherit the prior conjunct's subject so the 2nd event survives
+        # instead of collapsing to its bare object. Only fires when the clause has no subject.
+        if not shared_subject:
+            return None
+        subject_atoms = list(shared_subject)
     args: List[Operand] = [Phrase(atoms=subject_atoms)]
     if object_atoms:
         args.append(Phrase(atoms=object_atoms))
@@ -396,6 +402,7 @@ def _build_clause_expr(
     operator_positions: Sequence[int],
     excluded: Optional[set] = None,
     drop_relativizers: bool = False,
+    shared_subject: Optional[Sequence] = None,
 ) -> Expression:
     """Build the Expression for one clause span.
 
@@ -420,7 +427,7 @@ def _build_clause_expr(
         copula_op = _try_copula_type_assertion(clause_tokens)
         if copula_op is not None:
             return copula_op
-        event_op = _try_event(clause_tokens)
+        event_op = _try_event(clause_tokens, shared_subject=shared_subject)
         if event_op is not None:
             return event_op
         atoms = [_atom_from_token(t) for t in clause_tokens]
@@ -688,6 +695,18 @@ def from_trace(trace: OperationTrace) -> Expression:
     return _left_fold_operators(built_ops)
 
 
+def _event_subject_atoms(expr: Expression) -> Optional[Sequence]:
+    """The subject atoms of a built EVENT clause — for VP-coordination subject sharing."""
+    node = expr.operand if isinstance(expr, Negation) else expr
+    if isinstance(node, Op) and node.operation == "EVENT" and node.args:
+        first = node.args[0]
+        if isinstance(first, Phrase):
+            return list(first.atoms)
+        if isinstance(first, Atom):
+            return [first]
+    return None
+
+
 def _from_trace_segmented(
     trace: OperationTrace,
     tokens: Sequence[TokenTrace],
@@ -710,12 +729,20 @@ def _from_trace_segmented(
     for emb in embedded:
         embedded_tokens.update(range(emb.token_start, emb.token_end))
 
-    clause_exprs = [
-        _build_clause_expr(
-            c, tokens, operators, operator_positions, excluded=embedded_tokens
+    # Build sequential clauses in surface order, carrying the subject forward: a
+    # subject-less coordinated clause ("…and murdered him") inherits the prior conjunct's
+    # subject (VP-coordination), so its event survives instead of collapsing to its object.
+    clause_exprs = []
+    shared_subject = None
+    for c in sequential:
+        cx = _build_clause_expr(
+            c, tokens, operators, operator_positions, excluded=embedded_tokens,
+            shared_subject=shared_subject,
         )
-        for c in sequential
-    ]
+        clause_exprs.append(cx)
+        subj = _event_subject_atoms(cx)
+        if subj:
+            shared_subject = subj
 
     owned = {i for c in all_clauses for i in c.operator_indices}
     linking_ops = sorted(
