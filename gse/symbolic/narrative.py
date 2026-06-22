@@ -330,7 +330,24 @@ class NarrativeGraph:
                 except Exception:
                     pass
             nbr_grounded = any(grounded(self.nodes[m]) for m in adj.get(n.eid, ()))
-            n.eligible = nominal(n) and (not blob(n)) and (grounded(n) or nbr_grounded)
+            # Admit-by-exclusion: a truly OOV referent — a proper noun, or a jargon NOUN with no
+            # lexical decomposition — that fills a RESOLVED event role-slot is a name/term, not
+            # noise. Admit it by its surface bytes even when world-ungrounded: the validation is
+            # the exclusion itself (absent from the lexicon) plus the defensible structural home
+            # (the role-slot it occupies). The resolved-participation guard holds the noise floor —
+            # a free-floating OOV token with no event role stays eliminated. (The world-strand
+            # positive path above grounds the real referents first; this catches the fictional/
+            # jargon tail the comment there always promised but the gate never delivered.)
+            participates = bool(subj_of.get(n.eid) or obj_of.get(n.eid))
+            oov_referent = (n.pos == "PROPN"
+                            or (n.pos == "NOUN" and not any(n.prims.values())))
+            admit_by_exclusion = (not grounded(n) and not nbr_grounded
+                                  and oov_referent and participates)
+            n.eligible = nominal(n) and (not blob(n)) and (
+                grounded(n) or nbr_grounded or admit_by_exclusion)
+            if n.eligible and admit_by_exclusion:
+                n.provenance.append("admitted by exclusion: OOV %s in role-slot"
+                                    % ("name" if n.pos == "PROPN" else "term"))
             if role == "?":
                 role = "agent" if subj_of.get(n.eid) else ("object" if obj_of.get(n.eid) else "?")
             n.role = role
