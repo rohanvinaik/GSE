@@ -356,6 +356,15 @@ class NativeNLP:
         if (prev in _AUX_DO or prev in _AUX_MODAL or prev in _NEG
                 or prev == "to") and has_v:
             return "VERB"                   # content word after do/modal/neg/to
+        # Pre-nominal adjective: a determiner-preceded word that is adjectival AND is
+        # followed by a noun head is a modifier, not the NP head — "the old king" → old
+        # is ADJ (king is the head), not the nominalized "the old". Without this, an adj
+        # with a noun sense (old/young/rich/poor/great…) was tagged NOUN before the head,
+        # garbling the NP ("old king" as one unit). Guards the DET→NOUN rule below.
+        nxt = surfaces[i + 1].lower() if i + 1 < len(surfaces) else ""
+        if ((prev in _DET or prev in _POSS_PRON) and has_a and nxt
+                and nxt not in _STOP and bool(wn.synsets(nxt, pos="n"))):
+            return "ADJ"
         if (prev in _DET or prev in _POSS_PRON) and has_n:
             return "NOUN"                   # head of a determined NP
         if low.endswith("s") and has_v and not low.endswith("ss") and prev not in _ADP:
