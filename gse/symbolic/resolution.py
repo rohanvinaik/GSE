@@ -243,6 +243,17 @@ def _bind_pronouns(expr: Expression) -> Expression:
         """Bind pronoun ``e`` to the most-recent prior non-pronoun entity whose head is
         not in ``excluded`` (its clause's co-arguments + entities already taken by a
         sibling pronoun). Returns the pronoun unchanged if none qualifies."""
+        # VP-coordination shared subject: a subject-less coordinated clause ("He …and
+        # murdered him") inherits the prior conjunct's subject as the *same token* (same
+        # position) — a syntactic copy, not a fresh anaphor. Corefer it with that exact
+        # occurrence rather than scanning past it to a nearer co-argument, which would
+        # mis-bind "…and murdered him" → murder(king, …). Token identity, not a prior:
+        # airtight, and it leaves genuine anaphora (recency + distinctness, e.g. "the wolf
+        # chased the fox and it feared him") untouched — those pronouns have distinct
+        # positions, so this never fires for them.
+        for prior in reversed(seen_entities):
+            if prior.head.position == e.head.position and prior.head.lemma == e.head.lemma:
+                return Entity(head=prior.head, possessor=prior.possessor, role=e.role)
         for prior in reversed(seen_entities):
             if _is_pronoun_atom(prior.head):
                 continue
