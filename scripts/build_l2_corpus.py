@@ -163,11 +163,14 @@ def _providers(docs_per_genre: int, max_sents: int):
     # SPEECH · contemporary HF augment — modern text (vs the 1961 Brown), streamed.
     # New super-registers `review`/`social` add SoM specialists; `modern_news` is the
     # diachronic augment of `news` under reportorial.
-    for di, text in _hf_stream("ag_news", None, "text", docs_per_genre, max_sents):
+    # Namespaced HF repo ids: datasets>=5 rejects the bare canonical names
+    # ("ag_news"/"imdb"/"tweet_eval" → HfUriError "must be namespace/name"), which the
+    # _hf_stream try/except silently swallowed, dropping the whole contemporary feed.
+    for di, text in _hf_stream("fancyzhx/ag_news", None, "text", docs_per_genre, max_sents):
         yield ("speech", "modern_news", "ag_news", f"modern_news/{di}", text)
-    for di, text in _hf_stream("imdb", None, "text", docs_per_genre, max_sents):
+    for di, text in _hf_stream("stanfordnlp/imdb", None, "text", docs_per_genre, max_sents):
         yield ("speech", "reviews_modern", "imdb", f"reviews_modern/{di}", text)
-    for di, text in _hf_stream("tweet_eval", "sentiment", "text", docs_per_genre,
+    for di, text in _hf_stream("cardiffnlp/tweet_eval", "sentiment", "text", docs_per_genre,
                                max_sents, group=15):  # sentiment config = ~45K (scales)
         yield ("speech", "twitter", "tweet_eval", f"twitter/{di}", text)
 
