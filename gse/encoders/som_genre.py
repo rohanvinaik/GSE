@@ -62,7 +62,15 @@ class SomGenreDetector:
         "reportorial": "EXPOSITORY",
     }
 
-    def __init__(self, encoder, gate: float = 0.5):
+    # gate=0.0 by design, grounded in measurement, not a round-number default: the
+    # super_register descent's confidence for genuine narrative spans 0.49 (Austen) to
+    # 0.97 (Brown fiction), while news/learned sit at 0.99. A nonzero gate abstained
+    # correct-but-borderline narrative (Austen 0.49) to MIXED while doing NOTHING for
+    # the real out-of-scope case (a terse storylet is *confidently* reportorial, 1.0) —
+    # so the gate only hurt. Abstention is carried instead by SUPER_TO_GENRE (non-prose
+    # super_registers → MIXED). Raise gate only if you want low-confidence prose to
+    # abstain rather than take its argmax register.
+    def __init__(self, encoder, gate: float = 0.0):
         self.encoder = encoder
         self.gate = gate
 
