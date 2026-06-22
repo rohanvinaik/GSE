@@ -14,6 +14,11 @@ from gse.curation.constraint_aggregation.engine import (
     ConstraintAggregationEngine,
     test_word,
 )
+
+# ``test_word`` is a convenience function on the engine, not a test; its ``test_``
+# prefix makes pytest collect it as a module-level test ("fixture 'word' not found").
+# Mark it non-collectable so it stays importable for the TestTestWord suite below.
+test_word.__test__ = False
 from gse.curation.constraint_aggregation.types import (
     PrimitiveConstraint,
     WordConstraintProfile,

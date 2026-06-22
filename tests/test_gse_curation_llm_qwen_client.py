@@ -78,17 +78,20 @@ class TestQwenInit:
 
 class TestDetectDevice:
     def test_mps_when_available(self):
+        pytest.importorskip("torch")  # torch is not a project dependency (torch-free runtime)
         with patch("torch.backends.mps.is_available", return_value=True):
             c = QwenClient(device="cpu")  # Set device explicitly to skip detection at init
             assert c._detect_device() == "mps"
 
     def test_cuda_when_mps_unavailable(self):
+        pytest.importorskip("torch")  # torch is not a project dependency (torch-free runtime)
         with patch("torch.backends.mps.is_available", return_value=False):
             with patch("torch.cuda.is_available", return_value=True):
                 c = QwenClient(device="cpu")
                 assert c._detect_device() == "cuda"
 
     def test_cpu_fallback(self):
+        pytest.importorskip("torch")  # torch is not a project dependency (torch-free runtime)
         with patch("torch.backends.mps.is_available", return_value=False):
             with patch("torch.cuda.is_available", return_value=False):
                 c = QwenClient(device="cpu")
@@ -296,6 +299,7 @@ class TestQwenGenerate:
         assert "fail" in warnings[0]
 
     def test_strips_response(self):
+        pytest.importorskip("torch")  # torch is not a project dependency (torch-free runtime)
         c = self._make_client()
         # Mock everything to return predictable strings
         with patch("torch.no_grad"):
