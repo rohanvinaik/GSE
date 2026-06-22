@@ -219,34 +219,80 @@ def _is_pronoun_atom(atom: Atom) -> bool:
 
 
 def _bind_pronouns(expr: Expression) -> Expression:
-    """Substitute pronouns with most-recent matching entity in document order.
+    """Substitute pronouns with the most-recent COMPATIBLE prior entity.
 
-    v1 strategy: walk the tree left-to-right. When a pronoun atom is
-    encountered (Entity whose head is a pronoun), replace it with the
-    most-recently-seen non-pronoun Entity. If no antecedent exists yet,
-    leave the pronoun in place.
+    Walks left-to-right in document order, binding each pronoun to the most-recent
+    non-pronoun entity — but with two binding-theory refinements over the bare
+    most-recent rule (which mis-bound a clausemate subject and collapsed two pronouns
+    onto one entity):
+
+    * **Anti-reflexive (Principle B):** a (non-reflexive) pronoun argument of a clause
+      does not bind to a *co-argument* of that same clause. So "The brother betrayed
+      him" → ``him`` ≠ brother (stays unresolved rather than reflexive); "...it feared
+      him" → ``him`` ≠ the fearer.
+    * **Distinctness:** two pronoun arguments of one clause bind to *different*
+      entities, so "the wolf chased the fox and it feared him" → ``it`` = fox, ``him``
+      = wolf (not both fox).
+
+    A pronoun with no compatible antecedent is left unresolved — better than a wrong
+    bind. (Cross-sentence antecedents are out of scope here: emit is per-sentence.)
     """
     seen_entities: List[Entity] = []
 
+    def _bind_one(e: Entity, excluded: set) -> Expression:
+        """Bind pronoun ``e`` to the most-recent prior non-pronoun entity whose head is
+        not in ``excluded`` (its clause's co-arguments + entities already taken by a
+        sibling pronoun). Returns the pronoun unchanged if none qualifies."""
+        for prior in reversed(seen_entities):
+            if _is_pronoun_atom(prior.head):
+                continue
+            if prior.head.lemma in excluded:       # by referent (lemma), not atom id:
+                continue                            # the co-arg may recur as a distinct atom
+            return Entity(head=prior.head, possessor=prior.possessor, role=e.role)
+        return e
+
     def _walk(e: Expression) -> Expression:
         if isinstance(e, Entity):
-            if _is_pronoun_atom(e.head) and seen_entities:
-                # Bind to the most-recent non-pronoun entity
-                for prior in reversed(seen_entities):
-                    if not _is_pronoun_atom(prior.head):
-                        # Substitute, preserve role from the pronoun's slot
-                        return Entity(
-                            head=prior.head,
-                            possessor=prior.possessor,
-                            role=e.role,
-                        )
-                # All prior were pronouns too — leave as-is
-                seen_entities.append(e)
-                return e
+            # Default binding (a pronoun NOT inside an EVENT's arg list — e.g. a direct
+            # operand of a clause-linker): plain most-recent, no co-argument exclusion.
+            if _is_pronoun_atom(e.head):
+                bound = _bind_one(e, set())
+                if bound is e:
+                    seen_entities.append(e)        # unresolved → still a referent slot
+                return bound
             seen_entities.append(e)
             return e
         if isinstance(e, Op):
-            new_args = [_walk(a) for a in e.args]
+            # Anti-reflexive + distinctness apply only to EVENT, whose args are genuine
+            # co-arguments (agent/patient) — they cannot corefer. A clause-linking op
+            # (CAUSAL_SOURCE / TEMPORAL / IMPLIES / CLAUSE_COORD) takes whole CLAUSES, so
+            # a pronoun in one clause MAY bind into the sibling clause ("Mike left
+            # because he was tired" → he = Mike); bind those by plain recency.
+            if e.operation != "EVENT":
+                return Op(
+                    primitive=e.primitive, operation=e.operation, arity=e.arity,
+                    args=[_walk(a) for a in e.args],
+                )
+            new_args: List[Expression] = [None] * len(e.args)  # type: ignore[list-item]
+            # Pass 1: resolve the non-pronoun args first — they are this clause's
+            # co-arguments, which its pronoun args must avoid (anti-reflexive).
+            excluded: set = set()
+            for i, a in enumerate(e.args):
+                if isinstance(a, Entity) and _is_pronoun_atom(a.head):
+                    continue
+                new_args[i] = _walk(a)
+                if isinstance(new_args[i], Entity):
+                    excluded.add(new_args[i].head.lemma)
+            # Pass 2: bind pronoun args, avoiding co-arguments AND each other (distinct).
+            for i, a in enumerate(e.args):
+                if new_args[i] is not None:
+                    continue
+                bound = _bind_one(a, excluded)
+                new_args[i] = bound
+                if bound is a:                      # unresolved → still a referent slot
+                    seen_entities.append(a)
+                else:                               # bound: next sibling pronoun avoids it
+                    excluded.add(bound.head.lemma)
             return Op(
                 primitive=e.primitive,
                 operation=e.operation,
@@ -254,11 +300,9 @@ def _bind_pronouns(expr: Expression) -> Expression:
                 args=new_args,
             )
         if isinstance(e, Negation):
-            inner = _walk(e.operand)
-            return Negation(operand=inner)
+            return Negation(operand=_walk(e.operand))
         if isinstance(e, Phrase):
-            new_atoms = list(e.atoms)
-            return Phrase(atoms=new_atoms)
+            return Phrase(atoms=list(e.atoms))
         return e
 
     return _walk(expr)
