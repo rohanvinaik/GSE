@@ -200,6 +200,11 @@ class GSEEncoder:
         #      ("if" carries no comp_operation), so it is marked here like "and".
         implies_positions = self._conditional_positions(doc, promote_to_verb)
 
+        # 1c''. Fronted temporal subordinator "when/while/after/before": a clause-initial
+        #       one with a predicate in its subordinate clause → the TEMPORAL clause-linker
+        #       (both clauses asserted). Like "if", carries no lexicon comp_operation.
+        temporal_positions = self._temporal_positions(doc, promote_to_verb)
+
         # 1d. Arc-free core syntactic roles (positional), computed once for the
         #     sentence. ``None`` falls the per-token extractor back to spaCy dep_.
         syn_map = self._syn_roles(doc, promote_to_verb) if self._arcfree_syn else None
@@ -251,6 +256,9 @@ class GSEEncoder:
             if i in implies_positions:
                 comp_meta = {"comp_primitive": "COMP_IF",
                              "comp_operation": "IMPLIES", "comp_arity": 2}
+            if i in temporal_positions:
+                comp_meta = {"comp_primitive": "COMP_WHEN",
+                             "comp_operation": "TEMPORAL", "comp_arity": 2}
 
             # DYNAMIC: Replace core syntactic role primitives based on dependency parsing
             # This ensures argument order matters (dog as SUBJ vs dog as OBJ)
@@ -749,6 +757,26 @@ class GSEEncoder:
             sep = coord if coord is not None else comma
             if sep is not None:
                 out.add(sep)
+        return out
+
+    _TEMPORAL_SUBORDINATORS = {"when", "while", "after", "before"}
+
+    def _temporal_positions(self, doc, promote_to_verb) -> set:
+        """Positions of a temporal subordinator (when/while/after/before) — the TEMPORAL
+        clause-linker (both clauses asserted, temporal link). Like ``if``, these carry no
+        lexicon ``comp_operation``, so a temporal subordinator whose subordinate clause
+        contains a content predicate is marked here as the TEMPORAL operator (arc-free;
+        POS/lemma only). ``_segment_clauses`` finds the comma/boundary between the
+        subordinate and main clause. Bare use with no following predicate is left alone.
+        """
+        toks = list(doc)
+        out = set()
+        for i, t in enumerate(toks):
+            if t.lemma_.lower() not in self._TEMPORAL_SUBORDINATORS:
+                continue
+            if any((j in promote_to_verb or toks[j].pos_ == "VERB")
+                   for j in range(i + 1, len(toks))):
+                out.add(i)
         return out
 
     def _conditional_positions(self, doc, promote_to_verb) -> set:

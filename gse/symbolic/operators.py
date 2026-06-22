@@ -25,6 +25,7 @@ from gse.symbolic.predicates import (
     Comparison,
     ClauseCoordination,
     Conditional,
+    Temporal,
     Contrast,
     Control,
     DegreeQuery,
@@ -255,6 +256,18 @@ def conditional(op: Op) -> Conditional:
     return Conditional(antecedent=op.args[1], consequent=op.args[0])
 
 
+def temporal(op: Op) -> Temporal:
+    """TEMPORAL — when/while/after/before X, Y → both clauses asserted, temporal link.
+
+    Like CAUSAL_SOURCE / IMPLIES, the *subordinate* (when-)clause is the arg1/right
+    operand in both readings — "Y when X" (medial) and "When X, Y" (fronted, where the
+    encoder presents the clauses as ``[main, dependent]``). So the when-clause is always
+    the setting: setting = arg1, event = arg0.
+    """
+    _require_arity(op, 2)
+    return Temporal(setting=op.args[1], event=op.args[0])
+
+
 # ---------------------------------------------------------------------------
 # Dispatch
 # ---------------------------------------------------------------------------
@@ -274,6 +287,7 @@ OPERATION_DISPATCH: Dict[str, Callable[[Op], Predicate]] = {
     "CONSEQUENCE":    consequence,
     "CAUSAL_SOURCE":  causal_source,
     "IMPLIES":        conditional,
+    "TEMPORAL":       temporal,
     "REL_RESTRICT":   rel_restrict,
     "CONTROL":        control,
     "EVENT":          event,

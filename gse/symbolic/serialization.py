@@ -23,6 +23,7 @@ from gse.symbolic.predicates import (
     BoundaryCase,
     Causation,
     Conditional,
+    Temporal,
     Comparison,
     ClauseCoordination,
     Contrast,
@@ -179,6 +180,13 @@ def to_dict(node: Node) -> Dict[str, Any]:
             "consequent": to_dict(node.consequent),
             "conjunction": node.conjunction,
         }
+    if isinstance(node, Temporal):
+        return {
+            "_kind": "Temporal",
+            "setting": to_dict(node.setting),
+            "event": to_dict(node.event),
+            "conjunction": node.conjunction,
+        }
     if isinstance(node, TypeAssertion):
         return {
             "_kind": "TypeAssertion",
@@ -316,6 +324,12 @@ def from_dict(d: Dict[str, Any]) -> Node:
             antecedent=from_dict(d["antecedent"]),
             consequent=from_dict(d["consequent"]),
             conjunction=d.get("conjunction", "if"),
+        )
+    if kind == "Temporal":
+        return Temporal(
+            setting=from_dict(d["setting"]),
+            event=from_dict(d["event"]),
+            conjunction=d.get("conjunction", "when"),
         )
     if kind == "TypeAssertion":
         return TypeAssertion(

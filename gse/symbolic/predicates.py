@@ -165,6 +165,22 @@ class Causation:
 
 
 @dataclass(frozen=True)
+class Temporal:
+    """Setting → event, linked temporally. Produced by TEMPORAL (when/while/after/
+    before).
+
+    "When X, Y" → ``Temporal(setting=X-clause, event=Y-clause)``: BOTH clauses are
+    asserted (like :class:`Causation`, unlike :class:`Conditional`), but the link is
+    temporal co-occurrence/sequence, not causal. The subordinate (when-)clause is the
+    setting; the main clause is the event. A clause-linking predicate, folded in
+    ``from_trace`` like the other clause linkers.
+    """
+    setting: Operand
+    event: Operand
+    conjunction: str = "when"
+
+
+@dataclass(frozen=True)
 class TypeAssertion:
     """Entity asserted to be of a kind. Produced by the copula "X is a Y".
 
@@ -265,6 +281,7 @@ Predicate = Union[
     ClauseCoordination,
     Causation,
     Conditional,
+    Temporal,
     RelativeRestriction,
     Control,
 ]

@@ -46,6 +46,9 @@ OPERATION_TIER = {
     "CONSEQUENCE": OperationTier.CLAUSE_LINKING,
     # IMPLIES is clause-level "if X then Y" — a clause boundary like because/so.
     "IMPLIES": OperationTier.CLAUSE_LINKING,
+    # TEMPORAL is clause-level "when/while/after/before X, Y" — both clauses asserted
+    # (unlike IMPLIES), a clause boundary like because/so.
+    "TEMPORAL": OperationTier.CLAUSE_LINKING,
     "REL_RESTRICT": OperationTier.CLAUSE_LINKING,
     "CONTROL": OperationTier.CLAUSE_LINKING,
 }

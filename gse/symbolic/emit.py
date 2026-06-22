@@ -50,6 +50,7 @@ _PRED_SPEC: Dict[str, tuple] = {
     "ClauseCoordination": ("CLAUSE_COORD", ("left", "right"), ("conjunction",)),
     "Causation": ("CAUSATION", ("cause", "effect"), ("conjunction",)),
     "Conditional": ("IMPLIES", ("antecedent", "consequent"), ("conjunction",)),
+    "Temporal": ("TEMPORAL", ("setting", "event"), ("conjunction",)),
     "RelativeRestriction": ("REL_RESTRICT", ("head", "restriction"), ()),
     "Control": ("CONTROL", ("subject", "controller", "inner"), ("verb",)),
 }
