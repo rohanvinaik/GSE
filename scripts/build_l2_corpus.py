@@ -56,6 +56,62 @@ _VERSE_FILES = ["blake-poems.txt", "whitman-leaves.txt", "milton-paradise.txt"]
 _SHAKESPEARE_FILES = ["shakespeare-macbeth.txt", "shakespeare-hamlet.txt",
                       "shakespeare-caesar.txt"]
 
+# Popular public-domain NOVELS (Project Gutenberg ids) — the literary-prose anchor for
+# the `narrative` super-register. Brown only has short fiction excerpts, so literary
+# novelistic prose was out-of-distribution and `narrative` was starved (117 docs),
+# which mislabelled real novels (Austen → review). austen-emma (#158) + carroll-alice
+# are deliberately held OUT here for honest validation.
+_GUTENBERG_NOVELS = [
+    1342, 161, 105,            # Austen: Pride&Prejudice, Sense&Sensibility, Persuasion
+    84, 5200,                  # Frankenstein, Metamorphosis
+    2701, 33, 514,             # Moby Dick, Scarlet Letter, Little Women
+    98, 1400, 730,             # Dickens: Two Cities, Great Expectations, Oliver Twist
+    1260, 768,                 # Jane Eyre, Wuthering Heights
+    74, 76,                    # Twain: Tom Sawyer, Huckleberry Finn
+    345, 174, 43, 271,         # Dracula, Dorian Gray, Jekyll & Hyde, Black Beauty
+    219, 209,                  # Heart of Darkness, Turn of the Screw
+    36, 35,                    # Wells: War of the Worlds, Time Machine
+    1184, 996,                 # Count of Monte Cristo, Don Quixote
+    1661, 2852,                # Sherlock Holmes, Hound of the Baskervilles
+    145, 2554,                 # Middlemarch, Crime and Punishment
+]
+_GUT_CACHE = ROOT / "data" / "gutenberg_cache"
+
+
+def _fetch_gutenberg(gid: int, tries: int = 3) -> str:
+    """Download + cache a Project Gutenberg book, strip the boilerplate, and skip front
+    matter (cover/illustration/TOC) to the first chapter. Returns '' on failure so the
+    build skips a book rather than aborting (PG rate-limits / transient SSL errors)."""
+    import urllib.request
+
+    _GUT_CACHE.mkdir(parents=True, exist_ok=True)
+    cache = _GUT_CACHE / f"{gid}.txt"
+    if cache.exists():
+        return cache.read_text(encoding="utf-8", errors="ignore")
+    raw = None
+    for url in (f"https://www.gutenberg.org/cache/epub/{gid}/pg{gid}.txt",
+                f"https://www.gutenberg.org/files/{gid}/{gid}-0.txt"):
+        for _ in range(tries):
+            try:
+                req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+                raw = urllib.request.urlopen(req, timeout=30).read().decode("utf-8", "ignore")
+                break
+            except Exception:
+                raw = None
+        if raw:
+            break
+    if not raw:
+        return ""
+    s = re.search(r"\*\*\* ?START OF TH[EIS].*?\*\*\*", raw)
+    e = re.search(r"\*\*\* ?END OF TH[EIS].*?\*\*\*", raw)
+    body = raw[s.end():e.start()] if (s and e) else raw
+    ch = re.search(r"(?im)^\s*(chapter|book|part)\s+(?:[ivxlcdm]+|\d+|one\b)", body)
+    if ch and ch.start() < len(body) * 0.25:   # skip front matter to the first chapter
+        body = body[ch.start():]
+    body = body.strip()
+    cache.write_text(body, encoding="utf-8")
+    return body
+
 
 def _chunks(sents, max_sents: int, n_chunks: int):
     for ci in range(n_chunks):
@@ -127,6 +183,20 @@ def _providers(docs_per_genre: int, max_sents: int):
         for ci, chunk in _chunks(gutenberg.sents(sf), max_sents, sh_per):
             yield ("speech", "shakespeare", "gutenberg",
                    f"shakespeare/{sf}-{ci}", _join(chunk))
+
+    # SPEECH · literary narrative — popular Gutenberg prose NOVELS (Austen, the Brontës,
+    # Dickens, Twain, Dostoevsky, Cervantes, …), cached under data/gutenberg_cache/.
+    # Real novelistic prose so `narrative` is well-supported and literary fiction is
+    # in-distribution (the fix for Austen → review). Sentence-split like the HF augment.
+    nov_per = max(2, docs_per_genre // len(_GUTENBERG_NOVELS))
+    for gid in _GUTENBERG_NOVELS:
+        body = _fetch_gutenberg(gid)
+        if not body:
+            continue
+        sents = re.split(r"(?<=[.!?])\s+", body)
+        for ci, chunk in _chunks(sents, max_sents, nov_per):
+            yield ("speech", "literary_fiction", "gutenberg",
+                   f"literary_fiction/{gid}-{ci}", " ".join(chunk))
 
     # NON-SPEECH · poetry/verse — gutenberg verse, chunked (split across files).
     po_per = max(2, docs_per_genre // len(_VERSE_FILES))

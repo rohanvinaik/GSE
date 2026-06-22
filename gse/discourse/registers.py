@@ -25,6 +25,10 @@ REGISTER_TAXONOMY: Dict[str, List[str]] = {
         "adventure", "belles_lettres", "editorial", "fiction", "government",
         "hobbies", "humor", "learned", "lore", "mystery", "news", "religion",
         "reviews", "romance", "science_fiction",
+        "literary_fiction",  # Gutenberg prose novels — real novelistic narrative.
+                             # Brown has only short fiction excerpts, so without this
+                             # the narrative class is starved (117 docs) and literary
+                             # prose is out-of-distribution (Austen → review).
         # added registers:
         "chat",             # IM / forum posts (fragmentary, conversational)
         "newswire",         # wire-service news
@@ -52,6 +56,7 @@ SUPER_REGISTER_OF: Dict[str, str] = {
     # NARRATIVE — fiction sub-genres (the dominant confusion cluster).
     "adventure": "narrative", "fiction": "narrative", "mystery": "narrative",
     "romance": "narrative", "science_fiction": "narrative",
+    "literary_fiction": "narrative",   # Gutenberg novels (the literary-prose anchor)
     # REPORTORIAL — factual/official prose.
     "editorial": "reportorial", "government": "reportorial", "learned": "reportorial",
     "news": "reportorial", "newswire": "reportorial",
