@@ -243,6 +243,11 @@ def _promote_demiwords(node: Any, genealogy: Any) -> Any:
         mod = getattr(ent, "modifier", None)
         if mod is None or getattr(mod, "pos", None) != "ADJ":
             return ent
+        # A comparative/superlative adjective is gradable-descriptive, never part of a
+        # fixed lexicalized compound: "the fattest hen" is a superlative chicken, NOT the
+        # plant "fat hen". Keep it compositional (head stays the bird).
+        if getattr(mod, "graded", False):
+            return ent
         compound = f"{mod.lemma} {ent.head.lemma}"
         pos = getattr(ent.head, "pos", "") or ""
         if genealogy.candidates(compound, pos, _is_proper(ent)):

@@ -51,6 +51,11 @@ class Atom:
     # surface vs the (singular) lemma, since the lemmatizer drops plurality. Used by
     # document-scope pronoun coreference (they → a plural antecedent). None when unknown.
     number: Optional[str] = None
+    # Whether an adjective is comparative/superlative ("fattest" vs "fat"), recovered
+    # from surface ≠ lemma. A graded adjective is descriptive, never part of a fixed
+    # lexicalized compound — so demi-word promotion skips it ("fattest hen" ≠ the plant
+    # "fat hen"). False/None for non-adjectives or the base form.
+    graded: bool = False
 
     def __hash__(self) -> int:
         # word_primitives is unhashable; hash on lemma+position
@@ -124,10 +129,14 @@ def _atom_from_token(token: TokenTrace, role: Optional[str] = None) -> Atom:
     # noble), but the surface is still on the trace token, so a surface ≠ lemma noun is
     # plural. (Pronoun number is read from a table in the coref binder, not here.)
     number = None
+    graded = False
     pos = token.pos or None
+    surface = (getattr(token, "token", "") or "")
     if pos in ("NOUN", "PROPN"):
-        surface = (getattr(token, "token", "") or "")
         number = "plur" if surface.lower() != (token.lemma or "").lower() else "sing"
+    elif pos == "ADJ":
+        # comparative/superlative ("fattest"/"older") → surface differs from base lemma
+        graded = surface.lower() != (token.lemma or "").lower()
     return Atom(
         lemma=token.lemma,
         word_primitives=dict(token.word_primitives),
@@ -135,6 +144,7 @@ def _atom_from_token(token: TokenTrace, role: Optional[str] = None) -> Atom:
         position=token.position,
         pos=pos,
         number=number,
+        graded=graded,
     )
 
 
