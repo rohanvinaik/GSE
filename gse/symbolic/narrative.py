@@ -145,6 +145,7 @@ class _Node:
     lemma: str = ""                                             # head lemma (for the world-strand heal)
     role: str = "?"                                            # inferred semantic role
     eligible: bool = False                                      # admitted citizen vs eliminated noise
+    provenance: List[str] = field(default_factory=list)         # heals applied (audit trail)
 
 
 @dataclass
@@ -156,6 +157,7 @@ class Edge:
     dst: str
     src_resolved: bool
     dst_resolved: bool
+    provenance: List[str] = field(default_factory=list)         # heals applied (audit trail)
 
 
 class NarrativeGraph:
@@ -231,6 +233,7 @@ class NarrativeGraph:
                 if not ok:
                     g.excluded += 1
         g._finalize(genealogy)
+        g._heal()
         return g
 
     def _finalize(self, genealogy: Any = None) -> None:
@@ -277,6 +280,8 @@ class NarrativeGraph:
                     cands = genealogy.candidates(n.lemma, "PROPN", True)
                     if cands:
                         n.thread = tuple(cands[0])
+                        n.provenance.append("world-strand: grounded '%s' → %s"
+                                            % (n.lemma, n.thread[-1] if n.thread else "?"))
                 except Exception:
                     pass
             nbr_grounded = any(grounded(self.nodes[m]) for m in adj.get(n.eid, ()))
@@ -284,6 +289,23 @@ class NarrativeGraph:
             if role == "?":
                 role = "agent" if subj_of.get(n.eid) else ("object" if obj_of.get(n.eid) else "?")
             n.role = role
+
+    def _heal(self) -> None:
+        """Discourse-strand correction: an EVENT whose subject was dropped/garbled (its agent
+        slot is an ineligible non-entity) is zero-anaphora — bind it to the current discourse
+        topic (the most-recent eligible agent-subject). Full-blast + provenance-stamped, so the
+        back end stays auditable and re-runnable; aggressiveness calibrates from the audit."""
+        topic = None
+        for e in sorted(self.edges, key=lambda e: e.t):
+            if e.kind != "event":
+                continue
+            src = self.nodes.get(e.src)
+            if src is not None and src.eligible and src.role == "agent":
+                topic = e.src                                    # the running discourse topic
+            elif (src is None or not src.eligible) and topic is not None:
+                old, e.src, e.src_resolved = e.src, topic, True
+                e.provenance.append("discourse: dropped-subject [%s] → topic [%s]" % (old, topic))
+                self.nodes[topic].degree += 1
 
     # -- inspection ---------------------------------------------------------
     def significant_nodes(self) -> List[_Node]:
@@ -354,19 +376,21 @@ class NarrativeGraph:
             r = ref(n.eid)
             for (t, state) in n.roles:
                 if r is not None:
-                    items.append((t, {"op": "TYPE_ASSERT", "args": [r, state], "features": {}}))
+                    feats = {"_prov": list(n.provenance)} if n.provenance else {}
+                    items.append((t, {"op": "TYPE_ASSERT", "args": [r, state], "features": feats}))
         for e in self.edges:
             if e.src not in elig and e.dst not in elig:
                 continue
             src = ref(e.src) if (e.src_resolved and e.src in self.nodes) else None
             dst = ref(e.dst) if (e.dst_resolved and e.dst in self.nodes) else None
+            prov = {"_prov": list(e.provenance)} if e.provenance else {}
             if e.kind == "event" and src is not None:
                 args = [src] + ([dst] if dst is not None else [])
-                items.append((e.t, {"op": "EVENT", "args": args, "features": {"verb": e.rel}}))
+                items.append((e.t, {"op": "EVENT", "args": args, "features": {"verb": e.rel, **prov}}))
             elif e.kind == "cause" and src is not None and dst is not None:
-                items.append((e.t, {"op": "CAUSATION", "args": [src, dst], "features": {"conjunction": "so"}}))
+                items.append((e.t, {"op": "CAUSATION", "args": [src, dst], "features": {"conjunction": "so", **prov}}))
             elif e.kind == "temporal" and src is not None and dst is not None:
-                items.append((e.t, {"op": "TEMPORAL", "args": [src, dst], "features": {"conjunction": "when"}}))
+                items.append((e.t, {"op": "TEMPORAL", "args": [src, dst], "features": {"conjunction": "when", **prov}}))
         items.sort(key=lambda it: it[0])
         return [{"contract_version": "2.0", "predicate": env} for _, env in items]
 
