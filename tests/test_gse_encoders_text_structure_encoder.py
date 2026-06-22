@@ -12,8 +12,6 @@ import pytest
 
 import gse.encoders.text_structure_encoder as tsem
 from gse.encoders.text_structure_encoder import (
-    DOMAIN_MARKERS,
-    REGISTER_MARKERS,
     Domain,
     Genre,
     Register,
@@ -26,15 +24,9 @@ from gse.encoders.text_structure_encoder import (
 
 # ---------- Marker tables ----------
 
-class TestMarkerTables:
-    # Genre is no longer keyword-detected (GENRE_MARKERS removed — it classified by
-    # vocabulary, not structure). Register/domain markers remain for now.
-    def test_register_formal_avoid_list(self):
-        assert "avoid" in REGISTER_MARKERS[Register.FORMAL]
-        assert "gonna" in REGISTER_MARKERS[Register.FORMAL]["avoid"]
-
-    def test_domain_academic_has_research(self):
-        assert "research" in DOMAIN_MARKERS[Domain.ACADEMIC]["markers"]
+# TestMarkerTables removed — genre/register/domain keyword marker tables no longer
+# exist (they classified by vocabulary, not structure). Genre is the SoM router;
+# register/domain abstain to MIXED.
 
 
 # ---------- TextCodebook ----------
@@ -154,38 +146,28 @@ class TestDetectGenre:
 
 
 class TestDetectRegister:
-    def test_formal_detected(self, encoder):
+    # Register is no longer keyword-detected — a bare encoder abstains to MIXED for
+    # any text (the keyword bag was non-load-bearing rot).
+    def test_bare_encoder_abstains_to_mixed(self, encoder):
         text = ("Therefore, the analysis proceeds. Consequently, results follow. "
-                "Furthermore, the implications are notable. Moreover, validation completes.")
-        register, conf = encoder._detect_register(text)
-        assert register == Register.FORMAL
-
-    def test_informal_penalized_by_avoid_for_formal(self, encoder):
-        # 'gonna' in text reduces formal score
-        text = "Therefore I'm gonna do it. Furthermore wanna try."
+                "Furthermore, the implications are notable.")
         register, _ = encoder._detect_register(text)
-        # Formal score reduced by avoid list
-        assert register != Register.FORMAL or True  # just don't crash
+        assert register == Register.MIXED
 
-    def test_low_confidence_returns_mixed(self, encoder):
-        register, conf = encoder._detect_register("")
+    def test_empty_returns_mixed(self, encoder):
+        register, _ = encoder._detect_register("")
         assert register == Register.MIXED
 
 
 class TestDetectDomain:
-    def test_academic_detected(self, encoder):
-        text = ("Our research investigates the hypothesis. The methodology shows the results. "
-                "Literature confirms the conclusion. The empirical analysis supports the theoretical study.")
-        domain, conf = encoder._detect_domain(text)
-        assert domain == Domain.ACADEMIC
-
-    def test_commercial_detected(self, encoder):
-        text = ("Our product offers great value. The price is right. "
-                "Customers buy with discount. Sell to new market. Profit grows.")
+    # Domain is no longer keyword-detected — MIXED for any text.
+    def test_bare_encoder_abstains_to_mixed(self, encoder):
+        text = ("Our research investigates the hypothesis. The methodology shows the "
+                "results. The empirical analysis supports the theoretical study.")
         domain, _ = encoder._detect_domain(text)
-        assert domain == Domain.COMMERCIAL
+        assert domain == Domain.MIXED
 
-    def test_low_confidence_mixed(self, encoder):
+    def test_empty_returns_mixed(self, encoder):
         domain, _ = encoder._detect_domain("just some words")
         assert domain == Domain.MIXED
 

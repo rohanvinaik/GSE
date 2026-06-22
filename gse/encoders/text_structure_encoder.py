@@ -65,92 +65,14 @@ class Domain(Enum):
 # DETECTION MARKERS
 # =============================================================================
 
-# Genre is NO LONGER detected by surface keywords. That legacy keyword bag
-# ("once upon a time" → NARRATIVE) classified a story by its *vocabulary* instead
-# of its *structure* — antithetical to GSE — and returned MIXED on any narrative
-# that didn't happen to use storytelling phrases. Genre now comes from the trained
-# Society-of-Mind register router over GSE's deterministic structural profile
-# (gse/encoders/som_genre.py → gse/discourse). REGISTER and DOMAIN remain on the
-# keyword detectors below for now (same rot, tracked follow-up: register is
-# SoM-resolvable; domain has no SoM taxonomy yet).
-
-REGISTER_MARKERS = {
-    Register.FORMAL: {
-        "markers": [
-            "therefore", "consequently", "furthermore", "moreover",
-            "however", "nevertheless", "notwithstanding", "pursuant"
-        ],
-        "avoid": ["gonna", "wanna", "kinda", "yeah", "nope"],
-        "features": ["complex_sentences", "passive_voice", "no_contractions"],
-    },
-    Register.INFORMAL: {
-        "markers": [
-            "gonna", "wanna", "kinda", "like", "you know", "right",
-            "okay", "sure", "yeah", "nope", "cool", "awesome"
-        ],
-        "features": ["contractions", "short_sentences", "colloquialisms"],
-    },
-    Register.TECHNICAL: {
-        "markers": [
-            "algorithm", "parameter", "implementation", "architecture",
-            "protocol", "specification", "interface", "module", "system"
-        ],
-        "features": ["technical_terms", "abbreviations", "precise_language"],
-    },
-    Register.CONVERSATIONAL: {
-        "markers": [
-            "hey", "so", "well", "actually", "basically", "i mean",
-            "you see", "right?", "huh", "wow"
-        ],
-        "features": ["questions", "exclamations", "direct_address"],
-    },
-}
-
-DOMAIN_MARKERS = {
-    Domain.ACADEMIC: {
-        "markers": [
-            "research", "study", "hypothesis", "methodology", "results",
-            "conclusion", "literature", "analysis", "theoretical", "empirical"
-        ],
-        "features": ["citations", "formal_structure", "hedging"],
-    },
-    Domain.COMMERCIAL: {
-        "markers": [
-            "product", "service", "customer", "price", "buy", "sell",
-            "discount", "offer", "market", "business", "profit"
-        ],
-        "features": ["sales_language", "benefits", "calls_to_action"],
-    },
-    Domain.PERSONAL: {
-        "markers": [
-            "i feel", "my", "personally", "experience", "journey",
-            "remember", "family", "friend", "love", "hate"
-        ],
-        "features": ["first_person", "emotions", "personal_anecdotes"],
-    },
-    Domain.INSTITUTIONAL: {
-        "markers": [
-            "policy", "regulation", "compliance", "organization",
-            "department", "committee", "official", "procedure", "guideline"
-        ],
-        "features": ["bureaucratic_language", "formal_structure", "passive_voice"],
-    },
-}
-
-
-def _build_default_detectors():
-    """Construct the (still-keyword) REGISTER and DOMAIN detectors. Genre is no longer
-    keyword-detected — it comes from the SoM router (see :mod:`gse.encoders.som_genre`)."""
-    register = KeywordDetector(
-        {r: info["markers"] for r, info in REGISTER_MARKERS.items()},
-        avoid={
-            r: info.get("avoid", [])
-            for r, info in REGISTER_MARKERS.items()
-            if info.get("avoid")
-        },
-    )
-    domain = KeywordDetector({d: info["markers"] for d, info in DOMAIN_MARKERS.items()})
-    return register, domain
+# Genre, register, and domain are NO LONGER detected by surface keywords. The legacy
+# keyword bags classified by *vocabulary*, not *structure* (antithetical to GSE), and
+# mis-fired constantly. Genre now comes from the trained Society-of-Mind register router
+# over GSE's deterministic structural profile (gse/encoders/som_genre.py → gse/discourse).
+# Register and domain are not load-bearing (Genesis discards them) and have no clean SoM
+# mapping into these legacy enums, so they abstain to MIXED rather than keyword-guess.
+# (Follow-up: surface the SoM register_class as a real register signal in its own
+# taxonomy, instead of the FORMAL/INFORMAL enum.)
 
 
 # =============================================================================
@@ -287,14 +209,13 @@ class TextStructureEncoder:
         self.dim = dim
         self.codebook = codebook or TextCodebook(dim=dim)
 
-        default_register, default_domain = _build_default_detectors()
-        # Genre has NO keyword default — it is the SoM router, injected by
-        # ``get_text_encoder`` (which has the GSEEncoder it needs). A bare
-        # TextStructureEncoder() with no genre_detector returns MIXED for every
-        # document rather than guessing from keywords.
+        # No keyword defaults. Genre is the SoM router (injected by
+        # ``get_text_encoder``). Register/domain are no longer keyword-detected — a bare
+        # encoder (or one with no injected detector) reports MIXED rather than guessing
+        # from vocabulary. Detectors remain injectable for explicit/legacy use.
         self.genre_detector = genre_detector
-        self.register_detector = register_detector or default_register
-        self.domain_detector = domain_detector or default_domain
+        self.register_detector = register_detector
+        self.domain_detector = domain_detector
 
     def encode(
         self,
@@ -425,11 +346,15 @@ class TextStructureEncoder:
         return self._pick_top_category(self.genre_detector.detect(text), Genre.MIXED)
 
     def _detect_register(self, text: str) -> Tuple[Register, float]:
-        """Detect language register."""
+        """Register is no longer keyword-detected → MIXED unless a detector is injected."""
+        if self.register_detector is None:
+            return Register.MIXED, 0.0
         return self._pick_top_category(self.register_detector.detect(text), Register.MIXED)
 
     def _detect_domain(self, text: str) -> Tuple[Domain, float]:
-        """Detect content domain."""
+        """Domain is no longer keyword-detected → MIXED unless a detector is injected."""
+        if self.domain_detector is None:
+            return Domain.MIXED, 0.0
         return self._pick_top_category(self.domain_detector.detect(text), Domain.MIXED)
 
     def _extract_entities(self, paragraphs: List[str]) -> List[DocumentEntity]:
