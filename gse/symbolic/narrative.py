@@ -50,6 +50,34 @@ _ANIMATE = {"I", "YOU", "SOMEONE", "PEOPLE", "BODY"}
 _INANIMATE = {"SOMETHING", "KIND", "PART"}
 _MENTAL = {"THINK", "KNOW", "INFER", "WANT", "FEEL", "SEE", "HEAR"}
 _EVAL = {"GOOD", "BAD", "BIG", "SMALL"}
+
+# NARRATOR de-prioritization. The speech pass (gse.discourse.speech) tags the first-person
+# NARRATING voice with this sentinel lemma — a provenance fact (this mention came from narration,
+# not a quote), distinct from a quoted character's "I". Defined locally (string must match
+# speech.NARRATOR_TAG) to keep narrative.py free of a discourse import / import cycle.
+_NARRATOR = "narrator"
+# A narrator's NARRATION verbs — perception/cognition/speech framing PLUS the light stative/
+# relational verbs of narration ("I have heard", "I share his rooms", "I suit theory to fact").
+# _backbone scores the *tagged narrator* by its MATERIAL actions only: a narration-verb event
+# doesn't count toward participation, so an observer-narrator (Watson: see/have/share/think)
+# sinks below the protagonist it narrates (Holmes), while a narrator who ACTS materially (the dog
+# in "Memoirs of a Yellow Dog": bite/run/chew) keeps its score. Broad is safe — it is scoped to
+# the known narrator, never a quoted character or a third-person agent. Matched against Edge.rel.
+_NARRATION_VERBS = {
+    # perception
+    "see", "hear", "look", "watch", "observe", "notice", "feel", "perceive", "behold",
+    "glimpse", "regard", "view", "witness", "spy", "gaze", "stare", "listen",
+    # cognition
+    "think", "know", "believe", "remember", "realize", "realise", "understand", "wonder",
+    "suppose", "imagine", "recall", "consider", "reflect", "suspect", "doubt", "expect",
+    "fancy", "dream", "recollect", "deem", "reckon", "guess", "mean",
+    # speech framing
+    "say", "tell", "remark", "reply", "answer", "ask", "mention", "relate", "recount",
+    "declare", "note", "add", "continue", "exclaim", "cry", "explain", "admit",
+    # light stative / relational narration
+    "have", "share", "hold", "keep", "own", "possess", "belong", "seem", "remain",
+    "suit", "concern", "involve", "find",
+}
 # Surface-token nominative pronouns: when one is glommed into a multi-token NP ("way i",
 # "then she", "think you"), the node is a parse fragment from dialogue/complex prose, not a
 # referent — the construct-clean eligibility gate eliminates it unless it is grounded.
@@ -401,6 +429,13 @@ class NarrativeGraph:
             if e.dst in self.nodes:
                 times[e.dst].add(e.t)
             if e.kind == "event" and e.src_resolved:
+                # The narrating voice (tagged _NARRATOR) is the deictic FRAME: its narration acts
+                # (I saw / I have heard / I think) are the lens, not plot participation. Score the
+                # narrator by its MATERIAL actions only, so the protagonist it narrates surfaces.
+                src = self.nodes.get(e.src)
+                if (src is not None and src.lemma == _NARRATOR
+                        and e.rel in _NARRATION_VERBS):
+                    continue
                 agent[e.src] += 1
         all_t = [e.t for e in self.edges]
         if not all_t:

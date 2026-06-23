@@ -336,6 +336,16 @@ _PRON_PERSON = {  # True = requires a person antecedent; False = requires non-pe
     "he": True, "she": True, "him": True, "her": True, "his": True, "hers": True,
     "himself": True, "herself": True, "it": False, "its": False, "itself": False,
 }
+# First/second-person (DEICTIC) pronoun lemmas — the speaker, the addressee, or the
+# narrator; never anaphoric to a prior third-person noun. They are excluded from recency
+# binding because binding them by recency corrupts dialogue and first-person narration
+# ("I ran" rebound to the last-named entity → "jim ran"). Resolving quoted "I" → speaker /
+# "you" → addressee is a separate parse-time concern (dialogue-deixis), not recency coref.
+_DEICTIC_PERSON = frozenset({
+    "i", "me", "my", "mine", "myself",
+    "we", "us", "our", "ours", "ourselves",
+    "you", "your", "yours", "yourself", "yourselves",
+})
 _PERSON_CACHE: Dict[str, Any] = {}
 
 
@@ -391,11 +401,16 @@ def _bind_document_pronouns(trees: Sequence[Any]) -> List[Any]:
         def bind(ent: Entity) -> Entity:
             if not _is_pronoun(ent):
                 return ent
+            pron = getattr(ent.head, "lemma", "") or ""
+            # First/second-person pronouns are deictic, not anaphoric: leave them unbound
+            # rather than grabbing the most-recent third-person noun (which corrupts
+            # first-person narration). Speaker/addressee attribution is handled upstream.
+            if pron in _DEICTIC_PERSON:
+                return ent
             cands = [a for a in reversed(antecedents)
                      if (getattr(a.head, "lemma", None) not in used)]
             if not cands:
                 return ent
-            pron = getattr(ent.head, "lemma", "") or ""
             pick = next((a for a in cands if _pron_agrees(pron, a)), cands[0])
             used.add(getattr(pick.head, "lemma", None))
             return replace(ent, head=pick.head, possessor=pick.possessor)
