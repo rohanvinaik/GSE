@@ -50,6 +50,10 @@ _ANIMATE = {"I", "YOU", "SOMEONE", "PEOPLE", "BODY"}
 _INANIMATE = {"SOMETHING", "KIND", "PART"}
 _MENTAL = {"THINK", "KNOW", "INFER", "WANT", "FEEL", "SEE", "HEAR"}
 _EVAL = {"GOOD", "BAD", "BIG", "SMALL"}
+# Surface-token nominative pronouns: when one is glommed into a multi-token NP ("way i",
+# "then she", "think you"), the node is a parse fragment from dialogue/complex prose, not a
+# referent — the construct-clean eligibility gate eliminates it unless it is grounded.
+_NOMINATIVE_PRON = {"i", "you", "he", "she", "we", "they"}
 
 
 def _role_from_thread(thread: Tuple[str, ...]) -> str:
@@ -212,6 +216,7 @@ class NarrativeGraph:
         self.nodes: Dict[str, _Node] = {}
         self.edges: List[Edge] = []
         self.excluded = 0          # predicates that anchored no resolved entity
+        self.backbone_ids: Set[str] = set()   # Stage-3 protagonist set (the narrative spine)
 
     # -- construction -------------------------------------------------------
     def _node(self, ent: Any) -> Optional[_Node]:
@@ -279,6 +284,7 @@ class NarrativeGraph:
                     g.excluded += 1
         g._finalize(genealogy)
         g._heal()
+        g._backbone()
         return g
 
     def _finalize(self, genealogy: Any = None) -> None:
@@ -312,7 +318,14 @@ class NarrativeGraph:
 
         def blob(n: _Node) -> bool:
             toks = max((len(s.split()) for s in n.surface), default=1)
-            return toks > 2 and not n.thread
+            if toks > 2 and not n.thread:
+                return True
+            # Construct-clean: a multi-token surface carrying a stray nominative pronoun
+            # ("way i", "then she", "think you") is a parse fragment, not a referent.
+            if toks > 1 and not n.thread and any(
+                    tok in _NOMINATIVE_PRON for s in n.surface for tok in s.lower().split()):
+                return True
+            return False
 
         for n in self.nodes.values():
             role, _e, _b = classify(n.prims, n.thread)
@@ -369,6 +382,53 @@ class NarrativeGraph:
                 e.provenance.append("discourse: dropped-subject [%s] → topic [%s]" % (old, topic))
                 self.nodes[topic].degree += 1
 
+    def _backbone(self) -> None:
+        """Stage-3 — significance = the PROTAGONIST CAUSAL SPINE, set-theoretically.
+
+        A protagonist is a RECURRING AGENT: it both *acts* (high agent-participation) and
+        *threads the whole story* (wide timeline-spread). A local digression — the Queen-of-
+        Sheba metaphor — bursts at one point and vanishes (tspan≈10 of 174), so its
+        participation×spread is orders of magnitude below della's. We rank by that product,
+        STORY-RELATIVE (so a short tight story isn't punished for a small absolute span), and
+        keep the protagonist set; ``emit`` then restricts the spine to edges/states touching
+        it — set-differencing the off-spine flavor out. Connectivity alone can't do this: the
+        counterfactual links della↔sheba into one component, so spread is the discriminator."""
+        times: Dict[str, Set[int]] = defaultdict(set)
+        agent: Dict[str, int] = defaultdict(int)
+        for e in self.edges:
+            if e.src in self.nodes:
+                times[e.src].add(e.t)
+            if e.dst in self.nodes:
+                times[e.dst].add(e.t)
+            if e.kind == "event" and e.src_resolved:
+                agent[e.src] += 1
+        all_t = [e.t for e in self.edges]
+        if not all_t:
+            return
+        score: Dict[str, float] = {}
+        for eid, n in self.nodes.items():
+            ts = times.get(eid)
+            if not n.eligible or not ts:
+                continue
+            tspan = max(ts) - min(ts) + 1
+            score[eid] = agent.get(eid, 0) * tspan          # participation × spread
+        top = max(score.values(), default=0.0)
+        if top <= 0:
+            return
+        # Seeds: recurring agents clearing a story-relative floor of the top score.
+        seeds = {eid for eid, s in score.items()
+                 if agent.get(eid, 0) >= 2 and s >= 0.1 * top}
+        # Causal closure: pull in the PATIENTS a protagonist acts upon. A murdered king never
+        # acts (agent_count 0) but his role-states ("is king" → "becomes dead") are load-bearing
+        # for the multi-hop succession derivation. Objects-without-states add nothing; states
+        # rejoin the spine. This is the set-closure of "what the protagonists touch".
+        backbone = set(seeds)
+        for e in self.edges:
+            if (e.kind == "event" and e.src in seeds and e.dst in self.nodes
+                    and self.nodes[e.dst].eligible):
+                backbone.add(e.dst)
+        self.backbone_ids = backbone
+
     # -- inspection ---------------------------------------------------------
     def significant_nodes(self) -> List[_Node]:
         """Entities that participate — have a role-timeline or touch an edge."""
@@ -422,7 +482,9 @@ class NarrativeGraph:
         compressed narrative skeleton the Genesis bridge walks IN PLACE OF the N raw
         per-sentence contracts — the customs office handing the engine the spine, not the
         noise. Envelopes are standard §5 shape, so the existing walker consumes them 1:1."""
-        elig = {n.eid for n in self.nodes.values() if n.eligible}
+        # Stage-3: the spine is the PROTAGONIST backbone; fall back to all-eligible only when
+        # no protagonist was found (a story with no recurring agent — keep the old behavior).
+        elig = self.backbone_ids or {n.eid for n in self.nodes.values() if n.eligible}
 
         def ref(eid: str):
             n = self.nodes.get(eid)
@@ -433,7 +495,7 @@ class NarrativeGraph:
 
         items: List[Tuple[int, Dict[str, Any]]] = []
         for n in self.nodes.values():
-            if not n.eligible:
+            if n.eid not in elig:
                 continue
             r = ref(n.eid)
             for (t, state) in n.roles:
@@ -441,7 +503,13 @@ class NarrativeGraph:
                     feats = {"_prov": list(n.provenance)} if n.provenance else {}
                     items.append((t, {"op": "TYPE_ASSERT", "args": [r, state], "features": feats}))
         for e in self.edges:
-            if e.src not in elig and e.dst not in elig:
+            # The spine is protagonist AGENCY: an event survives only with a protagonist AGENT
+            # (src) — this drops a noise-entity acting ON a protagonist ("beard —collect→ della").
+            # Causal/temporal links survive if EITHER endpoint is on the spine.
+            if e.kind == "event":
+                if e.src not in elig:
+                    continue
+            elif e.src not in elig and e.dst not in elig:
                 continue
             src = ref(e.src) if (e.src_resolved and e.src in self.nodes) else None
             dst = ref(e.dst) if (e.dst_resolved and e.dst in self.nodes) else None
