@@ -250,6 +250,19 @@ def _try_copula_type_assertion(tokens: Sequence[TokenTrace]) -> Optional[Express
     if not (has_subject and has_complement):
         return None
 
+    # PASSIVE / progressive "be": a content VERB after the copula ("was taken",
+    # "are decaying", "was viewed as …") is an EVENT — the surface subject is a
+    # participant in an action — NOT a type assertion "X IS take". Without this bail
+    # the participle is swept into the TYPE_ASSERT complement (line ~290) and the whole
+    # event is destroyed (a major source of the "destroyed structure" residual: every
+    # passive collapsed to a non-event). Bail so _try_event recovers the event. True
+    # copulas ("X is a king", "X is callous", "loyal to Y") have no post-copula VERB
+    # and are untouched. (GSE-native structural fix, 2026-06-24.)
+    if any(t.position > copula.position and t.pos == "VERB"
+           and t.lemma != _COPULA_LEMMA and not getattr(t, "is_operator", False)
+           for t in tokens):
+        return None
+
     # Negated type assertion ("X is not a Y"): drop the marker, wrap in Negation.
     negated = any(t.lemma in _NEGATION_LEMMAS for t in tokens)
     subject_atoms = [
@@ -458,6 +471,28 @@ def _build_clause_expr(
         and not (drop_relativizers and _is_relativizer(t))
     ]
     clause_ops = [operators[i] for i in clause.operator_indices]
+
+    # SUBORDINATOR absorbed the matrix verb. Operators otherwise get ABSOLUTE precedence
+    # here (the verb-EVENT fallback below is only reached when there are no operators), so a
+    # "soft" operator — BIND_EQ from a subordinating 'as'/'like', TYPE_QUERY/DEGREE_QUERY from
+    # 'what'/'how' — consumes the matrix verb: "grinned as the tracks came into view" →
+    # EQUALITY(grin, …) instead of EVENT(grin). When a content VERB flanks such an operator on
+    # BOTH sides (the matrix verb before it, the subordinate clause's verb after it), the matrix
+    # verb wins: build the EVENT (the subordinate folds into its complement — recovered, not lost).
+    # A comparative ("Mike runs faster than Rex") has a content verb only BEFORE the operator, so
+    # it never triggers and Comparison is preserved. (GSE-native structural fix #2, 2026-06-24.)
+    _SOFT_ABSORBERS = {"BIND_EQ", "TYPE_QUERY", "DEGREE_QUERY"}
+    soft = [op for op in clause_ops if op.operation in _SOFT_ABSORBERS]
+    if soft:
+        soft_pos = min(op.position for op in soft)
+        def _content_verb(t: TokenTrace) -> bool:
+            return t.pos == "VERB" and t.lemma != _COPULA_LEMMA and not t.is_operator
+        before = any(_content_verb(t) for t in clause_tokens if t.position < soft_pos)
+        after = any(_content_verb(t) for t in clause_tokens if t.position > soft_pos)
+        if before and after:
+            event_op = _try_event(clause_tokens, shared_subject=shared_subject)
+            if event_op is not None:
+                return event_op
 
     if not clause_ops:
         copula_op = _try_copula_type_assertion(clause_tokens)
