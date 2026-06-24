@@ -328,9 +328,28 @@ def _try_event(tokens: Sequence[TokenTrace],
     # wrap the synthesized EVENT in a Negation — the same node the in-span path
     # (_build_arg_expression) and the emitter already understand.
     negated = any(t.lemma in _NEGATION_LEMMAS for t in tokens)
+    _ordered = sorted(tokens, key=lambda t: t.position)
+
+    def _prep_governed(tok) -> bool:
+        """Is ``tok`` the object of a preposition? Walk back over its own determiner/adjective
+        premodifiers (only — NOT other nominals, so a fronted PP's object is not confused with
+        the following subject head); if the governing token is a preposition, ``tok`` is a PP
+        oblique. Catches a FRONTED adverbial before the subject ("In the daytime I ran" →
+        daytime governed, I not) — the subject-side twin of the post-verb object/oblique split,
+        so a fronted PP no longer blobs into the subject ("daytime i"). Text-agnostic."""
+        for t in reversed([x for x in _ordered if x.position < tok.position]):
+            if t.pos in ("DET", "ADJ"):
+                continue
+            return t.pos == "ADP"
+        return False
+
     subject_atoms = [_atom_from_token(t) for t in tokens
                      if t.position < verb.position
-                     and t.pos != "PUNCT" and t.lemma not in _NEGATION_LEMMAS]
+                     and t.pos != "PUNCT" and t.lemma not in _NEGATION_LEMMAS
+                     and not _prep_governed(t)]
+    fronted_obliques = [_atom_from_token(t, "SYN_OBL") for t in tokens
+                        if t.position < verb.position and t.pos != "PUNCT"
+                        and t.lemma not in _NEGATION_LEMMAS and _prep_governed(t)]
     # Direct object vs PP obliques. The clause's direct object is the post-verb nominal
     # span UP TO the first preposition; tokens from the first preposition on are PP
     # obliques ("for months", "with this result", "to Macbeth"). Without this split the
@@ -346,7 +365,7 @@ def _try_event(tokens: Sequence[TokenTrace],
     obj_tokens = post_verb if first_prep is None else post_verb[:first_prep]
     obl_tokens = [] if first_prep is None else post_verb[first_prep:]
     object_atoms = [_atom_from_token(t) for t in obj_tokens]
-    oblique_atoms = [_atom_from_token(t, "SYN_OBL") for t in obl_tokens]
+    oblique_atoms = fronted_obliques + [_atom_from_token(t, "SYN_OBL") for t in obl_tokens]
     if not subject_atoms:
         # VP-coordination with an elided shared subject ("Bertran [betrayed Aldric] and
         # [murdered him]") — inherit the prior conjunct's subject so the 2nd event survives

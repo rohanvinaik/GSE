@@ -341,10 +341,16 @@ _PRON_PERSON = {  # True = requires a person antecedent; False = requires non-pe
 # binding because binding them by recency corrupts dialogue and first-person narration
 # ("I ran" rebound to the last-named entity → "jim ran"). Resolving quoted "I" → speaker /
 # "you" → addressee is a separate parse-time concern (dialogue-deixis), not recency coref.
+# "narrator" is the same deictic class: the speech pass re-lemmatizes a narration "I"/"we"
+# to this tag (speech.NARRATOR_TAG) BEFORE document binding, so without it here the binder
+# would no longer recognize the narrator as first-person and would rebind it to a recency
+# antecedent — clobbering the narrating voice across the document (the first-person
+# protagonist would dissolve into the last-named third person).
 _DEICTIC_PERSON = frozenset({
     "i", "me", "my", "mine", "myself",
     "we", "us", "our", "ours", "ourselves",
     "you", "your", "yours", "yourself", "yourselves",
+    "narrator",   # the re-lemmatized narration first-person (speech.NARRATOR_TAG)
 })
 _PERSON_CACHE: Dict[str, Any] = {}
 
