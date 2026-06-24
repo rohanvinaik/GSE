@@ -116,6 +116,25 @@ def _np_head(words: list) -> Optional[str]:
     return core[-1] if core else None
 
 
+# Common capitalized sentence-openers / interjections that are NOT vocative names.
+_VOC_STOP = _NON_SPEAKER | frozenset({
+    "oh", "well", "please", "now", "why", "ah", "dear", "sir", "madam", "god", "lord",
+    "come", "look", "say", "give", "be", "do", "don", "let", "take", "merry", "good",
+})
+
+
+def _vocative(quoted: str) -> Optional[str]:
+    """A capitalized NAME set off by a comma at the start or end of a quoted clause is the
+    addressee (a vocative): "Jim, darling," / "Shall I put the chops on, Jim?". Conservative:
+    a single capitalized word, comma-adjacent, not a common interjection/sentence-opener — the
+    deterministic, text-agnostic half of you→addressee (the other half is explicit "to Y")."""
+    for m in (re.match(r"\s*([A-Z][a-z]+)\s*,", quoted),
+              re.search(r",\s*([A-Z][a-z]+)\s*[?!.\"”’']*\s*$", quoted)):
+        if m and m.group(1).lower() not in _VOC_STOP:
+            return _head_lemma(m.group(1))
+    return None
+
+
 def _attribution(fragment: str) -> Optional[tuple]:
     """If ``fragment`` (the non-quoted text around a quote) is a speech attribution, return
     ``(speaker, addressee)`` head lemmas; else ``None``. Handles ``said SPEAKER [to ADDR]``
@@ -236,6 +255,12 @@ def segment_document(sentences) -> List[Utterance]:
                 if not span and pending is not None:      # "Q1," said X, "Q2" / X said, "Q"
                     cur_speaker, cur_addr = pending
                     pending = None
+                if cur_addr is None:                       # vocative ("Jim, …" / "…, Jim?") → addressee
+                    voc = _vocative(t)
+                    if voc and voc != cur_speaker:
+                        cur_addr = voc
+                        for i in span:                     # apply to the whole open turn
+                            records[i]["addressee"] = voc
                 records.append({"content": t, "speaker": cur_speaker, "addressee": cur_addr, "quoted": True})
                 span.append(len(records) - 1)
             else:
