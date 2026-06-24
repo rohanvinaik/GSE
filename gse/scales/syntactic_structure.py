@@ -64,51 +64,6 @@ BANK_ALLOCATIONS: Dict[SyntacticBank, float] = {
 }
 
 # spaCy POS/DEP to syntactic primitive mapping
-SPACY_DEP_MAPPING: Dict[str, SyntacticPrimitive] = {
-    # Subject relations
-    'nsubj': SyntacticPrimitive.SYN_SUBJ,
-    'nsubjpass': SyntacticPrimitive.SYN_SUBJ,
-    'csubj': SyntacticPrimitive.SYN_SUBJ,
-    'csubjpass': SyntacticPrimitive.SYN_SUBJ,
-    'expl': SyntacticPrimitive.SYN_SUBJ,
-
-    # Predicate (verbs)
-    'ROOT': SyntacticPrimitive.SYN_PRED,
-    'aux': SyntacticPrimitive.SYN_PRED,
-    'auxpass': SyntacticPrimitive.SYN_PRED,
-    'cop': SyntacticPrimitive.SYN_PRED,
-
-    # Object relations
-    'dobj': SyntacticPrimitive.SYN_OBJ,
-    'obj': SyntacticPrimitive.SYN_OBJ,
-    'iobj': SyntacticPrimitive.SYN_OBJ,
-    'pobj': SyntacticPrimitive.SYN_OBJ,
-
-    # Complement relations
-    'xcomp': SyntacticPrimitive.SYN_COMPL,
-    'ccomp': SyntacticPrimitive.SYN_COMPL,
-    'acomp': SyntacticPrimitive.SYN_COMPL,
-    'attr': SyntacticPrimitive.SYN_COMPL,
-
-    # Adjectival modifiers
-    'amod': SyntacticPrimitive.SYN_ADJ_MOD,
-    'nmod': SyntacticPrimitive.SYN_ADJ_MOD,
-    'appos': SyntacticPrimitive.SYN_ADJ_MOD,
-    'nn': SyntacticPrimitive.SYN_ADJ_MOD,
-    'compound': SyntacticPrimitive.SYN_ADJ_MOD,
-
-    # Adverbial modifiers
-    'advmod': SyntacticPrimitive.SYN_ADV_MOD,
-    'npadvmod': SyntacticPrimitive.SYN_ADV_MOD,
-    'advcl': SyntacticPrimitive.SYN_ADV_MOD,
-    'prep': SyntacticPrimitive.SYN_ADV_MOD,
-
-    # Determiners
-    'det': SyntacticPrimitive.SYN_DET,
-    'poss': SyntacticPrimitive.SYN_DET,
-    'predet': SyntacticPrimitive.SYN_DET,
-}
-
 # Morphological feature to TAM primitive mapping
 MORPH_MAPPING: Dict[str, SyntacticPrimitive] = {
     'Tense=Past': SyntacticPrimitive.SYN_TENSE_PAST,
@@ -297,61 +252,6 @@ class SyntacticPrimitiveEncoder:
         return result
 
 
-def parse_spacy_sentence(doc) -> SentenceSyntax:
-    """
-    Parse spaCy doc into SentenceSyntax.
-
-    Args:
-        doc: spaCy Doc object (single sentence)
-
-    Returns:
-        SentenceSyntax with annotations for each token
-    """
-    annotations = []
-    is_interrogative = doc.text.strip().endswith('?')
-    has_past = False
-    has_perfect = False
-
-    for i, token in enumerate(doc):
-        primitives = set()
-        bank_weights = {bank: 1.0 for bank in SyntacticBank}
-
-        # Map dependency to primitive
-        dep = token.dep_
-        if dep in SPACY_DEP_MAPPING:
-            primitives.add(SPACY_DEP_MAPPING[dep])
-
-        # Extract morphological features
-        morph_str = str(token.morph)
-        for feature, prim in MORPH_MAPPING.items():
-            if feature in morph_str:
-                primitives.add(prim)
-                if prim == SyntacticPrimitive.SYN_TENSE_PAST:
-                    has_past = True
-                elif prim == SyntacticPrimitive.SYN_ASPECT_PERF:
-                    has_perfect = True
-
-        # Default: if no mapping found, use complement
-        if not primitives:
-            primitives.add(SyntacticPrimitive.SYN_COMPL)
-
-        annotations.append(SyntacticAnnotation(
-            word=token.text,
-            position=i,
-            primitives=primitives,
-            bank_weights=bank_weights,
-        ))
-
-    return SentenceSyntax(
-        annotations=annotations,
-        sentence_text=doc.text,
-        is_interrogative=is_interrogative,
-        has_past_tense=has_past,
-        has_perfect=has_perfect,
-    )
-
-
-# Primitive name constants for external use
 SYNTACTIC_PRIMITIVES: List[str] = [p.name for p in SyntacticPrimitive]
 
 # Bank name constants

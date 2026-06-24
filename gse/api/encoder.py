@@ -113,8 +113,7 @@ class GSEEncoder:
         - Failed operators: Return None for operator result
     """
 
-    def __init__(self, db_path: str = "data/lexicon_clean.db", strict: bool = False,
-                 engine: str = "native"):
+    def __init__(self, db_path: str = "data/lexicon_clean.db", strict: bool = False):
         """
         Initialize encoder with bases and database.
 
@@ -122,10 +121,9 @@ class GSEEncoder:
             db_path: Path to lexicon database
             strict: If True, raise exceptions for OOV words and errors.
                     If False (default), use graceful fallbacks.
-            engine: Token front-end — "spacy" (default) or "native" (the
-                    deterministic, arc-free GSE-native front-end, WS1). Both
-                    expose the same token-local surface the now-arc-free encoder
-                    reads (text/lemma_/pos_/i/morph/is_*).
+
+        Token front-end: the deterministic, arc-free GSE-native parser (WS1). spaCy
+        was retired — native is the ONLY front-end (there is no stochastic POS path).
         """
         self.db_path = Path(db_path)
         self.strict = strict
@@ -134,14 +132,9 @@ class GSEEncoder:
         self.word_basis = create_basis()
         self.sent_basis = create_sentence_basis()
 
-        # Token front-end. The native engine is pure-Python/deterministic; spaCy
-        # is loaded lazily so gse.api stays importable without it.
-        if engine == "native":
-            from gse.nlp.native import NativeNLP
-            self.nlp = NativeNLP()
-        else:
-            import spacy
-            self.nlp = spacy.load("en_core_web_sm")
+        # Token front-end — pure-Python/deterministic, the only engine.
+        from gse.nlp.native import NativeNLP
+        self.nlp = NativeNLP()
 
         # Database connection. A relative db_path resolves against CWD, so a wrong
         # path is the silent-empty-lexicon footgun: sqlite3.connect() *creates* an

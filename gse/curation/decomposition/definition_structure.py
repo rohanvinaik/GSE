@@ -42,9 +42,9 @@ _NLP = None
 def _nlp():
     global _NLP
     if _NLP is None:
-        import spacy
+        from gse.nlp.native import NativeNLP   # the deterministic front-end (spaCy retired)
 
-        _NLP = spacy.load("en_core_web_sm")
+        _NLP = NativeNLP()
     return _NLP
 
 
