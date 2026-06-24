@@ -203,6 +203,11 @@ class NativeNLP:
     """Deterministic, arc-free token front-end. Call it like ``spacy.load(...)``."""
 
     def __call__(self, text: str) -> NativeDoc:
+        # Normalize typographic (curly) apostrophes to ASCII so the contraction/possessive
+        # tokenizer patterns (n't / 's / 've / 'll / 'd / 'm) match real prose — Gutenberg and
+        # most published text use U+2019. Without this, "doesn’t" tokenizes as doesn·’·t and the
+        # stray "t" leaks in as a content token (and becomes a clause agent). Text-agnostic.
+        text = text.replace("’", "'").replace("‘", "'")
         surfaces = _TOKEN_RE.findall(text)
         tokens: List[NativeToken] = []
         for i, surf in enumerate(surfaces):
