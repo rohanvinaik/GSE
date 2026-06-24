@@ -54,11 +54,26 @@ _AUX_MODAL = {"will", "would", "can", "could", "shall", "should", "may",
 _AUX_DO = {"do", "does", "did"}
 _PART = {"to", "not", "n't"}
 _NEG = {"not", "n't"}
+# Closed-class adverbs / conjunctive adverbs / deictic adverbs with no entity reading
+# in narrative. A WordNet noun sense (there/now → NOUN) or sentence-initial title-case
+# (Instead/Sometimes → PROPN) was promoting these to eligible ENTITIES and then to AGENT
+# ("instead —obey→ jim", "sometimes —say→ little", "there —take→ money"). They are pure
+# function words: tag ADV unconditionally. Text-agnostic — universal English connectives,
+# not a per-story patch. Conservative set: only words with no common noun/verb entity use
+# (excludes back/still/once/just/even/around, which have strong nominal/adjectival senses).
+_ADV_CLOSED = {
+    "instead", "sometimes", "now", "then", "there", "here", "however",
+    "therefore", "moreover", "meanwhile", "thus", "hence", "nevertheless",
+    "nonetheless", "furthermore", "besides", "otherwise", "anyway", "anyhow",
+    "perhaps", "maybe", "indeed", "thereby", "thereupon", "henceforth",
+    "afterward", "afterwards", "meantime", "likewise", "accordingly",
+    "consequently", "nowadays", "somewhere", "anywhere", "everywhere", "nowhere",
+}
 
 # spaCy-style stopword subset sufficient for ``_entity_like`` (title-case
 # function words like "The" at sentence start must read as stops, not entities).
 _STOP = (_DET | _PRON | _POSS_PRON | _ADP | _CCONJ | _SCONJ | _AUX_BE
-         | _AUX_MODAL | _AUX_DO | _PART | {"there", "here", "then", "now"})
+         | _AUX_MODAL | _AUX_DO | _PART | _ADV_CLOSED | {"there", "here", "then", "now"})
 
 # Irregular lemmas WordNet morphy can miss or that spaCy fixes by rule. Includes
 # irregular pasts whose surface collides with a distinct base lemma in WordNet
@@ -307,6 +322,11 @@ class NativeNLP:
             return "ADP"
         if surf == "'s":
             return "PART"
+        # Closed-class adverb / connective / deictic adverb — no entity reading; tag ADV
+        # before the open-class WordNet/title-case logic that was mis-promoting these to
+        # NOUN/PROPN and then to AGENT. (See _ADV_CLOSED.)
+        if low in _ADV_CLOSED:
+            return "ADV"
 
         # --- open class ----------------------------------------------------
         # Title-case alphabetic non-stop word → proper noun (the register's
