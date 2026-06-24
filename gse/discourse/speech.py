@@ -38,6 +38,11 @@ _SAY_VERBS = frozenset({
 # First/second-person deictic lemmas the binder rewrites (mirrors grounding._DEICTIC_PERSON).
 _FIRST_PERSON = frozenset({"i", "me", "my", "mine", "myself", "we", "us", "our", "ours", "ourselves"})
 _SECOND_PERSON = frozenset({"you", "your", "yours", "yourself", "yourselves"})
+# A PRONOUN attribution ("said he", "she said") is itself anaphoric: binding a quoted "I" to it
+# must keep it a PRON so the document recency resolver carries it on to the prior declared proper
+# noun (he→jim). Only a NAME attribution ("said Jim") freezes to PROPN.
+_THIRD_PERSON_PRON = frozenset({"he", "she", "they", "him", "her", "them", "it",
+                               "his", "hers", "their", "its"})
 # Heads that can never be a SPEAKER: indefinites and discourse particles. They guard against
 # reading a plain SVO clause that merely contains a reporting verb ("The policeman said
 # *nothing*", "he said *so*") as a quote attribution and dropping the narration.
@@ -267,9 +272,11 @@ def bind_deixis(tree, speaker: Optional[str], addressee: Optional[str]):
     def rewrite(ent):
         lemma = (getattr(ent.head, "lemma", "") or "").lower()
         if speaker and lemma in _FIRST_PERSON:
-            return replace(ent, head=replace(ent.head, lemma=speaker, pos="PROPN"))
+            spos = "PRON" if speaker.lower() in _THIRD_PERSON_PRON else "PROPN"
+            return replace(ent, head=replace(ent.head, lemma=speaker, pos=spos))
         if addressee and lemma in _SECOND_PERSON:
-            return replace(ent, head=replace(ent.head, lemma=addressee, pos="PROPN"))
+            apos = "PRON" if addressee.lower() in _THIRD_PERSON_PRON else "PROPN"
+            return replace(ent, head=replace(ent.head, lemma=addressee, pos=apos))
         return ent
 
     return _map_entities(tree, rewrite)
