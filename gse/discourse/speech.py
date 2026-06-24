@@ -239,11 +239,11 @@ def segment_document(sentences) -> List[Utterance]:
     span: List[int] = []              # record indices of the current open quote span
     pending = None                    # an attribution awaiting an immediate re-open
 
-    for sent in sentences:
+    for s_idx, sent in enumerate(sentences):
         has_quote = any(c in "“”\"" for c in sent)
         if not has_quote and not inside:
             if sent.strip():
-                records.append({"content": sent.strip(), "speaker": None, "addressee": None, "quoted": False})
+                records.append({"content": sent.strip(), "speaker": None, "addressee": None, "quoted": False, "s_idx": s_idx})
             cur_speaker = cur_addr = pending = None       # a plain-narration line ends any turn
             continue
         segs, inside_after = _split_segments(sent, inside)
@@ -261,7 +261,7 @@ def segment_document(sentences) -> List[Utterance]:
                         cur_addr = voc
                         for i in span:                     # apply to the whole open turn
                             records[i]["addressee"] = voc
-                records.append({"content": t, "speaker": cur_speaker, "addressee": cur_addr, "quoted": True})
+                records.append({"content": t, "speaker": cur_speaker, "addressee": cur_addr, "quoted": True, "s_idx": s_idx})
                 span.append(len(records) - 1)
             else:
                 # A narration segment closes the preceding quote: finalize ITS span here (not at
@@ -276,14 +276,30 @@ def segment_document(sentences) -> List[Utterance]:
                     cur_speaker, cur_addr = spk, addr      # carry to an immediate re-open (pending)
                     pending = (spk, addr)
                 elif t:
-                    records.append({"content": t, "speaker": None, "addressee": None, "quoted": False})
+                    records.append({"content": t, "speaker": None, "addressee": None, "quoted": False, "s_idx": s_idx})
                 if span:                                  # quote closed → finalize
                     span = []
                     if attr is None:                      # no fresh attribution → turn is over
                         cur_speaker = cur_addr = pending = None
         inside = inside_after
 
-    return [Utterance(r["content"], r["speaker"], r["addressee"], quoted=r["quoted"]) for r in records]
+    # Reassemble an INTERRUPTED quote into one sub-script: a quote split mid-sentence by its
+    # attribution ("That," he said, "is a great idea") is one clause — join its fragments (the
+    # attribution was consumed as metadata, not content) → "That, is a great idea". Scoped to the
+    # SAME sentence (s_idx): a cross-sentence continuation ("Hello." / "Care for wine?") stays
+    # separate so each encodes as its own sentence (it already carries the speaker). Unattributed
+    # (speaker=None) fragments are never merged — a run of them is a back-and-forth, not one turn.
+    merged: List[dict] = []
+    for r in records:
+        prev = merged[-1] if merged else None
+        if (r["quoted"] and r["speaker"] is not None and prev is not None
+                and prev["quoted"] and prev["speaker"] == r["speaker"]
+                and prev["addressee"] == r["addressee"] and prev["s_idx"] == r["s_idx"]):
+            prev["content"] = prev["content"].rstrip() + " " + r["content"].lstrip()
+        else:
+            merged.append(dict(r))
+
+    return [Utterance(r["content"], r["speaker"], r["addressee"], quoted=r["quoted"]) for r in merged]
 
 
 def bind_deixis(tree, speaker: Optional[str], addressee: Optional[str]):
