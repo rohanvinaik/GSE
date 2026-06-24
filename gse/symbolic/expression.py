@@ -331,9 +331,22 @@ def _try_event(tokens: Sequence[TokenTrace],
     subject_atoms = [_atom_from_token(t) for t in tokens
                      if t.position < verb.position
                      and t.pos != "PUNCT" and t.lemma not in _NEGATION_LEMMAS]
-    object_atoms = [_atom_from_token(t) for t in tokens
-                    if t.position > verb.position
-                    and t.pos != "PUNCT" and t.lemma not in _NEGATION_LEMMAS]
+    # Direct object vs PP obliques. The clause's direct object is the post-verb nominal
+    # span UP TO the first preposition; tokens from the first preposition on are PP
+    # obliques ("for months", "with this result", "to Macbeth"). Without this split the
+    # object accretes every trailing PP nominal into one blobbed entity (the demi-word
+    # span — "penny she month this result"). The obliques are RESOLVED as a typed
+    # SYN_OBL constituent rather than merged or discarded; the narrative spine's
+    # set-operation keeps them off the protagonist backbone. (Text-agnostic: the boundary
+    # is the preposition POS, not any story-specific word.)
+    post_verb = [t for t in tokens
+                 if t.position > verb.position
+                 and t.pos != "PUNCT" and t.lemma not in _NEGATION_LEMMAS]
+    first_prep = next((idx for idx, t in enumerate(post_verb) if t.pos == "ADP"), None)
+    obj_tokens = post_verb if first_prep is None else post_verb[:first_prep]
+    obl_tokens = [] if first_prep is None else post_verb[first_prep:]
+    object_atoms = [_atom_from_token(t) for t in obj_tokens]
+    oblique_atoms = [_atom_from_token(t, "SYN_OBL") for t in obl_tokens]
     if not subject_atoms:
         # VP-coordination with an elided shared subject ("Bertran [betrayed Aldric] and
         # [murdered him]") — inherit the prior conjunct's subject so the 2nd event survives
@@ -344,6 +357,10 @@ def _try_event(tokens: Sequence[TokenTrace],
     args: List[Operand] = [Phrase(atoms=subject_atoms)]
     if object_atoms:
         args.append(Phrase(atoms=object_atoms))
+        # Carry obliques only BEHIND a real object, so a bare PP after an intransitive
+        # ("stood by the window") never slides into the patient slot (args[1]).
+        if oblique_atoms:
+            args.append(Phrase(atoms=oblique_atoms))
     event = Op(primitive=verb.lemma, operation="EVENT", arity=len(args), args=args)
     return Negation(operand=event) if negated else event
 

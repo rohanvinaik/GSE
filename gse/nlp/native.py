@@ -314,6 +314,7 @@ class NativeNLP:
         has_v = bool(wn.synsets(low, pos="v") or wn.morphy(low, "v"))
         has_n = bool(wn.synsets(low, pos="n"))
         has_a = bool(wn.synsets(low, pos="a") or wn.synsets(low, pos="s"))
+        has_r = bool(wn.synsets(low, pos="r"))
         prev = surfaces[i - 1].lower() if i > 0 else ""
         # A *demonstrative-or-relativizer* "that" before this word is NOT a determiner context:
         # "the king that FELL" / "the sword that Macbeth HELD" — the verb after a relativizer
@@ -386,6 +387,15 @@ class NativeNLP:
         if low.endswith("s") and has_v and not low.endswith("ss") and prev not in _ADP:
             return "VERB"                   # 3sg present (barks, murders, falls); but the
                                             # object of a preposition is nominal ("of sticks")
+        # Adverb in modifier position: a word with a WordNet adverb sense, not in a determined
+        # nominal slot, not a preposition's object, and not clause-initial, modifies the
+        # predicate — "loved him much", "go far", "ran away" — rather than being a second
+        # object/the subject. Determined ("the well"), PP ("of much"), copula-complement, and
+        # subject-initial nominal uses were all settled by the rules above, so reaching here
+        # with an adverb sense means the modifier reading. Keeps degree/quantity adverbs out
+        # of the object span (they were defaulting to NOUN via the has_n fallback below).
+        if has_r and not prev_det and prev not in _ADP and i > 0:
+            return "ADV"
 
         if has_n:
             return "NOUN"

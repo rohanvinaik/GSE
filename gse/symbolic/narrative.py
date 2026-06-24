@@ -396,15 +396,27 @@ class NarrativeGraph:
     def _heal(self) -> None:
         """Discourse-strand correction: an EVENT whose subject was dropped/garbled (its agent
         slot is an ineligible non-entity) is zero-anaphora — bind it to the current discourse
-        topic (the most-recent eligible agent-subject). Full-blast + provenance-stamped, so the
-        back end stays auditable and re-runnable; aggressiveness calibrates from the audit."""
+        topic. Provenance-stamped, so the back end stays auditable and re-runnable.
+
+        The topic must be a RECURRING agent, not the most-recent one. Binding dropped subjects
+        to a single-occurrence agent is how a stray clause ("Pennies saved one…", a reduced
+        relative misread as finite) or a one-line mention ("your grandmother had…") hijacks the
+        protagonist's actions and is manufactured into a false protagonist. The gate is the
+        general support≥2 recurrence already used by induction — deterministic, text-agnostic,
+        not a per-story patch: a one-off agent never becomes the discourse topic; the recurring
+        protagonist does."""
+        agent_count: Dict[str, int] = defaultdict(int)
+        for e in self.edges:                                     # pre-heal participation (recurrence)
+            if e.kind == "event" and e.src_resolved:
+                agent_count[e.src] += 1
         topic = None
         for e in sorted(self.edges, key=lambda e: e.t):
             if e.kind != "event":
                 continue
             src = self.nodes.get(e.src)
-            if src is not None and src.eligible and src.role == "agent":
-                topic = e.src                                    # the running discourse topic
+            if (src is not None and src.eligible and src.role == "agent"
+                    and agent_count[e.src] >= 2):                # recurring agent → the running topic
+                topic = e.src
             elif (src is None or not src.eligible) and topic is not None:
                 old, e.src, e.src_resolved = e.src, topic, True
                 e.provenance.append("discourse: dropped-subject [%s] → topic [%s]" % (old, topic))
