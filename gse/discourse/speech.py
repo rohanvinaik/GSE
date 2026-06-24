@@ -43,6 +43,7 @@ _SECOND_PERSON = frozenset({"you", "your", "yours", "yourself", "yourselves"})
 # noun (he→jim). Only a NAME attribution ("said Jim") freezes to PROPN.
 _THIRD_PERSON_PRON = frozenset({"he", "she", "they", "him", "her", "them", "it",
                                "his", "hers", "their", "its"})
+_BE_FORMS = frozenset({"was", "were", "is", "are", "been", "be", "being", "am"})
 # Heads that can never be a SPEAKER: indefinites and discourse particles. They guard against
 # reading a plain SVO clause that merely contains a reporting verb ("The policeman said
 # *nothing*", "he said *so*") as a quote attribution and dropping the narration.
@@ -106,8 +107,8 @@ def _np_head(words: list) -> Optional[str]:
     ``[]`` / adverb-only → ``None``."""
     core = []
     for w in words:
-        if w.lower() in _NP_BOUNDARY:
-            break
+        if w == "," or w.lower() in _NP_BOUNDARY:   # a comma ends the speaker NP: "said Madame,
+            break                                   # lifting the mass" → Madame, not mass
         core.append(w)
     while core and core[-1].lower().endswith("ly"):   # trailing attributive adverb
         core.pop()
@@ -139,12 +140,15 @@ def _attribution(fragment: str) -> Optional[tuple]:
     """If ``fragment`` (the non-quoted text around a quote) is a speech attribution, return
     ``(speaker, addressee)`` head lemmas; else ``None``. Handles ``said SPEAKER [to ADDR]``
     and ``SPEAKER said``, with adjective-stacked or PP-modified speaker NPs."""
-    words = _WORD_RE.findall(fragment)
+    words = re.findall(r"[A-Za-z][A-Za-z'\-]*|,", fragment)   # keep commas as NP boundaries
     if not words:
         return None
     low = [w.lower() for w in words]
     say_idx = next((i for i, w in enumerate(low) if w in _SAY_VERBS), None)
     if say_idx is None:
+        return None
+    # "was/were called X" is naming, not speech — not an attribution.
+    if low[say_idx] == "called" and say_idx > 0 and low[say_idx - 1] in _BE_FORMS:
         return None
 
     after = words[say_idx + 1:]
@@ -158,7 +162,7 @@ def _attribution(fragment: str) -> Optional[tuple]:
         # "SPEAKER said" — the noun just before the verb (scan back past -ly adverbs/dets).
         for w in reversed(words[:say_idx]):
             wl = w.lower()
-            if wl in _NP_BOUNDARY:
+            if w == "," or wl in _NP_BOUNDARY:
                 break
             if wl in _SKIP_BEFORE_HEAD or wl.endswith("ly"):
                 continue
