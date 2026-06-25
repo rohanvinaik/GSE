@@ -372,9 +372,75 @@ def _is_person(lemma: str) -> Any:
     return res
 
 
+# Pronoun GENDER + a small gendered-noun lexicon. The "royal title → gender" signal: the world
+# strand (sparse-wiki) has the entities but no gender field, so the cheap dependency-free source is
+# the title/role WORD itself. The lexicon covers the titles WordNet hypernymy misses (king/queen/
+# lord carry gender in the gloss, not the tree); WordNet (male.n.02 / female.n.02) is the fallback.
+_PRON_GENDER = {
+    "he": "m", "him": "m", "his": "m", "himself": "m",
+    "she": "f", "her": "f", "hers": "f", "herself": "f",
+}
+_GENDERED_NOUNS = {
+    "king": "m", "lord": "m", "prince": "m", "duke": "m", "emperor": "m", "sir": "m", "mister": "m",
+    "father": "m", "husband": "m", "son": "m", "brother": "m", "uncle": "m", "nephew": "m",
+    "grandfather": "m", "boy": "m", "gentleman": "m", "knight": "m", "monk": "m", "priest": "m",
+    "master": "m", "widower": "m", "groom": "m", "bachelor": "m",
+    "queen": "f", "lady": "f", "princess": "f", "duchess": "f", "empress": "f", "madam": "f",
+    "mother": "f", "wife": "f", "daughter": "f", "sister": "f", "aunt": "f", "niece": "f",
+    "grandmother": "f", "girl": "f", "gentlewoman": "f", "nun": "f", "mistress": "f",
+    "maid": "f", "widow": "f", "bride": "f", "witch": "f",
+}
+_GENDER_CACHE: Dict[str, Any] = {}
+
+
+def _word_gender(lemma: str) -> Any:
+    """'m'/'f' if the noun is gendered, else None. Lexicon first (the royal titles WordNet's
+    hypernymy misses), then WordNet hypernymy (male.n.02 / female.n.02)."""
+    if not lemma:
+        return None
+    key = lemma.lower()
+    if key in _GENDER_CACHE:
+        return _GENDER_CACHE[key]
+    res: Any = _GENDERED_NOUNS.get(key)
+    if res is None:
+        try:
+            from nltk.corpus import wordnet as wn
+            male, female = wn.synset("male.n.02"), wn.synset("female.n.02")
+            m = f = False
+            for s in wn.synsets(key, pos="n"):
+                for path in s.hypernym_paths():
+                    if male in path:
+                        m = True
+                    if female in path:
+                        f = True
+            res = "m" if (m and not f) else "f" if (f and not m) else None
+        except Exception:
+            res = None
+    _GENDER_CACHE[key] = res
+    return res
+
+
+def _entity_gender(ante: Entity) -> Any:
+    """Gender of a candidate antecedent — from any gendered word it carries: the head lemma, its
+    span tokens (so 'Lady Macbeth' → female via the 'lady' in the span), or its modifier."""
+    words = []
+    h = getattr(ante, "head", None)
+    if h is not None and getattr(h, "lemma", None):
+        words.append(h.lemma)
+    words.extend(getattr(ante, "span", ()) or ())
+    m = getattr(ante, "modifier", None)
+    if m is not None and getattr(m, "lemma", None):
+        words.append(m.lemma)
+    for w in words:
+        g = _word_gender(w)
+        if g:
+            return g
+    return None
+
+
 def _pron_agrees(pron_lemma: str, ante: Entity) -> bool:
-    """Number + person agreement between a pronoun and a candidate antecedent. A check is
-    skipped when either side's feature is unknown (permissive — never rules out on a gap)."""
+    """Number + person + GENDER agreement between a pronoun and a candidate antecedent. A check
+    is skipped when either side's feature is unknown (permissive — never rules out on a gap)."""
     pn = _PRON_NUMBER.get(pron_lemma)
     an = getattr(ante.head, "number", None)
     if pn and an and pn != an:
@@ -383,6 +449,11 @@ def _pron_agrees(pron_lemma: str, ante: Entity) -> bool:
     if pp is not None:
         ap = _is_person(getattr(ante.head, "lemma", "") or "")
         if ap is not None and ap != pp:
+            return False
+    pg = _PRON_GENDER.get(pron_lemma)
+    if pg is not None:
+        ag = _entity_gender(ante)
+        if ag is not None and ag != pg:
             return False
     return True
 
@@ -417,7 +488,14 @@ def _bind_document_pronouns(trees: Sequence[Any]) -> List[Any]:
                      if (getattr(a.head, "lemma", None) not in used)]
             if not cands:
                 return ent
-            pick = next((a for a in cands if _pron_agrees(pron, a)), cands[0])
+            # Prefer a candidate whose gender is KNOWN and matches the pronoun (so "she" picks the
+            # titled/role female over a more-recent gender-unknown name), then most-recent agreeing.
+            pg = _PRON_GENDER.get(pron)
+            pick = None
+            if pg is not None:
+                pick = next((a for a in cands if _entity_gender(a) == pg), None)
+            if pick is None:
+                pick = next((a for a in cands if _pron_agrees(pron, a)), cands[0])
             used.add(getattr(pick.head, "lemma", None))
             return replace(ent, head=pick.head, possessor=pick.possessor)
 
