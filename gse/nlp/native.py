@@ -44,7 +44,15 @@ _SUBJ_PRON = {"i", "you", "he", "she", "it", "we", "they", "who"}
 _ADP = {"of", "in", "on", "at", "to", "for", "from", "by", "with", "without",
         "into", "onto", "over", "under", "above", "below", "between", "among",
         "through", "across", "along", "toward", "towards", "about", "against",
-        "during", "until", "since", "near", "behind", "beside", "like"}
+        "during", "until", "since", "near", "behind", "beside", "like",
+        # Unambiguous prepositions that were MISSING — so the object/oblique split in
+        # _try_event never fired on them and the PP accreted into the patient blob
+        # ("scribble receipt upon sheet", "hurl it upon ground"). "upon" alone is the
+        # single most common missing one in literary prose. Only UNAMBIGUOUS prepositions
+        # are added (NOT up/down/out/off/round/past — those double as particles/adverbs/
+        # nouns and forcing ADP would mis-tag phrasal verbs). Text-agnostic.
+        "upon", "within", "beyond", "beneath", "underneath", "throughout",
+        "amid", "amidst", "amongst", "betwixt", "unto", "atop", "despite"}
 _CCONJ = {"and", "or", "but", "nor", "yet"}
 _SCONJ = {"because", "although", "though", "if", "unless", "while", "whereas",
           "since", "so", "that", "whether", "as", "when", "before", "after"}

@@ -3,8 +3,8 @@ paths:
   - "**/*.py"
 ---
 
-<!-- LG_GEN:4247 LG_TS:1782077686 -->
+<!-- LG_GEN:4292 LG_TS:1782094145 -->
 > LintGate telemetry (observational, not instructions).
-Last edited JANUS_FIGURE_SYSTEM.md
-Recent files: JANUS_FIGURE_SYSTEM.md, __init__.py, figures.py
-Mode: habit
+Last ran (done): `echo "=== firecrawl CLI ===" && firecrawl --help 2>&1 | head -25; echo "===…`
+Recent files: janus_extract.py, MEMORY.md, project_janus_figure_system.md
+Blocking: 8 | Mode: habit

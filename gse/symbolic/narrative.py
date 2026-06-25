@@ -289,27 +289,52 @@ class NarrativeGraph:
         return True
 
     @classmethod
-    def from_document(cls, trees: List[Any], genealogy: Any = None) -> "NarrativeGraph":
+    def from_document(cls, trees: List[Any], genealogy: Any = None,
+                      repair: Any = None) -> "NarrativeGraph":
+        """Build the narrative graph and collapse it to the spine. ``repair`` is an OPTIONAL
+        pre-compaction hook: a callable ``[(t, predicate), ...] -> [(t, predicate), ...]`` applied
+        to the WIDE statement set (all collected predicates, before any edge-building or the
+        eligibility/heal/backbone collapse). This is where a statement-formation repair pass runs
+        ON the complete, still-structured graph (a coordinated subject is still a Coordination with
+        real members; speaker tags are intact) — so its repairs survive the collapse instead of
+        being eliminated by it. The hook carries NO repair logic itself; the caller (e.g. the
+        Genesis Spine Society of Mind) supplies it. None → unchanged behaviour."""
         g = cls()
-        for t, tree in enumerate(trees):
-            for p in _collect_predicates(tree):
-                nm = type(p).__name__
-                ok = False
-                if nm == "TypeAssertion":
-                    ok = g._state(p.entity, p.kind, t)
-                elif nm == "Event":
-                    if p.verb in _STATE_VERBS and p.patient is not None:
-                        ok = g._state(p.agent, p.patient, t)          # "became king" → role
-                    else:
-                        ok = g._edge("event", p.agent, p.verb, p.patient, t)
-                elif nm == "Causation":
-                    ok = g._edge("cause", p.cause, "causes", p.effect, t)
-                elif nm == "Temporal":
-                    ok = g._edge("temporal", p.setting, "then", p.event, t)
+        timed = [(t, p) for t, tree in enumerate(trees) for p in _collect_predicates(tree)]
+        if repair is not None:
+            timed = repair(timed)
+        for t, p in timed:
+            nm = type(p).__name__
+            ok = False
+            if nm == "TypeAssertion":
+                ok = g._state(p.entity, p.kind, t)
+            elif nm == "Event":
+                if p.verb in _STATE_VERBS and p.patient is not None:
+                    ok = g._state(p.agent, p.patient, t)          # "became king" → role
                 else:
-                    ok = True       # other predicates (Comparison etc.) aren't spine edges; not "excluded noise"
-                if not ok:
-                    g.excluded += 1
+                    ok = g._edge("event", p.agent, p.verb, p.patient, t)
+            elif nm == "Causation":
+                ok = g._edge("cause", p.cause, "causes", p.effect, t)
+            elif nm == "Temporal":
+                ok = g._edge("temporal", p.setting, "then", p.event, t)
+            elif nm == "Control":
+                # The MATRIX verb of a control construction ("I SOLD the watch to get the money"):
+                # Layer 4 builds CONTROL(verb; subject, controller, inner) and _collect_predicates
+                # already yields the inner act separately — but the matrix verb itself had no edge
+                # branch and fell through silently (the documented "controller verb retention" gap).
+                # Emit it as its own event edge. Object control → patient is the controller (the
+                # matrix object: sell→watch); subject control (controller is the subject) → no
+                # object. Degraded control (verb/subject unrecovered) carries no matrix edge — the
+                # inner event still stands.
+                if getattr(p, "verb", "") and getattr(p, "subject", None) is not None:
+                    obj = p.controller if p.controller is not p.subject else None
+                    ok = g._edge("event", p.subject, p.verb, obj, t)
+                else:
+                    ok = True
+            else:
+                ok = True       # other predicates (Comparison etc.) aren't spine edges; not "excluded noise"
+            if not ok:
+                g.excluded += 1
         g._finalize(genealogy)
         g._heal()
         g._backbone()
@@ -417,7 +442,12 @@ class NarrativeGraph:
             if (src is not None and src.eligible and src.role == "agent"
                     and agent_count[e.src] >= 2):                # recurring agent → the running topic
                 topic = e.src
-            elif (src is None or not src.eligible) and topic is not None:
+            elif (src is None or not src.eligible) and topic is not None and topic != e.dst:
+                # CLEAN-OR-HOLE: bind a dropped subject to the topic — but NOT when the topic is
+                # already this edge's OBJECT. That would fabricate a self-loop ("she urged Macbeth"
+                # → macbeth urges macbeth), which is the multi-character mis-attribution failure:
+                # a coref-lost subject (she/he) wrongly cast as the protagonist. Abstain (honest
+                # hole) rather than fabricate a wrong subject. Named-entity input avoids the drop.
                 old, e.src, e.src_resolved = e.src, topic, True
                 e.provenance.append("discourse: dropped-subject [%s] → topic [%s]" % (old, topic))
                 self.nodes[topic].degree += 1

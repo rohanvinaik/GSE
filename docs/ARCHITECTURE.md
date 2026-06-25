@@ -33,6 +33,21 @@ a pure-Python set-theory function that yields predicates like
 `Comparison(lhs=dog, rhs=cat, sign=+1)`. No neural network runs at the semantic
 layer; the same input always produces the same output.
 
+> **Beyond the sentence — the post-sentence flywheel + healer (BEING BUILT, the production layer).**
+> Above this sentence-level core sits the **L2 voice-mode flywheel** (memory
+> `project_l2_voice_modes_flywheel.md`): a nested register-ID dispatcher (the RECOGNIZER, built —
+> `gse/discourse/registers.py`, `nested_router.py`) and the **statement-healer Society of Mind** (the
+> HEALER — now under construction in `gse/symbolic/healer/`; see **Layer 6.5**). The healer is law-
+> grounded (`Law as Architecture`), derived by **Winston near-miss** over the entire corpus against
+> manually-built clean gold, recalling clean cases from **K-line/HDC memory**, and heals degraded
+> statements into clean ones (structural + semantic) **before** the document-level compaction
+> (`gse/symbolic/narrative.py`, which exposes a `from_document(repair=…)` seam for it), which then
+> collapses them to the spine for Genesis. **Trigger correction (measured 2026-06-24):** the coherence
+> gate (`gse/symbolic/coherence.py`) radically *under*-fires (its docstring admits it detects only
+> collapse, deferring partial degradations), so the healer's trigger is a **structural-failure
+> detector** — the *fate of the real verbs* (a content verb lost, or a non-verb cast as the EVENT
+> verb), not word-coverage. Full design + build handoff: `~/Genesis/docs/HANDOFF_STATEMENT_HEALER.md`.
+
 ---
 
 ## 2. The functional pipeline (the spine)
@@ -214,7 +229,9 @@ scalars: the encoder stacks the markers (see Layer 2).
 3. **Dynamic syntactic roles** — `_extract_dynamic_primitives` overrides the
    static core-role primitives (`SYN_SUBJ`/`SYN_OBJ`/`SYN_PRED`/`SYN_COMPL`) using
    the arc-free roles computed by `_syn_roles` (from connectives, verb-inventory,
-   and position) and TAM from morphology.
+   and position) and TAM from morphology. A clause whose roles don't complete a
+   clause-form prototype is **auto-repaired** here first (`native_repair`, Layer 6)
+   before role synthesis.
    **This is what makes argument order matter** — "dog as subject" ≠ "dog as
    object."
 4. **Two-scale encoding** — word-scale primitives → `word_vec`, sentence-scale →
@@ -371,6 +388,156 @@ forms; one rule per form, not per surface). *Honest scope:* this is the coherenc
 correctness; the residual is **lexical coverage** (archaic/slang/names — additive,
 deferrable) plus a few rare constructions (gapping, partitives) and the stated
 bounded-register limit — all catalogued in the backlog.
+
+### Layer 6 — Document compression: the narrative skeleton & multi-strand repair · `gse/symbolic/narrative.py`, `gse/api/native_repair.py`
+
+Layers 0–5 resolve a *sentence*. Layer 6 resolves a *document* into a compressed
+**narrative skeleton** — the load-bearing spine of a multi-sentence text — and heals the
+parse degradations real prose throws. It is a "compact system for text": N raw
+per-sentence contracts → the ~tens of typed facts that actually carry the story, so a
+downstream reasoner (Genesis) gets signal, not noise. Domain-portable — swap the
+commonsense the skeleton feeds (law, medicine, a specific corpus) without touching the
+mechanism.
+
+- **The skeleton** (`NarrativeGraph.from_document`). Over `resolve_document`'s globally-
+  resolved clause trees: **entities** keyed on their global `entity_id` (one referent → one
+  node); each entity's **role-timeline** (ordered `be`/`become` facts — `macbeth: soldier →
+  king`); and **event / causal / temporal edges**. A complete predicate walk
+  (`_collect_predicates`) descends into `CLAUSE_COORD`/`Conditional`/`Temporal` containers
+  that `queries.predicates()` skips, so coordinated events ("betrayed X **and** murdered Y")
+  survive. Significance is *participation in the graph*, not an imposed score.
+- **HDC role + eligibility** — OTP informational-zero elimination over the 8 NSM banks
+  (Layer 0). An entity's `word_primitives` give a bank-activity profile: **role** from the
+  signature (animate SUBSTANTIVES → agent, SOMETHING-without-animacy → object,
+  MENTAL/EVALUATORS → experiencer/affect), **eligibility** from the zeros (no entity-bank +
+  no thread → not a narrative citizen). Composes with grammatical POS + graph-traversal
+  citizenship.
+- **Multi-strand repair (DNA-shaped).** Independent corrector strands, each provenance-
+  stamped for back-end audit + deterministic re-run: the **parse strand** (`native_repair.py`
+  — Tier-1 enumeration: detect a degraded clause vs centroid prototypes, enumerate positional
+  role assignments around verb-sense pivots, resolve commit/bifurcate/literal — the
+  deterministic successor to the spaCy `parse_repair`, **wired into `encode`**); the
+  **discourse strand** (dropped-subject zero-anaphora → bind to the running topic; VP-
+  coordination subject-sharing); the **world strand** (sparse-wiki lookup to ground an OOV
+  proper noun by its inferred role). Each strand alone discards a degraded clause; *composed*
+  they heal it — the multiplicative reduction DNA gets from stacked strands.
+- **Coding sequence vs cis-regulatory context (the healer axis, biology-shaped).** The strands split
+  into two specialist kinds on the axis biology draws between a gene's *coding sequence* and its
+  *regulation*. The literal sentence is the **coding sequence** (the ORF): a **coding-sequence repair**
+  re-reads a fully-present-but-mis-parsed clause under the structural law (the parse strand). But the
+  driver of a correct read is often not in the literal tokens — it is in the bounded **cis-regulatory
+  neighborhood** (~±2 lines, the promoter/enhancer): a pronoun-agent whose named referent is a line up,
+  the local "tertiary structure" that makes the binding favorable from outside the clause. A
+  **regulatory repair** sources it from that window (the discourse strand — `resolve_document` /
+  `encode_document_utterances` today, to be extended from unbounded-upstream recency to a *bounded,
+  bidirectional* window). The **intervention** is local (one clean statement); the **signal** spans the
+  neighborhood — meaning lives in the combination of local + regional frames, not in isolation.
+  *(Designed; strands built, the coding/regulatory split + bounded window in progress.)*
+- **Adaptive compaction.** A trace's **semantic S/N** = its position on the flat(naming) →
+  relational(event) → nested(causal/logical) spectrum. The text's complexity
+  (`discourse/profile.text_profile`) sets the trace budget, target S/N, and prune floor; an
+  iterative cycle merges-redundant + prunes-low-info + caps-to-budget until S/N plateaus (a
+  global iteration counter is the efficiency profile). `emit()` serializes the spine as
+  standard §5 contract envelopes the Genesis bridge walks 1:1.
+
+### Layer 6.5 — The statement-healer Society of Mind · `gse/symbolic/healer/`
+
+The **HEALER**: a society of law-grounded specialist **lenses** that cleans the per-statement parse
+*before* compaction, at the `NarrativeGraph.from_document(repair=…)` seam (Layer 6), so the compactor
+gets a clean substrate. It is **classical / non-neural** end to end — structural re-read under the law
++ K-line/HDC recall by resemblance, never gradient descent. The only sanctioned neural component is an
+*optional, cordoned* model over the undefined-residual bucket alone (the "chum bucket"), never the
+audited path. **Three tiers** partition every statement: (1) **GSE** handles the tractable majority
+(clean parses, incl. ones that benignly shed a modifier); (2) the **SoM** cleans the *dense middle*
+(structural failures a law can recover); (3) the **chum bucket** is the unrecoverable tail.
+
+**The build process (intelligent design from the front, then per-law one-shot carves).**
+1. **Measure the full defect taxonomy** on the real document path — the spec. *Corpus discipline
+   (load-bearing, learned the hard way):* WHOLE documents only, never windowed/truncated (document
+   scope + the ±2-line regulatory window must stay intact); Brown **de-tokenized** (`TreebankWord-
+   Detokenizer` restores natural prose) + the raw eval_corpus stories; Reuters dropped (NLTK mangles
+   it beyond repair). The register sampler (`scripts/build_l2_corpus._providers`) is the WRONG feed —
+   it windows by design.
+2. **The trigger is structural, not coverage.** A coverage detector ("did every content word survive?")
+   over-counts — it flags benign modifier-drops as defects. The real bar is the **fate of the real
+   verbs**: `lost` (a content verb vanished from the emitted EVENT verbs) or `invented` (a prep/
+   participle cast as the EVENT verb) ⇒ Tier-2 structural failure; neither ⇒ Tier-1 benign. Measured:
+   ~Tier-1 52% / Tier-2 48% (the 48% still loose — non-finite verbs inflate it; each law pins its own
+   territory via its harvest, the more reliable method).
+3. **TWO law families — truly different evidence sources** (so their errors are decorrelated → a clean
+   SoM; the orthogonal-evidence / DNA-repair-pathway principle):
+   - **Structural** (surface/parse), 8 candidates from the taxonomy: **L1 copula_predicate** (`X is <adj>`
+     → `EVENT{adj}` ⇒ `TYPE_ASSERT(X, adj)`), **L2 matrix_collapse** (finite verb lost → CONTRAST/EQUALITY
+     stub), **L3 participial_adjunct**, **L4 infinitival_control**, **L5 embedded_clause** (that/WH → query
+     stub), **L6 attribution_say**, **L7 vp_coord_conjunct**, **L8 deictic_bind** (regulatory ±2-line axis).
+   - **Semantic** (GSE's NSM banks via `classify` + sparse-wiki **world-grounding**): **role_coherence**
+     (agent role=object/evaluation → mis-parse), **eligibility_defer** (predicate on a noise node → bucket),
+     **experiencer_typing** (MENTAL bank → mental event), **affect_stance** (EVALUATORS ± → the substrate
+     for affect / "romantic sensibilities"; forward-looking). Plus entity-type laws from sparse-wiki
+     (person/org/**company**) — load-bearing for the arbitrary-input robustness target (filings/pitches).
+   *Not all survive contact with real output — see the law-kind lesson below.*
+4. **Each law is carved one-shot** (Winston near-miss, all-or-nothing — *not* gradient): the corpus
+   supplies the minimal pair itself (GOLD = the law parsed right; NEAR-MISS = violated by one structural
+   feature). The distinguishing feature **is** the `must`/`must-not`; the repair is the thin correction.
+
+**The frame** (`gse/symbolic/healer/`): `lens.py` — the **Lens** protocol, `claims(node, env) →
+Repair | Hole`, one law each, **no cross-talk** (inverse-brittleness, like distinct DNA-repair
+pathways). `society.py` — the **Society** orchestrator + `make_repair_hook(envelopes)`: over the wide
+predicate set, the *one* lens whose law claims a node repairs-or-abstains, provenance recorded; an
+empty roster is byte-inert. **Clean-or-hole contract:** a lens emits a clean statement or an **honest
+hole** (abstention is first-class; fabrication is the one forbidden thing). What no lens claims falls
+to the chum bucket — graceful degradation, the system robust to per-statement loss because meaning is
+reconstructed downstream (the compactor + Genesis) from the projection of lossy lenses.
+
+**The envelope** (`envelope.py` — the cis-regulatory mark). The repair runs downstream of the parse,
+where the `OperationTrace` is gone, so the information a lens needs must travel WITH the statement.
+`build_envelope(trace, genre)` lays the mark at parse/intake time (the trace-retaining
+`encode_document_utterances_traced` keeps it) and it is carried to the trace-less seam. Designed WHOLE
+to anticipate all eight laws (each tag traces to a law): per-statement `has_copula`/`has_coord`/
+`subordinators`/`speech_verbs`/`deictics`; per-token `surface`/`pos`/`senses`/`inflected`/`prev`; and
+a word-level `lex` for nodes carrying only a bare string (e.g. `Event.verb`). Intervention scope (one
+clean statement) ≠ signal scope (the parse-time + neighborhood context the mark carries) — see the
+coding-sequence-vs-cis-regulatory axis in Layer 6.
+
+**The law-kind lesson (2026-06-24, load-bearing).** Carving on real output split the laws into two
+kinds, and only one belongs in the audited path:
+- **TRANSFORM / FILTER** — rewrite or *validate* an **existing** node (no missing piece to reconstruct):
+  **L1** (copula→`TYPE_ASSERT`). **Clean** by construction.
+- **RECOVER-AND-ATTACH** — reconstruct a **missing** predication and bind a subject (**L3** participial,
+  **L4** infinitival, **L7** vp_coord). These hit the **subject-attachment wall** in degraded parses (the
+  resolved "main subject" is a wrong nearby noun, ~50%; no animacy gate fixes it). **Un-bucketed by Layer 2**
+  (below): the fold-reader supplies the subject by document-recurrence and a confidence gate ABSTAINS the
+  doubtful — clean-or-hole, the residual handed to the trained K-line memory.
+
+**Layer 2 — the fold-reader (semantic isolation), `gse/symbolic/healer/fold_reader.py`.** A document-scale
+phase-0 pre-pass: it resolves each entity's role/significance/type by a **multi-strand vote** — *word* (NSM
+banks) ∨ *world* (sparse-wiki) ∨ *document* (recurrence×span) ∨ *local* (±2-line) — each strand empty in a
+different place, so their combination is never empty everywhere (the "shape from the field" move; the
+coref cluster is the replicate field). `read_fold` builds `{entity_id: EntityFold}`; `best_subject` picks
+the recurring-protagonist subject the structural lenses lacked. Integrated as Society phase-0 and threaded
+to every lens. *This is where the would-be "semantic family" (eligibility/role/experiencer/affect) actually
+lives — as facets of the fold, at the document/world scale, not as statement-seam laws.*
+
+**The semantic substrate + its calibration.** GSE's NSM banks give `narrative.classify(word_primitives,
+thread) → (role, eligible, banks)` — a *register-invariant* semantic signal (the robustness path), and
+the proper replacement for WordNet proxies. **But** a 2026-06-24 diagnostic found `classify` is **noisy
+at the repair seam** (which runs before `_finalize`'s grounding): ~35% of agents have empty
+`word_primitives`; pronouns/animals miscalibrate (`he`/`horse`→object); abstracts over-fire
+(`swagger`→experiencer). **The calibration rule: a signal is FIRST-CLASS for the law it is *about*,
+ADVISORY when borrowed as a proxy.** `classify` is first-class for the semantic family (the bank
+profile *is* their evidence) but advisory (additive-only) for the animacy gate inside structural laws,
+where lexical (pronoun/PROPN/`_is_person`) stays authoritative.
+
+**Status (2026-06-24):** Layer 1 + Layer 2 **built, validated, wired** into the bridge
+(`gsebridge/gse_emit_narrative.py`). `default_roster() = [L1 copula, L7 vp_coord, L3 participial, L4
+infinitival]`; **L3/L7 un-bucketed by the Layer-2 fold** (`best_subject` + confidence-gate abstention);
+L5/L6 handled upstream (not lenses). L1 unregressed with phase-0 (114/25/0); the fold's proof: della
+resolves to a high-significance agent via document+local where the word strand is empty. envelope v3
+carries the per-token NSM layer at parse time (14% empty-prim vs ~35% at the resolved seam). The SoM is
+now being **TRAINED** — a cordoned local-model typed-skeleton correction generator (training-time only,
+distilled to the deterministic K-line; never the audited path) builds corpus-wide gold/near-miss; the
+HDC-native recollective memory + recall wiring remain. Full state + plan: `~/Genesis` docs
+`SPINE_SOCIETY_DESIGN.md` / `HEALER_TRAINING.md` + memory `project_healer-build.md`.
 
 ### Decoder · `gse/api/decoder.py`
 

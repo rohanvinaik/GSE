@@ -373,11 +373,16 @@ def encode_utterances(enc, sentence: str) -> List:
     return out
 
 
-def encode_document_utterances(enc, sentences) -> List:
-    """Document-scope twin of :func:`encode_utterances` — the call an emit loop uses over the
-    WHOLE ordered sentence list (``trees = encode_document_utterances(enc, sentences)``).
-    Speaker attribution is carried across multi-sentence speeches (:func:`segment_document`),
-    so an interior dialogue sentence's ``I``/``you`` still rebinds to the speaker/addressee."""
+def encode_document_utterances_traced(enc, sentences) -> List:
+    """Trace-RETAINING document-scope encode: like :func:`encode_document_utterances` but yields
+    ``(trace, tree, utterance)`` triples instead of trees alone.
+
+    The statement healer's metadata envelope (``gse.symbolic.healer.build_envelope``) must be laid
+    down at parse/intake time, where the ``OperationTrace`` still exists — downstream of the
+    document collapse it is gone. Plain :func:`encode_document_utterances` drops the trace; a healing
+    caller uses this sibling to keep it, build the envelope per utterance, and carry it to the
+    ``narrative.from_document(repair=)`` seam. The ``tree``/``utterance`` are byte-identical to what
+    the plain twin produces — same ``segment_document`` loop, same deixis."""
     from gse.symbolic import from_trace, resolve, evaluate_tree
 
     out: List = []
@@ -385,8 +390,20 @@ def encode_document_utterances(enc, sentences) -> List:
         if not utt.content.strip():
             continue
         try:
-            tree = evaluate_tree(resolve(from_trace(enc.encode(utt.content))))
+            trace = enc.encode(utt.content)
+            tree = evaluate_tree(resolve(from_trace(trace)))
         except Exception:
             continue
-        out.append(_apply_deixis(tree, utt))
+        out.append((trace, _apply_deixis(tree, utt), utt))
     return out
+
+
+def encode_document_utterances(enc, sentences) -> List:
+    """Document-scope twin of :func:`encode_utterances` — the call an emit loop uses over the
+    WHOLE ordered sentence list (``trees = encode_document_utterances(enc, sentences)``).
+    Speaker attribution is carried across multi-sentence speeches (:func:`segment_document`),
+    so an interior dialogue sentence's ``I``/``you`` still rebinds to the speaker/addressee.
+
+    Trees only; delegates to :func:`encode_document_utterances_traced` (single loop) and discards
+    the traces. A healing caller wanting the per-utterance trace calls the traced sibling directly."""
+    return [tree for _trace, tree, _utt in encode_document_utterances_traced(enc, sentences)]
