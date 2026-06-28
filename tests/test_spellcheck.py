@@ -143,3 +143,32 @@ def test_clitic_rejoined_in_corrected_output():
     from gse.mcp.spell_server import spell_suggest
     out = spell_suggest("it's a wierd seperate thing")
     assert out["corrected"] == "it's a weird separate thing"   # no "it 's"
+
+
+# ---- 9. rare-tail recovery: slot-gated, common-target-only, jargon-safe ----------
+def test_rare_tail_recovered_in_predicate_slot():
+    # 'cen' after a subject pronoun is in a verb slot it can't fill -> recovered to 'can'
+    from gse.mcp.spell_server import spell_suggest
+    out = spell_suggest("as far as we cen tell")
+    assert "can" in out["corrected"].split() and "cen" not in out["corrected"]
+
+
+def test_rare_tail_jargon_in_allowlist_untouched():
+    # learn-spelling: project vocab is never reconsidered, even verbed after a pronoun
+    from gse.mcp.spell_server import spell_suggest
+    assert spell_suggest("we gse the data")["corrected"] == "we gse the data"
+    assert spell_suggest("the gse encoder uses adj tags")["corrected"] == \
+        "the gse encoder uses adj tags"
+
+
+def test_rare_tail_acronym_protected():
+    from gse.mcp.spell_server import spell_suggest
+    assert "GSE" in spell_suggest("I refactored the GSE encoder")["corrected"]
+
+
+def test_spell_learn_validates_and_is_idempotent():
+    # 'Add to Dictionary' — non-mutating checks: rejects junk, no-ops on known words
+    from gse.mcp.spell_server import spell_learn
+    assert spell_learn("a1!")["ok"] is False
+    r = spell_learn("gse")                       # already in the allowlist
+    assert r["ok"] and r.get("already_known")

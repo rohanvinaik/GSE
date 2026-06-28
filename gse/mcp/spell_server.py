@@ -12,6 +12,8 @@ Tools:
   spell_suggest(text, n=5) — per out-of-vocabulary token, the top-n ranked suggestions
     (context-aware for sentences: structural re-parse + gloss overlap), plus a
     `corrected` rendering that applies confident picks and leaves ambiguous tokens.
+  spell_learn(word) — 'Add to Dictionary' / learn spelling: add a word to the personal
+    project dictionary so it is never flagged or corrected again (persists immediately).
 """
 from __future__ import annotations
 
@@ -22,7 +24,7 @@ from mcp.server.fastmcp import FastMCP
 
 from gse.api import GSEEncoder
 from gse.nlp.spellcheck import correct, looks_non_lexical, _DEFAULT_LEXICON
-from gse.nlp.spellcheck_context import correct_in_context
+from gse.nlp.spellcheck_context import correct_in_context, recover_rare_tail
 
 # clitics the native tokenizer splits off ("don't" -> "do" "n't"); rejoined for display
 _CLITICS = {"n't", "'s", "'re", "'ve", "'ll", "'d", "'m"}
@@ -151,9 +153,22 @@ def spell_suggest(text: str, n: int = 5) -> Dict[str, Any]:
     for i, t in enumerate(toks):
         surf = _strip(t.token)
         if (not surf or not any(c.isalpha() for c in surf)        # punctuation token
-                or surf.lower() in _CLITICS or surf.startswith("'")
-                or _DEFAULT_LEXICON.grounds(surf)):
+                or surf.lower() in _CLITICS or surf.startswith("'")):
             out_tokens.append({"surface": t.token, "misspelled": False, "suggestions": []})
+            continue
+        if _DEFAULT_LEXICON.grounds(surf):
+            # a valid word: leave it alone — EXCEPT a rare-tail token in a predicate slot
+            # it can't fill (cen after a subject pronoun). Slot-gated + common-target only.
+            rec = (recover_rare_tail(toks, i, _encoder())
+                   if _DEFAULT_LEXICON.is_rare_tail(surf) else None)
+            if rec:
+                out_tokens.append({"surface": t.token, "misspelled": True, "top": rec,
+                                   "ambiguous": False,
+                                   "suggestions": [{"word": rec, "note": "slot-confirmed recovery"}],
+                                   "note": "rare-tail recovered: common word fills the predicate slot"})
+                corrected[i] = rec
+            else:
+                out_tokens.append({"surface": t.token, "misspelled": False, "suggestions": []})
             continue
         template = " ".join("___" if j == i else s for j, s in enumerate(surfaces))
         context = [w for w in grounded_content if w != t.lemma]
@@ -174,6 +189,32 @@ def spell_suggest(text: str, n: int = 5) -> Dict[str, Any]:
         "tokens": out_tokens,
         "corrected": _join_tokens(corrected),
     }
+
+
+_ALLOWLIST_PATH = os.path.join(_REPO_ROOT, "gse", "nlp", "data", "project_allowlist.txt")
+
+
+@mcp.tool()
+def spell_learn(word: str) -> Dict[str, Any]:
+    """Add a word to the personal dictionary ('Add to Dictionary' / learn spelling) so it
+    is never flagged, corrected, or recovered again — the standard spell-checker feature.
+    Persists to the committed project allowlist and takes effect immediately.
+
+    Args:
+        word: a single alphabetic token to learn (e.g. a name, acronym, or jargon term).
+
+    Returns {ok, word, learned|already_known}.
+    """
+    w = word.strip().lower()
+    if not w.isalpha() or len(w) < 2:
+        return {"ok": False, "error": "word must be a single alphabetic token (>=2 chars)"}
+    if w in _DEFAULT_LEXICON.allowlist:
+        return {"ok": True, "word": w, "already_known": True}
+    with open(_ALLOWLIST_PATH, "a", encoding="utf-8") as f:
+        f.write(w + "\n")
+    _DEFAULT_LEXICON._allowlist = None              # invalidate cache -> reloads on next use
+    return {"ok": True, "word": w, "learned": True,
+            "dictionary_size": len(_DEFAULT_LEXICON.allowlist)}
 
 
 def main() -> None:

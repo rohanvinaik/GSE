@@ -164,6 +164,46 @@ def suggest_in_context(
     ).ranked[:n])
 
 
+_PREDICATE_POS = {"VERB", "AUX"}
+_SUBJECT_PREV = {"PRON"}     # a subject pronoun before the slot => a verb/aux is expected
+
+
+def _token_pos(text: str, word: str, encoder) -> Optional[str]:
+    for t in encoder.encode(text).tokens:
+        if t.token.lower() == word.lower():
+            return t.pos
+    return None
+
+
+def recover_rare_tail(tokens, i, encoder, lexicon: _Lexicon = _DEFAULT_LEXICON) -> Optional[str]:
+    """Recover a rare-tail grounding token that is a typo in a SLOT IT CAN'T FILL — e.g.
+    ``cen`` in "we cen tell" sits right after a subject pronoun (a predicate slot) but is
+    a NOUN. Recovery fires only if (validated conservative, Zipf-gated, LOCAL):
+      - the token is rare-tail (zero general usage, broad-tail-only) and shape-gate-clean;
+      - the previous token is a subject pronoun, and the surface is NOT verb/aux
+        (so it's in a predicate slot it doesn't fill — an abstruse role);
+      - a top-common (Zipf top-N) edit-1 candidate DOES take a verb/aux role there.
+    Measured on the author's real corpus: fires on cen/wasa, never on jargon. The local
+    per-token role signal is not masked by other clauses in a long sentence.  Returns the
+    recovered common word, or None (leave the surface untouched)."""
+    from gse.nlp.spellcheck import _edits1, looks_non_lexical
+    surf = tokens[i].token
+    if not lexicon.is_rare_tail(surf) or looks_non_lexical(surf):
+        return None
+    if i == 0 or tokens[i - 1].pos not in _SUBJECT_PREV:
+        return None
+    if tokens[i].pos in _PREDICATE_POS:
+        return None
+    surfaces = [t.token for t in tokens]
+    cands = sorted((c for c in _edits1(surf.lower()) if lexicon.is_common_target(c)),
+                   key=lambda c: lexicon.usage.get(c, 1 << 30))   # commonest first
+    for c in cands:
+        sent = " ".join(c if j == i else s for j, s in enumerate(surfaces))
+        if _token_pos(sent, c, encoder) in _PREDICATE_POS:
+            return c                                              # common word fills the slot
+    return None
+
+
 def correct_in_context(
     surface: str,
     context_words: Sequence[str],
