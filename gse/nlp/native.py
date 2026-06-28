@@ -288,6 +288,14 @@ class NativeNLP:
             return "PUNCT"
         if surf.replace(",", "").replace(".", "").isdigit():
             return "NUM"
+        if low in _AUX_MODAL and i > 0 and (
+                surfaces[i - 1].lower() in _POSS_PRON
+                or surfaces[i - 1].lower() in ("the", "a", "an")):
+            # A modal homograph right after an article or possessive is the NOUN, not the modal:
+            # "makes his will" / "opened the can". A SUBJECT pronoun ("he will go") is not in this
+            # set, so the modal reading is preserved. Without this, "will" tagged AUX is dropped as a
+            # function word and "his will" collapses to the bare possessor (make(alonso, alonso)).
+            return "NOUN"
         if low in _AUX_BE or low in _AUX_MODAL or low in _AUX_DO:
             return "AUX"
         if low in ("has", "have", "had"):
