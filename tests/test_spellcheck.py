@@ -143,3 +143,25 @@ def test_clitic_rejoined_in_corrected_output():
     from gse.mcp.spell_server import spell_suggest
     out = spell_suggest("it's a wierd seperate thing")
     assert out["corrected"] == "it's a weird separate thing"   # no "it 's"
+
+
+# ---- 9. rare-tail recovery: structure-gated, common-target-only ------------------
+def test_rare_tail_recovered_when_common_word_rescues_role():
+    # "cen" grounds (obscure) but a common word (can) takes the AUX role it leaves
+    # orphaned -> recovered. Structure-confirmed, in a full sentence.
+    from gse.mcp.spell_server import spell_suggest
+    out = spell_suggest("as far as we cen tell")
+    assert "can" in out["corrected"].split() and "cen" not in out["corrected"]
+
+
+def test_rare_tail_acronym_still_protected():
+    from gse.mcp.spell_server import spell_suggest
+    out = spell_suggest("I refactored the GSE encoder")
+    assert "GSE" in out["corrected"]          # acronym never recovered (shape gate)
+
+
+def test_rare_tail_same_pos_left_alone():
+    # bok/book are both NOUN -> no role change -> structure can't confirm -> kept
+    from gse.mcp.spell_server import spell_suggest
+    out = spell_suggest("the bok we discussed")
+    assert "bok" in out["corrected"]
