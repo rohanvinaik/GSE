@@ -2,6 +2,11 @@
 # Never vendored; not history-safe. Re-buildable / re-ingestable separately.
 data/
 
+# Exception: the small CC-BY-SA common-misspellings table lives in the source tree
+# (package data) and IS committed, despite the broad data/ rule above.
+!gse/nlp/data/
+!gse/nlp/data/misspellings_wikipedia.tsv
+
 # Virtual env & build artifacts
 .venv/
 *.egg-info/
