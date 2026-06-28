@@ -31,6 +31,14 @@ _ENTITY_POS = frozenset({"PROPN", "NOUN", "PRON"})
 _FUNCTION_POS = frozenset({"DET", "AUX", "PART", "ADP", "SCONJ", "CCONJ", "PUNCT"})
 _POSSESSIVE_PART_LEMMAS = frozenset({"'s", "’s", "'"})
 _COORDINATOR_LEMMAS = frozenset({"and", "or"})
+# Possessive determiners ("his wife") and any DET/standalone-pronoun ("a letter", "that
+# night", "everything") mark where one NP ends and the next begins — the structural cue the
+# multi-argument split uses to separate a ditransitive's recipient+theme / an object+adjunct
+# that the role-blind argument window swept into one span.
+_POSSESSIVE_DETERMINERS = frozenset({
+    "his", "her", "hers", "its", "their", "theirs",
+    "my", "mine", "our", "ours", "your", "yours",
+})
 _PRONOUN_LEMMAS = frozenset({
     "he", "she", "it", "they", "him", "her", "them",
     "his", "hers", "its", "their", "theirs",
@@ -90,6 +98,22 @@ class Coordination:
     modifier: Optional[Atom] = None
 
 
+@dataclass(frozen=True)
+class ArgSplit:
+    """A TRANSIENT signal that one argument slot actually held SEVERAL noun phrases — a
+    ditransitive's recipient+theme ("gave Lady Macbeth a letter"), an object+adjunct
+    ("visited Macbeth that night"), an object+complement ("named Malcolm his heir") — that
+    the role-blind argument window swept into one span. UNLIKE Coordination, the members are
+    NOT a set-union under "and"; they are distinct arguments of one predicate.
+
+    Created by :func:`_collapse_phrase_to_entity` when it finds NP boundaries, and CONSUMED
+    by :func:`_refine`: for a variadic EVENT the members flatten into separate args (the true
+    role-split); for a fixed-arity operator only the primary (first) member is kept so arity
+    is preserved. It never survives ``resolve`` — pronoun binding and emit never see it.
+    """
+    members: tuple
+
+
 # ---------------------------------------------------------------------------
 # Phrase → Entity collapse helpers
 # ---------------------------------------------------------------------------
@@ -109,6 +133,45 @@ def _first_adj_or_adv(atoms) -> Optional[Atom]:
         if a.pos in ("ADJ", "ADV"):
             return a
     return None
+
+
+def _is_np_starter(atom: Atom) -> bool:
+    """True if `atom` opens a fresh noun phrase: a determiner ("a", "the", "that"), a
+    possessive determiner ("his", "their"), or a standalone pronoun ("everything", "it").
+    These are the boundary cues that separate the constituents the role-blind argument
+    window merged ("Lady Macbeth | a letter", "his wife | everything", "Macbeth | that night").
+    """
+    return (
+        atom.pos in ("DET", "PRON")
+        or atom.lemma in _POSSESSIVE_DETERMINERS
+    )
+
+
+def _split_into_np_segments(atoms) -> Optional[List[List[Atom]]]:
+    """Partition a slot's atoms into ordered NP segments at NP-starter boundaries — one
+    segment per noun phrase. A starter opens a NEW segment only once the current segment
+    already has an entity head (so a leading determiner "the king" stays one NP, but a
+    determiner AFTER a head "Macbeth | the crown" opens the next). Consecutive PROPN/NOUN
+    with no starter between them stay together (a genuine multi-token NAME, "Lady Macbeth").
+
+    Returns the list of segments if it found >= 2 (a real multi-argument span); otherwise
+    None (one NP — a name or a single phrase — left to the demi-word path).
+    """
+    segments: List[List[Atom]] = []
+    cur: List[Atom] = []
+    cur_has_head = False
+    for a in atoms:
+        if _is_np_starter(a) and cur_has_head:
+            segments.append(cur)
+            cur = [a]
+            cur_has_head = _is_entity_atom(a)
+        else:
+            cur.append(a)
+            if _is_entity_atom(a):
+                cur_has_head = True
+    if cur:
+        segments.append(cur)
+    return segments if len(segments) >= 2 else None
 
 
 def _collapse_phrase_to_entity(phrase: Phrase) -> Expression:
@@ -187,11 +250,26 @@ def _collapse_phrase_to_entity(phrase: Phrase) -> Expression:
             modifier=modifier,
         )
     if len(entity_atoms) > 1:
-        # Multiple contiguous undifferentiated nominals with no coordinator and
-        # no possessive — a **demi-word** ("Lady Macbeth"). The structure (one
-        # slot, no coordination) says it is one unit; keep the whole span as the
-        # referent's identity (rightmost as the syntactic head), so it no longer
-        # collapses to its head token and unify with a bare "Macbeth".
+        # First ask whether this is really SEVERAL noun phrases the role-blind argument
+        # window swept into one slot (a ditransitive's recipient+theme, an object+adjunct,
+        # an object+complement). If NP boundaries split it into >= 2 segments, return an
+        # ArgSplit (the caller flattens it into separate predicate arguments) — true
+        # role-split. A genuine multi-token NAME ("Lady Macbeth": consecutive PROPN, no
+        # determiner boundary) does NOT split and falls through to the demi-word below.
+        segments = _split_into_np_segments(atoms)
+        if segments:
+            members = tuple(
+                _collapse_phrase_to_entity(Phrase(atoms=seg)) for seg in segments
+            )
+            members = tuple(m for m in members if isinstance(m, (Entity, Coordination)))
+            if len(members) >= 2:
+                return ArgSplit(members=members)
+
+        # Multiple contiguous undifferentiated nominals with no coordinator, no possessive,
+        # and no NP boundary — a **demi-word** ("Lady Macbeth"). The structure (one slot, no
+        # coordination) says it is one unit; keep the whole span as the referent's identity
+        # (rightmost as the syntactic head), so it no longer collapses to its head token and
+        # unify with a bare "Macbeth".
         return Entity(
             head=entity_atoms[-1],
             role=entity_atoms[-1].role,
@@ -340,19 +418,40 @@ def resolve(expr: Expression) -> Expression:
     ``resolve(x)`` since Entity nodes are passed through unchanged.
     """
     refined = _refine(expr)
+    # A whole-tree that is a bare multi-NP Phrase has no predicate to host several args;
+    # keep the primary member (the Op branch already flattened ArgSplits inside predicates).
+    if isinstance(refined, ArgSplit):
+        refined = refined.members[0]
     return _bind_pronouns(refined)
 
 
 def _refine(expr: Expression) -> Expression:
     """Inner walker — collapse Phrases into Entities, leave other nodes."""
     if isinstance(expr, Phrase):
+        # May return an ArgSplit (a multi-NP slot) — the Op branch below consumes it; a
+        # bare top-level Phrase that splits is collapsed to its primary in `resolve`.
         return _collapse_phrase_to_entity(expr)
     if isinstance(expr, Op):
+        # Refine each arg; an ArgSplit (one slot that held several NPs) flattens into
+        # SEPARATE args for a variadic EVENT (the role-split — recipient+theme become
+        # distinct arguments), but for a fixed-arity operator only its primary member is
+        # kept so the operator's arity is preserved.
+        new_args: List[Expression] = []
+        is_event = expr.operation == "EVENT"
+        for a in expr.args:
+            r = _refine(a)
+            if isinstance(r, ArgSplit):
+                if is_event:
+                    new_args.extend(r.members)
+                else:
+                    new_args.append(r.members[0])
+            else:
+                new_args.append(r)
         return Op(
             primitive=expr.primitive,
             operation=expr.operation,
-            arity=expr.arity,
-            args=[_refine(a) for a in expr.args],
+            arity=len(new_args),
+            args=new_args,
         )
     if isinstance(expr, Negation):
         return Negation(operand=_refine(expr.operand))

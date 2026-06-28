@@ -191,6 +191,7 @@ class Edge:
     src_resolved: bool
     dst_resolved: bool
     provenance: List[str] = field(default_factory=list)         # heals applied (audit trail)
+    themes: tuple = ()                                          # latent secondary args (rendered labels), revivable
 
 
 _YIELD_PREDS = {"Event", "Causation", "Temporal", "TypeAssertion", "Comparison",
@@ -275,13 +276,13 @@ class NarrativeGraph:
         n.roles.append((t, _label(kind)))
         return True
 
-    def _edge(self, kind: str, a: Any, rel: str, b: Any, t: int) -> bool:
+    def _edge(self, kind: str, a: Any, rel: str, b: Any, t: int, themes: tuple = ()) -> bool:
         na, nb = self._node(a), self._node(b) if b is not None else None
         src = na.eid if na else _label(a)
         dst = (nb.eid if nb else _label(b)) if b is not None else ""
         if na is None and nb is None:
             return False                      # neither endpoint resolved → not in the spine
-        self.edges.append(Edge(t, kind, src, rel, dst, na is not None, nb is not None))
+        self.edges.append(Edge(t, kind, src, rel, dst, na is not None, nb is not None, themes=themes))
         if na:
             na.degree += 1
         if nb:
@@ -312,7 +313,8 @@ class NarrativeGraph:
                 if p.verb in _STATE_VERBS and p.patient is not None:
                     ok = g._state(p.agent, p.patient, t)          # "became king" → role
                 else:
-                    ok = g._edge("event", p.agent, p.verb, p.patient, t)
+                    ok = g._edge("event", p.agent, p.verb, p.patient, t,
+                                 themes=tuple(_label(th, 0) for th in getattr(p, "themes", ())))
             elif nm == "Causation":
                 ok = g._edge("cause", p.cause, "causes", p.effect, t)
             elif nm == "Temporal":
@@ -593,7 +595,10 @@ class NarrativeGraph:
             prov = {"_prov": list(e.provenance)} if e.provenance else {}
             if e.kind == "event" and src is not None:
                 args = [src] + ([dst] if dst is not None else [])
-                items.append((e.t, {"op": "EVENT", "args": args, "features": {"verb": e.rel, **prov}}))
+                ev_feats = {"verb": e.rel, **prov}
+                if e.themes:                       # latent secondary args — preserved, revivable, default-ignored
+                    ev_feats["themes"] = list(e.themes)
+                items.append((e.t, {"op": "EVENT", "args": args, "features": ev_feats}))
             elif e.kind == "cause" and src is not None and dst is not None:
                 items.append((e.t, {"op": "CAUSATION", "args": [src, dst], "features": {"conjunction": "so", **prov}}))
             elif e.kind == "temporal" and src is not None and dst is not None:

@@ -260,10 +260,16 @@ class Event:
         verb: the clause's verb lemma (the relation).
         agent: the subject filler.
         patient: the object/complement filler, or ``None`` for an intransitive.
+        themes: the SECONDARY arguments a ditransitive / object+complement split off
+            ("gave Lady Macbeth a letter" → patient=Lady Macbeth, themes=(letter,)). Empty
+            for an ordinary clause. They are PRESERVED but NOT promoted into the default
+            analysis — a latent "theme-curious" surface, revivable, that keeps the clean
+            primary read the viz wants while never destroying the dropped constituents.
     """
     verb: str
     agent: Operand
     patient: Optional[Operand] = None
+    themes: tuple = ()
 
 
 # A Predicate is any one of the semantic output types.

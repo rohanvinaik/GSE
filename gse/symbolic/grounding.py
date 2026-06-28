@@ -352,6 +352,16 @@ _DEICTIC_PERSON = frozenset({
     "you", "your", "yours", "yourself", "yourselves",
     "narrator",   # the re-lemmatized narration first-person (speech.NARRATOR_TAG)
 })
+# INDEFINITE / universal pronouns are quantifiers, not anaphors — "Alonso forgives everyone"
+# does NOT corefer "everyone" with a prior named entity (binding it to the most-recent noun is
+# exactly the duke-capture bug). Like the deictics, they are left UNBOUND (kept as their own
+# indefinite referent) rather than rebound by recency.
+_INDEFINITE_PRONOUN = frozenset({
+    "everyone", "everybody", "everything",
+    "someone", "somebody", "something",
+    "anyone", "anybody", "anything",
+    "no one", "nobody", "nothing", "none",
+})
 _PERSON_CACHE: Dict[str, Any] = {}
 
 
@@ -482,7 +492,7 @@ def _bind_document_pronouns(trees: Sequence[Any]) -> List[Any]:
             # First/second-person pronouns are deictic, not anaphoric: leave them unbound
             # rather than grabbing the most-recent third-person noun (which corrupts
             # first-person narration). Speaker/addressee attribution is handled upstream.
-            if pron in _DEICTIC_PERSON:
+            if pron in _DEICTIC_PERSON or pron in _INDEFINITE_PRONOUN:
                 return ent
             cands = [a for a in reversed(antecedents)
                      if (getattr(a.head, "lemma", None) not in used)]
@@ -491,8 +501,34 @@ def _bind_document_pronouns(trees: Sequence[Any]) -> List[Any]:
             # Prefer a candidate whose gender is KNOWN and matches the pronoun (so "she" picks the
             # titled/role female over a more-recent gender-unknown name), then most-recent agreeing.
             pg = _PRON_GENDER.get(pron)
-            pick = None
-            if pg is not None:
+            # CENTERING — topic salience over recency+gender-known. The discourse TOPIC (the entity
+            # that recurs far above the rest) holds a pronoun that AGREES with it, instead of yielding
+            # to a just-named incidental of matching gender. This is what keeps a long-running
+            # protagonist ("Alonso … him / his") on Alonso rather than the duke named one clause
+            # earlier (whose KNOWN gender would otherwise outrank gender-unknown Alonso). A topic must
+            # clearly persist (>= 3 mentions and >= 2x the runner-up); with no dominant topic this is
+            # skipped and the gender-known → recency logic below is unchanged (so "she" still prefers a
+            # titled female over a more-recent gender-unknown name).
+            topic = None
+            counts: Dict[Any, int] = {}
+            for a in antecedents:
+                lm = getattr(a.head, "lemma", None)
+                counts[lm] = counts.get(lm, 0) + 1
+            if counts:
+                ranked = sorted(counts.values(), reverse=True)
+                top_n = ranked[0]
+                runner = ranked[1] if len(ranked) > 1 else 0
+                top_lemma = max(counts, key=lambda k: counts[k])
+                if top_lemma is not None and top_n >= 3 and top_n >= 2 * runner:
+                    topic = next(
+                        (a for a in cands
+                         if getattr(a.head, "lemma", None) == top_lemma
+                         and _pron_agrees(pron, a)
+                         and (pg is None or _entity_gender(a) in (pg, None))),
+                        None,
+                    )
+            pick = topic
+            if pick is None and pg is not None:
                 pick = next((a for a in cands if _entity_gender(a) == pg), None)
             if pick is None:
                 pick = next((a for a in cands if _pron_agrees(pron, a)), cands[0])

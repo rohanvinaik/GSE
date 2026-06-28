@@ -115,6 +115,12 @@ def emit(node: Any) -> Any:
             for k in feats
             if not (isinstance(getattr(node, k), str) and not getattr(node, k).strip())
         }
+        # Latent themes (the role-split's secondary args, e.g. Event.themes) ride in features
+        # as surface strings — preserved + revivable, but NOT promoted into the default read.
+        # Generic over predicates (only Event has any today); absent ⇒ byte-identical contract.
+        themes = getattr(node, "themes", ())
+        if themes:
+            features["themes"] = [_leaf_str(t) for t in themes]
         return {"op": op, "args": args, "features": features}
 
     if name == "Negation":
