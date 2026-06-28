@@ -30,11 +30,23 @@ _CLITICS = {"n't", "'s", "'re", "'ve", "'ll", "'d", "'m"}
 
 def _join_tokens(tokens: List[str]) -> str:
     out: List[str] = []
+    join_next = False
     for tk in tokens:
-        if out and (tk.lower() in _CLITICS or tk.startswith("'")):
+        if tk in ("-", "–", "—") or "-" == tk:
+            if out:
+                out[-1] = out[-1] + tk
+            else:
+                out.append(tk)
+            join_next = True                       # hyphen binds both sides: demi-word
+            continue
+        if join_next and out:
             out[-1] = out[-1] + tk
-        else:
-            out.append(tk)
+            join_next = False
+            continue
+        if out and (tk.lower() in _CLITICS or tk.startswith("'")):
+            out[-1] = out[-1] + tk                  # clitic binds left: do n't -> don't
+            continue
+        out.append(tk)
     return " ".join(out)
 
 mcp = FastMCP("SymbolicSpellCheck")
@@ -138,7 +150,8 @@ def spell_suggest(text: str, n: int = 5) -> Dict[str, Any]:
     corrected = list(surfaces)
     for i, t in enumerate(toks):
         surf = _strip(t.token)
-        if (not surf or surf.lower() in _CLITICS or surf.startswith("'")
+        if (not surf or not any(c.isalpha() for c in surf)        # punctuation token
+                or surf.lower() in _CLITICS or surf.startswith("'")
                 or _DEFAULT_LEXICON.grounds(surf)):
             out_tokens.append({"surface": t.token, "misspelled": False, "suggestions": []})
             continue
