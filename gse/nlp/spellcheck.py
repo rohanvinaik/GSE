@@ -152,11 +152,6 @@ def _edits2(word: str) -> Dict[str, int]:
 _PRIOR_FUNCTION = -1
 _PRIOR_UNRANKED = 1_000_000
 
-# Rare-tail recovery: the only words recovery may correct *to* are the top-N most
-# frequent ("common target") words. Small by design — recovery is structure-gated, this
-# just bounds the blast radius so jargon can never be a correction target.
-_COMMON_TARGET_N = 1000
-
 # Noisy-channel score = edit_cost + LAMBDA * freq_cost  (minimised). The true model is
 # a PRODUCT P(x|w)*P(w), so a much-more-frequent word ONE edit farther can still win
 # (which > wish, referred > revered). LAMBDA sets how much frequency overcomes an edit:
@@ -226,7 +221,6 @@ class _Lexicon:
         self._wn_vocab: Optional[FrozenSet[str]] = None
         self._validity_vocab = None
         self._allowlist: Optional[FrozenSet[str]] = None
-        self._usage: Optional[Dict[str, int]] = None
         self._freq: Optional[Dict[str, int]] = None
         self._confusions: Optional[Dict[str, List[str]]] = None
         self._conn: Optional[sqlite3.Connection] = None
@@ -300,44 +294,6 @@ class _Lexicon:
         # cheap in-memory sets first; the big validity filter is consulted last
         return (w in self.lex_vocab or w in self.wn_vocab
                 or w in self.allowlist or w in self.validity_vocab)
-
-    @property
-    def usage(self) -> Dict[str, int]:
-        """Real-usage frequency ranks (data/frequency.db; lower = more frequent). A word
-        ABSENT here has ~zero real-world usage — the Zipf-rarity signal."""
-        if self._usage is None:
-            m: Dict[str, int] = {}
-            try:
-                conn = sqlite3.connect(os.path.join(_REPO_ROOT, "data", "frequency.db"))
-                for w, rank in conn.execute("SELECT word, combined_rank FROM frequency"):
-                    m[w.lower()] = int(rank)
-                conn.close()
-            except Exception:
-                pass
-            self._usage = m
-        return self._usage
-
-    def is_common_target(self, word: str) -> bool:
-        """In the small Zipfian 'common word' set — the ONLY words rare-tail recovery is
-        ever allowed to correct *to*. No one coins jargon colliding with these, so this
-        bounds recovery to safe targets by construction."""
-        r = self.usage.get(word.lower())
-        return r is not None and r <= _COMMON_TARGET_N
-
-    def is_rare_tail(self, word: str) -> bool:
-        """A grounding token that is almost certainly a typo, not an intended word: it
-        grounds ONLY via the broad Wiktionary tail (not core lexicon / WordNet /
-        allowlist / closed-class) AND has zero real-world usage. The false-allow cases
-        (``cen``, ``bok``). Recovery RECONSIDERS these (sentence-only, structure-gated);
-        everything with real usage — jargon, names, ordinary words — is left strictly
-        alone."""
-        w = word.lower()
-        if w in self.usage:
-            return False                                  # has real usage -> intended
-        if (w in self.lex_vocab or w in self.wn_vocab
-                or w in self.allowlist or w in _STOP):
-            return False                                  # real English / jargon / function
-        return w in self.validity_vocab                   # grounds only via the broad tail
 
     def prior(self, word: str) -> int:
         """Deterministic frequency prior (lower = preferred)."""

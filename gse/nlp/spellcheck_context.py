@@ -164,47 +164,6 @@ def suggest_in_context(
     ).ranked[:n])
 
 
-_PREDICATE_POS = {"VERB", "AUX"}
-
-
-def _token_pos(text: str, word: str, encoder) -> Optional[str]:
-    """The POS the parser assigns to ``word`` in ``text`` (local role signal)."""
-    for t in encoder.encode(text).tokens:
-        if t.token.lower() == word.lower():
-            return t.pos
-    return None
-
-
-def recover_rare_tail(surface, sentence_template, encoder,
-                      lexicon: _Lexicon = _DEFAULT_LEXICON) -> Optional[str]:
-    """Recover a rare-tail grounding token (a typo that happens to be an obscure
-    dictionary word, e.g. ``cen``) — ONLY structure-confirmed and to a common target.
-    Returns the recovered common word, or None (leave the surface untouched).
-
-    Conservative by construction: a candidate is accepted only if (a) it is in the small
-    common-target set, and (b) it takes a *predicate* role (VERB/AUX) that the surface
-    does NOT — i.e. the common word rescues a verb/aux slot the typo left orphaned
-    (``we can tell``: ``can``=AUX vs ``cen``=NOUN). This is a LOCAL per-token signal, so
-    it is not masked by other clauses in a long sentence. Same-POS pairs
-    (``bok``/``book``, both NOUN) yield no role change -> left alone; jargon has no
-    common-target neighbour -> never touched."""
-    from gse.nlp.spellcheck import _edits1, Candidate, looks_non_lexical
-    if sentence_template is None or looks_non_lexical(surface):
-        return None                                         # acronyms/code/names never recovered
-    cands = [Candidate(c, ec, lexicon.prior(c)) for c, ec in _edits1(surface.lower()).items()
-             if lexicon.is_common_target(c)]
-    if not cands:
-        return None
-    surf_pos = _token_pos(sentence_template.replace("___", surface), surface, encoder)
-    if surf_pos in _PREDICATE_POS:
-        return None                                         # surface already fills a predicate role
-    cands.sort(key=lambda c: (c.score, c.word))             # closest/commonest first
-    for c in cands:
-        if _token_pos(sentence_template.replace("___", c.word), c.word, encoder) in _PREDICATE_POS:
-            return c.word                                   # common word rescues a verb/aux slot
-    return None
-
-
 def correct_in_context(
     surface: str,
     context_words: Sequence[str],

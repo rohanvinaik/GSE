@@ -22,7 +22,7 @@ from mcp.server.fastmcp import FastMCP
 
 from gse.api import GSEEncoder
 from gse.nlp.spellcheck import correct, looks_non_lexical, _DEFAULT_LEXICON
-from gse.nlp.spellcheck_context import correct_in_context, recover_rare_tail
+from gse.nlp.spellcheck_context import correct_in_context
 
 # clitics the native tokenizer splits off ("don't" -> "do" "n't"); rejoined for display
 _CLITICS = {"n't", "'s", "'re", "'ve", "'ll", "'d", "'m"}
@@ -151,25 +151,11 @@ def spell_suggest(text: str, n: int = 5) -> Dict[str, Any]:
     for i, t in enumerate(toks):
         surf = _strip(t.token)
         if (not surf or not any(c.isalpha() for c in surf)        # punctuation token
-                or surf.lower() in _CLITICS or surf.startswith("'")):
+                or surf.lower() in _CLITICS or surf.startswith("'")
+                or _DEFAULT_LEXICON.grounds(surf)):
             out_tokens.append({"surface": t.token, "misspelled": False, "suggestions": []})
             continue
         template = " ".join("___" if j == i else s for j, s in enumerate(surfaces))
-        if _DEFAULT_LEXICON.grounds(surf):
-            # a valid word: leave it alone — EXCEPT a zero-usage rare-tail token (a typo
-            # that happens to be an obscure dictionary word). Recover it ONLY if a common
-            # target structurally rescues the clause (cen->can forms an Event; cen doesn't).
-            rec = (recover_rare_tail(surf, template, _encoder())
-                   if _DEFAULT_LEXICON.is_rare_tail(surf) else None)
-            if rec:
-                out_tokens.append({"surface": t.token, "misspelled": True, "top": rec,
-                                   "ambiguous": False,
-                                   "suggestions": [{"word": rec, "note": "structure-confirmed"}],
-                                   "note": "rare-tail recovered: common target rescues the clause"})
-                corrected[i] = rec
-            else:
-                out_tokens.append({"surface": t.token, "misspelled": False, "suggestions": []})
-            continue
         context = [w for w in grounded_content if w != t.lemma]
         payload = _context_payload(surf, template, context, n)
         # shape/POS gate: acronym/code/proper-noun -> offer, never auto-apply. Uses the
