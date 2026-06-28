@@ -21,8 +21,21 @@ from typing import Any, Dict, List
 from mcp.server.fastmcp import FastMCP
 
 from gse.api import GSEEncoder
-from gse.nlp.spellcheck import correct, _DEFAULT_LEXICON
+from gse.nlp.spellcheck import correct, looks_non_lexical, _DEFAULT_LEXICON
 from gse.nlp.spellcheck_context import correct_in_context
+
+# clitics the native tokenizer splits off ("don't" -> "do" "n't"); rejoined for display
+_CLITICS = {"n't", "'s", "'re", "'ve", "'ll", "'d", "'m"}
+
+
+def _join_tokens(tokens: List[str]) -> str:
+    out: List[str] = []
+    for tk in tokens:
+        if out and (tk.lower() in _CLITICS or tk.startswith("'")):
+            out[-1] = out[-1] + tk
+        else:
+            out.append(tk)
+    return " ".join(out)
 
 mcp = FastMCP("SymbolicSpellCheck")
 
@@ -42,7 +55,9 @@ def _encoder() -> GSEEncoder:
 
 
 def _strip(tok: str) -> str:
-    return tok.strip(".,;:!?\"'()[]").lower()
+    # keep original casing — the shape gate (acronym/proper-noun) needs it; the
+    # grounding/edit operations lowercase internally.
+    return tok.strip(".,;:!?\"()[]")
 
 
 def _freq_label(prior: int) -> str:
@@ -123,12 +138,20 @@ def spell_suggest(text: str, n: int = 5) -> Dict[str, Any]:
     corrected = list(surfaces)
     for i, t in enumerate(toks):
         surf = _strip(t.token)
-        if not surf or _DEFAULT_LEXICON.grounds(surf):
+        if (not surf or surf.lower() in _CLITICS or surf.startswith("'")
+                or _DEFAULT_LEXICON.grounds(surf)):
             out_tokens.append({"surface": t.token, "misspelled": False, "suggestions": []})
             continue
         template = " ".join("___" if j == i else s for j, s in enumerate(surfaces))
         context = [w for w in grounded_content if w != t.lemma]
         payload = _context_payload(surf, template, context, n)
+        # shape/POS gate: acronym/code/proper-noun -> offer, never auto-apply. Uses the
+        # parser's PROPN tag plus shape, with sentence-initial capitals exempted.
+        gated = (t.pos == "PROPN") or looks_non_lexical(surf, sentence_initial=(i == 0))
+        if gated and payload.get("top"):
+            payload["top"] = None
+            payload["ambiguous"] = bool(payload["suggestions"])
+            payload["note"] = "non-lexical (acronym/code/proper-noun): offered, not committed"
         out_tokens.append(payload)
         if payload["top"]:
             corrected[i] = payload["top"]
@@ -136,7 +159,7 @@ def spell_suggest(text: str, n: int = 5) -> Dict[str, Any]:
         "input": text,
         "deterministic": True,
         "tokens": out_tokens,
-        "corrected": " ".join(corrected),
+        "corrected": _join_tokens(corrected),
     }
 
 

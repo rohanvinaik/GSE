@@ -97,3 +97,49 @@ def test_spell_suggest_marks_real_word_not_misspelled():
     out = spell_suggest("the dog runs", n=3)
     assert all(t["misspelled"] is False for t in out["tokens"])
     assert out["corrected"] == "the dog runs"
+
+
+# ---- 7. shape gate: valid-but-non-dictionary tokens are NEVER mangled ------------
+# The defining property is "never changed to a DIFFERENT word" — either abstained
+# (committed is None) or recognized as valid and left as-is (committed == the token).
+def _not_mangled(token):
+    c = correct(token).committed
+    return c is None or c == token.lower()
+
+
+@pytest.mark.parametrize("token", ["GSE", "MCP", "HDC", "JSON"])
+def test_acronym_never_mangled(token):
+    assert _not_mangled(token)
+
+
+@pytest.mark.parametrize("token", ["set-theory", "demi-words", "anti-pattern", "re-run"])
+def test_hyphenated_compound_never_mangled(token):
+    assert _not_mangled(token)
+
+
+@pytest.mark.parametrize("token", ["don't", "let's", "Mike's"])
+def test_contraction_never_mangled(token):
+    assert _not_mangled(token)                     # no don't->donut
+
+
+def test_proper_noun_word_level_not_mangled():
+    assert _not_mangled("Claude")
+
+
+# ---- 8. validity sources (Wiktionary + project allowlist) leave terms alone ------
+@pytest.mark.parametrize("term", ["refactor", "regex", "dataclass"])   # Wiktionary
+def test_tech_term_grounds_and_is_left_alone(term):
+    assert LX.grounds(term)
+    assert correct(term).fired is False
+
+
+@pytest.mark.parametrize("term", ["innerese", "jsonl", "pytest", "lintgate"])  # allowlist
+def test_project_allowlist_term_is_left_alone(term):
+    assert LX.grounds(term)
+    assert correct(term).fired is False
+
+
+def test_clitic_rejoined_in_corrected_output():
+    from gse.mcp.spell_server import spell_suggest
+    out = spell_suggest("it's a wierd seperate thing")
+    assert out["corrected"] == "it's a weird separate thing"   # no "it 's"

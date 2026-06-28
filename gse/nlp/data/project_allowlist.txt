@@ -1,0 +1,40 @@
+# Project / tech word-validity allowlist — real terms absent from Wiktionary and the
+# lexicon, surfaced as mangles when scanning real usage. Feeds grounds() (validity, not
+# meaning). Extend freely; one term per line, lowercase. Keep it to genuine valid terms
+# (NOT misspellings — those must stay correctable).
+#
+# software / library / code identifiers
+jsonl
+pytest
+xfail
+kwarg
+kwargs
+pyproject
+isinstance
+fnmatch
+ftype
+addopts
+venv
+noreply
+nsubj
+# project-internal terms
+innerese
+roleframe
+roleframes
+demiword
+demiwords
+gofai
+dogfooding
+# tool names (proper nouns; PascalCase forms are already gated, these catch lowercase typing)
+lintgate
+modelatlas
+setupatlas
+mathlinter
+sparsewiki
+shortcutforge
+mentalatlas
+lensdb
+mneme
+prism
+wayfinder
+vintageoptics

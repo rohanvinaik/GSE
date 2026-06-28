@@ -219,6 +219,7 @@ class _Lexicon:
         self.db_path = db_path
         self._lex_vocab: Optional[FrozenSet[str]] = None
         self._wn_vocab: Optional[FrozenSet[str]] = None
+        self._validity_vocab: Optional[FrozenSet[str]] = None
         self._freq: Optional[Dict[str, int]] = None
         self._confusions: Optional[Dict[str, List[str]]] = None
         self._conn: Optional[sqlite3.Connection] = None
@@ -254,9 +255,34 @@ class _Lexicon:
             self._freq = {r[0].lower(): int(r[1]) for r in rows}
         return self._freq
 
+    @property
+    def validity_vocab(self) -> FrozenSet[str]:
+        """Broad word-VALIDITY list (Wiktionary-derived; modern/technical/academic
+        terms standard dictionaries lack). Loaded lazily — only consulted after the
+        small lexicon/WordNet checks miss. Empty if the file is absent."""
+        if self._validity_vocab is None:
+            words: Set[str] = set()
+            wikt = os.path.join(_REPO_ROOT, "data", "wordlist_wiktionary.txt")
+            try:
+                with open(wikt, encoding="utf-8") as f:
+                    words.update(w for w in (l.strip() for l in f) if w)
+            except FileNotFoundError:
+                pass
+            # committed project/tech allowlist (terms Wiktionary lacks); skips # comments
+            allow = os.path.join(os.path.dirname(__file__), "data", "project_allowlist.txt")
+            try:
+                with open(allow, encoding="utf-8") as f:
+                    words.update(w for w in (l.strip().lower() for l in f)
+                                 if w and not w.startswith("#"))
+            except FileNotFoundError:
+                pass
+            self._validity_vocab = frozenset(words)
+        return self._validity_vocab
+
     def grounds(self, word: str) -> bool:
         w = word.lower()
-        return w in self.lex_vocab or w in self.wn_vocab
+        # cheap dictionaries first; the big validity list loads only on a miss
+        return w in self.lex_vocab or w in self.wn_vocab or w in self.validity_vocab
 
     def prior(self, word: str) -> int:
         """Deterministic frequency prior (lower = preferred)."""
@@ -351,6 +377,34 @@ class Correction:
         return f"Correction({self.surface!r} -> {head} | [{top}])"
 
 
+# ---- shape gate: surfaces that are not ordinary lowercase words -----------------
+# The word path requires this margin to commit (no independent eager commit): it obeys
+# the same discipline as the context path — structure governs, never a lone word guess.
+WORD_COMMIT_MARGIN = 0.5
+
+
+def looks_non_lexical(surface: str, sentence_initial: bool = False) -> bool:
+    """True when SHAPE alone says this is not an ordinary misspelled English word — an
+    acronym, a code identifier, or a (mid-sentence) proper noun. Such a surface is
+    OFFERED as suggestions but NEVER auto-committed: the system must not 'correct' a
+    token it has no business touching. (When the surface also grounds — e.g. once it is
+    in the validity dictionaries — correction never triggers at all; this gate is the
+    backstop for valid tokens absent from the dictionaries.)"""
+    if len(surface) >= 2 and surface.isupper():
+        return True                                    # acronym: GSE, MCP, HDC
+    if "'" in surface or "’" in surface:
+        return True                                    # contraction / possessive: don't, Mike's
+    if "-" in surface or "_" in surface:
+        return True                                    # compound / identifier: set-theory, re_run
+    if any(ch.isdigit() for ch in surface):
+        return True                                    # identifier: v2, sha256, utf8
+    if not (surface.islower() or surface.istitle() or surface.isupper()):
+        return True                                    # internal caps: jsonParse
+    if surface.istitle() and not sentence_initial:
+        return True                                    # proper noun: Claude, Winston
+    return False
+
+
 def propose(surface: str, lexicon: _Lexicon = _DEFAULT_LEXICON) -> List[Candidate]:
     """The candidate set the symbolic system derives, then rates.
 
@@ -407,6 +461,11 @@ def correct(
     if not cands:
         return Correction(surface, fired=True, committed=None, note="no grounded candidate")
 
+    # shape gate: acronym / code / proper-noun -> offer, never auto-commit
+    if looks_non_lexical(surface):
+        return Correction(surface, fired=True, committed=None, ranked=tuple(cands),
+                          note="non-lexical shape (acronym/code/proper-noun): offered, not committed")
+
     # advisory coherence: context's pooled primitive set vs each candidate's. Sits
     # BELOW the frequency prior in the sort key (measured too coarse to lead).
     ctx_prims: FrozenSet[str] = frozenset()
@@ -424,7 +483,8 @@ def correct(
 
     best = cands[0]
     second = cands[1] if len(cands) > 1 else None
-    unambiguous = second is None or best.score < second.score
+    # commit only on a decisive margin (same discipline as the context path)
+    unambiguous = second is None or (second.score - best.score) >= WORD_COMMIT_MARGIN
     committed = best.word if unambiguous else None
-    note = "committed" if committed else "tie on every deterministic key: abstained"
+    note = "committed" if committed else "no decisive winner: abstained"
     return Correction(surface, fired=True, committed=committed, ranked=tuple(cands), note=note)
