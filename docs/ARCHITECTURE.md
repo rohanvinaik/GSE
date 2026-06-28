@@ -389,6 +389,41 @@ correctness; the residual is **lexical coverage** (archaic/slang/names — addit
 deferrable) plus a few rare constructions (gapping, partitives) and the stated
 bounded-register limit — all catalogued in the backlog.
 
+### Layer 5.5 — SymbolicSpellCheck: the shipped voice-mode product · `gse/nlp/spellcheck*.py`, `gse/mcp/spell_server.py`
+
+The flywheel's first voice-mode, built out into a **complete, standalone, shipped
+product** (2026-06-27). A deterministic spell-corrector: it auto-applies corrections it is
+confident of and **surfaces ranked suggestions** ("did you mean…") otherwise — ordinary
+spell-check workflow, but every suggestion is **symbolically derived**, not statistical.
+
+- **Noisy-channel core** (`gse/nlp/spellcheck.py`): keyboard-weighted Damerau edit model
+  (error model) → **grounding gate** (a candidate must be a real word) → frequency prior
+  → empirical confusion-table overlay (Wikipedia common-misspellings, CC-BY-SA, injected
+  *within* the symbolic frame: still grounding-gated, never pre-empting). `propose` /
+  `correct` / `suggest`.
+- **Validity sources for `grounds()`** (validity, NOT meaning — never touches the closed
+  72-prime `lexicon_clean`): the lexicon ∪ WordNet ∪ closed-class `_STOP` ∪ a broad
+  Wiktionary English-titles list (`data/wordlist_wiktionary.txt`, gitignored/rebuildable
+  via `gse/curation/build_wordlist.py`, known-misspelling keys subtracted) ∪ a committed
+  project allowlist (`gse/nlp/data/project_allowlist.txt`).
+- **Shape gate** (`looks_non_lexical`): all-caps / digit / internal-caps / hyphen /
+  underscore / apostrophe / mid-sentence Title-case → offered, never auto-committed. The
+  word-level path carries the same commit margin as the context path (no independent
+  commits).
+- **Context layer** (`gse/nlp/spellcheck_context.py`): substitute-and-reparse structural
+  well-formedness + Lesk gloss overlap, to break ties; margin-gated abstention.
+- **Surfaces**: an MCP server (`gse/mcp/spell_server.py`, tool `spell_suggest`, registered
+  as **SymbolicSpellCheck**; absolute data paths so it runs from any cwd) and a REPL
+  (`gse/nlp/spellcheck_repl.py`). `tests/test_spellcheck.py` — 40 tests.
+- **The property** (information-theoretic): failures are confined to *non-recovery* (a typo
+  left or mis-targeted), never *destruction* (a valid token made wrong) — every token the
+  system recognizes as valid is left untouched. Residual destruction is a measure-near-zero
+  set (a valid word absent from a multi-million-word list, ordinary-shaped, one edit from a
+  common word), not provably zero.
+- **The measured headline** (held-out Birkbeck, top-1): pure structure 28.5% → +frequency
+  31.2% → +confusion table 31.6% — symbolic structure alone reaches ~90% of the full
+  statistical stack; the collated typo corpus adds <1%. The GSE thesis in miniature.
+
 ### Layer 6 — Document compression: the narrative skeleton & multi-strand repair · `gse/symbolic/narrative.py`, `gse/api/native_repair.py`
 
 Layers 0–5 resolve a *sentence*. Layer 6 resolves a *document* into a compressed
@@ -702,6 +737,9 @@ to this document and the code.
 | `data/lexicon_clean.db` | Precompiled lemma → primitive decompositions (the live, default data) |
 | `gse/nlp/native.py` | Deterministic front-end: tokenize + lemma + coarse-POS, arc-free clause structure, the `'s` voice-mode |
 | `gse/nlp/morphology.py` · `gse/nlp/contractions.py` | Word-scale operations: comparative/superlative + negation; the `'s`/contraction spell-check |
+| `gse/nlp/spellcheck.py` · `spellcheck_context.py` · `spellcheck_repl.py` | **SymbolicSpellCheck** (Layer 5.5): noisy-channel corrector + grounding/shape gates + validity sources; context layer; REPL |
+| `gse/mcp/spell_server.py` | SymbolicSpellCheck MCP server (tool `spell_suggest`) |
+| `gse/nlp/data/` · `gse/curation/build_misspellings.py` · `build_wordlist.py` | Spell-check data (committed allowlist + misspellings table) and offline builders |
 | `gse/api/encoder.py` | `GSEEncoder`: text → `OperationTrace` |
 | `gse/api/decoder.py` | `GSEDecoder`: vector → `DecodedSemantics`, similarity |
 | `gse/api/trace.py` | `OperationTrace`/`TokenTrace`/`OperatorTrace` + decoded types |
