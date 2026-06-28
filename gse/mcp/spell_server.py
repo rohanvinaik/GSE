@@ -176,5 +176,10 @@ def spell_suggest(text: str, n: int = 5) -> Dict[str, Any]:
     }
 
 
-if __name__ == "__main__":
+def main() -> None:
+    """Console entry point (pyproject [project.scripts]) — runs the stdio MCP server."""
     mcp.run()
+
+
+if __name__ == "__main__":
+    main()

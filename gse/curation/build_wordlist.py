@@ -24,7 +24,21 @@ URL = ("https://dumps.wikimedia.org/enwiktionary/latest/"
        "enwiktionary-latest-all-titles-in-ns0.gz")
 _UA = "GSE-spellcheck-build/1.0 (research; rohanpvinaik@gmail.com)"
 OUT = Path(__file__).resolve().parents[2] / "data" / "wordlist_wiktionary.txt"
+TRIE = OUT.with_suffix(".marisa")          # compact EXACT runtime artifact (~24MB RAM vs ~660MB set)
 _WORD = re.compile(r"^[a-z]{2,20}$")
+
+
+def _write_trie(words) -> None:
+    import marisa_trie
+    marisa_trie.Trie(words).save(str(TRIE))
+
+
+def build_trie_from_txt() -> int:
+    """Rebuild the marisa trie from an existing .txt (no re-download)."""
+    with open(OUT, encoding="utf-8") as f:
+        words = [w for w in (l.strip() for l in f) if w]
+    _write_trie(words)
+    return len(words)
 
 
 def _lines(local_gz: str | None):
@@ -48,9 +62,14 @@ def build(local_gz: str | None = None) -> int:
             words.add(w)
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text("\n".join(sorted(words)) + "\n", encoding="utf-8")
+    _write_trie(words)                     # compact exact runtime artifact alongside the .txt
     return len(words)
 
 
 if __name__ == "__main__":
-    n = build(sys.argv[1] if len(sys.argv) > 1 else None)
-    print(f"wrote {OUT}  ({n} validity words; known misspellings excluded)")
+    if len(sys.argv) > 1 and sys.argv[1] == "--trie-only":
+        n = build_trie_from_txt()
+        print(f"rebuilt {TRIE} from {OUT} ({n} words)")
+    else:
+        n = build(sys.argv[1] if len(sys.argv) > 1 else None)
+        print(f"wrote {OUT} + {TRIE}  ({n} validity words; known misspellings excluded)")

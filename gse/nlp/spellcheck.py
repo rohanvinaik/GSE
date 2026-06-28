@@ -219,7 +219,8 @@ class _Lexicon:
         self.db_path = db_path
         self._lex_vocab: Optional[FrozenSet[str]] = None
         self._wn_vocab: Optional[FrozenSet[str]] = None
-        self._validity_vocab: Optional[FrozenSet[str]] = None
+        self._validity_vocab = None
+        self._allowlist: Optional[FrozenSet[str]] = None
         self._freq: Optional[Dict[str, int]] = None
         self._confusions: Optional[Dict[str, List[str]]] = None
         self._conn: Optional[sqlite3.Connection] = None
@@ -256,33 +257,43 @@ class _Lexicon:
         return self._freq
 
     @property
-    def validity_vocab(self) -> FrozenSet[str]:
-        """Broad word-VALIDITY list (Wiktionary-derived; modern/technical/academic
-        terms standard dictionaries lack). Loaded lazily — only consulted after the
-        small lexicon/WordNet checks miss. Empty if the file is absent."""
+    def validity_vocab(self):
+        """Broad word-VALIDITY membership (Wiktionary-derived; modern/technical/academic
+        terms standard dictionaries lack). Backed by a compact EXACT marisa-trie
+        (`wordlist_wiktionary.marisa`, ~24MB mmap) when present, else the raw `.txt` set,
+        else empty. Loaded lazily — only consulted after the small lexicon/WordNet checks
+        miss. Returns any object supporting ``in``."""
         if self._validity_vocab is None:
-            words: Set[str] = set()
-            wikt = os.path.join(_REPO_ROOT, "data", "wordlist_wiktionary.txt")
-            try:
-                with open(wikt, encoding="utf-8") as f:
-                    words.update(w for w in (l.strip() for l in f) if w)
-            except FileNotFoundError:
-                pass
-            # committed project/tech allowlist (terms Wiktionary lacks); skips # comments
-            allow = os.path.join(os.path.dirname(__file__), "data", "project_allowlist.txt")
-            try:
-                with open(allow, encoding="utf-8") as f:
-                    words.update(w for w in (l.strip().lower() for l in f)
-                                 if w and not w.startswith("#"))
-            except FileNotFoundError:
-                pass
-            self._validity_vocab = frozenset(words)
+            trie = os.path.join(_REPO_ROOT, "data", "wordlist_wiktionary.marisa")
+            txt = os.path.join(_REPO_ROOT, "data", "wordlist_wiktionary.txt")
+            if os.path.exists(trie):
+                import marisa_trie
+                self._validity_vocab = marisa_trie.Trie().load(trie)   # exact, ~24MB, mmap
+            elif os.path.exists(txt):
+                with open(txt, encoding="utf-8") as f:
+                    self._validity_vocab = frozenset(w for w in (l.strip() for l in f) if w)
+            else:
+                self._validity_vocab = frozenset()
         return self._validity_vocab
+
+    @property
+    def allowlist(self) -> FrozenSet[str]:
+        """Committed project/tech allowlist (terms Wiktionary lacks); skips # comments."""
+        if self._allowlist is None:
+            path = os.path.join(os.path.dirname(__file__), "data", "project_allowlist.txt")
+            try:
+                with open(path, encoding="utf-8") as f:
+                    self._allowlist = frozenset(w for w in (l.strip().lower() for l in f)
+                                                if w and not w.startswith("#"))
+            except FileNotFoundError:
+                self._allowlist = frozenset()
+        return self._allowlist
 
     def grounds(self, word: str) -> bool:
         w = word.lower()
-        # cheap dictionaries first; the big validity list loads only on a miss
-        return w in self.lex_vocab or w in self.wn_vocab or w in self.validity_vocab
+        # cheap in-memory sets first; the big validity filter is consulted last
+        return (w in self.lex_vocab or w in self.wn_vocab
+                or w in self.allowlist or w in self.validity_vocab)
 
     def prior(self, word: str) -> int:
         """Deterministic frequency prior (lower = preferred)."""

@@ -17,6 +17,7 @@ dependencies = [
     "msgpack>=1.0.0",
     "scikit-learn>=1.3.0",
     "nltk>=3.9.4",
+    "marisa-trie>=1.0.0",
 ]
 
 # spaCy is no longer required to run the encoder: the default GSE-native token
@@ -29,6 +30,14 @@ curation = [
     "spacy>=3.7.0",
     "en-core-web-sm",
 ]
+# SymbolicSpellCheck MCP server (gse/mcp/spell_server.py). The corrector core needs no
+# extra deps; only the MCP transport does.
+spellcheck-mcp = [
+    "mcp>=1.0.0",
+]
+
+[project.scripts]
+gse-spellcheck-mcp = "gse.mcp.spell_server:main"
 
 [dependency-groups]
 dev = [
