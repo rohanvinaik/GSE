@@ -21,6 +21,7 @@ from dataclasses import dataclass, replace
 from typing import Any, Dict, List, Protocol, Sequence, Tuple, runtime_checkable
 
 from gse.symbolic.resolution import Entity
+from gse.symbolic.sense_resonance import get_resonance
 
 # Operand-bearing fields per predicate type — the recursion map for the generic
 # entity walker. Mirrors emit._PRED_SPEC's arg fields (single source would
@@ -205,20 +206,34 @@ def _select_by_coherence(
     invent a thread.
     """
     cand: Dict[Tuple, List[Tuple[str, ...]]] = {}
+    raw_of: Dict[Tuple, List[Tuple[str, ...]]] = {}   # sense-ordered, UNFILTERED (HDC↔synset alignment)
+    lemma_of: Dict[Tuple, str] = {}
+    proper_of: Dict[Tuple, bool] = {}
     for ent in collected:
         sig = _signature(ent)
         if sig in cand:
             continue
-        cand[sig] = [
+        lemma = _lookup_key(ent)
+        is_proper = _is_proper(ent)
+        raw = [
             tuple(t)
-            for t in genealogy.candidates(
-                _lookup_key(ent), getattr(ent.head, "pos", "") or "", _is_proper(ent)
-            )
+            for t in genealogy.candidates(lemma, getattr(ent.head, "pos", "") or "", is_proper)
         ]
+        raw_of[sig] = raw
+        lemma_of[sig] = lemma
+        proper_of[sig] = is_proper
+        cand[sig] = list(raw)
         if genre in _NONSCIENCE_GENRES:                 # content-genre WSD: drop lab senses in a story…
             human = [t for t in cand[sig] if not _is_science_thread(t)]
             if human:                                   # …unless the word is ONLY a science term
                 cand[sig] = human
+
+    # HDC sense-resonance is the PRIMARY re-ranker: for each ambiguous common noun it
+    # resonates every candidate sense's precomputed gloss-vector against the sentence
+    # context and promotes the winner (margin-gated over the frequency-primary). It
+    # falls back silently — empty dict if the store is absent or a word is OOV — and the
+    # frequency + Jaccard pass below then decides exactly as before (no regression).
+    hdc_choice = _hdc_overrides(cand, raw_of, lemma_of, proper_of)
 
     primary: Dict[Tuple, Tuple[str, ...]] = {
         sig: (cs[0] if cs else ()) for sig, cs in cand.items()
@@ -226,6 +241,9 @@ def _select_by_coherence(
 
     chosen: Dict[Tuple, Tuple[str, ...]] = {}
     for sig, cs in cand.items():
+        if sig in hdc_choice:                           # HDC made a confident, context-grounded call
+            chosen[sig] = hdc_choice[sig]
+            continue
         if len(cs) <= 1:
             chosen[sig] = primary[sig]
             continue
@@ -243,6 +261,54 @@ def _select_by_coherence(
         chosen[sig] = best
 
     return chosen
+
+
+def _hdc_overrides(
+    cand: Dict[Tuple, List[Tuple[str, ...]]],
+    raw_of: Dict[Tuple, List[Tuple[str, ...]]],
+    lemma_of: Dict[Tuple, str],
+    proper_of: Dict[Tuple, bool],
+) -> Dict[Tuple, Tuple[str, ...]]:
+    """Map each common-noun referent HDC can confidently re-rank → its chosen thread.
+
+    ``word_thread`` is built one row per WordNet synset in sense order
+    (``build_genealogy_db``), so the i-th sense-ordered candidate aligns to
+    ``wn.synsets(lemma)[i]``. We resonate each sense's precomputed gloss-vector against
+    the bundle of the OTHER entities' lemma vectors and promote the winner only when it
+    clears the margin over the frequency-primary. Conservative guards (single token,
+    exact count match) keep the index↔synset alignment sound; anything else is left to
+    the frequency + Jaccard fallback. Empty dict when the store is unavailable.
+    """
+    res = get_resonance()
+    if not res.available:
+        return {}
+    from nltk.corpus import wordnet as wn
+
+    ctx_lemmas = [lemma_of[s] for s in cand if not proper_of[s]]
+    out: Dict[Tuple, Tuple[str, ...]] = {}
+    for sig in cand:
+        if proper_of[sig]:
+            continue
+        lemma = lemma_of[sig]
+        if not lemma or " " in lemma or "_" in lemma:    # single token only → alignment guarantee
+            continue
+        raw = raw_of[sig]
+        synsets = [s.name() for s in wn.synsets(lemma, wn.NOUN)]
+        if len(synsets) < 2 or len(synsets) != len(raw):  # alignment must be exact
+            continue
+        ctx = res.context_vector([lm for lm in ctx_lemmas if lm != lemma])
+        idx = res.best_sense_index(synsets, ctx)
+        if idx is None or not (0 <= idx < len(raw)):
+            continue
+        # Narrative-agent guard: the failure class is a non-person collective/abstract sense
+        # out-ranking the person agent (men→work_force). Resonance may only move a slot TOWARD
+        # a person sense — never demote a correct person-primary (leader→drawing_card). This is
+        # the disciplined form of the gloss-decomposition's person-bias (it is reliable for
+        # "promote the buried person reading", unreliable for non-person↔non-person re-ranking).
+        chosen_thread, primary_thread = raw[idx], raw[0]
+        if "person" in chosen_thread and "person" not in primary_thread:
+            out[sig] = chosen_thread
+    return out
 
 
 def _promote_demiwords(node: Any, genealogy: Any) -> Any:
