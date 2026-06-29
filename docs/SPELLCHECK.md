@@ -17,15 +17,17 @@ wordlist, which is gitignored (rebuildable). On a fresh clone, build it once:
 
 ```bash
 python -m gse.curation.build_spellcheck_data            # fetches Wiktionary + builds all data
-# or just the validity list / its compact bloom:
-python -m gse.curation.build_wordlist                   # downloads dump -> .txt + .bloom
-python -m gse.curation.build_wordlist --bloom-only      # rebuild .bloom from existing .txt
+# or just the validity list / its compact trie:
+python -m gse.curation.build_wordlist                   # downloads dump -> .txt + .marisa
+python -m gse.curation.build_wordlist --trie-only       # rebuild .marisa from existing .txt
 ```
 
 Without the validity wordlist the corrector still works — it just falls back to the core
 lexicon + WordNet, so modern/technical terms (`refactor`, `json`, …) are recognized less
-broadly. The runtime loads the compact **bloom** (`data/wordlist_wiktionary.bloom`, a few
-MB) when present, not the 52MB text set.
+broadly. The runtime loads the compact EXACT **marisa-trie**
+(`data/wordlist_wiktionary.marisa`, ~12MB, mmap) when present, not the 52MB text set.
+(marisa over a bloom filter: bloom false positives would let a non-word pass the grounding
+gate, breaking "every suggestion is a real word" — exactness matters.)
 
 **Keyboard-HDC recovery layer (optional).** An orthogonal error model (`gse/nlp/hdc_speller.py`)
 recovers the far, length-preserving multi-key slips edit-distance abstains on (`ecifentky →

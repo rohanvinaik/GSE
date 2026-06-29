@@ -51,6 +51,14 @@ _SEED = 0               # base-key RNG seed — MUST match between cache build a
 HDC_COMMIT_COS = 0.75
 HDC_OFFER_COS = 0.55
 
+# Tiebreak gates for the AMBIGUOUS case (edit-distance found >=2 grounded candidates but
+# didn't decisively commit). HDC confirms among THOSE candidates — never the whole lexicon —
+# committing the single common-English candidate only when it independently ranks #1 with a
+# clear cosine margin. CALIBRATED on the real ambiguous corpus (scratchpad/calibrate_tiebreak2.py):
+# at these gates, 100% precision over the committed set, ZERO jargon false-commits.
+HDC_TIEBREAK_COS = 0.55
+HDC_TIEBREAK_MARGIN = 0.05
+
 _REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 _CACHE_PATH = os.path.join(_REPO_ROOT, "data", "hdc_speller.npz")
 
@@ -117,6 +125,19 @@ def _encode_dense_unit(word: str) -> np.ndarray:
     v = SparseVector.to_dense(encode(word)).astype(np.float32)
     nrm = np.linalg.norm(v)
     return v / nrm if nrm else v
+
+
+def score_words(token: str, words: List[str]) -> List[Tuple[str, float]]:
+    """Keyboard-HDC cosine of `token` against each given `word`, ranked high-to-low.
+
+    Unlike HDCSpeller.candidates (which searches the cached lexicon), this scores an
+    arbitrary candidate set — e.g. the edit-distance corrector's ranked candidates — so
+    HDC can act as a TIEBREAKER among them without introducing a new word. No cache needed.
+    """
+    q = encode(token)
+    scored = [(w, round(q.cosine(encode(w)), 4)) for w in words]
+    scored.sort(key=lambda x: -x[1])
+    return scored
 
 
 class HDCSpeller:

@@ -25,7 +25,9 @@ from mcp.server.fastmcp import FastMCP
 from gse.api import GSEEncoder
 from gse.nlp.spellcheck import correct, looks_non_lexical, _DEFAULT_LEXICON
 from gse.nlp.spellcheck_context import correct_in_context, recover_rare_tail
-from gse.nlp.hdc_speller import default_speller, HDC_COMMIT_COS, HDC_OFFER_COS
+from gse.nlp.hdc_speller import (default_speller, score_words, HDC_COMMIT_COS,
+                                 HDC_OFFER_COS, HDC_TIEBREAK_COS, HDC_TIEBREAK_MARGIN)
+from gse.nlp.spellcheck import _PRIOR_UNRANKED
 
 # clitics the native tokenizer splits off ("don't" -> "do" "n't"); rejoined for display
 _CLITICS = {"n't", "'s", "'re", "'ve", "'ll", "'d", "'m"}
@@ -136,6 +138,49 @@ def _hdc_recover(surf: str, sentence_initial: bool = False):
     return (word, cos, cos >= HDC_COMMIT_COS)
 
 
+def _hdc_tiebreak(surf: str, candidate_words: List[str], sentence_initial: bool = False):
+    """AMBIGUOUS-case confirmation: edit-distance found candidates but didn't commit. If
+    exactly ONE candidate is a common English word and keyboard-HDC independently ranks it
+    #1 among the candidates with a decisive cosine margin, return it to commit; else None.
+    Restricted to the edit-distance candidates (never the lexicon) so it can only *confirm*,
+    not introduce a word; the single-common-candidate rule preserves minimal-pair abstention
+    (`weird`/`wired` -> two common candidates -> stays ambiguous)."""
+    sp = default_speller()
+    if sp is None or looks_non_lexical(surf, sentence_initial=sentence_initial):
+        return None
+    commons = [w for w in candidate_words if _DEFAULT_LEXICON.prior(w) != _PRIOR_UNRANKED]
+    if len(commons) != 1:
+        return None
+    gold = commons[0]
+    scored = score_words(surf, candidate_words)            # ranked by keyboard-HDC cosine
+    if not scored or scored[0][0] != gold:
+        return None
+    best_c = scored[0][1]
+    second_c = scored[1][1] if len(scored) > 1 else 0.0
+    if best_c >= HDC_TIEBREAK_COS and (best_c - second_c) >= HDC_TIEBREAK_MARGIN:
+        return (gold, best_c)
+    return None
+
+
+def _apply_tiebreak(payload: Dict[str, Any], surf: str, sentence_initial: bool = False) -> bool:
+    """If HDC decisively confirms one common candidate for an ambiguous token, commit it.
+    Returns True if it fired."""
+    cands = [s.get("word") for s in payload.get("suggestions", []) if s.get("word")]
+    if len(cands) < 2:
+        return False
+    rec = _hdc_tiebreak(surf, cands, sentence_initial=sentence_initial)
+    if not rec:
+        return False
+    word = rec[0]
+    payload["top"] = word
+    payload["ambiguous"] = False
+    payload["note"] = "ambiguity resolved by keyboard-HDC confirmation (edit-distance candidate)"
+    for s in payload["suggestions"]:
+        if s.get("word") == word:
+            s["note"] = (s.get("note", "") + "; HDC-confirmed").lstrip("; ")
+    return True
+
+
 def _apply_hdc(payload: Dict[str, Any], surf: str, sentence_initial: bool = False) -> None:
     """If keyboard-HDC recovers an edit-distance-abstained token, fold it into `payload`:
     commit (set top) above the COMMIT cosine, else offer as a low-confidence suggestion."""
@@ -176,7 +221,10 @@ def spell_suggest(text: str, n: int = 5) -> Dict[str, Any]:
         w = _strip(text)
         tok = _word_payload(w, n) if w else {"surface": text, "misspelled": False, "suggestions": []}
         if w and tok.get("misspelled") and not tok.get("top"):   # edit-distance abstained
-            _apply_hdc(tok, w, sentence_initial=True)
+            if [s for s in tok.get("suggestions", []) if s.get("word")]:
+                _apply_tiebreak(tok, w, sentence_initial=True)     # candidates exist -> confirm among them
+            else:
+                _apply_hdc(tok, w, sentence_initial=True)          # true residue (no candidates) -> lexicon
         corrected = (tok.get("top") or text) if tok.get("misspelled") else text
         return {"input": text, "deterministic": True, "tokens": [tok], "corrected": corrected}
 
@@ -220,7 +268,10 @@ def spell_suggest(text: str, n: int = 5) -> Dict[str, Any]:
             payload["ambiguous"] = bool(payload["suggestions"])
             payload["note"] = "non-lexical (acronym/code/proper-noun): offered, not committed"
         if not payload.get("top") and not gated:    # edit-distance abstained -> try keyboard-HDC
-            _apply_hdc(payload, surf, sentence_initial=(i == 0))
+            if [s for s in payload.get("suggestions", []) if s.get("word")]:
+                _apply_tiebreak(payload, surf, sentence_initial=(i == 0))   # confirm among candidates
+            else:
+                _apply_hdc(payload, surf, sentence_initial=(i == 0))        # true residue -> lexicon
         out_tokens.append(payload)
         if payload["top"]:
             corrected[i] = payload["top"]

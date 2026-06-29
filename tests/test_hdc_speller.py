@@ -72,3 +72,26 @@ def test_real_word_input_not_touched():
     # a grounding word never enters the abstain branch
     from gse.mcp.spell_server import spell_suggest
     assert spell_suggest("the development cycle")["corrected"] == "the development cycle"
+
+
+# ---- 4. HDC tiebreak: confirm an ambiguous edit-distance candidate, never jargon --------
+def test_tiebreak_confirms_ambiguous_common_candidate():
+    # edit-distance is ambiguous on 'aparently' (didn't commit); HDC confirms the single
+    # common candidate 'apparently' decisively -> committed.
+    from gse.nlp.spellcheck import correct
+    assert correct("aparently").committed is None     # edit-distance abstains
+    from gse.mcp.spell_server import spell_suggest
+    assert spell_suggest("aparently")["corrected"] == "apparently"
+
+
+def test_tiebreak_leaves_jargon_with_no_common_candidate():
+    # ambiguous jargon (candidates all rare/garbage, no common word) -> never committed
+    from gse.mcp.spell_server import spell_suggest
+    assert spell_suggest("pptx")["corrected"] == "pptx"
+
+
+def test_tiebreak_only_confirms_existing_candidates():
+    # _hdc_tiebreak returns one of the supplied candidates or None — never a new word
+    from gse.mcp.spell_server import _hdc_tiebreak
+    rec = _hdc_tiebreak("aparently", ["apparently", "apariently"])
+    assert rec is None or rec[0] in ("apparently", "apariently")
