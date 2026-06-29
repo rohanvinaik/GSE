@@ -219,6 +219,9 @@ def _select_by_coherence(
             tuple(t)
             for t in genealogy.candidates(lemma, getattr(ent.head, "pos", "") or "", is_proper)
         ]
+        if not is_proper and lemma and _orthographic_collision(lemma):
+            raw = []   # a lowercase word reaching its sense only via an ACRONYM lemma (add→ADD,
+                       # far→ALIR) is a spurious case collision, not a noun — abstain honestly.
         raw_of[sig] = raw
         lemma_of[sig] = lemma
         proper_of[sig] = is_proper
@@ -261,6 +264,37 @@ def _select_by_coherence(
         chosen[sig] = best
 
     return chosen
+
+
+def _orthographic_collision(lemma: str) -> bool:
+    """A lowercase common word that reaches its noun sense(s) ONLY through an UPPERCASE-ACRONYM
+    lemma — never an exact lowercase lemma — is a spurious case/acronym collision, not a real
+    noun: `add`↔`ADD` (attention-deficit-disorder), `far`↔`ALIR`, `led`↔`LED`, `un`↔`UN`. Abstain
+    (honest empty thread) rather than assert the acronym's identity.
+
+    Role- and domain-agnostic: the signal is purely the orthographic form mismatch (the same
+    discipline SymbolicSpellCheck uses — a lowercase token has no business *being* an acronym).
+    Only fires on single-token lowercase alphabetic common nouns; proper nouns (handled by the
+    world strand) and multi-token spans are left alone.
+    """
+    if not lemma.isalpha() or not lemma.islower():
+        return False
+    from nltk.corpus import wordnet as wn
+    nouns = wn.synsets(lemma, wn.NOUN)
+    if not nouns:
+        return False
+    for syn in nouns:
+        if any(l.name().lower() == lemma and not l.name().isupper() for l in syn.lemmas()):
+            return False   # a genuine lowercase lemma match exists → real noun, keep it
+    # It is a SPURIOUS collision only if the acronym DISPLACES a genuine common word — the lowercase
+    # token also has a non-noun reading (add=verb, far=adverb, led=verb). A pure acronym with no
+    # other English sense (ceo, dna, fbi, mit) is a legitimate — if lowercased — reference, so keep
+    # it and ground it normally. (Validated wide: across the 4021-lemma story corpus this abstains
+    # only add/led/iii, while sparing every lowercased org/tech acronym.)
+    return bool(
+        wn.synsets(lemma, wn.VERB) or wn.synsets(lemma, wn.ADJ)
+        or wn.synsets(lemma, wn.ADV) or wn.synsets(lemma, wn.ADJ_SAT)
+    )
 
 
 def _hdc_overrides(
