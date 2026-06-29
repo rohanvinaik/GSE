@@ -174,9 +174,25 @@ def _jaccard(a: set, b: set) -> float:
 # overlap does not.
 _COHERENCE_MARGIN = 0.15
 
+# CONTENT-GENRE WSD prior. Every pull shares one FORM (wiki/reference prose), so the form carries no
+# disambiguating signal — the prior is the document's CONTENT genre. A NARRATIVE / ARGUMENTATIVE document
+# has no laboratory context, yet WordNet often orders a technical sense first ("reaction" → sense-0
+# chemical_reaction; the response sense is #4). For those genres we demote the science-PROCESS senses so a
+# human/social sense wins — UNLESS the word is *only* a science term (then we keep it: a story may name a
+# real element). EXPOSITORY is left alone (it may genuinely be a science topic).
+_SCIENCE_DOMAIN_ROOTS = frozenset({
+    "chemical_process", "natural_process", "physical_phenomenon", "organic_process", "bodily_process",
+})
+_NONSCIENCE_GENRES = frozenset({"NARRATIVE", "ARGUMENTATIVE"})
+
+
+def _is_science_thread(thread: Tuple[str, ...]) -> bool:
+    return any(r in thread for r in _SCIENCE_DOMAIN_ROOTS)
+
 
 def _select_by_coherence(
-    collected: List[Entity], genealogy: Any, margin: float = _COHERENCE_MARGIN
+    collected: List[Entity], genealogy: Any, margin: float = _COHERENCE_MARGIN,
+    genre: str | None = None,
 ) -> Dict[Tuple, Tuple[str, ...]]:
     """Pick each referent's thread by coherence with the rest of the sentence.
 
@@ -199,6 +215,10 @@ def _select_by_coherence(
                 _lookup_key(ent), getattr(ent.head, "pos", "") or "", _is_proper(ent)
             )
         ]
+        if genre in _NONSCIENCE_GENRES:                 # content-genre WSD: drop lab senses in a story…
+            human = [t for t in cand[sig] if not _is_science_thread(t)]
+            if human:                                   # …unless the word is ONLY a science term
+                cand[sig] = human
 
     primary: Dict[Tuple, Tuple[str, ...]] = {
         sig: (cs[0] if cs else ()) for sig, cs in cand.items()
@@ -546,7 +566,8 @@ def _bind_document_pronouns(trees: Sequence[Any]) -> List[Any]:
 
 
 def resolve_document(
-    trees: Sequence[Any], genealogy: GenealogyProvider | None = None
+    trees: Sequence[Any], genealogy: GenealogyProvider | None = None,
+    genre: str | None = None,
 ) -> List[Any]:
     """Resolve a *document* — an ordered list of evaluated clause trees.
 
@@ -579,7 +600,7 @@ def resolve_document(
             sig_to_id[sig] = f"e{len(sig_to_id)}"
 
     if hasattr(genealogy, "candidates"):
-        sig_thread = _select_by_coherence(flat, genealogy)
+        sig_thread = _select_by_coherence(flat, genealogy, genre=genre)
     else:
         sig_thread = {}
         for ent in flat:
