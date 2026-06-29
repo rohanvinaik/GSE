@@ -341,7 +341,17 @@ On top of evaluation, three resolution stages run (Stage 2–3):
   and a **type genealogy** per entity from two orthogonal strands — *word*
   (WordNet) and *world* ([sparse-wiki](../sparse-wiki-grounding)) — through an
   injectable `GenealogyProvider` (`GenealogyStore` over `data/genealogy.db`),
-  with **coherence-scored sense selection**.
+  with **sense selection re-ranked by HDC resonance** (`sense_resonance.py`):
+  WordNet orders senses by frequency, which can put a collective/abstract reading
+  ahead of the person agent (`men → work_force`), so each candidate sense's gloss
+  is decomposed to a hypervector (precomputed offline in `data/sense_vectors.db`
+  via `scripts/build_sense_vectors.py` — live decomposition is ~180ms/word) and
+  resonated against the sentence context. An **agent-guard** keeps it directional —
+  it may only promote a buried *person* sense over a non-person primary, never
+  demote a correct person-primary (`leader → drawing_card`) — and it abstains to
+  the frequency + Jaccard coherence fallback when it has no confident call. Engages
+  the third grounding leg (WordNet + sparse-wiki + GSE HDC); non-neural, the store a
+  gitignored build artifact, silent fallback if absent.
 - **Demi-words**: a multi-token nominal slot is one unit (the structure does the
   segmentation); identity keys off the whole span, grounded against the
   dictionaries by its joined key.
