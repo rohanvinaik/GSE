@@ -19,7 +19,7 @@ will dispatch on.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import TYPE_CHECKING, Dict, List, Optional, Sequence, Union
 
 from gse.api.trace import ClauseSpan, OperationTrace, OperatorTrace, TokenTrace
@@ -146,6 +146,35 @@ def _atom_from_token(token: TokenTrace, role: Optional[str] = None) -> Atom:
         number=number,
         graded=graded,
     )
+
+
+def _promote_nominalized_adjective_subject(
+    subject_tokens: Sequence[TokenTrace], subject_atoms: List[Atom]
+) -> List[Atom]:
+    """A subject whose only content head is an ADJECTIVE is a NOMINALIZED adjective — the noun-phrase
+    head used as a noun ("A giant attacks", "The accused fled", "A stranger helps a traveler"). The
+    parser tags such a word ADJ (its primary lexical POS), so without this it resolves to nothing — a
+    bare adjective atom with no referent thread — and the narrative-compaction stage drops the whole
+    clause as subject-less (the recurring "present-tense indefinite" parse-drop traced to here). Promote
+    that adjective to a NOUN so it grounds as the agent.
+
+    CONSERVATIVE — only fires when the subject span carries NO noun/proper-noun of its own: a real
+    modifier+noun subject ("the angry giant") keeps `giant` as the noun head and is untouched, and a
+    predicate adjective ("X is callous") never reaches here (it goes through the copula type-assertion
+    path, not _try_event). Text-agnostic — keyed on POS only, never a word list. For a GRADED adjective
+    (comparative surface ≠ base lemma, "stranger" ≠ "strange") the nominal lemma is the SURFACE form,
+    since the referent noun is "stranger", not the comparative base "strange"."""
+    if any(t.pos in ("NOUN", "PROPN") for t in subject_tokens):
+        return subject_atoms          # a real nominal head exists — not a nominalized adjective
+    out = list(subject_atoms)
+    for i, t in enumerate(subject_tokens):
+        if t.pos == "ADJ":
+            surface = (getattr(t, "token", "") or "").lower()
+            graded = bool(surface) and surface != (t.lemma or "").lower()
+            noun_lemma = surface if graded else out[i].lemma
+            out[i] = replace(out[i], lemma=noun_lemma, pos="NOUN", graded=False)
+            break                     # promote the single head adjective, then stop
+    return out
 
 
 def _build_arg_expression(
@@ -382,11 +411,15 @@ def _try_event(tokens: Sequence[TokenTrace],
         return False
 
     appositive = _appositive_positions(tokens, verb)   # NAME, description, → keep the name (Haemon)
-    subject_atoms = [_atom_from_token(t) for t in tokens
-                     if t.position < verb.position
-                     and t.pos != "PUNCT" and t.lemma not in _NEGATION_LEMMAS
-                     and not _prep_governed(t)
-                     and t.position not in appositive]
+    subject_tokens = [t for t in tokens
+                      if t.position < verb.position
+                      and t.pos != "PUNCT" and t.lemma not in _NEGATION_LEMMAS
+                      and not _prep_governed(t)
+                      and t.position not in appositive]
+    # A nominalized-adjective subject ("A giant attacks", "A stranger helps") is the NP head used as a
+    # noun; promote it so it grounds as the agent instead of being dropped as a bare adjective atom.
+    subject_atoms = _promote_nominalized_adjective_subject(
+        subject_tokens, [_atom_from_token(t) for t in subject_tokens])
     fronted_obliques = [_atom_from_token(t, "SYN_OBL") for t in tokens
                         if t.position < verb.position and t.pos != "PUNCT"
                         and t.lemma not in _NEGATION_LEMMAS and _prep_governed(t)]
