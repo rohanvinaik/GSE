@@ -412,6 +412,15 @@ spell-check workflow, but every suggestion is **symbolically derived**, not stat
   commits).
 - **Context layer** (`gse/nlp/spellcheck_context.py`): substitute-and-reparse structural
   well-formedness + Lesk gloss overlap, to break ties; margin-gated abstention.
+- **Orthogonal keyboard-HDC recovery** (`gse/nlp/hdc_speller.py`, native `vectors_v2`
+  sparse-ternary; cache `data/hdc_speller.npz` via `gse/curation/build_hdc_speller.py`): a
+  second error model for the far, length-preserving multi-key slips the edit model abstains
+  on (`ecifentky → evidently`, `pshychollgical → psychological`). Keyboard-blurred key
+  hypervectors, fractional-position binding + bookend weighting + bigram binds, length-banded
+  cosine. Fires **only on the abstain-residue**, behind the grounding + shape gates, two-tier
+  (auto-commit ≥0.75 cosine / offer below) — calibrated on the author's real ~/.claude typo
+  corpus (7/10 hard targets; 66/89% top-1/5). Frequency-weighted destruction stays
+  **0.00000%** (`scripts/hdc_destruction.py`). `tests/test_hdc_speller.py`.
 - **Surfaces**: an MCP server (`gse/mcp/spell_server.py`, tool `spell_suggest`, registered
   as **SymbolicSpellCheck**; absolute data paths so it runs from any cwd) and a REPL
   (`gse/nlp/spellcheck_repl.py`). `tests/test_spellcheck.py` — 40 tests.

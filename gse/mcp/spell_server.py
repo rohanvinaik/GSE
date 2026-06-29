@@ -25,6 +25,7 @@ from mcp.server.fastmcp import FastMCP
 from gse.api import GSEEncoder
 from gse.nlp.spellcheck import correct, looks_non_lexical, _DEFAULT_LEXICON
 from gse.nlp.spellcheck_context import correct_in_context, recover_rare_tail
+from gse.nlp.hdc_speller import default_speller, HDC_COMMIT_COS, HDC_OFFER_COS
 
 # clitics the native tokenizer splits off ("don't" -> "do" "n't"); rejoined for display
 _CLITICS = {"n't", "'s", "'re", "'ve", "'ll", "'d", "'m"}
@@ -117,6 +118,42 @@ def _context_payload(surface: str, template: str, context: List[str], n: int) ->
     }
 
 
+def _hdc_recover(surf: str, sentence_initial: bool = False):
+    """Keyboard-HDC ORTHOGONAL recovery for a token edit-distance ABSTAINED on (the far,
+    length-preserving multi-key-slip residue: 'ecifentky' -> 'evidently'). Returns
+    (word, cosine, commit) or None. Gated: input not shape-non-lexical; recovered word must
+    ground and not be shape-non-lexical. `commit` is True only above the calibrated COMMIT
+    cosine (auto-apply); between OFFER and COMMIT it is offered, not applied."""
+    sp = default_speller()
+    if sp is None or looks_non_lexical(surf, sentence_initial=sentence_initial):
+        return None
+    cands = sp.candidates(surf, k=1)
+    if not cands:
+        return None
+    word, cos = cands[0]
+    if cos < HDC_OFFER_COS or not _DEFAULT_LEXICON.grounds(word) or looks_non_lexical(word):
+        return None
+    return (word, cos, cos >= HDC_COMMIT_COS)
+
+
+def _apply_hdc(payload: Dict[str, Any], surf: str, sentence_initial: bool = False) -> None:
+    """If keyboard-HDC recovers an edit-distance-abstained token, fold it into `payload`:
+    commit (set top) above the COMMIT cosine, else offer as a low-confidence suggestion."""
+    rec = _hdc_recover(surf, sentence_initial=sentence_initial)
+    if not rec:
+        return
+    word, cos, commit = rec
+    entry = {"word": word, "score": round(cos, 3), "note": "keyboard-HDC orthogonal recovery"}
+    payload["suggestions"] = [entry] + payload.get("suggestions", [])
+    if commit:
+        payload["top"] = word
+        payload["ambiguous"] = False
+        payload["note"] = "recovered by keyboard-HDC (edit-distance abstained)"
+    else:
+        payload["ambiguous"] = True
+        payload["note"] = "keyboard-HDC suggestion offered (low confidence; not auto-applied)"
+
+
 @mcp.tool()
 def spell_suggest(text: str, n: int = 5) -> Dict[str, Any]:
     """Deterministically suggest corrections for misspelled words in `text`.
@@ -138,6 +175,8 @@ def spell_suggest(text: str, n: int = 5) -> Dict[str, Any]:
     if len(words) <= 1:
         w = _strip(text)
         tok = _word_payload(w, n) if w else {"surface": text, "misspelled": False, "suggestions": []}
+        if w and tok.get("misspelled") and not tok.get("top"):   # edit-distance abstained
+            _apply_hdc(tok, w, sentence_initial=True)
         corrected = (tok.get("top") or text) if tok.get("misspelled") else text
         return {"input": text, "deterministic": True, "tokens": [tok], "corrected": corrected}
 
@@ -180,6 +219,8 @@ def spell_suggest(text: str, n: int = 5) -> Dict[str, Any]:
             payload["top"] = None
             payload["ambiguous"] = bool(payload["suggestions"])
             payload["note"] = "non-lexical (acronym/code/proper-noun): offered, not committed"
+        if not payload.get("top") and not gated:    # edit-distance abstained -> try keyboard-HDC
+            _apply_hdc(payload, surf, sentence_initial=(i == 0))
         out_tokens.append(payload)
         if payload["top"]:
             corrected[i] = payload["top"]

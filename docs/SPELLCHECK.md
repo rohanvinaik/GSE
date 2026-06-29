@@ -27,6 +27,18 @@ lexicon + WordNet, so modern/technical terms (`refactor`, `json`, …) are recog
 broadly. The runtime loads the compact **bloom** (`data/wordlist_wiktionary.bloom`, a few
 MB) when present, not the 52MB text set.
 
+**Keyboard-HDC recovery layer (optional).** An orthogonal error model (`gse/nlp/hdc_speller.py`)
+recovers the far, length-preserving multi-key slips edit-distance abstains on (`ecifentky →
+evidently`). It needs a cached common-word lexicon (gitignored, rebuildable):
+
+```bash
+python -m gse.curation.build_hdc_speller               # encodes ~12k words -> data/hdc_speller.npz
+```
+
+If the cache is absent the layer simply no-ops (the corrector degrades to edit-distance only).
+It fires **only on the abstain-residue** — tokens that don't ground *and* edit-distance gave
+up on — behind the same grounding + shape gates, so the destruction bound is preserved.
+
 ## Usage
 
 **Python API** (`gse/nlp/spellcheck.py`):
@@ -59,6 +71,7 @@ any working directory.
 ## Tests & verification
 
 ```bash
-pytest tests/test_spellcheck.py                   # 40 behavioral tests
+pytest tests/test_spellcheck.py tests/test_hdc_speller.py   # behavioral tests (edit-distance + HDC)
 python scripts/adversarial_destruction.py         # measured "never makes a right word wrong" bound
+python scripts/hdc_destruction.py                 # same bound, for the keyboard-HDC layer (0.00000%)
 ```
