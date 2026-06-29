@@ -280,13 +280,21 @@ Four stages, each a module:
   NOT is treated as a directional argument, not an operator), and `Op` (a
   compositional operator with `operation` label + args). Multiple operators are
   left-folded by position. The verb-clause synthesizer (`_try_event`) takes the
-  pre-verb span as the subject, with two structural cleanups so the head-pick lands
+  pre-verb span as the subject, with **three** structural cleanups so the head-pick lands
   on the real agent: a **fronted PP** is split off as an oblique (`In the daytime I
-  ran` → daytime governed, not the subject), and a **non-restrictive appositive**
+  ran` → daytime governed, not the subject); a **non-restrictive appositive**
   (`_appositive_positions`) is excised — `Haemon, Creon's son, pledged …` keeps the
   leading proper-noun `Haemon` as subject and drops the bracketed description, instead
-  of letting the last nominal (`son`) silently replace the name. Coordinator-guarded so
-  a list (`Tom, Dick, and Harry`) is left whole.
+  of letting the last nominal (`son`) silently replace the name (coordinator-guarded so
+  a list `Tom, Dick, and Harry` is left whole); and a **nominalized-adjective subject**
+  is promoted to a noun (`_promote_nominalized_adjective_subject`) — an adjective-primary
+  noun in subject position (`A giant attacks`, `A general lost a soldier`, `A stranger
+  helps a traveler`) is parse-tagged ADJ and otherwise resolves to nothing, so the whole
+  subject-less clause was dropped in compaction (the "present-tense indefinite" parse-drop);
+  the head adjective is promoted to a NOUN so it grounds as the agent. Conservative — fires
+  only when the subject span carries no noun/proper-noun of its own (`the angry giant` keeps
+  `giant`), and predicate adjectives (`X is callous`) stay on the copula `TypeAssertion` path;
+  POS-keyed, no word list. A recovery, not a guess: the agent was there; the parse was discarding it.
 - **`resolution.py` — `resolve(ast) -> ast'`.** Collapses `Phrase`s into
   `Entity` nodes: entity grouping ("the cat" → `Entity(head=cat)`), possessive
   structuring ("Mike's dog" → `Entity(head=dog, possessor=Entity(head=mike))`),
@@ -368,9 +376,19 @@ On top of evaluation, three resolution stages run (Stage 2–3):
   genuinely-lowercased pure acronym (`ceo`/`dna`/`fbi`, no other English sense) grounded;
   validated across the 4021-lemma story corpus it touches only true collisions. The
   SymbolicSpellCheck discipline (correct a real mistake, abstain otherwise) in grounding.
+- **Possessive-object head-grounding** (`_lookup_key`): a possessive-determiner phrase
+  (`her son`, `his crown`) keyed grounding on the **whole span** (`her son`) — unfindable
+  in WordNet/sparse-wiki — so the head noun's type thread was lost and a typed-person guard
+  on `lost her son` failed (only the bare loss genus fired). The genealogy key now **strips a
+  leading possessive determiner** (her/his/its/their/my/your/our) for the **TYPE** lookup
+  (`her son`→`son`=person, `his crown`→`crown`=thing), while coreference identity
+  (`_signature`) keeps the **full span** so `her son` stays distinct from `the son`. The
+  possessor is a modifier of the type, not part of it — the same intervention-scope-vs-signal-scope
+  split as the appositive guard: type lookup drops the possessor, coreference keeps it. A recovery.
 - **Demi-words**: a multi-token nominal slot is one unit (the structure does the
-  segmentation); identity keys off the whole span, grounded against the
-  dictionaries by its joined key.
+  segmentation); identity keys off the whole span, grounded against the dictionaries by its
+  joined key — except a leading possessive determiner, which the *type* lookup strips (above)
+  while the *coreference* key keeps the whole span.
 - **Abstention** (`grounding_flags` / `triage_flags`): the DNA fidelity-tier
   signal — self-contradiction, ungrounded, and corpus-level systematic-vs-SNP
   triage. Proper nouns and OOV tokens flag rather than mis-ground.
