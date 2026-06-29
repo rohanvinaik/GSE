@@ -57,6 +57,26 @@ def _entity_like(tok) -> bool:
     )
 
 
+def _in_hyphen_compound(toks, i: int) -> bool:
+    """True when ``toks[i]`` is a member of a hyphenated nominal compound
+    (``cart-horse``) — a noun *modifier*, never a buried verb.
+
+    The flanker search skips PUNCT, so it discards the hyphen — the one token that
+    marks ``cart - horse colts`` a compound — and reads it as subject-verb-object,
+    spuriously promoting the verb-sensed middle noun (``horse``). The hyphen is the
+    compound signal; a real transitive verb is never directly joined by one. Detection
+    is local and text-agnostic: a hyphen token immediately adjacent to the candidate
+    whose other side is entity-like. (A spaced clause dash — ``There -- take`` — is a
+    separate token shape and does not match.)
+    """
+    n = len(toks)
+    if i - 2 >= 0 and toks[i - 1].text == "-" and _entity_like(toks[i - 2]):
+        return True
+    if i + 2 < n and toks[i + 1].text == "-" and _entity_like(toks[i + 2]):
+        return True
+    return False
+
+
 def verbs_to_promote(doc) -> Set[int]:
     """Token indices of buried (mis-tagged) verbs to promote to ``pos == VERB``.
 
@@ -83,6 +103,8 @@ def verbs_to_promote(doc) -> Set[int]:
         if t.pos_ in ("VERB", "PUNCT"):
             continue
         if not _has_verb_sense(t.lemma_):
+            continue
+        if _in_hyphen_compound(toks, i):   # a hyphenated noun-compound member is a modifier, not a verb
             continue
         left = _nearest_content(i, -1)
         right = _nearest_content(i, +1)

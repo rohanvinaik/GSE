@@ -117,6 +117,26 @@ def classify(prims: Dict[str, int], thread: Tuple[str, ...]):
     return role, eligible, banks
 
 
+# Concrete referential type-roots for protagonist-hood. WordNet roots organizations/social groups
+# under `abstraction → group`, so `group` counts as concrete here; a pure `abstraction` thread with no
+# `group` is a nominalization (`assassination`, `act`, `crisis`), not a story's protagonist.
+_CONCRETE_ROOTS = ("physical_entity", "group", "social_group")
+
+
+def _protagonist_like(node) -> bool:
+    """A backbone SEED must be a referential protagonist, not a phantom that merely recurs.
+
+    True for a named entity (PROPN — proper names carry no WordNet thread, so they are kept by POS)
+    or a concretely-typed referent (person/place/object/organization). False for a bare abstraction
+    (`assassination`/`act`/`noise`), a pronoun (`you`), or an untyped non-name — none is a protagonist
+    even when it acts twice. (Concrete-but-quote phantoms like `king`/`po` pass this gate; isolating
+    them is the separate connected-component step.)"""
+    if getattr(node, "pos", None) == "PROPN":
+        return True
+    thread = getattr(node, "thread", None) or ()
+    return any(root in thread for root in _CONCRETE_ROOTS)
+
+
 def _is_entity(node: Any) -> bool:
     return type(node).__name__ == "Entity"
 
@@ -192,10 +212,12 @@ class Edge:
     dst_resolved: bool
     provenance: List[str] = field(default_factory=list)         # heals applied (audit trail)
     themes: tuple = ()                                          # latent secondary args (rendered labels), revivable
+    negated: bool = False                                      # polarity: the event is NEGATED ("does not trust")
 
 
 _YIELD_PREDS = {"Event", "Causation", "Temporal", "TypeAssertion", "Comparison",
-                "Conditional", "Control", "RelativeRestriction", "Contrast", "ClauseCoordination"}
+                "Conditional", "Control", "RelativeRestriction", "Contrast", "ClauseCoordination",
+                "Negation"}   # yield the Negation node itself (NOT unwrap it) so its polarity survives compaction
 _CONTAINER_FIELDS = {
     "ClauseCoordination": ("left", "right"),
     "Contrast": ("left", "right"),
@@ -205,7 +227,9 @@ _CONTAINER_FIELDS = {
     "RelativeRestriction": ("head", "restriction"),
     "Control": ("subject", "controller", "inner"),
     "Event": ("agent", "patient"),
-    "Negation": ("operand",),
+    # "Negation" is intentionally NOT a container here: descending into its operand would yield the inner
+    # Event BARE (polarity lost). Negation is yielded as itself (see _YIELD_PREDS) and handled in
+    # from_document, which builds the inner event's edge with negated=True.
 }
 
 
@@ -276,13 +300,13 @@ class NarrativeGraph:
         n.roles.append((t, _label(kind)))
         return True
 
-    def _edge(self, kind: str, a: Any, rel: str, b: Any, t: int, themes: tuple = ()) -> bool:
+    def _edge(self, kind: str, a: Any, rel: str, b: Any, t: int, themes: tuple = (), negated: bool = False) -> bool:
         na, nb = self._node(a), self._node(b) if b is not None else None
         src = na.eid if na else _label(a)
         dst = (nb.eid if nb else _label(b)) if b is not None else ""
         if na is None and nb is None:
             return False                      # neither endpoint resolved → not in the spine
-        self.edges.append(Edge(t, kind, src, rel, dst, na is not None, nb is not None, themes=themes))
+        self.edges.append(Edge(t, kind, src, rel, dst, na is not None, nb is not None, themes=themes, negated=negated))
         if na:
             na.degree += 1
         if nb:
@@ -331,6 +355,21 @@ class NarrativeGraph:
                 if getattr(p, "verb", "") and getattr(p, "subject", None) is not None:
                     obj = p.controller if p.controller is not p.subject else None
                     ok = g._edge("event", p.subject, p.verb, obj, t)
+                else:
+                    ok = True
+            elif nm == "Negation":
+                # "p does NOT trust r" → Negation(Event(trust, p, r)). Build the inner event's edge with
+                # negated=True so the COMPACT spine carries the polarity (emit re-wraps it in NOT). Without
+                # this the compactor dropped the NOT — turning a contradiction into a confirmation and
+                # silently killing the surprise/belief-revision read (the no-compact projection used to be
+                # its only carrier). A negated STATE / non-event isn't a spine edge → abstain (don't assert
+                # the un-negated opposite).
+                inner = getattr(p, "operand", None)
+                inm = type(inner).__name__ if inner is not None else ""
+                if inm == "Event" and not (inner.verb in _STATE_VERBS and inner.patient is not None):
+                    ok = g._edge("event", inner.agent, inner.verb, inner.patient, t,
+                                 themes=tuple(_label(th, 0) for th in getattr(inner, "themes", ())),
+                                 negated=True)
                 else:
                     ok = True
             else:
@@ -494,9 +533,15 @@ class NarrativeGraph:
         top = max(score.values(), default=0.0)
         if top <= 0:
             return
-        # Seeds: recurring agents clearing a story-relative floor of the top score.
+        # Seeds: recurring agents clearing a story-relative floor of the top score AND that are
+        # REFERENTIAL PROTAGONISTS — recurrence alone admits a phantom that merely repeats (a quote's
+        # `king`/`po`, a nominalization `assassination`/`act`, an oratory `you`). A protagonist is a
+        # named entity (PROPN — its type-thread is empty, so it must be kept explicitly) OR a
+        # concretely-typed referent (person/place/object/organization); a bare abstraction or pronoun
+        # acting twice is not a protagonist. Drops the phantom-seed garbage while keeping the real cast.
         seeds = {eid for eid, s in score.items()
-                 if agent.get(eid, 0) >= 2 and s >= 0.1 * top}
+                 if agent.get(eid, 0) >= 2 and s >= 0.1 * top
+                 and _protagonist_like(self.nodes[eid])}
         # Causal closure: pull in the PATIENTS a protagonist acts upon. A murdered king never
         # acts (agent_count 0) but his role-states ("is king" → "becomes dead") are load-bearing
         # for the multi-hop succession derivation. Objects-without-states add nothing; states
@@ -598,7 +643,10 @@ class NarrativeGraph:
                 ev_feats = {"verb": e.rel, **prov}
                 if e.themes:                       # latent secondary args — preserved, revivable, default-ignored
                     ev_feats["themes"] = list(e.themes)
-                items.append((e.t, {"op": "EVENT", "args": args, "features": ev_feats}))
+                env = {"op": "EVENT", "args": args, "features": ev_feats}
+                if e.negated:                      # re-wrap the polarity the compactor would otherwise drop
+                    env = {"op": "NOT", "args": [env], "features": {}}
+                items.append((e.t, env))
             elif e.kind == "cause" and src is not None and dst is not None:
                 items.append((e.t, {"op": "CAUSATION", "args": [src, dst], "features": {"conjunction": "so", **prov}}))
             elif e.kind == "temporal" and src is not None and dst is not None:

@@ -64,7 +64,12 @@ class GenealogyStore:
         if pos == "PRON":
             return []   # a pronoun's identity is its antecedent, not "I"→iodine
         if is_proper:
-            return self._world(lemma)
+            # A narrative proper-noun AGENT is a person / place / organization — never a creative WORK.
+            # A world match rooted in `Work` (its DBpedia children: Software, Film, Album, Book, …) is the
+            # spurious-homograph class — a product NAMED AFTER the character ("Antigone" → a software
+            # product, mislabeling the protagonist "Software"). Abstain rather than assert a wrong
+            # identity — the same discipline as the common-noun-homograph abstention above (Rex→king).
+            return [c for c in self._world(lemma) if "Work" not in c]
         return self._word(lemma)
 
     def thread(self, lemma: str, pos: str, is_proper: bool) -> Sequence[str]:
