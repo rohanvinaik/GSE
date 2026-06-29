@@ -104,13 +104,29 @@ def _position(entity: Entity) -> int:
     return getattr(entity.head, "position", 0)
 
 
+# Possessive determiners — a possessor MODIFIER on a noun phrase, never part of the referent's TYPE.
+# "her son" is grounded as "son" (a person, whoever the mother), "his crown" as "crown" (a thing).
+_POSSESSIVE_DETERMINERS = frozenset({"her", "his", "its", "their", "my", "your", "our"})
+
+
 def _lookup_key(entity: Entity) -> str:
     """The genealogy key for an entity — its whole demi-word span ("ice cream",
     "lady macbeth") when it has one, else the head lemma. The store's
     ``candidates`` already accepts multi-token keys (WordNet MWEs + sparse-wiki
-    labels), so a matched span grounds confidently to its own entry."""
+    labels), so a matched span grounds confidently to its own entry.
+
+    A LEADING possessive determiner ("her son", "his crown") is a possessor modifier, NOT part of
+    the type — so it is stripped for the genealogy lookup ("son", "crown"), letting the head noun
+    carry the thread (a possessive bereavement object "lost her son" types as a PERSON instead of
+    failing on the unfound key "her son"). Coreference identity keeps the full span (_signature), so
+    "her son" stays a distinct referent from "the son" — only the TYPE lookup drops the possessor."""
     span = getattr(entity, "span", ())
-    return " ".join(span) if span else entity.head.lemma
+    if span:
+        toks = list(span)
+        while len(toks) > 1 and str(toks[0]).lower() in _POSSESSIVE_DETERMINERS:
+            toks = toks[1:]
+        return " ".join(toks)
+    return entity.head.lemma
 
 
 def _map_entities(node: Any, fn) -> Any:
