@@ -315,6 +315,31 @@ def _try_copula_type_assertion(tokens: Sequence[TokenTrace]) -> Optional[Express
     return Negation(operand=assertion) if negated else assertion
 
 
+def _appositive_positions(tokens: Sequence[TokenTrace], verb: TokenTrace) -> set:
+    """Positions of a NON-RESTRICTIVE APPOSITIVE in the pre-verb subject region — to drop, so the
+    named subject survives instead of the description's head.
+
+    ``Haemon, Creon's son, pledged …`` parses with the whole pre-verb span as the subject, and the
+    downstream head-pick takes the *last* nominal (``son``), silently losing the name ``Haemon``.
+    The symmetric ``det role NAME`` form (``the king Duncan``) already keeps the name; this restores
+    the symmetry for ``NAME, description,``: the bracketed phrase between a proper-noun subject and the
+    next comma is a non-restrictive appositive (a description of the name, not a second referent), so
+    it is excluded from the subject. Conservative: only fires when the span OPENS with a PROPN and the
+    appositive carries no coordinator — so a real list (``Tom, Dick, and Harry``) is left untouched.
+    """
+    pre = sorted([t for t in tokens if t.position < verb.position], key=lambda t: t.position)
+    commas = [i for i, t in enumerate(pre) if t.pos == "PUNCT" and t.lemma == ","]
+    if len(commas) >= 2 and pre and pre[0].pos == "PROPN":
+        # A coordinator ANYWHERE in the span means a list ("Tom, Dick, and Harry"), not an
+        # appositive — leave it whole. Otherwise the phrase between the first two commas is the
+        # non-restrictive appositive describing the leading name.
+        if not any(t.lemma in ("and", "or") for t in pre):
+            between = pre[commas[0] + 1:commas[1]]
+            if between:
+                return {t.position for t in between}
+    return set()
+
+
 def _try_event(tokens: Sequence[TokenTrace],
                shared_subject: Optional[Sequence] = None) -> Optional[Expression]:
     """Synthesize an EVENT ``Op`` from a plain verb clause "X verbs Y".
@@ -356,10 +381,12 @@ def _try_event(tokens: Sequence[TokenTrace],
             return t.pos == "ADP"
         return False
 
+    appositive = _appositive_positions(tokens, verb)   # NAME, description, → keep the name (Haemon)
     subject_atoms = [_atom_from_token(t) for t in tokens
                      if t.position < verb.position
                      and t.pos != "PUNCT" and t.lemma not in _NEGATION_LEMMAS
-                     and not _prep_governed(t)]
+                     and not _prep_governed(t)
+                     and t.position not in appositive]
     fronted_obliques = [_atom_from_token(t, "SYN_OBL") for t in tokens
                         if t.position < verb.position and t.pos != "PUNCT"
                         and t.lemma not in _NEGATION_LEMMAS and _prep_governed(t)]
