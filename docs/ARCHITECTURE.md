@@ -279,7 +279,14 @@ Four stages, each a module:
   `Phrase` (unresolved multi-token span), `Negation` (a `-1` sign direction —
   NOT is treated as a directional argument, not an operator), and `Op` (a
   compositional operator with `operation` label + args). Multiple operators are
-  left-folded by position.
+  left-folded by position. The verb-clause synthesizer (`_try_event`) takes the
+  pre-verb span as the subject, with two structural cleanups so the head-pick lands
+  on the real agent: a **fronted PP** is split off as an oblique (`In the daytime I
+  ran` → daytime governed, not the subject), and a **non-restrictive appositive**
+  (`_appositive_positions`) is excised — `Haemon, Creon's son, pledged …` keeps the
+  leading proper-noun `Haemon` as subject and drops the bracketed description, instead
+  of letting the last nominal (`son`) silently replace the name. Coordinator-guarded so
+  a list (`Tom, Dick, and Harry`) is left whole.
 - **`resolution.py` — `resolve(ast) -> ast'`.** Collapses `Phrase`s into
   `Entity` nodes: entity grouping ("the cat" → `Entity(head=cat)`), possessive
   structuring ("Mike's dog" → `Entity(head=dog, possessor=Entity(head=mike))`),
@@ -352,6 +359,15 @@ On top of evaluation, three resolution stages run (Stage 2–3):
   the frequency + Jaccard coherence fallback when it has no confident call. Engages
   the third grounding leg (WordNet + sparse-wiki + GSE HDC); non-neural, the store a
   gitignored build artifact, silent fallback if absent.
+- **Orthographic-collision abstention** (`_orthographic_collision`): WordNet folds case,
+  so the lowercase word `add` matches the noun synset `attention_deficit_disorder` via its
+  acronym lemma `ADD`. When a lowercase common word reaches its noun sense(s) ONLY through an
+  uppercase-acronym lemma — never an exact lowercase one — *and* it has a genuine non-noun
+  reading being displaced (`add`=verb, `far`=adverb, `led`=verb), the grounding abstains
+  rather than assert the acronym (`add`, `led`, `far`→ALIR). The displaced-word guard keeps a
+  genuinely-lowercased pure acronym (`ceo`/`dna`/`fbi`, no other English sense) grounded;
+  validated across the 4021-lemma story corpus it touches only true collisions. The
+  SymbolicSpellCheck discipline (correct a real mistake, abstain otherwise) in grounding.
 - **Demi-words**: a multi-token nominal slot is one unit (the structure does the
   segmentation); identity keys off the whole span, grounded against the
   dictionaries by its joined key.
