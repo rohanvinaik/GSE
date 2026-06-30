@@ -95,7 +95,16 @@ class CassetteDeck:
             for r in cas.run(doc):
                 (committed if not r.abstained else abstained).append((cas, r) if not r.abstained else r)
 
-        # 2. PRIORITY order — most convergent, then most local, then strongest margin
+        # 2a. CROSS-CASSETTE CONSTRAINTS — a validator cassette's vetoes gate the resolver cassettes.
+        #     A "veto" resolution (e.g. person_validation: this name is non-person) removes its target
+        #     from every merge's candidate pool BEFORE arbitration. The composition the brief calls for:
+        #     a validator constrains a resolver, so an edge case one cassette can't see another vetoes.
+        #     A veto is NOT held to the convergence floor: it only ABSTAINS a merge (never asserts one),
+        #     so it errs toward safety — one authoritative non-person signal (WordNet "germanic is a
+        #     language") is enough. The cassette already commits a veto only on positive evidence.
+        vetoed = {r.committed for cas, r in committed if getattr(r.gap, "kind", None) == "veto"}
+
+        # 2b. PRIORITY order — most convergent, then most local, then strongest margin
         committed.sort(key=lambda cr: (cr[1].confidence, cr[1].locality, cr[1].ranked[0].total
                                        if cr[1].ranked else 0.0), reverse=True)
 
@@ -118,10 +127,15 @@ class CassetteDeck:
 
         # 3. GREEDY CASCADE with constraint propagation
         for cas, r in committed:
+            g = r.gap
+            kind = getattr(g, "kind", None)
+            if kind == "veto":
+                continue                       # consumed as a constraint in 2a, not a cheat-sheet line
             if r.confidence < self.min_confidence:
                 continue                       # below the convergence floor — a lone signal, defer/drop
-            g = r.gap
-            if getattr(g, "kind", None) == "merge":
+            if kind == "merge":
+                if r.committed in vetoed:
+                    continue                   # target vetoed non-person by a validator cassette → drop
                 # conflict check: this description already bound to a DIFFERENT referent class → skip
                 if g.eid in merges and not uf.same(g.eid, r.committed):
                     continue

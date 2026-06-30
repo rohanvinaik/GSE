@@ -16,10 +16,12 @@ from .base import Cassette, Resolution, Scored
 from .deck import CassetteDeck, CheatEntry, DeckResult
 from .entity_identity import EntityIdentity, IdentityGap
 from .multiscale import Mention, MultiScaleDoc
+from .person_validation import PersonGap, PersonValidation
 
 __all__ = [
     "MultiScaleDoc", "Mention",
     "Cassette", "Resolution", "Scored",
     "EntityIdentity", "IdentityGap",
+    "PersonValidation", "PersonGap",
     "CassetteDeck", "CheatEntry", "DeckResult",
 ]
