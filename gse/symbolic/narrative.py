@@ -32,6 +32,25 @@ from typing import Any, Dict, List, Optional, Set, Tuple
 # (see _collect_predicates below) that descends into coordination/conditional containers.
 
 _STATE_VERBS = {"be", "become", "is", "are", "was", "were", "remain", "turn"}
+# Propositional-attitude verbs: they take a CLAUSAL complement ("believes that he is righteous"),
+# which the parser binds as Event(believe; agent, <nested predicate>). That complement is the agent's
+# BELIEF, not a fact — so it is surfaced as a THEME of the attitude event (kept attributed to the
+# believer), never yielded as a standalone assertion. This is what lets the V1 self-deception read
+# fire (believes v ∧ deeds betray v → betrays v), without asserting the belief as true.
+_ATTITUDE_VERBS = {"believe", "think", "know", "suspect", "doubt", "realize", "realise",
+                   "understand", "imagine", "suppose", "assume", "expect", "fear", "hope",
+                   "feel", "perceive", "consider", "conclude", "deem", "fancy", "reckon"}
+
+
+def _belief_value(patient: Any) -> str:
+    """The held VALUE of a propositional-attitude complement, as a theme label: a copula complement
+    ("he is righteous") yields its predicate (righteous); an embedded event ("he wins") the verb."""
+    nm = type(patient).__name__
+    if nm == "TypeAssertion":
+        return _label(getattr(patient, "kind", None), 0)
+    if nm == "Event":
+        return getattr(patient, "verb", "") or _label(patient, 0)
+    return _label(patient, 0)
 
 # --- HDC role + eligibility: OTP informational-zero elimination over the NSM banks ----
 # GSE already partitions the NSM primitives into 8 semantic banks (primitives_v2). An
@@ -256,7 +275,14 @@ def _collect_predicates(tree: Any) -> List[Any]:
             for a in getattr(n, "args", []) or []:
                 walk(a)
         else:
-            for f in _CONTAINER_FIELDS.get(nm, ()):
+            fields = _CONTAINER_FIELDS.get(nm, ())
+            # Don't descend into a propositional-attitude verb's clausal complement ("believes he is
+            # righteous"): it is the believer's BELIEF, surfaced as a theme by from_document, not a
+            # standalone assertion — yielding it separately would assert the belief as a fact.
+            if (nm == "Event" and getattr(n, "verb", "") in _ATTITUDE_VERBS
+                    and type(getattr(n, "patient", None)).__name__ in ("TypeAssertion", "Event")):
+                fields = tuple(f for f in fields if f != "patient")
+            for f in fields:
                 walk(getattr(n, f, None))
 
     walk(tree)
@@ -339,6 +365,13 @@ class NarrativeGraph:
             elif nm == "Event":
                 if p.verb in _STATE_VERBS and p.patient is not None:
                     ok = g._state(p.agent, p.patient, t)          # "became king" → role
+                elif (p.verb in _ATTITUDE_VERBS
+                      and type(p.patient).__name__ in ("TypeAssertion", "Event")):
+                    # Propositional-attitude complement ("believes he is righteous"): the belief CONTENT
+                    # is surfaced as a THEME of the attitude event (the bridge reads it as the held
+                    # value), attributed to the believer and NOT asserted as a fact.
+                    val = _belief_value(p.patient)
+                    ok = g._edge("event", p.agent, p.verb, None, t, themes=(val,) if val else ())
                 else:
                     ok = g._edge("event", p.agent, p.verb, p.patient, t,
                                  themes=tuple(_label(th, 0) for th in getattr(p, "themes", ())))
