@@ -149,7 +149,13 @@ def _protagonist_like(node) -> bool:
     or a concretely-typed referent (person/place/object/organization). False for a bare abstraction
     (`assassination`/`act`/`noise`), a pronoun (`you`), or an untyped non-name — none is a protagonist
     even when it acts twice. (Concrete-but-quote phantoms like `king`/`po` pass this gate; isolating
-    them is the separate connected-component step.)"""
+    them is the separate connected-component step.)
+
+    The WORLD-LEG gate (set in _finalize): a named referent the world strand types as a non-agent
+    (Event/Work — the Crimean War, a treaty) is NEVER a protagonist, however often it recurs; a
+    National-collective facet (a nation) overrides it back to eligible there."""
+    if getattr(node, "world_nonagent", False):
+        return False
     if getattr(node, "pos", None) == "PROPN":
         return True
     thread = getattr(node, "thread", None) or ()
@@ -218,6 +224,7 @@ class _Node:
     lemma: str = ""                                             # head lemma (for the world-strand heal)
     role: str = "?"                                            # inferred semantic role
     eligible: bool = False                                      # admitted citizen vs eliminated noise
+    world_nonagent: bool = False                                # world strand types it a non-agent (Event/Work)
     provenance: List[str] = field(default_factory=list)         # heals applied (audit trail)
 
 
@@ -494,6 +501,25 @@ class NarrativeGraph:
             if role == "?":
                 role = "agent" if subj_of.get(n.eid) else ("object" if obj_of.get(n.eid) else "?")
             n.role = role
+            # WORLD-LEG agent gate (head-on-two-legs): the world strand says whether a named referent
+            # CAN act. A TAXONOMIC Event/Work (Crimean War / the "war" entity → MilitaryConflict) or a
+            # WordNet abstraction/event common noun with no concrete/person root (war, opportunity) is
+            # NOT a story protagonist, however often it recurs. A NATION is *already* kept — it grounds
+            # TAXONOMIC ['Thing'] (its national-collective signal lives in the SCALE/DOMAIN facets, NOT
+            # the type), so it never trips this gate — no collective-override needed (and an override
+            # off the facets wrongly rescues the National-scoped Event "war"). Shallow/absent grounding
+            # ABSTAINS (the NLP leg decides), so a fictional character (Macbeth → ['Thing']) passes.
+            tset = set(n.thread)
+            nonagent_type = (
+                bool(tset & {"Event", "SocietalEvent", "MilitaryConflict", "Work"})
+                or (("abstraction" in tset or "event" in tset)
+                    and not (tset & {"physical_entity", "person", "organism", "causal_agent",
+                                     "Agent", "Person"})))
+            if nonagent_type:
+                n.world_nonagent = True
+                n.provenance.append(
+                    "world-leg: non-agent type (%s) — excluded from protagonist-hood"
+                    % (n.thread[-1] if n.thread else "?"))
 
     def _heal(self) -> None:
         """Discourse-strand correction: an EVENT whose subject was dropped/garbled (its agent
@@ -669,7 +695,12 @@ class NarrativeGraph:
             # (src) — this drops a noise-entity acting ON a protagonist ("beard —collect→ della").
             # Causal/temporal links survive if EITHER endpoint is on the spine.
             if e.kind == "event":
-                if e.src not in elig:
+                # The spine is protagonist AGENCY: the agent must be on the spine AND must be a
+                # WORLD-LEG agent — an Event/abstraction (the war, a treaty, an "opportunity") can be
+                # a patient ("Russia won the war") but never the AGENT of an emitted event, so its
+                # `war —verb→ x` spurious agency drops here (the nations remain the actors).
+                src_node = self.nodes.get(e.src)
+                if e.src not in elig or (src_node is not None and src_node.world_nonagent):
                     continue
             elif e.src not in elig and e.dst not in elig:
                 continue

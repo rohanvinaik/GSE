@@ -22,7 +22,7 @@ from __future__ import annotations
 import json
 import sqlite3
 from pathlib import Path
-from typing import List, Sequence, Tuple
+from typing import Dict, List, Sequence, Tuple
 
 _DEFAULT_DB = Path(__file__).resolve().parent.parent.parent / "data" / "genealogy.db"
 
@@ -49,6 +49,28 @@ class GenealogyStore:
             (lemma.lower(),),
         ).fetchall()
         return [tuple(json.loads(r[0])) for r in rows]
+
+    def facets(self, label: str) -> Dict[str, Tuple[str, ...]]:
+        """The ORTHOGONAL world facets (SCALE / DOMAIN) for a named referent — additive evidence
+        beyond the TAXONOMIC thread. A nation grounds SCALE=('Regional','National') +
+        DOMAIN=('Knowledge','Geography') even when its TAXONOMIC genealogy is a shallow ['Thing']
+        (honest abstention, never filled): that facet is the signal it is a NATIONAL collective.
+        Returns ``{dimension: deepest-path}`` (deepest candidate per dimension); ``{}`` if unknown.
+
+        Absent from ``world_facets`` (an older genealogy.db build) → ``{}``, degrading gracefully to
+        the TAXONOMIC-only behaviour (no facet evidence, no crash)."""
+        try:
+            rows = self._conn.execute(
+                "SELECT dimension, path FROM world_facets WHERE label=? ORDER BY depth DESC",
+                (label.lower(),),
+            ).fetchall()
+        except sqlite3.OperationalError:
+            return {}
+        out: Dict[str, Tuple[str, ...]] = {}
+        for dim, path in rows:
+            if dim not in out:        # ORDER BY depth DESC → keep the most-typed path per dimension
+                out[dim] = tuple(json.loads(path))
+        return out
 
     # -- provider API -------------------------------------------------------
     def candidates(self, lemma: str, pos: str, is_proper: bool) -> List[Tuple[str, ...]]:

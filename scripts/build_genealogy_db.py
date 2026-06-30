@@ -36,6 +36,14 @@ def build_schema(conn: sqlite3.Connection) -> None:
         CREATE INDEX idx_word ON word_thread(lemma, pos);
         CREATE TABLE world_thread (label TEXT, thread TEXT, depth INTEGER);
         CREATE INDEX idx_world ON world_thread(label);
+        DROP TABLE IF EXISTS world_facets;
+        -- The ORTHOGONAL facets (SCALE / DOMAIN) beyond the TAXONOMIC genealogy. A name whose
+        -- TAXONOMIC is a shallow ["Thing"] (honest abstention — never to be "filled") can still
+        -- carry SCALE=["Regional","National"] + DOMAIN=["Knowledge","Geography"], the signal that
+        -- it is a NATIONAL/geographic collective. Additive evidence for agent-differentiation,
+        -- consumed by GenealogyStore.facets(); TAXONOMIC stays in world_thread.
+        CREATE TABLE world_facets (label TEXT, dimension TEXT, path TEXT, depth INTEGER);
+        CREATE INDEX idx_facets ON world_facets(label);
         """
     )
 
@@ -76,23 +84,33 @@ def ingest_sparse_wiki(conn: sqlite3.Connection) -> int:
     # a DBpedia type still grounds to ["Thing"] — "known world entity, type
     # unspecified" — which distinguishes it from a genuinely unknown name (flagged).
     cur = src.execute(
-        """SELECT e.label, dp.path_nodes, dp.path_depth
+        """SELECT e.label, dp.dimension, dp.path_nodes, dp.path_depth
            FROM dimension_positions dp JOIN entities e ON dp.entity_id=e.id
-           WHERE dp.dimension='TAXONOMIC'"""
+           WHERE dp.dimension IN ('TAXONOMIC','SCALE','DOMAIN')"""
     )
-    rows, n = [], 0
-    for label, path_nodes, depth in cur:
+    threads, facets, n = [], [], 0
+    for label, dimension, path_nodes, depth in cur:
         if not label:
             continue
-        rows.append((label.lower(), path_nodes, depth))
-        n += 1
-        if len(rows) >= 5000:
+        if dimension == "TAXONOMIC":
+            threads.append((label.lower(), path_nodes, depth))
+            n += 1
+        else:  # SCALE / DOMAIN — the orthogonal facets
+            facets.append((label.lower(), dimension, path_nodes, depth))
+        if len(threads) >= 5000:
             conn.executemany(
-                "INSERT INTO world_thread(label,thread,depth) VALUES(?,?,?)", rows)
-            rows = []
-    if rows:
+                "INSERT INTO world_thread(label,thread,depth) VALUES(?,?,?)", threads)
+            threads = []
+        if len(facets) >= 5000:
+            conn.executemany(
+                "INSERT INTO world_facets(label,dimension,path,depth) VALUES(?,?,?,?)", facets)
+            facets = []
+    if threads:
         conn.executemany(
-            "INSERT INTO world_thread(label,thread,depth) VALUES(?,?,?)", rows)
+            "INSERT INTO world_thread(label,thread,depth) VALUES(?,?,?)", threads)
+    if facets:
+        conn.executemany(
+            "INSERT INTO world_facets(label,dimension,path,depth) VALUES(?,?,?,?)", facets)
     src.close()
     return n
 
