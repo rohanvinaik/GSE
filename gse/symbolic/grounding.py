@@ -730,7 +730,25 @@ def resolve_document(
 
     def annotate(ent: Entity) -> Entity:
         sig = _signature(ent)
-        return replace(ent, entity_id=sig_to_id[sig], type_thread=sig_thread.get(sig, ()))
+        thread = sig_thread.get(sig, ())
+        # Appositive type-inheritance: a proper-noun the world strand can't place ("Arjun") but the TEXT
+        # describes ("Arjun, a warrior") inherits the apposed common noun's thread — the type the text
+        # itself supplies (no homograph risk: it grounds the apposed COMMON noun "warrior", never the name
+        # lemma). Stored in apposition_thread, NOT type_thread: an empty type_thread keeps the name from
+        # coreferring/merging with its own appositive entity (which would flip the agent), and the emit
+        # step folds it into the serialized type_thread — after agent selection is fixed.
+        appos_thread: tuple = ()
+        if not thread and _is_proper(ent) and hasattr(genealogy, "candidates"):
+            appos = getattr(ent.head, "apposition", None)
+            if appos:
+                cands = [tuple(t) for t in genealogy.candidates(appos, "NOUN", False)]
+                if cands:
+                    # End the inherited thread with the NAME itself as the most-specific node, so the
+                    # apposed type (…→person→warrior) stays IN the thread for the type guards while the
+                    # entity still displays as the name, not its type (the named individual is its own
+                    # leaf — "Arjun" is-a warrior is-a person).
+                    appos_thread = cands[0] + (ent.head.lemma,)
+        return replace(ent, entity_id=sig_to_id[sig], type_thread=thread, apposition_thread=appos_thread)
 
     return [_map_entities(tree, annotate) for tree in trees]
 

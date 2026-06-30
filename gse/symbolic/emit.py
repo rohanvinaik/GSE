@@ -147,10 +147,14 @@ def emit(node: Any) -> Any:
     # A reference-resolved Entity → v2 entity-ref. (Possessor folds into the
     # surface lemma string; the ref's identity is the head's entity_id.)
     if name == "Entity" and getattr(node, "entity_id", None) is not None:
+        # Appositive type-inheritance is folded in HERE, at serialization — after coreference and agent
+        # selection are fixed — so a described proper noun ("Arjun, a warrior") carries its evidenced
+        # type without that thread perturbing the upstream pipeline (which would flip the agent).
+        thread = node.type_thread or getattr(node, "apposition_thread", ())
         return {
             "entity_id": node.entity_id,
             "lemma": _leaf_str(node),
-            "type_thread": list(node.type_thread),
+            "type_thread": list(thread),
         }
 
     # Entity (unresolved) / Atom / Phrase / bare value → leaf string (v1).

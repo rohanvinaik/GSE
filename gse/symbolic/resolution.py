@@ -78,6 +78,11 @@ class Entity:
     entity_id: Optional[str] = None
     type_thread: tuple = ()
     span: tuple = ()
+    # An appositive-inherited thread for a proper noun the world strand can't place ("Arjun, a warrior"
+    # → warrior's thread). Held SEPARATELY from type_thread so it stays invisible to coreference and
+    # agent selection (an empty type_thread keeps the name from merging with its own appositive); the
+    # emit step folds it into the serialized type_thread. Empty when there is no appositive evidence.
+    apposition_thread: tuple = ()
 
 
 @dataclass(frozen=True)

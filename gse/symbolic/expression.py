@@ -56,6 +56,11 @@ class Atom:
     # lexicalized compound — so demi-word promotion skips it ("fattest hen" ≠ the plant
     # "fat hen"). False/None for non-adjectives or the base form.
     graded: bool = False
+    # An appositive description's head noun ("Arjun, a warrior" → "warrior"; "Haemon, Creon's son" →
+    # "son"): the TYPE the text itself supplies for a proper-noun agent. Grounding fills the entity's
+    # type_thread from this — ONLY when the proper-noun world-strand lookup is empty, and only at the
+    # annotate seam (post-coherence) so it cannot perturb agent selection. None when absent.
+    apposition: Optional[str] = None
 
     def __hash__(self) -> int:
         # word_primitives is unhashable; hash on lemma+position
@@ -420,6 +425,17 @@ def _try_event(tokens: Sequence[TokenTrace],
     # noun; promote it so it grounds as the agent instead of being dropped as a bare adjective atom.
     subject_atoms = _promote_nominalized_adjective_subject(
         subject_tokens, [_atom_from_token(t) for t in subject_tokens])
+    # Appositive type-inheritance (hint only — the thread is filled at the grounding annotate seam): when
+    # the subject is a NAME described by an appositive ("Arjun, a warrior" / "Haemon, Creon's son"), carry
+    # the description's head noun onto the kept proper-noun atom. The name stays the agent (this does not
+    # touch subject selection); grounding later types it from what the TEXT says when the name itself can't
+    # be placed. The apposition head is the LAST noun of the dropped appositive span.
+    if appositive:
+        _appos_nouns = [t for t in sorted(tokens, key=lambda t: t.position)
+                        if t.position in appositive and t.pos in ("NOUN", "PROPN")]
+        if _appos_nouns:
+            _ah = _appos_nouns[-1].lemma
+            subject_atoms = [replace(a, apposition=_ah) if a.pos == "PROPN" else a for a in subject_atoms]
     fronted_obliques = [_atom_from_token(t, "SYN_OBL") for t in tokens
                         if t.position < verb.position and t.pos != "PUNCT"
                         and t.lemma not in _NEGATION_LEMMAS and _prep_governed(t)]

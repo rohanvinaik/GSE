@@ -191,6 +191,7 @@ class _Node:
     eid: str
     surface: Set[str] = field(default_factory=set)
     thread: Tuple[str, ...] = ()
+    appos_thread: Tuple[str, ...] = ()                          # appositive-inherited thread (emit-only)
     roles: List[Tuple[int, str]] = field(default_factory=list)   # (time, role/state)
     degree: int = 0                                              # edges touching this node
     prims: Dict[str, int] = field(default_factory=dict)         # bundled NSM primitive profile
@@ -283,6 +284,8 @@ class NarrativeGraph:
         n.surface.add(_label(ent))
         if not n.thread and getattr(ent, "type_thread", ()):
             n.thread = tuple(ent.type_thread)
+        if not n.appos_thread:                                 # appositive-inherited (emit-only; see ref())
+            n.appos_thread = tuple(getattr(ent, "apposition_thread", ()) or ())
         head = getattr(ent, "head", None)                      # bundle the primitive profile
         for p, v in (getattr(head, "word_primitives", {}) or {}).items():
             n.prims[p] = n.prims.get(p, 0) + v
@@ -615,7 +618,9 @@ class NarrativeGraph:
             if n is None:
                 return None
             lemma = min(n.surface, key=len) if n.surface else (n.lemma or eid)
-            return {"entity_id": n.eid, "lemma": lemma, "type_thread": list(n.thread)}
+            # Fold the appositive-inherited thread in ONLY here, at serialization — n.thread stays empty
+            # through scoring/merge so a described proper name never coreferences with its own appositive.
+            return {"entity_id": n.eid, "lemma": lemma, "type_thread": list(n.thread or n.appos_thread)}
 
         items: List[Tuple[int, Dict[str, Any]]] = []
         for n in self.nodes.values():

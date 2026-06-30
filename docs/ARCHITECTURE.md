@@ -286,7 +286,14 @@ Four stages, each a module:
   (`_appositive_positions`) is excised — `Haemon, Creon's son, pledged …` keeps the
   leading proper-noun `Haemon` as subject and drops the bracketed description, instead
   of letting the last nominal (`son`) silently replace the name (coordinator-guarded so
-  a list `Tom, Dick, and Harry` is left whole); and a **nominalized-adjective subject**
+  a list `Tom, Dick, and Harry` is left whole). The kept name also **inherits the
+  description's type** (`Arjun, a warrior` → the `warrior` thread): the apposed common noun's
+  genealogy is carried on the proper-noun's `apposition_thread` and folded into the emitted
+  `type_thread` **only at serialization** — after coreference and agent selection — with the
+  name appended as the leaf, so the type guards see `person` while the entity still displays
+  as the name. Evidence-based (the text supplied the type), zero homograph risk (`Sparta, a
+  city` → a place, not a person), and structurally unable to perturb the upstream pipeline.
+  And a **nominalized-adjective subject**
   is promoted to a noun (`_promote_nominalized_adjective_subject`) — an adjective-primary
   noun in subject position (`A giant attacks`, `A general lost a soldier`, `A stranger
   helps a traveler`) is parse-tagged ADJ and otherwise resolves to nothing, so the whole
