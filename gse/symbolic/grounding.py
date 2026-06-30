@@ -681,6 +681,69 @@ def _bind_document_pronouns(trees: Sequence[Any]) -> List[Any]:
     return out
 
 
+# Third-person possessive determiners we resolve to an antecedent referent (M2.2 layer A).
+# my/your/our are deictic (speaker/addressee), its is non-person — left alone.
+_RESOLVABLE_POSS_DET = frozenset({"her", "his", "their"})
+
+
+def _resolve_possessive_determiners(trees: Sequence[Any]) -> List[Any]:
+    """M2.2 layer A — bind a leading possessive DETERMINER inside a noun span to its referent.
+
+    The standalone-pronoun binder rebinds "he"/"she"; a possessive determiner glued into a
+    span ("her" in ``('her','husband')``) is skipped, so "her husband" keeps ``possessor=None``
+    and cannot participate in relational coref. This pass resolves that determiner to its
+    antecedent and populates ``possessor`` (stripping the determiner from the span), making the
+    phrase structurally parallel to a name-possessive ("Duncan's son" → possessor=duncan).
+
+    Antecedents accrue in TOKEN ORDER across the document (prior sentences + earlier-in-this
+    sentence by head position), so "his wife, Lady Macbeth … her husband" sees Lady Macbeth
+    before "her". Agreement is STRICT for a gendered determiner — "her" binds ONLY to a
+    known-female antecedent, abstaining otherwise (binding "her" to a male would fabricate);
+    an ungendered "their" falls back to the permissive number/person check. Pure pronoun
+    machinery (``_entity_gender`` + ``_pron_agrees``); no world strand needed here."""
+    antecedents: List[Entity] = []
+    out: List[Any] = []
+    for tree in trees:
+        ents: List[Entity] = []
+        _collect_entities(tree, ents)
+        ents_sorted = sorted(ents, key=lambda e: getattr(e.head, "position", 0))
+        local_ante = list(antecedents)   # prior sentences, extended in-order below
+        repl: Dict[int, Entity] = {}
+        for e in ents_sorted:
+            span = getattr(e, "span", ()) or ()
+            new_e = e
+            det = str(span[0]).lower() if span else ""
+            if (e.possessor is None and len(span) >= 2
+                    and getattr(e.head, "pos", None) == "NOUN"
+                    and det in _RESOLVABLE_POSS_DET):
+                # Sound antecedent = a CLEAN PROPER NAME carrying a matching gender TITLE-marker
+                # ("Lady Macbeth"→f, "King Duncan"→m). Names without a title carry no gender, so a
+                # gendered determiner abstains rather than guess; a gendered COMMON noun (the
+                # witches' "prophecy"→f, "king"→m) is not an individual referent; and a long run-on
+                # demiword (a parse error like "account macbeth king scotland macduff") is excluded
+                # by the span≤2 clean-name gate — a real titled name is "Title Name", not a run-on.
+                cands = [a for a in reversed(local_ante)
+                         if _is_proper(a) and a is not e
+                         and len(getattr(a, "span", ()) or ()) <= 2]
+                pg = _PRON_GENDER.get(det)
+                if pg is not None:
+                    pick = next((a for a in cands if _entity_gender(a) == pg), None)
+                else:
+                    pick = next((a for a in cands if _pron_agrees(det, a)), None)
+                if pick is not None:
+                    rest = tuple(span[1:])
+                    new_e = replace(e, possessor=pick,
+                                    span=rest if len(rest) > 1 else ())
+                    repl[id(e)] = new_e
+            local_ante.append(new_e)
+        bound = _map_entities(tree, lambda ent: repl.get(id(ent), ent)) if repl else tree
+        post: List[Entity] = []
+        _collect_entities(bound, post)
+        antecedents.extend(post)
+        out.append(bound)
+    return out
+
+
 def resolve_document(
     trees: Sequence[Any], genealogy: GenealogyProvider | None = None,
     genre: str | None = None,
@@ -696,6 +759,7 @@ def resolve_document(
         genealogy = NullGenealogy()
 
     trees = _bind_document_pronouns(trees)
+    trees = _resolve_possessive_determiners(trees)
     if hasattr(genealogy, "candidates"):
         trees = [_promote_demiwords(t, genealogy) for t in trees]
 
