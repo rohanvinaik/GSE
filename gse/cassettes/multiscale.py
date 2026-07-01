@@ -69,6 +69,8 @@ class Mention:
     modifier: Optional[str] = None  # the ADJ discriminator ("younger"/"elder") — the SPLIT signal
     graded: bool = False
     possessor_lemma: Optional[str] = None  # "his"/"her"/a name — the local agreement signal
+    possessor_eid: Optional[str] = None    # the possessor entity's id (for relational resolution)
+    possessor_span: Tuple[str, ...] = ()   # the possessor's demi-word ("Lady Macbeth" → lady,macbeth)
     span: Tuple[str, ...] = ()
     is_agent: bool = False          # appeared as an Event agent (a high-value identity referent)
 
@@ -170,6 +172,7 @@ class MultiScaleDoc:
                 if h is None or not h.lemma:
                     continue
                 mod = getattr(n, "modifier", None)
+                poss = getattr(n, "possessor", None)
                 men = Mention(
                     eid=getattr(n, "entity_id", None),
                     lemma=h.lemma.lower(),
@@ -181,6 +184,8 @@ class MultiScaleDoc:
                     modifier=(mod.lemma.lower() if isinstance(mod, Atom) and mod.lemma else None),
                     graded=bool(getattr(mod, "graded", False)) if isinstance(mod, Atom) else False,
                     possessor_lemma=_possessor_lemma(n),
+                    possessor_eid=getattr(poss, "entity_id", None) if poss is not None else None,
+                    possessor_span=tuple(getattr(poss, "span", ()) or ()) if poss is not None else (),
                     span=tuple(getattr(n, "span", ()) or ()),
                     is_agent=getattr(n, "entity_id", None) in agents,
                 )

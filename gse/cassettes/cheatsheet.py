@@ -25,8 +25,9 @@ record, and a correction only RELABELS, never deletes.
 from __future__ import annotations
 
 import copy
+import dataclasses as _dc
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional
 
 from .deck import DeckResult
 
@@ -67,7 +68,8 @@ def build_cheatsheet(result: DeckResult, doc, min_confidence: float = 2.0) -> Ch
             name_lemma = _canonical_name(doc, e.answer)
             if name_lemma and desc_lemma and name_lemma != desc_lemma:
                 cs.merges[desc_lemma] = {
-                    "name": name_lemma, "confidence": e.confidence,
+                    "name": name_lemma, "name_span": _canonical_span(doc, e.answer),
+                    "confidence": e.confidence,
                     "provenance": {"strands": e.strands, "name_eid": e.answer, "desc_eid": e.eid}}
         elif e.kind == "split":
             cs.splits.append({"lemma": desc_lemma, "groups": e.answer, "confidence": e.confidence})
@@ -137,5 +139,125 @@ def _canonical_name(doc, eid: str) -> Optional[str]:
     return ms[0].lemma if ms else None
 
 
+def _canonical_span(doc, eid: str) -> tuple:
+    """The PROPN mention's demi-word span (``()`` for a bare name, ``(lady, macbeth)`` for a titled
+    one) — disambiguates names that share a head lemma when the relabel target is resolved."""
+    for m in doc.by_id.get(eid, []):
+        if m.pos == "PROPN":
+            return tuple(m.span or ())
+    return ()
+
+
 def _split_lemma(entry) -> str:
     return entry.subject.split("[")[0] if isinstance(entry.subject, str) else str(entry.subject)
+
+
+# -- PRE-COMPACTION application: the cheat-sheet's MERGEs at the from_document(repair=) seam --------
+#
+# correct_contracts (above) relabels EMITTED contract dicts — useful in the no-compact projection,
+# but POST-compaction the compactor has already dropped the minor referents (heir/merope), so the
+# merge has nothing left to thread. The load-bearing application is therefore at the SAME seam the
+# statement-healer uses: ``NarrativeGraph.from_document(repair=...)``, over the WIDE statement set,
+# BEFORE the collapse. ``make_merge_repair`` builds a repair pass with that exact contract
+# (``[(t, predicate), ...] -> [(t, predicate), ...]``) so it COMPOSES with the healer hook — run the
+# healer first (statement-formation laws), then this (identity normalization). It is NOT a lens
+# inside the Society: a node a healer lens claims is ``break``-ed before any other lens sees it
+# (one-law-per-node), but a predicate can need both a healer repair AND an identity relabel — two
+# sequential full passes give both. Catalytic + non-destructive: only ``entity_id`` is relabeled
+# toward the stated identity (never a lemma, a verb, or a deletion), so no correct value is destroyed.
+
+
+def build_relabel_map(cs: CheatSheet, resolved_trees: List[Any]) -> Dict[str, str]:
+    """Resolve each committed MERGE (desc-lemma → name-lemma, above the floor) to a
+    ``{desc_lemma: canonical_entity_id}`` map IN THE CONSUMER'S id-space.
+
+    The cheat-sheet is lemma-keyed precisely so it is portable across grounding passes (the cassette
+    deck reads the raw text on its own pass; the bridge's resolved trees carry their own ids). Here we
+    pin each NAME to a proper-noun ``entity_id`` in the SAME trees ``from_document`` will collapse, so
+    the relabel lands in the right id-space. A merge whose name has no proper referent in these trees
+    is skipped (nothing to thread to — honest non-recovery, never a guess)."""
+    from gse.symbolic.healer.treewalk import walk
+    from gse.symbolic.resolution import Entity
+
+    # Each committed merge wants (name_lemma, name_span). The SPAN disambiguates names that share a
+    # head lemma — "Macbeth" (span ()) vs "Lady Macbeth" (span lady,macbeth) — so a relational merge
+    # threads "her husband" to the bare agent, never to his titled wife.
+    wanted = {desc: (rec["name"], tuple(rec.get("name_span") or ()))
+              for desc, rec in cs.merges.items() if rec["confidence"] >= cs.min_confidence}
+    if not wanted:
+        return {}
+    by_lemma_span: Dict[tuple, str] = {}
+    by_lemma: Dict[str, str] = {}
+    for tree in resolved_trees:
+        for n in walk(tree):
+            if not isinstance(n, Entity) or not n.head or not n.entity_id or n.head.pos != "PROPN":
+                continue
+            lem = (n.head.lemma or "").lower()
+            sp = tuple(getattr(n, "span", ()) or ())
+            by_lemma_span.setdefault((lem, sp), n.entity_id)
+            by_lemma.setdefault(lem, n.entity_id)
+    out: Dict[str, str] = {}
+    for desc, (name, name_span) in wanted.items():
+        eid = by_lemma_span.get((name, name_span)) or by_lemma.get(name)   # exact span, else any
+        if eid:
+            out[desc] = eid
+    return out
+
+
+def make_merge_repair(relabel_map: Dict[str, str]) -> Callable[[List[tuple]], List[tuple]]:
+    """Build the pre-compaction repair pass that applies the cheat-sheet's MERGEs.
+
+    Contract matches ``NarrativeGraph.from_document(repair=...)``: ``[(t, predicate), ...] ->
+    [(t, predicate), ...]``. For every ``Entity`` whose head lemma is a committed merge description,
+    its ``entity_id`` is relabeled to the canonical name's id — so the fragmented referent is ONE
+    before the collapse and survives compaction. Empty map → an inert pass-through (safe to wire
+    before any merge lands). Non-destructive: only ``entity_id`` changes; predicates are rebuilt by
+    ``dataclasses.replace`` (the inputs are frozen), nothing is deleted."""
+    if not relabel_map:
+        return lambda timed: timed
+
+    def hook(timed: List[tuple]) -> List[tuple]:
+        return [(t, _relabel_node(p, relabel_map)) for (t, p) in timed]
+
+    return hook
+
+
+def _relabel_node(node: Any, relabel_map: Dict[str, str]) -> Any:
+    """Recursively rebuild a frozen predicate/operand, relabeling any ``Entity`` whose head lemma is
+    in ``relabel_map`` to that canonical ``entity_id``. Returns the SAME object when nothing changes
+    (so ``is not`` identity checks upstream stay cheap and correct)."""
+    from gse.symbolic.resolution import Entity
+
+    if isinstance(node, Entity):
+        lem = (node.head.lemma or "").lower() if node.head else ""
+        new_poss = _relabel_node(node.possessor, relabel_map) if node.possessor is not None else None
+        changes: Dict[str, Any] = {}
+        tgt = relabel_map.get(lem)
+        if tgt and node.entity_id != tgt:
+            changes["entity_id"] = tgt
+        if new_poss is not node.possessor:
+            changes["possessor"] = new_poss
+        return _dc.replace(node, **changes) if changes else node
+    if _dc.is_dataclass(node) and not isinstance(node, type):
+        changes = {}
+        for f in _dc.fields(node):
+            v = getattr(node, f.name)
+            nv = _relabel_value(v, relabel_map)
+            if nv is not v:
+                changes[f.name] = nv
+        return _dc.replace(node, **changes) if changes else node
+    return node
+
+
+def _relabel_value(v: Any, relabel_map: Dict[str, str]) -> Any:
+    from gse.symbolic.resolution import Entity
+
+    if isinstance(v, Entity) or (_dc.is_dataclass(v) and not isinstance(v, type)):
+        return _relabel_node(v, relabel_map)
+    if isinstance(v, tuple):
+        items = [_relabel_value(x, relabel_map) for x in v]
+        return tuple(items) if any(a is not b for a, b in zip(items, v)) else v
+    if isinstance(v, list):
+        items = [_relabel_value(x, relabel_map) for x in v]
+        return items if any(a is not b for a, b in zip(items, v)) else v
+    return v

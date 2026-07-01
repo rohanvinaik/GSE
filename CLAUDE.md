@@ -23,3 +23,15 @@ in the bounded **cis-regulatory neighborhood** (~±2 lines — `resolve_document
 `encode_document_utterances`), sourced by a *regulatory repair*. **Intervention scope (one
 clean statement) ≠ signal scope (±2 lines)**; meaning is in the combination of local +
 regional frames. Full: Genesis `docs/ARCHITECTURE.md` + memory `project_l2_voice_modes_flywheel`.
+
+## The cassette layer (additive; `gse/cassettes/`).
+
+Domain-portable experts that resolve ONE in-frame uncertainty using OUT-OF-frame multi-scale context —
+**GSE is the player, a cassette is the tape**; the single-sentence scale is the ceiling, cassettes are
+contingent on the higher scales. Built: `MultiScaleDoc` (four scales, composed once) + `Cassette` base
+(SymbolicSpellCheck spine) + `entity_identity` / `relational_identity` / `person_validation` +
+`CassetteDeck` + `cheatsheet` (ride-along + span-aware `make_merge_repair` at the
+`from_document(repair=)` seam). Non-negotiable laws: **compose existing tools (read_fold / grounding /
+facets), never re-ground; confidence = CONVERGENCE; never destroy a correct value; validate
+resolve-or-abstain across the WHOLE corpus.** Purely additive — no existing GSE source is modified.
+Full: `~/Genesis/docs/CASSETTE_ARCHITECTURE.md` + `CASSETTE_ARCHITECTURE_DESIGN_BRIEF.md`.

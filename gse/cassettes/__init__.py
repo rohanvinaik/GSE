@@ -15,15 +15,19 @@ from __future__ import annotations
 from .base import Cassette, Resolution, Scored
 from .deck import CassetteDeck, CheatEntry, DeckResult
 from .entity_identity import EntityIdentity, IdentityGap
-from .cheatsheet import CheatSheet, build_cheatsheet, correct_contracts
+from .cheatsheet import (CheatSheet, build_cheatsheet, build_relabel_map,
+                         correct_contracts, make_merge_repair)
 from .multiscale import Mention, MultiScaleDoc
 from .person_validation import PersonGap, PersonValidation
+from .relational_identity import RelationalIdentity
 
 __all__ = [
     "MultiScaleDoc", "Mention",
     "Cassette", "Resolution", "Scored",
     "EntityIdentity", "IdentityGap",
     "PersonValidation", "PersonGap",
+    "RelationalIdentity",
     "CassetteDeck", "CheatEntry", "DeckResult",
     "CheatSheet", "build_cheatsheet", "correct_contracts",
+    "build_relabel_map", "make_merge_repair",
 ]
