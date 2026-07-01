@@ -184,19 +184,20 @@ class EntityIdentity(Cassette):
             # word: the modifiers are decisively contrastive; document: each side actually recurs.
             return {"word_contrastive": 1.0 if (young and old) else 0.0,
                     "document_presence": 0.5 if (young >= 1 and old >= 1) else 0.0}
-        # MERGE strands. predicative is the GATE (only stated-identity names are candidates at all, so
-        # it is always 1.0 here); the rest only CONFIRM and break ties — they can never license a merge
-        # on their own. This is the M2.2 correction: identity comes from what the text states, not from
-        # proximity to the protagonist.
-        # The confirm strands sum to < ``margin`` (0.5) BY CONSTRUCTION, so two names BOTH predicated of
-        # this role (predicative tied at 1.0) can never be separated past the margin → the cassette
-        # abstains on genuine identity ambiguity. They only break ties for a single dominant candidate.
+        # MERGE strands — STRICT SSC CONVERGENCE (2026-07-01). A merge commits only when >=2 ORTHOGONAL
+        # IDENTITY strands agree (the deck's convergence floor). ``predicative`` (the text's stated
+        # identity) is the GATE and is always 1.0 here; ``agreement`` (an INFORMATIVE gender match) is the
+        # only other identity strand. PROXIMITY (recency / centering) is DELIBERATELY NOT SCORED: the
+        # brief's M2.2 law is that proximity/centering is NOT an identity source — counting it fabricated
+        # `chambermaid≡claudio` (a central protagonist proximity-merged into a minor role, corpus
+        # validation 2026-07-01). So a LONE predicative link (no gender corroboration) scores confidence 1
+        # → the deck abstains; only a doubly-corroborated identity commits (predicative + gender-agreement,
+        # or — via the deck — a second cassette's stated link). Two names both predicated of the role tie
+        # at 1.0 → not decisive → abstain on genuine ambiguity. Abstention over destruction, by design.
         name = self._name_mention(answer, doc)
         d, strands = gap.rep, {"predicative": 1.0}
         dg, ng = doc.gender(d), (doc.gender(name) if name else None) or self._name_gender(answer, doc)
         strands["agreement"] = 0.15 if (dg and ng and dg == ng) else 0.0
-        strands["recency"] = 0.10 * self._recency(d, answer, doc)
-        strands["centering"] = 0.15 * self._centering(answer, doc)
         return strands
 
     # -- helpers ------------------------------------------------------------
@@ -212,26 +213,6 @@ class EntityIdentity(Cassette):
             if g:
                 return g
         return None
-
-    def _recency(self, d: Mention, eid: str, doc: MultiScaleDoc) -> float:
-        """Paragraph strand: closeness of the nearest name mention to the description's mentions, within
-        the ±2-line window. 1/(1+distance); 0 if the name never appears in any description's window."""
-        best = 0.0
-        d_sents = [m.sent for m in doc.by_id.get(d.eid, [])]
-        for nm in doc.by_id.get(eid, []):
-            if nm.pos != "PROPN":
-                continue
-            for ds in d_sents:
-                dist = abs(nm.sent - ds)
-                if dist <= 2:
-                    best = max(best, 1.0 / (1.0 + dist))
-        return best
-
-    def _centering(self, eid: str, doc: MultiScaleDoc) -> float:
-        """Document strand: the name's protagonist-salience from the fold (recurrence × span),
-        normalized against the most-significant referent. A recurring agent is the centered topic."""
-        f = doc.fold.get(eid)
-        if not f or not f.recurs:
-            return 0.0
-        top = max((g.significance for g in doc.fold.values()), default=1) or 1
-        return 0.5 * (f.significance / top)
+    # NOTE (2026-07-01): the former ``_recency``/``_centering`` proximity strands were REMOVED — the
+    # brief's M2.2 law is that proximity/centering is not an identity source (it fabricated
+    # chambermaid≡claudio). Identity now rests on stated predication + gender agreement only.

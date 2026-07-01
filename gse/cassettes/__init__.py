@@ -19,6 +19,7 @@ from .cheatsheet import (CheatSheet, build_cheatsheet, build_relabel_map,
                          correct_contracts, make_merge_repair)
 from .multiscale import Mention, MultiScaleDoc
 from .person_validation import PersonGap, PersonValidation
+from .referent_validation import ReferentGap, ReferentValidation
 from .relational_identity import RelationalIdentity
 
 __all__ = [
@@ -26,6 +27,7 @@ __all__ = [
     "Cassette", "Resolution", "Scored",
     "EntityIdentity", "IdentityGap",
     "PersonValidation", "PersonGap",
+    "ReferentValidation", "ReferentGap",
     "RelationalIdentity",
     "CassetteDeck", "CheatEntry", "DeckResult",
     "CheatSheet", "build_cheatsheet", "correct_contracts",
