@@ -326,6 +326,7 @@ class NarrativeGraph:
         self.edges: List[Edge] = []
         self.excluded = 0          # predicates that anchored no resolved entity
         self.backbone_ids: Set[str] = set()   # Stage-3 protagonist set (the narrative spine)
+        self.causations: List[Tuple[int, Any]] = []   # whole Causation predicates (the teaching food)
 
     # -- construction -------------------------------------------------------
     def _node(self, ent: Any) -> Optional[_Node]:
@@ -406,6 +407,15 @@ class NarrativeGraph:
                                  themes=tuple(_label(th, 0) for th in getattr(p, "themes", ())))
             elif nm == "Causation":
                 ok = g._edge("cause", p.cause, "causes", p.effect, t)
+                # The Causation PREDICATE is also kept whole: its operands are EVENTS, so the
+                # flat entity-to-entity cause edge above almost never anchors (measured: 0-1
+                # cause edges per wiki story, every Causation in `excluded`) — which starved
+                # Genesis's learn-while-reading ("<effect> because <cause>" teaches a rule)
+                # in the DEFAULT single-projection path ever since the no-compact projection
+                # (its old carrier) became opt-in. emit() serializes these as the nested
+                # CAUSATION envelope the walker already consumes, spine-gated.
+                g.causations.append((t, p))
+                ok = True
             elif nm == "Temporal":
                 ok = g._edge("temporal", p.setting, "then", p.event, t)
             elif nm == "Control":
@@ -748,6 +758,32 @@ class NarrativeGraph:
                 items.append((e.t, {"op": "CAUSATION", "args": [src, dst], "features": {"conjunction": "so", **prov}}))
             elif e.kind == "temporal" and src is not None and dst is not None:
                 items.append((e.t, {"op": "TEMPORAL", "args": [src, dst], "features": {"conjunction": "when", **prov}}))
+        # Whole Causation predicates — the CAUSAL structure the flat edges above cannot carry
+        # (their operands are EVENTS; the entity-to-entity form almost never anchors). Serialized
+        # via the standard §5 nested envelope (the same shape the no-compact projection emitted,
+        # which the walker + Genesis's learn-while-reading already consume), SPINE-GATED: at least
+        # one entity inside must be an eligible spine referent, so off-spine digressions still drop.
+        for t, p in self.causations:
+            ids: Set[str] = set()
+
+            def _ids(x: Any) -> None:
+                eid = getattr(x, "entity_id", None)
+                if eid:
+                    ids.add(eid)
+                for f in ("cause", "effect", "agent", "patient", "head", "operand",
+                          "subject", "controller", "inner", "entity"):
+                    v = getattr(x, f, None)
+                    if v is not None and not isinstance(v, (str, int, float)):
+                        _ids(v)
+
+            _ids(p)
+            if not (ids & elig):
+                continue
+            try:
+                from gse.symbolic.emit import emit as _emit_pred
+                items.append((t, _emit_pred(p)))
+            except Exception:
+                continue
         items.sort(key=lambda it: it[0])
         return [{"contract_version": "2.0", "predicate": env} for _, env in items]
 
