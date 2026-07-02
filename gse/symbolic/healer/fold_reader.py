@@ -48,8 +48,21 @@ class EntityFold:
     recurs: bool = False            # a recurring agent (document strand) — the protagonist signal
     eligible: bool = False          # real referent: grounds at SOME scale (multi-strand OR)
     type_thread: Tuple[str, ...] = ()   # world strand (sparse-wiki) genealogy, if grounded
-    valence: int = 0                # affect substrate: EVALUATORS GOOD(+)/BAD(−) from the word strand
+    valence: int = 0                # affect substrate: EVALUATORS GOOD(+)/BAD(−) from the word strand;
+                                    # for a named referent (empty NSM banks) the world EPA evaluation
+    potency: int = 0                # world-salience EPA P — the intensity/gravity leg (word ⟂ world)
+    activity: int = 0               # world-salience EPA A
     strands: Tuple[str, ...] = ()   # which strands voted the entity REAL (provenance/audit)
+
+
+# World types that CANNOT be story agents (mirrors narrative.py's world-leg gate):
+# a war or a creative work is not a protagonist, however often it recurs.
+_NONAGENT_WORLD = frozenset({"Event", "SocietalEvent", "MilitaryConflict", "Work"})
+# World types that are not ANIMATE by default: a Place loses the bare PROPN→animate
+# vote, but the DOCUMENT strand can still make it an agent (a recurring "France"
+# acting across the story is a collective agent) — only the default is removed,
+# never a positive signal.
+_PLACE_WORLD = frozenset({"Place", "PopulatedPlace", "Location"})
 
 
 def _operands(pred):
@@ -115,8 +128,17 @@ def read_fold(timed: List[tuple], envelopes: Optional[List[Any]] = None,
             except Exception:
                 type_thread = ()
         grounded_world = bool(type_thread)
-        # --- local/lexical strand: a threaded pronoun / proper name is an animate referent ---
-        lexical_animate = (pos == "PROPN") or (pos == "PRON" and lemma in _ANIMATE_PRON)
+        tset = set(type_thread)
+        # --- world-leg role gates (the thread's CONTENT, not just its truthiness;
+        #     mirrors narrative.py's world-leg agent gate) ---
+        nonagent_world = bool(tset & _NONAGENT_WORLD)   # a war/work is never a protagonist
+        place_world = bool(tset & _PLACE_WORLD)         # a place is not animate BY DEFAULT
+        # --- local/lexical strand: a threaded pronoun / proper name is an animate referent —
+        #     UNLESS the world strand positively types it a place/event (Bosnia is not an
+        #     animate agent for being spelled with a capital letter). Shallow/absent world
+        #     grounding leaves the default intact (a fictional name stays animate). ---
+        lexical_animate = ((pos == "PROPN" and not (place_world or nonagent_world))
+                           or (pos == "PRON" and lemma in _ANIMATE_PRON))
 
         # --- the multi-strand VOTE (set-theoretic; real if it grounds at ANY scale) ---
         voted: List[str] = []
@@ -132,17 +154,37 @@ def read_fold(timed: List[tuple], envelopes: Optional[List[Any]] = None,
         # role: the document strand (recurring agent) and the local strand (animate name/pron) are
         # authoritative for AGENT exactly where the word strand is blind (names/pronouns); else the
         # word-strand role stands. Never let the noisy word 'object' override an animate name.
-        if recurs or lexical_animate or wrole in ("agent", "experiencer"):
+        # A world-typed NON-AGENT (Event/Work) is excluded from the agent path outright — however
+        # often it recurs (narrative.py's discipline); a world-typed PLACE can still earn agent-hood
+        # through document-strand recurrence (a nation acting), just not by default.
+        if nonagent_world:
+            role = wrole if wrole not in ("?", "agent") else "object"
+        elif recurs or lexical_animate or wrole in ("agent", "experiencer"):
             role = "agent" if (recurs or lexical_animate or wrole == "agent") else "experiencer"
         else:
             role = wrole
-        # affect substrate (word strand): EVALUATORS valence
+        # affect substrate: EVALUATORS valence from the word strand; a NAMED referent
+        # (empty NSM banks) takes the world-salience EPA instead — the word-affect ⟂
+        # world-salience split (GSE_vision §IV½), each strand supplying what the other
+        # cannot. Potency/activity are world-only (intensity is a world quantity).
         valence = int(prims.get("GOOD", 0)) - int(prims.get("BAD", 0)) if prims else 0
+        potency = activity = 0
+        if grounded_world and genealogy is not None and hasattr(genealogy, "epa"):
+            try:
+                epa = genealogy.epa(lemma) or {}
+            except Exception:
+                epa = {}
+            if epa:
+                if not prims:
+                    valence = int(epa.get("evaluation", 0))
+                potency = int(epa.get("potency", 0))
+                activity = int(epa.get("activity", 0))
 
         folds[eid] = EntityFold(
             eid=eid, lemma=lemma, pos=pos, role=role, significance=significance,
             agent_count=agent_count, tspan=tspan, recurs=recurs, eligible=eligible,
-            type_thread=type_thread, valence=valence, strands=tuple(voted))
+            type_thread=type_thread, valence=valence, potency=potency,
+            activity=activity, strands=tuple(voted))
     return folds
 
 
