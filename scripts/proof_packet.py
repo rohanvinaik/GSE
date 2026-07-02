@@ -252,6 +252,36 @@ def policy() -> None:
 
 
 # --------------------------------------------------------------------------- #
+def world() -> None:
+    header("WORLD GROUNDING — the premise the text never states")
+    from gse.symbolic import GenealogyStore, resolve_references
+    store = GenealogyStore()
+    rpipe = lambda s: resolve_references(pipe(s), store)   # noqa: E731
+
+    text = ["If a person led a country then the person commanded the army.",
+            "Napoleon led France."]
+    for s in text:
+        print(f"  {s}")
+    print("\n  (no sentence types napoleon or france — the world store does:)")
+    for name in ("napoleon", "france"):
+        print(f"    {name:9} -> {' → '.join(store.thread(name, 'PROPN', True))}")
+    kb = KnowledgeBase.from_trees([rpipe(s) for s in text])
+    print()
+    print(f"  {kb.event('command', 'napoleon', 'army')}")
+    print(f"  {kb.event('command', 'france', 'army')}     (a country is not a person)")
+    print(f"  {kb.is_a('napoleon', 'person')}")
+
+    print("\n  compositional: the same grounded referent, different decomposed predicates —")
+    print("  world identity constant, meaning varying over the closed 72-prime basis:\n")
+    for s in ["Napoleon is a tyrant.", "Napoleon is poor."]:
+        (p,) = predicates(rpipe(s))
+        kind = p.kind.head if hasattr(p.kind, "head") else p.kind
+        print(f"  {s!r}")
+        print(f"    -> napoleon[{' → '.join(p.entity.type_thread)}] is_a "
+              f"{kind.lemma} ⟨{kind.word_primitives}⟩")
+
+
+# --------------------------------------------------------------------------- #
 def _propositions(tree):
     """(polarity, key) propositions in a resolved tree — Events (with clause
     negation) and TypeAssertions (with the kind's negation-prefix normalized)."""
@@ -403,7 +433,7 @@ def spell() -> None:
 
 # --------------------------------------------------------------------------- #
 _SECTIONS = {"basics": basics, "lsat": lsat, "needle": needle, "dirty": dirty,
-             "policy": policy, "contradiction": contradiction,
+             "policy": policy, "world": world, "contradiction": contradiction,
              "reduction": reduction, "fingerprint": fingerprint,
              "coined": coined, "spell": spell}
 

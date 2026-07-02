@@ -144,3 +144,43 @@ def test_event_query_deterministic(policy_kb):
     a = policy_kb.event("leave", "alice", "board")
     b = policy_kb.event("leave", "alice", "board")
     assert a == b
+
+
+# -- world-grounded reasoning: type_thread harvest + generic-patient binding --
+
+
+def _et(lemma, thread=()):
+    return Entity(head=Atom(lemma=lemma, word_primitives={}, role=None, position=0,
+                            pos="PROPN"), type_thread=tuple(thread))
+
+
+def test_resolved_thread_becomes_isa_edges():
+    from gse.symbolic.predicates import Event
+    ev = Event(verb="lead", agent=_et("napoleon", ("Thing", "Agent", "Person")),
+               patient=_et("france", ("Thing", "Place", "Country")))
+    kb = KnowledgeBase.from_trees([ev])
+    d = kb.is_a("napoleon", "person")
+    assert d.holds and d.chain == ("napoleon", "person")
+    assert kb.is_a("france", "country").holds
+    assert not kb.is_a("napoleon", "country").holds
+
+
+def test_rule_binds_generic_patient_through_isa():
+    from gse.symbolic.predicates import Conditional, Event
+
+    def _plain(lemma):
+        return Entity(head=Atom(lemma=lemma, word_primitives={}, role=None,
+                                position=0, pos="NOUN"))
+
+    rule = Conditional(
+        antecedent=Event(verb="lead", agent=_plain("person"), patient=_plain("country")),
+        consequent=Event(verb="command", agent=_plain("person"), patient=_plain("army")))
+    fact = Event(verb="lead",
+                 agent=_et("napoleon", ("Thing", "Agent", "Person")),
+                 patient=_et("france", ("Thing", "Place", "Country")))
+    kb = KnowledgeBase.from_trees([rule, fact])
+    d = kb.event("command", "napoleon", "army")
+    assert d.holds
+    assert any("france" in step for step in d.chain)     # the patient binding is cited
+    # a country is not a person: the rule must refuse to bind france as its subject
+    assert not kb.event("command", "france", "army").holds

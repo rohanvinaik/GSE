@@ -83,6 +83,29 @@ class KnowledgeBase:
         patient = _lemma(p.patient) if p.patient is not None else None
         return (p.verb, _lemma(p.agent), patient)
 
+    def _harvest_thread(self, operand: Any) -> None:
+        """A RESOLVED entity carries its two-strand type genealogy
+        (``Entity.type_thread``, WordNet or sparse-wiki world lineage). Ingest it
+        as is-a edges — Napoleon's ``Thing → Agent → Person → Royalty`` makes
+        ``is_a(napoleon, person)`` derivable with the thread as the chain, so a
+        rule about "a person" can bind a referent the TEXT never types. This is
+        the world-grounding leg feeding the reasoner: the premise comes from the
+        encyclopedia, deterministically, with provenance."""
+        thread = getattr(operand, "type_thread", None) or ()
+        lemma = _lemma(operand)
+        if not thread or not lemma:
+            return
+        nodes = [lemma] + [t.lower() for t in reversed(thread)]   # specific → root
+        for child, parent in zip(nodes, nodes[1:]):
+            if child != parent:
+                self._isa[child].add(parent)
+
+    def _harvest_threads(self, p: Any) -> None:
+        for field in ("agent", "patient", "entity", "kind", "lhs", "rhs"):
+            operand = getattr(p, field, None)
+            if operand is not None:
+                self._harvest_thread(operand)
+
     def _ingest(self, p: Any, negated: bool = False) -> None:
         name = type(p).__name__
         if name == "Negation":
@@ -98,6 +121,7 @@ class KnowledgeBase:
             key = self._event_key(p)
             if key:
                 (self._neg_facts if negated else self._facts).add(key)
+            self._harvest_threads(p)
             return
         if negated:
             return          # a negated comparison/type is withheld, not inverted
@@ -105,6 +129,7 @@ class KnowledgeBase:
             x, y = _lemma(p.entity), _lemma(p.kind)
             if x and y:
                 self._isa[x].add(y)
+            self._harvest_threads(p)
         elif name == "Comparison":
             x, y = _lemma(p.lhs), _lemma(p.rhs)
             if x and y:
@@ -199,7 +224,20 @@ class KnowledgeBase:
             if a is None:
                 return None
             d = self.event(verb, a, patient, _seen=seen)
-            return d.chain if d.holds else None
+            if d.holds:
+                return d.chain
+            # the rule's patient may be GENERIC too ("… leads a country"): a fact
+            # whose patient is-a the generic satisfies it — the same is-a binding
+            # as the subject, on the object slot (france → country).
+            if patient is not None:
+                for (fv, fa, fp) in sorted(self._facts, key=repr):
+                    if fv != verb or fa != a or fp is None or fp == patient:
+                        continue
+                    bind = self.is_a(fp, patient)
+                    if bind.holds:
+                        return (f"fact: {self._fmt(fv, fa, fp)}",
+                                " → ".join(bind.chain))
+            return None
         if name == "TypeAssertion":
             x, y = _lemma(ant.entity), _lemma(ant.kind)
             x = agent if x == generic else x
