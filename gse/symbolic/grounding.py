@@ -254,6 +254,14 @@ def _select_by_coherence(
     # frequency + Jaccard pass below then decides exactly as before (no regression).
     hdc_choice = _hdc_overrides(cand, raw_of, lemma_of, proper_of)
 
+    # ANCHOR coherence is the PROPER-NOUN counterpart: a named referent's world
+    # candidates live in the DBpedia vocabulary, orthogonal to the word threads, so
+    # neither Jaccard-vs-context nor HDC can corroborate them — but the entity's
+    # semantic ANCHORS (its significant Wikipedia-link targets) can overlap the
+    # document's other mentions ("paris" the city anchors {france, seine, europe}).
+    # This is sparse-wiki's designed ground(mention, context), scored at the store.
+    anchor_choice = _anchor_overrides(cand, lemma_of, proper_of, genealogy)
+
     primary: Dict[Tuple, Tuple[str, ...]] = {
         sig: (cs[0] if cs else ()) for sig, cs in cand.items()
     }
@@ -262,6 +270,9 @@ def _select_by_coherence(
     for sig, cs in cand.items():
         if sig in hdc_choice:                           # HDC made a confident, context-grounded call
             chosen[sig] = hdc_choice[sig]
+            continue
+        if sig in anchor_choice:                        # anchor coherence re-ranked a proper noun
+            chosen[sig] = anchor_choice[sig]
             continue
         if len(cs) <= 1:
             chosen[sig] = primary[sig]
@@ -358,6 +369,77 @@ def _hdc_overrides(
         chosen_thread, primary_thread = raw[idx], raw[0]
         if "person" in chosen_thread and "person" not in primary_thread:
             out[sig] = chosen_thread
+    return out
+
+
+# Measurement instrumentation for the anchor-coherence pass (W2, 2026-07-01):
+# {lemma: [(thread_leaf, anchor_score), ...]} for every scored proper noun in the
+# last resolve. Read by corpus probes (scripts/anchor_audit_probe.py); deliberately
+# NOT part of the emit contract (resolve-or-abstain thresholds are set from corpus
+# evidence, not picked).
+#
+# MEASURED (2026-07-01, the 217-artifact story corpus): 8 multi-candidate cases
+# total — 6 primary-corroborated, 0 promotions, 2 all-zero (vizier, job). Verdict:
+# the parameter-free promote rule never wrongly fired, and an abstain-on-mismatch
+# gate would touch 2 cases in 217 stories — NO gate is added (insufficient corpus
+# support; adding one would be a picked threshold, exactly what this instrument
+# exists to prevent). Re-measure when the corpus or the alias table grows.
+ANCHOR_AUDIT: Dict[str, list] = {}
+
+
+def _anchor_overrides(
+    cand: Dict[Tuple, List[Tuple[str, ...]]],
+    lemma_of: Dict[Tuple, str],
+    proper_of: Dict[Tuple, bool],
+    genealogy: Any,
+) -> Dict[Tuple, Tuple[str, ...]]:
+    """Map each multi-candidate PROPER-NOUN referent anchor coherence can re-rank
+    → its chosen thread.
+
+    Scoring: a candidate entity's semantic-anchor bag (GenealogyStore.anchors, via
+    the candidate's canon label) is overlapped with the document context — the
+    other entities' lookup keys. The promotion rule is deliberately parameter-free
+    (no tuned margin): a challenger wins ONLY when the pagerank-primary has ZERO
+    anchor corroboration in this document and the challenger has SOME — the one
+    case where the prior is uninformed and the context speaks. Everything else
+    keeps the primary. Falls back silently (empty dict) when the store predates
+    the anchors table.
+    """
+    if not (hasattr(genealogy, "world_candidates") and hasattr(genealogy, "anchors")):
+        return {}
+    ANCHOR_AUDIT.clear()
+    context = {lemma_of[s] for s in cand if lemma_of[s]}
+    out: Dict[Tuple, Tuple[str, ...]] = {}
+    for sig, cs in cand.items():
+        if not proper_of[sig] or len(cs) < 2:
+            continue
+        lemma = lemma_of[sig]
+        try:
+            wc = genealogy.world_candidates(lemma)
+        except Exception:
+            continue
+        # align store records to the (Work-filtered) candidate list by thread
+        rec_of = {rec["thread"]: rec for rec in wc}
+        ctx = context - {lemma}
+        scored = []
+        for thread in cs:
+            rec = rec_of.get(thread)
+            if rec is None:
+                scored.append((thread, 0.0))
+                continue
+            try:
+                bag = genealogy.anchors(rec["canon"]) or {}
+            except Exception:
+                bag = {}
+            score = sum(w for a, w in bag.items() if a in ctx)
+            scored.append((thread, score))
+        ANCHOR_AUDIT[lemma] = [(t[-1] if t else "", s) for t, s in scored]
+        prim_score = scored[0][1]
+        if prim_score > 0:
+            continue                        # the prior is corroborated — keep it
+        best = max(scored[1:], key=lambda ts: ts[1], default=None)
+        if best is not None and best[1] > 0:
+            out[sig] = best[0]              # context speaks where the prior is silent
     return out
 
 
@@ -515,6 +597,58 @@ def _is_person(lemma: str) -> Any:
     except Exception:
         res = None
     _PERSON_CACHE[lemma] = res
+    return res
+
+
+_PRIMARY_PERSON_CACHE: Dict[str, Any] = {}
+
+
+def _is_primary_person(lemma: str) -> Any:
+    """True/False if ``lemma``'s PRIMARY WordNet sense is a person; None if unknown.
+    The CONFLICT-GUARD form of :func:`_is_person`: the any-sense union is right for
+    "never veto a possible person" (union noise is tolerable when the failure mode is
+    a wrong veto), but wrong for "block a world place re-type" — there a stray person
+    homograph ("france" → Anatole France) would shield every country. Primary sense
+    keeps the guard on words whose FIRST identity is a person (thane → the aristocrat,
+    not Thane, India), mirroring :func:`_is_location`'s primary-sense discipline."""
+    if lemma in _PRIMARY_PERSON_CACHE:
+        return _PRIMARY_PERSON_CACHE[lemma]
+    res: Any = None
+    try:
+        from nltk.corpus import wordnet as wn
+        person = wn.synset("person.n.01")
+        syns = wn.synsets(lemma, pos="n")
+        if syns:
+            res = any(person in path for path in syns[0].hypernym_paths())
+    except Exception:
+        res = None
+    _PRIMARY_PERSON_CACHE[lemma] = res
+    return res
+
+
+_LOCATION_CACHE: Dict[str, Any] = {}
+
+
+def _is_location(lemma: str) -> Any:
+    """True/False if ``lemma`` is/ isn't a location (WordNet hypernymy); None if
+    unknown. The word strand's POSITIVE place signal — the parallel of
+    :func:`_is_person` — for referents whose world thread is an honest ["Thing"]
+    stub (DBpedia has no instance-type for Scotland) but whose WordNet primary
+    identity IS a location. PRIMARY SENSE ONLY: the any-sense union would type
+    every polysemous word with a stray place sense ("china" the porcelain) as a
+    location — the person check tolerates union noise, a place check cannot."""
+    if lemma in _LOCATION_CACHE:
+        return _LOCATION_CACHE[lemma]
+    res: Any = None
+    try:
+        from nltk.corpus import wordnet as wn
+        location = wn.synset("location.n.01")
+        syns = wn.synsets(lemma, pos="n")
+        if syns:
+            res = any(location in path for path in syns[0].hypernym_paths())
+    except Exception:
+        res = None
+    _LOCATION_CACHE[lemma] = res
     return res
 
 
