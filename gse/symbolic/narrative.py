@@ -40,6 +40,23 @@ _STATE_VERBS = {"be", "become", "is", "are", "was", "were", "remain", "turn"}
 _ATTITUDE_VERBS = {"believe", "think", "know", "suspect", "doubt", "realize", "realise",
                    "understand", "imagine", "suppose", "assume", "expect", "fear", "hope",
                    "feel", "perceive", "consider", "conclude", "deem", "fancy", "reckon"}
+# IRREALIS control matrices: the controlled INNER act is not a fact and must never be yielded
+# as a standalone assertion (the same discipline as _ATTITUDE_VERBS' clausal complement and the
+# Negation non-container). Two closed classes (Karttunen's implicative-verb taxonomy):
+#   negative-implicative — the matrix ASSERTS the inner act did NOT happen ("Mordecai REFUSES to
+#   bow" was emitting a bare `mordecai —bow→`, the polarity-inverted fact);
+#   non-factive/desiderative — the matrix leaves the inner act unasserted ("Haman PLOTS to kill
+#   all the Jews" was emitting a bare kill). The MATRIX edge (refuse/plot, from_document's Control
+#   branch) still carries the story signal. Positive implicatives (manage, dare) and narrative-
+#   completive matrices (persuade, order, force — the story convention asserts the caused act)
+#   keep the inner act.
+_IRREALIS_CONTROL_VERBS = {
+    # negative implicative
+    "refuse", "decline", "fail", "forbid", "prevent", "avoid", "resist", "neglect", "omit",
+    # non-factive / desiderative / conative
+    "plot", "plan", "attempt", "try", "want", "wish", "hope", "intend", "seek", "aim",
+    "scheme", "conspire", "threaten", "propose", "aspire", "yearn", "long",
+}
 
 
 def _belief_value(patient: Any) -> str:
@@ -289,6 +306,11 @@ def _collect_predicates(tree: Any) -> List[Any]:
             if (nm == "Event" and getattr(n, "verb", "") in _ATTITUDE_VERBS
                     and type(getattr(n, "patient", None)).__name__ in ("TypeAssertion", "Event")):
                 fields = tuple(f for f in fields if f != "patient")
+            # Don't descend into an IRREALIS control matrix's inner act ("refuses to bow",
+            # "plots to kill"): the inner event is negated or unasserted — yielding it bare
+            # inverts/asserts it as fact. The matrix edge still carries the story signal.
+            if nm == "Control" and getattr(n, "verb", "") in _IRREALIS_CONTROL_VERBS:
+                fields = tuple(f for f in fields if f != "inner")
             for f in fields:
                 walk(getattr(n, f, None))
 
@@ -351,7 +373,7 @@ class NarrativeGraph:
 
     @classmethod
     def from_document(cls, trees: List[Any], genealogy: Any = None,
-                      repair: Any = None) -> "NarrativeGraph":
+                      repair: Any = None, raw_text: str | None = None) -> "NarrativeGraph":
         """Build the narrative graph and collapse it to the spine. ``repair`` is an OPTIONAL
         pre-compaction hook: a callable ``[(t, predicate), ...] -> [(t, predicate), ...]`` applied
         to the WIDE statement set (all collected predicates, before any edge-building or the
@@ -419,12 +441,12 @@ class NarrativeGraph:
                 ok = True       # other predicates (Comparison etc.) aren't spine edges; not "excluded noise"
             if not ok:
                 g.excluded += 1
-        g._finalize(genealogy)
+        g._finalize(genealogy, raw_text=raw_text)
         g._heal()
         g._backbone()
         return g
 
-    def _finalize(self, genealogy: Any = None) -> None:
+    def _finalize(self, genealogy: Any = None, raw_text: str | None = None) -> None:
         """Fold grammatical POS + semantic-bank role + graph position (+ a role-biased
         world-strand heal) into per-node role and eligibility. Citizenship propagates by
         traversal from grounded neighbours; collapsed blobs and non-nominals drop out."""
@@ -469,12 +491,18 @@ class NarrativeGraph:
             # Role-biased grounding heal: an ungrounded PROPER NOUN in a referent slot is a
             # proper-noun person/thing → bias a sparse-wiki world-strand lookup. Real referents
             # ground; fictional names stay world-ungrounded (honest), admitted by role instead.
+            # ANCHOR-GATED (2026-07-01): the lookup goes through the same corroborate-or-abstain
+            # rule as the coherence pass (grounding.corroborated_world_thread) — a bare
+            # candidates()[0] here re-asserted exactly the wrong-referent guess the gate had
+            # just refused ('santiago' → the Chilean city on the fisherman), undoing the
+            # abstention downstream. Without raw_text the behavior is unchanged.
             if (not grounded(n) and n.pos == "PROPN" and n.lemma
                     and genealogy is not None and hasattr(genealogy, "candidates")):
                 try:
-                    cands = genealogy.candidates(n.lemma, "PROPN", True)
-                    if cands:
-                        n.thread = tuple(cands[0])
+                    from gse.symbolic.grounding import corroborated_world_thread
+                    thread = corroborated_world_thread(n.lemma, genealogy, raw_text)
+                    if thread:
+                        n.thread = tuple(thread)
                         n.provenance.append("world-strand: grounded '%s' → %s"
                                             % (n.lemma, n.thread[-1] if n.thread else "?"))
                 except Exception:

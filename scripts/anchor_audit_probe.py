@@ -30,7 +30,8 @@ for path in STORIES:
     try:
         sentences = split_sentences(text)
         trees = encode_document_utterances(enc, sentences)
-        resolve_document(trees, store, genre="NARRATIVE")
+        # raw_text = the corroboration substrate (the gate's own scoring; matches the pipeline)
+        resolve_document(trees, store, genre="NARRATIVE", raw_text=raw)
         audit = {k: v for k, v in grounding.ANCHOR_AUDIT.items()}
     except Exception as e:
         audit = {"__error__": repr(e)}

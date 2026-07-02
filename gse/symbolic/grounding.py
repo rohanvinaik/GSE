@@ -17,6 +17,7 @@ plugs in here without touching this contract.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, replace
 from typing import Any, Dict, List, Protocol, Sequence, Tuple, runtime_checkable
 
@@ -209,7 +210,7 @@ def _is_science_thread(thread: Tuple[str, ...]) -> bool:
 
 def _select_by_coherence(
     collected: List[Entity], genealogy: Any, margin: float = _COHERENCE_MARGIN,
-    genre: str | None = None,
+    genre: str | None = None, raw_text: str | None = None,
 ) -> Dict[Tuple, Tuple[str, ...]]:
     """Pick each referent's thread by coherence with the rest of the sentence.
 
@@ -260,7 +261,7 @@ def _select_by_coherence(
     # semantic ANCHORS (its significant Wikipedia-link targets) can overlap the
     # document's other mentions ("paris" the city anchors {france, seine, europe}).
     # This is sparse-wiki's designed ground(mention, context), scored at the store.
-    anchor_choice = _anchor_overrides(cand, lemma_of, proper_of, genealogy)
+    anchor_choice = _anchor_overrides(cand, lemma_of, proper_of, genealogy, raw_text=raw_text)
 
     primary: Dict[Tuple, Tuple[str, ...]] = {
         sig: (cs[0] if cs else ()) for sig, cs in cand.items()
@@ -378,12 +379,26 @@ def _hdc_overrides(
 # NOT part of the emit contract (resolve-or-abstain thresholds are set from corpus
 # evidence, not picked).
 #
-# MEASURED (2026-07-01, the 217-artifact story corpus): 8 multi-candidate cases
-# total — 6 primary-corroborated, 0 promotions, 2 all-zero (vizier, job). Verdict:
-# the parameter-free promote rule never wrongly fired, and an abstain-on-mismatch
-# gate would touch 2 cases in 217 stories — NO gate is added (insufficient corpus
-# support; adding one would be a picked threshold, exactly what this instrument
-# exists to prevent). Re-measure when the corpus or the alias table grows.
+# MEASURED twice, verdicts superseding each other with the data:
+# · Pre-token-alias DB (2026-07-01 am, 217 artifacts): 8 multi-candidate cases —
+#   6 primary-corroborated, 0 promotions, 2 all-zero. Verdict then: no gate.
+# · Post-token-alias DB (2026-07-01 pm, same corpus): **803 cases — 124
+#   primary-corroborated, 138 "promotions", 541 all-zero (67%)**. The token-alias
+#   table changed the population's character: the all-zero mass is bare
+#   forename/surname guesses (robert/william/duncan/fischer/mordecai) whose right
+#   referent is NOT in the DB at all, and the old parameter-free promote rule
+#   became a wrong-identity GENERATOR among token candidates (irish: Sea→Beverage,
+#   ajax: SoccerClub→Weapon, watson→Writer). Verdict now (the gate below):
+#   corroborate-or-abstain — keep a corroborated primary; promote only a
+#   corroborated LABEL/ALIAS candidate (a real identity, never a token guess);
+#   otherwise ABSTAIN (honest empty thread). SSC discipline: the failure mode
+#   moves from DESTRUCTION (a wrong world identity typing a story agent) to
+#   NON-RECOVERY (a right-but-uncorroborated identity falls back to the
+#   permissive fictional-name path).
+# · Final, RAW-TEXT substrate + singles included (2026-07-01, gate live): 2,553
+#   scored mentions — 1,425 primaries corroborated-and-kept (56%), 243 with a
+#   corroborated challenger (label/alias-only actually promote), ~885 abstained
+#   (the wrong-referent mass: mordecai/santiago/duncan/fischer/claudius-class).
 ANCHOR_AUDIT: Dict[str, list] = {}
 
 
@@ -392,31 +407,54 @@ def _anchor_overrides(
     lemma_of: Dict[Tuple, str],
     proper_of: Dict[Tuple, bool],
     genealogy: Any,
+    raw_text: str | None = None,
 ) -> Dict[Tuple, Tuple[str, ...]]:
-    """Map each multi-candidate PROPER-NOUN referent anchor coherence can re-rank
-    → its chosen thread.
+    """Resolve-or-abstain over each PROPER-NOUN referent's world candidates by
+    anchor coherence — sparse-wiki's designed ``ground(mention, context)``.
 
-    Scoring: a candidate entity's semantic-anchor bag (GenealogyStore.anchors, via
-    the candidate's canon label) is overlapped with the document context — the
-    other entities' lookup keys. The promotion rule is deliberately parameter-free
-    (no tuned margin): a challenger wins ONLY when the pagerank-primary has ZERO
-    anchor corroboration in this document and the challenger has SOME — the one
-    case where the prior is uninformed and the context speaks. Everything else
-    keeps the primary. Falls back silently (empty dict) when the store predates
-    the anchors table.
-    """
+    Scoring substrate: the LITERAL RAW TEXT (the cassette law — the multi-scale
+    context is the document's own words, not the pipeline's entity-lemma set,
+    which is too sparse to corroborate anything: measured 124/803 vs the raw
+    text cleanly corroborating every right referent — napoleon 5 anchors in-doc,
+    moses 5, socrates 4, esther 2, nixon 1 — and zero for every wrong one —
+    mordecai/santiago/fischer/claudius 0). Then:
+
+      1. primary corroborated → keep it (no entry; the default path stands).
+      2. else a corroborated LABEL/ALIAS candidate exists → promote the best one
+         (the designed homograph re-rank — 'paris' the city over the plant; a
+         token candidate is a reference GUESS and is never promoted INTO —
+         post-token-alias, unrestricted promotion generated wrong identities:
+         irish: Sea→Beverage, ajax: SoccerClub→Weapon).
+      3. else → ABSTAIN: map the referent to the EMPTY thread. A world reading
+         no candidate of which the document corroborates is a wrong-referent
+         suspicion ('santiago' the fisherman vs the Chilean city, 'duncan' vs
+         eight celebrity Duncans — a token candidate corroborated only by a
+         regional word like 'scotland' still never wins, it is not promotable) —
+         the honest ground is "known name, world identity unresolved", exactly
+         the empty-thread + grounding-flag path fictional names take. The same
+         lemma resolves in ITS document and abstains in a foreign one ('esther'
+         corroborates in the Book of Esther, 0 in the Inanna story).
+
+    Single-candidate referents are scored too (santiago has ONE candidate — the
+    wrong one). Without ``raw_text`` (sentence-scope callers) there is no
+    document to corroborate against: no abstention, and only the label/alias
+    promote runs on the (weak) entity-lemma context — the pre-gate behavior.
+    Falls back silently (empty dict) when the store predates the anchors table."""
     if not (hasattr(genealogy, "world_candidates") and hasattr(genealogy, "anchors")):
         return {}
     ANCHOR_AUDIT.clear()
+    low = raw_text.lower() if raw_text else None
     context = {lemma_of[s] for s in cand if lemma_of[s]}
     out: Dict[Tuple, Tuple[str, ...]] = {}
     for sig, cs in cand.items():
-        if not proper_of[sig] or len(cs) < 2:
+        if not proper_of[sig] or not cs:
             continue
         lemma = lemma_of[sig]
         try:
             wc = genealogy.world_candidates(lemma)
         except Exception:
+            continue
+        if not wc:
             continue
         # align store records to the (Work-filtered) candidate list by thread
         rec_of = {rec["thread"]: rec for rec in wc}
@@ -425,22 +463,73 @@ def _anchor_overrides(
         for thread in cs:
             rec = rec_of.get(thread)
             if rec is None:
-                scored.append((thread, 0.0))
+                scored.append((thread, 0.0, "?"))
                 continue
             try:
                 bag = genealogy.anchors(rec["canon"]) or {}
             except Exception:
                 bag = {}
-            score = sum(w for a, w in bag.items() if a in ctx)
-            scored.append((thread, score))
-        ANCHOR_AUDIT[lemma] = [(t[-1] if t else "", s) for t, s in scored]
-        prim_score = scored[0][1]
-        if prim_score > 0:
+            if low is not None:
+                score = float(sum(
+                    1 for a in bag
+                    if a and a != lemma and re.search(r"\b" + re.escape(a) + r"\b", low)))
+            else:
+                score = sum(w for a, w in bag.items() if a in ctx)
+            scored.append((thread, score, rec.get("src") or "?"))
+        ANCHOR_AUDIT[lemma] = [(t[-1] if t else "", s) for t, s, _ in scored]
+        if scored[0][1] > 0:
             continue                        # the prior is corroborated — keep it
-        best = max(scored[1:], key=lambda ts: ts[1], default=None)
-        if best is not None and best[1] > 0:
-            out[sig] = best[0]              # context speaks where the prior is silent
+        promotable = [ts for ts in scored[1:] if ts[1] > 0 and ts[2] in ("label", "alias")]
+        if promotable:
+            out[sig] = max(promotable, key=lambda ts: ts[1])[0]   # real identity, context-backed
+        elif low is not None:
+            out[sig] = ()                   # no candidate survives the document — abstain
     return out
+
+
+def corroborated_world_thread(lemma: str, genealogy: Any,
+                              raw_text: str | None) -> Tuple[str, ...]:
+    """The anchor gate's rule as a single reusable lookup, for consumers OUTSIDE the
+    coherence pass (e.g. narrative's role-biased world-strand heal): the pagerank-primary
+    world thread if the document corroborates it, else the best corroborated LABEL/ALIAS
+    candidate, else ``()`` (abstain). A downstream heal that re-grounds an ungrounded
+    PROPN from bare ``candidates()[0]`` re-asserts exactly the wrong-referent guess the
+    gate refused — every store lookup that types a story agent must pass the same test.
+    Without ``raw_text`` → the plain primary (the pre-gate behavior)."""
+    if not lemma or genealogy is None or not hasattr(genealogy, "candidates"):
+        return ()
+    try:
+        cs = [tuple(t) for t in genealogy.candidates(lemma, "PROPN", True)]
+    except Exception:
+        return ()
+    if not cs:
+        return ()
+    if not raw_text or not (hasattr(genealogy, "world_candidates")
+                            and hasattr(genealogy, "anchors")):
+        return cs[0]
+    low = raw_text.lower()
+    try:
+        rec_of = {tuple(r["thread"]): r for r in genealogy.world_candidates(lemma)}
+    except Exception:
+        return cs[0]
+    scored = []
+    for thread in cs:
+        rec = rec_of.get(thread)
+        bag = {}
+        if rec is not None:
+            try:
+                bag = genealogy.anchors(rec["canon"]) or {}
+            except Exception:
+                bag = {}
+        hits = sum(1 for a in bag
+                   if a and a != lemma and re.search(r"\b" + re.escape(a) + r"\b", low))
+        scored.append((thread, hits, (rec.get("src") if rec else None) or "?"))
+    if scored[0][1] > 0:
+        return scored[0][0]
+    promotable = [ts for ts in scored[1:] if ts[1] > 0 and ts[2] in ("label", "alias")]
+    if promotable:
+        return max(promotable, key=lambda ts: ts[1])[0]
+    return ()
 
 
 def _promote_demiwords(node: Any, genealogy: Any) -> Any:
@@ -880,7 +969,7 @@ def _resolve_possessive_determiners(trees: Sequence[Any]) -> List[Any]:
 
 def resolve_document(
     trees: Sequence[Any], genealogy: GenealogyProvider | None = None,
-    genre: str | None = None,
+    genre: str | None = None, raw_text: str | None = None,
 ) -> List[Any]:
     """Resolve a *document* — an ordered list of evaluated clause trees.
 
@@ -914,7 +1003,7 @@ def resolve_document(
             sig_to_id[sig] = f"e{len(sig_to_id)}"
 
     if hasattr(genealogy, "candidates"):
-        sig_thread = _select_by_coherence(flat, genealogy, genre=genre)
+        sig_thread = _select_by_coherence(flat, genealogy, genre=genre, raw_text=raw_text)
     else:
         sig_thread = {}
         for ent in flat:
