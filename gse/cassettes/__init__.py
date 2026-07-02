@@ -15,6 +15,7 @@ from __future__ import annotations
 from .base import Cassette, Resolution, Scored
 from .deck import CassetteDeck, CheatEntry, DeckResult
 from .entity_identity import EntityIdentity, IdentityGap
+from .coref_junk import CorefJunk
 from .cheatsheet import (CheatSheet, build_cheatsheet, build_relabel_map,
                          correct_contracts, make_merge_repair, make_retype_repair)
 from .multiscale import Mention, MultiScaleDoc
@@ -27,6 +28,7 @@ __all__ = [
     "MultiScaleDoc", "Mention",
     "Cassette", "Resolution", "Scored",
     "EntityIdentity", "IdentityGap",
+    "CorefJunk",
     "PersonValidation", "PersonGap",
     "ReferentValidation", "ReferentGap",
     "AgentEligibility",
