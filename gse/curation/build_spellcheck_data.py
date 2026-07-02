@@ -11,9 +11,13 @@ Builds:
   - data/wordlist_wiktionary.txt + .bloom      (validity list; gitignored, REQUIRED for
                                                 full jargon coverage — without it the
                                                 corrector still runs on lexicon+WordNet)
+  - data/spell_entities.db                     (alias-free entity-name dictionary for the
+                                                proper-noun leg; needs data/genealogy.db,
+                                                skipped gracefully when absent)
 """
 from __future__ import annotations
 
+import os
 import sys
 
 from gse.curation import build_misspellings, build_wordlist
@@ -32,10 +36,16 @@ def main(argv: list[str]) -> None:
             i += 1
     local_gz = rest[0] if rest else None
 
-    print("[1/2] confusion table (Wikipedia common misspellings)…")
+    print("[1/3] confusion table (Wikipedia common misspellings)…")
     build_misspellings.main([date])
-    print("[2/2] validity wordlist + bloom (Wiktionary English titles)…")
+    print("[2/3] validity wordlist + bloom (Wiktionary English titles)…")
     n = build_wordlist.build(local_gz)
+    print("[3/3] entity-name dictionary (from genealogy.db canonical labels; alias-free)…")
+    from gse.curation import build_spell_entities
+    if os.path.exists(build_spell_entities._GENEALOGY):
+        build_spell_entities.build()
+    else:
+        print("  data/genealogy.db absent — skipped (the entity leg degrades to a no-op)")
     print(f"done — validity list: {n} words (+ bloom). SymbolicSpellCheck data is ready.")
 
 

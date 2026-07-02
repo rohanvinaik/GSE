@@ -25,6 +25,7 @@ from mcp.server.fastmcp import FastMCP
 from gse.api import GSEEncoder
 from gse.nlp.spellcheck import correct, looks_non_lexical, _DEFAULT_LEXICON
 from gse.nlp.spellcheck_context import correct_in_context, recover_rare_tail
+from gse.nlp.spellcheck_entity import correct_entity, _DEFAULT_ENTITIES
 from gse.nlp.hdc_speller import (default_speller, score_words, HDC_COMMIT_COS,
                                  HDC_OFFER_COS, HDC_TIEBREAK_COS, HDC_TIEBREAK_MARGIN)
 from gse.nlp.spellcheck import _PRIOR_UNRANKED
@@ -118,6 +119,44 @@ def _context_payload(surface: str, template: str, context: List[str], n: int) ->
         "suggestions": sugg,
         "note": r.note,
     }
+
+
+def _display_name(name: str, surface: str) -> str:
+    """Render a committed entity name in the surface's casing (names are single
+    tokens by construction of the entity dictionary)."""
+    return name[0].upper() + name[1:] if surface[:1].isupper() else name
+
+
+def _entity_offers(ent, surf: str, n: int) -> List[Dict[str, Any]]:
+    return [
+        {"word": _display_name(c.name, surf), "edit_cost": c.edit_cost,
+         "pagerank": round(c.pagerank, 3), "canon": c.canon,
+         "note": "entity-name candidate"}
+        for c in ent.ranked[:n]
+    ]
+
+
+def _apply_entity(payload: Dict[str, Any], surf: str, context: List[str], n: int) -> bool:
+    """Run the entity leg on a name-like token the word path could not commit.
+    Folds the result into ``payload``; returns True when it committed. The leg is
+    structural end-to-end (edit model + alias-free name dictionary + pagerank prior
+    + anchor corroboration) — no redirect/collated data in the path."""
+    ent = correct_entity(surf, context_words=context)
+    if not ent.fired:
+        return False
+    offers = _entity_offers(ent, surf, n)
+    if not offers:
+        return False
+    payload["suggestions"] = offers + payload.get("suggestions", [])
+    if ent.committed:
+        disp = _display_name(ent.committed, surf)
+        payload["top"] = disp
+        payload["ambiguous"] = False
+        payload["note"] = f"entity-name correction ({ent.note})"
+        return True
+    payload["ambiguous"] = True
+    payload["note"] = "entity-name candidates offered (no decisive winner)"
+    return False
 
 
 def _hdc_recover(surf: str, sentence_initial: bool = False):
@@ -220,11 +259,18 @@ def spell_suggest(text: str, n: int = 5) -> Dict[str, Any]:
     if len(words) <= 1:
         w = _strip(text)
         tok = _word_payload(w, n) if w else {"surface": text, "misspelled": False, "suggestions": []}
+        name_like = bool(w) and w.isalpha() and w[:1].isupper()
+        if name_like and tok.get("misspelled") and _DEFAULT_ENTITIES.grounds(w):
+            tok = {"surface": w, "misspelled": False, "suggestions": [],
+                   "note": "known entity name"}
         if w and tok.get("misspelled") and not tok.get("top"):   # edit-distance abstained
-            if [s for s in tok.get("suggestions", []) if s.get("word")]:
-                _apply_tiebreak(tok, w, sentence_initial=True)     # candidates exist -> confirm among them
-            else:
-                _apply_hdc(tok, w, sentence_initial=True)          # true residue (no candidates) -> lexicon
+            if name_like:                                        # a name: the entity leg's business
+                _apply_entity(tok, w, [], n)
+            if not tok.get("top"):
+                if [s for s in tok.get("suggestions", []) if s.get("word")]:
+                    _apply_tiebreak(tok, w, sentence_initial=True)   # candidates exist -> confirm among them
+                else:
+                    _apply_hdc(tok, w, sentence_initial=True)        # true residue (no candidates) -> lexicon
         corrected = (tok.get("top") or text) if tok.get("misspelled") else text
         return {"input": text, "deterministic": True, "tokens": [tok], "corrected": corrected}
 
@@ -243,6 +289,8 @@ def spell_suggest(text: str, n: int = 5) -> Dict[str, Any]:
                 or surf.lower() in _CLITICS or surf.startswith("'")):
             out_tokens.append({"surface": t.token, "misspelled": False, "suggestions": []})
             continue
+        # name-like: the entity leg's business (PROPN tag, or mid-sentence title-case)
+        name_like = surf.isalpha() and (t.pos == "PROPN" or (surf.istitle() and i > 0))
         if _DEFAULT_LEXICON.grounds(surf):
             # a valid word: leave it alone — EXCEPT a rare-tail token in a predicate slot
             # it can't fill (cen after a subject pronoun). Slot-gated + common-target only.
@@ -254,8 +302,26 @@ def spell_suggest(text: str, n: int = 5) -> Dict[str, Any]:
                                    "suggestions": [{"word": rec, "note": "slot-confirmed recovery"}],
                                    "note": "rare-tail recovered: common word fills the predicate slot"})
                 corrected[i] = rec
-            else:
-                out_tokens.append({"surface": t.token, "misspelled": False, "suggestions": []})
+                continue
+            # a NAME-LIKE token that grounds ONLY via the rare multilingual validity
+            # tail ("Bosina"): never touched (it grounds), but entity-space neighbours
+            # are OFFERED — offer-only is destruction-free by construction.
+            if name_like and _DEFAULT_LEXICON.is_rare_tail(surf):
+                ent = correct_entity(surf, context_words=grounded_content)
+                if ent.fired and ent.ranked:
+                    out_tokens.append({
+                        "surface": t.token, "misspelled": False,
+                        "suggestions": _entity_offers(ent, surf, n),
+                        "note": "grounds only in the rare validity tail; "
+                                "entity-name neighbours offered (never auto-applied)"})
+                    continue
+            out_tokens.append({"surface": t.token, "misspelled": False, "suggestions": []})
+            continue
+        # a name-like token that IS a known entity name is valid — first-class, not
+        # dependent on Wiktionary coverage (never touched, same law as word grounding)
+        if name_like and _DEFAULT_ENTITIES.grounds(surf):
+            out_tokens.append({"surface": t.token, "misspelled": False, "suggestions": [],
+                               "note": "known entity name"})
             continue
         template = " ".join("___" if j == i else s for j, s in enumerate(surfaces))
         context = [w for w in grounded_content if w != t.lemma]
@@ -267,6 +333,11 @@ def spell_suggest(text: str, n: int = 5) -> Dict[str, Any]:
             payload["top"] = None
             payload["ambiguous"] = bool(payload["suggestions"])
             payload["note"] = "non-lexical (acronym/code/proper-noun): offered, not committed"
+        if name_like and not payload.get("top"):
+            # the entity leg: the word path has no business committing on a name, but
+            # the NAME space (same edit model + grounding + prior discipline) does.
+            # A commit lands in `corrected` via the payload["top"] application below.
+            _apply_entity(payload, surf, grounded_content, n)
         if not payload.get("top") and not gated:    # edit-distance abstained -> try keyboard-HDC
             if [s for s in payload.get("suggestions", []) if s.get("word")]:
                 _apply_tiebreak(payload, surf, sentence_initial=(i == 0))   # confirm among candidates

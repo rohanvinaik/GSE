@@ -29,6 +29,7 @@ dependencies = [
 curation = [
     "spacy>=3.7.0",
     "en-core-web-sm",
+    "requests>=2.28.0",   # external_sources downloaders (nrc/concreteness/…)
 ]
 # SymbolicSpellCheck MCP server (gse/mcp/spell_server.py). The corrector core needs no
 # extra deps; only the MCP transport does.
@@ -42,6 +43,8 @@ gse-spellcheck-mcp = "gse.mcp.spell_server:main"
 [dependency-groups]
 dev = [
     "pytest>=9.1.0",
+    "mcp>=1.0.0",        # tests import gse.mcp.spell_server; runtime consumers use the extra
+    "requests>=2.28.0",  # tests import external_sources modules (previously undeclared)
 ]
 
 [tool.ruff]
