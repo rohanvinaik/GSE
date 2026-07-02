@@ -37,10 +37,20 @@ class GenealogyStore:
 
     # -- strands ------------------------------------------------------------
     def _world(self, label: str) -> List[Tuple[str, ...]]:
-        rows = self._conn.execute(
-            "SELECT thread FROM world_thread WHERE label=? ORDER BY depth DESC",
-            (label.lower(),),
-        ).fetchall()
+        """Candidates best-first: by PAGERANK percentile (the world-importance
+        prior — 'paris' → the city before the plant genus), then depth. Falls
+        back to depth-only ordering on a pre-pagerank genealogy.db build."""
+        try:
+            rows = self._conn.execute(
+                "SELECT thread FROM world_thread WHERE label=?"
+                " ORDER BY pagerank DESC, depth DESC",
+                (label.lower(),),
+            ).fetchall()
+        except sqlite3.OperationalError:
+            rows = self._conn.execute(
+                "SELECT thread FROM world_thread WHERE label=? ORDER BY depth DESC",
+                (label.lower(),),
+            ).fetchall()
         return [tuple(json.loads(r[0])) for r in rows]
 
     def _word(self, lemma: str) -> List[Tuple[str, ...]]:
@@ -58,11 +68,16 @@ class GenealogyStore:
         Returns ``{dimension: deepest-path}`` (deepest candidate per dimension); ``{}`` if unknown.
 
         Absent from ``world_facets`` (an older genealogy.db build) → ``{}``, degrading gracefully to
-        the TAXONOMIC-only behaviour (no facet evidence, no crash)."""
+        the TAXONOMIC-only behaviour (no facet evidence, no crash).
+
+        Facet rows are keyed by the CANONICAL entity label, so an alias mention must resolve
+        through :meth:`_canon` first (the same hop :meth:`epa`/:meth:`anchors` take) — otherwise
+        every partial-label mention (``bosnia`` → "bosnia and herzegovina") silently loses its
+        facet evidence, starving the demonym/Geography strands downstream."""
         try:
             rows = self._conn.execute(
                 "SELECT dimension, path FROM world_facets WHERE label=? ORDER BY depth DESC",
-                (label.lower(),),
+                (self._canon(label),),
             ).fetchall()
         except sqlite3.OperationalError:
             return {}
@@ -71,6 +86,68 @@ class GenealogyStore:
             if dim not in out:        # ORDER BY depth DESC → keep the most-typed path per dimension
                 out[dim] = tuple(json.loads(path))
         return out
+
+    def _canon(self, label: str) -> str:
+        """The canonical entity label behind a mention — for an alias row, the
+        redirect target's label; else the label itself. Anchor/EPA/facet data is
+        keyed by canon, so an alias mention reaches its entity's records."""
+        try:
+            row = self._conn.execute(
+                "SELECT canon FROM world_thread WHERE label=? AND canon IS NOT NULL"
+                " ORDER BY pagerank DESC LIMIT 1",
+                (label.lower(),),
+            ).fetchone()
+        except sqlite3.OperationalError:
+            return label.lower()
+        return row[0] if row and row[0] else label.lower()
+
+    def epa(self, label: str) -> Dict[str, float]:
+        """World-salience EPA for a named referent — the INTENSITY leg of the
+        word-affect ⟂ world-salience split (the word carries valence; the
+        referent's gravity lives here). ``{}`` when unknown or on an older
+        genealogy.db build (graceful degradation, like :meth:`facets`)."""
+        try:
+            row = self._conn.execute(
+                "SELECT e, p, a, confidence FROM world_epa WHERE label=?"
+                " ORDER BY confidence DESC LIMIT 1",
+                (self._canon(label),),
+            ).fetchone()
+        except sqlite3.OperationalError:
+            return {}
+        if row is None:
+            return {}
+        return {"evaluation": row[0], "potency": row[1], "activity": row[2],
+                "confidence": row[3]}
+
+    def anchors(self, label: str) -> Dict[str, float]:
+        """The referent's semantic-anchor property bag (its most significant
+        Wikipedia-link targets, weight = target pagerank) — the context-coherence
+        substrate for the world leg. ``{anchor_label: weight}``; ``{}`` when
+        unknown or on an older build."""
+        try:
+            rows = self._conn.execute(
+                "SELECT anchor, weight FROM world_anchors WHERE label=?",
+                (self._canon(label),),
+            ).fetchall()
+        except sqlite3.OperationalError:
+            return {}
+        return {a: w for a, w in rows}
+
+    def world_candidates(self, label: str) -> List[Dict]:
+        """Full world-candidate records, best-first — thread + the ranking prior
+        + provenance. The richer sibling of :meth:`candidates` for consumers that
+        score candidates (anchor coherence) rather than just take the primary.
+        ``[]`` on an older build without the pagerank/canon columns."""
+        try:
+            rows = self._conn.execute(
+                "SELECT thread, depth, pagerank, src, canon FROM world_thread"
+                " WHERE label=? ORDER BY pagerank DESC, depth DESC",
+                (label.lower(),),
+            ).fetchall()
+        except sqlite3.OperationalError:
+            return []
+        return [{"thread": tuple(json.loads(t)), "depth": d, "pagerank": pr,
+                 "src": s, "canon": c} for t, d, pr, s, c in rows]
 
     # -- provider API -------------------------------------------------------
     def candidates(self, lemma: str, pos: str, is_proper: bool) -> List[Tuple[str, ...]]:
