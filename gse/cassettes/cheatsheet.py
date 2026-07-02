@@ -261,3 +261,67 @@ def _relabel_value(v: Any, relabel_map: Dict[str, str]) -> Any:
         items = [_relabel_value(x, relabel_map) for x in v]
         return items if any(a is not b for a, b in zip(items, v)) else v
     return v
+
+
+# -- AGENT-ELIGIBILITY: re-type an ineligible referent so person-typed frames self-reject it -----------
+#
+# The engine keys ``x is a person`` off the entity's emitted ``type_thread`` (GseWalker), and an
+# entity with an EMPTY thread defaults to person-eligible — so a PLACE (bosnia) or a plural COLLECTIVE
+# (patriots/loyalists) with no thread fires the person-typed frames (relationship objectification,
+# narrative_base harm-chains, …) as if it were an individual person. The agent-eligibility cassette
+# detects these and this repair injects a POSITIVE non-person ``type_thread`` (location / group), so
+# the same person-typed frames self-reject them. Non-destructive: only ``type_thread`` is set (the
+# referent, its id, and every predicate stay intact — nothing is dropped); untyped frames are
+# unaffected. Composes at the same ``from_document(repair=)`` seam as the merge repair.
+
+
+def make_retype_repair(retype_map: Dict[str, tuple]) -> Callable[[List[tuple]], List[tuple]]:
+    """Build the pre-compaction repair that OVERWRITES the ``type_thread`` of each ineligible agent.
+
+    ``retype_map``: ``{head_lemma: (non_person_type, …)}`` (e.g. ``{"bosnia": ("location",),
+    "patriots": ("group",)}``). Empty map → inert pass-through."""
+    if not retype_map:
+        return lambda timed: timed
+
+    def hook(timed: List[tuple]) -> List[tuple]:
+        return [(t, _retype_node(p, retype_map)) for (t, p) in timed]
+
+    return hook
+
+
+def _retype_node(node: Any, retype_map: Dict[str, tuple]) -> Any:
+    from gse.symbolic.resolution import Entity
+
+    if isinstance(node, Entity):
+        lem = (node.head.lemma or "").lower() if node.head else ""
+        new_poss = _retype_node(node.possessor, retype_map) if node.possessor is not None else None
+        changes: Dict[str, Any] = {}
+        tgt = retype_map.get(lem)
+        if tgt is not None and tuple(getattr(node, "type_thread", ()) or ()) != tuple(tgt):
+            changes["type_thread"] = tuple(tgt)
+        if new_poss is not node.possessor:
+            changes["possessor"] = new_poss
+        return _dc.replace(node, **changes) if changes else node
+    if _dc.is_dataclass(node) and not isinstance(node, type):
+        changes = {}
+        for f in _dc.fields(node):
+            v = getattr(node, f.name)
+            nv = _retype_value(v, retype_map)
+            if nv is not v:
+                changes[f.name] = nv
+        return _dc.replace(node, **changes) if changes else node
+    return node
+
+
+def _retype_value(v: Any, retype_map: Dict[str, tuple]) -> Any:
+    from gse.symbolic.resolution import Entity
+
+    if isinstance(v, Entity) or (_dc.is_dataclass(v) and not isinstance(v, type)):
+        return _retype_node(v, retype_map)
+    if isinstance(v, tuple):
+        items = [_retype_value(x, retype_map) for x in v]
+        return tuple(items) if any(a is not b for a, b in zip(items, v)) else v
+    if isinstance(v, list):
+        items = [_retype_value(x, retype_map) for x in v]
+        return items if any(a is not b for a, b in zip(items, v)) else v
+    return v

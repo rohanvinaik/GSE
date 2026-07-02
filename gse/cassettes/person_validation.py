@@ -68,17 +68,33 @@ class PersonValidation(Cassette):
         wn = _is_person_safe(lemma)
         if wn is True:
             return {}                          # positively a person → no veto
+        worlds = _world_threads(doc, lemma)
+        world_union: set = set().union(*worlds) if worlds else set()
+        # world strand, POSITIVE side — a DBpedia Person ANYWHERE in the candidate
+        # set is a possible person, full stop: the veto is blocked outright
+        # (abstain-keep), exactly like the WordNet block above. The whole set, not
+        # candidates[0] — the token-alias table makes 'washington'/'louis' rank a
+        # place first while George Washington sits behind it (kind-heterogeneous →
+        # disambiguation needed → never veto). Post-backfill this covers ~74K typed
+        # persons the WordNet check can't see (Pervez Khattak; Inanna types Deity).
+        # NOT the whole Agent subtree — Organisation is Agent-rooted, stays vetoable.
+        if world_union & {"Person", "Deity"}:
+            return {}
         strands: Dict[str, float] = {}
         if wn is False:
             strands["wordnet_nonperson"] = 1.0  # germanic → language → not a person
-        # world strand — the referent's DBpedia type (place/event/work/org)
-        world = _world_thread(doc, lemma)
-        if set(world) & _NONPERSON_WORLD or set(world) & _NONPERSON_WORDNET:
+        # world strand — the referent's DBpedia type (place/event/work/org); with the
+        # Person block above, non-person evidence here is candidate-set-unanimous.
+        if world_union & _NONPERSON_WORLD or world_union & _NONPERSON_WORDNET:
             strands["world_nonperson"] = 1.0    # cawdor → Place
-        # facets — geographic/ethnic collective (the demonym/nationality signal)
+        # facets — geographic/ethnic collective (the demonym/nationality signal).
+        # (The person-guard here was previously `"person" not in world`, a dead
+        # check against the capitalized DBpedia thread — a typed Person with a
+        # Geography domain could be wrongly vetoed. The Person block above now
+        # guards this properly.)
         facets = _facets(doc, lemma)
         dom = set(facets.get("DOMAIN", ()))
-        if (dom & {"Geography"}) and "person" not in world:
+        if dom & {"Geography"}:
             strands["demonym"] = 0.5            # a geographic/national collective, not a person
         return strands
 
@@ -102,6 +118,21 @@ def _world_thread(doc: MultiScaleDoc, lemma: str):
         return c[0] if c else ()
     except Exception:
         return ()
+
+
+def _world_threads(doc: MultiScaleDoc, lemma: str, cap: int = 8):
+    """ALL ranked world candidates for a mention (capped). The token-alias table makes a
+    bare forename/surname mention ('washington', 'louis') legitimately AMBIGUOUS across
+    KINDS (George Washington the Person vs Washington the place vs the Post) — a verdict
+    read off candidates[0] alone would let the pagerank prior overrule a possible person.
+    Kind-level decisions must consult the whole set: heterogeneous → disambiguation
+    needed → abstain (the store's own fail-honest law)."""
+    if doc.store is None:
+        return []
+    try:
+        return [tuple(t) for t in doc.store.candidates(lemma, "PROPN", True)[:cap]]
+    except Exception:
+        return []
 
 
 def _facets(doc: MultiScaleDoc, lemma: str) -> Dict[str, Any]:

@@ -16,8 +16,9 @@ from .base import Cassette, Resolution, Scored
 from .deck import CassetteDeck, CheatEntry, DeckResult
 from .entity_identity import EntityIdentity, IdentityGap
 from .cheatsheet import (CheatSheet, build_cheatsheet, build_relabel_map,
-                         correct_contracts, make_merge_repair)
+                         correct_contracts, make_merge_repair, make_retype_repair)
 from .multiscale import Mention, MultiScaleDoc
+from .agent_eligibility import AgentEligibility
 from .person_validation import PersonGap, PersonValidation
 from .referent_validation import ReferentGap, ReferentValidation
 from .relational_identity import RelationalIdentity
@@ -28,8 +29,9 @@ __all__ = [
     "EntityIdentity", "IdentityGap",
     "PersonValidation", "PersonGap",
     "ReferentValidation", "ReferentGap",
+    "AgentEligibility",
     "RelationalIdentity",
     "CassetteDeck", "CheatEntry", "DeckResult",
     "CheatSheet", "build_cheatsheet", "correct_contracts",
-    "build_relabel_map", "make_merge_repair",
+    "build_relabel_map", "make_merge_repair", "make_retype_repair",
 ]
