@@ -96,3 +96,51 @@ def test_end_to_end_syllogism_and_ordering():
         assert not kb.is_a("floop", "bing").holds
         assert kb.greater("snib", "glonk").holds
         assert not kb.greater("glonk", "snib").holds
+
+
+# -- modus ponens over Conditional rules (2026-07-01) ------------------------
+
+
+@pytest.fixture(scope="module")
+def policy_kb():
+    premises = [
+        "Alice is a member.",
+        "Bob is a member.",
+        "If a member misses the payment then the member loses the vote.",
+        "If a member loses the vote then the member leaves the board.",
+        "Alice missed the payment.",
+        "Carol did not miss the payment.",
+    ]
+    with GSEEncoder() as enc:
+        trees = [evaluate_tree(resolve(from_trace(enc.encode(s)))) for s in premises]
+    return KnowledgeBase.from_trees(trees)
+
+
+def test_modus_ponens_fires_through_isa_binding(policy_kb):
+    d = policy_kb.event("lose", "alice", "vote")
+    assert d.holds
+    assert "fact: alice miss payment" in d.chain[0]      # the antecedent's proof
+    assert any("rule:" in step for step in d.chain)      # the rule is cited
+
+
+def test_rule_chaining_two_steps(policy_kb):
+    d = policy_kb.event("leave", "alice", "board")
+    assert d.holds
+    assert sum(1 for step in d.chain if step.startswith("rule:")) == 2
+
+
+def test_no_fact_no_firing(policy_kb):
+    assert not policy_kb.event("lose", "bob", "vote").holds     # member, but no fact
+    assert not policy_kb.event("leave", "bob", "board").holds
+
+
+def test_negated_fact_is_not_asserted(policy_kb):
+    # "Carol did not miss the payment" must neither assert the fact nor fire the rule
+    assert not policy_kb.event("miss", "carol", "payment").holds
+    assert not policy_kb.event("lose", "carol", "vote").holds
+
+
+def test_event_query_deterministic(policy_kb):
+    a = policy_kb.event("leave", "alice", "board")
+    b = policy_kb.event("leave", "alice", "board")
+    assert a == b
