@@ -402,6 +402,41 @@ def _leading_adjunct_positions(tokens: Sequence[TokenTrace], verb: TokenTrace) -
     return {t.position for t in pre[:commas[-1]]}       # the span up to (not incl.) the last pre-verb comma
 
 
+# POS tags that can head a clause SUBJECT (a bare nominal). A verb preceded by one of these is preceded
+# by its own subject — a main-clause (or trailing-adjunct) verb, not a fronted-adjunct participle.
+_SUBJECT_POS = {"PROPN", "NOUN", "PRON"}
+
+
+def _select_clause_verb(tokens: Sequence[TokenTrace]):
+    """The clause's predicate verb. Normally the first eligible VERB (non-copula, non-operator).
+
+    LEADING-ADJUNCT override (the verb twin of `_leading_adjunct_positions`): a coordinated/fronted
+    PARTICIPLE inside a leading adjunct is POS=VERB and comes first ("Consumed by X and spurred by Y,
+    Macbeth murders …" → `spur` before `murder`), so the naive first-VERB pick takes the adjunct's verb.
+    The signal that the first verb is adjunct-internal: it is NOT immediately preceded by its own subject
+    (a bare PROPN/NOUN/PRON). When that holds AND a later verb sits after a comma with a subject before it
+    (the real main clause), that later verb is the predicate. A TRAILING adjunct ("Macbeth fled, fearing
+    capture") is untouched — its first verb IS preceded by its subject "Macbeth", so the override abstains."""
+    by_pos = sorted(tokens, key=lambda t: t.position)
+    eligible = [t for t in by_pos
+                if t.pos == "VERB" and t.lemma != _COPULA_LEMMA and not t.is_operator]
+    if not eligible:
+        return None
+    v1 = eligible[0]
+    before_v1 = [t for t in by_pos if t.position < v1.position]
+    if before_v1 and before_v1[-1].pos in _SUBJECT_POS:
+        return v1                                      # v1 preceded by its subject -> main/trailing verb
+    comma = next((t.position for t in by_pos
+                  if t.pos == "PUNCT" and t.lemma == "," and t.position > v1.position), None)
+    if comma is None:
+        return v1
+    for v2 in eligible:
+        if v2.position > comma and any(
+                comma < n.position < v2.position and n.pos in _SUBJECT_POS for n in by_pos):
+            return v2                                  # a later verb whose subject sits after the adjunct comma
+    return v1
+
+
 def _try_event(tokens: Sequence[TokenTrace],
                shared_subject: Optional[Sequence] = None) -> Optional[Expression]:
     """Synthesize an EVENT ``Op`` from a plain verb clause "X verbs Y".
@@ -416,11 +451,7 @@ def _try_event(tokens: Sequence[TokenTrace],
 
     The verb lemma rides on ``Op.primitive``; ``operators.event`` reads it back.
     """
-    verb = next(
-        (t for t in tokens
-         if t.pos == "VERB" and t.lemma != _COPULA_LEMMA and not t.is_operator),
-        None,
-    )
+    verb = _select_clause_verb(tokens)
     if verb is None:
         return None
     # Clausal negation ("X does not harm Y"): NOT is a sign-direction argument

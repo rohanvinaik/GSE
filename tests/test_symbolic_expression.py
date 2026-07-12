@@ -13,6 +13,7 @@ from gse.symbolic.expression import (
     Negation,
     Op,
     Phrase,
+    _select_clause_verb,
     from_trace,
 )
 from gse.symbolic.operators import evaluate_tree
@@ -315,3 +316,41 @@ class TestPossessiveNounNotPromotedToVerb:
         ev = evaluate_tree(from_trace(encoder.encode("His ambition drove the tyrant.")))
         assert ev.verb == "drive"
         assert "ambition" in _agent_lemmas(ev)
+
+
+class TestLeadingAdjunctVerbSelection:
+    """A coordinated/fronted PARTICIPLE inside a leading adjunct is POS=VERB and comes first ("Consumed by
+    X and spurred by Y, Macbeth murders …" → `spur` before `murder`), so the naive first-VERB pick took the
+    adjunct's verb. `_select_clause_verb` redirects to the main-clause verb after the comma — but ONLY when
+    the first verb is not preceded by its own subject, so a TRAILING adjunct ("Macbeth fled, fearing capture"
+    / "Macbeth fled, his sword drawn") keeps its real first verb."""
+
+    def _verb_lemma(self, encoder, text):
+        return _select_clause_verb(encoder.encode(text).tokens).lemma
+
+    def test_coordinated_leading_participle_not_taken_as_verb(self, encoder):
+        # the real macbeth story sentence: `spurred` (adjunct participle before the comma) must NOT win.
+        assert self._verb_lemma(
+            encoder,
+            "Consumed by his latent ambition and spurred to violence by his wife, "
+            "Macbeth murders King Duncan.") == "murder"
+
+    def test_trailing_participial_keeps_its_first_verb(self, encoder):
+        # "Macbeth fled, fearing capture" — `fled` is preceded by its subject Macbeth -> main verb, not redirected.
+        assert self._verb_lemma(encoder, "Macbeth fled, fearing capture.") == "flee"
+
+    def test_trailing_absolute_keeps_its_first_verb(self, encoder):
+        # the over-fire guard: "Macbeth fled, his sword drawn" -> `fled` stays the verb (NOT `drawn`).
+        assert self._verb_lemma(encoder, "Macbeth fled, his sword drawn.") == "flee"
+
+    def test_plain_clause_verb_unchanged(self, encoder):
+        assert self._verb_lemma(encoder, "Macbeth murders Duncan.") == "murder"
+
+    def test_end_to_end_real_verb_and_subject(self, encoder):
+        ev = evaluate_tree(from_trace(encoder.encode(
+            "Consumed by his latent ambition and spurred to violence by his wife, "
+            "Macbeth murders King Duncan and takes the Scottish throne.")))
+        # evaluate_tree returns the CLAUSE_COORD; the left clause is the first predication
+        left = ev.left if hasattr(ev, "left") else ev
+        assert left.verb == "murder"
+        assert "macbeth" in _agent_lemmas(left)
