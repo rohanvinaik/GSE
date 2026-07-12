@@ -7,6 +7,7 @@ Expression tree. No semantics tested here (that's B2/B3).
 import pytest
 
 from gse.api import GSEEncoder
+from gse.api.parse_repair import verbs_to_promote
 from gse.symbolic.expression import (
     Atom,
     Negation,
@@ -280,3 +281,37 @@ class TestLeadingAdjunctSubjectRecovery:
     def test_no_adjunct_subject_unchanged(self, encoder):
         ev = evaluate_tree(from_trace(encoder.encode("The king banished the knight.")))
         assert "king" in _agent_lemmas(ev)
+
+
+class TestPossessiveNounNotPromotedToVerb:
+    """A verb-sense NOUN governed by a possessive determiner ("his ambition", "her plan") is the possessed
+    NOUN HEAD, not the clause verb. The native front-end tags a possessive as PRON, so the flank-skip missed
+    it and `verbs_to_promote` read it as an entity-like subject — burying the noun as a VERB ("his AMBITION,
+    Macbeth murdered …" picked `ambition` as the verb over `murder`, corrupting the whole clause). The guard
+    excludes a possessive determiner from being a subject flanker."""
+
+    def test_possessive_governed_noun_not_promoted(self, encoder):
+        doc = encoder.nlp("Consumed by his ambition, Macbeth murdered King Duncan.")
+        amb = next(t.i for t in doc if t.lemma_ == "ambition")
+        assert amb not in verbs_to_promote(doc)      # "his ambition" -> ambition is a NOUN, not a verb
+
+    def test_genuine_buried_verb_still_promotes(self, encoder):
+        # POSITIVE control: the guard must not neuter promotion — a real buried verb flanked by entities (no
+        # possessive) is still promoted ("Duncan is a king" promotes the copula, the module's own cited case).
+        doc = encoder.nlp("Duncan is a king.")
+        assert verbs_to_promote(doc)
+
+    def test_real_verb_and_subject_recovered_end_to_end(self, encoder):
+        # both fixes compose: possessive-guard makes `murder` the verb, the leading-adjunct rule strips
+        # "Consumed by his ambition," so the subject is Macbeth, not "consumed by".
+        ev = evaluate_tree(from_trace(encoder.encode("Consumed by his ambition, Macbeth murdered King Duncan.")))
+        assert ev.verb == "murder"
+        assert "macbeth" in _agent_lemmas(ev)
+        assert "ambition" not in _agent_lemmas(ev)
+
+    def test_possessive_np_stays_the_subject_when_it_is_the_subject(self, encoder):
+        # "His ambition drove the tyrant" — here the possessive NP IS the subject and `drive` the verb; the
+        # noun must NOT be promoted (which would leave the clause verbless / mis-read).
+        ev = evaluate_tree(from_trace(encoder.encode("His ambition drove the tyrant.")))
+        assert ev.verb == "drive"
+        assert "ambition" in _agent_lemmas(ev)

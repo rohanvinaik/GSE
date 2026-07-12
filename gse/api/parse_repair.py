@@ -33,6 +33,18 @@ _NOMINAL_POS = {"PROPN", "NOUN", "PRON"}
 # "Mike is taller than Rex" (right content = taller/ADJ → no promote).
 _SKIP_FLANK_POS = {"PUNCT", "DET"}
 
+# Possessive DETERMINERS — the native front-end tags these PRON (not DET), so the
+# flank skip above misses them, and _entity_like reads a PRON as an entity. But a
+# possessive determiner is NOT a subject: the verb-sense token it governs is the
+# possessed NOUN head ("his ambition", "her plan"), not the clause verb. Keyed by
+# LEMMA (mirrors encoder._POSSESSIVE_DET; kept local to avoid a circular import).
+_POSSESSIVE_DET = frozenset({"my", "your", "his", "her", "its", "our", "their", "whose"})
+
+
+def _is_possessive_determiner(tok) -> bool:
+    """A possessive determiner ("his"/"her"/…) — a governor of the following noun, not a subject."""
+    return tok.lemma_.lower() in _POSSESSIVE_DET
+
 
 def _has_verb_sense(lemma: str) -> bool:
     """Dictionary fact: does this lemma have a verb reading? (Not a verb list.)"""
@@ -108,8 +120,12 @@ def verbs_to_promote(doc) -> Set[int]:
             continue
         left = _nearest_content(i, -1)
         right = _nearest_content(i, +1)
+        # A possessive determiner on the left is NOT the subject — it governs the candidate as the
+        # possessed noun head ("his ambition, Macbeth murdered …" → ambition is a NOUN, murder the verb).
+        # Without this, the PRON-tagged possessive reads as an entity-like subject and buries the real verb.
         if left is not None and right is not None \
-                and _entity_like(left) and _entity_like(right):
+                and _entity_like(left) and not _is_possessive_determiner(left) \
+                and _entity_like(right):
             promote.add(t.i)
     return promote
 
