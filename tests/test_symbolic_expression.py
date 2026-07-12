@@ -14,6 +14,7 @@ from gse.symbolic.expression import (
     Phrase,
     from_trace,
 )
+from gse.symbolic.operators import evaluate_tree
 
 
 @pytest.fixture(scope="module")
@@ -194,3 +195,48 @@ def _contains_lemma(expr, lemma):
     if isinstance(expr, Op):
         return any(_contains_lemma(a, lemma) for a in expr.args)
     return False
+
+
+def _agent_lemmas(ev):
+    a = ev.agent
+    return [t.lemma for t in a.atoms] if hasattr(a, "atoms") else [getattr(a, "lemma", a)]
+
+
+def _theme_lemmas(ev):
+    out = []
+    for th in ev.themes:
+        out += [t.lemma for t in th.atoms] if hasattr(th, "atoms") else [getattr(th, "lemma", th)]
+    return out
+
+
+class TestOfPostmodifierNamePreservation:
+    """A genitive/territorial ``of``-postmodifier of a NAME / head-NOUN subject stays WITH the subject —
+    it is not peeled off as a SYN_OBL (which ``event()`` would mis-read as a `theme`). Regression: a
+    territorial-name subject ("Richard of Gloucester blames X", "Duncan of Scotland sees Y") used to leak
+    the place-name as an EVENT arg2 theme. The fix is PRE-verb only; a real post-verb "of ⟨act⟩" complement
+    still surfaces as a theme, and a non-``of`` fronted PP stays an oblique."""
+
+    def test_propn_of_propn_subject_stays_whole_no_theme(self, encoder):
+        ev = evaluate_tree(from_trace(encoder.encode("Richard of Gloucester blames Queen Elizabeth.")))
+        assert "gloucester" in _agent_lemmas(ev)     # kept in the subject name
+        assert ev.themes == ()                       # NOT leaked as a theme
+
+    def test_duncan_of_scotland_stays_whole_no_theme(self, encoder):
+        ev = evaluate_tree(from_trace(encoder.encode("Duncan of Scotland sees Macbeth.")))
+        assert "scotland" in _agent_lemmas(ev)
+        assert ev.themes == ()
+
+    def test_noun_of_propn_subject_stays_whole(self, encoder):
+        ev = evaluate_tree(from_trace(encoder.encode("The son of Duncan killed Macbeth.")))
+        assert "duncan" in _agent_lemmas(ev)
+        assert ev.themes == ()
+
+    def test_post_verb_of_complement_still_a_theme(self, encoder):
+        # the fix is pre-verb only — a genuine imputed-act complement after the verb still becomes a theme.
+        ev = evaluate_tree(from_trace(encoder.encode("Richard accuses Elizabeth of treason.")))
+        assert "treason" in _theme_lemmas(ev)
+
+    def test_non_of_fronted_pp_object_not_kept_in_the_name(self, encoder):
+        # restricted to 'of': a fronted "in the daytime" PP object is NOT a name postmodifier.
+        ev = evaluate_tree(from_trace(encoder.encode("In the daytime Macbeth ran.")))
+        assert "daytime" not in _agent_lemmas(ev)

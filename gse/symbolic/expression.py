@@ -408,11 +408,26 @@ def _try_event(tokens: Sequence[TokenTrace],
         the following subject head); if the governing token is a preposition, ``tok`` is a PP
         oblique. Catches a FRONTED adverbial before the subject ("In the daytime I ran" →
         daytime governed, I not) — the subject-side twin of the post-verb object/oblique split,
-        so a fronted PP no longer blobs into the subject ("daytime i"). Text-agnostic."""
+        so a fronted PP no longer blobs into the subject ("daytime i"). Text-agnostic.
+
+        EXCEPTION — a genitive/territorial ``of``-postmodifier of a preceding NAME/head-NOUN
+        ("Richard of Gloucester", "Duncan of Scotland", "the son of Duncan") is PART of that
+        nominal, not a fronted PP: its object stays with the subject rather than being peeled off
+        as a SYN_OBL (which `event()` then mis-reads as a `theme`). Restricted to ``of`` (the
+        genitive connector) so an adverbial PP after the subject head ("Macbeth in his rage …")
+        stays an oblique. This is PRE-verb only; a real imputed-act complement ("accuses Y OF
+        treason") is post-verb and split by the object/oblique boundary below, so it is untouched."""
         for t in reversed([x for x in _ordered if x.position < tok.position]):
             if t.pos in ("DET", "ADJ"):
                 continue
-            return t.pos == "ADP"
+            if t.pos != "ADP":
+                return False
+            if t.lemma == "of":
+                for u in reversed([x for x in _ordered if x.position < t.position]):
+                    if u.pos in ("DET", "ADJ"):
+                        continue
+                    return u.pos not in ("PROPN", "NOUN")   # head noun before "of" -> postmodifier -> keep
+            return True
         return False
 
     appositive = _appositive_positions(tokens, verb)   # NAME, description, → keep the name (Haemon)
