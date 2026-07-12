@@ -374,6 +374,34 @@ def _appositive_positions(tokens: Sequence[TokenTrace], verb: TokenTrace) -> set
     return set()
 
 
+def _leading_adjunct_positions(tokens: Sequence[TokenTrace], verb: TokenTrace) -> set:
+    """Positions of a LEADING ADJUNCT — a sentence-initial phrase set off by a comma BEFORE the main-clause
+    subject ("Angered by the insult, the king banished …" / "Consumed by ambition, Macbeth murders …") — to
+    drop, so the real subject survives instead of the adjunct's head contaminating the agent.
+
+    A capitalized sentence-initial participle ("Angered", "Consumed", "Exhausted") is POS-tagged PROPN, so it
+    is INDISTINGUISHABLE from a proper-noun subject by tag; the reliable signal is the COMMA — the syntactic
+    boundary English uses for a fronted adjunct (participial/absolute/adverbial). The subject is the nominal
+    AFTER the last pre-verb comma; everything from sentence start up to that comma is the leading adjunct.
+
+    Conservative guards, so a comma is not over-read: fire only when (a) a subject-eligible nominal (NOUN/
+    PROPN) actually follows the last pre-verb comma, and (b) that following span carries NO coordinator — so a
+    comma-separated LIST subject ("Tom, Dick and Harry ran") stays whole (there the coordinator sits AFTER the
+    comma, whereas in a coordinated leading adjunct "Consumed by X and spurred by Y, Macbeth …" it sits
+    BEFORE). The subject-initial appositive ("Haemon, Creon's son, pledged") has NO nominal after its last
+    comma, so this abstains and `_appositive_positions` handles it — the two are disjoint by construction."""
+    pre = sorted([t for t in tokens if t.position < verb.position], key=lambda t: t.position)
+    commas = [i for i, t in enumerate(pre) if t.pos == "PUNCT" and t.lemma == ","]
+    if not commas:
+        return set()
+    after = pre[commas[-1] + 1:]                        # tokens between the last pre-verb comma and the verb
+    if not any(t.pos in ("NOUN", "PROPN") for t in after):
+        return set()                                   # no subject after the comma -> not a fronted adjunct
+    if any(t.lemma in ("and", "or") for t in after):
+        return set()                                   # coordinator after the comma -> a list subject, keep it
+    return {t.position for t in pre[:commas[-1]]}       # the span up to (not incl.) the last pre-verb comma
+
+
 def _try_event(tokens: Sequence[TokenTrace],
                shared_subject: Optional[Sequence] = None) -> Optional[Expression]:
     """Synthesize an EVENT ``Op`` from a plain verb clause "X verbs Y".
@@ -431,11 +459,13 @@ def _try_event(tokens: Sequence[TokenTrace],
         return False
 
     appositive = _appositive_positions(tokens, verb)   # NAME, description, → keep the name (Haemon)
+    leading_adjunct = _leading_adjunct_positions(tokens, verb)  # "Angered by X, the king …" → keep the king
     subject_tokens = [t for t in tokens
                       if t.position < verb.position
                       and t.pos != "PUNCT" and t.lemma not in _NEGATION_LEMMAS
                       and not _prep_governed(t)
-                      and t.position not in appositive]
+                      and t.position not in appositive
+                      and t.position not in leading_adjunct]
     # A nominalized-adjective subject ("A giant attacks", "A stranger helps") is the NP head used as a
     # noun; promote it so it grounds as the agent instead of being dropped as a bare adjective atom.
     subject_atoms = _promote_nominalized_adjective_subject(

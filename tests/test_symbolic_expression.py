@@ -240,3 +240,43 @@ class TestOfPostmodifierNamePreservation:
         # restricted to 'of': a fronted "in the daytime" PP object is NOT a name postmodifier.
         ev = evaluate_tree(from_trace(encoder.encode("In the daytime Macbeth ran.")))
         assert "daytime" not in _agent_lemmas(ev)
+
+
+class TestLeadingAdjunctSubjectRecovery:
+    """A LEADING ADJUNCT set off by a comma ("Angered by the insult, the king …") is NOT the subject — the
+    real subject is the nominal after the comma. A capitalized sentence-initial participle ("Angered",
+    "Consumed", "Exhausted") POS-tags as PROPN, indistinguishable from a proper-noun subject by tag, so the
+    old subject-span pulled it into the agent ("angered by the king"). The fix keys on the COMMA (the fronted-
+    adjunct boundary), guarded so a comma-separated LIST subject and a subject-initial appositive are left
+    intact. Regression: leading participial/absolute phrases corrupted the agent across the corpus."""
+
+    def test_participial_adjunct_dropped_real_subject_kept(self, encoder):
+        ev = evaluate_tree(from_trace(encoder.encode("Angered by the insult, the king banished the knight.")))
+        assert "king" in _agent_lemmas(ev)           # the real subject survives
+        assert "angered" not in _agent_lemmas(ev)    # the participial adjunct head no longer contaminates it
+
+    def test_second_participial_adjunct(self, encoder):
+        ev = evaluate_tree(from_trace(encoder.encode("Exhausted from the long march, the soldier collapsed.")))
+        assert "soldier" in _agent_lemmas(ev)
+        assert "exhausted" not in _agent_lemmas(ev)
+
+    def test_participial_adjunct_before_named_subject(self, encoder):
+        ev = evaluate_tree(from_trace(encoder.encode("Spurred by his wife, Macbeth killed the king.")))
+        assert "macbeth" in _agent_lemmas(ev)
+        assert "spurred" not in _agent_lemmas(ev)
+
+    def test_list_subject_not_stripped(self, encoder):
+        # GUARD: a comma-separated list subject has the coordinator AFTER the comma -> NOT a leading adjunct;
+        # the whole list stays the subject (do not strip the first conjunct).
+        ev = evaluate_tree(from_trace(encoder.encode("Tom, Dick and Harry ran home.")))
+        assert "tom" in _agent_lemmas(ev)            # the first conjunct is not dropped
+
+    def test_subject_initial_appositive_keeps_the_name(self, encoder):
+        # GUARD: "NAME, description, verb" has NO nominal after its last comma -> this abstains and the
+        # appositive path keeps the name; the leading-adjunct rule must not eat "Haemon".
+        ev = evaluate_tree(from_trace(encoder.encode("Haemon, Creon son, pledged loyalty.")))
+        assert "haemon" in _agent_lemmas(ev)
+
+    def test_no_adjunct_subject_unchanged(self, encoder):
+        ev = evaluate_tree(from_trace(encoder.encode("The king banished the knight.")))
+        assert "king" in _agent_lemmas(ev)
