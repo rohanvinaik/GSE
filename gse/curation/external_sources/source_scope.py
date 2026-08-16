@@ -90,6 +90,54 @@ SOURCE_PRIMITIVE_SCOPE: Mapping[str, Set[str]] = {
     "wordnet_hierarchy": {
         "SOMETHING", "SOMEONE", "ALIVE", "BODY", "PEOPLE", "PART", "KIND",
     },
+    # FrameNet: frame semantics — event structure, participant roles, and the
+    # cognition/perception/communication/emotion frames that are its core
+    # competence. Affect POLARITY is excluded: frame-level GOOD is polarity-blind
+    # (the Judgment frame fires identically for `praise` and `criticize`) — the
+    # affect sources (NRC / SentiWordNet) own that signal.
+    # SOMEONE/SOMETHING are excluded: the parser derives them from Agent/Theme
+    # FRAME-ELEMENT slots, i.e. the verb's argument FRAME, not the word's own
+    # meaning (they fire on virtually every verb — with PropBank agreeing, the
+    # ≥2 gate would flood the lexicon; measured 2026-07-01). Argument frames
+    # belong in the verb-template layer, not primitive_values.
+    "framenet": {
+        "DO", "HAPPEN", "MOVE", "CAUSE", "BE", "EXIST", "HAVE", "START", "END",
+        "SAY", "WORDS", "THINK", "KNOW", "SEE", "HEAR", "FEEL", "TOUCH", "WANT",
+        "BODY", "ALIVE", "WHERE", "WHEN", "BEFORE",
+        "AFTER", "TOWARD", "AWAY", "BECAUSE", "WITH", "MUST", "CAN",
+        "MOMENT", "LONG_TIME",
+    },
+    # PropBank: verb rolesets — the same predicate-argument competence family as
+    # VerbNet (which completes the designed verb-source trio), plus the
+    # aspect/possession/cognition verbs its curated class map encodes. Affect
+    # polarity excluded for the same reason as FrameNet.
+    # SOMEONE/SOMETHING (ARG0/ARG1 slots) and WHEN/WHERE/TOWARD/BECAUSE
+    # (ARGM-* adjunct slots) are excluded — argument-frame structure, not the
+    # verb's own decomposition (same rationale as FrameNet above).
+    "propbank": {
+        "DO", "HAPPEN", "MOVE", "BE", "EXIST", "CAUSE", "SAY", "WORDS",
+        "HAVE", "START", "END", "KNOW", "THINK",
+        "SEE", "HEAR", "FEEL", "TOUCH", "WANT", "ALIVE", "BODY",
+    },
+    # ConceptNet: crowd-sourced commonsense relations. Competence is the
+    # STRUCTURAL relations — taxonomy/mereology/location/capability/purpose.
+    # Excluded: affect (HasProperty good/bad is crowd noise), and NOT — an
+    # Antonym edge is a relation BETWEEN words, not a NOT-component of either
+    # word's own decomposition.
+    "conceptnet": {
+        "KIND", "PART", "HAVE", "WHERE", "NEAR", "CAUSE", "CAN", "WANT",
+        "DO", "BEFORE", "START", "END", "SOMETHING",
+    },
+    # USAS: UCREL semantic-field taxonomy — coarse categorical/topical typing,
+    # the topical complement to wordnet_hierarchy's IS-A. Excluded: quantifier
+    # fields (the quantifier layer owns those), pronoun/deixis fields (tier-0
+    # owns the primes), modality (the modal track is a separate gap), and
+    # affect modifiers (owned by the affect sources).
+    "usas": {
+        "BODY", "ALIVE", "MOVE", "WHERE", "WHEN", "SOMEONE", "PEOPLE",
+        "SOMETHING", "SAY", "WORDS", "THINK", "KNOW", "FEEL", "WANT",
+        "DO", "BE", "HAVE", "START", "LONG_TIME", "SHORT_TIME",
+    },
 }
 
 

@@ -96,10 +96,6 @@ _LEAD_DET = re.compile(r"^\s*(an?|the|to|that which|one who|one that|something t
 # only when it clearly terminates the defining phrase (period + space + capital).
 _FIRST_SENT = re.compile(r"^(.*?[.;])\s+[A-Z]")
 
-# Differentia-bearing relations: the modifiers that *distinguish* this sense from
-# its genus siblings. amod/compound on the head are genus-side, not differentia.
-_DIFF_DEPS = {"relcl", "acl", "prep", "advcl", "acomp", "attr", "npadvmod",
-              "nmod", "ccomp", "xcomp", "advmod"}
 _NEG_LEMMAS = {"not", "without", "lacking", "lack", "absence", "no", "never",
                "non", "un-"}
 
@@ -125,42 +121,48 @@ def _strip_scaffolding(gloss: str) -> str:
 _NOMINAL_POS = {"NOUN", "PROPN"}
 
 
-# A noun phrase boundary: the leading genus NP ends where the differentia begins.
-_NP_BOUNDARY_DEP = {"relcl", "acl", "advcl", "prep"}
+# A noun phrase boundary: the leading genus NP ends where the differentia begins
+# (read from surface form — the native front-end is arc-free).
 _NP_BOUNDARY_LEMMA = {"that", "which", "who", "whom", "where", "when", "of",
                       "with", "for", "used", "having", "characterized"}
 
 
 def _genus_token(doc, pos: str):
-    """The IS-A head. Verbs/adjs: ROOT (or first of class). Nouns: the *head-final*
-    nominal of the leading NP — English genus is head-final ("woody perennial
-    *plant*", "reference *work*"), so ROOT-based selection mis-grabs the amod."""
-    root = next((t for t in doc if t.head == t), None)
+    """The IS-A head, ARC-FREE (the native front-end carries no dependency arcs —
+    gse/nlp/native.py is deliberately arc-free after the WS1 spaCy retirement).
+
+    Verbs/adjs: first token of the wanted class — a gloss is "(to) V ..." /
+    "having/ADJ ...", so linear order IS the head order. Nouns: the *head-final*
+    nominal of the leading NP ("woody perennial *plant*", "reference *work*") —
+    the rightmost NOUN/PROPN before the first clause/PP boundary, where the
+    boundary is read from surface form (SCONJ or a boundary lemma), which is the
+    same boundary the old dep-label check recognized on gloss-shaped text."""
+    tokens = list(doc)
     if pos in ("verb", "adj"):
         want = {"VERB"} if pos == "verb" else {"ADJ", "VERB"}
-        if root is not None and root.pos_ in want:
-            return root
-        return next((t for t in doc if t.pos_ in want), root)
+        return next((t for t in tokens if t.pos_ in want), None)
 
-    # noun (and default): rightmost NOUN/PROPN before the first clause/PP boundary.
     genus = None
-    for t in doc:
-        if genus is not None and (t.dep_ in _NP_BOUNDARY_DEP
-                                  or t.pos_ == "SCONJ"
+    for t in tokens:
+        if genus is not None and (t.pos_ == "SCONJ"
                                   or t.text.lower() in _NP_BOUNDARY_LEMMA):
             break
         if t.pos_ in _NOMINAL_POS:
             genus = t
-    return genus if genus is not None else root
+    return genus
 
 
-def _genus_phrase(tok) -> str:
-    """Head + its left compound/amod chain: 'reference work', 'small mammal'."""
+def _genus_phrase(doc, tok) -> str:
+    """Head + its contiguous left modifier chain: 'reference work', 'small mammal'.
+    Arc-free: the compound/amod lefts of a gloss NP are exactly the contiguous
+    ADJ/NOUN/PROPN run immediately left of the head."""
     if tok is None:
         return ""
-    lefts = [c for c in tok.lefts if c.dep_ in ("compound", "amod", "nmod")]
-    span = sorted(lefts + [tok], key=lambda t: t.i)
-    return " ".join(t.text for t in span)
+    tokens = list(doc)
+    start = tok.i
+    while start > 0 and tokens[start - 1].pos_ in ("ADJ", "NOUN", "PROPN"):
+        start -= 1
+    return " ".join(t.text for t in tokens[start:tok.i + 1])
 
 
 def extract_structure(lemma: str, pos: str, sense_id: str,
@@ -176,28 +178,51 @@ def extract_structure(lemma: str, pos: str, sense_id: str,
         return DefinitionStructure(lemma, pos, sense_id, None, None,
                                    raw_gloss=gloss, note="no head token")
 
+    # ARC-FREE differentia: on gloss-shaped text the genus's CLAUSE-like modifier
+    # children are the post-genus segments opened by a relativizer/participial
+    # marker (that/which/who/used/having/... or an SCONJ) — one Differentia per
+    # such segment, head_lemma = its first content word (≈ the clause verb the
+    # old relcl/acl child selection surfaced). Prepositional segments (of/with/
+    # for) are NOT differentia: the old dep-child for a prep was the preposition
+    # itself, which the Linker evaluates to informational-zero — so admitting
+    # their inner nouns here would ADD content the old build never had (measured:
+    # it inflated layer-2 to 4.8 primes/word and collapsed the margin). A gloss
+    # with no clause marker contributes no differentia, exactly as before.
+    _CLAUSE_MARKERS = {"that", "which", "who", "whom", "where", "when",
+                       "used", "having", "characterized"}
+    tokens = list(doc)
     differentia: List[Differentia] = []
     negations: List[str] = []
-    for child in genus_tok.children:
-        if child.dep_ == "neg" or child.lemma_.lower() in _NEG_LEMMAS:
-            negations.append(child.lemma_.lower())
+    _CONTENT_POS = ("NOUN", "PROPN", "VERB", "ADJ", "ADV")
+    boundaries = []
+    for t in tokens[genus_tok.i + 1:]:
+        if t.pos_ == "SCONJ" or t.text.lower() in _NP_BOUNDARY_LEMMA:
+            boundaries.append((t.i, t.text.lower(),
+                               t.pos_ == "SCONJ" or t.text.lower() in _CLAUSE_MARKERS))
+    for k, (bi, bdep, clause_like) in enumerate(boundaries):
+        if not clause_like:
             continue
-        if child.dep_ in _DIFF_DEPS:
-            sub = sorted(child.subtree, key=lambda t: t.i)
-            differentia.append(Differentia(
-                dep=child.dep_, head_lemma=child.lemma_.lower(),
-                text=" ".join(t.text for t in sub)))
-    # negations can also sit deeper (within a relcl) — scan the whole doc cheaply
-    for t in doc:
-        if t.dep_ == "neg" and t.lemma_.lower() not in negations:
-            negations.append(t.lemma_.lower())
+        end = boundaries[k + 1][0] if k + 1 < len(boundaries) else len(tokens)
+        seg = tokens[bi:end]
+        head = next((t for t in seg if t.pos_ in _CONTENT_POS
+                     and t.lemma_.lower() not in _NEG_LEMMAS), None)
+        if head is None:
+            continue
+        differentia.append(Differentia(
+            dep=bdep, head_lemma=head.lemma_.lower(),
+            text=" ".join(t.text for t in seg)))
+    # negations anywhere in the gloss — read from surface lemmas (arc-free)
+    for t in tokens:
+        lm = t.lemma_.lower()
+        if lm in _NEG_LEMMAS and lm not in negations:
+            negations.append(lm)
 
     genus = genus_tok.lemma_.lower() if genus_tok.lemma_ else genus_tok.text.lower()
     # a genus identical to the lemma is circular (no IS-A gained) — flag it
     note = "circular: genus==lemma" if genus == lemma.lower() else ""
     return DefinitionStructure(
         lemma=lemma, pos=pos, sense_id=sense_id,
-        genus=genus, genus_phrase=_genus_phrase(genus_tok),
+        genus=genus, genus_phrase=_genus_phrase(doc, genus_tok),
         differentia=differentia, negations=negations,
         raw_gloss=gloss, note=note)
 

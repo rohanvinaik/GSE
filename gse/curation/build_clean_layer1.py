@@ -37,6 +37,28 @@ CATEGORY_SRC = "wordnet_hierarchy"   # authoritative within its (SUBSTANTIVES) s
 DROP_SOURCES = {"wiktionary_v2"}     # the degenerate source being replaced
 DEFAULT_CONF = 0.79
 
+# Evidence FAMILIES — the correlation structure of the source set. The gate
+# counts agreeing FAMILIES (convergence of independent evidence), and the map
+# encodes exactly which sources are near-duplicates of which:
+#
+#   * The original 7 sources are mutually INDEPENDENT datasets (SentiWordNet /
+#     NRC-Emotion / NRC-VAD are different methodologies over different data;
+#     their within-set agreement is load-bearing — hate's GOOD:-1 comes from
+#     exactly that pair). Each keeps its own family, so the original build's
+#     behavior is preserved verbatim.
+#   * FrameNet and PropBank are the same KIND of evidence as VerbNet (verb
+#     rolesets / frames over the same verbs) — one family. Their mutual
+#     agreement is one observation counted twice, not convergence (measured
+#     2026-07-01: source-level gating densified the lexicon 1.86→2.9+
+#     primes/word and collapsed the dual margin).
+#   * ConceptNet and USAS are both broad categorical/topical taggers — one
+#     family, for the same reason.
+SOURCE_FAMILY = {
+    "verbnet": "verb_structure", "framenet": "verb_structure",
+    "propbank": "verb_structure",
+    "conceptnet": "topical", "usas": "topical",
+}
+
 
 def build_word(integrator: ExternalSourcesIntegrator, word: str):
     """Layer-1 decomposition for one word, or None if not grounded here."""
@@ -63,8 +85,10 @@ def build_word(integrator: ExternalSourcesIntegrator, word: str):
         if vote.value == 0:
             continue
         srcs = set(vote.contributing_sources)
-        # WordNet authoritative in-scope OR multi-source agreement elsewhere.
-        if CATEGORY_SRC in srcs or len(srcs) >= 2:
+        families = {SOURCE_FAMILY.get(s, s) for s in srcs}
+        # WordNet authoritative in-scope OR agreement across independent
+        # evidence FAMILIES (see SOURCE_FAMILY — never two correlated sources).
+        if CATEGORY_SRC in srcs or len(families) >= 2:
             keep[prim] = vote.value
     return keep or None
 
@@ -97,7 +121,24 @@ def main(clean_db: str = CLEAN_DB, freq_db: str = FREQ_DB) -> dict:
     old = [r[0] for r in con.execute("SELECT id FROM lexemes WHERE source='layer1'")]
     con.executemany("DELETE FROM primitive_values WHERE lexeme_id=?", [(i,) for i in old])
     con.execute("DELETE FROM lexemes WHERE source='layer1'")
+    # Collision policy (the layered design): Layer-2 exists only for words the
+    # sources didn't ground — a word the sources NOW ground supersedes its old
+    # genus-chain row. Grammatical lemmas (tier_0 / operators / quantifiers) are
+    # never displaced: a content decomposition for one is a scope leak — skip it.
+    existing = {r[1]: (r[0], r[2])
+                for r in con.execute("SELECT id, lemma, source FROM lexemes")}
+    superseded = skipped = 0
     for lemma, (rank, d) in built.items():
+        prior = existing.get(lemma)
+        if prior is not None:
+            pid, psrc = prior
+            if psrc == "layer2":
+                con.execute("DELETE FROM primitive_values WHERE lexeme_id=?", (pid,))
+                con.execute("DELETE FROM lexemes WHERE id=?", (pid,))
+                superseded += 1
+            else:
+                skipped += 1
+                continue
         cur = con.execute(
             "INSERT INTO lexemes(lemma,pos,sense_id,source,frequency_rank,confidence,validation_status)"
             " VALUES(?,?,?,?,?,?,?)",
@@ -111,8 +152,11 @@ def main(clean_db: str = CLEAN_DB, freq_db: str = FREQ_DB) -> dict:
     tier0 = con.execute("SELECT count(*) FROM lexemes WHERE source='tier_0'").fetchone()[0]
     layer1 = con.execute("SELECT count(*) FROM lexemes WHERE source='layer1'").fetchone()[0]
     con.close()
-    stats = {"layer1": layer1, "tier_0": tier0, "seconds": round(time.time() - t0, 1)}
-    print(f"WROTE {clean_db}: tier_0={tier0}, layer1={layer1}  ({stats['seconds']}s)")
+    stats = {"layer1": layer1, "tier_0": tier0, "superseded_layer2": superseded,
+             "skipped_grammatical": skipped, "seconds": round(time.time() - t0, 1)}
+    print(f"WROTE {clean_db}: tier_0={tier0}, layer1={layer1} "
+          f"(superseded {superseded} layer2 rows, skipped {skipped} grammatical)  "
+          f"({stats['seconds']}s)")
     return stats
 
 

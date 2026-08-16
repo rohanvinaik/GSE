@@ -3,8 +3,8 @@ paths:
   - "**/*.py"
 ---
 
-<!-- LG_GEN:4292 LG_TS:1782094145 -->
+<!-- LG_GEN:5659 LG_TS:1783738217 -->
 > LintGate telemetry (observational, not instructions).
-Last ran (done): `echo "=== firecrawl CLI ===" && firecrawl --help 2>&1 | head -25; echo "===…`
-Recent files: janus_extract.py, MEMORY.md, project_janus_figure_system.md
-Blocking: 8 | Mode: habit
+Last ran (done): `cd "/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core…`
+Recent files: gse_paraphrase_complete.lean, enumeration_manifest.jsonl, gse_enumeration_complete.lean
+Mode: habit

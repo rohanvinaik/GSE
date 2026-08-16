@@ -101,3 +101,59 @@ strand-healing work.
 |---|---|---|
 | **spaCy head-to-head benchmark** | A *measured* comparison of the native front-end vs spaCy on a standard parsing / role-labelling task (and the project's own bounded register): accuracy + failure-mode coverage. Native already *replaced* spaCy (no runtime dependency) and parses its known failure seams clean (`Macbeth murders Duncan`) — but that is anecdotal. | Converts "functionally past spaCy" into a **defensible "we beat spaCy"** claim. The native parse-repair (now wired) is the last *capability* piece; the benchmark is the missing *measurement*. Without it, beat-spaCy stays an assertion, not a result. |
 | **Telemetry / compute-cost instrument** | A timing + cost harness around the GSE→Genesis pipeline: per-stage wall-time, total latency, and an **LLM-equivalent cost** comparison (tokens × \$/token, latency) for the same task on the same input. | A **killer demonstration vs LLM approaches**: deterministic, laptop-hostable, ~ms and fractions-of-a-cent vs LLM tokens / dollars / seconds. The cost-and-latency asymmetry is one of the strongest arguments for the non-neural regime — but it must be *measured and shown*, not asserted. Pairs with the inverse-brittleness curve as headline evidence. |
+
+## Native affective channel — potency/activity have no primitive (capacity gap, 2026-07-04)
+
+**Finding (MentalAtlas EPA build, cross-confirmed here).** The NSM primitive space encodes
+**evaluation** cleanly (GOOD/BAD are core primes — a geometric projection from good/bad pole-word
+signatures yields a crisp E axis) but has **no potency/activity dimensions**. This is already
+documented in `curation/external_sources/nrc_vad.py::to_primitives` (the *May 2026 antonym
+investigation*: Arousal→INTENSITY / Dominance→CAN/MUST were **category errors → cross-bank pollution**;
+reverted to **valence→GOOD only**). So affect is *half-representable* in GSE today.
+
+**What building it out properly needs:** a **native affective channel orthogonal to the NSM
+decomposition** — NOT votes on the meaning primitives. Candidates: (a) a principled Arousal/Dominance →
+MENTAL-primitive (FEEL/WANT) mapping that doesn't category-error; or (b) populate the **empty `vectors`
+table** (per-lexeme sparse pos/neg indices — the unbuilt HDC-style geometry) with an NRC-VAD-sourced
+affective vector (`primitive_values.source` already supports provenance). Interim consumer-side fix
+(MentalAtlas, 2026-07-04): hybrid EPA = geometric-E from GSE + empirical P/A from NRC-VAD v2.1.
+Cross-ref: `[[known-gaps-backlog]]` §7.
+
+## Structural-E: pole-word projection degenerates to a GOOD-only detector (found + worked around, 2026-07-04)
+
+**Correction to §105 above.** The claim there that "a geometric projection from good/bad pole-word
+signatures yields a *crisp* E axis" is **over-optimistic** — measured, the pole difference
+`primitives(good/wonderful/kind/pleasant/nice) − primitives(bad/terrible/cruel/awful/nasty)` came out
+as `GOOD +1.80, FEEL +0.20, DO −0.20, BAD −0.20, SOMETHING +0.20`: **weight collapses onto the GOOD
+prime, and BAD gets only −0.2.** Consequence — words whose badness GSE encodes as `BAD:+1` (rather than
+`GOOD:-1`) barely register: `bad`→`{BAD:1}`→geo_e **−0.10**, while `awful`→`{GOOD:-1}`→**−0.92**. The
+axis is a *GOOD-detector*, asymmetric on the BAD side. Compounded by **no lemmatization** in the naive
+consumer: `crashed`→`{}` (past tense OOV) drops the whole signal, so "The app crashed" read structural
+**+1.00** (driven by leftover `app`).
+
+**Consumer-side fix (MentalAtlas `gse_layer.doc_epa`, 2026-07-04):** (a) read structural E directly and
+symmetrically as `GOOD_sign − BAD_sign` over content words (both valence primes, not a noisy 5-word
+pole estimate); (b) WordNet `morphy` lemma fallback on lexicon miss (`crashed→crash`). Re-derived
+personal-wiki (E +0.050→−0.028) and Mneme (E +0.057→−0.010): P/A unchanged, coverage up, the ±1.0
+sign-error tail gone. **A GSE-native version** would bake the balanced valence read into the encoder /
+the empty `vectors` table rather than leaving each consumer to reconstruct it.
+
+## Lexicon valence errors — a scattered handful of wrong `GOOD:-1` (data gap, 2026-07-04)
+
+**Finding (surfaced by the balanced-E read above — the meaning-vs-felt delta flags exactly these).**
+A few lexemes carry the **wrong sign** on the GOOD prime in `lexicon_clean.db`. Not systematic (the
+control set `improve/optimize/clean/enable/success` is correctly `+1`) — a lexeme-level *data* error,
+not a method or category error. Only material on **short docs** (2–4 words, where one bad lexeme
+dominates the mean); self-flagged by high `|e_delta|` (structural says bad, felt/VAD says good).
+
+| lexeme | current | should be | full signature |
+|---|---|---|---|
+| `correct` | `GOOD:-1` | `+1`/neutral | `{DO, SOMETHING, ALIVE, SOMEONE, WITH, GOOD:-1}` |
+| `simplify` | `GOOD:-1` | `+1`/neutral | `{DO, SOMETHING, ALIVE, GOOD:-1}` |
+| `serve` | `GOOD:-1` | neutral | `{GOOD:-1, DO, SOMETHING}` |
+| `nuts` | `GOOD:-1` | (slang) | `{GOOD:-1, ALIVE, SOMETHING}` |
+| `identical` | `GOOD:-1` | neutral | `{GOOD:-1, ALIVE, SOMETHING}` |
+
+**Fix:** a lexicon-review pass over `primitive_values` for GOOD-sign errors (this list is a seed, found
+by eye from one corpus's delta tail — a systematic sweep would compare GOOD-sign against NRC-VAD valence
+and flag disagreements). Out of scope for the MentalAtlas EPA pass; tracked here.

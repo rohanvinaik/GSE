@@ -35,10 +35,13 @@ def _dom_pos(word: str):
 
 def main(clean_db: str = CLEAN_DB, freq_db: str = FREQ_DB) -> dict:
     con = sqlite3.connect(clean_db)
-    # The floor is tier-0 + Layer-1 ONLY. Layer-2 candidates are words not in the
-    # floor — independent of any prior Layer-2 run, so re-runs are idempotent.
+    # The decomposition FLOOR is tier-0 + Layer-1 ONLY, but the candidate pool
+    # excludes EVERY lemma that already has a row: operators / quantifiers are
+    # grammatical homes (never content-decomposed), and a layer1 lemma is
+    # already grounded. Excluding only the floor collided with the operator/
+    # quantifier rows once those layers existed (UNIQUE lemma,pos,sense_id).
     grounded = {r[0] for r in
-                con.execute("SELECT lemma FROM lexemes WHERE source IN ('tier_0','layer1')")}
+                con.execute("SELECT lemma FROM lexemes WHERE source != 'layer2'")}
     fc = sqlite3.connect(f"file:{freq_db}?mode=ro", uri=True)
     freq = [(r[0].lower(), r[1]) for r in
             fc.execute("SELECT word, combined_rank FROM frequency ORDER BY combined_rank")]

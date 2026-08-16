@@ -50,25 +50,29 @@ class TestInit:
 # ---------- load_all_sources ----------
 
 class TestLoadAllSources:
+    # every parser load_all_sources registers — kept in sync with integrator.py
+    _ALL_PARSERS = [
+        "gse.curation.external_sources.sentiwordnet.SentiWordNetParser",
+        "gse.curation.external_sources.nrc_emotion.NRCEmotionParser",
+        "gse.curation.external_sources.nrc_vad.NRCVADParser",
+        "gse.curation.external_sources.verbnet.VerbNetParser",
+        "gse.curation.external_sources.concreteness.ConcretenessParser",
+        "gse.curation.external_sources.lancaster_sensorimotor.LancasterSensorimotorParser",
+        "gse.curation.external_sources.wordnet_hierarchy.WordNetHierarchyParser",
+        "gse.curation.external_sources.framenet.FrameNetParser",
+        "gse.curation.external_sources.propbank.PropBankParser",
+        "gse.curation.external_sources.conceptnet.ConceptNetParser",
+        "gse.curation.external_sources.usas.USASParser",
+    ]
+
     def test_all_unavailable(self):
+        from contextlib import ExitStack
+
         i = ExternalSourcesIntegrator()
-        with patch("gse.curation.external_sources.sentiwordnet.SentiWordNetParser",
-                   side_effect=ImportError):
-            with patch("gse.curation.external_sources.nrc_emotion.NRCEmotionParser",
-                       side_effect=ImportError):
-                with patch("gse.curation.external_sources.nrc_vad.NRCVADParser",
-                           side_effect=ImportError):
-                    with patch("gse.curation.external_sources.verbnet.VerbNetParser",
-                               side_effect=ImportError):
-                        with patch("gse.curation.external_sources.concreteness.ConcretenessParser",
-                                   side_effect=ImportError):
-                            with patch("gse.curation.external_sources.lancaster_sensorimotor.LancasterSensorimotorParser",
-                                       side_effect=ImportError):
-                                with patch(
-                                    "gse.curation.external_sources.wordnet_hierarchy.WordNetHierarchyParser",
-                                    side_effect=ImportError,
-                                ):
-                                    stats = i.load_all_sources()
+        with ExitStack() as stack:
+            for target in self._ALL_PARSERS:
+                stack.enter_context(patch(target, side_effect=ImportError))
+            stats = i.load_all_sources()
         assert stats == {}
         assert i._loaded is True
 

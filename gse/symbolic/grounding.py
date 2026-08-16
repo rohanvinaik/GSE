@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, replace
+from functools import lru_cache
 from typing import Any, Dict, List, Protocol, Sequence, Tuple, runtime_checkable
 
 from gse.symbolic.resolution import Entity
@@ -208,6 +209,47 @@ def _is_science_thread(thread: Tuple[str, ...]) -> bool:
     return any(r in thread for r in _SCIENCE_DOMAIN_ROOTS)
 
 
+# Universal ontology roots — too generic to carry WSD signal; dropped from world context.
+_WORLD_ROOTS = frozenset({
+    "thing", "agent", "entity", "abstraction", "physical", "object", "whole", "unit",
+})
+
+
+def _world_context_terms(thread: Tuple[str, ...]) -> List[str]:
+    """The encyclopedic TYPE scale of one grounded proper noun, as WSD-context words.
+
+    A proper noun's sparse-wiki world thread (``napoleon → Thing→Agent→Person→Royalty``;
+    ``france → Thing→Place→PopulatedPlace→Country``) is the "what the referents ARE" scale
+    (Proof Packet §7, §12) — the richest specification rung. We decompose each type node into
+    its constituent lowercased words (CamelCase + underscore split) and drop the universal roots,
+    yielding the document's world-type profile (person, royalty, place, country) as extra context
+    for common-noun sense resonance. Composed from ``raw_of`` — no new lookup, no new score."""
+    terms: List[str] = []
+    for node in thread:
+        for w in re.findall(r"[A-Z][a-z]+|[a-z]+", str(node)):
+            wl = w.lower()
+            if len(wl) > 2 and wl not in _WORLD_ROOTS:
+                terms.append(wl)
+    return terms
+
+
+@lru_cache(maxsize=8192)
+def _synset_attested(synset_name: str) -> bool:
+    """Zipfian guard: is this WordNet synset witnessed *at all* in the sense-tagged corpus?
+
+    A synset with zero SemCor attestation (``fagot.n.01`` → 0) is a reading the corpus has
+    never observed. Overriding an *attested* frequency-primary (``pansy.n.01`` → 19) for a
+    *never-observed* sense on gloss-resonance alone is over-certifying past the data — the
+    "never over-certify against the prior" discipline (SSL ``falsifiability_pivot``). This is
+    the corpus's own knowable-known: the synset's total tagged count across all its lemmas."""
+    from nltk.corpus import wordnet as wn
+    try:
+        syn = wn.synset(synset_name)
+    except Exception:
+        return False
+    return sum(lem.count() for lem in syn.lemmas()) > 0
+
+
 def _select_by_coherence(
     collected: List[Entity], genealogy: Any, margin: float = _COHERENCE_MARGIN,
     genre: str | None = None, raw_text: str | None = None,
@@ -346,7 +388,16 @@ def _hdc_overrides(
         return {}
     from nltk.corpus import wordnet as wn
 
-    ctx_lemmas = [lemma_of[s] for s in cand if not proper_of[s]]
+    # WSD context = the sentence's other common-noun lemmas + the WORLD scale: each grounded
+    # proper noun's encyclopedic type profile (sparse-wiki thread in raw_of). Importing the world
+    # scale into common-noun sense resonance is the multi-scale "structure from the scale above"
+    # move (Proof Packet §12) — the top rung of the specification ladder. context_vector silently
+    # drops any term without an HDC vector, so generic/compound type nodes cost nothing.
+    world_ctx: List[str] = []
+    for s in cand:
+        if proper_of[s] and raw_of.get(s):
+            world_ctx.extend(_world_context_terms(raw_of[s][0]))
+    ctx_lemmas = [lemma_of[s] for s in cand if not proper_of[s]] + world_ctx
     out: Dict[Tuple, Tuple[str, ...]] = {}
     for sig in cand:
         if proper_of[sig]:
@@ -362,14 +413,45 @@ def _hdc_overrides(
         idx = res.best_sense_index(synsets, ctx)
         if idx is None or not (0 <= idx < len(raw)):
             continue
-        # Narrative-agent guard: the failure class is a non-person collective/abstract sense
-        # out-ranking the person agent (men→work_force). Resonance may only move a slot TOWARD
-        # a person sense — never demote a correct person-primary (leader→drawing_card). This is
-        # the disciplined form of the gloss-decomposition's person-bias (it is reliable for
-        # "promote the buried person reading", unreliable for non-person↔non-person re-ranking).
+        # Narrative-agent PERSON PRIOR: resonance's gloss-decomposition has a mild person bias,
+        # reliable only for "promote the buried person reading" (men→work_force→man), unreliable
+        # for non-person↔non-person re-ranking. So a promotion is *considered* only toward a person
+        # sense over a non-person primary. This prior is necessary but NOT sufficient — on its own
+        # it over-promotes a word's rare/derogatory person sense over a dominant concrete primary
+        # (pansy→fagot, fairy→fagot, creature→creature.n.03). The three guards below are the SSL
+        # "assign meaning only when the answer channel carries enough information to localize it"
+        # discipline, at the WSD scale: else keep the primary (abstain = non-recovery, not destroy).
         chosen_thread, primary_thread = raw[idx], raw[0]
-        if "person" in chosen_thread and "person" not in primary_thread:
-            out[sig] = chosen_thread
+        if not ("person" in chosen_thread and "person" not in primary_thread):
+            continue
+
+        # GUARD 2 — Zipfian attestation ("never over-certify against the prior", falsifiability_pivot).
+        # A never-witnessed synset (fagot.n.01: 0 SemCor count) cannot override an ATTESTED primary
+        # (pansy.n.01: 19) on gloss-resonance alone — that is over-certifying past the corpus's own
+        # knowable-known. (man.n.01 is attested 749×, so men→man passes.)
+        if not _synset_attested(synsets[idx]) and _synset_attested(synsets[0]):
+            continue
+
+        # GUARD 3 — licensing-scale sufficiency (membership_cannot_localize / the valley). A re-rank
+        # is only licensed if the context scale actually carries corroborating mass; with fewer than
+        # two other content referents the channel is one-signed (cannot localize) → abstain.
+        neighbors = [lm for lm in ctx_lemmas if lm != lemma]
+        if len(neighbors) < 2:
+            continue
+
+        # GUARD 1 — convergence / corroborate-or-abstain (certified_arrival, SC=1). The gloss-resonance
+        # pick must AGREE with the independent Jaccard type-coherence signal: the chosen thread must
+        # overlap the sentence's other primary threads at least as well as the primary does. If the
+        # type-genealogy scale affirmatively prefers the primary, the two scales disagree → the residual
+        # is the abstention signal (creature→creature.n.03 in an animal context dies here).
+        ctx_nodes: set = set()
+        for other in cand:
+            if other != sig and not proper_of[other] and raw_of.get(other):
+                ctx_nodes |= set(raw_of[other][0])
+        if _jaccard(set(chosen_thread), ctx_nodes) < _jaccard(set(primary_thread), ctx_nodes):
+            continue
+
+        out[sig] = chosen_thread
     return out
 
 

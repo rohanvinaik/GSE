@@ -143,6 +143,56 @@ class ExternalSourcesIntegrator:
         except Exception as e:
             logger.warning(f"Failed to load WordNet hierarchy: {e}")
 
+        # FrameNet (frame semantics → event structure + participant roles). One of
+        # the three designed verb-structure sources (CONSTRUCTION_PLAN §4 lists 18
+        # parsers); parser existed but was never registered. Scoped in source_scope.
+        try:
+            from gse.curation.external_sources.framenet import FrameNetParser
+            parser = FrameNetParser()
+            if parser.load():
+                self.parsers['framenet'] = parser
+                stats['framenet'] = len(parser.entries)
+                logger.info(f"Loaded FrameNet: {stats['framenet']} words")
+        except Exception as e:
+            logger.warning(f"Failed to load FrameNet: {e}")
+
+        # PropBank (verb rolesets → predicate-argument structure). Same competence
+        # family as VerbNet; completes the designed verb-source trio.
+        try:
+            from gse.curation.external_sources.propbank import PropBankParser
+            parser = PropBankParser()
+            if parser.load():
+                self.parsers['propbank'] = parser
+                stats['propbank'] = len(parser.entries)
+                logger.info(f"Loaded PropBank: {stats['propbank']} verbs")
+        except Exception as e:
+            logger.warning(f"Failed to load PropBank: {e}")
+
+        # ConceptNet (commonsense relations → taxonomy/mereology/location/capability).
+        # Reads the prebuilt data/external/conceptnet-en.sqlite index. Scoped tightly —
+        # crowd-sourced, so it votes only where its relations are structural.
+        try:
+            from gse.curation.external_sources.conceptnet import ConceptNetParser
+            parser = ConceptNetParser()
+            if parser.load():
+                self.parsers['conceptnet'] = parser
+                stats['conceptnet'] = len(parser.get_all_words())
+                logger.info(f"Loaded ConceptNet: {stats['conceptnet']} words")
+        except Exception as e:
+            logger.warning(f"Failed to load ConceptNet: {e}")
+
+        # USAS (UCREL semantic fields → coarse categorical/topical typing) — the
+        # topical complement to wordnet_hierarchy's IS-A category signal.
+        try:
+            from gse.curation.external_sources.usas import USASParser
+            parser = USASParser()
+            if parser.load():
+                self.parsers['usas'] = parser
+                stats['usas'] = len(parser.entries)
+                logger.info(f"Loaded USAS: {stats['usas']} words")
+        except Exception as e:
+            logger.warning(f"Failed to load USAS: {e}")
+
         # (wiktionary_v2 — the degenerate ~1.3M bag-of-words spine — was retired and
         # purged 2026-06-20; the clean build scopes each remaining source to its
         # domain. See docs/MORPHOLOGY_RESEARCH_BRIEF.md / lexicon-clean-build memory.)
