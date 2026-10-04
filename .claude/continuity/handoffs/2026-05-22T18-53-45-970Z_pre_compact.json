@@ -1,0 +1,247 @@
+{
+  "id": "84d9b55f-0dee-48cf-99d0-af7116d094f4",
+  "version": "1.0.0",
+  "createdAt": "2026-05-22T18:53:45.970Z",
+  "trigger": "pre_compact",
+  "session": {
+    "id": "gse-phase1b-handoff-2026-05-22",
+    "projectPath": "/Users/rohanvinaik/Projects/gse",
+    "gitBranch": null,
+    "gitCommit": null,
+    "claudeVersion": "unknown",
+    "duration_minutes": 0
+  },
+  "decisions": [
+    {
+      "id": "84d9b55f-0dee-48cf-99d0-af7116d094f4-decision-0",
+      "timestamp": "2026-05-22T18:53:45.970Z",
+      "category": "tradeoff",
+      "description": "Scope LintGate manual_contract work to the WORD-scale refactor surface only, not all 17 manual_contract functions.",
+      "rationale": "Most of the 17 functions are either (a) already covered by test_scale_definition.py via the SENTENCE/PARAGRAPH/TEXT integration, or (b) targeted for deletion (the _build_*_registry functions). Writing all 17 witness tests would duplicate effort and protect code that is about to be removed. Module-level invariant test (PRIMITIVE_REGISTRY structural equality) is the right safety net for a structural deduplication refactor.",
+      "alternatives_considered": [
+        "Write all 17 manual contracts (full LintGate path) — too much work for code about to be deleted",
+        "Skip manual contracts entirely; rely on existing 52+ tests — loses local verification on the touched functions",
+        "Pivot to Phase 1C orthogonality first"
+      ],
+      "confidence": "high",
+      "relatedFiles": [
+        "gse/primitives_v2.py",
+        "gse/scale_definition.py",
+        "tests/test_scale_definition.py",
+        "tests/test_gse_scale_definition.py"
+      ]
+    },
+    {
+      "id": "84d9b55f-0dee-48cf-99d0-af7116d094f4-decision-1",
+      "timestamp": "2026-05-22T18:53:45.970Z",
+      "category": "workaround",
+      "description": "Treat 'lintgate-orient' frame as terminated for the WORD-scale rewire (it requires Write/Edit beyond the frame's allowed surface).",
+      "rationale": "The frame's allowed_tools are mcp__LintGate__*, Read, Bash — Write/Edit are out-of-frame. The user's directive to execute the rewire is a 'new_user_directive' termination signal per the skill's termination clauses. The _frame_deviation magic-key override is non-functional (tool input schemas reject unknown params before PreToolUse hooks run).",
+      "alternatives_considered": [],
+      "confidence": "medium",
+      "relatedFiles": [
+        "/Users/rohanvinaik/.claude/skills/lintgate-orient/SKILL.md",
+        "/Users/rohanvinaik/tools/Prism/src/prism/frame_check.py"
+      ]
+    },
+    {
+      "id": "84d9b55f-0dee-48cf-99d0-af7116d094f4-decision-2",
+      "timestamp": "2026-05-22T18:53:45.970Z",
+      "category": "architecture",
+      "description": "Plan document at /Users/rohanvinaik/.claude/plans/lively-drifting-koala.md is stale: claims primitives_v2.py is 1231 lines (actual: 949) and that ScaleDefinition needs to be built from scratch (already exists, partially integrated).",
+      "rationale": "Plan was written before recent partial work. The refactor scope is much smaller than the plan suggested: just WORD-scale, not all four scales.",
+      "alternatives_considered": [],
+      "confidence": "high",
+      "relatedFiles": [
+        "/Users/rohanvinaik/.claude/plans/lively-drifting-koala.md",
+        "gse/primitives_v2.py",
+        "gse/scale_definition.py"
+      ]
+    }
+  ],
+  "taskState": {
+    "currentGoal": "Complete Phase 1B of the GSE re-engineering plan: convert WORD-scale in gse/primitives_v2.py to use ScaleDefinition (Genesis Atom), matching the SENTENCE/PARAGRAPH/TEXT scales which are already done. Delete dead duplicate registry builders. Verify all tests pass.",
+    "activeTask": null,
+    "completedTasks": [
+      {
+        "description": "Phase 1A (effectively): verified 0 blockers in gse/ — all 87/88 LintGate blockers are in data/external/ (Python 2 third-party noise) + 1 in daemon/. lintgate.yaml exclude_paths key is NOT honored by lite-surface; relying on per-file spec_analyze for proper scope.",
+        "completedAt": "2026-05-22T18:53:45.970Z",
+        "outcome": "success"
+      },
+      {
+        "description": "spec_analyze gse/primitives_v2.py: 25 functions, total σ=206, max σ=18 (expand_hierarchy_activation), σ=16 each for _build_primitive_registry and canonicalize_activation, σ=11 _build_sentence_registry. Regimes: 24 A + 1 B.",
+        "completedAt": "2026-05-22T18:53:45.970Z",
+        "outcome": "success"
+      },
+      {
+        "description": "decompose gse/primitives_v2.py: no entanglement candidates — duplication is structural, not entanglement-driven. LintGate can't prescribe this refactor; it can only protect it (converge as safety net).",
+        "completedAt": "2026-05-22T18:53:45.970Z",
+        "outcome": "success"
+      },
+      {
+        "description": "converge gse/primitives_v2.py: 17/25 functions classified manual_contract, 6 already_good, 2 exclude_mutation. Workflow gated until manual contracts written.",
+        "completedAt": "2026-05-22T18:53:45.970Z",
+        "outcome": "success"
+      },
+      {
+        "description": "Discovered Phase 1B is partially done: gse/scale_definition.py exists (116 lines), TEXT_SCALE/PARAGRAPH_SCALE/SENTENCE_SCALE all use ScaleDefinition. Only WORD-scale remains on the old _build_primitive_registry pattern. tests/test_scale_definition.py (14.6K) and tests/test_gse_scale_definition.py (6.0K) already exist.",
+        "completedAt": "2026-05-22T18:53:45.970Z",
+        "outcome": "success"
+      }
+    ],
+    "blockedTasks": [],
+    "pendingTasks": []
+  },
+  "fileContext": {
+    "touchedFiles": [
+      {
+        "path": "/Users/rohanvinaik/Projects/gse/.claude/lintgate.yaml",
+        "operation": "edit",
+        "purpose": "Added exclude_paths section to scope LintGate analysis away from data/external, daemon, etc. NOTE: verified this key is NOT honored by lite-surface MCP — kept the addition for future server versions / documentation.",
+        "keyChanges": [],
+        "linesModified": null
+      },
+      {
+        "path": "/Users/rohanvinaik/Projects/gse/gse/primitives_v2.py",
+        "operation": "read",
+        "purpose": "Mapped current state: WORD-scale still uses _build_primitive_registry (line 347, 393), SENTENCE_SCALE at line 794 uses ScaleDefinition, _build_sentence_registry at line 832 may be dead.",
+        "keyChanges": [],
+        "linesModified": null
+      },
+      {
+        "path": "/Users/rohanvinaik/Projects/gse/gse/scale_definition.py",
+        "operation": "read",
+        "purpose": "Confirmed Genesis Atom class exists: BankDef, PrimitiveInfo, ScaleDefinition with _build_bank_enum, _build_registry, lookup methods. 116 lines.",
+        "keyChanges": [],
+        "linesModified": null
+      },
+      {
+        "path": "/Users/rohanvinaik/Projects/gse/tests/test_scale_definition.py",
+        "operation": "read",
+        "purpose": "Confirmed integration tests for SENTENCE/PARAGRAPH/TEXT scales already exist. WORD-scale equivalents need to be added once WORD_SCALE is defined.",
+        "keyChanges": [],
+        "linesModified": null
+      },
+      {
+        "path": "/Users/rohanvinaik/Projects/gse/tests/test_gse_scale_definition.py",
+        "operation": "read",
+        "purpose": "Confirmed manual contract tests for ScaleDefinition class itself already exist. 6KB of witnesses.",
+        "keyChanges": [],
+        "linesModified": null
+      }
+    ],
+    "relationships": [],
+    "keyPatterns": []
+  },
+  "openQuestions": [
+    {
+      "id": "84d9b55f-0dee-48cf-99d0-af7116d094f4-question-0",
+      "question": "Are _build_primitive_registry and _build_sentence_registry called from anywhere outside primitives_v2.py?",
+      "context": "If yes, deletion needs to first migrate those callers to use the ScaleDefinition-backed PRIMITIVE_REGISTRY / SENTENCE_PRIMITIVE_REGISTRY exports. grep -rn '_build_primitive_registry\\|_build_sentence_registry' gse/ tests/ scripts/ will resolve this in 1 call.",
+      "potentialAnswers": [
+        "No callers outside primitives_v2.py — safe to delete after rewiring",
+        "Callers exist in scripts/ — migrate first, then delete"
+      ],
+      "priority": "high"
+    },
+    {
+      "id": "84d9b55f-0dee-48cf-99d0-af7116d094f4-question-1",
+      "question": "Does WORD-scale need hub_primitives and families params passed to ScaleDefinition? The other scales pass these.",
+      "context": "Look at what _build_primitive_registry currently builds: if it produces hub/family metadata, ScaleDefinition needs that data too. Check primitives_v2.py:347 onward.",
+      "potentialAnswers": [
+        "Yes, WORD-scale has hub_primitives and families that need to be wired through ScaleDefinition",
+        "No, WORD-scale is simpler — banks-only suffices"
+      ],
+      "priority": "high"
+    },
+    {
+      "id": "84d9b55f-0dee-48cf-99d0-af7116d094f4-question-2",
+      "question": "Is _build_sentence_registry actually dead code, or still wired somewhere?",
+      "context": "SENTENCE_SCALE = ScaleDefinition(...) at line 794 should fully replace it. But _build_sentence_registry still exists at line 832, suggesting either residual call sites or partial migration.",
+      "potentialAnswers": [
+        "Dead — safe to remove",
+        "Still in use — needs investigation"
+      ],
+      "priority": "medium"
+    }
+  ],
+  "nextSteps": [
+    {
+      "id": "84d9b55f-0dee-48cf-99d0-af7116d094f4-step-0",
+      "description": "Read gse/primitives_v2.py lines 1-450 to capture the WORD-scale bank data: SemanticBank IntEnum members and the per-bank primitive lists inside _build_primitive_registry. The data is what becomes the BankDef list for WORD_SCALE.",
+      "type": "investigate",
+      "priority": 1,
+      "estimatedComplexity": "trivial",
+      "blockedBy": []
+    },
+    {
+      "id": "84d9b55f-0dee-48cf-99d0-af7116d094f4-step-1",
+      "description": "Add WORD_SCALE = ScaleDefinition(name='word', banks=[BankDef(...), ...], dimension=8192, n_banks=8, hub_primitives=..., families=...) at the top of primitives_v2.py (before line 347 where _build_primitive_registry lives). Mirror the structure of SENTENCE_SCALE at line 794.",
+      "type": "implement",
+      "priority": 2,
+      "estimatedComplexity": "medium",
+      "blockedBy": []
+    },
+    {
+      "id": "84d9b55f-0dee-48cf-99d0-af7116d094f4-step-2",
+      "description": "Rewire module-level exports: PRIMITIVE_REGISTRY = WORD_SCALE.primitive_registry; SemanticBank = WORD_SCALE.bank_enum; BANK_NAMES = WORD_SCALE.bank_names. Keep backward-compat — any code importing these names must still work.",
+      "type": "implement",
+      "priority": 3,
+      "estimatedComplexity": "small",
+      "blockedBy": []
+    },
+    {
+      "id": "84d9b55f-0dee-48cf-99d0-af7116d094f4-step-3",
+      "description": "Delete _build_primitive_registry (currently line 347) and _build_sentence_registry (line 832) if grep confirms zero callers outside primitives_v2.py itself.",
+      "type": "refactor",
+      "priority": 4,
+      "estimatedComplexity": "trivial",
+      "blockedBy": []
+    },
+    {
+      "id": "84d9b55f-0dee-48cf-99d0-af7116d094f4-step-4",
+      "description": "Add a module-level invariant test in tests/test_scale_definition.py: assert sorted(WORD_SCALE.primitive_registry.keys()) == sorted(<frozen reference of pre-refactor PRIMITIVE_REGISTRY keys>). Snapshot the reference list BEFORE the rewire so the assertion captures behavior-preservation.",
+      "type": "test",
+      "priority": 5,
+      "estimatedComplexity": "small",
+      "blockedBy": []
+    },
+    {
+      "id": "84d9b55f-0dee-48cf-99d0-af7116d094f4-step-5",
+      "description": "Run pytest. All 52+ tests must pass.",
+      "type": "test",
+      "priority": 6,
+      "estimatedComplexity": "trivial",
+      "blockedBy": []
+    },
+    {
+      "id": "84d9b55f-0dee-48cf-99d0-af7116d094f4-step-6",
+      "description": "Re-run mcp__LintGate__spec_analyze on primitives_v2.py. Total σ should drop from 206 (current baseline) substantially — _build_primitive_registry (σ=16) and _build_sentence_registry (σ=11) are gone, the lookup functions get_*_primitive_info collapse to thin ScaleDefinition delegations.",
+      "type": "test",
+      "priority": 7,
+      "estimatedComplexity": "trivial",
+      "blockedBy": []
+    },
+    {
+      "id": "84d9b55f-0dee-48cf-99d0-af7116d094f4-step-7",
+      "description": "Phase 1C: orthogonality unification in gse/vectors_v2.py. SentenceScaleBasis.generate (line 653) uses random sampling from Hadamard rows (cos<0.15 approx); should use partition-based generate_hadamard_pattern like word-scale (line 242, exact cos=0.0). Also fix generate_role_pattern (line 337) which uses non-deterministic hash()-based seeding.",
+      "type": "refactor",
+      "priority": 8,
+      "estimatedComplexity": "medium",
+      "blockedBy": []
+    }
+  ],
+  "learningMeta": {
+    "outcome": "pending",
+    "outcomeNotes": null,
+    "tags": [
+      "gse",
+      "phase-1b",
+      "scale-definition",
+      "refactor",
+      "lintgate-driven"
+    ],
+    "similarSessions": [],
+    "lessonsLearned": []
+  }
+}

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.gse.audit-daemon</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/python3</string>
+        <string>/Users/rohanvinaik/gse/daemon/audit_daemon.py</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/rohanvinaik/gse</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PYTHONPATH</key>
+        <string>/Users/rohanvinaik/gse</string>
+    </dict>
+
+    <!-- Run on login -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <!-- Restart on failure -->
+    <key>KeepAlive</key>
+    <dict>
+        <key>SuccessfulExit</key>
+        <false/>
+    </dict>
+
+    <!-- Logging -->
+    <key>StandardOutPath</key>
+    <string>/Users/rohanvinaik/gse/logs/audit_daemon.stdout.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/rohanvinaik/gse/logs/audit_daemon.stderr.log</string>
+
+    <!-- Run with lowest CPU/IO priority -->
+    <key>Nice</key>
+    <integer>19</integer>
+
+    <key>ProcessType</key>
+    <string>Background</string>
+
+    <key>LowPriorityIO</key>
+    <true/>
+
+    <!-- Throttle start attempts -->
+    <key>ThrottleInterval</key>
+    <integer>30</integer>
+</dict>
+</plist>

@@ -1,0 +1,37 @@
+# Data haul — 21 GB (lexicon.db 2.3 GB + backup + data/external 15 GB).
+# Never vendored; not history-safe. Re-buildable / re-ingestable separately.
+data/
+
+# Exception: small package-data files live in the source tree (gse/nlp/data/) and ARE
+# committed, despite the broad data/ rule above (the CC-BY-SA misspellings table, the
+# project allowlist). The big rebuildable validity wordlist stays under data/ (ignored).
+!gse/nlp/data/
+!gse/nlp/data/**
+
+# Virtual env & build artifacts
+.venv/
+*.egg-info/
+build/
+dist/
+
+# Python caches
+__pycache__/
+*.py[cod]
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.benchmarks/
+
+# Logs & local runtime
+logs/
+
+# LintGate tool state — regenerable cache (analysis runs, spec cache,
+# staged workflows, runtime state). Same class as the caches above.
+.lintgate/
+
+# OS / editor cruft
+.DS_Store
+
+# tool scrape cache (re-fetchable; not source)
+.firecrawl/
+.serena/

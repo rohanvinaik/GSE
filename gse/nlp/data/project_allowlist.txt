@@ -1,0 +1,165 @@
+# Project / tech word-validity allowlist — real terms absent from Wiktionary and the
+# lexicon, surfaced as mangles when scanning real usage. Feeds grounds() (validity, not
+# meaning). Extend freely; one term per line, lowercase. Keep it to genuine valid terms
+# (NOT misspellings — those must stay correctable).
+#
+# software / library / code identifiers
+jsonl
+pytest
+xfail
+kwarg
+kwargs
+pyproject
+isinstance
+fnmatch
+ftype
+addopts
+venv
+noreply
+nsubj
+# project-internal terms
+innerese
+roleframe
+roleframes
+demiword
+demiwords
+gofai
+dogfooding
+# tool names (proper nouns; PascalCase forms are already gated, these catch lowercase typing)
+lintgate
+modelatlas
+setupatlas
+mathlinter
+sparsewiki
+shortcutforge
+mentalatlas
+lensdb
+mneme
+prism
+wayfinder
+vintageoptics
+# "learn spelling" — the user's project vocab + frequent abbreviations (the personal
+# dictionary every spell-checker has; surfaced from real-corpus usage). Edit freely.
+gse
+nsm
+hdc
+otp
+vsa
+py
+ws
+adj
+str
+dict
+expr
+enum
+ast
+repr
+args
+selectional
+wiktionary
+mcp
+zorble
+florp
+# corpus-mined jargon (learned 2026-06-28 from ~/.claude transcripts: names, watch brands,
+# libraries, macOS tools, coined terms, abbreviations). Frequent non-words edit-distance
+# can't fix -> genuine vocabulary, not typos. May also serve as correction TARGETS.
+rohanvinaik
+vinaik
+gsebridge
+kuramoto
+bulova
+tavannes
+qwen
+rogii
+xlsx
+mathbf
+stauer
+hypervector
+hypervectors
+coref
+longines
+plists
+plist
+numpy
+edma
+timedate
+impr
+geosteering
+bffcf
+launchd
+launchctl
+typewell
+sqlite
+macpro
+gruninger
+triagegeist
+lootdrop
+getattr
+refusability
+gitignored
+startswith
+frozenset
+vpcoord
+cands
+# corpus-mined jargon round 2 (2026-06-29: recurring >=4x, ambiguous with no common-word
+# candidate -> not typos). Platforms, names, watch brands, NLP resources, code identifiers,
+# acronyms. Excluded elongations (reeeealy) and typos (hapex->hapax).
+kaggle
+manassah
+sbdc
+gseemit
+bankdef
+braava
+balrose
+wierzbicka
+itemid
+verbnet
+retton
+wittnauer
+tavily
+diastar
+kgat
+deepseek
+semanticbank
+cbai
+addtype
+crtr
+icmt
+ptcl
+cfcad
+bdaa
+nohup
+autouse
+gguf
+scipy
+miniconda
+legomenon
+wireserver
+parserule
+accutron
+sendico
+dfbf
+findtext
+unomat
+misph
+ratesquery
+refactor
+refactors
+refactoring
+prover
+provers
+submodular
+antitone
+mutants
+abstains
+marginals
+lookups
+parsers
+tokenizer
+tokenizers
+dataclass
+subprocesses
+hyperdimensional
+mutmut
+emits
+spawns
