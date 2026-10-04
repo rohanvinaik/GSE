@@ -30,8 +30,15 @@ def substitute(tree: TreeNode, mapping: Mapping[str, Union[str, Entity, Atom]]) 
     Each key in ``mapping`` is a lemma to match against ``Entity.head.lemma``.
     Each value is either:
 
-    * a string — the substitute lemma (other Entity fields preserved).
-    * an :class:`Atom` — used as the new ``Entity.head`` directly.
+    * a string — the substitute lemma. The entity keeps its SLOT: possessor,
+      role, modifier and ``entity_id`` (coreference by id) survive, and the
+      head keeps its grammatical attributes (position, POS, number, …). Its
+      GROUNDING — ``type_thread``, ``span`` and ``apposition_thread``, computed
+      for the old head — is cleared: it does not describe the new word. Re-run
+      reference resolution to ground the new head (the textual evidence, e.g.
+      the head's ``apposition``, is still there for it).
+    * an :class:`Atom` — used as the new ``Entity.head`` directly; the same
+      slot-kept / grounding-cleared rule applies.
     * an :class:`Entity` — replaces the matching node wholesale.
 
     Atoms outside of Entity wrappers are also substituted when their
@@ -55,31 +62,24 @@ def _make_replacement(
     original_entity: Entity,
     replacement: Union[str, Atom, Entity],
 ) -> Entity:
-    """Build the new Entity for a matched substitution."""
+    """Build the new Entity for a matched substitution: the slot is kept, the old head's grounding
+    is cleared (see :func:`substitute`). Before, a head substitution also dropped ``entity_id``,
+    and a string substitution dropped the head's number / graded / apposition."""
     if isinstance(replacement, Entity):
         # Wholesale replacement
         return replacement
     if isinstance(replacement, Atom):
-        return Entity(
-            head=replacement,
-            possessor=original_entity.possessor,
-            role=original_entity.role,
-            modifier=original_entity.modifier,
+        new_head = replacement
+    elif isinstance(replacement, str):
+        new_head = replace(
+            original_entity.head, lemma=replacement, word_primitives=dict(original_entity.head.word_primitives)
         )
-    if isinstance(replacement, str):
-        new_head = Atom(
-            lemma=replacement,
-            word_primitives=dict(original_entity.head.word_primitives),
-            role=original_entity.head.role,
-            position=original_entity.head.position,
-            pos=original_entity.head.pos,
+    else:
+        raise TypeError(
+            f"substitute mapping value must be str, Atom, or Entity; "
+            f"got {type(replacement).__name__}"
         )
-        return Entity(
-            head=new_head,
-            possessor=original_entity.possessor,
-            role=original_entity.role,
-            modifier=original_entity.modifier,
-        )
+    return replace(original_entity, head=new_head, type_thread=(), span=(), apposition_thread=())
     raise TypeError(
         f"substitute mapping value must be str, Atom, or Entity; "
         f"got {type(replacement).__name__}"

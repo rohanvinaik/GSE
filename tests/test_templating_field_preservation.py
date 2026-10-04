@@ -104,6 +104,29 @@ def test_string_substituted_atom_keeps_its_slot_fields():
     assert dataclasses.replace(out, lemma=atom.lemma) == atom
 
 
+@pytest.mark.parametrize("replacement", ["zorble", Atom(lemma="zorble", position=9, pos="PROPN")], ids=["str", "Atom"])
+def test_head_substitution_keeps_the_slot_and_clears_the_old_heads_grounding(replacement):
+    # Rohan's ruling (2026-10-04): the slot — possessor, role, modifier, entity_id — survives a head
+    # substitution; the grounding computed for the OLD head (type_thread, span, apposition_thread)
+    # does not describe the new word, so it is cleared for re-resolution.
+    entity = _entity("macbeth")
+    out = substitute(entity, {"macbeth": replacement})
+    assert out.head.lemma == "zorble"
+    assert (out.possessor, out.role, out.modifier, out.entity_id) == (
+        entity.possessor,
+        entity.role,
+        entity.modifier,
+        entity.entity_id,
+    )
+    assert (out.type_thread, out.span, out.apposition_thread) == ((), (), ())
+
+
+def test_string_head_substitution_keeps_the_heads_grammatical_attributes():
+    entity = _entity("macbeth")
+    out = substitute(entity, {"macbeth": "zorble"})
+    assert dataclasses.replace(out.head, lemma="macbeth") == entity.head
+
+
 @pytest.fixture(scope="module")
 def encoder():
     from gse.api import GSEEncoder
