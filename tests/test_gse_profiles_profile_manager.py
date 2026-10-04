@@ -240,17 +240,20 @@ class TestGetActiveNetworks:
         manager = ProfileManager(profiles_dir=tmp_profiles_dir)
         assert manager.get_active_networks() is None
 
-    @pytest.mark.xfail(
-        reason="get_network_collection has wrong kwarg names "
-        "(text_scale= but ScaleNetworkCollection takes text=); "
-        "source bug, not test bug."
-    )
     def test_active_returns_collection(self, tmp_profiles_dir):
+        # Was xfailed: get_network_collection passed text_scale=/… but ScaleNetworkCollection's
+        # fields are text/paragraph/sentence/word, so this raised TypeError.
         manager = ProfileManager(profiles_dir=tmp_profiles_dir)
         manager.create_profile("alpha")
         manager.switch_profile("alpha")
         networks = manager.get_active_networks()
+        profile = manager.active_profile
         assert networks is not None
+        # The collection carries the profile's OWN networks, not fresh defaults.
+        assert networks.text is profile.text_network
+        assert networks.paragraph is profile.paragraph_network
+        assert networks.sentence is profile.sentence_network
+        assert networks.word is profile.word_network
 
 
 class TestDeleteProfile:

@@ -212,7 +212,7 @@ class FeatureExtractor:
 
         # Subject detection from first noun phrase
         first_word = sentence.split()[0] if sentence.split() else ""
-        if first_word[0].isupper() and first_word.lower() not in {"the", "a", "an"}:
+        if first_word and first_word[0].isupper() and first_word.lower() not in {"the", "a", "an"}:
             features["SYN_SUBJ"] = max(0.7, features.get("SYN_SUBJ", 0))
 
         # Question detection

@@ -110,10 +110,10 @@ class LearningProfile:
     def get_network_collection(self) -> ScaleNetworkCollection:
         """Get networks as a collection."""
         return ScaleNetworkCollection(
-            text_scale=self.text_network,
-            paragraph_scale=self.paragraph_network,
-            sentence_scale=self.sentence_network,
-            word_scale=self.word_network,
+            text=self.text_network,
+            paragraph=self.paragraph_network,
+            sentence=self.sentence_network,
+            word=self.word_network,
         )
 
     def get_statistics(self) -> Dict[str, Any]:

@@ -149,10 +149,11 @@ class TestExtractSentenceFeatures:
         # 'walked' matches \w+ed
         assert features.get("SYN_TENSE_PAST", 0) > 0
 
-    @pytest.mark.xfail(reason="Source bug: first_word[0] raises IndexError on empty input.")
     def test_empty_sentence_safe(self, extractor):
+        # Was xfailed: first_word[0] raised IndexError on empty input (first_word == "").
         features = extractor.extract_sentence_features("")
         assert isinstance(features, dict)
+        assert "SYN_SUBJ" not in features
 
     def test_trace_enriches(self, extractor):
         sent = "alice runs."
