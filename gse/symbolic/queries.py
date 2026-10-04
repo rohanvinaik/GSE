@@ -24,16 +24,19 @@ from gse.symbolic.expression import Atom, Expression, Negation, Op, Phrase
 from gse.symbolic.predicates import (
     BoundaryCase,
     Causation,
+    ClauseCoordination,
     Comparison,
+    Conditional,
     Contrast,
+    Control,
     DegreeQuery,
     Equality,
-    Control,
     Event,
     MinimalSufficiency,
     Predicate,
     RelativeRestriction,
     SetRestriction,
+    Temporal,
     TypeAssertion,
     TypeQuery,
 )
@@ -101,6 +104,18 @@ def entities(tree: TreeNode) -> List[Entity]:
             _walk(n.left); _walk(n.right); return
         if isinstance(n, Causation):
             _walk(n.cause); _walk(n.effect); return
+        if isinstance(n, ClauseCoordination):
+            _walk(n.left)
+            _walk(n.right)
+            return
+        if isinstance(n, Conditional):
+            _walk(n.antecedent)
+            _walk(n.consequent)
+            return
+        if isinstance(n, Temporal):
+            _walk(n.setting)
+            _walk(n.event)
+            return
         if isinstance(n, RelativeRestriction):
             _walk(n.head); _walk(n.restriction); return
         if isinstance(n, Control):
@@ -125,17 +140,21 @@ def entity_lemmas(tree: TreeNode) -> List[str]:
 
 # Predicate types that mark a clause boundary or an embedded clause — the
 # multi-clause structures (decision B: clauses are implicit, discoverable here).
-_CLAUSE_PREDICATES = (Causation, RelativeRestriction, Control)
+_CLAUSE_PREDICATES = (
+    Causation, Contrast, ClauseCoordination, Conditional, Temporal, RelativeRestriction, Control,
+)
 
 
 def clauses(tree: TreeNode) -> List[Predicate]:
     """Return the clause-level predicates in the tree, in document order.
 
     A "clause" in the multi-clause sense surfaces as a clause-linking or
-    embedding predicate: a Causation (because/so joins two clauses), a
-    RelativeRestriction (who/which/that), or a Control ('to'). Per decision B
-    clauses are *implicit* — this walk is how you discover them. Returns ``[]``
-    for a single-clause sentence. Use ``entities(clause)`` for clause-scoped
+    embedding predicate: a clause linker joining two clauses — Causation
+    (because/so), Contrast (but), ClauseCoordination (and), Conditional (if)
+    or Temporal (when/while/after/before) — a RelativeRestriction
+    (who/which/that), or a Control ('to'). Per decision B clauses are
+    *implicit* — this walk is how you discover them. Returns ``[]`` for a
+    single-clause sentence. Use ``entities(clause)`` for clause-scoped
     entities, since :func:`entities` accepts any subtree node.
     """
     return [p for p in predicates(tree) if isinstance(p, _CLAUSE_PREDICATES)]
@@ -152,7 +171,7 @@ def predicates(tree: TreeNode) -> List[Predicate]:
     _predicate_classes = (
         Comparison, Equality, TypeQuery, TypeAssertion, DegreeQuery,
         MinimalSufficiency, SetRestriction, BoundaryCase, Contrast, Causation,
-        RelativeRestriction, Control, Event,
+        ClauseCoordination, Conditional, Temporal, RelativeRestriction, Control, Event,
     )
 
     def _walk(n: TreeNode) -> None:
@@ -192,6 +211,15 @@ def predicates(tree: TreeNode) -> List[Predicate]:
             _walk(n.left); _walk(n.right)
         elif isinstance(n, Causation):
             _walk(n.cause); _walk(n.effect)
+        elif isinstance(n, ClauseCoordination):
+            _walk(n.left)
+            _walk(n.right)
+        elif isinstance(n, Conditional):
+            _walk(n.antecedent)
+            _walk(n.consequent)
+        elif isinstance(n, Temporal):
+            _walk(n.setting)
+            _walk(n.event)
         elif isinstance(n, RelativeRestriction):
             _walk(n.head); _walk(n.restriction)
         elif isinstance(n, Control):
@@ -302,7 +330,8 @@ def is_argument_swap_of(a: TreeNode, b: TreeNode) -> bool:
     and entity set are the same; only the directional argument
     assignment differs.
     """
-    if not isinstance(a, (Op, Comparison, Equality, Contrast, Causation, MinimalSufficiency)):
+    if not isinstance(a, (Op, Comparison, Equality, Contrast, ClauseCoordination, Causation,
+                          Conditional, Temporal, MinimalSufficiency)):
         return False
     if type(a) is not type(b):
         return False
@@ -329,6 +358,12 @@ def _swap_args(node: TreeNode) -> TreeNode:
         return Contrast(left=node.right, right=node.left)
     if isinstance(node, Causation):
         return Causation(cause=node.effect, effect=node.cause, conjunction=node.conjunction)
+    if isinstance(node, ClauseCoordination):
+        return ClauseCoordination(left=node.right, right=node.left, conjunction=node.conjunction)
+    if isinstance(node, Conditional):
+        return Conditional(antecedent=node.consequent, consequent=node.antecedent, conjunction=node.conjunction)
+    if isinstance(node, Temporal):
+        return Temporal(setting=node.event, event=node.setting, conjunction=node.conjunction)
     if isinstance(node, MinimalSufficiency):
         return MinimalSufficiency(threshold=node.purpose, purpose=node.threshold)
     return node
@@ -387,10 +422,27 @@ def _structural_signature(node: TreeNode):
     if isinstance(node, Causation):
         return ("Causation", node.conjunction, _structural_signature(node.cause),
                 _structural_signature(node.effect))
+    if isinstance(node, ClauseCoordination):
+        return ("ClauseCoordination", node.conjunction, _structural_signature(node.left),
+                _structural_signature(node.right))
+    if isinstance(node, Conditional):
+        return ("Conditional", node.conjunction, _structural_signature(node.antecedent),
+                _structural_signature(node.consequent))
+    if isinstance(node, Temporal):
+        return ("Temporal", node.conjunction, _structural_signature(node.setting),
+                _structural_signature(node.event))
+    if isinstance(node, Event):
+        # The roleframe: verb + agent + patient. Event.themes are latent secondary args,
+        # preserved but not promoted into the default analysis, so they are not compared.
+        return ("Event", node.verb, _structural_signature(node.agent),
+                _structural_signature(node.patient) if node.patient is not None else None)
     if isinstance(node, RelativeRestriction):
         return ("RelativeRestriction", _structural_signature(node.head),
                 _structural_signature(node.restriction))
     if isinstance(node, Control):
-        return ("Control", _structural_signature(node.controller),
-                _structural_signature(node.inner))
+        # The matrix verb and subject are content: "Lady Macbeth persuaded Macbeth to …" is not
+        # "Banquo forbade Macbeth to …" (both were dropped before #3).
+        return ("Control", node.verb,
+                _structural_signature(node.subject) if node.subject is not None else None,
+                _structural_signature(node.controller), _structural_signature(node.inner))
     return ("Unknown", repr(node))

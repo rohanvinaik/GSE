@@ -52,6 +52,7 @@ from gse.symbolic.predicates import (
     Predicate,
     RelativeRestriction,
     SetRestriction,
+    Temporal,
     TypeAssertion,
     TypeQuery,
 )
@@ -98,7 +99,7 @@ __all__ = [
     # Predicates
     "BoundaryCase", "Causation", "ClauseCoordination", "Comparison", "Conditional", "Contrast", "Control",
     "DegreeQuery", "Equality", "Event", "MinimalSufficiency", "Predicate",
-    "RelativeRestriction", "SetRestriction", "TypeAssertion", "TypeQuery",
+    "RelativeRestriction", "SetRestriction", "Temporal", "TypeAssertion", "TypeQuery",
     # Dispatch
     "OPERATION_DISPATCH", "UnknownOperation", "evaluate", "evaluate_tree",
     # Emit contract (Genesis-facing §5 envelope)

@@ -20,7 +20,9 @@ from gse.symbolic.expression import Atom, Expression, Negation, Op, Phrase
 from gse.symbolic.predicates import (
     BoundaryCase,
     Causation,
+    ClauseCoordination,
     Comparison,
+    Conditional,
     Contrast,
     Control,
     DegreeQuery,
@@ -30,6 +32,7 @@ from gse.symbolic.predicates import (
     Predicate,
     RelativeRestriction,
     SetRestriction,
+    Temporal,
     TypeAssertion,
     TypeQuery,
 )
@@ -194,6 +197,24 @@ def _walk(node: TreeNode, mapping: Mapping[str, Union[str, Entity, Atom]]) -> Tr
         return Causation(
             cause=_walk(node.cause, mapping),
             effect=_walk(node.effect, mapping),
+            conjunction=node.conjunction,
+        )
+    if isinstance(node, ClauseCoordination):
+        return ClauseCoordination(
+            left=_walk(node.left, mapping),
+            right=_walk(node.right, mapping),
+            conjunction=node.conjunction,
+        )
+    if isinstance(node, Conditional):
+        return Conditional(
+            antecedent=_walk(node.antecedent, mapping),
+            consequent=_walk(node.consequent, mapping),
+            conjunction=node.conjunction,
+        )
+    if isinstance(node, Temporal):
+        return Temporal(
+            setting=_walk(node.setting, mapping),
+            event=_walk(node.event, mapping),
             conjunction=node.conjunction,
         )
     if isinstance(node, TypeAssertion):

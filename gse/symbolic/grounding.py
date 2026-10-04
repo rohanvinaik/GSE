@@ -22,29 +22,15 @@ from dataclasses import dataclass, replace
 from functools import lru_cache
 from typing import Any, Dict, List, Protocol, Sequence, Tuple, runtime_checkable
 
+from gse.symbolic.predicates import OPERAND_FIELDS
 from gse.symbolic.resolution import Entity
 from gse.symbolic.sense_resonance import get_resonance
 
-# Operand-bearing fields per predicate type — the recursion map for the generic
-# entity walker. Mirrors emit._PRED_SPEC's arg fields (single source would
-# couple the modules; kept parallel and asserted by tests instead).
-_OPERAND_FIELDS: Dict[str, Tuple[str, ...]] = {
-    "Event": ("agent", "patient"),
-    "Comparison": ("lhs", "rhs"),
-    "Equality": ("lhs", "rhs"),
-    "TypeAssertion": ("entity", "kind"),
-    "TypeQuery": ("entity",),
-    "DegreeQuery": ("entity",),
-    "MinimalSufficiency": ("threshold", "purpose"),
-    "SetRestriction": ("member", "predicate"),
-    "BoundaryCase": ("entity", "predicate"),
-    "Contrast": ("left", "right"),
-    "ClauseCoordination": ("left", "right"),
-    "Causation": ("cause", "effect"),
-    "Conditional": ("antecedent", "consequent"),
-    "RelativeRestriction": ("head", "restriction"),
-    "Control": ("subject", "controller", "inner"),
-}
+# The recursion map for the generic entity walker is predicates.OPERAND_FIELDS — the one map
+# beside the Predicate types, held equal to emit's contract spec by
+# tests/test_symbolic_walker_parity.py. The local copy kept here before (to avoid coupling to
+# emit) drifted: it lacked Temporal, so no entity under a when/while/after/before clause got an
+# id or a type thread (#3).
 
 
 # ---------------------------------------------------------------------------
@@ -155,7 +141,7 @@ def _map_entities(node: Any, fn) -> Any:
     if name == "Op":
         return replace(node, args=[_map_entities(a, fn) for a in node.args])
 
-    fields = _OPERAND_FIELDS.get(name)
+    fields = OPERAND_FIELDS.get(name)
     if fields is not None:
         return replace(node, **{f: _map_entities(getattr(node, f), fn) for f in fields})
 
@@ -1157,9 +1143,9 @@ def _strand_root(thread: Tuple[str, ...]) -> str:
 def _walk_predicates(node: Any):
     """Yield every predicate node in the evaluated tree (pre-order)."""
     name = type(node).__name__
-    if name in _OPERAND_FIELDS:
+    if name in OPERAND_FIELDS:
         yield node
-        for f in _OPERAND_FIELDS[name]:
+        for f in OPERAND_FIELDS[name]:
             yield from _walk_predicates(getattr(node, f))
     elif name == "Negation":
         yield from _walk_predicates(node.operand)

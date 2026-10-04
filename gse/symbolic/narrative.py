@@ -30,8 +30,8 @@ from typing import Any, Dict, List, Optional, Set, Tuple
 
 from gse.symbolic.modality import assertion_mode
 
-# queries.predicates() is intentionally NOT used — the skeleton needs a more complete walk
-# (see _collect_predicates below) that descends into coordination/conditional containers.
+# queries.predicates() is intentionally NOT used — the skeleton needs a modality-aware walk
+# (see _collect_predicates below), not a plain flatten of every predicate.
 
 _STATE_VERBS = {"be", "become", "is", "are", "was", "were", "remain", "turn"}
 # Which clausal content a node asserts — a propositional-attitude complement is a BELIEF, an
@@ -258,10 +258,12 @@ _CONTAINER_FIELDS = {
 
 
 def _collect_predicates(tree: Any) -> List[Any]:
-    """A COMPLETE predicate walk for the skeleton. Like ``queries.predicates()`` but it ALSO
-    descends into ClauseCoordination / Coordination / Conditional / Temporal, so events nested
-    under a top-level coordination ("betrayed Aldric and murdered him") are not lost. Kept
-    LOCAL here so the shared ``queries.predicates()`` (relied on by inference.py) is untouched."""
+    """A COMPLETE, modality-aware predicate walk for the skeleton, so events nested under a
+    top-level coordination ("betrayed Aldric and murdered him") are not lost. Unlike
+    ``queries.predicates()`` — a plain flatten of every predicate — it yields a Negation itself
+    rather than unwrapping it, descends into NP Coordination, and skips content the tree does not
+    assert (a belief complement, an irrealis inner act) by the shared
+    :func:`gse.symbolic.modality.assertion_mode` decision."""
     out: List[Any] = []
     seen: set = set()
 

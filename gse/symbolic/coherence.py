@@ -33,6 +33,7 @@ from gse.symbolic.predicates import (
     ClauseCoordination,
     Conditional,
     Contrast,
+    Temporal,
 )
 from gse.symbolic.resolution import Coordination, Entity
 
@@ -110,6 +111,9 @@ def coherence_report(tree: Any, trace) -> List[dict]:
         elif isinstance(node, Conditional):
             visit(node.antecedent)
             visit(node.consequent)
+        elif isinstance(node, Temporal):
+            visit(node.setting)
+            visit(node.event)
         elif isinstance(node, Negation):
             visit(node.operand)
         elif isinstance(node, _BARE):
