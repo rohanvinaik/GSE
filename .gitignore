@@ -29,6 +29,11 @@ logs/
 # staged workflows, runtime state). Same class as the caches above.
 .lintgate/
 
+# Detective / Wesker state — regenerable analysis caches (verdicts, recalled inputs, traces);
+# `detective purge` deletes them. Same class as the caches above.
+.detective/
+.wesker/
+
 # OS / editor cruft
 .DS_Store
 

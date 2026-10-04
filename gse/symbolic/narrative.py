@@ -28,35 +28,15 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Set, Tuple
 
+from gse.symbolic.modality import assertion_mode
+
 # queries.predicates() is intentionally NOT used — the skeleton needs a more complete walk
 # (see _collect_predicates below) that descends into coordination/conditional containers.
 
 _STATE_VERBS = {"be", "become", "is", "are", "was", "were", "remain", "turn"}
-# Propositional-attitude verbs: they take a CLAUSAL complement ("believes that he is righteous"),
-# which the parser binds as Event(believe; agent, <nested predicate>). That complement is the agent's
-# BELIEF, not a fact — so it is surfaced as a THEME of the attitude event (kept attributed to the
-# believer), never yielded as a standalone assertion. This is what lets the V1 self-deception read
-# fire (believes v ∧ deeds betray v → betrays v), without asserting the belief as true.
-_ATTITUDE_VERBS = {"believe", "think", "know", "suspect", "doubt", "realize", "realise",
-                   "understand", "imagine", "suppose", "assume", "expect", "fear", "hope",
-                   "feel", "perceive", "consider", "conclude", "deem", "fancy", "reckon"}
-# IRREALIS control matrices: the controlled INNER act is not a fact and must never be yielded
-# as a standalone assertion (the same discipline as _ATTITUDE_VERBS' clausal complement and the
-# Negation non-container). Two closed classes (Karttunen's implicative-verb taxonomy):
-#   negative-implicative — the matrix ASSERTS the inner act did NOT happen ("Mordecai REFUSES to
-#   bow" was emitting a bare `mordecai —bow→`, the polarity-inverted fact);
-#   non-factive/desiderative — the matrix leaves the inner act unasserted ("Haman PLOTS to kill
-#   all the Jews" was emitting a bare kill). The MATRIX edge (refuse/plot, from_document's Control
-#   branch) still carries the story signal. Positive implicatives (manage, dare) and narrative-
-#   completive matrices (persuade, order, force — the story convention asserts the caused act)
-#   keep the inner act.
-_IRREALIS_CONTROL_VERBS = {
-    # negative implicative
-    "refuse", "decline", "fail", "forbid", "prevent", "avoid", "resist", "neglect", "omit",
-    # non-factive / desiderative / conative
-    "plot", "plan", "attempt", "try", "want", "wish", "hope", "intend", "seek", "aim",
-    "scheme", "conspire", "threaten", "propose", "aspire", "yearn", "long",
-}
+# Which clausal content a node asserts — a propositional-attitude complement is a BELIEF, an
+# irrealis control matrix's inner act is negated or unasserted — is ONE decision shared with the
+# knowledge base: gse.symbolic.modality.assertion_mode, which also holds the two verb classes (#7).
 
 
 def _belief_value(patient: Any) -> str:
@@ -300,16 +280,16 @@ def _collect_predicates(tree: Any) -> List[Any]:
                 walk(a)
         else:
             fields = _CONTAINER_FIELDS.get(nm, ())
+            mode = assertion_mode(nm, getattr(n, "verb", "") or "", type(getattr(n, "patient", None)).__name__)
             # Don't descend into a propositional-attitude verb's clausal complement ("believes he is
             # righteous"): it is the believer's BELIEF, surfaced as a theme by from_document, not a
             # standalone assertion — yielding it separately would assert the belief as a fact.
-            if (nm == "Event" and getattr(n, "verb", "") in _ATTITUDE_VERBS
-                    and type(getattr(n, "patient", None)).__name__ in ("TypeAssertion", "Event")):
+            if mode == "belief":
                 fields = tuple(f for f in fields if f != "patient")
             # Don't descend into an IRREALIS control matrix's inner act ("refuses to bow",
             # "plots to kill"): the inner event is negated or unasserted — yielding it bare
             # inverts/asserts it as fact. The matrix edge still carries the story signal.
-            if nm == "Control" and getattr(n, "verb", "") in _IRREALIS_CONTROL_VERBS:
+            elif mode == "irrealis":
                 fields = tuple(f for f in fields if f != "inner")
             for f in fields:
                 walk(getattr(n, f, None))
@@ -395,8 +375,7 @@ class NarrativeGraph:
             elif nm == "Event":
                 if p.verb in _STATE_VERBS and p.patient is not None:
                     ok = g._state(p.agent, p.patient, t)          # "became king" → role
-                elif (p.verb in _ATTITUDE_VERBS
-                      and type(p.patient).__name__ in ("TypeAssertion", "Event")):
+                elif assertion_mode(nm, p.verb, type(p.patient).__name__) == "belief":
                     # Propositional-attitude complement ("believes he is righteous"): the belief CONTENT
                     # is surfaced as a THEME of the attitude event (the bridge reads it as the held
                     # value), attributed to the believer and NOT asserted as a fact.

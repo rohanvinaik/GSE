@@ -16,7 +16,11 @@ the payment then the member loses the vote") are stored as rules, and
 fires when its antecedent is derivable (an event fact, an is-a chain, or an
 ordering chain), with the rule's generic subject ("a member") bound to the
 queried individual through the is-a hierarchy ("alice → member"). Negated
-clauses (``Negation``) are stored as negative facts, never asserted positively.
+clauses (``Negation``) are stored as negative facts, never asserted positively —
+at any depth. Ingestion walks each tree by its assertion modality
+(:mod:`gse.symbolic.modality`, shared with the narrative skeleton): an attitude
+verb's complement ("believes that X") and an irrealis control verb's inner act
+("refused to bow") are never asserted, and a conditional asserts neither clause.
 
 **Boundary (honest):** the transitive/subset fragment plus single-antecedent
 modus ponens. "all X are Y" and "a X is a Y" collapse to the same is-a edge —
@@ -33,6 +37,8 @@ from collections import defaultdict, deque
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Sequence, Set, Tuple
 
+from gse.symbolic.modality import assertion_mode
+from gse.symbolic.predicates import OPERAND_FIELDS
 from gse.symbolic.queries import predicates
 
 
@@ -112,6 +118,12 @@ class KnowledgeBase:
             self._ingest(p.operand, negated=not negated)
             return
         if name == "Conditional":
+            # A rule needs both sides as stated: the reasoner has no negated antecedent or
+            # consequent (no negation-as-failure), so a negated side ABSTAINS rather than
+            # flattening to its positive clause — "if X does not bark" is not "if X barks" (#7).
+            if "negated" in (assertion_mode(type(p.antecedent).__name__),
+                             assertion_mode(type(p.consequent).__name__)):
+                return
             ant = predicates(p.antecedent)
             cons = predicates(p.consequent)
             if ant and cons and type(cons[0]).__name__ == "Event":
@@ -138,16 +150,38 @@ class KnowledgeBase:
                 self._gt[(axis, hi)].add(lo)
                 self._axes.add(axis)
 
+    def _ingest_tree(self, node: Any) -> None:
+        """Ingest what a clause tree ASSERTS — a structural walk, not a flatten (#7).
+
+        Flattening through ``queries.predicates()`` asserted everything it reached: the operand of
+        a nested ``Negation`` as a positive fact, an irrealis control verb's inner act ("refused to
+        bow" → bow), an attitude verb's complement ("believes that X is a traitor" → is-a), and,
+        once ``predicates()`` descends into a ``Conditional``, both of its clauses. Each node's
+        :func:`~gse.symbolic.modality.assertion_mode` decides instead — the same decision the
+        narrative skeleton applies — and the walk descends only into content that holds as stated.
+        """
+        if node is None:
+            return
+        name = type(node).__name__
+        mode = assertion_mode(name, getattr(node, "verb", "") or "", type(getattr(node, "patient", None)).__name__)
+        self._ingest(node)          # a fact, a negative fact or a rule; a no-op for a container
+        if mode in ("negated", "conditional"):
+            return                  # nothing beneath holds as stated
+        if name == "Op":
+            children = list(node.args)
+        elif name == "Coordination":
+            children = list(node.members)
+        else:
+            unasserted = {"belief": "patient", "irrealis": "inner"}.get(mode)
+            children = [getattr(node, f, None) for f in OPERAND_FIELDS.get(name, ()) if f != unasserted]
+        for child in children:
+            self._ingest_tree(child)
+
     @classmethod
     def from_trees(cls, trees: Sequence[Any]) -> "KnowledgeBase":
         kb = cls()
         for tree in trees:
-            name = type(tree).__name__
-            if name in ("Negation", "Conditional"):
-                kb._ingest(tree)        # wrappers predicates() would flatten/skip
-                continue
-            for p in predicates(tree):
-                kb._ingest(p)
+            kb._ingest_tree(tree)
         return kb
 
     @staticmethod

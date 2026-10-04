@@ -15,7 +15,7 @@ where ``axis_of_comparison()`` and similar extractors live.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Optional, Union
+from typing import Dict, Optional, Tuple, Union
 
 from gse.symbolic.expression import Operand
 
@@ -291,3 +291,28 @@ Predicate = Union[
     RelativeRestriction,
     Control,
 ]
+
+# The operand-bearing fields of each Predicate type, in argument order — the one recursion map for
+# every walker over a predicate tree. Feature fields (verb, conjunction, sign, axis, note) are not
+# operands, and neither is Event.themes (latent secondary args, preserved but not promoted). The
+# per-module copies (emit's contract spec, grounding's entity walker) drifted once — Temporal went
+# missing from grounding — so tests/test_symbolic_walker_parity.py holds every walker to this map
+# and this map to the Predicate union.
+OPERAND_FIELDS: Dict[str, Tuple[str, ...]] = {
+    "Event": ("agent", "patient"),
+    "Comparison": ("lhs", "rhs"),
+    "Equality": ("lhs", "rhs"),
+    "TypeQuery": ("entity",),
+    "TypeAssertion": ("entity", "kind"),
+    "DegreeQuery": ("entity",),
+    "MinimalSufficiency": ("threshold", "purpose"),
+    "SetRestriction": ("member", "predicate"),
+    "BoundaryCase": ("entity", "predicate"),
+    "Contrast": ("left", "right"),
+    "ClauseCoordination": ("left", "right"),
+    "Causation": ("cause", "effect"),
+    "Conditional": ("antecedent", "consequent"),
+    "Temporal": ("setting", "event"),
+    "RelativeRestriction": ("head", "restriction"),
+    "Control": ("subject", "controller", "inner"),
+}
