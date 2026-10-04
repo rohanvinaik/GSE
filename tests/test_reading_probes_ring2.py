@@ -3,7 +3,8 @@
 The companion of test_reading_probes.py (Ring 1), in its own file so the two rings' writers never share one. Each case
 is a constructed sentence stated as the reading GSE owes; a case GSE does not read yet is a strict xfail naming its
 issue, and the fix that lands it takes the marker off in the same commit. Unmarked cases are guards. Ring 2 builds on
-Ring 1, so a case may also need a Ring 1 fix (e.g. a sentence-initial imperative is first un-named by #94).
+Ring 1, so a case may also need a Ring 1 fix (e.g. a sentence-initial imperative is first un-named by #94). Every
+xfail names ``raises=AssertionError``: only the stated reading failing satisfies it, never an unrelated crash.
 """
 
 import dataclasses
@@ -51,7 +52,7 @@ def _marks(encoder, sentence):
 # ── tense, mood and voice marks ───────────────────────────────────────────────────────────────────────────
 
 
-@pytest.mark.xfail(strict=True, reason="#85 F-tense: an irregular past carries no tense")
+@pytest.mark.xfail(strict=True, raises=AssertionError, reason="#85 F-tense: an irregular past carries no tense")
 def test_an_irregular_past_is_past(encoder):
     assert "SYN_TENSE_PAST" in _marks(encoder, "He took the key.")
 
@@ -60,17 +61,17 @@ def test_a_regular_past_is_past(encoder):
     assert "SYN_TENSE_PAST" in _marks(encoder, "Macbeth killed Duncan.")
 
 
-@pytest.mark.xfail(strict=True, reason="#103 E-tam: no future or question mark is ever emitted")
+@pytest.mark.xfail(strict=True, raises=AssertionError, reason="#103 E-tam: no future or question mark is ever emitted")
 def test_a_future_question_is_marked(encoder):
     assert {"SYN_TENSE_FUT", "SYN_MOOD_INTER"} <= _marks(encoder, "Will he come?")
 
 
-@pytest.mark.xfail(strict=True, reason="#103 E-tam: no imperative mark is ever emitted")
+@pytest.mark.xfail(strict=True, raises=AssertionError, reason="#103 E-tam: no imperative mark is ever emitted")
 def test_an_imperative_is_marked(encoder):
     assert "SYN_MOOD_IMPER" in _marks(encoder, "Close the door.")
 
 
-@pytest.mark.xfail(strict=True, reason="#76 F-passive: a passive carries no voice mark")
+@pytest.mark.xfail(strict=True, raises=AssertionError, reason="#76 F-passive: a passive carries no voice mark")
 def test_a_passive_is_marked(encoder):
     assert any("VOICE_PASS" in mark for mark in _marks(encoder, "Duncan was killed by Macbeth."))
 
@@ -78,7 +79,9 @@ def test_a_passive_is_marked(encoder):
 # ── predicates: false ones out, real ones in ──────────────────────────────────────────────────────────────
 
 
-@pytest.mark.xfail(strict=True, reason="#82 F-plural-verb: a base verb after a noun subject is tagged NOUN")
+@pytest.mark.xfail(
+    strict=True, raises=AssertionError, reason="#82 F-plural-verb: a base verb after a noun subject is tagged NOUN"
+)
 @pytest.mark.parametrize(
     ("sentence", "verb"), [("These cells divide.", "divide"), ("The dividing cell split.", "split")]
 )
@@ -86,27 +89,33 @@ def test_a_verb_after_a_noun_subject_is_the_predicate(encoder, sentence, verb):
     assert verb in _verbs(encoder, sentence)
 
 
-@pytest.mark.xfail(strict=True, reason="#84 F-oov-verb: an unknown word is never a verb")
+@pytest.mark.xfail(strict=True, raises=AssertionError, reason="#84 F-oov-verb: an unknown word is never a verb")
 def test_an_unknown_verb_is_still_a_predicate(encoder):
     assert _verbs(encoder, "The wug blibbed the dax.") - {None}
 
 
-@pytest.mark.xfail(strict=True, reason="#83 F-promote: a compound member is promoted to a verb")
+@pytest.mark.xfail(strict=True, raises=AssertionError, reason="#83 F-promote: a compound member is promoted to a verb")
 def test_a_compound_member_is_not_a_predicate(encoder):
     assert not _verbs(encoder, "Genesis is a Story Understanding System.") & {"understand", "understanding"}
 
 
-@pytest.mark.xfail(strict=True, reason="#92 F-closed-gaps: degree 'so' is read as a consequence link")
+@pytest.mark.xfail(
+    strict=True, raises=AssertionError, reason="#92 F-closed-gaps: degree 'so' is read as a consequence link"
+)
 def test_degree_so_links_nothing(encoder):
     assert "CAUSATION" not in {op.get("op") for op in _ops(_contract(encoder, "It was so good."))}
 
 
-@pytest.mark.xfail(strict=True, reason="#115 S-operator-event: a within-clause operator replaces the clause's event")
+@pytest.mark.xfail(
+    strict=True,
+    raises=AssertionError,
+    reason="#115 S-operator-event: a within-clause operator replaces the clause's event",
+)
 def test_an_operator_keeps_its_clause_event(encoder):
     assert "validate" in _verbs(encoder, "You can even validate it by hand.")
 
 
-@pytest.mark.xfail(strict=True, reason="#116 S-unary: WHAT and ONLY take the empty left window")
+@pytest.mark.xfail(strict=True, raises=AssertionError, reason="#116 S-unary: WHAT and ONLY take the empty left window")
 def test_a_unary_operator_takes_its_operand(encoder):
     queries = [op for op in _ops(_contract(encoder, "What is a dog?")) if op.get("op") == "TYPE_QUERY"]
     assert queries and "dog" in json.dumps(queries[0].get("args"))
@@ -116,12 +125,16 @@ def test_a_unary_operator_takes_its_operand(encoder):
 # ── clause linking and status ─────────────────────────────────────────────────────────────────────────────
 
 
-@pytest.mark.xfail(strict=True, reason="#100 E-if-when: 'wonder if' is read as a conditional")
+@pytest.mark.xfail(strict=True, raises=AssertionError, reason="#100 E-if-when: 'wonder if' is read as a conditional")
 def test_wonder_if_is_a_complement_not_a_conditional(encoder):
     assert "IMPLIES" not in {op.get("op") for op in _ops(_contract(encoder, "I wonder if he left."))}
 
 
-@pytest.mark.xfail(strict=True, reason="#101 E-fronted: a fronted 'if' without a comma gives a one-armed conditional")
+@pytest.mark.xfail(
+    strict=True,
+    raises=AssertionError,
+    reason="#101 E-fronted: a fronted 'if' without a comma gives a one-armed conditional",
+)
 def test_a_fronted_conditional_has_both_arms(encoder):
     conditionals = [op for op in _ops(_contract(encoder, "If it rains we stay.")) if op.get("op") == "IMPLIES"]
     assert conditionals
@@ -129,17 +142,21 @@ def test_a_fronted_conditional_has_both_arms(encoder):
     assert sorted(arms) == ["rain", "stay"]
 
 
-@pytest.mark.xfail(strict=True, reason="#131 S-contrast: CONTRAST stays within-clause and keeps no events")
+@pytest.mark.xfail(
+    strict=True, raises=AssertionError, reason="#131 S-contrast: CONTRAST stays within-clause and keeps no events"
+)
 def test_a_contrast_keeps_both_clauses(encoder):
     assert {"come", "leave"} <= _verbs(encoder, "He came, but she left.")
 
 
-@pytest.mark.xfail(strict=True, reason="#114 S-embedded: a complement under a coordinated verb is dropped")
+@pytest.mark.xfail(
+    strict=True, raises=AssertionError, reason="#114 S-embedded: a complement under a coordinated verb is dropped"
+)
 def test_an_embedded_clause_is_kept(encoder):
     assert "leave" in _verbs(encoder, "He laughed and said that she left.")
 
 
-@pytest.mark.xfail(strict=True, reason="#112 S-negation: clausal negation is dropped")
+@pytest.mark.xfail(strict=True, raises=AssertionError, reason="#112 S-negation: clausal negation is dropped")
 def test_clausal_negation_is_kept(encoder):
     assert "NOT" in {op.get("op") for op in _ops(_contract(encoder, "The food was not good."))}
     negated = _contract(encoder, "Mike's dog isn't cuter than Rex.")
