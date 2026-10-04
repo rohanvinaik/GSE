@@ -90,6 +90,13 @@ class TestInit:
 # ---------- load ----------
 
 class TestLoad:
+    @pytest.fixture(autouse=True)
+    def _stub_corpus(self, monkeypatch):
+        # The parser imports the corpus at call time. Replace NLTK's LazyCorpusLoader itself, so the
+        # attribute patches below never trigger a real corpus load (which needs installed NLTK data:
+        # missing, or a corrupt zip, made these unit tests fail before their mocks were in place).
+        monkeypatch.setattr("nltk.corpus.framenet", MagicMock())
+
     def test_failure_returns_false(self):
         p = FrameNetParser()
         with patch("nltk.corpus.framenet.frames", side_effect=Exception("boom")):

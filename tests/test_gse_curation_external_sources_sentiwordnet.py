@@ -76,14 +76,18 @@ class TestConvertPos:
 # ---------- load ----------
 
 class TestLoad:
-    @pytest.mark.skip(reason="broken test mock: sets sys.modules['nltk']=None then imports nltk")
+    @pytest.fixture(autouse=True)
+    def _stub_corpus(self, monkeypatch):
+        # The parser imports the corpus at call time. Replace NLTK's LazyCorpusLoader itself, so the
+        # attribute patches below never trigger a real corpus load (which needs installed NLTK data).
+        monkeypatch.setattr("nltk.corpus.sentiwordnet", MagicMock())
+
     def test_failure_returns_false(self):
+        # Was skipped as a broken mock (it set sys.modules['nltk']=None, then imported nltk); with the
+        # corpus stubbed, the exception path is reachable directly.
         p = SentiWordNetParser()
-        with patch.dict("sys.modules", {"nltk": None}):
-            # nltk is not really None — exception path is wrapped by try/except
-            with patch("nltk.corpus.sentiwordnet.senti_synsets", side_effect=RuntimeError("boom")):
-                with patch("nltk.corpus.sentiwordnet.all_senti_synsets", side_effect=RuntimeError("boom")):
-                    assert p.load() is False
+        with patch("nltk.corpus.sentiwordnet.all_senti_synsets", side_effect=RuntimeError("boom")):
+            assert p.load() is False
 
     def test_successful_load_sets_loaded(self):
         p = SentiWordNetParser()
