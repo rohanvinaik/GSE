@@ -61,7 +61,7 @@ def to_dict(node: Node) -> Dict[str, Any]:
     reconstruct without external type information.
     """
     if isinstance(node, Atom):
-        return {
+        d = {
             "_kind": "Atom",
             "lemma": node.lemma,
             "word_primitives": dict(node.word_primitives),
@@ -69,6 +69,14 @@ def to_dict(node: Node) -> Dict[str, Any]:
             "position": node.position,
             "pos": node.pos,
         }
+        # Later Atom fields: emit only when set, so payloads without them stay byte-identical (#4).
+        if node.number is not None:
+            d["number"] = node.number
+        if node.graded:
+            d["graded"] = node.graded
+        if node.apposition is not None:
+            d["apposition"] = node.apposition
+        return d
     if isinstance(node, Phrase):
         return {
             "_kind": "Phrase",
@@ -103,6 +111,8 @@ def to_dict(node: Node) -> Dict[str, Any]:
             d["type_thread"] = list(node.type_thread)
         if node.span:
             d["span"] = list(node.span)
+        if node.apposition_thread:
+            d["apposition_thread"] = list(node.apposition_thread)
         return d
     if isinstance(node, Comparison):
         return {
@@ -147,12 +157,16 @@ def to_dict(node: Node) -> Dict[str, Any]:
             "note": node.note,
         }
     if isinstance(node, Event):
-        return {
+        d = {
             "_kind": "Event",
             "verb": node.verb,
             "agent": to_dict(node.agent),
             "patient": to_dict(node.patient) if node.patient is not None else None,
         }
+        # The latent secondary args are preserved, never destroyed (#4); emitted only when present.
+        if node.themes:
+            d["themes"] = [to_dict(t) for t in node.themes]
+        return d
     if isinstance(node, Contrast):
         return {
             "_kind": "Contrast",
@@ -244,6 +258,9 @@ def from_dict(d: Dict[str, Any]) -> Node:
             role=d.get("role"),
             position=d.get("position", 0),
             pos=d.get("pos"),
+            number=d.get("number"),
+            graded=d.get("graded", False),
+            apposition=d.get("apposition"),
         )
     if kind == "Phrase":
         return Phrase(atoms=[from_dict(x) for x in d["atoms"]])
@@ -265,6 +282,7 @@ def from_dict(d: Dict[str, Any]) -> Node:
             entity_id=d.get("entity_id"),
             type_thread=tuple(d.get("type_thread") or ()),
             span=tuple(d.get("span") or ()),
+            apposition_thread=tuple(d.get("apposition_thread") or ()),
         )
     if kind == "Comparison":
         return Comparison(
@@ -305,6 +323,7 @@ def from_dict(d: Dict[str, Any]) -> Node:
             verb=d["verb"],
             agent=from_dict(d["agent"]),
             patient=from_dict(d["patient"]) if d.get("patient") else None,
+            themes=tuple(from_dict(t) for t in d.get("themes") or ()),
         )
     if kind == "Contrast":
         return Contrast(left=from_dict(d["left"]), right=from_dict(d["right"]))
