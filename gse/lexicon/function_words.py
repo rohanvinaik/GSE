@@ -71,11 +71,15 @@ CONJUNCTION_ENCODINGS: Dict[str, Dict[str, Any]] = {
     "before": {"clause_relation": "TEMPORAL", "temporal_type": "ANTERIOR"},
     "after": {"clause_relation": "TEMPORAL", "temporal_type": "POSTERIOR"},
     "until": {"clause_relation": "TEMPORAL", "temporal_type": "TERMINUS"},
-    "since": {"clause_relation": "TEMPORAL", "temporal_type": "STARTING_POINT"},
+    # "since" is both temporal ("since Monday") and causal ("since you asked"). It was written twice,
+    # and a dict literal keeps only the LAST value, so the temporal sense was silently lost. One entry,
+    # one key per sense dimension (the house form, cf. PREPOSITION_ENCODINGS["in"]); clause_relation
+    # keeps the value that was in effect (CAUSAL).
+    "since": {"clause_relation": "CAUSAL", "causal_type": "REASON", "temporal_type": "STARTING_POINT"},
     "as": {"clause_relation": "TEMPORAL", "temporal_type": "SIMULTANEOUS"},
     # Subordinating - Causal
     "because": {"clause_relation": "CAUSAL", "causal_type": "REASON"},
-    "since": {"clause_relation": "CAUSAL", "causal_type": "REASON"},  # Also temporal
+    # ("since" — causal as well as temporal — is the single entry above.)
     "although": {"clause_relation": "CONCESSIVE"},
     "though": {"clause_relation": "CONCESSIVE"},
     "even though": {"clause_relation": "CONCESSIVE"},
@@ -129,14 +133,16 @@ PREPOSITION_ENCODINGS: Dict[str, Dict[str, Any]] = {
     "during": {"temporal_type": "DURATION"},
     "until": {"temporal_type": "TERMINUS"},
     "since": {"temporal_type": "STARTING_POINT"},
-    "by": {"temporal_type": "DEADLINE"},
+    # "by" is both a deadline ("by Friday") and the passive agent ("by the dog"). It was written twice and
+    # only the agent sense survived; one entry now carries both feature keys (cf. "in", "before").
+    "by": {"temporal_type": "DEADLINE", "relation_type": "AGENT"},
     # Other relations
     "with": {"relation_type": "ACCOMPANIMENT"},
     "without": {"relation_type": "ACCOMPANIMENT", "polarity": "NEGATIVE"},
     "for": {"relation_type": "BENEFACTIVE"},
     "of": {"relation_type": "POSSESSIVE"},
     "about": {"relation_type": "TOPIC"},
-    "by": {"relation_type": "AGENT"},  # Also temporal
+    # ("by" — agent as well as deadline — is the single entry in the Temporal group above.)
     "against": {"relation_type": "OPPOSITION"},
     "like": {"relation_type": "MANNER"},
     "as": {"relation_type": "ROLE"},

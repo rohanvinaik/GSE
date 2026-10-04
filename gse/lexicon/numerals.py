@@ -299,11 +299,14 @@ NUMERAL_ENCODINGS: Dict[str, Dict[str, Any]] = {
         "hierarchy": {"scale": "QUANTITY", "direction": 1, "level": 1},
         "quantity_type": "ordinal",
     },
-    "third": {
-        "primitives": {"SING": 1, "PLUR": 1, "NUMBER": 1},
-        "hierarchy": {"scale": "QUANTITY", "direction": 1, "level": 2},
-        "quantity_type": "ordinal",
-    },
+    # "third" (ordinal) — SHADOWED, kept verbatim for the record. It was written twice (ordinal here,
+    # fraction below) and a dict literal keeps only the LAST value, so the fraction has always been the
+    # one in effect. This schema holds one encoding per word and the two senses conflict on every key,
+    # so which sense "third" carries (or a per-sense schema) is an open decision for the closed-class
+    # build (#9). The ordinal encoding as authored:
+    #   "third": {"primitives": {"SING": 1, "PLUR": 1, "NUMBER": 1},
+    #             "hierarchy": {"scale": "QUANTITY", "direction": 1, "level": 2},
+    #             "quantity_type": "ordinal"},
     "last": {
         "primitives": {"SING": 1, "NUMBER": 1},
         "hierarchy": {"scale": "QUANTITY", "direction": 1, "level": 5},
