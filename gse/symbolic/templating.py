@@ -14,28 +14,11 @@ content.
 
 from __future__ import annotations
 
+from dataclasses import replace
 from typing import Mapping, Union
 
 from gse.symbolic.expression import Atom, Expression, Negation, Op, Phrase
-from gse.symbolic.predicates import (
-    BoundaryCase,
-    Causation,
-    ClauseCoordination,
-    Comparison,
-    Conditional,
-    Contrast,
-    Control,
-    DegreeQuery,
-    Equality,
-    Event,
-    MinimalSufficiency,
-    Predicate,
-    RelativeRestriction,
-    SetRestriction,
-    Temporal,
-    TypeAssertion,
-    TypeQuery,
-)
+from gse.symbolic.predicates import OPERAND_FIELDS, Event, Predicate
 from gse.symbolic.resolution import Coordination, Entity
 
 TreeNode = Union[Expression, Entity, Predicate]
@@ -104,17 +87,18 @@ def _make_replacement(
 
 
 def _walk(node: TreeNode, mapping: Mapping[str, Union[str, Entity, Atom]]) -> TreeNode:
+    # A rebuilt node keeps every field the substitution does not touch: dataclasses.replace over the
+    # one operand map, predicates.OPERAND_FIELDS — the form grounding._map_entities uses. The
+    # hand-listed constructors this replaces dropped fields as the dataclasses grew: a possessed
+    # entity lost its modifier and grounding, an Event its themes, a substituted Atom its number /
+    # graded / apposition (#5).
     if isinstance(node, Entity):
         if node.head.lemma in mapping:
             return _make_replacement(node, mapping[node.head.lemma])
         if node.possessor is not None:
             new_possessor = _walk(node.possessor, mapping)
             if new_possessor is not node.possessor:
-                return Entity(
-                    head=node.head,
-                    possessor=new_possessor,
-                    role=node.role,
-                )
+                return replace(node, possessor=new_possessor)
         return node
 
     if isinstance(node, Atom):
@@ -123,122 +107,29 @@ def _walk(node: TreeNode, mapping: Mapping[str, Union[str, Entity, Atom]]) -> Tr
             if isinstance(replacement, Atom):
                 return replacement
             if isinstance(replacement, str):
-                return Atom(
-                    lemma=replacement,
-                    word_primitives=dict(node.word_primitives),
-                    role=node.role,
-                    position=node.position,
-                    pos=node.pos,
-                )
+                return replace(node, lemma=replacement, word_primitives=dict(node.word_primitives))
             if isinstance(replacement, Entity):
                 return replacement.head
         return node
 
     if isinstance(node, Phrase):
-        new_atoms = [_walk(a, mapping) for a in node.atoms]
-        return Phrase(atoms=new_atoms)
+        return Phrase(atoms=[_walk(a, mapping) for a in node.atoms])
 
     if isinstance(node, Negation):
         return Negation(operand=_walk(node.operand, mapping))
 
     if isinstance(node, Op):
-        return Op(
-            primitive=node.primitive,
-            operation=node.operation,
-            arity=node.arity,
-            args=[_walk(a, mapping) for a in node.args],
-        )
+        return replace(node, args=[_walk(a, mapping) for a in node.args])
 
-    if isinstance(node, Event):
-        return Event(
-            verb=node.verb,
-            agent=_walk(node.agent, mapping),
-            patient=_walk(node.patient, mapping) if node.patient is not None else None,
-        )
-    if isinstance(node, Comparison):
-        return Comparison(
-            lhs=_walk(node.lhs, mapping),
-            rhs=_walk(node.rhs, mapping),
-            sign=node.sign,
-            axis=node.axis,
-        )
-    if isinstance(node, Equality):
-        return Equality(
-            lhs=_walk(node.lhs, mapping),
-            rhs=_walk(node.rhs, mapping),
-            axis=node.axis,
-        )
-    if isinstance(node, TypeQuery):
-        return TypeQuery(entity=_walk(node.entity, mapping))
-    if isinstance(node, DegreeQuery):
-        return DegreeQuery(entity=_walk(node.entity, mapping), axis=node.axis)
-    if isinstance(node, MinimalSufficiency):
-        return MinimalSufficiency(
-            threshold=_walk(node.threshold, mapping),
-            purpose=_walk(node.purpose, mapping),
-        )
-    if isinstance(node, SetRestriction):
-        return SetRestriction(
-            member=_walk(node.member, mapping),
-            predicate=_walk(node.predicate, mapping),
-        )
-    if isinstance(node, BoundaryCase):
-        return BoundaryCase(
-            entity=_walk(node.entity, mapping),
-            predicate=_walk(node.predicate, mapping),
-            note=node.note,
-        )
-    if isinstance(node, Contrast):
-        return Contrast(
-            left=_walk(node.left, mapping),
-            right=_walk(node.right, mapping),
-        )
-    if isinstance(node, Causation):
-        return Causation(
-            cause=_walk(node.cause, mapping),
-            effect=_walk(node.effect, mapping),
-            conjunction=node.conjunction,
-        )
-    if isinstance(node, ClauseCoordination):
-        return ClauseCoordination(
-            left=_walk(node.left, mapping),
-            right=_walk(node.right, mapping),
-            conjunction=node.conjunction,
-        )
-    if isinstance(node, Conditional):
-        return Conditional(
-            antecedent=_walk(node.antecedent, mapping),
-            consequent=_walk(node.consequent, mapping),
-            conjunction=node.conjunction,
-        )
-    if isinstance(node, Temporal):
-        return Temporal(
-            setting=_walk(node.setting, mapping),
-            event=_walk(node.event, mapping),
-            conjunction=node.conjunction,
-        )
-    if isinstance(node, TypeAssertion):
-        return TypeAssertion(
-            entity=_walk(node.entity, mapping),
-            kind=_walk(node.kind, mapping),
-        )
-    if isinstance(node, RelativeRestriction):
-        return RelativeRestriction(
-            head=_walk(node.head, mapping),
-            restriction=_walk(node.restriction, mapping),
-        )
-    if isinstance(node, Control):
-        return Control(
-            controller=_walk(node.controller, mapping),
-            inner=_walk(node.inner, mapping),
-            verb=node.verb,
-            subject=_walk(node.subject, mapping) if node.subject is not None else None,
-        )
     if isinstance(node, Coordination):
-        return Coordination(
-            members=tuple(_walk(m, mapping) for m in node.members),
-            conjunction=node.conjunction,
-            modifier=node.modifier,
-        )
+        return replace(node, members=tuple(_walk(m, mapping) for m in node.members))
+
+    fields = OPERAND_FIELDS.get(type(node).__name__)
+    if fields is not None:
+        changes: dict[str, object] = {f: _walk(getattr(node, f), mapping) for f in fields}
+        if isinstance(node, Event) and node.themes:
+            # The latent secondary args are entities in the sentence too: walked, never dropped.
+            changes["themes"] = tuple(_walk(t, mapping) for t in node.themes)
+        return replace(node, **changes)
 
     return node
