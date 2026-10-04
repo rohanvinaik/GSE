@@ -146,7 +146,6 @@ def test_clausal_negation_is_kept(encoder):
     assert negated != _contract(encoder, "Mike's dog is cuter than Rex.")
 
 
-@pytest.mark.xfail(strict=True, reason="#125 S-belief: a negated complement escapes the belief discipline")
 def test_a_negated_belief_complement_is_believed_not_asserted(encoder):
     tree = _tree(encoder, "Macbeth believes that Banquo did not see him.")
     stack, beliefs = [tree], []

@@ -86,8 +86,32 @@ IRREALIS_CONTROL_VERBS = frozenset(
     }
 )
 
-# The node types the parser binds an attitude verb's clausal complement as (the Event's patient).
-_CLAUSAL_COMPLEMENT_KINDS = frozenset({"TypeAssertion", "Event"})
+# The node types an attitude verb's clausal complement can be bound as (the Event's patient): every clause-level
+# predicate kind and a negated clause. Under "believes that ..." each is the believer's belief, not a fact. The set
+# once held only TypeAssertion and Event, so "believes that Banquo did not see him" asserted not-see, and a Control or
+# RelativeRestriction complement asserted its content (#125). It is a literal so this module stays import-free and
+# pinnable; tests/test_modality_complements.py holds it equal to gse.symbolic.predicates.OPERAND_FIELDS plus Negation.
+_CLAUSAL_COMPLEMENT_KINDS = frozenset(
+    {
+        "BoundaryCase",
+        "Causation",
+        "ClauseCoordination",
+        "Comparison",
+        "Conditional",
+        "Contrast",
+        "Control",
+        "DegreeQuery",
+        "Equality",
+        "Event",
+        "MinimalSufficiency",
+        "Negation",
+        "RelativeRestriction",
+        "SetRestriction",
+        "Temporal",
+        "TypeAssertion",
+        "TypeQuery",
+    }
+)
 
 
 def assertion_mode(kind: str, verb: str = "", patient_kind: str = "") -> str:
