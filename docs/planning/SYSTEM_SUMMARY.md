@@ -1,3 +1,7 @@
+> **Unverified planning document** — moved from the repository root on 2026-10-04. It predates GSE's
+> current core and has not been checked against the code; where they disagree, the code and
+> [`docs/ARCHITECTURE.md`](../ARCHITECTURE.md) are authoritative.
+
 # GSE System Summary
 
 ## Overview

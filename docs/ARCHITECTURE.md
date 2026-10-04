@@ -785,9 +785,10 @@ drift. Confirmed drift / not on the functional path:
 | `gse/patterns/` | **contradicts core** | Hebbian "learning networks" — adaptation conflicts with the determinism guarantee at the semantic layer. |
 | `gse/encoders/`, `gse/nlp/sentence_parser.py`, `gse/scales/`, `gse/composition/`, `gse/parsing/`, `gse/evaluation/`, `gse/teaching/`, `gse/profiles/`, `gse/orchestration/`, `gse/graph/` | **not on the spine** | None are imported by `gse.api`/`gse.symbolic`/`gse.cli`. Older or auxiliary; treat as drift unless wired back in. |
 
-Other root docs (`UNIFIED_ARCHITECTURE.md`, `SYSTEM_SUMMARY.md`, `STATUS.md`,
-`gse_implementation_spec.md`) predate the current core and are unverified — defer
-to this document and the code.
+The older planning docs (`UNIFIED_ARCHITECTURE.md`, `SYSTEM_SUMMARY.md`, `STATUS.md`,
+`gse_implementation_spec.md`, `gse_agent_instructions.md`, `gse_otp_genomevault_synthesis.md`,
+moved from the repository root to [`docs/planning/`](planning/) on 2026-10-04, each marked
+unverified) predate the current core — defer to this document and the code.
 
 > If any module in the bottom rows of that table is in fact live and I've
 > mislabeled it, tell me which and I'll fold it into the spine — the
