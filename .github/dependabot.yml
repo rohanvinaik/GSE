@@ -5,3 +5,6 @@ updates:
     directory: /
     schedule:
       interval: monthly
+    groups:
+      actions:            # one PR per month for all action bumps, not one each
+        patterns: ["*"]
