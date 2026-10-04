@@ -46,6 +46,17 @@ dev = [
     "mcp>=1.0.0",        # tests import gse.mcp.spell_server; runtime consumers use the extra
     "requests>=2.28.0",  # tests import external_sources modules (previously undeclared)
 ]
+# Detective pins behaviour by running this suite in-process under its own interpreter, so it runs from
+# this venv (`.venv/bin/detective`), never from a throwaway `uv run --with detective-spec` environment:
+# those change the interpreter on every run, and no two runs compare (#42). While PyPI trails the local
+# checkouts, every run also carries PYTHONPATH=$HOME/tools/Detective:$HOME/tools/Wesker.
+detective = [
+    "detective-spec>=1.1.1",
+    "ruff==0.16.10",  # Detective needs a ruff; the venv's is the gate's pinned one, never a second version
+]
+
+[tool.uv]
+default-groups = ["dev", "detective"]  # a plain `uv sync` or `uv run` keeps Detective installed
 
 [tool.ruff]
 target-version = "py314"
