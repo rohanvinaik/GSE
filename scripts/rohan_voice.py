@@ -30,88 +30,18 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
+from gse.primitives_v2 import get_all_primitives, get_bank_for_primitive
+
 GSE_REPO = Path(os.environ.get("GSE_REPO", os.path.expanduser("~/Projects/gse")))
 LEXICON = Path(os.environ.get("GSE_LEXICON", str(GSE_REPO / "data" / "lexicon_clean.db")))
 MODEL = GSE_REPO / "data" / "voice" / "model.json"
 CORPUS = Path(os.path.expanduser("~/Projects/relational-ai/data/training_text/text_files"))
 VOICE_WEIGHT = 2.5
 
-# NSM prime -> one of the 8 GSE semantic banks (reconstructs the earlier system's bank signature;
-# current GSE has no banks table, so we group the 72 primes by NSM semantic category).
-BANK_MAP = {
-    "I": "SUBSTANTIVES",
-    "YOU": "SUBSTANTIVES",
-    "SOMEONE": "SUBSTANTIVES",
-    "PEOPLE": "SUBSTANTIVES",
-    "SOMETHING": "SUBSTANTIVES",
-    "BODY": "SUBSTANTIVES",
-    "KIND": "SUBSTANTIVES",
-    "PART": "SUBSTANTIVES",
-    "WORDS": "SUBSTANTIVES",
-    "OTHER": "SUBSTANTIVES",
-    "THINK": "MENTAL",
-    "KNOW": "MENTAL",
-    "WANT": "MENTAL",
-    "FEEL": "MENTAL",
-    "SEE": "MENTAL",
-    "HEAR": "MENTAL",
-    "DO": "ACTION",
-    "HAPPEN": "ACTION",
-    "MOVE": "ACTION",
-    "TOUCH": "ACTION",
-    "SAY": "ACTION",
-    "ALIVE": "ACTION",
-    "DEAD": "ACTION",
-    "GOOD": "EVALUATORS",
-    "BAD": "EVALUATORS",
-    "BIG": "EVALUATORS",
-    "SMALL": "EVALUATORS",
-    "INTENSITY": "EVALUATORS",
-    "NOT": "LOGICAL",
-    "MAYBE": "LOGICAL",
-    "CAN": "LOGICAL",
-    "MUST": "LOGICAL",
-    "BECAUSE": "LOGICAL",
-    "CAUSE": "LOGICAL",
-    "IF": "LOGICAL",
-    "TRUE": "LOGICAL",
-    "FALSE": "LOGICAL",
-    "BE": "LOGICAL",
-    "EXIST": "LOGICAL",
-    "HAVE": "LOGICAL",
-    "INFER": "LOGICAL",
-    "SAME": "LOGICAL",
-    "LIKE": "LOGICAL",
-    "WITH": "LOGICAL",
-    "WITHOUT": "LOGICAL",
-    "ONE": "QUANTITY",
-    "TWO": "QUANTITY",
-    "NUMBER": "QUANTITY",
-    "QUANTITY": "QUANTITY",
-    "HIER_PLUS": "QUANTITY",
-    "HIER_MINUS": "QUANTITY",
-    "WHEN": "TEMPORAL",
-    "NOW": "TEMPORAL",
-    "BEFORE": "TEMPORAL",
-    "AFTER": "TEMPORAL",
-    "LONG_TIME": "TEMPORAL",
-    "SHORT_TIME": "TEMPORAL",
-    "MOMENT": "TEMPORAL",
-    "THEN": "TEMPORAL",
-    "START": "TEMPORAL",
-    "END": "TEMPORAL",
-    "WHERE": "SPATIAL",
-    "HERE": "SPATIAL",
-    "ABOVE": "SPATIAL",
-    "BELOW": "SPATIAL",
-    "FAR": "SPATIAL",
-    "NEAR": "SPATIAL",
-    "SIDE": "SPATIAL",
-    "INSIDE": "SPATIAL",
-    "OUTSIDE": "SPATIAL",
-    "TOWARD": "SPATIAL",
-    "AWAY": "SPATIAL",
-}
+# NSM prime -> its semantic bank, read from GSE's own registry (gse.primitives_v2). The hand copy this replaces put
+# 12 of the 73 primes in the wrong bank (BE, EXIST and HAVE as LOGICAL; WITH, WITHOUT and TOUCH outside SPATIAL; …)
+# and lacked CERTAINTY (#148). BANKS keeps its order: it is the order of the model's bank features.
+BANK_MAP = {p: bank.name for p in get_all_primitives() if (bank := get_bank_for_primitive(p)) is not None}
 BANKS = ["SUBSTANTIVES", "MENTAL", "ACTION", "EVALUATORS", "LOGICAL", "QUANTITY", "TEMPORAL", "SPATIAL"]
 CURATED = ["FEEL", "WANT", "THINK", "KNOW", "SAY", "GOOD", "BAD", "DO", "HAPPEN", "SEE", "BIG", "CAN", "GET", "PEOPLE"]
 
