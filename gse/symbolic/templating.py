@@ -77,7 +77,6 @@ def _make_replacement(
     else:
         raise TypeError(f"substitute mapping value must be str, Atom, or Entity; got {type(replacement).__name__}")
     return replace(original_entity, head=new_head, type_thread=(), span=(), apposition_thread=())
-    raise TypeError(f"substitute mapping value must be str, Atom, or Entity; got {type(replacement).__name__}")
 
 
 def _walk(node: TreeNode, mapping: Mapping[str, Union[str, Entity, Atom]]) -> TreeNode:
