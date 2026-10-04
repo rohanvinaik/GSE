@@ -88,6 +88,10 @@ _PRON = {
     "nothing",
 }
 _POSS_PRON = {"my", "your", "his", "her", "its", "our", "their"}
+# Words that only ever open a noun phrase: the articles, and the possessives that are never an object pronoun. A
+# V-ing/V-ed word right after one is nominal, never the clause predicate. "her" is left out ("saw her running"), as are
+# the determiners that also stand alone as pronouns ("All agreed.", "Each divided in two").
+_NP_OPENER = {"the", "a", "an", "every", "no", "another", "my", "your", "his", "its", "our", "their"}
 # Nominative subject pronouns — a verb-capable word right after one is the clause predicate
 # "by exclusion" (the subject slot is filled; the predicate is the only role left to assign).
 _SUBJ_PRON = {"i", "you", "he", "she", "it", "we", "they", "who"}
@@ -342,6 +346,26 @@ def _rule_lemma(word: str, pos: str) -> str:
     return word
 
 
+def _inflected_pos(prev_kind: str, has_v: bool, has_n: bool, has_a: bool, next_is_noun: bool) -> str:
+    """The part of speech of a V-ing or V-ed word, from the word before it and the senses it has.
+
+    ``prev_kind`` is ``"np_opener"`` when the word before is an article or a plain possessive (``_NP_OPENER``),
+    anything else otherwise. After an NP opener the word is nominal: a modifier when a noun head follows it ("the
+    dividing cell" → ADJ), else the head of the noun phrase ("the meaning of the story" → NOUN), and an adjective when it
+    has no noun sense ("the annotated." → ADJ). Elsewhere inflection beats a noun sense, as it always has ("he was
+    dividing" → VERB). Returns ``"VERB"``, ``"NOUN"`` or ``"ADJ"``.
+    """
+    if prev_kind == "np_opener":
+        if next_is_noun:
+            return "ADJ"
+        if has_n:
+            return "NOUN"
+        return "ADJ" if (has_a or has_v) else "NOUN"
+    if has_v:
+        return "VERB"
+    return "ADJ" if has_a else "NOUN"
+
+
 class NativeToken:
     """A spaCy-Token-shaped view over deterministic annotations — only the
     surface the encoder + parse_repair actually read (no arcs)."""
@@ -541,11 +565,13 @@ class NativeNLP:
         if len(surfaces) == 1 and has_v and not has_a:
             return "VERB"
 
-        # Inflectional morphology beats a noun sense.
-        if low.endswith("ing"):
-            return "VERB" if has_v else ("ADJ" if has_a else "NOUN")
-        if low.endswith("ed"):
-            return "VERB" if has_v else ("ADJ" if has_a else "NOUN")
+        # Inflectional morphology beats a noun sense, except right after an article or a possessive, where the word
+        # opens or modifies a noun phrase ("the meaning", "a dividing cell") rather than being the predicate.
+        if low.endswith(("ing", "ed")):
+            nxt = surfaces[i + 1].lower() if i + 1 < len(surfaces) else ""
+            next_is_noun = bool(nxt) and nxt not in _STOP and bool(wn.synsets(nxt, pos="n"))
+            prev_kind = "np_opener" if prev in _NP_OPENER else "other"
+            return _inflected_pos(prev_kind, has_v, has_n, has_a, next_is_noun)
         # Irregular past / participle: morphy maps to a *different* verb lemma
         # (sang→sing, left→leave, saw→see) — a verb even when also a noun. But a
         # determiner/possessive in front forces the nominal reading when the word

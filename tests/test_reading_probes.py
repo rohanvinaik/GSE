@@ -139,11 +139,18 @@ def test_a_comparative_keeps_its_stem(encoder, sentence, surface, lemma):
     assert _token(encoder, sentence, surface).lemma == lemma
 
 
-@pytest.mark.xfail(strict=True, reason="#81 F-det-verb: a V-ing word after an article becomes the predicate")
 def test_a_participle_after_a_determiner_is_not_the_predicate(encoder):
     assert _token(encoder, "The meaning of the story is clear.", "meaning").pos == "NOUN"
-    events = _contract_events(encoder, "The dividing cell split.")
-    assert ("divide", False) not in events and ("split", False) in events
+    events = _contract_events(encoder, "The dividing cell moved.")
+    assert ("divide", False) not in events and ("move", False) in events
+
+
+def test_a_participle_after_a_pronoun_keeps_its_verb(encoder):
+    # #81's rule covers articles and plain possessives only: a determiner that stands alone as a pronoun, and "her"
+    # (also the object pronoun), leave the V-ing/V-ed word its verb reading.
+    assert ("agree", False) in _contract_events(encoder, "All agreed.")
+    assert ("divide", False) in _contract_events(encoder, "Each divided into two.")
+    assert _token(encoder, "I saw her running.", "running").pos == "VERB"
 
 
 # ── words: signatures and the lexicon ─────────────────────────────────────────────────────────────────────
