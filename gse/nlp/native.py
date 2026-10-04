@@ -479,11 +479,21 @@ class NativeNLP:
             # NEIGHBOURING clause ("Because Mike ran, Pip's happy") can't suppress a real
             # copula.
             verb_or_copula_in_clause = self._clause_has_predicate(tokens, i)
-            reading = resolve_apostrophe_s(following, verb_or_copula_in_clause)
+            host = tokens[i - 1] if i > 0 else None
+            reading = resolve_apostrophe_s(
+                following,
+                verb_or_copula_in_clause,
+                host.text if host is not None else "",
+                host is not None and host.pos_ == "PROPN",
+            )
             if reading == "is":
                 t.lemma_, t.pos_ = "be", "AUX"
             elif reading == "has":
                 t.lemma_, t.pos_ = "have", "AUX"
+            elif reading == "us":
+                t.lemma_, t.pos_ = self._lemma("us", "PRON"), "PRON"
+            if reading in ("is", "has"):
+                t._morph = self._morph(reading, t.pos_)
             # POSSESSIVE → leave the PART unchanged (the possessive path handles it).
 
     # A clause boundary for the local 's scan: a connective or punctuation separates

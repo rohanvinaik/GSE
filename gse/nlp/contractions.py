@@ -83,29 +83,54 @@ def resolve_contraction(fragment: str, following: Optional[Any]) -> Optional[str
 # Result sentinel for the possessive reading of ``'s`` (not a word expansion).
 POSSESSIVE = "POSSESSIVE"
 
+# Hosts that never take a possessive 's: "it's", "that's", "there's", "who's" are always it is / it has (the possessive
+# forms are its, whose, his, her). The indefinites are left out, since they do take one ("everyone's favourite").
+_NEVER_POSSESSIVE_HOSTS = frozenset(
+    {"it", "he", "she", "that", "this", "there", "here", "who", "what", "where", "when", "why", "how"}
+)
 
-def resolve_apostrophe_s(following: Optional[Any], verb_or_copula_in_clause: bool) -> str:
-    """The integrated three-way ``'s`` resolver — the spell-check voice-mode completing
-    the ``possessive: see note`` deferral. ``'s`` is one of:
 
-    * ``has`` — the perfect, when the FOLLOWING token is a past participle
-      (``the fire's gone`` = the fire HAS gone). Checked FIRST so the participle is
-      not mistaken for a separate clause verb.
-    * ``POSSESSIVE`` — when ANOTHER verb/copula appears elsewhere in the clause (before
-      OR after), so ``'s`` is not the clause's own predicate: the ``'s``-headed NP is an
-      argument (``White's suggestion flattered``), a possessive subject of that verb
-      (``Brenner's voice was oily`` — the copula is ``was``, not ``'s``), or the object
-      of the matrix verb (``Gnash destroyed Pip's house`` — the verb is ``destroyed``).
-    * ``is`` — the copula ONLY when nothing else could be the predicate
-      (``fire's too big`` = the fire IS too big), which flows into the copula
-      TYPE_ASSERT synthesis. Conservative by design: re-tag ``'s`` to a copula only
-      when confident; otherwise leave it for the (working) possessive path.
+def apostrophe_s_reading(
+    host: str, host_is_name: bool, next_pos: str, next_text: str, next_lemma: str, verb_in_clause: bool
+) -> str:
+    """What an ``'s`` is, from the word it is attached to (``host``), the token after it, and whether another verb or
+    copula already predicates its clause. Returns ``"is"``, ``"has"``, ``POSSESSIVE`` or ``"us"``.
 
-    The caller supplies the context signals (the following token; whether any
-    verb/copula follows) — the candidate→context→resolve shape, one branch added.
+    * After a host that never takes a possessive (``_NEVER_POSSESSIVE_HOSTS``: it, that, there, who, …) ``'s`` is the
+      verb: ``has`` before a past participle ("it's gone"), else ``is`` ("it's raining", "that's why it works").
+    * After ``let`` it is ``us`` ("let's go").
+    * After a name, a following plural that the third-singular rule tagged VERB makes it possessive ("Duncan's guards
+      became drunk"), where the plural would otherwise pass for a participle.
+    * Otherwise ``has`` before a past participle ("the fire's gone"), the possessive when another verb or copula
+      predicates the clause ("White's suggestion flattered"), and ``is`` when nothing else could ("the fire's too big").
+
+    A past participle is a VERB or AUX whose surface differs from its lemma (``gone``≠``go``), never a V-ing form:
+    "it's dividing" is the progressive, not the perfect. The next token is given as strings (empty when there is none).
     """
-    if following is not None and _is_participle(following):
-        return "has"
-    if verb_or_copula_in_clause:
+    host = host.lower()
+    if host == "let":
+        return "us"
+    nxt = next_text.lower()
+    participle = next_pos in ("VERB", "AUX") and nxt != next_lemma and not nxt.endswith("ing")
+    if host in _NEVER_POSSESSIVE_HOSTS:
+        return "has" if participle else "is"
+    if host_is_name and next_pos == "VERB" and nxt.endswith("s") and not nxt.endswith("ss"):
         return POSSESSIVE
-    return "is"
+    if participle:
+        return "has"
+    return POSSESSIVE if verb_in_clause else "is"
+
+
+def resolve_apostrophe_s(
+    following: Optional[Any], verb_or_copula_in_clause: bool, host: str = "", host_is_name: bool = False
+) -> str:
+    """The integrated three-way ``'s`` resolver: ``has`` (the perfect), ``POSSESSIVE``, or ``is`` (the copula), plus
+    ``us`` after ``let``. The decision is :func:`apostrophe_s_reading`; this reads the following token's POS, surface
+    and lemma for it. The caller supplies the context: the following token, whether another verb or copula predicates
+    the clause, the host word the ``'s`` is attached to, and whether that host is a name.
+    """
+    if following is None:
+        return apostrophe_s_reading(host, host_is_name, "", "", "", verb_or_copula_in_clause)
+    return apostrophe_s_reading(
+        host, host_is_name, getattr(following, "pos_", ""), following.text, following.lemma_, verb_or_copula_in_clause
+    )

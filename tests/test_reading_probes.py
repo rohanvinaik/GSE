@@ -75,11 +75,30 @@ def test_cannot_negates_its_verb(encoder):
     assert ("swim", True) in _contract_events(encoder, "Birds cannot swim.")
 
 
-@pytest.mark.xfail(strict=True, reason="#87 F-apostrophe-s: 's after a pronoun is read as a possessive particle")
-def test_its_is_it_is(encoder):
-    sentence = "It's necessary to do this."
-    assert _token(encoder, sentence, "'s").lemma == "be"
-    assert _token(encoder, sentence, "necessary").pos == "ADJ"
+@pytest.mark.parametrize(
+    ("sentence", "lemma"),
+    [
+        ("It's necessary to do this.", "be"),
+        ("It's raining.", "be"),
+        ("That's why it works.", "be"),
+        ("It's gone.", "have"),
+    ],
+)
+def test_its_is_it_is(encoder, sentence, lemma):
+    # A host that never takes a possessive makes 's the verb, and a V-ing word is the progressive, not the perfect (#87).
+    assert _token(encoder, sentence, "'s").lemma == lemma
+
+
+def test_a_name_before_a_mistagged_plural_is_possessive(encoder):
+    # The third-singular rule tags "guards" VERB; after a name the 's is the possessive, not "has" (#87).
+    assert _token(encoder, "Duncan's guards became drunk.", "'s").pos == "PART"
+
+
+@pytest.mark.xfail(
+    strict=True, reason="#88 F-copula-adj: after a copula an adjective with any noun sense is tagged NOUN"
+)
+def test_an_adjective_after_a_copula_is_an_adjective(encoder):
+    assert _token(encoder, "It is necessary to do this.", "necessary").pos == "ADJ"
 
 
 def test_an_opening_quote_is_not_a_contraction(encoder):
