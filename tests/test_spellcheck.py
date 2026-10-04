@@ -9,10 +9,18 @@ or neural checker cannot guarantee:
 plus the empirical confusion-table overlay (injection + decisive bias), which must
 operate *within* the symbolic frame (every suggestion still grounds)."""
 
+from pathlib import Path
+
 import pytest
 
 from gse.nlp.spellcheck import _DEFAULT_LEXICON as LX
 from gse.nlp.spellcheck import correct, propose, suggest
+
+# Built locally, not tracked (measured in a fresh clone): the Wiktionary validity wordlist
+# (gse/curation/build_wordlist.py) and the real-usage frequency ranks. Tests that need them skip
+# where they are absent, like the genealogy.db and HDC-speller-cache tests.
+_HAVE_WORDLIST = Path("data/wordlist_wiktionary.marisa").exists() or Path("data/wordlist_wiktionary.txt").exists()
+_HAVE_FREQUENCY = Path("data/frequency.db").exists()
 
 
 # ---- 1. corrects genuine everyday typos -----------------------------------------
@@ -137,7 +145,15 @@ def test_proper_noun_word_level_not_mangled():
 
 
 # ---- 8. validity sources (Wiktionary + project allowlist) leave terms alone ------
-@pytest.mark.parametrize("term", ["refactor", "regex", "dataclass"])  # Wiktionary
+@pytest.mark.parametrize(
+    "term",
+    [
+        "refactor",
+        # measured: only "regex" needs the Wiktionary wordlist; the other two ground without it
+        pytest.param("regex", marks=pytest.mark.skipif(not _HAVE_WORDLIST, reason="Wiktionary wordlist not built")),
+        "dataclass",
+    ],
+)  # Wiktionary
 def test_tech_term_grounds_and_is_left_alone(term):
     assert LX.grounds(term)
     assert correct(term).fired is False
@@ -157,6 +173,9 @@ def test_clitic_rejoined_in_corrected_output():
 
 
 # ---- 9. rare-tail recovery: slot-gated, common-target-only, jargon-safe ----------
+@pytest.mark.skipif(
+    not (_HAVE_WORDLIST and _HAVE_FREQUENCY), reason="Wiktionary wordlist and frequency.db not both built"
+)
 def test_rare_tail_recovered_in_predicate_slot():
     # 'cen' after a subject pronoun is in a verb slot it can't fill -> recovered to 'can'
     from gse.mcp.spell_server import spell_suggest

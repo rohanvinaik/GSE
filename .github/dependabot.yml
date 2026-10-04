@@ -1,0 +1,7 @@
+# Keep the SHA-pinned workflow actions current (advisories are published without the code changing).
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

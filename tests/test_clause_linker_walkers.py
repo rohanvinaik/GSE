@@ -9,6 +9,8 @@ threads for a when-clause. These tests drive the real pipeline (encode → from_
 evaluate_tree), the same path the emit contract and the knowledge base consume.
 """
 
+from pathlib import Path
+
 import pytest
 
 from gse.api import GSEEncoder
@@ -24,6 +26,10 @@ from gse.symbolic import (
     substitute,
 )
 from gse.symbolic.coherence import emit_contract_with_coherence
+
+# The emit contract grounds entities through GenealogyStore, which reads data/genealogy.db (built
+# locally, not tracked) — the same guard the other genealogy tests use.
+_DB = Path("data/genealogy.db")
 
 
 @pytest.fixture(scope="module")
@@ -83,6 +89,7 @@ def test_temporal_asserts_both_clauses(encoder):
     assert kb.event("declare", "france", "independence").holds
 
 
+@pytest.mark.skipif(not _DB.exists(), reason="genealogy.db not built")
 def test_emit_contract_grounds_entities_under_a_temporal(encoder):
     contract = emit_contract_with_coherence(encoder, "When the war started, France declared independence")
     refs = {ref["lemma"]: ref for ref in _entity_refs(contract)}
