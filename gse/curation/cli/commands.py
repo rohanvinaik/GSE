@@ -89,8 +89,8 @@ def _print_status(status):
             print(f"  Pending:   {data['pending']:,}")
             print(f"  Rejected:  {data['rejected']:,}")
 
-            if data['total'] > 0:
-                rate = 100 * data['validated'] / data['total']
+            if data["total"] > 0:
+                rate = 100 * data["validated"] / data["total"]
                 print(f"  Rate:      {rate:.1f}%")
 
     print("\n" + "-" * 50)
@@ -141,10 +141,10 @@ def cmd_validate(args):
     print("VALIDATION RESULTS")
     print("=" * 50)
     print(f"Total entries:   {results['total']}")
-    print(f"Bipolar pass:    {results['bipolar_pass']} ({100*results['bipolar_pass']/results['total']:.1f}%)")
-    print(f"Coverage pass:   {results['coverage_pass']} ({100*results['coverage_pass']/results['total']:.1f}%)")
-    print(f"Hierarchy pass:  {results['hierarchy_pass']} ({100*results['hierarchy_pass']/results['total']:.1f}%)")
-    print(f"All pass:        {results['all_pass']} ({100*results['all_pass']/results['total']:.1f}%)")
+    print(f"Bipolar pass:    {results['bipolar_pass']} ({100 * results['bipolar_pass'] / results['total']:.1f}%)")
+    print(f"Coverage pass:   {results['coverage_pass']} ({100 * results['coverage_pass'] / results['total']:.1f}%)")
+    print(f"Hierarchy pass:  {results['hierarchy_pass']} ({100 * results['hierarchy_pass'] / results['total']:.1f}%)")
+    print(f"All pass:        {results['all_pass']} ({100 * results['all_pass'] / results['total']:.1f}%)")
     print("=" * 50 + "\n")
 
     db.close()

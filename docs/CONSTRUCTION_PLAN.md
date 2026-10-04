@@ -376,11 +376,14 @@ def enforce_bipolar_exclusion(
             else:
                 drop = pos
                 keep = neg
-            suppressions.append({
-                "kept": keep, "dropped": drop,
-                "kept_conf": confidences.get(keep, 0.0),
-                "dropped_conf": confidences.get(drop, 0.0),
-            })
+            suppressions.append(
+                {
+                    "kept": keep,
+                    "dropped": drop,
+                    "kept_conf": confidences.get(keep, 0.0),
+                    "dropped_conf": confidences.get(drop, 0.0),
+                }
+            )
             del primitives[drop]
             confidences.pop(drop, None)
     return primitives, confidences, suppressions

@@ -129,10 +129,7 @@ print(f"Confidence: {result.confidence:.2f}")
 print(f"Coherent: {result.coherence_passed}")
 
 # Compare sentences
-sim = pipeline.similarity(
-    "The dog runs fast.",
-    "The cat runs quickly."
-)
+sim = pipeline.similarity("The dog runs fast.", "The cat runs quickly.")
 print(f"Similarity: {sim:.2f}")  # ~0.61
 
 # Detect anomalies

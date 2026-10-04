@@ -281,23 +281,47 @@ class TestResolveOperator:
             (2, bad_vec, {}),
         ]
         token_traces = [
-            TokenTrace(token="a", lemma="a", pos="N", position=0,
-                       word_primitives={}, sent_primitives={},
-                       word_vec_nnz=good_vec.nnz, sent_vec_nnz=0,
-                       full_vec_nnz=good_vec.nnz, is_operator=False),
-            TokenTrace(token="than", lemma="than", pos="ADP", position=1,
-                       word_primitives={}, sent_primitives={},
-                       word_vec_nnz=0, sent_vec_nnz=0, full_vec_nnz=0,
-                       is_operator=True, comp_primitive="COMP_THAN",
-                       comp_operation="SET_DIFF", comp_arity=2),
-            TokenTrace(token="b", lemma="b", pos="N", position=2,
-                       word_primitives={}, sent_primitives={},
-                       word_vec_nnz=bad_vec.nnz, sent_vec_nnz=0,
-                       full_vec_nnz=bad_vec.nnz, is_operator=False),
+            TokenTrace(
+                token="a",
+                lemma="a",
+                pos="N",
+                position=0,
+                word_primitives={},
+                sent_primitives={},
+                word_vec_nnz=good_vec.nnz,
+                sent_vec_nnz=0,
+                full_vec_nnz=good_vec.nnz,
+                is_operator=False,
+            ),
+            TokenTrace(
+                token="than",
+                lemma="than",
+                pos="ADP",
+                position=1,
+                word_primitives={},
+                sent_primitives={},
+                word_vec_nnz=0,
+                sent_vec_nnz=0,
+                full_vec_nnz=0,
+                is_operator=True,
+                comp_primitive="COMP_THAN",
+                comp_operation="SET_DIFF",
+                comp_arity=2,
+            ),
+            TokenTrace(
+                token="b",
+                lemma="b",
+                pos="N",
+                position=2,
+                word_primitives={},
+                sent_primitives={},
+                word_vec_nnz=bad_vec.nnz,
+                sent_vec_nnz=0,
+                full_vec_nnz=bad_vec.nnz,
+                is_operator=False,
+            ),
         ]
-        op_trace, result_vec = encoder._resolve_operator(
-            1, op_meta, token_vectors, token_traces
-        )
+        op_trace, result_vec = encoder._resolve_operator(1, op_meta, token_vectors, token_traces)
         assert isinstance(op_trace, OperatorTrace)
         assert op_trace.primitive == "COMP_THAN"
         assert op_trace.operation == "SET_DIFF"

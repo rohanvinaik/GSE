@@ -43,6 +43,7 @@ Usage:
   python scripts/audit_enumeration_fidelity.py --validate          # men-anchor + eyeball gate
   python scripts/audit_enumeration_fidelity.py [--files N] [--max-sents-per-file M]
 """
+
 import argparse
 import sys
 from collections import Counter, defaultdict, deque
@@ -51,13 +52,18 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-_OVERRIDE_LOG: list = []   # (lemma, primary, committed, gold, correct) for every override that fired
+_OVERRIDE_LOG: list = []  # (lemma, primary, committed, gold, correct) for every override that fired
 
 
 def _ensure_nltk():
     import nltk
-    for pkg, path in [("semcor", "corpora/semcor"), ("wordnet", "corpora/wordnet"),
-                      ("brown", "corpora/brown"), ("omw-1.4", "corpora/omw-1.4")]:
+
+    for pkg, path in [
+        ("semcor", "corpora/semcor"),
+        ("wordnet", "corpora/wordnet"),
+        ("brown", "corpora/brown"),
+        ("omw-1.4", "corpora/omw-1.4"),
+    ]:
         try:
             nltk.data.find(path)
         except LookupError:
@@ -67,8 +73,9 @@ def _ensure_nltk():
 def _brown_category(semcor_fileid: str) -> str:
     """SemCor 'brown1/tagfiles/br-a01.xml' -> Brown file 'ca01' -> its category."""
     from nltk.corpus import brown
-    stem = semcor_fileid.split("/")[-1].replace(".xml", "")   # br-a01
-    code = "c" + stem.split("-")[1]                            # ca01
+
+    stem = semcor_fileid.split("/")[-1].replace(".xml", "")  # br-a01
+    code = "c" + stem.split("-")[1]  # ca01
     try:
         cats = brown.categories(code)
         return cats[0] if cats else "unknown"
@@ -79,6 +86,7 @@ def _brown_category(semcor_fileid: str) -> str:
 def _is_person_synset(synset_name: str) -> bool:
     """Reporting-only helper for the --validate gate: is this WordNet sense a PERSON?"""
     from nltk.corpus import wordnet as wn
+
     try:
         syn = wn.synset(synset_name)
     except Exception:
@@ -100,6 +108,7 @@ class ComposedReader:
     def __init__(self):
         from gse.api import GSEEncoder
         from gse.symbolic import GenealogyStore
+
         self.enc = GSEEncoder()
         self.store = GenealogyStore()
 
@@ -131,17 +140,22 @@ class ComposedReader:
                 continue
             raw = [tuple(t) for t in self.store.candidates(lemma, head_pos, False)]
             if len(raw) != len(synsets):
-                continue   # thread↔synset alignment not exact → cannot faithfully map; skip
+                continue  # thread↔synset alignment not exact → cannot faithfully map; skip
             primary = synsets[0].name()
             committed_thread = tuple(ent.type_thread)
             if committed_thread and committed_thread in raw:
                 committed = synsets[raw.index(committed_thread)].name()
             else:
-                committed = None       # empty thread (abstained) or re-ranked off the word strand
-            out.append({
-                "lemma": lemma.lower(), "pos_class": "noun",
-                "primary": primary, "committed": committed, "position": _position(ent),
-            })
+                committed = None  # empty thread (abstained) or re-ranked off the word strand
+            out.append(
+                {
+                    "lemma": lemma.lower(),
+                    "pos_class": "noun",
+                    "primary": primary,
+                    "committed": committed,
+                    "position": _position(ent),
+                }
+            )
         return out
 
     def read_document(self, sent_texts, genre=None, scale="document"):
@@ -195,7 +209,7 @@ def _gold_nouns(tagged_sent):
     from nltk.corpus.reader.wordnet import Lemma
 
     by_lemma: dict = defaultdict(deque)
-    flat: list = []   # (lemma, pos_class, gold_synset)
+    flat: list = []  # (lemma, pos_class, gold_synset)
     for chunk in tagged_sent:
         if not isinstance(chunk, nltk.Tree):
             continue
@@ -203,7 +217,7 @@ def _gold_nouns(tagged_sent):
         if not isinstance(lab, Lemma):
             continue
         syn = lab.synset()
-        lemma = lab.name().split("%")[0].lower()      # token's lemma (bug-b fix)
+        lemma = lab.name().split("%")[0].lower()  # token's lemma (bug-b fix)
         p = syn.pos()
         pos_class = "noun" if p == "n" else ("verb" if p == "v" else "adj/adv")
         gold = syn.name()
@@ -240,8 +254,10 @@ def run_validate(reader):
                     men_person_hits += 1
         print()
     ok = men_seen > 0 and men_person_hits == men_seen
-    print(f"men-anchor: {men_person_hits}/{men_seen} committed to a PERSON sense  "
-          f"-> {'PASS' if ok else 'CHECK — expected all person'}")
+    print(
+        f"men-anchor: {men_person_hits}/{men_seen} committed to a PERSON sense  "
+        f"-> {'PASS' if ok else 'CHECK — expected all person'}"
+    )
     print("(If 'man' abstains to primary man.n.01 that is already a person sense — anchor still holds.)")
     return 0
 
@@ -249,15 +265,19 @@ def run_validate(reader):
 def run_scale(reader, files: int, max_sents: int, scale: str = "document"):
     from nltk.corpus import semcor
     from nltk.corpus import wordnet as wn
+
     try:
         from gse.discourse import super_register_of
     except Exception:
+
         def super_register_of(genre):
             return genre
 
-    print(f"[context scale = {scale.upper()}]  "
-          f"({'whole-passage resolve_document — multi-scale WSD context' if scale == 'document' else 'per-sentence resolve — thin-context baseline'})\n")
-    tally = defaultdict(Counter)   # (super_register, pos_class) -> counters
+    print(
+        f"[context scale = {scale.upper()}]  "
+        f"({'whole-passage resolve_document — multi-scale WSD context' if scale == 'document' else 'per-sentence resolve — thin-context baseline'})\n"
+    )
+    tally = defaultdict(Counter)  # (super_register, pos_class) -> counters
     fids = semcor.fileids()[:files]
     for fid in fids:
         genre = _brown_category(fid)
@@ -292,7 +312,7 @@ def run_scale(reader, files: int, max_sents: int, scale: str = "document"):
             # gold deques are per-sentence; align GSE's committed nouns to that sentence's gold
             local = {lem: deque(dq) for lem, dq in by_lemma.items()}
             for r in sorted(senses, key=lambda r: r["position"]):
-                t["gse_noun_entities"] += 1               # coverage denominator
+                t["gse_noun_entities"] += 1  # coverage denominator
                 golds = local.get(r["lemma"])
                 if not golds:
                     continue
@@ -304,7 +324,7 @@ def run_scale(reader, files: int, max_sents: int, scale: str = "document"):
                 if primary == gold:
                     t["s_primary_ok"] += 1
                 if committed is None:
-                    t["abstain_empty"] += 1          # honest non-recovery (no thread) — never a destroy
+                    t["abstain_empty"] += 1  # honest non-recovery (no thread) — never a destroy
                     continue
                 if committed != primary:
                     t["override_fired"] += 1
@@ -329,8 +349,10 @@ def _report(tally):
     # Columns: gold_n/cand-rec/primary = completeness+baseline over ALL gold tokens (per POS).
     # scored..DESTROY = the NOUN trichotomy WITHIN the scored set (GSE committed head-noun ∩ gold),
     # where primary% and committed% share the `scored` denominator so LIFT is same-set.
-    print(f"\n{'super_register':16} {'pos':8} {'gold_n':>6} {'cand-rec':>8} {'prim(all)':>9} "
-          f"{'scored':>6} {'prim(sc)':>8} {'commit':>7} {'lift':>6} {'ovr':>4} {'DESTROY':>8} {'abst':>5}")
+    print(
+        f"\n{'super_register':16} {'pos':8} {'gold_n':>6} {'cand-rec':>8} {'prim(all)':>9} "
+        f"{'scored':>6} {'prim(sc)':>8} {'commit':>7} {'lift':>6} {'ovr':>4} {'DESTROY':>8} {'abst':>5}"
+    )
     print("-" * 108)
     agg = Counter()
     for (sr, pos), t in sorted(tally.items()):
@@ -339,32 +361,49 @@ def _report(tally):
             prim_sc = pct(t["s_primary_ok"], sc)
             commit = pct(t["s_committed_ok"], sc)
             lift = f"{t['s_committed_ok'] - t['s_primary_ok']:+d}"
-            ovr, destroy, abst = t["override_fired"], pct(t["override_fired"] - t["override_ok"], t["override_fired"]), t["abstain_empty"]
+            ovr, destroy, abst = (
+                t["override_fired"],
+                pct(t["override_fired"] - t["override_ok"], t["override_fired"]),
+                t["abstain_empty"],
+            )
         else:
             prim_sc = commit = lift = destroy = "  –"
             ovr = abst = 0
-        print(f"{sr:16} {pos:8} {t['gold_n']:6d} {pct(t['cand_recall'], t['gold_n']):>8} "
-              f"{pct(t['primary_ok'], t['gold_n']):>9} {sc:6d} {prim_sc:>8} {commit:>7} {lift:>6} "
-              f"{ovr:4d} {destroy:>8} {abst:5d}")
+        print(
+            f"{sr:16} {pos:8} {t['gold_n']:6d} {pct(t['cand_recall'], t['gold_n']):>8} "
+            f"{pct(t['primary_ok'], t['gold_n']):>9} {sc:6d} {prim_sc:>8} {commit:>7} {lift:>6} "
+            f"{ovr:4d} {destroy:>8} {abst:5d}"
+        )
         for k, v in t.items():
             agg[k] += v
     print("-" * 108)
     scored = agg["scored"]
     ovr = agg["override_fired"]
     print("\nσ_sem enumeration-fidelity headline (SymbolicSpellCheck floor, NOUNS — GSE's contextual scope):")
-    print(f"  candidate-recall (completeness ceiling): {pct(agg['cand_recall'], agg['gold_n'])} "
-          f"over {agg['gold_n']} gold content tokens — the gold reading is enumerable")
-    print(f"  coverage: GSE committed {agg['gse_noun_entities']} head-noun entities; "
-          f"{scored} aligned to a gold noun token ({pct(scored, agg['gse_noun_entities'])} of GSE nouns scored)")
-    print(f"  DESTRUCTION rate (confident-wrong override = false SC=1): "
-          f"{pct(ovr - agg['override_ok'], ovr)} over {ovr} overrides   [the floor — SSC analog of 0.00000%]")
-    print(f"  committed vs primary baseline (SAME scored set): committed {pct(agg['s_committed_ok'], scored)} "
-          f"vs primary {pct(agg['s_primary_ok'], scored)}   LIFT {agg['s_committed_ok'] - agg['s_primary_ok']:+d} "
-          f"over {scored} scored")
+    print(
+        f"  candidate-recall (completeness ceiling): {pct(agg['cand_recall'], agg['gold_n'])} "
+        f"over {agg['gold_n']} gold content tokens — the gold reading is enumerable"
+    )
+    print(
+        f"  coverage: GSE committed {agg['gse_noun_entities']} head-noun entities; "
+        f"{scored} aligned to a gold noun token ({pct(scored, agg['gse_noun_entities'])} of GSE nouns scored)"
+    )
+    print(
+        f"  DESTRUCTION rate (confident-wrong override = false SC=1): "
+        f"{pct(ovr - agg['override_ok'], ovr)} over {ovr} overrides   [the floor — SSC analog of 0.00000%]"
+    )
+    print(
+        f"  committed vs primary baseline (SAME scored set): committed {pct(agg['s_committed_ok'], scored)} "
+        f"vs primary {pct(agg['s_primary_ok'], scored)}   LIFT {agg['s_committed_ok'] - agg['s_primary_ok']:+d} "
+        f"over {scored} scored"
+    )
     print(f"  abstain-to-empty-thread (honest non-recovery, never destroy): {agg['abstain_empty']}")
     return {
-        "scored": scored, "overrides": ovr, "destroyed": ovr - agg["override_ok"],
-        "committed_ok": agg["s_committed_ok"], "primary_ok": agg["s_primary_ok"],
+        "scored": scored,
+        "overrides": ovr,
+        "destroyed": ovr - agg["override_ok"],
+        "committed_ok": agg["s_committed_ok"],
+        "primary_ok": agg["s_primary_ok"],
     }
 
 
@@ -372,12 +411,19 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--files", type=int, default=20, help="SemCor files to audit")
     ap.add_argument("--max-sents-per-file", type=int, default=40)
-    ap.add_argument("--scale", choices=["sentence", "document", "both"], default="document",
-                    help="context scale for WSD: 'document' imports cross-sentence context "
-                         "(GSE's multi-scale design); 'sentence' is the thin-context baseline; "
-                         "'both' runs the scale comparison (the inverse-SSC measurement)")
-    ap.add_argument("--validate", action="store_true",
-                    help="run the men-anchor + eyeball gate and exit (do this before trusting scale)")
+    ap.add_argument(
+        "--scale",
+        choices=["sentence", "document", "both"],
+        default="document",
+        help="context scale for WSD: 'document' imports cross-sentence context "
+        "(GSE's multi-scale design); 'sentence' is the thin-context baseline; "
+        "'both' runs the scale comparison (the inverse-SSC measurement)",
+    )
+    ap.add_argument(
+        "--validate",
+        action="store_true",
+        help="run the men-anchor + eyeball gate and exit (do this before trusting scale)",
+    )
     args = ap.parse_args()
 
     _ensure_nltk()
@@ -401,6 +447,7 @@ def main() -> int:
 
     def lift(d):
         return d["committed_ok"] - d["primary_ok"]
+
     print("\n" + "=" * 108)
     print("  INVERSE-SSC / MULTI-SCALE DELTA — does importing context reduce destruction & raise lift?")
     print("-" * 108)
@@ -409,8 +456,10 @@ def main() -> int:
         cok = f"{100 * d['committed_ok'] / d['scored']:.1f}%" if d["scored"] else "  –"
         pok = f"{100 * d['primary_ok'] / d['scored']:.1f}%" if d["scored"] else "  –"
         print(f"  {name:10} {d['overrides']:10d} {dpct(d):>9} {lift(d):+7d} {cok:>10} {pok:>9}")
-    print("\n  PREDICTION (multi-scale info thesis): document destruction < sentence destruction, "
-          "and document lift > sentence lift.")
+    print(
+        "\n  PREDICTION (multi-scale info thesis): document destruction < sentence destruction, "
+        "and document lift > sentence lift."
+    )
     print(f"  OBSERVED: destruction {dpct(sent)} -> {dpct(doc)}   |   lift {lift(sent):+d} -> {lift(doc):+d}")
     return 0
 

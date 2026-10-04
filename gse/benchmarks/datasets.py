@@ -26,6 +26,7 @@ CACHE_DIR = Path.home() / ".cache" / "gse_benchmarks"
 @dataclass
 class WordPair:
     """A word pair with human similarity score."""
+
     word1: str
     word2: str
     score: float  # Typically 0-10 or 0-1 depending on dataset
@@ -36,6 +37,7 @@ class WordPair:
 @dataclass
 class SentencePair:
     """A sentence pair with human similarity score."""
+
     sentence1: str
     sentence2: str
     score: float  # Typically 0-5
@@ -94,7 +96,7 @@ def _ensure_simlex999(cache_dir: Path = CACHE_DIR) -> Path:
     _download_file(url, zip_path)
 
     # Extract
-    with zipfile.ZipFile(zip_path, 'r') as z:
+    with zipfile.ZipFile(zip_path, "r") as z:
         z.extractall(cache_dir)
 
     # Find the text file
@@ -121,14 +123,14 @@ def load_simlex999(cache_dir: Path = CACHE_DIR) -> BenchmarkDataset:
     simlex_path = _ensure_simlex999(cache_dir)
 
     pairs = []
-    with open(simlex_path, 'r', encoding='utf-8') as f:
-        reader = csv.DictReader(f, delimiter='\t')
+    with open(simlex_path, "r", encoding="utf-8") as f:
+        reader = csv.DictReader(f, delimiter="\t")
         for row in reader:
             pair = WordPair(
-                word1=row['word1'].lower(),
-                word2=row['word2'].lower(),
-                score=float(row['SimLex999']),
-                pos=row.get('POS'),
+                word1=row["word1"].lower(),
+                word2=row["word2"].lower(),
+                score=float(row["SimLex999"]),
+                pos=row.get("POS"),
             )
             pairs.append(pair)
 
@@ -190,11 +192,11 @@ def load_wordsim353(cache_dir: Path = CACHE_DIR) -> BenchmarkDataset:
             description="Word relatedness judgments",
         )
 
-    with open(wordsim_path, 'r', encoding='utf-8') as f:
+    with open(wordsim_path, "r", encoding="utf-8") as f:
         # Try to detect delimiter (tab or comma)
         first_line = f.readline()
         f.seek(0)
-        delimiter = '\t' if '\t' in first_line else ','
+        delimiter = "\t" if "\t" in first_line else ","
 
         reader = csv.reader(f, delimiter=delimiter)
         next(reader, None)  # Skip header
@@ -207,7 +209,7 @@ def load_wordsim353(cache_dir: Path = CACHE_DIR) -> BenchmarkDataset:
                         score=float(row[2]),
                     )
                     pairs.append(pair)
-                except (ValueError, IndexError):
+                except ValueError, IndexError:
                     continue
 
     return BenchmarkDataset(
@@ -233,7 +235,7 @@ def _ensure_sts_benchmark(cache_dir: Path = CACHE_DIR) -> Path:
     try:
         _download_file(url, tar_path)
 
-        with tarfile.open(tar_path, 'r:gz') as tar:
+        with tarfile.open(tar_path, "r:gz") as tar:
             tar.extractall(cache_dir)
     except Exception as e:
         logger.warning(f"Could not download STS Benchmark: {e}")
@@ -242,10 +244,7 @@ def _ensure_sts_benchmark(cache_dir: Path = CACHE_DIR) -> Path:
     return sts_dir
 
 
-def load_sts_benchmark(
-    split: str = "test",
-    cache_dir: Path = CACHE_DIR
-) -> BenchmarkDataset:
+def load_sts_benchmark(split: str = "test", cache_dir: Path = CACHE_DIR) -> BenchmarkDataset:
     """
     Load STS Benchmark dataset.
 
@@ -269,8 +268,8 @@ def load_sts_benchmark(
             description="Sentence similarity benchmark",
         )
 
-    with open(sts_file, 'r', encoding='utf-8') as f:
-        reader = csv.reader(f, delimiter='\t')
+    with open(sts_file, "r", encoding="utf-8") as f:
+        reader = csv.reader(f, delimiter="\t")
         for row in reader:
             if len(row) >= 7:
                 try:
@@ -281,7 +280,7 @@ def load_sts_benchmark(
                         score=score,
                     )
                     pairs.append(pair)
-                except (ValueError, IndexError):
+                except ValueError, IndexError:
                     continue
 
     return BenchmarkDataset(
@@ -300,7 +299,6 @@ PRIMITIVE_ANTONYM_PAIRS = [
     ("live", "die"),
     ("above", "below"),
     ("before", "after"),
-
     # Extended antonyms aligned with GSE primitives
     ("love", "hate"),
     ("happy", "sad"),
@@ -322,7 +320,6 @@ PRIMITIVE_ANTONYM_PAIRS = [
     ("safe", "dangerous"),
     ("easy", "difficult"),
     ("true", "false"),
-
     # Mental/emotional antonyms (MENTAL bank)
     ("like", "dislike"),
     ("want", "reject"),
@@ -334,7 +331,6 @@ PRIMITIVE_ANTONYM_PAIRS = [
     ("hope", "despair"),
     ("calm", "anxious"),
     ("confident", "doubtful"),
-
     # Action antonyms (ACTION bank)
     ("start", "stop"),
     ("begin", "end"),
@@ -346,26 +342,22 @@ PRIMITIVE_ANTONYM_PAIRS = [
     ("give", "take"),
     ("buy", "sell"),
     ("win", "lose"),
-
     # Temporal antonyms (TEMPORAL bank)
     ("early", "late"),
     ("always", "never"),
     ("often", "rarely"),
     ("past", "future"),
-
     # Spatial antonyms (SPATIAL bank)
     ("near", "far"),
     ("inside", "outside"),
     ("up", "down"),
     ("front", "back"),
     ("left", "right"),
-
     # Quantity antonyms (DETERMINERS bank)
     ("all", "none"),
     ("many", "few"),
     ("more", "less"),
     ("full", "empty"),
-
     # Gradable adjectives
     ("beautiful", "ugly"),
     ("smart", "stupid"),
@@ -462,9 +454,7 @@ def load_custom_synonyms() -> BenchmarkDataset:
     )
 
 
-def extract_negation_subset(
-    sts_dataset: BenchmarkDataset
-) -> BenchmarkDataset:
+def extract_negation_subset(sts_dataset: BenchmarkDataset) -> BenchmarkDataset:
     """
     Extract sentence pairs containing negation.
 
@@ -478,8 +468,18 @@ def extract_negation_subset(
         Filtered dataset with negation-containing pairs
     """
     negation_markers = [
-        "not", "n't", "no", "never", "neither", "nobody",
-        "nothing", "nowhere", "none", "nor", "cannot", "without",
+        "not",
+        "n't",
+        "no",
+        "never",
+        "neither",
+        "nobody",
+        "nothing",
+        "nowhere",
+        "none",
+        "nor",
+        "cannot",
+        "without",
     ]
 
     negation_pairs = []
@@ -487,10 +487,7 @@ def extract_negation_subset(
         s1_lower = pair.sentence1.lower()
         s2_lower = pair.sentence2.lower()
 
-        has_negation = any(
-            marker in s1_lower or marker in s2_lower
-            for marker in negation_markers
-        )
+        has_negation = any(marker in s1_lower or marker in s2_lower for marker in negation_markers)
 
         if has_negation:
             negation_pairs.append(pair)
@@ -513,33 +510,33 @@ def get_all_datasets(cache_dir: Path = CACHE_DIR) -> Dict[str, BenchmarkDataset]
 
     # Word-level
     try:
-        datasets['simlex999'] = load_simlex999(cache_dir)
+        datasets["simlex999"] = load_simlex999(cache_dir)
         logger.info(f"Loaded SimLex-999: {len(datasets['simlex999'])} pairs")
     except Exception as e:
         logger.warning(f"Could not load SimLex-999: {e}")
 
     try:
-        datasets['wordsim353'] = load_wordsim353(cache_dir)
+        datasets["wordsim353"] = load_wordsim353(cache_dir)
         logger.info(f"Loaded WordSim-353: {len(datasets['wordsim353'])} pairs")
     except Exception as e:
         logger.warning(f"Could not load WordSim-353: {e}")
 
     # Sentence-level
     try:
-        datasets['sts_test'] = load_sts_benchmark('test', cache_dir)
+        datasets["sts_test"] = load_sts_benchmark("test", cache_dir)
         logger.info(f"Loaded STS-Test: {len(datasets['sts_test'])} pairs")
 
         # Add negation subset
-        datasets['sts_negation'] = extract_negation_subset(datasets['sts_test'])
+        datasets["sts_negation"] = extract_negation_subset(datasets["sts_test"])
         logger.info(f"Extracted STS-Negation: {len(datasets['sts_negation'])} pairs")
     except Exception as e:
         logger.warning(f"Could not load STS Benchmark: {e}")
 
     # Custom sets
-    datasets['antonyms'] = load_custom_antonyms()
+    datasets["antonyms"] = load_custom_antonyms()
     logger.info(f"Loaded antonyms: {len(datasets['antonyms'])} pairs")
 
-    datasets['synonyms'] = load_custom_synonyms()
+    datasets["synonyms"] = load_custom_synonyms()
     logger.info(f"Loaded synonyms: {len(datasets['synonyms'])} pairs")
 
     return datasets

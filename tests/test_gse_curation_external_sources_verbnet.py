@@ -25,6 +25,7 @@ def mk_entry(word="run", verb_class="run-51.3.2", roles=None):
 
 # ---------- VerbNetEntry ----------
 
+
 class TestVerbNetEntry:
     def test_construction(self):
         e = mk_entry(roles=["Agent", "Patient"])
@@ -34,6 +35,7 @@ class TestVerbNetEntry:
 
 
 # ---------- ROLE_TO_PRIMITIVE ----------
+
 
 class TestRoleToPrimitive:
     def test_agent(self):
@@ -60,6 +62,7 @@ class TestRoleToPrimitive:
 
 # ---------- CLASS_TO_PRIMITIVE ----------
 
+
 class TestClassToPrimitive:
     def test_run_motion(self):
         assert CLASS_TO_PRIMITIVE["run"] == {"MOVE": 1, "DO": 1, "BODY": 1}
@@ -82,6 +85,7 @@ class TestClassToPrimitive:
 
 # ---------- __init__ ----------
 
+
 class TestInit:
     def test_initial_state(self):
         p = VerbNetParser()
@@ -90,6 +94,7 @@ class TestInit:
 
 
 # ---------- load ----------
+
 
 class TestLoad:
     @pytest.fixture(autouse=True)
@@ -124,6 +129,7 @@ class TestLoad:
     def test_handles_class_processing_exception(self):
         # If processing a class raises, should continue not abort
         with patch("nltk.corpus.verbnet.classids", return_value=["good-class", "bad-class"]):
+
             def lemmas_side(classid):
                 if classid == "bad-class":
                     raise RuntimeError("nope")
@@ -148,6 +154,7 @@ class TestLoad:
 
 
 # ---------- get_verb_info ----------
+
 
 class TestGetVerbInfo:
     def test_returns_entries(self):
@@ -176,6 +183,7 @@ class TestGetVerbInfo:
 
 
 # ---------- to_primitives ----------
+
 
 class TestToPrimitives:
     def test_unknown_word_empty(self):
@@ -219,7 +227,9 @@ class TestToPrimitives:
         assert "SOMEONE" in result
         assert "SOMETHING" in result
 
-    @pytest.mark.skip(reason="pre-existing failure since initial commit (9578764); code-only checkout — needs triage vs as-built to_primitives behavior")
+    @pytest.mark.skip(
+        reason="pre-existing failure since initial commit (9578764); code-only checkout — needs triage vs as-built to_primitives behavior"
+    )
     def test_unknown_role_ignored(self):
         p = VerbNetParser()
         p._loaded = True
@@ -228,7 +238,9 @@ class TestToPrimitives:
         result = p.to_primitives("xyz")
         assert result == {"DO": 1}
 
-    @pytest.mark.skip(reason="pre-existing failure since initial commit (9578764); code-only checkout — needs triage vs as-built to_primitives behavior")
+    @pytest.mark.skip(
+        reason="pre-existing failure since initial commit (9578764); code-only checkout — needs triage vs as-built to_primitives behavior"
+    )
     def test_default_do_fallback(self):
         p = VerbNetParser()
         p._loaded = True
@@ -268,6 +280,7 @@ class TestToPrimitives:
 
 # ---------- get_all_words ----------
 
+
 class TestGetAllWords:
     def test_returns_keys(self):
         p = VerbNetParser()
@@ -285,6 +298,7 @@ class TestGetAllWords:
 
 # ---------- get_new_words ----------
 
+
 class TestGetNewWords:
     def test_filters(self):
         p = VerbNetParser()
@@ -301,6 +315,7 @@ class TestGetNewWords:
 
 
 # ---------- download_verbnet ----------
+
 
 class TestDownloadVerbNet:
     def test_calls_nltk_download(self, capsys):

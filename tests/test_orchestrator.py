@@ -25,10 +25,12 @@ def orchestrator():
 class TestSingleScaleProcess:
     def test_single_scale_route(self, orchestrator):
         """Without cascade, only one scale is engaged."""
-        result = orchestrator.process({
-            "features": {"x": 0.5, "y": 0.3},
-            "word": {"FEEL": 0.8},
-        })
+        result = orchestrator.process(
+            {
+                "features": {"x": 0.5, "y": 0.3},
+                "word": {"FEEL": 0.8},
+            }
+        )
         assert len(result["scales_used"]) == 1
 
     def test_force_scale(self, orchestrator):

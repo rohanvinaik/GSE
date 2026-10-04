@@ -24,6 +24,7 @@ DATA_DIR = Path(__file__).parent.parent.parent.parent / "data" / "external"
 @dataclass
 class VADEntry:
     """Entry from NRC VAD Lexicon."""
+
     word: str
     valence: float  # 0-1 (0=negative, 1=positive)
     arousal: float  # 0-1 (0=calm, 1=excited)
@@ -76,7 +77,7 @@ class NRCVADParser:
         try:
             logger.info(f"Loading NRC VAD Lexicon from {self.data_path}...")
 
-            with open(self.data_path, 'r', encoding='utf-8') as f:
+            with open(self.data_path, "r", encoding="utf-8") as f:
                 # Skip header
                 header = f.readline()
 
@@ -85,7 +86,7 @@ class NRCVADParser:
                     if not line:
                         continue
 
-                    parts = line.split('\t')
+                    parts = line.split("\t")
                     if len(parts) != 4:
                         continue
 
@@ -148,9 +149,9 @@ class NRCVADParser:
 
         # Valence -> GOOD (bipolar). The reliable signal NRC VAD provides.
         if vad.valence > 0.5 + valence_threshold:
-            primitives['GOOD'] = 1
+            primitives["GOOD"] = 1
         elif vad.valence < 0.5 - valence_threshold:
-            primitives['GOOD'] = -1
+            primitives["GOOD"] = -1
 
         return primitives
 
@@ -186,7 +187,7 @@ if __name__ == "__main__":
     parser.load()
 
     # Test some words
-    test_words = ['happy', 'sad', 'angry', 'calm', 'excited', 'powerful', 'weak', 'love', 'hate']
+    test_words = ["happy", "sad", "angry", "calm", "excited", "powerful", "weak", "love", "hate"]
     for word in test_words:
         vad = parser.get_vad(word)
         primitives = parser.to_primitives(word)

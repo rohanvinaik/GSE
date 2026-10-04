@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class PrimitiveEvidence:
     """Evidence for a primitive value from external sources."""
+
     primitive: str
     value: int  # +1 or -1
     sources: List[str]
@@ -120,7 +121,7 @@ def prepopulate_from_external(
 
     batch_size = 500
     for i in range(0, len(lexemes), batch_size):
-        batch = lexemes[i:i+batch_size]
+        batch = lexemes[i : i + batch_size]
 
         for lex_id, lemma in batch:
             evidence = aggregate_external_evidence(lemma.lower(), comparator)
@@ -131,11 +132,14 @@ def prepopulate_from_external(
                 for prim, ev in evidence.items():
                     if ev.confidence >= min_confidence:
                         # Insert with source tracking
-                        conn.execute("""
+                        conn.execute(
+                            """
                             INSERT OR REPLACE INTO primitive_values
                             (lexeme_id, primitive, value, confidence, source)
                             VALUES (?, ?, ?, ?, ?)
-                        """, (lex_id, prim, ev.value, ev.confidence, ','.join(ev.sources)))
+                        """,
+                            (lex_id, prim, ev.value, ev.confidence, ",".join(ev.sources)),
+                        )
 
                         stats["primitives_filled"] += 1
                         for src in ev.sources:
@@ -162,10 +166,7 @@ def get_missing_primitives(
     """Get primitives that are NULL/missing for a lexeme."""
     conn = sqlite3.connect(db_path)
 
-    cursor = conn.execute(
-        "SELECT primitive FROM primitive_values WHERE lexeme_id = ?",
-        (lexeme_id,)
-    )
+    cursor = conn.execute("SELECT primitive FROM primitive_values WHERE lexeme_id = ?", (lexeme_id,))
     filled = {row[0] for row in cursor.fetchall()}
 
     conn.close()
@@ -224,10 +225,7 @@ def get_prefill_summary(db_path: str) -> Dict[str, any]:
 if __name__ == "__main__":
     import argparse
 
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-    )
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
     parser = argparse.ArgumentParser(description="Pre-populate primitives from external sources")
     parser.add_argument("--db", default="data/lexicon.db", help="Lexicon database path")

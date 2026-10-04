@@ -54,6 +54,7 @@ def run_comparison(
     if download_sources:
         logger.info("Downloading external sources...")
         from gse.curation.external_sources.integrator import download_all_sources
+
         download_all_sources()
 
     # Load external sources
@@ -89,25 +90,29 @@ def run_comparison(
 
         # Collect disagreements for batch storage
         for d in comparison.disagreements:
-            disagreements_to_store.append((
-                entry.id,
-                d.primitive,
-                d.llm_value,
-                d.external_value,
-                d.external_source,
-                d.severity,
-            ))
+            disagreements_to_store.append(
+                (
+                    entry.id,
+                    d.primitive,
+                    d.llm_value,
+                    d.external_value,
+                    d.external_source,
+                    d.severity,
+                )
+            )
 
         # Collect coverage stats
         for source_name, ext_prims in comparison.external_primitives.items():
             matched = len(ext_prims)
             agreed = sum(1 for p in ext_prims if llm_primitives.get(p, 0) == ext_prims[p])
-            coverage_to_store.append((
-                entry.id,
-                source_name,
-                matched,
-                agreed,
-            ))
+            coverage_to_store.append(
+                (
+                    entry.id,
+                    source_name,
+                    matched,
+                    agreed,
+                )
+            )
 
     # Store results in database
     if disagreements_to_store:
@@ -207,22 +212,26 @@ def generate_report(
     for severity, count in stats.get("by_severity", {}).items():
         report_lines.append(f"- {severity}: {count}")
 
-    report_lines.extend([
-        "",
-        "### By Source",
-    ])
+    report_lines.extend(
+        [
+            "",
+            "### By Source",
+        ]
+    )
 
     for source, count in stats.get("by_source", {}).items():
         report_lines.append(f"- {source}: {count}")
 
     # Top sign-flip disagreements (most concerning)
     if major_disagreements:
-        report_lines.extend([
-            "",
-            "## Sign-Flip Disagreements (Top 20)",
-            "These are cases where LLM and external sources have opposite signs:",
-            "",
-        ])
+        report_lines.extend(
+            [
+                "",
+                "## Sign-Flip Disagreements (Top 20)",
+                "These are cases where LLM and external sources have opposite signs:",
+                "",
+            ]
+        )
         for d in major_disagreements[:20]:
             # Get the word
             entry = db.get_lexeme_by_id(d["lexeme_id"])
@@ -253,10 +262,7 @@ def main():
 
     args = parser.parse_args()
 
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-    )
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
     if args.report_only:
         report = generate_report(args.db, args.report_output)

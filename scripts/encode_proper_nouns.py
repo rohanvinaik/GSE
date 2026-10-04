@@ -19,56 +19,232 @@ from pathlib import Path
 # Conservative person name endings (avoid common verb/noun endings)
 # Only use distinctive name-like patterns
 PERSON_ENDINGS = [
-    'mann', 'berg', 'stein', 'baum',  # German names
-    'ski', 'sky', 'ovich', 'evich', 'ova', 'eva',  # Slavic names
+    "mann",
+    "berg",
+    "stein",
+    "baum",  # German names
+    "ski",
+    "sky",
+    "ovich",
+    "evich",
+    "ova",
+    "eva",  # Slavic names
 ]
 
 # Conservative place name endings (avoid common words)
 PLACE_ENDINGS = [
-    'istan', 'burg', 'burgh',  # Distinctive place endings
+    "istan",
+    "burg",
+    "burgh",  # Distinctive place endings
 ]
 
 # Known person first names (common ones)
 PERSON_NAMES = {
-    'james', 'john', 'robert', 'michael', 'david', 'william', 'richard',
-    'joseph', 'thomas', 'charles', 'mary', 'patricia', 'jennifer', 'linda',
-    'elizabeth', 'barbara', 'susan', 'jessica', 'sarah', 'karen', 'emily',
-    'washington', 'lincoln', 'jefferson', 'roosevelt', 'kennedy', 'obama',
-    'trump', 'biden', 'clinton', 'bush', 'reagan', 'nixon', 'carter',
-    'darwin', 'einstein', 'newton', 'galileo', 'edison', 'tesla',
-    'shakespeare', 'dickens', 'austen', 'hemingway', 'fitzgerald',
-    'marx', 'freud', 'jung', 'nietzsche', 'kant', 'plato', 'aristotle',
-    'peter', 'paul', 'matthew', 'mark', 'luke', 'john', 'moses', 'abraham',
+    "james",
+    "john",
+    "robert",
+    "michael",
+    "david",
+    "william",
+    "richard",
+    "joseph",
+    "thomas",
+    "charles",
+    "mary",
+    "patricia",
+    "jennifer",
+    "linda",
+    "elizabeth",
+    "barbara",
+    "susan",
+    "jessica",
+    "sarah",
+    "karen",
+    "emily",
+    "washington",
+    "lincoln",
+    "jefferson",
+    "roosevelt",
+    "kennedy",
+    "obama",
+    "trump",
+    "biden",
+    "clinton",
+    "bush",
+    "reagan",
+    "nixon",
+    "carter",
+    "darwin",
+    "einstein",
+    "newton",
+    "galileo",
+    "edison",
+    "tesla",
+    "shakespeare",
+    "dickens",
+    "austen",
+    "hemingway",
+    "fitzgerald",
+    "marx",
+    "freud",
+    "jung",
+    "nietzsche",
+    "kant",
+    "plato",
+    "aristotle",
+    "peter",
+    "paul",
+    "matthew",
+    "mark",
+    "luke",
+    "john",
+    "moses",
+    "abraham",
 }
 
 # Known organization/brand names (common ones)
 ORG_NAMES = {
-    'google', 'apple', 'microsoft', 'amazon', 'facebook', 'twitter',
-    'fbi', 'cia', 'nasa', 'fda', 'epa', 'irs', 'sec', 'doj',
-    'un', 'who', 'nato', 'eu', 'unicef', 'unesco',
-    'nfl', 'nba', 'mlb', 'nhl', 'fifa', 'olympic',
-    'harvard', 'yale', 'princeton', 'stanford', 'mit', 'oxford', 'cambridge',
-    'cnn', 'bbc', 'nbc', 'abc', 'cbs', 'fox', 'nyt', 'wsj',
+    "google",
+    "apple",
+    "microsoft",
+    "amazon",
+    "facebook",
+    "twitter",
+    "fbi",
+    "cia",
+    "nasa",
+    "fda",
+    "epa",
+    "irs",
+    "sec",
+    "doj",
+    "un",
+    "who",
+    "nato",
+    "eu",
+    "unicef",
+    "unesco",
+    "nfl",
+    "nba",
+    "mlb",
+    "nhl",
+    "fifa",
+    "olympic",
+    "harvard",
+    "yale",
+    "princeton",
+    "stanford",
+    "mit",
+    "oxford",
+    "cambridge",
+    "cnn",
+    "bbc",
+    "nbc",
+    "abc",
+    "cbs",
+    "fox",
+    "nyt",
+    "wsj",
 }
 
 # Known place names (common ones)
 PLACE_NAMES = {
-    'america', 'africa', 'asia', 'europe', 'australia', 'antarctica',
-    'america', 'canada', 'mexico', 'brazil', 'argentina', 'chile',
-    'england', 'france', 'germany', 'italy', 'spain', 'portugal',
-    'russia', 'china', 'japan', 'korea', 'india', 'pakistan',
-    'israel', 'egypt', 'iran', 'iraq', 'syria', 'turkey',
-    'california', 'texas', 'florida', 'york', 'alaska', 'hawaii',
-    'london', 'paris', 'berlin', 'rome', 'madrid', 'moscow', 'tokyo',
-    'atlantic', 'pacific', 'indian', 'arctic', 'mediterranean',
-    'mississippi', 'amazon', 'nile', 'ganges', 'danube', 'rhine',
-    'alabama', 'alaska', 'arizona', 'arkansas', 'colorado', 'connecticut',
-    'delaware', 'georgia', 'idaho', 'illinois', 'indiana', 'iowa',
-    'kansas', 'kentucky', 'louisiana', 'maine', 'maryland', 'massachusetts',
-    'michigan', 'minnesota', 'mississippi', 'missouri', 'montana', 'nebraska',
-    'nevada', 'hampshire', 'jersey', 'mexico', 'carolina', 'dakota',
-    'ohio', 'oklahoma', 'oregon', 'pennsylvania', 'rhode', 'tennessee',
-    'utah', 'vermont', 'virginia', 'washington', 'wisconsin', 'wyoming',
+    "america",
+    "africa",
+    "asia",
+    "europe",
+    "australia",
+    "antarctica",
+    "america",
+    "canada",
+    "mexico",
+    "brazil",
+    "argentina",
+    "chile",
+    "england",
+    "france",
+    "germany",
+    "italy",
+    "spain",
+    "portugal",
+    "russia",
+    "china",
+    "japan",
+    "korea",
+    "india",
+    "pakistan",
+    "israel",
+    "egypt",
+    "iran",
+    "iraq",
+    "syria",
+    "turkey",
+    "california",
+    "texas",
+    "florida",
+    "york",
+    "alaska",
+    "hawaii",
+    "london",
+    "paris",
+    "berlin",
+    "rome",
+    "madrid",
+    "moscow",
+    "tokyo",
+    "atlantic",
+    "pacific",
+    "indian",
+    "arctic",
+    "mediterranean",
+    "mississippi",
+    "amazon",
+    "nile",
+    "ganges",
+    "danube",
+    "rhine",
+    "alabama",
+    "alaska",
+    "arizona",
+    "arkansas",
+    "colorado",
+    "connecticut",
+    "delaware",
+    "georgia",
+    "idaho",
+    "illinois",
+    "indiana",
+    "iowa",
+    "kansas",
+    "kentucky",
+    "louisiana",
+    "maine",
+    "maryland",
+    "massachusetts",
+    "michigan",
+    "minnesota",
+    "mississippi",
+    "missouri",
+    "montana",
+    "nebraska",
+    "nevada",
+    "hampshire",
+    "jersey",
+    "mexico",
+    "carolina",
+    "dakota",
+    "ohio",
+    "oklahoma",
+    "oregon",
+    "pennsylvania",
+    "rhode",
+    "tennessee",
+    "utah",
+    "vermont",
+    "virginia",
+    "washington",
+    "wisconsin",
+    "wyoming",
 }
 
 
@@ -118,11 +294,11 @@ def encode_proper_nouns(db_path: Path, dry_run: bool = False) -> dict:
     cursor = conn.cursor()
 
     stats = {
-        'analyzed': 0,
-        'persons': 0,
-        'places': 0,
-        'orgs': 0,
-        'skipped': 0,
+        "analyzed": 0,
+        "persons": 0,
+        "places": 0,
+        "orgs": 0,
+        "skipped": 0,
     }
 
     # Get words with 0 primitives (unencoded)
@@ -140,50 +316,59 @@ def encode_proper_nouns(db_path: Path, dry_run: bool = False) -> dict:
     print(f"Analyzing {len(words)} unencoded words...")
 
     for lexeme_id, lemma in words:
-        stats['analyzed'] += 1
+        stats["analyzed"] += 1
 
         # Classify the word
         entity_type = None
         primitive = None
 
         if is_likely_person_name(lemma):
-            entity_type = 'PERSON'
-            primitive = 'SOMEONE'
-            stats['persons'] += 1
+            entity_type = "PERSON"
+            primitive = "SOMEONE"
+            stats["persons"] += 1
         elif is_likely_place_name(lemma):
-            entity_type = 'PLACE'
-            primitive = 'SOMETHING'
-            stats['places'] += 1
+            entity_type = "PLACE"
+            primitive = "SOMETHING"
+            stats["places"] += 1
         elif is_likely_org_name(lemma):
-            entity_type = 'ORG'
-            primitive = 'SOMETHING'
-            stats['orgs'] += 1
+            entity_type = "ORG"
+            primitive = "SOMETHING"
+            stats["orgs"] += 1
         else:
-            stats['skipped'] += 1
+            stats["skipped"] += 1
             continue
 
         if not dry_run:
             # Set the primitive
-            cursor.execute("""
+            cursor.execute(
+                """
                 INSERT INTO primitive_values (lexeme_id, primitive, value, source)
                 VALUES (?, ?, 1, 'proper_noun_encoding')
                 ON CONFLICT(lexeme_id, primitive)
                 DO UPDATE SET value = 1, source = 'proper_noun_encoding'
-            """, (lexeme_id, primitive))
+            """,
+                (lexeme_id, primitive),
+            )
 
             # Set animacy
-            animacy = 'ANIMATE' if entity_type == 'PERSON' else 'INANIMATE'
-            cursor.execute("""
+            animacy = "ANIMATE" if entity_type == "PERSON" else "INANIMATE"
+            cursor.execute(
+                """
                 UPDATE lexemes SET animacy = ? WHERE id = ?
-            """, (animacy, lexeme_id))
+            """,
+                (animacy, lexeme_id),
+            )
 
             # Add entity type as gram feature
-            cursor.execute("""
+            cursor.execute(
+                """
                 INSERT INTO gram_feature_values (lexeme_id, feature, value, source)
                 VALUES (?, 'entity_type', ?, 'proper_noun_encoding')
                 ON CONFLICT(lexeme_id, feature)
                 DO UPDATE SET value = ?, source = 'proper_noun_encoding'
-            """, (lexeme_id, entity_type, entity_type))
+            """,
+                (lexeme_id, entity_type, entity_type),
+            )
 
         print(f"  {lemma}: {entity_type} -> {primitive}=1")
 
@@ -216,13 +401,16 @@ def verify_proper_nouns(db_path: Path) -> None:
 
     # Sample proper nouns
     print("\nSample Proper Nouns:")
-    for entity_type in ['PERSON', 'PLACE', 'ORG']:
-        cursor.execute("""
+    for entity_type in ["PERSON", "PLACE", "ORG"]:
+        cursor.execute(
+            """
             SELECT l.lemma FROM gram_feature_values g
             JOIN lexemes l ON g.lexeme_id = l.id
             WHERE g.feature = 'entity_type' AND g.value = ?
             LIMIT 5
-        """, (entity_type,))
+        """,
+            (entity_type,),
+        )
         words = [r[0] for r in cursor.fetchall()]
         if words:
             print(f"  {entity_type}: {', '.join(words)}")

@@ -12,6 +12,7 @@ Extensible by design: adding a register = adding a label here + a provider in
 the long-tail messy registers (social, OCR-noise, L2-English) slot in as new genres
 under the appropriate class.
 """
+
 from __future__ import annotations
 
 from collections import defaultdict
@@ -22,28 +23,40 @@ REGISTER_TAXONOMY: Dict[str, List[str]] = {
     # SPEECH-derived: prose/verse that represents or transcribes human speech.
     "speech": [
         # Brown corpus (genre-balanced, curated):
-        "adventure", "belles_lettres", "editorial", "fiction", "government",
-        "hobbies", "humor", "learned", "lore", "mystery", "news", "religion",
-        "reviews", "romance", "science_fiction",
+        "adventure",
+        "belles_lettres",
+        "editorial",
+        "fiction",
+        "government",
+        "hobbies",
+        "humor",
+        "learned",
+        "lore",
+        "mystery",
+        "news",
+        "religion",
+        "reviews",
+        "romance",
+        "science_fiction",
         "literary_fiction",  # Gutenberg prose novels — real novelistic narrative.
-                             # Brown has only short fiction excerpts, so without this
-                             # the narrative class is starved (117 docs) and literary
-                             # prose is out-of-distribution (Austen → review).
+        # Brown has only short fiction excerpts, so without this
+        # the narrative class is starved (117 docs) and literary
+        # prose is out-of-distribution (Austen → review).
         # added registers:
-        "chat",             # IM / forum posts (fragmentary, conversational)
-        "newswire",         # wire-service news
+        "chat",  # IM / forum posts (fragmentary, conversational)
+        "newswire",  # wire-service news
         "archaic_english",  # older English (e.g. the 1611 KJV)
-        "shakespeare",      # Early Modern verse drama
+        "shakespeare",  # Early Modern verse drama
         # contemporary HF sources (augment — modern text vs the 1961 Brown):
-        "modern_news",      # ag_news — contemporary journalism (diachronic vs `news`)
-        "reviews_modern",   # imdb — contemporary informal opinion/reviews
-        "twitter",          # tweet_eval — social media (the messiest modern register)
+        "modern_news",  # ag_news — contemporary journalism (diachronic vs `news`)
+        "reviews_modern",  # imdb — contemporary informal opinion/reviews
+        "twitter",  # tweet_eval — social media (the messiest modern register)
     ],
     # NON-SPEECH: words that communicate but do not represent literal speech.
     "non_speech": [
-        "poetry",     # verse — no sentence-boundary structure
+        "poetry",  # verse — no sentence-boundary structure
         "reference",  # dictionary / encyclopedia entries (definitional)
-        "list",       # grocery / packing / catalog / agenda (fragmentary)
+        "list",  # grocery / packing / catalog / agenda (fragmentary)
     ],
 }
 
@@ -54,31 +67,42 @@ REGISTER_TAXONOMY: Dict[str, List[str]] = {
 # Compass: deduction baseline + censor + explanation, inherited down to the genre).
 SUPER_REGISTER_OF: Dict[str, str] = {
     # NARRATIVE — fiction sub-genres (the dominant confusion cluster).
-    "adventure": "narrative", "fiction": "narrative", "mystery": "narrative",
-    "romance": "narrative", "science_fiction": "narrative",
-    "literary_fiction": "narrative",   # Gutenberg novels (the literary-prose anchor)
+    "adventure": "narrative",
+    "fiction": "narrative",
+    "mystery": "narrative",
+    "romance": "narrative",
+    "science_fiction": "narrative",
+    "literary_fiction": "narrative",  # Gutenberg novels (the literary-prose anchor)
     # REPORTORIAL — factual/official prose.
-    "editorial": "reportorial", "government": "reportorial", "learned": "reportorial",
-    "news": "reportorial", "newswire": "reportorial",
-    "modern_news": "reportorial",   # diachronic augment of `news` (same node on purpose)
+    "editorial": "reportorial",
+    "government": "reportorial",
+    "learned": "reportorial",
+    "news": "reportorial",
+    "newswire": "reportorial",
+    "modern_news": "reportorial",  # diachronic augment of `news` (same node on purpose)
     # NEW super-registers from the contemporary feed (new SoM specialists):
-    "reviews_modern": "review",     # contemporary opinion — its own specialist
-    "twitter": "social",            # social media — its own specialist (messiest)
+    "reviews_modern": "review",  # contemporary opinion — its own specialist
+    "twitter": "social",  # social media — its own specialist (messiest)
     # ESSAYISTIC — discursive/elevated prose.
-    "belles_lettres": "essayistic", "hobbies": "essayistic", "humor": "essayistic",
-    "lore": "essayistic", "religion": "essayistic", "reviews": "essayistic",
+    "belles_lettres": "essayistic",
+    "hobbies": "essayistic",
+    "humor": "essayistic",
+    "lore": "essayistic",
+    "religion": "essayistic",
+    "reviews": "essayistic",
     # LEXICALLY_DIVERGENT — high-OOV registers (slang vs archaic); they cluster
     # together because both need lexical-repair voice-modes (different dictionaries).
-    "chat": "lexically_divergent", "shakespeare": "lexically_divergent",
+    "chat": "lexically_divergent",
+    "shakespeare": "lexically_divergent",
     # distinct singletons:
     "archaic_english": "archaic",
-    "poetry": "poetry", "reference": "reference", "list": "list",
+    "poetry": "poetry",
+    "reference": "reference",
+    "list": "list",
 }
 
 # Reverse index: genre → register_class.
-GENRE_TO_CLASS: Dict[str, str] = {
-    g: cls for cls, genres in REGISTER_TAXONOMY.items() for g in genres
-}
+GENRE_TO_CLASS: Dict[str, str] = {g: cls for cls, genres in REGISTER_TAXONOMY.items() for g in genres}
 
 ALL_GENRES: List[str] = sorted(GENRE_TO_CLASS)
 
@@ -89,8 +113,7 @@ def register_class_of(genre: str) -> str:
     try:
         return GENRE_TO_CLASS[genre]
     except KeyError as exc:
-        raise KeyError(
-            f"unknown genre {genre!r}; declare it in REGISTER_TAXONOMY") from exc
+        raise KeyError(f"unknown genre {genre!r}; declare it in REGISTER_TAXONOMY") from exc
 
 
 def super_register_of(genre: str) -> str:
@@ -99,8 +122,7 @@ def super_register_of(genre: str) -> str:
     try:
         return SUPER_REGISTER_OF[genre]
     except KeyError as exc:
-        raise KeyError(
-            f"unknown genre {genre!r}; declare it in SUPER_REGISTER_OF") from exc
+        raise KeyError(f"unknown genre {genre!r}; declare it in SUPER_REGISTER_OF") from exc
 
 
 # --- the resolution tree: the recognizer descends it, deepest-confident-node ----
@@ -143,8 +165,8 @@ def child_on_path(node: str, genre: str) -> Optional[str]:
     at a super_register node the genre itself."""
     if node == ROOT:
         return register_class_of(genre)
-    if node in REGISTER_TAXONOMY:                      # node is a register_class
+    if node in REGISTER_TAXONOMY:  # node is a register_class
         return super_register_of(genre) if register_class_of(genre) == node else None
-    if node in _SUPER_REGISTERS:                       # node is a super_register
+    if node in _SUPER_REGISTERS:  # node is a super_register
         return genre if super_register_of(genre) == node else None
     return None

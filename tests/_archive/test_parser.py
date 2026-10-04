@@ -9,6 +9,7 @@ def parser():
     except OSError:
         pytest.skip("SpaCy model not found. Run 'python -m spacy download en_core_web_sm'")
 
+
 def test_basic_parse(parser):
     result = parser.parse_single("The dog runs.")
     assert len(result.tokens) == 4  # The, dog, runs, .
@@ -17,13 +18,15 @@ def test_basic_parse(parser):
     assert result.tokens[1].lemma == "dog"
     assert result.tokens[2].lemma == "run"
 
+
 def test_pos_tagging(parser):
     result = parser.parse_single("The big dog runs quickly.")
     # result.tokens[0] is 'The' (DET)
     assert result.tokens[1].pos == POS.ADJ  # big
     assert result.tokens[2].pos == POS.NOUN  # dog
     assert result.tokens[3].pos == POS.VERB  # runs
-    assert result.tokens[4].pos == POS.ADV   # quickly
+    assert result.tokens[4].pos == POS.ADV  # quickly
+
 
 def test_dependency_structure(parser):
     result = parser.parse_single("The dog chased the cat.")
@@ -38,6 +41,7 @@ def test_dependency_structure(parser):
     # Cat should depend on chased (object)
     assert cat.head_idx == chased.idx
 
+
 def test_semantic_roles(parser):
     result = parser.parse_single("John gave Mary a book.")
 
@@ -51,6 +55,7 @@ def test_semantic_roles(parser):
     # gave Mary -> Mary is recipient
     assert "recipient" in role_map
     assert role_map["recipient"] == "mary"
+
 
 def test_bottom_up_order(parser):
     result = parser.parse_single("The big dog runs.")
@@ -67,6 +72,7 @@ def test_bottom_up_order(parser):
 
     assert order.index(the_idx) < order.index(dog_idx)
     assert order.index(dog_idx) < order.index(runs_idx)
+
 
 def test_multiple_sentences(parser):
     results = parser.parse("The dog runs. The cat sleeps.")

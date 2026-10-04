@@ -66,8 +66,7 @@ class TestExhaustiveness:
     def test_tier_0_set_excludes_only_hierarchy_ops(self):
         # Read from the system, don't hand-author
         expected_excluded = {
-            name for name, info in PRIMITIVE_REGISTRY.items()
-            if info.is_hierarchy_marker or info.is_hierarchy_base
+            name for name, info in PRIMITIVE_REGISTRY.items() if info.is_hierarchy_marker or info.is_hierarchy_base
         }
         actual_excluded = set(PRIMITIVE_REGISTRY) - TIER_0_PRIMITIVES
         assert actual_excluded == expected_excluded
@@ -77,9 +76,7 @@ class TestExhaustiveness:
         # via Tier 0 to its definitional decomposition
         for primitive_name, info in PRIMITIVE_REGISTRY.items():
             if info.is_bipolar:
-                assert primitive_name in TIER_0_PRIMITIVES, (
-                    f"{primitive_name} is bipolar but not in Tier 0"
-                )
+                assert primitive_name in TIER_0_PRIMITIVES, f"{primitive_name} is bipolar but not in Tier 0"
 
     def test_count_matches_registry_minus_5_hierarchy_ops(self):
         # 73 primitives total, 5 hierarchy ops excluded → 68 Tier 0 entries

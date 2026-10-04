@@ -43,14 +43,11 @@ def fresh_db(tmp_path):
     return db_path
 
 
-def insert_entry(db_path, word, pos="n", definition="", etymology="",
-                 synonyms=None, antonyms=None):
+def insert_entry(db_path, word, pos="n", definition="", etymology="", synonyms=None, antonyms=None):
     conn = sqlite3.connect(str(db_path))
     conn.execute(
-        "INSERT INTO entries (word, pos, definition, etymology, synonyms, antonyms) "
-        "VALUES (?, ?, ?, ?, ?, ?)",
-        (word, pos, definition, etymology,
-         json.dumps(synonyms or []), json.dumps(antonyms or [])),
+        "INSERT INTO entries (word, pos, definition, etymology, synonyms, antonyms) VALUES (?, ?, ?, ?, ?, ?)",
+        (word, pos, definition, etymology, json.dumps(synonyms or []), json.dumps(antonyms or [])),
     )
     conn.commit()
     conn.close()
@@ -58,17 +55,23 @@ def insert_entry(db_path, word, pos="n", definition="", etymology="",
 
 # ---------- WiktionaryEntry ----------
 
+
 class TestEntry:
     def test_construction(self):
         e = WiktionaryEntry(
-            word="dog", pos="noun", definition="an animal",
-            etymology="OE docga", synonyms=["canine"], antonyms=["cat"],
+            word="dog",
+            pos="noun",
+            definition="an animal",
+            etymology="OE docga",
+            synonyms=["canine"],
+            antonyms=["cat"],
         )
         assert e.word == "dog"
         assert e.synonyms == ["canine"]
 
 
 # ---------- Patterns ----------
+
 
 class TestPatterns:
     def test_definition_patterns_dict_nonempty(self):
@@ -83,6 +86,7 @@ class TestPatterns:
 
 
 # ---------- __init__ ----------
+
 
 class TestInit:
     def test_default_path(self):
@@ -107,6 +111,7 @@ class TestInit:
 
 # ---------- _create_database ----------
 
+
 class TestCreateDatabase:
     def test_creates_table(self, tmp_path):
         p = WiktionaryParser(db_path=tmp_path / "x.db")
@@ -118,6 +123,7 @@ class TestCreateDatabase:
 
 
 # ---------- _insert_batch ----------
+
 
 class TestInsertBatch:
     def test_inserts_rows(self, fresh_db):
@@ -132,17 +138,20 @@ class TestInsertBatch:
 
 # ---------- download_and_process ----------
 
+
 class TestDownloadAndProcess:
     def test_basic(self, tmp_path):
         p = WiktionaryParser(db_path=tmp_path / "x.db")
         mock_response = MagicMock()
         # Use iter_lines with one valid JSON line
-        entry_json = json.dumps({
-            "word": "dog",
-            "pos": "noun",
-            "senses": [{"glosses": ["an animal"]}],
-            "etymology_text": "OE",
-        })
+        entry_json = json.dumps(
+            {
+                "word": "dog",
+                "pos": "noun",
+                "senses": [{"glosses": ["an animal"]}],
+                "etymology_text": "OE",
+            }
+        )
         mock_response.iter_lines.return_value = iter([entry_json.encode()])
 
         with patch("requests.get", return_value=mock_response):
@@ -178,10 +187,12 @@ class TestDownloadAndProcess:
     def test_invalid_json_skipped(self, tmp_path):
         p = WiktionaryParser(db_path=tmp_path / "x.db")
         mock_response = MagicMock()
-        mock_response.iter_lines.return_value = iter([
-            b"INVALID JSON",
-            json.dumps({"word": "dog", "senses": [{"glosses": ["x"]}]}).encode(),
-        ])
+        mock_response.iter_lines.return_value = iter(
+            [
+                b"INVALID JSON",
+                json.dumps({"word": "dog", "senses": [{"glosses": ["x"]}]}).encode(),
+            ]
+        )
         with patch("requests.get", return_value=mock_response):
             p.download_and_process()
         conn = sqlite3.connect(str(p.db_path))
@@ -191,13 +202,17 @@ class TestDownloadAndProcess:
 
     def test_synonyms_extracted(self, tmp_path):
         p = WiktionaryParser(db_path=tmp_path / "x.db")
-        entry_json = json.dumps({
-            "word": "happy",
-            "senses": [{
-                "glosses": ["feeling good"],
-                "synonyms": [{"word": "joyful"}, {"word": "elated"}],
-            }],
-        })
+        entry_json = json.dumps(
+            {
+                "word": "happy",
+                "senses": [
+                    {
+                        "glosses": ["feeling good"],
+                        "synonyms": [{"word": "joyful"}, {"word": "elated"}],
+                    }
+                ],
+            }
+        )
         mock_response = MagicMock()
         mock_response.iter_lines.return_value = iter([entry_json.encode()])
         with patch("requests.get", return_value=mock_response):
@@ -228,6 +243,7 @@ class TestDownloadAndProcess:
 
 # ---------- load ----------
 
+
 class TestLoad:
     def test_no_db_returns_false(self, tmp_path):
         p = WiktionaryParser(db_path=tmp_path / "missing.db")
@@ -246,6 +262,7 @@ class TestLoad:
 
 # ---------- to_primitives ----------
 
+
 class TestToPrimitives:
     def test_unknown_empty(self, fresh_db):
         p = WiktionaryParser(db_path=fresh_db)
@@ -253,7 +270,9 @@ class TestToPrimitives:
         p.to_primitives.cache_clear()
         assert p.to_primitives("nonexistent") == {}
 
-    @pytest.mark.skip(reason="pre-existing failure since initial commit (9578764); code-only checkout — needs triage vs as-built definition-match behavior")
+    @pytest.mark.skip(
+        reason="pre-existing failure since initial commit (9578764); code-only checkout — needs triage vs as-built definition-match behavior"
+    )
     def test_definition_match(self, fresh_db):
         insert_entry(fresh_db, "dog", definition="A four-legged animal that can move")
         p = WiktionaryParser(db_path=fresh_db)
@@ -264,8 +283,7 @@ class TestToPrimitives:
         assert result["MOVE"] == 1
 
     def test_etymology_match(self, fresh_db):
-        insert_entry(fresh_db, "x", definition="something",
-                     etymology="From a negative prefix")
+        insert_entry(fresh_db, "x", definition="something", etymology="From a negative prefix")
         p = WiktionaryParser(db_path=fresh_db)
         p.load()
         p.to_primitives.cache_clear()
@@ -313,6 +331,7 @@ class TestToPrimitives:
 
 # ---------- get_all_words ----------
 
+
 class TestGetAllWords:
     def test_returns_words(self, fresh_db):
         insert_entry(fresh_db, "dog")
@@ -327,6 +346,7 @@ class TestGetAllWords:
 
 
 # ---------- get_definition ----------
+
 
 class TestGetDefinition:
     def test_returns_definition(self, fresh_db):
@@ -353,6 +373,7 @@ class TestGetDefinition:
 
 # ---------- get_synonyms ----------
 
+
 class TestGetSynonyms:
     def test_returns_list(self, fresh_db):
         insert_entry(fresh_db, "happy", synonyms=["joyful"])
@@ -378,6 +399,7 @@ class TestGetSynonyms:
 
 # ---------- get_antonyms ----------
 
+
 class TestGetAntonyms:
     def test_returns_list(self, fresh_db):
         insert_entry(fresh_db, "happy", antonyms=["sad"])
@@ -396,6 +418,7 @@ class TestGetAntonyms:
 
 
 # ---------- get_etymology ----------
+
 
 class TestGetEtymology:
     def test_returns_etymology(self, fresh_db):
@@ -418,6 +441,7 @@ class TestGetEtymology:
 
 # ---------- close ----------
 
+
 class TestClose:
     def test_closes_conn(self, fresh_db):
         p = WiktionaryParser(db_path=fresh_db)
@@ -431,6 +455,7 @@ class TestClose:
 
 
 # ---------- download_wiktionary ----------
+
 
 class TestDownloadWiktionary:
     def test_success_prints(self, capsys):

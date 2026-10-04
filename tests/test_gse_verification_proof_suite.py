@@ -37,8 +37,10 @@ def make_trace(tokens=None, vec_hash="sha256:abc", nnz=10, vec=None):
 @pytest.fixture
 def suite():
     """A suite with mocked encoder + decoder, verbose off."""
-    with patch("gse.verification.proof_suite.GSEEncoder") as enc_cls, \
-         patch("gse.verification.proof_suite.GSEDecoder") as dec_cls:
+    with (
+        patch("gse.verification.proof_suite.GSEEncoder") as enc_cls,
+        patch("gse.verification.proof_suite.GSEDecoder") as dec_cls,
+    ):
         enc = MagicMock()
         dec = MagicMock()
         enc_cls.return_value = enc
@@ -51,6 +53,7 @@ def suite():
 
 
 # ---------- TestResult ----------
+
 
 class TestTestResultDataclass:
     def test_required_fields(self):
@@ -66,10 +69,13 @@ class TestTestResultDataclass:
 
 # ---------- __init__ ----------
 
+
 class TestInit:
     def test_creates_encoder_and_decoder(self):
-        with patch("gse.verification.proof_suite.GSEEncoder") as enc_cls, \
-             patch("gse.verification.proof_suite.GSEDecoder") as dec_cls:
+        with (
+            patch("gse.verification.proof_suite.GSEEncoder") as enc_cls,
+            patch("gse.verification.proof_suite.GSEDecoder") as dec_cls,
+        ):
             s = GSEProofSuite(verbose=True)
             assert s.verbose is True
             assert s.results == []
@@ -79,23 +85,23 @@ class TestInit:
 
 # ---------- log ----------
 
+
 class TestLog:
     def test_verbose_prints(self, capsys):
-        with patch("gse.verification.proof_suite.GSEEncoder"), \
-             patch("gse.verification.proof_suite.GSEDecoder"):
+        with patch("gse.verification.proof_suite.GSEEncoder"), patch("gse.verification.proof_suite.GSEDecoder"):
             s = GSEProofSuite(verbose=True)
             s.log("hello")
             assert "hello" in capsys.readouterr().out
 
     def test_silent_skips(self, capsys):
-        with patch("gse.verification.proof_suite.GSEEncoder"), \
-             patch("gse.verification.proof_suite.GSEDecoder"):
+        with patch("gse.verification.proof_suite.GSEEncoder"), patch("gse.verification.proof_suite.GSEDecoder"):
             s = GSEProofSuite(verbose=False)
             s.log("hello")
             assert capsys.readouterr().out == ""
 
 
 # ---------- test_reproducibility ----------
+
 
 class TestReproducibility:
     def test_passes_when_hashes_match(self, suite):
@@ -115,6 +121,7 @@ class TestReproducibility:
 
 
 # ---------- test_similarity_preservation ----------
+
 
 class TestSimilarityPreservation:
     def test_passes_when_cosines_above_threshold(self, suite):
@@ -139,6 +146,7 @@ class TestSimilarityPreservation:
 
 
 # ---------- test_antonym_relationships ----------
+
 
 class TestAntonymRelationships:
     def test_passes_when_bipolar_strongly_negative(self, suite):
@@ -182,6 +190,7 @@ class TestAntonymRelationships:
 
 # ---------- test_entity_recovery ----------
 
+
 class TestEntityRecovery:
     def test_passes_when_entities_in_lemmas(self, suite):
         # All expected entities present as lemmas (case-insensitive matching)
@@ -195,6 +204,7 @@ class TestEntityRecovery:
             elif "bird" in lower:
                 tokens = [make_token("bird")]
             return make_trace(tokens=tokens)
+
         suite.encoder.encode = MagicMock(side_effect=enc)
         suite.test_entity_recovery()
         r = next(r for r in suite.results if r.name == "entity_recovery")
@@ -224,6 +234,7 @@ class TestEntityRecovery:
 
 # ---------- test_attribute_extraction ----------
 
+
 class TestAttributeExtraction:
     def test_passes_when_prim_in_tokens(self, suite):
         def enc(text):
@@ -236,6 +247,7 @@ class TestAttributeExtraction:
             else:
                 tokens = [make_token("small", {"SMALL": 1})]
             return make_trace(tokens=tokens)
+
         suite.encoder.encode = MagicMock(side_effect=enc)
         suite.test_attribute_extraction()
         r = next(r for r in suite.results if r.name == "attribute_extraction")
@@ -247,6 +259,7 @@ class TestAttributeExtraction:
         # BAD: opposite is GOOD, with value=-1 needed; token has GOOD=1 → not found via opposite
         def enc(text):
             return make_trace(tokens=[make_token("x", {"GOOD": 1})])
+
         suite.encoder.encode = MagicMock(side_effect=enc)
         suite.test_attribute_extraction()
         r = next(r for r in suite.results if r.name == "attribute_extraction")
@@ -262,6 +275,7 @@ class TestAttributeExtraction:
 
 
 # ---------- test_operator_antisymmetry ----------
+
 
 class TestOperatorAntisymmetry:
     def test_passes_when_content_similar_logic_different(self, suite):
@@ -296,6 +310,7 @@ class TestOperatorAntisymmetry:
 
 # ---------- test_compositional_operator_resolution ----------
 
+
 def make_trace_with_operators(operations):
     """Build a trace mock that exposes a list of operators with .operation set."""
     trace = make_trace()
@@ -314,9 +329,7 @@ class TestCompositionalOperatorResolution:
             "He left because she stayed": ["CAUSAL_SOURCE"],
             "He left so she stayed": ["CONSEQUENCE"],
         }
-        suite.encoder.encode = MagicMock(
-            side_effect=lambda text: make_trace_with_operators(responses[text])
-        )
+        suite.encoder.encode = MagicMock(side_effect=lambda text: make_trace_with_operators(responses[text]))
         suite.test_compositional_operator_resolution()
         r = next(r for r in suite.results if r.name == "compositional_operator_resolution")
         assert r.passed is True
@@ -331,9 +344,7 @@ class TestCompositionalOperatorResolution:
             "He left because she stayed": ["CAUSAL_SOURCE"],
             "He left so she stayed": ["CONSEQUENCE"],
         }
-        suite.encoder.encode = MagicMock(
-            side_effect=lambda text: make_trace_with_operators(responses[text])
-        )
+        suite.encoder.encode = MagicMock(side_effect=lambda text: make_trace_with_operators(responses[text]))
         suite.test_compositional_operator_resolution()
         r = next(r for r in suite.results if r.name == "compositional_operator_resolution")
         assert r.passed is False
@@ -348,15 +359,14 @@ class TestCompositionalOperatorResolution:
             "He left because she stayed": ["CAUSAL_SOURCE"],
             "He left so she stayed": ["CAUSAL_SOURCE"],  # wrong - should differ
         }
-        suite.encoder.encode = MagicMock(
-            side_effect=lambda text: make_trace_with_operators(responses[text])
-        )
+        suite.encoder.encode = MagicMock(side_effect=lambda text: make_trace_with_operators(responses[text]))
         suite.test_compositional_operator_resolution()
         r = next(r for r in suite.results if r.name == "compositional_operator_resolution")
         assert r.passed is False
 
 
 # ---------- test_structural_similarity ----------
+
 
 class TestStructuralSimilarity:
     def test_passes_when_cosine_positive(self, suite):
@@ -382,6 +392,7 @@ class TestStructuralSimilarity:
 
 # ---------- test_user_comparisons ----------
 
+
 class TestUserComparisons:
     def test_always_passes(self, suite):
         vec = MagicMock()
@@ -402,15 +413,16 @@ class TestUserComparisons:
 
 # ---------- run_all ----------
 
+
 class TestRunAll:
     def test_runs_all_nine_tests(self, suite):
         # All tests internally call encoder/decoder
         vec = MagicMock()
         vec.cosine = MagicMock(return_value=0.6)
-        trace = make_trace(vec=vec, tokens=[
-            make_token("dog", {"GOOD": 1, "BAD": 1, "BIG": 1, "SMALL": 1,
-                              "SOMETHING": 1, "SOMEONE": 1})
-        ])
+        trace = make_trace(
+            vec=vec,
+            tokens=[make_token("dog", {"GOOD": 1, "BAD": 1, "BIG": 1, "SMALL": 1, "SOMETHING": 1, "SOMEONE": 1})],
+        )
         trace.logical_equals = MagicMock(return_value=False)
         trace.is_argument_swap_of = MagicMock(return_value=True)
         # Compositional operator resolution checks trace.operators[*].operation;
@@ -425,10 +437,10 @@ class TestRunAll:
         }
 
         def encode(text):
-            t = make_trace(vec=vec, tokens=[
-                make_token("dog", {"GOOD": 1, "BAD": 1, "BIG": 1, "SMALL": 1,
-                                  "SOMETHING": 1, "SOMEONE": 1})
-            ])
+            t = make_trace(
+                vec=vec,
+                tokens=[make_token("dog", {"GOOD": 1, "BAD": 1, "BIG": 1, "SMALL": 1, "SOMETHING": 1, "SOMEONE": 1})],
+            )
             t.logical_equals = MagicMock(return_value=False)
             t.is_argument_swap_of = MagicMock(return_value=True)
             t.operators = [MagicMock(operation=op) for op in operator_table.get(text, [])]
@@ -450,14 +462,20 @@ class TestRunAll:
         result = suite.run_all()
         assert len(suite.results) == 9
         assert set(result.keys()) == {
-            "reproducibility", "similarity_preservation", "antonym_relationships",
-            "entity_recovery", "attribute_extraction", "operator_antisymmetry",
+            "reproducibility",
+            "similarity_preservation",
+            "antonym_relationships",
+            "entity_recovery",
+            "attribute_extraction",
+            "operator_antisymmetry",
             "compositional_operator_resolution",
-            "structural_similarity", "user_comparisons",
+            "structural_similarity",
+            "user_comparisons",
         }
 
 
 # ---------- print_report ----------
+
 
 class TestPrintReport:
     def test_all_passed_returns_true(self, suite, capsys):
@@ -486,6 +504,7 @@ class TestPrintReport:
 
 # ---------- close ----------
 
+
 class TestClose:
     def test_closes_both(self, suite):
         suite.close()
@@ -495,32 +514,39 @@ class TestClose:
 
 # ---------- main ----------
 
+
 class TestMain:
     def test_exits_zero_on_success(self):
-        with patch("gse.verification.proof_suite.GSEEncoder"), \
-             patch("gse.verification.proof_suite.GSEDecoder"), \
-             patch.object(GSEProofSuite, "run_all", return_value={}), \
-             patch.object(GSEProofSuite, "print_report", return_value=True), \
-             patch.object(GSEProofSuite, "close"):
+        with (
+            patch("gse.verification.proof_suite.GSEEncoder"),
+            patch("gse.verification.proof_suite.GSEDecoder"),
+            patch.object(GSEProofSuite, "run_all", return_value={}),
+            patch.object(GSEProofSuite, "print_report", return_value=True),
+            patch.object(GSEProofSuite, "close"),
+        ):
             with pytest.raises(SystemExit) as exc:
                 main()
             assert exc.value.code == 0
 
     def test_exits_one_on_failure(self):
-        with patch("gse.verification.proof_suite.GSEEncoder"), \
-             patch("gse.verification.proof_suite.GSEDecoder"), \
-             patch.object(GSEProofSuite, "run_all", return_value={}), \
-             patch.object(GSEProofSuite, "print_report", return_value=False), \
-             patch.object(GSEProofSuite, "close"):
+        with (
+            patch("gse.verification.proof_suite.GSEEncoder"),
+            patch("gse.verification.proof_suite.GSEDecoder"),
+            patch.object(GSEProofSuite, "run_all", return_value={}),
+            patch.object(GSEProofSuite, "print_report", return_value=False),
+            patch.object(GSEProofSuite, "close"),
+        ):
             with pytest.raises(SystemExit) as exc:
                 main()
             assert exc.value.code == 1
 
     def test_close_called_even_on_exception(self):
-        with patch("gse.verification.proof_suite.GSEEncoder"), \
-             patch("gse.verification.proof_suite.GSEDecoder"), \
-             patch.object(GSEProofSuite, "run_all", side_effect=RuntimeError("x")), \
-             patch.object(GSEProofSuite, "close") as mc:
+        with (
+            patch("gse.verification.proof_suite.GSEEncoder"),
+            patch("gse.verification.proof_suite.GSEDecoder"),
+            patch.object(GSEProofSuite, "run_all", side_effect=RuntimeError("x")),
+            patch.object(GSEProofSuite, "close") as mc,
+        ):
             with pytest.raises(RuntimeError):
                 main()
             mc.assert_called_once()

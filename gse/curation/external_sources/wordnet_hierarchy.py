@@ -25,6 +25,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class WordNetHierarchyEntry:
     """Entry with hierarchy data from WordNet."""
+
     word: str
     pos: str
     synset_name: str
@@ -38,90 +39,87 @@ class WordNetHierarchyEntry:
 # Semantic domains (lexnames) to primitives mapping
 LEXNAME_TO_PRIMITIVE = {
     # Noun domains
-    'noun.body': {'BODY': 1, 'SOMETHING': 1},
-    'noun.animal': {'ALIVE': 1, 'SOMETHING': 1},
-    'noun.person': {'SOMEONE': 1, 'ALIVE': 1},
-    'noun.cognition': {'THINK': 1},
-    'noun.communication': {'SAY': 1, 'WORDS': 1},
-    'noun.feeling': {'FEEL': 1},
-    'noun.location': {'WHERE': 1},
-    'noun.time': {'WHEN': 1},
-    'noun.quantity': {'QUANTITY': 1},
-    'noun.artifact': {'SOMETHING': 1},
-    'noun.food': {'SOMETHING': 1, 'BODY': 1},
-    'noun.substance': {'SOMETHING': 1},
-    'noun.object': {'SOMETHING': 1},
-    'noun.plant': {'ALIVE': 1, 'SOMETHING': 1},
-    'noun.shape': {'SOMETHING': 1},
-    'noun.state': {'BE': 1},
-    'noun.event': {'HAPPEN': 1},
-    'noun.act': {'DO': 1},
-    'noun.process': {'HAPPEN': 1},
-    'noun.phenomenon': {'HAPPEN': 1},
-    'noun.attribute': {'BE': 1},
-    'noun.relation': {'WITH': 1},
-    'noun.group': {'PEOPLE': 1},
-    'noun.motive': {'WANT': 1},
-    'noun.possession': {'HAVE': 1},
-
+    "noun.body": {"BODY": 1, "SOMETHING": 1},
+    "noun.animal": {"ALIVE": 1, "SOMETHING": 1},
+    "noun.person": {"SOMEONE": 1, "ALIVE": 1},
+    "noun.cognition": {"THINK": 1},
+    "noun.communication": {"SAY": 1, "WORDS": 1},
+    "noun.feeling": {"FEEL": 1},
+    "noun.location": {"WHERE": 1},
+    "noun.time": {"WHEN": 1},
+    "noun.quantity": {"QUANTITY": 1},
+    "noun.artifact": {"SOMETHING": 1},
+    "noun.food": {"SOMETHING": 1, "BODY": 1},
+    "noun.substance": {"SOMETHING": 1},
+    "noun.object": {"SOMETHING": 1},
+    "noun.plant": {"ALIVE": 1, "SOMETHING": 1},
+    "noun.shape": {"SOMETHING": 1},
+    "noun.state": {"BE": 1},
+    "noun.event": {"HAPPEN": 1},
+    "noun.act": {"DO": 1},
+    "noun.process": {"HAPPEN": 1},
+    "noun.phenomenon": {"HAPPEN": 1},
+    "noun.attribute": {"BE": 1},
+    "noun.relation": {"WITH": 1},
+    "noun.group": {"PEOPLE": 1},
+    "noun.motive": {"WANT": 1},
+    "noun.possession": {"HAVE": 1},
     # Verb domains
-    'verb.motion': {'MOVE': 1},
-    'verb.perception': {'SEE': 1},
-    'verb.cognition': {'THINK': 1},
-    'verb.communication': {'SAY': 1},
-    'verb.emotion': {'FEEL': 1},
-    'verb.creation': {'DO': 1, 'START': 1},
-    'verb.change': {'HAPPEN': 1},
-    'verb.possession': {'HAVE': 1},
-    'verb.body': {'BODY': 1, 'DO': 1},
-    'verb.consumption': {'BODY': 1},
-    'verb.contact': {'TOUCH': 1, 'DO': 1},
-    'verb.stative': {'BE': 1},
-    'verb.social': {'SOMEONE': 1, 'DO': 1},
-    'verb.competition': {'DO': 1},
-    'verb.weather': {'HAPPEN': 1},
-
+    "verb.motion": {"MOVE": 1},
+    "verb.perception": {"SEE": 1},
+    "verb.cognition": {"THINK": 1},
+    "verb.communication": {"SAY": 1},
+    "verb.emotion": {"FEEL": 1},
+    "verb.creation": {"DO": 1, "START": 1},
+    "verb.change": {"HAPPEN": 1},
+    "verb.possession": {"HAVE": 1},
+    "verb.body": {"BODY": 1, "DO": 1},
+    "verb.consumption": {"BODY": 1},
+    "verb.contact": {"TOUCH": 1, "DO": 1},
+    "verb.stative": {"BE": 1},
+    "verb.social": {"SOMEONE": 1, "DO": 1},
+    "verb.competition": {"DO": 1},
+    "verb.weather": {"HAPPEN": 1},
     # Adjective domains
-    'adj.all': {},  # Too general
-    'adj.pert': {},  # Pertaining to
-    'adj.ppl': {},  # Participial
-
+    "adj.all": {},  # Too general
+    "adj.pert": {},  # Pertaining to
+    "adj.ppl": {},  # Participial
     # Adverb domains
-    'adv.all': {},
+    "adv.all": {},
 }
 
 
 # Root synsets that indicate specific primitives
 ROOT_CONCEPT_PRIMITIVES = {
-    'entity.n.01': {'SOMETHING': 1},
-    'physical_entity.n.01': {'SOMETHING': 1},
-    'abstraction.n.06': {'THINK': 1},
-    'psychological_feature.n.01': {'FEEL': 1, 'THINK': 1},
-    'living_thing.n.01': {'ALIVE': 1},
-    'organism.n.01': {'ALIVE': 1},
-    'person.n.01': {'SOMEONE': 1},
-    'causal_agent.n.01': {'DO': 1, 'CAUSE': 1},
-    'act.n.02': {'DO': 1},
-    'event.n.01': {'HAPPEN': 1},
-    'state.n.02': {'BE': 1},
-    'state.n.04': {'BE': 1},
-    'location.n.01': {'WHERE': 1},
-    'time.n.01': {'WHEN': 1},
-    'group.n.01': {'PEOPLE': 1},
-    'body_part.n.01': {'BODY': 1, 'PART': 1},
-    'artifact.n.01': {'SOMETHING': 1},
-    'natural_object.n.01': {'SOMETHING': 1},
-    'substance.n.01': {'SOMETHING': 1},
-    'communication.n.02': {'SAY': 1, 'WORDS': 1},
-    'cognition.n.01': {'THINK': 1, 'KNOW': 1},
-    'emotion.n.01': {'FEEL': 1},
-    'feeling.n.01': {'FEEL': 1},
-    'motivation.n.01': {'WANT': 1},
-    'attribute.n.02': {'BE': 1},
-    'relation.n.01': {'WITH': 1},
-    'measure.n.02': {'QUANTITY': 1},
-    'shape.n.02': {'SOMETHING': 1},
-    'change.n.03': {'HAPPEN': 1},
+    "entity.n.01": {"SOMETHING": 1},
+    "physical_entity.n.01": {"SOMETHING": 1},
+    "abstraction.n.06": {"THINK": 1},
+    "psychological_feature.n.01": {"FEEL": 1, "THINK": 1},
+    "living_thing.n.01": {"ALIVE": 1},
+    "organism.n.01": {"ALIVE": 1},
+    "person.n.01": {"SOMEONE": 1},
+    "causal_agent.n.01": {"DO": 1, "CAUSE": 1},
+    "act.n.02": {"DO": 1},
+    "event.n.01": {"HAPPEN": 1},
+    "state.n.02": {"BE": 1},
+    "state.n.04": {"BE": 1},
+    "location.n.01": {"WHERE": 1},
+    "time.n.01": {"WHEN": 1},
+    "group.n.01": {"PEOPLE": 1},
+    "body_part.n.01": {"BODY": 1, "PART": 1},
+    "artifact.n.01": {"SOMETHING": 1},
+    "natural_object.n.01": {"SOMETHING": 1},
+    "substance.n.01": {"SOMETHING": 1},
+    "communication.n.02": {"SAY": 1, "WORDS": 1},
+    "cognition.n.01": {"THINK": 1, "KNOW": 1},
+    "emotion.n.01": {"FEEL": 1},
+    "feeling.n.01": {"FEEL": 1},
+    "motivation.n.01": {"WANT": 1},
+    "attribute.n.02": {"BE": 1},
+    "relation.n.01": {"WITH": 1},
+    "measure.n.02": {"QUANTITY": 1},
+    "shape.n.02": {"SOMETHING": 1},
+    "change.n.03": {"HAPPEN": 1},
 }
 
 
@@ -143,11 +141,11 @@ class WordNetHierarchyParser(BaseExternalParser):
 
             # Ensure downloaded
             try:
-                wn.synsets('test')
+                wn.synsets("test")
             except LookupError:
                 logger.info("Downloading WordNet...")
-                nltk.download('wordnet', quiet=True)
-                nltk.download('omw-1.4', quiet=True)
+                nltk.download("wordnet", quiet=True)
+                nltk.download("omw-1.4", quiet=True)
 
             self._wn = wn
 
@@ -163,10 +161,10 @@ class WordNetHierarchyParser(BaseExternalParser):
                 depth = self._get_hypernym_depth(synset)
 
                 # Get domain
-                lexname = synset.lexname() if hasattr(synset, 'lexname') else None
+                lexname = synset.lexname() if hasattr(synset, "lexname") else None
 
                 for lemma in synset.lemmas():
-                    word = lemma.name().lower().replace('_', ' ')
+                    word = lemma.name().lower().replace("_", " ")
                     pos = self._convert_pos(synset.pos())
 
                     entry = WordNetHierarchyEntry(
@@ -175,8 +173,12 @@ class WordNetHierarchyParser(BaseExternalParser):
                         synset_name=synset.name(),
                         hypernym_depth=depth,
                         hyponym_count=len(hyponyms),
-                        has_meronyms=bool(synset.part_meronyms() or synset.member_meronyms() or synset.substance_meronyms()),
-                        has_holonyms=bool(synset.part_holonyms() or synset.member_holonyms() or synset.substance_holonyms()),
+                        has_meronyms=bool(
+                            synset.part_meronyms() or synset.member_meronyms() or synset.substance_meronyms()
+                        ),
+                        has_holonyms=bool(
+                            synset.part_holonyms() or synset.member_holonyms() or synset.substance_holonyms()
+                        ),
                         lexname=lexname,
                     )
 
@@ -205,8 +207,8 @@ class WordNetHierarchyParser(BaseExternalParser):
 
     def _convert_pos(self, wn_pos: str) -> str:
         """Convert WordNet POS to readable form."""
-        pos_map = {'n': 'noun', 'v': 'verb', 'a': 'adj', 'r': 'adv', 's': 'adj'}
-        return pos_map.get(wn_pos, 'unknown')
+        pos_map = {"n": "noun", "v": "verb", "a": "adj", "r": "adv", "s": "adj"}
+        return pos_map.get(wn_pos, "unknown")
 
     @lru_cache(maxsize=10000)
     def to_primitives(self, word: str) -> Dict[str, int]:
@@ -226,13 +228,13 @@ class WordNetHierarchyParser(BaseExternalParser):
             self.load()
         if self._wn is None:
             return {}
-        syns = self._wn.synsets(word.lower().replace(' ', '_'))
+        syns = self._wn.synsets(word.lower().replace(" ", "_"))
         if not syns:
             return {}
         primary = syns[0]
 
         primitives: Dict[str, int] = {}
-        lexname = primary.lexname() if hasattr(primary, 'lexname') else None
+        lexname = primary.lexname() if hasattr(primary, "lexname") else None
         if lexname and lexname in LEXNAME_TO_PRIMITIVE:
             for prim, val in LEXNAME_TO_PRIMITIVE[lexname].items():
                 primitives.setdefault(prim, val)
@@ -282,7 +284,7 @@ class WordNetHierarchyParser(BaseExternalParser):
 
             hypernyms = []
             for path in synsets[0].hypernym_paths():
-                hypernyms.extend([s.name().split('.')[0] for s in path])
+                hypernyms.extend([s.name().split(".")[0] for s in path])
 
             # Remove duplicates while preserving order
             seen = set()
@@ -312,7 +314,7 @@ class WordNetHierarchyParser(BaseExternalParser):
             hyponyms = []
             for hypo in synsets[0].hyponyms():
                 for lemma in hypo.lemmas():
-                    hyponyms.append(lemma.name().lower().replace('_', ' '))
+                    hyponyms.append(lemma.name().lower().replace("_", " "))
             return hyponyms[:20]  # Limit results
         except:
             return []
@@ -334,7 +336,7 @@ class WordNetHierarchyParser(BaseExternalParser):
             for synset in synsets[:3]:  # Check first 3 senses
                 for mero in synset.part_meronyms() + synset.member_meronyms() + synset.substance_meronyms():
                     for lemma in mero.lemmas():
-                        meronyms.append(lemma.name().lower().replace('_', ' '))
+                        meronyms.append(lemma.name().lower().replace("_", " "))
             return list(set(meronyms))[:20]
         except:
             return []
@@ -353,8 +355,9 @@ class WordNetHierarchyParser(BaseExternalParser):
 def download_wordnet():
     """Download WordNet via NLTK."""
     import nltk
-    nltk.download('wordnet')
-    nltk.download('omw-1.4')
+
+    nltk.download("wordnet")
+    nltk.download("omw-1.4")
     print("WordNet downloaded successfully")
 
 
@@ -365,7 +368,7 @@ if __name__ == "__main__":
     parser.load()
 
     # Test some words
-    test_words = ['dog', 'run', 'happy', 'think', 'person', 'hand', 'love', 'water', 'tree']
+    test_words = ["dog", "run", "happy", "think", "person", "hand", "love", "water", "tree"]
     for word in test_words:
         domain = parser.get_domain(word)
         primitives = parser.to_primitives(word)

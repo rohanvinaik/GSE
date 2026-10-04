@@ -80,9 +80,11 @@ from gse.vectors_v2 import (
 # PIPELINE RESULT TYPES
 # =============================================================================
 
+
 @dataclass
 class EncodingResult:
     """Result of encoding text."""
+
     text: str
     vector: np.ndarray
     metadata: Dict[str, Any] = field(default_factory=dict)
@@ -104,6 +106,7 @@ class EncodingResult:
 @dataclass
 class SimilarityResult:
     """Result of similarity search."""
+
     query: str
     matches: List[Tuple[str, float]] = field(default_factory=list)
     query_vector: Optional[SparseVector] = None
@@ -113,6 +116,7 @@ class SimilarityResult:
 @dataclass
 class DecompositionResult:
     """Result of word decomposition."""
+
     word: str
     pos: str
     decomposition: List[Tuple[str, str, int]] = field(default_factory=list)
@@ -125,6 +129,7 @@ class DecompositionResult:
 # =============================================================================
 # MAIN PIPELINE
 # =============================================================================
+
 
 class GSEPipeline:
     """
@@ -399,12 +404,14 @@ class GSEPipeline:
 
             role = self._guess_role(word, i, words)
             syntactic_roles.append(role)
-            word_positions.append(WordPosition(
-                position=i,
-                word=word,
-                syntactic_role=role,
-                semantic_vector=decomp_result.vector.to_dense() if decomp_result.vector else np.array([]),
-            ))
+            word_positions.append(
+                WordPosition(
+                    position=i,
+                    word=word,
+                    syntactic_role=role,
+                    semantic_vector=decomp_result.vector.to_dense() if decomp_result.vector else np.array([]),
+                )
+            )
 
         # Encode sentence structure
         sent_vec, sent_meta = self.sentence_encoder.encode_sentence(word_positions)
@@ -491,21 +498,23 @@ class GSEPipeline:
                 if meta is not None:
                     comp_arity, comp_operation = meta
 
-            token_traces.append(TokenTrace(
-                token=word,
-                lemma=word.lower(),
-                pos=pos,
-                position=i,
-                word_primitives=word_prims,
-                sent_primitives=sent_prims,
-                word_vec_nnz=wv.nnz,
-                sent_vec_nnz=0,
-                full_vec_nnz=wv.nnz,
-                is_operator=is_op,
-                comp_primitive=comp_prim_name,
-                comp_operation=comp_operation,
-                comp_arity=comp_arity,
-            ))
+            token_traces.append(
+                TokenTrace(
+                    token=word,
+                    lemma=word.lower(),
+                    pos=pos,
+                    position=i,
+                    word_primitives=word_prims,
+                    sent_primitives=sent_prims,
+                    word_vec_nnz=wv.nnz,
+                    sent_vec_nnz=0,
+                    full_vec_nnz=wv.nnz,
+                    is_operator=is_op,
+                    comp_primitive=comp_prim_name,
+                    comp_operation=comp_operation,
+                    comp_arity=comp_arity,
+                )
+            )
 
             if is_op and comp_prim_name is not None:
                 arg1_tokens, arg2_tokens = self._resolve_operator_args(
@@ -513,17 +522,19 @@ class GSEPipeline:
                     arity=comp_arity if comp_arity > 0 else 2,
                     n_tokens=len(words),
                 )
-                operators.append(OperatorTrace(
-                    primitive=comp_prim_name,
-                    operation=comp_operation or "",
-                    position=i,
-                    arity=comp_arity if comp_arity > 0 else 2,
-                    arg1_tokens=arg1_tokens,
-                    arg2_tokens=arg2_tokens,
-                    arg1_lemmas=[words[t].lower() for t in arg1_tokens],
-                    arg2_lemmas=[words[t].lower() for t in arg2_tokens],
-                    result_nnz=wv.nnz,
-                ))
+                operators.append(
+                    OperatorTrace(
+                        primitive=comp_prim_name,
+                        operation=comp_operation or "",
+                        position=i,
+                        arity=comp_arity if comp_arity > 0 else 2,
+                        arg1_tokens=arg1_tokens,
+                        arg2_tokens=arg2_tokens,
+                        arg1_lemmas=[words[t].lower() for t in arg1_tokens],
+                        arg2_lemmas=[words[t].lower() for t in arg2_tokens],
+                        result_nnz=wv.nnz,
+                    )
+                )
 
         # Primitive activations (cosine with each primitive in basis)
         word_acts: Dict[str, float] = {}
@@ -598,7 +609,7 @@ class GSEPipeline:
             return "v"
         if word_lower.endswith(("ness", "tion", "ity", "ment")):
             return "n"
-        if position == 0 or (position > 0 and words[position-1].lower() in ["the", "a", "an"]):
+        if position == 0 or (position > 0 and words[position - 1].lower() in ["the", "a", "an"]):
             return "n"
 
         return "n"  # Default
@@ -784,6 +795,7 @@ class GSEPipeline:
 # =============================================================================
 # CONVENIENCE FUNCTIONS
 # =============================================================================
+
 
 def create_pipeline(lexicon_path: Optional[str] = None) -> GSEPipeline:
     """

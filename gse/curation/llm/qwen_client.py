@@ -24,6 +24,7 @@ DEFAULT_MODEL_PATH = LOCAL_MODEL_PATH  # Use local model (faster loading)
 @dataclass
 class GenerationConfig:
     """Configuration for text generation."""
+
     max_new_tokens: int = 2000
     temperature: float = 0.3
     top_p: float = 0.9
@@ -65,6 +66,7 @@ class QwenClient:
         """Detect the best available device."""
         try:
             import torch
+
             if torch.backends.mps.is_available():
                 return "mps"
             elif torch.cuda.is_available():
@@ -84,8 +86,7 @@ class QwenClient:
             from transformers import AutoModelForCausalLM, AutoTokenizer
         except ImportError as e:
             raise ImportError(
-                "transformers>=4.51.0 and torch are required. "
-                "Install with: pip install 'transformers>=4.51.0' torch"
+                "transformers>=4.51.0 and torch are required. Install with: pip install 'transformers>=4.51.0' torch"
             ) from e
 
         # Check if using HuggingFace model ID or local path
@@ -121,10 +122,7 @@ class QwenClient:
             load_kwargs["load_in_8bit"] = True
 
         logger.info(f"Loading model with dtype={dtype}...")
-        self.model = AutoModelForCausalLM.from_pretrained(
-            model_id,
-            **load_kwargs
-        )
+        self.model = AutoModelForCausalLM.from_pretrained(model_id, **load_kwargs)
 
         # Move to device after loading (faster than device_map for MPS)
         if self.device != "cpu":
@@ -147,6 +145,7 @@ class QwenClient:
         # Clear CUDA cache if available
         try:
             import torch
+
             if torch.cuda.is_available():
                 torch.cuda.empty_cache()
         except ImportError:
@@ -193,6 +192,7 @@ class QwenClient:
 
         # Generate
         import torch
+
         with torch.no_grad():
             outputs = self.model.generate(
                 **inputs,
@@ -206,7 +206,7 @@ class QwenClient:
 
         # Decode
         response = self.tokenizer.decode(
-            outputs[0][inputs["input_ids"].shape[1]:],
+            outputs[0][inputs["input_ids"].shape[1] :],
             skip_special_tokens=True,
         )
 
@@ -275,6 +275,7 @@ class QwenClient:
             except Exception as e:
                 logger.error(f"Failed to decompose '{word}': {e}")
                 from gse.curation.schema import ALL_PRIMITIVES
+
                 empty_decomp = {p: 0 for p in ALL_PRIMITIVES}
                 results.append((empty_decomp, 0.0, [str(e)]))
 

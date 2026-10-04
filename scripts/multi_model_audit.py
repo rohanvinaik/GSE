@@ -32,10 +32,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Dict, List, Optional, Tuple
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -49,43 +46,102 @@ MODELS = ["smollm:1.7b", "granite3-moe:1b", "gemma2:2b"]
 EXPERIENCER_PRIMITIVES = {"FEEL", "THINK", "KNOW", "WANT", "SEE", "HEAR"}
 AGENT_PRIMITIVES = {"DO", "SAY", "MOVE", "MAKE"}
 BIPOLAR_PAIRS = [
-    ("GOOD", "BAD"), ("BIG", "SMALL"), ("ALIVE", "DEAD"),
-    ("BEFORE", "AFTER"), ("INSIDE", "OUTSIDE"), ("WITH", "WITHOUT"),
-    ("TRUE", "FALSE"), ("FAR", "NEAR"), ("SAME", "OTHER"),
+    ("GOOD", "BAD"),
+    ("BIG", "SMALL"),
+    ("ALIVE", "DEAD"),
+    ("BEFORE", "AFTER"),
+    ("INSIDE", "OUTSIDE"),
+    ("WITH", "WITHOUT"),
+    ("TRUE", "FALSE"),
+    ("FAR", "NEAR"),
+    ("SAME", "OTHER"),
 ]
 
 # Function words that should have minimal primitives
 FUNCTION_WORDS = {
-    'the', 'of', 'and', 'to', 'a', 'in', 'is', 'that', 'for', 'it',
-    'with', 'as', 'on', 'at', 'by', 'from', 'or', 'an', 'be', 'this',
-    'are', 'was', 'were', 'been', 'being', 'have', 'has', 'had', 'not',
-    'but', 'if', 'which', 'their', 'so', 'what', 'when', 'into', 'than',
-    'its', 'any', 'no', 'do', 'how', 'up', 'out', 'just', 'about'
+    "the",
+    "of",
+    "and",
+    "to",
+    "a",
+    "in",
+    "is",
+    "that",
+    "for",
+    "it",
+    "with",
+    "as",
+    "on",
+    "at",
+    "by",
+    "from",
+    "or",
+    "an",
+    "be",
+    "this",
+    "are",
+    "was",
+    "were",
+    "been",
+    "being",
+    "have",
+    "has",
+    "had",
+    "not",
+    "but",
+    "if",
+    "which",
+    "their",
+    "so",
+    "what",
+    "when",
+    "into",
+    "than",
+    "its",
+    "any",
+    "no",
+    "do",
+    "how",
+    "up",
+    "out",
+    "just",
+    "about",
 }
 
 # Modifier hierarchy - now loaded from external ground truth
 # Fallback dictionary for when ground truth isn't available
 MODIFIER_HIERARCHY_FALLBACK = {
-    "barely": ("INTENSITY", -2), "hardly": ("INTENSITY", -2),
-    "slightly": ("INTENSITY", -1), "somewhat": ("INTENSITY", -1),
-    "fairly": ("INTENSITY", 0), "rather": ("INTENSITY", 0),
-    "quite": ("INTENSITY", 1), "very": ("INTENSITY", 1), "highly": ("INTENSITY", 1),
-    "extremely": ("INTENSITY", 2), "incredibly": ("INTENSITY", 2),
-    "none": ("QUANTITY", -3), "few": ("QUANTITY", -2), "some": ("QUANTITY", -1),
-    "several": ("QUANTITY", 0), "more": ("QUANTITY", 1), "many": ("QUANTITY", 2),
-    "all": ("QUANTITY", 3), "impossible": ("CERTAINTY", -3),
-    "unlikely": ("CERTAINTY", -2), "possible": ("CERTAINTY", 0),
-    "likely": ("CERTAINTY", 2), "certain": ("CERTAINTY", 3),
+    "barely": ("INTENSITY", -2),
+    "hardly": ("INTENSITY", -2),
+    "slightly": ("INTENSITY", -1),
+    "somewhat": ("INTENSITY", -1),
+    "fairly": ("INTENSITY", 0),
+    "rather": ("INTENSITY", 0),
+    "quite": ("INTENSITY", 1),
+    "very": ("INTENSITY", 1),
+    "highly": ("INTENSITY", 1),
+    "extremely": ("INTENSITY", 2),
+    "incredibly": ("INTENSITY", 2),
+    "none": ("QUANTITY", -3),
+    "few": ("QUANTITY", -2),
+    "some": ("QUANTITY", -1),
+    "several": ("QUANTITY", 0),
+    "more": ("QUANTITY", 1),
+    "many": ("QUANTITY", 2),
+    "all": ("QUANTITY", 3),
+    "impossible": ("CERTAINTY", -3),
+    "unlikely": ("CERTAINTY", -2),
+    "possible": ("CERTAINTY", 0),
+    "likely": ("CERTAINTY", 2),
+    "certain": ("CERTAINTY", 3),
 }
 
 # Try to load external ground truth
 try:
     from scripts.load_intensity_ground_truth import get_modifier_ground_truth
+
     _GROUND_TRUTH = get_modifier_ground_truth()
-    MODIFIER_HIERARCHY = {
-        word: (entry.hierarchy_type, entry.level)
-        for word, entry in _GROUND_TRUTH.modifiers.items()
-    }
+    MODIFIER_HIERARCHY = {word: (entry.hierarchy_type, entry.level) for word, entry in _GROUND_TRUTH.modifiers.items()}
     logger.info(f"Loaded {len(MODIFIER_HIERARCHY)} modifiers from external ground truth")
 except ImportError:
     MODIFIER_HIERARCHY = MODIFIER_HIERARCHY_FALLBACK
@@ -108,9 +164,9 @@ def query_model(model: str, prompt: str, timeout: int = 60) -> str:
                 "model": model,
                 "prompt": prompt,
                 "stream": False,
-                "options": {"temperature": 0.1, "num_predict": 50}
+                "options": {"temperature": 0.1, "num_predict": 50},
             },
-            timeout=timeout
+            timeout=timeout,
         )
         if response.status_code == 200:
             return response.json().get("response", "").strip()
@@ -123,6 +179,7 @@ def query_model(model: str, prompt: str, timeout: int = 60) -> str:
 # ============================================================================
 # Audit Checks
 # ============================================================================
+
 
 @dataclass
 class AuditIssue:
@@ -249,6 +306,7 @@ def compute_agreement(votes: Dict[str, str]) -> Tuple[str, str]:
 # Main Audit Logic
 # ============================================================================
 
+
 class MultiModelAuditor:
     def __init__(self, db_path: str, models: List[str] = MODELS):
         self.db_path = db_path
@@ -259,10 +317,13 @@ class MultiModelAuditor:
 
     def get_word_primitives(self, lexeme_id: int) -> Dict[str, int]:
         """Get all primitives for a word."""
-        cursor = self.conn.execute("""
+        cursor = self.conn.execute(
+            """
             SELECT primitive, value FROM primitive_values
             WHERE lexeme_id = ?
-        """, (lexeme_id,))
+        """,
+            (lexeme_id,),
+        )
         return {row[0]: row[1] for row in cursor.fetchall()}
 
     def audit_word(self, lexeme_id: int, lemma: str, pos: str, primitives: Dict[str, int]) -> List[AuditIssue]:
@@ -273,24 +334,16 @@ class MultiModelAuditor:
         # Check 1: Function words with too many primitives
         if lemma.lower() in FUNCTION_WORDS and len(active) > 3:
             issue = self._check_with_models(
-                lemma, primitives, "function_word",
-                f"Function word with {len(active)} active primitives"
+                lemma, primitives, "function_word", f"Function word with {len(active)} active primitives"
             )
             if issue:
                 issues.append(issue)
 
         # Check 2: FEEL without experiencer
         if primitives.get("FEEL") == 1:
-            has_experiencer = (
-                primitives.get("SOMEONE") == 1 or
-                primitives.get("I") == 1 or
-                primitives.get("YOU") == 1
-            )
+            has_experiencer = primitives.get("SOMEONE") == 1 or primitives.get("I") == 1 or primitives.get("YOU") == 1
             if not has_experiencer:
-                issue = self._check_with_models(
-                    lemma, primitives, "experiencer",
-                    "FEEL=1 without SOMEONE/I/YOU"
-                )
+                issue = self._check_with_models(lemma, primitives, "experiencer", "FEEL=1 without SOMEONE/I/YOU")
                 if issue:
                     issues.append(issue)
 
@@ -298,46 +351,31 @@ class MultiModelAuditor:
         if primitives.get("DO") == 1 or primitives.get("SAY") == 1:
             has_agent = primitives.get("SOMEONE") == 1
             if not has_agent:
-                issue = self._check_with_models(
-                    lemma, primitives, "agent",
-                    "DO/SAY=1 without SOMEONE"
-                )
+                issue = self._check_with_models(lemma, primitives, "agent", "DO/SAY=1 without SOMEONE")
                 if issue:
                     issues.append(issue)
 
         # Check 4: ALIVE on non-living things
         if primitives.get("ALIVE") == 1:
-            issue = self._check_with_models(
-                lemma, primitives, "alive",
-                "Has ALIVE=1"
-            )
+            issue = self._check_with_models(lemma, primitives, "alive", "Has ALIVE=1")
             if issue:
                 issues.append(issue)
 
         # Check 5: Excessive primitives (>25)
         if len(active) > 25:
-            issue = self._check_with_models(
-                lemma, primitives, "general",
-                f"Excessive primitives: {len(active)}"
-            )
+            issue = self._check_with_models(lemma, primitives, "general", f"Excessive primitives: {len(active)}")
             if issue:
                 issues.append(issue)
 
         # Check 6: BODY on abstract words (sample check)
         if primitives.get("BODY") == 1 and primitives.get("THINK") == 1:
-            issue = self._check_with_models(
-                lemma, primitives, "body",
-                "Has both BODY=1 and THINK=1"
-            )
+            issue = self._check_with_models(lemma, primitives, "body", "Has both BODY=1 and THINK=1")
             if issue:
                 issues.append(issue)
 
         # Check 7: SAY without WORDS
         if primitives.get("SAY") == 1 and primitives.get("WORDS") != 1:
-            issue = self._check_with_models(
-                lemma, primitives, "say_words",
-                "SAY=1 without WORDS=1"
-            )
+            issue = self._check_with_models(lemma, primitives, "say_words", "SAY=1 without WORDS=1")
             if issue:
                 issues.append(issue)
 
@@ -348,11 +386,7 @@ class MultiModelAuditor:
 
         return issues
 
-    def _check_modifier_hierarchy(
-        self,
-        lemma: str,
-        primitives: Dict[str, int]
-    ) -> List[AuditIssue]:
+    def _check_modifier_hierarchy(self, lemma: str, primitives: Dict[str, int]) -> List[AuditIssue]:
         """
         Validate modifier hierarchy encoding.
 
@@ -376,83 +410,91 @@ class MultiModelAuditor:
 
         # Check 1: Base primitive should be +1
         if base_value != 1:
-            issues.append(AuditIssue(
-                word=lemma,
-                check_type="modifier_base",
-                description=f"{base_type} should be +1, got {base_value}",
-                current_value=f"{base_type}={base_value}",
-                model_votes={"deterministic": "FAIL"},
-                agreement_level="deterministic",
-                priority="high"
-            ))
+            issues.append(
+                AuditIssue(
+                    word=lemma,
+                    check_type="modifier_base",
+                    description=f"{base_type} should be +1, got {base_value}",
+                    current_value=f"{base_type}={base_value}",
+                    model_votes={"deterministic": "FAIL"},
+                    agreement_level="deterministic",
+                    priority="high",
+                )
+            )
 
         # Check 2: HIER markers match expected level
         if expected_level > 0:
             # Should have HIER_PLUS = level, HIER_MINUS = 0
             if hier_plus != expected_level:
-                issues.append(AuditIssue(
-                    word=lemma,
-                    check_type="modifier_hier_plus",
-                    description=f"HIER_PLUS should be {expected_level}, got {hier_plus}",
-                    current_value=f"HIER_PLUS={hier_plus}",
-                    model_votes={"deterministic": "FAIL"},
-                    agreement_level="deterministic",
-                    priority="high" if abs(hier_plus - expected_level) > 1 else "medium"
-                ))
+                issues.append(
+                    AuditIssue(
+                        word=lemma,
+                        check_type="modifier_hier_plus",
+                        description=f"HIER_PLUS should be {expected_level}, got {hier_plus}",
+                        current_value=f"HIER_PLUS={hier_plus}",
+                        model_votes={"deterministic": "FAIL"},
+                        agreement_level="deterministic",
+                        priority="high" if abs(hier_plus - expected_level) > 1 else "medium",
+                    )
+                )
             if hier_minus != 0:
-                issues.append(AuditIssue(
-                    word=lemma,
-                    check_type="modifier_hier_minus",
-                    description=f"HIER_MINUS should be 0 for positive level, got {hier_minus}",
-                    current_value=f"HIER_MINUS={hier_minus}",
-                    model_votes={"deterministic": "FAIL"},
-                    agreement_level="deterministic",
-                    priority="medium"
-                ))
+                issues.append(
+                    AuditIssue(
+                        word=lemma,
+                        check_type="modifier_hier_minus",
+                        description=f"HIER_MINUS should be 0 for positive level, got {hier_minus}",
+                        current_value=f"HIER_MINUS={hier_minus}",
+                        model_votes={"deterministic": "FAIL"},
+                        agreement_level="deterministic",
+                        priority="medium",
+                    )
+                )
         elif expected_level < 0:
             # Should have HIER_MINUS = abs(level), HIER_PLUS = 0
             expected_minus = abs(expected_level)
             if hier_minus != expected_minus:
-                issues.append(AuditIssue(
-                    word=lemma,
-                    check_type="modifier_hier_minus",
-                    description=f"HIER_MINUS should be {expected_minus}, got {hier_minus}",
-                    current_value=f"HIER_MINUS={hier_minus}",
-                    model_votes={"deterministic": "FAIL"},
-                    agreement_level="deterministic",
-                    priority="high" if abs(hier_minus - expected_minus) > 1 else "medium"
-                ))
+                issues.append(
+                    AuditIssue(
+                        word=lemma,
+                        check_type="modifier_hier_minus",
+                        description=f"HIER_MINUS should be {expected_minus}, got {hier_minus}",
+                        current_value=f"HIER_MINUS={hier_minus}",
+                        model_votes={"deterministic": "FAIL"},
+                        agreement_level="deterministic",
+                        priority="high" if abs(hier_minus - expected_minus) > 1 else "medium",
+                    )
+                )
             if hier_plus != 0:
-                issues.append(AuditIssue(
-                    word=lemma,
-                    check_type="modifier_hier_plus",
-                    description=f"HIER_PLUS should be 0 for negative level, got {hier_plus}",
-                    current_value=f"HIER_PLUS={hier_plus}",
-                    model_votes={"deterministic": "FAIL"},
-                    agreement_level="deterministic",
-                    priority="medium"
-                ))
+                issues.append(
+                    AuditIssue(
+                        word=lemma,
+                        check_type="modifier_hier_plus",
+                        description=f"HIER_PLUS should be 0 for negative level, got {hier_plus}",
+                        current_value=f"HIER_PLUS={hier_plus}",
+                        model_votes={"deterministic": "FAIL"},
+                        agreement_level="deterministic",
+                        priority="medium",
+                    )
+                )
         else:  # expected_level == 0
             # Should have no HIER markers
             if hier_plus != 0 or hier_minus != 0:
-                issues.append(AuditIssue(
-                    word=lemma,
-                    check_type="modifier_hier_neutral",
-                    description=f"Level 0 needs no HIER markers, got HIER_PLUS={hier_plus}, HIER_MINUS={hier_minus}",
-                    current_value=f"HIER_PLUS={hier_plus}, HIER_MINUS={hier_minus}",
-                    model_votes={"deterministic": "FAIL"},
-                    agreement_level="deterministic",
-                    priority="medium"
-                ))
+                issues.append(
+                    AuditIssue(
+                        word=lemma,
+                        check_type="modifier_hier_neutral",
+                        description=f"Level 0 needs no HIER markers, got HIER_PLUS={hier_plus}, HIER_MINUS={hier_minus}",
+                        current_value=f"HIER_PLUS={hier_plus}, HIER_MINUS={hier_minus}",
+                        model_votes={"deterministic": "FAIL"},
+                        agreement_level="deterministic",
+                        priority="medium",
+                    )
+                )
 
         return issues
 
     def _check_with_models(
-        self,
-        word: str,
-        primitives: Dict[str, int],
-        check_type: str,
-        description: str
+        self, word: str, primitives: Dict[str, int], check_type: str, description: str
     ) -> Optional[AuditIssue]:
         """Query all models and compute consensus."""
         prompt = get_concise_prompt(word, primitives, check_type)
@@ -476,19 +518,22 @@ class MultiModelAuditor:
                 current_value=str(dict(list(active.items())[:5])),
                 model_votes=votes,
                 agreement_level=agreement,
-                priority=priority
+                priority=priority,
             )
 
         return None
 
     def run_audit(self, limit: int = None, start_rank: int = 1) -> List[AuditIssue]:
         """Run full audit on lexicon."""
-        cursor = self.conn.execute("""
+        cursor = self.conn.execute(
+            """
             SELECT l.id, l.lemma, l.pos, l.frequency_rank
             FROM lexemes l
             WHERE l.frequency_rank >= ?
             ORDER BY l.frequency_rank
-        """, (start_rank,))
+        """,
+            (start_rank,),
+        )
 
         words = cursor.fetchall()
         if limit:
@@ -529,13 +574,13 @@ class MultiModelAuditor:
         report = f"""# Multi-Model Semantic Audit Report (V4)
 
 Generated: {datetime.now().isoformat()}
-Models: {', '.join(self.models)}
+Models: {", ".join(self.models)}
 
 ## Summary
 
 | Metric | Value |
 |--------|-------|
-| Words audited | {self.stats['words_processed']} |
+| Words audited | {self.stats["words_processed"]} |
 | Total issues | {len(self.issues)} |
 | **HIGH priority** (unanimous agreement - fix) | {len(high)} |
 | **MEDIUM priority** (majority agreement) | {len(medium)} |
@@ -631,20 +676,28 @@ These words have split opinions - need deeper semantic analysis.
 <summary>Click to expand full issue list</summary>
 
 ```json
-{json.dumps([{
-    'word': i.word,
-    'check_type': i.check_type,
-    'description': i.description,
-    'votes': i.model_votes,
-    'agreement': i.agreement_level,
-    'priority': i.priority
-} for i in self.issues], indent=2)}
+{
+            json.dumps(
+                [
+                    {
+                        "word": i.word,
+                        "check_type": i.check_type,
+                        "description": i.description,
+                        "votes": i.model_votes,
+                        "agreement": i.agreement_level,
+                        "priority": i.priority,
+                    }
+                    for i in self.issues
+                ],
+                indent=2,
+            )
+        }
 ```
 
 </details>
 """
 
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             f.write(report)
 
         logger.info(f"Report saved to {output_path}")
@@ -657,26 +710,24 @@ These words have split opinions - need deeper semantic analysis.
 # Continuous Mode
 # ============================================================================
 
+
 def run_continuous_audit(
-    db_path: str,
-    output_dir: str,
-    models: List[str],
-    batch_size: int = 50,
-    sleep_between_passes: int = 300
+    db_path: str, output_dir: str, models: List[str], batch_size: int = 50, sleep_between_passes: int = 300
 ):
     """
     Run audit continuously in background.
     Loops forever, processing all words then waiting before next pass.
     """
     import os
+
     os.makedirs(output_dir, exist_ok=True)
 
     log_file = os.path.join(output_dir, "audit_log.jsonl")
     pass_count = 0
 
-    print("="*60)
+    print("=" * 60)
     print("MULTI-MODEL CONTINUOUS AUDIT")
-    print("="*60)
+    print("=" * 60)
     print(f"Models: {', '.join(models)}")
     print(f"Database: {db_path}")
     print(f"Output: {output_dir}")
@@ -684,7 +735,7 @@ def run_continuous_audit(
     print(f"Sleep between passes: {sleep_between_passes}s")
     print()
     print("Running continuously. Press Ctrl+C to stop.")
-    print("="*60)
+    print("=" * 60)
 
     try:
         while True:
@@ -712,7 +763,7 @@ def run_continuous_audit(
                             "description": issue.description,
                             "votes": issue.model_votes,
                             "agreement": issue.agreement_level,
-                            "priority": issue.priority
+                            "priority": issue.priority,
                         }
                         f.write(json.dumps(entry) + "\n")
 
@@ -740,6 +791,7 @@ def run_continuous_audit(
 # Main
 # ============================================================================
 
+
 def main():
     parser = argparse.ArgumentParser(description="Multi-Model Semantic Audit")
     parser.add_argument("--db", default="data/lexicon.db", help="Database path")
@@ -759,7 +811,7 @@ def main():
             output_dir=args.output,
             models=args.models,
             batch_size=args.batch_size,
-            sleep_between_passes=args.sleep
+            sleep_between_passes=args.sleep,
         )
     else:
         # Single pass mode
@@ -770,14 +822,14 @@ def main():
 
             # Append .md if output doesn't have it
             output_path = args.output
-            if not output_path.endswith('.md'):
+            if not output_path.endswith(".md"):
                 output_path = output_path + "_report.md"
 
             auditor.generate_report(output_path)
 
-            print("\n" + "="*60)
+            print("\n" + "=" * 60)
             print("MULTI-MODEL AUDIT COMPLETE")
-            print("="*60)
+            print("=" * 60)
             print(f"Words audited: {auditor.stats['words_processed']}")
             print(f"Total issues: {len(auditor.issues)}")
             high = sum(1 for i in auditor.issues if i.priority == "high")

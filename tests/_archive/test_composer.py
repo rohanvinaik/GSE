@@ -18,7 +18,7 @@ class MockLexicon:
         self._add_word("chase", "VERB")
         self._add_word("big", "ADJ")
         self._add_word("quick", "ADV")
-        self._add_word("john", "NOUN") # Proper noun
+        self._add_word("john", "NOUN")  # Proper noun
         self._add_word("mary", "NOUN")
         self._add_word("love", "VERB")
         self._add_word("book", "NOUN")
@@ -43,14 +43,16 @@ class MockLexicon:
             vector=vec,
             frequency=1.0,
             source="mock",
-            confidence=1.0
+            confidence=1.0,
         )
 
     def lookup(self, lemma, pos):
         # normalize POS
         # If proper noun, maybe mapped to NOUN
-        if pos == "PROPN": pos = "NOUN"
+        if pos == "PROPN":
+            pos = "NOUN"
         return self.entries.get((lemma, pos))
+
 
 @pytest.fixture
 def composer(tmp_path):
@@ -60,6 +62,7 @@ def composer(tmp_path):
     lexicon = MockLexicon(basis)
 
     return Composer(lexicon, basis)
+
 
 def test_simple_sentence_composition(composer):
     parser = Parser()
@@ -72,6 +75,7 @@ def test_simple_sentence_composition(composer):
     assert result.confidence > 0
     assert result.merkle_root != ""
 
+
 def test_transitive_sentence(composer):
     parser = Parser()
     parsed = parser.parse_single("John loves Mary.")
@@ -80,6 +84,7 @@ def test_transitive_sentence(composer):
     # Should have sense selections for content words
     # John, loves(love), Mary
     assert len(result.sense_selections) >= 3
+
 
 def test_composition_determinism(composer):
     parser = Parser()
@@ -92,6 +97,7 @@ def test_composition_determinism(composer):
     assert result1.merkle_root == result2.merkle_root
     assert result1.sentence_vector.cosine(result2.sentence_vector) == pytest.approx(1.0)
 
+
 def test_different_sentences_different_vectors(composer):
     parser = Parser()
 
@@ -101,6 +107,7 @@ def test_different_sentences_different_vectors(composer):
     # Different sentences should have different vectors
     similarity = result1.sentence_vector.cosine(result2.sentence_vector)
     assert similarity < 0.9  # Not identical
+
 
 def test_similar_sentences_similar_vectors(composer):
     parser = Parser()

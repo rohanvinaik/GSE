@@ -44,6 +44,7 @@ from gse.patterns.orchestrator import OrchestratorNetwork
 @dataclass
 class ProfileMetadata:
     """Metadata about a learning profile."""
+
     name: str
     created_at: str
     modified_at: str
@@ -94,6 +95,7 @@ class LearningProfile:
     Contains all network weights and patterns that define
     a particular learned behavior style.
     """
+
     metadata: ProfileMetadata
 
     # Scale-specific networks
@@ -130,12 +132,14 @@ class LearningProfile:
 
     def record_epoch(self, epoch_num: int, file_processed: str, stats: Dict[str, Any]):
         """Record epoch completion in history."""
-        self.metadata.epoch_history.append({
-            "epoch": epoch_num,
-            "file": file_processed,
-            "timestamp": datetime.now().isoformat(),
-            "stats": stats,
-        })
+        self.metadata.epoch_history.append(
+            {
+                "epoch": epoch_num,
+                "file": file_processed,
+                "timestamp": datetime.now().isoformat(),
+                "stats": stats,
+            }
+        )
         self.metadata.epochs_completed = epoch_num
         self.metadata.modified_at = datetime.now().isoformat()
 
@@ -217,9 +221,13 @@ class ProfileManager:
                 raise ValueError(f"Source profile '{clone_from}' not found")
 
             # Copy network files
-            for file in ["text_network.json", "paragraph_network.json",
-                         "sentence_network.json", "word_network.json",
-                         "orchestrator.json"]:
+            for file in [
+                "text_network.json",
+                "paragraph_network.json",
+                "sentence_network.json",
+                "word_network.json",
+                "orchestrator.json",
+            ]:
                 src = source_dir / file
                 if src.exists():
                     shutil.copy(src, profile_dir / file)
@@ -309,11 +317,14 @@ class ProfileManager:
         for filename, network in network_files.items():
             filepath = profile_dir / filename
             with open(filepath, "w") as f:
-                json.dump({
-                    "weights": network.weights.tolist(),
-                    "update_count": network.update_count,
-                    "total_activations": network.total_activations,
-                }, f)
+                json.dump(
+                    {
+                        "weights": network.weights.tolist(),
+                        "update_count": network.update_count,
+                        "total_activations": network.total_activations,
+                    },
+                    f,
+                )
 
     def save_active_profile(self):
         """Save the currently active profile."""
@@ -405,12 +416,8 @@ class ProfileManager:
         )
 
         # Average network weights
-        for attr in ["text_network", "paragraph_network", "sentence_network",
-                     "word_network", "orchestrator"]:
-            merged_weights = sum(
-                w * getattr(p, attr).weights
-                for w, p in zip(weights, profiles)
-            )
+        for attr in ["text_network", "paragraph_network", "sentence_network", "word_network", "orchestrator"]:
+            merged_weights = sum(w * getattr(p, attr).weights for w, p in zip(weights, profiles))
             getattr(merged, attr).weights = merged_weights
 
         self._save_profile(merged)

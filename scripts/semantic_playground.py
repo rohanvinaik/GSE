@@ -31,9 +31,7 @@ class SemanticPlayground:
     def __init__(self):
         print("Loading GSE Cascade Pipeline (trained on your corpus)...")
         self.pipeline = load_cascade_pipeline(
-            lexicon_path="data/lexicon.db",
-            basis_path="data/basis.msgpack",
-            networks_path="data/networks"
+            lexicon_path="data/lexicon.db", basis_path="data/basis.msgpack", networks_path="data/networks"
         )
         self.klines = KLineStore()
         self.encoded_cache: Dict[str, GSEResult] = {}
@@ -53,9 +51,9 @@ class SemanticPlayground:
         """Display the semantic encoding of a text."""
         result = self.encode(text)
 
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print(f"TEXT: {text}")
-        print(f"{'='*60}")
+        print(f"{'=' * 60}")
         print(f"Confidence: {result.confidence:.3f}")
         print(f"Processing: {result.processing_time_ms:.1f}ms")
         print(f"Vector: {result.vector.nnz}/{result.vector.dimension} non-zero")
@@ -67,28 +65,28 @@ class SemanticPlayground:
         print("\nVector Profile:")
         print(f"  Positive activations: {len(result.vector.positive_indices)}")
         print(f"  Negative activations: {len(result.vector.negative_indices)}")
-        print(f"  Density: {result.vector.sparsity*100:.1f}%")
+        print(f"  Density: {result.vector.sparsity * 100:.1f}%")
 
         return result
 
     def compare(self, texts: List[str]):
         """Compare multiple texts semantically."""
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print("SEMANTIC COMPARISON")
-        print(f"{'='*60}\n")
+        print(f"{'=' * 60}\n")
 
         results = [self.encode(t) for t in texts]
 
         # Print texts
         for i, t in enumerate(texts):
-            print(f"[{i+1}] {t[:60]}{'...' if len(t) > 60 else ''}")
+            print(f"[{i + 1}] {t[:60]}{'...' if len(t) > 60 else ''}")
 
         # Compute similarity matrix
         print("\nSimilarity Matrix:")
-        print("    " + "  ".join(f"[{i+1}]  " for i in range(len(texts))))
+        print("    " + "  ".join(f"[{i + 1}]  " for i in range(len(texts))))
 
         for i in range(len(texts)):
-            row = f"[{i+1}]"
+            row = f"[{i + 1}]"
             for j in range(len(texts)):
                 sim = results[i].vector.cosine(results[j].vector)
                 row += f" {sim:.3f}"
@@ -99,11 +97,11 @@ class SemanticPlayground:
         all_support = [set(r.vector.support.tolist()) for r in results]
 
         for i in range(len(texts)):
-            for j in range(i+1, len(texts)):
+            for j in range(i + 1, len(texts)):
                 shared = len(all_support[i] & all_support[j])
                 total = len(all_support[i] | all_support[j])
                 overlap = shared / total if total > 0 else 0
-                print(f"  [{i+1}] ∩ [{j+1}]: {shared} shared dimensions ({overlap*100:.1f}%)")
+                print(f"  [{i + 1}] ∩ [{j + 1}]: {shared} shared dimensions ({overlap * 100:.1f}%)")
 
     def analogy(self, a: str, b: str, c: str) -> List[Tuple[str, float]]:
         """
@@ -111,9 +109,9 @@ class SemanticPlayground:
 
         Uses vector arithmetic: ? ≈ B - A + C
         """
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print(f"ANALOGY: '{a}' is to '{b}' as '{c}' is to ?")
-        print(f"{'='*60}")
+        print(f"{'=' * 60}")
 
         va = self.encode(a).vector
         vb = self.encode(b).vector
@@ -125,6 +123,7 @@ class SemanticPlayground:
 
         # Find top activated primitives in target
         from gse.vectors import SparseVector
+
         target_sparse = SparseVector(dimension=va.dimension)
 
         # Get top components
@@ -144,9 +143,9 @@ class SemanticPlayground:
 
     def cluster_texts(self, texts: List[str], n_clusters: int = 3):
         """Cluster texts by semantic similarity."""
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print(f"SEMANTIC CLUSTERING ({n_clusters} clusters)")
-        print(f"{'='*60}\n")
+        print(f"{'=' * 60}\n")
 
         results = [self.encode(t) for t in texts]
         vectors = np.array([r.vector.to_dense() for r in results])
@@ -162,7 +161,9 @@ class SemanticPlayground:
             distances = np.zeros((len(texts), n_clusters))
             for i, vec in enumerate(vectors):
                 for j, centroid in enumerate(centroids):
-                    distances[i, j] = 1 - np.dot(vec, centroid) / (np.linalg.norm(vec) * np.linalg.norm(centroid) + 1e-8)
+                    distances[i, j] = 1 - np.dot(vec, centroid) / (
+                        np.linalg.norm(vec) * np.linalg.norm(centroid) + 1e-8
+                    )
 
             # Assign to nearest centroid
             assignments = np.argmin(distances, axis=1)
@@ -178,7 +179,7 @@ class SemanticPlayground:
         # Print clusters
         for j in range(n_clusters):
             members = [texts[i] for i in range(len(texts)) if assignments[i] == j]
-            print(f"\nCluster {j+1} ({len(members)} texts):")
+            print(f"\nCluster {j + 1} ({len(members)} texts):")
             for m in members[:5]:
                 print(f"  - {m[:70]}{'...' if len(m) > 70 else ''}")
             if len(members) > 5:
@@ -186,9 +187,9 @@ class SemanticPlayground:
 
     def find_your_patterns(self, corpus_path: str):
         """Analyze your writing patterns from the corpus."""
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print("ANALYZING YOUR SEMANTIC PATTERNS")
-        print(f"{'='*60}\n")
+        print(f"{'=' * 60}\n")
 
         path = Path(corpus_path)
         if not path.exists():
@@ -205,7 +206,7 @@ class SemanticPlayground:
 
         for file in files:
             try:
-                text = file.read_text(encoding='utf-8', errors='replace')[:2000]
+                text = file.read_text(encoding="utf-8", errors="replace")[:2000]
                 result = self.encode(text[:500])  # First 500 chars
 
                 # Count primitive usage
@@ -267,36 +268,36 @@ class SemanticPlayground:
                 if not cmd:
                     continue
 
-                if cmd.lower() in ['quit', 'exit', 'q']:
+                if cmd.lower() in ["quit", "exit", "q"]:
                     print("Goodbye!")
                     break
 
-                if cmd.lower().startswith('encode '):
+                if cmd.lower().startswith("encode "):
                     text = cmd[7:]
                     self.show_encoding(text)
 
-                elif cmd.lower() == 'compare':
+                elif cmd.lower() == "compare":
                     print("Enter texts to compare (empty line to finish):")
                     texts = []
                     while True:
-                        t = input(f"  [{len(texts)+1}] ").strip()
+                        t = input(f"  [{len(texts) + 1}] ").strip()
                         if not t:
                             break
                         texts.append(t)
                     if len(texts) >= 2:
                         self.compare(texts)
 
-                elif cmd.lower().startswith('similar '):
+                elif cmd.lower().startswith("similar "):
                     text = cmd[8:]
                     # This would need a corpus to search
                     result = self.encode(text)
                     print(f"\nSemantic fingerprint for: {text}")
                     print(f"Top primitives: {[p for p, _ in result.vector.top_k(5)]}")
 
-                elif cmd.lower() == 'patterns':
+                elif cmd.lower() == "patterns":
                     self.find_your_patterns("/Users/rohanvinaik/relational-ai/data/training_text")
 
-                elif cmd.lower() == 'demo':
+                elif cmd.lower() == "demo":
                     self.run_demo()
 
                 else:
@@ -311,9 +312,9 @@ class SemanticPlayground:
 
     def run_demo(self):
         """Run demonstration of capabilities."""
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("DEMO: Exploring Semantic Space")
-        print("="*60)
+        print("=" * 60)
 
         # Demo 1: Similar concepts
         print("\n[1] SEMANTIC SIMILARITY")
@@ -348,6 +349,7 @@ class SemanticPlayground:
 
 def main():
     import argparse
+
     parser = argparse.ArgumentParser(description="Semantic Encoding Playground")
     parser.add_argument("--demo", action="store_true", help="Run demo")
     parser.add_argument("--encode", type=str, help="Encode specific text")

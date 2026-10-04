@@ -17,6 +17,7 @@ real word; this never treats a non-referent token as a nameable entity. Discipli
 NO world grounding; abstain-keep otherwise, so a genuine name that merely happens to be rare is never
 vetoed. Never destroys a correct value; a wrong guess here would only be NON-recovery (a kept junk id).
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -30,19 +31,60 @@ from .multiscale import Mention, MultiScaleDoc
 # DELIBERATELY EXCLUDED: they are the entity_identity SPLIT signal and the nominalized-adjective guard's
 # territory, so vetoing them would fight another cassette. Temporal/logical adverbs + discourse
 # connectives only.
-_NON_REFERENT = frozenset({
-    "finally", "then", "later", "thus", "however", "meanwhile", "moreover", "furthermore",
-    "therefore", "hence", "afterward", "afterwards", "once", "soon", "now", "today", "tomorrow",
-    "yesterday", "nevertheless", "nonetheless", "eventually", "initially", "subsequently",
-    "indeed", "perhaps", "maybe", "often", "always", "never", "sometimes", "suddenly",
-    "immediately", "instead", "besides", "likewise", "similarly", "consequently", "accordingly",
-    "otherwise", "overall", "meanwhile", "thereafter", "henceforth", "anyway", "somehow",
-})
+_NON_REFERENT = frozenset(
+    {
+        "finally",
+        "then",
+        "later",
+        "thus",
+        "however",
+        "meanwhile",
+        "moreover",
+        "furthermore",
+        "therefore",
+        "hence",
+        "afterward",
+        "afterwards",
+        "once",
+        "soon",
+        "now",
+        "today",
+        "tomorrow",
+        "yesterday",
+        "nevertheless",
+        "nonetheless",
+        "eventually",
+        "initially",
+        "subsequently",
+        "indeed",
+        "perhaps",
+        "maybe",
+        "often",
+        "always",
+        "never",
+        "sometimes",
+        "suddenly",
+        "immediately",
+        "instead",
+        "besides",
+        "likewise",
+        "similarly",
+        "consequently",
+        "accordingly",
+        "otherwise",
+        "overall",
+        "meanwhile",
+        "thereafter",
+        "henceforth",
+        "anyway",
+        "somehow",
+    }
+)
 
 
 @dataclass(frozen=True)
 class ReferentGap:
-    kind: str           # "veto"
+    kind: str  # "veto"
     eid: str
     rep: Mention
 

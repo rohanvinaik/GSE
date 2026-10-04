@@ -31,15 +31,17 @@ _PER_SOURCE_BOOST = 0.1
 @dataclass(frozen=True)
 class WeightedVote:
     """Outcome of weighted voting for a single primitive."""
+
     primitive: str
-    value: int                # -1, 0, or +1
-    confidence: float         # in [0.0, 1.0]
+    value: int  # -1, 0, or +1
+    confidence: float  # in [0.0, 1.0]
     contributing_sources: Tuple[str, ...]  # sorted, unique
 
 
 @dataclass
 class WeightedAggregation:
     """All weighted-vote results for one word."""
+
     word: str
     primitives: Dict[str, WeightedVote] = field(default_factory=dict)
     source_count: int = 0  # distinct sources that contributed any data

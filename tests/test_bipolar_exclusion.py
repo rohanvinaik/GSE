@@ -85,15 +85,21 @@ class TestConflictResolution:
         # "near" lexicon had NEAR=+1 AND AWAY=+1 (DIRECTION pair) plus
         # WITH=+1 AND WITHOUT=+1 (ACCOMPANIMENT pair) — both NSM violations
         decomp = {
-            "NEAR": 1,    "FAR": -1,
-            "TOWARD": 1,  "AWAY": 1,        # DIRECTION conflict
-            "WITH": 1,    "WITHOUT": 1,     # ACCOMPANIMENT conflict
+            "NEAR": 1,
+            "FAR": -1,
+            "TOWARD": 1,
+            "AWAY": 1,  # DIRECTION conflict
+            "WITH": 1,
+            "WITHOUT": 1,  # ACCOMPANIMENT conflict
             "SIDE": 1,
         }
         confs = {
-            "NEAR": 0.9, "FAR": 0.9,
-            "TOWARD": 0.8, "AWAY": 0.3,
-            "WITH": 0.6, "WITHOUT": 0.4,
+            "NEAR": 0.9,
+            "FAR": 0.9,
+            "TOWARD": 0.8,
+            "AWAY": 0.3,
+            "WITH": 0.6,
+            "WITHOUT": 0.4,
             "SIDE": 0.7,
         }
         result = enforce_bipolar_exclusion(decomp, confs)
@@ -103,9 +109,9 @@ class TestConflictResolution:
         # Both nonzero, equal conf → positive pole NEAR wins.
         assert "TOWARD" in result.primitives  # higher conf
         assert "AWAY" not in result.primitives
-        assert "WITH" in result.primitives    # higher conf
+        assert "WITH" in result.primitives  # higher conf
         assert "WITHOUT" not in result.primitives
-        assert "SIDE" in result.primitives    # not bipolar
+        assert "SIDE" in result.primitives  # not bipolar
 
 
 class TestCountViolations:
@@ -118,9 +124,12 @@ class TestCountViolations:
     def test_multiple_violations(self):
         # Three bipolar pairs all violated
         d = {
-            "GOOD": 1, "BAD": 1,
-            "BIG": 1, "SMALL": -1,
-            "NEAR": 1, "FAR": -1,
+            "GOOD": 1,
+            "BAD": 1,
+            "BIG": 1,
+            "SMALL": -1,
+            "NEAR": 1,
+            "FAR": -1,
         }
         assert count_violations(d) == 3
 

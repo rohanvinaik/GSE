@@ -20,6 +20,7 @@ from typing import Any, Dict, Iterator
 @dataclass
 class ConversationTurn:
     """A single turn in a conversation."""
+
     role: str  # 'human', 'assistant', 'user', 'system'
     content: str
     conversation_id: str = ""
@@ -107,7 +108,7 @@ class ConversationProcessor:
         """
         try:
             # Stream parse the JSON
-            with open(filepath, 'r', encoding='utf-8') as f:
+            with open(filepath, "r", encoding="utf-8") as f:
                 # For very large files, use ijson for streaming
                 # But for now, parse in chunks
                 data = json.load(f)
@@ -153,7 +154,7 @@ class ConversationProcessor:
                 continue
 
             if len(text) > self.max_content_length:
-                text = text[:self.max_content_length]
+                text = text[: self.max_content_length]
 
             yield text
 
@@ -185,7 +186,7 @@ class ConversationProcessor:
             Text content from each message
         """
         try:
-            with open(filepath, 'r', encoding='utf-8') as f:
+            with open(filepath, "r", encoding="utf-8") as f:
                 data = json.load(f)
 
             if isinstance(data, list):
@@ -236,14 +237,14 @@ class ConversationProcessor:
                         continue
 
                     if len(text) > self.max_content_length:
-                        text = text[:self.max_content_length]
+                        text = text[: self.max_content_length]
 
                     yield text
 
     def _auto_detect_and_process(self, filepath: str) -> Iterator[str]:
         """Auto-detect format and process."""
         try:
-            with open(filepath, 'r', encoding='utf-8') as f:
+            with open(filepath, "r", encoding="utf-8") as f:
                 # Read first 1000 chars to detect format
                 sample = f.read(1000)
 
@@ -264,16 +265,16 @@ class ConversationProcessor:
             return ""
 
         # Remove markdown artifacts
-        text = re.sub(r'```[\s\S]*?```', '', text)  # Code blocks
-        text = re.sub(r'`[^`]+`', '', text)  # Inline code
-        text = re.sub(r'!\[.*?\]\(.*?\)', '', text)  # Images
-        text = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', text)  # Links → text
+        text = re.sub(r"```[\s\S]*?```", "", text)  # Code blocks
+        text = re.sub(r"`[^`]+`", "", text)  # Inline code
+        text = re.sub(r"!\[.*?\]\(.*?\)", "", text)  # Images
+        text = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", text)  # Links → text
 
         # Remove excessive whitespace
-        text = re.sub(r'\s+', ' ', text)
+        text = re.sub(r"\s+", " ", text)
 
         # Remove special characters
-        text = re.sub(r'[^\w\s.,!?;:\'\"-]', '', text)
+        text = re.sub(r"[^\w\s.,!?;:\'\"-]", "", text)
 
         return text.strip()
 
@@ -302,7 +303,7 @@ class ConversationProcessor:
         stats["file_size_mb"] = path.stat().st_size / (1024 * 1024)
 
         try:
-            with open(filepath, 'r', encoding='utf-8') as f:
+            with open(filepath, "r", encoding="utf-8") as f:
                 data = json.load(f)
 
             if isinstance(data, list):
@@ -311,16 +312,10 @@ class ConversationProcessor:
                     first = data[0]
                     if "chat_messages" in first:
                         stats["format"] = "claude"
-                        stats["messages"] = sum(
-                            len(c.get("chat_messages", []))
-                            for c in data
-                        )
+                        stats["messages"] = sum(len(c.get("chat_messages", [])) for c in data)
                     elif "mapping" in first:
                         stats["format"] = "gpt"
-                        stats["messages"] = sum(
-                            len(c.get("mapping", {}))
-                            for c in data
-                        )
+                        stats["messages"] = sum(len(c.get("mapping", {})) for c in data)
             elif isinstance(data, dict):
                 stats["conversations"] = 1
                 if "chat_messages" in data:
@@ -366,7 +361,7 @@ if __name__ == "__main__":
             "chat_messages": [
                 {"sender": "human", "text": "This is a test message from the human user."},
                 {"sender": "assistant", "text": "This is a response from the assistant."},
-            ]
+            ],
         }
     ]
 
@@ -377,16 +372,16 @@ if __name__ == "__main__":
                 "node1": {
                     "message": {
                         "author": {"role": "user"},
-                        "content": {"parts": ["This is a test message from the user."]}
+                        "content": {"parts": ["This is a test message from the user."]},
                     }
                 },
                 "node2": {
                     "message": {
                         "author": {"role": "assistant"},
-                        "content": {"parts": ["This is a response from the assistant."]}
+                        "content": {"parts": ["This is a response from the assistant."]},
                     }
-                }
-            }
+                },
+            },
         }
     ]
 
@@ -397,7 +392,7 @@ if __name__ == "__main__":
     with tempfile.TemporaryDirectory() as tmpdir:
         # Test Claude format
         claude_path = os.path.join(tmpdir, "claude_test.json")
-        with open(claude_path, 'w') as f:
+        with open(claude_path, "w") as f:
             json.dump(sample_claude, f)
 
         print("\n1. Claude Format Processing:")
@@ -406,7 +401,7 @@ if __name__ == "__main__":
 
         # Test GPT format
         gpt_path = os.path.join(tmpdir, "gpt_test.json")
-        with open(gpt_path, 'w') as f:
+        with open(gpt_path, "w") as f:
             json.dump(sample_gpt, f)
 
         print("\n2. GPT Format Processing:")

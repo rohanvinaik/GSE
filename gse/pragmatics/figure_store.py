@@ -21,6 +21,7 @@ The GSE profile vector (``profile_vec``) is the bounded representation Face B tr
 over; it is populated by the Face-B prep step, NOT at curation time, so the schema and
 the encoder stay decoupled here.
 """
+
 from __future__ import annotations
 
 import json
@@ -108,8 +109,7 @@ def _validate(ex: FigureExample) -> None:
     for lab in ex.labels:
         if lab.figure not in FIGURE_NAMES:
             raise ValueError(
-                f"unknown figure {lab.figure!r} — not in the closed set "
-                f"(gse.pragmatics.figures.FIGURE_NAMES)"
+                f"unknown figure {lab.figure!r} — not in the closed set (gse.pragmatics.figures.FIGURE_NAMES)"
             )
         if not (0.0 <= lab.confidence <= 1.0):
             raise ValueError(f"confidence {lab.confidence} out of [0, 1] for {lab.figure!r}")
@@ -135,12 +135,16 @@ def ingest_example(
     (+ ``cleared_self`` per pre-cleared label) to the shadow ledger.
     """
     _validate(ex)
-    ex_row = {"text": ex.text, "matched_to": ex.matched_to,
-              "source": ex.source, "source_url": ex.source_url}
+    ex_row = {"text": ex.text, "matched_to": ex.matched_to, "source": ex.source, "source_url": ex.source_url}
     label_rows = [
-        {"figure": lab.figure, "bank": lab.bank, "confidence": lab.confidence,
-         "labeled_by": lab.labeled_by, "cleared_self": int(lab.cleared_self),
-         "review_note": lab.review_note}
+        {
+            "figure": lab.figure,
+            "bank": lab.bank,
+            "confidence": lab.confidence,
+            "labeled_by": lab.labeled_by,
+            "cleared_self": int(lab.cleared_self),
+            "review_note": lab.review_note,
+        }
         for lab in ex.labels
     ]
     if not apply:
@@ -170,10 +174,13 @@ def ingest_example(
 def clear_user(conn: sqlite3.Connection, label_id: int, note: str = "") -> None:
     """Record the human final-check on one label (the second rater of the gate)."""
     conn.execute("UPDATE figure_label SET cleared_user = 1 WHERE label_id = ?", (label_id,))
-    row = conn.execute("SELECT example_id, figure FROM figure_label WHERE label_id = ?",
-                       (label_id,)).fetchone()
-    _log(conn, row["example_id"] if row else None, "cleared_user",
-         {"figure": row["figure"] if row else None, "note": note})
+    row = conn.execute("SELECT example_id, figure FROM figure_label WHERE label_id = ?", (label_id,)).fetchone()
+    _log(
+        conn,
+        row["example_id"] if row else None,
+        "cleared_user",
+        {"figure": row["figure"] if row else None, "note": note},
+    )
     conn.commit()
 
 
@@ -186,10 +193,8 @@ def training_ready(conn: sqlite3.Connection) -> List[sqlite3.Row]:
     ).fetchall()
 
 
-def _log(conn: sqlite3.Connection, example_id: Optional[int], event_type: str,
-         data: dict) -> None:
+def _log(conn: sqlite3.Connection, example_id: Optional[int], event_type: str, data: dict) -> None:
     conn.execute(
-        "INSERT INTO figure_shadow_ledger (example_id, event_type, event_data) "
-        "VALUES (?, ?, ?)",
+        "INSERT INTO figure_shadow_ledger (example_id, event_type, event_data) VALUES (?, ?, ?)",
         (example_id, event_type, json.dumps(data)),
     )

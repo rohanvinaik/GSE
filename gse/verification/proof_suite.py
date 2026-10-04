@@ -16,6 +16,7 @@ from gse.api import GSEDecoder, GSEEncoder
 @dataclass
 class TestResult:
     """Result of a single test."""
+
     name: str
     passed: bool
     message: str
@@ -97,11 +98,13 @@ class GSEProofSuite:
                 self.log(f"  [FAIL] '{sent}' -> hash mismatch!")
                 all_match = False
 
-        self.results.append(TestResult(
-            name="reproducibility",
-            passed=all_match,
-            message="100% deterministic" if all_match else "Non-deterministic encoding detected",
-        ))
+        self.results.append(
+            TestResult(
+                name="reproducibility",
+                passed=all_match,
+                message="100% deterministic" if all_match else "Non-deterministic encoding detected",
+            )
+        )
 
     # =========================================================================
     # TEST 2: SIMILARITY PRESERVATION
@@ -137,11 +140,13 @@ class GSEProofSuite:
 
             self.log(f"  [{status}] cos={cos:.3f} ({expected}) '{sent[:35]}...'")
 
-        self.results.append(TestResult(
-            name="similarity_preservation",
-            passed=all_pass,
-            message="Similar sentences have higher similarity",
-        ))
+        self.results.append(
+            TestResult(
+                name="similarity_preservation",
+                passed=all_pass,
+                message="Similar sentences have higher similarity",
+            )
+        )
 
     # =========================================================================
     # TEST 3: ANTONYM RELATIONSHIPS
@@ -203,11 +208,13 @@ class GSEProofSuite:
             status = "OK" if abs(cos) < 0.4 else "WARN"
             self.log(f"    [{status}] {w1}/{w2}: cos={cos:.3f}")
 
-        self.results.append(TestResult(
-            name="antonym_relationships",
-            passed=all_pass,
-            message="Bipolar antonyms are opposite, semantic antonyms partially negative",
-        ))
+        self.results.append(
+            TestResult(
+                name="antonym_relationships",
+                passed=all_pass,
+                message="Bipolar antonyms are opposite, semantic antonyms partially negative",
+            )
+        )
 
     # =========================================================================
     # TEST 4: ENTITY RECOVERY (Trace-based)
@@ -238,7 +245,8 @@ class GSEProofSuite:
             # Extract entities from trace (tokens with SOMETHING/SOMEONE)
             trace_lemmas = [t.lemma for t in trace.tokens]
             entity_lemmas = [
-                t.lemma for t in trace.tokens
+                t.lemma
+                for t in trace.tokens
                 if t.word_primitives.get("SOMETHING", 0) == 1
                 or t.word_primitives.get("SOMEONE", 0) == 1
                 or t.word_primitives.get("BODY", 0) == 1
@@ -264,11 +272,13 @@ class GSEProofSuite:
             self.log(f"         Trace lemmas: {trace_lemmas}")
             self.log(f"         Entity lemmas: {entity_lemmas}")
 
-        self.results.append(TestResult(
-            name="entity_recovery",
-            passed=all_pass,
-            message="Entities captured in operation trace",
-        ))
+        self.results.append(
+            TestResult(
+                name="entity_recovery",
+                passed=all_pass,
+                message="Entities captured in operation trace",
+            )
+        )
 
     # =========================================================================
     # TEST 5: ATTRIBUTE EXTRACTION (Trace-based)
@@ -320,11 +330,13 @@ class GSEProofSuite:
 
             self.log(f"  [{status}] '{sent}' -> {expected_prim} in tokens: {found_tokens}")
 
-        self.results.append(TestResult(
-            name="attribute_extraction",
-            passed=all_pass,
-            message="Attributes (GOOD/BAD/BIG/SMALL) captured in trace",
-        ))
+        self.results.append(
+            TestResult(
+                name="attribute_extraction",
+                passed=all_pass,
+                message="Attributes (GOOD/BAD/BIG/SMALL) captured in trace",
+            )
+        )
 
     # =========================================================================
     # TEST 6: OPERATOR ANTISYMMETRY (Logical Structure)
@@ -374,11 +386,13 @@ class GSEProofSuite:
             self.log(f"         Logically equal: {logically_equal}")
             self.log(f"         Argument swap: {is_swap}")
 
-        self.results.append(TestResult(
-            name="operator_antisymmetry",
-            passed=all_pass,
-            message="Logical structure distinguishes argument order (trace layer)",
-        ))
+        self.results.append(
+            TestResult(
+                name="operator_antisymmetry",
+                passed=all_pass,
+                message="Logical structure distinguishes argument order (trace layer)",
+            )
+        )
 
     # =========================================================================
     # TEST 6b: COMPOSITIONAL OPERATOR RESOLUTION
@@ -428,11 +442,13 @@ class GSEProofSuite:
                 all_pass = False
                 self.log(f"  [FAIL] '{s1}' and '{s2}' both produced {ops1}")
 
-        self.results.append(TestResult(
-            name="compositional_operator_resolution",
-            passed=all_pass,
-            message="Trace operator identity preserved across content and distinguishable across operators",
-        ))
+        self.results.append(
+            TestResult(
+                name="compositional_operator_resolution",
+                passed=all_pass,
+                message="Trace operator identity preserved across content and distinguishable across operators",
+            )
+        )
 
     # =========================================================================
     # TEST 7: STRUCTURAL SIMILARITY
@@ -465,11 +481,13 @@ class GSEProofSuite:
             self.log(f"         '{s1}'")
             self.log(f"      vs '{s2}'")
 
-        self.results.append(TestResult(
-            name="structural_similarity",
-            passed=all_pass,
-            message="Same syntactic structure shows similarity",
-        ))
+        self.results.append(
+            TestResult(
+                name="structural_similarity",
+                passed=all_pass,
+                message="Same syntactic structure shows similarity",
+            )
+        )
 
     # =========================================================================
     # TEST 8: USER-REQUESTED COMPARISONS
@@ -510,11 +528,13 @@ class GSEProofSuite:
             cos = v1.cosine(v2)
             self.log(f"    {n1} vs {n2}: cos={cos:.3f}")
 
-        self.results.append(TestResult(
-            name="user_comparisons",
-            passed=True,  # Informational test
-            message="User-requested comparisons completed",
-        ))
+        self.results.append(
+            TestResult(
+                name="user_comparisons",
+                passed=True,  # Informational test
+                message="User-requested comparisons completed",
+            )
+        )
 
     # =========================================================================
     # REPORT

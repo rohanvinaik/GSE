@@ -25,6 +25,7 @@ DATA_DIR = Path(__file__).parent.parent.parent.parent / "data" / "external"
 @dataclass
 class ConcretenessEntry:
     """Entry from concreteness ratings."""
+
     word: str
     concreteness: float  # 1-5 scale
     known_percent: float  # % of raters who knew the word
@@ -73,7 +74,7 @@ class ConcretenessParser:
         try:
             logger.info(f"Loading Concreteness Ratings from {self.data_path}...")
 
-            with open(self.data_path, 'r', encoding='utf-8') as f:
+            with open(self.data_path, "r", encoding="utf-8") as f:
                 # Skip header
                 header = f.readline()
 
@@ -83,7 +84,7 @@ class ConcretenessParser:
                         continue
 
                     # CSV format: Word,Bigram,Conc.M,Conc.SD,Unknown,%known,SUBTLEX,Dom_Pos
-                    parts = line.split(',')
+                    parts = line.split(",")
                     if len(parts) < 6:
                         continue
 
@@ -100,7 +101,7 @@ class ConcretenessParser:
                             known_percent=known_pct,
                             n_ratings=n_ratings,
                         )
-                    except (ValueError, IndexError):
+                    except ValueError, IndexError:
                         continue
 
             logger.info(f"Loaded {len(self.entries)} words from Concreteness Ratings")
@@ -145,15 +146,15 @@ class ConcretenessParser:
 
         if rating >= concrete_threshold:
             # Highly concrete - physical objects
-            primitives['SOMETHING'] = 1
+            primitives["SOMETHING"] = 1
             if rating >= 4.5:
-                primitives['BODY'] = 1  # Very concrete, likely physical/bodily
+                primitives["BODY"] = 1  # Very concrete, likely physical/bodily
         elif rating <= abstract_threshold:
             # Abstract concept
-            primitives['THINK'] = 1
+            primitives["THINK"] = 1
             if rating <= 1.8:
                 # Extremely abstract
-                primitives['SOMETHING'] = -1  # Not a thing
+                primitives["SOMETHING"] = -1  # Not a thing
 
         return primitives
 
@@ -189,7 +190,7 @@ if __name__ == "__main__":
     parser.load()
 
     # Test some words
-    test_words = ['table', 'chair', 'apple', 'freedom', 'idea', 'love', 'rock', 'abstract', 'democracy']
+    test_words = ["table", "chair", "apple", "freedom", "idea", "love", "rock", "abstract", "democracy"]
     for word in test_words:
         rating = parser.get_concreteness(word)
         primitives = parser.to_primitives(word)

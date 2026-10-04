@@ -56,9 +56,10 @@ def main():
     pipeline = GSEPipeline()
 
     # Load lexicon if specified
-    lexicon_path = getattr(args, 'lexicon', 'data/lexicon_clean.db')
+    lexicon_path = getattr(args, "lexicon", "data/lexicon_clean.db")
     try:
         import os
+
         if os.path.exists(lexicon_path):
             pipeline.load_lexicon(lexicon_path)
     except Exception as e:
@@ -66,44 +67,61 @@ def main():
 
     if args.command == "encode":
         result = pipeline.encode_sentence(args.text)
-        print(json.dumps({
-            "text": args.text,
-            "word_count": result.word_count,
-            "dims_per_word": result.dims_per_word,
-            "norm": result.norm,
-            "nnz": result.nnz,
-        }, indent=2))
+        print(
+            json.dumps(
+                {
+                    "text": args.text,
+                    "word_count": result.word_count,
+                    "dims_per_word": result.dims_per_word,
+                    "norm": result.norm,
+                    "nnz": result.nnz,
+                },
+                indent=2,
+            )
+        )
 
     elif args.command == "similarity":
         result = pipeline.compute_similarity(args.text1, args.text2)
-        print(json.dumps({
-            "text1": args.text1,
-            "text2": args.text2,
-            "cosine": result.cosine,
-            "euclidean": result.euclidean,
-            "bank_similarities": result.bank_similarities,
-        }, indent=2))
+        print(
+            json.dumps(
+                {
+                    "text1": args.text1,
+                    "text2": args.text2,
+                    "cosine": result.cosine,
+                    "euclidean": result.euclidean,
+                    "bank_similarities": result.bank_similarities,
+                },
+                indent=2,
+            )
+        )
 
     elif args.command == "decompose":
         result = pipeline.decompose_word(args.word, args.pos)
-        print(json.dumps({
-            "word": args.word,
-            "pos": args.pos,
-            "decomposition": [(p, r, v) for p, r, v in result.decomposition],
-            "confidence": result.confidence,
-            "method": result.method,
-            "source_patterns": result.source_patterns,
-        }, indent=2))
+        print(
+            json.dumps(
+                {
+                    "word": args.word,
+                    "pos": args.pos,
+                    "decomposition": [(p, r, v) for p, r, v in result.decomposition],
+                    "confidence": result.confidence,
+                    "method": result.method,
+                    "source_patterns": result.source_patterns,
+                },
+                indent=2,
+            )
+        )
 
     elif args.command == "search":
         results = pipeline.find_similar(args.word, k=args.top)
-        print(json.dumps({
-            "query": args.word,
-            "results": [
-                {"lemma": r.lemma, "pos": r.pos, "similarity": r.similarity}
-                for r in results
-            ]
-        }, indent=2))
+        print(
+            json.dumps(
+                {
+                    "query": args.word,
+                    "results": [{"lemma": r.lemma, "pos": r.pos, "similarity": r.similarity} for r in results],
+                },
+                indent=2,
+            )
+        )
 
     elif args.command == "stats":
         stats = pipeline.get_statistics()
@@ -111,11 +129,12 @@ def main():
 
     elif args.command == "integrity":
         result = pipeline.check_integrity()
-        print(json.dumps({
-            "valid": result["valid"],
-            "root_hash": result["root_hash"],
-            "issues": result.get("issues", [])
-        }, indent=2))
+        print(
+            json.dumps(
+                {"valid": result["valid"], "root_hash": result["root_hash"], "issues": result.get("issues", [])},
+                indent=2,
+            )
+        )
 
 
 if __name__ == "__main__":

@@ -27,6 +27,7 @@ from gse.curation.schema import ALL_PRIMITIVES
 
 # ---------- ParseError ----------
 
+
 class TestParseError:
     def test_is_exception(self):
         with pytest.raises(ParseError):
@@ -35,16 +36,17 @@ class TestParseError:
 
 # ---------- ParseResult ----------
 
+
 class TestParseResult:
     def test_construction(self):
-        r = ParseResult(decomposition={"GOOD": 1}, confidence=0.9,
-                        warnings=[], raw_response="raw")
+        r = ParseResult(decomposition={"GOOD": 1}, confidence=0.9, warnings=[], raw_response="raw")
         assert r.decomposition == {"GOOD": 1}
         assert r.confidence == 0.9
         assert r.raw_response == "raw"
 
 
 # ---------- extract_json_from_response ----------
+
 
 class TestExtractJSON:
     def test_direct_object(self):
@@ -67,7 +69,9 @@ class TestExtractJSON:
         response = 'Here is: {"GOOD": 1} done'
         assert '{"GOOD": 1}' in extract_json_from_response(response)
 
-    @pytest.mark.skip(reason="pre-existing failure since initial commit (9578764); code-only checkout — needs triage vs as-built JSON-extract behavior")
+    @pytest.mark.skip(
+        reason="pre-existing failure since initial commit (9578764); code-only checkout — needs triage vs as-built JSON-extract behavior"
+    )
     def test_inline_array(self):
         response = '[{"GOOD": 1}]'
         result = extract_json_from_response(response)
@@ -84,6 +88,7 @@ class TestExtractJSON:
 
 
 # ---------- normalize_primitive_value ----------
+
 
 class TestNormalizePrimitiveValue:
     def test_none(self):
@@ -153,6 +158,7 @@ class TestNormalizePrimitiveValue:
 
 # ---------- normalize_primitive_name ----------
 
+
 class TestNormalizePrimitiveName:
     def test_direct_match(self):
         assert normalize_primitive_name("GOOD") == "GOOD"
@@ -187,6 +193,7 @@ class TestNormalizePrimitiveName:
 
 # ---------- parse_llm_response ----------
 
+
 class TestParseLLMResponse:
     def test_basic(self):
         result = parse_llm_response('{"GOOD": 1}')
@@ -211,7 +218,9 @@ class TestParseLLMResponse:
         result = parse_llm_response('[{"GOOD": 1}]')
         assert result.decomposition["GOOD"] == 1
 
-    @pytest.mark.skip(reason="pre-existing failure since initial commit (9578764); code-only checkout — needs triage vs as-built parse behavior")
+    @pytest.mark.skip(
+        reason="pre-existing failure since initial commit (9578764); code-only checkout — needs triage vs as-built parse behavior"
+    )
     def test_multi_array_raises(self):
         with pytest.raises(ParseError, match="parse_batch"):
             parse_llm_response('[{"GOOD": 1}, {"BAD": 1}]')
@@ -280,8 +289,11 @@ class TestParseLLMResponse:
 
 # ---------- parse_batch_response ----------
 
+
 class TestParseBatchResponse:
-    @pytest.mark.skip(reason="pre-existing failure since initial commit (9578764); code-only checkout — needs triage vs as-built batch-parse behavior")
+    @pytest.mark.skip(
+        reason="pre-existing failure since initial commit (9578764); code-only checkout — needs triage vs as-built batch-parse behavior"
+    )
     def test_basic(self):
         response = '[{"GOOD": 1}, {"BAD": 1}]'
         results = parse_batch_response(response, expected_count=2)
@@ -306,8 +318,8 @@ class TestParseBatchResponse:
     def test_per_item_error_yields_empty(self):
         # Item that's not a dict creates empty fallback
         from unittest.mock import patch
-        with patch("gse.curation.llm.response_parser.parse_llm_response",
-                   side_effect=ParseError("bad")):
+
+        with patch("gse.curation.llm.response_parser.parse_llm_response", side_effect=ParseError("bad")):
             results = parse_batch_response('[{"GOOD": 1}]', expected_count=1)
         assert len(results) == 1
         assert results[0].confidence == 0.0
@@ -315,6 +327,7 @@ class TestParseBatchResponse:
 
 
 # ---------- check_bipolar_consistency ----------
+
 
 class TestCheckBipolarConsistency:
     def test_no_violations(self):
@@ -335,13 +348,16 @@ class TestCheckBipolarConsistency:
 
     def test_multiple_violations(self):
         decomp = {p: 0 for p in ALL_PRIMITIVES}
-        decomp["GOOD"] = 1; decomp["BAD"] = 1
-        decomp["BIG"] = 1; decomp["SMALL"] = 1
+        decomp["GOOD"] = 1
+        decomp["BAD"] = 1
+        decomp["BIG"] = 1
+        decomp["SMALL"] = 1
         violations = check_bipolar_consistency(decomp)
         assert len(violations) == 2
 
 
 # ---------- decomposition_to_sparse ----------
+
 
 class TestDecompositionToSparse:
     def test_drops_zeros(self):
@@ -354,6 +370,7 @@ class TestDecompositionToSparse:
 
 
 # ---------- sparse_to_decomposition ----------
+
 
 class TestSparseToDecomposition:
     def test_fills_all_primitives(self):
@@ -369,6 +386,7 @@ class TestSparseToDecomposition:
 
 
 # ---------- decomposition_to_vector_format ----------
+
 
 class TestDecompositionToVectorFormat:
     def test_skips_zeros(self):
@@ -461,9 +479,14 @@ class TestDecompositionToVectorFormat:
         # Pin the "default" fallback for BANK_TO_ROLE by ensuring all banks 0-7 are mapped
         # to non-default values; if mutation changed bank 7 to bank 99, "default" would appear
         for prim, expected_role in [
-            ("SOMEONE", "entity"), ("ONE", "quantity"), ("GOOD", "evaluation"),
-            ("THINK", "mental"), ("DO", "action"), ("WHEN", "temporal"),
-            ("WHERE", "spatial"), ("NOT", "logical"),
+            ("SOMEONE", "entity"),
+            ("ONE", "quantity"),
+            ("GOOD", "evaluation"),
+            ("THINK", "mental"),
+            ("DO", "action"),
+            ("WHEN", "temporal"),
+            ("WHERE", "spatial"),
+            ("NOT", "logical"),
         ]:
             decomp = {p: 0 for p in ALL_PRIMITIVES}
             decomp[prim] = 1

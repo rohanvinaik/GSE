@@ -17,16 +17,25 @@ from gse.curation.external_sources.lancaster_sensorimotor import (
 )
 
 
-def mk_entry(word="x", aud=0, gus=0, hap=0, intero=0, olf=0, vis=0,
-             foot=0, hand=0, head=0, mouth=0, torso=0):
+def mk_entry(word="x", aud=0, gus=0, hap=0, intero=0, olf=0, vis=0, foot=0, hand=0, head=0, mouth=0, torso=0):
     return SensorimotorEntry(
-        word=word, auditory=aud, gustatory=gus, haptic=hap,
-        interoceptive=intero, olfactory=olf, visual=vis,
-        foot_leg=foot, hand_arm=hand, head=head, mouth=mouth, torso=torso,
+        word=word,
+        auditory=aud,
+        gustatory=gus,
+        haptic=hap,
+        interoceptive=intero,
+        olfactory=olf,
+        visual=vis,
+        foot_leg=foot,
+        hand_arm=hand,
+        head=head,
+        mouth=mouth,
+        torso=torso,
     )
 
 
 # ---------- SensorimotorEntry post_init ----------
+
 
 class TestSensorimotorEntry:
     def test_max_perceptual(self):
@@ -48,12 +57,12 @@ class TestSensorimotorEntry:
     def test_all_zero_dominants(self):
         e = mk_entry()
         # Empty/zero gives first key (auditory, foot_leg)
-        assert e.dominant_perceptual in {"auditory", "gustatory", "haptic",
-                                          "interoceptive", "olfactory", "visual"}
+        assert e.dominant_perceptual in {"auditory", "gustatory", "haptic", "interoceptive", "olfactory", "visual"}
         assert e.dominant_action in {"foot_leg", "hand_arm", "head", "mouth", "torso"}
 
 
 # ---------- DIMENSION_TO_PRIMITIVE ----------
+
 
 class TestDimensionToPrimitive:
     def test_auditory_hear(self):
@@ -74,6 +83,7 @@ class TestDimensionToPrimitive:
 
 # ---------- __init__ ----------
 
+
 class TestInit:
     def test_default_path(self):
         p = LancasterSensorimotorParser()
@@ -90,6 +100,7 @@ class TestInit:
 
 # ---------- download ----------
 
+
 class TestDownload:
     def test_success(self, tmp_path):
         p = LancasterSensorimotorParser(data_path=str(tmp_path / "ls.csv"))
@@ -105,6 +116,7 @@ class TestDownload:
 
 
 # ---------- load ----------
+
 
 class TestLoad:
     def test_missing_file_triggers_download(self, tmp_path):
@@ -188,6 +200,7 @@ class TestLoad:
 
 # ---------- get_sensorimotor ----------
 
+
 class TestGetSensorimotor:
     def test_returns_entry(self):
         p = LancasterSensorimotorParser()
@@ -215,6 +228,7 @@ class TestGetSensorimotor:
 
 
 # ---------- to_primitives ----------
+
 
 class TestToPrimitives:
     def _make(self, **kw):
@@ -400,6 +414,7 @@ class TestToPrimitives:
 
 # ---------- get_all_words ----------
 
+
 class TestGetAllWords:
     def test_returns_keys(self):
         p = LancasterSensorimotorParser()
@@ -417,6 +432,7 @@ class TestGetAllWords:
 
 # ---------- get_new_words ----------
 
+
 class TestGetNewWords:
     def test_filters(self):
         p = LancasterSensorimotorParser()
@@ -433,6 +449,7 @@ class TestGetNewWords:
 
 
 # ---------- get_highly_embodied_words ----------
+
 
 class TestGetHighlyEmbodiedWords:
     def test_high_action(self):
@@ -505,6 +522,7 @@ class TestGetHighlyEmbodiedWords:
 
 # ---------- get_perceptual_words ----------
 
+
 class TestGetPerceptualWords:
     def test_visual_high(self):
         p = LancasterSensorimotorParser()
@@ -556,6 +574,7 @@ class TestGetPerceptualWords:
 
 # ---------- get_statistics ----------
 
+
 class TestGetStatistics:
     def test_empty(self):
         p = LancasterSensorimotorParser()
@@ -602,8 +621,9 @@ class TestGetStatistics:
         # Pin every dimension key in the averages dict (11 keys)
         p = LancasterSensorimotorParser()
         p._loaded = True
-        p.entries = {"x": mk_entry(aud=1, gus=2, hap=3, intero=4, olf=5, vis=1,
-                                   foot=2, hand=3, head=4, mouth=5, torso=1)}
+        p.entries = {
+            "x": mk_entry(aud=1, gus=2, hap=3, intero=4, olf=5, vis=1, foot=2, hand=3, head=4, mouth=5, torso=1)
+        }
         avgs = p.get_statistics()["averages"]
         assert avgs["auditory"] == 1.0
         assert avgs["gustatory"] == 2.0
@@ -616,10 +636,19 @@ class TestGetStatistics:
         assert avgs["head"] == 4.0
         assert avgs["mouth"] == 5.0
         assert avgs["torso"] == 1.0
-        assert set(avgs.keys()) == {"auditory", "gustatory", "haptic",
-                                     "interoceptive", "olfactory", "visual",
-                                     "foot_leg", "hand_arm", "head", "mouth",
-                                     "torso"}
+        assert set(avgs.keys()) == {
+            "auditory",
+            "gustatory",
+            "haptic",
+            "interoceptive",
+            "olfactory",
+            "visual",
+            "foot_leg",
+            "hand_arm",
+            "head",
+            "mouth",
+            "torso",
+        }
 
 
 if __name__ == "__main__":

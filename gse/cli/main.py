@@ -44,7 +44,7 @@ def cmd_encode(args):
 
         # Save trace to file if requested
         if args.output:
-            with open(args.output, 'w') as f:
+            with open(args.output, "w") as f:
                 f.write(trace.to_json(indent=2))
             print(f"\nTrace saved to: {args.output}", file=sys.stderr)
 
@@ -102,6 +102,7 @@ def cmd_decode(args):
 
             # Re-encode to get the vector
             from gse.api.trace import OperationTrace
+
             trace = OperationTrace.from_dict(trace_data)
 
             # Need to re-encode to get actual vector
@@ -233,7 +234,7 @@ Examples:
   %(prog)s decode --text "The big dog"
   %(prog)s verify
   %(prog)s interactive
-        """
+        """,
     )
 
     subparsers = parser.add_subparsers(dest="command", help="Command to run")

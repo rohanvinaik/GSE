@@ -329,7 +329,8 @@ def from_dict(d: Dict[str, Any]) -> Node:
         return Contrast(left=from_dict(d["left"]), right=from_dict(d["right"]))
     if kind == "ClauseCoordination":
         return ClauseCoordination(
-            left=from_dict(d["left"]), right=from_dict(d["right"]),
+            left=from_dict(d["left"]),
+            right=from_dict(d["right"]),
             conjunction=d.get("conjunction", "and"),
         )
     if kind == "Causation":

@@ -27,63 +27,78 @@ logger = logging.getLogger(__name__)
 
 class ContentType(Enum):
     """Types of content with training significance."""
-    THEORETICAL = "theoretical"      # System frameworks
+
+    THEORETICAL = "theoretical"  # System frameworks
     METACOGNITIVE = "metacognitive"  # How user thinks
-    TECHNICAL = "technical"          # Problem-solving
+    TECHNICAL = "technical"  # Problem-solving
     PHILOSOPHICAL = "philosophical"  # Deep analogical reasoning
     COMMUNICATION = "communication"  # Rhetorical patterns
-    EMOTIONAL = "emotional"          # High-intensity writing
-    CONVERSATION = "conversation"    # Dialogue format
+    EMOTIONAL = "emotional"  # High-intensity writing
+    CONVERSATION = "conversation"  # Dialogue format
 
 
 # Content classification based on filename patterns
 CONTENT_CLASSIFIERS = {
     ContentType.THEORETICAL: [
-        "coec", "minsky", "otp", "theory", "framework",
-        "computation", "ontological", "langlands"
+        "coec",
+        "minsky",
+        "otp",
+        "theory",
+        "framework",
+        "computation",
+        "ontological",
+        "langlands",
     ],
-    ContentType.METACOGNITIVE: [
-        "shadow", "cognitive", "adhd", "natural_philosopher",
-        "cognition", "mental"
-    ],
-    ContentType.TECHNICAL: [
-        "genomevault", "hdc", "neural", "pde", "solver",
-        "blockchain", "kimaiya", "bio"
-    ],
-    ContentType.PHILOSOPHICAL: [
-        "gita", "helpless", "moral", "kami", "ethics",
-        "ontological_framework"
-    ],
-    ContentType.COMMUNICATION: [
-        "winston", "lecture", "psa", "letter"
-    ],
-    ContentType.EMOTIONAL: [
-        "political", "rant", "raw_text"
-    ],
+    ContentType.METACOGNITIVE: ["shadow", "cognitive", "adhd", "natural_philosopher", "cognition", "mental"],
+    ContentType.TECHNICAL: ["genomevault", "hdc", "neural", "pde", "solver", "blockchain", "kimaiya", "bio"],
+    ContentType.PHILOSOPHICAL: ["gita", "helpless", "moral", "kami", "ethics", "ontological_framework"],
+    ContentType.COMMUNICATION: ["winston", "lecture", "psa", "letter"],
+    ContentType.EMOTIONAL: ["political", "rant", "raw_text"],
 }
 
 # Special markers to detect in text (from user's patterns)
 GESTALT_MARKERS = [
-    "it's like", "there's this", "i can feel", "i just know",
-    "something about", "the shape of", "hard to articulate",
-    "pre-verbal", "gestalt", "ineffable", "intangible"
+    "it's like",
+    "there's this",
+    "i can feel",
+    "i just know",
+    "something about",
+    "the shape of",
+    "hard to articulate",
+    "pre-verbal",
+    "gestalt",
+    "ineffable",
+    "intangible",
 ]
 
 META_MARKERS = [
-    "i'm trying to", "what i mean is", "the thing is",
-    "thinking about this", "i'm realizing", "notice how",
-    "the pattern here", "what's interesting"
+    "i'm trying to",
+    "what i mean is",
+    "the thing is",
+    "thinking about this",
+    "i'm realizing",
+    "notice how",
+    "the pattern here",
+    "what's interesting",
 ]
 
 INTENSITY_MARKERS = [
-    "fucking", "goddamn", "absolute", "utter", "complete",
-    "incredible", "unbelievable", "insane", "ridiculous"
+    "fucking",
+    "goddamn",
+    "absolute",
+    "utter",
+    "complete",
+    "incredible",
+    "unbelievable",
+    "insane",
+    "ridiculous",
 ]
 
 
 @dataclass
 class TrainingDocument:
     """A document from the training corpus."""
+
     source: str
     content_type: ContentType
     text: str
@@ -109,6 +124,7 @@ class TrainingDocument:
 @dataclass
 class ConversationTurn:
     """A single turn in a conversation."""
+
     uuid: str
     role: str
     content: str
@@ -121,6 +137,7 @@ class ConversationTurn:
 @dataclass
 class TrainingConversation:
     """A conversation from the training corpus."""
+
     uuid: str
     title: str
     turns: List[ConversationTurn]
@@ -190,11 +207,11 @@ def analyze_text_features(text: str) -> Tuple[bool, bool, float]:
 
 def process_text_file(filepath: Path) -> TrainingDocument:
     """Process a single text file."""
-    with open(filepath, 'r', encoding='utf-8', errors='replace') as f:
+    with open(filepath, "r", encoding="utf-8", errors="replace") as f:
         text = f.read()
 
     # Remove BOM if present
-    if text.startswith('\ufeff'):
+    if text.startswith("\ufeff"):
         text = text[1:]
 
     content_type = classify_content(filepath.name, text)
@@ -217,12 +234,12 @@ def process_text_file(filepath: Path) -> TrainingDocument:
 def stream_conversations(json_path: Path) -> Generator[TrainingConversation, None, None]:
     """
     Stream conversations from a large JSON export.
-    
+
     Uses ijson for memory-efficient streaming.
     """
     logger.info(f"Streaming conversations from {json_path}")
 
-    with open(json_path, 'rb') as f:
+    with open(json_path, "rb") as f:
         parser = ijson.parse(f)
 
         current_conv = None
@@ -346,7 +363,7 @@ class TrainingDataPipeline:
                 "total": 0,
                 "with_gestalt": 0,
                 "with_meta": 0,
-            }
+            },
         }
 
         # Count text files by type
@@ -387,6 +404,7 @@ class TrainingDataPipeline:
 # TESTS
 # ============================================================================
 
+
 def test_pipeline():
     """Test the training pipeline."""
     # Test content classification
@@ -421,7 +439,7 @@ if __name__ == "__main__":
         # Default to a data directory relative to the script or user home
         data_dir = Path("/Users/rohanvinaik/relational-ai/data")
         if not data_dir.exists():
-            data_dir = Path("data") # Fallback to local data dir
+            data_dir = Path("data")  # Fallback to local data dir
 
         if data_dir.exists():
             pipeline = TrainingDataPipeline(data_dir)

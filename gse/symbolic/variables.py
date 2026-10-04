@@ -17,6 +17,7 @@ while two distinct names of the same type stay distinct (the dual format's payof
 TYPE's WordNet thread is attached on restore — the sentinel itself contributes none — which is the
 guard version-space generalization climbs.
 """
+
 from __future__ import annotations
 
 import re
@@ -26,8 +27,21 @@ from typing import Any, Optional
 # `ent…` tokens stay reliably NOUN (NATO words like "bravo" get mis-tagged as verbs; digits/
 # underscores break the parse). Collision with real rule vocab is avoided at substitution time.
 _SENTINELS = [
-    "entzero", "entone", "enttwo", "entthree", "entfour", "entfive", "entsix", "entseven",
-    "enteight", "entnine", "entten", "enteleven", "enttwelve", "entthirteen", "entfourteen",
+    "entzero",
+    "entone",
+    "enttwo",
+    "entthree",
+    "entfour",
+    "entfive",
+    "entsix",
+    "entseven",
+    "enteight",
+    "entnine",
+    "entten",
+    "enteleven",
+    "enttwelve",
+    "entthirteen",
+    "entfourteen",
 ]
 _INLINE = re.compile(r"\$\{(\w+):(\w+)\}")
 
@@ -39,14 +53,14 @@ def substitute(text: str, variables: Optional[dict] = None) -> tuple[str, dict]:
     variable name (whole-word) with its own sentinel. Distinct names → distinct sentinels.
     """
     merged: dict[str, str] = {}
-    for m in _INLINE.finditer(text):                       # inline ${name:type}
+    for m in _INLINE.finditer(text):  # inline ${name:type}
         merged.setdefault(m.group(1), m.group(2))
-    text = _INLINE.sub(lambda m: m.group(1), text)         # unwrap ${x:person} → x
+    text = _INLINE.sub(lambda m: m.group(1), text)  # unwrap ${x:person} → x
     for name, vtype in (variables or {}).items():
         merged.setdefault(name, vtype)
 
     sentinel_map: dict[str, tuple[str, str]] = {}
-    pool = [s for s in _SENTINELS if not re.search(rf"\b{s}\b", text)]   # avoid collisions
+    pool = [s for s in _SENTINELS if not re.search(rf"\b{s}\b", text)]  # avoid collisions
     for i, (name, vtype) in enumerate(merged.items()):
         if i >= len(pool):
             raise ValueError(f"too many variables (>{len(pool)}) in one clause")
@@ -62,13 +76,13 @@ def restore(contract: Any, sentinel_map: dict) -> Any:
     `variable`/`var_type` fields. The declared type is the guard — no WordNet thread (which
     mis-senses, e.g. "founder"→horse-laminitis); a story `king` carries `person` in *its* thread,
     so the version-space match happens there."""
+
     def walk(node: Any) -> Any:
         if isinstance(node, dict):
             lemma = node.get("lemma")
             if isinstance(lemma, str) and lemma in sentinel_map:
                 name, vtype = sentinel_map[lemma]
-                node = {**node, "lemma": f"${name}", "type_thread": [vtype],
-                        "variable": name, "var_type": vtype}
+                node = {**node, "lemma": f"${name}", "type_thread": [vtype], "variable": name, "var_type": vtype}
             return {k: walk(v) for k, v in node.items()}
         if isinstance(node, list):
             return [walk(x) for x in node]

@@ -21,6 +21,7 @@ ALL existing GSE machinery, composed: ``resolve_document`` (coref + type_thread)
 multi-strand fold-reader = the working model of cross-scale convergence), the ``GenealogyStore`` world
 strand. Nothing here re-implements grounding; it assembles the scales a cassette votes over.
 """
+
 from __future__ import annotations
 
 import re
@@ -44,10 +45,50 @@ _SCAFFOLD = re.compile(r"^(GENRE|TITLE|CONTEXT|WIKIPEDIA|WEB RESULTS)\s*:")
 # pronouns/determiners. This is a property of the WORD, not a story-specific table of names — it is
 # the gender WordNet/the lexicon assigns to "husband" (a married man) etc. It is consumed only as ONE
 # agreement strand in cross-scale convergence; it never names a referent on its own.
-_MALE = frozenset({"husband", "king", "father", "son", "lord", "man", "boy", "prince", "brother",
-                   "he", "him", "his", "himself", "uncle", "nephew", "widower", "sir", "duke", "thane"})
-_FEMALE = frozenset({"wife", "queen", "mother", "daughter", "lady", "woman", "girl", "princess",
-                     "sister", "she", "her", "hers", "herself", "aunt", "niece", "widow", "duchess"})
+_MALE = frozenset(
+    {
+        "husband",
+        "king",
+        "father",
+        "son",
+        "lord",
+        "man",
+        "boy",
+        "prince",
+        "brother",
+        "he",
+        "him",
+        "his",
+        "himself",
+        "uncle",
+        "nephew",
+        "widower",
+        "sir",
+        "duke",
+        "thane",
+    }
+)
+_FEMALE = frozenset(
+    {
+        "wife",
+        "queen",
+        "mother",
+        "daughter",
+        "lady",
+        "woman",
+        "girl",
+        "princess",
+        "sister",
+        "she",
+        "her",
+        "hers",
+        "herself",
+        "aunt",
+        "niece",
+        "widow",
+        "duchess",
+    }
+)
 # type_thread roots that denote a person (the eligibility floor for an identity referent).
 _PERSON_ROOTS = frozenset({"person", "individual", "someone", "soul", "relative", "kinsman"})
 
@@ -59,20 +100,21 @@ class Mention:
     Carries everything the four scales expose for THIS mention, so a cassette never has to re-walk
     the tree: its document id (``eid``), its word-scale meaning (``type_thread``/``prims``), its local
     modifiers/possessor (paragraph-scale discriminators), and its sentence index (for the window)."""
+
     eid: Optional[str]
     lemma: str
     pos: Optional[str]
-    sent: int                       # sentence index — the paragraph-window coordinate
+    sent: int  # sentence index — the paragraph-window coordinate
     type_thread: Tuple[str, ...] = ()
     prims: Dict[str, int] = field(default_factory=dict)
     number: Optional[str] = None
     modifier: Optional[str] = None  # the ADJ discriminator ("younger"/"elder") — the SPLIT signal
     graded: bool = False
     possessor_lemma: Optional[str] = None  # "his"/"her"/a name — the local agreement signal
-    possessor_eid: Optional[str] = None    # the possessor entity's id (for relational resolution)
-    possessor_span: Tuple[str, ...] = ()   # the possessor's demi-word ("Lady Macbeth" → lady,macbeth)
+    possessor_eid: Optional[str] = None  # the possessor entity's id (for relational resolution)
+    possessor_span: Tuple[str, ...] = ()  # the possessor's demi-word ("Lady Macbeth" → lady,macbeth)
     span: Tuple[str, ...] = ()
-    is_agent: bool = False          # appeared as an Event agent (a high-value identity referent)
+    is_agent: bool = False  # appeared as an Event agent (a high-value identity referent)
 
 
 def _strip_scaffold(text: str) -> str:
@@ -100,7 +142,7 @@ def _possessor_lemma(ent) -> Optional[str]:
     if poss is None:
         return None
     h = _head_atom(poss)
-    return (h.lemma.lower() if h and h.lemma else None)
+    return h.lemma.lower() if h and h.lemma else None
 
 
 class MultiScaleDoc:
@@ -111,8 +153,7 @@ class MultiScaleDoc:
     ``resolve_document(trees, store, genre)`` (cross-sentence coref + ``entity_id`` + ``type_thread``)
     → ``read_fold`` for the document-scale fold. Nothing is re-grounded."""
 
-    def __init__(self, raw_text: str, encoder: Optional[GSEEncoder] = None,
-                 store: Optional[GenealogyStore] = None):
+    def __init__(self, raw_text: str, encoder: Optional[GSEEncoder] = None, store: Optional[GenealogyStore] = None):
         self.raw = raw_text
         self.sentences = _sentences(raw_text)
         m = _GENRE_RE.search(raw_text[:300])
@@ -136,8 +177,7 @@ class MultiScaleDoc:
             self.resolved = trees
 
         # document scale — the multi-strand fold (recurrence × span, role, eligibility, strands)
-        self.timed = [(t, p) for t, tree in enumerate(self.resolved)
-                      for p in _collect_predicates(tree)]
+        self.timed = [(t, p) for t, tree in enumerate(self.resolved) for p in _collect_predicates(tree)]
         try:
             self.fold: Dict[str, EntityFold] = read_fold(self.timed, None, self.store)
         except Exception:
@@ -151,6 +191,7 @@ class MultiScaleDoc:
     # -- mention indexing ---------------------------------------------------
     def _agent_eids(self) -> set:
         from gse.symbolic.predicates import Event
+
         out = set()
         for _t, pred in self.timed:
             for n in walk(pred):

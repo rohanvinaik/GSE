@@ -31,106 +31,127 @@ def enhance_function_words(db_path: Path, dry_run: bool = False) -> dict:
     cursor = conn.cursor()
 
     stats = {
-        'determiners_enhanced': 0,
-        'conjunctions_enhanced': 0,
-        'prepositions_enhanced': 0,
-        'gram_features_set': 0,
-        'not_found': [],
+        "determiners_enhanced": 0,
+        "conjunctions_enhanced": 0,
+        "prepositions_enhanced": 0,
+        "gram_features_set": 0,
+        "not_found": [],
     }
 
     # 1. Enhance Determiners
     print("=== Enhancing Determiners ===")
     for word, encoding in DETERMINER_ENCODINGS.items():
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT id, lemma FROM lexemes
             WHERE LOWER(lemma) = LOWER(?) AND operator_type = 'DETERMINER'
             LIMIT 1
-        """, (word,))
+        """,
+            (word,),
+        )
 
         row = cursor.fetchone()
         if not row:
             # Try without operator_type restriction
-            cursor.execute("""
+            cursor.execute(
+                """
                 SELECT id, lemma FROM lexemes
                 WHERE LOWER(lemma) = LOWER(?)
                 LIMIT 1
-            """, (word,))
+            """,
+                (word,),
+            )
             row = cursor.fetchone()
 
         if not row:
-            stats['not_found'].append(f"det:{word}")
+            stats["not_found"].append(f"det:{word}")
             continue
 
         lexeme_id, lemma = row
-        stats['determiners_enhanced'] += 1
+        stats["determiners_enhanced"] += 1
 
         for feature, value in encoding.items():
             if not dry_run:
-                cursor.execute("""
+                cursor.execute(
+                    """
                     INSERT INTO gram_feature_values (lexeme_id, feature, value, source)
                     VALUES (?, ?, ?, 'function_word_encoding')
                     ON CONFLICT(lexeme_id, feature)
                     DO UPDATE SET value = ?, source = 'function_word_encoding'
-                """, (lexeme_id, feature, str(value), str(value)))
-            stats['gram_features_set'] += 1
+                """,
+                    (lexeme_id, feature, str(value), str(value)),
+                )
+            stats["gram_features_set"] += 1
 
         print(f"  {lemma}: {list(encoding.keys())}")
 
     # 2. Enhance Conjunctions
     print("\n=== Enhancing Conjunctions ===")
     for word, encoding in CONJUNCTION_ENCODINGS.items():
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT id, lemma FROM lexemes
             WHERE LOWER(lemma) = LOWER(?)
             LIMIT 1
-        """, (word,))
+        """,
+            (word,),
+        )
 
         row = cursor.fetchone()
         if not row:
-            stats['not_found'].append(f"conj:{word}")
+            stats["not_found"].append(f"conj:{word}")
             continue
 
         lexeme_id, lemma = row
-        stats['conjunctions_enhanced'] += 1
+        stats["conjunctions_enhanced"] += 1
 
         for feature, value in encoding.items():
             if not dry_run:
-                cursor.execute("""
+                cursor.execute(
+                    """
                     INSERT INTO gram_feature_values (lexeme_id, feature, value, source)
                     VALUES (?, ?, ?, 'function_word_encoding')
                     ON CONFLICT(lexeme_id, feature)
                     DO UPDATE SET value = ?, source = 'function_word_encoding'
-                """, (lexeme_id, feature, str(value), str(value)))
-            stats['gram_features_set'] += 1
+                """,
+                    (lexeme_id, feature, str(value), str(value)),
+                )
+            stats["gram_features_set"] += 1
 
         print(f"  {lemma}: {list(encoding.keys())}")
 
     # 3. Enhance Prepositions
     print("\n=== Enhancing Prepositions ===")
     for word, encoding in PREPOSITION_ENCODINGS.items():
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT id, lemma FROM lexemes
             WHERE LOWER(lemma) = LOWER(?)
             LIMIT 1
-        """, (word,))
+        """,
+            (word,),
+        )
 
         row = cursor.fetchone()
         if not row:
-            stats['not_found'].append(f"prep:{word}")
+            stats["not_found"].append(f"prep:{word}")
             continue
 
         lexeme_id, lemma = row
-        stats['prepositions_enhanced'] += 1
+        stats["prepositions_enhanced"] += 1
 
         for feature, value in encoding.items():
             if not dry_run:
-                cursor.execute("""
+                cursor.execute(
+                    """
                     INSERT INTO gram_feature_values (lexeme_id, feature, value, source)
                     VALUES (?, ?, ?, 'function_word_encoding')
                     ON CONFLICT(lexeme_id, feature)
                     DO UPDATE SET value = ?, source = 'function_word_encoding'
-                """, (lexeme_id, feature, str(value), str(value)))
-            stats['gram_features_set'] += 1
+                """,
+                    (lexeme_id, feature, str(value), str(value)),
+                )
+            stats["gram_features_set"] += 1
 
         print(f"  {lemma}: {list(encoding.keys())}")
 
@@ -168,7 +189,7 @@ if __name__ == "__main__":
     print(f"Conjunctions enhanced: {stats['conjunctions_enhanced']}")
     print(f"Prepositions enhanced: {stats['prepositions_enhanced']}")
     print(f"Gram features set: {stats['gram_features_set']}")
-    if stats['not_found']:
+    if stats["not_found"]:
         print(f"Not found: {len(stats['not_found'])}")
 
     if args.dry_run:

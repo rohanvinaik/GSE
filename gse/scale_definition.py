@@ -14,6 +14,7 @@ from typing import Any, Dict, List, Optional
 @dataclass(frozen=True)
 class BankDef:
     """Definition of a single semantic bank within a scale."""
+
     name: str
     primitives: List[str]
     metadata: Dict[str, Any] = field(default_factory=dict)
@@ -22,6 +23,7 @@ class BankDef:
 @dataclass(frozen=True)
 class PrimitiveInfo:
     """Universal primitive info — works across all scales."""
+
     name: str
     bank_index: int
     bank_name: str
@@ -84,8 +86,7 @@ class ScaleDefinition:
     def get_bank_primitives(self, bank_index: int) -> List[str]:
         if bank_index not in self._bank_primitives_cache:
             self._bank_primitives_cache[bank_index] = [
-                name for name, info in self.primitive_registry.items()
-                if info.bank_index == bank_index
+                name for name, info in self.primitive_registry.items() if info.bank_index == bank_index
             ]
         return self._bank_primitives_cache[bank_index]
 
@@ -110,7 +111,5 @@ class ScaleDefinition:
 
     def __repr__(self) -> str:
         return (
-            f"ScaleDefinition(name={self.name!r}, "
-            f"primitives={len(self.primitive_registry)}, "
-            f"banks={len(self.banks)})"
+            f"ScaleDefinition(name={self.name!r}, primitives={len(self.primitive_registry)}, banks={len(self.banks)})"
         )

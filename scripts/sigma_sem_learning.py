@@ -17,6 +17,7 @@ context. Gold is eval-only (Socratic renunciation). Reveal order is seeded + sav
 
 Usage: python scripts/sigma_sem_learning.py [--files N] [--max-sents-per-file M] [--n-per-epoch K] [--seed S]
 """
+
 import argparse
 import math
 import random
@@ -37,6 +38,7 @@ def main() -> int:
     args = ap.parse_args()
 
     import nltk
+
     for pkg, path in [("semcor", "corpora/semcor"), ("wordnet", "corpora/wordnet")]:
         try:
             nltk.data.find(path)
@@ -50,7 +52,9 @@ def main() -> int:
     from gse.symbolic.grounding import _jaccard
 
     store = GenealogyStore()
-    print(f"[LEARNING dynamics — taught-fact IS-A propagation; N={args.n_per_epoch}/epoch; NO cosine; seed={args.seed}]\n")
+    print(
+        f"[LEARNING dynamics — taught-fact IS-A propagation; N={args.n_per_epoch}/epoch; NO cosine; seed={args.seed}]\n"
+    )
 
     # Build the token pool: (gold_nodes, [competitor_node_sets]) for every polysemous gold noun.
     pool = []
@@ -76,7 +80,8 @@ def main() -> int:
 
     total = len(pool)
     if total < 2 * args.n_per_epoch:
-        print("pool too small — increase --files"); return 1
+        print("pool too small — increase --files")
+        return 1
     H0 = sum(math.log2(1 + len(t["comps"])) for t in pool)
 
     def surviving(tok, ctx):
@@ -92,16 +97,21 @@ def main() -> int:
         while len(revealed) + len(resolved) < total and idx < total:
             newly = 0
             while newly < args.n_per_epoch and idx < total:
-                t = order[idx]; idx += 1
+                t = order[idx]
+                idx += 1
                 if t in resolved:
                     continue
-                revealed.add(t); ctx |= pool[t]["gold"]; newly += 1
+                revealed.add(t)
+                ctx |= pool[t]["gold"]
+                newly += 1
             for t in range(total):
                 if t not in revealed and t not in resolved and surviving(pool[t], ctx) == 0:
                     resolved.add(t)
-            H = sum(math.log2(1 + surviving(pool[t], ctx)) for t in range(total)
-                    if t not in revealed and t not in resolved)
-            C = len(resolved) - prev; prev = len(resolved)
+            H = sum(
+                math.log2(1 + surviving(pool[t], ctx)) for t in range(total) if t not in revealed and t not in resolved
+            )
+            C = len(resolved) - prev
+            prev = len(resolved)
             rows.append((len(revealed), len(resolved), H, newly + C, C))
         told, amp = rows[-1][0], rows[-1][1]
         half = max(1, len(rows) // 2)
@@ -121,27 +131,37 @@ def main() -> int:
             m = sum(xs) / len(xs)
             sd = (sum((x - m) ** 2 for x in xs) / len(xs)) ** 0.5
             return m, sd
-        Lm, Ls = ms("L"); Im, Is = ms("told"); em, es = ms("eC"); lm, ls = ms("lC")
+
+        Lm, Ls = ms("L")
+        Im, Is = ms("told")
+        em, es = ms("eC")
+        lm, ls = ms("lC")
         print(f"ROBUSTNESS over {args.seeds} reveal-orders (mean ± sd):")
-        print(f"  STRUCTURAL LEVERAGE  L(NLP) = {Lm:.3f} ± {Ls:.3f}   ({100*Lm:.1f}% resolved for free)")
-        print(f"  I_solve(NLP)               = {Im:.0f} ± {Is:.0f} facts  (of {total}; teach {100*Im/total:.0f}%)")
+        print(f"  STRUCTURAL LEVERAGE  L(NLP) = {Lm:.3f} ± {Ls:.3f}   ({100 * Lm:.1f}% resolved for free)")
+        print(f"  I_solve(NLP)               = {Im:.0f} ± {Is:.0f} facts  (of {total}; teach {100 * Im / total:.0f}%)")
         print(f"  BULK amplification (C/fact, early) = {em:.2f} ± {es:.2f}")
         print(f"  TAIL amplification (C/fact, late)  = {lm:.2f} ± {ls:.2f}")
-        print(f"  phase transition (early > late) holds in {sum(1 for r in rs if r['eC'] > r['lC'] + 0.05)}/{args.seeds} orders")
-        print(f"\n  READING: the bulk→tail PHASE TRANSITION is robust (holds in every order) — the qualitative "
-              f"law is a property of GSE's IS-A structure. But L and I_solve carry real order-dependence "
-              f"(sd ~{100*Ls/max(Lm,1e-9):.0f}%): teaching high-connectivity 'hub' facts first amplifies more — "
-              f"the CURRICULUM matters, i.e. C depends on graph connectivity, not just remaining entropy.")
+        print(
+            f"  phase transition (early > late) holds in {sum(1 for r in rs if r['eC'] > r['lC'] + 0.05)}/{args.seeds} orders"
+        )
+        print(
+            f"\n  READING: the bulk→tail PHASE TRANSITION is robust (holds in every order) — the qualitative "
+            f"law is a property of GSE's IS-A structure. But L and I_solve carry real order-dependence "
+            f"(sd ~{100 * Ls / max(Lm, 1e-9):.0f}%): teaching high-connectivity 'hub' facts first amplifies more — "
+            f"the CURRICULUM matters, i.e. C depends on graph connectivity, not just remaining entropy."
+        )
         return 0
 
     # single-seed detailed curve
     r0 = run_seed(args.seed)
     print(f"  {'told(N·t)':>9} {'amplified':>9} {'H(t)':>8} {'eff=N+C':>8} {'C':>5}")
     for rev, amp, H, eff, C in r0["rows"]:
-        print(f"  {rev:9d} {amp:9d} {H:8.1f} {eff:8d} {C:5d}  {'█' * int(30*(1-H/H0)) if H0 else ''}")
+        print(f"  {rev:9d} {amp:9d} {H:8.1f} {eff:8d} {C:5d}  {'█' * int(30 * (1 - H / H0)) if H0 else ''}")
     print(f"\n  COMPLETENESS 100%: {r0['told']} told + {r0['amp']} amplified of {total}")
-    print(f"  L = {r0['L']:.3f} (resolved for free)   I_solve = {r0['told']} facts   "
-          f"BULK→TAIL C/fact: {r0['eC']:.2f} → {r0['lC']:.2f}")
+    print(
+        f"  L = {r0['L']:.3f} (resolved for free)   I_solve = {r0['told']} facts   "
+        f"BULK→TAIL C/fact: {r0['eC']:.2f} → {r0['lC']:.2f}"
+    )
     return 0
 
 

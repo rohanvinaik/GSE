@@ -29,6 +29,7 @@ proved a Blum measure = teaching dimension (``Mutation_Theory_proofs/``).
 
 Usage: python scripts/sigma_sem_curve.py [--files N] [--max-sents-per-file M]
 """
+
 import argparse
 import math
 import sys
@@ -39,7 +40,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, "/Users/rohanvinaik/tools/LintGate")  # reuse the proved σ engine
 
-SCALES = ["sentence", "document", "world"]   # ordered, nested structural-context scopes
+SCALES = ["sentence", "document", "world"]  # ordered, nested structural-context scopes
 
 
 class _SemProfilingResult:
@@ -84,6 +85,7 @@ def main() -> int:
     args = ap.parse_args()
 
     import nltk
+
     for pkg, path in [("semcor", "corpora/semcor"), ("wordnet", "corpora/wordnet")]:
         try:
             nltk.data.find(path)
@@ -102,11 +104,14 @@ def main() -> int:
         _jaccard,
         _lookup_key,
     )
+
     try:
         from lintgate.specification.greedy_convergence import analyze_convergence
+
         _HAVE_LG = True
-    except Exception as e:            # pragma: no cover
-        print(f"[LintGate engine unavailable: {e}]"); _HAVE_LG = False
+    except Exception as e:  # pragma: no cover
+        print(f"[LintGate engine unavailable: {e}]")
+        _HAVE_LG = False
 
     enc = GSEEncoder()
     store = GenealogyStore()
@@ -118,11 +123,11 @@ def main() -> int:
     H_by_scale = defaultdict(float)
     resolved_at = Counter()
     # A (surprise) + B (cardinality) accumulators
-    card_hist = Counter()          # σ_sem cardinality (min context entities) -> count
-    card_survivor = 0              # tokens with a competitor no entity beats
+    card_hist = Counter()  # σ_sem cardinality (min context entities) -> count
+    card_survivor = 0  # tokens with a competitor no entity beats
     card_phase = Counter()
     surprise_sum = 0.0
-    override_n = 0                 # tokens where structure overrode the frequency-primary
+    override_n = 0  # tokens where structure overrode the frequency-primary
     override_surprise_sum = 0.0
 
     def primary_nodes(lemma, pos, proper):
@@ -144,7 +149,7 @@ def main() -> int:
 
         # REAL grounded structure of the passage: per-sentence entity primary-thread node sets,
         # split common-noun (sentence/document scope) vs proper-noun world threads (world scope).
-        sent_common = []    # per sentence: list of (lemma, node_set) for common-noun entities
+        sent_common = []  # per sentence: list of (lemma, node_set) for common-noun entities
         world_nodes: set = set()
         try:
             trees = [evaluate_tree(resolve(from_trace(enc.encode(" ".join(w))))) for w in raw_sents]
@@ -188,7 +193,7 @@ def main() -> int:
                     continue
                 cands = [tuple(t) for t in store.candidates(lemma, "NOUN", False)]
                 if len(cands) != len(synsets):
-                    continue   # thread↔synset alignment not exact → cannot faithfully map
+                    continue  # thread↔synset alignment not exact → cannot faithfully map
                 gold_nodes = set(cands[synsets.index(gold)])
                 competitors = [set(cands[i]) for i, s in enumerate(synsets) if s != gold]
                 if not competitors:
@@ -196,8 +201,11 @@ def main() -> int:
                 total += 1
 
                 # scale-scoped DISCRETE context (other entities' IS-A thread nodes, exclude own lemma)
-                sent_ctx = set().union(*[n for lm, n in sent_common[si] if lm != lemma]) \
-                    if si < len(sent_common) and sent_common[si] else set()
+                sent_ctx = (
+                    set().union(*[n for lm, n in sent_common[si] if lm != lemma])
+                    if si < len(sent_common) and sent_common[si]
+                    else set()
+                )
                 doc_ctx = doc_common_nodes
                 world_ctx = doc_common_nodes | world_nodes
                 ctx_by_scale = {"sentence": sent_ctx, "document": doc_ctx, "world": world_ctx}
@@ -212,7 +220,7 @@ def main() -> int:
                     for i, c in enumerate(competitors):
                         if i in ruled_out:
                             continue
-                        if gj > _jaccard(c, ctx):      # gold structurally beats competitor i at scale s
+                        if gj > _jaccard(c, ctx):  # gold structurally beats competitor i at scale s
                             kill_matrix[i].add(s)
                             ruled_out.add(i)
                     cum_surv = len(competitors) - len(ruled_out)
@@ -238,9 +246,9 @@ def main() -> int:
                 best_idx = max(range(len(all_cands)), key=lambda i: scores[i])
                 resolved_idx = best_idx if scores[best_idx] > scores[0] + _COHERENCE_MARGIN else 0
                 prior = freq_prior(lemma, synsets)
-                S = -math.log2(prior[resolved_idx])      # KL(δ_resolved ‖ freq prior) = belief revision
+                S = -math.log2(prior[resolved_idx])  # KL(δ_resolved ‖ freq prior) = belief revision
                 surprise_sum += S
-                if resolved_idx != 0:                    # structure OVERRODE the frequency-primary
+                if resolved_idx != 0:  # structure OVERRODE the frequency-primary
                     override_n += 1
                     override_surprise_sum += S
 
@@ -270,8 +278,10 @@ def main() -> int:
                         card_phase["tail"] += 1
 
     # ---- report ----------------------------------------------------------------
-    print(f"RESOLUTION COLLAPSE across specification scale — {total} polysemous grounded noun tokens "
-          f"({args.files} SemCor files):\n")
+    print(
+        f"RESOLUTION COLLAPSE across specification scale — {total} polysemous grounded noun tokens "
+        f"({args.files} SemCor files):\n"
+    )
     print(f"  {'scale':10} {'mean |N(T) survivors|':>22} {'mean H=log₂(1+surv)':>22}")
     for s in SCALES:
         ms = survivors_by_scale[s] / max(1, total)
@@ -283,10 +293,14 @@ def main() -> int:
         print(f"    resolves @ {s:14}: {n:4d}  {'█' * min(40, n)}")
     nfp = resolved_at.get("never:freq-primary", 0)
     nbg = resolved_at.get("never:basis-gap", 0)
-    print(f"    structure-silent → FREQ-PRIMARY: {nfp:4d}  {'█' * min(40, nfp)}  "
-          f"(IS-A ties; GSE resolves by the frequency prior — the MFS half of #1)")
-    print(f"    closed-basis DEFINITIONAL GAP  : {nbg:4d}  {'█' * min(40, nbg)}  "
-          f"(a competitor with an IDENTICAL IS-A thread — the 72-prime basis truly cannot distinguish; §15)")
+    print(
+        f"    structure-silent → FREQ-PRIMARY: {nfp:4d}  {'█' * min(40, nfp)}  "
+        f"(IS-A ties; GSE resolves by the frequency prior — the MFS half of #1)"
+    )
+    print(
+        f"    closed-basis DEFINITIONAL GAP  : {nbg:4d}  {'█' * min(40, nbg)}  "
+        f"(a competitor with an IDENTICAL IS-A thread — the 72-prime basis truly cannot distinguish; §15)"
+    )
 
     # --- B · σ_sem CARDINALITY (teaching dimension: min context entities to make gold unique) ---
     print("\n  σ_sem CARDINALITY — min context entities (revealed examples) to make the gold unique")
@@ -297,25 +311,35 @@ def main() -> int:
         note = "  (0 entities needed — gold already the unique IS-A argmax)" if k == 0 else ""
         print(f"    σ_sem = {k:2d} : {n:4d}  {'█' * min(40, n)}{note}")
     mean_card = sum(k * n for k, n in card_hist.items()) / max(1, resolvable) if resolvable else 0.0
-    print(f"    mean σ_sem (over the {resolvable} entity-resolvable tokens) = {mean_card:.2f}   "
-          f"| {card_survivor} tokens no entity resolves (structural tie → freq-primary / definitional gap)")
+    print(
+        f"    mean σ_sem (over the {resolvable} entity-resolvable tokens) = {mean_card:.2f}   "
+        f"| {card_survivor} tokens no entity resolves (structural tie → freq-primary / definitional gap)"
+    )
     if card_phase:
-        print(f"    phase (LintGate, independent-entity tests): bulk {card_phase['bulk']} / tail {card_phase['tail']}  "
-              f"(bulk = one revealed example collapses the majority; tail = one-at-a-time)")
+        print(
+            f"    phase (LintGate, independent-entity tests): bulk {card_phase['bulk']} / tail {card_phase['tail']}  "
+            f"(bulk = one revealed example collapses the majority; tail = one-at-a-time)"
+        )
 
     # --- A · SURPRISE (belief revision off the frequency prior — the resolution signal) ---
     print("\n  SURPRISE S_sem = KL(δ_structure ‖ freq-prior) = −log₂ P_freq(resolved reading):")
     print(f"    mean S_sem over all tokens = {surprise_sum / max(1, total):.3f} bits")
-    print(f"    structure OVERRODE the frequency-primary on {override_n} tokens "
-          f"({100 * override_n / max(1, total):.1f}%) — the learning signal, where context moved the reading;")
+    print(
+        f"    structure OVERRODE the frequency-primary on {override_n} tokens "
+        f"({100 * override_n / max(1, total):.1f}%) — the learning signal, where context moved the reading;"
+    )
     if override_n:
-        print(f"      mean surprise on those overrides = {override_surprise_sum / override_n:.3f} bits "
-              f"(high = a rare sense promoted by structure).")
+        print(
+            f"      mean surprise on those overrides = {override_surprise_sum / override_n:.3f} bits "
+            f"(high = a rare sense promoted by structure)."
+        )
 
-    print("\n  READING: understanding measured three ways — the σ-TRAJECTORY (H↓ as structural scale widens), "
-          "the σ_sem CARDINALITY (teaching dimension, a Blum measure), and SURPRISE (where structure revises "
-          "the frequency prior). σ_sem is where conceptual entropy reaches 0; the residual is the closed basis's "
-          "honest silence.")
+    print(
+        "\n  READING: understanding measured three ways — the σ-TRAJECTORY (H↓ as structural scale widens), "
+        "the σ_sem CARDINALITY (teaching dimension, a Blum measure), and SURPRISE (where structure revises "
+        "the frequency prior). σ_sem is where conceptual entropy reaches 0; the residual is the closed basis's "
+        "honest silence."
+    )
     return 0
 
 

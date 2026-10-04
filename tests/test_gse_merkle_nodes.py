@@ -26,8 +26,7 @@ from gse.primitives_v2 import SemanticBank
 
 class TestMerkleNodeUpdateCombinedHash:
     def test_combines_content_and_children(self):
-        node = MerkleNode(node_id="x", node_type="test",
-                          content_hash="abc", children_hash="def")
+        node = MerkleNode(node_id="x", node_type="test", content_hash="abc", children_hash="def")
         node.update_combined_hash()
         expected = MerkleHashChain.combine_hashes("abc", "def")
         assert node.combined_hash == expected
@@ -73,9 +72,13 @@ class TestBankNode:
 
     def test_compute_content_hash(self):
         node = BankNode(
-            node_id="b", bank_id=0, bank_name="SUBSTANTIVES",
-            dim_start=0, dim_end=1024,
-            primitive_count=10, lexeme_count=100,
+            node_id="b",
+            bank_id=0,
+            bank_name="SUBSTANTIVES",
+            dim_start=0,
+            dim_end=1024,
+            primitive_count=10,
+            lexeme_count=100,
         )
         h = node.compute_content_hash()
         assert len(h) == 32
@@ -99,19 +102,20 @@ class TestFamilyNode:
 
     def test_compute_content_hash(self):
         node = FamilyNode(
-            node_id="f", family_id="entity_animate",
-            bank_id=0, member_primitives=["SOMEONE", "PEOPLE"],
-            hub_primitive="SOMEONE", lexeme_count=50,
+            node_id="f",
+            family_id="entity_animate",
+            bank_id=0,
+            member_primitives=["SOMEONE", "PEOPLE"],
+            hub_primitive="SOMEONE",
+            lexeme_count=50,
         )
         h = node.compute_content_hash()
         assert len(h) == 32
 
     def test_primitives_sorted_in_hash(self):
         """Primitives sorted alphabetically for deterministic hash."""
-        n1 = FamilyNode(node_id="f", family_id="x", bank_id=0,
-                        member_primitives=["B", "A", "C"])
-        n2 = FamilyNode(node_id="f", family_id="x", bank_id=0,
-                        member_primitives=["A", "C", "B"])
+        n1 = FamilyNode(node_id="f", family_id="x", bank_id=0, member_primitives=["B", "A", "C"])
+        n2 = FamilyNode(node_id="f", family_id="x", bank_id=0, member_primitives=["A", "C", "B"])
         assert n1.compute_content_hash() == n2.compute_content_hash()
 
     def test_children_hash(self):
@@ -128,8 +132,10 @@ class TestHubNode:
 
     def test_compute_content_hash_includes_vector_sig(self):
         node = HubNode(
-            node_id="h", primitive_name="SOMEONE",
-            bank_id=0, family_id="entity",
+            node_id="h",
+            primitive_name="SOMEONE",
+            bank_id=0,
+            family_id="entity",
             vector_positive=np.array([1, 2, 3], dtype=np.uint16),
             vector_negative=np.array([4, 5], dtype=np.uint16),
         )
@@ -137,10 +143,8 @@ class TestHubNode:
         assert len(h) == 32
 
     def test_different_vector_lengths_different_hash(self):
-        n1 = HubNode(node_id="h", primitive_name="X",
-                     vector_positive=np.array([1, 2], dtype=np.uint16))
-        n2 = HubNode(node_id="h", primitive_name="X",
-                     vector_positive=np.array([1, 2, 3], dtype=np.uint16))
+        n1 = HubNode(node_id="h", primitive_name="X", vector_positive=np.array([1, 2], dtype=np.uint16))
+        n2 = HubNode(node_id="h", primitive_name="X", vector_positive=np.array([1, 2, 3], dtype=np.uint16))
         assert n1.compute_content_hash() != n2.compute_content_hash()
 
     def test_children_hash_orders_lexemes(self):
@@ -161,18 +165,20 @@ class TestLexemeNode:
     def test_compute_content_hash(self):
         node = LexemeNode(
             node_id="happy_adj_01",
-            lemma="happy", pos="adj", sense_id="01", gloss="feeling pleasure",
+            lemma="happy",
+            pos="adj",
+            sense_id="01",
+            gloss="feeling pleasure",
             decomposition=[("GOOD", "evaluation", 1), ("FEEL", "state", 1)],
-            source="manual", confidence=0.9,
+            source="manual",
+            confidence=0.9,
         )
         h = node.compute_content_hash()
         assert len(h) == 32
 
     def test_different_decomposition_different_hash(self):
-        n1 = LexemeNode(node_id="x", lemma="x",
-                        decomposition=[("A", "r1", 1)])
-        n2 = LexemeNode(node_id="x", lemma="x",
-                        decomposition=[("B", "r1", 1)])
+        n1 = LexemeNode(node_id="x", lemma="x", decomposition=[("A", "r1", 1)])
+        n2 = LexemeNode(node_id="x", lemma="x", decomposition=[("B", "r1", 1)])
         assert n1.compute_content_hash() != n2.compute_content_hash()
 
     def test_compute_children_hash_empty(self):
@@ -188,11 +194,18 @@ class TestLexemeNode:
 
     def test_to_dict_includes_all_fields(self):
         node = LexemeNode(
-            node_id="x", lemma="happy", pos="adj", sense_id="01",
-            gloss="g", decomposition=[("A", "r", 1)],
+            node_id="x",
+            lemma="happy",
+            pos="adj",
+            sense_id="01",
+            gloss="g",
+            decomposition=[("A", "r", 1)],
             vector_positive=np.array([1, 2], dtype=np.uint16),
             vector_negative=np.array([3], dtype=np.uint16),
-            parent_hub="HUB", frequency=2.0, source="llm", confidence=0.8,
+            parent_hub="HUB",
+            frequency=2.0,
+            source="llm",
+            confidence=0.8,
         )
         d = node.to_dict()
         assert d["lemma"] == "happy"
@@ -209,7 +222,10 @@ class TestLexemeNode:
 
     def test_from_dict_roundtrip(self):
         original = LexemeNode(
-            node_id="x", lemma="happy", pos="adj", sense_id="01",
+            node_id="x",
+            lemma="happy",
+            pos="adj",
+            sense_id="01",
             decomposition=[("A", "r", 1)],
             vector_positive=np.array([1, 2], dtype=np.uint16),
             source="llm",

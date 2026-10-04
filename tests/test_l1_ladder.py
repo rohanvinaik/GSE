@@ -28,6 +28,7 @@ def enc():
 
 # --- structural search over the serialized tree ----------------------------
 
+
 def _walk(d):
     if isinstance(d, dict):
         yield d
@@ -44,14 +45,18 @@ def _tree(enc, text):
 
 def _event(d, verb):
     """The EVENT Op for a given verb lemma, if present."""
-    return next((n for n in _walk(d)
-                 if n.get("_kind") == "Op" and n.get("operation") == "EVENT"
-                 and n.get("primitive") == verb), None)
+    return next(
+        (
+            n
+            for n in _walk(d)
+            if n.get("_kind") == "Op" and n.get("operation") == "EVENT" and n.get("primitive") == verb
+        ),
+        None,
+    )
 
 
 def _op(d, operation):
-    return next((n for n in _walk(d)
-                 if n.get("_kind") == "Op" and n.get("operation") == operation), None)
+    return next((n for n in _walk(d) if n.get("_kind") == "Op" and n.get("operation") == operation), None)
 
 
 def _lemmas(d):
@@ -73,6 +78,7 @@ def _degraded(enc, text):
 # R1 — base predication
 # ===========================================================================
 
+
 def test_rung1_base_predication(enc):
     # SVO event (verb-POS repair recovers the subject), intransitive, copula.
     assert _event_binds(_tree(enc, "Macbeth murders Duncan."), "murder", "macbeth", "duncan")
@@ -84,16 +90,17 @@ def test_rung1_base_predication(enc):
 # R2 — within-clause operators
 # ===========================================================================
 
+
 def test_rung2_within_clause_operators(enc):
     assert _op(_tree(enc, "Mike is taller than Rex"), "SET_DIFF") is not None
-    neg = next((n for n in _walk(_tree(enc, "Macbeth did not murder Duncan"))
-                if n.get("_kind") == "Negation"), None)
+    neg = next((n for n in _walk(_tree(enc, "Macbeth did not murder Duncan")) if n.get("_kind") == "Negation"), None)
     assert neg is not None and _event(neg, "murder") is not None
 
 
 # ===========================================================================
 # R3 — clause-linking
 # ===========================================================================
+
 
 def test_rung3_clause_linking(enc):
     so = _tree(enc, "Mike sang so Rex left")
@@ -109,35 +116,37 @@ def test_rung3_clause_linking(enc):
 # R4 — embedded predication (A1 relatives, A2 complements)
 # ===========================================================================
 
+
 def test_rung4_relative_subject_gap(enc):  # A1
     d = _tree(enc, "Macbeth, who trusted the witches, murdered Duncan.")
     assert _op(d, "REL_RESTRICT") is not None
-    assert _event_binds(d, "trust", "macbeth", "witch")   # gap bound to antecedent
+    assert _event_binds(d, "trust", "macbeth", "witch")  # gap bound to antecedent
     assert _event_binds(d, "murder", "duncan")
 
 
 def test_rung4_relative_object_gap(enc):  # A1
     d = _tree(enc, "The king whom Macbeth murdered was Duncan.")
     assert _op(d, "REL_RESTRICT") is not None
-    assert _event_binds(d, "murder", "macbeth", "king")   # both subject + object-gap bound
+    assert _event_binds(d, "murder", "macbeth", "king")  # both subject + object-gap bound
 
 
 def test_rung4_complement(enc):  # A2
     d = _tree(enc, "The witches predicted that Macbeth would become king.")
     assert _event_binds(d, "predict", "witch")
-    assert _event_binds(d, "become", "macbeth", "king")   # nested proposition recovered
+    assert _event_binds(d, "become", "macbeth", "king")  # nested proposition recovered
 
 
 # ===========================================================================
 # R5 — composition (additivity): relative ∘ causation in one sentence
 # ===========================================================================
 
+
 def test_rung5_composition_relative_in_causation(enc):
     d = _tree(enc, "Macduff, who loved his country, fled because Macbeth murdered the king.")
     # the causation substructure (R3) AND the gap-bound relative (R4) both present
     assert _op(d, "CAUSAL_SOURCE") is not None
     assert _op(d, "REL_RESTRICT") is not None
-    assert _event_binds(d, "love", "macduff")     # relative gap bound
+    assert _event_binds(d, "love", "macduff")  # relative gap bound
     assert _event_binds(d, "flee", "macduff")
     assert _event_binds(d, "murder", "macbeth", "king")
 
@@ -146,15 +155,19 @@ def test_rung5_composition_relative_in_causation(enc):
 # Coherence oracle — no clean ladder sentence is flagged degraded
 # ===========================================================================
 
-@pytest.mark.parametrize("sentence", [
-    "Macbeth murders Duncan.",
-    "Duncan is a king.",
-    "Mike sang so Rex left",
-    "Macbeth, who trusted the witches, murdered Duncan.",
-    "The king whom Macbeth murdered was Duncan.",
-    "The witches predicted that Macbeth would become king.",
-    "Macduff, who loved his country, fled because Macbeth murdered the king.",
-])
+
+@pytest.mark.parametrize(
+    "sentence",
+    [
+        "Macbeth murders Duncan.",
+        "Duncan is a king.",
+        "Mike sang so Rex left",
+        "Macbeth, who trusted the witches, murdered Duncan.",
+        "The king whom Macbeth murdered was Duncan.",
+        "The witches predicted that Macbeth would become king.",
+        "Macduff, who loved his country, fled because Macbeth murdered the king.",
+    ],
+)
 def test_clean_rungs_not_degraded(enc, sentence):
     assert _degraded(enc, sentence) == []
 
@@ -162,6 +175,7 @@ def test_clean_rungs_not_degraded(enc, sentence):
 # ===========================================================================
 # Frontier — the roadmap. xfail until the feature lands, then flip to assert.
 # ===========================================================================
+
 
 def test_rung4_control(enc):  # A3
     # subject control — controller is the matrix subject (period-leak fixed)

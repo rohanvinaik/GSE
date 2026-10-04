@@ -30,8 +30,38 @@ PRIMITIVE_GROUPS = {
     "mental": ["THINK", "KNOW", "WANT", "FEEL", "SEE", "HEAR", "INFER"],
     "action": ["SAY", "WORDS", "DO", "HAPPEN", "MOVE", "BE", "HAVE", "EXIST", "ALIVE", "DEAD"],
     "temporal": ["MOMENT", "WHEN", "LONG_TIME", "SHORT_TIME", "BEFORE", "AFTER", "THEN", "NOW", "START", "END"],
-    "spatial": ["WHERE", "HERE", "SIDE", "TOUCH", "ABOVE", "BELOW", "FAR", "NEAR", "OUTSIDE", "INSIDE", "TOWARD", "AWAY", "WITH", "WITHOUT"],
-    "logical": ["NOT", "MAYBE", "CAN", "MUST", "BECAUSE", "CAUSE", "IF", "LIKE", "TRUE", "FALSE", "HIER_PLUS", "HIER_MINUS", "INTENSITY", "CERTAINTY"],
+    "spatial": [
+        "WHERE",
+        "HERE",
+        "SIDE",
+        "TOUCH",
+        "ABOVE",
+        "BELOW",
+        "FAR",
+        "NEAR",
+        "OUTSIDE",
+        "INSIDE",
+        "TOWARD",
+        "AWAY",
+        "WITH",
+        "WITHOUT",
+    ],
+    "logical": [
+        "NOT",
+        "MAYBE",
+        "CAN",
+        "MUST",
+        "BECAUSE",
+        "CAUSE",
+        "IF",
+        "LIKE",
+        "TRUE",
+        "FALSE",
+        "HIER_PLUS",
+        "HIER_MINUS",
+        "INTENSITY",
+        "CERTAINTY",
+    ],
 }
 
 
@@ -70,6 +100,7 @@ Example format:
 @dataclass
 class GranularResult:
     """Result from granular decomposition."""
+
     word: str
     primitives: Dict[str, int]
     source: str  # "external" or "llm:{model}"
@@ -102,8 +133,7 @@ class GranularDecomposer:
     def get_filled_primitives(self, lexeme_id: int) -> Dict[str, Tuple[int, str]]:
         """Get primitives already filled with their values and sources."""
         cursor = self.conn.execute(
-            "SELECT primitive, value, source FROM primitive_values WHERE lexeme_id = ?",
-            (lexeme_id,)
+            "SELECT primitive, value, source FROM primitive_values WHERE lexeme_id = ?", (lexeme_id,)
         )
         return {row[0]: (row[1], row[2]) for row in cursor.fetchall()}
 
@@ -126,6 +156,7 @@ class GranularDecomposer:
 
         try:
             from gse.curation.llm.ollama_client import GenerationConfig
+
             config = GenerationConfig(temperature=self.temperature)
             response = self.client.generate(
                 prompt=prompt,
@@ -136,7 +167,8 @@ class GranularDecomposer:
             # Parse JSON from response
             # Try to extract JSON object
             import re
-            json_match = re.search(r'\{[^{}]*\}', response, re.DOTALL)
+
+            json_match = re.search(r"\{[^{}]*\}", response, re.DOTALL)
             if json_match:
                 data = json.loads(json_match.group())
                 # Normalize values to -1, 0, +1
@@ -190,11 +222,14 @@ class GranularDecomposer:
 
             # Store results
             for prim, value in llm_result.items():
-                self.conn.execute("""
+                self.conn.execute(
+                    """
                     INSERT OR REPLACE INTO primitive_values
                     (lexeme_id, primitive, value, confidence, source)
                     VALUES (?, ?, ?, ?, ?)
-                """, (lexeme_id, prim, value, 0.7, f"llm:{self.model}"))
+                """,
+                    (lexeme_id, prim, value, 0.7, f"llm:{self.model}"),
+                )
 
             results[bank_name] = GranularResult(
                 word=lemma,
@@ -251,9 +286,7 @@ class GranularDecomposer:
             results = self.process_word(lex_id, lemma, pos)
 
             stats["processed"] += 1
-            stats["primitives_filled"] += sum(
-                len(r.primitives) for r in results.values()
-            )
+            stats["primitives_filled"] += sum(len(r.primitives) for r in results.values())
 
             if (i + 1) % 10 == 0:
                 logger.info(f"Progress: {i + 1}/{len(words)} - {lemma}")
@@ -267,10 +300,7 @@ class GranularDecomposer:
 if __name__ == "__main__":
     import argparse
 
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-    )
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--db", default="data/lexicon.db")
@@ -284,9 +314,7 @@ if __name__ == "__main__":
 
     if args.word:
         # Process single word
-        cursor = decomposer.conn.execute(
-            "SELECT id, pos FROM lexemes WHERE lemma = ?", (args.word,)
-        )
+        cursor = decomposer.conn.execute("SELECT id, pos FROM lexemes WHERE lemma = ?", (args.word,))
         row = cursor.fetchone()
         if row:
             results = decomposer.process_word(row[0], args.word, row[1], skip_filled=False)

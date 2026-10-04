@@ -20,6 +20,7 @@ from gse.curation.llm.prompts import (
 
 # ---------- BATCH_CONFIG ----------
 
+
 class TestBatchConfig:
     def test_has_three_phases(self):
         assert set(BATCH_CONFIG.keys()) == {"phase_1", "phase_2", "phase_3"}
@@ -47,6 +48,7 @@ class TestBatchConfig:
 
 # ---------- SYSTEM_PROMPT ----------
 
+
 class TestSystemPrompt:
     def test_mentions_72_primitives(self):
         assert "72" in SYSTEM_PROMPT
@@ -65,6 +67,7 @@ class TestSystemPrompt:
 
 
 # ---------- build_user_prompt ----------
+
 
 class TestBuildUserPrompt:
     def test_default_uses_full_template(self):
@@ -102,6 +105,7 @@ class TestBuildUserPrompt:
 
 # ---------- build_batch_prompt ----------
 
+
 class TestBuildBatchPrompt:
     def test_empty_list(self):
         result = build_batch_prompt([])
@@ -114,10 +118,12 @@ class TestBuildBatchPrompt:
         assert "adj" in result
 
     def test_numbers_each_word(self):
-        result = build_batch_prompt([
-            {"word": "happy"},
-            {"word": "sad"},
-        ])
+        result = build_batch_prompt(
+            [
+                {"word": "happy"},
+                {"word": "sad"},
+            ]
+        )
         assert "1. happy" in result
         assert "2. sad" in result
 
@@ -184,6 +190,7 @@ class TestBuildBatchPrompt:
 
 # ---------- EXAMPLE_DECOMPOSITIONS ----------
 
+
 class TestExampleDecompositions:
     def test_contains_happy(self):
         assert "happy" in EXAMPLE_DECOMPOSITIONS
@@ -208,6 +215,7 @@ class TestExampleDecompositions:
 
 
 # ---------- build_few_shot_prompt ----------
+
 
 class TestBuildFewShotPrompt:
     def test_basic(self):

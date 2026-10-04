@@ -27,24 +27,31 @@ each figure's Face-A tell + licensing relation, and the subsumption lattice
 (``refines``) the resolution voting propagates over. See ``docs/JANUS_FIGURE_SYSTEM.md``
 (architecture, data contract) and ``docs/JANUS_MODULE_DESIGN.md`` (ternary resolution).
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Dict, List, Tuple
 
 # Banks = the relation families that license each trope (+ the non-trope buckets).
-BANK_SIMILARITY = "similarity"     # cross-domain resemblance (metaphoric pole)
-BANK_CONTIGUITY = "contiguity"     # association / part–whole (metonymic pole)
-BANK_ATTRIBUTION = "attribution"   # echoic / dissociative (the irony family)
-BANK_MAGNITUDE = "magnitude"       # quantity distortion (over/under-statement)
-BANK_VALENCE = "valence"           # valence distortion (word-affect ⟂ world-salience)
-BANK_INVERSION = "inversion"       # Silva "Semantic Inversions": contradiction / form↔function
-BANK_APPEAL = "appeal"             # NON-trope: modes of persuasion + reasoning
-BANK_BASELINE = "baseline"         # the null class
+BANK_SIMILARITY = "similarity"  # cross-domain resemblance (metaphoric pole)
+BANK_CONTIGUITY = "contiguity"  # association / part–whole (metonymic pole)
+BANK_ATTRIBUTION = "attribution"  # echoic / dissociative (the irony family)
+BANK_MAGNITUDE = "magnitude"  # quantity distortion (over/under-statement)
+BANK_VALENCE = "valence"  # valence distortion (word-affect ⟂ world-salience)
+BANK_INVERSION = "inversion"  # Silva "Semantic Inversions": contradiction / form↔function
+BANK_APPEAL = "appeal"  # NON-trope: modes of persuasion + reasoning
+BANK_BASELINE = "baseline"  # the null class
 
 BANKS: Tuple[str, ...] = (
-    BANK_SIMILARITY, BANK_CONTIGUITY, BANK_ATTRIBUTION, BANK_MAGNITUDE,
-    BANK_VALENCE, BANK_INVERSION, BANK_APPEAL, BANK_BASELINE,
+    BANK_SIMILARITY,
+    BANK_CONTIGUITY,
+    BANK_ATTRIBUTION,
+    BANK_MAGNITUDE,
+    BANK_VALENCE,
+    BANK_INVERSION,
+    BANK_APPEAL,
+    BANK_BASELINE,
 )
 
 
@@ -80,119 +87,211 @@ class Figure:
 # The closed set. Declaration order is stable and is the canonical bank ordering.
 FIGURES: Tuple[Figure, ...] = (
     # — SIMILARITY (metaphoric pole) —
-    Figure("metaphor", BANK_SIMILARITY,
-           "cross-domain identity ('Juliet is the sun')",
-           "a TypeAssertion that fails coherence",
-           licensing_relation="cross-domain similarity (mapping, NOT broadening)"),
-    Figure("simile", BANK_SIMILARITY,
-           "marked cross-domain comparison ('brave as a lion')",
-           "comparison + explicit like/as marker",
-           licensing_relation="cross-domain similarity (marked)"),
-    Figure("personification", BANK_SIMILARITY,
-           "agency given to a non-agent",
-           "inanimate subject of an animate-only verb",
-           licensing_relation="similarity to a person / agent", refines="metaphor"),
-    Figure("catachresis", BANK_SIMILARITY,
-           "forced metaphor filling a lexical gap ('leg of a table')",
-           "cross-domain predication where no literal term exists",
-           licensing_relation="forced cross-domain similarity", refines="metaphor"),
+    Figure(
+        "metaphor",
+        BANK_SIMILARITY,
+        "cross-domain identity ('Juliet is the sun')",
+        "a TypeAssertion that fails coherence",
+        licensing_relation="cross-domain similarity (mapping, NOT broadening)",
+    ),
+    Figure(
+        "simile",
+        BANK_SIMILARITY,
+        "marked cross-domain comparison ('brave as a lion')",
+        "comparison + explicit like/as marker",
+        licensing_relation="cross-domain similarity (marked)",
+    ),
+    Figure(
+        "personification",
+        BANK_SIMILARITY,
+        "agency given to a non-agent",
+        "inanimate subject of an animate-only verb",
+        licensing_relation="similarity to a person / agent",
+        refines="metaphor",
+    ),
+    Figure(
+        "catachresis",
+        BANK_SIMILARITY,
+        "forced metaphor filling a lexical gap ('leg of a table')",
+        "cross-domain predication where no literal term exists",
+        licensing_relation="forced cross-domain similarity",
+        refines="metaphor",
+    ),
     # — CONTIGUITY (metonymic pole; whole-part / part-part) —
-    Figure("metonymy", BANK_CONTIGUITY,
-           "associated referent for the thing ('the crown')",
-           "grounded referent != predicate's selectional fit; an associate fits",
-           licensing_relation="contiguity: part-for-part within an ICM (the hub)"),
-    Figure("synecdoche", BANK_CONTIGUITY,
-           "part for whole ('all hands on deck')",
-           "part-noun in a whole-noun role",
-           licensing_relation="contiguity: part-for-whole (whole↔part)", refines="metonymy"),
-    Figure("antonomasia", BANK_CONTIGUITY,
-           "epithet for a name, or a name for a class ('the Bard' = Shakespeare)",
-           "a descriptive / proper substitute for the referent's name",
-           licensing_relation="contiguity: name ↔ attribute association", refines="metonymy"),
-    Figure("metalepsis", BANK_CONTIGUITY,
-           "remote reference via a chained association ('lead foot' = fast driver)",
-           "referent reached through a chained association",
-           licensing_relation="contiguity: metonymy of a metonymy", refines="metonymy"),
+    Figure(
+        "metonymy",
+        BANK_CONTIGUITY,
+        "associated referent for the thing ('the crown')",
+        "grounded referent != predicate's selectional fit; an associate fits",
+        licensing_relation="contiguity: part-for-part within an ICM (the hub)",
+    ),
+    Figure(
+        "synecdoche",
+        BANK_CONTIGUITY,
+        "part for whole ('all hands on deck')",
+        "part-noun in a whole-noun role",
+        licensing_relation="contiguity: part-for-whole (whole↔part)",
+        refines="metonymy",
+    ),
+    Figure(
+        "antonomasia",
+        BANK_CONTIGUITY,
+        "epithet for a name, or a name for a class ('the Bard' = Shakespeare)",
+        "a descriptive / proper substitute for the referent's name",
+        licensing_relation="contiguity: name ↔ attribute association",
+        refines="metonymy",
+    ),
+    Figure(
+        "metalepsis",
+        BANK_CONTIGUITY,
+        "remote reference via a chained association ('lead foot' = fast driver)",
+        "referent reached through a chained association",
+        licensing_relation="contiguity: metonymy of a metonymy",
+        refines="metonymy",
+    ),
     # — ATTRIBUTION (echoic / the irony family) —
-    Figure("verbal_irony", BANK_ATTRIBUTION,
-           "literal content echoes an attributed thought with a dissociative attitude",
-           "literal reading clashes with the attributed / expected reading",
-           licensing_relation="echoic attribution (dissociative)"),
-    Figure("sarcasm", BANK_ATTRIBUTION,
-           "echoic irony with a hostile / mocking attitude",
-           "echoic clash + negative target",
-           licensing_relation="echoic attribution (hostile)", refines="verbal_irony"),
+    Figure(
+        "verbal_irony",
+        BANK_ATTRIBUTION,
+        "literal content echoes an attributed thought with a dissociative attitude",
+        "literal reading clashes with the attributed / expected reading",
+        licensing_relation="echoic attribution (dissociative)",
+    ),
+    Figure(
+        "sarcasm",
+        BANK_ATTRIBUTION,
+        "echoic irony with a hostile / mocking attitude",
+        "echoic clash + negative target",
+        licensing_relation="echoic attribution (hostile)",
+        refines="verbal_irony",
+    ),
     # — MAGNITUDE (over / under-statement) —
-    Figure("hyperbole", BANK_MAGNITUDE,
-           "deliberate overstatement",
-           "intensity inflation vs. situation",
-           licensing_relation="magnitude inflation"),
-    Figure("understatement", BANK_MAGNITUDE,
-           "deliberate understatement (deminutio — the genus)",
-           "intensity damping vs. situation",
-           licensing_relation="magnitude damping"),
-    Figure("litotes", BANK_MAGNITUDE,
-           "affirmation by denying the contrary ('not bad')",
-           "negation of the opposite pole",
-           licensing_relation="magnitude damping + valence (negate-the-contrary)",
-           refines="understatement"),
-    Figure("meiosis", BANK_MAGNITUDE,
-           "belittling understatement",
-           "diminishing intensity damping",
-           licensing_relation="magnitude damping (belittling)", refines="understatement"),
-    Figure("auxesis", BANK_MAGNITUDE,
-           "amplifying overstatement / climactic magnification",
-           "intensity inflation (amplifying)",
-           licensing_relation="magnitude inflation (amplifying)", refines="hyperbole"),
+    Figure(
+        "hyperbole",
+        BANK_MAGNITUDE,
+        "deliberate overstatement",
+        "intensity inflation vs. situation",
+        licensing_relation="magnitude inflation",
+    ),
+    Figure(
+        "understatement",
+        BANK_MAGNITUDE,
+        "deliberate understatement (deminutio — the genus)",
+        "intensity damping vs. situation",
+        licensing_relation="magnitude damping",
+    ),
+    Figure(
+        "litotes",
+        BANK_MAGNITUDE,
+        "affirmation by denying the contrary ('not bad')",
+        "negation of the opposite pole",
+        licensing_relation="magnitude damping + valence (negate-the-contrary)",
+        refines="understatement",
+    ),
+    Figure(
+        "meiosis",
+        BANK_MAGNITUDE,
+        "belittling understatement",
+        "diminishing intensity damping",
+        licensing_relation="magnitude damping (belittling)",
+        refines="understatement",
+    ),
+    Figure(
+        "auxesis",
+        BANK_MAGNITUDE,
+        "amplifying overstatement / climactic magnification",
+        "intensity inflation (amplifying)",
+        licensing_relation="magnitude inflation (amplifying)",
+        refines="hyperbole",
+    ),
     # — VALENCE (word-affect ⟂ world-salience) —
-    Figure("euphemism", BANK_VALENCE,
-           "mild word for a grave referent ('passed away')",
-           "low word-valence, high world-salience",
-           licensing_relation="valence softening", gated_on="sparse-wiki potency"),
-    Figure("dysphemism", BANK_VALENCE,
-           "harsh word for a benign / neutral referent",
-           "high word-valence magnitude, low world-salience",
-           licensing_relation="valence harshening", gated_on="sparse-wiki potency"),
+    Figure(
+        "euphemism",
+        BANK_VALENCE,
+        "mild word for a grave referent ('passed away')",
+        "low word-valence, high world-salience",
+        licensing_relation="valence softening",
+        gated_on="sparse-wiki potency",
+    ),
+    Figure(
+        "dysphemism",
+        BANK_VALENCE,
+        "harsh word for a benign / neutral referent",
+        "high word-valence magnitude, low world-salience",
+        licensing_relation="valence harshening",
+        gated_on="sparse-wiki potency",
+    ),
     # — INVERSION (Silva "Semantic Inversions": contradiction / form↔function) —
-    Figure("oxymoron", BANK_INVERSION,
-           "adjacent contradictory terms ('deafening silence')",
-           "adjacent primes with opposed signs",
-           licensing_relation="semantic inversion: adjacent self-contradiction"),
-    Figure("paradox", BANK_INVERSION,
-           "propositional self-contradiction that resolves",
-           "clause coherence failure that re-coheres at scope",
-           licensing_relation="semantic inversion: propositional self-contradiction"),
-    Figure("humor_gardenpath", BANK_INVERSION,
-           "a committed reading overturned by wider scope (funny as set theory)",
-           "commitment reversal at wider scope",
-           licensing_relation="semantic inversion: self-caught commitment reversal",
-           gated_on="commitment TMS (Tier 2)"),
-    Figure("rhetorical_question", BANK_INVERSION,
-           "interrogative form, assertive function (erotema)",
-           "question form, no genuine information gap",
-           licensing_relation="semantic inversion: form ↔ function (interrogative → assertion)"),
+    Figure(
+        "oxymoron",
+        BANK_INVERSION,
+        "adjacent contradictory terms ('deafening silence')",
+        "adjacent primes with opposed signs",
+        licensing_relation="semantic inversion: adjacent self-contradiction",
+    ),
+    Figure(
+        "paradox",
+        BANK_INVERSION,
+        "propositional self-contradiction that resolves",
+        "clause coherence failure that re-coheres at scope",
+        licensing_relation="semantic inversion: propositional self-contradiction",
+    ),
+    Figure(
+        "humor_gardenpath",
+        BANK_INVERSION,
+        "a committed reading overturned by wider scope (funny as set theory)",
+        "commitment reversal at wider scope",
+        licensing_relation="semantic inversion: self-caught commitment reversal",
+        gated_on="commitment TMS (Tier 2)",
+    ),
+    Figure(
+        "rhetorical_question",
+        BANK_INVERSION,
+        "interrogative form, assertive function (erotema)",
+        "question form, no genuine information gap",
+        licensing_relation="semantic inversion: form ↔ function (interrogative → assertion)",
+    ),
     # — APPEAL / reasoning (NON-trope: modes of persuasion + argument structure) —
-    Figure("logos", BANK_APPEAL,
-           "appeal via logic / structure",
-           "high IMPLIES / CAUSAL operator density",
-           licensing_relation="mode of persuasion (pistis)", is_trope=False),
-    Figure("pathos", BANK_APPEAL,
-           "appeal via emotion",
-           "high affect magnitude / valence arc",
-           licensing_relation="mode of persuasion (pistis)", is_trope=False),
-    Figure("ethos", BANK_APPEAL,
-           "appeal via character / credibility",
-           "source / credibility predication",
-           licensing_relation="mode of persuasion (pistis)", is_trope=False),
-    Figure("postulation", BANK_APPEAL,
-           "a claim floated as a question then settled (anthypophora)",
-           "assertion content raised as a question and answered",
-           licensing_relation="figure of reasoning (anthypophora)", is_trope=False),
+    Figure(
+        "logos",
+        BANK_APPEAL,
+        "appeal via logic / structure",
+        "high IMPLIES / CAUSAL operator density",
+        licensing_relation="mode of persuasion (pistis)",
+        is_trope=False,
+    ),
+    Figure(
+        "pathos",
+        BANK_APPEAL,
+        "appeal via emotion",
+        "high affect magnitude / valence arc",
+        licensing_relation="mode of persuasion (pistis)",
+        is_trope=False,
+    ),
+    Figure(
+        "ethos",
+        BANK_APPEAL,
+        "appeal via character / credibility",
+        "source / credibility predication",
+        licensing_relation="mode of persuasion (pistis)",
+        is_trope=False,
+    ),
+    Figure(
+        "postulation",
+        BANK_APPEAL,
+        "a claim floated as a question then settled (anthypophora)",
+        "assertion content raised as a question and answered",
+        licensing_relation="figure of reasoning (anthypophora)",
+        is_trope=False,
+    ),
     # — BASELINE: the null class (required negative set + the contrast ε needs) —
-    Figure("literal", BANK_BASELINE,
-           "no figure; Face A and Face B agree",
-           "A and B agree — the null class and matched negative set",
-           is_trope=False),
+    Figure(
+        "literal",
+        BANK_BASELINE,
+        "no figure; Face A and Face B agree",
+        "A and B agree — the null class and matched negative set",
+        is_trope=False,
+    ),
 )
 
 # Read-only views over the closed set (the tuple above is the source of truth).

@@ -8,6 +8,7 @@ or neural checker cannot guarantee:
   4. it is deterministic and never suggests a non-word,
 plus the empirical confusion-table overlay (injection + decisive bias), which must
 operate *within* the symbolic frame (every suggestion still grounds)."""
+
 import pytest
 
 from gse.nlp.spellcheck import _DEFAULT_LEXICON as LX
@@ -15,10 +16,16 @@ from gse.nlp.spellcheck import correct, propose, suggest
 
 
 # ---- 1. corrects genuine everyday typos -----------------------------------------
-@pytest.mark.parametrize("typo,gold", [
-    ("recieve", "receive"), ("seperate", "separate"), ("goverment", "government"),
-    ("beleive", "believe"), ("teh", "the"),
-])
+@pytest.mark.parametrize(
+    "typo,gold",
+    [
+        ("recieve", "receive"),
+        ("seperate", "separate"),
+        ("goverment", "government"),
+        ("beleive", "believe"),
+        ("teh", "the"),
+    ],
+)
 def test_corrects_common_typo(typo, gold):
     assert correct(typo).committed == gold
 
@@ -27,7 +34,7 @@ def test_corrects_common_typo(typo, gold):
 @pytest.mark.parametrize("word", ["dog", "the", "because", "run", "anser"])
 def test_real_word_is_never_corrected(word):
     r = correct(word)
-    assert r.fired is False          # trigger never engages on a valid word
+    assert r.fired is False  # trigger never engages on a valid word
     assert r.committed == word.lower()
 
 
@@ -35,7 +42,7 @@ def test_real_word_is_never_corrected(word):
 def test_no_grounded_candidate_abstains():
     r = correct("xqzptv")
     assert r.fired is True
-    assert r.committed is None        # nothing grounds nearby -> honest abstention
+    assert r.committed is None  # nothing grounds nearby -> honest abstention
 
 
 def test_suggest_empty_for_real_word():
@@ -89,12 +96,14 @@ def test_injected_candidate_must_ground():
 # ---- 6. sentence / MCP integration (context layer) ------------------------------
 def test_spell_suggest_sentence_corrects_tokens():
     from gse.mcp.spell_server import spell_suggest
+
     out = spell_suggest("she recieved a seperate goverment notice", n=3)
     assert out["corrected"] == "she received a separate government notice"
 
 
 def test_spell_suggest_marks_real_word_not_misspelled():
     from gse.mcp.spell_server import spell_suggest
+
     out = spell_suggest("the dog runs", n=3)
     assert all(t["misspelled"] is False for t in out["tokens"])
     assert out["corrected"] == "the dog runs"
@@ -120,7 +129,7 @@ def test_hyphenated_compound_never_mangled(token):
 
 @pytest.mark.parametrize("token", ["don't", "let's", "Mike's"])
 def test_contraction_never_mangled(token):
-    assert _not_mangled(token)                     # no don't->donut
+    assert _not_mangled(token)  # no don't->donut
 
 
 def test_proper_noun_word_level_not_mangled():
@@ -128,7 +137,7 @@ def test_proper_noun_word_level_not_mangled():
 
 
 # ---- 8. validity sources (Wiktionary + project allowlist) leave terms alone ------
-@pytest.mark.parametrize("term", ["refactor", "regex", "dataclass"])   # Wiktionary
+@pytest.mark.parametrize("term", ["refactor", "regex", "dataclass"])  # Wiktionary
 def test_tech_term_grounds_and_is_left_alone(term):
     assert LX.grounds(term)
     assert correct(term).fired is False
@@ -142,14 +151,16 @@ def test_project_allowlist_term_is_left_alone(term):
 
 def test_clitic_rejoined_in_corrected_output():
     from gse.mcp.spell_server import spell_suggest
+
     out = spell_suggest("it's a wierd seperate thing")
-    assert out["corrected"] == "it's a weird separate thing"   # no "it 's"
+    assert out["corrected"] == "it's a weird separate thing"  # no "it 's"
 
 
 # ---- 9. rare-tail recovery: slot-gated, common-target-only, jargon-safe ----------
 def test_rare_tail_recovered_in_predicate_slot():
     # 'cen' after a subject pronoun is in a verb slot it can't fill -> recovered to 'can'
     from gse.mcp.spell_server import spell_suggest
+
     out = spell_suggest("as far as we cen tell")
     assert "can" in out["corrected"].split() and "cen" not in out["corrected"]
 
@@ -157,19 +168,21 @@ def test_rare_tail_recovered_in_predicate_slot():
 def test_rare_tail_jargon_in_allowlist_untouched():
     # learn-spelling: project vocab is never reconsidered, even verbed after a pronoun
     from gse.mcp.spell_server import spell_suggest
+
     assert spell_suggest("we gse the data")["corrected"] == "we gse the data"
-    assert spell_suggest("the gse encoder uses adj tags")["corrected"] == \
-        "the gse encoder uses adj tags"
+    assert spell_suggest("the gse encoder uses adj tags")["corrected"] == "the gse encoder uses adj tags"
 
 
 def test_rare_tail_acronym_protected():
     from gse.mcp.spell_server import spell_suggest
+
     assert "GSE" in spell_suggest("I refactored the GSE encoder")["corrected"]
 
 
 def test_spell_learn_validates_and_is_idempotent():
     # 'Add to Dictionary' — non-mutating checks: rejects junk, no-ops on known words
     from gse.mcp.spell_server import spell_learn
+
     assert spell_learn("a1!")["ok"] is False
-    r = spell_learn("gse")                       # already in the allowlist
+    r = spell_learn("gse")  # already in the allowlist
     assert r["ok"] and r.get("already_known")

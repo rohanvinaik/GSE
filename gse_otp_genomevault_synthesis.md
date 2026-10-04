@@ -47,14 +47,14 @@ Within each bank, primitives use **Hadamard-like patterns**:
 # Bank 2 (Evaluators) example:
 # dim_range = [2048, 3071]  (1024 dims)
 
-GOOD = hadamard_row(0, 1024)   # [+1, +1, +1, +1, -1, -1, -1, -1, ...]
-BAD  = -hadamard_row(0, 1024)  # [-1, -1, -1, -1, +1, +1, +1, +1, ...]  # Antonym!
+GOOD = hadamard_row(0, 1024)  # [+1, +1, +1, +1, -1, -1, -1, -1, ...]
+BAD = -hadamard_row(0, 1024)  # [-1, -1, -1, -1, +1, +1, +1, +1, ...]  # Antonym!
 
-BIG   = hadamard_row(1, 1024)  # [+1, +1, -1, -1, +1, +1, -1, -1, ...]
-SMALL = -hadamard_row(1, 1024) # Antonym with exact negation
+BIG = hadamard_row(1, 1024)  # [+1, +1, -1, -1, +1, +1, -1, -1, ...]
+SMALL = -hadamard_row(1, 1024)  # Antonym with exact negation
 
-VERY = hadamard_row(2, 1024)   # Orthogonal to GOOD, BIG
-MORE = hadamard_row(3, 1024)   # Orthogonal to all above
+VERY = hadamard_row(2, 1024)  # Orthogonal to GOOD, BIG
+MORE = hadamard_row(3, 1024)  # Orthogonal to all above
 LIKE = hadamard_row(4, 1024)
 ```
 
@@ -73,19 +73,20 @@ Roles are **cross-bank columns** that span all semantic banks:
 
 role_dims_per_bank = 51
 
+
 def generate_role_vector(role_idx):
     """Role spans ALL banks, same relative position in each."""
     vec = np.zeros(D, dtype=np.int8)
-    
+
     for bank in range(8):
         bank_start = bank * 1024
         role_start = bank_start + role_idx * role_dims_per_bank
         role_end = role_start + role_dims_per_bank
-        
+
         # Hadamard pattern within role slice (varies by bank for uniqueness)
         pattern = hadamard_row(bank, role_dims_per_bank)
         vec[role_start:role_end] = pattern
-    
+
     return vec
 ```
 
@@ -241,71 +242,72 @@ DIMS_PER_BANK = D // N_BANKS  # 1024
 N_ROLES = 20
 ROLE_DIMS_PER_BANK = DIMS_PER_BANK // N_ROLES  # 51
 
+
 class OTPBasis:
     def __init__(self):
         # Generate Hadamard matrix for sign patterns
         self.H = hadamard(DIMS_PER_BANK)
-        
+
         self.primitives = {}
         self.roles = {}
         self.primitive_to_bank = {}
         self.bank_to_primitives = {i: [] for i in range(N_BANKS)}
-    
+
     def generate_primitive(self, name, bank, idx_in_bank, is_antonym_neg=False):
         """Generate primitive vector in specified bank."""
         vec = np.zeros(D, dtype=np.int8)
-        
+
         bank_start = bank * DIMS_PER_BANK
         pattern = self.H[idx_in_bank % DIMS_PER_BANK, :]
-        
+
         if is_antonym_neg:
             pattern = -pattern
-        
-        vec[bank_start:bank_start + DIMS_PER_BANK] = np.sign(pattern)
-        
+
+        vec[bank_start : bank_start + DIMS_PER_BANK] = np.sign(pattern)
+
         self.primitives[name] = vec
         self.primitive_to_bank[name] = bank
         self.bank_to_primitives[bank].append(name)
-        
+
         return vec
-    
+
     def generate_role(self, name, role_idx):
         """Generate role vector spanning all banks."""
         vec = np.zeros(D, dtype=np.int8)
-        
+
         for bank in range(N_BANKS):
             bank_start = bank * DIMS_PER_BANK
             role_start = bank_start + role_idx * ROLE_DIMS_PER_BANK
             role_end = role_start + ROLE_DIMS_PER_BANK
-            
+
             # Use different Hadamard row per bank for variety
             pattern = self.H[bank, :ROLE_DIMS_PER_BANK]
             vec[role_start:role_end] = np.sign(pattern)
-        
+
         self.roles[name] = vec
         return vec
-    
+
     def bind(self, prim_vec, role_vec):
         """Element-wise multiplication (binding)."""
         return (prim_vec * role_vec).astype(np.int8)
-    
+
     def bundle(self, vectors):
         """Element-wise sum with sign quantization."""
         acc = np.zeros(D, dtype=np.int32)
         for v in vectors:
             acc += v
         return np.sign(acc).astype(np.int8)
-    
+
     def get_bank_similarity(self, vec, bank):
         """Get similarities to all primitives in bank."""
         bank_start = bank * DIMS_PER_BANK
-        bank_slice = vec[bank_start:bank_start + DIMS_PER_BANK]
-        
+        bank_slice = vec[bank_start : bank_start + DIMS_PER_BANK]
+
         sims = {}
         for name in self.bank_to_primitives[bank]:
-            prim_slice = self.primitives[name][bank_start:bank_start + DIMS_PER_BANK]
+            prim_slice = self.primitives[name][bank_start : bank_start + DIMS_PER_BANK]
             sims[name] = np.dot(bank_slice, prim_slice.astype(np.float32))
-        
+
         return sims
 ```
 

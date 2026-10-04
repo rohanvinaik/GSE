@@ -40,10 +40,10 @@ class TestTernaryPolarity:
 
         result = polarity_aware_similarity(v1, v2)
 
-        assert 'alignment' in result
-        assert 'opposition' in result
-        assert result['alignment'] > 0  # Some same-sign overlap
-        assert result['opposition'] > 0  # Some opposite-sign overlap
+        assert "alignment" in result
+        assert "opposition" in result
+        assert result["alignment"] > 0  # Some same-sign overlap
+        assert result["opposition"] > 0  # Some opposite-sign overlap
 
     def test_cross_bank_surprise(self):
         """Test cross-bank surprise calculation."""
@@ -54,14 +54,14 @@ class TestTernaryPolarity:
 
         surprise = cross_bank_surprise(vec)
 
-        assert 'active_banks' in surprise
-        assert 0 in surprise['active_banks']
-        assert 7 in surprise['active_banks']
-        assert surprise['surprise_score'] > 0.45  # Should be surprising (distant banks)
+        assert "active_banks" in surprise
+        assert 0 in surprise["active_banks"]
+        assert 7 in surprise["active_banks"]
+        assert surprise["surprise_score"] > 0.45  # Should be surprising (distant banks)
 
     def test_canonicalize_stability(self):
         """Test that canonical decomposition is stable."""
-        decomp = [("GOOD", "evaluation"), ("FELL", "experiencer")] # Typo intended to test non-antonyms
+        decomp = [("GOOD", "evaluation"), ("FELL", "experiencer")]  # Typo intended to test non-antonyms
         canon = canonicalize_decomposition(decomp)
         assert len(canon) == 2
         assert canon[0].primitive == "GOOD"

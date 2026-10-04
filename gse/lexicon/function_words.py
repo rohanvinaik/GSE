@@ -17,31 +17,25 @@ from typing import Any, Dict
 DETERMINER_ENCODINGS: Dict[str, Dict[str, Any]] = {
     # Definite
     "the": {"definiteness": "DEFINITE"},
-
     # Indefinite
     "a": {"definiteness": "INDEFINITE", "number": "SINGULAR"},
     "an": {"definiteness": "INDEFINITE", "number": "SINGULAR"},
     "some": {"definiteness": "INDEFINITE"},
     "any": {"definiteness": "INDEFINITE"},
-
     # Demonstrative (proximal)
     "this": {"definiteness": "DEMONSTRATIVE", "deixis": "PROXIMAL", "number": "SINGULAR"},
     "these": {"definiteness": "DEMONSTRATIVE", "deixis": "PROXIMAL", "number": "PLURAL"},
-
     # Demonstrative (distal)
     "that": {"definiteness": "DEMONSTRATIVE", "deixis": "DISTAL", "number": "SINGULAR"},
     "those": {"definiteness": "DEMONSTRATIVE", "deixis": "DISTAL", "number": "PLURAL"},
-
     # Universal
     "every": {"definiteness": "UNIVERSAL", "number": "SINGULAR"},
     "each": {"definiteness": "UNIVERSAL", "number": "SINGULAR"},
     "all": {"definiteness": "UNIVERSAL", "number": "PLURAL"},
     "both": {"definiteness": "UNIVERSAL", "number": "DUAL"},
-
     # Negative
     "no": {"definiteness": "NEGATIVE", "polarity": "NEGATIVE"},
     "neither": {"definiteness": "NEGATIVE", "polarity": "NEGATIVE", "number": "DUAL"},
-
     # Possessive
     "my": {"definiteness": "POSSESSIVE", "person": 1, "number": "SINGULAR"},
     "your": {"definiteness": "POSSESSIVE", "person": 2},
@@ -50,7 +44,6 @@ DETERMINER_ENCODINGS: Dict[str, Dict[str, Any]] = {
     "its": {"definiteness": "POSSESSIVE", "person": 3, "gender": "NEUT"},
     "our": {"definiteness": "POSSESSIVE", "person": 1, "number": "PLURAL"},
     "their": {"definiteness": "POSSESSIVE", "person": 3, "number": "PLURAL"},
-
     # Interrogative
     "which": {"definiteness": "INTERROGATIVE"},
     "what": {"definiteness": "INTERROGATIVE"},
@@ -72,7 +65,6 @@ CONJUNCTION_ENCODINGS: Dict[str, Dict[str, Any]] = {
     "yet": {"clause_relation": "CONCESSIVE", "coord_type": "ADVERSATIVE"},
     "so": {"clause_relation": "RESULT", "coord_type": "CAUSAL"},
     "for": {"clause_relation": "REASON", "coord_type": "CAUSAL"},
-
     # Subordinating - Temporal
     "when": {"clause_relation": "TEMPORAL", "temporal_type": "SIMULTANEOUS"},
     "while": {"clause_relation": "TEMPORAL", "temporal_type": "DURATION"},
@@ -81,23 +73,19 @@ CONJUNCTION_ENCODINGS: Dict[str, Dict[str, Any]] = {
     "until": {"clause_relation": "TEMPORAL", "temporal_type": "TERMINUS"},
     "since": {"clause_relation": "TEMPORAL", "temporal_type": "STARTING_POINT"},
     "as": {"clause_relation": "TEMPORAL", "temporal_type": "SIMULTANEOUS"},
-
     # Subordinating - Causal
     "because": {"clause_relation": "CAUSAL", "causal_type": "REASON"},
     "since": {"clause_relation": "CAUSAL", "causal_type": "REASON"},  # Also temporal
     "although": {"clause_relation": "CONCESSIVE"},
     "though": {"clause_relation": "CONCESSIVE"},
     "even though": {"clause_relation": "CONCESSIVE"},
-
     # Subordinating - Conditional
     "if": {"clause_relation": "CONDITIONAL", "conditional_type": "HYPOTHETICAL"},
     "unless": {"clause_relation": "CONDITIONAL", "conditional_type": "NEGATIVE"},
     "whether": {"clause_relation": "CONDITIONAL", "conditional_type": "ALTERNATIVE"},
-
     # Subordinating - Purpose
     "so that": {"clause_relation": "PURPOSE"},
     "in order that": {"clause_relation": "PURPOSE"},
-
     # Complementizers
     "that": {"clause_relation": "COMPLEMENT", "complement_type": "DECLARATIVE"},
 }
@@ -126,7 +114,6 @@ PREPOSITION_ENCODINGS: Dict[str, Dict[str, Any]] = {
     "behind": {"spatial_type": "POSTERIOR"},
     "before": {"spatial_type": "ANTERIOR", "temporal_type": "ANTERIOR"},
     "after": {"spatial_type": "POSTERIOR", "temporal_type": "POSTERIOR"},
-
     # Spatial - Direction
     "to": {"spatial_type": "GOAL"},
     "from": {"spatial_type": "SOURCE"},
@@ -138,13 +125,11 @@ PREPOSITION_ENCODINGS: Dict[str, Dict[str, Any]] = {
     "toward": {"spatial_type": "DIRECTION"},
     "towards": {"spatial_type": "DIRECTION"},
     "away from": {"spatial_type": "DIRECTION_OPPOSITE"},
-
     # Temporal
     "during": {"temporal_type": "DURATION"},
     "until": {"temporal_type": "TERMINUS"},
     "since": {"temporal_type": "STARTING_POINT"},
     "by": {"temporal_type": "DEADLINE"},
-
     # Other relations
     "with": {"relation_type": "ACCOMPANIMENT"},
     "without": {"relation_type": "ACCOMPANIMENT", "polarity": "NEGATIVE"},

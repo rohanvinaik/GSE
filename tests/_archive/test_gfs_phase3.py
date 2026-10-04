@@ -64,6 +64,7 @@ class TestGraph:
         dist_da = trav.semantic_distance("doctor.noun", "apple.noun")
         assert dist_da > 0.9
 
+
 class TestScales:
     """Test Multi-Scale Encoders."""
 
@@ -75,10 +76,10 @@ class TestScales:
         v1.positive_indices = [1, 2, 3]
 
         v2 = SparseVector.zeros(100)
-        v2.positive_indices = [1, 2, 4] # distinct but similar
+        v2.positive_indices = [1, 2, 4]  # distinct but similar
 
         v3 = SparseVector.zeros(100)
-        v3.positive_indices = [50, 60] # orthogonal
+        v3.positive_indices = [50, 60]  # orthogonal
 
         # v1 and v2 are similar
         coh = scale.measure_coherence([v1, v2])
@@ -92,14 +93,14 @@ class TestScales:
     def test_textual_theme(self):
         scale = TextualScale()
         # Mock vector dominated by Bank 0 (indices 0-100)
-        v = SparseVector.zeros(800) # 8 banks of 100
+        v = SparseVector.zeros(800)  # 8 banks of 100
         v.positive_indices = list(range(0, 50))
 
         themes = scale.extract_theme(v, n_banks=8)
         assert themes[0] > 0
         assert themes[1] == 0
 
-    @patch('gse.scales.syntactic.spacy')
+    @patch("gse.scales.syntactic.spacy")
     def test_syntactic_encoding(self, mock_spacy):
         # Mock LexicalScale
         mock_lex = MagicMock()
@@ -111,7 +112,7 @@ class TestScales:
         mock_token = MagicMock()
         mock_token.pos_ = "NOUN"
         mock_token.lemma_ = "dog"
-        mock_token.dep_ = "nsubj" # agent -> shift 0
+        mock_token.dep_ = "nsubj"  # agent -> shift 0
 
         mock_doc.__iter__.return_value = [mock_token]
         mock_nlp.return_value = mock_doc

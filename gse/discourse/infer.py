@@ -13,6 +13,7 @@ profile, concatenated through a linear head) trust-weighted by a softmax orchest
 — and the descent mirrors :meth:`NestedRouter.predict_paths`. Parity with the torch
 model is asserted by ``scripts/verify_router_parity`` over the training corpus.
 """
+
 from __future__ import annotations
 
 import pickle
@@ -23,7 +24,7 @@ from scipy.special import erf
 
 from gse.discourse.registers import ROOT
 
-_LN_EPS = 1e-5   # torch nn.LayerNorm default
+_LN_EPS = 1e-5  # torch nn.LayerNorm default
 
 
 def _linear(x: np.ndarray, w: np.ndarray, b: np.ndarray) -> np.ndarray:
@@ -37,7 +38,7 @@ def _gelu(x: np.ndarray) -> np.ndarray:
 
 def _layernorm(x: np.ndarray, w: np.ndarray, b: np.ndarray) -> np.ndarray:
     m = x.mean(axis=-1, keepdims=True)
-    v = x.var(axis=-1, keepdims=True)        # population variance, as torch LayerNorm
+    v = x.var(axis=-1, keepdims=True)  # population variance, as torch LayerNorm
     return (x - m) / np.sqrt(v + _LN_EPS) * w + b
 
 
@@ -49,8 +50,14 @@ def _softmax(x: np.ndarray) -> np.ndarray:
 class _NumpyRegisterRouter:
     """One taxonomy node's RegisterRouter, forward-only, in numpy."""
 
-    def __init__(self, weights: Dict[str, np.ndarray], scaler_mean: np.ndarray,
-                 scaler_scale: np.ndarray, labels: Sequence[str], sizes: Sequence[int]):
+    def __init__(
+        self,
+        weights: Dict[str, np.ndarray],
+        scaler_mean: np.ndarray,
+        scaler_scale: np.ndarray,
+        labels: Sequence[str],
+        sizes: Sequence[int],
+    ):
         self.W = weights
         self.mean = scaler_mean
         self.scale = scaler_scale
@@ -67,17 +74,13 @@ class _NumpyRegisterRouter:
         trust = _softmax(_linear(ctx, W["trust_head.weight"], W["trust_head.bias"]))  # [S]
         spec = np.empty((self.n_spec, len(self.labels)), dtype=np.float64)
         for i in range(self.n_spec):
-            bank_x = x_full[self.bnd[i]:self.bnd[i + 1]]
-            be = _linear(bank_x, W[f"specialists.{i}.bank_enc.0.weight"],
-                         W[f"specialists.{i}.bank_enc.0.bias"])
-            be = _layernorm(be, W[f"specialists.{i}.bank_enc.1.weight"],
-                            W[f"specialists.{i}.bank_enc.1.bias"])
+            bank_x = x_full[self.bnd[i] : self.bnd[i + 1]]
+            be = _linear(bank_x, W[f"specialists.{i}.bank_enc.0.weight"], W[f"specialists.{i}.bank_enc.0.bias"])
+            be = _layernorm(be, W[f"specialists.{i}.bank_enc.1.weight"], W[f"specialists.{i}.bank_enc.1.bias"])
             be = _gelu(be)
-            ce = _gelu(_linear(x_full, W[f"specialists.{i}.ctx_enc.0.weight"],
-                               W[f"specialists.{i}.ctx_enc.0.bias"]))
+            ce = _gelu(_linear(x_full, W[f"specialists.{i}.ctx_enc.0.weight"], W[f"specialists.{i}.ctx_enc.0.bias"]))
             h = np.concatenate([be, ce])
-            spec[i] = _linear(h, W[f"specialists.{i}.head.weight"],
-                              W[f"specialists.{i}.head.bias"])
+            spec[i] = _linear(h, W[f"specialists.{i}.head.weight"], W[f"specialists.{i}.head.bias"])
         return (trust[:, None] * spec).sum(axis=0)
 
     def predict(self, profile_vec: np.ndarray) -> Tuple[str, float]:
@@ -97,8 +100,9 @@ class NumpyNestedRouter:
     sub-classify resolves to a shallower node (and the caller reads it as abstention)
     rather than guessing a deep label."""
 
-    def __init__(self, sizes: Sequence[int], full_dim: int,
-                 tree: Dict[str, List[str]], nodes: Dict[str, _NumpyRegisterRouter]):
+    def __init__(
+        self, sizes: Sequence[int], full_dim: int, tree: Dict[str, List[str]], nodes: Dict[str, _NumpyRegisterRouter]
+    ):
         self.sizes = list(sizes)
         self.full_dim = int(full_dim)
         self.tree = tree
@@ -111,14 +115,12 @@ class NumpyNestedRouter:
         if blob.get("format") != "gse-nested-router/1":
             raise ValueError(f"{path}: not a gse-nested-router artifact ({blob.get('format')})")
         nodes = {
-            node: _NumpyRegisterRouter(
-                d["weights"], d["scaler_mean"], d["scaler_scale"], d["labels"], blob["sizes"])
+            node: _NumpyRegisterRouter(d["weights"], d["scaler_mean"], d["scaler_scale"], d["labels"], blob["sizes"])
             for node, d in blob["nodes"].items()
         }
         return cls(blob["sizes"], blob["full_dim"], blob["tree"], nodes)
 
-    def predict_path(self, profile_vec: np.ndarray, gate: float = 0.0
-                     ) -> List[Tuple[str, float]]:
+    def predict_path(self, profile_vec: np.ndarray, gate: float = 0.0) -> List[Tuple[str, float]]:
         """Confidence-gated descent from ROOT for one profile. Returns the resolved
         chain as (label, confidence) pairs; descent stops at a leaf, a router-less
         node (single child), or the first node below ``gate``."""
@@ -136,7 +138,7 @@ class NumpyNestedRouter:
                     node = child
                     continue
                 break
-            else:                                   # no router: deterministic pass-through
+            else:  # no router: deterministic pass-through
                 children = self.tree.get(node, [])
                 if len(children) != 1:
                     break
@@ -148,8 +150,7 @@ class NumpyNestedRouter:
                 break
         return path
 
-    def predict_at(self, profile_vec: np.ndarray, level: str, gate: float = 0.0
-                   ) -> Tuple[Optional[str], float]:
+    def predict_at(self, profile_vec: np.ndarray, level: str, gate: float = 0.0) -> Tuple[Optional[str], float]:
         """Resolve to a label at ``level`` ('register_class'|'super_register'|'genre').
         Mirrors :meth:`NestedRouter.predict_at`: returns the label at ``level``, or the
         deepest reached when the branch is shallower (``path[-1]``), or (None, 0.0) for
@@ -161,8 +162,7 @@ class NumpyNestedRouter:
             return path[depth]
         return path[-1] if path else (None, 0.0)
 
-    def resolve_at(self, profile_vec: np.ndarray, level: str, gate: float = 0.0
-                   ) -> Tuple[Optional[str], float]:
+    def resolve_at(self, profile_vec: np.ndarray, level: str, gate: float = 0.0) -> Tuple[Optional[str], float]:
         """Like :meth:`predict_at` but returns (None, conf) when the gated descent did
         NOT reach ``level`` — the honest abstention the runtime dispatcher wants (a
         text the signal can't classify to this granularity resolves to *nothing* at

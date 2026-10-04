@@ -27,6 +27,7 @@ from gse.encoders.paragraph_structure_encoder import (
 
 # ---------- Enums and mapping ----------
 
+
 class TestRelationMapping:
     def test_contrast_mapped(self):
         assert RELATION_TO_PRIMITIVE[CoherenceRelation.CONTRAST] == "CONTRAST"
@@ -36,6 +37,7 @@ class TestRelationMapping:
 
 
 # ---------- IntensityTrajectory ----------
+
 
 class TestIntensityTrajectory:
     def test_empty_values(self):
@@ -136,6 +138,7 @@ class TestIntensityTrajectory:
 
 # ---------- Codebooks ----------
 
+
 class TestRelationCodebook:
     def test_all_relations_have_vectors(self):
         cb = RelationCodebook(dim=64)
@@ -168,6 +171,7 @@ class TestGestaltCodebook:
 
 
 # ---------- Encoder ----------
+
 
 @pytest.fixture
 def encoder():
@@ -321,10 +325,7 @@ class TestIdentifyMainClaim:
 
     def test_thesis_marker(self, encoder):
         sentences = ["Hi.", "The point is X."]
-        info_list = [
-            SentenceInfo(text=s, vector=np.zeros(128, dtype=np.float32))
-            for s in sentences
-        ]
+        info_list = [SentenceInfo(text=s, vector=np.zeros(128, dtype=np.float32)) for s in sentences]
         idx = encoder._identify_main_claim(sentences, [], info_list)
         assert idx == 1
 
@@ -341,16 +342,14 @@ class TestIdentifyMainClaim:
 class TestDetectGestaltPoints:
     def test_thesis_detected(self, encoder):
         sents = ["The point is X."]
-        info_list = [SentenceInfo(text=s, vector=np.zeros(128, dtype=np.float32),
-                                  intensity_score=1.0) for s in sents]
+        info_list = [SentenceInfo(text=s, vector=np.zeros(128, dtype=np.float32), intensity_score=1.0) for s in sents]
         gps = encoder._detect_gestalt_points(sents, info_list)
         types = [g.gestalt_type for g in gps]
         assert GestaltType.THESIS in types
 
     def test_first_sentence_higher_weight(self, encoder):
         sents = ["Consider this."]
-        info_list = [SentenceInfo(text=s, vector=np.zeros(128, dtype=np.float32),
-                                  intensity_score=1.0) for s in sents]
+        info_list = [SentenceInfo(text=s, vector=np.zeros(128, dtype=np.float32), intensity_score=1.0) for s in sents]
         gps = encoder._detect_gestalt_points(sents, info_list)
         # First-position weight starts at 0.8 (vs 0.5)
         assert any(g.weight > 0.5 for g in gps)
@@ -413,16 +412,12 @@ class TestComputeCoherence:
 class TestSimilarity:
     def test_identical_returns_one(self, encoder):
         v = np.ones(128, dtype=np.float32)
-        e1 = ParagraphEncoding(
-            vector=v, structure=None, sentence_vectors=[], bank_activations={}, coherence_score=0.0
-        )
+        e1 = ParagraphEncoding(vector=v, structure=None, sentence_vectors=[], bank_activations={}, coherence_score=0.0)
         assert encoder.similarity(e1, e1) == pytest.approx(1.0)
 
     def test_zero_vectors_zero(self, encoder):
         v = np.zeros(128, dtype=np.float32)
-        e1 = ParagraphEncoding(
-            vector=v, structure=None, sentence_vectors=[], bank_activations={}, coherence_score=0.0
-        )
+        e1 = ParagraphEncoding(vector=v, structure=None, sentence_vectors=[], bank_activations={}, coherence_score=0.0)
         assert encoder.similarity(e1, e1) == 0.0
 
 
@@ -451,6 +446,7 @@ class TestEncode:
 
 
 # ---------- Singleton ----------
+
 
 class TestSingleton:
     def test_get_paragraph_encoder_cached(self):

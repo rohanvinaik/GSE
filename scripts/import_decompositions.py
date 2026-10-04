@@ -69,7 +69,7 @@ def import_decompositions(input_file: str, db_path: str, basis_path: str):
     generator = LexiconGenerator(basis)
 
     # Load input file
-    with open(input_file, 'r') as f:
+    with open(input_file, "r") as f:
         words = json.load(f)
 
     print(f"\nLoaded {len(words)} word entries from {input_file}")
@@ -103,7 +103,7 @@ def import_decompositions(input_file: str, db_path: str, basis_path: str):
 
     # Connect to database
     conn = sqlite3.connect(db_path)
-    conn.execute('''
+    conn.execute("""
         CREATE TABLE IF NOT EXISTS lexicon (
             id INTEGER PRIMARY KEY,
             lemma TEXT,
@@ -117,9 +117,9 @@ def import_decompositions(input_file: str, db_path: str, basis_path: str):
             confidence REAL,
             UNIQUE(lemma, pos, sense_id)
         )
-    ''')
-    conn.execute('CREATE INDEX IF NOT EXISTS idx_lemma ON lexicon(lemma)')
-    conn.execute('CREATE INDEX IF NOT EXISTS idx_lemma_pos ON lexicon(lemma, pos)')
+    """)
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_lemma ON lexicon(lemma)")
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_lemma_pos ON lexicon(lemma, pos)")
 
     # Import entries
     print(f"\nImporting to {db_path}...")
@@ -134,10 +134,7 @@ def import_decompositions(input_file: str, db_path: str, basis_path: str):
         frequency = entry.get("frequency", 0.0)
 
         # Check if exists
-        existing = conn.execute(
-            'SELECT 1 FROM lexicon WHERE lemma = ? AND pos = ?',
-            (word.lower(), pos)
-        ).fetchone()
+        existing = conn.execute("SELECT 1 FROM lexicon WHERE lemma = ? AND pos = ?", (word.lower(), pos)).fetchone()
 
         if existing:
             print(f"  Skipped (exists): {word} ({pos})")
@@ -147,21 +144,24 @@ def import_decompositions(input_file: str, db_path: str, basis_path: str):
         # Encode and insert
         vector = generator.encode_decomposition(decomposition)
 
-        conn.execute('''
+        conn.execute(
+            """
             INSERT INTO lexicon
             (lemma, pos, sense_id, gloss, decomposition, vector, frequency, source, confidence)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ''', (
-            word.lower(),
-            pos,
-            f"{word.lower()}.{pos}.01",
-            definition,
-            json.dumps(decomposition),
-            vector.serialize(),
-            frequency,
-            "manual",
-            0.9
-        ))
+        """,
+            (
+                word.lower(),
+                pos,
+                f"{word.lower()}.{pos}.01",
+                definition,
+                json.dumps(decomposition),
+                vector.serialize(),
+                frequency,
+                "manual",
+                0.9,
+            ),
+        )
         imported += 1
         print(f"  Imported: {word} ({pos})")
 

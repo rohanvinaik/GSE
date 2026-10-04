@@ -96,10 +96,16 @@ def _encode_pairs(
             min_bank_cos = sig.min_bank_cosine
             min_bank_name = sig.min_bank_name
 
-        results.append(PairResult(
-            text1=t1, text2=t2, gold=pair.score, predicted=predicted,
-            min_bank_cosine=min_bank_cos, min_bank_name=min_bank_name,
-        ))
+        results.append(
+            PairResult(
+                text1=t1,
+                text2=t2,
+                gold=pair.score,
+                predicted=predicted,
+                min_bank_cosine=min_bank_cos,
+                min_bank_name=min_bank_name,
+            )
+        )
 
         if (i + 1) % 50 == 0:
             logger.info("Encoded %d/%d pairs", i + 1, len(pairs))
@@ -135,9 +141,7 @@ def _report_antonym(name: str, results: List[PairResult]) -> None:
     # Bank-projected view: antonyms are expected to oppose in the bipolar
     # dimension's bank even when the global bundle stays positive. Report
     # the most-negative bank per pair.
-    bank_sims: List[float] = [
-        r.min_bank_cosine for r in results if r.min_bank_cosine is not None
-    ]
+    bank_sims: List[float] = [r.min_bank_cosine for r in results if r.min_bank_cosine is not None]
     if bank_sims:
         bank_neg_rate = sum(1 for s in bank_sims if s < 0) / len(bank_sims)
         bank_scored = [r for r in results if r.min_bank_cosine is not None]
@@ -147,6 +151,7 @@ def _report_antonym(name: str, results: List[PairResult]) -> None:
         print(f"  Mean min-bank:  {sum(bank_sims) / len(bank_sims):+.4f}")
         # Bank-of-opposition breakdown
         from collections import Counter
+
         bank_counts = Counter(r.min_bank_name for r in bank_scored if r.min_bank_name)
         print(f"  Opposition bank: {dict(bank_counts.most_common())}")
 
@@ -190,10 +195,7 @@ def run_bipolar_pairs(
     n_passing = 0
 
     _print_header("Bipolar antagonism (14 GSE BIPOLAR_DIMENSIONS)", len(BIPOLAR_DIMENSIONS))
-    print(
-        f"  {'dimension':18} {'pair':22} {'bank':14} {'target_cos':>11} "
-        f"{'global':>8}"
-    )
+    print(f"  {'dimension':18} {'pair':22} {'bank':14} {'target_cos':>11} {'global':>8}")
     print("  " + "-" * 76)
 
     for dim in BIPOLAR_DIMENSIONS:
@@ -213,24 +215,23 @@ def run_bipolar_pairs(
         else:
             target_cos = float("nan")
 
-        results.append(PairResult(
-            text1=pos_word,
-            text2=neg_word,
-            gold=-1.0,
-            predicted=global_cos,
-            min_bank_cosine=target_cos,
-            min_bank_name=dim.bank.name,
-        ))
+        results.append(
+            PairResult(
+                text1=pos_word,
+                text2=neg_word,
+                gold=-1.0,
+                predicted=global_cos,
+                min_bank_cosine=target_cos,
+                min_bank_name=dim.bank.name,
+            )
+        )
 
         passing = target_cos <= -0.9
         if passing:
             n_passing += 1
         marker = "✓" if passing else "✗"
         pair_str = f"{pos_word}/{neg_word}"
-        print(
-            f"  {marker} {dim.name:16} {pair_str:22} {dim.bank.name:14} "
-            f"{target_cos:+11.4f} {global_cos:+8.4f}"
-        )
+        print(f"  {marker} {dim.name:16} {pair_str:22} {dim.bank.name:14} {target_cos:+11.4f} {global_cos:+8.4f}")
 
     print()
     print(f"  {n_passing}/{len(BIPOLAR_DIMENSIONS)} pairs pass target_cos ≤ -0.9")
@@ -296,9 +297,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         default="all",
         help="Which benchmark to run (default: all).",
     )
-    parser.add_argument(
-        "--limit", type=int, default=None, help="Cap on pairs (useful for smoke tests)."
-    )
+    parser.add_argument("--limit", type=int, default=None, help="Cap on pairs (useful for smoke tests).")
     parser.add_argument(
         "--bootstrap",
         type=int,

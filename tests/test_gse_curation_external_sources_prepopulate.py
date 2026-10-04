@@ -21,6 +21,7 @@ from gse.curation.external_sources.prepopulate import (
 
 # ---------- PrimitiveEvidence ----------
 
+
 class TestPrimitiveEvidence:
     def test_construction(self):
         e = PrimitiveEvidence(primitive="GOOD", value=1, sources=["a"], confidence=0.9)
@@ -31,6 +32,7 @@ class TestPrimitiveEvidence:
 
 
 # ---------- aggregate_external_evidence ----------
+
 
 def _make_comparator(parser_map):
     """parser_map: dict[name, dict[primitive, value]]"""
@@ -61,21 +63,25 @@ class TestAggregateExternalEvidence:
         assert result["GOOD"].sources == ["s1"]
 
     def test_multiple_agree_higher_confidence(self):
-        c = _make_comparator({
-            "s1": {"GOOD": 1},
-            "s2": {"GOOD": 1},
-            "s3": {"GOOD": 1},
-        })
+        c = _make_comparator(
+            {
+                "s1": {"GOOD": 1},
+                "s2": {"GOOD": 1},
+                "s3": {"GOOD": 1},
+            }
+        )
         result = aggregate_external_evidence("x", c)
         # 0.5 + 0.15*3 = 0.95 → capped at 0.95
         assert result["GOOD"].confidence == 0.95
         assert len(result["GOOD"].sources) == 3
 
     def test_two_agree_confidence(self):
-        c = _make_comparator({
-            "s1": {"GOOD": 1},
-            "s2": {"GOOD": 1},
-        })
+        c = _make_comparator(
+            {
+                "s1": {"GOOD": 1},
+                "s2": {"GOOD": 1},
+            }
+        )
         result = aggregate_external_evidence("x", c)
         # 0.5 + 0.15*2 = 0.8
         assert result["GOOD"].confidence == pytest.approx(0.8)
@@ -93,22 +99,26 @@ class TestAggregateExternalEvidence:
         assert result["GOOD"].confidence == 0.95
 
     def test_disagreement_reduces_confidence(self):
-        c = _make_comparator({
-            "s1": {"GOOD": 1},
-            "s2": {"GOOD": 1},
-            "s3": {"GOOD": -1},
-        })
+        c = _make_comparator(
+            {
+                "s1": {"GOOD": 1},
+                "s2": {"GOOD": 1},
+                "s3": {"GOOD": -1},
+            }
+        )
         result = aggregate_external_evidence("x", c)
         # n_agree=2, n_disagree=1 → 2/3 * 0.8 = 0.533...
         assert result["GOOD"].value == 1  # majority
-        assert result["GOOD"].confidence == pytest.approx(2/3 * 0.8)
+        assert result["GOOD"].confidence == pytest.approx(2 / 3 * 0.8)
 
     def test_majority_wins(self):
-        c = _make_comparator({
-            "s1": {"GOOD": -1},
-            "s2": {"GOOD": -1},
-            "s3": {"GOOD": 1},
-        })
+        c = _make_comparator(
+            {
+                "s1": {"GOOD": -1},
+                "s2": {"GOOD": -1},
+                "s3": {"GOOD": 1},
+            }
+        )
         result = aggregate_external_evidence("x", c)
         assert result["GOOD"].value == -1
         assert "s1" in result["GOOD"].sources
@@ -122,6 +132,7 @@ class TestAggregateExternalEvidence:
 
 
 # ---------- prepopulate_from_external ----------
+
 
 @pytest.fixture
 def fresh_db(tmp_path):
@@ -227,8 +238,10 @@ class TestPrepopulateFromExternal:
         conn.commit()
         conn.close()
 
-        p1 = MagicMock(); p1.to_primitives.return_value = {"GOOD": 1}
-        p2 = MagicMock(); p2.to_primitives.return_value = {"GOOD": 1}
+        p1 = MagicMock()
+        p1.to_primitives.return_value = {"GOOD": 1}
+        p2 = MagicMock()
+        p2.to_primitives.return_value = {"GOOD": 1}
         with patch("gse.curation.external_sources.prepopulate.ExternalSourcesComparator") as MockComp:
             MockComp.return_value.load_all_sources.return_value = {}
             MockComp.return_value.parsers = {"s1": p1, "s2": p2}
@@ -240,9 +253,11 @@ class TestPrepopulateFromExternal:
 
 # ---------- get_missing_primitives ----------
 
+
 class TestGetMissingPrimitives:
     def test_all_missing_when_no_data(self, fresh_db):
         from gse.curation.schema import ALL_PRIMITIVES
+
         result = get_missing_primitives(fresh_db, lexeme_id=42)
         assert set(result) == set(ALL_PRIMITIVES)
 
@@ -267,6 +282,7 @@ class TestGetMissingPrimitives:
 
 
 # ---------- get_prefill_summary ----------
+
 
 class TestGetPrefillSummary:
     def test_empty_db(self, fresh_db):

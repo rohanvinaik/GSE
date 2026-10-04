@@ -23,20 +23,21 @@ from gse.scales.syntactic_structure import (
 
 def make_annotation(word="x", position=0, primitives=None, bank_weights=None):
     return SyntacticAnnotation(
-        word=word, position=position,
+        word=word,
+        position=position,
         primitives=set([SyntacticPrimitive.SYN_SUBJ] if primitives is None else primitives),
-        bank_weights=bank_weights or {SyntacticBank.CORE: 1.0,
-                                       SyntacticBank.MODIFICATION: 1.0,
-                                       SyntacticBank.TAM: 1.0},
+        bank_weights=bank_weights or {SyntacticBank.CORE: 1.0, SyntacticBank.MODIFICATION: 1.0, SyntacticBank.TAM: 1.0},
     )
 
 
 class TestSyntacticAnnotationGetBankPrimitives:
     def test_filters_by_bank(self):
-        a = make_annotation(primitives=[
-            SyntacticPrimitive.SYN_SUBJ,  # CORE
-            SyntacticPrimitive.SYN_DET,   # MODIFICATION
-        ])
+        a = make_annotation(
+            primitives=[
+                SyntacticPrimitive.SYN_SUBJ,  # CORE
+                SyntacticPrimitive.SYN_DET,  # MODIFICATION
+            ]
+        )
         core = a.get_bank_primitives(SyntacticBank.CORE)
         assert core == {SyntacticPrimitive.SYN_SUBJ}
         mod = a.get_bank_primitives(SyntacticBank.MODIFICATION)

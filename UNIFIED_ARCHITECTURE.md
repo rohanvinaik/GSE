@@ -64,11 +64,20 @@ Raw text (infinite interpretations)
 ```python
 TEXT_PRIMITIVES = [
     # Genre
-    "NARRATIVE", "EXPOSITORY", "ARGUMENTATIVE", "DESCRIPTIVE",
+    "NARRATIVE",
+    "EXPOSITORY",
+    "ARGUMENTATIVE",
+    "DESCRIPTIVE",
     # Register
-    "FORMAL", "INFORMAL", "TECHNICAL", "CONVERSATIONAL",
+    "FORMAL",
+    "INFORMAL",
+    "TECHNICAL",
+    "CONVERSATIONAL",
     # Domain signals
-    "ACADEMIC", "COMMERCIAL", "PERSONAL", "INSTITUTIONAL"
+    "ACADEMIC",
+    "COMMERCIAL",
+    "PERSONAL",
+    "INSTITUTIONAL",
 ]
 ```
 
@@ -79,12 +88,23 @@ Purpose: Sets the "mind frame" for downstream processing. A technical document e
 ```python
 PARAGRAPH_PRIMITIVES = [
     # Discourse relations (RST-inspired)
-    "TOPIC_INTRO", "CONTINUATION", "ELABORATION", "CONTRAST",
-    "CAUSE", "EFFECT", "EXAMPLE", "SUMMARY",
+    "TOPIC_INTRO",
+    "CONTINUATION",
+    "ELABORATION",
+    "CONTRAST",
+    "CAUSE",
+    "EFFECT",
+    "EXAMPLE",
+    "SUMMARY",
     # Flow markers
-    "SHIFT", "RETURN", "PARALLEL", "SEQUENCE",
+    "SHIFT",
+    "RETURN",
+    "PARALLEL",
+    "SEQUENCE",
     # Intentional
-    "CLAIM", "EVIDENCE", "CONCESSION"
+    "CLAIM",
+    "EVIDENCE",
+    "CONCESSION",
 ]
 ```
 
@@ -95,16 +115,29 @@ Purpose: Captures how paragraphs relate to each other and internal structure.
 ```python
 SENTENCE_PRIMITIVES = [
     # Core grammatical functions
-    "SUBJECT", "PREDICATE", "OBJECT", "COMPLEMENT",
+    "SUBJECT",
+    "PREDICATE",
+    "OBJECT",
+    "COMPLEMENT",
     # Modifiers
-    "ADJUNCT", "ATTRIBUTE", "ADVERBIAL",
+    "ADJUNCT",
+    "ATTRIBUTE",
+    "ADVERBIAL",
     # Clause types
-    "MAIN", "SUBORDINATE", "RELATIVE", "CONDITIONAL",
+    "MAIN",
+    "SUBORDINATE",
+    "RELATIVE",
+    "CONDITIONAL",
     # Mood/modality
-    "DECLARATIVE", "INTERROGATIVE", "IMPERATIVE",
-    "CERTAIN", "POSSIBLE", "NECESSARY",
+    "DECLARATIVE",
+    "INTERROGATIVE",
+    "IMPERATIVE",
+    "CERTAIN",
+    "POSSIBLE",
+    "NECESSARY",
     # Polarity
-    "AFFIRMATIVE", "NEGATIVE"
+    "AFFIRMATIVE",
+    "NEGATIVE",
 ]
 ```
 
@@ -115,35 +148,82 @@ Purpose: Constrains word sense disambiguation. "I went to the bank" → BANK mus
 ```python
 WORD_PRIMITIVES = [
     # Substantives
-    "I", "YOU", "SOMEONE", "SOMETHING", "PEOPLE", "BODY",
+    "I",
+    "YOU",
+    "SOMEONE",
+    "SOMETHING",
+    "PEOPLE",
+    "BODY",
     # Relational
-    "KIND", "PART",
+    "KIND",
+    "PART",
     # Determiners
-    "THIS", "SAME", "OTHER",
+    "THIS",
+    "SAME",
+    "OTHER",
     # Quantifiers
-    "ONE", "TWO", "SOME", "ALL", "MUCH", "LITTLE",
+    "ONE",
+    "TWO",
+    "SOME",
+    "ALL",
+    "MUCH",
+    "LITTLE",
     # Evaluators
-    "GOOD", "BAD",
+    "GOOD",
+    "BAD",
     # Descriptors
-    "BIG", "SMALL",
+    "BIG",
+    "SMALL",
     # Mental predicates
-    "THINK", "KNOW", "WANT", "FEEL", "SEE", "HEAR",
+    "THINK",
+    "KNOW",
+    "WANT",
+    "FEEL",
+    "SEE",
+    "HEAR",
     # Speech
-    "SAY", "WORDS", "TRUE",
+    "SAY",
+    "WORDS",
+    "TRUE",
     # Actions
-    "DO", "HAPPEN", "MOVE",
+    "DO",
+    "HAPPEN",
+    "MOVE",
     # Existence
-    "BE", "HAVE", "EXIST", "LIVE", "DIE",
+    "BE",
+    "HAVE",
+    "EXIST",
+    "LIVE",
+    "DIE",
     # Time
-    "WHEN", "NOW", "BEFORE", "AFTER", "LONG_TIME", "SHORT_TIME", "MOMENT",
+    "WHEN",
+    "NOW",
+    "BEFORE",
+    "AFTER",
+    "LONG_TIME",
+    "SHORT_TIME",
+    "MOMENT",
     # Space
-    "WHERE", "HERE", "ABOVE", "BELOW", "FAR", "NEAR", "INSIDE", "SIDE", "TOUCH",
+    "WHERE",
+    "HERE",
+    "ABOVE",
+    "BELOW",
+    "FAR",
+    "NEAR",
+    "INSIDE",
+    "SIDE",
+    "TOUCH",
     # Logical
-    "NOT", "MAYBE", "CAN", "BECAUSE", "IF",
+    "NOT",
+    "MAYBE",
+    "CAN",
+    "BECAUSE",
+    "IF",
     # Intensifiers
-    "VERY", "MORE",
+    "VERY",
+    "MORE",
     # Similarity
-    "LIKE"
+    "LIKE",
 ]
 ```
 
@@ -214,11 +294,12 @@ K-lines store successful COMPOUND activations:
 @dataclass
 class CompoundKLine:
     """Records a compound primitive activation pattern."""
+
     id: str
-    trigger_pattern: FrozenSet[int]    # Which primitive INDICES activated
-    result_pattern: FrozenSet[int]     # What other primitives were co-activated
-    confidence: float                   # How reliable this pattern is
-    frequency: int                      # How often observed
+    trigger_pattern: FrozenSet[int]  # Which primitive INDICES activated
+    result_pattern: FrozenSet[int]  # What other primitives were co-activated
+    confidence: float  # How reliable this pattern is
+    frequency: int  # How often observed
 
     # Example:
     # trigger = {3, 7, 42}  (FEEL, GOOD, VERY)
@@ -358,17 +439,19 @@ The {-1, 0, +1} encoding is crucial:
 ```python
 # gse/primitives.py - extend
 
+
 class Scale(Enum):
     TEXT = "text"
     PARAGRAPH = "paragraph"
     SENTENCE = "sentence"
     WORD = "word"
 
+
 PRIMITIVES_BY_SCALE = {
-    Scale.TEXT: TEXT_PRIMITIVES,       # 12
+    Scale.TEXT: TEXT_PRIMITIVES,  # 12
     Scale.PARAGRAPH: PARAGRAPH_PRIMITIVES,  # 15
-    Scale.SENTENCE: SENTENCE_PRIMITIVES,    # 20
-    Scale.WORD: WORD_PRIMITIVES,            # 62
+    Scale.SENTENCE: SENTENCE_PRIMITIVES,  # 20
+    Scale.WORD: WORD_PRIMITIVES,  # 62
 }
 ```
 
@@ -376,6 +459,7 @@ PRIMITIVES_BY_SCALE = {
 
 ```python
 # gse/patterns/compound_network.py
+
 
 class CompoundPatternNetwork:
     """
@@ -428,6 +512,7 @@ class CompoundPatternNetwork:
 
 ```python
 # gse/cascade.py
+
 
 class ConstraintCascade:
     """
@@ -486,7 +571,7 @@ class ConstraintCascade:
             text=text,
             vector=final_vector,
             merkle_root=self._compute_merkle(text_frame, para_frames, sent_frames),
-            confidence=self._compute_confidence()
+            confidence=self._compute_confidence(),
         )
         self.cache.store(text, result)
 
@@ -497,6 +582,7 @@ class ConstraintCascade:
 
 ```python
 # gse/cache/merkle.py - extend
+
 
 class MerkleCache:
     """
@@ -531,7 +617,7 @@ class MerkleCache:
         node = MerkleNode(
             hash=self._hash(text),
             result=result,
-            children={}  # Populated with scale-level hashes
+            children={},  # Populated with scale-level hashes
         )
         self.trees[node.hash] = node
 
@@ -562,9 +648,7 @@ def train_pattern_networks(lexicon_path: str, cascade: ConstraintCascade):
 
         # Convert to primitive indices
         active_indices = {
-            cascade.word_net.primitives.index(prim)
-            for prim, role in decomp
-            if prim in cascade.word_net.primitives
+            cascade.word_net.primitives.index(prim) for prim, role in decomp if prim in cascade.word_net.primitives
         }
 
         # Observe activation pattern
@@ -591,6 +675,7 @@ Some text is genuinely ambiguous. The system should:
 ```python
 class AmbiguousResult:
     """When the cascade can't resolve to a single interpretation."""
+
     text: str
     interpretations: List[Tuple[SparseVector, float]]  # (vector, confidence)
     ambiguity_type: str  # "lexical", "syntactic", "pragmatic"
@@ -610,12 +695,7 @@ The system should:
 
 ```python
 if self._detect_discordance(sentiment, structure):
-    return UncertainResult(
-        text=text,
-        best_guess=literal_interpretation,
-        confidence=0.3,
-        flag="possible_figurative"
-    )
+    return UncertainResult(text=text, best_guess=literal_interpretation, confidence=0.3, flag="possible_figurative")
 ```
 
 ---

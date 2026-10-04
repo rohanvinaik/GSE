@@ -18,6 +18,7 @@ from gse.curation.external_sources.nrc_emotion import (
 
 # ---------- EmotionEntry ----------
 
+
 class TestEmotionEntry:
     def test_construction(self):
         e = EmotionEntry(word="dog", emotions={"joy": 1})
@@ -26,6 +27,7 @@ class TestEmotionEntry:
 
 
 # ---------- EMOTION_TO_PRIMITIVE ----------
+
 
 class TestEmotionToPrimitive:
     def test_joy_maps_good_feel(self):
@@ -50,12 +52,23 @@ class TestEmotionToPrimitive:
         assert EMOTION_TO_PRIMITIVE["negative"] == {"GOOD": -1}
 
     def test_all_ten_emotions_present(self):
-        expected = {"joy", "sadness", "anger", "fear", "trust", "disgust",
-                    "surprise", "anticipation", "positive", "negative"}
+        expected = {
+            "joy",
+            "sadness",
+            "anger",
+            "fear",
+            "trust",
+            "disgust",
+            "surprise",
+            "anticipation",
+            "positive",
+            "negative",
+        }
         assert set(EMOTION_TO_PRIMITIVE.keys()) == expected
 
 
 # ---------- __init__ ----------
+
 
 class TestInit:
     def test_default_data_path(self):
@@ -75,6 +88,7 @@ class TestInit:
 
 
 # ---------- download ----------
+
 
 class TestDownload:
     def test_success(self, tmp_path):
@@ -100,6 +114,7 @@ class TestDownload:
 
 
 # ---------- load ----------
+
 
 class TestLoad:
     def test_parses_basic_lines(self, tmp_path):
@@ -167,6 +182,7 @@ class TestLoad:
 
 # ---------- get_emotions ----------
 
+
 class TestGetEmotions:
     def test_returns_emotions_dict(self):
         p = NRCEmotionParser()
@@ -194,6 +210,7 @@ class TestGetEmotions:
 
 
 # ---------- to_primitives ----------
+
 
 class TestToPrimitives:
     def _make(self, emotions):
@@ -254,6 +271,7 @@ class TestToPrimitives:
 
 # ---------- get_all_words ----------
 
+
 class TestGetAllWords:
     def test_returns_keys(self):
         p = NRCEmotionParser()
@@ -276,6 +294,7 @@ class TestGetAllWords:
 
 # ---------- get_new_words ----------
 
+
 class TestGetNewWords:
     def test_filters(self):
         p = NRCEmotionParser()
@@ -292,6 +311,7 @@ class TestGetNewWords:
 
 
 # ---------- get_emotion_words ----------
+
 
 class TestGetEmotionWords:
     def test_filters_by_emotion(self):

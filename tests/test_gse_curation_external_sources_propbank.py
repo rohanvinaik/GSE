@@ -25,6 +25,7 @@ def mk_entry(lemma="run", rsid="run.01", name="operate", roles=None):
 
 # ---------- PropBankEntry ----------
 
+
 class TestPropBankEntry:
     def test_construction(self):
         e = mk_entry(roles={"ARG0": "agent"})
@@ -35,6 +36,7 @@ class TestPropBankEntry:
 
 
 # ---------- ARG_TO_PRIMITIVE ----------
+
 
 class TestArgToPrimitive:
     def test_arg0_agent(self):
@@ -61,6 +63,7 @@ class TestArgToPrimitive:
 
 # ---------- ROLESET_CLASS_TO_PRIMITIVE ----------
 
+
 class TestRolesetClassMappings:
     def test_run_motion(self):
         assert ROLESET_CLASS_TO_PRIMITIVE["run"] == {"MOVE": 1, "BODY": 1}
@@ -80,6 +83,7 @@ class TestRolesetClassMappings:
 
 # ---------- __init__ ----------
 
+
 class TestInit:
     def test_initial_state(self):
         p = PropBankParser()
@@ -92,6 +96,7 @@ class TestInit:
 
 
 # ---------- load ----------
+
 
 class TestLoad:
     def test_failure_returns_false(self):
@@ -128,6 +133,7 @@ class TestLoad:
 
 # ---------- to_primitives ----------
 
+
 class TestToPrimitives:
     def test_unknown_returns_empty(self):
         p = PropBankParser()
@@ -149,9 +155,7 @@ class TestToPrimitives:
         p = PropBankParser()
         p._loaded = True
         p.to_primitives.cache_clear()
-        p.entries["xyz_verb"] = [mk_entry(
-            lemma="xyz_verb", roles={"ARG0": "agent", "ARG1": "patient"}
-        )]
+        p.entries["xyz_verb"] = [mk_entry(lemma="xyz_verb", roles={"ARG0": "agent", "ARG1": "patient"})]
         result = p.to_primitives("xyz_verb")
         assert result["SOMEONE"] == 1
         assert result["DO"] == 1
@@ -233,6 +237,7 @@ class TestToPrimitives:
 
 # ---------- get_all_words ----------
 
+
 class TestGetAllWords:
     def test_returns_keys(self):
         p = PropBankParser()
@@ -249,6 +254,7 @@ class TestGetAllWords:
 
 
 # ---------- get_rolesets ----------
+
 
 class TestGetRolesets:
     def test_returns_entries(self):
@@ -277,6 +283,7 @@ class TestGetRolesets:
 
 
 # ---------- get_roleset_info ----------
+
 
 class TestGetRolesetInfo:
     def test_finds_matching(self):
@@ -316,6 +323,7 @@ class TestGetRolesetInfo:
 
 
 # ---------- download_propbank ----------
+
 
 class TestDownloadPropbank:
     def test_calls_nltk_download(self, capsys):

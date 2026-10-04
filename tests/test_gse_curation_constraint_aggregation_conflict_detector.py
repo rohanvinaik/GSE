@@ -48,6 +48,7 @@ def mk_cr(conflict_type="value_disagreement", severity="major", primitive="GOOD"
 
 # ---------- BIPOLAR module data ----------
 
+
 class TestBipolarPairs:
     def test_good_bad_present(self):
         assert ("GOOD", "BAD") in BIPOLAR_PAIRS
@@ -69,6 +70,7 @@ class TestBipolarPairs:
 
 
 # ---------- detect_conflicts ----------
+
 
 class TestDetectConflicts:
     def test_empty_returns_empty(self):
@@ -109,9 +111,7 @@ class TestDetectConflicts:
         assert result[0].severity == "critical"
 
     def test_positive_sources_listed(self):
-        ev = {
-            "X": [mk_sm(source="A", value=1), mk_sm(source="B", value=-1)]
-        }
+        ev = {"X": [mk_sm(source="A", value=1), mk_sm(source="B", value=-1)]}
         result = detect_conflicts(ev)
         assert "A" in result[0].sources_positive
         assert "B" in result[0].sources_negative
@@ -201,6 +201,7 @@ class TestDetectConflicts:
 
 # ---------- should_flag_for_review ----------
 
+
 class TestShouldFlagForReview:
     def test_no_conflicts_high_conf_no_flag(self):
         flag, reasons = should_flag_for_review([], 0.9)
@@ -263,8 +264,10 @@ class TestShouldFlagForReview:
         c = ConflictRecord(
             primitive="GOOD/BAD",
             conflict_type="bipolar_violation",
-            sources_positive=[], sources_negative=[],
-            severity="major", resolution_required=True,
+            sources_positive=[],
+            sources_negative=[],
+            severity="major",
+            resolution_required=True,
         )
         _, reasons = should_flag_for_review([c], 0.9)
         joined = " ".join(reasons)
@@ -297,14 +300,18 @@ class TestShouldFlagForReview:
         c1 = ConflictRecord(
             primitive="GOOD/BAD",
             conflict_type="bipolar_violation",
-            sources_positive=[], sources_negative=[],
-            severity="major", resolution_required=True,
+            sources_positive=[],
+            sources_negative=[],
+            severity="major",
+            resolution_required=True,
         )
         c2 = ConflictRecord(
             primitive="BIG/SMALL",
             conflict_type="bipolar_violation",
-            sources_positive=[], sources_negative=[],
-            severity="major", resolution_required=True,
+            sources_positive=[],
+            sources_negative=[],
+            severity="major",
+            resolution_required=True,
         )
         _, reasons = should_flag_for_review([c1, c2], 0.9)
         bipolar_msgs = [r for r in reasons if r.startswith("Bipolar")]
@@ -314,14 +321,18 @@ class TestShouldFlagForReview:
         c1 = ConflictRecord(
             primitive="X",
             conflict_type="sign_flip",
-            sources_positive=[], sources_negative=[],
-            severity="critical", resolution_required=True,
+            sources_positive=[],
+            sources_negative=[],
+            severity="critical",
+            resolution_required=True,
         )
         c2 = ConflictRecord(
             primitive="Y",
             conflict_type="sign_flip",
-            sources_positive=[], sources_negative=[],
-            severity="critical", resolution_required=True,
+            sources_positive=[],
+            sources_negative=[],
+            severity="critical",
+            resolution_required=True,
         )
         _, reasons = should_flag_for_review([c1, c2], 0.9)
         sign_msgs = [r for r in reasons if r.startswith("Sign")]
@@ -348,6 +359,7 @@ class TestShouldFlagForReview:
 
 
 # ---------- get_conflict_summary ----------
+
 
 class TestGetConflictSummary:
     def test_empty_returns_zero_struct(self):

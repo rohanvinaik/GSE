@@ -29,8 +29,7 @@ def build_index(kaikki: str = KAIKKI, out_db: str = OUT_DB) -> dict:
     con = sqlite3.connect(out_db)
     con.execute("PRAGMA synchronous=OFF")
     con.execute("PRAGMA journal_mode=MEMORY")
-    con.execute("CREATE TABLE definitions "
-                "(word TEXT, pos TEXT, sense_idx INTEGER, gloss TEXT)")
+    con.execute("CREATE TABLE definitions (word TEXT, pos TEXT, sense_idx INTEGER, gloss TEXT)")
 
     n_rec = n_rows = 0
     t0 = time.time()
@@ -55,8 +54,7 @@ def build_index(kaikki: str = KAIKKI, out_db: str = OUT_DB) -> dict:
                 batch.clear()
             if n_rec % 100000 == 0:
                 con.commit()
-                print(f"  {n_rec:>8} records · {n_rows:>9} glosses · "
-                      f"{time.time() - t0:5.0f}s", flush=True)
+                print(f"  {n_rec:>8} records · {n_rows:>9} glosses · {time.time() - t0:5.0f}s", flush=True)
     if batch:
         con.executemany("INSERT INTO definitions VALUES (?,?,?,?)", batch)
     con.commit()
@@ -65,30 +63,26 @@ def build_index(kaikki: str = KAIKKI, out_db: str = OUT_DB) -> dict:
     con.commit()
     con.close()
     dt = time.time() - t0
-    print(f"DONE · {n_rec} records · {n_rows} glosses · {dt:.0f}s → {out_db}",
-          flush=True)
-    return {"records": n_rec, "glosses": n_rows, "seconds": round(dt, 1),
-            "out_db": out_db}
+    print(f"DONE · {n_rec} records · {n_rows} glosses · {dt:.0f}s → {out_db}", flush=True)
+    return {"records": n_rec, "glosses": n_rows, "seconds": round(dt, 1), "out_db": out_db}
 
 
-def senses(word: str, pos: Optional[str] = None, db: str = OUT_DB
-           ) -> List[Tuple[str, int, str]]:
+def senses(word: str, pos: Optional[str] = None, db: str = OUT_DB) -> List[Tuple[str, int, str]]:
     """Indexed lookup → [(pos, sense_idx, gloss), …] for a word. Milliseconds."""
     con = sqlite3.connect(f"file:{db}?mode=ro", uri=True)
     if pos:
         rows = con.execute(
-            "SELECT pos, sense_idx, gloss FROM definitions WHERE word=? AND pos=? "
-            "ORDER BY sense_idx", (word, pos)).fetchall()
+            "SELECT pos, sense_idx, gloss FROM definitions WHERE word=? AND pos=? ORDER BY sense_idx", (word, pos)
+        ).fetchall()
     else:
         rows = con.execute(
-            "SELECT pos, sense_idx, gloss FROM definitions WHERE word=? "
-            "ORDER BY pos, sense_idx", (word,)).fetchall()
+            "SELECT pos, sense_idx, gloss FROM definitions WHERE word=? ORDER BY pos, sense_idx", (word,)
+        ).fetchall()
     con.close()
     return rows
 
 
-def primary_gloss(word: str, pos: Optional[str] = None, db: str = OUT_DB
-                  ) -> Optional[Tuple[str, str]]:
+def primary_gloss(word: str, pos: Optional[str] = None, db: str = OUT_DB) -> Optional[Tuple[str, str]]:
     """First sense (the primary definition) for a word, POS-matched when given."""
     rows = senses(word, pos, db)
     if not rows and pos:

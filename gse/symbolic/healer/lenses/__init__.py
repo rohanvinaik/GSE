@@ -14,6 +14,7 @@ territories could touch (more-specific law first). What no lens claims falls to 
   vp_coord_conjunct   — VP-coordination distribution
   deictic_bind        — regulatory: unbound I/you/narrator (the ±2-line window)
 """
+
 from __future__ import annotations
 
 from typing import List
@@ -39,10 +40,10 @@ def default_roster() -> List[Lens]:
     corpus scale: participial fires resolve to real character subjects; the residual (POS-mistag/one-shot
     subjects) is low-significance → dropped by the compaction spread-cut, and is K-line TRAINING territory."""
     roster: List[Lens] = [
-        CopulaPredicate(),       # L1 — predicate-adjective under a copula → TYPE_ASSERT (transform; clean)
-        VpCoord(),               # L7 — VP-coordination distribution (revived; fold-reinforced subject)
-        ParticipialAdjunct(),    # L3 — participial adjunct (revived; best_subject by significance) [additive, phase 2]
-        InfinitivalControl(),    # L4 — dropped `to <verb>` infinitival → EVENT(controller, …) [additive, phase 2]
+        CopulaPredicate(),  # L1 — predicate-adjective under a copula → TYPE_ASSERT (transform; clean)
+        VpCoord(),  # L7 — VP-coordination distribution (revived; fold-reinforced subject)
+        ParticipialAdjunct(),  # L3 — participial adjunct (revived; best_subject by significance) [additive, phase 2]
+        InfinitivalControl(),  # L4 — dropped `to <verb>` infinitival → EVENT(controller, …) [additive, phase 2]
         # L5 embedded_clause + L6 attribution_say: NOT lenses — already handled upstream (L5: collapsed
         # queries yield 0 predicates via _collect_predicates; L6: the intake speech-split). See memory.
     ]

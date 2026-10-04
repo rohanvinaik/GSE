@@ -13,6 +13,7 @@ from gse.curation.schema import BIPOLAR_PAIRS
 @dataclass
 class ValidationResult:
     """Result of a validation check."""
+
     passed: bool
     validation_type: str
     violations: List[Dict[str, Any]] = field(default_factory=list)
@@ -58,13 +59,15 @@ class BipolarValidator:
             neg_val = decomposition.get(neg_prim, 0)
 
             if pos_val != 0 and neg_val != 0:
-                violations.append({
-                    "type": "bipolar_conflict",
-                    "pair": (pos_prim, neg_prim),
-                    "positive_value": pos_val,
-                    "negative_value": neg_val,
-                    "message": f"Both {pos_prim} ({pos_val}) and {neg_prim} ({neg_val}) are non-zero",
-                })
+                violations.append(
+                    {
+                        "type": "bipolar_conflict",
+                        "pair": (pos_prim, neg_prim),
+                        "positive_value": pos_val,
+                        "negative_value": neg_val,
+                        "message": f"Both {pos_prim} ({pos_val}) and {neg_prim} ({neg_val}) are non-zero",
+                    }
+                )
 
         passed = len(violations) == 0
 
@@ -98,9 +101,7 @@ class BipolarValidator:
             if pos_val != 0 and neg_val != 0:
                 # Keep positive pole, zero negative
                 fixed[neg_prim] = 0
-                fixes.append(
-                    f"Zeroed {neg_prim} (was {neg_val}) - keeping {pos_prim}={pos_val}"
-                )
+                fixes.append(f"Zeroed {neg_prim} (was {neg_val}) - keeping {pos_prim}={pos_val}")
 
         return fixed, fixes
 
@@ -132,9 +133,7 @@ class BipolarValidator:
             if neg_val != 0 and pos_val == 0:
                 canonical[pos_prim] = -neg_val  # Flip polarity
                 canonical[neg_prim] = 0
-                conversions.append(
-                    f"Converted {neg_prim}={neg_val} to {pos_prim}={-neg_val}"
-                )
+                conversions.append(f"Converted {neg_prim}={neg_val} to {pos_prim}={-neg_val}")
 
         return canonical, conversions
 

@@ -19,6 +19,7 @@ Deterministic: the HDC basis is structured (not random), decompose is repeatable
 Usage:
     .venv/bin/python scripts/build_sense_vectors.py [--corpus GLOB] [--out PATH]
 """
+
 import argparse
 import glob
 import json
@@ -98,8 +99,8 @@ def main():
             pass
         if (i + 1) % 500 == 0:
             el = time.time() - t0
-            print(f"      {i+1}/{len(union)}  {el:.0f}s  eta {el/(i+1)*(len(union)-i-1):.0f}s", flush=True)
-    print(f"      {len(word_vec)} non-empty word vectors in {time.time()-t0:.0f}s")
+            print(f"      {i + 1}/{len(union)}  {el:.0f}s  eta {el / (i + 1) * (len(union) - i - 1):.0f}s", flush=True)
+    print(f"      {len(word_vec)} non-empty word vectors in {time.time() - t0:.0f}s")
 
     # compose per-synset vectors for the ambiguous nouns (bundle of gloss-word vectors)
     print("[5/5] composing synset vectors + persisting")
@@ -133,8 +134,12 @@ def main():
     )
     conn.executemany(
         "INSERT INTO meta VALUES (?,?)",
-        [("n_word_vec", str(len(word_vec))), ("n_sense_vec", str(len(sense_vec))),
-         ("corpus", args.corpus), ("dim", "8192")],
+        [
+            ("n_word_vec", str(len(word_vec))),
+            ("n_sense_vec", str(len(sense_vec))),
+            ("corpus", args.corpus),
+            ("dim", "8192"),
+        ],
     )
     conn.commit()
     conn.close()
@@ -147,11 +152,14 @@ def main():
     from gse.vectors_v2 import SparseVector
 
     def load(tbl, key, conn):
-        r = conn.execute(f"SELECT pos,neg FROM {tbl} WHERE {'word' if tbl=='word_vec' else 'synset'}=?", (key,)).fetchone()
+        r = conn.execute(
+            f"SELECT pos,neg FROM {tbl} WHERE {'word' if tbl == 'word_vec' else 'synset'}=?", (key,)
+        ).fetchone()
         if not r:
             return None
-        return SparseVector(8192, np.array(json.loads(r[0]), dtype=np.uint16),
-                            np.array(json.loads(r[1]), dtype=np.uint16))
+        return SparseVector(
+            8192, np.array(json.loads(r[0]), dtype=np.uint16), np.array(json.loads(r[1]), dtype=np.uint16)
+        )
 
     conn = sqlite3.connect(f"file:{args.out}?mode=ro", uri=True)
     ctx_words = content_words("discussion deteriorates two men bitterly insulting father persuade son quarrel argument")

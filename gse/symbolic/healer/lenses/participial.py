@@ -30,6 +30,7 @@ LAW
   abstain  : -ing ADJECTIVE (interesting/boiling — adj WordNet sense) or GERUND-NOUN (the singing);
              no clean main-clause subject. Emit nothing rather than fabricate (clean-or-hole).
 """
+
 from __future__ import annotations
 
 import os
@@ -69,9 +70,11 @@ def _lemma(operand) -> str:
 
 class ParticipialAdjunct(AdditiveLens):
     name = "participial_adjunct"
-    law = ("must: a comma-bounded/fronted -ing participle is a secondary predicate of the main "
-           "subject → emit EVENT(main_subject, participle); abstain on -ing adjective / gerund-noun "
-           "/ no clean subject.")
+    law = (
+        "must: a comma-bounded/fronted -ing participle is a secondary predicate of the main "
+        "subject → emit EVENT(main_subject, participle); abstain on -ing adjective / gerund-noun "
+        "/ no clean subject."
+    )
 
     def emit(self, predicates, env, folds=None):
         if env is None:
@@ -85,17 +88,17 @@ class ParticipialAdjunct(AdditiveLens):
         subj = best_subject(candidate_subjects(predicates), folds) if folds else main_animate_subject(predicates)
         already = event_verbs(predicates)
         mem = None
-        mem_loaded = False                             # lazy: load the warm memory only on abstain
+        mem_loaded = False  # lazy: load the warm memory only on abstain
         out = []
         for pos, lemma in cands:
             if not lemma or lemma in already:
-                continue                              # already surfaced as an event
+                continue  # already surfaced as an event
             senses = env.senses.get(pos, {})
             if senses.get("a"):
-                continue                              # -ing ADJECTIVE (interesting/boiling), not an adjunct
+                continue  # -ing ADJECTIVE (interesting/boiling), not an adjunct
             prev_pos = env.prev.get(pos, ("", ""))[1]
             if senses.get("n") and (env.prev_func.get(pos) or prev_pos in _NOMINAL_PREV):
-                continue                              # GERUND-NOUN ("good lodging" / "their muttering")
+                continue  # GERUND-NOUN ("good lodging" / "their muttering")
 
             anchor = subj
             note = f"participial adjunct → EVENT({_lemma(subj)}, {lemma})" if subj is not None else ""
@@ -104,20 +107,24 @@ class ParticipialAdjunct(AdditiveLens):
                 # residual the trained K-line memory owns (Law-as-Architecture §6).
                 if not mem_loaded:
                     from ..recollect import default_memory
-                    mem = default_memory(name="baseline")    # the ONE Brown-baseline library
+
+                    mem = default_memory(name="baseline")  # the ONE Brown-baseline library
                     mem_loaded = True
                 if mem is not None:
                     from ..recollect import envelope_query
-                    q = envelope_query(env, pos, "participial")   # superposition: firing-pattern tag
+
+                    q = envelope_query(env, pos, "participial")  # superposition: firing-pattern tag
                     if q is not None:
                         key_syms, cand_descs = q
                         rec = mem.recall(key_syms, [d for _, d in cand_descs])
                         if rec.index is not None and rec.confidence >= _THETA:
                             anchor = _subject_for_lemma(cand_descs[rec.index][0], predicates)
-                            note = (f"participial adjunct → EVENT({_lemma(anchor)}, {lemma}) "
-                                    f"via k-line recall (conf {rec.confidence:.2f})")
+                            note = (
+                                f"participial adjunct → EVENT({_lemma(anchor)}, {lemma}) "
+                                f"via k-line recall (conf {rec.confidence:.2f})"
+                            )
             if anchor is None:
-                continue                              # no eligible anchor → honest hole (clean-or-hole)
+                continue  # no eligible anchor → honest hole (clean-or-hole)
             out.append(Repair(Event(verb=lemma, agent=anchor, patient=None), self.name, note=note))
             already.add(lemma)
         return out

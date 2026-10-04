@@ -48,8 +48,7 @@ class GenealogyProvider(Protocol):
     guarantee.
     """
 
-    def thread(self, lemma: str, pos: str, is_proper: bool) -> Sequence[str]:
-        ...
+    def thread(self, lemma: str, pos: str, is_proper: bool) -> Sequence[str]: ...
 
 
 class NullGenealogy:
@@ -185,9 +184,15 @@ _COHERENCE_MARGIN = 0.15
 # chemical_reaction; the response sense is #4). For those genres we demote the science-PROCESS senses so a
 # human/social sense wins — UNLESS the word is *only* a science term (then we keep it: a story may name a
 # real element). EXPOSITORY is left alone (it may genuinely be a science topic).
-_SCIENCE_DOMAIN_ROOTS = frozenset({
-    "chemical_process", "natural_process", "physical_phenomenon", "organic_process", "bodily_process",
-})
+_SCIENCE_DOMAIN_ROOTS = frozenset(
+    {
+        "chemical_process",
+        "natural_process",
+        "physical_phenomenon",
+        "organic_process",
+        "bodily_process",
+    }
+)
 _NONSCIENCE_GENRES = frozenset({"NARRATIVE", "ARGUMENTATIVE"})
 
 
@@ -196,9 +201,18 @@ def _is_science_thread(thread: Tuple[str, ...]) -> bool:
 
 
 # Universal ontology roots — too generic to carry WSD signal; dropped from world context.
-_WORLD_ROOTS = frozenset({
-    "thing", "agent", "entity", "abstraction", "physical", "object", "whole", "unit",
-})
+_WORLD_ROOTS = frozenset(
+    {
+        "thing",
+        "agent",
+        "entity",
+        "abstraction",
+        "physical",
+        "object",
+        "whole",
+        "unit",
+    }
+)
 
 
 def _world_context_terms(thread: Tuple[str, ...]) -> List[str]:
@@ -229,6 +243,7 @@ def _synset_attested(synset_name: str) -> bool:
     "never over-certify against the prior" discipline (SSL ``falsifiability_pivot``). This is
     the corpus's own knowable-known: the synset's total tagged count across all its lemmas."""
     from nltk.corpus import wordnet as wn
+
     try:
         syn = wn.synset(synset_name)
     except Exception:
@@ -237,8 +252,11 @@ def _synset_attested(synset_name: str) -> bool:
 
 
 def _select_by_coherence(
-    collected: List[Entity], genealogy: Any, margin: float = _COHERENCE_MARGIN,
-    genre: str | None = None, raw_text: str | None = None,
+    collected: List[Entity],
+    genealogy: Any,
+    margin: float = _COHERENCE_MARGIN,
+    genre: str | None = None,
+    raw_text: str | None = None,
 ) -> Dict[Tuple, Tuple[str, ...]]:
     """Pick each referent's thread by coherence with the rest of the sentence.
 
@@ -251,7 +269,7 @@ def _select_by_coherence(
     invent a thread.
     """
     cand: Dict[Tuple, List[Tuple[str, ...]]] = {}
-    raw_of: Dict[Tuple, List[Tuple[str, ...]]] = {}   # sense-ordered, UNFILTERED (HDC↔synset alignment)
+    raw_of: Dict[Tuple, List[Tuple[str, ...]]] = {}  # sense-ordered, UNFILTERED (HDC↔synset alignment)
     lemma_of: Dict[Tuple, str] = {}
     proper_of: Dict[Tuple, bool] = {}
     for ent in collected:
@@ -260,20 +278,17 @@ def _select_by_coherence(
             continue
         lemma = _lookup_key(ent)
         is_proper = _is_proper(ent)
-        raw = [
-            tuple(t)
-            for t in genealogy.candidates(lemma, getattr(ent.head, "pos", "") or "", is_proper)
-        ]
+        raw = [tuple(t) for t in genealogy.candidates(lemma, getattr(ent.head, "pos", "") or "", is_proper)]
         if not is_proper and lemma and _orthographic_collision(lemma):
-            raw = []   # a lowercase word reaching its sense only via an ACRONYM lemma (add→ADD,
-                       # far→ALIR) is a spurious case collision, not a noun — abstain honestly.
+            raw = []  # a lowercase word reaching its sense only via an ACRONYM lemma (add→ADD,
+            # far→ALIR) is a spurious case collision, not a noun — abstain honestly.
         raw_of[sig] = raw
         lemma_of[sig] = lemma
         proper_of[sig] = is_proper
         cand[sig] = list(raw)
-        if genre in _NONSCIENCE_GENRES:                 # content-genre WSD: drop lab senses in a story…
+        if genre in _NONSCIENCE_GENRES:  # content-genre WSD: drop lab senses in a story…
             human = [t for t in cand[sig] if not _is_science_thread(t)]
-            if human:                                   # …unless the word is ONLY a science term
+            if human:  # …unless the word is ONLY a science term
                 cand[sig] = human
 
     # HDC sense-resonance is the PRIMARY re-ranker: for each ambiguous common noun it
@@ -291,16 +306,14 @@ def _select_by_coherence(
     # This is sparse-wiki's designed ground(mention, context), scored at the store.
     anchor_choice = _anchor_overrides(cand, lemma_of, proper_of, genealogy, raw_text=raw_text)
 
-    primary: Dict[Tuple, Tuple[str, ...]] = {
-        sig: (cs[0] if cs else ()) for sig, cs in cand.items()
-    }
+    primary: Dict[Tuple, Tuple[str, ...]] = {sig: (cs[0] if cs else ()) for sig, cs in cand.items()}
 
     chosen: Dict[Tuple, Tuple[str, ...]] = {}
     for sig, cs in cand.items():
-        if sig in hdc_choice:                           # HDC made a confident, context-grounded call
+        if sig in hdc_choice:  # HDC made a confident, context-grounded call
             chosen[sig] = hdc_choice[sig]
             continue
-        if sig in anchor_choice:                        # anchor coherence re-ranked a proper noun
+        if sig in anchor_choice:  # anchor coherence re-ranked a proper noun
             chosen[sig] = anchor_choice[sig]
             continue
         if len(cs) <= 1:
@@ -336,20 +349,23 @@ def _orthographic_collision(lemma: str) -> bool:
     if not lemma.isalpha() or not lemma.islower():
         return False
     from nltk.corpus import wordnet as wn
+
     nouns = wn.synsets(lemma, wn.NOUN)
     if not nouns:
         return False
     for syn in nouns:
         if any(l.name().lower() == lemma and not l.name().isupper() for l in syn.lemmas()):
-            return False   # a genuine lowercase lemma match exists → real noun, keep it
+            return False  # a genuine lowercase lemma match exists → real noun, keep it
     # It is a SPURIOUS collision only if the acronym DISPLACES a genuine common word — the lowercase
     # token also has a non-noun reading (add=verb, far=adverb, led=verb). A pure acronym with no
     # other English sense (ceo, dna, fbi, mit) is a legitimate — if lowercased — reference, so keep
     # it and ground it normally. (Validated wide: across the 4021-lemma story corpus this abstains
     # only add/led/iii, while sparing every lowercased org/tech acronym.)
     return bool(
-        wn.synsets(lemma, wn.VERB) or wn.synsets(lemma, wn.ADJ)
-        or wn.synsets(lemma, wn.ADV) or wn.synsets(lemma, wn.ADJ_SAT)
+        wn.synsets(lemma, wn.VERB)
+        or wn.synsets(lemma, wn.ADJ)
+        or wn.synsets(lemma, wn.ADV)
+        or wn.synsets(lemma, wn.ADJ_SAT)
     )
 
 
@@ -389,7 +405,7 @@ def _hdc_overrides(
         if proper_of[sig]:
             continue
         lemma = lemma_of[sig]
-        if not lemma or " " in lemma or "_" in lemma:    # single token only → alignment guarantee
+        if not lemma or " " in lemma or "_" in lemma:  # single token only → alignment guarantee
             continue
         raw = raw_of[sig]
         synsets = [s.name() for s in wn.synsets(lemma, wn.NOUN)]
@@ -538,25 +554,22 @@ def _anchor_overrides(
             except Exception:
                 bag = {}
             if low is not None:
-                score = float(sum(
-                    1 for a in bag
-                    if a and a != lemma and re.search(r"\b" + re.escape(a) + r"\b", low)))
+                score = float(sum(1 for a in bag if a and a != lemma and re.search(r"\b" + re.escape(a) + r"\b", low)))
             else:
                 score = sum(w for a, w in bag.items() if a in ctx)
             scored.append((thread, score, rec.get("src") or "?"))
         ANCHOR_AUDIT[lemma] = [(t[-1] if t else "", s) for t, s, _ in scored]
         if scored[0][1] > 0:
-            continue                        # the prior is corroborated — keep it
+            continue  # the prior is corroborated — keep it
         promotable = [ts for ts in scored[1:] if ts[1] > 0 and ts[2] in ("label", "alias")]
         if promotable:
-            out[sig] = max(promotable, key=lambda ts: ts[1])[0]   # real identity, context-backed
+            out[sig] = max(promotable, key=lambda ts: ts[1])[0]  # real identity, context-backed
         elif low is not None:
-            out[sig] = ()                   # no candidate survives the document — abstain
+            out[sig] = ()  # no candidate survives the document — abstain
     return out
 
 
-def corroborated_world_thread(lemma: str, genealogy: Any,
-                              raw_text: str | None) -> Tuple[str, ...]:
+def corroborated_world_thread(lemma: str, genealogy: Any, raw_text: str | None) -> Tuple[str, ...]:
     """The anchor gate's rule as a single reusable lookup, for consumers OUTSIDE the
     coherence pass (e.g. narrative's role-biased world-strand heal): the pagerank-primary
     world thread if the document corroborates it, else the best corroborated LABEL/ALIAS
@@ -572,8 +585,7 @@ def corroborated_world_thread(lemma: str, genealogy: Any,
         return ()
     if not cs:
         return ()
-    if not raw_text or not (hasattr(genealogy, "world_candidates")
-                            and hasattr(genealogy, "anchors")):
+    if not raw_text or not (hasattr(genealogy, "world_candidates") and hasattr(genealogy, "anchors")):
         return cs[0]
     low = raw_text.lower()
     try:
@@ -589,8 +601,7 @@ def corroborated_world_thread(lemma: str, genealogy: Any,
                 bag = genealogy.anchors(rec["canon"]) or {}
             except Exception:
                 bag = {}
-        hits = sum(1 for a in bag
-                   if a and a != lemma and re.search(r"\b" + re.escape(a) + r"\b", low))
+        hits = sum(1 for a in bag if a and a != lemma and re.search(r"\b" + re.escape(a) + r"\b", low))
         scored.append((thread, hits, (rec.get("src") if rec else None) or "?"))
     if scored[0][1] > 0:
         return scored[0][0]
@@ -612,8 +623,9 @@ def _promote_demiwords(node: Any, genealogy: Any) -> Any:
     existing coherence selector then picks among the MWE's senses. "red car" / "big
     dog" stay compositional. Only runs when a real dictionary is present.
     """
+
     def promote(ent: Entity) -> Entity:
-        if ent.span:                                  # already a demi-word
+        if ent.span:  # already a demi-word
             return ent
         mod = getattr(ent, "modifier", None)
         if mod is None or getattr(mod, "pos", None) != "ADJ":
@@ -671,9 +683,7 @@ def resolve_references(node: Any, genealogy: GenealogyProvider | None = None) ->
             sig = _signature(ent)
             if sig not in sig_thread:
                 sig_thread[sig] = tuple(
-                    genealogy.thread(
-                        _lookup_key(ent), getattr(ent.head, "pos", "") or "", _is_proper(ent)
-                    )
+                    genealogy.thread(_lookup_key(ent), getattr(ent.head, "pos", "") or "", _is_proper(ent))
                 )
 
     def annotate(ent: Entity) -> Entity:
@@ -702,14 +712,35 @@ def _is_pronoun(ent: Entity) -> bool:
 # Pronoun grammatical number / person, for cross-sentence agreement. they/them are
 # number=plur, person-agnostic (a group of people OR things); it/its are non-person.
 _PRON_NUMBER = {
-    "they": "plur", "them": "plur", "their": "plur", "theirs": "plur", "themselves": "plur",
-    "he": "sing", "she": "sing", "it": "sing", "him": "sing", "her": "sing",
-    "his": "sing", "hers": "sing", "its": "sing",
-    "himself": "sing", "herself": "sing", "itself": "sing",
+    "they": "plur",
+    "them": "plur",
+    "their": "plur",
+    "theirs": "plur",
+    "themselves": "plur",
+    "he": "sing",
+    "she": "sing",
+    "it": "sing",
+    "him": "sing",
+    "her": "sing",
+    "his": "sing",
+    "hers": "sing",
+    "its": "sing",
+    "himself": "sing",
+    "herself": "sing",
+    "itself": "sing",
 }
 _PRON_PERSON = {  # True = requires a person antecedent; False = requires non-person
-    "he": True, "she": True, "him": True, "her": True, "his": True, "hers": True,
-    "himself": True, "herself": True, "it": False, "its": False, "itself": False,
+    "he": True,
+    "she": True,
+    "him": True,
+    "her": True,
+    "his": True,
+    "hers": True,
+    "himself": True,
+    "herself": True,
+    "it": False,
+    "its": False,
+    "itself": False,
 }
 # First/second-person (DEICTIC) pronoun lemmas — the speaker, the addressee, or the
 # narrator; never anaphoric to a prior third-person noun. They are excluded from recency
@@ -721,22 +752,47 @@ _PRON_PERSON = {  # True = requires a person antecedent; False = requires non-pe
 # would no longer recognize the narrator as first-person and would rebind it to a recency
 # antecedent — clobbering the narrating voice across the document (the first-person
 # protagonist would dissolve into the last-named third person).
-_DEICTIC_PERSON = frozenset({
-    "i", "me", "my", "mine", "myself",
-    "we", "us", "our", "ours", "ourselves",
-    "you", "your", "yours", "yourself", "yourselves",
-    "narrator",   # the re-lemmatized narration first-person (speech.NARRATOR_TAG)
-})
+_DEICTIC_PERSON = frozenset(
+    {
+        "i",
+        "me",
+        "my",
+        "mine",
+        "myself",
+        "we",
+        "us",
+        "our",
+        "ours",
+        "ourselves",
+        "you",
+        "your",
+        "yours",
+        "yourself",
+        "yourselves",
+        "narrator",  # the re-lemmatized narration first-person (speech.NARRATOR_TAG)
+    }
+)
 # INDEFINITE / universal pronouns are quantifiers, not anaphors — "Alonso forgives everyone"
 # does NOT corefer "everyone" with a prior named entity (binding it to the most-recent noun is
 # exactly the duke-capture bug). Like the deictics, they are left UNBOUND (kept as their own
 # indefinite referent) rather than rebound by recency.
-_INDEFINITE_PRONOUN = frozenset({
-    "everyone", "everybody", "everything",
-    "someone", "somebody", "something",
-    "anyone", "anybody", "anything",
-    "no one", "nobody", "nothing", "none",
-})
+_INDEFINITE_PRONOUN = frozenset(
+    {
+        "everyone",
+        "everybody",
+        "everything",
+        "someone",
+        "somebody",
+        "something",
+        "anyone",
+        "anybody",
+        "anything",
+        "no one",
+        "nobody",
+        "nothing",
+        "none",
+    }
+)
 _PERSON_CACHE: Dict[str, Any] = {}
 
 
@@ -747,6 +803,7 @@ def _is_person(lemma: str) -> Any:
     res: Any = None
     try:
         from nltk.corpus import wordnet as wn
+
         person = wn.synset("person.n.01")
         syns = wn.synsets(lemma, pos="n")
         if syns:
@@ -773,6 +830,7 @@ def _is_primary_person(lemma: str) -> Any:
     res: Any = None
     try:
         from nltk.corpus import wordnet as wn
+
         person = wn.synset("person.n.01")
         syns = wn.synsets(lemma, pos="n")
         if syns:
@@ -799,6 +857,7 @@ def _is_location(lemma: str) -> Any:
     res: Any = None
     try:
         from nltk.corpus import wordnet as wn
+
         location = wn.synset("location.n.01")
         syns = wn.synsets(lemma, pos="n")
         if syns:
@@ -814,18 +873,60 @@ def _is_location(lemma: str) -> Any:
 # the title/role WORD itself. The lexicon covers the titles WordNet hypernymy misses (king/queen/
 # lord carry gender in the gloss, not the tree); WordNet (male.n.02 / female.n.02) is the fallback.
 _PRON_GENDER = {
-    "he": "m", "him": "m", "his": "m", "himself": "m",
-    "she": "f", "her": "f", "hers": "f", "herself": "f",
+    "he": "m",
+    "him": "m",
+    "his": "m",
+    "himself": "m",
+    "she": "f",
+    "her": "f",
+    "hers": "f",
+    "herself": "f",
 }
 _GENDERED_NOUNS = {
-    "king": "m", "lord": "m", "prince": "m", "duke": "m", "emperor": "m", "sir": "m", "mister": "m",
-    "father": "m", "husband": "m", "son": "m", "brother": "m", "uncle": "m", "nephew": "m",
-    "grandfather": "m", "boy": "m", "gentleman": "m", "knight": "m", "monk": "m", "priest": "m",
-    "master": "m", "widower": "m", "groom": "m", "bachelor": "m",
-    "queen": "f", "lady": "f", "princess": "f", "duchess": "f", "empress": "f", "madam": "f",
-    "mother": "f", "wife": "f", "daughter": "f", "sister": "f", "aunt": "f", "niece": "f",
-    "grandmother": "f", "girl": "f", "gentlewoman": "f", "nun": "f", "mistress": "f",
-    "maid": "f", "widow": "f", "bride": "f", "witch": "f",
+    "king": "m",
+    "lord": "m",
+    "prince": "m",
+    "duke": "m",
+    "emperor": "m",
+    "sir": "m",
+    "mister": "m",
+    "father": "m",
+    "husband": "m",
+    "son": "m",
+    "brother": "m",
+    "uncle": "m",
+    "nephew": "m",
+    "grandfather": "m",
+    "boy": "m",
+    "gentleman": "m",
+    "knight": "m",
+    "monk": "m",
+    "priest": "m",
+    "master": "m",
+    "widower": "m",
+    "groom": "m",
+    "bachelor": "m",
+    "queen": "f",
+    "lady": "f",
+    "princess": "f",
+    "duchess": "f",
+    "empress": "f",
+    "madam": "f",
+    "mother": "f",
+    "wife": "f",
+    "daughter": "f",
+    "sister": "f",
+    "aunt": "f",
+    "niece": "f",
+    "grandmother": "f",
+    "girl": "f",
+    "gentlewoman": "f",
+    "nun": "f",
+    "mistress": "f",
+    "maid": "f",
+    "widow": "f",
+    "bride": "f",
+    "witch": "f",
 }
 _GENDER_CACHE: Dict[str, Any] = {}
 
@@ -842,6 +943,7 @@ def _word_gender(lemma: str) -> Any:
     if res is None:
         try:
             from nltk.corpus import wordnet as wn
+
             male, female = wn.synset("male.n.02"), wn.synset("female.n.02")
             m = f = False
             for s in wn.synsets(key, pos="n"):
@@ -910,7 +1012,7 @@ def _bind_document_pronouns(trees: Sequence[Any]) -> List[Any]:
     antecedents: List[Entity] = []
     out: List[Any] = []
     for tree in trees:
-        used: set = set()   # antecedent lemmas already taken by a sibling pronoun (distinct)
+        used: set = set()  # antecedent lemmas already taken by a sibling pronoun (distinct)
 
         def bind(ent: Entity) -> Entity:
             if not _is_pronoun(ent):
@@ -921,8 +1023,7 @@ def _bind_document_pronouns(trees: Sequence[Any]) -> List[Any]:
             # first-person narration). Speaker/addressee attribution is handled upstream.
             if pron in _DEICTIC_PERSON or pron in _INDEFINITE_PRONOUN:
                 return ent
-            cands = [a for a in reversed(antecedents)
-                     if (getattr(a.head, "lemma", None) not in used)]
+            cands = [a for a in reversed(antecedents) if (getattr(a.head, "lemma", None) not in used)]
             if not cands:
                 return ent
             # Prefer a candidate whose gender is KNOWN and matches the pronoun (so "she" picks the
@@ -948,10 +1049,13 @@ def _bind_document_pronouns(trees: Sequence[Any]) -> List[Any]:
                 top_lemma = max(counts, key=lambda k: counts[k])
                 if top_lemma is not None and top_n >= 3 and top_n >= 2 * runner:
                     topic = next(
-                        (a for a in cands
-                         if getattr(a.head, "lemma", None) == top_lemma
-                         and _pron_agrees(pron, a)
-                         and (pg is None or _entity_gender(a) in (pg, None))),
+                        (
+                            a
+                            for a in cands
+                            if getattr(a.head, "lemma", None) == top_lemma
+                            and _pron_agrees(pron, a)
+                            and (pg is None or _entity_gender(a) in (pg, None))
+                        ),
                         None,
                     )
             pick = topic
@@ -998,24 +1102,29 @@ def _resolve_possessive_determiners(trees: Sequence[Any]) -> List[Any]:
         ents: List[Entity] = []
         _collect_entities(tree, ents)
         ents_sorted = sorted(ents, key=lambda e: getattr(e.head, "position", 0))
-        local_ante = list(antecedents)   # prior sentences, extended in-order below
+        local_ante = list(antecedents)  # prior sentences, extended in-order below
         repl: Dict[int, Entity] = {}
         for e in ents_sorted:
             span = getattr(e, "span", ()) or ()
             new_e = e
             det = str(span[0]).lower() if span else ""
-            if (e.possessor is None and len(span) >= 2
-                    and getattr(e.head, "pos", None) == "NOUN"
-                    and det in _RESOLVABLE_POSS_DET):
+            if (
+                e.possessor is None
+                and len(span) >= 2
+                and getattr(e.head, "pos", None) == "NOUN"
+                and det in _RESOLVABLE_POSS_DET
+            ):
                 # Sound antecedent = a CLEAN PROPER NAME carrying a matching gender TITLE-marker
                 # ("Lady Macbeth"→f, "King Duncan"→m). Names without a title carry no gender, so a
                 # gendered determiner abstains rather than guess; a gendered COMMON noun (the
                 # witches' "prophecy"→f, "king"→m) is not an individual referent; and a long run-on
                 # demiword (a parse error like "account macbeth king scotland macduff") is excluded
                 # by the span≤2 clean-name gate — a real titled name is "Title Name", not a run-on.
-                cands = [a for a in reversed(local_ante)
-                         if _is_proper(a) and a is not e
-                         and len(getattr(a, "span", ()) or ()) <= 2]
+                cands = [
+                    a
+                    for a in reversed(local_ante)
+                    if _is_proper(a) and a is not e and len(getattr(a, "span", ()) or ()) <= 2
+                ]
                 pg = _PRON_GENDER.get(det)
                 if pg is not None:
                     pick = next((a for a in cands if _entity_gender(a) == pg), None)
@@ -1023,8 +1132,7 @@ def _resolve_possessive_determiners(trees: Sequence[Any]) -> List[Any]:
                     pick = next((a for a in cands if _pron_agrees(det, a)), None)
                 if pick is not None:
                     rest = tuple(span[1:])
-                    new_e = replace(e, possessor=pick,
-                                    span=rest if len(rest) > 1 else ())
+                    new_e = replace(e, possessor=pick, span=rest if len(rest) > 1 else ())
                     repl[id(e)] = new_e
             local_ante.append(new_e)
         bound = _map_entities(tree, lambda ent: repl.get(id(ent), ent)) if repl else tree
@@ -1036,8 +1144,10 @@ def _resolve_possessive_determiners(trees: Sequence[Any]) -> List[Any]:
 
 
 def resolve_document(
-    trees: Sequence[Any], genealogy: GenealogyProvider | None = None,
-    genre: str | None = None, raw_text: str | None = None,
+    trees: Sequence[Any],
+    genealogy: GenealogyProvider | None = None,
+    genre: str | None = None,
+    raw_text: str | None = None,
 ) -> List[Any]:
     """Resolve a *document* — an ordered list of evaluated clause trees.
 
@@ -1078,9 +1188,7 @@ def resolve_document(
             sig = _signature(ent)
             if sig not in sig_thread:
                 sig_thread[sig] = tuple(
-                    genealogy.thread(
-                        _lookup_key(ent), getattr(ent.head, "pos", "") or "", _is_proper(ent)
-                    )
+                    genealogy.thread(_lookup_key(ent), getattr(ent.head, "pos", "") or "", _is_proper(ent))
                 )
 
     def annotate(ent: Entity) -> Entity:
@@ -1126,12 +1234,13 @@ class GroundingFlag:
     tree disagrees with itself, no cross-reference needed), 2 = cross-strand
     (a read and its grounding disagree). ``confidence`` is the residual coherence
     at the site (lower = weaker)."""
+
     entity_id: str
     lemma: str
     tier: int
-    kind: str          # "ungrounded" | "incomparable"
+    kind: str  # "ungrounded" | "incomparable"
     confidence: float
-    pos: str = ""      # spaCy POS of the flagged token — the triage covariate
+    pos: str = ""  # spaCy POS of the flagged token — the triage covariate
 
 
 def _strand_root(thread: Tuple[str, ...]) -> str:
@@ -1191,8 +1300,11 @@ def grounding_flags(node: Any, incomparable_threshold: float = 0.2) -> List[Grou
         else:
             grounded = bool(getattr(ent.head, "word_primitives", None)) or bool(ent.type_thread)
         if not grounded:
-            flags.append(GroundingFlag(ent.entity_id or "", ent.head.lemma, 2,
-                                       "ungrounded", 0.0, getattr(ent.head, "pos", "") or ""))
+            flags.append(
+                GroundingFlag(
+                    ent.entity_id or "", ent.head.lemma, 2, "ungrounded", 0.0, getattr(ent.head, "pos", "") or ""
+                )
+            )
 
     # Tier 1 — incomparable operands (same strand, share ~only the root).
     for pred in _walk_predicates(node):
@@ -1208,8 +1320,7 @@ def grounding_flags(node: Any, incomparable_threshold: float = 0.2) -> List[Grou
             head_a = getattr(a, "head", None)
             lemma_a = getattr(head_a, "lemma", "?")
             pos_a = getattr(head_a, "pos", "") or ""
-            flags.append(GroundingFlag(getattr(a, "entity_id", "") or "",
-                                       lemma_a, 1, "incomparable", j, pos_a))
+            flags.append(GroundingFlag(getattr(a, "entity_id", "") or "", lemma_a, 1, "incomparable", j, pos_a))
 
     return flags
 
@@ -1254,14 +1365,13 @@ class TriageResult:
     idiosyncratic to its site. ``concentration`` — Spearman ρ between per-class
     occurrence and flag counts: high ρ ⇒ flags spread proportionally (no
     systematic locus); lower ρ ⇒ flags concentrate (a hotspot exists)."""
+
     systematic: tuple
     snps: tuple
     concentration: float
 
 
-def triage_flags(
-    trees: Sequence[Any], min_support: int = 3, systematic_multiplier: float = 2.0
-) -> TriageResult:
+def triage_flags(trees: Sequence[Any], min_support: int = 3, systematic_multiplier: float = 2.0) -> TriageResult:
     """Split a corpus of flagged trees into systematic faults vs SNPs.
 
     ``trees`` are *resolved* trees (post resolve_references). For each, the

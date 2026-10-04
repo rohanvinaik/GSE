@@ -10,6 +10,7 @@ The hook contract matches ``NarrativeGraph.from_document(repair=...)``: ``[(t, p
 [(t, predicate), ...]``. The per-utterance envelopes ride in via the closure (``make_repair_hook``),
 not the predicate tuple — the parse-time mark carried forward to the trace-less seam.
 """
+
 from __future__ import annotations
 
 from collections import defaultdict
@@ -23,16 +24,23 @@ from .lens import AdditiveLens, Hole, Repair
 @dataclass
 class HealReport:
     """Provenance of one heal pass — what fired, what abstained, over how many statements."""
+
     seen: int = 0
-    repairs: List[tuple] = field(default_factory=list)   # (t, lens, note)
-    holes: List[tuple] = field(default_factory=list)     # (t, lens, reason)
+    repairs: List[tuple] = field(default_factory=list)  # (t, lens, note)
+    holes: List[tuple] = field(default_factory=list)  # (t, lens, reason)
 
     def summary(self) -> dict:
         from collections import Counter
+
         by_lens = Counter(l for _t, l, _n in self.repairs)
         by_hole = Counter(l for _t, l, _r in self.holes)
-        return {"seen": self.seen, "repaired": len(self.repairs), "holes": len(self.holes),
-                "by_lens": dict(by_lens), "by_hole": dict(by_hole)}
+        return {
+            "seen": self.seen,
+            "repaired": len(self.repairs),
+            "holes": len(self.holes),
+            "by_lens": dict(by_lens),
+            "by_hole": dict(by_hole),
+        }
 
 
 class Society:
@@ -41,9 +49,9 @@ class Society:
     def __init__(self, roster, memory=None, genealogy=None):
         self.roster = list(roster)
         self.memory = memory
-        self.genealogy = genealogy        # the GenealogyStore — the world strand for Layer 2 (optional)
+        self.genealogy = genealogy  # the GenealogyStore — the world strand for Layer 2 (optional)
         self.report = HealReport()
-        self.folds = {}                   # last pass's fold map (audit/inspection)
+        self.folds = {}  # last pass's fold map (audit/inspection)
 
     def _env(self, envelopes, t):
         return envelopes[t] if (envelopes and 0 <= t < len(envelopes)) else None
@@ -72,14 +80,14 @@ class Society:
                     if not lens.claims(pred, env, folds):
                         continue
                 except Exception:
-                    continue            # a lens that errors on a node simply does not claim it
+                    continue  # a lens that errors on a node simply does not claim it
                 res = lens.apply(pred, env, folds)
                 if isinstance(res, Repair):
                     node = res.node
                     self.report.repairs.append((t, res.lens, res.note))
                 elif isinstance(res, Hole):
                     self.report.holes.append((t, res.lens, res.reason))
-                break                   # one law per node — no cross-talk (inverse-brittleness)
+                break  # one law per node — no cross-talk (inverse-brittleness)
             out.append((t, node))
 
         # PHASE 2 — utterance-level additive lenses (a MISSING predication → emit the recovery).
@@ -110,6 +118,7 @@ def make_repair_hook(envelopes: Optional[List[Any]], roster=None, memory=None, g
     resolve. The returned hook carries them in its closure and exposes ``.society`` for the report.
     """
     from .lenses import default_roster
+
     society = Society(roster if roster is not None else default_roster(), memory, genealogy)
 
     def hook(timed: List[tuple]) -> List[tuple]:

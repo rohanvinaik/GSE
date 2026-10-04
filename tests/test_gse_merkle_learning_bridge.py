@@ -25,7 +25,9 @@ def make_lexeme(lemma="happy", decomposition=None):
         decomposition = [("GOOD", "evaluation", 1), ("FEEL", "state", 1)]
     return LexemeNode(
         node_id=f"{lemma}_adj_01",
-        lemma=lemma, pos="adj", sense_id="01",
+        lemma=lemma,
+        pos="adj",
+        sense_id="01",
         decomposition=decomposition,
         vector_positive=np.array([], dtype=np.uint16),
         vector_negative=np.array([], dtype=np.uint16),

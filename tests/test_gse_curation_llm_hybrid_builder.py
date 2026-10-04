@@ -50,6 +50,7 @@ def mk_builder(fresh_db):
 
 # ---------- BuilderStats ----------
 
+
 class TestBuilderStats:
     def test_defaults(self):
         s = BuilderStats()
@@ -57,8 +58,7 @@ class TestBuilderStats:
         assert s.errors == 0
 
     def test_str_format(self):
-        s = BuilderStats(words_processed=5, primitives_fast_filled=10,
-                         primitives_validated=3, primitives_corrected=1)
+        s = BuilderStats(words_processed=5, primitives_fast_filled=10, primitives_validated=3, primitives_corrected=1)
         result = str(s)
         assert "Processed: 5" in result
         assert "Fast-filled: 10" in result
@@ -67,6 +67,7 @@ class TestBuilderStats:
 
 
 # ---------- __init__ ----------
+
 
 class TestInit:
     def test_default_models(self, fresh_db):
@@ -99,6 +100,7 @@ class TestInit:
 
 
 # ---------- fast_match_bipolar ----------
+
 
 class TestFastMatchBipolar:
     def test_response_a(self, fresh_db):
@@ -153,6 +155,7 @@ class TestFastMatchBipolar:
 
 # ---------- fast_match_single ----------
 
+
 class TestFastMatchSingle:
     def test_yes(self, fresh_db):
         b = mk_builder(fresh_db)
@@ -198,6 +201,7 @@ class TestFastMatchSingle:
 
 # ---------- fast_decompose ----------
 
+
 class TestFastDecompose:
     def test_bipolar_pairs_processed(self, fresh_db):
         b = mk_builder(fresh_db)
@@ -209,6 +213,7 @@ class TestFastDecompose:
     def test_single_primitives_processed(self, fresh_db):
         # NOT is a single primitive
         from gse.curation.llm.primitive_matcher import SINGLE_PRIMITIVES
+
         b = mk_builder(fresh_db)
         b.fast_client.generate.return_value = "YES"
         # Take first single primitive
@@ -224,9 +229,11 @@ class TestFastDecompose:
 
 # ---------- get_missing_primitives ----------
 
+
 class TestGetMissingPrimitives:
     def test_all_missing(self, fresh_db):
         from gse.curation.schema import ALL_PRIMITIVES
+
         b = mk_builder(fresh_db)
         assert b.get_missing_primitives(1) == set(ALL_PRIMITIVES)
 
@@ -242,6 +249,7 @@ class TestGetMissingPrimitives:
 
 
 # ---------- validate_decomposition ----------
+
 
 class TestValidateDecomposition:
     def test_no_low_confidence_skips_validation(self, fresh_db):
@@ -300,9 +308,11 @@ class TestValidateDecomposition:
 
 # ---------- process_word ----------
 
+
 class TestProcessWord:
     def test_all_filled_returns_empty(self, fresh_db):
         from gse.curation.schema import ALL_PRIMITIVES
+
         b = mk_builder(fresh_db)
         # Fill all primitives
         for p in ALL_PRIMITIVES:
@@ -340,6 +350,7 @@ class TestProcessWord:
 
 # ---------- process_batch ----------
 
+
 class TestProcessBatch:
     def test_no_words(self, fresh_db):
         b = mk_builder(fresh_db)
@@ -359,6 +370,7 @@ class TestProcessBatch:
         b.conn.execute("INSERT INTO lexemes VALUES (1, 'x', 1)")
         # Fill almost all primitives (only 5 missing)
         from gse.curation.schema import ALL_PRIMITIVES
+
         for p in list(ALL_PRIMITIVES)[:67]:
             b.conn.execute(
                 "INSERT INTO primitive_values (lexeme_id, primitive, value, confidence, source) "
@@ -390,6 +402,7 @@ class TestProcessBatch:
 
 # ---------- close ----------
 
+
 class TestClose:
     def test_closes_conn(self, fresh_db):
         b = mk_builder(fresh_db)
@@ -400,12 +413,12 @@ class TestClose:
 
 # ---------- main ----------
 
+
 class TestMain:
     def test_default_batch_run(self, fresh_db, capsys):
         with patch("sys.argv", ["prog", "--db", fresh_db, "--limit", "0"]):
             with patch("gse.curation.llm.hybrid_builder.OllamaClient"):
-                with patch.object(HybridLexiconBuilder, "process_batch",
-                                  return_value=BuilderStats()):
+                with patch.object(HybridLexiconBuilder, "process_batch", return_value=BuilderStats()):
                     main()
         assert "HYBRID BUILD COMPLETE" in capsys.readouterr().out
 
@@ -423,8 +436,7 @@ class TestMain:
         conn.close()
         with patch("sys.argv", ["prog", "--db", fresh_db, "--word", "happy"]):
             with patch("gse.curation.llm.hybrid_builder.OllamaClient"):
-                with patch.object(HybridLexiconBuilder, "process_word",
-                                  return_value={"GOOD": 1}):
+                with patch.object(HybridLexiconBuilder, "process_word", return_value={"GOOD": 1}):
                     main()
         assert "happy" in capsys.readouterr().out
 

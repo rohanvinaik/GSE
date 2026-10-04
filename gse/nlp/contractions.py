@@ -20,15 +20,20 @@ truth is known. The *general* spell-check keeps this shape but swaps step-1's er
 model (edit-distance / keyboard / phonetic) and step-2's ranker (Jaccard of lexicon
 vectors); contractions exercise the pipeline end-to-end first.
 """
+
 from __future__ import annotations
 
 from typing import Any, List, Optional
 
 # Front-truncation error model: fragment → candidate expansions (default first).
 CONTRACTION_EXPANSIONS = {
-    "n't": ["not"], "'re": ["are"], "'ve": ["have"], "'ll": ["will"], "'m": ["am"],
-    "'d": ["would", "had"],   # ambiguous: modal vs perfect
-    "'s": ["is", "has"],      # ambiguous: copula vs perfect  (possessive: see note)
+    "n't": ["not"],
+    "'re": ["are"],
+    "'ve": ["have"],
+    "'ll": ["will"],
+    "'m": ["am"],
+    "'d": ["would", "had"],  # ambiguous: modal vs perfect
+    "'s": ["is", "has"],  # ambiguous: copula vs perfect  (possessive: see note)
 }
 
 
@@ -41,8 +46,7 @@ def _is_participle(tok: Any) -> bool:
     """A past-participle / perfect form — GSE's own lemmatizer marks it: a verb whose
     surface differs from its lemma (``gone``≠``go``, ``walked``≠``walk``). A base form
     (``go``==``go``) or a nominal is not."""
-    return (getattr(tok, "pos_", "") in ("VERB", "AUX")
-            and tok.text.lower() != tok.lemma_)
+    return getattr(tok, "pos_", "") in ("VERB", "AUX") and tok.text.lower() != tok.lemma_
 
 
 def resolve_contraction(fragment: str, following: Optional[Any]) -> Optional[str]:

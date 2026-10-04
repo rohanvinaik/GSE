@@ -254,9 +254,7 @@ class TestFindNearestLexemes:
 class TestComputeBankActivity:
     def test_zero_vector_empty(self, empty_db):
         decoder = GSEDecoder(db_path=empty_db)
-        result = decoder._compute_bank_activity(
-            SparseVector.zeros(decoder.word_basis.dimension)
-        )
+        result = decoder._compute_bank_activity(SparseVector.zeros(decoder.word_basis.dimension))
         assert result == {}
         decoder.close()
 

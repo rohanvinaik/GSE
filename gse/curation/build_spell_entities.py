@@ -27,6 +27,7 @@ Rebuild:  python -m gse.curation.build_spell_entities
 Absent file => the entity leg degrades to a no-op (same contract as the marisa/HDC
 caches).
 """
+
 from __future__ import annotations
 
 import os
@@ -59,12 +60,10 @@ def _common_word(tok: str) -> bool:
 
 def build(genealogy_db: str = _GENEALOGY, out_db: str = _OUT) -> int:
     src = sqlite3.connect(f"file:{genealogy_db}?mode=ro", uri=True)
-    rows = src.execute(
-        "SELECT label, MAX(pagerank) FROM world_thread WHERE src='label' GROUP BY label"
-    ).fetchall()
+    rows = src.execute("SELECT label, MAX(pagerank) FROM world_thread WHERE src='label' GROUP BY label").fetchall()
     src.close()
 
-    names: dict = {}          # name -> [(pagerank, canon), ...]
+    names: dict = {}  # name -> [(pagerank, canon), ...]
     n_labels = 0
     for label, pagerank in rows:
         if not label:
@@ -94,7 +93,7 @@ def build(genealogy_db: str = _GENEALOGY, out_db: str = _OUT) -> int:
         seen_canon = set()
         for pagerank, canon in cands:
             if canon in seen_canon:
-                continue                      # one row per (name, entity)
+                continue  # one row per (name, entity)
             seen_canon.add(canon)
             batch.append((name, canon, pagerank))
             n_rows += 1
@@ -109,8 +108,10 @@ def build(genealogy_db: str = _GENEALOGY, out_db: str = _OUT) -> int:
     conn.execute("INSERT INTO meta VALUES('n_entities', ?)", (str(n_labels),))
     conn.commit()
     conn.close()
-    print(f"spell_entities.db: {n_rows:,} name rows / {len(names):,} distinct names "
-          f"(from {n_labels:,} canonical labels; aliases never read)")
+    print(
+        f"spell_entities.db: {n_rows:,} name rows / {len(names):,} distinct names "
+        f"(from {n_labels:,} canonical labels; aliases never read)"
+    )
     return n_rows
 
 

@@ -13,6 +13,7 @@ Resolve: lone survivor → commit; ≥2 within EPS → bifurcate; none → liter
 carries provenance. Two faces: ``repair(sent)`` is the callable (this module); the
 encode-time automatic step wires this in at stage 3 (deliberately not done here).
 """
+
 from __future__ import annotations
 
 from collections import Counter
@@ -28,14 +29,22 @@ EPS = 0.10  # "comparable" band for bifurcation (empirical placeholder)
 
 EXEMPLARS = {
     "EVENT_TRANS": [
-        "Macbeth defeats Cawdor.", "Duncan executes Cawdor.", "Macduff kills Macbeth.",
-        "Barry kills Katya.", "David fights Goliath.", "Archer loves Katya.",
-        "Estonia insulted Russia.", "Macbeth murdered Duncan.",
+        "Macbeth defeats Cawdor.",
+        "Duncan executes Cawdor.",
+        "Macduff kills Macbeth.",
+        "Barry kills Katya.",
+        "David fights Goliath.",
+        "Archer loves Katya.",
+        "Estonia insulted Russia.",
+        "Macbeth murdered Duncan.",
     ],
     "EVENT_INTRANS": ["Goliath falls.", "Duncan goes to bed.", "The witches danced."],
     "COPULA": [
-        "Duncan is a king.", "Macbeth is a thane.", "Macbeth is a noble.",
-        "Dunsinane is a castle.", "Birnam Wood is a forest.",
+        "Duncan is a king.",
+        "Macbeth is a thane.",
+        "Macbeth is a noble.",
+        "Dunsinane is a castle.",
+        "Birnam Wood is a forest.",
     ],
 }
 EXPECT = {
@@ -69,7 +78,7 @@ class Prototype:
 
 @dataclass
 class Candidate:
-    roles: dict          # role -> native token
+    roles: dict  # role -> native token
     frame: str
     shape: float
     filler: float
@@ -104,15 +113,13 @@ class NativeRepair:
         return set(wp.keys())
 
     def _skeleton(self, sent: str) -> dict:
-        return {r: (t.lemma_.lower(), self._prims(t.lemma_))
-                for r, t in self._roles_of(self.nlp(sent)).items()}
+        return {r: (t.lemma_.lower(), self._prims(t.lemma_)) for r, t in self._roles_of(self.nlp(sent)).items()}
 
     # --- prototype derivation (centroid; empirical) --------------------------
     def _derive(self) -> dict:
         protos = {}
         for frame, sents in EXEMPLARS.items():
-            clean = [self._skeleton(s) for s in sents
-                     if EXPECT[frame].issubset(self._skeleton(s))]
+            clean = [self._skeleton(s) for s in sents if EXPECT[frame].issubset(self._skeleton(s))]
             n = max(len(clean), 1)
             slotcount: Counter = Counter()
             fillers: dict = {}
@@ -140,9 +147,11 @@ class NativeRepair:
 
     def _score_against(self, roles_prims: dict) -> list:
         present = set(roles_prims) & ARGUMENT_ROLES
-        return [(p.name, 1.0, self._filler_fit(roles_prims, p))
-                for p in self.protos.values()
-                if (p.required & ARGUMENT_ROLES) == present]
+        return [
+            (p.name, 1.0, self._filler_fit(roles_prims, p))
+            for p in self.protos.values()
+            if (p.required & ARGUMENT_ROLES) == present
+        ]
 
     # --- enumeration repair (positional pivots + flankers) -------------------
     def _enumerate(self, doc) -> list:
@@ -162,7 +171,7 @@ class NativeRepair:
             if pivot.pos_ == "PUNCT" or not _has_verb_sense(pivot.lemma_):
                 continue
             pre, post = nearest(pivot.i, -1), nearest(pivot.i, +1)
-            is_copula = pivot.lemma_.lower() == "be"   # "be" is no content transitive verb
+            is_copula = pivot.lemma_.lower() == "be"  # "be" is no content transitive verb
             roles = {"SYN_PRED": pivot}
             if pre is not None:
                 roles["SYN_SUBJ"] = pre
@@ -182,11 +191,10 @@ class NativeRepair:
         if pred is None:
             return False
         if not _has_verb_sense(pred.lemma_):
-            return True                                   # wrong pivot (no verb sense)
-        event_no_obj = (frame.startswith("EVENT_")
-                        and "SYN_OBJ" not in self.protos[frame].required)
+            return True  # wrong pivot (no verb sense)
+        event_no_obj = frame.startswith("EVENT_") and "SYN_OBJ" not in self.protos[frame].required
         if event_no_obj and _has_transitive_frame(pred.lemma_):
-            for t in doc:                                  # a post-pred nominal with no OBJ role
+            for t in doc:  # a post-pred nominal with no OBJ role
                 if t.i <= pred.i or t.pos_ in ("PUNCT", "DET"):
                     continue
                 if _entity_like(t):
@@ -200,22 +208,31 @@ class NativeRepair:
         literal = {r: self._prims(t.lemma_) for r, t in roles_tok.items()}
         lit_match = self._score_against(literal)
         if lit_match and not self._false_clean_suspect(doc, lit_match[0][0], roles_tok):
-            return {"verdict": "clean", "frame": lit_match[0][0],
-                    "roles": {r: t.text for r, t in roles_tok.items()}, "provenance": []}
+            return {
+                "verdict": "clean",
+                "frame": lit_match[0][0],
+                "roles": {r: t.text for r, t in roles_tok.items()},
+                "provenance": [],
+            }
         cands = sorted(self._enumerate(doc), key=lambda c: -c.score)
         if not cands:
-            return {"verdict": "fallback_literal",
-                    "roles": {r: t.text for r, t in roles_tok.items()},
-                    "provenance": ["repair: degraded, no prototype candidate — literal kept"]}
+            return {
+                "verdict": "fallback_literal",
+                "roles": {r: t.text for r, t in roles_tok.items()},
+                "provenance": ["repair: degraded, no prototype candidate — literal kept"],
+            }
         top = cands[0]
         tied = [c for c in cands if top.score - c.score <= EPS and c.frame != top.frame]
         verdict = "bifurcate" if tied else "commit"
         return {
-            "verdict": verdict, "frame": top.frame, "score": round(top.score, 3),
+            "verdict": verdict,
+            "frame": top.frame,
+            "score": round(top.score, 3),
             "roles": {r: t.text for r, t in top.roles.items()},
-            "provenance": ["repair(%s): literal %s → %s %s"
-                           % (verdict, sorted(literal), top.frame,
-                              {r: t.text for r, t in top.roles.items()})],
+            "provenance": [
+                "repair(%s): literal %s → %s %s"
+                % (verdict, sorted(literal), top.frame, {r: t.text for r, t in top.roles.items()})
+            ],
         }
 
     def repair_syn_map(self, doc, syn_map: Dict[int, str]) -> Dict[int, str]:
@@ -239,15 +256,15 @@ class NativeRepair:
         literal = {r: self._prims(t.lemma_) for r, t in roles_tok.items()}
         lit_match = self._score_against(literal)
         if lit_match and not self._false_clean_suspect(doc, lit_match[0][0], roles_tok):
-            return syn_map                                  # clean → untouched
+            return syn_map  # clean → untouched
         cands = sorted(self._enumerate(doc), key=lambda c: -c.score)
         if not cands:
-            return syn_map                                  # degraded, no candidate → literal
+            return syn_map  # degraded, no candidate → literal
         top = cands[0]
         if [c for c in cands if top.score - c.score <= EPS and c.frame != top.frame]:
-            return syn_map                                  # bifurcate → don't override
+            return syn_map  # bifurcate → don't override
         patched = {i: r for i, r in syn_map.items() if r not in ARGUMENT_ROLES}
-        for r, t in top.roles.items():                      # commit: install repaired roles
+        for r, t in top.roles.items():  # commit: install repaired roles
             patched[t.i] = r
         return patched
 
@@ -259,13 +276,15 @@ def _main() -> None:
         print("  %-14s required=%s  (n=%d)" % (p.name, sorted(p.required), p.n_clean))
     print("\n=== repair runs ===")
     for sent in [
-        "Macbeth murders Duncan.", "Duncan compliments Macbeth.",
-        "Macbeth defeats Cawdor.", "Goliath falls.", "Duncan is a king.",
+        "Macbeth murders Duncan.",
+        "Duncan compliments Macbeth.",
+        "Macbeth defeats Cawdor.",
+        "Goliath falls.",
+        "Duncan is a king.",
         "The envious soldier murdered the old king.",
     ]:
         out = rep.repair(sent)
-        print("\n%r\n   verdict=%s frame=%s roles=%s"
-              % (sent, out["verdict"], out.get("frame"), out.get("roles")))
+        print("\n%r\n   verdict=%s frame=%s roles=%s" % (sent, out["verdict"], out.get("frame"), out.get("roles")))
 
 
 if __name__ == "__main__":

@@ -8,6 +8,7 @@ never destroys real information" into a measured rate, with the actual failures 
 
 Run:  python scripts/adversarial_destruction.py
 """
+
 import sys
 import time
 
@@ -15,7 +16,7 @@ sys.path.insert(0, "/Users/rohanvinaik/Projects/gse")
 from gse.nlp.spellcheck import _DEFAULT_LEXICON as LX
 from gse.nlp.spellcheck import WORD_COMMIT_MARGIN, Candidate, _edits1, looks_non_lexical
 
-REF = "/usr/share/dict/web2"   # ~234k clean English words, independent of our build
+REF = "/usr/share/dict/web2"  # ~234k clean English words, independent of our build
 
 
 def edit1_commit(w):
@@ -49,40 +50,42 @@ def main():
     # danger zone: a valid word the corrector neither recognizes nor shape-gates
     at_risk = [w for w in ref if not LX.grounds(w) and not looks_non_lexical(w)]
     print(f"reference (clean English, {REF}): {len(ref):,} words", flush=True)
-    print(f"danger zone (valid, UNrecognized, ordinary-shaped): {len(at_risk):,} "
-          f"({len(at_risk)/len(ref):.1%} of reference)", flush=True)
+    print(
+        f"danger zone (valid, UNrecognized, ordinary-shaped): {len(at_risk):,} "
+        f"({len(at_risk) / len(ref):.1%} of reference)",
+        flush=True,
+    )
     print(f"scanning ALL {len(at_risk):,} danger-zone words (edit-1 destruction)…", flush=True)
 
     t0 = time.time()
-    sample = at_risk                                  # full coverage, no sampling
+    sample = at_risk  # full coverage, no sampling
     destroyed = []
     for w in sample:
         c = edit1_commit(w)
         if c and c != w:
             destroyed.append((w, c))
-    dz_rate = len(destroyed) / max(1, len(sample))      # destruction | in danger zone
-    print(f"\nDESTROYED (valid word -> a DIFFERENT word): {len(destroyed):,} / {len(sample):,}",
-          flush=True)
+    dz_rate = len(destroyed) / max(1, len(sample))  # destruction | in danger zone
+    print(f"\nDESTROYED (valid word -> a DIFFERENT word): {len(destroyed):,} / {len(sample):,}", flush=True)
     print(f"  destruction rate WITHIN danger zone : {dz_rate:.2%}")
-    print(f"  unweighted rate over ALL of web2    : {len(destroyed)/len(ref):.4%}"
-          f"  (web2 = Webster's 1934, archaic-heavy)")
-    print(f"  (scanned {len(at_risk):,} danger-zone words in {time.time()-t0:.0f}s)")
+    print(
+        f"  unweighted rate over ALL of web2    : {len(destroyed) / len(ref):.4%}"
+        f"  (web2 = Webster's 1934, archaic-heavy)"
+    )
+    print(f"  (scanned {len(at_risk):,} danger-zone words in {time.time() - t0:.0f}s)")
 
     # frequency-WEIGHTED rate — the number that matters: destruction as a fraction of
     # real word-usage, not of dictionary entries. Obscure archaisms have ~0 weight.
     import sqlite3
+
     try:
         conn = sqlite3.connect("data/frequency.db")
-        wt = {w.lower(): float(x) for w, x in
-              conn.execute("SELECT word, weight FROM frequency")}
+        wt = {w.lower(): float(x) for w, x in conn.execute("SELECT word, weight FROM frequency")}
         destroyed_set = {w for w, _ in destroyed}
         denom = sum(wt.get(w, 0.0) for w in ref)
         numer = sum(wt.get(w, 0.0) for w in destroyed_set)
-        print(f"\n  FREQUENCY-WEIGHTED destruction (by real usage): {numer/denom:.5%}"
-              f"  <- the real-world rate")
+        print(f"\n  FREQUENCY-WEIGHTED destruction (by real usage): {numer / denom:.5%}  <- the real-world rate")
         in_freq = sum(1 for w, _ in destroyed if w in wt)
-        print(f"  destroyed words that even appear in a real-usage frequency list: "
-              f"{in_freq}/{len(destroyed)}")
+        print(f"  destroyed words that even appear in a real-usage frequency list: {in_freq}/{len(destroyed)}")
     except Exception as e:
         print("  (frequency weighting skipped:", e, ")")
 

@@ -47,6 +47,7 @@ def mk_pc(confidence=0.9, conflicting=None, status="auto_apply"):
 
 # ---------- calculate_constraint_confidence ----------
 
+
 class TestCalculateConstraintConfidence:
     def test_no_evidence_returns_zero(self):
         assert calculate_constraint_confidence([], []) == 0.0
@@ -94,9 +95,7 @@ class TestCalculateConstraintConfidence:
 
     def test_source_bonus_three_sources_no_conflict(self):
         # 3 unique sources → bonus = min(0.1*2, 0.2) = 0.2
-        sources = [mk_sm(source_name="verbnet"),
-                   mk_sm(source_name="framenet"),
-                   mk_sm(source_name="propbank")]
+        sources = [mk_sm(source_name="verbnet"), mk_sm(source_name="framenet"), mk_sm(source_name="propbank")]
         result = calculate_constraint_confidence(sources, [])
         # base = 1.0, plus bonus capped at 1.0
         assert result == 1.0
@@ -127,13 +126,12 @@ class TestCalculateConstraintConfidence:
     def test_source_bonus_two_unique_sources(self):
         # 2 unique sources → bonus = min(0.1 * 1, 0.2) = 0.1
         # base = 1.0 → capped at 1.0
-        result = calculate_constraint_confidence(
-            [mk_sm(source_name="verbnet"), mk_sm(source_name="framenet")], []
-        )
+        result = calculate_constraint_confidence([mk_sm(source_name="verbnet"), mk_sm(source_name="framenet")], [])
         assert result == 1.0
 
 
 # ---------- calculate_overall_word_confidence ----------
+
 
 class TestCalculateOverallWordConfidence:
     def test_empty_constraints_returns_zero(self):
@@ -167,9 +165,7 @@ class TestCalculateOverallWordConfidence:
             "BAD": mk_pc(confidence=0.0),  # excluded
         }
         # avg = 0.8 (only GOOD counted)
-        result = calculate_overall_word_confidence(
-            constraints, ["verbnet"] * 11, total_sources=11
-        )
+        result = calculate_overall_word_confidence(constraints, ["verbnet"] * 11, total_sources=11)
         assert result == pytest.approx(0.8, abs=0.001)
 
     def test_conflict_penalty(self):
@@ -178,18 +174,14 @@ class TestCalculateOverallWordConfidence:
         c1 = mk_pc(confidence=1.0, conflicting=[])
         c2 = mk_pc(confidence=1.0, conflicting=["x"])
         constraints = {"A": c1, "B": c2}
-        result = calculate_overall_word_confidence(
-            constraints, [f"s{i}" for i in range(11)], total_sources=11
-        )
+        result = calculate_overall_word_confidence(constraints, [f"s{i}" for i in range(11)], total_sources=11)
         # avg=1.0, factor=1.0, penalty=0.85 → 0.85
         assert result == pytest.approx(0.85, abs=0.001)
 
     def test_clamps_above_one(self):
         # Even with high inputs, result clamped to 1.0
         constraints = {"GOOD": mk_pc(confidence=1.0)}
-        result = calculate_overall_word_confidence(
-            constraints, [f"s{i}" for i in range(11)], total_sources=11
-        )
+        result = calculate_overall_word_confidence(constraints, [f"s{i}" for i in range(11)], total_sources=11)
         assert result <= 1.0
 
     def test_returns_zero_when_all_have_zero_conf(self):
@@ -202,9 +194,7 @@ class TestCalculateOverallWordConfidence:
 
     def test_rounded_to_three(self):
         constraints = {"GOOD": mk_pc(confidence=0.777)}
-        result = calculate_overall_word_confidence(
-            constraints, [f"s{i}" for i in range(11)], total_sources=11
-        )
+        result = calculate_overall_word_confidence(constraints, [f"s{i}" for i in range(11)], total_sources=11)
         s = repr(result)
         if "." in s:
             decimals = s.split(".")[1]
@@ -212,6 +202,7 @@ class TestCalculateOverallWordConfidence:
 
 
 # ---------- confidence_to_status ----------
+
 
 class TestConfidenceToStatus:
     def test_conflict_always_flag_review(self):
@@ -255,9 +246,7 @@ class TestConfidenceToStatus:
 
     def test_custom_min_sufficient(self):
         # raise min_sufficient to 0.5 → 0.4 becomes insufficient
-        assert confidence_to_status(
-            0.4, has_conflict=False, min_sufficient=0.5
-        ) == "insufficient"
+        assert confidence_to_status(0.4, has_conflict=False, min_sufficient=0.5) == "insufficient"
 
 
 if __name__ == "__main__":

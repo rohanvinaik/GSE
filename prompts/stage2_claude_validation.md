@@ -103,18 +103,18 @@ Extract the issues into structured batches for Qwen:
 import sqlite3
 import json
 
-conn = sqlite3.connect('data/lexicon.db')
+conn = sqlite3.connect("data/lexicon.db")
 
 # Extract issues by category
-component_issues = conn.execute('''
+component_issues = conn.execute("""
     SELECT l.id, l.lemma, l.pos, l.component_type, l.operator_type
     FROM lexemes l
     WHERE l.component_type IS NULL
        OR (l.component_type = 'OPERATOR' AND l.operator_type IS NULL)
     LIMIT 100
-''').fetchall()
+""").fetchall()
 
-syn_issues = conn.execute('''
+syn_issues = conn.execute("""
     SELECT l.id, l.lemma, l.pos, 'SYN_SUBJ' as missing
     FROM lexemes l
     WHERE l.pos IN ('NOUN', 'NN', 'NNS', 'NNP', 'NNPS')
@@ -123,21 +123,17 @@ syn_issues = conn.execute('''
         WHERE pv.lexeme_id = l.id AND pv.primitive = 'SYN_SUBJ'
     )
     LIMIT 100
-''').fetchall()
+""").fetchall()
 
 # Format for Qwen prompt
 batch = {
-    'component_fixes': [
-        {'id': r[0], 'lemma': r[1], 'pos': r[2], 'current_type': r[3], 'current_op': r[4]}
-        for r in component_issues
+    "component_fixes": [
+        {"id": r[0], "lemma": r[1], "pos": r[2], "current_type": r[3], "current_op": r[4]} for r in component_issues
     ],
-    'syn_fixes': [
-        {'id': r[0], 'lemma': r[1], 'pos': r[2], 'missing_dim': r[3]}
-        for r in syn_issues
-    ]
+    "syn_fixes": [{"id": r[0], "lemma": r[1], "pos": r[2], "missing_dim": r[3]} for r in syn_issues],
 }
 
-with open('data/stage3_input_batch.json', 'w') as f:
+with open("data/stage3_input_batch.json", "w") as f:
     json.dump(batch, f, indent=2)
 ```
 

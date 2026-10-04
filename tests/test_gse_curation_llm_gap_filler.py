@@ -43,6 +43,7 @@ def fresh_db(tmp_path):
 
 # ---------- NEED_LLM ----------
 
+
 class TestNeedLLM:
     def test_contains_bad(self):
         assert "BAD" in NEED_LLM
@@ -60,6 +61,7 @@ class TestNeedLLM:
 
 # ---------- BIPOLAR_INFERENCE ----------
 
+
 class TestBipolarInference:
     def test_good_bad_inferable(self):
         assert BIPOLAR_INFERENCE[("GOOD", "BAD")] == "GOOD"
@@ -76,6 +78,7 @@ class TestBipolarInference:
 
 # ---------- SYSTEM_PROMPT ----------
 
+
 class TestSystemPrompt:
     def test_mentions_options(self):
         assert "YES" in SYSTEM_PROMPT
@@ -84,6 +87,7 @@ class TestSystemPrompt:
 
 
 # ---------- get_single_prompt ----------
+
 
 class TestGetSinglePrompt:
     def test_includes_word(self):
@@ -123,6 +127,7 @@ class TestGetSinglePrompt:
 
 # ---------- __init__ ----------
 
+
 class TestInit:
     def test_basic(self, fresh_db):
         with patch("gse.curation.llm.gap_filler.OllamaClient"):
@@ -144,6 +149,7 @@ class TestInit:
 
 # ---------- get_external_primitives ----------
 
+
 class TestGetExternalPrimitives:
     def test_empty(self, fresh_db):
         with patch("gse.curation.llm.gap_filler.OllamaClient"):
@@ -153,21 +159,15 @@ class TestGetExternalPrimitives:
     def test_returns_non_llm(self, fresh_db):
         with patch("gse.curation.llm.gap_filler.OllamaClient"):
             g = GapFiller(db_path=fresh_db)
-            g.conn.execute(
-                "INSERT INTO primitive_values VALUES (1, 'GOOD', 1, 0.9, 'verbnet')"
-            )
+            g.conn.execute("INSERT INTO primitive_values VALUES (1, 'GOOD', 1, 0.9, 'verbnet')")
             g.conn.commit()
             assert g.get_external_primitives(1) == {"GOOD": 1}
 
     def test_excludes_llm_sources(self, fresh_db):
         with patch("gse.curation.llm.gap_filler.OllamaClient"):
             g = GapFiller(db_path=fresh_db)
-            g.conn.execute(
-                "INSERT INTO primitive_values VALUES (1, 'GOOD', 1, 0.9, 'verbnet')"
-            )
-            g.conn.execute(
-                "INSERT INTO primitive_values VALUES (1, 'BAD', 1, 0.7, 'llm:qwen')"
-            )
+            g.conn.execute("INSERT INTO primitive_values VALUES (1, 'GOOD', 1, 0.9, 'verbnet')")
+            g.conn.execute("INSERT INTO primitive_values VALUES (1, 'BAD', 1, 0.7, 'llm:qwen')")
             g.conn.commit()
             result = g.get_external_primitives(1)
             assert "GOOD" in result
@@ -175,6 +175,7 @@ class TestGetExternalPrimitives:
 
 
 # ---------- infer_bipolar_counterpart ----------
+
 
 class TestInferBipolarCounterpart:
     def test_empty(self, fresh_db):
@@ -214,6 +215,7 @@ class TestInferBipolarCounterpart:
 
 # ---------- get_primitives_to_query ----------
 
+
 class TestGetPrimitivesToQuery:
     def test_default_returns_need_llm(self, fresh_db):
         with patch("gse.curation.llm.gap_filler.OllamaClient"):
@@ -226,9 +228,7 @@ class TestGetPrimitivesToQuery:
         with patch("gse.curation.llm.gap_filler.OllamaClient"):
             g = GapFiller(db_path=fresh_db)
             # Insert GOOD external → BAD inferred → removed from to_query
-            g.conn.execute(
-                "INSERT INTO primitive_values VALUES (1, 'GOOD', 1, 0.9, 'verbnet')"
-            )
+            g.conn.execute("INSERT INTO primitive_values VALUES (1, 'GOOD', 1, 0.9, 'verbnet')")
             g.conn.commit()
             result = g.get_primitives_to_query(1)
             assert "BAD" not in result
@@ -236,15 +236,14 @@ class TestGetPrimitivesToQuery:
     def test_removes_already_done(self, fresh_db):
         with patch("gse.curation.llm.gap_filler.OllamaClient"):
             g = GapFiller(db_path=fresh_db)
-            g.conn.execute(
-                "INSERT INTO primitive_values VALUES (1, 'BAD', 1, 0.7, 'llm:qwen')"
-            )
+            g.conn.execute("INSERT INTO primitive_values VALUES (1, 'BAD', 1, 0.7, 'llm:qwen')")
             g.conn.commit()
             result = g.get_primitives_to_query(1)
             assert "BAD" not in result
 
 
 # ---------- query_primitive ----------
+
 
 class TestQueryPrimitive:
     def test_yes_returns_1(self, fresh_db):
@@ -298,23 +297,20 @@ class TestQueryPrimitive:
 
 # ---------- process_word ----------
 
+
 class TestProcessWord:
     def test_stores_inferred(self, fresh_db):
         with patch("gse.curation.llm.gap_filler.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = "NO"
             g = GapFiller(db_path=fresh_db)
             # Insert GOOD=1 external → BAD inferred=0
-            g.conn.execute(
-                "INSERT INTO primitive_values VALUES (1, 'GOOD', 1, 0.9, 'verbnet')"
-            )
+            g.conn.execute("INSERT INTO primitive_values VALUES (1, 'GOOD', 1, 0.9, 'verbnet')")
             g.conn.commit()
             result = g.process_word(1, "happy")
             # BAD should be inferred as 0
             assert result.get("BAD") == 0
             # DB should have entry with source 'inferred:bipolar'
-            cursor = g.conn.execute(
-                "SELECT source FROM primitive_values WHERE primitive='BAD'"
-            )
+            cursor = g.conn.execute("SELECT source FROM primitive_values WHERE primitive='BAD'")
             sources = [r[0] for r in cursor.fetchall()]
             assert "inferred:bipolar" in sources
 
@@ -324,14 +320,13 @@ class TestProcessWord:
             g = GapFiller(db_path=fresh_db)
             result = g.process_word(1, "happy")
             # All NEED_LLM primitives should be queried and stored
-            cursor = g.conn.execute(
-                "SELECT COUNT(*) FROM primitive_values WHERE source LIKE 'llm:%'"
-            )
+            cursor = g.conn.execute("SELECT COUNT(*) FROM primitive_values WHERE source LIKE 'llm:%'")
             count = cursor.fetchone()[0]
             assert count == len(NEED_LLM)
 
 
 # ---------- process_batch ----------
+
 
 class TestProcessBatch:
     def test_empty(self, fresh_db):
@@ -355,9 +350,7 @@ class TestProcessBatch:
             MockClient.return_value.generate.return_value = "NO"
             g = GapFiller(db_path=fresh_db)
             for i in range(5):
-                g.conn.execute(
-                    "INSERT INTO lexemes VALUES (?, ?, ?)", (i, f"w{i}", i + 1)
-                )
+                g.conn.execute("INSERT INTO lexemes VALUES (?, ?, ?)", (i, f"w{i}", i + 1))
             g.conn.commit()
             stats = g.process_batch(limit=2)
             assert stats["processed"] == 2
@@ -367,9 +360,7 @@ class TestProcessBatch:
             MockClient.return_value.generate.return_value = "NO"
             g = GapFiller(db_path=fresh_db)
             for i in range(5):
-                g.conn.execute(
-                    "INSERT INTO lexemes VALUES (?, ?, ?)", (i, f"w{i}", i + 1)
-                )
+                g.conn.execute("INSERT INTO lexemes VALUES (?, ?, ?)", (i, f"w{i}", i + 1))
             g.conn.commit()
             stats = g.process_batch(start_rank=3)
             # Starts at rank 3 → 3 words (ranks 3, 4, 5)
@@ -377,6 +368,7 @@ class TestProcessBatch:
 
 
 # ---------- close ----------
+
 
 class TestClose:
     def test_closes_conn(self, fresh_db):
@@ -390,12 +382,14 @@ class TestClose:
 
 # ---------- main ----------
 
+
 class TestMain:
     def test_default_runs_batch(self, fresh_db, capsys):
         with patch("sys.argv", ["prog", "--db", fresh_db, "--limit", "0"]):
             with patch("gse.curation.llm.gap_filler.OllamaClient"):
-                with patch.object(GapFiller, "process_batch",
-                                  return_value={"processed": 0, "inferred": 0, "llm_queries": 0}):
+                with patch.object(
+                    GapFiller, "process_batch", return_value={"processed": 0, "inferred": 0, "llm_queries": 0}
+                ):
                     main()
         assert "GAP FILLING COMPLETE" in capsys.readouterr().out
 

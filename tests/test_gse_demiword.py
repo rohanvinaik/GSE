@@ -39,8 +39,7 @@ def test_compound_proper_name_is_one_demiword(encoder):
 
 
 def test_demiword_distinct_from_bare_head(encoder):
-    tree = evaluate_tree(resolve(from_trace(
-        encoder.encode("Lady Macbeth persuaded Macbeth to kill the king"))))
+    tree = evaluate_tree(resolve(from_trace(encoder.encode("Lady Macbeth persuaded Macbeth to kill the king"))))
     r = resolve_references(tree)
     assert isinstance(r, Control)
     # "Lady Macbeth" (subject) ≠ "Macbeth" (controller): distinct ids.
@@ -53,7 +52,7 @@ def test_demiword_distinct_from_bare_head(encoder):
 def test_demiword_emits_full_span(encoder):
     node = emit(evaluate_tree(resolve(from_trace(encoder.encode("Lady Macbeth sang")))))
     assert node["op"] == "EVENT"
-    assert node["args"][0] == "lady macbeth"      # not bare "macbeth"
+    assert node["args"][0] == "lady macbeth"  # not bare "macbeth"
 
 
 def test_single_token_has_no_span(encoder):
@@ -62,8 +61,9 @@ def test_single_token_has_no_span(encoder):
 
 
 def test_span_round_trips_serialization():
-    e = Entity(head=Atom(lemma="macbeth", word_primitives={}, role=None, position=1, pos="PROPN"),
-               span=("lady", "macbeth"))
+    e = Entity(
+        head=Atom(lemma="macbeth", word_primitives={}, role=None, position=1, pos="PROPN"), span=("lady", "macbeth")
+    )
     back = from_dict(to_dict(e))
     assert back.span == ("lady", "macbeth")
     assert json.loads(json.dumps(to_dict(e)))["span"] == ["lady", "macbeth"]
@@ -81,11 +81,10 @@ def test_demiword_grounds_via_span(encoder):
     from gse.symbolic import GenealogyStore
 
     with GenealogyStore() as store:
-        tree = resolve_references(
-            evaluate_tree(resolve(from_trace(encoder.encode("Mike likes ice cream")))), store)
+        tree = resolve_references(evaluate_tree(resolve(from_trace(encoder.encode("Mike likes ice cream")))), store)
         node = emit(tree)
         ic = [r for r in _all_refs(node) if r["lemma"] == "ice cream"]
-        assert ic and ic[0]["type_thread"][-1] == "ice_cream"   # the MWE entry, not "cream"
+        assert ic and ic[0]["type_thread"][-1] == "ice_cream"  # the MWE entry, not "cream"
 
 
 @pytest.mark.skipif(not _DB.exists(), reason="genealogy.db not built")
@@ -96,16 +95,17 @@ def test_lexicalized_adj_noun_promotes_to_demiword(encoder):
 
     def first_entity(tree, store):
         from gse.symbolic import entities
+
         return entities(resolve_references(tree, store))
 
     with GenealogyStore() as store:
         hot = evaluate_tree(resolve(from_trace(encoder.encode("Mike ate a hot dog"))))
         hot_ents = first_entity(hot, store)
-        assert any(e.span == ("hot", "dog") for e in hot_ents)     # promoted
+        assert any(e.span == ("hot", "dog") for e in hot_ents)  # promoted
 
         big = evaluate_tree(resolve(from_trace(encoder.encode("Mike saw a big dog"))))
         big_ents = first_entity(big, store)
-        assert all(e.span != ("big", "dog") for e in big_ents)     # not promoted
+        assert all(e.span != ("big", "dog") for e in big_ents)  # not promoted
 
 
 def _all_refs(node, out=None):

@@ -41,6 +41,7 @@ from gse.primitives_v2 import (
 # SPARSE TERNARY VECTOR
 # =============================================================================
 
+
 @dataclass
 class SparseVector:
     """
@@ -54,6 +55,7 @@ class SparseVector:
     Stored as two arrays: positive_indices and negative_indices.
     All other indices are implicitly 0.
     """
+
     dimension: int
     positive_indices: np.ndarray = field(default_factory=lambda: np.array([], dtype=np.uint16))
     negative_indices: np.ndarray = field(default_factory=lambda: np.array([], dtype=np.uint16))
@@ -184,14 +186,10 @@ class SparseVector:
         bank_end = bank_start + dims_per_bank
 
         # Filter positive indices (keep those outside bank range)
-        new_positive = self.positive_indices[
-            (self.positive_indices < bank_start) | (self.positive_indices >= bank_end)
-        ]
+        new_positive = self.positive_indices[(self.positive_indices < bank_start) | (self.positive_indices >= bank_end)]
 
         # Filter negative indices
-        new_negative = self.negative_indices[
-            (self.negative_indices < bank_start) | (self.negative_indices >= bank_end)
-        ]
+        new_negative = self.negative_indices[(self.negative_indices < bank_start) | (self.negative_indices >= bank_end)]
 
         return SparseVector(
             dimension=self.dimension,
@@ -219,14 +217,10 @@ class SparseVector:
         bank_end = bank_start + dims_per_bank
 
         # Filter positive indices (keep only those in bank range)
-        new_positive = self.positive_indices[
-            (self.positive_indices >= bank_start) & (self.positive_indices < bank_end)
-        ]
+        new_positive = self.positive_indices[(self.positive_indices >= bank_start) & (self.positive_indices < bank_end)]
 
         # Filter negative indices
-        new_negative = self.negative_indices[
-            (self.negative_indices >= bank_start) & (self.negative_indices < bank_end)
-        ]
+        new_negative = self.negative_indices[(self.negative_indices >= bank_start) & (self.negative_indices < bank_end)]
 
         return SparseVector(
             dimension=self.dimension,
@@ -239,6 +233,7 @@ class SparseVector:
 # =============================================================================
 # HADAMARD BASIS GENERATION
 # =============================================================================
+
 
 def generate_hadamard_pattern(
     row_index: int,
@@ -386,6 +381,7 @@ def generate_role_pattern(
 # HADAMARD-OTP BASIS
 # =============================================================================
 
+
 @dataclass
 class HadamardOTPBasis:
     """
@@ -399,6 +395,7 @@ class HadamardOTPBasis:
     The "OTP" (One-Time Pad) aspect comes from the sparse sampling of
     Hadamard rows, ensuring each primitive has a unique pattern.
     """
+
     dimension: int
     n_banks: int
     dims_per_bank: int
@@ -429,9 +426,7 @@ class HadamardOTPBasis:
         # Count unipolar primitives
         for prim_name, info in PRIMITIVE_REGISTRY.items():
             # Skip bipolar poles (already counted via dimension)
-            is_bipolar_pole = any(
-                prim_name in (d.positive, d.negative) for d in BIPOLAR_DIMENSIONS
-            )
+            is_bipolar_pole = any(prim_name in (d.positive, d.negative) for d in BIPOLAR_DIMENSIONS)
             if not is_bipolar_pole:
                 primitives_per_bank[info.bank.value] += 1
 
@@ -509,16 +504,12 @@ class HadamardOTPBasis:
         # Test 1: Within-bank orthogonality (excluding antonyms)
         bank_ortho_violations = 0
         for bank in range(self.n_banks):
-            bank_prims = [
-                (name, vec) for name, vec in self.primitives.items()
-                if vec.bank == bank
-            ]
+            bank_prims = [(name, vec) for name, vec in self.primitives.items() if vec.bank == bank]
             for i, (name_i, vec_i) in enumerate(bank_prims):
-                for name_j, vec_j in bank_prims[i+1:]:
+                for name_j, vec_j in bank_prims[i + 1 :]:
                     cos = vec_i.cosine(vec_j)
                     # Antonyms should have cosine = -1.0
-                    if self.bipolar_map.get(name_j) == name_i or \
-                       self.bipolar_map.get(name_i) == name_j:
+                    if self.bipolar_map.get(name_j) == name_i or self.bipolar_map.get(name_i) == name_j:
                         if abs(cos - (-1.0)) > 0.01:
                             bank_ortho_violations += 1
                     # Others should be orthogonal (cosine ≈ 0)
@@ -557,13 +548,15 @@ class HadamardOTPBasis:
             neg_vec = self.primitives.get(dim.negative)
             if pos_vec and neg_vec:
                 cos = pos_vec.cosine(neg_vec)
-                antonym_tests.append({
-                    "dimension": dim.name,
-                    "positive": dim.positive,
-                    "negative": dim.negative,
-                    "cosine": cos,
-                    "pass": abs(cos - (-1.0)) < 0.01,
-                })
+                antonym_tests.append(
+                    {
+                        "dimension": dim.name,
+                        "positive": dim.positive,
+                        "negative": dim.negative,
+                        "cosine": cos,
+                        "pass": abs(cos - (-1.0)) < 0.01,
+                    }
+                )
 
         results["tests"]["antonym_pairs"] = antonym_tests
         results["tests"]["all_antonyms_pass"] = all(t["pass"] for t in antonym_tests)
@@ -575,15 +568,18 @@ class HadamardOTPBasis:
             for idx in role_vec.support:
                 bank = idx // self.dims_per_bank
                 banks_covered.add(bank)
-            role_bank_coverage.append({
-                "role": role_name,
-                "banks_covered": len(banks_covered),
-                "full_coverage": len(banks_covered) == self.n_banks,
-            })
+            role_bank_coverage.append(
+                {
+                    "role": role_name,
+                    "banks_covered": len(banks_covered),
+                    "full_coverage": len(banks_covered) == self.n_banks,
+                }
+            )
 
         results["tests"]["role_bank_coverage"] = (
             sum(1 for r in role_bank_coverage if r["full_coverage"]) / len(role_bank_coverage)
-            if role_bank_coverage else 0
+            if role_bank_coverage
+            else 0
         )
 
         return results
@@ -594,12 +590,8 @@ class HadamardOTPBasis:
             "dimension": self.dimension,
             "n_banks": self.n_banks,
             "dims_per_bank": self.dims_per_bank,
-            "primitives": {
-                name: vec.serialize() for name, vec in self.primitives.items()
-            },
-            "roles": {
-                name: vec.serialize() for name, vec in self.roles.items()
-            },
+            "primitives": {name: vec.serialize() for name, vec in self.primitives.items()},
+            "roles": {name: vec.serialize() for name, vec in self.roles.items()},
             "bipolar_map": self.bipolar_map,
             "bank_primitive_counts": self.bank_primitive_counts,
         }
@@ -619,14 +611,8 @@ class HadamardOTPBasis:
             dims_per_bank=data["dims_per_bank"],
         )
 
-        basis.primitives = {
-            name: SparseVector.deserialize(vec_bytes)
-            for name, vec_bytes in data["primitives"].items()
-        }
-        basis.roles = {
-            name: SparseVector.deserialize(vec_bytes)
-            for name, vec_bytes in data["roles"].items()
-        }
+        basis.primitives = {name: SparseVector.deserialize(vec_bytes) for name, vec_bytes in data["primitives"].items()}
+        basis.roles = {name: SparseVector.deserialize(vec_bytes) for name, vec_bytes in data["roles"].items()}
         basis.bipolar_map = data["bipolar_map"]
         basis.bank_primitive_counts = data["bank_primitive_counts"]
 
@@ -657,6 +643,7 @@ class SentenceScaleBasis:
     The two spaces are composed via bind():
         word_full = bind(word_vec, sentence_vec)
     """
+
     dimension: int = D
     n_banks: int = N_BANKS
     dims_per_bank: int = DIMS_PER_BANK
@@ -773,11 +760,13 @@ class SentenceScaleBasis:
         for word_name, word_vec in word_prims:
             for sent_name, sent_vec in sent_prims:
                 cos = word_vec.cosine(sent_vec)
-                results["cross_space_cosines"].append({
-                    "word": word_name,
-                    "sentence": sent_name,
-                    "cosine": cos,
-                })
+                results["cross_space_cosines"].append(
+                    {
+                        "word": word_name,
+                        "sentence": sent_name,
+                        "cosine": cos,
+                    }
+                )
                 if abs(cos) > results["max_cosine"]:
                     results["max_cosine"] = abs(cos)
 
@@ -791,9 +780,7 @@ class SentenceScaleBasis:
             "dimension": self.dimension,
             "n_banks": self.n_banks,
             "dims_per_bank": self.dims_per_bank,
-            "primitives": {
-                name: vec.serialize() for name, vec in self.primitives.items()
-            },
+            "primitives": {name: vec.serialize() for name, vec in self.primitives.items()},
             "bank_primitive_counts": self.bank_primitive_counts,
             "comp_metadata": self.comp_metadata,
         }
@@ -813,10 +800,7 @@ class SentenceScaleBasis:
             dims_per_bank=data["dims_per_bank"],
         )
 
-        basis.primitives = {
-            name: SparseVector.deserialize(vec_bytes)
-            for name, vec_bytes in data["primitives"].items()
-        }
+        basis.primitives = {name: SparseVector.deserialize(vec_bytes) for name, vec_bytes in data["primitives"].items()}
         basis.bank_primitive_counts = data["bank_primitive_counts"]
         basis.comp_metadata = data.get("comp_metadata", {})
 
@@ -826,6 +810,7 @@ class SentenceScaleBasis:
 # =============================================================================
 # MULTI-SCALE COMPOSITION HELPERS
 # =============================================================================
+
 
 def encode_word_full(
     word_vec: SparseVector,
@@ -879,6 +864,7 @@ def create_sentence_basis(
 def load_or_create_sentence_basis(path: str) -> SentenceScaleBasis:
     """Load sentence-scale basis from path, or create new if not exists."""
     import os
+
     if os.path.exists(path):
         return SentenceScaleBasis.load(path)
     basis = create_sentence_basis()
@@ -889,6 +875,7 @@ def load_or_create_sentence_basis(path: str) -> SentenceScaleBasis:
 # =============================================================================
 # CORE HDC OPERATIONS
 # =============================================================================
+
 
 def bind(a: SparseVector, b: SparseVector) -> SparseVector:
     """
@@ -1024,6 +1011,7 @@ def permute(v: SparseVector, shift: int = 1) -> SparseVector:
 # ENCODING UTILITIES
 # =============================================================================
 
+
 def encode_with_role(
     primitive_vec: SparseVector,
     role_vec: SparseVector,
@@ -1149,6 +1137,7 @@ def compose_decomposition(
 # SIMILARITY ANALYSIS
 # =============================================================================
 
+
 def polarity_aware_similarity(
     v1: SparseVector,
     v2: SparseVector,
@@ -1218,6 +1207,7 @@ def bank_activity_profile(v: SparseVector) -> Dict[int, float]:
 # FACTORY FUNCTIONS
 # =============================================================================
 
+
 def create_basis(
     dimension: int = D,
     n_banks: int = N_BANKS,
@@ -1235,6 +1225,7 @@ def create_basis(
 def load_or_create_basis(path: str) -> HadamardOTPBasis:
     """Load basis from path, or create new if not exists."""
     import os
+
     if os.path.exists(path):
         return HadamardOTPBasis.load(path)
     basis = create_basis()
@@ -1263,7 +1254,7 @@ if __name__ == "__main__":
     print(f"Bipolar pairs: {results['bipolar_pairs']}")
 
     print("\nBank primitive counts:")
-    for bank, count in sorted(results['bank_counts'].items()):
+    for bank, count in sorted(results["bank_counts"].items()):
         print(f"  Bank {bank} ({SEMANTIC_BANK_NAMES[bank]}): {count} primitives")
 
     print("\nOrthogonality tests:")
@@ -1273,10 +1264,11 @@ if __name__ == "__main__":
     print(f"    Violations: {results['tests']['cross_bank_violations']}")
 
     print("\nAntonym pair cosines (should be -1.0):")
-    for test in results['tests']['antonym_pairs']:
-        status = "PASS" if test['pass'] else "FAIL"
-        print(f"  {test['dimension']:15} ({test['positive']}/{test['negative']}): "
-              f"cos = {test['cosine']:.4f} [{status}]")
+    for test in results["tests"]["antonym_pairs"]:
+        status = "PASS" if test["pass"] else "FAIL"
+        print(
+            f"  {test['dimension']:15} ({test['positive']}/{test['negative']}): cos = {test['cosine']:.4f} [{status}]"
+        )
 
     print(f"\nAll antonyms pass: {'YES' if results['tests']['all_antonyms_pass'] else 'NO'}")
     print(f"Role bank coverage: {results['tests']['role_bank_coverage']:.1%}")

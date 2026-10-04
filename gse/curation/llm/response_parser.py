@@ -14,12 +14,14 @@ from gse.curation.schema import ALL_PRIMITIVES, BIPOLAR_PAIRS
 
 class ParseError(Exception):
     """Error parsing LLM response."""
+
     pass
 
 
 @dataclass
 class ParseResult:
     """Result of parsing an LLM response."""
+
     decomposition: Dict[str, int]
     confidence: float
     warnings: List[str]
@@ -38,22 +40,22 @@ def extract_json_from_response(response: str) -> str:
     response = response.strip()
 
     # Try to find JSON in code blocks first
-    code_block_match = re.search(r'```(?:json)?\s*(\{[\s\S]*?\})\s*```', response)
+    code_block_match = re.search(r"```(?:json)?\s*(\{[\s\S]*?\})\s*```", response)
     if code_block_match:
         return code_block_match.group(1)
 
     # Try to find JSON array in code blocks (for batch)
-    array_block_match = re.search(r'```(?:json)?\s*(\[[\s\S]*?\])\s*```', response)
+    array_block_match = re.search(r"```(?:json)?\s*(\[[\s\S]*?\])\s*```", response)
     if array_block_match:
         return array_block_match.group(1)
 
     # Try to find standalone JSON object
-    json_match = re.search(r'\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}', response, re.DOTALL)
+    json_match = re.search(r"\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}", response, re.DOTALL)
     if json_match:
         return json_match.group()
 
     # Try to find JSON array
-    array_match = re.search(r'\[[^\[\]]*(?:\[[^\[\]]*\][^\[\]]*)*\]', response, re.DOTALL)
+    array_match = re.search(r"\[[^\[\]]*(?:\[[^\[\]]*\][^\[\]]*)*\]", response, re.DOTALL)
     if array_match:
         return array_match.group()
 
@@ -71,9 +73,9 @@ def normalize_primitive_value(value: Any) -> int:
 
     if isinstance(value, str):
         value = value.strip().lower()
-        if value in ('1', '+1', 'true', 'yes', 'positive'):
+        if value in ("1", "+1", "true", "yes", "positive"):
             return 1
-        elif value in ('-1', 'false', 'no', 'negative'):
+        elif value in ("-1", "false", "no", "negative"):
             return -1
         else:
             return 0
@@ -142,7 +144,7 @@ def parse_llm_response(
     # Parse JSON - fix common issues first
     try:
         # Fix +1 to 1 (invalid JSON)
-        json_str = re.sub(r':\s*\+(\d+)', r': \1', json_str)
+        json_str = re.sub(r":\s*\+(\d+)", r": \1", json_str)
         data = json.loads(json_str)
     except json.JSONDecodeError as e:
         raise ParseError(f"Invalid JSON: {e}")
@@ -243,12 +245,14 @@ def parse_batch_response(
             results.append(result)
         except ParseError as e:
             # Create empty result with error
-            results.append(ParseResult(
-                decomposition={p: 0 for p in ALL_PRIMITIVES},
-                confidence=0.0,
-                warnings=[f"Parse error for item {i}: {e}"],
-                raw_response=json.dumps(item),
-            ))
+            results.append(
+                ParseResult(
+                    decomposition={p: 0 for p in ALL_PRIMITIVES},
+                    confidence=0.0,
+                    warnings=[f"Parse error for item {i}: {e}"],
+                    raw_response=json.dumps(item),
+                )
+            )
 
     return results
 

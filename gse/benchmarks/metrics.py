@@ -23,6 +23,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class CorrelationResult:
     """Result of correlation analysis."""
+
     rho: float  # Spearman correlation coefficient
     p_value: float  # Statistical significance
     ci_low: float  # 95% CI lower bound
@@ -33,6 +34,7 @@ class CorrelationResult:
 @dataclass
 class AntonymMetrics:
     """Metrics for antonym detection evaluation."""
+
     negative_rate: float  # Fraction with similarity < 0
     mean_similarity: float  # Mean similarity of antonyms
     std_similarity: float  # Std of similarities
@@ -44,6 +46,7 @@ class AntonymMetrics:
 @dataclass
 class DiscriminationMetrics:
     """Metrics for antonym/synonym discrimination."""
+
     auc: float  # Area under ROC curve
     accuracy: float  # Classification accuracy at optimal threshold
     optimal_threshold: float  # Threshold maximizing accuracy
@@ -52,10 +55,7 @@ class DiscriminationMetrics:
     separation: float  # Cohen's d effect size
 
 
-def spearman_correlation(
-    predicted: List[float],
-    human: List[float]
-) -> Tuple[float, float]:
+def spearman_correlation(predicted: List[float], human: List[float]) -> Tuple[float, float]:
     """
     Compute Spearman rank correlation between predicted and human scores.
 
@@ -85,10 +85,7 @@ def spearman_correlation(
     return float(rho), float(p_value)
 
 
-def pearson_correlation(
-    predicted: List[float],
-    human: List[float]
-) -> Tuple[float, float]:
+def pearson_correlation(predicted: List[float], human: List[float]) -> Tuple[float, float]:
     """
     Compute Pearson correlation coefficient.
 
@@ -121,7 +118,7 @@ def bootstrap_confidence_interval(
     human: List[float],
     n_bootstrap: int = 1000,
     confidence: float = 0.95,
-    seed: Optional[int] = 42
+    seed: Optional[int] = 42,
 ) -> Tuple[float, float]:
     """
     Compute bootstrap confidence interval for Spearman correlation.
@@ -170,11 +167,7 @@ def bootstrap_confidence_interval(
     return float(ci_low), float(ci_high)
 
 
-def correlation_with_ci(
-    predicted: List[float],
-    human: List[float],
-    n_bootstrap: int = 1000
-) -> CorrelationResult:
+def correlation_with_ci(predicted: List[float], human: List[float], n_bootstrap: int = 1000) -> CorrelationResult:
     """
     Compute Spearman correlation with confidence interval.
 
@@ -252,10 +245,7 @@ def antonym_metrics(similarities: List[float]) -> AntonymMetrics:
     )
 
 
-def antonym_synonym_auc(
-    antonym_sims: List[float],
-    synonym_sims: List[float]
-) -> float:
+def antonym_synonym_auc(antonym_sims: List[float], synonym_sims: List[float]) -> float:
     """
     Compute AUC for discriminating antonyms from synonyms.
 
@@ -287,10 +277,7 @@ def antonym_synonym_auc(
         return 0.5
 
 
-def discrimination_metrics(
-    antonym_sims: List[float],
-    synonym_sims: List[float]
-) -> DiscriminationMetrics:
+def discrimination_metrics(antonym_sims: List[float], synonym_sims: List[float]) -> DiscriminationMetrics:
     """
     Compute comprehensive discrimination metrics.
 
@@ -319,9 +306,7 @@ def discrimination_metrics(
     syn_mean = float(np.mean(syn_arr))
 
     # Cohen's d effect size
-    pooled_std = np.sqrt(
-        (np.var(ant_arr) + np.var(syn_arr)) / 2
-    )
+    pooled_std = np.sqrt((np.var(ant_arr) + np.var(syn_arr)) / 2)
     if pooled_std > 0:
         cohens_d = (syn_mean - ant_mean) / pooled_std
     else:
@@ -357,11 +342,7 @@ def discrimination_metrics(
     )
 
 
-def significance_test(
-    model1_sims: List[float],
-    model2_sims: List[float],
-    human: List[float]
-) -> Tuple[float, float]:
+def significance_test(model1_sims: List[float], model2_sims: List[float], human: List[float]) -> Tuple[float, float]:
     """
     Test if model1 significantly outperforms model2.
 
@@ -382,13 +363,12 @@ def significance_test(
     n = len(human)
 
     # Williams' test
-    det = (1 - r1**2 - r2**2 - r12**2 + 2*r1*r2*r12)
+    det = 1 - r1**2 - r2**2 - r12**2 + 2 * r1 * r2 * r12
     if det <= 0:
         return 0.0, 1.0
 
     t = (r1 - r2) * np.sqrt(
-        (n - 1) * (1 + r12) /
-        (2 * ((n - 1) / (n - 3)) * det + 0.25 * (r1 + r2)**2 * (1 - r12)**3)
+        (n - 1) * (1 + r12) / (2 * ((n - 1) / (n - 3)) * det + 0.25 * (r1 + r2) ** 2 * (1 - r12) ** 3)
     )
 
     # Two-tailed p-value
@@ -397,11 +377,7 @@ def significance_test(
     return float(t), float(p_value)
 
 
-def per_pos_correlation(
-    predicted: List[float],
-    human: List[float],
-    pos_tags: List[str]
-) -> dict:
+def per_pos_correlation(predicted: List[float], human: List[float], pos_tags: List[str]) -> dict:
     """
     Compute correlation separately for each part of speech.
 
@@ -417,22 +393,18 @@ def per_pos_correlation(
     """
     from collections import defaultdict
 
-    by_pos = defaultdict(lambda: {'pred': [], 'human': []})
+    by_pos = defaultdict(lambda: {"pred": [], "human": []})
 
     for pred, hum, pos in zip(predicted, human, pos_tags):
         if pos:
-            by_pos[pos]['pred'].append(pred)
-            by_pos[pos]['human'].append(hum)
+            by_pos[pos]["pred"].append(pred)
+            by_pos[pos]["human"].append(hum)
 
     results = {}
     for pos, data in by_pos.items():
-        if len(data['pred']) >= 10:
-            rho, p = spearman_correlation(data['pred'], data['human'])
-            results[pos] = {
-                'rho': rho,
-                'p_value': p,
-                'n': len(data['pred'])
-            }
+        if len(data["pred"]) >= 10:
+            rho, p = spearman_correlation(data["pred"], data["human"])
+            results[pos] = {"rho": rho, "p_value": p, "n": len(data["pred"])}
 
     return results
 
@@ -454,10 +426,11 @@ def per_pos_correlation(
 @dataclass
 class BankCosineSignature:
     """Per-bank cosine breakdown for a SparseVector pair."""
+
     per_bank: Dict[str, Optional[float]]  # bank name -> cosine (None if empty either side)
     global_cosine: float
     min_bank_name: Optional[str]  # bank where cosine is most negative
-    min_bank_cosine: float        # the most-negative bank cosine, or global if none populated
+    min_bank_cosine: float  # the most-negative bank cosine, or global if none populated
 
 
 def bank_cosine_signature(v1, v2, dims_per_bank: int = DIMS_PER_BANK) -> BankCosineSignature:

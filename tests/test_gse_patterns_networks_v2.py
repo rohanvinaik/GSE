@@ -202,10 +202,12 @@ class TestWordScaleLearnFromDecomposition:
     def test_unknown_primitive_filtered(self):
         net = WordScaleNetwork()
         # XYZZY is not in WORD_PRIMITIVES
-        net.learn_from_decomposition([
-            ("XYZZY", "x", 1),
-            ("FEEL", "experiencer", 1),
-        ])
+        net.learn_from_decomposition(
+            [
+                ("XYZZY", "x", 1),
+                ("FEEL", "experiencer", 1),
+            ]
+        )
         # Only 1 known primitive after filtering → no learn
         assert net.update_count == 0
 
@@ -215,10 +217,12 @@ class TestWordScalePredictPrimitives:
         net = WordScaleNetwork()
         # Train a co-occurrence
         for _ in range(5):
-            net.learn_from_decomposition([
-                ("FEEL", "exp", 1),
-                ("GOOD", "eval", 1),
-            ])
+            net.learn_from_decomposition(
+                [
+                    ("FEEL", "exp", 1),
+                    ("GOOD", "eval", 1),
+                ]
+            )
         result = net.predict_primitives(["FEEL"], top_k=3)
         assert isinstance(result, list)
         for item in result:
@@ -228,10 +232,12 @@ class TestWordScalePredictPrimitives:
     def test_excludes_seeds(self):
         net = WordScaleNetwork()
         for _ in range(5):
-            net.learn_from_decomposition([
-                ("FEEL", "exp", 1),
-                ("GOOD", "eval", 1),
-            ])
+            net.learn_from_decomposition(
+                [
+                    ("FEEL", "exp", 1),
+                    ("GOOD", "eval", 1),
+                ]
+            )
         result = net.predict_primitives(["FEEL"], top_k=10)
         for name, _ in result:
             assert name != "FEEL"
@@ -274,10 +280,14 @@ class TestScaleNetworkCollection:
 
     def test_learn_from_document_word(self):
         coll = ScaleNetworkCollection()
-        coll.learn_from_document(word_decompositions=[[
-            ("FEEL", "exp", 1),
-            ("GOOD", "eval", 1),
-        ]])
+        coll.learn_from_document(
+            word_decompositions=[
+                [
+                    ("FEEL", "exp", 1),
+                    ("GOOD", "eval", 1),
+                ]
+            ]
+        )
         assert coll.word.update_count == 1
 
     def test_get_statistics(self):

@@ -61,12 +61,7 @@ def _entity_like(tok) -> bool:
     """
     if tok.pos_ in _NOMINAL_POS:
         return True
-    return (
-        tok.is_alpha
-        and tok.is_title
-        and not tok.is_stop
-        and not _has_adjective_sense(tok.lemma_)
-    )
+    return tok.is_alpha and tok.is_title and not tok.is_stop and not _has_adjective_sense(tok.lemma_)
 
 
 def _in_hyphen_compound(toks, i: int) -> bool:
@@ -116,16 +111,20 @@ def verbs_to_promote(doc) -> Set[int]:
             continue
         if not _has_verb_sense(t.lemma_):
             continue
-        if _in_hyphen_compound(toks, i):   # a hyphenated noun-compound member is a modifier, not a verb
+        if _in_hyphen_compound(toks, i):  # a hyphenated noun-compound member is a modifier, not a verb
             continue
         left = _nearest_content(i, -1)
         right = _nearest_content(i, +1)
         # A possessive determiner on the left is NOT the subject — it governs the candidate as the
         # possessed noun head ("his ambition, Macbeth murdered …" → ambition is a NOUN, murder the verb).
         # Without this, the PRON-tagged possessive reads as an entity-like subject and buries the real verb.
-        if left is not None and right is not None \
-                and _entity_like(left) and not _is_possessive_determiner(left) \
-                and _entity_like(right):
+        if (
+            left is not None
+            and right is not None
+            and _entity_like(left)
+            and not _is_possessive_determiner(left)
+            and _entity_like(right)
+        ):
             promote.add(t.i)
     return promote
 

@@ -10,17 +10,18 @@ Innerese. Domain-portable: swap the deck per domain.
 
 See ``~/Genesis/docs/CASSETTE_ARCHITECTURE_DESIGN_BRIEF.md``.
 """
+
 from __future__ import annotations
 
 from .agent_eligibility import AgentEligibility
 from .base import Cassette, Resolution, Scored
 from .cheatsheet import (
-                         CheatSheet,
-                         build_cheatsheet,
-                         build_relabel_map,
-                         correct_contracts,
-                         make_merge_repair,
-                         make_retype_repair,
+    CheatSheet,
+    build_cheatsheet,
+    build_relabel_map,
+    correct_contracts,
+    make_merge_repair,
+    make_retype_repair,
 )
 from .coref_junk import CorefJunk
 from .deck import CassetteDeck, CheatEntry, DeckResult
@@ -31,15 +32,27 @@ from .referent_validation import ReferentGap, ReferentValidation
 from .relational_identity import RelationalIdentity
 
 __all__ = [
-    "MultiScaleDoc", "Mention",
-    "Cassette", "Resolution", "Scored",
-    "EntityIdentity", "IdentityGap",
+    "MultiScaleDoc",
+    "Mention",
+    "Cassette",
+    "Resolution",
+    "Scored",
+    "EntityIdentity",
+    "IdentityGap",
     "CorefJunk",
-    "PersonValidation", "PersonGap",
-    "ReferentValidation", "ReferentGap",
+    "PersonValidation",
+    "PersonGap",
+    "ReferentValidation",
+    "ReferentGap",
     "AgentEligibility",
     "RelationalIdentity",
-    "CassetteDeck", "CheatEntry", "DeckResult",
-    "CheatSheet", "build_cheatsheet", "correct_contracts",
-    "build_relabel_map", "make_merge_repair", "make_retype_repair",
+    "CassetteDeck",
+    "CheatEntry",
+    "DeckResult",
+    "CheatSheet",
+    "build_cheatsheet",
+    "correct_contracts",
+    "build_relabel_map",
+    "make_merge_repair",
+    "make_retype_repair",
 ]

@@ -46,15 +46,15 @@ class TestSpearmanCorrelation:
 
     def test_nan_filtered(self):
         # Even with NaN, the non-NaN points form perfect correlation
-        rho, p = spearman_correlation([1.0, 2.0, 3.0, float("nan"), 5.0],
-                                      [1.0, 2.0, 3.0, 4.0, 5.0])
+        rho, p = spearman_correlation([1.0, 2.0, 3.0, float("nan"), 5.0], [1.0, 2.0, 3.0, 4.0, 5.0])
         # Non-NaN: (1,1), (2,2), (3,3), (5,5) → perfect rank correlation
         assert rho == pytest.approx(1.0)
 
     def test_too_few_after_filter(self):
         # Only 2 non-NaN pairs after filtering
-        rho, p = spearman_correlation([1.0, 2.0, float("nan"), float("nan"), float("nan")],
-                                      [1.0, 2.0, float("nan"), float("nan"), float("nan")])
+        rho, p = spearman_correlation(
+            [1.0, 2.0, float("nan"), float("nan"), float("nan")], [1.0, 2.0, float("nan"), float("nan"), float("nan")]
+        )
         assert rho == 0.0
 
 
@@ -139,7 +139,7 @@ class TestAntonymDetectionRate:
     def test_zero_not_counted_as_negative(self):
         # < 0 strictly excludes 0
         result = antonym_detection_rate([0.0, -0.1, 0.1])
-        assert result == pytest.approx(1/3)
+        assert result == pytest.approx(1 / 3)
 
 
 class TestAntonymMetrics:

@@ -28,6 +28,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class PopulationStats:
     """Counts produced by a population run."""
+
     lexemes_added: int = 0
     lexemes_skipped_existing: int = 0
     primitives_set: int = 0
@@ -70,9 +71,7 @@ def populate_from_entries(
             continue
 
         confidences = entry.confidence_scores
-        avg_conf = (
-            sum(confidences.values()) / len(confidences) if confidences else 0.0
-        )
+        avg_conf = sum(confidences.values()) / len(confidences) if confidences else 0.0
 
         lexeme_id = db.add_lexeme(
             lemma=lemma,
@@ -142,8 +141,7 @@ def populate_lexicon_from_external(
         integrator.close()
 
     logger.info(
-        "Populated %d lexemes (%d primitive values, %d provenance rows); "
-        "skipped %d existing, %d without primitives",
+        "Populated %d lexemes (%d primitive values, %d provenance rows); skipped %d existing, %d without primitives",
         stats.lexemes_added,
         stats.primitives_set,
         stats.provenance_rows,
@@ -219,9 +217,7 @@ def populate_with_voting_and_exclusion(
                 continue
 
             confidences = data.confidence_scores
-            avg_conf = (
-                sum(confidences.values()) / len(confidences) if confidences else 0.0
-            )
+            avg_conf = sum(confidences.values()) / len(confidences) if confidences else 0.0
 
             lexeme_id = db.add_lexeme(
                 lemma=data.word,
@@ -242,8 +238,7 @@ def populate_with_voting_and_exclusion(
             source_detail = ",".join(sorted(set(data.sources)))
             if data.suppressions:
                 suppressions_repr = ";".join(
-                    f"{s['dropped']}->{s['kept']}@{s['kept_confidence']:.2f}"
-                    for s in data.suppressions
+                    f"{s['dropped']}->{s['kept']}@{s['kept_confidence']:.2f}" for s in data.suppressions
                 )
                 source_detail = f"{source_detail}|suppressed:{suppressions_repr}"
 
@@ -282,9 +277,7 @@ if __name__ == "__main__":
     )
     parser.add_argument("--db", default="lexicon.db", help="Lexicon SQLite path")
     parser.add_argument("--min-sources", type=int, default=2, help="Min agreeing sources")
-    parser.add_argument(
-        "--min-confidence", type=float, default=0.5, help="Min per-primitive vote ratio"
-    )
+    parser.add_argument("--min-confidence", type=float, default=0.5, help="Min per-primitive vote ratio")
     parser.add_argument("--default-pos", default="n", help="Default part-of-speech")
     parser.add_argument("--limit", type=int, default=None, help="Cap on entries written")
 

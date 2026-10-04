@@ -14,6 +14,7 @@ from typing import Any, Dict, List, Optional, Tuple
 @dataclass
 class TokenTrace:
     """Trace for a single token encoding."""
+
     token: str
     lemma: str
     pos: str
@@ -41,14 +42,15 @@ class TokenTrace:
 @dataclass
 class OperatorTrace:
     """Trace for compositional operator resolution."""
-    primitive: str           # COMP_THAN
-    operation: str           # SET_DIFF
-    position: int            # Token position
-    arity: int               # 2
-    arg1_tokens: List[int]   # [1, 3] (dog, cuter)
-    arg2_tokens: List[int]   # [6] (cat)
-    arg1_lemmas: List[str]   # ["dog", "cuter"]
-    arg2_lemmas: List[str]   # ["cat"]
+
+    primitive: str  # COMP_THAN
+    operation: str  # SET_DIFF
+    position: int  # Token position
+    arity: int  # 2
+    arg1_tokens: List[int]  # [1, 3] (dog, cuter)
+    arg2_tokens: List[int]  # [6] (cat)
+    arg1_lemmas: List[str]  # ["dog", "cuter"]
+    arg2_lemmas: List[str]  # ["cat"]
     result_nnz: int
 
     def to_dict(self) -> Dict:
@@ -56,22 +58,40 @@ class OperatorTrace:
 
     def get_content_args(self) -> Tuple[Tuple[str, ...], Tuple[str, ...]]:
         """Get content word arguments (filter out function words)."""
-        function_words = {'the', 'a', 'an', 'be', 'is', 'are', 'was', 'were'}
+        function_words = {"the", "a", "an", "be", "is", "are", "was", "were"}
         arg1 = tuple(l for l in self.arg1_lemmas if l not in function_words)
         arg2 = tuple(l for l in self.arg2_lemmas if l not in function_words)
         return (arg1, arg2)
 
     def structurally_equals(self, other: "OperatorTrace") -> bool:
         """Check if two operators have identical logical structure."""
-        return (self.operation == other.operation and
-                self.get_content_args() == other.get_content_args())
+        return self.operation == other.operation and self.get_content_args() == other.get_content_args()
 
     def get_entity_args(self) -> Tuple[Tuple[str, ...], Tuple[str, ...]]:
         """Get entity arguments only (filter out function words AND properties)."""
         # Properties are typically adjectives/adverbs with these lemmas
-        non_entities = {'the', 'a', 'an', 'be', 'is', 'are', 'was', 'were',
-                        'cut', 'cute', 'big', 'small', 'tall', 'short',
-                        'fast', 'slow', 'good', 'bad', 'more', 'less'}
+        non_entities = {
+            "the",
+            "a",
+            "an",
+            "be",
+            "is",
+            "are",
+            "was",
+            "were",
+            "cut",
+            "cute",
+            "big",
+            "small",
+            "tall",
+            "short",
+            "fast",
+            "slow",
+            "good",
+            "bad",
+            "more",
+            "less",
+        }
         arg1 = tuple(l for l in self.arg1_lemmas if l not in non_entities)
         arg2 = tuple(l for l in self.arg2_lemmas if l not in non_entities)
         return (arg1, arg2)
@@ -88,8 +108,7 @@ class OperatorTrace:
         my_entities = self.get_entity_args()
         other_entities = other.get_entity_args()
         # Check if entities are swapped
-        return (my_entities[0] == other_entities[1] and
-                my_entities[1] == other_entities[0])
+        return my_entities[0] == other_entities[1] and my_entities[1] == other_entities[0]
 
 
 @dataclass
@@ -105,6 +124,7 @@ class ClauseSpan:
     operators whose result belongs to this clause (clause-linking operators are
     the glue *between* spans and are not listed in any span).
     """
+
     clause_id: int
     token_start: int
     token_end: int
@@ -130,6 +150,7 @@ class ClauseSpan:
 @dataclass
 class OperationTrace:
     """Complete trace of encoding operations."""
+
     input_text: str
     tokens: List[TokenTrace]
     operators: List[OperatorTrace]
@@ -245,9 +266,11 @@ class OperationTrace:
 # DECODED SEMANTICS
 # =============================================================================
 
+
 @dataclass
 class EntityExtraction:
     """Extracted entity from vector."""
+
     lemma: str
     pos: str
     confidence: float
@@ -260,9 +283,10 @@ class EntityExtraction:
 @dataclass
 class AttributeExtraction:
     """Extracted attribute from vector."""
-    attribute: str         # "positive_quality", "large_size", etc.
-    polarity: int          # +1 or -1
-    intensity: float       # 0.0 to 1.0
+
+    attribute: str  # "positive_quality", "large_size", etc.
+    polarity: int  # +1 or -1
+    intensity: float  # 0.0 to 1.0
     source_primitive: str  # GOOD, BAD, BIG, SMALL
 
     def to_dict(self) -> Dict:
@@ -272,9 +296,10 @@ class AttributeExtraction:
 @dataclass
 class RelationExtraction:
     """Extracted relation from vector."""
-    relation: str          # "COMP_THAN", etc.
+
+    relation: str  # "COMP_THAN", etc.
     confidence: float
-    operation: str         # "SET_DIFF", etc.
+    operation: str  # "SET_DIFF", etc.
     arg1_candidates: List[str]
     arg2_candidates: List[str]
 
@@ -285,6 +310,7 @@ class RelationExtraction:
 @dataclass
 class DecodedSemantics:
     """Complete decoded semantics from a vector."""
+
     entities: List[EntityExtraction]
     attributes: List[AttributeExtraction]
     relations: List[RelationExtraction]
@@ -316,15 +342,17 @@ class DecodedSemantics:
 # SIMILARITY RESULT
 # =============================================================================
 
+
 @dataclass
 class SimilarityResult:
     """Result of comparing two vectors."""
+
     sentence1: str
     sentence2: str
     cosine: float
-    alignment: float       # Same-sign overlap
-    opposition: float      # Opposite-sign overlap
-    orthogonality: float   # Non-overlap
+    alignment: float  # Same-sign overlap
+    opposition: float  # Opposite-sign overlap
+    orthogonality: float  # Non-overlap
 
     shared_primitives: List[str]
     different_primitives: List[str]

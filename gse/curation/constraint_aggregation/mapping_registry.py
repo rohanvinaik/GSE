@@ -21,26 +21,22 @@ from gse.curation.constraint_aggregation.types import (
 # Higher = more trustworthy for GSE primitive inference
 SOURCE_RELIABILITY: Dict[str, float] = {
     # Linguistically-grounded sources (highest reliability)
-    "verbnet": 0.85,        # Principled verb classes with thematic roles
-    "framenet": 0.85,       # Well-structured frame semantics
-    "propbank": 0.80,       # Argument structure annotations
-    "usas": 0.80,           # Lancaster semantic tagger, well-validated
-
+    "verbnet": 0.85,  # Principled verb classes with thematic roles
+    "framenet": 0.85,  # Well-structured frame semantics
+    "propbank": 0.80,  # Argument structure annotations
+    "usas": 0.80,  # Lancaster semantic tagger, well-validated
     # Taxonomic sources
     "wordnet_hierarchy": 0.75,  # Good for entity types, domains
-
     # Psycholinguistic norms (validated with human subjects)
     "lancaster_sensorimotor": 0.80,  # Strong for sensory/body primitives
-    "nrc_vad": 0.75,        # Well-validated affect norms
-    "concreteness": 0.75,   # Good for abstract vs concrete
-
+    "nrc_vad": 0.75,  # Well-validated affect norms
+    "concreteness": 0.75,  # Good for abstract vs concrete
     # Sentiment/emotion (some noise expected)
-    "nrc_emotion": 0.70,    # Emotion categories, some overlap
-    "sentiwordnet": 0.65,   # Noisy, averaged over senses
-
+    "nrc_emotion": 0.70,  # Emotion categories, some overlap
+    "sentiwordnet": 0.65,  # Noisy, averaged over senses
     # Large-scale resources (broad coverage but noisier)
-    "wiktionary": 0.70,     # Definitions can be imprecise
-    "conceptnet": 0.65,     # Crowdsourced, variable quality
+    "wiktionary": 0.70,  # Definitions can be imprecise
+    "conceptnet": 0.65,  # Crowdsourced, variable quality
 }
 
 
@@ -48,30 +44,83 @@ SOURCE_RELIABILITY: Dict[str, float] = {
 SOURCE_PRIMITIVE_COVERAGE: Dict[str, Dict[str, List[str]]] = {
     "verbnet": {
         "definitive": [
-            "DO", "SOMEONE", "SOMETHING", "MOVE", "SAY", "SEE", "HEAR",
-            "FEEL", "THINK", "TOWARD", "AWAY", "CAUSE", "WITH"
+            "DO",
+            "SOMEONE",
+            "SOMETHING",
+            "MOVE",
+            "SAY",
+            "SEE",
+            "HEAR",
+            "FEEL",
+            "THINK",
+            "TOWARD",
+            "AWAY",
+            "CAUSE",
+            "WITH",
         ],
         "inferential": ["WANT", "GOOD", "BODY"],
     },
     "framenet": {
         "definitive": [
-            "DO", "SOMEONE", "SOMETHING", "MOVE", "SAY", "SEE", "HEAR",
-            "FEEL", "THINK", "WANT", "KNOW", "CAUSE", "WHERE", "WHEN",
-            "TOWARD", "AWAY", "WORDS", "BODY", "HAVE", "START", "END"
+            "DO",
+            "SOMEONE",
+            "SOMETHING",
+            "MOVE",
+            "SAY",
+            "SEE",
+            "HEAR",
+            "FEEL",
+            "THINK",
+            "WANT",
+            "KNOW",
+            "CAUSE",
+            "WHERE",
+            "WHEN",
+            "TOWARD",
+            "AWAY",
+            "WORDS",
+            "BODY",
+            "HAVE",
+            "START",
+            "END",
         ],
         "inferential": ["GOOD", "ALIVE", "MUST", "CAN"],
     },
     "propbank": {
         "definitive": [
-            "DO", "SOMEONE", "SOMETHING", "MOVE", "SAY", "THINK", "KNOW",
-            "FEEL", "WANT", "SEE", "HEAR", "HAVE", "ALIVE", "CAUSE"
+            "DO",
+            "SOMEONE",
+            "SOMETHING",
+            "MOVE",
+            "SAY",
+            "THINK",
+            "KNOW",
+            "FEEL",
+            "WANT",
+            "SEE",
+            "HEAR",
+            "HAVE",
+            "ALIVE",
+            "CAUSE",
         ],
         "inferential": ["GOOD", "BODY", "WHERE", "WHEN"],
     },
     "wordnet_hierarchy": {
         "definitive": [
-            "SOMEONE", "SOMETHING", "ALIVE", "WHERE", "WHEN", "THINK",
-            "FEEL", "SAY", "WORDS", "BODY", "PART", "HAVE", "DO", "HAPPEN"
+            "SOMEONE",
+            "SOMETHING",
+            "ALIVE",
+            "WHERE",
+            "WHEN",
+            "THINK",
+            "FEEL",
+            "SAY",
+            "WORDS",
+            "BODY",
+            "PART",
+            "HAVE",
+            "DO",
+            "HAPPEN",
         ],
         "inferential": ["MOVE", "SEE", "HEAR", "WANT"],
     },
@@ -98,32 +147,101 @@ SOURCE_PRIMITIVE_COVERAGE: Dict[str, Dict[str, List[str]]] = {
     "wiktionary": {
         "definitive": [],  # Definition analysis is always inferential
         "inferential": [
-            "DO", "MOVE", "SAY", "WORDS", "THINK", "KNOW", "FEEL",
-            "SEE", "HEAR", "TOUCH", "WANT", "HAVE", "BE", "EXIST",
-            "ALIVE", "GOOD", "BIG", "SOMEONE", "SOMETHING", "BODY",
-            "WHERE", "WHEN", "BEFORE", "AFTER", "INSIDE", "OUTSIDE",
-            "CAUSE", "BECAUSE", "CAN", "MUST", "MAYBE"
+            "DO",
+            "MOVE",
+            "SAY",
+            "WORDS",
+            "THINK",
+            "KNOW",
+            "FEEL",
+            "SEE",
+            "HEAR",
+            "TOUCH",
+            "WANT",
+            "HAVE",
+            "BE",
+            "EXIST",
+            "ALIVE",
+            "GOOD",
+            "BIG",
+            "SOMEONE",
+            "SOMETHING",
+            "BODY",
+            "WHERE",
+            "WHEN",
+            "BEFORE",
+            "AFTER",
+            "INSIDE",
+            "OUTSIDE",
+            "CAUSE",
+            "BECAUSE",
+            "CAN",
+            "MUST",
+            "MAYBE",
         ],
     },
     "conceptnet": {
         "definitive": ["HAVE", "PART"],
         "inferential": [
-            "SOMEONE", "SOMETHING", "WHERE", "WHEN", "DO", "MOVE",
-            "CAUSE", "BEFORE", "START", "END", "CAN", "WANT",
-            "ALIVE", "FEEL", "LIKE", "NOT"
+            "SOMEONE",
+            "SOMETHING",
+            "WHERE",
+            "WHEN",
+            "DO",
+            "MOVE",
+            "CAUSE",
+            "BEFORE",
+            "START",
+            "END",
+            "CAN",
+            "WANT",
+            "ALIVE",
+            "FEEL",
+            "LIKE",
+            "NOT",
         ],
     },
     "usas": {
         "definitive": [
             # USAS has strong coverage of semantic fields
-            "MOVE", "WHERE", "WHEN", "FEEL", "SAY", "WORDS", "THINK",
-            "KNOW", "WANT", "DO", "BODY", "ALIVE", "SOMEONE", "PEOPLE",
-            "HAVE", "SOMETHING", "GOOD", "ONE", "QUANTITY"
+            "MOVE",
+            "WHERE",
+            "WHEN",
+            "FEEL",
+            "SAY",
+            "WORDS",
+            "THINK",
+            "KNOW",
+            "WANT",
+            "DO",
+            "BODY",
+            "ALIVE",
+            "SOMEONE",
+            "PEOPLE",
+            "HAVE",
+            "SOMETHING",
+            "GOOD",
+            "ONE",
+            "QUANTITY",
         ],
         "inferential": [
-            "SAME", "OTHER", "INTENSITY", "CAN", "MUST", "MAYBE",
-            "START", "END", "LONG_TIME", "SHORT_TIME", "SOME", "ALL",
-            "MUCH", "LITTLE", "CAUSE", "INSIDE", "BE"
+            "SAME",
+            "OTHER",
+            "INTENSITY",
+            "CAN",
+            "MUST",
+            "MAYBE",
+            "START",
+            "END",
+            "LONG_TIME",
+            "SHORT_TIME",
+            "SOME",
+            "ALL",
+            "MUCH",
+            "LITTLE",
+            "CAUSE",
+            "INSIDE",
+            "BE",
         ],
     },
 }
@@ -158,9 +276,14 @@ def get_evidence_strength(constraint_type: ConstraintType) -> EvidenceStrength:
         return EvidenceStrength.WEAK
 
 
-def get_mapping_for_source(source_name: str, primitive: str, value: int,
-                           source_concept: str = None, raw_value: float = None,
-                           conditions: str = None) -> SourceMapping:
+def get_mapping_for_source(
+    source_name: str,
+    primitive: str,
+    value: int,
+    source_concept: str = None,
+    raw_value: float = None,
+    conditions: str = None,
+) -> SourceMapping:
     """
     Create a SourceMapping object for a source-primitive pair.
 

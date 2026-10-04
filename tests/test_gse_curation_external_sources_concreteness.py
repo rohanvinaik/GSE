@@ -22,6 +22,7 @@ def mk_entry(word="x", c=3.0, known=100.0, n=30):
 
 # ---------- ConcretenessEntry ----------
 
+
 class TestEntry:
     def test_construction(self):
         e = ConcretenessEntry(word="dog", concreteness=4.5, known_percent=99.0, n_ratings=30)
@@ -32,6 +33,7 @@ class TestEntry:
 
 
 # ---------- __init__ ----------
+
 
 class TestInit:
     def test_default_path(self):
@@ -49,6 +51,7 @@ class TestInit:
 
 
 # ---------- download ----------
+
 
 class TestDownload:
     def test_success(self, tmp_path):
@@ -74,6 +77,7 @@ class TestDownload:
 
 
 # ---------- load ----------
+
 
 class TestLoad:
     def _write(self, tmp_path, content):
@@ -160,6 +164,7 @@ class TestLoad:
 
 # ---------- get_concreteness ----------
 
+
 class TestGetConcreteness:
     def test_returns_value(self):
         p = ConcretenessParser()
@@ -187,6 +192,7 @@ class TestGetConcreteness:
 
 
 # ---------- to_primitives ----------
+
 
 class TestToPrimitives:
     def _make(self, c):
@@ -261,6 +267,7 @@ class TestToPrimitives:
 
 # ---------- get_all_words ----------
 
+
 class TestGetAllWords:
     def test_returns_keys(self):
         p = ConcretenessParser()
@@ -278,6 +285,7 @@ class TestGetAllWords:
 
 # ---------- get_new_words ----------
 
+
 class TestGetNewWords:
     def test_filters(self):
         p = ConcretenessParser()
@@ -294,6 +302,7 @@ class TestGetNewWords:
 
 
 # ---------- get_concrete_words ----------
+
 
 class TestGetConcreteWords:
     def test_default_threshold(self):
@@ -333,6 +342,7 @@ class TestGetConcreteWords:
 
 
 # ---------- get_abstract_words ----------
+
 
 class TestGetAbstractWords:
     def test_default_threshold(self):

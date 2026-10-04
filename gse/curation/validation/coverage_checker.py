@@ -13,6 +13,7 @@ from gse.curation.schema import ALL_PRIMITIVES
 @dataclass
 class ValidationResult:
     """Result of a validation check."""
+
     passed: bool
     validation_type: str
     violations: List[Dict[str, Any]] = field(default_factory=list)
@@ -49,12 +50,14 @@ class CoverageChecker:
 
         violations = []
         if missing:
-            violations.append({
-                "type": "missing_primitives",
-                "count": len(missing),
-                "primitives": sorted(missing),
-                "message": f"Missing {len(missing)} primitives: {sorted(missing)[:5]}...",
-            })
+            violations.append(
+                {
+                    "type": "missing_primitives",
+                    "count": len(missing),
+                    "primitives": sorted(missing),
+                    "message": f"Missing {len(missing)} primitives: {sorted(missing)[:5]}...",
+                }
+            )
 
         passed = len(missing) == 0
         coverage = len(present & self.all_primitives) / self.primitive_count
@@ -128,9 +131,7 @@ class CoverageChecker:
                 stats["missing"] += 1
 
         # Bipolar coverage
-        bipolar_present = sum(
-            1 for p in BIPOLAR_PRIMITIVES if p in decomposition
-        )
+        bipolar_present = sum(1 for p in BIPOLAR_PRIMITIVES if p in decomposition)
         stats["bipolar_coverage"] = bipolar_present / len(BIPOLAR_PRIMITIVES)
 
         return stats

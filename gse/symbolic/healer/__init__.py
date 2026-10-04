@@ -8,6 +8,7 @@ pathway ensemble (each lens one lesion class, by law, no cross-talk); abstention
 lesion (graceful degradation); the cordoned residual model is translesion synthesis. NON-NEURAL:
 structural re-read under the law + K-line/HDC recall by resemblance — never gradient descent.
 """
+
 from __future__ import annotations
 
 from .envelope import StatementMeta, build_envelope
@@ -15,7 +16,13 @@ from .lens import AdditiveLens, Hole, Lens, Repair
 from .society import HealReport, Society, make_repair_hook
 
 __all__ = [
-    "StatementMeta", "build_envelope",
-    "Lens", "AdditiveLens", "Repair", "Hole",
-    "Society", "HealReport", "make_repair_hook",
+    "StatementMeta",
+    "build_envelope",
+    "Lens",
+    "AdditiveLens",
+    "Repair",
+    "Hole",
+    "Society",
+    "HealReport",
+    "make_repair_hook",
 ]

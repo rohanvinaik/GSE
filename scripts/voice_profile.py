@@ -16,6 +16,7 @@ Usage:
   python voice_profile.py --dense path/to/file           # + dense GSE geometry (expensive)
   from voice_profile import profile; profile(texts) -> dict
 """
+
 from __future__ import annotations
 
 import glob
@@ -31,23 +32,78 @@ sys.path.insert(0, os.path.expanduser("~/tools/personal-wiki/src"))  # GSE-acces
 from personal_wiki.semantic.gse_layer import SemanticLayer  # noqa: E402
 
 BANK_MAP = {  # NSM prime -> semantic bank
-    "I": "SUBSTANTIVES", "YOU": "SUBSTANTIVES", "SOMEONE": "SUBSTANTIVES", "PEOPLE": "SUBSTANTIVES",
-    "SOMETHING": "SUBSTANTIVES", "BODY": "SUBSTANTIVES", "KIND": "SUBSTANTIVES", "PART": "SUBSTANTIVES",
-    "WORDS": "SUBSTANTIVES", "OTHER": "SUBSTANTIVES",
-    "THINK": "MENTAL", "KNOW": "MENTAL", "WANT": "MENTAL", "FEEL": "MENTAL", "SEE": "MENTAL", "HEAR": "MENTAL",
-    "DO": "ACTION", "HAPPEN": "ACTION", "MOVE": "ACTION", "TOUCH": "ACTION", "SAY": "ACTION",
-    "ALIVE": "ACTION", "DEAD": "ACTION",
-    "GOOD": "EVALUATORS", "BAD": "EVALUATORS", "BIG": "EVALUATORS", "SMALL": "EVALUATORS", "INTENSITY": "EVALUATORS",
-    "NOT": "LOGICAL", "MAYBE": "LOGICAL", "CAN": "LOGICAL", "MUST": "LOGICAL", "BECAUSE": "LOGICAL",
-    "CAUSE": "LOGICAL", "IF": "LOGICAL", "TRUE": "LOGICAL", "FALSE": "LOGICAL", "BE": "LOGICAL",
-    "EXIST": "LOGICAL", "HAVE": "LOGICAL", "INFER": "LOGICAL", "SAME": "LOGICAL", "LIKE": "LOGICAL",
-    "WITH": "LOGICAL", "WITHOUT": "LOGICAL",
-    "ONE": "QUANTITY", "TWO": "QUANTITY", "NUMBER": "QUANTITY", "QUANTITY": "QUANTITY",
-    "HIER_PLUS": "QUANTITY", "HIER_MINUS": "QUANTITY",
-    "WHEN": "TEMPORAL", "NOW": "TEMPORAL", "BEFORE": "TEMPORAL", "AFTER": "TEMPORAL", "LONG_TIME": "TEMPORAL",
-    "SHORT_TIME": "TEMPORAL", "MOMENT": "TEMPORAL", "THEN": "TEMPORAL", "START": "TEMPORAL", "END": "TEMPORAL",
-    "WHERE": "SPATIAL", "HERE": "SPATIAL", "ABOVE": "SPATIAL", "BELOW": "SPATIAL", "FAR": "SPATIAL",
-    "NEAR": "SPATIAL", "SIDE": "SPATIAL", "INSIDE": "SPATIAL", "OUTSIDE": "SPATIAL", "TOWARD": "SPATIAL", "AWAY": "SPATIAL",
+    "I": "SUBSTANTIVES",
+    "YOU": "SUBSTANTIVES",
+    "SOMEONE": "SUBSTANTIVES",
+    "PEOPLE": "SUBSTANTIVES",
+    "SOMETHING": "SUBSTANTIVES",
+    "BODY": "SUBSTANTIVES",
+    "KIND": "SUBSTANTIVES",
+    "PART": "SUBSTANTIVES",
+    "WORDS": "SUBSTANTIVES",
+    "OTHER": "SUBSTANTIVES",
+    "THINK": "MENTAL",
+    "KNOW": "MENTAL",
+    "WANT": "MENTAL",
+    "FEEL": "MENTAL",
+    "SEE": "MENTAL",
+    "HEAR": "MENTAL",
+    "DO": "ACTION",
+    "HAPPEN": "ACTION",
+    "MOVE": "ACTION",
+    "TOUCH": "ACTION",
+    "SAY": "ACTION",
+    "ALIVE": "ACTION",
+    "DEAD": "ACTION",
+    "GOOD": "EVALUATORS",
+    "BAD": "EVALUATORS",
+    "BIG": "EVALUATORS",
+    "SMALL": "EVALUATORS",
+    "INTENSITY": "EVALUATORS",
+    "NOT": "LOGICAL",
+    "MAYBE": "LOGICAL",
+    "CAN": "LOGICAL",
+    "MUST": "LOGICAL",
+    "BECAUSE": "LOGICAL",
+    "CAUSE": "LOGICAL",
+    "IF": "LOGICAL",
+    "TRUE": "LOGICAL",
+    "FALSE": "LOGICAL",
+    "BE": "LOGICAL",
+    "EXIST": "LOGICAL",
+    "HAVE": "LOGICAL",
+    "INFER": "LOGICAL",
+    "SAME": "LOGICAL",
+    "LIKE": "LOGICAL",
+    "WITH": "LOGICAL",
+    "WITHOUT": "LOGICAL",
+    "ONE": "QUANTITY",
+    "TWO": "QUANTITY",
+    "NUMBER": "QUANTITY",
+    "QUANTITY": "QUANTITY",
+    "HIER_PLUS": "QUANTITY",
+    "HIER_MINUS": "QUANTITY",
+    "WHEN": "TEMPORAL",
+    "NOW": "TEMPORAL",
+    "BEFORE": "TEMPORAL",
+    "AFTER": "TEMPORAL",
+    "LONG_TIME": "TEMPORAL",
+    "SHORT_TIME": "TEMPORAL",
+    "MOMENT": "TEMPORAL",
+    "THEN": "TEMPORAL",
+    "START": "TEMPORAL",
+    "END": "TEMPORAL",
+    "WHERE": "SPATIAL",
+    "HERE": "SPATIAL",
+    "ABOVE": "SPATIAL",
+    "BELOW": "SPATIAL",
+    "FAR": "SPATIAL",
+    "NEAR": "SPATIAL",
+    "SIDE": "SPATIAL",
+    "INSIDE": "SPATIAL",
+    "OUTSIDE": "SPATIAL",
+    "TOWARD": "SPATIAL",
+    "AWAY": "SPATIAL",
 }
 BANKS = ["SUBSTANTIVES", "MENTAL", "ACTION", "EVALUATORS", "LOGICAL", "QUANTITY", "TEMPORAL", "SPATIAL"]
 MODAL = {"CAN", "MUST", "MAYBE", "NOT"}  # hedging/assertion primitives
@@ -85,7 +141,10 @@ def _featurize(text: str, sl, with_dense: bool) -> dict:
     ncontent = max(1, len(content))
 
     # -- DICTION --
-    prim = defaultdict(int); bank = defaultdict(int); nwp = 0; miss = 0
+    prim = defaultdict(int)
+    bank = defaultdict(int)
+    nwp = 0
+    miss = 0
     for w in content:
         sig = sl.word_primitives(w) or (sl.word_primitives(sl._lemma(w) or "") if sl._lemma(w) else {})
         if sig:
@@ -107,7 +166,7 @@ def _featurize(text: str, sl, with_dense: bool) -> dict:
         "hapax_rate": round(hapax / max(1, types), 4),
         "mean_word_len": round(statistics.fmean([len(w) for w in toks]) if toks else 0, 3),
         "word_len_std": round(statistics.pstdev([len(w) for w in toks]) if len(toks) > 1 else 0, 3),
-        "rare_word_rate": round(miss / ncontent, 4),          # lexicon-miss = jargon/idiosyncrasy
+        "rare_word_rate": round(miss / ncontent, 4),  # lexicon-miss = jargon/idiosyncrasy
         "modal_rate": round(sum(prim.get(m, 0) for m in MODAL) / prim_tot, 4),
     }
 
@@ -125,7 +184,7 @@ def _featurize(text: str, sl, with_dense: bool) -> dict:
         "sent_len_mean": round(sm, 2),
         "sent_len_std": round(statistics.pstdev(slens) if len(slens) > 1 else 0, 2),
         "sent_len_burstiness": round((statistics.pstdev(slens) / sm) if len(slens) > 1 and sm else 0, 3),
-        "predicate_arg_density": round(ne / ns, 3),           # edges per sentence
+        "predicate_arg_density": round(ne / ns, 3),  # edges per sentence
         "entity_density": round(nn / ns, 3),
         "negation_rate": round(negated / max(1, ne), 4),
         "pos_distribution": {k: round(v / max(1, nn), 3) for k, v in sorted(pos_ct.items(), key=lambda x: -x[1])[:6]},
@@ -166,12 +225,20 @@ def _featurize(text: str, sl, with_dense: bool) -> dict:
         "question_rate": rhetoric["question_rate"],
     }
 
-    out = {"diction": diction, "syntax": syntax, "rhetoric": rhetoric,
-           "affect_register": affect_register, "stance": stance}
+    out = {
+        "diction": diction,
+        "syntax": syntax,
+        "rhetoric": rhetoric,
+        "affect_register": affect_register,
+        "stance": stance,
+    }
     if with_dense:
         d = _dense(text, sl)
-        out["geometry"] = {"dense_norm": round(float((sum(x * x for x in d)) ** 0.5), 4) if d is not None else None,
-                           "dense_dim": len(d) if d is not None else None, "_dense": d}
+        out["geometry"] = {
+            "dense_norm": round(float((sum(x * x for x in d)) ** 0.5), 4) if d is not None else None,
+            "dense_dim": len(d) if d is not None else None,
+            "_dense": d,
+        }
     return out
 
 
@@ -186,9 +253,11 @@ def _dense(text, sl):
     try:
         sys.path.insert(0, os.path.expanduser("~/Projects/gse"))
         from gse.api import GSEEncoder
+
         if not hasattr(sl, "_vp_enc"):
             sl._vp_enc = GSEEncoder(db_path=str(sl.lexicon_path))
         import numpy as np
+
         paras = [p.strip() for p in re.split(r"\n\s*\n", text) if len(p.strip()) > 50] or [text[:2000]]
         vs = []
         for pa in paras[:40]:
@@ -196,7 +265,8 @@ def _dense(text, sl):
             vs.append(np.asarray(v.to_dense() if hasattr(v, "to_dense") else v, dtype=float))
         if not vs:
             return None
-        m = np.mean(vs, axis=0); n = np.linalg.norm(m)
+        m = np.mean(vs, axis=0)
+        n = np.linalg.norm(m)
         return (m / n).tolist() if n else m.tolist()
     except Exception:
         return None
@@ -211,6 +281,7 @@ def profile(texts, with_dense: bool = False, source: str = "input") -> dict:
     per = [_featurize(t, sl, with_dense) for t in texts if t and t.strip()]
     if not per:
         return {}
+
     # aggregate: recurse over the nested scalar structure, collecting per-text values
     def agg(key_path, getter):
         vals = []
@@ -236,9 +307,12 @@ def profile(texts, with_dense: bool = False, source: str = "input") -> dict:
                 prof[grp][k] = sub
     if with_dense:
         import numpy as np
+
         ds = [f["geometry"]["_dense"] for f in per if f.get("geometry", {}).get("_dense")]
-        prof["geometry"] = {"dense_dim": len(ds[0]) if ds else None,
-                            "dense_vector": (np.mean(np.array(ds), axis=0)).tolist() if ds else None}
+        prof["geometry"] = {
+            "dense_dim": len(ds[0]) if ds else None,
+            "dense_vector": (np.mean(np.array(ds), axis=0)).tolist() if ds else None,
+        }
     return prof
 
 
@@ -246,11 +320,14 @@ def main():
     args = [a for a in sys.argv[1:] if a != "--dense"]
     dense = "--dense" in sys.argv
     if not args:
-        print(__doc__); return
+        print(__doc__)
+        return
     target = Path(args[0])
     if target.is_dir():
-        texts = [Path(f).read_text(encoding="utf-8", errors="ignore")
-                 for f in glob.glob(str(target / "*.txt")) + glob.glob(str(target / "*.md"))]
+        texts = [
+            Path(f).read_text(encoding="utf-8", errors="ignore")
+            for f in glob.glob(str(target / "*.txt")) + glob.glob(str(target / "*.md"))
+        ]
         src = target.name
     else:
         texts = [target.read_text(encoding="utf-8", errors="ignore")]

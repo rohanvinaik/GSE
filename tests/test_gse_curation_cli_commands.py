@@ -33,6 +33,7 @@ def mk_args(**kwargs):
 
 # ---------- _print_status ----------
 
+
 class TestPrintStatus:
     def test_empty(self, capsys):
         status = {
@@ -80,14 +81,15 @@ class TestPrintStatus:
 
 # ---------- cmd_build ----------
 
+
 class TestCmdBuild:
     def test_default_phases(self):
-        args = mk_args(phases=None, lexicon_db="x", frequency_db=None,
-                       no_resume=False, mock=True)
+        args = mk_args(phases=None, lexicon_db="x", frequency_db=None, no_resume=False, mock=True)
         with patch("gse.curation.pipeline.staged_builder.StagedBuilder") as MockBuilder:
             mock_builder = MockBuilder.return_value.__enter__.return_value
             mock_builder.get_status.return_value = {
-                "phases": {}, "total": {"words": 0, "validated": 0, "validation_rate": 0},
+                "phases": {},
+                "total": {"words": 0, "validated": 0, "validation_rate": 0},
             }
             cmd_build(args)
             # All three phase methods called
@@ -96,12 +98,12 @@ class TestCmdBuild:
             mock_builder.build_phase_three.assert_called_once()
 
     def test_specific_phase(self):
-        args = mk_args(phases=[1], lexicon_db="x", frequency_db=None,
-                       no_resume=False, mock=True)
+        args = mk_args(phases=[1], lexicon_db="x", frequency_db=None, no_resume=False, mock=True)
         with patch("gse.curation.pipeline.staged_builder.StagedBuilder") as MockBuilder:
             mock_builder = MockBuilder.return_value.__enter__.return_value
             mock_builder.get_status.return_value = {
-                "phases": {}, "total": {"words": 0, "validated": 0, "validation_rate": 0},
+                "phases": {},
+                "total": {"words": 0, "validated": 0, "validation_rate": 0},
             }
             cmd_build(args)
             mock_builder.build_phase_one.assert_called_once()
@@ -109,18 +111,19 @@ class TestCmdBuild:
 
     def test_resume_flag_inverted(self):
         # no_resume=True → resume=False
-        args = mk_args(phases=[1], lexicon_db="x", frequency_db=None,
-                       no_resume=True, mock=True)
+        args = mk_args(phases=[1], lexicon_db="x", frequency_db=None, no_resume=True, mock=True)
         with patch("gse.curation.pipeline.staged_builder.StagedBuilder") as MockBuilder:
             mock_builder = MockBuilder.return_value.__enter__.return_value
             mock_builder.get_status.return_value = {
-                "phases": {}, "total": {"words": 0, "validated": 0, "validation_rate": 0},
+                "phases": {},
+                "total": {"words": 0, "validated": 0, "validation_rate": 0},
             }
             cmd_build(args)
             mock_builder.build_phase_one.assert_called_with(resume=False)
 
 
 # ---------- cmd_init ----------
+
 
 class TestCmdInit:
     def test_default_phases(self):
@@ -140,19 +143,22 @@ class TestCmdInit:
 
 # ---------- cmd_status ----------
 
+
 class TestCmdStatus:
     def test_calls_get_status(self):
         args = mk_args(lexicon_db="x")
         with patch("gse.curation.pipeline.staged_builder.StagedBuilder") as MockBuilder:
             mock_builder = MockBuilder.return_value.__enter__.return_value
             mock_builder.get_status.return_value = {
-                "phases": {}, "total": {"words": 0, "validated": 0, "validation_rate": 0},
+                "phases": {},
+                "total": {"words": 0, "validated": 0, "validation_rate": 0},
             }
             cmd_status(args)
             mock_builder.get_status.assert_called_once()
 
 
 # ---------- cmd_validate ----------
+
 
 class TestCmdValidate:
     def test_no_entries(self):
@@ -171,9 +177,12 @@ class TestCmdValidate:
         entry.decomposition = {"GOOD": 1}
         args = mk_args(lexicon_db="x")
 
-        bipolar_result = MagicMock(); bipolar_result.passed = True
-        coverage_result = MagicMock(); coverage_result.passed = True
-        hierarchy_result = MagicMock(); hierarchy_result.passed = True
+        bipolar_result = MagicMock()
+        bipolar_result.passed = True
+        coverage_result = MagicMock()
+        coverage_result.passed = True
+        hierarchy_result = MagicMock()
+        hierarchy_result.passed = True
 
         with patch("gse.curation.lexicon_db.LexiconDatabase") as MockDB:
             MockDB.return_value.get_validated_entries.return_value = [entry]
@@ -193,9 +202,12 @@ class TestCmdValidate:
         entry.decomposition = {}
         args = mk_args(lexicon_db="x")
 
-        bipolar_result = MagicMock(); bipolar_result.passed = True
-        coverage_result = MagicMock(); coverage_result.passed = False
-        hierarchy_result = MagicMock(); hierarchy_result.passed = True
+        bipolar_result = MagicMock()
+        bipolar_result.passed = True
+        coverage_result = MagicMock()
+        coverage_result.passed = False
+        hierarchy_result = MagicMock()
+        hierarchy_result.passed = True
 
         with patch("gse.curation.lexicon_db.LexiconDatabase") as MockDB:
             MockDB.return_value.get_validated_entries.return_value = [entry]
@@ -212,6 +224,7 @@ class TestCmdValidate:
 
 
 # ---------- cmd_export ----------
+
 
 class TestCmdExport:
     def test_basic(self, tmp_path):
@@ -248,6 +261,7 @@ class TestCmdExport:
 
 # ---------- cmd_lookup ----------
 
+
 class TestCmdLookup:
     def test_not_found(self, capsys):
         args = mk_args(lexicon_db="x", word="missing")
@@ -277,9 +291,13 @@ class TestCmdLookup:
 
     def test_groups_by_bank(self, capsys):
         entry = MagicMock()
-        entry.lemma = "x"; entry.pos = "n"; entry.gloss = None
-        entry.source = "llm"; entry.confidence = 0.9
-        entry.frequency_rank = 1; entry.validation_status = "validated"
+        entry.lemma = "x"
+        entry.pos = "n"
+        entry.gloss = None
+        entry.source = "llm"
+        entry.confidence = 0.9
+        entry.frequency_rank = 1
+        entry.validation_status = "validated"
         # GOOD in bank 2 (evaluators)
         entry.decomposition = {"GOOD": 1, "BAD": 0}
 
@@ -293,6 +311,7 @@ class TestCmdLookup:
 
 
 # ---------- main ----------
+
 
 class TestMain:
     def test_no_command_prints_help(self, capsys):

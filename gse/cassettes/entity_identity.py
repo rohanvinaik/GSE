@@ -26,6 +26,7 @@ Two faces, each disciplined identically (commit-by-margin-or-abstain in ``base.C
 This is exactly the entity-identity work the M2.2 effort concluded "requires a dedicated parser
 project" — clause-scoped, reading raw text, abstention-gated — which is what a cassette is.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -38,8 +39,9 @@ from .multiscale import Mention, MultiScaleDoc
 # noun (spousal/parental/regnal — these denote a specific figure, not a generic extra). Generic minor
 # roles (servant/attendant/soldier) are NOT identity gaps — they are real distinct characters, so the
 # cassette stays silent on them (trigger discipline: fire only on a genuine gap).
-_RELATIONAL = frozenset({"husband", "wife", "king", "queen", "mother", "father",
-                         "kinsman", "spouse", "consort", "widow", "widower"})
+_RELATIONAL = frozenset(
+    {"husband", "wife", "king", "queen", "mother", "father", "kinsman", "spouse", "consort", "widow", "widower"}
+)
 # Contrastive order/age modifiers — the SPLIT signal (two distinct sons/brothers). The parse emits
 # the BASE adjective form ("young"/"old"), not only the comparative, so the axis includes both.
 _CONTRASTIVE_YOUNG = frozenset({"young", "younger", "youngest", "first"})
@@ -49,10 +51,10 @@ _ORDER_AXIS = _CONTRASTIVE_YOUNG | _CONTRASTIVE_OLD
 
 @dataclass(frozen=True)
 class IdentityGap:
-    kind: str                    # "merge" | "split"
+    kind: str  # "merge" | "split"
     eid: str
-    rep: Mention                 # a representative mention (the description, or one split member)
-    payload: Any = None          # split: the modifier→[mentions] partition
+    rep: Mention  # a representative mention (the description, or one split member)
+    payload: Any = None  # split: the modifier→[mentions] partition
 
 
 class EntityIdentity(Cassette):
@@ -76,8 +78,7 @@ class EntityIdentity(Cassette):
         if m.lemma in _RELATIONAL:
             return True
         # a possessive person-description: "his kinsman", "her son" (possessor is a pronoun or name)
-        if m.possessor_lemma and (set(m.type_thread) & {"person", "relative", "kinsman"} or
-                                  m.lemma in _RELATIONAL):
+        if m.possessor_lemma and (set(m.type_thread) & {"person", "relative", "kinsman"} or m.lemma in _RELATIONAL):
             return True
         return False
 
@@ -85,7 +86,7 @@ class EntityIdentity(Cassette):
         gaps: List[IdentityGap] = []
         for eid, ms in doc.by_id.items():
             if doc.is_proper(eid):
-                continue                              # already a name — not a fragment
+                continue  # already a name — not a fragment
             descr = [m for m in ms if self._is_description(m, doc)]
             if descr:
                 rep = max(descr, key=lambda m: (m.is_agent, m.sent))  # prefer an agent mention
@@ -107,10 +108,10 @@ class EntityIdentity(Cassette):
     # -- propose ------------------------------------------------------------
     def candidates(self, gap: IdentityGap, doc: MultiScaleDoc) -> List[Any]:
         if gap.kind == "split":
-            return [gap.payload]                      # the one partition; scoring decides commit/abstain
+            return [gap.payload]  # the one partition; scoring decides commit/abstain
         # MERGE: ONLY names the text predicatively states ARE this role (Equality/TypeAssertion). No
         # stated identity → no candidate → abstain. Proximity is never an identity source.
-        links = self._identity_links(doc)             # role-key -> {name_eid}
+        links = self._identity_links(doc)  # role-key -> {name_eid}
         d_gender = doc.gender(gap.rep)
         names: List[str] = []
         for eid in links.get(gap.rep.lemma, set()) | links.get(gap.eid, set()):
@@ -119,7 +120,7 @@ class EntityIdentity(Cassette):
             nm = self._name_mention(eid, doc)
             n_gender = (doc.gender(nm) if nm else None) or self._name_gender(eid, doc)
             if d_gender and n_gender and d_gender != n_gender:
-                continue                              # hard agreement gate — never merge across gender
+                continue  # hard agreement gate — never merge across gender
             names.append(eid)
         return names
 
@@ -135,6 +136,7 @@ class EntityIdentity(Cassette):
 
         def ent(x):
             from gse.symbolic.resolution import Entity
+
             return x if isinstance(x, Entity) else None
 
         def add(name_ent, role_ent):
@@ -142,7 +144,7 @@ class EntityIdentity(Cassette):
                 return
             nh, rh = name_ent.head, role_ent.head
             if getattr(nh, "pos", None) != "PROPN" or getattr(rh, "pos", None) == "PROPN":
-                return                                # need exactly one NAME and one common-noun ROLE
+                return  # need exactly one NAME and one common-noun ROLE
             name_eid = getattr(name_ent, "entity_id", None)
             if not name_eid:
                 return
@@ -151,17 +153,18 @@ class EntityIdentity(Cassette):
                     links.setdefault(key, set()).add(name_eid)
 
         from gse.symbolic.healer.treewalk import walk
+
         for _t, pred in doc.timed:
             for n in walk(pred):
                 nm = type(n).__name__
                 if nm == "Equality":
                     a, b = ent(getattr(n, "lhs", None)), ent(getattr(n, "rhs", None))
                     add(a, b)
-                    add(b, a)                          # either side may be the name
+                    add(b, a)  # either side may be the name
                 elif nm == "TypeAssertion":
                     add(ent(getattr(n, "entity", None)), ent(getattr(n, "kind", None)))
         try:
-            doc._identity_links_cache = links          # type: ignore[attr-defined]
+            doc._identity_links_cache = links  # type: ignore[attr-defined]
         except Exception:
             pass
         return links
@@ -171,9 +174,8 @@ class EntityIdentity(Cassette):
         if gap.kind == "split":
             parts = answer
             # both groups must independently denote a person (the dictionary gate for a split)
-            return len(parts) >= 2 and all(
-                any(doc.is_person(m) for m in members) for members in parts.values())
-        return doc.is_proper(answer)                  # a merge target must be a grounded name
+            return len(parts) >= 2 and all(any(doc.is_person(m) for m in members) for members in parts.values())
+        return doc.is_proper(answer)  # a merge target must be a grounded name
 
     # -- score by orthogonal strands ---------------------------------------
     def score(self, answer: Any, gap: IdentityGap, doc: MultiScaleDoc) -> Dict[str, float]:
@@ -182,8 +184,10 @@ class EntityIdentity(Cassette):
             young = sum(len(v) for k, v in parts.items() if k in _CONTRASTIVE_YOUNG)
             old = sum(len(v) for k, v in parts.items() if k in _CONTRASTIVE_OLD)
             # word: the modifiers are decisively contrastive; document: each side actually recurs.
-            return {"word_contrastive": 1.0 if (young and old) else 0.0,
-                    "document_presence": 0.5 if (young >= 1 and old >= 1) else 0.0}
+            return {
+                "word_contrastive": 1.0 if (young and old) else 0.0,
+                "document_presence": 0.5 if (young >= 1 and old >= 1) else 0.0,
+            }
         # MERGE strands — STRICT SSC CONVERGENCE (2026-07-01). A merge commits only when >=2 ORTHOGONAL
         # IDENTITY strands agree (the deck's convergence floor). ``predicative`` (the text's stated
         # identity) is the GATE and is always 1.0 here; ``agreement`` (an INFORMATIVE gender match) is the
@@ -213,6 +217,7 @@ class EntityIdentity(Cassette):
             if g:
                 return g
         return None
+
     # NOTE (2026-07-01): the former ``_recency``/``_centering`` proximity strands were REMOVED — the
     # brief's M2.2 law is that proximity/centering is not an identity source (it fabricated
     # chambermaid≡claudio). Identity now rests on stated predication + gender agreement only.

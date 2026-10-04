@@ -33,6 +33,7 @@ from typing import Dict, Optional, Tuple
 @dataclass
 class FrequencyInfo:
     """Frequency information for a word."""
+
     word: str
     rank: int  # 1 = most common
     david47k_rank: Optional[int]
@@ -61,12 +62,7 @@ class FrequencyDatabase:
         self._cache: Dict[str, FrequencyInfo] = {}
         self._max_rank = self.DEFAULT_MAX_RANK
 
-    def build_from_sources(
-        self,
-        david47k_path: str,
-        local_freq_path: str,
-        output_db_path: Optional[str] = None
-    ) -> int:
+    def build_from_sources(self, david47k_path: str, local_freq_path: str, output_db_path: Optional[str] = None) -> int:
         """
         Build frequency database from source files.
 
@@ -82,7 +78,7 @@ class FrequencyDatabase:
 
         # Load david47k rankings (rank = line number)
         david47k_ranks: Dict[str, int] = {}
-        with open(david47k_path, 'r') as f:
+        with open(david47k_path, "r") as f:
             for rank, line in enumerate(f, start=1):
                 word = line.strip().lower()
                 if word and word not in david47k_ranks:
@@ -90,10 +86,10 @@ class FrequencyDatabase:
 
         # Load local frequency rankings (sort by count descending)
         local_counts: Dict[str, int] = {}
-        with open(local_freq_path, 'r') as f:
+        with open(local_freq_path, "r") as f:
             for line in f:
-                if ':' in line:
-                    parts = line.strip().split(':')
+                if ":" in line:
+                    parts = line.strip().split(":")
                     word = parts[0].strip().lower()
                     try:
                         count = int(parts[1].strip())
@@ -157,7 +153,7 @@ class FrequencyDatabase:
         combined_data.sort(key=lambda x: x[1])
         conn.executemany(
             "INSERT INTO frequency (word, combined_rank, david47k_rank, local_rank, weight) VALUES (?, ?, ?, ?, ?)",
-            combined_data
+            combined_data,
         )
 
         conn.commit()
@@ -210,27 +206,16 @@ class FrequencyDatabase:
         try:
             conn = sqlite3.connect(self.db_path)
             row = conn.execute(
-                "SELECT combined_rank, david47k_rank, local_rank, weight FROM frequency WHERE word = ?",
-                (word,)
+                "SELECT combined_rank, david47k_rank, local_rank, weight FROM frequency WHERE word = ?", (word,)
             ).fetchone()
             conn.close()
 
             if row:
-                info = FrequencyInfo(
-                    word=word,
-                    rank=row[0],
-                    david47k_rank=row[1],
-                    local_rank=row[2],
-                    weight=row[3]
-                )
+                info = FrequencyInfo(word=word, rank=row[0], david47k_rank=row[1], local_rank=row[2], weight=row[3])
             else:
                 # Unknown word - high specificity
                 info = FrequencyInfo(
-                    word=word,
-                    rank=self.DEFAULT_MAX_RANK,
-                    david47k_rank=None,
-                    local_rank=None,
-                    weight=self.MAX_WEIGHT
+                    word=word, rank=self.DEFAULT_MAX_RANK, david47k_rank=None, local_rank=None, weight=self.MAX_WEIGHT
                 )
 
             self._cache[word] = info
@@ -239,11 +224,7 @@ class FrequencyDatabase:
         except sqlite3.Error:
             # Database not available
             return FrequencyInfo(
-                word=word,
-                rank=self.DEFAULT_MAX_RANK,
-                david47k_rank=None,
-                local_rank=None,
-                weight=self.MAX_WEIGHT
+                word=word, rank=self.DEFAULT_MAX_RANK, david47k_rank=None, local_rank=None, weight=self.MAX_WEIGHT
             )
 
     def get_weight(self, word: str) -> float:
@@ -273,23 +254,17 @@ class FrequencyDatabase:
         # Batch query for uncached
         try:
             conn = sqlite3.connect(self.db_path)
-            placeholders = ','.join('?' * len(uncached))
+            placeholders = ",".join("?" * len(uncached))
             rows = conn.execute(
                 f"SELECT word, combined_rank, david47k_rank, local_rank, weight FROM frequency WHERE word IN ({placeholders})",
-                uncached
+                uncached,
             ).fetchall()
             conn.close()
 
             found = set()
             for row in rows:
                 word = row[0]
-                info = FrequencyInfo(
-                    word=word,
-                    rank=row[1],
-                    david47k_rank=row[2],
-                    local_rank=row[3],
-                    weight=row[4]
-                )
+                info = FrequencyInfo(word=word, rank=row[1], david47k_rank=row[2], local_rank=row[3], weight=row[4])
                 results[word] = info
                 self._cache[word] = info
                 found.add(word)
@@ -302,7 +277,7 @@ class FrequencyDatabase:
                         rank=self.DEFAULT_MAX_RANK,
                         david47k_rank=None,
                         local_rank=None,
-                        weight=self.MAX_WEIGHT
+                        weight=self.MAX_WEIGHT,
                     )
                     results[word] = info
                     self._cache[word] = info
@@ -311,11 +286,7 @@ class FrequencyDatabase:
             # Database error - return defaults for all
             for word in uncached:
                 info = FrequencyInfo(
-                    word=word,
-                    rank=self.DEFAULT_MAX_RANK,
-                    david47k_rank=None,
-                    local_rank=None,
-                    weight=self.MAX_WEIGHT
+                    word=word, rank=self.DEFAULT_MAX_RANK, david47k_rank=None, local_rank=None, weight=self.MAX_WEIGHT
                 )
                 results[word] = info
 
@@ -338,18 +309,19 @@ class FrequencyDatabase:
             conn.close()
 
             return {
-                'total_words': total,
-                'in_both_sources': both,
-                'david47k_only': david_only,
-                'local_only': local_only
+                "total_words": total,
+                "in_both_sources": both,
+                "david47k_only": david_only,
+                "local_only": local_only,
             }
         except sqlite3.Error:
-            return {'error': 'Database not available'}
+            return {"error": "Database not available"}
 
 
 # =============================================================================
 # WEIGHT PROFILES
 # =============================================================================
+
 
 class WeightProfile:
     """
@@ -377,7 +349,7 @@ class WeightProfile:
 
         elif profile == WeightProfile.CONTENT_FOCUSED:
             # Square the weight to emphasize rare words more
-            return base_weight ** 1.5
+            return base_weight**1.5
 
         elif profile == WeightProfile.STRUCTURE_FOCUSED:
             # Square root to compress the range
@@ -402,11 +374,12 @@ class WeightProfile:
 # INTEGRATION HELPERS
 # =============================================================================
 
+
 def build_frequency_database(
     david47k_url: str = "https://raw.githubusercontent.com/david47k/top-english-wordlists/refs/heads/main/top_english_words_10000.txt",
     local_path: str = "/Users/rohanvinaik/relational-ai/word_frequency_report.txt",
     david47k_local: str = "/tmp/top_english_10000.txt",
-    output_path: str = None
+    output_path: str = None,
 ) -> Tuple[FrequencyDatabase, int]:
     """
     Build or update the frequency database.
@@ -450,10 +423,18 @@ if __name__ == "__main__":
     # Test lookups
     print("\n3. Sample frequency weights:")
     test_words = [
-        "the", "a", "is", "and",  # Very common
-        "because", "although", "however",  # Moderately common
-        "algorithm", "photosynthesis", "cryptocurrency",  # Technical
-        "xyzzy", "qwfpgj"  # Unknown
+        "the",
+        "a",
+        "is",
+        "and",  # Very common
+        "because",
+        "although",
+        "however",  # Moderately common
+        "algorithm",
+        "photosynthesis",
+        "cryptocurrency",  # Technical
+        "xyzzy",
+        "qwfpgj",  # Unknown
     ]
 
     for word in test_words:

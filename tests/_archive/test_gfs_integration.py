@@ -30,7 +30,7 @@ class TestGFSIntegration:
             ("joy", "noun", json.dumps([("GOOD", "evaluation"), ("FEEL", "experiencer"), ("VERY", "intensity")]), 0.5),
             ("grief", "noun", json.dumps([("BAD", "evaluation"), ("FEEL", "experiencer"), ("VERY", "intensity")]), 0.4),
             ("doctor", "noun", json.dumps([("PERSON", "agent"), ("HEAL", "action")]), 0.6),
-            ("nurse", "noun", json.dumps([("PERSON", "agent"), ("HEAL", "action")]), 0.5)
+            ("nurse", "noun", json.dumps([("PERSON", "agent"), ("HEAL", "action")]), 0.5),
         ]
 
         for row in data:
@@ -47,7 +47,7 @@ class TestGFSIntegration:
     def test_ternary_polarity(self):
         """Test antonym canonicalization and polarity-aware similarity."""
         happy_decomp = [("GOOD", "evaluation"), ("FEEL", "experiencer")]
-        sad_decomp = [("BAD", "evaluation"), ("FEEL", "experiencer")] # BAD -> GOOD w/ negative
+        sad_decomp = [("BAD", "evaluation"), ("FEEL", "experiencer")]  # BAD -> GOOD w/ negative
 
         # Verify canonicalization
         canon_sad = canonicalize_decomposition(sad_decomp)

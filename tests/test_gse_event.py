@@ -53,14 +53,13 @@ def test_causation_carries_nested_events(encoder):
     tree = _pipe(encoder, "Duncan rewarded Macbeth because Duncan became happy")
     assert isinstance(tree, Causation)
     assert isinstance(tree.cause, Event) and isinstance(tree.effect, Event)
-    assert tree.effect.verb == "reward"          # "Duncan rewarded Macbeth" survives
-    assert tree.cause.verb == "become"           # "Duncan became happy" survives
+    assert tree.effect.verb == "reward"  # "Duncan rewarded Macbeth" survives
+    assert tree.cause.verb == "become"  # "Duncan became happy" survives
 
 
 def test_event_emits_roleframe_envelope(encoder):
     node = emit(_pipe(encoder, "Duncan rewarded Macbeth"))
-    assert node == {"op": "EVENT", "args": ["duncan", "macbeth"],
-                    "features": {"verb": "reward"}}
+    assert node == {"op": "EVENT", "args": ["duncan", "macbeth"], "features": {"verb": "reward"}}
     # intransitive: no patient arg
     bark = emit(_pipe(encoder, "Rex barks"))
     assert bark["op"] == "EVENT" and bark["args"] == ["rex"]
@@ -93,9 +92,9 @@ def test_subject_control_full_shape(encoder):
     assert isinstance(tree, Control)
     assert tree.verb == "want"
     assert tree.subject.head.lemma == "mike"
-    assert tree.controller.head.lemma == "mike"            # subject control
+    assert tree.controller.head.lemma == "mike"  # subject control
     assert isinstance(tree.inner, Event) and tree.inner.verb == "leave"
-    assert tree.inner.agent.head.lemma == "mike"           # inner agent = controller
+    assert tree.inner.agent.head.lemma == "mike"  # inner agent = controller
 
 
 def test_object_control_drops_to_and_sets_inner_agent(encoder):

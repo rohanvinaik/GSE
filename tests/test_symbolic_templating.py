@@ -45,10 +45,8 @@ class TestStringSubstitution:
 
 class TestAtomSubstitution:
     def test_swap_with_atom_replaces_entity_head(self):
-        original = Entity(head=Atom(lemma="dog", word_primitives={"ALIVE": 1},
-                                    position=0, pos="NOUN"))
-        new_head = Atom(lemma="cat", word_primitives={"ALIVE": 1, "BODY": 1},
-                        position=0, pos="NOUN")
+        original = Entity(head=Atom(lemma="dog", word_primitives={"ALIVE": 1}, position=0, pos="NOUN"))
+        new_head = Atom(lemma="cat", word_primitives={"ALIVE": 1, "BODY": 1}, position=0, pos="NOUN")
         result = substitute(original, {"dog": new_head})
         assert isinstance(result, Entity)
         assert result.head.lemma == "cat"
@@ -58,12 +56,10 @@ class TestAtomSubstitution:
 
 class TestEntitySubstitution:
     def test_swap_with_entity_replaces_wholesale(self):
-        original = Entity(head=Atom(lemma="dog", word_primitives={},
-                                    position=0, pos="NOUN"))
+        original = Entity(head=Atom(lemma="dog", word_primitives={}, position=0, pos="NOUN"))
         new_entity = Entity(
             head=Atom(lemma="hound", word_primitives={}, position=0, pos="NOUN"),
-            possessor=Entity(head=Atom(lemma="alice", word_primitives={},
-                                       position=0, pos="PROPN")),
+            possessor=Entity(head=Atom(lemma="alice", word_primitives={}, position=0, pos="PROPN")),
         )
         result = substitute(original, {"dog": new_entity})
         assert result.head.lemma == "hound"

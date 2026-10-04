@@ -31,6 +31,7 @@ from gse.encoders.text_structure_encoder import (
 
 # ---------- TextCodebook ----------
 
+
 class TestTextCodebook:
     def test_all_genres_have_vectors(self):
         cb = TextCodebook(dim=64)
@@ -50,9 +51,7 @@ class TestTextCodebook:
     def test_deterministic_with_seed(self):
         cb1 = TextCodebook(dim=64, seed=7)
         cb2 = TextCodebook(dim=64, seed=7)
-        np.testing.assert_array_equal(
-            cb1.get_genre(Genre.NARRATIVE), cb2.get_genre(Genre.NARRATIVE)
-        )
+        np.testing.assert_array_equal(cb1.get_genre(Genre.NARRATIVE), cb2.get_genre(Genre.NARRATIVE))
 
     def test_different_seeds_differ(self):
         cb1 = TextCodebook(dim=64, seed=1)
@@ -71,6 +70,7 @@ class TestTextCodebook:
 
 
 # ---------- TextStructureEncoder ----------
+
 
 @pytest.fixture
 def encoder():
@@ -138,6 +138,7 @@ class TestDetectGenre:
         # The SoM resolves a super_register; only the prose registers map to a Genesis
         # ground, the rest abstain (MIXED) by design.
         from gse.encoders.som_genre import SomGenreDetector
+
         m = SomGenreDetector.SUPER_TO_GENRE
         assert m["narrative"] == "NARRATIVE"
         assert m["reportorial"] == "EXPOSITORY"
@@ -149,8 +150,9 @@ class TestDetectRegister:
     # Register is no longer keyword-detected — a bare encoder abstains to MIXED for
     # any text (the keyword bag was non-load-bearing rot).
     def test_bare_encoder_abstains_to_mixed(self, encoder):
-        text = ("Therefore, the analysis proceeds. Consequently, results follow. "
-                "Furthermore, the implications are notable.")
+        text = (
+            "Therefore, the analysis proceeds. Consequently, results follow. Furthermore, the implications are notable."
+        )
         register, _ = encoder._detect_register(text)
         assert register == Register.MIXED
 
@@ -162,8 +164,10 @@ class TestDetectRegister:
 class TestDetectDomain:
     # Domain is no longer keyword-detected — MIXED for any text.
     def test_bare_encoder_abstains_to_mixed(self, encoder):
-        text = ("Our research investigates the hypothesis. The methodology shows the "
-                "results. The empirical analysis supports the theoretical study.")
+        text = (
+            "Our research investigates the hypothesis. The methodology shows the "
+            "results. The empirical analysis supports the theoretical study."
+        )
         domain, _ = encoder._detect_domain(text)
         assert domain == Domain.MIXED
 
@@ -242,9 +246,7 @@ class TestBuildDocumentVector:
     def test_includes_genre_register_domain_vectors(self, encoder):
         # Non-empty para_vecs should produce a non-zero vector
         para_vec = encoder._hash_vector("hello")
-        result = encoder._build_document_vector(
-            [para_vec], Genre.NARRATIVE, Register.FORMAL, Domain.ACADEMIC
-        )
+        result = encoder._build_document_vector([para_vec], Genre.NARRATIVE, Register.FORMAL, Domain.ACADEMIC)
         assert np.any(result != 0)
 
 
@@ -263,16 +265,12 @@ class TestBundle:
 
 class TestComputeBankActivations:
     def test_all_mixed_returns_zeros(self, encoder):
-        result = encoder._compute_bank_activations(
-            Genre.MIXED, Register.MIXED, Domain.MIXED
-        )
+        result = encoder._compute_bank_activations(Genre.MIXED, Register.MIXED, Domain.MIXED)
         # All values should be close to 0
         assert all(v < 0.1 for v in result.values())
 
     def test_known_categories_activate_banks(self, encoder):
-        result = encoder._compute_bank_activations(
-            Genre.NARRATIVE, Register.FORMAL, Domain.ACADEMIC
-        )
+        result = encoder._compute_bank_activations(Genre.NARRATIVE, Register.FORMAL, Domain.ACADEMIC)
         # All three activations should be equal after normalization
         assert result["GENRE"] > 0
         assert result["REGISTER"] > 0
@@ -297,16 +295,12 @@ class TestComputeCoherence:
 class TestSimilarity:
     def test_identical_returns_one(self, encoder):
         v = np.ones(2048, dtype=np.float32)
-        e1 = TextEncoding(
-            vector=v, structure=None, paragraph_vectors=[], bank_activations={}, coherence_score=0.0
-        )
+        e1 = TextEncoding(vector=v, structure=None, paragraph_vectors=[], bank_activations={}, coherence_score=0.0)
         assert encoder.similarity(e1, e1) == pytest.approx(1.0)
 
     def test_zero_vectors_returns_zero(self, encoder):
         v = np.zeros(2048, dtype=np.float32)
-        e1 = TextEncoding(
-            vector=v, structure=None, paragraph_vectors=[], bank_activations={}, coherence_score=0.0
-        )
+        e1 = TextEncoding(vector=v, structure=None, paragraph_vectors=[], bank_activations={}, coherence_score=0.0)
         assert encoder.similarity(e1, e1) == 0.0
 
 
@@ -332,6 +326,7 @@ class TestEncode:
 
 
 # ---------- Singleton ----------
+
 
 class TestSingleton:
     def test_cached(self):

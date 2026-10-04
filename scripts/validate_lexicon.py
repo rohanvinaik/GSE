@@ -43,7 +43,9 @@ def main():
         total = stats["passed"] + stats["failed"]
         if total > 0:
             rate = stats["passed"] / total * 100
-            print(f"  {category.capitalize()}: {stats['passed']}/{total} passed ({rate:.1f}%) - {stats['missing']} missing")
+            print(
+                f"  {category.capitalize()}: {stats['passed']}/{total} passed ({rate:.1f}%) - {stats['missing']} missing"
+            )
         else:
             print(f"  {category.capitalize()}: No pairs found (Missing: {stats['missing']})")
 
@@ -57,17 +59,13 @@ def main():
     clean_results = {k: v for k, v in results.items() if k != "failures"}
     clean_results["failures"] = []
     for f in results["failures"]:
-        clean_results["failures"].append({
-            "type": f[0],
-            "word1": f[1],
-            "word2": f[2],
-            "similarity": float(f[3])
-        })
+        clean_results["failures"].append({"type": f[0], "word1": f[1], "word2": f[2], "similarity": float(f[3])})
 
-    with open(args.output, 'w') as f:
+    with open(args.output, "w") as f:
         json.dump(clean_results, f, indent=2)
 
     print(f"\nDetailed report saved to {args.output}")
+
 
 if __name__ == "__main__":
     main()

@@ -51,8 +51,8 @@ Because the geometry is composed, not fit, every claim it makes is inspectable. 
 from gse import GSEPipeline
 
 gse = GSEPipeline()
-gse.encode_sentence("The committee approved the proposal.")   # → a sparse ternary vector
-gse.compute_similarity("The dog runs.", "The cat runs.")      # → 0.94, + per-bank breakdown
+gse.encode_sentence("The committee approved the proposal.")  # → a sparse ternary vector
+gse.compute_similarity("The dog runs.", "The cat runs.")  # → 0.94, + per-bank breakdown
 ```
 
 The similarity carries a `bank_similarities` breakdown, so a match is never a single opaque number — you can see *which* families of meaning agree. Same from the CLI: `python -m gse.cli compare "big" "small"`.

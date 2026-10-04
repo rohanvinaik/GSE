@@ -90,8 +90,7 @@ class TestEntityHasPropertyMethod:
 
     def test_entity_with_property(self):
         w = SimpleWorldModel()
-        w.add_entity(Entity(name="dog", entity_type=EntityType.ANIMAL,
-                            properties={"color": "brown"}))
+        w.add_entity(Entity(name="dog", entity_type=EntityType.ANIMAL, properties={"color": "brown"}))
         assert w.entity_has_property("dog", "color")
         assert w.entity_has_property("dog", "color", "brown")
         assert not w.entity_has_property("dog", "color", "blue")

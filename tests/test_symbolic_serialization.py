@@ -68,8 +68,7 @@ class TestAstNodeRoundTrip:
         assert restored.operand.lemma == "good"
 
     def test_op_round_trip(self):
-        op = Op(primitive="COMP_THAN", operation="SET_DIFF", arity=2,
-                args=[_atom("a"), _atom("b")])
+        op = Op(primitive="COMP_THAN", operation="SET_DIFF", arity=2, args=[_atom("a"), _atom("b")])
         restored = from_dict(to_dict(op))
         assert isinstance(restored, Op)
         assert restored.primitive == "COMP_THAN"
@@ -94,18 +93,21 @@ class TestAstNodeRoundTrip:
 
 
 class TestPredicateRoundTrip:
-    @pytest.mark.parametrize("pred", [
-        Comparison(lhs=_atom("a"), rhs=_atom("b"), sign=+1),
-        Equality(lhs=_atom("a"), rhs=_atom("b")),
-        TypeQuery(entity=_atom("a")),
-        DegreeQuery(entity=_atom("a")),
-        MinimalSufficiency(threshold=_atom("food"), purpose=_atom("ben")),
-        SetRestriction(member=_atom("mike"), predicate=_atom("sings")),
-        BoundaryCase(entity=_atom("mike"), predicate=_atom("sings")),
-        Contrast(left=_atom("sings"), right=_atom("runs")),
-        Causation(cause=_atom("sang"), effect=_atom("left"), conjunction="so"),
-        Causation(cause=_atom("sang"), effect=_atom("left"), conjunction="because"),
-    ])
+    @pytest.mark.parametrize(
+        "pred",
+        [
+            Comparison(lhs=_atom("a"), rhs=_atom("b"), sign=+1),
+            Equality(lhs=_atom("a"), rhs=_atom("b")),
+            TypeQuery(entity=_atom("a")),
+            DegreeQuery(entity=_atom("a")),
+            MinimalSufficiency(threshold=_atom("food"), purpose=_atom("ben")),
+            SetRestriction(member=_atom("mike"), predicate=_atom("sings")),
+            BoundaryCase(entity=_atom("mike"), predicate=_atom("sings")),
+            Contrast(left=_atom("sings"), right=_atom("runs")),
+            Causation(cause=_atom("sang"), effect=_atom("left"), conjunction="so"),
+            Causation(cause=_atom("sang"), effect=_atom("left"), conjunction="because"),
+        ],
+    )
     def test_predicate_round_trip(self, pred):
         restored = from_dict(to_dict(pred))
         assert type(restored) is type(pred)
@@ -149,14 +151,17 @@ class TestErrors:
 
 
 class TestEndToEndRoundTrip:
-    @pytest.mark.parametrize("sentence", [
-        "Mike is taller than Rex",
-        "Mike sang so Rex left",
-        "Mike left because Rex sang",
-        "Only Mike sings",
-        "Even Mike sings",
-        "Mike's dog ran fast",
-    ])
+    @pytest.mark.parametrize(
+        "sentence",
+        [
+            "Mike is taller than Rex",
+            "Mike sang so Rex left",
+            "Mike left because Rex sang",
+            "Only Mike sings",
+            "Even Mike sings",
+            "Mike's dog ran fast",
+        ],
+    )
     def test_evaluated_tree_round_trips(self, encoder, sentence):
         # Encode → AST → resolve → evaluate → serialize → deserialize
         trace = encoder.encode(sentence)
@@ -178,8 +183,7 @@ class TestEndToEndRoundTrip:
 
 def _contains_possessive(expr, head, possessor):
     if isinstance(expr, Entity):
-        if (expr.head.lemma == head and expr.possessor is not None
-                and expr.possessor.head.lemma == possessor):
+        if expr.head.lemma == head and expr.possessor is not None and expr.possessor.head.lemma == possessor:
             return True
         if expr.possessor is not None:
             return _contains_possessive(expr.possessor, head, possessor)

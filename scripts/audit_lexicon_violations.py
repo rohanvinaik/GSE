@@ -75,8 +75,7 @@ def audit(db_path: Path, top_k: int = 20) -> Dict[str, Any]:
             logger.info("Audited %d / %d lexemes", progress, total_lexemes)
 
         pv_rows = conn.execute(
-            "SELECT primitive, value FROM primitive_values "
-            "WHERE lexeme_id = ? AND value != 0",
+            "SELECT primitive, value FROM primitive_values WHERE lexeme_id = ? AND value != 0",
             (lex_id,),
         ).fetchall()
         if not pv_rows:
@@ -102,20 +101,13 @@ def audit(db_path: Path, top_k: int = 20) -> Dict[str, Any]:
         "db_path": str(db_path),
         "total_lexemes": total_lexemes,
         "lexemes_with_violations": lexemes_with_violations,
-        "violation_rate": (
-            lexemes_with_violations / total_lexemes if total_lexemes else 0.0
-        ),
+        "violation_rate": (lexemes_with_violations / total_lexemes if total_lexemes else 0.0),
         "total_violations": total_violations,
         "avg_violations_per_violating_lexeme": (
-            total_violations / lexemes_with_violations
-            if lexemes_with_violations else 0.0
+            total_violations / lexemes_with_violations if lexemes_with_violations else 0.0
         ),
-        "per_bipolar_pair_violation_count": dict(
-            sorted(per_pair_counts.items(), key=lambda kv: -kv[1])
-        ),
-        "worst_offenders": [
-            {"lemma": lem, "violations": viol} for lem, viol in worst_offenders
-        ],
+        "per_bipolar_pair_violation_count": dict(sorted(per_pair_counts.items(), key=lambda kv: -kv[1])),
+        "worst_offenders": [{"lemma": lem, "violations": viol} for lem, viol in worst_offenders],
     }
     return report
 
@@ -131,12 +123,9 @@ def _print_report(report: Dict[str, Any]) -> None:
         return
     nv = report["lexemes_with_violations"]
     print(f"  Total lexemes:                 {n:,}")
-    print(f"  Lexemes with ≥1 violation:     {nv:,}  ({report['violation_rate']*100:.2f}%)")
+    print(f"  Lexemes with ≥1 violation:     {nv:,}  ({report['violation_rate'] * 100:.2f}%)")
     print(f"  Total violations counted:      {report['total_violations']:,}")
-    print(
-        f"  Avg violations per offender:   "
-        f"{report['avg_violations_per_violating_lexeme']:.2f}"
-    )
+    print(f"  Avg violations per offender:   {report['avg_violations_per_violating_lexeme']:.2f}")
     print()
     print("  Per-bipolar-pair violation frequency (top 10):")
     items = list(report["per_bipolar_pair_violation_count"].items())[:10]

@@ -73,24 +73,20 @@ class TestPropagationGeometry:
         without_prop = compose_decomposition(basis, decomp, propagate_polarity=False)
 
         cos = with_prop.cosine(without_prop)
-        assert cos == pytest.approx(1.0, abs=1e-6), (
-            f"No-negation decomposition should be identical (got cos={cos:.6f})"
-        )
+        assert cos == pytest.approx(1.0, abs=1e-6), f"No-negation decomposition should be identical (got cos={cos:.6f})"
 
     def test_no_change_when_no_mental_or_action(self, basis):
         """If decomposition has no MENTAL/ACTION primitives, propagation is a no-op."""
         decomp = [
             ("SOMEONE", "experiencer", 1),  # SUBSTANTIVES
-            ("GOOD", "evaluation", -1),     # negated EVALUATOR, but no target
+            ("GOOD", "evaluation", -1),  # negated EVALUATOR, but no target
         ]
 
         with_prop = compose_decomposition(basis, decomp, propagate_polarity=True)
         without_prop = compose_decomposition(basis, decomp, propagate_polarity=False)
 
         cos = with_prop.cosine(without_prop)
-        assert cos == pytest.approx(1.0, abs=1e-6), (
-            "SUBSTANTIVES is not a propagation target — should be identical"
-        )
+        assert cos == pytest.approx(1.0, abs=1e-6), "SUBSTANTIVES is not a propagation target — should be identical"
 
     def test_no_change_when_evaluator_positive(self, basis):
         """Only negated EVALUATORS propagate; positive ones do not."""
@@ -142,8 +138,7 @@ class TestEmergentAntonymy:
         cos_without = hate_without.cosine(love_without)
 
         assert cos_with < cos_without, (
-            f"Propagation should widen hate/love gap. "
-            f"with={cos_with:.3f}, without={cos_without:.3f}"
+            f"Propagation should widen hate/love gap. with={cos_with:.3f}, without={cos_without:.3f}"
         )
 
     def test_synonym_gap_preserved(self, basis):
@@ -161,9 +156,7 @@ class TestEmergentAntonymy:
         vec_b = compose_decomposition(basis, positive_b, propagate_polarity=True)
 
         cos = vec_a.cosine(vec_b)
-        assert cos > 0.4, (
-            f"Same-polarity compositions should remain similar (cos={cos:.3f})"
-        )
+        assert cos > 0.4, f"Same-polarity compositions should remain similar (cos={cos:.3f})"
 
     def test_propagation_on_action_bank(self, basis):
         """ACTION bank should also receive propagation (DO, HAPPEN, etc.)."""
@@ -184,8 +177,7 @@ class TestEmergentAntonymy:
         cos_without = with_prop_pos.cosine(without_prop_neg)
 
         assert cos_with < cos_without, (
-            f"ACTION bank should also receive propagation. "
-            f"with={cos_with:.3f}, without={cos_without:.3f}"
+            f"ACTION bank should also receive propagation. with={cos_with:.3f}, without={cos_without:.3f}"
         )
 
 
@@ -202,9 +194,7 @@ class TestBackwardCompatibility:
         explicit = compose_decomposition(basis, decomp, propagate_polarity=True)
 
         cos = default.cosine(explicit)
-        assert cos == pytest.approx(1.0, abs=1e-6), (
-            "Default should be propagate_polarity=True"
-        )
+        assert cos == pytest.approx(1.0, abs=1e-6), "Default should be propagate_polarity=True"
 
     def test_can_disable_propagation(self, basis):
         decomp = [

@@ -41,10 +41,7 @@ NRC_VAD_TXT = EXTERNAL_DIR / "nrc_vad.txt"
 CONCRETENESS_CSV = EXTERNAL_DIR / "concreteness.csv"
 USAS_TSV = EXTERNAL_DIR / "usas" / "semantic_lexicon_en.tsv"
 
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s [%(levelname)s] %(message)s'
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -61,41 +58,34 @@ VERBNET_CLASS_PRIMITIVES = {
     "slide-11.2": {"MOVE": 1},
     "fly-51.4.2": {"MOVE": 1, "ABOVE": 1},
     "swim-51.3.2": {"MOVE": 1, "BODY": 1},
-
     # Communication verbs
     "say-37.7": {"SAY": 1, "WORDS": 1},
     "talk-37.5": {"SAY": 1, "WORDS": 1},
     "tell-37.2": {"SAY": 1, "WORDS": 1, "KNOW": 1},
     "ask-37.1.2": {"SAY": 1, "WANT": 1},
-
     # Cognition verbs
     "think-29.4": {"THINK": 1},
     "know-29.5": {"KNOW": 1},
     "believe-29.2": {"THINK": 1, "MAYBE": 1},
     "understand-29.5": {"KNOW": 1, "THINK": 1},
-
     # Perception verbs
     "see-30.1": {"SEE": 1},
     "hear-30.1": {"HEAR": 1},
     "feel-30.1": {"FEEL": 1},
-
     # Psych verbs (experiencer subject)
     "admire-31.2": {"FEEL": 1, "GOOD": 1},
     "fear-31.2": {"FEEL": 1, "GOOD": -1},
     "love-31.2": {"FEEL": 1, "WANT": 1, "GOOD": 1},
     "hate-31.2": {"FEEL": 1, "GOOD": -1},
-
     # Change of state
     "break-45.1": {"CAUSE": 1, "END": 1},
     "cut-21.1": {"DO": 1, "CAUSE": 1},
     "open-45.4": {"CAUSE": 1, "START": 1},
     "close-45.4": {"CAUSE": 1, "END": 1},
-
     # Creation/destruction
     "create-26.4": {"DO": 1, "CAUSE": 1, "START": 1},
     "build-26.1": {"DO": 1, "CAUSE": 1},
     "destroy-44": {"DO": 1, "CAUSE": 1, "END": 1},
-
     # Possession
     "give-13.1": {"HAVE": -1, "CAUSE": 1},
     "get-13.5.1": {"HAVE": 1, "START": 1},
@@ -111,37 +101,31 @@ FRAMENET_FRAME_PRIMITIVES = {
     "Cause_motion": {"MOVE": 1, "CAUSE": 1},
     "Arriving": {"MOVE": 1, "END": 1},
     "Departing": {"MOVE": 1, "START": 1},
-
     # Communication frames
     "Statement": {"SAY": 1, "WORDS": 1},
     "Communication": {"SAY": 1},
     "Request": {"SAY": 1, "WANT": 1},
     "Questioning": {"SAY": 1, "WANT": 1, "KNOW": 1},
-
     # Cognition frames
     "Awareness": {"KNOW": 1},
     "Perception_active": {"SEE": 1, "DO": 1},
     "Perception_experience": {"FEEL": 1},
     "Reasoning": {"THINK": 1},
     "Categorization": {"THINK": 1, "KIND": 1},
-
     # Emotion frames
     "Emotions": {"FEEL": 1},
     "Experiencer_obj": {"FEEL": 1, "CAUSE": 1},
     "Desiring": {"WANT": 1},
-
     # Causation frames
     "Causation": {"CAUSE": 1},
     "Cause_change": {"CAUSE": 1, "HAPPEN": 1},
     "Creating": {"DO": 1, "CAUSE": 1, "START": 1},
     "Destroying": {"DO": 1, "CAUSE": 1, "END": 1},
-
     # Possession frames
     "Possession": {"HAVE": 1},
     "Getting": {"HAVE": 1, "START": 1},
     "Giving": {"HAVE": -1, "CAUSE": 1},
     "Commerce_buy": {"HAVE": 1, "START": 1},
-
     # Life frames
     "Being_born": {"ALIVE": 1, "START": 1},
     "Death": {"ALIVE": -1, "END": 1},
@@ -164,17 +148,14 @@ USAS_TAG_PRIMITIVES = {
     "A7+": {"MAYBE": 1, "CAN": 1},  # Likelihood
     "A8": {"CAN": 1},  # Ability
     "A9+": {"MUST": 1},  # Need
-
     # B: The Body & The Individual
     "B1": {"BODY": 1},  # Body
     "B2": {"BODY": 1, "GOOD": -1},  # Health/Disease
     "B3": {"BODY": 1, "FEEL": 1},  # Medicines
     "B4": {"BODY": 1, "DO": 1},  # Cleaning
     "B5": {"BODY": 1},  # Clothes
-
     # C: Arts & Crafts
     "C1": {"DO": 1},  # Arts & Crafts
-
     # E: Emotional Actions/States
     "E1": {"FEEL": 1, "GOOD": 1},  # Emotional: General
     "E2+": {"FEEL": 1, "GOOD": 1},  # Liking
@@ -185,22 +166,18 @@ USAS_TAG_PRIMITIVES = {
     "E4.2+": {"FEEL": 1},  # Surprised
     "E5+": {"FEEL": 1, "GOOD": -1},  # Fear
     "E6+": {"FEEL": 1, "GOOD": -1},  # Angry
-
     # I: Money & Commerce
     "I1": {"HAVE": 1, "QUANTITY": 1},  # Money
     "I2.1": {"DO": 1, "HAVE": 1},  # Business
-
     # K: Entertainment/Sports
     "K1": {"DO": 1, "FEEL": 1},  # Entertainment
     "K2": {"HEAR": 1, "FEEL": 1},  # Music
     "K4": {"DO": 1},  # Drama
     "K5.1": {"DO": 1, "BODY": 1, "MOVE": 1},  # Sports
-
     # L: Life & Living Things
     "L1": {"ALIVE": 1},  # Life
     "L2": {"ALIVE": 1, "BODY": 1},  # Living creatures
     "L3": {"ALIVE": 1},  # Plants
-
     # M: Movement/Location
     "M1": {"MOVE": 1},  # Moving
     "M2": {"MOVE": 1, "WITH": 1},  # Putting
@@ -210,7 +187,6 @@ USAS_TAG_PRIMITIVES = {
     "M6": {"WHERE": 1, "INSIDE": 1},  # Open/Close
     "M7": {"WHERE": 1},  # Places
     "M8": {"WHERE": 1, "OUTSIDE": 1},  # Outside
-
     # N: Numbers & Measurement
     "N1": {"QUANTITY": 1, "ONE": 1},  # Numbers
     "N2": {"QUANTITY": 1, "MUCH": 1},  # Amount
@@ -218,7 +194,6 @@ USAS_TAG_PRIMITIVES = {
     "N3.2": {"WHEN": 1, "QUANTITY": 1},  # Measurement: Time
     "N4": {"BIG": 1},  # Linear order
     "N5": {"QUANTITY": 1},  # Quantities
-
     # O: Substances, Materials, Objects
     "O1": {"SOMETHING": 1},  # Substances
     "O2": {"SOMETHING": 1},  # Objects
@@ -230,10 +205,8 @@ USAS_TAG_PRIMITIVES = {
     "O4.4": {"TOUCH": 1},  # Texture
     "O4.5": {"FEEL": 1, "BODY": 1},  # Temperature
     "O4.6": {"HEAR": 1},  # Sound
-
     # P: Education
     "P1": {"KNOW": 1, "THINK": 1},  # Education
-
     # Q: Language & Communication
     "Q1.1": {"SAY": 1, "WORDS": 1},  # Communication: Linguistic
     "Q1.2": {"SEE": 1, "WORDS": 1},  # Writing
@@ -243,7 +216,6 @@ USAS_TAG_PRIMITIVES = {
     "Q3": {"HEAR": 1, "SAY": 1},  # Telecommunications
     "Q4.1": {"WORDS": 1},  # Media
     "Q4.2": {"SEE": 1, "WORDS": 1},  # Visual media
-
     # S: Social Actions/States
     "S1.1.1": {"PEOPLE": 1},  # Social: General
     "S1.1.2+": {"PEOPLE": 1, "WITH": 1},  # Participating
@@ -258,7 +230,6 @@ USAS_TAG_PRIMITIVES = {
     "S7.1+": {"CAN": 1, "PEOPLE": 1},  # Power
     "S8+": {"MUST": 1, "WORDS": 1},  # Religion
     "S9": {"MUST": 1, "GOOD": 1},  # Ethics
-
     # T: Time
     "T1": {"WHEN": 1},  # Time
     "T1.1": {"WHEN": 1, "NOW": 1},  # Time: Present
@@ -271,14 +242,12 @@ USAS_TAG_PRIMITIVES = {
     "T2-": {"END": 1, "WHEN": 1},  # Ending
     "T3-": {"BEFORE": 1, "WHEN": 1},  # Old
     "T4": {"WHEN": 1, "QUANTITY": 1},  # Frequency
-
     # W: World & Environment
     "W1": {"WHERE": 1},  # World
     "W2": {"WHERE": 1, "SEE": 1},  # Light
     "W3": {"WHERE": 1},  # Geographical
     "W4": {"WHERE": 1, "HAPPEN": 1},  # Weather
     "W5": {"SOMETHING": 1},  # Green issues
-
     # X: Psychological Actions/States
     "X1": {"THINK": 1},  # Mental: General
     "X2.1": {"THINK": 1, "KNOW": 1},  # Thought processes
@@ -306,7 +275,6 @@ USAS_TAG_PRIMITIVES = {
     "X9.1-": {"CAN": -1},  # Unable
     "X9.2+": {"DO": 1, "GOOD": 1},  # Success
     "X9.2-": {"DO": 1, "GOOD": -1},  # Failure
-
     # Z: Names & Grammar
     "Z1": {"SOMEONE": 1},  # Personal names
     "Z2": {"WHERE": 1},  # Geographical names
@@ -319,16 +287,13 @@ CONCEPTNET_RELATION_PRIMITIVES = {
     "IsA": {"KIND": 1},
     "InstanceOf": {"KIND": 1, "ONE": 1},
     "DefinedAs": {"SAME": 1},
-
     # Part-whole relations
     "HasA": {"HAVE": 1, "PART": 1},
     "PartOf": {"PART": 1},
     "MadeOf": {"SOMETHING": 1},
-
     # Spatial relations
     "AtLocation": {"WHERE": 1},
     "LocatedNear": {"WHERE": 1, "NEAR": 1},
-
     # Action/causation relations
     "CapableOf": {"CAN": 1, "DO": 1},
     "Causes": {"CAUSE": 1},
@@ -339,29 +304,23 @@ CONCEPTNET_RELATION_PRIMITIVES = {
     "HasLastSubevent": {"END": 1, "DO": 1},
     "Entails": {"CAUSE": 1, "MUST": 1},
     "MannerOf": {"DO": 1, "LIKE": 1},
-
     # Property relations
     "HasProperty": {},  # Property depends on the object
     "NotHasProperty": {},
-
     # Mental/desire relations
     "Desires": {"WANT": 1},
     "NotDesires": {"WANT": -1},
     "MotivatedByGoal": {"WANT": 1, "CAUSE": 1},
-
     # Creation relations
     "CreatedBy": {"CAUSE": 1, "DO": 1},
-
     # Opposition
     "Antonym": {},  # Handled specially - flip polarity
     "DistinctFrom": {"OTHER": 1},
-
     # Etymology (less semantic)
     "DerivedFrom": {"BEFORE": 1},
     "EtymologicallyRelatedTo": {},
     "EtymologicallyDerivedFrom": {"BEFORE": 1},
     "FormOf": {"SAME": 1},
-
     # Context
     "HasContext": {},  # Domain marker
 }
@@ -415,6 +374,7 @@ CONCRETENESS_THRESHOLDS = {
 @dataclass
 class AuditResult:
     """Container for audit findings."""
+
     word: str
     pos: Optional[str]
     wiktionary_primitives: Dict[str, int]
@@ -427,6 +387,7 @@ class AuditResult:
 @dataclass
 class ConflictReport:
     """Details of a primitive conflict."""
+
     word: str
     primitive: str
     wiktionary_value: int
@@ -438,6 +399,7 @@ class ConflictReport:
 # =============================================================================
 # AUDIT FUNCTIONS
 # =============================================================================
+
 
 def load_wiktionary_primitives(db_path: Path) -> Dict[str, Dict[str, int]]:
     """Load all word-primitive mappings from Wiktionary database."""
@@ -458,10 +420,10 @@ def load_wiktionary_primitives(db_path: Path) -> Dict[str, Dict[str, int]]:
 
     word_prims = defaultdict(dict)
     for row in cursor:
-        word = row['word']
-        prim = row['primitive']
+        word = row["word"]
+        prim = row["primitive"]
         if prim not in word_prims[word]:  # Keep highest confidence
-            word_prims[word][prim] = row['value']
+            word_prims[word][prim] = row["value"]
 
     conn.close()
     logger.info(f"Loaded primitives for {len(word_prims):,} words")
@@ -477,27 +439,27 @@ def load_aggregation_sources(data_dir: Path) -> Dict[str, Dict[str, Dict[str, in
 
     # ConceptNet (3.1M edges)
     if CONCEPTNET_DB.exists():
-        sources['conceptnet'] = load_conceptnet_primitives(CONCEPTNET_DB)
+        sources["conceptnet"] = load_conceptnet_primitives(CONCEPTNET_DB)
 
     # Lancaster Sensorimotor Norms
     if LANCASTER_CSV.exists():
-        sources['sensorimotor'] = load_sensorimotor_primitives(LANCASTER_CSV)
+        sources["sensorimotor"] = load_sensorimotor_primitives(LANCASTER_CSV)
 
     # NRC Emotion Lexicon
     if NRC_EMOTION_TXT.exists():
-        sources['nrc_emotion'] = load_nrc_emotion_primitives(NRC_EMOTION_TXT)
+        sources["nrc_emotion"] = load_nrc_emotion_primitives(NRC_EMOTION_TXT)
 
     # NRC VAD Lexicon
     if NRC_VAD_TXT.exists():
-        sources['nrc_vad'] = load_nrc_vad_primitives(NRC_VAD_TXT)
+        sources["nrc_vad"] = load_nrc_vad_primitives(NRC_VAD_TXT)
 
     # Concreteness Ratings
     if CONCRETENESS_CSV.exists():
-        sources['concreteness'] = load_concreteness_primitives(CONCRETENESS_CSV)
+        sources["concreteness"] = load_concreteness_primitives(CONCRETENESS_CSV)
 
     # USAS Semantic Tags
     if USAS_TSV.exists():
-        sources['usas'] = load_usas_primitives_from_tsv(USAS_TSV)
+        sources["usas"] = load_usas_primitives_from_tsv(USAS_TSV)
 
     return sources
 
@@ -557,10 +519,10 @@ def load_wordnet_primitives(db_path: Path) -> Dict[str, Dict[str, int]]:
         """)
 
         for row in cursor:
-            word = row['word'].lower()
+            word = row["word"].lower()
             if word not in word_prims:
                 word_prims[word] = {}
-            word_prims[word][row['primitive']] = row['value']
+            word_prims[word][row["primitive"]] = row["value"]
     except sqlite3.OperationalError as e:
         logger.warning(f"Could not load WordNet primitives (table may not exist): {e}")
 
@@ -614,7 +576,7 @@ def load_conceptnet_primitives(db_path: Path) -> Dict[str, Dict[str, int]]:
     count = 0
     for relation, start_word, end_word, weight in cursor:
         # Clean words (remove /c/en/ prefix if present)
-        word = start_word.lower().replace('/c/en/', '').replace('_', ' ')
+        word = start_word.lower().replace("/c/en/", "").replace("_", " ")
 
         if relation in CONCEPTNET_RELATION_PRIMITIVES:
             prims = CONCEPTNET_RELATION_PRIMITIVES[relation]
@@ -635,10 +597,10 @@ def load_sensorimotor_primitives(csv_path: Path) -> Dict[str, Dict[str, int]]:
     if not csv_path.exists():
         return word_prims
 
-    with open(csv_path, 'r', encoding='utf-8') as f:
+    with open(csv_path, "r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            word = row['Word'].lower()
+            word = row["Word"].lower()
             prims = {}
 
             # Check each modality
@@ -651,7 +613,7 @@ def load_sensorimotor_primitives(csv_path: Path) -> Dict[str, Dict[str, int]]:
                             for prim, val in prim_map.items():
                                 if prim not in prims:
                                     prims[prim] = val
-                    except (ValueError, TypeError):
+                    except ValueError, TypeError:
                         pass
 
             if prims:
@@ -668,16 +630,16 @@ def load_nrc_emotion_primitives(txt_path: Path) -> Dict[str, Dict[str, int]]:
     if not txt_path.exists():
         return dict(word_prims)
 
-    with open(txt_path, 'r', encoding='utf-8') as f:
+    with open(txt_path, "r", encoding="utf-8") as f:
         for line in f:
-            parts = line.strip().split('\t')
+            parts = line.strip().split("\t")
             if len(parts) != 3:
                 continue
 
             word, emotion, value = parts
             word = word.lower()
 
-            if value == '1' and emotion in NRC_EMOTION_PRIMITIVES:
+            if value == "1" and emotion in NRC_EMOTION_PRIMITIVES:
                 for prim, val in NRC_EMOTION_PRIMITIVES[emotion].items():
                     if prim not in word_prims[word]:
                         word_prims[word][prim] = val
@@ -693,10 +655,10 @@ def load_nrc_vad_primitives(txt_path: Path) -> Dict[str, Dict[str, int]]:
     if not txt_path.exists():
         return word_prims
 
-    with open(txt_path, 'r', encoding='utf-8') as f:
+    with open(txt_path, "r", encoding="utf-8") as f:
         next(f)  # Skip header
         for line in f:
-            parts = line.strip().split('\t')
+            parts = line.strip().split("\t")
             if len(parts) != 4:
                 continue
 
@@ -723,7 +685,7 @@ def load_nrc_vad_primitives(txt_path: Path) -> Dict[str, Dict[str, int]]:
                 elif d <= VAD_THRESHOLDS["dominance"]["low"]:
                     prims["MUST"] = 1
 
-            except (ValueError, TypeError):
+            except ValueError, TypeError:
                 pass
 
             if prims:
@@ -740,21 +702,21 @@ def load_concreteness_primitives(csv_path: Path) -> Dict[str, Dict[str, int]]:
     if not csv_path.exists():
         return word_prims
 
-    with open(csv_path, 'r', encoding='utf-8') as f:
+    with open(csv_path, "r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            word = row['Word'].lower()
+            word = row["Word"].lower()
             prims = {}
 
             try:
-                conc = float(row['Conc.M'])
+                conc = float(row["Conc.M"])
 
                 if conc >= CONCRETENESS_THRESHOLDS["concrete"]:
                     prims["SOMETHING"] = 1
                 elif conc <= CONCRETENESS_THRESHOLDS["abstract"]:
                     prims["THINK"] = 1
 
-            except (ValueError, TypeError, KeyError):
+            except ValueError, TypeError, KeyError:
                 pass
 
             if prims:
@@ -771,10 +733,10 @@ def load_usas_primitives_from_tsv(tsv_path: Path) -> Dict[str, Dict[str, int]]:
     if not tsv_path.exists():
         return word_prims
 
-    with open(tsv_path, 'r', encoding='utf-8') as f:
+    with open(tsv_path, "r", encoding="utf-8") as f:
         next(f)  # Skip header
         for line in f:
-            parts = line.strip().split('\t')
+            parts = line.strip().split("\t")
             if len(parts) < 3:
                 continue
 
@@ -783,7 +745,7 @@ def load_usas_primitives_from_tsv(tsv_path: Path) -> Dict[str, Dict[str, int]]:
             prims = {}
 
             # Tags can be multiple separated by /
-            for tag in tags.split('/'):
+            for tag in tags.split("/"):
                 tag = tag.strip()
                 # Match tag prefix (e.g., "E1" matches "E1.1+")
                 for usas_tag, tag_prims in USAS_TAG_PRIMITIVES.items():
@@ -801,8 +763,7 @@ def load_usas_primitives_from_tsv(tsv_path: Path) -> Dict[str, Dict[str, int]]:
 
 
 def find_conflicts(
-    wikt_prims: Dict[str, Dict[str, int]],
-    source_prims: Dict[str, Dict[str, Dict[str, int]]]
+    wikt_prims: Dict[str, Dict[str, int]], source_prims: Dict[str, Dict[str, Dict[str, int]]]
 ) -> List[ConflictReport]:
     """Find conflicts between Wiktionary and other sources."""
     conflicts = []
@@ -818,23 +779,27 @@ def find_conflicts(
                 if prim in wikt:
                     wikt_val = wikt[prim]
                     if wikt_val != source_val:
-                        conflicts.append(ConflictReport(
+                        conflicts.append(
+                            ConflictReport(
+                                word=word,
+                                primitive=prim,
+                                wiktionary_value=wikt_val,
+                                source_name=source_name,
+                                source_value=source_val,
+                                conflict_type="value_mismatch",
+                            )
+                        )
+                else:
+                    conflicts.append(
+                        ConflictReport(
                             word=word,
                             primitive=prim,
-                            wiktionary_value=wikt_val,
+                            wiktionary_value=0,
                             source_name=source_name,
                             source_value=source_val,
-                            conflict_type='value_mismatch'
-                        ))
-                else:
-                    conflicts.append(ConflictReport(
-                        word=word,
-                        primitive=prim,
-                        wiktionary_value=0,
-                        source_name=source_name,
-                        source_value=source_val,
-                        conflict_type='missing_in_wikt'
-                    ))
+                            conflict_type="missing_in_wikt",
+                        )
+                    )
 
     return conflicts
 
@@ -871,7 +836,7 @@ def generate_audit_report(
     wikt_prims: Dict[str, Dict[str, int]],
     source_prims: Dict[str, Dict[str, Dict[str, int]]],
     conflicts: List[ConflictReport],
-    frequencies: Dict[str, int]
+    frequencies: Dict[str, int],
 ) -> Dict:
     """Generate comprehensive audit report."""
 
@@ -890,51 +855,41 @@ def generate_audit_report(
     for source_name, words in source_prims.items():
         overlap = len(set(words.keys()) & set(wikt_prims.keys()))
         source_coverage[source_name] = {
-            'total_words': len(words),
-            'overlap_with_wikt': overlap,
-            'overlap_pct': overlap / len(words) * 100 if words else 0
+            "total_words": len(words),
+            "overlap_with_wikt": overlap,
+            "overlap_pct": overlap / len(words) * 100 if words else 0,
         }
 
     # High-frequency word conflicts (more important)
-    high_freq_conflicts = [
-        c for c in conflicts
-        if c.word in frequencies and frequencies[c.word] <= 10000
-    ]
+    high_freq_conflicts = [c for c in conflicts if c.word in frequencies and frequencies[c.word] <= 10000]
 
     report = {
-        'summary': {
-            'wiktionary_words': len(wikt_prims),
-            'total_conflicts': len(conflicts),
-            'high_frequency_conflicts': len(high_freq_conflicts),
-            'conflict_rate': len(conflicts) / len(wikt_prims) * 100 if wikt_prims else 0
+        "summary": {
+            "wiktionary_words": len(wikt_prims),
+            "total_conflicts": len(conflicts),
+            "high_frequency_conflicts": len(high_freq_conflicts),
+            "conflict_rate": len(conflicts) / len(wikt_prims) * 100 if wikt_prims else 0,
         },
-        'by_source': {
-            name: {
-                'conflicts': len(cs),
-                'coverage': source_coverage.get(name, {})
-            }
+        "by_source": {
+            name: {"conflicts": len(cs), "coverage": source_coverage.get(name, {})}
             for name, cs in conflict_by_source.items()
         },
-        'by_primitive': {
-            prim: len(cs)
-            for prim, cs in sorted(conflict_by_primitive.items(), key=lambda x: -len(x[1]))[:20]
+        "by_primitive": {
+            prim: len(cs) for prim, cs in sorted(conflict_by_primitive.items(), key=lambda x: -len(x[1]))[:20]
         },
-        'by_type': {
-            ctype: len(cs)
-            for ctype, cs in conflict_by_type.items()
-        },
-        'sample_conflicts': [
+        "by_type": {ctype: len(cs) for ctype, cs in conflict_by_type.items()},
+        "sample_conflicts": [
             {
-                'word': c.word,
-                'primitive': c.primitive,
-                'wikt_value': c.wiktionary_value,
-                'source': c.source_name,
-                'source_value': c.source_value,
-                'type': c.conflict_type,
-                'frequency_rank': frequencies.get(c.word, -1)
+                "word": c.word,
+                "primitive": c.primitive,
+                "wikt_value": c.wiktionary_value,
+                "source": c.source_name,
+                "source_value": c.source_value,
+                "type": c.conflict_type,
+                "frequency_rank": frequencies.get(c.word, -1),
             }
-            for c in sorted(high_freq_conflicts, key=lambda x: frequencies.get(x.word, float('inf')))[:50]
-        ]
+            for c in sorted(high_freq_conflicts, key=lambda x: frequencies.get(x.word, float("inf")))[:50]
+        ],
     }
 
     return report
@@ -943,6 +898,7 @@ def generate_audit_report(
 # =============================================================================
 # MAIN
 # =============================================================================
+
 
 def run_audit():
     """Run the multi-source audit."""
@@ -973,7 +929,7 @@ def run_audit():
     # Save report
     AUDIT_OUTPUT.mkdir(parents=True, exist_ok=True)
     report_path = AUDIT_OUTPUT / "audit_report.json"
-    with open(report_path, 'w') as f:
+    with open(report_path, "w") as f:
         json.dump(report, f, indent=2)
 
     # Print summary
@@ -985,10 +941,10 @@ def run_audit():
     print(f"High-frequency conflicts: {report['summary']['high_frequency_conflicts']:,}")
     print(f"Conflict rate: {report['summary']['conflict_rate']:.2f}%")
     print("\nConflicts by source:")
-    for source, data in report['by_source'].items():
+    for source, data in report["by_source"].items():
         print(f"  {source}: {data['conflicts']} conflicts")
     print("\nTop conflicting primitives:")
-    for prim, count in list(report['by_primitive'].items())[:10]:
+    for prim, count in list(report["by_primitive"].items())[:10]:
         print(f"  {prim}: {count}")
     print(f"\nFull report saved to: {report_path}")
 
@@ -1019,15 +975,15 @@ def add_frequency_data():
     # Assign tiers based on rank
     def get_tier(rank: int) -> str:
         if rank <= 1000:
-            return 'core'      # Core vocabulary
+            return "core"  # Core vocabulary
         elif rank <= 5000:
-            return 'common'    # Common words
+            return "common"  # Common words
         elif rank <= 20000:
-            return 'standard'  # Standard vocabulary
+            return "standard"  # Standard vocabulary
         elif rank <= 100000:
-            return 'extended'  # Extended vocabulary
+            return "extended"  # Extended vocabulary
         else:
-            return 'rare'      # Rare words
+            return "rare"  # Rare words
 
     batch = []
     for word, rank in frequencies.items():
@@ -1035,18 +991,12 @@ def add_frequency_data():
         batch.append((word, rank, tier))
 
         if len(batch) >= 10000:
-            conn.executemany(
-                "INSERT OR REPLACE INTO word_frequency (word, rank, tier) VALUES (?, ?, ?)",
-                batch
-            )
+            conn.executemany("INSERT OR REPLACE INTO word_frequency (word, rank, tier) VALUES (?, ?, ?)", batch)
             conn.commit()
             batch = []
 
     if batch:
-        conn.executemany(
-            "INSERT OR REPLACE INTO word_frequency (word, rank, tier) VALUES (?, ?, ?)",
-            batch
-        )
+        conn.executemany("INSERT OR REPLACE INTO word_frequency (word, rank, tier) VALUES (?, ?, ?)", batch)
         conn.commit()
 
     # Create index
@@ -1066,9 +1016,9 @@ def add_frequency_data():
 
 def main():
     parser = argparse.ArgumentParser(description="Multi-Source NLP Audit")
-    parser.add_argument('--audit', action='store_true', help='Run conflict audit')
-    parser.add_argument('--frequency', action='store_true', help='Add frequency data')
-    parser.add_argument('--report', action='store_true', help='Generate full report')
+    parser.add_argument("--audit", action="store_true", help="Run conflict audit")
+    parser.add_argument("--frequency", action="store_true", help="Add frequency data")
+    parser.add_argument("--report", action="store_true", help="Generate full report")
 
     args = parser.parse_args()
 

@@ -19,6 +19,7 @@ def mk_entry(word="x", v=0.5, a=0.5, d=0.5):
 
 # ---------- VADEntry ----------
 
+
 class TestVADEntry:
     def test_construction(self):
         e = VADEntry(word="dog", valence=0.6, arousal=0.4, dominance=0.7)
@@ -29,6 +30,7 @@ class TestVADEntry:
 
 
 # ---------- __init__ ----------
+
 
 class TestInit:
     def test_default_path(self):
@@ -48,6 +50,7 @@ class TestInit:
 
 
 # ---------- download ----------
+
 
 class TestDownload:
     def test_success(self, tmp_path):
@@ -73,6 +76,7 @@ class TestDownload:
 
 
 # ---------- load ----------
+
 
 class TestLoad:
     def test_basic(self, tmp_path):
@@ -140,6 +144,7 @@ class TestLoad:
 
 # ---------- get_vad ----------
 
+
 class TestGetVAD:
     def test_returns_entry(self):
         p = NRCVADParser()
@@ -167,6 +172,7 @@ class TestGetVAD:
 
 
 # ---------- to_primitives ----------
+
 
 class TestToPrimitives:
     def _make(self, v=0.5, a=0.5, d=0.5):
@@ -242,6 +248,7 @@ class TestToPrimitives:
 
 # ---------- get_all_words ----------
 
+
 class TestGetAllWords:
     def test_returns_keys(self):
         p = NRCVADParser()
@@ -259,6 +266,7 @@ class TestGetAllWords:
 
 # ---------- get_new_words ----------
 
+
 class TestGetNewWords:
     def test_filters(self):
         p = NRCVADParser()
@@ -275,6 +283,7 @@ class TestGetNewWords:
 
 
 # ---------- get_high_valence_words ----------
+
 
 class TestGetHighValenceWords:
     def test_default_threshold(self):
@@ -311,6 +320,7 @@ class TestGetHighValenceWords:
 
 
 # ---------- get_low_valence_words ----------
+
 
 class TestGetLowValenceWords:
     def test_default_threshold(self):

@@ -12,6 +12,7 @@ def test_nltk():
     # Test NLTK import
     try:
         import nltk
+
         print("✓ NLTK imported successfully")
     except ImportError:
         print("✗ NLTK not installed. Run: pip install nltk")
@@ -19,9 +20,9 @@ def test_nltk():
 
     # Download required data
     print("\nDownloading required NLTK data...")
-    for corpus in ['framenet_v17', 'wordnet', 'omw-1.4']:
+    for corpus in ["framenet_v17", "wordnet", "omw-1.4"]:
         try:
-            nltk.data.find(f'corpora/{corpus}')
+            nltk.data.find(f"corpora/{corpus}")
             print(f"  ✓ {corpus} already downloaded")
         except LookupError:
             print(f"  Downloading {corpus}...")
@@ -39,13 +40,13 @@ def test_nltk():
         print(f"Total frames: {len(frames)}")
 
         # Show sample frame
-        sample_frame = fn.frame('Commerce_buy')
+        sample_frame = fn.frame("Commerce_buy")
         print(f"\nSample Frame: {sample_frame.name}")
         print(f"  Definition: {sample_frame.definition[:100]}...")
 
         print("\n  Core Frame Elements:")
         for fe_name, fe in sample_frame.FE.items():
-            if fe.coreType == 'Core':
+            if fe.coreType == "Core":
                 print(f"    - {fe_name}: {fe.definition[:60]}...")
 
         print("\n  Lexical Units (words in this frame):")
@@ -69,10 +70,10 @@ def test_nltk():
         from nltk.corpus import wordnet as wn
 
         # Count synsets
-        noun_count = len(list(wn.all_synsets('n')))
-        verb_count = len(list(wn.all_synsets('v')))
-        adj_count = len(list(wn.all_synsets('a')))
-        adv_count = len(list(wn.all_synsets('r')))
+        noun_count = len(list(wn.all_synsets("n")))
+        verb_count = len(list(wn.all_synsets("v")))
+        adj_count = len(list(wn.all_synsets("a")))
+        adv_count = len(list(wn.all_synsets("r")))
 
         print("Synset counts:")
         print(f"  Nouns: {noun_count}")
@@ -83,17 +84,17 @@ def test_nltk():
 
         # Show sample
         print("\nSample word: 'run'")
-        for synset in wn.synsets('run')[:5]:
+        for synset in wn.synsets("run")[:5]:
             print(f"  {synset.name()}: {synset.definition()[:60]}...")
 
         # Show semantic relations
-        dog = wn.synset('dog.n.01')
+        dog = wn.synset("dog.n.01")
         print("\nSemantic relations for 'dog.n.01':")
         print(f"  Hypernyms (is-a): {[h.name() for h in dog.hypernyms()]}")
         print(f"  Hyponyms (types): {[h.name() for h in dog.hyponyms()[:5]]}...")
 
         # Show antonyms
-        good = wn.synset('good.a.01')
+        good = wn.synset("good.a.01")
         good_lemma = good.lemmas()[0]
         if good_lemma.antonyms():
             print(f"\nAntonym of 'good': {good_lemma.antonyms()[0].name()}")
@@ -119,16 +120,16 @@ def show_mapping_opportunity():
 
     # Interesting frames for GSE
     interesting_frames = [
-        'Causation',
-        'Communication',
-        'Desiring',
-        'Emotion_directed',
-        'Experiencer_focus',
-        'Intentionally_act',
-        'Killing',
-        'Motion',
-        'Perception_active',
-        'Statement',
+        "Causation",
+        "Communication",
+        "Desiring",
+        "Emotion_directed",
+        "Experiencer_focus",
+        "Intentionally_act",
+        "Killing",
+        "Motion",
+        "Perception_active",
+        "Statement",
     ]
 
     print("\nFrames with direct GSE relevance:")
@@ -145,7 +146,7 @@ def show_mapping_opportunity():
             print(f"  Sample words: {', '.join(lus)}")
 
             # Show core frame elements (= semantic roles)
-            core_fes = [fe for fe, info in frame.FE.items() if info.coreType == 'Core']
+            core_fes = [fe for fe, info in frame.FE.items() if info.coreType == "Core"]
             print(f"  Core roles: {', '.join(core_fes)}")
 
         except Exception as e:

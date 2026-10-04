@@ -18,6 +18,7 @@ A ``Resolution`` is frozen and always carries the full ranked set + trace; an ab
 original untouched. Validation is resolve-or-abstain-correctly across the ENTIRE pulled corpus — a fix
 that works on one document and corrupts the others is, by that test, not built.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -29,6 +30,7 @@ from .multiscale import MultiScaleDoc
 @dataclass(frozen=True)
 class Scored:
     """One candidate answer with its per-strand scores — the orthogonal readings that must converge."""
+
     answer: Any
     strands: Dict[str, float]
     note: str = ""
@@ -43,12 +45,13 @@ class Resolution:
     """The outcome for one gap. ``committed`` is the answer ONLY on a decisive margin; otherwise it is
     None (an honest abstention) and the gap is left exactly as it was. ``ranked`` always carries the
     full candidate set so the decision is auditable; ``trace`` records the scale evidence."""
+
     cassette: str
     gap: Any
     committed: Optional[Any]
     ranked: Tuple[Scored, ...] = ()
     note: str = ""
-    fired: bool = True            # did the trigger fire (a genuine gap)? False = surface already clean.
+    fired: bool = True  # did the trigger fire (a genuine gap)? False = surface already clean.
 
     @property
     def abstained(self) -> bool:
@@ -80,7 +83,7 @@ class Cassette:
 
     name: str = "cassette"
     question: str = ""
-    margin: float = 0.5           # the decisive-margin gate (mirrors WORD_COMMIT_MARGIN = 0.5)
+    margin: float = 0.5  # the decisive-margin gate (mirrors WORD_COMMIT_MARGIN = 0.5)
 
     # -- the four hooks a subclass implements -------------------------------
     def gaps(self, doc: MultiScaleDoc) -> List[Any]:
@@ -112,14 +115,14 @@ class Cassette:
             return Resolution(self.name, gap, None, (), "no grounded candidate: abstained")
         scored = sorted(
             (Scored(c, self.score(c, gap, doc)) for c in cands),
-            key=lambda s: s.total, reverse=True,
+            key=lambda s: s.total,
+            reverse=True,
         )
         best = scored[0]
         second = scored[1] if len(scored) > 1 else None
         decisive = (second is None) or (best.total - second.total >= self.margin)
         committed = best.answer if (decisive and best.total > 0) else None
-        note = ("committed: decisive margin" if committed is not None
-                else "no decisive winner: abstained")
+        note = "committed: decisive margin" if committed is not None else "no decisive winner: abstained"
         return Resolution(self.name, gap, committed, tuple(scored), note)
 
     def run(self, doc: MultiScaleDoc) -> List[Resolution]:

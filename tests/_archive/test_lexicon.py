@@ -13,22 +13,27 @@ def basis():
     # Use Hadamard-OTP architecture (D=8192)
     return PrimitiveBasis.generate(PRIMITIVES[:10], ROLES[:5])
 
+
 @pytest.fixture
 def db_path(tmp_path):
     return str(tmp_path / "test_lexicon.db")
 
+
 def test_lexicon_generator_init(basis):
     # Mock anthropic module availability
-    with patch('gse.lexicon_generator.anthropic', new=MagicMock()):
+    with patch("gse.lexicon_generator.anthropic", new=MagicMock()):
         gen = LexiconGenerator(basis, api_key="fake")
         assert gen.client is not None
 
+
 def test_decompose_word_mock(basis):
-    with patch('gse.lexicon_generator.anthropic') as mock_anthropic:
+    with patch("gse.lexicon_generator.anthropic") as mock_anthropic:
         # Mock the client and response
         mock_client = MagicMock()
         mock_response = MagicMock()
-        mock_response.content = [MagicMock(text='{"decomposition": [{"primitive": "' + PRIMITIVES[0] + '", "role": "' + ROLES[0] + '"}]}')]
+        mock_response.content = [
+            MagicMock(text='{"decomposition": [{"primitive": "' + PRIMITIVES[0] + '", "role": "' + ROLES[0] + '"}]}')
+        ]
         mock_client.messages.create.return_value = mock_response
 
         # We need to manually inject the client into generator because we import anthropic inside the module potentially
@@ -50,15 +55,14 @@ def test_decompose_word_mock(basis):
     # Mock the client instance directly
     gen.client = MagicMock()
     gen.client.messages.create.return_value.content = [
-        MagicMock(text=json.dumps({
-            "decomposition": [{"primitive": PRIMITIVES[0], "role": ROLES[0]}]
-        }))
+        MagicMock(text=json.dumps({"decomposition": [{"primitive": PRIMITIVES[0], "role": ROLES[0]}]}))
     ]
 
     decomp = gen.decompose_word("test", "NOUN")
     assert decomp is not None
     assert len(decomp) == 1
     assert decomp[0] == (PRIMITIVES[0], ROLES[0])
+
 
 def test_encode_decomposition(basis):
     gen = LexiconGenerator(basis)
@@ -74,6 +78,7 @@ def test_encode_decomposition(basis):
     # Let's verify properties (D=8192 in Hadamard-OTP architecture)
     assert vec.dimension == D
     assert vec.nnz > 0
+
 
 def test_generate_batch_and_lookup(basis, db_path):
     gen = LexiconGenerator(basis)
@@ -98,6 +103,7 @@ def test_generate_batch_and_lookup(basis, db_path):
     assert entry.lemma == "test"
     assert entry.pos == "NOUN"
     assert entry.vector.dimension == D
+
 
 def test_lexicon_cache(basis, db_path):
     gen = LexiconGenerator(basis)

@@ -25,22 +25,23 @@ DATA_DIR = Path(__file__).parent.parent.parent.parent / "data" / "external"
 @dataclass
 class EmotionEntry:
     """Entry from NRC Emotion Lexicon."""
+
     word: str
     emotions: Dict[str, int]  # emotion -> 0/1
 
 
 # Mapping from NRC emotions to GSE primitives
 EMOTION_TO_PRIMITIVE = {
-    'joy': {'GOOD': 1, 'FEEL': 1},
-    'sadness': {'GOOD': -1, 'FEEL': 1},
-    'anger': {'GOOD': -1, 'FEEL': 1, 'WANT': 1},
-    'fear': {'GOOD': -1, 'FEEL': 1},
-    'trust': {'GOOD': 1, 'FEEL': 1, 'KNOW': 1},
-    'disgust': {'GOOD': -1, 'FEEL': 1},
-    'surprise': {'FEEL': 1, 'KNOW': -1},  # unexpected = not-know
-    'anticipation': {'FEEL': 1, 'WANT': 1, 'BEFORE': 1},
-    'positive': {'GOOD': 1},
-    'negative': {'GOOD': -1},
+    "joy": {"GOOD": 1, "FEEL": 1},
+    "sadness": {"GOOD": -1, "FEEL": 1},
+    "anger": {"GOOD": -1, "FEEL": 1, "WANT": 1},
+    "fear": {"GOOD": -1, "FEEL": 1},
+    "trust": {"GOOD": 1, "FEEL": 1, "KNOW": 1},
+    "disgust": {"GOOD": -1, "FEEL": 1},
+    "surprise": {"FEEL": 1, "KNOW": -1},  # unexpected = not-know
+    "anticipation": {"FEEL": 1, "WANT": 1, "BEFORE": 1},
+    "positive": {"GOOD": 1},
+    "negative": {"GOOD": -1},
 }
 
 
@@ -79,7 +80,9 @@ class NRCEmotionParser:
 
         except Exception as e:
             logger.error(f"Failed to download NRC EmoLex: {e}")
-            logger.info("You may need to download manually from: https://saifmohammad.com/WebPages/NRC-Emotion-Lexicon.htm")
+            logger.info(
+                "You may need to download manually from: https://saifmohammad.com/WebPages/NRC-Emotion-Lexicon.htm"
+            )
             return False
 
     def load(self) -> bool:
@@ -92,13 +95,13 @@ class NRCEmotionParser:
         try:
             logger.info(f"Loading NRC Emotion Lexicon from {self.data_path}...")
 
-            with open(self.data_path, 'r', encoding='utf-8') as f:
+            with open(self.data_path, "r", encoding="utf-8") as f:
                 for line in f:
                     line = line.strip()
-                    if not line or line.startswith('#'):
+                    if not line or line.startswith("#"):
                         continue
 
-                    parts = line.split('\t')
+                    parts = line.split("\t")
                     if len(parts) != 3:
                         continue
 
@@ -183,7 +186,7 @@ if __name__ == "__main__":
     parser.load()
 
     # Test some words
-    test_words = ['happy', 'sad', 'angry', 'love', 'hate', 'fear', 'trust', 'surprise']
+    test_words = ["happy", "sad", "angry", "love", "hate", "fear", "trust", "surprise"]
     for word in test_words:
         emotions = parser.get_emotions(word)
         primitives = parser.to_primitives(word)

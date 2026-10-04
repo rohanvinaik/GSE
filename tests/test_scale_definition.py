@@ -51,6 +51,7 @@ from gse.vectors_v2 import SentenceScaleBasis
 # SCALE DEFINITION CORE
 # =============================================================================
 
+
 class TestScaleDefinitionCore:
     """Test ScaleDefinition building blocks."""
 
@@ -148,6 +149,7 @@ class TestScaleDefinitionCore:
 # TEXT SCALE
 # =============================================================================
 
+
 class TestTextScale:
     """Verify TEXT_SCALE structure and backward-compat exports."""
 
@@ -201,6 +203,7 @@ class TestTextScale:
 # PARAGRAPH SCALE
 # =============================================================================
 
+
 class TestParagraphScale:
     """Verify PARAGRAPH_SCALE structure and backward-compat exports."""
 
@@ -241,6 +244,7 @@ class TestParagraphScale:
 # =============================================================================
 # SENTENCE SCALE
 # =============================================================================
+
 
 class TestSentenceScale:
     """Verify SENTENCE_SCALE structure and backward-compat exports."""
@@ -305,6 +309,7 @@ class TestSentenceScale:
 # SENTENCE-SCALE EXACT ORTHOGONALITY
 # =============================================================================
 
+
 class TestSentenceOrthogonality:
     """Verify sentence-scale uses partition-based Hadamard for exact orthogonality."""
 
@@ -315,16 +320,14 @@ class TestSentenceOrthogonality:
     def test_within_bank_exact_orthogonality(self, sentence_basis):
         for bank in range(N_BANKS):
             bank_prims = [
-                (name, vec) for name, vec in sentence_basis.primitives.items()
+                (name, vec)
+                for name, vec in sentence_basis.primitives.items()
                 if SENTENCE_PRIMITIVE_REGISTRY[name].bank == bank
             ]
             for i, (name_i, vec_i) in enumerate(bank_prims):
-                for name_j, vec_j in bank_prims[i + 1:]:
+                for name_j, vec_j in bank_prims[i + 1 :]:
                     cos = vec_i.cosine(vec_j)
-                    assert cos == 0.0, (
-                        f"Sentence bank {bank}: {name_i}/{name_j} "
-                        f"cosine = {cos}, expected exact 0.0"
-                    )
+                    assert cos == 0.0, f"Sentence bank {bank}: {name_i}/{name_j} cosine = {cos}, expected exact 0.0"
 
     def test_all_sentence_primitives_generated(self, sentence_basis):
         for name in SENTENCE_PRIMITIVES:
@@ -354,13 +357,12 @@ class TestSentenceOrthogonality:
 
         banks = sorted(bank_samples.keys())
         for i, b1 in enumerate(banks):
-            for b2 in banks[i + 1:]:
+            for b2 in banks[i + 1 :]:
                 name1, vec1 = bank_samples[b1]
                 name2, vec2 = bank_samples[b2]
                 cos = vec1.cosine(vec2)
                 assert cos == 0.0, (
-                    f"Cross-bank {name1}(bank {b1})/{name2}(bank {b2}) "
-                    f"cosine = {cos}, expected exact 0.0"
+                    f"Cross-bank {name1}(bank {b1})/{name2}(bank {b2}) cosine = {cos}, expected exact 0.0"
                 )
 
 
@@ -368,30 +370,40 @@ class TestSentenceOrthogonality:
 # CROSS-SCALE CONSISTENCY
 # =============================================================================
 
+
 class TestCrossScaleConsistency:
     """Verify all four scales share structural invariants."""
 
-    @pytest.mark.parametrize("scale,expected_banks", [
-        (TEXT_SCALE, 8),
-        (PARAGRAPH_SCALE, 8),
-        (SENTENCE_SCALE, 8),
-    ])
+    @pytest.mark.parametrize(
+        "scale,expected_banks",
+        [
+            (TEXT_SCALE, 8),
+            (PARAGRAPH_SCALE, 8),
+            (SENTENCE_SCALE, 8),
+        ],
+    )
     def test_all_scales_have_8_banks(self, scale, expected_banks):
         assert len(scale.banks) == expected_banks
 
-    @pytest.mark.parametrize("scale,expected_dim", [
-        (TEXT_SCALE, D),
-        (PARAGRAPH_SCALE, D),
-        (SENTENCE_SCALE, D),
-    ])
+    @pytest.mark.parametrize(
+        "scale,expected_dim",
+        [
+            (TEXT_SCALE, D),
+            (PARAGRAPH_SCALE, D),
+            (SENTENCE_SCALE, D),
+        ],
+    )
     def test_all_scales_share_dimension(self, scale, expected_dim):
         assert scale.dimension == expected_dim
 
-    @pytest.mark.parametrize("scale,expected_count", [
-        (TEXT_SCALE, 12),
-        (PARAGRAPH_SCALE, 15),
-        (SENTENCE_SCALE, 24),
-    ])
+    @pytest.mark.parametrize(
+        "scale,expected_count",
+        [
+            (TEXT_SCALE, 12),
+            (PARAGRAPH_SCALE, 15),
+            (SENTENCE_SCALE, 24),
+        ],
+    )
     def test_primitive_counts(self, scale, expected_count):
         assert len(scale.get_all_primitives()) == expected_count
 
@@ -400,15 +412,9 @@ class TestCrossScaleConsistency:
         para_prims = set(PARAGRAPH_SCALE.get_all_primitives())
         sent_prims = set(SENTENCE_SCALE.get_all_primitives())
 
-        assert text_prims.isdisjoint(para_prims), (
-            f"Text/paragraph overlap: {text_prims & para_prims}"
-        )
-        assert text_prims.isdisjoint(sent_prims), (
-            f"Text/sentence overlap: {text_prims & sent_prims}"
-        )
-        assert para_prims.isdisjoint(sent_prims), (
-            f"Paragraph/sentence overlap: {para_prims & sent_prims}"
-        )
+        assert text_prims.isdisjoint(para_prims), f"Text/paragraph overlap: {text_prims & para_prims}"
+        assert text_prims.isdisjoint(sent_prims), f"Text/sentence overlap: {text_prims & sent_prims}"
+        assert para_prims.isdisjoint(sent_prims), f"Paragraph/sentence overlap: {para_prims & sent_prims}"
 
 
 if __name__ == "__main__":

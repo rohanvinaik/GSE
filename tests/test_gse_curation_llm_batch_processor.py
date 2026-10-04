@@ -32,12 +32,17 @@ def mk_validation(passed=True, violations=None):
 
 # ---------- ProcessingResult ----------
 
+
 class TestProcessingResult:
     def test_construction(self):
         r = ProcessingResult(
-            word="happy", success=True, decomposition={"GOOD": 1},
-            confidence=0.9, validation_passed=True,
-            validation_errors=[], warnings=[],
+            word="happy",
+            success=True,
+            decomposition={"GOOD": 1},
+            confidence=0.9,
+            validation_passed=True,
+            validation_errors=[],
+            warnings=[],
         )
         assert r.word == "happy"
         assert r.success is True
@@ -45,6 +50,7 @@ class TestProcessingResult:
 
 
 # ---------- __init__ ----------
+
 
 class TestInit:
     def test_basic(self):
@@ -68,6 +74,7 @@ class TestInit:
 
 # ---------- _chunk ----------
 
+
 class TestChunk:
     def test_exact_size(self):
         p, _, _ = mk_processor()
@@ -90,6 +97,7 @@ class TestChunk:
 
 # ---------- _log_progress ----------
 
+
 class TestLogProgress:
     def test_calculates_percentage(self):
         p, _, _ = mk_processor()
@@ -97,7 +105,9 @@ class TestLogProgress:
         stats = {"processed": 50, "validated": 40}
         p._log_progress(stats, total=100, phase=1)
 
-    @pytest.mark.skip(reason="pre-existing failure since initial commit (9578764); code-only checkout — needs triage vs as-built progress-logging behavior")
+    @pytest.mark.skip(
+        reason="pre-existing failure since initial commit (9578764); code-only checkout — needs triage vs as-built progress-logging behavior"
+    )
     def test_zero_total_safe(self):
         p, _, _ = mk_processor()
         stats = {"processed": 0, "validated": 0}
@@ -106,6 +116,7 @@ class TestLogProgress:
 
 
 # ---------- _process_batch ----------
+
 
 class TestProcessBatchInternal:
     def test_basic(self):
@@ -210,14 +221,19 @@ class TestProcessBatchInternal:
 
 # ---------- _store_result ----------
 
+
 class TestStoreResult:
     def test_existing_lexeme_no_add(self):
         p, db, _ = mk_processor()
         word_data = {"id": 42}
         result = ProcessingResult(
-            word="happy", success=True, decomposition={"GOOD": 1},
-            confidence=0.9, validation_passed=True,
-            validation_errors=[], warnings=[],
+            word="happy",
+            success=True,
+            decomposition={"GOOD": 1},
+            confidence=0.9,
+            validation_passed=True,
+            validation_errors=[],
+            warnings=[],
         )
         config = {"human_review_threshold": 0.7}
         p._store_result(word_data, result, phase=1, config=config)
@@ -231,9 +247,13 @@ class TestStoreResult:
         db.add_lexeme.return_value = 100
         word_data = {"id": None, "pos": "adj"}
         result = ProcessingResult(
-            word="happy", success=True, decomposition={"GOOD": 1},
-            confidence=0.9, validation_passed=True,
-            validation_errors=[], warnings=[],
+            word="happy",
+            success=True,
+            decomposition={"GOOD": 1},
+            confidence=0.9,
+            validation_passed=True,
+            validation_errors=[],
+            warnings=[],
         )
         p._store_result(word_data, result, phase=1, config={"human_review_threshold": 0.7})
         db.add_lexeme.assert_called_once()
@@ -242,9 +262,13 @@ class TestStoreResult:
         p, db, _ = mk_processor()
         word_data = {"id": 1}
         result = ProcessingResult(
-            word="x", success=True, decomposition={},
-            confidence=0.9, validation_passed=True,
-            validation_errors=[], warnings=[],
+            word="x",
+            success=True,
+            decomposition={},
+            confidence=0.9,
+            validation_passed=True,
+            validation_errors=[],
+            warnings=[],
         )
         p._store_result(word_data, result, phase=1, config={"human_review_threshold": 0.7})
         # update_lexeme called with status="validated"
@@ -255,9 +279,13 @@ class TestStoreResult:
         p, db, _ = mk_processor()
         word_data = {"id": 1}
         result = ProcessingResult(
-            word="x", success=True, decomposition={},
-            confidence=0.5, validation_passed=True,
-            validation_errors=[], warnings=[],
+            word="x",
+            success=True,
+            decomposition={},
+            confidence=0.5,
+            validation_passed=True,
+            validation_errors=[],
+            warnings=[],
         )
         p._store_result(word_data, result, phase=1, config={"human_review_threshold": 0.7})
         assert db.update_lexeme.call_args.kwargs["validation_status"] == "review"
@@ -266,9 +294,13 @@ class TestStoreResult:
         p, db, _ = mk_processor()
         word_data = {"id": 1}
         result = ProcessingResult(
-            word="x", success=True, decomposition={},
-            confidence=0.9, validation_passed=False,
-            validation_errors=["err"], warnings=[],
+            word="x",
+            success=True,
+            decomposition={},
+            confidence=0.9,
+            validation_passed=False,
+            validation_errors=["err"],
+            warnings=[],
         )
         p._store_result(word_data, result, phase=1, config={"human_review_threshold": 0.7})
         assert db.update_lexeme.call_args.kwargs["validation_status"] == "pending"
@@ -277,9 +309,13 @@ class TestStoreResult:
         p, db, _ = mk_processor()
         word_data = {"id": 1}
         result = ProcessingResult(
-            word="x", success=True, decomposition={},
-            confidence=0.5, validation_passed=False,
-            validation_errors=["err1", "err2"], warnings=[],
+            word="x",
+            success=True,
+            decomposition={},
+            confidence=0.5,
+            validation_passed=False,
+            validation_errors=["err1", "err2"],
+            warnings=[],
         )
         p._store_result(word_data, result, phase=1, config={"human_review_threshold": 0.7})
         assert db.store_validation_result.call_count == 2
@@ -288,9 +324,13 @@ class TestStoreResult:
         p, db, _ = mk_processor()
         word_data = {"id": 1}
         result = ProcessingResult(
-            word="x", success=True, decomposition={},
-            confidence=0.9, validation_passed=True,
-            validation_errors=[], warnings=[],
+            word="x",
+            success=True,
+            decomposition={},
+            confidence=0.9,
+            validation_passed=True,
+            validation_errors=[],
+            warnings=[],
         )
         p._store_result(word_data, result, phase=1, config={"human_review_threshold": 0.7})
         db.add_provenance.assert_called_once()
@@ -300,9 +340,13 @@ class TestStoreResult:
         p, db, _ = mk_processor()
         word_data = {"id": 1}
         result = ProcessingResult(
-            word="x", success=True, decomposition={"GOOD": 1},
-            confidence=0.9, validation_passed=True,
-            validation_errors=[], warnings=[],
+            word="x",
+            success=True,
+            decomposition={"GOOD": 1},
+            confidence=0.9,
+            validation_passed=True,
+            validation_errors=[],
+            warnings=[],
         )
         p._store_result(word_data, result, phase=1, config={"human_review_threshold": 0.7})
         db.set_decomposition.assert_called_once_with(1, {"GOOD": 1}, source="llm")
@@ -313,9 +357,13 @@ class TestStoreResult:
         db.add_lexeme.return_value = 5
         word_data = {"id": None, "pos": "v"}
         result = ProcessingResult(
-            word="happy", success=True, decomposition={"GOOD": 1},
-            confidence=0.9, validation_passed=True,
-            validation_errors=[], warnings=[],
+            word="happy",
+            success=True,
+            decomposition={"GOOD": 1},
+            confidence=0.9,
+            validation_passed=True,
+            validation_errors=[],
+            warnings=[],
         )
         p._store_result(word_data, result, phase=1, config={"human_review_threshold": 0.7})
         kwargs = db.add_lexeme.call_args.kwargs
@@ -329,9 +377,13 @@ class TestStoreResult:
         db.add_lexeme.return_value = 5
         word_data = {"id": None}
         result = ProcessingResult(
-            word="x", success=True, decomposition={},
-            confidence=0.9, validation_passed=True,
-            validation_errors=[], warnings=[],
+            word="x",
+            success=True,
+            decomposition={},
+            confidence=0.9,
+            validation_passed=True,
+            validation_errors=[],
+            warnings=[],
         )
         p._store_result(word_data, result, phase=1, config={"human_review_threshold": 0.7})
         assert db.add_lexeme.call_args.kwargs["pos"] == "unknown"
@@ -341,9 +393,13 @@ class TestStoreResult:
         p, db, _ = mk_processor()
         word_data = {"id": 1}
         result = ProcessingResult(
-            word="x", success=True, decomposition={},
-            confidence=0.9, validation_passed=False,
-            validation_errors=["err"], warnings=[],
+            word="x",
+            success=True,
+            decomposition={},
+            confidence=0.9,
+            validation_passed=False,
+            validation_errors=["err"],
+            warnings=[],
         )
         p._store_result(word_data, result, phase=1, config={"human_review_threshold": 0.7})
         kwargs = db.store_validation_result.call_args.kwargs
@@ -356,9 +412,13 @@ class TestStoreResult:
         p, db, _ = mk_processor()
         word_data = {"id": 1}
         result = ProcessingResult(
-            word="x", success=True, decomposition={},
-            confidence=0.9, validation_passed=True,
-            validation_errors=[], warnings=[],
+            word="x",
+            success=True,
+            decomposition={},
+            confidence=0.9,
+            validation_passed=True,
+            validation_errors=[],
+            warnings=[],
         )
         p._store_result(word_data, result, phase=1, config={"human_review_threshold": 0.7})
         kwargs = db.add_provenance.call_args.kwargs
@@ -368,6 +428,7 @@ class TestStoreResult:
 
 
 # ---------- process_phase ----------
+
 
 class TestProcessPhase:
     def test_no_words_returns_zero_stats(self):

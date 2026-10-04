@@ -34,7 +34,8 @@ def make_vec():
 
 def make_lex(lemma, roles, component_type=ComponentType.ATOMIC, op_spec=None):
     return LexemeEntry(
-        lemma=lemma, surface_form=lemma,
+        lemma=lemma,
+        surface_form=lemma,
         semantic_vector=make_vec(),
         possible_roles=frozenset(roles),
         gram_features=GrammaticalFeatures(),
@@ -58,6 +59,7 @@ class TestParserInit:
         class FakeLex:
             def lookup(self, t):
                 return make_lex(t, [GramRole.NOUN])
+
         parser = SentenceParser(lexicon=FakeLex())
         assert parser._lookup("x").lemma == "x"
 
@@ -65,6 +67,7 @@ class TestParserInit:
         class FakeLex:
             def lookup(self, t):
                 return make_lex("from-lexicon", [GramRole.NOUN])
+
         parser = SentenceParser(
             lexicon=FakeLex(),
             lookup_func=lambda t: make_lex("from-func", [GramRole.NOUN]),
@@ -139,7 +142,8 @@ class TestParseWithLexemes:
     def test_auxiliary_edge_when_aux_precedes_verb(self):
         parser = SentenceParser()
         did = make_lex(
-            "did", [GramRole.AUX],
+            "did",
+            [GramRole.AUX],
             component_type=ComponentType.OPERATOR,
             op_spec=OperatorSpec(
                 op_type=OperatorType.AUXILIARY,
@@ -182,7 +186,8 @@ class TestSelectRole:
     def test_operator_auxiliary_prefers_aux(self):
         parser = SentenceParser()
         did = make_lex(
-            "did", [GramRole.AUX, GramRole.VERB],
+            "did",
+            [GramRole.AUX, GramRole.VERB],
             component_type=ComponentType.OPERATOR,
             op_spec=OperatorSpec(
                 op_type=OperatorType.AUXILIARY,

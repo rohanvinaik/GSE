@@ -53,6 +53,7 @@ def mk_matcher(fresh_db=None):
 
 # ---------- BIPOLAR_PAIRS, SINGLE_PRIMITIVES ----------
 
+
 class TestConstants:
     def test_bipolar_pair_count(self):
         assert len(BIPOLAR_PAIRS) == 14
@@ -72,6 +73,7 @@ class TestConstants:
 
 
 # ---------- get_bipolar_prompt ----------
+
 
 class TestGetBipolarPrompt:
     def test_includes_word_and_poles(self):
@@ -112,6 +114,7 @@ class TestGetBipolarPrompt:
 
 # ---------- get_single_prompt ----------
 
+
 class TestGetSinglePrompt:
     def test_includes_word_and_primitive(self):
         result = get_single_prompt("happy", "GOOD")
@@ -140,6 +143,7 @@ class TestGetSinglePrompt:
 
 # ---------- MatchResult ----------
 
+
 class TestMatchResult:
     def test_construction(self):
         r = MatchResult(word="x", primitive="GOOD", value=1, raw_response="YES")
@@ -147,6 +151,7 @@ class TestMatchResult:
 
 
 # ---------- __init__ ----------
+
 
 class TestInit:
     def test_defaults(self):
@@ -166,6 +171,7 @@ class TestInit:
 
 
 # ---------- match_bipolar ----------
+
 
 class TestMatchBipolar:
     def test_a_response(self):
@@ -196,6 +202,7 @@ class TestMatchBipolar:
 
 # ---------- match_single ----------
 
+
 class TestMatchSingle:
     def test_yes(self):
         m = mk_matcher()
@@ -225,6 +232,7 @@ class TestMatchSingle:
 
 # ---------- decompose_word ----------
 
+
 class TestDecomposeWord:
     def test_decomposes_all_primitives(self):
         m = mk_matcher()
@@ -246,6 +254,7 @@ class TestDecomposeWord:
 
 
 # ---------- decompose_word_fast ----------
+
 
 class TestDecomposeWordFast:
     def test_skip_zeros_default(self):
@@ -272,6 +281,7 @@ class TestDecomposeWordFast:
 
 # ---------- get_missing_primitives ----------
 
+
 class TestGetMissingPrimitives:
     def test_no_db_returns_all(self):
         m = mk_matcher()
@@ -294,6 +304,7 @@ class TestGetMissingPrimitives:
 
 # ---------- process_word_to_db ----------
 
+
 class TestProcessWordToDB:
     def test_raises_without_conn(self):
         m = mk_matcher()
@@ -306,9 +317,7 @@ class TestProcessWordToDB:
         m.client.generate.return_value = "NO"
         result = m.process_word_to_db(1, "happy")
         # Should have entries in DB
-        cursor = m.conn.execute(
-            "SELECT COUNT(*) FROM primitive_values WHERE source LIKE 'llm:%'"
-        )
+        cursor = m.conn.execute("SELECT COUNT(*) FROM primitive_values WHERE source LIKE 'llm:%'")
         assert cursor.fetchone()[0] > 0
         assert len(result) > 0
 
@@ -327,6 +336,7 @@ class TestProcessWordToDB:
 
 
 # ---------- process_batch ----------
+
 
 class TestProcessBatch:
     def test_raises_without_conn(self):
@@ -368,6 +378,7 @@ class TestProcessBatch:
 
 # ---------- close ----------
 
+
 class TestClose:
     def test_with_conn(self, fresh_db):
         m = mk_matcher(fresh_db)
@@ -383,6 +394,7 @@ class TestClose:
 
 
 # ---------- CommonSensePostProcessor ----------
+
 
 class TestCommonSensePostProcessor:
     def test_init(self, fresh_db):
@@ -408,9 +420,7 @@ class TestCommonSensePostProcessor:
         fixed = p.fix_bipolar_violations()
         assert fixed == 1
         # BAD zeroed
-        cursor = p.conn.execute(
-            "SELECT value FROM primitive_values WHERE primitive = 'BAD'"
-        )
+        cursor = p.conn.execute("SELECT value FROM primitive_values WHERE primitive = 'BAD'")
         assert cursor.fetchone()[0] == 0
 
     def test_fix_bipolar_higher_conf_b(self, fresh_db):
@@ -426,9 +436,7 @@ class TestCommonSensePostProcessor:
         )
         p.conn.commit()
         p.fix_bipolar_violations()
-        cursor = p.conn.execute(
-            "SELECT value FROM primitive_values WHERE primitive = 'GOOD'"
-        )
+        cursor = p.conn.execute("SELECT value FROM primitive_values WHERE primitive = 'GOOD'")
         assert cursor.fetchone()[0] == 0
 
     def test_apply_pos_rules_verbs(self, fresh_db):
@@ -473,6 +481,7 @@ class TestCommonSensePostProcessor:
 
 # ---------- test_matcher / run_batch entrypoints ----------
 
+
 class TestEntrypoints:
     def test_test_matcher_runs(self, capsys):
         with patch("gse.curation.llm.primitive_matcher.OllamaClient") as MockClient:
@@ -485,16 +494,22 @@ class TestEntrypoints:
     def test_run_batch_basic(self, fresh_db, capsys):
         with patch("sys.argv", ["prog", "--db", fresh_db, "--limit", "0"]):
             with patch("gse.curation.llm.primitive_matcher.OllamaClient"):
-                with patch.object(PrimitiveMatcher, "process_batch",
-                                  return_value={"processed": 0, "primitives_filled": 0, "errors": 0}):
+                with patch.object(
+                    PrimitiveMatcher,
+                    "process_batch",
+                    return_value={"processed": 0, "primitives_filled": 0, "errors": 0},
+                ):
                     run_batch()
         assert "Batch Complete" in capsys.readouterr().out
 
     def test_run_batch_post_process(self, fresh_db, capsys):
         with patch("sys.argv", ["prog", "--db", fresh_db, "--post-process", "--limit", "0"]):
             with patch("gse.curation.llm.primitive_matcher.OllamaClient"):
-                with patch.object(PrimitiveMatcher, "process_batch",
-                                  return_value={"processed": 0, "primitives_filled": 0, "errors": 0}):
+                with patch.object(
+                    PrimitiveMatcher,
+                    "process_batch",
+                    return_value={"processed": 0, "primitives_filled": 0, "errors": 0},
+                ):
                     run_batch()
         assert "Post-Processing" in capsys.readouterr().out
 

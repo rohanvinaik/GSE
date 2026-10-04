@@ -21,6 +21,7 @@ Success = the leg commits a name whose canon is the redirect's target entity.
 
     python scripts/eval_entity_leg.py [N_SAMPLE]
 """
+
 from __future__ import annotations
 
 import os
@@ -64,7 +65,7 @@ def main(n_sample: int = 4000) -> None:
         if " " in alias or not alias.isalpha() or len(alias) < 4:
             continue
         if _DEFAULT_ENTITIES.grounds(alias):
-            continue                          # a real alternate name, not a misspelling
+            continue  # a real alternate name, not a misspelling
         # jurisdiction: the target must be reachable IN the entity space
         names = [nm for nm in entity_names_of(canon) if _DEFAULT_ENTITIES.grounds(nm)]
         if not names:
@@ -105,14 +106,16 @@ def main(n_sample: int = 4000) -> None:
 
     n = len(in_reach)
     total_fired = committed_right + committed_wrong + abstained + no_cands
-    print(f"misspelling-redirect slice: {considered} single-token non-name aliases; "
-          f"{n} in edit-2 reach ({beyond} beyond reach — phonetic/abbrev rewrites)")
-    print(f"  committed correct : {committed_right:5d}  ({committed_right/max(1,total_fired):6.1%})")
-    print(f"  committed wrong   : {committed_wrong:5d}  ({committed_wrong/max(1,total_fired):6.1%})")
+    print(
+        f"misspelling-redirect slice: {considered} single-token non-name aliases; "
+        f"{n} in edit-2 reach ({beyond} beyond reach — phonetic/abbrev rewrites)"
+    )
+    print(f"  committed correct : {committed_right:5d}  ({committed_right / max(1, total_fired):6.1%})")
+    print(f"  committed wrong   : {committed_wrong:5d}  ({committed_wrong / max(1, total_fired):6.1%})")
     print(f"  abstained         : {abstained:5d}  (right answer in top-5 offers: {offered_right})")
     print(f"  no candidate      : {no_cands:5d}")
     ok = committed_right + offered_right
-    print(f"  recovered-or-offered: {ok/max(1,total_fired):6.1%}")
+    print(f"  recovered-or-offered: {ok / max(1, total_fired):6.1%}")
     if wrong_examples:
         print("  wrong commits (sample):")
         for a, got, want in wrong_examples:

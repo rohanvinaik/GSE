@@ -15,6 +15,7 @@ LAW
   abstain  : noun-homograph (sense n, not v); lemma already surfaced; no confident controller. Emit
              nothing rather than fabricate.
 """
+
 from __future__ import annotations
 
 import os
@@ -46,9 +47,11 @@ def _subject_for_lemma(lemma, predicates):
 
 class InfinitivalControl(AdditiveLens):
     name = "infinitival_control"
-    law = ("must: a `to <verb>` control/purpose complement whose event dropped → emit "
-           "EVENT(controller, infinitival), controller = the fold-chosen recurring subject; "
-           "abstain on noun-homograph / already-emitted / no confident controller.")
+    law = (
+        "must: a `to <verb>` control/purpose complement whose event dropped → emit "
+        "EVENT(controller, infinitival), controller = the fold-chosen recurring subject; "
+        "abstain on noun-homograph / already-emitted / no confident controller."
+    )
 
     def emit(self, predicates, env, folds=None):
         if env is None:
@@ -60,14 +63,14 @@ class InfinitivalControl(AdditiveLens):
         subj = best_subject(candidate_subjects(predicates), folds) if folds else main_animate_subject(predicates)
         already = event_verbs(predicates)
         mem = None
-        mem_loaded = False                                # lazy: load the warm memory only on abstain
+        mem_loaded = False  # lazy: load the warm memory only on abstain
         out = []
         for pos, lemma in cands:
             if not lemma or lemma in already:
                 continue
             senses = env.senses.get(pos, {})
             if senses.get("n") and not senses.get("v"):
-                continue                                  # noun-only homograph mis-tagged VERB → abstain
+                continue  # noun-only homograph mis-tagged VERB → abstain
 
             anchor = subj
             note = f"infinitival → EVENT({_lemma(subj)}, {lemma})" if subj is not None else ""
@@ -76,20 +79,24 @@ class InfinitivalControl(AdditiveLens):
                 # trained infinitival K-line owns).
                 if not mem_loaded:
                     from ..recollect import default_memory
-                    mem = default_memory(name="baseline")    # the ONE Brown-baseline library
+
+                    mem = default_memory(name="baseline")  # the ONE Brown-baseline library
                     mem_loaded = True
                 if mem is not None:
                     from ..recollect import envelope_query
-                    q = envelope_query(env, pos, "infinitival")   # superposition: firing-pattern tag
+
+                    q = envelope_query(env, pos, "infinitival")  # superposition: firing-pattern tag
                     if q is not None:
                         key_syms, cand_descs = q
                         rec = mem.recall(key_syms, [d for _, d in cand_descs])
                         if rec.index is not None and rec.confidence >= _THETA:
                             anchor = _subject_for_lemma(cand_descs[rec.index][0], predicates)
-                            note = (f"infinitival → EVENT({_lemma(anchor)}, {lemma}) "
-                                    f"via k-line recall (conf {rec.confidence:.2f})")
+                            note = (
+                                f"infinitival → EVENT({_lemma(anchor)}, {lemma}) "
+                                f"via k-line recall (conf {rec.confidence:.2f})"
+                            )
             if anchor is None:
-                continue                                  # no eligible controller → honest hole
+                continue  # no eligible controller → honest hole
             out.append(Repair(Event(verb=lemma, agent=anchor, patient=None), self.name, note=note))
             already.add(lemma)
         return out

@@ -26,6 +26,7 @@ class Comparison:
 
     ``sign`` is ``+1`` if lhs > rhs, ``-1`` if lhs < rhs.
     """
+
     lhs: Operand
     rhs: Operand
     sign: int = +1
@@ -38,6 +39,7 @@ class Equality:
 
     Symmetric, non-directional. Asserts equivalence on the implicit axis.
     """
+
     lhs: Operand
     rhs: Operand
     axis: Optional[str] = None
@@ -46,6 +48,7 @@ class Equality:
 @dataclass(frozen=True)
 class TypeQuery:
     """Query the SUBSTANTIVES-bank decomposition of an entity. COMP_WHAT."""
+
     entity: Operand
 
 
@@ -57,6 +60,7 @@ class DegreeQuery:
     following independent clause; the axis is read from that clause's
     content.
     """
+
     entity: Operand
     axis: Optional[str] = None
 
@@ -68,6 +72,7 @@ class MinimalSufficiency:
     v1 simplification of the architecture's cartesian-product cardinality
     example. The two args are the threshold thing and the purpose.
     """
+
     threshold: Operand
     purpose: Operand
 
@@ -79,6 +84,7 @@ class SetRestriction:
     The arg of the operator is the lone surviving member (``member``);
     the predicate is the surrounding sentence context (``predicate``).
     """
+
     member: Operand
     predicate: Operand
 
@@ -94,6 +100,7 @@ class BoundaryCase:
 
     Future work tracked in ``docs/PHASE_B_SCOPE.md``.
     """
+
     entity: Operand
     predicate: Operand
     note: str = (
@@ -110,6 +117,7 @@ class Contrast:
     expectation-violation beyond the tag (per user note about not
     building for Yoda).
     """
+
     left: Operand
     right: Operand
 
@@ -124,6 +132,7 @@ class ClauseCoordination:
     one predicate, e.g. "Spot and Rex are dogs"): this is clause-level, the
     coordinate analogue of :class:`Contrast`.
     """
+
     left: Operand
     right: Operand
     conjunction: str = "and"
@@ -139,6 +148,7 @@ class Conditional:
     link between them). A clause-linking predicate, folded in ``from_trace`` like
     the other clause linkers.
     """
+
     antecedent: Operand
     consequent: Operand
     conjunction: str = "if"
@@ -159,6 +169,7 @@ class Causation:
     ``effect`` fields always carry the semantically-correct directional
     content.
     """
+
     cause: Operand
     effect: Operand
     conjunction: str = "so"
@@ -175,6 +186,7 @@ class Temporal:
     setting; the main clause is the event. A clause-linking predicate, folded in
     ``from_trace`` like the other clause linkers.
     """
+
     setting: Operand
     event: Operand
     conjunction: str = "when"
@@ -195,6 +207,7 @@ class TypeAssertion:
         entity: the subject being typed (e.g., ``Spot``, ``I``).
         kind: the asserted type/class (e.g., ``dog``, ``person``).
     """
+
     entity: Operand
     kind: Operand
 
@@ -215,6 +228,7 @@ class RelativeRestriction:
         head: the antecedent entity being restricted.
         restriction: the relative clause's asserted content over that entity.
     """
+
     head: Operand
     restriction: Operand
 
@@ -237,6 +251,7 @@ class Control:
         subject: the matrix subject (the persuader / wanter). ``None`` when
             unrecovered (a degraded fall-back from a non-Event matrix).
     """
+
     controller: Operand
     inner: Operand
     verb: str = ""
@@ -266,6 +281,7 @@ class Event:
             analysis — a latent "theme-curious" surface, revivable, that keeps the clean
             primary read the viz wants while never destroying the dropped constituents.
     """
+
     verb: str
     agent: Operand
     patient: Optional[Operand] = None

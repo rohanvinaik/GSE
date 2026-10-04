@@ -17,6 +17,7 @@ is never wrongly vetoed):
   facets        — SCALE/DOMAIN geographic-ethnic typing (the demonym/nationality signal): a national/
                   ethnic collective (a demonym like "Russian"/"Germanic") is a people, not a person.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -26,17 +27,31 @@ from .base import Cassette
 from .multiscale import Mention, MultiScaleDoc
 
 # Positively-NON-PERSON world/type roots (DBpedia + WordNet). A target rooted here cannot be a person.
-_NONPERSON_WORLD = frozenset({
-    "Place", "PopulatedPlace", "Settlement", "Location", "Region", "Country", "City",
-    "Event", "SocietalEvent", "MilitaryConflict", "Work", "Organisation", "Organization",
-    "Language", "EthnicGroup",
-})
+_NONPERSON_WORLD = frozenset(
+    {
+        "Place",
+        "PopulatedPlace",
+        "Settlement",
+        "Location",
+        "Region",
+        "Country",
+        "City",
+        "Event",
+        "SocietalEvent",
+        "MilitaryConflict",
+        "Work",
+        "Organisation",
+        "Organization",
+        "Language",
+        "EthnicGroup",
+    }
+)
 _NONPERSON_WORDNET = frozenset({"language", "communication", "location", "region", "social_group"})
 
 
 @dataclass(frozen=True)
 class PersonGap:
-    kind: str           # "veto"
+    kind: str  # "veto"
     eid: str
     rep: Mention
 
@@ -55,7 +70,7 @@ class PersonValidation(Cassette):
         return out
 
     def candidates(self, gap: PersonGap, doc: MultiScaleDoc) -> List[Any]:
-        return [gap.eid]            # the single judgment: should this id be vetoed as non-person?
+        return [gap.eid]  # the single judgment: should this id be vetoed as non-person?
 
     def ground(self, answer: Any, gap: PersonGap, doc: MultiScaleDoc) -> bool:
         return True
@@ -67,7 +82,7 @@ class PersonValidation(Cassette):
         # word strand — WordNet person check. True → a person → NEVER veto (block).
         wn = _is_person_safe(lemma)
         if wn is True:
-            return {}                          # positively a person → no veto
+            return {}  # positively a person → no veto
         worlds = _world_threads(doc, lemma)
         world_union: set = set().union(*worlds) if worlds else set()
         # world strand, POSITIVE side — a DBpedia Person ANYWHERE in the candidate
@@ -86,7 +101,7 @@ class PersonValidation(Cassette):
         # world strand — the referent's DBpedia type (place/event/work/org); with the
         # Person block above, non-person evidence here is candidate-set-unanimous.
         if world_union & _NONPERSON_WORLD or world_union & _NONPERSON_WORDNET:
-            strands["world_nonperson"] = 1.0    # cawdor → Place
+            strands["world_nonperson"] = 1.0  # cawdor → Place
         # facets — geographic/ethnic collective (the demonym/nationality signal).
         # (The person-guard here was previously `"person" not in world`, a dead
         # check against the capitalized DBpedia thread — a typed Person with a
@@ -95,7 +110,7 @@ class PersonValidation(Cassette):
         facets = _facets(doc, lemma)
         dom = set(facets.get("DOMAIN", ()))
         if dom & {"Geography"}:
-            strands["demonym"] = 0.5            # a geographic/national collective, not a person
+            strands["demonym"] = 0.5  # a geographic/national collective, not a person
         return strands
 
     # the deck reads committed vetoes; commit when ANY positive non-person strand fires (margin spine
@@ -105,6 +120,7 @@ class PersonValidation(Cassette):
 def _is_person_safe(lemma: str):
     try:
         from gse.symbolic.grounding import _is_person
+
         return _is_person(lemma)
     except Exception:
         return None

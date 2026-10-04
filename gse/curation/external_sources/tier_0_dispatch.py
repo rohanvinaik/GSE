@@ -29,9 +29,7 @@ from gse.primitives_v2 import PRIMITIVE_REGISTRY
 def _build_tier_0_set() -> FrozenSet[str]:
     """Read from PRIMITIVE_REGISTRY — do not hand-author."""
     return frozenset(
-        name
-        for name, info in PRIMITIVE_REGISTRY.items()
-        if not info.is_hierarchy_marker and not info.is_hierarchy_base
+        name for name, info in PRIMITIVE_REGISTRY.items() if not info.is_hierarchy_marker and not info.is_hierarchy_base
     )
 
 

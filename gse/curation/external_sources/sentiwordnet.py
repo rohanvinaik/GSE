@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class SentiWordEntry:
     """Entry from SentiWordNet."""
+
     word: str
     pos: str
     pos_score: float  # 0-1
@@ -45,18 +46,18 @@ class SentiWordNetParser:
 
             # Ensure downloaded
             try:
-                swn.senti_synsets('good')
+                swn.senti_synsets("good")
             except LookupError:
                 logger.info("Downloading SentiWordNet...")
-                nltk.download('sentiwordnet', quiet=True)
-                nltk.download('wordnet', quiet=True)
+                nltk.download("sentiwordnet", quiet=True)
+                nltk.download("wordnet", quiet=True)
 
             # Load all synsets
             logger.info("Loading SentiWordNet entries...")
             count = 0
             for synset in swn.all_senti_synsets():
                 for lemma in synset.synset.lemmas():
-                    word = lemma.name().lower().replace('_', ' ')
+                    word = lemma.name().lower().replace("_", " ")
                     pos = synset.synset.pos()
 
                     entry = SentiWordEntry(
@@ -83,8 +84,8 @@ class SentiWordNetParser:
 
     def _convert_pos(self, wn_pos: str) -> str:
         """Convert WordNet POS to standard."""
-        pos_map = {'n': 'noun', 'v': 'verb', 'a': 'adj', 'r': 'adv', 's': 'adj'}
-        return pos_map.get(wn_pos, 'unknown')
+        pos_map = {"n": "noun", "v": "verb", "a": "adj", "r": "adv", "s": "adj"}
+        return pos_map.get(wn_pos, "unknown")
 
     def get_sentiment(self, word: str, pos: Optional[str] = None) -> Optional[Dict[str, float]]:
         """
@@ -112,7 +113,7 @@ class SentiWordNetParser:
         avg_neg = sum(e.neg_score for e in entries) / len(entries)
         avg_obj = sum(e.obj_score for e in entries) / len(entries)
 
-        return {'pos': avg_pos, 'neg': avg_neg, 'obj': avg_obj}
+        return {"pos": avg_pos, "neg": avg_neg, "obj": avg_obj}
 
     def to_primitives(self, word: str, pos: Optional[str] = None, threshold: float = 0.25) -> Dict[str, int]:
         """
@@ -134,10 +135,10 @@ class SentiWordNetParser:
 
         # Use bipolar encoding: GOOD for both positive and negative
         # (BAD is encoded as GOOD: -1)
-        if sentiment['pos'] > threshold and sentiment['pos'] > sentiment['neg']:
-            primitives['GOOD'] = 1
-        elif sentiment['neg'] > threshold and sentiment['neg'] > sentiment['pos']:
-            primitives['GOOD'] = -1
+        if sentiment["pos"] > threshold and sentiment["pos"] > sentiment["neg"]:
+            primitives["GOOD"] = 1
+        elif sentiment["neg"] > threshold and sentiment["neg"] > sentiment["pos"]:
+            primitives["GOOD"] = -1
 
         return primitives
 
@@ -157,9 +158,10 @@ class SentiWordNetParser:
 def download_sentiwordnet():
     """Download SentiWordNet via NLTK."""
     import nltk
-    nltk.download('sentiwordnet')
-    nltk.download('wordnet')
-    nltk.download('omw-1.4')  # Open Multilingual WordNet
+
+    nltk.download("sentiwordnet")
+    nltk.download("wordnet")
+    nltk.download("omw-1.4")  # Open Multilingual WordNet
     print("SentiWordNet downloaded successfully")
 
 
@@ -170,7 +172,7 @@ if __name__ == "__main__":
     parser.load()
 
     # Test some words
-    test_words = ['happy', 'sad', 'good', 'bad', 'neutral', 'walk', 'love', 'hate']
+    test_words = ["happy", "sad", "good", "bad", "neutral", "walk", "love", "hate"]
     for word in test_words:
         sentiment = parser.get_sentiment(word)
         primitives = parser.to_primitives(word)

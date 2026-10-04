@@ -327,7 +327,7 @@ separate, near-orthogonal partitions** of the 8192-dim space.
 A token's full vector **bundles** the two so both signals survive:
 
 ```python
-full = bundle([word_vec, sent_vec])   # gse/api/encoder.py
+full = bundle([word_vec, sent_vec])  # gse/api/encoder.py
 ```
 
 (Earlier theory drafts wrote `bind` here; the live encoder uses `bundle`

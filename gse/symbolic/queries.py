@@ -85,25 +85,43 @@ def entities(tree: TreeNode) -> List[Entity]:
             return
         # Predicate types — walk their content fields
         if isinstance(n, Comparison):
-            _walk(n.lhs); _walk(n.rhs); return
+            _walk(n.lhs)
+            _walk(n.rhs)
+            return
         if isinstance(n, Equality):
-            _walk(n.lhs); _walk(n.rhs); return
+            _walk(n.lhs)
+            _walk(n.rhs)
+            return
         if isinstance(n, TypeQuery):
-            _walk(n.entity); return
+            _walk(n.entity)
+            return
         if isinstance(n, TypeAssertion):
-            _walk(n.entity); _walk(n.kind); return
+            _walk(n.entity)
+            _walk(n.kind)
+            return
         if isinstance(n, DegreeQuery):
-            _walk(n.entity); return
+            _walk(n.entity)
+            return
         if isinstance(n, MinimalSufficiency):
-            _walk(n.threshold); _walk(n.purpose); return
+            _walk(n.threshold)
+            _walk(n.purpose)
+            return
         if isinstance(n, SetRestriction):
-            _walk(n.member); _walk(n.predicate); return
+            _walk(n.member)
+            _walk(n.predicate)
+            return
         if isinstance(n, BoundaryCase):
-            _walk(n.entity); _walk(n.predicate); return
+            _walk(n.entity)
+            _walk(n.predicate)
+            return
         if isinstance(n, Contrast):
-            _walk(n.left); _walk(n.right); return
+            _walk(n.left)
+            _walk(n.right)
+            return
         if isinstance(n, Causation):
-            _walk(n.cause); _walk(n.effect); return
+            _walk(n.cause)
+            _walk(n.effect)
+            return
         if isinstance(n, ClauseCoordination):
             _walk(n.left)
             _walk(n.right)
@@ -117,11 +135,15 @@ def entities(tree: TreeNode) -> List[Entity]:
             _walk(n.event)
             return
         if isinstance(n, RelativeRestriction):
-            _walk(n.head); _walk(n.restriction); return
+            _walk(n.head)
+            _walk(n.restriction)
+            return
         if isinstance(n, Control):
             if n.subject is not None:
                 _walk(n.subject)
-            _walk(n.controller); _walk(n.inner); return
+            _walk(n.controller)
+            _walk(n.inner)
+            return
         if isinstance(n, Event):
             _walk(n.agent)
             if n.patient is not None:
@@ -141,7 +163,13 @@ def entity_lemmas(tree: TreeNode) -> List[str]:
 # Predicate types that mark a clause boundary or an embedded clause — the
 # multi-clause structures (decision B: clauses are implicit, discoverable here).
 _CLAUSE_PREDICATES = (
-    Causation, Contrast, ClauseCoordination, Conditional, Temporal, RelativeRestriction, Control,
+    Causation,
+    Contrast,
+    ClauseCoordination,
+    Conditional,
+    Temporal,
+    RelativeRestriction,
+    Control,
 )
 
 
@@ -169,9 +197,22 @@ def predicates(tree: TreeNode) -> List[Predicate]:
     """Return every Predicate in the tree (nested traversal)."""
     out: List[Predicate] = []
     _predicate_classes = (
-        Comparison, Equality, TypeQuery, TypeAssertion, DegreeQuery,
-        MinimalSufficiency, SetRestriction, BoundaryCase, Contrast, Causation,
-        ClauseCoordination, Conditional, Temporal, RelativeRestriction, Control, Event,
+        Comparison,
+        Equality,
+        TypeQuery,
+        TypeAssertion,
+        DegreeQuery,
+        MinimalSufficiency,
+        SetRestriction,
+        BoundaryCase,
+        Contrast,
+        Causation,
+        ClauseCoordination,
+        Conditional,
+        Temporal,
+        RelativeRestriction,
+        Control,
+        Event,
     )
 
     def _walk(n: TreeNode) -> None:
@@ -192,25 +233,33 @@ def predicates(tree: TreeNode) -> List[Predicate]:
                 _walk(n.possessor)
         # Walk Predicate children (in case of nesting)
         if isinstance(n, Comparison):
-            _walk(n.lhs); _walk(n.rhs)
+            _walk(n.lhs)
+            _walk(n.rhs)
         elif isinstance(n, Equality):
-            _walk(n.lhs); _walk(n.rhs)
+            _walk(n.lhs)
+            _walk(n.rhs)
         elif isinstance(n, TypeQuery):
             _walk(n.entity)
         elif isinstance(n, TypeAssertion):
-            _walk(n.entity); _walk(n.kind)
+            _walk(n.entity)
+            _walk(n.kind)
         elif isinstance(n, DegreeQuery):
             _walk(n.entity)
         elif isinstance(n, MinimalSufficiency):
-            _walk(n.threshold); _walk(n.purpose)
+            _walk(n.threshold)
+            _walk(n.purpose)
         elif isinstance(n, SetRestriction):
-            _walk(n.member); _walk(n.predicate)
+            _walk(n.member)
+            _walk(n.predicate)
         elif isinstance(n, BoundaryCase):
-            _walk(n.entity); _walk(n.predicate)
+            _walk(n.entity)
+            _walk(n.predicate)
         elif isinstance(n, Contrast):
-            _walk(n.left); _walk(n.right)
+            _walk(n.left)
+            _walk(n.right)
         elif isinstance(n, Causation):
-            _walk(n.cause); _walk(n.effect)
+            _walk(n.cause)
+            _walk(n.effect)
         elif isinstance(n, ClauseCoordination):
             _walk(n.left)
             _walk(n.right)
@@ -221,11 +270,13 @@ def predicates(tree: TreeNode) -> List[Predicate]:
             _walk(n.setting)
             _walk(n.event)
         elif isinstance(n, RelativeRestriction):
-            _walk(n.head); _walk(n.restriction)
+            _walk(n.head)
+            _walk(n.restriction)
         elif isinstance(n, Control):
             if n.subject is not None:
                 _walk(n.subject)
-            _walk(n.controller); _walk(n.inner)
+            _walk(n.controller)
+            _walk(n.inner)
         elif isinstance(n, Event):
             _walk(n.agent)
             if n.patient is not None:
@@ -330,8 +381,10 @@ def is_argument_swap_of(a: TreeNode, b: TreeNode) -> bool:
     and entity set are the same; only the directional argument
     assignment differs.
     """
-    if not isinstance(a, (Op, Comparison, Equality, Contrast, ClauseCoordination, Causation,
-                          Conditional, Temporal, MinimalSufficiency)):
+    if not isinstance(
+        a,
+        (Op, Comparison, Equality, Contrast, ClauseCoordination, Causation, Conditional, Temporal, MinimalSufficiency),
+    ):
         return False
     if type(a) is not type(b):
         return False
@@ -379,7 +432,9 @@ def _structural_signature(node: TreeNode):
         return ("Negation", _structural_signature(node.operand))
     if isinstance(node, Op):
         return (
-            "Op", node.operation, node.arity,
+            "Op",
+            node.operation,
+            node.arity,
             tuple(_structural_signature(a) for a in node.args),
         )
     if isinstance(node, Entity):
@@ -395,54 +450,60 @@ def _structural_signature(node: TreeNode):
             tuple(_structural_signature(m) for m in node.members),
         )
     if isinstance(node, Comparison):
-        return ("Comparison", node.sign, _structural_signature(node.lhs),
-                _structural_signature(node.rhs))
+        return ("Comparison", node.sign, _structural_signature(node.lhs), _structural_signature(node.rhs))
     if isinstance(node, Equality):
-        return ("Equality", _structural_signature(node.lhs),
-                _structural_signature(node.rhs))
+        return ("Equality", _structural_signature(node.lhs), _structural_signature(node.rhs))
     if isinstance(node, TypeQuery):
         return ("TypeQuery", _structural_signature(node.entity))
     if isinstance(node, TypeAssertion):
-        return ("TypeAssertion", _structural_signature(node.entity),
-                _structural_signature(node.kind))
+        return ("TypeAssertion", _structural_signature(node.entity), _structural_signature(node.kind))
     if isinstance(node, DegreeQuery):
         return ("DegreeQuery", _structural_signature(node.entity))
     if isinstance(node, MinimalSufficiency):
-        return ("MinimalSufficiency", _structural_signature(node.threshold),
-                _structural_signature(node.purpose))
+        return ("MinimalSufficiency", _structural_signature(node.threshold), _structural_signature(node.purpose))
     if isinstance(node, SetRestriction):
-        return ("SetRestriction", _structural_signature(node.member),
-                _structural_signature(node.predicate))
+        return ("SetRestriction", _structural_signature(node.member), _structural_signature(node.predicate))
     if isinstance(node, BoundaryCase):
-        return ("BoundaryCase", _structural_signature(node.entity),
-                _structural_signature(node.predicate))
+        return ("BoundaryCase", _structural_signature(node.entity), _structural_signature(node.predicate))
     if isinstance(node, Contrast):
-        return ("Contrast", _structural_signature(node.left),
-                _structural_signature(node.right))
+        return ("Contrast", _structural_signature(node.left), _structural_signature(node.right))
     if isinstance(node, Causation):
-        return ("Causation", node.conjunction, _structural_signature(node.cause),
-                _structural_signature(node.effect))
+        return ("Causation", node.conjunction, _structural_signature(node.cause), _structural_signature(node.effect))
     if isinstance(node, ClauseCoordination):
-        return ("ClauseCoordination", node.conjunction, _structural_signature(node.left),
-                _structural_signature(node.right))
+        return (
+            "ClauseCoordination",
+            node.conjunction,
+            _structural_signature(node.left),
+            _structural_signature(node.right),
+        )
     if isinstance(node, Conditional):
-        return ("Conditional", node.conjunction, _structural_signature(node.antecedent),
-                _structural_signature(node.consequent))
+        return (
+            "Conditional",
+            node.conjunction,
+            _structural_signature(node.antecedent),
+            _structural_signature(node.consequent),
+        )
     if isinstance(node, Temporal):
-        return ("Temporal", node.conjunction, _structural_signature(node.setting),
-                _structural_signature(node.event))
+        return ("Temporal", node.conjunction, _structural_signature(node.setting), _structural_signature(node.event))
     if isinstance(node, Event):
         # The roleframe: verb + agent + patient. Event.themes are latent secondary args,
         # preserved but not promoted into the default analysis, so they are not compared.
-        return ("Event", node.verb, _structural_signature(node.agent),
-                _structural_signature(node.patient) if node.patient is not None else None)
+        return (
+            "Event",
+            node.verb,
+            _structural_signature(node.agent),
+            _structural_signature(node.patient) if node.patient is not None else None,
+        )
     if isinstance(node, RelativeRestriction):
-        return ("RelativeRestriction", _structural_signature(node.head),
-                _structural_signature(node.restriction))
+        return ("RelativeRestriction", _structural_signature(node.head), _structural_signature(node.restriction))
     if isinstance(node, Control):
         # The matrix verb and subject are content: "Lady Macbeth persuaded Macbeth to …" is not
         # "Banquo forbade Macbeth to …" (both were dropped before #3).
-        return ("Control", node.verb,
-                _structural_signature(node.subject) if node.subject is not None else None,
-                _structural_signature(node.controller), _structural_signature(node.inner))
+        return (
+            "Control",
+            node.verb,
+            _structural_signature(node.subject) if node.subject is not None else None,
+            _structural_signature(node.controller),
+            _structural_signature(node.inner),
+        )
     return ("Unknown", repr(node))

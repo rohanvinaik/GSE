@@ -14,6 +14,7 @@ live and frozen into the TSV, which is the reproducible artifact.
 Run:  python -m gse.curation.build_misspellings
 Out:  gse/nlp/data/misspellings_wikipedia.tsv   (typo \t correct1|correct2|...)
 """
+
 from __future__ import annotations
 
 import re
@@ -21,8 +22,7 @@ import sys
 import urllib.request
 from pathlib import Path
 
-WIKI_URL = ("https://en.wikipedia.org/wiki/"
-            "Wikipedia:Lists_of_common_misspellings/For_machines?action=raw")
+WIKI_URL = "https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/For_machines?action=raw"
 _UA = "GSE-spellcheck-build/1.0 (research; rohanpvinaik@gmail.com)"
 OUT = Path(__file__).resolve().parents[1] / "nlp" / "data" / "misspellings_wikipedia.tsv"
 

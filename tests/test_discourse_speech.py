@@ -3,6 +3,7 @@
 Pure-logic tests (no encoder/lexicon): the novel, bug-prone part is splitting a `"…," said X`
 construction and carrying the speaker across a multi-sentence speech. bind_deixis (a lemma
 swap on the resolved tree) is exercised end-to-end by the bridge; here we pin the parsing."""
+
 import re
 
 from gse.discourse.speech import _attribution, segment_document, segment_speech
@@ -33,12 +34,12 @@ def test_speaker_said_pronoun():
 
 def test_adjective_stacked_np_head():
     (u,) = segment_speech('"Stop," said the tall man.')
-    assert u.speaker == "man"          # not "tall"
+    assert u.speaker == "man"  # not "tall"
 
 
 def test_pp_modified_np_head():
     (u,) = segment_speech('"Wait," said the man in the doorway.')
-    assert u.speaker == "man"          # not "doorway"
+    assert u.speaker == "man"  # not "doorway"
 
 
 def test_determiner_and_adjective_dropped():
@@ -59,8 +60,7 @@ def test_said_nothing_is_not_attribution():
 
 # --- document-scope speaker tracking --------------------------------------------------------
 def test_multisentence_speech_carries_speaker():
-    story = ('"Twenty years ago," said the man, "I dined here with Jimmy. '
-             'He and I were raised here. I was eighteen."')
+    story = '"Twenty years ago," said the man, "I dined here with Jimmy. He and I were raised here. I was eighteen."'
     utts = segment_document(_split(story))
     # every quoted clause of the one speech is attributed to the man, including the interior
     # sentences that carry no attribution of their own.
@@ -70,9 +70,7 @@ def test_multisentence_speech_carries_speaker():
 
 
 def test_turn_taking_no_cross_attribution():
-    story = ('"Until five years ago," said the policeman. '
-             'The man struck a match. '
-             '"I dined here," said the man.')
+    story = '"Until five years ago," said the policeman. The man struck a match. "I dined here," said the man.'
     by_speaker = {}
     for u in segment_document(_split(story)):
         by_speaker.setdefault(u.speaker, []).append(u.content)
@@ -88,4 +86,4 @@ def test_plain_narration_sentence_resets_turn():
     story = '"Hello," said Bob. The room was quiet. "Goodbye."'
     utts = segment_document(_split(story))
     last = [u for u in utts if "Goodbye" in u.content][0]
-    assert last.speaker is None        # unattributed after a narration reset, not "bob"
+    assert last.speaker is None  # unattributed after a narration reset, not "bob"

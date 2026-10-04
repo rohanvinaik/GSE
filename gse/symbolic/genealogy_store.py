@@ -42,8 +42,7 @@ class GenealogyStore:
         back to depth-only ordering on a pre-pagerank genealogy.db build."""
         try:
             rows = self._conn.execute(
-                "SELECT thread FROM world_thread WHERE label=?"
-                " ORDER BY pagerank DESC, depth DESC",
+                "SELECT thread FROM world_thread WHERE label=? ORDER BY pagerank DESC, depth DESC",
                 (label.lower(),),
             ).fetchall()
         except sqlite3.OperationalError:
@@ -83,7 +82,7 @@ class GenealogyStore:
             return {}
         out: Dict[str, Tuple[str, ...]] = {}
         for dim, path in rows:
-            if dim not in out:        # ORDER BY depth DESC → keep the most-typed path per dimension
+            if dim not in out:  # ORDER BY depth DESC → keep the most-typed path per dimension
                 out[dim] = tuple(json.loads(path))
         return out
 
@@ -93,8 +92,7 @@ class GenealogyStore:
         keyed by canon, so an alias mention reaches its entity's records."""
         try:
             row = self._conn.execute(
-                "SELECT canon FROM world_thread WHERE label=? AND canon IS NOT NULL"
-                " ORDER BY pagerank DESC LIMIT 1",
+                "SELECT canon FROM world_thread WHERE label=? AND canon IS NOT NULL ORDER BY pagerank DESC LIMIT 1",
                 (label.lower(),),
             ).fetchone()
         except sqlite3.OperationalError:
@@ -108,16 +106,14 @@ class GenealogyStore:
         genealogy.db build (graceful degradation, like :meth:`facets`)."""
         try:
             row = self._conn.execute(
-                "SELECT e, p, a, confidence FROM world_epa WHERE label=?"
-                " ORDER BY confidence DESC LIMIT 1",
+                "SELECT e, p, a, confidence FROM world_epa WHERE label=? ORDER BY confidence DESC LIMIT 1",
                 (self._canon(label),),
             ).fetchone()
         except sqlite3.OperationalError:
             return {}
         if row is None:
             return {}
-        return {"evaluation": row[0], "potency": row[1], "activity": row[2],
-                "confidence": row[3]}
+        return {"evaluation": row[0], "potency": row[1], "activity": row[2], "confidence": row[3]}
 
     def anchors(self, label: str) -> Dict[str, float]:
         """The referent's semantic-anchor property bag (its most significant
@@ -146,8 +142,10 @@ class GenealogyStore:
             ).fetchall()
         except sqlite3.OperationalError:
             return []
-        return [{"thread": tuple(json.loads(t)), "depth": d, "pagerank": pr,
-                 "src": s, "canon": c} for t, d, pr, s, c in rows]
+        return [
+            {"thread": tuple(json.loads(t)), "depth": d, "pagerank": pr, "src": s, "canon": c}
+            for t, d, pr, s, c in rows
+        ]
 
     # -- provider API -------------------------------------------------------
     def candidates(self, lemma: str, pos: str, is_proper: bool) -> List[Tuple[str, ...]]:
@@ -161,7 +159,7 @@ class GenealogyStore:
         ``grounding_flags`` flags it (honest abstention). Common noun → word
         strand."""
         if pos == "PRON":
-            return []   # a pronoun's identity is its antecedent, not "I"→iodine
+            return []  # a pronoun's identity is its antecedent, not "I"→iodine
         if is_proper:
             # A narrative proper-noun AGENT is a person / place / organization — never a creative WORK.
             # A world match rooted in `Work` (its DBpedia children: Software, Film, Album, Book, …) is the

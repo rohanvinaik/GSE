@@ -18,6 +18,7 @@ GSE measures, grouped into named banks:
 Deterministic and learning-free — this is the *signal layer*; the Society-of-Mind
 genre router is trained separately over these vectors. See ``gse.discourse``.
 """
+
 from __future__ import annotations
 
 import re
@@ -30,9 +31,22 @@ from gse.symbolic.coherence import coherence_report
 
 # The typed clause operations GSE can emit (the structural alphabet).
 _OPERATIONS: Sequence[str] = (
-    "EVENT", "TYPE_ASSERT", "SET_DIFF", "BIND_EQ", "DEGREE_QUERY", "TYPE_QUERY",
-    "CARD_LOWER", "SCALAR_EXTREME", "CONTRAST", "COORDINATION", "CLAUSE_COORD",
-    "CAUSAL_SOURCE", "CONSEQUENCE", "IMPLIES", "REL_RESTRICT", "CONTROL",
+    "EVENT",
+    "TYPE_ASSERT",
+    "SET_DIFF",
+    "BIND_EQ",
+    "DEGREE_QUERY",
+    "TYPE_QUERY",
+    "CARD_LOWER",
+    "SCALAR_EXTREME",
+    "CONTRAST",
+    "COORDINATION",
+    "CLAUSE_COORD",
+    "CAUSAL_SOURCE",
+    "CONSEQUENCE",
+    "IMPLIES",
+    "REL_RESTRICT",
+    "CONTROL",
 )
 _EMBED_KINDS = ("relative", "control", "complement")
 _CONTENT_POS = {"NOUN", "PROPN", "VERB", "ADJ", "ADV"}
@@ -80,8 +94,7 @@ class TextProfile:
     def vector(self) -> List[float]:
         """Flatten to a fixed-order numeric vector (the SoM feature input)."""
         out: List[float] = []
-        for bank in (self.operator_mix, self.complexity, self.coherence,
-                     self.affect, self.register, self.primitives):
+        for bank in (self.operator_mix, self.complexity, self.coherence, self.affect, self.register, self.primitives):
             out.extend(bank[k] for k in sorted(bank))
         return out
 
@@ -145,8 +158,7 @@ def text_profile(encoder, text: str, prime_basis: Sequence[str] | None = None) -
             # the word-primitive bank), so without this it never reached the SoM router —
             # the measured reason narrative and review were inseparable (no profile
             # feature with Cohen's d > 0.55).
-            if any("SYN_TENSE_PAST" in (getattr(t, "sent_primitives", None) or {})
-                   for t in tr.tokens):
+            if any("SYN_TENSE_PAST" in (getattr(t, "sent_primitives", None) or {}) for t in tr.tokens):
                 n_past += 1
 
             for p, act in tr.word_primitive_activations.items():
@@ -160,8 +172,9 @@ def text_profile(encoder, text: str, prime_basis: Sequence[str] | None = None) -
             continue
 
     half = max(len(per_sentence_valence) // 2, 1)
-    arc = (mean(per_sentence_valence[half:]) - mean(per_sentence_valence[:half])
-           if len(per_sentence_valence) >= 2 else 0.0)
+    arc = (
+        mean(per_sentence_valence[half:]) - mean(per_sentence_valence[:half]) if len(per_sentence_valence) >= 2 else 0.0
+    )
 
     operator_mix = {op: op_counts[op] / n for op in _OPERATIONS}
     complexity = {
@@ -169,7 +182,7 @@ def text_profile(encoder, text: str, prime_basis: Sequence[str] | None = None) -
         "ops_per_sent": sum(op_counts.values()) / n,
         "tokens_per_sent": n_tokens / n,
         "embed_rate": n_embedded / n,
-        "past_tense_rate": n_past / n,   # narrativity: story-telling vs evaluating
+        "past_tense_rate": n_past / n,  # narrativity: story-telling vs evaluating
     }
     coherence = {"degraded_rate": degraded / max(n_clauses, 1)}
     affect = {
@@ -185,16 +198,23 @@ def text_profile(encoder, text: str, prime_basis: Sequence[str] | None = None) -
     primitives = {p: prim_sums[p] / n for p in prime_basis}
 
     return TextProfile(
-        n_sentences=len(sents), operator_mix=operator_mix, complexity=complexity,
-        coherence=coherence, affect=affect, register=register, primitives=primitives,
+        n_sentences=len(sents),
+        operator_mix=operator_mix,
+        complexity=complexity,
+        coherence=coherence,
+        affect=affect,
+        register=register,
+        primitives=primitives,
     )
 
 
 # Ordered field names of ``TextProfile.vector()`` — the SoM's input layout.
 PROFILE_FIELDS: List[str] = (
     [f"op:{op}" for op in sorted(_OPERATIONS)]
-    + [f"cx:{k}" for k in sorted(("clauses_per_sent", "ops_per_sent",
-                                  "tokens_per_sent", "embed_rate", "past_tense_rate"))]
+    + [
+        f"cx:{k}"
+        for k in sorted(("clauses_per_sent", "ops_per_sent", "tokens_per_sent", "embed_rate", "past_tense_rate"))
+    ]
     + ["coh:degraded_rate"]
     + [f"aff:{k}" for k in sorted(("valence_mean", "valence_spread", "valence_arc"))]
     + [f"reg:{k}" for k in sorted(("func_word_ratio", "oov_rate", "mean_lemma_len"))]

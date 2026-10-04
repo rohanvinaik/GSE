@@ -49,6 +49,7 @@ in the normal case. It ABSTAINS (``committed=None``) only when nothing grounds, 
 the rare event the top two tie on every deterministic key. It never fabricates a word
 that does not ground.
 """
+
 from __future__ import annotations
 
 import math
@@ -94,8 +95,8 @@ _NEIGHBORS = _build_neighbors()
 _COST_TRANSPOSE = 1
 _COST_SUB_ADJACENT = 1
 _COST_SUB_FAR = 2
-_COST_DELETE = 2   # surface has an extra char (delete it)
-_COST_INSERT = 2   # surface is missing a char (insert one)
+_COST_DELETE = 2  # surface has an extra char (delete it)
+_COST_INSERT = 2  # surface is missing a char (insert one)
 
 
 # --------------------------------------------------------------------------- #
@@ -115,18 +116,17 @@ def _edits1(word: str) -> Dict[str, int]:
 
     splits = [(word[:i], word[i:]) for i in range(len(word) + 1)]
     for left, right in splits:
-        if right:                                            # delete
+        if right:  # delete
             offer(left + right[1:], _COST_DELETE)
-        if len(right) > 1:                                   # transpose
+        if len(right) > 1:  # transpose
             offer(left + right[1] + right[0] + right[2:], _COST_TRANSPOSE)
-        if right:                                            # substitute
+        if right:  # substitute
             for ch in _ALPHABET:
                 if ch == right[0]:
                     continue
                 adj = ch in _NEIGHBORS.get(right[0], ())
-                offer(left + ch + right[1:],
-                      _COST_SUB_ADJACENT if adj else _COST_SUB_FAR)
-        for ch in _ALPHABET:                                 # insert
+                offer(left + ch + right[1:], _COST_SUB_ADJACENT if adj else _COST_SUB_FAR)
+        for ch in _ALPHABET:  # insert
             offer(left + ch + right, _COST_INSERT)
     return out
 
@@ -248,9 +248,8 @@ class _Lexicon:
     def wn_vocab(self) -> FrozenSet[str]:
         if self._wn_vocab is None:
             from nltk.corpus import wordnet as wn
-            self._wn_vocab = frozenset(
-                n.lower() for n in wn.all_lemma_names() if n.isalpha()
-            )
+
+            self._wn_vocab = frozenset(n.lower() for n in wn.all_lemma_names() if n.isalpha())
         return self._wn_vocab
 
     @property
@@ -274,7 +273,8 @@ class _Lexicon:
             txt = os.path.join(_REPO_ROOT, "data", "wordlist_wiktionary.txt")
             if os.path.exists(trie):
                 import marisa_trie
-                self._validity_vocab = marisa_trie.Trie().load(trie)   # exact, ~24MB, mmap
+
+                self._validity_vocab = marisa_trie.Trie().load(trie)  # exact, ~24MB, mmap
             elif os.path.exists(txt):
                 with open(txt, encoding="utf-8") as f:
                     self._validity_vocab = frozenset(w for w in (l.strip() for l in f) if w)
@@ -289,8 +289,9 @@ class _Lexicon:
             path = os.path.join(os.path.dirname(__file__), "data", "project_allowlist.txt")
             try:
                 with open(path, encoding="utf-8") as f:
-                    self._allowlist = frozenset(w for w in (l.strip().lower() for l in f)
-                                                if w and not w.startswith("#"))
+                    self._allowlist = frozenset(
+                        w for w in (l.strip().lower() for l in f) if w and not w.startswith("#")
+                    )
             except FileNotFoundError:
                 self._allowlist = frozenset()
         return self._allowlist
@@ -298,8 +299,7 @@ class _Lexicon:
     def grounds(self, word: str) -> bool:
         w = word.lower()
         # cheap in-memory sets first; the big validity filter is consulted last
-        return (w in self.lex_vocab or w in self.wn_vocab
-                or w in self.allowlist or w in self.validity_vocab)
+        return w in self.lex_vocab or w in self.wn_vocab or w in self.allowlist or w in self.validity_vocab
 
     @property
     def usage(self) -> Dict[str, int]:
@@ -331,8 +331,7 @@ class _Lexicon:
         w = word.lower()
         if w in self.usage:
             return False
-        if (w in self.lex_vocab or w in self.wn_vocab
-                or w in self.allowlist or w in _STOP):
+        if w in self.lex_vocab or w in self.wn_vocab or w in self.allowlist or w in _STOP:
             return False
         return w in self.validity_vocab
 
@@ -349,8 +348,8 @@ class _Lexicon:
         (Wikipedia CC-BY-SA). Empirical P(x|w); empty dict if the file is absent."""
         if self._confusions is None:
             import os
-            path = os.path.join(os.path.dirname(__file__), "data",
-                                "misspellings_wikipedia.tsv")
+
+            path = os.path.join(os.path.dirname(__file__), "data", "misspellings_wikipedia.tsv")
             table: Dict[str, List[str]] = {}
             try:
                 with open(path, encoding="utf-8") as f:
@@ -373,8 +372,7 @@ class _Lexicon:
         """The lemma's word-scale primitive set (for the coherence Jaccard). Empty
         for function words / words with no primitive rows."""
         rows = self.conn.execute(
-            "SELECT pv.primitive FROM primitive_values pv "
-            "JOIN lexemes lx ON lx.id = pv.lexeme_id WHERE lx.lemma = ?",
+            "SELECT pv.primitive FROM primitive_values pv JOIN lexemes lx ON lx.id = pv.lexeme_id WHERE lx.lemma = ?",
             (lemma.lower(),),
         ).fetchall()
         return frozenset(r[0] for r in rows)
@@ -398,7 +396,7 @@ class Candidate:
     edit_cost: int
     prior: int = _PRIOR_UNRANKED
     coherence: float = 0.0
-    confusion_pos: int = -1   # position in the surface's confusion list; -1 = not a hit
+    confusion_pos: int = -1  # position in the surface's confusion list; -1 = not a hit
 
     @property
     def score(self) -> float:
@@ -407,8 +405,7 @@ class Candidate:
         return _score(self.edit_cost, self.prior, self.confusion_pos)
 
     def __repr__(self) -> str:  # compact for demos
-        p = "fn" if self.prior == _PRIOR_FUNCTION else (
-            "-" if self.prior == _PRIOR_UNRANKED else self.prior)
+        p = "fn" if self.prior == _PRIOR_FUNCTION else ("-" if self.prior == _PRIOR_UNRANKED else self.prior)
         tag = " *seen" if self.confusion_pos >= 0 else ""
         return f"{self.word}(cost={self.edit_cost}, freq={p}, s={self.score:.2f}{tag})"
 
@@ -416,8 +413,8 @@ class Candidate:
 @dataclass(frozen=True)
 class Correction:
     surface: str
-    fired: bool                       # did the trigger fire (surface is a non-word)?
-    committed: Optional[str]          # the chosen correction, or None if it abstained
+    fired: bool  # did the trigger fire (surface is a non-word)?
+    committed: Optional[str]  # the chosen correction, or None if it abstained
     ranked: Tuple[Candidate, ...] = field(default_factory=tuple)
     note: str = ""
 
@@ -443,17 +440,17 @@ def looks_non_lexical(surface: str, sentence_initial: bool = False) -> bool:
     in the validity dictionaries — correction never triggers at all; this gate is the
     backstop for valid tokens absent from the dictionaries.)"""
     if len(surface) >= 2 and surface.isupper():
-        return True                                    # acronym: GSE, MCP, HDC
+        return True  # acronym: GSE, MCP, HDC
     if "'" in surface or "’" in surface:
-        return True                                    # contraction / possessive: don't, Mike's
+        return True  # contraction / possessive: don't, Mike's
     if "-" in surface or "_" in surface:
-        return True                                    # compound / identifier: set-theory, re_run
+        return True  # compound / identifier: set-theory, re_run
     if any(ch.isdigit() for ch in surface):
-        return True                                    # identifier: v2, sha256, utf8
+        return True  # identifier: v2, sha256, utf8
     if not (surface.islower() or surface.istitle() or surface.isupper()):
-        return True                                    # internal caps: jsonParse
+        return True  # internal caps: jsonParse
     if surface.istitle() and not sentence_initial:
-        return True                                    # proper noun: Claude, Winston
+        return True  # proper noun: Claude, Winston
     return False
 
 
@@ -478,9 +475,8 @@ def propose(surface: str, lexicon: _Lexicon = _DEFAULT_LEXICON) -> List[Candidat
     for pos, c in enumerate(lexicon.corrections(word)):
         if lexicon.grounds(c):
             conf_pos[c] = pos
-            cost.setdefault(c, _damerau(word, c))   # inject only if the gen missed it
-    out = [Candidate(c, ec, lexicon.prior(c), confusion_pos=conf_pos.get(c, -1))
-           for c, ec in cost.items()]
+            cost.setdefault(c, _damerau(word, c))  # inject only if the gen missed it
+    out = [Candidate(c, ec, lexicon.prior(c), confusion_pos=conf_pos.get(c, -1)) for c, ec in cost.items()]
     out.sort(key=lambda c: (c.score, c.word))
     return out
 
@@ -515,8 +511,13 @@ def correct(
 
     # shape gate: acronym / code / proper-noun -> offer, never auto-commit
     if looks_non_lexical(surface):
-        return Correction(surface, fired=True, committed=None, ranked=tuple(cands),
-                          note="non-lexical shape (acronym/code/proper-noun): offered, not committed")
+        return Correction(
+            surface,
+            fired=True,
+            committed=None,
+            ranked=tuple(cands),
+            note="non-lexical shape (acronym/code/proper-noun): offered, not committed",
+        )
 
     # advisory coherence: context's pooled primitive set vs each candidate's. Sits
     # BELOW the frequency prior in the sort key (measured too coarse to lead).
@@ -527,9 +528,9 @@ def correct(
             pooled |= lexicon.primitives(w)
         ctx_prims = frozenset(pooled)
     if ctx_prims:
-        cands = [Candidate(c.word, c.edit_cost, c.prior,
-                           _jaccard(lexicon.primitives(c.word), ctx_prims))
-                 for c in cands]
+        cands = [
+            Candidate(c.word, c.edit_cost, c.prior, _jaccard(lexicon.primitives(c.word), ctx_prims)) for c in cands
+        ]
     # noisy-channel score, then advisory coherence, then alpha
     cands.sort(key=lambda c: (c.score, -c.coherence, c.word))
 

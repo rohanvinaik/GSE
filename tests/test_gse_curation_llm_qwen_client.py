@@ -22,6 +22,7 @@ from gse.curation.llm.qwen_client import (
 
 # ---------- Constants ----------
 
+
 class TestConstants:
     def test_huggingface_id(self):
         assert HUGGINGFACE_MODEL_ID == "Qwen/Qwen3-8B"
@@ -35,6 +36,7 @@ class TestConstants:
 
 # ---------- GenerationConfig ----------
 
+
 class TestGenerationConfig:
     def test_defaults(self):
         c = GenerationConfig()
@@ -46,6 +48,7 @@ class TestGenerationConfig:
 
 
 # ---------- QwenClient.__init__ ----------
+
 
 class TestQwenInit:
     def test_default_model_path(self):
@@ -76,6 +79,7 @@ class TestQwenInit:
 
 # ---------- _detect_device ----------
 
+
 class TestDetectDevice:
     def test_mps_when_available(self):
         pytest.importorskip("torch")  # torch is not a project dependency (torch-free runtime)
@@ -99,6 +103,7 @@ class TestDetectDevice:
 
     def test_no_torch_returns_cpu(self):
         import builtins
+
         original_import = builtins.__import__
 
         def faux_import(name, *args, **kwargs):
@@ -112,6 +117,7 @@ class TestDetectDevice:
 
 
 # ---------- unload ----------
+
 
 class TestUnload:
     def test_clears_model_and_tokenizer(self):
@@ -131,6 +137,7 @@ class TestUnload:
 
 
 # ---------- MockQwenClient ----------
+
 
 class TestMockQwenClient:
     def test_init_loaded(self):
@@ -203,6 +210,7 @@ class TestMockQwenClient:
 
 # ---------- QwenClient.generate (mocked) ----------
 
+
 class TestQwenGenerate:
     def _make_client(self):
         c = QwenClient(device="cpu")
@@ -237,8 +245,10 @@ class TestQwenGenerate:
             with patch("gse.curation.llm.prompts.build_user_prompt", return_value="P") as mock_build:
                 result = c.decompose_word("happy", pos="adj")
                 # build_user_prompt called without simple=True
-                assert "simple" not in mock_build.call_args.kwargs or \
-                       mock_build.call_args.kwargs.get("simple", False) is False
+                assert (
+                    "simple" not in mock_build.call_args.kwargs
+                    or mock_build.call_args.kwargs.get("simple", False) is False
+                )
             assert result == {"GOOD": 1}
 
     def test_decompose_word_default_pos_unknown(self):
@@ -265,9 +275,12 @@ class TestQwenGenerate:
             mock_result.warnings = []
             mock_parse.return_value = mock_result
             with patch("gse.curation.llm.prompts.build_user_prompt", return_value="P"):
-                results = c.decompose_batch([
-                    {"word": "happy"}, {"word": "sad"},
-                ])
+                results = c.decompose_batch(
+                    [
+                        {"word": "happy"},
+                        {"word": "sad"},
+                    ]
+                )
         assert len(results) == 2
         assert results[0][1] == 0.9
 
@@ -288,6 +301,7 @@ class TestQwenGenerate:
 
     def test_decompose_batch_exception_fallback(self):
         from gse.curation.schema import ALL_PRIMITIVES
+
         c = QwenClient(device="cpu")
         c._loaded = True
         c.generate = MagicMock(side_effect=RuntimeError("fail"))

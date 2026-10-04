@@ -25,6 +25,7 @@ def mk_entry(lemma="x", pos="V", tags=None):
 
 # ---------- USASEntry ----------
 
+
 class TestUSASEntry:
     def test_construction(self):
         e = mk_entry(tags=["M1"])
@@ -33,6 +34,7 @@ class TestUSASEntry:
 
 
 # ---------- USAS_TO_GSE ----------
+
 
 class TestUSASToGSE:
     def test_m1_move(self):
@@ -50,6 +52,7 @@ class TestUSASToGSE:
 
 # ---------- USAS_MODIFIERS ----------
 
+
 class TestModifiers:
     def test_positive(self):
         assert USAS_MODIFIERS["+"] == {"GOOD": 1}
@@ -65,6 +68,7 @@ class TestModifiers:
 
 
 # ---------- __init__ ----------
+
 
 class TestInit:
     def test_default_path(self):
@@ -86,6 +90,7 @@ class TestInit:
 
 # ---------- download ----------
 
+
 class TestDownload:
     def test_success(self, tmp_path):
         # Monkey-patch DATA_DIR to tmp_path
@@ -104,6 +109,7 @@ class TestDownload:
 
 
 # ---------- load ----------
+
 
 class TestLoad:
     def test_missing_file_triggers_download(self, tmp_path):
@@ -173,6 +179,7 @@ class TestLoad:
 
 
 # ---------- _parse_tag ----------
+
 
 class TestParseTag:
     def test_simple_category(self):
@@ -246,6 +253,7 @@ class TestParseTag:
 
 # ---------- to_primitives ----------
 
+
 class TestToPrimitives:
     def _make(self, tags_per_entry):
         p = USASParser()
@@ -292,6 +300,7 @@ class TestToPrimitives:
 
 # ---------- get_semantic_tags ----------
 
+
 class TestGetSemanticTags:
     def test_returns_tags(self):
         p = USASParser()
@@ -321,6 +330,7 @@ class TestGetSemanticTags:
 
 # ---------- get_category_name ----------
 
+
 class TestGetCategoryName:
     def test_M_movement(self):
         assert USASParser().get_category_name("M1") == "Movement/Location"
@@ -342,15 +352,27 @@ class TestGetCategoryName:
         # Pin every category name (covers 21 VALUE mutants for the dict)
         p = USASParser()
         expected = {
-            "A": "General/Abstract", "B": "Body", "C": "Arts/Crafts",
-            "E": "Emotion", "F": "Food/Farming", "G": "Government",
-            "H": "Housing/Architecture", "I": "Money/Commerce",
-            "K": "Entertainment/Sports", "L": "Life/Living",
-            "M": "Movement/Location", "N": "Numbers/Measurement",
-            "O": "Substances/Objects", "P": "Education",
-            "Q": "Communication", "S": "Social", "T": "Time",
-            "W": "World/Environment", "X": "Psychological",
-            "Y": "Science/Technology", "Z": "Names/Grammar",
+            "A": "General/Abstract",
+            "B": "Body",
+            "C": "Arts/Crafts",
+            "E": "Emotion",
+            "F": "Food/Farming",
+            "G": "Government",
+            "H": "Housing/Architecture",
+            "I": "Money/Commerce",
+            "K": "Entertainment/Sports",
+            "L": "Life/Living",
+            "M": "Movement/Location",
+            "N": "Numbers/Measurement",
+            "O": "Substances/Objects",
+            "P": "Education",
+            "Q": "Communication",
+            "S": "Social",
+            "T": "Time",
+            "W": "World/Environment",
+            "X": "Psychological",
+            "Y": "Science/Technology",
+            "Z": "Names/Grammar",
         }
         for letter, expected_name in expected.items():
             assert p.get_category_name(letter + "1") == expected_name
@@ -358,6 +380,7 @@ class TestGetCategoryName:
 
 
 # ---------- get_all_words ----------
+
 
 class TestGetAllWords:
     def test_returns_keys(self):
@@ -373,6 +396,7 @@ class TestGetAllWords:
 
 
 # ---------- download_usas ----------
+
 
 class TestDownloadUsas:
     def test_success_prints(self, capsys):

@@ -190,12 +190,8 @@ class OperatorSpec:
 
     op_type: OperatorType
     binding: BindingBehavior
-    seeks: FrozenSet[GramRole] = field(
-        default_factory=frozenset
-    )  # What target types can this bind to?
-    transmits: FrozenSet[str] = field(
-        default_factory=frozenset
-    )  # What features pass to target?
+    seeks: FrozenSet[GramRole] = field(default_factory=frozenset)  # What target types can this bind to?
+    transmits: FrozenSet[str] = field(default_factory=frozenset)  # What features pass to target?
 
     # For SIGN operators
     sign_value: Optional[int] = None  # -1 for negators

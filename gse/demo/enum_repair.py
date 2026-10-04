@@ -40,16 +40,26 @@ EPS = 0.10  # "comparable" band for bifurcation (empirical; placeholder)
 # David/Goliath, Archer). Proper-noun subjects throughout — the real register.
 EXEMPLARS = {
     "EVENT_TRANS": [
-        "Macbeth defeats Cawdor.", "Duncan executes Cawdor.", "Macduff kills Macbeth.",
-        "Barry kills Katya.", "David fights Goliath.", "Archer loves Katya.",
-        "Estonia insulted Russia.", "Macbeth murdered Duncan.",
+        "Macbeth defeats Cawdor.",
+        "Duncan executes Cawdor.",
+        "Macduff kills Macbeth.",
+        "Barry kills Katya.",
+        "David fights Goliath.",
+        "Archer loves Katya.",
+        "Estonia insulted Russia.",
+        "Macbeth murdered Duncan.",
     ],
     "EVENT_INTRANS": [
-        "Goliath falls.", "Duncan goes to bed.", "The witches danced and chanted.",
+        "Goliath falls.",
+        "Duncan goes to bed.",
+        "The witches danced and chanted.",
     ],
     "COPULA": [
-        "Duncan is a king.", "Macbeth is a thane.", "Macbeth is a noble.",
-        "Dunsinane is a castle.", "Birnam Wood is a forest.",
+        "Duncan is a king.",
+        "Macbeth is a thane.",
+        "Macbeth is a noble.",
+        "Dunsinane is a castle.",
+        "Birnam Wood is a forest.",
     ],
 }
 # Shape each frame must have, used to filter bug-hit exemplars out of derivation.
@@ -75,15 +85,15 @@ ARGUMENT_ROLES = frozenset({"SYN_SUBJ", "SYN_PRED", "SYN_OBJ", "SYN_COMPL"})
 @dataclass
 class Prototype:
     name: str
-    required: frozenset      # required role slots
-    signature: dict          # role -> set of signature primitives
+    required: frozenset  # required role slots
+    signature: dict  # role -> set of signature primitives
     n_clean: int
 
 
 @dataclass
 class Candidate:
-    roles: dict              # role -> spaCy token
-    frame: str               # prototype it completes
+    roles: dict  # role -> spaCy token
+    frame: str  # prototype it completes
     shape: float
     filler: float
 
@@ -131,8 +141,7 @@ class Tier1Repair:
     def _derive(self) -> dict:
         protos = {}
         for frame, sents in EXEMPLARS.items():
-            clean = [self._skeleton(s) for s in sents
-                     if EXPECT[frame].issubset(self._skeleton(s))]
+            clean = [self._skeleton(s) for s in sents if EXPECT[frame].issubset(self._skeleton(s))]
             n = len(clean)
             slotcount: Counter = Counter()
             fillers: dict = {}
@@ -225,8 +234,7 @@ class Tier1Repair:
           2. the frame has no object slot, the predicate is WordNet-transitive,
              and a nominal sits in a non-argument slot -> dropped object (Type 1).
         """
-        pred = next((t for t in doc
-                     if DEP_TO_SYNTACTIC.get(t.dep_) == "SYN_PRED"), None)
+        pred = next((t for t in doc if DEP_TO_SYNTACTIC.get(t.dep_) == "SYN_PRED"), None)
         if pred is None:
             return False
         if not has_verb_sense(pred.lemma_):
@@ -234,8 +242,7 @@ class Tier1Repair:
         # Dropped-object logic applies only to *event* frames missing an object —
         # never to COPULA, whose complement is a predicate, not a patient (and
         # whose verb "be" spuriously registers as WordNet-transitive).
-        event_no_obj = (frame.startswith("EVENT_")
-                        and "SYN_OBJ" not in self.protos[frame].required)
+        event_no_obj = frame.startswith("EVENT_") and "SYN_OBJ" not in self.protos[frame].required
         if event_no_obj and has_transitive_frame(pred.lemma_):
             for t in doc:
                 # A dropped object is a *direct dependent of the predicate* in a
@@ -253,10 +260,8 @@ class Tier1Repair:
         return False
 
     def _clean_result(self, doc, frame: str, literal: dict) -> dict:
-        lit_tokens = {DEP_TO_SYNTACTIC[t.dep_]: t.text for t in doc
-                      if DEP_TO_SYNTACTIC.get(t.dep_) in ARGUMENT_ROLES}
-        return {"verdict": "clean", "frame": frame,
-                "roles": lit_tokens, "literal_slots": sorted(literal)}
+        lit_tokens = {DEP_TO_SYNTACTIC[t.dep_]: t.text for t in doc if DEP_TO_SYNTACTIC.get(t.dep_) in ARGUMENT_ROLES}
+        return {"verdict": "clean", "frame": frame, "roles": lit_tokens, "literal_slots": sorted(literal)}
 
     def _enumerated_result(self, doc, literal: dict):
         cands = sorted(self._enumerate(doc), key=lambda c: -c.score)
@@ -269,10 +274,13 @@ class Tier1Repair:
             "verdict": verdict,
             "literal_slots": sorted(literal),
             "candidates": [
-                {"frame": c.frame,
-                 "roles": {r: t.text for r, t in c.roles.items()},
-                 "shape": round(c.shape, 2), "filler": round(c.filler, 3),
-                 "score": round(c.score, 3)}
+                {
+                    "frame": c.frame,
+                    "roles": {r: t.text for r, t in c.roles.items()},
+                    "shape": round(c.shape, 2),
+                    "filler": round(c.filler, 3),
+                    "score": round(c.score, 3),
+                }
                 for c in cands
             ],
         }
@@ -304,17 +312,18 @@ def _main() -> None:
         print(f"  {p.name:14} required={sorted(p.required)}  (n={p.n_clean})")
     print("\n=== repair runs ===")
     for sent in [
-        "Macbeth murders Duncan.",      # seam -> recover EVENT_TRANS
+        "Macbeth murders Duncan.",  # seam -> recover EVENT_TRANS
         "Duncan compliments Macbeth.",  # seam -> recover EVENT_TRANS
-        "Macbeth defeats Cawdor.",      # clean -> no repair
-        "Goliath falls.",               # clean intransitive -> no repair
+        "Macbeth defeats Cawdor.",  # clean -> no repair
+        "Goliath falls.",  # clean intransitive -> no repair
     ]:
         out = rep.repair(sent)
         print(f"\n{sent!r}")
         print(f"   verdict: {out['verdict']}   literal_slots: {out.get('literal_slots')}")
         for c in out.get("candidates", []):
-            print(f"     -> {c['frame']:14} roles={c['roles']} "
-                  f"shape={c['shape']} filler={c['filler']} score={c['score']}")
+            print(
+                f"     -> {c['frame']:14} roles={c['roles']} shape={c['shape']} filler={c['filler']} score={c['score']}"
+            )
         if "frame" in out:
             print(f"     -> matched {out['frame']} on the literal parse")
 

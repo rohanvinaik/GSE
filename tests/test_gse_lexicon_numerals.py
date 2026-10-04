@@ -19,16 +19,19 @@ from gse.lexicon.numerals import (
 
 
 class TestGetNumeralEncoding:
-    @pytest.mark.parametrize("word,expected_keys", [
-        ("0", {"primitives", "hierarchy", "quantity_type"}),
-        ("zero", {"primitives", "hierarchy", "quantity_type"}),
-        ("1", {"primitives", "hierarchy", "quantity_type"}),
-        ("one", {"primitives", "hierarchy", "quantity_type"}),
-        ("two", {"primitives", "hierarchy", "quantity_type"}),
-        ("first", {"primitives", "hierarchy", "quantity_type"}),
-        ("half", {"primitives", "hierarchy", "quantity_type"}),
-        ("double", {"primitives", "hierarchy", "quantity_type"}),
-    ])
+    @pytest.mark.parametrize(
+        "word,expected_keys",
+        [
+            ("0", {"primitives", "hierarchy", "quantity_type"}),
+            ("zero", {"primitives", "hierarchy", "quantity_type"}),
+            ("1", {"primitives", "hierarchy", "quantity_type"}),
+            ("one", {"primitives", "hierarchy", "quantity_type"}),
+            ("two", {"primitives", "hierarchy", "quantity_type"}),
+            ("first", {"primitives", "hierarchy", "quantity_type"}),
+            ("half", {"primitives", "hierarchy", "quantity_type"}),
+            ("double", {"primitives", "hierarchy", "quantity_type"}),
+        ],
+    )
     def test_known_numerals_return_dict_with_keys(self, word, expected_keys):
         result = get_numeral_encoding(word)
         assert result is not None
@@ -83,9 +86,21 @@ class TestGetNumeralEncoding:
 
 
 class TestIsNumeral:
-    @pytest.mark.parametrize("word", [
-        "0", "1", "one", "two", "three", "first", "half", "many", "all", "none",
-    ])
+    @pytest.mark.parametrize(
+        "word",
+        [
+            "0",
+            "1",
+            "one",
+            "two",
+            "three",
+            "first",
+            "half",
+            "many",
+            "all",
+            "none",
+        ],
+    )
     def test_known_numerals_return_true(self, word):
         assert is_numeral(word)
 
@@ -154,8 +169,9 @@ class TestValidateMutualTransparency:
         """Every numeral in the dict should satisfy the mutual transparency rule."""
         for word, encoding in NUMERAL_ENCODINGS.items():
             primitives = encoding["primitives"]
-            assert validate_mutual_transparency(primitives), \
+            assert validate_mutual_transparency(primitives), (
                 f"Numeral '{word}' violates mutual transparency: {primitives}"
+            )
 
 
 if __name__ == "__main__":

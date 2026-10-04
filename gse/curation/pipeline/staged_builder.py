@@ -24,6 +24,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class BuildStats:
     """Statistics for a build phase."""
+
     phase: int
     words_total: int
     words_processed: int
@@ -71,6 +72,7 @@ class StagedBuilder:
             self.freq_db_path = frequency_db_path
         else:
             from gse.curation.frequency_integration import get_default_frequency_db_path
+
             self.freq_db_path = get_default_frequency_db_path()
 
         self.freq_db = FrequencyDatabase(self.freq_db_path)
@@ -348,9 +350,7 @@ class StagedBuilder:
             status["total"]["rejected"] += counts["rejected"]
 
         if status["total"]["words"] > 0:
-            status["total"]["validation_rate"] = (
-                100 * status["total"]["validated"] / status["total"]["words"]
-            )
+            status["total"]["validation_rate"] = 100 * status["total"]["validated"] / status["total"]["words"]
         else:
             status["total"]["validation_rate"] = 0
 

@@ -50,31 +50,25 @@ DEP_TO_SYNTACTIC = {
     "csubj": "SYN_SUBJ",
     "csubjpass": "SYN_SUBJ",
     "agent": "SYN_SUBJ",
-
     "ROOT": "SYN_PRED",
     "root": "SYN_PRED",
-
     "dobj": "SYN_OBJ",
     "obj": "SYN_OBJ",
     "iobj": "SYN_OBJ",
     "pobj": "SYN_OBJ",
-
     "attr": "SYN_COMPL",
     "acomp": "SYN_COMPL",
     "xcomp": "SYN_COMPL",
     "ccomp": "SYN_COMPL",
     "oprd": "SYN_COMPL",
-
     # Modifiers (Bank 1: MODIFICATION)
     "amod": "SYN_ADJ_MOD",
     "nmod": "SYN_ADJ_MOD",
     "nn": "SYN_ADJ_MOD",
     "compound": "SYN_ADJ_MOD",
-
     "advmod": "SYN_ADV_MOD",
     "npadvmod": "SYN_ADV_MOD",
     "neg": "SYN_ADV_MOD",
-
     "det": "SYN_DET",
     "predet": "SYN_DET",
     "poss": "SYN_DET",
@@ -140,6 +134,7 @@ class GSEEncoder:
 
         # Token front-end — pure-Python/deterministic, the only engine.
         from gse.nlp.native import NativeNLP
+
         self.nlp = NativeNLP()
 
         # Database connection. A relative db_path resolves against CWD, so a wrong
@@ -151,24 +146,26 @@ class GSEEncoder:
         if not self.db_path.exists():
             raise FileNotFoundError(
                 f"GSE lexicon not found: {self.db_path} (cwd={Path.cwd()}). Pass an "
-                "absolute db_path or run with cwd at the GSE project root.")
+                "absolute db_path or run with cwd at the GSE project root."
+            )
         self.conn = sqlite3.connect(self.db_path)
         self.cursor = self.conn.cursor()
         try:
             n_lexemes = self.cursor.execute("SELECT count(*) FROM lexemes").fetchone()[0]
-        except sqlite3.OperationalError as e:   # no 'lexemes' table → not a lexicon db
+        except sqlite3.OperationalError as e:  # no 'lexemes' table → not a lexicon db
             raise ValueError(
-                f"GSE lexicon {self.db_path} has no 'lexemes' table ({e}); it is not a "
-                "valid lexicon database.") from e
+                f"GSE lexicon {self.db_path} has no 'lexemes' table ({e}); it is not a valid lexicon database."
+            ) from e
         if n_lexemes == 0:
             raise ValueError(
                 f"GSE lexicon {self.db_path} has 0 lexemes — the lexical oracle would "
-                "be blind. Refusing to construct a silently-empty encoder.")
+                "be blind. Refusing to construct a silently-empty encoder."
+            )
 
         # WS1: derive core syntactic roles arc-free (positional) rather than from
         # spaCy ``dep_``. Flipped off only by the parity harness to A/B the two.
         self._arcfree_syn = True
-        self._repair = None              # lazy native parse-repair (built on first encode)
+        self._repair = None  # lazy native parse-repair (built on first encode)
 
     def _parse_repair(self):
         """Lazily build the native Tier-1 parse repair (the parse-strand of the multi-strand
@@ -177,6 +174,7 @@ class GSEEncoder:
         encode), so there is no recursion."""
         if self._repair is None:
             from gse.api.native_repair import NativeRepair
+
             self._repair = NativeRepair(self)
         return self._repair
 
@@ -260,26 +258,23 @@ class GSEEncoder:
             if pending_intensity is not None:
                 word_prims = {**word_prims, **pending_intensity}
                 pending_intensity = None
-            elif ("INTENSITY" in word_prims
-                    and ("HIER_PLUS" in word_prims or "HIER_MINUS" in word_prims)
-                    and i + 1 < len(doc)
-                    # target = the next word's gradable (bipolar) bank — checked by
-                    # decomposition, not POS, so a mistagged adjective still binds.
-                    and any(p in BIPOLAR_PRIMITIVES
-                            for p in self._lookup_lexeme(doc[i + 1].lemma_.lower())[0])):
-                pending_intensity = {k: v for k, v in word_prims.items()
-                                     if k in ("HIER_PLUS", "HIER_MINUS")}
+            elif (
+                "INTENSITY" in word_prims
+                and ("HIER_PLUS" in word_prims or "HIER_MINUS" in word_prims)
+                and i + 1 < len(doc)
+                # target = the next word's gradable (bipolar) bank — checked by
+                # decomposition, not POS, so a mistagged adjective still binds.
+                and any(p in BIPOLAR_PRIMITIVES for p in self._lookup_lexeme(doc[i + 1].lemma_.lower())[0])
+            ):
+                pending_intensity = {k: v for k, v in word_prims.items() if k in ("HIER_PLUS", "HIER_MINUS")}
                 word_prims = {}  # the intensifier is absorbed into the adjective
 
             if i in clause_coords:
-                comp_meta = {"comp_primitive": "COMP_AND",
-                             "comp_operation": "CLAUSE_COORD", "comp_arity": 2}
+                comp_meta = {"comp_primitive": "COMP_AND", "comp_operation": "CLAUSE_COORD", "comp_arity": 2}
             if i in implies_positions:
-                comp_meta = {"comp_primitive": "COMP_IF",
-                             "comp_operation": "IMPLIES", "comp_arity": 2}
+                comp_meta = {"comp_primitive": "COMP_IF", "comp_operation": "IMPLIES", "comp_arity": 2}
             if i in temporal_positions:
-                comp_meta = {"comp_primitive": "COMP_WHEN",
-                             "comp_operation": "TEMPORAL", "comp_arity": 2}
+                comp_meta = {"comp_primitive": "COMP_WHEN", "comp_operation": "TEMPORAL", "comp_arity": 2}
 
             # DYNAMIC: Replace core syntactic role primitives based on dependency parsing
             # This ensures argument order matters (dog as SUBJ vs dog as OBJ)
@@ -333,10 +328,7 @@ class GSEEncoder:
         # 3. Plan clauses (sequential because/so splits + embedded relative
         #    clauses), then resolve operators within their innermost clause.
         n_tokens = len(token_vectors)
-        op_meta = [
-            (op_idx, token_vectors[op_idx][2].get("comp_operation"))
-            for op_idx in operator_indices
-        ]
+        op_meta = [(op_idx, token_vectors[op_idx][2].get("comp_operation")) for op_idx in operator_indices]
         sequential = self._segment_clauses(token_traces, op_meta)
         embedded = self._detect_embedded_clauses(doc, promote_to_verb)
 
@@ -354,8 +346,7 @@ class GSEEncoder:
         gap_roles: Dict[int, Optional[str]] = {}  # clause_id → relativizer gap role
         for s, e, kind, attaches, gap_role in embedded:
             parent = next(
-                (cid for cid, ps, pe, k, _, _ in planned
-                 if k == "sequential" and ps <= attaches < pe),
+                (cid for cid, ps, pe, k, _, _ in planned if k == "sequential" and ps <= attaches < pe),
                 0,
             )
             # An embedded clause must not CROSS a sequential (clause-linking)
@@ -363,10 +354,8 @@ class GSEEncoder:
             # or because/so split (e.g. it reads "Duncan and Macduff killed Macbeth"
             # as an xcomp of "murdered"). If start and end-1 fall in different
             # sequential clauses, drop the bogus embedding — the clause-linker owns it.
-            seq_start = next((cid for cid, ps, pe, k, _, _ in planned
-                              if k == "sequential" and ps <= s < pe), None)
-            seq_end = next((cid for cid, ps, pe, k, _, _ in planned
-                            if k == "sequential" and ps <= e - 1 < pe), None)
+            seq_start = next((cid for cid, ps, pe, k, _, _ in planned if k == "sequential" and ps <= s < pe), None)
+            seq_end = next((cid for cid, ps, pe, k, _, _ in planned if k == "sequential" and ps <= e - 1 < pe), None)
             if seq_start is not None and seq_start != seq_end:
                 continue
             # A complement whose clause sits in a *different* sequential clause
@@ -374,8 +363,7 @@ class GSEEncoder:
             # tags the consequence verb as ccomp); the clause-linker owns it.
             if kind == "complement":
                 span_clause = next(
-                    (cid for cid, ps, pe, k, _, _ in planned
-                     if k == "sequential" and ps <= s < pe),
+                    (cid for cid, ps, pe, k, _, _ in planned if k == "sequential" and ps <= s < pe),
                     parent,
                 )
                 if span_clause != parent:
@@ -403,17 +391,14 @@ class GSEEncoder:
         # operator's arguments (but an operator inside the embedded clause keeps
         # its own tokens).
         embedded_tokens_by_clause: Dict[int, set] = {
-            cid: set(range(s, e))
-            for cid, s, e, k, _, _ in planned if k != "sequential"
+            cid: set(range(s, e)) for cid, s, e, k, _, _ in planned if k != "sequential"
         }
-        all_embedded_tokens = set().union(
-            *embedded_tokens_by_clause.values()
-        ) if embedded_tokens_by_clause else set()
+        all_embedded_tokens = set().union(*embedded_tokens_by_clause.values()) if embedded_tokens_by_clause else set()
 
         operator_traces: List[OperatorTrace] = []
         operator_results: List[SparseVector] = []
         op_trace_index: Dict[int, int] = {}  # op_idx → index in operator_traces
-        op_clause: Dict[int, int] = {}        # op_idx → innermost clause_id
+        op_clause: Dict[int, int] = {}  # op_idx → innermost clause_id
 
         for op_idx in operator_indices:
             _, _, comp_meta = token_vectors[op_idx]
@@ -451,8 +436,13 @@ class GSEEncoder:
                 excluded -= embedded_tokens_by_clause[this_clause_id]
 
             op_trace, result_vec = self._resolve_operator(
-                op_idx, comp_meta, token_vectors, token_traces,
-                arg1_range, arg2_range, excluded,
+                op_idx,
+                comp_meta,
+                token_vectors,
+                token_traces,
+                arg1_range,
+                arg2_range,
+                excluded,
             )
             if op_trace:
                 op_trace_index[op_idx] = len(operator_traces)
@@ -464,16 +454,17 @@ class GSEEncoder:
         clauses: List[ClauseSpan] = []
         for cid, s, e, kind, parent_id, attaches in planned:
             within = [
-                op_trace_index[oi]
-                for oi in operator_indices
-                if oi in op_trace_index
-                and op_clause.get(oi) == cid
+                op_trace_index[oi] for oi in operator_indices if oi in op_trace_index and op_clause.get(oi) == cid
             ]
             clauses.append(
                 ClauseSpan(
-                    clause_id=cid, token_start=s, token_end=e,
-                    operator_indices=within, kind=kind,
-                    parent_id=parent_id, attaches_to_token=attaches,
+                    clause_id=cid,
+                    token_start=s,
+                    token_end=e,
+                    operator_indices=within,
+                    kind=kind,
+                    parent_id=parent_id,
+                    attaches_to_token=attaches,
                     gap_role=gap_roles.get(cid),
                 )
             )
@@ -497,12 +488,8 @@ class GSEEncoder:
             sentence_vec = SparseVector.zeros(self.word_basis.dimension)
 
         # 5. Compute primitive activations
-        word_activations = self._compute_primitive_activations(
-            sentence_vec, self.word_basis
-        )
-        sent_activations = self._compute_primitive_activations(
-            sentence_vec, self.sent_basis
-        )
+        word_activations = self._compute_primitive_activations(sentence_vec, self.word_basis)
+        sent_activations = self._compute_primitive_activations(sentence_vec, self.sent_basis)
 
         # 6. Compute vector hash
         vector_hash = self._hash_vector(sentence_vec)
@@ -545,8 +532,7 @@ class GSEEncoder:
 
         def is_pred(k: int) -> bool:
             t = toks[k]
-            return (k in promote or t.pos_ == "VERB"
-                    or (t.pos_ == "AUX" and t.lemma_.lower() == "be"))
+            return k in promote or t.pos_ == "VERB" or (t.pos_ == "AUX" and t.lemma_.lower() == "be")
 
         def is_copula(k: int) -> bool:
             return toks[k].lemma_.lower() == "be"
@@ -560,8 +546,7 @@ class GSEEncoder:
             """The nearest predicate before ``k`` is a copula with no content
             predicate intervening — so ``k`` is a predicate complement."""
             pp = prev_pred(k)
-            return (pp is not None and is_copula(pp)
-                    and not any(is_pred(j) for j in range(pp + 1, k)))
+            return pp is not None and is_copula(pp) and not any(is_pred(j) for j in range(pp + 1, k))
 
         roles: Dict[int, str] = {}
         for k, t in enumerate(toks):
@@ -582,7 +567,9 @@ class GSEEncoder:
         return roles
 
     def _extract_dynamic_primitives(
-        self, tok, syn_map: Optional[Dict[int, str]] = None,
+        self,
+        tok,
+        syn_map: Optional[Dict[int, str]] = None,
     ) -> Dict[str, int]:
         """Dynamic syntactic + TAM primitives for one token.
 
@@ -596,7 +583,7 @@ class GSEEncoder:
         if syn_map is not None:
             if tok.i in syn_map:
                 primitives[syn_map[tok.i]] = 1
-        elif tok.dep_ in DEP_TO_SYNTACTIC:               # legacy arc path (parity)
+        elif tok.dep_ in DEP_TO_SYNTACTIC:  # legacy arc path (parity)
             primitives[DEP_TO_SYNTACTIC[tok.dep_]] = 1
 
         # Extract TAM (Tense-Aspect-Mood) from morphology
@@ -615,10 +602,13 @@ class GSEEncoder:
         Strict behavior (strict=True): Raises OOVError for OOV words
         """
         # Get lexeme ID and compositional metadata
-        self.cursor.execute("""
+        self.cursor.execute(
+            """
             SELECT id, comp_primitive, comp_arity, comp_operation
             FROM lexemes WHERE lemma = ? LIMIT 1
-        """, (lemma,))
+        """,
+            (lemma,),
+        )
         row = self.cursor.fetchone()
 
         if not row:
@@ -627,24 +617,34 @@ class GSEEncoder:
             return {}, {}, {}  # Graceful fallback: OOV word contributes nothing
 
         lexeme_id, comp_prim, comp_arity, comp_op = row
-        comp_meta = {
-            "comp_primitive": comp_prim,
-            "comp_arity": comp_arity or 0,
-            "comp_operation": comp_op,
-        } if comp_prim else {}
+        comp_meta = (
+            {
+                "comp_primitive": comp_prim,
+                "comp_arity": comp_arity or 0,
+                "comp_operation": comp_op,
+            }
+            if comp_prim
+            else {}
+        )
 
         # Get word-scale primitives
-        self.cursor.execute("""
+        self.cursor.execute(
+            """
             SELECT primitive, value FROM primitive_values
             WHERE lexeme_id = ? AND value != 0
-        """, (lexeme_id,))
+        """,
+            (lexeme_id,),
+        )
         word_prims = {row[0]: row[1] for row in self.cursor.fetchall()}
 
         # Get sentence-scale primitives
-        self.cursor.execute("""
+        self.cursor.execute(
+            """
             SELECT primitive, value FROM sentence_primitive_values
             WHERE lexeme_id = ? AND value != 0
-        """, (lexeme_id,))
+        """,
+            (lexeme_id,),
+        )
         sent_prims = {row[0]: row[1] for row in self.cursor.fetchall()}
 
         return word_prims, sent_prims, comp_meta
@@ -671,16 +671,13 @@ class GSEEncoder:
             # when present (very happy → markers on GOOD, FEEL preserved), else the
             # sole base (very big → BIG). Any remaining bases bundle in flat.
             bipolar = [p for p in bases if p in BIPOLAR_PRIMITIVES]
-            target = bipolar[0] if len(bipolar) == 1 else (
-                bases[0] if len(bases) == 1 else None)
+            target = bipolar[0] if len(bipolar) == 1 else (bases[0] if len(bases) == 1 else None)
             if target is not None:
                 base_vec = self.word_basis.get_primitive(target)
-                marker = self.word_basis.get_primitive(
-                    "HIER_PLUS" if level > 0 else "HIER_MINUS")
+                marker = self.word_basis.get_primitive("HIER_PLUS" if level > 0 else "HIER_MINUS")
                 if base_vec is not None and marker is not None:
                     hier_vec = encode_hierarchy(base_vec, marker, abs(level))
-                    others = [self.word_basis.get_primitive(p) for p in bases
-                              if p != target]
+                    others = [self.word_basis.get_primitive(p) for p in bases if p != target]
                     others = [v for v in others if v is not None]
                     return bundle([hier_vec, *others]) if others else hier_vec
 
@@ -736,12 +733,24 @@ class GSEEncoder:
         bare NP/adjective coordination have no predicate split, so they fall to the
         existing within-clause resolution unchanged.
         """
-        aux = {"be", "will", "would", "should", "could", "can", "must", "may",
-               "might", "to", "have", "do", "shall", "ought"}
+        aux = {
+            "be",
+            "will",
+            "would",
+            "should",
+            "could",
+            "can",
+            "must",
+            "may",
+            "might",
+            "to",
+            "have",
+            "do",
+            "shall",
+            "ought",
+        }
         preds = [
-            i for i, t in enumerate(doc)
-            if (i in promote_to_verb or t.pos_ == "VERB")
-            and t.lemma_.lower() not in aux
+            i for i, t in enumerate(doc) if (i in promote_to_verb or t.pos_ == "VERB") and t.lemma_.lower() not in aux
         ]
         out = set()
         for i, t in enumerate(doc):
@@ -759,12 +768,10 @@ class GSEEncoder:
         Hew are pigs"`` — one shared copula) and predicate coordination (``"He is tall
         and strong"`` — one subject) have <2 subject-bearing copulas, so are untouched.
         """
-        copulas = [i for i, t in enumerate(doc)
-                   if t.lemma_.lower() == "be" and t.pos_ in ("AUX", "VERB")]
+        copulas = [i for i, t in enumerate(doc) if t.lemma_.lower() == "be" and t.pos_ in ("AUX", "VERB")]
         if len(copulas) < 2:
             return set()
-        if not all(ci > 0 and doc[ci - 1].pos_ in ("NOUN", "PROPN", "PRON")
-                   for ci in copulas):
+        if not all(ci > 0 and doc[ci - 1].pos_ in ("NOUN", "PROPN", "PRON") for ci in copulas):
             return set()
         out = set()
         for a, b in zip(copulas, copulas[1:]):
@@ -795,8 +802,7 @@ class GSEEncoder:
         for i, t in enumerate(toks):
             if t.lemma_.lower() not in self._TEMPORAL_SUBORDINATORS:
                 continue
-            if any((j in promote_to_verb or toks[j].pos_ == "VERB")
-                   for j in range(i + 1, len(toks))):
+            if any((j in promote_to_verb or toks[j].pos_ == "VERB") for j in range(i + 1, len(toks))):
                 out.add(i)
         return out
 
@@ -815,8 +821,7 @@ class GSEEncoder:
         for i, t in enumerate(toks):
             if t.lemma_.lower() != "if":
                 continue
-            if any((j in promote_to_verb or toks[j].pos_ == "VERB")
-                   for j in range(i + 1, len(toks))):
+            if any((j in promote_to_verb or toks[j].pos_ == "VERB") for j in range(i + 1, len(toks))):
                 out.add(i)
         return out
 
@@ -849,10 +854,7 @@ class GSEEncoder:
         for a single implicit clause (the single-clause path handles it unchanged).
         """
         n = len(tokens)
-        boundaries = sorted(
-            idx for idx, operation in op_meta
-            if operation and is_clause_linking(operation)
-        )
+        boundaries = sorted(idx for idx, operation in op_meta if operation and is_clause_linking(operation))
         if not boundaries:
             return []
 
@@ -861,13 +863,12 @@ class GSEEncoder:
         has_pred_before = any(t.pos == "VERB" for t in tokens if t.position < first)
         if len(boundaries) == 1 and not has_pred_before:
             boundary = next(
-                (t.position for t in tokens
-                 if t.position > first and (t.lemma == "then" or t.token == ",")),
+                (t.position for t in tokens if t.position > first and (t.lemma == "then" or t.token == ",")),
                 None,
             )
             if boundary is not None and boundary + 1 < n:
-                dep = (first + 1, boundary)        # dependent (subordinate) clause
-                main = (boundary + 1, n)           # main clause
+                dep = (first + 1, boundary)  # dependent (subordinate) clause
+                main = (boundary + 1, n)  # main clause
                 # The subordinate clause is the arg1/right operand for every
                 # subordinator (CAUSAL_SOURCE, IMPLIES — their builders swap), so
                 # emit [main, dependent] uniformly. This matches the medial
@@ -886,7 +887,9 @@ class GSEEncoder:
         return spans
 
     def _detect_embedded_clauses(
-        self, doc, promote_to_verb: Optional[set] = None,
+        self,
+        doc,
+        promote_to_verb: Optional[set] = None,
     ) -> List[Tuple[int, int, str, int, Optional[str]]]:
         """Find embedded clauses that nest inside a parent span — WS1 arc-free.
 
@@ -910,8 +913,7 @@ class GSEEncoder:
 
         def is_pred(k: int) -> bool:
             t = toks[k]
-            return (k in promote or t.pos_ == "VERB"
-                    or (t.pos_ == "AUX" and t.lemma_.lower() == "be"))
+            return k in promote or t.pos_ == "VERB" or (t.pos_ == "AUX" and t.lemma_.lower() == "be")
 
         def is_nominal(k: int) -> bool:
             return toks[k].pos_ in _NOMINAL_POS_ENC
@@ -934,18 +936,14 @@ class GSEEncoder:
             lemma = tok.lemma_.lower()
 
             # --- control: infinitival "to" + verb -------------------------------
-            if lemma == "to" and i + 1 < n and (
-                toks[i + 1].pos_ == "VERB" or (i + 1) in promote
-            ):
+            if lemma == "to" and i + 1 < n and (toks[i + 1].pos_ == "VERB" or (i + 1) in promote):
                 mverb = next((k for k in range(i - 1, -1, -1) if is_pred(k)), None)
                 if mverb is None:
                     continue
                 # object control (a nominal between matrix verb and "to") else subject.
-                controller = next(
-                    (k for k in range(mverb + 1, i) if is_nominal(k)), None)
+                controller = next((k for k in range(mverb + 1, i) if is_nominal(k)), None)
                 if controller is None:
-                    controller = next(
-                        (k for k in range(mverb - 1, -1, -1) if is_nominal(k)), None)
+                    controller = next((k for k in range(mverb - 1, -1, -1) if is_nominal(k)), None)
                 if controller is not None:
                     embedded.append((i, clause_end(i + 1), "control", controller, None))
                 continue
@@ -967,9 +965,8 @@ class GSEEncoder:
                     if p1 is None:
                         continue
                     if i - 1 >= 0 and toks[i - 1].text == ",":  # non-restrictive
-                        end = next((k for k in range(p1 + 1, n)
-                                    if toks[k].text == ","), n)
-                    else:                                        # restrictive
+                        end = next((k for k in range(p1 + 1, n) if toks[k].text == ","), n)
+                    else:  # restrictive
                         p2 = next_pred(p1)
                         end = p2 if p2 is not None else n
                     if lemma == "whom":
@@ -983,7 +980,9 @@ class GSEEncoder:
         return embedded
 
     def _detect_embedded_clauses_arcs(
-        self, doc, promote_to_verb: Optional[set] = None,
+        self,
+        doc,
+        promote_to_verb: Optional[set] = None,
     ) -> List[Tuple[int, int, str, int, Optional[str]]]:
         """Legacy arc-based reference — kept only for the WS1 parity harness.
 
@@ -998,9 +997,11 @@ class GSEEncoder:
                     # The relativizer is the gap-filling child of the relcl verb;
                     # its dep tells us whether the antecedent is subject or object.
                     relzr = next(
-                        (c for c in tok.children
-                         if c.pos_ == "PRON"
-                         and c.lemma_.lower() in {"who", "whom", "which", "that", "whose"}),
+                        (
+                            c
+                            for c in tok.children
+                            if c.pos_ == "PRON" and c.lemma_.lower() in {"who", "whom", "which", "that", "whose"}
+                        ),
                         None,
                     )
                     gap_role: Optional[str] = None
@@ -1014,26 +1015,18 @@ class GSEEncoder:
                             # as nsubj; a real subject sibling means the relativizer
                             # is actually the object gap.
                             other_subject = any(
-                                c.i != relzr.i and c.dep_ in ("nsubj", "nsubjpass")
-                                for c in tok.children
+                                c.i != relzr.i and c.dep_ in ("nsubj", "nsubjpass") for c in tok.children
                             )
                             gap_role = "object" if other_subject else "subject"
                     embedded.append((sub[0], sub[-1] + 1, "relative", tok.head.i, gap_role))
-            elif tok.dep_ == "xcomp" and any(
-                c.dep_ == "aux" and c.lemma_ == "to" for c in tok.children
-            ):
+            elif tok.dep_ == "xcomp" and any(c.dep_ == "aux" and c.lemma_ == "to" for c in tok.children):
                 # Infinitival control complement. Controller = the matrix verb's
                 # object (object control) else its subject (subject control).
                 sub = sorted(c.i for c in tok.subtree)
                 head = tok.head
-                controller = next(
-                    (c.i for c in head.children if c.dep_ in ("dobj", "obj")), None
-                )
+                controller = next((c.i for c in head.children if c.dep_ in ("dobj", "obj")), None)
                 if controller is None:
-                    controller = next(
-                        (c.i for c in head.children
-                         if c.dep_ in ("nsubj", "nsubjpass")), None
-                    )
+                    controller = next((c.i for c in head.children if c.dep_ in ("nsubj", "nsubjpass")), None)
                 if sub and controller is not None:
                     embedded.append((sub[0], sub[-1] + 1, "control", controller, None))
             elif tok.dep_ == "ccomp":

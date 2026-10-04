@@ -68,14 +68,8 @@ def detect_conflicts(
             values_by_source.setdefault(ev.source_name, []).append(ev.target_value)
 
         # Get sources with positive and negative values
-        positive_sources = [
-            s for s, vals in values_by_source.items()
-            if any(v > 0 for v in vals)
-        ]
-        negative_sources = [
-            s for s, vals in values_by_source.items()
-            if any(v < 0 for v in vals)
-        ]
+        positive_sources = [s for s, vals in values_by_source.items() if any(v > 0 for v in vals)]
+        negative_sources = [s for s, vals in values_by_source.items() if any(v < 0 for v in vals)]
 
         if positive_sources and negative_sources:
             # Determine severity
@@ -89,15 +83,17 @@ def detect_conflicts(
                 severity = "minor"
                 conflict_type = "value_disagreement"
 
-            conflicts.append(ConflictRecord(
-                primitive=primitive,
-                conflict_type=conflict_type,
-                sources_positive=positive_sources,
-                sources_negative=negative_sources,
-                severity=severity,
-                resolution_required=True,
-                detail=f"{len(positive_sources)} source(s) say +1, {len(negative_sources)} source(s) say -1"
-            ))
+            conflicts.append(
+                ConflictRecord(
+                    primitive=primitive,
+                    conflict_type=conflict_type,
+                    sources_positive=positive_sources,
+                    sources_negative=negative_sources,
+                    severity=severity,
+                    resolution_required=True,
+                    detail=f"{len(positive_sources)} source(s) say +1, {len(negative_sources)} source(s) say -1",
+                )
+            )
 
     # Check bipolar violations
     for pos_prim, neg_prim in BIPOLAR_PAIRS:
@@ -112,15 +108,17 @@ def detect_conflicts(
             pos_sources = [e.source_name for e in pos_evidence if e.target_value > 0]
             neg_sources = [e.source_name for e in neg_evidence if e.target_value > 0]
 
-            conflicts.append(ConflictRecord(
-                primitive=f"{pos_prim}/{neg_prim}",
-                conflict_type="bipolar_violation",
-                sources_positive=pos_sources,
-                sources_negative=neg_sources,
-                severity="major",
-                resolution_required=True,
-                detail=f"Both {pos_prim} and {neg_prim} have positive evidence (bipolar violation)"
-            ))
+            conflicts.append(
+                ConflictRecord(
+                    primitive=f"{pos_prim}/{neg_prim}",
+                    conflict_type="bipolar_violation",
+                    sources_positive=pos_sources,
+                    sources_negative=neg_sources,
+                    severity="major",
+                    resolution_required=True,
+                    detail=f"Both {pos_prim} and {neg_prim} have positive evidence (bipolar violation)",
+                )
+            )
 
     return conflicts
 

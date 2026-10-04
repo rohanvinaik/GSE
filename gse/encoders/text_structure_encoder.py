@@ -34,8 +34,10 @@ from gse.primitives_v2 import (
 # TEXT CATEGORIES
 # =============================================================================
 
+
 class Genre(Enum):
     """Document genre types."""
+
     NARRATIVE = "narrative"
     EXPOSITORY = "expository"
     ARGUMENTATIVE = "argumentative"
@@ -45,6 +47,7 @@ class Genre(Enum):
 
 class Register(Enum):
     """Language register types."""
+
     FORMAL = "formal"
     INFORMAL = "informal"
     TECHNICAL = "technical"
@@ -54,6 +57,7 @@ class Register(Enum):
 
 class Domain(Enum):
     """Content domain types."""
+
     ACADEMIC = "academic"
     COMMERCIAL = "commercial"
     PERSONAL = "personal"
@@ -79,9 +83,11 @@ class Domain(Enum):
 # DATA STRUCTURES
 # =============================================================================
 
+
 @dataclass
 class EntityMention:
     """A mention of an entity in the document."""
+
     text: str
     paragraph_idx: int
     sentence_idx: int
@@ -91,6 +97,7 @@ class EntityMention:
 @dataclass
 class DocumentEntity:
     """An entity tracked across the document."""
+
     id: str
     canonical_form: str
     mentions: List[EntityMention]
@@ -101,6 +108,7 @@ class DocumentEntity:
 @dataclass
 class TextStructure:
     """Parsed document structure."""
+
     raw_text: str
     paragraphs: List[str]
     genre: Genre
@@ -116,6 +124,7 @@ class TextStructure:
 @dataclass
 class TextEncoding:
     """Result of text/document encoding."""
+
     vector: np.ndarray
     structure: TextStructure
     paragraph_vectors: List[np.ndarray]
@@ -126,6 +135,7 @@ class TextEncoding:
 # =============================================================================
 # CODEBOOKS
 # =============================================================================
+
 
 class TextCodebook:
     """Codebook for text-level primitive vectors."""
@@ -140,9 +150,7 @@ class TextCodebook:
 
     def _generate_vectors(self):
         for genre in Genre:
-            seed = int(hashlib.md5(
-                f"{self.seed}_GENRE_{genre.value}".encode()
-            ).hexdigest()[:8], 16)
+            seed = int(hashlib.md5(f"{self.seed}_GENRE_{genre.value}".encode()).hexdigest()[:8], 16)
             rng = np.random.default_rng(seed)
             vec = np.zeros(self.dim, dtype=np.float32)
             rand = rng.random(self.dim)
@@ -151,9 +159,7 @@ class TextCodebook:
             self.genre_vectors[genre] = vec
 
         for register in Register:
-            seed = int(hashlib.md5(
-                f"{self.seed}_REGISTER_{register.value}".encode()
-            ).hexdigest()[:8], 16)
+            seed = int(hashlib.md5(f"{self.seed}_REGISTER_{register.value}".encode()).hexdigest()[:8], 16)
             rng = np.random.default_rng(seed)
             vec = np.zeros(self.dim, dtype=np.float32)
             rand = rng.random(self.dim)
@@ -162,9 +168,7 @@ class TextCodebook:
             self.register_vectors[register] = vec
 
         for domain in Domain:
-            seed = int(hashlib.md5(
-                f"{self.seed}_DOMAIN_{domain.value}".encode()
-            ).hexdigest()[:8], 16)
+            seed = int(hashlib.md5(f"{self.seed}_DOMAIN_{domain.value}".encode()).hexdigest()[:8], 16)
             rng = np.random.default_rng(seed)
             vec = np.zeros(self.dim, dtype=np.float32)
             rand = rng.random(self.dim)
@@ -185,6 +189,7 @@ class TextCodebook:
 # =============================================================================
 # TEXT ENCODER
 # =============================================================================
+
 
 class TextStructureEncoder:
     """
@@ -275,14 +280,10 @@ class TextStructureEncoder:
         topic_words = self._extract_topics(paragraphs)
 
         # Build document vector
-        doc_vec = self._build_document_vector(
-            para_vecs, genre, register, domain
-        )
+        doc_vec = self._build_document_vector(para_vecs, genre, register, domain)
 
         # Compute bank activations
-        bank_activations = self._compute_bank_activations(
-            genre, register, domain
-        )
+        bank_activations = self._compute_bank_activations(genre, register, domain)
 
         # Compute coherence
         coherence_score = self._compute_coherence(para_vecs)
@@ -310,7 +311,7 @@ class TextStructureEncoder:
 
     def _segment_paragraphs(self, text: str) -> List[str]:
         """Split text into paragraphs."""
-        paragraphs = re.split(r'\n\n+', text)
+        paragraphs = re.split(r"\n\n+", text)
         return [p.strip() for p in paragraphs if p.strip()]
 
     def _hash_vector(self, text: str) -> np.ndarray:
@@ -340,7 +341,7 @@ class TextStructureEncoder:
         no genre detector is wired (a bare encoder) or the router abstains."""
         if self.genre_detector is None:
             return Genre.MIXED, 0.0
-        if hasattr(self.genre_detector, "classify"):     # SomGenreDetector
+        if hasattr(self.genre_detector, "classify"):  # SomGenreDetector
             return self.genre_detector.classify(text)
         # Back-compat: a keyword-style detector, if one is explicitly injected.
         return self._pick_top_category(self.genre_detector.detect(text), Genre.MIXED)
@@ -363,31 +364,35 @@ class TextStructureEncoder:
 
         # Simple capitalized word extraction (placeholder for NER)
         for para_idx, para in enumerate(paragraphs):
-            sentences = re.split(r'[.!?]', para)
+            sentences = re.split(r"[.!?]", para)
             for sent_idx, sent in enumerate(sentences):
                 # Find capitalized words (simple entity extraction)
-                words = re.findall(r'\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b', sent)
+                words = re.findall(r"\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b", sent)
                 for word in words:
                     if word not in entity_mentions:
                         entity_mentions[word] = []
-                    entity_mentions[word].append(EntityMention(
-                        text=word,
-                        paragraph_idx=para_idx,
-                        sentence_idx=sent_idx,
-                        entity_type="UNKNOWN",
-                    ))
+                    entity_mentions[word].append(
+                        EntityMention(
+                            text=word,
+                            paragraph_idx=para_idx,
+                            sentence_idx=sent_idx,
+                            entity_type="UNKNOWN",
+                        )
+                    )
 
         # Create DocumentEntity objects for entities with multiple mentions
         entities = []
         for i, (name, mentions) in enumerate(entity_mentions.items()):
             if len(mentions) >= 2:  # Only track recurring entities
-                entities.append(DocumentEntity(
-                    id=f"entity_{i}",
-                    canonical_form=name,
-                    mentions=mentions,
-                    salience=len(mentions) / len(paragraphs),
-                    vector=self._hash_vector(name),
-                ))
+                entities.append(
+                    DocumentEntity(
+                        id=f"entity_{i}",
+                        canonical_form=name,
+                        mentions=mentions,
+                        salience=len(mentions) / len(paragraphs),
+                        vector=self._hash_vector(name),
+                    )
+                )
 
         # Sort by salience
         entities.sort(key=lambda e: -e.salience)
@@ -400,7 +405,7 @@ class TextStructureEncoder:
         para_presence: Dict[str, Set[int]] = {}
 
         for para_idx, para in enumerate(paragraphs):
-            words = set(re.findall(r'\b[a-z]{4,}\b', para.lower()))
+            words = set(re.findall(r"\b[a-z]{4,}\b", para.lower()))
             for word in words:
                 word_counts[word] = word_counts.get(word, 0) + 1
                 if word not in para_presence:
@@ -408,10 +413,7 @@ class TextStructureEncoder:
                 para_presence[word].add(para_idx)
 
         # Words appearing in multiple paragraphs
-        topic_words = [
-            word for word, paras in para_presence.items()
-            if len(paras) >= 2 and word_counts[word] >= 3
-        ]
+        topic_words = [word for word, paras in para_presence.items() if len(paras) >= 2 and word_counts[word] >= 3]
 
         # Sort by frequency
         topic_words.sort(key=lambda w: -word_counts[w])
@@ -534,6 +536,7 @@ def _gse_encoder_for(encoder):
         return encoder
     if _default_gse_encoder is None:
         from gse.api import GSEEncoder
+
         _default_gse_encoder = GSEEncoder()
     return _default_gse_encoder
 
@@ -546,6 +549,7 @@ def get_text_encoder(encoder=None) -> TextStructureEncoder:
     enc = _text_encoders.get(key)
     if enc is None:
         from gse.encoders.som_genre import SomGenreDetector
+
         det = SomGenreDetector(_gse_encoder_for(encoder))
         enc = TextStructureEncoder(genre_detector=det)
         _text_encoders[key] = enc

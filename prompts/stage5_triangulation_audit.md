@@ -122,23 +122,28 @@ If ZERO=1, then SING≠1 AND PLUR≠1 - this constraint must never be violated.
 import pandas as pd
 import sqlite3
 
-def load_nrc_vad(path='data/external/nrc_vad.txt'):
-    return pd.read_csv(path, sep='\t', names=['word','valence','arousal','dominance'], skiprows=1)
 
-def load_lancaster(path='data/external/lancaster_sensorimotor.csv'):
+def load_nrc_vad(path="data/external/nrc_vad.txt"):
+    return pd.read_csv(path, sep="\t", names=["word", "valence", "arousal", "dominance"], skiprows=1)
+
+
+def load_lancaster(path="data/external/lancaster_sensorimotor.csv"):
     return pd.read_csv(path)
 
-def load_concreteness(path='data/external/concreteness.csv'):
+
+def load_concreteness(path="data/external/concreteness.csv"):
     return pd.read_csv(path)
+
 
 def map_vad_to_primitives(row):
     primitives = {}
-    if row['valence'] < 0.35:
-        primitives['BAD'] = 1
-    elif row['valence'] > 0.65:
-        primitives['GOOD'] = 1
+    if row["valence"] < 0.35:
+        primitives["BAD"] = 1
+    elif row["valence"] > 0.65:
+        primitives["GOOD"] = 1
     # ... etc
     return primitives
+
 
 def cross_reference(word, dbs):
     """Get signals from all available databases for a word."""
@@ -223,13 +228,13 @@ def parse_model_output(output_path):
 
     with open(output_path) as f:
         for line in f:
-            if line.startswith('WORD:'):
+            if line.startswith("WORD:"):
                 if current_word:
                     results[current_word] = current_prims
-                current_word = line.split(':')[1].strip()
+                current_word = line.split(":")[1].strip()
                 current_prims = {}
-            elif ':' in line:
-                prim, val = line.split(':')
+            elif ":" in line:
+                prim, val = line.split(":")
                 current_prims[prim.strip()] = int(val.strip())
 
     return results
@@ -242,19 +247,19 @@ def compute_model_agreement(smollm, granite, gemma, word, primitive):
     votes = [
         smollm.get(word, {}).get(primitive),
         granite.get(word, {}).get(primitive),
-        gemma.get(word, {}).get(primitive)
+        gemma.get(word, {}).get(primitive),
     ]
     votes = [v for v in votes if v is not None]
 
     if len(votes) < 2:
-        return None, 'insufficient'
+        return None, "insufficient"
 
     if all(v == votes[0] for v in votes):
-        return votes[0], 'unanimous'
+        return votes[0], "unanimous"
     elif votes.count(max(set(votes), key=votes.count)) >= 2:
-        return max(set(votes), key=votes.count), 'majority'
+        return max(set(votes), key=votes.count), "majority"
     else:
-        return None, 'split'
+        return None, "split"
 ```
 
 ---
@@ -298,12 +303,12 @@ def parse_qwen_output(output_path):
     results = {}
     with open(output_path) as f:
         for line in f:
-            if ':' in line:
-                word, rest = line.split(':', 1)
+            if ":" in line:
+                word, rest = line.split(":", 1)
                 prims = {}
-                for pair in rest.split(','):
-                    if '=' in pair:
-                        prim, val = pair.split('=')
+                for pair in rest.split(","):
+                    if "=" in pair:
+                        prim, val = pair.split("=")
                         prims[prim.strip()] = int(val.strip())
                 results[word.strip()] = prims
     return results
@@ -344,27 +349,29 @@ def compute_final_assignment(word, nlp_signals, model_signals, qwen_signals):
 
         # Case 1: All 3 agree
         if nlp == model_val == qwen and nlp is not None:
-            final[primitive] = {'value': nlp, 'confidence': 'HIGH', 'sources': 'all'}
+            final[primitive] = {"value": nlp, "confidence": "HIGH", "sources": "all"}
 
         # Case 2: Model + Qwen agree, no NLP
         elif nlp is None and model_val == qwen and model_val is not None:
-            final[primitive] = {'value': model_val, 'confidence': 'HIGH', 'sources': 'model+qwen'}
+            final[primitive] = {"value": model_val, "confidence": "HIGH", "sources": "model+qwen"}
 
         # Case 3: 2/3 agree
         elif count_agreements(nlp, model_val, qwen) >= 2:
             majority = get_majority(nlp, model_val, qwen)
-            final[primitive] = {'value': majority, 'confidence': 'MEDIUM', 'sources': 'majority'}
+            final[primitive] = {"value": majority, "confidence": "MEDIUM", "sources": "majority"}
 
         # Case 4: Disagreement or insufficient data
         else:
-            review_queue.append({
-                'word': word,
-                'primitive': primitive,
-                'nlp': nlp,
-                'model': model_val,
-                'qwen': qwen,
-                'reason': 'disagreement'
-            })
+            review_queue.append(
+                {
+                    "word": word,
+                    "primitive": primitive,
+                    "nlp": nlp,
+                    "model": model_val,
+                    "qwen": qwen,
+                    "reason": "disagreement",
+                }
+            )
 
     return final, review_queue
 ```
@@ -435,13 +442,14 @@ from parse_nlp_databases import load_all_dbs, cross_reference
 from parse_model_outputs import load_model_outputs, compute_model_agreement
 from parse_qwen_output import parse_qwen_output
 
+
 def run_triangulation(word_list):
     # Load sources
     dbs = load_all_dbs()
     smollm, granite, gemma = load_model_outputs()
-    qwen = parse_qwen_output('data/qwen_output.txt')
+    qwen = parse_qwen_output("data/qwen_output.txt")
 
-    results = {'high': {}, 'medium': {}, 'review': []}
+    results = {"high": {}, "medium": {}, "review": []}
 
     for word in word_list:
         nlp_signals = cross_reference(word, dbs)
@@ -452,22 +460,23 @@ def run_triangulation(word_list):
 
         # Categorize by confidence
         for prim, data in final.items():
-            if data['confidence'] == 'HIGH':
-                results['high'].setdefault(word, {})[prim] = data['value']
+            if data["confidence"] == "HIGH":
+                results["high"].setdefault(word, {})[prim] = data["value"]
             else:
-                results['medium'].setdefault(word, {})[prim] = data
+                results["medium"].setdefault(word, {})[prim] = data
 
-        results['review'].extend(review)
+        results["review"].extend(review)
 
     return results
 
-if __name__ == '__main__':
-    with open('data/word_list.txt') as f:
+
+if __name__ == "__main__":
+    with open("data/word_list.txt") as f:
         words = [w.strip() for w in f]
 
     results = run_triangulation(words)
 
-    with open('data/stage5_results.json', 'w') as f:
+    with open("data/stage5_results.json", "w") as f:
         json.dump(results, f, indent=2)
 ```
 

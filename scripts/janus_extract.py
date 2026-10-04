@@ -20,6 +20,7 @@ Usage (from repo root):
     python scripts/janus_extract.py --figures metaphor --limit 8 --dry-run   # validate
     python scripts/janus_extract.py --bank similarity --limit 8              # store candidates
 """
+
 from __future__ import annotations
 
 import argparse
@@ -58,6 +59,7 @@ _WIKI_TITLE = {
     "catachresis": "Catachresis",
 }
 
+
 def _parse_examples(content: str) -> list[str]:
     """Lenient parse of the model's JSON: strip markdown fences, accept a bare list or
     ``{examples:[...]}``, and pull text from string or dict items."""
@@ -88,8 +90,12 @@ def _parse_examples(content: str) -> list[str]:
 def wiki_extract(title: str) -> str | None:
     """Clean plaintext of a Wikipedia article via the MediaWiki API (no scraping)."""
     params = {
-        "action": "query", "titles": title, "prop": "extracts",
-        "explaintext": "true", "exintro": "false", "format": "json",
+        "action": "query",
+        "titles": title,
+        "prop": "extracts",
+        "explaintext": "true",
+        "exintro": "false",
+        "format": "json",
         "redirects": "1",
     }
     url = f"{_WIKI}?{urllib.parse.urlencode(params)}"
@@ -112,20 +118,21 @@ def ollama_extract(figure: str, definition: str, text: str, limit: int) -> list[
         f"example VERBATIM from the text. Do NOT invent examples, do NOT include the "
         f"article's prose explanation, and if the article gives no clear labelled "
         f"examples use an empty list.\n\n"
-        f'Respond with ONLY a JSON object of this exact shape — no markdown, no prose:\n'
+        f"Respond with ONLY a JSON object of this exact shape — no markdown, no prose:\n"
         f'{{"examples": ["<verbatim example sentence>", "..."]}}\n\n'
         f"ARTICLE:\n{text[:9000]}"
     )
-    payload = json.dumps({
-        "model": _MODEL,
-        "messages": [{"role": "user", "content": prompt}],
-        "stream": False,
-        "format": "json",
-        "think": False,
-        "options": {"temperature": 0.1, "num_predict": 700, "num_ctx": 12288},
-    }).encode()
-    req = urllib.request.Request(_OLLAMA, data=payload,
-                                headers={"Content-Type": "application/json"})
+    payload = json.dumps(
+        {
+            "model": _MODEL,
+            "messages": [{"role": "user", "content": prompt}],
+            "stream": False,
+            "format": "json",
+            "think": False,
+            "options": {"temperature": 0.1, "num_predict": 700, "num_ctx": 12288},
+        }
+    ).encode()
+    req = urllib.request.Request(_OLLAMA, data=payload, headers={"Content-Type": "application/json"})
     raw = json.loads(urllib.request.urlopen(req, timeout=180).read())
     return _parse_examples(raw.get("message", {}).get("content", ""))
 
@@ -133,6 +140,7 @@ def ollama_extract(figure: str, definition: str, text: str, limit: int) -> list[
 def fetch_html(url: str) -> str | None:
     """Fetch a non-wiki reference page and strip HTML to readable text (the doc's §4)."""
     import html
+
     try:
         req = urllib.request.Request(url, headers={"User-Agent": _UA})
         raw = urllib.request.urlopen(req, timeout=20).read(120_000).decode("utf-8", "replace")
@@ -153,9 +161,7 @@ _LITDEV_SLUG = {"verbal_irony": "irony", "humor_gardenpath": "", "rhetorical_que
 def sources(fig: str):
     """Yield (label, url, text) per reference source for a figure (wiki + litdev)."""
     title = _WIKI_TITLE.get(fig, fig.replace("_", " ").title())
-    yield (f"Wikipedia: {title}",
-           f"https://en.wikipedia.org/wiki/{urllib.parse.quote(title)}",
-           wiki_extract(title))
+    yield (f"Wikipedia: {title}", f"https://en.wikipedia.org/wiki/{urllib.parse.quote(title)}", wiki_extract(title))
     slug = _LITDEV_SLUG.get(fig, fig.replace("_", "-"))
     if slug:
         url = f"https://literarydevices.net/{slug}/"
@@ -176,14 +182,17 @@ def generate_literal(figure: str, example: str) -> str | None:
         f"ordinary, factual statement.\n"
         f'Respond with ONLY JSON: {{"literal": "<the sentence>"}}'
     )
-    payload = json.dumps({
-        "model": _MODEL,
-        "messages": [{"role": "user", "content": prompt}],
-        "stream": False, "format": "json", "think": False,
-        "options": {"temperature": 0.4, "num_predict": 200, "num_ctx": 2048},
-    }).encode()
-    req = urllib.request.Request(_OLLAMA, data=payload,
-                                headers={"Content-Type": "application/json"})
+    payload = json.dumps(
+        {
+            "model": _MODEL,
+            "messages": [{"role": "user", "content": prompt}],
+            "stream": False,
+            "format": "json",
+            "think": False,
+            "options": {"temperature": 0.4, "num_predict": 200, "num_ctx": 2048},
+        }
+    ).encode()
+    req = urllib.request.Request(_OLLAMA, data=payload, headers={"Content-Type": "application/json"})
     try:
         raw = json.loads(urllib.request.urlopen(req, timeout=120).read())
         content = raw.get("message", {}).get("content", "")
@@ -209,8 +218,9 @@ def main() -> None:
     ap.add_argument("--bank", help="extract every figure in this bank")
     ap.add_argument("--limit", type=int, default=8, help="max examples per figure")
     ap.add_argument("--dry-run", action="store_true", help="print, do not store")
-    ap.add_argument("--literals", action="store_true",
-                    help="also generate a matched literal control per figure example")
+    ap.add_argument(
+        "--literals", action="store_true", help="also generate a matched literal control per figure example"
+    )
     args = ap.parse_args()
 
     figs = resolve_figures(args)
@@ -238,13 +248,25 @@ def main() -> None:
                 seen.add(key)
                 print(f"  [{fig}] {t}   ⟨{label}⟩")
                 if conn is not None:
-                    ingest_example(conn, FigureExample(
-                        text=t, source=label,
-                        labeled_by=f"extracted: {label}",
-                        labels=[Label(fig, 0.70, f"extracted:{url}",
-                                      "candidate — pending two-rater clearance", cleared_self=False)],
-                        source_url=url,
-                    ), apply=True)
+                    ingest_example(
+                        conn,
+                        FigureExample(
+                            text=t,
+                            source=label,
+                            labeled_by=f"extracted: {label}",
+                            labels=[
+                                Label(
+                                    fig,
+                                    0.70,
+                                    f"extracted:{url}",
+                                    "candidate — pending two-rater clearance",
+                                    cleared_self=False,
+                                )
+                            ],
+                            source_url=url,
+                        ),
+                        apply=True,
+                    )
                 fcount += 1
                 if args.literals:
                     lit = generate_literal(fig, t)
@@ -252,13 +274,25 @@ def main() -> None:
                         seen.add(lit.lower().strip())
                         print(f"      ↳ literal: {lit}")
                         if conn is not None:
-                            ingest_example(conn, FigureExample(
-                                text=lit, source="generated: ollama qwen3.5:4b",
-                                labeled_by="generated literal (matched control)",
-                                labels=[Label("literal", 0.70, "generated:ollama",
-                                              f"matched literal control for {fig}", cleared_self=False)],
-                                matched_to=fig,
-                            ), apply=True)
+                            ingest_example(
+                                conn,
+                                FigureExample(
+                                    text=lit,
+                                    source="generated: ollama qwen3.5:4b",
+                                    labeled_by="generated literal (matched control)",
+                                    labels=[
+                                        Label(
+                                            "literal",
+                                            0.70,
+                                            "generated:ollama",
+                                            f"matched literal control for {fig}",
+                                            cleared_self=False,
+                                        )
+                                    ],
+                                    matched_to=fig,
+                                ),
+                                apply=True,
+                            )
         print(f"[{fig}] {fcount} candidate(s)")
         total += fcount
     where = "DRY-RUN (not stored)" if args.dry_run else DB_PATH

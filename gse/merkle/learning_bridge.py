@@ -32,6 +32,7 @@ from gse.primitives_v2 import PRIMITIVE_FAMILIES, SEMANTIC_BANK_NAMES
 # FAMILY AFFINITY MATRIX
 # =============================================================================
 
+
 class FamilyAffinityMatrix:
     """
     Cross-family affinity matrix learned from lexicon.
@@ -110,16 +111,13 @@ class FamilyAffinityMatrix:
         affinities = self.affinity[idx]
         top_indices = np.argsort(affinities)[::-1][:top_k]
 
-        return [
-            (self.family_ids[i], float(affinities[i]))
-            for i in top_indices
-            if i != idx
-        ]
+        return [(self.family_ids[i], float(affinities[i])) for i in top_indices if i != idx]
 
 
 # =============================================================================
 # K-LINE PATTERNS
 # =============================================================================
+
 
 @dataclass
 class KLinePattern:
@@ -128,6 +126,7 @@ class KLinePattern:
 
     Captures recurring primitive combinations with roles.
     """
+
     pattern_id: str
     primitives: List[str]
     roles: List[str]
@@ -243,6 +242,7 @@ class KLineStore:
 # LEARNING BRIDGE
 # =============================================================================
 
+
 class MerkleLearningBridge:
     """
     Bridge between Merkle tree and learning networks.
@@ -283,6 +283,7 @@ class MerkleLearningBridge:
 
         # Router for tree navigation
         from gse.vectors_v2 import create_basis
+
         self.basis = create_basis()
         self.router = MerkleBellmanFord(tree, self.basis)
 
@@ -351,10 +352,12 @@ class MerkleLearningBridge:
             }.get(bank_id, OrchestratorNode.ROUTE_WORD)
 
             # Learn association
-            self.orchestrator.learn({
-                scale_node.name: 1.0,
-                OrchestratorNode.TASK_DECOMPOSE.name: 0.5,
-            })
+            self.orchestrator.learn(
+                {
+                    scale_node.name: 1.0,
+                    OrchestratorNode.TASK_DECOMPOSE.name: 0.5,
+                }
+            )
 
     def navigate_with_network(
         self,
@@ -379,6 +382,7 @@ class MerkleLearningBridge:
 
         # Build query vector from active primitives
         from gse.vectors_v2 import compose_decomposition
+
         decomp = [(p, "attribute", 1 if output.get(p, 0) > 0 else -1) for p in active_prims]
 
         if not decomp:

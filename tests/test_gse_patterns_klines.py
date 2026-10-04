@@ -22,6 +22,7 @@ def make_activation(prim, polarity=1):
 
 # ---------- KLine ----------
 
+
 class TestKLineInit:
     def test_defaults(self):
         k = KLine(id="x", pattern=frozenset([("GOOD", 1)]))
@@ -101,6 +102,7 @@ class TestReinforce:
 
 # ---------- KLineStore.__init__ ----------
 
+
 class TestStoreInit:
     def test_defaults(self):
         s = KLineStore()
@@ -115,6 +117,7 @@ class TestStoreInit:
 
 
 # ---------- add_or_reinforce ----------
+
 
 class TestAddOrReinforce:
     def test_pattern_below_min_returns_none(self):
@@ -152,6 +155,7 @@ class TestAddOrReinforce:
 
 # ---------- add_from_activations ----------
 
+
 class TestAddFromActivations:
     def test_builds_pattern_from_activations(self):
         s = KLineStore()
@@ -163,6 +167,7 @@ class TestAddFromActivations:
 
 
 # ---------- _evict_weakest ----------
+
 
 class TestEvictWeakest:
     def test_no_op_on_empty(self):
@@ -183,6 +188,7 @@ class TestEvictWeakest:
 
 
 # ---------- find_matching ----------
+
 
 class TestFindMatching:
     def test_empty_query_returns_empty(self):
@@ -214,6 +220,7 @@ class TestFindMatching:
 
 # ---------- complete_pattern ----------
 
+
 class TestCompletePattern:
     def test_no_matches_empty(self):
         s = KLineStore()
@@ -233,6 +240,7 @@ class TestCompletePattern:
 
 # ---------- save / load ----------
 
+
 class TestSaveLoad:
     def test_roundtrip(self, tmp_path):
         s1 = KLineStore()
@@ -251,6 +259,7 @@ class TestSaveLoad:
 
 
 # ---------- __len__ ----------
+
 
 class TestLen:
     def test_empty(self):

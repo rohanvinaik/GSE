@@ -48,26 +48,30 @@ def make_lexeme(component_type=ComponentType.ATOMIC, roles=None):
 # GrammaticalFeatures.is_empty
 # ============================================================
 
+
 class TestGrammaticalFeaturesIsEmpty:
     def test_all_none_is_empty(self):
         f = GrammaticalFeatures()
         assert f.is_empty()
 
-    @pytest.mark.parametrize("field_name,value", [
-        ("tense", "PAST"),
-        ("aspect", "PROGRESSIVE"),
-        ("mood", "SUBJUNCTIVE"),
-        ("voice", "PASSIVE"),
-        ("person", 1),
-        ("number", "PLURAL"),
-        ("gender", "FEM"),
-        ("case", "ACC"),
-        ("definiteness", "DEFINITE"),
-        ("animacy", "ANIMATE"),
-        ("reflexivity", "REFLEXIVE"),
-        ("deixis", "PROXIMAL"),
-        ("polarity", "NEGATIVE"),
-    ])
+    @pytest.mark.parametrize(
+        "field_name,value",
+        [
+            ("tense", "PAST"),
+            ("aspect", "PROGRESSIVE"),
+            ("mood", "SUBJUNCTIVE"),
+            ("voice", "PASSIVE"),
+            ("person", 1),
+            ("number", "PLURAL"),
+            ("gender", "FEM"),
+            ("case", "ACC"),
+            ("definiteness", "DEFINITE"),
+            ("animacy", "ANIMATE"),
+            ("reflexivity", "REFLEXIVE"),
+            ("deixis", "PROXIMAL"),
+            ("polarity", "NEGATIVE"),
+        ],
+    )
     def test_any_single_field_set_makes_not_empty(self, field_name, value):
         f = GrammaticalFeatures(**{field_name: value})
         assert not f.is_empty(), f"Field {field_name}={value} should make features non-empty"
@@ -81,26 +85,30 @@ class TestGrammaticalFeaturesIsEmpty:
 # GrammaticalFeatures.to_dict
 # ============================================================
 
+
 class TestGrammaticalFeaturesToDict:
     def test_empty_returns_empty_dict(self):
         f = GrammaticalFeatures()
         assert f.to_dict() == {}
 
-    @pytest.mark.parametrize("field_name,value", [
-        ("tense", "PAST"),
-        ("aspect", "SIMPLE"),
-        ("mood", "INDICATIVE"),
-        ("voice", "ACTIVE"),
-        ("person", 3),
-        ("number", "SINGULAR"),
-        ("gender", "MASC"),
-        ("case", "NOM"),
-        ("definiteness", "INDEFINITE"),
-        ("animacy", "INANIMATE"),
-        ("reflexivity", "NONE"),
-        ("deixis", "DISTAL"),
-        ("polarity", "POSITIVE"),
-    ])
+    @pytest.mark.parametrize(
+        "field_name,value",
+        [
+            ("tense", "PAST"),
+            ("aspect", "SIMPLE"),
+            ("mood", "INDICATIVE"),
+            ("voice", "ACTIVE"),
+            ("person", 3),
+            ("number", "SINGULAR"),
+            ("gender", "MASC"),
+            ("case", "NOM"),
+            ("definiteness", "INDEFINITE"),
+            ("animacy", "INANIMATE"),
+            ("reflexivity", "NONE"),
+            ("deixis", "DISTAL"),
+            ("polarity", "POSITIVE"),
+        ],
+    )
     def test_single_field_appears_in_dict(self, field_name, value):
         f = GrammaticalFeatures(**{field_name: value})
         d = f.to_dict()
@@ -121,14 +129,27 @@ class TestGrammaticalFeaturesToDict:
         d = f.to_dict()
         # Only tense should be present; other 12 fields are None and excluded
         assert d == {"tense": "PAST"}
-        for k in ["aspect", "mood", "voice", "person", "number", "gender", "case",
-                  "definiteness", "animacy", "reflexivity", "deixis", "polarity"]:
+        for k in [
+            "aspect",
+            "mood",
+            "voice",
+            "person",
+            "number",
+            "gender",
+            "case",
+            "definiteness",
+            "animacy",
+            "reflexivity",
+            "deixis",
+            "polarity",
+        ]:
             assert k not in d
 
 
 # ============================================================
 # LexemeEntry.is_atomic
 # ============================================================
+
 
 class TestLexemeEntryIsAtomic:
     def test_atomic_returns_true(self):
@@ -176,6 +197,7 @@ class TestLexemeEntryIsHybrid:
 # LexemeEntry.can_be_role
 # ============================================================
 
+
 class TestLexemeEntryCanBeRole:
     def test_in_roles_returns_true(self):
         lex = make_lexeme(roles=[GramRole.VERB])
@@ -211,6 +233,7 @@ class TestLexemeEntryCanBeRole:
 # ============================================================
 # Integration consistency (one of three predicates is true)
 # ============================================================
+
 
 class TestComponentTypeMutualExclusion:
     @pytest.mark.parametrize("ct", [ComponentType.ATOMIC, ComponentType.OPERATOR, ComponentType.HYBRID])

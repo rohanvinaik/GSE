@@ -13,10 +13,7 @@ from typing import Dict, List, Tuple
 
 from gse.curation.llm.ollama_client import GenerationConfig, OllamaClient
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -37,7 +34,7 @@ For each word, output ONE LINE in format:
 WORD:value  (where value is 0 if FEEL should be removed, 1 if FEEL is correct and needs SOMEONE)
 
 Words to review:
-{', '.join(words)}
+{", ".join(words)}
 
 Output (one per line):"""
 
@@ -54,7 +51,7 @@ For each word, output ONE LINE in format:
 WORD:DO,HAPPEN  (use 1 or 0 for each)
 
 Words to review:
-{', '.join(words)}
+{", ".join(words)}
 
 Output (one per line):"""
 
@@ -62,10 +59,10 @@ Output (one per line):"""
 def parse_feel_response(response: str) -> Dict[str, int]:
     """Parse FEEL review response."""
     results = {}
-    for line in response.strip().split('\n'):
+    for line in response.strip().split("\n"):
         line = line.strip()
-        if ':' in line:
-            match = re.match(r'(\w+)\s*:\s*([01])', line)
+        if ":" in line:
+            match = re.match(r"(\w+)\s*:\s*([01])", line)
             if match:
                 word, value = match.groups()
                 results[word.lower()] = int(value)
@@ -75,10 +72,10 @@ def parse_feel_response(response: str) -> Dict[str, int]:
 def parse_do_happen_response(response: str) -> Dict[str, Tuple[int, int]]:
     """Parse DO/HAPPEN review response."""
     results = {}
-    for line in response.strip().split('\n'):
+    for line in response.strip().split("\n"):
         line = line.strip()
-        if ':' in line:
-            match = re.match(r'(\w+)\s*:\s*([01])\s*,\s*([01])', line)
+        if ":" in line:
+            match = re.match(r"(\w+)\s*:\s*([01])\s*,\s*([01])", line)
             if match:
                 word, do_val, happen_val = match.groups()
                 results[word.lower()] = (int(do_val), int(happen_val))
@@ -120,7 +117,7 @@ def review_feel_primitives(
 
     fixes_applied = 0
     for i in range(0, len(words_to_review), batch_size):
-        batch = words_to_review[i:i + batch_size]
+        batch = words_to_review[i : i + batch_size]
         batch_words = [w[1] for w in batch]
         batch_ids = {w[1]: w[0] for w in batch}
 
@@ -142,19 +139,25 @@ def review_feel_primitives(
 
             if value == 0:
                 # Remove FEEL
-                conn.execute("""
+                conn.execute(
+                    """
                     UPDATE primitive_values
                     SET value = 0, confidence = 0.85, source = 'llm:qwen3:32b_review'
                     WHERE lexeme_id = ? AND primitive = 'FEEL'
-                """, (lexeme_id,))
+                """,
+                    (lexeme_id,),
+                )
                 logger.info(f"  {word}: FEEL=0 (abstract/inanimate)")
             else:
                 # Add SOMEONE
-                conn.execute("""
+                conn.execute(
+                    """
                     INSERT OR REPLACE INTO primitive_values
                     (lexeme_id, primitive, value, confidence, source)
                     VALUES (?, 'SOMEONE', 1, 0.85, 'llm:qwen3:32b_review')
-                """, (lexeme_id,))
+                """,
+                    (lexeme_id,),
+                )
                 logger.info(f"  {word}: Added SOMEONE=1")
 
             fixes_applied += 1
@@ -213,20 +216,26 @@ def review_do_happen(
         lexeme_id = batch_ids[word]
 
         if do_val == 1:
-            conn.execute("""
+            conn.execute(
+                """
                 INSERT OR REPLACE INTO primitive_values
                 (lexeme_id, primitive, value, confidence, source)
                 VALUES (?, 'DO', 1, 0.85, 'llm:qwen3:32b_review')
-            """, (lexeme_id,))
+            """,
+                (lexeme_id,),
+            )
             logger.info(f"  {word}: DO=1")
             fixes_applied += 1
 
         if happen_val == 1:
-            conn.execute("""
+            conn.execute(
+                """
                 INSERT OR REPLACE INTO primitive_values
                 (lexeme_id, primitive, value, confidence, source)
                 VALUES (?, 'HAPPEN', 1, 0.85, 'llm:qwen3:32b_review')
-            """, (lexeme_id,))
+            """,
+                (lexeme_id,),
+            )
             logger.info(f"  {word}: HAPPEN=1")
             fixes_applied += 1
 
@@ -238,8 +247,9 @@ def main():
     parser = argparse.ArgumentParser(description="Semantic Review with qwen3:32b")
     parser.add_argument("--db", default="data/lexicon.db", help="Database path")
     parser.add_argument("--model", default="qwen3:32b", help="Model to use")
-    parser.add_argument("--review-type", choices=["feel", "do_happen", "all"],
-                        default="all", help="Type of review to run")
+    parser.add_argument(
+        "--review-type", choices=["feel", "do_happen", "all"], default="all", help="Type of review to run"
+    )
 
     args = parser.parse_args()
 
@@ -259,9 +269,9 @@ def main():
         total_fixes += fixes
         logger.info(f"DO/HAPPEN review: {fixes} fixes applied")
 
-    print(f"\n{'='*50}")
+    print(f"\n{'=' * 50}")
     print("SEMANTIC REVIEW COMPLETE")
-    print(f"{'='*50}")
+    print(f"{'=' * 50}")
     print(f"Total fixes applied: {total_fixes}")
 
     conn.close()

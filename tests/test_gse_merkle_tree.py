@@ -15,12 +15,13 @@ from gse.merkle.nodes import LexemeNode
 from gse.merkle.tree import MerkleLexiconTree
 
 
-def make_lex(lemma="happy", pos="adj", sense_id="01",
-             decomposition=None, **kwargs):
+def make_lex(lemma="happy", pos="adj", sense_id="01", decomposition=None, **kwargs):
     decomposition = decomposition or [("FEEL", "experiencer", 1), ("GOOD", "attribute", 1)]
     return LexemeNode(
         node_id=f"{lemma}_{pos}_{sense_id}",
-        lemma=lemma, pos=pos, sense_id=sense_id,
+        lemma=lemma,
+        pos=pos,
+        sense_id=sense_id,
         gloss=kwargs.get("gloss", "definition"),
         decomposition=decomposition,
         vector_positive=kwargs.get("vector_positive", np.array([1, 2, 3], dtype=np.uint16)),
@@ -29,6 +30,7 @@ def make_lex(lemma="happy", pos="adj", sense_id="01",
 
 
 # ---------- __init__ and _initialize_structure ----------
+
 
 class TestInitAndStructure:
     def test_empty_tree_has_root(self):
@@ -88,6 +90,7 @@ class TestInitAndStructure:
 
 # ---------- add_lexeme ----------
 
+
 class TestAddLexeme:
     def test_adds_new_lexeme(self):
         tree = MerkleLexiconTree()
@@ -125,6 +128,7 @@ class TestAddLexeme:
 
 # ---------- remove_lexeme ----------
 
+
 class TestRemoveLexeme:
     def test_removes_existing(self):
         tree = MerkleLexiconTree()
@@ -147,6 +151,7 @@ class TestRemoveLexeme:
 
 
 # ---------- update_lexeme ----------
+
 
 class TestUpdateLexeme:
     def test_updates_existing(self):
@@ -181,6 +186,7 @@ class TestUpdateLexeme:
 
 # ---------- _find_hub_for_lexeme ----------
 
+
 class TestFindHubForLexeme:
     def test_empty_decomposition_returns_first_hub(self):
         tree = MerkleLexiconTree()
@@ -194,10 +200,12 @@ class TestFindHubForLexeme:
         # Pick a primitive that is a hub; pair with role 'agent' for highest priority
         hub_names = list(tree.hubs.keys())
         first_hub = hub_names[0]
-        lex = make_lex(decomposition=[
-            ("OTHERWORDLY", "attribute", 1),  # not a hub
-            (first_hub, "agent", 1),  # is a hub, high-priority role
-        ])
+        lex = make_lex(
+            decomposition=[
+                ("OTHERWORDLY", "attribute", 1),  # not a hub
+                (first_hub, "agent", 1),  # is a hub, high-priority role
+            ]
+        )
         result = tree._find_hub_for_lexeme(lex)
         # Agent-priority match wins
         assert result == first_hub
@@ -205,10 +213,12 @@ class TestFindHubForLexeme:
     def test_falls_back_to_first_hub_match(self):
         tree = MerkleLexiconTree()
         hub_names = list(tree.hubs.keys())
-        lex = make_lex(decomposition=[
-            ("UNKNOWN", "patient", 1),
-            (hub_names[0], "weird_role", 1),
-        ])
+        lex = make_lex(
+            decomposition=[
+                ("UNKNOWN", "patient", 1),
+                (hub_names[0], "weird_role", 1),
+            ]
+        )
         result = tree._find_hub_for_lexeme(lex)
         assert result == hub_names[0]
 
@@ -218,10 +228,12 @@ class TestFindHubForLexeme:
         if len(hub_names) < 2:
             pytest.skip("Need at least 2 hubs")
         # Both hubs in decomposition: one as 'agent' (priority 0), one as 'action' (priority 1)
-        lex = make_lex(decomposition=[
-            (hub_names[1], "action", 1),
-            (hub_names[0], "agent", 1),
-        ])
+        lex = make_lex(
+            decomposition=[
+                (hub_names[1], "action", 1),
+                (hub_names[0], "agent", 1),
+            ]
+        )
         result = tree._find_hub_for_lexeme(lex)
         # Agent priority wins
         assert result == hub_names[0]
@@ -231,10 +243,12 @@ class TestFindHubForLexeme:
         hub_names = list(tree.hubs.keys())
         if len(hub_names) < 2:
             pytest.skip("Need at least 2 hubs")
-        lex = make_lex(decomposition=[
-            (hub_names[1], "patient", 1),
-            (hub_names[0], "action", 1),
-        ])
+        lex = make_lex(
+            decomposition=[
+                (hub_names[1], "patient", 1),
+                (hub_names[0], "action", 1),
+            ]
+        )
         result = tree._find_hub_for_lexeme(lex)
         assert result == hub_names[0]
 
@@ -251,10 +265,12 @@ class TestFindHubForLexeme:
         hub_names = list(tree.hubs.keys())
         if len(hub_names) < 2:
             pytest.skip("Need 2+ hubs")
-        lex = make_lex(decomposition=[
-            (hub_names[1], "attribute", 1),
-            (hub_names[0], "patient", 1),
-        ])
+        lex = make_lex(
+            decomposition=[
+                (hub_names[1], "attribute", 1),
+                (hub_names[0], "patient", 1),
+            ]
+        )
         assert tree._find_hub_for_lexeme(lex) == hub_names[0]
 
     def test_attribute_beats_theme(self):
@@ -262,10 +278,12 @@ class TestFindHubForLexeme:
         hub_names = list(tree.hubs.keys())
         if len(hub_names) < 2:
             pytest.skip("Need 2+ hubs")
-        lex = make_lex(decomposition=[
-            (hub_names[1], "theme", 1),
-            (hub_names[0], "attribute", 1),
-        ])
+        lex = make_lex(
+            decomposition=[
+                (hub_names[1], "theme", 1),
+                (hub_names[0], "attribute", 1),
+            ]
+        )
         assert tree._find_hub_for_lexeme(lex) == hub_names[0]
 
     def test_result_is_always_a_known_hub(self):
@@ -283,14 +301,17 @@ class TestFindHubForLexeme:
         if len(hub_names) < 2:
             pytest.skip("Need 2+ hubs")
         # Two prims with same role 'agent' — first one in decomposition wins
-        lex = make_lex(decomposition=[
-            (hub_names[0], "agent", 1),
-            (hub_names[1], "agent", 1),
-        ])
+        lex = make_lex(
+            decomposition=[
+                (hub_names[0], "agent", 1),
+                (hub_names[1], "agent", 1),
+            ]
+        )
         assert tree._find_hub_for_lexeme(lex) == hub_names[0]
 
 
 # ---------- _get_fallback_hub ----------
+
 
 class TestGetFallbackHub:
     def test_returns_family_hub_when_prim_in_family(self):
@@ -315,6 +336,7 @@ class TestGetFallbackHub:
 
 
 # ---------- add_lexemes_batch ----------
+
 
 class TestAddLexemesBatch:
     def test_returns_count_added(self):
@@ -342,6 +364,7 @@ class TestAddLexemesBatch:
 
 
 # ---------- Lookup ----------
+
 
 class TestGetLexeme:
     def test_known(self):
@@ -414,6 +437,7 @@ class TestIterLexemes:
 
 # ---------- Verification ----------
 
+
 class TestGetRootHash:
     def test_returns_combined_hash(self):
         tree = MerkleLexiconTree()
@@ -445,6 +469,7 @@ class TestGetMembershipProof:
 
 
 # ---------- Diff ----------
+
 
 class TestComputeDiff:
     def test_identical_trees_no_diff(self):
@@ -479,6 +504,7 @@ class TestComputeDiff:
 
 
 # ---------- Serialization ----------
+
 
 class TestToDict:
     def test_includes_root_hash(self):
@@ -569,6 +595,7 @@ class TestSaveLoad:
 
 
 # ---------- Statistics ----------
+
 
 class TestGetStatistics:
     def test_basic_fields(self):

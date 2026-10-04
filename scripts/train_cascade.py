@@ -22,17 +22,16 @@ from gse.cascade import ConstraintCascade
 
 def main():
     parser = argparse.ArgumentParser(description="Train cascade networks")
-    parser.add_argument("--lexicon", type=str, default="data/lexicon.db",
-                       help="Path to lexicon database")
-    parser.add_argument("--basis", type=str, default="data/basis.msgpack",
-                       help="Path to basis vectors")
-    parser.add_argument("--corpus", type=str,
-                       default="/Users/rohanvinaik/relational-ai/data/training_text",
-                       help="Path to text corpus directory")
-    parser.add_argument("--output", type=str, default="data/networks",
-                       help="Output directory for trained networks")
-    parser.add_argument("--all", action="store_true",
-                       help="Train all networks with default paths")
+    parser.add_argument("--lexicon", type=str, default="data/lexicon.db", help="Path to lexicon database")
+    parser.add_argument("--basis", type=str, default="data/basis.msgpack", help="Path to basis vectors")
+    parser.add_argument(
+        "--corpus",
+        type=str,
+        default="/Users/rohanvinaik/relational-ai/data/training_text",
+        help="Path to text corpus directory",
+    )
+    parser.add_argument("--output", type=str, default="data/networks", help="Output directory for trained networks")
+    parser.add_argument("--all", action="store_true", help="Train all networks with default paths")
 
     args = parser.parse_args()
 
@@ -56,7 +55,7 @@ def main():
     cascade = ConstraintCascade(
         lexicon_path=str(lexicon_path) if lexicon_path.exists() else None,
         basis_path=str(basis_path) if basis_path.exists() else None,
-        use_cache=False  # No caching during training
+        use_cache=False,  # No caching during training
     )
 
     # Train
@@ -66,7 +65,7 @@ def main():
 
     stats = cascade.train(
         lexicon_path=str(lexicon_path) if lexicon_path.exists() else None,
-        corpus_dir=str(corpus_path) if corpus_path.exists() else None
+        corpus_dir=str(corpus_path) if corpus_path.exists() else None,
     )
 
     # Report results
@@ -104,7 +103,7 @@ def main():
 
     result = cascade.process(sample_text)
     print(f"  Confidence: {result.confidence:.3f}")
-    print(f"  Processing time: {result.processing_time*1000:.1f}ms")
+    print(f"  Processing time: {result.processing_time * 1000:.1f}ms")
     print(f"  Vector density: {result.vector.nnz}/{result.vector.dimension}")
     print(f"  Ambiguities: {result.ambiguities}")
 

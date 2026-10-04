@@ -19,6 +19,7 @@ This is the Tier-0 comparator over already-built substrate. The Tier-1 *learned 
 Face B is deliberately left to a DIFFERENT learning framework (classical/statistical) — the explicit
 seam is a clean statement of where this substrate-grounded theory ends and another begins.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -31,12 +32,13 @@ from gse.discourse.profile import _CONTENT_POS, split_sentences
 @dataclass(frozen=True)
 class JanusReading:
     """The relationship between the two faces — a graded relational reading, not a bare label."""
-    face_a: float          # literal affirmative valence (GOOD − BAD)
-    face_b: float          # expected / situational valence
-    discord: float         # S_sem — the surprise magnitude (0 when the faces agree)
-    figure: str            # keyed to figures.py: 'sarcasm' | 'verbal_irony' | 'sincere'
-    confidence: float      # min(|A|, |B|) normalized — both faces must be committed for strong irony
-    n_content: int         # grounded content tokens seen (0 ⇒ abstain: no signal)
+
+    face_a: float  # literal affirmative valence (GOOD − BAD)
+    face_b: float  # expected / situational valence
+    discord: float  # S_sem — the surprise magnitude (0 when the faces agree)
+    figure: str  # keyed to figures.py: 'sarcasm' | 'verbal_irony' | 'sincere'
+    confidence: float  # min(|A|, |B|) normalized — both faces must be committed for strong irony
+    n_content: int  # grounded content tokens seen (0 ⇒ abstain: no signal)
 
 
 def _token_valences(encoder, text: str) -> List[int]:

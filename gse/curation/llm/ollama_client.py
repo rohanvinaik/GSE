@@ -19,6 +19,7 @@ OLLAMA_URL = "http://localhost:11434"
 @dataclass
 class GenerationConfig:
     """Configuration for text generation."""
+
     max_tokens: int = 2000
     temperature: float = 0.3
     top_p: float = 0.9
@@ -68,18 +69,13 @@ class OllamaClient:
             logger.info(f"Ollama client ready with model: {self.model}")
 
         except requests.exceptions.ConnectionError:
-            raise ConnectionError(
-                "Ollama is not running. Start it with: ollama serve"
-            )
+            raise ConnectionError("Ollama is not running. Start it with: ollama serve")
 
     def _pull_model(self):
         """Pull the model if not available."""
         import subprocess
-        result = subprocess.run(
-            ["ollama", "pull", self.model],
-            capture_output=True,
-            text=True
-        )
+
+        result = subprocess.run(["ollama", "pull", self.model], capture_output=True, text=True)
         if result.returncode != 0:
             raise RuntimeError(f"Failed to pull model: {result.stderr}")
 
@@ -118,7 +114,7 @@ class OllamaClient:
                 "temperature": config.temperature,
                 "top_p": config.top_p,
                 "num_predict": config.max_tokens,
-            }
+            },
         }
 
         if system_prompt:
@@ -200,6 +196,7 @@ class OllamaClient:
             except Exception as e:
                 logger.error(f"Failed to decompose '{word}': {e}")
                 from gse.curation.schema import ALL_PRIMITIVES
+
                 empty_decomp = {p: 0 for p in ALL_PRIMITIVES}
                 results.append((empty_decomp, 0.0, [str(e)]))
 
@@ -215,6 +212,7 @@ if __name__ == "__main__":
 
     print("Testing decomposition for 'happy'...")
     import time
+
     start = time.time()
     result = client.decompose_word("happy", "adj")
     elapsed = time.time() - start

@@ -37,6 +37,7 @@ class FakeParser(BaseExternalParser):
 
 # ---------- ParserConfig ----------
 
+
 class TestParserConfig:
     def test_defaults(self):
         c = ParserConfig(name="x")
@@ -48,8 +49,11 @@ class TestParserConfig:
 
     def test_custom_values(self):
         c = ParserConfig(
-            name="y", data_path=Path("/tmp"), lazy_load=False,
-            cache_size=42, memory_limit_mb=10,
+            name="y",
+            data_path=Path("/tmp"),
+            lazy_load=False,
+            cache_size=42,
+            memory_limit_mb=10,
         )
         assert c.name == "y"
         assert c.data_path == Path("/tmp")
@@ -59,6 +63,7 @@ class TestParserConfig:
 
 
 # ---------- BaseExternalParser.__init__ ----------
+
 
 class TestInit:
     def test_default_config_uses_class_name(self):
@@ -81,6 +86,7 @@ class TestInit:
 
 
 # ---------- get_metadata ----------
+
 
 class TestGetMetadata:
     def test_unloaded(self):
@@ -112,6 +118,7 @@ class TestGetMetadata:
 
 # ---------- get_new_words ----------
 
+
 class TestGetNewWords:
     def test_returns_only_new(self):
         p = FakeParser()
@@ -139,6 +146,7 @@ class TestGetNewWords:
 
 # ---------- has_word ----------
 
+
 class TestHasWord:
     def test_present(self):
         p = FakeParser()
@@ -165,6 +173,7 @@ class TestHasWord:
 
 # ---------- close ----------
 
+
 class TestClose:
     def test_clears_entries(self):
         p = FakeParser()
@@ -181,6 +190,7 @@ class TestClose:
 
 
 # ---------- context manager ----------
+
 
 class TestContextManager:
     def test_enter_loads(self):
@@ -205,6 +215,7 @@ class TestContextManager:
 
 
 # ---------- ABC enforcement ----------
+
 
 class TestAbstractInterface:
     def test_cannot_instantiate_base_directly(self):

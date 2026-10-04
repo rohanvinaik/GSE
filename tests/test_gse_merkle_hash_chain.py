@@ -163,7 +163,8 @@ class TestMembershipProof:
 class TestDifferenceProof:
     def test_total_changes_sums_correctly(self):
         p = DifferenceProof(
-            old_root_hash="old", new_root_hash="new",
+            old_root_hash="old",
+            new_root_hash="new",
             changed_paths=[],
             added_lexemes=["a", "b"],
             removed_lexemes=["c"],
@@ -173,16 +174,23 @@ class TestDifferenceProof:
 
     def test_empty_changes(self):
         p = DifferenceProof(
-            old_root_hash="x", new_root_hash="x",
-            changed_paths=[], added_lexemes=[], removed_lexemes=[], modified_lexemes=[],
+            old_root_hash="x",
+            new_root_hash="x",
+            changed_paths=[],
+            added_lexemes=[],
+            removed_lexemes=[],
+            modified_lexemes=[],
         )
         assert p.total_changes == 0
 
     def test_to_dict_serializes_fields(self):
         p = DifferenceProof(
-            old_root_hash="old", new_root_hash="new",
+            old_root_hash="old",
+            new_root_hash="new",
             changed_paths=[["root", "node"]],
-            added_lexemes=["a"], removed_lexemes=["b"], modified_lexemes=["c"],
+            added_lexemes=["a"],
+            removed_lexemes=["b"],
+            modified_lexemes=["c"],
         )
         d = p.to_dict()
         assert d["old_root_hash"] == "old"
@@ -194,9 +202,12 @@ class TestDifferenceProof:
 
     def test_from_dict_roundtrip(self):
         original = DifferenceProof(
-            old_root_hash="o", new_root_hash="n",
+            old_root_hash="o",
+            new_root_hash="n",
             changed_paths=[["p1"]],
-            added_lexemes=["a"], removed_lexemes=[], modified_lexemes=["m"],
+            added_lexemes=["a"],
+            removed_lexemes=[],
+            modified_lexemes=["m"],
         )
         d = original.to_dict()
         restored = DifferenceProof.from_dict(d)

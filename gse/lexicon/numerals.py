@@ -62,7 +62,6 @@ NUMERAL_ENCODINGS: Dict[str, Dict[str, Any]] = {
         "hierarchy": None,
         "quantity_type": "quantifier",
     },
-
     # ========================================
     # One (singular existence)
     # ========================================
@@ -91,7 +90,6 @@ NUMERAL_ENCODINGS: Dict[str, Dict[str, Any]] = {
         "hierarchy": None,
         "quantity_type": "adjective",
     },
-
     # ========================================
     # Small Cardinals (2-5)
     # Encoded as SING + PLUR + iterative hierarchy
@@ -136,7 +134,6 @@ NUMERAL_ENCODINGS: Dict[str, Dict[str, Any]] = {
         "hierarchy": {"scale": "QUANTITY", "direction": 1, "level": 2},
         "quantity_type": "cardinal",
     },
-
     # ========================================
     # Medium Cardinals (6-10)
     # ========================================
@@ -190,7 +187,6 @@ NUMERAL_ENCODINGS: Dict[str, Dict[str, Any]] = {
         "hierarchy": {"scale": "QUANTITY", "direction": 1, "level": 4},
         "quantity_type": "cardinal",
     },
-
     # ========================================
     # Larger Cardinals (11-20)
     # ========================================
@@ -214,7 +210,6 @@ NUMERAL_ENCODINGS: Dict[str, Dict[str, Any]] = {
         "hierarchy": {"scale": "QUANTITY", "direction": 1, "level": 4},
         "quantity_type": "cardinal",
     },
-
     # ========================================
     # Large Cardinals (100+)
     # ========================================
@@ -238,7 +233,6 @@ NUMERAL_ENCODINGS: Dict[str, Dict[str, Any]] = {
         "hierarchy": {"scale": "QUANTITY", "direction": 1, "level": 5},
         "quantity_type": "cardinal",
     },
-
     # ========================================
     # Quantifiers (unspecified amounts)
     # ========================================
@@ -292,7 +286,6 @@ NUMERAL_ENCODINGS: Dict[str, Dict[str, Any]] = {
         "hierarchy": {"scale": "QUANTITY", "direction": 1, "level": 1},
         "quantity_type": "quantifier",
     },
-
     # ========================================
     # Ordinals
     # ========================================
@@ -316,7 +309,6 @@ NUMERAL_ENCODINGS: Dict[str, Dict[str, Any]] = {
         "hierarchy": {"scale": "QUANTITY", "direction": 1, "level": 5},
         "quantity_type": "ordinal",
     },
-
     # ========================================
     # Fractions
     # ========================================
@@ -335,7 +327,6 @@ NUMERAL_ENCODINGS: Dict[str, Dict[str, Any]] = {
         "hierarchy": {"scale": "QUANTITY", "direction": -1, "level": 2},
         "quantity_type": "fraction",
     },
-
     # ========================================
     # Multipliers
     # ========================================
@@ -373,9 +364,9 @@ def validate_mutual_transparency(primitives: Dict[str, int]) -> bool:
 
     Returns True if encoding is valid, False otherwise.
     """
-    sing = primitives.get('SING', 0)
-    plur = primitives.get('PLUR', 0)
-    zero = primitives.get('ZERO', 0)
+    sing = primitives.get("SING", 0)
+    plur = primitives.get("PLUR", 0)
+    zero = primitives.get("ZERO", 0)
 
     # If ZERO=1, neither SING nor PLUR can be 1
     if zero == 1 and (sing == 1 or plur == 1):

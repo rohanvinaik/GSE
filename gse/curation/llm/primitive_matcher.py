@@ -40,13 +40,50 @@ BIPOLAR_PAIRS = [
 
 # All primitives not in bipolar pairs
 SINGLE_PRIMITIVES = [
-    "I", "YOU", "SOMEONE", "SOMETHING", "PEOPLE", "BODY", "KIND", "PART",
-    "ONE", "TWO", "QUANTITY",
-    "THINK", "KNOW", "WANT", "FEEL", "SEE", "HEAR", "INFER",
-    "SAY", "WORDS", "DO", "HAPPEN", "MOVE", "BE", "HAVE", "EXIST",
-    "MOMENT", "WHEN", "WHERE", "HERE", "SIDE", "TOUCH",
-    "NOT", "MAYBE", "CAN", "MUST", "BECAUSE", "CAUSE", "IF", "LIKE",
-    "HIER_PLUS", "HIER_MINUS", "INTENSITY", "CERTAINTY",
+    "I",
+    "YOU",
+    "SOMEONE",
+    "SOMETHING",
+    "PEOPLE",
+    "BODY",
+    "KIND",
+    "PART",
+    "ONE",
+    "TWO",
+    "QUANTITY",
+    "THINK",
+    "KNOW",
+    "WANT",
+    "FEEL",
+    "SEE",
+    "HEAR",
+    "INFER",
+    "SAY",
+    "WORDS",
+    "DO",
+    "HAPPEN",
+    "MOVE",
+    "BE",
+    "HAVE",
+    "EXIST",
+    "MOMENT",
+    "WHEN",
+    "WHERE",
+    "HERE",
+    "SIDE",
+    "TOUCH",
+    "NOT",
+    "MAYBE",
+    "CAN",
+    "MUST",
+    "BECAUSE",
+    "CAUSE",
+    "IF",
+    "LIKE",
+    "HIER_PLUS",
+    "HIER_MINUS",
+    "INTENSITY",
+    "CERTAINTY",
 ]
 
 
@@ -80,6 +117,7 @@ Give brief, direct answers. No explanation needed."""
 @dataclass
 class MatchResult:
     """Result from primitive matching."""
+
     word: str
     primitive: str
     value: int  # +1, 0, or -1
@@ -129,16 +167,20 @@ class PrimitiveMatcher:
         prompt = get_bipolar_prompt(word, pole_a, pole_b)
 
         try:
-            response = self.client.generate(
-                prompt=prompt,
-                system_prompt=MATCHER_SYSTEM,
-                config=self.config,
-            ).strip().upper()
+            response = (
+                self.client.generate(
+                    prompt=prompt,
+                    system_prompt=MATCHER_SYSTEM,
+                    config=self.config,
+                )
+                .strip()
+                .upper()
+            )
 
             # Parse response
-            if 'A' in response[:5] or pole_a.upper() in response:
+            if "A" in response[:5] or pole_a.upper() in response:
                 return (1, 0)
-            elif 'B' in response[:5] or pole_b.upper() in response:
+            elif "B" in response[:5] or pole_b.upper() in response:
                 return (0, 1)
             else:
                 return (0, 0)
@@ -157,15 +199,19 @@ class PrimitiveMatcher:
         prompt = get_single_prompt(word, primitive)
 
         try:
-            response = self.client.generate(
-                prompt=prompt,
-                system_prompt=MATCHER_SYSTEM,
-                config=self.config,
-            ).strip().upper()
+            response = (
+                self.client.generate(
+                    prompt=prompt,
+                    system_prompt=MATCHER_SYSTEM,
+                    config=self.config,
+                )
+                .strip()
+                .upper()
+            )
 
-            if 'YES' in response:
+            if "YES" in response:
                 return 1
-            elif 'OPPOSITE' in response or 'OPP' in response:
+            elif "OPPOSITE" in response or "OPP" in response:
                 return -1
             else:
                 return 0
@@ -222,20 +268,31 @@ class PrimitiveMatcher:
         ]
 
         priority_singles = [
-            "FEEL", "THINK", "WANT", "DO", "MOVE", "SAY",
-            "BODY", "PEOPLE", "SOMEONE", "SOMETHING",
+            "FEEL",
+            "THINK",
+            "WANT",
+            "DO",
+            "MOVE",
+            "SAY",
+            "BODY",
+            "PEOPLE",
+            "SOMEONE",
+            "SOMETHING",
         ]
 
         # Check priority bipolars
         for pole_a, pole_b in priority_bipolars:
             val_a, val_b = self.match_bipolar(word, pole_a, pole_b)
-            if val_a: result[pole_a] = val_a
-            if val_b: result[pole_b] = val_b
+            if val_a:
+                result[pole_a] = val_a
+            if val_b:
+                result[pole_b] = val_b
 
         # Check priority singles
         for prim in priority_singles:
             val = self.match_single(word, prim)
-            if val: result[prim] = val
+            if val:
+                result[prim] = val
 
         # Fill remaining if needed
         if not skip_zeros:
@@ -251,16 +308,12 @@ class PrimitiveMatcher:
 
         return result
 
-
     def get_missing_primitives(self, lexeme_id: int) -> List[str]:
         """Get primitives not yet filled for a lexeme."""
         if not self.conn:
             return list(set(p for pair in BIPOLAR_PAIRS for p in pair) | set(SINGLE_PRIMITIVES))
 
-        cursor = self.conn.execute(
-            "SELECT primitive FROM primitive_values WHERE lexeme_id = ?",
-            (lexeme_id,)
-        )
+        cursor = self.conn.execute("SELECT primitive FROM primitive_values WHERE lexeme_id = ?", (lexeme_id,))
         filled = {row[0] for row in cursor.fetchall()}
         all_prims = set(p for pair in BIPOLAR_PAIRS for p in pair) | set(SINGLE_PRIMITIVES)
         return [p for p in all_prims if p not in filled]
@@ -300,11 +353,14 @@ class PrimitiveMatcher:
 
         # Store in database
         for prim, value in result.items():
-            self.conn.execute("""
+            self.conn.execute(
+                """
                 INSERT OR REPLACE INTO primitive_values
                 (lexeme_id, primitive, value, confidence, source)
                 VALUES (?, ?, ?, ?, ?)
-            """, (lexeme_id, prim, value, 0.7, f"llm:{self.model}"))
+            """,
+                (lexeme_id, prim, value, 0.7, f"llm:{self.model}"),
+            )
 
         self.conn.commit()
         return result
@@ -328,14 +384,17 @@ class PrimitiveMatcher:
             raise ValueError("Database connection required for batch processing")
 
         # Get words with missing primitives
-        cursor = self.conn.execute("""
+        cursor = self.conn.execute(
+            """
             SELECT l.id, l.lemma, 72 - COUNT(p.id) as missing_count
             FROM lexemes l
             LEFT JOIN primitive_values p ON l.id = p.lexeme_id
             GROUP BY l.id
             HAVING missing_count >= ?
             ORDER BY l.frequency_rank NULLS LAST
-        """, (min_missing,))
+        """,
+            (min_missing,),
+        )
 
         words = cursor.fetchall()
         if limit:
@@ -345,6 +404,7 @@ class PrimitiveMatcher:
 
         stats = {"processed": 0, "primitives_filled": 0, "errors": 0}
         import time
+
         start_time = time.time()
 
         for i, (lex_id, lemma, missing_count) in enumerate(words):
@@ -356,9 +416,7 @@ class PrimitiveMatcher:
                 if (i + 1) % 5 == 0:
                     elapsed = time.time() - start_time
                     rate = (i + 1) / elapsed
-                    logger.info(
-                        f"Progress: {i + 1}/{len(words)} ({rate:.2f}/sec) - {lemma}"
-                    )
+                    logger.info(f"Progress: {i + 1}/{len(words)} ({rate:.2f}/sec) - {lemma}")
 
             except Exception as e:
                 logger.error(f"Failed to process {lemma}: {e}")
@@ -374,6 +432,7 @@ class PrimitiveMatcher:
 # =============================================================================
 # COMMON-SENSE POST-PROCESSOR
 # =============================================================================
+
 
 class CommonSensePostProcessor:
     """
@@ -421,14 +480,17 @@ class CommonSensePostProcessor:
 
         for pole_a, pole_b in self.BIPOLAR_PAIRS_LIST:
             # Find violations
-            cursor = self.conn.execute("""
+            cursor = self.conn.execute(
+                """
                 SELECT pa.lexeme_id, pa.value as val_a, pa.confidence as conf_a,
                        pb.value as val_b, pb.confidence as conf_b
                 FROM primitive_values pa
                 JOIN primitive_values pb ON pa.lexeme_id = pb.lexeme_id
                 WHERE pa.primitive = ? AND pb.primitive = ?
                 AND pa.value != 0 AND pb.value != 0
-            """, (pole_a, pole_b))
+            """,
+                (pole_a, pole_b),
+            )
 
             violations = cursor.fetchall()
 
@@ -436,16 +498,22 @@ class CommonSensePostProcessor:
                 # Decide which to keep (higher confidence wins)
                 if conf_a > conf_b:
                     # Zero out pole_b
-                    self.conn.execute("""
+                    self.conn.execute(
+                        """
                         UPDATE primitive_values SET value = 0
                         WHERE lexeme_id = ? AND primitive = ?
-                    """, (lex_id, pole_b))
+                    """,
+                        (lex_id, pole_b),
+                    )
                 else:
                     # Zero out pole_a
-                    self.conn.execute("""
+                    self.conn.execute(
+                        """
                         UPDATE primitive_values SET value = 0
                         WHERE lexeme_id = ? AND primitive = ?
-                    """, (lex_id, pole_a))
+                    """,
+                        (lex_id, pole_a),
+                    )
                 fixed += 1
 
         self.conn.commit()
@@ -457,26 +525,30 @@ class CommonSensePostProcessor:
 
         for pos, rules in self.POS_RULES.items():
             # Get lexemes with this POS
-            cursor = self.conn.execute(
-                "SELECT id FROM lexemes WHERE pos = ?", (pos,)
-            )
+            cursor = self.conn.execute("SELECT id FROM lexemes WHERE pos = ?", (pos,))
             lex_ids = [row[0] for row in cursor.fetchall()]
 
             for lex_id in lex_ids:
                 # Check unlikely primitives - if they're set but shouldn't be
                 for prim in rules.get("unlikely", []):
-                    cursor = self.conn.execute("""
+                    cursor = self.conn.execute(
+                        """
                         SELECT value, confidence FROM primitive_values
                         WHERE lexeme_id = ? AND primitive = ?
-                    """, (lex_id, prim))
+                    """,
+                        (lex_id, prim),
+                    )
                     row = cursor.fetchone()
 
                     if row and row[0] != 0 and row[1] < 0.8:
                         # Low confidence + unlikely = zero it out
-                        self.conn.execute("""
+                        self.conn.execute(
+                            """
                             UPDATE primitive_values SET value = 0
                             WHERE lexeme_id = ? AND primitive = ?
-                        """, (lex_id, prim))
+                        """,
+                            (lex_id, prim),
+                        )
                         updated += 1
 
         self.conn.commit()
@@ -497,10 +569,7 @@ class CommonSensePostProcessor:
 
 def test_matcher():
     """Quick test of the primitive matcher."""
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(levelname)s - %(message)s"
-    )
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
     # Use qwen2.5:7b for fast testing
     matcher = PrimitiveMatcher(model="qwen2.5:7b")
@@ -526,10 +595,7 @@ def run_batch():
     """Run batch processing on the lexicon."""
     import argparse
 
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(levelname)s - %(message)s"
-    )
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
     parser = argparse.ArgumentParser(description="Primitive Matcher Batch Processing")
     parser.add_argument("--db", default="data/lexicon.db", help="Database path")
@@ -563,6 +629,7 @@ def run_batch():
 
 if __name__ == "__main__":
     import sys
+
     if len(sys.argv) > 1 and sys.argv[1] == "--batch":
         sys.argv.pop(1)  # Remove --batch flag
         run_batch()

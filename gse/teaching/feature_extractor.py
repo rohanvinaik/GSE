@@ -24,13 +24,11 @@ TEXT_INDICATORS = {
     "EXPOSITORY": {"explains", "describes", "defines", "means", "consists", "includes"},
     "ARGUMENTATIVE": {"therefore", "however", "although", "because", "thus", "hence"},
     "DESCRIPTIVE": {"appears", "looks", "seems", "resembles", "features"},
-
     # Register
     "FORMAL": {"furthermore", "moreover", "nevertheless", "hereby", "thereof"},
     "INFORMAL": {"kinda", "gonna", "wanna", "yeah", "okay", "cool", "stuff"},
     "TECHNICAL": {"algorithm", "parameter", "implementation", "architecture", "protocol"},
     "COLLOQUIAL": {"like", "you know", "basically", "literally", "actually"},
-
     # Domain
     "ACADEMIC": {"hypothesis", "methodology", "analysis", "conclusion", "findings"},
     "LITERARY": {"metaphor", "narrative", "prose", "poetry", "genre"},
@@ -77,6 +75,7 @@ SYNTACTIC_PATTERNS = {
 # FEATURE EXTRACTOR
 # =============================================================================
 
+
 @dataclass
 class FeatureExtractor:
     """
@@ -115,17 +114,17 @@ class FeatureExtractor:
         # Additional heuristics
 
         # Formality from punctuation and structure
-        formal_punct = text.count(';') + text.count(':') + text.count('—')
+        formal_punct = text.count(";") + text.count(":") + text.count("—")
         if formal_punct > 0:
             features["FORMAL"] = min(1.0, features.get("FORMAL", 0) + formal_punct / 10)
 
         # Technical from numbers/equations
-        numbers = len(re.findall(r'\b\d+\.?\d*\b', text))
+        numbers = len(re.findall(r"\b\d+\.?\d*\b", text))
         if numbers > word_count / 20:
             features["TECHNICAL"] = min(1.0, features.get("TECHNICAL", 0) + 0.3)
 
         # Average sentence length affects register
-        sentences = text.count('.') + text.count('!') + text.count('?')
+        sentences = text.count(".") + text.count("!") + text.count("?")
         if sentences > 0:
             avg_sent_len = word_count / sentences
             if avg_sent_len > 25:
@@ -166,11 +165,11 @@ class FeatureExtractor:
         # Structural features
 
         # Lists suggest sequence
-        if re.search(r'^\s*[\d•\-\*]\s+', paragraph, re.MULTILINE):
+        if re.search(r"^\s*[\d•\-\*]\s+", paragraph, re.MULTILINE):
             features["SEQUENCE"] = min(1.0, features.get("SEQUENCE", 0) + 0.5)
 
         # Questions suggest elaboration needed
-        if '?' in paragraph:
+        if "?" in paragraph:
             features["ELABORATION"] = min(1.0, features.get("ELABORATION", 0) + 0.3)
 
         # Short paragraphs often serve specific functions
@@ -217,11 +216,11 @@ class FeatureExtractor:
             features["SYN_SUBJ"] = max(0.7, features.get("SYN_SUBJ", 0))
 
         # Question detection
-        if sentence.strip().endswith('?'):
+        if sentence.strip().endswith("?"):
             features["SYN_MOOD_INTER"] = 1.0
 
         # Tense from verb forms
-        past_markers = len(re.findall(r'\b\w+ed\b|\bwas\b|\bwere\b|\bhad\b', sentence))
+        past_markers = len(re.findall(r"\b\w+ed\b|\bwas\b|\bwere\b|\bhad\b", sentence))
         if past_markers > 0:
             features["SYN_TENSE_PAST"] = min(1.0, past_markers * 0.3)
 
@@ -237,9 +236,9 @@ class FeatureExtractor:
         features = {}
 
         # Extract from token traces if available
-        if hasattr(trace, 'tokens'):
+        if hasattr(trace, "tokens"):
             for i, token_trace in enumerate(trace.tokens):
-                if hasattr(token_trace, 'role'):
+                if hasattr(token_trace, "role"):
                     role = token_trace.role.upper()
                     if role in {"SUBJECT", "SUBJ"}:
                         features["SYN_SUBJ"] = 1.0
@@ -277,7 +276,7 @@ class FeatureExtractor:
                 if network_prim:
                     features[network_prim] = float(polarity)
 
-        elif trace is not None and hasattr(trace, 'word_primitives'):
+        elif trace is not None and hasattr(trace, "word_primitives"):
             # Extract from trace
             for prim, polarity in trace.word_primitives.items():
                 network_prim = self._map_to_network_primitive(prim)
@@ -290,15 +289,38 @@ class FeatureExtractor:
         """Map lexicon primitive name to network primitive."""
         # The word network uses specific hub primitives
         WORD_NETWORK_PRIMS = {
-            "SOMEONE", "SOMETHING", "PART",
-            "ONE", "QUANTITY",
-            "GOOD", "BIG",
-            "THINK", "FEEL", "KNOW", "WANT", "INFER",
-            "DO", "BE", "MOVE", "SAY", "ALIVE",
-            "BEFORE", "MOMENT", "START",
-            "WHERE", "ABOVE", "TOWARD", "WITH",
-            "NOT", "BECAUSE", "CAUSE", "MUST", "CERTAINTY",
-            "HIER_PLUS", "HIER_MINUS", "INTENSITY",
+            "SOMEONE",
+            "SOMETHING",
+            "PART",
+            "ONE",
+            "QUANTITY",
+            "GOOD",
+            "BIG",
+            "THINK",
+            "FEEL",
+            "KNOW",
+            "WANT",
+            "INFER",
+            "DO",
+            "BE",
+            "MOVE",
+            "SAY",
+            "ALIVE",
+            "BEFORE",
+            "MOMENT",
+            "START",
+            "WHERE",
+            "ABOVE",
+            "TOWARD",
+            "WITH",
+            "NOT",
+            "BECAUSE",
+            "CAUSE",
+            "MUST",
+            "CERTAINTY",
+            "HIER_PLUS",
+            "HIER_MINUS",
+            "INTENSITY",
         }
 
         # Direct match
@@ -347,7 +369,7 @@ class FeatureExtractor:
         """
         # Split text if not provided
         if paragraphs is None:
-            paragraphs = [p.strip() for p in text.split('\n\n') if p.strip()]
+            paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
 
         if sentences is None:
             sentences = []
@@ -386,7 +408,7 @@ class FeatureExtractor:
     def _split_sentences(self, text: str) -> List[str]:
         """Split text into sentences."""
         # Simple sentence splitting
-        sentences = re.split(r'(?<=[.!?])\s+', text)
+        sentences = re.split(r"(?<=[.!?])\s+", text)
         return [s.strip() for s in sentences if s.strip()]
 
 

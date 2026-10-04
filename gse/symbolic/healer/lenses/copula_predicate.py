@@ -12,6 +12,7 @@ LAW
   abstain  : if the agent is not a cleanly-resolved entity (the ``?`` / unbound cases) — never
              fabricate a subject (clean-or-hole).
 """
+
 from __future__ import annotations
 
 from gse.symbolic.expression import Atom
@@ -26,14 +27,16 @@ def _clean_entity(operand) -> bool:
     if operand is None:
         return False
     head = getattr(operand, "head", None) or operand
-    lemma = (getattr(head, "lemma", None) or "")
+    lemma = getattr(head, "lemma", None) or ""
     return bool(lemma) and lemma.isalpha() and lemma != "?"
 
 
 class CopulaPredicate(Lens):
     name = "copula_predicate"
-    law = ("must-not: an Event's verb is a predicate ADJECTIVE under a copula; "
-           "must: rebuild as TYPE_ASSERT(agent, adj); abstain if the agent is not a clean entity.")
+    law = (
+        "must-not: an Event's verb is a predicate ADJECTIVE under a copula; "
+        "must: rebuild as TYPE_ASSERT(agent, adj); abstain if the agent is not a clean entity."
+    )
 
     def claims(self, node, env, folds=None) -> bool:
         if env is None or not env.has_copula:
@@ -48,5 +51,8 @@ class CopulaPredicate(Lens):
             return Hole(self.name, "agent_unresolved")
         adj = (getattr(node, "verb", "") or "").lower()
         kind = Atom(lemma=adj, pos="ADJ")
-        return Repair(TypeAssertion(entity=agent, kind=kind), self.name,
-                      note=f"copula predicate-adjective: EVENT{{{adj}}} → TYPE_ASSERT(_, {adj})")
+        return Repair(
+            TypeAssertion(entity=agent, kind=kind),
+            self.name,
+            note=f"copula predicate-adjective: EVENT{{{adj}}} → TYPE_ASSERT(_, {adj})",
+        )

@@ -60,25 +60,38 @@ def mk_builder(lex_path, freq_db):
 
 # ---------- BuildStats ----------
 
+
 class TestBuildStats:
     def test_construction(self):
         s = BuildStats(
-            phase=1, words_total=10, words_processed=8, words_validated=7,
-            words_failed=1, words_review=0, duration_seconds=12.5,
+            phase=1,
+            words_total=10,
+            words_processed=8,
+            words_validated=7,
+            words_failed=1,
+            words_review=0,
+            duration_seconds=12.5,
         )
         assert s.phase == 1
         assert s.words_total == 10
         assert s.duration_seconds == 12.5
 
     def test_optional_timestamps(self):
-        s = BuildStats(phase=1, words_total=0, words_processed=0,
-                       words_validated=0, words_failed=0, words_review=0,
-                       duration_seconds=0.0)
+        s = BuildStats(
+            phase=1,
+            words_total=0,
+            words_processed=0,
+            words_validated=0,
+            words_failed=0,
+            words_review=0,
+            duration_seconds=0.0,
+        )
         assert s.started_at is None
         assert s.completed_at is None
 
 
 # ---------- __init__ ----------
+
 
 class TestInit:
     def test_basic(self, lex_path, freq_db):
@@ -108,8 +121,7 @@ class TestInit:
             b.close()
 
     def test_default_freq_db_uses_helper(self, lex_path):
-        with patch("gse.curation.frequency_integration.get_default_frequency_db_path",
-                   return_value=lex_path):
+        with patch("gse.curation.frequency_integration.get_default_frequency_db_path", return_value=lex_path):
             # Get the real func to return something usable
             with patch("gse.curation.pipeline.staged_builder.FrequencyDatabase"):
                 b = StagedBuilder(
@@ -120,6 +132,7 @@ class TestInit:
 
 
 # ---------- close ----------
+
 
 class TestClose:
     def test_closes_all(self, lex_path, freq_db):
@@ -132,6 +145,7 @@ class TestClose:
 
 # ---------- context manager ----------
 
+
 class TestContextManager:
     def test_context_closes(self, lex_path, freq_db):
         b = mk_builder(lex_path, freq_db)
@@ -143,6 +157,7 @@ class TestContextManager:
 
 
 # ---------- initialize_from_frequency ----------
+
 
 class TestInitializeFromFrequency:
     def test_default_phases(self, lex_path, freq_db):
@@ -172,13 +187,17 @@ class TestInitializeFromFrequency:
 
 # ---------- build_phase_one ----------
 
+
 class TestBuildPhaseOne:
     def test_auto_initializes(self, lex_path, freq_db):
         b = mk_builder(lex_path, freq_db)
         # No words yet → should initialize from freq
         b.processor = MagicMock()
         b.processor.process_phase.return_value = {
-            "processed": 0, "validated": 0, "failed": 0, "review_flagged": 0,
+            "processed": 0,
+            "validated": 0,
+            "failed": 0,
+            "review_flagged": 0,
         }
         stats = b.build_phase_one()
         # Phase 1 was initialized
@@ -190,7 +209,10 @@ class TestBuildPhaseOne:
         b = mk_builder(lex_path, freq_db)
         b.processor = MagicMock()
         b.processor.process_phase.return_value = {
-            "processed": 2, "validated": 2, "failed": 0, "review_flagged": 0,
+            "processed": 2,
+            "validated": 2,
+            "failed": 0,
+            "review_flagged": 0,
         }
         stats = b.build_phase_one()
         assert stats.phase == 1
@@ -201,7 +223,10 @@ class TestBuildPhaseOne:
         b = mk_builder(lex_path, freq_db)
         b.processor = MagicMock()
         b.processor.process_phase.return_value = {
-            "processed": 1, "validated": 1, "failed": 0, "review_flagged": 0,
+            "processed": 1,
+            "validated": 1,
+            "failed": 0,
+            "review_flagged": 0,
         }
         b.build_phase_one()
         assert 1 in b.stats
@@ -210,12 +235,16 @@ class TestBuildPhaseOne:
 
 # ---------- build_phase_two ----------
 
+
 class TestBuildPhaseTwo:
     def test_basic(self, lex_path, freq_db):
         b = mk_builder(lex_path, freq_db)
         b.processor = MagicMock()
         b.processor.process_phase.return_value = {
-            "processed": 0, "validated": 0, "failed": 0, "review_flagged": 0,
+            "processed": 0,
+            "validated": 0,
+            "failed": 0,
+            "review_flagged": 0,
         }
         stats = b.build_phase_two()
         assert stats.phase == 2
@@ -224,12 +253,16 @@ class TestBuildPhaseTwo:
 
 # ---------- build_phase_three ----------
 
+
 class TestBuildPhaseThree:
     def test_basic(self, lex_path, freq_db):
         b = mk_builder(lex_path, freq_db)
         b.processor = MagicMock()
         b.processor.process_phase.return_value = {
-            "processed": 0, "validated": 0, "failed": 0, "review_flagged": 0,
+            "processed": 0,
+            "validated": 0,
+            "failed": 0,
+            "review_flagged": 0,
         }
         stats = b.build_phase_three()
         assert stats.phase == 3
@@ -238,12 +271,16 @@ class TestBuildPhaseThree:
 
 # ---------- build_all ----------
 
+
 class TestBuildAll:
     def test_runs_all_phases(self, lex_path, freq_db):
         b = mk_builder(lex_path, freq_db)
         b.processor = MagicMock()
         b.processor.process_phase.return_value = {
-            "processed": 0, "validated": 0, "failed": 0, "review_flagged": 0,
+            "processed": 0,
+            "validated": 0,
+            "failed": 0,
+            "review_flagged": 0,
         }
         result = b.build_all()
         assert 1 in result
@@ -253,6 +290,7 @@ class TestBuildAll:
 
 
 # ---------- get_status ----------
+
 
 class TestGetStatus:
     def test_empty(self, lex_path, freq_db):
@@ -283,6 +321,7 @@ class TestGetStatus:
 
 
 # ---------- build_lexicon convenience ----------
+
 
 class TestBuildLexicon:
     def test_default_all_phases(self, lex_path, freq_db):

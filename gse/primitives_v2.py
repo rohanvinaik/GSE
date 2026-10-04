@@ -27,26 +27,29 @@ DIMS_PER_BANK = D // N_BANKS  # 1024 dims per bank
 
 class Scale(Enum):
     """Processing scales in the constraint cascade."""
-    TEXT = "text"           # Document-level: genre, register, domain
-    PARAGRAPH = "paragraph" # Discourse-level: relations, flow
-    SENTENCE = "sentence"   # Grammatical: structure, roles
-    WORD = "word"           # Semantic: NSM primitives
+
+    TEXT = "text"  # Document-level: genre, register, domain
+    PARAGRAPH = "paragraph"  # Discourse-level: relations, flow
+    SENTENCE = "sentence"  # Grammatical: structure, roles
+    WORD = "word"  # Semantic: NSM primitives
 
 
 # =============================================================================
 # SEMANTIC BANKS
 # =============================================================================
 
+
 class SemanticBank(IntEnum):
     """The 8 semantic banks, each with 1024 dimensions."""
-    SUBSTANTIVES = 0   # Entities and reference
-    QUANTITY = 1       # Amount and cardinality (with hierarchy)
-    EVALUATORS = 2     # Value and magnitude judgments (bipolar)
-    MENTAL = 3         # Cognitive and perceptual states
-    ACTION = 4         # Events, states, and existence
-    TEMPORAL = 5       # Time relations and duration (bipolar)
-    SPATIAL = 6        # Location and spatial relations (bipolar)
-    LOGICAL = 7        # Modality, causation, hierarchy markers
+
+    SUBSTANTIVES = 0  # Entities and reference
+    QUANTITY = 1  # Amount and cardinality (with hierarchy)
+    EVALUATORS = 2  # Value and magnitude judgments (bipolar)
+    MENTAL = 3  # Cognitive and perceptual states
+    ACTION = 4  # Events, states, and existence
+    TEMPORAL = 5  # Time relations and duration (bipolar)
+    SPATIAL = 6  # Location and spatial relations (bipolar)
+    LOGICAL = 7  # Modality, causation, hierarchy markers
 
 
 SEMANTIC_BANK_NAMES = {
@@ -65,6 +68,7 @@ SEMANTIC_BANK_NAMES = {
 # BIPOLAR (ANTONYM) DIMENSIONS
 # =============================================================================
 
+
 @dataclass(frozen=True)
 class BipolarDimension:
     """
@@ -75,9 +79,10 @@ class BipolarDimension:
         - BAD encodes as -1 in these dimensions
         - cos(GOOD, BAD) = -1.0 (perfect opposition)
     """
-    name: str           # Dimension name (e.g., "EVALUATION")
-    positive: str       # Positive pole label (e.g., "GOOD")
-    negative: str       # Negative pole label (e.g., "BAD")
+
+    name: str  # Dimension name (e.g., "EVALUATION")
+    positive: str  # Positive pole label (e.g., "GOOD")
+    negative: str  # Negative pole label (e.g., "BAD")
     bank: SemanticBank  # Which bank this belongs to
 
     def get_polarity(self, primitive: str) -> int:
@@ -93,27 +98,22 @@ class BipolarDimension:
 BIPOLAR_DIMENSIONS: List[BipolarDimension] = [
     # Bank 0: SUBSTANTIVES
     BipolarDimension("IDENTITY", "SAME", "OTHER", SemanticBank.SUBSTANTIVES),
-
     # Bank 2: EVALUATORS
     BipolarDimension("EVALUATION", "GOOD", "BAD", SemanticBank.EVALUATORS),
     BipolarDimension("SIZE", "BIG", "SMALL", SemanticBank.EVALUATORS),
-
     # Bank 4: ACTION
     BipolarDimension("VITALITY", "ALIVE", "DEAD", SemanticBank.ACTION),
-
     # Bank 5: TEMPORAL
     BipolarDimension("DURATION", "LONG_TIME", "SHORT_TIME", SemanticBank.TEMPORAL),
     BipolarDimension("TEMPORAL_ORDER", "BEFORE", "AFTER", SemanticBank.TEMPORAL),
     BipolarDimension("TEMPORAL_REF", "THEN", "NOW", SemanticBank.TEMPORAL),
     BipolarDimension("TEMPORAL_BOUND", "START", "END", SemanticBank.TEMPORAL),
-
     # Bank 6: SPATIAL
     BipolarDimension("VERTICAL", "ABOVE", "BELOW", SemanticBank.SPATIAL),
     BipolarDimension("DISTANCE", "FAR", "NEAR", SemanticBank.SPATIAL),
     BipolarDimension("CONTAINMENT", "OUTSIDE", "INSIDE", SemanticBank.SPATIAL),
     BipolarDimension("DIRECTION", "TOWARD", "AWAY", SemanticBank.SPATIAL),
     BipolarDimension("ACCOMPANIMENT", "WITH", "WITHOUT", SemanticBank.SPATIAL),
-
     # Bank 7: LOGICAL
     BipolarDimension("TRUTH", "TRUE", "FALSE", SemanticBank.LOGICAL),
 ]
@@ -175,7 +175,7 @@ def negate_decomposition(primitives: Dict[str, int]) -> Dict[str, int]:
     out: Dict[str, int] = {}
     for prim, value in primitives.items():
         if prim in BIPOLAR_PRIMITIVES:
-            canon, polarity = get_canonical_pole(prim)   # canon = positive pole
+            canon, polarity = get_canonical_pole(prim)  # canon = positive pole
             out[canon] = out.get(canon, 0) - (value * polarity)
         else:
             out[prim] = value
@@ -186,39 +186,42 @@ def negate_decomposition(primitives: Dict[str, int]) -> Dict[str, int]:
 # HIERARCHICAL MODIFIERS
 # =============================================================================
 
+
 @dataclass(frozen=True)
 class HierarchyLevel:
     """A level in an ordinal hierarchy."""
-    name: str       # English word (e.g., "MANY")
-    level: int      # Ordinal level (-3 to +3)
-    markers: int    # Number of HIER_PLUS or HIER_MINUS markers
+
+    name: str  # English word (e.g., "MANY")
+    level: int  # Ordinal level (-3 to +3)
+    markers: int  # Number of HIER_PLUS or HIER_MINUS markers
 
 
 class HierarchyType(Enum):
     """Types of hierarchical encoding."""
-    QUANTITY = "quantity"     # Amount/cardinality
-    INTENSITY = "intensity"   # Degree/strength
-    CERTAINTY = "certainty"   # Epistemic modality
+
+    QUANTITY = "quantity"  # Amount/cardinality
+    INTENSITY = "intensity"  # Degree/strength
+    CERTAINTY = "certainty"  # Epistemic modality
 
 
 # Quantity Hierarchy (7 levels, middle-anchored)
 # Encoding: base QUANTITY + N hierarchy markers
 QUANTITY_HIERARCHY: Dict[str, HierarchyLevel] = {
-    "NONE":   HierarchyLevel("NONE", -3, 3),    # [−][−][−][QUANTITY]
-    "FEW":    HierarchyLevel("FEW", -2, 2),     # [−][−][QUANTITY]
-    "SOME":   HierarchyLevel("SOME", -1, 1),    # [−][QUANTITY]
-    "MIDDLE": HierarchyLevel("MIDDLE", 0, 0),   # [QUANTITY]
-    "MORE":   HierarchyLevel("MORE", 1, 1),     # [+][QUANTITY]
-    "MANY":   HierarchyLevel("MANY", 2, 2),     # [+][+][QUANTITY]
-    "ALL":    HierarchyLevel("ALL", 3, 3),      # [+][+][+][QUANTITY]
+    "NONE": HierarchyLevel("NONE", -3, 3),  # [−][−][−][QUANTITY]
+    "FEW": HierarchyLevel("FEW", -2, 2),  # [−][−][QUANTITY]
+    "SOME": HierarchyLevel("SOME", -1, 1),  # [−][QUANTITY]
+    "MIDDLE": HierarchyLevel("MIDDLE", 0, 0),  # [QUANTITY]
+    "MORE": HierarchyLevel("MORE", 1, 1),  # [+][QUANTITY]
+    "MANY": HierarchyLevel("MANY", 2, 2),  # [+][+][QUANTITY]
+    "ALL": HierarchyLevel("ALL", 3, 3),  # [+][+][+][QUANTITY]
 }
 
 # Intensity Hierarchy (5 levels)
 INTENSITY_HIERARCHY: Dict[str, HierarchyLevel] = {
-    "BARELY":    HierarchyLevel("BARELY", -2, 2),    # [−][−][INTENSITY]
-    "SLIGHTLY":  HierarchyLevel("SLIGHTLY", -1, 1),  # [−][INTENSITY]
-    "MODERATE":  HierarchyLevel("MODERATE", 0, 0),   # [INTENSITY]
-    "VERY":      HierarchyLevel("VERY", 1, 1),       # [+][INTENSITY]
+    "BARELY": HierarchyLevel("BARELY", -2, 2),  # [−][−][INTENSITY]
+    "SLIGHTLY": HierarchyLevel("SLIGHTLY", -1, 1),  # [−][INTENSITY]
+    "MODERATE": HierarchyLevel("MODERATE", 0, 0),  # [INTENSITY]
+    "VERY": HierarchyLevel("VERY", 1, 1),  # [+][INTENSITY]
     "EXTREMELY": HierarchyLevel("EXTREMELY", 2, 2),  # [+][+][INTENSITY]
 }
 
@@ -226,12 +229,12 @@ INTENSITY_HIERARCHY: Dict[str, HierarchyLevel] = {
 # Encoding: base CERTAINTY + N hierarchy markers
 CERTAINTY_HIERARCHY: Dict[str, HierarchyLevel] = {
     "IMPOSSIBLE": HierarchyLevel("IMPOSSIBLE", -3, 3),  # [−][−][−][CERTAINTY]
-    "UNLIKELY":   HierarchyLevel("UNLIKELY", -2, 2),    # [−][−][CERTAINTY]
-    "DOUBTFUL":   HierarchyLevel("DOUBTFUL", -1, 1),    # [−][CERTAINTY]
-    "POSSIBLE":   HierarchyLevel("POSSIBLE", 0, 0),     # [CERTAINTY] (= MAYBE)
-    "PROBABLE":   HierarchyLevel("PROBABLE", 1, 1),     # [+][CERTAINTY]
-    "LIKELY":     HierarchyLevel("LIKELY", 2, 2),       # [+][+][CERTAINTY]
-    "CERTAIN":    HierarchyLevel("CERTAIN", 3, 3),      # [+][+][+][CERTAINTY]
+    "UNLIKELY": HierarchyLevel("UNLIKELY", -2, 2),  # [−][−][CERTAINTY]
+    "DOUBTFUL": HierarchyLevel("DOUBTFUL", -1, 1),  # [−][CERTAINTY]
+    "POSSIBLE": HierarchyLevel("POSSIBLE", 0, 0),  # [CERTAINTY] (= MAYBE)
+    "PROBABLE": HierarchyLevel("PROBABLE", 1, 1),  # [+][CERTAINTY]
+    "LIKELY": HierarchyLevel("LIKELY", 2, 2),  # [+][+][CERTAINTY]
+    "CERTAIN": HierarchyLevel("CERTAIN", 3, 3),  # [+][+][+][CERTAINTY]
 }
 
 # Combined hierarchy lookup
@@ -281,22 +284,22 @@ def get_hierarchy_encoding(modifier: str) -> Optional[Tuple[str, int, int]]:
 
 # Bank 0: SUBSTANTIVES (7 unipolar + 1 bipolar dimension)
 BANK_0_UNIPOLAR = [
-    "I",          # First person
-    "YOU",        # Second person
-    "SOMEONE",    # Animate entity
+    "I",  # First person
+    "YOU",  # Second person
+    "SOMEONE",  # Animate entity
     "SOMETHING",  # Inanimate entity
-    "PEOPLE",     # Collective animate
-    "BODY",       # Physical embodiment
-    "KIND",       # Category/type
-    "PART",       # Part-whole relation
+    "PEOPLE",  # Collective animate
+    "BODY",  # Physical embodiment
+    "KIND",  # Category/type
+    "PART",  # Part-whole relation
 ]
 
 # Bank 1: QUANTITY (2 cardinal + 1 base + 1 category)
 BANK_1_UNIPOLAR = [
-    "ONE",        # Singular
-    "TWO",        # Dual (minimal plural)
-    "QUANTITY",   # Base for hierarchy
-    "NUMBER",     # Category marker for all numerals
+    "ONE",  # Singular
+    "TWO",  # Dual (minimal plural)
+    "QUANTITY",  # Base for hierarchy
+    "NUMBER",  # Category marker for all numerals
 ]
 
 # Bank 2: EVALUATORS - all bipolar (no unipolar)
@@ -304,53 +307,53 @@ BANK_2_UNIPOLAR: List[str] = []
 
 # Bank 3: MENTAL (7 unipolar)
 BANK_3_UNIPOLAR = [
-    "THINK",      # Cognitive processing
-    "KNOW",       # Epistemic state
-    "WANT",       # Volition
-    "FEEL",       # Affective/sensory
-    "SEE",        # Visual perception
-    "HEAR",       # Auditory perception
-    "INFER",      # Epistemic inference - draw conclusion from evidence
+    "THINK",  # Cognitive processing
+    "KNOW",  # Epistemic state
+    "WANT",  # Volition
+    "FEEL",  # Affective/sensory
+    "SEE",  # Visual perception
+    "HEAR",  # Auditory perception
+    "INFER",  # Epistemic inference - draw conclusion from evidence
 ]
 
 # Bank 4: ACTION (8 unipolar)
 BANK_4_UNIPOLAR = [
-    "SAY",        # Speech act
-    "WORDS",      # Linguistic content
-    "DO",         # Agentive action
-    "HAPPEN",     # Non-agentive event
-    "MOVE",       # Change of location
-    "BE",         # Stative existence
-    "HAVE",       # Possession
-    "EXIST",      # Ontological status
+    "SAY",  # Speech act
+    "WORDS",  # Linguistic content
+    "DO",  # Agentive action
+    "HAPPEN",  # Non-agentive event
+    "MOVE",  # Change of location
+    "BE",  # Stative existence
+    "HAVE",  # Possession
+    "EXIST",  # Ontological status
 ]
 
 # Bank 5: TEMPORAL (1 unipolar + 3 bipolar)
 BANK_5_UNIPOLAR = [
-    "MOMENT",     # Punctual time
-    "WHEN",       # Temporal deixis
+    "MOMENT",  # Punctual time
+    "WHEN",  # Temporal deixis
 ]
 
 # Bank 6: SPATIAL (3 unipolar + 3 bipolar)
 BANK_6_UNIPOLAR = [
-    "WHERE",      # Spatial deixis
-    "HERE",       # Proximal location
-    "SIDE",       # Lateral relation
-    "TOUCH",      # Contact relation
+    "WHERE",  # Spatial deixis
+    "HERE",  # Proximal location
+    "SIDE",  # Lateral relation
+    "TOUCH",  # Contact relation
 ]
 
 # Bank 7: LOGICAL (7 unipolar + hierarchy + 1 bipolar)
 BANK_7_UNIPOLAR = [
-    "NOT",        # Negation
-    "MAYBE",      # Epistemic possibility (= POSSIBLE anchor in CERTAINTY hierarchy)
-    "CAN",        # Ability/possibility
-    "MUST",       # Deontic necessity/obligation
-    "BECAUSE",    # Retrospective causation/reasoning
-    "CAUSE",      # Force dynamics - agentive causation (distinct from BECAUSE)
-    "IF",         # Conditionality
-    "LIKE",       # Similarity
+    "NOT",  # Negation
+    "MAYBE",  # Epistemic possibility (= POSSIBLE anchor in CERTAINTY hierarchy)
+    "CAN",  # Ability/possibility
+    "MUST",  # Deontic necessity/obligation
+    "BECAUSE",  # Retrospective causation/reasoning
+    "CAUSE",  # Force dynamics - agentive causation (distinct from BECAUSE)
+    "IF",  # Conditionality
+    "LIKE",  # Similarity
     "HIER_PLUS",  # Positive hierarchy marker [+]
-    "HIER_MINUS", # Negative hierarchy marker [−]
+    "HIER_MINUS",  # Negative hierarchy marker [−]
     "INTENSITY",  # Base for intensity hierarchy
     "CERTAINTY",  # Base for certainty hierarchy
 ]
@@ -360,9 +363,11 @@ BANK_7_UNIPOLAR = [
 # COMPLETE PRIMITIVE REGISTRY
 # =============================================================================
 
+
 @dataclass
 class PrimitiveInfo:
     """Full information about a primitive."""
+
     name: str
     bank: SemanticBank
     is_bipolar: bool = False
@@ -432,10 +437,7 @@ def get_primitive_info(name: str) -> Optional[PrimitiveInfo]:
 
 def get_bank_primitives(bank: SemanticBank) -> List[str]:
     """Get all primitives in a bank."""
-    return [
-        name for name, info in PRIMITIVE_REGISTRY.items()
-        if info.bank == bank
-    ]
+    return [name for name, info in PRIMITIVE_REGISTRY.items() if info.bank == bank]
 
 
 # =============================================================================
@@ -445,28 +447,37 @@ def get_bank_primitives(bank: SemanticBank) -> List[str]:
 # 24 hub primitives representing bank families (for WordScaleNetwork)
 HUB_PRIMITIVES = [
     # Bank 0: SUBSTANTIVES (3 hubs)
-    "SOMEONE", "SOMETHING", "PART",
-
+    "SOMEONE",
+    "SOMETHING",
+    "PART",
     # Bank 1: QUANTITY (2 hubs)
-    "QUANTITY", "ONE",
-
+    "QUANTITY",
+    "ONE",
     # Bank 2: EVALUATORS (2 hubs - bipolar positive poles)
-    "GOOD", "BIG",
-
+    "GOOD",
+    "BIG",
     # Bank 3: MENTAL (4 hubs)
-    "THINK", "KNOW", "FEEL", "WANT",
-
+    "THINK",
+    "KNOW",
+    "FEEL",
+    "WANT",
     # Bank 4: ACTION (4 hubs)
-    "DO", "HAPPEN", "BE", "MOVE",
-
+    "DO",
+    "HAPPEN",
+    "BE",
+    "MOVE",
     # Bank 5: TEMPORAL (3 hubs)
-    "BEFORE", "MOMENT", "WHEN",
-
+    "BEFORE",
+    "MOMENT",
+    "WHEN",
     # Bank 6: SPATIAL (3 hubs)
-    "WHERE", "ABOVE", "FAR",
-
+    "WHERE",
+    "ABOVE",
+    "FAR",
     # Bank 7: LOGICAL (3 hubs)
-    "NOT", "CAN", "BECAUSE",
+    "NOT",
+    "CAN",
+    "BECAUSE",
 ]
 
 
@@ -491,7 +502,6 @@ PRIMITIVE_FAMILIES = {
         "primitives": ["SAME", "OTHER"],  # Bipolar IDENTITY
         "hub": "PART",
     },
-
     # Bank 1: QUANTITY (2 families)
     "quantity_cardinal": {
         "bank": SemanticBank.QUANTITY,
@@ -503,7 +513,6 @@ PRIMITIVE_FAMILIES = {
         "primitives": ["QUANTITY"],  # + hierarchy levels
         "hub": "QUANTITY",
     },
-
     # Bank 2: EVALUATORS (2 families)
     "evaluation_valence": {
         "bank": SemanticBank.EVALUATORS,
@@ -515,7 +524,6 @@ PRIMITIVE_FAMILIES = {
         "primitives": ["BIG", "SMALL"],  # Bipolar SIZE
         "hub": "BIG",
     },
-
     # Bank 3: MENTAL (2 families)
     "mental_cognitive": {
         "bank": SemanticBank.MENTAL,
@@ -527,7 +535,6 @@ PRIMITIVE_FAMILIES = {
         "primitives": ["WANT", "FEEL", "SEE", "HEAR"],
         "hub": "FEEL",
     },
-
     # Bank 4: ACTION (2 families)
     "action_dynamic": {
         "bank": SemanticBank.ACTION,
@@ -539,7 +546,6 @@ PRIMITIVE_FAMILIES = {
         "primitives": ["BE", "HAVE", "EXIST", "WORDS", "ALIVE", "DEAD"],
         "hub": "BE",
     },
-
     # Bank 5: TEMPORAL (2 families)
     "temporal_relations": {
         "bank": SemanticBank.TEMPORAL,
@@ -551,7 +557,6 @@ PRIMITIVE_FAMILIES = {
         "primitives": ["LONG_TIME", "SHORT_TIME", "MOMENT", "WHEN"],
         "hub": "MOMENT",
     },
-
     # Bank 6: SPATIAL (2 families)
     "spatial_location": {
         "bank": SemanticBank.SPATIAL,
@@ -563,7 +568,6 @@ PRIMITIVE_FAMILIES = {
         "primitives": ["ABOVE", "BELOW", "FAR", "NEAR", "SIDE", "TOUCH", "TOWARD", "AWAY"],
         "hub": "ABOVE",
     },
-
     # Bank 7: LOGICAL (2 families)
     "logical_modal": {
         "bank": SemanticBank.LOGICAL,
@@ -584,35 +588,33 @@ PRIMITIVE_FAMILIES = {
 
 SEMANTIC_ROLES = [
     # Core thematic roles
-    "agent",        # Initiator of action
-    "patient",      # Affected by action
+    "agent",  # Initiator of action
+    "patient",  # Affected by action
     "experiencer",  # Mental state bearer
-    "theme",        # Entity in motion/location
-    "recipient",    # Receiver
+    "theme",  # Entity in motion/location
+    "recipient",  # Receiver
     "beneficiary",  # Benefits from action
-    "instrument",   # Tool used
-    "source",       # Origin
-    "goal",         # Destination
-    "location",     # Where
-
+    "instrument",  # Tool used
+    "source",  # Origin
+    "goal",  # Destination
+    "location",  # Where
     # Descriptive roles
-    "attribute",    # Property
-    "manner",       # How
-    "time",         # When
-    "cause",        # Why
-    "result",       # Outcome
-    "action",       # The action itself
-    "state",        # Static condition
-    "evaluation",   # Value judgment
-    "intention",    # Purpose
-    "content",      # Propositional content
-
+    "attribute",  # Property
+    "manner",  # How
+    "time",  # When
+    "cause",  # Why
+    "result",  # Outcome
+    "action",  # The action itself
+    "state",  # Static condition
+    "evaluation",  # Value judgment
+    "intention",  # Purpose
+    "content",  # Propositional content
     # Modifier roles
-    "degree",       # Intensity level
-    "quantity",     # Amount
-    "relation",     # Connection type
-    "property",     # Characteristic
-    "possessor",    # Owner
+    "degree",  # Intensity level
+    "quantity",  # Amount
+    "relation",  # Connection type
+    "property",  # Characteristic
+    "possessor",  # Owner
 ]
 
 
@@ -620,8 +622,10 @@ SEMANTIC_ROLES = [
 # ACTIVATION AND DECOMPOSITION
 # =============================================================================
 
+
 class Polarity(IntEnum):
     """Polarity for primitive activation."""
+
     POSITIVE = 1
     NEGATIVE = -1
     NEUTRAL = 0
@@ -630,6 +634,7 @@ class Polarity(IntEnum):
 @dataclass
 class PrimitiveActivation:
     """An activation of a primitive with role and polarity."""
+
     primitive: str
     role: str
     polarity: Polarity = Polarity.POSITIVE
@@ -694,22 +699,26 @@ def expand_hierarchy_activation(
     activations = []
 
     # Add base primitive
-    activations.append(PrimitiveActivation(
-        primitive=base,
-        role=role,
-        polarity=Polarity.POSITIVE,
-        hierarchy_level=0,
-    ))
+    activations.append(
+        PrimitiveActivation(
+            primitive=base,
+            role=role,
+            polarity=Polarity.POSITIVE,
+            hierarchy_level=0,
+        )
+    )
 
     # Add hierarchy markers
     marker = "HIER_PLUS" if level > 0 else "HIER_MINUS"
     for i in range(marker_count):
-        activations.append(PrimitiveActivation(
-            primitive=marker,
-            role=role,
-            polarity=Polarity.POSITIVE,
-            hierarchy_level=i + 1,
-        ))
+        activations.append(
+            PrimitiveActivation(
+                primitive=marker,
+                role=role,
+                polarity=Polarity.POSITIVE,
+                hierarchy_level=i + 1,
+            )
+        )
 
     return activations
 
@@ -823,19 +832,36 @@ SENTENCE_SCALE = ScaleDefinition(
     banks=[
         BankDef("CORE_STRUCTURE", ["SYN_SUBJ", "SYN_PRED", "SYN_OBJ", "SYN_COMPL"]),
         BankDef("MODIFICATION", ["SYN_ADJ_MOD", "SYN_ADV_MOD", "SYN_DET"]),
-        BankDef("TAM", [
-            "SYN_TENSE_PAST", "SYN_TENSE_PRES", "SYN_TENSE_FUT",
-            "SYN_ASPECT_PERF", "SYN_ASPECT_PROG",
-            "SYN_MOOD_INTER", "SYN_MOOD_IMPER",
-        ]),
-        BankDef("COMPARISON", ["COMP_THAN", "COMP_AS"],
-                metadata={p: COMP_METADATA[p] for p in ["COMP_THAN", "COMP_AS"]}),
-        BankDef("QUANTIFICATION", ["COMP_HOW", "COMP_WHAT"],
-                metadata={p: COMP_METADATA[p] for p in ["COMP_HOW", "COMP_WHAT"]}),
-        BankDef("CONSTRAINT", ["COMP_JUST", "COMP_ONLY", "COMP_EVEN"],
-                metadata={p: COMP_METADATA[p] for p in ["COMP_JUST", "COMP_ONLY", "COMP_EVEN"]}),
-        BankDef("DISCOURSE", ["COMP_BUT", "COMP_SO", "COMP_BECAUSE"],
-                metadata={p: COMP_METADATA[p] for p in ["COMP_BUT", "COMP_SO", "COMP_BECAUSE"]}),
+        BankDef(
+            "TAM",
+            [
+                "SYN_TENSE_PAST",
+                "SYN_TENSE_PRES",
+                "SYN_TENSE_FUT",
+                "SYN_ASPECT_PERF",
+                "SYN_ASPECT_PROG",
+                "SYN_MOOD_INTER",
+                "SYN_MOOD_IMPER",
+            ],
+        ),
+        BankDef(
+            "COMPARISON", ["COMP_THAN", "COMP_AS"], metadata={p: COMP_METADATA[p] for p in ["COMP_THAN", "COMP_AS"]}
+        ),
+        BankDef(
+            "QUANTIFICATION",
+            ["COMP_HOW", "COMP_WHAT"],
+            metadata={p: COMP_METADATA[p] for p in ["COMP_HOW", "COMP_WHAT"]},
+        ),
+        BankDef(
+            "CONSTRAINT",
+            ["COMP_JUST", "COMP_ONLY", "COMP_EVEN"],
+            metadata={p: COMP_METADATA[p] for p in ["COMP_JUST", "COMP_ONLY", "COMP_EVEN"]},
+        ),
+        BankDef(
+            "DISCOURSE",
+            ["COMP_BUT", "COMP_SO", "COMP_BECAUSE"],
+            metadata={p: COMP_METADATA[p] for p in ["COMP_BUT", "COMP_SO", "COMP_BECAUSE"]},
+        ),
         BankDef("RESERVED", []),
     ],
 )
@@ -848,6 +874,7 @@ SENTENCE_PRIMITIVES = SENTENCE_SCALE.all_primitive_names
 @dataclass
 class SentencePrimitiveInfo:
     """Sentence-scale primitive with compositional operator metadata."""
+
     name: str
     bank: int
     category: str
@@ -898,6 +925,7 @@ def get_compositional_metadata(primitive: str) -> Optional[Tuple[int, str]]:
 # =============================================================================
 # UTILITY FUNCTIONS
 # =============================================================================
+
 
 def get_bank_for_primitive(primitive: str) -> Optional[SemanticBank]:
     """Get the semantic bank for a primitive."""

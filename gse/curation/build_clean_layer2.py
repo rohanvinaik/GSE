@@ -40,11 +40,11 @@ def main(clean_db: str = CLEAN_DB, freq_db: str = FREQ_DB) -> dict:
     # grammatical homes (never content-decomposed), and a layer1 lemma is
     # already grounded. Excluding only the floor collided with the operator/
     # quantifier rows once those layers existed (UNIQUE lemma,pos,sense_id).
-    grounded = {r[0] for r in
-                con.execute("SELECT lemma FROM lexemes WHERE source != 'layer2'")}
+    grounded = {r[0] for r in con.execute("SELECT lemma FROM lexemes WHERE source != 'layer2'")}
     fc = sqlite3.connect(f"file:{freq_db}?mode=ro", uri=True)
-    freq = [(r[0].lower(), r[1]) for r in
-            fc.execute("SELECT word, combined_rank FROM frequency ORDER BY combined_rank")]
+    freq = [
+        (r[0].lower(), r[1]) for r in fc.execute("SELECT word, combined_rank FROM frequency ORDER BY combined_rank")
+    ]
     fc.close()
 
     # Candidate pool: frequency-ranked common register + WordNet's single-word
@@ -54,14 +54,18 @@ def main(clean_db: str = CLEAN_DB, freq_db: str = FREQ_DB) -> dict:
     candidates = []
     for w, rank in freq:
         if w not in seen and w.isalpha():
-            candidates.append((w, rank)); seen.add(w)
+            candidates.append((w, rank))
+            seen.add(w)
     from gse.curation.external_sources.wordnet_hierarchy import WordNetHierarchyParser
-    wn = WordNetHierarchyParser(); wn.load()
+
+    wn = WordNetHierarchyParser()
+    wn.load()
     for w in wn.get_all_words():
         w = w.lower()
         if " " in w or not w.isalpha() or w in seen:
             continue
-        candidates.append((w, None)); seen.add(w)
+        candidates.append((w, None))
+        seen.add(w)
     print(f"  candidate pool: {len(candidates)} words (frequency + WordNet real-words)", flush=True)
 
     # Clear any prior Layer-2 and COMMIT *before* the Linker opens — otherwise the
@@ -83,12 +87,12 @@ def main(clean_db: str = CLEAN_DB, freq_db: str = FREQ_DB) -> dict:
     for i, (w, rank) in enumerate(candidates):
         pos = _dom_pos(w)
         if not pos or pos in _CLOSED_CLASS:
-            continue   # informational zero — not a stored entry
+            continue  # informational zero — not a stored entry
         d = lk.evaluate(w, pos)
         if d:
             built.append((w, rank, d))
         if (i + 1) % 5000 == 0:
-            print(f"  decomposed {i+1}/{len(candidates)}  kept={len(built)}  {time.time()-t0:.0f}s", flush=True)
+            print(f"  decomposed {i + 1}/{len(candidates)}  kept={len(built)}  {time.time() - t0:.0f}s", flush=True)
     lk.close()
 
     # PHASE 2 — bulk-write (the Linker connection is closed; single writer).

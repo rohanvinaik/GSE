@@ -46,6 +46,7 @@ JSON_EPOCHS = {
 # PROGRESS DISPLAY
 # =============================================================================
 
+
 def print_progress(epoch: int, total: int, message: str):
     """Print progress with formatting."""
     pct = (epoch / total) * 100
@@ -66,10 +67,14 @@ def print_epoch_summary(epoch):
     print(f"\n  Epoch {epoch.epoch_number}: {epoch.document}")
     print(f"    Type: {epoch.document_type}")
     print(f"    Duration: {epoch.duration_seconds:.1f}s")
-    print(f"    Processed: {epoch.paragraphs_processed} paras, {epoch.sentences_processed} sents, {epoch.words_processed} words")
+    print(
+        f"    Processed: {epoch.paragraphs_processed} paras, {epoch.sentences_processed} sents, {epoch.words_processed} words"
+    )
     print(f"    Updates: {epoch.total_updates}")
-    print(f"    Deltas: text={epoch.text_delta:.4f}, para={epoch.paragraph_delta:.4f}, "
-          f"sent={epoch.sentence_delta:.4f}, word={epoch.word_delta:.4f}")
+    print(
+        f"    Deltas: text={epoch.text_delta:.4f}, para={epoch.paragraph_delta:.4f}, "
+        f"sent={epoch.sentence_delta:.4f}, word={epoch.word_delta:.4f}"
+    )
 
 
 def print_session_summary(session: TeachingSession, behavior: dict):
@@ -86,7 +91,7 @@ def print_session_summary(session: TeachingSession, behavior: dict):
 
     # Duration
     total_duration = sum(e.duration_seconds for e in session.epochs)
-    print(f"Total duration: {total_duration:.1f}s ({total_duration/60:.1f} min)")
+    print(f"Total duration: {total_duration:.1f}s ({total_duration / 60:.1f} min)")
 
     # Processing stats
     total_paras = sum(e.paragraphs_processed for e in session.epochs)
@@ -127,6 +132,7 @@ def print_session_summary(session: TeachingSession, behavior: dict):
 # =============================================================================
 # MAIN TEACHING FUNCTION
 # =============================================================================
+
 
 def run_teaching(
     corpus_dir: str,
@@ -248,6 +254,7 @@ def list_profiles():
 # =============================================================================
 # CLI
 # =============================================================================
+
 
 def main():
     parser = argparse.ArgumentParser(

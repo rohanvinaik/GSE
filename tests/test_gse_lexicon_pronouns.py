@@ -18,6 +18,7 @@ from gse.lexicon.pronouns import (
 
 # ---------- PRONOUN_ENCODINGS table ----------
 
+
 class TestPronounEncodings:
     def test_i_first_person_nom_animate(self):
         i = PRONOUN_ENCODINGS["i"]
@@ -90,6 +91,7 @@ class TestPronounEncodings:
 
 # ---------- get_pronoun_encoding ----------
 
+
 class TestGetPronounEncoding:
     def test_known_lowercase(self):
         result = get_pronoun_encoding("i")
@@ -119,6 +121,7 @@ class TestGetPronounEncoding:
 
 # ---------- is_pronoun ----------
 
+
 class TestIsPronoun:
     def test_known_pronoun_true(self):
         assert is_pronoun("she") is True
@@ -137,6 +140,7 @@ class TestIsPronoun:
 
 
 # ---------- get_all_pronouns ----------
+
 
 class TestGetAllPronouns:
     def test_returns_list(self):

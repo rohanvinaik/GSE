@@ -20,6 +20,7 @@ coherence machinery rather than re-inventing arbitration:
 The committed set is the cheat-sheet: the resolutions that, with the literal GSE pipeline, produce
 clean Innerese. Domain-portable: load a different deck of cassettes per domain.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -45,7 +46,7 @@ class _UnionFind:
     def union(self, a: str, b: str) -> None:
         ra, rb = self.find(a), self.find(b)
         if ra != rb:
-            self.parent[ra] = rb           # bias toward b (the NAME side in a merge)
+            self.parent[ra] = rb  # bias toward b (the NAME side in a merge)
 
     def same(self, a: str, b: str) -> bool:
         return self.find(a) == self.find(b)
@@ -54,10 +55,11 @@ class _UnionFind:
 @dataclass
 class CheatEntry:
     """One committed cassette resolution — a line of the cheat-sheet, with its full provenance."""
+
     cassette: str
-    kind: str                              # "merge" | "split"
-    subject: str                           # the resolved element (description lemma / split id)
-    answer: Any                            # name eid (merge) | partition keys (split)
+    kind: str  # "merge" | "split"
+    subject: str  # the resolved element (description lemma / split id)
+    answer: Any  # name eid (merge) | partition keys (split)
     eid: Optional[str]
     confidence: float
     strands: Dict[str, float] = field(default_factory=dict)
@@ -67,13 +69,23 @@ class CheatEntry:
 @dataclass
 class DeckResult:
     entries: List[CheatEntry]
-    merges: Dict[str, str]                 # description-eid -> name-eid (the bound identities)
+    merges: Dict[str, str]  # description-eid -> name-eid (the bound identities)
     abstained: List[Resolution]
 
     def cheat_sheet(self) -> List[dict]:
-        return [{"cassette": e.cassette, "kind": e.kind, "subject": e.subject,
-                 "answer": e.answer, "eid": e.eid, "confidence": e.confidence,
-                 "strands": e.strands, "note": e.note} for e in self.entries]
+        return [
+            {
+                "cassette": e.cassette,
+                "kind": e.kind,
+                "subject": e.subject,
+                "answer": e.answer,
+                "eid": e.eid,
+                "confidence": e.confidence,
+                "strands": e.strands,
+                "note": e.note,
+            }
+            for e in self.entries
+        ]
 
 
 class CassetteDeck:
@@ -105,8 +117,10 @@ class CassetteDeck:
         vetoed = {r.committed for cas, r in committed if getattr(r.gap, "kind", None) == "veto"}
 
         # 2b. PRIORITY order — most convergent, then most local, then strongest margin
-        committed.sort(key=lambda cr: (cr[1].confidence, cr[1].locality, cr[1].ranked[0].total
-                                       if cr[1].ranked else 0.0), reverse=True)
+        committed.sort(
+            key=lambda cr: (cr[1].confidence, cr[1].locality, cr[1].ranked[0].total if cr[1].ranked else 0.0),
+            reverse=True,
+        )
 
         uf = _UnionFind()
         merges: Dict[str, str] = {}
@@ -115,27 +129,46 @@ class CassetteDeck:
         def commit(cas: Cassette, r: Resolution) -> None:
             g = r.gap
             if getattr(g, "kind", None) == "split":
-                entries.append(CheatEntry(cas.name, "split", f"{g.rep.lemma}[{g.eid}]",
-                                          sorted(r.committed.keys()), g.eid, r.confidence,
-                                          dict(r.ranked[0].strands) if r.ranked else {}, r.note))
+                entries.append(
+                    CheatEntry(
+                        cas.name,
+                        "split",
+                        f"{g.rep.lemma}[{g.eid}]",
+                        sorted(r.committed.keys()),
+                        g.eid,
+                        r.confidence,
+                        dict(r.ranked[0].strands) if r.ranked else {},
+                        r.note,
+                    )
+                )
                 return
             d_eid, n_eid = g.eid, r.committed
             uf.union(d_eid, n_eid)
             merges[d_eid] = uf.find(n_eid)
-            entries.append(CheatEntry(cas.name, "merge", f"{g.rep.lemma}[{d_eid}]", n_eid, d_eid,
-                                      r.confidence, dict(r.ranked[0].strands) if r.ranked else {}, r.note))
+            entries.append(
+                CheatEntry(
+                    cas.name,
+                    "merge",
+                    f"{g.rep.lemma}[{d_eid}]",
+                    n_eid,
+                    d_eid,
+                    r.confidence,
+                    dict(r.ranked[0].strands) if r.ranked else {},
+                    r.note,
+                )
+            )
 
         # 3. GREEDY CASCADE with constraint propagation
         for cas, r in committed:
             g = r.gap
             kind = getattr(g, "kind", None)
             if kind == "veto":
-                continue                       # consumed as a constraint in 2a, not a cheat-sheet line
+                continue  # consumed as a constraint in 2a, not a cheat-sheet line
             if r.confidence < self.min_confidence:
-                continue                       # below the convergence floor — a lone signal, defer/drop
+                continue  # below the convergence floor — a lone signal, defer/drop
             if kind == "merge":
                 if r.committed in vetoed:
-                    continue                   # target vetoed non-person by a validator cassette → drop
+                    continue  # target vetoed non-person by a validator cassette → drop
                 # conflict check: this description already bound to a DIFFERENT referent class → skip
                 if g.eid in merges and not uf.same(g.eid, r.committed):
                     continue
@@ -154,9 +187,18 @@ class CassetteDeck:
                     target = next(iter(classes))
                     uf.union(g.eid, target)
                     merges[g.eid] = uf.find(target)
-                    entries.append(CheatEntry(g.cassette if hasattr(g, "cassette") else "deck",
-                                              "merge", f"{g.rep.lemma}[{g.eid}]", target, g.eid,
-                                              r.confidence, {}, "dissolved: candidates already merged"))
+                    entries.append(
+                        CheatEntry(
+                            g.cassette if hasattr(g, "cassette") else "deck",
+                            "merge",
+                            f"{g.rep.lemma}[{g.eid}]",
+                            target,
+                            g.eid,
+                            r.confidence,
+                            {},
+                            "dissolved: candidates already merged",
+                        )
+                    )
                     continue
             still_abstained.append(r)
 

@@ -21,6 +21,7 @@ Hub-first order is by standalone |cover(v)| (the equation's cover(v)); gold is e
 
 Usage: python scripts/sigma_sem_knee.py [--files N] [--max-sents-per-file M] [--out results.json]
 """
+
 import argparse
 import json
 import math
@@ -60,6 +61,7 @@ def main() -> int:
     args = ap.parse_args()
 
     import nltk
+
     for pkg, path in [("semcor", "corpora/semcor"), ("wordnet", "corpora/wordnet")]:
         try:
             nltk.data.find(path)
@@ -99,7 +101,8 @@ def main() -> int:
 
     total = len(pool)
     if total < 20:
-        print("pool too small — increase --files"); return 1
+        print("pool too small — increase --files")
+        return 1
     H0 = sum(math.log2(1 + len(t["comps"])) for t in pool)
 
     def resolves(i, ctx):
@@ -164,31 +167,51 @@ def main() -> int:
     tail = sum(deltas[hstar_ts:]) / max(1, len(deltas) - hstar_ts)
 
     res = {
-        "pool": total, "H0_bits": round(H0, 1),
+        "pool": total,
+        "H0_bits": round(H0, 1),
         "hub_score": {
-            "max": max(hub), "mean": round(sum(hub) / total, 2), "nonzero": len(nz),
-            "top_decile_coverage_share": round(top_share, 3), "gini": round(gini, 3),
-            "powerlaw_gamma": (round(gamma, 2) if gamma else None), "gamma_tail_n": n_tail, "xmin": xmin,
+            "max": max(hub),
+            "mean": round(sum(hub) / total, 2),
+            "nonzero": len(nz),
+            "top_decile_coverage_share": round(top_share, 3),
+            "gini": round(gini, 3),
+            "powerlaw_gamma": (round(gamma, 2) if gamma else None),
+            "gamma_tail_n": n_tail,
+            "xmin": xmin,
         },
-        "Hstar_transition_step": hstar_ts, "Hstar_transition_frac": round(hstar_ts / total, 3),
-        "Hstar_knee_curvature": hstar_knee, "Hstar_knee_frac": round(hstar_knee / total, 3),
-        "Hstar_bits_unresolved": round(Hstar_bits, 1), "Hstar_over_H0": round(Hstar_bits / H0, 3) if H0 else None,
-        "bulk_amp_per_fact": round(bulk, 2), "tail_amp_per_fact": round(tail, 2),
+        "Hstar_transition_step": hstar_ts,
+        "Hstar_transition_frac": round(hstar_ts / total, 3),
+        "Hstar_knee_curvature": hstar_knee,
+        "Hstar_knee_frac": round(hstar_knee / total, 3),
+        "Hstar_bits_unresolved": round(Hstar_bits, 1),
+        "Hstar_over_H0": round(Hstar_bits / H0, 3) if H0 else None,
+        "bulk_amp_per_fact": round(bulk, 2),
+        "tail_amp_per_fact": round(tail, 2),
         "bulk_tail_ratio": round(bulk / tail, 1) if tail > 0 else None,
-        "greedy_bulk_len": len(order), "reachable_coverage": len(reachable),
+        "greedy_bulk_len": len(order),
+        "reachable_coverage": len(reachable),
         "reachable_frac": round(len(reachable) / total, 3),
-        "curve_deltas_head": deltas[:20], "cum_coverage_final": cum[-1] if cum else 0,
+        "curve_deltas_head": deltas[:20],
+        "cum_coverage_final": cum[-1] if cum else 0,
     }
     Path(args.out).write_text(json.dumps(res, indent=2))
 
-    print(f"\nHUB-SCORE |cover(v)|: max={res['hub_score']['max']} mean={res['hub_score']['mean']} "
-          f"top-decile share={top_share:.0%} Gini={gini:.2f} γ≈{res['hub_score']['powerlaw_gamma']} (n_tail={n_tail})")
+    print(
+        f"\nHUB-SCORE |cover(v)|: max={res['hub_score']['max']} mean={res['hub_score']['mean']} "
+        f"top-decile share={top_share:.0%} Gini={gini:.2f} γ≈{res['hub_score']['powerlaw_gamma']} (n_tail={n_tail})"
+    )
     heavy = top_share > 0.5 and gini > 0.5
-    print(f"  → tail is {'HEAVY (sharp knee expected)' if heavy else 'LIGHT (expect a smooth decline, not a sharp knee)'}")
-    print(f"\nH*  transition-step (Δ<2): fact #{hstar_ts} ({100*hstar_ts/total:.0f}% of curriculum), "
-          f"= {Hstar_bits:.0f} bits unresolved ({100*Hstar_bits/H0:.0f}% of H₀)")
-    print(f"H*  curvature knee       : fact #{hstar_knee} ({100*hstar_knee/total:.0f}%)  "
-          f"[{'AGREES' if abs(hstar_ts-hstar_knee) <= max(3, total//20) else 'DIVERGES'} with transition-step]")
+    print(
+        f"  → tail is {'HEAVY (sharp knee expected)' if heavy else 'LIGHT (expect a smooth decline, not a sharp knee)'}"
+    )
+    print(
+        f"\nH*  transition-step (Δ<2): fact #{hstar_ts} ({100 * hstar_ts / total:.0f}% of curriculum), "
+        f"= {Hstar_bits:.0f} bits unresolved ({100 * Hstar_bits / H0:.0f}% of H₀)"
+    )
+    print(
+        f"H*  curvature knee       : fact #{hstar_knee} ({100 * hstar_knee / total:.0f}%)  "
+        f"[{'AGREES' if abs(hstar_ts - hstar_knee) <= max(3, total // 20) else 'DIVERGES'} with transition-step]"
+    )
     print(f"\nbulk amp = {bulk:.2f}/fact  →  tail amp = {tail:.2f}/fact   (ratio {res['bulk_tail_ratio']}×)")
     print(f"\nsaved → {args.out}")
     return 0

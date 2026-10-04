@@ -40,13 +40,50 @@ BIPOLAR_PAIRS = [
 
 # Single primitives (not in bipolar pairs)
 SINGLE_PRIMITIVES = [
-    "I", "YOU", "SOMEONE", "SOMETHING", "PEOPLE", "BODY", "KIND", "PART",
-    "ONE", "TWO", "QUANTITY",
-    "THINK", "KNOW", "WANT", "FEEL", "SEE", "HEAR", "INFER",
-    "SAY", "WORDS", "DO", "HAPPEN", "MOVE", "BE", "HAVE", "EXIST",
-    "MOMENT", "WHEN", "WHERE", "HERE", "SIDE", "TOUCH",
-    "NOT", "MAYBE", "CAN", "MUST", "BECAUSE", "CAUSE", "IF", "LIKE",
-    "HIER_PLUS", "HIER_MINUS", "INTENSITY", "CERTAINTY",
+    "I",
+    "YOU",
+    "SOMEONE",
+    "SOMETHING",
+    "PEOPLE",
+    "BODY",
+    "KIND",
+    "PART",
+    "ONE",
+    "TWO",
+    "QUANTITY",
+    "THINK",
+    "KNOW",
+    "WANT",
+    "FEEL",
+    "SEE",
+    "HEAR",
+    "INFER",
+    "SAY",
+    "WORDS",
+    "DO",
+    "HAPPEN",
+    "MOVE",
+    "BE",
+    "HAVE",
+    "EXIST",
+    "MOMENT",
+    "WHEN",
+    "WHERE",
+    "HERE",
+    "SIDE",
+    "TOUCH",
+    "NOT",
+    "MAYBE",
+    "CAN",
+    "MUST",
+    "BECAUSE",
+    "CAUSE",
+    "IF",
+    "LIKE",
+    "HIER_PLUS",
+    "HIER_MINUS",
+    "INTENSITY",
+    "CERTAINTY",
 ]
 
 
@@ -83,6 +120,7 @@ Answer each as "word: Y/N/O" on separate lines:"""
 @dataclass
 class SweepStats:
     """Statistics for the sweep."""
+
     primitives_processed: int = 0
     words_processed: int = 0
     values_set: int = 0
@@ -117,12 +155,15 @@ class PrimitiveSweep:
 
     def get_top_words(self, limit: int = 1000) -> List[Tuple[int, str]]:
         """Get top N words by frequency rank."""
-        cursor = self.conn.execute("""
+        cursor = self.conn.execute(
+            """
             SELECT id, lemma FROM lexemes
             WHERE frequency_rank IS NOT NULL
             ORDER BY frequency_rank
             LIMIT ?
-        """, (limit,))
+        """,
+            (limit,),
+        )
         return cursor.fetchall()
 
     def parse_bipolar_response(
@@ -134,6 +175,7 @@ class PrimitiveSweep:
     ) -> Dict[str, Tuple[int, int]]:
         """Parse batch response for bipolar pair."""
         import re
+
         results = {}
 
         for word in words:
@@ -142,15 +184,15 @@ class PrimitiveSweep:
 
             # Look for exact pattern: "word: A/B/N" with word boundaries
             # Handle various formats: "word: A", "word:A", "word - A", etc.
-            pattern = rf'\b{re.escape(word)}\b\s*[:=-]\s*([ABN])\b'
+            pattern = rf"\b{re.escape(word)}\b\s*[:=-]\s*([ABN])\b"
 
-            for line in response.split('\n'):
+            for line in response.split("\n"):
                 match = re.search(pattern, line, re.IGNORECASE)
                 if match:
                     answer = match.group(1).upper()
-                    if answer == 'A':
+                    if answer == "A":
                         val_a, val_b = 1, 0
-                    elif answer == 'B':
+                    elif answer == "B":
                         val_a, val_b = 0, 1
                     # N = neither, keep (0, 0)
                     break
@@ -166,21 +208,22 @@ class PrimitiveSweep:
     ) -> Dict[str, int]:
         """Parse batch response for single primitive."""
         import re
+
         results = {}
 
         for word in words:
             val = 0  # Default
 
             # Look for exact pattern: "word: Y/N/O" with word boundaries
-            pattern = rf'\b{re.escape(word)}\b\s*[:=-]\s*([YNO])\b'
+            pattern = rf"\b{re.escape(word)}\b\s*[:=-]\s*([YNO])\b"
 
-            for line in response.split('\n'):
+            for line in response.split("\n"):
                 match = re.search(pattern, line, re.IGNORECASE)
                 if match:
                     answer = match.group(1).upper()
-                    if answer == 'Y':
+                    if answer == "Y":
                         val = 1
-                    elif answer == 'O':
+                    elif answer == "O":
                         val = -1
                     # N = no, keep 0
                     break
@@ -200,7 +243,7 @@ class PrimitiveSweep:
 
         # Process in batches
         for i in range(0, len(words), self.batch_size):
-            batch = words[i:i + self.batch_size]
+            batch = words[i : i + self.batch_size]
             word_list = [w[1] for w in batch]
 
             prompt = get_bipolar_batch_prompt(word_list, pole_a, pole_b)
@@ -215,18 +258,24 @@ class PrimitiveSweep:
                 results = self.parse_bipolar_response(response, word_list, pole_a, pole_b)
 
                 # Store results
-                for (lex_id, lemma), (val_a, val_b) in zip(batch, [results.get(w, (0,0)) for w in word_list]):
-                    self.conn.execute("""
+                for (lex_id, lemma), (val_a, val_b) in zip(batch, [results.get(w, (0, 0)) for w in word_list]):
+                    self.conn.execute(
+                        """
                         INSERT OR REPLACE INTO primitive_values
                         (lexeme_id, primitive, value, confidence, source)
                         VALUES (?, ?, ?, ?, ?)
-                    """, (lex_id, pole_a, val_a, 0.75, f"sweep:{self.model}"))
+                    """,
+                        (lex_id, pole_a, val_a, 0.75, f"sweep:{self.model}"),
+                    )
 
-                    self.conn.execute("""
+                    self.conn.execute(
+                        """
                         INSERT OR REPLACE INTO primitive_values
                         (lexeme_id, primitive, value, confidence, source)
                         VALUES (?, ?, ?, ?, ?)
-                    """, (lex_id, pole_b, val_b, 0.75, f"sweep:{self.model}"))
+                    """,
+                        (lex_id, pole_b, val_b, 0.75, f"sweep:{self.model}"),
+                    )
 
                     if val_a or val_b:
                         values_set += 1
@@ -248,7 +297,7 @@ class PrimitiveSweep:
         values_set = 0
 
         for i in range(0, len(words), self.batch_size):
-            batch = words[i:i + self.batch_size]
+            batch = words[i : i + self.batch_size]
             word_list = [w[1] for w in batch]
 
             prompt = get_single_batch_prompt(word_list, primitive)
@@ -263,13 +312,16 @@ class PrimitiveSweep:
                 results = self.parse_single_response(response, word_list)
 
                 # Store results
-                for (lex_id, lemma) in batch:
+                for lex_id, lemma in batch:
                     val = results.get(lemma, 0)
-                    self.conn.execute("""
+                    self.conn.execute(
+                        """
                         INSERT OR REPLACE INTO primitive_values
                         (lexeme_id, primitive, value, confidence, source)
                         VALUES (?, ?, ?, ?, ?)
-                    """, (lex_id, primitive, val, 0.75, f"sweep:{self.model}"))
+                    """,
+                        (lex_id, primitive, val, 0.75, f"sweep:{self.model}"),
+                    )
 
                     if val:
                         values_set += 1
@@ -342,10 +394,7 @@ class PrimitiveSweep:
 def main():
     import argparse
 
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(levelname)s - %(message)s"
-    )
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
     parser = argparse.ArgumentParser(description="Primitive Sweep")
     parser.add_argument("--db", default="data/lexicon.db")
@@ -368,9 +417,9 @@ def main():
             start_primitive=args.start,
         )
 
-        print("\n" + "="*50)
+        print("\n" + "=" * 50)
         print("SWEEP COMPLETE")
-        print("="*50)
+        print("=" * 50)
         print(f"Primitives processed: {stats.primitives_processed}")
         print(f"Words processed: {stats.words_processed}")
         print(f"Values set (non-zero): {stats.values_set}")

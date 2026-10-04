@@ -38,6 +38,7 @@ The envelope holds NO repair logic and makes NO firing decision; it is pure anno
 intake; carried forward verbatim. Laws not yet carved read tags DESIGNED from their signature — each
 per-law carve still VALIDATES its tag against that law's real near-misses (validate-on-real-input).
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -46,12 +47,14 @@ from typing import Dict, FrozenSet, Optional, Tuple
 from nltk.corpus import wordnet as wn
 
 # Determiner/preposition before an -ing token = gerund-noun signal (not a progressive verb).
-DET_PREP = frozenset({"the", "a", "an", "any", "some", "no", "this", "that",
-                      "of", "by", "with", "for", "in", "without", "from"})
+DET_PREP = frozenset(
+    {"the", "a", "an", "any", "some", "no", "this", "that", "of", "by", "with", "for", "in", "without", "from"}
+)
 # Coordinators (L2/L7) and embedded-clause subordinators/complementizers (L5).
 COORD = frozenset({"and", "or", "nor", "but"})
-SUBORDINATORS = frozenset({"that", "what", "which", "who", "whom", "whose",
-                           "how", "when", "where", "why", "whether", "if"})
+SUBORDINATORS = frozenset(
+    {"that", "what", "which", "who", "whom", "whose", "how", "when", "where", "why", "whether", "if"}
+)
 
 
 # ---- WordNet sense facts (dictionary lookups, NOT word lists) -----------------------------------
@@ -82,6 +85,7 @@ def is_verb_inflected(surface: str, lemma: str) -> bool:
 @dataclass
 class StatementMeta:
     """The envelope — off-site context per statement (see module docstring for the tag map)."""
+
     genre: Optional[str]
     super_register: Optional[str]
     # per-position views (Atom nodes carry .position)
@@ -182,20 +186,23 @@ def build_envelope(trace, genre: Optional[str] = None) -> StatementMeta:
     try:
         if genre is not None:
             from gse.discourse import super_register_of
+
             super_reg = super_register_of(genre)
     except Exception:
         super_reg = genre
     try:
         from gse.discourse.speech import _SAY_VERBS
+
         say_verbs = _SAY_VERBS
     except Exception:
         pass
     try:
         from gse.symbolic.grounding import _DEICTIC_PERSON
+
         deictic_set = _DEICTIC_PERSON
     except Exception:
         pass
-    try:                                          # v3 semantic layer: GSE's OWN native role fn
+    try:  # v3 semantic layer: GSE's OWN native role fn
         from gse.symbolic.narrative import classify as _classify
     except Exception:
         _classify = None
@@ -221,9 +228,11 @@ def build_envelope(trace, genre: Optional[str] = None) -> StatementMeta:
         surf = (t.token or "").lower()
         lem = (t.lemma or "").lower()
         p = t.position
-        senses[p] = {"v": _has_verb_sense(lem) or _has_verb_sense(surf),
-                     "a": _has_adj_sense(surf) or _has_adj_sense(lem),
-                     "n": _has_noun_sense(surf) or _has_noun_sense(lem)}
+        senses[p] = {
+            "v": _has_verb_sense(lem) or _has_verb_sense(surf),
+            "a": _has_adj_sense(surf) or _has_adj_sense(lem),
+            "n": _has_noun_sense(surf) or _has_noun_sense(lem),
+        }
         surface[p] = t.token
         lemma_map[p] = lem
         pos_map[p] = t.pos
@@ -231,7 +240,7 @@ def build_envelope(trace, genre: Optional[str] = None) -> StatementMeta:
         prev_lemma = (toks[i - 1].lemma or "").lower() if i > 0 else ""
         prev_pos = toks[i - 1].pos if i > 0 else ""
         prev[p] = (prev_lemma, prev_pos)
-        nxt[p] = (((toks[i + 1].lemma or "").lower(), toks[i + 1].pos) if i + 1 < len(toks) else ("", ""))
+        nxt[p] = ((toks[i + 1].lemma or "").lower(), toks[i + 1].pos) if i + 1 < len(toks) else ("", "")
         prev_func[p] = prev_lemma in DET_PREP
         # v3 semantic layer — the parse-time NSM decomposition (thread-free; grounding is layered in _finalize)
         wp = getattr(t, "word_primitives", None) or {}
@@ -258,18 +267,31 @@ def build_envelope(trace, genre: Optional[str] = None) -> StatementMeta:
                 continue
             e = lex.get(key)
             if e is None:
-                e = {"v": _has_verb_sense(key), "a": _has_adj_sense(key),
-                     "n": _has_noun_sense(key), "pos": set()}
+                e = {"v": _has_verb_sense(key), "a": _has_adj_sense(key), "n": _has_noun_sense(key), "pos": set()}
                 lex[key] = e
             e["pos"].add(t.pos)  # type: ignore[union-attr]
     for e in lex.values():
         e["pos"] = frozenset(e["pos"])  # type: ignore[arg-type]
 
     return StatementMeta(
-        genre=genre, super_register=super_reg,
-        senses=senses, prev_func=prev_func, surface=surface, lemma=lemma_map, pos=pos_map,
-        inflected=inflected, prev=prev, next=nxt, lex=lex,
-        prims=prims_map, banks=banks_map, role=role_map, eligible=elig_map,
-        has_copula=has_copula, has_coord=has_coord,
-        subordinators=frozenset(subs), speech_verbs=frozenset(speech), deictics=frozenset(deic),
+        genre=genre,
+        super_register=super_reg,
+        senses=senses,
+        prev_func=prev_func,
+        surface=surface,
+        lemma=lemma_map,
+        pos=pos_map,
+        inflected=inflected,
+        prev=prev,
+        next=nxt,
+        lex=lex,
+        prims=prims_map,
+        banks=banks_map,
+        role=role_map,
+        eligible=elig_map,
+        has_copula=has_copula,
+        has_coord=has_coord,
+        subordinators=frozenset(subs),
+        speech_verbs=frozenset(speech),
+        deictics=frozenset(deic),
     )

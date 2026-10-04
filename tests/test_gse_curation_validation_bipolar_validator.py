@@ -17,6 +17,7 @@ from gse.curation.validation.bipolar_validator import (
 
 # ---------- ValidationResult ----------
 
+
 class TestValidationResultDC:
     def test_defaults(self):
         r = ValidationResult(passed=True, validation_type="x")
@@ -25,6 +26,7 @@ class TestValidationResultDC:
 
 
 # ---------- BipolarValidator ----------
+
 
 @pytest.fixture
 def validator():
@@ -52,10 +54,14 @@ class TestValidate:
         assert result.violations[0]["negative_value"] == -1
 
     def test_multiple_violations(self, validator):
-        result = validator.validate({
-            "GOOD": 1, "BAD": 1,
-            "BIG": 1, "SMALL": 1,
-        })
+        result = validator.validate(
+            {
+                "GOOD": 1,
+                "BAD": 1,
+                "BIG": 1,
+                "SMALL": 1,
+            }
+        )
         assert len(result.violations) == 2
 
     def test_validation_type_label(self, validator):
@@ -64,6 +70,7 @@ class TestValidate:
 
 
 # ---------- fix_violations ----------
+
 
 class TestFixViolations:
     def test_no_violations_no_fix(self, validator):
@@ -86,6 +93,7 @@ class TestFixViolations:
 
 
 # ---------- canonicalize ----------
+
 
 class TestCanonicalize:
     def test_negative_pole_only_converts(self, validator):
@@ -113,6 +121,7 @@ class TestCanonicalize:
 
 
 # ---------- validate_bipolar (convenience) ----------
+
 
 class TestValidateBipolarFunction:
     def test_returns_result(self):

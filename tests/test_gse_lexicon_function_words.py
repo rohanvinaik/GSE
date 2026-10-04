@@ -20,6 +20,7 @@ from gse.lexicon.function_words import (
 
 # ---------- DETERMINER_ENCODINGS ----------
 
+
 class TestDeterminerEncodings:
     def test_the_definite(self):
         assert DETERMINER_ENCODINGS["the"] == {"definiteness": "DEFINITE"}
@@ -63,6 +64,7 @@ class TestDeterminerEncodings:
 
 # ---------- CONJUNCTION_ENCODINGS ----------
 
+
 class TestConjunctionEncodings:
     def test_and_additive(self):
         c = CONJUNCTION_ENCODINGS["and"]
@@ -105,6 +107,7 @@ class TestConjunctionEncodings:
 
 # ---------- PREPOSITION_ENCODINGS ----------
 
+
 class TestPrepositionEncodings:
     def test_in_containment_duration(self):
         p = PREPOSITION_ENCODINGS["in"]
@@ -137,6 +140,7 @@ class TestPrepositionEncodings:
 
 # ---------- get_determiner_encoding ----------
 
+
 class TestGetDeterminerEncoding:
     def test_known_word(self):
         assert get_determiner_encoding("the") == {"definiteness": "DEFINITE"}
@@ -153,6 +157,7 @@ class TestGetDeterminerEncoding:
 
 
 # ---------- get_conjunction_encoding ----------
+
 
 class TestGetConjunctionEncoding:
     def test_known_word(self):
@@ -173,6 +178,7 @@ class TestGetConjunctionEncoding:
 
 
 # ---------- get_preposition_encoding ----------
+
 
 class TestGetPrepositionEncoding:
     def test_known_word(self):

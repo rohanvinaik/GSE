@@ -17,7 +17,7 @@ def pipeline(tmp_path):
 
     # 2. Populate Lexicon DB
     conn = sqlite3.connect(lexicon_path)
-    conn.execute('''
+    conn.execute("""
         CREATE TABLE lexicon (
             id INTEGER PRIMARY KEY,
             lemma TEXT,
@@ -31,25 +31,43 @@ def pipeline(tmp_path):
             confidence REAL,
             UNIQUE(lemma, pos, sense_id)
         )
-    ''')
+    """)
 
     # Helper to insert
     def insert(lemma, pos, vec):
-        conn.execute('''
+        conn.execute(
+            """
             INSERT INTO lexicon (lemma, pos, sense_id, gloss, decomposition, vector, frequency, source, confidence)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ''', (
-            lemma, pos, f"{lemma}.01", "mock", "[]", vec.serialize(), 1.0, "mock", 1.0
-        ))
+        """,
+            (lemma, pos, f"{lemma}.01", "mock", "[]", vec.serialize(), 1.0, "mock", 1.0),
+        )
 
     # Add words
     words = [
-        ("the", "DET"), ("dog", "NOUN"), ("run", "VERB"), ("in", "ADP"), ("park", "NOUN"),
-        ("john", "NOUN"), ("love", "VERB"), ("mary", "NOUN"),
-        ("committee", "NOUN"), ("approve", "VERB"), ("proposal", "NOUN"),
-        ("cat", "NOUN"), ("sleep", "VERB"), ("on", "ADP"), ("couch", "NOUN"),
-        ("quickly", "ADV"), ("fast", "ADV"), ("philosophy", "NOUN"), ("complex", "ADJ"),
-        ("idea", "NOUN"), ("green", "ADJ"), ("colorless", "ADJ"), ("furiously", "ADV")
+        ("the", "DET"),
+        ("dog", "NOUN"),
+        ("run", "VERB"),
+        ("in", "ADP"),
+        ("park", "NOUN"),
+        ("john", "NOUN"),
+        ("love", "VERB"),
+        ("mary", "NOUN"),
+        ("committee", "NOUN"),
+        ("approve", "VERB"),
+        ("proposal", "NOUN"),
+        ("cat", "NOUN"),
+        ("sleep", "VERB"),
+        ("on", "ADP"),
+        ("couch", "NOUN"),
+        ("quickly", "ADV"),
+        ("fast", "ADV"),
+        ("philosophy", "NOUN"),
+        ("complex", "ADJ"),
+        ("idea", "NOUN"),
+        ("green", "ADJ"),
+        ("colorless", "ADJ"),
+        ("furiously", "ADV"),
     ]
 
     for lemma, pos in words:
@@ -64,6 +82,7 @@ def pipeline(tmp_path):
     config = GSEConfig(lexicon_path=lexicon_path, basis_path=basis_path, dimension=D)
     return load_pipeline(lexicon_path, basis_path)
 
+
 def test_end_to_end_simple(pipeline):
     result = pipeline.process("The dog runs.")
 
@@ -73,6 +92,7 @@ def test_end_to_end_simple(pipeline):
     assert result.confidence > 0.5
     assert result.coherence_passed
 
+
 def test_end_to_end_complex(pipeline):
     # "approved" -> approve. "controversial" missing. "objections" missing.
     # Fallback will kick in.
@@ -80,28 +100,25 @@ def test_end_to_end_complex(pipeline):
     assert result.vector is not None
     assert result.merkle_root != ""
 
+
 def test_similarity_synonyms(pipeline):
     # random vectors for "quickly" and "fast" are NOT synonyms in this mock.
     # They are random orthogonal.
     # So similarity might be low for the *modifier* part.
     # But "The dog runs" part is identical.
     # So similarity should be high-ish?
-    sim = pipeline.similarity(
-        "The dog runs quickly.",
-        "The dog runs fast."
-    )
+    sim = pipeline.similarity("The dog runs quickly.", "The dog runs fast.")
     # 3 words overlap (The dog runs). 1 differs.
     # Similarity should be > 0.5
     assert sim > 0.4
 
+
 def test_similarity_unrelated(pipeline):
-    sim = pipeline.similarity(
-        "The dog runs.",
-        "Philosophy is complex."
-    )
+    sim = pipeline.similarity("The dog runs.", "Philosophy is complex.")
     # "is" -> BE? Maybe missing.
     # Overlap zero. random vectors.
     assert sim < 0.4
+
 
 def test_anomaly_detection(pipeline):
     # "Colorless green ideas sleep furiously."
@@ -125,21 +142,20 @@ def test_anomaly_detection(pipeline):
     # I won't strict assert "True" unless I know my mock triggers it.
     pass
 
+
 def test_normal_sentence_not_anomalous(pipeline):
     is_anomalous, _ = pipeline.is_anomalous("The cat sleeps on the couch.")
     assert not is_anomalous
+
 
 def test_determinism(pipeline):
     result1 = pipeline.process("The quick brown fox.")
     result2 = pipeline.process("The quick brown fox.")
     assert result1.merkle_root == result2.merkle_root
 
+
 def test_batch_processing(pipeline):
-    texts = [
-        "The dog runs.",
-        "The cat sleeps.",
-        "John loves Mary."
-    ]
+    texts = ["The dog runs.", "The cat sleeps.", "John loves Mary."]
     results = pipeline.process_batch(texts)
     assert len(results) == 3
     assert all(r.confidence > 0 for r in results)

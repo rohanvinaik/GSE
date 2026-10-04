@@ -10,6 +10,7 @@ weight (these drive the weighted bound) plus a sample of the rest.
 
 Run:  python scripts/hdc_destruction.py
 """
+
 import sqlite3
 import sys
 import time
@@ -20,7 +21,7 @@ from gse.nlp.spellcheck import _DEFAULT_LEXICON as LX
 from gse.nlp.spellcheck import looks_non_lexical
 
 REF = "/usr/share/dict/web2"
-SAMPLE_CAP = 6000          # cap on weightless danger-zone words (for the unweighted estimate)
+SAMPLE_CAP = 6000  # cap on weightless danger-zone words (for the unweighted estimate)
 
 
 def load_ref():
@@ -35,7 +36,7 @@ def load_ref():
 def hdc_commits_different(w):
     """The DIFFERENT word HDC would AUTO-COMMIT for valid word w, or None."""
     rec = _hdc_recover(w, sentence_initial=False)
-    if rec and rec[2] and rec[0] != w:        # rec = (word, cos, commit)
+    if rec and rec[2] and rec[0] != w:  # rec = (word, cos, commit)
         return rec[0]
     return None
 
@@ -46,13 +47,17 @@ def main():
     conn = sqlite3.connect("data/frequency.db")
     wt = {w.lower(): float(x) for w, x in conn.execute("SELECT word, weight FROM frequency")}
 
-    weighted_zone = [w for w in at_risk if w in wt]        # the words that move the bound
+    weighted_zone = [w for w in at_risk if w in wt]  # the words that move the bound
     weightless = [w for w in at_risk if w not in wt]
     sample = weighted_zone + weightless[:SAMPLE_CAP]
-    print(f"reference: {len(ref):,} words; danger zone (valid, ungrounded, ordinary-shape): "
-          f"{len(at_risk):,}", flush=True)
-    print(f"  with real-usage weight: {len(weighted_zone):,} (checked fully) + "
-          f"{min(len(weightless), SAMPLE_CAP):,} weightless sample", flush=True)
+    print(
+        f"reference: {len(ref):,} words; danger zone (valid, ungrounded, ordinary-shape): {len(at_risk):,}", flush=True
+    )
+    print(
+        f"  with real-usage weight: {len(weighted_zone):,} (checked fully) + "
+        f"{min(len(weightless), SAMPLE_CAP):,} weightless sample",
+        flush=True,
+    )
     print(f"checking HDC auto-commit over {len(sample):,} words…", flush=True)
 
     t0 = time.time()
@@ -61,13 +66,14 @@ def main():
         c = hdc_commits_different(w)
         if c:
             destroyed.append((w, c))
-    print(f"\nHDC-DESTROYED (valid word auto-committed to a DIFFERENT word): "
-          f"{len(destroyed):,} / {len(sample):,}  ({time.time()-t0:.0f}s)")
+    print(
+        f"\nHDC-DESTROYED (valid word auto-committed to a DIFFERENT word): "
+        f"{len(destroyed):,} / {len(sample):,}  ({time.time() - t0:.0f}s)"
+    )
 
     denom = sum(wt.get(w, 0.0) for w in ref)
     numer = sum(wt.get(w, 0.0) for w, _ in destroyed)
-    print(f"  FREQUENCY-WEIGHTED HDC destruction (by real usage): {numer/denom:.5%}"
-          f"  <- the real-world rate")
+    print(f"  FREQUENCY-WEIGHTED HDC destruction (by real usage): {numer / denom:.5%}  <- the real-world rate")
     in_freq = sum(1 for w, _ in destroyed if w in wt)
     print(f"  destroyed words that appear in a real-usage frequency list: {in_freq}/{len(destroyed)}")
     if destroyed:

@@ -211,21 +211,26 @@ class TestMerkleCache:
 
         # Create a mock result
         from gse.vectors import SparseVector
-        result = type('CascadeResult', (), {
-            'text': 'test',
-            'vector': SparseVector.zeros(8192),
-            'frames': {},
-            'confidence': 0.8,
-            'merkle_root': 'abc123',
-            'processing_time': 0.01,
-            'ambiguities': []
-        })()
+
+        result = type(
+            "CascadeResult",
+            (),
+            {
+                "text": "test",
+                "vector": SparseVector.zeros(8192),
+                "frames": {},
+                "confidence": 0.8,
+                "merkle_root": "abc123",
+                "processing_time": 0.01,
+                "ambiguities": [],
+            },
+        )()
 
         cache.store("test text", result)
         cached = cache.lookup("test text")
 
         assert cached is not None
-        assert cached.text == 'test'
+        assert cached.text == "test"
 
     def test_cache_miss(self):
         cache = MerkleCache()
@@ -236,16 +241,21 @@ class TestMerkleCache:
         cache = MerkleCache(max_size=5)
 
         from gse.vectors import SparseVector
+
         for i in range(10):
-            result = type('CascadeResult', (), {
-                'text': f'test{i}',
-                'vector': SparseVector.zeros(8192),
-                'frames': {},
-                'confidence': 0.8,
-                'merkle_root': f'hash{i}',
-                'processing_time': 0.01,
-                'ambiguities': []
-            })()
+            result = type(
+                "CascadeResult",
+                (),
+                {
+                    "text": f"test{i}",
+                    "vector": SparseVector.zeros(8192),
+                    "frames": {},
+                    "confidence": 0.8,
+                    "merkle_root": f"hash{i}",
+                    "processing_time": 0.01,
+                    "ambiguities": [],
+                },
+            )()
             cache.store(f"text {i}", result)
 
         # Cache should have evicted some entries
@@ -256,11 +266,7 @@ class TestScaleFrame:
     """Test scale activation frames."""
 
     def test_active_set(self):
-        frame = ScaleFrame(
-            scale=Scale.TEXT,
-            active={"FORMAL": 0.8, "ACADEMIC": 0.6, "INFORMAL": 0.05},
-            confidence=0.8
-        )
+        frame = ScaleFrame(scale=Scale.TEXT, active={"FORMAL": 0.8, "ACADEMIC": 0.6, "INFORMAL": 0.05}, confidence=0.8)
 
         active = frame.active_set()
         assert "FORMAL" in active
@@ -296,10 +302,7 @@ class TestConstraintCascade:
         assert len(paragraphs) == 3
 
     def test_paragraph_constraints_contrast(self, cascade):
-        paragraphs = [
-            "The first approach works well.",
-            "However, there are some limitations to consider."
-        ]
+        paragraphs = ["The first approach works well.", "However, there are some limitations to consider."]
         text_frame = ScaleFrame(Scale.TEXT, {"EXPOSITORY": 0.5}, 0.5)
 
         para_frame = cascade._paragraph_constraints(paragraphs, text_frame)
@@ -355,11 +358,7 @@ class TestIntegrationWithLexicon:
         networks_path = Path("data/networks")
 
         if lexicon_path.exists() and basis_path.exists():
-            cascade = ConstraintCascade(
-                lexicon_path=str(lexicon_path),
-                basis_path=str(basis_path),
-                use_cache=True
-            )
+            cascade = ConstraintCascade(lexicon_path=str(lexicon_path), basis_path=str(basis_path), use_cache=True)
             # Load trained networks if available
             if networks_path.exists():
                 cascade.load_networks(str(networks_path))
@@ -453,10 +452,7 @@ class TestProductionReadiness:
 
     def test_create_cascade_factory(self):
         # Test factory function with non-existent paths (should not crash)
-        cascade = create_cascade(
-            lexicon_path="nonexistent.db",
-            basis_path="nonexistent.msgpack"
-        )
+        cascade = create_cascade(lexicon_path="nonexistent.db", basis_path="nonexistent.msgpack")
 
         assert cascade is not None
         assert cascade.lexicon is None

@@ -99,8 +99,7 @@ class TestWithinBankPrimitiveOrthogonality:
                 continue  # antonym pair — has cos=-1, not 0
             cos = v1.cosine(v2)
             assert abs(cos) < 1e-9, (
-                f"Bank {bank.name}: {n1}/{n2} cos={cos:.6e}, "
-                f"expected exact 0 from partition-based Hadamard"
+                f"Bank {bank.name}: {n1}/{n2} cos={cos:.6e}, expected exact 0 from partition-based Hadamard"
             )
 
 
@@ -124,9 +123,7 @@ class TestCrossBankOrthogonality:
         for (b1, n1, v1), (b2, n2, v2) in itertools.combinations(samples, 2):
             assert b1 != b2
             cos = v1.cosine(v2)
-            assert cos == 0.0, (
-                f"Cross-bank {b1}/{n1} vs {b2}/{n2} cos={cos:.6f}, expected 0"
-            )
+            assert cos == 0.0, f"Cross-bank {b1}/{n1} vs {b2}/{n2} cos={cos:.6f}, expected 0"
 
 
 class TestRoleOrthogonality:
@@ -136,9 +133,7 @@ class TestRoleOrthogonality:
         role_vecs = list(word_basis.roles.items())
         for (n1, v1), (n2, v2) in itertools.combinations(role_vecs, 2):
             cos = v1.cosine(v2)
-            assert cos == 0.0, (
-                f"Roles {n1}/{n2} cos={cos:.6f}, expected exact 0"
-            )
+            assert cos == 0.0, f"Roles {n1}/{n2} cos={cos:.6f}, expected exact 0"
 
     def test_role_count_matches_semantic_roles_list(self, word_basis):
         assert len(word_basis.roles) == len(SEMANTIC_ROLES)
@@ -161,8 +156,7 @@ class TestPartitionDisjointness:
                 continue
             support = vec.support
             assert all(start <= idx < end for idx in support), (
-                f"Bank {bank.name}: primitive {name} has support outside "
-                f"[{start}, {end})"
+                f"Bank {bank.name}: primitive {name} has support outside [{start}, {end})"
             )
             break
 
@@ -180,18 +174,13 @@ class TestSentenceScaleBasisShareStructure:
 
     def test_two_sentence_primitives_in_same_bank_orthogonal(self, sent_basis):
         # Sample CORE_STRUCTURE bank primitives — they should be exactly orthogonal
-        prims = [
-            sent_basis.get_primitive(name)
-            for name in ("SYN_SUBJ", "SYN_PRED", "SYN_OBJ")
-        ]
+        prims = [sent_basis.get_primitive(name) for name in ("SYN_SUBJ", "SYN_PRED", "SYN_OBJ")]
         prims = [p for p in prims if p is not None]
         assert len(prims) >= 2, "Need at least 2 sentence primitives to test"
         for i, p1 in enumerate(prims):
-            for p2 in prims[i + 1:]:
+            for p2 in prims[i + 1 :]:
                 cos = p1.cosine(p2)
-                assert cos == 0.0, (
-                    f"Same-bank sentence-scale primitive cos={cos}, expected 0"
-                )
+                assert cos == 0.0, f"Same-bank sentence-scale primitive cos={cos}, expected 0"
 
     def test_comp_than_present(self, sent_basis):
         # The architecture's set-theory operators must be present

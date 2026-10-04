@@ -13,68 +13,118 @@ from typing import List, Tuple
 
 # Bank 0: SUBSTANTIVES (10 primitives)
 BANK_0_PRIMITIVES = [
-    "I", "YOU", "SOMEONE", "SOMETHING", "PEOPLE", "BODY", "KIND", "PART",
-    "SAME", "OTHER",  # Bipolar: IDENTITY
+    "I",
+    "YOU",
+    "SOMEONE",
+    "SOMETHING",
+    "PEOPLE",
+    "BODY",
+    "KIND",
+    "PART",
+    "SAME",
+    "OTHER",  # Bipolar: IDENTITY
 ]
 
 # Bank 1: QUANTITY (3 primitives)
 BANK_1_PRIMITIVES = [
-    "ONE", "TWO", "QUANTITY",
+    "ONE",
+    "TWO",
+    "QUANTITY",
 ]
 
 # Bank 2: EVALUATORS (4 primitives - all bipolar)
 BANK_2_PRIMITIVES = [
-    "GOOD", "BAD",    # Bipolar: EVALUATION
-    "BIG", "SMALL",   # Bipolar: SIZE
+    "GOOD",
+    "BAD",  # Bipolar: EVALUATION
+    "BIG",
+    "SMALL",  # Bipolar: SIZE
 ]
 
 # Bank 3: MENTAL (7 primitives)
 BANK_3_PRIMITIVES = [
-    "THINK", "KNOW", "WANT", "FEEL", "SEE", "HEAR", "INFER",
+    "THINK",
+    "KNOW",
+    "WANT",
+    "FEEL",
+    "SEE",
+    "HEAR",
+    "INFER",
 ]
 
 # Bank 4: ACTION (10 primitives)
 BANK_4_PRIMITIVES = [
-    "SAY", "WORDS", "DO", "HAPPEN", "MOVE", "BE", "HAVE", "EXIST",
-    "ALIVE", "DEAD",  # Bipolar: VITALITY
+    "SAY",
+    "WORDS",
+    "DO",
+    "HAPPEN",
+    "MOVE",
+    "BE",
+    "HAVE",
+    "EXIST",
+    "ALIVE",
+    "DEAD",  # Bipolar: VITALITY
 ]
 
 # Bank 5: TEMPORAL (10 primitives)
 BANK_5_PRIMITIVES = [
-    "MOMENT", "WHEN",
-    "LONG_TIME", "SHORT_TIME",  # Bipolar: DURATION
-    "BEFORE", "AFTER",          # Bipolar: TEMPORAL_ORDER
-    "THEN", "NOW",              # Bipolar: TEMPORAL_REF
-    "START", "END",             # Bipolar: TEMPORAL_BOUND
+    "MOMENT",
+    "WHEN",
+    "LONG_TIME",
+    "SHORT_TIME",  # Bipolar: DURATION
+    "BEFORE",
+    "AFTER",  # Bipolar: TEMPORAL_ORDER
+    "THEN",
+    "NOW",  # Bipolar: TEMPORAL_REF
+    "START",
+    "END",  # Bipolar: TEMPORAL_BOUND
 ]
 
 # Bank 6: SPATIAL (14 primitives)
 BANK_6_PRIMITIVES = [
-    "WHERE", "HERE", "SIDE", "TOUCH",
-    "ABOVE", "BELOW",       # Bipolar: VERTICAL
-    "FAR", "NEAR",          # Bipolar: DISTANCE
-    "OUTSIDE", "INSIDE",    # Bipolar: CONTAINMENT
-    "TOWARD", "AWAY",       # Bipolar: DIRECTION
-    "WITH", "WITHOUT",      # Bipolar: ACCOMPANIMENT
+    "WHERE",
+    "HERE",
+    "SIDE",
+    "TOUCH",
+    "ABOVE",
+    "BELOW",  # Bipolar: VERTICAL
+    "FAR",
+    "NEAR",  # Bipolar: DISTANCE
+    "OUTSIDE",
+    "INSIDE",  # Bipolar: CONTAINMENT
+    "TOWARD",
+    "AWAY",  # Bipolar: DIRECTION
+    "WITH",
+    "WITHOUT",  # Bipolar: ACCOMPANIMENT
 ]
 
 # Bank 7: LOGICAL (14 primitives)
 BANK_7_PRIMITIVES = [
-    "NOT", "MAYBE", "CAN", "MUST", "BECAUSE", "CAUSE", "IF", "LIKE",
-    "TRUE", "FALSE",        # Bipolar: TRUTH
-    "HIER_PLUS", "HIER_MINUS", "INTENSITY", "CERTAINTY",
+    "NOT",
+    "MAYBE",
+    "CAN",
+    "MUST",
+    "BECAUSE",
+    "CAUSE",
+    "IF",
+    "LIKE",
+    "TRUE",
+    "FALSE",  # Bipolar: TRUTH
+    "HIER_PLUS",
+    "HIER_MINUS",
+    "INTENSITY",
+    "CERTAINTY",
 ]
 
 # Complete list of all 72 primitives
 ALL_PRIMITIVES: List[str] = (
-    BANK_0_PRIMITIVES +
-    BANK_1_PRIMITIVES +
-    BANK_2_PRIMITIVES +
-    BANK_3_PRIMITIVES +
-    BANK_4_PRIMITIVES +
-    BANK_5_PRIMITIVES +
-    BANK_6_PRIMITIVES +
-    BANK_7_PRIMITIVES
+    BANK_0_PRIMITIVES
+    + BANK_1_PRIMITIVES
+    + BANK_2_PRIMITIVES
+    + BANK_3_PRIMITIVES
+    + BANK_4_PRIMITIVES
+    + BANK_5_PRIMITIVES
+    + BANK_6_PRIMITIVES
+    + BANK_7_PRIMITIVES
 )
 
 # Verify count
@@ -106,30 +156,25 @@ for prim in BANK_7_PRIMITIVES:
 
 BIPOLAR_PAIRS: List[Tuple[str, str]] = [
     # Bank 0: SUBSTANTIVES
-    ("SAME", "OTHER"),           # IDENTITY
-
+    ("SAME", "OTHER"),  # IDENTITY
     # Bank 2: EVALUATORS
-    ("GOOD", "BAD"),             # EVALUATION
-    ("BIG", "SMALL"),            # SIZE
-
+    ("GOOD", "BAD"),  # EVALUATION
+    ("BIG", "SMALL"),  # SIZE
     # Bank 4: ACTION
-    ("ALIVE", "DEAD"),           # VITALITY
-
+    ("ALIVE", "DEAD"),  # VITALITY
     # Bank 5: TEMPORAL
-    ("LONG_TIME", "SHORT_TIME"), # DURATION
-    ("BEFORE", "AFTER"),         # TEMPORAL_ORDER
-    ("THEN", "NOW"),             # TEMPORAL_REF
-    ("START", "END"),            # TEMPORAL_BOUND
-
+    ("LONG_TIME", "SHORT_TIME"),  # DURATION
+    ("BEFORE", "AFTER"),  # TEMPORAL_ORDER
+    ("THEN", "NOW"),  # TEMPORAL_REF
+    ("START", "END"),  # TEMPORAL_BOUND
     # Bank 6: SPATIAL
-    ("ABOVE", "BELOW"),          # VERTICAL
-    ("FAR", "NEAR"),             # DISTANCE
-    ("OUTSIDE", "INSIDE"),       # CONTAINMENT
-    ("TOWARD", "AWAY"),          # DIRECTION
-    ("WITH", "WITHOUT"),         # ACCOMPANIMENT
-
+    ("ABOVE", "BELOW"),  # VERTICAL
+    ("FAR", "NEAR"),  # DISTANCE
+    ("OUTSIDE", "INSIDE"),  # CONTAINMENT
+    ("TOWARD", "AWAY"),  # DIRECTION
+    ("WITH", "WITHOUT"),  # ACCOMPANIMENT
     # Bank 7: LOGICAL
-    ("TRUE", "FALSE"),           # TRUTH
+    ("TRUE", "FALSE"),  # TRUTH
 ]
 
 # Quick lookup: primitive -> its bipolar partner
@@ -320,6 +365,7 @@ CREATE INDEX IF NOT EXISTS idx_coverage_lexeme ON external_source_coverage(lexem
 # =============================================================================
 # SCHEMA HELPER FUNCTIONS
 # =============================================================================
+
 
 def get_primitive_bank(primitive: str) -> int:
     """Get the bank number for a primitive."""

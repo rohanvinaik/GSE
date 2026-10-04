@@ -50,6 +50,7 @@ from gse.vectors_v2 import (
 # FIXTURES
 # =============================================================================
 
+
 @pytest.fixture(scope="module")
 def basis():
     """Create basis once for all tests."""
@@ -59,6 +60,7 @@ def basis():
 # =============================================================================
 # PRIMITIVE STRUCTURE TESTS
 # =============================================================================
+
 
 class TestPrimitiveStructure:
     """Test primitive definitions and organization."""
@@ -103,6 +105,7 @@ class TestPrimitiveStructure:
 # BIPOLAR DIMENSION TESTS
 # =============================================================================
 
+
 class TestBipolarDimensions:
     """Test antonym pair handling."""
 
@@ -139,6 +142,7 @@ class TestBipolarDimensions:
 # =============================================================================
 # HIERARCHY TESTS
 # =============================================================================
+
 
 class TestHierarchyEncoding:
     """Test hierarchical modifier encoding."""
@@ -201,6 +205,7 @@ class TestHierarchyEncoding:
 # =============================================================================
 # VECTOR STRUCTURE TESTS
 # =============================================================================
+
 
 class TestSparseVector:
     """Test SparseVector class."""
@@ -272,6 +277,7 @@ class TestSparseVector:
 # BASIS ORTHOGONALITY TESTS
 # =============================================================================
 
+
 class TestBasisOrthogonality:
     """Test Hadamard-OTP basis orthogonality properties."""
 
@@ -285,8 +291,7 @@ class TestBasisOrthogonality:
             assert neg_vec is not None, f"Missing {dim.negative}"
 
             cos = pos_vec.cosine(neg_vec)
-            assert abs(cos - (-1.0)) < 0.01, \
-                f"{dim.positive}/{dim.negative} cosine = {cos}, expected -1.0"
+            assert abs(cos - (-1.0)) < 0.01, f"{dim.positive}/{dim.negative} cosine = {cos}, expected -1.0"
 
     def test_cross_bank_orthogonality(self, basis):
         """Primitives in different banks should be orthogonal."""
@@ -300,28 +305,23 @@ class TestBasisOrthogonality:
             for bank_j, (name_j, vec_j) in samples.items():
                 if bank_i != bank_j:
                     cos = vec_i.cosine(vec_j)
-                    assert abs(cos) < 0.01, \
-                        f"Cross-bank {name_i} (bank {bank_i}) / {name_j} (bank {bank_j}) " \
-                        f"cosine = {cos}, expected ~0"
+                    assert abs(cos) < 0.01, (
+                        f"Cross-bank {name_i} (bank {bank_i}) / {name_j} (bank {bank_j}) cosine = {cos}, expected ~0"
+                    )
 
     def test_within_bank_non_antonym_orthogonality(self, basis):
         """Non-antonym primitives in same bank should be approximately orthogonal."""
         for bank in range(N_BANKS):
-            bank_prims = [
-                (name, vec) for name, vec in basis.primitives.items()
-                if vec.bank == bank
-            ]
+            bank_prims = [(name, vec) for name, vec in basis.primitives.items() if vec.bank == bank]
 
             for i, (name_i, vec_i) in enumerate(bank_prims):
-                for name_j, vec_j in bank_prims[i+1:]:
+                for name_j, vec_j in bank_prims[i + 1 :]:
                     # Skip antonym pairs
-                    if basis.bipolar_map.get(name_j) == name_i or \
-                       basis.bipolar_map.get(name_i) == name_j:
+                    if basis.bipolar_map.get(name_j) == name_i or basis.bipolar_map.get(name_i) == name_j:
                         continue
 
                     cos = vec_i.cosine(vec_j)
-                    assert abs(cos) < 0.2, \
-                        f"Within-bank {name_i}/{name_j} cosine = {cos}, expected ~0"
+                    assert abs(cos) < 0.2, f"Within-bank {name_i}/{name_j} cosine = {cos}, expected ~0"
 
     def test_role_vectors_span_all_banks(self, basis):
         """Role vectors should have support in all banks."""
@@ -331,22 +331,21 @@ class TestBasisOrthogonality:
                 bank = idx // DIMS_PER_BANK
                 banks_covered.add(bank)
 
-            assert len(banks_covered) == N_BANKS, \
-                f"Role {role_name} only covers banks {banks_covered}"
+            assert len(banks_covered) == N_BANKS, f"Role {role_name} only covers banks {banks_covered}"
 
     def test_role_pairs_exactly_orthogonal(self, basis):
         """Partition-based role generation guarantees cosine = 0.0 exactly."""
         roles = list(basis.roles.items())
         for i, (name_i, vec_i) in enumerate(roles):
-            for name_j, vec_j in roles[i + 1:]:
+            for name_j, vec_j in roles[i + 1 :]:
                 cos = vec_i.cosine(vec_j)
-                assert cos == 0.0, \
-                    f"Roles {name_i}/{name_j} cosine = {cos}, expected exact 0.0"
+                assert cos == 0.0, f"Roles {name_i}/{name_j} cosine = {cos}, expected exact 0.0"
 
 
 # =============================================================================
 # HDC OPERATION TESTS
 # =============================================================================
+
 
 class TestHDCOperations:
     """Test bind, bundle, permute operations."""
@@ -397,19 +396,14 @@ class TestHDCOperations:
         restored = permute(shifted, shift=-100)
 
         # After restoring, should be identical
-        assert np.array_equal(
-            np.sort(v.positive_indices),
-            np.sort(restored.positive_indices)
-        )
-        assert np.array_equal(
-            np.sort(v.negative_indices),
-            np.sort(restored.negative_indices)
-        )
+        assert np.array_equal(np.sort(v.positive_indices), np.sort(restored.positive_indices))
+        assert np.array_equal(np.sort(v.negative_indices), np.sort(restored.negative_indices))
 
 
 # =============================================================================
 # COMPOSITION TESTS
 # =============================================================================
+
 
 class TestComposition:
     """Test decomposition composition."""
@@ -447,14 +441,20 @@ class TestComposition:
 
         # Now test compositions where evaluation differs
         # positive_eval = evaluation is GOOD
-        positive_eval = compose_decomposition(basis, [
-            ("GOOD", "evaluation", 1),
-        ])
+        positive_eval = compose_decomposition(
+            basis,
+            [
+                ("GOOD", "evaluation", 1),
+            ],
+        )
 
         # negative_eval = evaluation is BAD (= GOOD with -1 polarity)
-        negative_eval = compose_decomposition(basis, [
-            ("GOOD", "evaluation", -1),
-        ])
+        negative_eval = compose_decomposition(
+            basis,
+            [
+                ("GOOD", "evaluation", -1),
+            ],
+        )
 
         cos = positive_eval.cosine(negative_eval)
         # Should be negative (opposite evaluations)
@@ -463,31 +463,42 @@ class TestComposition:
         # When we add shared components, similarity moves toward 0
         # This is expected: happy/sad share "feeling" but differ in "valence"
         # The similarity should be LESS THAN pure synonyms
-        synonym_pair = compose_decomposition(basis, [
-            ("GOOD", "evaluation", 1),
-            ("FEEL", "experiencer", 1),
-        ])
-        another_positive = compose_decomposition(basis, [
-            ("GOOD", "evaluation", 1),
-            ("FEEL", "state", 1),  # Same components, different role
-        ])
+        synonym_pair = compose_decomposition(
+            basis,
+            [
+                ("GOOD", "evaluation", 1),
+                ("FEEL", "experiencer", 1),
+            ],
+        )
+        another_positive = compose_decomposition(
+            basis,
+            [
+                ("GOOD", "evaluation", 1),
+                ("FEEL", "state", 1),  # Same components, different role
+            ],
+        )
 
-        antonym_pair = compose_decomposition(basis, [
-            ("GOOD", "evaluation", -1),
-            ("FEEL", "experiencer", 1),
-        ])
+        antonym_pair = compose_decomposition(
+            basis,
+            [
+                ("GOOD", "evaluation", -1),
+                ("FEEL", "experiencer", 1),
+            ],
+        )
 
         # Synonym pair should have higher similarity than antonym
         cos_synonym = synonym_pair.cosine(another_positive)
         cos_antonym = synonym_pair.cosine(antonym_pair)
 
-        assert cos_synonym > cos_antonym, \
+        assert cos_synonym > cos_antonym, (
             f"Synonyms ({cos_synonym:.3f}) should be more similar than antonyms ({cos_antonym:.3f})"
+        )
 
 
 # =============================================================================
 # SIMILARITY ANALYSIS TESTS
 # =============================================================================
+
 
 class TestSimilarityAnalysis:
     """Test polarity-aware similarity."""

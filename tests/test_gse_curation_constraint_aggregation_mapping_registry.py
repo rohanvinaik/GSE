@@ -26,6 +26,7 @@ from gse.curation.constraint_aggregation.types import (
 
 # ---------- SOURCE_RELIABILITY ----------
 
+
 class TestSourceReliability:
     def test_verbnet_high(self):
         assert SOURCE_RELIABILITY["verbnet"] == 0.85
@@ -42,12 +43,12 @@ class TestSourceReliability:
 
     def test_contains_expected_sources(self):
         # Spot-check membership
-        for s in ("verbnet", "framenet", "propbank", "usas", "nrc_vad",
-                  "concreteness", "wiktionary", "conceptnet"):
+        for s in ("verbnet", "framenet", "propbank", "usas", "nrc_vad", "concreteness", "wiktionary", "conceptnet"):
             assert s in SOURCE_RELIABILITY
 
 
 # ---------- SOURCE_PRIMITIVE_COVERAGE ----------
+
 
 class TestSourcePrimitiveCoverage:
     def test_verbnet_has_definitive_someone(self):
@@ -64,6 +65,7 @@ class TestSourcePrimitiveCoverage:
 
 
 # ---------- get_primitive_constraint_type ----------
+
 
 class TestGetPrimitiveConstraintType:
     def test_definitive_match(self):
@@ -92,6 +94,7 @@ class TestGetPrimitiveConstraintType:
 
 # ---------- get_evidence_strength ----------
 
+
 class TestGetEvidenceStrength:
     def test_definitive_strong(self):
         assert get_evidence_strength(ConstraintType.DEFINITIVE) == EvidenceStrength.STRONG
@@ -112,6 +115,7 @@ class TestGetEvidenceStrength:
 
 
 # ---------- get_mapping_for_source ----------
+
 
 class TestGetMappingForSource:
     def test_returns_source_mapping(self):
@@ -176,6 +180,7 @@ class TestGetMappingForSource:
 
 # ---------- get_all_covered_primitives ----------
 
+
 class TestGetAllCoveredPrimitives:
     def test_returns_set(self):
         result = get_all_covered_primitives("verbnet")
@@ -209,6 +214,7 @@ class TestGetAllCoveredPrimitives:
 
 
 # ---------- get_sources_for_primitive ----------
+
 
 class TestGetSourcesForPrimitive:
     def test_returns_list(self):

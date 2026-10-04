@@ -373,10 +373,7 @@ class SentenceParser:
 
                 # Check if this pair matches any template
                 for src_role, tgt_role, edge_type in EDGE_TEMPLATES:
-                    if (
-                        source.assigned_role == src_role
-                        and target.assigned_role == tgt_role
-                    ):
+                    if source.assigned_role == src_role and target.assigned_role == tgt_role:
                         # Check positional and structural constraints
                         if self._valid_edge(i, j, edge_type, nodes):
                             edges.append(

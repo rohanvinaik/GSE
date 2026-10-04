@@ -25,6 +25,7 @@ from typing import Dict, List, Optional
 
 try:
     import amrlib
+
     AMR_AVAILABLE = True
 except ImportError:
     AMR_AVAILABLE = False
@@ -43,31 +44,25 @@ DEP_TO_SYNTACTIC = {
     "csubj": "SYN_SUBJ",
     "csubjpass": "SYN_SUBJ",
     "agent": "SYN_SUBJ",
-
     "ROOT": "SYN_PRED",
     "root": "SYN_PRED",
-
     "dobj": "SYN_OBJ",
     "obj": "SYN_OBJ",
     "iobj": "SYN_OBJ",
     "pobj": "SYN_OBJ",
-
     "attr": "SYN_COMPL",
     "acomp": "SYN_COMPL",
     "xcomp": "SYN_COMPL",
     "ccomp": "SYN_COMPL",
     "oprd": "SYN_COMPL",
-
     # Modifiers (Bank 1: MODIFICATION)
     "amod": "SYN_ADJ_MOD",
     "nmod": "SYN_ADJ_MOD",
     "nn": "SYN_ADJ_MOD",
     "compound": "SYN_ADJ_MOD",
-
     "advmod": "SYN_ADV_MOD",
     "npadvmod": "SYN_ADV_MOD",
     "neg": "SYN_ADV_MOD",
-
     "det": "SYN_DET",
     "predet": "SYN_DET",
     "poss": "SYN_DET",
@@ -79,11 +74,9 @@ MORPH_TO_TAM = {
     "Tense=Past": "SYN_TENSE_PAST",
     "Tense=Pres": "SYN_TENSE_PRES",
     "Tense=Fut": "SYN_TENSE_FUT",
-
     # Aspect
     "Aspect=Perf": "SYN_ASPECT_PERF",
     "Aspect=Prog": "SYN_ASPECT_PROG",
-
     # Mood
     "Mood=Ind": None,  # Default, no special marker
     "Mood=Imp": "SYN_MOOD_IMPER",
@@ -108,7 +101,6 @@ FUNCTION_WORD_OPERATORS = {
         "description": "Equative comparison - bind equality",
         "formal_semantics": "λxλyλd.d(x) = d(y)",
     },
-
     # Bank 4: Quantification/Queries
     "how": {
         "primitive": "COMP_HOW",
@@ -124,7 +116,6 @@ FUNCTION_WORD_OPERATORS = {
         "description": "Type/entity wh-query",
         "formal_semantics": "λP.?x.P(x)",
     },
-
     # Bank 5: Constraint/Focus
     "just": {
         "primitive": "COMP_JUST",
@@ -147,7 +138,6 @@ FUNCTION_WORD_OPERATORS = {
         "description": "Scalar endpoint - unlikely extreme",
         "formal_semantics": "UNLIKELY(P(x)) ∧ P(x)",
     },
-
     # Bank 6: Discourse/Connectives
     "but": {
         "primitive": "COMP_BUT",
@@ -178,20 +168,16 @@ AMR_TO_PRIMITIVES = {
     ":ARG0": "SYN_SUBJ",
     ":ARG1": "SYN_OBJ",
     ":ARG2": "SYN_OBJ",  # Secondary object
-
     # Modification
     ":mod": "SYN_ADJ_MOD",
     ":manner": "SYN_ADV_MOD",
     ":degree": "SYN_ADV_MOD",
-
     # Comparison
     ":compared-to": "COMP_THAN",
-
     # Discourse
     ":cause": "COMP_BECAUSE",
     ":concession": "COMP_BUT",
     ":condition": None,  # Future: COMP_IF
-
     # Polarity/modality handled separately
     ":polarity": None,
     ":modal": None,
@@ -202,9 +188,11 @@ AMR_TO_PRIMITIVES = {
 # DATA STRUCTURES
 # =============================================================================
 
+
 @dataclass
 class SentencePrimitiveAssignment:
     """Primitive assignments extracted from NLP parse."""
+
     lexeme: str
     pos: str
     primitives: Dict[str, int]  # primitive_name -> value (1 or -1)
@@ -221,6 +209,7 @@ class SentencePrimitiveAssignment:
 @dataclass
 class ParsedSentence:
     """Complete NLP parse with primitive assignments."""
+
     text: str
     tokens: List[str]
     assignments: List[SentencePrimitiveAssignment]

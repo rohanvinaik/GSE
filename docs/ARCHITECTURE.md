@@ -100,15 +100,15 @@ provably distinct symbolically" — is exactly the split between these two paths
 from gse.api import GSEEncoder
 from gse.symbolic import from_trace, resolve, evaluate_tree, predicates
 
-enc   = GSEEncoder()                                  # opens data/lexicon_clean.db, GSE-native front-end (no spaCy)
-trace = enc.encode("The dog is cuter than the cat")   # → OperationTrace
-tree  = evaluate_tree(resolve(from_trace(trace)))      # → Comparison predicate
-predicates(tree)        # [Comparison(lhs=Entity(dog), rhs=Entity(cat), sign=+1)]
+enc = GSEEncoder()  # opens data/lexicon_clean.db, GSE-native front-end (no spaCy)
+trace = enc.encode("The dog is cuter than the cat")  # → OperationTrace
+tree = evaluate_tree(resolve(from_trace(trace)))  # → Comparison predicate
+predicates(tree)  # [Comparison(lhs=Entity(dog), rhs=Entity(cat), sign=+1)]
 
 # Argument-swap is symbolically distinct but HDC-similar:
 v1 = enc.encode("The dog is cuter than the cat").vector
 v2 = enc.encode("The cat is cuter than the dog").vector
-v1.cosine(v2)           # ≈ 0.93  (similar geometry)
+v1.cosine(v2)  # ≈ 0.93  (similar geometry)
 # is_logically_equal_to(tree1, tree2) → False  (distinct logic)
 # is_argument_swap_of(tree1, tree2)   → True
 ```
@@ -667,14 +667,14 @@ else is internal.
 ```python
 from gse.api import GSEEncoder, GSEDecoder
 
-enc   = GSEEncoder(db_path="data/lexicon_clean.db", strict=False)  # the default
-trace = enc.encode("The dog is cuter than the cat")   # OperationTrace
-trace.to_json()                                        # JSON (no vector)
-trace.vector                                           # SparseVector
+enc = GSEEncoder(db_path="data/lexicon_clean.db", strict=False)  # the default
+trace = enc.encode("The dog is cuter than the cat")  # OperationTrace
+trace.to_json()  # JSON (no vector)
+trace.vector  # SparseVector
 
-dec  = GSEDecoder()
-dec.decode(trace.vector)                               # DecodedSemantics
-dec.similarity(v1, v2, s1, s2)                         # SimilarityResult
+dec = GSEDecoder()
+dec.decode(trace.vector)  # DecodedSemantics
+dec.similarity(v1, v2, s1, s2)  # SimilarityResult
 ```
 
 Errors (`gse.api.errors`): `GSEError` ⊃ `OOVError`, `EncodingError`,
@@ -691,15 +691,33 @@ Trace types (`gse.api.trace`) are the stable data contract:
 
 ```python
 from gse.symbolic import (
-    from_trace, resolve, evaluate_tree,            # the pipeline
-    entities, entity_lemmas, predicates,           # queries
-    axis_of_comparison, is_argument_swap_of, is_logically_equal_to,
-    to_json, from_json, substitute,                # serialize / template
-    Comparison, Equality, Causation, Contrast,     # predicate types
-    TypeQuery, DegreeQuery, MinimalSufficiency,
-    SetRestriction, BoundaryCase,
-    Atom, Phrase, Negation, Op, Entity,            # AST node types
-    OPERATION_DISPATCH,                            # operator → semantics map
+    from_trace,
+    resolve,
+    evaluate_tree,  # the pipeline
+    entities,
+    entity_lemmas,
+    predicates,  # queries
+    axis_of_comparison,
+    is_argument_swap_of,
+    is_logically_equal_to,
+    to_json,
+    from_json,
+    substitute,  # serialize / template
+    Comparison,
+    Equality,
+    Causation,
+    Contrast,  # predicate types
+    TypeQuery,
+    DegreeQuery,
+    MinimalSufficiency,
+    SetRestriction,
+    BoundaryCase,
+    Atom,
+    Phrase,
+    Negation,
+    Op,
+    Entity,  # AST node types
+    OPERATION_DISPATCH,  # operator → semantics map
 )
 ```
 

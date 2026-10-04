@@ -23,6 +23,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class ExternalWordData:
     """Aggregated data from external sources for a word."""
+
     word: str
     pos: Optional[str] = None
     sources: List[str] = field(default_factory=list)
@@ -65,10 +66,11 @@ class ExternalSourcesIntegrator:
         # SentiWordNet
         try:
             from gse.curation.external_sources.sentiwordnet import SentiWordNetParser
+
             parser = SentiWordNetParser()
             if parser.load():
-                self.parsers['sentiwordnet'] = parser
-                stats['sentiwordnet'] = len(parser.entries)
+                self.parsers["sentiwordnet"] = parser
+                stats["sentiwordnet"] = len(parser.entries)
                 logger.info(f"Loaded SentiWordNet: {stats['sentiwordnet']} words")
         except Exception as e:
             logger.warning(f"Failed to load SentiWordNet: {e}")
@@ -76,10 +78,11 @@ class ExternalSourcesIntegrator:
         # NRC Emotion
         try:
             from gse.curation.external_sources.nrc_emotion import NRCEmotionParser
+
             parser = NRCEmotionParser()
             if parser.load():
-                self.parsers['nrc_emotion'] = parser
-                stats['nrc_emotion'] = len(parser.entries)
+                self.parsers["nrc_emotion"] = parser
+                stats["nrc_emotion"] = len(parser.entries)
                 logger.info(f"Loaded NRC Emotion: {stats['nrc_emotion']} words")
         except Exception as e:
             logger.warning(f"Failed to load NRC Emotion: {e}")
@@ -87,10 +90,11 @@ class ExternalSourcesIntegrator:
         # NRC VAD
         try:
             from gse.curation.external_sources.nrc_vad import NRCVADParser
+
             parser = NRCVADParser()
             if parser.load():
-                self.parsers['nrc_vad'] = parser
-                stats['nrc_vad'] = len(parser.entries)
+                self.parsers["nrc_vad"] = parser
+                stats["nrc_vad"] = len(parser.entries)
                 logger.info(f"Loaded NRC VAD: {stats['nrc_vad']} words")
         except Exception as e:
             logger.warning(f"Failed to load NRC VAD: {e}")
@@ -98,10 +102,11 @@ class ExternalSourcesIntegrator:
         # VerbNet
         try:
             from gse.curation.external_sources.verbnet import VerbNetParser
+
             parser = VerbNetParser()
             if parser.load():
-                self.parsers['verbnet'] = parser
-                stats['verbnet'] = len(parser.entries)
+                self.parsers["verbnet"] = parser
+                stats["verbnet"] = len(parser.entries)
                 logger.info(f"Loaded VerbNet: {stats['verbnet']} words")
         except Exception as e:
             logger.warning(f"Failed to load VerbNet: {e}")
@@ -109,10 +114,11 @@ class ExternalSourcesIntegrator:
         # Concreteness
         try:
             from gse.curation.external_sources.concreteness import ConcretenessParser
+
             parser = ConcretenessParser()
             if parser.load():
-                self.parsers['concreteness'] = parser
-                stats['concreteness'] = len(parser.entries)
+                self.parsers["concreteness"] = parser
+                stats["concreteness"] = len(parser.entries)
                 logger.info(f"Loaded Concreteness: {stats['concreteness']} words")
         except Exception as e:
             logger.warning(f"Failed to load Concreteness: {e}")
@@ -120,10 +126,11 @@ class ExternalSourcesIntegrator:
         # Lancaster Sensorimotor
         try:
             from gse.curation.external_sources.lancaster_sensorimotor import LancasterSensorimotorParser
+
             parser = LancasterSensorimotorParser()
             if parser.load():
-                self.parsers['lancaster_sensorimotor'] = parser
-                stats['lancaster_sensorimotor'] = len(parser.entries)
+                self.parsers["lancaster_sensorimotor"] = parser
+                stats["lancaster_sensorimotor"] = len(parser.entries)
                 logger.info(f"Loaded Lancaster Sensorimotor: {stats['lancaster_sensorimotor']} words")
         except Exception as e:
             logger.warning(f"Failed to load Lancaster Sensorimotor: {e}")
@@ -135,10 +142,11 @@ class ExternalSourcesIntegrator:
             from gse.curation.external_sources.wordnet_hierarchy import (
                 WordNetHierarchyParser,
             )
+
             parser = WordNetHierarchyParser()
             if parser.load():
-                self.parsers['wordnet_hierarchy'] = parser
-                stats['wordnet_hierarchy'] = len(parser.get_all_words())
+                self.parsers["wordnet_hierarchy"] = parser
+                stats["wordnet_hierarchy"] = len(parser.get_all_words())
                 logger.info(f"Loaded WordNet hierarchy: {stats['wordnet_hierarchy']} words")
         except Exception as e:
             logger.warning(f"Failed to load WordNet hierarchy: {e}")
@@ -148,10 +156,11 @@ class ExternalSourcesIntegrator:
         # parsers); parser existed but was never registered. Scoped in source_scope.
         try:
             from gse.curation.external_sources.framenet import FrameNetParser
+
             parser = FrameNetParser()
             if parser.load():
-                self.parsers['framenet'] = parser
-                stats['framenet'] = len(parser.entries)
+                self.parsers["framenet"] = parser
+                stats["framenet"] = len(parser.entries)
                 logger.info(f"Loaded FrameNet: {stats['framenet']} words")
         except Exception as e:
             logger.warning(f"Failed to load FrameNet: {e}")
@@ -160,10 +169,11 @@ class ExternalSourcesIntegrator:
         # family as VerbNet; completes the designed verb-source trio.
         try:
             from gse.curation.external_sources.propbank import PropBankParser
+
             parser = PropBankParser()
             if parser.load():
-                self.parsers['propbank'] = parser
-                stats['propbank'] = len(parser.entries)
+                self.parsers["propbank"] = parser
+                stats["propbank"] = len(parser.entries)
                 logger.info(f"Loaded PropBank: {stats['propbank']} verbs")
         except Exception as e:
             logger.warning(f"Failed to load PropBank: {e}")
@@ -173,10 +183,11 @@ class ExternalSourcesIntegrator:
         # crowd-sourced, so it votes only where its relations are structural.
         try:
             from gse.curation.external_sources.conceptnet import ConceptNetParser
+
             parser = ConceptNetParser()
             if parser.load():
-                self.parsers['conceptnet'] = parser
-                stats['conceptnet'] = len(parser.get_all_words())
+                self.parsers["conceptnet"] = parser
+                stats["conceptnet"] = len(parser.get_all_words())
                 logger.info(f"Loaded ConceptNet: {stats['conceptnet']} words")
         except Exception as e:
             logger.warning(f"Failed to load ConceptNet: {e}")
@@ -185,10 +196,11 @@ class ExternalSourcesIntegrator:
         # topical complement to wordnet_hierarchy's IS-A category signal.
         try:
             from gse.curation.external_sources.usas import USASParser
+
             parser = USASParser()
             if parser.load():
-                self.parsers['usas'] = parser
-                stats['usas'] = len(parser.entries)
+                self.parsers["usas"] = parser
+                stats["usas"] = len(parser.entries)
                 logger.info(f"Loaded USAS: {stats['usas']} words")
         except Exception as e:
             logger.warning(f"Failed to load USAS: {e}")
@@ -305,9 +317,7 @@ class ExternalSourcesIntegrator:
             if callable(confidence_aware):
                 prims_with_conf = confidence_aware(word)
             else:
-                prims_with_conf = {
-                    p: (v, 1.0) for p, v in parser.to_primitives(word).items()
-                }
+                prims_with_conf = {p: (v, 1.0) for p, v in parser.to_primitives(word).items()}
 
             if not prims_with_conf:
                 continue
@@ -334,12 +344,8 @@ class ExternalSourcesIntegrator:
         aggregation = aggregate_weighted(word, source_votes)
 
         # Step 2: bipolar mutual exclusion across the 14 NSM pairs.
-        post_vote_primitives = {
-            p: v.value for p, v in aggregation.primitives.items() if v.value != 0
-        }
-        post_vote_confidences = {
-            p: v.confidence for p, v in aggregation.primitives.items() if v.value != 0
-        }
+        post_vote_primitives = {p: v.value for p, v in aggregation.primitives.items() if v.value != 0}
+        post_vote_confidences = {p: v.confidence for p, v in aggregation.primitives.items() if v.value != 0}
         exclusion = enforce_bipolar_exclusion(post_vote_primitives, post_vote_confidences)
 
         # Step 3: stitch results back into ExternalWordData. Sources are
@@ -425,8 +431,7 @@ class ExternalSourcesIntegrator:
             if len(data.sources) >= min_sources:
                 # Filter low-confidence primitives
                 data.primitives = {
-                    p: v for p, v in data.primitives.items()
-                    if data.confidence_scores.get(p, 0) >= min_confidence
+                    p: v for p, v in data.primitives.items() if data.confidence_scores.get(p, 0) >= min_confidence
                 }
                 if data.primitives:
                     results.append(data)
@@ -463,15 +468,17 @@ class ExternalSourcesIntegrator:
             known = set(entry.primitives.keys())
             needed = [p for p in ALL_PRIMITIVES if p not in known]
 
-            export_data.append({
-                'word': entry.word,
-                'known_primitives': entry.primitives,
-                'sources': entry.sources,
-                'confidence': entry.confidence_scores,
-                'needed_primitives': needed,
-            })
+            export_data.append(
+                {
+                    "word": entry.word,
+                    "known_primitives": entry.primitives,
+                    "sources": entry.sources,
+                    "confidence": entry.confidence_scores,
+                    "needed_primitives": needed,
+                }
+            )
 
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             json.dump(export_data, f, indent=2)
 
         logger.info(f"Exported {len(export_data)} words to {output_path}")
@@ -483,11 +490,11 @@ class ExternalSourcesIntegrator:
             self.load_all_sources()
 
         stats = {
-            'sources_loaded': list(self.parsers.keys()),
-            'words_per_source': {name: len(p.get_all_words()) for name, p in self.parsers.items()},
-            'total_unique_words': len(self.get_all_words()),
-            'existing_in_lexicon': len(self.get_existing_words()),
-            'new_words': len(self.get_new_words()),
+            "sources_loaded": list(self.parsers.keys()),
+            "words_per_source": {name: len(p.get_all_words()) for name, p in self.parsers.items()},
+            "total_unique_words": len(self.get_all_words()),
+            "existing_in_lexicon": len(self.get_existing_words()),
+            "new_words": len(self.get_new_words()),
         }
 
         return stats
@@ -503,11 +510,11 @@ def download_all_sources():
     import nltk
 
     print("Downloading NLTK resources...")
-    nltk.download('sentiwordnet', quiet=False)
-    nltk.download('wordnet', quiet=False)
-    nltk.download('omw-1.4', quiet=False)
-    nltk.download('verbnet', quiet=False)
-    nltk.download('verbnet3', quiet=False)
+    nltk.download("sentiwordnet", quiet=False)
+    nltk.download("wordnet", quiet=False)
+    nltk.download("omw-1.4", quiet=False)
+    nltk.download("verbnet", quiet=False)
+    nltk.download("verbnet3", quiet=False)
 
     print("\nDownloading NRC resources...")
     from gse.curation.external_sources.concreteness import ConcretenessParser
@@ -523,12 +530,13 @@ def download_all_sources():
 
 if __name__ == "__main__":
     import sys
+
     logging.basicConfig(level=logging.INFO)
 
-    if len(sys.argv) > 1 and sys.argv[1] == 'download':
+    if len(sys.argv) > 1 and sys.argv[1] == "download":
         download_all_sources()
     else:
-        integrator = ExternalSourcesIntegrator('data/lexicon.db')
+        integrator = ExternalSourcesIntegrator("data/lexicon.db")
         stats = integrator.load_all_sources()
         print("\nSource Statistics:")
         for name, count in stats.items():

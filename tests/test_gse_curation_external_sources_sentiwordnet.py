@@ -19,13 +19,17 @@ from gse.curation.external_sources.sentiwordnet import (
 
 def make_entry(word="dog", pos="noun", pos_score=0.5, neg_score=0.0, obj_score=0.5, synset_id="dog.n.01"):
     return SentiWordEntry(
-        word=word, pos=pos,
-        pos_score=pos_score, neg_score=neg_score, obj_score=obj_score,
+        word=word,
+        pos=pos,
+        pos_score=pos_score,
+        neg_score=neg_score,
+        obj_score=obj_score,
         synset_id=synset_id,
     )
 
 
 # ---------- SentiWordEntry ----------
+
 
 class TestSentiWordEntry:
     def test_construction(self):
@@ -40,6 +44,7 @@ class TestSentiWordEntry:
 
 # ---------- __init__ ----------
 
+
 class TestInit:
     def test_initial_state(self):
         p = SentiWordNetParser()
@@ -48,6 +53,7 @@ class TestInit:
 
 
 # ---------- _convert_pos ----------
+
 
 class TestConvertPos:
     def test_noun(self):
@@ -74,6 +80,7 @@ class TestConvertPos:
 
 
 # ---------- load ----------
+
 
 class TestLoad:
     @pytest.fixture(autouse=True)
@@ -105,8 +112,7 @@ class TestLoad:
         mock_senti_synset.obj_score.return_value = 0.2
 
         with patch("nltk.corpus.sentiwordnet.senti_synsets"):
-            with patch("nltk.corpus.sentiwordnet.all_senti_synsets",
-                       return_value=iter([mock_senti_synset])):
+            with patch("nltk.corpus.sentiwordnet.all_senti_synsets", return_value=iter([mock_senti_synset])):
                 assert p.load() is True
                 assert p._loaded is True
                 assert "good" in p.entries
@@ -126,13 +132,13 @@ class TestLoad:
         mock_senti.obj_score.return_value = 0.5
 
         with patch("nltk.corpus.sentiwordnet.senti_synsets"):
-            with patch("nltk.corpus.sentiwordnet.all_senti_synsets",
-                       return_value=iter([mock_senti])):
+            with patch("nltk.corpus.sentiwordnet.all_senti_synsets", return_value=iter([mock_senti])):
                 p.load()
                 assert "happy camper" in p.entries
 
 
 # ---------- get_sentiment ----------
+
 
 class TestGetSentiment:
     def _make_loaded(self):
@@ -185,6 +191,7 @@ class TestGetSentiment:
 
 
 # ---------- to_primitives ----------
+
 
 class TestToPrimitives:
     def _make_with(self, pos_score, neg_score):
@@ -258,6 +265,7 @@ class TestToPrimitives:
 
 # ---------- get_all_words ----------
 
+
 class TestGetAllWords:
     def test_empty_unloaded(self):
         p = SentiWordNetParser()
@@ -280,6 +288,7 @@ class TestGetAllWords:
 
 
 # ---------- get_new_words ----------
+
 
 class TestGetNewWords:
     def test_filters_existing(self):
@@ -304,6 +313,7 @@ class TestGetNewWords:
 
 
 # ---------- download_sentiwordnet ----------
+
 
 class TestDownloadSentiWordNet:
     def test_calls_nltk_download_three_times(self, capsys):

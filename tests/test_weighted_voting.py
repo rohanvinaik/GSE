@@ -48,7 +48,7 @@ class TestDisagreement:
     def test_higher_confidence_wins(self):
         votes = {
             "high_conf": {"GOOD": (1, 0.9)},
-            "low_conf":  {"GOOD": (-1, 0.2)},
+            "low_conf": {"GOOD": (-1, 0.2)},
         }
         result = aggregate_weighted("x", votes)
         # pos=0.9, neg=0.2 → positive wins; raw = 0.9/(0.9+0.2+0.01) ≈ 0.811
@@ -61,10 +61,10 @@ class TestDisagreement:
         # 3 weak negatives vs 1 strong positive — strong wins because
         # confidence-weighted, not vote-count
         votes = {
-            "strong":  {"GOOD": (1, 0.95)},
-            "weak_a":  {"GOOD": (-1, 0.2)},
-            "weak_b":  {"GOOD": (-1, 0.2)},
-            "weak_c":  {"GOOD": (-1, 0.2)},
+            "strong": {"GOOD": (1, 0.95)},
+            "weak_a": {"GOOD": (-1, 0.2)},
+            "weak_b": {"GOOD": (-1, 0.2)},
+            "weak_c": {"GOOD": (-1, 0.2)},
         }
         result = aggregate_weighted("x", votes)
         assert result.primitives["GOOD"].value == 1

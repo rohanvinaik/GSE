@@ -78,7 +78,6 @@ PRONOUN_ENCODINGS: Dict[str, Dict[str, Any]] = {
         "gram": {"person": 1, "number": "PLURAL", "case": "ACC", "reflexivity": "REFLEXIVE"},
         "animacy": "ANIMATE",
     },
-
     # ========================================
     # Second Person
     # ========================================
@@ -107,7 +106,6 @@ PRONOUN_ENCODINGS: Dict[str, Dict[str, Any]] = {
         "gram": {"person": 2, "number": "PLURAL", "case": "ACC", "reflexivity": "REFLEXIVE"},
         "animacy": "ANIMATE",
     },
-
     # ========================================
     # Third Person Masculine
     # ========================================
@@ -131,7 +129,6 @@ PRONOUN_ENCODINGS: Dict[str, Dict[str, Any]] = {
         "gram": {"person": 3, "number": "SINGULAR", "gender": "MASC", "case": "ACC", "reflexivity": "REFLEXIVE"},
         "animacy": "ANIMATE",
     },
-
     # ========================================
     # Third Person Feminine
     # ========================================
@@ -155,7 +152,6 @@ PRONOUN_ENCODINGS: Dict[str, Dict[str, Any]] = {
         "gram": {"person": 3, "number": "SINGULAR", "gender": "FEM", "case": "ACC", "reflexivity": "REFLEXIVE"},
         "animacy": "ANIMATE",
     },
-
     # ========================================
     # Third Person Neuter (it)
     # ========================================
@@ -174,7 +170,6 @@ PRONOUN_ENCODINGS: Dict[str, Dict[str, Any]] = {
         "gram": {"person": 3, "number": "SINGULAR", "gender": "NEUT", "case": "ACC", "reflexivity": "REFLEXIVE"},
         "animacy": "INANIMATE",
     },
-
     # ========================================
     # Third Person Plural (they)
     # ========================================
@@ -203,7 +198,6 @@ PRONOUN_ENCODINGS: Dict[str, Dict[str, Any]] = {
         "gram": {"person": 3, "number": "PLURAL", "case": "ACC", "reflexivity": "REFLEXIVE"},
         "animacy": "ANIMATE",
     },
-
     # ========================================
     # Interrogative/Relative Pronouns
     # ========================================
@@ -257,7 +251,6 @@ PRONOUN_ENCODINGS: Dict[str, Dict[str, Any]] = {
         "gram": {},
         "animacy": "INANIMATE",
     },
-
     # ========================================
     # Indefinite Pronouns
     # ========================================
@@ -321,7 +314,6 @@ PRONOUN_ENCODINGS: Dict[str, Dict[str, Any]] = {
         "gram": {"person": 3, "number": "SINGULAR", "polarity": "NEGATIVE"},
         "animacy": "INANIMATE",
     },
-
     # ========================================
     # Demonstrative Pronouns
     # ========================================
@@ -345,7 +337,6 @@ PRONOUN_ENCODINGS: Dict[str, Dict[str, Any]] = {
         "gram": {"number": "PLURAL", "deixis": "DISTAL"},
         "animacy": "INANIMATE",
     },
-
     # ========================================
     # Reciprocal Pronouns
     # ========================================

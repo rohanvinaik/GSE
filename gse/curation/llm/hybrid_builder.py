@@ -36,6 +36,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class BuilderStats:
     """Statistics for the hybrid builder."""
+
     words_processed: int = 0
     primitives_fast_filled: int = 0
     primitives_validated: int = 0
@@ -108,18 +109,22 @@ class HybridLexiconBuilder:
         prompt = get_bipolar_prompt(word, pole_a, pole_b)
 
         try:
-            response = self.fast_client.generate(
-                prompt=prompt,
-                system_prompt=MATCHER_SYSTEM,
-                config=self.fast_config,
-            ).strip().upper()
+            response = (
+                self.fast_client.generate(
+                    prompt=prompt,
+                    system_prompt=MATCHER_SYSTEM,
+                    config=self.fast_config,
+                )
+                .strip()
+                .upper()
+            )
 
             # Parse with confidence based on response clarity
-            if response.startswith('A') or f"({pole_a}" in response:
+            if response.startswith("A") or f"({pole_a}" in response:
                 return (1, 0, 0.8)
-            elif response.startswith('B') or f"({pole_b}" in response:
+            elif response.startswith("B") or f"({pole_b}" in response:
                 return (0, 1, 0.8)
-            elif 'NEITHER' in response or response.startswith('C'):
+            elif "NEITHER" in response or response.startswith("C"):
                 return (0, 0, 0.9)  # High confidence for "neither"
             else:
                 # Ambiguous response - lower confidence
@@ -147,23 +152,27 @@ class HybridLexiconBuilder:
         prompt = get_single_prompt(word, primitive)
 
         try:
-            response = self.fast_client.generate(
-                prompt=prompt,
-                system_prompt=MATCHER_SYSTEM,
-                config=self.fast_config,
-            ).strip().upper()
+            response = (
+                self.fast_client.generate(
+                    prompt=prompt,
+                    system_prompt=MATCHER_SYSTEM,
+                    config=self.fast_config,
+                )
+                .strip()
+                .upper()
+            )
 
-            if response.startswith('YES') or response == 'Y':
+            if response.startswith("YES") or response == "Y":
                 return (1, 0.8)
-            elif 'OPPOSITE' in response or 'OPP' in response:
+            elif "OPPOSITE" in response or "OPP" in response:
                 return (-1, 0.75)
-            elif response.startswith('NO') or response == 'N':
+            elif response.startswith("NO") or response == "N":
                 return (0, 0.85)
             else:
                 # Ambiguous
-                if 'YES' in response:
+                if "YES" in response:
                     return (1, 0.5)
-                elif 'NO' in response:
+                elif "NO" in response:
                     return (0, 0.5)
                 return (0, 0.3)
 
@@ -236,10 +245,7 @@ Return JSON: {{"PRIMITIVE": "CORRECT|WRONG:new_value|UNCERTAIN", ...}}"""
         Returns: Dict of corrected primitive values
         """
         # Filter to low-confidence assignments
-        to_validate = {
-            p: v for p, (v, conf) in primitives.items()
-            if conf < self.validation_threshold and v != 0
-        }
+        to_validate = {p: v for p, (v, conf) in primitives.items() if conf < self.validation_threshold and v != 0}
 
         if not to_validate:
             self.stats.validation_skipped += len(primitives)
@@ -247,8 +253,7 @@ Return JSON: {{"PRIMITIVE": "CORRECT|WRONG:new_value|UNCERTAIN", ...}}"""
 
         # Format assignments for review
         assignments = "\n".join(
-            f"- {prim}: {'+1' if val > 0 else '-1' if val < 0 else '0'}"
-            for prim, val in to_validate.items()
+            f"- {prim}: {'+1' if val > 0 else '-1' if val < 0 else '0'}" for prim, val in to_validate.items()
         )
 
         prompt = self.VALIDATION_PROMPT.format(word=word, assignments=assignments)
@@ -262,7 +267,8 @@ Return JSON: {{"PRIMITIVE": "CORRECT|WRONG:new_value|UNCERTAIN", ...}}"""
 
             # Parse JSON from response
             import re
-            json_match = re.search(r'\{[^{}]*\}', response, re.DOTALL)
+
+            json_match = re.search(r"\{[^{}]*\}", response, re.DOTALL)
             if json_match:
                 corrections = json.loads(json_match.group())
 
@@ -299,10 +305,7 @@ Return JSON: {{"PRIMITIVE": "CORRECT|WRONG:new_value|UNCERTAIN", ...}}"""
 
     def get_missing_primitives(self, lexeme_id: int) -> Set[str]:
         """Get primitives not yet filled for a lexeme."""
-        cursor = self.conn.execute(
-            "SELECT primitive FROM primitive_values WHERE lexeme_id = ?",
-            (lexeme_id,)
-        )
+        cursor = self.conn.execute("SELECT primitive FROM primitive_values WHERE lexeme_id = ?", (lexeme_id,))
         filled = {row[0] for row in cursor.fetchall()}
         return set(ALL_PRIMITIVES) - filled
 
@@ -338,11 +341,14 @@ Return JSON: {{"PRIMITIVE": "CORRECT|WRONG:new_value|UNCERTAIN", ...}}"""
         # Store results
         for prim, value in final_results.items():
             conf = fast_results.get(prim, (0, 0.5))[1]
-            self.conn.execute("""
+            self.conn.execute(
+                """
                 INSERT OR REPLACE INTO primitive_values
                 (lexeme_id, primitive, value, confidence, source)
                 VALUES (?, ?, ?, ?, ?)
-            """, (lexeme_id, prim, value, conf, f"hybrid:{self.fast_model}+{self.validator_model}"))
+            """,
+                (lexeme_id, prim, value, conf, f"hybrid:{self.fast_model}+{self.validator_model}"),
+            )
 
         self.conn.commit()
         self.stats.words_processed += 1
@@ -364,14 +370,17 @@ Return JSON: {{"PRIMITIVE": "CORRECT|WRONG:new_value|UNCERTAIN", ...}}"""
             min_missing: Minimum missing primitives to bother processing
         """
         # Get words with missing primitives
-        cursor = self.conn.execute("""
+        cursor = self.conn.execute(
+            """
             SELECT l.id, l.lemma, 72 - COUNT(p.id) as missing_count
             FROM lexemes l
             LEFT JOIN primitive_values p ON l.id = p.lexeme_id
             GROUP BY l.id
             HAVING missing_count >= ?
             ORDER BY l.frequency_rank NULLS LAST
-        """, (min_missing,))
+        """,
+            (min_missing,),
+        )
 
         words = cursor.fetchall()
         if limit:
@@ -389,10 +398,7 @@ Return JSON: {{"PRIMITIVE": "CORRECT|WRONG:new_value|UNCERTAIN", ...}}"""
                 if (i + 1) % 10 == 0:
                     elapsed = time.time() - start_time
                     rate = (i + 1) / elapsed
-                    logger.info(
-                        f"Progress: {i + 1}/{len(words)} ({rate:.1f} words/sec) - "
-                        f"{lemma} | {self.stats}"
-                    )
+                    logger.info(f"Progress: {i + 1}/{len(words)} ({rate:.1f} words/sec) - {lemma} | {self.stats}")
 
             except Exception as e:
                 logger.error(f"Failed to process {lemma}: {e}")
@@ -408,10 +414,7 @@ def main():
     """Run the hybrid lexicon builder."""
     import argparse
 
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(levelname)s - %(message)s"
-    )
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
     parser = argparse.ArgumentParser(description="Hybrid Lexicon Builder")
     parser.add_argument("--db", default="data/lexicon.db", help="Database path")
@@ -433,9 +436,7 @@ def main():
     try:
         if args.word:
             # Process single word
-            cursor = builder.conn.execute(
-                "SELECT id FROM lexemes WHERE lemma = ?", (args.word,)
-            )
+            cursor = builder.conn.execute("SELECT id FROM lexemes WHERE lemma = ?", (args.word,))
             row = cursor.fetchone()
             if row:
                 result = builder.process_word(row[0], args.word, validate=not args.no_validate)
@@ -453,9 +454,9 @@ def main():
                 min_missing=args.min_missing,
             )
 
-            print("\n" + "="*50)
+            print("\n" + "=" * 50)
             print("HYBRID BUILD COMPLETE")
-            print("="*50)
+            print("=" * 50)
             print(f"Words processed: {stats.words_processed}")
             print(f"Primitives fast-filled: {stats.primitives_fast_filled}")
             print(f"Primitives validated: {stats.primitives_validated}")

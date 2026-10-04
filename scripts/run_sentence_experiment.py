@@ -92,11 +92,7 @@ def evaluate_gse_parallel(
     start_time = time.time()
     completed = 0
 
-    with ProcessPoolExecutor(
-        max_workers=n_workers,
-        initializer=init_worker,
-        initargs=(db_path,)
-    ) as executor:
+    with ProcessPoolExecutor(max_workers=n_workers, initializer=init_worker, initargs=(db_path,)) as executor:
         futures = {executor.submit(encode_pair_worker, item): item[0] for item in work_items}
 
         for future in as_completed(futures):
@@ -108,7 +104,11 @@ def evaluate_gse_parallel(
                 elapsed = time.time() - start_time
                 rate = completed / elapsed
                 eta = (len(pairs) - completed) / rate if rate > 0 else 0
-                print(f"\r  Progress: {completed}/{len(pairs)} ({100*completed/len(pairs):.1f}%) - {rate:.1f} pairs/s - ETA: {eta:.0f}s", end="", flush=True)
+                print(
+                    f"\r  Progress: {completed}/{len(pairs)} ({100 * completed / len(pairs):.1f}%) - {rate:.1f} pairs/s - ETA: {eta:.0f}s",
+                    end="",
+                    flush=True,
+                )
 
     print()  # Newline after progress
 
@@ -229,7 +229,9 @@ def main():
         n_workers=n_cores,
     )
     results.append(gse_result)
-    print(f"  STS-B: ρ={gse_result.spearman_rho:.4f}, r={gse_result.pearson_r:.4f} (coverage={gse_result.coverage*100:.1f}%)")
+    print(
+        f"  STS-B: ρ={gse_result.spearman_rho:.4f}, r={gse_result.pearson_r:.4f} (coverage={gse_result.coverage * 100:.1f}%)"
+    )
     print()
 
     # Baselines

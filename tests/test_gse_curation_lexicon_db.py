@@ -27,12 +27,20 @@ def db(tmp_path):
 
 # ---------- LexemeEntry ----------
 
+
 class TestLexemeEntry:
     def test_construction(self):
         e = LexemeEntry(
-            id=1, lemma="happy", pos="adj", sense_id="01",
-            gloss="feeling good", source="llm", confidence=0.9,
-            frequency_rank=10, frequency_weight=0.8, phase=1,
+            id=1,
+            lemma="happy",
+            pos="adj",
+            sense_id="01",
+            gloss="feeling good",
+            source="llm",
+            confidence=0.9,
+            frequency_rank=10,
+            frequency_weight=0.8,
+            phase=1,
             validation_status="validated",
         )
         assert e.lemma == "happy"
@@ -41,6 +49,7 @@ class TestLexemeEntry:
 
 
 # ---------- ValidationResult ----------
+
 
 class TestValidationResult:
     def test_defaults(self):
@@ -51,6 +60,7 @@ class TestValidationResult:
 
 
 # ---------- __init__ ----------
+
 
 class TestInit:
     def test_creates_db(self, tmp_path):
@@ -68,6 +78,7 @@ class TestInit:
 
 
 # ---------- add_lexeme ----------
+
 
 class TestAddLexeme:
     def test_basic(self, db):
@@ -90,6 +101,7 @@ class TestAddLexeme:
 
 
 # ---------- get_lexeme ----------
+
 
 class TestGetLexeme:
     def test_returns_entry(self, db):
@@ -117,6 +129,7 @@ class TestGetLexeme:
 
 # ---------- get_lexeme_by_id ----------
 
+
 class TestGetLexemeByID:
     def test_found(self, db):
         lex_id = db.add_lexeme(lemma="x", pos="n")
@@ -128,6 +141,7 @@ class TestGetLexemeByID:
 
 
 # ---------- update_lexeme ----------
+
 
 class TestUpdateLexeme:
     def test_update_status(self, db):
@@ -163,6 +177,7 @@ class TestUpdateLexeme:
 
 # ---------- update_frequency ----------
 
+
 class TestUpdateFrequency:
     def test_basic(self, db):
         db.add_lexeme(lemma="x", pos="n")
@@ -173,6 +188,7 @@ class TestUpdateFrequency:
 
 
 # ---------- set_decomposition / get_decomposition ----------
+
 
 class TestDecomposition:
     def test_set_and_get(self, db):
@@ -215,6 +231,7 @@ class TestDecomposition:
 
 # ---------- get_active_primitives ----------
 
+
 class TestGetActivePrimitives:
     def test_returns_non_zero(self, db):
         lex_id = db.add_lexeme(lemma="x", pos="n")
@@ -230,6 +247,7 @@ class TestGetActivePrimitives:
 
 
 # ---------- get_words_by_rank_range ----------
+
 
 class TestGetWordsByRankRange:
     def test_with_end(self, db):
@@ -248,6 +266,7 @@ class TestGetWordsByRankRange:
 
 
 # ---------- get_unprocessed_words ----------
+
 
 class TestGetUnprocessedWords:
     def test_filters_by_phase_and_status(self, db):
@@ -275,6 +294,7 @@ class TestGetUnprocessedWords:
 
 
 # ---------- get_validated_entries ----------
+
 
 class TestGetValidatedEntries:
     def test_empty(self, db):
@@ -306,6 +326,7 @@ class TestGetValidatedEntries:
 
 # ---------- count_by_phase ----------
 
+
 class TestCountByPhase:
     def test_empty(self, db):
         result = db.count_by_phase(1)
@@ -330,6 +351,7 @@ class TestCountByPhase:
 
 # ---------- store_validation_result / get_validation_results ----------
 
+
 class TestValidationResults:
     def test_store_and_get(self, db):
         lex = db.add_lexeme(lemma="x", pos="n")
@@ -345,6 +367,7 @@ class TestValidationResults:
 
 # ---------- flag_for_review ----------
 
+
 class TestFlagForReview:
     def test_updates_status(self, db):
         lex = db.add_lexeme(lemma="x", pos="n")
@@ -355,20 +378,21 @@ class TestFlagForReview:
 
 # ---------- add_provenance ----------
 
+
 class TestAddProvenance:
     def test_basic(self, db):
         lex = db.add_lexeme(lemma="x", pos="n")
-        db.add_provenance(lex, source_type="llm", source_detail="qwen", primitive="GOOD",
-                          confidence_before=0.5, confidence_after=0.9)
-        cursor = db.conn.execute(
-            "SELECT * FROM decomposition_provenance WHERE lexeme_id = ?", (lex,)
+        db.add_provenance(
+            lex, source_type="llm", source_detail="qwen", primitive="GOOD", confidence_before=0.5, confidence_after=0.9
         )
+        cursor = db.conn.execute("SELECT * FROM decomposition_provenance WHERE lexeme_id = ?", (lex,))
         rows = cursor.fetchall()
         assert len(rows) == 1
         assert rows[0]["source_type"] == "llm"
 
 
 # ---------- checkpoint / get_last_checkpoint ----------
+
 
 class TestCheckpoint:
     def test_save_and_retrieve(self, db):
@@ -390,6 +414,7 @@ class TestCheckpoint:
 
 
 # ---------- get_stats ----------
+
 
 class TestGetStats:
     def test_empty(self, db):
@@ -422,6 +447,7 @@ class TestGetStats:
 
 
 # ---------- disagreement operations ----------
+
 
 class TestDisagreements:
     def test_store_and_get(self, db):
@@ -470,13 +496,12 @@ class TestDisagreements:
 
 # ---------- store_source_coverage ----------
 
+
 class TestStoreSourceCoverage:
     def test_basic(self, db):
         lex = db.add_lexeme(lemma="x", pos="n")
         db.store_source_coverage(lex, "verbnet", primitives_matched=10, primitives_agreed=8)
-        cursor = db.conn.execute(
-            "SELECT * FROM external_source_coverage WHERE lexeme_id = ?", (lex,)
-        )
+        cursor = db.conn.execute("SELECT * FROM external_source_coverage WHERE lexeme_id = ?", (lex,))
         row = cursor.fetchone()
         assert row["primitives_matched"] == 10
         assert row["primitives_agreed"] == 8
@@ -486,13 +511,12 @@ class TestStoreSourceCoverage:
         lex = db.add_lexeme(lemma="x", pos="n")
         # max(0, 1) = 1 prevents div by zero
         db.store_source_coverage(lex, "v", primitives_matched=0, primitives_agreed=0)
-        cursor = db.conn.execute(
-            "SELECT agreement_rate FROM external_source_coverage WHERE lexeme_id = ?", (lex,)
-        )
+        cursor = db.conn.execute("SELECT agreement_rate FROM external_source_coverage WHERE lexeme_id = ?", (lex,))
         assert cursor.fetchone()["agreement_rate"] == 0
 
 
 # ---------- get_disagreement_stats ----------
+
 
 class TestGetDisagreementStats:
     def test_empty(self, db):
@@ -512,6 +536,7 @@ class TestGetDisagreementStats:
 
 
 # ---------- context manager ----------
+
 
 class TestContextManager:
     def test_closes(self, tmp_path):

@@ -17,6 +17,7 @@ from gse.curation.schema import (
 @dataclass
 class ValidationResult:
     """Result of a validation check."""
+
     passed: bool
     validation_type: str
     violations: List[Dict[str, Any]] = field(default_factory=list)
@@ -64,11 +65,13 @@ class HierarchyValidator:
         hier_minus = decomposition.get("HIER_MINUS", 0)
 
         if hier_plus != 0 and hier_minus != 0:
-            violations.append({
-                "type": "hierarchy_conflict",
-                "detail": f"Both HIER_PLUS ({hier_plus}) and HIER_MINUS ({hier_minus}) are non-zero",
-                "message": "Hierarchy markers should not both be active",
-            })
+            violations.append(
+                {
+                    "type": "hierarchy_conflict",
+                    "detail": f"Both HIER_PLUS ({hier_plus}) and HIER_MINUS ({hier_minus}) are non-zero",
+                    "message": "Hierarchy markers should not both be active",
+                }
+            )
 
         # Check each hierarchy base
         for base_name in ["QUANTITY", "INTENSITY", "CERTAINTY"]:
@@ -77,24 +80,25 @@ class HierarchyValidator:
             if base_val != 0:
                 # Base is active, check marker consistency
                 if hier_plus != 0 and hier_minus != 0:
-                    violations.append({
-                        "type": "hierarchy_base_conflict",
-                        "base": base_name,
-                        "detail": f"{base_name} is active but both markers are set",
-                    })
+                    violations.append(
+                        {
+                            "type": "hierarchy_base_conflict",
+                            "base": base_name,
+                            "detail": f"{base_name} is active but both markers are set",
+                        }
+                    )
 
         # Check for orphaned hierarchy markers (markers without base)
-        if (hier_plus != 0 or hier_minus != 0):
-            bases_active = any(
-                decomposition.get(base, 0) != 0
-                for base in ["QUANTITY", "INTENSITY", "CERTAINTY"]
-            )
+        if hier_plus != 0 or hier_minus != 0:
+            bases_active = any(decomposition.get(base, 0) != 0 for base in ["QUANTITY", "INTENSITY", "CERTAINTY"])
             if not bases_active:
-                violations.append({
-                    "type": "orphaned_markers",
-                    "detail": "Hierarchy markers present without active hierarchy base",
-                    "markers": {"HIER_PLUS": hier_plus, "HIER_MINUS": hier_minus},
-                })
+                violations.append(
+                    {
+                        "type": "orphaned_markers",
+                        "detail": "Hierarchy markers present without active hierarchy base",
+                        "markers": {"HIER_PLUS": hier_plus, "HIER_MINUS": hier_minus},
+                    }
+                )
 
         passed = len(violations) == 0
 

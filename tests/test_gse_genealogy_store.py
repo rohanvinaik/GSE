@@ -24,8 +24,7 @@ from gse.symbolic.predicates import TypeAssertion
 from gse.symbolic.resolution import Entity
 
 _DB = Path("data/genealogy.db")
-pytestmark = pytest.mark.skipif(not _DB.exists(),
-                                reason="genealogy.db not built (scripts/build_genealogy_db.py)")
+pytestmark = pytest.mark.skipif(not _DB.exists(), reason="genealogy.db not built (scripts/build_genealogy_db.py)")
 
 
 @pytest.fixture(scope="module")
@@ -46,9 +45,9 @@ def encoder():
 
 def test_word_thread_is_root_to_leaf(store):
     t = store.thread("dog", "NOUN", is_proper=False)
-    assert t[0] == "entity"           # WordNet root
-    assert t[-1] == "dog"             # leaf is the lemma
-    assert "animal" in t              # climbs the real lineage
+    assert t[0] == "entity"  # WordNet root
+    assert t[-1] == "dog"  # leaf is the lemma
+    assert "animal" in t  # climbs the real lineage
 
 
 def test_word_thread_covers_thane_and_king(store):
@@ -79,12 +78,11 @@ def test_pronoun_gets_no_thread(store):
 
 def test_world_strand_returns_thing_rooted_lineage(store):
     # Pull a real world label from the store's own db, then resolve it.
-    row = store._conn.execute(
-        "SELECT label FROM world_thread WHERE depth>=3 LIMIT 1").fetchone()
+    row = store._conn.execute("SELECT label FROM world_thread WHERE depth>=3 LIMIT 1").fetchone()
     assert row is not None, "world_thread should be populated"
     label = row[0]
     t = store.thread(label, "PROPN", is_proper=True)
-    assert t[0] == "Thing"            # DBpedia world root
+    assert t[0] == "Thing"  # DBpedia world root
     assert len(t) >= 3
 
 
@@ -96,7 +94,7 @@ def test_threads_flow_into_entity_refs(encoder, store):
     resolved = resolve_references(tree, store)
     node = emit(resolved)
     assert node["op"] == "TYPE_ASSERT"
-    kind = node["args"][1]            # "dog"
+    kind = node["args"][1]  # "dog"
     assert kind["lemma"] == "dog"
     assert kind["type_thread"][-1] == "dog"
     assert "animal" in kind["type_thread"]

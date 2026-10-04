@@ -24,11 +24,12 @@ def temp_db():
     Path(path).unlink(missing_ok=True)
 
 
-def make_lexeme(lemma="happy", pos="adj", sense_id="01",
-                decomposition=None, source="manual", confidence=0.9):
+def make_lexeme(lemma="happy", pos="adj", sense_id="01", decomposition=None, source="manual", confidence=0.9):
     return LexemeNode(
         node_id=f"{lemma}_{pos}_{sense_id}",
-        lemma=lemma, pos=pos, sense_id=sense_id,
+        lemma=lemma,
+        pos=pos,
+        sense_id=sense_id,
         gloss=f"definition of {lemma}",
         decomposition=decomposition if decomposition is not None else [("GOOD", "evaluation", 1)],
         vector_positive=np.array([1, 2, 3], dtype=np.uint16),
@@ -44,10 +45,9 @@ class TestTranslatorInit:
         translator = SQLiteMerkleTranslator(temp_db)
         # Schema should be created
         import sqlite3
+
         with sqlite3.connect(temp_db) as conn:
-            cursor = conn.execute(
-                "SELECT name FROM sqlite_master WHERE type='table'"
-            )
+            cursor = conn.execute("SELECT name FROM sqlite_master WHERE type='table'")
             tables = {row[0] for row in cursor}
         assert "lexemes" in tables
         assert "decompositions" in tables

@@ -13,6 +13,7 @@ from typing import Iterator, List, Optional, Tuple
 @dataclass
 class WordFrequency:
     """A word with its frequency data."""
+
     word: str
     combined_rank: int
     david47k_rank: Optional[int]
@@ -49,10 +50,7 @@ class FrequencyDatabase:
 
     def get_word(self, word: str) -> Optional[WordFrequency]:
         """Get frequency data for a single word."""
-        cursor = self.conn.execute(
-            "SELECT * FROM frequency WHERE word = ?",
-            (word,)
-        )
+        cursor = self.conn.execute("SELECT * FROM frequency WHERE word = ?", (word,))
         row = cursor.fetchone()
         if row is None:
             return None
@@ -81,7 +79,7 @@ class FrequencyDatabase:
                 WHERE combined_rank >= ?
                 ORDER BY combined_rank
                 """,
-                (start_rank,)
+                (start_rank,),
             )
         else:
             cursor = self.conn.execute(
@@ -90,7 +88,7 @@ class FrequencyDatabase:
                 WHERE combined_rank >= ? AND combined_rank <= ?
                 ORDER BY combined_rank
                 """,
-                (start_rank, end_rank)
+                (start_rank, end_rank),
             )
         return [self._row_to_word_freq(row) for row in cursor.fetchall()]
 
@@ -109,7 +107,7 @@ class FrequencyDatabase:
                 ORDER BY combined_rank
                 LIMIT ? OFFSET ?
                 """,
-                (start_rank, batch_size, offset)
+                (start_rank, batch_size, offset),
             )
             rows = cursor.fetchall()
             if not rows:

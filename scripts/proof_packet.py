@@ -9,6 +9,7 @@ Each section prints the literal transcript quoted in
 Sections: basics · lsat · needle · dirty · policy · contradiction ·
 fingerprint · coined · spell
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -36,12 +37,12 @@ def vec_hash(s: str) -> str:
 
 
 def _decomp(word: str) -> dict:
-    conn = sqlite3.connect(os.path.join(os.path.dirname(__file__), "..",
-                                        "data", "lexicon_clean.db"))
+    conn = sqlite3.connect(os.path.join(os.path.dirname(__file__), "..", "data", "lexicon_clean.db"))
     rows = conn.execute(
         "SELECT pv.primitive, pv.value FROM primitive_values pv"
         " JOIN lexemes lx ON lx.id = pv.lexeme_id WHERE lx.lemma = ?",
-        (word,)).fetchall()
+        (word,),
+    ).fetchall()
     conn.close()
     return dict(sorted(rows))
 
@@ -101,6 +102,7 @@ def basics() -> None:
     print(f"{s!r}\n  encode ×3 -> sha256 {hashes} (byte-identical)")
     print()
     from gse.symbolic import GenealogyStore, grounding_flags, resolve_references
+
     store = GenealogyStore()
     t = resolve_references(pipe("The zorble is bigger than the florp"), store)
     print(f"structure derived:   {show(predicates(t)[0])}")
@@ -144,11 +146,10 @@ def _names(n: int) -> list:
     cons, vow = "KBDFGLMNPRSTV", "aeiou"
     out, i = [], 0
     while len(out) < n:
-        c1, v1, c2, v2 = (cons[i % 13], vow[(i // 13) % 5],
-                          cons[(i // 65) % 13].lower(), vow[(i // 325) % 5])
-        name = f"{c1}{v1}{c2}o{v2}"           # Kabo a, Babo e, ...
+        c1, v1, c2, v2 = (cons[i % 13], vow[(i // 13) % 5], cons[(i // 65) % 13].lower(), vow[(i // 325) % 5])
+        name = f"{c1}{v1}{c2}o{v2}"  # Kabo a, Babo e, ...
         i += 1
-        out.append(f"{c1}{v1}{c2}{v2}n")      # Kaban, Beban, ...
+        out.append(f"{c1}{v1}{c2}{v2}n")  # Kaban, Beban, ...
     return list(dict.fromkeys(out))[:n]
 
 
@@ -166,7 +167,7 @@ def needle(lengths=(10, 25, 50, 100)) -> None:
         names = _names(n + 1)
         premises = [f"{names[i]} is taller than {names[i + 1]}." for i in range(n)]
         doc, fi = [], 0
-        for j, p in enumerate(premises):      # deterministic interleave 1:2
+        for j, p in enumerate(premises):  # deterministic interleave 1:2
             doc.append(p)
             for _ in range(2):
                 doc.append(_FILLER[fi % len(_FILLER)])
@@ -175,10 +176,12 @@ def needle(lengths=(10, 25, 50, 100)) -> None:
         top, bottom = names[0].lower(), names[n].lower()
         d = kb.greater(top, bottom)
         rev = kb.greater(bottom, top)
-        print(f"  chain length {n:3d}  ({len(doc)} sentences): "
-              f"greater({top}, {bottom}) = {d.holds}"
-              f"  [proof: {len(d.chain) - 1} steps]"
-              f"   reverse: {'REFUSED' if not rev.holds else 'ERROR'}")
+        print(
+            f"  chain length {n:3d}  ({len(doc)} sentences): "
+            f"greater({top}, {bottom}) = {d.holds}"
+            f"  [proof: {len(d.chain) - 1} steps]"
+            f"   reverse: {'REFUSED' if not rev.holds else 'ERROR'}"
+        )
 
 
 # --------------------------------------------------------------------------- #
@@ -193,11 +196,11 @@ _CLEAN_CHAIN = [
     "If a poodle is taller than Bob then the poodle wins.",
 ]
 _DIRTY_CHAIN = [
-    "Einstien is taller than Mike.",          # a NAME typo — the entity leg's case
+    "Einstien is taller than Mike.",  # a NAME typo — the entity leg's case
     "Mike is taller than Rex.",
     "Rex is taller than Spot.",
     "Spot is taller than Bob.",
-    "Mike is a poodel.",                      # word-leg typos
+    "Mike is a poodel.",  # word-leg typos
     "A pooodle is a dog.",
     "A dog is an animal.",
     "If a poodle is taller than Bob then the poodle wins.",
@@ -206,14 +209,19 @@ _DIRTY_CHAIN = [
 
 def _run_chain(sentences) -> list:
     kb = KnowledgeBase.from_trees([pipe(s) for s in sentences])
-    return [kb.greater("einstein", "bob"), kb.is_a("mike", "animal"),
-            kb.event("win", "mike"), kb.greater("bob", "einstein"),
-            kb.is_a("mike", "knife")]
+    return [
+        kb.greater("einstein", "bob"),
+        kb.is_a("mike", "animal"),
+        kb.event("win", "mike"),
+        kb.greater("bob", "einstein"),
+        kb.is_a("mike", "knife"),
+    ]
 
 
 def dirty() -> None:
     header("DIRTY INPUT — typos healed with a ledger, then the SAME derivation")
     from gse.mcp.spell_server import spell_suggest
+
     healed, ledger = [], []
     for s in _DIRTY_CHAIN:
         r = spell_suggest(s)
@@ -246,8 +254,12 @@ def policy() -> None:
         print(f"  {s}")
     print()
     kb = KnowledgeBase.from_trees([pipe(s) for s in text])
-    for q in [("lose", "alice", "vote"), ("leave", "alice", "board"),
-              ("lose", "bob", "vote"), ("lose", "carol", "vote")]:
+    for q in [
+        ("lose", "alice", "vote"),
+        ("leave", "alice", "board"),
+        ("lose", "bob", "vote"),
+        ("lose", "carol", "vote"),
+    ]:
         print(f"  {kb.event(*q)}")
 
 
@@ -255,11 +267,11 @@ def policy() -> None:
 def world() -> None:
     header("WORLD GROUNDING — the premise the text never states")
     from gse.symbolic import GenealogyStore, resolve_references
-    store = GenealogyStore()
-    rpipe = lambda s: resolve_references(pipe(s), store)   # noqa: E731
 
-    text = ["If a person led a country then the person commanded the army.",
-            "Napoleon led France."]
+    store = GenealogyStore()
+    rpipe = lambda s: resolve_references(pipe(s), store)  # noqa: E731
+
+    text = ["If a person led a country then the person commanded the army.", "Napoleon led France."]
     for s in text:
         print(f"  {s}")
     print("\n  (no sentence types napoleon or france — the world store does:)")
@@ -277,8 +289,7 @@ def world() -> None:
         (p,) = predicates(rpipe(s))
         kind = p.kind.head if hasattr(p.kind, "head") else p.kind
         print(f"  {s!r}")
-        print(f"    -> napoleon[{' → '.join(p.entity.type_thread)}] is_a "
-              f"{kind.lemma} ⟨{kind.word_primitives}⟩")
+        print(f"    -> napoleon[{' → '.join(p.entity.type_thread)}] is_a {kind.lemma} ⟨{kind.word_primitives}⟩")
 
 
 # --------------------------------------------------------------------------- #
@@ -286,6 +297,7 @@ def _propositions(tree):
     """(polarity, key) propositions in a resolved tree — Events (with clause
     negation) and TypeAssertions (with the kind's negation-prefix normalized)."""
     from gse.nlp.morphology import resolve_negation
+
     out = []
 
     def ev_key(p):
@@ -352,8 +364,12 @@ def contradiction() -> None:
 def reduction() -> None:
     header("REDUCTION — text reduces like an equation")
     print("  negation is a SIGN, from either mechanism (clause 'not' | prefix), and signs multiply:\n")
-    for s in ["The knight is loyal.", "The knight is disloyal.",
-              "The knight is not disloyal.", "The knight is not unmerry."]:
+    for s in [
+        "The knight is loyal.",
+        "The knight is disloyal.",
+        "The knight is not disloyal.",
+        "The knight is not unmerry.",
+    ]:
         (pol, key) = _propositions(pipe(s))[0]
         print(f"  {s!r:34} -> {'+' if pol > 0 else '-'}{key[2]}({key[1]})")
     a = _propositions(pipe("The knight is loyal."))
@@ -389,34 +405,37 @@ def fingerprint() -> None:
     for w in ["hurt", "injure", "wound", "harm", "attack", "heal"]:
         print(f"  {w:8} -> {_decomp(w)}")
     print()
-    sents = ["The guard hurt the prisoner.",
-             "The guard injured the prisoner.",
-             "The guard wounded the prisoner.",
-             "The guard healed the prisoner."]
+    sents = [
+        "The guard hurt the prisoner.",
+        "The guard injured the prisoner.",
+        "The guard wounded the prisoner.",
+        "The guard healed the prisoner.",
+    ]
     keys = {}
     for s in sents:
         (p,) = predicates(pipe(s))
-        key = (frozenset(_decomp(p.verb).items()),
-               p.agent.head.lemma, p.patient.head.lemma)
+        key = (frozenset(_decomp(p.verb).items()), p.agent.head.lemma, p.patient.head.lemma)
         keys.setdefault(key, []).append(s)
         print(f"  {s!r}\n     form = (verb⟨{_decomp(p.verb)}⟩, {p.agent.head.lemma}, {p.patient.head.lemma})")
-    print(f"\n  distinct forms across {len(sents)} sentences: {len(keys)}"
-          f"  (hurt/injure/wound collapse; heal differs by the GOOD sign)")
+    print(
+        f"\n  distinct forms across {len(sents)} sentences: {len(keys)}"
+        f"  (hurt/injure/wound collapse; heal differs by the GOOD sign)"
+    )
 
 
 # --------------------------------------------------------------------------- #
 def coined() -> None:
     header("COINED WORDS — meaning for words that never existed")
-    conn = sqlite3.connect(os.path.join(os.path.dirname(__file__), "..",
-                                        "data", "lexicon_clean.db"))
+    conn = sqlite3.connect(os.path.join(os.path.dirname(__file__), "..", "data", "lexicon_clean.db"))
     for base, coin in [("loyal", "unloyal"), ("merry", "unmerry")]:
         in_lex = conn.execute("SELECT 1 FROM lexemes WHERE lemma=?", (coin,)).fetchone()
         (p,) = predicates(pipe(f"The knight is {coin}."))
         kind = p.kind if not hasattr(p.kind, "head") else p.kind.head
-        print(f"  {coin!r}: in the 67K lexicon? {bool(in_lex)}"
-              f"   base {base} = {_decomp(base)}")
-        print(f"  'The knight is {coin}.' -> kind: {kind.lemma} {kind.word_primitives}"
-              f"   (negation computed at encode time)")
+        print(f"  {coin!r}: in the 67K lexicon? {bool(in_lex)}   base {base} = {_decomp(base)}")
+        print(
+            f"  'The knight is {coin}.' -> kind: {kind.lemma} {kind.word_primitives}"
+            f"   (negation computed at encode time)"
+        )
     conn.close()
 
 
@@ -424,18 +443,30 @@ def coined() -> None:
 def spell() -> None:
     header("SPELLCHECK — never destroys, honestly abstains, names included")
     from gse.mcp.spell_server import spell_suggest
-    for text in ["I beleive this is teh correct anser",
-                 "Einstien published the theory of relativity",
-                 "we flew to Melbourn yesterday"]:
+
+    for text in [
+        "I beleive this is teh correct anser",
+        "Einstien published the theory of relativity",
+        "we flew to Melbourn yesterday",
+    ]:
         r = spell_suggest(text)
         print(f"  {text!r}\n    -> {r['corrected']!r}")
 
 
 # --------------------------------------------------------------------------- #
-_SECTIONS = {"basics": basics, "lsat": lsat, "needle": needle, "dirty": dirty,
-             "policy": policy, "world": world, "contradiction": contradiction,
-             "reduction": reduction, "fingerprint": fingerprint,
-             "coined": coined, "spell": spell}
+_SECTIONS = {
+    "basics": basics,
+    "lsat": lsat,
+    "needle": needle,
+    "dirty": dirty,
+    "policy": policy,
+    "world": world,
+    "contradiction": contradiction,
+    "reduction": reduction,
+    "fingerprint": fingerprint,
+    "coined": coined,
+    "spell": spell,
+}
 
 if __name__ == "__main__":
     picks = sys.argv[1:] or list(_SECTIONS)

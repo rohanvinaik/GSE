@@ -52,10 +52,7 @@ def _entity_like(tok) -> bool:
     if tok.pos in _NOMINAL_POS:
         return True
     return (
-        tok.pos in {"ADJ", "X"}
-        and tok.token.isalpha()
-        and tok.token.istitle()
-        and not _has_adjective_sense(tok.lemma)
+        tok.pos in {"ADJ", "X"} and tok.token.isalpha() and tok.token.istitle() and not _has_adjective_sense(tok.lemma)
     )
 
 
@@ -84,8 +81,7 @@ def _is_collapsed_clause(node: Any, trace) -> bool:
     """True if a bare node looks like a clause that failed to predicate: it holds
     a verb-sense token AND a *distinct* entity-like token (a would-be subject)."""
     atoms = _atoms(node)
-    toks = [trace.tokens[a.position] for a in atoms
-            if 0 <= a.position < len(trace.tokens)]
+    toks = [trace.tokens[a.position] for a in atoms if 0 <= a.position < len(trace.tokens)]
     verb_positions = {t.position for t in toks if _has_verb_sense(t.lemma)}
     if not verb_positions:
         return False
@@ -119,16 +115,15 @@ def coherence_report(tree: Any, trace) -> List[dict]:
         elif isinstance(node, _BARE):
             if _is_collapsed_clause(node, trace):
                 atoms = _atoms(node)
-                positions = sorted(
-                    a.position for a in atoms
-                    if 0 <= a.position < len(trace.tokens)
-                )
+                positions = sorted(a.position for a in atoms if 0 <= a.position < len(trace.tokens))
                 surface = " ".join(trace.tokens[p].token for p in positions)
-                degraded.append({
-                    "clause": surface,
-                    "positions": positions,
-                    "reason": "collapse",
-                })
+                degraded.append(
+                    {
+                        "clause": surface,
+                        "positions": positions,
+                        "reason": "collapse",
+                    }
+                )
         # any other predicate node → coherent; stop.
 
     visit(tree)
@@ -160,9 +155,7 @@ def emit_contract_with_coherence(encoder, text: str) -> Any:
     return contract
 
 
-def emit_contract_with_variables_and_coherence(
-    encoder, text: str, variables: Optional[dict] = None
-) -> Any:
+def emit_contract_with_variables_and_coherence(encoder, text: str, variables: Optional[dict] = None) -> Any:
     """Compose the two extensions: typed-variable substitution AND the
     degraded-clause report, over the one unchanged pipeline pass. Sentinel
     surfaces in the report are restored to ``$var`` names."""

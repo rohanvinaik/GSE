@@ -26,6 +26,7 @@ from gse.primitives_v2 import SEMANTIC_BANK_NAMES, SemanticBank
 # BASE NODE
 # =============================================================================
 
+
 @dataclass
 class MerkleNode:
     """
@@ -34,6 +35,7 @@ class MerkleNode:
     The combined_hash is used for verification and routing.
     Hash format: SHA-256 truncated to 32 hex chars (128 bits).
     """
+
     node_id: str
     node_type: str  # 'root', 'bank', 'family', 'hub', 'lexeme'
 
@@ -45,15 +47,14 @@ class MerkleNode:
     def update_combined_hash(self):
         """Recompute combined hash from content and children."""
         from gse.merkle.hash_chain import MerkleHashChain
-        self.combined_hash = MerkleHashChain.combine_hashes(
-            self.content_hash,
-            self.children_hash
-        )
+
+        self.combined_hash = MerkleHashChain.combine_hashes(self.content_hash, self.children_hash)
 
 
 # =============================================================================
 # LEVEL 0: ROOT NODE
 # =============================================================================
+
 
 @dataclass
 class RootNode(MerkleNode):
@@ -63,6 +64,7 @@ class RootNode(MerkleNode):
     The root hash changes if ANY lexeme changes.
     Used for rapid lexicon identity comparison.
     """
+
     node_type: str = "root"
 
     # Children: 8 bank nodes
@@ -76,6 +78,7 @@ class RootNode(MerkleNode):
     def compute_content_hash(self) -> str:
         """Hash of root's own metadata."""
         from gse.merkle.hash_chain import MerkleHashChain
+
         content = f"root|v{self.version}|lexemes:{self.total_lexemes}|prims:{self.total_primitives}"
         self.content_hash = MerkleHashChain.compute_hash(content.encode())
         return self.content_hash
@@ -83,9 +86,8 @@ class RootNode(MerkleNode):
     def compute_children_hash(self) -> str:
         """Hash of all bank hashes in order."""
         from gse.merkle.hash_chain import MerkleHashChain
-        bank_chain = "|".join(
-            f"{k}:{v}" for k, v in sorted(self.bank_hashes.items())
-        )
+
+        bank_chain = "|".join(f"{k}:{v}" for k, v in sorted(self.bank_hashes.items()))
         self.children_hash = MerkleHashChain.compute_hash(bank_chain.encode())
         return self.children_hash
 
@@ -93,6 +95,7 @@ class RootNode(MerkleNode):
 # =============================================================================
 # LEVEL 1: BANK NODE
 # =============================================================================
+
 
 @dataclass
 class BankNode(MerkleNode):
@@ -102,6 +105,7 @@ class BankNode(MerkleNode):
     Each of the 8 banks (SUBSTANTIVES, QUANTITY, EVALUATORS, etc.)
     has one BankNode containing all families in that bank.
     """
+
     node_type: str = "bank"
 
     # Bank identity
@@ -122,6 +126,7 @@ class BankNode(MerkleNode):
     def compute_content_hash(self) -> str:
         """Hash of bank's own data."""
         from gse.merkle.hash_chain import MerkleHashChain
+
         content = (
             f"bank|{self.bank_id}|{self.bank_name}|"
             f"dims:{self.dim_start}-{self.dim_end}|"
@@ -133,9 +138,8 @@ class BankNode(MerkleNode):
     def compute_children_hash(self) -> str:
         """Hash of all family hashes."""
         from gse.merkle.hash_chain import MerkleHashChain
-        family_chain = "|".join(
-            f"{k}:{v}" for k, v in sorted(self.family_hashes.items())
-        )
+
+        family_chain = "|".join(f"{k}:{v}" for k, v in sorted(self.family_hashes.items()))
         self.children_hash = MerkleHashChain.compute_hash(family_chain.encode())
         return self.children_hash
 
@@ -143,6 +147,7 @@ class BankNode(MerkleNode):
 # =============================================================================
 # LEVEL 2: FAMILY NODE
 # =============================================================================
+
 
 @dataclass
 class FamilyNode(MerkleNode):
@@ -152,6 +157,7 @@ class FamilyNode(MerkleNode):
     Groups related primitives within a bank (e.g., "entity_animate",
     "mental_cognitive"). Used for routing during semantic search.
     """
+
     node_type: str = "family"
 
     # Family identity
@@ -179,6 +185,7 @@ class FamilyNode(MerkleNode):
     def compute_content_hash(self) -> str:
         """Hash of family's own data."""
         from gse.merkle.hash_chain import MerkleHashChain
+
         prims = ",".join(sorted(self.member_primitives))
         content = (
             f"family|{self.family_id}|bank:{self.bank_id}|"
@@ -191,9 +198,8 @@ class FamilyNode(MerkleNode):
     def compute_children_hash(self) -> str:
         """Hash of all hub hashes."""
         from gse.merkle.hash_chain import MerkleHashChain
-        hub_chain = "|".join(
-            f"{k}:{v}" for k, v in sorted(self.hub_hashes.items())
-        )
+
+        hub_chain = "|".join(f"{k}:{v}" for k, v in sorted(self.hub_hashes.items()))
         self.children_hash = MerkleHashChain.compute_hash(hub_chain.encode())
         return self.children_hash
 
@@ -201,6 +207,7 @@ class FamilyNode(MerkleNode):
 # =============================================================================
 # LEVEL 3: HUB NODE
 # =============================================================================
+
 
 @dataclass
 class HubNode(MerkleNode):
@@ -210,6 +217,7 @@ class HubNode(MerkleNode):
     Each hub represents a bank in the learning network.
     Contains lexemes that primarily use this primitive.
     """
+
     node_type: str = "hub"
 
     # Hub identity
@@ -233,6 +241,7 @@ class HubNode(MerkleNode):
     def compute_content_hash(self) -> str:
         """Hash of hub's own data."""
         from gse.merkle.hash_chain import MerkleHashChain
+
         # Include vector signature in hash
         vec_sig = f"pos:{len(self.vector_positive)},neg:{len(self.vector_negative)}"
         content = (
@@ -245,9 +254,8 @@ class HubNode(MerkleNode):
     def compute_children_hash(self) -> str:
         """Hash of all lexeme hashes."""
         from gse.merkle.hash_chain import MerkleHashChain
-        lexeme_chain = "|".join(
-            f"{k}:{v}" for k, v in sorted(self.lexeme_hashes.items())
-        )
+
+        lexeme_chain = "|".join(f"{k}:{v}" for k, v in sorted(self.lexeme_hashes.items()))
         self.children_hash = MerkleHashChain.compute_hash(lexeme_chain.encode())
         return self.children_hash
 
@@ -255,6 +263,7 @@ class HubNode(MerkleNode):
 # =============================================================================
 # LEVEL 4: LEXEME NODE
 # =============================================================================
+
 
 @dataclass
 class LexemeNode(MerkleNode):
@@ -264,6 +273,7 @@ class LexemeNode(MerkleNode):
     Contains a word's decomposition into primitives with roles and polarities,
     plus the pre-computed HDC vector.
     """
+
     node_type: str = "lexeme"
 
     # Lexeme identity
@@ -296,9 +306,7 @@ class LexemeNode(MerkleNode):
         from gse.merkle.hash_chain import MerkleHashChain
 
         # Include full decomposition in hash
-        decomp_str = "|".join(
-            f"{p}:{r}:{pol}" for p, r, pol in self.decomposition
-        )
+        decomp_str = "|".join(f"{p}:{r}:{pol}" for p, r, pol in self.decomposition)
 
         # Include vector fingerprint
         vec_sig = f"pos:{len(self.vector_positive)},neg:{len(self.vector_negative)}"
@@ -315,6 +323,7 @@ class LexemeNode(MerkleNode):
     def compute_children_hash(self) -> str:
         """Lexemes have no children, so children_hash is empty."""
         from gse.merkle.hash_chain import MerkleHashChain
+
         self.children_hash = MerkleHashChain.compute_hash(b"")
         return self.children_hash
 
@@ -364,6 +373,7 @@ class LexemeNode(MerkleNode):
 # =============================================================================
 # FACTORY FUNCTIONS
 # =============================================================================
+
 
 def create_bank_node(bank: SemanticBank) -> BankNode:
     """Create a BankNode for the given semantic bank."""

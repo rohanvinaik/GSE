@@ -33,6 +33,7 @@ def scale(banks_two):
 
 # ---------- BankDef ----------
 
+
 class TestBankDef:
     def test_defaults(self):
         b = BankDef(name="x", primitives=["P1"])
@@ -48,6 +49,7 @@ class TestBankDef:
 
 
 # ---------- PrimitiveInfo ----------
+
 
 class TestPrimitiveInfo:
     def test_basic(self):
@@ -67,6 +69,7 @@ class TestPrimitiveInfo:
 
 
 # ---------- ScaleDefinition.__init__ ----------
+
 
 class TestInit:
     def test_basic_fields(self, scale):
@@ -93,6 +96,7 @@ class TestInit:
 
 # ---------- _build_bank_enum ----------
 
+
 class TestBuildBankEnum:
     def test_returns_intenum(self, scale):
         assert issubclass(scale.bank_enum, IntEnum)
@@ -107,6 +111,7 @@ class TestBuildBankEnum:
 
 
 # ---------- _build_registry ----------
+
 
 class TestBuildRegistry:
     def test_all_primitives_registered(self, scale):
@@ -129,6 +134,7 @@ class TestBuildRegistry:
 
 # ---------- get_primitive_info ----------
 
+
 class TestGetPrimitiveInfo:
     def test_known(self, scale):
         info = scale.get_primitive_info("A1")
@@ -140,6 +146,7 @@ class TestGetPrimitiveInfo:
 
 
 # ---------- get_bank_primitives ----------
+
 
 class TestGetBankPrimitives:
     def test_returns_bank_primitives(self, scale):
@@ -162,6 +169,7 @@ class TestGetBankPrimitives:
 
 # ---------- get_all_primitives ----------
 
+
 class TestGetAllPrimitives:
     def test_returns_all(self, scale):
         result = scale.get_all_primitives()
@@ -169,6 +177,7 @@ class TestGetAllPrimitives:
 
 
 # ---------- count_primitives ----------
+
 
 class TestCountPrimitives:
     def test_total(self, scale):
@@ -183,6 +192,7 @@ class TestCountPrimitives:
 
 # ---------- primitives_per_bank_counts ----------
 
+
 class TestPrimitivesPerBankCounts:
     def test_returns_dict(self, scale):
         counts = scale.primitives_per_bank_counts()
@@ -190,6 +200,7 @@ class TestPrimitivesPerBankCounts:
 
 
 # ---------- all_primitive_names property ----------
+
 
 class TestAllPrimitiveNames:
     def test_returns_in_order(self, scale):
@@ -202,6 +213,7 @@ class TestAllPrimitiveNames:
 
 
 # ---------- __repr__ ----------
+
 
 class TestRepr:
     def test_format(self, scale):

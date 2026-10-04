@@ -34,8 +34,10 @@ from gse.primitives_v2 import (
 # COHERENCE RELATIONS
 # =============================================================================
 
+
 class CoherenceRelation(Enum):
     """Rhetorical relations between sentences in a paragraph."""
+
     # Rhetorical (Bank 0)
     TOPIC_INTRO = "topic_intro"
     CONTINUATION = "continuation"
@@ -87,23 +89,27 @@ RELATION_TO_PRIMITIVE = {
 # GESTALT TYPES
 # =============================================================================
 
+
 class GestaltType(Enum):
     """Types of meaning crystallization points."""
-    THESIS = "thesis"              # Core claim
-    PIVOT = "pivot"                # Direction change
-    SYNTHESIS = "synthesis"        # Multiple threads combined
-    RESOLUTION = "resolution"      # Tension resolved
-    HOOK = "hook"                  # Grabs attention
-    COMPRESSION = "compression"    # Analogy/metaphor point
+
+    THESIS = "thesis"  # Core claim
+    PIVOT = "pivot"  # Direction change
+    SYNTHESIS = "synthesis"  # Multiple threads combined
+    RESOLUTION = "resolution"  # Tension resolved
+    HOOK = "hook"  # Grabs attention
+    COMPRESSION = "compression"  # Analogy/metaphor point
 
 
 # =============================================================================
 # DATA STRUCTURES
 # =============================================================================
 
+
 @dataclass
 class IntensityTrajectory:
     """Track how intensity evolves across paragraph."""
+
     values: List[float]
     peak_index: int
     trajectory_type: str  # "building", "declining", "stable", "oscillating"
@@ -119,7 +125,7 @@ class IntensityTrajectory:
         if len(values) < 2:
             traj_type = "stable"
         else:
-            diffs = [values[i+1] - values[i] for i in range(len(values)-1)]
+            diffs = [values[i + 1] - values[i] for i in range(len(values) - 1)]
             avg_diff = sum(diffs) / len(diffs) if diffs else 0
 
             if avg_diff > 0.1:
@@ -137,6 +143,7 @@ class IntensityTrajectory:
 @dataclass
 class GestaltPoint:
     """A point where meaning crystallizes."""
+
     sentence_idx: int
     gestalt_type: GestaltType
     weight: float  # 0.0-1.0 importance
@@ -145,6 +152,7 @@ class GestaltPoint:
 @dataclass
 class SentenceInfo:
     """Information about a sentence for paragraph encoding."""
+
     text: str
     vector: np.ndarray
     intensity_score: float = 0.5
@@ -157,6 +165,7 @@ class SentenceInfo:
 @dataclass
 class ParagraphStructure:
     """Parsed paragraph structure."""
+
     raw_text: str
     sentences: List[str]
     sentence_info: List[SentenceInfo]
@@ -172,6 +181,7 @@ class ParagraphStructure:
 @dataclass
 class ParagraphEncoding:
     """Result of paragraph encoding."""
+
     vector: np.ndarray
     structure: ParagraphStructure
     sentence_vectors: List[np.ndarray]
@@ -182,6 +192,7 @@ class ParagraphEncoding:
 # =============================================================================
 # CODEBOOKS
 # =============================================================================
+
 
 class RelationCodebook:
     """Codebook of relation vectors."""
@@ -194,9 +205,7 @@ class RelationCodebook:
 
     def _generate_vectors(self):
         for relation in CoherenceRelation:
-            seed = int(hashlib.md5(
-                f"{self.seed}_REL_{relation.value}".encode()
-            ).hexdigest()[:8], 16)
+            seed = int(hashlib.md5(f"{self.seed}_REL_{relation.value}".encode()).hexdigest()[:8], 16)
             rng = np.random.default_rng(seed)
             vec = np.zeros(self.dim, dtype=np.float32)
             rand = rng.random(self.dim)
@@ -219,9 +228,7 @@ class GestaltCodebook:
 
     def _generate_vectors(self):
         for gtype in GestaltType:
-            seed = int(hashlib.md5(
-                f"{self.seed}_GESTALT_{gtype.value}".encode()
-            ).hexdigest()[:8], 16)
+            seed = int(hashlib.md5(f"{self.seed}_GESTALT_{gtype.value}".encode()).hexdigest()[:8], 16)
             rng = np.random.default_rng(seed)
             vec = np.zeros(self.dim, dtype=np.float32)
             rand = rng.random(self.dim)
@@ -237,6 +244,7 @@ class GestaltCodebook:
 # PARAGRAPH ENCODER
 # =============================================================================
 
+
 class ParagraphStructureEncoder:
     """
     Encode paragraphs preserving rhetorical structure.
@@ -251,33 +259,52 @@ class ParagraphStructureEncoder:
     # Discourse markers for relation detection
     RELATION_MARKERS = {
         CoherenceRelation.CONTRAST: [
-            "but", "however", "although", "though", "yet", "nevertheless",
-            "on the other hand", "in contrast", "conversely", "whereas"
+            "but",
+            "however",
+            "although",
+            "though",
+            "yet",
+            "nevertheless",
+            "on the other hand",
+            "in contrast",
+            "conversely",
+            "whereas",
         ],
-        CoherenceRelation.CAUSE: [
-            "because", "since", "as", "due to", "owing to", "caused by"
-        ],
+        CoherenceRelation.CAUSE: ["because", "since", "as", "due to", "owing to", "caused by"],
         CoherenceRelation.EFFECT: [
-            "therefore", "thus", "hence", "consequently", "as a result",
-            "so", "accordingly", "for this reason"
+            "therefore",
+            "thus",
+            "hence",
+            "consequently",
+            "as a result",
+            "so",
+            "accordingly",
+            "for this reason",
         ],
         CoherenceRelation.SEQUENCE: [
-            "then", "next", "after", "before", "when", "while",
-            "subsequently", "previously", "finally", "first"
+            "then",
+            "next",
+            "after",
+            "before",
+            "when",
+            "while",
+            "subsequently",
+            "previously",
+            "finally",
+            "first",
         ],
-        CoherenceRelation.EXAMPLE: [
-            "for example", "for instance", "such as", "like", "e.g."
-        ],
+        CoherenceRelation.EXAMPLE: ["for example", "for instance", "such as", "like", "e.g."],
         CoherenceRelation.ELABORATION: [
-            "specifically", "in particular", "namely", "that is",
-            "in other words", "indeed", "in fact"
+            "specifically",
+            "in particular",
+            "namely",
+            "that is",
+            "in other words",
+            "indeed",
+            "in fact",
         ],
-        CoherenceRelation.CONCESSION: [
-            "despite", "although", "even though", "regardless"
-        ],
-        CoherenceRelation.RESTATEMENT: [
-            "in other words", "that is to say", "to put it another way"
-        ],
+        CoherenceRelation.CONCESSION: ["despite", "although", "even though", "regardless"],
+        CoherenceRelation.RESTATEMENT: ["in other words", "that is to say", "to put it another way"],
     }
 
     # Gestalt trigger patterns
@@ -400,8 +427,7 @@ class ParagraphStructureEncoder:
 
         # Build paragraph vector
         para_vec = self._build_paragraph_vector(
-            sent_vecs, relations, main_idx,
-            gestalt_points, intensity_trajectory, analogy_indices
+            sent_vecs, relations, main_idx, gestalt_points, intensity_trajectory, analogy_indices
         )
 
         # Compute bank activations
@@ -433,7 +459,7 @@ class ParagraphStructureEncoder:
 
     def _segment(self, paragraph: str) -> List[str]:
         """Split paragraph into sentences."""
-        sentences = re.split(r'(?<=[.!?])\s+(?=[A-Z])', paragraph)
+        sentences = re.split(r"(?<=[.!?])\s+(?=[A-Z])", paragraph)
         return [s.strip() for s in sentences if s.strip()]
 
     def _hash_vector(self, text: str) -> np.ndarray:
@@ -450,8 +476,16 @@ class ParagraphStructureEncoder:
     def _compute_intensity(self, sentence: str) -> float:
         """Compute intensity score for a sentence."""
         intensity_markers = [
-            "very", "extremely", "incredibly", "absolutely", "totally",
-            "!", "?!", "really", "truly", "completely"
+            "very",
+            "extremely",
+            "incredibly",
+            "absolutely",
+            "totally",
+            "!",
+            "?!",
+            "really",
+            "truly",
+            "completely",
         ]
         lower = sentence.lower()
         score = 0.5
@@ -517,7 +551,7 @@ class ParagraphStructureEncoder:
         word_counts: Dict[str, int] = {}
 
         for sent in sentences:
-            words = set(re.findall(r'\b[A-Z][a-z]+\b', sent))
+            words = set(re.findall(r"\b[A-Z][a-z]+\b", sent))
             for word in words:
                 word_counts[word] = word_counts.get(word, 0) + 1
 

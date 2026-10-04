@@ -23,6 +23,7 @@ def validator():
 
 # ---------- validate ----------
 
+
 class TestValidate:
     def test_empty_passes(self, validator):
         result = validator.validate({})
@@ -53,21 +54,28 @@ class TestValidate:
 
 # ---------- infer_hierarchy_level ----------
 
+
 class TestInferHierarchyLevel:
     def test_no_active_base_empty(self, validator):
         levels = validator.infer_hierarchy_level({})
         assert levels == {}
 
     def test_hier_plus_positive_level(self, validator):
-        levels = validator.infer_hierarchy_level({
-            "QUANTITY": 1, "HIER_PLUS": 2,
-        })
+        levels = validator.infer_hierarchy_level(
+            {
+                "QUANTITY": 1,
+                "HIER_PLUS": 2,
+            }
+        )
         assert levels["QUANTITY"] == 2
 
     def test_hier_minus_negative_level(self, validator):
-        levels = validator.infer_hierarchy_level({
-            "INTENSITY": 1, "HIER_MINUS": 1,
-        })
+        levels = validator.infer_hierarchy_level(
+            {
+                "INTENSITY": 1,
+                "HIER_MINUS": 1,
+            }
+        )
         assert levels["INTENSITY"] == -1
 
     def test_no_markers_neutral_level(self, validator):
@@ -76,6 +84,7 @@ class TestInferHierarchyLevel:
 
 
 # ---------- get_hierarchy_word ----------
+
 
 class TestGetHierarchyWord:
     def test_quantity_levels(self, validator):
@@ -104,6 +113,7 @@ class TestGetHierarchyWord:
 
 
 # ---------- validate_hierarchy ----------
+
 
 class TestValidateHierarchyFunction:
     def test_works(self):

@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class ParserConfig:
     """Configuration for external source parsers."""
+
     name: str
     data_path: Optional[Path] = None
     lazy_load: bool = True  # Load on first access
@@ -69,9 +70,7 @@ class BaseExternalParser(ABC):
         """Return all words in the vocabulary."""
         pass
 
-    def to_primitives_with_confidence(
-        self, word: str
-    ) -> Dict[str, "tuple"]:  # noqa: F821 — runtime type, see comment
+    def to_primitives_with_confidence(self, word: str) -> Dict[str, "tuple"]:  # noqa: F821 — runtime type, see comment
         """
         Map a word to ``{primitive: (value, confidence)}``.
 
@@ -88,10 +87,10 @@ class BaseExternalParser(ABC):
     def get_metadata(self) -> Dict:
         """Return source metadata for provenance tracking."""
         return {
-            'name': self.config.name,
-            'loaded': self._loaded,
-            'entry_count': len(self.entries),
-            'memory_mb': self._memory_usage / (1024 * 1024) if self._memory_usage else 0,
+            "name": self.config.name,
+            "loaded": self._loaded,
+            "entry_count": len(self.entries),
+            "memory_mb": self._memory_usage / (1024 * 1024) if self._memory_usage else 0,
         }
 
     def get_new_words(self, existing_words: Set[str]) -> List[str]:

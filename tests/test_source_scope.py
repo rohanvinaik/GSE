@@ -32,7 +32,7 @@ class TestWordScaleBoundary:
         # scale boundary still applies.
         votes = {
             "GOOD": (1, 0.9),
-            "INTENSITY": (1, 0.7),     # hierarchy base — blocked
+            "INTENSITY": (1, 0.7),  # hierarchy base — blocked
             "SYN_TENSE_PAST": (1, 0.5),  # sentence-scale — blocked
         }
         out = filter_votes_by_scope("wiktionary_v2", votes)
@@ -41,14 +41,11 @@ class TestWordScaleBoundary:
     def test_scoped_source_also_blocked_from_excluded(self):
         # The boundary applies BEFORE per-source scope
         votes = {
-            "GOOD": (1, 0.9),     # in nrc_vad scope
+            "GOOD": (1, 0.9),  # in nrc_vad scope
             "INTENSITY": (1, 0.8),  # would pass scope (it's not), but blocked by boundary
         }
         out = filter_votes_by_scope("nrc_vad", votes)
         assert "INTENSITY" not in out
-
-
-
 
 
 class TestFilterVotesByScope:

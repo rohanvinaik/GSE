@@ -27,6 +27,7 @@ from gse.encoders.sentence_structure_encoder import (
 
 # ---------- Constants ----------
 
+
 class TestConstants:
     def test_all_primitives_union(self):
         assert ALL_SYNTACTIC_PRIMITIVES == (
@@ -43,6 +44,7 @@ class TestConstants:
 
 
 # ---------- Dataclass metadata ----------
+
 
 class TestSentenceVectorMetadata:
     def test_post_init_computes_dims_per_word(self):
@@ -63,6 +65,7 @@ class TestSentenceVectorMetadata:
 
 # ---------- Gaussian weight ----------
 
+
 class TestGaussianWeight:
     def test_zero_distance_is_one(self):
         assert gaussian_weight(0.0) == pytest.approx(1.0)
@@ -79,6 +82,7 @@ class TestGaussianWeight:
 
 
 # ---------- stretch_to_dimensions ----------
+
 
 class TestStretchToDimensions:
     def test_empty_signal_returns_zeros(self):
@@ -115,6 +119,7 @@ class TestStretchToDimensions:
 
 # ---------- compute_word_boundaries ----------
 
+
 class TestComputeWordBoundaries:
     def test_even_split(self):
         b = compute_word_boundaries(4, total_dims=8)
@@ -132,6 +137,7 @@ class TestComputeWordBoundaries:
 
 # ---------- SentenceStructureEncoder ----------
 
+
 @pytest.fixture
 def encoder():
     return SentenceStructureEncoder(total_dims=1024)
@@ -140,6 +146,7 @@ def encoder():
 class TestEncoderInit:
     def test_default_dims(self):
         from gse.primitives_v2 import D
+
         e = SentenceStructureEncoder()
         assert e.total_dims == D
 
@@ -171,7 +178,9 @@ class TestEncodeSentence:
 
     def test_single_word(self, encoder):
         wp = WordPosition(
-            position=0, word="dog", syntactic_role="SYN_SUBJ",
+            position=0,
+            word="dog",
+            syntactic_role="SYN_SUBJ",
             semantic_vector=np.array([], dtype=np.float32),
         )
         vec, meta = encoder.encode_sentence([wp])
@@ -182,8 +191,9 @@ class TestEncodeSentence:
 
     def test_multiple_words(self, encoder):
         words = [
-            WordPosition(position=i, word=f"w{i}", syntactic_role="SYN_SUBJ",
-                         semantic_vector=np.array([], dtype=np.float32))
+            WordPosition(
+                position=i, word=f"w{i}", syntactic_role="SYN_SUBJ", semantic_vector=np.array([], dtype=np.float32)
+            )
             for i in range(3)
         ]
         vec, meta = encoder.encode_sentence(words)
@@ -200,7 +210,9 @@ class TestEncodeSentence:
 
     def test_tam_features_encoded(self, encoder):
         wp = WordPosition(
-            position=0, word="ran", syntactic_role="SYN_PRED",
+            position=0,
+            word="ran",
+            syntactic_role="SYN_PRED",
             semantic_vector=np.array([], dtype=np.float32),
             tam_features=["SYN_TENSE_PAST"],
         )
@@ -210,7 +222,9 @@ class TestEncodeSentence:
     def test_unknown_role_no_core_bank(self, encoder):
         # Unknown role → no core encoding
         wp = WordPosition(
-            position=0, word="x", syntactic_role="UNKNOWN_ROLE",
+            position=0,
+            word="x",
+            syntactic_role="UNKNOWN_ROLE",
             semantic_vector=np.array([], dtype=np.float32),
         )
         _, meta = encoder.encode_sentence([wp])
@@ -220,8 +234,9 @@ class TestEncodeSentence:
 class TestDecodePositions:
     def test_returns_one_entry_per_word(self, encoder):
         wps = [
-            WordPosition(position=i, word=f"w{i}", syntactic_role="SYN_SUBJ",
-                         semantic_vector=np.array([], dtype=np.float32))
+            WordPosition(
+                position=i, word=f"w{i}", syntactic_role="SYN_SUBJ", semantic_vector=np.array([], dtype=np.float32)
+            )
             for i in range(3)
         ]
         vec, meta = encoder.encode_sentence(wps)
@@ -235,8 +250,9 @@ class TestDecodePositions:
 
 class TestCompareStructure:
     def test_identical_vectors_high_cosine(self, encoder):
-        wp = WordPosition(position=0, word="x", syntactic_role="SYN_SUBJ",
-                          semantic_vector=np.array([], dtype=np.float32))
+        wp = WordPosition(
+            position=0, word="x", syntactic_role="SYN_SUBJ", semantic_vector=np.array([], dtype=np.float32)
+        )
         v1, m1 = encoder.encode_sentence([wp])
         result = encoder.compare_structure(v1, m1, v1, m1)
         assert result["cosine_similarity"] == pytest.approx(1.0)
@@ -276,6 +292,7 @@ class TestCompareStructure:
 
 
 # ---------- encode_simple_sentence ----------
+
 
 class TestEncodeSimpleSentence:
     def test_basic_usage(self):

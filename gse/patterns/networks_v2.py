@@ -24,6 +24,7 @@ import numpy as np
 # BASE NETWORK
 # =============================================================================
 
+
 @dataclass
 class LearningNetwork:
     """
@@ -32,6 +33,7 @@ class LearningNetwork:
     Implements a fully-connected network where weights encode
     co-activation patterns between nodes.
     """
+
     name: str
     node_names: List[str]
     weights: np.ndarray = field(default=None)
@@ -116,7 +118,7 @@ class LearningNetwork:
         self.weights += self.learning_rate * outer
 
         # Weight decay to prevent unbounded growth
-        self.weights *= (1 - self.decay_rate)
+        self.weights *= 1 - self.decay_rate
 
         # Keep diagonal zero
         np.fill_diagonal(self.weights, 0)
@@ -141,11 +143,7 @@ class LearningNetwork:
         weights = self.weights[idx]
         indices = np.argsort(np.abs(weights))[::-1][:top_k]
 
-        return [
-            (self.node_names[i], float(weights[i]))
-            for i in indices
-            if i != idx
-        ]
+        return [(self.node_names[i], float(weights[i])) for i in indices if i != idx]
 
     def get_weight(self, name1: str, name2: str) -> float:
         """Get weight between two nodes."""
@@ -165,7 +163,7 @@ class LearningNetwork:
             "decay_rate": self.decay_rate,
             "update_count": self.update_count,
         }
-        with open(path, 'w') as f:
+        with open(path, "w") as f:
             json.dump(data, f)
 
     @classmethod
@@ -204,13 +202,11 @@ TEXT_PRIMITIVES = [
     "EXPOSITORY",
     "ARGUMENTATIVE",
     "DESCRIPTIVE",
-
     # Register
     "FORMAL",
     "INFORMAL",
     "TECHNICAL",
     "COLLOQUIAL",
-
     # Domain
     "ACADEMIC",
     "LITERARY",
@@ -229,11 +225,7 @@ class TextScaleNetwork(LearningNetwork):
     """
 
     def __init__(self, **kwargs):
-        super().__init__(
-            name="text_scale",
-            node_names=TEXT_PRIMITIVES,
-            **kwargs
-        )
+        super().__init__(name="text_scale", node_names=TEXT_PRIMITIVES, **kwargs)
 
     def classify_text(self, features: Dict[str, float]) -> Dict[str, float]:
         """
@@ -265,7 +257,6 @@ PARAGRAPH_PRIMITIVES = [
     "CONCESSION",
     "CONTRAST",
     "COMPARISON",
-
     # Multi-nuclear relations
     "SEQUENCE",
     "CONJUNCTION",
@@ -285,11 +276,7 @@ class ParagraphScaleNetwork(LearningNetwork):
     """
 
     def __init__(self, **kwargs):
-        super().__init__(
-            name="paragraph_scale",
-            node_names=PARAGRAPH_PRIMITIVES,
-            **kwargs
-        )
+        super().__init__(name="paragraph_scale", node_names=PARAGRAPH_PRIMITIVES, **kwargs)
 
     def predict_next_relation(
         self,
@@ -315,11 +302,7 @@ class ParagraphScaleNetwork(LearningNetwork):
         output = self.activate(activations)
 
         # Exclude current from predictions
-        predictions = [
-            (name, level)
-            for name, level in output.items()
-            if name != current
-        ]
+        predictions = [(name, level) for name, level in output.items() if name != current]
 
         return sorted(predictions, key=lambda x: -x[1])
 
@@ -335,12 +318,10 @@ SENTENCE_PRIMITIVES = [
     "SYN_PRED",
     "SYN_OBJ",
     "SYN_COMPL",
-
     # Modification
     "SYN_ADJ_MOD",
     "SYN_ADV_MOD",
     "SYN_DET",
-
     # TAM features
     "SYN_TENSE_PAST",
     "SYN_ASPECT_PERF",
@@ -358,11 +339,7 @@ class SentenceScaleNetwork(LearningNetwork):
     """
 
     def __init__(self, **kwargs):
-        super().__init__(
-            name="sentence_scale",
-            node_names=SENTENCE_PRIMITIVES,
-            **kwargs
-        )
+        super().__init__(name="sentence_scale", node_names=SENTENCE_PRIMITIVES, **kwargs)
 
     def predict_structure(
         self,
@@ -388,31 +365,45 @@ class SentenceScaleNetwork(LearningNetwork):
 # These should cover key primitives from each bank including new bipolar pairs
 WORD_PRIMITIVES = [
     # Substantives (Bank 0)
-    "SOMEONE", "SOMETHING", "PART",
-
+    "SOMEONE",
+    "SOMETHING",
+    "PART",
     # Quantity (Bank 1)
-    "ONE", "QUANTITY",
-
+    "ONE",
+    "QUANTITY",
     # Evaluators (Bank 2)
-    "GOOD", "BIG",
-
+    "GOOD",
+    "BIG",
     # Mental (Bank 3) - including INFER
-    "THINK", "FEEL", "KNOW", "WANT", "INFER",
-
+    "THINK",
+    "FEEL",
+    "KNOW",
+    "WANT",
+    "INFER",
     # Action (Bank 4) - including ALIVE/DEAD bipolar
-    "DO", "BE", "MOVE", "SAY", "ALIVE",
-
+    "DO",
+    "BE",
+    "MOVE",
+    "SAY",
+    "ALIVE",
     # Temporal (Bank 5) - including START/END bipolar
-    "BEFORE", "MOMENT", "START",
-
+    "BEFORE",
+    "MOMENT",
+    "START",
     # Spatial (Bank 6) - including TOWARD/AWAY, WITH/WITHOUT bipolars
-    "WHERE", "ABOVE", "TOWARD", "WITH",
-
+    "WHERE",
+    "ABOVE",
+    "TOWARD",
+    "WITH",
     # Logical (Bank 7) - including MUST, CERTAINTY, and CAUSE
-    "NOT", "BECAUSE", "CAUSE", "MUST", "CERTAINTY",
-
+    "NOT",
+    "BECAUSE",
+    "CAUSE",
+    "MUST",
+    "CERTAINTY",
     # Hierarchy markers
-    "HIER_PLUS", "HIER_MINUS",
+    "HIER_PLUS",
+    "HIER_MINUS",
     "INTENSITY",
 ]
 
@@ -427,11 +418,7 @@ class WordScaleNetwork(LearningNetwork):
     """
 
     def __init__(self, **kwargs):
-        super().__init__(
-            name="word_scale",
-            node_names=WORD_PRIMITIVES,
-            **kwargs
-        )
+        super().__init__(name="word_scale", node_names=WORD_PRIMITIVES, **kwargs)
 
     def learn_from_decomposition(
         self,
@@ -471,11 +458,7 @@ class WordScaleNetwork(LearningNetwork):
         output = self.activate(activations)
 
         # Exclude seeds
-        predictions = [
-            (name, level)
-            for name, level in output.items()
-            if name not in seed_primitives
-        ]
+        predictions = [(name, level) for name, level in output.items() if name not in seed_primitives]
 
         return sorted(predictions, key=lambda x: -abs(x[1]))[:top_k]
 
@@ -483,6 +466,7 @@ class WordScaleNetwork(LearningNetwork):
 # =============================================================================
 # NETWORK COLLECTION
 # =============================================================================
+
 
 @dataclass
 class ScaleNetworkCollection:
@@ -492,6 +476,7 @@ class ScaleNetworkCollection:
     Provides unified interface for learning and inference
     across all scales.
     """
+
     text: TextScaleNetwork = field(default_factory=TextScaleNetwork)
     paragraph: ParagraphScaleNetwork = field(default_factory=ParagraphScaleNetwork)
     sentence: SentenceScaleNetwork = field(default_factory=SentenceScaleNetwork)
@@ -527,10 +512,12 @@ class ScaleNetworkCollection:
 
         if paragraph_relations:
             for i in range(len(paragraph_relations) - 1):
-                self.paragraph.learn({
-                    paragraph_relations[i]: 1.0,
-                    paragraph_relations[i + 1]: 0.5,  # Transition
-                })
+                self.paragraph.learn(
+                    {
+                        paragraph_relations[i]: 1.0,
+                        paragraph_relations[i + 1]: 0.5,  # Transition
+                    }
+                )
 
         if sentence_structures:
             for struct in sentence_structures:
@@ -568,6 +555,7 @@ class ScaleNetworkCollection:
     def save(self, directory: str):
         """Save all networks to directory."""
         import os
+
         os.makedirs(directory, exist_ok=True)
 
         self.text.save(os.path.join(directory, "text_network.json"))
@@ -581,18 +569,10 @@ class ScaleNetworkCollection:
         import os
 
         collection = cls()
-        collection.text = TextScaleNetwork.load(
-            os.path.join(directory, "text_network.json")
-        )
-        collection.paragraph = ParagraphScaleNetwork.load(
-            os.path.join(directory, "paragraph_network.json")
-        )
-        collection.sentence = SentenceScaleNetwork.load(
-            os.path.join(directory, "sentence_network.json")
-        )
-        collection.word = WordScaleNetwork.load(
-            os.path.join(directory, "word_network.json")
-        )
+        collection.text = TextScaleNetwork.load(os.path.join(directory, "text_network.json"))
+        collection.paragraph = ParagraphScaleNetwork.load(os.path.join(directory, "paragraph_network.json"))
+        collection.sentence = SentenceScaleNetwork.load(os.path.join(directory, "sentence_network.json"))
+        collection.word = WordScaleNetwork.load(os.path.join(directory, "word_network.json"))
 
         return collection
 
@@ -643,15 +623,19 @@ if __name__ == "__main__":
     print(f"✓ WordScaleNetwork: {word_net.n_nodes} nodes")
 
     # Learn from decompositions
-    word_net.learn_from_decomposition([
-        ("FEEL", "experiencer", 1),
-        ("GOOD", "attribute", 1),
-    ])
-    word_net.learn_from_decomposition([
-        ("FEEL", "experiencer", 1),
-        ("GOOD", "attribute", 1),
-        ("INTENSITY", "degree", 1),
-    ])
+    word_net.learn_from_decomposition(
+        [
+            ("FEEL", "experiencer", 1),
+            ("GOOD", "attribute", 1),
+        ]
+    )
+    word_net.learn_from_decomposition(
+        [
+            ("FEEL", "experiencer", 1),
+            ("GOOD", "attribute", 1),
+            ("INTENSITY", "degree", 1),
+        ]
+    )
 
     predictions = word_net.predict_primitives(["FEEL", "GOOD"])
     print(f"  FEEL+GOOD → {predictions[:3]}")

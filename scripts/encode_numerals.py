@@ -28,62 +28,71 @@ def encode_numerals(db_path: Path, dry_run: bool = False) -> dict:
     cursor = conn.cursor()
 
     stats = {
-        'found': 0,
-        'not_found': [],
-        'primitives_set': 0,
-        'hierarchy_levels_set': 0,
-        'validation_errors': [],
+        "found": 0,
+        "not_found": [],
+        "primitives_set": 0,
+        "hierarchy_levels_set": 0,
+        "validation_errors": [],
     }
 
     for word, encoding in NUMERAL_ENCODINGS.items():
         # Validate mutual transparency before applying
-        primitives = encoding.get('primitives', {})
+        primitives = encoding.get("primitives", {})
         if not validate_mutual_transparency(primitives):
-            stats['validation_errors'].append(f"{word}: violates SING/PLUR/ZERO rule")
+            stats["validation_errors"].append(f"{word}: violates SING/PLUR/ZERO rule")
             continue
 
         # Find lexeme in database
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT id, lemma, pos FROM lexemes
             WHERE LOWER(lemma) = LOWER(?)
             LIMIT 1
-        """, (word,))
+        """,
+            (word,),
+        )
 
         row = cursor.fetchone()
 
         if not row:
-            stats['not_found'].append(word)
+            stats["not_found"].append(word)
             continue
 
         lexeme_id, lemma, pos = row
-        stats['found'] += 1
+        stats["found"] += 1
 
         # 1. Set semantic primitives (SING, PLUR, ZERO, ONE, TWO)
         for prim, value in primitives.items():
             if not dry_run:
-                cursor.execute("""
+                cursor.execute(
+                    """
                     INSERT INTO primitive_values (lexeme_id, primitive, value, source)
                     VALUES (?, ?, ?, 'numeral_encoding')
                     ON CONFLICT(lexeme_id, primitive)
                     DO UPDATE SET value = ?, source = 'numeral_encoding'
-                """, (lexeme_id, prim, value, value))
-            stats['primitives_set'] += 1
+                """,
+                    (lexeme_id, prim, value, value),
+                )
+            stats["primitives_set"] += 1
 
         # 2. Set hierarchy level if present
-        hierarchy = encoding.get('hierarchy')
+        hierarchy = encoding.get("hierarchy")
         if hierarchy:
-            scale = hierarchy['scale']
-            direction = hierarchy['direction']
-            level = hierarchy['level']
+            scale = hierarchy["scale"]
+            direction = hierarchy["direction"]
+            level = hierarchy["level"]
 
             if not dry_run:
-                cursor.execute("""
+                cursor.execute(
+                    """
                     INSERT INTO hierarchy_levels (lexeme_id, scale, direction, level, source)
                     VALUES (?, ?, ?, ?, 'numeral_encoding')
                     ON CONFLICT(lexeme_id, scale)
                     DO UPDATE SET direction = ?, level = ?, source = 'numeral_encoding'
-                """, (lexeme_id, scale, direction, level, direction, level))
-            stats['hierarchy_levels_set'] += 1
+                """,
+                    (lexeme_id, scale, direction, level, direction, level),
+                )
+            stats["hierarchy_levels_set"] += 1
             print(f"  {lemma}: {list(primitives.keys())} + {scale}({'+' if direction > 0 else '-'}{level})")
         else:
             print(f"  {lemma}: {list(primitives.keys())}")
@@ -103,27 +112,33 @@ def verify_numeral_encodings(db_path: Path) -> None:
     print("=== Numeral Encoding Verification ===\n")
 
     # Check a sample of numerals
-    sample = ['zero', 'one', 'two', 'three', 'ten', 'many', 'all', 'none']
+    sample = ["zero", "one", "two", "three", "ten", "many", "all", "none"]
 
     for word in sample:
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT l.id, l.lemma,
                    GROUP_CONCAT(pv.primitive || '=' || pv.value) as primitives
             FROM lexemes l
             LEFT JOIN primitive_values pv ON l.id = pv.lexeme_id AND pv.value != 0
             WHERE LOWER(l.lemma) = LOWER(?)
             GROUP BY l.id
-        """, (word,))
+        """,
+            (word,),
+        )
 
         row = cursor.fetchone()
         if row:
             lexeme_id, lemma, primitives = row
 
             # Get hierarchy level
-            cursor.execute("""
+            cursor.execute(
+                """
                 SELECT scale, direction, level FROM hierarchy_levels
                 WHERE lexeme_id = ?
-            """, (lexeme_id,))
+            """,
+                (lexeme_id,),
+            )
             hier_row = cursor.fetchone()
 
             hier_str = ""
@@ -137,11 +152,14 @@ def verify_numeral_encodings(db_path: Path) -> None:
 
     # Summary statistics
     print("\n=== SING/PLUR/ZERO Distribution ===")
-    for prim in ['SING', 'PLUR', 'ZERO']:
-        cursor.execute("""
+    for prim in ["SING", "PLUR", "ZERO"]:
+        cursor.execute(
+            """
             SELECT COUNT(*) FROM primitive_values
             WHERE primitive = ? AND value = 1
-        """, (prim,))
+        """,
+            (prim,),
+        )
         count = cursor.fetchone()[0]
         print(f"{prim}=1: {count} words")
 
@@ -176,13 +194,13 @@ if __name__ == "__main__":
     print("=== Summary ===")
     print(f"Found in database: {stats['found']}")
     print(f"Not found: {len(stats['not_found'])}")
-    if stats['not_found']:
+    if stats["not_found"]:
         print(f"  Missing: {', '.join(stats['not_found'][:15])}{'...' if len(stats['not_found']) > 15 else ''}")
     print(f"Primitives set: {stats['primitives_set']}")
     print(f"Hierarchy levels set: {stats['hierarchy_levels_set']}")
-    if stats['validation_errors']:
+    if stats["validation_errors"]:
         print(f"Validation errors: {len(stats['validation_errors'])}")
-        for err in stats['validation_errors']:
+        for err in stats["validation_errors"]:
             print(f"  {err}")
 
     if args.dry_run:

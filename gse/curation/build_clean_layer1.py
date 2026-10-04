@@ -33,8 +33,8 @@ logger = logging.getLogger(__name__)
 
 CLEAN_DB = "data/lexicon_clean.db"
 FREQ_DB = "data/frequency.db"
-CATEGORY_SRC = "wordnet_hierarchy"   # authoritative within its (SUBSTANTIVES) scope
-DROP_SOURCES = {"wiktionary_v2"}     # the degenerate source being replaced
+CATEGORY_SRC = "wordnet_hierarchy"  # authoritative within its (SUBSTANTIVES) scope
+DROP_SOURCES = {"wiktionary_v2"}  # the degenerate source being replaced
 DEFAULT_CONF = 0.79
 
 # Evidence FAMILIES — the correlation structure of the source set. The gate
@@ -54,16 +54,18 @@ DEFAULT_CONF = 0.79
 #   * ConceptNet and USAS are both broad categorical/topical taggers — one
 #     family, for the same reason.
 SOURCE_FAMILY = {
-    "verbnet": "verb_structure", "framenet": "verb_structure",
+    "verbnet": "verb_structure",
+    "framenet": "verb_structure",
     "propbank": "verb_structure",
-    "conceptnet": "topical", "usas": "topical",
+    "conceptnet": "topical",
+    "usas": "topical",
 }
 
 
 def build_word(integrator: ExternalSourcesIntegrator, word: str):
     """Layer-1 decomposition for one word, or None if not grounded here."""
     if canonical_decomposition(word):
-        return None   # tier-0 axiom, already in the clean DB
+        return None  # tier-0 axiom, already in the clean DB
     votes = {}
     for name, parser in integrator.parsers.items():
         if name in DROP_SOURCES:
@@ -101,9 +103,7 @@ def main(clean_db: str = CLEAN_DB, freq_db: str = FREQ_DB) -> dict:
     logger.info("sources: %s", sources)
 
     fc = sqlite3.connect(f"file:{freq_db}?mode=ro", uri=True)
-    words = fc.execute(
-        "SELECT word, combined_rank FROM frequency ORDER BY combined_rank"
-    ).fetchall()
+    words = fc.execute("SELECT word, combined_rank FROM frequency ORDER BY combined_rank").fetchall()
     fc.close()
 
     built = {}
@@ -114,7 +114,7 @@ def main(clean_db: str = CLEAN_DB, freq_db: str = FREQ_DB) -> dict:
         if d:
             built[lemma] = (rank, d)
         if (i + 1) % 4000 == 0:
-            print(f"  {i+1}/{len(words)} grounded={len(built)} {time.time()-t0:.0f}s", flush=True)
+            print(f"  {i + 1}/{len(words)} grounded={len(built)} {time.time() - t0:.0f}s", flush=True)
     it.close()
 
     con = sqlite3.connect(clean_db)
@@ -125,8 +125,7 @@ def main(clean_db: str = CLEAN_DB, freq_db: str = FREQ_DB) -> dict:
     # sources didn't ground — a word the sources NOW ground supersedes its old
     # genus-chain row. Grammatical lemmas (tier_0 / operators / quantifiers) are
     # never displaced: a content decomposition for one is a scope leak — skip it.
-    existing = {r[1]: (r[0], r[2])
-                for r in con.execute("SELECT id, lemma, source FROM lexemes")}
+    existing = {r[1]: (r[0], r[2]) for r in con.execute("SELECT id, lemma, source FROM lexemes")}
     superseded = skipped = 0
     for lemma, (rank, d) in built.items():
         prior = existing.get(lemma)
@@ -152,11 +151,18 @@ def main(clean_db: str = CLEAN_DB, freq_db: str = FREQ_DB) -> dict:
     tier0 = con.execute("SELECT count(*) FROM lexemes WHERE source='tier_0'").fetchone()[0]
     layer1 = con.execute("SELECT count(*) FROM lexemes WHERE source='layer1'").fetchone()[0]
     con.close()
-    stats = {"layer1": layer1, "tier_0": tier0, "superseded_layer2": superseded,
-             "skipped_grammatical": skipped, "seconds": round(time.time() - t0, 1)}
-    print(f"WROTE {clean_db}: tier_0={tier0}, layer1={layer1} "
-          f"(superseded {superseded} layer2 rows, skipped {skipped} grammatical)  "
-          f"({stats['seconds']}s)")
+    stats = {
+        "layer1": layer1,
+        "tier_0": tier0,
+        "superseded_layer2": superseded,
+        "skipped_grammatical": skipped,
+        "seconds": round(time.time() - t0, 1),
+    }
+    print(
+        f"WROTE {clean_db}: tier_0={tier0}, layer1={layer1} "
+        f"(superseded {superseded} layer2 rows, skipped {skipped} grammatical)  "
+        f"({stats['seconds']}s)"
+    )
     return stats
 
 

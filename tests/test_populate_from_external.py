@@ -57,11 +57,13 @@ class TestDecompositionStorage:
         assert active == {"GOOD": 1, "FEEL": 1, "BAD": -1}
 
     def test_confidences_persisted_per_primitive(self, db):
-        entries = [_entry(
-            "happy",
-            {"GOOD": 1, "FEEL": 1},
-            confidences={"GOOD": 0.9, "FEEL": 0.6},
-        )]
+        entries = [
+            _entry(
+                "happy",
+                {"GOOD": 1, "FEEL": 1},
+                confidences={"GOOD": 0.9, "FEEL": 0.6},
+            )
+        ]
         populate_from_entries(db, entries)
         lex = db.get_lexeme("happy", "n")
         confs = db.get_primitive_confidences(lex.id)
@@ -69,11 +71,13 @@ class TestDecompositionStorage:
         assert confs["FEEL"] == pytest.approx(0.6)
 
     def test_lexeme_confidence_is_mean_of_primitive_confidences(self, db):
-        entries = [_entry(
-            "happy",
-            {"GOOD": 1, "FEEL": 1},
-            confidences={"GOOD": 0.8, "FEEL": 0.4},
-        )]
+        entries = [
+            _entry(
+                "happy",
+                {"GOOD": 1, "FEEL": 1},
+                confidences={"GOOD": 0.8, "FEEL": 0.4},
+            )
+        ]
         populate_from_entries(db, entries)
         lex = db.get_lexeme("happy", "n")
         assert lex.confidence == pytest.approx(0.6)
@@ -89,16 +93,17 @@ class TestProvenance:
         assert stats.provenance_rows == 2
 
     def test_provenance_source_detail_lists_sources(self, db):
-        entries = [_entry(
-            "happy",
-            {"GOOD": 1},
-            sources=("nrc_emotion", "sentiwordnet", "nrc_vad"),
-        )]
+        entries = [
+            _entry(
+                "happy",
+                {"GOOD": 1},
+                sources=("nrc_emotion", "sentiwordnet", "nrc_vad"),
+            )
+        ]
         populate_from_entries(db, entries)
         lex = db.get_lexeme("happy", "n")
         cursor = db.conn.execute(
-            "SELECT source_type, source_detail FROM decomposition_provenance "
-            "WHERE lexeme_id = ?",
+            "SELECT source_type, source_detail FROM decomposition_provenance WHERE lexeme_id = ?",
             (lex.id,),
         )
         rows = cursor.fetchall()

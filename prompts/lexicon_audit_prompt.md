@@ -81,6 +81,7 @@ Flag words with:
 **Check:**
 ```python
 from scripts.load_intensity_ground_truth import get_modifier_ground_truth
+
 gt = get_modifier_ground_truth()
 
 for word in gt.get_all_modifiers():
@@ -136,19 +137,23 @@ import sqlite3
 import pandas as pd
 
 # Load main database
-conn = sqlite3.connect('data/lexicon.db')
+conn = sqlite3.connect("data/lexicon.db")
 
 # Get top 5000 words
-top_words = pd.read_sql('''
+top_words = pd.read_sql(
+    """
     SELECT l.id, l.lemma, l.pos, l.frequency_rank
     FROM lexemes l
     WHERE l.frequency_rank <= 5000
     ORDER BY l.frequency_rank
-''', conn)
+""",
+    conn,
+)
 
 # Load external sources for cross-reference
-nrc_vad = pd.read_csv('data/external/nrc_vad.txt', sep='\t',
-                       names=['word','valence','arousal','dominance'], skiprows=1)
+nrc_vad = pd.read_csv(
+    "data/external/nrc_vad.txt", sep="\t", names=["word", "valence", "arousal", "dominance"], skiprows=1
+)
 
 # Run each audit check and collect issues...
 ```

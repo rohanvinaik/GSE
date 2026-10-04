@@ -32,14 +32,15 @@ def make_vec(seed=42, nnz=20):
     indices = rng.choice(8192, size=nnz, replace=False)
     return SparseVector(
         dimension=8192,
-        positive_indices=indices[:nnz//2].astype(np.uint16),
-        negative_indices=indices[nnz//2:].astype(np.uint16),
+        positive_indices=indices[: nnz // 2].astype(np.uint16),
+        negative_indices=indices[nnz // 2 :].astype(np.uint16),
     )
 
 
 def make_node(position=0, hierarchy_level=0, pending_sign=None, role=GramRole.NOUN, seed=42):
     lex = LexemeEntry(
-        lemma="word", surface_form="word",
+        lemma="word",
+        surface_form="word",
         semantic_vector=make_vec(seed=seed),
         possible_roles=frozenset([role]),
         gram_features=GrammaticalFeatures(),

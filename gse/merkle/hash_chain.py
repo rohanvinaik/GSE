@@ -38,7 +38,7 @@ class MerkleHashChain:
             32-character hex string (128 bits)
         """
         full_hash = hashlib.sha256(data).hexdigest()
-        return full_hash[:cls.HASH_LENGTH]
+        return full_hash[: cls.HASH_LENGTH]
 
     @classmethod
     def combine_hashes(cls, content_hash: str, children_hash: str) -> str:
@@ -194,11 +194,7 @@ class DifferenceProof:
     @property
     def total_changes(self) -> int:
         """Total number of lexeme changes."""
-        return (
-            len(self.added_lexemes) +
-            len(self.removed_lexemes) +
-            len(self.modified_lexemes)
-        )
+        return len(self.added_lexemes) + len(self.removed_lexemes) + len(self.modified_lexemes)
 
     def to_dict(self) -> dict:
         """Serialize proof to dictionary."""
@@ -227,6 +223,7 @@ class DifferenceProof:
 # =============================================================================
 # VERIFICATION UTILITIES
 # =============================================================================
+
 
 def verify_hash_chain(
     node_hash: str,
@@ -339,10 +336,7 @@ if __name__ == "__main__":
     print("✓ Invalid proof rejection")
 
     # Test tree root computation
-    leaves = [
-        MerkleHashChain.compute_hash(f"leaf{i}".encode())
-        for i in range(8)
-    ]
+    leaves = [MerkleHashChain.compute_hash(f"leaf{i}".encode()) for i in range(8)]
     root = compute_tree_root_from_leaves(leaves)
     assert len(root) == 32, "Root should be 32 chars"
     print(f"✓ Tree root computation: {root}")

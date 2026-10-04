@@ -43,6 +43,7 @@ def make_lexeme(lemma="word", surface=None, roles=None):
 # ParseNode
 # ============================================================
 
+
 class TestParseNodePostInit:
     def test_initializes_possible_roles_from_lexeme(self):
         lex = make_lexeme(roles=[GramRole.NOUN, GramRole.VERB])
@@ -126,6 +127,7 @@ class TestPruneRoles:
 # ParseEdge
 # ============================================================
 
+
 class TestParseEdgeDirection:
     def test_forward_edge(self):
         e = ParseEdge(source=0, target=3, edge_type=EdgeType.SUBJECT)
@@ -144,13 +146,16 @@ class TestParseEdgeDirection:
 
 
 class TestParseEdgeDistance:
-    @pytest.mark.parametrize("source,target,expected", [
-        (0, 5, 5),
-        (5, 0, 5),
-        (3, 3, 0),
-        (10, 7, 3),
-        (0, 1, 1),
-    ])
+    @pytest.mark.parametrize(
+        "source,target,expected",
+        [
+            (0, 5, 5),
+            (5, 0, 5),
+            (3, 3, 0),
+            (10, 7, 3),
+            (0, 1, 1),
+        ],
+    )
     def test_distance(self, source, target, expected):
         e = ParseEdge(source=source, target=target, edge_type=EdgeType.SUBJECT)
         assert e.distance == expected
@@ -159,6 +164,7 @@ class TestParseEdgeDistance:
 # ============================================================
 # ParseGraph
 # ============================================================
+
 
 def make_graph(num_words=3):
     nodes = []
@@ -375,6 +381,7 @@ class TestPrettyPrint:
 # Mutation-prescribed additional tests
 # ============================================================
 
+
 class TestGetNodeBoundary:
     """Catch BOUNDARY mutations on `0 <= position < len(nodes)`."""
 
@@ -512,13 +519,16 @@ class TestPrettyPrintLiterals:
 class TestToDictEdgeType:
     """Catches the edge_type.name serialization."""
 
-    @pytest.mark.parametrize("edge_type,name", [
-        (EdgeType.SUBJECT, "SUBJECT"),
-        (EdgeType.OBJECT, "OBJECT"),
-        (EdgeType.MODIFIER, "MODIFIER"),
-        (EdgeType.DETERMINER, "DETERMINER"),
-        (EdgeType.AUXILIARY, "AUXILIARY"),
-    ])
+    @pytest.mark.parametrize(
+        "edge_type,name",
+        [
+            (EdgeType.SUBJECT, "SUBJECT"),
+            (EdgeType.OBJECT, "OBJECT"),
+            (EdgeType.MODIFIER, "MODIFIER"),
+            (EdgeType.DETERMINER, "DETERMINER"),
+            (EdgeType.AUXILIARY, "AUXILIARY"),
+        ],
+    )
     def test_edge_type_name_in_dict(self, edge_type, name):
         g = make_graph(2)
         g.add_edge(0, 1, edge_type)

@@ -19,6 +19,7 @@ Computed at the REPAIR SEAM (before ``_finalize``), so recurrence comes from the
 predicate set directly (count agent-participation per ``entity_id``), the same shape ``_backbone``
 uses downstream. ALL SYMBOLIC: deterministic strand lookups + a set-theoretic vote. No gradient descent.
 """
+
 from __future__ import annotations
 
 from collections import defaultdict
@@ -31,28 +32,28 @@ from .treewalk import walk
 
 # Personal pronouns are animate referents the word strand mis-reads as object (he/horse→object); the
 # LOCAL/lexical strand carries them. (Mirrors treewalk._ANIMATE_PRON.)
-_ANIMATE_PRON = frozenset({"i", "we", "you", "he", "she", "they",
-                           "me", "us", "him", "her", "them"})
+_ANIMATE_PRON = frozenset({"i", "we", "you", "he", "she", "they", "me", "us", "him", "her", "them"})
 
 
 @dataclass
 class EntityFold:
     """The resolved fold of one referent — the multi-strand semantic isolation of an entity_id."""
+
     eid: str
     lemma: str = ""
     pos: Optional[str] = None
-    role: str = "?"                 # voted role: agent / experiencer / object / '?'
-    significance: int = 0           # agent-participation × timeline-span (the tertiary fold)
+    role: str = "?"  # voted role: agent / experiencer / object / '?'
+    significance: int = 0  # agent-participation × timeline-span (the tertiary fold)
     agent_count: int = 0
     tspan: int = 1
-    recurs: bool = False            # a recurring agent (document strand) — the protagonist signal
-    eligible: bool = False          # real referent: grounds at SOME scale (multi-strand OR)
-    type_thread: Tuple[str, ...] = ()   # world strand (sparse-wiki) genealogy, if grounded
-    valence: int = 0                # affect substrate: EVALUATORS GOOD(+)/BAD(−) from the word strand;
-                                    # for a named referent (empty NSM banks) the world EPA evaluation
-    potency: int = 0                # world-salience EPA P — the intensity/gravity leg (word ⟂ world)
-    activity: int = 0               # world-salience EPA A
-    strands: Tuple[str, ...] = ()   # which strands voted the entity REAL (provenance/audit)
+    recurs: bool = False  # a recurring agent (document strand) — the protagonist signal
+    eligible: bool = False  # real referent: grounds at SOME scale (multi-strand OR)
+    type_thread: Tuple[str, ...] = ()  # world strand (sparse-wiki) genealogy, if grounded
+    valence: int = 0  # affect substrate: EVALUATORS GOOD(+)/BAD(−) from the word strand;
+    # for a named referent (empty NSM banks) the world EPA evaluation
+    potency: int = 0  # world-salience EPA P — the intensity/gravity leg (word ⟂ world)
+    activity: int = 0  # world-salience EPA A
+    strands: Tuple[str, ...] = ()  # which strands voted the entity REAL (provenance/audit)
 
 
 # World types that CANNOT be story agents (mirrors narrative.py's world-leg gate):
@@ -83,16 +84,17 @@ def _head(operand):
     return getattr(operand, "head", None) or operand
 
 
-def read_fold(timed: List[tuple], envelopes: Optional[List[Any]] = None,
-              genealogy: Any = None) -> Dict[str, EntityFold]:
+def read_fold(
+    timed: List[tuple], envelopes: Optional[List[Any]] = None, genealogy: Any = None
+) -> Dict[str, EntityFold]:
     """Build the per-entity fold map from the WIDE statement set. ``genealogy`` (the GenealogyStore)
     is OPTIONAL — when absent the world strand is simply not consulted (graceful degradation; the
     other three strands still resolve). Returns ``{entity_id: EntityFold}``."""
     from gse.symbolic.narrative import classify  # lazy: avoid import cycle
 
-    agent_t: Dict[str, Set[int]] = defaultdict(set)   # entity_id → timesteps it is an Event AGENT
-    part_t: Dict[str, Set[int]] = defaultdict(set)    # entity_id → timesteps it participates at all
-    info: Dict[str, Tuple[str, Optional[str], Dict[str, int]]] = {}   # eid → (lemma, pos, prims)
+    agent_t: Dict[str, Set[int]] = defaultdict(set)  # entity_id → timesteps it is an Event AGENT
+    part_t: Dict[str, Set[int]] = defaultdict(set)  # entity_id → timesteps it participates at all
+    info: Dict[str, Tuple[str, Optional[str], Dict[str, int]]] = {}  # eid → (lemma, pos, prims)
 
     for t, pred in timed:
         for slot, op in _operands(pred):
@@ -101,9 +103,11 @@ def read_fold(timed: List[tuple], envelopes: Optional[List[Any]] = None,
                 continue
             head = _head(op)
             if eid not in info:
-                info[eid] = ((getattr(head, "lemma", "") or "").lower(),
-                             getattr(head, "pos", None),
-                             getattr(head, "word_primitives", None) or {})
+                info[eid] = (
+                    (getattr(head, "lemma", "") or "").lower(),
+                    getattr(head, "pos", None),
+                    getattr(head, "word_primitives", None) or {},
+                )
             part_t[eid].add(t)
             if slot == "agent":
                 agent_t[eid].add(t)
@@ -131,14 +135,15 @@ def read_fold(timed: List[tuple], envelopes: Optional[List[Any]] = None,
         tset = set(type_thread)
         # --- world-leg role gates (the thread's CONTENT, not just its truthiness;
         #     mirrors narrative.py's world-leg agent gate) ---
-        nonagent_world = bool(tset & _NONAGENT_WORLD)   # a war/work is never a protagonist
-        place_world = bool(tset & _PLACE_WORLD)         # a place is not animate BY DEFAULT
+        nonagent_world = bool(tset & _NONAGENT_WORLD)  # a war/work is never a protagonist
+        place_world = bool(tset & _PLACE_WORLD)  # a place is not animate BY DEFAULT
         # --- local/lexical strand: a threaded pronoun / proper name is an animate referent —
         #     UNLESS the world strand positively types it a place/event (Bosnia is not an
         #     animate agent for being spelled with a capital letter). Shallow/absent world
         #     grounding leaves the default intact (a fictional name stays animate). ---
-        lexical_animate = ((pos == "PROPN" and not (place_world or nonagent_world))
-                           or (pos == "PRON" and lemma in _ANIMATE_PRON))
+        lexical_animate = (pos == "PROPN" and not (place_world or nonagent_world)) or (
+            pos == "PRON" and lemma in _ANIMATE_PRON
+        )
 
         # --- the multi-strand VOTE (set-theoretic; real if it grounds at ANY scale) ---
         voted: List[str] = []
@@ -181,10 +186,21 @@ def read_fold(timed: List[tuple], envelopes: Optional[List[Any]] = None,
                 activity = int(epa.get("activity", 0))
 
         folds[eid] = EntityFold(
-            eid=eid, lemma=lemma, pos=pos, role=role, significance=significance,
-            agent_count=agent_count, tspan=tspan, recurs=recurs, eligible=eligible,
-            type_thread=type_thread, valence=valence, potency=potency,
-            activity=activity, strands=tuple(voted))
+            eid=eid,
+            lemma=lemma,
+            pos=pos,
+            role=role,
+            significance=significance,
+            agent_count=agent_count,
+            tspan=tspan,
+            recurs=recurs,
+            eligible=eligible,
+            type_thread=type_thread,
+            valence=valence,
+            potency=potency,
+            activity=activity,
+            strands=tuple(voted),
+        )
     return folds
 
 
@@ -204,7 +220,7 @@ def best_subject(operands, folds: Dict[str, EntityFold], min_significance: int =
         if fold is None or not fold.eligible:
             continue
         if not (fold.recurs or fold.significance >= min_significance):
-            continue                                  # one-shot nearby noun → not a confident anchor
+            continue  # one-shot nearby noun → not a confident anchor
         if fold.significance > best_sig:
             best, best_sig = op, fold.significance
     return best

@@ -34,8 +34,12 @@ class TestProfileMetadata:
 
     def test_from_dict_roundtrip(self):
         original = ProfileMetadata(
-            name="test", created_at="2026-01-01", modified_at="2026-01-02",
-            description="desc", epochs_completed=5, documents_processed=10,
+            name="test",
+            created_at="2026-01-01",
+            modified_at="2026-01-02",
+            description="desc",
+            epochs_completed=5,
+            documents_processed=10,
             total_tokens=100,
         )
         restored = ProfileMetadata.from_dict(original.to_dict())
@@ -236,9 +240,11 @@ class TestGetActiveNetworks:
         manager = ProfileManager(profiles_dir=tmp_profiles_dir)
         assert manager.get_active_networks() is None
 
-    @pytest.mark.xfail(reason="get_network_collection has wrong kwarg names "
-                              "(text_scale= but ScaleNetworkCollection takes text=); "
-                              "source bug, not test bug.")
+    @pytest.mark.xfail(
+        reason="get_network_collection has wrong kwarg names "
+        "(text_scale= but ScaleNetworkCollection takes text=); "
+        "source bug, not test bug."
+    )
     def test_active_returns_collection(self, tmp_profiles_dir):
         manager = ProfileManager(profiles_dir=tmp_profiles_dir)
         manager.create_profile("alpha")

@@ -16,6 +16,7 @@ from typing import Any, Dict, List, Optional, Set, Tuple
 
 class EntityType(Enum):
     """Types of entities in our toy world."""
+
     ANIMAL = "animal"
     PERSON = "person"
     OBJECT = "object"
@@ -25,6 +26,7 @@ class EntityType(Enum):
 @dataclass
 class Entity:
     """An entity in the world model."""
+
     name: str
     entity_type: EntityType
     properties: Dict[str, Any] = field(default_factory=dict)
@@ -48,6 +50,7 @@ class Entity:
 @dataclass
 class Relation:
     """A relation between entities."""
+
     subject: str
     relation_type: str
     object: str
@@ -187,9 +190,11 @@ class SimpleWorldModel:
                 entity2 = arg2_entities[0]  # First entity in arg2
 
                 # Extract property from arg1 (properties like "cute", "big")
-                property_candidates = [l for l in op.arg1_lemmas
-                                       if l not in {'the', 'a', 'an', 'be', 'is', 'are'}
-                                       and l not in arg1_entities]
+                property_candidates = [
+                    l
+                    for l in op.arg1_lemmas
+                    if l not in {"the", "a", "an", "be", "is", "are"} and l not in arg1_entities
+                ]
 
                 if property_candidates:
                     prop = property_candidates[0]
@@ -232,153 +237,179 @@ class SimpleWorldModel:
         world = cls()
 
         # === ANIMALS ===
-        world.add_entity(Entity(
-            name="fido",
-            entity_type=EntityType.ANIMAL,
-            properties={
-                "type": "dog",
-                "size": "medium",
-                "color": "brown",
-                "age": 5,
-                "friendly": True,
-            },
-            aliases={"the dog", "dog"}
-        ))
+        world.add_entity(
+            Entity(
+                name="fido",
+                entity_type=EntityType.ANIMAL,
+                properties={
+                    "type": "dog",
+                    "size": "medium",
+                    "color": "brown",
+                    "age": 5,
+                    "friendly": True,
+                },
+                aliases={"the dog", "dog"},
+            )
+        )
 
-        world.add_entity(Entity(
-            name="whiskers",
-            entity_type=EntityType.ANIMAL,
-            properties={
-                "type": "cat",
-                "size": "small",
-                "color": "gray",
-                "age": 3,
-                "friendly": True,
-            },
-            aliases={"the cat", "cat"}
-        ))
+        world.add_entity(
+            Entity(
+                name="whiskers",
+                entity_type=EntityType.ANIMAL,
+                properties={
+                    "type": "cat",
+                    "size": "small",
+                    "color": "gray",
+                    "age": 3,
+                    "friendly": True,
+                },
+                aliases={"the cat", "cat"},
+            )
+        )
 
-        world.add_entity(Entity(
-            name="tweety",
-            entity_type=EntityType.ANIMAL,
-            properties={
-                "type": "bird",
-                "size": "tiny",
-                "color": "yellow",
-                "age": 1,
-                "can_fly": True,
-            },
-            aliases={"the bird", "bird"}
-        ))
+        world.add_entity(
+            Entity(
+                name="tweety",
+                entity_type=EntityType.ANIMAL,
+                properties={
+                    "type": "bird",
+                    "size": "tiny",
+                    "color": "yellow",
+                    "age": 1,
+                    "can_fly": True,
+                },
+                aliases={"the bird", "bird"},
+            )
+        )
 
-        world.add_entity(Entity(
-            name="jumbo",
-            entity_type=EntityType.ANIMAL,
-            properties={
-                "type": "elephant",
-                "size": "huge",
-                "color": "gray",
-                "age": 20,
-            },
-            aliases={"the elephant", "elephant"}
-        ))
+        world.add_entity(
+            Entity(
+                name="jumbo",
+                entity_type=EntityType.ANIMAL,
+                properties={
+                    "type": "elephant",
+                    "size": "huge",
+                    "color": "gray",
+                    "age": 20,
+                },
+                aliases={"the elephant", "elephant"},
+            )
+        )
 
-        world.add_entity(Entity(
-            name="rex",
-            entity_type=EntityType.ANIMAL,
-            properties={
-                "type": "dog",
-                "size": "large",
-                "color": "black",
-                "age": 7,
-            },
-            aliases={"the big dog"}
-        ))
+        world.add_entity(
+            Entity(
+                name="rex",
+                entity_type=EntityType.ANIMAL,
+                properties={
+                    "type": "dog",
+                    "size": "large",
+                    "color": "black",
+                    "age": 7,
+                },
+                aliases={"the big dog"},
+            )
+        )
 
         # === PEOPLE ===
-        world.add_entity(Entity(
-            name="john",
-            entity_type=EntityType.PERSON,
-            properties={
-                "height": 180,
-                "age": 30,
-                "occupation": "teacher",
-            },
-            aliases={"the man"}
-        ))
+        world.add_entity(
+            Entity(
+                name="john",
+                entity_type=EntityType.PERSON,
+                properties={
+                    "height": 180,
+                    "age": 30,
+                    "occupation": "teacher",
+                },
+                aliases={"the man"},
+            )
+        )
 
-        world.add_entity(Entity(
-            name="mary",
-            entity_type=EntityType.PERSON,
-            properties={
-                "height": 165,
-                "age": 28,
-                "occupation": "engineer",
-            },
-            aliases={"the woman"}
-        ))
+        world.add_entity(
+            Entity(
+                name="mary",
+                entity_type=EntityType.PERSON,
+                properties={
+                    "height": 165,
+                    "age": 28,
+                    "occupation": "engineer",
+                },
+                aliases={"the woman"},
+            )
+        )
 
-        world.add_entity(Entity(
-            name="bob",
-            entity_type=EntityType.PERSON,
-            properties={
-                "height": 175,
-                "age": 45,
-                "occupation": "doctor",
-            },
-        ))
+        world.add_entity(
+            Entity(
+                name="bob",
+                entity_type=EntityType.PERSON,
+                properties={
+                    "height": 175,
+                    "age": 45,
+                    "occupation": "doctor",
+                },
+            )
+        )
 
-        world.add_entity(Entity(
-            name="alice",
-            entity_type=EntityType.PERSON,
-            properties={
-                "height": 170,
-                "age": 25,
-                "occupation": "student",
-            },
-        ))
+        world.add_entity(
+            Entity(
+                name="alice",
+                entity_type=EntityType.PERSON,
+                properties={
+                    "height": 170,
+                    "age": 25,
+                    "occupation": "student",
+                },
+            )
+        )
 
         # === OBJECTS ===
-        world.add_entity(Entity(
-            name="table",
-            entity_type=EntityType.OBJECT,
-            properties={
-                "size": "large",
-                "material": "wood",
-            },
-            aliases={"the table"}
-        ))
+        world.add_entity(
+            Entity(
+                name="table",
+                entity_type=EntityType.OBJECT,
+                properties={
+                    "size": "large",
+                    "material": "wood",
+                },
+                aliases={"the table"},
+            )
+        )
 
-        world.add_entity(Entity(
-            name="chair",
-            entity_type=EntityType.OBJECT,
-            properties={
-                "size": "medium",
-                "material": "wood",
-            },
-            aliases={"the chair"}
-        ))
+        world.add_entity(
+            Entity(
+                name="chair",
+                entity_type=EntityType.OBJECT,
+                properties={
+                    "size": "medium",
+                    "material": "wood",
+                },
+                aliases={"the chair"},
+            )
+        )
 
-        world.add_entity(Entity(
-            name="book",
-            entity_type=EntityType.OBJECT,
-            properties={
-                "size": "small",
-                "color": "red",
-            },
-            aliases={"the book"}
-        ))
+        world.add_entity(
+            Entity(
+                name="book",
+                entity_type=EntityType.OBJECT,
+                properties={
+                    "size": "small",
+                    "color": "red",
+                },
+                aliases={"the book"},
+            )
+        )
 
-        world.add_entity(Entity(
-            name="car",
-            entity_type=EntityType.OBJECT,
-            properties={
-                "size": "large",
-                "color": "blue",
-                "fast": True,
-            },
-            aliases={"the car"}
-        ))
+        world.add_entity(
+            Entity(
+                name="car",
+                entity_type=EntityType.OBJECT,
+                properties={
+                    "size": "large",
+                    "color": "blue",
+                    "fast": True,
+                },
+                aliases={"the car"},
+            )
+        )
 
         # === SIZE RELATIONS ===
         # Transitive: jumbo > fido > whiskers > tweety

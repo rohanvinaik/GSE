@@ -37,8 +37,7 @@ def make_vec():
     )
 
 
-def make_operator_lexeme(op_type, sign_value=None, hier_delta=None, transmits=None,
-                        seeks=None, gram_features=None):
+def make_operator_lexeme(op_type, sign_value=None, hier_delta=None, transmits=None, seeks=None, gram_features=None):
     spec = OperatorSpec(
         op_type=op_type,
         binding=BindingBehavior.GREEDY,
@@ -48,7 +47,8 @@ def make_operator_lexeme(op_type, sign_value=None, hier_delta=None, transmits=No
         hier_delta=hier_delta,
     )
     return LexemeEntry(
-        lemma="op", surface_form="op",
+        lemma="op",
+        surface_form="op",
         semantic_vector=make_vec(),
         possible_roles=frozenset({GramRole.ADV}),
         gram_features=gram_features or GrammaticalFeatures(),
@@ -59,7 +59,8 @@ def make_operator_lexeme(op_type, sign_value=None, hier_delta=None, transmits=No
 
 def make_atomic_lexeme(roles=None):
     return LexemeEntry(
-        lemma="word", surface_form="word",
+        lemma="word",
+        surface_form="word",
         semantic_vector=make_vec(),
         possible_roles=frozenset(roles or [GramRole.ADJ]),
         gram_features=GrammaticalFeatures(),
@@ -70,6 +71,7 @@ def make_atomic_lexeme(roles=None):
 # ============================================================
 # OperatorState
 # ============================================================
+
 
 class TestOperatorStateDefaults:
     def test_default_state_empty(self):
@@ -162,6 +164,7 @@ class TestReset:
 # resolve_operator
 # ============================================================
 
+
 class TestResolveOperatorSign:
     def test_sign_sets_pending_sign(self):
         not_op = make_operator_lexeme(OperatorType.SIGN, sign_value=-1)
@@ -247,6 +250,7 @@ class TestResolveOperatorNonOperator:
 # apply_operators_to_atomic
 # ============================================================
 
+
 class TestApplyOperatorsToAtomic:
     def make_node(self, role=GramRole.ADJ):
         lex = make_atomic_lexeme(roles=[role])
@@ -309,6 +313,7 @@ class TestApplyOperatorsToAtomic:
 # ============================================================
 # can_operator_apply
 # ============================================================
+
 
 class TestCanOperatorApply:
     def test_matching_role_returns_true(self):

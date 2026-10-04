@@ -86,11 +86,7 @@ class OperatorState:
 
     def is_empty(self) -> bool:
         """Is the operator state completely empty?"""
-        return (
-            self.pending_sign is None
-            and self.pending_hierarchy is None
-            and not self.pending_auxiliaries
-        )
+        return self.pending_sign is None and self.pending_hierarchy is None and not self.pending_auxiliaries
 
     def copy(self) -> "OperatorState":
         """Create a copy of this state."""

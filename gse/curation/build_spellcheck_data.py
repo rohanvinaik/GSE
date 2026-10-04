@@ -15,6 +15,7 @@ Builds:
                                                 proper-noun leg; needs data/genealogy.db,
                                                 skipped gracefully when absent)
 """
+
 from __future__ import annotations
 
 import os
@@ -42,6 +43,7 @@ def main(argv: list[str]) -> None:
     n = build_wordlist.build(local_gz)
     print("[3/3] entity-name dictionary (from genealogy.db canonical labels; alias-free)…")
     from gse.curation import build_spell_entities
+
     if os.path.exists(build_spell_entities._GENEALOGY):
         build_spell_entities.build()
     else:

@@ -98,7 +98,7 @@ class TestRankToWeight:
         max_rank = 100
         weights = [db._rank_to_weight(r, max_rank) for r in [1, 10, 50, 99, 100]]
         for i in range(len(weights) - 1):
-            assert weights[i] <= weights[i+1], f"Not monotonic: {weights}"
+            assert weights[i] <= weights[i + 1], f"Not monotonic: {weights}"
 
 
 class TestLookup:
@@ -222,7 +222,7 @@ class TestWeightProfileApply:
     def test_content_focused_amplifies(self):
         result = WeightProfile.apply(WeightProfile.CONTENT_FOCUSED, 2.0)
         # 2.0 ** 1.5 = 2.828...
-        assert result == pytest.approx(2.0 ** 1.5)
+        assert result == pytest.approx(2.0**1.5)
 
     def test_structure_focused_compresses(self):
         result = WeightProfile.apply(WeightProfile.STRUCTURE_FOCUSED, 4.0)

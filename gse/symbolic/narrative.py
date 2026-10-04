@@ -49,6 +49,7 @@ def _belief_value(patient: Any) -> str:
         return getattr(patient, "verb", "") or _label(patient, 0)
     return _label(patient, 0)
 
+
 # --- HDC role + eligibility: OTP informational-zero elimination over the NSM banks ----
 # GSE already partitions the NSM primitives into 8 semantic banks (primitives_v2). An
 # entity's word_primitives give a bank-activity profile; ROLE falls out of the signature
@@ -57,9 +58,10 @@ def _belief_value(patient: Any) -> str:
 # noise-floor, not a narrative citizen — eliminated with confidence, not by a stopword list.
 try:
     from gse.primitives_v2 import PRIMITIVE_FAMILIES, SemanticBank
+
     _PRIME_BANK = {p: spec["bank"] for spec in PRIMITIVE_FAMILIES.values() for p in spec["primitives"]}
     _SUBSTANTIVES = SemanticBank.SUBSTANTIVES
-except Exception:                       # degrade to thread-only eligibility if unavailable
+except Exception:  # degrade to thread-only eligibility if unavailable
     _PRIME_BANK, _SUBSTANTIVES = {}, None
 
 _ANIMATE = {"I", "YOU", "SOMEONE", "PEOPLE", "BODY"}
@@ -81,18 +83,79 @@ _NARRATOR = "narrator"
 # the known narrator, never a quoted character or a third-person agent. Matched against Edge.rel.
 _NARRATION_VERBS = {
     # perception
-    "see", "hear", "look", "watch", "observe", "notice", "feel", "perceive", "behold",
-    "glimpse", "regard", "view", "witness", "spy", "gaze", "stare", "listen",
+    "see",
+    "hear",
+    "look",
+    "watch",
+    "observe",
+    "notice",
+    "feel",
+    "perceive",
+    "behold",
+    "glimpse",
+    "regard",
+    "view",
+    "witness",
+    "spy",
+    "gaze",
+    "stare",
+    "listen",
     # cognition
-    "think", "know", "believe", "remember", "realize", "realise", "understand", "wonder",
-    "suppose", "imagine", "recall", "consider", "reflect", "suspect", "doubt", "expect",
-    "fancy", "dream", "recollect", "deem", "reckon", "guess", "mean",
+    "think",
+    "know",
+    "believe",
+    "remember",
+    "realize",
+    "realise",
+    "understand",
+    "wonder",
+    "suppose",
+    "imagine",
+    "recall",
+    "consider",
+    "reflect",
+    "suspect",
+    "doubt",
+    "expect",
+    "fancy",
+    "dream",
+    "recollect",
+    "deem",
+    "reckon",
+    "guess",
+    "mean",
     # speech framing
-    "say", "tell", "remark", "reply", "answer", "ask", "mention", "relate", "recount",
-    "declare", "note", "add", "continue", "exclaim", "cry", "explain", "admit",
+    "say",
+    "tell",
+    "remark",
+    "reply",
+    "answer",
+    "ask",
+    "mention",
+    "relate",
+    "recount",
+    "declare",
+    "note",
+    "add",
+    "continue",
+    "exclaim",
+    "cry",
+    "explain",
+    "admit",
     # light stative / relational narration
-    "have", "share", "hold", "keep", "own", "possess", "belong", "seem", "remain",
-    "suit", "concern", "involve", "find",
+    "have",
+    "share",
+    "hold",
+    "keep",
+    "own",
+    "possess",
+    "belong",
+    "seem",
+    "remain",
+    "suit",
+    "concern",
+    "involve",
+    "find",
 }
 # Surface-token nominative pronouns: when one is glommed into a multi-token NP ("way i",
 # "then she", "think you"), the node is a parse fragment from dialogue/complex prose, not a
@@ -213,35 +276,45 @@ class _Node:
     eid: str
     surface: Set[str] = field(default_factory=set)
     thread: Tuple[str, ...] = ()
-    appos_thread: Tuple[str, ...] = ()                          # appositive-inherited thread (emit-only)
-    roles: List[Tuple[int, str]] = field(default_factory=list)   # (time, role/state)
-    degree: int = 0                                              # edges touching this node
-    prims: Dict[str, int] = field(default_factory=dict)         # bundled NSM primitive profile
-    pos: str = ""                                               # grammatical POS of the head (NOUN/PROPN/…)
-    lemma: str = ""                                             # head lemma (for the world-strand heal)
-    role: str = "?"                                            # inferred semantic role
-    eligible: bool = False                                      # admitted citizen vs eliminated noise
-    world_nonagent: bool = False                                # world strand types it a non-agent (Event/Work)
-    provenance: List[str] = field(default_factory=list)         # heals applied (audit trail)
+    appos_thread: Tuple[str, ...] = ()  # appositive-inherited thread (emit-only)
+    roles: List[Tuple[int, str]] = field(default_factory=list)  # (time, role/state)
+    degree: int = 0  # edges touching this node
+    prims: Dict[str, int] = field(default_factory=dict)  # bundled NSM primitive profile
+    pos: str = ""  # grammatical POS of the head (NOUN/PROPN/…)
+    lemma: str = ""  # head lemma (for the world-strand heal)
+    role: str = "?"  # inferred semantic role
+    eligible: bool = False  # admitted citizen vs eliminated noise
+    world_nonagent: bool = False  # world strand types it a non-agent (Event/Work)
+    provenance: List[str] = field(default_factory=list)  # heals applied (audit trail)
 
 
 @dataclass
 class Edge:
     t: int
-    kind: str            # "event" | "cause" | "temporal"
-    src: str             # entity id, or a rendered label for a non-entity endpoint
-    rel: str             # verb / "causes" / "then"
+    kind: str  # "event" | "cause" | "temporal"
+    src: str  # entity id, or a rendered label for a non-entity endpoint
+    rel: str  # verb / "causes" / "then"
     dst: str
     src_resolved: bool
     dst_resolved: bool
-    provenance: List[str] = field(default_factory=list)         # heals applied (audit trail)
-    themes: tuple = ()                                          # latent secondary args (rendered labels), revivable
-    negated: bool = False                                      # polarity: the event is NEGATED ("does not trust")
+    provenance: List[str] = field(default_factory=list)  # heals applied (audit trail)
+    themes: tuple = ()  # latent secondary args (rendered labels), revivable
+    negated: bool = False  # polarity: the event is NEGATED ("does not trust")
 
 
-_YIELD_PREDS = {"Event", "Causation", "Temporal", "TypeAssertion", "Comparison",
-                "Conditional", "Control", "RelativeRestriction", "Contrast", "ClauseCoordination",
-                "Negation"}   # yield the Negation node itself (NOT unwrap it) so its polarity survives compaction
+_YIELD_PREDS = {
+    "Event",
+    "Causation",
+    "Temporal",
+    "TypeAssertion",
+    "Comparison",
+    "Conditional",
+    "Control",
+    "RelativeRestriction",
+    "Contrast",
+    "ClauseCoordination",
+    "Negation",
+}  # yield the Negation node itself (NOT unwrap it) so its polarity survives compaction
 _CONTAINER_FIELDS = {
     "ClauseCoordination": ("left", "right"),
     "Contrast": ("left", "right"),
@@ -306,9 +379,9 @@ class NarrativeGraph:
     def __init__(self) -> None:
         self.nodes: Dict[str, _Node] = {}
         self.edges: List[Edge] = []
-        self.excluded = 0          # predicates that anchored no resolved entity
-        self.backbone_ids: Set[str] = set()   # Stage-3 protagonist set (the narrative spine)
-        self.causations: List[Tuple[int, Any]] = []   # whole Causation predicates (the teaching food)
+        self.excluded = 0  # predicates that anchored no resolved entity
+        self.backbone_ids: Set[str] = set()  # Stage-3 protagonist set (the narrative spine)
+        self.causations: List[Tuple[int, Any]] = []  # whole Causation predicates (the teaching food)
 
     # -- construction -------------------------------------------------------
     def _node(self, ent: Any) -> Optional[_Node]:
@@ -322,13 +395,13 @@ class NarrativeGraph:
         n.surface.add(_label(ent))
         if not n.thread and getattr(ent, "type_thread", ()):
             n.thread = tuple(ent.type_thread)
-        if not n.appos_thread:                                 # appositive-inherited (emit-only; see ref())
+        if not n.appos_thread:  # appositive-inherited (emit-only; see ref())
             n.appos_thread = tuple(getattr(ent, "apposition_thread", ()) or ())
-        head = getattr(ent, "head", None)                      # bundle the primitive profile
+        head = getattr(ent, "head", None)  # bundle the primitive profile
         for p, v in (getattr(head, "word_primitives", {}) or {}).items():
             n.prims[p] = n.prims.get(p, 0) + v
         hpos = getattr(head, "pos", "") or ""
-        if hpos and (not n.pos or n.pos not in ("NOUN", "PROPN")):   # prefer a nominal POS
+        if hpos and (not n.pos or n.pos not in ("NOUN", "PROPN")):  # prefer a nominal POS
             n.pos = hpos
         if not n.lemma:
             n.lemma = getattr(head, "lemma", "") or ""
@@ -346,7 +419,7 @@ class NarrativeGraph:
         src = na.eid if na else _label(a)
         dst = (nb.eid if nb else _label(b)) if b is not None else ""
         if na is None and nb is None:
-            return False                      # neither endpoint resolved → not in the spine
+            return False  # neither endpoint resolved → not in the spine
         self.edges.append(Edge(t, kind, src, rel, dst, na is not None, nb is not None, themes=themes, negated=negated))
         if na:
             na.degree += 1
@@ -355,8 +428,9 @@ class NarrativeGraph:
         return True
 
     @classmethod
-    def from_document(cls, trees: List[Any], genealogy: Any = None,
-                      repair: Any = None, raw_text: str | None = None) -> "NarrativeGraph":
+    def from_document(
+        cls, trees: List[Any], genealogy: Any = None, repair: Any = None, raw_text: str | None = None
+    ) -> "NarrativeGraph":
         """Build the narrative graph and collapse it to the spine. ``repair`` is an OPTIONAL
         pre-compaction hook: a callable ``[(t, predicate), ...] -> [(t, predicate), ...]`` applied
         to the WIDE statement set (all collected predicates, before any edge-building or the
@@ -376,7 +450,7 @@ class NarrativeGraph:
                 ok = g._state(p.entity, p.kind, t)
             elif nm == "Event":
                 if p.verb in _STATE_VERBS and p.patient is not None:
-                    ok = g._state(p.agent, p.patient, t)          # "became king" → role
+                    ok = g._state(p.agent, p.patient, t)  # "became king" → role
                 elif assertion_mode(nm, p.verb, type(p.patient).__name__) == "belief":
                     # Propositional-attitude complement ("believes he is righteous"): the belief CONTENT
                     # is surfaced as a THEME of the attitude event (the bridge reads it as the held
@@ -384,8 +458,14 @@ class NarrativeGraph:
                     val = _belief_value(p.patient)
                     ok = g._edge("event", p.agent, p.verb, None, t, themes=(val,) if val else ())
                 else:
-                    ok = g._edge("event", p.agent, p.verb, p.patient, t,
-                                 themes=tuple(_label(th, 0) for th in getattr(p, "themes", ())))
+                    ok = g._edge(
+                        "event",
+                        p.agent,
+                        p.verb,
+                        p.patient,
+                        t,
+                        themes=tuple(_label(th, 0) for th in getattr(p, "themes", ())),
+                    )
             elif nm == "Causation":
                 ok = g._edge("cause", p.cause, "causes", p.effect, t)
                 # The Causation PREDICATE is also kept whole: its operands are EVENTS, so the
@@ -423,13 +503,19 @@ class NarrativeGraph:
                 inner = getattr(p, "operand", None)
                 inm = type(inner).__name__ if inner is not None else ""
                 if inm == "Event" and not (inner.verb in _STATE_VERBS and inner.patient is not None):
-                    ok = g._edge("event", inner.agent, inner.verb, inner.patient, t,
-                                 themes=tuple(_label(th, 0) for th in getattr(inner, "themes", ())),
-                                 negated=True)
+                    ok = g._edge(
+                        "event",
+                        inner.agent,
+                        inner.verb,
+                        inner.patient,
+                        t,
+                        themes=tuple(_label(th, 0) for th in getattr(inner, "themes", ())),
+                        negated=True,
+                    )
                 else:
                     ok = True
             else:
-                ok = True       # other predicates (Comparison etc.) aren't spine edges; not "excluded noise"
+                ok = True  # other predicates (Comparison etc.) aren't spine edges; not "excluded noise"
             if not ok:
                 g.excluded += 1
         g._finalize(genealogy, raw_text=raw_text)
@@ -463,8 +549,7 @@ class NarrativeGraph:
         def nominal(n: _Node) -> bool:
             if n.pos in ("NOUN", "PROPN", "PRON"):
                 return True
-            return (_SUBSTANTIVES is not None
-                    and _SUBSTANTIVES in {_PRIME_BANK.get(p) for p, v in n.prims.items() if v})
+            return _SUBSTANTIVES is not None and _SUBSTANTIVES in {_PRIME_BANK.get(p) for p, v in n.prims.items() if v}
 
         def blob(n: _Node) -> bool:
             toks = max((len(s.split()) for s in n.surface), default=1)
@@ -472,8 +557,11 @@ class NarrativeGraph:
                 return True
             # Construct-clean: a multi-token surface carrying a stray nominative pronoun
             # ("way i", "then she", "think you") is a parse fragment, not a referent.
-            if toks > 1 and not n.thread and any(
-                    tok in _NOMINATIVE_PRON for s in n.surface for tok in s.lower().split()):
+            if (
+                toks > 1
+                and not n.thread
+                and any(tok in _NOMINATIVE_PRON for s in n.surface for tok in s.lower().split())
+            ):
                 return True
             return False
 
@@ -487,15 +575,22 @@ class NarrativeGraph:
             # candidates()[0] here re-asserted exactly the wrong-referent guess the gate had
             # just refused ('santiago' → the Chilean city on the fisherman), undoing the
             # abstention downstream. Without raw_text the behavior is unchanged.
-            if (not grounded(n) and n.pos == "PROPN" and n.lemma
-                    and genealogy is not None and hasattr(genealogy, "candidates")):
+            if (
+                not grounded(n)
+                and n.pos == "PROPN"
+                and n.lemma
+                and genealogy is not None
+                and hasattr(genealogy, "candidates")
+            ):
                 try:
                     from gse.symbolic.grounding import corroborated_world_thread
+
                     thread = corroborated_world_thread(n.lemma, genealogy, raw_text)
                     if thread:
                         n.thread = tuple(thread)
-                        n.provenance.append("world-strand: grounded '%s' → %s"
-                                            % (n.lemma, n.thread[-1] if n.thread else "?"))
+                        n.provenance.append(
+                            "world-strand: grounded '%s' → %s" % (n.lemma, n.thread[-1] if n.thread else "?")
+                        )
                 except Exception:
                     pass
             nbr_grounded = any(grounded(self.nodes[m]) for m in adj.get(n.eid, ()))
@@ -508,15 +603,13 @@ class NarrativeGraph:
             # positive path above grounds the real referents first; this catches the fictional/
             # jargon tail the comment there always promised but the gate never delivered.)
             participates = bool(subj_of.get(n.eid) or obj_of.get(n.eid))
-            oov_referent = (n.pos == "PROPN"
-                            or (n.pos == "NOUN" and not any(n.prims.values())))
-            admit_by_exclusion = (not grounded(n) and not nbr_grounded
-                                  and oov_referent and participates)
-            n.eligible = nominal(n) and (not blob(n)) and (
-                grounded(n) or nbr_grounded or admit_by_exclusion)
+            oov_referent = n.pos == "PROPN" or (n.pos == "NOUN" and not any(n.prims.values()))
+            admit_by_exclusion = not grounded(n) and not nbr_grounded and oov_referent and participates
+            n.eligible = nominal(n) and (not blob(n)) and (grounded(n) or nbr_grounded or admit_by_exclusion)
             if n.eligible and admit_by_exclusion:
-                n.provenance.append("admitted by exclusion: OOV %s in role-slot"
-                                    % ("name" if n.pos == "PROPN" else "term"))
+                n.provenance.append(
+                    "admitted by exclusion: OOV %s in role-slot" % ("name" if n.pos == "PROPN" else "term")
+                )
             if role == "?":
                 role = "agent" if subj_of.get(n.eid) else ("object" if obj_of.get(n.eid) else "?")
             n.role = role
@@ -529,16 +622,16 @@ class NarrativeGraph:
             # off the facets wrongly rescues the National-scoped Event "war"). Shallow/absent grounding
             # ABSTAINS (the NLP leg decides), so a fictional character (Macbeth → ['Thing']) passes.
             tset = set(n.thread)
-            nonagent_type = (
-                bool(tset & {"Event", "SocietalEvent", "MilitaryConflict", "Work"})
-                or (("abstraction" in tset or "event" in tset)
-                    and not (tset & {"physical_entity", "person", "organism", "causal_agent",
-                                     "Agent", "Person"})))
+            nonagent_type = bool(tset & {"Event", "SocietalEvent", "MilitaryConflict", "Work"}) or (
+                ("abstraction" in tset or "event" in tset)
+                and not (tset & {"physical_entity", "person", "organism", "causal_agent", "Agent", "Person"})
+            )
             if nonagent_type:
                 n.world_nonagent = True
                 n.provenance.append(
                     "world-leg: non-agent type (%s) — excluded from protagonist-hood"
-                    % (n.thread[-1] if n.thread else "?"))
+                    % (n.thread[-1] if n.thread else "?")
+                )
 
     def _heal(self) -> None:
         """Discourse-strand correction: an EVENT whose subject was dropped/garbled (its agent
@@ -553,7 +646,7 @@ class NarrativeGraph:
         not a per-story patch: a one-off agent never becomes the discourse topic; the recurring
         protagonist does."""
         agent_count: Dict[str, int] = defaultdict(int)
-        for e in self.edges:                                     # pre-heal participation (recurrence)
+        for e in self.edges:  # pre-heal participation (recurrence)
             if e.kind == "event" and e.src_resolved:
                 agent_count[e.src] += 1
         topic = None
@@ -561,8 +654,9 @@ class NarrativeGraph:
             if e.kind != "event":
                 continue
             src = self.nodes.get(e.src)
-            if (src is not None and src.eligible and src.role == "agent"
-                    and agent_count[e.src] >= 2):                # recurring agent → the running topic
+            if (
+                src is not None and src.eligible and src.role == "agent" and agent_count[e.src] >= 2
+            ):  # recurring agent → the running topic
                 topic = e.src
             elif (src is None or not src.eligible) and topic is not None and topic != e.dst:
                 # CLEAN-OR-HOLE: bind a dropped subject to the topic — but NOT when the topic is
@@ -597,8 +691,7 @@ class NarrativeGraph:
                 # (I saw / I have heard / I think) are the lens, not plot participation. Score the
                 # narrator by its MATERIAL actions only, so the protagonist it narrates surfaces.
                 src = self.nodes.get(e.src)
-                if (src is not None and src.lemma == _NARRATOR
-                        and e.rel in _NARRATION_VERBS):
+                if src is not None and src.lemma == _NARRATOR and e.rel in _NARRATION_VERBS:
                     continue
                 agent[e.src] += 1
         all_t = [e.t for e in self.edges]
@@ -610,7 +703,7 @@ class NarrativeGraph:
             if not n.eligible or not ts:
                 continue
             tspan = max(ts) - min(ts) + 1
-            score[eid] = agent.get(eid, 0) * tspan          # participation × spread
+            score[eid] = agent.get(eid, 0) * tspan  # participation × spread
         top = max(score.values(), default=0.0)
         if top <= 0:
             return
@@ -620,17 +713,18 @@ class NarrativeGraph:
         # named entity (PROPN — its type-thread is empty, so it must be kept explicitly) OR a
         # concretely-typed referent (person/place/object/organization); a bare abstraction or pronoun
         # acting twice is not a protagonist. Drops the phantom-seed garbage while keeping the real cast.
-        seeds = {eid for eid, s in score.items()
-                 if agent.get(eid, 0) >= 2 and s >= 0.1 * top
-                 and _protagonist_like(self.nodes[eid])}
+        seeds = {
+            eid
+            for eid, s in score.items()
+            if agent.get(eid, 0) >= 2 and s >= 0.1 * top and _protagonist_like(self.nodes[eid])
+        }
         # Causal closure: pull in the PATIENTS a protagonist acts upon. A murdered king never
         # acts (agent_count 0) but his role-states ("is king" → "becomes dead") are load-bearing
         # for the multi-hop succession derivation. Objects-without-states add nothing; states
         # rejoin the spine. This is the set-closure of "what the protagonists touch".
         backbone = set(seeds)
         for e in self.edges:
-            if (e.kind == "event" and e.src in seeds and e.dst in self.nodes
-                    and self.nodes[e.dst].eligible):
+            if e.kind == "event" and e.src in seeds and e.dst in self.nodes and self.nodes[e.dst].eligible:
                 backbone.add(e.dst)
         self.backbone_ids = backbone
 
@@ -652,13 +746,15 @@ class NarrativeGraph:
                 node_sig[e.src] += w
             if e.dst in self.nodes:
                 node_sig[e.dst] += w
-        elig = sorted((n for n in nodes if n.eligible),
-                      key=lambda n: (-(node_sig.get(n.eid, 0.0) + len(n.roles)), n.eid))
+        elig = sorted(
+            (n for n in nodes if n.eligible), key=lambda n: (-(node_sig.get(n.eid, 0.0) + len(n.roles)), n.eid)
+        )
         elim = [n for n in nodes if not n.eligible]
         elig_ids = {n.eid for n in elig}
 
-        out.append(f"NARRATIVE ENTITIES (eligible {len(elig)} / eliminated-as-noise {len(elim)} "
-                   f"/ {len(self.nodes)} resolved)")
+        out.append(
+            f"NARRATIVE ENTITIES (eligible {len(elig)} / eliminated-as-noise {len(elim)} / {len(self.nodes)} resolved)"
+        )
         for n in elig:
             surf = "/".join(sorted(n.surface))
             inv = n.thread[-1] if n.thread else "·"
@@ -667,8 +763,7 @@ class NarrativeGraph:
                 line += "   roles: " + " → ".join(r for _, r in n.roles)
             out.append(line)
 
-        spine = [e for e in sorted(self.edges, key=lambda e: (e.t, e.kind))
-                 if e.src in elig_ids or e.dst in elig_ids]
+        spine = [e for e in sorted(self.edges, key=lambda e: (e.t, e.kind)) if e.src in elig_ids or e.dst in elig_ids]
         out.append(f"\nSPINE edges (touch an eligible entity): {len(spine)} of {len(self.edges)}")
         for e in spine:
             arrow = f"{e.src} —{e.rel}→ {e.dst}".rstrip(" —→")
@@ -705,7 +800,7 @@ class NarrativeGraph:
             if n.eid not in elig:
                 continue
             r = ref(n.eid)
-            for (t, state) in n.roles:
+            for t, state in n.roles:
                 if r is not None:
                     feats = {"_prov": list(n.provenance)} if n.provenance else {}
                     items.append((t, {"op": "TYPE_ASSERT", "args": [r, state], "features": feats}))
@@ -729,10 +824,10 @@ class NarrativeGraph:
             if e.kind == "event" and src is not None:
                 args = [src] + ([dst] if dst is not None else [])
                 ev_feats = {"verb": e.rel, **prov}
-                if e.themes:                       # latent secondary args — preserved, revivable, default-ignored
+                if e.themes:  # latent secondary args — preserved, revivable, default-ignored
                     ev_feats["themes"] = list(e.themes)
                 env = {"op": "EVENT", "args": args, "features": ev_feats}
-                if e.negated:                      # re-wrap the polarity the compactor would otherwise drop
+                if e.negated:  # re-wrap the polarity the compactor would otherwise drop
                     env = {"op": "NOT", "args": [env], "features": {}}
                 items.append((e.t, env))
             elif e.kind == "cause" and src is not None and dst is not None:
@@ -751,8 +846,18 @@ class NarrativeGraph:
                 eid = getattr(x, "entity_id", None)
                 if eid:
                     ids.add(eid)
-                for f in ("cause", "effect", "agent", "patient", "head", "operand",
-                          "subject", "controller", "inner", "entity"):
+                for f in (
+                    "cause",
+                    "effect",
+                    "agent",
+                    "patient",
+                    "head",
+                    "operand",
+                    "subject",
+                    "controller",
+                    "inner",
+                    "entity",
+                ):
                     v = getattr(x, f, None)
                     if v is not None and not isinstance(v, (str, int, float)):
                         _ids(v)
@@ -762,6 +867,7 @@ class NarrativeGraph:
                 continue
             try:
                 from gse.symbolic.emit import emit as _emit_pred
+
                 items.append((t, _emit_pred(p)))
             except Exception:
                 continue
@@ -785,9 +891,7 @@ _FLAT_OPS = {"TYPE_ASSERT"}
 _RELATIONAL_OPS = {"EVENT", "COMPARISON", "REL_RESTRICT"}
 _LOGICAL_OPS = {"CAUSATION", "TEMPORAL", "IMPLIES", "CONTROL", "CONTRAST", "CLAUSE_COORD", "NOT"}
 _STRUCTURE_OPS = _RELATIONAL_OPS | _LOGICAL_OPS
-_OP_BASE = {**{o: 1.0 for o in _FLAT_OPS},
-            **{o: 2.0 for o in _RELATIONAL_OPS},
-            **{o: 3.0 for o in _LOGICAL_OPS}}
+_OP_BASE = {**{o: 1.0 for o in _FLAT_OPS}, **{o: 2.0 for o in _RELATIONAL_OPS}, **{o: 3.0 for o in _LOGICAL_OPS}}
 
 
 def _is_ref(a: Any) -> bool:
@@ -812,9 +916,9 @@ def trace_info(contract: Dict[str, Any]) -> float:
     score = _OP_BASE.get(p.get("op", ""), 0.5)
     for a in p.get("args", []) or []:
         if _is_ref(a):
-            score += 0.6 if a.get("type_thread") else 0.3   # grounded vs bare referent
+            score += 0.6 if a.get("type_thread") else 0.3  # grounded vs bare referent
         elif _is_op(a):
-            score += 1.0                                     # a nested predicate = logical depth
+            score += 1.0  # a nested predicate = logical depth
     return score
 
 
@@ -824,8 +928,13 @@ def _trace_key(contract: Dict[str, Any]):
     if not isinstance(p, dict):
         return ("?",)
     verb = (p.get("features", {}) or {}).get("verb", "")
-    ids = tuple(sorted(a.get("entity_id") if _is_ref(a) else str(a)
-                       for a in (p.get("args", []) or []) if _is_ref(a) or isinstance(a, str)))
+    ids = tuple(
+        sorted(
+            a.get("entity_id") if _is_ref(a) else str(a)
+            for a in (p.get("args", []) or [])
+            if _is_ref(a) or isinstance(a, str)
+        )
+    )
     return (p.get("op", ""), verb, ids)
 
 
@@ -850,9 +959,7 @@ def budget_from_profile(profile: Any, n_traces: int) -> Dict[str, float]:
         mix = getattr(profile, "operator_mix", {}) or {}
         coh = getattr(profile, "coherence", {}) or {}
         n_sents = max(getattr(profile, "n_sentences", 1), 1)
-        density = (cx.get("tokens_per_sent", 12) / 12.0
-                   + cx.get("embed_rate", 0.0)
-                   + cx.get("ops_per_sent", 1.0) / 3.0)
+        density = cx.get("tokens_per_sent", 12) / 12.0 + cx.get("embed_rate", 0.0) + cx.get("ops_per_sent", 1.0) / 3.0
         budget = int(min(80, max(8, round(n_sents * (1.0 + density)))))
         struct = sum(mix.get(o, 0.0) for o in _STRUCTURE_OPS)
         target_sn = min(0.85, struct / sum(mix.values())) if sum(mix.values()) else 0.5
@@ -867,9 +974,9 @@ def budget_from_profile(profile: Any, n_traces: int) -> Dict[str, float]:
 class Trace:
     contract: Dict[str, Any]
     info: float
-    order: int                 # original time index — the narrative sequence
+    order: int  # original time index — the narrative sequence
     key: Any
-    iters: int = 0             # (C) per-trace survival counter; reset when re-formed
+    iters: int = 0  # (C) per-trace survival counter; reset when re-formed
 
 
 def compress(graph: "NarrativeGraph", profile: Any = None, max_cycles: int = 8):
@@ -923,12 +1030,17 @@ def compress(graph: "NarrativeGraph", profile: Any = None, max_cycles: int = 8):
             plateau = "target S/N + budget met"
             break
 
-    contracts = [t.contract for t in sorted(traces, key=lambda t: t.order)]   # restore narrative order
+    contracts = [t.contract for t in sorted(traces, key=lambda t: t.order)]  # restore narrative order
     report = {
-        "raw_traces": len(raw), "final_traces": len(traces), "budget": budget,
-        "target_sn": round(target_sn, 3), "final_sn": trajectory[-1],
-        "sn_trajectory": trajectory, "size_trajectory": sizes,
-        "global_iters": global_iters, "plateau": plateau,
+        "raw_traces": len(raw),
+        "final_traces": len(traces),
+        "budget": budget,
+        "target_sn": round(target_sn, 3),
+        "final_sn": trajectory[-1],
+        "sn_trajectory": trajectory,
+        "size_trajectory": sizes,
+        "global_iters": global_iters,
+        "plateau": plateau,
         "prune_floor": round(prune_floor, 2),
         "max_iters_single_trace": max((t.iters for t in traces), default=0),
     }

@@ -46,6 +46,7 @@ class FakeParser:
 
 # ---------- __init__ ----------
 
+
 class TestInit:
     def test_default_min_auto_apply(self):
         e = ConstraintAggregationEngine()
@@ -71,6 +72,7 @@ class TestInit:
 
 
 # ---------- collect_raw_source_data ----------
+
 
 class TestCollectRawSourceData:
     def test_empty_parsers(self):
@@ -113,6 +115,7 @@ class TestCollectRawSourceData:
 
 
 # ---------- collect_evidence ----------
+
 
 class TestCollectEvidence:
     def test_auto_loads(self):
@@ -183,6 +186,7 @@ class TestCollectEvidence:
 
 
 # ---------- aggregate_constraints ----------
+
 
 class TestAggregateConstraints:
     def test_returns_profile(self):
@@ -289,6 +293,7 @@ class TestAggregateConstraints:
 
 # ---------- get_sources_for_primitive ----------
 
+
 class TestGetSourcesForPrimitive:
     def test_returns_list(self):
         e = ConstraintAggregationEngine()
@@ -321,6 +326,7 @@ class TestGetSourcesForPrimitive:
 
 # ---------- close ----------
 
+
 class TestClose:
     def test_calls_parser_close(self):
         e = ConstraintAggregationEngine()
@@ -352,6 +358,7 @@ class TestClose:
 
 # ---------- test_word convenience ----------
 
+
 class TestTestWord:
     def test_returns_profile(self, capsys):
         # Patch the engine class to use mock parsers
@@ -382,9 +389,13 @@ class TestTestWord:
                 sources_with_data=["verbnet"],
                 constraints={
                     "GOOD": PrimitiveConstraint(
-                        primitive="GOOD", value=1, confidence=0.9,
-                        supporting_sources=["verbnet"], conflicting_sources=[],
-                        evidence_records=[], status="auto_apply",
+                        primitive="GOOD",
+                        value=1,
+                        confidence=0.9,
+                        supporting_sources=["verbnet"],
+                        conflicting_sources=[],
+                        evidence_records=[],
+                        status="auto_apply",
                     ),
                 },
                 conflicts=[],
@@ -401,9 +412,15 @@ class TestTestWord:
         with patch("gse.curation.constraint_aggregation.engine.ConstraintAggregationEngine") as MockEngine:
             mock_engine = MockEngine.return_value
             mock_engine.aggregate_constraints.return_value = WordConstraintProfile(
-                word="run", pos=None, sources_checked=[], sources_with_data=[],
-                constraints={}, conflicts=[], overall_confidence=0.0,
-                review_required=False, review_reasons=[],
+                word="run",
+                pos=None,
+                sources_checked=[],
+                sources_with_data=[],
+                constraints={},
+                conflicts=[],
+                overall_confidence=0.0,
+                review_required=False,
+                review_reasons=[],
             )
             test_word("run", verbose=False)
             mock_engine.aggregate_constraints.assert_called_once_with("run")
@@ -412,9 +429,15 @@ class TestTestWord:
         with patch("gse.curation.constraint_aggregation.engine.ConstraintAggregationEngine") as MockEngine:
             mock_engine = MockEngine.return_value
             mock_engine.aggregate_constraints.return_value = WordConstraintProfile(
-                word="run", pos=None, sources_checked=[], sources_with_data=[],
-                constraints={}, conflicts=[], overall_confidence=0.0,
-                review_required=False, review_reasons=[],
+                word="run",
+                pos=None,
+                sources_checked=[],
+                sources_with_data=[],
+                constraints={},
+                conflicts=[],
+                overall_confidence=0.0,
+                review_required=False,
+                review_reasons=[],
             )
             test_word("run", verbose=False)
             MockEngine.assert_called_with(include_large_sources=False)

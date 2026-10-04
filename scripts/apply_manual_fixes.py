@@ -2,61 +2,62 @@
 """
 Apply Manual Lexicon Fixes from JSONL file
 """
+
 import json
 import sqlite3
 import sys
 
-sys.path.insert(0, '/Users/rohanvinaik/gse')
+sys.path.insert(0, "/Users/rohanvinaik/gse")
 from gse.lexicon_generator import LexiconGenerator
 from gse.primitives import PRIMITIVES, ROLES
 from gse.vectors import PrimitiveBasis
 
-DB_PATH = '/Users/rohanvinaik/gse/data/lexicon.db'
-FIXES_FILE = '/Users/rohanvinaik/relational-ai/manual_lexicon_fixes.jsonl'
+DB_PATH = "/Users/rohanvinaik/gse/data/lexicon.db"
+FIXES_FILE = "/Users/rohanvinaik/relational-ai/manual_lexicon_fixes.jsonl"
 
 # Role corrections for common typos/invalid roles
 ROLE_CORRECTIONS = {
-    'maaner': 'manner',
-    'manners': 'manner',
-    'part': 'attribute',
-    'group': 'theme',
-    'perception': 'state',
-    'structure': 'theme',
-    'connection': 'relation',
-    'scope': 'quantity',
-    'process': 'manner',
-    'energy': 'attribute',
-    'function': 'goal',
-    'method': 'manner',
-    'measure': 'quantity',
-    'capability': 'evaluation',
-    'comparison': 'relation',
-    'have': 'state',
-    'move': 'action',
-    'see': 'action',
-    'do': 'action',
-    'bad': 'evaluation',
-    'same': 'attribute',
-    'here': 'location',
+    "maaner": "manner",
+    "manners": "manner",
+    "part": "attribute",
+    "group": "theme",
+    "perception": "state",
+    "structure": "theme",
+    "connection": "relation",
+    "scope": "quantity",
+    "process": "manner",
+    "energy": "attribute",
+    "function": "goal",
+    "method": "manner",
+    "measure": "quantity",
+    "capability": "evaluation",
+    "comparison": "relation",
+    "have": "state",
+    "move": "action",
+    "see": "action",
+    "do": "action",
+    "bad": "evaluation",
+    "same": "attribute",
+    "here": "location",
 }
 
 # Primitive corrections for invalid primitives
 PRIMITIVE_CORRECTIONS = {
-    'MANY': 'MUCH',
-    'TIME': 'MOMENT',
-    'NEW': 'OTHER',
-    'CHANGE': 'MOVE',
-    'CONTROL': 'DO',
-    'GIVE': 'HAVE',
-    'CAUSE': 'BECAUSE',
-    'CHECK': 'SEE',
-    'water': 'SOMETHING',
-    'cause': 'BECAUSE',
-    'time': 'MOMENT',
-    'machine': 'SOMETHING',
-    'rule': 'DO',
-    'symbol': 'WORDS',
-    'do': 'DO',
+    "MANY": "MUCH",
+    "TIME": "MOMENT",
+    "NEW": "OTHER",
+    "CHANGE": "MOVE",
+    "CONTROL": "DO",
+    "GIVE": "HAVE",
+    "CAUSE": "BECAUSE",
+    "CHECK": "SEE",
+    "water": "SOMETHING",
+    "cause": "BECAUSE",
+    "time": "MOMENT",
+    "machine": "SOMETHING",
+    "rule": "DO",
+    "symbol": "WORDS",
+    "do": "DO",
 }
 
 
@@ -65,8 +66,8 @@ def validate_and_fix(decomposition):
     fixed = []
     for item in decomposition:
         if isinstance(item, dict):
-            prim = item.get('primitive', '').upper()
-            role = item.get('role', '').lower()
+            prim = item.get("primitive", "").upper()
+            role = item.get("role", "").lower()
         elif isinstance(item, (list, tuple)) and len(item) == 2:
             prim, role = item[0].upper(), item[1].lower()
         else:
@@ -98,7 +99,7 @@ def apply_fixes():
 
     # Load fixes
     fixes = []
-    with open(FIXES_FILE, 'r') as f:
+    with open(FIXES_FILE, "r") as f:
         for line in f:
             if line.strip():
                 fixes.append(json.loads(line))
@@ -111,9 +112,9 @@ def apply_fixes():
     invalid = []
 
     for fix in fixes:
-        word = fix['word']
-        pos = fix['pos']
-        decomp_raw = fix['decomposition']
+        word = fix["word"]
+        pos = fix["pos"]
+        decomp_raw = fix["decomposition"]
 
         # Validate and fix
         decomp = validate_and_fix(decomp_raw)
@@ -126,39 +127,51 @@ def apply_fixes():
         # Ensure minimum 3 primitives for good coverage
         if len(decomp) < 2:
             # Try to pad with reasonable defaults based on POS
-            if pos == 'NOUN':
-                decomp.append(('SOMETHING', 'theme'))
-                decomp.append(('BE', 'state'))
-            elif pos == 'VERB':
-                decomp.append(('DO', 'action'))
-                decomp.append(('SOMEONE', 'agent'))
-            elif pos == 'ADJ':
-                decomp.append(('BE', 'state'))
-                decomp.append(('SOMETHING', 'theme'))
-            elif pos == 'ADV':
-                decomp.append(('BE', 'manner'))
+            if pos == "NOUN":
+                decomp.append(("SOMETHING", "theme"))
+                decomp.append(("BE", "state"))
+            elif pos == "VERB":
+                decomp.append(("DO", "action"))
+                decomp.append(("SOMEONE", "agent"))
+            elif pos == "ADJ":
+                decomp.append(("BE", "state"))
+                decomp.append(("SOMETHING", "theme"))
+            elif pos == "ADV":
+                decomp.append(("BE", "manner"))
 
         # Encode to vector
         vector = generator.encode_decomposition(decomp)
 
         # Check if entry exists
-        existing = conn.execute(
-            "SELECT id FROM lexicon WHERE lemma = ? AND pos = ?",
-            (word.lower(), pos)
-        ).fetchone()
+        existing = conn.execute("SELECT id FROM lexicon WHERE lemma = ? AND pos = ?", (word.lower(), pos)).fetchone()
 
         if existing:
-            conn.execute("""
+            conn.execute(
+                """
                 UPDATE lexicon
                 SET decomposition = ?, vector = ?, source = ?, confidence = ?
                 WHERE id = ?
-            """, (json.dumps(decomp), vector.serialize(), 'manual-fix', 0.90, existing[0]))
+            """,
+                (json.dumps(decomp), vector.serialize(), "manual-fix", 0.90, existing[0]),
+            )
         else:
-            conn.execute("""
+            conn.execute(
+                """
                 INSERT INTO lexicon (lemma, pos, sense_id, gloss, decomposition, vector, frequency, source, confidence)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """, (word.lower(), pos, f"{word.lower()}.{pos}.01", "",
-                  json.dumps(decomp), vector.serialize(), 0.5, 'manual-fix', 0.90))
+            """,
+                (
+                    word.lower(),
+                    pos,
+                    f"{word.lower()}.{pos}.01",
+                    "",
+                    json.dumps(decomp),
+                    vector.serialize(),
+                    0.5,
+                    "manual-fix",
+                    0.90,
+                ),
+            )
 
         decomp_str = ", ".join([f"{p}-{r}" for p, r in decomp[:3]])
         print(f"  {word:20} ({pos:6}) -> [{decomp_str}...]")

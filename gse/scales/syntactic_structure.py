@@ -18,28 +18,30 @@ import numpy as np
 
 class SyntacticBank(Enum):
     """Banks for syntactic primitives."""
-    CORE = auto()        # 40% - structural positions
+
+    CORE = auto()  # 40% - structural positions
     MODIFICATION = auto()  # 30% - modifiers
-    TAM = auto()         # 30% - tense/aspect/mood
+    TAM = auto()  # 30% - tense/aspect/mood
 
 
 class SyntacticPrimitive(Enum):
     """10 syntactic primitives for sentence structure encoding."""
+
     # Bank A: CORE STRUCTURE (40% of word dimensions)
-    SYN_SUBJ = auto()     # Subject position
-    SYN_PRED = auto()     # Predicate position
-    SYN_OBJ = auto()      # Object position
-    SYN_COMPL = auto()    # Complement position
+    SYN_SUBJ = auto()  # Subject position
+    SYN_PRED = auto()  # Predicate position
+    SYN_OBJ = auto()  # Object position
+    SYN_COMPL = auto()  # Complement position
 
     # Bank B: MODIFICATION (30% of word dimensions)
     SYN_ADJ_MOD = auto()  # Adjectival modifier
     SYN_ADV_MOD = auto()  # Adverbial modifier
-    SYN_DET = auto()      # Determiner position
+    SYN_DET = auto()  # Determiner position
 
     # Bank C: TAM FEATURES (30% of word dimensions)
-    SYN_TENSE_PAST = auto()   # Past tense marker
+    SYN_TENSE_PAST = auto()  # Past tense marker
     SYN_ASPECT_PERF = auto()  # Perfect aspect marker
-    SYN_MOOD_INTER = auto()   # Interrogative mood marker
+    SYN_MOOD_INTER = auto()  # Interrogative mood marker
 
 
 # Bank assignments
@@ -66,16 +68,17 @@ BANK_ALLOCATIONS: Dict[SyntacticBank, float] = {
 # spaCy POS/DEP to syntactic primitive mapping
 # Morphological feature to TAM primitive mapping
 MORPH_MAPPING: Dict[str, SyntacticPrimitive] = {
-    'Tense=Past': SyntacticPrimitive.SYN_TENSE_PAST,
-    'Aspect=Perf': SyntacticPrimitive.SYN_ASPECT_PERF,
-    'Mood=Inter': SyntacticPrimitive.SYN_MOOD_INTER,
-    'VerbForm=Part': SyntacticPrimitive.SYN_ASPECT_PERF,
+    "Tense=Past": SyntacticPrimitive.SYN_TENSE_PAST,
+    "Aspect=Perf": SyntacticPrimitive.SYN_ASPECT_PERF,
+    "Mood=Inter": SyntacticPrimitive.SYN_MOOD_INTER,
+    "VerbForm=Part": SyntacticPrimitive.SYN_ASPECT_PERF,
 }
 
 
 @dataclass
 class SyntacticAnnotation:
     """Syntactic annotation for a single word."""
+
     word: str
     position: int
     primitives: Set[SyntacticPrimitive]
@@ -95,6 +98,7 @@ class SyntacticAnnotation:
 @dataclass
 class SentenceSyntax:
     """Syntactic structure of a sentence."""
+
     annotations: List[SyntacticAnnotation]
     sentence_text: str
     is_interrogative: bool = False
@@ -107,18 +111,15 @@ class SentenceSyntax:
 
     def get_subjects(self) -> List[SyntacticAnnotation]:
         """Get all subject words."""
-        return [a for a in self.annotations
-                if SyntacticPrimitive.SYN_SUBJ in a.primitives]
+        return [a for a in self.annotations if SyntacticPrimitive.SYN_SUBJ in a.primitives]
 
     def get_predicates(self) -> List[SyntacticAnnotation]:
         """Get all predicate words."""
-        return [a for a in self.annotations
-                if SyntacticPrimitive.SYN_PRED in a.primitives]
+        return [a for a in self.annotations if SyntacticPrimitive.SYN_PRED in a.primitives]
 
     def get_objects(self) -> List[SyntacticAnnotation]:
         """Get all object words."""
-        return [a for a in self.annotations
-                if SyntacticPrimitive.SYN_OBJ in a.primitives]
+        return [a for a in self.annotations if SyntacticPrimitive.SYN_OBJ in a.primitives]
 
 
 class SyntacticPrimitiveEncoder:
@@ -158,12 +159,7 @@ class SyntacticPrimitiveEncoder:
 
         return bases
 
-    def encode_word(
-        self,
-        annotation: SyntacticAnnotation,
-        word_start_dim: int,
-        word_end_dim: int
-    ) -> np.ndarray:
+    def encode_word(self, annotation: SyntacticAnnotation, word_start_dim: int, word_end_dim: int) -> np.ndarray:
         """
         Encode a word's syntactic structure into its allocated dimensions.
 
@@ -316,13 +312,13 @@ if __name__ == "__main__":
 
     sent_vec = encoder.encode_sentence(syntax)
     print(f"✓ Encoded sentence: norm={np.linalg.norm(sent_vec):.4f}")
-    print(f"✓ Words: {syntax.word_count}, dims/word: {8192/syntax.word_count:.1f}")
+    print(f"✓ Words: {syntax.word_count}, dims/word: {8192 / syntax.word_count:.1f}")
 
     # Test primitives by bank
     for bank in SyntacticBank:
         prims = [p for p in SyntacticPrimitive if BANK_ASSIGNMENTS[p] == bank]
         alloc = BANK_ALLOCATIONS[bank]
-        print(f"  - {bank.name}: {len(prims)} primitives, {alloc*100:.0f}% allocation")
+        print(f"  - {bank.name}: {len(prims)} primitives, {alloc * 100:.0f}% allocation")
 
     print("=" * 50)
     print("All syntactic structure tests passed!")

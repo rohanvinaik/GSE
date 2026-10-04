@@ -42,8 +42,7 @@ def make_token(position=0, token="word", lemma="word", pos="n"):
     )
 
 
-def make_operator(primitive="COMP_THAN", operation="SET_DIFF", position=3,
-                  arg1_lemmas=("dog",), arg2_lemmas=("cat",)):
+def make_operator(primitive="COMP_THAN", operation="SET_DIFF", position=3, arg1_lemmas=("dog",), arg2_lemmas=("cat",)):
     return OperatorTrace(
         primitive=primitive,
         operation=operation,
@@ -57,10 +56,9 @@ def make_operator(primitive="COMP_THAN", operation="SET_DIFF", position=3,
     )
 
 
-def make_trace(input_text="dog is cuter than cat",
-               tokens=None, operators=None,
-               final_nnz=100, sparsity=0.012,
-               vector_hash="abc123"):
+def make_trace(
+    input_text="dog is cuter than cat", tokens=None, operators=None, final_nnz=100, sparsity=0.012, vector_hash="abc123"
+):
     return OperationTrace(
         input_text=input_text,
         tokens=[make_token(0, "dog", "dog"), make_token(4, "cat", "cat")] if tokens is None else tokens,
@@ -76,6 +74,7 @@ def make_trace(input_text="dog is cuter than cat",
 # ============================================================
 # TokenTrace
 # ============================================================
+
 
 class TestTokenTraceToDict:
     def test_returns_dict_with_all_fields(self):
@@ -97,11 +96,19 @@ class TestTokenTraceToDict:
 
     def test_operator_token_serializes_op_fields(self):
         t = TokenTrace(
-            token="than", lemma="than", pos="prep", position=3,
-            word_primitives={}, sent_primitives={"COMP_THAN": 1},
-            word_vec_nnz=0, sent_vec_nnz=8, full_vec_nnz=8,
-            is_operator=True, comp_primitive="COMP_THAN",
-            comp_operation="SET_DIFF", comp_arity=2,
+            token="than",
+            lemma="than",
+            pos="prep",
+            position=3,
+            word_primitives={},
+            sent_primitives={"COMP_THAN": 1},
+            word_vec_nnz=0,
+            sent_vec_nnz=8,
+            full_vec_nnz=8,
+            is_operator=True,
+            comp_primitive="COMP_THAN",
+            comp_operation="SET_DIFF",
+            comp_arity=2,
         )
         d = t.to_dict()
         assert d["is_operator"] is True
@@ -114,11 +121,15 @@ class TestTokenTraceToDict:
 # OperatorTrace
 # ============================================================
 
+
 class TestOperatorTraceToDict:
     def test_returns_dict_with_all_fields(self):
         op = make_operator(
-            primitive="COMP_BUT", operation="CONTRAST", position=2,
-            arg1_lemmas=("dog", "ran"), arg2_lemmas=("cat", "slept"),
+            primitive="COMP_BUT",
+            operation="CONTRAST",
+            position=2,
+            arg1_lemmas=("dog", "ran"),
+            arg2_lemmas=("cat", "slept"),
         )
         d = op.to_dict()
         assert d["primitive"] == "COMP_BUT"
@@ -158,8 +169,7 @@ class TestGetContentArgs:
 
 class TestGetEntityArgs:
     def test_filters_function_words_and_properties(self):
-        op = make_operator(arg1_lemmas=("the", "dog", "cute"),
-                           arg2_lemmas=("a", "cat", "small"))
+        op = make_operator(arg1_lemmas=("the", "dog", "cute"), arg2_lemmas=("a", "cat", "small"))
         a1, a2 = op.get_entity_args()
         assert a1 == ("dog",)
         assert a2 == ("cat",)
@@ -226,6 +236,7 @@ class TestOperatorIsArgumentSwapOf:
 # ============================================================
 # OperationTrace
 # ============================================================
+
 
 class TestOperationTraceToDict:
     def test_returns_dict_with_all_fields(self):
@@ -370,10 +381,10 @@ class TestOperationTraceVectorProperty:
 # EntityExtraction / AttributeExtraction / RelationExtraction
 # ============================================================
 
+
 class TestEntityExtractionToDict:
     def test_dict_contains_all_fields(self):
-        e = EntityExtraction(lemma="dog", pos="n", confidence=0.85,
-                             primitives=["SOMEONE", "ANIMATE"])
+        e = EntityExtraction(lemma="dog", pos="n", confidence=0.85, primitives=["SOMEONE", "ANIMATE"])
         d = e.to_dict()
         assert d["lemma"] == "dog"
         assert d["pos"] == "n"
@@ -383,8 +394,7 @@ class TestEntityExtractionToDict:
 
 class TestAttributeExtractionToDict:
     def test_dict_contains_all_fields(self):
-        a = AttributeExtraction(attribute="positive_quality", polarity=1,
-                                intensity=0.8, source_primitive="GOOD")
+        a = AttributeExtraction(attribute="positive_quality", polarity=1, intensity=0.8, source_primitive="GOOD")
         d = a.to_dict()
         assert d["attribute"] == "positive_quality"
         assert d["polarity"] == 1
@@ -394,9 +404,9 @@ class TestAttributeExtractionToDict:
 
 class TestRelationExtractionToDict:
     def test_dict_contains_all_fields(self):
-        r = RelationExtraction(relation="COMP_THAN", confidence=0.7,
-                               operation="SET_DIFF",
-                               arg1_candidates=["dog"], arg2_candidates=["cat"])
+        r = RelationExtraction(
+            relation="COMP_THAN", confidence=0.7, operation="SET_DIFF", arg1_candidates=["dog"], arg2_candidates=["cat"]
+        )
         d = r.to_dict()
         assert d["relation"] == "COMP_THAN"
         assert d["confidence"] == 0.7
@@ -408,6 +418,7 @@ class TestRelationExtractionToDict:
 # ============================================================
 # DecodedSemantics
 # ============================================================
+
 
 class TestDecodedSemanticsToDict:
     def test_aggregates_all_extractions(self):
@@ -431,8 +442,12 @@ class TestDecodedSemanticsToDict:
 
     def test_empty_extractions(self):
         ds = DecodedSemantics(
-            entities=[], attributes=[], relations=[],
-            nearest_lexemes=[], bank_activations={}, primitive_activations={},
+            entities=[],
+            attributes=[],
+            relations=[],
+            nearest_lexemes=[],
+            bank_activations={},
+            primitive_activations={},
         )
         d = ds.to_dict()
         assert d["entities"] == []
@@ -443,8 +458,12 @@ class TestDecodedSemanticsToDict:
 class TestDecodedSemanticsToJson:
     def test_valid_json(self):
         ds = DecodedSemantics(
-            entities=[], attributes=[], relations=[],
-            nearest_lexemes=[], bank_activations={}, primitive_activations={},
+            entities=[],
+            attributes=[],
+            relations=[],
+            nearest_lexemes=[],
+            bank_activations={},
+            primitive_activations={},
         )
         s = ds.to_json()
         parsed = json.loads(s)
@@ -455,12 +474,18 @@ class TestDecodedSemanticsToJson:
 # SimilarityResult
 # ============================================================
 
+
 class TestSimilarityResultToDict:
     def test_all_fields(self):
         sr = SimilarityResult(
-            sentence1="dog runs", sentence2="cat sleeps",
-            cosine=0.3, alignment=0.5, opposition=0.2, orthogonality=0.3,
-            shared_primitives=["ACTION"], different_primitives=["SOMEONE"],
+            sentence1="dog runs",
+            sentence2="cat sleeps",
+            cosine=0.3,
+            alignment=0.5,
+            opposition=0.2,
+            orthogonality=0.3,
+            shared_primitives=["ACTION"],
+            different_primitives=["SOMEONE"],
         )
         d = sr.to_dict()
         assert d["sentence1"] == "dog runs"
@@ -476,9 +501,14 @@ class TestSimilarityResultToDict:
 class TestSimilarityResultToJson:
     def test_valid_json(self):
         sr = SimilarityResult(
-            sentence1="a", sentence2="b",
-            cosine=0.0, alignment=0.0, opposition=0.0, orthogonality=1.0,
-            shared_primitives=[], different_primitives=[],
+            sentence1="a",
+            sentence2="b",
+            cosine=0.0,
+            alignment=0.0,
+            opposition=0.0,
+            orthogonality=1.0,
+            shared_primitives=[],
+            different_primitives=[],
         )
         s = sr.to_json()
         parsed = json.loads(s)
@@ -489,14 +519,25 @@ class TestSimilarityResultToJson:
 # Filter-set mutation killers
 # ============================================================
 
+
 class TestContentArgsFilterMembership:
     """Each function-word in the filter set must be tested explicitly so
     VALUE mutations that replace a set member with something else get killed.
     """
 
-    @pytest.mark.parametrize("function_word", [
-        "the", "a", "an", "be", "is", "are", "was", "were",
-    ])
+    @pytest.mark.parametrize(
+        "function_word",
+        [
+            "the",
+            "a",
+            "an",
+            "be",
+            "is",
+            "are",
+            "was",
+            "were",
+        ],
+    )
     def test_each_function_word_filtered(self, function_word):
         op = make_operator(arg1_lemmas=(function_word, "dog"), arg2_lemmas=("cat",))
         a1, a2 = op.get_content_args()
@@ -513,11 +554,31 @@ class TestContentArgsFilterMembership:
 class TestEntityArgsFilterMembership:
     """Each non-entity word must be explicitly tested for VALUE mutation killing."""
 
-    @pytest.mark.parametrize("non_entity", [
-        "the", "a", "an", "be", "is", "are", "was", "were",
-        "cut", "cute", "big", "small", "tall", "short",
-        "fast", "slow", "good", "bad", "more", "less",
-    ])
+    @pytest.mark.parametrize(
+        "non_entity",
+        [
+            "the",
+            "a",
+            "an",
+            "be",
+            "is",
+            "are",
+            "was",
+            "were",
+            "cut",
+            "cute",
+            "big",
+            "small",
+            "tall",
+            "short",
+            "fast",
+            "slow",
+            "good",
+            "bad",
+            "more",
+            "less",
+        ],
+    )
     def test_each_non_entity_filtered(self, non_entity):
         op = make_operator(arg1_lemmas=(non_entity, "dog"), arg2_lemmas=("cat",))
         a1, a2 = op.get_entity_args()
@@ -550,27 +611,35 @@ class TestIsArgumentSwapAsymmetric:
         assert not t1.is_argument_swap_of(t2)
 
     def test_three_operators_all_swapped(self):
-        t1 = make_trace(operators=[
-            make_operator(arg1_lemmas=("dog",), arg2_lemmas=("cat",)),
-            make_operator(arg1_lemmas=("a",), arg2_lemmas=("b",)),
-            make_operator(arg1_lemmas=("x",), arg2_lemmas=("y",)),
-        ])
-        t2 = make_trace(operators=[
-            make_operator(arg1_lemmas=("cat",), arg2_lemmas=("dog",)),
-            make_operator(arg1_lemmas=("b",), arg2_lemmas=("a",)),
-            make_operator(arg1_lemmas=("y",), arg2_lemmas=("x",)),
-        ])
+        t1 = make_trace(
+            operators=[
+                make_operator(arg1_lemmas=("dog",), arg2_lemmas=("cat",)),
+                make_operator(arg1_lemmas=("a",), arg2_lemmas=("b",)),
+                make_operator(arg1_lemmas=("x",), arg2_lemmas=("y",)),
+            ]
+        )
+        t2 = make_trace(
+            operators=[
+                make_operator(arg1_lemmas=("cat",), arg2_lemmas=("dog",)),
+                make_operator(arg1_lemmas=("b",), arg2_lemmas=("a",)),
+                make_operator(arg1_lemmas=("y",), arg2_lemmas=("x",)),
+            ]
+        )
         assert t1.is_argument_swap_of(t2)
 
     def test_three_operators_one_not_swapped(self):
-        t1 = make_trace(operators=[
-            make_operator(arg1_lemmas=("dog",), arg2_lemmas=("cat",)),
-            make_operator(arg1_lemmas=("a",), arg2_lemmas=("b",)),
-        ])
-        t2 = make_trace(operators=[
-            make_operator(arg1_lemmas=("cat",), arg2_lemmas=("dog",)),
-            make_operator(arg1_lemmas=("a",), arg2_lemmas=("b",)),  # not swapped
-        ])
+        t1 = make_trace(
+            operators=[
+                make_operator(arg1_lemmas=("dog",), arg2_lemmas=("cat",)),
+                make_operator(arg1_lemmas=("a",), arg2_lemmas=("b",)),
+            ]
+        )
+        t2 = make_trace(
+            operators=[
+                make_operator(arg1_lemmas=("cat",), arg2_lemmas=("dog",)),
+                make_operator(arg1_lemmas=("a",), arg2_lemmas=("b",)),  # not swapped
+            ]
+        )
         assert not t1.is_argument_swap_of(t2)
 
 

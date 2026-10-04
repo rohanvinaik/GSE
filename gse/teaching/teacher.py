@@ -27,9 +27,11 @@ from gse.teaching.feature_extractor import FeatureExtractor
 # DATA STRUCTURES
 # =============================================================================
 
+
 @dataclass
 class NetworkSnapshot:
     """Snapshot of network state for behavior tracking."""
+
     weight_norm: float
     weight_mean: float
     weight_std: float
@@ -66,6 +68,7 @@ def _get_top_connections(weights: np.ndarray, names: List[str], top_k: int) -> L
 @dataclass
 class TeachingEpoch:
     """Record of a single teaching epoch."""
+
     epoch_number: int
     document: str
     document_type: str  # 'text', 'claude_json', 'gpt_json'
@@ -119,6 +122,7 @@ class TeachingEpoch:
 @dataclass
 class TeachingSession:
     """Complete teaching session with all epochs."""
+
     profile_name: str
     start_time: str
     end_time: Optional[str] = None
@@ -151,13 +155,14 @@ class TeachingSession:
 
     def save(self, filepath: str):
         """Save session to file."""
-        with open(filepath, 'w') as f:
+        with open(filepath, "w") as f:
             json.dump(self.to_dict(), f, indent=2)
 
 
 # =============================================================================
 # NETWORK TEACHER
 # =============================================================================
+
 
 class NetworkTeacher:
     """
@@ -312,15 +317,15 @@ class NetworkTeacher:
 
         # Determine document type
         path = Path(doc_path)
-        if path.suffix == '.json':
-            if 'claude' in path.name.lower():
-                doc_type = 'claude_json'
-            elif 'gpt' in path.name.lower():
-                doc_type = 'gpt_json'
+        if path.suffix == ".json":
+            if "claude" in path.name.lower():
+                doc_type = "claude_json"
+            elif "gpt" in path.name.lower():
+                doc_type = "gpt_json"
             else:
-                doc_type = 'json'
+                doc_type = "json"
         else:
-            doc_type = 'text'
+            doc_type = "text"
 
         # Take snapshots before teaching
         snapshots = self._take_snapshots()
@@ -341,7 +346,7 @@ class NetworkTeacher:
         )
 
         # Process document based on type
-        if doc_type in ('claude_json', 'gpt_json', 'json'):
+        if doc_type in ("claude_json", "gpt_json", "json"):
             stats = self._teach_from_json(doc_path)
         else:
             stats = self._teach_from_text(doc_path)
@@ -377,21 +382,11 @@ class NetworkTeacher:
     def _take_snapshots(self) -> Dict[str, NetworkSnapshot]:
         """Take snapshots of all networks."""
         return {
-            "text": NetworkSnapshot.from_network(
-                self.profile.text_network, "text"
-            ),
-            "paragraph": NetworkSnapshot.from_network(
-                self.profile.paragraph_network, "paragraph"
-            ),
-            "sentence": NetworkSnapshot.from_network(
-                self.profile.sentence_network, "sentence"
-            ),
-            "word": NetworkSnapshot.from_network(
-                self.profile.word_network, "word"
-            ),
-            "orchestrator": NetworkSnapshot.from_network(
-                self.profile.orchestrator, "orchestrator"
-            ),
+            "text": NetworkSnapshot.from_network(self.profile.text_network, "text"),
+            "paragraph": NetworkSnapshot.from_network(self.profile.paragraph_network, "paragraph"),
+            "sentence": NetworkSnapshot.from_network(self.profile.sentence_network, "sentence"),
+            "word": NetworkSnapshot.from_network(self.profile.word_network, "word"),
+            "orchestrator": NetworkSnapshot.from_network(self.profile.orchestrator, "orchestrator"),
         }
 
     def _teach_from_text(self, filepath: str) -> Dict[str, int]:
@@ -399,7 +394,7 @@ class NetworkTeacher:
         stats = {"paragraphs": 0, "sentences": 0, "words": 0, "updates": 0}
 
         try:
-            with open(filepath, 'r', encoding='utf-8') as f:
+            with open(filepath, "r", encoding="utf-8") as f:
                 text = f.read()
         except Exception as e:
             print(f"Warning: Could not read {filepath}: {e}")
@@ -480,13 +475,15 @@ class NetworkTeacher:
 
             # Orchestrator every 10 turns
             if turn_count % 10 == 0:
-                self.profile.orchestrator.learn({
-                    "ROUTE_TEXT": 0.8,
-                    "ROUTE_SENT": 0.9,
-                    "TASK_ANSWER": 0.8,  # Conversational
-                    "CTX_PRIOR": 0.7,
-                    "CONF_MEDIUM": 0.6,
-                })
+                self.profile.orchestrator.learn(
+                    {
+                        "ROUTE_TEXT": 0.8,
+                        "ROUTE_SENT": 0.9,
+                        "TASK_ANSWER": 0.8,  # Conversational
+                        "CTX_PRIOR": 0.7,
+                        "CONF_MEDIUM": 0.6,
+                    }
+                )
                 stats["updates"] += 1
 
         return stats
@@ -541,7 +538,7 @@ if __name__ == "__main__":
         # Create sample text files
         for i in range(5):
             filepath = os.path.join(corpus_dir, f"doc_{i}.txt")
-            with open(filepath, 'w') as f:
+            with open(filepath, "w") as f:
                 f.write(f"""
                 Document {i}: Technical Analysis
 

@@ -56,8 +56,7 @@ class RegexPatternDetector(Generic[T]):
 
     def __init__(self, patterns: Dict[T, List[str]]):
         self._compiled: Dict[T, List[re.Pattern]] = {
-            category: [re.compile(p) for p in pats]
-            for category, pats in patterns.items()
+            category: [re.compile(p) for p in pats] for category, pats in patterns.items()
         }
 
     def detect(self, text: str) -> Dict[T, float]:

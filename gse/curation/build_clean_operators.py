@@ -30,7 +30,7 @@ def main(clean_db: str = CLEAN_DB) -> dict:
     con = sqlite3.connect(clean_db)
     updated = inserted = 0
     for comp_prim, meta in COMP_METADATA.items():
-        word = comp_prim[len("COMP_"):].lower()
+        word = comp_prim[len("COMP_") :].lower()
         cur = con.execute(
             "UPDATE lexemes SET comp_primitive=?, comp_arity=?, comp_operation=? WHERE lemma=?",
             (comp_prim, meta["arity"], meta["operation"], word),
@@ -41,15 +41,16 @@ def main(clean_db: str = CLEAN_DB) -> dict:
             con.execute(
                 "INSERT INTO lexemes(lemma,pos,sense_id,source,confidence,validation_status,"
                 "comp_primitive,comp_arity,comp_operation) VALUES(?,?,?,?,?,?,?,?,?)",
-                (word, "x", "0", "operators", 1.0, "operator",
-                 comp_prim, meta["arity"], meta["operation"]),
+                (word, "x", "0", "operators", 1.0, "operator", comp_prim, meta["arity"], meta["operation"]),
             )
             inserted += 1
     con.commit()
     con.close()
     stats = {"operators": len(COMP_METADATA), "updated_in_place": updated, "inserted": inserted}
-    print(f"Operator layer: {len(COMP_METADATA)} clause/comparison operators "
-          f"({updated} updated in place, {inserted} inserted)")
+    print(
+        f"Operator layer: {len(COMP_METADATA)} clause/comparison operators "
+        f"({updated} updated in place, {inserted} inserted)"
+    )
     return stats
 
 

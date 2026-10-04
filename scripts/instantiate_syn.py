@@ -23,72 +23,62 @@ from pathlib import Path
 # POS to SYN_* dimension mapping
 POS_SYN_MAPPING = {
     # Nouns - can be subject, object, complement
-    'NN': ['SYN_SUBJ', 'SYN_OBJ', 'SYN_OBJ2', 'SYN_COMPL'],
-    'NNS': ['SYN_SUBJ', 'SYN_OBJ', 'SYN_OBJ2', 'SYN_COMPL'],
-    'NNP': ['SYN_SUBJ', 'SYN_OBJ', 'SYN_OBJ2', 'SYN_COMPL'],
-    'NNPS': ['SYN_SUBJ', 'SYN_OBJ', 'SYN_OBJ2', 'SYN_COMPL'],
-    'NOUN': ['SYN_SUBJ', 'SYN_OBJ', 'SYN_OBJ2', 'SYN_COMPL'],
-    'n': ['SYN_SUBJ', 'SYN_OBJ', 'SYN_OBJ2', 'SYN_COMPL'],
-
+    "NN": ["SYN_SUBJ", "SYN_OBJ", "SYN_OBJ2", "SYN_COMPL"],
+    "NNS": ["SYN_SUBJ", "SYN_OBJ", "SYN_OBJ2", "SYN_COMPL"],
+    "NNP": ["SYN_SUBJ", "SYN_OBJ", "SYN_OBJ2", "SYN_COMPL"],
+    "NNPS": ["SYN_SUBJ", "SYN_OBJ", "SYN_OBJ2", "SYN_COMPL"],
+    "NOUN": ["SYN_SUBJ", "SYN_OBJ", "SYN_OBJ2", "SYN_COMPL"],
+    "n": ["SYN_SUBJ", "SYN_OBJ", "SYN_OBJ2", "SYN_COMPL"],
     # Verbs - predicates
-    'VB': ['SYN_PRED'],
-    'VBD': ['SYN_PRED'],
-    'VBG': ['SYN_PRED', 'SYN_ADJ_MOD'],  # Gerunds can modify
-    'VBN': ['SYN_PRED', 'SYN_ADJ_MOD'],  # Past participles can modify
-    'VBP': ['SYN_PRED'],
-    'VBZ': ['SYN_PRED'],
-    'VERB': ['SYN_PRED'],
-    'v': ['SYN_PRED'],
-
+    "VB": ["SYN_PRED"],
+    "VBD": ["SYN_PRED"],
+    "VBG": ["SYN_PRED", "SYN_ADJ_MOD"],  # Gerunds can modify
+    "VBN": ["SYN_PRED", "SYN_ADJ_MOD"],  # Past participles can modify
+    "VBP": ["SYN_PRED"],
+    "VBZ": ["SYN_PRED"],
+    "VERB": ["SYN_PRED"],
+    "v": ["SYN_PRED"],
     # Adjectives - modify nouns
-    'JJ': ['SYN_ADJ_MOD', 'SYN_COMPL'],
-    'JJR': ['SYN_ADJ_MOD', 'SYN_COMPL'],
-    'JJS': ['SYN_ADJ_MOD', 'SYN_COMPL'],
-    'ADJ': ['SYN_ADJ_MOD', 'SYN_COMPL'],
-    'a': ['SYN_ADJ_MOD', 'SYN_COMPL'],
-
+    "JJ": ["SYN_ADJ_MOD", "SYN_COMPL"],
+    "JJR": ["SYN_ADJ_MOD", "SYN_COMPL"],
+    "JJS": ["SYN_ADJ_MOD", "SYN_COMPL"],
+    "ADJ": ["SYN_ADJ_MOD", "SYN_COMPL"],
+    "a": ["SYN_ADJ_MOD", "SYN_COMPL"],
     # Adverbs - modify verbs/adjectives/other adverbs
-    'RB': ['SYN_ADV_MOD'],
-    'RBR': ['SYN_ADV_MOD'],
-    'RBS': ['SYN_ADV_MOD'],
-    'ADV': ['SYN_ADV_MOD'],
-    'r': ['SYN_ADV_MOD'],
-
+    "RB": ["SYN_ADV_MOD"],
+    "RBR": ["SYN_ADV_MOD"],
+    "RBS": ["SYN_ADV_MOD"],
+    "ADV": ["SYN_ADV_MOD"],
+    "r": ["SYN_ADV_MOD"],
     # Pronouns - same as nouns
-    'PRP': ['SYN_SUBJ', 'SYN_OBJ'],
-    'PRP$': ['SYN_DET'],  # Possessive pronouns act as determiners
-    'WP': ['SYN_SUBJ', 'SYN_OBJ'],
-    'WP$': ['SYN_DET'],
-    'PRON': ['SYN_SUBJ', 'SYN_OBJ'],
-
+    "PRP": ["SYN_SUBJ", "SYN_OBJ"],
+    "PRP$": ["SYN_DET"],  # Possessive pronouns act as determiners
+    "WP": ["SYN_SUBJ", "SYN_OBJ"],
+    "WP$": ["SYN_DET"],
+    "PRON": ["SYN_SUBJ", "SYN_OBJ"],
     # Determiners
-    'DT': ['SYN_DET'],
-    'PDT': ['SYN_DET'],
-    'WDT': ['SYN_DET'],
-    'DET': ['SYN_DET'],
-
+    "DT": ["SYN_DET"],
+    "PDT": ["SYN_DET"],
+    "WDT": ["SYN_DET"],
+    "DET": ["SYN_DET"],
     # Prepositions
-    'IN': ['SYN_PP_MOD', 'SYN_CLAUSE_MOD'],  # IN also includes subordinating conjunctions
-    'TO': ['SYN_PP_MOD'],
-    'PREP': ['SYN_PP_MOD'],
-    'ADP': ['SYN_PP_MOD'],
-
+    "IN": ["SYN_PP_MOD", "SYN_CLAUSE_MOD"],  # IN also includes subordinating conjunctions
+    "TO": ["SYN_PP_MOD"],
+    "PREP": ["SYN_PP_MOD"],
+    "ADP": ["SYN_PP_MOD"],
     # Conjunctions
-    'CC': ['SYN_CLAUSE_MOD'],
-    'CONJ': ['SYN_CLAUSE_MOD'],
-    'CCONJ': ['SYN_CLAUSE_MOD'],
-    'SCONJ': ['SYN_CLAUSE_MOD'],
-
+    "CC": ["SYN_CLAUSE_MOD"],
+    "CONJ": ["SYN_CLAUSE_MOD"],
+    "CCONJ": ["SYN_CLAUSE_MOD"],
+    "SCONJ": ["SYN_CLAUSE_MOD"],
     # Interjections
-    'UH': [],
-
+    "UH": [],
     # Particles
-    'RP': [],
-
+    "RP": [],
     # Others - minimal dimensions
-    'FW': [],
-    'SYM': [],
-    'LS': [],
+    "FW": [],
+    "SYM": [],
+    "LS": [],
 }
 
 
@@ -104,25 +94,24 @@ def instantiate_syn_dimensions(db_path: Path, dry_run: bool = False) -> dict:
     cursor = conn.cursor()
 
     stats = {
-        'words_processed': 0,
-        'dimensions_created': 0,
-        'by_dimension': {},
-        'by_type': {},
+        "words_processed": 0,
+        "dimensions_created": 0,
+        "by_dimension": {},
+        "by_type": {},
     }
 
     # Component/operator type to SYN_* mapping
     TYPE_SYN_MAPPING = {
         # ATOMIC words - treat as noun/verb/adj candidates
-        ('ATOMIC', None): ['SYN_SUBJ', 'SYN_OBJ', 'SYN_COMPL', 'SYN_PRED', 'SYN_ADJ_MOD'],
-
+        ("ATOMIC", None): ["SYN_SUBJ", "SYN_OBJ", "SYN_COMPL", "SYN_PRED", "SYN_ADJ_MOD"],
         # OPERATOR types
-        ('OPERATOR', 'DETERMINER'): ['SYN_DET'],
-        ('OPERATOR', 'PREPOSITION'): ['SYN_PP_MOD'],
-        ('OPERATOR', 'TAM_AUXILIARY'): ['SYN_PRED'],  # Auxiliary verbs
-        ('OPERATOR', 'DEGREE'): ['SYN_DEGREE_MOD'],
-        ('OPERATOR', 'NEGATOR'): ['SYN_ADV_MOD'],
-        ('OPERATOR', 'CONJUNCTION'): ['SYN_CLAUSE_MOD'],
-        ('OPERATOR', 'COMPLEMENTIZER'): ['SYN_CLAUSE_MOD'],
+        ("OPERATOR", "DETERMINER"): ["SYN_DET"],
+        ("OPERATOR", "PREPOSITION"): ["SYN_PP_MOD"],
+        ("OPERATOR", "TAM_AUXILIARY"): ["SYN_PRED"],  # Auxiliary verbs
+        ("OPERATOR", "DEGREE"): ["SYN_DEGREE_MOD"],
+        ("OPERATOR", "NEGATOR"): ["SYN_ADV_MOD"],
+        ("OPERATOR", "CONJUNCTION"): ["SYN_CLAUSE_MOD"],
+        ("OPERATOR", "COMPLEMENTIZER"): ["SYN_CLAUSE_MOD"],
     }
 
     # Get all words with their component_type and operator_type
@@ -138,7 +127,7 @@ def instantiate_syn_dimensions(db_path: Path, dry_run: bool = False) -> dict:
 
     for i, (lexeme_id, lemma, component_type, operator_type) in enumerate(words):
         if i % 2000 == 0:
-            print(f"  Progress: {i}/{total} ({i*100//total}%)")
+            print(f"  Progress: {i}/{total} ({i * 100 // total}%)")
 
         # Get SYN_* dimensions based on type
         key = (component_type, operator_type)
@@ -152,20 +141,23 @@ def instantiate_syn_dimensions(db_path: Path, dry_run: bool = False) -> dict:
         if not dimensions:
             continue
 
-        stats['words_processed'] += 1
+        stats["words_processed"] += 1
         type_key = f"{component_type}:{operator_type or 'content'}"
-        stats['by_type'][type_key] = stats['by_type'].get(type_key, 0) + 1
+        stats["by_type"][type_key] = stats["by_type"].get(type_key, 0) + 1
 
         for dim in dimensions:
             if not dry_run:
-                cursor.execute("""
+                cursor.execute(
+                    """
                     INSERT INTO syn_dimensions (lexeme_id, dimension, instantiated, source)
                     VALUES (?, ?, 0, 'type_mapping')
                     ON CONFLICT(lexeme_id, dimension) DO NOTHING
-                """, (lexeme_id, dim))
+                """,
+                    (lexeme_id, dim),
+                )
 
-            stats['dimensions_created'] += 1
-            stats['by_dimension'][dim] = stats['by_dimension'].get(dim, 0) + 1
+            stats["dimensions_created"] += 1
+            stats["by_dimension"][dim] = stats["by_dimension"].get(dim, 0) + 1
 
     if not dry_run:
         conn.commit()
@@ -197,13 +189,16 @@ def verify_syn_dimensions(db_path: Path) -> None:
     # Sample words per dimension
     print("\nSample Words by Dimension:")
     for dim, _ in rows[:5]:
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT l.lemma FROM syn_dimensions s
             JOIN lexemes l ON s.lexeme_id = l.id
             WHERE s.dimension = ?
             ORDER BY l.frequency_rank
             LIMIT 5
-        """, (dim,))
+        """,
+            (dim,),
+        )
         words = [r[0] for r in cursor.fetchall()]
         print(f"  {dim}: {', '.join(words)}")
 
@@ -239,12 +234,12 @@ if __name__ == "__main__":
     print(f"Dimensions created: {stats['dimensions_created']}")
     print()
     print("By dimension:")
-    for dim, count in sorted(stats['by_dimension'].items(), key=lambda x: -x[1]):
+    for dim, count in sorted(stats["by_dimension"].items(), key=lambda x: -x[1]):
         print(f"  {dim}: {count}")
 
-    if 'by_type' in stats and stats['by_type']:
+    if "by_type" in stats and stats["by_type"]:
         print("\nBy component type:")
-        for type_key, count in sorted(stats['by_type'].items(), key=lambda x: -x[1]):
+        for type_key, count in sorted(stats["by_type"].items(), key=lambda x: -x[1]):
             print(f"  {type_key}: {count}")
 
     if args.dry_run:

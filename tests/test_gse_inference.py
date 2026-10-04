@@ -6,7 +6,6 @@ chains and direction-refusal. Hand-built trees make the graph logic
 deterministic; the real encoder confirms it end-to-end on an LSAT-style problem.
 """
 
-
 import pytest
 
 from gse.api import GSEEncoder
@@ -37,8 +36,7 @@ def _gt(x, y, sign=1):
 
 
 def test_type_syllogism_with_chain():
-    kb = KnowledgeBase.from_trees([_isa("bing", "woodle"), _isa("woodle", "zoodle"),
-                                   _isa("zoodle", "floop")])
+    kb = KnowledgeBase.from_trees([_isa("bing", "woodle"), _isa("woodle", "zoodle"), _isa("zoodle", "floop")])
     d = kb.is_a("bing", "floop")
     assert d.holds
     assert d.chain == ("bing", "woodle", "zoodle", "floop")
@@ -47,14 +45,14 @@ def test_type_syllogism_with_chain():
 def test_direction_not_entailed():
     kb = KnowledgeBase.from_trees([_isa("bing", "woodle"), _isa("woodle", "floop")])
     assert kb.is_a("bing", "floop").holds
-    assert not kb.is_a("floop", "bing").holds        # no false positive
+    assert not kb.is_a("floop", "bing").holds  # no false positive
 
 
 def test_ordering_transitivity_and_direction():
     kb = KnowledgeBase.from_trees([_gt("snib", "wug"), _gt("wug", "glonk")])
     up = kb.greater("snib", "glonk")
     assert up.holds and up.chain == ("snib", "wug", "glonk")
-    assert not kb.greater("glonk", "snib").holds     # direction respected
+    assert not kb.greater("glonk", "snib").holds  # direction respected
 
 
 def test_negative_sign_flips_ordering():
@@ -118,8 +116,8 @@ def policy_kb():
 def test_modus_ponens_fires_through_isa_binding(policy_kb):
     d = policy_kb.event("lose", "alice", "vote")
     assert d.holds
-    assert "fact: alice miss payment" in d.chain[0]      # the antecedent's proof
-    assert any("rule:" in step for step in d.chain)      # the rule is cited
+    assert "fact: alice miss payment" in d.chain[0]  # the antecedent's proof
+    assert any("rule:" in step for step in d.chain)  # the rule is cited
 
 
 def test_rule_chaining_two_steps(policy_kb):
@@ -129,7 +127,7 @@ def test_rule_chaining_two_steps(policy_kb):
 
 
 def test_no_fact_no_firing(policy_kb):
-    assert not policy_kb.event("lose", "bob", "vote").holds     # member, but no fact
+    assert not policy_kb.event("lose", "bob", "vote").holds  # member, but no fact
     assert not policy_kb.event("leave", "bob", "board").holds
 
 
@@ -149,14 +147,19 @@ def test_event_query_deterministic(policy_kb):
 
 
 def _et(lemma, thread=()):
-    return Entity(head=Atom(lemma=lemma, word_primitives={}, role=None, position=0,
-                            pos="PROPN"), type_thread=tuple(thread))
+    return Entity(
+        head=Atom(lemma=lemma, word_primitives={}, role=None, position=0, pos="PROPN"), type_thread=tuple(thread)
+    )
 
 
 def test_resolved_thread_becomes_isa_edges():
     from gse.symbolic.predicates import Event
-    ev = Event(verb="lead", agent=_et("napoleon", ("Thing", "Agent", "Person")),
-               patient=_et("france", ("Thing", "Place", "Country")))
+
+    ev = Event(
+        verb="lead",
+        agent=_et("napoleon", ("Thing", "Agent", "Person")),
+        patient=_et("france", ("Thing", "Place", "Country")),
+    )
     kb = KnowledgeBase.from_trees([ev])
     d = kb.is_a("napoleon", "person")
     assert d.holds and d.chain == ("napoleon", "person")
@@ -168,18 +171,20 @@ def test_rule_binds_generic_patient_through_isa():
     from gse.symbolic.predicates import Conditional, Event
 
     def _plain(lemma):
-        return Entity(head=Atom(lemma=lemma, word_primitives={}, role=None,
-                                position=0, pos="NOUN"))
+        return Entity(head=Atom(lemma=lemma, word_primitives={}, role=None, position=0, pos="NOUN"))
 
     rule = Conditional(
         antecedent=Event(verb="lead", agent=_plain("person"), patient=_plain("country")),
-        consequent=Event(verb="command", agent=_plain("person"), patient=_plain("army")))
-    fact = Event(verb="lead",
-                 agent=_et("napoleon", ("Thing", "Agent", "Person")),
-                 patient=_et("france", ("Thing", "Place", "Country")))
+        consequent=Event(verb="command", agent=_plain("person"), patient=_plain("army")),
+    )
+    fact = Event(
+        verb="lead",
+        agent=_et("napoleon", ("Thing", "Agent", "Person")),
+        patient=_et("france", ("Thing", "Place", "Country")),
+    )
     kb = KnowledgeBase.from_trees([rule, fact])
     d = kb.event("command", "napoleon", "army")
     assert d.holds
-    assert any("france" in step for step in d.chain)     # the patient binding is cited
+    assert any("france" in step for step in d.chain)  # the patient binding is cited
     # a country is not a person: the rule must refuse to bind france as its subject
     assert not kb.event("command", "france", "army").holds

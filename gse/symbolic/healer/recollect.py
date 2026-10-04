@@ -76,9 +76,7 @@ class FeatureCodebook:
         if idx is None:
             idx = len(self._index)
             if idx >= _ROLE_CAPACITY:
-                raise ValueError(
-                    f"feature codebook exceeded {_ROLE_CAPACITY} symbols at {symbol!r}"
-                )
+                raise ValueError(f"feature codebook exceeded {_ROLE_CAPACITY} symbols at {symbol!r}")
             self._index[symbol] = idx
         return idx
 
@@ -153,8 +151,7 @@ def slot_descriptor_symbols(trace, tok, p: int, finite_v: Optional[int]) -> List
     """Entity-FREE surface descriptor of a candidate slot — the same schema for the stored VALUE
     (the gold subject) and for each live candidate at recall."""
     syms = [_pos_class(tok)]
-    syms.append("SF_ANIMATE" if (tok.lemma or "").lower() in _PERS_PRON or tok.pos == "PROPN"
-                else "SF_INANIMATE")
+    syms.append("SF_ANIMATE" if (tok.lemma or "").lower() in _PERS_PRON or tok.pos == "PROPN" else "SF_INANIMATE")
     if tok.position <= 1:
         syms.append("SF_SENT_INITIAL")
     survivor = not _is_possessor(trace, tok) and not _is_object_pron(trace, tok)
@@ -178,7 +175,7 @@ def context_symbols(trace, p_tok, genre: str, mangle: str = "") -> List[str]:
     p = p_tok.position
     syms: List[str] = []
     if mangle:
-        syms.append("MANGLE_" + mangle)        # the hole shape = the specific lens firing-pattern
+        syms.append("MANGLE_" + mangle)  # the hole shape = the specific lens firing-pattern
         syms.append("FIRING_" + mangle)
 
     # prev-class (what the participle hangs off)
@@ -186,7 +183,8 @@ def context_symbols(trace, p_tok, genre: str, mangle: str = "") -> List[str]:
         syms.append("PREV_START")
     else:
         prev = trace.tokens[p - 1]
-        pl = (prev.token or "").lower(); plem = (prev.lemma or "").lower()
+        pl = (prev.token or "").lower()
+        plem = (prev.lemma or "").lower()
         if pl == ",":
             syms.append("PREV_COMMA")
         elif plem in _COORD:
@@ -213,16 +211,22 @@ def context_symbols(trace, p_tok, genre: str, mangle: str = "") -> List[str]:
     # decision-relevant candidates' descriptors into the key so contexts with the same COMPETITION
     # SHAPE cluster (the diagnosed fix for same-selector clustering — keeps recall sharp).
     if cands:
-        for s in slot_descriptor_symbols(trace, cands[-1], p, finite_v):   # NEAREST to participle
+        for s in slot_descriptor_symbols(trace, cands[-1], p, finite_v):  # NEAREST to participle
             syms.append("NEAR_" + s)
-        for s in slot_descriptor_symbols(trace, cands[0], p, finite_v):    # FIRST / leftmost
+        for s in slot_descriptor_symbols(trace, cands[0], p, finite_v):  # FIRST / leftmost
             syms.append("FIRST_" + s)
         if cands[0].position == cands[-1].position:
-            syms.append("NEAR_IS_FIRST")   # single dominant candidate — the easy case
+            syms.append("NEAR_IS_FIRST")  # single dominant candidate — the easy case
 
     # clause depth + participle distance buckets
-    depth = sum(1 for t in trace.tokens if t.position < p and t.pos == "VERB"
-                and (t.lemma or "").lower() not in _BE and not (t.token or "").lower().endswith("ing"))
+    depth = sum(
+        1
+        for t in trace.tokens
+        if t.position < p
+        and t.pos == "VERB"
+        and (t.lemma or "").lower() not in _BE
+        and not (t.token or "").lower().endswith("ing")
+    )
     syms.append("DEPTH_" + ("0" if depth == 0 else "1" if depth == 1 else "2" if depth == 2 else "3P"))
     syms.append(_dist_bucket("PDIST_", p))
 
@@ -260,6 +264,7 @@ class _Entry:
 class Recollection:
     """The outcome of a recall: the bound candidate index (into the live candidate list) and the
     closeness confidence the abstention censor reads. ``index is None`` ⇒ abstain (honest hole)."""
+
     index: Optional[int]
     confidence: float
     resemblance: float  # mean cosine to the recalled contexts
@@ -300,7 +305,7 @@ class RecollectiveMemory:
         self,
         query_key_syms: List[str],
         candidate_descriptor_syms: List[List[str]],
-        top_k: int = 3,   # SHARP recall: a broad blend washes the discriminating slot feature (diagnosed)
+        top_k: int = 3,  # SHARP recall: a broad blend washes the discriminating slot feature (diagnosed)
         min_resemblance: float = 0.30,
     ) -> Recollection:
         """Recall the subject-binding by resemblance, then bind the closest live candidate."""
@@ -355,8 +360,7 @@ class RecollectiveMemory:
             data = json.load(fh)
         mem = cls(FeatureCodebook(data.get("codebook")))
         for it in data["entries"]:
-            e = _Entry(key_syms=frozenset(it["k"]), value_syms=frozenset(it["v"]),
-                       freq=it["f"], strength=it["s"])
+            e = _Entry(key_syms=frozenset(it["k"]), value_syms=frozenset(it["v"]), freq=it["f"], strength=it["s"])
             mem._entries.append(e)
             mem._by_key[e.key_syms] = e
         return mem
@@ -390,9 +394,13 @@ class _EnvAdapter:
 def _adapter_from_env(env) -> Tuple[_EnvAdapter, Dict[int, int]]:
     poss = sorted(env.surface)
     toks = [
-        _Tok(position=i, token=env.surface.get(pos, ""),
-             lemma=(env.lemma.get(pos) or env.surface.get(pos, "")).lower(),
-             pos=env.pos.get(pos, ""), word_primitives=env.prims.get(pos, {}) or {})
+        _Tok(
+            position=i,
+            token=env.surface.get(pos, ""),
+            lemma=(env.lemma.get(pos) or env.surface.get(pos, "")).lower(),
+            pos=env.pos.get(pos, ""),
+            word_primitives=env.prims.get(pos, {}) or {},
+        )
         for i, pos in enumerate(poss)
     ]
     return _EnvAdapter(toks), {pos: i for i, pos in enumerate(poss)}

@@ -95,6 +95,7 @@ class TestFromTraceComparisonOperator:
         trace = encoder.encode("Mike is taller than Rex")
         expr = from_trace(trace)
         assert isinstance(expr, Op)
+
         # Collect all lemmas across both args (handles Phrase or Atom)
         def _lemmas(e):
             if isinstance(e, Atom):
@@ -120,18 +121,21 @@ class TestFromTraceComparisonOperator:
 class TestFromTraceAllCompOperators:
     """All 10 operators should lift cleanly with correct operation labels."""
 
-    @pytest.mark.parametrize("sentence,expected_primitive,expected_operation,expected_arity", [
-        ("Mike is taller than Rex",          "COMP_THAN",   "SET_DIFF",       2),
-        ("Mike is tall as Rex",              "COMP_AS",     "BIND_EQ",        2),
-        ("How tall is Mike?",                "COMP_HOW",    "DEGREE_QUERY",   1),
-        ("What is Mike?",                    "COMP_WHAT",   "TYPE_QUERY",     1),
-        ("Mike has just enough food",        "COMP_JUST",   "CARD_LOWER",     2),
-        ("Only Mike sings",                  "COMP_ONLY",   "SET_RESTRICT",   1),
-        ("Even Mike sings",                  "COMP_EVEN",   "SCALAR_EXTREME", 1),
-        ("Mike sings but Rex runs",          "COMP_BUT",    "CONTRAST",       2),
-        ("Mike sang so Rex left",            "COMP_SO",     "CONSEQUENCE",    2),
-        ("Mike left because Rex sang",       "COMP_BECAUSE","CAUSAL_SOURCE",  2),
-    ])
+    @pytest.mark.parametrize(
+        "sentence,expected_primitive,expected_operation,expected_arity",
+        [
+            ("Mike is taller than Rex", "COMP_THAN", "SET_DIFF", 2),
+            ("Mike is tall as Rex", "COMP_AS", "BIND_EQ", 2),
+            ("How tall is Mike?", "COMP_HOW", "DEGREE_QUERY", 1),
+            ("What is Mike?", "COMP_WHAT", "TYPE_QUERY", 1),
+            ("Mike has just enough food", "COMP_JUST", "CARD_LOWER", 2),
+            ("Only Mike sings", "COMP_ONLY", "SET_RESTRICT", 1),
+            ("Even Mike sings", "COMP_EVEN", "SCALAR_EXTREME", 1),
+            ("Mike sings but Rex runs", "COMP_BUT", "CONTRAST", 2),
+            ("Mike sang so Rex left", "COMP_SO", "CONSEQUENCE", 2),
+            ("Mike left because Rex sang", "COMP_BECAUSE", "CAUSAL_SOURCE", 2),
+        ],
+    )
     def test_operator_lifts_with_correct_label(
         self, encoder, sentence, expected_primitive, expected_operation, expected_arity
     ):
@@ -139,9 +143,7 @@ class TestFromTraceAllCompOperators:
         expr = from_trace(trace)
         # Find the Op in the AST (may be nested if there are multiple operators)
         op = _find_op(expr, expected_primitive)
-        assert op is not None, (
-            f"No Op({expected_primitive}) found in AST built from {sentence!r}"
-        )
+        assert op is not None, f"No Op({expected_primitive}) found in AST built from {sentence!r}"
         assert op.operation == expected_operation
         assert op.arity == expected_arity
 
@@ -164,6 +166,7 @@ class TestFromTraceNegation:
 # ---------------------------------------------------------------------------
 # Test helpers
 # ---------------------------------------------------------------------------
+
 
 def _find_op(expr, primitive_name):
     """Locate an Op node by primitive name anywhere in the tree."""
@@ -220,8 +223,8 @@ class TestOfPostmodifierNamePreservation:
 
     def test_propn_of_propn_subject_stays_whole_no_theme(self, encoder):
         ev = evaluate_tree(from_trace(encoder.encode("Richard of Gloucester blames Queen Elizabeth.")))
-        assert "gloucester" in _agent_lemmas(ev)     # kept in the subject name
-        assert ev.themes == ()                       # NOT leaked as a theme
+        assert "gloucester" in _agent_lemmas(ev)  # kept in the subject name
+        assert ev.themes == ()  # NOT leaked as a theme
 
     def test_duncan_of_scotland_stays_whole_no_theme(self, encoder):
         ev = evaluate_tree(from_trace(encoder.encode("Duncan of Scotland sees Macbeth.")))
@@ -254,8 +257,8 @@ class TestLeadingAdjunctSubjectRecovery:
 
     def test_participial_adjunct_dropped_real_subject_kept(self, encoder):
         ev = evaluate_tree(from_trace(encoder.encode("Angered by the insult, the king banished the knight.")))
-        assert "king" in _agent_lemmas(ev)           # the real subject survives
-        assert "angered" not in _agent_lemmas(ev)    # the participial adjunct head no longer contaminates it
+        assert "king" in _agent_lemmas(ev)  # the real subject survives
+        assert "angered" not in _agent_lemmas(ev)  # the participial adjunct head no longer contaminates it
 
     def test_second_participial_adjunct(self, encoder):
         ev = evaluate_tree(from_trace(encoder.encode("Exhausted from the long march, the soldier collapsed.")))
@@ -271,7 +274,7 @@ class TestLeadingAdjunctSubjectRecovery:
         # GUARD: a comma-separated list subject has the coordinator AFTER the comma -> NOT a leading adjunct;
         # the whole list stays the subject (do not strip the first conjunct).
         ev = evaluate_tree(from_trace(encoder.encode("Tom, Dick and Harry ran home.")))
-        assert "tom" in _agent_lemmas(ev)            # the first conjunct is not dropped
+        assert "tom" in _agent_lemmas(ev)  # the first conjunct is not dropped
 
     def test_subject_initial_appositive_keeps_the_name(self, encoder):
         # GUARD: "NAME, description, verb" has NO nominal after its last comma -> this abstains and the
@@ -294,7 +297,7 @@ class TestPossessiveNounNotPromotedToVerb:
     def test_possessive_governed_noun_not_promoted(self, encoder):
         doc = encoder.nlp("Consumed by his ambition, Macbeth murdered King Duncan.")
         amb = next(t.i for t in doc if t.lemma_ == "ambition")
-        assert amb not in verbs_to_promote(doc)      # "his ambition" -> ambition is a NOUN, not a verb
+        assert amb not in verbs_to_promote(doc)  # "his ambition" -> ambition is a NOUN, not a verb
 
     def test_genuine_buried_verb_still_promotes(self, encoder):
         # POSITIVE control: the guard must not neuter promotion — a real buried verb flanked by entities (no
@@ -330,10 +333,13 @@ class TestLeadingAdjunctVerbSelection:
 
     def test_coordinated_leading_participle_not_taken_as_verb(self, encoder):
         # the real macbeth story sentence: `spurred` (adjunct participle before the comma) must NOT win.
-        assert self._verb_lemma(
-            encoder,
-            "Consumed by his latent ambition and spurred to violence by his wife, "
-            "Macbeth murders King Duncan.") == "murder"
+        assert (
+            self._verb_lemma(
+                encoder,
+                "Consumed by his latent ambition and spurred to violence by his wife, Macbeth murders King Duncan.",
+            )
+            == "murder"
+        )
 
     def test_trailing_participial_keeps_its_first_verb(self, encoder):
         # "Macbeth fled, fearing capture" — `fled` is preceded by its subject Macbeth -> main verb, not redirected.
@@ -347,9 +353,14 @@ class TestLeadingAdjunctVerbSelection:
         assert self._verb_lemma(encoder, "Macbeth murders Duncan.") == "murder"
 
     def test_end_to_end_real_verb_and_subject(self, encoder):
-        ev = evaluate_tree(from_trace(encoder.encode(
-            "Consumed by his latent ambition and spurred to violence by his wife, "
-            "Macbeth murders King Duncan and takes the Scottish throne.")))
+        ev = evaluate_tree(
+            from_trace(
+                encoder.encode(
+                    "Consumed by his latent ambition and spurred to violence by his wife, "
+                    "Macbeth murders King Duncan and takes the Scottish throne."
+                )
+            )
+        )
         # evaluate_tree returns the CLAUSE_COORD; the left clause is the first predication
         left = ev.left if hasattr(ev, "left") else ev
         assert left.verb == "murder"

@@ -32,6 +32,7 @@ from gse.patterns.networks_v2 import (
 # ORCHESTRATOR PRIMITIVES
 # =============================================================================
 
+
 class OrchestratorNode(Enum):
     """All 36 orchestrator network nodes."""
 
@@ -146,6 +147,7 @@ ALL_ORCHESTRATOR_NODES = SCALE_NODES + TASK_NODES + CONF_NODES + COMB_NODES + ER
 # PROCESSING CONTEXT
 # =============================================================================
 
+
 @dataclass
 class ProcessingContext:
     """
@@ -157,6 +159,7 @@ class ProcessingContext:
     - Confidence scores
     - Error counts
     """
+
     # History
     scale_history: List[str] = field(default_factory=list)
     task_history: List[str] = field(default_factory=list)
@@ -221,6 +224,7 @@ class ProcessingContext:
 # ORCHESTRATOR NETWORK
 # =============================================================================
 
+
 class OrchestratorNetwork(LearningNetwork):
     """
     Cross-scale coordination network.
@@ -236,11 +240,7 @@ class OrchestratorNetwork(LearningNetwork):
         Args:
             scale_networks: Collection of scale-specific networks
         """
-        super().__init__(
-            name="orchestrator",
-            node_names=[n.name for n in ALL_ORCHESTRATOR_NODES],
-            **kwargs
-        )
+        super().__init__(name="orchestrator", node_names=[n.name for n in ALL_ORCHESTRATOR_NODES], **kwargs)
 
         self.scale_networks = scale_networks or ScaleNetworkCollection()
 
@@ -584,6 +584,7 @@ class OrchestratorNetwork(LearningNetwork):
 # PIPELINE INTEGRATION
 # =============================================================================
 
+
 class OrchestratedPipeline:
     """
     Complete processing pipeline with orchestrator.
@@ -601,6 +602,7 @@ class OrchestratedPipeline:
     def _segment_paragraphs(text: str) -> List[str]:
         """Split text into paragraphs on blank lines."""
         import re
+
         paragraphs = [p.strip() for p in re.split(r"\n\s*\n", text) if p.strip()]
         return paragraphs or ([text.strip()] if text.strip() else [])
 
@@ -608,6 +610,7 @@ class OrchestratedPipeline:
     def _segment_sentences(paragraph: str) -> List[str]:
         """Split a paragraph into sentences on sentence-final punctuation."""
         import re
+
         sentences = [s.strip() for s in re.split(r"(?<=[.!?])\s+", paragraph) if s.strip()]
         return sentences or ([paragraph.strip()] if paragraph.strip() else [])
 
@@ -642,6 +645,7 @@ class OrchestratedPipeline:
 
         # 2. Text-level encoding — establishes the cascade context
         from gse.encoders import encode_paragraph, encode_text
+
         text_encoding = encode_text(text)
         cascade_context: Dict[str, Any] = {
             "genre": text_encoding.structure.genre.name,
@@ -662,10 +666,12 @@ class OrchestratedPipeline:
                 paragraph_features.append({})
                 continue
             para_enc = encode_paragraph(para)
-            paragraph_features.append({
-                "coherence_score": float(para_enc.coherence_score),
-                "sentence_count": len(para_enc.structure.sentences),
-            })
+            paragraph_features.append(
+                {
+                    "coherence_score": float(para_enc.coherence_score),
+                    "sentence_count": len(para_enc.structure.sentences),
+                }
+            )
 
         # 4. Multi-scale orchestrator cascade — runs all four networks
         scale_inputs = self._build_scale_inputs(
@@ -717,8 +723,7 @@ class OrchestratedPipeline:
         para_summary = {
             "paragraph_count": float(len(paragraph_features)),
             "avg_sentences_per_para": (
-                sum(p.get("sentence_count", 0) for p in paragraph_features)
-                / max(1, len(paragraph_features))
+                sum(p.get("sentence_count", 0) for p in paragraph_features) / max(1, len(paragraph_features))
             ),
         }
 
@@ -851,8 +856,10 @@ if __name__ == "__main__":
 
     # Test 5: Context tracking
     stats = orchestrator.get_statistics()
-    print(f"✓ Statistics: steps={stats['context']['steps_processed']}, "
-          f"avg_conf={stats['context']['average_confidence']:.3f}")
+    print(
+        f"✓ Statistics: steps={stats['context']['steps_processed']}, "
+        f"avg_conf={stats['context']['average_confidence']:.3f}"
+    )
 
     # Test 6: Pipeline
     pipeline = OrchestratedPipeline()
@@ -860,11 +867,13 @@ if __name__ == "__main__":
     print(f"✓ Pipeline: processed text, scales={result.get('scales_used', [])}")
 
     # Test 7: Learning
-    orchestrator.learn({
-        OrchestratorNode.TASK_CLASSIFY.name: 1.0,
-        OrchestratorNode.ROUTE_WORD.name: 1.0,
-        OrchestratorNode.CONF_HIGH.name: 0.9,
-    })
+    orchestrator.learn(
+        {
+            OrchestratorNode.TASK_CLASSIFY.name: 1.0,
+            OrchestratorNode.ROUTE_WORD.name: 1.0,
+            OrchestratorNode.CONF_HIGH.name: 0.9,
+        }
+    )
     print(f"✓ Learning: updates={orchestrator.update_count}")
 
     # Test 8: Associations

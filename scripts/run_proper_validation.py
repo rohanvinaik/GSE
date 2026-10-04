@@ -186,12 +186,14 @@ class GSEProperValidation:
 
         passed = all_orthogonal and all_bipolar_correct and metrics["bank_isolation"].get("all_zero", False)
 
-        self.results.append(ExperimentResult(
-            name="mathematical_invariants",
-            passed=passed,
-            metrics=metrics,
-            details="Tests exact orthogonality (cos=0.0), bipolar encoding (cos=-1.0), and bank isolation",
-        ))
+        self.results.append(
+            ExperimentResult(
+                name="mathematical_invariants",
+                passed=passed,
+                metrics=metrics,
+                details="Tests exact orthogonality (cos=0.0), bipolar encoding (cos=-1.0), and bank isolation",
+            )
+        )
         print()
 
     # =========================================================================
@@ -244,12 +246,14 @@ class GSEProperValidation:
             print(f"    vs '{s2[:35]}...'")
             print(f"    HDC cos: {hdc_cosine:.3f} | LogEqual: {logically_equal} | ArgSwap: {is_arg_swap}")
 
-        self.results.append(ExperimentResult(
-            name="two_layer_architecture",
-            passed=all_pass,
-            metrics=metrics,
-            details="HDC layer captures content; Trace layer captures logical structure",
-        ))
+        self.results.append(
+            ExperimentResult(
+                name="two_layer_architecture",
+                passed=all_pass,
+                metrics=metrics,
+                details="HDC layer captures content; Trace layer captures logical structure",
+            )
+        )
         print()
 
     # =========================================================================
@@ -291,12 +295,14 @@ class GSEProperValidation:
         print(f"  Tested {len(test_sentences)} sentences across {n_runs} independent runs")
         print(f"  All hashes identical: {all_identical}")
 
-        self.results.append(ExperimentResult(
-            name="determinism",
-            passed=all_identical,
-            metrics=metrics,
-            details="Same input always produces identical output (zero learnable parameters)",
-        ))
+        self.results.append(
+            ExperimentResult(
+                name="determinism",
+                passed=all_identical,
+                metrics=metrics,
+                details="Same input always produces identical output (zero learnable parameters)",
+            )
+        )
         print()
 
     # =========================================================================
@@ -360,12 +366,14 @@ class GSEProperValidation:
 
         print(f"  Overall primitive match rate: {overall_accuracy:.1%}")
 
-        self.results.append(ExperimentResult(
-            name="interpretability",
-            passed=overall_accuracy > 0.6,
-            metrics=metrics,
-            details="Every activation maps to a named semantic concept",
-        ))
+        self.results.append(
+            ExperimentResult(
+                name="interpretability",
+                passed=overall_accuracy > 0.6,
+                metrics=metrics,
+                details="Every activation maps to a named semantic concept",
+            )
+        )
         print()
 
     # =========================================================================
@@ -427,11 +435,13 @@ class GSEProperValidation:
             if cos < 0:
                 antonym_negative_count += 1
 
-            metrics["antonyms"].append({
-                "pair": f"{w1}/{w2}",
-                "cosine": float(cos),
-                "negative": cos < 0,
-            })
+            metrics["antonyms"].append(
+                {
+                    "pair": f"{w1}/{w2}",
+                    "cosine": float(cos),
+                    "negative": cos < 0,
+                }
+            )
 
         # Test synonyms
         synonym_positive_count = 0
@@ -446,11 +456,13 @@ class GSEProperValidation:
             if cos > 0:
                 synonym_positive_count += 1
 
-            metrics["synonyms"].append({
-                "pair": f"{w1}/{w2}",
-                "cosine": float(cos),
-                "positive": cos > 0,
-            })
+            metrics["synonyms"].append(
+                {
+                    "pair": f"{w1}/{w2}",
+                    "cosine": float(cos),
+                    "positive": cos > 0,
+                }
+            )
 
         # Test unrelated
         unrelated_cosines = []
@@ -461,11 +473,13 @@ class GSEProperValidation:
             cos = v1.cosine(v2)
             unrelated_cosines.append(cos)
 
-            metrics["unrelated"].append({
-                "pair": f"{w1}/{w2}",
-                "cosine": float(cos),
-                "near_zero": abs(cos) < 0.3,
-            })
+            metrics["unrelated"].append(
+                {
+                    "pair": f"{w1}/{w2}",
+                    "cosine": float(cos),
+                    "near_zero": abs(cos) < 0.3,
+                }
+            )
 
         # Summary
         antonym_neg_rate = antonym_negative_count / len(antonym_pairs)
@@ -479,7 +493,9 @@ class GSEProperValidation:
             "unrelated_mean_abs_cos": float(np.mean([abs(c) for c in unrelated_cosines])),
         }
 
-        print(f"  Antonym pairs with NEGATIVE cosine: {antonym_neg_rate:.1%} ({antonym_negative_count}/{len(antonym_pairs)})")
+        print(
+            f"  Antonym pairs with NEGATIVE cosine: {antonym_neg_rate:.1%} ({antonym_negative_count}/{len(antonym_pairs)})"
+        )
         print(f"  Antonym mean cosine: {np.mean(antonym_cosines):.3f}")
         print(f"  Synonym pairs with POSITIVE cosine: {synonym_pos_rate:.1%}")
         print(f"  Synonym mean cosine: {np.mean(synonym_cosines):.3f}")
@@ -489,12 +505,14 @@ class GSEProperValidation:
         # 30% threshold demonstrates clear structural differentiation
         passed = antonym_neg_rate > 0.3
 
-        self.results.append(ExperimentResult(
-            name="emergent_antonymy",
-            passed=passed,
-            metrics=metrics,
-            details=f"Antonyms achieve negative cosine through structural encoding ({antonym_neg_rate:.1%} vs 0% in distributional models)",
-        ))
+        self.results.append(
+            ExperimentResult(
+                name="emergent_antonymy",
+                passed=passed,
+                metrics=metrics,
+                details=f"Antonyms achieve negative cosine through structural encoding ({antonym_neg_rate:.1%} vs 0% in distributional models)",
+            )
+        )
         print()
 
     # =========================================================================
@@ -553,12 +571,14 @@ class GSEProperValidation:
                 else:
                     status = "MISS"
 
-                metrics["words"].append({
-                    "word": word,
-                    "expected_bank": expected_bank,
-                    "bank_activated": bank_activated,
-                    "primitives": dict(prims),
-                })
+                metrics["words"].append(
+                    {
+                        "word": word,
+                        "expected_bank": expected_bank,
+                        "bank_activated": bank_activated,
+                        "primitives": dict(prims),
+                    }
+                )
 
                 print(f"  [{status}] {word} -> {expected_bank}")
 
@@ -567,12 +587,14 @@ class GSEProperValidation:
 
         print(f"  Bank activation accuracy: {accuracy:.1%} ({correct}/{total})")
 
-        self.results.append(ExperimentResult(
-            name="bank_analysis",
-            passed=accuracy > 0.7,  # 70% threshold - most words should activate expected bank
-            metrics=metrics,
-            details="Words activate primitives from their expected semantic banks",
-        ))
+        self.results.append(
+            ExperimentResult(
+                name="bank_analysis",
+                passed=accuracy > 0.7,  # 70% threshold - most words should activate expected bank
+                metrics=metrics,
+                details="Words activate primitives from their expected semantic banks",
+            )
+        )
         print()
 
     # =========================================================================
@@ -631,12 +653,14 @@ class GSEProperValidation:
         success_rate = found_count / len(test_cases) if test_cases else 0
         metrics["success_rate"] = success_rate
 
-        self.results.append(ExperimentResult(
-            name="compositional_operators",
-            passed=success_rate > 0.5,
-            metrics=metrics,
-            details="10 operators capture relational semantics with argument structure",
-        ))
+        self.results.append(
+            ExperimentResult(
+                name="compositional_operators",
+                passed=success_rate > 0.5,
+                metrics=metrics,
+                details="10 operators capture relational semantics with argument structure",
+            )
+        )
         print()
 
     # =========================================================================
@@ -675,7 +699,7 @@ class GSEProperValidation:
             }
             metrics["encoding_results"].append(result)
 
-            print(f"  {n_tokens:2d} tokens: nnz={nnz:4d} ({density:5.2f}%) in {elapsed*1000:.2f}ms")
+            print(f"  {n_tokens:2d} tokens: nnz={nnz:4d} ({density:5.2f}%) in {elapsed * 1000:.2f}ms")
 
         # Summary
         all_densities = [r["density_pct"] for r in metrics["encoding_results"]]
@@ -693,12 +717,14 @@ class GSEProperValidation:
         print(f"  Mean time/token: {np.mean(all_times):.2f}ms")
         print("  Learnable parameters: 0")
 
-        self.results.append(ExperimentResult(
-            name="efficiency",
-            passed=True,
-            metrics=metrics,
-            details="Sparse vectors (<15% density), sub-millisecond encoding, zero learnable parameters",
-        ))
+        self.results.append(
+            ExperimentResult(
+                name="efficiency",
+                passed=True,
+                metrics=metrics,
+                details="Sparse vectors (<15% density), sub-millisecond encoding, zero learnable parameters",
+            )
+        )
         print()
 
     # =========================================================================

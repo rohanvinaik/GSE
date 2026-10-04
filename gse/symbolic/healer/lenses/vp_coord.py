@@ -28,6 +28,7 @@ LAW
   abstain  : no shared subject; orphan not unambiguously inflected; predicate-ADJECTIVE under a
              linking verb (L1's territory — adjective coordination, not VP coordination); gerund-noun.
 """
+
 from __future__ import annotations
 
 import os
@@ -62,15 +63,17 @@ def _operand_for_lemma(lemma, node):
 
 class VpCoord(Lens):
     name = "vp_coord_conjunct"
-    law = ("must-not: a ClauseCoordination with one Event conjunct + a sibling holding a stranded "
-           "finite verb; must: recover EVENT(shared_subject, ){verb=orphan}; abstain on no-subject / "
-           "uninflected orphan / predicate-adjective / gerund-noun.")
+    law = (
+        "must-not: a ClauseCoordination with one Event conjunct + a sibling holding a stranded "
+        "finite verb; must: recover EVENT(shared_subject, ){verb=orphan}; abstain on no-subject / "
+        "uninflected orphan / predicate-adjective / gerund-noun."
+    )
 
     def claims(self, node, env, folds=None) -> bool:
         if env is None or not isinstance(node, ClauseCoordination):
             return False
         le, re = has_event(node.left), has_event(node.right)
-        if le == re:                       # both events (gold) or neither → not my territory
+        if le == re:  # both events (gold) or neither → not my territory
             return False
         bad = node.right if le else node.left
         return bool(free_verbs(bad, boundary=_SUBORD_BOUNDARY))
@@ -80,7 +83,7 @@ class VpCoord(Lens):
         # abstain on everything doubtful (the chum bucket / later laws catch it). A wrong recovered
         # Event pollutes the spine; an honest hole is free.
         if getattr(node, "conjunction", "and") not in ("and", "or"):
-            return Hole(self.name, "not_and_or")              # only parallel coordination
+            return Hole(self.name, "not_and_or")  # only parallel coordination
         le = has_event(node.left)
         good = node.left if le else node.right
         bad = node.right if le else node.left
@@ -97,17 +100,17 @@ class VpCoord(Lens):
         prev_lemma = env.prev.get(pos, ("", ""))[0]
         # the false-fire families, each killed by a tag the envelope already carries:
         if senses.get("a"):
-            return Hole(self.name, "adjectival_orphan")       # jagged/situated/down/chosen — attributive/particle
+            return Hole(self.name, "adjectival_orphan")  # jagged/situated/down/chosen — attributive/particle
         if surf.endswith("ing"):
-            return Hole(self.name, "ing_form")                # gerund/participial → L3 / gerund-noun, not finite VP
+            return Hole(self.name, "ing_form")  # gerund/participial → L3 / gerund-noun, not finite VP
         if prev_lemma in ("be", "being", "been"):
-            return Hole(self.name, "passive_participle")      # "may be used" — passive, not a stranded VP verb
+            return Hole(self.name, "passive_participle")  # "may be used" — passive, not a stranded VP verb
 
         # SUBJECT: the structural shared subject (from the good conjunct) first; null it if inanimate or
         # fold-judged a non-referent, then fall back to recollective recall (the thin degraded residual).
         subj = subject_operand(good)
         if subj is not None and not animate_subject(subj):
-            subj = None                                       # mauve/performance can't be an agent → try recall
+            subj = None  # mauve/performance can't be an agent → try recall
         if subj is not None and folds is not None:
             f = folds.get(getattr(subj, "entity_id", None))
             if f is not None and not f.eligible:
@@ -115,17 +118,20 @@ class VpCoord(Lens):
         note = f"vp_coord: stranded '{orphan.lemma}' → EVENT({_lemma(subj)}, {orphan.lemma})"
         if subj is None:
             from ..recollect import default_memory, envelope_query
-            mem = default_memory(name="baseline")    # the ONE Brown-baseline library
+
+            mem = default_memory(name="baseline")  # the ONE Brown-baseline library
             if mem is not None:
-                q = envelope_query(env, pos, "vpcoord")   # superposition: firing-pattern tag
+                q = envelope_query(env, pos, "vpcoord")  # superposition: firing-pattern tag
                 if q is not None:
                     key_syms, cand_descs = q
                     rec = mem.recall(key_syms, [d for _, d in cand_descs])
                     if rec.index is not None and rec.confidence >= _THETA:
                         subj = _operand_for_lemma(cand_descs[rec.index][0], node)
                         if subj is not None:
-                            note = (f"vp_coord: stranded '{orphan.lemma}' → EVENT({_lemma(subj)}, "
-                                    f"{orphan.lemma}) via k-line recall (conf {rec.confidence:.2f})")
+                            note = (
+                                f"vp_coord: stranded '{orphan.lemma}' → EVENT({_lemma(subj)}, "
+                                f"{orphan.lemma}) via k-line recall (conf {rec.confidence:.2f})"
+                            )
         if subj is None:
             return Hole(self.name, "no_shared_subject")
         recovered = Event(verb=orphan.lemma, agent=subj, patient=None)

@@ -19,6 +19,7 @@ Public surface:
   * :func:`encode_utterances` — the one call an emit loop uses in place of ``enc.encode(s)``:
     segment → encode each clause → bind deixis → list of resolved trees.
 """
+
 from __future__ import annotations
 
 import re
@@ -28,37 +29,119 @@ from typing import List, Optional
 # Speech (attribution) verbs — surface forms; the attribution is recognised by one of these
 # sitting next to the speaker NP. Kept deliberately finite (the register's common reporting
 # verbs); extend as the corpus demands. A word not here simply isn't read as an attribution.
-_SAY_VERBS = frozenset({
-    "said", "says", "say", "asked", "asks", "ask", "replied", "replies", "reply",
-    "answered", "answers", "answer", "cried", "cries", "cry", "exclaimed", "exclaims",
-    "exclaim", "announced", "announces", "announce", "snapped", "snaps", "snap",
-    "whispered", "shouted", "murmured", "muttered", "remarked", "continued", "added",
-    "returned", "observed", "declared", "gasped", "called", "responded", "began",
-})
+_SAY_VERBS = frozenset(
+    {
+        "said",
+        "says",
+        "say",
+        "asked",
+        "asks",
+        "ask",
+        "replied",
+        "replies",
+        "reply",
+        "answered",
+        "answers",
+        "answer",
+        "cried",
+        "cries",
+        "cry",
+        "exclaimed",
+        "exclaims",
+        "exclaim",
+        "announced",
+        "announces",
+        "announce",
+        "snapped",
+        "snaps",
+        "snap",
+        "whispered",
+        "shouted",
+        "murmured",
+        "muttered",
+        "remarked",
+        "continued",
+        "added",
+        "returned",
+        "observed",
+        "declared",
+        "gasped",
+        "called",
+        "responded",
+        "began",
+    }
+)
 # First/second-person deictic lemmas the binder rewrites (mirrors grounding._DEICTIC_PERSON).
 _FIRST_PERSON = frozenset({"i", "me", "my", "mine", "myself", "we", "us", "our", "ours", "ourselves"})
 _SECOND_PERSON = frozenset({"you", "your", "yours", "yourself", "yourselves"})
 # A PRONOUN attribution ("said he", "she said") is itself anaphoric: binding a quoted "I" to it
 # must keep it a PRON so the document recency resolver carries it on to the prior declared proper
 # noun (he→jim). Only a NAME attribution ("said Jim") freezes to PROPN.
-_THIRD_PERSON_PRON = frozenset({"he", "she", "they", "him", "her", "them", "it",
-                               "his", "hers", "their", "its"})
+_THIRD_PERSON_PRON = frozenset({"he", "she", "they", "him", "her", "them", "it", "his", "hers", "their", "its"})
 _BE_FORMS = frozenset({"was", "were", "is", "are", "been", "be", "being", "am"})
 # Heads that can never be a SPEAKER: indefinites and discourse particles. They guard against
 # reading a plain SVO clause that merely contains a reporting verb ("The policeman said
 # *nothing*", "he said *so*") as a quote attribution and dropping the narration.
-_NON_SPEAKER = frozenset({
-    "nothing", "something", "anything", "everything", "nobody", "somebody", "anybody",
-    "everybody", "someone", "anyone", "everyone", "none", "so", "it", "this", "that",
-    "these", "those", "yes", "no", "all", "what", "which", "there", "here", "much",
-})
+_NON_SPEAKER = frozenset(
+    {
+        "nothing",
+        "something",
+        "anything",
+        "everything",
+        "nobody",
+        "somebody",
+        "anybody",
+        "everybody",
+        "someone",
+        "anyone",
+        "everyone",
+        "none",
+        "so",
+        "it",
+        "this",
+        "that",
+        "these",
+        "those",
+        "yes",
+        "no",
+        "all",
+        "what",
+        "which",
+        "there",
+        "here",
+        "much",
+    }
+)
 
 # Tokens that are never the speaker head: determiners, possessives, adpositions, and the
 # attributive adverbs ("reassuringly", "doubtfully") that trail a reporting verb.
-_SKIP_BEFORE_HEAD = frozenset({
-    "the", "a", "an", "this", "that", "these", "those", "my", "your", "his", "her",
-    "its", "our", "their", "to", "at", "in", "on", "of", "for", "with", "old", "young",
-})
+_SKIP_BEFORE_HEAD = frozenset(
+    {
+        "the",
+        "a",
+        "an",
+        "this",
+        "that",
+        "these",
+        "those",
+        "my",
+        "your",
+        "his",
+        "her",
+        "its",
+        "our",
+        "their",
+        "to",
+        "at",
+        "in",
+        "on",
+        "of",
+        "for",
+        "with",
+        "old",
+        "young",
+    }
+)
 # A double-quoted span: an opening double quote, non-double-quote content, a closing one.
 # Straight " and smart “ ” both open/close; single quotes are left alone (possessives /
 # inner quotes like 'Big Joe' are too ambiguous to treat as dialogue delimiters).
@@ -67,11 +150,34 @@ _WORD_RE = re.compile(r"[A-Za-z][A-Za-z'\-]*")
 # An NP ends at a preposition or conjunction — so the speaker head is the NP's last word
 # *before* a PP ("the man in the doorway" → man, not doorway), while an adjective-stacked NP
 # still resolves to its noun ("the tall man" → man).
-_NP_BOUNDARY = frozenset({
-    "to", "in", "on", "at", "of", "with", "by", "for", "from", "into", "about",
-    "over", "under", "near", "behind", "beside", "and", "but", "as", "that",
-    "because", "when", "while", "who",
-})
+_NP_BOUNDARY = frozenset(
+    {
+        "to",
+        "in",
+        "on",
+        "at",
+        "of",
+        "with",
+        "by",
+        "for",
+        "from",
+        "into",
+        "about",
+        "over",
+        "under",
+        "near",
+        "behind",
+        "beside",
+        "and",
+        "but",
+        "as",
+        "that",
+        "because",
+        "when",
+        "while",
+        "who",
+    }
+)
 
 
 # Sentinel lemma the narrating first-person voice is tagged with. A PROVENANCE fact (this
@@ -89,6 +195,7 @@ class Utterance:
     (lowercased, to corefer with narration) or ``None``. ``quoted`` marks dialogue content vs
     narration — so an unattributed quote (a character) is not mistaken for the narrator.
     """
+
     content: str
     speaker: Optional[str] = None
     addressee: Optional[str] = None
@@ -107,10 +214,10 @@ def _np_head(words: list) -> Optional[str]:
     ``[]`` / adverb-only → ``None``."""
     core = []
     for w in words:
-        if w == "," or w.lower() in _NP_BOUNDARY:   # a comma ends the speaker NP: "said Madame,
-            break                                   # lifting the mass" → Madame, not mass
+        if w == "," or w.lower() in _NP_BOUNDARY:  # a comma ends the speaker NP: "said Madame,
+            break  # lifting the mass" → Madame, not mass
         core.append(w)
-    while core and core[-1].lower().endswith("ly"):   # trailing attributive adverb
+    while core and core[-1].lower().endswith("ly"):  # trailing attributive adverb
         core.pop()
     while core and core[0].lower() in _SKIP_BEFORE_HEAD:
         core.pop(0)
@@ -118,10 +225,32 @@ def _np_head(words: list) -> Optional[str]:
 
 
 # Common capitalized sentence-openers / interjections that are NOT vocative names.
-_VOC_STOP = _NON_SPEAKER | frozenset({
-    "oh", "well", "please", "now", "why", "ah", "dear", "sir", "madam", "god", "lord",
-    "come", "look", "say", "give", "be", "do", "don", "let", "take", "merry", "good",
-})
+_VOC_STOP = _NON_SPEAKER | frozenset(
+    {
+        "oh",
+        "well",
+        "please",
+        "now",
+        "why",
+        "ah",
+        "dear",
+        "sir",
+        "madam",
+        "god",
+        "lord",
+        "come",
+        "look",
+        "say",
+        "give",
+        "be",
+        "do",
+        "don",
+        "let",
+        "take",
+        "merry",
+        "good",
+    }
+)
 
 
 def _vocative(quoted: str) -> Optional[str]:
@@ -129,8 +258,7 @@ def _vocative(quoted: str) -> Optional[str]:
     addressee (a vocative): "Jim, darling," / "Shall I put the chops on, Jim?". Conservative:
     a single capitalized word, comma-adjacent, not a common interjection/sentence-opener — the
     deterministic, text-agnostic half of you→addressee (the other half is explicit "to Y")."""
-    for m in (re.match(r"\s*([A-Z][a-z]+)\s*,", quoted),
-              re.search(r",\s*([A-Z][a-z]+)\s*[?!.\"”’']*\s*$", quoted)):
+    for m in (re.match(r"\s*([A-Z][a-z]+)\s*,", quoted), re.search(r",\s*([A-Z][a-z]+)\s*[?!.\"”’']*\s*$", quoted)):
         if m and m.group(1).lower() not in _VOC_STOP:
             return _head_lemma(m.group(1))
     return None
@@ -140,7 +268,7 @@ def _attribution(fragment: str) -> Optional[tuple]:
     """If ``fragment`` (the non-quoted text around a quote) is a speech attribution, return
     ``(speaker, addressee)`` head lemmas; else ``None``. Handles ``said SPEAKER [to ADDR]``
     and ``SPEAKER said``, with adjective-stacked or PP-modified speaker NPs."""
-    words = re.findall(r"[A-Za-z][A-Za-z'\-]*|,", fragment)   # keep commas as NP boundaries
+    words = re.findall(r"[A-Za-z][A-Za-z'\-]*|,", fragment)  # keep commas as NP boundaries
     if not words:
         return None
     low = [w.lower() for w in words]
@@ -151,13 +279,13 @@ def _attribution(fragment: str) -> Optional[tuple]:
     if low[say_idx] == "called" and say_idx > 0 and low[say_idx - 1] in _BE_FORMS:
         return None
 
-    after = words[say_idx + 1:]
-    speaker = _np_head(after)                          # "said SPEAKER …"
+    after = words[say_idx + 1 :]
+    speaker = _np_head(after)  # "said SPEAKER …"
     addressee = None
     if speaker is not None:
         after_low = [w.lower() for w in after]
-        if "to" in after_low:                          # "… to ADDRESSEE"
-            addressee = _np_head(after[after_low.index("to") + 1:])
+        if "to" in after_low:  # "… to ADDRESSEE"
+            addressee = _np_head(after[after_low.index("to") + 1 :])
     else:
         # "SPEAKER said" — the noun just before the verb (scan back past -ly adverbs/dets).
         for w in reversed(words[:say_idx]):
@@ -187,7 +315,7 @@ def segment_speech(sentence: str) -> List[Utterance]:
     frags: List[str] = []
     pos = 0
     for m in quotes:
-        frags.append(sentence[pos:m.start()])
+        frags.append(sentence[pos : m.start()])
         pos = m.end()
     frags.append(sentence[pos:])
 
@@ -219,7 +347,7 @@ def _split_segments(sentence: str, inside_start: bool):
     never toggle (possessives, contractions, inner 'quotes'). Returns (segments, inside_end)."""
     segs, cur, inside = [], [], inside_start
     for ch in sentence:
-        if ch in "“”\"":
+        if ch in '“”"':
             segs.append(("".join(cur), inside))
             cur, inside = [], not inside
         else:
@@ -239,16 +367,18 @@ def segment_document(sentences) -> List[Utterance]:
     an attribution (so "The policeman said nothing." is not mistaken for `said SPEAKER`)."""
     records: List[dict] = []
     inside = False
-    cur_speaker = cur_addr = None     # speaker of the currently-open quote
-    span: List[int] = []              # record indices of the current open quote span
-    pending = None                    # an attribution awaiting an immediate re-open
+    cur_speaker = cur_addr = None  # speaker of the currently-open quote
+    span: List[int] = []  # record indices of the current open quote span
+    pending = None  # an attribution awaiting an immediate re-open
 
     for s_idx, sent in enumerate(sentences):
-        has_quote = any(c in "“”\"" for c in sent)
+        has_quote = any(c in '“”"' for c in sent)
         if not has_quote and not inside:
             if sent.strip():
-                records.append({"content": sent.strip(), "speaker": None, "addressee": None, "quoted": False, "s_idx": s_idx})
-            cur_speaker = cur_addr = pending = None       # a plain-narration line ends any turn
+                records.append(
+                    {"content": sent.strip(), "speaker": None, "addressee": None, "quoted": False, "s_idx": s_idx}
+                )
+            cur_speaker = cur_addr = pending = None  # a plain-narration line ends any turn
             continue
         segs, inside_after = _split_segments(sent, inside)
         for text, quoted in segs:
@@ -256,16 +386,18 @@ def segment_document(sentences) -> List[Utterance]:
             if quoted:
                 if not t:
                     continue
-                if not span and pending is not None:      # "Q1," said X, "Q2" / X said, "Q"
+                if not span and pending is not None:  # "Q1," said X, "Q2" / X said, "Q"
                     cur_speaker, cur_addr = pending
                     pending = None
-                if cur_addr is None:                       # vocative ("Jim, …" / "…, Jim?") → addressee
+                if cur_addr is None:  # vocative ("Jim, …" / "…, Jim?") → addressee
                     voc = _vocative(t)
                     if voc and voc != cur_speaker:
                         cur_addr = voc
-                        for i in span:                     # apply to the whole open turn
+                        for i in span:  # apply to the whole open turn
                             records[i]["addressee"] = voc
-                records.append({"content": t, "speaker": cur_speaker, "addressee": cur_addr, "quoted": True, "s_idx": s_idx})
+                records.append(
+                    {"content": t, "speaker": cur_speaker, "addressee": cur_addr, "quoted": True, "s_idx": s_idx}
+                )
                 span.append(len(records) - 1)
             else:
                 # A narration segment closes the preceding quote: finalize ITS span here (not at
@@ -274,16 +406,16 @@ def segment_document(sentences) -> List[Utterance]:
                 attr = _attribution(text)
                 if attr is not None:
                     spk, addr = attr
-                    for i in span:                        # "Q," said X — back-patch only this span
+                    for i in span:  # "Q," said X — back-patch only this span
                         records[i]["speaker"] = spk
                         records[i]["addressee"] = addr
-                    cur_speaker, cur_addr = spk, addr      # carry to an immediate re-open (pending)
+                    cur_speaker, cur_addr = spk, addr  # carry to an immediate re-open (pending)
                     pending = (spk, addr)
                 elif t:
                     records.append({"content": t, "speaker": None, "addressee": None, "quoted": False, "s_idx": s_idx})
-                if span:                                  # quote closed → finalize
+                if span:  # quote closed → finalize
                     span = []
-                    if attr is None:                      # no fresh attribution → turn is over
+                    if attr is None:  # no fresh attribution → turn is over
                         cur_speaker = cur_addr = pending = None
         inside = inside_after
 
@@ -296,9 +428,15 @@ def segment_document(sentences) -> List[Utterance]:
     merged: List[dict] = []
     for r in records:
         prev = merged[-1] if merged else None
-        if (r["quoted"] and r["speaker"] is not None and prev is not None
-                and prev["quoted"] and prev["speaker"] == r["speaker"]
-                and prev["addressee"] == r["addressee"] and prev["s_idx"] == r["s_idx"]):
+        if (
+            r["quoted"]
+            and r["speaker"] is not None
+            and prev is not None
+            and prev["quoted"]
+            and prev["speaker"] == r["speaker"]
+            and prev["addressee"] == r["addressee"]
+            and prev["s_idx"] == r["s_idx"]
+        ):
             prev["content"] = prev["content"].rstrip() + " " + r["content"].lstrip()
         else:
             merged.append(dict(r))

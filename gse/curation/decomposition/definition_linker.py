@@ -60,8 +60,12 @@ class Linker:
         r = self.con.execute("SELECT id FROM lexemes WHERE lemma=? LIMIT 1", (word,)).fetchone()
         if not r:
             return None
-        return {p: v for p, v in self.con.execute(
-            "SELECT primitive, value FROM primitive_values WHERE lexeme_id=? AND value!=0", (r[0],))}
+        return {
+            p: v
+            for p, v in self.con.execute(
+                "SELECT primitive, value FROM primitive_values WHERE lexeme_id=? AND value!=0", (r[0],)
+            )
+        }
 
     def category(self, word: str, depth: int = 0, seen: frozenset = frozenset()) -> Dict[str, int]:
         """Pure IS-A category — follow the genus chain ONLY (no differentia) to the
@@ -80,7 +84,7 @@ class Linker:
             return t
         if depth >= MAX_DEPTH or word in seen:
             return {}
-        pg = primary_gloss(word, "noun")   # genus head is a noun — POS from role, not a guess
+        pg = primary_gloss(word, "noun")  # genus head is a noun — POS from role, not a guess
         if not pg:
             return {}
         pos, gloss = pg
@@ -89,15 +93,16 @@ class Linker:
         if op.operation in _IDENTITY_OPS and op.operand:
             res = self.category(op.operand, depth + 1, seen2)
         elif op.genus:
-            res = self.category(op.genus, depth + 1, seen2)   # follow the chain — no differentia
+            res = self.category(op.genus, depth + 1, seen2)  # follow the chain — no differentia
         else:
             res = {}
         if depth == 0:
             self._cat_memo[word] = res
         return res
 
-    def evaluate(self, word: str, pos: Optional[str] = None,
-                 depth: int = 0, seen: frozenset = frozenset()) -> Dict[str, int]:
+    def evaluate(
+        self, word: str, pos: Optional[str] = None, depth: int = 0, seen: frozenset = frozenset()
+    ) -> Dict[str, int]:
         word = (word or "").lower().strip()
         if not word:
             return {}
@@ -118,7 +123,7 @@ class Linker:
         # 3. bounded recursion
         if depth >= MAX_DEPTH or word in seen:
             return {}
-        pg = primary_gloss(word, pos)   # POS from role when the caller knows it
+        pg = primary_gloss(word, pos)  # POS from role when the caller knows it
         if not pg:
             return {}
         rpos, gloss = pg
@@ -134,12 +139,12 @@ class Linker:
         else:  # genus-differentia / INHERIT / BIND / TYPE_ASSERT
             acc: Dict[str, int] = {}
             if op.genus:
-                _merge(acc, self.category(op.genus, depth + 1, seen2))      # PURE category (genus chain only)
+                _merge(acc, self.category(op.genus, depth + 1, seen2))  # PURE category (genus chain only)
             for dh in op.differentia[:4]:
-                _merge(acc, self.evaluate(dh, None, depth + 1, seen2))      # word's OWN differentia
+                _merge(acc, self.evaluate(dh, None, depth + 1, seen2))  # word's OWN differentia
             result = _resolve(acc)
 
-        if depth == 0:   # only cache top-level results (recursion partials vary by path)
+        if depth == 0:  # only cache top-level results (recursion partials vary by path)
             self._memo[key] = result
         return result
 
@@ -152,11 +157,24 @@ def _demo():
     print("=== linkage stage: definition op → grounded decomposition ===\n")
     # (word, role-POS) — the POS the word is being asked about, as it would come
     # from the sentence parse. Never a global frequency guess.
-    probes = [("happy", "adj"), ("sad", "adj"), ("hate", "verb"), ("dislike", "verb"),
-              ("unhappy", "adj"), ("love", "verb"), ("fear", "noun"),
-              ("dog", "noun"), ("cat", "noun"), ("kill", "verb"), ("knife", "noun"),
-              ("king", "noun"), ("murder", "noun"), ("men", "noun"),
-              ("bigger", "adj"), ("teacher", "noun")]
+    probes = [
+        ("happy", "adj"),
+        ("sad", "adj"),
+        ("hate", "verb"),
+        ("dislike", "verb"),
+        ("unhappy", "adj"),
+        ("love", "verb"),
+        ("fear", "noun"),
+        ("dog", "noun"),
+        ("cat", "noun"),
+        ("kill", "verb"),
+        ("knife", "noun"),
+        ("king", "noun"),
+        ("murder", "noun"),
+        ("men", "noun"),
+        ("bigger", "adj"),
+        ("teacher", "noun"),
+    ]
     for w, p in probes:
         d = lk.evaluate(w, p)
         pos = sorted(k for k, v in d.items() if v > 0)

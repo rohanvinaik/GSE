@@ -22,6 +22,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class ProcessingResult:
     """Result of processing a single word."""
+
     word: str
     success: bool
     decomposition: Dict[str, int]
@@ -192,41 +193,33 @@ class BatchProcessor:
 
             bipolar_result = self.bipolar_validator.validate(decomp)
             if not bipolar_result.passed:
-                validation_errors.extend(
-                    [v["message"] for v in bipolar_result.violations]
-                )
+                validation_errors.extend([v["message"] for v in bipolar_result.violations])
                 # Auto-fix bipolar violations
                 decomp, _ = self.bipolar_validator.fix_violations(decomp)
 
             coverage_result = self.coverage_checker.validate(decomp)
             if not coverage_result.passed:
-                validation_errors.extend(
-                    [v["message"] for v in coverage_result.violations]
-                )
+                validation_errors.extend([v["message"] for v in coverage_result.violations])
                 # Auto-fill missing primitives
                 decomp = self.coverage_checker.fill_missing(decomp)
 
             hierarchy_result = self.hierarchy_validator.validate(decomp)
             if not hierarchy_result.passed:
-                validation_errors.extend(
-                    [v.get("message", v.get("detail", "")) for v in hierarchy_result.violations]
+                validation_errors.extend([v.get("message", v.get("detail", "")) for v in hierarchy_result.violations])
+
+            validation_passed = bipolar_result.passed and coverage_result.passed and hierarchy_result.passed
+
+            results.append(
+                ProcessingResult(
+                    word=word,
+                    success=True,
+                    decomposition=decomp,
+                    confidence=confidence,
+                    validation_passed=validation_passed,
+                    validation_errors=validation_errors,
+                    warnings=warnings,
                 )
-
-            validation_passed = (
-                bipolar_result.passed and
-                coverage_result.passed and
-                hierarchy_result.passed
             )
-
-            results.append(ProcessingResult(
-                word=word,
-                success=True,
-                decomposition=decomp,
-                confidence=confidence,
-                validation_passed=validation_passed,
-                validation_errors=validation_errors,
-                warnings=warnings,
-            ))
 
         return results
 
@@ -300,7 +293,7 @@ class BatchProcessor:
     ) -> Iterator[List[Any]]:
         """Yield successive chunks of items."""
         for i in range(0, len(items), size):
-            yield items[i:i + size]
+            yield items[i : i + size]
 
     def _log_progress(
         self,
@@ -315,5 +308,5 @@ class BatchProcessor:
 
         logger.info(
             f"Phase {phase}: {processed}/{total} ({pct:.1f}%) - "
-            f"Validated: {validated} ({100*validated/processed:.1f}%)"
+            f"Validated: {validated} ({100 * validated / processed:.1f}%)"
         )

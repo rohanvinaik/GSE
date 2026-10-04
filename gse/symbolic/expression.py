@@ -42,6 +42,7 @@ class Atom:
             entity tokens from predicate tokens; defaults to ``None`` for
             atoms not built from a TokenTrace.
     """
+
     lemma: str
     word_primitives: Dict[str, int] = field(default_factory=dict)
     role: Optional[str] = None
@@ -74,6 +75,7 @@ class Phrase:
     For "Mike's dog", this is a Phrase of two Atoms ("mike", "dog") that
     B5 will refine into an Atom representing the composite entity.
     """
+
     atoms: List[Atom]
 
     def __hash__(self) -> int:
@@ -88,6 +90,7 @@ class Negation:
     argument, not an operator: ``Negation`` carries the sign so
     downstream queries see the operand and the flipped polarity.
     """
+
     operand: "Expression"
 
 
@@ -102,6 +105,7 @@ class Op:
         arity: 1 or 2 — number of arguments the operator consumes.
         args: the lifted argument expressions.
     """
+
     primitive: str
     operation: str
     arity: int
@@ -136,7 +140,7 @@ def _atom_from_token(token: TokenTrace, role: Optional[str] = None) -> Atom:
     number = None
     graded = False
     pos = token.pos or None
-    surface = (getattr(token, "token", "") or "")
+    surface = getattr(token, "token", "") or ""
     if pos in ("NOUN", "PROPN"):
         number = "plur" if surface.lower() != (token.lemma or "").lower() else "sing"
     elif pos == "ADJ":
@@ -170,7 +174,7 @@ def _promote_nominalized_adjective_subject(
     (comparative surface ≠ base lemma, "stranger" ≠ "strange") the nominal lemma is the SURFACE form,
     since the referent noun is "stranger", not the comparative base "strange"."""
     if any(t.pos in ("NOUN", "PROPN") for t in subject_tokens):
-        return subject_atoms          # a real nominal head exists — not a nominalized adjective
+        return subject_atoms  # a real nominal head exists — not a nominalized adjective
     out = list(subject_atoms)
     for i, t in enumerate(subject_tokens):
         if t.pos == "ADJ":
@@ -178,7 +182,7 @@ def _promote_nominalized_adjective_subject(
             graded = bool(surface) and surface != (t.lemma or "").lower()
             noun_lemma = surface if graded else out[i].lemma
             out[i] = replace(out[i], lemma=noun_lemma, pos="NOUN", graded=False)
-            break                     # promote the single head adjective, then stop
+            break  # promote the single head adjective, then stop
     return out
 
 
@@ -198,10 +202,7 @@ def _build_arg_expression(
     * Otherwise return a Phrase to be refined by B5 (argument resolution).
     """
     operator_set = set(operator_positions)
-    filtered = [
-        tokens[p] for p in token_positions
-        if p < len(tokens) and p not in operator_set
-    ]
+    filtered = [tokens[p] for p in token_positions if p < len(tokens) and p not in operator_set]
     if not filtered:
         # No content tokens — return an empty phrase as a placeholder.
         return Phrase(atoms=[])
@@ -261,8 +262,7 @@ def _try_copula_type_assertion(tokens: Sequence[TokenTrace]) -> Optional[Express
     decomposition. Returns ``None`` when the pattern does not hold.
     """
     copula = next(
-        (t for t in tokens
-         if _COPULA_PREDICATE in t.sent_primitives and t.lemma == _COPULA_LEMMA),
+        (t for t in tokens if _COPULA_PREDICATE in t.sent_primitives and t.lemma == _COPULA_LEMMA),
         None,
     )
     if copula is None:
@@ -272,15 +272,10 @@ def _try_copula_type_assertion(tokens: Sequence[TokenTrace]) -> Optional[Express
     # SYN_OBJ instead, so also accept any entity token before the copula — the
     # same positional subject the spans below already build from. Without this
     # the subordinate copula bails here and collapses to a demi-word nominal.
-    has_subject = (
-        any(_COPULA_SUBJECT in t.sent_primitives for t in tokens)
-        or any(t.position < copula.position and t.pos in _PP_OBJECT_POS
-               for t in tokens)
+    has_subject = any(_COPULA_SUBJECT in t.sent_primitives for t in tokens) or any(
+        t.position < copula.position and t.pos in _PP_OBJECT_POS for t in tokens
     )
-    has_complement = any(
-        _COPULA_COMPLEMENT in t.sent_primitives and t.pos in _COMPLEMENT_POS
-        for t in tokens
-    )
+    has_complement = any(_COPULA_COMPLEMENT in t.sent_primitives and t.pos in _COMPLEMENT_POS for t in tokens)
     if not (has_subject and has_complement):
         return None
 
@@ -292,16 +287,19 @@ def _try_copula_type_assertion(tokens: Sequence[TokenTrace]) -> Optional[Express
     # passive collapsed to a non-event). Bail so _try_event recovers the event. True
     # copulas ("X is a king", "X is callous", "loyal to Y") have no post-copula VERB
     # and are untouched. (GSE-native structural fix, 2026-06-24.)
-    if any(t.position > copula.position and t.pos == "VERB"
-           and t.lemma != _COPULA_LEMMA and not getattr(t, "is_operator", False)
-           for t in tokens):
+    if any(
+        t.position > copula.position
+        and t.pos == "VERB"
+        and t.lemma != _COPULA_LEMMA
+        and not getattr(t, "is_operator", False)
+        for t in tokens
+    ):
         return None
 
     # Negated type assertion ("X is not a Y"): drop the marker, wrap in Negation.
     negated = any(t.lemma in _NEGATION_LEMMAS for t in tokens)
     subject_atoms = [
-        _atom_from_token(t) for t in tokens
-        if t.position < copula.position and t.lemma not in _NEGATION_LEMMAS
+        _atom_from_token(t) for t in tokens if t.position < copula.position and t.lemma not in _NEGATION_LEMMAS
     ]
     if not subject_atoms:
         return None
@@ -312,14 +310,10 @@ def _try_copula_type_assertion(tokens: Sequence[TokenTrace]) -> Optional[Express
     # "loyal to Corwin" into one kind nominal drops both the preposition and Y,
     # and (as a `because` cause clause) silently defeats rule learning. Build an
     # EVENT keyed on the adjective so ADJ(X, Y) survives with both arguments.
-    after = [
-        t for t in tokens
-        if t.position > copula.position
-        and t.lemma not in _NEGATION_LEMMAS and t.pos != "PUNCT"
-    ]
+    after = [t for t in tokens if t.position > copula.position and t.lemma not in _NEGATION_LEMMAS and t.pos != "PUNCT"]
     adj_i = next((i for i, t in enumerate(after) if t.pos == "ADJ"), None)
     if adj_i is not None:
-        rest = after[adj_i + 1:]
+        rest = after[adj_i + 1 :]
         if rest and rest[0].pos == "ADP":
             pp_object = [t for t in rest[1:] if t.pos in _PP_OBJECT_POS]
             if pp_object:
@@ -335,8 +329,7 @@ def _try_copula_type_assertion(tokens: Sequence[TokenTrace]) -> Optional[Express
                 return Negation(operand=event) if negated else event
 
     complement_atoms = [
-        _atom_from_token(t) for t in tokens
-        if t.position > copula.position and t.lemma not in _NEGATION_LEMMAS
+        _atom_from_token(t) for t in tokens if t.position > copula.position and t.lemma not in _NEGATION_LEMMAS
     ]
     if not complement_atoms:
         return None
@@ -368,7 +361,7 @@ def _appositive_positions(tokens: Sequence[TokenTrace], verb: TokenTrace) -> set
         # appositive — leave it whole. Otherwise the phrase between the first two commas is the
         # non-restrictive appositive describing the leading name.
         if not any(t.lemma in ("and", "or") for t in pre):
-            between = pre[commas[0] + 1:commas[1]]
+            between = pre[commas[0] + 1 : commas[1]]
             if between:
                 return {t.position for t in between}
     return set()
@@ -394,12 +387,12 @@ def _leading_adjunct_positions(tokens: Sequence[TokenTrace], verb: TokenTrace) -
     commas = [i for i, t in enumerate(pre) if t.pos == "PUNCT" and t.lemma == ","]
     if not commas:
         return set()
-    after = pre[commas[-1] + 1:]                        # tokens between the last pre-verb comma and the verb
+    after = pre[commas[-1] + 1 :]  # tokens between the last pre-verb comma and the verb
     if not any(t.pos in ("NOUN", "PROPN") for t in after):
-        return set()                                   # no subject after the comma -> not a fronted adjunct
+        return set()  # no subject after the comma -> not a fronted adjunct
     if any(t.lemma in ("and", "or") for t in after):
-        return set()                                   # coordinator after the comma -> a list subject, keep it
-    return {t.position for t in pre[:commas[-1]]}       # the span up to (not incl.) the last pre-verb comma
+        return set()  # coordinator after the comma -> a list subject, keep it
+    return {t.position for t in pre[: commas[-1]]}  # the span up to (not incl.) the last pre-verb comma
 
 
 # POS tags that can head a clause SUBJECT (a bare nominal). A verb preceded by one of these is preceded
@@ -418,27 +411,23 @@ def _select_clause_verb(tokens: Sequence[TokenTrace]):
     (the real main clause), that later verb is the predicate. A TRAILING adjunct ("Macbeth fled, fearing
     capture") is untouched — its first verb IS preceded by its subject "Macbeth", so the override abstains."""
     by_pos = sorted(tokens, key=lambda t: t.position)
-    eligible = [t for t in by_pos
-                if t.pos == "VERB" and t.lemma != _COPULA_LEMMA and not t.is_operator]
+    eligible = [t for t in by_pos if t.pos == "VERB" and t.lemma != _COPULA_LEMMA and not t.is_operator]
     if not eligible:
         return None
     v1 = eligible[0]
     before_v1 = [t for t in by_pos if t.position < v1.position]
     if before_v1 and before_v1[-1].pos in _SUBJECT_POS:
-        return v1                                      # v1 preceded by its subject -> main/trailing verb
-    comma = next((t.position for t in by_pos
-                  if t.pos == "PUNCT" and t.lemma == "," and t.position > v1.position), None)
+        return v1  # v1 preceded by its subject -> main/trailing verb
+    comma = next((t.position for t in by_pos if t.pos == "PUNCT" and t.lemma == "," and t.position > v1.position), None)
     if comma is None:
         return v1
     for v2 in eligible:
-        if v2.position > comma and any(
-                comma < n.position < v2.position and n.pos in _SUBJECT_POS for n in by_pos):
-            return v2                                  # a later verb whose subject sits after the adjunct comma
+        if v2.position > comma and any(comma < n.position < v2.position and n.pos in _SUBJECT_POS for n in by_pos):
+            return v2  # a later verb whose subject sits after the adjunct comma
     return v1
 
 
-def _try_event(tokens: Sequence[TokenTrace],
-               shared_subject: Optional[Sequence] = None) -> Optional[Expression]:
+def _try_event(tokens: Sequence[TokenTrace], shared_subject: Optional[Sequence] = None) -> Optional[Expression]:
     """Synthesize an EVENT ``Op`` from a plain verb clause "X verbs Y".
 
     The base case the operator set was missing: a clause with an ordinary content
@@ -485,36 +474,46 @@ def _try_event(tokens: Sequence[TokenTrace],
                 for u in reversed([x for x in _ordered if x.position < t.position]):
                     if u.pos in ("DET", "ADJ"):
                         continue
-                    return u.pos not in ("PROPN", "NOUN")   # head noun before "of" -> postmodifier -> keep
+                    return u.pos not in ("PROPN", "NOUN")  # head noun before "of" -> postmodifier -> keep
             return True
         return False
 
-    appositive = _appositive_positions(tokens, verb)   # NAME, description, → keep the name (Haemon)
+    appositive = _appositive_positions(tokens, verb)  # NAME, description, → keep the name (Haemon)
     leading_adjunct = _leading_adjunct_positions(tokens, verb)  # "Angered by X, the king …" → keep the king
-    subject_tokens = [t for t in tokens
-                      if t.position < verb.position
-                      and t.pos != "PUNCT" and t.lemma not in _NEGATION_LEMMAS
-                      and not _prep_governed(t)
-                      and t.position not in appositive
-                      and t.position not in leading_adjunct]
+    subject_tokens = [
+        t
+        for t in tokens
+        if t.position < verb.position
+        and t.pos != "PUNCT"
+        and t.lemma not in _NEGATION_LEMMAS
+        and not _prep_governed(t)
+        and t.position not in appositive
+        and t.position not in leading_adjunct
+    ]
     # A nominalized-adjective subject ("A giant attacks", "A stranger helps") is the NP head used as a
     # noun; promote it so it grounds as the agent instead of being dropped as a bare adjective atom.
     subject_atoms = _promote_nominalized_adjective_subject(
-        subject_tokens, [_atom_from_token(t) for t in subject_tokens])
+        subject_tokens, [_atom_from_token(t) for t in subject_tokens]
+    )
     # Appositive type-inheritance (hint only — the thread is filled at the grounding annotate seam): when
     # the subject is a NAME described by an appositive ("Arjun, a warrior" / "Haemon, Creon's son"), carry
     # the description's head noun onto the kept proper-noun atom. The name stays the agent (this does not
     # touch subject selection); grounding later types it from what the TEXT says when the name itself can't
     # be placed. The apposition head is the LAST noun of the dropped appositive span.
     if appositive:
-        _appos_nouns = [t for t in sorted(tokens, key=lambda t: t.position)
-                        if t.position in appositive and t.pos in ("NOUN", "PROPN")]
+        _appos_nouns = [
+            t
+            for t in sorted(tokens, key=lambda t: t.position)
+            if t.position in appositive and t.pos in ("NOUN", "PROPN")
+        ]
         if _appos_nouns:
             _ah = _appos_nouns[-1].lemma
             subject_atoms = [replace(a, apposition=_ah) if a.pos == "PROPN" else a for a in subject_atoms]
-    fronted_obliques = [_atom_from_token(t, "SYN_OBL") for t in tokens
-                        if t.position < verb.position and t.pos != "PUNCT"
-                        and t.lemma not in _NEGATION_LEMMAS and _prep_governed(t)]
+    fronted_obliques = [
+        _atom_from_token(t, "SYN_OBL")
+        for t in tokens
+        if t.position < verb.position and t.pos != "PUNCT" and t.lemma not in _NEGATION_LEMMAS and _prep_governed(t)
+    ]
     # Direct object vs PP obliques. The clause's direct object is the post-verb nominal
     # span UP TO the first preposition; tokens from the first preposition on are PP
     # obliques ("for months", "with this result", "to Macbeth"). Without this split the
@@ -523,9 +522,9 @@ def _try_event(tokens: Sequence[TokenTrace],
     # SYN_OBL constituent rather than merged or discarded; the narrative spine's
     # set-operation keeps them off the protagonist backbone. (Text-agnostic: the boundary
     # is the preposition POS, not any story-specific word.)
-    post_verb = [t for t in tokens
-                 if t.position > verb.position
-                 and t.pos != "PUNCT" and t.lemma not in _NEGATION_LEMMAS]
+    post_verb = [
+        t for t in tokens if t.position > verb.position and t.pos != "PUNCT" and t.lemma not in _NEGATION_LEMMAS
+    ]
     first_prep = next((idx for idx, t in enumerate(post_verb) if t.pos == "ADP"), None)
     obj_tokens = post_verb if first_prep is None else post_verb[:first_prep]
     obl_tokens = [] if first_prep is None else post_verb[first_prep:]
@@ -557,13 +556,9 @@ def _build_operator_op(
     """Build one ``Op`` node from an OperatorTrace, args from its token spans."""
     args: List[Operand] = []
     if op.arity >= 1:
-        args.append(_build_arg_expression(
-            op.arg1_tokens, tokens, operator_positions
-        ))
+        args.append(_build_arg_expression(op.arg1_tokens, tokens, operator_positions))
     if op.arity >= 2:
-        args.append(_build_arg_expression(
-            op.arg2_tokens, tokens, operator_positions
-        ))
+        args.append(_build_arg_expression(op.arg2_tokens, tokens, operator_positions))
     return Op(
         primitive=op.primitive,
         operation=op.operation,
@@ -617,7 +612,8 @@ def _build_clause_expr(
     """
     excluded = excluded or set()
     clause_tokens = [
-        t for t in tokens
+        t
+        for t in tokens
         if clause.token_start <= t.position < clause.token_end
         and t.position not in excluded
         and not (drop_relativizers and _is_relativizer(t))
@@ -637,8 +633,10 @@ def _build_clause_expr(
     soft = [op for op in clause_ops if op.operation in _SOFT_ABSORBERS]
     if soft:
         soft_pos = min(op.position for op in soft)
+
         def _content_verb(t: TokenTrace) -> bool:
             return t.pos == "VERB" and t.lemma != _COPULA_LEMMA and not t.is_operator
+
         before = any(_content_verb(t) for t in clause_tokens if t.position < soft_pos)
         after = any(_content_verb(t) for t in clause_tokens if t.position > soft_pos)
         if before and after:
@@ -676,8 +674,11 @@ def _is_relativizer(token: TokenTrace) -> bool:
 
 
 def _wrap_antecedent(
-    expr: Expression, position: int, restriction: Operand,
-    operation: str = "REL_RESTRICT", primitive: str = "REL",
+    expr: Expression,
+    position: int,
+    restriction: Operand,
+    operation: str = "REL_RESTRICT",
+    primitive: str = "REL",
 ) -> "tuple[Expression, bool]":
     """Wrap the node containing ``position`` in an embedding operator.
 
@@ -688,9 +689,9 @@ def _wrap_antecedent(
     ('to' complements). Returns ``(new_expr, wrapped)``; only the first match
     wraps.
     """
+
     def _rel_op(node: Operand) -> Op:
-        return Op(primitive=primitive, operation=operation, arity=2,
-                  args=[node, restriction])
+        return Op(primitive=primitive, operation=operation, arity=2, args=[node, restriction])
 
     if isinstance(expr, Atom):
         if expr.position == position:
@@ -705,19 +706,14 @@ def _wrap_antecedent(
         wrapped = False
         for a in expr.args:
             if not wrapped and isinstance(a, (Atom, Phrase, Negation, Op)):
-                na, w = _wrap_antecedent(
-                    a, position, restriction, operation, primitive
-                )
+                na, w = _wrap_antecedent(a, position, restriction, operation, primitive)
                 new_args.append(na)
                 wrapped = wrapped or w
             else:
                 new_args.append(a)
-        return Op(primitive=expr.primitive, operation=expr.operation,
-                  arity=expr.arity, args=new_args), wrapped
+        return Op(primitive=expr.primitive, operation=expr.operation, arity=expr.arity, args=new_args), wrapped
     if isinstance(expr, Negation):
-        inner, w = _wrap_antecedent(
-            expr.operand, position, restriction, operation, primitive
-        )
+        inner, w = _wrap_antecedent(expr.operand, position, restriction, operation, primitive)
         return Negation(operand=inner), w
     return expr, False
 
@@ -750,18 +746,17 @@ def _build_control(
     in-place wrap (degraded — controller + inner only).
     """
     inner_tokens = [
-        t for t in tokens
-        if emb.token_start <= t.position < emb.token_end
-        and not (t.pos == "PART" and t.lemma == "to")
+        t for t in tokens if emb.token_start <= t.position < emb.token_end and not (t.pos == "PART" and t.lemma == "to")
     ]
-    inner_verb = next(
-        (t for t in inner_tokens if t.pos == "VERB" and not t.is_operator), None
-    )
+    inner_verb = next((t for t in inner_tokens if t.pos == "VERB" and not t.is_operator), None)
     if inner_verb is None or not (isinstance(matrix, Op) and matrix.operation == "EVENT"):
         inner_expr = _build_clause_expr(emb, tokens, operators, operator_positions)
         return _wrap_antecedent(
-            matrix, emb.attaches_to_token, inner_expr,
-            operation="CONTROL", primitive="CTRL",
+            matrix,
+            emb.attaches_to_token,
+            inner_expr,
+            operation="CONTROL",
+            primitive="CTRL",
         )[0]
 
     # Drop a punctuation-only arg the matrix picked up (trailing '.'), so the
@@ -770,18 +765,20 @@ def _build_control(
     clean_args = [a for a in matrix.args if not _is_all_punct(a)] or list(matrix.args)
     subject = clean_args[0]
     controller = clean_args[1] if len(clean_args) > 1 else clean_args[0]
-    inner_obj = [
-        _atom_from_token(t) for t in inner_tokens if t.position > inner_verb.position
-    ]
+    inner_obj = [_atom_from_token(t) for t in inner_tokens if t.position > inner_verb.position]
     inner_args: List[Operand] = [controller]
     if inner_obj:
         inner_args.append(Phrase(atoms=inner_obj))
     inner_event = Op(
-        primitive=inner_verb.lemma, operation="EVENT",
-        arity=len(inner_args), args=inner_args,
+        primitive=inner_verb.lemma,
+        operation="EVENT",
+        arity=len(inner_args),
+        args=inner_args,
     )
     return Op(
-        primitive=matrix.primitive, operation="CONTROL", arity=3,
+        primitive=matrix.primitive,
+        operation="CONTROL",
+        arity=3,
         args=[subject, controller, inner_event],
     )
 
@@ -803,7 +800,8 @@ def _build_complement(
     isn't a clean EVENT (e.g. an already-nested matrix), losing nothing vs today.
     """
     content = [
-        t for t in tokens
+        t
+        for t in tokens
         if emb.token_start <= t.position < emb.token_end
         and not (t.pos == "SCONJ" and t.lemma == "that")
         and not (t.pos == "AUX" and t.lemma != _COPULA_LEMMA)
@@ -816,8 +814,10 @@ def _build_complement(
         # "." parses as an object), so the complement is the clean patient.
         base_args = [a for a in matrix.args if not _is_all_punct(a)]
         return Op(
-            primitive=matrix.primitive, operation="EVENT",
-            arity=len(base_args) + 1, args=base_args + [inner],
+            primitive=matrix.primitive,
+            operation="EVENT",
+            arity=len(base_args) + 1,
+            args=base_args + [inner],
         )
     return matrix
 
@@ -837,20 +837,13 @@ def _build_relative_restriction(
     has no content verb (e.g. the copular relative "who was the king", already
     handled correctly by the default path).
     """
-    inner_tokens = [
-        t for t in tokens
-        if emb.token_start <= t.position < emb.token_end and not _is_relativizer(t)
-    ]
+    inner_tokens = [t for t in tokens if emb.token_start <= t.position < emb.token_end and not _is_relativizer(t)]
     verb = next(
-        (t for t in inner_tokens
-         if t.pos == "VERB" and t.lemma != _COPULA_LEMMA and not t.is_operator),
+        (t for t in inner_tokens if t.pos == "VERB" and t.lemma != _COPULA_LEMMA and not t.is_operator),
         None,
     )
-    if (verb is None or emb.gap_role not in ("subject", "object")
-            or emb.attaches_to_token is None):
-        return _build_clause_expr(
-            emb, tokens, operators, operator_positions, drop_relativizers=True
-        )
+    if verb is None or emb.gap_role not in ("subject", "object") or emb.attaches_to_token is None:
+        return _build_clause_expr(emb, tokens, operators, operator_positions, drop_relativizers=True)
 
     antecedent = _atom_from_token(tokens[emb.attaches_to_token])
     before = [_atom_from_token(t) for t in inner_tokens if t.position < verb.position]
@@ -861,9 +854,7 @@ def _build_relative_restriction(
         agent_atoms, patient_atoms = [antecedent], after
 
     if not agent_atoms:
-        return _build_clause_expr(
-            emb, tokens, operators, operator_positions, drop_relativizers=True
-        )
+        return _build_clause_expr(emb, tokens, operators, operator_positions, drop_relativizers=True)
     args: List[Operand] = [Phrase(atoms=agent_atoms)]
     if patient_atoms:
         args.append(Phrase(atoms=patient_atoms))
@@ -910,9 +901,7 @@ def from_trace(trace: OperationTrace) -> Expression:
             return content_atoms[0]
         return Phrase(atoms=content_atoms)
 
-    built_ops = [
-        _build_operator_op(op, tokens, operator_positions) for op in operators
-    ]
+    built_ops = [_build_operator_op(op, tokens, operator_positions) for op in operators]
     if len(built_ops) == 1:
         return built_ops[0]
     return _left_fold_operators(built_ops)
@@ -959,7 +948,11 @@ def _from_trace_segmented(
     shared_subject = None
     for c in sequential:
         cx = _build_clause_expr(
-            c, tokens, operators, operator_positions, excluded=embedded_tokens,
+            c,
+            tokens,
+            operators,
+            operator_positions,
+            excluded=embedded_tokens,
             shared_subject=shared_subject,
         )
         clause_exprs.append(cx)
@@ -977,9 +970,7 @@ def _from_trace_segmented(
     # surface order: c0 [op0] c1 [op1] c2 …
     expr: Expression = clause_exprs[0]
     for k, op in enumerate(linking_ops):
-        right: Operand = (
-            clause_exprs[k + 1] if k + 1 < len(clause_exprs) else Phrase(atoms=[])
-        )
+        right: Operand = clause_exprs[k + 1] if k + 1 < len(clause_exprs) else Phrase(atoms=[])
         expr = Op(
             primitive=op.primitive,
             operation=op.operation,
@@ -992,9 +983,7 @@ def _from_trace_segmented(
         if emb.attaches_to_token is None:
             continue
         if emb.kind == "relative":
-            inner = _build_relative_restriction(
-                emb, tokens, operators, operator_positions
-            )
+            inner = _build_relative_restriction(emb, tokens, operators, operator_positions)
             expr, _ = _wrap_antecedent(expr, emb.attaches_to_token, inner)
         elif emb.kind == "control":
             expr = _build_control(expr, emb, tokens, operators, operator_positions)

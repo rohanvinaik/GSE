@@ -19,6 +19,7 @@ specialists are just defined and trained on the already-labeled corpus, recursiv
 Recognition depth IS resolution granularity — the seam a per-node rule-ground
 (Genesis-style inheritance) plugs into later.
 """
+
 from __future__ import annotations
 
 from typing import Dict, List, Optional, Sequence, Tuple
@@ -32,7 +33,7 @@ from gse.discourse.router import RegisterRouter
 def _slices(t, sizes: Sequence[int]):
     """Split a [B, full_dim] tensor into per-bank tensors (RegisterRouter's input)."""
     bnd = np.cumsum([0] + list(sizes))
-    return [t[:, bnd[i]:bnd[i + 1]] for i in range(len(sizes))]
+    return [t[:, bnd[i] : bnd[i + 1]] for i in range(len(sizes))]
 
 
 def train_router(Xtr, ytr, n_labels: int, sizes: Sequence[int], full_dim: int):
@@ -56,7 +57,7 @@ def train_router(Xtr, ytr, n_labels: int, sizes: Sequence[int], full_dim: int):
         for _ in range(epochs):
             opt.zero_grad()
             if stage == 1:
-                spec = m.specialist_logits(bx, xt)            # [B,S,G]
+                spec = m.specialist_logits(bx, xt)  # [B,S,G]
                 loss = sum(ce(spec[:, s], yt) for s in range(len(sizes)))
             else:
                 loss = ce(m(bx, xt), yt)
@@ -81,13 +82,13 @@ class NestedRouter:
         self.sizes = list(sizes)
         self.full_dim = full_dim
         self.tree: Dict[str, List[str]] = {}
-        self.nodes: Dict[str, dict] = {}     # node -> {model, scaler, labels}
+        self.nodes: Dict[str, dict] = {}  # node -> {model, scaler, labels}
 
     def fit(self, X: np.ndarray, genres: Sequence[str]) -> "NestedRouter":
         self.tree = taxonomy_tree(genres)
         for node, children in self.tree.items():
             if len(children) < 2:
-                continue                      # deterministic; no decision to learn
+                continue  # deterministic; no decision to learn
             idx, ys = [], []
             for i, g in enumerate(genres):
                 c = child_on_path(node, g)
@@ -95,15 +96,15 @@ class NestedRouter:
                     idx.append(i)
                     ys.append(children.index(c))
             if len(set(ys)) < 2:
-                continue                      # only one child present in the data
-            model, scaler = train_router(
-                X[idx], np.array(ys), len(children), self.sizes, self.full_dim)
+                continue  # only one child present in the data
+            model, scaler = train_router(X[idx], np.array(ys), len(children), self.sizes, self.full_dim)
             self.nodes[node] = {"model": model, "scaler": scaler, "labels": children}
         return self
 
     def _predict_node(self, node: str, X: np.ndarray) -> Tuple[List[str], np.ndarray]:
         """Child label + max-softmax confidence per row, at one node."""
         import torch
+
         d = self.nodes[node]
         d["model"].eval()
         xt = torch.tensor(d["scaler"].transform(X), dtype=torch.float32)
@@ -135,7 +136,7 @@ class NestedRouter:
                     labels, conf = self._predict_node(node, X[rows])
                     for k, i in enumerate(rows):
                         if conf[k] < gate:
-                            continue          # stop here: deepest confident node
+                            continue  # stop here: deepest confident node
                         child = labels[k]
                         paths[i].append(child)
                         # descend only into a DEEPER internal node. ``child != node``
@@ -145,7 +146,7 @@ class NestedRouter:
                         if child in self.tree and child != node:
                             node_of[i] = child
                             active.append(i)
-                else:                          # no router: pass through if single child
+                else:  # no router: pass through if single child
                     only = self._only_child(node)
                     for i in rows:
                         if only is None:
@@ -180,8 +181,7 @@ class NestedRouter:
         nodes = {}
         for node, d in self.nodes.items():
             d["model"].eval()
-            weights = {k: v.detach().cpu().numpy().astype("float32")
-                       for k, v in d["model"].state_dict().items()}
+            weights = {k: v.detach().cpu().numpy().astype("float32") for k, v in d["model"].state_dict().items()}
             nodes[node] = {
                 "weights": weights,
                 "scaler_mean": np.asarray(d["scaler"].mean_, dtype="float32"),

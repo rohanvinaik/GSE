@@ -20,12 +20,16 @@ from gse.curation.external_sources.comparator import (
 
 def mk_disagreement(prim="GOOD", llm=1, ext=-1, src="verbnet", sev="sign_flip"):
     return DisagreementRecord(
-        primitive=prim, llm_value=llm, external_value=ext,
-        external_source=src, severity=sev,
+        primitive=prim,
+        llm_value=llm,
+        external_value=ext,
+        external_source=src,
+        severity=sev,
     )
 
 
 # ---------- DisagreementRecord ----------
+
 
 class TestDisagreementRecord:
     def test_construction(self):
@@ -47,6 +51,7 @@ class TestDisagreementRecord:
 
 # ---------- ComparisonResult ----------
 
+
 class TestComparisonResult:
     def test_defaults(self):
         r = ComparisonResult(word="x", llm_primitives={}, external_primitives={})
@@ -60,33 +65,39 @@ class TestComparisonResult:
         assert r.agreement_rate == 0.0
 
     def test_agreement_rate_all_agree(self):
-        r = ComparisonResult(word="x", llm_primitives={}, external_primitives={},
-                             agreements=["A", "B"])
+        r = ComparisonResult(word="x", llm_primitives={}, external_primitives={}, agreements=["A", "B"])
         assert r.agreement_rate == 1.0
 
     def test_agreement_rate_mixed(self):
-        r = ComparisonResult(word="x", llm_primitives={}, external_primitives={},
-                             agreements=["A"], disagreements=[mk_disagreement()])
+        r = ComparisonResult(
+            word="x", llm_primitives={}, external_primitives={}, agreements=["A"], disagreements=[mk_disagreement()]
+        )
         assert r.agreement_rate == 0.5
 
     def test_major_disagreements_filter(self):
-        r = ComparisonResult(word="x", llm_primitives={}, external_primitives={},
-                             disagreements=[
-                                 mk_disagreement(sev="major"),
-                                 mk_disagreement(sev="minor"),
-                                 mk_disagreement(sev="sign_flip"),
-                             ])
+        r = ComparisonResult(
+            word="x",
+            llm_primitives={},
+            external_primitives={},
+            disagreements=[
+                mk_disagreement(sev="major"),
+                mk_disagreement(sev="minor"),
+                mk_disagreement(sev="sign_flip"),
+            ],
+        )
         major = r.major_disagreements
         assert len(major) == 2
         assert {d.severity for d in major} == {"major", "sign_flip"}
 
     def test_no_minor_in_major(self):
-        r = ComparisonResult(word="x", llm_primitives={}, external_primitives={},
-                             disagreements=[mk_disagreement(sev="minor")])
+        r = ComparisonResult(
+            word="x", llm_primitives={}, external_primitives={}, disagreements=[mk_disagreement(sev="minor")]
+        )
         assert r.major_disagreements == []
 
 
 # ---------- ExternalSourcesComparator.__init__ ----------
+
 
 class TestInit:
     def test_initial_state(self):
@@ -97,22 +108,23 @@ class TestInit:
 
 # ---------- load_all_sources ----------
 
+
 class TestLoadAllSources:
     def test_no_sources_available(self):
         # Patch every parser import to raise — comparator catches and continues
         c = ExternalSourcesComparator()
-        with patch("gse.curation.external_sources.sentiwordnet.SentiWordNetParser",
-                   side_effect=ImportError("nope")):
-            with patch("gse.curation.external_sources.nrc_emotion.NRCEmotionParser",
-                       side_effect=ImportError("nope")):
-                with patch("gse.curation.external_sources.nrc_vad.NRCVADParser",
-                           side_effect=ImportError("nope")):
-                    with patch("gse.curation.external_sources.verbnet.VerbNetParser",
-                               side_effect=ImportError("nope")):
-                        with patch("gse.curation.external_sources.concreteness.ConcretenessParser",
-                                   side_effect=ImportError("nope")):
-                            with patch("gse.curation.external_sources.lancaster_sensorimotor.LancasterSensorimotorParser",
-                                       side_effect=ImportError("nope")):
+        with patch("gse.curation.external_sources.sentiwordnet.SentiWordNetParser", side_effect=ImportError("nope")):
+            with patch("gse.curation.external_sources.nrc_emotion.NRCEmotionParser", side_effect=ImportError("nope")):
+                with patch("gse.curation.external_sources.nrc_vad.NRCVADParser", side_effect=ImportError("nope")):
+                    with patch("gse.curation.external_sources.verbnet.VerbNetParser", side_effect=ImportError("nope")):
+                        with patch(
+                            "gse.curation.external_sources.concreteness.ConcretenessParser",
+                            side_effect=ImportError("nope"),
+                        ):
+                            with patch(
+                                "gse.curation.external_sources.lancaster_sensorimotor.LancasterSensorimotorParser",
+                                side_effect=ImportError("nope"),
+                            ):
                                 stats = c.load_all_sources()
         assert stats == {}
         assert c._loaded is True
@@ -122,18 +134,18 @@ class TestLoadAllSources:
         mock_parser = MagicMock()
         mock_parser.load.return_value = True
         mock_parser.entries = {"happy": []}
-        with patch("gse.curation.external_sources.sentiwordnet.SentiWordNetParser",
-                   return_value=mock_parser):
-            with patch("gse.curation.external_sources.nrc_emotion.NRCEmotionParser",
-                       side_effect=ImportError("nope")):
-                with patch("gse.curation.external_sources.nrc_vad.NRCVADParser",
-                           side_effect=ImportError("nope")):
-                    with patch("gse.curation.external_sources.verbnet.VerbNetParser",
-                               side_effect=ImportError("nope")):
-                        with patch("gse.curation.external_sources.concreteness.ConcretenessParser",
-                                   side_effect=ImportError("nope")):
-                            with patch("gse.curation.external_sources.lancaster_sensorimotor.LancasterSensorimotorParser",
-                                       side_effect=ImportError("nope")):
+        with patch("gse.curation.external_sources.sentiwordnet.SentiWordNetParser", return_value=mock_parser):
+            with patch("gse.curation.external_sources.nrc_emotion.NRCEmotionParser", side_effect=ImportError("nope")):
+                with patch("gse.curation.external_sources.nrc_vad.NRCVADParser", side_effect=ImportError("nope")):
+                    with patch("gse.curation.external_sources.verbnet.VerbNetParser", side_effect=ImportError("nope")):
+                        with patch(
+                            "gse.curation.external_sources.concreteness.ConcretenessParser",
+                            side_effect=ImportError("nope"),
+                        ):
+                            with patch(
+                                "gse.curation.external_sources.lancaster_sensorimotor.LancasterSensorimotorParser",
+                                side_effect=ImportError("nope"),
+                            ):
                                 stats = c.load_all_sources()
         assert stats["sentiwordnet"] == 1
         assert "sentiwordnet" in c.parsers
@@ -142,24 +154,24 @@ class TestLoadAllSources:
         c = ExternalSourcesComparator()
         mock_parser = MagicMock()
         mock_parser.load.return_value = False  # Load failed
-        with patch("gse.curation.external_sources.sentiwordnet.SentiWordNetParser",
-                   return_value=mock_parser):
-            with patch("gse.curation.external_sources.nrc_emotion.NRCEmotionParser",
-                       side_effect=ImportError):
-                with patch("gse.curation.external_sources.nrc_vad.NRCVADParser",
-                           side_effect=ImportError):
-                    with patch("gse.curation.external_sources.verbnet.VerbNetParser",
-                               side_effect=ImportError):
-                        with patch("gse.curation.external_sources.concreteness.ConcretenessParser",
-                                   side_effect=ImportError):
-                            with patch("gse.curation.external_sources.lancaster_sensorimotor.LancasterSensorimotorParser",
-                                       side_effect=ImportError):
+        with patch("gse.curation.external_sources.sentiwordnet.SentiWordNetParser", return_value=mock_parser):
+            with patch("gse.curation.external_sources.nrc_emotion.NRCEmotionParser", side_effect=ImportError):
+                with patch("gse.curation.external_sources.nrc_vad.NRCVADParser", side_effect=ImportError):
+                    with patch("gse.curation.external_sources.verbnet.VerbNetParser", side_effect=ImportError):
+                        with patch(
+                            "gse.curation.external_sources.concreteness.ConcretenessParser", side_effect=ImportError
+                        ):
+                            with patch(
+                                "gse.curation.external_sources.lancaster_sensorimotor.LancasterSensorimotorParser",
+                                side_effect=ImportError,
+                            ):
                                 stats = c.load_all_sources()
         assert "sentiwordnet" not in stats
         assert "sentiwordnet" not in c.parsers
 
 
 # ---------- get_external_primitives ----------
+
 
 class TestGetExternalPrimitives:
     def test_no_parsers_empty(self):
@@ -202,6 +214,7 @@ class TestGetExternalPrimitives:
 
 
 # ---------- compare ----------
+
 
 class TestCompare:
     def _make_comparator(self, external_data):
@@ -260,10 +273,12 @@ class TestCompare:
 
     def test_dedup_agreements(self):
         # Two sources both agree on GOOD=1 → only one in agreements list
-        c = self._make_comparator({
-            "s1": {"GOOD": 1},
-            "s2": {"GOOD": 1},
-        })
+        c = self._make_comparator(
+            {
+                "s1": {"GOOD": 1},
+                "s2": {"GOOD": 1},
+            }
+        )
         result = c.compare("x", {"GOOD": 1})
         assert result.agreements == ["GOOD"]  # not duplicated
 
@@ -312,6 +327,7 @@ class TestCompare:
 
 # ---------- compare_batch ----------
 
+
 class TestCompareBatch:
     def test_empty(self):
         c = ExternalSourcesComparator()
@@ -329,6 +345,7 @@ class TestCompareBatch:
 
 # ---------- get_high_confidence_disagreements ----------
 
+
 class TestGetHighConfidenceDisagreements:
     def test_empty(self):
         c = ExternalSourcesComparator()
@@ -337,7 +354,9 @@ class TestGetHighConfidenceDisagreements:
     def test_multiple_sources_agree_on_disagreement(self):
         # 2 sources both say GOOD=-1, LLM says GOOD=1 → high-conf disagreement
         result = ComparisonResult(
-            word="x", llm_primitives={"GOOD": 1}, external_primitives={},
+            word="x",
+            llm_primitives={"GOOD": 1},
+            external_primitives={},
             disagreements=[
                 mk_disagreement(prim="GOOD", llm=1, ext=-1, src="s1"),
                 mk_disagreement(prim="GOOD", llm=1, ext=-1, src="s2"),
@@ -351,7 +370,9 @@ class TestGetHighConfidenceDisagreements:
     def test_sources_disagree_with_each_other_excluded(self):
         # Sources have different ext_values → not high-conf
         result = ComparisonResult(
-            word="x", llm_primitives={"GOOD": 1}, external_primitives={},
+            word="x",
+            llm_primitives={"GOOD": 1},
+            external_primitives={},
             disagreements=[
                 mk_disagreement(prim="GOOD", ext=-1, src="s1"),
                 mk_disagreement(prim="GOOD", ext=0, src="s2"),  # different value
@@ -362,7 +383,9 @@ class TestGetHighConfidenceDisagreements:
 
     def test_min_sources_filter(self):
         result = ComparisonResult(
-            word="x", llm_primitives={}, external_primitives={},
+            word="x",
+            llm_primitives={},
+            external_primitives={},
             disagreements=[mk_disagreement(src="s1")],  # only 1 source
         )
         c = ExternalSourcesComparator()
@@ -371,7 +394,9 @@ class TestGetHighConfidenceDisagreements:
 
     def test_custom_min_sources(self):
         result = ComparisonResult(
-            word="x", llm_primitives={}, external_primitives={},
+            word="x",
+            llm_primitives={},
+            external_primitives={},
             disagreements=[mk_disagreement(src="s1")],
         )
         c = ExternalSourcesComparator()
@@ -382,6 +407,7 @@ class TestGetHighConfidenceDisagreements:
 
 # ---------- generate_report ----------
 
+
 class TestGenerateReport:
     def test_empty(self):
         c = ExternalSourcesComparator()
@@ -389,11 +415,8 @@ class TestGenerateReport:
         assert "Total words analyzed: 0" in report
 
     def test_summary_counts(self):
-        r1 = ComparisonResult(word="a", llm_primitives={},
-                              external_primitives={"s1": {}},
-                              needs_review=True)
-        r2 = ComparisonResult(word="b", llm_primitives={},
-                              external_primitives={})
+        r1 = ComparisonResult(word="a", llm_primitives={}, external_primitives={"s1": {}}, needs_review=True)
+        r2 = ComparisonResult(word="b", llm_primitives={}, external_primitives={})
         c = ExternalSourcesComparator()
         report = c.generate_report({"a": r1, "b": r2})
         assert "Total words analyzed: 2" in report
@@ -402,7 +425,9 @@ class TestGenerateReport:
 
     def test_includes_high_conf_section(self):
         result = ComparisonResult(
-            word="x", llm_primitives={}, external_primitives={},
+            word="x",
+            llm_primitives={},
+            external_primitives={},
             disagreements=[
                 mk_disagreement(prim="GOOD", ext=-1, src="s1"),
                 mk_disagreement(prim="GOOD", ext=-1, src="s2"),
@@ -417,7 +442,9 @@ class TestGenerateReport:
         results = {}
         for i in range(30):
             r = ComparisonResult(
-                word=f"w{i}", llm_primitives={}, external_primitives={},
+                word=f"w{i}",
+                llm_primitives={},
+                external_primitives={},
                 disagreements=[
                     mk_disagreement(prim="P", ext=-1, src="s1"),
                     mk_disagreement(prim="P", ext=-1, src="s2"),
@@ -427,13 +454,14 @@ class TestGenerateReport:
         c = ExternalSourcesComparator()
         report = c.generate_report(results)
         # Should be 20 entries in high-conf section
-        high_conf_lines = [l for l in report.split("\n")
-                           if l.startswith("- **w")]
+        high_conf_lines = [l for l in report.split("\n") if l.startswith("- **w")]
         assert len(high_conf_lines) == 20
 
     def test_words_needing_review_section(self):
         r = ComparisonResult(
-            word="x", llm_primitives={}, external_primitives={"s1": {}},
+            word="x",
+            llm_primitives={},
+            external_primitives={"s1": {}},
             needs_review=True,
             disagreements=[mk_disagreement(sev="major")],
         )
@@ -477,7 +505,9 @@ class TestGenerateReport:
 
     def test_exact_high_conf_header(self):
         result = ComparisonResult(
-            word="x", llm_primitives={}, external_primitives={},
+            word="x",
+            llm_primitives={},
+            external_primitives={},
             disagreements=[
                 mk_disagreement(prim="GOOD", ext=-1, src="s1"),
                 mk_disagreement(prim="GOOD", ext=-1, src="s2"),
@@ -489,7 +519,9 @@ class TestGenerateReport:
 
     def test_exact_high_conf_description_line(self):
         result = ComparisonResult(
-            word="x", llm_primitives={}, external_primitives={},
+            word="x",
+            llm_primitives={},
+            external_primitives={},
             disagreements=[
                 mk_disagreement(prim="P", ext=-1, src="s1"),
                 mk_disagreement(prim="P", ext=-1, src="s2"),
@@ -501,7 +533,9 @@ class TestGenerateReport:
 
     def test_exact_review_section_header(self):
         r = ComparisonResult(
-            word="x", llm_primitives={}, external_primitives={"s1": {}},
+            word="x",
+            llm_primitives={},
+            external_primitives={"s1": {}},
             needs_review=True,
             disagreements=[mk_disagreement(sev="major")],
         )
@@ -512,7 +546,9 @@ class TestGenerateReport:
     def test_exact_review_word_format(self):
         # Pin exact format "- **word**: N major disagreements"
         r = ComparisonResult(
-            word="happy", llm_primitives={}, external_primitives={"s1": {}},
+            word="happy",
+            llm_primitives={},
+            external_primitives={"s1": {}},
             needs_review=True,
             disagreements=[
                 mk_disagreement(sev="major"),
@@ -526,7 +562,9 @@ class TestGenerateReport:
     def test_exact_review_indent(self):
         # Sub-disagreement indent is 2 spaces
         r = ComparisonResult(
-            word="happy", llm_primitives={}, external_primitives={"s1": {}},
+            word="happy",
+            llm_primitives={},
+            external_primitives={"s1": {}},
             needs_review=True,
             disagreements=[mk_disagreement(prim="GOOD", sev="major", llm=1, ext=-1)],
         )
@@ -549,7 +587,9 @@ class TestGenerateReport:
     def test_blank_lines_around_high_conf(self):
         # After "Multiple external sources..." should be blank line, then items
         result = ComparisonResult(
-            word="x", llm_primitives={}, external_primitives={},
+            word="x",
+            llm_primitives={},
+            external_primitives={},
             disagreements=[
                 mk_disagreement(prim="P", ext=-1, src="s1"),
                 mk_disagreement(prim="P", ext=-1, src="s2"),
@@ -573,7 +613,9 @@ class TestGenerateReport:
         # Only first 3 major disagreements shown per word
         disagrees = [mk_disagreement(prim=f"P{i}", sev="major") for i in range(5)]
         r = ComparisonResult(
-            word="x", llm_primitives={}, external_primitives={"s1": {}},
+            word="x",
+            llm_primitives={},
+            external_primitives={"s1": {}},
             needs_review=True,
             disagreements=disagrees,
         )
@@ -585,6 +627,7 @@ class TestGenerateReport:
 
 # ---------- integrate_comparison_into_pipeline ----------
 
+
 class TestIntegrateComparison:
     def test_runs_without_error(self, capsys):
         mock_llm = MagicMock()
@@ -593,7 +636,9 @@ class TestIntegrateComparison:
             with patch.object(ExternalSourcesComparator, "load_all_sources"):
                 with patch.object(ExternalSourcesComparator, "compare") as mock_compare:
                     mock_result = ComparisonResult(
-                        word="happy", llm_primitives={}, external_primitives={},
+                        word="happy",
+                        llm_primitives={},
+                        external_primitives={},
                         agreements=["GOOD"],
                         confidence_adjustment=0.5,
                     )
@@ -610,7 +655,9 @@ class TestIntegrateComparison:
             with patch.object(ExternalSourcesComparator, "load_all_sources"):
                 with patch.object(ExternalSourcesComparator, "compare") as mock_compare:
                     mock_result = ComparisonResult(
-                        word="happy", llm_primitives={}, external_primitives={},
+                        word="happy",
+                        llm_primitives={},
+                        external_primitives={},
                         disagreements=[mk_disagreement()],
                     )
                     mock_compare.return_value = mock_result

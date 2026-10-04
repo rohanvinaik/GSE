@@ -20,6 +20,7 @@ from gse.encoders.sentence_encoder import EmotionalRegister, Modality, Rhetorica
 
 class MockEncoder:
     """Mock word encoder for testing."""
+
     def encode(self, text):
         seed = int(hashlib.md5(text.lower().encode()).hexdigest()[:8], 16)
         torch.manual_seed(seed)
@@ -165,7 +166,10 @@ class TestConversationEncoder:
     def test_gestalt_emergence(self, conversation_encoder):
         """Should detect gestalt emergence points."""
         conv = [
-            {"speaker": "user", "content": "I'm trying to articulate something. It's like there's this shape I can feel."},
+            {
+                "speaker": "user",
+                "content": "I'm trying to articulate something. It's like there's this shape I can feel.",
+            },
             {"speaker": "assistant", "content": "Tell me more about that feeling."},
             {"speaker": "user", "content": "It's hard to explain. The pattern is becoming clearer now."},
         ]
@@ -200,8 +204,7 @@ class TestIntegration:
         assert enc.structure.intensity_trajectory.peak_index >= 0
 
         # Should detect rhetorical questions
-        rhet_funcs = [s.structure.rhetorical_function
-                      for s in enc.structure.sentence_encodings]
+        rhet_funcs = [s.structure.rhetorical_function for s in enc.structure.sentence_encodings]
         assert RhetoricalFunction.QUESTION in rhet_funcs
 
     def test_philosophical_paragraph(self, paragraph_encoder):

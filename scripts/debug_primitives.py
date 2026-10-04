@@ -32,21 +32,26 @@ def check_bipolar_violations(conn) -> list:
     violations = []
 
     for pole_a, pole_b in BIPOLAR_PAIRS:
-        cursor = conn.execute("""
+        cursor = conn.execute(
+            """
             SELECT l.lemma, pa.value as val_a, pb.value as val_b
             FROM lexemes l
             JOIN primitive_values pa ON l.id = pa.lexeme_id AND pa.primitive = ?
             JOIN primitive_values pb ON l.id = pb.lexeme_id AND pb.primitive = ?
             WHERE pa.value != 0 AND pb.value != 0
             ORDER BY l.frequency_rank
-        """, (pole_a, pole_b))
+        """,
+            (pole_a, pole_b),
+        )
 
         for lemma, val_a, val_b in cursor.fetchall():
-            violations.append({
-                "word": lemma,
-                "pair": f"{pole_a}/{pole_b}",
-                "values": f"{val_a}/{val_b}",
-            })
+            violations.append(
+                {
+                    "word": lemma,
+                    "pair": f"{pole_a}/{pole_b}",
+                    "values": f"{val_a}/{val_b}",
+                }
+            )
 
     return violations
 
@@ -63,13 +68,13 @@ def check_primitive_distribution(conn) -> dict:
         ORDER BY positive + negative DESC
     """)
 
-    return {row[0]: {"pos": row[1], "neg": row[2], "zero": row[3]}
-            for row in cursor.fetchall()}
+    return {row[0]: {"pos": row[1], "neg": row[2], "zero": row[3]} for row in cursor.fetchall()}
 
 
 def check_words_by_active_count(conn, min_active: int = 0, max_active: int = 100) -> list:
     """Find words with unusual number of active primitives."""
-    cursor = conn.execute("""
+    cursor = conn.execute(
+        """
         SELECT l.lemma, l.frequency_rank,
                SUM(CASE WHEN p.value != 0 THEN 1 ELSE 0 END) as active_count
         FROM lexemes l
@@ -78,43 +83,52 @@ def check_words_by_active_count(conn, min_active: int = 0, max_active: int = 100
         HAVING active_count >= ? AND active_count <= ?
         ORDER BY active_count DESC, l.frequency_rank
         LIMIT 50
-    """, (min_active, max_active))
+    """,
+        (min_active, max_active),
+    )
 
-    return [{"word": row[0], "rank": row[1], "active": row[2]}
-            for row in cursor.fetchall()]
+    return [{"word": row[0], "rank": row[1], "active": row[2]} for row in cursor.fetchall()]
 
 
 def show_word_decomposition(conn, word: str):
     """Show full decomposition for a word."""
-    cursor = conn.execute("""
+    cursor = conn.execute(
+        """
         SELECT p.primitive, p.value, p.confidence, p.source
         FROM lexemes l
         JOIN primitive_values p ON l.id = p.lexeme_id
         WHERE l.lemma = ?
         ORDER BY p.primitive
-    """, (word,))
+    """,
+        (word,),
+    )
 
     active = []
     for prim, val, conf, source in cursor.fetchall():
         if val != 0:
-            active.append({
-                "primitive": prim,
-                "value": val,
-                "confidence": conf,
-                "source": source,
-            })
+            active.append(
+                {
+                    "primitive": prim,
+                    "value": val,
+                    "confidence": conf,
+                    "source": source,
+                }
+            )
 
     return active
 
 
 def check_source_agreement(conn, word: str) -> dict:
     """Check if different sources agree for a word."""
-    cursor = conn.execute("""
+    cursor = conn.execute(
+        """
         SELECT p.primitive, p.value, p.source
         FROM lexemes l
         JOIN primitive_values p ON l.id = p.lexeme_id
         WHERE l.lemma = ?
-    """, (word,))
+    """,
+        (word,),
+    )
 
     by_primitive = defaultdict(list)
     for prim, val, source in cursor.fetchall():
@@ -126,8 +140,7 @@ def check_source_agreement(conn, word: str) -> dict:
 def main():
     parser = argparse.ArgumentParser(description="Debug primitive decompositions")
     parser.add_argument("--db", default="data/lexicon.db")
-    parser.add_argument("--check", choices=["bipolar", "distribution", "active", "word", "all"],
-                        default="all")
+    parser.add_argument("--check", choices=["bipolar", "distribution", "active", "word", "all"], default="all")
     parser.add_argument("--word", help="Specific word to inspect")
     parser.add_argument("--min-active", type=int, default=10, help="Min active for check")
     parser.add_argument("--max-active", type=int, default=100, help="Max active for check")

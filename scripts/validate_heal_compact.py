@@ -9,6 +9,7 @@ graph.emit() = the compact INPUT → compress() = the compact OUTPUT. Reports: h
 specialist applied, how many came from the trained K-line (vs the fold), and shows the K-line-healed
 events that reach the compactor.
 """
+
 from __future__ import annotations
 
 import sys
@@ -28,17 +29,20 @@ EVAL = GSE_ROOT / "data" / "eval_corpus"
 
 
 def ev_str(c):
-    p = c.get("predicate", c); a = p.get("args", []); f = p.get("features", {})
+    p = c.get("predicate", c)
+    a = p.get("args", [])
+    f = p.get("features", {})
     if p.get("op") != "EVENT":
         return None
     ag = a[0].get("lemma") if a and isinstance(a[0], dict) else "?"
-    return f"{ag} —{f.get('verb','?')}→"
+    return f"{ag} —{f.get('verb', '?')}→"
 
 
 def _docs(brown):
     if brown:
         sys.path.insert(0, str(GSE_ROOT / "data" / "healer_training"))
         from harvest_taxonomy import complete_docs
+
         for genre, _src, doc_id, sents in complete_docs(brown):
             yield f"{genre}/{doc_id}", sents
     else:
@@ -48,11 +52,14 @@ def _docs(brown):
 
 def main() -> int:
     import argparse
+
     ap = argparse.ArgumentParser()
     ap.add_argument("--brown", type=int, default=0, help="docs/genre from Brown (0 = the 5 eval stories)")
     args = ap.parse_args()
     mem = default_memory(name="baseline")
-    print(f"  trained library: {default_memory_path('baseline')} -> {'LOADED %d cases' % len(mem) if mem else 'ABSENT'}\n")
+    print(
+        f"  trained library: {default_memory_path('baseline')} -> {'LOADED %d cases' % len(mem) if mem else 'ABSENT'}\n"
+    )
     enc = GSEEncoder()
     fires, kline = Counter(), Counter()
     per_story = []
@@ -74,7 +81,8 @@ def main() -> int:
         for _t, lens, note in rep.repairs:
             fires[lens] += 1
             if "k-line recall" in (note or ""):
-                kline[lens] += 1; nk += 1
+                kline[lens] += 1
+                nk += 1
                 if len(kline_events) < 30:
                     kline_events.append((name, note))
         per_story.append((name, rep.seen, len(rep.repairs), nk, len(raw), len(out)))

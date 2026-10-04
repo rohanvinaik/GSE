@@ -35,14 +35,38 @@ _COORDINATOR_LEMMAS = frozenset({"and", "or"})
 # night", "everything") mark where one NP ends and the next begins — the structural cue the
 # multi-argument split uses to separate a ditransitive's recipient+theme / an object+adjunct
 # that the role-blind argument window swept into one span.
-_POSSESSIVE_DETERMINERS = frozenset({
-    "his", "her", "hers", "its", "their", "theirs",
-    "my", "mine", "our", "ours", "your", "yours",
-})
-_PRONOUN_LEMMAS = frozenset({
-    "he", "she", "it", "they", "him", "her", "them",
-    "his", "hers", "its", "their", "theirs",
-})
+_POSSESSIVE_DETERMINERS = frozenset(
+    {
+        "his",
+        "her",
+        "hers",
+        "its",
+        "their",
+        "theirs",
+        "my",
+        "mine",
+        "our",
+        "ours",
+        "your",
+        "yours",
+    }
+)
+_PRONOUN_LEMMAS = frozenset(
+    {
+        "he",
+        "she",
+        "it",
+        "they",
+        "him",
+        "her",
+        "them",
+        "his",
+        "hers",
+        "its",
+        "their",
+        "theirs",
+    }
+)
 
 
 @dataclass(frozen=True)
@@ -71,6 +95,7 @@ class Entity:
             *structure* (one slot) decides it is one unit; identity keys off the
             span, so "Lady Macbeth" ≠ "Macbeth" even before either grounds.
     """
+
     head: Atom
     possessor: Optional["Entity"] = None
     role: Optional[str] = None
@@ -98,6 +123,7 @@ class Coordination:
     (e.g. "Spot and Rex are *cuter* than the cat") so ``axis_of_comparison``
     can still recover it after resolution.
     """
+
     members: tuple
     conjunction: str = "and"
     modifier: Optional[Atom] = None
@@ -116,6 +142,7 @@ class ArgSplit:
     role-split); for a fixed-arity operator only the primary (first) member is kept so arity
     is preserved. It never survives ``resolve`` — pronoun binding and emit never see it.
     """
+
     members: tuple
 
 
@@ -146,10 +173,7 @@ def _is_np_starter(atom: Atom) -> bool:
     These are the boundary cues that separate the constituents the role-blind argument
     window merged ("Lady Macbeth | a letter", "his wife | everything", "Macbeth | that night").
     """
-    return (
-        atom.pos in ("DET", "PRON")
-        or atom.lemma in _POSSESSIVE_DETERMINERS
-    )
+    return atom.pos in ("DET", "PRON") or atom.lemma in _POSSESSIVE_DETERMINERS
 
 
 def _split_into_np_segments(atoms) -> Optional[List[List[Atom]]]:
@@ -206,16 +230,14 @@ def _collapse_phrase_to_entity(phrase: Phrase) -> Expression:
     modifier = _first_adj_or_adv(atoms)
 
     # Find any possessive marker positions
-    possessive_indices = [
-        i for i, a in enumerate(atoms) if _is_possessive_marker(a)
-    ]
+    possessive_indices = [i for i, a in enumerate(atoms) if _is_possessive_marker(a)]
     if possessive_indices:
         # Take the first possessive split: everything left is the
         # possessor span; everything right (after dropping the 's) is
         # the head span.
         split_idx = possessive_indices[0]
         left = atoms[:split_idx]
-        right = atoms[split_idx + 1:]
+        right = atoms[split_idx + 1 :]
         possessor_entity = _collapse_phrase_to_entity(Phrase(atoms=left))
         head_entity = _collapse_phrase_to_entity(Phrase(atoms=right))
         if isinstance(head_entity, Entity) and isinstance(possessor_entity, Entity):
@@ -234,18 +256,13 @@ def _collapse_phrase_to_entity(phrase: Phrase) -> Expression:
     # set-union of entities ("Spot and Rex"), not a single entity. Build a
     # Coordination over each entity atom rather than dropping all but one.
     coordinator = next(
-        (a for a in atoms
-         if a.pos == "CCONJ" and a.lemma in _COORDINATOR_LEMMAS),
+        (a for a in atoms if a.pos == "CCONJ" and a.lemma in _COORDINATOR_LEMMAS),
         None,
     )
     entity_atoms = [a for a in atoms if _is_entity_atom(a)]
     if coordinator is not None and len(entity_atoms) > 1:
-        members = tuple(
-            Entity(head=a, role=a.role) for a in entity_atoms
-        )
-        return Coordination(
-            members=members, conjunction=coordinator.lemma, modifier=modifier
-        )
+        members = tuple(Entity(head=a, role=a.role) for a in entity_atoms)
+        return Coordination(members=members, conjunction=coordinator.lemma, modifier=modifier)
 
     # No possessive — pick the entity head (rightmost entity atom).
     if len(entity_atoms) == 1:
@@ -263,9 +280,7 @@ def _collapse_phrase_to_entity(phrase: Phrase) -> Expression:
         # determiner boundary) does NOT split and falls through to the demi-word below.
         segments = _split_into_np_segments(atoms)
         if segments:
-            members = tuple(
-                _collapse_phrase_to_entity(Phrase(atoms=seg)) for seg in segments
-            )
+            members = tuple(_collapse_phrase_to_entity(Phrase(atoms=seg)) for seg in segments)
             members = tuple(m for m in members if isinstance(m, (Entity, Coordination)))
             if len(members) >= 2:
                 return ArgSplit(members=members)
@@ -340,8 +355,8 @@ def _bind_pronouns(expr: Expression) -> Expression:
         for prior in reversed(seen_entities):
             if _is_pronoun_atom(prior.head):
                 continue
-            if prior.head.lemma in excluded:       # by referent (lemma), not atom id:
-                continue                            # the co-arg may recur as a distinct atom
+            if prior.head.lemma in excluded:  # by referent (lemma), not atom id:
+                continue  # the co-arg may recur as a distinct atom
             return Entity(head=prior.head, possessor=prior.possessor, role=e.role)
         return e
 
@@ -352,7 +367,7 @@ def _bind_pronouns(expr: Expression) -> Expression:
             if _is_pronoun_atom(e.head):
                 bound = _bind_one(e, set())
                 if bound is e:
-                    seen_entities.append(e)        # unresolved → still a referent slot
+                    seen_entities.append(e)  # unresolved → still a referent slot
                 return bound
             seen_entities.append(e)
             return e
@@ -364,7 +379,9 @@ def _bind_pronouns(expr: Expression) -> Expression:
             # because he was tired" → he = Mike); bind those by plain recency.
             if e.operation != "EVENT":
                 return Op(
-                    primitive=e.primitive, operation=e.operation, arity=e.arity,
+                    primitive=e.primitive,
+                    operation=e.operation,
+                    arity=e.arity,
                     args=[_walk(a) for a in e.args],
                 )
             new_args: List[Expression] = [None] * len(e.args)  # type: ignore[list-item]
@@ -383,9 +400,9 @@ def _bind_pronouns(expr: Expression) -> Expression:
                     continue
                 bound = _bind_one(a, excluded)
                 new_args[i] = bound
-                if bound is a:                      # unresolved → still a referent slot
+                if bound is a:  # unresolved → still a referent slot
                     seen_entities.append(a)
-                else:                               # bound: next sibling pronoun avoids it
+                else:  # bound: next sibling pronoun avoids it
                     excluded.add(bound.head.lemma)
             return Op(
                 primitive=e.primitive,

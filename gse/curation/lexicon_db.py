@@ -18,6 +18,7 @@ from gse.curation.schema import (
 @dataclass
 class LexemeEntry:
     """A lexeme entry with its decomposition."""
+
     id: int
     lemma: str
     pos: str
@@ -36,6 +37,7 @@ class LexemeEntry:
 @dataclass
 class ValidationResult:
     """Result of a validation check."""
+
     passed: bool
     validation_type: str
     violations: List[Dict[str, Any]] = field(default_factory=list)
@@ -101,8 +103,7 @@ class LexiconDatabase:
                 frequency_rank, frequency_weight, phase
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
-            (lemma, pos, sense_id, gloss, source, confidence,
-             frequency_rank, frequency_weight, phase)
+            (lemma, pos, sense_id, gloss, source, confidence, frequency_rank, frequency_weight, phase),
         )
         self.conn.commit()
         return cursor.lastrowid
@@ -110,15 +111,9 @@ class LexiconDatabase:
     def get_lexeme(self, lemma: str, pos: Optional[str] = None) -> Optional[LexemeEntry]:
         """Get a lexeme by lemma (and optionally pos)."""
         if pos:
-            cursor = self.conn.execute(
-                "SELECT * FROM lexemes WHERE lemma = ? AND pos = ?",
-                (lemma, pos)
-            )
+            cursor = self.conn.execute("SELECT * FROM lexemes WHERE lemma = ? AND pos = ?", (lemma, pos))
         else:
-            cursor = self.conn.execute(
-                "SELECT * FROM lexemes WHERE lemma = ?",
-                (lemma,)
-            )
+            cursor = self.conn.execute("SELECT * FROM lexemes WHERE lemma = ?", (lemma,))
         row = cursor.fetchone()
         if row is None:
             return None
@@ -130,10 +125,7 @@ class LexiconDatabase:
 
     def get_lexeme_by_id(self, lexeme_id: int) -> Optional[LexemeEntry]:
         """Get a lexeme by ID."""
-        cursor = self.conn.execute(
-            "SELECT * FROM lexemes WHERE id = ?",
-            (lexeme_id,)
-        )
+        cursor = self.conn.execute("SELECT * FROM lexemes WHERE id = ?", (lexeme_id,))
         row = cursor.fetchone()
         if row is None:
             return None
@@ -187,10 +179,7 @@ class LexiconDatabase:
         if updates:
             updates.append("updated_at = CURRENT_TIMESTAMP")
             params.append(lexeme_id)
-            self.conn.execute(
-                f"UPDATE lexemes SET {', '.join(updates)} WHERE id = ?",
-                params
-            )
+            self.conn.execute(f"UPDATE lexemes SET {', '.join(updates)} WHERE id = ?", params)
             self.conn.commit()
 
     def update_frequency(
@@ -206,7 +195,7 @@ class LexiconDatabase:
             SET frequency_rank = ?, frequency_weight = ?, updated_at = CURRENT_TIMESTAMP
             WHERE lemma = ?
             """,
-            (frequency_rank, frequency_weight, lemma)
+            (frequency_rank, frequency_weight, lemma),
         )
         self.conn.commit()
 
@@ -236,10 +225,7 @@ class LexiconDatabase:
         full_decomp = {prim: decomposition.get(prim, 0) for prim in ALL_PRIMITIVES}
 
         # Delete existing decomposition
-        self.conn.execute(
-            "DELETE FROM primitive_values WHERE lexeme_id = ?",
-            (lexeme_id,)
-        )
+        self.conn.execute("DELETE FROM primitive_values WHERE lexeme_id = ?", (lexeme_id,))
 
         # Insert all 72 primitive values
         for primitive, value in full_decomp.items():
@@ -249,17 +235,14 @@ class LexiconDatabase:
                 INSERT INTO primitive_values (lexeme_id, primitive, value, confidence, source)
                 VALUES (?, ?, ?, ?, ?)
                 """,
-                (lexeme_id, primitive, value, conf, source)
+                (lexeme_id, primitive, value, conf, source),
             )
 
         self.conn.commit()
 
     def get_decomposition(self, lexeme_id: int) -> Dict[str, int]:
         """Get the full decomposition for a lexeme."""
-        cursor = self.conn.execute(
-            "SELECT primitive, value FROM primitive_values WHERE lexeme_id = ?",
-            (lexeme_id,)
-        )
+        cursor = self.conn.execute("SELECT primitive, value FROM primitive_values WHERE lexeme_id = ?", (lexeme_id,))
         decomp = {row["primitive"]: row["value"] for row in cursor.fetchall()}
 
         # Fill missing primitives with 0
@@ -272,16 +255,14 @@ class LexiconDatabase:
     def get_primitive_confidences(self, lexeme_id: int) -> Dict[str, float]:
         """Get per-primitive confidences for a lexeme."""
         cursor = self.conn.execute(
-            "SELECT primitive, confidence FROM primitive_values WHERE lexeme_id = ?",
-            (lexeme_id,)
+            "SELECT primitive, confidence FROM primitive_values WHERE lexeme_id = ?", (lexeme_id,)
         )
         return {row["primitive"]: row["confidence"] for row in cursor.fetchall()}
 
     def get_active_primitives(self, lexeme_id: int) -> Dict[str, int]:
         """Get only the non-zero primitives for a lexeme."""
         cursor = self.conn.execute(
-            "SELECT primitive, value FROM primitive_values WHERE lexeme_id = ? AND value != 0",
-            (lexeme_id,)
+            "SELECT primitive, value FROM primitive_values WHERE lexeme_id = ? AND value != 0", (lexeme_id,)
         )
         return {row["primitive"]: row["value"] for row in cursor.fetchall()}
 
@@ -302,7 +283,7 @@ class LexiconDatabase:
                 WHERE frequency_rank >= ?
                 ORDER BY frequency_rank
                 """,
-                (start_rank,)
+                (start_rank,),
             )
         else:
             cursor = self.conn.execute(
@@ -311,7 +292,7 @@ class LexiconDatabase:
                 WHERE frequency_rank >= ? AND frequency_rank <= ?
                 ORDER BY frequency_rank
                 """,
-                (start_rank, end_rank)
+                (start_rank, end_rank),
             )
         return [dict(row) for row in cursor.fetchall()]
 
@@ -349,7 +330,7 @@ class LexiconDatabase:
                 WHERE validation_status = 'validated' AND phase = ?
                 ORDER BY frequency_rank
                 """,
-                (phase,)
+                (phase,),
             )
         else:
             cursor = self.conn.execute(
@@ -379,7 +360,7 @@ class LexiconDatabase:
             FROM lexemes
             WHERE phase = ?
             """,
-            (phase,)
+            (phase,),
         )
         row = cursor.fetchone()
         return {
@@ -406,7 +387,7 @@ class LexiconDatabase:
             INSERT INTO validation_results (lexeme_id, validation_type, passed, details)
             VALUES (?, ?, ?, ?)
             """,
-            (lexeme_id, validation_type, passed, details)
+            (lexeme_id, validation_type, passed, details),
         )
         self.conn.commit()
 
@@ -416,8 +397,7 @@ class LexiconDatabase:
     ) -> List[Dict[str, Any]]:
         """Get all validation results for a lexeme."""
         cursor = self.conn.execute(
-            "SELECT * FROM validation_results WHERE lexeme_id = ? ORDER BY timestamp DESC",
-            (lexeme_id,)
+            "SELECT * FROM validation_results WHERE lexeme_id = ? ORDER BY timestamp DESC", (lexeme_id,)
         )
         return [dict(row) for row in cursor.fetchall()]
 
@@ -445,8 +425,7 @@ class LexiconDatabase:
             (lexeme_id, primitive, source_type, source_detail, confidence_before, confidence_after)
             VALUES (?, ?, ?, ?, ?, ?)
             """,
-            (lexeme_id, primitive, source_type, source_detail,
-             confidence_before, confidence_after)
+            (lexeme_id, primitive, source_type, source_detail, confidence_before, confidence_after),
         )
         self.conn.commit()
 
@@ -462,16 +441,13 @@ class LexiconDatabase:
             (phase, last_processed_rank, words_processed, words_validated)
             VALUES (?, ?, ?, ?)
             """,
-            (phase, last_rank, words_processed, words_validated)
+            (phase, last_rank, words_processed, words_validated),
         )
         self.conn.commit()
 
     def get_last_checkpoint(self, phase: int) -> Optional[Dict[str, Any]]:
         """Get the last checkpoint for a phase."""
-        cursor = self.conn.execute(
-            "SELECT * FROM processing_checkpoints WHERE phase = ?",
-            (phase,)
-        )
+        cursor = self.conn.execute("SELECT * FROM processing_checkpoints WHERE phase = ?", (phase,))
         row = cursor.fetchone()
         return dict(row) if row else None
 
@@ -494,9 +470,7 @@ class LexiconDatabase:
         stats["total_lexemes"] = cursor.fetchone()["count"]
 
         # By phase
-        cursor = self.conn.execute(
-            "SELECT phase, COUNT(*) as count FROM lexemes GROUP BY phase"
-        )
+        cursor = self.conn.execute("SELECT phase, COUNT(*) as count FROM lexemes GROUP BY phase")
         stats["by_phase"] = {row["phase"]: row["count"] for row in cursor.fetchall()}
 
         # By status
@@ -506,9 +480,7 @@ class LexiconDatabase:
         stats["by_status"] = {row["validation_status"]: row["count"] for row in cursor.fetchall()}
 
         # By source
-        cursor = self.conn.execute(
-            "SELECT source, COUNT(*) as count FROM lexemes GROUP BY source"
-        )
+        cursor = self.conn.execute("SELECT source, COUNT(*) as count FROM lexemes GROUP BY source")
         stats["by_source"] = {row["source"]: row["count"] for row in cursor.fetchall()}
 
         return stats
@@ -533,7 +505,7 @@ class LexiconDatabase:
             (lexeme_id, primitive, llm_value, external_value, external_source, severity)
             VALUES (?, ?, ?, ?, ?, ?)
             """,
-            (lexeme_id, primitive, llm_value, external_value, external_source, severity)
+            (lexeme_id, primitive, llm_value, external_value, external_source, severity),
         )
         self.conn.commit()
 
@@ -548,7 +520,7 @@ class LexiconDatabase:
             (lexeme_id, primitive, llm_value, external_value, external_source, severity)
             VALUES (?, ?, ?, ?, ?, ?)
             """,
-            disagreements
+            disagreements,
         )
         self.conn.commit()
 
@@ -588,7 +560,7 @@ class LexiconDatabase:
             SET resolved = TRUE, resolution = ?, resolved_value = ?
             WHERE id = ?
             """,
-            (resolution, resolved_value, disagreement_id)
+            (resolution, resolved_value, disagreement_id),
         )
         self.conn.commit()
 
@@ -607,7 +579,7 @@ class LexiconDatabase:
             (lexeme_id, source_name, primitives_matched, primitives_agreed, agreement_rate)
             VALUES (?, ?, ?, ?, ?)
             """,
-            (lexeme_id, source_name, primitives_matched, primitives_agreed, agreement_rate)
+            (lexeme_id, source_name, primitives_matched, primitives_agreed, agreement_rate),
         )
         self.conn.commit()
 
@@ -616,15 +588,11 @@ class LexiconDatabase:
         stats = {}
 
         # Total disagreements
-        cursor = self.conn.execute(
-            "SELECT COUNT(*) as count FROM external_disagreements"
-        )
+        cursor = self.conn.execute("SELECT COUNT(*) as count FROM external_disagreements")
         stats["total"] = cursor.fetchone()["count"]
 
         # By severity
-        cursor = self.conn.execute(
-            "SELECT severity, COUNT(*) as count FROM external_disagreements GROUP BY severity"
-        )
+        cursor = self.conn.execute("SELECT severity, COUNT(*) as count FROM external_disagreements GROUP BY severity")
         stats["by_severity"] = {row["severity"]: row["count"] for row in cursor.fetchall()}
 
         # By source
@@ -634,9 +602,7 @@ class LexiconDatabase:
         stats["by_source"] = {row["external_source"]: row["count"] for row in cursor.fetchall()}
 
         # Unresolved
-        cursor = self.conn.execute(
-            "SELECT COUNT(*) as count FROM external_disagreements WHERE resolved = FALSE"
-        )
+        cursor = self.conn.execute("SELECT COUNT(*) as count FROM external_disagreements WHERE resolved = FALSE")
         stats["unresolved"] = cursor.fetchone()["count"]
 
         return stats

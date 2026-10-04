@@ -196,12 +196,13 @@ class GrammaticalFeatures:
     Features stored as metadata, NOT in HDC vector.
     None = unspecified, specific value = feature active.
     """
-    tense: Optional[str] = None    # PAST, PRESENT, FUTURE
-    aspect: Optional[str] = None   # SIMPLE, PROGRESSIVE, PERFECT
-    mood: Optional[str] = None     # INDICATIVE, SUBJUNCTIVE, IMPERATIVE
-    person: Optional[int] = None   # 1, 2, 3
-    number: Optional[str] = None   # SINGULAR, PLURAL
-    case: Optional[str] = None     # NOM, ACC, GEN, DAT
+
+    tense: Optional[str] = None  # PAST, PRESENT, FUTURE
+    aspect: Optional[str] = None  # SIMPLE, PROGRESSIVE, PERFECT
+    mood: Optional[str] = None  # INDICATIVE, SUBJUNCTIVE, IMPERATIVE
+    person: Optional[int] = None  # 1, 2, 3
+    number: Optional[str] = None  # SINGULAR, PLURAL
+    case: Optional[str] = None  # NOM, ACC, GEN, DAT
 ```
 
 ### Example Entries
@@ -343,23 +344,24 @@ from typing import Dict, List, Optional
 
 # POS to SYN_* dimension mapping
 POS_SYN_MAPPING = {
-    'NOUN': ['SYN_SUBJ', 'SYN_OBJ', 'SYN_COMPL'],
-    'PRON': ['SYN_SUBJ', 'SYN_OBJ'],
-    'VERB': ['SYN_PRED', 'SYN_TENSE_PAST', 'SYN_TENSE_PRES'],
-    'ADJ': ['SYN_ADJ_MOD', 'SYN_COMPL'],
-    'ADV': ['SYN_ADV_MOD'],
-    'DET': ['SYN_DET'],
+    "NOUN": ["SYN_SUBJ", "SYN_OBJ", "SYN_COMPL"],
+    "PRON": ["SYN_SUBJ", "SYN_OBJ"],
+    "VERB": ["SYN_PRED", "SYN_TENSE_PAST", "SYN_TENSE_PRES"],
+    "ADJ": ["SYN_ADJ_MOD", "SYN_COMPL"],
+    "ADV": ["SYN_ADV_MOD"],
+    "DET": ["SYN_DET"],
 }
 
 # Common inflection patterns
 VERB_INFLECTIONS = {
     # past tense patterns
-    'ed': {'tense': 'PAST'},
+    "ed": {"tense": "PAST"},
     # progressive patterns
-    'ing': {'aspect': 'PROGRESSIVE'},
+    "ing": {"aspect": "PROGRESSIVE"},
     # 3rd person singular
-    's': {'person': 3, 'number': 'SINGULAR'},
+    "s": {"person": 3, "number": "SINGULAR"},
 }
+
 
 def instantiate_syn_dimensions(db_path: str):
     """Instantiate SYN_* dimensions with 0 for applicable words."""
@@ -374,18 +376,24 @@ def instantiate_syn_dimensions(db_path: str):
         for lex_id in lexeme_ids:
             for syn_dim in syn_dims:
                 # Check if already exists
-                cursor.execute("""
+                cursor.execute(
+                    """
                     SELECT 1 FROM primitive_values
                     WHERE lexeme_id = ? AND primitive = ?
-                """, (lex_id, syn_dim))
+                """,
+                    (lex_id, syn_dim),
+                )
 
                 if not cursor.fetchone():
                     # Instantiate with 0
-                    cursor.execute("""
+                    cursor.execute(
+                        """
                         INSERT INTO primitive_values
                         (lexeme_id, primitive, value, confidence, source)
                         VALUES (?, ?, 0, 0.95, 'fix:gram_instantiation')
-                    """, (lex_id, syn_dim))
+                    """,
+                        (lex_id, syn_dim),
+                    )
 
         print(f"Instantiated SYN_* dimensions for {len(lexeme_ids)} {pos} words")
 
@@ -439,26 +447,29 @@ def populate_gram_features(db_path: str):
     for id_, lemma in verbs:
         # Try to find base form
         base = None
-        if lemma.endswith('ed'):
+        if lemma.endswith("ed"):
             potential_base = lemma[:-2]
             if potential_base in lemma_set:
                 base = potential_base
             elif lemma[:-1] in lemma_set:  # doubled consonant
                 base = lemma[:-1]
-        elif lemma.endswith('ing'):
+        elif lemma.endswith("ing"):
             potential_base = lemma[:-3]
             if potential_base in lemma_set:
                 base = potential_base
-            elif potential_base + 'e' in lemma_set:
-                base = potential_base + 'e'
-        elif lemma.endswith('s') and lemma[:-1] in lemma_set:
+            elif potential_base + "e" in lemma_set:
+                base = potential_base + "e"
+        elif lemma.endswith("s") and lemma[:-1] in lemma_set:
             base = lemma[:-1]
 
         features = infer_gram_features(lemma, base)
         if features:
-            cursor.execute("""
+            cursor.execute(
+                """
                 UPDATE lexemes SET gram_features = ? WHERE id = ?
-            """, (json.dumps(features), id_))
+            """,
+                (json.dumps(features), id_),
+            )
             updated += 1
 
     print(f"Updated gram_features for {updated} inflected forms")
@@ -473,21 +484,24 @@ def verify_informational_zero(db_path: str):
 
     # Check a few known cases
     test_groups = [
-        ('run', ['run', 'runs', 'ran', 'running']),
-        ('walk', ['walk', 'walks', 'walked', 'walking']),
-        ('think', ['think', 'thinks', 'thought', 'thinking']),
+        ("run", ["run", "runs", "ran", "running"]),
+        ("walk", ["walk", "walks", "walked", "walking"]),
+        ("think", ["think", "thinks", "thought", "thinking"]),
     ]
 
     for base, forms in test_groups:
         # Get primitives for each form
         for form in forms:
-            cursor.execute("""
+            cursor.execute(
+                """
                 SELECT primitive, value FROM primitive_values pv
                 JOIN lexemes l ON pv.lexeme_id = l.id
                 WHERE l.lemma = ? AND pv.value != 0
                 AND pv.primitive NOT LIKE 'SYN_%'
                 ORDER BY primitive
-            """, (form,))
+            """,
+                (form,),
+            )
             primitives = cursor.fetchall()
             print(f"  {form}: {dict(primitives)}")
 

@@ -5,6 +5,7 @@ score distribution the abstain-on-mismatch gate must be calibrated from.
 
 Output: one JSON per story on stdout {story, audit: {lemma: [[leaf, score], ...]}}.
 """
+
 import glob
 import json
 import sys
@@ -16,8 +17,9 @@ from gse.symbolic import GenealogyStore, grounding, resolve_document
 
 # The measured corpus = every story that has an artifact beside it (the curated set the
 # engine actually ran), not the full 1600-file accumulation.
-STORIES = sorted(a.replace(".artifact.json", ".story.txt")
-                 for a in glob.glob("/Users/rohanvinaik/Genesis/stories/*.artifact.json"))
+STORIES = sorted(
+    a.replace(".artifact.json", ".story.txt") for a in glob.glob("/Users/rohanvinaik/Genesis/stories/*.artifact.json")
+)
 
 enc = GSEEncoder()
 store = GenealogyStore()

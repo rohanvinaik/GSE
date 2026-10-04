@@ -27,6 +27,7 @@ Combined score (minimised):  noisy_channel + W_STRUCT*defects - W_GLOSS*gloss_co
 A grammatical defect is a strong penalty (~one edit); gloss coherence is a bounded
 pull that breaks small ties without overriding the error model or structure.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -131,8 +132,7 @@ class ScoredCandidate:
         return self.noisy + W_STRUCT * self.defects - W_GLOSS * self.gloss
 
     def __repr__(self) -> str:
-        return (f"{self.word}(ns={self.noisy:.2f}, def={self.defects}, "
-                f"gloss={self.gloss:.2f}, tot={self.total:.2f})")
+        return f"{self.word}(ns={self.noisy:.2f}, def={self.defects}, gloss={self.gloss:.2f}, tot={self.total:.2f})"
 
 
 @dataclass(frozen=True)
@@ -159,13 +159,11 @@ def suggest_in_context(
     """Top-``n`` context-ranked suggestions (structural + gloss + noisy-channel).
     Empty if the surface already grounds. The full ranked list a UI surfaces as
     "did you mean", best first."""
-    return list(correct_in_context(
-        surface, context_words, encoder, sentence_template, lexicon
-    ).ranked[:n])
+    return list(correct_in_context(surface, context_words, encoder, sentence_template, lexicon).ranked[:n])
 
 
 _PREDICATE_POS = {"VERB", "AUX"}
-_SUBJECT_PREV = {"PRON"}     # a subject pronoun before the slot => a verb/aux is expected
+_SUBJECT_PREV = {"PRON"}  # a subject pronoun before the slot => a verb/aux is expected
 
 
 def _token_pos(text: str, word: str, encoder) -> Optional[str]:
@@ -187,6 +185,7 @@ def recover_rare_tail(tokens, i, encoder, lexicon: _Lexicon = _DEFAULT_LEXICON) 
     per-token role signal is not masked by other clauses in a long sentence.  Returns the
     recovered common word, or None (leave the surface untouched)."""
     from gse.nlp.spellcheck import _edits1, looks_non_lexical
+
     surf = tokens[i].token
     if not lexicon.is_rare_tail(surf) or looks_non_lexical(surf):
         return None
@@ -195,12 +194,13 @@ def recover_rare_tail(tokens, i, encoder, lexicon: _Lexicon = _DEFAULT_LEXICON) 
     if tokens[i].pos in _PREDICATE_POS:
         return None
     surfaces = [t.token for t in tokens]
-    cands = sorted((c for c in _edits1(surf.lower()) if lexicon.is_common_target(c)),
-                   key=lambda c: lexicon.usage.get(c, 1 << 30))   # commonest first
+    cands = sorted(
+        (c for c in _edits1(surf.lower()) if lexicon.is_common_target(c)), key=lambda c: lexicon.usage.get(c, 1 << 30)
+    )  # commonest first
     for c in cands:
         sent = " ".join(c if j == i else s for j, s in enumerate(surfaces))
         if _token_pos(sent, c, encoder) in _PREDICATE_POS:
-            return c                                              # common word fills the slot
+            return c  # common word fills the slot
     return None
 
 

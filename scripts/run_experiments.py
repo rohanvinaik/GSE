@@ -40,9 +40,11 @@ from gse.pipeline_v2 import GSEPipeline
 # RESULT DATA STRUCTURES
 # =============================================================================
 
+
 @dataclass
 class WordLevelResult:
     """Results for a word-level evaluation."""
+
     model_name: str
     dataset_name: str
     spearman_rho: float
@@ -59,6 +61,7 @@ class WordLevelResult:
 @dataclass
 class SentenceLevelResult:
     """Results for sentence-level evaluation."""
+
     model_name: str
     dataset_name: str
     encoding_method: str
@@ -72,6 +75,7 @@ class SentenceLevelResult:
 @dataclass
 class ExperimentResults:
     """Complete experiment results."""
+
     timestamp: str
     word_level: List[WordLevelResult] = field(default_factory=list)
     sentence_level: List[SentenceLevelResult] = field(default_factory=list)
@@ -82,6 +86,7 @@ class ExperimentResults:
 # =============================================================================
 # GSE EVALUATOR
 # =============================================================================
+
 
 class GSEEvaluator:
     """Evaluate GSE on benchmark datasets."""
@@ -173,12 +178,7 @@ class GSEEvaluator:
 
         return float(np.dot(v1, v2) / (norm1 * norm2))
 
-    def sentence_similarity(
-        self,
-        sent1: str,
-        sent2: str,
-        method: str = "mean"
-    ) -> Optional[float]:
+    def sentence_similarity(self, sent1: str, sent2: str, method: str = "mean") -> Optional[float]:
         """Compute similarity between two sentences."""
         try:
             result1 = self.pipeline.encode_sentence(sent1)
@@ -201,11 +201,7 @@ class GSEEvaluator:
         except Exception:
             return None
 
-    def evaluate_word_dataset(
-        self,
-        dataset: BenchmarkDataset,
-        is_antonym: bool = False
-    ) -> WordLevelResult:
+    def evaluate_word_dataset(self, dataset: BenchmarkDataset, is_antonym: bool = False) -> WordLevelResult:
         """Evaluate on a word-level dataset."""
         predictions = []
         human_scores = []
@@ -255,11 +251,7 @@ class GSEEvaluator:
 
         return result
 
-    def evaluate_sentence_dataset(
-        self,
-        dataset: BenchmarkDataset,
-        method: str = "mean"
-    ) -> SentenceLevelResult:
+    def evaluate_sentence_dataset(self, dataset: BenchmarkDataset, method: str = "mean") -> SentenceLevelResult:
         """Evaluate on a sentence-level dataset."""
         predictions = []
         human_scores = []
@@ -317,6 +309,7 @@ class GSEEvaluator:
 # BASELINE EVALUATORS
 # =============================================================================
 
+
 class BaselineEvaluator:
     """Base class for baseline model evaluators."""
 
@@ -346,6 +339,7 @@ class GensimEvaluator(BaselineEvaluator):
 
     def load(self):
         import gensim.downloader as api
+
         print(f"Loading {self.model_name}...")
         self.model = api.load(self.gensim_id)
         print(f"  Loaded: {len(self.model)} vectors")
@@ -368,6 +362,7 @@ class SentenceTransformerEvaluator(BaselineEvaluator):
 
     def load(self):
         from sentence_transformers import SentenceTransformer
+
         print(f"Loading {self.model_name}...")
         self.model = SentenceTransformer(self.hf_id)
         print(f"  Loaded: {self.hf_id}")
@@ -377,9 +372,7 @@ class SentenceTransformerEvaluator(BaselineEvaluator):
             return None
         try:
             embeddings = self.model.encode([word1, word2])
-            sim = np.dot(embeddings[0], embeddings[1]) / (
-                np.linalg.norm(embeddings[0]) * np.linalg.norm(embeddings[1])
-            )
+            sim = np.dot(embeddings[0], embeddings[1]) / (np.linalg.norm(embeddings[0]) * np.linalg.norm(embeddings[1]))
             return float(sim)
         except Exception:
             return None
@@ -389,18 +382,14 @@ class SentenceTransformerEvaluator(BaselineEvaluator):
             return None
         try:
             embeddings = self.model.encode([sent1, sent2])
-            sim = np.dot(embeddings[0], embeddings[1]) / (
-                np.linalg.norm(embeddings[0]) * np.linalg.norm(embeddings[1])
-            )
+            sim = np.dot(embeddings[0], embeddings[1]) / (np.linalg.norm(embeddings[0]) * np.linalg.norm(embeddings[1]))
             return float(sim)
         except Exception:
             return None
 
 
 def evaluate_baseline_word(
-    evaluator: BaselineEvaluator,
-    dataset: BenchmarkDataset,
-    is_antonym: bool = False
+    evaluator: BaselineEvaluator, dataset: BenchmarkDataset, is_antonym: bool = False
 ) -> WordLevelResult:
     """Evaluate a baseline on word-level dataset."""
     predictions = []
@@ -507,10 +496,9 @@ def evaluate_baseline_sentence(
 # MAIN EXPERIMENT RUNNER
 # =============================================================================
 
+
 def run_word_level_experiments(
-    gse_evaluator: GSEEvaluator,
-    baselines: List[BaselineEvaluator],
-    verbose: bool = True
+    gse_evaluator: GSEEvaluator, baselines: List[BaselineEvaluator], verbose: bool = True
 ) -> Tuple[List[WordLevelResult], Dict[str, Any]]:
     """Run Experiment 5.1: Word-level structural semantics."""
     results = []
@@ -562,7 +550,11 @@ def run_word_level_experiments(
         syn_result = gse_evaluator.evaluate_word_dataset(synonyms)
         results.append(syn_result)
         if verbose:
-            print(f"  Synonyms: mean_sim={np.mean(syn_result.predictions):.4f}" if syn_result.predictions else "  Synonyms: no coverage")
+            print(
+                f"  Synonyms: mean_sim={np.mean(syn_result.predictions):.4f}"
+                if syn_result.predictions
+                else "  Synonyms: no coverage"
+            )
 
     # Evaluate baselines
     for baseline in baselines:
@@ -598,9 +590,7 @@ def run_word_level_experiments(
 
 
 def run_sentence_level_experiments(
-    gse_evaluator: GSEEvaluator,
-    baselines: List[BaselineEvaluator],
-    verbose: bool = True
+    gse_evaluator: GSEEvaluator, baselines: List[BaselineEvaluator], verbose: bool = True
 ) -> List[SentenceLevelResult]:
     """Run Experiment 5.2: Sentence-level semantics."""
     results = []
@@ -678,7 +668,9 @@ def generate_results_markdown(results: ExperimentResults, output_path: str):
         lines.append("| Model | Spearman ρ | Pearson r | Coverage | N |")
         lines.append("|-------|------------|-----------|----------|---|")
         for r in sorted(simlex_results, key=lambda x: -x.spearman_rho):
-            lines.append(f"| {r.model_name} | {r.spearman_rho:.4f} | {r.pearson_r:.4f} | {r.coverage:.1%} | {r.n_pairs} |")
+            lines.append(
+                f"| {r.model_name} | {r.spearman_rho:.4f} | {r.pearson_r:.4f} | {r.coverage:.1%} | {r.n_pairs} |"
+            )
         lines.append("")
 
     if wordsim_results:
@@ -687,7 +679,9 @@ def generate_results_markdown(results: ExperimentResults, output_path: str):
         lines.append("| Model | Spearman ρ | Pearson r | Coverage | N |")
         lines.append("|-------|------------|-----------|----------|---|")
         for r in sorted(wordsim_results, key=lambda x: -x.spearman_rho):
-            lines.append(f"| {r.model_name} | {r.spearman_rho:.4f} | {r.pearson_r:.4f} | {r.coverage:.1%} | {r.n_pairs} |")
+            lines.append(
+                f"| {r.model_name} | {r.spearman_rho:.4f} | {r.pearson_r:.4f} | {r.coverage:.1%} | {r.n_pairs} |"
+            )
         lines.append("")
 
     if antonym_results:
@@ -700,7 +694,9 @@ def generate_results_markdown(results: ExperimentResults, output_path: str):
             mean_sim = f"{r.antonym_mean_sim:.4f}" if r.antonym_mean_sim is not None else "N/A"
             lines.append(f"| {r.model_name} | {neg_rate} | {mean_sim} |")
         lines.append("")
-        lines.append("**Key Finding**: GSE achieves negative similarity for antonyms, while distributional baselines achieve positive similarity.")
+        lines.append(
+            "**Key Finding**: GSE achieves negative similarity for antonyms, while distributional baselines achieve positive similarity."
+        )
         lines.append("")
 
     # Sentence-level results
@@ -727,15 +723,17 @@ def generate_results_markdown(results: ExperimentResults, output_path: str):
     gse_ant = next((r for r in antonym_results if r.model_name == "GSE"), None)
     if gse_ant and gse_ant.antonym_neg_rate:
         h12_status = "VALIDATED" if gse_ant.antonym_neg_rate > 0.5 else "NOT VALIDATED"
-        lines.append(f"- **H1.2 (Antonym Negative Similarity)**: {h12_status} - GSE achieves {gse_ant.antonym_neg_rate:.1%} negative rate")
+        lines.append(
+            f"- **H1.2 (Antonym Negative Similarity)**: {h12_status} - GSE achieves {gse_ant.antonym_neg_rate:.1%} negative rate"
+        )
 
     lines.append("")
 
     # Write to file
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    with open(output_path, 'w') as f:
-        f.write('\n'.join(lines))
+    with open(output_path, "w") as f:
+        f.write("\n".join(lines))
 
     print(f"\nResults written to: {output_path}")
 
@@ -743,6 +741,7 @@ def generate_results_markdown(results: ExperimentResults, output_path: str):
 # =============================================================================
 # MAIN
 # =============================================================================
+
 
 def main():
     parser = argparse.ArgumentParser(description="Run GSE paper experiments")
@@ -778,20 +777,19 @@ def main():
 
     # Run experiments
     if args.all or args.word_level or args.antonyms_only:
-        word_results, antonym_analysis = run_word_level_experiments(
-            gse_evaluator, baselines, verbose=True
-        )
+        word_results, antonym_analysis = run_word_level_experiments(gse_evaluator, baselines, verbose=True)
         results.word_level = word_results
         results.antonym_analysis = antonym_analysis
 
     if args.all or args.sentence_level:
-        sent_results = run_sentence_level_experiments(
-            gse_evaluator, baselines, verbose=True
-        )
+        sent_results = run_sentence_level_experiments(gse_evaluator, baselines, verbose=True)
         results.sentence_level = sent_results
 
     # Generate output
-    output_path = args.output or "/Users/rohanvinaik/rohan-vinaik.github.io/papers/Core Documents/GSE/GSE_PAPER_EXPERIMENTS/EXPERIMENTAL_RESULTS.md"
+    output_path = (
+        args.output
+        or "/Users/rohanvinaik/rohan-vinaik.github.io/papers/Core Documents/GSE/GSE_PAPER_EXPERIMENTS/EXPERIMENTAL_RESULTS.md"
+    )
     generate_results_markdown(results, output_path)
 
     print("\n" + "=" * 60)

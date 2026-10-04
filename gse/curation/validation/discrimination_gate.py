@@ -29,21 +29,72 @@ from typing import Callable, Dict, List, Optional
 # Labeled probe set — obvious-category common words. Kept small + unambiguous so
 # the gate measures category recoverability, not edge-case POS.
 GOLD_CATEGORIES: Dict[str, List[str]] = {
-    "noun": ["dog", "king", "knife", "house", "water", "tree", "stone", "child",
-             "mountain", "river", "bird", "book", "hand", "door", "horse"],
-    "verb": ["murder", "kill", "run", "eat", "give", "break", "think", "walk",
-             "throw", "build", "carry", "speak", "fall", "push", "cut"],
-    "adj":  ["happy", "red", "big", "cold", "fast", "good", "old", "heavy",
-             "bright", "soft", "loud", "empty", "sharp", "wet", "clean"],
+    "noun": [
+        "dog",
+        "king",
+        "knife",
+        "house",
+        "water",
+        "tree",
+        "stone",
+        "child",
+        "mountain",
+        "river",
+        "bird",
+        "book",
+        "hand",
+        "door",
+        "horse",
+    ],
+    "verb": [
+        "murder",
+        "kill",
+        "run",
+        "eat",
+        "give",
+        "break",
+        "think",
+        "walk",
+        "throw",
+        "build",
+        "carry",
+        "speak",
+        "fall",
+        "push",
+        "cut",
+    ],
+    "adj": [
+        "happy",
+        "red",
+        "big",
+        "cold",
+        "fast",
+        "good",
+        "old",
+        "heavy",
+        "bright",
+        "soft",
+        "loud",
+        "empty",
+        "sharp",
+        "wet",
+        "clean",
+    ],
 }
-MUST_DISCRIMINATE = [("dog", "murder"), ("knife", "kill"), ("king", "run"),
-                     ("tree", "think"), ("house", "eat"), ("stone", "give")]
+MUST_DISCRIMINATE = [
+    ("dog", "murder"),
+    ("knife", "kill"),
+    ("king", "run"),
+    ("tree", "think"),
+    ("house", "eat"),
+    ("stone", "give"),
+]
 
 # Thresholds (provisional — tune against the clean build's distribution).
-MAX_CROSS_CATEGORY_COSINE = 0.55   # cross-category mean must be below this
-MIN_SEPARATION_MARGIN = 0.15       # within-cat mean minus cross-cat mean
-MAX_PAIR_COSINE = 0.6              # a must-differ pair must be below this
-MAX_MEAN_DENSITY = 0.35           # avg fraction of nonzero primes per word
+MAX_CROSS_CATEGORY_COSINE = 0.55  # cross-category mean must be below this
+MIN_SEPARATION_MARGIN = 0.15  # within-cat mean minus cross-cat mean
+MAX_PAIR_COSINE = 0.6  # a must-differ pair must be below this
+MAX_MEAN_DENSITY = 0.35  # avg fraction of nonzero primes per word
 
 
 @dataclass
@@ -95,7 +146,7 @@ def run_gate(
         for i in range(len(items)):
             for j in range(i + 1, len(items)):
                 within.append(_cosine(items[i], items[j]))
-        for c2 in cats[ci + 1:]:
+        for c2 in cats[ci + 1 :]:
             for v1 in vecs[c].values():
                 for v2 in vecs[c2].values():
                     cross.append(_cosine(v1, v2))
@@ -105,17 +156,21 @@ def run_gate(
 
     # (b) pair discrimination
     flat = {w: v for cat in vecs.values() for w, v in cat.items()}
-    failing = [(a, b, round(_cosine(flat[a], flat[b]), 3))
-               for a, b in MUST_DISCRIMINATE
-               if a in flat and b in flat and _cosine(flat[a], flat[b]) > MAX_PAIR_COSINE]
+    failing = [
+        (a, b, round(_cosine(flat[a], flat[b]), 3))
+        for a, b in MUST_DISCRIMINATE
+        if a in flat and b in flat and _cosine(flat[a], flat[b]) > MAX_PAIR_COSINE
+    ]
 
     # (c) sparsity
     density = sum(densities) / len(densities) if densities else 1.0
 
-    passed = (cross_mean <= MAX_CROSS_CATEGORY_COSINE
-              and margin >= MIN_SEPARATION_MARGIN
-              and not failing
-              and density <= MAX_MEAN_DENSITY)
+    passed = (
+        cross_mean <= MAX_CROSS_CATEGORY_COSINE
+        and margin >= MIN_SEPARATION_MARGIN
+        and not failing
+        and density <= MAX_MEAN_DENSITY
+    )
     return GateReport(
         passed=passed,
         cross_category_cosine=round(cross_mean, 3),
@@ -124,14 +179,17 @@ def run_gate(
         failing_pairs=failing,
         mean_density=round(density, 3),
         n_resolved=n,
-        detail=(f"separation_ok={cross_mean <= MAX_CROSS_CATEGORY_COSINE and margin >= MIN_SEPARATION_MARGIN}, "
-                f"pairs_ok={not failing}, sparsity_ok={density <= MAX_MEAN_DENSITY}"),
+        detail=(
+            f"separation_ok={cross_mean <= MAX_CROSS_CATEGORY_COSINE and margin >= MIN_SEPARATION_MARGIN}, "
+            f"pairs_ok={not failing}, sparsity_ok={density <= MAX_MEAN_DENSITY}"
+        ),
     )
 
 
 def _baseline_on_current_lexicon() -> GateReport:
     """Run the gate against the live (degenerate) lexicon to establish the baseline."""
     from gse.api import GSEEncoder
+
     enc = GSEEncoder()
     cur = enc.cursor
     cur.execute("SELECT DISTINCT primitive FROM primitive_values")

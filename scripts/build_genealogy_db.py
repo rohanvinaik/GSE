@@ -16,6 +16,7 @@ context-free lookup defaults to the primary sense; the coherence-scored selector
 Run:  python scripts/build_genealogy_db.py
 Out:  data/genealogy.db
 """
+
 from __future__ import annotations
 
 import json
@@ -97,12 +98,10 @@ def ingest_wordnet(conn: sqlite3.Connection) -> int:
             rows.append((lem, "NOUN", i, json.dumps(thread)))
             n += 1
         if len(rows) >= 5000:
-            conn.executemany(
-                "INSERT INTO word_thread(lemma,pos,sense,thread) VALUES(?,?,?,?)", rows)
+            conn.executemany("INSERT INTO word_thread(lemma,pos,sense,thread) VALUES(?,?,?,?)", rows)
             rows = []
     if rows:
-        conn.executemany(
-            "INSERT INTO word_thread(lemma,pos,sense,thread) VALUES(?,?,?,?)", rows)
+        conn.executemany("INSERT INTO word_thread(lemma,pos,sense,thread) VALUES(?,?,?,?)", rows)
     return n
 
 
@@ -125,23 +124,20 @@ def ingest_sparse_wiki(conn: sqlite3.Connection) -> int:
         nonlocal threads, facets
         if threads:
             conn.executemany(
-                "INSERT INTO world_thread(label,thread,depth,pagerank,src,canon)"
-                " VALUES(?,?,?,?,?,?)", threads)
+                "INSERT INTO world_thread(label,thread,depth,pagerank,src,canon) VALUES(?,?,?,?,?,?)", threads
+            )
             threads = []
         if facets:
-            conn.executemany(
-                "INSERT INTO world_facets(label,dimension,path,depth) VALUES(?,?,?,?)",
-                facets)
+            conn.executemany("INSERT INTO world_facets(label,dimension,path,depth) VALUES(?,?,?,?)", facets)
             facets = []
 
-    typed_labels = []   # (label, path_nodes, depth, pagerank) of REAL-typed entities → token aliases
+    typed_labels = []  # (label, path_nodes, depth, pagerank) of REAL-typed entities → token aliases
     for label, pagerank, dimension, path_nodes, depth in cur:
         if not label:
             continue
         if dimension == "TAXONOMIC":
-            threads.append((label.lower(), path_nodes, depth, pagerank or 0,
-                            "label", label.lower()))
-            if depth and depth > 1 and " " in label:   # typed, multi-token → token-alias candidate
+            threads.append((label.lower(), path_nodes, depth, pagerank or 0, "label", label.lower()))
+            if depth and depth > 1 and " " in label:  # typed, multi-token → token-alias candidate
                 typed_labels.append((label.lower(), path_nodes, depth, pagerank or 0))
             n += 1
         else:  # SCALE / DOMAIN / TEMPORAL / SPATIAL — the orthogonal facets
@@ -158,28 +154,28 @@ def ingest_sparse_wiki(conn: sqlite3.Connection) -> int:
     ).fetchall()
     conn.executemany(
         "INSERT INTO world_epa(label,e,p,a,confidence) VALUES(?,?,?,?,?)",
-        [(lb.lower(), ev, pv, av, cf) for lb, ev, pv, av, cf in epa_rows if lb])
+        [(lb.lower(), ev, pv, av, cf) for lb, ev, pv, av, cf in epa_rows if lb],
+    )
     print(f"  +{len(epa_rows):,} world_epa rows")
 
     # Semantic anchors (the context-coherence substrate), keyed by canon label.
     anchor_rows = 0
     batch = []
     for lb, anchor, weight in src.execute(
-            """SELECT e.label, ad.label, ea.weight
+        """SELECT e.label, ad.label, ea.weight
                FROM entity_anchors ea
                JOIN anchor_dictionary ad ON ad.anchor_id=ea.anchor_id
-               JOIN entities e ON e.id=ea.entity_id"""):
+               JOIN entities e ON e.id=ea.entity_id"""
+    ):
         if not lb or not anchor:
             continue
         batch.append((lb.lower(), anchor.lower(), weight or 0))
         anchor_rows += 1
         if len(batch) >= 20000:
-            conn.executemany(
-                "INSERT INTO world_anchors(label,anchor,weight) VALUES(?,?,?)", batch)
+            conn.executemany("INSERT INTO world_anchors(label,anchor,weight) VALUES(?,?,?)", batch)
             batch = []
     if batch:
-        conn.executemany(
-            "INSERT INTO world_anchors(label,anchor,weight) VALUES(?,?,?)", batch)
+        conn.executemany("INSERT INTO world_anchors(label,anchor,weight) VALUES(?,?,?)", batch)
     print(f"  +{anchor_rows:,} world_anchors rows")
 
     # Redirect-derived aliases (relational-ai scripts/build_aliases.py): each
@@ -198,9 +194,8 @@ def ingest_sparse_wiki(conn: sqlite3.Connection) -> int:
         n_alias = 0
         for alias, canon, pagerank, path_nodes, depth in cur:
             if not alias or alias in seen_labels:
-                continue   # an alias never shadows a real label
-            threads.append((alias, path_nodes, depth, pagerank or 0, "alias",
-                            (canon or "").lower()))
+                continue  # an alias never shadows a real label
+            threads.append((alias, path_nodes, depth, pagerank or 0, "alias", (canon or "").lower()))
             n_alias += 1
             if len(threads) >= 5000:
                 flush()
@@ -236,7 +231,7 @@ def ingest_sparse_wiki(conn: sqlite3.Connection) -> int:
         by_token: dict = {}
         for label, path_nodes, depth, pagerank in typed_labels:
             for tok in label.split():
-                if (len(tok) < 4 or not tok.isalpha() or tok in seen_labels):
+                if len(tok) < 4 or not tok.isalpha() or tok in seen_labels:
                     continue
                 by_token.setdefault(tok, []).append((pagerank, label, path_nodes, depth))
         n_token = 0

@@ -76,7 +76,8 @@ class GSEDecoder:
         if not self.db_path.exists():
             raise FileNotFoundError(
                 f"GSE lexicon not found: {self.db_path} (cwd={Path.cwd()}). Pass an absolute "
-                "db_path or omit it for the repo's data/lexicon_clean.db.")
+                "db_path or omit it for the repo's data/lexicon_clean.db."
+            )
 
         # Load HDC bases
         self.word_basis = create_basis()
@@ -106,10 +107,13 @@ class GSEDecoder:
 
         for lexeme_id, lemma, pos in lexemes:
             # Get word primitives
-            self.cursor.execute("""
+            self.cursor.execute(
+                """
                 SELECT primitive, value FROM primitive_values
                 WHERE lexeme_id = ? AND value != 0
-            """, (lexeme_id,))
+            """,
+                (lexeme_id,),
+            )
             prims = {row[0]: row[1] for row in self.cursor.fetchall()}
 
             if prims:
@@ -197,10 +201,7 @@ class GSEDecoder:
         entities = []
 
         # Check if vector has entity-like activations
-        has_entity_signal = any(
-            word_activations.get(p, 0) > 0.02
-            for p in self.ENTITY_PRIMITIVES
-        )
+        has_entity_signal = any(word_activations.get(p, 0) > 0.02 for p in self.ENTITY_PRIMITIVES)
 
         if not has_entity_signal:
             return entities
@@ -210,21 +211,26 @@ class GSEDecoder:
             cos = vector.cosine(lex_vec)
             if cos > 0.005:
                 # Check if this lexeme has entity primitives
-                self.cursor.execute("""
+                self.cursor.execute(
+                    """
                     SELECT pv.primitive FROM primitive_values pv
                     JOIN lexemes l ON l.id = pv.lexeme_id
                     WHERE l.lemma = ? AND pv.primitive IN (?, ?, ?, ?)
                     AND pv.value = 1
-                """, (lemma, *self.ENTITY_PRIMITIVES))
+                """,
+                    (lemma, *self.ENTITY_PRIMITIVES),
+                )
 
                 prims = [row[0] for row in self.cursor.fetchall()]
                 if prims:
-                    entities.append(EntityExtraction(
-                        lemma=lemma,
-                        pos=pos,
-                        confidence=round(cos, 4),
-                        primitives=prims,
-                    ))
+                    entities.append(
+                        EntityExtraction(
+                            lemma=lemma,
+                            pos=pos,
+                            confidence=round(cos, 4),
+                            primitives=prims,
+                        )
+                    )
 
         # Sort by confidence and return top entities
         entities.sort(key=lambda x: -x.confidence)
@@ -242,12 +248,14 @@ class GSEDecoder:
             if abs(activation) > 0.01:
                 # Determine actual polarity based on activation sign
                 actual_polarity = polarity if activation > 0 else -polarity
-                attributes.append(AttributeExtraction(
-                    attribute=attr_name,
-                    polarity=actual_polarity,
-                    intensity=round(abs(activation), 4),
-                    source_primitive=prim,
-                ))
+                attributes.append(
+                    AttributeExtraction(
+                        attribute=attr_name,
+                        polarity=actual_polarity,
+                        intensity=round(abs(activation), 4),
+                        source_primitive=prim,
+                    )
+                )
 
         # Sort by intensity
         attributes.sort(key=lambda x: -x.intensity)
@@ -266,13 +274,15 @@ class GSEDecoder:
                 # Find potential argument candidates
                 # This is approximate - full reconstruction would need
                 # to unbind positional encodings
-                relations.append(RelationExtraction(
-                    relation=prim,
-                    confidence=round(abs(activation), 4),
-                    operation=operation,
-                    arg1_candidates=[],  # Would need trace for full recovery
-                    arg2_candidates=[],
-                ))
+                relations.append(
+                    RelationExtraction(
+                        relation=prim,
+                        confidence=round(abs(activation), 4),
+                        operation=operation,
+                        arg1_candidates=[],  # Would need trace for full recovery
+                        arg2_candidates=[],
+                    )
+                )
 
         # Sort by confidence
         relations.sort(key=lambda x: -x.confidence)

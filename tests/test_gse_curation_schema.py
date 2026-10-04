@@ -30,6 +30,7 @@ from gse.curation.schema import (
 
 # ---------- Constants ----------
 
+
 class TestAllPrimitives:
     def test_count_is_72(self):
         assert len(ALL_PRIMITIVES) == 72
@@ -140,6 +141,7 @@ class TestSchema:
 
 # ---------- get_primitive_bank ----------
 
+
 class TestGetPrimitiveBank:
     def test_known_primitive(self):
         assert get_primitive_bank("GOOD") == 2
@@ -149,6 +151,7 @@ class TestGetPrimitiveBank:
 
 
 # ---------- is_bipolar_primitive ----------
+
 
 class TestIsBipolarPrimitive:
     def test_bipolar_true(self):
@@ -163,6 +166,7 @@ class TestIsBipolarPrimitive:
 
 # ---------- get_bipolar_partner ----------
 
+
 class TestGetBipolarPartner:
     def test_known(self):
         assert get_bipolar_partner("GOOD") == "BAD"
@@ -174,6 +178,7 @@ class TestGetBipolarPartner:
 
 
 # ---------- validate_primitive_name ----------
+
 
 class TestValidatePrimitiveName:
     def test_known_true(self):

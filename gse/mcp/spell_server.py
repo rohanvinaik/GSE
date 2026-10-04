@@ -15,6 +15,7 @@ Tools:
   spell_learn(word) — 'Add to Dictionary' / learn spelling: add a word to the personal
     project dictionary so it is never flagged or corrected again (persists immediately).
 """
+
 from __future__ import annotations
 
 import os
@@ -48,17 +49,18 @@ def _join_tokens(tokens: List[str]) -> str:
                 out[-1] = out[-1] + tk
             else:
                 out.append(tk)
-            join_next = True                       # hyphen binds both sides: demi-word
+            join_next = True  # hyphen binds both sides: demi-word
             continue
         if join_next and out:
             out[-1] = out[-1] + tk
             join_next = False
             continue
         if out and (tk.lower() in _CLITICS or tk.startswith("'")):
-            out[-1] = out[-1] + tk                  # clitic binds left: do n't -> don't
+            out[-1] = out[-1] + tk  # clitic binds left: do n't -> don't
             continue
         out.append(tk)
     return " ".join(out)
+
 
 mcp = FastMCP("SymbolicSpellCheck")
 
@@ -80,11 +82,12 @@ def _encoder() -> GSEEncoder:
 def _strip(tok: str) -> str:
     # keep original casing — the shape gate (acronym/proper-noun) needs it; the
     # grounding/edit operations lowercase internally.
-    return tok.strip(".,;:!?\"()[]")
+    return tok.strip('.,;:!?"()[]')
 
 
 def _freq_label(prior: int) -> str:
     from gse.nlp.spellcheck import _PRIOR_FUNCTION, _PRIOR_UNRANKED
+
     if prior == _PRIOR_FUNCTION:
         return "function-word"
     if prior == _PRIOR_UNRANKED:
@@ -95,8 +98,7 @@ def _freq_label(prior: int) -> str:
 def _word_payload(surface: str, n: int) -> Dict[str, Any]:
     r = correct(surface)
     sugg = [
-        {"word": c.word, "edit_cost": c.edit_cost, "frequency": _freq_label(c.prior),
-         "score": round(c.score, 3)}
+        {"word": c.word, "edit_cost": c.edit_cost, "frequency": _freq_label(c.prior), "score": round(c.score, 3)}
         for c in r.ranked[:n]
     ]
     return {
@@ -112,8 +114,13 @@ def _word_payload(surface: str, n: int) -> Dict[str, Any]:
 def _context_payload(surface: str, template: str, context: List[str], n: int) -> Dict[str, Any]:
     r = correct_in_context(surface, context, _encoder(), sentence_template=template)
     sugg = [
-        {"word": c.word, "score": round(c.total, 3), "edit_frequency": round(c.noisy, 3),
-         "structural_defects": c.defects, "gloss_overlap": round(c.gloss, 3)}
+        {
+            "word": c.word,
+            "score": round(c.total, 3),
+            "edit_frequency": round(c.noisy, 3),
+            "structural_defects": c.defects,
+            "gloss_overlap": round(c.gloss, 3),
+        }
         for c in r.ranked[:n]
     ]
     return {
@@ -134,9 +141,13 @@ def _display_name(name: str, surface: str) -> str:
 
 def _entity_offers(ent, surf: str, n: int) -> List[Dict[str, Any]]:
     return [
-        {"word": _display_name(c.name, surf), "edit_cost": c.edit_cost,
-         "pagerank": round(c.pagerank, 3), "canon": c.canon,
-         "note": "entity-name candidate"}
+        {
+            "word": _display_name(c.name, surf),
+            "edit_cost": c.edit_cost,
+            "pagerank": round(c.pagerank, 3),
+            "canon": c.canon,
+            "note": "entity-name candidate",
+        }
         for c in ent.ranked[:n]
     ]
 
@@ -196,7 +207,7 @@ def _hdc_tiebreak(surf: str, candidate_words: List[str], sentence_initial: bool 
     if len(commons) != 1:
         return None
     gold = commons[0]
-    scored = score_words(surf, candidate_words)            # ranked by keyboard-HDC cosine
+    scored = score_words(surf, candidate_words)  # ranked by keyboard-HDC cosine
     if not scored or scored[0][0] != gold:
         return None
     best_c = scored[0][1]
@@ -266,32 +277,32 @@ def spell_suggest(text: str, n: int = 5) -> Dict[str, Any]:
         tok = _word_payload(w, n) if w else {"surface": text, "misspelled": False, "suggestions": []}
         name_like = bool(w) and w.isalpha() and w[:1].isupper()
         if name_like and tok.get("misspelled") and _DEFAULT_ENTITIES.grounds(w):
-            tok = {"surface": w, "misspelled": False, "suggestions": [],
-                   "note": "known entity name"}
-        if w and tok.get("misspelled") and not tok.get("top"):   # edit-distance abstained
-            if name_like:                                        # a name: the entity leg's business
+            tok = {"surface": w, "misspelled": False, "suggestions": [], "note": "known entity name"}
+        if w and tok.get("misspelled") and not tok.get("top"):  # edit-distance abstained
+            if name_like:  # a name: the entity leg's business
                 _apply_entity(tok, w, [], n)
             if not tok.get("top"):
                 if [s for s in tok.get("suggestions", []) if s.get("word")]:
-                    _apply_tiebreak(tok, w, sentence_initial=True)   # candidates exist -> confirm among them
+                    _apply_tiebreak(tok, w, sentence_initial=True)  # candidates exist -> confirm among them
                 else:
-                    _apply_hdc(tok, w, sentence_initial=True)        # true residue (no candidates) -> lexicon
+                    _apply_hdc(tok, w, sentence_initial=True)  # true residue (no candidates) -> lexicon
         corrected = (tok.get("top") or text) if tok.get("misspelled") else text
         return {"input": text, "deterministic": True, "tokens": [tok], "corrected": corrected}
 
     trace = _encoder().encode(text)
     toks = trace.tokens
     surfaces = [t.token for t in toks]
-    grounded_content = [
-        t.lemma for t in toks
-        if t.pos in _CONTENT_POS and _DEFAULT_LEXICON.grounds(t.lemma)
-    ]
+    grounded_content = [t.lemma for t in toks if t.pos in _CONTENT_POS and _DEFAULT_LEXICON.grounds(t.lemma)]
     out_tokens: List[Dict[str, Any]] = []
     corrected = list(surfaces)
     for i, t in enumerate(toks):
         surf = _strip(t.token)
-        if (not surf or not any(c.isalpha() for c in surf)        # punctuation token
-                or surf.lower() in _CLITICS or surf.startswith("'")):
+        if (
+            not surf
+            or not any(c.isalpha() for c in surf)  # punctuation token
+            or surf.lower() in _CLITICS
+            or surf.startswith("'")
+        ):
             out_tokens.append({"surface": t.token, "misspelled": False, "suggestions": []})
             continue
         # name-like: the entity leg's business (PROPN tag, or mid-sentence title-case)
@@ -299,13 +310,18 @@ def spell_suggest(text: str, n: int = 5) -> Dict[str, Any]:
         if _DEFAULT_LEXICON.grounds(surf):
             # a valid word: leave it alone — EXCEPT a rare-tail token in a predicate slot
             # it can't fill (cen after a subject pronoun). Slot-gated + common-target only.
-            rec = (recover_rare_tail(toks, i, _encoder())
-                   if _DEFAULT_LEXICON.is_rare_tail(surf) else None)
+            rec = recover_rare_tail(toks, i, _encoder()) if _DEFAULT_LEXICON.is_rare_tail(surf) else None
             if rec:
-                out_tokens.append({"surface": t.token, "misspelled": True, "top": rec,
-                                   "ambiguous": False,
-                                   "suggestions": [{"word": rec, "note": "slot-confirmed recovery"}],
-                                   "note": "rare-tail recovered: common word fills the predicate slot"})
+                out_tokens.append(
+                    {
+                        "surface": t.token,
+                        "misspelled": True,
+                        "top": rec,
+                        "ambiguous": False,
+                        "suggestions": [{"word": rec, "note": "slot-confirmed recovery"}],
+                        "note": "rare-tail recovered: common word fills the predicate slot",
+                    }
+                )
                 corrected[i] = rec
                 continue
             # a NAME-LIKE token that grounds ONLY via the rare multilingual validity
@@ -314,19 +330,22 @@ def spell_suggest(text: str, n: int = 5) -> Dict[str, Any]:
             if name_like and _DEFAULT_LEXICON.is_rare_tail(surf):
                 ent = correct_entity(surf, context_words=grounded_content)
                 if ent.fired and ent.ranked:
-                    out_tokens.append({
-                        "surface": t.token, "misspelled": False,
-                        "suggestions": _entity_offers(ent, surf, n),
-                        "note": "grounds only in the rare validity tail; "
-                                "entity-name neighbours offered (never auto-applied)"})
+                    out_tokens.append(
+                        {
+                            "surface": t.token,
+                            "misspelled": False,
+                            "suggestions": _entity_offers(ent, surf, n),
+                            "note": "grounds only in the rare validity tail; "
+                            "entity-name neighbours offered (never auto-applied)",
+                        }
+                    )
                     continue
             out_tokens.append({"surface": t.token, "misspelled": False, "suggestions": []})
             continue
         # a name-like token that IS a known entity name is valid — first-class, not
         # dependent on Wiktionary coverage (never touched, same law as word grounding)
         if name_like and _DEFAULT_ENTITIES.grounds(surf):
-            out_tokens.append({"surface": t.token, "misspelled": False, "suggestions": [],
-                               "note": "known entity name"})
+            out_tokens.append({"surface": t.token, "misspelled": False, "suggestions": [], "note": "known entity name"})
             continue
         template = " ".join("___" if j == i else s for j, s in enumerate(surfaces))
         context = [w for w in grounded_content if w != t.lemma]
@@ -343,11 +362,11 @@ def spell_suggest(text: str, n: int = 5) -> Dict[str, Any]:
             # the NAME space (same edit model + grounding + prior discipline) does.
             # A commit lands in `corrected` via the payload["top"] application below.
             _apply_entity(payload, surf, grounded_content, n)
-        if not payload.get("top") and not gated:    # edit-distance abstained -> try keyboard-HDC
+        if not payload.get("top") and not gated:  # edit-distance abstained -> try keyboard-HDC
             if [s for s in payload.get("suggestions", []) if s.get("word")]:
-                _apply_tiebreak(payload, surf, sentence_initial=(i == 0))   # confirm among candidates
+                _apply_tiebreak(payload, surf, sentence_initial=(i == 0))  # confirm among candidates
             else:
-                _apply_hdc(payload, surf, sentence_initial=(i == 0))        # true residue -> lexicon
+                _apply_hdc(payload, surf, sentence_initial=(i == 0))  # true residue -> lexicon
         out_tokens.append(payload)
         if payload["top"]:
             corrected[i] = payload["top"]
@@ -380,9 +399,8 @@ def spell_learn(word: str) -> Dict[str, Any]:
         return {"ok": True, "word": w, "already_known": True}
     with open(_ALLOWLIST_PATH, "a", encoding="utf-8") as f:
         f.write(w + "\n")
-    _DEFAULT_LEXICON._allowlist = None              # invalidate cache -> reloads on next use
-    return {"ok": True, "word": w, "learned": True,
-            "dictionary_size": len(_DEFAULT_LEXICON.allowlist)}
+    _DEFAULT_LEXICON._allowlist = None  # invalidate cache -> reloads on next use
+    return {"ok": True, "word": w, "learned": True, "dictionary_size": len(_DEFAULT_LEXICON.allowlist)}
 
 
 def main() -> None:

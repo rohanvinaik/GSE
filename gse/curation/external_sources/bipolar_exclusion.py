@@ -27,6 +27,7 @@ from gse.curation.schema import BIPOLAR_PAIRS
 @dataclass(frozen=True)
 class Suppression:
     """A record of one bipolar conflict resolved by mutual exclusion."""
+
     kept: str
     kept_confidence: float
     dropped: str
@@ -37,6 +38,7 @@ class Suppression:
 @dataclass
 class ExclusionResult:
     """Post-exclusion decomposition + audit trail."""
+
     primitives: Dict[str, int]
     confidences: Dict[str, float]
     suppressions: List[Suppression] = field(default_factory=list)
@@ -83,13 +85,15 @@ def enforce_bipolar_exclusion(
             kept, dropped = neg, pos
             kept_conf, dropped_conf = conf_neg, conf_pos
 
-        suppressions.append(Suppression(
-            kept=kept,
-            kept_confidence=kept_conf,
-            dropped=dropped,
-            dropped_confidence=dropped_conf,
-            bipolar_pair=(pos, neg),
-        ))
+        suppressions.append(
+            Suppression(
+                kept=kept,
+                kept_confidence=kept_conf,
+                dropped=dropped,
+                dropped_confidence=dropped_conf,
+                bipolar_pair=(pos, neg),
+            )
+        )
 
         del out_primitives[dropped]
         out_confidences.pop(dropped, None)
@@ -107,8 +111,4 @@ def count_violations(primitives: Mapping[str, int]) -> int:
     Useful for auditing an existing lexicon without modifying it. Returns
     the count of pairs with both members nonzero (range ``0..14``).
     """
-    return sum(
-        1
-        for pos, neg in BIPOLAR_PAIRS
-        if primitives.get(pos, 0) != 0 and primitives.get(neg, 0) != 0
-    )
+    return sum(1 for pos, neg in BIPOLAR_PAIRS if primitives.get(pos, 0) != 0 and primitives.get(neg, 0) != 0)

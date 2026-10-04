@@ -33,40 +33,38 @@ from gse.primitives_v2 import D
 # SYNTACTIC PRIMITIVES
 # =============================================================================
 
+
 class SyntacticBank(Enum):
     """Three orthogonal banks for syntactic primitives."""
-    CORE_STRUCTURE = "core"      # 40% - Subject, Predicate, Object, Complement
-    MODIFICATION = "mod"         # 30% - Adjective, Adverb, Determiner
-    TAM_FEATURES = "tam"         # 30% - Tense, Aspect, Mood
+
+    CORE_STRUCTURE = "core"  # 40% - Subject, Predicate, Object, Complement
+    MODIFICATION = "mod"  # 30% - Adjective, Adverb, Determiner
+    TAM_FEATURES = "tam"  # 30% - Tense, Aspect, Mood
 
 
 # Core structure primitives (40% of word dimensions)
 CORE_STRUCTURE_PRIMITIVES = [
-    "SYN_SUBJ",      # Subject position
-    "SYN_PRED",      # Predicate position
-    "SYN_OBJ",       # Object position
-    "SYN_COMPL",     # Complement position
+    "SYN_SUBJ",  # Subject position
+    "SYN_PRED",  # Predicate position
+    "SYN_OBJ",  # Object position
+    "SYN_COMPL",  # Complement position
 ]
 
 # Modification primitives (30% of word dimensions)
 MODIFICATION_PRIMITIVES = [
-    "SYN_ADJ_MOD",   # Adjectival modifier
-    "SYN_ADV_MOD",   # Adverbial modifier
-    "SYN_DET",       # Determiner position
+    "SYN_ADJ_MOD",  # Adjectival modifier
+    "SYN_ADV_MOD",  # Adverbial modifier
+    "SYN_DET",  # Determiner position
 ]
 
 # TAM feature primitives (30% of word dimensions)
 TAM_FEATURE_PRIMITIVES = [
-    "SYN_TENSE_PAST",    # Past tense marker
-    "SYN_ASPECT_PERF",   # Perfect aspect marker
-    "SYN_MOOD_INTER",    # Interrogative mood marker
+    "SYN_TENSE_PAST",  # Past tense marker
+    "SYN_ASPECT_PERF",  # Perfect aspect marker
+    "SYN_MOOD_INTER",  # Interrogative mood marker
 ]
 
-ALL_SYNTACTIC_PRIMITIVES = (
-    CORE_STRUCTURE_PRIMITIVES +
-    MODIFICATION_PRIMITIVES +
-    TAM_FEATURE_PRIMITIVES
-)
+ALL_SYNTACTIC_PRIMITIVES = CORE_STRUCTURE_PRIMITIVES + MODIFICATION_PRIMITIVES + TAM_FEATURE_PRIMITIVES
 
 # Bank allocation (percentages of per-word dimensions)
 BANK_ALLOCATIONS = {
@@ -80,6 +78,7 @@ BANK_ALLOCATIONS = {
 # METADATA
 # =============================================================================
 
+
 @dataclass
 class SentenceVectorMetadata:
     """
@@ -90,9 +89,10 @@ class SentenceVectorMetadata:
     2. Identify per-position signal strength
     3. Track which syntactic banks are active
     """
-    word_count: int                          # N
-    total_dimensions: int = D                # D (8192)
-    dims_per_word: float = 0.0               # D/N
+
+    word_count: int  # N
+    total_dimensions: int = D  # D (8192)
+    dims_per_word: float = 0.0  # D/N
     word_boundaries: List[Tuple[int, int]] = field(default_factory=list)
     per_position_magnitude: List[float] = field(default_factory=list)
     bank_magnitudes: Dict[str, float] = field(default_factory=dict)
@@ -106,10 +106,11 @@ class SentenceVectorMetadata:
 @dataclass
 class WordPosition:
     """Encoding of a word at a specific position."""
-    position: int               # 0-indexed position in sentence
-    word: str                   # The word token
-    syntactic_role: str         # Primary syntactic role
-    semantic_vector: np.ndarray # Word's semantic vector (from lexicon)
+
+    position: int  # 0-indexed position in sentence
+    word: str  # The word token
+    syntactic_role: str  # Primary syntactic role
+    semantic_vector: np.ndarray  # Word's semantic vector (from lexicon)
     tam_features: List[str] = field(default_factory=list)  # TAM markers
 
 
@@ -117,9 +118,10 @@ class WordPosition:
 # STRETCHING ALGORITHM
 # =============================================================================
 
+
 def gaussian_weight(distance: float, sigma: float = 0.5) -> float:
     """Compute Gaussian weight for distance from center."""
-    return exp(-(distance ** 2) / (2 * sigma ** 2))
+    return exp(-(distance**2) / (2 * sigma**2))
 
 
 def stretch_to_dimensions(
@@ -212,6 +214,7 @@ def compute_word_boundaries(n_words: int, total_dims: int = D) -> List[Tuple[flo
 # =============================================================================
 # SENTENCE STRUCTURE ENCODER
 # =============================================================================
+
 
 class SentenceStructureEncoder:
     """
@@ -307,8 +310,7 @@ class SentenceStructureEncoder:
             # 2. Encode semantic content (overlaid on modification bank)
             if word_pos.semantic_vector is not None and len(word_pos.semantic_vector) > 0:
                 stretched = stretch_to_dimensions(
-                    word_pos.semantic_vector.astype(np.float32),
-                    core_end, mod_end, self.total_dims
+                    word_pos.semantic_vector.astype(np.float32), core_end, mod_end, self.total_dims
                 )
                 result += stretched
                 bank_mags[SyntacticBank.MODIFICATION.value] += np.sum(np.abs(stretched))
@@ -322,7 +324,7 @@ class SentenceStructureEncoder:
                     bank_mags[SyntacticBank.TAM_FEATURES.value] += np.sum(np.abs(stretched))
 
             # Track magnitude and role
-            per_position_mag.append(float(np.sum(np.abs(result[int(start):int(end)]))))
+            per_position_mag.append(float(np.sum(np.abs(result[int(start) : int(end)]))))
             syntactic_roles.append(word_pos.syntactic_role)
 
         # Build metadata
@@ -409,6 +411,7 @@ class SentenceStructureEncoder:
 # =============================================================================
 # CONVENIENCE FUNCTIONS
 # =============================================================================
+
 
 def encode_simple_sentence(
     words: List[str],

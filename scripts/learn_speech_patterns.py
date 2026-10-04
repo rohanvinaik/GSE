@@ -29,6 +29,7 @@ import ijson
 @dataclass
 class SpeechPattern:
     """A learned speech pattern."""
+
     pattern: str
     frequency: int
     examples: List[str]
@@ -41,33 +42,66 @@ class SpeechPatternLearner:
     # Phrase patterns to detect
     PHRASE_PATTERNS = {
         "hedging": [
-            r"\bi think\b", r"\bmaybe\b", r"\bprobably\b", r"\bkind of\b",
-            r"\bsort of\b", r"\bi guess\b", r"\bperhaps\b",
+            r"\bi think\b",
+            r"\bmaybe\b",
+            r"\bprobably\b",
+            r"\bkind of\b",
+            r"\bsort of\b",
+            r"\bi guess\b",
+            r"\bperhaps\b",
         ],
         "emphasis": [
-            r"\breally\b", r"\bvery\b", r"\babsolutely\b", r"\bcompletely\b",
-            r"\btotally\b", r"\bincredibly\b", r"\bextremely\b",
+            r"\breally\b",
+            r"\bvery\b",
+            r"\babsolutely\b",
+            r"\bcompletely\b",
+            r"\btotally\b",
+            r"\bincredibly\b",
+            r"\bextremely\b",
         ],
         "meta_cognitive": [
-            r"\bi'm trying to\b", r"\bwhat i mean is\b", r"\bthe thing is\b",
-            r"\bi'm realizing\b", r"\bi notice\b", r"\bit's hard to articulate\b",
-            r"\blet me think\b", r"\bwhat's interesting\b",
+            r"\bi'm trying to\b",
+            r"\bwhat i mean is\b",
+            r"\bthe thing is\b",
+            r"\bi'm realizing\b",
+            r"\bi notice\b",
+            r"\bit's hard to articulate\b",
+            r"\blet me think\b",
+            r"\bwhat's interesting\b",
         ],
         "gestalt": [
-            r"\bit's like\b", r"\bthere's this\b", r"\bi can feel\b",
-            r"\bsomething about\b", r"\bthe shape of\b", r"\bi just know\b",
+            r"\bit's like\b",
+            r"\bthere's this\b",
+            r"\bi can feel\b",
+            r"\bsomething about\b",
+            r"\bthe shape of\b",
+            r"\bi just know\b",
         ],
         "reasoning": [
-            r"\bbecause\b", r"\btherefore\b", r"\bso\b", r"\bthus\b",
-            r"\bwhich means\b", r"\bimplies\b", r"\bconsequently\b",
+            r"\bbecause\b",
+            r"\btherefore\b",
+            r"\bso\b",
+            r"\bthus\b",
+            r"\bwhich means\b",
+            r"\bimplies\b",
+            r"\bconsequently\b",
         ],
         "contrasting": [
-            r"\bbut\b", r"\bhowever\b", r"\balthough\b", r"\bwhile\b",
-            r"\bwhereas\b", r"\bon the other hand\b", r"\bdespite\b",
+            r"\bbut\b",
+            r"\bhowever\b",
+            r"\balthough\b",
+            r"\bwhile\b",
+            r"\bwhereas\b",
+            r"\bon the other hand\b",
+            r"\bdespite\b",
         ],
         "analogy": [
-            r"\blike\b.*\bbut\b", r"\banalog", r"\bsimilar to\b",
-            r"\bremind.*of\b", r"\bis to.*as\b", r"\bmetaphor\b",
+            r"\blike\b.*\bbut\b",
+            r"\banalog",
+            r"\bsimilar to\b",
+            r"\bremind.*of\b",
+            r"\bis to.*as\b",
+            r"\bmetaphor\b",
         ],
     }
 
@@ -85,13 +119,13 @@ class SpeechPatternLearner:
         print(f"Learning speech patterns from: {json_path}")
         print("Streaming through conversations...")
 
-        with open(json_path, 'rb') as f:
-            for item in ijson.items(f, 'item'):
-                for msg in item.get('chat_messages', []):
-                    if msg.get('sender') != 'human':
+        with open(json_path, "rb") as f:
+            for item in ijson.items(f, "item"):
+                for msg in item.get("chat_messages", []):
+                    if msg.get("sender") != "human":
                         continue
 
-                    text = msg.get('text', '')
+                    text = msg.get("text", "")
                     if len(text) < 20:
                         continue
 
@@ -112,7 +146,7 @@ class SpeechPatternLearner:
 
         # Vocabulary
         for word in words:
-            word = re.sub(r'[^\w]', '', word)
+            word = re.sub(r"[^\w]", "", word)
             if len(word) > 2:
                 self.vocabulary[word] += 1
 
@@ -126,23 +160,22 @@ class SpeechPatternLearner:
         # N-grams
         for n in [2, 3, 4]:
             for i in range(len(words) - n + 1):
-                ngram = ' '.join(words[i:i+n])
+                ngram = " ".join(words[i : i + n])
                 # Filter out punctuation-only
-                if re.search(r'\w', ngram):
+                if re.search(r"\w", ngram):
                     self.n_grams[n][ngram] += 1
 
         # Sentence starters
-        sentences = re.split(r'[.!?]+', text)
+        sentences = re.split(r"[.!?]+", text)
         for sent in sentences:
             sent = sent.strip()
             if sent:
-                first_words = ' '.join(sent.lower().split()[:3])
+                first_words = " ".join(sent.lower().split()[:3])
                 if first_words:
                     self.sentence_starters[first_words] += 1
 
         # Intensity words
-        for word in ["fucking", "goddamn", "absolutely", "incredible",
-                     "insane", "ridiculous", "unbelievable"]:
+        for word in ["fucking", "goddamn", "absolutely", "incredible", "insane", "ridiculous", "unbelievable"]:
             if word in text_lower:
                 self.intensity_words[word] += re.findall(word, text_lower).__len__()
 
@@ -169,18 +202,54 @@ class SpeechPatternLearner:
             }
 
         # Top words (excluding common words)
-        common_words = {"the", "a", "an", "is", "are", "was", "were", "be", "been",
-                       "to", "of", "and", "in", "that", "it", "for", "on", "with",
-                       "as", "at", "by", "this", "from", "or", "but", "not", "have",
-                       "has", "had", "you", "your", "i", "me", "my", "we", "our"}
-        filtered_vocab = [(w, c) for w, c in self.vocabulary.most_common(100)
-                         if w not in common_words]
+        common_words = {
+            "the",
+            "a",
+            "an",
+            "is",
+            "are",
+            "was",
+            "were",
+            "be",
+            "been",
+            "to",
+            "of",
+            "and",
+            "in",
+            "that",
+            "it",
+            "for",
+            "on",
+            "with",
+            "as",
+            "at",
+            "by",
+            "this",
+            "from",
+            "or",
+            "but",
+            "not",
+            "have",
+            "has",
+            "had",
+            "you",
+            "your",
+            "i",
+            "me",
+            "my",
+            "we",
+            "our",
+        }
+        filtered_vocab = [(w, c) for w, c in self.vocabulary.most_common(100) if w not in common_words]
         signature["favorite_words"] = filtered_vocab[:20]
 
         # Top phrases (3-grams)
         # Filter out low-value phrases
-        meaningful_phrases = [(p, c) for p, c in self.n_grams[3].most_common(200)
-                             if c > 2 and not all(w in common_words for w in p.split())]
+        meaningful_phrases = [
+            (p, c)
+            for p, c in self.n_grams[3].most_common(200)
+            if c > 2 and not all(w in common_words for w in p.split())
+        ]
         signature["favorite_phrases"] = meaningful_phrases[:15]
 
         # Top sentence starters
@@ -195,9 +264,9 @@ class SpeechPatternLearner:
         """Print a formatted report of speech patterns."""
         sig = self.get_signature()
 
-        print("\n" + "="*70)
+        print("\n" + "=" * 70)
         print("YOUR SPEECH PATTERN ANALYSIS")
-        print("="*70)
+        print("=" * 70)
 
         print("\n📊 Overview")
         print(f"  Messages analyzed: {sig['messages_analyzed']:,}")
@@ -205,8 +274,7 @@ class SpeechPatternLearner:
         print(f"  Avg words/message: {sig['avg_words_per_message']:.1f}")
 
         print("\n🗣️ Phrase Pattern Usage (per 100 messages):")
-        for category, data in sorted(sig["phrase_patterns"].items(),
-                                    key=lambda x: -x[1]["total"]):
+        for category, data in sorted(sig["phrase_patterns"].items(), key=lambda x: -x[1]["total"]):
             per_100 = data["per_message"] * 100
             bar = "█" * int(per_100 / 2)
             print(f"  {category:15} {bar} {per_100:.1f}")
@@ -214,20 +282,19 @@ class SpeechPatternLearner:
         print("\n💬 Your Favorite Words:")
         for i, (word, count) in enumerate(sig["favorite_words"][:10]):
             bar = "█" * min(20, count // 5)
-            print(f"  {i+1:2}. {word:15} {bar} ({count})")
+            print(f"  {i + 1:2}. {word:15} {bar} ({count})")
 
         print("\n🔤 Your Signature Phrases:")
         for phrase, count in sig["favorite_phrases"][:10]:
-            print(f"  • \"{phrase}\" ({count}x)")
+            print(f'  • "{phrase}" ({count}x)')
 
         print("\n🚀 How You Start Sentences:")
         for starter, count in sig["sentence_starters"][:7]:
-            print(f"  • \"{starter}...\" ({count}x)")
+            print(f'  • "{starter}..." ({count}x)')
 
         if sig["intensity_profile"]:
             print("\n🔥 Intensity Markers:")
-            for word, count in sorted(sig["intensity_profile"].items(),
-                                     key=lambda x: -x[1])[:5]:
+            for word, count in sorted(sig["intensity_profile"].items(), key=lambda x: -x[1])[:5]:
                 bar = "█" * min(20, count)
                 print(f"  {word:15} {bar} ({count})")
 
@@ -249,25 +316,29 @@ class SpeechPatternLearner:
         else:
             print("  ASSERTIVE style - more emphatic than hedging")
 
-        print(f"\n{'='*70}")
+        print(f"\n{'=' * 70}")
 
     def save_patterns(self, output_path: Path):
         """Save learned patterns to JSON."""
         sig = self.get_signature()
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             json.dump(sig, f, indent=2)
         print(f"Saved patterns to: {output_path}")
 
 
 def main():
     import argparse
+
     parser = argparse.ArgumentParser(description="Learn speech patterns from conversations")
-    parser.add_argument("--input", type=Path,
-                       default=Path("/Users/rohanvinaik/relational-ai/data/training_text/conversations.json"),
-                       help="Path to conversations JSON")
-    parser.add_argument("--output", type=Path,
-                       default=Path("data/speech_patterns.json"),
-                       help="Output path for patterns")
+    parser.add_argument(
+        "--input",
+        type=Path,
+        default=Path("/Users/rohanvinaik/relational-ai/data/training_text/conversations.json"),
+        help="Path to conversations JSON",
+    )
+    parser.add_argument(
+        "--output", type=Path, default=Path("data/speech_patterns.json"), help="Output path for patterns"
+    )
     args = parser.parse_args()
 
     learner = SpeechPatternLearner()

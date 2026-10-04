@@ -61,6 +61,7 @@ def decomposer(tree, router, basis):
 
 # ---------- Pattern tables ----------
 
+
 class TestPrefixPatterns:
     def test_un_negation(self):
         assert PREFIX_PATTERNS["un"] == [("NOT", "modifier", 1)]
@@ -92,6 +93,7 @@ class TestPosDefaults:
 
 # ---------- DecompositionResult ----------
 
+
 class TestDecompositionResult:
     def test_defaults(self):
         r = DecompositionResult(word="x", pos="n")
@@ -101,6 +103,7 @@ class TestDecompositionResult:
 
 
 # ---------- HDCFuzzyDecomposer.__init__ ----------
+
 
 class TestInit:
     def test_uses_provided_basis(self, tree, router):
@@ -118,6 +121,7 @@ class TestInit:
 
 
 # ---------- _build_kline_patterns ----------
+
 
 class TestBuildKlinePatterns:
     def test_single_primitive_decomp_excluded(self, decomposer, tree):
@@ -138,6 +142,7 @@ class TestBuildKlinePatterns:
 
 
 # ---------- _analyze_morphology ----------
+
 
 class TestAnalyzeMorphology:
     def test_un_prefix_detected(self, decomposer):
@@ -170,6 +175,7 @@ class TestAnalyzeMorphology:
 
 # ---------- _build_query_from_hints ----------
 
+
 class TestBuildQueryFromHints:
     def test_uses_pos_defaults(self, decomposer):
         # Noun POS → SOMETHING/theme default
@@ -189,6 +195,7 @@ class TestBuildQueryFromHints:
 
 
 # ---------- _extract_patterns ----------
+
 
 class TestExtractPatterns:
     def test_empty_returns_empty(self, decomposer):
@@ -215,6 +222,7 @@ class TestExtractPatterns:
 
 
 # ---------- _combine_sources ----------
+
 
 class TestCombineSources:
     def test_pos_defaults_added(self, decomposer):
@@ -251,6 +259,7 @@ class TestCombineSources:
 
 # ---------- _analyze_gloss ----------
 
+
 class TestAnalyzeGloss:
     def test_person_keyword(self, decomposer):
         hints = decomposer._analyze_gloss("a person who runs")
@@ -269,6 +278,7 @@ class TestAnalyzeGloss:
 
 # ---------- _infer_polarities ----------
 
+
 class TestInferPolarities:
     def test_bipolar_normalized(self, decomposer):
         # BAD is bipolar → maps to canonical (GOOD with -1)
@@ -283,6 +293,7 @@ class TestInferPolarities:
 
 
 # ---------- decompose ----------
+
 
 class TestDecompose:
     def test_returns_result(self, decomposer):
@@ -314,6 +325,7 @@ class TestDecompose:
 
 
 # ---------- decompose_batch ----------
+
 
 class TestDecomposeBatch:
     def test_returns_list(self, decomposer):

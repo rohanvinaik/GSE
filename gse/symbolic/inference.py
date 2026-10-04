@@ -56,10 +56,11 @@ def _lemma(node: Any) -> Optional[str]:
 @dataclass(frozen=True)
 class Derivation:
     """The verdict of a query, with its proof chain."""
+
     holds: bool
-    relation: str               # "is_a" | "greater"
-    query: Tuple[str, str]      # (x, y)
-    chain: Tuple[str, ...]      # the derivation path; () when not entailed
+    relation: str  # "is_a" | "greater"
+    query: Tuple[str, str]  # (x, y)
+    chain: Tuple[str, ...]  # the derivation path; () when not entailed
     axis: Optional[str] = None
 
     def __str__(self) -> str:
@@ -80,7 +81,7 @@ class KnowledgeBase:
         # negated clause is never asserted positively.
         self._facts: Set[Tuple[str, Optional[str], Optional[str]]] = set()
         self._neg_facts: Set[Tuple[str, Optional[str], Optional[str]]] = set()
-        self._rules: List[Tuple[Any, Any]] = []   # (antecedent pred, consequent Event)
+        self._rules: List[Tuple[Any, Any]] = []  # (antecedent pred, consequent Event)
 
     @staticmethod
     def _event_key(p: Any) -> Optional[Tuple[str, Optional[str], Optional[str]]]:
@@ -101,7 +102,7 @@ class KnowledgeBase:
         lemma = _lemma(operand)
         if not thread or not lemma:
             return
-        nodes = [lemma] + [t.lower() for t in reversed(thread)]   # specific → root
+        nodes = [lemma] + [t.lower() for t in reversed(thread)]  # specific → root
         for child, parent in zip(nodes, nodes[1:]):
             if child != parent:
                 self._isa[child].add(parent)
@@ -121,8 +122,7 @@ class KnowledgeBase:
             # A rule needs both sides as stated: the reasoner has no negated antecedent or
             # consequent (no negation-as-failure), so a negated side ABSTAINS rather than
             # flattening to its positive clause — "if X does not bark" is not "if X barks" (#7).
-            if "negated" in (assertion_mode(type(p.antecedent).__name__),
-                             assertion_mode(type(p.consequent).__name__)):
+            if "negated" in (assertion_mode(type(p.antecedent).__name__), assertion_mode(type(p.consequent).__name__)):
                 return
             ant = predicates(p.antecedent)
             cons = predicates(p.consequent)
@@ -136,7 +136,7 @@ class KnowledgeBase:
             self._harvest_threads(p)
             return
         if negated:
-            return          # a negated comparison/type is withheld, not inverted
+            return  # a negated comparison/type is withheld, not inverted
         if name == "TypeAssertion":
             x, y = _lemma(p.entity), _lemma(p.kind)
             if x and y:
@@ -164,9 +164,9 @@ class KnowledgeBase:
             return
         name = type(node).__name__
         mode = assertion_mode(name, getattr(node, "verb", "") or "", type(getattr(node, "patient", None)).__name__)
-        self._ingest(node)          # a fact, a negative fact or a rule; a no-op for a container
+        self._ingest(node)  # a fact, a negative fact or a rule; a no-op for a container
         if mode in ("negated", "conditional"):
-            return                  # nothing beneath holds as stated
+            return  # nothing beneath holds as stated
         if name == "Op":
             children = list(node.args)
         elif name == "Coordination":
@@ -213,8 +213,7 @@ class KnowledgeBase:
 
     def greater(self, x: str, y: str, axis: Optional[str] = None) -> Derivation:
         axes: List[Optional[str]] = (
-            [axis] if axis is not None
-            else sorted(self._axes, key=lambda a: (a is None, a or ""))
+            [axis] if axis is not None else sorted(self._axes, key=lambda a: (a is None, a or ""))
         )
         for ax in axes:
             chain = self._bfs(lambda n: self._gt.get((ax, n), ()), x, y)
@@ -247,13 +246,14 @@ class KnowledgeBase:
         d = self.is_a(agent, generic)
         return d.chain if d.holds else None
 
-    def _antecedent_holds(self, ant: Any, agent: str, generic: Optional[str],
-                          seen: frozenset) -> Optional[Tuple[str, ...]]:
+    def _antecedent_holds(
+        self, ant: Any, agent: str, generic: Optional[str], seen: frozenset
+    ) -> Optional[Tuple[str, ...]]:
         """Derivation chain for a rule's antecedent with the generic subject
         bound to ``agent``; None when not derivable."""
         name = type(ant).__name__
         if name == "Event":
-            verb, a, patient = self._event_key(ant)   # type: ignore[misc]
+            verb, a, patient = self._event_key(ant)  # type: ignore[misc]
             a = agent if a == generic else a
             if a is None:
                 return None
@@ -264,13 +264,12 @@ class KnowledgeBase:
             # whose patient is-a the generic satisfies it — the same is-a binding
             # as the subject, on the object slot (france → country).
             if patient is not None:
-                for (fv, fa, fp) in sorted(self._facts, key=repr):
+                for fv, fa, fp in sorted(self._facts, key=repr):
                     if fv != verb or fa != a or fp is None or fp == patient:
                         continue
                     bind = self.is_a(fp, patient)
                     if bind.holds:
-                        return (f"fact: {self._fmt(fv, fa, fp)}",
-                                " → ".join(bind.chain))
+                        return (f"fact: {self._fmt(fv, fa, fp)}", " → ".join(bind.chain))
             return None
         if name == "TypeAssertion":
             x, y = _lemma(ant.entity), _lemma(ant.kind)
@@ -288,21 +287,20 @@ class KnowledgeBase:
                 return d.chain if d.holds else None
         return None
 
-    def event(self, verb: str, agent: str, patient: Optional[str] = None,
-              _seen: frozenset = frozenset()) -> Derivation:
+    def event(self, verb: str, agent: str, patient: Optional[str] = None, _seen: frozenset = frozenset()) -> Derivation:
         """Does ``agent verb patient`` hold — as a stated fact, or by modus
         ponens through the Conditional rules (the generic rule subject bound to
         ``agent`` via the is-a hierarchy)? Refuses (``not entailed``) rather
         than fabricates; a negated fact never satisfies a query."""
         query = (verb, agent, patient)
         pretty = self._fmt(verb, agent, patient)
-        if query in _seen:                       # cycle guard for rule chains
+        if query in _seen:  # cycle guard for rule chains
             return Derivation(False, "event", (agent, pretty), ())
         if query in self._facts:
             return Derivation(True, "event", (agent, pretty), (f"fact: {pretty}",))
         seen = _seen | {query}
         for ant, cons in self._rules:
-            c_verb, c_agent, c_patient = self._event_key(cons)   # type: ignore[misc]
+            c_verb, c_agent, c_patient = self._event_key(cons)  # type: ignore[misc]
             if c_verb != verb or c_patient != patient:
                 continue
             bridge = self._bind(agent, c_agent)
@@ -311,10 +309,7 @@ class KnowledgeBase:
             ant_chain = self._antecedent_holds(ant, agent, c_agent, seen)
             if ant_chain is None:
                 continue
-            rule_str = (f"rule: {self._fmt_pred(ant)} ⇒ "
-                        f"{self._fmt(c_verb, c_agent, c_patient)}")
-            chain = tuple(ant_chain) \
-                + ((" → ".join(bridge),) if bridge else ()) \
-                + (rule_str, f"∴ {pretty}")
+            rule_str = f"rule: {self._fmt_pred(ant)} ⇒ {self._fmt(c_verb, c_agent, c_patient)}"
+            chain = tuple(ant_chain) + ((" → ".join(bridge),) if bridge else ()) + (rule_str, f"∴ {pretty}")
             return Derivation(True, "event", (agent, pretty), chain)
         return Derivation(False, "event", (agent, pretty), ())

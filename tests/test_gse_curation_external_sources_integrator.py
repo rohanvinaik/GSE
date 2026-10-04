@@ -19,6 +19,7 @@ from gse.curation.external_sources.integrator import (
 
 # ---------- ExternalWordData ----------
 
+
 class TestExternalWordData:
     def test_defaults(self):
         e = ExternalWordData(word="x")
@@ -31,6 +32,7 @@ class TestExternalWordData:
 
 
 # ---------- __init__ ----------
+
 
 class TestInit:
     def test_no_db(self):
@@ -48,6 +50,7 @@ class TestInit:
 
 
 # ---------- load_all_sources ----------
+
 
 class TestLoadAllSources:
     # every parser load_all_sources registers — kept in sync with integrator.py
@@ -81,18 +84,17 @@ class TestLoadAllSources:
         mp = MagicMock()
         mp.load.return_value = True
         mp.entries = {"a": [], "b": []}
-        with patch("gse.curation.external_sources.sentiwordnet.SentiWordNetParser",
-                   return_value=mp):
-            with patch("gse.curation.external_sources.nrc_emotion.NRCEmotionParser",
-                       side_effect=ImportError):
-                with patch("gse.curation.external_sources.nrc_vad.NRCVADParser",
-                           side_effect=ImportError):
-                    with patch("gse.curation.external_sources.verbnet.VerbNetParser",
-                               side_effect=ImportError):
-                        with patch("gse.curation.external_sources.concreteness.ConcretenessParser",
-                                   side_effect=ImportError):
-                            with patch("gse.curation.external_sources.lancaster_sensorimotor.LancasterSensorimotorParser",
-                                       side_effect=ImportError):
+        with patch("gse.curation.external_sources.sentiwordnet.SentiWordNetParser", return_value=mp):
+            with patch("gse.curation.external_sources.nrc_emotion.NRCEmotionParser", side_effect=ImportError):
+                with patch("gse.curation.external_sources.nrc_vad.NRCVADParser", side_effect=ImportError):
+                    with patch("gse.curation.external_sources.verbnet.VerbNetParser", side_effect=ImportError):
+                        with patch(
+                            "gse.curation.external_sources.concreteness.ConcretenessParser", side_effect=ImportError
+                        ):
+                            with patch(
+                                "gse.curation.external_sources.lancaster_sensorimotor.LancasterSensorimotorParser",
+                                side_effect=ImportError,
+                            ):
                                 stats = i.load_all_sources()
         assert stats["sentiwordnet"] == 2
         assert "sentiwordnet" in i.parsers
@@ -101,23 +103,23 @@ class TestLoadAllSources:
         i = ExternalSourcesIntegrator()
         mp = MagicMock()
         mp.load.return_value = False
-        with patch("gse.curation.external_sources.sentiwordnet.SentiWordNetParser",
-                   return_value=mp):
-            with patch("gse.curation.external_sources.nrc_emotion.NRCEmotionParser",
-                       side_effect=ImportError):
-                with patch("gse.curation.external_sources.nrc_vad.NRCVADParser",
-                           side_effect=ImportError):
-                    with patch("gse.curation.external_sources.verbnet.VerbNetParser",
-                               side_effect=ImportError):
-                        with patch("gse.curation.external_sources.concreteness.ConcretenessParser",
-                                   side_effect=ImportError):
-                            with patch("gse.curation.external_sources.lancaster_sensorimotor.LancasterSensorimotorParser",
-                                       side_effect=ImportError):
+        with patch("gse.curation.external_sources.sentiwordnet.SentiWordNetParser", return_value=mp):
+            with patch("gse.curation.external_sources.nrc_emotion.NRCEmotionParser", side_effect=ImportError):
+                with patch("gse.curation.external_sources.nrc_vad.NRCVADParser", side_effect=ImportError):
+                    with patch("gse.curation.external_sources.verbnet.VerbNetParser", side_effect=ImportError):
+                        with patch(
+                            "gse.curation.external_sources.concreteness.ConcretenessParser", side_effect=ImportError
+                        ):
+                            with patch(
+                                "gse.curation.external_sources.lancaster_sensorimotor.LancasterSensorimotorParser",
+                                side_effect=ImportError,
+                            ):
                                 stats = i.load_all_sources()
         assert "sentiwordnet" not in stats
 
 
 # ---------- get_all_words ----------
+
 
 class TestGetAllWords:
     def test_union_from_parsers(self):
@@ -144,6 +146,7 @@ class TestGetAllWords:
 
 
 # ---------- get_existing_words ----------
+
 
 class TestGetExistingWords:
     def test_no_db_empty(self):
@@ -173,6 +176,7 @@ class TestGetExistingWords:
 
 # ---------- get_new_words ----------
 
+
 class TestGetNewWords:
     def test_set_diff(self):
         i = ExternalSourcesIntegrator()
@@ -183,6 +187,7 @@ class TestGetNewWords:
 
 
 # ---------- aggregate_primitives ----------
+
 
 class TestAggregatePrimitives:
     def test_no_sources(self):
@@ -208,8 +213,10 @@ class TestAggregatePrimitives:
     def test_multiple_agree(self):
         i = ExternalSourcesIntegrator()
         i._loaded = True
-        p1 = MagicMock(); p1.to_primitives.return_value = {"GOOD": 1}
-        p2 = MagicMock(); p2.to_primitives.return_value = {"GOOD": 1}
+        p1 = MagicMock()
+        p1.to_primitives.return_value = {"GOOD": 1}
+        p2 = MagicMock()
+        p2.to_primitives.return_value = {"GOOD": 1}
         i.parsers = {"s1": p1, "s2": p2}
         result = i.aggregate_primitives("x")
         assert result.primitives["GOOD"] == 1
@@ -218,20 +225,24 @@ class TestAggregatePrimitives:
     def test_disagreement_majority_wins(self):
         i = ExternalSourcesIntegrator()
         i._loaded = True
-        p1 = MagicMock(); p1.to_primitives.return_value = {"GOOD": 1}
-        p2 = MagicMock(); p2.to_primitives.return_value = {"GOOD": 1}
-        p3 = MagicMock(); p3.to_primitives.return_value = {"GOOD": -1}
+        p1 = MagicMock()
+        p1.to_primitives.return_value = {"GOOD": 1}
+        p2 = MagicMock()
+        p2.to_primitives.return_value = {"GOOD": 1}
+        p3 = MagicMock()
+        p3.to_primitives.return_value = {"GOOD": -1}
         i.parsers = {"s1": p1, "s2": p2, "s3": p3}
         result = i.aggregate_primitives("x")
         # 2 say +1, 1 says -1 → majority +1
         assert result.primitives["GOOD"] == 1
         # confidence = 2/3
-        assert result.confidence_scores["GOOD"] == pytest.approx(2/3)
+        assert result.confidence_scores["GOOD"] == pytest.approx(2 / 3)
 
     def test_empty_primitives_excludes_source(self):
         i = ExternalSourcesIntegrator()
         i._loaded = True
-        p = MagicMock(); p.to_primitives.return_value = {}
+        p = MagicMock()
+        p.to_primitives.return_value = {}
         i.parsers = {"s1": p}
         result = i.aggregate_primitives("x")
         assert result.sources == []
@@ -246,6 +257,7 @@ class TestAggregatePrimitives:
 
 # ---------- get_prefilled_entries ----------
 
+
 class TestGetPrefilledEntries:
     def test_no_new_words(self):
         i = ExternalSourcesIntegrator()
@@ -256,7 +268,8 @@ class TestGetPrefilledEntries:
     def test_returns_words_meeting_threshold(self):
         i = ExternalSourcesIntegrator()
         i._loaded = True
-        p = MagicMock(); p.to_primitives.return_value = {"GOOD": 1}
+        p = MagicMock()
+        p.to_primitives.return_value = {"GOOD": 1}
         i.parsers = {"s1": p}
         with patch.object(i, "get_new_words", return_value={"happy"}):
             result = i.get_prefilled_entries(min_sources=1, min_confidence=0.0)
@@ -266,7 +279,8 @@ class TestGetPrefilledEntries:
     def test_min_sources_filter(self):
         i = ExternalSourcesIntegrator()
         i._loaded = True
-        p = MagicMock(); p.to_primitives.return_value = {"GOOD": 1}
+        p = MagicMock()
+        p.to_primitives.return_value = {"GOOD": 1}
         i.parsers = {"s1": p}
         with patch.object(i, "get_new_words", return_value={"happy"}):
             # min_sources=2 → 1 source not enough
@@ -275,8 +289,10 @@ class TestGetPrefilledEntries:
     def test_filter_low_confidence(self):
         i = ExternalSourcesIntegrator()
         i._loaded = True
-        p1 = MagicMock(); p1.to_primitives.return_value = {"GOOD": 1, "BIG": 1}
-        p2 = MagicMock(); p2.to_primitives.return_value = {"GOOD": 1}  # disagree on BIG (silence)
+        p1 = MagicMock()
+        p1.to_primitives.return_value = {"GOOD": 1, "BIG": 1}
+        p2 = MagicMock()
+        p2.to_primitives.return_value = {"GOOD": 1}  # disagree on BIG (silence)
         i.parsers = {"s1": p1, "s2": p2}
         with patch.object(i, "get_new_words", return_value={"x"}):
             # BIG confidence 1/2=0.5; min_confidence=0.6 → BIG filtered
@@ -288,7 +304,8 @@ class TestGetPrefilledEntries:
     def test_excluded_if_no_primitives_after_filter(self):
         i = ExternalSourcesIntegrator()
         i._loaded = True
-        p = MagicMock(); p.to_primitives.return_value = {"GOOD": 1}
+        p = MagicMock()
+        p.to_primitives.return_value = {"GOOD": 1}
         i.parsers = {"s1": p}
         with patch.object(i, "get_new_words", return_value={"x"}):
             # min_confidence=1.5 → no primitive qualifies → entry excluded
@@ -297,14 +314,18 @@ class TestGetPrefilledEntries:
 
 # ---------- export_for_llm_processing ----------
 
+
 class TestExportForLLM:
     def test_exports_to_json(self, tmp_path):
         i = ExternalSourcesIntegrator()
         i._loaded = True
-        with patch.object(i, "get_prefilled_entries", return_value=[
-            ExternalWordData(word="happy", primitives={"GOOD": 1},
-                             sources=["s1"], confidence_scores={"GOOD": 0.9}),
-        ]):
+        with patch.object(
+            i,
+            "get_prefilled_entries",
+            return_value=[
+                ExternalWordData(word="happy", primitives={"GOOD": 1}, sources=["s1"], confidence_scores={"GOOD": 0.9}),
+            ],
+        ):
             output = tmp_path / "out.json"
             n = i.export_for_llm_processing(str(output))
         assert n == 1
@@ -327,11 +348,16 @@ class TestExportForLLM:
 
     def test_needed_primitives_full_when_no_known(self, tmp_path):
         from gse.curation.schema import ALL_PRIMITIVES
+
         i = ExternalSourcesIntegrator()
         i._loaded = True
-        with patch.object(i, "get_prefilled_entries", return_value=[
-            ExternalWordData(word="x", primitives={}),
-        ]):
+        with patch.object(
+            i,
+            "get_prefilled_entries",
+            return_value=[
+                ExternalWordData(word="x", primitives={}),
+            ],
+        ):
             output = tmp_path / "out.json"
             i.export_for_llm_processing(str(output))
         data = json.loads(output.read_text())
@@ -339,6 +365,7 @@ class TestExportForLLM:
 
 
 # ---------- get_statistics ----------
+
 
 class TestGetStatistics:
     def test_basic(self):
@@ -365,6 +392,7 @@ class TestGetStatistics:
 
 # ---------- close ----------
 
+
 class TestClose:
     def test_with_db(self):
         i = ExternalSourcesIntegrator()
@@ -380,20 +408,23 @@ class TestClose:
 
 # ---------- download_all_sources ----------
 
+
 class TestDownloadAllSources:
     def test_calls_nltk_and_parsers(self, capsys):
         with patch("nltk.download") as mock_dl:
             with patch.object(
                 __import__("gse.curation.external_sources.nrc_emotion", fromlist=["NRCEmotionParser"]).NRCEmotionParser,
-                "download"
+                "download",
             ) as mock_em:
                 with patch.object(
                     __import__("gse.curation.external_sources.nrc_vad", fromlist=["NRCVADParser"]).NRCVADParser,
-                    "download"
+                    "download",
                 ) as mock_vad:
                     with patch.object(
-                        __import__("gse.curation.external_sources.concreteness", fromlist=["ConcretenessParser"]).ConcretenessParser,
-                        "download"
+                        __import__(
+                            "gse.curation.external_sources.concreteness", fromlist=["ConcretenessParser"]
+                        ).ConcretenessParser,
+                        "download",
                     ) as mock_conc:
                         download_all_sources()
 
@@ -407,15 +438,17 @@ class TestDownloadAllSources:
         with patch("nltk.download"):
             with patch.object(
                 __import__("gse.curation.external_sources.nrc_emotion", fromlist=["NRCEmotionParser"]).NRCEmotionParser,
-                "download"
+                "download",
             ):
                 with patch.object(
                     __import__("gse.curation.external_sources.nrc_vad", fromlist=["NRCVADParser"]).NRCVADParser,
-                    "download"
+                    "download",
                 ):
                     with patch.object(
-                        __import__("gse.curation.external_sources.concreteness", fromlist=["ConcretenessParser"]).ConcretenessParser,
-                        "download"
+                        __import__(
+                            "gse.curation.external_sources.concreteness", fromlist=["ConcretenessParser"]
+                        ).ConcretenessParser,
+                        "download",
                     ):
                         download_all_sources()
         out = capsys.readouterr().out

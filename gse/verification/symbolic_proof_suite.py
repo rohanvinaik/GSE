@@ -46,6 +46,7 @@ from gse.symbolic import (
 @dataclass
 class ProofResult:
     """One proof's outcome."""
+
     name: str
     passed: bool
     description: str
@@ -55,6 +56,7 @@ class ProofResult:
 @dataclass
 class ProofSuiteResult:
     """Aggregate result over the full suite."""
+
     results: List[ProofResult] = field(default_factory=list)
 
     @property
@@ -148,11 +150,7 @@ def proof_distinguish_argument_swap(encoder: GSEEncoder) -> ProofResult:
         name="distinguish_argument_swap",
         passed=sym_distinct and sym_swap and hdc_sim > 0.5,
         description="Symbolically distinct + structurally argument-swap, while HDC stays similar.",
-        detail=(
-            f"symbolic_distinct={sym_distinct}, "
-            f"is_argument_swap={sym_swap}, "
-            f"hdc_sim={hdc_sim:.4f}"
-        ),
+        detail=(f"symbolic_distinct={sym_distinct}, is_argument_swap={sym_swap}, hdc_sim={hdc_sim:.4f}"),
     )
 
 
@@ -182,19 +180,14 @@ def proof_causation_directionality(encoder: GSEEncoder) -> ProofResult:
     # one who 'sang' in each case.
     so_preds = predicates(so)
     bc_preds = predicates(bc)
-    so_causation = next(
-        (p for p in so_preds if type(p).__name__ == "Causation"), None
-    )
-    bc_causation = next(
-        (p for p in bc_preds if type(p).__name__ == "Causation"), None
-    )
+    so_causation = next((p for p in so_preds if type(p).__name__ == "Causation"), None)
+    bc_causation = next((p for p in bc_preds if type(p).__name__ == "Causation"), None)
     if so_causation is None or bc_causation is None:
         return ProofResult(
             name="causation_directionality",
             passed=False,
             description="Both SO and BECAUSE produce a Causation predicate.",
-            detail=f"so_preds={[type(p).__name__ for p in so_preds]}, "
-                   f"bc_preds={[type(p).__name__ for p in bc_preds]}",
+            detail=f"so_preds={[type(p).__name__ for p in so_preds]}, bc_preds={[type(p).__name__ for p in bc_preds]}",
         )
     # In SO: "Mike sang so Rex left" → cause is sang (Mike's), effect is left (Rex's)
     so_cause_correct = _contains_lemma(so_causation.cause, "mike")
@@ -204,8 +197,7 @@ def proof_causation_directionality(encoder: GSEEncoder) -> ProofResult:
     bc_effect_correct = _contains_lemma(bc_causation.effect, "mike")
     return ProofResult(
         name="causation_directionality",
-        passed=(so_cause_correct and so_effect_correct
-                and bc_cause_correct and bc_effect_correct),
+        passed=(so_cause_correct and so_effect_correct and bc_cause_correct and bc_effect_correct),
         description="SO: cause=left-side ent, BECAUSE: cause=right-side ent.",
         detail=(
             f"SO: cause_is_mike={so_cause_correct} effect_is_rex={so_effect_correct}; "
@@ -218,6 +210,7 @@ def proof_json_roundtrip(encoder: GSEEncoder) -> ProofResult:
     """L152: 'decoded set of mathematical operations in a JSON ... can be
     processed and reconstructed'. Round-trip preserves structure."""
     from gse.symbolic import from_json
+
     tree = _pipeline(encoder, "The dog is cuter than the cat")
     json_str = to_json(tree)
     restored = from_json(json_str)
@@ -236,6 +229,7 @@ def proof_bipolar_distinct_from_relational(encoder: GSEEncoder) -> ProofResult:
     profiles. Big/small should be more strongly opposed in EVAL bank than
     love/hate."""
     from gse.primitives_v2 import DIMS_PER_BANK, SemanticBank
+
     bs_pos = encoder.encode("big").vector
     bs_neg = encoder.encode("small").vector
     bs_eval = bs_pos.with_bank_only(SemanticBank.EVALUATORS.value, DIMS_PER_BANK).cosine(
@@ -356,7 +350,8 @@ def proof_relative_clause(encoder: GSEEncoder) -> ProofResult:
     rr = next((p for p in preds if type(p).__name__ == "RelativeRestriction"), None)
     if rr is None:
         return ProofResult(
-            name="relative_clause", passed=False,
+            name="relative_clause",
+            passed=False,
             description="Relative clause produces a RelativeRestriction.",
             detail=f"preds={[type(p).__name__ for p in preds]}",
         )
@@ -403,10 +398,7 @@ def proof_systematicity(encoder: GSEEncoder) -> ProofResult:
         name="systematicity",
         passed=same_shape and swapped,
         description="Novel content decomposes through the same clause machinery.",
-        detail=(
-            f"shape_preserved={same_shape} ({orig_types}), "
-            f"entities_swapped={swapped} ({novel_lemmas})"
-        ),
+        detail=(f"shape_preserved={same_shape} ({orig_types}), entities_swapped={swapped} ({novel_lemmas})"),
     )
 
 
@@ -420,15 +412,11 @@ def proof_control(encoder: GSEEncoder) -> ProofResult:
     is the Control (§M2c).
     """
     subj = _pipeline(encoder, "Mike wants to leave")
-    subj_ctrl = next(
-        (p for p in predicates(subj) if type(p).__name__ == "Control"), None
-    )
+    subj_ctrl = next((p for p in predicates(subj) if type(p).__name__ == "Control"), None)
     subj_ok = subj_ctrl is not None and _contains_lemma(subj_ctrl.controller, "mike")
 
     obj = _pipeline(encoder, "Lady Macbeth persuaded Macbeth to kill the king")
-    obj_ctrl = next(
-        (p for p in predicates(obj) if type(p).__name__ == "Control"), None
-    )
+    obj_ctrl = next((p for p in predicates(obj) if type(p).__name__ == "Control"), None)
     obj_ok = obj_ctrl is not None and _contains_lemma(obj_ctrl.controller, "macbeth")
 
     nested = _pipeline(encoder, "Mike wants to leave because Rex barks")
@@ -471,9 +459,26 @@ def _contains_lemma(node, lemma: str) -> bool:
     if getattr(node, "verb", None) == lemma:
         return True
     # Predicates with content fields
-    for fld in ("lhs", "rhs", "entity", "kind", "cause", "effect", "left", "right",
-                "threshold", "purpose", "member", "predicate",
-                "agent", "patient", "controller", "inner", "head", "restriction"):
+    for fld in (
+        "lhs",
+        "rhs",
+        "entity",
+        "kind",
+        "cause",
+        "effect",
+        "left",
+        "right",
+        "threshold",
+        "purpose",
+        "member",
+        "predicate",
+        "agent",
+        "patient",
+        "controller",
+        "inner",
+        "head",
+        "restriction",
+    ):
         sub = getattr(node, fld, None)
         if sub is not None and _contains_lemma(sub, lemma):
             return True
@@ -518,4 +523,5 @@ def main():
 
 if __name__ == "__main__":
     import sys
+
     sys.exit(main())

@@ -16,6 +16,7 @@ honestly here, not faked.
 
 Usage: python scripts/sigma_sem_oracle.py [--files N] [--max-sents-per-file M]
 """
+
 import argparse
 import sys
 from collections import Counter, defaultdict
@@ -56,7 +57,7 @@ def _exact_cover(kill, n, greedy_ub):
     to_cover = {c for c in range(n) if kill.get(c)}
     if not to_cover:
         return 0
-    ents = sorted(ent_cov, key=lambda e: -len(ent_cov[e]))[:40]   # cap breadth; keep highest-coverage
+    ents = sorted(ent_cov, key=lambda e: -len(ent_cov[e]))[:40]  # cap breadth; keep highest-coverage
     for k in range(1, greedy_ub + 1):
         for combo in combinations(ents, k):
             covered = set()
@@ -64,7 +65,7 @@ def _exact_cover(kill, n, greedy_ub):
                 covered |= ent_cov[e]
             if to_cover <= covered:
                 return k
-    return greedy_ub   # greedy's cover is achievable, so optimal ≤ greedy_ub
+    return greedy_ub  # greedy's cover is achievable, so optimal ≤ greedy_ub
 
 
 def main() -> int:
@@ -74,6 +75,7 @@ def main() -> int:
     args = ap.parse_args()
 
     import nltk
+
     for pkg, path in [("semcor", "corpora/semcor"), ("wordnet", "corpora/wordnet")]:
         try:
             nltk.data.find(path)
@@ -143,21 +145,26 @@ def main() -> int:
                 n_tok += 1
 
     if not n_tok:
-        print("no tokens"); return 1
+        print("no tokens")
+        return 1
     exact_match = gap.get(0, 0)
     print(f"σ_sem greedy vs EXACT optimal (true teaching dimension) over {n_tok} tokens:")
-    print(f"  greedy == optimal (EXACT): {exact_match} ({100*exact_match/n_tok:.2f}%)")
+    print(f"  greedy == optimal (EXACT): {exact_match} ({100 * exact_match / n_tok:.2f}%)")
     for d in sorted(gap):
         if d != 0:
             print(f"  greedy − optimal = {d:+d}: {gap[d]}")
-    print(f"  mean greedy σ_sem = {greedy_sum/n_tok:.3f}   mean optimal σ_sem = {exact_sum/n_tok:.3f}")
-    print(f"\n  COMPUTATIONAL ORACLE: GSE's reported σ_sem is the TRUE optimal teaching dimension on "
-          f"{100*exact_match/n_tok:.1f}% of tokens — the greedy engine does not inflate it; the number the "
-          f"benchmark reports IS the minimum-teaching-set cardinality, not a heuristic over-count.")
-    print("\n  HONEST BOUND (representational oracle, NOT answerable on current GSE): whether GSE's IS-A "
-          "structure is the TRUE distinguishing feature space — vs a richer space that could teach the same "
-          "reading with fewer constraints — requires a substrate beyond the current one. That is the "
-          "re-tooling phase; here σ_sem is validated as EXACT over the feature space GSE actually exposes.")
+    print(f"  mean greedy σ_sem = {greedy_sum / n_tok:.3f}   mean optimal σ_sem = {exact_sum / n_tok:.3f}")
+    print(
+        f"\n  COMPUTATIONAL ORACLE: GSE's reported σ_sem is the TRUE optimal teaching dimension on "
+        f"{100 * exact_match / n_tok:.1f}% of tokens — the greedy engine does not inflate it; the number the "
+        f"benchmark reports IS the minimum-teaching-set cardinality, not a heuristic over-count."
+    )
+    print(
+        "\n  HONEST BOUND (representational oracle, NOT answerable on current GSE): whether GSE's IS-A "
+        "structure is the TRUE distinguishing feature space — vs a richer space that could teach the same "
+        "reading with fewer constraints — requires a substrate beyond the current one. That is the "
+        "re-tooling phase; here σ_sem is validated as EXACT over the feature space GSE actually exposes."
+    )
     return 0
 
 

@@ -30,6 +30,7 @@ from gse.benchmarks.datasets import (
 
 # ---------- Dataclasses ----------
 
+
 class TestWordPair:
     def test_basic(self):
         p = WordPair(word1="dog", word2="cat", score=5.0)
@@ -52,6 +53,7 @@ class TestSentencePair:
 
 # ---------- Constants ----------
 
+
 class TestConstants:
     def test_antonym_pairs_nonempty(self):
         assert len(PRIMITIVE_ANTONYM_PAIRS) > 0
@@ -67,6 +69,7 @@ class TestConstants:
 
 
 # ---------- BenchmarkDataset ----------
+
 
 class TestBenchmarkDataset:
     def test_init(self):
@@ -100,6 +103,7 @@ class TestBenchmarkDataset:
 
 # ---------- _ensure_simlex999 ----------
 
+
 class TestEnsureSimlex:
     def test_cached_file_returned(self, tmp_path):
         cache = tmp_path / "cache"
@@ -111,6 +115,7 @@ class TestEnsureSimlex:
 
 
 # ---------- load_simlex999 ----------
+
 
 class TestLoadSimlex999:
     def test_loads_pairs(self, tmp_path):
@@ -131,6 +136,7 @@ class TestLoadSimlex999:
 
 # ---------- _ensure_wordsim353 ----------
 
+
 class TestEnsureWordsim:
     def test_local_data_path_returned(self, tmp_path):
         # Use cache dir variant — local paths likely don't exist
@@ -150,6 +156,7 @@ class TestEnsureWordsim:
 
 
 # ---------- load_wordsim353 ----------
+
 
 class TestLoadWordsim:
     def test_empty_file_returns_empty(self, tmp_path, monkeypatch):
@@ -213,6 +220,7 @@ class TestLoadWordsim:
 
 # ---------- _ensure_sts_benchmark ----------
 
+
 class TestEnsureStsBenchmark:
     def test_cached_dir_returned(self, tmp_path):
         cache = tmp_path / "cache"
@@ -224,14 +232,14 @@ class TestEnsureStsBenchmark:
 
     def test_download_failure_creates_dir(self, tmp_path):
         cache = tmp_path / "cache"
-        with patch("gse.benchmarks.datasets._download_file",
-                   side_effect=Exception("network failure")):
+        with patch("gse.benchmarks.datasets._download_file", side_effect=Exception("network failure")):
             result = _ensure_sts_benchmark(cache)
             # Directory created as fallback
             assert result.exists()
 
 
 # ---------- load_sts_benchmark ----------
+
 
 class TestLoadStsBenchmark:
     def test_missing_returns_empty(self, tmp_path):
@@ -272,6 +280,7 @@ class TestLoadStsBenchmark:
 
 # ---------- load_custom_antonyms ----------
 
+
 class TestLoadCustomAntonyms:
     def test_returns_dataset(self):
         ds = load_custom_antonyms()
@@ -289,6 +298,7 @@ class TestLoadCustomAntonyms:
 
 # ---------- load_custom_synonyms ----------
 
+
 class TestLoadCustomSynonyms:
     def test_returns_dataset(self):
         ds = load_custom_synonyms()
@@ -305,6 +315,7 @@ class TestLoadCustomSynonyms:
 
 # ---------- extract_negation_subset ----------
 
+
 class TestExtractNegationSubset:
     def test_filters_pairs_with_negation(self):
         pairs = [
@@ -318,9 +329,12 @@ class TestExtractNegationSubset:
         assert len(result) == 2
 
     def test_no_negation_empty(self):
-        ds = BenchmarkDataset("source", [
-            SentencePair("Hello.", "Hi.", 5.0),
-        ])
+        ds = BenchmarkDataset(
+            "source",
+            [
+                SentencePair("Hello.", "Hi.", 5.0),
+            ],
+        )
         result = extract_negation_subset(ds)
         assert len(result) == 0
 
@@ -331,6 +345,7 @@ class TestExtractNegationSubset:
 
 
 # ---------- get_all_datasets ----------
+
 
 class TestGetAllDatasets:
     def test_returns_dict_with_custom(self, tmp_path):

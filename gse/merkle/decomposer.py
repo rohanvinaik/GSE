@@ -40,7 +40,6 @@ PREFIX_PATTERNS = {
     "dis": [("NOT", "modifier", 1)],
     "non": [("NOT", "modifier", 1)],
     "anti": [("NOT", "modifier", 1), ("OTHER", "relation", 1)],
-
     # Quantity/Degree
     "over": [("BIG", "degree", 1), ("ABOVE", "relation", 1)],
     "under": [("SMALL", "degree", 1), ("BELOW", "relation", 1)],
@@ -59,21 +58,18 @@ PREFIX_PATTERNS = {
     "uni": [("ONE", "quantity", 1)],
     "bi": [("TWO", "quantity", 1)],
     "tri": [("QUANTITY", "quantity", 1)],
-
     # Temporal
     "pre": [("BEFORE", "time", 1)],
     "post": [("AFTER", "time", 1)],
     "re": [("BEFORE", "time", 1), ("SAME", "manner", 1)],
     "neo": [("NOW", "time", 1)],
     "proto": [("BEFORE", "time", 1)],
-
     # Spatial
     "inter": [("INSIDE", "location", 1)],
     "intra": [("INSIDE", "location", 1)],
     "extra": [("OUTSIDE", "location", 1)],
     "trans": [("MOVE", "action", 1)],
     "circum": [("SIDE", "location", 1)],
-
     # Agency/Causation
     "auto": [("SAME", "agent", 1), ("DO", "action", 1)],
     "self": [("SAME", "agent", 1)],
@@ -89,7 +85,6 @@ SUFFIX_PATTERNS = {
     "ian": [("SOMEONE", "agent", 1)],
     "ant": [("SOMEONE", "agent", 1), ("DO", "action", 1)],
     "ent": [("SOMEONE", "agent", 1), ("DO", "action", 1)],
-
     # State/Quality
     "ness": [("BE", "state", 1)],
     "ity": [("BE", "state", 1)],
@@ -100,19 +95,16 @@ SUFFIX_PATTERNS = {
     "dom": [("BE", "state", 1)],
     "hood": [("BE", "state", 1)],
     "ship": [("BE", "state", 1)],
-
     # Ability/Possibility
     "able": [("CAN", "modifier", 1)],
     "ible": [("CAN", "modifier", 1)],
     "ful": [("QUANTITY", "degree", 1), ("HAVE", "state", 1)],
     "less": [("NOT", "modifier", 1), ("HAVE", "state", -1)],
-
     # Manner/Direction
     "ly": [],  # Typically manner adverb, context-dependent
     "ward": [("MOVE", "direction", 1)],
     "wards": [("MOVE", "direction", 1)],
     "wise": [("LIKE", "manner", 1)],
-
     # Evaluation
     "ish": [("LIKE", "manner", 1), ("SMALL", "degree", 1)],
     "ous": [("HAVE", "state", 1)],
@@ -135,9 +127,11 @@ POS_DEFAULTS = {
 # DECOMPOSITION RESULT
 # =============================================================================
 
+
 @dataclass
 class DecompositionResult:
     """Result of decomposing a word."""
+
     word: str
     pos: str
 
@@ -162,6 +156,7 @@ class DecompositionResult:
 # =============================================================================
 # HDC FUZZY DECOMPOSER
 # =============================================================================
+
 
 class HDCFuzzyDecomposer:
     """
@@ -269,14 +264,13 @@ class HDCFuzzyDecomposer:
 
         result.decomposition = final_decomp
         result.overall_confidence = (
-            result.morphological_confidence * 0.3 +
-            result.similarity_confidence * 0.4 +
-            result.pattern_confidence * 0.3
+            result.morphological_confidence * 0.3 + result.similarity_confidence * 0.4 + result.pattern_confidence * 0.3
         )
 
         # Generate vector
         if final_decomp:
             from gse.vectors_v2 import compose_decomposition
+
             result.vector = compose_decomposition(self.basis, final_decomp)
 
         return result
@@ -290,7 +284,7 @@ class HDCFuzzyDecomposer:
         for prefix in sorted(PREFIX_PATTERNS.keys(), key=len, reverse=True):
             if word_lower.startswith(prefix) and len(word_lower) > len(prefix) + 2:
                 hints.extend(PREFIX_PATTERNS[prefix])
-                word_lower = word_lower[len(prefix):]
+                word_lower = word_lower[len(prefix) :]
                 break
 
         # Check suffixes (longest match first)
@@ -318,6 +312,7 @@ class HDCFuzzyDecomposer:
             decomp = [("SOMETHING", "theme", 1)]
 
         from gse.vectors_v2 import compose_decomposition
+
         return compose_decomposition(self.basis, decomp)
 
     def _extract_patterns(
@@ -486,13 +481,37 @@ if __name__ == "__main__":
     # Add sample lexemes
     test_lexemes = [
         ("happy", "adj", "01", "feeling joy", [("FEEL", "experiencer", 1), ("GOOD", "attribute", 1)]),
-        ("unhappy", "adj", "01", "not feeling joy", [("FEEL", "experiencer", 1), ("BAD", "attribute", 1), ("NOT", "modifier", 1)]),
-        ("happiness", "n", "01", "state of being happy", [("FEEL", "experiencer", 1), ("GOOD", "attribute", 1), ("BE", "state", 1)]),
+        (
+            "unhappy",
+            "adj",
+            "01",
+            "not feeling joy",
+            [("FEEL", "experiencer", 1), ("BAD", "attribute", 1), ("NOT", "modifier", 1)],
+        ),
+        (
+            "happiness",
+            "n",
+            "01",
+            "state of being happy",
+            [("FEEL", "experiencer", 1), ("GOOD", "attribute", 1), ("BE", "state", 1)],
+        ),
         ("runner", "n", "01", "person who runs", [("MOVE", "action", 1), ("SOMEONE", "agent", 1)]),
-        ("teacher", "n", "01", "person who teaches", [("SAY", "action", 1), ("KNOW", "state", 1), ("SOMEONE", "agent", 1)]),
+        (
+            "teacher",
+            "n",
+            "01",
+            "person who teaches",
+            [("SAY", "action", 1), ("KNOW", "state", 1), ("SOMEONE", "agent", 1)],
+        ),
         ("quickly", "adv", "01", "in a fast manner", [("MOVE", "manner", 1)]),
         ("beautiful", "adj", "01", "pleasing to see", [("SEE", "perception", 1), ("GOOD", "evaluation", 1)]),
-        ("unbelievable", "adj", "01", "hard to believe", [("THINK", "action", 1), ("NOT", "modifier", 1), ("CAN", "modifier", 1)]),
+        (
+            "unbelievable",
+            "adj",
+            "01",
+            "hard to believe",
+            [("THINK", "action", 1), ("NOT", "modifier", 1), ("CAN", "modifier", 1)],
+        ),
     ]
 
     for lemma, pos, sense, gloss, decomp in test_lexemes:
@@ -543,11 +562,13 @@ if __name__ == "__main__":
     print(f"  Morphological hints: {result3.morphological_hints}")
 
     # Test 5: Batch decomposition
-    batch_results = decomposer.decompose_batch([
-        ("joyful", "adj"),
-        ("darkness", "n"),
-        ("unable", "adj"),
-    ])
+    batch_results = decomposer.decompose_batch(
+        [
+            ("joyful", "adj"),
+            ("darkness", "n"),
+            ("unable", "adj"),
+        ]
+    )
     print("\n✓ Batch decomposition:")
     for r in batch_results:
         print(f"  {r.word}: {r.decomposition[:3]}...")

@@ -36,11 +36,11 @@ def encoder():
 # lemmatizer is responsible for the normalization at encode time.
 LEMMA_GROUPS = [
     # (group label, surface forms)
-    ("run",  ["run", "ran", "running", "runs"]),
-    ("be",   ["be", "am", "was", "is", "were", "are"]),
-    ("big",  ["big", "bigger", "biggest"]),
+    ("run", ["run", "ran", "running", "runs"]),
+    ("be", ["be", "am", "was", "is", "were", "are"]),
+    ("big", ["big", "bigger", "biggest"]),
     ("know", ["know", "knew", "known", "knows"]),
-    ("see",  ["see", "saw", "seen", "sees"]),
+    ("see", ["see", "saw", "seen", "sees"]),
 ]
 
 
@@ -48,9 +48,7 @@ class TestWordPrimitivesLemmaInvariant:
     """word_primitives dict must be identical across inflections."""
 
     @pytest.mark.parametrize("group_name,forms", LEMMA_GROUPS)
-    def test_word_primitives_identical_within_lemma_group(
-        self, encoder, group_name, forms
-    ):
+    def test_word_primitives_identical_within_lemma_group(self, encoder, group_name, forms):
         traces = [encoder.encode(form) for form in forms]
         # First form's word_primitives is the reference; every other
         # form must match it exactly.
@@ -68,9 +66,7 @@ class TestWordPrimitivesLemmaInvariant:
         # spaCy lemmatization is the mechanism behind the invariant;
         # if this fails, the word_primitives equality test will too.
         lemmas = [encoder.encode(form).tokens[0].lemma for form in forms]
-        assert len(set(lemmas)) == 1, (
-            f"spaCy produced different lemmas for {forms!r}: {lemmas!r}"
-        )
+        assert len(set(lemmas)) == 1, f"spaCy produced different lemmas for {forms!r}: {lemmas!r}"
 
 
 class TestFullVectorCosineNearOne:

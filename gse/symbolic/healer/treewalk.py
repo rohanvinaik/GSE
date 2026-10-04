@@ -3,6 +3,7 @@
 Kept here, not duplicated per lens. Uses the system's own field spec (`emit._PRED_SPEC`) so the walk
 tracks the predicate schema rather than a hand-maintained copy.
 """
+
 from __future__ import annotations
 
 from typing import List, Optional
@@ -22,8 +23,11 @@ def children(node) -> List:
     if spec:
         return [getattr(node, f) for f in spec[1] if getattr(node, f, None) is not None]
     if name == "Entity":
-        return [x for x in (getattr(node, "head", None), getattr(node, "modifier", None),
-                            getattr(node, "possessor", None)) if x is not None]
+        return [
+            x
+            for x in (getattr(node, "head", None), getattr(node, "modifier", None), getattr(node, "possessor", None))
+            if x is not None
+        ]
     if name == "Coordination":
         return list(getattr(node, "members", []) or [])
     if name == "Phrase":
@@ -57,8 +61,12 @@ def free_verbs(node, under_coord: bool = False, boundary=frozenset()) -> List[At
     if type(node).__name__ in boundary:
         return out
     is_co = isinstance(node, Coordination)
-    if isinstance(node, Atom) and getattr(node, "pos", None) == "VERB" \
-            and _has_verb_sense((node.lemma or "").lower()) and not under_coord:
+    if (
+        isinstance(node, Atom)
+        and getattr(node, "pos", None) == "VERB"
+        and _has_verb_sense((node.lemma or "").lower())
+        and not under_coord
+    ):
         out.append(node)
     for c in children(node):
         out += free_verbs(c, under_coord or is_co, boundary)
@@ -90,7 +98,7 @@ def clean_subject(operand) -> bool:
     if operand is None:
         return False
     head = getattr(operand, "head", None) or operand
-    lemma = (getattr(head, "lemma", None) or "")
+    lemma = getattr(head, "lemma", None) or ""
     return bool(lemma) and lemma.isalpha() and lemma != "?"
 
 
@@ -115,8 +123,7 @@ def main_subject(predicates):
     return None
 
 
-_ANIMATE_PRON = frozenset({"i", "we", "you", "he", "she", "they",
-                           "me", "us", "him", "her", "them"})
+_ANIMATE_PRON = frozenset({"i", "we", "you", "he", "she", "they", "me", "us", "him", "her", "them"})
 
 
 def entity_role(operand) -> str:
@@ -133,6 +140,7 @@ def entity_role(operand) -> str:
     thread = getattr(head, "thread", None) or ()
     try:
         from gse.symbolic.narrative import classify
+
         role, _elig, _banks = classify(prims, tuple(thread))
         return role
     except Exception:
@@ -158,11 +166,12 @@ def animate_subject(operand) -> bool:
             return True
         try:
             from gse.symbolic.grounding import _is_person
+
             if _is_person(lemma) is True:
                 return True
         except Exception:
             pass
-    return entity_role(operand) == "agent"   # additive: classify can only ADD an agent, never reject
+    return entity_role(operand) == "agent"  # additive: classify can only ADD an agent, never reject
 
 
 def main_animate_subject(predicates):

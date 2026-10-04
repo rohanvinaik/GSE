@@ -15,7 +15,7 @@ class SmartMockLexicon:
 
     def lookup(self, lemma, pos):
         if (lemma, pos) not in self.entries:
-             self._create_entry(lemma, pos)
+            self._create_entry(lemma, pos)
         return self.entries[(lemma, pos)]
 
     def _create_entry(self, lemma, pos):
@@ -39,7 +39,7 @@ class SmartMockLexicon:
             # Inanimate: negative signal in 0-100
             # Set indices 0-50 to -1
             dense[0:50] = -1
-            dense[50:100] = 0 # Clear others
+            dense[50:100] = 0  # Clear others
 
         elif lemma in ["dog", "john", "mary", "committee"]:
             # Animate: positive signal
@@ -61,13 +61,15 @@ class SmartMockLexicon:
             vector=vec,
             frequency=1.0,
             source="mock",
-            confidence=1.0
+            confidence=1.0,
         )
         self.entries[(lemma, pos)] = entry
+
 
 @pytest.fixture
 def checker():
     return CoherenceChecker(dimension=D)
+
 
 @pytest.fixture
 def composer():
@@ -75,9 +77,11 @@ def composer():
     lexicon = SmartMockLexicon(basis)
     return Composer(lexicon, basis)
 
+
 @pytest.fixture
 def parser():
     return Parser()
+
 
 def test_check_animacy_violation(checker, composer, parser):
     # "The rock thinks." -> rock is agent of thinks.
@@ -110,6 +114,7 @@ def test_check_animacy_violation(checker, composer, parser):
     # Score should be impacted (with 6 coherence checks, one failure gives ~0.83)
     assert res.score < 0.9  # Some threshold
 
+
 def test_check_valid_agent(checker, composer, parser):
     text = "The dog runs."
     parsed = parser.parse_single(text)
@@ -119,6 +124,7 @@ def test_check_valid_agent(checker, composer, parser):
 
     # Should not have animacy violation
     assert not any("animacy" in a for a in res.anomalies)
+
 
 def test_check_completeness(checker, composer, parser):
     # "runs." (No subject)
@@ -132,6 +138,7 @@ def test_check_completeness(checker, composer, parser):
 
     assert any("Missing" in a for a in res.anomalies)
 
+
 def test_high_coherence_passed(checker, composer, parser):
     text = "John loves Mary."
     parsed = parser.parse_single(text)
@@ -140,4 +147,3 @@ def test_high_coherence_passed(checker, composer, parser):
     res = checker.check(comp, parsed)
     assert res.passed
     assert len(res.anomalies) == 0
-

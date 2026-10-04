@@ -83,6 +83,7 @@ CREATE INDEX IF NOT EXISTS idx_decompositions_primitive ON decompositions(primit
 # TRANSLATOR
 # =============================================================================
 
+
 class SQLiteMerkleTranslator:
     """
     Translates between SQLite database and Merkle tree.
@@ -177,7 +178,7 @@ class SQLiteMerkleTranslator:
             """)
             for row in cursor:
                 key = f"{row['lemma']}_{row['pos']}_{row['sense_id']}"
-                db_hashes[key] = row['content_hash']
+                db_hashes[key] = row["content_hash"]
 
             # Find changes
             tree_keys = set(tree.lexemes.keys())
@@ -208,44 +209,54 @@ class SQLiteMerkleTranslator:
 
     def _row_to_lexeme(self, conn: sqlite3.Connection, row: sqlite3.Row) -> LexemeNode:
         """Convert database row to LexemeNode."""
-        lexeme_id = row['id']
+        lexeme_id = row["id"]
 
         # Get decomposition
-        decomp_cursor = conn.execute("""
+        decomp_cursor = conn.execute(
+            """
             SELECT primitive, role, polarity
             FROM decompositions
             WHERE lexeme_id = ?
             ORDER BY position
-        """, (lexeme_id,))
-        decomposition = [(r['primitive'], r['role'], r['polarity']) for r in decomp_cursor]
+        """,
+            (lexeme_id,),
+        )
+        decomposition = [(r["primitive"], r["role"], r["polarity"]) for r in decomp_cursor]
 
         # Get vectors
-        vec_cursor = conn.execute("""
+        vec_cursor = conn.execute(
+            """
             SELECT positive_indices, negative_indices
             FROM vectors
             WHERE lexeme_id = ?
-        """, (lexeme_id,))
+        """,
+            (lexeme_id,),
+        )
         vec_row = vec_cursor.fetchone()
 
-        if vec_row and vec_row['positive_indices']:
-            positive = np.frombuffer(vec_row['positive_indices'], dtype=np.uint16)
-            negative = np.frombuffer(vec_row['negative_indices'], dtype=np.uint16) if vec_row['negative_indices'] else np.array([], dtype=np.uint16)
+        if vec_row and vec_row["positive_indices"]:
+            positive = np.frombuffer(vec_row["positive_indices"], dtype=np.uint16)
+            negative = (
+                np.frombuffer(vec_row["negative_indices"], dtype=np.uint16)
+                if vec_row["negative_indices"]
+                else np.array([], dtype=np.uint16)
+            )
         else:
             positive = np.array([], dtype=np.uint16)
             negative = np.array([], dtype=np.uint16)
 
         node = LexemeNode(
             node_id=f"{row['lemma']}_{row['pos']}_{row['sense_id']}",
-            lemma=row['lemma'],
-            pos=row['pos'],
-            sense_id=row['sense_id'],
-            gloss=row['gloss'] or "",
+            lemma=row["lemma"],
+            pos=row["pos"],
+            sense_id=row["sense_id"],
+            gloss=row["gloss"] or "",
             decomposition=decomposition,
             vector_positive=positive,
             vector_negative=negative,
-            source=row['source'] or "manual",
-            confidence=row['confidence'] or 1.0,
-            frequency=row['frequency'] or 1.0,
+            source=row["source"] or "manual",
+            confidence=row["confidence"] or 1.0,
+            frequency=row["frequency"] or 1.0,
         )
 
         # Compute hash
@@ -254,16 +265,19 @@ class SQLiteMerkleTranslator:
 
     def _load_lexeme_by_key(self, conn: sqlite3.Connection, key: str) -> Optional[LexemeNode]:
         """Load a single lexeme by its key."""
-        parts = key.rsplit('_', 2)
+        parts = key.rsplit("_", 2)
         if len(parts) != 3:
             return None
 
         lemma, pos, sense_id = parts
-        cursor = conn.execute("""
+        cursor = conn.execute(
+            """
             SELECT id, lemma, pos, sense_id, gloss, source, confidence, frequency
             FROM lexemes
             WHERE lemma = ? AND pos = ? AND sense_id = ?
-        """, (lemma, pos, sense_id))
+        """,
+            (lemma, pos, sense_id),
+        )
 
         row = cursor.fetchone()
         if row:
@@ -287,15 +301,21 @@ class SQLiteMerkleTranslator:
                 self._save_lexeme(conn, lexeme, replace)
 
             # Update metadata
-            conn.execute("""
+            conn.execute(
+                """
                 INSERT OR REPLACE INTO metadata (key, value)
                 VALUES ('root_hash', ?)
-            """, (tree.get_root_hash(),))
+            """,
+                (tree.get_root_hash(),),
+            )
 
-            conn.execute("""
+            conn.execute(
+                """
                 INSERT OR REPLACE INTO metadata (key, value)
                 VALUES ('total_lexemes', ?)
-            """, (str(len(tree.lexemes)),))
+            """,
+                (str(len(tree.lexemes)),),
+            )
 
             conn.commit()
 
@@ -320,10 +340,13 @@ class SQLiteMerkleTranslator:
                     self._delete_lexeme(conn, key)
 
             # Update metadata
-            conn.execute("""
+            conn.execute(
+                """
                 INSERT OR REPLACE INTO metadata (key, value)
                 VALUES ('root_hash', ?)
-            """, (tree.get_root_hash(),))
+            """,
+                (tree.get_root_hash(),),
+            )
 
             conn.commit()
 
@@ -332,22 +355,34 @@ class SQLiteMerkleTranslator:
         try:
             if replace:
                 # Try to get existing ID
-                cursor = conn.execute("""
+                cursor = conn.execute(
+                    """
                     SELECT id FROM lexemes
                     WHERE lemma = ? AND pos = ? AND sense_id = ?
-                """, (lexeme.lemma, lexeme.pos, lexeme.sense_id))
+                """,
+                    (lexeme.lemma, lexeme.pos, lexeme.sense_id),
+                )
                 row = cursor.fetchone()
 
                 if row:
-                    lexeme_id = row['id']
+                    lexeme_id = row["id"]
                     # Update existing
-                    conn.execute("""
+                    conn.execute(
+                        """
                         UPDATE lexemes SET
                             gloss = ?, source = ?, confidence = ?, frequency = ?,
                             content_hash = ?, updated_at = CURRENT_TIMESTAMP
                         WHERE id = ?
-                    """, (lexeme.gloss, lexeme.source, lexeme.confidence,
-                          lexeme.frequency, lexeme.content_hash, lexeme_id))
+                    """,
+                        (
+                            lexeme.gloss,
+                            lexeme.source,
+                            lexeme.confidence,
+                            lexeme.frequency,
+                            lexeme.content_hash,
+                            lexeme_id,
+                        ),
+                    )
 
                     # Delete old decomposition
                     conn.execute("DELETE FROM decompositions WHERE lexeme_id = ?", (lexeme_id,))
@@ -359,20 +394,26 @@ class SQLiteMerkleTranslator:
 
             # Insert decomposition
             for i, (prim, role, pol) in enumerate(lexeme.decomposition):
-                conn.execute("""
+                conn.execute(
+                    """
                     INSERT INTO decompositions (lexeme_id, primitive, role, polarity, position)
                     VALUES (?, ?, ?, ?, ?)
-                """, (lexeme_id, prim, role, pol, i))
+                """,
+                    (lexeme_id, prim, role, pol, i),
+                )
 
             # Insert vectors
-            conn.execute("""
+            conn.execute(
+                """
                 INSERT OR REPLACE INTO vectors (lexeme_id, positive_indices, negative_indices)
                 VALUES (?, ?, ?)
-            """, (
-                lexeme_id,
-                lexeme.vector_positive.tobytes(),
-                lexeme.vector_negative.tobytes(),
-            ))
+            """,
+                (
+                    lexeme_id,
+                    lexeme.vector_positive.tobytes(),
+                    lexeme.vector_negative.tobytes(),
+                ),
+            )
 
         except sqlite3.IntegrityError:
             if not replace:
@@ -382,26 +423,38 @@ class SQLiteMerkleTranslator:
 
     def _insert_lexeme_main(self, conn: sqlite3.Connection, lexeme: LexemeNode) -> int:
         """Insert main lexeme record and return ID."""
-        cursor = conn.execute("""
+        cursor = conn.execute(
+            """
             INSERT INTO lexemes (lemma, pos, sense_id, gloss, source, confidence, frequency, content_hash)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        """, (
-            lexeme.lemma, lexeme.pos, lexeme.sense_id, lexeme.gloss,
-            lexeme.source, lexeme.confidence, lexeme.frequency, lexeme.content_hash
-        ))
+        """,
+            (
+                lexeme.lemma,
+                lexeme.pos,
+                lexeme.sense_id,
+                lexeme.gloss,
+                lexeme.source,
+                lexeme.confidence,
+                lexeme.frequency,
+                lexeme.content_hash,
+            ),
+        )
         return cursor.lastrowid
 
     def _delete_lexeme(self, conn: sqlite3.Connection, key: str):
         """Delete a lexeme by key."""
-        parts = key.rsplit('_', 2)
+        parts = key.rsplit("_", 2)
         if len(parts) != 3:
             return
 
         lemma, pos, sense_id = parts
-        conn.execute("""
+        conn.execute(
+            """
             DELETE FROM lexemes
             WHERE lemma = ? AND pos = ? AND sense_id = ?
-        """, (lemma, pos, sense_id))
+        """,
+            (lemma, pos, sense_id),
+        )
 
     # =========================================================================
     # UTILITIES
@@ -411,7 +464,7 @@ class SQLiteMerkleTranslator:
         """Get database metadata."""
         with self._get_connection() as conn:
             cursor = conn.execute("SELECT key, value FROM metadata")
-            return {row['key']: row['value'] for row in cursor}
+            return {row["key"]: row["value"] for row in cursor}
 
     def get_statistics(self) -> Dict[str, int]:
         """Get database statistics."""
@@ -419,16 +472,16 @@ class SQLiteMerkleTranslator:
             stats = {}
 
             cursor = conn.execute("SELECT COUNT(*) as c FROM lexemes")
-            stats['total_lexemes'] = cursor.fetchone()['c']
+            stats["total_lexemes"] = cursor.fetchone()["c"]
 
             cursor = conn.execute("SELECT COUNT(DISTINCT primitive) as c FROM decompositions")
-            stats['unique_primitives'] = cursor.fetchone()['c']
+            stats["unique_primitives"] = cursor.fetchone()["c"]
 
             cursor = conn.execute("SELECT COUNT(*) as c FROM vectors WHERE positive_indices IS NOT NULL")
-            stats['vectorized_lexemes'] = cursor.fetchone()['c']
+            stats["vectorized_lexemes"] = cursor.fetchone()["c"]
 
             cursor = conn.execute("SELECT pos, COUNT(*) as c FROM lexemes GROUP BY pos")
-            stats['by_pos'] = {row['pos']: row['c'] for row in cursor}
+            stats["by_pos"] = {row["pos"]: row["c"] for row in cursor}
 
             return stats
 
@@ -445,12 +498,15 @@ class SQLiteMerkleTranslator:
         with self._get_connection() as conn:
             offset = 0
             while True:
-                cursor = conn.execute("""
+                cursor = conn.execute(
+                    """
                     SELECT id, lemma, pos, sense_id, gloss, source, confidence, frequency
                     FROM lexemes
                     ORDER BY id
                     LIMIT ? OFFSET ?
-                """, (batch_size, offset))
+                """,
+                    (batch_size, offset),
+                )
 
                 rows = cursor.fetchall()
                 if not rows:
@@ -465,6 +521,7 @@ class SQLiteMerkleTranslator:
 # =============================================================================
 # MIGRATION UTILITIES
 # =============================================================================
+
 
 def migrate_legacy_lexicon(
     legacy_path: str,
@@ -495,12 +552,12 @@ def migrate_legacy_lexicon(
         legacy_data = json.load(f)
 
     # Convert entries
-    for entry in legacy_data.get('lexemes', []):
+    for entry in legacy_data.get("lexemes", []):
         # Handle various legacy formats
         decomp = []
-        for item in entry.get('decomposition', []):
+        for item in entry.get("decomposition", []):
             if isinstance(item, dict):
-                decomp.append((item['primitive'], item.get('role', 'attribute'), item.get('polarity', 1)))
+                decomp.append((item["primitive"], item.get("role", "attribute"), item.get("polarity", 1)))
             elif isinstance(item, (list, tuple)) and len(item) >= 2:
                 decomp.append((item[0], item[1], item[2] if len(item) > 2 else 1))
 
@@ -515,15 +572,15 @@ def migrate_legacy_lexicon(
 
         lexeme = LexemeNode(
             node_id=f"{entry['lemma']}_{entry['pos']}_{entry.get('sense_id', '01')}",
-            lemma=entry['lemma'],
-            pos=entry['pos'],
-            sense_id=entry.get('sense_id', '01'),
-            gloss=entry.get('gloss', ''),
+            lemma=entry["lemma"],
+            pos=entry["pos"],
+            sense_id=entry.get("sense_id", "01"),
+            gloss=entry.get("gloss", ""),
             decomposition=decomp,
             vector_positive=positive,
             vector_negative=negative,
-            source=entry.get('source', 'legacy'),
-            confidence=entry.get('confidence', 1.0),
+            source=entry.get("source", "legacy"),
+            confidence=entry.get("confidence", 1.0),
         )
         tree.add_lexeme(lexeme, recompute=False)
 
@@ -619,7 +676,7 @@ if __name__ == "__main__":
         # Export changes
         translator.export_from_tree(new_tree, replace=True)
         stats2 = translator.get_statistics()
-        assert stats2['total_lexemes'] == 4, f"Expected 4 lexemes, got {stats2['total_lexemes']}"
+        assert stats2["total_lexemes"] == 4, f"Expected 4 lexemes, got {stats2['total_lexemes']}"
         print(f"✓ Incremental export: now {stats2['total_lexemes']} lexemes")
 
         # Test import incremental
@@ -630,7 +687,7 @@ if __name__ == "__main__":
 
         # Verify metadata
         meta = translator.get_metadata()
-        assert 'root_hash' in meta
+        assert "root_hash" in meta
         print(f"✓ Metadata preserved: root_hash={meta['root_hash'][:16]}...")
 
     print("\n" + "=" * 50)

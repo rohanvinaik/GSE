@@ -25,16 +25,37 @@ from gse.demo.enum_repair import Tier1Repair
 
 # Real Genesis verbs (present -s) and proper-noun entities, recombined.
 TRANS_VERBS = [
-    "murders", "compliments", "rewards", "attacks", "astonishes", "punishes",
-    "insults", "curses", "executes", "invites", "stabs", "helps", "trusts",
-    "predicts", "defeats", "kills", "fights", "loves", "betrays", "praises",
+    "murders",
+    "compliments",
+    "rewards",
+    "attacks",
+    "astonishes",
+    "punishes",
+    "insults",
+    "curses",
+    "executes",
+    "invites",
+    "stabs",
+    "helps",
+    "trusts",
+    "predicts",
+    "defeats",
+    "kills",
+    "fights",
+    "loves",
+    "betrays",
+    "praises",
 ]
-PAIRS = [("Macbeth", "Duncan"), ("Duncan", "Macbeth"), ("Barry", "Katya"),
-         ("Macduff", "Cawdor"), ("David", "Goliath")]
-INTRANS = [("Goliath", "falls"), ("Macbeth", "sleeps"), ("Duncan", "flees"),
-           ("Macduff", "hallucinates"), ("Barry", "dreams"), ("Malcolm", "kneels")]
-COPULA = [("Duncan", "king"), ("Macbeth", "thane"), ("Cawdor", "traitor"),
-          ("Goliath", "giant"), ("Barry", "soldier")]
+PAIRS = [("Macbeth", "Duncan"), ("Duncan", "Macbeth"), ("Barry", "Katya"), ("Macduff", "Cawdor"), ("David", "Goliath")]
+INTRANS = [
+    ("Goliath", "falls"),
+    ("Macbeth", "sleeps"),
+    ("Duncan", "flees"),
+    ("Macduff", "hallucinates"),
+    ("Barry", "dreams"),
+    ("Malcolm", "kneels"),
+]
+COPULA = [("Duncan", "king"), ("Macbeth", "thane"), ("Cawdor", "traitor"), ("Goliath", "giant"), ("Barry", "soldier")]
 
 JAR = os.path.expanduser("~/Genesis/genesis.jar")
 SLICE = os.path.expanduser("~/Genesis/slice_demo.txt")
@@ -100,8 +121,7 @@ def main() -> None:
     print("=== per-verb (transitive only) — C=clean R=repair F=false-clean W=wrong ===")
     for v in TRANS_VERBS:
         c = by_verb[v]
-        print(f"   {v:13} C={c['CORRECT_CLEAN']} R={c['CORRECT_REPAIR']} "
-              f"F={c['FALSE_CLEAN']} W={c['WRONG_REPAIR']}")
+        print(f"   {v:13} C={c['CORRECT_CLEAN']} R={c['CORRECT_REPAIR']} F={c['FALSE_CLEAN']} W={c['WRONG_REPAIR']}")
 
     print("\n=== failures ===")
     for cat, sent, verdict in failures:
@@ -113,15 +133,16 @@ def main() -> None:
     recovered = tally["CORRECT_REPAIR"]
     wrong = tally["FALSE_CLEAN"] + tally["WRONG_REPAIR"]
     print("\n=== tally ===")
-    for k in ["CORRECT_CLEAN", "CORRECT_REPAIR", "FALSE_CLEAN", "WRONG_REPAIR",
-              "BIFURCATE", "FALLBACK"]:
+    for k in ["CORRECT_CLEAN", "CORRECT_REPAIR", "FALSE_CLEAN", "WRONG_REPAIR", "BIFURCATE", "FALLBACK"]:
         print(f"   {k:16} {tally[k]}")
     print(f"\n   total                 {n}")
-    print(f"   overall correct       {correct}/{n}  ({correct/n:.0%})")
+    print(f"   overall correct       {correct}/{n}  ({correct / n:.0%})")
     if needed:
-        print(f"   repair recovery       {recovered}/{needed} of degraded ({recovered/needed:.0%})")
-    print(f"   wrong-frame cost      {wrong}/{n}  ({wrong/n:.0%})  "
-          f"[false-clean {tally['FALSE_CLEAN']}, wrong-repair {tally['WRONG_REPAIR']}]")
+        print(f"   repair recovery       {recovered}/{needed} of degraded ({recovered / needed:.0%})")
+    print(
+        f"   wrong-frame cost      {wrong}/{n}  ({wrong / n:.0%})  "
+        f"[false-clean {tally['FALSE_CLEAN']}, wrong-repair {tally['WRONG_REPAIR']}]"
+    )
 
 
 def _corpus_sentences():
@@ -138,14 +159,14 @@ def _corpus_sentences():
                 for raw in text.splitlines():
                     for s in re.split(r"(?<=\.)\s+", raw.strip()):
                         s = s.strip()
-                        if s and not s.startswith(("//", "Insert", "Start", "Set", "The end")) \
-                                and s.endswith("."):
+                        if s and not s.startswith(("//", "Insert", "Start", "Set", "The end")) and s.endswith("."):
                             out.append(s)
     # dedup, drop one-word
     seen, uniq = set(), []
     for s in out:
         if s not in seen and len(s.split()) >= 2:
-            seen.add(s); uniq.append(s)
+            seen.add(s)
+            uniq.append(s)
     return uniq
 
 
@@ -155,8 +176,7 @@ def natural_pass() -> None:
     simple = [s for s in sents if len(s.split()) <= 5 and not SUBORD.search(s)]
     complex_ = [s for s in sents if s not in simple]
     print("\n\n########## NATURAL CORPUS (descriptive, no gold) ##########")
-    for label, group in [("SIMPLE (in tier-1 scope)", simple),
-                         ("COMPLEX (out of scope)", complex_)]:
+    for label, group in [("SIMPLE (in tier-1 scope)", simple), ("COMPLEX (out of scope)", complex_)]:
         dist: Counter = Counter()
         examples = defaultdict(list)
         for s in group:

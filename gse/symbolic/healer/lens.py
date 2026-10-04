@@ -13,6 +13,7 @@ inverse-brittleness, DNA-repair-pathway style: each enzyme one lesion class). Th
 A lens NEVER fabricates a fill it is unsure of. Repairs are structural re-reads under the law and
 K-line/HDC recall by resemblance — NOT frequency stats, NOT gradient descent.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -22,6 +23,7 @@ from typing import Any
 @dataclass
 class Repair:
     """A clean repair: the law fired and produced a corrected predicate node."""
+
     node: Any
     lens: str
     note: str = ""
@@ -30,6 +32,7 @@ class Repair:
 @dataclass
 class Hole:
     """An honest abstention: this lens owns the territory but cannot cleanly repair it."""
+
     lens: str
     reason: str
 
@@ -38,6 +41,7 @@ class Lens:
     """Base NODE specialist — a node-local transform. Subclasses set ``name``/``law`` and implement
     ``claims`` + ``apply``. The defect is a WRONG node in the tree (e.g. an Event whose verb is a
     predicate adjective); the lens rewrites it 1:1."""
+
     name: str = "lens"
     law: str = ""
 
@@ -60,6 +64,7 @@ class AdditiveLens:
     claim). Given the utterance's predicates + its envelope, it EMITS the recovered predicates.
     Same clean-or-hole discipline: emit only what it can recover cleanly; abstain (emit nothing)
     on anything doubtful — never fabricate."""
+
     name: str = "additive_lens"
     law: str = ""
 

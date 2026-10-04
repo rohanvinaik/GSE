@@ -84,13 +84,14 @@ def run(encoder: GSEEncoder, genealogy=None) -> None:
     # ------------------------------------------------------------------ 2
     _section("2 · Structure ⟂ grounding — it solves, and flags what it can't ground")
     sent = "The zorble is bigger than the florp"
-    tree = resolve_references(
-        evaluate_tree(resolve(from_trace(encoder.encode(sent)))), genealogy)
+    tree = resolve_references(evaluate_tree(resolve(from_trace(encoder.encode(sent)))), genealogy)
     comp = predicates(tree)[0]
     flags = grounding_flags(tree)
     print(f'  "{sent}"')
-    print(f"      structure derived:  {type(comp).__name__}"
-          f"({comp.lhs.head.lemma} {'>' if comp.sign > 0 else '<'} {comp.rhs.head.lemma})")
+    print(
+        f"      structure derived:  {type(comp).__name__}"
+        f"({comp.lhs.head.lemma} {'>' if comp.sign > 0 else '<'} {comp.rhs.head.lemma})"
+    )
     print(f"      grounding:          {[f'{f.kind}({f.lemma})' for f in flags]}")
     print("\n  'zorble' and 'florp' are in no lexicon and no corpus. GSE builds the")
     print("  comparison structure correctly *and* tells you it cannot ground either")

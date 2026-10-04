@@ -7,6 +7,7 @@ so the speller loads instantly at runtime instead of re-encoding ~12k words per 
 Run once (and after any change to the encoder operating point):
     python -m gse.curation.build_hdc_speller
 """
+
 from __future__ import annotations
 
 import os
@@ -18,7 +19,7 @@ import numpy as np
 from gse.nlp.hdc_speller import _CACHE_PATH, _REPO_ROOT, _encode_dense_unit
 
 _FREQ_DB = os.path.join(_REPO_ROOT, "data", "frequency.db")
-_LIMIT = 12000           # common-word lexicon size (>=4 letters, by combined_rank)
+_LIMIT = 12000  # common-word lexicon size (>=4 letters, by combined_rank)
 _MIN_LEN = 4
 
 
@@ -27,8 +28,7 @@ def build(limit: int = _LIMIT, out_path: str = _CACHE_PATH) -> int:
     rows = [
         (w.lower(), rank)
         for (w, rank) in conn.execute(
-            "SELECT word, combined_rank FROM frequency "
-            "WHERE LENGTH(word) >= ? ORDER BY combined_rank LIMIT ?",
+            "SELECT word, combined_rank FROM frequency WHERE LENGTH(word) >= ? ORDER BY combined_rank LIMIT ?",
             (_MIN_LEN, limit),
         )
         if w.isalpha()
@@ -45,8 +45,7 @@ def build(limit: int = _LIMIT, out_path: str = _CACHE_PATH) -> int:
             print(f"  {i + 1}/{len(words)}", flush=True)
 
     np.savez_compressed(out_path, words=np.array(words), matrix=matrix, rank=rank)
-    print(f"wrote {out_path}  ({matrix.shape[0]}x{matrix.shape[1]}, "
-          f"{os.path.getsize(out_path) / 1e6:.1f} MB)")
+    print(f"wrote {out_path}  ({matrix.shape[0]}x{matrix.shape[1]}, {os.path.getsize(out_path) / 1e6:.1f} MB)")
     return len(words)
 
 

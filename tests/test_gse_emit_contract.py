@@ -81,8 +81,7 @@ def test_coordination_maps_to_coord(encoder):
 
 
 def test_contract_envelope_is_versioned_and_json_safe(encoder):
-    tree = evaluate_tree(resolve(from_trace(
-        encoder.encode("Rex barks because the dog is cuter than the cat"))))
+    tree = evaluate_tree(resolve(from_trace(encoder.encode("Rex barks because the dog is cuter than the cat"))))
     contract = emit_contract(tree)
     assert contract["contract_version"] == CONTRACT_VERSION
     # Round-trips through JSON unchanged (the wire format the bridge reads).
@@ -102,5 +101,4 @@ def test_emit_is_total_over_all_demo_sentences(encoder):
         "Mike wants to leave because Rex barks",
     ]
     for s in sentences:
-        json.dumps(emit_contract(
-            evaluate_tree(resolve(from_trace(encoder.encode(s))))))
+        json.dumps(emit_contract(evaluate_tree(resolve(from_trace(encoder.encode(s))))))

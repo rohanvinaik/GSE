@@ -22,6 +22,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class DisagreementRecord:
     """Records a disagreement between LLM and external source."""
+
     primitive: str
     llm_value: int
     external_value: int
@@ -29,12 +30,15 @@ class DisagreementRecord:
     severity: str  # 'minor' (0 vs ±1), 'major' (±1 vs ∓1), 'sign_flip'
 
     def __repr__(self):
-        return f"{self.primitive}: LLM={self.llm_value} vs {self.external_source}={self.external_value} ({self.severity})"
+        return (
+            f"{self.primitive}: LLM={self.llm_value} vs {self.external_source}={self.external_value} ({self.severity})"
+        )
 
 
 @dataclass
 class ComparisonResult:
     """Result of comparing LLM decomposition with external sources."""
+
     word: str
     llm_primitives: Dict[str, int]
     external_primitives: Dict[str, Dict[str, int]]  # source -> {primitive: value}
@@ -52,7 +56,7 @@ class ComparisonResult:
     @property
     def major_disagreements(self) -> List[DisagreementRecord]:
         """Disagreements where LLM and external have opposite signs."""
-        return [d for d in self.disagreements if d.severity in ('major', 'sign_flip')]
+        return [d for d in self.disagreements if d.severity in ("major", "sign_flip")]
 
 
 class ExternalSourcesComparator:
@@ -76,60 +80,66 @@ class ExternalSourcesComparator:
         # SentiWordNet
         try:
             from gse.curation.external_sources.sentiwordnet import SentiWordNetParser
+
             parser = SentiWordNetParser()
             if parser.load():
-                self.parsers['sentiwordnet'] = parser
-                stats['sentiwordnet'] = len(parser.entries)
+                self.parsers["sentiwordnet"] = parser
+                stats["sentiwordnet"] = len(parser.entries)
         except Exception as e:
             logger.debug(f"SentiWordNet not available: {e}")
 
         # NRC Emotion
         try:
             from gse.curation.external_sources.nrc_emotion import NRCEmotionParser
+
             parser = NRCEmotionParser()
             if parser.load():
-                self.parsers['nrc_emotion'] = parser
-                stats['nrc_emotion'] = len(parser.entries)
+                self.parsers["nrc_emotion"] = parser
+                stats["nrc_emotion"] = len(parser.entries)
         except Exception as e:
             logger.debug(f"NRC Emotion not available: {e}")
 
         # NRC VAD
         try:
             from gse.curation.external_sources.nrc_vad import NRCVADParser
+
             parser = NRCVADParser()
             if parser.load():
-                self.parsers['nrc_vad'] = parser
-                stats['nrc_vad'] = len(parser.entries)
+                self.parsers["nrc_vad"] = parser
+                stats["nrc_vad"] = len(parser.entries)
         except Exception as e:
             logger.debug(f"NRC VAD not available: {e}")
 
         # VerbNet
         try:
             from gse.curation.external_sources.verbnet import VerbNetParser
+
             parser = VerbNetParser()
             if parser.load():
-                self.parsers['verbnet'] = parser
-                stats['verbnet'] = len(parser.entries)
+                self.parsers["verbnet"] = parser
+                stats["verbnet"] = len(parser.entries)
         except Exception as e:
             logger.debug(f"VerbNet not available: {e}")
 
         # Concreteness
         try:
             from gse.curation.external_sources.concreteness import ConcretenessParser
+
             parser = ConcretenessParser()
             if parser.load():
-                self.parsers['concreteness'] = parser
-                stats['concreteness'] = len(parser.entries)
+                self.parsers["concreteness"] = parser
+                stats["concreteness"] = len(parser.entries)
         except Exception as e:
             logger.debug(f"Concreteness not available: {e}")
 
         # Lancaster Sensorimotor
         try:
             from gse.curation.external_sources.lancaster_sensorimotor import LancasterSensorimotorParser
+
             parser = LancasterSensorimotorParser()
             if parser.load():
-                self.parsers['lancaster_sensorimotor'] = parser
-                stats['lancaster_sensorimotor'] = len(parser.entries)
+                self.parsers["lancaster_sensorimotor"] = parser
+                stats["lancaster_sensorimotor"] = len(parser.entries)
         except Exception as e:
             logger.debug(f"Lancaster Sensorimotor not available: {e}")
 
@@ -200,19 +210,21 @@ class ExternalSourcesComparator:
                 else:
                     # Determine severity
                     if llm_val == 0 or ext_val == 0:
-                        severity = 'minor'  # One says neutral, other says something
+                        severity = "minor"  # One says neutral, other says something
                     elif (llm_val > 0 and ext_val < 0) or (llm_val < 0 and ext_val > 0):
-                        severity = 'sign_flip'  # Opposite signs - major disagreement
+                        severity = "sign_flip"  # Opposite signs - major disagreement
                     else:
-                        severity = 'major'
+                        severity = "major"
 
-                    result.disagreements.append(DisagreementRecord(
-                        primitive=prim,
-                        llm_value=llm_val,
-                        external_value=ext_val,
-                        external_source=source_name,
-                        severity=severity,
-                    ))
+                    result.disagreements.append(
+                        DisagreementRecord(
+                            primitive=prim,
+                            llm_value=llm_val,
+                            external_value=ext_val,
+                            external_source=source_name,
+                            severity=severity,
+                        )
+                    )
 
         # Calculate confidence adjustment
         if checked_primitives:
@@ -232,10 +244,7 @@ class ExternalSourcesComparator:
 
             # Flag for review if too many disagreements
             disagreement_rate = disagreement_count / max(total, 1)
-            result.needs_review = (
-                disagreement_rate > review_threshold or
-                major_count > 0
-            )
+            result.needs_review = disagreement_rate > review_threshold or major_count > 0
 
         return result
 

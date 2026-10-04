@@ -21,6 +21,7 @@ a referent with no discriminating signal, is left UNTOUCHED (abstain-keep) — n
 person-agent. The verdicts become a ``{lemma: type_thread}`` re-type map applied at the
 ``from_document(repair=)`` seam by ``cheatsheet.make_retype_repair`` (non-destructive: only the type is
 set, the name/id/predicates are intact)."""
+
 from __future__ import annotations
 
 from typing import Dict, Optional
@@ -29,14 +30,39 @@ from .multiscale import MultiScaleDoc
 from .person_validation import _facets, _is_person_safe, _world_threads
 
 # sparse-wiki / DBpedia world-type roots. PLACE and GROUP are the two non-person animate/inanimate kinds.
-_PLACE_WORLD = frozenset({
-    "Place", "PopulatedPlace", "Settlement", "Location", "Region", "Country", "City", "Town",
-    "Village", "Continent", "Island", "River", "Mountain", "Building", "Territory", "State", "Province",
-})
-_GROUP_WORLD = frozenset({
-    "EthnicGroup", "Organisation", "Organization", "Company", "Band", "SportsTeam", "MilitaryUnit",
-    "PoliticalParty",
-})
+_PLACE_WORLD = frozenset(
+    {
+        "Place",
+        "PopulatedPlace",
+        "Settlement",
+        "Location",
+        "Region",
+        "Country",
+        "City",
+        "Town",
+        "Village",
+        "Continent",
+        "Island",
+        "River",
+        "Mountain",
+        "Building",
+        "Territory",
+        "State",
+        "Province",
+    }
+)
+_GROUP_WORLD = frozenset(
+    {
+        "EthnicGroup",
+        "Organisation",
+        "Organization",
+        "Company",
+        "Band",
+        "SportsTeam",
+        "MilitaryUnit",
+        "PoliticalParty",
+    }
+)
 _PLACE_WORDNET = frozenset({"location", "region", "district", "geographical_area"})
 _GROUP_WORDNET = frozenset({"social_group", "people", "nation", "organization"})
 
@@ -68,7 +94,7 @@ class AgentEligibility:
     def _kind(self, doc: MultiScaleDoc, rep, ms) -> Optional[str]:
         """PERSON (None → leave) unless POSITIVE evidence of PLACE or GROUP."""
         lemma = rep.lemma
-        wn = _is_person_safe(lemma)                       # True person / False non-person / None unknown
+        wn = _is_person_safe(lemma)  # True person / False non-person / None unknown
         # The WHOLE ranked candidate set, not candidates[0]: the token-alias table makes a
         # bare forename/surname ('washington', 'louis') rank a place first with the person
         # behind it — kind-level verdicts on the pagerank-primary alone would re-type a
@@ -83,8 +109,7 @@ class AgentEligibility:
         #     fallback: a PROPN person whose name collides with a non-person entity must
         #     never be guessed into a PLACE. A possible world individual is not a
         #     GROUP either, so the demonym/plural heuristics are skipped too. ---
-        if world & {"Person", "Deity"} or (dom & {"People"} and not
-                                           (world & _GROUP_WORLD)):
+        if world & {"Person", "Deity"} or (dom & {"People"} and not (world & _GROUP_WORLD)):
             return None
 
         # --- PLACE: POSITIVE evidence only — the world strand types it a place,
@@ -115,9 +140,10 @@ class AgentEligibility:
         #     and is judged INDEPENDENTLY of the anchor gate: an uncorroborated world
         #     reading discredits a PLACE verdict, not the plural/demonym signal. ---
         is_group = self._is_group(doc, rep, ms, wn, world, dom)
-        if anchored is not False:              # the PLACE verdicts, anchor-gated as a block
+        if anchored is not False:  # the PLACE verdicts, anchor-gated as a block
             if _is_primary_person_safe(lemma) is not True and (
-                    world & _PLACE_WORLD or set(_lower(world)) & _PLACE_WORDNET):
+                world & _PLACE_WORLD or set(_lower(world)) & _PLACE_WORDNET
+            ):
                 return "PLACE"
             if wn is False and not is_group and dom & {"Geography"}:
                 return "PLACE"
@@ -168,6 +194,7 @@ def _anchors_in_doc(doc, lemma: str):
     if not bag:
         return None
     import re
+
     low = raw.lower()
     for a in bag:
         if a and re.search(r"\b" + re.escape(a) + r"\b", low):
@@ -182,12 +209,14 @@ def _definite_in_raw(doc, lemma: str) -> bool:
     if not raw or not lemma:
         return False
     import re
+
     return re.search(r"\bthe\s+" + re.escape(lemma) + r"\b", raw, re.IGNORECASE) is not None
 
 
 def _is_location_safe(lemma: str):
     try:
         from gse.symbolic.grounding import _is_location
+
         return _is_location(lemma)
     except Exception:
         return None
@@ -196,6 +225,7 @@ def _is_location_safe(lemma: str):
 def _is_primary_person_safe(lemma: str):
     try:
         from gse.symbolic.grounding import _is_primary_person
+
         return _is_primary_person(lemma)
     except Exception:
         return None

@@ -23,14 +23,17 @@ from gse.teaching.teacher import (
 
 # ---------- _get_top_connections ----------
 
+
 class TestGetTopConnections:
     def test_returns_sorted_by_abs(self):
         names = ["a", "b", "c"]
-        w = np.array([
-            [0.0, 0.5, -0.9],
-            [0.5, 0.0, 0.3],
-            [-0.9, 0.3, 0.0],
-        ])
+        w = np.array(
+            [
+                [0.0, 0.5, -0.9],
+                [0.5, 0.0, 0.3],
+                [-0.9, 0.3, 0.0],
+            ]
+        )
         result = _get_top_connections(w, names, top_k=3)
         # First should be the strongest (|w| = 0.9)
         assert abs(result[0][2]) == 0.9
@@ -43,12 +46,14 @@ class TestGetTopConnections:
         assert result == []
 
     def test_top_k_limits(self):
-        w = np.array([
-            [0, 0.5, 0.6, 0.7],
-            [0.5, 0, 0.4, 0.3],
-            [0.6, 0.4, 0, 0.2],
-            [0.7, 0.3, 0.2, 0],
-        ])
+        w = np.array(
+            [
+                [0, 0.5, 0.6, 0.7],
+                [0.5, 0, 0.4, 0.3],
+                [0.6, 0.4, 0, 0.2],
+                [0.7, 0.3, 0.2, 0],
+            ]
+        )
         result = _get_top_connections(w, ["a", "b", "c", "d"], top_k=2)
         assert len(result) == 2
 
@@ -88,6 +93,7 @@ class TestGetTopConnections:
 
 # ---------- NetworkSnapshot ----------
 
+
 class TestNetworkSnapshot:
     def test_from_network(self):
         net = MagicMock()
@@ -103,15 +109,25 @@ class TestNetworkSnapshot:
 
 # ---------- TeachingEpoch ----------
 
+
 class TestTeachingEpoch:
     def test_to_dict_all_fields(self):
         e = TeachingEpoch(
-            epoch_number=1, document="doc.txt", document_type="text",
-            start_time="2026-01-01T00:00:00", end_time="2026-01-01T00:00:01",
-            duration_seconds=1.0, paragraphs_processed=2, sentences_processed=5,
-            words_processed=20, total_updates=10,
-            text_delta=0.1, paragraph_delta=0.2,
-            sentence_delta=0.3, word_delta=0.4, orchestrator_delta=0.5,
+            epoch_number=1,
+            document="doc.txt",
+            document_type="text",
+            start_time="2026-01-01T00:00:00",
+            end_time="2026-01-01T00:00:01",
+            duration_seconds=1.0,
+            paragraphs_processed=2,
+            sentences_processed=5,
+            words_processed=20,
+            total_updates=10,
+            text_delta=0.1,
+            paragraph_delta=0.2,
+            sentence_delta=0.3,
+            word_delta=0.4,
+            orchestrator_delta=0.5,
         )
         d = e.to_dict()
         # Every top-level field
@@ -135,12 +151,21 @@ class TestTeachingEpoch:
     def test_to_dict_distinct_values_per_key(self):
         # Each field gets a unique value so VALUE mutants on keys are caught
         e = TeachingEpoch(
-            epoch_number=42, document="z.txt", document_type="json",
-            start_time="A", end_time="B", duration_seconds=99.5,
-            paragraphs_processed=11, sentences_processed=22, words_processed=33,
+            epoch_number=42,
+            document="z.txt",
+            document_type="json",
+            start_time="A",
+            end_time="B",
+            duration_seconds=99.5,
+            paragraphs_processed=11,
+            sentences_processed=22,
+            words_processed=33,
             total_updates=44,
-            text_delta=1.1, paragraph_delta=2.2, sentence_delta=3.3,
-            word_delta=4.4, orchestrator_delta=5.5,
+            text_delta=1.1,
+            paragraph_delta=2.2,
+            sentence_delta=3.3,
+            word_delta=4.4,
+            orchestrator_delta=5.5,
         )
         d = e.to_dict()
         assert d["epoch_number"] == 42
@@ -157,11 +182,11 @@ class TestTeachingEpoch:
 
 # ---------- TeachingSession ----------
 
+
 class TestTeachingSession:
     def test_to_dict_all_fields(self):
         ep = TeachingEpoch(
-            epoch_number=1, document="x", document_type="text",
-            start_time="t1", end_time="t2", duration_seconds=1.0
+            epoch_number=1, document="x", document_type="text", start_time="t1", end_time="t2", duration_seconds=1.0
         )
         s = TeachingSession(
             profile_name="alpha",
@@ -190,9 +215,15 @@ class TestTeachingSession:
     def test_to_dict_distinct_values(self):
         # Distinct values per key so VALUE mutants are caught
         s = TeachingSession(
-            profile_name="P", start_time="S", end_time="E",
-            total_epochs=1, corpus_dir="C", total_documents=2,
-            document_order=[], random_seed=3, json_epochs={},
+            profile_name="P",
+            start_time="S",
+            end_time="E",
+            total_epochs=1,
+            corpus_dir="C",
+            total_documents=2,
+            document_order=[],
+            random_seed=3,
+            json_epochs={},
         )
         d = s.to_dict()
         assert d["profile_name"] == "P"
@@ -209,6 +240,7 @@ class TestTeachingSession:
 
 # ---------- NetworkTeacher fixtures ----------
 
+
 @pytest.fixture
 def profile_mgr(tmp_path):
     return ProfileManager(profiles_dir=str(tmp_path / "profiles"))
@@ -220,6 +252,7 @@ def teacher(profile_mgr):
 
 
 # ---------- NetworkTeacher.__init__ ----------
+
 
 class TestNetworkTeacherInit:
     def test_creates_new_profile(self, profile_mgr):
@@ -246,6 +279,7 @@ class TestNetworkTeacherInit:
 
 # ---------- prepare_corpus ----------
 
+
 class TestPrepareCorpus:
     def test_finds_txt_files(self, teacher, tmp_path):
         corpus = tmp_path / "corpus"
@@ -265,9 +299,7 @@ class TestPrepareCorpus:
             (corpus / f"doc_{i}.txt").write_text(f"doc {i}")
         json_path = tmp_path / "big.json"
         json_path.write_text("{}")
-        result = teacher.prepare_corpus(
-            str(corpus), json_files={3: str(json_path)}
-        )
+        result = teacher.prepare_corpus(str(corpus), json_files={3: str(json_path)})
         # 5 txt + 1 json
         assert len(result) == 6
         # JSON inserted at epoch 3 → index 2
@@ -294,13 +326,12 @@ class TestPrepareCorpus:
         json_path = tmp_path / "big.json"
         json_path.write_text("{}")
         # Epoch 999 way past end → clamped to end of list
-        result = teacher.prepare_corpus(
-            str(corpus), json_files={999: str(json_path)}
-        )
+        result = teacher.prepare_corpus(str(corpus), json_files={999: str(json_path)})
         assert str(json_path) in result
 
 
 # ---------- _take_snapshots ----------
+
 
 class TestTakeSnapshots:
     def test_returns_all_five(self, teacher):
@@ -312,6 +343,7 @@ class TestTakeSnapshots:
 
 # ---------- _teach_from_text ----------
 
+
 class TestTeachFromText:
     def test_handles_read_failure(self, teacher, tmp_path):
         # Nonexistent file
@@ -322,12 +354,15 @@ class TestTeachFromText:
     def test_processes_text_file(self, teacher, tmp_path):
         f = tmp_path / "doc.txt"
         f.write_text("This is a test sentence. Another one follows.\n\nSecond paragraph here.")
-        with patch.object(teacher.feature_extractor, "extract_all_features",
-                          return_value={
-                              "text": {"FORMAL": 0.5},
-                              "paragraph": [{"CAUSE": 0.3}],
-                              "sentence": [{"SYN_SUBJ": 0.8}],
-                          }):
+        with patch.object(
+            teacher.feature_extractor,
+            "extract_all_features",
+            return_value={
+                "text": {"FORMAL": 0.5},
+                "paragraph": [{"CAUSE": 0.3}],
+                "sentence": [{"SYN_SUBJ": 0.8}],
+            },
+        ):
             stats = teacher._teach_from_text(str(f))
         assert stats["updates"] > 0
         assert stats["words"] > 0
@@ -335,10 +370,15 @@ class TestTeachFromText:
     def test_empty_features_no_update(self, teacher, tmp_path):
         f = tmp_path / "empty.txt"
         f.write_text("hello")
-        with patch.object(teacher.feature_extractor, "extract_all_features",
-                          return_value={
-                              "text": {}, "paragraph": [], "sentence": [],
-                          }):
+        with patch.object(
+            teacher.feature_extractor,
+            "extract_all_features",
+            return_value={
+                "text": {},
+                "paragraph": [],
+                "sentence": [],
+            },
+        ):
             stats = teacher._teach_from_text(str(f))
         # Only orchestrator updates → updates >= 1
         assert stats["updates"] >= 1
@@ -346,18 +386,21 @@ class TestTeachFromText:
 
 # ---------- _teach_from_json ----------
 
+
 class TestTeachFromJson:
     def test_processes_turns(self, teacher, tmp_path):
         f = tmp_path / "conv.json"
         f.write_text("[]")
-        with patch.object(teacher.conversation_processor, "process_file",
-                          return_value=iter(["turn 1.", "turn 2."])):
-            with patch.object(teacher.feature_extractor, "extract_all_features",
-                              return_value={
-                                  "text": {"x": 0.5},
-                                  "paragraph": [{"y": 0.3}],
-                                  "sentence": [{"z": 0.8}],
-                              }):
+        with patch.object(teacher.conversation_processor, "process_file", return_value=iter(["turn 1.", "turn 2."])):
+            with patch.object(
+                teacher.feature_extractor,
+                "extract_all_features",
+                return_value={
+                    "text": {"x": 0.5},
+                    "paragraph": [{"y": 0.3}],
+                    "sentence": [{"z": 0.8}],
+                },
+            ):
                 stats = teacher._teach_from_json(str(f))
         assert stats["updates"] >= 2  # at least one update per turn
 
@@ -365,10 +408,12 @@ class TestTeachFromJson:
         f = tmp_path / "conv.json"
         f.write_text("[]")
         # Generate 10 turns
-        with patch.object(teacher.conversation_processor, "process_file",
-                          return_value=iter(["t"] * 10)):
-            with patch.object(teacher.feature_extractor, "extract_all_features",
-                              return_value={"text": {}, "paragraph": [], "sentence": []}):
+        with patch.object(teacher.conversation_processor, "process_file", return_value=iter(["t"] * 10)):
+            with patch.object(
+                teacher.feature_extractor,
+                "extract_all_features",
+                return_value={"text": {}, "paragraph": [], "sentence": []},
+            ):
                 with patch.object(teacher.profile.orchestrator, "learn") as mock_learn:
                     teacher._teach_from_json(str(f))
         # At turn 10, orchestrator.learn called once for the conv routing
@@ -377,12 +422,16 @@ class TestTeachFromJson:
 
 # ---------- teach_epoch ----------
 
+
 class TestTeachEpoch:
     def test_text_doc_type(self, teacher, tmp_path):
         f = tmp_path / "doc.txt"
         f.write_text("text content")
-        with patch.object(teacher.feature_extractor, "extract_all_features",
-                          return_value={"text": {}, "paragraph": [], "sentence": []}):
+        with patch.object(
+            teacher.feature_extractor,
+            "extract_all_features",
+            return_value={"text": {}, "paragraph": [], "sentence": []},
+        ):
             ep = teacher.teach_epoch(1, str(f))
         assert ep.document_type == "text"
         assert ep.epoch_number == 1
@@ -391,24 +440,21 @@ class TestTeachEpoch:
     def test_claude_json_doc_type(self, teacher, tmp_path):
         f = tmp_path / "claude_conv.json"
         f.write_text("[]")
-        with patch.object(teacher.conversation_processor, "process_file",
-                          return_value=iter([])):
+        with patch.object(teacher.conversation_processor, "process_file", return_value=iter([])):
             ep = teacher.teach_epoch(1, str(f))
         assert ep.document_type == "claude_json"
 
     def test_gpt_json_doc_type(self, teacher, tmp_path):
         f = tmp_path / "gpt_chat.json"
         f.write_text("[]")
-        with patch.object(teacher.conversation_processor, "process_file",
-                          return_value=iter([])):
+        with patch.object(teacher.conversation_processor, "process_file", return_value=iter([])):
             ep = teacher.teach_epoch(1, str(f))
         assert ep.document_type == "gpt_json"
 
     def test_generic_json_doc_type(self, teacher, tmp_path):
         f = tmp_path / "random.json"
         f.write_text("[]")
-        with patch.object(teacher.conversation_processor, "process_file",
-                          return_value=iter([])):
+        with patch.object(teacher.conversation_processor, "process_file", return_value=iter([])):
             ep = teacher.teach_epoch(1, str(f))
         assert ep.document_type == "json"
 
@@ -416,13 +462,17 @@ class TestTeachEpoch:
         f = tmp_path / "x.txt"
         f.write_text("hi")
         before = teacher.profile.metadata.epochs_completed
-        with patch.object(teacher.feature_extractor, "extract_all_features",
-                          return_value={"text": {}, "paragraph": [], "sentence": []}):
+        with patch.object(
+            teacher.feature_extractor,
+            "extract_all_features",
+            return_value={"text": {}, "paragraph": [], "sentence": []},
+        ):
             teacher.teach_epoch(1, str(f))
         assert teacher.profile.metadata.epochs_completed == before + 1
 
 
 # ---------- teach ----------
+
 
 class TestTeach:
     def test_runs_session(self, teacher, tmp_path):
@@ -430,8 +480,11 @@ class TestTeach:
         corpus.mkdir()
         (corpus / "a.txt").write_text("doc a")
         (corpus / "b.txt").write_text("doc b")
-        with patch.object(teacher.feature_extractor, "extract_all_features",
-                          return_value={"text": {}, "paragraph": [], "sentence": []}):
+        with patch.object(
+            teacher.feature_extractor,
+            "extract_all_features",
+            return_value={"text": {}, "paragraph": [], "sentence": []},
+        ):
             session = teacher.teach(str(corpus))
         assert session.total_epochs == 2
         assert len(session.epochs) == 2
@@ -441,10 +494,15 @@ class TestTeach:
         corpus.mkdir()
         (corpus / "a.txt").write_text("x")
         calls = []
+
         def cb(epoch, total, msg):
             calls.append((epoch, total))
-        with patch.object(teacher.feature_extractor, "extract_all_features",
-                          return_value={"text": {}, "paragraph": [], "sentence": []}):
+
+        with patch.object(
+            teacher.feature_extractor,
+            "extract_all_features",
+            return_value={"text": {}, "paragraph": [], "sentence": []},
+        ):
             teacher.teach(str(corpus), progress_callback=cb)
         assert calls == [(1, 1)]
 
@@ -453,8 +511,11 @@ class TestTeach:
         corpus.mkdir()
         for i in range(3):
             (corpus / f"d_{i}.txt").write_text("x")
-        with patch.object(teacher.feature_extractor, "extract_all_features",
-                          return_value={"text": {}, "paragraph": [], "sentence": []}):
+        with patch.object(
+            teacher.feature_extractor,
+            "extract_all_features",
+            return_value={"text": {}, "paragraph": [], "sentence": []},
+        ):
             with patch.object(teacher.profile_manager, "save_active_profile") as ms:
                 teacher.teach(str(corpus), save_every=1)
         # 3 epochs + final save = at least 4 calls
@@ -463,12 +524,12 @@ class TestTeach:
 
 # ---------- get_behavior_summary ----------
 
+
 class TestBehaviorSummary:
     def test_returns_all_networks(self, teacher):
         result = teacher.get_behavior_summary()
         assert "profile" in result
-        for key in ("text_network", "paragraph_network", "sentence_network",
-                    "word_network", "orchestrator"):
+        for key in ("text_network", "paragraph_network", "sentence_network", "word_network", "orchestrator"):
             assert key in result
             assert "updates" in result[key]
 

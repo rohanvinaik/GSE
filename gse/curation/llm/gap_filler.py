@@ -21,30 +21,62 @@ logger = logging.getLogger(__name__)
 
 # Primitives that need LLM (no external source coverage)
 NEED_LLM = {
-    'AFTER', 'BAD', 'BECAUSE', 'BELOW', 'CERTAINTY', 'DEAD', 'FALSE', 'FAR',
-    'HERE', 'HIER_MINUS', 'HIER_PLUS', 'I', 'IF', 'INFER', 'KIND', 'LIKE',
-    'LONG_TIME', 'MOMENT', 'NEAR', 'NOT', 'NOW', 'ONE', 'OTHER', 'OUTSIDE',
-    'PART', 'PEOPLE', 'QUANTITY', 'SAME', 'SHORT_TIME', 'SIDE', 'SMALL',
-    'THEN', 'TOWARD', 'TRUE', 'TWO', 'WITHOUT', 'YOU'
+    "AFTER",
+    "BAD",
+    "BECAUSE",
+    "BELOW",
+    "CERTAINTY",
+    "DEAD",
+    "FALSE",
+    "FAR",
+    "HERE",
+    "HIER_MINUS",
+    "HIER_PLUS",
+    "I",
+    "IF",
+    "INFER",
+    "KIND",
+    "LIKE",
+    "LONG_TIME",
+    "MOMENT",
+    "NEAR",
+    "NOT",
+    "NOW",
+    "ONE",
+    "OTHER",
+    "OUTSIDE",
+    "PART",
+    "PEOPLE",
+    "QUANTITY",
+    "SAME",
+    "SHORT_TIME",
+    "SIDE",
+    "SMALL",
+    "THEN",
+    "TOWARD",
+    "TRUE",
+    "TWO",
+    "WITHOUT",
+    "YOU",
 }
 
 # Bipolar pairs where we can infer one from the other
 BIPOLAR_INFERENCE = {
-    ('GOOD', 'BAD'): 'GOOD',      # If GOOD is known, infer BAD
-    ('BIG', 'SMALL'): 'BIG',
-    ('ALIVE', 'DEAD'): 'ALIVE',
-    ('BEFORE', 'AFTER'): 'BEFORE',
-    ('INSIDE', 'OUTSIDE'): 'INSIDE',
-    ('WITH', 'WITHOUT'): 'WITH',
+    ("GOOD", "BAD"): "GOOD",  # If GOOD is known, infer BAD
+    ("BIG", "SMALL"): "BIG",
+    ("ALIVE", "DEAD"): "ALIVE",
+    ("BEFORE", "AFTER"): "BEFORE",
+    ("INSIDE", "OUTSIDE"): "INSIDE",
+    ("WITH", "WITHOUT"): "WITH",
     # These need both from LLM
-    ('SAME', 'OTHER'): None,
-    ('LONG_TIME', 'SHORT_TIME'): None,
-    ('THEN', 'NOW'): None,
-    ('START', 'END'): None,  # Both covered
-    ('ABOVE', 'BELOW'): None,
-    ('FAR', 'NEAR'): None,
-    ('TOWARD', 'AWAY'): None,
-    ('TRUE', 'FALSE'): None,
+    ("SAME", "OTHER"): None,
+    ("LONG_TIME", "SHORT_TIME"): None,
+    ("THEN", "NOW"): None,
+    ("START", "END"): None,  # Both covered
+    ("ABOVE", "BELOW"): None,
+    ("FAR", "NEAR"): None,
+    ("TOWARD", "AWAY"): None,
+    ("TRUE", "FALSE"): None,
 }
 
 
@@ -80,10 +112,13 @@ class GapFiller:
 
     def get_external_primitives(self, lexeme_id: int) -> Dict[str, int]:
         """Get primitives from external sources for a lexeme."""
-        cursor = self.conn.execute("""
+        cursor = self.conn.execute(
+            """
             SELECT primitive, value FROM primitive_values
             WHERE lexeme_id = ? AND source NOT LIKE 'llm:%'
-        """, (lexeme_id,))
+        """,
+            (lexeme_id,),
+        )
         return {row[0]: row[1] for row in cursor.fetchall()}
 
     def infer_bipolar_counterpart(
@@ -129,10 +164,13 @@ class GapFiller:
         to_query -= set(inferred.keys())
 
         # Also remove any that already have LLM data
-        cursor = self.conn.execute("""
+        cursor = self.conn.execute(
+            """
             SELECT primitive FROM primitive_values
             WHERE lexeme_id = ? AND source LIKE 'llm:%'
-        """, (lexeme_id,))
+        """,
+            (lexeme_id,),
+        )
         already_done = {row[0] for row in cursor.fetchall()}
         to_query -= already_done
 
@@ -143,15 +181,19 @@ class GapFiller:
         prompt = get_single_prompt(word, primitive)
 
         try:
-            response = self.client.generate(
-                prompt=prompt,
-                system_prompt=SYSTEM_PROMPT,
-                config=self.config,
-            ).strip().upper()
+            response = (
+                self.client.generate(
+                    prompt=prompt,
+                    system_prompt=SYSTEM_PROMPT,
+                    config=self.config,
+                )
+                .strip()
+                .upper()
+            )
 
-            if response.startswith('YES') or response == 'Y':
+            if response.startswith("YES") or response == "Y":
                 return 1
-            elif 'OPPOSITE' in response or response.startswith('OPP'):
+            elif "OPPOSITE" in response or response.startswith("OPP"):
                 return -1
             else:
                 return 0
@@ -170,21 +212,27 @@ class GapFiller:
 
         # Store inferred values
         for prim, val in inferred.items():
-            self.conn.execute("""
+            self.conn.execute(
+                """
                 INSERT OR REPLACE INTO primitive_values
                 (lexeme_id, primitive, value, confidence, source)
                 VALUES (?, ?, ?, ?, ?)
-            """, (lexeme_id, prim, val, 0.8, "inferred:bipolar"))
+            """,
+                (lexeme_id, prim, val, 0.8, "inferred:bipolar"),
+            )
             result[prim] = val
 
         # Query LLM for remaining
         for prim in to_query:
             val = self.query_primitive(lemma, prim)
-            self.conn.execute("""
+            self.conn.execute(
+                """
                 INSERT OR REPLACE INTO primitive_values
                 (lexeme_id, primitive, value, confidence, source)
                 VALUES (?, ?, ?, ?, ?)
-            """, (lexeme_id, prim, val, 0.7, f"llm:{self.model}"))
+            """,
+                (lexeme_id, prim, val, 0.7, f"llm:{self.model}"),
+            )
             result[prim] = val
 
         self.conn.commit()
@@ -196,11 +244,14 @@ class GapFiller:
         start_rank: int = 1,
     ) -> Dict[str, int]:
         """Process words by frequency rank."""
-        cursor = self.conn.execute("""
+        cursor = self.conn.execute(
+            """
             SELECT id, lemma, frequency_rank FROM lexemes
             WHERE frequency_rank >= ?
             ORDER BY frequency_rank
-        """, (start_rank,))
+        """,
+            (start_rank,),
+        )
 
         words = cursor.fetchall()
         if limit:
@@ -239,10 +290,7 @@ class GapFiller:
 def main():
     import argparse
 
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(levelname)s - %(message)s"
-    )
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
     parser = argparse.ArgumentParser(description="Gap Filler")
     parser.add_argument("--db", default="data/lexicon.db")
@@ -257,9 +305,7 @@ def main():
 
     try:
         if args.word:
-            cursor = filler.conn.execute(
-                "SELECT id FROM lexemes WHERE lemma = ?", (args.word,)
-            )
+            cursor = filler.conn.execute("SELECT id FROM lexemes WHERE lemma = ?", (args.word,))
             row = cursor.fetchone()
             if row:
                 to_query = filler.get_primitives_to_query(row[0])
@@ -276,9 +322,9 @@ def main():
                 limit=args.limit,
                 start_rank=args.start_rank,
             )
-            print("\n" + "="*50)
+            print("\n" + "=" * 50)
             print("GAP FILLING COMPLETE")
-            print("="*50)
+            print("=" * 50)
             print(f"Words processed: {stats['processed']}")
             print(f"Primitives inferred: {stats['inferred']}")
             print(f"LLM queries made: {stats['llm_queries']}")

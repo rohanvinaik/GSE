@@ -20,6 +20,7 @@ operation, gated by the grounding oracle — categorically different from an ad-
 suffix-strip or a runtime DB. The base is the word-lens identity (the lemma); the
 degree is the sentence-lens half of the decomposition.
 """
+
 from __future__ import annotations
 
 from typing import List, Optional, Tuple
@@ -44,8 +45,13 @@ REVERSAL = "Reversal=Yes"
 # Over-proposing is harmless — the grounding gate (a real adjective/verb must exist)
 # rejects false prefixes (uncle→cle, income→come-but-in-is-negation-only, internal→ternal).
 _NEG_PREFIXES = (
-    ("un", True), ("dis", True), ("non", False),
-    ("im", False), ("il", False), ("ir", False), ("in", False),
+    ("un", True),
+    ("dis", True),
+    ("non", False),
+    ("im", False),
+    ("il", False),
+    ("ir", False),
+    ("in", False),
 )
 
 # Suppletive degree forms — a FINITE closed list (a fact of the language, like the
@@ -54,10 +60,14 @@ _NEG_PREFIXES = (
 # degrees (more/most/less/least) are deferred — they are periphrastic markers and
 # determiners, a separate concern.
 _SUPPLETIVE_DEGREE = {
-    "better": "good", "best": "good",
-    "worse": "bad", "worst": "bad",
-    "further": "far", "furthest": "far",
-    "farther": "far", "farthest": "far",
+    "better": "good",
+    "best": "good",
+    "worse": "bad",
+    "worst": "bad",
+    "further": "far",
+    "furthest": "far",
+    "farther": "far",
+    "farthest": "far",
 }
 # (elder/eldest excluded — too often nominal: "the elder", "village elder".)
 
@@ -80,9 +90,9 @@ def _candidate_bases(stem: str) -> List[str]:
     """
     cands = [stem, stem + "e"]
     if len(stem) >= 2 and stem[-1] == stem[-2] and stem[-1] not in "aeiou":
-        cands.append(stem[:-1])             # gemination: bigg → big
+        cands.append(stem[:-1])  # gemination: bigg → big
     if stem.endswith("i"):
-        cands.append(stem[:-1] + "y")       # y→i: earli → early, happi → happy
+        cands.append(stem[:-1] + "y")  # y→i: earli → early, happi → happy
     return cands
 
 
@@ -127,7 +137,7 @@ def resolve_negation(surface: str) -> Optional[Tuple[str, str]]:
     low = surface.lower()
     for pref, allow_reversal in _NEG_PREFIXES:
         if low.startswith(pref) and len(low) > len(pref) + 2:
-            base = low[len(pref):]
+            base = low[len(pref) :]
             if _is_gradable_adjective(base):
                 return base, NEGATION
             if allow_reversal and wn.synsets(base, pos="v"):

@@ -14,6 +14,7 @@ would be leaking surface form). Reported: the Δσ_sem distribution over paired 
 
 Usage: python scripts/sigma_sem_validate.py [--files N] [--max-sents-per-file M]
 """
+
 import argparse
 import sys
 from collections import Counter
@@ -27,6 +28,7 @@ def _sigma_card(store, jaccard, gold_nodes, competitors, ctx_entities):
     """σ_sem cardinality = min context entities to make the gold IS-A thread beat every competitor
     (greedy set cover over the entity-indexed discrete kill-matrix). Returns (sigma, n_survivors)."""
     from collections import defaultdict
+
     ent_kill = {i: set() for i in range(len(competitors))}
     for ei, enodes in enumerate(ctx_entities):
         gj = jaccard(gold_nodes, enodes)
@@ -70,6 +72,7 @@ def _paraphrase(tagged, wn, Lemma):
     words, subs = [], 0
     for chunk in tagged:
         import nltk
+
         if isinstance(chunk, nltk.Tree):
             lab = chunk.label()
             if isinstance(lab, Lemma):
@@ -86,8 +89,21 @@ def _paraphrase(tagged, wn, Lemma):
     return " ".join(words), subs
 
 
-def _doc_sigma(enc, store, jaccard, resolve_document, evaluate_tree, from_trace, resolve,
-               collect, is_proper, lookup_key, wn, raw_sents, gold_tokens_per_sent):
+def _doc_sigma(
+    enc,
+    store,
+    jaccard,
+    resolve_document,
+    evaluate_tree,
+    from_trace,
+    resolve,
+    collect,
+    is_proper,
+    lookup_key,
+    wn,
+    raw_sents,
+    gold_tokens_per_sent,
+):
     """Run the real pipeline over a passage, return {(si, lemma, gold): sigma} for target nouns."""
     try:
         trees = [evaluate_tree(resolve(from_trace(enc.encode(" ".join(w))))) for w in raw_sents]
@@ -129,6 +145,7 @@ def main() -> int:
     args = ap.parse_args()
 
     import nltk
+
     for pkg, path in [("semcor", "corpora/semcor"), ("wordnet", "corpora/wordnet")]:
         try:
             nltk.data.find(path)
@@ -154,7 +171,7 @@ def main() -> int:
 
     deltas = Counter()
     n_pairs = 0
-    d2_sigma, d2_poly, d2_mfs_surp, d2_mfs_fail = [], [], [], []   # D2: σ_sem vs difficulty proxies
+    d2_sigma, d2_poly, d2_mfs_surp, d2_mfs_fail = [], [], [], []  # D2: σ_sem vs difficulty proxies
     for fid in semcor.fileids()[: args.files]:
         raw = semcor.sents(fid)[: args.max_sents_per_file]
         tagged = semcor.tagged_sents(fid, tag="sem")[: args.max_sents_per_file]
@@ -171,10 +188,36 @@ def main() -> int:
             pw, _ = _paraphrase(tsent, wn, Lemma)
             para_raw.append(pw.split())
 
-        orig = _doc_sigma(enc, store, _jaccard, resolve_document, evaluate_tree, from_trace, resolve,
-                          _collect_entities, _is_proper, _lookup_key, wn, raw, gold_per_sent)
-        para = _doc_sigma(enc, store, _jaccard, resolve_document, evaluate_tree, from_trace, resolve,
-                          _collect_entities, _is_proper, _lookup_key, wn, para_raw, gold_per_sent)
+        orig = _doc_sigma(
+            enc,
+            store,
+            _jaccard,
+            resolve_document,
+            evaluate_tree,
+            from_trace,
+            resolve,
+            _collect_entities,
+            _is_proper,
+            _lookup_key,
+            wn,
+            raw,
+            gold_per_sent,
+        )
+        para = _doc_sigma(
+            enc,
+            store,
+            _jaccard,
+            resolve_document,
+            evaluate_tree,
+            from_trace,
+            resolve,
+            _collect_entities,
+            _is_proper,
+            _lookup_key,
+            wn,
+            para_raw,
+            gold_per_sent,
+        )
         for key, so in orig.items():
             if key in para:
                 deltas[so - para[key]] += 1
@@ -187,7 +230,7 @@ def main() -> int:
                 pg = prior[snames.index(gold)]
                 d2_sigma.append(so)
                 d2_poly.append(len(snames))
-                d2_mfs_surp.append(-math.log2(pg))                 # gold's surprisal under the freq prior
+                d2_mfs_surp.append(-math.log2(pg))  # gold's surprisal under the freq prior
                 d2_mfs_fail.append(1.0 if snames[0] != gold else 0.0)  # MFS heuristic fails on this token
 
     if not n_pairs:
@@ -195,29 +238,39 @@ def main() -> int:
         return 1
     invariant = deltas.get(0, 0)
     print(f"σ_sem paired over {n_pairs} target nouns (original vs synonym-substituted paraphrase):")
-    print(f"  Δσ_sem = 0 (INVARIANT): {invariant} ({100*invariant/n_pairs:.1f}%)")
+    print(f"  Δσ_sem = 0 (INVARIANT): {invariant} ({100 * invariant / n_pairs:.1f}%)")
     for d in sorted(deltas):
         if d != 0:
             print(f"  Δσ_sem = {d:+d} : {deltas[d]}")
     mad = sum(abs(d) * n for d, n in deltas.items()) / n_pairs
     print(f"  mean |Δσ_sem| = {mad:.3f}")
-    print(f"\n  READING: σ_sem is {'INVARIANT' if invariant/n_pairs > 0.9 else 'only partially invariant'} "
-          f"under meaning-preserving synonym substitution — empirical confirmation that the discrete IS-A "
-          f"metric is a function of grounded MEANING, not surface form (the `sigma_sem_paraphrase_invariant` "
-          f"theorem, realized). Residual drift = where a synonym grounds to a slightly different thread.")
+    print(
+        f"\n  READING: σ_sem is {'INVARIANT' if invariant / n_pairs > 0.9 else 'only partially invariant'} "
+        f"under meaning-preserving synonym substitution — empirical confirmation that the discrete IS-A "
+        f"metric is a function of grounded MEANING, not surface form (the `sigma_sem_paraphrase_invariant` "
+        f"theorem, realized). Residual drift = where a synonym grounds to a slightly different thread."
+    )
 
     # ---- D2: does σ_sem correlate with INDEPENDENT difficulty proxies? ----------
     print(f"\n=== D2 — σ_sem vs independent difficulty proxies ({len(d2_sigma)} tokens) ===")
-    print(f"  Pearson r(σ_sem, polysemy = #senses)           : {_pearson(d2_sigma, d2_poly):+.3f}  "
-          f"(more senses ⇒ harder to teach)")
-    print(f"  Pearson r(σ_sem, MFS-surprisal = −log₂P(gold))  : {_pearson(d2_sigma, d2_mfs_surp):+.3f}  "
-          f"(gold far from the frequent sense ⇒ harder)")
-    print(f"  Pearson r(σ_sem, MFS-failure [gold≠primary])    : {_pearson(d2_sigma, d2_mfs_fail):+.3f}  "
-          f"(the trivial frequency heuristic is wrong)")
-    print(f"\n  READING: σ_sem's structural teaching dimension {'tracks' if _pearson(d2_sigma, d2_poly) > 0.1 else 'is orthogonal to'} "
-          f"the independent difficulty proxies — a token structure finds hard to pin is a token that is "
-          f"genuinely more ambiguous (polysemy) and where the frequency heuristic more often fails. "
-          f"(Corpus-internal proxies; the human inter-annotator-agreement validation is the D2 follow-up.)")
+    print(
+        f"  Pearson r(σ_sem, polysemy = #senses)           : {_pearson(d2_sigma, d2_poly):+.3f}  "
+        f"(more senses ⇒ harder to teach)"
+    )
+    print(
+        f"  Pearson r(σ_sem, MFS-surprisal = −log₂P(gold))  : {_pearson(d2_sigma, d2_mfs_surp):+.3f}  "
+        f"(gold far from the frequent sense ⇒ harder)"
+    )
+    print(
+        f"  Pearson r(σ_sem, MFS-failure [gold≠primary])    : {_pearson(d2_sigma, d2_mfs_fail):+.3f}  "
+        f"(the trivial frequency heuristic is wrong)"
+    )
+    print(
+        f"\n  READING: σ_sem's structural teaching dimension {'tracks' if _pearson(d2_sigma, d2_poly) > 0.1 else 'is orthogonal to'} "
+        f"the independent difficulty proxies — a token structure finds hard to pin is a token that is "
+        f"genuinely more ambiguous (polysemy) and where the frequency heuristic more often fails. "
+        f"(Corpus-internal proxies; the human inter-annotator-agreement validation is the D2 follow-up.)"
+    )
     return 0
 
 

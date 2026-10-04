@@ -74,13 +74,26 @@ SOURCE_PRIMITIVE_SCOPE: Mapping[str, Set[str]] = {
     # Lancaster Sensorimotor: 11 modality-specific perception/action scores.
     # Maps cleanly to sensory/motor primitives in MENTAL, SPATIAL, ACTION.
     "lancaster_sensorimotor": {
-        "SEE", "HEAR", "FEEL", "TOUCH", "BODY",
-        "MOVE", "INSIDE", "DO",
+        "SEE",
+        "HEAR",
+        "FEEL",
+        "TOUCH",
+        "BODY",
+        "MOVE",
+        "INSIDE",
+        "DO",
     },
     # VerbNet: verb classes with thematic roles. Action and causation.
     "verbnet": {
-        "DO", "HAPPEN", "MOVE", "BE", "CAUSE",
-        "SAY", "WORDS", "SOMEONE", "SOMETHING",
+        "DO",
+        "HAPPEN",
+        "MOVE",
+        "BE",
+        "CAUSE",
+        "SAY",
+        "WORDS",
+        "SOMEONE",
+        "SOMETHING",
     },
     # WordNet hierarchy: IS-A taxonomy. Its competence is *category* — the
     # SUBSTANTIVES bank — which the dictionary genus chains cannot reach
@@ -88,7 +101,13 @@ SOURCE_PRIMITIVE_SCOPE: Mapping[str, Set[str]] = {
     # "alive"). Scoped to category only so it contributes IS-A grounding and
     # not the DO/CAUSE/THINK noise its union-over-senses also carries.
     "wordnet_hierarchy": {
-        "SOMETHING", "SOMEONE", "ALIVE", "BODY", "PEOPLE", "PART", "KIND",
+        "SOMETHING",
+        "SOMEONE",
+        "ALIVE",
+        "BODY",
+        "PEOPLE",
+        "PART",
+        "KIND",
     },
     # FrameNet: frame semantics — event structure, participant roles, and the
     # cognition/perception/communication/emotion frames that are its core
@@ -101,11 +120,38 @@ SOURCE_PRIMITIVE_SCOPE: Mapping[str, Set[str]] = {
     # ≥2 gate would flood the lexicon; measured 2026-07-01). Argument frames
     # belong in the verb-template layer, not primitive_values.
     "framenet": {
-        "DO", "HAPPEN", "MOVE", "CAUSE", "BE", "EXIST", "HAVE", "START", "END",
-        "SAY", "WORDS", "THINK", "KNOW", "SEE", "HEAR", "FEEL", "TOUCH", "WANT",
-        "BODY", "ALIVE", "WHERE", "WHEN", "BEFORE",
-        "AFTER", "TOWARD", "AWAY", "BECAUSE", "WITH", "MUST", "CAN",
-        "MOMENT", "LONG_TIME",
+        "DO",
+        "HAPPEN",
+        "MOVE",
+        "CAUSE",
+        "BE",
+        "EXIST",
+        "HAVE",
+        "START",
+        "END",
+        "SAY",
+        "WORDS",
+        "THINK",
+        "KNOW",
+        "SEE",
+        "HEAR",
+        "FEEL",
+        "TOUCH",
+        "WANT",
+        "BODY",
+        "ALIVE",
+        "WHERE",
+        "WHEN",
+        "BEFORE",
+        "AFTER",
+        "TOWARD",
+        "AWAY",
+        "BECAUSE",
+        "WITH",
+        "MUST",
+        "CAN",
+        "MOMENT",
+        "LONG_TIME",
     },
     # PropBank: verb rolesets — the same predicate-argument competence family as
     # VerbNet (which completes the designed verb-source trio), plus the
@@ -115,9 +161,26 @@ SOURCE_PRIMITIVE_SCOPE: Mapping[str, Set[str]] = {
     # (ARGM-* adjunct slots) are excluded — argument-frame structure, not the
     # verb's own decomposition (same rationale as FrameNet above).
     "propbank": {
-        "DO", "HAPPEN", "MOVE", "BE", "EXIST", "CAUSE", "SAY", "WORDS",
-        "HAVE", "START", "END", "KNOW", "THINK",
-        "SEE", "HEAR", "FEEL", "TOUCH", "WANT", "ALIVE", "BODY",
+        "DO",
+        "HAPPEN",
+        "MOVE",
+        "BE",
+        "EXIST",
+        "CAUSE",
+        "SAY",
+        "WORDS",
+        "HAVE",
+        "START",
+        "END",
+        "KNOW",
+        "THINK",
+        "SEE",
+        "HEAR",
+        "FEEL",
+        "TOUCH",
+        "WANT",
+        "ALIVE",
+        "BODY",
     },
     # ConceptNet: crowd-sourced commonsense relations. Competence is the
     # STRUCTURAL relations — taxonomy/mereology/location/capability/purpose.
@@ -125,8 +188,19 @@ SOURCE_PRIMITIVE_SCOPE: Mapping[str, Set[str]] = {
     # Antonym edge is a relation BETWEEN words, not a NOT-component of either
     # word's own decomposition.
     "conceptnet": {
-        "KIND", "PART", "HAVE", "WHERE", "NEAR", "CAUSE", "CAN", "WANT",
-        "DO", "BEFORE", "START", "END", "SOMETHING",
+        "KIND",
+        "PART",
+        "HAVE",
+        "WHERE",
+        "NEAR",
+        "CAUSE",
+        "CAN",
+        "WANT",
+        "DO",
+        "BEFORE",
+        "START",
+        "END",
+        "SOMETHING",
     },
     # USAS: UCREL semantic-field taxonomy — coarse categorical/topical typing,
     # the topical complement to wordnet_hierarchy's IS-A. Excluded: quantifier
@@ -134,9 +208,26 @@ SOURCE_PRIMITIVE_SCOPE: Mapping[str, Set[str]] = {
     # owns the primes), modality (the modal track is a separate gap), and
     # affect modifiers (owned by the affect sources).
     "usas": {
-        "BODY", "ALIVE", "MOVE", "WHERE", "WHEN", "SOMEONE", "PEOPLE",
-        "SOMETHING", "SAY", "WORDS", "THINK", "KNOW", "FEEL", "WANT",
-        "DO", "BE", "HAVE", "START", "LONG_TIME", "SHORT_TIME",
+        "BODY",
+        "ALIVE",
+        "MOVE",
+        "WHERE",
+        "WHEN",
+        "SOMEONE",
+        "PEOPLE",
+        "SOMETHING",
+        "SAY",
+        "WORDS",
+        "THINK",
+        "KNOW",
+        "FEEL",
+        "WANT",
+        "DO",
+        "BE",
+        "HAVE",
+        "START",
+        "LONG_TIME",
+        "SHORT_TIME",
     },
 }
 
@@ -168,11 +259,7 @@ def filter_votes_by_scope(
         Filtered votes dict.
     """
     # Word-scale boundary first — applies to every source unconditionally.
-    votes = {
-        prim: val
-        for prim, val in votes.items()
-        if prim not in WORD_SCALE_EXCLUDED_PRIMITIVES
-    }
+    votes = {prim: val for prim, val in votes.items() if prim not in WORD_SCALE_EXCLUDED_PRIMITIVES}
 
     scope_map = scope if scope is not None else SOURCE_PRIMITIVE_SCOPE
     allowed = scope_map.get(source_name)

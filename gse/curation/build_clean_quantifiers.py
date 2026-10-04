@@ -22,6 +22,7 @@ or a layer re-run will re-clobber them.
 CERTAINTY (possible/likely/probable…) is deliberately OUT OF SCOPE here — that is the
 modal track, a separate gap.
 """
+
 from __future__ import annotations
 
 import sqlite3
@@ -42,10 +43,16 @@ CLEAN_DB = "data/lexicon_clean.db"
 # ALL, which would over-claim totality).
 _SYNONYM_LEVEL: Dict[str, str] = {
     # quantity
-    "much": "MANY", "most": "MANY", "lots": "MANY", "no": "NONE", "every": "ALL",
-    "less": "SOME",   # the -1 decrease counterpart of more→MORE(+1)
+    "much": "MANY",
+    "most": "MANY",
+    "lots": "MANY",
+    "no": "NONE",
+    "every": "ALL",
+    "less": "SOME",  # the -1 decrease counterpart of more→MORE(+1)
     # intensity (the gradable-adjective intensifiers surfaced by the flywheel)
-    "too": "VERY", "really": "VERY", "quite": "VERY",
+    "too": "VERY",
+    "really": "VERY",
+    "quite": "VERY",
 }
 
 
@@ -67,31 +74,30 @@ def main(clean_db: str = CLEAN_DB) -> dict:
     updated = inserted = 0
     for word, level_name in pairs:
         decomp = _decomposition(level_name)
-        row = con.execute(
-            "SELECT id FROM lexemes WHERE lemma=? LIMIT 1", (word,)).fetchone()
+        row = con.execute("SELECT id FROM lexemes WHERE lemma=? LIMIT 1", (word,)).fetchone()
         if row:
             lex_id = row[0]
             con.execute("DELETE FROM primitive_values WHERE lexeme_id=?", (lex_id,))
-            con.execute(
-                "UPDATE lexemes SET source='quantifiers', component_type='hierarchy' "
-                "WHERE id=?", (lex_id,))
+            con.execute("UPDATE lexemes SET source='quantifiers', component_type='hierarchy' WHERE id=?", (lex_id,))
             updated += 1
         else:
             cur = con.execute(
                 "INSERT INTO lexemes(lemma,pos,sense_id,source,confidence,"
                 "validation_status,component_type) VALUES(?,?,?,?,?,?,?)",
-                (word, "x", "0", "quantifiers", 1.0, "hierarchy", "hierarchy"))
+                (word, "x", "0", "quantifiers", 1.0, "hierarchy", "hierarchy"),
+            )
             lex_id = cur.lastrowid
             inserted += 1
         con.executemany(
-            "INSERT INTO primitive_values(lexeme_id,primitive,value,confidence,source) "
-            "VALUES(?,?,?,?,?)",
-            [(lex_id, p, v, 1.0, "quantifiers") for p, v in decomp.items()])
+            "INSERT INTO primitive_values(lexeme_id,primitive,value,confidence,source) VALUES(?,?,?,?,?)",
+            [(lex_id, p, v, 1.0, "quantifiers") for p, v in decomp.items()],
+        )
     con.commit()
     con.close()
     stats = {"levels": len(pairs), "updated_in_place": updated, "inserted": inserted}
-    print(f"Quantifier/intensifier layer: {len(pairs)} hierarchy-level words "
-          f"({updated} overwritten, {inserted} inserted)")
+    print(
+        f"Quantifier/intensifier layer: {len(pairs)} hierarchy-level words ({updated} overwritten, {inserted} inserted)"
+    )
     return stats
 
 

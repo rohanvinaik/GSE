@@ -29,6 +29,7 @@ grounds as an entity name — including rare-but-real names (``Shakespear`` →
 Richmond Shakespear) — is NEVER touched. Absent ``spell_entities.db`` the leg
 degrades to a no-op (same contract as the marisa/HDC caches).
 """
+
 from __future__ import annotations
 
 import math
@@ -52,8 +53,8 @@ _REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__f
 _DEFAULT_DB = os.path.join(_REPO_ROOT, "data", "spell_entities.db")
 _GENEALOGY_DB = os.path.join(_REPO_ROOT, "data", "genealogy.db")
 
-_CHUNK = 500          # SQLite parameter-limit-safe IN() batching
-_TOPK_ANCHOR = 5      # only the best few candidates are worth anchor lookups
+_CHUNK = 500  # SQLite parameter-limit-safe IN() batching
+_TOPK_ANCHOR = 5  # only the best few candidates are worth anchor lookups
 
 
 class _Entities:
@@ -84,8 +85,7 @@ class _Entities:
     def n_entities(self) -> int:
         if self._n_entities is None:
             conn = self.conn
-            row = conn.execute(
-                "SELECT value FROM meta WHERE key='n_entities'").fetchone() if conn else None
+            row = conn.execute("SELECT value FROM meta WHERE key='n_entities'").fetchone() if conn else None
             self._n_entities = int(row[0]) if row else 250_000
         return self._n_entities
 
@@ -103,9 +103,7 @@ class _Entities:
         conn = self.conn
         if conn is None:
             return False
-        return conn.execute(
-            "SELECT 1 FROM entity_names WHERE name=? LIMIT 1", (name.lower(),)
-        ).fetchone() is not None
+        return conn.execute("SELECT 1 FROM entity_names WHERE name=? LIMIT 1", (name.lower(),)).fetchone() is not None
 
     def members(self, names: Sequence[str]) -> Dict[str, Tuple[str, float]]:
         """Filter ``names`` by dictionary membership: ``{name: (best_canon,
@@ -117,9 +115,10 @@ class _Entities:
         out: Dict[str, Tuple[str, float]] = {}
         seq = list(names)
         for i in range(0, len(seq), _CHUNK):
-            chunk = seq[i:i + _CHUNK]
-            q = ("SELECT name, canon, MAX(pagerank) FROM entity_names WHERE name IN (%s)"
-                 " GROUP BY name" % ",".join("?" * len(chunk)))
+            chunk = seq[i : i + _CHUNK]
+            q = "SELECT name, canon, MAX(pagerank) FROM entity_names WHERE name IN (%s) GROUP BY name" % ",".join(
+                "?" * len(chunk)
+            )
             for name, canon, pagerank in conn.execute(q, chunk):
                 out[name] = (canon, pagerank or 0.0)
         return out
@@ -145,12 +144,11 @@ def _default_anchors(canon: str) -> Dict[str, float]:
         except sqlite3.Error:
             _ANCHOR_CONN = False
             return {}
-    rows = _ANCHOR_CONN.execute(
-        "SELECT anchor, weight FROM world_anchors WHERE label=?", (canon,)).fetchall()
+    rows = _ANCHOR_CONN.execute("SELECT anchor, weight FROM world_anchors WHERE label=?", (canon,)).fetchall()
     return {a: w for a, w in rows}
 
 
-_ANCHOR_CONN = None   # None = untried, False = unavailable, else the connection
+_ANCHOR_CONN = None  # None = untried, False = unavailable, else the connection
 
 
 @dataclass(frozen=True)
@@ -159,7 +157,7 @@ class EntityCandidate:
     edit_cost: int
     pagerank: float
     canon: str
-    corroboration: float = 0.0   # anchor-bag ∩ context weight (0 when no context)
+    corroboration: float = 0.0  # anchor-bag ∩ context weight (0 when no context)
 
     def score(self, entities: _Entities) -> float:
         return self.edit_cost + _LAMBDA * entities.rank_cost(self.pagerank)
@@ -168,16 +166,14 @@ class EntityCandidate:
 @dataclass(frozen=True)
 class EntityCorrection:
     surface: str
-    fired: bool                      # False = the surface IS a known entity name
+    fired: bool  # False = the surface IS a known entity name
     committed: Optional[str]
     canon: Optional[str] = None
     ranked: Tuple[EntityCandidate, ...] = field(default_factory=tuple)
     note: str = ""
 
 
-def propose_entities(
-    surface: str, entities: _Entities = _DEFAULT_ENTITIES
-) -> List[EntityCandidate]:
+def propose_entities(surface: str, entities: _Entities = _DEFAULT_ENTITIES) -> List[EntityCandidate]:
     """Grounded entity-name candidates for ``surface``, best-first — the same
     generate -> ground -> score shape as the word leg's :func:`propose`."""
     word = surface.lower()
@@ -218,23 +214,20 @@ def correct_entity(
     """
     word = surface.lower()
     if not entities.available:
-        return EntityCorrection(surface, fired=False, committed=None,
-                                note="entity dictionary absent: leg inert")
+        return EntityCorrection(surface, fired=False, committed=None, note="entity dictionary absent: leg inert")
     if entities.grounds(word):
-        return EntityCorrection(surface, fired=False, committed=word,
-                                note="surface is a known entity name")
+        return EntityCorrection(surface, fired=False, committed=word, note="surface is a known entity name")
 
     cands = propose_entities(surface, entities)
     if not cands:
-        return EntityCorrection(surface, fired=True, committed=None,
-                                note="no grounded entity candidate")
+        return EntityCorrection(surface, fired=True, committed=None, note="no grounded entity candidate")
     if word_pool is None:
         word_pool = _propose_words(surface)
     word_best = word_pool[0] if word_pool else None
 
     def _beats_word_reading(c: EntityCandidate) -> bool:
         if word_best is None or word_best.word == c.name:
-            return True                       # no competitor, or the readings agree
+            return True  # no competitor, or the readings agree
         return word_best.score - c.score(entities) >= WORD_COMMIT_MARGIN
 
     # anchor corroboration (context signal) for the cheapest few candidates
@@ -249,21 +242,17 @@ def correct_entity(
 
     best = cands[0]
     second = cands[1] if len(cands) > 1 else None
-    margin_ok = second is None or (
-        second.score(entities) - best.score(entities)) >= WORD_COMMIT_MARGIN
+    margin_ok = second is None or (second.score(entities) - best.score(entities)) >= WORD_COMMIT_MARGIN
     if margin_ok:
         if not _beats_word_reading(best):
-            return EntityCorrection(surface, True, None, None, tuple(cands),
-                                    "word-space reading competes: abstained")
-        return EntityCorrection(surface, True, best.name, best.canon, tuple(cands),
-                                "committed: decisive margin")
+            return EntityCorrection(surface, True, None, None, tuple(cands), "word-space reading competes: abstained")
+        return EntityCorrection(surface, True, best.name, best.canon, tuple(cands), "committed: decisive margin")
     # within-margin set: corroboration may confirm a UNIQUE candidate
-    within = [c for c in cands
-              if c.score(entities) - best.score(entities) < WORD_COMMIT_MARGIN]
+    within = [c for c in cands if c.score(entities) - best.score(entities) < WORD_COMMIT_MARGIN]
     corroborated = [c for c in within if c.corroboration > 0]
     if len(corroborated) == 1 and _beats_word_reading(corroborated[0]):
         c = corroborated[0]
-        return EntityCorrection(surface, True, c.name, c.canon, tuple(cands),
-                                "committed: unique anchor-corroborated candidate")
-    return EntityCorrection(surface, True, None, None, tuple(cands),
-                            "no decisive winner: abstained")
+        return EntityCorrection(
+            surface, True, c.name, c.canon, tuple(cands), "committed: unique anchor-corroborated candidate"
+        )
+    return EntityCorrection(surface, True, None, None, tuple(cands), "no decisive winner: abstained")

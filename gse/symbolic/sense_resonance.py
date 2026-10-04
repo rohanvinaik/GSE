@@ -17,6 +17,7 @@ Non-neural, deterministic. Falls back silently (``available`` False / ``None``
 returns) when the store is absent or a word is OOV — grounding then keeps its
 existing frequency + Jaccard behaviour, so there is no regression.
 """
+
 from __future__ import annotations
 
 import json
@@ -31,7 +32,8 @@ from ..vectors_v2 import SparseVector, bundle
 
 _DB = os.path.join(
     os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
-    "data", "sense_vectors.db",
+    "data",
+    "sense_vectors.db",
 )
 _DIM = 8192
 # A non-primary sense must beat the frequency-primary's resonance by this much to win.
@@ -60,9 +62,7 @@ class SenseResonance:
             return cache[key]
         v: Optional[SparseVector] = None
         if self._conn is not None:
-            row = self._conn.execute(
-                f"SELECT pos, neg FROM {table} WHERE {col}=?", (key,)
-            ).fetchone()
+            row = self._conn.execute(f"SELECT pos, neg FROM {table} WHERE {col}=?", (key,)).fetchone()
             if row:
                 v = SparseVector(
                     _DIM,
@@ -85,9 +85,7 @@ class SenseResonance:
             return None
         return bundle(vs) if len(vs) > 1 else vs[0]
 
-    def best_sense_index(
-        self, synset_names: List[str], context: Optional[SparseVector]
-    ) -> Optional[int]:
+    def best_sense_index(self, synset_names: List[str], context: Optional[SparseVector]) -> Optional[int]:
         """Index of the sense to PROMOTE over the frequency-primary (index 0), or
         None for "no confident override" (keep the primary).
 
@@ -97,19 +95,12 @@ class SenseResonance:
         """
         if context is None or len(synset_names) < 2:
             return None
-        scores = [
-            (context.cosine(sv) if (sv := self.sense_vec(n)) is not None else None)
-            for n in synset_names
-        ]
+        scores = [(context.cosine(sv) if (sv := self.sense_vec(n)) is not None else None) for n in synset_names]
         prim = scores[0]
         if prim is None:
             ranked = [(s, i) for i, s in enumerate(scores) if s is not None]
             return max(ranked)[1] if ranked else None
-        over = [
-            (s, i)
-            for i, s in enumerate(scores)
-            if i != 0 and s is not None and s > prim + _RESONANCE_MARGIN
-        ]
+        over = [(s, i) for i, s in enumerate(scores) if i != 0 and s is not None and s > prim + _RESONANCE_MARGIN]
         return max(over)[1] if over else None
 
 

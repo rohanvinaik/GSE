@@ -14,6 +14,7 @@ signal is `gse.pragmatics.janus.read` — grounded valence only, NO cosine. Corp
 
 Usage: python scripts/janus_surprise.py [--n-train N] [--n-test M]
 """
+
 import argparse
 import sys
 from pathlib import Path
@@ -44,7 +45,7 @@ def _auc(scores, labels):
         j = i
         while j + 1 < len(order) and scores[order[j + 1]] == scores[order[i]]:
             j += 1
-        avg = (i + j) / 2 + 1                      # average rank for ties (1-indexed)
+        avg = (i + j) / 2 + 1  # average rank for ties (1-indexed)
         for k in range(i, j + 1):
             ranks[order[k]] = avg
         i = j + 1
@@ -114,27 +115,35 @@ def main() -> int:
         neg = [s for s, y in zip(scores, labels) if y == 0]
         mp = sum(pos) / len(pos) if pos else 0.0
         mn = sum(neg) / len(neg) if neg else 0.0
-        fp = sum(1 for s in pos if s > gate) / len(pos) if pos else 0.0   # ironic flagged (recall)
-        fn = sum(1 for s in neg if s > gate) / len(neg) if neg else 0.0   # literal mis-flagged (FPR)
-        print(f"  {split:5}: mean discord — IRONIC {mp:.3f} vs LITERAL {mn:.3f}  |  "
-              f"at gate {gate:g}: recall {100*fp:.1f}%  false-alarm {100*fn:.1f}%")
+        fp = sum(1 for s in pos if s > gate) / len(pos) if pos else 0.0  # ironic flagged (recall)
+        fn = sum(1 for s in neg if s > gate) / len(neg) if neg else 0.0  # literal mis-flagged (FPR)
+        print(
+            f"  {split:5}: mean discord — IRONIC {mp:.3f} vs LITERAL {mn:.3f}  |  "
+            f"at gate {gate:g}: recall {100 * fp:.1f}%  false-alarm {100 * fn:.1f}%"
+        )
         return fp, fn
 
     print("SURPRISE as a discriminator of irony (S_sem = Face A ⟂ Face B valence sign-flip):")
-    print(f"  AUC (threshold-free): train {auc_tr:.3f}  |  held-out TEST {auc_te:.3f}   "
-          f"(0.5 = no signal; >0.5 = the discord separates irony)")
+    print(
+        f"  AUC (threshold-free): train {auc_tr:.3f}  |  held-out TEST {auc_te:.3f}   "
+        f"(0.5 = no signal; >0.5 = the discord separates irony)"
+    )
     print(f"  DERIVED gate (Youden's J on train ROC, not hand-picked): discord > {gate:g}")
     rates(tr_s, tr_y, "train")
     rates(te_s, te_y, "TEST")
     # accuracy at the derived gate on held-out
     acc = sum(1 for s, y in zip(te_s, te_y) if (s > gate) == (y == 1)) / len(te_y)
-    print(f"\n  held-out accuracy at the derived gate: {100*acc:.1f}%  "
-          f"(majority baseline {100*max(sum(te_y), len(te_y)-sum(te_y))/len(te_y):.1f}%)")
-    print("\n  READING: the surprise metric is the two-face DISCORD, and on held-out irony gold it "
-          "separates ironic from literal with the gate DERIVED from reference data (observational, not "
-          "tuned). Where the literal valence agrees with the situation → S_sem ≈ 0 (sincere); where it "
-          "VIOLATES it → S_sem fires. The residual (irony the frame-face can't supply) is the explicit "
-          "seam SSL leaves to the learned-register (Tier-1) face — a clean boundary of the theory.")
+    print(
+        f"\n  held-out accuracy at the derived gate: {100 * acc:.1f}%  "
+        f"(majority baseline {100 * max(sum(te_y), len(te_y) - sum(te_y)) / len(te_y):.1f}%)"
+    )
+    print(
+        "\n  READING: the surprise metric is the two-face DISCORD, and on held-out irony gold it "
+        "separates ironic from literal with the gate DERIVED from reference data (observational, not "
+        "tuned). Where the literal valence agrees with the situation → S_sem ≈ 0 (sincere); where it "
+        "VIOLATES it → S_sem fires. The residual (irony the frame-face can't supply) is the explicit "
+        "seam SSL leaves to the learned-register (Tier-1) face — a clean boundary of the theory."
+    )
     return 0
 
 

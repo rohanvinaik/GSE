@@ -5,6 +5,7 @@ A figure is recognized by comparing a *deductive* symbolic read (Face A) against
 ``docs/JANUS_FIGURE_SYSTEM.md`` (the build) and ``docs/JANUS_MODULE_DESIGN.md`` (the
 two-faced comparator).
 """
+
 from gse.pragmatics.figures import (
     BANKS,
     BY_NAME,

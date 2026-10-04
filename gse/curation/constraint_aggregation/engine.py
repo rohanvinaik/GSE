@@ -93,15 +93,12 @@ class ConstraintAggregationEngine:
 
         for source_name, class_name in nltk_parsers:
             try:
-                module = __import__(
-                    f"gse.curation.external_sources.{source_name}",
-                    fromlist=[class_name]
-                )
+                module = __import__(f"gse.curation.external_sources.{source_name}", fromlist=[class_name])
                 parser_class = getattr(module, class_name)
                 parser = parser_class()
                 if parser.load():
                     self.parsers[source_name] = parser
-                    count = len(parser.entries) if hasattr(parser, 'entries') else 0
+                    count = len(parser.entries) if hasattr(parser, "entries") else 0
                     stats[source_name] = count
                     logger.info(f"Loaded {source_name}: {count} entries")
             except Exception as e:
@@ -112,6 +109,7 @@ class ConstraintAggregationEngine:
             # Wiktionary
             try:
                 from gse.curation.external_sources.wiktionary import WiktionaryParser
+
                 parser = WiktionaryParser()
                 if parser.load():
                     self.parsers["wiktionary"] = parser
@@ -123,6 +121,7 @@ class ConstraintAggregationEngine:
             # ConceptNet
             try:
                 from gse.curation.external_sources.conceptnet import ConceptNetParser
+
                 parser = ConceptNetParser()
                 if parser.load():
                     self.parsers["conceptnet"] = parser
@@ -222,11 +221,7 @@ class ConstraintAggregationEngine:
 
         # Track sources
         sources_checked = list(self.parsers.keys())
-        sources_with_data = list(set(
-            mapping.source_name
-            for mappings in evidence.values()
-            for mapping in mappings
-        ))
+        sources_with_data = list(set(mapping.source_name for mappings in evidence.values() for mapping in mappings))
 
         # Build constraints per primitive
         constraints: Dict[str, PrimitiveConstraint] = {}
@@ -259,9 +254,7 @@ class ConstraintAggregationEngine:
                     conflicting = positive_mappings
 
             # Calculate confidence
-            confidence = calculate_constraint_confidence(
-                supporting, conflicting, SOURCE_RELIABILITY
-            )
+            confidence = calculate_constraint_confidence(supporting, conflicting, SOURCE_RELIABILITY)
 
             # Determine status
             has_conflict = len(conflicting) > 0
@@ -285,14 +278,10 @@ class ConstraintAggregationEngine:
         conflicts = detect_conflicts(evidence)
 
         # Calculate overall confidence
-        overall_confidence = calculate_overall_word_confidence(
-            constraints, sources_with_data, len(self.parsers)
-        )
+        overall_confidence = calculate_overall_word_confidence(constraints, sources_with_data, len(self.parsers))
 
         # Determine review requirement
-        review_required, review_reasons = should_flag_for_review(
-            conflicts, overall_confidence
-        )
+        review_required, review_reasons = should_flag_for_review(conflicts, overall_confidence)
 
         return WordConstraintProfile(
             word=word,
@@ -320,7 +309,7 @@ class ConstraintAggregationEngine:
     def close(self):
         """Close all parser connections."""
         for parser in self.parsers.values():
-            if hasattr(parser, 'close'):
+            if hasattr(parser, "close"):
                 parser.close()
         self.parsers.clear()
         self._loaded = False
@@ -341,7 +330,7 @@ def test_word(word: str, verbose: bool = True) -> WordConstraintProfile:
     profile = engine.aggregate_constraints(word)
 
     if verbose:
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print(f"Word: {profile.word}")
         print(f"Sources with data: {profile.sources_with_data}")
         print(f"Overall confidence: {profile.overall_confidence}")
@@ -358,13 +347,14 @@ def test_word(word: str, verbose: bool = True) -> WordConstraintProfile:
             print(f"\nConflicts ({len(profile.conflicts)}):")
             for c in profile.conflicts:
                 print(f"  - {c.primitive}: {c.conflict_type} ({c.severity})")
-        print(f"{'='*60}\n")
+        print(f"{'=' * 60}\n")
 
     return profile
 
 
 if __name__ == "__main__":
     import logging
+
     logging.basicConfig(level=logging.INFO)
 
     # Test with some words

@@ -121,8 +121,11 @@ def test_unresolved_tree_stays_v1(encoder):
 
 
 def test_v2_contract_is_json_safe(encoder):
-    for s in ["The dog is cuter than the cat", "Spot and Rex are dogs",
-              "Rex barks because the dog is cuter than the cat"]:
+    for s in [
+        "The dog is cuter than the cat",
+        "Spot and Rex are dogs",
+        "Rex barks because the dog is cuter than the cat",
+    ]:
         json.dumps(emit_contract(_resolved(encoder, s)))
 
 

@@ -21,10 +21,10 @@ from gse.symbolic.resolution import Entity
 class FakeChess:
     _T = {
         "king": [
-            ("entity", "person", "ruler", "king"),                       # sense 0 (primary)
+            ("entity", "person", "ruler", "king"),  # sense 0 (primary)
             ("entity", "artifact", "game_equipment", "chessman", "king"),  # sense 1
         ],
-        "queen": [("entity", "person", "ruler", "queen")],               # → monarch
+        "queen": [("entity", "person", "ruler", "queen")],  # → monarch
         "bishop": [("entity", "artifact", "game_equipment", "chessman", "bishop")],  # → chess
     }
 
@@ -46,7 +46,7 @@ def _pair(a, b):
 def test_coherence_keeps_monarch_sense_near_queen():
     out = resolve_references(_pair("king", "queen"), FakeChess())
     assert out.lhs.type_thread[-1] == "king"
-    assert "ruler" in out.lhs.type_thread          # monarch sense (primary, coheres)
+    assert "ruler" in out.lhs.type_thread  # monarch sense (primary, coheres)
 
 
 def test_coherence_flips_to_chess_sense_near_bishop():

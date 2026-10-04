@@ -20,6 +20,7 @@ from gse.curation.constraint_aggregation.types import (
 
 # ---------- ConstraintType ----------
 
+
 class TestConstraintType:
     def test_definitive_value(self):
         assert ConstraintType.DEFINITIVE.value == "definitive"
@@ -39,6 +40,7 @@ class TestConstraintType:
 
 
 # ---------- EvidenceStrength ----------
+
 
 class TestEvidenceStrength:
     def test_strong_value(self):
@@ -61,6 +63,7 @@ class TestEvidenceStrength:
 
 
 # ---------- SourceMapping ----------
+
 
 def _make_mapping(**overrides):
     base = dict(
@@ -161,6 +164,7 @@ class TestSourceMapping:
 
 # ---------- PrimitiveConstraint ----------
 
+
 def _make_constraint(**overrides):
     base = dict(
         primitive="GOOD",
@@ -224,6 +228,7 @@ class TestPrimitiveConstraint:
 
 # ---------- ConflictRecord ----------
 
+
 class TestConflictRecord:
     def test_construction(self):
         cr = ConflictRecord(
@@ -266,6 +271,7 @@ class TestConflictRecord:
 
 
 # ---------- WordConstraintProfile ----------
+
 
 def _make_profile(**overrides):
     base = dict(

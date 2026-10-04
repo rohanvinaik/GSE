@@ -8,6 +8,7 @@ sentence to see context-aware correction (structural re-parse + gloss overlap) o
 out-of-vocabulary token, with the corrected sentence and a per-token trace. Everything
 is deterministic — the same input always yields the same output and trace.
 """
+
 from __future__ import annotations
 
 import sys
@@ -37,10 +38,7 @@ def _run_word(word: str) -> None:
 def _run_sentence(text: str, encoder) -> None:
     trace = encoder.encode(text)
     toks = trace.tokens
-    grounded_content = [
-        t.lemma for t in toks
-        if t.pos in _CONTENT_POS and _DEFAULT_LEXICON.grounds(t.lemma)
-    ]
+    grounded_content = [t.lemma for t in toks if t.pos in _CONTENT_POS and _DEFAULT_LEXICON.grounds(t.lemma)]
     surfaces = [t.token for t in toks]
     corrected: List[str] = list(surfaces)
     any_oov = False
@@ -67,6 +65,7 @@ def _run_sentence(text: str, encoder) -> None:
 def main(argv: List[str]) -> None:
     print("GSE deterministic spell-checker. Loading lexicon + encoder...")
     from gse.api import GSEEncoder
+
     enc = GSEEncoder()
     # warm the vocab + wordnet so the first correction is not laggy
     _DEFAULT_LEXICON.grounds("warmup")

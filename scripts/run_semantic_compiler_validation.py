@@ -37,6 +37,7 @@ from gse.evaluation.world_model import create_test_world
 @dataclass
 class ExperimentResult:
     """Result of a single experiment."""
+
     name: str
     passed: bool
     metrics: Dict[str, Any]
@@ -142,15 +143,14 @@ class SemanticCompilerValidation:
             # Check if all traces have the expected operator
             has_operator = []
             for trace in traces:
-                found = any(op.primitive == case["expected_operator"]
-                           for op in trace.operators)
+                found = any(op.primitive == case["expected_operator"] for op in trace.operators)
                 has_operator.append(found)
 
             # Check HDC similarity between paraphrases
             cosines = []
             if len(traces) >= 2:
                 for i in range(len(traces) - 1):
-                    cos = traces[i].vector.cosine(traces[i+1].vector)
+                    cos = traces[i].vector.cosine(traces[i + 1].vector)
                     cosines.append(cos)
 
             # Calculate equivalence
@@ -189,12 +189,14 @@ class SemanticCompilerValidation:
         self.log()
         self.log(f"  Paraphrase equivalence rate: {equivalence_rate:.1%}")
 
-        self.results.append(ExperimentResult(
-            name="semantic_canonicalization",
-            passed=equivalence_rate >= 0.6,
-            metrics=metrics,
-            details=f"Paraphrases produce equivalent traces: {equivalence_rate:.1%}",
-        ))
+        self.results.append(
+            ExperimentResult(
+                name="semantic_canonicalization",
+                passed=equivalence_rate >= 0.6,
+                metrics=metrics,
+                details=f"Paraphrases produce equivalent traces: {equivalence_rate:.1%}",
+            )
+        )
         self.log()
 
     # =========================================================================
@@ -320,12 +322,14 @@ class SemanticCompilerValidation:
         self.log()
         self.log(f"  Semantic difference detection accuracy: {accuracy:.1%}")
 
-        self.results.append(ExperimentResult(
-            name="semantic_difference_detection",
-            passed=accuracy >= 0.7,
-            metrics=metrics,
-            details=f"Different meanings detected: {accuracy:.1%}",
-        ))
+        self.results.append(
+            ExperimentResult(
+                name="semantic_difference_detection",
+                passed=accuracy >= 0.7,
+                metrics=metrics,
+                details=f"Different meanings detected: {accuracy:.1%}",
+            )
+        )
         self.log()
 
     # =========================================================================
@@ -461,12 +465,14 @@ class SemanticCompilerValidation:
         self.log()
         self.log(f"  Operator detection rate: {detection_rate:.1%} ({detected}/{total})")
 
-        self.results.append(ExperimentResult(
-            name="operator_verification",
-            passed=detection_rate >= 0.5,  # At least half must work
-            metrics=metrics,
-            details=f"Operators detected: {detected}/{total} ({detection_rate:.1%})",
-        ))
+        self.results.append(
+            ExperimentResult(
+                name="operator_verification",
+                passed=detection_rate >= 0.5,  # At least half must work
+                metrics=metrics,
+                details=f"Operators detected: {detected}/{total} ({detection_rate:.1%})",
+            )
+        )
         self.log()
 
     # =========================================================================
@@ -568,12 +574,14 @@ class SemanticCompilerValidation:
         self.log(f"  Evaluation rate: {evaluation_rate:.1%} ({evaluated}/{total})")
         self.log(f"  Accuracy on evaluated: {accuracy:.1%} ({correct}/{evaluated})")
 
-        self.results.append(ExperimentResult(
-            name="truth_conditional_evaluation",
-            passed=accuracy >= 0.7 and evaluation_rate >= 0.5,
-            metrics=metrics,
-            details=f"Truth evaluation: {accuracy:.1%} accuracy on {evaluation_rate:.1%} evaluated",
-        ))
+        self.results.append(
+            ExperimentResult(
+                name="truth_conditional_evaluation",
+                passed=accuracy >= 0.7 and evaluation_rate >= 0.5,
+                metrics=metrics,
+                details=f"Truth evaluation: {accuracy:.1%} accuracy on {evaluation_rate:.1%} evaluated",
+            )
+        )
         self.log()
 
     # =========================================================================
@@ -624,19 +632,23 @@ class SemanticCompilerValidation:
             status = "OK" if decomposition_correct else "FAIL"
             self.log(f"    [{status}] '{contrast_sentence}'")
             self.log(f"         COMP_BUT found: args contain 'smart' and 'lazy': {decomposition_correct}")
-            metrics["entailments"].append({
-                "type": "contrast_decomposition",
-                "sentence": contrast_sentence,
-                "correct": decomposition_correct,
-            })
+            metrics["entailments"].append(
+                {
+                    "type": "contrast_decomposition",
+                    "sentence": contrast_sentence,
+                    "correct": decomposition_correct,
+                }
+            )
         else:
             self.log("    [--] COMP_BUT not found")
-            metrics["entailments"].append({
-                "type": "contrast_decomposition",
-                "sentence": contrast_sentence,
-                "correct": False,
-                "note": "operator_not_found",
-            })
+            metrics["entailments"].append(
+                {
+                    "type": "contrast_decomposition",
+                    "sentence": contrast_sentence,
+                    "correct": False,
+                    "note": "operator_not_found",
+                }
+            )
             total += 1
 
         # Test 2: Comparison structure preserved
@@ -667,26 +679,32 @@ class SemanticCompilerValidation:
 
                 status = "OK" if structure_correct else "FAIL"
                 self.log(f"    [{status}] '{sent[:40]}...'")
-                self.log(f"         Arg1 has '{expected_arg1}': {arg1_correct}, Arg2 has '{expected_arg2}': {arg2_correct}")
+                self.log(
+                    f"         Arg1 has '{expected_arg1}': {arg1_correct}, Arg2 has '{expected_arg2}': {arg2_correct}"
+                )
 
-                metrics["entailments"].append({
-                    "type": "comparison_structure",
-                    "sentence": sent,
-                    "expected_arg1": expected_arg1,
-                    "expected_arg2": expected_arg2,
-                    "actual_arg1": list(entity_args[0]),
-                    "actual_arg2": list(entity_args[1]),
-                    "correct": structure_correct,
-                })
+                metrics["entailments"].append(
+                    {
+                        "type": "comparison_structure",
+                        "sentence": sent,
+                        "expected_arg1": expected_arg1,
+                        "expected_arg2": expected_arg2,
+                        "actual_arg1": list(entity_args[0]),
+                        "actual_arg2": list(entity_args[1]),
+                        "correct": structure_correct,
+                    }
+                )
             else:
                 total += 1
                 self.log(f"    [--] '{sent[:40]}...' - COMP_THAN not found")
-                metrics["entailments"].append({
-                    "type": "comparison_structure",
-                    "sentence": sent,
-                    "correct": False,
-                    "note": "operator_not_found",
-                })
+                metrics["entailments"].append(
+                    {
+                        "type": "comparison_structure",
+                        "sentence": sent,
+                        "correct": False,
+                        "note": "operator_not_found",
+                    }
+                )
 
         # Test 3: Causal direction
         self.log("  Type 3: Causal Direction")
@@ -714,22 +732,26 @@ class SemanticCompilerValidation:
             self.log(f"         Arg1 (effect): {because_op.arg1_lemmas}")
             self.log(f"         Arg2 (cause): {because_op.arg2_lemmas}")
 
-            metrics["entailments"].append({
-                "type": "causal_direction",
-                "sentence": causal_sentence,
-                "arg1": because_op.arg1_lemmas,
-                "arg2": because_op.arg2_lemmas,
-                "correct": causal_correct,
-            })
+            metrics["entailments"].append(
+                {
+                    "type": "causal_direction",
+                    "sentence": causal_sentence,
+                    "arg1": because_op.arg1_lemmas,
+                    "arg2": because_op.arg2_lemmas,
+                    "correct": causal_correct,
+                }
+            )
         else:
             total += 1
             self.log("    [--] COMP_BECAUSE not found")
-            metrics["entailments"].append({
-                "type": "causal_direction",
-                "sentence": causal_sentence,
-                "correct": False,
-                "note": "operator_not_found",
-            })
+            metrics["entailments"].append(
+                {
+                    "type": "causal_direction",
+                    "sentence": causal_sentence,
+                    "correct": False,
+                    "note": "operator_not_found",
+                }
+            )
 
         accuracy = correct / total if total > 0 else 0
         metrics["summary"] = {
@@ -741,12 +763,14 @@ class SemanticCompilerValidation:
         self.log()
         self.log(f"  Structural entailment accuracy: {accuracy:.1%} ({correct}/{total})")
 
-        self.results.append(ExperimentResult(
-            name="structural_entailment",
-            passed=accuracy >= 0.5,
-            metrics=metrics,
-            details=f"Entailment accuracy: {accuracy:.1%}",
-        ))
+        self.results.append(
+            ExperimentResult(
+                name="structural_entailment",
+                passed=accuracy >= 0.5,
+                metrics=metrics,
+                details=f"Entailment accuracy: {accuracy:.1%}",
+            )
+        )
         self.log()
 
     # =========================================================================
@@ -816,9 +840,9 @@ class SemanticCompilerValidation:
                     # Check for aspectual markers (BEFORE/AFTER for aspectual verbs)
                     if case["trigger_type"] == "aspectual":
                         has_temporal = (
-                            token.word_primitives.get("BEFORE", 0) != 0 or
-                            token.word_primitives.get("AFTER", 0) != 0 or
-                            token.word_primitives.get("TIME", 0) != 0
+                            token.word_primitives.get("BEFORE", 0) != 0
+                            or token.word_primitives.get("AFTER", 0) != 0
+                            or token.word_primitives.get("TIME", 0) != 0
                         )
                         if has_temporal:
                             detected += 1
@@ -878,12 +902,14 @@ class SemanticCompilerValidation:
         self.log(f"  Presupposition trigger detection: {detection_rate:.1%}")
 
         # This is exploratory - lower threshold
-        self.results.append(ExperimentResult(
-            name="presupposition_detection",
-            passed=True,  # Informational for now
-            metrics=metrics,
-            details=f"Presupposition triggers detected: {detected}/{total}",
-        ))
+        self.results.append(
+            ExperimentResult(
+                name="presupposition_detection",
+                passed=True,  # Informational for now
+                metrics=metrics,
+                details=f"Presupposition triggers detected: {detected}/{total}",
+            )
+        )
         self.log()
 
     # =========================================================================
@@ -956,12 +982,14 @@ class SemanticCompilerValidation:
             "note": "Scope representation is demonstrated, not evaluated for correctness",
         }
 
-        self.results.append(ExperimentResult(
-            name="quantifier_scope",
-            passed=True,  # Demonstration only
-            metrics=metrics,
-            details="Quantifier primitives captured in trace",
-        ))
+        self.results.append(
+            ExperimentResult(
+                name="quantifier_scope",
+                passed=True,  # Demonstration only
+                metrics=metrics,
+                details="Quantifier primitives captured in trace",
+            )
+        )
         self.log()
 
     # =========================================================================

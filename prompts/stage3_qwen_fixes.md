@@ -411,11 +411,11 @@ After generating the log, apply via Python:
 import sqlite3
 import re
 
-conn = sqlite3.connect('data/lexicon.db')
+conn = sqlite3.connect("data/lexicon.db")
 cursor = conn.cursor()
 
 # Parse log and execute SQL
-with open('data/stage3_fixes.log', 'r') as f:
+with open("data/stage3_fixes.log", "r") as f:
     log = f.read()
 
 # Extract SQL statements (generated separately or inline)

@@ -16,17 +16,21 @@ class TestOrchestration:
 
         # Novel Sense: Pattern Network > Lexicon with high confidence
         c_type = classifier.classify(
-            mechanism_a="pattern_network", prediction_a="X",
-            mechanism_b="lexicon", prediction_b=None,
-            context={"score_a": 0.9}
+            mechanism_a="pattern_network",
+            prediction_a="X",
+            mechanism_b="lexicon",
+            prediction_b=None,
+            context={"score_a": 0.9},
         )
         assert c_type == CollisionType.NOVEL_SENSE
 
         # False Positive: Low confidence pattern network
         c_type = classifier.classify(
-            mechanism_a="pattern_network", prediction_a="X",
-            mechanism_b="lexicon", prediction_b=None,
-            context={"score_a": 0.6}
+            mechanism_a="pattern_network",
+            prediction_a="X",
+            mechanism_b="lexicon",
+            prediction_b=None,
+            context={"score_a": 0.6},
         )
         assert c_type == CollisionType.FALSE_POSITIVE
 
@@ -45,6 +49,7 @@ class TestOrchestration:
         # Resolution
         res = handler.resolve([("dog", 0.4)], "ctx")
         assert res["status"] == "ambiguous"
+
 
 class TestCoordinator:
     """Test Coordinator."""
@@ -77,6 +82,7 @@ class TestCoordinator:
         assert res["valid"]
         assert res["score"] == 0.9
 
+
 class TestCache:
     """Test Merkle Navigator."""
 
@@ -84,7 +90,7 @@ class TestCache:
         cache = MerkleNavigator()
 
         obj1 = {"a": 1, "b": 2}
-        obj2 = {"b": 2, "a": 1} # Same content, diff order
+        obj2 = {"b": 2, "a": 1}  # Same content, diff order
 
         h1 = cache.put(obj1)
         h2 = cache.put(obj2)

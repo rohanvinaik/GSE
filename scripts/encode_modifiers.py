@@ -26,10 +26,10 @@ def encode_modifiers(db_path: Path, dry_run: bool = False) -> dict:
     cursor = conn.cursor()
 
     stats = {
-        'found': 0,
-        'not_found': [],
-        'hierarchy_levels_set': 0,
-        'by_scale': {scale: 0 for scale in ALL_MODIFIER_SCALES},
+        "found": 0,
+        "not_found": [],
+        "hierarchy_levels_set": 0,
+        "by_scale": {scale: 0 for scale in ALL_MODIFIER_SCALES},
     }
 
     for scale, words in ALL_MODIFIER_SCALES.items():
@@ -37,36 +37,42 @@ def encode_modifiers(db_path: Path, dry_run: bool = False) -> dict:
 
         for word, encoding in words.items():
             # Skip multi-word phrases for now
-            if ' ' in word:
+            if " " in word:
                 continue
 
-            cursor.execute("""
+            cursor.execute(
+                """
                 SELECT id, lemma FROM lexemes
                 WHERE LOWER(lemma) = LOWER(?)
                 LIMIT 1
-            """, (word,))
+            """,
+                (word,),
+            )
 
             row = cursor.fetchone()
             if not row:
-                stats['not_found'].append(f"{scale}:{word}")
+                stats["not_found"].append(f"{scale}:{word}")
                 continue
 
             lexeme_id, lemma = row
-            stats['found'] += 1
-            stats['by_scale'][scale] += 1
+            stats["found"] += 1
+            stats["by_scale"][scale] += 1
 
-            direction = encoding['direction']
-            level = encoding['level']
+            direction = encoding["direction"]
+            level = encoding["level"]
 
             if not dry_run:
-                cursor.execute("""
+                cursor.execute(
+                    """
                     INSERT INTO hierarchy_levels (lexeme_id, scale, direction, level, source)
                     VALUES (?, ?, ?, ?, 'modifier_encoding')
                     ON CONFLICT(lexeme_id, scale)
                     DO UPDATE SET direction = ?, level = ?, source = 'modifier_encoding'
-                """, (lexeme_id, scale, direction, level, direction, level))
+                """,
+                    (lexeme_id, scale, direction, level, direction, level),
+                )
 
-            stats['hierarchy_levels_set'] += 1
+            stats["hierarchy_levels_set"] += 1
             print(f"  {lemma}: {'+' if direction > 0 else '-'}{level}")
 
     if not dry_run:
@@ -83,14 +89,17 @@ def verify_modifier_encodings(db_path: Path) -> None:
 
     print("=== Modifier Hierarchy Verification ===\n")
 
-    for scale in ['INTENSITY', 'QUANTITY', 'CERTAINTY', 'FREQUENCY']:
-        cursor.execute("""
+    for scale in ["INTENSITY", "QUANTITY", "CERTAINTY", "FREQUENCY"]:
+        cursor.execute(
+            """
             SELECT l.lemma, h.direction, h.level
             FROM hierarchy_levels h
             JOIN lexemes l ON h.lexeme_id = l.id
             WHERE h.scale = ?
             ORDER BY h.direction, h.level
-        """, (scale,))
+        """,
+            (scale,),
+        )
 
         rows = cursor.fetchall()
         print(f"{scale} ({len(rows)} words):")
@@ -128,7 +137,7 @@ if __name__ == "__main__":
 
     print("=== Encoding Modifier Hierarchies ===")
     print(f"Database: {db_path}")
-    total = sum(len([w for w in words if ' ' not in w]) for words in ALL_MODIFIER_SCALES.values())
+    total = sum(len([w for w in words if " " not in w]) for words in ALL_MODIFIER_SCALES.values())
     print(f"Total single-word modifiers: {total}")
     print()
 
@@ -138,7 +147,7 @@ if __name__ == "__main__":
     print("=== Summary ===")
     print(f"Found in database: {stats['found']}")
     print(f"Hierarchy levels set: {stats['hierarchy_levels_set']}")
-    for scale, count in stats['by_scale'].items():
+    for scale, count in stats["by_scale"].items():
         print(f"  {scale}: {count}")
     print(f"Not found: {len(stats['not_found'])}")
 

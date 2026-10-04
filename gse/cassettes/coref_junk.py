@@ -27,6 +27,7 @@ cassette abstains (fusing them would be fabrication, worse than the split). A ge
 plural mention (``women``) is a collective, not an alias — the trigger stays silent. A generic with
 a possessor ("her sister") is entity_identity's territory — skipped here.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -37,15 +38,29 @@ from .multiscale import Mention, MultiScaleDoc
 
 # The possessor-less generic person-nouns the corpus measurement surfaced as alias-agents.
 # Deliberately small: a generic must EARN entry via the measured gap, not enumerate the lexicon.
-_GENERIC = frozenset({"man", "woman", "boy", "girl", "sister", "brother",
-                      "old man", "young man", "old woman", "fisherman", "lad", "maiden"})
+_GENERIC = frozenset(
+    {
+        "man",
+        "woman",
+        "boy",
+        "girl",
+        "sister",
+        "brother",
+        "old man",
+        "young man",
+        "old woman",
+        "fisherman",
+        "lad",
+        "maiden",
+    }
+)
 _MALE = frozenset({"man", "boy", "brother", "old man", "young man", "fisherman", "lad"})
 _FEMALE = frozenset({"woman", "girl", "sister", "old woman", "maiden"})
 
 
 @dataclass(frozen=True)
 class GenericGap:
-    kind: str                    # "merge"
+    kind: str  # "merge"
     eid: str
     rep: Mention
 
@@ -96,7 +111,7 @@ class CorefJunk(Cassette):
                 continue
             n_gender = doc.gender(nm)
             if g_gender and n_gender and g_gender != n_gender:
-                continue                              # hard agreement gate — never merge across gender
+                continue  # hard agreement gate — never merge across gender
             names.append(eid)
         return names
 
@@ -120,6 +135,7 @@ class CorefJunk(Cassette):
         title = self._title(doc)
         if title and answer == self._protagonist(doc):
             import re as _re
+
             if _re.search(r"\b" + _re.escape(lemma) + r"\b", title):
                 strands["title"] = 1.0
         # adjacency — ±2-sentence co-occurrence rate with THIS name.
@@ -144,8 +160,13 @@ class CorefJunk(Cassette):
         if res.committed is not None:
             s = res.ranked[0].strands
             if not (s.get("naming", 0) > 0 or s.get("title", 0) > 0):
-                return type(res)(res.cassette, res.gap, None, res.ranked,
-                                 "winner lacks an identity license (naming/title): abstained")
+                return type(res)(
+                    res.cassette,
+                    res.gap,
+                    None,
+                    res.ranked,
+                    "winner lacks an identity license (naming/title): abstained",
+                )
             # MIXED-REFERENT guard: a second name whose adjacency rivals the winner's means the
             # generic's mentions interleave with TWO people — a wiki article's 'man' is Santiago
             # in the plot paragraphs and Hemingway in the frame paragraphs (measured: an exact
@@ -154,8 +175,9 @@ class CorefJunk(Cassette):
             win_adj = s.get("adjacency", 0.0)
             for other in res.ranked[1:]:
                 if other.strands.get("adjacency", 0.0) >= max(0.3, win_adj - 0.1):
-                    return type(res)(res.cassette, res.gap, None, res.ranked,
-                                     "mixed referent (rival adjacency): abstained")
+                    return type(res)(
+                        res.cassette, res.gap, None, res.ranked, "mixed referent (rival adjacency): abstained"
+                    )
         return res
 
     # -- helpers ------------------------------------------------------------
@@ -171,6 +193,7 @@ class CorefJunk(Cassette):
     @staticmethod
     def _identity_links(doc: MultiScaleDoc) -> Dict[str, set]:
         from .entity_identity import EntityIdentity
+
         return EntityIdentity()._identity_links(doc)
 
     @staticmethod
@@ -182,9 +205,10 @@ class CorefJunk(Cassette):
         if not names or not lemma:
             return False
         import re as _re
-        for m in _re.finditer(r"\b" + _re.escape(lemma) +
-                              r"\b[^.?!]{0,90}?\b(?:named|known as|called)\s+([A-Z][\w'-]+)",
-                              raw):
+
+        for m in _re.finditer(
+            r"\b" + _re.escape(lemma) + r"\b[^.?!]{0,90}?\b(?:named|known as|called)\s+([A-Z][\w'-]+)", raw
+        ):
             if m.group(1).lower() in names:
                 return True
         return False
@@ -197,6 +221,7 @@ class CorefJunk(Cassette):
             return True
         try:
             from nltk.corpus import wordnet as wn
+
             for pos in ("n", "v", "a", "r", "s"):
                 for syn in wn.synsets(tok, pos):
                     for lem in syn.lemmas():

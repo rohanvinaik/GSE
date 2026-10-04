@@ -21,12 +21,17 @@ from gse.curation.external_sources.framenet import (
 
 def mk_entry(word="run", pos="v", frame_name="Self_motion", frame_id=1, core_fes=None, is_core=True):
     return FrameNetEntry(
-        word=word, pos=pos, frame_name=frame_name, frame_id=frame_id,
-        core_fes=core_fes or [], is_core_lu=is_core,
+        word=word,
+        pos=pos,
+        frame_name=frame_name,
+        frame_id=frame_id,
+        core_fes=core_fes or [],
+        is_core_lu=is_core,
     )
 
 
 # ---------- FrameNetEntry ----------
+
 
 class TestFrameNetEntry:
     def test_construction(self):
@@ -40,6 +45,7 @@ class TestFrameNetEntry:
 
 
 # ---------- FRAME_TO_PRIMITIVE ----------
+
 
 class TestFrameToPrimitive:
     def test_motion(self):
@@ -60,6 +66,7 @@ class TestFrameToPrimitive:
 
 # ---------- FE_TO_PRIMITIVE ----------
 
+
 class TestFEToPrimitive:
     def test_agent(self):
         assert FE_TO_PRIMITIVE["Agent"] == {"SOMEONE": 1, "DO": 1}
@@ -76,6 +83,7 @@ class TestFEToPrimitive:
 
 # ---------- __init__ ----------
 
+
 class TestInit:
     def test_initial_state(self):
         p = FrameNetParser()
@@ -88,6 +96,7 @@ class TestInit:
 
 
 # ---------- load ----------
+
 
 class TestLoad:
     @pytest.fixture(autouse=True)
@@ -212,6 +221,7 @@ class TestLoad:
 
 # ---------- to_primitives ----------
 
+
 class TestToPrimitives:
     def test_unknown_returns_empty(self):
         p = FrameNetParser()
@@ -301,6 +311,7 @@ class TestToPrimitives:
 
 # ---------- get_all_words ----------
 
+
 class TestGetAllWords:
     def test_returns_keys(self):
         p = FrameNetParser()
@@ -317,6 +328,7 @@ class TestGetAllWords:
 
 
 # ---------- get_frames_for_word ----------
+
 
 class TestGetFramesForWord:
     def test_returns_frames(self):
@@ -359,6 +371,7 @@ class TestGetFramesForWord:
 
 # ---------- get_frame_info ----------
 
+
 class TestGetFrameInfo:
     def test_returns_cached(self):
         p = FrameNetParser()
@@ -380,6 +393,7 @@ class TestGetFrameInfo:
 
 
 # ---------- download_framenet ----------
+
 
 class TestDownloadFramenet:
     def test_calls_nltk_download(self, capsys):

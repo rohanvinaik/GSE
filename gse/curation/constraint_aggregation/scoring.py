@@ -80,7 +80,7 @@ def calculate_constraint_confidence(
     if conflicting_evidence:
         # Reduce confidence based on conflict ratio
         conflict_ratio = len(conflicting_evidence) / (len(supporting_evidence) + len(conflicting_evidence))
-        confidence *= (1 - conflict_ratio * 0.5)  # Up to 50% reduction
+        confidence *= 1 - conflict_ratio * 0.5  # Up to 50% reduction
 
     return round(confidence, 3)
 

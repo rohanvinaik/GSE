@@ -9,6 +9,7 @@ ingests with ``cleared_self`` set and is then marked ``cleared_user``.
 
 Run from the repo root:  ``python scripts/janus_curate_trope_v1.py``
 """
+
 from __future__ import annotations
 
 import sys
@@ -33,60 +34,112 @@ _ANL = "curator analysis"
 # The cleared TROPE v1 batch (figures + matched literals).
 BATCH = [
     # — metaphor (similarity) —
-    FigureExample("Baby, you're a firework.", "Katy Perry, 'Firework' (2010)",
-                  [Label("metaphor", 0.97, _PED, "literal TypeAssertion incoherent", True)]),
-    FigureExample("Life is a highway.", "Tom Cochrane (1991) / Rascal Flatts (2006)",
-                  [Label("metaphor", 0.96, _PED, "X is Y, cross-domain", True)]),
-    FigureExample("The arc of the moral universe is long, but it bends toward justice.",
-                  "Martin Luther King Jr. (1965)",
-                  [Label("metaphor", 0.93, _PED, "arc / bends — cross-domain", True)]),
+    FigureExample(
+        "Baby, you're a firework.",
+        "Katy Perry, 'Firework' (2010)",
+        [Label("metaphor", 0.97, _PED, "literal TypeAssertion incoherent", True)],
+    ),
+    FigureExample(
+        "Life is a highway.",
+        "Tom Cochrane (1991) / Rascal Flatts (2006)",
+        [Label("metaphor", 0.96, _PED, "X is Y, cross-domain", True)],
+    ),
+    FigureExample(
+        "The arc of the moral universe is long, but it bends toward justice.",
+        "Martin Luther King Jr. (1965)",
+        [Label("metaphor", 0.93, _PED, "arc / bends — cross-domain", True)],
+    ),
     # — simile (similarity, marked) —
-    FigureExample("Life is like a box of chocolates; you never know what you're gonna get.",
-                  "Forrest Gump (1994)",
-                  [Label("simile", 0.97, _PED, "explicit 'like'", True)]),
-    FigureExample("Float like a butterfly, sting like a bee.", "Muhammad Ali (1964)",
-                  [Label("simile", 0.97, _PED, "explicit 'like'", True)]),
-    FigureExample("You're as cold as ice.", "Foreigner (1977)",
-                  [Label("simile", 0.95, _PED, "explicit 'as...as'", True)]),
+    FigureExample(
+        "Life is like a box of chocolates; you never know what you're gonna get.",
+        "Forrest Gump (1994)",
+        [Label("simile", 0.97, _PED, "explicit 'like'", True)],
+    ),
+    FigureExample(
+        "Float like a butterfly, sting like a bee.",
+        "Muhammad Ali (1964)",
+        [Label("simile", 0.97, _PED, "explicit 'like'", True)],
+    ),
+    FigureExample(
+        "You're as cold as ice.", "Foreigner (1977)", [Label("simile", 0.95, _PED, "explicit 'as...as'", True)]
+    ),
     # — metonymy (contiguity) —
-    FigureExample("The White House announced new sanctions today.", "journalism idiom",
-                  [Label("metonymy", 0.95, _PED, "institution-for-administration", True)]),
-    FigureExample("Silicon Valley is obsessed with AI.", "journalism idiom",
-                  [Label("metonymy", 0.93, _PED, "place-for-industry", True)]),
-    FigureExample("Boots on the ground.", "news / military idiom",
-                  [Label("metonymy", 0.88, _ANL, "worn-by relation (contrast with 'all hands')", True)]),
+    FigureExample(
+        "The White House announced new sanctions today.",
+        "journalism idiom",
+        [Label("metonymy", 0.95, _PED, "institution-for-administration", True)],
+    ),
+    FigureExample(
+        "Silicon Valley is obsessed with AI.",
+        "journalism idiom",
+        [Label("metonymy", 0.93, _PED, "place-for-industry", True)],
+    ),
+    FigureExample(
+        "Boots on the ground.",
+        "news / military idiom",
+        [Label("metonymy", 0.88, _ANL, "worn-by relation (contrast with 'all hands')", True)],
+    ),
     # — the multi-label showcase: metonymy AND metaphor —
-    FigureExample("The pen is mightier than the sword.", "Bulwer-Lytton (1839); ubiquitous idiom",
-                  [Label("metonymy", 0.90, _PED, "pen=writing, sword=force (contiguity)", True),
-                   Label("metaphor", 0.85, _ANL, "figurative power comparison (Goossens metaphtonymy)", True)]),
+    FigureExample(
+        "The pen is mightier than the sword.",
+        "Bulwer-Lytton (1839); ubiquitous idiom",
+        [
+            Label("metonymy", 0.90, _PED, "pen=writing, sword=force (contiguity)", True),
+            Label("metaphor", 0.85, _ANL, "figurative power comparison (Goossens metaphtonymy)", True),
+        ],
+    ),
     # — synecdoche (contiguity, part-for-whole) —
-    FigureExample("All hands on deck.", "nautical idiom",
-                  [Label("synecdoche", 0.95, _PED, "part-of relation (hands part-of crew)", True)]),
-    FigureExample("He's got a lot of mouths to feed.", "idiom",
-                  [Label("synecdoche", 0.90, _PED, "part-of (mouths of dependents)", True)]),
+    FigureExample(
+        "All hands on deck.",
+        "nautical idiom",
+        [Label("synecdoche", 0.95, _PED, "part-of relation (hands part-of crew)", True)],
+    ),
+    FigureExample(
+        "He's got a lot of mouths to feed.",
+        "idiom",
+        [Label("synecdoche", 0.90, _PED, "part-of (mouths of dependents)", True)],
+    ),
     # — personification (similarity to a person) —
-    FigureExample("Hello darkness, my old friend.", "Simon & Garfunkel, 'The Sound of Silence' (1964)",
-                  [Label("personification", 0.95, _PED, "darkness addressed as a person", True)]),
-    FigureExample("Money talks.", "idiom",
-                  [Label("personification", 0.92, _PED, "abstraction given agency", True)]),
-    FigureExample("The camera loves her.", "idiom",
-                  [Label("personification", 0.90, _PED, "inanimate given agency", True)]),
+    FigureExample(
+        "Hello darkness, my old friend.",
+        "Simon & Garfunkel, 'The Sound of Silence' (1964)",
+        [Label("personification", 0.95, _PED, "darkness addressed as a person", True)],
+    ),
+    FigureExample("Money talks.", "idiom", [Label("personification", 0.92, _PED, "abstraction given agency", True)]),
+    FigureExample(
+        "The camera loves her.", "idiom", [Label("personification", 0.90, _PED, "inanimate given agency", True)]
+    ),
     # — matched literals (same topic/register, no figure) —
-    FigureExample("They lit fireworks over the bay on the Fourth of July.", "curated literal",
-                  [Label("literal", 0.95, _ANL, "control for metaphor (firework)", True)],
-                  matched_to="metaphor"),
-    FigureExample("The morning air was cold and damp.", "curated literal",
-                  [Label("literal", 0.95, _ANL, "control for simile (cold as ice)", True)],
-                  matched_to="simile"),
-    FigureExample("The White House press room seats forty-nine reporters.", "curated literal",
-                  [Label("literal", 0.95, _ANL, "control for metonymy (White House — literal building)", True)],
-                  matched_to="metonymy"),
-    FigureExample("She raised her hand to ask a question.", "curated literal",
-                  [Label("literal", 0.95, _ANL, "control for synecdoche (literal hand)", True)],
-                  matched_to="synecdoche"),
-    FigureExample("He counted the money on the table.", "curated literal",
-                  [Label("literal", 0.95, _ANL, "control for personification (literal money)", True)],
-                  matched_to="personification"),
+    FigureExample(
+        "They lit fireworks over the bay on the Fourth of July.",
+        "curated literal",
+        [Label("literal", 0.95, _ANL, "control for metaphor (firework)", True)],
+        matched_to="metaphor",
+    ),
+    FigureExample(
+        "The morning air was cold and damp.",
+        "curated literal",
+        [Label("literal", 0.95, _ANL, "control for simile (cold as ice)", True)],
+        matched_to="simile",
+    ),
+    FigureExample(
+        "The White House press room seats forty-nine reporters.",
+        "curated literal",
+        [Label("literal", 0.95, _ANL, "control for metonymy (White House — literal building)", True)],
+        matched_to="metonymy",
+    ),
+    FigureExample(
+        "She raised her hand to ask a question.",
+        "curated literal",
+        [Label("literal", 0.95, _ANL, "control for synecdoche (literal hand)", True)],
+        matched_to="synecdoche",
+    ),
+    FigureExample(
+        "He counted the money on the table.",
+        "curated literal",
+        [Label("literal", 0.95, _ANL, "control for personification (literal money)", True)],
+        matched_to="personification",
+    ),
 ]
 
 

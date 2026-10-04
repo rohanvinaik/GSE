@@ -18,8 +18,7 @@ from gse.curation.external_sources.run_comparison import (
 )
 
 
-def mk_disagreement(primitive="GOOD", llm_value=1, external_value=-1,
-                    external_source="verbnet", severity="major"):
+def mk_disagreement(primitive="GOOD", llm_value=1, external_value=-1, external_source="verbnet", severity="major"):
     d = MagicMock()
     d.primitive = primitive
     d.llm_value = llm_value
@@ -29,8 +28,7 @@ def mk_disagreement(primitive="GOOD", llm_value=1, external_value=-1,
     return d
 
 
-def mk_comparison_result(external_primitives=None, disagreements=None,
-                         needs_review=False, agreement_rate=1.0):
+def mk_comparison_result(external_primitives=None, disagreements=None, needs_review=False, agreement_rate=1.0):
     r = MagicMock()
     r.external_primitives = external_primitives or {}
     r.disagreements = disagreements or []
@@ -40,6 +38,7 @@ def mk_comparison_result(external_primitives=None, disagreements=None,
 
 
 # ---------- calculate_stats ----------
+
 
 class TestCalculateStats:
     def test_empty(self):
@@ -85,11 +84,13 @@ class TestCalculateStats:
 
     def test_by_severity_counts(self):
         results = {
-            "a": mk_comparison_result(disagreements=[
-                mk_disagreement(severity="major"),
-                mk_disagreement(severity="minor"),
-                mk_disagreement(severity="major"),
-            ])
+            "a": mk_comparison_result(
+                disagreements=[
+                    mk_disagreement(severity="major"),
+                    mk_disagreement(severity="minor"),
+                    mk_disagreement(severity="major"),
+                ]
+            )
         }
         stats = calculate_stats(results)
         assert stats["by_severity"]["major"] == 2
@@ -97,11 +98,13 @@ class TestCalculateStats:
 
     def test_major_disagreements_counts_major_and_sign_flip(self):
         results = {
-            "a": mk_comparison_result(disagreements=[
-                mk_disagreement(severity="major"),
-                mk_disagreement(severity="sign_flip"),
-                mk_disagreement(severity="minor"),
-            ])
+            "a": mk_comparison_result(
+                disagreements=[
+                    mk_disagreement(severity="major"),
+                    mk_disagreement(severity="sign_flip"),
+                    mk_disagreement(severity="minor"),
+                ]
+            )
         }
         stats = calculate_stats(results)
         assert stats["major_disagreements"] == 2
@@ -113,11 +116,13 @@ class TestCalculateStats:
 
     def test_by_source_counts(self):
         results = {
-            "a": mk_comparison_result(disagreements=[
-                mk_disagreement(external_source="verbnet"),
-                mk_disagreement(external_source="verbnet"),
-                mk_disagreement(external_source="framenet"),
-            ])
+            "a": mk_comparison_result(
+                disagreements=[
+                    mk_disagreement(external_source="verbnet"),
+                    mk_disagreement(external_source="verbnet"),
+                    mk_disagreement(external_source="framenet"),
+                ]
+            )
         }
         stats = calculate_stats(results)
         assert stats["by_source"]["verbnet"] == 2
@@ -125,10 +130,12 @@ class TestCalculateStats:
 
     def test_by_primitive_counts(self):
         results = {
-            "a": mk_comparison_result(disagreements=[
-                mk_disagreement(primitive="GOOD"),
-                mk_disagreement(primitive="GOOD"),
-            ])
+            "a": mk_comparison_result(
+                disagreements=[
+                    mk_disagreement(primitive="GOOD"),
+                    mk_disagreement(primitive="GOOD"),
+                ]
+            )
         }
         stats = calculate_stats(results)
         assert stats["by_primitive"]["GOOD"] == 2
@@ -153,6 +160,7 @@ class TestCalculateStats:
 
     def test_returns_regular_dicts_not_defaultdict(self):
         from collections import defaultdict
+
         results = {"a": mk_comparison_result(disagreements=[mk_disagreement()])}
         stats = calculate_stats(results)
         assert not isinstance(stats["by_severity"], defaultdict)
@@ -161,6 +169,7 @@ class TestCalculateStats:
 
 
 # ---------- run_comparison ----------
+
 
 class TestRunComparison:
     def _setup_mocks(self, entries=None, source_stats=None, comparison_result=None):
@@ -179,7 +188,9 @@ class TestRunComparison:
         mock_db, mock_comparator = self._setup_mocks()
 
         with patch("gse.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
-            with patch("gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator):
+            with patch(
+                "gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
+            ):
                 stats = run_comparison(db_path=db_path)
 
         assert stats["total_words"] == 0
@@ -189,7 +200,9 @@ class TestRunComparison:
         mock_db, mock_comparator = self._setup_mocks()
 
         with patch("gse.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
-            with patch("gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator):
+            with patch(
+                "gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
+            ):
                 run_comparison(db_path=db_path, phase=3)
 
         mock_db.get_validated_entries.assert_called_with(phase=3)
@@ -199,7 +212,9 @@ class TestRunComparison:
         mock_db, mock_comparator = self._setup_mocks()
 
         with patch("gse.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
-            with patch("gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator):
+            with patch(
+                "gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
+            ):
                 run_comparison(db_path=db_path, phase=None)
 
         # No phase kwarg
@@ -217,7 +232,9 @@ class TestRunComparison:
         mock_db, mock_comparator = self._setup_mocks(entries=entries)
 
         with patch("gse.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
-            with patch("gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator):
+            with patch(
+                "gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
+            ):
                 stats = run_comparison(db_path=db_path, limit=3)
 
         # Only 3 processed
@@ -228,7 +245,9 @@ class TestRunComparison:
         mock_db, mock_comparator = self._setup_mocks()
 
         with patch("gse.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
-            with patch("gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator):
+            with patch(
+                "gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
+            ):
                 with patch("gse.curation.external_sources.integrator.download_all_sources") as mock_dl:
                     run_comparison(db_path=db_path, download_sources=True)
                     mock_dl.assert_called_once()
@@ -238,7 +257,9 @@ class TestRunComparison:
         mock_db, mock_comparator = self._setup_mocks()
 
         with patch("gse.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
-            with patch("gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator):
+            with patch(
+                "gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
+            ):
                 with patch("gse.curation.external_sources.integrator.download_all_sources") as mock_dl:
                     run_comparison(db_path=db_path, download_sources=False)
                     mock_dl.assert_not_called()
@@ -253,7 +274,9 @@ class TestRunComparison:
         mock_db, mock_comparator = self._setup_mocks(entries=[entry], comparison_result=cmp_result)
 
         with patch("gse.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
-            with patch("gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator):
+            with patch(
+                "gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
+            ):
                 run_comparison(db_path=db_path)
 
         mock_db.store_disagreements_batch.assert_called_once()
@@ -263,7 +286,9 @@ class TestRunComparison:
         mock_db, mock_comparator = self._setup_mocks()
 
         with patch("gse.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
-            with patch("gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator):
+            with patch(
+                "gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
+            ):
                 run_comparison(db_path=db_path)
 
         mock_db.store_disagreements_batch.assert_not_called()
@@ -280,7 +305,9 @@ class TestRunComparison:
         mock_db, mock_comparator = self._setup_mocks(entries=[entry], comparison_result=cmp_result)
 
         with patch("gse.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
-            with patch("gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator):
+            with patch(
+                "gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
+            ):
                 run_comparison(db_path=db_path)
 
         # store_source_coverage called once with (1, "verbnet", 2, 1)
@@ -292,13 +319,16 @@ class TestRunComparison:
         mock_db, mock_comparator = self._setup_mocks()
 
         with patch("gse.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
-            with patch("gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator):
+            with patch(
+                "gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
+            ):
                 run_comparison(db_path=db_path)
 
         mock_db.close.assert_called_once()
 
 
 # ---------- generate_report ----------
+
 
 class TestGenerateReport:
     def test_basic_report(self, tmp_path):
@@ -322,7 +352,10 @@ class TestGenerateReport:
     def test_writes_output(self, tmp_path):
         mock_db = MagicMock()
         mock_db.get_disagreement_stats.return_value = {
-            "total": 0, "unresolved": 0, "by_severity": {}, "by_source": {},
+            "total": 0,
+            "unresolved": 0,
+            "by_severity": {},
+            "by_source": {},
         }
         mock_db.get_disagreements.return_value = []
         output_path = tmp_path / "out.md"
@@ -333,11 +366,13 @@ class TestGenerateReport:
         assert output_path.exists()
 
     def test_includes_sign_flip_section(self, tmp_path):
-        d = {"primitive": "GOOD", "llm_value": 1, "external_source": "verbnet",
-             "external_value": -1, "lexeme_id": 1}
+        d = {"primitive": "GOOD", "llm_value": 1, "external_source": "verbnet", "external_value": -1, "lexeme_id": 1}
         mock_db = MagicMock()
         mock_db.get_disagreement_stats.return_value = {
-            "total": 1, "unresolved": 1, "by_severity": {}, "by_source": {},
+            "total": 1,
+            "unresolved": 1,
+            "by_severity": {},
+            "by_source": {},
         }
         # Return sign_flip on first call, empty on second (minor)
         mock_db.get_disagreements.side_effect = [[d], []]
@@ -353,11 +388,13 @@ class TestGenerateReport:
         assert "LLM=1" in report
 
     def test_unknown_word_fallback(self, tmp_path):
-        d = {"primitive": "GOOD", "llm_value": 1, "external_source": "verbnet",
-             "external_value": -1, "lexeme_id": 999}
+        d = {"primitive": "GOOD", "llm_value": 1, "external_source": "verbnet", "external_value": -1, "lexeme_id": 999}
         mock_db = MagicMock()
         mock_db.get_disagreement_stats.return_value = {
-            "total": 1, "unresolved": 1, "by_severity": {}, "by_source": {},
+            "total": 1,
+            "unresolved": 1,
+            "by_severity": {},
+            "by_source": {},
         }
         mock_db.get_disagreements.side_effect = [[d], []]
         mock_db.get_lexeme_by_id.return_value = None
@@ -368,11 +405,16 @@ class TestGenerateReport:
         assert "unknown" in report
 
     def test_top_20_sign_flips(self, tmp_path):
-        ds = [{"primitive": "P", "llm_value": 1, "external_source": "s",
-               "external_value": -1, "lexeme_id": i} for i in range(25)]
+        ds = [
+            {"primitive": "P", "llm_value": 1, "external_source": "s", "external_value": -1, "lexeme_id": i}
+            for i in range(25)
+        ]
         mock_db = MagicMock()
         mock_db.get_disagreement_stats.return_value = {
-            "total": 25, "unresolved": 25, "by_severity": {}, "by_source": {},
+            "total": 25,
+            "unresolved": 25,
+            "by_severity": {},
+            "by_source": {},
         }
         mock_db.get_disagreements.side_effect = [ds, []]
         mock_entry = MagicMock()
@@ -389,7 +431,10 @@ class TestGenerateReport:
     def test_db_closed(self, tmp_path):
         mock_db = MagicMock()
         mock_db.get_disagreement_stats.return_value = {
-            "total": 0, "unresolved": 0, "by_severity": {}, "by_source": {},
+            "total": 0,
+            "unresolved": 0,
+            "by_severity": {},
+            "by_source": {},
         }
         mock_db.get_disagreements.return_value = []
 
@@ -401,11 +446,13 @@ class TestGenerateReport:
 
 # ---------- main ----------
 
+
 class TestMain:
     def test_report_only_calls_generate(self, capsys):
         with patch("sys.argv", ["prog", "--report-only", "--db", "x"]):
-            with patch("gse.curation.external_sources.run_comparison.generate_report",
-                       return_value="REPORT") as mock_gen:
+            with patch(
+                "gse.curation.external_sources.run_comparison.generate_report", return_value="REPORT"
+            ) as mock_gen:
                 main()
                 mock_gen.assert_called_once_with("x", None)
         assert "REPORT" in capsys.readouterr().out
@@ -417,23 +464,26 @@ class TestMain:
             "by_primitive": {"GOOD": 1},
         }
         with patch("sys.argv", ["prog", "--db", "x"]):
-            with patch("gse.curation.external_sources.run_comparison.run_comparison",
-                       return_value=stats) as mock_run:
+            with patch("gse.curation.external_sources.run_comparison.run_comparison", return_value=stats) as mock_run:
                 main()
                 mock_run.assert_called_once()
 
     def test_phase_flag(self):
         with patch("sys.argv", ["prog", "--phase", "2", "--db", "x"]):
-            with patch("gse.curation.external_sources.run_comparison.run_comparison",
-                       return_value={"by_severity": {}, "by_source": {}, "by_primitive": {}}) as mock_run:
+            with patch(
+                "gse.curation.external_sources.run_comparison.run_comparison",
+                return_value={"by_severity": {}, "by_source": {}, "by_primitive": {}},
+            ) as mock_run:
                 main()
                 call_kwargs = mock_run.call_args.kwargs
                 assert call_kwargs["phase"] == 2
 
     def test_limit_flag(self):
         with patch("sys.argv", ["prog", "--limit", "5", "--db", "x"]):
-            with patch("gse.curation.external_sources.run_comparison.run_comparison",
-                       return_value={"by_severity": {}, "by_source": {}, "by_primitive": {}}) as mock_run:
+            with patch(
+                "gse.curation.external_sources.run_comparison.run_comparison",
+                return_value={"by_severity": {}, "by_source": {}, "by_primitive": {}},
+            ) as mock_run:
                 main()
                 assert mock_run.call_args.kwargs["limit"] == 5
 

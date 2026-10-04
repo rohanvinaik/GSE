@@ -21,24 +21,27 @@ from gse.lexicon.modifier_hierarchy import (
 
 
 class TestGetModifierEncoding:
-    @pytest.mark.parametrize("word,scale,direction,level", [
-        ("very", "INTENSITY", 1, 2),
-        ("extremely", "INTENSITY", 1, 4),
-        ("slightly", "INTENSITY", -1, 3),
-        ("absolutely", "INTENSITY", 1, 5),
-        ("not at all", "INTENSITY", -1, 5),
-        ("many", "QUANTITY", 1, 2),
-        ("few", "QUANTITY", -1, 3),
-        ("all", "QUANTITY", 1, 5),
-        ("none", "QUANTITY", -1, 5),
-        ("certainly", "CERTAINTY", 1, 4),
-        ("maybe", "CERTAINTY", -1, 1),
-        ("impossible", "CERTAINTY", -1, 5),
-        ("often", "FREQUENCY", 1, 2),
-        ("rarely", "FREQUENCY", -1, 4),
-        ("always", "FREQUENCY", 1, 5),
-        ("never", "FREQUENCY", -1, 5),
-    ])
+    @pytest.mark.parametrize(
+        "word,scale,direction,level",
+        [
+            ("very", "INTENSITY", 1, 2),
+            ("extremely", "INTENSITY", 1, 4),
+            ("slightly", "INTENSITY", -1, 3),
+            ("absolutely", "INTENSITY", 1, 5),
+            ("not at all", "INTENSITY", -1, 5),
+            ("many", "QUANTITY", 1, 2),
+            ("few", "QUANTITY", -1, 3),
+            ("all", "QUANTITY", 1, 5),
+            ("none", "QUANTITY", -1, 5),
+            ("certainly", "CERTAINTY", 1, 4),
+            ("maybe", "CERTAINTY", -1, 1),
+            ("impossible", "CERTAINTY", -1, 5),
+            ("often", "FREQUENCY", 1, 2),
+            ("rarely", "FREQUENCY", -1, 4),
+            ("always", "FREQUENCY", 1, 5),
+            ("never", "FREQUENCY", -1, 5),
+        ],
+    )
     def test_known_words_return_correct_encoding(self, word, scale, direction, level):
         result = get_modifier_encoding(word)
         assert result == (scale, direction, level)
@@ -119,12 +122,15 @@ class TestGetAllModifiers:
 class TestScaleStructure:
     """Validates that the underlying scale dicts have the expected shape."""
 
-    @pytest.mark.parametrize("scale_name,scale_dict", [
-        ("INTENSITY", INTENSITY_WORDS),
-        ("QUANTITY", QUANTITY_WORDS),
-        ("CERTAINTY", CERTAINTY_WORDS),
-        ("FREQUENCY", FREQUENCY_WORDS),
-    ])
+    @pytest.mark.parametrize(
+        "scale_name,scale_dict",
+        [
+            ("INTENSITY", INTENSITY_WORDS),
+            ("QUANTITY", QUANTITY_WORDS),
+            ("CERTAINTY", CERTAINTY_WORDS),
+            ("FREQUENCY", FREQUENCY_WORDS),
+        ],
+    )
     def test_each_word_has_direction_and_level(self, scale_name, scale_dict):
         for word, entry in scale_dict.items():
             assert "direction" in entry

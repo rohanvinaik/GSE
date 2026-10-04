@@ -26,6 +26,7 @@ from gse.primitives import PRIMITIVE_TO_BANK
 @dataclass
 class CognitiveProfile:
     """Complete cognitive profile from semantic analysis."""
+
     # Core primitive affinities
     dominant_primitives: List[Tuple[str, float]] = field(default_factory=list)
     suppressed_primitives: List[Tuple[str, float]] = field(default_factory=list)
@@ -42,9 +43,9 @@ class CognitiveProfile:
 
     # Cognitive style metrics
     abstraction_level: float = 0.0  # Abstract vs concrete
-    agency_level: float = 0.0       # Active vs passive
-    certainty_level: float = 0.0    # Certain vs hedging
-    temporal_focus: str = ""        # Past, present, future oriented
+    agency_level: float = 0.0  # Active vs passive
+    certainty_level: float = 0.0  # Certain vs hedging
+    temporal_focus: str = ""  # Past, present, future oriented
     social_orientation: float = 0.0  # Self vs other focused
 
     # Unique signature
@@ -56,19 +57,22 @@ class DeepMindAnalyzer:
 
     def __init__(self):
         print("Loading GSE system...")
-        self.cascade = ConstraintCascade(
-            lexicon_path='data/lexicon.db',
-            basis_path='data/basis.msgpack'
-        )
-        self.cascade.load_networks('data/networks')
+        self.cascade = ConstraintCascade(lexicon_path="data/lexicon.db", basis_path="data/basis.msgpack")
+        self.cascade.load_networks("data/networks")
 
         # Load trained network for pattern analysis
         self.word_network = self.cascade.word_network
 
         # Bank names for interpretation
         self.bank_names = [
-            'SUBSTANTIVES', 'DETERMINERS', 'EVALUATORS', 'MENTAL',
-            'ACTION', 'TEMPORAL', 'SPATIAL', 'LOGICAL'
+            "SUBSTANTIVES",
+            "DETERMINERS",
+            "EVALUATORS",
+            "MENTAL",
+            "ACTION",
+            "TEMPORAL",
+            "SPATIAL",
+            "LOGICAL",
         ]
 
         print("Ready for deep analysis.\n")
@@ -91,21 +95,21 @@ class DeepMindAnalyzer:
             patterns = patterns_raw
 
         results = {
-            'total_patterns': len(patterns),
-            'total_observations': self.word_network.total_observations,
-            'top_patterns': [],
-            'primitive_centrality': {},
-            'strongest_associations': [],
-            'bank_connectivity': {},
+            "total_patterns": len(patterns),
+            "total_observations": self.word_network.total_observations,
+            "top_patterns": [],
+            "primitive_centrality": {},
+            "strongest_associations": [],
+            "bank_connectivity": {},
         }
 
         # Top patterns (most frequent co-occurrences)
         # Handle CompoundPattern objects or dicts
         def get_freq(p):
-            if hasattr(p, 'frequency'):
+            if hasattr(p, "frequency"):
                 return p.frequency
             elif isinstance(p, dict):
-                return p.get('frequency', p.get('freq', 0))
+                return p.get("frequency", p.get("freq", 0))
             return 0
 
         sorted_patterns = sorted(patterns, key=get_freq, reverse=True)
@@ -119,21 +123,21 @@ class DeepMindAnalyzer:
 
         for i, p in enumerate(sorted_patterns[:15]):
             # Handle CompoundPattern objects or dicts
-            if hasattr(p, 'trigger'):
+            if hasattr(p, "trigger"):
                 trigger = p.trigger
                 freq = p.frequency
                 conf = p.confidence
             else:
-                trigger = p.get('trigger', p.get('primitives', []))
-                freq = p.get('frequency', p.get('freq', 0))
-                conf = p.get('confidence', 0.5)
+                trigger = p.get("trigger", p.get("primitives", []))
+                freq = p.get("frequency", p.get("freq", 0))
+                conf = p.get("confidence", 0.5)
 
             prims = {nodes[idx] if isinstance(idx, int) else idx for idx in trigger}
-            results['top_patterns'].append((prims, freq, conf))
+            results["top_patterns"].append((prims, freq, conf))
 
             # Interpret the pattern
             interpretation = self._interpret_pattern(prims)
-            print(f"\n   {i+1}. {prims}")
+            print(f"\n   {i + 1}. {prims}")
             print(f"      Frequency: {freq}x | Confidence: {conf:.2f}")
             print(f"      → {interpretation}")
 
@@ -147,7 +151,7 @@ class DeepMindAnalyzer:
             centrality[node] = float(np.sum(np.abs(weights[i, :])))
 
         sorted_centrality = sorted(centrality.items(), key=lambda x: -x[1])
-        results['primitive_centrality'] = dict(sorted_centrality)
+        results["primitive_centrality"] = dict(sorted_centrality)
 
         for prim, score in sorted_centrality[:12]:
             bar = "█" * int(score * 3)
@@ -160,12 +164,12 @@ class DeepMindAnalyzer:
 
         associations = []
         for i in range(len(nodes)):
-            for j in range(i+1, len(nodes)):
+            for j in range(i + 1, len(nodes)):
                 if weights[i, j] > 0.1:
                     associations.append((nodes[i], nodes[j], weights[i, j]))
 
         associations.sort(key=lambda x: -x[2])
-        results['strongest_associations'] = associations[:20]
+        results["strongest_associations"] = associations[:20]
 
         for n1, n2, w in associations[:10]:
             print(f"   {n1} ↔ {n2}: {w:.3f}")
@@ -177,25 +181,25 @@ class DeepMindAnalyzer:
         interpretations = []
 
         # Check for specific combinations
-        if 'FEEL' in prims and 'GOOD' in prims:
+        if "FEEL" in prims and "GOOD" in prims:
             interpretations.append("emotional positive expression")
-        if 'THINK' in prims and 'KNOW' in prims:
+        if "THINK" in prims and "KNOW" in prims:
             interpretations.append("epistemic reasoning")
-        if 'SOMEONE' in prims and 'DO' in prims:
+        if "SOMEONE" in prims and "DO" in prims:
             interpretations.append("agent-action framing")
-        if 'SOMETHING' in prims and 'BE' in prims:
+        if "SOMETHING" in prims and "BE" in prims:
             interpretations.append("existential/state description")
-        if 'BECAUSE' in prims:
+        if "BECAUSE" in prims:
             interpretations.append("causal reasoning")
-        if 'NOT' in prims:
+        if "NOT" in prims:
             interpretations.append("negation/contrast")
-        if 'WANT' in prims:
+        if "WANT" in prims:
             interpretations.append("desire/goal expression")
-        if 'MOVE' in prims:
+        if "MOVE" in prims:
             interpretations.append("dynamic/process thinking")
-        if 'WHERE' in prims or 'ABOVE' in prims or 'INSIDE' in prims:
+        if "WHERE" in prims or "ABOVE" in prims or "INSIDE" in prims:
             interpretations.append("spatial metaphor")
-        if 'NOW' in prims or 'BEFORE' in prims:
+        if "NOW" in prims or "BEFORE" in prims:
             interpretations.append("temporal anchoring")
 
         if not interpretations:
@@ -218,7 +222,7 @@ class DeepMindAnalyzer:
         if path.is_dir():
             for f in list(path.glob("*.txt"))[:sample_size]:
                 try:
-                    texts.append(f.read_text(encoding='utf-8', errors='replace')[:2000])
+                    texts.append(f.read_text(encoding="utf-8", errors="replace")[:2000])
                 except:
                     continue
 
@@ -228,7 +232,7 @@ class DeepMindAnalyzer:
         all_vectors = []
         bank_activations = defaultdict(list)
         primitive_activations = Counter()
-        polarity_counts = {'positive': 0, 'negative': 0}
+        polarity_counts = {"positive": 0, "negative": 0}
 
         for text in texts:
             result = self.cascade.process(text[:1000])
@@ -242,18 +246,18 @@ class DeepMindAnalyzer:
                 bank_activations[bank].append(bank_energy)
 
             # Count polarity
-            polarity_counts['positive'] += len(result.vector.positive_indices)
-            polarity_counts['negative'] += len(result.vector.negative_indices)
+            polarity_counts["positive"] += len(result.vector.positive_indices)
+            polarity_counts["negative"] += len(result.vector.negative_indices)
 
         # Compute aggregate statistics
         mean_vector = np.mean(all_vectors, axis=0)
         std_vector = np.std(all_vectors, axis=0)
 
         results = {
-            'samples_analyzed': len(texts),
-            'bank_profiles': {},
-            'consistency_score': 0.0,
-            'polarity_balance': 0.0,
+            "samples_analyzed": len(texts),
+            "bank_profiles": {},
+            "consistency_score": 0.0,
+            "polarity_balance": 0.0,
         }
 
         print("\n📈 Semantic Bank Energy Profile:")
@@ -263,33 +267,33 @@ class DeepMindAnalyzer:
             activations = bank_activations[bank]
             mean_act = np.mean(activations)
             std_act = np.std(activations)
-            results['bank_profiles'][bank] = {'mean': mean_act, 'std': std_act}
+            results["bank_profiles"][bank] = {"mean": mean_act, "std": std_act}
 
             bar = "█" * int(mean_act / 100)
             consistency = "±" + str(int(std_act))
             print(f"   {bank:15} {bar} ({mean_act:.0f} {consistency})")
 
         # Polarity balance
-        total_pol = polarity_counts['positive'] + polarity_counts['negative']
+        total_pol = polarity_counts["positive"] + polarity_counts["negative"]
         if total_pol > 0:
-            pos_ratio = polarity_counts['positive'] / total_pol
-            results['polarity_balance'] = pos_ratio
+            pos_ratio = polarity_counts["positive"] / total_pol
+            results["polarity_balance"] = pos_ratio
             print("\n⚖️  Polarity Balance:")
-            print(f"   Positive: {pos_ratio*100:.1f}%")
-            print(f"   Negative: {(1-pos_ratio)*100:.1f}%")
+            print(f"   Positive: {pos_ratio * 100:.1f}%")
+            print(f"   Negative: {(1 - pos_ratio) * 100:.1f}%")
 
         # Semantic consistency (how stable is your semantic signature?)
         if len(all_vectors) > 1:
             # Compute pairwise similarities
             similarities = []
             for i in range(min(20, len(all_vectors))):
-                for j in range(i+1, min(20, len(all_vectors))):
+                for j in range(i + 1, min(20, len(all_vectors))):
                     v1, v2 = all_vectors[i], all_vectors[j]
                     sim = np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2) + 1e-8)
                     similarities.append(sim)
 
             consistency = np.mean(similarities)
-            results['consistency_score'] = consistency
+            results["consistency_score"] = consistency
             print(f"\n🎯 Semantic Consistency Score: {consistency:.3f}")
             print("   (How stable your semantic signature is across texts)")
             if consistency > 0.6:
@@ -340,30 +344,34 @@ class DeepMindAnalyzer:
         print("\n📊 Derived Cognitive Style Metrics:")
 
         # Abstraction level (SOMETHING/SOMEONE vs concrete entities)
-        substantive_pct = profile.bank_affinities.get('SUBSTANTIVES', 0)
+        substantive_pct = profile.bank_affinities.get("SUBSTANTIVES", 0)
         profile.abstraction_level = 1.0 - substantive_pct * 2  # Higher = more abstract
         print(f"   Abstraction Level: {profile.abstraction_level:.2f}")
-        print(f"   → {'Abstract/conceptual thinker' if profile.abstraction_level > 0.3 else 'Concrete/grounded thinker'}")
+        print(
+            f"   → {'Abstract/conceptual thinker' if profile.abstraction_level > 0.3 else 'Concrete/grounded thinker'}"
+        )
 
         # Agency level (ACTION vs static)
-        action_pct = profile.bank_affinities.get('ACTION', 0)
+        action_pct = profile.bank_affinities.get("ACTION", 0)
         profile.agency_level = action_pct * 3
         print(f"   Agency Level: {profile.agency_level:.2f}")
         print(f"   → {'Active/dynamic framing' if profile.agency_level > 0.3 else 'Static/state-based framing'}")
 
         # Logical orientation
-        logical_pct = profile.bank_affinities.get('LOGICAL', 0)
+        logical_pct = profile.bank_affinities.get("LOGICAL", 0)
         profile.certainty_level = logical_pct * 3
         print(f"   Logical Density: {profile.certainty_level:.2f}")
-        print(f"   → {'Highly structured reasoning' if profile.certainty_level > 0.3 else 'Flowing/intuitive expression'}")
+        print(
+            f"   → {'Highly structured reasoning' if profile.certainty_level > 0.3 else 'Flowing/intuitive expression'}"
+        )
 
         # Temporal focus
-        temporal_pct = profile.bank_affinities.get('TEMPORAL', 0)
-        print(f"   Temporal Focus: {temporal_pct*100:.1f}%")
+        temporal_pct = profile.bank_affinities.get("TEMPORAL", 0)
+        print(f"   Temporal Focus: {temporal_pct * 100:.1f}%")
 
         # Mental/Evaluative (introspection)
-        mental_pct = profile.bank_affinities.get('MENTAL', 0)
-        eval_pct = profile.bank_affinities.get('EVALUATORS', 0)
+        mental_pct = profile.bank_affinities.get("MENTAL", 0)
+        eval_pct = profile.bank_affinities.get("EVALUATORS", 0)
         introspection = (mental_pct + eval_pct) * 2
         print(f"   Introspection Level: {introspection:.2f}")
         print(f"   → {'Highly reflective/meta-cognitive' if introspection > 0.3 else 'Externally focused'}")
@@ -379,20 +387,20 @@ class DeepMindAnalyzer:
             patterns = patterns_raw
 
         def get_freq(p):
-            if hasattr(p, 'frequency'):
+            if hasattr(p, "frequency"):
                 return p.frequency
             elif isinstance(p, dict):
-                return p.get('frequency', p.get('freq', 0))
+                return p.get("frequency", p.get("freq", 0))
             return 0
 
         top_patterns = sorted(patterns, key=get_freq, reverse=True)[:5]
         for p in top_patterns:
-            if hasattr(p, 'trigger'):
+            if hasattr(p, "trigger"):
                 trigger = p.trigger
                 freq = p.frequency
             else:
-                trigger = p.get('trigger', p.get('primitives', []))
-                freq = p.get('frequency', p.get('freq', 0))
+                trigger = p.get("trigger", p.get("primitives", []))
+                freq = p.get("frequency", p.get("freq", 0))
             prims = {nodes[idx] if isinstance(idx, int) else idx for idx in trigger}
             profile.thought_patterns.append((prims, freq))
             print(f"   • {prims}")
@@ -417,7 +425,7 @@ class DeepMindAnalyzer:
         print(f"\n🎭 Primary Cognitive Modes: {', '.join(top_banks)}")
 
         # Specific combinations
-        if 'LOGICAL' in top_banks and 'MENTAL' in top_banks:
+        if "LOGICAL" in top_banks and "MENTAL" in top_banks:
             insight = """
 Your thinking is characterized by LOGICAL-MENTAL dominance:
 You naturally frame ideas through structured reasoning combined with
@@ -427,7 +435,7 @@ This is the signature of a meta-cognitive reasoner."""
             insights.append(insight)
             print(insight)
 
-        if 'ACTION' in top_banks:
+        if "ACTION" in top_banks:
             insight = """
 Strong ACTION bank activation indicates process-oriented thinking:
 You conceptualize the world in terms of dynamics, changes, and movements
@@ -436,7 +444,7 @@ not just things that ARE."""
             insights.append(insight)
             print(insight)
 
-        if 'EVALUATORS' in top_banks:
+        if "EVALUATORS" in top_banks:
             insight = """
 High EVALUATOR activation suggests value-laden cognition:
 You naturally frame experiences in terms of good/bad, big/small, etc.
@@ -445,7 +453,7 @@ Every concept carries evaluative weight in your mental space."""
             insights.append(insight)
             print(insight)
 
-        if 'SPATIAL' in top_banks:
+        if "SPATIAL" in top_banks:
             insight = """
 Strong SPATIAL bank suggests embodied/metaphorical thinking:
 You understand abstract concepts through spatial metaphor - ideas are
@@ -462,7 +470,7 @@ This is characteristic of highly embodied cognition."""
 
         print(f"\n🧬 Your Primitive Vocabulary: {pattern_prims}")
 
-        if 'BECAUSE' in pattern_prims:
+        if "BECAUSE" in pattern_prims:
             insight = """
 BECAUSE appears in your core patterns:
 Causal reasoning is fundamental to how you structure thought.
@@ -470,7 +478,7 @@ You naturally seek and express explanatory connections."""
             insights.append(insight)
             print(insight)
 
-        if 'NOT' in pattern_prims:
+        if "NOT" in pattern_prims:
             insight = """
 NOT is central to your expression:
 You think in terms of what things are NOT as much as what they ARE.
@@ -478,7 +486,7 @@ This suggests dialectical thinking - understanding through contrast."""
             insights.append(insight)
             print(insight)
 
-        if 'FEEL' in pattern_prims and 'THINK' in pattern_prims:
+        if "FEEL" in pattern_prims and "THINK" in pattern_prims:
             insight = """
 Both FEEL and THINK are core primitives:
 You integrate emotional and cognitive processing naturally.
@@ -494,15 +502,15 @@ This isn't "thinking vs feeling" - it's thinking-feeling as unified mode."""
         synthesis = f"""
 Based on the geometric analysis of your semantic encodings:
 
-DOMINANT MODE: {', '.join(top_banks[:2])}
+DOMINANT MODE: {", ".join(top_banks[:2])}
 Your mind naturally gravitates toward {top_banks[0].lower()} framings,
 enriched by {top_banks[1].lower()} dimensions.
 
-ABSTRACTION: {'High' if profile.abstraction_level > 0.3 else 'Moderate' if profile.abstraction_level > 0 else 'Grounded'}
-You operate {'in the realm of concepts and relationships' if profile.abstraction_level > 0.3 else 'with concrete, tangible ideas'}.
+ABSTRACTION: {"High" if profile.abstraction_level > 0.3 else "Moderate" if profile.abstraction_level > 0 else "Grounded"}
+You operate {"in the realm of concepts and relationships" if profile.abstraction_level > 0.3 else "with concrete, tangible ideas"}.
 
-AGENCY: {'High' if profile.agency_level > 0.3 else 'Moderate'}
-You frame the world {'dynamically, in terms of actions and processes' if profile.agency_level > 0.3 else 'more statically, in terms of states and properties'}.
+AGENCY: {"High" if profile.agency_level > 0.3 else "Moderate"}
+You frame the world {"dynamically, in terms of actions and processes" if profile.agency_level > 0.3 else "more statically, in terms of states and properties"}.
 
 CORE PATTERNS: {len(patterns)} signature thought-forms learned
 These represent the atomic "shapes" of your thinking - the recurring
@@ -551,26 +559,27 @@ Unlike neural embeddings, these dimensions have MEANING.
             direction = "ELEVATED" if shift > 0 else "SUPPRESSED"
             print(f"   {bank}: {direction}")
 
-            if bank == 'LOGICAL' and shift > 0:
+            if bank == "LOGICAL" and shift > 0:
                 print("      → More connective, flowing reasoning")
-            elif bank == 'EVALUATORS' and shift < 0:
+            elif bank == "EVALUATORS" and shift < 0:
                 print("      → Less explicit judgment, more implicit")
-            elif bank == 'ACTION' and shift > 0:
+            elif bank == "ACTION" and shift > 0:
                 print("      → More dynamic, process-oriented language")
-            elif bank == 'MENTAL' and shift > 0:
+            elif bank == "MENTAL" and shift > 0:
                 print("      → More introspective, meta-cognitive")
-            elif bank == 'TEMPORAL' and shift < 0:
+            elif bank == "TEMPORAL" and shift < 0:
                 print("      → Less time-anchored, more timeless")
 
-        return {'shifts': shifts, 'delta': delta}
+        return {"shifts": shifts, "delta": delta}
 
 
 def main():
     import argparse
+
     parser = argparse.ArgumentParser(description="Deep Mind Analysis via GSE")
-    parser.add_argument("--corpus", type=str,
-                       default="/Users/rohanvinaik/relational-ai/data/training_text",
-                       help="Path to text corpus")
+    parser.add_argument(
+        "--corpus", type=str, default="/Users/rohanvinaik/relational-ai/data/training_text", help="Path to text corpus"
+    )
     parser.add_argument("--full", action="store_true", help="Run full analysis")
     args = parser.parse_args()
 
@@ -588,7 +597,7 @@ def main():
     if corpus_path.is_dir():
         for f in list(corpus_path.glob("*.txt"))[:30]:
             try:
-                sample_texts.append(f.read_text(encoding='utf-8', errors='replace')[:1500])
+                sample_texts.append(f.read_text(encoding="utf-8", errors="replace")[:1500])
             except:
                 continue
 

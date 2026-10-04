@@ -15,6 +15,7 @@ corpus builder uses) with failure + degradation capture, and bucket the issues b
 
 Usage: python scripts/audit_l2_parses.py [--docs-per-genre 8] [--max-sents 30]
 """
+
 from __future__ import annotations
 
 import argparse
@@ -35,8 +36,13 @@ def main() -> int:
     args = ap.parse_args()
 
     import nltk
-    for name, path in [("brown", "corpora/brown"), ("gutenberg", "corpora/gutenberg"),
-                       ("nps_chat", "corpora/nps_chat"), ("reuters", "corpora/reuters")]:
+
+    for name, path in [
+        ("brown", "corpora/brown"),
+        ("gutenberg", "corpora/gutenberg"),
+        ("nps_chat", "corpora/nps_chat"),
+        ("reuters", "corpora/reuters"),
+    ]:
         try:
             nltk.data.find(path)
         except LookupError:
@@ -53,13 +59,12 @@ def main() -> int:
     exc_example: dict = {}
     degraded_reasons: Counter = Counter()
     degraded_by_super: Counter = Counter()
-    degraded_examples: list = []          # (reason, super_register, genre, clause, sentence)
+    degraded_examples: list = []  # (reason, super_register, genre, clause, sentence)
     oov_by_super: dict = defaultdict(Counter)
     n_sents = 0
     n_exc = n_degraded = 0
 
-    for reg_class, genre, source, doc_id, text in _providers(
-            args.docs_per_genre, args.max_sents):
+    for reg_class, genre, source, doc_id, text in _providers(args.docs_per_genre, args.max_sents):
         sr = super_register_of(genre)
         for s in split_sentences(text):
             n_sents += 1
@@ -78,10 +83,8 @@ def main() -> int:
                     # not globally per reason: _providers yields the HF sources LAST, so
                     # a global cap fills with early registers and never captures the new
                     # ones (review/social) — they get counted but never shown.
-                    if sum(1 for e in degraded_examples
-                           if e[0] == reason and e[1] == sr) < 12:
-                        degraded_examples.append(
-                            (reason, sr, genre, d.get("clause", ""), " ".join(s.split())[:90]))
+                    if sum(1 for e in degraded_examples if e[0] == reason and e[1] == sr) < 12:
+                        degraded_examples.append((reason, sr, genre, d.get("clause", ""), " ".join(s.split())[:90]))
                 for t in tr.tokens:
                     if t.pos not in _CONTENT:
                         continue
@@ -100,6 +103,7 @@ def main() -> int:
     enc.close()
 
     out: list = []
+
     def emit(line: str = "") -> None:
         out.append(line)
 

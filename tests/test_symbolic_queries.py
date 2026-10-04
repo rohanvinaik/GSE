@@ -112,11 +112,14 @@ class TestAxisOfComparison:
         # (no resolve) still contains it. Verifies the extractor works
         # when given content that has ADJ/ADV atoms.
         from gse.symbolic import Phrase
-        phrase = Phrase(atoms=[
-            Atom(lemma="the", word_primitives={}, position=0, pos="DET"),
-            Atom(lemma="dog", word_primitives={}, position=1, pos="NOUN"),
-            Atom(lemma="tall", word_primitives={}, position=2, pos="ADJ"),
-        ])
+
+        phrase = Phrase(
+            atoms=[
+                Atom(lemma="the", word_primitives={}, position=0, pos="DET"),
+                Atom(lemma="dog", word_primitives={}, position=1, pos="NOUN"),
+                Atom(lemma="tall", word_primitives={}, position=2, pos="ADJ"),
+            ]
+        )
         comp = Comparison(lhs=phrase, rhs=phrase, sign=+1)
         axis = axis_of_comparison(comp)
         assert axis == "tall"

@@ -19,16 +19,23 @@ from gse.curation.external_sources.wordnet_hierarchy import (
 )
 
 
-def mk_entry(word="dog", pos="noun", synset_name="dog.n.01", depth=8, hypo=10,
-             mero=False, holo=False, lexname="noun.animal"):
+def mk_entry(
+    word="dog", pos="noun", synset_name="dog.n.01", depth=8, hypo=10, mero=False, holo=False, lexname="noun.animal"
+):
     return WordNetHierarchyEntry(
-        word=word, pos=pos, synset_name=synset_name,
-        hypernym_depth=depth, hyponym_count=hypo,
-        has_meronyms=mero, has_holonyms=holo, lexname=lexname,
+        word=word,
+        pos=pos,
+        synset_name=synset_name,
+        hypernym_depth=depth,
+        hyponym_count=hypo,
+        has_meronyms=mero,
+        has_holonyms=holo,
+        lexname=lexname,
     )
 
 
 # ---------- Entry ----------
+
 
 class TestEntry:
     def test_construction(self):
@@ -39,6 +46,7 @@ class TestEntry:
 
 
 # ---------- LEXNAME_TO_PRIMITIVE ----------
+
 
 class TestLexnameMapping:
     def test_noun_animal(self):
@@ -56,6 +64,7 @@ class TestLexnameMapping:
 
 # ---------- ROOT_CONCEPT_PRIMITIVES ----------
 
+
 class TestRootConcepts:
     def test_person_someone(self):
         assert ROOT_CONCEPT_PRIMITIVES["person.n.01"] == {"SOMEONE": 1}
@@ -65,6 +74,7 @@ class TestRootConcepts:
 
 
 # ---------- __init__ ----------
+
 
 class TestInit:
     def test_initial_state(self):
@@ -85,6 +95,7 @@ class TestInit:
 
 
 # ---------- _convert_pos ----------
+
 
 class TestConvertPos:
     def test_noun(self):
@@ -107,6 +118,7 @@ class TestConvertPos:
 
 
 # ---------- _get_hypernym_depth ----------
+
 
 class TestGetHypernymDepth:
     def test_no_paths_returns_zero(self):
@@ -133,6 +145,7 @@ class TestGetHypernymDepth:
 
 
 # ---------- load ----------
+
 
 class TestLoad:
     def test_failure_returns_false(self):
@@ -168,7 +181,8 @@ class TestLoad:
                 assert p.entries["dog"][0].pos == "noun"
 
     def test_has_meronyms_true_when_any(self):
-        mock_lemma = MagicMock(); mock_lemma.name.return_value = "x"
+        mock_lemma = MagicMock()
+        mock_lemma.name.return_value = "x"
         mock_synset = MagicMock()
         mock_synset.lemmas.return_value = [mock_lemma]
         mock_synset.pos.return_value = "n"
@@ -192,6 +206,7 @@ class TestLoad:
 
 
 # ---------- to_primitives ----------
+
 
 class TestToPrimitives:
     """``to_primitives`` reads the PRIMARY noun sense's IS-A path from real
@@ -246,6 +261,7 @@ class TestToPrimitives:
 
 
 # ---------- _apply_ancestor_primitives ----------
+
 
 class TestApplyAncestorPrimitives:
     def test_no_wn_no_op(self):
@@ -318,6 +334,7 @@ class TestApplyAncestorPrimitives:
 
 # ---------- get_all_words ----------
 
+
 class TestGetAllWords:
     def test_returns_keys(self):
         p = WordNetHierarchyParser()
@@ -334,6 +351,7 @@ class TestGetAllWords:
 
 
 # ---------- get_hypernyms ----------
+
 
 class TestGetHypernyms:
     def test_no_wn_returns_empty(self):
@@ -370,9 +388,12 @@ class TestGetHypernyms:
     def test_dedup_preserves_order(self):
         p = WordNetHierarchyParser()
         p._loaded = True
-        m1 = MagicMock(); m1.name.return_value = "a.n.01"
-        m2 = MagicMock(); m2.name.return_value = "b.n.01"
-        m3 = MagicMock(); m3.name.return_value = "a.n.01"  # duplicate
+        m1 = MagicMock()
+        m1.name.return_value = "a.n.01"
+        m2 = MagicMock()
+        m2.name.return_value = "b.n.01"
+        m3 = MagicMock()
+        m3.name.return_value = "a.n.01"  # duplicate
         mock_synset = MagicMock()
         mock_synset.hypernym_paths.return_value = [[m1, m2, m3]]
         mock_wn = MagicMock()
@@ -403,6 +424,7 @@ class TestGetHypernyms:
 
 # ---------- get_hyponyms ----------
 
+
 class TestGetHyponyms:
     def test_no_wn_empty(self):
         p = WordNetHierarchyParser()
@@ -421,8 +443,10 @@ class TestGetHyponyms:
     def test_returns_hyponym_lemmas(self):
         p = WordNetHierarchyParser()
         p._loaded = True
-        mock_lemma = MagicMock(); mock_lemma.name.return_value = "poodle"
-        mock_hypo = MagicMock(); mock_hypo.lemmas.return_value = [mock_lemma]
+        mock_lemma = MagicMock()
+        mock_lemma.name.return_value = "poodle"
+        mock_hypo = MagicMock()
+        mock_hypo.lemmas.return_value = [mock_lemma]
         mock_synset = MagicMock()
         mock_synset.hyponyms.return_value = [mock_hypo]
         mock_wn = MagicMock()
@@ -434,8 +458,10 @@ class TestGetHyponyms:
     def test_underscore_replaced(self):
         p = WordNetHierarchyParser()
         p._loaded = True
-        mock_lemma = MagicMock(); mock_lemma.name.return_value = "hot_dog"
-        mock_hypo = MagicMock(); mock_hypo.lemmas.return_value = [mock_lemma]
+        mock_lemma = MagicMock()
+        mock_lemma.name.return_value = "hot_dog"
+        mock_hypo = MagicMock()
+        mock_hypo.lemmas.return_value = [mock_lemma]
         mock_synset = MagicMock()
         mock_synset.hyponyms.return_value = [mock_hypo]
         mock_wn = MagicMock()
@@ -450,9 +476,11 @@ class TestGetHyponyms:
         p._loaded = True
         lemmas = []
         for i in range(25):
-            m = MagicMock(); m.name.return_value = f"h{i}"
+            m = MagicMock()
+            m.name.return_value = f"h{i}"
             lemmas.append(m)
-        mock_hypo = MagicMock(); mock_hypo.lemmas.return_value = lemmas
+        mock_hypo = MagicMock()
+        mock_hypo.lemmas.return_value = lemmas
         mock_synset = MagicMock()
         mock_synset.hyponyms.return_value = [mock_hypo]
         mock_wn = MagicMock()
@@ -472,6 +500,7 @@ class TestGetHyponyms:
 
 # ---------- get_meronyms ----------
 
+
 class TestGetMeronyms:
     def test_no_wn_empty(self):
         p = WordNetHierarchyParser()
@@ -490,8 +519,10 @@ class TestGetMeronyms:
     def test_collects_all_meronym_types(self):
         p = WordNetHierarchyParser()
         p._loaded = True
-        mock_lemma = MagicMock(); mock_lemma.name.return_value = "wheel"
-        mock_mero = MagicMock(); mock_mero.lemmas.return_value = [mock_lemma]
+        mock_lemma = MagicMock()
+        mock_lemma.name.return_value = "wheel"
+        mock_mero = MagicMock()
+        mock_mero.lemmas.return_value = [mock_lemma]
         mock_synset = MagicMock()
         mock_synset.part_meronyms.return_value = [mock_mero]
         mock_synset.member_meronyms.return_value = []
@@ -508,8 +539,10 @@ class TestGetMeronyms:
         # Create 5 synsets; only first 3 should be processed
         synsets = []
         for i in range(5):
-            mock_lemma = MagicMock(); mock_lemma.name.return_value = f"m{i}"
-            mock_mero = MagicMock(); mock_mero.lemmas.return_value = [mock_lemma]
+            mock_lemma = MagicMock()
+            mock_lemma.name.return_value = f"m{i}"
+            mock_mero = MagicMock()
+            mock_mero.lemmas.return_value = [mock_lemma]
             mock_synset = MagicMock()
             mock_synset.part_meronyms.return_value = [mock_mero]
             mock_synset.member_meronyms.return_value = []
@@ -535,8 +568,10 @@ class TestGetMeronyms:
         # Same meronym from multiple synsets → dedup
         p = WordNetHierarchyParser()
         p._loaded = True
-        mock_lemma = MagicMock(); mock_lemma.name.return_value = "wheel"
-        mock_mero = MagicMock(); mock_mero.lemmas.return_value = [mock_lemma]
+        mock_lemma = MagicMock()
+        mock_lemma.name.return_value = "wheel"
+        mock_mero = MagicMock()
+        mock_mero.lemmas.return_value = [mock_lemma]
 
         synsets = []
         for _ in range(3):
@@ -555,6 +590,7 @@ class TestGetMeronyms:
 
 
 # ---------- get_domain ----------
+
 
 class TestGetDomain:
     def test_returns_first_entry_lexname(self):
@@ -583,6 +619,7 @@ class TestGetDomain:
 
 
 # ---------- download_wordnet ----------
+
 
 class TestDownloadWordnet:
     def test_calls_nltk_download(self, capsys):

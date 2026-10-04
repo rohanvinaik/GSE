@@ -34,10 +34,7 @@ from typing import Dict, List, Optional
 
 import requests
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
 # Paths
@@ -54,9 +51,25 @@ OLLAMA_URL = "http://localhost:11434/api/generate"
 
 # Primitives in order of conflict count (from audit)
 PRIMITIVES_BY_CONFLICT = [
-    "GOOD", "THINK", "CAN", "FEEL", "MUST", "BODY",
-    "SAME", "LIKE", "PART", "WHERE", "HEAR", "SEE",
-    "PEOPLE", "TOUCH", "SAY", "DO", "SOMEONE", "MOVE", "WANT"
+    "GOOD",
+    "THINK",
+    "CAN",
+    "FEEL",
+    "MUST",
+    "BODY",
+    "SAME",
+    "LIKE",
+    "PART",
+    "WHERE",
+    "HEAR",
+    "SEE",
+    "PEOPLE",
+    "TOUCH",
+    "SAY",
+    "DO",
+    "SOMEONE",
+    "MOVE",
+    "WANT",
 ]
 
 # External source descriptions for LLM context
@@ -90,6 +103,7 @@ PRIMITIVE_EXPLANATIONS = {
 @dataclass
 class Conflict:
     """A conflict between Wiktionary and external source."""
+
     word: str
     primitive: str
     wikt_value: int
@@ -103,6 +117,7 @@ class Conflict:
 @dataclass
 class Resolution:
     """LLM resolution of a conflict."""
+
     word: str
     primitive: str
     old_value: int
@@ -126,9 +141,9 @@ def query_ollama(prompt: str, model: str = DEFAULT_MODEL, timeout: int = 120) ->
                 "options": {
                     "temperature": 0.1,  # Low temperature for consistency
                     "num_predict": 200,
-                }
+                },
             },
-            timeout=timeout
+            timeout=timeout,
         )
         if response.status_code == 200:
             return response.json().get("response", "").strip()
@@ -146,7 +161,7 @@ def load_conflicts(primitive: str = None, limit: int = None) -> List[Conflict]:
         logger.error(f"Audit report not found: {AUDIT_REPORT}")
         return []
 
-    with open(AUDIT_REPORT, 'r') as f:
+    with open(AUDIT_REPORT, "r") as f:
         report = json.load(f)
 
     conflicts = []
@@ -154,15 +169,17 @@ def load_conflicts(primitive: str = None, limit: int = None) -> List[Conflict]:
         if primitive and item["primitive"] != primitive:
             continue
 
-        conflicts.append(Conflict(
-            word=item["word"],
-            primitive=item["primitive"],
-            wikt_value=item["wikt_value"],
-            source=item["source"],
-            source_value=item["source_value"],
-            conflict_type=item["type"],
-            frequency_rank=item.get("frequency_rank", 0)
-        ))
+        conflicts.append(
+            Conflict(
+                word=item["word"],
+                primitive=item["primitive"],
+                wikt_value=item["wikt_value"],
+                source=item["source"],
+                source_value=item["source_value"],
+                conflict_type=item["type"],
+                frequency_rank=item.get("frequency_rank", 0),
+            )
+        )
 
     # Sort by frequency rank (most common words first)
     conflicts.sort(key=lambda c: c.frequency_rank)
@@ -187,10 +204,10 @@ def load_all_conflicts_for_primitive(primitive: str) -> List[Conflict]:
     if primitive in ("GOOD", "CAN"):
         nrc_vad_path = EXTERNAL_DIR / "nrc_vad.txt"
         if nrc_vad_path.exists():
-            with open(nrc_vad_path, 'r') as f:
+            with open(nrc_vad_path, "r") as f:
                 next(f)  # Skip header
                 for line in f:
-                    parts = line.strip().split('\t')
+                    parts = line.strip().split("\t")
                     if len(parts) != 4:
                         continue
                     word, valence, arousal, dominance = parts
@@ -210,23 +227,28 @@ def load_all_conflicts_for_primitive(primitive: str) -> List[Conflict]:
                                 continue
 
                             # Get current Wiktionary value
-                            cursor = wikt_conn.execute("""
+                            cursor = wikt_conn.execute(
+                                """
                                 SELECT value FROM word_primitives
                                 WHERE word = ? AND primitive = 'GOOD'
                                 LIMIT 1
-                            """, (word,))
+                            """,
+                                (word,),
+                            )
                             row = cursor.fetchone()
                             current = row[0] if row else 0
 
                             if current != expected:
-                                conflicts.append(Conflict(
-                                    word=word,
-                                    primitive="GOOD",
-                                    wikt_value=current,
-                                    source="nrc_vad",
-                                    source_value=expected,
-                                    conflict_type="value_mismatch" if current != 0 else "missing_in_wikt"
-                                ))
+                                conflicts.append(
+                                    Conflict(
+                                        word=word,
+                                        primitive="GOOD",
+                                        wikt_value=current,
+                                        source="nrc_vad",
+                                        source_value=expected,
+                                        conflict_type="value_mismatch" if current != 0 else "missing_in_wikt",
+                                    )
+                                )
 
                         # Check CAN conflicts (dominance)
                         elif primitive == "CAN":
@@ -237,23 +259,28 @@ def load_all_conflicts_for_primitive(primitive: str) -> List[Conflict]:
                             else:
                                 continue
 
-                            cursor = wikt_conn.execute("""
+                            cursor = wikt_conn.execute(
+                                """
                                 SELECT value FROM word_primitives
                                 WHERE word = ? AND primitive = 'CAN'
                                 LIMIT 1
-                            """, (word,))
+                            """,
+                                (word,),
+                            )
                             row = cursor.fetchone()
                             current = row[0] if row else 0
 
                             if current != expected:
-                                conflicts.append(Conflict(
-                                    word=word,
-                                    primitive="CAN",
-                                    wikt_value=current,
-                                    source="nrc_vad",
-                                    source_value=expected,
-                                    conflict_type="value_mismatch" if current != 0 else "missing_in_wikt"
-                                ))
+                                conflicts.append(
+                                    Conflict(
+                                        word=word,
+                                        primitive="CAN",
+                                        wikt_value=current,
+                                        source="nrc_vad",
+                                        source_value=expected,
+                                        conflict_type="value_mismatch" if current != 0 else "missing_in_wikt",
+                                    )
+                                )
                     except ValueError:
                         continue
 
@@ -276,10 +303,13 @@ def get_word_definition(word: str, conn: sqlite3.Connection) -> str:
     """Get the definition of a word from Wiktionary DB."""
     # Try to get from definitions table if it exists
     try:
-        cursor = conn.execute("""
+        cursor = conn.execute(
+            """
             SELECT definition FROM definitions
             WHERE word = ? LIMIT 1
-        """, (word,))
+        """,
+            (word,),
+        )
         row = cursor.fetchone()
         if row:
             return row[0]
@@ -293,20 +323,19 @@ def get_word_context(word: str, conn: sqlite3.Connection) -> Dict:
     context = {"word": word, "primitives": {}, "sources": []}
 
     # Get all primitive assignments
-    cursor = conn.execute("""
+    cursor = conn.execute(
+        """
         SELECT primitive, value, source, confidence
         FROM word_primitives
         WHERE word = ?
-    """, (word,))
+    """,
+        (word,),
+    )
 
     for prim, val, source, conf in cursor:
         if prim not in context["primitives"]:
             context["primitives"][prim] = []
-        context["primitives"][prim].append({
-            "value": val,
-            "source": source,
-            "confidence": conf
-        })
+        context["primitives"][prim].append({"value": val, "source": source, "confidence": conf})
         if source not in context["sources"]:
             context["sources"].append(source)
 
@@ -316,22 +345,17 @@ def get_word_context(word: str, conn: sqlite3.Connection) -> Dict:
 def build_resolution_prompt(conflict: Conflict, context: Dict) -> str:
     """Build prompt for LLM to resolve a conflict."""
 
-    prim_explanation = PRIMITIVE_EXPLANATIONS.get(
-        conflict.primitive,
-        f"Primitive {conflict.primitive}"
-    )
+    prim_explanation = PRIMITIVE_EXPLANATIONS.get(conflict.primitive, f"Primitive {conflict.primitive}")
 
-    source_desc = SOURCE_DESCRIPTIONS.get(
-        conflict.source,
-        f"External NLP database: {conflict.source}"
-    )
+    source_desc = SOURCE_DESCRIPTIONS.get(conflict.source, f"External NLP database: {conflict.source}")
 
     # Get all current assignments for this primitive
     current_assignments = context["primitives"].get(conflict.primitive, [])
-    current_str = ", ".join([
-        f"{a['value']} (from {a['source']}, conf={a['confidence']:.2f})"
-        for a in current_assignments[:5]
-    ]) if current_assignments else "not assigned"
+    current_str = (
+        ", ".join([f"{a['value']} (from {a['source']}, conf={a['confidence']:.2f})" for a in current_assignments[:5]])
+        if current_assignments
+        else "not assigned"
+    )
 
     prompt = f"""You are a semantic analyst resolving a conflict in primitive assignment.
 
@@ -365,18 +389,18 @@ def parse_resolution(response: str, conflict: Conflict) -> Optional[Resolution]:
     """Parse LLM response into a Resolution object."""
     try:
         # Extract VALUE - handle both "VALUE: -1" and "VALUE: [-1]"
-        value_match = re.search(r'VALUE:\s*\[?([-+]?[01])\]?', response)
+        value_match = re.search(r"VALUE:\s*\[?([-+]?[01])\]?", response)
         if not value_match:
             logger.debug(f"No VALUE match in: {response[:100]}")
             return None
         new_value = int(value_match.group(1))
 
         # Extract CONFIDENCE - handle brackets
-        conf_match = re.search(r'CONFIDENCE:\s*\[?(high|medium|low)\]?', response, re.I)
+        conf_match = re.search(r"CONFIDENCE:\s*\[?(high|medium|low)\]?", response, re.I)
         confidence = conf_match.group(1).lower() if conf_match else "medium"
 
         # Extract REASONING - handle brackets and multiline
-        reason_match = re.search(r'REASONING:\s*\[?([^\]\n]+)', response)
+        reason_match = re.search(r"REASONING:\s*\[?([^\]\n]+)", response)
         reasoning = reason_match.group(1).strip() if reason_match else "No reasoning provided"
 
         return Resolution(
@@ -388,7 +412,7 @@ def parse_resolution(response: str, conflict: Conflict) -> Optional[Resolution]:
             reasoning=reasoning,
             source_agreement=[conflict.source] if new_value == conflict.source_value else [],
             model=DEFAULT_MODEL,
-            timestamp=datetime.now().isoformat()
+            timestamp=datetime.now().isoformat(),
         )
     except Exception as e:
         logger.error(f"Failed to parse resolution: {e}")
@@ -398,51 +422,64 @@ def parse_resolution(response: str, conflict: Conflict) -> Optional[Resolution]:
 def apply_resolution(resolution: Resolution, conn: sqlite3.Connection, dry_run: bool = False):
     """Apply a resolution to the database."""
     if dry_run:
-        logger.info(f"[DRY RUN] Would update {resolution.word}.{resolution.primitive}: "
-                   f"{resolution.old_value} → {resolution.new_value}")
+        logger.info(
+            f"[DRY RUN] Would update {resolution.word}.{resolution.primitive}: "
+            f"{resolution.old_value} → {resolution.new_value}"
+        )
         return
 
     # Update existing entries
-    conn.execute("""
+    conn.execute(
+        """
         UPDATE word_primitives
         SET value = ?, confidence = ?, source = ?
         WHERE word = ? AND primitive = ?
-    """, (
-        resolution.new_value,
-        0.85 if resolution.confidence == "high" else 0.7 if resolution.confidence == "medium" else 0.5,
-        f"llm_correction:{DEFAULT_MODEL}",
-        resolution.word,
-        resolution.primitive
-    ))
+    """,
+        (
+            resolution.new_value,
+            0.85 if resolution.confidence == "high" else 0.7 if resolution.confidence == "medium" else 0.5,
+            f"llm_correction:{DEFAULT_MODEL}",
+            resolution.word,
+            resolution.primitive,
+        ),
+    )
 
     # If no rows updated, insert new entry
     if conn.total_changes == 0:
-        conn.execute("""
+        conn.execute(
+            """
             INSERT INTO word_primitives (word, pos, primitive, value, confidence, source)
             VALUES (?, NULL, ?, ?, ?, ?)
-        """, (
-            resolution.word,
-            resolution.primitive,
-            resolution.new_value,
-            0.85 if resolution.confidence == "high" else 0.7,
-            f"llm_correction:{DEFAULT_MODEL}"
-        ))
+        """,
+            (
+                resolution.word,
+                resolution.primitive,
+                resolution.new_value,
+                0.85 if resolution.confidence == "high" else 0.7,
+                f"llm_correction:{DEFAULT_MODEL}",
+            ),
+        )
 
 
 def log_resolution(resolution: Resolution):
     """Log resolution to JSONL file for audit trail."""
     CORRECTIONS_LOG.parent.mkdir(parents=True, exist_ok=True)
-    with open(CORRECTIONS_LOG, 'a') as f:
-        f.write(json.dumps({
-            "word": resolution.word,
-            "primitive": resolution.primitive,
-            "old_value": resolution.old_value,
-            "new_value": resolution.new_value,
-            "confidence": resolution.confidence,
-            "reasoning": resolution.reasoning,
-            "model": resolution.model,
-            "timestamp": resolution.timestamp
-        }) + "\n")
+    with open(CORRECTIONS_LOG, "a") as f:
+        f.write(
+            json.dumps(
+                {
+                    "word": resolution.word,
+                    "primitive": resolution.primitive,
+                    "old_value": resolution.old_value,
+                    "new_value": resolution.new_value,
+                    "confidence": resolution.confidence,
+                    "reasoning": resolution.reasoning,
+                    "model": resolution.model,
+                    "timestamp": resolution.timestamp,
+                }
+            )
+            + "\n"
+        )
 
 
 class ConflictResolver:
@@ -455,12 +492,7 @@ class ConflictResolver:
         self.stats = defaultdict(int)
         self.resolutions: List[Resolution] = []
 
-    def resolve_conflicts(
-        self,
-        conflicts: List[Conflict],
-        batch_size: int = 10,
-        sleep_between: float = 0.5
-    ):
+    def resolve_conflicts(self, conflicts: List[Conflict], batch_size: int = 10, sleep_between: float = 0.5):
         """Resolve a list of conflicts using LLM."""
         logger.info(f"Resolving {len(conflicts)} conflicts using {self.model}...")
 
@@ -494,20 +526,25 @@ class ConflictResolver:
                 self.resolutions.append(resolution)
                 self.stats["corrections"] += 1
 
-                logger.info(f"[{i+1}/{len(conflicts)}] {conflict.word}.{conflict.primitive}: "
-                           f"{conflict.wikt_value} → {resolution.new_value} "
-                           f"({resolution.confidence})")
+                logger.info(
+                    f"[{i + 1}/{len(conflicts)}] {conflict.word}.{conflict.primitive}: "
+                    f"{conflict.wikt_value} → {resolution.new_value} "
+                    f"({resolution.confidence})"
+                )
             else:
                 self.stats["no_change"] += 1
-                logger.info(f"[{i+1}/{len(conflicts)}] {conflict.word}.{conflict.primitive}: "
-                           f"keeping {conflict.wikt_value}")
+                logger.info(
+                    f"[{i + 1}/{len(conflicts)}] {conflict.word}.{conflict.primitive}: keeping {conflict.wikt_value}"
+                )
 
             # Progress logging
             if (i + 1) % batch_size == 0:
                 self.conn.commit()
-                logger.info(f"Progress: {i+1}/{len(conflicts)} | "
-                           f"Corrections: {self.stats['corrections']} | "
-                           f"No change: {self.stats['no_change']}")
+                logger.info(
+                    f"Progress: {i + 1}/{len(conflicts)} | "
+                    f"Corrections: {self.stats['corrections']} | "
+                    f"No change: {self.stats['no_change']}"
+                )
 
             time.sleep(sleep_between)
 
@@ -528,10 +565,10 @@ class ConflictResolver:
                     "primitive": r.primitive,
                     "old": r.old_value,
                     "new": r.new_value,
-                    "confidence": r.confidence
+                    "confidence": r.confidence,
                 }
                 for r in self.resolutions
-            ]
+            ],
         }
 
     def close(self):
@@ -580,11 +617,7 @@ def main():
                 logger.info(f"No conflicts found for {primitive} in audit report")
                 continue
 
-            resolver.resolve_conflicts(
-                conflicts,
-                batch_size=args.batch_size,
-                sleep_between=args.sleep
-            )
+            resolver.resolve_conflicts(conflicts, batch_size=args.batch_size, sleep_between=args.sleep)
 
             print(f"<<< {primitive} complete: {resolver.stats['corrections']} corrections")
 
@@ -598,9 +631,9 @@ def main():
         print(f"No change needed: {summary['no_change_needed']}")
         print(f"Errors: {summary['errors']}")
 
-        if summary['resolutions']:
+        if summary["resolutions"]:
             print("\nSample corrections:")
-            for r in summary['resolutions'][:10]:
+            for r in summary["resolutions"][:10]:
                 print(f"  {r['word']}.{r['primitive']}: {r['old']} → {r['new']} ({r['confidence']})")
 
     finally:

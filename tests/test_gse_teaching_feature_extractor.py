@@ -19,6 +19,7 @@ from gse.teaching.feature_extractor import (
 
 # ---------- Indicator tables ----------
 
+
 class TestTextIndicators:
     def test_narrative_words(self):
         assert "once" in TEXT_INDICATORS["NARRATIVE"]
@@ -47,12 +48,14 @@ class TestSyntacticPatterns:
 
 # ---------- Fixtures ----------
 
+
 @pytest.fixture
 def extractor():
     return FeatureExtractor()
 
 
 # ---------- extract_text_features ----------
+
 
 class TestExtractTextFeatures:
     def test_narrative_text(self, extractor):
@@ -94,6 +97,7 @@ class TestExtractTextFeatures:
 
 # ---------- extract_paragraph_features ----------
 
+
 class TestExtractParagraphFeatures:
     def test_cue_at_start_stronger(self, extractor):
         para = "Therefore, we conclude."
@@ -130,6 +134,7 @@ class TestExtractParagraphFeatures:
 
 # ---------- extract_sentence_features ----------
 
+
 class TestExtractSentenceFeatures:
     def test_capitalized_first_word_subj(self, extractor):
         features = extractor.extract_sentence_features("Alice ran fast.")
@@ -164,6 +169,7 @@ class TestExtractSentenceFeatures:
 
 
 # ---------- _extract_from_trace ----------
+
 
 class TestExtractFromTrace:
     def test_subject_role(self, extractor):
@@ -207,6 +213,7 @@ class TestExtractFromTrace:
 
 # ---------- extract_word_features ----------
 
+
 class TestExtractWordFeatures:
     def test_known_primitive(self, extractor):
         features = extractor.extract_word_features("happy", {"GOOD": 1, "FEEL": 1})
@@ -240,6 +247,7 @@ class TestExtractWordFeatures:
 
 # ---------- _map_to_network_primitive ----------
 
+
 class TestMapToNetworkPrimitive:
     def test_direct_match(self, extractor):
         assert extractor._map_to_network_primitive("GOOD") == "GOOD"
@@ -258,6 +266,7 @@ class TestMapToNetworkPrimitive:
 
 
 # ---------- extract_all_features ----------
+
 
 class TestExtractAllFeatures:
     def test_returns_4_scales(self, extractor):
@@ -285,20 +294,17 @@ class TestExtractAllFeatures:
         assert len(result["sentence"]) == 1
 
     def test_word_primitives_populate_word_scale(self, extractor):
-        result = extractor.extract_all_features(
-            "Hello.", word_primitives={"happy": {"GOOD": 1}}
-        )
+        result = extractor.extract_all_features("Hello.", word_primitives={"happy": {"GOOD": 1}})
         assert "happy" in result["word"]
 
     def test_word_with_no_known_primitives_excluded(self, extractor):
-        result = extractor.extract_all_features(
-            "Hello.", word_primitives={"happy": {"UNKNOWN": 1}}
-        )
+        result = extractor.extract_all_features("Hello.", word_primitives={"happy": {"UNKNOWN": 1}})
         # No features extracted → not in dict
         assert "happy" not in result["word"]
 
 
 # ---------- _split_sentences ----------
+
 
 class TestSplitSentences:
     def test_period_split(self, extractor):

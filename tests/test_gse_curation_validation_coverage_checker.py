@@ -106,6 +106,7 @@ class TestGetCoverageStats:
 
 # ---------- convenience functions ----------
 
+
 class TestValidateCoverageFunction:
     def test_works(self):
         r = validate_coverage({})

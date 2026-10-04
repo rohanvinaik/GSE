@@ -47,6 +47,7 @@ def freq_db(tmp_path):
 
 # ---------- WordFrequency ----------
 
+
 class TestWordFrequency:
     def test_construction(self):
         w = WordFrequency(word="x", combined_rank=1, david47k_rank=2, local_rank=3, weight=0.9)
@@ -58,6 +59,7 @@ class TestWordFrequency:
 
 
 # ---------- FrequencyDatabase ----------
+
 
 class TestFrequencyDatabase:
     def test_init_missing_raises(self, tmp_path):
@@ -141,12 +143,14 @@ class TestFrequencyDatabase:
 
 # ---------- FrequencyIntegration ----------
 
+
 @pytest.fixture
 def lexicon_db(tmp_path):
     """Build a lexicon database fixture."""
     db_path = tmp_path / "lex.db"
     # Create a real LexiconDatabase by importing and calling its init
     from gse.curation.lexicon_db import LexiconDatabase
+
     db = LexiconDatabase(str(db_path))
     db.close()
     return str(db_path)
@@ -227,6 +231,7 @@ class TestFrequencyIntegration:
 
 # ---------- get_default_frequency_db_path ----------
 
+
 class TestGetDefaultPath:
     def test_returns_existing_gse_data_path(self, tmp_path):
         # Patch Path to make gse_data exist
@@ -244,6 +249,7 @@ class TestGetDefaultPath:
         # Make all candidate paths non-existent
         def fake_exists(self):
             return False
+
         monkeypatch.setattr(Path, "exists", fake_exists)
         with pytest.raises(FileNotFoundError):
             get_default_frequency_db_path()

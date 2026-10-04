@@ -92,9 +92,7 @@ class TestInferImplicitArguments:
         assert "patient" in roles_inferred
 
     def test_all_present_returns_empty(self, handler):
-        result = handler.infer_implicit_arguments(
-            "hit", {"agent", "action", "patient", "instrument"}
-        )
+        result = handler.infer_implicit_arguments("hit", {"agent", "action", "patient", "instrument"})
         # All required + the optional instrument supplied → only implicit gaps left
         # (none for hit). Should be empty or minimal.
         for primitive, role in result:

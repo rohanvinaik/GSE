@@ -51,6 +51,7 @@ def insert_edge(db_path, relation, start, end, weight=1.0, source=""):
 
 # ---------- ConceptNetEdge ----------
 
+
 class TestConceptNetEdge:
     def test_construction(self):
         e = ConceptNetEdge(relation="IsA", start_word="dog", end_word="animal", weight=1.5, source="x")
@@ -59,6 +60,7 @@ class TestConceptNetEdge:
 
 
 # ---------- RELATION_TO_PRIMITIVE ----------
+
 
 class TestRelationToPrimitive:
     def test_isa_kind(self):
@@ -76,6 +78,7 @@ class TestRelationToPrimitive:
 
 # ---------- PROPERTY_PRIMITIVES ----------
 
+
 class TestPropertyPrimitives:
     def test_good(self):
         assert PROPERTY_PRIMITIVES["good"] == {"GOOD": 1}
@@ -91,6 +94,7 @@ class TestPropertyPrimitives:
 
 
 # ---------- __init__ ----------
+
 
 class TestInit:
     def test_default_paths(self):
@@ -122,6 +126,7 @@ class TestInit:
 
 
 # ---------- _parse_concept ----------
+
 
 class TestParseConcept:
     def test_too_short(self):
@@ -155,6 +160,7 @@ class TestParseConcept:
 
 # ---------- load ----------
 
+
 class TestLoad:
     def test_no_db_no_csv_returns_false(self, tmp_path):
         p = ConceptNetParser(csv_path=tmp_path / "x.csv", db_path=tmp_path / "x.db")
@@ -187,10 +193,10 @@ class TestLoad:
 
 # ---------- _build_index ----------
 
+
 class TestBuildIndex:
     def test_csv_missing_returns_false(self, tmp_path):
-        p = ConceptNetParser(csv_path=tmp_path / "missing.csv",
-                             db_path=tmp_path / "c.db")
+        p = ConceptNetParser(csv_path=tmp_path / "missing.csv", db_path=tmp_path / "c.db")
         assert p._build_index() is False
 
     def test_basic_build(self, tmp_path):
@@ -226,9 +232,7 @@ class TestBuildIndex:
 
     def test_skips_non_english_when_english_only(self, tmp_path):
         csv_path = tmp_path / "c.csv"
-        csv_path.write_text(
-            "/a/x\t/r/IsA\t/c/fr/chien\t/c/fr/animal\t{}\n"
-        )
+        csv_path.write_text("/a/x\t/r/IsA\t/c/fr/chien\t/c/fr/animal\t{}\n")
         db_path = tmp_path / "c.db"
         p = ConceptNetParser(csv_path=csv_path, db_path=db_path, english_only=True)
         p._build_index()
@@ -239,10 +243,7 @@ class TestBuildIndex:
 
     def test_skips_low_weight(self, tmp_path):
         csv_path = tmp_path / "c.csv"
-        csv_path.write_text(
-            "/a/x\t/r/IsA\t/c/en/dog\t/c/en/animal\t"
-            '{"weight": 0.5}\n'
-        )
+        csv_path.write_text('/a/x\t/r/IsA\t/c/en/dog\t/c/en/animal\t{"weight": 0.5}\n')
         db_path = tmp_path / "c.db"
         p = ConceptNetParser(csv_path=csv_path, db_path=db_path, min_weight=1.0)
         p._build_index()
@@ -251,13 +252,13 @@ class TestBuildIndex:
         conn.close()
         assert rows == []
 
-    @pytest.mark.skip(reason="pre-existing failure since initial commit (9578764); code-only checkout — needs triage vs as-built build-index behavior")
+    @pytest.mark.skip(
+        reason="pre-existing failure since initial commit (9578764); code-only checkout — needs triage vs as-built build-index behavior"
+    )
     def test_invalid_json_uses_default_weight(self, tmp_path):
         # min_weight=1.0 and default 1.0 → entry kept
         csv_path = tmp_path / "c.csv"
-        csv_path.write_text(
-            "/a/x\t/r/IsA\t/c/en/dog\t/c/en/animal\tNOT_JSON\n"
-        )
+        csv_path.write_text("/a/x\t/r/IsA\t/c/en/dog\t/c/en/animal\tNOT_JSON\n")
         db_path = tmp_path / "c.db"
         p = ConceptNetParser(csv_path=csv_path, db_path=db_path)
         p._build_index()
@@ -270,9 +271,7 @@ class TestBuildIndex:
 
     def test_relation_split_extracts_last_part(self, tmp_path):
         csv_path = tmp_path / "c.csv"
-        csv_path.write_text(
-            "/a/x\t/r/IsA\t/c/en/dog\t/c/en/animal\t{}\n"
-        )
+        csv_path.write_text("/a/x\t/r/IsA\t/c/en/dog\t/c/en/animal\t{}\n")
         db_path = tmp_path / "c.db"
         p = ConceptNetParser(csv_path=csv_path, db_path=db_path)
         p._build_index()
@@ -306,10 +305,7 @@ class TestBuildIndex:
 
     def test_source_extracted_from_metadata(self, tmp_path):
         csv_path = tmp_path / "c.csv"
-        csv_path.write_text(
-            "/a/x\t/r/IsA\t/c/en/dog\t/c/en/animal\t"
-            '{"weight": 1.0, "dataset": "/d/wiktionary"}\n'
-        )
+        csv_path.write_text('/a/x\t/r/IsA\t/c/en/dog\t/c/en/animal\t{"weight": 1.0, "dataset": "/d/wiktionary"}\n')
         db_path = tmp_path / "c.db"
         p = ConceptNetParser(csv_path=csv_path, db_path=db_path)
         p._build_index()
@@ -320,6 +316,7 @@ class TestBuildIndex:
 
 
 # ---------- get_edges ----------
+
 
 class TestGetEdges:
     def test_no_edges_for_unknown(self, fresh_db):
@@ -371,6 +368,7 @@ class TestGetEdges:
 
 
 # ---------- to_primitives ----------
+
 
 class TestToPrimitives:
     def test_empty_no_edges(self, fresh_db):
@@ -487,6 +485,7 @@ class TestToPrimitives:
 
 # ---------- get_all_words ----------
 
+
 class TestGetAllWords:
     def test_returns_start_words(self, fresh_db):
         insert_edge(fresh_db, "IsA", "dog", "animal")
@@ -497,6 +496,7 @@ class TestGetAllWords:
 
 
 # ---------- get_related_words ----------
+
 
 class TestGetRelatedWords:
     def test_unfiltered(self, fresh_db):
@@ -520,6 +520,7 @@ class TestGetRelatedWords:
 
 # ---------- get_synonyms / get_antonyms / get_hypernyms ----------
 
+
 class TestRelationHelpers:
     def test_synonyms(self, fresh_db):
         insert_edge(fresh_db, "Synonym", "happy", "joyful")
@@ -541,6 +542,7 @@ class TestRelationHelpers:
 
 
 # ---------- close ----------
+
 
 class TestClose:
     def test_closes_conn(self, fresh_db):

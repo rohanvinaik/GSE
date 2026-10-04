@@ -162,8 +162,12 @@ class TestRunTask:
         # 8 SemanticBank values, but bipolar dimensions only span 6 banks
         # (no QUANTITY or MENTAL bipolars)
         assert bank_names == {
-            "SUBSTANTIVES", "EVALUATORS", "ACTION",
-            "TEMPORAL", "SPATIAL", "LOGICAL",
+            "SUBSTANTIVES",
+            "EVALUATORS",
+            "ACTION",
+            "TEMPORAL",
+            "SPATIAL",
+            "LOGICAL",
         }
 
     def test_correlation_task_prints_spearman(self, capsys):

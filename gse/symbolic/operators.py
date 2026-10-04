@@ -46,10 +46,7 @@ class UnknownOperation(ValueError):
 
 def _require_arity(op: Op, expected: int) -> None:
     if op.arity != expected or len(op.args) != expected:
-        raise ValueError(
-            f"{op.operation} expects arity {expected}, "
-            f"got op.arity={op.arity}, len(args)={len(op.args)}"
-        )
+        raise ValueError(f"{op.operation} expects arity {expected}, got op.arity={op.arity}, len(args)={len(op.args)}")
 
 
 def _require_min_arity(op: Op, minimum: int) -> None:
@@ -58,8 +55,7 @@ def _require_min_arity(op: Op, minimum: int) -> None:
     bounded-register tail. Surfaced by the L2 parse audit: "even"/"what" in some
     positions attach a second arg (e.g. "Even if all these operations …")."""
     if len(op.args) < minimum:
-        raise ValueError(
-            f"{op.operation} expects ≥{minimum} arg(s), got {len(op.args)}")
+        raise ValueError(f"{op.operation} expects ≥{minimum} arg(s), got {len(op.args)}")
 
 
 # ---------------------------------------------------------------------------
@@ -210,8 +206,10 @@ def control(op: Op) -> Control:
     """
     if op.arity >= 3:
         return Control(
-            controller=op.args[1], inner=op.args[2],
-            verb=op.primitive, subject=op.args[0],
+            controller=op.args[1],
+            inner=op.args[2],
+            verb=op.primitive,
+            subject=op.args[0],
         )
     _require_arity(op, 2)  # degraded fall-back (non-Event matrix)
     return Control(controller=op.args[0], inner=op.args[1])
@@ -279,23 +277,23 @@ def temporal(op: Op) -> Temporal:
 
 
 OPERATION_DISPATCH: Dict[str, Callable[[Op], Predicate]] = {
-    "SET_DIFF":       set_diff,
-    "BIND_EQ":        bind_eq,
-    "DEGREE_QUERY":   degree_query,
-    "TYPE_QUERY":     type_query,
-    "TYPE_ASSERT":    type_assert,
-    "CARD_LOWER":     card_lower,
-    "SET_RESTRICT":   set_restrict,
+    "SET_DIFF": set_diff,
+    "BIND_EQ": bind_eq,
+    "DEGREE_QUERY": degree_query,
+    "TYPE_QUERY": type_query,
+    "TYPE_ASSERT": type_assert,
+    "CARD_LOWER": card_lower,
+    "SET_RESTRICT": set_restrict,
     "SCALAR_EXTREME": scalar_extreme,
-    "CONTRAST":       contrast,
-    "CLAUSE_COORD":   clause_coordination,
-    "CONSEQUENCE":    consequence,
-    "CAUSAL_SOURCE":  causal_source,
-    "IMPLIES":        conditional,
-    "TEMPORAL":       temporal,
-    "REL_RESTRICT":   rel_restrict,
-    "CONTROL":        control,
-    "EVENT":          event,
+    "CONTRAST": contrast,
+    "CLAUSE_COORD": clause_coordination,
+    "CONSEQUENCE": consequence,
+    "CAUSAL_SOURCE": causal_source,
+    "IMPLIES": conditional,
+    "TEMPORAL": temporal,
+    "REL_RESTRICT": rel_restrict,
+    "CONTROL": control,
+    "EVENT": event,
 }
 
 
@@ -303,10 +301,7 @@ def evaluate(op: Op) -> Predicate:
     """Dispatch a single Op to its semantic function."""
     func = OPERATION_DISPATCH.get(op.operation)
     if func is None:
-        raise UnknownOperation(
-            f"No semantic function for operation {op.operation!r} "
-            f"on primitive {op.primitive!r}"
-        )
+        raise UnknownOperation(f"No semantic function for operation {op.operation!r} on primitive {op.primitive!r}")
     return func(op)
 
 
@@ -323,12 +318,14 @@ def evaluate_tree(expr: Operand):
         # Recurse into args first so nested Ops become Predicates before
         # the parent dispatch sees them.
         evaluated_args = [evaluate_tree(a) for a in expr.args]
-        return evaluate(Op(
-            primitive=expr.primitive,
-            operation=expr.operation,
-            arity=expr.arity,
-            args=evaluated_args,
-        ))
+        return evaluate(
+            Op(
+                primitive=expr.primitive,
+                operation=expr.operation,
+                arity=expr.arity,
+                args=evaluated_args,
+            )
+        )
     if isinstance(expr, Negation):
         # Preserve the sign around WHATEVER the operand evaluates to — including a
         # Predicate (a negated event/type-assertion, "X does not harm Y"). The old

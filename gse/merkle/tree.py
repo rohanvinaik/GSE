@@ -158,9 +158,7 @@ class MerkleLexiconTree:
             self.root.bank_hashes[bank_id] = bank.combined_hash
 
         self.root.total_lexemes = len(self.lexemes)
-        self.root.total_primitives = sum(
-            len(f.member_primitives) for f in self.families.values()
-        )
+        self.root.total_primitives = sum(len(f.member_primitives) for f in self.families.values())
 
         self.root.compute_content_hash()
         self.root.compute_children_hash()
@@ -380,11 +378,7 @@ class MerkleLexiconTree:
         if hub_name not in self.hubs:
             return []
 
-        return [
-            self.lexemes[key]
-            for key in self.hubs[hub_name].lexeme_hashes
-            if key in self.lexemes
-        ]
+        return [self.lexemes[key] for key in self.hubs[hub_name].lexeme_hashes if key in self.lexemes]
 
     def get_lexemes_by_family(self, family_id: str) -> List[LexemeNode]:
         """Get all lexemes under a family."""
@@ -497,37 +491,25 @@ class MerkleLexiconTree:
         sibling_hashes = []
 
         # Level 4→3: Lexeme siblings in hub
-        lexeme_siblings = [
-            h for k, h in sorted(hub.lexeme_hashes.items())
-            if k != lexeme_key
-        ]
+        lexeme_siblings = [h for k, h in sorted(hub.lexeme_hashes.items()) if k != lexeme_key]
         if lexeme_siblings:
             sibling_hash = MerkleHashChain.hash_list(lexeme_siblings)
             sibling_hashes.append((sibling_hash, False))
 
         # Level 3→2: Hub siblings in family
-        hub_siblings = [
-            h for k, h in sorted(family.hub_hashes.items())
-            if k != hub_name
-        ]
+        hub_siblings = [h for k, h in sorted(family.hub_hashes.items()) if k != hub_name]
         if hub_siblings:
             sibling_hash = MerkleHashChain.hash_list(hub_siblings)
             sibling_hashes.append((sibling_hash, False))
 
         # Level 2→1: Family siblings in bank
-        family_siblings = [
-            h for k, h in sorted(bank.family_hashes.items())
-            if k != family_id
-        ]
+        family_siblings = [h for k, h in sorted(bank.family_hashes.items()) if k != family_id]
         if family_siblings:
             sibling_hash = MerkleHashChain.hash_list(family_siblings)
             sibling_hashes.append((sibling_hash, False))
 
         # Level 1→0: Bank siblings in root
-        bank_siblings = [
-            h for k, h in sorted(self.root.bank_hashes.items())
-            if k != bank_id
-        ]
+        bank_siblings = [h for k, h in sorted(self.root.bank_hashes.items()) if k != bank_id]
         if bank_siblings:
             sibling_hash = MerkleHashChain.hash_list(bank_siblings)
             sibling_hashes.append((sibling_hash, False))
@@ -615,10 +597,7 @@ class MerkleLexiconTree:
                 }
                 for k, v in self.hubs.items()
             },
-            "lexemes": {
-                k: v.to_dict()
-                for k, v in self.lexemes.items()
-            },
+            "lexemes": {k: v.to_dict() for k, v in self.lexemes.items()},
         }
 
     def save(self, path: str):
@@ -654,15 +633,8 @@ class MerkleLexiconTree:
             "families": len(self.families),
             "hubs": len(self.hubs),
             "root_hash": self.root.combined_hash[:16] + "...",
-            "lexemes_per_bank": {
-                SEMANTIC_BANK_NAMES[k]: v.lexeme_count
-                for k, v in self.banks.items()
-            },
-            "lexemes_per_hub": {
-                k: v.lexeme_count
-                for k, v in self.hubs.items()
-                if v.lexeme_count > 0
-            },
+            "lexemes_per_bank": {SEMANTIC_BANK_NAMES[k]: v.lexeme_count for k, v in self.banks.items()},
+            "lexemes_per_hub": {k: v.lexeme_count for k, v in self.hubs.items() if v.lexeme_count > 0},
         }
 
 

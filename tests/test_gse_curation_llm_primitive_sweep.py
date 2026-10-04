@@ -51,6 +51,7 @@ def mk_sweep(fresh_db):
 
 # ---------- Constants ----------
 
+
 class TestConstants:
     def test_bipolar_pair_count(self):
         assert len(BIPOLAR_PAIRS) == 14
@@ -63,6 +64,7 @@ class TestConstants:
 
 
 # ---------- get_bipolar_batch_prompt ----------
+
 
 class TestGetBipolarBatchPrompt:
     def test_includes_words(self):
@@ -105,6 +107,7 @@ class TestGetBipolarBatchPrompt:
 
 # ---------- get_single_batch_prompt ----------
 
+
 class TestGetSingleBatchPrompt:
     def test_includes_primitive_and_words(self):
         result = get_single_batch_prompt(["happy"], "GOOD")
@@ -140,6 +143,7 @@ class TestGetSingleBatchPrompt:
 
 # ---------- SweepStats ----------
 
+
 class TestSweepStats:
     def test_defaults(self):
         s = SweepStats()
@@ -157,6 +161,7 @@ class TestSweepStats:
 
 
 # ---------- __init__ ----------
+
 
 class TestInit:
     def test_basic(self, fresh_db):
@@ -178,6 +183,7 @@ class TestInit:
 
 
 # ---------- get_top_words ----------
+
 
 class TestGetTopWords:
     def test_empty(self, fresh_db):
@@ -215,6 +221,7 @@ class TestGetTopWords:
 
 # ---------- parse_bipolar_response ----------
 
+
 class TestParseBipolarResponse:
     def test_a_for_word(self):
         s = mk_sweep(":memory:")
@@ -246,6 +253,7 @@ class TestParseBipolarResponse:
 
 # ---------- parse_single_response ----------
 
+
 class TestParseSingleResponse:
     def test_yes(self):
         s = mk_sweep(":memory:")
@@ -275,6 +283,7 @@ class TestParseSingleResponse:
 
 # ---------- sweep_bipolar ----------
 
+
 class TestSweepBipolar:
     def test_empty_words(self, fresh_db):
         s = mk_sweep(fresh_db)
@@ -287,9 +296,7 @@ class TestSweepBipolar:
         result = s.sweep_bipolar("GOOD", "BAD", [(1, "happy")])
         assert result == 1
         # Verify DB has the value
-        cursor = s.conn.execute(
-            "SELECT value FROM primitive_values WHERE primitive = 'GOOD'"
-        )
+        cursor = s.conn.execute("SELECT value FROM primitive_values WHERE primitive = 'GOOD'")
         assert cursor.fetchone()[0] == 1
 
     def test_exception_increments_errors(self, fresh_db):
@@ -301,6 +308,7 @@ class TestSweepBipolar:
 
 # ---------- sweep_single ----------
 
+
 class TestSweepSingle:
     def test_empty_words(self, fresh_db):
         s = mk_sweep(fresh_db)
@@ -311,9 +319,7 @@ class TestSweepSingle:
         s.client.generate.return_value = "happy: Y"
         result = s.sweep_single("FEEL", [(1, "happy")])
         assert result == 1
-        cursor = s.conn.execute(
-            "SELECT value FROM primitive_values WHERE primitive = 'FEEL'"
-        )
+        cursor = s.conn.execute("SELECT value FROM primitive_values WHERE primitive = 'FEEL'")
         assert cursor.fetchone()[0] == 1
 
     def test_exception_increments_errors(self, fresh_db):
@@ -324,6 +330,7 @@ class TestSweepSingle:
 
 
 # ---------- run_full_sweep ----------
+
 
 class TestRunFullSweep:
     def test_no_words(self, fresh_db):
@@ -355,6 +362,7 @@ class TestRunFullSweep:
 
 # ---------- close ----------
 
+
 class TestClose:
     def test_closes_conn(self, fresh_db):
         s = mk_sweep(fresh_db)
@@ -365,12 +373,12 @@ class TestClose:
 
 # ---------- main ----------
 
+
 class TestMain:
     def test_basic_run(self, fresh_db, capsys):
         with patch("sys.argv", ["prog", "--db", fresh_db, "--words", "0"]):
             with patch("gse.curation.llm.primitive_sweep.OllamaClient"):
-                with patch.object(PrimitiveSweep, "run_full_sweep",
-                                  return_value=SweepStats()):
+                with patch.object(PrimitiveSweep, "run_full_sweep", return_value=SweepStats()):
                     main()
         assert "SWEEP COMPLETE" in capsys.readouterr().out
 

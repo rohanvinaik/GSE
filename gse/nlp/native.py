@@ -19,6 +19,7 @@ promotes any buried verb exactly as it does for spaCy. Lemmatization is WordNet
 Tuned for parity with spaCy on GSE's bounded register (``scripts/ws1_parity.py``);
 the coherence gate flags any tail divergence. NOT a general-purpose tagger.
 """
+
 from __future__ import annotations
 
 import re
@@ -30,35 +31,139 @@ from gse.nlp.contractions import resolve_apostrophe_s
 from gse.nlp.morphology import resolve_degree
 
 # --- closed classes (finite function-word sets) ----------------------------
-_DET = {"the", "a", "an", "some", "any", "every", "each", "no", "this", "that",
-        "these", "those", "all", "both", "neither", "either", "another"}
-_PRON = {"i", "you", "he", "she", "it", "we", "they", "me", "him", "her", "us",
-         "them", "who", "whom", "whose", "which", "what", "this", "that",
-         "these", "those", "myself", "yourself", "himself", "herself", "itself",
-         "themselves", "someone", "something", "anyone", "anything", "everyone",
-         "everything", "nobody", "nothing"}
+_DET = {
+    "the",
+    "a",
+    "an",
+    "some",
+    "any",
+    "every",
+    "each",
+    "no",
+    "this",
+    "that",
+    "these",
+    "those",
+    "all",
+    "both",
+    "neither",
+    "either",
+    "another",
+}
+_PRON = {
+    "i",
+    "you",
+    "he",
+    "she",
+    "it",
+    "we",
+    "they",
+    "me",
+    "him",
+    "her",
+    "us",
+    "them",
+    "who",
+    "whom",
+    "whose",
+    "which",
+    "what",
+    "this",
+    "that",
+    "these",
+    "those",
+    "myself",
+    "yourself",
+    "himself",
+    "herself",
+    "itself",
+    "themselves",
+    "someone",
+    "something",
+    "anyone",
+    "anything",
+    "everyone",
+    "everything",
+    "nobody",
+    "nothing",
+}
 _POSS_PRON = {"my", "your", "his", "her", "its", "our", "their"}
 # Nominative subject pronouns — a verb-capable word right after one is the clause predicate
 # "by exclusion" (the subject slot is filled; the predicate is the only role left to assign).
 _SUBJ_PRON = {"i", "you", "he", "she", "it", "we", "they", "who"}
-_ADP = {"of", "in", "on", "at", "to", "for", "from", "by", "with", "without",
-        "into", "onto", "over", "under", "above", "below", "between", "among",
-        "through", "across", "along", "toward", "towards", "about", "against",
-        "during", "until", "since", "near", "behind", "beside", "like",
-        # Unambiguous prepositions that were MISSING — so the object/oblique split in
-        # _try_event never fired on them and the PP accreted into the patient blob
-        # ("scribble receipt upon sheet", "hurl it upon ground"). "upon" alone is the
-        # single most common missing one in literary prose. Only UNAMBIGUOUS prepositions
-        # are added (NOT up/down/out/off/round/past — those double as particles/adverbs/
-        # nouns and forcing ADP would mis-tag phrasal verbs). Text-agnostic.
-        "upon", "within", "beyond", "beneath", "underneath", "throughout",
-        "amid", "amidst", "amongst", "betwixt", "unto", "atop", "despite"}
+_ADP = {
+    "of",
+    "in",
+    "on",
+    "at",
+    "to",
+    "for",
+    "from",
+    "by",
+    "with",
+    "without",
+    "into",
+    "onto",
+    "over",
+    "under",
+    "above",
+    "below",
+    "between",
+    "among",
+    "through",
+    "across",
+    "along",
+    "toward",
+    "towards",
+    "about",
+    "against",
+    "during",
+    "until",
+    "since",
+    "near",
+    "behind",
+    "beside",
+    "like",
+    # Unambiguous prepositions that were MISSING — so the object/oblique split in
+    # _try_event never fired on them and the PP accreted into the patient blob
+    # ("scribble receipt upon sheet", "hurl it upon ground"). "upon" alone is the
+    # single most common missing one in literary prose. Only UNAMBIGUOUS prepositions
+    # are added (NOT up/down/out/off/round/past — those double as particles/adverbs/
+    # nouns and forcing ADP would mis-tag phrasal verbs). Text-agnostic.
+    "upon",
+    "within",
+    "beyond",
+    "beneath",
+    "underneath",
+    "throughout",
+    "amid",
+    "amidst",
+    "amongst",
+    "betwixt",
+    "unto",
+    "atop",
+    "despite",
+}
 _CCONJ = {"and", "or", "but", "nor", "yet"}
-_SCONJ = {"because", "although", "though", "if", "unless", "while", "whereas",
-          "since", "so", "that", "whether", "as", "when", "before", "after"}
+_SCONJ = {
+    "because",
+    "although",
+    "though",
+    "if",
+    "unless",
+    "while",
+    "whereas",
+    "since",
+    "so",
+    "that",
+    "whether",
+    "as",
+    "when",
+    "before",
+    "after",
+}
 _AUX_BE = {"is", "am", "are", "was", "were", "be", "been", "being"}
-_AUX_MODAL = {"will", "would", "can", "could", "shall", "should", "may",
-              "might", "must", "ought"}
+_AUX_MODAL = {"will", "would", "can", "could", "shall", "should", "may", "might", "must", "ought"}
 _AUX_DO = {"do", "does", "did"}
 _PART = {"to", "not", "n't"}
 _NEG = {"not", "n't"}
@@ -70,32 +175,92 @@ _NEG = {"not", "n't"}
 # not a per-story patch. Conservative set: only words with no common noun/verb entity use
 # (excludes back/still/once/just/even/around, which have strong nominal/adjectival senses).
 _ADV_CLOSED = {
-    "instead", "sometimes", "now", "then", "there", "here", "however",
-    "therefore", "moreover", "meanwhile", "thus", "hence", "nevertheless",
-    "nonetheless", "furthermore", "besides", "otherwise", "anyway", "anyhow",
-    "perhaps", "maybe", "indeed", "thereby", "thereupon", "henceforth",
-    "afterward", "afterwards", "meantime", "likewise", "accordingly",
-    "consequently", "nowadays", "somewhere", "anywhere", "everywhere", "nowhere",
+    "instead",
+    "sometimes",
+    "now",
+    "then",
+    "there",
+    "here",
+    "however",
+    "therefore",
+    "moreover",
+    "meanwhile",
+    "thus",
+    "hence",
+    "nevertheless",
+    "nonetheless",
+    "furthermore",
+    "besides",
+    "otherwise",
+    "anyway",
+    "anyhow",
+    "perhaps",
+    "maybe",
+    "indeed",
+    "thereby",
+    "thereupon",
+    "henceforth",
+    "afterward",
+    "afterwards",
+    "meantime",
+    "likewise",
+    "accordingly",
+    "consequently",
+    "nowadays",
+    "somewhere",
+    "anywhere",
+    "everywhere",
+    "nowhere",
 }
 
 # spaCy-style stopword subset sufficient for ``_entity_like`` (title-case
 # function words like "The" at sentence start must read as stops, not entities).
-_STOP = (_DET | _PRON | _POSS_PRON | _ADP | _CCONJ | _SCONJ | _AUX_BE
-         | _AUX_MODAL | _AUX_DO | _PART | _ADV_CLOSED | {"there", "here", "then", "now"})
+_STOP = (
+    _DET
+    | _PRON
+    | _POSS_PRON
+    | _ADP
+    | _CCONJ
+    | _SCONJ
+    | _AUX_BE
+    | _AUX_MODAL
+    | _AUX_DO
+    | _PART
+    | _ADV_CLOSED
+    | {"there", "here", "then", "now"}
+)
 
 # Irregular lemmas WordNet morphy can miss or that spaCy fixes by rule. Includes
 # irregular pasts whose surface collides with a distinct base lemma in WordNet
 # (``saw`` → the verb "saw" rather than see-past), resolved to the common reading.
-_IRREGULAR_LEMMA = {"is": "be", "am": "be", "are": "be", "was": "be",
-                    "were": "be", "been": "be", "being": "be",
-                    "has": "have", "had": "have", "having": "have",
-                    "does": "do", "did": "do", "doing": "do",
-                    "saw": "see",
-                    # contraction parts (the post-apostrophe = a front-truncated
-                    # word); irregular n't-bases whose surface is a stub:
-                    "wo": "will", "ca": "can", "sha": "shall",
-                    "n't": "not", "'s": "'s", "'re": "be", "'ve": "have",
-                    "'ll": "will", "'d": "would", "'m": "be"}
+_IRREGULAR_LEMMA = {
+    "is": "be",
+    "am": "be",
+    "are": "be",
+    "was": "be",
+    "were": "be",
+    "been": "be",
+    "being": "be",
+    "has": "have",
+    "had": "have",
+    "having": "have",
+    "does": "do",
+    "did": "do",
+    "doing": "do",
+    "saw": "see",
+    # contraction parts (the post-apostrophe = a front-truncated
+    # word); irregular n't-bases whose surface is a stub:
+    "wo": "will",
+    "ca": "can",
+    "sha": "shall",
+    "n't": "not",
+    "'s": "'s",
+    "'re": "be",
+    "'ve": "have",
+    "'ll": "will",
+    "'d": "would",
+    "'m": "be",
+}
 
 # Morphy-opaque irregular pasts: forms whose OWN surface is also a verb/noun lemma
 # ("fell"=cut-down AND past-of-fall; "rose"=a flower AND past-of-rise), so ``morphy``
@@ -104,8 +269,11 @@ _IRREGULAR_LEMMA = {"is": "be", "am": "be", "are": "be", "was": "be",
 # disambiguates. The enumerable irregular table the morphology design explicitly
 # sanctions; extend as the register demands.
 _IRREGULAR_PAST_VERB = {
-    "fell": "fall", "rose": "rise", "bore": "bear",
-    "ground": "grind", "wound": "wind",
+    "fell": "fall",
+    "rose": "rise",
+    "bore": "bear",
+    "ground": "grind",
+    "wound": "wind",
 }
 
 _PUNCT_RE = re.compile(r"[^\w\s]")
@@ -117,8 +285,7 @@ _TOKEN_RE = re.compile(r"\w+(?=n't)|n't|'s|'re|'ve|'ll|'d|'m|\w+|[^\w\s]")
 
 
 def _wn_lemma(word: str, pos: str) -> Optional[str]:
-    wn_pos = {"VERB": wn.VERB, "NOUN": wn.NOUN, "ADJ": wn.ADJ,
-              "ADV": wn.ADV}.get(pos)
+    wn_pos = {"VERB": wn.VERB, "NOUN": wn.NOUN, "ADJ": wn.ADJ, "ADV": wn.ADV}.get(pos)
     if wn_pos is None:
         return None
     lemma = wn.morphy(word, wn_pos)
@@ -153,9 +320,13 @@ def _rule_lemma(word: str, pos: str) -> str:
             # the comparative (bigger → bigg → big): the collapsed form is a known
             # adjective and the uncollapsed one is not. "taller" → "tall" (already
             # an adjective) must NOT collapse to "tal".
-            if (len(base) >= 3 and base[-1] == base[-2] and base[-1] not in "aeiou"
-                    and not wn.synsets(base, pos="a")
-                    and wn.synsets(base[:-1], pos="a")):
+            if (
+                len(base) >= 3
+                and base[-1] == base[-2]
+                and base[-1] not in "aeiou"
+                and not wn.synsets(base, pos="a")
+                and wn.synsets(base[:-1], pos="a")
+            ):
                 base = base[:-1]
             # Gate: the strip may only FIRE if it yields a known adjective. Many words
             # merely END in -er/-est without being comparatives (together, whatsoever,
@@ -288,9 +459,11 @@ class NativeNLP:
             return "PUNCT"
         if surf.replace(",", "").replace(".", "").isdigit():
             return "NUM"
-        if low in _AUX_MODAL and i > 0 and (
-                surfaces[i - 1].lower() in _POSS_PRON
-                or surfaces[i - 1].lower() in ("the", "a", "an")):
+        if (
+            low in _AUX_MODAL
+            and i > 0
+            and (surfaces[i - 1].lower() in _POSS_PRON or surfaces[i - 1].lower() in ("the", "a", "an"))
+        ):
             # A modal homograph right after an article or possessive is the NOUN, not the modal:
             # "makes his will" / "opened the can". A SUBJECT pronoun ("he will go") is not in this
             # set, so the modal reading is preserved. Without this, "will" tagged AUX is dropped as a
@@ -305,8 +478,7 @@ class NativeNLP:
             # adverbs/negation ("had never murdered"). Without this, "had" was tagged
             # VERB and stole the predicate slot, dropping the real verb (have(x,y)).
             j = i + 1
-            while j < len(surfaces) and (
-                    surfaces[j].lower().endswith("ly") or surfaces[j].lower() in _NEG):
+            while j < len(surfaces) and (surfaces[j].lower().endswith("ly") or surfaces[j].lower() in _NEG):
                 j += 1
             nxt = surfaces[j].lower() if j < len(surfaces) else ""
             if nxt in _DET or nxt in _PRON or nxt in _POSS_PRON or nxt in _ADP:
@@ -380,8 +552,7 @@ class NativeNLP:
         # has a noun sense (``the dove``=the bird, not past-of-dive; ``the saw``=the
         # tool): a finite-verb position settles it, exactly as for the morphy-opaque
         # table below. The ``-s`` forms are excluded here (handled positionally below).
-        if ((mv := wn.morphy(low, "v")) and mv != low and not low.endswith("s")
-                and not (has_n and prev_det)):
+        if (mv := wn.morphy(low, "v")) and mv != low and not low.endswith("s") and not (has_n and prev_det):
             return "VERB"
         # Morphy-opaque irregular past (fell/rose/…): a finite-verb position settles it.
         if low in _IRREGULAR_PAST_VERB and not prev_det:
@@ -394,20 +565,20 @@ class NativeNLP:
         # (after a modal/do/neg/"to"), where a homographic verb wins ("will best
         # them"). Subsumes the old -er/-est heuristic and also catches the suppletives.
         if resolve_degree(low) is not None and not (
-                prev in _AUX_MODAL or prev in _AUX_DO or prev in _NEG or prev == "to"):
+            prev in _AUX_MODAL or prev in _AUX_DO or prev in _NEG or prev == "to"
+        ):
             return "ADJ"
 
         # Positional disambiguation relative to the verb-inventory / copula.
-        if prev in _AUX_BE:                 # predicate complement after a copula
+        if prev in _AUX_BE:  # predicate complement after a copula
             if has_a and not has_n:
                 return "ADJ"
             if has_n:
                 return "NOUN"
             if has_a:
                 return "ADJ"
-        if (prev in _AUX_DO or prev in _AUX_MODAL or prev in _NEG
-                or prev == "to") and has_v:
-            return "VERB"                   # content word after do/modal/neg/to
+        if (prev in _AUX_DO or prev in _AUX_MODAL or prev in _NEG or prev == "to") and has_v:
+            return "VERB"  # content word after do/modal/neg/to
         # Predicate by exclusion: a verb-capable word right after a nominative SUBJECT pronoun
         # ("I know", "they think", "he wants") is the clause predicate — the subject slot is
         # filled and the predicate is the only role left to assign, so a stray noun sense
@@ -420,14 +591,13 @@ class NativeNLP:
         # with a noun sense (old/young/rich/poor/great…) was tagged NOUN before the head,
         # garbling the NP ("old king" as one unit). Guards the DET→NOUN rule below.
         nxt = surfaces[i + 1].lower() if i + 1 < len(surfaces) else ""
-        if (prev_det and has_a and nxt
-                and nxt not in _STOP and bool(wn.synsets(nxt, pos="n"))):
+        if prev_det and has_a and nxt and nxt not in _STOP and bool(wn.synsets(nxt, pos="n")):
             return "ADJ"
         if prev_det and has_n:
-            return "NOUN"                   # head of a determined NP
+            return "NOUN"  # head of a determined NP
         if low.endswith("s") and has_v and not low.endswith("ss") and prev not in _ADP:
-            return "VERB"                   # 3sg present (barks, murders, falls); but the
-                                            # object of a preposition is nominal ("of sticks")
+            return "VERB"  # 3sg present (barks, murders, falls); but the
+            # object of a preposition is nominal ("of sticks")
         # Adverb in modifier position: a word with a WordNet adverb sense, not in a determined
         # nominal slot, not a preposition's object, and not clause-initial, modifies the
         # predicate — "loved him much", "go far", "ran away" — rather than being a second
@@ -480,7 +650,7 @@ class NativeNLP:
             if j < 0 or j >= n:
                 return ""
             if surfaces[j].lower() == "that":
-                return ""               # an adjacent 'that' is no evidence (avoid recursion)
+                return ""  # an adjacent 'that' is no evidence (avoid recursion)
             return self._pos(surfaces[j], j, surfaces)
 
         prev, nxt = pos_of(i - 1), pos_of(i + 1)
@@ -517,7 +687,7 @@ class NativeNLP:
         # are unaffected.
         if low in _IRREGULAR_LEMMA and not (pos == "NOUN" and wn.synsets(low, pos="n")):
             return _IRREGULAR_LEMMA[low]
-        if pos == "VERB" and low in _IRREGULAR_PAST_VERB:   # fell→fall only when verbal
+        if pos == "VERB" and low in _IRREGULAR_PAST_VERB:  # fell→fall only when verbal
             return _IRREGULAR_PAST_VERB[low]
         # Comparative/superlative: a word-scale morphological OPERATION — propose
         # candidate bases via the inverse orthographic formation, select the one that
@@ -540,10 +710,8 @@ class NativeNLP:
         if pos in ("VERB", "AUX"):
             if low.endswith("ing"):
                 feats["Aspect"] = "Prog"
-            if low in ("was", "were", "did", "had") or (
-                    low.endswith("ed") and pos == "VERB"):
+            if low in ("was", "were", "did", "had") or (low.endswith("ed") and pos == "VERB"):
                 feats["Tense"] = "Past"
-            elif low in ("is", "am", "are", "has", "does") or (
-                    low.endswith("s") and pos == "VERB"):
+            elif low in ("is", "am", "are", "has", "does") or (low.endswith("s") and pos == "VERB"):
                 feats["Tense"] = "Pres"
         return "|".join(f"{k}={v}" for k, v in sorted(feats.items()))

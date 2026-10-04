@@ -15,31 +15,34 @@ from typing import Dict, List, Optional, Set, Tuple
 
 class ArgumentType(Enum):
     """Types of verb arguments."""
-    REQUIRED = "required"       # Must be present (explicit or implicit)
-    OPTIONAL = "optional"       # May be present
-    IMPLICIT = "implicit"       # Often omitted but semantically present
-    FORBIDDEN = "forbidden"     # Should not appear
+
+    REQUIRED = "required"  # Must be present (explicit or implicit)
+    OPTIONAL = "optional"  # May be present
+    IMPLICIT = "implicit"  # Often omitted but semantically present
+    FORBIDDEN = "forbidden"  # Should not appear
 
 
 @dataclass
 class ArgumentSlot:
     """A slot in a verb's argument structure."""
-    role: str                           # Semantic role (agent, patient, etc.)
-    arg_type: ArgumentType              # Required, optional, etc.
-    semantic_constraints: Set[str]      # Expected primitive banks
-    syntactic_realization: List[str]    # How it's typically expressed
-    default_primitive: Optional[str]    # Default if implicit
+
+    role: str  # Semantic role (agent, patient, etc.)
+    arg_type: ArgumentType  # Required, optional, etc.
+    semantic_constraints: Set[str]  # Expected primitive banks
+    syntactic_realization: List[str]  # How it's typically expressed
+    default_primitive: Optional[str]  # Default if implicit
 
 
 @dataclass
 class VerbTemplate:
     """Complete argument structure template for a verb class."""
-    name: str                           # Template name
-    description: str                    # What this class does
-    example_verbs: List[str]            # Verbs using this template
-    arguments: List[ArgumentSlot]       # Expected arguments
-    semantic_type: str                  # Action, state, event, etc.
-    aspect_preference: Optional[str]    # Preferred aspect (telic, atelic)
+
+    name: str  # Template name
+    description: str  # What this class does
+    example_verbs: List[str]  # Verbs using this template
+    arguments: List[ArgumentSlot]  # Expected arguments
+    semantic_type: str  # Action, state, event, etc.
+    aspect_preference: Optional[str]  # Preferred aspect (telic, atelic)
 
 
 # =============================================================================
@@ -58,34 +61,33 @@ VERB_TEMPLATES: Dict[str, VerbTemplate] = {
                 arg_type=ArgumentType.REQUIRED,
                 semantic_constraints={"SOMEONE", "SOMETHING"},
                 syntactic_realization=["nsubj"],
-                default_primitive="SOMEONE"
+                default_primitive="SOMEONE",
             ),
             ArgumentSlot(
                 role="action",
                 arg_type=ArgumentType.REQUIRED,
                 semantic_constraints={"DO", "MOVE"},
                 syntactic_realization=["ROOT", "verb"],
-                default_primitive="DO"
+                default_primitive="DO",
             ),
             ArgumentSlot(
                 role="patient",
                 arg_type=ArgumentType.REQUIRED,
                 semantic_constraints={"SOMETHING", "SOMEONE"},
                 syntactic_realization=["dobj", "obj"],
-                default_primitive="SOMETHING"
+                default_primitive="SOMETHING",
             ),
             ArgumentSlot(
                 role="instrument",
                 arg_type=ArgumentType.OPTIONAL,
                 semantic_constraints={"SOMETHING"},
                 syntactic_realization=["prep_with", "obl"],
-                default_primitive=None
+                default_primitive=None,
             ),
         ],
         semantic_type="action",
-        aspect_preference="telic"
+        aspect_preference="telic",
     ),
-
     # Intransitive action verbs
     "intransitive_action": VerbTemplate(
         name="intransitive_action",
@@ -97,27 +99,26 @@ VERB_TEMPLATES: Dict[str, VerbTemplate] = {
                 arg_type=ArgumentType.REQUIRED,
                 semantic_constraints={"SOMEONE", "SOMETHING"},
                 syntactic_realization=["nsubj"],
-                default_primitive="SOMEONE"
+                default_primitive="SOMEONE",
             ),
             ArgumentSlot(
                 role="action",
                 arg_type=ArgumentType.REQUIRED,
                 semantic_constraints={"DO", "MOVE"},
                 syntactic_realization=["ROOT", "verb"],
-                default_primitive="DO"
+                default_primitive="DO",
             ),
             ArgumentSlot(
                 role="manner",
                 arg_type=ArgumentType.OPTIONAL,
                 semantic_constraints=set(),
                 syntactic_realization=["advmod"],
-                default_primitive=None
+                default_primitive=None,
             ),
         ],
         semantic_type="action",
-        aspect_preference="atelic"
+        aspect_preference="atelic",
     ),
-
     # Ditransitive verbs (transfer)
     "ditransitive": VerbTemplate(
         name="ditransitive",
@@ -129,34 +130,33 @@ VERB_TEMPLATES: Dict[str, VerbTemplate] = {
                 arg_type=ArgumentType.REQUIRED,
                 semantic_constraints={"SOMEONE"},
                 syntactic_realization=["nsubj"],
-                default_primitive="SOMEONE"
+                default_primitive="SOMEONE",
             ),
             ArgumentSlot(
                 role="action",
                 arg_type=ArgumentType.REQUIRED,
                 semantic_constraints={"DO"},
                 syntactic_realization=["ROOT", "verb"],
-                default_primitive="DO"
+                default_primitive="DO",
             ),
             ArgumentSlot(
                 role="theme",
                 arg_type=ArgumentType.REQUIRED,
                 semantic_constraints={"SOMETHING"},
                 syntactic_realization=["dobj", "obj"],
-                default_primitive="SOMETHING"
+                default_primitive="SOMETHING",
             ),
             ArgumentSlot(
                 role="recipient",
                 arg_type=ArgumentType.REQUIRED,
                 semantic_constraints={"SOMEONE"},
                 syntactic_realization=["iobj", "dative", "prep_to"],
-                default_primitive="SOMEONE"
+                default_primitive="SOMEONE",
             ),
         ],
         semantic_type="action",
-        aspect_preference="telic"
+        aspect_preference="telic",
     ),
-
     # Mental state verbs
     "mental_state": VerbTemplate(
         name="mental_state",
@@ -168,27 +168,26 @@ VERB_TEMPLATES: Dict[str, VerbTemplate] = {
                 arg_type=ArgumentType.REQUIRED,
                 semantic_constraints={"SOMEONE", "I", "YOU"},
                 syntactic_realization=["nsubj"],
-                default_primitive="SOMEONE"
+                default_primitive="SOMEONE",
             ),
             ArgumentSlot(
                 role="state",
                 arg_type=ArgumentType.REQUIRED,
                 semantic_constraints={"KNOW", "THINK"},
                 syntactic_realization=["ROOT", "verb"],
-                default_primitive="KNOW"
+                default_primitive="KNOW",
             ),
             ArgumentSlot(
                 role="content",
                 arg_type=ArgumentType.OPTIONAL,
                 semantic_constraints={"SOMETHING", "WORDS"},
                 syntactic_realization=["ccomp", "dobj", "obj"],
-                default_primitive="SOMETHING"
+                default_primitive="SOMETHING",
             ),
         ],
         semantic_type="state",
-        aspect_preference="atelic"
+        aspect_preference="atelic",
     ),
-
     # Emotion verbs
     "emotion": VerbTemplate(
         name="emotion",
@@ -200,27 +199,26 @@ VERB_TEMPLATES: Dict[str, VerbTemplate] = {
                 arg_type=ArgumentType.REQUIRED,
                 semantic_constraints={"SOMEONE"},
                 syntactic_realization=["nsubj"],
-                default_primitive="SOMEONE"
+                default_primitive="SOMEONE",
             ),
             ArgumentSlot(
                 role="state",
                 arg_type=ArgumentType.REQUIRED,
                 semantic_constraints={"FEEL", "GOOD", "BAD"},
                 syntactic_realization=["ROOT", "verb"],
-                default_primitive="FEEL"
+                default_primitive="FEEL",
             ),
             ArgumentSlot(
                 role="theme",
                 arg_type=ArgumentType.REQUIRED,
                 semantic_constraints={"SOMETHING", "SOMEONE"},
                 syntactic_realization=["dobj", "obj"],
-                default_primitive="SOMETHING"
+                default_primitive="SOMETHING",
             ),
         ],
         semantic_type="state",
-        aspect_preference="atelic"
+        aspect_preference="atelic",
     ),
-
     # Perception verbs
     "perception": VerbTemplate(
         name="perception",
@@ -232,27 +230,26 @@ VERB_TEMPLATES: Dict[str, VerbTemplate] = {
                 arg_type=ArgumentType.REQUIRED,
                 semantic_constraints={"SOMEONE"},
                 syntactic_realization=["nsubj"],
-                default_primitive="SOMEONE"
+                default_primitive="SOMEONE",
             ),
             ArgumentSlot(
                 role="action",
                 arg_type=ArgumentType.REQUIRED,
                 semantic_constraints={"SEE", "HEAR"},
                 syntactic_realization=["ROOT", "verb"],
-                default_primitive="SEE"
+                default_primitive="SEE",
             ),
             ArgumentSlot(
                 role="theme",
                 arg_type=ArgumentType.REQUIRED,
                 semantic_constraints={"SOMETHING", "SOMEONE"},
                 syntactic_realization=["dobj", "obj"],
-                default_primitive="SOMETHING"
+                default_primitive="SOMETHING",
             ),
         ],
         semantic_type="state",
-        aspect_preference="atelic"
+        aspect_preference="atelic",
     ),
-
     # Motion verbs
     "motion": VerbTemplate(
         name="motion",
@@ -264,41 +261,40 @@ VERB_TEMPLATES: Dict[str, VerbTemplate] = {
                 arg_type=ArgumentType.REQUIRED,
                 semantic_constraints={"SOMEONE", "SOMETHING"},
                 syntactic_realization=["nsubj"],
-                default_primitive="SOMEONE"
+                default_primitive="SOMEONE",
             ),
             ArgumentSlot(
                 role="action",
                 arg_type=ArgumentType.REQUIRED,
                 semantic_constraints={"MOVE"},
                 syntactic_realization=["ROOT", "verb"],
-                default_primitive="MOVE"
+                default_primitive="MOVE",
             ),
             ArgumentSlot(
                 role="source",
                 arg_type=ArgumentType.OPTIONAL,
                 semantic_constraints={"WHERE", "HERE"},
                 syntactic_realization=["prep_from", "obl"],
-                default_primitive="WHERE"
+                default_primitive="WHERE",
             ),
             ArgumentSlot(
                 role="goal",
                 arg_type=ArgumentType.OPTIONAL,
                 semantic_constraints={"WHERE", "HERE"},
                 syntactic_realization=["prep_to", "obl"],
-                default_primitive="WHERE"
+                default_primitive="WHERE",
             ),
             ArgumentSlot(
                 role="location",
                 arg_type=ArgumentType.OPTIONAL,
                 semantic_constraints={"WHERE"},
                 syntactic_realization=["prep_at", "prep_in", "obl"],
-                default_primitive=None
+                default_primitive=None,
             ),
         ],
         semantic_type="action",
-        aspect_preference="telic"
+        aspect_preference="telic",
     ),
-
     # Stative verbs
     "stative": VerbTemplate(
         name="stative",
@@ -310,34 +306,33 @@ VERB_TEMPLATES: Dict[str, VerbTemplate] = {
                 arg_type=ArgumentType.REQUIRED,
                 semantic_constraints={"SOMETHING", "SOMEONE"},
                 syntactic_realization=["nsubj"],
-                default_primitive="SOMETHING"
+                default_primitive="SOMETHING",
             ),
             ArgumentSlot(
                 role="state",
                 arg_type=ArgumentType.REQUIRED,
                 semantic_constraints={"BE", "EXIST"},
                 syntactic_realization=["ROOT", "verb"],
-                default_primitive="BE"
+                default_primitive="BE",
             ),
             ArgumentSlot(
                 role="attribute",
                 arg_type=ArgumentType.OPTIONAL,
                 semantic_constraints=set(),
                 syntactic_realization=["acomp", "attr"],
-                default_primitive=None
+                default_primitive=None,
             ),
             ArgumentSlot(
                 role="location",
                 arg_type=ArgumentType.OPTIONAL,
                 semantic_constraints={"WHERE"},
                 syntactic_realization=["prep", "advmod"],
-                default_primitive=None
+                default_primitive=None,
             ),
         ],
         semantic_type="state",
-        aspect_preference="atelic"
+        aspect_preference="atelic",
     ),
-
     # Communication verbs
     "communication": VerbTemplate(
         name="communication",
@@ -349,34 +344,33 @@ VERB_TEMPLATES: Dict[str, VerbTemplate] = {
                 arg_type=ArgumentType.REQUIRED,
                 semantic_constraints={"SOMEONE"},
                 syntactic_realization=["nsubj"],
-                default_primitive="SOMEONE"
+                default_primitive="SOMEONE",
             ),
             ArgumentSlot(
                 role="action",
                 arg_type=ArgumentType.REQUIRED,
                 semantic_constraints={"SAY", "WORDS"},
                 syntactic_realization=["ROOT", "verb"],
-                default_primitive="SAY"
+                default_primitive="SAY",
             ),
             ArgumentSlot(
                 role="content",
                 arg_type=ArgumentType.OPTIONAL,
                 semantic_constraints={"WORDS", "SOMETHING"},
                 syntactic_realization=["ccomp", "dobj"],
-                default_primitive="WORDS"
+                default_primitive="WORDS",
             ),
             ArgumentSlot(
                 role="recipient",
                 arg_type=ArgumentType.OPTIONAL,
                 semantic_constraints={"SOMEONE"},
                 syntactic_realization=["iobj", "prep_to"],
-                default_primitive="SOMEONE"
+                default_primitive="SOMEONE",
             ),
         ],
         semantic_type="action",
-        aspect_preference="telic"
+        aspect_preference="telic",
     ),
-
     # Causative verbs
     "causative": VerbTemplate(
         name="causative",
@@ -388,32 +382,32 @@ VERB_TEMPLATES: Dict[str, VerbTemplate] = {
                 arg_type=ArgumentType.REQUIRED,
                 semantic_constraints={"SOMEONE", "SOMETHING"},
                 syntactic_realization=["nsubj"],
-                default_primitive="SOMEONE"
+                default_primitive="SOMEONE",
             ),
             ArgumentSlot(
                 role="action",
                 arg_type=ArgumentType.REQUIRED,
                 semantic_constraints={"DO", "HAPPEN"},
                 syntactic_realization=["ROOT", "verb"],
-                default_primitive="DO"
+                default_primitive="DO",
             ),
             ArgumentSlot(
                 role="patient",
                 arg_type=ArgumentType.REQUIRED,
                 semantic_constraints={"SOMEONE", "SOMETHING"},
                 syntactic_realization=["dobj"],
-                default_primitive="SOMEONE"
+                default_primitive="SOMEONE",
             ),
             ArgumentSlot(
                 role="result",
                 arg_type=ArgumentType.OPTIONAL,
                 semantic_constraints={"DO", "BE"},
                 syntactic_realization=["xcomp", "ccomp"],
-                default_primitive="DO"
+                default_primitive="DO",
             ),
         ],
         semantic_type="action",
-        aspect_preference="telic"
+        aspect_preference="telic",
     ),
 }
 
@@ -452,26 +446,16 @@ class VerbTemplateHandler:
         template = self.get_template(verb)
         if not template:
             return []
-        return [
-            slot.role for slot in template.arguments
-            if slot.arg_type == ArgumentType.REQUIRED
-        ]
+        return [slot.role for slot in template.arguments if slot.arg_type == ArgumentType.REQUIRED]
 
     def get_optional_roles(self, verb: str) -> List[str]:
         """Get list of optional semantic roles for a verb."""
         template = self.get_template(verb)
         if not template:
             return []
-        return [
-            slot.role for slot in template.arguments
-            if slot.arg_type == ArgumentType.OPTIONAL
-        ]
+        return [slot.role for slot in template.arguments if slot.arg_type == ArgumentType.OPTIONAL]
 
-    def validate_arguments(
-        self,
-        verb: str,
-        present_roles: Set[str]
-    ) -> Tuple[bool, List[str]]:
+    def validate_arguments(self, verb: str, present_roles: Set[str]) -> Tuple[bool, List[str]]:
         """
         Validate that required arguments are present.
 
@@ -490,11 +474,7 @@ class VerbTemplateHandler:
 
         return len(missing) == 0, missing
 
-    def infer_implicit_arguments(
-        self,
-        verb: str,
-        present_roles: Set[str]
-    ) -> List[Tuple[str, str]]:
+    def infer_implicit_arguments(self, verb: str, present_roles: Set[str]) -> List[Tuple[str, str]]:
         """
         Infer implicit arguments that should be added to decomposition.
 

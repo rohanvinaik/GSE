@@ -22,14 +22,11 @@ def suite():
 def test_proof_passes(suite, proof_fn):
     # Find the result for this proof by matching the function name to the
     # ProofResult.name (which we ensure mirrors the function name minus "proof_").
-    expected_name = proof_fn.__name__[len("proof_"):]
+    expected_name = proof_fn.__name__[len("proof_") :]
     matches = [r for r in suite.results if r.name == expected_name]
     assert len(matches) == 1, f"Couldn't locate result for {proof_fn.__name__}"
     result = matches[0]
-    assert result.passed, (
-        f"Proof {result.name!r} failed: {result.description}\n"
-        f"detail: {result.detail}"
-    )
+    assert result.passed, f"Proof {result.name!r} failed: {result.description}\ndetail: {result.detail}"
 
 
 def test_suite_runs_all_proofs(suite):

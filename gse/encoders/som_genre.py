@@ -14,6 +14,7 @@ behavior on hand-crafted fragments and non-prose registers, by design, not a bug
 Inference is pure numpy (:class:`gse.discourse.infer.NumpyNestedRouter`); the router
 is trained offline with torch. No torch in the encoder runtime.
 """
+
 from __future__ import annotations
 
 from functools import lru_cache
@@ -35,11 +36,16 @@ def _router():
     *documented, announced* degrade, not the silent keyword fallback we removed: a
     present-but-corrupt artifact still raises."""
     from gse.discourse.infer import NumpyNestedRouter
+
     if not _ARTIFACT.exists():
         import sys
-        print(f"[gse.som_genre] register-router artifact missing ({_ARTIFACT.name}); "
-              "genre abstains to MIXED until it is (re)built — "
-              "`python scripts/train_register_router.py --nested`.", file=sys.stderr)
+
+        print(
+            f"[gse.som_genre] register-router artifact missing ({_ARTIFACT.name}); "
+            "genre abstains to MIXED until it is (re)built — "
+            "`python scripts/train_register_router.py --nested`.",
+            file=sys.stderr,
+        )
         return None
     return NumpyNestedRouter.load(_ARTIFACT)
 
@@ -80,10 +86,11 @@ class SomGenreDetector:
         from gse.encoders.text_structure_encoder import Genre
 
         router = _router()
-        if router is None:                       # artifact not built yet → honest MIXED
+        if router is None:  # artifact not built yet → honest MIXED
             return Genre.MIXED, 0.0
 
         from gse.discourse import text_profile
+
         prof = text_profile(self.encoder, text)
         vec = np.asarray(prof.vector(), dtype=np.float32)
         sup, conf = router.resolve_at(vec, "super_register", gate=self.gate)

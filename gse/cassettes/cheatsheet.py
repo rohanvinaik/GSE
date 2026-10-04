@@ -22,6 +22,7 @@ are already one id once compaction collapses them), so it is recorded here but a
 runs the deck before ``compress`` — see the wiring. Nothing here is destructive: an abstention emits no
 record, and a correction only RELABELS, never deletes.
 """
+
 from __future__ import annotations
 
 import copy
@@ -38,6 +39,7 @@ class CheatSheet:
 
     ``merges`` maps a description lemma → (canonical name lemma, confidence, provenance). ``splits``
     records a collapsed lemma → its contrastive groups. ``min_confidence`` gates application."""
+
     merges: Dict[str, Dict[str, Any]] = field(default_factory=dict)
     splits: List[Dict[str, Any]] = field(default_factory=list)
     min_confidence: float = 2.0
@@ -47,14 +49,30 @@ class CheatSheet:
         to the envelope. ``slot`` = what it corrects, ``strategy`` = CASSETTE, ``confidence`` weights it."""
         rows = []
         for desc, m in self.merges.items():
-            rows.append({"slot": "entity_identity", "value": f"{desc} ≡ {m['name']}",
-                         "kind": "merge", "subject": desc, "answer": m["name"],
-                         "confidence": m["confidence"], "strategy": "CASSETTE",
-                         "provenance": m.get("provenance", {})})
+            rows.append(
+                {
+                    "slot": "entity_identity",
+                    "value": f"{desc} ≡ {m['name']}",
+                    "kind": "merge",
+                    "subject": desc,
+                    "answer": m["name"],
+                    "confidence": m["confidence"],
+                    "strategy": "CASSETTE",
+                    "provenance": m.get("provenance", {}),
+                }
+            )
         for s in self.splits:
-            rows.append({"slot": "entity_identity", "value": f"{s['lemma']} → {s['groups']}",
-                         "kind": "split", "subject": s["lemma"], "answer": s["groups"],
-                         "confidence": s["confidence"], "strategy": "CASSETTE"})
+            rows.append(
+                {
+                    "slot": "entity_identity",
+                    "value": f"{s['lemma']} → {s['groups']}",
+                    "kind": "split",
+                    "subject": s["lemma"],
+                    "answer": s["groups"],
+                    "confidence": s["confidence"],
+                    "strategy": "CASSETTE",
+                }
+            )
         return rows
 
 
@@ -68,9 +86,11 @@ def build_cheatsheet(result: DeckResult, doc, min_confidence: float = 2.0) -> Ch
             name_lemma = _canonical_name(doc, e.answer)
             if name_lemma and desc_lemma and name_lemma != desc_lemma:
                 cs.merges[desc_lemma] = {
-                    "name": name_lemma, "name_span": _canonical_span(doc, e.answer),
+                    "name": name_lemma,
+                    "name_span": _canonical_span(doc, e.answer),
                     "confidence": e.confidence,
-                    "provenance": {"strands": e.strands, "name_eid": e.answer, "desc_eid": e.eid}}
+                    "provenance": {"strands": e.strands, "name_eid": e.answer, "desc_eid": e.eid},
+                }
         elif e.kind == "split":
             cs.splits.append({"lemma": desc_lemma, "groups": e.answer, "confidence": e.confidence})
     return cs
@@ -91,8 +111,7 @@ def correct_contracts(contracts: List[dict], cs: CheatSheet) -> List[dict]:
         for op in _operands(c):
             lemma = (op.get("lemma") or "").lower()
             if lemma in {m["name"] for m in cs.merges.values()} and lemma not in canon:
-                canon[lemma] = {"entity_id": op.get("entity_id"),
-                                "type_thread": op.get("type_thread") or []}
+                canon[lemma] = {"entity_id": op.get("entity_id"), "type_thread": op.get("type_thread") or []}
     applied = 0
     for c in out:
         for op in _operands(c):
@@ -100,7 +119,7 @@ def correct_contracts(contracts: List[dict], cs: CheatSheet) -> List[dict]:
             rec = cs.merges.get(lemma)
             if rec and rec["confidence"] >= cs.min_confidence and rec["name"] in canon:
                 tgt = canon[rec["name"]]
-                op["entity_id"] = tgt["entity_id"]      # relabel — non-destructive
+                op["entity_id"] = tgt["entity_id"]  # relabel — non-destructive
                 op["lemma"] = rec["name"]
                 if tgt["type_thread"]:
                     op["type_thread"] = tgt["type_thread"]
@@ -182,8 +201,11 @@ def build_relabel_map(cs: CheatSheet, resolved_trees: List[Any]) -> Dict[str, st
     # Each committed merge wants (name_lemma, name_span). The SPAN disambiguates names that share a
     # head lemma — "Macbeth" (span ()) vs "Lady Macbeth" (span lady,macbeth) — so a relational merge
     # threads "her husband" to the bare agent, never to his titled wife.
-    wanted = {desc: (rec["name"], tuple(rec.get("name_span") or ()))
-              for desc, rec in cs.merges.items() if rec["confidence"] >= cs.min_confidence}
+    wanted = {
+        desc: (rec["name"], tuple(rec.get("name_span") or ()))
+        for desc, rec in cs.merges.items()
+        if rec["confidence"] >= cs.min_confidence
+    }
     if not wanted:
         return {}
     by_lemma_span: Dict[tuple, str] = {}
@@ -198,7 +220,7 @@ def build_relabel_map(cs: CheatSheet, resolved_trees: List[Any]) -> Dict[str, st
             by_lemma.setdefault(lem, n.entity_id)
     out: Dict[str, str] = {}
     for desc, (name, name_span) in wanted.items():
-        eid = by_lemma_span.get((name, name_span)) or by_lemma.get(name)   # exact span, else any
+        eid = by_lemma_span.get((name, name_span)) or by_lemma.get(name)  # exact span, else any
         if eid:
             out[desc] = eid
     return out

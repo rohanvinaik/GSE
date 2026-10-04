@@ -24,11 +24,12 @@ from typing import Dict, List, Optional, Tuple
 @dataclass
 class ModifierEntry:
     """A modifier word with its ground truth intensity level."""
+
     word: str
     hierarchy_type: str  # "INTENSITY", "QUANTITY", "CERTAINTY"
-    level: int          # -3 to +3
-    category: str       # e.g., "minimal", "high", "absolute"
-    source: str         # Which dataset it came from
+    level: int  # -3 to +3
+    category: str  # e.g., "minimal", "high", "absolute"
+    source: str  # Which dataset it came from
     notes: str = ""
 
 
@@ -69,7 +70,7 @@ class IntensityGroundTruth:
                         level=entry["level"],
                         category=entry.get("category", category),
                         source="consolidated_ground_truth",
-                        notes=entry.get("note", "")
+                        notes=entry.get("note", ""),
                     )
 
         # Load quantity determiners -> QUANTITY
@@ -81,7 +82,7 @@ class IntensityGroundTruth:
                 level=entry["level"],
                 category="quantity",
                 source="consolidated_ground_truth",
-                notes=entry.get("note", "")
+                notes=entry.get("note", ""),
             )
 
         # Load epistemic modality -> CERTAINTY
@@ -93,7 +94,7 @@ class IntensityGroundTruth:
                 level=entry["level"],
                 category="epistemic",
                 source="consolidated_ground_truth",
-                notes=entry.get("note", "")
+                notes=entry.get("note", ""),
             )
 
         # Load scalar adjective scales
@@ -271,7 +272,7 @@ class IntensityGroundTruth:
             "total_modifiers": len(self.modifiers),
             "by_type": type_counts,
             "scalar_scales": len(self.scalar_scales),
-            "total_scale_words": sum(len(w) for w in self.scalar_scales.values())
+            "total_scale_words": sum(len(w) for w in self.scalar_scales.values()),
         }
 
 

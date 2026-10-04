@@ -10,6 +10,7 @@ uses graceful fallbacks (zero vectors, empty dicts).
 
 class GSEError(Exception):
     """Base exception for all GSE errors."""
+
     pass
 
 
@@ -20,6 +21,7 @@ class OOVError(GSEError):
     In default mode: Returns empty primitives ({}, {}, {})
     In strict mode: Raises this exception
     """
+
     def __init__(self, word: str):
         self.word = word
         super().__init__(f"Out-of-vocabulary word: '{word}'")
@@ -32,6 +34,7 @@ class EncodingError(GSEError):
     In default mode: Returns zero vector
     In strict mode: Raises this exception
     """
+
     def __init__(self, text: str, reason: str):
         self.text = text
         self.reason = reason
@@ -45,6 +48,7 @@ class PrimitiveError(GSEError):
     In default mode: Skips the invalid primitive
     In strict mode: Raises this exception
     """
+
     def __init__(self, primitive: str):
         self.primitive = primitive
         super().__init__(f"Invalid primitive: '{primitive}'")
@@ -57,6 +61,7 @@ class OperatorError(GSEError):
     In default mode: Returns None for operator result
     In strict mode: Raises this exception
     """
+
     def __init__(self, operator: str, reason: str):
         self.operator = operator
         self.reason = reason
@@ -67,6 +72,7 @@ class DecodingError(GSEError):
     """
     Raised when decoding fails for a vector.
     """
+
     def __init__(self, reason: str):
         self.reason = reason
         super().__init__(f"Decoding failed: {reason}")

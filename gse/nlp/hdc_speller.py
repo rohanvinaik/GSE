@@ -21,6 +21,7 @@ The recipe constants below are not free knobs — they are the operating point m
 recover the hard residue (7/10 hard targets incl. ecifentky/psychological) on the real
 corpus. See scratchpad probes / docs/SPELLCHECK.md.
 """
+
 from __future__ import annotations
 
 import os
@@ -32,14 +33,14 @@ import numpy as np
 from gse.vectors_v2 import D, SparseVector, bind, permute, weighted_bundle
 
 # ---- operating point (measured, not tuned-to-taste) -----------------------------
-_DENSITY = 0.10            # base key-vector sparsity (nnz ~ 0.10*D)
-_SIGMA = 1.0              # keyboard Gaussian blur width (in key units)
-_ROLLSCALE = 16          # fractional-position resolution (roll = round(i/(n-1)*ROLLSCALE))
-_W_END = 2.0             # bookend (first/last letter) weight
-_W_BIGRAM = 0.6          # order-robust bigram-bind weight
-_BAND = 1               # length band: |len(cand)-len(typo)| <= BAND
-_BETA = 0.02            # frequency-prior tiebreak strength
-_SEED = 0               # base-key RNG seed — MUST match between cache build and query
+_DENSITY = 0.10  # base key-vector sparsity (nnz ~ 0.10*D)
+_SIGMA = 1.0  # keyboard Gaussian blur width (in key units)
+_ROLLSCALE = 16  # fractional-position resolution (roll = round(i/(n-1)*ROLLSCALE))
+_W_END = 2.0  # bookend (first/last letter) weight
+_W_BIGRAM = 0.6  # order-robust bigram-bind weight
+_BAND = 1  # length band: |len(cand)-len(typo)| <= BAND
+_BETA = 0.02  # frequency-prior tiebreak strength
+_SEED = 0  # base-key RNG seed — MUST match between cache build and query
 
 # Commit/offer gates, CALIBRATED on real typos vs garbage (cosines don't cleanly separate
 # them, so a single threshold is unsafe — see scratchpad/calibrate_threshold.py):
@@ -89,7 +90,7 @@ def _key_vectors() -> dict:
     for a, (ax, ay) in _COORD.items():
         vs, ws = [], []
         for b, (bx, by) in _COORD.items():
-            w = float(np.exp(-((ax - bx) ** 2 + (ay - by) ** 2) / (2 * _SIGMA ** 2)))
+            w = float(np.exp(-((ax - bx) ** 2 + (ay - by) ** 2) / (2 * _SIGMA**2)))
             if w > 0.02:
                 vs.append(base[b])
                 ws.append(w)
@@ -150,7 +151,7 @@ class HDCSpeller:
     def __init__(self, cache_path: str = _CACHE_PATH):
         data = np.load(cache_path, allow_pickle=False)
         self.words: List[str] = list(data["words"])
-        self._M: np.ndarray = data["matrix"].astype(np.float32)   # rows already unit-norm
+        self._M: np.ndarray = data["matrix"].astype(np.float32)  # rows already unit-norm
         self._len = np.array([len(w) for w in self.words])
         rank = data["rank"].astype(float)
         logp = -np.log(rank + 10)

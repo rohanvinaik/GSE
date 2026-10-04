@@ -40,7 +40,7 @@ except ImportError:
     anthropic = None
 
 
-DECOMPOSITION_PROMPT = '''You are a semantic analyst decomposing words into universal semantic primitives from Natural Semantic Metalanguage (NSM).
+DECOMPOSITION_PROMPT = """You are a semantic analyst decomposing words into universal semantic primitives from Natural Semantic Metalanguage (NSM).
 
 PRIMITIVES (use ONLY these 62 primitives):
 {primitives}
@@ -105,7 +105,7 @@ Word: "cover" (VERB) - "provide with a covering"
 ]}}
 
 Now decompose: "{word}" ({pos}) - "{definition}"
-'''
+"""
 
 
 def get_client():
@@ -127,14 +127,12 @@ def decompose_word(client, word: str, pos: str, definition: str) -> Optional[Lis
         roles=", ".join(ROLES),
         word=word,
         pos=pos,
-        definition=definition or f"a {pos.lower()}"
+        definition=definition or f"a {pos.lower()}",
     )
 
     try:
         response = client.messages.create(
-            model="claude-sonnet-4-20250514",
-            max_tokens=500,
-            messages=[{"role": "user", "content": prompt}]
+            model="claude-sonnet-4-20250514", max_tokens=500, messages=[{"role": "user", "content": prompt}]
         )
 
         text = response.content[0].text.strip()
@@ -239,14 +237,10 @@ def get_words_to_decompose(db_path: Path, limit: int = 100) -> List[Dict]:
     rows = conn.execute(query, (limit,)).fetchall()
     conn.close()
 
-    return [
-        {"id": r[0], "lemma": r[1], "pos": r[2], "gloss": r[3] or "", "freq_rank": r[4]}
-        for r in rows
-    ]
+    return [{"id": r[0], "lemma": r[1], "pos": r[2], "gloss": r[3] or "", "freq_rank": r[4]} for r in rows]
 
 
-def update_decomposition(db_path: Path, basis: PrimitiveBasis,
-                         word_id: int, decomposition: List[Tuple[str, str]]):
+def update_decomposition(db_path: Path, basis: PrimitiveBasis, word_id: int, decomposition: List[Tuple[str, str]]):
     """Update database with new decomposition and re-encoded vector."""
     from gse.lexicon_generator import LexiconGenerator
 
@@ -254,11 +248,14 @@ def update_decomposition(db_path: Path, basis: PrimitiveBasis,
     vector = encoder.encode_decomposition(decomposition)
 
     conn = sqlite3.connect(str(db_path))
-    conn.execute("""
+    conn.execute(
+        """
         UPDATE lexicon
         SET decomposition = ?, vector = ?, source = 'llm-redecompose', confidence = 0.85
         WHERE id = ?
-    """, (json.dumps(decomposition), vector.serialize(), word_id))
+    """,
+        (json.dumps(decomposition), vector.serialize(), word_id),
+    )
     conn.commit()
     conn.close()
 
@@ -309,7 +306,7 @@ def main():
         print(f"{'Word':<20} {'POS':<6} {'Freq Rank':<10} {'Definition':<50}")
         print("-" * 90)
         for w in words[:50]:
-            gloss = (w['gloss'][:47] + "...") if len(w['gloss']) > 50 else w['gloss']
+            gloss = (w["gloss"][:47] + "...") if len(w["gloss"]) > 50 else w["gloss"]
             print(f"{w['lemma']:<20} {w['pos']:<6} {w['freq_rank']:<10} {gloss}")
         if len(words) > 50:
             print(f"... and {len(words) - 50} more")
@@ -324,12 +321,12 @@ def main():
     failed = 0
 
     for i, w in enumerate(words):
-        print(f"\n[{i+1}/{len(words)}] {w['lemma']} ({w['pos']}): {w['gloss'][:60]}...")
+        print(f"\n[{i + 1}/{len(words)}] {w['lemma']} ({w['pos']}): {w['gloss'][:60]}...")
 
-        decomp = decompose_word(client, w['lemma'], w['pos'], w['gloss'])
+        decomp = decompose_word(client, w["lemma"], w["pos"], w["gloss"])
 
         if decomp:
-            update_decomposition(db_path, basis, w['id'], decomp)
+            update_decomposition(db_path, basis, w["id"], decomp)
             print(f"  -> {decomp}")
             success += 1
         else:
@@ -338,7 +335,7 @@ def main():
 
         time.sleep(args.delay)
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"Complete! Success: {success}, Failed: {failed}")
 
     return 0

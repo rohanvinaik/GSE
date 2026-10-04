@@ -39,11 +39,13 @@ class TestPhraseCollapse:
     def test_function_words_filtered(self):
         # "the big dog" → keep "big" only if it's the entity head?
         # ADJ is predicate-ish; for v1 the entity head is the rightmost NOUN/PROPN.
-        phrase = Phrase(atoms=[
-            _atom("the", "DET"),
-            _atom("big", "ADJ"),
-            _atom("dog", "NOUN"),
-        ])
+        phrase = Phrase(
+            atoms=[
+                _atom("the", "DET"),
+                _atom("big", "ADJ"),
+                _atom("dog", "NOUN"),
+            ]
+        )
         result = resolve(phrase)
         assert isinstance(result, Entity)
         assert result.head.lemma == "dog"
@@ -72,11 +74,13 @@ class TestModifierPreservation:
 
     def test_adj_in_phrase_becomes_entity_modifier(self):
         # "the tall dog" → Entity(head=dog, modifier=tall)
-        phrase = Phrase(atoms=[
-            _atom("the", "DET"),
-            _atom("tall", "ADJ"),
-            _atom("dog", "NOUN"),
-        ])
+        phrase = Phrase(
+            atoms=[
+                _atom("the", "DET"),
+                _atom("tall", "ADJ"),
+                _atom("dog", "NOUN"),
+            ]
+        )
         result = resolve(phrase)
         assert isinstance(result, Entity)
         assert result.head.lemma == "dog"
@@ -90,8 +94,7 @@ class TestModifierPreservation:
         assert result.modifier is None
 
     def test_adv_also_captured(self):
-        phrase = Phrase(atoms=[_atom("the", "DET"), _atom("quickly", "ADV"),
-                               _atom("dog", "NOUN")])
+        phrase = Phrase(atoms=[_atom("the", "DET"), _atom("quickly", "ADV"), _atom("dog", "NOUN")])
         result = resolve(phrase)
         assert isinstance(result, Entity)
         assert result.modifier is not None
@@ -101,11 +104,13 @@ class TestModifierPreservation:
 class TestPossessiveGrouping:
     def test_propn_possessive_noun_nests(self):
         # "Mike's dog" → Entity(head=dog, possessor=Entity(head=Mike))
-        phrase = Phrase(atoms=[
-            _atom("mike", "PROPN"),
-            Atom(lemma="'s", word_primitives={}, position=1, pos="PART"),
-            _atom("dog", "NOUN"),
-        ])
+        phrase = Phrase(
+            atoms=[
+                _atom("mike", "PROPN"),
+                Atom(lemma="'s", word_primitives={}, position=1, pos="PART"),
+                _atom("dog", "NOUN"),
+            ]
+        )
         result = resolve(phrase)
         assert isinstance(result, Entity)
         assert result.head.lemma == "dog"
@@ -133,8 +138,7 @@ class TestPronounBinding:
         # (a pronoun Entity). Resolve should bind "he" → Mike.
         mike_entity = Entity(head=_atom("mike", "PROPN"))
         he_entity = Entity(head=_atom("he", "PRON"))
-        op = Op(primitive="COMP_BECAUSE", operation="CAUSAL_SOURCE",
-                arity=2, args=[mike_entity, he_entity])
+        op = Op(primitive="COMP_BECAUSE", operation="CAUSAL_SOURCE", arity=2, args=[mike_entity, he_entity])
         result = resolve(op)
         assert isinstance(result, Op)
         # The "he" entity should now point to Mike's head
@@ -152,11 +156,19 @@ class TestPronounBinding:
         mike = Entity(head=_atom("mike", "PROPN"))
         rex = Entity(head=_atom("rex", "PROPN"))
         he = Entity(head=_atom("he", "PRON"))
-        op = Op(primitive="COMP_SO", operation="CONSEQUENCE", arity=2,
-                args=[Phrase(atoms=[]) if False else Op(  # nested op to put Mike+Rex in same flow
-                    primitive="COMP_BUT", operation="CONTRAST", arity=2,
-                    args=[mike, rex]
-                ), he])
+        op = Op(
+            primitive="COMP_SO",
+            operation="CONSEQUENCE",
+            arity=2,
+            args=[
+                Phrase(atoms=[])
+                if False
+                else Op(  # nested op to put Mike+Rex in same flow
+                    primitive="COMP_BUT", operation="CONTRAST", arity=2, args=[mike, rex]
+                ),
+                he,
+            ],
+        )
         result = resolve(op)
         # Walking left-to-right: Mike seen first, then Rex, then he → he becomes Rex
         # Find the "he" slot (right arg of outer Op)
@@ -195,9 +207,7 @@ class TestEndToEndResolution:
         expr = resolve(from_trace(trace))
         # The "he" pronoun should be bound to Mike. Check by walking the
         # AST and verifying no "he" lemma appears in any Entity head.
-        assert not _contains_entity_lemma(expr, "he"), (
-            f"Pronoun 'he' was not resolved to Mike: {expr!r}"
-        )
+        assert not _contains_entity_lemma(expr, "he"), f"Pronoun 'he' was not resolved to Mike: {expr!r}"
 
     def test_resolution_is_idempotent(self, encoder):
         trace = encoder.encode("Mike is taller than Rex")
@@ -232,8 +242,7 @@ def _find_entity_lemma(expr, lemma):
 def _contains_possessive_entity(expr, head, possessor):
     """Search the tree for Entity(head=head, possessor=Entity(head=possessor))."""
     if isinstance(expr, Entity):
-        if (expr.head.lemma == head and expr.possessor is not None
-                and expr.possessor.head.lemma == possessor):
+        if expr.head.lemma == head and expr.possessor is not None and expr.possessor.head.lemma == possessor:
             return True
         if expr.possessor is not None:
             return _contains_possessive_entity(expr.possessor, head, possessor)
@@ -276,7 +285,9 @@ def _structure_equal(a, b):
             return _structure_equal(a.possessor, b.possessor)
         return True
     if isinstance(a, Op):
-        return (a.operation == b.operation and
-                len(a.args) == len(b.args) and
-                all(_structure_equal(x, y) for x, y in zip(a.args, b.args)))
+        return (
+            a.operation == b.operation
+            and len(a.args) == len(b.args)
+            and all(_structure_equal(x, y) for x, y in zip(a.args, b.args))
+        )
     return False

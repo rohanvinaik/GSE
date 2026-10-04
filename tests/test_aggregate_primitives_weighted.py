@@ -21,9 +21,7 @@ def _parser_returning(prim_dict, per_vote_conf=None):
     p = MagicMock()
     p.to_primitives = MagicMock(return_value=prim_dict)
     confidences = per_vote_conf or {k: 1.0 for k in prim_dict}
-    p.to_primitives_with_confidence = MagicMock(
-        return_value={k: (v, confidences[k]) for k, v in prim_dict.items()}
-    )
+    p.to_primitives_with_confidence = MagicMock(return_value={k: (v, confidences[k]) for k, v in prim_dict.items()})
     return p
 
 
@@ -59,13 +57,11 @@ class TestVotingPath:
 
     def test_per_source_prior_overrides_default(self, integrator):
         integrator.parsers = {
-            "trusted":   _parser_returning({"GOOD": 1}),
+            "trusted": _parser_returning({"GOOD": 1}),
             "untrusted": _parser_returning({"GOOD": -1}),
         }
         priors = {"trusted": 0.9, "untrusted": 0.1}
-        data = integrator.aggregate_primitives_weighted(
-            "x", source_confidence=priors
-        )
+        data = integrator.aggregate_primitives_weighted("x", source_confidence=priors)
         # Trusted (0.9) beats untrusted (0.1) → +1 wins on confidence
         assert data.primitives == {"GOOD": 1}
         # Both sources are recorded in provenance — provenance captures
@@ -105,9 +101,7 @@ class TestBipolarExclusionPath:
         # After enforcement, AWAY drops. Tested via a non-Tier-0 lemma
         # since "near" itself is now Tier 0.
         integrator.parsers = {
-            "old_llm": _parser_returning(
-                {"NEAR": 1, "AWAY": 1, "TOWARD": 1, "WITH": 1, "WITHOUT": 1}
-            ),
+            "old_llm": _parser_returning({"NEAR": 1, "AWAY": 1, "TOWARD": 1, "WITH": 1, "WITHOUT": 1}),
             "validator": _parser_returning({"NEAR": 1, "TOWARD": 1, "WITH": 1}),
         }
         data = integrator.aggregate_primitives_weighted("nearby")

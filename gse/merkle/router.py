@@ -36,9 +36,11 @@ from gse.vectors_v2 import SparseVector, create_basis
 # ROUTING RESULT
 # =============================================================================
 
+
 @dataclass
 class RouteResult:
     """Result of routing through the Merkle tree."""
+
     query_vector: SparseVector
 
     # Path through tree
@@ -64,6 +66,7 @@ class RouteResult:
 @dataclass
 class FamilyCentroid:
     """Pre-computed centroid for a primitive family."""
+
     family_id: str
     bank_id: int
     centroid: SparseVector
@@ -77,6 +80,7 @@ class FamilyCentroid:
 # =============================================================================
 # MERKLE BELLMAN-FORD ROUTER
 # =============================================================================
+
 
 class MerkleBellmanFord:
     """
@@ -153,14 +157,8 @@ class MerkleBellmanFord:
         # Keep indices that appear in majority
         threshold = len(lexemes) / 2
 
-        centroid_pos = np.array(
-            [idx for idx, count in pos_counts.items() if count > threshold],
-            dtype=np.uint16
-        )
-        centroid_neg = np.array(
-            [idx for idx, count in neg_counts.items() if count > threshold],
-            dtype=np.uint16
-        )
+        centroid_pos = np.array([idx for idx, count in pos_counts.items() if count > threshold], dtype=np.uint16)
+        centroid_neg = np.array([idx for idx, count in neg_counts.items() if count > threshold], dtype=np.uint16)
 
         return SparseVector(D, centroid_pos, centroid_neg)
 
@@ -211,10 +209,7 @@ class MerkleBellmanFord:
         bank_activations = self._compute_bank_activations(query)
         result.banks_checked = N_BANKS
 
-        active_banks = [
-            bank_id for bank_id, activation in bank_activations.items()
-            if activation > self.bank_threshold
-        ]
+        active_banks = [bank_id for bank_id, activation in bank_activations.items() if activation > self.bank_threshold]
         result.activated_banks = active_banks
 
         if not active_banks:
@@ -268,7 +263,7 @@ class MerkleBellmanFord:
 
         # Sort hubs by similarity and take top
         active_hubs.sort(key=lambda x: -x[1])
-        active_hubs = active_hubs[:expand_hubs * len(active_families)]
+        active_hubs = active_hubs[: expand_hubs * len(active_families)]
         result.activated_hubs = [h[0] for h in active_hubs]
 
         # Step 4: Lexeme search
@@ -278,11 +273,7 @@ class MerkleBellmanFord:
             lexemes = self.tree.get_lexemes_by_hub(hub_name)
 
             for lexeme in lexemes:
-                lexeme_vec = SparseVector(
-                    D,
-                    lexeme.vector_positive,
-                    lexeme.vector_negative
-                )
+                lexeme_vec = SparseVector(D, lexeme.vector_positive, lexeme.vector_negative)
                 sim = query.cosine(lexeme_vec)
                 result.lexemes_checked += 1
 
@@ -351,6 +342,7 @@ class MerkleBellmanFord:
 # DISTANCE METRICS
 # =============================================================================
 
+
 def semantic_distance(
     v1: SparseVector,
     v2: SparseVector,
@@ -407,6 +399,7 @@ def _extract_bank(v: SparseVector, start: int, end: int) -> SparseVector:
 # =============================================================================
 # PATH FINDING
 # =============================================================================
+
 
 def find_semantic_path(
     router: MerkleBellmanFord,

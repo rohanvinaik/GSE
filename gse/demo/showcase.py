@@ -211,8 +211,7 @@ def run(encoder: GSEEncoder) -> None:
     print()
     orig_types = [type(p).__name__ for p in predicates(tree)]
     novel_types = [type(p).__name__ for p in predicates(novel)]
-    print(f"      same structure: {'YES ✓' if orig_types == novel_types else 'NO ✗'}"
-          f"   ({' + '.join(orig_types)})")
+    print(f"      same structure: {'YES ✓' if orig_types == novel_types else 'NO ✗'}   ({' + '.join(orig_types)})")
     print(f"      entities now:   {entity_lemmas(novel)}")
 
     print()
@@ -233,4 +232,5 @@ def main() -> int:
 
 if __name__ == "__main__":
     import sys
+
     sys.exit(main())

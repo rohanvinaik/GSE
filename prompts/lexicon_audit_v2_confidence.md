@@ -218,12 +218,7 @@ for word in lexicon_modifiers:
 
     # Flag mismatches
     if expected and expected != actual:
-        issues.append({
-            'word': word,
-            'expected': expected,
-            'actual': actual,
-            'source': 'scalar-adj'
-        })
+        issues.append({"word": word, "expected": expected, "actual": actual, "source": "scalar-adj"})
 ```
 
 **Common Issues to Flag:**
@@ -343,27 +338,34 @@ import sqlite3
 import pandas as pd
 import numpy as np
 
-conn = sqlite3.connect('data/lexicon.db')
+conn = sqlite3.connect("data/lexicon.db")
 
 # Get top 25000 words
-top_words = pd.read_sql('''
+top_words = pd.read_sql(
+    """
     SELECT l.id, l.lemma, l.pos, l.frequency_rank
     FROM lexemes l
     WHERE l.frequency_rank <= 25000
     ORDER BY l.frequency_rank
-''', conn)
+""",
+    conn,
+)
 
 # Get all primitive values for these words
-primitives = pd.read_sql('''
+primitives = pd.read_sql(
+    """
     SELECT pv.lexeme_id, pv.primitive, pv.value, pv.confidence, pv.source
     FROM primitive_values pv
     JOIN lexemes l ON pv.lexeme_id = l.id
     WHERE l.frequency_rank <= 25000
-''', conn)
+""",
+    conn,
+)
 
 # Load external sources
-nrc_vad = pd.read_csv('data/external/nrc_vad.txt', sep='\\t',
-                       names=['word','valence','arousal','dominance'], skiprows=1)
+nrc_vad = pd.read_csv(
+    "data/external/nrc_vad.txt", sep="\\t", names=["word", "valence", "arousal", "dominance"], skiprows=1
+)
 
 # Compute source coverage matrix...
 # Compute agreement scores...

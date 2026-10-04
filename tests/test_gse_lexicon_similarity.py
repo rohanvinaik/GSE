@@ -32,6 +32,7 @@ def make_vec(positive=(), negative=(), dimension=8192):
 # semantic_similarity / full_similarity
 # ============================================================
 
+
 class TestSemanticSimilarity:
     def test_identical_vectors_cosine_one(self):
         v = make_vec(positive=[1, 2, 3])
@@ -69,6 +70,7 @@ class TestFullSimilarity:
 # ============================================================
 # without_banks
 # ============================================================
+
 
 class TestWithoutBanks:
     def test_excluded_bank_removed(self):
@@ -134,6 +136,7 @@ class TestWithoutBanks:
 # bank_masked_similarity
 # ============================================================
 
+
 class TestBankMaskedSimilarity:
     def test_excluding_irrelevant_bank_preserves_similarity(self):
         # v1 and v2 differ only in bank 0; if we exclude bank 0, they're identical
@@ -164,6 +167,7 @@ class TestBankMaskedSimilarity:
 # ============================================================
 # polarity_analysis
 # ============================================================
+
 
 class TestPolarityAnalysis:
     def test_empty_vectors_returns_orthogonality_one(self):

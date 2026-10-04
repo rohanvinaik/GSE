@@ -12,8 +12,7 @@ def enc():
 
 
 def test_split_sentences():
-    assert split_sentences("A cat sat. A dog ran! Did it?") == [
-        "A cat sat.", "A dog ran!", "Did it?"]
+    assert split_sentences("A cat sat. A dog ran! Did it?") == ["A cat sat.", "A dog ran!", "Did it?"]
     assert split_sentences("   ") == []
 
 
@@ -34,8 +33,7 @@ def test_profile_discriminates(enc):
     # Narrative leans on EVENT; a conditional surfaces IMPLIES; the two profiles
     # are not equal — the signal the genre router learns over.
     narrative = text_profile(enc, "Macbeth murdered Duncan. Macduff killed Macbeth.")
-    conditional = text_profile(
-        enc, "If a person knows something then the person believes it.")
+    conditional = text_profile(enc, "If a person knows something then the person believes it.")
     assert narrative.operator_mix["EVENT"] > 0
     assert conditional.operator_mix["IMPLIES"] > 0
     assert narrative.vector() != conditional.vector()

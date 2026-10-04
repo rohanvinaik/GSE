@@ -41,6 +41,7 @@ def fresh_db(tmp_path):
 
 # ---------- PRIMITIVE_GROUPS ----------
 
+
 class TestPrimitiveGroups:
     def test_has_8_banks(self):
         assert len(PRIMITIVE_GROUPS) == 8
@@ -66,6 +67,7 @@ class TestPrimitiveGroups:
 
 # ---------- GRANULAR_SYSTEM_PROMPT ----------
 
+
 class TestSystemPrompt:
     def test_mentions_bipolar(self):
         assert "BIPOLAR" in GRANULAR_SYSTEM_PROMPT
@@ -75,6 +77,7 @@ class TestSystemPrompt:
 
 
 # ---------- get_granular_prompt ----------
+
 
 class TestGetGranularPrompt:
     def test_includes_word(self):
@@ -122,6 +125,7 @@ class TestGetGranularPrompt:
 
 # ---------- GranularResult ----------
 
+
 class TestGranularResult:
     def test_construction(self):
         r = GranularResult(word="x", primitives={"GOOD": 1}, source="llm:m", bank="evaluators")
@@ -131,6 +135,7 @@ class TestGranularResult:
 
 
 # ---------- __init__ ----------
+
 
 class TestInit:
     def test_basic(self, fresh_db):
@@ -148,6 +153,7 @@ class TestInit:
 
 
 # ---------- get_filled_primitives ----------
+
 
 class TestGetFilled:
     def test_empty(self, fresh_db):
@@ -169,9 +175,11 @@ class TestGetFilled:
 
 # ---------- get_missing_primitives ----------
 
+
 class TestGetMissing:
     def test_all_missing_when_empty(self, fresh_db):
         from gse.curation.schema import ALL_PRIMITIVES
+
         with patch("gse.curation.llm.granular_decomposer.OllamaClient"):
             d = GranularDecomposer(db_path=fresh_db)
             assert set(d.get_missing_primitives(1)) == set(ALL_PRIMITIVES)
@@ -188,6 +196,7 @@ class TestGetMissing:
 
 
 # ---------- decompose_primitives ----------
+
 
 class TestDecomposePrimitives:
     def test_empty_list(self, fresh_db):
@@ -252,6 +261,7 @@ class TestDecomposePrimitives:
 
 # ---------- process_word ----------
 
+
 class TestProcessWord:
     def test_skips_filled_when_skip_filled_true(self, fresh_db):
         with patch("gse.curation.llm.granular_decomposer.OllamaClient") as MockClient:
@@ -271,7 +281,7 @@ class TestProcessWord:
 
     def test_no_skip_processes_all_banks(self, fresh_db):
         with patch("gse.curation.llm.granular_decomposer.OllamaClient") as MockClient:
-            MockClient.return_value.generate.return_value = '{}'
+            MockClient.return_value.generate.return_value = "{}"
             d = GranularDecomposer(db_path=fresh_db)
             results = d.process_word(1, "happy", skip_filled=False)
             # All 8 banks queried
@@ -283,14 +293,13 @@ class TestProcessWord:
             d = GranularDecomposer(db_path=fresh_db, model="m")
             d.process_word(1, "happy", skip_filled=False)
             # DB should have entries with source "llm:m"
-            cursor = d.conn.execute(
-                "SELECT COUNT(*) FROM primitive_values WHERE source = 'llm:m'"
-            )
+            cursor = d.conn.execute("SELECT COUNT(*) FROM primitive_values WHERE source = 'llm:m'")
             count = cursor.fetchone()[0]
             assert count > 0
 
 
 # ---------- process_batch ----------
+
 
 class TestProcessBatch:
     def test_no_words(self, fresh_db):
@@ -301,7 +310,7 @@ class TestProcessBatch:
 
     def test_processes_words(self, fresh_db):
         with patch("gse.curation.llm.granular_decomposer.OllamaClient") as MockClient:
-            MockClient.return_value.generate.return_value = '{}'
+            MockClient.return_value.generate.return_value = "{}"
             d = GranularDecomposer(db_path=fresh_db)
             d.conn.execute("INSERT INTO lexemes VALUES (1, 'happy', 'adj', 1)")
             d.conn.commit()
@@ -310,18 +319,17 @@ class TestProcessBatch:
 
     def test_limit(self, fresh_db):
         with patch("gse.curation.llm.granular_decomposer.OllamaClient") as MockClient:
-            MockClient.return_value.generate.return_value = '{}'
+            MockClient.return_value.generate.return_value = "{}"
             d = GranularDecomposer(db_path=fresh_db)
             for i in range(5):
-                d.conn.execute("INSERT INTO lexemes VALUES (?, ?, ?, ?)",
-                               (i, f"w{i}", "n", i))
+                d.conn.execute("INSERT INTO lexemes VALUES (?, ?, ?, ?)", (i, f"w{i}", "n", i))
             d.conn.commit()
             stats = d.process_batch(limit=3)
             assert stats["processed"] == 3
 
     def test_only_missing_false_returns_all(self, fresh_db):
         with patch("gse.curation.llm.granular_decomposer.OllamaClient") as MockClient:
-            MockClient.return_value.generate.return_value = '{}'
+            MockClient.return_value.generate.return_value = "{}"
             d = GranularDecomposer(db_path=fresh_db)
             d.conn.execute("INSERT INTO lexemes VALUES (1, 'w1', 'n', 1)")
             d.conn.commit()
@@ -330,6 +338,7 @@ class TestProcessBatch:
 
 
 # ---------- close ----------
+
 
 class TestClose:
     def test_closes_conn(self, fresh_db):
