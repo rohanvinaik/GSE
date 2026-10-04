@@ -49,21 +49,35 @@ def _is_participle(tok: Any) -> bool:
     return getattr(tok, "pos_", "") in ("VERB", "AUX") and tok.text.lower() != tok.lemma_
 
 
+def contraction_reading(fragment: str, next_pos: str, next_text: str, next_lemma: str) -> str:
+    """The word a contraction fragment stands for, read from the token after it; ``""`` if it is not a fragment.
+
+    The two ambiguous fragments resolve by that token's inflection: before a past participle (a VERB or AUX whose
+    surface differs from its lemma, ``gone``≠``go``) ``'d`` is ``had`` and ``'s`` is ``has``; otherwise the default,
+    ``would`` and ``is``. Every other fragment has one reading. The next token is given as strings (its POS, its
+    surface, its lemma; empty when there is none), so the decision is total over plain values.
+    """
+    cands = candidates(fragment)
+    if not cands:
+        return ""
+    participle = next_pos in ("VERB", "AUX") and next_text.lower() != next_lemma
+    return cands[1] if len(cands) > 1 and participle else cands[0]
+
+
 def resolve_contraction(fragment: str, following: Optional[Any]) -> Optional[str]:
     """Expand a contraction fragment, disambiguating the ambiguous ones (`'d`/`'s`)
     by the FOLLOWING token. ``following=None`` (or no signal) → the default expansion.
 
-    Returns the resolved word, or ``None`` if ``fragment`` is not a contraction.
+    Returns the resolved word, or ``None`` if ``fragment`` is not a contraction. The decision is
+    :func:`contraction_reading`; this reads the following token's POS, surface and lemma for it.
+    (Possessive 's — "Mike's dog" — is the THREE-way case; use resolve_apostrophe_s, which adds the
+    clause-verb signal.)
     """
-    cands = candidates(fragment)
-    if not cands:
-        return None
-    if len(cands) == 1 or following is None:
-        return cands[0]
-    # ambiguous 'd/'s: a following past-participle → the perfect reading (had/has);
-    # otherwise the default (would/is). (Possessive 's — "Mike's dog" — is the
-    # THREE-way case; use resolve_apostrophe_s, which adds the clause-verb signal.)
-    return cands[1] if _is_participle(following) else cands[0]
+    if following is None:
+        reading = contraction_reading(fragment, "", "", "")
+    else:
+        reading = contraction_reading(fragment, getattr(following, "pos_", ""), following.text, following.lemma_)
+    return reading or None
 
 
 # Result sentinel for the possessive reading of ``'s`` (not a word expansion).

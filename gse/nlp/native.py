@@ -27,7 +27,7 @@ from typing import Dict, Iterator, List, Optional
 
 from nltk.corpus import wordnet as wn
 
-from gse.nlp.contractions import resolve_apostrophe_s
+from gse.nlp.contractions import resolve_apostrophe_s, resolve_contraction
 from gse.nlp.morphology import resolve_degree
 
 # --- closed classes (finite function-word sets) ----------------------------
@@ -166,11 +166,17 @@ _SCONJ = {
     "before",
     "after",
 }
-_AUX_BE = {"is", "am", "are", "was", "were", "be", "been", "being"}
-_AUX_MODAL = {"will", "would", "can", "could", "shall", "should", "may", "might", "must", "ought"}
+_AUX_BE = {"is", "am", "are", "was", "were", "be", "been", "being", "'m", "'re"}
+_AUX_MODAL = {"will", "would", "can", "could", "shall", "should", "may", "might", "must", "ought", "'ll", "'d"}
 _AUX_DO = {"do", "does", "did"}
 _PART = {"to", "not", "n't"}
 _NEG = {"not", "n't"}
+# The stems the tokenizer splits off before n't whose surface is a stub ("can't" → ca + n't, "won't" → wo + n't,
+# "shan't" → sha + n't): an auxiliary only when n't follows, so a standalone "ca" (circa) is left to the open class.
+_NT_STEM = {"ca", "wo", "sha"}
+# The contraction fragments whose lemma and tense come from their expansion (resolve_contraction): 's has its own
+# three-way pass (_resolve_apostrophe_s) and n't is already "not".
+_CONTRACTED_AUX = {"'m", "'re", "'ve", "'ll", "'d"}
 # Closed-class adverbs / conjunctive adverbs / deictic adverbs with no entity reading
 # in narrative. A WordNet noun sense (there/now → NOUN) or sentence-initial title-case
 # (Instead/Sometimes → PROPN) was promoting these to eligible ENTITIES and then to AGENT
@@ -439,8 +445,21 @@ class NativeNLP:
             lemma = self._lemma(surf, pos)
             morph = self._morph(surf, pos)
             tokens.append(NativeToken(surf, lemma, pos, i, morph))
+        self._resolve_contractions(tokens)
         self._resolve_apostrophe_s(tokens)
         return NativeDoc(tokens)
+
+    def _resolve_contractions(self, tokens: List["NativeToken"]) -> None:
+        """Give each contracted auxiliary ('m 're 've 'll 'd) the lemma and tense of the word it stands for, as
+        :func:`gse.nlp.contractions.resolve_contraction` reads it from the token after it: "I'd gone" → had (have,
+        Tense=Past), "I'd go" → would, "I'm" → am (be, Tense=Pres)."""
+        for i, t in enumerate(tokens):
+            if t.text.lower() not in _CONTRACTED_AUX:
+                continue
+            reading = resolve_contraction(t.text, tokens[i + 1] if i + 1 < len(tokens) else None)
+            if reading:
+                t.lemma_ = _IRREGULAR_LEMMA.get(reading, reading)
+                t._morph = self._morph(reading, t.pos_)
 
     def _resolve_apostrophe_s(self, tokens: List["NativeToken"]) -> None:
         """Spell-check voice-mode: re-tag a VERBAL ``'s`` to its copula/perfect verb so
@@ -501,7 +520,9 @@ class NativeNLP:
             return "NOUN"
         if low in _AUX_BE or low in _AUX_MODAL or low in _AUX_DO:
             return "AUX"
-        if low in ("has", "have", "had"):
+        if low in _NT_STEM and i + 1 < len(surfaces) and surfaces[i + 1].lower() == "n't":
+            return "AUX"
+        if low in ("has", "have", "had", "'ve"):
             # Perfect auxiliary ("had murdered Duncan") vs main/possessive verb ("had a
             # crown"): a determiner/pronoun/preposition next → the main verb; a verb
             # (the participle) next → the perfect auxiliary. Scan past intervening

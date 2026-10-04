@@ -57,19 +57,16 @@ def _row(encoder, lemma):
 # ── tokens: the front end ─────────────────────────────────────────────────────────────────────────────────
 
 
-@pytest.mark.xfail(strict=True, reason="#78 F-contractions: 'm is tagged NOUN")
 def test_contracted_am_is_be(encoder):
     tok = _token(encoder, "I'm happy.", "'m")
     assert tok.lemma == "be" and tok.pos in ("AUX", "VERB")
 
 
-@pytest.mark.xfail(strict=True, reason="#78 F-contractions: ca (can't) is the noun 'ca'")
 def test_contracted_can_is_can(encoder):
     tok = _token(encoder, "I can't swim.", "ca")
     assert tok.lemma == "can" and tok.pos in ("AUX", "VERB")
 
 
-@pytest.mark.xfail(strict=True, reason="#78 F-contractions: 'll becomes the predicate and go a noun")
 def test_contracted_will_keeps_its_verb(encoder):
     assert ("go", False) in _contract_events(encoder, "We'll go.")
 
