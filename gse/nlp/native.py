@@ -283,9 +283,11 @@ _IRREGULAR_PAST_VERB = {
 _PUNCT_RE = re.compile(r"[^\w\s]")
 # Tokenizer: words + contraction suffixes. The base-before-``n't`` and ``n't``
 # itself are matched BEFORE plain ``\w+`` so a greedy ``\w+`` can't eat the ``n``
-# ("didn't" → "did"+"n't", not "didn"+"'"+"t"; "won't" → "wo"+"n't"). The 's/'re/'ve
-# /'ll/'d/'m suffixes already split cleanly (the base has no ambiguity).
-_TOKEN_RE = re.compile(r"\w+(?=n't)|n't|'s|'re|'ve|'ll|'d|'m|\w+|[^\w\s]")
+# ("didn't" → "did"+"n't", not "didn"+"'"+"t"; "won't" → "wo"+"n't"). "cannot" splits
+# the same way, into "can"+"not". A 's/'re/'ve/'ll/'d/'m suffix is split off only when
+# a word character comes right before its apostrophe; any other apostrophe is a quote
+# ("'dividing'" keeps its word, where it once became "'d"+"ividing").
+_TOKEN_RE = re.compile(r"\w+(?=n't)|n't|(?i:can)(?=(?i:not)\b)|(?<=\w)'(?:s|re|ve|ll|d|m)\b|\w+|[^\w\s]")
 
 
 def _wn_lemma(word: str, pos: str) -> Optional[str]:
@@ -294,6 +296,15 @@ def _wn_lemma(word: str, pos: str) -> Optional[str]:
         return None
     lemma = wn.morphy(word, wn_pos)
     return lemma
+
+
+def _tokenize(text: str) -> list:
+    """The surfaces of a text, in order: words, contraction parts and punctuation (``_TOKEN_RE``).
+
+    Typographic apostrophes become ASCII first, so the contraction patterns match published prose ("doesn’t" → does +
+    n't); without it the stray "t" leaked in as a content token and became a clause agent.
+    """
+    return _TOKEN_RE.findall(text.replace("’", "'").replace("‘", "'"))
 
 
 def _rule_lemma(word: str, pos: str) -> str:
@@ -421,12 +432,7 @@ class NativeNLP:
     """Deterministic, arc-free token front-end. Call it like ``spacy.load(...)``."""
 
     def __call__(self, text: str) -> NativeDoc:
-        # Normalize typographic (curly) apostrophes to ASCII so the contraction/possessive
-        # tokenizer patterns (n't / 's / 've / 'll / 'd / 'm) match real prose — Gutenberg and
-        # most published text use U+2019. Without this, "doesn’t" tokenizes as doesn·’·t and the
-        # stray "t" leaks in as a content token (and becomes a clause agent). Text-agnostic.
-        text = text.replace("’", "'").replace("‘", "'")
-        surfaces = _TOKEN_RE.findall(text)
+        surfaces = _tokenize(text)
         tokens: List[NativeToken] = []
         for i, surf in enumerate(surfaces):
             pos = self._pos(surf, i, surfaces)

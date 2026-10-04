@@ -74,7 +74,6 @@ def test_contracted_will_keeps_its_verb(encoder):
     assert ("go", False) in _contract_events(encoder, "We'll go.")
 
 
-@pytest.mark.xfail(strict=True, reason="#77 F-cannot: cannot is tagged NOUN and the sentence has no event")
 def test_cannot_negates_its_verb(encoder):
     assert ("swim", True) in _contract_events(encoder, "Birds cannot swim.")
 
@@ -86,7 +85,6 @@ def test_its_is_it_is(encoder):
     assert _token(encoder, sentence, "necessary").pos == "ADJ"
 
 
-@pytest.mark.xfail(strict=True, reason="#91 F-quote-token: 'dividing' splits into 'd + ividing")
 def test_an_opening_quote_is_not_a_contraction(encoder):
     assert _token(encoder, "He wrote 'dividing' on the board.", "dividing").lemma == "divide"
 
