@@ -1,12 +1,17 @@
 """L3 — participial_adjunct: a secondary-predicate participle whose event was dropped.
 
-⚠ DOWNGRADED (2026-06-24) — NOT a formal roster law; soft filter for the chum bucket. It is a
-RECOVER-AND-ATTACH law (reconstruct a missing event + bind a subject), and validated at ~50%
-precision: the residual wrong fires (`EVENT(swagger, twirl)`, `EVENT(flight, pant)`) are SUBJECT-
-ATTACHMENT errors — the parse's resolved "main subject" is itself a wrong nearby noun — which no
-animacy gate (lexical, NSM, or additive) fixes, because it is attachment, not animacy. The audited
-pipeline holds clean transform/filter laws only; this is kept in-tree for a future bespoke/cordoned
-pass. (The additive-lens ARCHITECTURE it proved is sound and reused.)
+LIVE — runs in ``default_roster()``, revived after the downgrade recorded below (the roster's
+docstring in ``lenses/__init__.py`` holds the record). ``emit`` meets the subject-attachment wall with
+``fold_reader.best_subject``: the recurring, significant agent — with a confidence gate that ABSTAINS
+rather than bind a one-shot nearby noun — falling back to the lexical main animate subject when no
+fold map is supplied.
+
+History — DOWNGRADED (2026-06-24), since superseded by the revival: NOT then a formal roster law;
+soft filter for the chum bucket. It is a RECOVER-AND-ATTACH law (reconstruct a missing event + bind a
+subject), and validated at ~50% precision: the residual wrong fires (`EVENT(swagger, twirl)`,
+`EVENT(flight, pant)`) are SUBJECT-ATTACHMENT errors — the parse's resolved "main subject" is itself a
+wrong nearby noun — which no animacy gate (lexical, NSM, or additive) fixes, because it is
+attachment, not animacy. (The additive-lens ARCHITECTURE it proved is sound and reused.)
 
 
 The defect is a MISSING predication, so this is an ADDITIVE lens (no wrong node to claim). A

@@ -1,11 +1,16 @@
 """L7 — vp_coord_conjunct: VP-coordination where one conjunct's verb was stranded.
 
-⚠ DOWNGRADED (2026-06-24) — NOT a formal roster law; a soft routing FILTER for the chum bucket only.
-Validated at the seam, precision plateaued ~55% after four principled gates: the structural fixes
-(`expression.py` 14e0ed9) already recovered the tractable VP-coordinations, so the residual is a
-degraded tail with no structural feature left to separate ~6 true recoveries from ~5 spine-polluting
-false fires. Kept here (built, tested) for a future bespoke / cordoned-residual pass; removed from
-`default_roster()`. The high-precision contract could not be met, so per the architecture it is bucketed.
+LIVE — runs in ``default_roster()``, revived after the downgrade recorded below (the roster's
+docstring in ``lenses/__init__.py`` holds the record). ``apply`` meets the subject wall itself: the
+good conjunct's structural subject, nulled when inanimate or fold-judged ineligible, else K-line
+recollective recall at confidence ≥ ``_THETA`` (``GENESIS_HEALER_THETA_VP``), else an honest Hole.
+
+History — DOWNGRADED (2026-06-24), since superseded by the revival: NOT then a formal roster law; a
+soft routing FILTER for the chum bucket only. Validated at the seam, precision plateaued ~55% after
+four principled gates: the structural fixes (`expression.py` 14e0ed9) already recovered the tractable
+VP-coordinations, so the residual is a degraded tail with no structural feature left to separate ~6
+true recoveries from ~5 spine-polluting false fires. It was kept (built, tested) for a bespoke /
+cordoned-residual pass and removed from `default_roster()` until the revival above.
 
 
 Carved one-shot from the corpus minimal pair (post structural-fixes: 61 near-miss / 3354 gold):
