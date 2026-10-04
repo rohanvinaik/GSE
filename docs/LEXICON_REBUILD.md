@@ -48,6 +48,18 @@ operators route to informational-zero (`definitional_decomposer`, grounded in
 exist in the lexicon with their `comp_*` metadata, because the **encoder reads the operator
 from there** to build clause structure. Grounded in `primitives_v2.COMP_METADATA`.
 
+**Closed class — `gse/curation/build_clean_closed_class.py`** (runs last, after the quantifier
+rows). Puts each grammatical word in one of the three homes below and only there: a pronoun takes
+its word-scale prime from `gse/lexicon/pronouns.py` (SOMEONE or SOMETHING); an inflected tier-0
+word takes that word's prime (`am/are/being → BE`, `does/did → DO`, `has → HAVE`; `cannot → CAN,
+NOT`); five words take the prime they realize (`like → LIKE`, `underneath → BELOW`,
+`may/might/perhaps → MAYBE`); every other closed-class word is informational zero, its primes
+cleared and its row kept (the spellchecker reads its vocabulary from `lexemes`). It overwrites the
+layer-1 rows that took a WordNet noun homograph (`he` = helium, `at` = astatine) and the layer-2
+connectives (`however`, `therefore`), GSE #8, and adds the pronouns that had no row, GSE #9. Held:
+`this/that/these/those` (determiners as well; rows are keyed by lemma, not POS), `what` (an operator
+row), `i`/`you` (the tier-0 primes I and YOU).
+
 Definitions are queried from the indexed `data/definitions.db` (`source_index.py`) — never the
 2.7 GB raw dump.
 

@@ -751,11 +751,14 @@ the **scoped layered pipeline** (the LLM bag-of-words stack that produced the
 degenerate `dog≈murder` lexicon is retired):
 
 - **`gse/curation/build_clean_layer1.py` / `build_clean_layer2.py` /
-  `build_clean_operators.py` / `build_clean_quantifiers.py`** — the live build:
+  `build_clean_operators.py` / `build_clean_quantifiers.py` /
+  `build_clean_closed_class.py`** — the live build:
   tier_0 (the 68 primes) → layer1 (source-grounded via the existing
   `integrator`→`source_scope`→`weighted_voting` pipeline) → layer2 (genus-differentia
   decomposition) → operators (`comp_*` from `COMP_METADATA`) → quantifiers (ordinal
-  hierarchy rows). **Build order matters** (quantifiers/operators run last). Method:
+  hierarchy rows) → closed class (each grammatical word in its home: a pronoun's prime, an
+  inflected tier-0 word's prime, or informational zero). **Build order matters** (quantifiers
+  and the closed-class layer overwrite earlier rows, so they run last). Method:
   [`LEXICON_REBUILD.md`](LEXICON_REBUILD.md).
 - **`gse/curation/external_sources/`** — the sources layer1 grounds against (WordNet
   authoritative in its substantives scope; others need ≥2 agreeing).
