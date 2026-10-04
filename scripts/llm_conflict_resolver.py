@@ -34,6 +34,8 @@ from typing import Dict, List, Optional
 
 import requests
 
+from gse.curation.llm.ollama_client import register_model
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
@@ -47,7 +49,8 @@ CORRECTIONS_LOG = DATA_DIR / "audit_results" / "llm_corrections.jsonl"
 
 # LLM Configuration
 DEFAULT_MODEL = "qwen2.5:14b"  # Good balance of speed and quality
-OLLAMA_URL = "http://localhost:11434/api/generate"
+OLLAMA_BASE_URL = "http://localhost:11434"
+OLLAMA_URL = f"{OLLAMA_BASE_URL}/api/generate"
 
 # Primitives in order of conflict count (from audit)
 PRIMITIVES_BY_CONFLICT = [
@@ -146,6 +149,7 @@ def query_ollama(prompt: str, model: str = DEFAULT_MODEL, timeout: int = 120) ->
             timeout=timeout,
         )
         if response.status_code == 200:
+            register_model(model, OLLAMA_BASE_URL)  # released when this process exits
             return response.json().get("response", "").strip()
         else:
             logger.error(f"Ollama error: {response.status_code}")

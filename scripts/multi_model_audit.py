@@ -25,6 +25,7 @@ Usage:
 import argparse
 import json
 import logging
+import signal
 import sqlite3
 import time
 from collections import defaultdict
@@ -33,6 +34,8 @@ from datetime import datetime
 from typing import Dict, List, Optional, Tuple
 
 import requests
+
+from gse.curation.llm.ollama_client import register_model
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
@@ -43,6 +46,7 @@ logger = logging.getLogger(__name__)
 # ============================================================================
 
 MODELS = ["smollm:1.7b", "granite3-moe:1b", "gemma2:2b"]
+OLLAMA_BASE_URL = "http://localhost:11434"
 
 # Semantic primitive categories for focused checks
 EXPERIENCER_PRIMITIVES = {"FEEL", "THINK", "KNOW", "WANT", "SEE", "HEAR"}
@@ -159,7 +163,7 @@ def query_model(model: str, prompt: str, timeout: int = 60) -> str:
     """Query a local Ollama model."""
     try:
         response = requests.post(
-            "http://localhost:11434/api/generate",
+            f"{OLLAMA_BASE_URL}/api/generate",
             json={
                 "model": model,
                 "prompt": prompt,
@@ -169,6 +173,7 @@ def query_model(model: str, prompt: str, timeout: int = 60) -> str:
             timeout=timeout,
         )
         if response.status_code == 200:
+            register_model(model, OLLAMA_BASE_URL)  # released when this process exits
             return response.json().get("response", "").strip()
         else:
             return f"ERROR:{response.status_code}"
@@ -719,6 +724,11 @@ def run_continuous_audit(
     Loops forever, processing all words then waiting before next pass.
     """
     import os
+
+    # This mode runs under `nohup … &` and is stopped with `kill`. SIGTERM would end the process
+    # without running `finally` or exit hooks; routed into the Ctrl+C path, the auditor closes and
+    # the models this process used are unloaded at exit (gse.curation.llm.ollama_client).
+    signal.signal(signal.SIGTERM, signal.default_int_handler)
 
     os.makedirs(output_dir, exist_ok=True)
 

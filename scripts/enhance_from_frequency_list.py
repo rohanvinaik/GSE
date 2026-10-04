@@ -24,6 +24,8 @@ from gse.lexicon_generator import LexiconGenerator
 from gse.primitives import PRIMITIVES, ROLES
 from gse.vectors import PrimitiveBasis
 
+from gse.curation.llm.ollama_client import register_model
+
 # Configuration
 DB_PATH = "/Users/rohanvinaik/gse/data/lexicon.db"
 FREQ_FILE = "/Users/rohanvinaik/relational-ai/word_frequency_report.txt"
@@ -250,6 +252,7 @@ def call_ollama(prompt: str, model: str = OLLAMA_MODEL, max_retries: int = 2) ->
                 timeout=60,
             )
             if response.status_code == 200:
+                register_model(model, OLLAMA_URL)  # released when this process exits
                 return response.json().get("response", "")
         except Exception:
             if attempt < max_retries - 1:

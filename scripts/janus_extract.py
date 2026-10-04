@@ -33,6 +33,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from gse.curation.llm.ollama_client import register_model  # noqa: E402
 from gse.pragmatics.figure_store import (  # noqa: E402
     FigureExample,
     Label,
@@ -43,7 +44,8 @@ from gse.pragmatics.figures import BY_NAME, FIGURE_NAMES, figures_in_bank  # noq
 
 DB_PATH = str(Path(__file__).resolve().parents[1] / "data" / "janus_figures.db")
 _UA = "GSE-Janus-curation/0.1 (research; contact via repo)"
-_OLLAMA = "http://localhost:11434/api/chat"
+_OLLAMA_BASE = "http://localhost:11434"
+_OLLAMA = f"{_OLLAMA_BASE}/api/chat"
 _MODEL = "qwen3.5:4b"
 _WIKI = "https://en.wikipedia.org/w/api.php"
 
@@ -133,7 +135,9 @@ def ollama_extract(figure: str, definition: str, text: str, limit: int) -> list[
         }
     ).encode()
     req = urllib.request.Request(_OLLAMA, data=payload, headers={"Content-Type": "application/json"})
-    raw = json.loads(urllib.request.urlopen(req, timeout=180).read())
+    body = urllib.request.urlopen(req, timeout=180).read()
+    register_model(_MODEL, _OLLAMA_BASE)  # released when this process exits
+    raw = json.loads(body)
     return _parse_examples(raw.get("message", {}).get("content", ""))
 
 
@@ -194,7 +198,9 @@ def generate_literal(figure: str, example: str) -> str | None:
     ).encode()
     req = urllib.request.Request(_OLLAMA, data=payload, headers={"Content-Type": "application/json"})
     try:
-        raw = json.loads(urllib.request.urlopen(req, timeout=120).read())
+        body = urllib.request.urlopen(req, timeout=120).read()
+        register_model(_MODEL, _OLLAMA_BASE)  # released when this process exits
+        raw = json.loads(body)
         content = raw.get("message", {}).get("content", "")
         m = re.search(r"```(?:json)?\s*(.*?)```", content, re.DOTALL)
         if m:

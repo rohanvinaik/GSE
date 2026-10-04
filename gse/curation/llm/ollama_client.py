@@ -2,11 +2,18 @@
 Ollama Client for Qwen3-8B
 
 Uses Ollama for fast local inference on Mac.
+
+Releasing models: the Ollama server keeps a model resident for its keep-alive window (5 minutes
+by default) after the last request. Every (url, model) pair that a successful call used is
+recorded in a module-level registry, and an ``atexit`` hook registered at import unloads each
+one, so a process releases its models when it finishes. ``OllamaClient.generate`` registers
+automatically; scripts that call Ollama directly register through ``register_model``.
 """
 
+import atexit
 import logging
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Literal, Optional, Tuple
 
 import requests
 
@@ -14,6 +21,49 @@ logger = logging.getLogger(__name__)
 
 DEFAULT_MODEL = "qwen3:8b"
 OLLAMA_URL = "http://localhost:11434"
+UNLOAD_TIMEOUT_SECONDS = 10  # bounds how long one unload request can delay process exit
+
+# Outcome of one unload request: released, server not reachable, or server answered non-200.
+UnloadOutcome = Literal["unloaded", "server_unreachable", "rejected"]
+
+# (url, model) pairs that successful calls in this process used and that are not yet unloaded.
+_registered_models: set[tuple[str, str]] = set()
+
+
+def register_model(model: str, url: str = OLLAMA_URL) -> None:
+    """Record that this process used ``model`` on the Ollama server at ``url``; it is unloaded at exit."""
+    _registered_models.add((url, model))
+
+
+def unload_model(model: str, url: str = OLLAMA_URL) -> UnloadOutcome:
+    """Release ``model`` from the Ollama server at ``url`` now (Ollama's documented unload).
+
+    Never raises for a server that is down or refuses: it logs and returns the outcome, so it is
+    safe in an exit hook. A released pair leaves the registry; a pair that failed stays in it.
+    """
+    try:
+        response = requests.post(
+            f"{url}/api/generate",
+            json={"model": model, "keep_alive": 0},
+            timeout=UNLOAD_TIMEOUT_SECONDS,
+        )
+    except requests.exceptions.RequestException as e:
+        logger.warning(f"Could not unload {model} from Ollama at {url}: server unreachable ({e})")
+        return "server_unreachable"
+    if response.status_code != 200:
+        logger.warning(f"Ollama at {url} refused to unload {model}: HTTP {response.status_code} {response.text}")
+        return "rejected"
+    _registered_models.discard((url, model))
+    logger.info(f"Unloaded {model} from Ollama at {url}")
+    return "unloaded"
+
+
+def _unload_registered_models() -> dict[tuple[str, str], UnloadOutcome]:
+    """Exit hook: unload every registered (url, model) pair; one failure does not stop the rest."""
+    return {(url, model): unload_model(model, url) for url, model in sorted(_registered_models)}
+
+
+atexit.register(_unload_registered_models)
 
 
 @dataclass
@@ -79,9 +129,10 @@ class OllamaClient:
         if result.returncode != 0:
             raise RuntimeError(f"Failed to pull model: {result.stderr}")
 
-    def unload(self):
-        """No-op for Ollama (server manages models)."""
+    def unload(self) -> UnloadOutcome:
+        """Release this client's model from the Ollama server now (keep_alive=0)."""
         self._loaded = False
+        return unload_model(self.model, self.base_url)
 
     def generate(
         self,
@@ -130,6 +181,7 @@ class OllamaClient:
         if response.status_code != 200:
             raise RuntimeError(f"Ollama error: {response.text}")
 
+        register_model(self.model, self.base_url)
         result = response.json()
         return result.get("response", "").strip()
 

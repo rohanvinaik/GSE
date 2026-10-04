@@ -21,8 +21,11 @@ from gse.curation.llm.primitive_matcher import (
     get_bipolar_prompt,
     get_single_prompt,
     run_batch,
-    test_matcher,
 )
+
+# Imported under another name: a bare `test_matcher` is collected by pytest as a module-level test and
+# runs the production smoke check unmocked, 36 generate() calls against whatever Ollama is serving.
+from gse.curation.llm.primitive_matcher import test_matcher as smoke_check_matcher
 
 
 @pytest.fixture
@@ -486,7 +489,7 @@ class TestEntrypoints:
     def test_test_matcher_runs(self, capsys):
         with patch("gse.curation.llm.primitive_matcher.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = "NO"
-            test_matcher()
+            smoke_check_matcher()
         # Should print at least the test words
         out = capsys.readouterr().out
         assert "love" in out

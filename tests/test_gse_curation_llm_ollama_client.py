@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import logging
+import subprocess
 import sys
+import textwrap
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
@@ -11,12 +14,38 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import pytest
 import requests
 
+import gse.curation.llm.ollama_client as ollama_client
 from gse.curation.llm.ollama_client import (
     DEFAULT_MODEL,
     OLLAMA_URL,
+    UNLOAD_TIMEOUT_SECONDS,
     GenerationConfig,
     OllamaClient,
+    register_model,
+    unload_model,
 )
+
+REPO_ROOT = Path(__file__).parent.parent
+
+
+@pytest.fixture(autouse=True)
+def _empty_model_registry():
+    """Keep the module's model registry empty around every test.
+
+    Successful generate() calls register (url, model) pairs, and the module's atexit hook would
+    unload each one over real HTTP when pytest exits, so no test may leave a pair behind.
+    """
+    ollama_client._registered_models.clear()
+    yield
+    ollama_client._registered_models.clear()
+
+
+def ok_response(payload=None):
+    resp = MagicMock()
+    resp.status_code = 200
+    resp.json.return_value = payload if payload is not None else {}
+    return resp
+
 
 # ---------- Constants ----------
 
@@ -162,11 +191,40 @@ class TestPullModel:
 
 
 class TestUnload:
+    def test_posts_keep_alive_zero(self):
+        c = OllamaClient(model="myModel", base_url="http://other:1234")
+        with patch("requests.post", return_value=ok_response()) as mock_post:
+            outcome = c.unload()
+        mock_post.assert_called_once_with(
+            "http://other:1234/api/generate",
+            json={"model": "myModel", "keep_alive": 0},
+            timeout=UNLOAD_TIMEOUT_SECONDS,
+        )
+        assert outcome == "unloaded"
+
     def test_sets_loaded_false(self):
         c = OllamaClient()
         c._loaded = True
-        c.unload()
+        with patch("requests.post", return_value=ok_response()):
+            c.unload()
         assert c._loaded is False
+
+    def test_server_down_logs_and_continues(self, caplog):
+        c = OllamaClient()
+        c._loaded = True
+        with patch("requests.post", side_effect=requests.exceptions.ConnectionError("refused")):
+            with caplog.at_level(logging.WARNING, logger=ollama_client.__name__):
+                outcome = c.unload()
+        assert outcome == "server_unreachable"
+        assert c._loaded is False
+        assert "server unreachable" in caplog.text
+
+    def test_non_200_is_rejected(self):
+        resp = MagicMock()
+        resp.status_code = 404
+        resp.text = "model 'missing' not found"
+        with patch("requests.post", return_value=resp):
+            assert OllamaClient(model="missing").unload() == "rejected"
 
 
 # ---------- generate ----------
@@ -400,6 +458,112 @@ class TestDecomposeBatch:
                 with patch("gse.curation.llm.prompts.build_user_prompt", return_value="x") as mock_build:
                     c.decompose_batch([{"word": "happy"}])
                     assert mock_build.call_args.args[1] == "unknown"
+
+
+# ---------- model registry ----------
+
+
+class TestModelRegistry:
+    def test_successful_generate_registers_pair_once(self):
+        c = OllamaClient(model="myModel", base_url="http://other:1234")
+        c._loaded = True
+        with patch("requests.post", return_value=ok_response({"response": "ok"})):
+            c.generate("hi")
+            c.generate("again")
+        assert ollama_client._registered_models == {("http://other:1234", "myModel")}
+
+    def test_failed_generate_registers_nothing(self):
+        c = OllamaClient()
+        c._loaded = True
+        resp = MagicMock()
+        resp.status_code = 500
+        resp.text = "server error"
+        with patch("requests.post", return_value=resp):
+            with pytest.raises(RuntimeError):
+                c.generate("hi")
+        assert ollama_client._registered_models == set()
+
+    def test_register_model_defaults_to_local_server(self):
+        register_model("m")
+        assert ollama_client._registered_models == {(OLLAMA_URL, "m")}
+
+    def test_successful_unload_deregisters(self):
+        register_model("m")
+        with patch("requests.post", return_value=ok_response()):
+            assert unload_model("m") == "unloaded"
+        assert ollama_client._registered_models == set()
+
+    def test_failed_unload_stays_registered(self):
+        register_model("m")
+        with patch("requests.post", side_effect=requests.exceptions.ConnectionError):
+            assert unload_model("m") == "server_unreachable"
+        assert ollama_client._registered_models == {(OLLAMA_URL, "m")}
+
+
+# ---------- exit hook ----------
+
+
+class TestExitHook:
+    def test_unloads_every_registered_pair(self):
+        register_model("a")
+        register_model("b", url="http://other:1234")
+        with patch("requests.post", return_value=ok_response()) as mock_post:
+            ollama_client._unload_registered_models()
+        sent = {
+            (c.args[0], c.kwargs["json"]["model"], c.kwargs["json"]["keep_alive"]) for c in mock_post.call_args_list
+        }
+        assert sent == {
+            (f"{OLLAMA_URL}/api/generate", "a", 0),
+            ("http://other:1234/api/generate", "b", 0),
+        }
+        assert ollama_client._registered_models == set()
+
+    def test_unreachable_server_does_not_stop_the_rest(self):
+        register_model("a", url="http://down:1")
+        register_model("b")
+
+        def post(url, json, timeout):
+            if url.startswith("http://down:1"):
+                raise requests.exceptions.ConnectionError("refused")
+            return ok_response()
+
+        with patch("requests.post", side_effect=post):
+            outcomes = ollama_client._unload_registered_models()
+        assert outcomes == {
+            ("http://down:1", "a"): "server_unreachable",
+            (OLLAMA_URL, "b"): "unloaded",
+        }
+
+    def test_hook_registered_at_import_unloads_at_interpreter_exit(self):
+        # Fresh interpreter, HTTP layer mocked (no server): one model used through generate(),
+        # one registered the way the scripts do; both must be unloaded when the process exits.
+        code = textwrap.dedent(
+            """
+            from unittest import mock
+
+            def fake_post(url, json=None, timeout=None):
+                if "keep_alive" in json:
+                    print("UNLOAD", url, json["model"], json["keep_alive"], flush=True)
+                return mock.Mock(status_code=200, json=lambda: {"response": "ok"})
+
+            mock.patch("requests.post", side_effect=fake_post).start()
+
+            from gse.curation.llm.ollama_client import OllamaClient, register_model
+
+            client = OllamaClient(model="via-generate")
+            client._loaded = True
+            client.generate("hi")
+            register_model("via-script", url="http://other:1234")
+            """
+        )
+        result = subprocess.run([sys.executable, "-c", code], cwd=REPO_ROOT, capture_output=True, text=True, timeout=60)
+        assert result.returncode == 0, result.stderr
+        assert sorted(result.stdout.splitlines()) == sorted(
+            [
+                f"UNLOAD {OLLAMA_URL}/api/generate via-generate 0",
+                "UNLOAD http://other:1234/api/generate via-script 0",
+            ]
+        )
 
 
 if __name__ == "__main__":

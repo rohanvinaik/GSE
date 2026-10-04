@@ -23,6 +23,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
+from gse.curation.llm.ollama_client import register_model
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
@@ -1705,6 +1707,9 @@ def run_ollama(model: str, prompt: str, timeout: int = 60) -> Optional[str]:
     """Execute a prompt with an Ollama model."""
     try:
         result = subprocess.run(["ollama", "run", model, prompt], capture_output=True, text=True, timeout=timeout)
+        if result.returncode == 0:
+            # The CLI talks to the server OLLAMA_HOST names, by default the local one register_model targets.
+            register_model(model)  # released when this process exits
         return result.stdout.strip()
     except subprocess.TimeoutExpired:
         logger.warning(f"  {model} timed out")
