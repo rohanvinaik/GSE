@@ -318,7 +318,7 @@ class TestProcessWord:
         with patch("gse.curation.llm.gap_filler.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = "YES"
             g = GapFiller(db_path=fresh_db)
-            result = g.process_word(1, "happy")
+            g.process_word(1, "happy")
             # All NEED_LLM primitives should be queried and stored
             cursor = g.conn.execute("SELECT COUNT(*) FROM primitive_values WHERE source LIKE 'llm:%'")
             count = cursor.fetchone()[0]

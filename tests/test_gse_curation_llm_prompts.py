@@ -178,8 +178,8 @@ class TestBuildBatchPrompt:
         result = build_batch_prompt([{"word": "a"}, {"word": "b"}])
         # Lines containing the words should be on separate lines
         lines = result.split("\n")
-        line_a = next(i for i, l in enumerate(lines) if "1. a" in l)
-        line_b = next(i for i, l in enumerate(lines) if "2. b" in l)
+        line_a = next(i for i, line in enumerate(lines) if "1. a" in line)
+        line_b = next(i for i, line in enumerate(lines) if "2. b" in line)
         # They should be on different lines, b after a
         assert line_b > line_a
 

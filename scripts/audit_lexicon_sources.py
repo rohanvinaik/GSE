@@ -740,7 +740,7 @@ def load_usas_primitives_from_tsv(tsv_path: Path) -> Dict[str, Dict[str, int]]:
             if len(parts) < 3:
                 continue
 
-            lemma, pos, tags = parts[0], parts[1], parts[2]
+            lemma, tags = parts[0], parts[2]
             word = lemma.lower()
             prims = {}
 

@@ -425,7 +425,7 @@ class TestGenerateReport:
             report = generate_report(str(tmp_path / "lex.db"))
 
         # Only first 20 included
-        word_lines = [l for l in report.split("\n") if "**x**" in l]
+        word_lines = [line for line in report.split("\n") if "**x**" in line]
         assert len(word_lines) == 20
 
     def test_db_closed(self, tmp_path):

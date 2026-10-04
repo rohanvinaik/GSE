@@ -156,8 +156,9 @@ class TestExtractSentenceFeatures:
 
     def test_trace_enriches(self, extractor):
         sent = "alice runs."
-        # Without trace
-        without = extractor.extract_sentence_features(sent)
+        # Without trace. NOTE (#27): measured, this baseline ALREADY has SYN_SUBJ == 1.0, so the
+        # assertion below cannot show enrichment; the test needs a feature only the trace adds.
+        without = extractor.extract_sentence_features(sent)  # noqa: F841
         # With trace providing SYN_SUBJ via role
         tok_trace = MagicMock()
         tok_trace.role = "SUBJECT"

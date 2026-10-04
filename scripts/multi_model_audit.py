@@ -32,6 +32,8 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Dict, List, Optional, Tuple
 
+import requests
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
@@ -151,8 +153,6 @@ except ImportError:
 # ============================================================================
 # Ollama Client (Minimal)
 # ============================================================================
-
-import requests
 
 
 def query_model(model: str, prompt: str, timeout: int = 60) -> str:

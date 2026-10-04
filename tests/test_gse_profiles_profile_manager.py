@@ -85,7 +85,7 @@ class TestLearningProfileRecordEpoch:
 class TestProfileManagerInit:
     def test_creates_dir(self, tmp_profiles_dir):
         sub = Path(tmp_profiles_dir) / "new"
-        manager = ProfileManager(profiles_dir=str(sub))
+        ProfileManager(profiles_dir=str(sub))
         assert sub.exists()
 
     def test_no_active_initially(self, tmp_profiles_dir):

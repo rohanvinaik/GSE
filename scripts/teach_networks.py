@@ -349,7 +349,7 @@ Examples:
 
     # Run teaching
     try:
-        session = run_teaching(
+        run_teaching(
             corpus_dir=args.corpus,
             profile_name=args.profile,
             json_epochs=json_epochs,

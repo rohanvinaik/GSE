@@ -42,7 +42,7 @@ def make_lexeme(lemma="happy", pos="adj", sense_id="01", decomposition=None, sou
 
 class TestTranslatorInit:
     def test_creates_schema(self, temp_db):
-        translator = SQLiteMerkleTranslator(temp_db)
+        SQLiteMerkleTranslator(temp_db)
         # Schema should be created
         import sqlite3
 

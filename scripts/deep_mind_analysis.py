@@ -14,7 +14,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from collections import Counter, defaultdict
+from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import Dict, List, Set, Tuple
 
@@ -223,7 +223,7 @@ class DeepMindAnalyzer:
             for f in list(path.glob("*.txt"))[:sample_size]:
                 try:
                     texts.append(f.read_text(encoding="utf-8", errors="replace")[:2000])
-                except:
+                except Exception:
                     continue
 
         print(f"\nAnalyzing {len(texts)} text samples...")
@@ -231,7 +231,6 @@ class DeepMindAnalyzer:
         # Aggregate vectors
         all_vectors = []
         bank_activations = defaultdict(list)
-        primitive_activations = Counter()
         polarity_counts = {"positive": 0, "negative": 0}
 
         for text in texts:
@@ -248,10 +247,6 @@ class DeepMindAnalyzer:
             # Count polarity
             polarity_counts["positive"] += len(result.vector.positive_indices)
             polarity_counts["negative"] += len(result.vector.negative_indices)
-
-        # Compute aggregate statistics
-        mean_vector = np.mean(all_vectors, axis=0)
-        std_vector = np.std(all_vectors, axis=0)
 
         results = {
             "samples_analyzed": len(texts),
@@ -586,10 +581,10 @@ def main():
     analyzer = DeepMindAnalyzer()
 
     # 1. Analyze what the network learned
-    network_results = analyzer.analyze_network_patterns()
+    analyzer.analyze_network_patterns()
 
     # 2. Analyze the corpus
-    corpus_results = analyzer.analyze_corpus(args.corpus)
+    analyzer.analyze_corpus(args.corpus)
 
     # 3. Load sample texts for profile
     corpus_path = Path(args.corpus)
@@ -598,7 +593,7 @@ def main():
         for f in list(corpus_path.glob("*.txt"))[:30]:
             try:
                 sample_texts.append(f.read_text(encoding="utf-8", errors="replace")[:1500])
-            except:
+            except Exception:
                 continue
 
     # 4. Compute cognitive profile
@@ -606,7 +601,7 @@ def main():
         profile = analyzer.compute_cognitive_profile(sample_texts)
 
         # 5. Generate deep insights
-        insights = analyzer.generate_deep_insights(profile)
+        analyzer.generate_deep_insights(profile)
 
     print("\n" + "=" * 70)
     print("ANALYSIS COMPLETE")

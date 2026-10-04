@@ -313,7 +313,7 @@ def get_word_definition(word: str, conn: sqlite3.Connection) -> str:
         row = cursor.fetchone()
         if row:
             return row[0]
-    except:
+    except Exception:
         pass
     return ""
 

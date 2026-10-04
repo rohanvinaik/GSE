@@ -275,7 +275,7 @@ class TestProcessGptFile:
     def test_invalid_json_warns(self, tmp_path, short_min_proc, capsys):
         path = tmp_path / "bad.json"
         path.write_text("not json")
-        result = list(short_min_proc.process_gpt_file(str(path)))
+        list(short_min_proc.process_gpt_file(str(path)))
         out = capsys.readouterr().out
         assert "decode" in out.lower()
 

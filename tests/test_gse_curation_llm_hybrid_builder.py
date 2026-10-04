@@ -39,7 +39,7 @@ def fresh_db(tmp_path):
 
 def mk_builder(fresh_db):
     """Make a builder with both clients mocked."""
-    with patch("gse.curation.llm.hybrid_builder.OllamaClient") as MockClient:
+    with patch("gse.curation.llm.hybrid_builder.OllamaClient"):
         b = HybridLexiconBuilder(db_path=fresh_db)
         # Get the two distinct mock instances
         # OllamaClient was called twice (fast + validator)

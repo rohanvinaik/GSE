@@ -416,12 +416,12 @@ def test_pipeline():
     has_gestalt, has_meta, intensity = analyze_text_features(
         "It's like there's this shape I can feel but can't articulate."
     )
-    assert has_gestalt == True
+    assert has_gestalt
 
     has_gestalt, has_meta, intensity = analyze_text_features(
         "I'm trying to understand the pattern here. What's interesting is..."
     )
-    assert has_meta == True
+    assert has_meta
 
     has_gestalt, has_meta, intensity = analyze_text_features(
         "This is absolutely FUCKING ridiculous!! I can't believe it!"

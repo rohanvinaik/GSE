@@ -18,12 +18,12 @@ from pathlib import Path
 
 GSE_ROOT = Path("/Users/rohanvinaik/Projects/gse")
 sys.path.insert(0, str(GSE_ROOT))
-from gse.api import GSEEncoder
-from gse.discourse.speech import encode_document_utterances_traced
-from gse.symbolic import GenealogyStore, resolve_document
-from gse.symbolic.healer import build_envelope, make_repair_hook
-from gse.symbolic.healer.recollect import default_memory, default_memory_path
-from gse.symbolic.narrative import NarrativeGraph, compress
+from gse.api import GSEEncoder  # noqa: E402  # after sys.path setup
+from gse.discourse.speech import encode_document_utterances_traced  # noqa: E402  # after sys.path setup
+from gse.symbolic import GenealogyStore, resolve_document  # noqa: E402  # after sys.path setup
+from gse.symbolic.healer import build_envelope, make_repair_hook  # noqa: E402  # after sys.path setup
+from gse.symbolic.healer.recollect import default_memory, default_memory_path  # noqa: E402  # after sys.path setup
+from gse.symbolic.narrative import NarrativeGraph, compress  # noqa: E402  # after sys.path setup
 
 EVAL = GSE_ROOT / "data" / "eval_corpus"
 
@@ -47,7 +47,7 @@ def _docs(brown):
             yield f"{genre}/{doc_id}", sents
     else:
         for story in sorted(EVAL.glob("*.txt")):
-            yield name, [l.strip() for l in open(story) if l.strip()]
+            yield story.stem, [line.strip() for line in open(story) if line.strip()]
 
 
 def main() -> int:

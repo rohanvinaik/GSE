@@ -454,7 +454,7 @@ class TestGenerateReport:
         c = ExternalSourcesComparator()
         report = c.generate_report(results)
         # Should be 20 entries in high-conf section
-        high_conf_lines = [l for l in report.split("\n") if l.startswith("- **w")]
+        high_conf_lines = [line for line in report.split("\n") if line.startswith("- **w")]
         assert len(high_conf_lines) == 20
 
     def test_words_needing_review_section(self):
@@ -572,7 +572,7 @@ class TestGenerateReport:
         report = c.generate_report({"happy": r})
         # Indented sub-line
         lines = report.split("\n")
-        indented = [l for l in lines if l.startswith("  - ")]
+        indented = [line for line in lines if line.startswith("  - ")]
         assert len(indented) >= 1
 
     def test_blank_line_after_summary(self):
@@ -621,7 +621,7 @@ class TestGenerateReport:
         )
         c = ExternalSourcesComparator()
         report = c.generate_report({"x": r})
-        sub_lines = [l for l in report.split("\n") if l.startswith("  - ")]
+        sub_lines = [line for line in report.split("\n") if line.startswith("  - ")]
         assert len(sub_lines) == 3
 
 

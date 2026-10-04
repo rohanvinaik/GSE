@@ -147,7 +147,6 @@ def _names(n: int) -> list:
     out, i = [], 0
     while len(out) < n:
         c1, v1, c2, v2 = (cons[i % 13], vow[(i // 13) % 5], cons[(i // 65) % 13].lower(), vow[(i // 325) % 5])
-        name = f"{c1}{v1}{c2}o{v2}"  # Kabo a, Babo e, ...
         i += 1
         out.append(f"{c1}{v1}{c2}{v2}n")  # Kaban, Beban, ...
     return list(dict.fromkeys(out))[:n]

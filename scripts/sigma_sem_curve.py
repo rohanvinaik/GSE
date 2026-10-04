@@ -139,7 +139,7 @@ def main() -> int:
         counts = []
         for sname in synset_names:
             syn = wn.synset(sname)
-            counts.append(1 + sum(l.count() for l in syn.lemmas() if l.name().lower() == lemma))
+            counts.append(1 + sum(wn_lemma.count() for wn_lemma in syn.lemmas() if wn_lemma.name().lower() == lemma))
         tot = sum(counts)
         return [c / tot for c in counts]
 

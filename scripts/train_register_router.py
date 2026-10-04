@@ -58,7 +58,7 @@ def main() -> int:
     levelfn = {"genre": lambda g: g, "super_register": super_register_of, "register_class": register_class_of}[
         args.level
     ]
-    rows = [json.loads(l) for l in open(args.corpus)]
+    rows = [json.loads(line) for line in open(args.corpus)]
     labels = sorted({levelfn(r["genre"]) for r in rows})
     li = {lab: i for i, lab in enumerate(labels)}
     X = np.array([r["vector"] for r in rows], dtype=np.float32)
@@ -174,7 +174,10 @@ def main() -> int:
         comp_acc.append((comp == y[te]).mean())
         # coarse register_class agreement (poetry/reference/list = non_speech).
         nonsp = {"poetry", "reference", "list"}
-        coarse = lambda lab: "non_speech" if lab in nonsp else "speech"
+
+        def coarse(lab):
+            return "non_speech" if lab in nonsp else "speech"
+
         rc_acc.append(np.mean([coarse(labels[p]) == coarse(labels[t]) for p, t in zip(comp, y[te])]))
         for p, t in zip(comp, y[te]):
             if p != t:

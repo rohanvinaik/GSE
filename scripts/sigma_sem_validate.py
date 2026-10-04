@@ -78,7 +78,11 @@ def _paraphrase(tagged, wn, Lemma):
             if isinstance(lab, Lemma):
                 syn = lab.synset()
                 orig = lab.name().split("%")[0].lower()
-                alts = [l.name() for l in syn.lemmas() if l.name().lower() != orig and "_" not in l.name()]
+                alts = [
+                    wn_lemma.name()
+                    for wn_lemma in syn.lemmas()
+                    if wn_lemma.name().lower() != orig and "_" not in wn_lemma.name()
+                ]
                 if alts:
                     words.append(alts[0])
                     subs += 1
@@ -165,7 +169,10 @@ def main() -> int:
     import math
 
     def freq_prior(lemma, snames):
-        counts = [1 + sum(l.count() for l in wn.synset(s).lemmas() if l.name().lower() == lemma) for s in snames]
+        counts = [
+            1 + sum(wn_lemma.count() for wn_lemma in wn.synset(s).lemmas() if wn_lemma.name().lower() == lemma)
+            for s in snames
+        ]
         tot = sum(counts)
         return [c / tot for c in counts]
 

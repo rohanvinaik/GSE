@@ -291,7 +291,7 @@ def parse_decomposition(response: str, word: str) -> Optional[List[Tuple[str, st
 
         return valid_decomp
 
-    except:
+    except Exception:
         return None
 
 

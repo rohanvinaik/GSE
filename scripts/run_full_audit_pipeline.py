@@ -13,9 +13,14 @@ See: prompts/AUDIT_PIPELINE.md for full documentation
 """
 
 import argparse
+import csv
 import json
 import logging
 import sqlite3
+import subprocess
+import time
+from datetime import datetime
+from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -958,12 +963,6 @@ def run_stage_8(cursor: sqlite3.Cursor) -> Dict[str, int]:
 # External Data: NRC-VAD, intensity_ground_truth.json, Lancaster, concreteness
 # Mode: AUDIT ONLY - flags issues, generates fix scripts
 # =============================================================================
-
-import csv
-import subprocess
-import time
-from datetime import datetime
-from pathlib import Path
 
 # Default models for multi-model consensus
 DEFAULT_SMALL_MODELS = ["smollm:1.7b", "granite3-moe:1b", "gemma2:2b"]
@@ -2172,7 +2171,7 @@ def run_continuous_audit(
             ]
 
             if disputed:
-                large_model_results = run_large_model_review(disputed)
+                large_model_results = run_large_model_review(disputed)  # noqa: F841  — discarded: #27
 
         # Write cycle summary
         _write_cycle_summary(cycle, phase1_results, phase2_results if flagged else {})
@@ -2445,7 +2444,6 @@ FROM lexemes WHERE lemma IN ('{words}');
         for fix in modifier_fixes:
             word = fix["word"]
             expected = fix.get("expected", {})
-            level = fix.get("ground_truth_level", 0)
 
             for prim, val in expected.items():
                 fixes.append(f"""

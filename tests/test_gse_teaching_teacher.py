@@ -256,7 +256,7 @@ def teacher(profile_mgr):
 
 class TestNetworkTeacherInit:
     def test_creates_new_profile(self, profile_mgr):
-        t = NetworkTeacher(profile_manager=profile_mgr, profile_name="newp")
+        NetworkTeacher(profile_manager=profile_mgr, profile_name="newp")
         assert profile_mgr.profile_exists("newp")
 
     def test_loads_existing_profile(self, profile_mgr):

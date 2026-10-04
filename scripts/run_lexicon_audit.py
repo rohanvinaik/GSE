@@ -97,7 +97,7 @@ def run_audit():
         conc_map = {row["Word"].lower(): row for row in concreteness}
 
         # nrc_emotion: aback   anger   0 (no header)
-        nrc_emotion_list = load_csv("data/external/nrc_emotion.txt", sep="\t", names=["word", "emotion", "association"])
+        load_csv("data/external/nrc_emotion.txt", sep="\t", names=["word", "emotion", "association"])
         # Maybe index? List of dicts checks is fine for simple stuff, but prompt use?
         # Actually prompt script didn't use emotion. I will skip complex indexing unless needed.
 
@@ -282,7 +282,7 @@ def run_audit():
                                 "Source": "Concreteness",
                             }
                         )
-                except:
+                except Exception:
                     pass
 
     # Check 4: Source Disagreement
