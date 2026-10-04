@@ -178,7 +178,7 @@ def run(encoder: GSEEncoder) -> None:
     print(f"  HDC vector cosine(A, B) = {cos:.3f}   ← nearly the same vector")
     print("                                       (an embedding model stops here)")
     print()
-    print(f"  …but the symbolic logic:")
+    print("  …but the symbolic logic:")
     print(f"      A:  {_fmt(pa)}")
     print(f"      B:  {_fmt(pb)}")
     print(f"      logically equal?   {'YES' if is_logically_equal_to(ta, tb) else 'NO'}")
@@ -206,7 +206,7 @@ def run(encoder: GSEEncoder) -> None:
     novel = substitute(tree, {"dog": "zorble", "cat": "florp", "bark": "blib"})
     print(f'  known:  "{known}"')
     print(f"          {_fmt(predicates(tree)[0])}")
-    print(f"  novel:  (substitute dog→zorble, cat→florp, bark→blib)")
+    print("  novel:  (substitute dog→zorble, cat→florp, bark→blib)")
     print(f"          {_fmt(predicates(novel)[0])}")
     print()
     orig_types = [type(p).__name__ for p in predicates(tree)]

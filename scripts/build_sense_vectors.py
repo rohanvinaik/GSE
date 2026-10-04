@@ -30,6 +30,7 @@ import time
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from nltk.corpus import wordnet as wn  # noqa: E402
+
 from gse.pipeline_v2 import GSEPipeline  # noqa: E402
 from gse.vectors_v2 import bundle  # noqa: E402
 
@@ -141,8 +142,9 @@ def main():
 
     # ---- self-test: from the STORED vectors, does men->person beat men->work_force? ----
     print("\n[self-test] men sense discrimination from the persisted store")
-    from gse.vectors_v2 import SparseVector
     import numpy as np
+
+    from gse.vectors_v2 import SparseVector
 
     def load(tbl, key, conn):
         r = conn.execute(f"SELECT pos,neg FROM {tbl} WHERE {'word' if tbl=='word_vec' else 'synset'}=?", (key,)).fetchone()

@@ -10,7 +10,8 @@ plus the empirical confusion-table overlay (injection + decisive bias), which mu
 operate *within* the symbolic frame (every suggestion still grounds)."""
 import pytest
 
-from gse.nlp.spellcheck import correct, suggest, propose, _DEFAULT_LEXICON as LX
+from gse.nlp.spellcheck import _DEFAULT_LEXICON as LX
+from gse.nlp.spellcheck import correct, propose, suggest
 
 
 # ---- 1. corrects genuine everyday typos -----------------------------------------

@@ -17,7 +17,13 @@ Usage:
   from voice_profile import profile; profile(texts) -> dict
 """
 from __future__ import annotations
-import glob, json, math, os, re, statistics, sys
+
+import glob
+import json
+import os
+import re
+import statistics
+import sys
 from collections import defaultdict
 from pathlib import Path
 

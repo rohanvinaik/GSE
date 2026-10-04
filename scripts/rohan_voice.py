@@ -19,7 +19,13 @@ Usage:
   from rohan_voice import recognize; recognize(text) -> dict
 """
 from __future__ import annotations
-import json, math, os, re, sqlite3, sys
+
+import json
+import math
+import os
+import re
+import sqlite3
+import sys
 from collections import defaultdict
 from pathlib import Path
 

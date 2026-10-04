@@ -19,7 +19,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from collections import Counter, defaultdict
+from collections import defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -95,7 +95,7 @@ def main() -> int:
         print(f"  register_class (root)            = {_fmt(rc_acc)}")
         print(f"  super_register (descent)         = {_fmt(sup_acc)}   <- vs flat 0.713")
         print(f"  genre (full descent)             = {_fmt(gen_acc)}   (leaf; sparse/fold)")
-        print(f"\n  most-confused super_register pairs (post-cascade):")
+        print("\n  most-confused super_register pairs (post-cascade):")
         for (a, b), n in sorted(confusion.items(), key=lambda kv: -kv[1])[:8]:
             print(f"    {n}×  {a} ~ {b}")
 

@@ -23,12 +23,17 @@ from typing import Any, Dict, List
 from mcp.server.fastmcp import FastMCP
 
 from gse.api import GSEEncoder
-from gse.nlp.spellcheck import correct, looks_non_lexical, _DEFAULT_LEXICON
+from gse.nlp.hdc_speller import (
+    HDC_COMMIT_COS,
+    HDC_OFFER_COS,
+    HDC_TIEBREAK_COS,
+    HDC_TIEBREAK_MARGIN,
+    default_speller,
+    score_words,
+)
+from gse.nlp.spellcheck import _DEFAULT_LEXICON, _PRIOR_UNRANKED, correct, looks_non_lexical
 from gse.nlp.spellcheck_context import correct_in_context, recover_rare_tail
-from gse.nlp.spellcheck_entity import correct_entity, _DEFAULT_ENTITIES
-from gse.nlp.hdc_speller import (default_speller, score_words, HDC_COMMIT_COS,
-                                 HDC_OFFER_COS, HDC_TIEBREAK_COS, HDC_TIEBREAK_MARGIN)
-from gse.nlp.spellcheck import _PRIOR_UNRANKED
+from gse.nlp.spellcheck_entity import _DEFAULT_ENTITIES, correct_entity
 
 # clitics the native tokenizer splits off ("don't" -> "do" "n't"); rejoined for display
 _CLITICS = {"n't", "'s", "'re", "'ve", "'ll", "'d", "'m"}

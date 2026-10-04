@@ -8,10 +8,12 @@ never destroys real information" into a measured rate, with the actual failures 
 
 Run:  python scripts/adversarial_destruction.py
 """
-import sys, time
+import sys
+import time
+
 sys.path.insert(0, "/Users/rohanvinaik/Projects/gse")
-from gse.nlp.spellcheck import (_edits1, looks_non_lexical, Candidate,
-                                WORD_COMMIT_MARGIN, _DEFAULT_LEXICON as LX)
+from gse.nlp.spellcheck import _DEFAULT_LEXICON as LX
+from gse.nlp.spellcheck import WORD_COMMIT_MARGIN, Candidate, _edits1, looks_non_lexical
 
 REF = "/usr/share/dict/web2"   # ~234k clean English words, independent of our build
 

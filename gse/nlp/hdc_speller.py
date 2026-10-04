@@ -29,7 +29,7 @@ from typing import List, Optional, Tuple
 
 import numpy as np
 
-from gse.vectors_v2 import D, SparseVector, permute, bind, weighted_bundle
+from gse.vectors_v2 import D, SparseVector, bind, permute, weighted_bundle
 
 # ---- operating point (measured, not tuned-to-taste) -----------------------------
 _DENSITY = 0.10            # base key-vector sparsity (nnz ~ 0.10*D)

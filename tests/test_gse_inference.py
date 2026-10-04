@@ -6,7 +6,6 @@ chains and direction-refusal. Hand-built trees make the graph logic
 deterministic; the real encoder confirms it end-to-end on an LSAT-style problem.
 """
 
-from pathlib import Path
 
 import pytest
 

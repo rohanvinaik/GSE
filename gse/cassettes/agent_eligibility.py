@@ -26,7 +26,7 @@ from __future__ import annotations
 from typing import Dict, Optional
 
 from .multiscale import MultiScaleDoc
-from .person_validation import _is_person_safe, _world_threads, _facets
+from .person_validation import _facets, _is_person_safe, _world_threads
 
 # sparse-wiki / DBpedia world-type roots. PLACE and GROUP are the two non-person animate/inanimate kinds.
 _PLACE_WORLD = frozenset({

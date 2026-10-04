@@ -79,10 +79,12 @@ def main() -> int:
             nltk.data.find(path)
         except LookupError:
             nltk.download(pkg, quiet=True)
-    from nltk.corpus import semcor, wordnet as wn
+    from nltk.corpus import semcor
+    from nltk.corpus import wordnet as wn
     from nltk.corpus.reader.wordnet import Lemma
+
     from gse.api import GSEEncoder
-    from gse.symbolic import evaluate_tree, from_trace, resolve, resolve_document, GenealogyStore
+    from gse.symbolic import GenealogyStore, evaluate_tree, from_trace, resolve, resolve_document
     from gse.symbolic.grounding import _collect_entities, _is_proper, _jaccard, _lookup_key
 
     enc, store = GSEEncoder(), GenealogyStore()
@@ -152,10 +154,10 @@ def main() -> int:
     print(f"\n  COMPUTATIONAL ORACLE: GSE's reported σ_sem is the TRUE optimal teaching dimension on "
           f"{100*exact_match/n_tok:.1f}% of tokens — the greedy engine does not inflate it; the number the "
           f"benchmark reports IS the minimum-teaching-set cardinality, not a heuristic over-count.")
-    print(f"\n  HONEST BOUND (representational oracle, NOT answerable on current GSE): whether GSE's IS-A "
-          f"structure is the TRUE distinguishing feature space — vs a richer space that could teach the same "
-          f"reading with fewer constraints — requires a substrate beyond the current one. That is the "
-          f"re-tooling phase; here σ_sem is validated as EXACT over the feature space GSE actually exposes.")
+    print("\n  HONEST BOUND (representational oracle, NOT answerable on current GSE): whether GSE's IS-A "
+          "structure is the TRUE distinguishing feature space — vs a richer space that could teach the same "
+          "reading with fewer constraints — requires a substrate beyond the current one. That is the "
+          "re-tooling phase; here σ_sem is validated as EXACT over the feature space GSE actually exposes.")
     return 0
 
 

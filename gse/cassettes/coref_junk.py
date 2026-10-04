@@ -30,7 +30,7 @@ a possessor ("her sister") is entity_identity's territory — skipped here.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional
 
 from .base import Cassette
 from .multiscale import Mention, MultiScaleDoc

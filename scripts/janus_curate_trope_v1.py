@@ -20,8 +20,8 @@ from gse.pragmatics.figure_store import (  # noqa: E402
     FigureExample,
     Label,
     clear_user,
-    init_db,
     ingest_example,
+    init_db,
     training_ready,
 )
 

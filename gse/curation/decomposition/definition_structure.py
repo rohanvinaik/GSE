@@ -42,7 +42,7 @@ _NLP = None
 def _nlp():
     global _NLP
     if _NLP is None:
-        from gse.nlp.native import NativeNLP   # the deterministic front-end (spaCy retired)
+        from gse.nlp.native import NativeNLP  # the deterministic front-end (spaCy retired)
 
         _NLP = NativeNLP()
     return _NLP

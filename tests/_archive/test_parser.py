@@ -1,5 +1,4 @@
 import pytest
-
 from gse.parser import POS, Parser
 
 

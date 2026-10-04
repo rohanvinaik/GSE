@@ -13,7 +13,7 @@ from __future__ import annotations
 import sys
 from typing import List
 
-from gse.nlp.spellcheck import correct, _DEFAULT_LEXICON
+from gse.nlp.spellcheck import _DEFAULT_LEXICON, correct
 from gse.nlp.spellcheck_context import correct_in_context
 
 _CONTENT_POS = {"NOUN", "PROPN", "VERB", "ADJ", "ADV"}

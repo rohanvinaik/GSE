@@ -359,7 +359,7 @@ def encode_utterances(enc, sentence: str) -> List:
     loop: ``for s in sentences: trees.extend(encode_utterances(enc, s))``. A quoted clause is
     encoded in isolation (no ``said X`` pollution) and its deictic args rebound to the
     speaker/addressee; plain narration round-trips unchanged."""
-    from gse.symbolic import from_trace, resolve, evaluate_tree
+    from gse.symbolic import evaluate_tree, from_trace, resolve
 
     out: List = []
     for utt in segment_speech(sentence):
@@ -383,7 +383,7 @@ def encode_document_utterances_traced(enc, sentences) -> List:
     caller uses this sibling to keep it, build the envelope per utterance, and carry it to the
     ``narrative.from_document(repair=)`` seam. The ``tree``/``utterance`` are byte-identical to what
     the plain twin produces — same ``segment_document`` loop, same deixis."""
-    from gse.symbolic import from_trace, resolve, evaluate_tree
+    from gse.symbolic import evaluate_tree, from_trace, resolve
 
     out: List = []
     for utt in segment_document(sentences):

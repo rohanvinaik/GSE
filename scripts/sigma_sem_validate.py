@@ -134,10 +134,12 @@ def main() -> int:
             nltk.data.find(path)
         except LookupError:
             nltk.download(pkg, quiet=True)
-    from nltk.corpus import semcor, wordnet as wn
+    from nltk.corpus import semcor
+    from nltk.corpus import wordnet as wn
     from nltk.corpus.reader.wordnet import Lemma
+
     from gse.api import GSEEncoder
-    from gse.symbolic import evaluate_tree, from_trace, resolve, resolve_document, GenealogyStore
+    from gse.symbolic import GenealogyStore, evaluate_tree, from_trace, resolve, resolve_document
     from gse.symbolic.grounding import _collect_entities, _is_proper, _jaccard, _lookup_key
 
     enc, store = GSEEncoder(), GenealogyStore()

@@ -32,13 +32,13 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from gse.pragmatics.figures import BY_NAME, FIGURE_NAMES, figures_in_bank  # noqa: E402
 from gse.pragmatics.figure_store import (  # noqa: E402
     FigureExample,
     Label,
-    init_db,
     ingest_example,
+    init_db,
 )
+from gse.pragmatics.figures import BY_NAME, FIGURE_NAMES, figures_in_bank  # noqa: E402
 
 DB_PATH = str(Path(__file__).resolve().parents[1] / "data" / "janus_figures.db")
 _UA = "GSE-Janus-curation/0.1 (research; contact via repo)"

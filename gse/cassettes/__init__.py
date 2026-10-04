@@ -12,14 +12,20 @@ See ``~/Genesis/docs/CASSETTE_ARCHITECTURE_DESIGN_BRIEF.md``.
 """
 from __future__ import annotations
 
+from .agent_eligibility import AgentEligibility
 from .base import Cassette, Resolution, Scored
+from .cheatsheet import (
+                         CheatSheet,
+                         build_cheatsheet,
+                         build_relabel_map,
+                         correct_contracts,
+                         make_merge_repair,
+                         make_retype_repair,
+)
+from .coref_junk import CorefJunk
 from .deck import CassetteDeck, CheatEntry, DeckResult
 from .entity_identity import EntityIdentity, IdentityGap
-from .coref_junk import CorefJunk
-from .cheatsheet import (CheatSheet, build_cheatsheet, build_relabel_map,
-                         correct_contracts, make_merge_repair, make_retype_repair)
 from .multiscale import Mention, MultiScaleDoc
-from .agent_eligibility import AgentEligibility
 from .person_validation import PersonGap, PersonValidation
 from .referent_validation import ReferentGap, ReferentValidation
 from .relational_identity import RelationalIdentity

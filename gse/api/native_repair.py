@@ -17,7 +17,7 @@ from __future__ import annotations
 
 from collections import Counter
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Set
+from typing import Dict, Optional, Set
 
 from nltk.corpus import wordnet as wn
 

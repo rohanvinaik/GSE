@@ -60,6 +60,7 @@ exclude = [
     "gse/_archive",
     "daemon",
     ".lintgate",
+    "tests/detective",  # Detective-generated, content-hashed, regenerated wholesale: never hand- or tool-edited
 ]
 
 [tool.ruff.lint]

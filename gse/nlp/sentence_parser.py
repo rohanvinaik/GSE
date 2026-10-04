@@ -20,10 +20,8 @@ Mapping Architecture:
     CCG categories → Operator arity and scope
 """
 
-import re
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Tuple
-
+from typing import Dict, List, Optional
 
 try:
     import amrlib

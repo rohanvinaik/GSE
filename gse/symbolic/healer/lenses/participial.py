@@ -36,9 +36,9 @@ import os
 
 from gse.symbolic.predicates import Event
 
+from ..fold_reader import best_subject
 from ..lens import AdditiveLens, Repair
 from ..treewalk import candidate_subjects, event_verbs, main_animate_subject
-from ..fold_reader import best_subject
 
 # Preceding-token POS that signals the -ing is a NOMINAL gerund, not a participial adjunct:
 # "good lodging" (ADJ), "their muttering" (PRON poss.), "the singing" (DET), "night's drinking" (PART 's).

@@ -3,10 +3,9 @@ import pytest
 from gse.coherence import CoherenceChecker
 from gse.composer import Composer
 from gse.lexicon_generator import LexiconEntry
+from gse.parser import Parser
 from gse.primitives import PRIMITIVES, ROLES
 from gse.vectors import D, PrimitiveBasis, SparseVector
-
-from gse.parser import Parser
 
 
 class SmartMockLexicon:

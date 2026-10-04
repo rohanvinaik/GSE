@@ -38,7 +38,14 @@ from dataclasses import dataclass, field
 from typing import Callable, Dict, List, Optional, Sequence, Tuple
 
 from gse.nlp.spellcheck import (
-    _LAMBDA, _edits1, _edits2, WORD_COMMIT_MARGIN, Candidate, propose as _propose_words,
+    _LAMBDA,
+    WORD_COMMIT_MARGIN,
+    Candidate,
+    _edits1,
+    _edits2,
+)
+from gse.nlp.spellcheck import (
+    propose as _propose_words,
 )
 
 _REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

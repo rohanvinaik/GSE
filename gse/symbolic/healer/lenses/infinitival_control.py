@@ -21,9 +21,9 @@ import os
 
 from gse.symbolic.predicates import Event
 
+from ..fold_reader import best_subject
 from ..lens import AdditiveLens, Repair
 from ..treewalk import candidate_subjects, event_verbs, main_animate_subject
-from ..fold_reader import best_subject
 
 # The recollective-recall confidence gate (the abstention censor), mangle-specific. Env-tunable.
 _THETA = float(os.environ.get("GENESIS_HEALER_THETA_INF", "0.88"))

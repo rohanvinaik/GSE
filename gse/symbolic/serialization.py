@@ -22,10 +22,9 @@ from gse.symbolic.expression import Atom, Expression, Negation, Op, Phrase
 from gse.symbolic.predicates import (
     BoundaryCase,
     Causation,
-    Conditional,
-    Temporal,
-    Comparison,
     ClauseCoordination,
+    Comparison,
+    Conditional,
     Contrast,
     Control,
     DegreeQuery,
@@ -35,6 +34,7 @@ from gse.symbolic.predicates import (
     Predicate,
     RelativeRestriction,
     SetRestriction,
+    Temporal,
     TypeAssertion,
     TypeQuery,
 )

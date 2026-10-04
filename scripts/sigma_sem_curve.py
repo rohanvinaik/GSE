@@ -89,12 +89,18 @@ def main() -> int:
             nltk.data.find(path)
         except LookupError:
             nltk.download(pkg, quiet=True)
-    from nltk.corpus import semcor, wordnet as wn
+    from nltk.corpus import semcor
+    from nltk.corpus import wordnet as wn
     from nltk.corpus.reader.wordnet import Lemma
+
     from gse.api import GSEEncoder
-    from gse.symbolic import evaluate_tree, from_trace, resolve, resolve_document, GenealogyStore
+    from gse.symbolic import GenealogyStore, evaluate_tree, from_trace, resolve, resolve_document
     from gse.symbolic.grounding import (
-        _COHERENCE_MARGIN, _collect_entities, _is_proper, _jaccard, _lookup_key,
+        _COHERENCE_MARGIN,
+        _collect_entities,
+        _is_proper,
+        _jaccard,
+        _lookup_key,
     )
     try:
         from lintgate.specification.greedy_convergence import analyze_convergence
@@ -271,7 +277,7 @@ def main() -> int:
         ms = survivors_by_scale[s] / max(1, total)
         mh = H_by_scale[s] / max(1, total)
         print(f"  {s:10} {ms:22.3f} {mh:22.3f}  {'█' * int(mh * 12)}")
-    print(f"\n  σ_sem = the SCALE at which the gold reading becomes structurally UNIQUE (H → 0):")
+    print("\n  σ_sem = the SCALE at which the gold reading becomes structurally UNIQUE (H → 0):")
     for s in SCALES:
         n = resolved_at.get(s, 0)
         print(f"    resolves @ {s:14}: {n:4d}  {'█' * min(40, n)}")
@@ -283,8 +289,8 @@ def main() -> int:
           f"(a competitor with an IDENTICAL IS-A thread — the 72-prime basis truly cannot distinguish; §15)")
 
     # --- B · σ_sem CARDINALITY (teaching dimension: min context entities to make gold unique) ---
-    print(f"\n  σ_sem CARDINALITY — min context entities (revealed examples) to make the gold unique")
-    print(f"  [the teaching dimension; LintGate greedy-cover on the entity-indexed discrete kill-matrix]:")
+    print("\n  σ_sem CARDINALITY — min context entities (revealed examples) to make the gold unique")
+    print("  [the teaching dimension; LintGate greedy-cover on the entity-indexed discrete kill-matrix]:")
     resolvable = total - card_survivor
     for k in sorted(card_hist):
         n = card_hist[k]
@@ -298,7 +304,7 @@ def main() -> int:
               f"(bulk = one revealed example collapses the majority; tail = one-at-a-time)")
 
     # --- A · SURPRISE (belief revision off the frequency prior — the resolution signal) ---
-    print(f"\n  SURPRISE S_sem = KL(δ_structure ‖ freq-prior) = −log₂ P_freq(resolved reading):")
+    print("\n  SURPRISE S_sem = KL(δ_structure ‖ freq-prior) = −log₂ P_freq(resolved reading):")
     print(f"    mean S_sem over all tokens = {surprise_sum / max(1, total):.3f} bits")
     print(f"    structure OVERRODE the frequency-primary on {override_n} tokens "
           f"({100 * override_n / max(1, total):.1f}%) — the learning signal, where context moved the reading;")
@@ -306,10 +312,10 @@ def main() -> int:
         print(f"      mean surprise on those overrides = {override_surprise_sum / override_n:.3f} bits "
               f"(high = a rare sense promoted by structure).")
 
-    print(f"\n  READING: understanding measured three ways — the σ-TRAJECTORY (H↓ as structural scale widens), "
-          f"the σ_sem CARDINALITY (teaching dimension, a Blum measure), and SURPRISE (where structure revises "
-          f"the frequency prior). σ_sem is where conceptual entropy reaches 0; the residual is the closed basis's "
-          f"honest silence.")
+    print("\n  READING: understanding measured three ways — the σ-TRAJECTORY (H↓ as structural scale widens), "
+          "the σ_sem CARDINALITY (teaching dimension, a Blum measure), and SURPRISE (where structure revises "
+          "the frequency prior). σ_sem is where conceptual entropy reaches 0; the residual is the closed basis's "
+          "honest silence.")
     return 0
 
 

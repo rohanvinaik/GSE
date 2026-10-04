@@ -23,6 +23,12 @@ Sub-packages:
 See ``docs/PHASE_B_SCOPE.md`` for the live scope.
 """
 
+from gse.symbolic.emit import (
+    CONTRACT_VERSION,
+    emit,
+    emit_contract,
+    emit_json,
+)
 from gse.symbolic.expression import (
     Atom,
     Expression,
@@ -31,6 +37,18 @@ from gse.symbolic.expression import (
     Phrase,
     from_trace,
 )
+from gse.symbolic.genealogy_store import GenealogyStore
+from gse.symbolic.grounding import (
+    GenealogyProvider,
+    GroundingFlag,
+    NullGenealogy,
+    TriageResult,
+    grounding_flags,
+    resolve_document,
+    resolve_references,
+    triage_flags,
+)
+from gse.symbolic.inference import Derivation, KnowledgeBase
 from gse.symbolic.operators import (
     OPERATION_DISPATCH,
     UnknownOperation,
@@ -64,24 +82,6 @@ from gse.symbolic.queries import (
     is_argument_swap_of,
     is_logically_equal_to,
     predicates,
-)
-from gse.symbolic.emit import (
-    CONTRACT_VERSION,
-    emit,
-    emit_contract,
-    emit_json,
-)
-from gse.symbolic.genealogy_store import GenealogyStore
-from gse.symbolic.inference import Derivation, KnowledgeBase
-from gse.symbolic.grounding import (
-    GenealogyProvider,
-    GroundingFlag,
-    NullGenealogy,
-    TriageResult,
-    grounding_flags,
-    resolve_document,
-    resolve_references,
-    triage_flags,
 )
 from gse.symbolic.resolution import Coordination, Entity, resolve
 from gse.symbolic.serialization import (

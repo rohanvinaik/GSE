@@ -18,8 +18,8 @@ import sqlite3
 import time
 from collections import Counter
 
-from gse.curation.decomposition.definitional_decomposer import _CLOSED_CLASS
 from gse.curation.decomposition.definition_linker import Linker
+from gse.curation.decomposition.definitional_decomposer import _CLOSED_CLASS
 from gse.curation.decomposition.source_index import senses
 
 CLEAN_DB = "data/lexicon_clean.db"

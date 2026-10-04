@@ -80,7 +80,7 @@ def restore(contract: Any, sentinel_map: dict) -> Any:
 def emit_contract_with_variables(encoder, text: str, variables: Optional[dict] = None) -> Any:
     """The variable-aware emit: substitute declared variables → run the unchanged GSE pipeline →
     restore typed variable-refs. `encoder` is a live `gse.api.GSEEncoder`."""
-    from gse.symbolic import from_trace, resolve, evaluate_tree, resolve_references, GenealogyStore
+    from gse.symbolic import GenealogyStore, evaluate_tree, from_trace, resolve, resolve_references
     from gse.symbolic.emit import emit_contract
 
     sub_text, sentinel_map = substitute(text, variables)

@@ -25,9 +25,10 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 
 from gse.api import GSEEncoder
+from gse.discourse.profile import split_sentences
 from gse.symbolic import GenealogyStore, resolve_document
 from gse.symbolic.expression import Atom, from_trace
 from gse.symbolic.healer.fold_reader import EntityFold, read_fold
@@ -35,7 +36,6 @@ from gse.symbolic.healer.treewalk import walk
 from gse.symbolic.narrative import _collect_predicates
 from gse.symbolic.operators import evaluate_tree
 from gse.symbolic.resolution import Entity, resolve
-from gse.discourse.profile import split_sentences
 
 _GENRE_RE = re.compile(r"^\s*GENRE\s*:\s*(NARRATIVE|EXPOSITORY|ARGUMENTATIVE)\b", re.I | re.M)
 _SCAFFOLD = re.compile(r"^(GENRE|TITLE|CONTEXT|WIKIPEDIA|WEB RESULTS)\s*:")

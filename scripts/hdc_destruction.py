@@ -10,10 +10,14 @@ weight (these drive the weighted bound) plus a sample of the rest.
 
 Run:  python scripts/hdc_destruction.py
 """
-import sys, time, sqlite3
+import sqlite3
+import sys
+import time
+
 sys.path.insert(0, "/Users/rohanvinaik/Projects/gse")
-from gse.nlp.spellcheck import looks_non_lexical, _DEFAULT_LEXICON as LX
-from gse.mcp.spell_server import _hdc_recover   # the production gate (commit/offer)
+from gse.mcp.spell_server import _hdc_recover  # the production gate (commit/offer)
+from gse.nlp.spellcheck import _DEFAULT_LEXICON as LX
+from gse.nlp.spellcheck import looks_non_lexical
 
 REF = "/usr/share/dict/web2"
 SAMPLE_CAP = 6000          # cap on weightless danger-zone words (for the unweighted estimate)

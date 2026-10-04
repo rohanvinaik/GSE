@@ -52,7 +52,7 @@ def main() -> int:
                       ["build_l2_corpus.py", "--fresh",
                        "--docs-per-genre", dpg, "--max-sents", ms]))
     steps += [
-        (f"RE-TRAIN hierarchical SoM (nested cascade) → accuracy + confusion",
+        ("RE-TRAIN hierarchical SoM (nested cascade) → accuracy + confusion",
          ["train_register_router.py", "--nested", "--level", args.level]),
         # The audit MUST mirror the build's sampling — same docs-per-genre/max-sents —
         # so the gap analysis covers the WHOLE grown corpus. Hardcoding it to a small

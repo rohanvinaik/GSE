@@ -16,7 +16,6 @@ from gse.api.encoder import GSEEncoder
 from gse.nlp.morphology import NEGATION, REVERSAL, resolve_negation
 from gse.primitives_v2 import negate_decomposition
 
-
 # --- Piece 1: selective bipolar negate ------------------------------------------
 
 @pytest.mark.parametrize("decomp,expected", [

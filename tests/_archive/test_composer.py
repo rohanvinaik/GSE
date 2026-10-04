@@ -1,10 +1,9 @@
 import pytest
 from gse.composer import Composer
 from gse.lexicon_generator import LexiconEntry
+from gse.parser import Parser
 from gse.primitives import PRIMITIVES, ROLES
 from gse.vectors import PrimitiveBasis, SparseVector
-
-from gse.parser import Parser
 
 
 class MockLexicon:

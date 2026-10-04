@@ -10,6 +10,7 @@ specialist applied, how many came from the trained K-line (vs the fold), and sho
 events that reach the compactor.
 """
 from __future__ import annotations
+
 import sys
 from collections import Counter
 from pathlib import Path
@@ -17,11 +18,11 @@ from pathlib import Path
 GSE_ROOT = Path("/Users/rohanvinaik/Projects/gse")
 sys.path.insert(0, str(GSE_ROOT))
 from gse.api import GSEEncoder
+from gse.discourse.speech import encode_document_utterances_traced
 from gse.symbolic import GenealogyStore, resolve_document
-from gse.symbolic.narrative import NarrativeGraph, compress
 from gse.symbolic.healer import build_envelope, make_repair_hook
 from gse.symbolic.healer.recollect import default_memory, default_memory_path
-from gse.discourse.speech import encode_document_utterances_traced
+from gse.symbolic.narrative import NarrativeGraph, compress
 
 EVAL = GSE_ROOT / "data" / "eval_corpus"
 
@@ -83,7 +84,7 @@ def main() -> int:
         print(f"    {name:26s} {seen:3d} / {reps:3d} / {nk:2d} / {nin:3d} / {nout:3d}")
     print(f"\n  TOTAL heal-fixes by specialist: {dict(fires)}")
     print(f"  of which from the TRAINED K-LINE: {dict(kline)}")
-    print(f"\n  K-LINE-healed events that reached the compactor (the trained fixes feeding compact):")
+    print("\n  K-LINE-healed events that reached the compactor (the trained fixes feeding compact):")
     for name, note in kline_events:
         print(f"    [{name}] {note}")
     return 0

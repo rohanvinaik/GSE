@@ -34,7 +34,7 @@ from functools import lru_cache
 from typing import FrozenSet, List, Optional, Sequence, Tuple
 
 from gse.nlp.native import _STOP
-from gse.nlp.spellcheck import Candidate, _DEFAULT_LEXICON, propose, _Lexicon
+from gse.nlp.spellcheck import _DEFAULT_LEXICON, Candidate, _Lexicon, propose
 
 # Weights: a structural defect costs ~one edit; gloss coherence (0..1) pulls up to ~1.
 W_STRUCT = 1.0
@@ -73,7 +73,7 @@ def _structural_defects(tokens) -> int:
 
 def _parse_defects(text: str, encoder) -> int:
     """Encode ``text`` and count structural defects (parse + coherence gate)."""
-    from gse.symbolic import from_trace, resolve, evaluate_tree
+    from gse.symbolic import evaluate_tree, from_trace, resolve
     from gse.symbolic.coherence import coherence_report
 
     trace = encoder.encode(text)

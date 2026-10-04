@@ -16,8 +16,8 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import Any, List, Optional
 
-from .lens import AdditiveLens, Hole, Repair
 from .fold_reader import read_fold
+from .lens import AdditiveLens, Hole, Repair
 
 
 @dataclass

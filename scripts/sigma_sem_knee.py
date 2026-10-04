@@ -65,8 +65,10 @@ def main() -> int:
             nltk.data.find(path)
         except LookupError:
             nltk.download(pkg, quiet=True)
-    from nltk.corpus import semcor, wordnet as wn
+    from nltk.corpus import semcor
+    from nltk.corpus import wordnet as wn
     from nltk.corpus.reader.wordnet import Lemma
+
     from gse.symbolic import GenealogyStore
     from gse.symbolic.grounding import _jaccard
 

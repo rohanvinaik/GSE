@@ -17,14 +17,14 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from gse.api.errors import OOVError, PrimitiveError
 from gse.api.parse_repair import verbs_to_promote
-from gse.nlp.morphology import NEGATION, resolve_negation
-from gse.primitives_v2 import BIPOLAR_PRIMITIVES, negate_decomposition
 from gse.api.trace import (
     ClauseSpan,
     OperationTrace,
     OperatorTrace,
     TokenTrace,
 )
+from gse.nlp.morphology import NEGATION, resolve_negation
+from gse.primitives_v2 import BIPOLAR_PRIMITIVES, negate_decomposition
 from gse.symbolic.tiers import is_clause_linking
 from gse.vectors_v2 import (
     SparseVector,

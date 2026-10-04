@@ -37,7 +37,6 @@ from gse.symbolic.predicates import ClauseCoordination, Event
 from ..lens import Hole, Lens, Repair
 from ..treewalk import animate_subject, clean_subject, free_verbs, has_event, subject_operand, walk
 
-
 # Subordinate-clause containers: their verbs are NOT VP-coordinate heads, so the orphan search
 # must not descend into them (a relative-clause verb like "who founded …" is not a coordinated VP).
 _SUBORD_BOUNDARY = frozenset({"RelativeRestriction", "Control", "Conditional", "Temporal", "Causation"})

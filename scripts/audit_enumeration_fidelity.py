@@ -111,6 +111,7 @@ class ComposedReader:
         committed sense reflects whatever CONTEXT SCALE was in the resolve_document call that
         produced this tree (single-sentence vs whole-document)."""
         from nltk.corpus import wordnet as wn
+
         from gse.symbolic.grounding import _collect_entities, _is_proper, _lookup_key, _position
 
         ents: list = []
@@ -246,7 +247,8 @@ def run_validate(reader):
 
 
 def run_scale(reader, files: int, max_sents: int, scale: str = "document"):
-    from nltk.corpus import semcor, wordnet as wn
+    from nltk.corpus import semcor
+    from nltk.corpus import wordnet as wn
     try:
         from gse.discourse import super_register_of
     except Exception:
@@ -349,7 +351,7 @@ def _report(tally):
     print("-" * 108)
     scored = agg["scored"]
     ovr = agg["override_fired"]
-    print(f"\nσ_sem enumeration-fidelity headline (SymbolicSpellCheck floor, NOUNS — GSE's contextual scope):")
+    print("\nσ_sem enumeration-fidelity headline (SymbolicSpellCheck floor, NOUNS — GSE's contextual scope):")
     print(f"  candidate-recall (completeness ceiling): {pct(agg['cand_recall'], agg['gold_n'])} "
           f"over {agg['gold_n']} gold content tokens — the gold reading is enumerable")
     print(f"  coverage: GSE committed {agg['gse_noun_entities']} head-noun entities; "
@@ -407,8 +409,8 @@ def main() -> int:
         cok = f"{100 * d['committed_ok'] / d['scored']:.1f}%" if d["scored"] else "  –"
         pok = f"{100 * d['primary_ok'] / d['scored']:.1f}%" if d["scored"] else "  –"
         print(f"  {name:10} {d['overrides']:10d} {dpct(d):>9} {lift(d):+7d} {cok:>10} {pok:>9}")
-    print(f"\n  PREDICTION (multi-scale info thesis): document destruction < sentence destruction, "
-          f"and document lift > sentence lift.")
+    print("\n  PREDICTION (multi-scale info thesis): document destruction < sentence destruction, "
+          "and document lift > sentence lift.")
     print(f"  OBSERVED: destruction {dpct(sent)} -> {dpct(doc)}   |   lift {lift(sent):+d} -> {lift(doc):+d}")
     return 0
 

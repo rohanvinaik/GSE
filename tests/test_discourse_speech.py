@@ -5,7 +5,7 @@ construction and carrying the speaker across a multi-sentence speech. bind_deixi
 swap on the resolved tree) is exercised end-to-end by the bridge; here we pin the parsing."""
 import re
 
-from gse.discourse.speech import segment_speech, segment_document, _attribution
+from gse.discourse.speech import _attribution, segment_document, segment_speech
 
 
 def _split(text):

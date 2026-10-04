@@ -11,7 +11,7 @@ The defining properties:
 Requires the cached lexicon (python -m gse.curation.build_hdc_speller); skipped if absent."""
 import pytest
 
-from gse.nlp.hdc_speller import default_speller, HDC_COMMIT_COS
+from gse.nlp.hdc_speller import HDC_COMMIT_COS, default_speller
 
 pytestmark = pytest.mark.skipif(default_speller() is None,
                                 reason="HDC speller lexicon cache not built")

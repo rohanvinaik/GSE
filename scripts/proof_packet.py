@@ -18,10 +18,10 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from gse.api import GSEEncoder                                    # noqa: E402
-from gse.symbolic import from_trace, resolve, evaluate_tree        # noqa: E402
-from gse.symbolic.queries import predicates                        # noqa: E402
-from gse.symbolic.inference import KnowledgeBase                   # noqa: E402
+from gse.api import GSEEncoder  # noqa: E402
+from gse.symbolic import evaluate_tree, from_trace, resolve  # noqa: E402
+from gse.symbolic.inference import KnowledgeBase  # noqa: E402
+from gse.symbolic.queries import predicates  # noqa: E402
 
 _ENC = GSEEncoder()
 
@@ -100,7 +100,7 @@ def basics() -> None:
     hashes = {vec_hash(s) for _ in range(3)}
     print(f"{s!r}\n  encode ×3 -> sha256 {hashes} (byte-identical)")
     print()
-    from gse.symbolic import GenealogyStore, resolve_references, grounding_flags
+    from gse.symbolic import GenealogyStore, grounding_flags, resolve_references
     store = GenealogyStore()
     t = resolve_references(pipe("The zorble is bigger than the florp"), store)
     print(f"structure derived:   {show(predicates(t)[0])}")
@@ -223,7 +223,7 @@ def dirty() -> None:
                 ledger.append((tok["surface"], tok["top"]))
     for s in _DIRTY_CHAIN:
         print(f"  {s}")
-    print(f"\n  repair ledger: " + ", ".join(f"{a}→{b}" for a, b in ledger))
+    print("\n  repair ledger: " + ", ".join(f"{a}→{b}" for a, b in ledger))
     print(f"  healed text == intended text: {healed == _CLEAN_CHAIN}")
     clean, dirty_run = _run_chain(_CLEAN_CHAIN), _run_chain(healed)
     print(f"  derivations identical to the clean-text run: {clean == dirty_run}\n")

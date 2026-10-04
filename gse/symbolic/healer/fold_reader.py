@@ -22,7 +22,7 @@ uses downstream. ALL SYMBOLIC: deterministic strand lookups + a set-theoretic vo
 from __future__ import annotations
 
 from collections import defaultdict
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Set, Tuple
 
 from gse.symbolic.predicates import Event
@@ -88,7 +88,7 @@ def read_fold(timed: List[tuple], envelopes: Optional[List[Any]] = None,
     """Build the per-entity fold map from the WIDE statement set. ``genealogy`` (the GenealogyStore)
     is OPTIONAL — when absent the world strand is simply not consulted (graceful degradation; the
     other three strands still resolve). Returns ``{entity_id: EntityFold}``."""
-    from gse.symbolic.narrative import classify   # lazy: avoid import cycle
+    from gse.symbolic.narrative import classify  # lazy: avoid import cycle
 
     agent_t: Dict[str, Set[int]] = defaultdict(set)   # entity_id → timesteps it is an Event AGENT
     part_t: Dict[str, Set[int]] = defaultdict(set)    # entity_id → timesteps it participates at all

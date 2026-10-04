@@ -12,7 +12,11 @@ import sqlite3
 import pytest
 
 from gse.nlp.spellcheck_entity import (
-    _DEFAULT_ENTITIES, _Entities, EntityCorrection, correct_entity, propose_entities,
+    _DEFAULT_ENTITIES,
+    EntityCorrection,
+    _Entities,
+    correct_entity,
+    propose_entities,
 )
 
 _HAVE_DB = _DEFAULT_ENTITIES.available

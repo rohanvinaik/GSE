@@ -120,7 +120,7 @@ def main() -> int:
               f"at gate {gate:g}: recall {100*fp:.1f}%  false-alarm {100*fn:.1f}%")
         return fp, fn
 
-    print(f"SURPRISE as a discriminator of irony (S_sem = Face A ⟂ Face B valence sign-flip):")
+    print("SURPRISE as a discriminator of irony (S_sem = Face A ⟂ Face B valence sign-flip):")
     print(f"  AUC (threshold-free): train {auc_tr:.3f}  |  held-out TEST {auc_te:.3f}   "
           f"(0.5 = no signal; >0.5 = the discord separates irony)")
     print(f"  DERIVED gate (Youden's J on train ROC, not hand-picked): discord > {gate:g}")
@@ -130,11 +130,11 @@ def main() -> int:
     acc = sum(1 for s, y in zip(te_s, te_y) if (s > gate) == (y == 1)) / len(te_y)
     print(f"\n  held-out accuracy at the derived gate: {100*acc:.1f}%  "
           f"(majority baseline {100*max(sum(te_y), len(te_y)-sum(te_y))/len(te_y):.1f}%)")
-    print(f"\n  READING: the surprise metric is the two-face DISCORD, and on held-out irony gold it "
-          f"separates ironic from literal with the gate DERIVED from reference data (observational, not "
-          f"tuned). Where the literal valence agrees with the situation → S_sem ≈ 0 (sincere); where it "
-          f"VIOLATES it → S_sem fires. The residual (irony the frame-face can't supply) is the explicit "
-          f"seam SSL leaves to the learned-register (Tier-1) face — a clean boundary of the theory.")
+    print("\n  READING: the surprise metric is the two-face DISCORD, and on held-out irony gold it "
+          "separates ironic from literal with the gate DERIVED from reference data (observational, not "
+          "tuned). Where the literal valence agrees with the situation → S_sem ≈ 0 (sincere); where it "
+          "VIOLATES it → S_sem fires. The residual (irony the frame-face can't supply) is the explicit "
+          "seam SSL leaves to the learned-register (Tier-1) face — a clean boundary of the theory.")
     return 0
 
 
