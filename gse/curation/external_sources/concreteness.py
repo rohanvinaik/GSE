@@ -75,8 +75,7 @@ class ConcretenessParser:
             logger.info(f"Loading Concreteness Ratings from {self.data_path}...")
 
             with open(self.data_path, "r", encoding="utf-8") as f:
-                # Skip header
-                header = f.readline()
+                f.readline()  # skip the header row
 
                 for line in f:
                     line = line.strip()

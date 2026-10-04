@@ -354,7 +354,7 @@ def _orthographic_collision(lemma: str) -> bool:
     if not nouns:
         return False
     for syn in nouns:
-        if any(l.name().lower() == lemma and not l.name().isupper() for l in syn.lemmas()):
+        if any(wn_lemma.name().lower() == lemma and not wn_lemma.name().isupper() for wn_lemma in syn.lemmas()):
             return False  # a genuine lowercase lemma match exists → real noun, keep it
     # It is a SPURIOUS collision only if the acronym DISPLACES a genuine common word — the lowercase
     # token also has a non-noun reading (add=verb, far=adverb, led=verb). A pure acronym with no

@@ -267,7 +267,7 @@ class GapFiller:
             external = self.get_external_primitives(lex_id)
             inferred = self.infer_bipolar_counterpart(external)
 
-            result = self.process_word(lex_id, lemma)
+            self.process_word(lex_id, lemma)
 
             stats["processed"] += 1
             stats["inferred"] += len(inferred)

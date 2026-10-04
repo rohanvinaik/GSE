@@ -277,7 +277,7 @@ class _Lexicon:
                 self._validity_vocab = marisa_trie.Trie().load(trie)  # exact, ~24MB, mmap
             elif os.path.exists(txt):
                 with open(txt, encoding="utf-8") as f:
-                    self._validity_vocab = frozenset(w for w in (l.strip() for l in f) if w)
+                    self._validity_vocab = frozenset(w for w in (line.strip() for line in f) if w)
             else:
                 self._validity_vocab = frozenset()
         return self._validity_vocab
@@ -290,7 +290,7 @@ class _Lexicon:
             try:
                 with open(path, encoding="utf-8") as f:
                     self._allowlist = frozenset(
-                        w for w in (l.strip().lower() for l in f) if w and not w.startswith("#")
+                        w for w in (line.strip().lower() for line in f) if w and not w.startswith("#")
                     )
             except FileNotFoundError:
                 self._allowlist = frozenset()

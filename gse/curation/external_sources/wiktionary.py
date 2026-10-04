@@ -372,7 +372,7 @@ class WiktionaryParser(BaseExternalParser):
         if row and row["synonyms"]:
             try:
                 return json.loads(row["synonyms"])
-            except:
+            except Exception:
                 return []
         return []
 
@@ -387,7 +387,7 @@ class WiktionaryParser(BaseExternalParser):
         if row and row["antonyms"]:
             try:
                 return json.loads(row["antonyms"])
-            except:
+            except Exception:
                 return []
         return []
 

@@ -204,7 +204,7 @@ class ConceptNetParser(BaseExternalParser):
                 try:
                     metadata = json.loads(metadata_json)
                     weight = metadata.get("weight", 1.0)
-                except:
+                except Exception:
                     weight = 1.0
 
                 if weight < self.min_weight:
@@ -214,7 +214,7 @@ class ConceptNetParser(BaseExternalParser):
                 source = ""
                 try:
                     source = metadata.get("dataset", "")
-                except:
+                except Exception:
                     pass
 
                 batch.append((relation, start_word, end_word, weight, source))

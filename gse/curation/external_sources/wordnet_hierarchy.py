@@ -154,7 +154,6 @@ class WordNetHierarchyParser(BaseExternalParser):
 
             for synset in wn.all_synsets():
                 # Get hierarchy metrics
-                hypernyms = synset.hypernyms()
                 hyponyms = synset.hyponyms()
 
                 # Calculate depth (distance to root)
@@ -202,7 +201,7 @@ class WordNetHierarchyParser(BaseExternalParser):
             if not paths:
                 return 0
             return min(len(p) for p in paths)
-        except:
+        except Exception:
             return 0
 
     def _convert_pos(self, wn_pos: str) -> str:
@@ -259,7 +258,7 @@ class WordNetHierarchyParser(BaseExternalParser):
                             for prim, val in ROOT_CONCEPT_PRIMITIVES[ancestor.name()].items():
                                 if prim not in primitives:
                                     primitives[prim] = val
-        except:
+        except Exception:
             pass
 
     def get_all_words(self) -> List[str]:
@@ -294,7 +293,7 @@ class WordNetHierarchyParser(BaseExternalParser):
                     seen.add(h)
                     result.append(h)
             return result
-        except:
+        except Exception:
             return []
 
     def get_hyponyms(self, word: str, pos: str = None) -> List[str]:
@@ -316,7 +315,7 @@ class WordNetHierarchyParser(BaseExternalParser):
                 for lemma in hypo.lemmas():
                     hyponyms.append(lemma.name().lower().replace("_", " "))
             return hyponyms[:20]  # Limit results
-        except:
+        except Exception:
             return []
 
     def get_meronyms(self, word: str) -> List[str]:
@@ -338,7 +337,7 @@ class WordNetHierarchyParser(BaseExternalParser):
                     for lemma in mero.lemmas():
                         meronyms.append(lemma.name().lower().replace("_", " "))
             return list(set(meronyms))[:20]
-        except:
+        except Exception:
             return []
 
     def get_domain(self, word: str) -> Optional[str]:

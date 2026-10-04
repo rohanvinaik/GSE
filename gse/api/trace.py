@@ -59,8 +59,8 @@ class OperatorTrace:
     def get_content_args(self) -> Tuple[Tuple[str, ...], Tuple[str, ...]]:
         """Get content word arguments (filter out function words)."""
         function_words = {"the", "a", "an", "be", "is", "are", "was", "were"}
-        arg1 = tuple(l for l in self.arg1_lemmas if l not in function_words)
-        arg2 = tuple(l for l in self.arg2_lemmas if l not in function_words)
+        arg1 = tuple(lemma for lemma in self.arg1_lemmas if lemma not in function_words)
+        arg2 = tuple(lemma for lemma in self.arg2_lemmas if lemma not in function_words)
         return (arg1, arg2)
 
     def structurally_equals(self, other: "OperatorTrace") -> bool:
@@ -92,8 +92,8 @@ class OperatorTrace:
             "more",
             "less",
         }
-        arg1 = tuple(l for l in self.arg1_lemmas if l not in non_entities)
-        arg2 = tuple(l for l in self.arg2_lemmas if l not in non_entities)
+        arg1 = tuple(lemma for lemma in self.arg1_lemmas if lemma not in non_entities)
+        arg2 = tuple(lemma for lemma in self.arg2_lemmas if lemma not in non_entities)
         return (arg1, arg2)
 
     def is_argument_swap_of(self, other: "OperatorTrace") -> bool:

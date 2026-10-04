@@ -191,9 +191,9 @@ class SimpleWorldModel:
 
                 # Extract property from arg1 (properties like "cute", "big")
                 property_candidates = [
-                    l
-                    for l in op.arg1_lemmas
-                    if l not in {"the", "a", "an", "be", "is", "are"} and l not in arg1_entities
+                    lemma
+                    for lemma in op.arg1_lemmas
+                    if lemma not in {"the", "a", "an", "be", "is", "are"} and lemma not in arg1_entities
                 ]
 
                 if property_candidates:

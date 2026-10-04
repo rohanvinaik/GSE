@@ -138,7 +138,7 @@ class VerbNetParser:
                     # Get thematic roles
                     try:
                         roles = [r.attrib.get("type", "") for r in vn.vnclass(classid).findall(".//THEMROLE")]
-                    except:
+                    except Exception:
                         roles = []
 
                     for lemma in lemmas:

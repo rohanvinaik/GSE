@@ -23,7 +23,7 @@ from gse.primitives_v2 import (
     get_canonical_pole,
     is_bipolar,
 )
-from gse.vectors_v2 import SparseVector, create_basis
+from gse.vectors_v2 import HadamardOTPBasis, SparseVector, create_basis
 
 # =============================================================================
 # MORPHOLOGICAL PATTERNS

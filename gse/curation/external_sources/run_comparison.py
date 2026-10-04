@@ -197,7 +197,6 @@ def generate_report(
 
     # Get some example disagreements
     major_disagreements = db.get_disagreements(severity="sign_flip", unresolved_only=True)
-    minor_disagreements = db.get_disagreements(severity="minor", unresolved_only=True)
 
     report_lines = [
         "# External Sources Disagreement Report",

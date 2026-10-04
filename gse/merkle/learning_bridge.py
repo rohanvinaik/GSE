@@ -26,7 +26,7 @@ from gse.patterns.networks_v2 import (
     ScaleNetworkCollection,
 )
 from gse.patterns.orchestrator import OrchestratorNetwork, OrchestratorNode
-from gse.primitives_v2 import PRIMITIVE_FAMILIES, SEMANTIC_BANK_NAMES
+from gse.primitives_v2 import PRIMITIVE_FAMILIES
 
 # =============================================================================
 # FAMILY AFFINITY MATRIX
@@ -337,8 +337,6 @@ class MerkleLearningBridge:
     def _train_orchestrator_routing(self):
         """Train orchestrator on bank → family → hub routing."""
         for bank_id, bank in self.tree.banks.items():
-            bank_name = SEMANTIC_BANK_NAMES.get(bank_id, f"bank_{bank_id}")
-
             # Associate bank with routing
             scale_node = {
                 0: OrchestratorNode.ROUTE_WORD,  # SUBSTANTIVES

@@ -37,7 +37,7 @@ def _write_trie(words) -> None:
 def build_trie_from_txt() -> int:
     """Rebuild the marisa trie from an existing .txt (no re-download)."""
     with open(OUT, encoding="utf-8") as f:
-        words = [w for w in (l.strip() for l in f) if w]
+        words = [w for w in (line.strip() for line in f) if w]
     _write_trie(words)
     return len(words)
 

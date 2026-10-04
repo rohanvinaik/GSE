@@ -30,7 +30,7 @@ from gse.primitives_v2 import (
     SemanticBank,
     get_dimension_range,
 )
-from gse.vectors_v2 import SparseVector, create_basis
+from gse.vectors_v2 import HadamardOTPBasis, SparseVector, create_basis
 
 # =============================================================================
 # ROUTING RESULT
@@ -426,10 +426,6 @@ def find_semantic_path(
 
     if not source_lex or not target_lex:
         return None
-
-    # Build source and target vectors
-    source_vec = SparseVector(D, source_lex.vector_positive, source_lex.vector_negative)
-    target_vec = SparseVector(D, target_lex.vector_positive, target_lex.vector_negative)
 
     # BFS through similar lexemes
     visited = {source}

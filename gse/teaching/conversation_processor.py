@@ -132,7 +132,6 @@ class ConversationProcessor:
     def _process_claude_conversation(self, conv: Dict) -> Iterator[str]:
         """Process a single Claude conversation object."""
         messages = conv.get("chat_messages", [])
-        conv_id = conv.get("uuid", "unknown")
 
         for i, msg in enumerate(messages):
             sender = msg.get("sender", "unknown")

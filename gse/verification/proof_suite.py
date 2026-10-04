@@ -549,7 +549,6 @@ class GSEProofSuite:
         failed = 0
 
         for result in self.results:
-            status = "PASS" if result.passed else "FAIL"
             symbol = "[OK]" if result.passed else "[!!]"
             print(f"  {symbol} {result.name}: {result.message}")
 

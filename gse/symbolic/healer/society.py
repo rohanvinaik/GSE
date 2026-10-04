@@ -32,8 +32,8 @@ class HealReport:
     def summary(self) -> dict:
         from collections import Counter
 
-        by_lens = Counter(l for _t, l, _n in self.repairs)
-        by_hole = Counter(l for _t, l, _r in self.holes)
+        by_lens = Counter(lens for _t, lens, _n in self.repairs)
+        by_hole = Counter(lens for _t, lens, _r in self.holes)
         return {
             "seen": self.seen,
             "repaired": len(self.repairs),
@@ -57,8 +57,8 @@ class Society:
         return envelopes[t] if (envelopes and 0 <= t < len(envelopes)) else None
 
     def repair_timed(self, timed: List[tuple], envelopes: Optional[List[Any]]) -> List[tuple]:
-        node_lenses = [l for l in self.roster if not isinstance(l, AdditiveLens)]
-        add_lenses = [l for l in self.roster if isinstance(l, AdditiveLens)]
+        node_lenses = [lens for lens in self.roster if not isinstance(lens, AdditiveLens)]
+        add_lenses = [lens for lens in self.roster if isinstance(lens, AdditiveLens)]
 
         # PHASE 0 — LAYER 2: read the multi-strand fold map over the WHOLE document, so the structural
         # lenses can consult the document-scale semantic resolution (e.g. subject disambiguation by

@@ -148,7 +148,7 @@ def main() -> None:
 def _corpus_sentences():
     out = []
     if os.path.exists(SLICE):
-        out += [l.strip() for l in open(SLICE) if l.strip()]
+        out += [line.strip() for line in open(SLICE) if line.strip()]
     if os.path.exists(JAR):
         with zipfile.ZipFile(JAR) as z:
             for m in STORY_MEMBERS:

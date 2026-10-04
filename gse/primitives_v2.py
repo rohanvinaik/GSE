@@ -16,6 +16,8 @@ from dataclasses import dataclass
 from enum import Enum, IntEnum
 from typing import Dict, List, Optional, Set, Tuple
 
+from gse.scale_definition import BankDef, ScaleDefinition
+
 # =============================================================================
 # CORE CONSTANTS
 # =============================================================================
@@ -729,9 +731,8 @@ def expand_hierarchy_activation(
 # Each scale is defined via ScaleDefinition (Genesis Atom pattern from DGA).
 # The data lives here; the infrastructure is parameterized in scale_definition.py.
 # Backward-compatible exports are generated at the bottom of each section.
+# (BankDef / ScaleDefinition are imported at the top; scale_definition imports nothing from gse.)
 # =============================================================================
-
-from gse.scale_definition import BankDef, ScaleDefinition
 
 # Compositional operator metadata for sentence-scale
 COMP_METADATA = {

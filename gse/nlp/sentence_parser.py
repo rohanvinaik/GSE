@@ -24,7 +24,7 @@ from dataclasses import dataclass
 from typing import Dict, List, Optional
 
 try:
-    import amrlib
+    import amrlib  # noqa: F401  (availability probe: a real import, so a broken install reads as unavailable)
 
     AMR_AVAILABLE = True
 except ImportError:

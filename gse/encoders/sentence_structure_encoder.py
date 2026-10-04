@@ -246,7 +246,6 @@ class SentenceStructureEncoder:
         # Each primitive gets a unique binary pattern
         np.random.seed(42)  # Reproducible
 
-        n_primitives = len(ALL_SYNTACTIC_PRIMITIVES)
         pattern_length = 64  # Compact representation
 
         for i, prim in enumerate(ALL_SYNTACTIC_PRIMITIVES):
