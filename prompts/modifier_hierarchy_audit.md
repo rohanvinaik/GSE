@@ -257,7 +257,6 @@ MODIFIER_WORDS = {
     "certainly": ("CERTAINTY", 3),
 }
 
-
 def check_modifier_hierarchy(lemma: str, primitives: dict) -> list:
     """Validate modifier hierarchy encoding."""
     issues = []
@@ -270,13 +269,11 @@ def check_modifier_hierarchy(lemma: str, primitives: dict) -> list:
     # Check base primitive is +1
     base_value = primitives.get(base_type, 0)
     if base_value != 1:
-        issues.append(
-            {
-                "type": "modifier_base",
-                "description": f"{base_type} should be +1, got {base_value}",
-                "fix": f"SET:{base_type}:1",
-            }
-        )
+        issues.append({
+            "type": "modifier_base",
+            "description": f"{base_type} should be +1, got {base_value}",
+            "fix": f"SET:{base_type}:1"
+        })
 
     # Check HIER markers
     hier_plus = primitives.get("HIER_PLUS", 0)
@@ -284,47 +281,37 @@ def check_modifier_hierarchy(lemma: str, primitives: dict) -> list:
 
     if expected_level > 0:
         if hier_plus != expected_level:
-            issues.append(
-                {
-                    "type": "modifier_hier",
-                    "description": f"HIER_PLUS should be {expected_level}, got {hier_plus}",
-                    "fix": f"SET:HIER_PLUS:{expected_level}",
-                }
-            )
+            issues.append({
+                "type": "modifier_hier",
+                "description": f"HIER_PLUS should be {expected_level}, got {hier_plus}",
+                "fix": f"SET:HIER_PLUS:{expected_level}"
+            })
         if hier_minus != 0:
-            issues.append(
-                {
-                    "type": "modifier_hier",
-                    "description": f"HIER_MINUS should be 0 for positive level, got {hier_minus}",
-                    "fix": "SET:HIER_MINUS:0",
-                }
-            )
+            issues.append({
+                "type": "modifier_hier",
+                "description": f"HIER_MINUS should be 0 for positive level, got {hier_minus}",
+                "fix": "SET:HIER_MINUS:0"
+            })
     elif expected_level < 0:
         if hier_minus != abs(expected_level):
-            issues.append(
-                {
-                    "type": "modifier_hier",
-                    "description": f"HIER_MINUS should be {abs(expected_level)}, got {hier_minus}",
-                    "fix": f"SET:HIER_MINUS:{abs(expected_level)}",
-                }
-            )
+            issues.append({
+                "type": "modifier_hier",
+                "description": f"HIER_MINUS should be {abs(expected_level)}, got {hier_minus}",
+                "fix": f"SET:HIER_MINUS:{abs(expected_level)}"
+            })
         if hier_plus != 0:
-            issues.append(
-                {
-                    "type": "modifier_hier",
-                    "description": f"HIER_PLUS should be 0 for negative level, got {hier_plus}",
-                    "fix": "SET:HIER_PLUS:0",
-                }
-            )
+            issues.append({
+                "type": "modifier_hier",
+                "description": f"HIER_PLUS should be 0 for negative level, got {hier_plus}",
+                "fix": "SET:HIER_PLUS:0"
+            })
     else:  # level == 0
         if hier_plus != 0 or hier_minus != 0:
-            issues.append(
-                {
-                    "type": "modifier_hier",
-                    "description": f"Level 0 needs no HIER markers",
-                    "fix": "SET:HIER_PLUS:0,HIER_MINUS:0",
-                }
-            )
+            issues.append({
+                "type": "modifier_hier",
+                "description": f"Level 0 needs no HIER markers",
+                "fix": "SET:HIER_PLUS:0,HIER_MINUS:0"
+            })
 
     return issues
 ```

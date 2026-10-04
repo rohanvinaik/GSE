@@ -128,11 +128,16 @@ print(f"Confidence: {result.confidence:.2f}")
 print(f"Coherent: {result.coherence_passed}")
 
 # Compare sentences
-sim = pipeline.similarity("The dog runs quickly.", "The cat runs fast.")
+sim = pipeline.similarity(
+    "The dog runs quickly.",
+    "The cat runs fast."
+)
 print(f"Similarity: {sim:.2f}")
 
 # Detect anomalies
-is_anomalous, reasons = pipeline.is_anomalous("The rock thinks deeply.")
+is_anomalous, reasons = pipeline.is_anomalous(
+    "The rock thinks deeply."
+)
 ```
 
 ### Rebuild Lexicon
@@ -306,9 +311,9 @@ from gse.antonymy import get_antonymy_handler
 
 antonymy = get_antonymy_handler()
 
-antonymy.compute_graded_similarity("hot", "cold")  # -0.60 (opposite)
-antonymy.compute_graded_similarity("hot", "warm")  #  0.60 (similar)
-antonymy.compute_graded_similarity("hot", "cool")  # -0.20 (contrast)
+antonymy.compute_graded_similarity("hot", "cold")   # -0.60 (opposite)
+antonymy.compute_graded_similarity("hot", "warm")   #  0.60 (similar)
+antonymy.compute_graded_similarity("hot", "cool")   # -0.20 (contrast)
 ```
 
 Scales: temperature, size, quality, speed, age, height, weight, emotion, certainty, quantity

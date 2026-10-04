@@ -38,28 +38,34 @@ Total changes: {N}
 ```python
 import re
 
-
 def parse_fix_log(log_path):
-    with open(log_path, "r") as f:
+    with open(log_path, 'r') as f:
         content = f.read()
 
-    fixes = {"component": [], "syn": [], "semantic": [], "hierarchy": [], "cleanup": [], "skipped": []}
+    fixes = {
+        'component': [],
+        'syn': [],
+        'semantic': [],
+        'hierarchy': [],
+        'cleanup': [],
+        'skipped': []
+    }
 
     current_section = None
-    for line in content.split("\n"):
-        if "--- Component Type Fixes ---" in line:
-            current_section = "component"
-        elif "--- SYN_* Instantiation ---" in line:
-            current_section = "syn"
-        elif "--- Semantic Consistency Fixes ---" in line:
-            current_section = "semantic"
-        elif "--- Modifier Hierarchy Fixes ---" in line:
-            current_section = "hierarchy"
-        elif "--- OPERATOR Cleanup ---" in line:
-            current_section = "cleanup"
-        elif "--- Skipped ---" in line:
-            current_section = "skipped"
-        elif current_section and ":" in line:
+    for line in content.split('\n'):
+        if '--- Component Type Fixes ---' in line:
+            current_section = 'component'
+        elif '--- SYN_* Instantiation ---' in line:
+            current_section = 'syn'
+        elif '--- Semantic Consistency Fixes ---' in line:
+            current_section = 'semantic'
+        elif '--- Modifier Hierarchy Fixes ---' in line:
+            current_section = 'hierarchy'
+        elif '--- OPERATOR Cleanup ---' in line:
+            current_section = 'cleanup'
+        elif '--- Skipped ---' in line:
+            current_section = 'skipped'
+        elif current_section and ':' in line:
             fixes[current_section].append(line.strip())
 
     return fixes

@@ -26,7 +26,6 @@ Use a spell checker to identify entries that aren't valid English words:
 
 ```python
 from spellchecker import SpellChecker
-
 spell = SpellChecker()
 
 # Get all lemmas
@@ -85,11 +84,11 @@ import re
 
 # Common abbreviation patterns
 ABBREV_PATTERNS = [
-    r"^[a-z]{1,3}$",  # Very short (mm, kg, etc)
-    r"^[A-Z]{2,5}$",  # All caps acronyms (NASA, FBI)
-    r"^[A-Z][a-z]*\.$",  # Ends with period (Dr., Mr.)
-    r"^[a-z]+\.$",  # Lowercase with period (etc., vs.)
-    r"^\d+[a-z]+$",  # Number+letter (3D, 2nd)
+    r'^[a-z]{1,3}$',           # Very short (mm, kg, etc)
+    r'^[A-Z]{2,5}$',           # All caps acronyms (NASA, FBI)
+    r'^[A-Z][a-z]*\.$',        # Ends with period (Dr., Mr.)
+    r'^[a-z]+\.$',             # Lowercase with period (etc., vs.)
+    r'^\d+[a-z]+$',            # Number+letter (3D, 2nd)
 ]
 ```
 
@@ -137,21 +136,19 @@ Identify words where both singular and plural forms exist:
 ```python
 import nltk
 from nltk.stem import WordNetLemmatizer
-
 lemmatizer = WordNetLemmatizer()
 
 # Common plural patterns
 PLURAL_PATTERNS = [
-    (r"(.+)s$", r"\1"),  # cats -> cat
-    (r"(.+)es$", r"\1"),  # boxes -> box
-    (r"(.+)ies$", r"\1y"),  # cities -> city
-    (r"(.+)ves$", r"\1f"),  # wolves -> wolf
-    (r"(.+)men$", r"\1man"),  # women -> woman
+    (r'(.+)s$', r'\1'),           # cats -> cat
+    (r'(.+)es$', r'\1'),          # boxes -> box
+    (r'(.+)ies$', r'\1y'),        # cities -> city
+    (r'(.+)ves$', r'\1f'),        # wolves -> wolf
+    (r'(.+)men$', r'\1man'),      # women -> woman
 ]
 
-
 def get_singular(word):
-    lemma = lemmatizer.lemmatize(word, "n")
+    lemma = lemmatizer.lemmatize(word, 'n')
     return lemma if lemma != word else None
 ```
 
@@ -169,16 +166,15 @@ Check for multiple verb forms:
 ```python
 # Verb inflection patterns
 VERB_FORMS = {
-    "base": "",  # run
-    "third_person": "s",  # runs
-    "past": "ed",  # ran (irregular)
-    "gerund": "ing",  # running
-    "past_part": "ed",  # run (irregular)
+    'base': '',          # run
+    'third_person': 's', # runs
+    'past': 'ed',        # ran (irregular)
+    'gerund': 'ing',     # running
+    'past_part': 'ed',   # run (irregular)
 }
 
-
 def get_verb_base(word):
-    return lemmatizer.lemmatize(word, "v")
+    return lemmatizer.lemmatize(word, 'v')
 ```
 
 **Flag groups:**
@@ -217,7 +213,7 @@ CONTRACTIONS = {
     "'ll": " will",
     "'d": " would",  # or "had"
     "'m": " am",
-    "'s": " is",  # or possessive
+    "'s": " is",     # or possessive
 }
 
 COMMON_CONTRACTIONS = [
@@ -307,12 +303,14 @@ WHERE lemma != CAST(lemma AS TEXT)
 ```python
 import unicodedata
 
-
 def normalize_text(text):
     # Normalize to NFC form
-    text = unicodedata.normalize("NFC", text)
+    text = unicodedata.normalize('NFC', text)
     # Remove accents (optional)
-    text = "".join(c for c in unicodedata.normalize("NFD", text) if unicodedata.category(c) != "Mn")
+    text = ''.join(
+        c for c in unicodedata.normalize('NFD', text)
+        if unicodedata.category(c) != 'Mn'
+    )
     return text
 ```
 
@@ -535,7 +533,6 @@ For each potential homonym:
 # Flag words that appear in multiple WordNet synsets with very different hypernyms
 from nltk.corpus import wordnet as wn
 
-
 def get_homonym_candidates(lemmas):
     candidates = []
     for lemma in lemmas:
@@ -551,7 +548,11 @@ def get_homonym_candidates(lemmas):
                     top_hypernyms.add(root[0].name() if root else hyper[0].name())
 
             if len(top_hypernyms) >= 2:
-                candidates.append({"word": lemma, "synset_count": len(synsets), "top_hypernyms": list(top_hypernyms)})
+                candidates.append({
+                    'word': lemma,
+                    'synset_count': len(synsets),
+                    'top_hypernyms': list(top_hypernyms)
+                })
     return candidates
 ```
 
@@ -593,10 +594,8 @@ Use external tool or implement:
 ```python
 from difflib import SequenceMatcher
 
-
 def similar(a, b):
     return SequenceMatcher(None, a, b).ratio()
-
 
 # Find pairs with >90% similarity
 ```
@@ -679,7 +678,6 @@ from collections import defaultdict
 # Optional: install with pip install pyspellchecker nltk
 try:
     from spellchecker import SpellChecker
-
     HAS_SPELLCHECKER = True
 except ImportError:
     HAS_SPELLCHECKER = False
@@ -687,9 +685,8 @@ except ImportError:
 try:
     import nltk
     from nltk.stem import WordNetLemmatizer
-
-    nltk.download("wordnet", quiet=True)
-    nltk.download("omw-1.4", quiet=True)
+    nltk.download('wordnet', quiet=True)
+    nltk.download('omw-1.4', quiet=True)
     HAS_NLTK = True
 except ImportError:
     HAS_NLTK = False
@@ -700,14 +697,14 @@ def audit_lexicon(db_path: str):
     cursor = conn.cursor()
 
     results = {
-        "spelling_errors": [],
-        "abbreviations": [],
-        "inflected_forms": [],
-        "contractions": [],
-        "encoding_issues": [],
-        "non_words": [],
-        "proper_nouns": [],
-        "duplicates": [],
+        'spelling_errors': [],
+        'abbreviations': [],
+        'inflected_forms': [],
+        'contractions': [],
+        'encoding_issues': [],
+        'non_words': [],
+        'proper_nouns': [],
+        'duplicates': [],
     }
 
     # Get all lemmas
@@ -723,15 +720,20 @@ def audit_lexicon(db_path: str):
         misspelled = spell.unknown(lemmas)
         for word in misspelled:
             correction = spell.correction(word)
-            results["spelling_errors"].append(
-                {"word": word, "suggestion": correction, "candidates": list(spell.candidates(word) or [])[:5]}
-            )
+            results['spelling_errors'].append({
+                'word': word,
+                'suggestion': correction,
+                'candidates': list(spell.candidates(word) or [])[:5]
+            })
 
     # 2. Abbreviations
-    abbrev_pattern = re.compile(r"^[a-z]{1,3}$|^[A-Z]{2,6}$|.*\.$")
+    abbrev_pattern = re.compile(r'^[a-z]{1,3}$|^[A-Z]{2,6}$|.*\.$')
     for id_, lemma, pos, rank in all_entries:
         if abbrev_pattern.match(lemma):
-            results["abbreviations"].append({"word": lemma, "frequency_rank": rank})
+            results['abbreviations'].append({
+                'word': lemma,
+                'frequency_rank': rank
+            })
 
     # 3. Inflected forms
     if HAS_NLTK:
@@ -739,40 +741,52 @@ def audit_lexicon(db_path: str):
         lemma_groups = defaultdict(list)
         for id_, lemma, pos, rank in all_entries:
             if lemma.isalpha():
-                base_n = lemmatizer.lemmatize(lemma, "n")
-                base_v = lemmatizer.lemmatize(lemma, "v")
+                base_n = lemmatizer.lemmatize(lemma, 'n')
+                base_v = lemmatizer.lemmatize(lemma, 'v')
                 base = base_n if base_n != lemma else base_v
                 if base != lemma:
                     lemma_groups[base].append(lemma)
 
         for base, variants in lemma_groups.items():
             if len(variants) > 0:
-                results["inflected_forms"].append({"base": base, "variants": variants})
+                results['inflected_forms'].append({
+                    'base': base,
+                    'variants': variants
+                })
 
     # 4. Contractions
     contraction_pattern = re.compile(r".*'.*|.*n't$")
     for id_, lemma, pos, rank in all_entries:
         if contraction_pattern.match(lemma):
-            results["contractions"].append({"word": lemma, "frequency_rank": rank})
+            results['contractions'].append({
+                'word': lemma,
+                'frequency_rank': rank
+            })
 
     # 5. Encoding issues
     for id_, lemma, pos, rank in all_entries:
         if not lemma.isascii():
-            results["encoding_issues"].append({"word": lemma, "frequency_rank": rank})
+            results['encoding_issues'].append({
+                'word': lemma,
+                'frequency_rank': rank
+            })
 
     # 6. Non-words (single chars, numbers, punctuation)
     for id_, lemma, pos, rank in all_entries:
-        if len(lemma) == 1 and lemma.lower() not in ("a", "i"):
-            results["non_words"].append({"word": lemma, "reason": "single_char"})
+        if len(lemma) == 1 and lemma.lower() not in ('a', 'i'):
+            results['non_words'].append({'word': lemma, 'reason': 'single_char'})
         elif lemma.isdigit():
-            results["non_words"].append({"word": lemma, "reason": "number"})
+            results['non_words'].append({'word': lemma, 'reason': 'number'})
         elif not any(c.isalnum() for c in lemma):
-            results["non_words"].append({"word": lemma, "reason": "punctuation"})
+            results['non_words'].append({'word': lemma, 'reason': 'punctuation'})
 
     # 7. Proper nouns
     for id_, lemma, pos, rank in all_entries:
         if lemma[0].isupper() and lemma[1:].islower() and len(lemma) > 1:
-            results["proper_nouns"].append({"word": lemma, "frequency_rank": rank})
+            results['proper_nouns'].append({
+                'word': lemma,
+                'frequency_rank': rank
+            })
 
     # 8. Duplicates
     cursor.execute("""
@@ -780,7 +794,11 @@ def audit_lexicon(db_path: str):
         FROM lexemes GROUP BY LOWER(lemma) HAVING COUNT(*) > 1
     """)
     for norm, variants, count in cursor.fetchall():
-        results["duplicates"].append({"normalized": norm, "variants": variants.split(","), "count": count})
+        results['duplicates'].append({
+            'normalized': norm,
+            'variants': variants.split(','),
+            'count': count
+        })
 
     conn.close()
     return results
@@ -789,9 +807,9 @@ def audit_lexicon(db_path: str):
 if __name__ == "__main__":
     results = audit_lexicon("data/lexicon.db")
 
-    print("\n" + "=" * 60)
+    print("\n" + "="*60)
     print("LEXICON DATA QUALITY AUDIT")
-    print("=" * 60)
+    print("="*60)
 
     for category, items in results.items():
         print(f"\n{category.upper()}: {len(items)} issues")

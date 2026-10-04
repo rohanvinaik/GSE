@@ -141,12 +141,10 @@ melancholy: ISSUE - Missing experiencer
 import sqlite3
 import json
 
-conn = sqlite3.connect("data/lexicon.db")
-
+conn = sqlite3.connect('data/lexicon.db')
 
 def generate_batch(offset, limit=50):
-    words = conn.execute(
-        """
+    words = conn.execute('''
         SELECT l.id, l.lemma, l.pos, l.component_type,
                GROUP_CONCAT(pv.primitive || '=' || pv.value) as primitives
         FROM lexemes l
@@ -155,12 +153,18 @@ def generate_batch(offset, limit=50):
         GROUP BY l.id
         ORDER BY l.frequency_rank
         LIMIT ? OFFSET ?
-    """,
-        (limit, offset),
-    ).fetchall()
+    ''', (limit, offset)).fetchall()
 
-    return [{"id": w[0], "lemma": w[1], "pos": w[2], "component_type": w[3], "primitives": w[4] or ""} for w in words]
-
+    return [
+        {
+            'id': w[0],
+            'lemma': w[1],
+            'pos': w[2],
+            'component_type': w[3],
+            'primitives': w[4] or ''
+        }
+        for w in words
+    ]
 
 # Generate all batches
 batch_num = 0
@@ -169,7 +173,7 @@ while True:
     batch = generate_batch(offset)
     if not batch:
         break
-    with open(f"data/batches/batch_{batch_num:04d}.json", "w") as f:
+    with open(f'data/batches/batch_{batch_num:04d}.json', 'w') as f:
         json.dump(batch, f)
     batch_num += 1
     offset += 50
@@ -207,43 +211,39 @@ import re
 import json
 from pathlib import Path
 
-
 def parse_granular_output(output_path):
     issues = []
     with open(output_path) as f:
         content = f.read()
 
     # Parse ISSUE entries
-    issue_pattern = r"(\w+): ISSUE - (.+?)\n\s+Current: (.+?)\n\s+Expected: (.+?)\n\s+Reason: (.+?)(?=\n\w+:|$)"
+    issue_pattern = r'(\w+): ISSUE - (.+?)\n\s+Current: (.+?)\n\s+Expected: (.+?)\n\s+Reason: (.+?)(?=\n\w+:|$)'
 
     for match in re.finditer(issue_pattern, content, re.DOTALL):
-        issues.append(
-            {
-                "word": match.group(1),
-                "description": match.group(2).strip(),
-                "current": match.group(3).strip(),
-                "expected": match.group(4).strip(),
-                "reason": match.group(5).strip(),
-            }
-        )
+        issues.append({
+            'word': match.group(1),
+            'description': match.group(2).strip(),
+            'current': match.group(3).strip(),
+            'expected': match.group(4).strip(),
+            'reason': match.group(5).strip()
+        })
 
     return issues
 
-
 def aggregate_model_issues(batch_name):
-    smollm = parse_granular_output(f"data/granular_outputs/{batch_name}_smollm.txt")
-    granite = parse_granular_output(f"data/granular_outputs/{batch_name}_granite.txt")
-    gemma = parse_granular_output(f"data/granular_outputs/{batch_name}_gemma.txt")
+    smollm = parse_granular_output(f'data/granular_outputs/{batch_name}_smollm.txt')
+    granite = parse_granular_output(f'data/granular_outputs/{batch_name}_granite.txt')
+    gemma = parse_granular_output(f'data/granular_outputs/{batch_name}_gemma.txt')
 
     # Group by word
     all_issues = {}
-    for source, issues in [("smollm", smollm), ("granite", granite), ("gemma", gemma)]:
+    for source, issues in [('smollm', smollm), ('granite', granite), ('gemma', gemma)]:
         for issue in issues:
-            word = issue["word"]
+            word = issue['word']
             if word not in all_issues:
-                all_issues[word] = {"models": [], "issues": []}
-            all_issues[word]["models"].append(source)
-            all_issues[word]["issues"].append(issue)
+                all_issues[word] = {'models': [], 'issues': []}
+            all_issues[word]['models'].append(source)
+            all_issues[word]['issues'].append(issue)
 
     return all_issues
 ```
@@ -268,17 +268,17 @@ def compute_issue_priority(word_issues):
     """
     word_issues: {'models': [...], 'issues': [...]}
     """
-    model_count = len(set(word_issues["models"]))
+    model_count = len(set(word_issues['models']))
 
     # Check if issues are the same type
-    issue_types = set(i["description"].split()[0] for i in word_issues["issues"])
+    issue_types = set(i['description'].split()[0] for i in word_issues['issues'])
 
     if model_count == 3 and len(issue_types) == 1:
-        return "HIGH"
+        return 'HIGH'
     elif model_count >= 2:
-        return "MEDIUM"
+        return 'MEDIUM'
     else:
-        return "LOW"
+        return 'LOW'
 ```
 
 ---

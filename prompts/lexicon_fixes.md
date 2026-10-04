@@ -54,93 +54,30 @@ ALTER TABLE lexemes ADD COLUMN gram_features TEXT;  -- JSON
 ### Classification Rules:
 
 ```python
-SIGN_OPERATORS = {"not", "never", "no", "n't", "neither", "nor"}
+SIGN_OPERATORS = {'not', 'never', 'no', "n't", 'neither', 'nor'}
 HIERARCHY_OPERATORS = {
-    "very",
-    "extremely",
-    "quite",
-    "rather",
-    "somewhat",
-    "barely",
-    "hardly",
-    "slightly",
-    "highly",
-    "totally",
-    "really",
-    "truly",
-    "fairly",
-    "pretty",
-    "incredibly",
+    'very', 'extremely', 'quite', 'rather', 'somewhat',
+    'barely', 'hardly', 'slightly', 'highly', 'totally',
+    'really', 'truly', 'fairly', 'pretty', 'incredibly',
 }
 AUXILIARY_VERBS = {
-    "be",
-    "am",
-    "is",
-    "are",
-    "was",
-    "were",
-    "been",
-    "being",
-    "have",
-    "has",
-    "had",
-    "having",
-    "do",
-    "does",
-    "did",
-    "doing",
-    "can",
-    "could",
-    "will",
-    "would",
-    "shall",
-    "should",
-    "may",
-    "might",
-    "must",
+    'be', 'am', 'is', 'are', 'was', 'were', 'been', 'being',
+    'have', 'has', 'had', 'having',
+    'do', 'does', 'did', 'doing',
+    'can', 'could', 'will', 'would', 'shall', 'should',
+    'may', 'might', 'must',
 }
 DETERMINERS = {
-    "the",
-    "a",
-    "an",
-    "this",
-    "that",
-    "these",
-    "those",
-    "my",
-    "your",
-    "his",
-    "her",
-    "its",
-    "our",
-    "their",
-    "some",
-    "any",
-    "no",
-    "every",
-    "each",
-    "all",
-    "both",
+    'the', 'a', 'an', 'this', 'that', 'these', 'those',
+    'my', 'your', 'his', 'her', 'its', 'our', 'their',
+    'some', 'any', 'no', 'every', 'each', 'all', 'both',
 }
 PREPOSITIONS = {
-    "in",
-    "on",
-    "at",
-    "by",
-    "for",
-    "with",
-    "to",
-    "from",
-    "of",
-    "about",
-    "into",
-    "through",
-    "during",
-    "before",
-    "after",
+    'in', 'on', 'at', 'by', 'for', 'with', 'to', 'from',
+    'of', 'about', 'into', 'through', 'during', 'before', 'after',
 }
-CONJUNCTIONS = {"and", "or", "but", "nor", "yet", "so"}
-COMPLEMENTIZERS = {"that", "if", "whether", "because", "although", "while"}
+CONJUNCTIONS = {'and', 'or', 'but', 'nor', 'yet', 'so'}
+COMPLEMENTIZERS = {'that', 'if', 'whether', 'because', 'although', 'while'}
 ```
 
 ### SQL Fix:
@@ -445,281 +382,109 @@ import logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
-
 def apply_fixes(db_path: str = "data/lexicon.db"):
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
     # Fix 1: Function words - reset all to 0
     FUNCTION_WORDS = [
-        "the",
-        "of",
-        "and",
-        "to",
-        "a",
-        "in",
-        "is",
-        "that",
-        "for",
-        "it",
-        "with",
-        "as",
-        "on",
-        "at",
-        "by",
-        "from",
-        "or",
-        "an",
-        "be",
-        "this",
-        "are",
-        "was",
-        "were",
-        "been",
-        "being",
-        "have",
-        "has",
-        "had",
-        "not",
-        "but",
-        "if",
-        "which",
-        "their",
-        "so",
-        "what",
-        "when",
-        "into",
-        "than",
-        "its",
-        "any",
-        "no",
-        "do",
-        "how",
-        "up",
-        "out",
-        "just",
-        "about",
+        'the', 'of', 'and', 'to', 'a', 'in', 'is', 'that', 'for', 'it',
+        'with', 'as', 'on', 'at', 'by', 'from', 'or', 'an', 'be', 'this',
+        'are', 'was', 'were', 'been', 'being', 'have', 'has', 'had', 'not',
+        'but', 'if', 'which', 'their', 'so', 'what', 'when', 'into', 'than',
+        'its', 'any', 'no', 'do', 'how', 'up', 'out', 'just', 'about'
     ]
 
-    placeholders = ",".join(["?"] * len(FUNCTION_WORDS))
-    cursor.execute(
-        f"""
+    placeholders = ','.join(['?'] * len(FUNCTION_WORDS))
+    cursor.execute(f"""
         UPDATE primitive_values
         SET value = 0, confidence = 0.9, source = 'fix:function_word'
         WHERE lexeme_id IN (
             SELECT id FROM lexemes WHERE lemma IN ({placeholders})
         )
-    """,
-        FUNCTION_WORDS,
-    )
+    """, FUNCTION_WORDS)
     logger.info(f"Fix 1: Reset {cursor.rowcount} primitive values for function words")
 
     # Fix 2a: SAY=0 for false positives
     SAY_FALSE_POSITIVES = [
-        "you",
-        "me",
-        "people",
-        "life",
-        "time",
-        "system",
-        "being",
-        "example",
-        "human",
-        "social",
-        "world",
-        "control",
-        "something",
-        "person",
-        "order",
-        "love",
-        "everything",
-        "protein",
-        "health",
-        "living",
-        "water",
-        "relationship",
-        "sense",
-        "feeling",
-        "activity",
-        "bit",
-        "food",
-        "air",
-        "medicine",
-        "hot",
-        "reaction",
-        "motion",
-        "fish",
-        "eat",
-        "mushroom",
-        "caffeine",
-        "liquid",
-        "consumption",
-        "fluid",
-        "salt",
-        "feed",
-        "pleasure",
-        "treat",
+        'you', 'me', 'people', 'life', 'time', 'system', 'being',
+        'example', 'human', 'social', 'world', 'control', 'something',
+        'person', 'order', 'love', 'everything', 'protein', 'health',
+        'living', 'water', 'relationship', 'sense', 'feeling', 'activity',
+        'bit', 'food', 'air', 'medicine', 'hot', 'reaction', 'motion',
+        'fish', 'eat', 'mushroom', 'caffeine', 'liquid', 'consumption',
+        'fluid', 'salt', 'feed', 'pleasure', 'treat'
     ]
 
-    placeholders = ",".join(["?"] * len(SAY_FALSE_POSITIVES))
-    cursor.execute(
-        f"""
+    placeholders = ','.join(['?'] * len(SAY_FALSE_POSITIVES))
+    cursor.execute(f"""
         UPDATE primitive_values
         SET value = 0, confidence = 0.8, source = 'fix:say_false_positive'
         WHERE primitive = 'SAY'
         AND lexeme_id IN (
             SELECT id FROM lexemes WHERE lemma IN ({placeholders})
         )
-    """,
-        SAY_FALSE_POSITIVES,
-    )
+    """, SAY_FALSE_POSITIVES)
     logger.info(f"Fix 2a: Set SAY=0 for {cursor.rowcount} false positives")
 
     # Fix 2b: WORDS=1 for speech-related words with SAY=1
     SPEECH_WORDS = [
-        "said",
-        "told",
-        "word",
-        "language",
-        "response",
-        "communication",
-        "expression",
-        "teaching",
-        "explain",
-        "saying",
-        "speaking",
-        "speech",
-        "conversation",
-        "ask",
-        "answer",
-        "describe",
-        "introduction",
-        "discussion",
-        "offer",
-        "argument",
-        "statement",
-        "feedback",
-        "storytelling",
-        "talking",
-        "chat",
-        "promise",
-        "emphasis",
-        "introduce",
-        "spoke",
-        "stated",
-        "ordered",
-        "conversational",
-        "participation",
-        "sentence",
+        'said', 'told', 'word', 'language', 'response', 'communication',
+        'expression', 'teaching', 'explain', 'saying', 'speaking', 'speech',
+        'conversation', 'ask', 'answer', 'describe', 'introduction',
+        'discussion', 'offer', 'argument', 'statement', 'feedback',
+        'storytelling', 'talking', 'chat', 'promise', 'emphasis',
+        'introduce', 'spoke', 'stated', 'ordered', 'conversational',
+        'participation', 'sentence'
     ]
 
-    placeholders = ",".join(["?"] * len(SPEECH_WORDS))
-    cursor.execute(
-        f"""
+    placeholders = ','.join(['?'] * len(SPEECH_WORDS))
+    cursor.execute(f"""
         INSERT OR REPLACE INTO primitive_values (lexeme_id, primitive, value, confidence, source)
         SELECT id, 'WORDS', 1, 0.85, 'fix:say_requires_words'
         FROM lexemes WHERE lemma IN ({placeholders})
-    """,
-        SPEECH_WORDS,
-    )
+    """, SPEECH_WORDS)
     logger.info(f"Fix 2b: Set WORDS=1 for {cursor.rowcount} speech-related words")
 
     # Fix 3: FEEL=0 for abstract/inanimate
     FEEL_FALSE_POSITIVES = [
-        "time",
-        "system",
-        "structure",
-        "theory",
-        "energy",
-        "network",
-        "result",
-        "production",
-        "resources",
-        "quality",
-        "war",
-        "organization",
-        "management",
-        "policy",
-        "law",
-        "school",
-        "body",
-        "death",
-        "past",
-        "full",
-        "weight",
-        "loss",
-        "operation",
-        "trade",
-        "machine",
-        "error",
-        "music",
-        "ground",
-        "base",
-        "established",
-        "period",
-        "constant",
-        "lines",
-        "effort",
-        "strength",
-        "architecture",
-        "exchange",
-        "concentration",
-        "assembly",
-        "statistical",
-        "sample",
-        "variable",
-        "spike",
-        "assessment",
-        "university",
-        "government",
-        "economy",
-        "budget",
-        "differential",
-        "mathematical",
-        "hypothesis",
-        "score",
-        "execution",
-        "perturbation",
-        "mail",
-        "sun",
-        "fire",
-        "electric",
-        "phone",
-        "birth",
-        "title",
-        "proof",
-        "challenge",
+        'time', 'system', 'structure', 'theory', 'energy', 'network',
+        'result', 'production', 'resources', 'quality', 'war',
+        'organization', 'management', 'policy', 'law', 'school',
+        'body', 'death', 'past', 'full', 'weight', 'loss', 'operation',
+        'trade', 'machine', 'error', 'music', 'ground', 'base',
+        'established', 'period', 'constant', 'lines', 'effort',
+        'strength', 'architecture', 'exchange', 'concentration',
+        'assembly', 'statistical', 'sample', 'variable', 'spike',
+        'assessment', 'university', 'government', 'economy', 'budget',
+        'differential', 'mathematical', 'hypothesis', 'score',
+        'execution', 'perturbation', 'mail', 'sun', 'fire', 'electric',
+        'phone', 'birth', 'title', 'proof', 'challenge'
     ]
 
-    placeholders = ",".join(["?"] * len(FEEL_FALSE_POSITIVES))
-    cursor.execute(
-        f"""
+    placeholders = ','.join(['?'] * len(FEEL_FALSE_POSITIVES))
+    cursor.execute(f"""
         UPDATE primitive_values
         SET value = 0, confidence = 0.8, source = 'fix:feel_false_positive'
         WHERE primitive = 'FEEL'
         AND lexeme_id IN (
             SELECT id FROM lexemes WHERE lemma IN ({placeholders})
         )
-    """,
-        FEEL_FALSE_POSITIVES,
-    )
+    """, FEEL_FALSE_POSITIVES)
     logger.info(f"Fix 3: Set FEEL=0 for {cursor.rowcount} abstract/inanimate words")
 
     # Fix 4: GOOD=1 for high-valence words
-    HIGH_VALENCE = ["life", "birth", "cash", "confidence", "robustness"]
+    HIGH_VALENCE = ['life', 'birth', 'cash', 'confidence', 'robustness']
 
-    placeholders = ",".join(["?"] * len(HIGH_VALENCE))
-    cursor.execute(
-        f"""
+    placeholders = ','.join(['?'] * len(HIGH_VALENCE))
+    cursor.execute(f"""
         UPDATE primitive_values
         SET value = 1, confidence = 0.9, source = 'fix:nrc_vad_positive'
         WHERE primitive = 'GOOD'
         AND lexeme_id IN (
             SELECT id FROM lexemes WHERE lemma IN ({placeholders})
         )
-    """,
-        HIGH_VALENCE,
-    )
+    """, HIGH_VALENCE)
     logger.info(f"Fix 4: Set GOOD=1 for {cursor.rowcount} high-valence words")
 
     # Fix 5: Pronoun fixes
@@ -751,47 +516,25 @@ def apply_fixes(db_path: str = "data/lexicon.db"):
 
     # Third person: SOMEONE=1
     THIRD_PERSON = [
-        "he",
-        "she",
-        "him",
-        "her",
-        "his",
-        "hers",
-        "himself",
-        "herself",
-        "they",
-        "them",
-        "their",
-        "themselves",
-        "someone",
-        "somebody",
-        "anyone",
-        "anybody",
-        "everyone",
-        "everybody",
-        "nobody",
-        "person",
-        "people",
+        'he', 'she', 'him', 'her', 'his', 'hers', 'himself', 'herself',
+        'they', 'them', 'their', 'themselves', 'someone', 'somebody',
+        'anyone', 'anybody', 'everyone', 'everybody', 'nobody',
+        'person', 'people'
     ]
-    placeholders = ",".join(["?"] * len(THIRD_PERSON))
-    cursor.execute(
-        f"""
+    placeholders = ','.join(['?'] * len(THIRD_PERSON))
+    cursor.execute(f"""
         INSERT OR REPLACE INTO primitive_values (lexeme_id, primitive, value, confidence, source)
         SELECT id, 'SOMEONE', 1, 0.9, 'fix:pronoun_third_person'
         FROM lexemes WHERE lemma IN ({placeholders})
-    """,
-        THIRD_PERSON,
-    )
+    """, THIRD_PERSON)
     logger.info(f"Fix 5c: Set SOMEONE=1 for third person pronouns")
 
     # Fix 6: Modifier Hierarchy Encoding
     # Load external ground truth for correct encoding
     try:
         import sys
-
-        sys.path.insert(0, ".")
+        sys.path.insert(0, '.')
         from scripts.load_intensity_ground_truth import get_modifier_ground_truth
-
         gt = get_modifier_ground_truth()
 
         for word, entry in gt.modifiers.items():
@@ -803,66 +546,45 @@ def apply_fixes(db_path: str = "data/lexicon.db"):
             lex_id = row[0]
 
             # Set base primitive to +1 (always)
-            cursor.execute(
-                """
+            cursor.execute("""
                 INSERT OR REPLACE INTO primitive_values (lexeme_id, primitive, value, confidence, source)
                 VALUES (?, ?, 1, 0.9, 'fix:modifier_hierarchy')
-            """,
-                (lex_id, entry.hierarchy_type),
-            )
+            """, (lex_id, entry.hierarchy_type))
 
             # Set HIER_PLUS if positive level
             if entry.level > 0:
-                cursor.execute(
-                    """
+                cursor.execute("""
                     INSERT OR REPLACE INTO primitive_values (lexeme_id, primitive, value, confidence, source)
                     VALUES (?, 'HIER_PLUS', ?, 0.9, 'fix:modifier_hierarchy')
-                """,
-                    (lex_id, entry.level),
-                )
+                """, (lex_id, entry.level))
                 # Ensure HIER_MINUS is 0
-                cursor.execute(
-                    """
+                cursor.execute("""
                     INSERT OR REPLACE INTO primitive_values (lexeme_id, primitive, value, confidence, source)
                     VALUES (?, 'HIER_MINUS', 0, 0.9, 'fix:modifier_hierarchy')
-                """,
-                    (lex_id,),
-                )
+                """, (lex_id,))
 
             # Set HIER_MINUS if negative level
             elif entry.level < 0:
-                cursor.execute(
-                    """
+                cursor.execute("""
                     INSERT OR REPLACE INTO primitive_values (lexeme_id, primitive, value, confidence, source)
                     VALUES (?, 'HIER_MINUS', ?, 0.9, 'fix:modifier_hierarchy')
-                """,
-                    (lex_id, abs(entry.level)),
-                )
+                """, (lex_id, abs(entry.level)))
                 # Ensure HIER_PLUS is 0
-                cursor.execute(
-                    """
+                cursor.execute("""
                     INSERT OR REPLACE INTO primitive_values (lexeme_id, primitive, value, confidence, source)
                     VALUES (?, 'HIER_PLUS', 0, 0.9, 'fix:modifier_hierarchy')
-                """,
-                    (lex_id,),
-                )
+                """, (lex_id,))
 
             # Level 0: No HIER markers
             else:
-                cursor.execute(
-                    """
+                cursor.execute("""
                     INSERT OR REPLACE INTO primitive_values (lexeme_id, primitive, value, confidence, source)
                     VALUES (?, 'HIER_PLUS', 0, 0.9, 'fix:modifier_hierarchy')
-                """,
-                    (lex_id,),
-                )
-                cursor.execute(
-                    """
+                """, (lex_id,))
+                cursor.execute("""
                     INSERT OR REPLACE INTO primitive_values (lexeme_id, primitive, value, confidence, source)
                     VALUES (?, 'HIER_MINUS', 0, 0.9, 'fix:modifier_hierarchy')
-                """,
-                    (lex_id,),
-                )
+                """, (lex_id,))
 
         logger.info(f"Fix 6: Applied modifier hierarchy encoding to {len(gt.modifiers)} words")
     except ImportError:
@@ -876,14 +598,13 @@ def apply_fixes(db_path: str = "data/lexicon.db"):
     cursor.execute("SELECT COUNT(*) FROM primitive_values WHERE source LIKE 'fix:%'")
     fixed_values = cursor.fetchone()[0]
 
-    logger.info(f"\n{'=' * 50}")
+    logger.info(f"\n{'='*50}")
     logger.info(f"FIXES APPLIED")
-    logger.info(f"{'=' * 50}")
+    logger.info(f"{'='*50}")
     logger.info(f"Words affected: {fixed_words}")
     logger.info(f"Primitive values modified: {fixed_values}")
 
     conn.close()
-
 
 if __name__ == "__main__":
     apply_fixes()

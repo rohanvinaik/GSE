@@ -11,9 +11,9 @@ The GSE three-layer architecture requires every word to be classified:
 
 ```python
 class ComponentType(Enum):
-    ATOMIC = auto()  # Content word: receives operations
-    OPERATOR = auto()  # Function word: performs operations
-    HYBRID = auto()  # Context-dependent (e.g., "have")
+    ATOMIC = auto()      # Content word: receives operations
+    OPERATOR = auto()    # Function word: performs operations
+    HYBRID = auto()      # Context-dependent (e.g., "have")
 ```
 
 This classification determines how words participate in sentence-level parsing and composition.
@@ -117,83 +117,28 @@ For OPERATOR words, binding behavior determines argument resolution:
 ```python
 CLOSED_CLASS_OPERATORS = {
     # Determiners
-    "the",
-    "a",
-    "an",
-    "this",
-    "that",
-    "these",
-    "those",
-    "my",
-    "your",
-    "his",
-    "her",
-    "its",
-    "our",
-    "their",
-    "some",
-    "any",
-    "no",
-    "every",
-    "each",
-    "all",
-    "both",
-    "few",
-    "many",
-    "much",
-    "several",
-    "most",
+    'the', 'a', 'an', 'this', 'that', 'these', 'those',
+    'my', 'your', 'his', 'her', 'its', 'our', 'their',
+    'some', 'any', 'no', 'every', 'each', 'all', 'both',
+    'few', 'many', 'much', 'several', 'most',
+
     # Prepositions
-    "in",
-    "on",
-    "at",
-    "by",
-    "for",
-    "with",
-    "to",
-    "from",
-    "of",
-    "about",
-    "into",
-    "through",
-    "during",
-    "before",
-    "after",
-    "above",
-    "below",
-    "between",
-    "under",
-    "over",
+    'in', 'on', 'at', 'by', 'for', 'with', 'to', 'from',
+    'of', 'about', 'into', 'through', 'during', 'before',
+    'after', 'above', 'below', 'between', 'under', 'over',
+
     # Conjunctions
-    "and",
-    "or",
-    "but",
-    "nor",
-    "yet",
-    "so",
-    "for",
+    'and', 'or', 'but', 'nor', 'yet', 'so', 'for',
+
     # Complementizers
-    "that",
-    "if",
-    "whether",
-    "because",
-    "although",
-    "while",
+    'that', 'if', 'whether', 'because', 'although', 'while',
+
     # Negators
-    "not",
-    "never",
-    "n't",
+    'not', 'never', "n't",
+
     # Degree modifiers
-    "very",
-    "extremely",
-    "quite",
-    "rather",
-    "somewhat",
-    "barely",
-    "hardly",
-    "slightly",
-    "highly",
-    "totally",
+    'very', 'extremely', 'quite', 'rather', 'somewhat',
+    'barely', 'hardly', 'slightly', 'highly', 'totally',
 }
 ```
 
@@ -202,32 +147,13 @@ CLOSED_CLASS_OPERATORS = {
 ```python
 AUXILIARY_VERBS = {
     # Primary auxiliaries
-    "be",
-    "am",
-    "is",
-    "are",
-    "was",
-    "were",
-    "been",
-    "being",
-    "have",
-    "has",
-    "had",
-    "having",
-    "do",
-    "does",
-    "did",
-    "doing",
+    'be', 'am', 'is', 'are', 'was', 'were', 'been', 'being',
+    'have', 'has', 'had', 'having',
+    'do', 'does', 'did', 'doing',
+
     # Modal auxiliaries
-    "can",
-    "could",
-    "will",
-    "would",
-    "shall",
-    "should",
-    "may",
-    "might",
-    "must",
+    'can', 'could', 'will', 'would', 'shall', 'should',
+    'may', 'might', 'must',
 }
 ```
 
@@ -239,20 +165,20 @@ Any word not in Rules 1-2 defaults to ATOMIC.
 
 ```python
 def get_operator_type(lemma: str) -> Optional[str]:
-    if lemma in {"not", "never", "no", "n't"}:
-        return "SIGN"
-    if lemma in {"very", "extremely", "quite", "rather", "barely", "hardly", "slightly", "highly"}:
-        return "HIERARCHY"
-    if lemma in {"be", "have", "do", "can", "could", "will", "would", "shall", "should", "may", "might", "must"}:
-        return "AUXILIARY"
-    if lemma in {"the", "a", "an", "this", "that", "some", "any", "every", "each", "all"}:
-        return "DETERMINER"
-    if lemma in {"in", "on", "at", "by", "for", "with", "to", "from", "of", "about"}:
-        return "PREPOSITION"
-    if lemma in {"and", "or", "but", "nor"}:
-        return "CONJUNCTION"
-    if lemma in {"that", "if", "whether", "because", "although"}:
-        return "COMPLEMENTIZER"
+    if lemma in {'not', 'never', 'no', "n't"}:
+        return 'SIGN'
+    if lemma in {'very', 'extremely', 'quite', 'rather', 'barely', 'hardly', 'slightly', 'highly'}:
+        return 'HIERARCHY'
+    if lemma in {'be', 'have', 'do', 'can', 'could', 'will', 'would', 'shall', 'should', 'may', 'might', 'must'}:
+        return 'AUXILIARY'
+    if lemma in {'the', 'a', 'an', 'this', 'that', 'some', 'any', 'every', 'each', 'all'}:
+        return 'DETERMINER'
+    if lemma in {'in', 'on', 'at', 'by', 'for', 'with', 'to', 'from', 'of', 'about'}:
+        return 'PREPOSITION'
+    if lemma in {'and', 'or', 'but', 'nor'}:
+        return 'CONJUNCTION'
+    if lemma in {'that', 'if', 'whether', 'because', 'although'}:
+        return 'COMPLEMENTIZER'
     return None
 ```
 
@@ -260,10 +186,10 @@ def get_operator_type(lemma: str) -> Optional[str]:
 
 ```python
 def get_binding_behavior(operator_type: str) -> str:
-    if operator_type in {"SIGN", "HIERARCHY", "DETERMINER", "PREPOSITION"}:
-        return "GREEDY"
-    if operator_type == "AUXILIARY":
-        return "LAZY"
+    if operator_type in {'SIGN', 'HIERARCHY', 'DETERMINER', 'PREPOSITION'}:
+        return 'GREEDY'
+    if operator_type == 'AUXILIARY':
+        return 'LAZY'
     return None  # CONJUNCTION, COMPLEMENTIZER don't have directional binding
 ```
 
@@ -409,156 +335,47 @@ import sqlite3
 from typing import Optional, Tuple
 
 # Classification lists
-SIGN_OPERATORS = {"not", "never", "no", "n't", "neither", "nor"}
+SIGN_OPERATORS = {'not', 'never', 'no', "n't", 'neither', 'nor'}
 
 HIERARCHY_OPERATORS = {
-    "very",
-    "extremely",
-    "quite",
-    "rather",
-    "somewhat",
-    "barely",
-    "hardly",
-    "slightly",
-    "highly",
-    "totally",
-    "really",
-    "truly",
-    "fairly",
-    "pretty",
-    "incredibly",
-    "exceedingly",
-    "remarkably",
-    "awfully",
-    "terribly",
+    'very', 'extremely', 'quite', 'rather', 'somewhat',
+    'barely', 'hardly', 'slightly', 'highly', 'totally',
+    'really', 'truly', 'fairly', 'pretty', 'incredibly',
+    'exceedingly', 'remarkably', 'awfully', 'terribly',
 }
 
 AUXILIARY_VERBS = {
-    "be",
-    "am",
-    "is",
-    "are",
-    "was",
-    "were",
-    "been",
-    "being",
-    "have",
-    "has",
-    "had",
-    "having",
-    "do",
-    "does",
-    "did",
-    "doing",
-    "can",
-    "could",
-    "will",
-    "would",
-    "shall",
-    "should",
-    "may",
-    "might",
-    "must",
+    'be', 'am', 'is', 'are', 'was', 'were', 'been', 'being',
+    'have', 'has', 'had', 'having',
+    'do', 'does', 'did', 'doing',
+    'can', 'could', 'will', 'would', 'shall', 'should',
+    'may', 'might', 'must',
 }
 
 DETERMINERS = {
-    "the",
-    "a",
-    "an",
-    "this",
-    "that",
-    "these",
-    "those",
-    "my",
-    "your",
-    "his",
-    "her",
-    "its",
-    "our",
-    "their",
-    "some",
-    "any",
-    "no",
-    "every",
-    "each",
-    "all",
-    "both",
-    "few",
-    "many",
-    "much",
-    "several",
-    "most",
-    "either",
-    "neither",
-    "another",
-    "such",
-    "what",
-    "which",
-    "whose",
+    'the', 'a', 'an', 'this', 'that', 'these', 'those',
+    'my', 'your', 'his', 'her', 'its', 'our', 'their',
+    'some', 'any', 'no', 'every', 'each', 'all', 'both',
+    'few', 'many', 'much', 'several', 'most', 'either',
+    'neither', 'another', 'such', 'what', 'which', 'whose',
 }
 
 PREPOSITIONS = {
-    "in",
-    "on",
-    "at",
-    "by",
-    "for",
-    "with",
-    "to",
-    "from",
-    "of",
-    "about",
-    "into",
-    "through",
-    "during",
-    "before",
-    "after",
-    "above",
-    "below",
-    "between",
-    "under",
-    "over",
-    "across",
-    "against",
-    "along",
-    "among",
-    "around",
-    "behind",
-    "beneath",
-    "beside",
-    "beyond",
-    "down",
-    "inside",
-    "near",
-    "off",
-    "onto",
-    "outside",
-    "past",
-    "toward",
-    "towards",
-    "up",
-    "upon",
-    "within",
-    "without",
+    'in', 'on', 'at', 'by', 'for', 'with', 'to', 'from',
+    'of', 'about', 'into', 'through', 'during', 'before',
+    'after', 'above', 'below', 'between', 'under', 'over',
+    'across', 'against', 'along', 'among', 'around', 'behind',
+    'beneath', 'beside', 'beyond', 'down', 'inside', 'near',
+    'off', 'onto', 'outside', 'past', 'toward', 'towards',
+    'up', 'upon', 'within', 'without',
 }
 
-CONJUNCTIONS = {"and", "or", "but", "nor", "yet", "so", "for"}
+CONJUNCTIONS = {'and', 'or', 'but', 'nor', 'yet', 'so', 'for'}
 
 COMPLEMENTIZERS = {
-    "that",
-    "if",
-    "whether",
-    "because",
-    "although",
-    "while",
-    "when",
-    "where",
-    "whereas",
-    "unless",
-    "until",
-    "since",
-    "though",
-    "as",
+    'that', 'if', 'whether', 'because', 'although', 'while',
+    'when', 'where', 'whereas', 'unless', 'until', 'since',
+    'though', 'as',
 }
 
 
@@ -572,34 +389,34 @@ def classify_word(lemma: str, pos: str) -> Tuple[str, Optional[str], Optional[st
 
     # Check SIGN operators first
     if lemma_lower in SIGN_OPERATORS:
-        return ("OPERATOR", "SIGN", "GREEDY")
+        return ('OPERATOR', 'SIGN', 'GREEDY')
 
     # Check HIERARCHY operators
     if lemma_lower in HIERARCHY_OPERATORS:
-        return ("OPERATOR", "HIERARCHY", "GREEDY")
+        return ('OPERATOR', 'HIERARCHY', 'GREEDY')
 
     # Check auxiliaries - these are HYBRID
     if lemma_lower in AUXILIARY_VERBS:
-        return ("HYBRID", "AUXILIARY", "LAZY")
+        return ('HYBRID', 'AUXILIARY', 'LAZY')
 
     # Check determiners
     if lemma_lower in DETERMINERS:
-        return ("OPERATOR", "DETERMINER", "GREEDY")
+        return ('OPERATOR', 'DETERMINER', 'GREEDY')
 
     # Check prepositions
     if lemma_lower in PREPOSITIONS:
-        return ("OPERATOR", "PREPOSITION", "GREEDY")
+        return ('OPERATOR', 'PREPOSITION', 'GREEDY')
 
     # Check conjunctions
     if lemma_lower in CONJUNCTIONS:
-        return ("OPERATOR", "CONJUNCTION", None)
+        return ('OPERATOR', 'CONJUNCTION', None)
 
     # Check complementizers
     if lemma_lower in COMPLEMENTIZERS:
-        return ("OPERATOR", "COMPLEMENTIZER", None)
+        return ('OPERATOR', 'COMPLEMENTIZER', None)
 
     # Default: ATOMIC
-    return ("ATOMIC", None, None)
+    return ('ATOMIC', None, None)
 
 
 def apply_classifications(db_path: str):
@@ -627,18 +444,15 @@ def apply_classifications(db_path: str):
 
     updated = 0
     for id_, lemma, pos in rows:
-        comp_type, op_type, binding = classify_word(lemma, pos or "")
+        comp_type, op_type, binding = classify_word(lemma, pos or '')
 
-        cursor.execute(
-            """
+        cursor.execute("""
             UPDATE lexemes
             SET component_type = ?,
                 operator_type = ?,
                 binding_behavior = ?
             WHERE id = ?
-        """,
-            (comp_type, op_type, binding, id_),
-        )
+        """, (comp_type, op_type, binding, id_))
         updated += 1
 
     conn.commit()

@@ -18,7 +18,7 @@ The current implementation uses random sparse vectors:
 ```python
 # Current approach
 primitive_i = SparseVector.random(10000, 1000, seed=i)
-role_j = SparseVector.random(10000, 1000, seed=1000 + j)
+role_j = SparseVector.random(10000, 1000, seed=1000+j)
 ```
 
 Issues:
@@ -194,11 +194,9 @@ Option 2 (shared rows):
 D = 10000
 GRID_SIZE = 100  # 100x100 grid
 
-
 def grid_to_dim(row: int, col: int) -> int:
     """Convert grid position to dimension index."""
     return row * GRID_SIZE + col
-
 
 def dim_to_grid(dim: int) -> tuple[int, int]:
     """Convert dimension index to grid position."""
@@ -211,18 +209,17 @@ def dim_to_grid(dim: int) -> tuple[int, int]:
 ROWS_PER_PRIMITIVE = 2
 COLS_PER_ROLE = 5
 
-
 def generate_primitive_vector(primitive_idx: int, dimension: int = 10000) -> SparseVector:
     """Generate OTP-structured primitive vector."""
     grid_size = int(np.sqrt(dimension))
-
+    
     # Determine row range for this primitive
     start_row = primitive_idx * ROWS_PER_PRIMITIVE
     end_row = start_row + ROWS_PER_PRIMITIVE
-
+    
     positive_indices = []
     negative_indices = []
-
+    
     for row in range(start_row, end_row):
         for col in range(grid_size):
             dim = row * grid_size + col
@@ -231,25 +228,25 @@ def generate_primitive_vector(primitive_idx: int, dimension: int = 10000) -> Spa
                 positive_indices.append(dim)
             else:
                 negative_indices.append(dim)
-
+    
     return SparseVector(
         dimension=dimension,
         positive_indices=np.array(positive_indices, dtype=np.uint16),
-        negative_indices=np.array(negative_indices, dtype=np.uint16),
+        negative_indices=np.array(negative_indices, dtype=np.uint16)
     )
 
 
 def generate_role_vector(role_idx: int, dimension: int = 10000) -> SparseVector:
     """Generate OTP-structured role vector."""
     grid_size = int(np.sqrt(dimension))
-
+    
     # Determine column range for this role
     start_col = role_idx * COLS_PER_ROLE
     end_col = start_col + COLS_PER_ROLE
-
+    
     positive_indices = []
     negative_indices = []
-
+    
     for row in range(grid_size):
         for col in range(start_col, end_col):
             dim = row * grid_size + col
@@ -258,11 +255,11 @@ def generate_role_vector(role_idx: int, dimension: int = 10000) -> SparseVector:
                 positive_indices.append(dim)
             else:
                 negative_indices.append(dim)
-
+    
     return SparseVector(
         dimension=dimension,
         positive_indices=np.array(positive_indices, dtype=np.uint16),
-        negative_indices=np.array(negative_indices, dtype=np.uint16),
+        negative_indices=np.array(negative_indices, dtype=np.uint16)
     )
 ```
 
@@ -271,31 +268,34 @@ def generate_role_vector(role_idx: int, dimension: int = 10000) -> SparseVector:
 ```python
 POLARITY_COLS = range(0, 10)  # First 10 columns are "polarity dimensions"
 
-
-def generate_antonym_pair(pos_idx: int, neg_idx: int, dimension: int = 10000) -> tuple[SparseVector, SparseVector]:
+def generate_antonym_pair(
+    pos_idx: int, 
+    neg_idx: int,
+    dimension: int = 10000
+) -> tuple[SparseVector, SparseVector]:
     """
     Generate antonym pair with shared structure and opposite polarity.
-
+    
     Both vectors use the SAME rows but:
     - Positive term: +1 in polarity columns
     - Negative term: -1 in polarity columns
     - Identical in all other columns
     """
     grid_size = int(np.sqrt(dimension))
-
+    
     # Use the positive term's row assignment
     start_row = pos_idx * ROWS_PER_PRIMITIVE
     end_row = start_row + ROWS_PER_PRIMITIVE
-
+    
     pos_positive = []
     pos_negative = []
     neg_positive = []
     neg_negative = []
-
+    
     for row in range(start_row, end_row):
         for col in range(grid_size):
             dim = row * grid_size + col
-
+            
             if col in POLARITY_COLS:
                 # Polarity columns: opposite signs
                 pos_positive.append(dim)  # Positive term gets +1
@@ -308,10 +308,12 @@ def generate_antonym_pair(pos_idx: int, neg_idx: int, dimension: int = 10000) ->
                 else:
                     pos_negative.append(dim)
                     neg_negative.append(dim)
-
+    
     return (
-        SparseVector(dimension, np.array(pos_positive, dtype=np.uint16), np.array(pos_negative, dtype=np.uint16)),
-        SparseVector(dimension, np.array(neg_positive, dtype=np.uint16), np.array(neg_negative, dtype=np.uint16)),
+        SparseVector(dimension, np.array(pos_positive, dtype=np.uint16), 
+                     np.array(pos_negative, dtype=np.uint16)),
+        SparseVector(dimension, np.array(neg_positive, dtype=np.uint16),
+                     np.array(neg_negative, dtype=np.uint16))
     )
 ```
 

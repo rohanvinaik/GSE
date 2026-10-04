@@ -63,6 +63,11 @@ exclude = [
     "tests/detective",  # Detective-generated, content-hashed, regenerated wholesale: never hand- or tool-edited
 ]
 
+[tool.ruff.format]
+# Format Python files only. ruff also formats Python code blocks inside Markdown, which rewrote
+# authored docs and LLM prompts (prompts/) in the repo-wide format commit; those stay as written.
+exclude = ["*.md"]
+
 [tool.ruff.lint]
 select = ["E", "F", "W", "I"]
 ignore = [

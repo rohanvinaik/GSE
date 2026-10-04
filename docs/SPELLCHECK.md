@@ -72,10 +72,9 @@ python -m gse.curation.build_spell_entities            # genealogy.db labels -> 
 
 ```python
 from gse.nlp.spellcheck import correct, suggest
-
-correct("recieve")  # Correction(committed="receive", …)
-correct("GSE")  # committed=None — valid-shaped token, never mangled
-suggest("wierd", n=3)  # [weird, wired, wield] ranked, each with its score trace
+correct("recieve")          # Correction(committed="receive", …)
+correct("GSE")              # committed=None — valid-shaped token, never mangled
+suggest("wierd", n=3)       # [weird, wired, wield] ranked, each with its score trace
 ```
 
 **REPL**:
