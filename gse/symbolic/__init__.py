@@ -74,6 +74,7 @@ from gse.symbolic.predicates import (
     TypeAssertion,
     TypeQuery,
 )
+from gse.symbolic.propositions import Proposition, Scope, proposition_status, propositions
 from gse.symbolic.queries import (
     axis_of_comparison,
     clauses,
@@ -155,6 +156,11 @@ __all__ = [
     "is_argument_swap_of",
     "is_logically_equal_to",
     "predicates",
+    # Signed propositions (one extraction under the shared modality decision)
+    "Proposition",
+    "Scope",
+    "proposition_status",
+    "propositions",
     # Serialization
     "SerializationError",
     "from_dict",
