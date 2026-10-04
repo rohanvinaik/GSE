@@ -9,6 +9,7 @@ Decodes HDC vectors to semantic information:
 - Nearest lexemes (similarity search)
 """
 
+import os
 import sqlite3
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
@@ -26,6 +27,11 @@ from gse.vectors_v2 import (
     create_basis,
     create_sentence_basis,
 )
+
+# Absolute path resolved from this module (repo root), as the encoder resolves its default, so the
+# decoder reads the same lexicon whatever the process working directory (#20).
+_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+_DEFAULT_LEXICON = os.path.join(_REPO_ROOT, "data", "lexicon_clean.db")
 
 
 class GSEDecoder:
@@ -62,9 +68,15 @@ class GSEDecoder:
         "COMP_LIKE": "BIND_EQ",
     }
 
-    def __init__(self, db_path: str = "data/lexicon.db"):
+    def __init__(self, db_path: str = _DEFAULT_LEXICON):
         """Initialize decoder with bases and database."""
         self.db_path = Path(db_path)
+        # sqlite3.connect() creates a missing file, so check first: a wrong path fails here
+        # instead of leaving an empty database behind (#20).
+        if not self.db_path.exists():
+            raise FileNotFoundError(
+                f"GSE lexicon not found: {self.db_path} (cwd={Path.cwd()}). Pass an absolute "
+                "db_path or omit it for the repo's data/lexicon_clean.db.")
 
         # Load HDC bases
         self.word_basis = create_basis()

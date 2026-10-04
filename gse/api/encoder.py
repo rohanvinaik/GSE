@@ -10,6 +10,7 @@ This ensures that argument order matters (dog as subject vs dog as object).
 """
 
 import hashlib
+import os
 import sqlite3
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
@@ -34,6 +35,11 @@ from gse.vectors_v2 import (
     encode_hierarchy,
     permute,
 )
+
+# Absolute path resolved from this module (repo root), as gse.nlp.spellcheck resolves its own, so
+# the default lexicon is the same file whatever the process working directory (#20).
+_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+_DEFAULT_LEXICON = os.path.join(_REPO_ROOT, "data", "lexicon_clean.db")
 
 # Dynamic syntactic role mappings from spaCy dependency labels
 # Based on Universal Dependencies schema - see sentence_parser.py for full docs
@@ -113,12 +119,12 @@ class GSEEncoder:
         - Failed operators: Return None for operator result
     """
 
-    def __init__(self, db_path: str = "data/lexicon_clean.db", strict: bool = False):
+    def __init__(self, db_path: str = _DEFAULT_LEXICON, strict: bool = False):
         """
         Initialize encoder with bases and database.
 
         Args:
-            db_path: Path to lexicon database
+            db_path: Path to lexicon database (default: the repo's data/lexicon_clean.db)
             strict: If True, raise exceptions for OOV words and errors.
                     If False (default), use graceful fallbacks.
 
