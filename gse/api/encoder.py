@@ -93,6 +93,32 @@ MORPH_TO_TAM = {
     "Aspect=Prog": "SYN_ASPECT_PROG",
 }
 
+_HIERARCHY_MARKERS = ("HIER_PLUS", "HIER_MINUS")
+
+
+def word_vector_plan(primitives: Dict[str, int]) -> Tuple[str, int, Tuple[str, int], List[Tuple[str, int]]]:
+    """How a word's vector is built from its word-scale primitives, decided before any vector is touched.
+
+    Returns ``(mode, level, target, others)``, every primitive paired with its value, so the vector can honour a -1
+    (the pole's vector, negated) on every path:
+
+    * ``("HIERARCHY", level, (prime, value), others)``: a hierarchy level (HIER_PLUS minus HIER_MINUS) is set and one
+      gradable target exists (the sole bipolar primitive, else the sole base). The target, with its own value, is
+      stacked ``abs(level)`` times by the level's marker; ``others`` are the remaining bases, bundled flat beside it.
+      The sign belongs to the atomic the hierarchy acts on: "very ugly" ({GOOD: -1}) is Hier(1)[-GOOD], very bad,
+      never very good (SA L33, L43).
+    * ``("BUNDLE", 0, ("", 0), others)``: otherwise, every primitive with its value, in the order given (none for an
+      empty word, whose vector is zero).
+    """
+    level = primitives.get("HIER_PLUS", 0) - primitives.get("HIER_MINUS", 0)
+    if level != 0:
+        bases = [p for p in primitives if p not in _HIERARCHY_MARKERS]
+        bipolar = [p for p in bases if p in BIPOLAR_PRIMITIVES]
+        target = bipolar[0] if len(bipolar) == 1 else (bases[0] if len(bases) == 1 else "")
+        if target:
+            return "HIERARCHY", level, (target, primitives[target]), [(p, primitives[p]) for p in bases if p != target]
+    return "BUNDLE", 0, ("", 0), list(primitives.items())
+
 
 class GSEEncoder:
     """
@@ -653,49 +679,42 @@ class GSEEncoder:
         """
         Encode word-scale primitives into a vector.
 
+        One rule on every path: a primitive's vector is its pole's vector, negated when its value is -1. A hierarchy
+        level (HIER_PLUS/HIER_MINUS on a base bank: many = QUANTITY + 2·HIER_PLUS) is stacked as permuted markers on
+        the target word_vector_plan picks, signed BEFORE the markers stack, so {GOOD: -1} under "very" is exactly
+        {BAD: 1} under it (very ugly is very bad, SA L33, L43).
+
         Fallback behavior: Returns zero vector for empty primitives,
                           skips invalid primitives silently.
         Strict behavior: Raises PrimitiveError for invalid primitives.
         """
-        if not primitives:
-            return SparseVector.zeros(self.word_basis.dimension)
+        mode, level, (target, value), signed = word_vector_plan(primitives)
+        if mode == "HIERARCHY":
+            base_vec = self.word_basis.get_primitive(target)
+            marker = self.word_basis.get_primitive("HIER_PLUS" if level > 0 else "HIER_MINUS")
+            if base_vec is not None and marker is not None:
+                hier_vec = encode_hierarchy(base_vec.negate() if value == -1 else base_vec, marker, abs(level))
+                others = self._signed_vectors(signed)
+                return bundle([hier_vec, *others]) if others else hier_vec
+            signed = list(primitives.items())  # a missing vector: the flat bundle over every primitive, as before
 
-        # Hierarchical ordinal modifier: a base bank (QUANTITY/INTENSITY/CERTAINTY)
-        # carried with HIER_PLUS/HIER_MINUS markers encodes a scalar LEVEL as stacked
-        # permuted markers (many = QUANTITY + 2·HIER_PLUS), NOT a flat scalar. Route it
-        # to encode_hierarchy so the ordinal is real (the "no arbitrary scalars" design).
-        level = primitives.get("HIER_PLUS", 0) - primitives.get("HIER_MINUS", 0)
-        if level != 0:
-            bases = [p for p in primitives if p not in ("HIER_PLUS", "HIER_MINUS")]
-            # Stack the ordinal markers on the GRADABLE bank: the sole bipolar prim
-            # when present (very happy → markers on GOOD, FEEL preserved), else the
-            # sole base (very big → BIG). Any remaining bases bundle in flat.
-            bipolar = [p for p in bases if p in BIPOLAR_PRIMITIVES]
-            target = bipolar[0] if len(bipolar) == 1 else (bases[0] if len(bases) == 1 else None)
-            if target is not None:
-                base_vec = self.word_basis.get_primitive(target)
-                marker = self.word_basis.get_primitive("HIER_PLUS" if level > 0 else "HIER_MINUS")
-                if base_vec is not None and marker is not None:
-                    hier_vec = encode_hierarchy(base_vec, marker, abs(level))
-                    others = [self.word_basis.get_primitive(p) for p in bases if p != target]
-                    others = [v for v in others if v is not None]
-                    return bundle([hier_vec, *others]) if others else hier_vec
-
-        components = []
-        for prim, value in primitives.items():
-            prim_vec = self.word_basis.get_primitive(prim)
-            if prim_vec:
-                if value == -1:
-                    prim_vec = prim_vec.negate()
-                components.append(prim_vec)
-            elif self.strict:
-                raise PrimitiveError(prim)
-            # else: silently skip invalid primitive (graceful fallback)
-
+        components = self._signed_vectors(signed)
         if not components:
             return SparseVector.zeros(self.word_basis.dimension)
 
         return bundle(components)
+
+    def _signed_vectors(self, signed: List[Tuple[str, int]]) -> List[SparseVector]:
+        """Each primitive's pole vector, negated when its value is -1; an invalid primitive raises PrimitiveError in
+        strict mode and is skipped otherwise (graceful fallback)."""
+        vectors = []
+        for prim, value in signed:
+            prim_vec = self.word_basis.get_primitive(prim)
+            if prim_vec:
+                vectors.append(prim_vec.negate() if value == -1 else prim_vec)
+            elif self.strict:
+                raise PrimitiveError(prim)
+        return vectors
 
     def _encode_sent_primitives(self, primitives: Dict[str, int]) -> SparseVector:
         """
