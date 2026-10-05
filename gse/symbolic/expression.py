@@ -20,7 +20,7 @@ will dispatch on.
 from __future__ import annotations
 
 from dataclasses import dataclass, field, replace
-from typing import TYPE_CHECKING, Dict, List, Optional, Sequence, Union
+from typing import TYPE_CHECKING, Dict, List, Optional, Sequence, Tuple, Union
 
 from gse.api.trace import ClauseSpan, OperationTrace, OperatorTrace, TokenTrace
 
@@ -131,6 +131,172 @@ Operand = Union[Atom, Phrase, Negation, "Op", "Predicate"]
 # treatment of NOT as a sign-direction argument (lines 22-46, 60).
 _NEGATION_LEMMAS = frozenset({"not", "no", "never", "neither", "nor", "nothing"})
 
+# Where a negation's sign lands (sentence_architecture.md L27, L45, L66): a negation is a direction, not an operation,
+# and it is taken by the nearest operator or atomic after it. What each token to its right can do with the sign:
+_UPTAKE_PASS_POS = frozenset({"DET"})  # transparent to everything: "not the only", "isn't a better dog than"
+# Crossed on the way to an atomic, never to an operator: "not to memorize", "not in the band", "not always". An
+# operator reached across one of these is not the negation's ("not sure if": the if-clause is not negated).
+_UPTAKE_GAP_POS = frozenset({"AUX", "PART", "ADP", "SCONJ", "CCONJ", "ADV"})
+_COMPARATIVE_RUN_POS = frozenset({"ADJ", "ADV", "NOUN", "NUM", "DET"})
+_HIER_MARKS = frozenset({"HIER_PLUS", "HIER_MINUS"})
+
+
+def sign_uptake(negation: str, kinds: List[str]) -> str:
+    """Where one negation's sign lands, from what the negation is and the kinds of the tokens to its right in surface
+    order (pure — pinned).
+
+    ``negation`` is ``"particle"`` (not, n't, never, nor) or ``"determiner"`` (no, neither before a nominal). The kinds
+    (:func:`_uptake_kinds`): ``"pass"`` (a determiner), ``"gap"`` (a function word, a bare adverb, an intensifier the
+    encoder bound to nothing), ``"trigger"`` (an operator's own token), ``"head"`` (the word a comparison compares on),
+    ``"hierarchy"`` (an intensifier bound to the next word) and ``"content"`` (any other word: an atomic). The first
+    kind that is neither pass nor gap decides, and the answer is a named code because each needs a different remedy:
+
+    * ``"operator"`` — a particle reaching a trigger across determiners only ("not only", "n't just", "not because"),
+      or a comparison's head ("isn't cuter than", SA L141's ``[-1]set_diff``): the operator itself is negated.
+    * ``"hierarchy"`` — an intensifier takes the sign as its direction ("not very good" is Hier(-1)[GOOD], SA
+      L39-45): no Negation is built, since the atomic keeps its own sign.
+    * ``"content"`` — an atomic takes it: the node holding that atomic is negated ("did not run" → -RUN, SA L60).
+    * ``"none"`` — nothing to its right can take it ("I hope not."; a trigger reached across a gap; a determiner whose
+      next word is a trigger, which is no determiner: "start with no as a default"): no node is negated, rather than a
+      wrong one.
+    """
+    gap = False
+    for kind in kinds:
+        if kind == "pass":
+            continue
+        if kind == "gap":
+            gap = True
+            continue
+        if kind == "trigger":
+            return "none" if gap or negation != "particle" else "operator"
+        if kind == "head":
+            return "operator"
+        if kind == "hierarchy":
+            return "hierarchy"
+        return "content"
+    return "none"
+
+
+def _starts_comparative(run: Sequence[TokenTrace]) -> bool:
+    """Does ``run`` open a comparison's compared phrase: an optional verb, then adjectives, adverbs, nouns or numbers,
+    ending at a THAN trigger ("cuter than", "run faster than", "more information than", "a better dog than")?"""
+    for i, tok in enumerate(run):
+        if tok.is_operator:
+            return i > 0 and tok.comp_operation == "SET_DIFF"
+        if tok.pos in _COMPARATIVE_RUN_POS or (i == 0 and tok.pos == "VERB"):
+            continue
+        return False
+    return False
+
+
+def _bound_intensifier(tok: TokenTrace, following: Optional[TokenTrace]) -> bool:
+    """An intensifier the encoder bound to the next word: it is left empty and its hierarchy mark sits on that word
+    (encoder.py's intensifier binding, which binds only to a gradable word). Read here only until #98 carries the
+    hierarchy on the trace itself."""
+    return (
+        not tok.word_primitives and following is not None and bool(_HIER_MARKS & set(following.word_primitives or {}))
+    )
+
+
+def _unbound_intensifier(tok: TokenTrace) -> bool:
+    """An intensifier the encoder bound to nothing (its next word is not gradable: "aren't really meant"): its own row
+    still carries INTENSITY with a hierarchy mark. No hierarchy operation was formed, so a sign passes through it."""
+    own = tok.word_primitives or {}
+    return "INTENSITY" in own and bool(_HIER_MARKS & set(own))
+
+
+def _uptake_kinds(right: Sequence[TokenTrace]) -> List[str]:
+    """The kind of each token to a negation's right (see :func:`sign_uptake`), up to the first punctuation mark: a
+    sign never crosses one ("He did not, and she left")."""
+    kinds: List[str] = []
+    for i, tok in enumerate(right):
+        if tok.pos == "PUNCT":
+            break
+        following = right[i + 1] if i + 1 < len(right) else None
+        if tok.is_operator:
+            kinds.append("trigger")
+        elif _starts_comparative(right[i:]):
+            kinds.append("head")
+        elif _bound_intensifier(tok, following):
+            kinds.append("hierarchy")
+        elif tok.lemma in _NEGATION_LEMMAS or tok.pos in _UPTAKE_PASS_POS:
+            kinds.append("pass")
+        elif (
+            (tok.pos in _UPTAKE_GAP_POS and not (tok.pos == "ADV" and tok.word_primitives))
+            or tok.lemma == "be"
+            or _unbound_intensifier(tok)
+        ):
+            kinds.append("gap")
+        else:
+            kinds.append("content")
+    return kinds
+
+
+# A negation's landing: its position → (sign_uptake's code, the position of the token that takes the sign or -1, the
+# negation's own lemma).
+Signs = Dict[int, Tuple[str, int, str]]
+# The two halves of one correlative negation: "neither X nor Y" negates once, not twice.
+_CORRELATIVE_NEGATIONS = frozenset({"neither", "nor"})
+
+
+def _sign_owners(tokens: Sequence[TokenTrace]) -> Signs:
+    """Where every negation of a sentence lands, decided once over the whole sentence so that each builder negates
+    exactly the node that holds the sign's taker, whichever span the negation itself sits in ("decided not to go":
+    the not is in the matrix span, its taker go in the control clause)."""
+    ordered = sorted(tokens, key=lambda t: t.position)
+    owners: Signs = {}
+    for i, tok in enumerate(ordered):
+        if tok.lemma not in _NEGATION_LEMMAS:
+            continue
+        if tok.pos in ("PRON", "NOUN"):
+            owners[tok.position] = ("content", tok.position, tok.lemma)  # "nothing" is its own atomic: "He did nothing"
+            continue
+        right = ordered[i + 1 :]
+        kinds = _uptake_kinds(right)
+        code = sign_uptake("determiner" if tok.pos == "DET" else "particle", kinds)
+        owner = -1
+        if code != "none":
+            k = next(j for j, kind in enumerate(kinds) if kind not in ("pass", "gap"))
+            owner = right[k].position
+            if kinds[k] == "head":
+                owner = next(t.position for t in right[k:] if t.is_operator)
+        owners[tok.position] = (code, owner, tok.lemma)
+    return owners
+
+
+def node_polarity(negations: List[str]) -> str:
+    """A node's polarity from the lemmas of the negations that land on it (pure — pinned): ``"negated"`` or
+    ``"affirmed"``.
+
+    Signs compose (SA L27: a sign is a direction, not an operation), so two landing on one node cancel ("He never did
+    not answer"). A correlative is no second sign: neither…nor negates once ("Neither John nor Mary came"), and a nor
+    continues a negation already there ("He did not come, nor did she")."""
+    count = sum(1 for lemma in negations if lemma not in _CORRELATIVE_NEGATIONS)
+    correlative = any(lemma in _CORRELATIVE_NEGATIONS for lemma in negations)
+    return "negated" if count % 2 == 1 or (count == 0 and correlative) else "affirmed"
+
+
+def _takes_sign(tokens: Sequence[TokenTrace], signs: Signs, own_verb: Optional[int] = None) -> bool:
+    """Is the node built from ``tokens`` negated (:func:`node_polarity` over the negations whose atomic it holds)?
+
+    A sign whose atomic is a verb other than the node's own (``own_verb``; None for a copula) is that predicate's ("I
+    think this doesn't work": n't is work's, never think's), and waits for that predicate's own node."""
+    by_position = {t.position: t for t in tokens}
+    landing: List[str] = []
+    for code, owner, lemma in signs.values():
+        atomic = by_position.get(owner) if code == "content" else None
+        if atomic is None:
+            continue
+        if atomic.pos == "VERB" and atomic.lemma != _COPULA_LEMMA and not atomic.is_operator and owner != own_verb:
+            continue
+        landing.append(lemma)
+    return node_polarity(landing) == "negated"
+
+
+def _negated_operators(signs: Signs) -> set:
+    """The trigger positions of the operators a negation lands on."""
+    return {owner for code, owner, _ in signs.values() if code == "operator"}
+
 
 def _atom_from_token(token: TokenTrace, role: Optional[str] = None) -> Atom:
     """Build a single Atom from a TokenTrace."""
@@ -190,19 +356,29 @@ def _build_arg_expression(
     token_positions: Sequence[int],
     tokens: Sequence[TokenTrace],
     operator_positions: Sequence[int],
+    signs: Optional[Signs] = None,
 ) -> Expression:
     """Build the Expression for one argument span.
 
     Strategy:
     * Skip token positions that are themselves operator positions
       (operators are wrapped at the parent level, not embedded as args).
+    * Drop a negation whose sign lands outside the span's content (on an
+      operator, in a hierarchy, or nowhere: :func:`sign_uptake`).
     * If the remaining span has a NOT-like token followed by content,
       wrap the content in Negation.
     * If the span has exactly one content token, return its Atom.
     * Otherwise return a Phrase to be refined by B5 (argument resolution).
     """
+    signs = _sign_owners(tokens) if signs is None else signs
     operator_set = set(operator_positions)
-    filtered = [tokens[p] for p in token_positions if p < len(tokens) and p not in operator_set]
+    filtered = [
+        tokens[p]
+        for p in token_positions
+        if p < len(tokens)
+        and p not in operator_set
+        and not (tokens[p].lemma in _NEGATION_LEMMAS and signs.get(p, ("content", p, ""))[0] != "content")
+    ]
     if not filtered:
         # No content tokens — return an empty phrase as a placeholder.
         return Phrase(atoms=[])
@@ -248,7 +424,7 @@ _COMPLEMENT_POS = frozenset({"NOUN", "PROPN", "ADJ"})
 _PP_OBJECT_POS = frozenset({"NOUN", "PROPN", "PRON"})
 
 
-def _try_copula_type_assertion(tokens: Sequence[TokenTrace]) -> Optional[Expression]:
+def _try_copula_type_assertion(tokens: Sequence[TokenTrace], signs: Optional[Signs] = None) -> Optional[Expression]:
     """Synthesize a TYPE_ASSERT ``Op`` from a copula "X is a Y" / "X is ADJ" clause.
 
     The encoder tags the subject (SYN_SUBJ), the copula "be" (SYN_PRED), and the
@@ -296,8 +472,9 @@ def _try_copula_type_assertion(tokens: Sequence[TokenTrace]) -> Optional[Express
     ):
         return None
 
-    # Negated type assertion ("X is not a Y"): drop the marker, wrap in Negation.
-    negated = any(t.lemma in _NEGATION_LEMMAS for t in tokens)
+    # Negated type assertion ("X is not a Y"): drop the marker, wrap in Negation — when the sign lands on this
+    # assertion's own content, not on an intensifier ("not very good" stays GOOD, one step down) or on another verb.
+    negated = _takes_sign(tokens, _sign_owners(tokens) if signs is None else signs)
     subject_atoms = [
         _atom_from_token(t) for t in tokens if t.position < copula.position and t.lemma not in _NEGATION_LEMMAS
     ]
@@ -427,7 +604,9 @@ def _select_clause_verb(tokens: Sequence[TokenTrace]):
     return v1
 
 
-def _try_event(tokens: Sequence[TokenTrace], shared_subject: Optional[Sequence] = None) -> Optional[Expression]:
+def _try_event(
+    tokens: Sequence[TokenTrace], shared_subject: Optional[Sequence] = None, signs: Optional[Signs] = None
+) -> Optional[Expression]:
     """Synthesize an EVENT ``Op`` from a plain verb clause "X verbs Y".
 
     The base case the operator set was missing: a clause with an ordinary content
@@ -446,8 +625,10 @@ def _try_event(tokens: Sequence[TokenTrace], shared_subject: Optional[Sequence] 
     # Clausal negation ("X does not harm Y"): NOT is a sign-direction argument
     # (sentence_architecture.md), so drop the marker from the argument spans and
     # wrap the synthesized EVENT in a Negation — the same node the in-span path
-    # (_build_arg_expression) and the emitter already understand.
-    negated = any(t.lemma in _NEGATION_LEMMAS for t in tokens)
+    # (_build_arg_expression) and the emitter already understand. Only a sign that
+    # lands on this event's own verb or participants: "I think this doesn't work"
+    # does not negate think, and "He left not because…" negates the because.
+    negated = _takes_sign(tokens, _sign_owners(tokens) if signs is None else signs, verb.position)
     _ordered = sorted(tokens, key=lambda t: t.position)
 
     def _prep_governed(tok) -> bool:
@@ -552,42 +733,52 @@ def _build_operator_op(
     op: OperatorTrace,
     tokens: Sequence[TokenTrace],
     operator_positions: Sequence[int],
-) -> Op:
-    """Build one ``Op`` node from an OperatorTrace, args from its token spans."""
+    signs: Optional[Signs] = None,
+) -> Union[Op, Negation]:
+    """Build one ``Op`` node from an OperatorTrace, args from its token spans; negated when a negation's sign lands on
+    the operator itself ("Cells aren't just bright", "Mike's dog isn't cuter than Rex": :func:`sign_uptake`)."""
+    signs = _sign_owners(tokens) if signs is None else signs
     args: List[Operand] = []
     if op.arity >= 1:
-        args.append(_build_arg_expression(op.arg1_tokens, tokens, operator_positions))
+        args.append(_build_arg_expression(op.arg1_tokens, tokens, operator_positions, signs))
     if op.arity >= 2:
-        args.append(_build_arg_expression(op.arg2_tokens, tokens, operator_positions))
-    return Op(
+        args.append(_build_arg_expression(op.arg2_tokens, tokens, operator_positions, signs))
+    built = Op(
         primitive=op.primitive,
         operation=op.operation,
         arity=op.arity,
         args=args,
     )
+    return Negation(operand=built) if op.position in _negated_operators(signs) else built
 
 
 def _left_fold_operators(
-    built_ops: Sequence[Op],
+    built_ops: Sequence[Union[Op, Negation]],
 ) -> Expression:
     """Nest operators left-to-right: leftmost becomes arg1 of the next.
 
     Reflects the state-based left-to-right order of operations from
     ``sentence_architecture.md`` line 35. Used *within* a single clause, where
     surface order is the right nesting; cross-clause nesting is handled by tier
-    in :func:`from_trace`, not here.
+    in :func:`from_trace`, not here. A negated operator keeps its Negation around
+    itself as it takes the fold so far as its first argument.
     """
     expr: Expression = built_ops[0]
     for next_op in built_ops[1:]:
-        new_args = list(next_op.args)
+        core = next_op.operand if isinstance(next_op, Negation) else next_op
+        if not isinstance(core, Op):
+            continue
+        new_args = list(core.args)
         if new_args:
             new_args[0] = expr
         expr = Op(
-            primitive=next_op.primitive,
-            operation=next_op.operation,
-            arity=next_op.arity,
+            primitive=core.primitive,
+            operation=core.operation,
+            arity=core.arity,
             args=new_args,
         )
+        if isinstance(next_op, Negation):
+            expr = Negation(operand=expr)
     return expr
 
 
@@ -599,6 +790,7 @@ def _build_clause_expr(
     excluded: Optional[set] = None,
     drop_relativizers: bool = False,
     shared_subject: Optional[Sequence] = None,
+    signs: Optional[Signs] = None,
 ) -> Expression:
     """Build the Expression for one clause span.
 
@@ -609,7 +801,9 @@ def _build_clause_expr(
     ``excluded`` token positions are dropped (an embedded child clause's tokens
     are excluded from the parent). ``drop_relativizers`` strips a leading
     who/which/that pronoun — used when building a relative clause's restriction.
+    ``signs`` is the sentence's negation landings (:func:`_sign_owners`).
     """
+    signs = _sign_owners(tokens) if signs is None else signs
     excluded = excluded or set()
     clause_tokens = [
         t
@@ -640,15 +834,15 @@ def _build_clause_expr(
         before = any(_content_verb(t) for t in clause_tokens if t.position < soft_pos)
         after = any(_content_verb(t) for t in clause_tokens if t.position > soft_pos)
         if before and after:
-            event_op = _try_event(clause_tokens, shared_subject=shared_subject)
+            event_op = _try_event(clause_tokens, shared_subject=shared_subject, signs=signs)
             if event_op is not None:
                 return event_op
 
     if not clause_ops:
-        copula_op = _try_copula_type_assertion(clause_tokens)
+        copula_op = _try_copula_type_assertion(clause_tokens, signs)
         if copula_op is not None:
             return copula_op
-        event_op = _try_event(clause_tokens, shared_subject=shared_subject)
+        event_op = _try_event(clause_tokens, shared_subject=shared_subject, signs=signs)
         if event_op is not None:
             return event_op
         atoms = [_atom_from_token(t) for t in clause_tokens]
@@ -658,7 +852,7 @@ def _build_clause_expr(
             return atoms[0]
         return Phrase(atoms=atoms)
 
-    built = [_build_operator_op(op, tokens, operator_positions) for op in clause_ops]
+    built = [_build_operator_op(op, tokens, operator_positions, signs) for op in clause_ops]
     if len(built) == 1:
         return built[0]
     return _left_fold_operators(built)
@@ -728,12 +922,27 @@ def _is_all_punct(node: Operand) -> bool:
     return False
 
 
+def _unwrap_negations(expr: Expression) -> "tuple[Expression, int]":
+    """The node under any Negations wrapped around ``expr``, and how many there were."""
+    count = 0
+    while isinstance(expr, Negation):
+        expr, count = expr.operand, count + 1
+    return expr, count
+
+
+def _rewrap_negations(expr: Expression, count: int) -> Expression:
+    for _ in range(count):
+        expr = Negation(operand=expr)
+    return expr
+
+
 def _build_control(
     matrix: Expression,
     emb: ClauseSpan,
     tokens: Sequence[TokenTrace],
     operators: Sequence[OperatorTrace],
     operator_positions: Sequence[int],
+    signs: Optional[Signs] = None,
 ) -> Expression:
     """Lift a control construction into ``CONTROL(verb, subject, controller, inner)``.
 
@@ -744,13 +953,19 @@ def _build_control(
     and assemble a single CONTROL Op ``[subject, controller, inner]`` (verb on
     ``primitive``). When the matrix isn't a clean Event, fall back to the
     in-place wrap (degraded — controller + inner only).
+
+    A negated matrix keeps its Negation around the whole CONTROL ("He did not
+    decide to go"); a negation whose sign lands on the inner verb negates the
+    inner event only ("He decided not to go").
     """
+    signs = _sign_owners(tokens) if signs is None else signs
     inner_tokens = [
         t for t in tokens if emb.token_start <= t.position < emb.token_end and not (t.pos == "PART" and t.lemma == "to")
     ]
     inner_verb = next((t for t in inner_tokens if t.pos == "VERB" and not t.is_operator), None)
-    if inner_verb is None or not (isinstance(matrix, Op) and matrix.operation == "EVENT"):
-        inner_expr = _build_clause_expr(emb, tokens, operators, operator_positions)
+    core, negations = _unwrap_negations(matrix)
+    if inner_verb is None or not (isinstance(core, Op) and core.operation == "EVENT"):
+        inner_expr = _build_clause_expr(emb, tokens, operators, operator_positions, signs=signs)
         return _wrap_antecedent(
             matrix,
             emb.attaches_to_token,
@@ -762,25 +977,32 @@ def _build_control(
     # Drop a punctuation-only arg the matrix picked up (trailing '.'), so the
     # controller is the real object (object control) or the subject (subject
     # control), not the period.
-    clean_args = [a for a in matrix.args if not _is_all_punct(a)] or list(matrix.args)
+    clean_args = [a for a in core.args if not _is_all_punct(a)] or list(core.args)
     subject = clean_args[0]
     controller = clean_args[1] if len(clean_args) > 1 else clean_args[0]
-    inner_obj = [_atom_from_token(t) for t in inner_tokens if t.position > inner_verb.position]
+    inner_obj = [
+        _atom_from_token(t)
+        for t in inner_tokens
+        if t.position > inner_verb.position and t.lemma not in _NEGATION_LEMMAS
+    ]
     inner_args: List[Operand] = [controller]
     if inner_obj:
         inner_args.append(Phrase(atoms=inner_obj))
-    inner_event = Op(
+    inner_event: Expression = Op(
         primitive=inner_verb.lemma,
         operation="EVENT",
         arity=len(inner_args),
         args=inner_args,
     )
-    return Op(
-        primitive=matrix.primitive,
+    if _takes_sign(inner_tokens, signs, inner_verb.position):
+        inner_event = Negation(operand=inner_event)
+    control = Op(
+        primitive=core.primitive,
         operation="CONTROL",
         arity=3,
         args=[subject, controller, inner_event],
     )
+    return _rewrap_negations(control, negations)
 
 
 def _build_complement(
@@ -789,6 +1011,7 @@ def _build_complement(
     tokens: Sequence[TokenTrace],
     operators: Sequence[OperatorTrace],
     operator_positions: Sequence[int],
+    signs: Optional[Signs] = None,
 ) -> Expression:
     """Inject a clausal complement as the reporting verb's patient.
 
@@ -796,9 +1019,12 @@ def _build_complement(
     EVENT(predict; witches) gains the complement proposition EVENT(become;
     Macbeth, king) as its patient. The complement carries its own subject, so it
     builds as a normal event once the 'that' mark and modal auxiliaries are
-    dropped (the copula "be" is kept). Falls back to the matrix unchanged when it
-    isn't a clean EVENT (e.g. an already-nested matrix), losing nothing vs today.
+    dropped (the copula "be" is kept). A negated matrix keeps its Negation around
+    the event that gains the complement ("She doesn't know that the door is
+    open"). Falls back to the matrix unchanged when it isn't a clean EVENT (e.g.
+    an already-nested matrix), losing nothing vs today.
     """
+    signs = _sign_owners(tokens) if signs is None else signs
     content = [
         t
         for t in tokens
@@ -806,19 +1032,21 @@ def _build_complement(
         and not (t.pos == "SCONJ" and t.lemma == "that")
         and not (t.pos == "AUX" and t.lemma != _COPULA_LEMMA)
     ]
-    inner = _try_copula_type_assertion(content) or _try_event(content)
+    inner = _try_copula_type_assertion(content, signs) or _try_event(content, signs=signs)
     if inner is None:
-        inner = _build_clause_expr(emb, tokens, operators, operator_positions)
-    if isinstance(matrix, Op) and matrix.operation == "EVENT":
+        inner = _build_clause_expr(emb, tokens, operators, operator_positions, signs=signs)
+    core, negations = _unwrap_negations(matrix)
+    if isinstance(core, Op) and core.operation == "EVENT":
         # Drop a punctuation-only arg the matrix may have picked up (the trailing
         # "." parses as an object), so the complement is the clean patient.
-        base_args = [a for a in matrix.args if not _is_all_punct(a)]
-        return Op(
-            primitive=matrix.primitive,
+        base_args = [a for a in core.args if not _is_all_punct(a)]
+        event = Op(
+            primitive=core.primitive,
             operation="EVENT",
             arity=len(base_args) + 1,
             args=base_args + [inner],
         )
+        return _rewrap_negations(event, negations)
     return matrix
 
 
@@ -827,6 +1055,7 @@ def _build_relative_restriction(
     tokens: Sequence[TokenTrace],
     operators: Sequence[OperatorTrace],
     operator_positions: Sequence[int],
+    signs: Optional[Signs] = None,
 ) -> Expression:
     """Build a relative clause's restriction with the antecedent bound into the
     relativizer's gap (``emb.gap_role``, from the encoder).
@@ -835,30 +1064,35 @@ def _build_relative_restriction(
     gap]; "the king whom Macbeth murdered" → EVENT(murder; Macbeth, king) [object
     gap]. Falls back to the plain build when the gap role is unknown or the clause
     has no content verb (e.g. the copular relative "who was the king", already
-    handled correctly by the default path).
+    handled correctly by the default path). The relative's own negation negates
+    its event ("the cells that never changed"), never the matrix.
     """
+    signs = _sign_owners(tokens) if signs is None else signs
     inner_tokens = [t for t in tokens if emb.token_start <= t.position < emb.token_end and not _is_relativizer(t)]
     verb = next(
         (t for t in inner_tokens if t.pos == "VERB" and t.lemma != _COPULA_LEMMA and not t.is_operator),
         None,
     )
     if verb is None or emb.gap_role not in ("subject", "object") or emb.attaches_to_token is None:
-        return _build_clause_expr(emb, tokens, operators, operator_positions, drop_relativizers=True)
+        return _build_clause_expr(emb, tokens, operators, operator_positions, drop_relativizers=True, signs=signs)
 
     antecedent = _atom_from_token(tokens[emb.attaches_to_token])
-    before = [_atom_from_token(t) for t in inner_tokens if t.position < verb.position]
-    after = [_atom_from_token(t) for t in inner_tokens if t.position > verb.position]
+    # A negation is the event's sign, never one of its participants.
+    participants = [t for t in inner_tokens if t.lemma not in _NEGATION_LEMMAS]
+    before = [_atom_from_token(t) for t in participants if t.position < verb.position]
+    after = [_atom_from_token(t) for t in participants if t.position > verb.position]
     if emb.gap_role == "object":
         agent_atoms, patient_atoms = before, [antecedent]
     else:  # subject gap — antecedent is the agent
         agent_atoms, patient_atoms = [antecedent], after
 
     if not agent_atoms:
-        return _build_clause_expr(emb, tokens, operators, operator_positions, drop_relativizers=True)
+        return _build_clause_expr(emb, tokens, operators, operator_positions, drop_relativizers=True, signs=signs)
     args: List[Operand] = [Phrase(atoms=agent_atoms)]
     if patient_atoms:
         args.append(Phrase(atoms=patient_atoms))
-    return Op(primitive=verb.lemma, operation="EVENT", arity=len(args), args=args)
+    event = Op(primitive=verb.lemma, operation="EVENT", arity=len(args), args=args)
+    return Negation(operand=event) if _takes_sign(inner_tokens, signs, verb.position) else event
 
 
 def from_trace(trace: OperationTrace) -> Expression:
@@ -882,17 +1116,19 @@ def from_trace(trace: OperationTrace) -> Expression:
     tokens = trace.tokens
     operators = sorted(trace.operators, key=lambda o: o.position)
     operator_positions = [op.position for op in operators]
+    # Where each negation's sign lands, decided once for the whole sentence (sentence_architecture.md L27, L45, L66).
+    signs = _sign_owners(tokens)
 
     if trace.clauses:
-        return _from_trace_segmented(trace, tokens, operator_positions)
+        return _from_trace_segmented(trace, tokens, operator_positions, signs)
 
     if not operators:
         # No COMP_* operator, but a copula "X is a Y" carries a synthesized
         # TYPE_ASSERT from the encoder's syntactic-role tags.
-        copula_op = _try_copula_type_assertion(tokens)
+        copula_op = _try_copula_type_assertion(tokens, signs)
         if copula_op is not None:
             return copula_op
-        event_op = _try_event(tokens)
+        event_op = _try_event(tokens, signs=signs)
         if event_op is not None:
             return event_op
         # No operators — fold every content token into a Phrase / Atom.
@@ -901,7 +1137,7 @@ def from_trace(trace: OperationTrace) -> Expression:
             return content_atoms[0]
         return Phrase(atoms=content_atoms)
 
-    built_ops = [_build_operator_op(op, tokens, operator_positions) for op in operators]
+    built_ops = [_build_operator_op(op, tokens, operator_positions, signs) for op in operators]
     if len(built_ops) == 1:
         return built_ops[0]
     return _left_fold_operators(built_ops)
@@ -923,14 +1159,18 @@ def _from_trace_segmented(
     trace: OperationTrace,
     tokens: Sequence[TokenTrace],
     operator_positions: Sequence[int],
+    signs: Optional[Signs] = None,
 ) -> Expression:
     """Tier-aware build for a segmented (multi-clause) trace.
 
     Each clause span is resolved independently; clause-linking operators (those
     not owned by any clause span) are folded over the clause results in surface
     order. ``trace.operators`` is indexed positionally to match the indices
-    stored in each ``ClauseSpan.operator_indices``.
+    stored in each ``ClauseSpan.operator_indices``. A linking operator a negation
+    lands on is negated whole ("He left not because he was angry").
     """
+    signs = _sign_owners(tokens) if signs is None else signs
+    negated_ops = _negated_operators(signs)
     operators = trace.operators
     all_clauses = sorted(trace.clauses, key=lambda c: c.clause_id)
     sequential = [c for c in all_clauses if c.kind == "sequential"]
@@ -954,6 +1194,7 @@ def _from_trace_segmented(
             operator_positions,
             excluded=embedded_tokens,
             shared_subject=shared_subject,
+            signs=signs,
         )
         clause_exprs.append(cx)
         subj = _event_subject_atoms(cx)
@@ -977,17 +1218,19 @@ def _from_trace_segmented(
             arity=op.arity,
             args=[expr, right],
         )
+        if op.position in negated_ops:
+            expr = Negation(operand=expr)
 
     # Attach each embedded clause to its antecedent / controller in-place.
     for emb in embedded:
         if emb.attaches_to_token is None:
             continue
         if emb.kind == "relative":
-            inner = _build_relative_restriction(emb, tokens, operators, operator_positions)
+            inner = _build_relative_restriction(emb, tokens, operators, operator_positions, signs)
             expr, _ = _wrap_antecedent(expr, emb.attaches_to_token, inner)
         elif emb.kind == "control":
-            expr = _build_control(expr, emb, tokens, operators, operator_positions)
+            expr = _build_control(expr, emb, tokens, operators, operator_positions, signs)
         elif emb.kind == "complement":
-            expr = _build_complement(expr, emb, tokens, operators, operator_positions)
+            expr = _build_complement(expr, emb, tokens, operators, operator_positions, signs)
 
     return expr

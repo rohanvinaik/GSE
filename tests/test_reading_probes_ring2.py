@@ -156,11 +156,50 @@ def test_an_embedded_clause_is_kept(encoder):
     assert "leave" in _verbs(encoder, "He laughed and said that she left.")
 
 
-@pytest.mark.xfail(strict=True, raises=AssertionError, reason="#112 S-negation: clausal negation is dropped")
-def test_clausal_negation_is_kept(encoder):
-    assert "NOT" in {op.get("op") for op in _ops(_contract(encoder, "The food was not good."))}
-    negated = _contract(encoder, "Mike's dog isn't cuter than Rex.")
-    assert negated != _contract(encoder, "Mike's dog is cuter than Rex.")
+def _negated(encoder, sentence):
+    """Each node a NOT wraps in the sentence's contract, as (op, verb)."""
+    return [
+        (op["args"][0].get("op"), op["args"][0].get("features", {}).get("verb"))
+        for op in _ops(_contract(encoder, sentence))
+        if op.get("op") == "NOT" and op.get("args") and isinstance(op["args"][0], dict)
+    ]
+
+
+@pytest.mark.parametrize(
+    ("sentence", "negated"),
+    [
+        ("Mike's dog isn't cuter than Rex.", [("COMPARISON", None)]),  # SA L141: the comparison takes the sign
+        ("Rex doesn't run faster than Mike.", [("COMPARISON", None)]),
+        ("Cells aren't just universally bright.", [("MIN_SUFFICIENCY", None)]),
+        ("He left not because he was angry.", [("CAUSATION", None)]),  # he left; the because is denied
+        ("He did not decide to go.", [("CONTROL", "decide")]),
+        ("He decided not to go.", [("EVENT", "go")]),  # the inner act, never decide
+        ("The man who never smiled left the town.", [("EVENT", "smile")]),  # the relative's own event
+        ("She doesn't know that the door is open.", [("EVENT", "know")]),
+        ("I think this doesn't work.", []),  # n't is work's, never think's; work waits for its own clause
+        ("No, I went home.", []),  # a sign never crosses punctuation
+        ("He never did not answer.", []),  # two signs cancel
+        ("Neither John nor Mary came.", [("EVENT", "come")]),  # one correlative negation
+    ],
+)
+def test_a_negation_negates_the_node_that_takes_its_sign(encoder, sentence, negated):
+    assert _negated(encoder, sentence) == negated
+
+
+def test_a_negated_matrix_keeps_its_complement(encoder):
+    (know,) = [
+        op for op in _ops(_contract(encoder, "She doesn't know that the door is open.")) if op.get("op") == "EVENT"
+    ]
+    assert any(isinstance(arg, dict) and arg.get("op") == "TYPE_ASSERT" for arg in know["args"])
+
+
+@pytest.mark.xfail(
+    strict=True,
+    raises=AssertionError,
+    reason="#88 F-pred-adj: after 'was not' the adjective is tagged ADV, so the copula has no complement",
+)
+def test_a_negated_predicate_adjective_is_a_negated_assertion(encoder):
+    assert _negated(encoder, "The food was not good.") == [("TYPE_ASSERT", None)]
 
 
 def test_a_negated_belief_complement_is_believed_not_asserted(encoder):
