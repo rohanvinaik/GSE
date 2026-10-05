@@ -157,6 +157,22 @@ def get_canonical_pole(primitive: str) -> Tuple[str, int]:
     return (dim.positive, dim.get_polarity(primitive))
 
 
+def literal_valence(signature: Dict[str, int]) -> int:
+    """A word's literal valence, -1, 0 or +1: the sign its signature gives the EVALUATION dimension (GOOD/BAD).
+
+    Read on the canonical pole, so a row stored on the negative pole reads right before canonical form (#55) rewrites
+    the rows: BAD +1 counts as GOOD -1, and a row holding both GOOD +1 and BAD +1 nets to 0. Valence is literal by
+    definition (#155; Rohan, 2026-10-04 23:05 UTC): it is what a word's definition encodes, and the affect lexicons
+    are not its source. This is the one valence law; #54 moves the other copies onto it.
+    """
+    total = 0
+    for primitive, value in signature.items():
+        canonical, pole = get_canonical_pole(primitive)
+        if canonical == "GOOD" and value:
+            total += pole if value > 0 else -pole
+    return (total > 0) - (total < 0)
+
+
 def negate_decomposition(primitives: Dict[str, int]) -> Dict[str, int]:
     """Selective bipolar negation — the HDC face of word-scale negation.
 
