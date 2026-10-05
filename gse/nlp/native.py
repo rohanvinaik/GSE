@@ -27,7 +27,7 @@ from typing import Dict, Iterator, List, Optional
 
 from nltk.corpus import wordnet as wn
 
-from gse.nlp.contractions import resolve_apostrophe_s, resolve_contraction
+from gse.nlp.contractions import POSSESSIVE_PLURAL, resolve_apostrophe_s, resolve_contraction
 from gse.nlp.morphology import resolve_degree
 
 # --- closed classes (finite function-word sets) ----------------------------
@@ -293,7 +293,7 @@ _PUNCT_RE = re.compile(r"[^\w\s]")
 # the same way, into "can"+"not". A 's/'re/'ve/'ll/'d/'m suffix is split off only when
 # a word character comes right before its apostrophe; any other apostrophe is a quote
 # ("'dividing'" keeps its word, where it once became "'d"+"ividing").
-_TOKEN_RE = re.compile(r"\w+(?=n't)|n't|(?i:can)(?=(?i:not)\b)|(?<=\w)'(?:s|re|ve|ll|d|m)\b|\w+|[^\w\s]")
+_TOKEN_RE = re.compile(r"\w+(?=(?i:n't))|(?i:n't)|(?i:can)(?=(?i:not)\b)|(?<=\w)'(?i:s|re|ve|ll|d|m)\b|\w+|[^\w\s]")
 
 
 def _wn_lemma(word: str, pos: str) -> Optional[str]:
@@ -311,6 +311,20 @@ def _tokenize(text: str) -> list:
     n't); without it the stray "t" leaked in as a content token and became a clause agent.
     """
     return _TOKEN_RE.findall(text.replace("’", "'").replace("‘", "'"))
+
+
+def _skip_adverbs(pos_tags: list, texts: list, start: int) -> int:
+    """The index of the first token at or after ``start`` that is neither an adverb nor a negation, or the end.
+
+    It finds the word that decides what a contracted auxiliary stands for: "I'd already gone" → gone (had), "It's not
+    raining" → raining (is), as the has/have rule already scans past adverbs and negation. ``pos_tags`` and ``texts``
+    run in parallel; the scan stops at the end of the shorter one.
+    """
+    end = min(len(pos_tags), len(texts))
+    i = max(start, 0)
+    while i < end and (pos_tags[i] == "ADV" or texts[i].lower() in _NEG):
+        i += 1
+    return min(i, end)
 
 
 def _rule_lemma(word: str, pos: str) -> str:
@@ -453,10 +467,12 @@ class NativeNLP:
         """Give each contracted auxiliary ('m 're 've 'll 'd) the lemma and tense of the word it stands for, as
         :func:`gse.nlp.contractions.resolve_contraction` reads it from the token after it: "I'd gone" → had (have,
         Tense=Past), "I'd go" → would, "I'm" → am (be, Tense=Pres)."""
+        pos_tags, texts = [t.pos_ for t in tokens], [t.text for t in tokens]
         for i, t in enumerate(tokens):
             if t.text.lower() not in _CONTRACTED_AUX:
                 continue
-            reading = resolve_contraction(t.text, tokens[i + 1] if i + 1 < len(tokens) else None)
+            j = _skip_adverbs(pos_tags, texts, i + 1)  # "I'd already gone" is decided by gone
+            reading = resolve_contraction(t.text, tokens[j] if j < len(tokens) else None)
             if reading:
                 t.lemma_ = _IRREGULAR_LEMMA.get(reading, reading)
                 t._morph = self._morph(reading, t.pos_)
@@ -468,8 +484,10 @@ class NativeNLP:
         and re-tagging is conservative (only when nothing else could be the predicate).
         See :func:`gse.nlp.contractions.resolve_apostrophe_s`."""
         for i, t in enumerate(tokens):
-            if t.text != "'s" or t.pos_ != "PART":
+            if t.text.lower() != "'s" or t.pos_ != "PART":
                 continue
+            # The very next token, not the verb past an adverb as for 'd: before a participle 's is "is" (passive,
+            # "It's instead retained as a whole") or "has" (perfect), which the participle alone cannot decide (#76).
             following = tokens[i + 1] if i + 1 < len(tokens) else None
             # 's is possessive when the clause ALREADY has a predicate — a verb/copula
             # elsewhere in the SAME clause, BEFORE or after the 's. (Scanning only AFTER
@@ -492,6 +510,11 @@ class NativeNLP:
                 t.lemma_, t.pos_ = "have", "AUX"
             elif reading == "us":
                 t.lemma_, t.pos_ = self._lemma("us", "PRON"), "PRON"
+            elif reading == POSSESSIVE_PLURAL and following is not None:
+                # "Duncan's guards": the plural the third-singular rule tagged VERB is the possessed noun.
+                following.pos_ = "NOUN"
+                following.lemma_ = self._lemma(following.text, "NOUN")
+                following._morph = self._morph(following.text, "NOUN")
             if reading in ("is", "has"):
                 t._morph = self._morph(reading, t.pos_)
             # POSSESSIVE → leave the PART unchanged (the possessive path handles it).
@@ -569,7 +592,7 @@ class NativeNLP:
             return "ADP"
         if low in _ADP:
             return "ADP"
-        if surf == "'s":
+        if low == "'s":
             return "PART"
         # Closed-class adverb / connective / deictic adverb — no entity reading; tag ADV
         # before the open-class WordNet/title-case logic that was mis-promoting these to

@@ -42,13 +42,6 @@ def candidates(fragment: str) -> List[str]:
     return list(CONTRACTION_EXPANSIONS.get(fragment.lower(), []))
 
 
-def _is_participle(tok: Any) -> bool:
-    """A past-participle / perfect form — GSE's own lemmatizer marks it: a verb whose
-    surface differs from its lemma (``gone``≠``go``, ``walked``≠``walk``). A base form
-    (``go``==``go``) or a nominal is not."""
-    return getattr(tok, "pos_", "") in ("VERB", "AUX") and tok.text.lower() != tok.lemma_
-
-
 def contraction_reading(fragment: str, next_pos: str, next_text: str, next_lemma: str) -> str:
     """The word a contraction fragment stands for, read from the token after it; ``""`` if it is not a fragment.
 
@@ -60,8 +53,15 @@ def contraction_reading(fragment: str, next_pos: str, next_text: str, next_lemma
     cands = candidates(fragment)
     if not cands:
         return ""
-    participle = next_pos in ("VERB", "AUX") and next_text.lower() != next_lemma
-    return cands[1] if len(cands) > 1 and participle else cands[0]
+    return cands[1] if len(cands) > 1 and is_past_participle(next_pos, next_text, next_lemma) else cands[0]
+
+
+def is_past_participle(pos: str, text: str, lemma: str) -> bool:
+    """A past participle, as both contraction readers judge one: a VERB or AUX whose surface differs from its lemma
+    (``gone``≠``go``, ``been``≠``be``) and is not a V-ing form ("dividing" is the present participle, read with is,
+    never had or has)."""
+    low = text.lower()
+    return pos in ("VERB", "AUX") and low != lemma and not low.endswith("ing")
 
 
 def resolve_contraction(fragment: str, following: Optional[Any]) -> Optional[str]:
@@ -82,6 +82,8 @@ def resolve_contraction(fragment: str, following: Optional[Any]) -> Optional[str
 
 # Result sentinel for the possessive reading of ``'s`` (not a word expansion).
 POSSESSIVE = "POSSESSIVE"
+# The possessive before a plural noun the third-singular rule tagged VERB ("Duncan's guards"): the caller re-tags it.
+POSSESSIVE_PLURAL = "POSSESSIVE_PLURAL"
 
 # Hosts that never take a possessive 's: "it's", "that's", "there's", "who's" are always it is / it has (the possessive
 # forms are its, whose, his, her). The indefinites are left out, since they do take one ("everyone's favourite").
@@ -94,13 +96,14 @@ def apostrophe_s_reading(
     host: str, host_is_name: bool, next_pos: str, next_text: str, next_lemma: str, verb_in_clause: bool
 ) -> str:
     """What an ``'s`` is, from the word it is attached to (``host``), the token after it, and whether another verb or
-    copula already predicates its clause. Returns ``"is"``, ``"has"``, ``POSSESSIVE`` or ``"us"``.
+    copula already predicates its clause. Returns ``"is"``, ``"has"``, ``POSSESSIVE``, ``POSSESSIVE_PLURAL`` or ``"us"``.
 
     * After a host that never takes a possessive (``_NEVER_POSSESSIVE_HOSTS``: it, that, there, who, …) ``'s`` is the
       verb: ``has`` before a past participle ("it's gone"), else ``is`` ("it's raining", "that's why it works").
     * After ``let`` it is ``us`` ("let's go").
     * After a name, a following plural that the third-singular rule tagged VERB makes it possessive ("Duncan's guards
-      became drunk"), where the plural would otherwise pass for a participle.
+      became drunk"), where the plural would otherwise pass for a participle: ``POSSESSIVE_PLURAL``, which also tells
+      the caller that the next word is that plural noun and must be re-tagged as one.
     * Otherwise ``has`` before a past participle ("the fire's gone"), the possessive when another verb or copula
       predicates the clause ("White's suggestion flattered"), and ``is`` when nothing else could ("the fire's too big").
 
@@ -111,11 +114,11 @@ def apostrophe_s_reading(
     if host == "let":
         return "us"
     nxt = next_text.lower()
-    participle = next_pos in ("VERB", "AUX") and nxt != next_lemma and not nxt.endswith("ing")
+    participle = is_past_participle(next_pos, next_text, next_lemma)
     if host in _NEVER_POSSESSIVE_HOSTS:
         return "has" if participle else "is"
     if host_is_name and next_pos == "VERB" and nxt.endswith("s") and not nxt.endswith("ss"):
-        return POSSESSIVE
+        return POSSESSIVE_PLURAL
     if participle:
         return "has"
     return POSSESSIVE if verb_in_clause else "is"

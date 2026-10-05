@@ -89,13 +89,55 @@ def test_its_is_it_is(encoder, sentence, lemma):
     assert _token(encoder, sentence, "'s").lemma == lemma
 
 
-def test_a_name_before_a_mistagged_plural_is_possessive(encoder):
-    # The third-singular rule tags "guards" VERB; after a name the 's is the possessive, not "has" (#87).
-    assert _token(encoder, "Duncan's guards became drunk.", "'s").pos == "PART"
+@pytest.mark.parametrize(
+    ("sentence", "lemma"),
+    [
+        ("I'd already gone home.", "have"),
+        ("I'd never seen it.", "have"),
+        ("I'd go home.", "would"),
+        ("I'd be leaving.", "would"),
+    ],
+)
+def test_a_contracted_d_is_read_from_its_verb_past_any_adverb(encoder, sentence, lemma):
+    # Before a participle 'd is "had", since "would" never takes one, whatever adverb or negation stands between (#78).
+    assert _token(encoder, sentence, "'d").lemma == lemma
+
+
+@pytest.mark.parametrize("sentence", ["It's not raining.", "It's instead retained as a whole."])
+def test_a_contracted_s_before_an_adverb_stays_is(encoder, sentence):
+    # 's is read from the next token: past an adverb a participle may be passive ("is retained") as well as perfect.
+    assert _token(encoder, sentence, "'s").lemma == "be"
 
 
 @pytest.mark.xfail(
-    strict=True, reason="#88 F-copula-adj: after a copula an adjective with any noun sense is tagged NOUN"
+    strict=True, raises=AssertionError, reason="#76 F-passive: 's before a passive participle reads as has"
+)
+def test_a_contracted_s_before_a_passive_is_is(encoder):
+    assert _token(encoder, "It's retained as a whole.", "'s").lemma == "be"
+
+
+def test_an_uppercase_contraction_splits(encoder):
+    # The fragments split whatever their case (#77, #78).
+    assert _token(encoder, "I'M READY.", "'M").lemma == "be"
+    assert ("go", False) in _contract_events(encoder, "WE'LL GO.")
+    assert ("know", True) in _contract_events(encoder, "I DON'T KNOW.")
+    assert ("swim", True) in _contract_events(encoder, "YOU CANNOT SWIM.")
+
+
+def test_a_name_before_a_mistagged_plural_is_possessive(encoder):
+    # The third-singular rule tags "guards" VERB; after a name the 's is the possessive, not "has", and the plural is
+    # the possessed noun, so it is no predicate of its own (#87).
+    sentence = "Duncan's guards became drunk."
+    assert _token(encoder, sentence, "'s").pos == "PART"
+    assert _token(encoder, sentence, "guards").pos == "NOUN"
+    events = _contract_events(encoder, sentence)
+    assert ("become", False) in events and ("guard", False) not in events
+
+
+@pytest.mark.xfail(
+    strict=True,
+    raises=AssertionError,
+    reason="#88 F-copula-adj: after a copula an adjective with any noun sense is tagged NOUN",
 )
 def test_an_adjective_after_a_copula_is_an_adjective(encoder):
     assert _token(encoder, "It is necessary to do this.", "necessary").pos == "ADJ"
@@ -105,7 +147,9 @@ def test_an_opening_quote_is_not_a_contraction(encoder):
     assert _token(encoder, "He wrote 'dividing' on the board.", "dividing").lemma == "divide"
 
 
-@pytest.mark.xfail(strict=True, reason="#94 F-titlecase: every capitalised sentence-initial word is a name")
+@pytest.mark.xfail(
+    strict=True, raises=AssertionError, reason="#94 F-titlecase: every capitalised sentence-initial word is a name"
+)
 @pytest.mark.parametrize(("sentence", "surface"), [("Consider the cell.", "Consider"), ("Yes, it works.", "Yes")])
 def test_a_sentence_initial_common_word_is_not_a_name(encoder, sentence, surface):
     assert _token(encoder, sentence, surface).pos != "PROPN"
@@ -125,7 +169,9 @@ def test_a_name_stays_a_name(encoder, sentence, surface):
     assert _token(encoder, sentence, surface).pos == "PROPN"
 
 
-@pytest.mark.xfail(strict=True, reason="#79 F-degree: a word is stripped to a shorter word (number -> numb)")
+@pytest.mark.xfail(
+    strict=True, raises=AssertionError, reason="#79 F-degree: a word is stripped to a shorter word (number -> numb)"
+)
 @pytest.mark.parametrize(
     ("sentence", "surface"),
     [
@@ -139,7 +185,7 @@ def test_a_word_is_not_stripped_to_a_shorter_word(encoder, sentence, surface):
     assert _token(encoder, sentence, surface).lemma == surface
 
 
-@pytest.mark.xfail(strict=True, reason="#79 F-degree: cuter -> cut (the silent e is lost)")
+@pytest.mark.xfail(strict=True, raises=AssertionError, reason="#79 F-degree: cuter -> cut (the silent e is lost)")
 def test_a_comparative_keeps_its_silent_e(encoder):
     assert _token(encoder, "Rex is cuter.", "cuter").lemma == "cute"
 
@@ -170,13 +216,15 @@ def test_a_participle_after_a_pronoun_keeps_its_verb(encoder):
 # ── words: signatures and the lexicon ─────────────────────────────────────────────────────────────────────
 
 
-@pytest.mark.xfail(strict=True, reason="#80 F-neg-prefix: dislike reads as like")
+@pytest.mark.xfail(strict=True, raises=AssertionError, reason="#80 F-neg-prefix: dislike reads as like")
 def test_dislike_is_not_like(encoder):
     like = _token(encoder, "I like it.", "like").word_primitives
     assert _token(encoder, "I dislike it.", "dislike").word_primitives != like
 
 
-@pytest.mark.xfail(strict=True, reason="#80 F-neg-prefix: a false negative prefix overrides the word's own row")
+@pytest.mark.xfail(
+    strict=True, raises=AssertionError, reason="#80 F-neg-prefix: a false negative prefix overrides the word's own row"
+)
 @pytest.mark.parametrize(
     ("sentence", "surface"), [("It is inside.", "inside"), ("The country is independent.", "independent")]
 )
@@ -184,7 +232,9 @@ def test_a_word_keeps_its_own_row(encoder, sentence, surface):
     assert dict(_token(encoder, sentence, surface).word_primitives) == _row(encoder, surface)
 
 
-@pytest.mark.xfail(strict=True, reason="#99 E-oov: an unknown word and a designed zero both read {}")
+@pytest.mark.xfail(
+    strict=True, raises=AssertionError, reason="#99 E-oov: an unknown word and a designed zero both read {}"
+)
 def test_an_unknown_word_and_a_designed_zero_are_told_apart(encoder):
     status = {t.token: getattr(t, "lexicon_status", None) for t in encoder.encode("The xqzzt fell.").tokens}
     assert status["xqzzt"] == "unknown"
@@ -192,12 +242,16 @@ def test_an_unknown_word_and_a_designed_zero_are_told_apart(encoder):
     assert status["The"] not in (None, "unknown")
 
 
-@pytest.mark.xfail(strict=True, reason="#51 L-vad: the v2 VAD lexicon read on the v1 scale votes GOOD -1")
+@pytest.mark.xfail(
+    strict=True, raises=AssertionError, reason="#51 L-vad: the v2 VAD lexicon read on the v1 scale votes GOOD -1"
+)
 @pytest.mark.parametrize("lemma", ["rule", "elements", "case"])
 def test_a_neutral_word_carries_no_valence(encoder, lemma):
     assert "GOOD" not in _row(encoder, lemma)
 
 
-@pytest.mark.xfail(strict=True, reason="#52 L-emolex: a GOOD conflict is settled by alphabetical emotion order")
+@pytest.mark.xfail(
+    strict=True, raises=AssertionError, reason="#52 L-emolex: a GOOD conflict is settled by alphabetical emotion order"
+)
 def test_compassion_is_not_negative(encoder):
     assert _row(encoder, "compassion").get("GOOD") != -1
