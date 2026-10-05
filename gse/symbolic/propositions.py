@@ -8,11 +8,13 @@ the SquishOS voice probe, personal-wiki and a proof script. This is the one extr
 outermost first: each Negation over it, each Conditional arm, attitude complement and irrealis inner act it is in.
 Each consumer maps that record to its own action (a fact, a rule, a skipped belief, a count).
 
-:attr:`Proposition.status` is the one code the voice probe reads: the outermost scope's mode, or ``"asserted"``. It
-is lossy on purpose, because it reproduces the probe's walk exactly and so changes no measure when the probe moves
-onto this. Under "He doesn't believe X" it calls X negated, and under not-(P and Q) it calls P and Q negated, though X
-is believed content and P, Q are asserted neither way. The scopes keep what the code loses; a consumer that needs
-the difference reads them.
+:attr:`Proposition.status` is the one code the voice probe reads: the outermost scope's mode, or ``"asserted"``, with
+one rule from the knowability rulings. A negation over a believing or knowing verb is that verb's, and the content
+it governs abstains: "I don't think X" and "She doesn't know that X" leave X's truth unknown, never negated (Rohan,
+2026-10-05 00:28:45 and 01:37:36: "The "not" applies to thinking … It's not about the truth value of the actual "X",
+which is unkown"). An unnegated knowing commits its complement (00:21:44). The code stays lossy elsewhere: under
+not-(P and Q) it calls P and Q negated, though they are asserted neither way. The scopes keep what the code loses; a
+consumer that needs the difference reads them.
 """
 
 from __future__ import annotations
@@ -28,8 +30,11 @@ from gse.symbolic.predicates import OPERAND_FIELDS
 _GOVERNED = {
     "conditional": ("antecedent", "consequent"),
     "belief": ("patient",),
+    "epistemic": ("patient",),
     "irrealis": ("inner",),
 }
+# The modes of a verb whose clausal content a negation over it leaves unknown (the knowability rulings).
+_ATTITUDE_MODES = frozenset({"belief", "epistemic"})
 # Deeper than any parsed sentence; a guard against a malformed, self-referencing tree.
 _MAX_DEPTH = 64
 
@@ -71,11 +76,17 @@ def proposition_status(modes: List[str]) -> str:
     """The one code a proposition's scope modes, outermost first, project to (pure, pinned).
 
     The outermost mode that is not ``"asserted"`` (``negated``, ``conditional``, ``belief`` or ``irrealis``), or
-    ``"asserted"`` when there is none. Lossy by design; see the module docstring.
+    ``"asserted"`` when there is none. ``"epistemic"`` is transparent: a knowing commits its complement. A
+    ``"negated"`` with a believing or knowing scope inside it projects to ``"abstained"``: the negation is the verb's,
+    and the content's truth is unknown ("I don't think X", "She doesn't know that X"). A negation inside the content
+    is the content's own ("He knows that she did not leave": negated). Lossy by design; see the module docstring.
     """
-    for mode in modes:
-        if mode != "asserted":
-            return mode
+    for i, mode in enumerate(modes):
+        if mode in ("asserted", "epistemic"):
+            continue
+        if mode == "negated" and any(inner in _ATTITUDE_MODES for inner in modes[i + 1 :]):
+            return "abstained"
+        return mode
     return "asserted"
 
 

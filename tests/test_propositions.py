@@ -7,7 +7,10 @@ it (so a belief's attitude verb stays readable: factive "know" against "believe"
 import pytest
 
 from gse.api import GSEEncoder
-from gse.symbolic import evaluate_tree, from_trace, proposition_status, propositions, resolve
+from gse.symbolic import evaluate_tree, from_trace, resolve
+
+# From the defining module, not the package re-export, so a test calls the function Detective patches.
+from gse.symbolic.propositions import proposition_status, propositions
 
 
 @pytest.fixture(scope="module")
@@ -70,14 +73,63 @@ def test_nothing_to_walk_yields_nothing(tree):
 
 
 @pytest.mark.parametrize(
+    ("sentence", "verb", "status"),
+    [
+        ("He knows that the door is open.", "know", "asserted"),
+        ("She doesn't know that the door is open.", "know", "negated"),
+    ],
+)
+def test_a_knowing_verb_is_asserted_or_negated_as_stated(encoder, sentence, verb, status):
+    assert _with_verb(encoder, sentence, verb).status == status
+
+
+@pytest.mark.parametrize(
+    ("sentence", "status"),
+    [
+        # 00:21:44: an unnegated knowing commits its complement.
+        ("He knows that the door is open.", "asserted"),
+        # 00:28:45: "Not knowing" is the same as abstention on the question of truth.
+        ("She doesn't know that the door is open.", "abstained"),
+    ],
+)
+def test_a_knowing_commits_its_complement_and_a_denied_knowing_abstains(encoder, sentence, status):
+    (door,) = [
+        p
+        for p in propositions(evaluate_tree(resolve(from_trace(encoder.encode(sentence)))))
+        if p.kind == "TypeAssertion"
+    ]
+    assert door.status == status
+
+
+def test_a_denied_belief_leaves_its_content_unknown(encoder):
+    # 01:37:36: "The "not" applies to thinking … It's not about the truth value of the actual "X", which is unkown"
+    props = propositions(
+        evaluate_tree(resolve(from_trace(encoder.encode("Macbeth does not believe that Banquo saw him."))))
+    )
+    (believe,) = [p for p in props if getattr(p.node, "verb", None) == "believe"]
+    (content,) = [p for p in props if p.node is believe.node.patient]
+    assert (believe.status, content.status) == ("negated", "abstained")
+
+
+@pytest.mark.parametrize(
     ("modes", "status"),
     [
         ([], "asserted"),
         (["negated"], "negated"),
-        (["belief", "negated"], "belief"),  # the outermost scope wins: lossy, kept in the scopes
-        (["negated", "belief"], "negated"),  # "doesn't believe X": X is believed content, the code says negated
+        (["belief", "negated"], "belief"),  # "thinks she did not leave": the outermost scope wins
         (["asserted", "conditional"], "conditional"),
+        # The knowability rulings: a negation over a believing or knowing verb leaves its content unknown.
+        (["negated", "belief"], "abstained"),  # "I don't think X"
+        (["negated", "epistemic"], "abstained"),  # "She doesn't know that X"
+        (["negated", "epistemic", "negated"], "abstained"),  # "She doesn't know that he did not leave"
+        (["negated", "conditional", "belief"], "abstained"),
+        # A knowing is transparent: it commits its complement, whose own negation stays its own.
+        (["epistemic"], "asserted"),  # "He knows that X"
+        (["epistemic", "negated"], "negated"),  # "He knows that she did not leave"
+        (["epistemic", "belief"], "belief"),  # "He knows that she believes X"
+        (["conditional", "negated", "belief"], "conditional"),  # the outer barrier still wins
+        (["negated", "irrealis"], "negated"),  # no ruling covers irrealis under a negation
     ],
 )
-def test_the_status_projection_is_the_outermost_scope(modes, status):
+def test_the_status_projection(modes, status):
     assert proposition_status(modes) == status

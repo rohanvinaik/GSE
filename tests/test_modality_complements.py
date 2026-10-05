@@ -23,3 +23,16 @@ def test_a_clause_under_an_attitude_verb_is_a_belief(kind):
 def test_a_thing_under_an_attitude_verb_is_no_complement(patient):
     # "believes the story" takes an object, not a clause: the attitude event is asserted as usual.
     assert assertion_mode("Event", "believe", patient) == "asserted"
+
+
+@pytest.mark.parametrize("verb", ["know", "realize", "realise"])
+@pytest.mark.parametrize("kind", ["TypeAssertion", "Event", "Negation", "Comparison"])
+def test_a_clause_under_a_knowing_verb_is_epistemic(verb, kind):
+    # Rohan, 2026-10-05 00:21:44: know/realize commit to their complement ("Yes"), unlike believe.
+    assert assertion_mode("Event", verb, kind) == "epistemic"
+
+
+@pytest.mark.parametrize("patient", ["Entity", "Atom", "NoneType", ""])
+def test_a_thing_under_a_knowing_verb_is_no_complement(patient):
+    # "knows the answer" takes an object: the knowing is asserted as usual.
+    assert assertion_mode("Event", "know", patient) == "asserted"
