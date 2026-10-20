@@ -55,6 +55,7 @@ _FEATURES = {
     "axis": "tall",
     "note": "probe",
     "themes": (_entity("letter"),),
+    "modal": ("MAYBE",),
 }
 
 

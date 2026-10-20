@@ -401,6 +401,7 @@ def _swap_args(node: TreeNode) -> TreeNode:
                 operation=node.operation,
                 arity=node.arity,
                 args=[node.args[1], node.args[0]],
+                modal=node.modal,
             )
         return node
     if isinstance(node, Comparison):

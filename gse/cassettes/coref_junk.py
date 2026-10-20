@@ -102,7 +102,7 @@ class CorefJunk(Cassette):
             if eid == gap.eid or not doc.is_proper(eid):
                 continue
             nm = next((m for m in ms if m.pos == "PROPN"), None)
-            if nm is None or not doc.is_person(nm):
+            if nm is None or doc.is_person(nm).code != "person":
                 continue
             # NAME-quality gate (the orthographic discipline): a capitalized common English
             # word ('Sea', 'Old', 'Written', 'February') tags PROPN at a sentence start and

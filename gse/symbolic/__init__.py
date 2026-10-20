@@ -23,6 +23,18 @@ Sub-packages:
 See ``docs/PHASE_B_SCOPE.md`` for the live scope.
 """
 
+from gse.symbolic.claims import (
+    CLAIM_KEY_VERSION,
+    ClaimKey,
+    Identity,
+    Polarity,
+    claim_key,
+    commitment,
+    commitment_modes,
+    identity,
+    polarity,
+    scope_signature,
+)
 from gse.symbolic.emit import (
     CONTRACT_VERSION,
     emit,
@@ -84,7 +96,7 @@ from gse.symbolic.queries import (
     is_logically_equal_to,
     predicates,
 )
-from gse.symbolic.resolution import Coordination, Entity, resolve
+from gse.symbolic.resolution import Coordination, Entity, resolve, resolve_with_sources
 from gse.symbolic.serialization import (
     SerializationError,
     from_dict,
@@ -92,6 +104,7 @@ from gse.symbolic.serialization import (
     to_dict,
     to_json,
 )
+from gse.symbolic.signs import negation_signs
 from gse.symbolic.templating import substitute
 
 __all__ = [
@@ -134,6 +147,7 @@ __all__ = [
     "Coordination",
     "Entity",
     "resolve",
+    "resolve_with_sources",
     # Reference resolution (entity ids + type threads) + document scope
     "GenealogyProvider",
     "NullGenealogy",
@@ -161,6 +175,17 @@ __all__ = [
     "Scope",
     "proposition_status",
     "propositions",
+    "CLAIM_KEY_VERSION",
+    "ClaimKey",
+    "Identity",
+    "Polarity",
+    "claim_key",
+    "commitment",
+    "commitment_modes",
+    "identity",
+    "polarity",
+    "scope_signature",
+    "negation_signs",
     # Serialization
     "SerializationError",
     "from_dict",

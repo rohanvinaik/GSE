@@ -1,0 +1,23 @@
+{
+  "schema": "gse.squishos-final-tests/1",
+  "artifact": "/private/tmp/gse-closeout-squishos-final-dependencies.xml",
+  "artifact_sha256": "0e1db7939e7b64de5a893a61dca85a1345ef15918c84220f1ca28fb6050f94c3",
+  "counts": {
+    "tests": 2602,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 2601
+  },
+  "failures": [
+    {
+      "classname": "tests.test_setup",
+      "name": "test_the_real_record_names_sources_that_exist",
+      "failure": "def test_the_real_record_names_sources_that_exist():\n        record = json.loads((ROOT / \"ops/agents/environment.json\").read_text())\n        assert record[\"schema\"] == \"squishos.setup/0.1\"\n        for render in record[\"renders\"]:\n            assert all((ROOT / part).is_file() for part in render[\"parts\"]), render[\"client\"]\n        shared = [h[\"command\"] for h in record[\"hooks\"] if h[\"command\"].startswith(\"ops/\")]\n        assert shared and all((ROOT / c).is_file() for c in shared)\n>       assert sorted(Path(c).name for c in shared) == sorted(p.name for p in (ROOT / \"ops/agents/hooks\").iterdir() if p.is_file())\nE       AssertionError: assert ['feedback-su...lock.py', ...] == ['feedback-su...lock.py', ...]\nE         \nE         Right contains one more item: 'read-whole.py'\nE         Use -v to get more diff\n\ntests/test_setup.py:248: AssertionError"
+    }
+  ],
+  "consumer_voice_sha256": "002caf9dc95ca13a97671c8bdb64ae2e015dd113b5a067544ff1f6c714725f78",
+  "lint": "Ruff check passed;166 files format checked",
+  "focused_provenance_commands_metrics": "176 passed",
+  "scoped_type": "voice.py and provenance dependency regression pass"
+}

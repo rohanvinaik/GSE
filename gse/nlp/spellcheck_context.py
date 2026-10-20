@@ -177,7 +177,8 @@ def recover_rare_tail(tokens, i, encoder, lexicon: _Lexicon = _DEFAULT_LEXICON) 
     """Recover a rare-tail grounding token that is a typo in a SLOT IT CAN'T FILL — e.g.
     ``cen`` in "we cen tell" sits right after a subject pronoun (a predicate slot) but is
     a NOUN. Recovery fires only if (validated conservative, Zipf-gated, LOCAL):
-      - the token is rare-tail (zero general usage, broad-tail-only) and shape-gate-clean;
+      - the token has readable usage evidence with no observed combined rank,
+        grounds only in the broad tail, and is shape-gate-clean;
       - the previous token is a subject pronoun, and the surface is NOT verb/aux
         (so it's in a predicate slot it doesn't fill — an abstruse role);
       - a top-common (Zipf top-N) edit-1 candidate DOES take a verb/aux role there.
@@ -187,7 +188,7 @@ def recover_rare_tail(tokens, i, encoder, lexicon: _Lexicon = _DEFAULT_LEXICON) 
     from gse.nlp.spellcheck import _edits1, looks_non_lexical
 
     surf = tokens[i].token
-    if not lexicon.is_rare_tail(surf) or looks_non_lexical(surf):
+    if lexicon.rarity_evidence(surf)["state"] != "rare_tail" or looks_non_lexical(surf):
         return None
     if i == 0 or tokens[i - 1].pos not in _SUBJECT_PREV:
         return None

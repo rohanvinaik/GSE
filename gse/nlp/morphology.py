@@ -112,34 +112,162 @@ def resolve_degree(surface: str) -> Optional[Tuple[str, str]]:
     for suffix, feat in (("est", SUPERLATIVE), ("er", COMPARATIVE)):
         if low.endswith(suffix) and len(low) > len(suffix) + 1:
             stem = low[: -len(suffix)]
+            # The complete surface's lexical adjective reading licenses which
+            # orthographic candidate is its base. Merely finding *an* adjective
+            # (number -> numb, forest -> fore, cuter -> cut) is insufficient.
+            surface_known = bool(wn.synsets(low))
+            licensed = {lemma.name() for syn in wn.synsets(low, pos="a") for lemma in syn.lemmas()}
             for cand in _candidate_bases(stem):
-                if _is_gradable_adjective(cand):
+                if _is_gradable_adjective(cand) and (not surface_known or cand in licensed):
                     return cand, feat
             return None  # ends in the suffix but no base grounds → not a degree form
     return None
 
 
-def resolve_negation(surface: str) -> Optional[Tuple[str, str]]:
-    """The negation-prefix operation: ``surface → (base, feature)`` or ``None``.
+def negation_evidence(surface: str) -> dict:
+    """Evidenced negation/reversal, with lexical identity preceding apparent prefixes.
 
-    The same propose→coherence-resolve shape as :func:`resolve_degree`: a negation
-    prefix is the marker, the base is proposed by stripping it, and the grounding
-    oracle decides. A stripped base that grounds as a gradable adjective is
-    **NEGATION** (``unkind``→``(kind, NEGATION)``, the evaluative sign-flip the
-    encoder applies via :func:`gse.primitives_v2.negate_decomposition`); for
-    ``un-``/``dis-`` a base that grounds as a verb is **REVERSAL**
-    (``unlock``→``(lock, REVERSAL)``, action-undoing — recognition-only in v1).
-
-    The grounding gate kills false prefixes exactly as the ``-er`` collision dies:
-    ``uncle``→``cle`` grounds as nothing → None; ``income``→``come`` is a verb but
-    ``in-`` is negation-only → None; ``insane``→``sane`` is an adjective → NEGATION.
+    Known surfaces require a WordNet antonym link to the stripped base. A truly
+    absent surface permits productive un-/non- plus a grounded adjective.
+    Other apparent prefixes remain unresolved. Reversal never flips a sign.
     """
+    from gse.lexical_evidence import lookup_lexeme
+
+    out = {
+        "surface": surface,
+        "policy": "gse.negation/2",
+        "state": "resolved",
+        "decision": "no_prefix",
+        "base": None,
+        "feature": None,
+        "evidence": [],
+    }
     low = surface.lower()
-    for pref, allow_reversal in _NEG_PREFIXES:
-        if low.startswith(pref) and len(low) > len(pref) + 2:
-            base = low[len(pref) :]
-            if _is_gradable_adjective(base):
-                return base, NEGATION
-            if allow_reversal and wn.synsets(base, pos="v"):
-                return base, REVERSAL
+    candidates = [
+        (prefix, reversal, low[len(prefix) :])
+        for prefix, reversal in _NEG_PREFIXES
+        if low.startswith(prefix) and len(low) > len(prefix) + 2
+    ]
+    if not candidates:
+        return out
+    lexical = lookup_lexeme(low)
+    out["evidence"].append(
+        {
+            "source": "GSE-lexicon",
+            "state": lexical["state"],
+            "record": lexical["selected_record"],
+            "provenance": lexical["provenance"],
+        }
+    )
+    try:
+        surface_synsets = wn.synsets(low)
+        known = bool(surface_synsets) or lexical["state"] in ("primes", "no_primes")
+        for prefix, allow_reversal, base in candidates:
+            oppositions = [
+                {"synset": syn.name(), "lemma": lemma.name(), "antonym": antonym.name()}
+                for syn in surface_synsets
+                for lemma in syn.lemmas()
+                for antonym in lemma.antonyms()
+                if antonym.name().lower() == base
+            ]
+            adjective = _is_gradable_adjective(base)
+            if known and not oppositions:
+                continue
+            if not known and (lexical["state"] == "unread" or prefix not in ("un", "non")):
+                continue
+            if adjective:
+                out.update(decision="negation", base=base, feature=NEGATION)
+            elif known and oppositions and allow_reversal and wn.synsets(base, pos="v"):
+                out.update(decision="reversal", base=base, feature=REVERSAL)
+            else:
+                continue
+            out["evidence"].append(
+                {
+                    "source": "WordNet",
+                    "prefix": prefix,
+                    "base": base,
+                    "opposition": oppositions,
+                    "rule": "lexical-opposition" if known else "productive-adjective",
+                }
+            )
+            return out
+        if known:
+            out.update(decision="lexical")
+        else:
+            out.update(
+                state="unread" if lexical["state"] == "unread" else "unresolved",
+                decision="lexical_unread" if lexical["state"] == "unread" else "unresolved_prefix",
+            )
+    except LookupError:
+        out.update(state="unread", decision="lexical_unread")
+        out["evidence"].append({"source": "WordNet", "state": "unread"})
+    return out
+
+
+def resolve_negation(surface: str) -> Optional[Tuple[str, str]]:
+    """Tuple projection of negation_evidence; only evidenced operations compose.
+
+    ``inside``/``under`` retain lexical identity; ``unloyal`` can compose.
+    """
+    evidence = negation_evidence(surface)
+    if evidence["decision"] in ("negation", "reversal"):
+        return evidence["base"], evidence["feature"]
     return None
+
+
+def negation_admission(recognition: dict, surface: dict, base: dict, token_pos: str) -> dict:
+    """Whether a recognized negative may replace the encoder's selected row.
+
+    Selection and composition are distinct decisions. Existing lexical evidence
+    can be extended only where every represented prime/sign is preserved. Generic
+    POS rows are supported at this declared projection, never sense resolution.
+    """
+    from gse.primitives_v2 import negate_decomposition
+
+    out = {
+        "decision": "preserve",
+        "code": "not_negation",
+        "primitives": None,
+        "token_pos": token_pos,
+        "surface_record": surface.get("selected_record"),
+        "base_record": base.get("selected_record"),
+        "policy": "gse.negation-admission/1",
+    }
+    if recognition.get("feature") != NEGATION or recognition.get("state") != "resolved":
+        return out
+    if surface.get("state") == "unread" or base.get("state") == "unread":
+        out["code"] = "lexical_unread"
+        return out
+    record = base.get("selected_record") or {}
+    if record.get("component_type") == "closed_class" or record.get("comp_operation") or record.get("comp_primitive"):
+        out["code"] = "base_closed_class_or_operator"
+        return out
+    if base.get("state") != "primes" or not base.get("primitives"):
+        out["code"] = "base_without_primitives"
+        return out
+    if base.get("ambiguous") or surface.get("ambiguous"):
+        out["code"] = "sense_unresolved"
+        return out
+    if record.get("pos") not in (None, "x", "a", "s", "ADJ", "adj"):
+        out["code"] = "base_pos_mismatch"
+        return out
+    selected = surface.get("selected_record") or {}
+    if selected and (selected.get("pos") not in (None, "x", "a", "s", "ADJ", "adj") or token_pos != "ADJ"):
+        out["code"] = "surface_pos_mismatch"
+        return out
+    if surface.get("state") == "no_primes":
+        out["code"] = "surface_lexical_zero"
+        return out
+    candidate = negate_decomposition(base["primitives"])
+    if candidate == base["primitives"]:
+        out["code"] = "base_without_bipolar_sign"
+        return out
+    if any(candidate.get(prime) != value for prime, value in surface.get("primitives", {}).items()):
+        out["code"] = "selected_lexical_conflict"
+        return out
+    out.update(
+        decision="compose",
+        code="productive_negative" if not selected else "compatible_lexical_negative",
+        primitives=candidate,
+    )
+    return out

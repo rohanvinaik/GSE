@@ -88,13 +88,16 @@ def to_dict(node: Node) -> Dict[str, Any]:
             "operand": to_dict(node.operand),
         }
     if isinstance(node, Op):
-        return {
+        out = {
             "_kind": "Op",
             "primitive": node.primitive,
             "operation": node.operation,
             "arity": node.arity,
             "args": [to_dict(a) for a in node.args],
         }
+        if node.modal:  # an EVENT's modal primes (#66); absent for a plain clause, so its dict is unchanged
+            out["modal"] = list(node.modal)
+        return out
     if isinstance(node, Entity):
         d = {
             "_kind": "Entity",
@@ -163,6 +166,8 @@ def to_dict(node: Node) -> Dict[str, Any]:
             "agent": to_dict(node.agent),
             "patient": to_dict(node.patient) if node.patient is not None else None,
         }
+        if node.modal:  # the modal primes (#66); absent for a plain clause, so its dict is unchanged
+            d["modal"] = list(node.modal)
         # The latent secondary args are preserved, never destroyed (#4); emitted only when present.
         if node.themes:
             d["themes"] = [to_dict(t) for t in node.themes]
@@ -202,11 +207,14 @@ def to_dict(node: Node) -> Dict[str, Any]:
             "conjunction": node.conjunction,
         }
     if isinstance(node, TypeAssertion):
-        return {
+        d = {
             "_kind": "TypeAssertion",
             "entity": to_dict(node.entity),
             "kind": to_dict(node.kind),
         }
+        if node.modal:  # the modal primes (#66); absent otherwise, so the dict is unchanged
+            d["modal"] = list(node.modal)
+        return d
     if isinstance(node, RelativeRestriction):
         return {
             "_kind": "RelativeRestriction",
@@ -214,13 +222,16 @@ def to_dict(node: Node) -> Dict[str, Any]:
             "restriction": to_dict(node.restriction),
         }
     if isinstance(node, Control):
-        return {
+        d = {
             "_kind": "Control",
             "controller": to_dict(node.controller),
             "inner": to_dict(node.inner),
             "verb": node.verb,
             "subject": to_dict(node.subject) if node.subject is not None else None,
         }
+        if node.modal:  # the modal primes (#66); absent otherwise, so the dict is unchanged
+            d["modal"] = list(node.modal)
+        return d
     if isinstance(node, Coordination):
         return {
             "_kind": "Coordination",
@@ -272,6 +283,7 @@ def from_dict(d: Dict[str, Any]) -> Node:
             operation=d["operation"],
             arity=d["arity"],
             args=[from_dict(x) for x in d["args"]],
+            modal=tuple(d.get("modal") or ()),
         )
     if kind == "Entity":
         return Entity(
@@ -324,6 +336,7 @@ def from_dict(d: Dict[str, Any]) -> Node:
             agent=from_dict(d["agent"]),
             patient=from_dict(d["patient"]) if d.get("patient") else None,
             themes=tuple(from_dict(t) for t in d.get("themes") or ()),
+            modal=tuple(d.get("modal") or ()),
         )
     if kind == "Contrast":
         return Contrast(left=from_dict(d["left"]), right=from_dict(d["right"]))
@@ -355,6 +368,7 @@ def from_dict(d: Dict[str, Any]) -> Node:
         return TypeAssertion(
             entity=from_dict(d["entity"]),
             kind=from_dict(d["kind"]),
+            modal=tuple(d.get("modal") or ()),
         )
     if kind == "RelativeRestriction":
         return RelativeRestriction(
@@ -367,6 +381,7 @@ def from_dict(d: Dict[str, Any]) -> Node:
             inner=from_dict(d["inner"]),
             verb=d.get("verb", ""),
             subject=from_dict(d["subject"]) if d.get("subject") else None,
+            modal=tuple(d.get("modal") or ()),
         )
     if kind == "Coordination":
         return Coordination(

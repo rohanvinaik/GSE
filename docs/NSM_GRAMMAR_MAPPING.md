@@ -54,6 +54,11 @@ NSM itself bans these from the metalanguage:
 ### Periphrastic (decompose to a prime/operator combination, not a single entry)
 - modals `would, could, should, may` → via `CAN` / `MAYBE` / `MUST` / `GOOD`+`WANT`
   (no atomic modal prime exists).
+  Built (GSE #66, `build_clean_closed_class.PERIPHRASTIC_MODALS`), one Bank 7 prime each (a grammatical
+  word has one home; modality is Bank 7, `GSE_V2.md`): `could → CAN` (can's past and conditional form),
+  `should → MUST` (the weak deontic), `would → MAYBE` (the hypothetical), `may/might → MAYBE` (the founder's
+  2026-10-04 decision);
+  `shall`, a future like `will`, is informational zero and the tense operator carries it.
 - `often` → `QUANTITY`(MANY) + `WHEN`(time); `most` → `QUANTITY` + `HIER_MAX`.
 - **predicational copula "X is a Y"** ("a dog is an animal") → **`KIND`**, *not* a
   copular prime — this is class-membership, the `TypeAssertion` path. (Locational/

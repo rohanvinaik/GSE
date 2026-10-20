@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "voice.metric-result/1",
+  "type": "object",
+  "properties": {
+    "definition": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "unit": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scale": {
+      "type": "string",
+      "minLength": 1
+    },
+    "value": {},
+    "n": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "failed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "state": {
+      "enum": [
+        "measured",
+        "partial",
+        "unread",
+        "absent",
+        "not_applicable",
+        "undefined",
+        "unsupported"
+      ]
+    },
+    "support": {
+      "enum": [
+        "sufficient",
+        "thin",
+        "none"
+      ]
+    },
+    "evidence": {
+      "type": "array",
+      "items": {}
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "producer": {
+      "type": "string",
+      "minLength": 1
+    },
+    "num": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "den": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "reason": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "definition",
+    "version",
+    "unit",
+    "scale",
+    "value",
+    "n",
+    "failed",
+    "state",
+    "support",
+    "evidence",
+    "id",
+    "producer",
+    "num",
+    "den",
+    "reason"
+  ],
+  "additionalProperties": true
+}

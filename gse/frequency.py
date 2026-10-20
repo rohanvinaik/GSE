@@ -25,6 +25,7 @@ contribution to the composed sentence vector.
 
 import math
 import sqlite3
+from contextlib import closing
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, Optional, Tuple
@@ -226,6 +227,42 @@ class FrequencyDatabase:
             return FrequencyInfo(
                 word=word, rank=self.DEFAULT_MAX_RANK, david47k_rank=None, local_rank=None, weight=self.MAX_WEIGHT
             )
+
+    def evidence(self, word: str, *, applicable: bool = True) -> Dict:
+        """Named general-English evidence, independent of legacy weighting defaults.
+
+        Read-only opening never creates a missing database. A local-only rank
+        remains unranked for david47k; an unavailable source remains unread.
+        """
+        from gse.lexical_evidence import resource_identity
+
+        path = Path(self.db_path).resolve()
+        out = {
+            "word": word,
+            "state": "not_applicable" if not applicable else "unread",
+            "david47k_rank": None,
+            "local_rank": None,
+            "source": "david47k/top-english-wordlists",
+            "policy": "gse.frequency-evidence/1",
+            "provenance": resource_identity(path),
+        }
+        if not applicable:
+            return out
+        try:
+            with closing(sqlite3.connect(path.as_uri() + "?mode=ro", uri=True)) as conn:
+                row = conn.execute(
+                    "SELECT david47k_rank, local_rank FROM frequency WHERE word = ?", (word.lower(),)
+                ).fetchone()
+            out.update(
+                state="ranked" if row and row[0] is not None else "unranked",
+                david47k_rank=row[0] if row else None,
+                local_rank=row[1] if row else None,
+            )
+            if row and row[0] is not None and (type(row[0]) is not int or row[0] < 1):
+                out.update(state="unread", david47k_rank=None, reason="malformed_rank")
+        except sqlite3.Error as exc:
+            out["reason"] = type(exc).__name__
+        return out
 
     def get_weight(self, word: str) -> float:
         """Get just the weight for a word (convenience method)."""

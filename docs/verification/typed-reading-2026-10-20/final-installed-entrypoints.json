@@ -1,0 +1,54 @@
+{
+  "schema": "gse.final-installed-entrypoints/1",
+  "runs": [
+    {
+      "name": "raw",
+      "exit_code": 0,
+      "schema": "voice.report/1",
+      "stdout_sha256": "cd03111eedeb25a17df2e4f9b61b6884f254962731a6dd2e224595c30d5aa75c",
+      "reports": 1,
+      "current_identity": true,
+      "strict_schemas_valid": true
+    },
+    {
+      "name": "healed",
+      "exit_code": 0,
+      "schema": "voice.report/1",
+      "stdout_sha256": "e669d0a991ec82c4be35069c0be50c15d9312170f409627694848230cf829ff1",
+      "reports": 1,
+      "current_identity": true,
+      "strict_schemas_valid": true
+    },
+    {
+      "name": "compare",
+      "exit_code": 0,
+      "schema": "voice.comparison/1",
+      "stdout_sha256": "9f7244a4643b61a133c3c52c06419c774bd8f221fb2d1c9babc0c37f3ae5c761",
+      "reports": 2,
+      "current_identity": true,
+      "strict_schemas_valid": true
+    }
+  ],
+  "consumer": {
+    "schema": "voice.consumer-code/1",
+    "files": {
+      "tools/voice/voice.py": "002caf9dc95ca13a97671c8bdb64ae2e015dd113b5a067544ff1f6c714725f78",
+      "tools/voice/probe.py": "45e09a91f0f5e60ac3779a7a3451cd77cb1ced69b500d7cd071088dc355b5140",
+      "tools/voice/metrics.py": "eb9ebd91f3f2947ddc739f6ca1d1a73d19fe0f45c588a8968d8a3b76f78be733",
+      "tools/voice/passage.py": "ba9a0a1e46b615f945ced68a293105fc4be0bfb20ec1052b9aae2771ffb47e6b",
+      "tools/voice/references.py": "2287a01171d964777dc0d05ced37bd6d86bf72d35ef58dead2b744344de2b1f1",
+      "src/squishos/reading/source.py": "f14603e13bb116c4c09b6f97d87311e08ec2e9277cfb5ce0e28c68c919a0ab79",
+      "src/squishos/reading/decisions.py": "d8913bda9d97d32ab0348e7dc63b217951df44b6de4c49f2350ed326694167b7",
+      "src/squishos/reading/transport.py": "c82371c0883aaabad3877ac8672e523936d67dbdcb50641d3f3a771d4ccc894a",
+      "src/squishos/reading/event_validation.py": "37a84bfb03a5a3eeb66fc08f003e36417088399a7b12e089757bc3755e25c936",
+      "src/squishos/observe/certificate.py": "019d61456fad2773a4f758b34bd110f009209aa8588d8526048475219657d396",
+      "src/squishos/__init__.py": "d4857f8b7425e7622a906174394de2c35196370615ea8a194b3704358bc6ae2d",
+      "src/squishos/reading/__init__.py": "7b5b3be411e240615cded5f36addf98948d6e0f5e6fb1ee736479b9d4e97935d",
+      "src/squishos/observe/__init__.py": "a2378fb3f0447ce58f5a2461c87cfc884af3d888c74ecaffbb946117d0244c34"
+    }
+  },
+  "reference_compatibility": "compatible",
+  "metric_rows_per_report": 59,
+  "raw_and_healed": "complete",
+  "scope": "Final installed code and rebuilt references; prior performance observations remain historical"
+}

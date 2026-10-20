@@ -118,6 +118,45 @@ _CLAUSAL_COMPLEMENT_KINDS = frozenset(
 )
 
 
+# The primes that make a clause modal when its auxiliary carries them (#66): Bank 7's modal primes
+# (primitives_v2.BANK_7_UNIPOLAR), where GSE puts modality. "might"/"may"/"would" → MAYBE, "can"/"could" → CAN,
+# "must"/"should" → MUST. Keyed on the lexicon's primes, never on the spelling: a modal is read the moment its row
+# carries one of them, and a modal whose row is an informational zero ("shall", like "will": the tense operator carries
+# it) stays unmarked. Only an auxiliary's primes are read.
+MODAL_PRIMES = frozenset({"MAYBE", "CAN", "MUST"})
+
+
+def modal_primes(aux_primes: list) -> tuple:
+    """The modal primes among a clause's auxiliaries (#66, pure — pinned): every positive prime in
+    :data:`MODAL_PRIMES` across the given primitive maps, sorted and without repeats. "He might have left" →
+    ``("MAYBE",)`` (have's HAVE is not modal); "He has left" → ``()``. Total: a map that is not a dict, or a value
+    that is not a positive number, contributes nothing."""
+    found = set()
+    for primes in aux_primes:
+        if not isinstance(primes, dict):
+            continue
+        for name, value in primes.items():
+            if name in MODAL_PRIMES and isinstance(value, (int, float)) and value > 0:
+                found.add(name)
+    return tuple(sorted(found))
+
+
+def modal_force(primes: str) -> str:
+    """How a modal-qualified event asserts itself (#66, pure — pinned), from its modal primes, comma-joined.
+
+    * ``"possible"`` — MAYBE or CAN ("He might leave", "He can leave"): the event is stated as possible, not as a fact.
+    * ``"necessary"`` — MUST, with neither of those ("He must leave", "He should leave"): stated as required, not as
+      having happened.
+    * ``"asserted"`` — no modal prime: the event holds as stated.
+    """
+    names = {name.strip() for name in primes.split(",")}
+    if names & {"MAYBE", "CAN"}:
+        return "possible"
+    if "MUST" in names:
+        return "necessary"
+    return "asserted"
+
+
 def assertion_mode(kind: str, verb: str = "", patient_kind: str = "") -> str:
     """How a predicate-tree node asserts its clausal content (#7, pure — pinned).
 

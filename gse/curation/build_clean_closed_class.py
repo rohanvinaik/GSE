@@ -13,6 +13,9 @@ Pronouns that ``gse/lexicon/pronouns.py`` encodes had no row at all (#9). This l
   are; does/did → DO; has → HAVE), and ``cannot`` the primes of ``can`` and ``not``;
 * gives five words the prime they realize (like → LIKE, underneath → BELOW, may/might/perhaps →
   MAYBE), the founder's decision of 2026-10-04;
+* gives each periphrastic modal its one home, a single modality prime of Bank 7 (``GSE_V2.md``: LOGICAL;
+  ``primitives_v2.BANK_7_UNIPOLAR``): could → CAN, should → MUST, would → MAYBE (GSE #66); ``shall``, a future
+  like ``will``, is informational zero (the tense operator carries it);
 * makes every other closed-class word informational zero: its primes are cleared and its row is
   KEPT, because ``gse.nlp.spellcheck`` reads its vocabulary from ``lexemes``.
 
@@ -57,6 +60,17 @@ EXPONENTS: Dict[str, Dict[str, int]] = {
     "perhaps": {"MAYBE": 1},
 }
 
+#: The periphrastic modals (GSE #66). A grammatical word has one home (``docs/LEXICON_REBUILD.md``), and modality
+#: is Bank 7's (``GSE_V2.md``: LOGICAL; ``primitives_v2.BANK_7_UNIPOLAR``: NOT, MAYBE, CAN, MUST, ...), so each
+#: modal takes one Bank 7 prime from the routes ``docs/NSM_GRAMMAR_MAPPING.md`` names: could is can's past and
+#: conditional form, CAN (as did is DO's); should is the weak deontic, MUST; would is the hypothetical, MAYBE.
+#: should was GOOD + WANT until 2026-10-05, which put a grammatical word in the evaluation and volition banks.
+PERIPHRASTIC_MODALS: Dict[str, Dict[str, int]] = {
+    "could": {"CAN": 1},
+    "should": {"MUST": 1},
+    "would": {"MAYBE": 1},
+}
+
 #: Closed-class words (``gse.nlp.native``'s sets) with no content of their own: informational zero.
 ZERO = frozenset(
     {
@@ -90,6 +104,7 @@ ZERO = frozenset(
         "nowhere",
         "otherwise",
         "over",
+        "shall",
         "somewhere",
         "there",
         "thereby",
@@ -109,6 +124,7 @@ def targets() -> Dict[str, Dict[str, int]]:
     out = {w: dict(e["primitives"]) for w, e in PRONOUN_ENCODINGS.items() if " " not in w and w not in HELD}
     out.update(TIER0_FORMS)
     out.update(EXPONENTS)
+    out.update(PERIPHRASTIC_MODALS)
     out.update({w: {} for w in ZERO})
     return out
 

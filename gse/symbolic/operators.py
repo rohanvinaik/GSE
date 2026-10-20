@@ -113,7 +113,7 @@ def type_assert(op: Op) -> TypeAssertion:
     asserted kind.
     """
     _require_arity(op, 2)
-    return TypeAssertion(entity=op.args[0], kind=op.args[1])
+    return TypeAssertion(entity=op.args[0], kind=op.args[1], modal=op.modal)
 
 
 def card_lower(op: Op) -> MinimalSufficiency:
@@ -136,11 +136,12 @@ def set_restrict(op: Op) -> SetRestriction:
     arg with a note that the surrounding context is implicit.
     """
     _require_min_arity(op, 1)
-    # The arg of ONLY is the lone member (e.g., "Mike" in "Only Mike sings").
-    # The predicate ("sings") is in the rest of the sentence — for v1 we
-    # carry the arg as both member and predicate-context; a future B5/B3
-    # iteration can split these once arg resolution lands.
-    return SetRestriction(member=op.args[0], predicate=op.args[0])
+    core = op.args[0]
+    content = core.operand if isinstance(core, Negation) else core
+    member = (
+        content.agent if isinstance(content, Event) else content.entity if isinstance(content, TypeAssertion) else core
+    )
+    return SetRestriction(member=member, predicate=core)
 
 
 def scalar_extreme(op: Op) -> BoundaryCase:
@@ -151,7 +152,12 @@ def scalar_extreme(op: Op) -> BoundaryCase:
     to future hierarchical-network-traversal work.
     """
     _require_min_arity(op, 1)
-    return BoundaryCase(entity=op.args[0], predicate=op.args[0])
+    core = op.args[0]
+    content = core.operand if isinstance(core, Negation) else core
+    entity = (
+        content.agent if isinstance(content, Event) else content.entity if isinstance(content, TypeAssertion) else core
+    )
+    return BoundaryCase(entity=entity, predicate=core)
 
 
 def contrast(op: Op) -> Contrast:
@@ -210,9 +216,10 @@ def control(op: Op) -> Control:
             inner=op.args[2],
             verb=op.primitive,
             subject=op.args[0],
+            modal=op.modal,
         )
     _require_arity(op, 2)  # degraded fall-back (non-Event matrix)
-    return Control(controller=op.args[0], inner=op.args[1])
+    return Control(controller=op.args[0], inner=op.args[1], modal=op.modal)
 
 
 def event(op: Op) -> Event:
@@ -234,6 +241,7 @@ def event(op: Op) -> Event:
         agent=op.args[0],
         patient=op.args[1] if len(op.args) > 1 else None,
         themes=tuple(op.args[2:]) if len(op.args) > 2 else (),
+        modal=op.modal,
     )
 
 
@@ -324,6 +332,7 @@ def evaluate_tree(expr: Operand):
                 operation=expr.operation,
                 arity=expr.arity,
                 args=evaluated_args,
+                modal=expr.modal,
             )
         )
     if isinstance(expr, Negation):

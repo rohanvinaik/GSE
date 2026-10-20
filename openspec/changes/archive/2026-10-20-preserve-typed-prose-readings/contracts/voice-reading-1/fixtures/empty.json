@@ -1,0 +1,101 @@
+{
+  "schema": "voice.reading/1",
+  "source": {
+    "original_text": "",
+    "text": "",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "measured_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "policy": "voice.source/1",
+    "encoding": "utf-8",
+    "markdown": false,
+    "source_map": [],
+    "units": [],
+    "exclusions": [],
+    "insertions": []
+  },
+  "sentences": [],
+  "source_words": [],
+  "utterances": [],
+  "document": {
+    "state": "empty",
+    "channels": {
+      "resolution": {
+        "state": "empty",
+        "reason": "empty_input"
+      },
+      "fold": {
+        "state": "empty",
+        "reason": "empty_input"
+      },
+      "graph": {
+        "state": "empty",
+        "reason": "empty_input"
+      },
+      "flags": {
+        "state": "empty",
+        "reason": "empty_input"
+      }
+    },
+    "mentions": [],
+    "nodes": [],
+    "edges": [],
+    "flags": [],
+    "fold": [],
+    "tree_sources": []
+  },
+  "termination": {
+    "code": "complete",
+    "returncode": 0
+  },
+  "transport": {
+    "state": "read",
+    "errors": [],
+    "manifest": true
+  },
+  "provenance": {
+    "reading_schema": "voice.reading/1",
+    "api": "gse.intake/1",
+    "code": {
+      "state": "unread",
+      "reason": "missing_provenance"
+    },
+    "resources": {
+      "basis": {
+        "state": "unread",
+        "reason": "missing_provenance"
+      },
+      "lexicon": {
+        "state": "unread",
+        "reason": "missing_provenance"
+      },
+      "frequency": {
+        "state": "unread",
+        "reason": "missing_provenance"
+      },
+      "dictionary": {
+        "state": "unread",
+        "reason": "missing_provenance"
+      },
+      "vad": {
+        "state": "unread",
+        "reason": "missing_provenance"
+      },
+      "concreteness": {
+        "state": "unread",
+        "reason": "missing_provenance"
+      },
+      "genealogy": {
+        "state": "unread",
+        "reason": "missing_provenance"
+      }
+    },
+    "policies": {
+      "source": "voice.source/1"
+    }
+  },
+  "heal": {
+    "state": "unread",
+    "reason": "missing_heal_event",
+    "edits": []
+  }
+}

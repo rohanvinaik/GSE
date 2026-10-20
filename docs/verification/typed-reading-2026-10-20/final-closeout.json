@@ -1,0 +1,97 @@
+{
+  "schema": "gse.final-closeout/1",
+  "implementation": "applied",
+  "detective_limits": "accepted_by_user",
+  "full_mutation_certification": false,
+  "applications": [
+    {
+      "receipt": "/private/tmp/gse-closeout-backup-mafazv5w/receipt.json",
+      "receipt_sha256": "07b68bd74631fe7f97a6bb0d2eeb06980902ef1765fd60a9a4bad3be20cbfb64",
+      "files": 2,
+      "state": "applied",
+      "post_archive_content_verified": true
+    },
+    {
+      "receipt": "/private/tmp/gse-closeout-backup-yptlie7_/receipt.json",
+      "receipt_sha256": "77a7359a7817a3f540c1f2a302f030a45acd1797ca500c47591beba05e9b1b9e",
+      "files": 4,
+      "state": "applied",
+      "post_archive_content_verified": true
+    },
+    {
+      "receipt": "/private/tmp/gse-closeout-backup-nr_3370e/receipt.json",
+      "receipt_sha256": "fcd1305856bfcea046b1ce55a55abbcb5e1f6f13b1aa4d4b1188e659e51d6303",
+      "files": 13,
+      "state": "applied",
+      "post_archive_content_verified": true
+    },
+    {
+      "receipt": "/private/tmp/gse-closeout-backup-9j4th2xo/receipt.json",
+      "receipt_sha256": "0ed1f09437f85a6a4cd972b33e8e90ef645a97b9facf1c892c01e92c010b46b3",
+      "files": 9,
+      "state": "applied",
+      "post_archive_content_verified": true
+    },
+    {
+      "receipt": "/private/tmp/gse-closeout-backup-z73_xe6f/receipt.json",
+      "receipt_sha256": "c25f439262afb8c11c615bf5eaa6cbac1d8dfe8875171e50342925111ebc7b21",
+      "files": 3,
+      "state": "applied",
+      "post_archive_content_verified": true
+    },
+    {
+      "receipt": "/private/tmp/gse-closeout-backup-g5eqaucw/receipt.json",
+      "receipt_sha256": "438503be21748037b269f62c3c01cc32a0be9474fac4e3012aa5b14c5ab08416",
+      "files": 4,
+      "state": "applied",
+      "purpose": "post-archive routing; supersedes corresponding earlier documentation hashes"
+    }
+  ],
+  "gse_full_gate": {
+    "passed": 5024,
+    "skipped": 12,
+    "xfailed": 16,
+    "note": "Final source and pre-remove test snapshot unchanged by stopped audit"
+  },
+  "squishos_full_gate": {
+    "passed": 2601,
+    "failed": 1,
+    "errors": 0,
+    "skipped": 0,
+    "failure": "existing global read-whole.py hook-registration record mismatch",
+    "test_root": "/private/tmp/gse-closeout-squishos-validation",
+    "scope": "Locked validation snapshot with final changed code/test bytes; unrelated concurrent workspace work is outside this receipt"
+  },
+  "scoped_checks": {
+    "focused_tests_passed": 176,
+    "ruff": "passed",
+    "format_files": 166,
+    "final_dependency_type": "passed"
+  },
+  "final_entrypoints": [
+    "raw_read",
+    "healed_read",
+    "compare_his_winston"
+  ],
+  "openspec": {
+    "gse_archive": "2026-10-20-preserve-typed-prose-readings",
+    "squishos_archive": "2026-10-20-restore-voice-profile",
+    "promoted_specs_valid": 10
+  },
+  "detective_issues": [
+    "https://github.com/rohanvinaik/Detective/issues/128",
+    "https://github.com/rohanvinaik/Detective/issues/129"
+  ],
+  "remaining_prerequisites": [
+    "Current preexisting SymbolicSpellCheck connection needs a later reconnect",
+    "Global agent hook registration remains separate",
+    "Descriptive references have no independent calibration partitions",
+    "Optional v2 author recognizer needs an explicit corpus and refit"
+  ],
+  "commits_or_pushes": false,
+  "private_evidence": [
+    "data/voice/acceptance-traces/final-origins/audit/final-dependencies/",
+    "data/voice/acceptance-traces/final-origins/audit/final-detective/",
+    "data/voice/acceptance-traces/final-origins/audit/final-installed-entrypoints.tar.gz"
+  ]
+}

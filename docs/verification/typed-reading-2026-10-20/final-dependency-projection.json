@@ -1,0 +1,221 @@
+{
+  "schema": "voice.projection-dependency-rebuild/1",
+  "policy": "immutable-Reading-pure-projection-current-consumer/1",
+  "producer_reparsed": false,
+  "raw_readings_modified": false,
+  "historical_artifacts_modified": false,
+  "producer": {
+    "source_sha256": "b4510b6b8ec1b3b0c3ac173d7a954e6968cf59a93785fd84027a63ea15366b2a",
+    "probe_sha256": "45e09a91f0f5e60ac3779a7a3451cd77cb1ced69b500d7cd071088dc355b5140"
+  },
+  "previous_consumer": {
+    "schema": "voice.consumer-code/1",
+    "files": {
+      "tools/voice/voice.py": "2f6afefd90a9da53e7af22dff88b9efe978f4269c5dc526fe2e86457bc6af7b1",
+      "tools/voice/probe.py": "45e09a91f0f5e60ac3779a7a3451cd77cb1ced69b500d7cd071088dc355b5140",
+      "tools/voice/metrics.py": "eb9ebd91f3f2947ddc739f6ca1d1a73d19fe0f45c588a8968d8a3b76f78be733",
+      "tools/voice/passage.py": "ba9a0a1e46b615f945ced68a293105fc4be0bfb20ec1052b9aae2771ffb47e6b",
+      "tools/voice/references.py": "2287a01171d964777dc0d05ced37bd6d86bf72d35ef58dead2b744344de2b1f1",
+      "src/squishos/reading/source.py": "f14603e13bb116c4c09b6f97d87311e08ec2e9277cfb5ce0e28c68c919a0ab79",
+      "src/squishos/reading/decisions.py": "d8913bda9d97d32ab0348e7dc63b217951df44b6de4c49f2350ed326694167b7",
+      "src/squishos/reading/transport.py": "c82371c0883aaabad3877ac8672e523936d67dbdcb50641d3f3a771d4ccc894a",
+      "src/squishos/reading/event_validation.py": "37a84bfb03a5a3eeb66fc08f003e36417088399a7b12e089757bc3755e25c936"
+    }
+  },
+  "consumer": {
+    "schema": "voice.consumer-code/1",
+    "files": {
+      "tools/voice/voice.py": "002caf9dc95ca13a97671c8bdb64ae2e015dd113b5a067544ff1f6c714725f78",
+      "tools/voice/probe.py": "45e09a91f0f5e60ac3779a7a3451cd77cb1ced69b500d7cd071088dc355b5140",
+      "tools/voice/metrics.py": "eb9ebd91f3f2947ddc739f6ca1d1a73d19fe0f45c588a8968d8a3b76f78be733",
+      "tools/voice/passage.py": "ba9a0a1e46b615f945ced68a293105fc4be0bfb20ec1052b9aae2771ffb47e6b",
+      "tools/voice/references.py": "2287a01171d964777dc0d05ced37bd6d86bf72d35ef58dead2b744344de2b1f1",
+      "src/squishos/reading/source.py": "f14603e13bb116c4c09b6f97d87311e08ec2e9277cfb5ce0e28c68c919a0ab79",
+      "src/squishos/reading/decisions.py": "d8913bda9d97d32ab0348e7dc63b217951df44b6de4c49f2350ed326694167b7",
+      "src/squishos/reading/transport.py": "c82371c0883aaabad3877ac8672e523936d67dbdcb50641d3f3a771d4ccc894a",
+      "src/squishos/reading/event_validation.py": "37a84bfb03a5a3eeb66fc08f003e36417088399a7b12e089757bc3755e25c936",
+      "src/squishos/observe/certificate.py": "019d61456fad2773a4f758b34bd110f009209aa8588d8526048475219657d396",
+      "src/squishos/__init__.py": "d4857f8b7425e7622a906174394de2c35196370615ea8a194b3704358bc6ae2d",
+      "src/squishos/reading/__init__.py": "7b5b3be411e240615cded5f36addf98948d6e0f5e6fb1ee736479b9d4e97935d",
+      "src/squishos/observe/__init__.py": "a2378fb3f0447ce58f5a2461c87cfc884af3d888c74ecaffbb946117d0244c34"
+    }
+  },
+  "identity_delta": "consumer closure now includes calibration and package initialization; voice.py identity function changed; formulas and GSE producer unchanged",
+  "comparison": {
+    "state": "SAME",
+    "ignored_fields": [
+      "**.provenance.code.consumer"
+    ],
+    "all_other_fields": "exact recursive serialized-value equality",
+    "metric_catalog_rows": 59
+  },
+  "raw_inputs": [
+    {
+      "name": "founder",
+      "sha256": "d460890dce6df60f90c7ccda9180dd3be507369900d2bea7d11bae949b07a620"
+    },
+    {
+      "name": "winston",
+      "sha256": "bb6dbca71297556366149ae34a6e77d117498b9fe0b308f6ec7f3ac84cdc0e9b"
+    },
+    {
+      "name": "trout-whale",
+      "sha256": "367f9dbafaaf2c35597e28d3eaa3ae6aafca6697e73835bf66678f5de42687bf"
+    },
+    {
+      "name": "argument-swap",
+      "sha256": "eba26e125361bd9e8c092e91ff47c41a04aa882ec5e3c0c1a9b45ea1ba88b9f0"
+    },
+    {
+      "name": "incompatible-scope",
+      "sha256": "72e42e81c65fbfba5e1d714b22e5a1b4f639d55c1cb77fc90f08f1a8a07d7565"
+    },
+    {
+      "name": "murder-kill-projection",
+      "sha256": "696d130a746d1655fd343bf471b0756b7bfc5aad64e8b061ccdbbc877a548671"
+    },
+    {
+      "name": "supported-synonymous-refrain",
+      "sha256": "cda4af3ecc27f63795a34711d580f4c2bb63a58cf2a0d593ba2d0fbde6d71775"
+    },
+    {
+      "name": "supported-earlier-rule",
+      "sha256": "f9f97b720b69563e46e7b31489fe8ee82115daafdc8f37562e1bae8c65ae3617"
+    },
+    {
+      "name": "supported-order-shuffled",
+      "sha256": "81c5f586a92750daaf4184ccf568bed0176b0d183d476a23fe15100208c98515"
+    },
+    {
+      "name": "supported-compound-premise",
+      "sha256": "4349b547d414016ae5dc6da1c34189392196ccc872fb8d02a4c1927dadace262"
+    },
+    {
+      "name": "crossparagraph-pointer",
+      "sha256": "e22ceb8ac8c4c674feaeb33245f2e6dc2218951e1f945a981f4bce927aac20a9"
+    }
+  ],
+  "outputs": [
+    {
+      "kind": "profile",
+      "name": "founder",
+      "prior_sha256": "0db9752708b55e36cbff040cd1ef73c70c24bed5f1841cecc474cb24bb6910a2",
+      "sha256": "f36c732cf17abad861f91ddf6d23b6e6ba4c6f5ed68a9f2586b82d06fb633679",
+      "bytes": 60340214,
+      "all_fields_except_provenance_code_consumer_equal": true
+    },
+    {
+      "kind": "profile",
+      "name": "winston",
+      "prior_sha256": "1860d9025658e9a22c46f1b47fb43cc35f457470dcdc9349f1dcd437033c57d4",
+      "sha256": "a6a69168baabbf22aaf9d9bc9925cf79ef5be4cb68160dfae2a16ae144bf2602",
+      "bytes": 33485615,
+      "all_fields_except_provenance_code_consumer_equal": true
+    },
+    {
+      "kind": "profile",
+      "name": "trout-whale",
+      "prior_sha256": "1c4881b990ba14d80dc72f7dbe50460032eb593b25e409a4e811608a215e2515",
+      "sha256": "62cbfa2738b7008278d4e800f83836734605ac4bf0af856783a5f77620ff1691",
+      "bytes": 209179,
+      "all_fields_except_provenance_code_consumer_equal": true
+    },
+    {
+      "kind": "profile",
+      "name": "argument-swap",
+      "prior_sha256": "b77444d0f7dce511c0ff75ed705191a6114ce1514b6fef2a247c347b29a53776",
+      "sha256": "33731a946e9ebfd279e8c9302db0c2ff00a6da6c6b3735b41c179a4df7544d41",
+      "bytes": 154123,
+      "all_fields_except_provenance_code_consumer_equal": true
+    },
+    {
+      "kind": "profile",
+      "name": "incompatible-scope",
+      "prior_sha256": "7d0c20d26affa89bd4e274fc7b7bc014dc5c356c7869542aaf42bbdf53e765fc",
+      "sha256": "87f2459152f885bf5a44d0989dd8bf836bc1d8869e3a1c3660c955a04221a6d0",
+      "bytes": 154614,
+      "all_fields_except_provenance_code_consumer_equal": true
+    },
+    {
+      "kind": "profile",
+      "name": "murder-kill-projection",
+      "prior_sha256": "9f74d30a2d9e395031d565d2f5cdd1772732f7bb23571062a816733cc429ba45",
+      "sha256": "dc81c0dfd62f55789bb3565c459c1db06be7e1759a9580780753d1f23d5bcf01",
+      "bytes": 153234,
+      "all_fields_except_provenance_code_consumer_equal": true
+    },
+    {
+      "kind": "profile",
+      "name": "supported-synonymous-refrain",
+      "prior_sha256": "3bbd487769724464f4a117bfe3db6b255da6f052fd557c926ff8dbd8079f3798",
+      "sha256": "efa6da3a55398f1ce49aeec01eb3b7f9811332cee2e1d73b40e5fbf4989688b4",
+      "bytes": 201402,
+      "all_fields_except_provenance_code_consumer_equal": true
+    },
+    {
+      "kind": "profile",
+      "name": "supported-earlier-rule",
+      "prior_sha256": "aa191e50e0731e479605b8d294be4b707aece586800e44035cdbe5f1e746dc1f",
+      "sha256": "868acd652fc56bf54ae8db0cb60aed7ce413ba8e5c8e52f01a3bc2d438081654",
+      "bytes": 174608,
+      "all_fields_except_provenance_code_consumer_equal": true
+    },
+    {
+      "kind": "profile",
+      "name": "supported-order-shuffled",
+      "prior_sha256": "5be146a419af327629ac4e4e40dbc00695a511b0c5ee2d1e29d374bbd3f8f2ed",
+      "sha256": "4727d0479a7954256404f83db45079d67134dca3c8f5ea9c15b10c2c3a0d563c",
+      "bytes": 174130,
+      "all_fields_except_provenance_code_consumer_equal": true
+    },
+    {
+      "kind": "profile",
+      "name": "supported-compound-premise",
+      "prior_sha256": "e38fabac694591f1816646db05624a66a54a6e5462c01867db43de68c89cd6d6",
+      "sha256": "153d8e6ca954a81689265fd32555295633a71a248e64cbe18491194afea605b6",
+      "bytes": 195880,
+      "all_fields_except_provenance_code_consumer_equal": true
+    },
+    {
+      "kind": "profile",
+      "name": "crossparagraph-pointer",
+      "prior_sha256": "e46c575f03187d3bb05688e0a95934d30b19f352a85b1e1c141b346a483c2767",
+      "sha256": "9abd98676985c57186717bb0a1f012fa372d728eb1d3b5066813bc4fa30cfec4",
+      "bytes": 197999,
+      "all_fields_except_provenance_code_consumer_equal": true
+    },
+    {
+      "kind": "reference",
+      "name": "his",
+      "prior_sha256": "0e5b285239c2c585dfac2d9bf96abdd03f2da50141fa22941b5b95fd36ca7ade",
+      "sha256": "b0cc2a280cfdbc6bf39ec143cc1e9592669a62354dc663a72c3e17b717045527",
+      "bytes": 94355416,
+      "all_fields_except_provenance_code_consumer_equal": true
+    },
+    {
+      "kind": "reference",
+      "name": "winston",
+      "prior_sha256": "7707a95244163b42ba8d168ed2ce858c45a1571cd651259bac127bcf076f62d2",
+      "sha256": "199f0143ff78bb000c0352e8f04155b0e0c9e06578558ffca1397e1880f8ee52",
+      "bytes": 66409983,
+      "all_fields_except_provenance_code_consumer_equal": true
+    }
+  ],
+  "canonical_storage_verification": {
+    "state": "passed",
+    "checker_sha256": "2325f102b30fb30c8125475ac3f6faa03040353772844179820d0c54c23b7dd7",
+    "certificate_sha256": "59813d1c6e30eb8050ab69f91ac608d656c4ff4894ab3399f799ce6260f8c3e4",
+    "source_profiles": 11,
+    "saved_profile_views": 103,
+    "reference_views": 116,
+    "metric_values_checked": 13570,
+    "all_metric_values_and_full_passage_lists_equal": true,
+    "schema_candidates_valid": 13,
+    "raw_input_hashes_unchanged": true,
+    "current_consumer_files": 13,
+    "actual_and_staged_consumer_hashes_match": true,
+    "guarded_manifest_sha256": "a5e00bf6525a99a606eb6d412bfe0f8c069d6eab20883fd0f7947c69e656f594"
+  },
+  "scope": "Current 13-file consumer identity projected from existing immutable Readings; earlier CLI/performance/9-file receipts stay historical and unchanged",
+  "application": "13 guarded replacement candidates only; no application performed by this projector"
+}

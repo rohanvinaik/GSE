@@ -134,11 +134,6 @@ def test_a_name_before_a_mistagged_plural_is_possessive(encoder):
     assert ("become", False) in events and ("guard", False) not in events
 
 
-@pytest.mark.xfail(
-    strict=True,
-    raises=AssertionError,
-    reason="#88 F-copula-adj: after a copula an adjective with any noun sense is tagged NOUN",
-)
 def test_an_adjective_after_a_copula_is_an_adjective(encoder):
     assert _token(encoder, "It is necessary to do this.", "necessary").pos == "ADJ"
 
@@ -147,9 +142,6 @@ def test_an_opening_quote_is_not_a_contraction(encoder):
     assert _token(encoder, "He wrote 'dividing' on the board.", "dividing").lemma == "divide"
 
 
-@pytest.mark.xfail(
-    strict=True, raises=AssertionError, reason="#94 F-titlecase: every capitalised sentence-initial word is a name"
-)
 @pytest.mark.parametrize(("sentence", "surface"), [("Consider the cell.", "Consider"), ("Yes, it works.", "Yes")])
 def test_a_sentence_initial_common_word_is_not_a_name(encoder, sentence, surface):
     assert _token(encoder, sentence, surface).pos != "PROPN"
@@ -169,9 +161,6 @@ def test_a_name_stays_a_name(encoder, sentence, surface):
     assert _token(encoder, sentence, surface).pos == "PROPN"
 
 
-@pytest.mark.xfail(
-    strict=True, raises=AssertionError, reason="#79 F-degree: a word is stripped to a shorter word (number -> numb)"
-)
 @pytest.mark.parametrize(
     ("sentence", "surface"),
     [
@@ -185,7 +174,6 @@ def test_a_word_is_not_stripped_to_a_shorter_word(encoder, sentence, surface):
     assert _token(encoder, sentence, surface).lemma == surface
 
 
-@pytest.mark.xfail(strict=True, raises=AssertionError, reason="#79 F-degree: cuter -> cut (the silent e is lost)")
 def test_a_comparative_keeps_its_silent_e(encoder):
     assert _token(encoder, "Rex is cuter.", "cuter").lemma == "cute"
 
@@ -216,15 +204,11 @@ def test_a_participle_after_a_pronoun_keeps_its_verb(encoder):
 # ── words: signatures and the lexicon ─────────────────────────────────────────────────────────────────────
 
 
-@pytest.mark.xfail(strict=True, raises=AssertionError, reason="#80 F-neg-prefix: dislike reads as like")
 def test_dislike_is_not_like(encoder):
     like = _token(encoder, "I like it.", "like").word_primitives
     assert _token(encoder, "I dislike it.", "dislike").word_primitives != like
 
 
-@pytest.mark.xfail(
-    strict=True, raises=AssertionError, reason="#80 F-neg-prefix: a false negative prefix overrides the word's own row"
-)
 @pytest.mark.parametrize(
     ("sentence", "surface"), [("It is inside.", "inside"), ("The country is independent.", "independent")]
 )
@@ -232,14 +216,15 @@ def test_a_word_keeps_its_own_row(encoder, sentence, surface):
     assert dict(_token(encoder, sentence, surface).word_primitives) == _row(encoder, surface)
 
 
-@pytest.mark.xfail(
-    strict=True, raises=AssertionError, reason="#99 E-oov: an unknown word and a designed zero both read {}"
-)
 def test_an_unknown_word_and_a_designed_zero_are_told_apart(encoder):
-    status = {t.token: getattr(t, "lexicon_status", None) for t in encoder.encode("The xqzzt fell.").tokens}
-    assert status["xqzzt"] == "unknown"
-    assert status["fell"] == "found"
-    assert status["The"] not in (None, "unknown")
+    tokens = {token.token: token for token in encoder.encode("Only the xqzzt fell.").tokens}
+    assert tokens["xqzzt"].lexicon_status == "unknown"
+    assert tokens["xqzzt"].lexical_evidence["state"] == "no_row"
+    assert tokens["fell"].lexicon_status == "found"
+    assert tokens["Only"].lexicon_status == "found"
+    assert tokens["Only"].lexical_evidence["state"] == "no_primes"
+    # The actual lexical resource has no 'the' row; empty primes cannot invent one.
+    assert tokens["the"].lexical_evidence["state"] == "no_row"
 
 
 @pytest.mark.xfail(

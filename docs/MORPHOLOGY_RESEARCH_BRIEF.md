@@ -241,3 +241,36 @@ different from an ad-hoc per-case lemmatizer patch or a runtime DB: complete ins
 case-by-case, unified instead of scattered, self-disambiguating instead of
 rule-ordered, and — for transparent derivation — **computed over the closed basis
 rather than stored**. Clean and effective, at the scale the design load demands.
+
+## Implemented lexical-selection policy (typed prose repair)
+
+The historical research brief above is retained as design provenance. The runtime
+now implements negative-prefix recognition as `negation_evidence`, with the tuple
+API `resolve_negation` as its compatibility projection. A supported base by itself
+does not license stripping a known surface: `inside` retains its containment
+reading and `under` is no longer proposed as `un` + `der`. For known lexical
+surfaces, a WordNet antonym link to the proposed base verifies the operation.
+Adjective negation and action reversal retain separate feature codes; `unlock`
+is reversal and never a negative evaluative sign. A genuinely absent form may
+compose via productive `un-`/`non-` plus a grounded adjective (`unloyal`). Other
+unverified apparent prefixes remain unresolved; missing lexical resources remain
+unread. These are bounded lexical policies, not proof of all derivations.
+
+Degree resolution also checks the complete surface's adjective-lemma evidence
+before selecting among orthographic candidates. This preserves `number`, `inner`,
+`forest` and `layer`, selects `cute` rather than `cut` for `cuter`, and retains
+`cleaner` → `clean` despite the surface's separate noun reading. Known surfaces
+without a licensed adjective base decline; genuinely novel supported formations
+can still use the productive inverse model.
+
+Recognition is separate from encoder composition admission. `negation_admission`
+examines the encoder's actual selected surface/base rows and all candidate-row
+ambiguity. Closed-class/operator bases, absent bipolar content, incompatible
+POS, unresolved row ambiguity, designed zero surfaces and conflicting represented
+primes refuse an override. A compatible existing row can be extended only when
+every represented prime and sign survives the computed result. Thus `unkind`
+retains GOOD -1 while recovering the base's SOMETHING; `independent` cannot have
+its ALIVE +1 overwritten by ALIVE -1; verbal `dislike` cannot be computed from
+closed-class LIKE. Recognition/sign evidence remains visible even when admission
+preserves the stored decomposition. Generic POS rows remain a declared coarse
+lexical projection, never verified sense resolution.

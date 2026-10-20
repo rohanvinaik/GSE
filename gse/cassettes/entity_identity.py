@@ -73,7 +73,7 @@ class EntityIdentity(Cassette):
         naming them. NOT a proper name, NOT a generic extra."""
         if m.pos == "PROPN":
             return False
-        if not doc.is_person(m):
+        if doc.is_person(m).code != "person":
             return False
         if m.lemma in _RELATIONAL:
             return True
@@ -174,8 +174,10 @@ class EntityIdentity(Cassette):
         if gap.kind == "split":
             parts = answer
             # both groups must independently denote a person (the dictionary gate for a split)
-            return len(parts) >= 2 and all(any(doc.is_person(m) for m in members) for members in parts.values())
-        return doc.is_proper(answer)  # a merge target must be a grounded name
+            return len(parts) >= 2 and all(
+                any(doc.is_person(m).code == "person" for m in members) for members in parts.values()
+            )
+        return doc.is_proper(answer) and any(doc.is_person(m).code == "person" for m in doc.by_id.get(answer, []))
 
     # -- score by orthogonal strands ---------------------------------------
     def score(self, answer: Any, gap: IdentityGap, doc: MultiScaleDoc) -> Dict[str, float]:

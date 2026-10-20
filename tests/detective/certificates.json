@@ -1,4 +1,10 @@
 {
+  "gse/api/encoder.py::thatless_complement": {
+    "cut_reasons": [],
+    "function_digest": "dda1a7648d2d9ec3",
+    "refusal": "",
+    "standing": "incomplete"
+  },
   "gse/api/encoder.py::word_vector_plan": {
     "cut_reasons": [],
     "function_digest": "dce6fafd08c008aa",
@@ -35,6 +41,12 @@
     "refusal": "",
     "standing": "complete"
   },
+  "gse/nlp/linkers.py::head_linker_operation": {
+    "cut_reasons": [],
+    "function_digest": "21a8d58ebc0b8e24",
+    "refusal": "",
+    "standing": "complete"
+  },
   "gse/nlp/native.py::_inflected_pos": {
     "cut_reasons": [],
     "function_digest": "d7485a49f3057929",
@@ -53,6 +65,36 @@
     "refusal": "",
     "standing": "complete"
   },
+  "gse/nlp/native.py::copula_complement_reading": {
+    "cut_reasons": [],
+    "function_digest": "98680a74affdc732",
+    "refusal": "",
+    "standing": "incomplete"
+  },
+  "gse/nlp/native.py::copula_degree_reading": {
+    "cut_reasons": [],
+    "function_digest": "ace1bd7016cc6b59",
+    "refusal": "",
+    "standing": "complete"
+  },
+  "gse/nlp/native.py::copula_left_role": {
+    "cut_reasons": [],
+    "function_digest": "830e9ae1d5d17b18",
+    "refusal": "",
+    "standing": "complete"
+  },
+  "gse/nlp/native.py::copula_modifier_context": {
+    "cut_reasons": [],
+    "function_digest": "88f5367521be9a7a",
+    "refusal": "",
+    "standing": "complete"
+  },
+  "gse/nlp/native.py::copula_participle_kind": {
+    "cut_reasons": [],
+    "function_digest": "3a49ab541197e4be",
+    "refusal": "",
+    "standing": "complete"
+  },
   "gse/prime_projection.py::epa_projection": {
     "cut_reasons": [],
     "function_digest": "3473ee1e5b7c84d1",
@@ -65,9 +107,41 @@
     "refusal": "",
     "standing": "complete"
   },
+  "gse/symbolic/claims.py::commitment_modes": {
+    "cut_reasons": [],
+    "function_digest": "c89c76e843f94a25",
+    "refusal": "",
+    "standing": "complete"
+  },
+  "gse/symbolic/expression.py::_attach_complement": {
+    "cut_reasons": [],
+    "function_digest": "21acc29d0a71479e",
+    "refusal": "",
+    "standing": "complete"
+  },
+  "gse/symbolic/expression.py::_with_clause_modal": {
+    "cut_reasons": [],
+    "function_digest": "21e776511d8d62d8",
+    "refusal": "",
+    "standing": "complete"
+  },
+  "gse/symbolic/expression.py::node_negation_count": {
+    "cut_reasons": [
+      "verification_basis_changed"
+    ],
+    "function_digest": "c08bd07e3cebcc6c",
+    "refusal": "",
+    "standing": "ungateable"
+  },
   "gse/symbolic/expression.py::node_polarity": {
     "cut_reasons": [],
-    "function_digest": "7d4e21a2e8cfbb1d",
+    "function_digest": "8f1be6fa5fd6df2c",
+    "refusal": "",
+    "standing": "complete"
+  },
+  "gse/symbolic/expression.py::operator_composition_plan": {
+    "cut_reasons": [],
+    "function_digest": "aa0474a84539e538",
     "refusal": "",
     "standing": "complete"
   },
@@ -80,6 +154,18 @@
   "gse/symbolic/modality.py::assertion_mode": {
     "cut_reasons": [],
     "function_digest": "56a7da81ecd03356",
+    "refusal": "",
+    "standing": "complete"
+  },
+  "gse/symbolic/modality.py::modal_force": {
+    "cut_reasons": [],
+    "function_digest": "902d79c7b2d36a58",
+    "refusal": "",
+    "standing": "complete"
+  },
+  "gse/symbolic/modality.py::modal_primes": {
+    "cut_reasons": [],
+    "function_digest": "98aa27dee274a567",
     "refusal": "",
     "standing": "complete"
   },

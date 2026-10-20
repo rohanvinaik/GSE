@@ -12,6 +12,7 @@ design). Infrastructure-first: the quality of these signals sets the router's
 ceiling, so this is where the investment goes.
 """
 
+from gse.discourse.intake import SourceSentence, document_sentences, split_paragraphs
 from gse.discourse.profile import (
     PROFILE_FIELDS,
     TextProfile,
@@ -31,6 +32,9 @@ __all__ = [
     "PROFILE_FIELDS",
     "TextProfile",
     "split_sentences",
+    "split_paragraphs",
+    "SourceSentence",
+    "document_sentences",
     "text_profile",
     "REGISTER_TAXONOMY",
     "GENRE_TO_CLASS",

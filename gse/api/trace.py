@@ -35,6 +35,13 @@ class TokenTrace:
     comp_operation: Optional[str] = None
     comp_arity: int = 0
 
+    # Source lookup is independent of its possibly composed/absorbed signature.
+    # Defaults retain compatibility with traces serialized before this channel.
+    lexicon_status: Optional[str] = None
+    lexical_evidence: Dict = field(default_factory=dict)
+    negation_evidence: Dict = field(default_factory=dict)
+    operator_tier: Optional[str] = None
+
     def to_dict(self) -> Dict:
         return asdict(self)
 

@@ -1,0 +1,21 @@
+{
+  "command": "GSE_REPO=<GSE checkout> .venv/bin/python -m pytest --junitxml=<receipt.xml>",
+  "junit_sha256": "9011cf2d6f2ae45e2e5f6332f2973f1f83848f6cf548e91bdc700f7715cb605e",
+  "suites": [
+    {
+      "name": "pytest",
+      "errors": "0",
+      "failures": "1",
+      "skipped": "0",
+      "tests": "2598",
+      "time": "120.238",
+      "timestamp": "2026-10-20T04:48:47.420010-04:00"
+    }
+  ],
+  "failures": [
+    {
+      "class": "tests.test_setup",
+      "test": "test_the_real_record_names_sources_that_exist"
+    }
+  ]
+}

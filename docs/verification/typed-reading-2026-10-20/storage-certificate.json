@@ -1,0 +1,48 @@
+{
+  "schema": "voice.storage-public-receipt/1",
+  "summary": {
+    "source_profiles": 11,
+    "saved_profile_views": 103,
+    "reference_views": 116,
+    "total_checked_metric_values": 13570,
+    "references": [
+      {
+        "name": "his.json",
+        "stored_bytes": 94315116,
+        "compact_json_bytes": 94315116,
+        "sha256": "0e5b285239c2c585dfac2d9bf96abdd03f2da50141fa22941b5b95fd36ca7ade",
+        "verified_profiles": 98
+      },
+      {
+        "name": "winston.json",
+        "stored_bytes": 66401923,
+        "compact_json_bytes": 66401923,
+        "sha256": "7707a95244163b42ba8d168ed2ce858c45a1571cd651259bac127bcf076f62d2",
+        "verified_profiles": 18
+      }
+    ],
+    "all_values_and_passage_lists_equal": true
+  },
+  "consumer": {
+    "schema": "voice.consumer-code/1",
+    "files": {
+      "tools/voice/voice.py": "2f6afefd90a9da53e7af22dff88b9efe978f4269c5dc526fe2e86457bc6af7b1",
+      "tools/voice/probe.py": "45e09a91f0f5e60ac3779a7a3451cd77cb1ced69b500d7cd071088dc355b5140",
+      "tools/voice/metrics.py": "eb9ebd91f3f2947ddc739f6ca1d1a73d19fe0f45c588a8968d8a3b76f78be733",
+      "tools/voice/passage.py": "ba9a0a1e46b615f945ced68a293105fc4be0bfb20ec1052b9aae2771ffb47e6b",
+      "tools/voice/references.py": "2287a01171d964777dc0d05ced37bd6d86bf72d35ef58dead2b744344de2b1f1",
+      "src/squishos/reading/source.py": "f14603e13bb116c4c09b6f97d87311e08ec2e9277cfb5ce0e28c68c919a0ab79",
+      "src/squishos/reading/decisions.py": "d8913bda9d97d32ab0348e7dc63b217951df44b6de4c49f2350ed326694167b7",
+      "src/squishos/reading/transport.py": "c82371c0883aaabad3877ac8672e523936d67dbdcb50641d3f3a771d4ccc894a",
+      "src/squishos/reading/event_validation.py": "37a84bfb03a5a3eeb66fc08f003e36417088399a7b12e089757bc3755e25c936"
+    }
+  },
+  "all_current_files_match": true,
+  "private_certificate": {
+    "sha256": "f22d6710e436994add8451b181f1e6f017bc549eeb365d3fcf73fa8b3d2ed653",
+    "bytes": 2870937,
+    "public": false,
+    "reason": "complete resource provenance contains absolute local file paths"
+  },
+  "scope": "current formulas full canonical records versus located storage projections; no timing claim; equality compares all59 metric values and complete passage lists"
+}

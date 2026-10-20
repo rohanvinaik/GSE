@@ -23,8 +23,11 @@ Public surface:
 from __future__ import annotations
 
 import re
+import time
 from dataclasses import dataclass, replace
 from typing import List, Optional
+
+from gse.discourse.intake import source_sentences
 
 # Speech (attribution) verbs — surface forms; the attribution is recognised by one of these
 # sitting next to the speaker NP. Kept deliberately finite (the register's common reporting
@@ -200,6 +203,9 @@ class Utterance:
     speaker: Optional[str] = None
     addressee: Optional[str] = None
     quoted: bool = False
+    source_sentence_id: Optional[str] = None
+    ordinal: int = 0
+    utterance_id: Optional[str] = None
 
 
 def _head_lemma(token: str) -> str:
@@ -365,13 +371,15 @@ def segment_document(sentences) -> List[Utterance]:
 
     A sentence with no quote (and not inside an open one) is plain narration — never parsed as
     an attribution (so "The policeman said nothing." is not mistaken for `said SPEAKER`)."""
+    units = source_sentences(sentences)
     records: List[dict] = []
     inside = False
     cur_speaker = cur_addr = None  # speaker of the currently-open quote
     span: List[int] = []  # record indices of the current open quote span
     pending = None  # an attribution awaiting an immediate re-open
 
-    for s_idx, sent in enumerate(sentences):
+    for s_idx, unit in enumerate(units):
+        sent = unit.text
         has_quote = any(c in '“”"' for c in sent)
         if not has_quote and not inside:
             if sent.strip():
@@ -441,7 +449,24 @@ def segment_document(sentences) -> List[Utterance]:
         else:
             merged.append(dict(r))
 
-    return [Utterance(r["content"], r["speaker"], r["addressee"], quoted=r["quoted"]) for r in merged]
+    utterances = []
+    ordinals = {}
+    for record in merged:
+        sentence_id = units[record["s_idx"]].id
+        ordinal = ordinals.get(sentence_id, 0)
+        ordinals[sentence_id] = ordinal + 1
+        utterances.append(
+            Utterance(
+                record["content"],
+                record["speaker"],
+                record["addressee"],
+                quoted=record["quoted"],
+                source_sentence_id=sentence_id,
+                ordinal=ordinal,
+                utterance_id=f"{sentence_id}:u{ordinal}",
+            )
+        )
+    return utterances
 
 
 def bind_deixis(tree, speaker: Optional[str], addressee: Optional[str]):
@@ -497,18 +522,130 @@ def encode_utterances(enc, sentence: str) -> List:
     loop: ``for s in sentences: trees.extend(encode_utterances(enc, s))``. A quoted clause is
     encoded in isolation (no ``said X`` pollution) and its deictic args rebound to the
     speaker/addressee; plain narration round-trips unchanged."""
-    from gse.symbolic import evaluate_tree, from_trace, resolve
+    return encode_document_utterances(enc, [sentence])
 
-    out: List = []
-    for utt in segment_speech(sentence):
-        if not utt.content.strip():
-            continue
-        try:
-            tree = evaluate_tree(resolve(from_trace(enc.encode(utt.content))))
-        except Exception:
-            continue
-        out.append(_apply_deixis(tree, utt))
-    return out
+
+def encode_document_utterance_events(enc, sentences, deadline=None):
+    """Yield a manifest, every located utterance outcome, and a terminal event.
+
+    ``sentences`` accepts explicit ``{id, text}`` source records (also
+    :class:`SourceSentence`, pairs, and legacy strings). Attribution is computed
+    over the complete ordered input before any encoding. ``deadline`` is an
+    absolute ``time.monotonic()`` value; it is checked between synchronous
+    utterances and cannot interrupt an encoder already running. Remaining
+    outcomes become named unread deadline records without renumbering IDs.
+
+    ``trace`` and ``tree`` are live objects for local callers. Transport owners
+    serialize these explicitly. Failures cover encoding, construction,
+    evaluation and deixis independently. Malformed source records are refused
+    before emitting a misleading manifest.
+    """
+    from gse.structure import clause_depth, operation_counts, structural_loss_evidence, verb_head_evidence
+    from gse.symbolic import evaluate_tree, from_trace, resolve_with_sources
+
+    units = source_sentences(sentences)
+    utterances = segment_document(units)
+    expected = {unit.id: [] for unit in units}
+    metadata = []
+    for utterance in utterances:
+        record = {
+            "utterance_id": utterance.utterance_id,
+            "source_sentence_id": utterance.source_sentence_id,
+            "ordinal": utterance.ordinal,
+            "content": utterance.content,
+            "speaker": utterance.speaker,
+            "addressee": utterance.addressee,
+            "quoted": utterance.quoted,
+        }
+        if utterance.source_sentence_id is None:
+            raise ValueError("segmented utterance lacks a source sentence identity")
+        expected[utterance.source_sentence_id].append(utterance.utterance_id)
+        metadata.append(record)
+    yield {
+        "type": "manifest",
+        "version": "gse.intake/1",
+        "sentences": [
+            {"id": unit.id, "paragraph_id": unit.paragraph_id, "expected_utterance_ids": expected[unit.id]}
+            for unit in units
+        ],
+        "utterances": metadata,
+    }
+    read = failed = 0
+    timed_out = False
+    for utterance, record in zip(utterances, metadata):
+        trace = tree = source_tree = None
+        source_origins = {"state": "unread", "reason": "primary_reading_unavailable"}
+        findings = []
+        operations = {}
+        embedding_depth = None
+        heads = []
+        error = None
+        phase = "encode"
+        if deadline is not None and time.monotonic() >= deadline:
+            timed_out = True
+            error = {"code": "deadline", "phase": "intake", "message": "deadline reached before encoding"}
+        else:
+            try:
+                trace = enc.encode(utterance.content)
+                phase = "construction"
+                resolution = resolve_with_sources(from_trace(trace))
+                resolved = resolution["bound"]
+                operations = operation_counts(resolved)
+                embedding_depth = clause_depth(resolved)
+                findings = structural_loss_evidence(
+                    trace, resolved, utterance_id=utterance.utterance_id, boundary="construction"
+                )
+                phase = "evaluation"
+                tree = evaluate_tree(resolved)
+                findings.extend(structural_loss_evidence(trace, tree, utterance_id=utterance.utterance_id))
+                heads = verb_head_evidence(trace, tree)
+                phase = "deixis"
+                tree = _apply_deixis(tree, utterance)
+            except Exception as exc:
+                error = {
+                    "code": f"{phase}_error",
+                    "phase": phase,
+                    "error_type": type(exc).__name__,
+                    "message": str(exc),
+                }
+                tree = None
+        if error is None:
+            try:
+                source_tree = evaluate_tree(resolution["source"])
+                source_origins = {"state": "read"}
+            except Exception as exc:
+                source_origins = {
+                    "state": "unread",
+                    "reason": "source_evaluation_error",
+                    "error_type": type(exc).__name__,
+                }
+            read += 1
+        else:
+            failed += 1
+        yield {
+            "type": "utterance",
+            "version": "gse.intake/1",
+            **record,
+            "state": "read" if error is None else "unread",
+            "trace": trace,
+            "tree": tree,
+            "source_tree": source_tree,
+            "source_origins": source_origins,
+            "utterance": utterance,
+            "error": error,
+            "structural_loss": findings,
+            "operations": operations,
+            "embedding_depth": embedding_depth,
+            "verb_heads": heads,
+        }
+    yield {
+        "type": "end",
+        "version": "gse.intake/1",
+        "reason": "deadline" if timed_out else "complete",
+        "expected": len(utterances),
+        "read": read,
+        "failed": failed,
+    }
 
 
 def encode_document_utterances_traced(enc, sentences) -> List:
@@ -521,19 +658,13 @@ def encode_document_utterances_traced(enc, sentences) -> List:
     caller uses this sibling to keep it, build the envelope per utterance, and carry it to the
     ``narrative.from_document(repair=)`` seam. The ``tree``/``utterance`` are byte-identical to what
     the plain twin produces — same ``segment_document`` loop, same deixis."""
-    from gse.symbolic import evaluate_tree, from_trace, resolve
-
-    out: List = []
-    for utt in segment_document(sentences):
-        if not utt.content.strip():
-            continue
-        try:
-            trace = enc.encode(utt.content)
-            tree = evaluate_tree(resolve(from_trace(trace)))
-        except Exception:
-            continue
-        out.append((trace, _apply_deixis(tree, utt), utt))
-    return out
+    # Compatibility projection: failures and manifests are deliberately omitted.
+    # New consumers must retain encode_document_utterance_events instead.
+    return [
+        (event["trace"], event["tree"], event["utterance"])
+        for event in encode_document_utterance_events(enc, sentences)
+        if event["type"] == "utterance" and event["state"] == "read"
+    ]
 
 
 def encode_document_utterances(enc, sentences) -> List:

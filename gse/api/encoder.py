@@ -13,7 +13,7 @@ import hashlib
 import os
 import sqlite3
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple, TypedDict
 
 from gse.api.errors import OOVError, PrimitiveError
 from gse.api.parse_repair import verbs_to_promote
@@ -23,8 +23,10 @@ from gse.api.trace import (
     OperatorTrace,
     TokenTrace,
 )
-from gse.nlp.morphology import NEGATION, resolve_negation
-from gse.primitives_v2 import BIPOLAR_PRIMITIVES, negate_decomposition
+from gse.nlp.linkers import head_linker_operation
+from gse.nlp.morphology import NEGATION
+from gse.primitives_v2 import BIPOLAR_PRIMITIVES
+from gse.symbolic.modality import ATTITUDE_VERBS, EPISTEMIC_VERBS
 from gse.symbolic.tiers import is_clause_linking
 from gse.vectors_v2 import (
     SparseVector,
@@ -94,6 +96,39 @@ MORPH_TO_TAM = {
 }
 
 _HIERARCHY_MARKERS = ("HIER_PLUS", "HIER_MINUS")
+
+# The verbs whose clausal complement modality gives a status (a belief, or knowledge): a complement they open
+# without "that" must reach the same path as one opened with it (#114).
+_COMPLEMENT_VERBS = ATTITUDE_VERBS | EPISTEMIC_VERBS
+
+
+class CompositionalMetadata(TypedDict, total=False):
+    comp_primitive: Optional[str]
+    comp_operation: Optional[str]
+    comp_arity: int
+
+
+def thatless_complement(verb_lemma: str, next_lemma: str, roles: List[str]) -> str:
+    """Whether a clausal complement opens, without "that", right after a predicate (#114).
+
+    ``roles`` are the words after the verb up to its clause's end, each "OPENER" (a determiner, adjective or
+    numeral), "NOMINAL", "PREDICATE" (finite: not after "to") or "OTHER". Returns, as a named code:
+    "NOT_A_COMPLEMENT_VERB" when the verb takes no clausal complement modality reads; "THAT" when "that" follows
+    (the complementizer path owns it); "NO_SUBJECT" when the words after it do not open with a noun phrase;
+    "NO_PREDICATE" when no finite predicate follows that noun phrase inside the clause; "COMPLEMENT" otherwise.
+    """
+    if verb_lemma not in _COMPLEMENT_VERBS:
+        return "NOT_A_COMPLEMENT_VERB"
+    if next_lemma == "that":
+        return "THAT"
+    k = 0
+    while k < len(roles) and roles[k] == "OPENER":
+        k += 1
+    if k >= len(roles) or roles[k] != "NOMINAL":
+        return "NO_SUBJECT"
+    if "PREDICATE" not in roles[k + 1 :]:
+        return "NO_PREDICATE"
+    return "COMPLEMENT"
 
 
 def word_vector_plan(primitives: Dict[str, int]) -> Tuple[str, int, Tuple[str, int], List[Tuple[str, int]]]:
@@ -204,6 +239,12 @@ class GSEEncoder:
             self._repair = NativeRepair(self)
         return self._repair
 
+    def lexical_lookup(self, lemma: str) -> Dict:
+        """Public source-row evidence; the encoding's first-ID projection, not sense resolution."""
+        from gse.lexical_evidence import lookup_lexeme
+
+        return lookup_lexeme(lemma, self.db_path)
+
     def encode(self, text: str) -> OperationTrace:
         """
         Encode text to HDC vector with full operation trace.
@@ -214,8 +255,12 @@ class GSEEncoder:
         Returns:
             OperationTrace with all encoding steps
         """
+        from gse.nlp.morphology import negation_admission, negation_evidence
+
         # 1. Tokenize
         doc = self.nlp(text)
+        head_position = next((i for i, token in enumerate(doc) if token.pos_ != "PUNCT"), None)
+        lexical_rows: Dict[str, Dict] = {}
 
         # 1b. Upstream parse repair: spaCy mistags some verbs as nouns
         #     ("Macbeth murders Duncan"). Promote buried verbs to POS=VERB so the
@@ -256,26 +301,32 @@ class GSEEncoder:
 
         # 2. Process each token
         token_traces: List[TokenTrace] = []
-        token_vectors: List[Tuple[int, SparseVector, Dict]] = []
+        token_vectors: List[Tuple[int, SparseVector, CompositionalMetadata]] = []
         operator_indices: List[int] = []
         pending_intensity: Optional[Dict[str, int]] = None  # intensifier→adjective carry
+        comp_meta: CompositionalMetadata
 
         for i, tok in enumerate(doc):
             # Lexicon lookup (static primitives from database)
             lemma = tok.lemma_.lower()
             word_prims, sent_prims, comp_meta = self._lookup_lexeme(lemma)
+            if lemma not in lexical_rows:
+                lexical_rows[lemma] = self.lexical_lookup(lemma)
+            lexical = lexical_rows[lemma]
+            negative = negation_evidence(lemma)
 
-            # Word-scale negation (morphology-as-operation): `un-X` == negate(X).
-            # Compute-and-override so the encoding IS the sign-flipped base
-            # (representational collapse — the negated form lands on the base's
-            # form), not the noisy stored `un-` row. NEGATION only; REVERSAL
-            # (unlock) is recognition-only in v1 — not a sign flip. Falls back to
-            # the stored row when the base is OOV.
-            neg = resolve_negation(lemma)
-            if neg is not None and neg[1] == NEGATION:
-                base_prims, _, _ = self._lookup_lexeme(neg[0])
-                if base_prims:
-                    word_prims = negate_decomposition(base_prims)
+            # Recognition does not authorize overriding a different selected
+            # lexical sense. Admit only a supported, compatible signed base.
+            if negative.get("feature") == NEGATION:
+                base_lemma = negative["base"]
+                if base_lemma not in lexical_rows:
+                    lexical_rows[base_lemma] = self.lexical_lookup(base_lemma)
+                admission = negation_admission(
+                    negative, lexical, lexical_rows[base_lemma], "VERB" if i in promote_to_verb else tok.pos_
+                )
+                negative = {**negative, "admission": admission}
+                if admission["decision"] == "compose":
+                    word_prims = admission["primitives"]
 
             # B — intensifier→adjective binding: an INTENSITY-hierarchy modifier folds
             # its HIER markers into a FOLLOWING adjective's bank (very big → BIG
@@ -301,6 +352,15 @@ class GSEEncoder:
                 comp_meta = {"comp_primitive": "COMP_IF", "comp_operation": "IMPLIES", "comp_arity": 2}
             if i in temporal_positions:
                 comp_meta = {"comp_primitive": "COMP_WHEN", "comp_operation": "TEMPORAL", "comp_arity": 2}
+            head_operation = head_linker_operation(lemma, i == head_position)
+            if head_operation != "none":
+                primitive = {
+                    "CONTRAST": "COMP_BUT",
+                    "CONSEQUENCE": "COMP_SO",
+                    "CLAUSE_COORD": "COMP_AND",
+                    "TEMPORAL": "COMP_WHEN",
+                }[head_operation]
+                comp_meta = {"comp_primitive": primitive, "comp_operation": head_operation, "comp_arity": 2}
 
             # DYNAMIC: Replace core syntactic role primitives based on dependency parsing
             # This ensures argument order matters (dog as SUBJ vs dog as OBJ)
@@ -344,6 +404,21 @@ class GSEEncoder:
                 comp_primitive=comp_meta.get("comp_primitive"),
                 comp_operation=comp_meta.get("comp_operation"),
                 comp_arity=comp_meta.get("comp_arity", 0),
+                lexicon_status={"primes": "found", "no_primes": "found", "no_row": "unknown", "unread": "unread"}[
+                    lexical["state"]
+                ],
+                lexical_evidence=lexical,
+                negation_evidence=negative,
+                operator_tier=(
+                    "discourse"
+                    if head_operation != "none"
+                    else "clause"
+                    if is_operator
+                    and (is_clause_linking(comp_meta.get("comp_operation") or "") or comp_meta.get("comp_arity") == 1)
+                    else "phrase"
+                )
+                if is_operator
+                else None,
             )
             token_traces.append(token_trace)
             token_vectors.append((i, full_vec, comp_meta))
@@ -432,7 +507,12 @@ class GSEEncoder:
             arg1_range: Optional[Tuple[int, int]] = None
             arg2_range: Optional[Tuple[int, int]] = None
 
-            if planned and operation and is_clause_linking(operation):
+            linking = (
+                operation
+                and is_clause_linking(operation)
+                and head_linker_operation(token_traces[op_idx].lemma, op_idx == head_position) == "none"
+            )
+            if planned and linking:
                 # Operands are the sequential clauses left/right of the
                 # connective — whole clauses, not raw token spans.
                 left = _sequential_of(op_idx - 1)
@@ -446,7 +526,7 @@ class GSEEncoder:
                 inner = _innermost_of(op_idx)
                 if inner:
                     this_clause_id = inner[0]
-            if planned and not (operation and is_clause_linking(operation)):
+            if planned and not linking:
                 # Within-clause operator: restrict args to its innermost clause
                 # (so a THAN inside a relative clause stays inside it).
                 c = _innermost_of(op_idx)
@@ -620,7 +700,7 @@ class GSEEncoder:
 
         return primitives
 
-    def _lookup_lexeme(self, lemma: str) -> Tuple[Dict[str, int], Dict[str, int], Dict]:
+    def _lookup_lexeme(self, lemma: str) -> Tuple[Dict[str, int], Dict[str, int], CompositionalMetadata]:
         """
         Look up word-scale and sentence-scale primitives for a lemma.
 
@@ -631,7 +711,7 @@ class GSEEncoder:
         self.cursor.execute(
             """
             SELECT id, comp_primitive, comp_arity, comp_operation
-            FROM lexemes WHERE lemma = ? LIMIT 1
+            FROM lexemes WHERE lemma = ? ORDER BY id LIMIT 1
         """,
             (lemma,),
         )
@@ -643,7 +723,7 @@ class GSEEncoder:
             return {}, {}, {}  # Graceful fallback: OOV word contributes nothing
 
         lexeme_id, comp_prim, comp_arity, comp_op = row
-        comp_meta = (
+        comp_meta: CompositionalMetadata = (
             {
                 "comp_primitive": comp_prim,
                 "comp_arity": comp_arity or 0,
@@ -873,7 +953,14 @@ class GSEEncoder:
         for a single implicit clause (the single-clause path handles it unchanged).
         """
         n = len(tokens)
-        boundaries = sorted(idx for idx, operation in op_meta if operation and is_clause_linking(operation))
+        head = next((t.position for t in tokens if t.pos != "PUNCT"), None)
+        boundaries = sorted(
+            idx
+            for idx, operation in op_meta
+            if operation
+            and is_clause_linking(operation)
+            and head_linker_operation(tokens[idx].lemma, idx == head) == "none"
+        )
         if not boundaries:
             return []
 
@@ -950,9 +1037,25 @@ class GSEEncoder:
                     return k
             return n
 
+        def complement_role(k: int) -> str:
+            """A word's role for ``thatless_complement``: a finite predicate, a nominal, an NP opener or other."""
+            if is_pred(k) and not (k > 0 and toks[k - 1].lemma_.lower() == "to"):
+                return "PREDICATE"
+            if is_nominal(k):
+                return "NOMINAL"
+            return "OPENER" if toks[k].pos_ in ("DET", "ADJ", "NUM") else "OTHER"
+
         embedded: List[Tuple[int, int, str, int, Optional[str]]] = []
         for i, tok in enumerate(toks):
             lemma = tok.lemma_.lower()
+
+            # --- complement without "that": an attitude or epistemic predicate, then a full clause (#114) ---
+            if is_pred(i) and i + 1 < n:
+                end = clause_end(i + 1)
+                roles = [complement_role(k) for k in range(i + 1, end)]
+                if thatless_complement(lemma, toks[i + 1].lemma_.lower(), roles) == "COMPLEMENT":
+                    embedded.append((i + 1, end, "complement", i, None))
+                    continue
 
             # --- control: infinitival "to" + verb -------------------------------
             if lemma == "to" and i + 1 < n and (toks[i + 1].pos_ == "VERB" or (i + 1) in promote):
@@ -1059,8 +1162,8 @@ class GSEEncoder:
     def _resolve_operator(
         self,
         op_idx: int,
-        comp_meta: Dict,
-        token_vectors: List[Tuple[int, SparseVector, Dict]],
+        comp_meta: CompositionalMetadata,
+        token_vectors: List[Tuple[int, SparseVector, CompositionalMetadata]],
         token_traces: List[TokenTrace],
         arg1_range: Optional[Tuple[int, int]] = None,
         arg2_range: Optional[Tuple[int, int]] = None,

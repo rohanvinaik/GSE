@@ -23,7 +23,19 @@ import dataclasses
 from dataclasses import dataclass
 from typing import Any, List, Tuple
 
-from gse.symbolic.modality import assertion_mode
+from gse.symbolic.claims import (  # noqa: F401 — public claim authority
+    CLAIM_KEY_VERSION,
+    ClaimKey,
+    Identity,
+    Polarity,
+    claim_key,
+    commitment,
+    commitment_modes,
+    identity,
+    polarity,
+    scope_signature,
+)
+from gse.symbolic.modality import assertion_mode, modal_force
 from gse.symbolic.predicates import OPERAND_FIELDS
 
 # The operand fields each mode governs on the node that imposes it.
@@ -62,6 +74,8 @@ class Proposition:
 
     node: Any
     scopes: Tuple[Scope, ...] = ()
+    state: str = "read"
+    reason: str = ""
 
     @property
     def kind(self) -> str:
@@ -90,8 +104,13 @@ def proposition_status(modes: List[str]) -> str:
     return "asserted"
 
 
-def propositions(tree: Any) -> List[Proposition]:
-    """Every predicate in ``tree``, depth-first in tree order, each with the scopes it sits under."""
+def propositions(tree: Any, *, interrogative: bool = False, source_text: str | None = None) -> List[Proposition]:
+    """Every predicate, with ordered scopes and explicit source question evidence.
+
+    ``source_text`` is the original utterance; its terminal question mark is
+    retained even where the current tree has no interrogative node. Callers
+    with independent interrogative evidence may pass ``interrogative=True``.
+    """
     out: List[Proposition] = []
 
     def walk(node: Any, scopes: Tuple[Scope, ...], depth: int) -> None:
@@ -107,17 +126,30 @@ def propositions(tree: Any) -> List[Proposition]:
             return
         fields = OPERAND_FIELDS.get(kind)
         if fields is not None:
+            # A modal event ("He might leave") is stated as possible or necessary, never as a fact (#66); the mode
+            # covers the event itself and everything under it.
+            force = modal_force(",".join(getattr(node, "modal", ()) or ()))
+            if force != "asserted":
+                scopes = (*scopes, Scope(force, node, "modal"))
+            if kind in {"TypeQuery", "DegreeQuery"}:
+                scopes = (*scopes, Scope("question", node, "source"))
             out.append(Proposition(node, scopes))
             patient_kind = type(getattr(node, "patient", None)).__name__
             mode = assertion_mode(kind, getattr(node, "verb", "") or "", patient_kind)
             governed = _GOVERNED.get(mode, ())
             for field in fields:
                 inner = (*scopes, Scope(mode, node, field)) if field in governed else scopes
+                if kind == "Temporal":
+                    # Both clauses remain committed, while their represented
+                    # temporal qualification participates in comparison.
+                    inner = (*inner, Scope("asserted", node, field))
                 walk(getattr(node, field, None), inner, depth + 1)
             return
         if dataclasses.is_dataclass(node) and not isinstance(node, type):
             for field in dataclasses.fields(node):
                 walk(getattr(node, field.name, None), scopes, depth + 1)
 
-    walk(tree, (), 0)
+    question = interrogative or (isinstance(source_text, str) and source_text.rstrip().endswith("?"))
+    scopes = (Scope("question", tree, "source"),) if question else ()
+    walk(tree, scopes, 0)
     return out

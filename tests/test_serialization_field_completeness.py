@@ -57,6 +57,7 @@ _FEATURES = {
     "axis": "tall",
     "note": "probe",
     "themes": (Entity(head=_atom("letter")),),
+    "modal": ("MAYBE",),
 }
 
 
@@ -72,7 +73,7 @@ NODES = [
     _atom("hens"),
     Phrase(atoms=[_atom("mike", 4), _atom("dog", 5)]),
     Negation(operand=_atom("leave")),
-    Op(primitive="COMP_THAN", operation="SET_DIFF", arity=2, args=[_atom("dog"), _atom("cat")]),
+    Op(primitive="kill", operation="EVENT", arity=2, args=[_atom("macbeth"), _atom("duncan")], modal=("MAYBE",)),
     _entity("macbeth"),
     Coordination(members=(_entity("spot"), _entity("rex")), conjunction="or", modifier=_atom("cute")),
 ] + [_predicate(cls) for cls in typing.get_args(Predicate)]

@@ -92,7 +92,7 @@ class RelationalIdentity(Cassette):
         if not doc.is_proper(answer) or answer == gap.rep.possessor_eid:
             return False
         nm = next((m for m in doc.by_id.get(answer, []) if m.pos == "PROPN"), None)
-        return bool(nm and doc.is_person(nm))
+        return nm is not None and doc.is_person(nm).code == "person"
 
     # -- score: relational ⊥ onomastic converge; gender confirms --------------------------
     def score(self, answer: Any, gap: IdentityGap, doc: MultiScaleDoc) -> Dict[str, float]:

@@ -1,0 +1,2167 @@
+{
+  "schema": "voice.performance-receipt/1",
+  "scope": "complete real paragraph CLI read raw and healed, plus separately profiled identical worker entrypoints",
+  "claims": {
+    "speedup": false,
+    "tuning": false,
+    "repeatability_benchmark": false,
+    "semantic_equivalence": "SAME"
+  },
+  "profiling": {
+    "tool": "stdlib cProfile plus macOS /usr/bin/time -l",
+    "runs_per_mode_and_domain": 1,
+    "domains": [
+      "Python3.12 CLI: source loading, subprocess transport/wait, event validation/assembly, whole and paragraph profiles, JSON serialization",
+      "Python3.14 GSE worker: resource receipts, raw/healed policy, lexical words, utterance encoding, claim extraction/derivation, whole-document resolution/graph/fold, event serialization"
+    ],
+    "caveats": [
+      "The parent cProfile cannot attribute GSE subprocess internals; the worker cProfile is a separate fresh process with the same frozen payload, not a nested full CLI capture.",
+      "Independent parent/worker timings cannot be added or subtracted; instrumentation overhead differs.",
+      "Native extension time is attributed to Python call boundaries, not native function internals.",
+      "macOS time counters are OS-reported process/rusage observations, not per-function memory attribution or concurrent process-tree peak memory.",
+      "One cold-process observation per mode/domain; OS caches and concurrent machine activity were not controlled.",
+      "The first sandboxed time -l capture failed reading kern.clockrate; its incomplete resource receipt is excluded."
+    ]
+  },
+  "platform": {
+    "system": "Darwin",
+    "release": "27.0.0",
+    "machine": "arm64",
+    "cli_python": "3.12.12",
+    "worker_python": "3.14.6"
+  },
+  "source": {
+    "parent_source_sha256": "87ed0af2dba6ff193357122a3cc125f86abfbedbad7a38fc517f489df16a2869",
+    "source_sha256": "824dfbf35c46b4be35d9f0bc62eee6d11a55c93bdfea0fe4c13792f7889e997e",
+    "characters": 1290,
+    "original_span": [
+      1310,
+      2600
+    ],
+    "selection": "complete_retained_paragraph",
+    "profiled_role": "draft.txt fixture label, not an authored revision"
+  },
+  "resource_independent_count_baselines": {
+    "input_characters": 1290,
+    "source_sentences": 7,
+    "source_words": 211,
+    "CLI_read_source_calls": 1,
+    "CLI_read_document_calls": 1,
+    "CLI_run_probe_calls": 1,
+    "metric_catalog_rows": 59,
+    "whole_and_paragraph_Profile_calls": 2,
+    "constructed_metric_rows": 118,
+    "scope": "located source population and public path/catalog operations, independent of elapsed time or hardware counters; symbolic/lexical result counts remain bound to recorded resource identities"
+  },
+  "identities": {
+    "gse_source_sha256": "b4510b6b8ec1b3b0c3ac173d7a954e6968cf59a93785fd84027a63ea15366b2a",
+    "consumer": {
+      "schema": "voice.consumer-code/1",
+      "files": {
+        "tools/voice/voice.py": "2f6afefd90a9da53e7af22dff88b9efe978f4269c5dc526fe2e86457bc6af7b1",
+        "tools/voice/probe.py": "45e09a91f0f5e60ac3779a7a3451cd77cb1ced69b500d7cd071088dc355b5140",
+        "tools/voice/metrics.py": "eb9ebd91f3f2947ddc739f6ca1d1a73d19fe0f45c588a8968d8a3b76f78be733",
+        "tools/voice/passage.py": "ba9a0a1e46b615f945ced68a293105fc4be0bfb20ec1052b9aae2771ffb47e6b",
+        "tools/voice/references.py": "2287a01171d964777dc0d05ced37bd6d86bf72d35ef58dead2b744344de2b1f1",
+        "src/squishos/reading/source.py": "f14603e13bb116c4c09b6f97d87311e08ec2e9277cfb5ce0e28c68c919a0ab79",
+        "src/squishos/reading/decisions.py": "d8913bda9d97d32ab0348e7dc63b217951df44b6de4c49f2350ed326694167b7",
+        "src/squishos/reading/transport.py": "c82371c0883aaabad3877ac8672e523936d67dbdcb50641d3f3a771d4ccc894a",
+        "src/squishos/reading/event_validation.py": "37a84bfb03a5a3eeb66fc08f003e36417088399a7b12e089757bc3755e25c936"
+      }
+    },
+    "after_analysis": {
+      "gse_source_sha256": "b4510b6b8ec1b3b0c3ac173d7a954e6968cf59a93785fd84027a63ea15366b2a",
+      "consumer": {
+        "tools/voice/voice.py": "2f6afefd90a9da53e7af22dff88b9efe978f4269c5dc526fe2e86457bc6af7b1",
+        "tools/voice/probe.py": "45e09a91f0f5e60ac3779a7a3451cd77cb1ced69b500d7cd071088dc355b5140",
+        "tools/voice/metrics.py": "eb9ebd91f3f2947ddc739f6ca1d1a73d19fe0f45c588a8968d8a3b76f78be733",
+        "tools/voice/passage.py": "ba9a0a1e46b615f945ced68a293105fc4be0bfb20ec1052b9aae2771ffb47e6b",
+        "tools/voice/references.py": "2287a01171d964777dc0d05ced37bd6d86bf72d35ef58dead2b744344de2b1f1",
+        "src/squishos/reading/source.py": "f14603e13bb116c4c09b6f97d87311e08ec2e9277cfb5ce0e28c68c919a0ab79",
+        "src/squishos/reading/decisions.py": "d8913bda9d97d32ab0348e7dc63b217951df44b6de4c49f2350ed326694167b7",
+        "src/squishos/reading/transport.py": "c82371c0883aaabad3877ac8672e523936d67dbdcb50641d3f3a771d4ccc894a",
+        "src/squishos/reading/event_validation.py": "37a84bfb03a5a3eeb66fc08f003e36417088399a7b12e089757bc3755e25c936"
+      }
+    }
+  },
+  "comparison": {
+    "domain_cli": "entire emitted JSON record against saved final CLI output in the same raw/healed mode",
+    "domain_worker": "complete assembled Reading against saved final CLI Reading; same frozen adapter adds consumer identity",
+    "normalization": "remove only cache on recognized gse.healing-resources/1 file receipts and mirrored resources.wordnet.resource; no code/state/path/hash/semantic/timing exclusions",
+    "normalization_needed": false,
+    "timing_fields_removed": [],
+    "code_or_semantics_fields_removed": [],
+    "mismatches": []
+  },
+  "commands": {
+    "working_directory": "$SQUISHOS_STAGE",
+    "environment": {
+      "GSE_REPO": "$GSE_REPO",
+      "PYTHONPATH_cli": "$SQUISHOS_STAGE:$SQUISHOS_STAGE/src",
+      "PYTHONPATH_worker": "$GSE_REPO:$SQUISHOS_STAGE/src"
+    },
+    "cli": "/usr/bin/time -l -o $RECEIPT.time.log $SQUISHOS_PYTHON -m cProfile -o $RECEIPT.pstats $SQUISHOS_STAGE/tools/voice/voice.py read $RETAINED_CLI/draft.txt --by paragraph --timeout 900 --json [--raw]",
+    "worker": "/usr/bin/time -l -o $RECEIPT.time.log $GSE_REPO/.venv/bin/python -m cProfile -o $RECEIPT.pstats $SQUISHOS_STAGE/tools/voice/probe.py < $RECEIPT.payload.private.json",
+    "payload": {
+      "source": "exact frozen read_source(draft.txt) record",
+      "sentences": "exact frozen sentences(source)",
+      "raw": "true for raw, false for healed",
+      "deadline_seconds": 899.0
+    },
+    "exact_resolved_commands": "preserved privately in runs.private.json; command parameters contain no source prose"
+  },
+  "runs": [
+    {
+      "label": "read-raw-cli-complete",
+      "domain": "cli",
+      "mode": "read-raw",
+      "returncode": 0,
+      "wall_seconds": 5.205387375317514,
+      "time_rusage": {
+        "real_seconds": 5.2,
+        "user_seconds": 3.77,
+        "system_seconds": 0.78,
+        "maximum_resident_set_size": 535511040,
+        "average_shared_memory_size": 0,
+        "average_unshared_data_size": 0,
+        "average_unshared_stack_size": 0,
+        "page_reclaims": 78206,
+        "page_faults": 103,
+        "swaps": 0,
+        "block_input_operations": 0,
+        "block_output_operations": 0,
+        "messages_sent": 0,
+        "messages_received": 0,
+        "signals_received": 0,
+        "voluntary_context_switches": 20,
+        "involuntary_context_switches": 5380,
+        "instructions_retired": 1298153425,
+        "cycles_elapsed": 480285150,
+        "peak_memory_footprint": 35258872
+      },
+      "cprofile": {
+        "total_calls": 230649,
+        "primitive_calls": 228251,
+        "total_seconds": 5.150056737000006,
+        "top_self": [
+          {
+            "line": 0,
+            "function": "<method 'control' of 'select.kqueue' objects>",
+            "primitive_calls": 89,
+            "calls": 89,
+            "self_seconds": 5.033598715,
+            "cumulative_seconds": 5.033598715,
+            "file": "~"
+          },
+          {
+            "line": 205,
+            "function": "iterencode",
+            "primitive_calls": 2,
+            "calls": 2,
+            "self_seconds": 0.013093583,
+            "cumulative_seconds": 0.013093583,
+            "file": "Python/python3.12/json/encoder.py"
+          },
+          {
+            "line": 344,
+            "function": "raw_decode",
+            "primitive_calls": 24,
+            "calls": 24,
+            "self_seconds": 0.010173718,
+            "cumulative_seconds": 0.011986125,
+            "file": "Python/python3.12/json/decoder.py"
+          },
+          {
+            "line": 0,
+            "function": "<method 'get' of 'dict' objects>",
+            "primitive_calls": 43444,
+            "calls": 43444,
+            "self_seconds": 0.004815619,
+            "cumulative_seconds": 0.004815619,
+            "file": "~"
+          },
+          {
+            "line": 0,
+            "function": "<built-in method marshal.loads>",
+            "primitive_calls": 53,
+            "calls": 53,
+            "self_seconds": 0.004013748,
+            "cumulative_seconds": 0.004013748,
+            "file": "~"
+          },
+          {
+            "line": 558,
+            "function": "select",
+            "primitive_calls": 85,
+            "calls": 85,
+            "self_seconds": 0.0038970790000000003,
+            "cumulative_seconds": 5.0377631240000005,
+            "file": "Python/python3.12/selectors.py"
+          },
+          {
+            "line": 263,
+            "function": "lexical",
+            "primitive_calls": 2,
+            "calls": 2,
+            "self_seconds": 0.002447574,
+            "cumulative_seconds": 0.0066968340000000005,
+            "file": "SquishOS/tools/voice/metrics.py"
+          },
+          {
+            "line": 0,
+            "function": "<built-in method builtins.isinstance>",
+            "primitive_calls": 30508,
+            "calls": 30508,
+            "self_seconds": 0.002287606,
+            "cumulative_seconds": 0.002716075,
+            "file": "~"
+          },
+          {
+            "line": 191,
+            "function": "<genexpr>",
+            "primitive_calls": 6972,
+            "calls": 6972,
+            "self_seconds": 0.002247048,
+            "cumulative_seconds": 0.003638505,
+            "file": "SquishOS/tools/voice/passage.py"
+          },
+          {
+            "line": 0,
+            "function": "<built-in method _io.open_code>",
+            "primitive_calls": 53,
+            "calls": 53,
+            "self_seconds": 0.0020815,
+            "cumulative_seconds": 0.0020815,
+            "file": "~"
+          },
+          {
+            "line": 275,
+            "function": "run_probe",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.002034409,
+            "cumulative_seconds": 5.063895833,
+            "file": "SquishOS/src/squishos/reading/transport.py"
+          },
+          {
+            "line": 126,
+            "function": "word_decision",
+            "primitive_calls": 422,
+            "calls": 422,
+            "self_seconds": 0.001955899,
+            "cumulative_seconds": 0.006248467000000001,
+            "file": "SquishOS/src/squishos/reading/event_validation.py"
+          }
+        ],
+        "top_cumulative": [
+          {
+            "line": 0,
+            "function": "<built-in method builtins.exec>",
+            "primitive_calls": 1,
+            "calls": 55,
+            "self_seconds": 0.00016100200000000001,
+            "cumulative_seconds": 5.150341541,
+            "file": "~"
+          },
+          {
+            "line": 1,
+            "function": "<module>",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 5.7373e-05,
+            "cumulative_seconds": 5.150333333000001,
+            "file": "SquishOS/tools/voice/voice.py"
+          },
+          {
+            "line": 237,
+            "function": "main",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.00098875,
+            "cumulative_seconds": 5.121952291,
+            "file": "SquishOS/tools/voice/voice.py"
+          },
+          {
+            "line": 167,
+            "function": "_cmd_read",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 2.4083000000000003e-05,
+            "cumulative_seconds": 5.118381333,
+            "file": "SquishOS/tools/voice/voice.py"
+          },
+          {
+            "line": 81,
+            "function": "_report",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.000250125,
+            "cumulative_seconds": 5.103951333,
+            "file": "SquishOS/tools/voice/voice.py"
+          },
+          {
+            "line": 317,
+            "function": "read_document",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.00014545900000000002,
+            "cumulative_seconds": 5.070951542,
+            "file": "SquishOS/src/squishos/reading/transport.py"
+          },
+          {
+            "line": 275,
+            "function": "run_probe",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.002034409,
+            "cumulative_seconds": 5.063895833,
+            "file": "SquishOS/src/squishos/reading/transport.py"
+          },
+          {
+            "line": 558,
+            "function": "select",
+            "primitive_calls": 85,
+            "calls": 85,
+            "self_seconds": 0.0038970790000000003,
+            "cumulative_seconds": 5.0377631240000005,
+            "file": "Python/python3.12/selectors.py"
+          },
+          {
+            "line": 0,
+            "function": "<method 'control' of 'select.kqueue' objects>",
+            "primitive_calls": 89,
+            "calls": 89,
+            "self_seconds": 5.033598715,
+            "cumulative_seconds": 5.033598715,
+            "file": "~"
+          },
+          {
+            "line": 752,
+            "function": "profile",
+            "primitive_calls": 1,
+            "calls": 2,
+            "self_seconds": 0.000352245,
+            "cumulative_seconds": 0.031022083000000002,
+            "file": "SquishOS/tools/voice/metrics.py"
+          },
+          {
+            "line": 1349,
+            "function": "_find_and_load",
+            "primitive_calls": 9,
+            "calls": 85,
+            "self_seconds": 0.000230635,
+            "cumulative_seconds": 0.028148501000000003,
+            "file": "<frozen importlib._bootstrap>"
+          },
+          {
+            "line": 1304,
+            "function": "_find_and_load_unlocked",
+            "primitive_calls": 9,
+            "calls": 85,
+            "self_seconds": 0.00015433500000000002,
+            "cumulative_seconds": 0.027953749000000003,
+            "file": "<frozen importlib._bootstrap>"
+          },
+          {
+            "line": 911,
+            "function": "_load_unlocked",
+            "primitive_calls": 11,
+            "calls": 75,
+            "self_seconds": 0.00013634200000000002,
+            "cumulative_seconds": 0.026637084000000002,
+            "file": "<frozen importlib._bootstrap>"
+          },
+          {
+            "line": 993,
+            "function": "exec_module",
+            "primitive_calls": 9,
+            "calls": 53,
+            "self_seconds": 7.861700000000001e-05,
+            "cumulative_seconds": 0.02646,
+            "file": "<frozen importlib._bootstrap_external>"
+          },
+          {
+            "line": 480,
+            "function": "_call_with_frames_removed",
+            "primitive_calls": 19,
+            "calls": 164,
+            "self_seconds": 0.000157138,
+            "cumulative_seconds": 0.024880627000000002,
+            "file": "<frozen importlib._bootstrap>"
+          },
+          {
+            "line": 53,
+            "function": "parse_events",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 5.1831000000000006e-05,
+            "cumulative_seconds": 0.017899625000000002,
+            "file": "SquishOS/src/squishos/reading/transport.py"
+          }
+        ],
+        "scoped_call_counts": [
+          {
+            "file": "SquishOS/tools/voice/voice.py",
+            "line": 66,
+            "function": "consumer_code_identity",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/tools/voice/voice.py",
+            "line": 167,
+            "function": "_cmd_read",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/tools/voice/voice.py",
+            "line": 81,
+            "function": "_report",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/tools/voice/voice.py",
+            "line": 146,
+            "function": "_next",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/src/squishos/reading/transport.py",
+            "line": 317,
+            "function": "read_document",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/src/squishos/reading/transport.py",
+            "line": 45,
+            "function": "finite_json_number",
+            "calls": 3476,
+            "primitive_calls": 3476
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 110,
+            "function": "source_words",
+            "calls": 10,
+            "primitive_calls": 10
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 175,
+            "function": "statistics",
+            "calls": 26,
+            "primitive_calls": 26
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 141,
+            "function": "row",
+            "calls": 118,
+            "primitive_calls": 118
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 136,
+            "function": "channel_state",
+            "calls": 14,
+            "primitive_calls": 14
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 101,
+            "function": "number",
+            "calls": 3322,
+            "primitive_calls": 3322
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 114,
+            "function": "content",
+            "calls": 1276,
+            "primitive_calls": 1276
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 118,
+            "function": "tokens",
+            "calls": 6,
+            "primitive_calls": 6
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 171,
+            "function": "share",
+            "calls": 48,
+            "primitive_calls": 48
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 180,
+            "function": "word_location",
+            "calls": 54,
+            "primitive_calls": 54
+          },
+          {
+            "file": "SquishOS/src/squishos/reading/transport.py",
+            "line": 31,
+            "function": "resolve_gse",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 128,
+            "function": "semantic_failures",
+            "calls": 8,
+            "primitive_calls": 8
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 508,
+            "function": "_coordinates",
+            "calls": 836,
+            "primitive_calls": 836
+          },
+          {
+            "file": "SquishOS/src/squishos/reading/transport.py",
+            "line": 70,
+            "function": "assemble_reading",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/tools/voice/voice.py",
+            "line": 237,
+            "function": "main",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/src/squishos/reading/transport.py",
+            "line": 18,
+            "function": "read_source",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/src/squishos/reading/transport.py",
+            "line": 53,
+            "function": "parse_events",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 263,
+            "function": "lexical",
+            "calls": 2,
+            "primitive_calls": 2
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 400,
+            "function": "structure",
+            "calls": 2,
+            "primitive_calls": 2
+          },
+          {
+            "file": "SquishOS/tools/voice/voice.py",
+            "line": 122,
+            "function": "_emit",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/src/squishos/reading/transport.py",
+            "line": 275,
+            "function": "run_probe",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 519,
+            "function": "affect",
+            "calls": 2,
+            "primitive_calls": 2
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 752,
+            "function": "profile",
+            "calls": 2,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 580,
+            "function": "document",
+            "calls": 2,
+            "primitive_calls": 2
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 678,
+            "function": "select_sentences",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 185,
+            "function": "source_manifest",
+            "calls": 2,
+            "primitive_calls": 2
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 707,
+            "function": "restrict",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 209,
+            "function": "surface",
+            "calls": 2,
+            "primitive_calls": 2
+          }
+        ]
+      },
+      "semantic_count_baseline": {
+        "source_sentences": 7,
+        "source_words": 211,
+        "utterances": 11,
+        "claims": 34,
+        "claim_key_states": {
+          "supported": 1,
+          "unresolved": 2,
+          "unsupported": 31
+        },
+        "mentions": 43,
+        "nodes": 8,
+        "edges": 4,
+        "flags": 3,
+        "heal_applied": 0,
+        "metric_rows": 59,
+        "metric_states": {
+          "measured": 56,
+          "not_applicable": 1,
+          "partial": 2
+        }
+      },
+      "exact_parsed_record_same": true,
+      "normalized_record_same": true,
+      "baseline_cli_sha256": "a6a0c1f6acc89d9709afeca5f4f2f8c5b08aaae74ed1f805d9f677f5dbcd1d32",
+      "captured_sha256": "a6a0c1f6acc89d9709afeca5f4f2f8c5b08aaae74ed1f805d9f677f5dbcd1d32",
+      "normalized_sha256": "a1d1b76d3fb7e7d4927364781bde125c43fc5b21f8d0880deb64f38145acdadc",
+      "producer_boundary_codes": [
+        {
+          "stage": "assembly_checked_initial_and_final",
+          "code": {
+            "state": "read",
+            "commit": "f6fe8678d7036095d1adcb8a76840e2a3add4eda",
+            "source_sha256": "b4510b6b8ec1b3b0c3ac173d7a954e6968cf59a93785fd84027a63ea15366b2a",
+            "probe_sha256": "45e09a91f0f5e60ac3779a7a3451cd77cb1ced69b500d7cd071088dc355b5140",
+            "consumer": {
+              "schema": "voice.consumer-code/1",
+              "files": {
+                "tools/voice/voice.py": "2f6afefd90a9da53e7af22dff88b9efe978f4269c5dc526fe2e86457bc6af7b1",
+                "tools/voice/probe.py": "45e09a91f0f5e60ac3779a7a3451cd77cb1ced69b500d7cd071088dc355b5140",
+                "tools/voice/metrics.py": "eb9ebd91f3f2947ddc739f6ca1d1a73d19fe0f45c588a8968d8a3b76f78be733",
+                "tools/voice/passage.py": "ba9a0a1e46b615f945ced68a293105fc4be0bfb20ec1052b9aae2771ffb47e6b",
+                "tools/voice/references.py": "2287a01171d964777dc0d05ced37bd6d86bf72d35ef58dead2b744344de2b1f1",
+                "src/squishos/reading/source.py": "f14603e13bb116c4c09b6f97d87311e08ec2e9277cfb5ce0e28c68c919a0ab79",
+                "src/squishos/reading/decisions.py": "d8913bda9d97d32ab0348e7dc63b217951df44b6de4c49f2350ed326694167b7",
+                "src/squishos/reading/transport.py": "c82371c0883aaabad3877ac8672e523936d67dbdcb50641d3f3a771d4ccc894a",
+                "src/squishos/reading/event_validation.py": "37a84bfb03a5a3eeb66fc08f003e36417088399a7b12e089757bc3755e25c936"
+              }
+            }
+          }
+        }
+      ],
+      "launcher_boundary_proof": {
+        "before": null,
+        "after": null,
+        "state": "producer_boundaries_and_overall_capture_input_after_analysis_checks"
+      },
+      "private_artifact_hashes": {
+        "stdout": "a6a0c1f6acc89d9709afeca5f4f2f8c5b08aaae74ed1f805d9f677f5dbcd1d32",
+        "stderr": "386c03e182cb5a08dae8aab82e5d17466f32b9d79ab1f47d21441c05d203bdea",
+        "time": "56777c721b4de1b515504cf92b3c699e66aff602392ac00e765ad3aba1e4284a",
+        "pstats": "3019e5e43a0e18277ab2bc9ade78d70c9d139719d15130fbcaed30a7e61f3c7c"
+      }
+    },
+    {
+      "label": "read-healed-cli-complete",
+      "domain": "cli",
+      "mode": "read-healed",
+      "returncode": 0,
+      "wall_seconds": 8.355700791813433,
+      "time_rusage": {
+        "real_seconds": 8.35,
+        "user_seconds": 5.61,
+        "system_seconds": 1.31,
+        "maximum_resident_set_size": 590757888,
+        "average_shared_memory_size": 0,
+        "average_unshared_data_size": 0,
+        "average_unshared_stack_size": 0,
+        "page_reclaims": 81942,
+        "page_faults": 63,
+        "swaps": 0,
+        "block_input_operations": 0,
+        "block_output_operations": 0,
+        "messages_sent": 0,
+        "messages_received": 0,
+        "signals_received": 0,
+        "voluntary_context_switches": 22,
+        "involuntary_context_switches": 10668,
+        "instructions_retired": 1379024398,
+        "cycles_elapsed": 507671362,
+        "peak_memory_footprint": 38404600
+      },
+      "cprofile": {
+        "total_calls": 232351,
+        "primitive_calls": 229934,
+        "total_seconds": 8.29851569700001,
+        "top_self": [
+          {
+            "line": 0,
+            "function": "<method 'control' of 'select.kqueue' objects>",
+            "primitive_calls": 121,
+            "calls": 121,
+            "self_seconds": 8.134254409,
+            "cumulative_seconds": 8.134254409,
+            "file": "~"
+          },
+          {
+            "line": 344,
+            "function": "raw_decode",
+            "primitive_calls": 24,
+            "calls": 24,
+            "self_seconds": 0.025813358,
+            "cumulative_seconds": 0.028004170000000002,
+            "file": "Python/python3.12/json/decoder.py"
+          },
+          {
+            "line": 205,
+            "function": "iterencode",
+            "primitive_calls": 2,
+            "calls": 2,
+            "self_seconds": 0.018266333000000003,
+            "cumulative_seconds": 0.018266333000000003,
+            "file": "Python/python3.12/json/encoder.py"
+          },
+          {
+            "line": 0,
+            "function": "<method 'get' of 'dict' objects>",
+            "primitive_calls": 43910,
+            "calls": 43910,
+            "self_seconds": 0.006342024000000001,
+            "cumulative_seconds": 0.006342024000000001,
+            "file": "~"
+          },
+          {
+            "line": 0,
+            "function": "<built-in method marshal.loads>",
+            "primitive_calls": 53,
+            "calls": 53,
+            "self_seconds": 0.005609247,
+            "cumulative_seconds": 0.005609247,
+            "file": "~"
+          },
+          {
+            "line": 0,
+            "function": "<method 'splitlines' of 'bytes' objects>",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.004932417000000001,
+            "cumulative_seconds": 0.004932417000000001,
+            "file": "~"
+          },
+          {
+            "line": 126,
+            "function": "word_decision",
+            "primitive_calls": 422,
+            "calls": 422,
+            "self_seconds": 0.003734054,
+            "cumulative_seconds": 0.009823212000000001,
+            "file": "SquishOS/src/squishos/reading/event_validation.py"
+          },
+          {
+            "line": 263,
+            "function": "lexical",
+            "primitive_calls": 2,
+            "calls": 2,
+            "self_seconds": 0.003695545,
+            "cumulative_seconds": 0.007767043,
+            "file": "SquishOS/tools/voice/metrics.py"
+          },
+          {
+            "line": 126,
+            "function": "_path_join",
+            "primitive_calls": 1391,
+            "calls": 1391,
+            "self_seconds": 0.003643794,
+            "cumulative_seconds": 0.004145274,
+            "file": "<frozen importlib._bootstrap_external>"
+          },
+          {
+            "line": 180,
+            "function": "refrain_verbatim",
+            "primitive_calls": 2,
+            "calls": 2,
+            "self_seconds": 0.002365849,
+            "cumulative_seconds": 0.007723542000000001,
+            "file": "SquishOS/tools/voice/passage.py"
+          },
+          {
+            "line": 0,
+            "function": "<built-in method _imp.is_builtin>",
+            "primitive_calls": 83,
+            "calls": 83,
+            "self_seconds": 0.002348871,
+            "cumulative_seconds": 0.002348871,
+            "file": "~"
+          },
+          {
+            "line": 191,
+            "function": "<genexpr>",
+            "primitive_calls": 6972,
+            "calls": 6972,
+            "self_seconds": 0.002341278,
+            "cumulative_seconds": 0.003998757,
+            "file": "SquishOS/tools/voice/passage.py"
+          }
+        ],
+        "top_cumulative": [
+          {
+            "line": 0,
+            "function": "<built-in method builtins.exec>",
+            "primitive_calls": 1,
+            "calls": 55,
+            "self_seconds": 0.000187619,
+            "cumulative_seconds": 8.298800458,
+            "file": "~"
+          },
+          {
+            "line": 1,
+            "function": "<module>",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 6.333200000000001e-05,
+            "cumulative_seconds": 8.298792333,
+            "file": "SquishOS/tools/voice/voice.py"
+          },
+          {
+            "line": 237,
+            "function": "main",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.00140942,
+            "cumulative_seconds": 8.25706225,
+            "file": "SquishOS/tools/voice/voice.py"
+          },
+          {
+            "line": 167,
+            "function": "_cmd_read",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 2.6874e-05,
+            "cumulative_seconds": 8.252973541000001,
+            "file": "SquishOS/tools/voice/voice.py"
+          },
+          {
+            "line": 81,
+            "function": "_report",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.000284417,
+            "cumulative_seconds": 8.232738667000001,
+            "file": "SquishOS/tools/voice/voice.py"
+          },
+          {
+            "line": 317,
+            "function": "read_document",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.000166417,
+            "cumulative_seconds": 8.194969,
+            "file": "SquishOS/src/squishos/reading/transport.py"
+          },
+          {
+            "line": 275,
+            "function": "run_probe",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.0013201550000000002,
+            "cumulative_seconds": 8.187311208,
+            "file": "SquishOS/src/squishos/reading/transport.py"
+          },
+          {
+            "line": 558,
+            "function": "select",
+            "primitive_calls": 117,
+            "calls": 117,
+            "self_seconds": 0.0010970510000000001,
+            "cumulative_seconds": 8.135684498,
+            "file": "Python/python3.12/selectors.py"
+          },
+          {
+            "line": 0,
+            "function": "<method 'control' of 'select.kqueue' objects>",
+            "primitive_calls": 121,
+            "calls": 121,
+            "self_seconds": 8.134254409,
+            "cumulative_seconds": 8.134254409,
+            "file": "~"
+          },
+          {
+            "line": 1349,
+            "function": "_find_and_load",
+            "primitive_calls": 9,
+            "calls": 85,
+            "self_seconds": 0.00027846500000000004,
+            "cumulative_seconds": 0.041523419000000006,
+            "file": "<frozen importlib._bootstrap>"
+          },
+          {
+            "line": 1304,
+            "function": "_find_and_load_unlocked",
+            "primitive_calls": 9,
+            "calls": 85,
+            "self_seconds": 0.000351675,
+            "cumulative_seconds": 0.041296999,
+            "file": "<frozen importlib._bootstrap>"
+          },
+          {
+            "line": 911,
+            "function": "_load_unlocked",
+            "primitive_calls": 11,
+            "calls": 75,
+            "self_seconds": 0.000149044,
+            "cumulative_seconds": 0.039986291,
+            "file": "<frozen importlib._bootstrap>"
+          },
+          {
+            "line": 993,
+            "function": "exec_module",
+            "primitive_calls": 9,
+            "calls": 53,
+            "self_seconds": 9.192300000000001e-05,
+            "cumulative_seconds": 0.038586168000000004,
+            "file": "<frozen importlib._bootstrap_external>"
+          },
+          {
+            "line": 53,
+            "function": "parse_events",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 8.1375e-05,
+            "cumulative_seconds": 0.037820709,
+            "file": "SquishOS/src/squishos/reading/transport.py"
+          },
+          {
+            "line": 480,
+            "function": "_call_with_frames_removed",
+            "primitive_calls": 19,
+            "calls": 164,
+            "self_seconds": 0.00020358300000000002,
+            "cumulative_seconds": 0.036287376,
+            "file": "<frozen importlib._bootstrap>"
+          },
+          {
+            "line": 752,
+            "function": "profile",
+            "primitive_calls": 1,
+            "calls": 2,
+            "self_seconds": 0.00034920700000000003,
+            "cumulative_seconds": 0.035711792,
+            "file": "SquishOS/tools/voice/metrics.py"
+          }
+        ],
+        "scoped_call_counts": [
+          {
+            "file": "SquishOS/tools/voice/voice.py",
+            "line": 66,
+            "function": "consumer_code_identity",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/tools/voice/voice.py",
+            "line": 167,
+            "function": "_cmd_read",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/tools/voice/voice.py",
+            "line": 81,
+            "function": "_report",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/tools/voice/voice.py",
+            "line": 146,
+            "function": "_next",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/src/squishos/reading/transport.py",
+            "line": 317,
+            "function": "read_document",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/src/squishos/reading/transport.py",
+            "line": 45,
+            "function": "finite_json_number",
+            "calls": 3589,
+            "primitive_calls": 3589
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 110,
+            "function": "source_words",
+            "calls": 10,
+            "primitive_calls": 10
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 175,
+            "function": "statistics",
+            "calls": 26,
+            "primitive_calls": 26
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 141,
+            "function": "row",
+            "calls": 118,
+            "primitive_calls": 118
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 136,
+            "function": "channel_state",
+            "calls": 14,
+            "primitive_calls": 14
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 101,
+            "function": "number",
+            "calls": 3358,
+            "primitive_calls": 3358
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 114,
+            "function": "content",
+            "calls": 1276,
+            "primitive_calls": 1276
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 118,
+            "function": "tokens",
+            "calls": 6,
+            "primitive_calls": 6
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 171,
+            "function": "share",
+            "calls": 48,
+            "primitive_calls": 48
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 180,
+            "function": "word_location",
+            "calls": 46,
+            "primitive_calls": 46
+          },
+          {
+            "file": "SquishOS/src/squishos/reading/transport.py",
+            "line": 70,
+            "function": "assemble_reading",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/tools/voice/voice.py",
+            "line": 237,
+            "function": "main",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/src/squishos/reading/transport.py",
+            "line": 18,
+            "function": "read_source",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/src/squishos/reading/transport.py",
+            "line": 53,
+            "function": "parse_events",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/src/squishos/reading/transport.py",
+            "line": 31,
+            "function": "resolve_gse",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 128,
+            "function": "semantic_failures",
+            "calls": 8,
+            "primitive_calls": 8
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 508,
+            "function": "_coordinates",
+            "calls": 840,
+            "primitive_calls": 840
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 263,
+            "function": "lexical",
+            "calls": 2,
+            "primitive_calls": 2
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 400,
+            "function": "structure",
+            "calls": 2,
+            "primitive_calls": 2
+          },
+          {
+            "file": "SquishOS/tools/voice/voice.py",
+            "line": 122,
+            "function": "_emit",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/src/squishos/reading/transport.py",
+            "line": 275,
+            "function": "run_probe",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 580,
+            "function": "document",
+            "calls": 2,
+            "primitive_calls": 2
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 678,
+            "function": "select_sentences",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 185,
+            "function": "source_manifest",
+            "calls": 2,
+            "primitive_calls": 2
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 707,
+            "function": "restrict",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 209,
+            "function": "surface",
+            "calls": 2,
+            "primitive_calls": 2
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 519,
+            "function": "affect",
+            "calls": 2,
+            "primitive_calls": 2
+          },
+          {
+            "file": "SquishOS/tools/voice/metrics.py",
+            "line": 752,
+            "function": "profile",
+            "calls": 2,
+            "primitive_calls": 1
+          }
+        ]
+      },
+      "semantic_count_baseline": {
+        "source_sentences": 7,
+        "source_words": 211,
+        "utterances": 11,
+        "claims": 34,
+        "claim_key_states": {
+          "supported": 1,
+          "unresolved": 2,
+          "unsupported": 31
+        },
+        "mentions": 43,
+        "nodes": 8,
+        "edges": 4,
+        "flags": 2,
+        "heal_applied": 2,
+        "metric_rows": 59,
+        "metric_states": {
+          "measured": 56,
+          "not_applicable": 1,
+          "partial": 2
+        }
+      },
+      "exact_parsed_record_same": true,
+      "normalized_record_same": true,
+      "baseline_cli_sha256": "c0e29eb0c2051966bb7e08104b40b4f49bb8442556f7400cd38a7aa0d56f65dc",
+      "captured_sha256": "c0e29eb0c2051966bb7e08104b40b4f49bb8442556f7400cd38a7aa0d56f65dc",
+      "normalized_sha256": "789b69a05ec428594d45ba3f84dc9faaec19220fa67aa254f0760f8aec51fbbc",
+      "producer_boundary_codes": [
+        {
+          "stage": "assembly_checked_initial_and_final",
+          "code": {
+            "state": "read",
+            "commit": "f6fe8678d7036095d1adcb8a76840e2a3add4eda",
+            "source_sha256": "b4510b6b8ec1b3b0c3ac173d7a954e6968cf59a93785fd84027a63ea15366b2a",
+            "probe_sha256": "45e09a91f0f5e60ac3779a7a3451cd77cb1ced69b500d7cd071088dc355b5140",
+            "consumer": {
+              "schema": "voice.consumer-code/1",
+              "files": {
+                "tools/voice/voice.py": "2f6afefd90a9da53e7af22dff88b9efe978f4269c5dc526fe2e86457bc6af7b1",
+                "tools/voice/probe.py": "45e09a91f0f5e60ac3779a7a3451cd77cb1ced69b500d7cd071088dc355b5140",
+                "tools/voice/metrics.py": "eb9ebd91f3f2947ddc739f6ca1d1a73d19fe0f45c588a8968d8a3b76f78be733",
+                "tools/voice/passage.py": "ba9a0a1e46b615f945ced68a293105fc4be0bfb20ec1052b9aae2771ffb47e6b",
+                "tools/voice/references.py": "2287a01171d964777dc0d05ced37bd6d86bf72d35ef58dead2b744344de2b1f1",
+                "src/squishos/reading/source.py": "f14603e13bb116c4c09b6f97d87311e08ec2e9277cfb5ce0e28c68c919a0ab79",
+                "src/squishos/reading/decisions.py": "d8913bda9d97d32ab0348e7dc63b217951df44b6de4c49f2350ed326694167b7",
+                "src/squishos/reading/transport.py": "c82371c0883aaabad3877ac8672e523936d67dbdcb50641d3f3a771d4ccc894a",
+                "src/squishos/reading/event_validation.py": "37a84bfb03a5a3eeb66fc08f003e36417088399a7b12e089757bc3755e25c936"
+              }
+            }
+          }
+        }
+      ],
+      "launcher_boundary_proof": {
+        "before": null,
+        "after": null,
+        "state": "producer_boundaries_and_overall_capture_input_after_analysis_checks"
+      },
+      "private_artifact_hashes": {
+        "stdout": "c0e29eb0c2051966bb7e08104b40b4f49bb8442556f7400cd38a7aa0d56f65dc",
+        "stderr": "386c03e182cb5a08dae8aab82e5d17466f32b9d79ab1f47d21441c05d203bdea",
+        "time": "dc9a4ec5e9e8feddbf814f521e1db12ac24c6a802691aab8b1e3493dcd3ab0c3",
+        "pstats": "ef92b8006a3101ecc91739d728e75de36e36118a9992311808288a8d94396f51"
+      }
+    },
+    {
+      "label": "read-raw-worker-complete",
+      "domain": "worker",
+      "mode": "read-raw",
+      "returncode": 0,
+      "wall_seconds": 9.548883417621255,
+      "time_rusage": {
+        "real_seconds": 9.54,
+        "user_seconds": 7.45,
+        "system_seconds": 0.91,
+        "maximum_resident_set_size": 553402368,
+        "average_shared_memory_size": 0,
+        "average_unshared_data_size": 0,
+        "average_unshared_stack_size": 0,
+        "page_reclaims": 76600,
+        "page_faults": 119,
+        "swaps": 0,
+        "block_input_operations": 0,
+        "block_output_operations": 0,
+        "messages_sent": 0,
+        "messages_received": 0,
+        "signals_received": 0,
+        "voluntary_context_switches": 17,
+        "involuntary_context_switches": 12394,
+        "instructions_retired": 63095140399,
+        "cycles_elapsed": 25279665613,
+        "peak_memory_footprint": 302760944
+      },
+      "cprofile": {
+        "total_calls": 18432274,
+        "primitive_calls": 18223153,
+        "total_seconds": 8.910615335000037,
+        "top_self": [
+          {
+            "line": 1472,
+            "function": "readline",
+            "primitive_calls": 594511,
+            "calls": 594511,
+            "self_seconds": 0.7317254200000001,
+            "cumulative_seconds": 1.5736481370000002,
+            "file": "GSE-venv/lib/python3.14/site-packages/nltk/data.py"
+          },
+          {
+            "line": 1411,
+            "function": "_load_lemma_pos_offset_map",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.632126238,
+            "cumulative_seconds": 1.576240958,
+            "file": "GSE-venv/lib/python3.14/site-packages/nltk/corpus/reader/wordnet.py"
+          },
+          {
+            "line": 1228,
+            "function": "index_sense",
+            "primitive_calls": 2,
+            "calls": 2,
+            "self_seconds": 0.5344341530000001,
+            "cumulative_seconds": 2.100657292,
+            "file": "GSE-venv/lib/python3.14/site-packages/nltk/corpus/reader/wordnet.py"
+          },
+          {
+            "line": 0,
+            "function": "<built-in method _imp.create_dynamic>",
+            "primitive_calls": 177,
+            "calls": 180,
+            "self_seconds": 0.42058475500000003,
+            "cumulative_seconds": 0.423648711,
+            "file": "~"
+          },
+          {
+            "line": 1246,
+            "function": "map_to_many",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.317198603,
+            "cumulative_seconds": 2.4673673750000003,
+            "file": "GSE-venv/lib/python3.14/site-packages/nltk/corpus/reader/wordnet.py"
+          },
+          {
+            "line": 0,
+            "function": "<method 'split' of 'str' objects>",
+            "primitive_calls": 1453365,
+            "calls": 1453365,
+            "self_seconds": 0.312660845,
+            "cumulative_seconds": 0.312660845,
+            "file": "~"
+          },
+          {
+            "line": 0,
+            "function": "<built-in method builtins.len>",
+            "primitive_calls": 3206739,
+            "calls": 3216314,
+            "self_seconds": 0.266047588,
+            "cumulative_seconds": 0.26770402600000004,
+            "file": "~"
+          },
+          {
+            "line": 0,
+            "function": "<built-in method numpy._core._multiarray_umath._unique_hash>",
+            "primitive_calls": 11246,
+            "calls": 11246,
+            "self_seconds": 0.227211413,
+            "cumulative_seconds": 0.227211413,
+            "file": "~"
+          },
+          {
+            "line": 1421,
+            "function": "_next_token",
+            "primitive_calls": 1440656,
+            "calls": 1440656,
+            "self_seconds": 0.226535019,
+            "cumulative_seconds": 0.32970949400000005,
+            "file": "GSE-venv/lib/python3.14/site-packages/nltk/corpus/reader/wordnet.py"
+          },
+          {
+            "line": 0,
+            "function": "<method 'update' of '_hashlib.HASH' objects>",
+            "primitive_calls": 3096,
+            "calls": 3096,
+            "self_seconds": 0.206982927,
+            "cumulative_seconds": 0.206982927,
+            "file": "~"
+          },
+          {
+            "line": 293,
+            "function": "hstack",
+            "primitive_calls": 2160,
+            "calls": 2160,
+            "self_seconds": 0.203824775,
+            "cumulative_seconds": 0.207459248,
+            "file": "GSE-venv/lib/python3.14/site-packages/numpy/_core/shape_base.py"
+          },
+          {
+            "line": 0,
+            "function": "<method 'decompress' of 'zlib.Decompress' objects>",
+            "primitive_calls": 15,
+            "calls": 15,
+            "self_seconds": 0.17529704200000001,
+            "cumulative_seconds": 0.17529704200000001,
+            "file": "~"
+          }
+        ],
+        "top_cumulative": [
+          {
+            "line": 0,
+            "function": "<built-in method builtins.exec>",
+            "primitive_calls": 1,
+            "calls": 1671,
+            "self_seconds": 0.050567311000000004,
+            "cumulative_seconds": 8.915819834,
+            "file": "~"
+          },
+          {
+            "line": 1,
+            "function": "<module>",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 6.2248e-05,
+            "cumulative_seconds": 8.915796250000001,
+            "file": "SquishOS/tools/voice/probe.py"
+          },
+          {
+            "line": 414,
+            "function": "main",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.001286751,
+            "cumulative_seconds": 8.898148667000001,
+            "file": "SquishOS/tools/voice/probe.py"
+          },
+          {
+            "line": 352,
+            "function": "read",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.001298787,
+            "cumulative_seconds": 8.896849291,
+            "file": "SquishOS/tools/voice/probe.py"
+          },
+          {
+            "line": 36,
+            "function": "resource_provenance",
+            "primitive_calls": 4,
+            "calls": 4,
+            "self_seconds": 4.296e-05,
+            "cumulative_seconds": 4.604280543000001,
+            "file": "GSE/gse/nlp/heal.py"
+          },
+          {
+            "line": 73,
+            "function": "provenance",
+            "primitive_calls": 4,
+            "calls": 4,
+            "self_seconds": 9.337600000000001e-05,
+            "cumulative_seconds": 4.603431917,
+            "file": "GSE/gse/nlp/healing_resources.py"
+          },
+          {
+            "line": 29,
+            "function": "_resources",
+            "primitive_calls": 4,
+            "calls": 4,
+            "self_seconds": 0.00042183300000000004,
+            "cumulative_seconds": 4.603330209,
+            "file": "GSE/gse/nlp/healing_resources.py"
+          },
+          {
+            "line": 117,
+            "function": "__getattr__",
+            "primitive_calls": 1,
+            "calls": 2,
+            "self_seconds": 2.1458e-05,
+            "cumulative_seconds": 4.356882125,
+            "file": "GSE-venv/lib/python3.14/site-packages/nltk/corpus/util.py"
+          },
+          {
+            "line": 69,
+            "function": "__load",
+            "primitive_calls": 1,
+            "calls": 2,
+            "self_seconds": 9.246e-05,
+            "cumulative_seconds": 4.356858708,
+            "file": "GSE-venv/lib/python3.14/site-packages/nltk/corpus/util.py"
+          },
+          {
+            "line": 1157,
+            "function": "__init__",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.00011012000000000001,
+            "cumulative_seconds": 4.352580333000001,
+            "file": "GSE-venv/lib/python3.14/site-packages/nltk/corpus/reader/wordnet.py"
+          },
+          {
+            "line": 1286,
+            "function": "map_wn",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.020019876000000002,
+            "cumulative_seconds": 2.592094792,
+            "file": "GSE-venv/lib/python3.14/site-packages/nltk/corpus/reader/wordnet.py"
+          },
+          {
+            "line": 1260,
+            "function": "map_to_one",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.09750436500000001,
+            "cumulative_seconds": 2.5716947500000003,
+            "file": "GSE-venv/lib/python3.14/site-packages/nltk/corpus/reader/wordnet.py"
+          },
+          {
+            "line": 1246,
+            "function": "map_to_many",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.317198603,
+            "cumulative_seconds": 2.4673673750000003,
+            "file": "GSE-venv/lib/python3.14/site-packages/nltk/corpus/reader/wordnet.py"
+          },
+          {
+            "line": 1228,
+            "function": "index_sense",
+            "primitive_calls": 2,
+            "calls": 2,
+            "self_seconds": 0.5344341530000001,
+            "cumulative_seconds": 2.100657292,
+            "file": "GSE-venv/lib/python3.14/site-packages/nltk/corpus/reader/wordnet.py"
+          },
+          {
+            "line": 1551,
+            "function": "__next__",
+            "primitive_calls": 593549,
+            "calls": 593549,
+            "self_seconds": 0.11946985500000001,
+            "cumulative_seconds": 1.827803912,
+            "file": "GSE-venv/lib/python3.14/site-packages/nltk/data.py"
+          },
+          {
+            "line": 1543,
+            "function": "next",
+            "primitive_calls": 593549,
+            "calls": 593549,
+            "self_seconds": 0.14731692200000002,
+            "cumulative_seconds": 1.708334057,
+            "file": "GSE-venv/lib/python3.14/site-packages/nltk/data.py"
+          }
+        ],
+        "scoped_call_counts": [
+          {
+            "file": "SquishOS/tools/voice/probe.py",
+            "line": 95,
+            "function": "token_records",
+            "calls": 11,
+            "primitive_calls": 11
+          },
+          {
+            "file": "SquishOS/tools/voice/probe.py",
+            "line": 115,
+            "function": "relation",
+            "calls": 58,
+            "primitive_calls": 58
+          },
+          {
+            "file": "SquishOS/tools/voice/probe.py",
+            "line": 37,
+            "function": "send",
+            "calls": 24,
+            "primitive_calls": 24
+          },
+          {
+            "file": "SquishOS/tools/voice/probe.py",
+            "line": 199,
+            "function": "heal",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/tools/voice/probe.py",
+            "line": 108,
+            "function": "claim_records",
+            "calls": 22,
+            "primitive_calls": 22
+          },
+          {
+            "file": "SquishOS/tools/voice/probe.py",
+            "line": 148,
+            "function": "provenance",
+            "calls": 2,
+            "primitive_calls": 2
+          },
+          {
+            "file": "SquishOS/tools/voice/probe.py",
+            "line": 414,
+            "function": "main",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/tools/voice/probe.py",
+            "line": 20,
+            "function": "plain",
+            "calls": 84830,
+            "primitive_calls": 392
+          },
+          {
+            "file": "SquishOS/tools/voice/probe.py",
+            "line": 224,
+            "function": "document_record",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/tools/voice/probe.py",
+            "line": 352,
+            "function": "read",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/tools/voice/probe.py",
+            "line": 42,
+            "function": "lexical_words",
+            "calls": 7,
+            "primitive_calls": 7
+          }
+        ]
+      },
+      "semantic_count_baseline": {
+        "source_sentences": 7,
+        "source_words": 211,
+        "utterances": 11,
+        "claims": 34,
+        "claim_key_states": {
+          "supported": 1,
+          "unresolved": 2,
+          "unsupported": 31
+        },
+        "mentions": 43,
+        "nodes": 8,
+        "edges": 4,
+        "flags": 3,
+        "heal_applied": 0,
+        "metric_rows": 59,
+        "metric_states": {
+          "measured": 56,
+          "not_applicable": 1,
+          "partial": 2
+        }
+      },
+      "exact_parsed_record_same": true,
+      "normalized_record_same": true,
+      "baseline_cli_sha256": "a6a0c1f6acc89d9709afeca5f4f2f8c5b08aaae74ed1f805d9f677f5dbcd1d32",
+      "captured_sha256": "357a1f253b1a6946d67246e681d0583195fe3d89598af3bc66b4ce39bb555f9f",
+      "normalized_sha256": "4ab500a590cf74046ebae31a2c90f88fc372f4737c7b57f88cfada58ef2e5183",
+      "producer_boundary_codes": [
+        {
+          "stage": "initial",
+          "code": {
+            "state": "read",
+            "commit": "f6fe8678d7036095d1adcb8a76840e2a3add4eda",
+            "source_sha256": "b4510b6b8ec1b3b0c3ac173d7a954e6968cf59a93785fd84027a63ea15366b2a",
+            "probe_sha256": "45e09a91f0f5e60ac3779a7a3451cd77cb1ced69b500d7cd071088dc355b5140"
+          }
+        },
+        {
+          "stage": "final",
+          "code": {
+            "state": "read",
+            "commit": "f6fe8678d7036095d1adcb8a76840e2a3add4eda",
+            "source_sha256": "b4510b6b8ec1b3b0c3ac173d7a954e6968cf59a93785fd84027a63ea15366b2a",
+            "probe_sha256": "45e09a91f0f5e60ac3779a7a3451cd77cb1ced69b500d7cd071088dc355b5140"
+          }
+        }
+      ],
+      "launcher_boundary_proof": {
+        "before": null,
+        "after": null,
+        "state": "producer_boundaries_and_overall_capture_input_after_analysis_checks"
+      },
+      "private_artifact_hashes": {
+        "stdout": "357a1f253b1a6946d67246e681d0583195fe3d89598af3bc66b4ce39bb555f9f",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "time": "808fb354adfb04b9592651447fa682ae4ddf0078aab4da2f1fc885a70967c785",
+        "pstats": "edc5f5b0d807e04627c2fbbfd257d8b21a4abb26e39ef39f3e909554fe1c98f1"
+      }
+    },
+    {
+      "label": "read-healed-worker-complete",
+      "domain": "worker",
+      "mode": "read-healed",
+      "returncode": 0,
+      "wall_seconds": 11.209566832520068,
+      "time_rusage": {
+        "real_seconds": 11.2,
+        "user_seconds": 9.24,
+        "system_seconds": 1.27,
+        "maximum_resident_set_size": 597573632,
+        "average_shared_memory_size": 0,
+        "average_unshared_data_size": 0,
+        "average_unshared_stack_size": 0,
+        "page_reclaims": 79364,
+        "page_faults": 180,
+        "swaps": 0,
+        "block_input_operations": 0,
+        "block_output_operations": 0,
+        "messages_sent": 0,
+        "messages_received": 0,
+        "signals_received": 0,
+        "voluntary_context_switches": 115,
+        "involuntary_context_switches": 10763,
+        "instructions_retired": 84294455482,
+        "cycles_elapsed": 31909585036,
+        "peak_memory_footprint": 312181984
+      },
+      "cprofile": {
+        "total_calls": 20689071,
+        "primitive_calls": 20457324,
+        "total_seconds": 10.69280379700007,
+        "top_self": [
+          {
+            "line": 0,
+            "function": "<built-in method numpy._core._multiarray_umath._unique_hash>",
+            "primitive_calls": 35834,
+            "calls": 35834,
+            "self_seconds": 0.7881362970000001,
+            "cumulative_seconds": 0.7881362970000001,
+            "file": "~"
+          },
+          {
+            "line": 1472,
+            "function": "readline",
+            "primitive_calls": 594678,
+            "calls": 594678,
+            "self_seconds": 0.683823602,
+            "cumulative_seconds": 1.4870487110000001,
+            "file": "GSE-venv/lib/python3.14/site-packages/nltk/data.py"
+          },
+          {
+            "line": 1411,
+            "function": "_load_lemma_pos_offset_map",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.574556763,
+            "cumulative_seconds": 1.4285417500000002,
+            "file": "GSE-venv/lib/python3.14/site-packages/nltk/corpus/reader/wordnet.py"
+          },
+          {
+            "line": 1228,
+            "function": "index_sense",
+            "primitive_calls": 2,
+            "calls": 2,
+            "self_seconds": 0.5067930270000001,
+            "cumulative_seconds": 1.9986504170000001,
+            "file": "GSE-venv/lib/python3.14/site-packages/nltk/corpus/reader/wordnet.py"
+          },
+          {
+            "line": 0,
+            "function": "<built-in method _imp.create_dynamic>",
+            "primitive_calls": 178,
+            "calls": 181,
+            "self_seconds": 0.420691124,
+            "cumulative_seconds": 0.423801627,
+            "file": "~"
+          },
+          {
+            "line": 293,
+            "function": "hstack",
+            "primitive_calls": 4320,
+            "calls": 4320,
+            "self_seconds": 0.371380023,
+            "cumulative_seconds": 0.37850461100000005,
+            "file": "GSE-venv/lib/python3.14/site-packages/numpy/_core/shape_base.py"
+          },
+          {
+            "line": 0,
+            "function": "<method 'split' of 'str' objects>",
+            "primitive_calls": 1474521,
+            "calls": 1474521,
+            "self_seconds": 0.30555328600000004,
+            "cumulative_seconds": 0.30555328600000004,
+            "file": "~"
+          },
+          {
+            "line": 1246,
+            "function": "map_to_many",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.28502377100000004,
+            "cumulative_seconds": 2.3305435,
+            "file": "GSE-venv/lib/python3.14/site-packages/nltk/corpus/reader/wordnet.py"
+          },
+          {
+            "line": 218,
+            "function": "vstack",
+            "primitive_calls": 2160,
+            "calls": 2160,
+            "self_seconds": 0.281270454,
+            "cumulative_seconds": 0.28499303600000003,
+            "file": "GSE-venv/lib/python3.14/site-packages/numpy/_core/shape_base.py"
+          },
+          {
+            "line": 0,
+            "function": "<built-in method builtins.len>",
+            "primitive_calls": 3352786,
+            "calls": 3360562,
+            "self_seconds": 0.28084953,
+            "cumulative_seconds": 0.28219819300000004,
+            "file": "~"
+          },
+          {
+            "line": 0,
+            "function": "<method 'update' of '_hashlib.HASH' objects>",
+            "primitive_calls": 3096,
+            "calls": 3096,
+            "self_seconds": 0.22325972700000002,
+            "cumulative_seconds": 0.22325972700000002,
+            "file": "~"
+          },
+          {
+            "line": 92,
+            "function": "_vad_resource",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.21202336500000002,
+            "cumulative_seconds": 0.30169154200000003,
+            "file": "GSE/gse/lexical_evidence.py"
+          }
+        ],
+        "top_cumulative": [
+          {
+            "line": 0,
+            "function": "<built-in method builtins.exec>",
+            "primitive_calls": 1,
+            "calls": 1671,
+            "self_seconds": 0.055825046,
+            "cumulative_seconds": 10.706458625,
+            "file": "~"
+          },
+          {
+            "line": 1,
+            "function": "<module>",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 3.9291e-05,
+            "cumulative_seconds": 10.7064295,
+            "file": "SquishOS/tools/voice/probe.py"
+          },
+          {
+            "line": 414,
+            "function": "main",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.001573376,
+            "cumulative_seconds": 10.690645250000001,
+            "file": "SquishOS/tools/voice/probe.py"
+          },
+          {
+            "line": 352,
+            "function": "read",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.0013879550000000002,
+            "cumulative_seconds": 10.689062333,
+            "file": "SquishOS/tools/voice/probe.py"
+          },
+          {
+            "line": 36,
+            "function": "resource_provenance",
+            "primitive_calls": 4,
+            "calls": 4,
+            "self_seconds": 7.112500000000001e-05,
+            "cumulative_seconds": 4.35731625,
+            "file": "GSE/gse/nlp/heal.py"
+          },
+          {
+            "line": 73,
+            "function": "provenance",
+            "primitive_calls": 4,
+            "calls": 4,
+            "self_seconds": 0.000102917,
+            "cumulative_seconds": 4.355681917,
+            "file": "GSE/gse/nlp/healing_resources.py"
+          },
+          {
+            "line": 29,
+            "function": "_resources",
+            "primitive_calls": 4,
+            "calls": 4,
+            "self_seconds": 0.00046121400000000005,
+            "cumulative_seconds": 4.355571417,
+            "file": "GSE/gse/nlp/healing_resources.py"
+          },
+          {
+            "line": 117,
+            "function": "__getattr__",
+            "primitive_calls": 1,
+            "calls": 2,
+            "self_seconds": 1.6541e-05,
+            "cumulative_seconds": 4.084984,
+            "file": "GSE-venv/lib/python3.14/site-packages/nltk/corpus/util.py"
+          },
+          {
+            "line": 69,
+            "function": "__load",
+            "primitive_calls": 1,
+            "calls": 2,
+            "self_seconds": 8.300000000000001e-05,
+            "cumulative_seconds": 4.084965875,
+            "file": "GSE-venv/lib/python3.14/site-packages/nltk/corpus/util.py"
+          },
+          {
+            "line": 1157,
+            "function": "__init__",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 9.3454e-05,
+            "cumulative_seconds": 4.08061075,
+            "file": "GSE-venv/lib/python3.14/site-packages/nltk/corpus/reader/wordnet.py"
+          },
+          {
+            "line": 199,
+            "function": "heal",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.000215707,
+            "cumulative_seconds": 2.6058745410000004,
+            "file": "SquishOS/tools/voice/probe.py"
+          },
+          {
+            "line": 560,
+            "function": "suggest",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.000637497,
+            "cumulative_seconds": 2.6047191250000004,
+            "file": "GSE/gse/nlp/heal.py"
+          },
+          {
+            "line": 1286,
+            "function": "map_wn",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.021055917,
+            "cumulative_seconds": 2.472467334,
+            "file": "GSE-venv/lib/python3.14/site-packages/nltk/corpus/reader/wordnet.py"
+          },
+          {
+            "line": 1260,
+            "function": "map_to_one",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.11243335500000001,
+            "cumulative_seconds": 2.4510574170000003,
+            "file": "GSE-venv/lib/python3.14/site-packages/nltk/corpus/reader/wordnet.py"
+          },
+          {
+            "line": 1246,
+            "function": "map_to_many",
+            "primitive_calls": 1,
+            "calls": 1,
+            "self_seconds": 0.28502377100000004,
+            "cumulative_seconds": 2.3305435,
+            "file": "GSE-venv/lib/python3.14/site-packages/nltk/corpus/reader/wordnet.py"
+          },
+          {
+            "line": 248,
+            "function": "encode",
+            "primitive_calls": 20,
+            "calls": 20,
+            "self_seconds": 0.031516005,
+            "cumulative_seconds": 2.302291712,
+            "file": "GSE/gse/api/encoder.py"
+          }
+        ],
+        "scoped_call_counts": [
+          {
+            "file": "SquishOS/tools/voice/probe.py",
+            "line": 95,
+            "function": "token_records",
+            "calls": 11,
+            "primitive_calls": 11
+          },
+          {
+            "file": "SquishOS/tools/voice/probe.py",
+            "line": 115,
+            "function": "relation",
+            "calls": 58,
+            "primitive_calls": 58
+          },
+          {
+            "file": "SquishOS/tools/voice/probe.py",
+            "line": 37,
+            "function": "send",
+            "calls": 24,
+            "primitive_calls": 24
+          },
+          {
+            "file": "SquishOS/tools/voice/probe.py",
+            "line": 224,
+            "function": "document_record",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/tools/voice/probe.py",
+            "line": 414,
+            "function": "main",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/tools/voice/probe.py",
+            "line": 352,
+            "function": "read",
+            "calls": 1,
+            "primitive_calls": 1
+          },
+          {
+            "file": "SquishOS/tools/voice/probe.py",
+            "line": 108,
+            "function": "claim_records",
+            "calls": 22,
+            "primitive_calls": 22
+          },
+          {
+            "file": "SquishOS/tools/voice/probe.py",
+            "line": 20,
+            "function": "plain",
+            "calls": 98077,
+            "primitive_calls": 391
+          },
+          {
+            "file": "SquishOS/tools/voice/probe.py",
+            "line": 42,
+            "function": "lexical_words",
+            "calls": 7,
+            "primitive_calls": 7
+          },
+          {
+            "file": "SquishOS/tools/voice/probe.py",
+            "line": 148,
+            "function": "provenance",
+            "calls": 2,
+            "primitive_calls": 2
+          },
+          {
+            "file": "SquishOS/tools/voice/probe.py",
+            "line": 199,
+            "function": "heal",
+            "calls": 1,
+            "primitive_calls": 1
+          }
+        ]
+      },
+      "semantic_count_baseline": {
+        "source_sentences": 7,
+        "source_words": 211,
+        "utterances": 11,
+        "claims": 34,
+        "claim_key_states": {
+          "supported": 1,
+          "unresolved": 2,
+          "unsupported": 31
+        },
+        "mentions": 43,
+        "nodes": 8,
+        "edges": 4,
+        "flags": 2,
+        "heal_applied": 2,
+        "metric_rows": 59,
+        "metric_states": {
+          "measured": 56,
+          "not_applicable": 1,
+          "partial": 2
+        }
+      },
+      "exact_parsed_record_same": true,
+      "normalized_record_same": true,
+      "baseline_cli_sha256": "c0e29eb0c2051966bb7e08104b40b4f49bb8442556f7400cd38a7aa0d56f65dc",
+      "captured_sha256": "bd23f5b1937d6d29433965fbfc18f28582421d258b0df54a8d9895627412ad41",
+      "normalized_sha256": "5ae049dd61ea4c5a540d596400d33251935a78441a691526f85f3da6c611f4bc",
+      "producer_boundary_codes": [
+        {
+          "stage": "initial",
+          "code": {
+            "state": "read",
+            "commit": "f6fe8678d7036095d1adcb8a76840e2a3add4eda",
+            "source_sha256": "b4510b6b8ec1b3b0c3ac173d7a954e6968cf59a93785fd84027a63ea15366b2a",
+            "probe_sha256": "45e09a91f0f5e60ac3779a7a3451cd77cb1ced69b500d7cd071088dc355b5140"
+          }
+        },
+        {
+          "stage": "final",
+          "code": {
+            "state": "read",
+            "commit": "f6fe8678d7036095d1adcb8a76840e2a3add4eda",
+            "source_sha256": "b4510b6b8ec1b3b0c3ac173d7a954e6968cf59a93785fd84027a63ea15366b2a",
+            "probe_sha256": "45e09a91f0f5e60ac3779a7a3451cd77cb1ced69b500d7cd071088dc355b5140"
+          }
+        }
+      ],
+      "launcher_boundary_proof": {
+        "before": {
+          "gse_source_sha256": "b4510b6b8ec1b3b0c3ac173d7a954e6968cf59a93785fd84027a63ea15366b2a",
+          "consumer": {
+            "tools/voice/voice.py": "2f6afefd90a9da53e7af22dff88b9efe978f4269c5dc526fe2e86457bc6af7b1",
+            "tools/voice/probe.py": "45e09a91f0f5e60ac3779a7a3451cd77cb1ced69b500d7cd071088dc355b5140",
+            "tools/voice/metrics.py": "eb9ebd91f3f2947ddc739f6ca1d1a73d19fe0f45c588a8968d8a3b76f78be733",
+            "tools/voice/passage.py": "ba9a0a1e46b615f945ced68a293105fc4be0bfb20ec1052b9aae2771ffb47e6b",
+            "tools/voice/references.py": "2287a01171d964777dc0d05ced37bd6d86bf72d35ef58dead2b744344de2b1f1",
+            "src/squishos/reading/source.py": "f14603e13bb116c4c09b6f97d87311e08ec2e9277cfb5ce0e28c68c919a0ab79",
+            "src/squishos/reading/decisions.py": "d8913bda9d97d32ab0348e7dc63b217951df44b6de4c49f2350ed326694167b7",
+            "src/squishos/reading/transport.py": "c82371c0883aaabad3877ac8672e523936d67dbdcb50641d3f3a771d4ccc894a",
+            "src/squishos/reading/event_validation.py": "37a84bfb03a5a3eeb66fc08f003e36417088399a7b12e089757bc3755e25c936"
+          }
+        },
+        "after": {
+          "gse_source_sha256": "b4510b6b8ec1b3b0c3ac173d7a954e6968cf59a93785fd84027a63ea15366b2a",
+          "consumer": {
+            "tools/voice/voice.py": "2f6afefd90a9da53e7af22dff88b9efe978f4269c5dc526fe2e86457bc6af7b1",
+            "tools/voice/probe.py": "45e09a91f0f5e60ac3779a7a3451cd77cb1ced69b500d7cd071088dc355b5140",
+            "tools/voice/metrics.py": "eb9ebd91f3f2947ddc739f6ca1d1a73d19fe0f45c588a8968d8a3b76f78be733",
+            "tools/voice/passage.py": "ba9a0a1e46b615f945ced68a293105fc4be0bfb20ec1052b9aae2771ffb47e6b",
+            "tools/voice/references.py": "2287a01171d964777dc0d05ced37bd6d86bf72d35ef58dead2b744344de2b1f1",
+            "src/squishos/reading/source.py": "f14603e13bb116c4c09b6f97d87311e08ec2e9277cfb5ce0e28c68c919a0ab79",
+            "src/squishos/reading/decisions.py": "d8913bda9d97d32ab0348e7dc63b217951df44b6de4c49f2350ed326694167b7",
+            "src/squishos/reading/transport.py": "c82371c0883aaabad3877ac8672e523936d67dbdcb50641d3f3a771d4ccc894a",
+            "src/squishos/reading/event_validation.py": "37a84bfb03a5a3eeb66fc08f003e36417088399a7b12e089757bc3755e25c936"
+          }
+        },
+        "state": "captured"
+      },
+      "private_artifact_hashes": {
+        "stdout": "bd23f5b1937d6d29433965fbfc18f28582421d258b0df54a8d9895627412ad41",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "time": "1a722756ff5aaf8604b719fb78de56e801d755b329c1dfdcfde4765270be9c26",
+        "pstats": "68776f013cdd559965004cfdba3f81ab7f8fb142ebc92182faa48e47d883aa13"
+      }
+    }
+  ]
+}

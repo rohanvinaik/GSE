@@ -1,102 +1,66 @@
-"""Interactive REPL for the deterministic spell-checker.
+"""Standalone spelling door over the shared source-preserving healing core.
 
-    python -m gse.nlp.spellcheck_repl                 # interactive
-    python -m gse.nlp.spellcheck_repl "teh wierd dog" # one-shot
+python -m gse.nlp.spellcheck_repl "teh wierd dog"
+python -m gse.nlp.spellcheck_repl --json '"I beleive it,"'
 
-Type a word to see the word-level noisy-channel correction + candidate trace; type a
-sentence to see context-aware correction (structural re-parse + gloss overlap) of each
-out-of-vocabulary token, with the corrected sentence and a per-token trace. Everything
-is deterministic — the same input always yields the same output and trace.
+A single quoted argument is retained exactly, including punctuation and CRLF.
+The interactive presentation and JSON door consume the same result as the MCP.
 """
 
 from __future__ import annotations
 
+import argparse
+import json
 import sys
 from typing import List
 
-from gse.nlp.spellcheck import _DEFAULT_LEXICON, correct
-from gse.nlp.spellcheck_context import correct_in_context
-
-_CONTENT_POS = {"NOUN", "PROPN", "VERB", "ADJ", "ADV"}
+from gse.nlp.heal import suggest
 
 
-def _strip(tok: str) -> str:
-    return tok.strip(".,;:!?\"'()[]").lower()
+def _show(text: str) -> None:
+    result = suggest(text)
+    for record in result["ledger"]:
+        if record["decision"] != "kept":
+            print(
+                f"  {record['span']} {record['original']!r} -> {record['replacement']!r} "
+                f"({record['decision']}: {record['reason']})"
+            )
+    print(f"  corrected: {result['corrected']!r}")
 
 
 def _run_word(word: str) -> None:
-    r = correct(word)
-    if not r.fired:
-        print(f"  '{word}' grounds — already a word, no correction.")
-        return
-    head = r.committed if r.committed else "ABSTAIN (ambiguous)"
-    print(f"  '{word}' -> {head}")
-    for c in r.ranked[:6]:
-        print(f"       {c!r}")
+    _show(word)
 
 
-def _run_sentence(text: str, encoder) -> None:
-    trace = encoder.encode(text)
-    toks = trace.tokens
-    grounded_content = [t.lemma for t in toks if t.pos in _CONTENT_POS and _DEFAULT_LEXICON.grounds(t.lemma)]
-    surfaces = [t.token for t in toks]
-    corrected: List[str] = list(surfaces)
-    any_oov = False
-    for i, t in enumerate(toks):
-        surf = _strip(t.token)
-        if not surf or _DEFAULT_LEXICON.grounds(surf):
-            continue
-        any_oov = True
-        template = " ".join("___" if j == i else s for j, s in enumerate(surfaces))
-        context = [w for w in grounded_content if w != t.lemma]
-        r = correct_in_context(surf, context, encoder, sentence_template=template)
-        head = r.committed if r.committed else "ABSTAIN"
-        print(f"  [{surf}] -> {head}   ({r.note})")
-        for c in r.ranked[:4]:
-            print(f"       {c!r}")
-        if r.committed:
-            corrected[i] = r.committed
-    if not any_oov:
-        print("  (every token grounds — nothing to correct)")
-    else:
-        print(f"\n  corrected: {' '.join(corrected)}")
+def _run_sentence(text: str, encoder=None) -> None:
+    """Compatibility presentation; correction is owned by the shared core."""
+    _show(text)
 
 
 def main(argv: List[str]) -> None:
-    print("GSE deterministic spell-checker. Loading lexicon + encoder...")
-    from gse.api import GSEEncoder
-
-    enc = GSEEncoder()
-    # warm the vocab + wordnet so the first correction is not laggy
-    _DEFAULT_LEXICON.grounds("warmup")
-
-    def handle(line: str) -> None:
-        line = line.strip()
-        if not line:
-            return
-        if len(line.split()) == 1:
-            _run_word(_strip(line))
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--json", action="store_true", help="emit the complete shared result as JSON")
+    parser.add_argument("text", nargs="*")
+    args = parser.parse_args(argv)
+    if args.text:
+        text = args.text[0] if len(args.text) == 1 else " ".join(args.text)
+        if args.json:
+            print(json.dumps(suggest(text), ensure_ascii=False))
         else:
-            _run_sentence(line, enc)
-
-    if argv:
-        handle(" ".join(argv))
-        enc.close()
+            _show(text)
         return
-
-    print("Type a word or sentence (Ctrl-D / 'quit' to exit).")
-    try:
-        while True:
-            try:
-                line = input("\nspell> ")
-            except EOFError:
-                break
-            if line.strip() in ("quit", "exit"):
-                break
-            handle(line)
-    finally:
-        enc.close()
-        print("\nbye.")
+    if args.json:
+        parser.error("--json requires one quoted text argument")
+    print("GSE deterministic spell-checker. Type text (Ctrl-D / 'quit' to exit).")
+    while True:
+        try:
+            line = input("\nspell> ")
+        except EOFError:
+            break
+        if line.strip() in ("quit", "exit"):
+            break
+        if line.strip():
+            _show(line)
 
 
 if __name__ == "__main__":

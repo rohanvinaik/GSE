@@ -1,0 +1,89 @@
+{
+  "schema": "gse.installed-entrypoints/1",
+  "schema_checks": "valid",
+  "runs": [
+    {
+      "name": "learn",
+      "output_sha256": "85d4076927f3df8046269c24afe819702c1e03dca6bbfed09da7e0368d64bc84",
+      "bytes": 597,
+      "expected_returncode": 0
+    },
+    {
+      "name": "learned-heal",
+      "output_sha256": "132fb4a7a9e122cae3c3724aca3e61faaa9d52c1e4c9f214131d221a9ef37f63",
+      "bytes": 9650,
+      "expected_returncode": 0
+    },
+    {
+      "name": "read-raw",
+      "output_sha256": "6e857ce752aa1e93bc4f54a95a8b0e3bc7c9729b52ba2d44c00078c65b8d01f0",
+      "bytes": 2058123,
+      "expected_returncode": 0
+    },
+    {
+      "name": "compare-reference",
+      "output_sha256": "bbf48f4532373fbe41e0d2975f0c063de926a12f9dac303c46f9e046efc3537d",
+      "bytes": 5409179,
+      "expected_returncode": 0
+    },
+    {
+      "name": "recognize",
+      "output_sha256": "b972fc5bedbb2357624bbda5bbda0251a48ca3db6b1fb72c212227fa7ef569a6",
+      "bytes": 217,
+      "expected_returncode": 1
+    }
+  ],
+  "code": {
+    "state": "read",
+    "commit": "f6fe8678d7036095d1adcb8a76840e2a3add4eda",
+    "source_sha256": "b4510b6b8ec1b3b0c3ac173d7a954e6968cf59a93785fd84027a63ea15366b2a",
+    "probe_sha256": "45e09a91f0f5e60ac3779a7a3451cd77cb1ced69b500d7cd071088dc355b5140",
+    "consumer": {
+      "schema": "voice.consumer-code/1",
+      "files": {
+        "tools/voice/voice.py": "2f6afefd90a9da53e7af22dff88b9efe978f4269c5dc526fe2e86457bc6af7b1",
+        "tools/voice/probe.py": "45e09a91f0f5e60ac3779a7a3451cd77cb1ced69b500d7cd071088dc355b5140",
+        "tools/voice/metrics.py": "eb9ebd91f3f2947ddc739f6ca1d1a73d19fe0f45c588a8968d8a3b76f78be733",
+        "tools/voice/passage.py": "ba9a0a1e46b615f945ced68a293105fc4be0bfb20ec1052b9aae2771ffb47e6b",
+        "tools/voice/references.py": "2287a01171d964777dc0d05ced37bd6d86bf72d35ef58dead2b744344de2b1f1",
+        "src/squishos/reading/source.py": "f14603e13bb116c4c09b6f97d87311e08ec2e9277cfb5ce0e28c68c919a0ab79",
+        "src/squishos/reading/decisions.py": "d8913bda9d97d32ab0348e7dc63b217951df44b6de4c49f2350ed326694167b7",
+        "src/squishos/reading/transport.py": "c82371c0883aaabad3877ac8672e523936d67dbdcb50641d3f3a771d4ccc894a",
+        "src/squishos/reading/event_validation.py": "37a84bfb03a5a3eeb66fc08f003e36417088399a7b12e089757bc3755e25c936"
+      }
+    }
+  },
+  "reference_trades": {
+    "his": {
+      "compatibility": {
+        "state": "compatible",
+        "reason": "",
+        "certified_placement": true
+      },
+      "rows": 59,
+      "placement_counts": {
+        "no_band": 37
+      },
+      "structured_or_not_applicable_rows_without_placement": 22
+    },
+    "winston": {
+      "compatibility": {
+        "state": "compatible",
+        "reason": "",
+        "certified_placement": true
+      },
+      "rows": 59,
+      "placement_counts": {
+        "no_band": 37
+      },
+      "structured_or_not_applicable_rows_without_placement": 22
+    }
+  },
+  "recognizer": {
+    "state": "refit_required",
+    "reason": "version_2_model_required"
+  },
+  "learning": "persisted_explicit_temporary_dictionary_and_alias_preserved",
+  "healing": "original_unchanged_and_separate_output_preserves_protected_forms_and_crlf",
+  "all_physical_consumer_hashes_match": true
+}

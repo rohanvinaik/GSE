@@ -206,10 +206,13 @@ class TypeAssertion:
     Args:
         entity: the subject being typed (e.g., ``Spot``, ``I``).
         kind: the asserted type/class (e.g., ``dog``, ``person``).
+        modal: the modal primes of the clause's auxiliaries ("It might be a dog" → ``("MAYBE",)``), as on
+            :class:`Event` (#66).
     """
 
     entity: Operand
     kind: Operand
+    modal: tuple = ()
 
 
 @dataclass(frozen=True)
@@ -250,12 +253,15 @@ class Control:
         verb: the matrix verb lemma (persuade / want). "" when unrecovered.
         subject: the matrix subject (the persuader / wanter). ``None`` when
             unrecovered (a degraded fall-back from a non-Event matrix).
+        modal: the modal primes of the matrix clause's auxiliaries ("He should try to leave" → ``("GOOD", "WANT")``),
+            as on :class:`Event` (#66).
     """
 
     controller: Operand
     inner: Operand
     verb: str = ""
     subject: Optional[Operand] = None
+    modal: tuple = ()
 
 
 @dataclass(frozen=True)
@@ -280,12 +286,16 @@ class Event:
             for an ordinary clause. They are PRESERVED but NOT promoted into the default
             analysis — a latent "theme-curious" surface, revivable, that keeps the clean
             primary read the viz wants while never destroying the dropped constituents.
+        modal: the modal primes of the clause's auxiliaries ("He might leave" → ``("MAYBE",)``); empty for a plain
+            clause. A modal event is stated as possible or necessary, never as a fact
+            (:func:`gse.symbolic.modality.modal_force`, #66).
     """
 
     verb: str
     agent: Operand
     patient: Optional[Operand] = None
     themes: tuple = ()
+    modal: tuple = ()
 
 
 # A Predicate is any one of the semantic output types.

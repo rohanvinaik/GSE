@@ -20,8 +20,10 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from gse.api import GSEEncoder  # noqa: E402
-from gse.symbolic import evaluate_tree, from_trace, resolve  # noqa: E402
+from gse.symbolic import evaluate_tree, from_trace, resolve, resolve_document  # noqa: E402
+from gse.symbolic.claims import claim_key, commitment  # noqa: E402
 from gse.symbolic.inference import KnowledgeBase  # noqa: E402
+from gse.symbolic.propositions import propositions  # noqa: E402
 from gse.symbolic.queries import predicates  # noqa: E402
 
 _ENC = GSEEncoder()
@@ -37,14 +39,13 @@ def vec_hash(s: str) -> str:
 
 
 def _decomp(word: str) -> dict:
-    conn = sqlite3.connect(os.path.join(os.path.dirname(__file__), "..", "data", "lexicon_clean.db"))
-    rows = conn.execute(
-        "SELECT pv.primitive, pv.value FROM primitive_values pv"
-        " JOIN lexemes lx ON lx.id = pv.lexeme_id WHERE lx.lemma = ?",
-        (word,),
-    ).fetchall()
-    conn.close()
-    return dict(sorted(rows))
+    """The same bounded first-record lexical evidence used by the encoder."""
+    from gse.lexical_evidence import lookup_lexeme
+
+    evidence = lookup_lexeme(word)
+    if evidence["state"] == "unread":
+        raise LookupError(f"unread lexical evidence: {evidence.get('reason', 'resource_unread')}")
+    return dict(sorted(evidence["primitives"].items()))
 
 
 def header(title: str) -> None:
@@ -293,37 +294,23 @@ def world() -> None:
 
 # --------------------------------------------------------------------------- #
 def _propositions(tree):
-    """(polarity, key) propositions in a resolved tree — Events (with clause
-    negation) and TypeAssertions (with the kind's negation-prefix normalized)."""
-    from gse.nlp.morphology import resolve_negation
+    """Certified signed keys from the shared authority, not a private walk.
 
+    Callers resolve a complete demonstration document first. Missing identity,
+    generic relations and uncommitted content abstain instead of matching by
+    surface lemma. The selected lexical decomposition is supplied explicitly.
+    """
     out = []
-
-    def ev_key(p):
-        ag = p.agent.head.lemma if hasattr(p.agent, "head") else getattr(p.agent, "lemma", None)
-        pt = None
-        if p.patient is not None:
-            pt = p.patient.head.lemma if hasattr(p.patient, "head") else getattr(p.patient, "lemma", None)
-        return ("event", p.verb, ag, pt)
-
-    def walk(n, pol=1):
-        name = type(n).__name__
-        if name == "Negation":
-            walk(n.operand, -pol)
-            return
-        if name == "Event":
-            out.append((pol, ev_key(n)))
-            return
-        if name == "TypeAssertion":
-            ent = n.entity.head.lemma if hasattr(n.entity, "head") else n.entity.lemma
-            kind = n.kind.head.lemma if hasattr(n.kind, "head") else n.kind.lemma
-            neg = resolve_negation(kind)
-            if neg:
-                kind, pol = neg[0], -pol
-            out.append((pol, ("isa", ent, kind)))
-            return
-
-    walk(tree)
+    for item in propositions(tree):
+        if commitment(item) != "committed":
+            continue
+        key = claim_key(item, _decomp)
+        if key.state == "supported":
+            out.append((key.polarity.sign, key.key))
+        elif key.state == "unread":
+            raise LookupError(key.reason)
+        else:
+            print(f"  WITHHELD {item.kind}: {key.state} ({key.reason})", file=sys.stderr)
     return out
 
 
@@ -341,8 +328,9 @@ def contradiction() -> None:
         "The cook sharpened the knives.",
     ]
     index: dict = {}
-    for i, s in enumerate(corpus):
-        for pol, key in _propositions(pipe(s)):
+    trees = resolve_document([pipe(sentence) for sentence in corpus])
+    for i, (s, tree) in enumerate(zip(corpus, trees)):
+        for pol, key in _propositions(tree):
             index.setdefault(key, []).append((pol, i, s))
     found = []
     for key, occ in index.items():
@@ -362,18 +350,18 @@ def contradiction() -> None:
 # --------------------------------------------------------------------------- #
 def reduction() -> None:
     header("REDUCTION — text reduces like an equation")
-    print("  negation is a SIGN, from either mechanism (clause 'not' | prefix), and signs multiply:\n")
-    for s in [
+    print("  verified clause/prefix signs compose; keys retain resolved roles and context:\n")
+    examples = [
         "The knight is loyal.",
         "The knight is disloyal.",
         "The knight is not disloyal.",
         "The knight is not unmerry.",
-    ]:
-        (pol, key) = _propositions(pipe(s))[0]
-        print(f"  {s!r:34} -> {'+' if pol > 0 else '-'}{key[2]}({key[1]})")
-    a = _propositions(pipe("The knight is loyal."))
-    b = _propositions(pipe("The knight is not disloyal."))
-    print(f"\n  derived equivalence: 'loyal' == 'not disloyal': {a == b}   (-(-x) = x)")
+    ]
+    trees = resolve_document([pipe(sentence) for sentence in examples])
+    readings = [_propositions(tree) for tree in trees]
+    for sentence, terms in zip(examples, readings):
+        print(f"  {sentence!r:34} -> {terms or 'ABSTAINED: no supported key'}")
+    print(f"\n  supported projection: 'loyal' == 'not disloyal': {bool(readings[0]) and readings[0] == readings[2]}")
 
     passage = [
         "The guard hurt the prisoner.",
@@ -384,18 +372,12 @@ def reduction() -> None:
         "The knight is not disloyal.",
     ]
     terms: dict = {}
-    for s in passage:
-        for pol, key in _propositions(pipe(s)):
-            if key[0] == "event":
-                key = ("event", frozenset(_decomp(key[1]).items()), key[2], key[3])
+    for tree in resolve_document([pipe(sentence) for sentence in passage]):
+        for pol, key in _propositions(tree):
             terms[(pol, key)] = terms.get((pol, key), 0) + 1
-    print(f"\n  passage ({len(passage)} sentences) collects to {len(terms)} terms:")
+    print(f"\n  passage ({len(passage)} sentences) collects to {len(terms)} supported terms:")
     for (pol, key), n in terms.items():
-        if key[0] == "event":
-            sig = ", ".join(f"{p}{'+' if v > 0 else '-'}" for p, v in sorted(key[1]))
-            print(f"    {n} × {'+' if pol > 0 else '-'}⟨{sig}⟩({key[2]}, {key[3]})")
-        else:
-            print(f"    {n} × {'+' if pol > 0 else '-'}{key[2]}({key[1]})")
+        print(f"    {n} × {'+' if pol > 0 else '-'}{key}")
 
 
 # --------------------------------------------------------------------------- #
@@ -411,11 +393,11 @@ def fingerprint() -> None:
         "The guard healed the prisoner.",
     ]
     keys = {}
-    for s in sents:
-        (p,) = predicates(pipe(s))
-        key = (frozenset(_decomp(p.verb).items()), p.agent.head.lemma, p.patient.head.lemma)
-        keys.setdefault(key, []).append(s)
-        print(f"  {s!r}\n     form = (verb⟨{_decomp(p.verb)}⟩, {p.agent.head.lemma}, {p.patient.head.lemma})")
+    for sentence, tree in zip(sents, resolve_document([pipe(s) for s in sents])):
+        terms = _propositions(tree)
+        for term in terms:
+            keys.setdefault(term, []).append(sentence)
+        print(f"  {sentence!r}\n     supported form = {terms or 'ABSTAINED'}")
     print(
         f"\n  distinct forms across {len(sents)} sentences: {len(keys)}"
         f"  (hurt/injure/wound collapse; heal differs by the GOOD sign)"

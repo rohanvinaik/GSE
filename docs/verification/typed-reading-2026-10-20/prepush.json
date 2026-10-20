@@ -1,0 +1,62 @@
+{
+  "schema": "gse.prepush-verification/1",
+  "gate": {
+    "command": "bash scripts/ci_local.sh",
+    "exit_code": 0,
+    "log_sha256": "529275a90e4f44875ebab04b9c821437a4edf61f9872c300c0dc3ef7e2cab536",
+    "ruff": "passed",
+    "format_files": 434,
+    "pytest": {
+      "passed": 5024,
+      "skipped": 12,
+      "xfailed": 16,
+      "warnings": 6,
+      "seconds": 174.95
+    },
+    "ty_advisory_diagnostics": 247
+  },
+  "workflow_security": {
+    "tool": "zizmor1.31.1",
+    "offline": true,
+    "findings": 0
+  },
+  "secrets": {
+    "tool": "detect-secrets1.5.0",
+    "files_scanned": 110,
+    "findings": 252,
+    "triaged_recorded_content_commit_function_hashes": 252,
+    "unresolved": 0,
+    "network_verification": false
+  },
+  "dependency_audit": {
+    "command": "uv export --frozen --no-hashes --no-emit-project --all-extras --all-groups; pip-audit --no-deps --disable-pip",
+    "result": "two advisories, not a clean dependency audit",
+    "skipped": [
+      "en-core-web-sm: direct URL requirement cannot be assigned a package version by pip-audit"
+    ],
+    "advisories": [
+      {
+        "package": "mcp",
+        "version": "1.28.1",
+        "id": "CVE-2026-59951",
+        "source": "https://github.com/advisories/GHSA-84m7-p3x7-pcfv",
+        "affected_surface": "stateful Streamable HTTP sessions",
+        "gse_scope": "SymbolicSpellCheck console entry uses FastMCP.run() default stdio. The advisory explicitly excludes stdio. No HTTP server is introduced by this change.",
+        "fixed_versions": [
+          "1.30.0",
+          "2.2.0"
+        ]
+      },
+      {
+        "package": "nltk",
+        "version": "3.10.3",
+        "id": "PYSEC-2026-3740",
+        "source": "https://github.com/advisories/GHSA-8mgp-746c-j5xp",
+        "affected_surface": "pathsec sandbox bypass in caller-controlled model-file persistence APIs",
+        "gse_scope": "AST inventory of active gse Python files found corpus readers/download helpers, not imports of the affected parser/tagger/perceptron model APIs. This is a bounded static applicability review, not a general security proof.",
+        "fixed_version_reported": false
+      }
+    ]
+  },
+  "publication": "Clean squash parented to current origin/main; original local commits retained in a local backup ref. No forced remote update. Unrelated working files excluded."
+}

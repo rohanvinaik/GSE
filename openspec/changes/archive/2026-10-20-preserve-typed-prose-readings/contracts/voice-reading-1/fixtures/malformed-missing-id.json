@@ -1,0 +1,283 @@
+{
+  "schema": "voice.reading/1",
+  "source": {
+    "original_text": "One. Two.",
+    "text": "One. Two.",
+    "sha256": "668b4fb68ab87519d21b2b39e769865cc1a377638dc46cae3f2533cac547e4ca",
+    "measured_sha256": "668b4fb68ab87519d21b2b39e769865cc1a377638dc46cae3f2533cac547e4ca",
+    "policy": "voice.source/1",
+    "encoding": "utf-8",
+    "markdown": false,
+    "source_map": [
+      {
+        "measured": [
+          0,
+          9
+        ],
+        "reduced": [
+          0,
+          9
+        ],
+        "original": [
+          0,
+          9
+        ]
+      }
+    ],
+    "units": [
+      {
+        "id": "p0",
+        "kind": "prose",
+        "text": "One. Two.",
+        "span": [
+          0,
+          9
+        ],
+        "original_span": [
+          0,
+          9
+        ],
+        "section_id": null
+      }
+    ],
+    "exclusions": [],
+    "insertions": []
+  },
+  "sentences": [
+    {
+      "id": "s0",
+      "text": "One.",
+      "span": [
+        0,
+        4
+      ],
+      "paragraph_id": "p0",
+      "section_id": null,
+      "original_span": [
+        0,
+        4
+      ],
+      "expected_utterance_ids": [
+        "s0:u0"
+      ],
+      "state": "read",
+      "manifest_state": "read"
+    },
+    {
+      "id": "s1",
+      "text": "Two.",
+      "span": [
+        5,
+        9
+      ],
+      "paragraph_id": "p0",
+      "section_id": null,
+      "original_span": [
+        5,
+        9
+      ],
+      "expected_utterance_ids": [
+        "s1:u0"
+      ],
+      "state": "unread",
+      "manifest_state": "read"
+    }
+  ],
+  "source_words": [
+    {
+      "id": "s0:w0",
+      "sentence_id": "s0",
+      "position": 0,
+      "surface": "One",
+      "lemma": null,
+      "pos": null,
+      "span": [
+        0,
+        3
+      ],
+      "lexical": {
+        "state": "unread",
+        "reason": "missing_word_reading"
+      },
+      "frequency": {
+        "state": "unread",
+        "reason": "missing_word_reading"
+      },
+      "dictionary": {
+        "state": "unread",
+        "reason": "missing_word_reading"
+      },
+      "vad": {
+        "state": "unread",
+        "reason": "missing_word_reading"
+      },
+      "concreteness": {
+        "state": "unread",
+        "reason": "missing_word_reading"
+      },
+      "structural_epa": {
+        "state": "unread",
+        "reason": "missing_word_reading"
+      }
+    },
+    {
+      "id": "s1:w0",
+      "sentence_id": "s1",
+      "position": 0,
+      "surface": "Two",
+      "lemma": null,
+      "pos": null,
+      "span": [
+        5,
+        8
+      ],
+      "lexical": {
+        "state": "unread",
+        "reason": "missing_word_reading"
+      },
+      "frequency": {
+        "state": "unread",
+        "reason": "missing_word_reading"
+      },
+      "dictionary": {
+        "state": "unread",
+        "reason": "missing_word_reading"
+      },
+      "vad": {
+        "state": "unread",
+        "reason": "missing_word_reading"
+      },
+      "concreteness": {
+        "state": "unread",
+        "reason": "missing_word_reading"
+      },
+      "structural_epa": {
+        "state": "unread",
+        "reason": "missing_word_reading"
+      }
+    }
+  ],
+  "utterances": [
+    {
+      "source_sentence_id": "s0",
+      "ordinal": 0,
+      "content": "One.",
+      "speaker": null,
+      "addressee": null,
+      "quoted": false,
+      "state": "read",
+      "tokens": [],
+      "claims": [],
+      "structure": {
+        "state": "read"
+      },
+      "error": null
+    },
+    {
+      "utterance_id": "s1:u0",
+      "source_sentence_id": "s1",
+      "ordinal": 0,
+      "content": "Two.",
+      "speaker": null,
+      "addressee": null,
+      "quoted": false,
+      "state": "unread",
+      "tokens": [],
+      "claims": [],
+      "structure": {
+        "state": "unread",
+        "reason": "missing_outcome"
+      },
+      "error": {
+        "code": "missing_outcome"
+      }
+    }
+  ],
+  "document": {
+    "state": "unread",
+    "channels": {
+      "resolution": {
+        "state": "unread",
+        "reason": "missing_document_event"
+      },
+      "fold": {
+        "state": "unread",
+        "reason": "missing_document_event"
+      },
+      "graph": {
+        "state": "unread",
+        "reason": "missing_document_event"
+      },
+      "flags": {
+        "state": "unread",
+        "reason": "missing_document_event"
+      }
+    },
+    "mentions": [],
+    "nodes": [],
+    "edges": [],
+    "flags": [],
+    "fold": [],
+    "tree_sources": []
+  },
+  "termination": {
+    "code": "deadline",
+    "returncode": 0
+  },
+  "transport": {
+    "state": "partial",
+    "errors": [
+      {
+        "code": "missing_outcome",
+        "id": "s1:u0"
+      }
+    ],
+    "manifest": true
+  },
+  "provenance": {
+    "reading_schema": "voice.reading/1",
+    "api": "gse.intake/1",
+    "code": {
+      "state": "unread",
+      "reason": "missing_provenance"
+    },
+    "resources": {
+      "basis": {
+        "state": "unread",
+        "reason": "missing_provenance"
+      },
+      "lexicon": {
+        "state": "unread",
+        "reason": "missing_provenance"
+      },
+      "frequency": {
+        "state": "unread",
+        "reason": "missing_provenance"
+      },
+      "dictionary": {
+        "state": "unread",
+        "reason": "missing_provenance"
+      },
+      "vad": {
+        "state": "unread",
+        "reason": "missing_provenance"
+      },
+      "concreteness": {
+        "state": "unread",
+        "reason": "missing_provenance"
+      },
+      "genealogy": {
+        "state": "unread",
+        "reason": "missing_provenance"
+      }
+    },
+    "policies": {
+      "source": "voice.source/1"
+    }
+  },
+  "heal": {
+    "state": "unread",
+    "reason": "missing_heal_event",
+    "edits": []
+  }
+}

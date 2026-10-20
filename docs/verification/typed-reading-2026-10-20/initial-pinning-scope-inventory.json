@@ -1,0 +1,1142 @@
+{
+  "schema": "voice.pinning-scope-inventory/1",
+  "mode": "read_only_existing_receipts_no_new_Detective_run",
+  "totals": {
+    "top_level_functions": 95,
+    "pure_island_module_functions": 87,
+    "additional_pure_transport_compositions": 3,
+    "transport_shells": 5,
+    "matching_certificate_entries": 2,
+    "static_silent_unpinned": 4,
+    "no_assessment_in_examined_records": 89,
+    "pure_functions_no_assessment_in_examined_records": 84
+  },
+  "limits": [
+    "Current source file bytes match the frozen handoff and installed files; certificate entries were not freshly reissued by this read-only inventory.",
+    "No Any-domain-inexpressible or impure tool refusal was found for these functions in the examined receipts. An annotation or an I/O boundary is not such a tool verdict.",
+    "Old tools/voice/decisions.py reports are different module keys and do not certify replacements in current modules.",
+    "Absence is scoped to the examined stage/installed certificate metadata and named receipts; unknown external scratch runs are not claimed absent."
+  ],
+  "evidence": [
+    ".detective/gse-closeout-independent-evidence/RECEIPT.json",
+    ".detective/gse-closeout-independent-evidence/raw/HANDOFF.json",
+    ".detective/gse-closeout-independent-evidence/raw/verified-certificates.json",
+    ".detective/gse-closeout-independent-evidence/reports/plan_src_squishos_reading_decisions_py.txt",
+    ".detective/gse-closeout-independent-evidence/reports/converge_population_state.txt",
+    ".detective/gse-closeout-independent-evidence/native-replay-final/replay-audit-final.run.log",
+    ".detective/gse-closeout-independent-evidence/native-replay-final/RECEIPT.json",
+    "tests/detective/certificates.json"
+  ],
+  "files": [
+    {
+      "path": "src/squishos/reading/__init__.py",
+      "stage_sha256": "7b5b3be411e240615cded5f36addf98948d6e0f5e6fb1ee736479b9d4e97935d",
+      "production_sha256": "7b5b3be411e240615cded5f36addf98948d6e0f5e6fb1ee736479b9d4e97935d",
+      "functions": []
+    },
+    {
+      "path": "src/squishos/reading/decisions.py",
+      "stage_sha256": "d8913bda9d97d32ab0348e7dc63b217951df44b6de4c49f2350ed326694167b7",
+      "production_sha256": "d8913bda9d97d32ab0348e7dc63b217951df44b6de4c49f2350ed326694167b7",
+      "functions": [
+        {
+          "symbol": "src/squishos/reading/decisions.py::gse_verdict",
+          "line": 8,
+          "signature": "named: bool, exists: bool, python: bool, lexicon: bool",
+          "return_annotation": "str",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "static_silent_unpinned",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/decisions.py::termination",
+          "line": 19,
+          "signature": "killed: bool, returncode: int | None, end: str | None",
+          "return_annotation": "str",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "matching_certificate_entry",
+          "certificate": {
+            "cut_reasons": [],
+            "function_digest": "f0fa1e4160533d61",
+            "refusal": "",
+            "standing": "complete"
+          },
+          "installed_certificate_matches": true,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/decisions.py::population_state",
+          "line": 30,
+          "signature": "expected: int, read: int, manifest: bool",
+          "return_annotation": "str",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "matching_certificate_entry",
+          "certificate": {
+            "cut_reasons": [],
+            "function_digest": "ac89c68b2f7c8129",
+            "refusal": "",
+            "standing": "complete"
+          },
+          "installed_certificate_matches": true,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/decisions.py::source_code",
+          "line": 41,
+          "signature": "source: dict",
+          "return_annotation": "str",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "static_silent_unpinned",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/decisions.py::provenance_code",
+          "line": 46,
+          "signature": "record: dict",
+          "return_annotation": "str",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "static_silent_unpinned",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/decisions.py::event_code",
+          "line": 51,
+          "signature": "event: dict",
+          "return_annotation": "str",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "static_silent_unpinned",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        }
+      ]
+    },
+    {
+      "path": "src/squishos/reading/event_validation.py",
+      "stage_sha256": "37a84bfb03a5a3eeb66fc08f003e36417088399a7b12e089757bc3755e25c936",
+      "production_sha256": "37a84bfb03a5a3eeb66fc08f003e36417088399a7b12e089757bc3755e25c936",
+      "functions": [
+        {
+          "symbol": "src/squishos/reading/event_validation.py::issue",
+          "line": 6,
+          "signature": "code: str='valid', location: str=''",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/event_validation.py::required",
+          "line": 10,
+          "signature": "record, keys: tuple, code: str, path: str",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/event_validation.py::text",
+          "line": 19,
+          "signature": "value, code: str, path: str, *, empty: bool=False, nullable: bool=False",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/event_validation.py::span",
+          "line": 25,
+          "signature": "value, code: str, path: str, *, nullable: bool=False, limit: int | None=None",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/event_validation.py::strings",
+          "line": 35,
+          "signature": "value, code: str, path: str",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/event_validation.py::channel",
+          "line": 45,
+          "signature": "value, code: str, path: str, states: set | None=None",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/event_validation.py::source_decision",
+          "line": 55,
+          "signature": "record, path: str='/source'",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/event_validation.py::sentence_decision",
+          "line": 109,
+          "signature": "record, path: str",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/event_validation.py::word_decision",
+          "line": 126,
+          "signature": "record, path: str",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/event_validation.py::claim_decision",
+          "line": 149,
+          "signature": "record, path: str",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/event_validation.py::attribution_decision",
+          "line": 199,
+          "signature": "record, path: str, code: str",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/event_validation.py::utterance_decision",
+          "line": 212,
+          "signature": "record, path: str",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/event_validation.py::source_origins_decision",
+          "line": 253,
+          "signature": "record, code: str, path: str",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/event_validation.py::document_decision",
+          "line": 269,
+          "signature": "record, path: str",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/event_validation.py::provenance_decision",
+          "line": 373,
+          "signature": "record, path: str='/provenance'",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/event_validation.py::event_decision",
+          "line": 404,
+          "signature": "event",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        }
+      ]
+    },
+    {
+      "path": "src/squishos/reading/source.py",
+      "stage_sha256": "f14603e13bb116c4c09b6f97d87311e08ec2e9277cfb5ce0e28c68c919a0ab79",
+      "production_sha256": "f14603e13bb116c4c09b6f97d87311e08ec2e9277cfb5ce0e28c68c919a0ab79",
+      "functions": [
+        {
+          "symbol": "src/squishos/reading/source.py::heading_level",
+          "line": 15,
+          "signature": "line: str",
+          "return_annotation": "int",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/source.py::block_kind",
+          "line": 21,
+          "signature": "block: str",
+          "return_annotation": "str",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/source.py::blocks",
+          "line": 47,
+          "signature": "text: str",
+          "return_annotation": "list[dict]",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/source.py::strip_marks",
+          "line": 60,
+          "signature": "text: str",
+          "return_annotation": "list[dict]",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/source.py::map_offset",
+          "line": 76,
+          "signature": "offset: int, source_map: list, side: str='point'",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/source.py::sentence_spans",
+          "line": 93,
+          "signature": "text: str, lo: int, hi: int",
+          "return_annotation": "list[list[int]]",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/source.py::sentences",
+          "line": 111,
+          "signature": "source: dict",
+          "return_annotation": "list[dict]",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/source.py::words",
+          "line": 132,
+          "signature": "text: str",
+          "return_annotation": "list[dict]",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/source.py::dashes",
+          "line": 152,
+          "signature": "text: str",
+          "return_annotation": "int",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/source.py::reduce_source",
+          "line": 157,
+          "signature": "text: str, markdown: bool=False",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/source.py::line_units",
+          "line": 252,
+          "signature": "text: str, units: list, source_map: list",
+          "return_annotation": "list[dict]",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/source.py::healed_source",
+          "line": 276,
+          "signature": "source: dict, corrected: str, ledger: list",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/source.py::apply_source_edits",
+          "line": 322,
+          "signature": "source: dict, edits: list",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        }
+      ]
+    },
+    {
+      "path": "src/squishos/reading/transport.py",
+      "stage_sha256": "c82371c0883aaabad3877ac8672e523936d67dbdcb50641d3f3a771d4ccc894a",
+      "production_sha256": "c82371c0883aaabad3877ac8672e523936d67dbdcb50641d3f3a771d4ccc894a",
+      "functions": [
+        {
+          "symbol": "src/squishos/reading/transport.py::read_source",
+          "line": 18,
+          "signature": "path: str | Path",
+          "return_annotation": "dict",
+          "declared_layer": "transport_shell",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/transport.py::resolve_gse",
+          "line": 31,
+          "signature": "",
+          "return_annotation": "dict",
+          "declared_layer": "transport_shell",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/transport.py::finite_json_number",
+          "line": 45,
+          "signature": "value: str",
+          "return_annotation": "float",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/transport.py::parse_events",
+          "line": 53,
+          "signature": "lines: list[str]",
+          "return_annotation": "tuple[list[dict], list[dict]]",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/transport.py::assemble_reading",
+          "line": 70,
+          "signature": "source: dict, events: list, returncode: int | None=0, killed: bool=False, errors: list | None=None",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/transport.py::run_probe",
+          "line": 275,
+          "signature": "payload: dict, engine: dict | None=None, timeout: float=300.0, probe_path: str | Path | None=None",
+          "return_annotation": "dict",
+          "declared_layer": "transport_shell",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/transport.py::read_document",
+          "line": 317,
+          "signature": "source: dict, raw: bool=False, timeout: float=300.0, engine: dict | None=None",
+          "return_annotation": "dict",
+          "declared_layer": "transport_shell",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "src/squishos/reading/transport.py::recognize",
+          "line": 327,
+          "signature": "text: str, engine: dict | None=None, timeout: float=300.0",
+          "return_annotation": "dict",
+          "declared_layer": "transport_shell",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        }
+      ]
+    },
+    {
+      "path": "tools/voice/metrics.py",
+      "stage_sha256": "eb9ebd91f3f2947ddc739f6ca1d1a73d19fe0f45c588a8968d8a3b76f78be733",
+      "production_sha256": "eb9ebd91f3f2947ddc739f6ca1d1a73d19fe0f45c588a8968d8a3b76f78be733",
+      "functions": [
+        {
+          "symbol": "tools/voice/metrics.py::number",
+          "line": 101,
+          "signature": "value: Any",
+          "return_annotation": "TypeGuard[int | float]",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/metrics.py::source_words",
+          "line": 110,
+          "signature": "reading: dict",
+          "return_annotation": "list",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/metrics.py::content",
+          "line": 114,
+          "signature": "record: dict",
+          "return_annotation": "bool",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/metrics.py::tokens",
+          "line": 118,
+          "signature": "reading: dict",
+          "return_annotation": "list",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/metrics.py::semantic_failures",
+          "line": 128,
+          "signature": "reading: dict",
+          "return_annotation": "list",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/metrics.py::channel_state",
+          "line": 136,
+          "signature": "document: dict, channel: str",
+          "return_annotation": "str",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/metrics.py::row",
+          "line": 141,
+          "signature": "name: str, value, n: int, *, num=None, den=None, failed=0, evidence=(), state=None, reason='', **details",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/metrics.py::share",
+          "line": 171,
+          "signature": "name: str, num: int, den: int, **kwargs",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/metrics.py::statistics",
+          "line": 175,
+          "signature": "values: list",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/metrics.py::word_location",
+          "line": 180,
+          "signature": "word: dict",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/metrics.py::source_manifest",
+          "line": 185,
+          "signature": "source: dict, sentences: list, selection: dict | None=None",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/metrics.py::surface",
+          "line": 209,
+          "signature": "reading: dict, passage: dict",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/metrics.py::lexical",
+          "line": 263,
+          "signature": "reading: dict, passage: dict",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/metrics.py::structure",
+          "line": 400,
+          "signature": "reading: dict, passage: dict",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/metrics.py::_coordinates",
+          "line": 508,
+          "signature": "record: dict, names: tuple",
+          "return_annotation": "dict | None",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/metrics.py::affect",
+          "line": 519,
+          "signature": "reading: dict, passage: dict",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/metrics.py::document",
+          "line": 580,
+          "signature": "reading: dict, passage: dict",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/metrics.py::select_sentences",
+          "line": 678,
+          "signature": "reading: dict, sentence_ids: list",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/metrics.py::restrict",
+          "line": 707,
+          "signature": "reading: dict, by: str, unit_id",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/metrics.py::profile",
+          "line": 752,
+          "signature": "reading: dict, by: str | None=None",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        }
+      ]
+    },
+    {
+      "path": "tools/voice/passage.py",
+      "stage_sha256": "ba9a0a1e46b615f945ced68a293105fc4be0bfb20ec1052b9aae2771ffb47e6b",
+      "production_sha256": "ba9a0a1e46b615f945ced68a293105fc4be0bfb20ec1052b9aae2771ffb47e6b",
+      "functions": [
+        {
+          "symbol": "tools/voice/passage.py::freeze",
+          "line": 9,
+          "signature": "value",
+          "return_annotation": null,
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/passage.py::sentence_id",
+          "line": 17,
+          "signature": "record: dict",
+          "return_annotation": "str | None",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/passage.py::claim_rows",
+          "line": 21,
+          "signature": "reading: dict",
+          "return_annotation": "list",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/passage.py::supported_key",
+          "line": 50,
+          "signature": "claim: dict",
+          "return_annotation": null,
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/passage.py::claim_sign",
+          "line": 60,
+          "signature": "claim: dict",
+          "return_annotation": null,
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/passage.py::threads",
+          "line": 68,
+          "signature": "reading: dict",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/passage.py::refrains",
+          "line": 103,
+          "signature": "claims: list",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/passage.py::contradictions",
+          "line": 128,
+          "signature": "claims: list",
+          "return_annotation": "list",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/passage.py::near_misses",
+          "line": 140,
+          "signature": "claims: list",
+          "return_annotation": "list",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/passage.py::derivable",
+          "line": 158,
+          "signature": "claims: list",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/passage.py::refrain_verbatim",
+          "line": 180,
+          "signature": "reading: dict, lengths=(2, 3, 4, 5)",
+          "return_annotation": "list",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/passage.py::operation_form",
+          "line": 196,
+          "signature": "tree",
+          "return_annotation": "tuple",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/passage.py::template_runs",
+          "line": 213,
+          "signature": "reading: dict, claims: list",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/passage.py::pointers",
+          "line": 251,
+          "signature": "reading: dict",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/passage.py::unmarked_links",
+          "line": 317,
+          "signature": "reading: dict",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/passage.py::passage_summary",
+          "line": 337,
+          "signature": "reading: dict",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        }
+      ]
+    },
+    {
+      "path": "tools/voice/references.py",
+      "stage_sha256": "2287a01171d964777dc0d05ced37bd6d86bf72d35ef58dead2b744344de2b1f1",
+      "production_sha256": "2287a01171d964777dc0d05ced37bd6d86bf72d35ef58dead2b744344de2b1f1",
+      "functions": [
+        {
+          "symbol": "tools/voice/references.py::pieces",
+          "line": 19,
+          "signature": "reading: dict, size: int=500",
+          "return_annotation": "list",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/references.py::summarize_scalar",
+          "line": 49,
+          "signature": "values: list",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/references.py::_components",
+          "line": 66,
+          "signature": "value, path=()",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/references.py::summarize_distribution",
+          "line": 105,
+          "signature": "values: list",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/references.py::item_key",
+          "line": 113,
+          "signature": "item",
+          "return_annotation": null,
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/references.py::summarize_list",
+          "line": 121,
+          "signature": "values: list",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/references.py::resource_dependencies",
+          "line": 126,
+          "signature": "resources",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/references.py::compatible",
+          "line": 150,
+          "signature": "first: dict, second: dict",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/references.py::partition_verdict",
+          "line": 186,
+          "signature": "manifest: list | None, source_ids: list",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/references.py::reference_band",
+          "line": 213,
+          "signature": "values: dict, manifest: list | None, source_ids: list, delta: float=0.1",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/references.py::reference",
+          "line": 262,
+          "signature": "name: str, profiles: list, domain: str, register: str, *, readings: list | None=None, size: int=500, manifest: list | None=None, delta: float=0.1",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/references.py::compare_scalar",
+          "line": 315,
+          "signature": "original, draft, summary: dict | None=None, band: dict | None=None",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/references.py::compare_distribution",
+          "line": 329,
+          "signature": "original, draft",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/references.py::compare_list",
+          "line": 334,
+          "signature": "original: list, draft: list",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/references.py::align_units",
+          "line": 345,
+          "signature": "original: dict, draft: dict",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        },
+        {
+          "symbol": "tools/voice/references.py::trade",
+          "line": 360,
+          "signature": "original_profile: dict, draft_profile: dict, reference: dict | None=None",
+          "return_annotation": "dict",
+          "declared_layer": "pure_decision_or_composition",
+          "assessed_state": "no_assessment_in_examined_records",
+          "certificate": null,
+          "installed_certificate_matches": null,
+          "tool_reported_domain_refusal": null
+        }
+      ]
+    }
+  ]
+}

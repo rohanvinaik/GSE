@@ -1,0 +1,185 @@
+{
+  "schema": "voice.reading/1",
+  "source": {
+    "original_text": "Unread.",
+    "text": "Unread.",
+    "sha256": "a1754faa8051c46646e42d8a1041dc6f90b5bc4fb1c2a518284320021f68e6b1",
+    "measured_sha256": "a1754faa8051c46646e42d8a1041dc6f90b5bc4fb1c2a518284320021f68e6b1",
+    "policy": "voice.source/1",
+    "encoding": "utf-8",
+    "markdown": false,
+    "source_map": [
+      {
+        "measured": [
+          0,
+          7
+        ],
+        "reduced": [
+          0,
+          7
+        ],
+        "original": [
+          0,
+          7
+        ]
+      }
+    ],
+    "units": [
+      {
+        "id": "p0",
+        "kind": "prose",
+        "text": "Unread.",
+        "span": [
+          0,
+          7
+        ],
+        "original_span": [
+          0,
+          7
+        ],
+        "section_id": null
+      }
+    ],
+    "exclusions": [],
+    "insertions": []
+  },
+  "sentences": [
+    {
+      "id": "s0",
+      "text": "Unread.",
+      "span": [
+        0,
+        7
+      ],
+      "paragraph_id": "p0",
+      "section_id": null,
+      "original_span": [
+        0,
+        7
+      ],
+      "expected_utterance_ids": [],
+      "state": "unread"
+    }
+  ],
+  "source_words": [
+    {
+      "id": "s0:w0",
+      "sentence_id": "s0",
+      "position": 0,
+      "surface": "Unread",
+      "lemma": null,
+      "pos": null,
+      "span": [
+        0,
+        6
+      ],
+      "lexical": {
+        "state": "unread",
+        "reason": "missing_word_reading"
+      },
+      "frequency": {
+        "state": "unread",
+        "reason": "missing_word_reading"
+      },
+      "dictionary": {
+        "state": "unread",
+        "reason": "missing_word_reading"
+      },
+      "vad": {
+        "state": "unread",
+        "reason": "missing_word_reading"
+      },
+      "concreteness": {
+        "state": "unread",
+        "reason": "missing_word_reading"
+      },
+      "structural_epa": {
+        "state": "unread",
+        "reason": "missing_word_reading"
+      }
+    }
+  ],
+  "utterances": [],
+  "document": {
+    "state": "unread",
+    "channels": {
+      "resolution": {
+        "state": "unread",
+        "reason": "missing_document_event"
+      },
+      "fold": {
+        "state": "unread",
+        "reason": "missing_document_event"
+      },
+      "graph": {
+        "state": "unread",
+        "reason": "missing_document_event"
+      },
+      "flags": {
+        "state": "unread",
+        "reason": "missing_document_event"
+      }
+    },
+    "mentions": [],
+    "nodes": [],
+    "edges": [],
+    "flags": [],
+    "fold": [],
+    "tree_sources": []
+  },
+  "termination": {
+    "code": "crashed",
+    "returncode": 1
+  },
+  "transport": {
+    "state": "read",
+    "errors": [],
+    "manifest": false
+  },
+  "provenance": {
+    "reading_schema": "voice.reading/1",
+    "api": "gse.intake/1",
+    "code": {
+      "state": "unread",
+      "reason": "missing_provenance"
+    },
+    "resources": {
+      "basis": {
+        "state": "unread",
+        "reason": "missing_provenance"
+      },
+      "lexicon": {
+        "state": "unread",
+        "reason": "missing_provenance"
+      },
+      "frequency": {
+        "state": "unread",
+        "reason": "missing_provenance"
+      },
+      "dictionary": {
+        "state": "unread",
+        "reason": "missing_provenance"
+      },
+      "vad": {
+        "state": "unread",
+        "reason": "missing_provenance"
+      },
+      "concreteness": {
+        "state": "unread",
+        "reason": "missing_provenance"
+      },
+      "genealogy": {
+        "state": "unread",
+        "reason": "missing_provenance"
+      }
+    },
+    "policies": {
+      "source": "voice.source/1"
+    }
+  },
+  "heal": {
+    "state": "unread",
+    "reason": "missing_heal_event",
+    "edits": []
+  }
+}

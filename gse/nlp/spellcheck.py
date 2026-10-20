@@ -55,8 +55,10 @@ from __future__ import annotations
 import math
 import os
 import sqlite3
+from contextlib import closing
 from dataclasses import dataclass, field
 from functools import lru_cache
+from pathlib import Path
 from typing import Dict, FrozenSet, List, Optional, Sequence, Set, Tuple
 
 from gse.nlp.native import _STOP
@@ -227,6 +229,8 @@ class _Lexicon:
         self._validity_vocab = None
         self._allowlist: Optional[FrozenSet[str]] = None
         self._usage: Optional[Dict[str, int]] = None
+        self._usage_state: Optional[str] = None
+        self._usage_reason: Optional[str] = None
         self._freq: Optional[Dict[str, int]] = None
         self._confusions: Optional[Dict[str, List[str]]] = None
         self._conn: Optional[sqlite3.Connection] = None
@@ -297,23 +301,34 @@ class _Lexicon:
         return self._allowlist
 
     def grounds(self, word: str) -> bool:
+        from gse.curation.personal_dictionary import membership
+
         w = word.lower()
         # cheap in-memory sets first; the big validity filter is consulted last
-        return w in self.lex_vocab or w in self.wn_vocab or w in self.allowlist or w in self.validity_vocab
+        return (
+            w in self.lex_vocab
+            or w in self.wn_vocab
+            or w in self.allowlist
+            or membership(word)["state"] == "member"
+            or w in self.validity_vocab
+        )
 
     @property
     def usage(self) -> Dict[str, int]:
-        """Real-usage frequency ranks (data/frequency.db; lower = more frequent). Absent
-        => ~zero real-world usage (the Zipf-rarity signal). Empty if the file is gone."""
+        """Observed combined usage ranks; an unread source is not observed absence."""
         if self._usage is None:
             m: Dict[str, int] = {}
             try:
-                conn = sqlite3.connect(os.path.join(_REPO_ROOT, "data", "frequency.db"))
-                for w, rank in conn.execute("SELECT word, combined_rank FROM frequency"):
-                    m[w.lower()] = int(rank)
-                conn.close()
-            except Exception:
-                pass
+                path = Path(_REPO_ROOT) / "data" / "frequency.db"
+                with closing(sqlite3.connect(path.resolve().as_uri() + "?mode=ro", uri=True)) as conn:
+                    for word, rank in conn.execute("SELECT word, combined_rank FROM frequency"):
+                        if not isinstance(word, str) or not word or type(rank) is not int or rank < 1:
+                            raise ValueError("malformed_usage_rank")
+                        m[word.lower()] = rank
+                self._usage_state = "read"
+            except (sqlite3.Error, ValueError) as exc:
+                self._usage_state, self._usage_reason = "unread", str(exc)
+                m = {}
             self._usage = m
         return self._usage
 
@@ -322,18 +337,36 @@ class _Lexicon:
         r = self.usage.get(word.lower())
         return r is not None and r <= _COMMON_TARGET_N
 
-    def is_rare_tail(self, word: str) -> bool:
-        """A grounding token that is almost certainly a typo, not an intended word: it
-        grounds only via the broad Wiktionary tail (not core lexicon / WordNet / allowlist
-        / closed-class) AND has zero real-world usage. Recovery RECONSIDERS these
-        (slot-gated); jargon/names/common words are left strictly alone. Put project
-        coinages (gse, nsm, …) in the allowlist so they are never rare-tail."""
+    def rarity_evidence(self, word: str) -> dict:
+        """Separate broad-tail admission, observed use and unread frequency evidence.
+
+        Absence from the observed combined-rank source licenses only a local slot
+        check. It does not establish zero usage or prove the word is misspelled.
+        """
+        from gse.curation.personal_dictionary import membership
+
         w = word.lower()
-        if w in self.usage:
-            return False
+        out = {"word": word, "state": "not_rare_tail", "policy": "gse.rare-tail/2"}
+        protected = membership(word)
+        if protected["state"] == "member":
+            return {**out, "reason": "protected_dictionary"}
+        if protected["state"] == "unread":
+            return {**out, "state": "unread", "reason": "protected_dictionary_unread"}
         if w in self.lex_vocab or w in self.wn_vocab or w in self.allowlist or w in _STOP:
-            return False
-        return w in self.validity_vocab
+            return {**out, "reason": "core_or_protected_word"}
+        if w not in self.validity_vocab:
+            return {**out, "reason": "not_grounded_by_broad_tail"}
+        usage = self.usage
+        frequency = {"state": self._usage_state, "source": "frequency.db combined_rank"}
+        if self._usage_state != "read":
+            return {**out, "state": "unread", "reason": "usage_frequency_unread", "frequency": frequency}
+        if w in usage:
+            return {**out, "reason": "observed_usage", "frequency": {**frequency, "rank": usage[w]}}
+        return {**out, "state": "rare_tail", "reason": "broad_tail_without_observed_rank", "frequency": frequency}
+
+    def is_rare_tail(self, word: str) -> bool:
+        """Legacy conservative projection: unread evidence never admits recovery."""
+        return self.rarity_evidence(word)["state"] == "rare_tail"
 
     def prior(self, word: str) -> int:
         """Deterministic frequency prior (lower = preferred)."""
@@ -439,6 +472,8 @@ def looks_non_lexical(surface: str, sentence_initial: bool = False) -> bool:
     token it has no business touching. (When the surface also grounds — e.g. once it is
     in the validity dictionaries — correction never triggers at all; this gate is the
     backstop for valid tokens absent from the dictionaries.)"""
+    if not surface.isascii():
+        return True  # preserve non-ASCII words, symbols and units
     if len(surface) >= 2 and surface.isupper():
         return True  # acronym: GSE, MCP, HDC
     if "'" in surface or "’" in surface:

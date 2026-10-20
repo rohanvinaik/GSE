@@ -53,7 +53,9 @@ rows). Puts each grammatical word in one of the three homes below and only there
 its word-scale prime from `gse/lexicon/pronouns.py` (SOMEONE or SOMETHING); an inflected tier-0
 word takes that word's prime (`am/are/being → BE`, `does/did → DO`, `has → HAVE`; `cannot → CAN,
 NOT`); five words take the prime they realize (`like → LIKE`, `underneath → BELOW`,
-`may/might/perhaps → MAYBE`); every other closed-class word is informational zero, its primes
+`may/might/perhaps → MAYBE`); the periphrastic modals take the primes `NSM_GRAMMAR_MAPPING.md` routes
+them through, one Bank 7 prime each (`could → CAN`, `should → MUST`, `would → MAYBE`; GSE #66); every other closed-class word is
+informational zero (`shall`, like `will`, among them), its primes
 cleared and its row kept (the spellchecker reads its vocabulary from `lexemes`). It overwrites the
 layer-1 rows that took a WordNet noun homograph (`he` = helium, `at` = astatine) and the layer-2
 connectives (`however`, `therefore`), GSE #8, and adds the pronouns that had no row, GSE #9. Held:

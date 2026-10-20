@@ -106,16 +106,10 @@ def test_degree_so_links_nothing(encoder):
     assert "CAUSATION" not in {op.get("op") for op in _ops(_contract(encoder, "It was so good."))}
 
 
-@pytest.mark.xfail(
-    strict=True,
-    raises=AssertionError,
-    reason="#115 S-operator-event: a within-clause operator replaces the clause's event",
-)
 def test_an_operator_keeps_its_clause_event(encoder):
     assert "validate" in _verbs(encoder, "You can even validate it by hand.")
 
 
-@pytest.mark.xfail(strict=True, raises=AssertionError, reason="#116 S-unary: WHAT and ONLY take the empty left window")
 def test_a_unary_operator_takes_its_operand(encoder):
     queries = [op for op in _ops(_contract(encoder, "What is a dog?")) if op.get("op") == "TYPE_QUERY"]
     assert queries and "dog" in json.dumps(queries[0].get("args"))
@@ -142,16 +136,10 @@ def test_a_fronted_conditional_has_both_arms(encoder):
     assert sorted(arms) == ["rain", "stay"]
 
 
-@pytest.mark.xfail(
-    strict=True, raises=AssertionError, reason="#131 S-contrast: CONTRAST stays within-clause and keeps no events"
-)
 def test_a_contrast_keeps_both_clauses(encoder):
     assert {"come", "leave"} <= _verbs(encoder, "He came, but she left.")
 
 
-@pytest.mark.xfail(
-    strict=True, raises=AssertionError, reason="#114 S-embedded: a complement under a coordinated verb is dropped"
-)
 def test_an_embedded_clause_is_kept(encoder):
     assert "leave" in _verbs(encoder, "He laughed and said that she left.")
 
@@ -176,7 +164,7 @@ def _negated(encoder, sentence):
         ("He decided not to go.", [("EVENT", "go")]),  # the inner act, never decide
         ("The man who never smiled left the town.", [("EVENT", "smile")]),  # the relative's own event
         ("She doesn't know that the door is open.", [("EVENT", "know")]),
-        ("I think this doesn't work.", []),  # n't is work's, never think's; work waits for its own clause
+        ("I think this doesn't work.", [("EVENT", "work")]),  # n't is work's, never think's: its own clause (#114)
         ("No, I went home.", []),  # a sign never crosses punctuation
         ("He never did not answer.", []),  # two signs cancel
         ("Neither John nor Mary came.", [("EVENT", "come")]),  # one correlative negation
@@ -193,11 +181,6 @@ def test_a_negated_matrix_keeps_its_complement(encoder):
     assert any(isinstance(arg, dict) and arg.get("op") == "TYPE_ASSERT" for arg in know["args"])
 
 
-@pytest.mark.xfail(
-    strict=True,
-    raises=AssertionError,
-    reason="#88 F-pred-adj: after 'was not' the adjective is tagged ADV, so the copula has no complement",
-)
 def test_a_negated_predicate_adjective_is_a_negated_assertion(encoder):
     assert _negated(encoder, "The food was not good.") == [("TYPE_ASSERT", None)]
 

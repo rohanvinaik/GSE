@@ -121,6 +121,11 @@ def emit(node: Any) -> Any:
         themes = getattr(node, "themes", ())
         if themes:
             features["themes"] = [_leaf_str(t) for t in themes]
+        # The event's modal primes ("might" → MAYBE, #66): a consumer reads the event as possible or necessary, not
+        # as a fact. Absent for a plain clause, so its contract is byte-identical.
+        modal = getattr(node, "modal", ())
+        if modal:
+            features["modal"] = list(modal)
         return {"op": op, "args": args, "features": features}
 
     if name == "Negation":
@@ -172,17 +177,48 @@ def _has_entity_ref(payload: Any) -> bool:
     return False
 
 
-def emit_contract(node: Any, version: str | None = None) -> Dict[str, Any]:
+def emit_contract(
+    node: Any,
+    version: str | None = None,
+    *,
+    include_semantics: bool = False,
+    source_text: str | None = None,
+    relation_primitives=None,
+) -> Dict[str, Any]:
     """Wrap :func:`emit` with the contract version envelope.
 
     One sentence → one predicate tree → one contract dict. The version is
     inferred from the payload (``v2`` if any entity-ref is present, else
     ``v1``), so the Genesis bridge knows whether ``args`` leaves are strings or
-    ``{entity_id, lemma, type_thread}``. Pass ``version`` to override."""
+    ``{entity_id, lemma, type_thread}``. Pass ``version`` to override.
+
+    ``include_semantics`` adds the versioned shared claim decisions beside the
+    gold predicate envelope. The default Genesis-facing payload is unchanged.
+    """
     payload = emit(node)
     if version is None:
         version = CONTRACT_VERSION_V2 if _has_entity_ref(payload) else CONTRACT_VERSION
-    return {"contract_version": version, "predicate": payload}
+    contract = {"contract_version": version, "predicate": payload}
+    if include_semantics:
+        from dataclasses import asdict
+
+        from gse.symbolic.claims import claim_key, commitment, polarity, scope_signature
+        from gse.symbolic.propositions import propositions
+
+        contract["claim_semantics"] = {
+            "version": "gse.claim-semantics/1",
+            "claims": [
+                {
+                    "kind": item.kind,
+                    "commitment": commitment(item),
+                    "polarity": asdict(polarity(item)),
+                    "scope_signature": scope_signature(item),
+                    "comparison": asdict(claim_key(item, relation_primitives)),
+                }
+                for item in propositions(node, source_text=source_text)
+            ],
+        }
+    return contract
 
 
 def emit_json(node: Any, indent: int = 2) -> str:

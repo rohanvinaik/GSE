@@ -383,6 +383,7 @@ def _bind_pronouns(expr: Expression) -> Expression:
                     operation=e.operation,
                     arity=e.arity,
                     args=[_walk(a) for a in e.args],
+                    modal=e.modal,
                 )
             new_args: List[Expression] = [None] * len(e.args)  # type: ignore[list-item]
             # Pass 1: resolve the non-pronoun args first — they are this clause's
@@ -409,6 +410,7 @@ def _bind_pronouns(expr: Expression) -> Expression:
                 operation=e.operation,
                 arity=e.arity,
                 args=new_args,
+                modal=e.modal,
             )
         if isinstance(e, Negation):
             return Negation(operand=_walk(e.operand))
@@ -439,12 +441,22 @@ def resolve(expr: Expression) -> Expression:
     Idempotent: ``resolve(resolve(x))`` produces the same shape as
     ``resolve(x)`` since Entity nodes are passed through unchanged.
     """
+    return resolve_with_sources(expr)["bound"]
+
+
+def resolve_with_sources(expr: Expression) -> dict[str, Expression]:
+    """Expose the same refinement before and after local reference binding.
+
+    The source tree retains each mention's own head and token coordinate. The
+    bound tree preserves resolve's established antecedent-substitution behavior.
+    One refinement and the existing binding authority produce both views.
+    """
     refined = _refine(expr)
     # A whole-tree that is a bare multi-NP Phrase has no predicate to host several args;
     # keep the primary member (the Op branch already flattened ArgSplits inside predicates).
     if isinstance(refined, ArgSplit):
         refined = refined.members[0]
-    return _bind_pronouns(refined)
+    return {"source": refined, "bound": _bind_pronouns(refined)}
 
 
 def _refine(expr: Expression) -> Expression:
@@ -474,6 +486,7 @@ def _refine(expr: Expression) -> Expression:
             operation=expr.operation,
             arity=len(new_args),
             args=new_args,
+            modal=expr.modal,
         )
     if isinstance(expr, Negation):
         return Negation(operand=_refine(expr.operand))

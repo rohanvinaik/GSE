@@ -20,9 +20,13 @@ echo "== ruff format --check"
 $RUFF format --check .
 
 echo "== pytest"
-uv run pytest -q
+uv run pytest
 
 echo "== ty check gse (advisory)"
-uvx ty check gse --output-format concise | tail -1 || true
+if uvx ty check gse --output-format concise; then
+    echo "== ty passed"
+else
+    echo "== ty reported advisory findings (full output above)"
+fi
 
 echo "== gate passed"

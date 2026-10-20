@@ -1,0 +1,1522 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "voice.events/1",
+  "title": "Typed JSON Lines events",
+  "type": "object",
+  "required": [
+    "type",
+    "version"
+  ],
+  "properties": {
+    "type": {
+      "enum": [
+        "sentence",
+        "manifest",
+        "utterance",
+        "document",
+        "end",
+        "heal",
+        "provenance",
+        "recognition"
+      ]
+    },
+    "version": {
+      "const": "voice.reading/1"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "sentence"
+          }
+        }
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "sentence": {
+            "$ref": "#/$defs/sentence"
+          },
+          "source_words": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/word"
+            }
+          }
+        },
+        "required": [
+          "sentence",
+          "source_words"
+        ],
+        "additionalProperties": true
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "manifest"
+          }
+        }
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "sentences": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "expected_utterance_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "expected_utterance_ids"
+              ],
+              "additionalProperties": true
+            }
+          },
+          "utterances": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "utterance_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "source_sentence_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "ordinal": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "content": {
+                  "type": "string"
+                },
+                "speaker": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "addressee": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "quoted": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "utterance_id",
+                "source_sentence_id",
+                "ordinal",
+                "content",
+                "speaker",
+                "addressee",
+                "quoted"
+              ],
+              "additionalProperties": true
+            }
+          }
+        },
+        "required": [
+          "sentences",
+          "utterances"
+        ],
+        "additionalProperties": true
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "utterance"
+          }
+        }
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "utterance_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_sentence_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "ordinal": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "content": {
+            "type": "string"
+          },
+          "speaker": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "addressee": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "quoted": {
+            "type": "boolean"
+          },
+          "state": {
+            "enum": [
+              "read",
+              "unread"
+            ]
+          },
+          "tokens": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "claims": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/claim"
+            }
+          },
+          "structure": {
+            "$ref": "#/$defs/structure"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/error"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "utterance_id",
+          "source_sentence_id",
+          "ordinal",
+          "content",
+          "speaker",
+          "addressee",
+          "quoted",
+          "state",
+          "tokens",
+          "claims",
+          "structure",
+          "error"
+        ],
+        "additionalProperties": true
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "document"
+          }
+        }
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "document": {
+            "$ref": "#/$defs/document"
+          }
+        },
+        "required": [
+          "document"
+        ],
+        "additionalProperties": true
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "end"
+          }
+        }
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "enum": [
+              "complete",
+              "deadline"
+            ]
+          }
+        },
+        "required": [
+          "reason"
+        ],
+        "additionalProperties": true
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "heal"
+          }
+        }
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "heal": {
+            "type": "object",
+            "properties": {
+              "state": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "state"
+            ],
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "heal"
+        ],
+        "additionalProperties": true
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "provenance"
+          }
+        }
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "provenance": {
+            "$ref": "#/$defs/provenance"
+          },
+          "stage": {
+            "enum": [
+              "initial",
+              "final"
+            ]
+          }
+        },
+        "required": [
+          "provenance"
+        ],
+        "additionalProperties": true
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "recognition"
+          }
+        }
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "recognition": {
+            "type": "object",
+            "properties": {
+              "verdict": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "verdict"
+            ],
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "recognition"
+        ],
+        "additionalProperties": true
+      }
+    }
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "span": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "integer",
+          "minimum": 0
+        }
+      ],
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "state": {
+      "enum": [
+        "read",
+        "partial",
+        "unread",
+        "empty"
+      ]
+    },
+    "channel": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "state"
+      ],
+      "additionalProperties": true
+    },
+    "error": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "code"
+      ],
+      "additionalProperties": true
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "original_text": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "minLength": 1
+        },
+        "measured_sha256": {
+          "type": "string",
+          "minLength": 1
+        },
+        "policy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "encoding": {
+          "const": "utf-8"
+        },
+        "source_map": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "measured": {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                ],
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "original": {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                ],
+                "minItems": 2,
+                "maxItems": 2
+              }
+            },
+            "required": [
+              "measured",
+              "original"
+            ],
+            "additionalProperties": true
+          }
+        },
+        "units": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "kind": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "id",
+              "kind"
+            ],
+            "additionalProperties": true
+          }
+        },
+        "exclusions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "type": "string",
+                "minLength": 1
+              },
+              "span": {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                ],
+                "minItems": 2,
+                "maxItems": 2
+              }
+            },
+            "required": [
+              "kind",
+              "span"
+            ],
+            "additionalProperties": true
+          }
+        }
+      },
+      "required": [
+        "original_text",
+        "text",
+        "sha256",
+        "measured_sha256",
+        "policy",
+        "encoding",
+        "source_map",
+        "units",
+        "exclusions"
+      ],
+      "additionalProperties": true
+    },
+    "sentence": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "text": {
+          "type": "string"
+        },
+        "span": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "integer",
+              "minimum": 0
+            }
+          ],
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "original_span": {
+          "anyOf": [
+            {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              ],
+              "minItems": 2,
+              "maxItems": 2
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "paragraph_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "section_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "expected_utterance_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "state": {
+          "enum": [
+            "read",
+            "partial",
+            "unread",
+            "empty"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "text",
+        "span",
+        "original_span",
+        "paragraph_id",
+        "section_id",
+        "expected_utterance_ids",
+        "state"
+      ],
+      "additionalProperties": true
+    },
+    "word": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sentence_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "position": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "surface": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lemma": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "pos": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "span": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "integer",
+              "minimum": 0
+            }
+          ],
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "lexical": {
+          "type": "object",
+          "properties": {
+            "state": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "state"
+          ],
+          "additionalProperties": true
+        },
+        "frequency": {
+          "type": "object",
+          "properties": {
+            "state": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "state"
+          ],
+          "additionalProperties": true
+        },
+        "dictionary": {
+          "type": "object",
+          "properties": {
+            "state": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "state"
+          ],
+          "additionalProperties": true
+        },
+        "vad": {
+          "type": "object",
+          "properties": {
+            "state": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "state"
+          ],
+          "additionalProperties": true
+        },
+        "concreteness": {
+          "type": "object",
+          "properties": {
+            "state": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "state"
+          ],
+          "additionalProperties": true
+        },
+        "structural_epa": {
+          "type": "object",
+          "properties": {
+            "state": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "state"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "id",
+        "sentence_id",
+        "position",
+        "surface",
+        "lemma",
+        "pos",
+        "span",
+        "lexical",
+        "frequency",
+        "dictionary",
+        "vad",
+        "concreteness",
+        "structural_epa"
+      ],
+      "additionalProperties": true
+    },
+    "claim": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "utterance_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_sentence_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "node": {
+          "type": "object"
+        },
+        "scopes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "mode": {
+                "type": "string",
+                "minLength": 1
+              },
+              "owner_kind": {
+                "type": "string",
+                "minLength": 1
+              },
+              "field": {
+                "type": "string",
+                "minLength": 1
+              },
+              "owner": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "mode",
+              "owner_kind",
+              "field",
+              "owner"
+            ],
+            "additionalProperties": true
+          }
+        },
+        "commitment": {
+          "enum": [
+            "committed",
+            "non_committed",
+            "abstained",
+            "in_question",
+            "unresolved"
+          ]
+        },
+        "polarity": {
+          "type": "object",
+          "properties": {
+            "state": {
+              "type": "string",
+              "minLength": 1
+            },
+            "sign": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "state",
+            "sign"
+          ],
+          "additionalProperties": true
+        },
+        "claim_key": {
+          "type": "object",
+          "properties": {
+            "state": {
+              "type": "string",
+              "minLength": 1
+            },
+            "key": {
+              "type": [
+                "array",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "state",
+            "key"
+          ],
+          "additionalProperties": true
+        },
+        "derivation": {
+          "type": "object",
+          "properties": {
+            "state": {
+              "type": "string",
+              "minLength": 1
+            },
+            "source_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "required": [
+            "state",
+            "source_ids"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "id",
+        "utterance_id",
+        "source_sentence_id",
+        "kind",
+        "node",
+        "scopes",
+        "commitment",
+        "polarity",
+        "claim_key",
+        "derivation"
+      ],
+      "additionalProperties": true
+    },
+    "structure": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_origins": {
+          "type": "object",
+          "properties": {
+            "state": {
+              "enum": [
+                "read",
+                "unread"
+              ]
+            }
+          },
+          "required": [
+            "state"
+          ],
+          "additionalProperties": true
+        },
+        "source_tree": {
+          "type": [
+            "object",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "state"
+      ],
+      "additionalProperties": true,
+      "allOf": [
+        {
+          "if": {
+            "anyOf": [
+              {
+                "required": [
+                  "source_origins"
+                ]
+              },
+              {
+                "required": [
+                  "source_tree"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "required": [
+              "source_origins",
+              "source_tree"
+            ],
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "source_origins": {
+                      "properties": {
+                        "state": {
+                          "const": "read"
+                        }
+                      }
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "source_tree": {
+                      "type": "object"
+                    }
+                  }
+                },
+                "else": {
+                  "properties": {
+                    "source_tree": {
+                      "type": "null"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "utterance": {
+      "type": "object",
+      "properties": {
+        "utterance_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_sentence_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ordinal": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "content": {
+          "type": "string"
+        },
+        "speaker": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "addressee": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "quoted": {
+          "type": "boolean"
+        },
+        "state": {
+          "enum": [
+            "read",
+            "unread"
+          ]
+        },
+        "tokens": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "claims": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/claim"
+          }
+        },
+        "structure": {
+          "$ref": "#/$defs/structure"
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "utterance_id",
+        "source_sentence_id",
+        "ordinal",
+        "content",
+        "speaker",
+        "addressee",
+        "quoted",
+        "state",
+        "tokens",
+        "claims",
+        "structure",
+        "error"
+      ],
+      "additionalProperties": true
+    },
+    "document": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "enum": [
+            "read",
+            "partial",
+            "unread",
+            "empty"
+          ]
+        },
+        "channels": {
+          "type": "object",
+          "properties": {
+            "resolution": {
+              "type": "object",
+              "properties": {
+                "state": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "state"
+              ],
+              "additionalProperties": true
+            },
+            "fold": {
+              "type": "object",
+              "properties": {
+                "state": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "state"
+              ],
+              "additionalProperties": true
+            },
+            "graph": {
+              "type": "object",
+              "properties": {
+                "state": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "state"
+              ],
+              "additionalProperties": true
+            },
+            "flags": {
+              "type": "object",
+              "properties": {
+                "state": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "state"
+              ],
+              "additionalProperties": true
+            },
+            "mentions": {
+              "type": "object",
+              "properties": {
+                "state": {
+                  "enum": [
+                    "read",
+                    "partial",
+                    "unread",
+                    "empty"
+                  ]
+                }
+              },
+              "required": [
+                "state"
+              ],
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "resolution",
+            "fold",
+            "graph",
+            "flags"
+          ],
+          "additionalProperties": true
+        },
+        "mentions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/mention"
+          }
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "flags": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "fold": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "tree_sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "tree_index": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "utterance_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "source_sentence_id": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "tree_index",
+              "utterance_id",
+              "source_sentence_id"
+            ],
+            "additionalProperties": true
+          }
+        }
+      },
+      "required": [
+        "state",
+        "channels",
+        "mentions",
+        "nodes",
+        "edges",
+        "flags",
+        "fold",
+        "tree_sources"
+      ],
+      "additionalProperties": true
+    },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "reading_schema": {
+          "const": "voice.reading/1"
+        },
+        "api": {
+          "type": "string",
+          "minLength": 1
+        },
+        "code": {
+          "type": "object",
+          "properties": {
+            "state": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "state"
+          ],
+          "additionalProperties": true
+        },
+        "resources": {
+          "type": "object",
+          "properties": {
+            "basis": {
+              "type": "object",
+              "properties": {
+                "state": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "state"
+              ],
+              "additionalProperties": true
+            },
+            "lexicon": {
+              "type": "object",
+              "properties": {
+                "state": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "state"
+              ],
+              "additionalProperties": true
+            },
+            "frequency": {
+              "type": "object",
+              "properties": {
+                "state": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "state"
+              ],
+              "additionalProperties": true
+            },
+            "dictionary": {
+              "type": "object",
+              "properties": {
+                "state": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "state"
+              ],
+              "additionalProperties": true
+            },
+            "vad": {
+              "type": "object",
+              "properties": {
+                "state": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "state"
+              ],
+              "additionalProperties": true
+            },
+            "concreteness": {
+              "type": "object",
+              "properties": {
+                "state": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "state"
+              ],
+              "additionalProperties": true
+            },
+            "genealogy": {
+              "type": "object",
+              "properties": {
+                "state": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "state"
+              ],
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "basis",
+            "lexicon",
+            "frequency",
+            "dictionary",
+            "vad",
+            "concreteness",
+            "genealogy"
+          ],
+          "additionalProperties": true
+        },
+        "policies": {
+          "type": "object"
+        },
+        "stage": {
+          "enum": [
+            "initial",
+            "final"
+          ]
+        }
+      },
+      "required": [
+        "reading_schema",
+        "api",
+        "code",
+        "resources",
+        "policies"
+      ],
+      "additionalProperties": true
+    },
+    "mention": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "utterance_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_sentence_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "antecedent_policy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "entity_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "lemma": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "pos": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "antecedent_sentence_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "antecedent_mention_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_reason": {
+          "type": "string"
+        },
+        "position": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "source_state": {
+          "enum": [
+            "read",
+            "unread"
+          ]
+        },
+        "path": {
+          "type": "array",
+          "items": {
+            "type": [
+              "string",
+              "integer"
+            ]
+          }
+        },
+        "source_head": {
+          "type": "object"
+        },
+        "resolved_head": {
+          "type": [
+            "object",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "utterance_id",
+        "source_sentence_id",
+        "antecedent_policy",
+        "entity_id",
+        "lemma",
+        "pos",
+        "antecedent_sentence_id",
+        "antecedent_mention_id",
+        "source_reason",
+        "position",
+        "source_state",
+        "path",
+        "source_head",
+        "resolved_head"
+      ],
+      "additionalProperties": true,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "source_state": {
+                "const": "unread"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "entity_id": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

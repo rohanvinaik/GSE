@@ -185,6 +185,7 @@ _CONTRACTED_AUX = {"'m", "'re", "'ve", "'ll", "'d"}
 # not a per-story patch. Conservative set: only words with no common noun/verb entity use
 # (excludes back/still/once/just/even/around, which have strong nominal/adjectival senses).
 _ADV_CLOSED = {
+    "yes",
     "instead",
     "sometimes",
     "now",
@@ -222,6 +223,37 @@ _ADV_CLOSED = {
     "everywhere",
     "nowhere",
 }
+
+_ADV_DEGREE = {
+    "very",
+    "quite",
+    "rather",
+    "too",
+    "always",
+    "never",
+    "often",
+    "usually",
+    "almost",
+    "nearly",
+    "somewhat",
+    "also",
+}
+_COPULA_SKIP = _ADV_DEGREE | {"really", "sometimes"}
+_CONTRACTED_IS_BASES = {
+    "it",
+    "he",
+    "she",
+    "that",
+    "this",
+    "there",
+    "here",
+    "what",
+    "who",
+    "where",
+    "how",
+}
+_COPULA_PARTICIPLE_EXCLUSIONS = {"red", "indeed"}
+_COPULA_PARTICIPLE_MODIFIERS = {"daily"}
 
 # spaCy-style stopword subset sufficient for ``_entity_like`` (title-case
 # function words like "The" at sentence start must read as stops, not entities).
@@ -294,6 +326,83 @@ _PUNCT_RE = re.compile(r"[^\w\s]")
 # a word character comes right before its apostrophe; any other apostrophe is a quote
 # ("'dividing'" keeps its word, where it once became "'d"+"ividing").
 _TOKEN_RE = re.compile(r"\w+(?=(?i:n't))|(?i:n't)|(?i:can)(?=(?i:not)\b)|(?<=\w)'(?i:s|re|ve|ll|d|m)\b|\w+|[^\w\s]")
+
+
+def copula_left_role(word, previous, has_a, is_be, is_neg) -> str:
+    word = word.lower() if isinstance(word, str) else ""
+    previous = previous.lower() if isinstance(previous, str) else ""
+    if is_be:
+        return "BE"
+    if word == "'s" and previous in _CONTRACTED_IS_BASES:
+        return "CONTRACTED_BE"
+    if is_neg:
+        return "SKIP"
+    if word in _COPULA_SKIP:
+        return "SKIP"
+    if word.endswith("ly") and word != "only" and not has_a:
+        return "SKIP"
+    return "OTHER"
+
+
+def copula_participle_kind(word, verb_lemma, has_v, closed_nonverb) -> str:
+    word = word.lower() if isinstance(word, str) else ""
+    verb_lemma = verb_lemma.lower() if isinstance(verb_lemma, str) else ""
+    if (
+        closed_nonverb
+        or word in _COPULA_PARTICIPLE_EXCLUSIONS
+        or not has_v
+        or not verb_lemma
+        or verb_lemma == word
+        or word.endswith("s")
+    ):
+        return "NOT_PARTICIPLE"
+    return "PARTICIPLE"
+
+
+def copula_modifier_context(word, has_a, has_r, next_kind) -> str:
+    word = word.lower() if isinstance(word, str) else ""
+    if (
+        isinstance(next_kind, str)
+        and next_kind == "PARTICIPLE"
+        and (word in _COPULA_PARTICIPLE_MODIFIERS or (has_r and not has_a))
+    ):
+        return "MODIFIER"
+    return "NOT_MODIFIER"
+
+
+def copula_complement_reading(
+    left_roles,
+    participle,
+    modifier_context,
+    has_a,
+    has_n,
+) -> str:
+    if not isinstance(left_roles, list):
+        return "NOT_COMPLEMENT"
+    j = len(left_roles) - 1
+    while j >= 0 and isinstance(left_roles[j], str) and left_roles[j] == "SKIP":
+        j -= 1
+    if j < 0:
+        return "NOT_COMPLEMENT"
+    role = left_roles[j]
+    if not isinstance(role, str) or role not in ("BE", "CONTRACTED_BE"):
+        return "NOT_COMPLEMENT"
+    if modifier_context:
+        return "MODIFIER"
+    if participle:
+        return "PARTICIPLE"
+    if has_a:
+        return "ADJ"
+    if has_n:
+        return "NOUN"
+    return "NO_READING"
+
+
+def copula_degree_reading(word, previous_nominal) -> str:
+    word = word.lower() if isinstance(word, str) else ""
+    if word in _ADV_DEGREE and not previous_nominal:
+        return "DEGREE_ADV"
+    return "DEFER"
 
 
 def _wn_lemma(word: str, pos: str) -> Optional[str]:
@@ -537,6 +646,8 @@ class NativeNLP:
     # --- POS ---------------------------------------------------------------
     def _pos(self, surf: str, i: int, surfaces: List[str]) -> str:
         low = surf.lower()
+        previous = surfaces[i - 1] if i > 0 else ""
+        prev = previous.lower() if isinstance(previous, str) else ""
         if _PUNCT_RE.fullmatch(surf):
             return "PUNCT"
         if surf.replace(",", "").replace(".", "").isdigit():
@@ -597,6 +708,8 @@ class NativeNLP:
         # Closed-class adverb / connective / deictic adverb — no entity reading; tag ADV
         # before the open-class WordNet/title-case logic that was mis-promoting these to
         # NOUN/PROPN and then to AGENT. (See _ADV_CLOSED.)
+        if copula_degree_reading(low, prev in _DET or prev in _POSS_PRON) == "DEGREE_ADV":
+            return "ADV"
         if low in _ADV_CLOSED:
             return "ADV"
 
@@ -604,15 +717,81 @@ class NativeNLP:
         # Title-case alphabetic non-stop word → proper noun (the register's
         # names: Macbeth/Mike/Rex/Spot/Lady — incl. sentence-initial).
         if surf.isalpha() and surf.istitle() and low not in _STOP:
+            at_head = i == 0 or previous in (".", "!", "?")
+            nxt = surfaces[i + 1].lower() if i + 1 < len(surfaces) else ""
+            # Capitalization at a sentence boundary is orthographic evidence.
+            # A known verb followed by a nominal opener is an imperative;
+            # an adverb before a boundary retains its discourse reading.
+            if at_head and wn.synsets(low, pos="v") and nxt in (_DET | _POSS_PRON | _PRON):
+                return "VERB"
+            if at_head and wn.synsets(low, pos="r") and nxt in (",", ".", "!", "?"):
+                return "ADV"
             return "PROPN"
+
+        senses = [wn.synsets(low, pos=pos) for pos in ("v", "n", "a", "s", "r")]
+        mv = wn.morphy(low, "v") or ""
+        has_v = bool(senses[0] or mv)
+        has_n = bool(senses[1])
+        has_a = bool(senses[2] or senses[3])
+        has_r = bool(senses[4])
+        closed_nonverbs = _NEG | _ADV_CLOSED | _ADV_DEGREE | _DET | _PRON | _POSS_PRON | _ADP | _CCONJ | _SCONJ
+        participle_kind = copula_participle_kind(
+            low,
+            mv,
+            has_v,
+            low in closed_nonverbs,
+        )
+        next_kind = "NOT_PARTICIPLE"
+        if i + 1 < len(surfaces):
+            nxt = surfaces[i + 1].lower()
+            next_senses = [wn.synsets(nxt, pos=pos) for pos in ("v", "n", "a", "s", "r")]
+            next_mv = wn.morphy(nxt, "v") or ""
+            next_kind = copula_participle_kind(
+                nxt,
+                next_mv,
+                bool(next_senses[0] or next_mv),
+                nxt in closed_nonverbs,
+            )
+        modifier_context = copula_modifier_context(
+            low,
+            has_a,
+            has_r,
+            next_kind,
+        )
+        left_roles = []
+        j = i - 1
+        while j >= 0:
+            left = surfaces[j].lower()
+            left_previous = surfaces[j - 1].lower() if j > 0 else ""
+            left_a = wn.synsets(left, pos="a")
+            left_s = wn.synsets(left, pos="s")
+            role = copula_left_role(
+                left,
+                left_previous,
+                bool(left_a or left_s),
+                left in _AUX_BE,
+                left in _NEG,
+            )
+            left_roles.append(role)
+            if role != "SKIP":
+                break
+            j -= 1
+        left_roles.reverse()
+        reading = copula_complement_reading(
+            left_roles,
+            participle_kind == "PARTICIPLE",
+            modifier_context == "MODIFIER",
+            has_a,
+            has_n,
+        )
+        if reading == "ADJ":
+            return "ADJ"
+        if reading == "NOUN":
+            return "NOUN"
+
         if low.endswith("ly") and low != "only":
             return "ADV"
 
-        has_v = bool(wn.synsets(low, pos="v") or wn.morphy(low, "v"))
-        has_n = bool(wn.synsets(low, pos="n"))
-        has_a = bool(wn.synsets(low, pos="a") or wn.synsets(low, pos="s"))
-        has_r = bool(wn.synsets(low, pos="r"))
-        prev = surfaces[i - 1].lower() if i > 0 else ""
         # A *demonstrative-or-relativizer* "that" before this word is NOT a determiner context:
         # "the king that FELL" / "the sword that Macbeth HELD" — the verb after a relativizer
         # "that" must stay a verb, not be nominalized like the head of "that DOG". (When "that"
@@ -638,7 +817,7 @@ class NativeNLP:
         # has a noun sense (``the dove``=the bird, not past-of-dive; ``the saw``=the
         # tool): a finite-verb position settles it, exactly as for the morphy-opaque
         # table below. The ``-s`` forms are excluded here (handled positionally below).
-        if (mv := wn.morphy(low, "v")) and mv != low and not low.endswith("s") and not (has_n and prev_det):
+        if mv and mv != low and not low.endswith("s") and not (has_n and prev_det):
             return "VERB"
         # Morphy-opaque irregular past (fell/rose/…): a finite-verb position settles it.
         if low in _IRREGULAR_PAST_VERB and not prev_det:
@@ -655,14 +834,7 @@ class NativeNLP:
         ):
             return "ADJ"
 
-        # Positional disambiguation relative to the verb-inventory / copula.
-        if prev in _AUX_BE:  # predicate complement after a copula
-            if has_a and not has_n:
-                return "ADJ"
-            if has_n:
-                return "NOUN"
-            if has_a:
-                return "ADJ"
+        # Positional disambiguation relative to the verb-inventory.
         if (prev in _AUX_DO or prev in _AUX_MODAL or prev in _NEG or prev == "to") and has_v:
             return "VERB"  # content word after do/modal/neg/to
         # Predicate by exclusion: a verb-capable word right after a nominative SUBJECT pronoun
@@ -764,6 +936,8 @@ class NativeNLP:
     # --- lemma -------------------------------------------------------------
     def _lemma(self, surf: str, pos: str) -> str:
         low = surf.lower()
+        if pos == "PROPN":
+            return low
         # _IRREGULAR_LEMMA holds POS-invariant maps (function words: be/have/do,
         # contraction parts) plus open-class verb-pasts whose surface collides with a
         # distinct noun ("saw"=past-of-see AND the cutting tool). For the latter, a

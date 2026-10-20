@@ -90,19 +90,13 @@ def test_false_prefixes_decline(surface):
     assert resolve_negation(surface) is None
 
 
-def test_recognition_overaccept_is_neutralized_by_the_lexicon_gate(enc):
-    """``resolve_negation`` is a PROPOSER (like ``resolve_degree``); the lexicon is
-    the final authority. ``under`` → ``un`` + ``der`` and ``der`` grounds via a
-    degenerate WordNet numeral synset (``five_hundred.s.01``), so the recognition
-    gate over-accepts — but ``der`` is not in the lexicon, so the encoder's
-    compute-and-override falls back and ``under`` is NOT negated. The two-layer
-    design makes the over-accept harmless. (Tracked: tighten the WordNet gate
-    against numeral-symbol satellites if a real word ever collides.)"""
-    assert resolve_negation("under") == ("der", NEGATION)  # recognition over-accepts
+def test_known_lexical_surface_never_licenses_a_false_prefix(enc):
+    """The old under->der proposal is now refused before encoder admission."""
+    assert resolve_negation("under") is None
     base, _, _ = enc._lookup_lexeme("der")
-    assert not base  # but der is OOV
+    assert not base
     got = [t.word_primitives for t in enc.encode("under").tokens if t.word_primitives]
-    assert got == []  # so under is untouched
+    assert got == []
 
 
 # --- Piece 3: encoder compute-and-override (un-X == negate(X)) -------------------

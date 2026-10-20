@@ -40,7 +40,8 @@ def test_a_plain_event_is_stated_outright(encoder):
 
 def test_a_negated_event_is_negated(encoder):
     swim = _with_verb(encoder, "Birds cannot swim.", "swim")
-    assert (swim.status, _modes(swim)) == ("negated", ["negated"])
+    # "cannot" is can + not: the negation is outermost, over the modal's own scope (#66), and it decides the status.
+    assert (swim.status, _modes(swim)) == ("negated", ["negated", "possible"])
 
 
 def test_a_belief_complement_keeps_its_attitude_verb_and_its_negation(encoder):

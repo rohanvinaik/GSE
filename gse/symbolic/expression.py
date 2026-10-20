@@ -23,6 +23,7 @@ from dataclasses import dataclass, field, replace
 from typing import TYPE_CHECKING, Dict, List, Optional, Sequence, Tuple, Union
 
 from gse.api.trace import ClauseSpan, OperationTrace, OperatorTrace, TokenTrace
+from gse.symbolic.modality import modal_primes
 
 if TYPE_CHECKING:
     from gse.symbolic.predicates import Predicate
@@ -104,12 +105,15 @@ class Op:
             ``SET_DIFF``). This is what B2 dispatches on.
         arity: 1 or 2 — number of arguments the operator consumes.
         args: the lifted argument expressions.
+        modal: an EVENT's modal primes, from its clause's auxiliaries ("might" → ``("MAYBE",)``); empty otherwise
+            (#66). Every rebuild of an Op carries it.
     """
 
     primitive: str
     operation: str
     arity: int
     args: List["Operand"]
+    modal: tuple = ()
 
 
 # A symbolic Expression is one of the four structural node types above.
@@ -134,6 +138,7 @@ _NEGATION_LEMMAS = frozenset({"not", "no", "never", "neither", "nor", "nothing"}
 # Where a negation's sign lands (sentence_architecture.md L27, L45, L66): a negation is a direction, not an operation,
 # and it is taken by the nearest operator or atomic after it. What each token to its right can do with the sign:
 _UPTAKE_PASS_POS = frozenset({"DET"})  # transparent to everything: "not the only", "isn't a better dog than"
+_UPTAKE_QUOTATION_MARKS = frozenset({'"', "“", "”", "'", "‘", "’", "``", "''"})
 # Crossed on the way to an atomic, never to an operator: "not to memorize", "not in the band", "not always". An
 # operator reached across one of these is not the negation's ("not sure if": the if-clause is not negated).
 _UPTAKE_GAP_POS = frozenset({"AUX", "PART", "ADP", "SCONJ", "CCONJ", "ADV"})
@@ -206,10 +211,14 @@ def _unbound_intensifier(tok: TokenTrace) -> bool:
 
 
 def _uptake_kinds(right: Sequence[TokenTrace]) -> List[str]:
-    """The kind of each token to a negation's right (see :func:`sign_uptake`), up to the first punctuation mark: a
-    sign never crosses one ("He did not, and she left")."""
+    """The kind of each token to a negation's right (see :func:`sign_uptake`), up to the first punctuation mark other
+    than a quotation mark. Quotation marks are transparent; other punctuation stops the sign ("He did not, and she
+    left")."""
     kinds: List[str] = []
     for i, tok in enumerate(right):
+        if tok.token in _UPTAKE_QUOTATION_MARKS:
+            kinds.append("pass")
+            continue
         if tok.pos == "PUNCT":
             break
         following = right[i + 1] if i + 1 < len(right) else None
@@ -264,16 +273,25 @@ def _sign_owners(tokens: Sequence[TokenTrace]) -> Signs:
     return owners
 
 
+def node_negation_count(negations: List[str]) -> int:
+    """Number of licensed signs on one owner; correlative neither/nor counts once."""
+    count = sum(1 for lemma in negations if lemma not in _CORRELATIVE_NEGATIONS)
+    correlative = any(lemma in _CORRELATIVE_NEGATIONS for lemma in negations)
+    if "neither" in negations or (count == 0 and correlative):
+        count += 1
+    return count
+
+
 def node_polarity(negations: List[str]) -> str:
     """A node's polarity from the lemmas of the negations that land on it (pure — pinned): ``"negated"`` or
     ``"affirmed"``.
 
     Signs compose (SA L27: a sign is a direction, not an operation), so two landing on one node cancel ("He never did
-    not answer"). A correlative is no second sign: neither…nor negates once ("Neither John nor Mary came"), and a nor
-    continues a negation already there ("He did not come, nor did she")."""
-    count = sum(1 for lemma in negations if lemma not in _CORRELATIVE_NEGATIONS)
-    correlative = any(lemma in _CORRELATIVE_NEGATIONS for lemma in negations)
-    return "negated" if count % 2 == 1 or (count == 0 and correlative) else "affirmed"
+    not answer"). A correlative contributes exactly one sign when "neither" is present, or when a correlative is
+    present with no other negation. Otherwise a nor beside another negation contributes none. The node is negated
+    exactly when the total number of signs is odd."""
+    count = node_negation_count(negations)
+    return "negated" if count % 2 == 1 else "affirmed"
 
 
 def _takes_sign(tokens: Sequence[TokenTrace], signs: Signs, own_verb: Optional[int] = None) -> bool:
@@ -294,8 +312,12 @@ def _takes_sign(tokens: Sequence[TokenTrace], signs: Signs, own_verb: Optional[i
 
 
 def _negated_operators(signs: Signs) -> set:
-    """The trigger positions of the operators a negation lands on."""
-    return {owner for code, owner, _ in signs.values() if code == "operator"}
+    """The trigger positions whose landed signs compose to a negated operator."""
+    by_owner: Dict[int, List[str]] = {}
+    for code, owner, lemma in signs.values():
+        if code == "operator":
+            by_owner.setdefault(owner, []).append(lemma)
+    return {owner for owner, lemmas in by_owner.items() if node_polarity(lemmas) == "negated"}
 
 
 def _atom_from_token(token: TokenTrace, role: Optional[str] = None) -> Atom:
@@ -725,8 +747,23 @@ def _try_event(
         # ("stood by the window") never slides into the patient slot (args[1]).
         if oblique_atoms:
             args.append(Phrase(atoms=oblique_atoms))
-    event = Op(primitive=verb.lemma, operation="EVENT", arity=len(args), args=args)
+    # A modal auxiliary before the verb ("might", "can", "must") qualifies the event, keyed on its primes (#66).
+    modal = modal_primes([t.word_primitives for t in tokens if t.position < verb.position and t.pos == "AUX"])
+    event = Op(primitive=verb.lemma, operation="EVENT", arity=len(args), args=args, modal=modal)
     return Negation(operand=event) if negated else event
+
+
+def _with_clause_modal(expr: Expression, tokens: Sequence[TokenTrace]) -> Expression:
+    """EXPR with its clause's modal primes, when the clause has a modal auxiliary and EXPR is a bare or negated ``Op``
+    that carries none yet ("This should be clear" → the copula's TYPE_ASSERT, #66). Anything else is returned as is."""
+    modal = modal_primes([t.word_primitives for t in tokens if t.pos == "AUX"])
+    if not modal:
+        return expr
+    if isinstance(expr, Op) and not expr.modal:
+        return replace(expr, modal=modal)
+    if isinstance(expr, Negation) and isinstance(expr.operand, Op) and not expr.operand.modal:
+        return Negation(operand=replace(expr.operand, modal=modal))
+    return expr
 
 
 def _build_operator_op(
@@ -740,7 +777,10 @@ def _build_operator_op(
     signs = _sign_owners(tokens) if signs is None else signs
     args: List[Operand] = []
     if op.arity >= 1:
-        args.append(_build_arg_expression(op.arg1_tokens, tokens, operator_positions, signs))
+        # A unary operator scopes the following operand.  Its left window is
+        # still retained in the trace, but is not its argument (WHAT/ONLY).
+        positions = op.arg2_tokens if op.arity == 1 else op.arg1_tokens
+        args.append(_build_arg_expression(positions, tokens, operator_positions, signs))
     if op.arity >= 2:
         args.append(_build_arg_expression(op.arg2_tokens, tokens, operator_positions, signs))
     built = Op(
@@ -776,10 +816,41 @@ def _left_fold_operators(
             operation=core.operation,
             arity=core.arity,
             args=new_args,
+            modal=core.modal,
         )
         if isinstance(next_op, Negation):
             expr = Negation(operand=expr)
     return expr
+
+
+def operator_composition_plan(
+    operation: str, arity: int, left_predicate: bool, right_predicate: bool, head: bool
+) -> str:
+    """Choose attachment by operation, arity and clause structure.
+
+    post: _ in ('clause_pair', 'open_discourse', 'qualified_core', 'matrix_core', 'operand')
+    """
+    if operation == "CONTRAST" and left_predicate and right_predicate:
+        return "clause_pair"
+    if head and right_predicate and operation in ("CONTRAST", "CONSEQUENCE", "CLAUSE_COORD", "TEMPORAL"):
+        return "open_discourse"
+    if arity == 1 and (left_predicate or right_predicate):
+        return "qualified_core"
+    if operation in ("BIND_EQ", "TYPE_QUERY", "DEGREE_QUERY") and left_predicate and right_predicate:
+        return "matrix_core"
+    return "operand"
+
+
+def _clause_core(tokens, shared_subject, signs):
+    """Build the recoverable clause before a qualifying operator is attached."""
+    copula = _try_copula_type_assertion(tokens, signs)
+    if copula is not None:
+        return _with_clause_modal(copula, tokens)
+    event = _try_event(tokens, shared_subject=shared_subject, signs=signs)
+    if event is not None:
+        return event
+    atoms = [_atom_from_token(t) for t in tokens]
+    return atoms[0] if len(atoms) == 1 else Phrase(atoms=atoms)
 
 
 def _build_clause_expr(
@@ -814,43 +885,60 @@ def _build_clause_expr(
     ]
     clause_ops = [operators[i] for i in clause.operator_indices]
 
-    # SUBORDINATOR absorbed the matrix verb. Operators otherwise get ABSOLUTE precedence
-    # here (the verb-EVENT fallback below is only reached when there are no operators), so a
-    # "soft" operator — BIND_EQ from a subordinating 'as'/'like', TYPE_QUERY/DEGREE_QUERY from
-    # 'what'/'how' — consumes the matrix verb: "grinned as the tracks came into view" →
-    # EQUALITY(grin, …) instead of EVENT(grin). When a content VERB flanks such an operator on
-    # BOTH sides (the matrix verb before it, the subordinate clause's verb after it), the matrix
-    # verb wins: build the EVENT (the subordinate folds into its complement — recovered, not lost).
-    # A comparative ("Mike runs faster than Rex") has a content verb only BEFORE the operator, so
-    # it never triggers and Comparison is preserved. (GSE-native structural fix #2, 2026-06-24.)
-    _SOFT_ABSORBERS = {"BIND_EQ", "TYPE_QUERY", "DEGREE_QUERY"}
-    soft = [op for op in clause_ops if op.operation in _SOFT_ABSORBERS]
-    if soft:
-        soft_pos = min(op.position for op in soft)
-
-        def _content_verb(t: TokenTrace) -> bool:
-            return t.pos == "VERB" and t.lemma != _COPULA_LEMMA and not t.is_operator
-
-        before = any(_content_verb(t) for t in clause_tokens if t.position < soft_pos)
-        after = any(_content_verb(t) for t in clause_tokens if t.position > soft_pos)
-        if before and after:
-            event_op = _try_event(clause_tokens, shared_subject=shared_subject, signs=signs)
-            if event_op is not None:
-                return event_op
-
     if not clause_ops:
-        copula_op = _try_copula_type_assertion(clause_tokens, signs)
-        if copula_op is not None:
-            return copula_op
-        event_op = _try_event(clause_tokens, shared_subject=shared_subject, signs=signs)
-        if event_op is not None:
-            return event_op
-        atoms = [_atom_from_token(t) for t in clause_tokens]
-        if not atoms:
-            return Phrase(atoms=[])
-        if len(atoms) == 1:
-            return atoms[0]
-        return Phrase(atoms=atoms)
+        return _clause_core(clause_tokens, shared_subject, signs)
+
+    for index in sorted(clause.operator_indices, key=lambda i: operators[i].position):
+        op = operators[index]
+        left = [t for t in clause_tokens if t.position < op.position]
+        right = [t for t in clause_tokens if t.position > op.position]
+        left_pred = any(t.pos == "VERB" or (t.pos == "AUX" and t.lemma == "be") for t in left if not t.is_operator)
+        right_pred = any(t.pos == "VERB" or (t.pos == "AUX" and t.lemma == "be") for t in right if not t.is_operator)
+        head = not any(t.pos not in ("PUNCT", "CCONJ", "SCONJ") for t in left)
+        plan = operator_composition_plan(op.operation, op.arity, left_pred, right_pred, head)
+        remaining = [i for i in clause.operator_indices if i != index]
+        args: List[Operand]
+        if plan == "clause_pair":
+            before = replace(
+                clause,
+                token_end=op.position,
+                operator_indices=[i for i in remaining if operators[i].position < op.position],
+            )
+            after = replace(
+                clause,
+                token_start=op.position + 1,
+                operator_indices=[i for i in remaining if operators[i].position > op.position],
+            )
+            args = [
+                _build_clause_expr(
+                    before, tokens, operators, operator_positions, excluded, drop_relativizers, shared_subject, signs
+                ),
+                _build_clause_expr(
+                    after, tokens, operators, operator_positions, excluded, drop_relativizers, shared_subject, signs
+                ),
+            ]
+        elif plan in ("qualified_core", "open_discourse"):
+            inner_clause = replace(clause, operator_indices=remaining)
+            core = _build_clause_expr(
+                inner_clause,
+                tokens,
+                operators,
+                operator_positions,
+                excluded | {op.position},
+                drop_relativizers,
+                shared_subject,
+                signs,
+            )
+            args = [Phrase(atoms=[]), core] if plan == "open_discourse" else [core]
+        elif plan == "matrix_core":
+            event = _try_event(clause_tokens, shared_subject=shared_subject, signs=signs)
+            if event is not None:
+                return event
+            continue
+        else:
+            continue
+        built = Op(primitive=op.primitive, operation=op.operation, arity=len(args), args=args)
+        return Negation(operand=built) if op.position in _negated_operators(signs) else built
 
     built = [_build_operator_op(op, tokens, operator_positions, signs) for op in clause_ops]
     if len(built) == 1:
@@ -905,7 +993,9 @@ def _wrap_antecedent(
                 wrapped = wrapped or w
             else:
                 new_args.append(a)
-        return Op(primitive=expr.primitive, operation=expr.operation, arity=expr.arity, args=new_args), wrapped
+        return Op(
+            primitive=expr.primitive, operation=expr.operation, arity=expr.arity, args=new_args, modal=expr.modal
+        ), wrapped
     if isinstance(expr, Negation):
         inner, w = _wrap_antecedent(expr.operand, position, restriction, operation, primitive)
         return Negation(operand=inner), w
@@ -958,6 +1048,9 @@ def _build_control(
     decide to go"); a negation whose sign lands on the inner verb negates the
     inner event only ("He decided not to go").
     """
+    attachment = emb.attaches_to_token
+    if attachment is None:
+        return matrix
     signs = _sign_owners(tokens) if signs is None else signs
     inner_tokens = [
         t for t in tokens if emb.token_start <= t.position < emb.token_end and not (t.pos == "PART" and t.lemma == "to")
@@ -968,7 +1061,7 @@ def _build_control(
         inner_expr = _build_clause_expr(emb, tokens, operators, operator_positions, signs=signs)
         return _wrap_antecedent(
             matrix,
-            emb.attaches_to_token,
+            attachment,
             inner_expr,
             operation="CONTROL",
             primitive="CTRL",
@@ -1001,8 +1094,59 @@ def _build_control(
         operation="CONTROL",
         arity=3,
         args=[subject, controller, inner_event],
+        modal=core.modal,
     )
     return _rewrap_negations(control, negations)
+
+
+def _attach_complement(expr: Expression, verb_lemma: str, inner: Expression) -> Tuple[Expression, str]:
+    """Attach a clausal complement to the event of the verb that takes it.
+
+    complex_sentence_architecture.md §3.3 nests a TO-clause as "the *object-set* of the outer verb", and §3.4: "A
+    clause-predicate may be an **operand** to a clause-operator". A 'that'-complement nests the same way, so it
+    attaches to the EVENT of the verb that takes it, wherever that EVENT sits in the tree. When that EVENT cannot be
+    identified uniquely, abstain and leave the tree unchanged ("never a silent wrong commit"). Codes: ``attached``,
+    ``absent`` (no EVENT of that verb), ``ambiguous`` (two or more).
+    """
+    matches: List[Op] = []
+
+    def _search(node: Operand) -> None:
+        if isinstance(node, Op):
+            if node.operation == "EVENT" and node.primitive == verb_lemma:
+                matches.append(node)
+            for arg in node.args:
+                _search(arg)
+        elif isinstance(node, Negation):
+            _search(node.operand)
+
+    _search(expr)
+    if not matches:
+        return expr, "absent"
+    if len(matches) > 1:
+        return expr, "ambiguous"
+    target = matches[0]
+
+    def _replace(node: Expression) -> Expression:
+        # Only the path down to the target is rebuilt; every other node stays the same object.
+        if node is target:
+            args: List[Operand] = [a for a in target.args if not _is_all_punct(a)]
+            args.append(inner)
+            return Op(primitive=target.primitive, operation="EVENT", arity=len(args), args=args, modal=target.modal)
+        if isinstance(node, Op):
+            new_args: List[Operand] = [
+                _replace(a) if isinstance(a, (Atom, Phrase, Negation, Op)) else a for a in node.args
+            ]
+            if all(new is old for new, old in zip(new_args, node.args)):
+                return node
+            return Op(
+                primitive=node.primitive, operation=node.operation, arity=node.arity, args=new_args, modal=node.modal
+            )
+        if isinstance(node, Negation):
+            operand = _replace(node.operand)
+            return node if operand is node.operand else Negation(operand=operand)
+        return node
+
+    return _replace(expr), "attached"
 
 
 def _build_complement(
@@ -1021,33 +1165,26 @@ def _build_complement(
     builds as a normal event once the 'that' mark and modal auxiliaries are
     dropped (the copula "be" is kept). A negated matrix keeps its Negation around
     the event that gains the complement ("She doesn't know that the door is
-    open"). Falls back to the matrix unchanged when it isn't a clean EVENT (e.g.
-    an already-nested matrix), losing nothing vs today.
+    open"). The complement goes to the reporting verb's own EVENT wherever it sits
+    ("He laughed and said that she left"); when that EVENT is absent or not
+    unique, the matrix comes back unchanged (``_attach_complement``).
     """
+    if emb.attaches_to_token is None:  # the caller skips these; abstain here too, so the function is total
+        return matrix
     signs = _sign_owners(tokens) if signs is None else signs
+    span = [t for t in tokens if emb.token_start <= t.position < emb.token_end]
     content = [
         t
-        for t in tokens
-        if emb.token_start <= t.position < emb.token_end
-        and not (t.pos == "SCONJ" and t.lemma == "that")
-        and not (t.pos == "AUX" and t.lemma != _COPULA_LEMMA)
+        for t in span
+        if not (t.pos == "SCONJ" and t.lemma == "that") and not (t.pos == "AUX" and t.lemma != _COPULA_LEMMA)
     ]
     inner = _try_copula_type_assertion(content, signs) or _try_event(content, signs=signs)
     if inner is None:
         inner = _build_clause_expr(emb, tokens, operators, operator_positions, signs=signs)
-    core, negations = _unwrap_negations(matrix)
-    if isinstance(core, Op) and core.operation == "EVENT":
-        # Drop a punctuation-only arg the matrix may have picked up (the trailing
-        # "." parses as an object), so the complement is the clean patient.
-        base_args = [a for a in core.args if not _is_all_punct(a)]
-        event = Op(
-            primitive=core.primitive,
-            operation="EVENT",
-            arity=len(base_args) + 1,
-            args=base_args + [inner],
-        )
-        return _rewrap_negations(event, negations)
-    return matrix
+    # The modal auxiliaries are dropped to build the event; their primes still qualify it ("I think he should leave",
+    # "She knows he could leave", #66).
+    inner = _with_clause_modal(inner, span)
+    return _attach_complement(matrix, tokens[emb.attaches_to_token].lemma, inner)[0]
 
 
 def _build_relative_restriction(
@@ -1091,7 +1228,8 @@ def _build_relative_restriction(
     args: List[Operand] = [Phrase(atoms=agent_atoms)]
     if patient_atoms:
         args.append(Phrase(atoms=patient_atoms))
-    event = Op(primitive=verb.lemma, operation="EVENT", arity=len(args), args=args)
+    modal = modal_primes([t.word_primitives for t in inner_tokens if t.position < verb.position and t.pos == "AUX"])
+    event = Op(primitive=verb.lemma, operation="EVENT", arity=len(args), args=args, modal=modal)
     return Negation(operand=event) if _takes_sign(inner_tokens, signs, verb.position) else event
 
 
@@ -1122,25 +1260,9 @@ def from_trace(trace: OperationTrace) -> Expression:
     if trace.clauses:
         return _from_trace_segmented(trace, tokens, operator_positions, signs)
 
-    if not operators:
-        # No COMP_* operator, but a copula "X is a Y" carries a synthesized
-        # TYPE_ASSERT from the encoder's syntactic-role tags.
-        copula_op = _try_copula_type_assertion(tokens, signs)
-        if copula_op is not None:
-            return copula_op
-        event_op = _try_event(tokens, signs=signs)
-        if event_op is not None:
-            return event_op
-        # No operators — fold every content token into a Phrase / Atom.
-        content_atoms = [_atom_from_token(t) for t in tokens]
-        if len(content_atoms) == 1:
-            return content_atoms[0]
-        return Phrase(atoms=content_atoms)
-
-    built_ops = [_build_operator_op(op, tokens, operator_positions, signs) for op in operators]
-    if len(built_ops) == 1:
-        return built_ops[0]
-    return _left_fold_operators(built_ops)
+    # The implicit single clause and segmented clauses share attachment rules.
+    clause = ClauseSpan(0, 0, len(tokens), list(range(len(operators))))
+    return _build_clause_expr(clause, tokens, operators, operator_positions, signs=signs)
 
 
 def _event_subject_atoms(expr: Expression) -> Optional[Sequence]:

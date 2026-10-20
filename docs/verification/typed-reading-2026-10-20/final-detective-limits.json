@@ -1,0 +1,54 @@
+{
+  "schema": "gse.detective-closeout-limits/1",
+  "user_direction": "Record limits and finish project",
+  "scope": "GSE/SquishOS implementation; Detective repair excluded; issue filing authorized separately",
+  "full_mutation_certification": false,
+  "observations": [
+    {
+      "scope": "metrics profile loader",
+      "state": "UNGATEABLE: target module load refusal; no mutant evaluation; ordinary intent suite retained",
+      "artifact": "/private/tmp/squishos-detective-metrics-live-r5xplj0g/evidence/profile-converge.run.log",
+      "artifact_sha256": "248e5a131b24a24d21f3ec29abbc8ca5fd805bbf7fdbfa74f27c8673faa91f7e"
+    },
+    {
+      "scope": "reference partition loader",
+      "state": "STOP: relative-import module load refusal; canonical import succeeds",
+      "artifact": "/private/tmp/squishos-detective-reference-passage-1lulyl07/.assessment/reference.partition.load-refusal.transcript.txt",
+      "artifact_sha256": "0b99c72d9fcbc38eddfb84632c9d442ad2d3b67e1429cdbf785706dd981671d7"
+    },
+    {
+      "scope": "two-sign flag identifier",
+      "state": "prescribed OUTPUT mutant ID rejected; no equivalence certificate fabricated",
+      "artifact": "/private/tmp/squishos-detective-reference-passage-1lulyl07/.assessment/supported_key.flag1.stdout.txt",
+      "artifact_sha256": "450c89114a04d90f507b13567499c4b057e4415a7525cf45f288752da72b930d"
+    },
+    {
+      "scope": "reading stopped",
+      "state": "user-directed stop after deadline retries; heading not certified",
+      "artifact": "/private/tmp/squishos-detective-reading-qo0rn70l/READING-STOPPED.json",
+      "artifact_sha256": "a1d1775c7befcd08f1f62f044f7b782c85fa07e8e2a567b5712a921c2ff4cc17"
+    }
+  ],
+  "gse_audit_remove": {
+    "target": "gse/symbolic/expression.py::node_negation_count",
+    "termination": "user-directed KeyboardInterrupt, exit130",
+    "test_snapshot": "/private/tmp/gse-negation-audit-pre-remove.tar",
+    "test_files_changed_from_pre_remove_snapshot": []
+  },
+  "crosshair": "Not confirmed, not proof",
+  "lintgate": "session wrapper unavailable; no green claim",
+  "unassessed_functions": "Initial scope inventory remains an initial inventory; additional terminal/partial assessment reports retained in isolated walks. No complete-project mutation claim.",
+  "github_issues": [
+    {
+      "number": 128,
+      "url": "https://github.com/rohanvinaik/Detective/issues/128",
+      "body_sha256": "6e0a6055708d89873b31bb7ef1e1fca8144e67ee3aec3ae5cae020107f6ec053"
+    },
+    {
+      "number": 129,
+      "url": "https://github.com/rohanvinaik/Detective/issues/129",
+      "body_sha256": "2a451acc5b619113b821e53a4c728c6404f7cf038f3426d50fa457ba01676b99"
+    }
+  ],
+  "related_existing_classification_issue": "https://github.com/rohanvinaik/Detective/issues/110"
+}

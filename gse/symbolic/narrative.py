@@ -331,45 +331,25 @@ _CONTAINER_FIELDS = {
 
 
 def _collect_predicates(tree: Any) -> List[Any]:
-    """A COMPLETE, modality-aware predicate walk for the skeleton, so events nested under a
-    top-level coordination ("betrayed Aldric and murdered him") are not lost. Unlike
-    ``queries.predicates()`` — a plain flatten of every predicate — it yields a Negation itself
-    rather than unwrapping it, descends into NP Coordination, and skips content the tree does not
-    assert (a belief complement, an irrealis inner act) by the shared
-    :func:`gse.symbolic.modality.assertion_mode` decision."""
+    """Committed story projection of the shared extraction.
+
+    The spine records actual positive/negative events. Possible, required,
+    questioned, conditional and abstained content remains in the complete
+    reading, but cannot become a categorical story edge. Lexical polarity
+    stays in the original predicate; syntactic negative events retain NOT.
+    """
+    from gse.symbolic.claims import commitment, polarity
+    from gse.symbolic.expression import Negation
+    from gse.symbolic.propositions import propositions
+
     out: List[Any] = []
-    seen: set = set()
-
-    def walk(n: Any) -> None:
-        if n is None or id(n) in seen:
-            return
-        seen.add(id(n))
-        nm = type(n).__name__
-        if nm in _YIELD_PREDS:
-            out.append(n)
-        if nm == "Coordination":
-            for m in getattr(n, "members", []) or []:
-                walk(m)
-        elif nm == "Op":
-            for a in getattr(n, "args", []) or []:
-                walk(a)
-        else:
-            fields = _CONTAINER_FIELDS.get(nm, ())
-            mode = assertion_mode(nm, getattr(n, "verb", "") or "", type(getattr(n, "patient", None)).__name__)
-            # Don't descend into a propositional-attitude verb's clausal complement ("believes he is
-            # righteous"): it is the believer's BELIEF, surfaced as a theme by from_document, not a
-            # standalone assertion — yielding it separately would assert the belief as a fact.
-            if mode == "belief":
-                fields = tuple(f for f in fields if f != "patient")
-            # Don't descend into an IRREALIS control matrix's inner act ("refuses to bow",
-            # "plots to kill"): the inner event is negated or unasserted — yielding it bare
-            # inverts/asserts it as fact. The matrix edge still carries the story signal.
-            elif mode == "irrealis":
-                fields = tuple(f for f in fields if f != "inner")
-            for f in fields:
-                walk(getattr(n, f, None))
-
-    walk(tree)
+    for proposition in propositions(tree):
+        if proposition.kind not in _YIELD_PREDS or commitment(proposition) != "committed":
+            continue
+        signed = polarity(proposition)
+        if signed.state != "read":
+            continue
+        out.append(Negation(proposition.node) if signed.clause_sign == -1 else proposition.node)
     return out
 
 
@@ -926,19 +906,23 @@ def trace_info(contract: Dict[str, Any]) -> float:
 
 
 def _trace_key(contract: Dict[str, Any]):
-    """Identity for redundancy-merge: op + verb + the sorted referents it relates."""
-    p = contract.get("predicate", contract)
-    if not isinstance(p, dict):
-        return ("?",)
-    verb = (p.get("features", {}) or {}).get("verb", "")
-    ids = tuple(
-        sorted(
-            a.get("entity_id") if _is_ref(a) else str(a)
-            for a in (p.get("args", []) or [])
-            if _is_ref(a) or isinstance(a, str)
-        )
-    )
-    return (p.get("op", ""), verb, ids)
+    """Exact emitted-structure projection for compaction, never truth identity.
+
+    Ordered argument slots, nested NOT, modal/context features and themes
+    survive. Provenance annotations do not change the represented statement.
+    This is a serialized-envelope projection, not a second commitment policy.
+    """
+
+    def freeze(value):
+        if _is_ref(value):
+            return ("referent", value["entity_id"])
+        if isinstance(value, dict):
+            return tuple(sorted((key, freeze(item)) for key, item in value.items() if key != "_prov"))
+        if isinstance(value, (list, tuple)):
+            return tuple(freeze(item) for item in value)
+        return value
+
+    return ("gse.emitted-structure/1", freeze(contract.get("predicate", contract)))
 
 
 def document_sn(contracts: List[Dict[str, Any]]) -> float:
