@@ -37,3 +37,11 @@ KNOWN_RESIDUALS: unsupported source projections and nominal targets, unresolved 
 alternatives, construction basis gaps (including THIS), source families not wired into construction,
 and scale calibration remain named rather than filled by default. A sparse release preserves them;
 it does not claim complete semantic coverage or a measured performance gain.
+
+FOLLOW-UP (ordinary-family experiment): the authored boundary contract in
+`docs/program/LEXICON_FAMILY_BOUNDARIES.md` distinguishes checked required states,
+optional selections and individually warranted conditional silences. It never supplies a deleted
+required component from its expected profile. The family packet preserves independent scope and
+ablation checks, successive local-model development trials, quantified-time decomposition,
+signed-pole vocabulary and separate structural/lexical surface accounting. Coordinate completion
+does not waive the remaining semantic disagreements or the validator's uncertified Detective run.

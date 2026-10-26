@@ -1,0 +1,105 @@
+{
+  "schema": "GSE_FAMILY_LIBRARY_VOCABULARY_PROBE_V3",
+  "scope": "REAL_PUBLIC_BUILD_API_WITH_SCHEMA_ONLY_SELECTOR; NOT_MODEL_SEMANTIC_ACCURACY",
+  "calls": 7,
+  "basis_then": {
+    "+1": "THEN",
+    "-1": "NOW"
+  },
+  "vocabulary_checks": [
+    {
+      "coordinate": "DO",
+      "options": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "signed_prime_names": {
+        "+1": "DO"
+      },
+      "matches_core_basis": true,
+      "then_positive_offered": false
+    },
+    {
+      "coordinate": "IF",
+      "options": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "signed_prime_names": {
+        "+1": "IF"
+      },
+      "matches_core_basis": true,
+      "then_positive_offered": false
+    },
+    {
+      "coordinate": "KNOW",
+      "options": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "signed_prime_names": {
+        "+1": "KNOW"
+      },
+      "matches_core_basis": true,
+      "then_positive_offered": false
+    },
+    {
+      "coordinate": "QUANTITY",
+      "options": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "signed_prime_names": {
+        "+1": "QUANTITY"
+      },
+      "matches_core_basis": true,
+      "then_positive_offered": false
+    },
+    {
+      "coordinate": "THEN",
+      "options": [
+        "-1",
+        "0",
+        "empty"
+      ],
+      "signed_prime_names": {
+        "+1": "THEN",
+        "-1": "NOW"
+      },
+      "matches_core_basis": true,
+      "then_positive_offered": false
+    },
+    {
+      "coordinate": "MAYBE",
+      "options": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "signed_prime_names": {
+        "+1": "MAYBE"
+      },
+      "matches_core_basis": true,
+      "then_positive_offered": false
+    },
+    {
+      "coordinate": "MUST",
+      "options": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "signed_prime_names": {
+        "+1": "MUST"
+      },
+      "matches_core_basis": true,
+      "then_positive_offered": false
+    }
+  ],
+  "all_match": true,
+  "positive_then_offered": false
+}

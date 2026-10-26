@@ -97,6 +97,7 @@ class ReadingSeed:
     fill: Callable[[Resolution, int, dict], dict] | None = None
     exceptions: tuple[RuleException, ...] = ()
     context: dict = field(default_factory=dict)
+    completion_check: Callable[[Resolution], dict] | None = None
 
 
 @dataclass
@@ -113,6 +114,7 @@ class Construction:
     closed: Resolution | None
     proposal: dict | None
     proposed_closure: Resolution | None
+    definition_accounting: dict = field(default_factory=dict)
 
 
 def _vector(state: Resolution, provisional: list[str]) -> dict:
@@ -270,7 +272,10 @@ def construct_reading(
         if proposed_closure.code == "RESOLVED":
             proposal = _vector(proposed_closure, provisional)
     # Export only a vector whose domains were resolved by constraints before any blanket closure.
-    resolved = seed.exportable and state.code == "RESOLVED"
+    accounting = seed.completion_check(state) if seed.completion_check is not None else {"code": "NO_FAMILY_ACCOUNT"}
+    resolved = (
+        seed.exportable and state.code == "RESOLVED" and accounting["code"] in {"NO_FAMILY_ACCOUNT", "FAMILY_ACCOUNTED"}
+    )
     return seed.layout(
         Construction(
             initial=initial,
@@ -283,5 +288,6 @@ def construct_reading(
             closed=state if resolved else None,
             proposal=proposal,
             proposed_closure=proposed_closure,
+            definition_accounting=accounting,
         )
     )

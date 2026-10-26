@@ -1,0 +1,893 @@
+{
+  "schema": "GSE_SURFACE_COVERAGE_SPLIT_RECEIPT_V1",
+  "artifact_scope": "Existing full-source e40a832 artifact identified by the root task; no later family-boundary rebuild",
+  "build_dir": "/private/tmp/gse-lexicon-release-build-20261025",
+  "command": "command.json",
+  "audit_cli_exit_code": 0,
+  "accounting_scope": "Surface-evidence strata only; mixed uses remain ambiguous; lexical-candidate denominator is possible lexical surface use, not token POS/sense accuracy",
+  "build_artifact_identity_status": "BUILD_ARTIFACTS_CONSISTENT",
+  "artifact_hashes": [
+    {
+      "name": "manifest.json",
+      "sha256": "7652c751a9c04dac76fd72962a4708c8bc06b67d710d1819a85d85d9488bd7aa"
+    },
+    {
+      "name": "sparse.jsonl",
+      "sha256": "10ed972ff4468529cf7e95c605692a48bfb0ad6ffa94fbe026ac4d8016d5bfc5"
+    },
+    {
+      "name": "structures.jsonl",
+      "sha256": "1db401681e47af5e91d58b5ad48ce9fd28da6f3ad8dda18c12fe1f3db0178912"
+    },
+    {
+      "name": "vectors.jsonl",
+      "sha256": "4252baf9481413464fa81e03e2efdb7718cc41fdb5fb439ee457806ce12eab8d"
+    },
+    {
+      "name": "words.jsonl",
+      "sha256": "d8dc831ef798c7a8e90cd649cf590a5488c8ed982597efc01d520bc996587fde"
+    }
+  ],
+  "build_manifest_sha256": "7652c751a9c04dac76fd72962a4708c8bc06b67d710d1819a85d85d9488bd7aa",
+  "audit_implementation_sha256": "aa8bec6b932636bf262384fe2456c6336ab3cd313948d84d2c689747010e3a30",
+  "native_source_pin_outcomes": {
+    "SOURCE_PIN_MATCH": 6846
+  },
+  "corpora": {
+    "brown": {
+      "code": "CORPUS_MEASURED",
+      "eligible_tokens": 1006060,
+      "groups": 15,
+      "original_global_metrics": {
+        "declared_surface": {
+          "matched_tokens": 941884,
+          "eligible_tokens": 1006060,
+          "fraction": 0.9362105639822674,
+          "threshold": 0.9,
+          "code": "THRESHOLD_MET"
+        },
+        "native_record": {
+          "matched_tokens": 941884,
+          "eligible_tokens": 1006060,
+          "fraction": 0.9362105639822674,
+          "threshold": 0.9,
+          "code": "THRESHOLD_MET"
+        },
+        "surface_home": {
+          "matched_tokens": 852909,
+          "eligible_tokens": 1006060,
+          "fraction": 0.8477715046816293,
+          "threshold": 0.9,
+          "code": "THRESHOLD_NOT_MET"
+        },
+        "structural_home": {
+          "matched_tokens": 286498,
+          "eligible_tokens": 1006060,
+          "fraction": 0.2847722799833012,
+          "threshold": 0.9,
+          "code": "THRESHOLD_NOT_MET"
+        },
+        "signed_evidence": {
+          "matched_tokens": 184149,
+          "eligible_tokens": 1006060,
+          "fraction": 0.18303977893962586,
+          "threshold": 0.9,
+          "code": "THRESHOLD_NOT_MET"
+        },
+        "zero_evidence": {
+          "matched_tokens": 436715,
+          "eligible_tokens": 1006060,
+          "fraction": 0.4340844482436435,
+          "threshold": 0.9,
+          "code": "THRESHOLD_NOT_MET"
+        },
+        "head_zero_evidence": {
+          "matched_tokens": 436715,
+          "eligible_tokens": 1006060,
+          "fraction": 0.4340844482436435,
+          "threshold": 0.9,
+          "code": "THRESHOLD_NOT_MET"
+        },
+        "non_head_zero_evidence": {
+          "matched_tokens": 4928,
+          "eligible_tokens": 1006060,
+          "fraction": 0.004898316203804942,
+          "threshold": 0.9,
+          "code": "THRESHOLD_NOT_MET"
+        },
+        "non_head_written_evidence": {
+          "matched_tokens": 141294,
+          "eligible_tokens": 1006060,
+          "fraction": 0.14044291592946742,
+          "threshold": 0.9,
+          "code": "THRESHOLD_NOT_MET"
+        },
+        "any_complete_coordinate_profile": {
+          "matched_tokens": 74742,
+          "eligible_tokens": 1006060,
+          "fraction": 0.07429179174204321,
+          "threshold": 0.9,
+          "code": "THRESHOLD_NOT_MET"
+        },
+        "all_readings_coordinate_complete": {
+          "matched_tokens": 0,
+          "eligible_tokens": 1006060,
+          "fraction": 0.0,
+          "threshold": 0.9,
+          "code": "THRESHOLD_NOT_MET"
+        }
+      },
+      "surface_evidence_strata": {
+        "STRUCTURAL_ONLY": {
+          "code": "STRUCTURAL_ONLY",
+          "scope": "SURFACE_EVIDENCE_ONLY; NOT_TOKEN_POS_OR_SENSE_ACCURACY",
+          "token_mass": 177028,
+          "surface_types": 22,
+          "fraction_of_eligible_tokens": 0.17596167226606763,
+          "observed_evidence_token_mass": {
+            "signed_evidence": 0,
+            "zero_evidence": 0,
+            "head_zero_evidence": 0,
+            "non_head_zero_evidence": 0,
+            "non_head_written_evidence": 0,
+            "any_complete_coordinate_profile": 0,
+            "all_readings_coordinate_complete": 0
+          },
+          "lexical_metrics": {
+            "signed_evidence": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_APPLICABLE_STRUCTURAL_ONLY"
+            },
+            "zero_evidence": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_APPLICABLE_STRUCTURAL_ONLY"
+            },
+            "head_zero_evidence": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_APPLICABLE_STRUCTURAL_ONLY"
+            },
+            "non_head_zero_evidence": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_APPLICABLE_STRUCTURAL_ONLY"
+            },
+            "non_head_written_evidence": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_APPLICABLE_STRUCTURAL_ONLY"
+            },
+            "any_complete_coordinate_profile": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_APPLICABLE_STRUCTURAL_ONLY"
+            },
+            "all_readings_coordinate_complete": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_APPLICABLE_STRUCTURAL_ONLY"
+            }
+          },
+          "use_accounting": "STRUCTURAL_HOME_WITH_NO_EMITTED_LEXICAL_READING"
+        },
+        "LEXICAL_ONLY": {
+          "code": "LEXICAL_ONLY",
+          "scope": "SURFACE_EVIDENCE_ONLY; NOT_TOKEN_POS_OR_SENSE_ACCURACY",
+          "token_mass": 566411,
+          "surface_types": 20659,
+          "fraction_of_eligible_tokens": 0.5629992246983281,
+          "observed_evidence_token_mass": {
+            "signed_evidence": 141579,
+            "zero_evidence": 355614,
+            "head_zero_evidence": 355614,
+            "non_head_zero_evidence": 4928,
+            "non_head_written_evidence": 112892,
+            "any_complete_coordinate_profile": 63511,
+            "all_readings_coordinate_complete": 0
+          },
+          "lexical_metrics": {
+            "signed_evidence": {
+              "matched_tokens": 141579,
+              "eligible_tokens": 566411,
+              "fraction": 0.2499580693171566,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            },
+            "zero_evidence": {
+              "matched_tokens": 355614,
+              "eligible_tokens": 566411,
+              "fraction": 0.62783738310167,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            },
+            "head_zero_evidence": {
+              "matched_tokens": 355614,
+              "eligible_tokens": 566411,
+              "fraction": 0.62783738310167,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            },
+            "non_head_zero_evidence": {
+              "matched_tokens": 4928,
+              "eligible_tokens": 566411,
+              "fraction": 0.008700396002196286,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            },
+            "non_head_written_evidence": {
+              "matched_tokens": 112892,
+              "eligible_tokens": 566411,
+              "fraction": 0.19931110094966376,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            },
+            "any_complete_coordinate_profile": {
+              "matched_tokens": 63511,
+              "eligible_tokens": 566411,
+              "fraction": 0.11212882518171434,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            },
+            "all_readings_coordinate_complete": {
+              "matched_tokens": 0,
+              "eligible_tokens": 566411,
+              "fraction": 0.0,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            }
+          },
+          "use_accounting": "POSSIBLE_LEXICAL_USE_BY_SURFACE"
+        },
+        "MIXED_LEXICAL_STRUCTURAL": {
+          "code": "MIXED_LEXICAL_STRUCTURAL",
+          "scope": "SURFACE_EVIDENCE_ONLY; NOT_TOKEN_POS_OR_SENSE_ACCURACY",
+          "token_mass": 109470,
+          "surface_types": 35,
+          "fraction_of_eligible_tokens": 0.10881060771723357,
+          "observed_evidence_token_mass": {
+            "signed_evidence": 42570,
+            "zero_evidence": 81101,
+            "head_zero_evidence": 81101,
+            "non_head_zero_evidence": 0,
+            "non_head_written_evidence": 28402,
+            "any_complete_coordinate_profile": 11231,
+            "all_readings_coordinate_complete": 0
+          },
+          "lexical_metrics": {
+            "signed_evidence": {
+              "matched_tokens": 42570,
+              "eligible_tokens": 109470,
+              "fraction": 0.38887366401753903,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            },
+            "zero_evidence": {
+              "matched_tokens": 81101,
+              "eligible_tokens": 109470,
+              "fraction": 0.7408513748058829,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            },
+            "head_zero_evidence": {
+              "matched_tokens": 81101,
+              "eligible_tokens": 109470,
+              "fraction": 0.7408513748058829,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            },
+            "non_head_zero_evidence": {
+              "matched_tokens": 0,
+              "eligible_tokens": 109470,
+              "fraction": 0.0,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            },
+            "non_head_written_evidence": {
+              "matched_tokens": 28402,
+              "eligible_tokens": 109470,
+              "fraction": 0.25945007764684386,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            },
+            "any_complete_coordinate_profile": {
+              "matched_tokens": 11231,
+              "eligible_tokens": 109470,
+              "fraction": 0.10259431807801224,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            },
+            "all_readings_coordinate_complete": {
+              "matched_tokens": 0,
+              "eligible_tokens": 109470,
+              "fraction": 0.0,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            }
+          },
+          "use_accounting": "LEXICAL_AND_STRUCTURAL_USES_UNDISAMBIGUATED"
+        },
+        "UNHOMED": {
+          "code": "UNHOMED",
+          "scope": "SURFACE_EVIDENCE_ONLY; NOT_TOKEN_POS_OR_SENSE_ACCURACY",
+          "token_mass": 153151,
+          "surface_types": 26323,
+          "fraction_of_eligible_tokens": 0.15222849531837068,
+          "observed_evidence_token_mass": {
+            "signed_evidence": 0,
+            "zero_evidence": 0,
+            "head_zero_evidence": 0,
+            "non_head_zero_evidence": 0,
+            "non_head_written_evidence": 0,
+            "any_complete_coordinate_profile": 0,
+            "all_readings_coordinate_complete": 0
+          },
+          "lexical_metrics": {
+            "signed_evidence": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_EVALUABLE_UNHOMED"
+            },
+            "zero_evidence": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_EVALUABLE_UNHOMED"
+            },
+            "head_zero_evidence": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_EVALUABLE_UNHOMED"
+            },
+            "non_head_zero_evidence": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_EVALUABLE_UNHOMED"
+            },
+            "non_head_written_evidence": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_EVALUABLE_UNHOMED"
+            },
+            "any_complete_coordinate_profile": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_EVALUABLE_UNHOMED"
+            },
+            "all_readings_coordinate_complete": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_EVALUABLE_UNHOMED"
+            }
+          },
+          "use_accounting": "LEXICAL_OR_STRUCTURAL_ROLE_UNKNOWN"
+        }
+      },
+      "lexical_candidate_surface_coverage": {
+        "code": "POSSIBLE_LEXICAL_SURFACE_DENOMINATOR",
+        "scope": "SURFACE_EVIDENCE_ONLY; NOT_TOKEN_POS_OR_SENSE_ACCURACY",
+        "included_strata": [
+          "LEXICAL_ONLY",
+          "MIXED_LEXICAL_STRUCTURAL"
+        ],
+        "eligible_tokens": 675881,
+        "surface_types": 20694,
+        "structural_only_tokens_excluded": 177028,
+        "unhomed_tokens_excluded_with_role_unknown": 153151,
+        "mixed_tokens_included_without_sense_selection": 109470,
+        "metrics": {
+          "signed_evidence": {
+            "matched_tokens": 184149,
+            "eligible_tokens": 675881,
+            "fraction": 0.272457725546361,
+            "threshold": 0.9,
+            "code": "THRESHOLD_NOT_MET"
+          },
+          "zero_evidence": {
+            "matched_tokens": 436715,
+            "eligible_tokens": 675881,
+            "fraction": 0.646141850414496,
+            "threshold": 0.9,
+            "code": "THRESHOLD_NOT_MET"
+          },
+          "head_zero_evidence": {
+            "matched_tokens": 436715,
+            "eligible_tokens": 675881,
+            "fraction": 0.646141850414496,
+            "threshold": 0.9,
+            "code": "THRESHOLD_NOT_MET"
+          },
+          "non_head_zero_evidence": {
+            "matched_tokens": 4928,
+            "eligible_tokens": 675881,
+            "fraction": 0.007291224342746726,
+            "threshold": 0.9,
+            "code": "THRESHOLD_NOT_MET"
+          },
+          "non_head_written_evidence": {
+            "matched_tokens": 141294,
+            "eligible_tokens": 675881,
+            "fraction": 0.20905159340179708,
+            "threshold": 0.9,
+            "code": "THRESHOLD_NOT_MET"
+          },
+          "any_complete_coordinate_profile": {
+            "matched_tokens": 74742,
+            "eligible_tokens": 675881,
+            "fraction": 0.11058455556525483,
+            "threshold": 0.9,
+            "code": "THRESHOLD_NOT_MET"
+          },
+          "all_readings_coordinate_complete": {
+            "matched_tokens": 0,
+            "eligible_tokens": 675881,
+            "fraction": 0.0,
+            "threshold": 0.9,
+            "code": "THRESHOLD_NOT_MET"
+          }
+        }
+      },
+      "global_denominator_unchanged": true
+    },
+    "gutenberg": {
+      "code": "CORPUS_MEASURED",
+      "eligible_tokens": 2110165,
+      "groups": 18,
+      "original_global_metrics": {
+        "declared_surface": {
+          "matched_tokens": 1990168,
+          "eligible_tokens": 2110165,
+          "fraction": 0.9431338307667884,
+          "threshold": 0.9,
+          "code": "THRESHOLD_MET"
+        },
+        "native_record": {
+          "matched_tokens": 1990168,
+          "eligible_tokens": 2110165,
+          "fraction": 0.9431338307667884,
+          "threshold": 0.9,
+          "code": "THRESHOLD_MET"
+        },
+        "surface_home": {
+          "matched_tokens": 1741239,
+          "eligible_tokens": 2110165,
+          "fraction": 0.8251672262595579,
+          "threshold": 0.9,
+          "code": "THRESHOLD_NOT_MET"
+        },
+        "structural_home": {
+          "matched_tokens": 604939,
+          "eligible_tokens": 2110165,
+          "fraction": 0.2866785298779953,
+          "threshold": 0.9,
+          "code": "THRESHOLD_NOT_MET"
+        },
+        "signed_evidence": {
+          "matched_tokens": 486102,
+          "eligible_tokens": 2110165,
+          "fraction": 0.23036208069037256,
+          "threshold": 0.9,
+          "code": "THRESHOLD_NOT_MET"
+        },
+        "zero_evidence": {
+          "matched_tokens": 912459,
+          "eligible_tokens": 2110165,
+          "fraction": 0.4324112095499641,
+          "threshold": 0.9,
+          "code": "THRESHOLD_NOT_MET"
+        },
+        "head_zero_evidence": {
+          "matched_tokens": 912459,
+          "eligible_tokens": 2110165,
+          "fraction": 0.4324112095499641,
+          "threshold": 0.9,
+          "code": "THRESHOLD_NOT_MET"
+        },
+        "non_head_zero_evidence": {
+          "matched_tokens": 13432,
+          "eligible_tokens": 2110165,
+          "fraction": 0.006365379010646087,
+          "threshold": 0.9,
+          "code": "THRESHOLD_NOT_MET"
+        },
+        "non_head_written_evidence": {
+          "matched_tokens": 349714,
+          "eligible_tokens": 2110165,
+          "fraction": 0.16572827243367225,
+          "threshold": 0.9,
+          "code": "THRESHOLD_NOT_MET"
+        },
+        "any_complete_coordinate_profile": {
+          "matched_tokens": 219814,
+          "eligible_tokens": 2110165,
+          "fraction": 0.10416910525954132,
+          "threshold": 0.9,
+          "code": "THRESHOLD_NOT_MET"
+        },
+        "all_readings_coordinate_complete": {
+          "matched_tokens": 0,
+          "eligible_tokens": 2110165,
+          "fraction": 0.0,
+          "threshold": 0.9,
+          "code": "THRESHOLD_NOT_MET"
+        }
+      },
+      "surface_evidence_strata": {
+        "STRUCTURAL_ONLY": {
+          "code": "STRUCTURAL_ONLY",
+          "scope": "SURFACE_EVIDENCE_ONLY; NOT_TOKEN_POS_OR_SENSE_ACCURACY",
+          "token_mass": 371762,
+          "surface_types": 22,
+          "fraction_of_eligible_tokens": 0.17617674447258863,
+          "observed_evidence_token_mass": {
+            "signed_evidence": 0,
+            "zero_evidence": 0,
+            "head_zero_evidence": 0,
+            "non_head_zero_evidence": 0,
+            "non_head_written_evidence": 0,
+            "any_complete_coordinate_profile": 0,
+            "all_readings_coordinate_complete": 0
+          },
+          "lexical_metrics": {
+            "signed_evidence": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_APPLICABLE_STRUCTURAL_ONLY"
+            },
+            "zero_evidence": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_APPLICABLE_STRUCTURAL_ONLY"
+            },
+            "head_zero_evidence": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_APPLICABLE_STRUCTURAL_ONLY"
+            },
+            "non_head_zero_evidence": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_APPLICABLE_STRUCTURAL_ONLY"
+            },
+            "non_head_written_evidence": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_APPLICABLE_STRUCTURAL_ONLY"
+            },
+            "any_complete_coordinate_profile": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_APPLICABLE_STRUCTURAL_ONLY"
+            },
+            "all_readings_coordinate_complete": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_APPLICABLE_STRUCTURAL_ONLY"
+            }
+          },
+          "use_accounting": "STRUCTURAL_HOME_WITH_NO_EMITTED_LEXICAL_READING"
+        },
+        "LEXICAL_ONLY": {
+          "code": "LEXICAL_ONLY",
+          "scope": "SURFACE_EVIDENCE_ONLY; NOT_TOKEN_POS_OR_SENSE_ACCURACY",
+          "token_mass": 1136300,
+          "surface_types": 17741,
+          "fraction_of_eligible_tokens": 0.5384886963815626,
+          "observed_evidence_token_mass": {
+            "signed_evidence": 366575,
+            "zero_evidence": 750088,
+            "head_zero_evidence": 750088,
+            "non_head_zero_evidence": 13432,
+            "non_head_written_evidence": 275349,
+            "any_complete_coordinate_profile": 192099,
+            "all_readings_coordinate_complete": 0
+          },
+          "lexical_metrics": {
+            "signed_evidence": {
+              "matched_tokens": 366575,
+              "eligible_tokens": 1136300,
+              "fraction": 0.32260406582768636,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            },
+            "zero_evidence": {
+              "matched_tokens": 750088,
+              "eligible_tokens": 1136300,
+              "fraction": 0.6601144064067588,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            },
+            "head_zero_evidence": {
+              "matched_tokens": 750088,
+              "eligible_tokens": 1136300,
+              "fraction": 0.6601144064067588,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            },
+            "non_head_zero_evidence": {
+              "matched_tokens": 13432,
+              "eligible_tokens": 1136300,
+              "fraction": 0.011820821966030098,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            },
+            "non_head_written_evidence": {
+              "matched_tokens": 275349,
+              "eligible_tokens": 1136300,
+              "fraction": 0.24232068995863768,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            },
+            "any_complete_coordinate_profile": {
+              "matched_tokens": 192099,
+              "eligible_tokens": 1136300,
+              "fraction": 0.16905658716888144,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            },
+            "all_readings_coordinate_complete": {
+              "matched_tokens": 0,
+              "eligible_tokens": 1136300,
+              "fraction": 0.0,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            }
+          },
+          "use_accounting": "POSSIBLE_LEXICAL_USE_BY_SURFACE"
+        },
+        "MIXED_LEXICAL_STRUCTURAL": {
+          "code": "MIXED_LEXICAL_STRUCTURAL",
+          "scope": "SURFACE_EVIDENCE_ONLY; NOT_TOKEN_POS_OR_SENSE_ACCURACY",
+          "token_mass": 233177,
+          "surface_types": 35,
+          "fraction_of_eligible_tokens": 0.11050178540540669,
+          "observed_evidence_token_mass": {
+            "signed_evidence": 119527,
+            "zero_evidence": 162371,
+            "head_zero_evidence": 162371,
+            "non_head_zero_evidence": 0,
+            "non_head_written_evidence": 74365,
+            "any_complete_coordinate_profile": 27715,
+            "all_readings_coordinate_complete": 0
+          },
+          "lexical_metrics": {
+            "signed_evidence": {
+              "matched_tokens": 119527,
+              "eligible_tokens": 233177,
+              "fraction": 0.512602014778473,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            },
+            "zero_evidence": {
+              "matched_tokens": 162371,
+              "eligible_tokens": 233177,
+              "fraction": 0.6963422636023279,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            },
+            "head_zero_evidence": {
+              "matched_tokens": 162371,
+              "eligible_tokens": 233177,
+              "fraction": 0.6963422636023279,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            },
+            "non_head_zero_evidence": {
+              "matched_tokens": 0,
+              "eligible_tokens": 233177,
+              "fraction": 0.0,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            },
+            "non_head_written_evidence": {
+              "matched_tokens": 74365,
+              "eligible_tokens": 233177,
+              "fraction": 0.3189208198064132,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            },
+            "any_complete_coordinate_profile": {
+              "matched_tokens": 27715,
+              "eligible_tokens": 233177,
+              "fraction": 0.11885820642687743,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            },
+            "all_readings_coordinate_complete": {
+              "matched_tokens": 0,
+              "eligible_tokens": 233177,
+              "fraction": 0.0,
+              "threshold": 0.9,
+              "code": "THRESHOLD_NOT_MET"
+            }
+          },
+          "use_accounting": "LEXICAL_AND_STRUCTURAL_USES_UNDISAMBIGUATED"
+        },
+        "UNHOMED": {
+          "code": "UNHOMED",
+          "scope": "SURFACE_EVIDENCE_ONLY; NOT_TOKEN_POS_OR_SENSE_ACCURACY",
+          "token_mass": 368926,
+          "surface_types": 30154,
+          "fraction_of_eligible_tokens": 0.1748327737404421,
+          "observed_evidence_token_mass": {
+            "signed_evidence": 0,
+            "zero_evidence": 0,
+            "head_zero_evidence": 0,
+            "non_head_zero_evidence": 0,
+            "non_head_written_evidence": 0,
+            "any_complete_coordinate_profile": 0,
+            "all_readings_coordinate_complete": 0
+          },
+          "lexical_metrics": {
+            "signed_evidence": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_EVALUABLE_UNHOMED"
+            },
+            "zero_evidence": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_EVALUABLE_UNHOMED"
+            },
+            "head_zero_evidence": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_EVALUABLE_UNHOMED"
+            },
+            "non_head_zero_evidence": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_EVALUABLE_UNHOMED"
+            },
+            "non_head_written_evidence": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_EVALUABLE_UNHOMED"
+            },
+            "any_complete_coordinate_profile": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_EVALUABLE_UNHOMED"
+            },
+            "all_readings_coordinate_complete": {
+              "matched_tokens": 0,
+              "eligible_tokens": 0,
+              "fraction": null,
+              "threshold": 0.9,
+              "code": "NOT_EVALUABLE_UNHOMED"
+            }
+          },
+          "use_accounting": "LEXICAL_OR_STRUCTURAL_ROLE_UNKNOWN"
+        }
+      },
+      "lexical_candidate_surface_coverage": {
+        "code": "POSSIBLE_LEXICAL_SURFACE_DENOMINATOR",
+        "scope": "SURFACE_EVIDENCE_ONLY; NOT_TOKEN_POS_OR_SENSE_ACCURACY",
+        "included_strata": [
+          "LEXICAL_ONLY",
+          "MIXED_LEXICAL_STRUCTURAL"
+        ],
+        "eligible_tokens": 1369477,
+        "surface_types": 17776,
+        "structural_only_tokens_excluded": 371762,
+        "unhomed_tokens_excluded_with_role_unknown": 368926,
+        "mixed_tokens_included_without_sense_selection": 233177,
+        "metrics": {
+          "signed_evidence": {
+            "matched_tokens": 486102,
+            "eligible_tokens": 1369477,
+            "fraction": 0.35495448262365853,
+            "threshold": 0.9,
+            "code": "THRESHOLD_NOT_MET"
+          },
+          "zero_evidence": {
+            "matched_tokens": 912459,
+            "eligible_tokens": 1369477,
+            "fraction": 0.6662828218363652,
+            "threshold": 0.9,
+            "code": "THRESHOLD_NOT_MET"
+          },
+          "head_zero_evidence": {
+            "matched_tokens": 912459,
+            "eligible_tokens": 1369477,
+            "fraction": 0.6662828218363652,
+            "threshold": 0.9,
+            "code": "THRESHOLD_NOT_MET"
+          },
+          "non_head_zero_evidence": {
+            "matched_tokens": 13432,
+            "eligible_tokens": 1369477,
+            "fraction": 0.009808123831214398,
+            "threshold": 0.9,
+            "code": "THRESHOLD_NOT_MET"
+          },
+          "non_head_written_evidence": {
+            "matched_tokens": 349714,
+            "eligible_tokens": 1369477,
+            "fraction": 0.2553631787901513,
+            "threshold": 0.9,
+            "code": "THRESHOLD_NOT_MET"
+          },
+          "any_complete_coordinate_profile": {
+            "matched_tokens": 219814,
+            "eligible_tokens": 1369477,
+            "fraction": 0.16050944995790364,
+            "threshold": 0.9,
+            "code": "THRESHOLD_NOT_MET"
+          },
+          "all_readings_coordinate_complete": {
+            "matched_tokens": 0,
+            "eligible_tokens": 1369477,
+            "fraction": 0.0,
+            "threshold": 0.9,
+            "code": "THRESHOLD_NOT_MET"
+          }
+        }
+      },
+      "global_denominator_unchanged": true
+    }
+  },
+  "previous_global_metric_comparison": {
+    "baseline_path": "docs/verification/lexicon-rebuild/execution-2026-10-25/release-audit.json",
+    "code": "GLOBAL_METRICS_IDENTICAL",
+    "baseline_build_manifest_sha256": "7652c751a9c04dac76fd72962a4708c8bc06b67d710d1819a85d85d9488bd7aa",
+    "corpora_identical": {
+      "brown": true,
+      "gutenberg": true
+    }
+  }
+}

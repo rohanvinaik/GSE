@@ -1,0 +1,67 @@
+Existing full-source e40a832 artifact identified by the root task; no later family-boundary rebuild
+Surface-evidence strata only; mixed uses remain ambiguous; lexical-candidate denominator is possible lexical surface use, not token POS/sense accuracy
+CLI exit: 0
+Build identity check: BUILD_ARTIFACTS_CONSISTENT
+Manifest SHA256: 7652c751a9c04dac76fd72962a4708c8bc06b67d710d1819a85d85d9488bd7aa
+
+brown: all eligible tokens=1006060; group count=15
+  ORIGINAL ALL-TOKEN surface_home: 852909/1006060 (THRESHOLD_NOT_MET)
+  ORIGINAL ALL-TOKEN signed_evidence: 184149/1006060 (THRESHOLD_NOT_MET)
+  ORIGINAL ALL-TOKEN zero_evidence: 436715/1006060 (THRESHOLD_NOT_MET)
+  ORIGINAL ALL-TOKEN any_complete_coordinate_profile: 74742/1006060 (THRESHOLD_NOT_MET)
+  ORIGINAL ALL-TOKEN all_readings_coordinate_complete: 0/1006060 (THRESHOLD_NOT_MET)
+  STRUCTURAL_ONLY: mass=177028, surface_types=22, accounting=STRUCTURAL_HOME_WITH_NO_EMITTED_LEXICAL_READING
+    signed_evidence: observed_mass=0, metric=0/0 (NOT_APPLICABLE_STRUCTURAL_ONLY)
+    any_complete_coordinate_profile: observed_mass=0, metric=0/0 (NOT_APPLICABLE_STRUCTURAL_ONLY)
+    all_readings_coordinate_complete: observed_mass=0, metric=0/0 (NOT_APPLICABLE_STRUCTURAL_ONLY)
+  LEXICAL_ONLY: mass=566411, surface_types=20659, accounting=POSSIBLE_LEXICAL_USE_BY_SURFACE
+    signed_evidence: observed_mass=141579, metric=141579/566411 (THRESHOLD_NOT_MET)
+    any_complete_coordinate_profile: observed_mass=63511, metric=63511/566411 (THRESHOLD_NOT_MET)
+    all_readings_coordinate_complete: observed_mass=0, metric=0/566411 (THRESHOLD_NOT_MET)
+  MIXED_LEXICAL_STRUCTURAL: mass=109470, surface_types=35, accounting=LEXICAL_AND_STRUCTURAL_USES_UNDISAMBIGUATED
+    signed_evidence: observed_mass=42570, metric=42570/109470 (THRESHOLD_NOT_MET)
+    any_complete_coordinate_profile: observed_mass=11231, metric=11231/109470 (THRESHOLD_NOT_MET)
+    all_readings_coordinate_complete: observed_mass=0, metric=0/109470 (THRESHOLD_NOT_MET)
+  UNHOMED: mass=153151, surface_types=26323, accounting=LEXICAL_OR_STRUCTURAL_ROLE_UNKNOWN
+    signed_evidence: observed_mass=0, metric=0/0 (NOT_EVALUABLE_UNHOMED)
+    any_complete_coordinate_profile: observed_mass=0, metric=0/0 (NOT_EVALUABLE_UNHOMED)
+    all_readings_coordinate_complete: observed_mass=0, metric=0/0 (NOT_EVALUABLE_UNHOMED)
+  POSSIBLE LEXICAL SURFACES: denominator=675881, surface_types=20694, ambiguous_mixed_mass=109470, structural_only_excluded=177028, unhomed_excluded_role_unknown=153151
+    signed_evidence: 184149/675881 (THRESHOLD_NOT_MET)
+    zero_evidence: 436715/675881 (THRESHOLD_NOT_MET)
+    head_zero_evidence: 436715/675881 (THRESHOLD_NOT_MET)
+    non_head_zero_evidence: 4928/675881 (THRESHOLD_NOT_MET)
+    non_head_written_evidence: 141294/675881 (THRESHOLD_NOT_MET)
+    any_complete_coordinate_profile: 74742/675881 (THRESHOLD_NOT_MET)
+    all_readings_coordinate_complete: 0/675881 (THRESHOLD_NOT_MET)
+
+gutenberg: all eligible tokens=2110165; group count=18
+  ORIGINAL ALL-TOKEN surface_home: 1741239/2110165 (THRESHOLD_NOT_MET)
+  ORIGINAL ALL-TOKEN signed_evidence: 486102/2110165 (THRESHOLD_NOT_MET)
+  ORIGINAL ALL-TOKEN zero_evidence: 912459/2110165 (THRESHOLD_NOT_MET)
+  ORIGINAL ALL-TOKEN any_complete_coordinate_profile: 219814/2110165 (THRESHOLD_NOT_MET)
+  ORIGINAL ALL-TOKEN all_readings_coordinate_complete: 0/2110165 (THRESHOLD_NOT_MET)
+  STRUCTURAL_ONLY: mass=371762, surface_types=22, accounting=STRUCTURAL_HOME_WITH_NO_EMITTED_LEXICAL_READING
+    signed_evidence: observed_mass=0, metric=0/0 (NOT_APPLICABLE_STRUCTURAL_ONLY)
+    any_complete_coordinate_profile: observed_mass=0, metric=0/0 (NOT_APPLICABLE_STRUCTURAL_ONLY)
+    all_readings_coordinate_complete: observed_mass=0, metric=0/0 (NOT_APPLICABLE_STRUCTURAL_ONLY)
+  LEXICAL_ONLY: mass=1136300, surface_types=17741, accounting=POSSIBLE_LEXICAL_USE_BY_SURFACE
+    signed_evidence: observed_mass=366575, metric=366575/1136300 (THRESHOLD_NOT_MET)
+    any_complete_coordinate_profile: observed_mass=192099, metric=192099/1136300 (THRESHOLD_NOT_MET)
+    all_readings_coordinate_complete: observed_mass=0, metric=0/1136300 (THRESHOLD_NOT_MET)
+  MIXED_LEXICAL_STRUCTURAL: mass=233177, surface_types=35, accounting=LEXICAL_AND_STRUCTURAL_USES_UNDISAMBIGUATED
+    signed_evidence: observed_mass=119527, metric=119527/233177 (THRESHOLD_NOT_MET)
+    any_complete_coordinate_profile: observed_mass=27715, metric=27715/233177 (THRESHOLD_NOT_MET)
+    all_readings_coordinate_complete: observed_mass=0, metric=0/233177 (THRESHOLD_NOT_MET)
+  UNHOMED: mass=368926, surface_types=30154, accounting=LEXICAL_OR_STRUCTURAL_ROLE_UNKNOWN
+    signed_evidence: observed_mass=0, metric=0/0 (NOT_EVALUABLE_UNHOMED)
+    any_complete_coordinate_profile: observed_mass=0, metric=0/0 (NOT_EVALUABLE_UNHOMED)
+    all_readings_coordinate_complete: observed_mass=0, metric=0/0 (NOT_EVALUABLE_UNHOMED)
+  POSSIBLE LEXICAL SURFACES: denominator=1369477, surface_types=17776, ambiguous_mixed_mass=233177, structural_only_excluded=371762, unhomed_excluded_role_unknown=368926
+    signed_evidence: 486102/1369477 (THRESHOLD_NOT_MET)
+    zero_evidence: 912459/1369477 (THRESHOLD_NOT_MET)
+    head_zero_evidence: 912459/1369477 (THRESHOLD_NOT_MET)
+    non_head_zero_evidence: 13432/1369477 (THRESHOLD_NOT_MET)
+    non_head_written_evidence: 349714/1369477 (THRESHOLD_NOT_MET)
+    any_complete_coordinate_profile: 219814/1369477 (THRESHOLD_NOT_MET)
+    all_readings_coordinate_complete: 0/1369477 (THRESHOLD_NOT_MET)

@@ -1,0 +1,74 @@
+{
+  "schema": "GSE_FAMILY_SOURCED_PROPAGATION_WITNESS_V1",
+  "word": "afraid",
+  "reading_id": "afraid:ADJ:E5-:fear",
+  "scope": "Real-source ablation; authored typed selector is a mechanics witness, not lexical accuracy or an actual model request",
+  "withheld_content_rule": "OWN_AFFECTIVE_FEELING",
+  "selected_coordinate": "FEEL",
+  "propagating_rule": "FEAR_AVERSION",
+  "changed_domains": {
+    "WANT": {
+      "before": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "after": [
+        "+1"
+      ]
+    },
+    "FEEL": {
+      "before": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "after": [
+        "+1"
+      ]
+    },
+    "NOT": {
+      "before": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "after": [
+        "+1"
+      ]
+    }
+  },
+  "before_account": {
+    "code": "FAMILY_UNRESOLVED",
+    "family_id": "GSE_FEAR_ADJ_BOUNDARY_V1",
+    "authority": "AUTHORED_GSE_BOUNDARY; NOT_INDEPENDENT_SEMANTIC_COMPLETENESS",
+    "unresolved": [
+      "KNOW",
+      "WANT",
+      "FEEL",
+      "DO",
+      "THEN",
+      "NOT",
+      "MAYBE",
+      "MUST",
+      "IF"
+    ],
+    "contradictions": []
+  },
+  "after_account": {
+    "code": "FAMILY_UNRESOLVED",
+    "family_id": "GSE_FEAR_ADJ_BOUNDARY_V1",
+    "authority": "AUTHORED_GSE_BOUNDARY; NOT_INDEPENDENT_SEMANTIC_COMPLETENESS",
+    "unresolved": [
+      "KNOW",
+      "DO",
+      "THEN",
+      "MAYBE",
+      "MUST",
+      "IF"
+    ],
+    "contradictions": []
+  },
+  "candidate_complete": false,
+  "actual_backend_calls": 0
+}

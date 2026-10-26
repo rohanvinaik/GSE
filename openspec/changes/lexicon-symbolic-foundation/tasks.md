@@ -5,6 +5,10 @@ deictic-binding, validator and replay history remains in
 `docs/verification/lexicon-rebuild/foundation-2026-10-25/REPORT.md` and `REPLAY.md`.
 That checkpoint is historical evidence, not the current whole-build status.
 
+The subsequent ordinary-family experiment is recorded separately in
+`docs/verification/lexicon-rebuild/family-2026-10-25/REPORT.md`. It introduces
+authored conditional family boundaries and does not claim whole-lexicon semantic acceptance.
+
 Current implementation is on main. The sole acceptance index is planned at
 `docs/verification/lexicon-rebuild/execution-2026-10-25/REPORT.md`.
 The items below remain unchecked until their real verification receipt is linked; code presence or
@@ -59,3 +63,16 @@ proceeding with this work without reopening the historical checkpoint's approval
 - [ ] Publish the final REPORT index with computed outcomes and named semantic/source-coverage
   residuals; commit only the scoped, verified changes without AI attribution. No performance or
   semantic-completeness claim follows from passing serialization, homing or gate checks alone.
+
+## Ordinary-family experiment
+
+- [x] Implement per-coordinate authored family accounts and non-writing required-component checks.
+- [x] Preserve omission and boundary-retraction controls through the shared constructor.
+- [x] Forward projection scope, signed-pole vocabulary and abstention on both selector routes.
+- [x] Derive typed SOMETIMES quantification symbolically; ablation reopens QUANTITY.
+- [x] Freeze separate evaluation, retain all development trials and report source qualifications.
+- [x] Separate structural-only, lexical-only, mixed and unhomed surface evidence in corpus audits.
+- [ ] Establish semantic acceptance of the Fear family: resolve the recorded residual component,
+  omission, addition and zero/silence challenges through shared source/scope rules.
+- [ ] Obtain an unqualified current Detective result for the family validator; the attempted
+  convergence and passing standalone reproduction remain separately recorded.

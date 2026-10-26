@@ -62,6 +62,7 @@ def export_vector(reading: dict) -> dict:
         "values": vector["signs"],
         "prime_views": aliases,
         "number_scale": reading["number_scale"],
+        "definition_accounting": reading.get("definition_accounting"),
         "review_status": "PROVISIONAL_CANDIDATE",
         "production_eligible": False,
         "provenance": {
@@ -127,6 +128,7 @@ def export_sparse(reading: dict) -> dict:
         "rule_id": reading.get("rule_id"),
         "residual_coordinates": reading.get("residual_coordinates", []),
         "number_scale": reading.get("number_scale"),
+        "definition_accounting": reading.get("definition_accounting"),
         "constructions": reading.get("constructions", reading.get("relations", [])),
         "decisions": reading.get("decisions", []),
         "coordinate_order": list(CANONICAL_COORDINATES),

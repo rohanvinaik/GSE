@@ -1,0 +1,308 @@
+{
+  "schema": "GSE_INDEPENDENT_FAMILY_CONTRACT_EVALUATION_V1",
+  "evaluated_at_utc": "2026-10-26T03:03:10.364785+00:00",
+  "construction_freeze_sha256": "1699f1adfef0efdbecae5a64c8245a78749d021d8f40a54fc2814e89ef2ae105",
+  "evaluation_manifest_sha256": "36fa553202caadde6767fe759b4d4c28ed4125c0b29c0fca50b738df9b782a2c",
+  "construction_unchanged_during_evaluation": true,
+  "schema_baseline": {
+    "code": "CANDIDATE_COMPLETE",
+    "family_accounting": {
+      "code": "FAMILY_ACCOUNTED",
+      "family_id": "GSE_FEAR_ADJ_BOUNDARY_V1",
+      "authority": "AUTHORED_GSE_BOUNDARY; NOT_INDEPENDENT_SEMANTIC_COMPLETENESS",
+      "unresolved": [],
+      "contradictions": []
+    },
+    "model": "SCHEMA_ONLY_SELECTOR; NO_SEMANTIC_ACCURACY_CLAIM"
+  },
+  "by_class": {
+    "INDEPENDENT_AUTHORED_CONTRACT_ABLATION": {
+      "PASSED": 2
+    },
+    "INDEPENDENT_AUTHORED_NATIVE_SCOPE": {
+      "PASSED": 7
+    },
+    "RETROSPECTIVE_AUTHORED_OMISSION_CONTROL": {
+      "PASSED": 1
+    },
+    "UNTOUCHED_PRIMARY_NEIGHBOR_SCOPE_ONLY": {
+      "PASSED": 2
+    }
+  },
+  "results": [
+    {
+      "id": "NATIVE_SCOPE_FEARFUL",
+      "class": "INDEPENDENT_AUTHORED_NATIVE_SCOPE",
+      "code": "PASSED",
+      "word": "fearful",
+      "inherited_readings": [],
+      "readings": [
+        {
+          "id": "fearful:ADJ:unresolved-native-reading",
+          "code": "PARTIAL"
+        }
+      ]
+    },
+    {
+      "id": "NATIVE_SCOPE_PANICKY",
+      "class": "INDEPENDENT_AUTHORED_NATIVE_SCOPE",
+      "code": "PASSED",
+      "word": "panicky",
+      "inherited_readings": [],
+      "readings": [
+        {
+          "id": "panicky:ADJ:unresolved-native-reading",
+          "code": "PARTIAL"
+        }
+      ]
+    },
+    {
+      "id": "NATIVE_SCOPE_COWARDLY",
+      "class": "INDEPENDENT_AUTHORED_NATIVE_SCOPE",
+      "code": "PASSED",
+      "word": "cowardly",
+      "inherited_readings": [],
+      "readings": [
+        {
+          "id": "cowardly:ADJ:unresolved-native-reading",
+          "code": "PARTIAL"
+        }
+      ]
+    },
+    {
+      "id": "NATIVE_SCOPE_FEARLESS",
+      "class": "INDEPENDENT_AUTHORED_NATIVE_SCOPE",
+      "code": "PASSED",
+      "word": "fearless",
+      "inherited_readings": [],
+      "readings": [
+        {
+          "id": "fearless:ADJ:unresolved-native-reading",
+          "code": "PARTIAL"
+        }
+      ]
+    },
+    {
+      "id": "NATIVE_SCOPE_APPREHENSIVE",
+      "class": "INDEPENDENT_AUTHORED_NATIVE_SCOPE",
+      "code": "PASSED",
+      "word": "apprehensive",
+      "inherited_readings": [],
+      "readings": [
+        {
+          "id": "apprehensive:ADJ:unresolved-native-reading",
+          "code": "PARTIAL"
+        }
+      ]
+    },
+    {
+      "id": "NATIVE_SCOPE_TIMID",
+      "class": "INDEPENDENT_AUTHORED_NATIVE_SCOPE",
+      "code": "PASSED",
+      "word": "timid",
+      "inherited_readings": [],
+      "readings": [
+        {
+          "id": "timid:ADJ:unresolved-native-reading",
+          "code": "PARTIAL"
+        }
+      ]
+    },
+    {
+      "id": "NATIVE_SCOPE_TERRIFIC",
+      "class": "INDEPENDENT_AUTHORED_NATIVE_SCOPE",
+      "code": "PASSED",
+      "word": "terrific",
+      "inherited_readings": [],
+      "readings": [
+        {
+          "id": "terrific:ADJ:A5.1+:quality",
+          "code": "PARTIAL"
+        }
+      ]
+    },
+    {
+      "id": "PRIMARY_NEIGHBOR_SHY",
+      "class": "UNTOUCHED_PRIMARY_NEIGHBOR_SCOPE_ONLY",
+      "code": "PASSED",
+      "word": "shy",
+      "inherited_readings": [],
+      "readings": [
+        {
+          "id": "shy:ADJ:unresolved-native-reading",
+          "code": "PARTIAL"
+        },
+        {
+          "id": "shy:VERB:unresolved-native-reading",
+          "code": "PARTIAL"
+        },
+        {
+          "id": "shy:NOUN:unresolved-native-reading",
+          "code": "PARTIAL"
+        }
+      ]
+    },
+    {
+      "id": "PRIMARY_NEIGHBOR_OUTGOING",
+      "class": "UNTOUCHED_PRIMARY_NEIGHBOR_SCOPE_ONLY",
+      "code": "PASSED",
+      "word": "outgoing",
+      "inherited_readings": [],
+      "readings": [
+        {
+          "id": "outgoing:ADJ:unresolved-native-reading",
+          "code": "PARTIAL"
+        },
+        {
+          "id": "outgoing:NOUN:unresolved-native-reading",
+          "code": "PARTIAL"
+        }
+      ]
+    },
+    {
+      "id": "BOUNDARY_ABLATION",
+      "class": "INDEPENDENT_AUTHORED_CONTRACT_ABLATION",
+      "code": "PASSED",
+      "removed_law_ids": [
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:SAME",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:ONE",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:TWO",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:QUANTITY",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:BIG",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:KNOW",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:SEE",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:HEAR",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:INFER",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:SAY",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:WORDS",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:DO",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:MOVE",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:BE",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:HAVE",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:EXIST",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:ALIVE",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:MOMENT",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:LONG_TIME",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:BEFORE",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:THEN",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:START",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:WHERE",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:HERE",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:SIDE",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:TOUCH",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:ABOVE",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:FAR",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:OUTSIDE",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:TOWARD",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:WITH",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:MAYBE",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:MUST",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:CAUSE",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:IF",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:TRUE",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:HIER_PLUS",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:HIER_MINUS",
+        "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:CERTAINTY"
+      ],
+      "reopened_silence": [
+        "ABOVE",
+        "ALIVE",
+        "BE",
+        "BEFORE",
+        "BIG",
+        "CAUSE",
+        "CERTAINTY",
+        "EXIST",
+        "FAR",
+        "HAVE",
+        "HEAR",
+        "HERE",
+        "HIER_MINUS",
+        "HIER_PLUS",
+        "INFER",
+        "LONG_TIME",
+        "MOMENT",
+        "MOVE",
+        "ONE",
+        "OUTSIDE",
+        "SAME",
+        "SAY",
+        "SEE",
+        "SIDE",
+        "START",
+        "TOUCH",
+        "TOWARD",
+        "TRUE",
+        "TWO",
+        "WHERE",
+        "WITH",
+        "WORDS"
+      ],
+      "retained_required": {
+        "I": "0",
+        "YOU": "0",
+        "SOMEONE": "0",
+        "SOMETHING": "0",
+        "PEOPLE": "0",
+        "BODY": "0",
+        "KIND": "0",
+        "PART": "0",
+        "GOOD": "-1",
+        "THINK": "+1",
+        "WANT": "+1",
+        "FEEL": "+1",
+        "HAPPEN": "+1",
+        "WHEN": "+1",
+        "NOT": "+1",
+        "CAN": "+1",
+        "BECAUSE": "+1",
+        "LIKE": "+1",
+        "INTENSITY": "+1"
+      },
+      "candidate_emitted": false
+    },
+    {
+      "id": "CERTIFICATE_ABLATION",
+      "class": "INDEPENDENT_AUTHORED_CONTRACT_ABLATION",
+      "code": "PASSED",
+      "intervention": "Remove native FrameNet Fear records before the real build API; preserve remaining source alternatives.",
+      "readings": [
+        {
+          "id": "afraid:ADJ:unresolved-native-reading",
+          "code": "PARTIAL"
+        }
+      ],
+      "inherited_readings": []
+    },
+    {
+      "id": "OMISSION_FEEL",
+      "class": "RETROSPECTIVE_AUTHORED_OMISSION_CONTROL",
+      "code": "PASSED",
+      "removed_rule": "OWN_AFFECTIVE_FEELING",
+      "candidate_emitted": false,
+      "definition_accounting": {
+        "code": "FAMILY_UNRESOLVED",
+        "family_id": "GSE_FEAR_ADJ_BOUNDARY_V1",
+        "authority": "AUTHORED_GSE_BOUNDARY; NOT_INDEPENDENT_SEMANTIC_COMPLETENESS",
+        "unresolved": [
+          "WANT",
+          "FEEL",
+          "NOT"
+        ],
+        "contradictions": []
+      },
+      "feel_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "model": "SCHEMA_ONLY_SELECTOR; NOT_A_MODEL_ACCURACY_TEST"
+    }
+  ],
+  "limits": [
+    "No untouched positive published Fear reference was found.",
+    "Neighboring-primary checks establish scope only.",
+    "Native-source scope checks are independent authored obligations, not full vector gold.",
+    "Schema-only empty selections test construction mechanics only."
+  ]
+}

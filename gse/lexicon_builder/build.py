@@ -19,7 +19,15 @@ from pathlib import Path
 from gse.lexicon_builder.artifact import export_sparse, export_vector
 from gse.lexicon_builder.basis import BASIS_ID
 from gse.lexicon_builder.conditionals import ConditionalCatalog, catalog_report, evaluate_catalog, load_catalog
-from gse.lexicon_builder.core import CANONICAL_COORDINATES, Observation, Resolution, RuleException, legal_domain
+from gse.lexicon_builder.core import (
+    CANONICAL_COORDINATES,
+    Observation,
+    Resolution,
+    RuleException,
+    coordinate_vocabulary,
+    legal_domain,
+)
+from gse.lexicon_builder.families import account_family, family_laws
 from gse.lexicon_builder.fill import USAS_TAGSET, fill_payload, usas_labels, usas_type
 from gse.lexicon_builder.foundation import FOUNDATION, foundation_readings, load_foundation, structural_entries
 from gse.lexicon_builder.model import DEFAULT_MODEL, OllamaSelector
@@ -47,7 +55,7 @@ from gse.lexicon_builder.tail import BudgetedSelector, attach_tail, nominated_co
 
 def source_matches(native: dict, rulebook: dict) -> list[dict]:
     """Typed POS/category/frame conjunction; preserve every native alternative."""
-    matches = []
+    matches: list[dict] = []
     for record in native["usas"]["records"]:
         row = record["values"]
         for alternative in row["alternatives"]:
@@ -102,6 +110,7 @@ def _payload(word: str, reading_id: str, match: dict, native: dict, state: Resol
     # as properties of this reading in a model request.
     return {
         "schema": "GSE_RESIDUAL_V1",
+        "projection_scope": match["rule"].get("fill_scope", "TARGET_READING_OWN_DEFINITION"),
         "word": word,
         "reading_id": reading_id,
         "selected_native_types": {"pos": match["pos"], "usas_tag": match["tag"], "frames": match["frames"]},
@@ -113,6 +122,7 @@ def _payload(word: str, reading_id: str, match: dict, native: dict, state: Resol
             if len(state.domains[c]) > 1
         },
         "residual_warrants": match["rule"].get("residual_warrants", {}),
+        "coordinate_vocabulary": {c: coordinate_vocabulary(c) for c in nominated_components(match["rule"])},
         "degree_contract": {
             "coordinate": "INTENSITY",
             "present": "DEFINITION_CONTAINS_DEGREE_BEARING_CONTENT",
@@ -129,7 +139,13 @@ def _adjective_record(word: str, reading_id: str, match: dict, c: Construction) 
     return {
         "word": word,
         "reading_id": reading_id,
-        "code": "CONFLICT" if c.state.code == "CONFLICT" else "CANDIDATE_COMPLETE" if c.candidate else "PARTIAL",
+        "code": "SOURCE_CONFLICT"
+        if c.definition_accounting.get("code") == "FAMILY_CONTRADICTED"
+        else "CONFLICT"
+        if c.state.code == "CONFLICT"
+        else "CANDIDATE_COMPLETE"
+        if c.candidate
+        else "PARTIAL",
         "production_eligible": False,
         "rule_id": rule["rule_id"],
         "rule_review_state": rule["review_state"],
@@ -146,6 +162,7 @@ def _adjective_record(word: str, reading_id: str, match: dict, c: Construction) 
         "provisional_vector": c.proposal,
         "provisional_closure": c.proposed_closure.to_json() if c.proposed_closure is not None else None,
         "completion_status": "CONSTRAINT_RESOLVED" if c.candidate else "UNPROVEN_COVERAGE",
+        "definition_accounting": c.definition_accounting,
         "relations": rule.get("relations", []),
         "residual_coordinates": nominated_components(rule),
         "number_scale": {
@@ -196,6 +213,7 @@ def adjective_seed(word: str, match: dict, native: dict, fill_labels: dict[str, 
                 "Scoped template: optional own component; no written middle without a contract",
             )
         )
+    laws.extend(family_laws(rule))
     payload = partial(_payload, word, reading_id, match, native)
     return ReadingSeed(
         word=word,
@@ -205,7 +223,7 @@ def adjective_seed(word: str, match: dict, native: dict, fill_labels: dict[str, 
         layout=partial(_adjective_record, word, reading_id, match),
         decisions=[]
         if fill_labels is not None
-        else [CoordinateDecision(coordinate, payload) for coordinate in nominated_components(rule)],
+        else [CoordinateDecision(coordinate, payload, allow_abstain=True) for coordinate in nominated_components(rule)],
         review=None
         if rule["coverage"] is None
         else ReviewContract(payload, rule.get("completion_domains", {}), rule["coverage"]),
@@ -224,7 +242,9 @@ def adjective_seed(word: str, match: dict, native: dict, fill_labels: dict[str, 
         context={
             "selected_types": {"pos": match["pos"], "usas_tag": match["tag"], "frames": match["frames"]},
             "word_observations": {s: native[s] for s in ("concreteness", "lancaster", "vad", "emotion") if s in native},
+            "projection_scope": rule.get("fill_scope", "TARGET_READING_OWN_DEFINITION"),
         },
+        completion_check=partial(account_family, rule),
     )
 
 

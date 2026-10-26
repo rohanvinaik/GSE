@@ -1,0 +1,22 @@
+  ▸ ⚠ 3 test(s) that reach this function fail on current code — nothing was synthesized
+  ▸ finalizing — re-profiling the full mutant universe against the existing suite (no test written this run)…
+──────────────────────────────────────────────────────────────────────────────
+gse/lexicon_builder/families.py::family_contract_status — converge · 194 behaviours · 21 pinned
+
+  ⚠ FAILING NOW        3 test(s) that reach this function fail on current code:
+                       tests/test_lexicon_family_boundaries.py::test_native_family_boundary_reaches_the_real_builder_and_export, tests/test_lexicon_family_boundaries.py::test_boundary_cannot_supply_a_deleted_content_warrant, tests/test_lexicon_family_boundaries.py::test_removing_one_silence_support_reopens_only_its_coordinate
+  ✗ uncovered          7 line(s): 18, 20, 27, 33, 43, 52, 54
+                       line 18 runs only when: contract.get('schema') != 'GSE_AUTHORED_FAMILY_V1'
+                       line 20 runs only when: any((not isinstance(contract.get(k), str) or not contract[k] for k in ('id', 'source_rule_id', 'scope')))
+                       line 27 runs only when: not isinstance(guard, list) or not guard or any((not isinstance(g, list) or len(g) != 2 or any((not isinstance(v, str) or not v for v in g)) for g in guard))
+                       (+4 more — all named in the action below)
+  · not consulted      5678 collected test(s) have no static path to this function — not traced (a missed dynamic reacher costs a redundant generated test, never a certificate)
+  · full report        .detective/reports/converge_family_contract_status.txt
+
+DO THIS:  pytest tests/test_lexicon_family_boundaries.py::test_native_family_boundary_reaches_the_real_builder_and_export
+
+  · Then decide        is the TEST's expectation wrong, or is the CODE broken?
+                       Detective will not touch it — that call is yours alone.
+  · After fixing       detective converge 'gse/lexicon_builder/families.py::family_contract_status'
+
+FINAL gse/lexicon_builder/families.py::family_contract_status: ⚠ FAILING NOW — tests/test_lexicon_family_boundaries.py::test_native_family_boundary_reaches_the_real_builder_and_export (+2 more) reaches this function and fails on current code; no test written; certificate withheld · policy 9.261d14e34119

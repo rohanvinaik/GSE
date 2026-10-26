@@ -10,6 +10,7 @@ from pathlib import Path
 from gse.lexicon_builder.basis import BASIS_ID
 from gse.lexicon_builder.core import compile_law as compile_law
 from gse.lexicon_builder.core import law_admission_status, rule_admission_reason, rule_contract_digest
+from gse.lexicon_builder.families import family_contract
 
 RULEBOOK = Path(__file__).with_name("bank_laws.json")
 RULE_FAMILIES = ("laws", "source_rules", "native_predicate_rules", "native_residual_rules")
@@ -118,4 +119,6 @@ def load_rulebook(path: Path = RULEBOOK) -> dict:
         raise ValueError("duplicate rule ID")
     for rule in data["laws"]:
         compile_law(rule)
+    for rule in data["source_rules"]:
+        family_contract(rule)
     return data

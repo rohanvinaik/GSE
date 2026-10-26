@@ -1,0 +1,60 @@
+{
+  "schema": "GSE_FAMILY_QUANTIFICATION_ABLATION_V4",
+  "scope": "REAL_BUILDER_WITH_SCHEMA_ONLY_SELECTOR; NO_SEMANTIC_ACCURACY_CLAIM",
+  "observed_at_utc": "2026-10-26T03:36:55.162272+00:00",
+  "freeze_sha256": "c103abac8a6c74f435bf0799fb970a20d676944c4a2a65144e2460a426f54c40",
+  "baseline_quantity_domain": [
+    "+1"
+  ],
+  "baseline_when_domain": [
+    "+1"
+  ],
+  "baseline_status": "CANDIDATE_COMPLETE",
+  "results": [
+    {
+      "intervention": "NO_DECOMPOSITION_RULE",
+      "code": "PASSED",
+      "quantity_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "when_domain": [
+        "+1"
+      ],
+      "definition_accounting": {
+        "code": "FAMILY_UNRESOLVED",
+        "family_id": "GSE_FEAR_ADJ_BOUNDARY_V1",
+        "authority": "AUTHORED_GSE_BOUNDARY; NOT_INDEPENDENT_SEMANTIC_COMPLETENESS",
+        "unresolved": [
+          "QUANTITY"
+        ],
+        "contradictions": []
+      },
+      "candidate_emitted": false
+    },
+    {
+      "intervention": "NO_TYPED_TEMPLATE_CLAIM",
+      "code": "PASSED",
+      "quantity_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "when_domain": [
+        "+1"
+      ],
+      "definition_accounting": {
+        "code": "FAMILY_UNRESOLVED",
+        "family_id": "GSE_FEAR_ADJ_BOUNDARY_V1",
+        "authority": "AUTHORED_GSE_BOUNDARY; NOT_INDEPENDENT_SEMANTIC_COMPLETENESS",
+        "unresolved": [
+          "QUANTITY"
+        ],
+        "contradictions": []
+      },
+      "candidate_emitted": false
+    }
+  ],
+  "source_unchanged": true
+}

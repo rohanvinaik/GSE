@@ -1,0 +1,69 @@
+usage: detective [-h] [--version]
+                 {diagnose,converge,decompose,audit,purge,regime,flag,flag-line,parsimony,plan,survey,doctor,extract,censor,receipt,verify-rewrite} ...
+
+Read what a function actually does, pin it with tests, and split it SAFELY —
+every rewrite is applied only when a generated suite proves behavior survived.
+
+NEW REPO? START HERE:
+    detective regime            # how does this repo import its code and run
+                                # its tests — and is anything making every
+                                # verdict untrustworthy?
+    detective regime --migrate  # fix the part that is Detective's to fix
+
+  Every command below resolves that same regime first and REFUSES on a conflict.
+  A number measured against the wrong file is worse than no number: it reads as
+  a finding. If a run refuses, `detective regime` is where the reason is.
+
+THEN, read-only:
+    detective diagnose path/to/file.py::function   # behavior — one function
+    detective plan src/                            # style — AFTER behavior; advisory
+
+positional arguments:
+  {diagnose,converge,decompose,audit,purge,regime,flag,flag-line,parsimony,plan,survey,doctor,extract,censor,receipt,verify-rewrite}
+    diagnose            the first read for a FUNCTION, once `regime` is clean
+                        — what does it actually do, and what to run next
+                        (read-only)
+    converge            write a complete, minimal pytest suite for a function
+                        (the flagship; writes files)
+    decompose           split a tangled function into helpers — applied only
+                        when PROVEN behavior-preserving
+    audit               assess an EXISTING suite: complete? minimal? which
+                        tests to prune
+    purge               delete regeneratable analysis caches (.detective/ +
+                        .wesker/) — never your tests
+    regime              read how this repo imports its code and runs its tests
+                        — the stage every command runs
+    flag                mark a surviving mutant equivalent (default) or a
+                        FENCE — an authored must-not
+    flag-line           mark an uncovered source line as unreachable (manual
+                        oracle — line ledger only)
+    parsimony           STATIC repo/module/class SICP map (advisory) — no
+                        mutation, no proof
+    plan                the first read for STYLE, after behavior — what a
+                        codebase's PINNED regions could safely become: priced,
+                        gated, every exclusion named (advisory; writes nothing
+                        to your project)
+    survey              STATIC scan for pure decisions trapped behind an
+                        impure boundary (advisory)
+    doctor              what is blocking correct USE of this tool — setup /
+                        process / taste (advisory)
+    extract             propose the pure decision to pull out of an impure
+                        shell (advisory) — survey's next step
+    censor              propose population-derived CENSORS (forbidden I/O
+                        regions) ranked by κ — the §14 corpus loop
+    receipt             snapshot a function's specification BEFORE an
+                        arbitrary rewrite, for verify-rewrite
+    verify-rewrite      prove an arbitrary/model rewrite preserved behaviour,
+                        against a receipt
+
+options:
+  -h, --help            show this help message and exit
+  --version             show program's version number and exit
+
+EXIT CODES (a verdict is also the exit status — CI branches on the code, --json on the field):
+  0  clean / success
+  1  a real gap or typed REFUSAL — audit --check spec gap; verify-rewrite not PRESERVED; a
+     collision/accounting refusal; flag: no such surviving mutant
+  2  a conflict / precondition — regime conflict, wrong interpreter, a bad --env, or
+     audit --check-strict measurement-incomplete; plan: no such function / nothing to read
+  3  INVALID MEASUREMENT, re-run — converge/decompose CUT or stale target; a weak receipt baseline

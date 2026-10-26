@@ -1,0 +1,72 @@
+{
+  "schema": "GSE_FAMILY_EVALUATION_FREEZE_V1",
+  "frozen_at_utc": "2026-10-26T02:53:27.764624+00:00",
+  "base_commit": "e40a8321dca09b63b4c55ffc6760f4c7bb08cd70",
+  "construction_identity": {
+    "gse/lexicon_builder/bank_laws.json": {
+      "working_sha256": "3abbf34af177931ef8978a487cd2f122e555bd3222b2cf8252e6b5d2501a4e3d",
+      "head_sha256": "3abbf34af177931ef8978a487cd2f122e555bd3222b2cf8252e6b5d2501a4e3d"
+    },
+    "gse/lexicon_builder/build.py": {
+      "working_sha256": "e3be0e0a03b18e9e954bbca1482489eec631d1c9add4f9f9a9a0d808f8ff8e0e",
+      "head_sha256": "e3be0e0a03b18e9e954bbca1482489eec631d1c9add4f9f9a9a0d808f8ff8e0e"
+    },
+    "gse/lexicon_builder/reading.py": {
+      "working_sha256": "f7684d9cc966a5dd291bf4633fe327503880c088224cb346fe134dd391867e12",
+      "head_sha256": "f7684d9cc966a5dd291bf4633fe327503880c088224cb346fe134dd391867e12"
+    },
+    "gse/lexicon_builder/tail.py": {
+      "working_sha256": "d2ea1388c2a37bd14bc9365af070686c00583b681110b496196e413e033a9bbc",
+      "head_sha256": "d2ea1388c2a37bd14bc9365af070686c00583b681110b496196e413e033a9bbc"
+    }
+  },
+  "frozen_before_candidate_evaluation": true,
+  "construction_contract_freeze_received": false,
+  "new_positive_fear_published_reference_count": 0,
+  "new_primary_neighbor_scope_count": 2,
+  "independent_native_scope_count": 7,
+  "retrospective_positive_adjective_count": 5,
+  "contract_ablation_count": 2,
+  "retrospective_omission_count": 1,
+  "untouched_status_limit": "New primary citation absent from inspected reference catalog and explicit development evidence; absence from every historical prompt/artifact is not proven. New native scope cases are authored independent review checks, not published gold or untouched construction inputs.",
+  "exclusions": {
+    "historical_fear_readings": [
+      "afraid",
+      "fear",
+      "nervous",
+      "terrified",
+      "scared",
+      "frightened",
+      "apprehension",
+      "dread"
+    ],
+    "existing_good_controls": [
+      "concerned",
+      "concern",
+      "worried",
+      "alarmed",
+      "anguish",
+      "horrified",
+      "petrified"
+    ],
+    "existing_surprise_controls": [
+      "amazed",
+      "shocked",
+      "surprised",
+      "astonished"
+    ],
+    "rationale": "Previously used development evidence cannot become held-out through a new split."
+  },
+  "source_pins": {
+    "docs/verification/lexicon-rebuild/closeout-2026-10-25/evidence/template_fields.json": "499dcbc466ecb89f87faa6a9863f0aa916d2d784699679f9ffefd118f6905689",
+    "docs/verification/lexicon-rebuild/closeout-2026-10-25/EMOTION_SLICE_DRAFT.md": "3be6bddee5f6f9c9010c1a80846a60ef9d6dab397e722d06389dcecc712c072e",
+    "data/external/references/CATALOG.json": "245b5283d3eaa31128fe2a9db6db70e5ce2adf535b7b7b35fefda1699b9f9a93"
+  },
+  "evaluation_files": {
+    "kazmaly-2024-retrieval.json": "f56482fdb2ee7b6cecbfd1df46afea2a87d8c3b67ed921f18f49e554e1bfaba2",
+    "retrospective-fear-references.json": "ea379db6d85358ba55eec7c5860a230e76d82cc23bde7ad9ab3cc819fcfb6136",
+    "private-checks.json": "f79b7b040aa8f9dc934079ab311afa630071d7f92049be3073c7314425e74e82",
+    "native-scope-references.json": "89eae9672b9d7bd1488dda037e76c98c2527d99c139f1b7b379fb21dcd46b328"
+  },
+  "search_boundary": "Four small primary-source web query batches and local catalog/dev-evidence review; not exhaustive literature coverage. Direct ScienceDirect/DOI retrieval failed, indexed primary excerpts retained. No untouched positive Fear reference found."
+}

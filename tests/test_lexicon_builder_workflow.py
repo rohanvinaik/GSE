@@ -349,4 +349,4 @@ def test_a_fully_constrained_problem_can_still_complete_via_one_bounded_choice(q
     assert result["candidate_vector"]["states"]["WANT"] == "+1"
     assert result["candidate_vector"]["provisional_silence"] == []
     assert len(selector.calls) == 1
-    assert selector.calls[0][1] == {"THINK": ["+1", "empty"]}
+    assert selector.calls[0][1] == {"THINK": ["+1", "empty", "ABSTAIN"]}

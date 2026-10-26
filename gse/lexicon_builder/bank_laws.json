@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "basis_id": "GSE_LEXICAL_72_SIGNED_58_V1",
-  "version": "2026-10-25.8",
+  "version": "2026-10-25.11",
   "authority": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md",
   "association_policy": {
     "NRC_emotion": "ASSOCIATION_ONLY; no lexical sign or silence implication",
@@ -287,7 +287,7 @@
           "non_substantive_operator"
         ]
       ],
-      "warrant": "A located quantifier, connective or other operator contributes an operation, not an independent substantive denotation. The eight substantive coordinates record the word's own head (NSM_RESOLUTIONS §2, approved F144), so all eight are explicitly absent (F118), as for modifiers (row 3b) and predicates (F151-F152). Explicit projection convention; not a rule for every use of its spelling.",
+      "warrant": "A located quantifier, connective or other operator contributes an operation, not an independent substantive denotation. The eight substantive coordinates record the word's own head (NSM_RESOLUTIONS \u00a72, approved F144), so all eight are explicitly absent (F118), as for modifiers (row 3b) and predicates (F151-F152). Explicit projection convention; not a rule for every use of its spelling.",
       "empirical_refs": [],
       "source_refs": [
         "docs/verification/lexicon-rebuild/closeout-2026-10-25/NSM_RESOLUTIONS.md#2-what-the-substantive-coordinates-record-contract-question-2",
@@ -298,7 +298,7 @@
       "authority": {
         "kind": "GSE_CONVENTION",
         "refs": [
-          "NSM_RESOLUTIONS §2 head contract (approved F144)",
+          "NSM_RESOLUTIONS \u00a72 head contract (approved F144)",
           "F118"
         ]
       },
@@ -322,7 +322,7 @@
       "authority": {
         "kind": "GSE_CONVENTION",
         "refs": [
-          "NSM_RESOLUTIONS §2 head contract (approved F144)",
+          "NSM_RESOLUTIONS \u00a72 head contract (approved F144)",
           "F057",
           "F118"
         ]
@@ -355,7 +355,7 @@
           "time_or_place_relation"
         ]
       ],
-      "warrant": "The eight substantive coordinates record the word's own head (NSM_RESOLUTIONS §2, approved F144). A time or place head (NOW, HERE, BEFORE, ABOVE, FAR, INSIDE) denotes a time or a place, not a person or a thing: shouting it sends no one looking for an object (F057), and the chart groups the time and place primes apart from the substantives. All eight are therefore explicitly absent (F118), as for modifiers (row 3b) and predicates (F151-F152). The noun-like WHEN~TIME, WHERE~PLACE, SIDE and MOMENT fall under this guard because each of their heads is its own coordinate, outside the substantive bank. The guard is an authored head classification; no adapter may infer it from grammatical nounhood or part of speech (F159).",
+      "warrant": "The eight substantive coordinates record the word's own head (NSM_RESOLUTIONS \u00a72, approved F144). A time or place head (NOW, HERE, BEFORE, ABOVE, FAR, INSIDE) denotes a time or a place, not a person or a thing: shouting it sends no one looking for an object (F057), and the chart groups the time and place primes apart from the substantives. All eight are therefore explicitly absent (F118), as for modifiers (row 3b) and predicates (F151-F152). The noun-like WHEN~TIME, WHERE~PLACE, SIDE and MOMENT fall under this guard because each of their heads is its own coordinate, outside the substantive bank. The guard is an authored head classification; no adapter may infer it from grammatical nounhood or part of speech (F159).",
       "source_refs": [
         "docs/verification/lexicon-rebuild/closeout-2026-10-25/NSM_RESOLUTIONS.md#2-what-the-substantive-coordinates-record-contract-question-2",
         "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#f057",
@@ -384,7 +384,7 @@
       "authority": {
         "kind": "GSE_CONVENTION",
         "refs": [
-          "NSM_RESOLUTIONS §2 head contract (approved F144)",
+          "NSM_RESOLUTIONS \u00a72 head contract (approved F144)",
           "FEELING_NOUN_HEAD precedent (F144)",
           "F118"
         ]
@@ -491,7 +491,7 @@
           "PRIME"
         ]
       ],
-      "warrant": "The eight substantive coordinates record the word's own head (NSM_RESOLUTIONS §2, approved F144). A substantive prime's head is exactly one of them and the other seven are explicitly absent (F118), as the approved feeling-noun contract writes SOMETHING +1 and the rest 0. The guard names prime profiles explicitly (F159): an ordinary substantive reading never triggers it, so part and body nouns (hand, wheel, handle), which may need PART alongside BODY or SOMETHING, stay open until their own contract is settled. A GSE head-record convention; the zeros alone do not satisfy F148's V/U/W test (F159).",
+      "warrant": "The eight substantive coordinates record the word's own head (NSM_RESOLUTIONS \u00a72, approved F144). A substantive prime's head is exactly one of them and the other seven are explicitly absent (F118), as the approved feeling-noun contract writes SOMETHING +1 and the rest 0. The guard names prime profiles explicitly (F159): an ordinary substantive reading never triggers it, so part and body nouns (hand, wheel, handle), which may need PART alongside BODY or SOMETHING, stay open until their own contract is settled. A GSE head-record convention; the zeros alone do not satisfy F148's V/U/W test (F159).",
       "source_refs": [
         "docs/verification/lexicon-rebuild/closeout-2026-10-25/NSM_RESOLUTIONS.md#2-what-the-substantive-coordinates-record-contract-question-2",
         "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#f144"
@@ -1273,6 +1273,52 @@
           "tests/test_lexicon_conditional_rules.py::test_unsigned_feeling_and_emotion_association_do_not_exclude_zero"
         ]
       }
+    },
+    {
+      "rule_id": "QUANTIFIED_TIME_PORTMANTEAU",
+      "kind": "SCOPED_BANK_RELATION",
+      "review_state": "SOURCE_JUSTIFIED",
+      "tier": "FOUNDATIONAL",
+      "coordinates": [
+        "QUANTITY",
+        "WHEN"
+      ],
+      "allowed": [
+        [
+          "+1",
+          "+1"
+        ]
+      ],
+      "guard": [
+        [
+          "own_template_quantification",
+          "SOMETIMES"
+        ]
+      ],
+      "warrant": "The NSM chart identifies SOMETIMES as a time/quantifier portmanteau; under the authored GSE QUANTITY projection an explicitly quantified typicality template contributes QUANTITY and WHEN. This does not follow from a feeling, noun POS, generic time association or permission alone.",
+      "source_refs": [
+        "NSM chart v20 portmanteau footer",
+        "F144 NSM_RESOLUTIONS section6: function words",
+        "W1999 chapter2 and W1990b development templates"
+      ],
+      "lifecycle": "ACTIVE",
+      "authority": {
+        "kind": "GSE_CONVENTION",
+        "refs": [
+          "NSM_CHART_V20",
+          "FOUNDER:F144"
+        ]
+      },
+      "validation": {
+        "status": "VALIDATED",
+        "contract_sha256": "62feb24d496abc0f88bfa97e8469d431e3efb5de9f1278797efb509cbe56badf",
+        "positive": [
+          "tests/test_lexicon_family_selector_contract.py::test_quantified_template_decomposes_through_the_real_builder_without_a_call"
+        ],
+        "must_not": [
+          "tests/test_lexicon_family_selector_contract.py::test_quantification_expectation_cannot_replace_its_deleted_warrant"
+        ]
+      }
     }
   ],
   "source_rules": [
@@ -1401,7 +1447,7 @@
     {
       "rule_id": "EMOTION_FEAR_ADJ",
       "kind": "SOURCE_CONTRACT_PROJECTION",
-      "review_state": "FOUNDER_APPROVED",
+      "review_state": "SOURCE_JUSTIFIED",
       "pos": [
         "ADJ"
       ],
@@ -1451,10 +1497,14 @@
         [
           "own_valence_domain",
           "signed_felt_pole"
+        ],
+        [
+          "own_template_quantification",
+          "SOMETIMES"
         ]
       ],
       "degree_contract": "INTENSITY is presence of degree-bearing content, not VERY. Relative strength is NUMBER.",
-      "coverage_gap": "Unwarranted cells remain unresolved in the symbolic baseline. Tail decisions require an explicit diagnosed queue.",
+      "coverage_gap": "Authored family boundary; optional components remain explicit until constrained/selected. Complete candidates remain provisional and are evaluated separately.",
       "fill_scope": "THE_FEELING_AND_THE_PROTOTYPICAL_THOUGHT_IT_COMES_FROM (what a person thinks when feeling this; F129)",
       "tier": "CONDITIONAL",
       "relations": [
@@ -1463,7 +1513,775 @@
           "predicate": "WANT",
           "event_reference": "ANTICIPATED_BAD_EVENT"
         }
-      ]
+      ],
+      "definition_boundary": {
+        "schema": "GSE_AUTHORED_FAMILY_V1",
+        "id": "GSE_FEAR_ADJ_BOUNDARY_V1",
+        "source_rule_id": "EMOTION_FEAR_ADJ",
+        "scope": "Located ADJ experiencer-state reading certified by the admitted E5-/E6- and FrameNet Fear join. Authored bounded GSE projection; not an exhaustive claim about every English fear expression.",
+        "guard": [
+          [
+            "source_frame_family",
+            "Fear"
+          ],
+          [
+            "own_role",
+            "modifier_property_only"
+          ]
+        ],
+        "cells": {
+          "I": {
+            "kind": "REQUIRED",
+            "domain": [
+              "0"
+            ],
+            "reason": "Checked obligation only: the existing scoped head/component/degree rules must independently derive this state; the family boundary supplies no missing content.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "YOU": {
+            "kind": "REQUIRED",
+            "domain": [
+              "0"
+            ],
+            "reason": "Checked obligation only: the existing scoped head/component/degree rules must independently derive this state; the family boundary supplies no missing content.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "SOMEONE": {
+            "kind": "REQUIRED",
+            "domain": [
+              "0"
+            ],
+            "reason": "Checked obligation only: the existing scoped head/component/degree rules must independently derive this state; the family boundary supplies no missing content.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "SOMETHING": {
+            "kind": "REQUIRED",
+            "domain": [
+              "0"
+            ],
+            "reason": "Checked obligation only: the existing scoped head/component/degree rules must independently derive this state; the family boundary supplies no missing content.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "PEOPLE": {
+            "kind": "REQUIRED",
+            "domain": [
+              "0"
+            ],
+            "reason": "Checked obligation only: the existing scoped head/component/degree rules must independently derive this state; the family boundary supplies no missing content.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "BODY": {
+            "kind": "REQUIRED",
+            "domain": [
+              "0"
+            ],
+            "reason": "Checked obligation only: the existing scoped head/component/degree rules must independently derive this state; the family boundary supplies no missing content.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "KIND": {
+            "kind": "REQUIRED",
+            "domain": [
+              "0"
+            ],
+            "reason": "Checked obligation only: the existing scoped head/component/degree rules must independently derive this state; the family boundary supplies no missing content.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "PART": {
+            "kind": "REQUIRED",
+            "domain": [
+              "0"
+            ],
+            "reason": "Checked obligation only: the existing scoped head/component/degree rules must independently derive this state; the family boundary supplies no missing content.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "SAME": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "Template similarity LIKE is distinct from identity or difference SAME.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "ONE": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "An experiencer variable is not lexical cardinal ONE; participant identity remains a role.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "TWO": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "Multiple participant roles do not establish lexical cardinal TWO.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "QUANTITY": {
+            "kind": "REQUIRED",
+            "domain": [
+              "+1"
+            ],
+            "reason": "Non-writing obligation: the independently typed SOMETIMES template claim must derive QUANTITY through the shared quantified-time portmanteau rule. Removing that claim or rule reopens this cell.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "GOOD": {
+            "kind": "REQUIRED",
+            "domain": [
+              "-1"
+            ],
+            "reason": "Checked obligation only: the existing scoped head/component/degree rules must independently derive this state; the family boundary supplies no missing content.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "BIG": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "The degree-bearing feeling is not a spatial-size descriptor. This is an authored silence, not the evaluator-head BIG zero.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "THINK": {
+            "kind": "REQUIRED",
+            "domain": [
+              "+1"
+            ],
+            "reason": "Checked obligation only: the existing scoped head/component/degree rules must independently derive this state; the family boundary supplies no missing content.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "KNOW": {
+            "kind": "OPTIONAL",
+            "domain": [
+              "+1",
+              "0",
+              "empty"
+            ],
+            "reason": "Epistemic content is a per-reading choice; the terrified development analysis supplies no KNOW component.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "WANT": {
+            "kind": "REQUIRED",
+            "domain": [
+              "+1"
+            ],
+            "reason": "Checked obligation only: the existing scoped head/component/degree rules must independently derive this state; the family boundary supplies no missing content.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "FEEL": {
+            "kind": "REQUIRED",
+            "domain": [
+              "+1"
+            ],
+            "reason": "Checked obligation only: the existing scoped head/component/degree rules must independently derive this state; the family boundary supplies no missing content.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "SEE": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "A visual trigger does not become the definition of the experiencer feeling.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "HEAR": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "An auditory trigger does not become the definition of the experiencer feeling.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "INFER": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "A cognitive scenario is not an evidence-to-conclusion episode merely because it contains THINK or KNOW.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "SAY": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "Reporting or expressing the feeling is a separate reading; it is not part of this experiencer-state template.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "WORDS": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "Linguistic realization/report is construction data rather than a component of the experiencer-state template.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "DO": {
+            "kind": "OPTIONAL",
+            "domain": [
+              "+1",
+              "0",
+              "empty"
+            ],
+            "reason": "Response/action content varies across the broader Fear development family; F151/F152 retain a per-reading choice.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "HAPPEN": {
+            "kind": "REQUIRED",
+            "domain": [
+              "+1"
+            ],
+            "reason": "Checked obligation only: the existing scoped head/component/degree rules must independently derive this state; the family boundary supplies no missing content.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "MOVE": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "A possible response DO does not establish physical movement in this bounded template.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "BE": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "Copular realization of an adjective is construction behavior; this family does not define location or specification BE.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "HAVE": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "Desire and capability are distinct from possession; auxiliary have-to is retained under the modal choice.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "EXIST": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "A happening in a thought is not an existential THERE IS component of the feeling.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "ALIVE": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "The selected experiencer feeling does not define a vitality state; the event feared retains its own roles.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "MOMENT": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "A feeling at a time does not assert the punctual temporal-unit concept.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "WHEN": {
+            "kind": "REQUIRED",
+            "domain": [
+              "+1"
+            ],
+            "reason": "Checked obligation only: the existing scoped head/component/degree rules must independently derive this state; the family boundary supplies no missing content.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "LONG_TIME": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "The bounded template does not specify long or short duration; generic some-time is a recorded basis gap, not LONG_TIME.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "BEFORE": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "Anticipation is not itself an explicit BEFORE/AFTER relation in this selected projection; tense is not projected as an ordering prime.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "THEN": {
+            "kind": "OPTIONAL",
+            "domain": [
+              "-1",
+              "0",
+              "empty"
+            ],
+            "reason": "Authored bounded template: temporal reference is optional NOW, not automatic future THEN. W1999/W1990b development templates use NOW or leave the anchor unexpressed; future will is morphology and supplies no positive THEN component (F144 NSM resolutions projection contract). A reading defining another time requires a separate template/refinement.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "START": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "Entering or leaving a feeling is a separate transition reading; the selected adjectival state asserts neither boundary.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "WHERE": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "A stimulus location does not establish a place-prime component in the feeling.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "HERE": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "The stimulus place is a contextual argument; this template asserts no speaker-place component.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "SIDE": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "No spatial-side relation belongs to this bounded template; participant anatomy does not write it.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "TOUCH": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "A contact trigger or bodily response does not itself enter this bounded feeling definition.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "ABOVE": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "No vertical-order relation belongs to this bounded feeling/template projection; a stimulus position is an argument fact.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "FAR": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "No distance relation belongs to this bounded feeling/template projection; stimulus distance is a separate argument fact.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "OUTSIDE": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "The selected feeling has no containment-pole content; a feared location is a separate scenario argument.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "TOWARD": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "A directed stimulus argument is not the GSE spatial-orientation relation.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "WITH": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "A stimulus or concomitant state is not an accompaniment relation asserted by this bounded template.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "NOT": {
+            "kind": "REQUIRED",
+            "domain": [
+              "+1"
+            ],
+            "reason": "Checked obligation only: the existing scoped head/component/degree rules must independently derive this state; the family boundary supplies no missing content.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "MAYBE": {
+            "kind": "OPTIONAL",
+            "domain": [
+              "+1",
+              "0",
+              "empty"
+            ],
+            "reason": "Possibility may be lexical MAYBE or another construction; nervous development evidence prohibits blanket silence.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "CAN": {
+            "kind": "REQUIRED",
+            "domain": [
+              "+1"
+            ],
+            "reason": "Checked obligation only: the existing scoped head/component/degree rules must independently derive this state; the family boundary supplies no missing content.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "MUST": {
+            "kind": "OPTIONAL",
+            "domain": [
+              "+1",
+              "0",
+              "empty"
+            ],
+            "reason": "Practical necessity in the nervous scenario may require the GSE adaptation; the older evaluation projection omitted this coordinate. Retain the choice rather than forcing its omission.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "BECAUSE": {
+            "kind": "REQUIRED",
+            "domain": [
+              "+1"
+            ],
+            "reason": "Checked obligation only: the existing scoped head/component/degree rules must independently derive this state; the family boundary supplies no missing content.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "CAUSE": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "Under option B the thought/feeling explanation uses BECAUSE; this selected experiencer state does not denote a causer bringing about a distinct affected participant outcome.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "IF": {
+            "kind": "OPTIONAL",
+            "domain": [
+              "+1",
+              "0",
+              "empty"
+            ],
+            "reason": "Conditional response or uncertainty content is a per-reading choice, not implied by KNOW permission.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "LIKE": {
+            "kind": "REQUIRED",
+            "domain": [
+              "+1"
+            ],
+            "reason": "Checked obligation only: the existing scoped head/component/degree rules must independently derive this state; the family boundary supplies no missing content.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "TRUE": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "Thought content is not asserted true or false by the feeling adjective.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "HIER_PLUS": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "Higher fear strength is handled by NUMBER when sourced; it does not automatically assert an upward semantic operator.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "HIER_MINUS": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "Lower fear strength is handled by NUMBER when sourced; it does not automatically assert a downward semantic operator.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "INTENSITY": {
+            "kind": "REQUIRED",
+            "domain": [
+              "+1"
+            ],
+            "reason": "Checked obligation only: the existing scoped head/component/degree rules must independently derive this state; the family boundary supplies no missing content.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          },
+          "CERTAINTY": {
+            "kind": "SILENT",
+            "domain": [
+              "empty"
+            ],
+            "reason": "Possible harm and epistemic scenario content do not by themselves assert an applicable calibrated certainty-scale operator.",
+            "source_refs": [
+              "GSE_FEAR_ADJ_BOUNDARY_V1",
+              "FOUNDER:F148,F151-F152",
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+            ]
+          }
+        },
+        "development_population": [
+          "afraid",
+          "frightened",
+          "nervous",
+          "scared",
+          "terrified",
+          "apprehension",
+          "dread",
+          "fear"
+        ],
+        "limits": [
+          "Authored boundary, not a proof from omission in the literature.",
+          "No untouched published positive Fear test was identified before this contract.",
+          "DO/IF/KNOW have no invented dependency.",
+          "MUST remains open because the older have-to projection and the GSE adaptation need a per-reading decision.",
+          "No ordinary noun, causative verb, compound slash tag or other frame inherits this boundary."
+        ],
+        "revision": 3
+      },
+      "lifecycle": "ACTIVE",
+      "authority": {
+        "kind": "GSE_CONVENTION",
+        "refs": [
+          "FOUNDER:F148,F151-F152",
+          "GSE_FEAR_ADJ_BOUNDARY_V1"
+        ]
+      },
+      "source_refs": [
+        "docs/verification/lexicon-rebuild/closeout-2026-10-25/NSM_RESOLUTIONS.md",
+        "docs/verification/lexicon-rebuild/closeout-2026-10-25/EMOTION_SLICE_DRAFT.md",
+        "docs/program/LEXICON_FAMILY_BOUNDARIES.md"
+      ],
+      "validation": {
+        "status": "VALIDATED",
+        "contract_sha256": "81ebce93891cc9e4e31700218ae72200ba0f211dbe0f8b36438ca04edba0257b",
+        "positive": [
+          "tests/test_lexicon_family_boundaries.py::test_native_family_boundary_reaches_the_real_builder_and_export"
+        ],
+        "must_not": [
+          "tests/test_lexicon_family_boundaries.py::test_boundary_cannot_supply_a_deleted_content_warrant",
+          "tests/test_lexicon_family_boundaries.py::test_wrong_source_scope_and_withheld_contract_cannot_close_cells"
+        ]
+      }
     },
     {
       "rule_id": "EMOTION_FEAR_NOUN",

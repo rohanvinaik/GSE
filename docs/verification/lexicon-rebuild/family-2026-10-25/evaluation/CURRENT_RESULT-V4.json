@@ -1,0 +1,280 @@
+{
+  "schema": "GSE_FAMILY_EVALUATOR_CURRENT_RESULT_V4",
+  "code": "SEMANTIC_FAMILY_ACCEPTANCE_NOT_ESTABLISHED",
+  "trial": "V4_TYPED_QUANTIFICATION_DEVELOPMENT",
+  "role": "Independent evaluator observation; no automatic approval or rule tuning",
+  "source_freeze_sha256": "c103abac8a6c74f435bf0799fb970a20d676944c4a2a65144e2460a426f54c40",
+  "original_reference_identity_preserved": true,
+  "prior_result_pins_preserved": {
+    "contract-results.json": true,
+    "live-reference-results.json": true,
+    "live-dispositions.json": true,
+    "ablation-records.json": true,
+    "live-v2-reference-results.json": true,
+    "live-v2-dispositions.json": true,
+    "live-v2-cell-matrix.json": true,
+    "live-v3-reference-results.json": true,
+    "live-v3-dispositions.json": true,
+    "live-v3-cell-matrix.json": true,
+    "library-vocabulary-v3.json": true,
+    "CURRENT_RESULT.json": true,
+    "REPORT-V3.md": true
+  },
+  "reading_statuses": {
+    "CANDIDATE_COMPLETE": 5,
+    "PARTIAL": 1
+  },
+  "selected_cell_outcomes": {
+    "AGREES": 18,
+    "FALSE_OMISSION": 1,
+    "ADDITION_CHALLENGE": 13,
+    "UNRESOLVED_REFERENCE_STATE": 1,
+    "ZERO_SILENCE_DISAGREEMENT": 3
+  },
+  "metadata_checks": {
+    "canonical_vocabulary_matches_all_requests": true,
+    "temporal_options_valid_all_requests": true,
+    "positive_then_in_any_fear_artifact_domain": false
+  },
+  "quantification_checks": [
+    {
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "state": "+1",
+      "quantity_has_model_task": false,
+      "portmanteau_rule_fired": true
+    },
+    {
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "state": "+1",
+      "quantity_has_model_task": false,
+      "portmanteau_rule_fired": true
+    },
+    {
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "state": "+1",
+      "quantity_has_model_task": false,
+      "portmanteau_rule_fired": true
+    },
+    {
+      "reading_id": "scared:ADJ:E5-:fear",
+      "state": "+1",
+      "quantity_has_model_task": false,
+      "portmanteau_rule_fired": true
+    },
+    {
+      "reading_id": "scared:ADJ:E6-:fear",
+      "state": "+1",
+      "quantity_has_model_task": false,
+      "portmanteau_rule_fired": true
+    },
+    {
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "state": "+1",
+      "quantity_has_model_task": false,
+      "portmanteau_rule_fired": true
+    }
+  ],
+  "quantification_ablation_results": [
+    {
+      "intervention": "NO_DECOMPOSITION_RULE",
+      "code": "PASSED",
+      "quantity_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "when_domain": [
+        "+1"
+      ],
+      "definition_accounting": {
+        "code": "FAMILY_UNRESOLVED",
+        "family_id": "GSE_FEAR_ADJ_BOUNDARY_V1",
+        "authority": "AUTHORED_GSE_BOUNDARY; NOT_INDEPENDENT_SEMANTIC_COMPLETENESS",
+        "unresolved": [
+          "QUANTITY"
+        ],
+        "contradictions": []
+      },
+      "candidate_emitted": false
+    },
+    {
+      "intervention": "NO_TYPED_TEMPLATE_CLAIM",
+      "code": "PASSED",
+      "quantity_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "when_domain": [
+        "+1"
+      ],
+      "definition_accounting": {
+        "code": "FAMILY_UNRESOLVED",
+        "family_id": "GSE_FEAR_ADJ_BOUNDARY_V1",
+        "authority": "AUTHORED_GSE_BOUNDARY; NOT_INDEPENDENT_SEMANTIC_COMPLETENESS",
+        "unresolved": [
+          "QUANTITY"
+        ],
+        "contradictions": []
+      },
+      "candidate_emitted": false
+    }
+  ],
+  "remaining_challenges_by_coordinate": {
+    "THEN": [
+      {
+        "word": "afraid",
+        "reading_id": "afraid:ADJ:E5-:fear",
+        "reference": "-1",
+        "actual": "0",
+        "raw_code": "FALSE_OMISSION",
+        "qualification": null
+      },
+      {
+        "word": "nervous",
+        "reading_id": "nervous:ADJ:E6-:fear",
+        "reference": "empty",
+        "actual": "-1",
+        "raw_code": "ADDITION_CHALLENGE",
+        "qualification": null
+      }
+    ],
+    "MAYBE": [
+      {
+        "word": "afraid",
+        "reading_id": "afraid:ADJ:E5-:fear",
+        "reference": "empty",
+        "actual": "+1",
+        "raw_code": "ADDITION_CHALLENGE",
+        "qualification": null
+      },
+      {
+        "word": "frightened",
+        "reading_id": "frightened:ADJ:E5-:fear",
+        "reference": "empty",
+        "actual": "unresolved",
+        "raw_code": "UNRESOLVED_REFERENCE_STATE",
+        "qualification": null
+      },
+      {
+        "word": "scared",
+        "reading_id": "scared:ADJ:E5-:fear",
+        "reference": "empty",
+        "actual": "0",
+        "raw_code": "ZERO_SILENCE_DISAGREEMENT",
+        "qualification": null
+      },
+      {
+        "word": "scared",
+        "reading_id": "scared:ADJ:E6-:fear",
+        "reference": "empty",
+        "actual": "0",
+        "raw_code": "ZERO_SILENCE_DISAGREEMENT",
+        "qualification": null
+      },
+      {
+        "word": "terrified",
+        "reading_id": "terrified:ADJ:E5-:fear",
+        "reference": "empty",
+        "actual": "0",
+        "raw_code": "ZERO_SILENCE_DISAGREEMENT",
+        "qualification": null
+      }
+    ],
+    "MUST": [
+      {
+        "word": "afraid",
+        "reading_id": "afraid:ADJ:E5-:fear",
+        "reference": "empty",
+        "actual": "+1",
+        "raw_code": "ADDITION_CHALLENGE",
+        "qualification": null
+      },
+      {
+        "word": "frightened",
+        "reading_id": "frightened:ADJ:E5-:fear",
+        "reference": "empty",
+        "actual": "+1",
+        "raw_code": "ADDITION_CHALLENGE",
+        "qualification": null
+      },
+      {
+        "word": "nervous",
+        "reading_id": "nervous:ADJ:E6-:fear",
+        "reference": "empty",
+        "actual": "+1",
+        "raw_code": "ADDITION_CHALLENGE",
+        "qualification": "GSE_HAVE_TO_PROJECTION_AMBIGUITY; OLD_REFERENCE_PROJECTS_CAN_NOT_ONLY"
+      },
+      {
+        "word": "scared",
+        "reading_id": "scared:ADJ:E5-:fear",
+        "reference": "empty",
+        "actual": "+1",
+        "raw_code": "ADDITION_CHALLENGE",
+        "qualification": null
+      },
+      {
+        "word": "scared",
+        "reading_id": "scared:ADJ:E6-:fear",
+        "reference": "empty",
+        "actual": "+1",
+        "raw_code": "ADDITION_CHALLENGE",
+        "qualification": null
+      },
+      {
+        "word": "terrified",
+        "reading_id": "terrified:ADJ:E5-:fear",
+        "reference": "empty",
+        "actual": "+1",
+        "raw_code": "ADDITION_CHALLENGE",
+        "qualification": null
+      }
+    ],
+    "KNOW": [
+      {
+        "word": "scared",
+        "reading_id": "scared:ADJ:E5-:fear",
+        "reference": "empty",
+        "actual": "+1",
+        "raw_code": "ADDITION_CHALLENGE",
+        "qualification": null
+      },
+      {
+        "word": "scared",
+        "reading_id": "scared:ADJ:E6-:fear",
+        "reference": "empty",
+        "actual": "+1",
+        "raw_code": "ADDITION_CHALLENGE",
+        "qualification": null
+      },
+      {
+        "word": "terrified",
+        "reading_id": "terrified:ADJ:E5-:fear",
+        "reference": "empty",
+        "actual": "+1",
+        "raw_code": "ADDITION_CHALLENGE",
+        "qualification": null
+      }
+    ],
+    "IF": [
+      {
+        "word": "scared",
+        "reading_id": "scared:ADJ:E5-:fear",
+        "reference": "empty",
+        "actual": "+1",
+        "raw_code": "ADDITION_CHALLENGE",
+        "qualification": null
+      },
+      {
+        "word": "scared",
+        "reading_id": "scared:ADJ:E6-:fear",
+        "reference": "empty",
+        "actual": "+1",
+        "raw_code": "ADDITION_CHALLENGE",
+        "qualification": null
+      }
+    ]
+  },
+  "interpretation": "The typed quantified-time decomposition resolves QUANTITY symbolically. Bounded live execution and complete candidate construction are demonstrated. Semantic disagreements and one unresolved choice remain; no untouched positive Fear evaluation was established."
+}

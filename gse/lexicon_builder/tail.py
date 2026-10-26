@@ -9,7 +9,8 @@ from functools import partial
 from pathlib import Path
 
 from gse.lexicon_builder.artifact import read_sparse
-from gse.lexicon_builder.core import CANONICAL_COORDINATES, Resolution, legal_domain
+from gse.lexicon_builder.core import CANONICAL_COORDINATES, Resolution, coordinate_vocabulary, legal_domain
+from gse.lexicon_builder.families import optional_components
 from gse.lexicon_builder.model import OllamaSelector
 from gse.lexicon_builder.reading import CoordinateDecision, ReadingSeed
 
@@ -22,7 +23,7 @@ def nominated_components(source_rule: dict) -> list[str]:
     class, including members absent from the evaluation references.
     """
     optional = ("DO", "IF", "KNOW") if source_rule["rule_id"] == "EMOTION_FEAR_ADJ" else ()
-    return list(dict.fromkeys([*source_rule.get("residual", []), *optional]))
+    return list(dict.fromkeys([*source_rule.get("residual", []), *optional, *optional_components(source_rule)]))
 
 
 class BudgetedSelector(OllamaSelector):
@@ -91,8 +92,10 @@ def _payload(seed: ReadingSeed, task: dict, state: Resolution) -> dict:
         ],
         "fixed_coordinates": {c: v.value for c, v in state.forced().items()},
         "coordinate": task["coordinate"],
+        "coordinate_vocabulary": coordinate_vocabulary(task["coordinate"]),
         "surviving_domain": [v.value for v in state.domains[task["coordinate"]]],
         "scope": "TARGET_READING_OWN_DEFINITION; NO_GOLD_OR_BLANKET_MASK_CLOSURE",
+        "projection_scope": seed.context.get("projection_scope", "TARGET_READING_OWN_DEFINITION"),
         "native_observations": seed.context,
     }
 

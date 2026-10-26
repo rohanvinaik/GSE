@@ -1,0 +1,58 @@
+{
+  "schema": "GSE_FAMILY_VERIFICATION_V1",
+  "repository_gate": {
+    "exit_code": 0,
+    "pytest_passed": 5704,
+    "skipped": 12,
+    "xfailed": 4,
+    "log": "repository-gate.log",
+    "types": "250 repository-wide advisory diagnostics; lexicon scope clean"
+  },
+  "lexicon_gate": {
+    "exit_code": 0,
+    "passed": 458,
+    "deselected": 92,
+    "log": "lexicon-gate.log",
+    "baseline": "REFRESHED_AFTER_CELL_REPLAY"
+  },
+  "program_check": "PASSED",
+  "openspec_strict": "PASSED",
+  "detective_family_validator": "CERTIFICATE_WITHHELD",
+  "semantic_family_acceptance": "NOT_ESTABLISHED",
+  "staged_source_and_package": {
+    "code": "VERIFIED",
+    "tested_git_tree": "66faeea1c06283b0b636944e4dc74ab7550dfad0",
+    "lexicon_tests_passed": 423,
+    "test_log": "staged-source-tests.log",
+    "wheel_smoke": "installed-wheel-smoke.json",
+    "code_hashes": {
+      "basis.py": "ab45551986507a1968dc27169ad9426f3cc7885975a54e8b1b4ef3d4bb62971e",
+      "build.py": "d22eb80c2bc4ae819db36dea7f5b875c95d53254f639db578a78b11e770f192b",
+      "tail.py": "b57c9151bdb6706a95c3ab82a2eac55ef25c346edc08c7ebb5050abef6aa65f9",
+      "audit.py": "83ae3dc0c631ce90a4c2ca07760927ca95aece1059b2e244a502a369632e726d",
+      "artifact.py": "a6e9f4d9d566082a44fa48ab0d59efab9a286d4c12f90c46bd7eec0373228d6a",
+      "atomics.py": "44fc80369ca7fa72a0f68fef9d93b870ea4c96fd042037ed52382003a92be797",
+      "fill.py": "1f71146df7e5a77abe886a3bd3fed01ad0e3631d24916c94f7786427b210c635",
+      "registry.py": "f54a6b2fa76774659f8664456a9d40fed92d0add60751fbe82a5f818d07f3cd6",
+      "release_audit.py": "aa8bec6b932636bf262384fe2456c6336ab3cd313948d84d2c689747010e3a30",
+      "number.py": "c4cb40a817ea799cfc86d5e6774f743ec45d604e7a865c3e65180c9129d1bf79",
+      "families.py": "a4d21971ec6176b6368af0cfaeafe886da008c2d99065d656956fb6c6213c8db",
+      "reading.py": "d901041421bc183cb37f2846fdc72bdc3744484f031cb62a2d56a936924bd9ca",
+      "__init__.py": "6419f246c2579ae1967d225ccea65c8120cbcf3b22933f19d8aaa478069308a6",
+      "foundation.py": "4afdb74cecffbc6ee59763dafbe2d77a02d6e289c4963e7ec910aac4b6333fde",
+      "core.py": "10f4f805a108ac46b95fe2fc0b516bcfc5bb2873394c01ddc9bd8cf7b8805aa8",
+      "coverage.py": "7fe093143dc59f057f719decc29a255a3408a1be8feddd9294611894a176b2a3",
+      "runtime.py": "7cdf667a7d82438f1a248f312f3be49d81f018e344f9a624bc2b3472ca76ec1d",
+      "model.py": "b968bf68593ddbb3cb850df5c35c10461341ff3c85c05f1a77abb94a5f602f12",
+      "sources.py": "8d65fa99a933e1de4b61dc0e959b796b396399b5a5d5a3eff93904ae94b6d016",
+      "cli.py": "35bbaa539f4569fc754ac324e98de43f0d23b7f19d085eed1ccced46240d3e37",
+      "nouns.py": "dc5d34751290464e743c816592a14c36ba1e92b642966979654c4ac5d626e54a",
+      "conditionals.py": "b54d68a94a38cac212799ff7a787437c897aa979fb6b9473fb551133c9e258d1",
+      "surprise.py": "f03bc35143145f677923055c82ba69f81d581d292279c58654901b7d72fda1cf",
+      "perception.py": "5a42e5a60f17538a1bf61477fba50e4c67785d1bd3e653267601b26201f97f47",
+      "__main__.py": "1cf51f71de84607e74bd7cd3c9366284dbe890fcb1380e36184fbb012f8a8e93",
+      "native_constraints.py": "e8ea6fa3168466a93a63e3938a36f466d5cdb8f11d10978ccca1b41fb071310c",
+      "bank_laws.json": "be79326ec360fe8d0cf62873a8d54a5417ecf34eb665deb3a5543a6e06aa7b2e"
+    }
+  }
+}

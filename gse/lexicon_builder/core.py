@@ -48,6 +48,19 @@ def canonical_pole(name: str) -> tuple[str, int]:
     return (_NEGATIVE_POLES[name], -1) if name in _NEGATIVE_POLES else (name, 1)
 
 
+def coordinate_vocabulary(coordinate: str) -> dict:
+    """Decoder vocabulary comes from the same signed basis as the solver."""
+    if coordinate not in CANONICAL_COORDINATES:
+        raise ValueError("UNKNOWN_COORDINATE")
+    poles = {str(direction): prime for prime in PRIMES for c, direction in [canonical_pole(prime)] if c == coordinate}
+    return {
+        "coordinate": coordinate,
+        "signed_prime_names": {"+1" if sign == "1" else sign: prime for sign, prime in poles.items()},
+        "0": "WRITTEN_EXPLICIT_ABSENCE_WITHIN_AN_APPLICABLE_DOMAIN",
+        "empty": "DEFINITION_DOES_NOT_ADDRESS_THIS_COORDINATE",
+    }
+
+
 def legal_domain(coordinate: str) -> frozenset[Cell]:
     """Unpaired primes have no negative state; silence differs from zero."""
     if coordinate not in CANONICAL_COORDINATES:

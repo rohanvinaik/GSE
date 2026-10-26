@@ -1,0 +1,16 @@
+{
+  "command": [
+    ".venv/bin/python",
+    "-m",
+    "gse.lexicon_builder",
+    "release-audit",
+    "--build-dir",
+    "/private/tmp/gse-lexicon-release-build-20261025",
+    "--output",
+    "/private/tmp/gse-family-coverage-split-20261025"
+  ],
+  "cwd": "/Users/rohanvinaik/Projects/gse",
+  "artifact_scope": "Existing e40a832 full-source artifact; not rebuilt with the later family-boundary changes",
+  "audit_scope": "Current frozen coverage-split audit of emitted artifacts and local corpora; no new gold input",
+  "exit_code": 0
+}

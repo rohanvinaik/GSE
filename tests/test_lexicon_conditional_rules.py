@@ -243,9 +243,14 @@ def test_review_stamps_correlations_and_truthy_metadata_cannot_grant_admission()
 def test_live_admission_report_preserves_frozen_legacy_and_validated_paths():
     book = load_rulebook()
     report = admission_report(book)
-    assert report["reason_counts"]["ADMITTED_LEGACY_APPROVAL"] == len(LEGACY_APPROVAL_CONTRACTS)
     assert report["reason_counts"]["ADMITTED_VALIDATED"] >= 12
     current = {r["rule_id"]: r for r in report["records"]}
+    assert set(LEGACY_APPROVAL_CONTRACTS) <= set(current)
+    assert all(
+        current[rule_id]["reason"] in {"ADMITTED_LEGACY_APPROVAL", "ADMITTED_VALIDATED"}
+        for rule_id in LEGACY_APPROVAL_CONTRACTS
+    )
+    assert current["EMOTION_FEAR_ADJ"]["reason"] == "ADMITTED_VALIDATED"
     assert current["USAS_OWN_HAPPY_SAD_STATE"]["reason"] == "UNREVIEWED_RULE"
     assert current["VN_AFFECTIVE_STATE"]["reason"] == current["VN_EXISTENCE"]["reason"] == "ADMITTED_VALIDATED"
 
