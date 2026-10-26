@@ -1,0 +1,67 @@
+Assuming the corresponding module name of package 'numpy' is 'numpy'. Install the package or configure a package_module_name_map entry to override this behaviour.
+Assuming the corresponding module name of package 'scipy' is 'scipy'. Install the package or configure a package_module_name_map entry to override this behaviour.
+Assuming the corresponding module name of package 'msgpack' is 'msgpack'. Install the package or configure a package_module_name_map entry to override this behaviour.
+Assuming the corresponding module name of package 'scikit-learn' is 'scikit_learn'. Install the package or configure a package_module_name_map entry to override this behaviour.
+Assuming the corresponding module name of package 'nltk' is 'nltk'. Install the package or configure a package_module_name_map entry to override this behaviour.
+Assuming the corresponding module name of package 'marisa-trie' is 'marisa_trie'. Install the package or configure a package_module_name_map entry to override this behaviour.
+Assuming the corresponding module name of package 'spacy' is 'spacy'. Install the package or configure a package_module_name_map entry to override this behaviour.
+Assuming the corresponding module name of package 'en-core-web-sm' is 'en_core_web_sm'. Install the package or configure a package_module_name_map entry to override this behaviour.
+Assuming the corresponding module name of package 'requests' is 'requests'. Install the package or configure a package_module_name_map entry to override this behaviour.
+Assuming the corresponding module name of package 'mcp' is 'mcp'. Install the package or configure a package_module_name_map entry to override this behaviour.
+Assuming the corresponding module name of package 'pytest' is 'pytest'. Install the package or configure a package_module_name_map entry to override this behaviour.
+Assuming the corresponding module name of package 'mcp' is 'mcp'. Install the package or configure a package_module_name_map entry to override this behaviour.
+Assuming the corresponding module name of package 'requests' is 'requests'. Install the package or configure a package_module_name_map entry to override this behaviour.
+Assuming the corresponding module name of package 'hypothesis' is 'hypothesis'. Install the package or configure a package_module_name_map entry to override this behaviour.
+Assuming the corresponding module name of package 'detective-spec' is 'detective_spec'. Install the package or configure a package_module_name_map entry to override this behaviour.
+Assuming the corresponding module name of package 'ruff' is 'ruff'. Install the package or configure a package_module_name_map entry to override this behaviour.
+Scanning 432 files...
+
+[1marchive/old_lexicon_build/test_wiktionary_v2_loader.py[m[36m:[m10[36m:[m8[36m:[m [1m[31mDEP004[m 'pytest' imported but declared as a dev dependency
+[1mdaemon/throttle.py[m[36m:[m44[36m:[m20[36m:[m [1m[31mDEP001[m 'psutil' imported but missing from the dependency definitions
+[1mdaemon/throttle.py[m[36m:[m74[36m:[m16[36m:[m [1m[31mDEP001[m 'psutil' imported but missing from the dependency definitions
+[1mgse/_archive/benchmarks/baselines.py[m[36m:[m74[36m:[m24[36m:[m [1m[31mDEP001[m 'gensim' imported but missing from the dependency definitions
+[1mgse/_archive/benchmarks/baselines.py[m[36m:[m119[36m:[m24[36m:[m [1m[31mDEP001[m 'gensim' imported but missing from the dependency definitions
+[1mgse/_archive/benchmarks/baselines.py[m[36m:[m157[36m:[m24[36m:[m [1m[31mDEP001[m 'gensim' imported but missing from the dependency definitions
+[1mgse/_archive/benchmarks/baselines.py[m[36m:[m200[36m:[m17[36m:[m [1m[31mDEP001[m 'transformers' imported but missing from the dependency definitions
+[1mgse/_archive/benchmarks/baselines.py[m[36m:[m201[36m:[m24[36m:[m [1m[31mDEP001[m 'torch' imported but missing from the dependency definitions
+[1mgse/_archive/benchmarks/baselines.py[m[36m:[m224[36m:[m20[36m:[m [1m[31mDEP001[m 'torch' imported but missing from the dependency definitions
+[1mgse/_archive/benchmarks/baselines.py[m[36m:[m273[36m:[m17[36m:[m [1m[31mDEP001[m 'sentence_transformers' imported but missing from the dependency definitions
+[1mgse/_archive/benchmarks/baselines.py[m[36m:[m315[36m:[m17[36m:[m [1m[31mDEP001[m 'sentence_transformers' imported but missing from the dependency definitions
+[1mgse/_archive/encoders/conversation_encoder.py[m[36m:[m11[36m:[m8[36m:[m [1m[31mDEP001[m 'torch' imported but missing from the dependency definitions
+[1mgse/_archive/encoders/paragraph_encoder.py[m[36m:[m11[36m:[m8[36m:[m [1m[31mDEP001[m 'torch' imported but missing from the dependency definitions
+[1mgse/_archive/encoders/sentence_encoder.py[m[36m:[m12[36m:[m8[36m:[m [1m[31mDEP001[m 'torch' imported but missing from the dependency definitions
+[1mgse/_archive/graph/traversal.py[m[36m:[m9[36m:[m8[36m:[m [1m[31mDEP001[m 'networkx' imported but missing from the dependency definitions
+[1mgse/_archive/lexicon_generator.py[m[36m:[m8[36m:[m12[36m:[m [1m[31mDEP001[m 'anthropic' imported but missing from the dependency definitions
+[1mgse/_archive/pipeline.py[m[36m:[m5[36m:[m8[36m:[m [1m[31mDEP001[m 'torch' imported but missing from the dependency definitions
+[1mgse/benchmarks/metrics.py[m[36m:[m262[36m:[m5[36m:[m [1m[31mDEP001[m 'sklearn' imported but missing from the dependency definitions
+[1mgse/curation/llm/qwen_client.py[m[36m:[m68[36m:[m20[36m:[m [1m[31mDEP001[m 'torch' imported but missing from the dependency definitions
+[1mgse/curation/llm/qwen_client.py[m[36m:[m85[36m:[m20[36m:[m [1m[31mDEP001[m 'torch' imported but missing from the dependency definitions
+[1mgse/curation/llm/qwen_client.py[m[36m:[m86[36m:[m13[36m:[m [1m[31mDEP001[m 'transformers' imported but missing from the dependency definitions
+[1mgse/curation/llm/qwen_client.py[m[36m:[m147[36m:[m20[36m:[m [1m[31mDEP001[m 'torch' imported but missing from the dependency definitions
+[1mgse/curation/llm/qwen_client.py[m[36m:[m194[36m:[m16[36m:[m [1m[31mDEP001[m 'torch' imported but missing from the dependency definitions
+[1mgse/discourse/nested_router.py[m[36m:[m44[36m:[m12[36m:[m [1m[31mDEP001[m 'torch' imported but missing from the dependency definitions
+[1mgse/discourse/nested_router.py[m[36m:[m45[36m:[m12[36m:[m [1m[31mDEP001[m 'torch' imported but missing from the dependency definitions
+[1mgse/discourse/nested_router.py[m[36m:[m46[36m:[m5[36m:[m [1m[31mDEP001[m 'sklearn' imported but missing from the dependency definitions
+[1mgse/discourse/nested_router.py[m[36m:[m106[36m:[m16[36m:[m [1m[31mDEP001[m 'torch' imported but missing from the dependency definitions
+[1mgse/discourse/router.py[m[36m:[m21[36m:[m8[36m:[m [1m[31mDEP001[m 'torch' imported but missing from the dependency definitions
+[1mgse/discourse/router.py[m[36m:[m22[36m:[m8[36m:[m [1m[31mDEP001[m 'torch' imported but missing from the dependency definitions
+[1mgse/nlp/sentence_parser.py[m[36m:[m27[36m:[m12[36m:[m [1m[31mDEP001[m 'amrlib' imported but missing from the dependency definitions
+[1mpyproject.toml[m[36m:[m [1m[31mDEP002[m 'scikit-learn' defined as a dependency but not used in the codebase
+[1mpyproject.toml[m[36m:[m [1m[31mDEP002[m 'en-core-web-sm' defined as a dependency but not used in the codebase
+[1mscripts/build_l2_corpus.py[m[36m:[m148[36m:[m12[36m:[m [1m[31mDEP001[m 'datasets' imported but missing from the dependency definitions
+[1mscripts/learn_speech_patterns.py[m[36m:[m26[36m:[m8[36m:[m [1m[31mDEP001[m 'ijson' imported but missing from the dependency definitions
+[1mscripts/llm_decompose.py[m[36m:[m38[36m:[m12[36m:[m [1m[31mDEP001[m 'anthropic' imported but missing from the dependency definitions
+[1mscripts/process_training_data.py[m[36m:[m19[36m:[m8[36m:[m [1m[31mDEP001[m 'ijson' imported but missing from the dependency definitions
+[1mscripts/run_experiments.py[m[36m:[m341[36m:[m16[36m:[m [1m[31mDEP001[m 'gensim' imported but missing from the dependency definitions
+[1mscripts/run_experiments.py[m[36m:[m364[36m:[m9[36m:[m [1m[31mDEP001[m 'sentence_transformers' imported but missing from the dependency definitions
+[1mscripts/run_sentence_experiment.py[m[36m:[m160[36m:[m5[36m:[m [1m[31mDEP001[m 'sentence_transformers' imported but missing from the dependency definitions
+[1mscripts/sigma_sem_curve.py[m[36m:[m109[36m:[m9[36m:[m [1m[31mDEP001[m 'lintgate' imported but missing from the dependency definitions
+[1mscripts/train_register_router.py[m[36m:[m46[36m:[m12[36m:[m [1m[31mDEP001[m 'torch' imported but missing from the dependency definitions
+[1mscripts/train_register_router.py[m[36m:[m47[36m:[m12[36m:[m [1m[31mDEP001[m 'torch' imported but missing from the dependency definitions
+[1mscripts/train_register_router.py[m[36m:[m48[36m:[m5[36m:[m [1m[31mDEP001[m 'sklearn' imported but missing from the dependency definitions
+[1mscripts/train_register_router.py[m[36m:[m49[36m:[m5[36m:[m [1m[31mDEP001[m 'sklearn' imported but missing from the dependency definitions
+[1mscripts/train_register_router.py[m[36m:[m50[36m:[m5[36m:[m [1m[31mDEP001[m 'sklearn' imported but missing from the dependency definitions
+[1mscripts/validate_heal_compact.py[m[36m:[m44[36m:[m9[36m:[m [1m[31mDEP001[m 'harvest_taxonomy' imported but missing from the dependency definitions
+[1m[31mFound 46 dependency issues.[m
+
+For more information, see the documentation: https://deptry.com/

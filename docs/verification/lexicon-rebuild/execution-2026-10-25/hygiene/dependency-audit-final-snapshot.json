@@ -1,0 +1,54 @@
+{
+  "schema": "GSE_PUSH_DEPENDENCY_HYGIENE_FINAL_V1",
+  "uv_lock_sha256": "29fe71b5c9e79cea81b276de69f006ab67a582d4cebe826f7a90e005af24c1cf",
+  "pyproject_sha256": "d6a150442dd6ec96116ea2c2888a2b80878102d227525fe2303e18c260bb12fb",
+  "requirements_sha256": "1530fba5c9294f01e14c7fd28692e8d1d80fbe47fdd6aa44c702a7e72865f0c2",
+  "requirements_path": "/private/tmp/gse-lexicon-hygiene-final-requirements-20261025.txt",
+  "scope": {
+    "frozen": true,
+    "all_extras": true,
+    "all_groups": true,
+    "emit_project": false,
+    "hashes": false
+  },
+  "locked_security_update_versions": {
+    "certifi": [
+      "2026.10.23"
+    ],
+    "nltk": [
+      "3.10.4"
+    ],
+    "mcp": [
+      "1.30.0"
+    ],
+    "setuptools": [
+      "84.1.0"
+    ]
+  },
+  "commands": [
+    {
+      "command": "uv export --frozen --no-hashes --no-emit-project --all-extras --all-groups --format requirements-txt > /private/tmp/gse-lexicon-hygiene-final-requirements-20261025.txt 2> docs/verification/lexicon-rebuild/execution-2026-10-25/hygiene/uv-export-final.log",
+      "exit_code": 0,
+      "escalated": true,
+      "code": "FULL_FROZEN_EXPORT_COMPLETE",
+      "log": "uv-export-final.log"
+    },
+    {
+      "command": "uvx pip-audit -r /private/tmp/gse-lexicon-hygiene-final-requirements-20261025.txt --no-deps --disable-pip > docs/verification/lexicon-rebuild/execution-2026-10-25/hygiene/pip-audit-final.log 2>&1",
+      "exit_code": 0,
+      "escalated": true,
+      "code": "NO_KNOWN_VULNERABILITIES_WITH_URL_SKIP",
+      "log": "pip-audit-final.log"
+    }
+  ],
+  "reported_known_vulnerabilities": 0,
+  "skips": [
+    {
+      "package": "en-core-web-sm",
+      "reason": "URL requirements cannot be pinned to a specific package version"
+    }
+  ],
+  "suppressions": [],
+  "dependency_changes_by_auditor": false,
+  "prior_report": "dependency-audit-snapshot.json"
+}

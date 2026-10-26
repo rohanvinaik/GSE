@@ -1,0 +1,129 @@
+Installed 7 packages in 11ms
+General:
+
+ • Detected build backend: setuptools.build_meta                                
+ • Python requires: >=3.14                                                      
+
+├── PY001 Has a pyproject.toml ✅
+├── PY002 Has a README.(md|rst) file ✅
+├── PY003 Has a LICENSE* file ❌
+│   Projects must have a license                                                
+├── PY004 Has docs folder ✅
+├── PY005 Has tests folder ✅
+├── PY006 Has pre-commit config ❌
+│   Projects must have a .pre-commit-config.yaml file                           
+├── PY007 Supports an easy task runner (nox, tox, pixi, etc.) ❌
+│   Projects must have a noxfile.py, tox.ini, tox.toml, pixi.toml or            
+│   tool.hatch.envs/tool.spin/tool.tox in pyproject.toml to encourage new       
+│   contributors.                                                               
+└── PY008 Has a .gitignore file ✅
+
+PyProject:
+├── PP002 Has a proper build-system table ✅
+├── PP003 Does not list wheel as a build-dep ✅
+├── PP004 Does not upper cap Python requires ✅
+├── PP005 Using SPDX project.license should not use deprecated trove classifiers
+│   [skipped]
+├── PP006 The dev dependency group should be defined ✅
+├── PP301 Has pytest in pyproject ✅
+├── PP302 Sets a minimum pytest to at least 6 or 9 ✅
+├── PP303 Sets the test paths ✅
+├── PP304 Sets the log level in pytest ✅
+├── PP305 Specifies strict xfail ✅
+├── PP306 Specifies strict config ✅
+├── PP307 Specifies strict markers ✅
+├── PP308 Specifies useful pytest summary ✅
+└── PP309 Filter warnings specified ❌
+    filterwarnings must be set (probably to at least ["error"]). Python will    
+    hide important warnings otherwise, like deprecations.                       
+    
+                                                                                
+     # Old pytest                                                               
+     [tool.pytest.ini_options]                                                  
+     filterwarnings = ["error"]                                                 
+                                                                                
+     # pytest 9+                                                                
+     [tool.pytest]                                                              
+     filterwarnings = ["error"]                                                 
+                                                                                
+
+GitHub Actions:
+├── GH100 Has GitHub Actions config ✅
+├── GH101 Has nice names ✅
+├── GH102 Auto-cancel on repeated PRs ✅
+├── GH103 At least one workflow with manual dispatch trigger ✅
+├── GH104 Use unique names for upload-artifact ✅
+├── GH105 Use Trusted Publishing instead of token-based publishing on PyPI ✅
+├── GH200 Maintained by Dependabot ✅
+├── GH210 Maintains the GitHub action versions with Dependabot ✅
+├── GH211 Do not pin core actions as major versions ✅
+└── GH212 Require GHA update grouping ✅
+
+MyPy:
+├── MY100 Uses a type checker (pyproject config) ✅
+├── MY101 Type checker in strict mode [skipped]
+├── MY102 MyPy show_error_codes deprecated [skipped]
+├── MY103 MyPy warn unreachable [skipped]
+├── MY104 MyPy enables ignore-without-code [skipped]
+├── MY105 MyPy enables redundant-expr [skipped]
+└── MY106 MyPy enables truthy-bool [skipped]
+
+Pre-commit:
+├── PC100 Has pre-commit-hooks [skipped]
+├── PC110 Uses black or ruff-format [skipped]
+├── PC111 Formats code in docs (ruff-format or blacken-docs) [skipped]
+├── PC140 Uses a type checker [skipped]
+├── PC160 Uses a spell checker [skipped]
+├── PC170 Uses PyGrep hooks (only needed if rST present) [skipped]
+├── PC180 Uses a markdown formatter [skipped]
+├── PC190 Uses a linter (Ruff/Flake8) [skipped]
+├── PC191 Ruff show fixes if fixes enabled [skipped]
+├── PC192 Ruff uses `ruff-check` instead of `ruff` (legacy) [skipped]
+├── PC901 Custom pre-commit CI update message [skipped]
+├── PC902 Custom pre-commit CI autofix message [skipped]
+└── PC903 Specified pre-commit CI schedule [skipped]
+
+Ruff:
+Rules mentioned in guide but not here: "FA", "ARG", "PYI", "RSE", "DTZ", "T10", 
+"Q", "FURB", "FLY", "PIE", "B", "PGH", "YTT", "EM", "TC", "PERF", "C4", "SLOT", 
+"ICN", "PL", "TRY", "EXE", "SIM", "PT", "PD", "PTH", "RUF", "RET", "ISC", "LOG",
+"T20", "NPY", "BLE", "G", "UP"                                                  
+
+├── RF001 Has Ruff config ✅
+├── RF002 Target version must be set ❌
+│   You have both Ruff's target-version and project.requires-python. You only   
+│   need the latter.                                                            
+├── RF003 src directory doesn't need to be specified anymore (0.6+) [skipped]
+├── RF101 Bugbear must be selected ❌
+│   Must select the flake8-bugbear B checks. Recommended:                       
+│   
+│                                                                               
+│    [tool.ruff.lint]                                                           
+│    extend-select = [                                                          
+│      "B",  # flake8-bugbear                                                   
+│    ]                                                                          
+│                                                                               
+├── RF201 Avoid using deprecated config settings ✅
+└── RF202 Use (new) lint config section ✅
+
+Security:
+└── SEC001 Use zizmor to check the GitHub Actions ❌
+    Projects with GitHub Actions should statically analyze their workflows with 
+    zizmor, which catches common security issues such as template injection,    
+    excessive permissions, and credential persistence. The simplest way is to   
+    add the pre-commit hook:                                                    
+    
+                                                                                
+     - repo: https://github.com/zizmorcore/zizmor-pre-commit                    
+       rev: v1.26.1                                                             
+       hooks:                                                                   
+         - id: zizmor                                                           
+                                                                                
+    
+    You can also run it as the zizmorcore/zizmor-action GitHub Action.          
+
+Hint: to ignore the failed checks, add this to pyproject.toml:
+
+[tool.repo-review]
+ignore = ["PY003", "PY006", "PY007", "PP309", "RF002", "RF101", "SEC001"]
+

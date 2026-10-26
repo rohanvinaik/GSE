@@ -1,0 +1,47 @@
+{
+  "schema": "GSE_RELEASE_HYGIENE_COMMANDS_V1",
+  "commands": [
+    {
+      "check": "zizmor",
+      "command": "uvx zizmor --offline .github/workflows",
+      "cwd": "/Users/rohanvinaik/Projects/gse",
+      "sandbox_exit_code": 2,
+      "exit_code": 0,
+      "output": "zizmor.log",
+      "sandbox_output": "zizmor.sandbox.log"
+    },
+    {
+      "check": "sp-repo-review",
+      "command": "uvx 'sp-repo-review[cli]' .",
+      "cwd": "/Users/rohanvinaik/Projects/gse",
+      "sandbox_exit_code": 2,
+      "exit_code": 3,
+      "output": "sp-repo-review.log",
+      "sandbox_output": "sp-repo-review.sandbox.log"
+    },
+    {
+      "check": "detect-secrets-version",
+      "command": "uvx detect-secrets --version",
+      "sandbox_exit_code": 2,
+      "exit_code": 0,
+      "output": "detect-secrets-version.log",
+      "sandbox_output": "detect-secrets-version.sandbox.log"
+    },
+    {
+      "check": "detect-secrets-help",
+      "command": "uvx detect-secrets scan --help",
+      "exit_code": 0,
+      "output": "detect-secrets-help.log"
+    },
+    {
+      "check": "tracked-secret-scan",
+      "command": "uvx detect-secrets scan --no-verify .",
+      "cwd": "/Users/rohanvinaik/Projects/gse",
+      "status": "COMPLETED",
+      "output": "detect-secrets-tracked.json",
+      "stderr": "detect-secrets-tracked.log",
+      "scope": "Git-tracked current working-tree contents; no history scan; network verification disabled; default plugin/filter settings; output stores secret hashes, not raw matches",
+      "exit_code": 0
+    }
+  ]
+}

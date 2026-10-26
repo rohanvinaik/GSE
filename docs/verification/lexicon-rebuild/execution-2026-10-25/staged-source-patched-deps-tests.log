@@ -1,0 +1,61 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.14.6, pytest-9.1.0, pluggy-1.6.0
+rootdir: /private/tmp/gse-lexicon-staged-598add97
+configfile: pyproject.toml
+plugins: hypothesis-6.170.7, anyio-4.15.1
+collected 403 items
+
+tests/test_lexicon_atomic_and_tail.py ......s....                        [  2%]
+tests/test_lexicon_bank_coverage.py ......                               [  4%]
+tests/test_lexicon_basis_profiles.py ................................... [ 12%]
+........................................................................ [ 30%]
+                                                                         [ 30%]
+tests/test_lexicon_bounded_tail.py ......s                               [ 32%]
+tests/test_lexicon_builder_foundation.py ........                        [ 34%]
+tests/test_lexicon_builder_workflow.py .............sss..                [ 38%]
+tests/test_lexicon_cause_bindings.py .....s                              [ 40%]
+tests/test_lexicon_coherence.py ................                         [ 44%]
+tests/test_lexicon_conditional_rules.py ................................ [ 52%]
+..............                                                           [ 55%]
+tests/test_lexicon_fill.py ....                                          [ 56%]
+tests/test_lexicon_foundation_workflow.py .............................. [ 64%]
+...........                                                              [ 66%]
+tests/test_lexicon_frozen_build.py ....                                  [ 67%]
+tests/test_lexicon_mvp_artifact.py ..s..s.s.                             [ 70%]
+tests/test_lexicon_native_constraints.py ...........s                    [ 73%]
+tests/test_lexicon_noun_projection.py .................ssssss            [ 78%]
+tests/test_lexicon_number.py .......                                     [ 80%]
+tests/test_lexicon_release_audit.py .........................            [ 86%]
+tests/test_lexicon_release_connection_identity.py .                      [ 87%]
+tests/test_lexicon_release_runtime.py ............................       [ 94%]
+tests/test_lexicon_rooted_provenance.py ........                         [ 96%]
+tests/test_lexicon_rule_admission.py ..                                  [ 96%]
+tests/test_lexicon_source_identity.py ..s                                [ 97%]
+tests/test_lexicon_unified_admission.py .....                            [ 98%]
+tests/test_lexical_connection_cache.py ......                            [100%]
+
+============================= slowest 5 durations ==============================
+1.80s call     tests/test_lexicon_release_runtime.py::test_real_encoder_consumes_settled_cells_and_retains_the_full_definition
+0.79s call     tests/test_lexicon_rule_admission.py::test_unapproved_relation_is_inert_in_both_atomic_and_word_paths
+0.48s call     tests/test_lexicon_basis_profiles.py::test_real_prime_proof_entry_point_requires_all_72
+0.44s call     tests/test_lexicon_release_runtime.py::test_a_modified_compatibility_projection_cannot_supply_an_encoding
+0.43s call     tests/test_lexicon_conditional_rules.py::test_resolve_cli_separates_reviewed_records_and_explicit_scratch_equations
+=========================== short test summary info ============================
+SKIPPED [1] tests/test_lexicon_atomic_and_tail.py:115: local lexicon sources absent: data/external/usas/semantic_lexicon_en.tsv, data/external/concreteness.csv, data/external/lancaster_sensorimotor.csv, data/external/nrc_vad.txt, data/external/nrc_emotion.txt
+SKIPPED [1] tests/test_lexicon_bounded_tail.py:122: local lexicon sources absent: data/external/usas/semantic_lexicon_en.tsv, data/external/concreteness.csv, data/external/lancaster_sensorimotor.csv, data/external/nrc_vad.txt, data/external/nrc_emotion.txt
+SKIPPED [1] tests/test_lexicon_builder_workflow.py:250: local lexicon sources absent: data/external/usas/semantic_lexicon_en.tsv, data/external/concreteness.csv, data/external/lancaster_sensorimotor.csv, data/external/nrc_vad.txt, data/external/nrc_emotion.txt
+SKIPPED [1] tests/test_lexicon_builder_workflow.py:263: local lexicon sources absent: data/external/usas/semantic_lexicon_en.tsv, data/external/concreteness.csv, data/external/lancaster_sensorimotor.csv, data/external/nrc_vad.txt, data/external/nrc_emotion.txt
+SKIPPED [1] tests/test_lexicon_builder_workflow.py:289: local lexicon sources absent: data/external/usas/semantic_lexicon_en.tsv, data/external/concreteness.csv, data/external/lancaster_sensorimotor.csv, data/external/nrc_vad.txt, data/external/nrc_emotion.txt
+SKIPPED [1] tests/test_lexicon_cause_bindings.py:86: local lexicon sources absent: data/external/usas/semantic_lexicon_en.tsv, data/external/concreteness.csv, data/external/lancaster_sensorimotor.csv, data/external/nrc_vad.txt, data/external/nrc_emotion.txt
+SKIPPED [1] tests/test_lexicon_mvp_artifact.py:47: local lexicon sources absent: data/external/usas/semantic_lexicon_en.tsv, data/external/concreteness.csv, data/external/lancaster_sensorimotor.csv, data/external/nrc_vad.txt, data/external/nrc_emotion.txt
+SKIPPED [1] tests/test_lexicon_mvp_artifact.py:83: local lexicon sources absent: data/external/usas/semantic_lexicon_en.tsv, data/external/concreteness.csv, data/external/lancaster_sensorimotor.csv, data/external/nrc_vad.txt, data/external/nrc_emotion.txt
+SKIPPED [1] tests/test_lexicon_mvp_artifact.py:135: local lexicon sources absent: data/external/usas/semantic_lexicon_en.tsv, data/external/concreteness.csv, data/external/lancaster_sensorimotor.csv, data/external/nrc_vad.txt, data/external/nrc_emotion.txt
+SKIPPED [1] tests/test_lexicon_native_constraints.py:183: local lexicon sources absent: data/external/usas/semantic_lexicon_en.tsv, data/external/concreteness.csv, data/external/lancaster_sensorimotor.csv, data/external/nrc_vad.txt, data/external/nrc_emotion.txt
+SKIPPED [1] tests/test_lexicon_noun_projection.py:203: local lexicon sources absent: data/external/usas/semantic_lexicon_en.tsv, data/external/concreteness.csv, data/external/lancaster_sensorimotor.csv, data/external/nrc_vad.txt, data/external/nrc_emotion.txt
+SKIPPED [1] tests/test_lexicon_noun_projection.py:215: local lexicon sources absent: data/external/usas/semantic_lexicon_en.tsv, data/external/concreteness.csv, data/external/lancaster_sensorimotor.csv, data/external/nrc_vad.txt, data/external/nrc_emotion.txt
+SKIPPED [1] tests/test_lexicon_noun_projection.py:230: local lexicon sources absent: data/external/usas/semantic_lexicon_en.tsv, data/external/concreteness.csv, data/external/lancaster_sensorimotor.csv, data/external/nrc_vad.txt, data/external/nrc_emotion.txt
+SKIPPED [1] tests/test_lexicon_noun_projection.py:243: local lexicon sources absent: data/external/usas/semantic_lexicon_en.tsv, data/external/concreteness.csv, data/external/lancaster_sensorimotor.csv, data/external/nrc_vad.txt, data/external/nrc_emotion.txt
+SKIPPED [1] tests/test_lexicon_noun_projection.py:259: local lexicon sources absent: data/external/usas/semantic_lexicon_en.tsv, data/external/concreteness.csv, data/external/lancaster_sensorimotor.csv, data/external/nrc_vad.txt, data/external/nrc_emotion.txt
+SKIPPED [1] tests/test_lexicon_noun_projection.py:270: local lexicon sources absent: data/external/usas/semantic_lexicon_en.tsv, data/external/concreteness.csv, data/external/lancaster_sensorimotor.csv, data/external/nrc_vad.txt, data/external/nrc_emotion.txt
+SKIPPED [1] tests/test_lexicon_source_identity.py:51: local lexicon sources absent: data/external/usas/semantic_lexicon_en.tsv, data/external/concreteness.csv, data/external/lancaster_sensorimotor.csv, data/external/nrc_vad.txt, data/external/nrc_emotion.txt
+======================= 386 passed, 17 skipped in 9.80s ========================

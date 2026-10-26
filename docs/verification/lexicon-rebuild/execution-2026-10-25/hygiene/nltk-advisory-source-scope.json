@@ -1,0 +1,503 @@
+{
+  "schema": "GSE_NLTK_ADVISORY_SOURCE_SCOPE_V1",
+  "scope": "Static AST and complete source units; no exploit execution or repository-wide reachability proof",
+  "upstream_sources": [
+    {
+      "url": "https://raw.githubusercontent.com/nltk/nltk/v3.10.0-rc2/nltk/parse/transitionparser.py",
+      "path": "/private/tmp/gse-nltk-advisory-20261025/v3.10.0-rc2-nltk_parse_transitionparser.py",
+      "sha256": "b05b70a2aa66a19091f3e6910602335c041a595e016419ccf098d812d9e725c0"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nltk/nltk/v3.10.0-rc2/nltk/tag/perceptron.py",
+      "path": "/private/tmp/gse-nltk-advisory-20261025/v3.10.0-rc2-nltk_tag_perceptron.py",
+      "sha256": "5b2082718945c5b6e70c0d406f1f6e4c43c68d24f25201b5546f70da6d21c155"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nltk/nltk/v3.10.0-rc2/nltk/classify/maxent.py",
+      "path": "/private/tmp/gse-nltk-advisory-20261025/v3.10.0-rc2-nltk_classify_maxent.py",
+      "sha256": "11f704cf6cd2a43b51cb13634e9cdbc46b0e8394e1e291e9b66036d6a59c2583"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nltk/nltk/v3.10.3/nltk/parse/transitionparser.py",
+      "path": "/private/tmp/gse-nltk-advisory-20261025/v3.10.3-nltk_parse_transitionparser.py",
+      "sha256": "ed55985d08ed38333d007c5e5c19170a4dc19009e871ab616d198a3da92eea70"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nltk/nltk/v3.10.3/nltk/tag/perceptron.py",
+      "path": "/private/tmp/gse-nltk-advisory-20261025/v3.10.3-nltk_tag_perceptron.py",
+      "sha256": "9d619a5ce7533c7eb388a70fedca8dcf0fb78279e1744e2abfdfcca9abd459ea"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nltk/nltk/v3.10.3/nltk/classify/maxent.py",
+      "path": "/private/tmp/gse-nltk-advisory-20261025/v3.10.3-nltk_classify_maxent.py",
+      "sha256": "11f704cf6cd2a43b51cb13634e9cdbc46b0e8394e1e291e9b66036d6a59c2583"
+    },
+    {
+      "url": "https://github.com/nltk/nltk/commit/483c5fe.patch",
+      "path": "/private/tmp/gse-nltk-advisory-20261025/483c5fe.patch",
+      "sha256": "02072aca5676a4a007dbeea97378b546f800305f6729cf57beb080a9c08a5647"
+    },
+    {
+      "url": "https://github.com/nltk/nltk/pull/3744.patch",
+      "path": "/private/tmp/gse-nltk-advisory-20261025/3744.patch",
+      "sha256": "f6e8e6894d20fd850458fcb4167d26aa4f43facc8e80a1343d361722cf1ca4ea"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/pypa/advisory-database/main/vulns/nltk/PYSEC-2026-3740.yaml",
+      "path": "/private/tmp/gse-nltk-advisory-20261025/PYSEC-2026-3740.yaml",
+      "sha256": "7f8347e0e02601aa6841cc3d30071bf0cf704d576747af208f7ab4c759a91bbe"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nltk/nltk/v3.10.4/nltk/parse/transitionparser.py",
+      "path": "/private/tmp/gse-nltk-advisory-20261025/v3.10.4-nltk_parse_transitionparser.py",
+      "sha256": "1190d794ba8cb94bd9e88bfd41f480bf2edc36adc6b51b2b5b286839d97ccaf9"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nltk/nltk/v3.10.4/nltk/tag/perceptron.py",
+      "path": "/private/tmp/gse-nltk-advisory-20261025/v3.10.4-nltk_tag_perceptron.py",
+      "sha256": "045dfb42d78ae4d045d9bc49dab0bb7c59a40571ffe89d9e5cd8b8ed1be819dc"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nltk/nltk/v3.10.4/nltk/classify/maxent.py",
+      "path": "/private/tmp/gse-nltk-advisory-20261025/v3.10.4-nltk_classify_maxent.py",
+      "sha256": "de9fd644c3f8f91beb631758879d2a0c89682053974e599540842639c83466d3"
+    },
+    {
+      "url": "https://api.github.com/repos/nltk/nltk/releases/latest",
+      "path": "/private/tmp/gse-nltk-advisory-20261025/latest-release.json",
+      "sha256": "d456523138a5fd278966ca841ab73e1596ed9a4a5b8fcc4694e29414e26981f9"
+    },
+    {
+      "url": "https://pypi.org/pypi/nltk/json",
+      "path": "/private/tmp/gse-nltk-advisory-20261025/pypi-nltk.json",
+      "sha256": "a3d2a2324102136d1331df58ee6dbe98284cafc13bdecad3b28ba5702a3c59c1"
+    }
+  ],
+  "upstream_affected_units": [
+    {
+      "source": "v3.10.0-rc2-nltk_classify_maxent.py",
+      "symbol": "save_maxent_params",
+      "start_line": 1583,
+      "end_line": 1603,
+      "ast_sha256": "ee9ad7896a7caf580f6400933aa15209bf896aafaa0261d1e46992dd303f8b86",
+      "unqualified_open_call_lines": [
+        1596,
+        1598,
+        1600,
+        1602
+      ]
+    },
+    {
+      "source": "v3.10.0-rc2-nltk_parse_transitionparser.py",
+      "symbol": "TransitionParser.train",
+      "start_line": 511,
+      "end_line": 553,
+      "ast_sha256": "63b699e8d35591e9bb77b2f90b7d7b2132ae338adfc83dcbe41ee0187f4c2a81",
+      "unqualified_open_call_lines": [
+        551
+      ]
+    },
+    {
+      "source": "v3.10.0-rc2-nltk_parse_transitionparser.py",
+      "symbol": "TransitionParser.parse",
+      "start_line": 555,
+      "end_line": 665,
+      "ast_sha256": "e4aaf9b5fc6d088061fee57ca43830019a767c5acd37d5c16564daaaa850cd57",
+      "unqualified_open_call_lines": [
+        570
+      ]
+    },
+    {
+      "source": "v3.10.0-rc2-nltk_tag_perceptron.py",
+      "symbol": "AveragedPerceptron.save",
+      "start_line": 106,
+      "end_line": 109,
+      "ast_sha256": "302be73d006b1c29787be2a3326165f62c7d141fd4e489250462d27413b979ef",
+      "unqualified_open_call_lines": [
+        108
+      ]
+    },
+    {
+      "source": "v3.10.0-rc2-nltk_tag_perceptron.py",
+      "symbol": "AveragedPerceptron.load",
+      "start_line": 111,
+      "end_line": 114,
+      "ast_sha256": "c752afc98f1651214aa26d09c2f9f17d11c7fc1dbd6e2bc6b32171dabdb7b9b4",
+      "unqualified_open_call_lines": [
+        113
+      ]
+    },
+    {
+      "source": "v3.10.0-rc2-nltk_tag_perceptron.py",
+      "symbol": "PerceptronTagger.save_to_json",
+      "start_line": 262,
+      "end_line": 273,
+      "ast_sha256": "76220444f2a28a5a57a4ad1624cc5220a2abaa0a7d3e61c207e42b3af50a9065",
+      "unqualified_open_call_lines": [
+        272
+      ]
+    },
+    {
+      "source": "v3.10.3-nltk_classify_maxent.py",
+      "symbol": "save_maxent_params",
+      "start_line": 1583,
+      "end_line": 1603,
+      "ast_sha256": "ee9ad7896a7caf580f6400933aa15209bf896aafaa0261d1e46992dd303f8b86",
+      "unqualified_open_call_lines": [
+        1596,
+        1598,
+        1600,
+        1602
+      ]
+    },
+    {
+      "source": "v3.10.3-nltk_parse_transitionparser.py",
+      "symbol": "TransitionParser.train",
+      "start_line": 524,
+      "end_line": 566,
+      "ast_sha256": "63b699e8d35591e9bb77b2f90b7d7b2132ae338adfc83dcbe41ee0187f4c2a81",
+      "unqualified_open_call_lines": [
+        564
+      ]
+    },
+    {
+      "source": "v3.10.3-nltk_parse_transitionparser.py",
+      "symbol": "TransitionParser.parse",
+      "start_line": 568,
+      "end_line": 682,
+      "ast_sha256": "032c96c46c2e17fd03703d3017e9d103a86e014e5bfd7fdd1dba2d80116bf987",
+      "unqualified_open_call_lines": [
+        583
+      ]
+    },
+    {
+      "source": "v3.10.3-nltk_tag_perceptron.py",
+      "symbol": "AveragedPerceptron.save",
+      "start_line": 176,
+      "end_line": 179,
+      "ast_sha256": "302be73d006b1c29787be2a3326165f62c7d141fd4e489250462d27413b979ef",
+      "unqualified_open_call_lines": [
+        178
+      ]
+    },
+    {
+      "source": "v3.10.3-nltk_tag_perceptron.py",
+      "symbol": "AveragedPerceptron.load",
+      "start_line": 181,
+      "end_line": 184,
+      "ast_sha256": "c752afc98f1651214aa26d09c2f9f17d11c7fc1dbd6e2bc6b32171dabdb7b9b4",
+      "unqualified_open_call_lines": [
+        183
+      ]
+    },
+    {
+      "source": "v3.10.3-nltk_tag_perceptron.py",
+      "symbol": "PerceptronTagger.save_to_json",
+      "start_line": 332,
+      "end_line": 375,
+      "ast_sha256": "82baa7e022dd728baee3e1d3223f94d5867e6f763f55d87afe2aa4ad6a25ce42",
+      "unqualified_open_call_lines": [
+        351,
+        372
+      ]
+    },
+    {
+      "source": "v3.10.4-nltk_classify_maxent.py",
+      "symbol": "save_maxent_params",
+      "start_line": 1665,
+      "end_line": 1713,
+      "ast_sha256": "cf8eaf91155dab0554328fd34b645a48daf4862a3942c272c58a1074ebc88dcf",
+      "unqualified_open_call_lines": [],
+      "guard_call_symbols": [
+        "pathsec.ensure_private_dir",
+        "pathsec_open"
+      ]
+    },
+    {
+      "source": "v3.10.4-nltk_parse_transitionparser.py",
+      "symbol": "TransitionParser.train",
+      "start_line": 581,
+      "end_line": 632,
+      "ast_sha256": "e8cb740afc474df694ad7b77a99d3a022df7e70dacb06fa0a46150240775ad0a",
+      "unqualified_open_call_lines": [],
+      "guard_call_symbols": [
+        "pathsec_open"
+      ]
+    },
+    {
+      "source": "v3.10.4-nltk_parse_transitionparser.py",
+      "symbol": "TransitionParser.parse",
+      "start_line": 634,
+      "end_line": 745,
+      "ast_sha256": "d6c0da7eba87102a53396402a0c228cc5ab92abf67df1a73df161488a8b024e0",
+      "unqualified_open_call_lines": [],
+      "guard_call_symbols": [
+        "pathsec_open"
+      ]
+    },
+    {
+      "source": "v3.10.4-nltk_tag_perceptron.py",
+      "symbol": "AveragedPerceptron.save",
+      "start_line": 254,
+      "end_line": 265,
+      "ast_sha256": "c0dc01de31f799d0945cf3df2066ffcbfbe158d8c1247776ba6e5bc892bb1709",
+      "unqualified_open_call_lines": [],
+      "guard_call_symbols": [
+        "pathsec_open",
+        "validate_tool_path"
+      ]
+    },
+    {
+      "source": "v3.10.4-nltk_tag_perceptron.py",
+      "symbol": "AveragedPerceptron.load",
+      "start_line": 267,
+      "end_line": 280,
+      "ast_sha256": "0be06be8c4c803f9b575fcf47da46f2ba4cea2b365124d485f2c2d4a51a41373",
+      "unqualified_open_call_lines": [],
+      "guard_call_symbols": [
+        "pathsec_open",
+        "validate_tool_path"
+      ]
+    },
+    {
+      "source": "v3.10.4-nltk_tag_perceptron.py",
+      "symbol": "PerceptronTagger.save_to_json",
+      "start_line": 452,
+      "end_line": 505,
+      "ast_sha256": "2f82a2e79c8544adf1920b2c99ea148c1694fda8ef392c89fcabde78e305ad68",
+      "unqualified_open_call_lines": [],
+      "guard_call_symbols": [
+        "_create_model_file",
+        "_open_private_model_dir",
+        "pathsec.validate_tool_dir",
+        "pathsec_open",
+        "validate_tool_dir"
+      ]
+    }
+  ],
+  "local_source_scope": [
+    {
+      "file": "gse/lexicon_builder/basis.py",
+      "sha256": "ab45551986507a1968dc27169ad9426f3cc7885975a54e8b1b4ef3d4bb62971e",
+      "nltk_imports": [],
+      "wordnet_call_symbols": [],
+      "affected_named_symbol_references": []
+    },
+    {
+      "file": "gse/lexicon_builder/build.py",
+      "sha256": "e3be0e0a03b18e9e954bbca1482489eec631d1c9add4f9f9a9a0d808f8ff8e0e",
+      "nltk_imports": [],
+      "wordnet_call_symbols": [],
+      "affected_named_symbol_references": []
+    },
+    {
+      "file": "gse/lexicon_builder/tail.py",
+      "sha256": "d2ea1388c2a37bd14bc9365af070686c00583b681110b496196e413e033a9bbc",
+      "nltk_imports": [],
+      "wordnet_call_symbols": [],
+      "affected_named_symbol_references": []
+    },
+    {
+      "file": "gse/lexicon_builder/audit.py",
+      "sha256": "83ae3dc0c631ce90a4c2ca07760927ca95aece1059b2e244a502a369632e726d",
+      "nltk_imports": [],
+      "wordnet_call_symbols": [],
+      "affected_named_symbol_references": []
+    },
+    {
+      "file": "gse/lexicon_builder/artifact.py",
+      "sha256": "facb054b4a8adf0e1cd91ba61dbe9ec1a82d61516cb15aefcf1f1b0eddffd0c4",
+      "nltk_imports": [],
+      "wordnet_call_symbols": [],
+      "affected_named_symbol_references": []
+    },
+    {
+      "file": "gse/lexicon_builder/atomics.py",
+      "sha256": "44fc80369ca7fa72a0f68fef9d93b870ea4c96fd042037ed52382003a92be797",
+      "nltk_imports": [],
+      "wordnet_call_symbols": [],
+      "affected_named_symbol_references": []
+    },
+    {
+      "file": "gse/lexicon_builder/fill.py",
+      "sha256": "1f71146df7e5a77abe886a3bd3fed01ad0e3631d24916c94f7786427b210c635",
+      "nltk_imports": [],
+      "wordnet_call_symbols": [],
+      "affected_named_symbol_references": []
+    },
+    {
+      "file": "gse/lexicon_builder/registry.py",
+      "sha256": "e8e16c394c5037e28502b441839b1cffd7c53ae6d727cf07d58d9158c165c43d",
+      "nltk_imports": [],
+      "wordnet_call_symbols": [],
+      "affected_named_symbol_references": []
+    },
+    {
+      "file": "gse/lexicon_builder/release_audit.py",
+      "sha256": "5ae27dd4a53727ff7563d914c9cb7ffae690041b1d834f0f646e0578cb1ee336",
+      "nltk_imports": [],
+      "wordnet_call_symbols": [],
+      "affected_named_symbol_references": []
+    },
+    {
+      "file": "gse/lexicon_builder/number.py",
+      "sha256": "c4cb40a817ea799cfc86d5e6774f743ec45d604e7a865c3e65180c9129d1bf79",
+      "nltk_imports": [],
+      "wordnet_call_symbols": [],
+      "affected_named_symbol_references": []
+    },
+    {
+      "file": "gse/lexicon_builder/reading.py",
+      "sha256": "f7684d9cc966a5dd291bf4633fe327503880c088224cb346fe134dd391867e12",
+      "nltk_imports": [],
+      "wordnet_call_symbols": [],
+      "affected_named_symbol_references": []
+    },
+    {
+      "file": "gse/lexicon_builder/__init__.py",
+      "sha256": "6419f246c2579ae1967d225ccea65c8120cbcf3b22933f19d8aaa478069308a6",
+      "nltk_imports": [],
+      "wordnet_call_symbols": [],
+      "affected_named_symbol_references": []
+    },
+    {
+      "file": "gse/lexicon_builder/foundation.py",
+      "sha256": "4afdb74cecffbc6ee59763dafbe2d77a02d6e289c4963e7ec910aac4b6333fde",
+      "nltk_imports": [],
+      "wordnet_call_symbols": [],
+      "affected_named_symbol_references": []
+    },
+    {
+      "file": "gse/lexicon_builder/core.py",
+      "sha256": "6c9873a59e7cfdd1af7d3ba94257ae4e2de64a0e9a1332760af56c87f3c6fb27",
+      "nltk_imports": [],
+      "wordnet_call_symbols": [],
+      "affected_named_symbol_references": []
+    },
+    {
+      "file": "gse/lexicon_builder/coverage.py",
+      "sha256": "7fe093143dc59f057f719decc29a255a3408a1be8feddd9294611894a176b2a3",
+      "nltk_imports": [],
+      "wordnet_call_symbols": [],
+      "affected_named_symbol_references": []
+    },
+    {
+      "file": "gse/lexicon_builder/runtime.py",
+      "sha256": "7cdf667a7d82438f1a248f312f3be49d81f018e344f9a624bc2b3472ca76ec1d",
+      "nltk_imports": [],
+      "wordnet_call_symbols": [],
+      "affected_named_symbol_references": []
+    },
+    {
+      "file": "gse/lexicon_builder/model.py",
+      "sha256": "b968bf68593ddbb3cb850df5c35c10461341ff3c85c05f1a77abb94a5f602f12",
+      "nltk_imports": [],
+      "wordnet_call_symbols": [],
+      "affected_named_symbol_references": []
+    },
+    {
+      "file": "gse/lexicon_builder/sources.py",
+      "sha256": "8d65fa99a933e1de4b61dc0e959b796b396399b5a5d5a3eff93904ae94b6d016",
+      "nltk_imports": [],
+      "wordnet_call_symbols": [],
+      "affected_named_symbol_references": []
+    },
+    {
+      "file": "gse/lexicon_builder/cli.py",
+      "sha256": "35bbaa539f4569fc754ac324e98de43f0d23b7f19d085eed1ccced46240d3e37",
+      "nltk_imports": [],
+      "wordnet_call_symbols": [],
+      "affected_named_symbol_references": []
+    },
+    {
+      "file": "gse/lexicon_builder/nouns.py",
+      "sha256": "dc5d34751290464e743c816592a14c36ba1e92b642966979654c4ac5d626e54a",
+      "nltk_imports": [],
+      "wordnet_call_symbols": [],
+      "affected_named_symbol_references": []
+    },
+    {
+      "file": "gse/lexicon_builder/conditionals.py",
+      "sha256": "b54d68a94a38cac212799ff7a787437c897aa979fb6b9473fb551133c9e258d1",
+      "nltk_imports": [],
+      "wordnet_call_symbols": [],
+      "affected_named_symbol_references": []
+    },
+    {
+      "file": "gse/lexicon_builder/surprise.py",
+      "sha256": "f03bc35143145f677923055c82ba69f81d581d292279c58654901b7d72fda1cf",
+      "nltk_imports": [],
+      "wordnet_call_symbols": [],
+      "affected_named_symbol_references": []
+    },
+    {
+      "file": "gse/lexicon_builder/perception.py",
+      "sha256": "5a42e5a60f17538a1bf61477fba50e4c67785d1bd3e653267601b26201f97f47",
+      "nltk_imports": [],
+      "wordnet_call_symbols": [],
+      "affected_named_symbol_references": []
+    },
+    {
+      "file": "gse/lexicon_builder/__main__.py",
+      "sha256": "1cf51f71de84607e74bd7cd3c9366284dbe890fcb1380e36184fbb012f8a8e93",
+      "nltk_imports": [],
+      "wordnet_call_symbols": [],
+      "affected_named_symbol_references": []
+    },
+    {
+      "file": "gse/lexicon_builder/native_constraints.py",
+      "sha256": "c5c3a51d7243627c257855e48313c8e6680706e1f1001a25c8c76ef7a2ad9b03",
+      "nltk_imports": [],
+      "wordnet_call_symbols": [],
+      "affected_named_symbol_references": []
+    },
+    {
+      "file": "gse/nlp/native.py",
+      "sha256": "5271d8c05c3158e4a8f0b9855ad4e869708ba8bef18087fe8f04563e5dd44178",
+      "nltk_imports": [
+        {
+          "line": 28,
+          "import": "from nltk.corpus import wordnet as wn"
+        }
+      ],
+      "wordnet_call_symbols": [
+        "wn.morphy",
+        "wn.synsets"
+      ],
+      "affected_named_symbol_references": []
+    },
+    {
+      "file": "gse/nlp/morphology.py",
+      "sha256": "5a737836fa9ba95fbee81bd62f6a70a206a73399c623b9b4ab270cfee27efef4",
+      "nltk_imports": [
+        {
+          "line": 28,
+          "import": "from nltk.corpus import wordnet as wn"
+        }
+      ],
+      "wordnet_call_symbols": [
+        "wn.synsets"
+      ],
+      "affected_named_symbol_references": []
+    }
+  ],
+  "official_latest": {
+    "pypi_version": "3.10.4",
+    "release_tag": "v3.10.4",
+    "release_published_at": "2026-10-21T11:30:28Z",
+    "release_url": "https://github.com/nltk/nltk/releases/tag/v3.10.4",
+    "pypi_url": "https://pypi.org/project/nltk/",
+    "release_files": [
+      {
+        "filename": "nltk-3.10.4-py3-none-any.whl",
+        "uploaded_at": "2026-10-21T11:34:27.975737Z",
+        "yanked": false
+      },
+      {
+        "filename": "nltk-3.10.4.tar.gz",
+        "uploaded_at": "2026-10-21T11:34:35.851871Z",
+        "yanked": false
+      }
+    ]
+  }
+}

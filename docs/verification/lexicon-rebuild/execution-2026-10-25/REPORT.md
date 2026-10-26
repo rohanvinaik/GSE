@@ -58,3 +58,11 @@ Use `GSEEncoder(db_path="data/lexicon_symbolic.db")` to inspect the partial arti
 [UNRESOLVED] Broad ordinary-word coverage requires additional reviewed source-to-definition projectors and conditional rules. Norms and native associations do not by themselves establish lexical content. No unexamined silence is imputed. THIS remains an explicit basis gap; shifted deixis requires a downstream binding consumer; numerical NUMBER calibration remains separate. Native conditional retraction currently addresses a located frame's coordinate projection, not an individual source predicate.
 
 [AUTHORED] Fear DO/IF/KNOW are nominated per-word choices under F151/F152, without a claim that every member contains them. An explicit tail queue retains all rule-surviving states (including zero), offers abstention, enforces the call budget and records every disposition. Ordinary builds remain symbolic.
+
+## Staged source and dependency verification
+
+The [staged-source receipt](staged-source-verification.json) pins the exported Git tree tested independently of unrelated working-copy changes. The [final staged-source test log](staged-source-final-dependencies-tests.log) and repository gate were rerun with the patched environment. [Zero-budget CLI evidence](tail-zero-budget-cli.json) records eight diagnosed tasks, eight budget refusals and zero backend calls.
+
+Push-time checks found four dependency advisories. The lock now uses certifi 2026.10.23, MCP 1.30.0, NLTK 3.10.4 and setuptools 84.1.0; minimum MCP/NLTK/build-backend requirements were raised accordingly. [Dependency evidence](hygiene/DEPENDENCIES.md) preserves the original findings and the final full-extras/full-groups audit. The final audit reports no known vulnerabilities among audited packages and explicitly skips the URL-sourced en-core-web-sm wheel. [NLTK primary-source review](hygiene/NLTK_ADVISORY.md) explains the stale advisory metadata and the later maintainer release.
+
+[Repository hygiene](hygiene/README.md) preserves the remaining rubric and dependency-declaration leads. Zizmor reports no workflow findings. The secret scanner's generic hex candidates are classified as receipt/hash/identifier contexts; this is not represented as a verified clean-history scan. No audit suppression or wholesale policy change was applied to hide these results.
