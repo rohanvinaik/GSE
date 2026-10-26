@@ -80,65 +80,65 @@ class TestDownload:
 
 
 class TestLoad:
-    def _write(self, tmp_path, content):
+    def _write(self, tmp_path, rows):
         path = tmp_path / "c.csv"
-        path.write_text(content)
+        path.write_text("Word,Bigram,Conc.M,Conc.SD,Unknown,Total,Percent_known,SUBTLEX\n" + rows)
         return path
 
     def test_basic(self, tmp_path):
-        path = self._write(tmp_path, "header\ntable,0,4.85,0,0,99\nfreedom,0,1.5,0,0,98\n")
+        path = self._write(tmp_path, "table,0,4.85,0,0,37,0.99,100\nfreedom,0,1.5,0,0,41,0.98,200\n")
         p = ConcretenessParser(data_path=str(path))
         assert p.load() is True
         assert p.entries["table"].concreteness == 4.85
         assert p.entries["freedom"].concreteness == 1.5
 
     def test_known_pct_set(self, tmp_path):
-        path = self._write(tmp_path, "header\ntable,0,4.85,0,0,99\n")
+        path = self._write(tmp_path, "table,0,4.85,0,0,37,0.99,100\n")
         p = ConcretenessParser(data_path=str(path))
         p.load()
         assert p.entries["table"].known_percent == 99.0
 
-    def test_n_ratings_default_30(self, tmp_path):
-        path = self._write(tmp_path, "header\ntable,0,4.85,0,0,99\n")
+    def test_n_ratings_uses_source_total(self, tmp_path):
+        path = self._write(tmp_path, "table,0,4.85,0,0,37,0.99,100\n")
         p = ConcretenessParser(data_path=str(path))
         p.load()
-        assert p.entries["table"].n_ratings == 30
+        assert p.entries["table"].n_ratings == 37
 
-    def test_empty_known_pct_uses_100(self, tmp_path):
-        # parts[5] empty → defaults to 100.0
-        path = self._write(tmp_path, "header\ntable,0,4.85,0,0,\n")
+    def test_empty_known_pct_skips_malformed_row(self, tmp_path):
+        path = self._write(tmp_path, "table,0,4.85,0,0,37,,100\nchair,0,4.6,0,0,39,0.98,200\n")
         p = ConcretenessParser(data_path=str(path))
-        p.load()
-        assert p.entries["table"].known_percent == 100.0
+        assert p.load() is True
+        assert "table" not in p.entries
+        assert p.entries["chair"].known_percent == 98.0
 
     def test_skips_blank(self, tmp_path):
-        path = self._write(tmp_path, "header\n\ntable,0,4.85,0,0,99\n\n")
+        path = self._write(tmp_path, "\ntable,0,4.85,0,0,37,0.99,100\n\n")
         p = ConcretenessParser(data_path=str(path))
         p.load()
         assert "table" in p.entries
 
     def test_skips_short_rows(self, tmp_path):
-        # Less than 6 columns
-        path = self._write(tmp_path, "header\nshort,row\ntable,0,4.85,0,0,99\n")
+        # A short row does not supply the named rating fields.
+        path = self._write(tmp_path, "short,row\ntable,0,4.85,0,0,37,0.99,100\n")
         p = ConcretenessParser(data_path=str(path))
         p.load()
         assert len(p.entries) == 1
 
     def test_skips_invalid_float(self, tmp_path):
-        path = self._write(tmp_path, "header\nbad,0,NOT_A_NUMBER,0,0,99\ntable,0,4.85,0,0,99\n")
+        path = self._write(tmp_path, "bad,0,NOT_A_NUMBER,0,0,37,0.99,100\ntable,0,4.85,0,0,37,0.99,100\n")
         p = ConcretenessParser(data_path=str(path))
         p.load()
         assert "table" in p.entries
         assert "bad" not in p.entries
 
     def test_lowercases(self, tmp_path):
-        path = self._write(tmp_path, "header\nTABLE,0,4.85,0,0,99\n")
+        path = self._write(tmp_path, "TABLE,0,4.85,0,0,37,0.99,100\n")
         p = ConcretenessParser(data_path=str(path))
         p.load()
         assert "table" in p.entries
 
     def test_strips_quotes(self, tmp_path):
-        path = self._write(tmp_path, 'header\n"table",0,4.85,0,0,99\n')
+        path = self._write(tmp_path, '"table",0,4.85,0,0,37,0.99,100\n')
         p = ConcretenessParser(data_path=str(path))
         p.load()
         assert "table" in p.entries
@@ -150,13 +150,13 @@ class TestLoad:
             mock_dl.assert_called_once()
 
     def test_exception_returns_false(self, tmp_path):
-        path = self._write(tmp_path, "header\ntable,0,4.85,0,0,99\n")
+        path = self._write(tmp_path, "table,0,4.85,0,0,37,0.99,100\n")
         p = ConcretenessParser(data_path=str(path))
         with patch("builtins.open", side_effect=RuntimeError("boom")):
             assert p.load() is False
 
     def test_sets_loaded(self, tmp_path):
-        path = self._write(tmp_path, "header\ntable,0,4.85,0,0,99\n")
+        path = self._write(tmp_path, "table,0,4.85,0,0,37,0.99,100\n")
         p = ConcretenessParser(data_path=str(path))
         p.load()
         assert p._loaded is True

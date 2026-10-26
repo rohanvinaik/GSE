@@ -8,6 +8,7 @@ Brysbaert Concreteness Ratings Parser
 Maps to SOMETHING/BODY (concrete) vs THINK/abstract primitives.
 """
 
+import csv
 import logging
 from dataclasses import dataclass
 from pathlib import Path
@@ -74,33 +75,27 @@ class ConcretenessParser:
         try:
             logger.info(f"Loading Concreteness Ratings from {self.data_path}...")
 
-            with open(self.data_path, "r", encoding="utf-8") as f:
-                f.readline()  # skip the header row
-
-                for line in f:
-                    line = line.strip()
-                    if not line:
-                        continue
-
-                    # CSV format: Word,Bigram,Conc.M,Conc.SD,Unknown,%known,SUBTLEX,Dom_Pos
-                    parts = line.split(",")
-                    if len(parts) < 6:
-                        continue
-
+            with open(self.data_path, "r", encoding="utf-8", newline="") as f:
+                reader = csv.DictReader(f)
+                required = {"Word", "Conc.M", "Total", "Percent_known"}
+                if reader.fieldnames is None or not required.issubset(reader.fieldnames):
+                    logger.error("Concreteness source columns changed: %s", reader.fieldnames)
+                    return False
+                for row in reader:
                     try:
-                        word = parts[0].lower().strip('"')
-                        concreteness = float(parts[2])
-                        known_pct = float(parts[5]) if parts[5] else 100.0
-                        # n_ratings not in this format, estimate
-                        n_ratings = 30
-
+                        word = row["Word"].lower().strip('"')
+                        concreteness = float(row["Conc.M"])
+                        n_ratings = int(row["Total"])
+                        known_percent = float(row["Percent_known"]) * 100
+                        if not word or not 1 <= concreteness <= 5 or not 0 <= known_percent <= 100 or n_ratings < 1:
+                            continue
                         self.entries[word] = ConcretenessEntry(
                             word=word,
                             concreteness=concreteness,
-                            known_percent=known_pct,
+                            known_percent=known_percent,
                             n_ratings=n_ratings,
                         )
-                    except ValueError, IndexError:
+                    except ValueError, TypeError, KeyError:
                         continue
 
             logger.info(f"Loaded {len(self.entries)} words from Concreteness Ratings")
