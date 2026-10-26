@@ -1,0 +1,146 @@
+{
+  "reference_status": "AUTHORED_MVP_READING_EXPECTATIONS; NOT_INDEPENDENT_LINGUISTIC_GOLD",
+  "construction_uses_these_cases": false,
+  "scope": "Own adjectival property readings only; all nonlisted coordinates are expected silent in these scoped candidates. NUMBER is checked only for the declared pair cases, not globally calibrated.",
+  "cases": [
+    {
+      "word": "excellent",
+      "rule_id": "USAS_OWN_QUALITY_POLE",
+      "expected_written": {
+        "SOMETHING": "0",
+        "GOOD": "+1",
+        "INTENSITY": "+1"
+      }
+    },
+    {
+      "word": "terrible",
+      "rule_id": "USAS_OWN_QUALITY_POLE",
+      "expected_written": {
+        "SOMETHING": "0",
+        "GOOD": "-1",
+        "INTENSITY": "+1"
+      }
+    },
+    {
+      "word": "superb",
+      "rule_id": "USAS_OWN_QUALITY_POLE",
+      "expected_written": {
+        "SOMETHING": "0",
+        "GOOD": "+1",
+        "INTENSITY": "+1"
+      }
+    },
+    {
+      "word": "awful",
+      "rule_id": "USAS_OWN_QUALITY_POLE",
+      "expected_written": {
+        "SOMETHING": "0",
+        "GOOD": "-1",
+        "INTENSITY": "+1"
+      }
+    },
+    {
+      "word": "enormous",
+      "rule_id": "USAS_OWN_SIZE_POLE",
+      "expected_written": {
+        "SOMETHING": "0",
+        "BIG": "+1",
+        "INTENSITY": "+1"
+      }
+    },
+    {
+      "word": "tiny",
+      "rule_id": "USAS_OWN_SIZE_POLE",
+      "expected_written": {
+        "SOMETHING": "0",
+        "BIG": "-1",
+        "INTENSITY": "+1"
+      }
+    },
+    {
+      "word": "immense",
+      "rule_id": "USAS_OWN_SIZE_POLE",
+      "expected_written": {
+        "SOMETHING": "0",
+        "BIG": "+1",
+        "INTENSITY": "+1"
+      }
+    },
+    {
+      "word": "delighted",
+      "rule_id": "USAS_OWN_HAPPY_SAD_STATE",
+      "expected_written": {
+        "SOMETHING": "0",
+        "GOOD": "+1",
+        "INTENSITY": "+1",
+        "FEEL": "+1",
+        "KIND": "0"
+      }
+    },
+    {
+      "word": "miserable",
+      "rule_id": "USAS_OWN_HAPPY_SAD_STATE",
+      "expected_written": {
+        "SOMETHING": "0",
+        "GOOD": "-1",
+        "INTENSITY": "+1",
+        "FEEL": "+1",
+        "KIND": "0"
+      }
+    },
+    {
+      "word": "ecstatic",
+      "rule_id": "USAS_OWN_HAPPY_SAD_STATE",
+      "expected_written": {
+        "SOMETHING": "0",
+        "GOOD": "+1",
+        "INTENSITY": "+1",
+        "FEEL": "+1",
+        "KIND": "0"
+      }
+    },
+    {
+      "word": "sorrowful",
+      "rule_id": "USAS_OWN_HAPPY_SAD_STATE",
+      "expected_written": {
+        "SOMETHING": "0",
+        "GOOD": "-1",
+        "INTENSITY": "+1",
+        "FEEL": "+1",
+        "KIND": "0"
+      }
+    },
+    {
+      "word": "happy",
+      "rule_id": "USAS_OWN_HAPPY_SAD_STATE",
+      "expected_written": {
+        "SOMETHING": "0",
+        "GOOD": "+1",
+        "INTENSITY": "+1",
+        "FEEL": "+1",
+        "KIND": "0"
+      }
+    }
+  ],
+  "unmatched_controls": [
+    "furious",
+    "quuxlexiconcontrol"
+  ],
+  "number_checks": [
+    {
+      "file": "number-happy-delighted.json",
+      "expected_code": "RESOLVED_RELATIVE_NUMBER",
+      "expected_relation": "LESS"
+    },
+    {
+      "file": "number-self-control.json",
+      "expected_code": "RESOLVED_RELATIVE_NUMBER",
+      "expected_relation": "EQUAL",
+      "no_model": true
+    },
+    {
+      "file": "number-incompatible-control.json",
+      "expected_code": "INCOMPATIBLE_PATTERN"
+    }
+  ]
+}

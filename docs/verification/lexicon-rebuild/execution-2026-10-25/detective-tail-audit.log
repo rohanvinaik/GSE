@@ -1,0 +1,25 @@
+  … tail_task_status: static · cohesion (2 disjoint components) · proves nothing (advisory)
+  … tail_task_status: tracing 8 function-routed tests
+  … tail_task_status: baseline traced · 8 tests · 0.2s
+  … tail_task_status: tracing 3 function-routed tests
+  … tail_task_status: baseline traced · 3 tests · 0.0s
+  … tail_task_status: 1/117 mutants · 1.3/s · ETA estimating… (heartbeat)
+  … tail_task_status: 117/117 mutants · 13.1/s · done in 8.9s
+──────────────────────────────────────────────────────────────────────────────
+gse/lexicon_builder/tail.py::tail_task_status — audit · 10 test(s) · 74/117 value-pinned · 80.3% killed (value+crash) · complete, modulo 36 unproven-equivalent and 7 crash-only value gaps
+
+  · fan-in             10 reach this function · 8 in the basis-relative minimal cover (1:1)
+  · origin (ℋ⊎𝒢)       5 intent-grounded · 5 characterized
+  · unproven-equiv     36 survivor(s) — the search found no distinguishing input
+  · crash-only-equiv   7 — detected by crash; no value pins them
+  · redundant          2 test(s) pointless for kills AND lines
+                       tests/test_lexicon_bounded_tail.py::test_budget_is_global_across_decisions_and_zero_budget_never_contacts_backend, tests/test_lexicon_bounded_tail.py::test_narrowed_queue_must_not_remove_zero_from_a_live_domain
+
+DO THIS:  detective audit 'gse/lexicon_builder/tail.py::tail_task_status' --remove
+
+  · Why                2 test(s) kill no mutant AND cover no line
+                       OF THIS FUNCTION that another test does not already. --remove
+                       re-checks every function each one serves (this file's functions, the
+                       target's direct callers and callees, every function the test is observed
+                       to execute), keeps any still needed there or not fully checked, and
+                       deletes the rest from whichever test file defines them.

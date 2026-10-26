@@ -1,0 +1,24 @@
+  … paired_order_status: static · no static smell · proves nothing (advisory)
+  … paired_order_status: tracing 10 function-routed tests
+  … paired_order_status: baseline traced · 10 tests · 0.0s
+  … paired_order_status: tracing 26 function-routed tests
+  … paired_order_status: baseline traced · 26 tests · 0.1s
+  … paired_order_status: 1/22 mutants · 1.8/s · ETA estimating… (heartbeat)
+  … paired_order_status: 22/22 mutants · 12.4/s · done in 1.8s
+──────────────────────────────────────────────────────────────────────────────
+gse/lexicon_builder/number.py::paired_order_status — audit · 8 test(s) · 21/22 value-pinned · 100.0% killed (value+crash) · complete, modulo 1 crash-only value gap
+
+  · fan-in             8 reach this function · 5 in the basis-relative minimal cover (2:1)
+  · origin (ℋ⊎𝒢)       5 intent-grounded · 3 characterized
+  · crash-only-equiv   1 — detected by crash; no value pins them
+  · redundant          3 test(s) pointless for kills AND lines
+                       tests/test_lexicon_number.py::test_inconsistent_model_pair_cannot_export_a_number, tests/test_lexicon_number.py::test_relative_value_preserves_every_sign_mask_and_source_record, tests/test_lexicon_number.py::test_unresolved_and_illegal_answers_never_make_a_value
+
+DO THIS:  detective audit 'gse/lexicon_builder/number.py::paired_order_status' --remove
+
+  · Why                3 test(s) kill no mutant AND cover no line
+                       OF THIS FUNCTION that another test does not already. --remove
+                       re-checks every function each one serves (this file's functions, the
+                       target's direct callers and callees, every function the test is observed
+                       to execute), keeps any still needed there or not fully checked, and
+                       deletes the rest from whichever test file defines them.

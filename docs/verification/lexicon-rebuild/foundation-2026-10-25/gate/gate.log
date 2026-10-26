@@ -1,0 +1,45 @@
+== ruff check
+All checks passed!
+== ruff format --check
+36 files already formatted
+== pytest (lexicon)
+============================= test session starts ==============================
+platform darwin -- Python 3.14.6, pytest-9.1.0, pluggy-1.6.0
+rootdir: /Users/rohanvinaik/Projects/gse/.claude/worktrees/lexicon-builder/gse
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 218 items / 70 deselected / 148 selected
+
+tests/test_lexicon_atomic_and_tail.py ..........                         [  6%]
+tests/test_lexicon_bank_coverage.py ......                               [ 10%]
+tests/test_lexicon_builder_foundation.py ........                        [ 16%]
+tests/test_lexicon_builder_workflow.py ..................                [ 28%]
+tests/test_lexicon_coherence.py ................                         [ 39%]
+tests/test_lexicon_fill.py ....                                          [ 41%]
+tests/test_lexicon_foundation_workflow.py ............................   [ 60%]
+tests/test_lexicon_frozen_build.py ....                                  [ 63%]
+tests/test_lexicon_mvp_artifact.py .........                             [ 69%]
+tests/test_lexicon_native_constraints.py ............                    [ 77%]
+tests/test_lexicon_number.py .......                                     [ 82%]
+tests/test_lexicon_rule_admission.py ..                                  [ 83%]
+tests/test_lexicon_unified_admission.py .....                            [ 87%]
+tests/detective/test_gse_lexicon_builder_artifact_vector_status_a1abed2c62_synth.py . [ 87%]
+                                                                         [ 87%]
+tests/detective/test_gse_lexicon_builder_model_selection_status_a7629fdfb4_synth.py . [ 88%]
+.                                                                        [ 89%]
+tests/detective/test_gse_lexicon_builder_native_constraints_predicate_domain_a4063ffbd3_synth.py . [ 89%]
+                                                                         [ 89%]
+tests/detective/test_gse_lexicon_builder_number_paired_order_status_abe314a791_synth.py . [ 90%]
+..                                                                       [ 91%]
+tests/detective/test_gse_lexicon_builder_surprise_comparison_status_de949a91dd_synth.py . [ 92%]
+......                                                                   [ 96%]
+tests/detective/test_gse_lexicon_builder_tail_tail_task_status_3730b42410_synth.py . [ 97%]
+....                                                                     [100%]
+
+====================== 148 passed, 70 deselected in 5.66s ======================
+== ty check gse/lexicon_builder (advisory)
+All checks passed!
+== frozen symbolic build
+build directory and log: /var/folders/y3/9hy3l65d7xvdl89kh19dnlf40000gp/T/tmp.s6332IzKAo
+frozen build: CHANGED
+complete report: /var/folders/y3/9hy3l65d7xvdl89kh19dnlf40000gp/T/tmp.s6332IzKAo/frozen_report.json

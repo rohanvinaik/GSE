@@ -1,0 +1,561 @@
+{
+  "cross_cutting_basis_facts": [
+    {
+      "loc": "gse/lexicon_builder/basis.py:1-7",
+      "who": "CODE_CURRENT",
+      "quote": "Versioned 72-name lexical basis and its 58 signed coordinates. / … This inventory is explicitly copied into the new build contract so the / constructor does not execute or inherit the old curation pipeline. A label is / not yet a reviewed lexical-unit/combinatorial profile. NUMBER is intentionally / absent: it is a scale operation over this basis, never a lexical prime."
+    },
+    {
+      "loc": "gse/lexicon_builder/basis.py:15,17,18,19,29-34,40-50",
+      "who": "CODE_CURRENT",
+      "note": "Banks holding the in-scope names: bank 1 QUANTITY (line 15); bank 3 INFER (17); bank 4 ALIVE, DEAD (18); bank 5 THEN, NOW, START, END (19); bank 6 OUTSIDE, INSIDE, TOWARD, AWAY, WITH, WITHOUT (29-34); bank 7 MUST (40), CAUSE (42), TRUE (45), FALSE (46), HIER_PLUS (47), HIER_MINUS (48), INTENSITY (49), CERTAINTY (50)."
+    },
+    {
+      "loc": "gse/lexicon_builder/basis.py:57-72",
+      "who": "CODE_CURRENT",
+      "note": "OPPOSITE_POLES has 14 pairs: (ALIVE,DEAD) line 61, (THEN,NOW) 64, (START,END) 65, (OUTSIDE,INSIDE) 68, (TOWARD,AWAY) 69, (WITH,WITHOUT) 70, (TRUE,FALSE) 71. No pair contains QUANTITY, INFER, MUST, CAUSE, HIER_PLUS, HIER_MINUS, INTENSITY or CERTAINTY, so HIER_PLUS and HIER_MINUS are two separate unpaired canonical coordinates, not poles of one."
+    },
+    {
+      "loc": "gse/lexicon_builder/core.py:36-39",
+      "who": "CODE_CURRENT",
+      "quote": "_NEGATIVE_POLES = {negative: positive for positive, negative in OPPOSITE_POLES} / CANONICAL_COORDINATES = tuple(name for name in PRIMES if name not in _NEGATIVE_POLES) / … assert len(PRIMES) == 72 and len(CANONICAL_COORDINATES) == 58 / assert \"NUMBER\" not in PRIMES and \"NUMBER\" not in CANONICAL_COORDINATES"
+    },
+    {
+      "loc": "gse/lexicon_builder/core.py:50-57",
+      "who": "CODE_CURRENT",
+      "quote": "\"\"\"Unpaired primes have no negative state; silence differs from zero.\"\"\" / … states = {Cell.SILENT, Cell.ZERO, Cell.PLUS} / if coordinate in _BIPOLAR_COORDINATES: / states.add(Cell.MINUS)",
+      "note": "Legal states: unpaired coordinates (QUANTITY, INFER, MUST, CAUSE, HIER_PLUS, HIER_MINUS, INTENSITY, CERTAINTY) = empty, 0, +1. Bipolar canonical coordinates (ALIVE, THEN, START, OUTSIDE, TOWARD, WITH, TRUE) = empty, 0, +1, -1."
+    },
+    {
+      "loc": "gse/lexicon_builder/core.py:23-33",
+      "who": "CODE_CURRENT",
+      "quote": "\"\"\"Definition states, not epistemic confidence or source availability. / ZERO is explicit absence in an applicable unpaired domain (F118), or / neither pole in an applicable bipolar domain. SILENT is not addressed."
+    },
+    {
+      "loc": "gse/lexicon_builder/bank_laws.json:1411-1445",
+      "who": "CODE_CURRENT",
+      "quote": "\"authority\": \"Founder F118: Yes: 0 is explicit absence; empty is silence\" … unpaired: \"+1\": \"Definitional content is present\", \"0\": \"Definitional content is explicitly absent in an applicable domain\", \"empty\": \"Definition is silent about this coordinate\" … bipolar: \"+1\": \"Positive pole is definitionally present\", \"-1\": \"Opposite pole is definitionally present\", \"0\": \"Neither pole is present within an applicable domain; a reviewed middle where meaningful\" … \"intensity\": \"Presence of degree-bearing content; relative strength belongs to the separate NUMBER operator. It is not a threshold for VERY-like strength.\""
+    },
+    {
+      "loc": "gse/lexicon_builder/fill.py:19-20,139-141",
+      "who": "CODE_CURRENT",
+      "quote": "# What each coordinate records: NSM exponents where NSM has the prime, and primitives_v2's hierarchy / # contract for GSE's scale coordinates. A bipolar coordinate names both poles. … \"fields\": {c: {\"means\": MEANINGS[c], \"options\": options} for c, options in fields.items()}, … \"test\": \"+1 only if an NSM explication of this word's own meaning needs this prime; most fields are empty\"",
+      "note": "MEANINGS (fill.py:21-80) is sent verbatim to the local model as each field's 'means', so it is intended-use text for the model. Only the lines for in-scope coordinates are quoted under each coordinate."
+    },
+    {
+      "loc": "gse/primitives_v2.py:99",
+      "who": "CODE_REGISTRY",
+      "quote": "# The 14 true antonym pairs collapsed as bipolar dimensions"
+    },
+    {
+      "loc": "gse/primitives_v2.py:1-13",
+      "who": "CODE_REGISTRY",
+      "quote": "This module defines the redesigned primitive system featuring: / 1. Collapsed antonym dimensions (+1/-1 in same dimension) / 2. Hierarchical ordinal modifiers (no arbitrary scalars) / 3. 8 semantic banks with ~45 total primitives"
+    },
+    {
+      "loc": "gse/lexicon_builder/foundation.py:1-11",
+      "who": "CODE_CURRENT",
+      "quote": "Grammar identifies a reading and constrains combinations. Only an identity, / component, explicit absence, silence proof, or separately warranted projection / writes a cell. An examined prime's authored decisions cover all 58 coordinates … A draft profile closes nothing. / Ordinary words never inherit a prime's boundary."
+    },
+    {
+      "loc": "gse/lexicon_builder/foundation.json:9633-9646",
+      "who": "CODE_CURRENT",
+      "quote": "\"projection_contract\": … \"unresolved\": \"No source-backed state yet; never zero or silence\", … \"unexamined_prime\": \"DRAFT: its boundary proposal is not applied; uncovered cells stay unresolved (F151-F152).\", … \"head_record\": \"The eight substantive coordinates record the word's own head (NSM_RESOLUTIONS §2, approved F144): one +1 for a substantive head, all 0 for a modifier, predicate, operator, time or place head.\"",
+      "note": "The in-scope entries of projection_contract (QUANTITY, HIER_PLUS_MINUS, INFER, TOWARD_AWAY) are quoted under their coordinates."
+    },
+    {
+      "loc": "gse/lexicon_builder/foundation.json:9647-9660",
+      "who": "CODE_CURRENT",
+      "note": "examined_primes (the only primes with an EXAMINED definition_axiom): I, SOMEONE, SOMETHING, GOOD, BAD, BIG, SMALL, WANT, FEEL, NOW, HERE, BECAUSE. Of the in-scope names only NOW (the NOW pole of THEN) is examined; every in-scope GSE-adaptation profile has definition_axiom review DRAFT and remaining_cells UNRESOLVED_UNTIL_EXAMINED."
+    },
+    {
+      "loc": "docs/verification/lexicon-rebuild/foundation-2026-10-25/REPORT.md:123-126",
+      "who": "AGENT_DOC",
+      "quote": "2. **The remaining 60 primes.** / - **Next step:** examine them, including the GSE-only coordinates, which need written GSE definitions first (INFER, HIER±, CERTAINTY, START/END, THEN, OUTSIDE, TOWARD/AWAY, WITH/WITHOUT, CAUSE, MUST's construction scope)."
+    },
+    {
+      "loc": "openspec/changes/lexicon-symbolic-foundation/tasks.md:18",
+      "who": "AGENT_DOC",
+      "quote": "- [ ] Written GSE definitions for the 19 GSE-adaptation coordinates before their examination and closure (F160)."
+    },
+    {
+      "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:1257",
+      "who": "QUOTED_AGENT",
+      "note": "F160, the origin of the requirement.",
+      "quote": "2. Continue examining primes: yes. Start with those having an established NSM mapping, in coherent groups. The sixty remaining entries include GSE adaptations; their written definitions should precede examination and closure."
+    },
+    {
+      "loc": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md:314",
+      "who": "AGENT_DOC",
+      "quote": "- **Research versus adaptation:** the NSM prime inventory, grammar and molecules are research sources. GSE's 72-name basis, 14 signed aliases, eight storage banks, ternary signs, masks and HDC comparison are local choices. Record mappings and deviations explicitly."
+    },
+    {
+      "loc": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md:36",
+      "who": "AGENT_DOC",
+      "quote": "This is **GSE's** basis, not a claim that NSM research specifies exactly these names or this HDC encoding. The basis and its mapping to NSM research must be versioned and reviewed before a bulk build."
+    },
+    {
+      "loc": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md:38",
+      "who": "AGENT_DOC",
+      "quote": "**`NUMBER` is not a 73rd lexical prime or bank.** All 72 lexical primes have literal word exponents and intrinsic definitional content; `NUMBER` has none in any bank. The 73-entry computational registry in `gse/primitives_v2.py` must not be read as a later, competing lexical ontology."
+    },
+    {
+      "loc": "gse/lexicon_builder/foundation.json:35-9204",
+      "who": "CODE_CURRENT",
+      "note": "profile_status values for the in-scope names, read from the file: GSE_ADAPTATION_PROFILE at QUANTITY 1641, INFER 3812, ALIVE 4738, DEAD 4838, THEN 5603, START 5898, END 6006, OUTSIDE 7066, TOWARD 7282, AWAY 7382, WITH 7482, WITHOUT 7582, MUST 7983, CAUSE 8308, FALSE 8711, HIER_PLUS 8811, HIER_MINUS 8911, INTENSITY 9011, CERTAINTY 9111 (19 profiles). NSM-mapped counterpart poles: NOW 5711 EXAMINED_PROFILE (source_mapping NSM_LEXICAL_UNIT), INSIDE 7174 SOURCED_PROFILE, TRUE 8611 SOURCED_PROFILE. Every GSE_ADAPTATION_PROFILE carries source_mapping GSE_ADAPTATION_NOT_AN_NSM_INVENTORY_CLAIM."
+    },
+    {
+      "loc": "gse/lexicon_builder/bank_laws.json (whole file)",
+      "who": "CODE_CURRENT",
+      "note": "Absence recorded from the full read: no entry in laws[], source_rules[], native_predicate_rules[] or native_residual_rules[] writes QUANTITY, INFER, THEN, OUTSIDE, TOWARD, WITH, MUST, TRUE, HIER_PLUS, HIER_MINUS or CERTAINTY. Rules that do write in-scope coordinates: OWN_DEGREE_BEARING_CONTENT (INTENSITY +1), VN_VITALITY (ALIVE), VN_BEGIN (START), VN_END (END), VN_CAUSATION (CAUSE). EMOTION_FEAR_ADJ and EMOTION_FEAR_NOUN companions are THINK, LIKE, WHEN, BECAUSE, CAN, HAPPEN; both warrants say 'CAUSE stays open (option B)' (1291, 1358)."
+    },
+    {
+      "loc": "docs/verification/lexicon-rebuild/research-2026-10-25/README.md:3,8",
+      "who": "AGENT_DOC",
+      "quote": "Facts gathered by sub-agents for the work after the first checkpoint (F160). They state what the sources say, with locations; they decide nothing. (3) / For the 41 remaining NSM-mapped primes: their chart box lines and quoted statements from G12, LFH22 and GW2014 (with page and line), how the sources separate the primes GSE merges (SAME/OTHER, the two BE primes, HAVE and PART, THERE IS), and where VERY and MORE combine. (8)",
+      "note": "NSM-side material filed at 19:17-19:18, after this pass began. It covers the 41 NSM-mapped primes, not the GSE adaptations; only nsm-prime-facts/parts/very_more_evidence.json was read."
+    }
+  ],
+  "inventories_of_gse_adaptation_coordinates_by_source": {
+    "note": "Five sources each list which coordinates are GSE additions / have no NSM prime. They do not agree. Y = listed, N = not listed, '-' = not applicable.",
+    "sources": {
+      "S1": "gse/lexicon_builder/foundation.json profile_status GSE_ADAPTATION_PROFILE (19 profiles; line numbers in cross_cutting_basis_facts)",
+      "S2": "docs/verification/lexicon-rebuild/foundation-2026-10-25/REPORT.md:123-126 (GSE-only coordinates that need written GSE definitions first)",
+      "S3": "docs/verification/lexicon-rebuild/closeout-2026-10-25/NSM_RESOLUTIONS.md:286-289 ('GSE coordinates with no NSM prime')",
+      "S4": "docs/NSM_GRAMMAR_MAPPING.md:81-82 (June 2026: 'GSE adds ... beyond canon') together with :44-47 (scalar-operator adaptation)",
+      "S5": "docs/NSM_GRAMMAR_MAPPING.md:22-25 (word-scale prime exponents 'grounded as axioms'; a second group is labelled 'GSE extensions')"
+    },
+    "matrix": {
+      "QUANTITY": {
+        "S1": "Y",
+        "S2": "N",
+        "S3": "N",
+        "S4": "adapted as scalar operator (44-47), not in the 'beyond canon' list",
+        "S5": "-"
+      },
+      "INFER": {
+        "S1": "Y",
+        "S2": "Y",
+        "S3": "Y",
+        "S4": "Y",
+        "S5": "listed under 'GSE extensions'"
+      },
+      "ALIVE/DEAD": {
+        "S1": "Y",
+        "S2": "N",
+        "S3": "N",
+        "S4": "line 81: 'NSM has `LIVE/DIE`; GSE uses `ALIVE/DEAD`' (not in the beyond-canon list)",
+        "S5": "-"
+      },
+      "THEN (NOW)": {
+        "S1": "Y (THEN); NOW is NSM_LEXICAL_UNIT",
+        "S2": "Y",
+        "S3": "N",
+        "S4": "Y",
+        "S5": "listed under 'GSE extensions'"
+      },
+      "START/END": {
+        "S1": "Y",
+        "S2": "Y",
+        "S3": "Y",
+        "S4": "Y",
+        "S5": "listed under 'GSE extensions'"
+      },
+      "OUTSIDE (INSIDE)": {
+        "S1": "Y (OUTSIDE); INSIDE is NSM_LEXICAL_UNIT",
+        "S2": "Y",
+        "S3": "Y ('the poles FALSE and OUTSIDE')",
+        "S4": "N",
+        "S5": "N (inside is listed, outside is not)"
+      },
+      "TOWARD/AWAY": {
+        "S1": "Y",
+        "S2": "Y",
+        "S3": "Y",
+        "S4": "Y",
+        "S5": "listed under 'GSE extensions'"
+      },
+      "WITH/WITHOUT": {
+        "S1": "Y",
+        "S2": "Y",
+        "S3": "Y",
+        "S4": "Y",
+        "S5": "listed in the MAIN (canonical-exponent) group, not under 'GSE extensions'"
+      },
+      "MUST": {
+        "S1": "Y",
+        "S2": "Y (its construction scope)",
+        "S3": "Y",
+        "S4": "N",
+        "S5": "listed in the MAIN (canonical-exponent) group"
+      },
+      "CAUSE": {
+        "S1": "Y",
+        "S2": "Y",
+        "S3": "Y",
+        "S4": "Y",
+        "S5": "-"
+      },
+      "TRUE (FALSE)": {
+        "S1": "Y (FALSE); TRUE is NSM_LEXICAL_UNIT",
+        "S2": "N",
+        "S3": "Y (FALSE pole only)",
+        "S4": "Y (both TRUE and FALSE)",
+        "S5": "both listed under 'GSE extensions'"
+      },
+      "HIER_PLUS / HIER_MINUS": {
+        "S1": "Y",
+        "S2": "Y ('HIER±')",
+        "S3": "N (line 293: 'How MORE relates to HIER_PLUS and HIER_MINUS is not established here')",
+        "S4": "adapted as scalar operators (44-47)",
+        "S5": "-"
+      },
+      "INTENSITY": {
+        "S1": "Y",
+        "S2": "N",
+        "S3": "Y",
+        "S4": "adapted as scalar operator (44-47)",
+        "S5": "-"
+      },
+      "CERTAINTY": {
+        "S1": "Y",
+        "S2": "Y",
+        "S3": "Y",
+        "S4": "adapted as scalar operator (12-16)",
+        "S5": "-"
+      }
+    }
+  },
+  "founder_record_index": {
+    "note": "These are absences recorded from a full read of the founder record: none of the Rohan-spoken entries (F001-F160) names the first group. F076 speaks generally of the 14 opposite-pole aliases; F040 and F118 speak generally of cell states.",
+    "entries": [
+      {
+        "id": "F040",
+        "who": "ROHAN",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:172-176",
+        "coordinates": [
+          "QUANTITY",
+          "INFER",
+          "MUST",
+          "CAUSE",
+          "HIER_PLUS",
+          "HIER_MINUS",
+          "INTENSITY",
+          "CERTAINTY"
+        ],
+        "quote": "> For a non-bipolar lexicon prime such as FEEL or KIND, can its stored value ever be −1? The current negation code flips only bipolar poles; this choice affects 44 canonical cells. / Use only 0/+1 for unpaired primes (recommended)",
+        "note": "The question text is an agent's; the answer line is Rohan's. Applies to every unpaired coordinate."
+      },
+      {
+        "id": "F067",
+        "who": "ROHAN",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:312-314",
+        "coordinates": [
+          "QUANTITY",
+          "INTENSITY"
+        ],
+        "quote": "(e.g. \"substantives\" and \"quantifiers\"; a \"flock\" is \"many\" of the object \"bird\") … You can be \"exceptional\" (EVAL: <GOOD:+1, BAD:-1>, INTENSIFIER: <VERY:+1>\", but you can't be \"big good\" (your capacity for \"good\"-ness is evaluated, not described))."
+      },
+      {
+        "id": "F075",
+        "who": "ROHAN",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:354",
+        "coordinates": [
+          "all"
+        ],
+        "quote": "Obviously every NSM atomic/prime word should have a hard-encoded propogation constraint. Classic hairy symbolic systems/classical AI, for these 50-70 primes and combinations of primes."
+      },
+      {
+        "id": "F076",
+        "who": "ROHAN",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:358",
+        "coordinates": [
+          "ALIVE",
+          "THEN",
+          "START",
+          "OUTSIDE",
+          "TOWARD",
+          "WITH",
+          "TRUE"
+        ],
+        "quote": "The opposite pole aliases are the most atomic, most simple and basic version of this idea I've been trying to explain to you. An assignment of \"good\" is definitionally an opposite-sign assignment of \"bad\". … What this should be is basically the same process that collapsed 72 primes to 58 coordinates"
+      },
+      {
+        "id": "F078",
+        "who": "ROHAN",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:366-372",
+        "coordinates": [
+          "INTENSITY"
+        ],
+        "quote": "Like, a hand-wavy example, if the inputs we ahve are that a word is <GOOD:+1, VERY:+1>, then the model is handed <WANT:<>, HAPPEN:<>, SAY:<>,...etc>, and the output is just those fields filled in with +/-1, 0, or <empty>.",
+        "note": "VERY appears as a field with value +1 in Rohan's own 'hand-wavy example'. The same sentence lists 0 as a legal model answer."
+      },
+      {
+        "id": "F083",
+        "who": "ROHAN",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:392",
+        "coordinates": [
+          "INTENSITY",
+          "HIER_PLUS"
+        ],
+        "quote": "Show me the constraint collapse and resultant vector from each of the 72 primce (really 53, or 58, or however many there were) … What does it mean to be good? If you know that, and all the other atomic words, then \"doubleplus good\" is a pretty obvious set theory operation."
+      },
+      {
+        "id": "F096",
+        "who": "ROHAN",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:473-475",
+        "coordinates": [
+          "QUANTITY",
+          "HIER_PLUS",
+          "HIER_MINUS"
+        ],
+        "quote": "number is a scalar multiplier that allows for hierarchcial relationships between words that are not divisible with pure balanced ternary. Like many vs most vs all"
+      },
+      {
+        "id": "F097",
+        "who": "ROHAN",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:477-479",
+        "coordinates": [
+          "NUMBER"
+        ],
+        "quote": "my addition to NSM"
+      },
+      {
+        "id": "F098",
+        "who": "ROHAN",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:485-491",
+        "coordinates": [
+          "NUMBER",
+          "INTENSITY",
+          "QUANTITY"
+        ],
+        "quote": "There isn't an \"older\"/\"narrower\" 72-prime design and a \"newer\" 73-bank architecture. Both are correct and true. … Every one of the 72 primes has a literal word, a literal lexical representation to match the meaning of the prime. There is not one for \"number\". It is wrong to describe it as a full \"prime\", because it has no inherent meaning in ANY bank. Its only purpose is hierarchical and combinatorial mathematics. … for EVERY non-synonym word to genuinely have a unique representation, there still is one element left that NSM has not resolved--scale. … What \"number\" allows is for there to be a bundled vector representation that does not change ANY bank's encoding presence/absence or the sign of the encoding, but allows for synonyms with differing intensity to be representable as the same word but with hierarchical discrimination"
+      },
+      {
+        "id": "F118",
+        "who": "ROHAN",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:584-587",
+        "coordinates": [
+          "all"
+        ],
+        "quote": "Yes: 0 is explicit absence; empty is silence"
+      },
+      {
+        "id": "F125",
+        "who": "QUOTED_AGENT question + ROHAN answer",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:613-617",
+        "coordinates": [
+          "INTENSITY",
+          "HIER_PLUS",
+          "HIER_MINUS"
+        ],
+        "quote": "> One shared rule needs an exact interpretation before I change assignments: does INTENSITY:+1 mark a degree-bearing domain, while NUMBER distinguishes relative strengths such as happy/delighted, or does INTENSITY:+1 specifically assert VERY-like amplification? The current builder used the second reading; the older registry describes INTENSITY as a hierarchy base. … / INTENSITY marks degree-bearing content; NUMBER holds relative strength"
+      },
+      {
+        "id": "F126",
+        "who": "ROHAN",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:619-621",
+        "coordinates": [
+          "INTENSITY"
+        ],
+        "quote": "Yes, intensity encodes that there is a measure of intensity that is relevant. \"Number\" encodes what the intensity *is*"
+      },
+      {
+        "id": "F133",
+        "who": "ROHAN",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:712",
+        "coordinates": [
+          "all"
+        ],
+        "quote": "Should I really be specifying decisions like those and the \"founder questions\"? Should that not be resolved by literature from NSM research?"
+      },
+      {
+        "id": "F136",
+        "who": "QUOTED_AGENT",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:733-746",
+        "coordinates": [
+          "CAUSE"
+        ],
+        "quote": "> Row 26, up for your approval, would leave your CAUSE dimension empty in every word and fold causing things into BECAUSE. … Your 72 primes include both **CAUSE** and **BECAUSE**. NSM has no CAUSE prime. It says \"it happened because someone did something.\" … Your design doc expected CAUSE and BECAUSE to keep **separate meanings**."
+      },
+      {
+        "id": "F137",
+        "who": "ROHAN",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:750",
+        "coordinates": [
+          "all"
+        ],
+        "quote": "I mean, a conflict between WIERZBICKA 1992 and Goddard 2015, seems like Goddard 2015 would win, since he was a peer/collaborator and that came after decades of additional work?"
+      },
+      {
+        "id": "F144",
+        "who": "ROHAN",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:780",
+        "coordinates": [
+          "CAUSE",
+          "INTENSITY",
+          "QUANTITY",
+          "START",
+          "END",
+          "ALIVE"
+        ],
+        "quote": "1. I approve the recommendations. Seems like sane priors to use, and it's more important to be consistent than to be \"perfect\" according to some arbitrary standard of truth. The whole point is that NSM--as instantiated by this GSE project--makes language *computable. WHAT it computes is something we determine ourselves. These primes are only \"correct\" because they map to our intuitive understanding of the meaning of language.",
+        "note": "docs/verification/lexicon-rebuild/closeout-2026-10-25/rule_decisions.json:9-20 records that 'the recommendations' covered rows 1-24 as recommended, 'the CAUSE decision: option B (row 25); row 26 dropped', and the F057 feeling-noun default. Rows touching in-scope coordinates: row 5 INTENSITY (rule_decisions.json:67-76), 13 ALIVE (147-156), 16 START (177-186), 17 END (187-196), 25 CAUSE (267-276), 26 dropped (277-286)."
+      },
+      {
+        "id": "F146",
+        "who": "QUOTED_AGENT",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:805-806",
+        "coordinates": [
+          "THEN",
+          "INTENSITY"
+        ],
+        "quote": "My probe confirmed that it cannot offer THEN:-1, required by the proposed NOW projection. … Approved review row 5 proposes INTENSITY on gradable atoms, while atomic_proof (…) and its tests require exactly one nonzero content coordinate. Adding INTENSITY currently raises an error."
+      },
+      {
+        "id": "F148",
+        "who": "ROHAN",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:818-819",
+        "coordinates": [
+          "NUMBER",
+          "WITH",
+          "QUANTITY"
+        ],
+        "quote": "\"NUMBER\" is the special meta-prime, so that's a form of dimensional collapse to handle hierarchically-seperable synonyms (and antonyms, obviously, since this is in balanced ternary). … Words like basic articles (e.g. \"A/an\", \"the\", \"I\", \"with\", etc), which are a SOLID plurality of all words used in language … / … while I added \"number\" as a new, 73rd prime to NSM, that's actually more intricate and interesting of a topic than it seems at first!"
+      },
+      {
+        "id": "F151",
+        "who": "QUOTED_AGENT",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:844,857-861",
+        "coordinates": [
+          "QUANTITY",
+          "HIER_PLUS",
+          "HIER_MINUS",
+          "MUST",
+          "INFER",
+          "TOWARD",
+          "AWAY",
+          "INTENSITY",
+          "CAUSE"
+        ],
+        "quote": "INTENSITY, NUMBER, felt valence and CAUSE option B are settled and shouldn't be reopened. … **Its view on your four open questions** … 3. **Quantifiers:** QUANTITY as the shared base, with NUMBER for ordering, plus what *all* ranges over. What HIER± add beyond NUMBER is yours to define. / 4. **GSE-only coordinates:** MUST is our adaptation of the chart's \"can't not\"; INFER needs a sourced definition before it gets companions; TOWARD/AWAY don't imply MOVE."
+      },
+      {
+        "id": "F152",
+        "who": "ROHAN_ENDORSEMENT",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:875",
+        "coordinates": [
+          "QUANTITY",
+          "HIER_PLUS",
+          "HIER_MINUS",
+          "MUST",
+          "INFER",
+          "TOWARD",
+          "AWAY"
+        ],
+        "quote": "I agree. I think you and the literature from NSM can resolve the \"open questions\" we have. You good to build this properly?",
+        "note": "Delegates the four open questions of F151 to the NSM literature and the design consultant; it does not itself define any coordinate."
+      },
+      {
+        "id": "F156",
+        "who": "QUOTED_AGENT",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:920,933",
+        "coordinates": [
+          "NUMBER",
+          "INTENSITY"
+        ],
+        "quote": "Each cell is ±1, 0 (\"applies, but absent\") or empty (\"doesn't apply\"), with NUMBER as a separate intensity scale. … The cells it does write are real, like INTENSITY +1 on the graded primes."
+      },
+      {
+        "id": "F158",
+        "who": "QUOTED_AGENT",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:1064-1079,1096-1097",
+        "coordinates": [
+          "QUANTITY",
+          "NUMBER",
+          "HIER_PLUS",
+          "HIER_MINUS",
+          "MUST",
+          "INFER",
+          "TOWARD",
+          "AWAY",
+          "CAUSE",
+          "INTENSITY"
+        ],
+        "quote": "| Quantifiers | Keep QUANTITY, quantifier identity, range, and scope distinct. Preserve universal/existential behavior in the construction record. | / | NUMBER | Retain the separate scale operation; it preserves mask, zero, and polarity. | / | HIER± | Pin their existing directional meaning explicitly. Do not use them as guessed substitutes for quantifier identity or numerical gain. | / | MUST | Retain the agreed GSE adaptation, including the scope of its modal/negation construction. | / | INFER | Write its GSE definition explicitly before adding companions; inference does not itself warrant KNOW. | / | TOWARD/AWAY | Do not infer MOVE without an independently established movement relation. | / Preserve the already settled INTENSITY, NUMBER, felt-valence, and CAUSE option B decisions. … CAUSE option B with correct participant/event binding and a distinct BECAUSE treatment."
+      },
+      {
+        "id": "F159",
+        "who": "QUOTED_AGENT",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:1237,1239",
+        "coordinates": [
+          "CAUSE"
+        ],
+        "quote": "- **CAUSE on BECAUSE:** retain silence under option B. The connective does not itself denote the causative event. … - **Other 60 primes:** keeping unexamined cells unresolved is the correct intermediate state."
+      },
+      {
+        "id": "F160",
+        "who": "QUOTED_AGENT",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:1257",
+        "coordinates": [
+          "all 19 GSE-adaptation profiles"
+        ],
+        "quote": "The sixty remaining entries include GSE adaptations; their written definitions should precede examination and closure."
+      }
+    ],
+    "counts_stated_by_rohan": [
+      {
+        "id": "F015",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:68",
+        "quote": "every one of, what, 73 or something different dimensions?"
+      },
+      {
+        "id": "F047",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:208",
+        "quote": "all 70+ dimensions that are possible to encode"
+      },
+      {
+        "id": "F075",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:354",
+        "quote": "for these 50-70 primes and combinations of primes"
+      },
+      {
+        "id": "F076",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:358",
+        "quote": "the same process that collapsed 72 primes to 58 coordinates"
+      },
+      {
+        "id": "F083",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:392",
+        "quote": "each of the 72 primce (really 53, or 58, or however many there were)"
+      },
+      {
+        "id": "F098",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:485",
+        "quote": "There isn't an \"older\"/\"narrower\" 72-prime design and a \"newer\" 73-bank architecture. Both are correct and true."
+      },
+      {
+        "id": "F148",
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:818-819",
+        "quote": "the 58 \"primes\" we have (the standard 72 with some collapsed due to definitional antonymity) … while I added \"number\" as a new, 73rd prime to NSM"
+      }
+    ],
+    "coordinates_no_rohan_spoken_entry_names": [
+      "INFER",
+      "THEN",
+      "OUTSIDE",
+      "TOWARD",
+      "AWAY",
+      "MUST",
+      "CERTAINTY",
+      "TRUE/FALSE",
+      "HIER_PLUS",
+      "HIER_MINUS (apart from the scale idea in F096/F098 and F083's 'doubleplus good')"
+    ],
+    "coordinates_touched_only_indirectly_by_rohan": {
+      "ALIVE/DEAD, START, END": "only the blanket F144 approval of RULE_REVIEW rows 13, 16 and 17 (rule_decisions.json:147-156, 177-196)",
+      "CAUSE": "only the blanket F144 approval (option B, row 25; row 26 dropped); F136 is a quoted agent note, not Rohan's claim",
+      "WITH": "F148 lists 'with' among basic function words to hand-build; no definition is given"
+    }
+  }
+}

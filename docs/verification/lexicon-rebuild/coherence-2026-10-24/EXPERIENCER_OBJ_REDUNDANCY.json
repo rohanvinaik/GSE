@@ -1,0 +1,483 @@
+{
+  "population": 2322,
+  "FN_Experiencer_obj_words": 133,
+  "FN_frame_in_overlap": 127,
+  "FN_obj_to_VN_cause": {
+    "status": "OBSERVED",
+    "population": 2322,
+    "support": 127,
+    "matches": 127,
+    "violations": 0,
+    "table": [
+      127,
+      0,
+      1591,
+      604
+    ],
+    "conditional_probability": 1.0,
+    "baseline_probability": 0.739879414298019,
+    "risk_difference": 0.26012058570198104,
+    "lift": 1.351571594877765,
+    "signed_coherence": 1.0,
+    "wilson_95": [
+      0.9706403547062367,
+      1.0
+    ],
+    "phi": 0.14262363065965045,
+    "entropy_before_bits": 0.8269282834511702,
+    "entropy_after_bits": 0.0,
+    "entropy_reduction_bits": 0.8269282834511702
+  },
+  "VN_class_memberships_of_FN_obj_words": {
+    "verbnet:class=advise-37.9": 1,
+    "verbnet:class=amalgamate-22.2": 2,
+    "verbnet:class=amalgamate-22.2-2": 1,
+    "verbnet:class=amalgamate-22.2-3": 1,
+    "verbnet:class=amalgamate-22.2-3-2": 1,
+    "verbnet:class=amuse-31.1": 119,
+    "verbnet:class=animal_sounds-38": 1,
+    "verbnet:class=appeal-31.4": 2,
+    "verbnet:class=appeal-31.4-2": 1,
+    "verbnet:class=appeal-31.4-3": 1,
+    "verbnet:class=approve-77": 2,
+    "verbnet:class=body_internal_states-40.6": 1,
+    "verbnet:class=break-45.1": 1,
+    "verbnet:class=care-88": 1,
+    "verbnet:class=care-88-1": 1,
+    "verbnet:class=carve-21.2": 3,
+    "verbnet:class=carve-21.2-1": 2,
+    "verbnet:class=carve-21.2-2": 1,
+    "verbnet:class=change_bodily_state-40.8.4": 1,
+    "verbnet:class=crane-40.3.2": 1,
+    "verbnet:class=destroy-44": 3,
+    "verbnet:class=forbid-67": 1,
+    "verbnet:class=force-59": 9,
+    "verbnet:class=force-59-1": 7,
+    "verbnet:class=funnel-9.3": 1,
+    "verbnet:class=funnel-9.3-2": 1,
+    "verbnet:class=funnel-9.3-2-1": 1,
+    "verbnet:class=judgement-33": 1,
+    "verbnet:class=knead-26.5": 1,
+    "verbnet:class=marvel-31.3": 10,
+    "verbnet:class=marvel-31.3-1": 6,
+    "verbnet:class=marvel-31.3-2": 1,
+    "verbnet:class=marvel-31.3-5": 1,
+    "verbnet:class=marvel-31.3-6": 1,
+    "verbnet:class=marvel-31.3-8": 4,
+    "verbnet:class=marvel-31.3-9": 1,
+    "verbnet:class=modes_of_being_with_motion-47.3": 2,
+    "verbnet:class=murder-42.1": 1,
+    "verbnet:class=murder-42.1-1": 1,
+    "verbnet:class=other_cos-45.4": 6,
+    "verbnet:class=rummage-35.5": 1,
+    "verbnet:class=run-51.3.2": 1,
+    "verbnet:class=shake-22.3-1": 1,
+    "verbnet:class=shake-22.3": 2,
+    "verbnet:class=shake-22.3-1-1": 1,
+    "verbnet:class=shake-22.3-2": 1,
+    "verbnet:class=sound_emission-43.2": 1,
+    "verbnet:class=tingle-40.8.2": 2,
+    "verbnet:class=touch-20": 2,
+    "verbnet:class=touch-20-1": 2
+  },
+  "VN_predicates_of_FN_obj_words": {
+    "verbnet:frame_predicate=Prep": 4,
+    "verbnet:frame_predicate=motion": 3,
+    "verbnet:frame_predicate=in_reaction_to": 13,
+    "verbnet:frame_predicate=emotional_state": 121,
+    "verbnet:frame_predicate=cause": 127,
+    "verbnet:frame_predicate=transfer_info": 2,
+    "verbnet:frame_predicate=mingled": 1,
+    "verbnet:frame_predicate=degradation_material_integrity": 4,
+    "verbnet:frame_predicate=Adv": 123,
+    "verbnet:frame_predicate=property": 123,
+    "verbnet:frame_predicate=together": 3,
+    "verbnet:frame_predicate=Pred": 123,
+    "verbnet:frame_predicate=emit": 1,
+    "verbnet:frame_predicate=location": 1,
+    "verbnet:frame_predicate=!Prep": 1,
+    "verbnet:frame_predicate=approve": 2,
+    "verbnet:frame_predicate=manner": 1,
+    "verbnet:frame_predicate=use": 15,
+    "verbnet:frame_predicate=physical_form": 2,
+    "verbnet:frame_predicate=contact": 5,
+    "verbnet:frame_predicate=body_reflex": 2,
+    "verbnet:frame_predicate=involuntary": 2,
+    "verbnet:frame_predicate=equals": 1,
+    "verbnet:frame_predicate=!exist": 1,
+    "verbnet:frame_predicate=exist": 2,
+    "verbnet:frame_predicate=made_of": 1,
+    "verbnet:frame_predicate=declare": 1,
+    "verbnet:frame_predicate=destroyed": 3,
+    "verbnet:frame_predicate=state": 7,
+    "verbnet:frame_predicate=search": 1,
+    "verbnet:frame_predicate=forbid": 1,
+    "verbnet:frame_predicate=force": 9,
+    "verbnet:frame_predicate=experience": 2,
+    "verbnet:frame_predicate=!state": 1,
+    "verbnet:frame_predicate=!alive": 1,
+    "verbnet:frame_predicate=alive": 1,
+    "verbnet:frame_predicate=via": 1,
+    "verbnet:frame_predicate=discomfort": 2
+  },
+  "distinct_VN_class_membership_signatures": 29,
+  "largest_VN_class_membership_signatures": [
+    {
+      "count": 87,
+      "classes": [
+        "verbnet:class=amuse-31.1"
+      ]
+    },
+    {
+      "count": 6,
+      "classes": [
+        "verbnet:class=amuse-31.1",
+        "verbnet:class=force-59",
+        "verbnet:class=force-59-1"
+      ]
+    },
+    {
+      "count": 3,
+      "classes": [
+        "verbnet:class=other_cos-45.4"
+      ]
+    },
+    {
+      "count": 3,
+      "classes": [
+        "verbnet:class=amuse-31.1",
+        "verbnet:class=marvel-31.3",
+        "verbnet:class=marvel-31.3-1"
+      ]
+    },
+    {
+      "count": 2,
+      "classes": [
+        "verbnet:class=amuse-31.1",
+        "verbnet:class=marvel-31.3",
+        "verbnet:class=marvel-31.3-8"
+      ]
+    },
+    {
+      "count": 2,
+      "classes": [
+        "verbnet:class=amuse-31.1",
+        "verbnet:class=tingle-40.8.2",
+        "verbnet:class=touch-20",
+        "verbnet:class=touch-20-1"
+      ]
+    },
+    {
+      "count": 2,
+      "classes": [
+        "verbnet:class=amuse-31.1",
+        "verbnet:class=destroy-44"
+      ]
+    },
+    {
+      "count": 1,
+      "classes": [
+        "verbnet:class=amuse-31.1",
+        "verbnet:class=force-59"
+      ]
+    },
+    {
+      "count": 1,
+      "classes": [
+        "verbnet:class=amuse-31.1",
+        "verbnet:class=change_bodily_state-40.8.4",
+        "verbnet:class=marvel-31.3",
+        "verbnet:class=marvel-31.3-1",
+        "verbnet:class=marvel-31.3-6",
+        "verbnet:class=other_cos-45.4"
+      ]
+    },
+    {
+      "count": 1,
+      "classes": [
+        "verbnet:class=amuse-31.1",
+        "verbnet:class=modes_of_being_with_motion-47.3",
+        "verbnet:class=shake-22.3",
+        "verbnet:class=shake-22.3-1",
+        "verbnet:class=shake-22.3-1-1"
+      ]
+    },
+    {
+      "count": 1,
+      "classes": [
+        "verbnet:class=advise-37.9",
+        "verbnet:class=amuse-31.1",
+        "verbnet:class=approve-77",
+        "verbnet:class=force-59"
+      ]
+    },
+    {
+      "count": 1,
+      "classes": [
+        "verbnet:class=appeal-31.4",
+        "verbnet:class=appeal-31.4-3"
+      ]
+    },
+    {
+      "count": 1,
+      "classes": [
+        "verbnet:class=amuse-31.1",
+        "verbnet:class=break-45.1",
+        "verbnet:class=carve-21.2",
+        "verbnet:class=carve-21.2-1"
+      ]
+    },
+    {
+      "count": 1,
+      "classes": [
+        "verbnet:class=amalgamate-22.2",
+        "verbnet:class=amalgamate-22.2-3",
+        "verbnet:class=amalgamate-22.2-3-2",
+        "verbnet:class=amuse-31.1"
+      ]
+    },
+    {
+      "count": 1,
+      "classes": [
+        "verbnet:class=amuse-31.1",
+        "verbnet:class=marvel-31.3",
+        "verbnet:class=marvel-31.3-1",
+        "verbnet:class=other_cos-45.4"
+      ]
+    },
+    {
+      "count": 1,
+      "classes": [
+        "verbnet:class=destroy-44"
+      ]
+    },
+    {
+      "count": 1,
+      "classes": [
+        "verbnet:class=amuse-31.1",
+        "verbnet:class=force-59",
+        "verbnet:class=force-59-1",
+        "verbnet:class=judgement-33"
+      ]
+    },
+    {
+      "count": 1,
+      "classes": [
+        "verbnet:class=amuse-31.1",
+        "verbnet:class=other_cos-45.4"
+      ]
+    },
+    {
+      "count": 1,
+      "classes": [
+        "verbnet:class=amuse-31.1",
+        "verbnet:class=care-88",
+        "verbnet:class=care-88-1",
+        "verbnet:class=marvel-31.3",
+        "verbnet:class=marvel-31.3-2",
+        "verbnet:class=marvel-31.3-8"
+      ]
+    },
+    {
+      "count": 1,
+      "classes": [
+        "verbnet:class=amuse-31.1",
+        "verbnet:class=run-51.3.2"
+      ]
+    },
+    {
+      "count": 1,
+      "classes": [
+        "verbnet:class=amuse-31.1",
+        "verbnet:class=marvel-31.3",
+        "verbnet:class=marvel-31.3-5",
+        "verbnet:class=marvel-31.3-8"
+      ]
+    },
+    {
+      "count": 1,
+      "classes": [
+        "verbnet:class=amuse-31.1",
+        "verbnet:class=body_internal_states-40.6",
+        "verbnet:class=crane-40.3.2",
+        "verbnet:class=funnel-9.3",
+        "verbnet:class=funnel-9.3-2",
+        "verbnet:class=funnel-9.3-2-1",
+        "verbnet:class=knead-26.5",
+        "verbnet:class=modes_of_being_with_motion-47.3",
+        "verbnet:class=shake-22.3",
+        "verbnet:class=shake-22.3-2"
+      ]
+    },
+    {
+      "count": 1,
+      "classes": [
+        "verbnet:class=amuse-31.1",
+        "verbnet:class=approve-77",
+        "verbnet:class=forbid-67"
+      ]
+    },
+    {
+      "count": 1,
+      "classes": [
+        "verbnet:class=amuse-31.1",
+        "verbnet:class=marvel-31.3",
+        "verbnet:class=marvel-31.3-1",
+        "verbnet:class=marvel-31.3-9"
+      ]
+    },
+    {
+      "count": 1,
+      "classes": [
+        "verbnet:class=amuse-31.1",
+        "verbnet:class=carve-21.2",
+        "verbnet:class=carve-21.2-2",
+        "verbnet:class=rummage-35.5"
+      ]
+    },
+    {
+      "count": 1,
+      "classes": [
+        "verbnet:class=murder-42.1",
+        "verbnet:class=murder-42.1-1"
+      ]
+    },
+    {
+      "count": 1,
+      "classes": [
+        "verbnet:class=amalgamate-22.2",
+        "verbnet:class=amalgamate-22.2-2",
+        "verbnet:class=amuse-31.1"
+      ]
+    },
+    {
+      "count": 1,
+      "classes": [
+        "verbnet:class=animal_sounds-38",
+        "verbnet:class=sound_emission-43.2"
+      ]
+    },
+    {
+      "count": 1,
+      "classes": [
+        "verbnet:class=appeal-31.4",
+        "verbnet:class=appeal-31.4-2",
+        "verbnet:class=carve-21.2",
+        "verbnet:class=carve-21.2-1"
+      ]
+    }
+  ],
+  "FN_obj_to_VN_amuse": {
+    "status": "OBSERVED",
+    "population": 2322,
+    "support": 127,
+    "matches": 119,
+    "violations": 8,
+    "table": [
+      119,
+      8,
+      49,
+      2146
+    ],
+    "conditional_probability": 0.937007874015748,
+    "baseline_probability": 0.07235142118863049,
+    "risk_difference": 0.8646564528271176,
+    "lift": 12.950787401574804,
+    "signed_coherence": 0.8740157480314961,
+    "wilson_95": [
+      0.8806166441101261,
+      0.9677383115780022
+    ],
+    "phi": 0.802810252568094,
+    "entropy_before_bits": 0.3746380508211845,
+    "entropy_after_bits": 0.33920977469621877,
+    "entropy_reduction_bits": 0.03542827612496574
+  },
+  "VN_amuse_to_cause": {
+    "status": "OBSERVED",
+    "population": 3585,
+    "support": 242,
+    "matches": 242,
+    "violations": 0,
+    "table": [
+      242,
+      0,
+      2467,
+      876
+    ],
+    "conditional_probability": 1.0,
+    "baseline_probability": 0.7556485355648536,
+    "risk_difference": 0.24435146443514644,
+    "lift": 1.3233665559246954,
+    "signed_coherence": 1.0,
+    "wilson_95": [
+      0.9843742433065535,
+      1.0
+    ],
+    "phi": 0.15299845499599832,
+    "entropy_before_bits": 0.8022020347022698,
+    "entropy_after_bits": 0.0,
+    "entropy_reduction_bits": 0.8022020347022698
+  },
+  "FN_obj_words_not_in_amuse": [
+    "appeal",
+    "conciliate",
+    "destroy",
+    "embitter",
+    "grate",
+    "kill",
+    "petrify",
+    "rattle"
+  ],
+  "VN_amuse_in_FN_overlap_without_FN_obj": [
+    "affect",
+    "affront",
+    "amuse",
+    "chagrin",
+    "chill",
+    "concern",
+    "convince",
+    "cow",
+    "cut",
+    "disarm",
+    "dismay",
+    "disquiet",
+    "divert",
+    "entice",
+    "entrance",
+    "exhaust",
+    "fatigue",
+    "flatter",
+    "galvanize",
+    "grieve",
+    "humble",
+    "hurt",
+    "impair",
+    "inspire",
+    "insult",
+    "invigorate",
+    "jar",
+    "move",
+    "obsess",
+    "occupy",
+    "pain",
+    "plague",
+    "provoke",
+    "quench",
+    "refresh",
+    "rejuvenate",
+    "revitalize",
+    "strike",
+    "tempt",
+    "terrorize",
+    "threaten",
+    "throw",
+    "tire",
+    "torture",
+    "touch",
+    "transfix",
+    "transport",
+    "try",
+    "weary"
+  ]
+}

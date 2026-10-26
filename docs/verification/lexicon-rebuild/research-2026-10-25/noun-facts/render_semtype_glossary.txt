@@ -1,0 +1,25 @@
+Activity (ID 8; super: Event): Labels Activity Aktionsart. Used for events that fundamentally denote the 'Ongoing' subpart of an X-schema. E.g. We walked _for an hour_. Note that most verbs which inherently denote an Activity can be used as Accomplishments when a distinct goal is mentioned: We walked to the
+Agentive_noun (ID 102; super: Biframal_LU): A sentient being that acts volitionally to perform an activity. <ex></ex> Use of this semantic type indicates that a target participates in a nominalization construction with frame elements appropriate to entities (cf. People frame), which can appear in addition to frame elements approporiate to the event.
+Artifact (ID 61; super: Physical_object): WN synset: artifact, artefact
+Body_part (ID 10; super: Physical_object): Type for all body parts of humans and animals.
+Container (ID 15; super: Physical_object): Marks FEs extending over constituents whose denotatum is a container.
+Content (ID 55; super: State_of_affairs): WN synset: content, cognitive content, mental object
+Degree (ID 172; super: Attribute): Type for expressions of degree, such as _very_, _completely_, _somewhat_ and _partially_.
+Duration (ID 142; super: Attribute): Marks FEs which have time-periods as fillers.
+Event (ID 75; super: State_of_affairs): WN synset (top): event
+Goal (ID 153; super: Locative_relation): Marks FEs whose fillers denote a location that is the destination of motion.
+Group (ID 76; super: Ontological_type): WN synset (top): group, grouping
+Human (ID 80; super: Sentient): WN synset: person, individual, someone, somebody, mortal, human, soul
+Living_thing (ID 66; super: Physical_object): WN synset: organism, being, living thing
+Location (ID 54; super: Physical_object): WN synset: location
+Locative_relation (ID 182; super: Relation): Type for relations between events and locations.
+Manner (ID 173; super: Attribute): Type for expressions of the manner of an event or action: _suddenly_, _gradually_, _grudgingly_
+Non-perspectivalized_frame (ID 52; super: Framal_type): This semantic type marks frames that do not impose a perspective on the situation portrayed by the frame. An example is the Commerce frame, in which a Lexical Unit like commerce.n denotes an interaction between participants (Buyer, Seller, Money, and Goods) but profiles none of them. An important consequence of the lack of perspective is that the opposition of core, periperal, and extrathematic frame elements is not relevant.
+Physical_entity (ID 70; super: Ontological_type): WN synset (top): entity
+Physical_object (ID 68; super: Physical_entity): WN synset: object, physical object
+Quantity (ID 59; super: Attribute): WN synset: measure, quantity, amount, quantum
+Sentient (ID 5; super: Animate_being): Marks FEs whose fillers are sentient beings; dogs, definitely; bacteria, probably not; comatose people, planeria, maybe. This is a common-sense type, with fuzzy boundaries, not a precise bio-medical category.
+Source (ID 151; super: Locative_relation): Marks FEs whose fillers depict a location as formerly occupied before motion.
+State_of_affairs (ID 177; super: Ontological_type): Type for states of affairs broadly defined, including states, events and the content of messages: _her happiness_, _your graduation_, _the Big Bang_
+Time (ID 141; super: Relation): Marks FEs whose fillers denote points in time.
+Transparent Noun (ID 9; super: Lexical_type): Transparent noun.

@@ -1,0 +1,651 @@
+== ruff check
+All checks passed!
+== ruff format --check
+501 files already formatted
+== pytest
+============================= test session starts ==============================
+platform darwin -- Python 3.14.6, pytest-9.1.0, pluggy-1.6.0
+rootdir: /Users/rohanvinaik/Projects/gse
+configfile: pyproject.toml
+testpaths: tests
+plugins: hypothesis-6.170.7, anyio-4.15.1
+collected 5694 items
+
+tests/detective/test_gse_api_encoder_word_vector_plan_af64bc8bf3_synth.py . [  0%]
+...                                                                      [  0%]
+tests/detective/test_gse_curation_personal_dictionary_check_decomposition_101982f356_synth.py . [  0%]
+..........                                                               [  0%]
+tests/detective/test_gse_curation_personal_dictionary_concur_ffdaafa8de_synth.py . [  0%]
+                                                                         [  0%]
+tests/detective/test_gse_lexical_evidence__valid_primitive_value_ed32a131b6_synth.py . [  0%]
+...                                                                      [  0%]
+tests/detective/test_gse_lexicon_builder_artifact_vector_status_a1abed2c62_synth.py . [  0%]
+                                                                         [  0%]
+tests/detective/test_gse_lexicon_builder_core_cli_law_contract_b98a7589c0_synth.py . [  0%]
+...............                                                          [  0%]
+tests/detective/test_gse_lexicon_builder_model_selection_status_a7629fdfb4_synth.py . [  0%]
+.                                                                        [  0%]
+tests/detective/test_gse_lexicon_builder_native_constraints_predicate_domain_a4063ffbd3_synth.py . [  0%]
+                                                                         [  0%]
+tests/detective/test_gse_lexicon_builder_number_paired_order_status_abe314a791_synth.py . [  0%]
+..                                                                       [  0%]
+tests/detective/test_gse_lexicon_builder_surprise_comparison_status_de949a91dd_synth.py . [  0%]
+......                                                                   [  0%]
+tests/detective/test_gse_lexicon_builder_tail_tail_task_status_3730b42410_synth.py . [  0%]
+....                                                                     [  0%]
+tests/detective/test_gse_nlp_contractions_apostrophe_s_reading_a000fa8fa9_synth.py . [  0%]
+......                                                                   [  1%]
+tests/detective/test_gse_nlp_contractions_contraction_reading_0d3b390478_synth.py . [  1%]
+....                                                                     [  1%]
+tests/detective/test_gse_nlp_contractions_is_past_participle_823dafc768_synth.py . [  1%]
+....                                                                     [  1%]
+tests/detective/test_gse_nlp_linkers_what_clause_kind_7d2bd813b4_synth.py . [  1%]
+.........                                                                [  1%]
+tests/detective/test_gse_nlp_native__inflected_pos_346aa4560f_synth.py . [  1%]
+.......                                                                  [  1%]
+tests/detective/test_gse_nlp_native__skip_adverbs_ef392862a7_synth.py .. [  1%]
+....                                                                     [  1%]
+tests/detective/test_gse_nlp_native__tokenize_802f885a64_synth.py ....   [  1%]
+tests/detective/test_gse_nlp_native_copula_modifier_context_b9810c43a7_synth.py . [  1%]
+                                                                         [  1%]
+tests/detective/test_gse_prime_projection_epa_projection_ae3040dfe0_synth.py . [  1%]
+.                                                                        [  1%]
+tests/detective/test_gse_primitives_v2_literal_valence_948c33b1d5_synth.py . [  1%]
+                                                                         [  1%]
+tests/detective/test_gse_symbolic_claims_commitment_modes_1c89ac1ec8_synth.py . [  1%]
+                                                                         [  1%]
+tests/detective/test_gse_symbolic_expression__attach_complement_f884b9178f_synth.py . [  1%]
+                                                                         [  1%]
+tests/detective/test_gse_symbolic_expression__with_clause_modal_7a5eb8be28_synth.py . [  1%]
+                                                                         [  1%]
+tests/detective/test_gse_symbolic_expression_locative_subject_code_231da2ef61_synth.py . [  1%]
+......                                                                   [  2%]
+tests/detective/test_gse_symbolic_expression_node_negation_count_e5da661fed_synth.py . [  2%]
+                                                                         [  2%]
+tests/detective/test_gse_symbolic_expression_node_polarity_1a7e575df7_synth.py . [  2%]
+                                                                         [  2%]
+tests/detective/test_gse_symbolic_expression_operator_composition_plan_7818e2d09c_synth.py . [  2%]
+                                                                         [  2%]
+tests/detective/test_gse_symbolic_grounding_contextual_sense_choice_a49bcfc5a0_synth.py . [  2%]
+                                                                         [  2%]
+tests/detective/test_gse_symbolic_modality_assertion_mode_d28fdc3da0_synth.py . [  2%]
+......                                                                   [  2%]
+tests/detective/test_gse_symbolic_modality_modal_force_104f14bf78_synth.py . [  2%]
+                                                                         [  2%]
+tests/detective/test_gse_symbolic_modality_modal_primes_bf71d8c37e_synth.py . [  2%]
+                                                                         [  2%]
+tests/test_adopted_document_reading.py .....................             [  2%]
+tests/test_adopted_reading_properties.py ..                              [  2%]
+tests/test_adopted_reading_wrappers.py ..                                [  2%]
+tests/test_aggregate_primitives_weighted.py ............                 [  2%]
+tests/test_audit_lexicon_violations.py ......                            [  2%]
+tests/test_bank_cosine_metrics.py ......                                 [  3%]
+tests/test_basis_theory_invariants.py .................................. [  3%]
+...                                                                      [  3%]
+tests/test_benchmark_runner.py ..........                                [  3%]
+tests/test_bipolar_exclusion.py ..............                           [  4%]
+tests/test_claim_semantics.py .......................................... [  4%]
+...........                                                              [  5%]
+tests/test_clause_linker_walkers.py .......                              [  5%]
+tests/test_closed_class_modals.py ..........                             [  5%]
+tests/test_closed_class_rows.py .........                                [  5%]
+tests/test_comp_operator_trace.py ................................       [  6%]
+tests/test_complement_attachment.py .............                        [  6%]
+tests/test_complete_document_reading.py ................................ [  6%]
+.....                                                                    [  6%]
+tests/test_concreteness_native_fields.py ..                              [  7%]
+tests/test_contractions.py ..............                                [  7%]
+tests/test_copula_complement.py ........................................ [  7%]
+.....................................                                    [  8%]
+tests/test_data_paths.py ...                                             [  8%]
+tests/test_discourse_profile.py ....                                     [  8%]
+tests/test_discourse_speech.py ...........                               [  8%]
+tests/test_encoder_activations_reference.py ............................ [  9%]
+............................                                             [  9%]
+tests/test_gse_abstention.py .........                                   [ 10%]
+tests/test_gse_api_decoder.py ...............................            [ 10%]
+tests/test_gse_api_encoder.py .......................................    [ 11%]
+tests/test_gse_api_errors.py ...........................                 [ 11%]
+tests/test_gse_api_trace.py ............................................ [ 12%]
+..........................................                               [ 13%]
+tests/test_gse_benchmarks_datasets.py .................................. [ 13%]
+                                                                         [ 13%]
+tests/test_gse_benchmarks_metrics.py ..................................  [ 14%]
+tests/test_gse_cli_main.py ...........................                   [ 14%]
+tests/test_gse_coherence_selection.py .....                              [ 15%]
+tests/test_gse_composition_composer.py ................................. [ 15%]
+.......                                                                  [ 15%]
+tests/test_gse_curation_cli_commands.py .........................        [ 16%]
+tests/test_gse_curation_constraint_aggregation_conflict_detector.py .... [ 16%]
+..........................................                               [ 17%]
+tests/test_gse_curation_constraint_aggregation_engine.py ............... [ 17%]
+..............................                                           [ 17%]
+tests/test_gse_curation_constraint_aggregation_mapping_registry.py ..... [ 17%]
+.......................................                                  [ 18%]
+tests/test_gse_curation_constraint_aggregation_scoring.py .............. [ 18%]
+....................                                                     [ 19%]
+tests/test_gse_curation_constraint_aggregation_types.py ................ [ 19%]
+............................................                             [ 20%]
+tests/test_gse_curation_external_sources_base_parser.py ................ [ 20%]
+.........                                                                [ 20%]
+tests/test_gse_curation_external_sources_comparator.py ................. [ 20%]
+..........................................                               [ 21%]
+tests/test_gse_curation_external_sources_conceptnet.py ................. [ 21%]
+.................s................................                       [ 22%]
+tests/test_gse_curation_external_sources_concreteness.py ............... [ 23%]
+......................................                                   [ 23%]
+tests/test_gse_curation_external_sources_framenet.py ................... [ 24%]
+......................                                                   [ 24%]
+tests/test_gse_curation_external_sources_integrator.py ................. [ 24%]
+................                                                         [ 25%]
+tests/test_gse_curation_external_sources_lancaster_sensorimotor.py ..... [ 25%]
+........................................................................ [ 26%]
+...........                                                              [ 26%]
+tests/test_gse_curation_external_sources_nrc_emotion.py ................ [ 26%]
+..............................                                           [ 27%]
+tests/test_gse_curation_external_sources_nrc_vad.py .................... [ 27%]
+...........................                                              [ 28%]
+tests/test_gse_curation_external_sources_prepopulate.py ................ [ 28%]
+.........                                                                [ 28%]
+tests/test_gse_curation_external_sources_propbank.py ................... [ 29%]
+.......................                                                  [ 29%]
+tests/test_gse_curation_external_sources_run_comparison.py ............. [ 29%]
+....................                                                     [ 30%]
+tests/test_gse_curation_external_sources_sentiwordnet.py ............... [ 30%]
+.......................                                                  [ 30%]
+tests/test_gse_curation_external_sources_usas.py ....................... [ 31%]
+...............................                                          [ 31%]
+tests/test_gse_curation_external_sources_verbnet.py .................... [ 31%]
+........ss.........                                                      [ 32%]
+tests/test_gse_curation_external_sources_wiktionary.py ................. [ 32%]
+.....s..........................                                         [ 33%]
+tests/test_gse_curation_external_sources_wordnet_hierarchy.py .......... [ 33%]
+....................................................                     [ 34%]
+tests/test_gse_curation_frequency_integration.py ....................... [ 34%]
+...                                                                      [ 34%]
+tests/test_gse_curation_lexicon_db.py .................................. [ 35%]
+........................                                                 [ 35%]
+tests/test_gse_curation_llm_batch_processor.py .........s............... [ 36%]
+............                                                             [ 36%]
+tests/test_gse_curation_llm_gap_filler.py .............................. [ 36%]
+..................                                                       [ 37%]
+tests/test_gse_curation_llm_granular_decomposer.py ..................... [ 37%]
+......................                                                   [ 38%]
+tests/test_gse_curation_llm_hybrid_builder.py .......................... [ 38%]
+......................                                                   [ 38%]
+tests/test_gse_curation_llm_ollama_client.py ........................... [ 39%]
+...................                                                      [ 39%]
+tests/test_gse_curation_llm_primitive_matcher.py ....................... [ 40%]
+...................................                                      [ 40%]
+tests/test_gse_curation_llm_primitive_sweep.py ......................... [ 41%]
+.......................                                                  [ 41%]
+tests/test_gse_curation_llm_prompts.py ................................. [ 42%]
+...............                                                          [ 42%]
+tests/test_gse_curation_llm_qwen_client.py .........sss................. [ 42%]
+..s                                                                      [ 42%]
+tests/test_gse_curation_llm_response_parser.py .......s................. [ 43%]
+.....................s...........s.........................              [ 44%]
+tests/test_gse_curation_pipeline_staged_builder.py ..................... [ 44%]
+..                                                                       [ 44%]
+tests/test_gse_curation_schema.py ...................................    [ 45%]
+tests/test_gse_curation_validation_bipolar_validator.py ...............  [ 45%]
+tests/test_gse_curation_validation_coverage_checker.py ...............   [ 45%]
+tests/test_gse_curation_validation_hierarchy_validator.py .............. [ 46%]
+.                                                                        [ 46%]
+tests/test_gse_demiword.py .......                                       [ 46%]
+tests/test_gse_document.py .....                                         [ 46%]
+tests/test_gse_emit_contract.py ........                                 [ 46%]
+tests/test_gse_encoders_paragraph_structure_encoder.py ................. [ 46%]
+.......................................................                  [ 47%]
+tests/test_gse_encoders_sentence_structure_encoder.py .................. [ 48%]
+...................                                                      [ 48%]
+tests/test_gse_encoders_text_structure_encoder.py ...................... [ 48%]
+.........................                                                [ 49%]
+tests/test_gse_entity_refs.py ..........                                 [ 49%]
+tests/test_gse_evaluation_world_model.py ............................... [ 50%]
+                                                                         [ 50%]
+tests/test_gse_event.py ..........                                       [ 50%]
+tests/test_gse_frequency.py ..................................           [ 50%]
+tests/test_gse_genealogy_store.py ........                               [ 50%]
+tests/test_gse_inference.py ..............                               [ 51%]
+tests/test_gse_lexicon_function_words.py ............................... [ 51%]
+........                                                                 [ 51%]
+tests/test_gse_lexicon_modifier_hierarchy.py ........................... [ 52%]
+......                                                                   [ 52%]
+tests/test_gse_lexicon_numerals.py ..................................... [ 53%]
+.............                                                            [ 53%]
+tests/test_gse_lexicon_pronouns.py ..............................        [ 53%]
+tests/test_gse_lexicon_similarity.py ................................    [ 54%]
+tests/test_gse_lexicon_word_encoding.py ................................ [ 54%]
+.........................                                                [ 55%]
+tests/test_gse_merkle_decomposer.py .................................... [ 56%]
+.....                                                                    [ 56%]
+tests/test_gse_merkle_hash_chain.py ...................................  [ 56%]
+tests/test_gse_merkle_learning_bridge.py .............................   [ 57%]
+tests/test_gse_merkle_nodes.py ................................          [ 57%]
+tests/test_gse_merkle_router.py .............................            [ 58%]
+tests/test_gse_merkle_translator.py ....................                 [ 58%]
+tests/test_gse_merkle_tree.py .......................................... [ 59%]
+.........................                                                [ 59%]
+tests/test_gse_parsing_graph.py ........................................ [ 60%]
+..................................                                       [ 61%]
+tests/test_gse_parsing_operators.py .................................... [ 61%]
+                                                                         [ 61%]
+tests/test_gse_parsing_parser.py .........................               [ 62%]
+tests/test_gse_patterns_klines.py ................................       [ 62%]
+tests/test_gse_patterns_networks_v2.py ................................. [ 63%]
+....                                                                     [ 63%]
+tests/test_gse_profiles_profile_manager.py ............................. [ 63%]
+.....                                                                    [ 64%]
+tests/test_gse_scale_definition.py ..............................        [ 64%]
+tests/test_gse_scales_syntactic_structure.py ........................... [ 65%]
+.                                                                        [ 65%]
+tests/test_gse_teaching_conversation_processor.py ...................... [ 65%]
+.........................                                                [ 65%]
+tests/test_gse_teaching_feature_extractor.py ........................... [ 66%]
+.....................                                                    [ 66%]
+tests/test_gse_teaching_teacher.py ..................................... [ 67%]
+.                                                                        [ 67%]
+tests/test_gse_triage.py ...                                             [ 67%]
+tests/test_gse_verb_templates.py .........................               [ 67%]
+tests/test_gse_verification_proof_suite.py ............................. [ 68%]
+......                                                                   [ 68%]
+tests/test_hdc_speller.py ...........                                    [ 68%]
+tests/test_head_linker_decision.py .................                     [ 68%]
+tests/test_healing_resource_provenance.py ....                           [ 69%]
+tests/test_kb_assertion_modality.py .........                            [ 69%]
+tests/test_klines.py ..................                                  [ 69%]
+tests/test_knowability_sentences.py ........                             [ 69%]
+tests/test_l1_ladder.py ..................                               [ 69%]
+tests/test_lemma_invariants.py ................                          [ 70%]
+tests/test_lexical_connection_cache.py ......                            [ 70%]
+tests/test_lexical_healing_contract.py ..................                [ 70%]
+tests/test_lexicon_atomic_and_tail.py ...........                        [ 70%]
+tests/test_lexicon_bank_coverage.py ......                               [ 70%]
+tests/test_lexicon_basis_profiles.py ................................... [ 71%]
+........................................................................ [ 72%]
+                                                                         [ 72%]
+tests/test_lexicon_bounded_tail.py .......                               [ 72%]
+tests/test_lexicon_builder_foundation.py ........                        [ 73%]
+tests/test_lexicon_builder_workflow.py ..................                [ 73%]
+tests/test_lexicon_cause_bindings.py ......                              [ 73%]
+tests/test_lexicon_coherence.py ................                         [ 73%]
+tests/test_lexicon_conditional_rules.py ................................ [ 74%]
+..............                                                           [ 74%]
+tests/test_lexicon_fill.py ....                                          [ 74%]
+tests/test_lexicon_foundation_workflow.py .............................. [ 75%]
+...........                                                              [ 75%]
+tests/test_lexicon_frozen_build.py ....                                  [ 75%]
+tests/test_lexicon_mvp_artifact.py .........                             [ 75%]
+tests/test_lexicon_native_constraints.py ............                    [ 75%]
+tests/test_lexicon_noun_projection.py .......................            [ 76%]
+tests/test_lexicon_number.py .......                                     [ 76%]
+tests/test_lexicon_release_audit.py .........................            [ 76%]
+tests/test_lexicon_release_connection_identity.py .                      [ 76%]
+tests/test_lexicon_release_runtime.py ............................       [ 77%]
+tests/test_lexicon_rooted_provenance.py ........                         [ 77%]
+tests/test_lexicon_rule_admission.py ..                                  [ 77%]
+tests/test_lexicon_source_identity.py ...                                [ 77%]
+tests/test_lexicon_unified_admission.py .....                            [ 77%]
+tests/test_marker_detection.py ............                              [ 77%]
+tests/test_modal_events.py ............................................. [ 78%]
+........                                                                 [ 78%]
+tests/test_modality_complements.py ............................          [ 79%]
+tests/test_morphology.py ...........................                     [ 79%]
+tests/test_multi_model_audit_shutdown.py .                               [ 79%]
+tests/test_negated_argument_closure.py .........                         [ 79%]
+tests/test_negation.py ............................                      [ 80%]
+tests/test_negation_admission.py ........                                [ 80%]
+tests/test_operation_trace.py .....................                      [ 80%]
+tests/test_operator_core_preservation.py ..................              [ 81%]
+tests/test_orchestrator.py ............                                  [ 81%]
+tests/test_personal_dictionary.py ..........                             [ 81%]
+tests/test_polarity_propagation.py .............                         [ 81%]
+tests/test_populate_from_external.py ..........                          [ 82%]
+tests/test_prime_projection.py .........................                 [ 82%]
+tests/test_primitives_v2.py ....................................         [ 83%]
+tests/test_propositions.py ..............................                [ 83%]
+tests/test_rarity_evidence.py .........                                  [ 83%]
+tests/test_reading_probes.py .....................................xxxx   [ 84%]
+tests/test_reading_probes_ring2.py ...............................       [ 85%]
+tests/test_rohan_voice_banks.py ..                                       [ 85%]
+tests/test_rohan_voice_v2.py ...........                                 [ 85%]
+tests/test_scale_definition.py ......................................... [ 86%]
+................                                                         [ 86%]
+tests/test_sentence_architecture.py .................                    [ 86%]
+tests/test_serialization_field_completeness.py ......................... [ 87%]
+............................................                             [ 87%]
+tests/test_sign_composition.py ...............                           [ 88%]
+tests/test_sign_evidence.py ..........                                   [ 88%]
+tests/test_sign_uptake.py ............................                   [ 88%]
+tests/test_source_scope.py .................                             [ 89%]
+tests/test_spellcheck.py ............................................    [ 89%]
+tests/test_spellcheck_entity.py ......................                   [ 90%]
+tests/test_structural_voice_contracts.py ............................... [ 90%]
+............                                                             [ 90%]
+tests/test_symbolic_copula.py .........                                  [ 91%]
+tests/test_symbolic_expression.py ...................................... [ 91%]
+...                                                                      [ 91%]
+tests/test_symbolic_operators.py ............................            [ 92%]
+tests/test_symbolic_proof_suite.py ...............                       [ 92%]
+tests/test_symbolic_queries.py ..............                            [ 92%]
+tests/test_symbolic_resolution.py .................                      [ 93%]
+tests/test_symbolic_serialization.py ...........................         [ 93%]
+tests/test_symbolic_templating.py ..........                             [ 93%]
+tests/test_symbolic_walker_parity.py ................................... [ 94%]
+........................................................................ [ 95%]
+...................................                                      [ 96%]
+tests/test_templating_field_preservation.py ............................ [ 96%]
+...........                                                              [ 96%]
+tests/test_thatless_complement.py ......................                 [ 97%]
+tests/test_tier_0_dispatch.py .................                          [ 97%]
+tests/test_vectorized_activations.py ..................                  [ 97%]
+tests/test_voice_reading_repairs.py .......................              [ 98%]
+tests/test_weighted_voting.py .........                                  [ 98%]
+tests/test_word_vector_sign.py ......................................... [ 99%]
+...........................................                              [100%]
+
+=============================== warnings summary ===============================
+.venv/lib/python3.14/site-packages/_hypothesis_pytestplugin.py:487
+  /Users/rohanvinaik/Projects/gse/.venv/lib/python3.14/site-packages/_hypothesis_pytestplugin.py:487: UserWarning: Skipping collection of '.hypothesis' directory - this usually means you've explicitly set the `norecursedirs` pytest config option, replacing rather than extending the default ignores.
+    warnings.warn(
+
+gse/verification/proof_suite.py:16
+  /Users/rohanvinaik/Projects/gse/gse/verification/proof_suite.py:16: PytestCollectionWarning: cannot collect test class 'TestResult' because it has a __init__ constructor (from: tests/test_gse_verification_proof_suite.py)
+    @dataclass
+
+tests/test_gse_abstention.py::TestAbstentionProof::test_clean_sentence_has_no_flags
+tests/test_gse_abstention.py::TestAbstentionProof::test_clean_sentence_has_no_flags
+tests/test_gse_curation_external_sources_wordnet_hierarchy.py::TestToPrimitives::test_unknown_empty
+tests/test_orchestrator.py::TestHierarchicalPipeline::test_process_hierarchical_basic
+tests/test_scale_definition.py::TestSentenceOrthogonality::test_within_bank_exact_orthogonality
+  /Users/rohanvinaik/Projects/gse/.venv/lib/python3.14/site-packages/_pytest/fixtures.py:1312: PytestRemovedIn10Warning: Class-scoped fixture defined as instance method is deprecated.
+  Instance attributes set in this fixture will NOT be visible to test methods,
+  as each test gets a new instance while the fixture runs only once per class.
+  Use @classmethod decorator and set attributes on cls instead.
+  See https://docs.pytest.org/en/stable/deprecations.html#class-scoped-fixture-as-instance-method
+    fixturefunc = resolve_fixture_function(fixturedef, request)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+SKIPPED [1] tests/test_gse_curation_external_sources_conceptnet.py:255: pre-existing failure since initial commit (9578764); code-only checkout — needs triage vs as-built build-index behavior
+SKIPPED [1] tests/test_gse_curation_external_sources_verbnet.py:230: pre-existing failure since initial commit (9578764); code-only checkout — needs triage vs as-built to_primitives behavior
+SKIPPED [1] tests/test_gse_curation_external_sources_verbnet.py:241: pre-existing failure since initial commit (9578764); code-only checkout — needs triage vs as-built to_primitives behavior
+SKIPPED [1] tests/test_gse_curation_external_sources_wiktionary.py:273: pre-existing failure since initial commit (9578764); code-only checkout — needs triage vs as-built definition-match behavior
+SKIPPED [1] tests/test_gse_curation_llm_batch_processor.py:108: pre-existing failure since initial commit (9578764); code-only checkout — needs triage vs as-built progress-logging behavior
+SKIPPED [1] tests/test_gse_curation_llm_qwen_client.py:85: could not import 'torch': No module named 'torch'
+SKIPPED [1] tests/test_gse_curation_llm_qwen_client.py:91: could not import 'torch': No module named 'torch'
+SKIPPED [1] tests/test_gse_curation_llm_qwen_client.py:98: could not import 'torch': No module named 'torch'
+SKIPPED [1] tests/test_gse_curation_llm_qwen_client.py:316: could not import 'torch': No module named 'torch'
+SKIPPED [1] tests/test_gse_curation_llm_response_parser.py:72: pre-existing failure since initial commit (9578764); code-only checkout — needs triage vs as-built JSON-extract behavior
+SKIPPED [1] tests/test_gse_curation_llm_response_parser.py:221: pre-existing failure since initial commit (9578764); code-only checkout — needs triage vs as-built parse behavior
+SKIPPED [1] tests/test_gse_curation_llm_response_parser.py:294: pre-existing failure since initial commit (9578764); code-only checkout — needs triage vs as-built batch-parse behavior
+XFAIL tests/test_reading_probes.py::test_a_neutral_word_carries_no_valence[rule] - #51 L-vad: the v2 VAD lexicon read on the v1 scale votes GOOD -1
+XFAIL tests/test_reading_probes.py::test_a_neutral_word_carries_no_valence[elements] - #51 L-vad: the v2 VAD lexicon read on the v1 scale votes GOOD -1
+XFAIL tests/test_reading_probes.py::test_a_neutral_word_carries_no_valence[case] - #51 L-vad: the v2 VAD lexicon read on the v1 scale votes GOOD -1
+XFAIL tests/test_reading_probes.py::test_compassion_is_not_negative - #52 L-emolex: a GOOD conflict is settled by alphabetical emotion order
+===== 5678 passed, 12 skipped, 4 xfailed, 7 warnings in 154.83s (0:02:34) ======
+== ty check gse (advisory)
+gse/api/native_repair.py:116:21: error[unresolved-attribute] Object of type `object` has no attribute `lemma_`
+gse/api/native_repair.py:116:51: error[unresolved-attribute] Object of type `object` has no attribute `lemma_`
+gse/api/native_repair.py:208:35: error[unresolved-attribute] Object of type `object` has no attribute `lemma_`
+gse/api/native_repair.py:214:30: error[unresolved-attribute] Object of type `object` has no attribute `text`
+gse/api/native_repair.py:221:30: error[unresolved-attribute] Object of type `object` has no attribute `text`
+gse/api/native_repair.py:256:35: error[unresolved-attribute] Object of type `object` has no attribute `lemma_`
+gse/cassettes/deck.py:108:70: error[invalid-argument-type] Argument to bound method `list.append` is incorrect: Expected `Resolution`, found `tuple[Cassette, Resolution] | Resolution`
+gse/cassettes/deck.py:108:70: error[invalid-argument-type] Argument to bound method `list.append` is incorrect: Expected `tuple[Cassette, Resolution]`, found `tuple[Cassette, Resolution] | Resolution`
+gse/cassettes/deck.py:137:32: error[unresolved-attribute] Attribute `keys` is not defined on `None` in union `Any | None`
+gse/cassettes/deck.py:146:29: error[invalid-argument-type] Argument to bound method `_UnionFind.union` is incorrect: Expected `str`, found `Any | None`
+gse/cassettes/deck.py:147:37: error[invalid-argument-type] Argument to bound method `_UnionFind.find` is incorrect: Expected `str`, found `Any | None`
+gse/cassettes/deck.py:173:59: error[invalid-argument-type] Argument to bound method `_UnionFind.same` is incorrect: Expected `str`, found `Any | None`
+gse/cassettes/deck.py:188:30: error[unresolved-attribute] Attribute `eid` is not defined on `None` in union `Any | None`
+gse/cassettes/deck.py:189:28: error[unresolved-attribute] Attribute `eid` is not defined on `None` in union `Any | None`
+gse/cassettes/deck.py:194:32: error[unresolved-attribute] Attribute `rep` is not defined on `None` in union `Any | None`
+gse/cassettes/deck.py:194:46: error[unresolved-attribute] Attribute `eid` is not defined on `None` in union `Any | None`
+gse/cassettes/deck.py:196:29: error[unresolved-attribute] Attribute `eid` is not defined on `None` in union `Any | None`
+gse/cli.py:74:35: error[unresolved-attribute] Object of type `EncodingResult` has no attribute `word_count`
+gse/cli.py:75:38: error[unresolved-attribute] Object of type `EncodingResult` has no attribute `dims_per_word`
+gse/cli.py:76:29: error[unresolved-attribute] Object of type `EncodingResult` has no attribute `norm`
+gse/cli.py:77:28: error[unresolved-attribute] Object of type `EncodingResult` has no attribute `nnz`
+gse/cli.py:84:18: error[unresolved-attribute] Object of type `GSEPipeline` has no attribute `compute_similarity`
+gse/cli.py:107:31: error[unresolved-attribute] Object of type `DecompositionResult` has no attribute `method`
+gse/cli.py:108:40: error[unresolved-attribute] Object of type `DecompositionResult` has no attribute `source_patterns`
+gse/cli.py:115:52: error[unknown-argument] Argument `k` does not match any known parameter of bound method `GSEPipeline.find_similar`
+gse/cli.py:120:103: error[not-iterable] Object of type `SimilarityResult` is not iterable
+gse/cli.py:131:18: error[unresolved-attribute] Object of type `GSEPipeline` has no attribute `check_integrity`
+gse/curation/build_clean_quantifiers.py:61:33: error[not-iterable] Object of type `None` is not iterable
+gse/curation/build_wordlist.py:32:12: error[unresolved-import] Cannot resolve imported module `marisa_trie`
+gse/curation/constraint_aggregation/engine.py:135:16: error[invalid-return-type] Return type does not match returned value: expected `dict[str, int]`, found `dict[str, int | str]`
+gse/curation/constraint_aggregation/mapping_registry.py:283:5: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `str`
+gse/curation/constraint_aggregation/mapping_registry.py:284:5: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `float`
+gse/curation/constraint_aggregation/mapping_registry.py:285:5: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `str`
+gse/curation/constraint_aggregation/scoring.py:27:5: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `dict[str, float]`
+gse/curation/constraint_aggregation/types.py:107:39: error[invalid-assignment] Object of type `None` is not assignable to `dict[str, Any]`
+gse/curation/external_sources/conceptnet.py:308:22: error[unresolved-attribute] Attribute `execute` is not defined on `None` in union `Connection | None`
+gse/curation/external_sources/conceptnet.py:323:22: error[unresolved-attribute] Attribute `execute` is not defined on `None` in union `Connection | None`
+gse/curation/external_sources/conceptnet.py:392:18: error[unresolved-attribute] Attribute `execute` is not defined on `None` in union `Connection | None`
+gse/curation/external_sources/conceptnet.py:398:44: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `str`
+gse/curation/external_sources/conceptnet.py:407:22: error[unresolved-attribute] Attribute `execute` is not defined on `None` in union `Connection | None`
+gse/curation/external_sources/conceptnet.py:416:22: error[unresolved-attribute] Attribute `execute` is not defined on `None` in union `Connection | None`
+gse/curation/external_sources/integrator.py:32:25: error[invalid-type-form] Function `any` is not valid in a type expression
+gse/curation/external_sources/integrator.py:487:43: error[invalid-type-form] Function `any` is not valid in a return type annotation
+gse/curation/external_sources/lancaster_sensorimotor.py:85:40: error[no-matching-overload] No overload of function `max` matches arguments
+gse/curation/external_sources/lancaster_sensorimotor.py:88:36: error[no-matching-overload] No overload of function `max` matches arguments
+gse/curation/external_sources/lancaster_sensorimotor.py:312:43: error[invalid-type-form] Function `any` is not valid in a return type annotation
+gse/curation/external_sources/prepopulate.py:159:12: error[invalid-return-type] Return type does not match returned value: expected `dict[str, int]`, found `dict[str, dict[Unknown, int] | int]`
+gse/curation/external_sources/prepopulate.py:177:52: error[invalid-type-form] Function `any` is not valid in a return type annotation
+gse/curation/external_sources/run_comparison.py:34:16: error[invalid-type-form] Function `any` is not valid in a return type annotation
+gse/curation/external_sources/run_comparison.py:144:72: error[invalid-type-form] Function `any` is not valid in a return type annotation
+gse/curation/external_sources/usas.py:258:60: error[invalid-argument-type] Argument is incorrect: Expected `str`, found `str | None`
+gse/curation/external_sources/wiktionary.py:276:9: error[unresolved-attribute] Attribute `executemany` is not defined on `None` in union `Connection | None`
+gse/curation/external_sources/wiktionary.py:283:9: error[unresolved-attribute] Attribute `commit` is not defined on `None` in union `Connection | None`
+gse/curation/external_sources/wiktionary.py:317:18: error[unresolved-attribute] Attribute `execute` is not defined on `None` in union `Connection | None`
+gse/curation/external_sources/wiktionary.py:351:18: error[unresolved-attribute] Attribute `execute` is not defined on `None` in union `Connection | None`
+gse/curation/external_sources/wiktionary.py:360:18: error[unresolved-attribute] Attribute `execute` is not defined on `None` in union `Connection | None`
+gse/curation/external_sources/wiktionary.py:370:18: error[unresolved-attribute] Attribute `execute` is not defined on `None` in union `Connection | None`
+gse/curation/external_sources/wiktionary.py:385:18: error[unresolved-attribute] Attribute `execute` is not defined on `None` in union `Connection | None`
+gse/curation/external_sources/wiktionary.py:400:18: error[unresolved-attribute] Attribute `execute` is not defined on `None` in union `Connection | None`
+gse/curation/external_sources/wordnet_hierarchy.py:270:40: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `str`
+gse/curation/external_sources/wordnet_hierarchy.py:299:39: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `str`
+gse/curation/lexicon_db.py:109:16: error[invalid-return-type] Return type does not match returned value: expected `int`, found `int | None`
+gse/curation/llm/gap_filler.py:243:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `int`
+gse/curation/llm/granular_decomposer.py:84:59: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `str`
+gse/curation/llm/granular_decomposer.py:149:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `str`
+gse/curation/llm/granular_decomposer.py:196:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `str`
+gse/curation/llm/granular_decomposer.py:246:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `int`
+gse/curation/llm/primitive_matcher.py:140:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `str`
+gse/curation/llm/primitive_matcher.py:370:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `int`
+gse/curation/llm/primitive_sweep.py:340:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `str`
+gse/curation/llm/qwen_client.py:68:20: error[unresolved-import] Cannot resolve imported module `torch`
+gse/curation/llm/qwen_client.py:85:20: error[unresolved-import] Cannot resolve imported module `torch`
+gse/curation/llm/qwen_client.py:86:18: error[unresolved-import] Cannot resolve imported module `transformers`
+gse/curation/llm/qwen_client.py:147:20: error[unresolved-import] Cannot resolve imported module `torch`
+gse/curation/llm/qwen_client.py:183:16: error[unresolved-attribute] Attribute `apply_chat_template` is not defined on `None` in union `None | Unknown`
+gse/curation/llm/qwen_client.py:190:18: error[call-non-callable] Object of type `None` is not callable
+gse/curation/llm/qwen_client.py:191:27: error[unresolved-attribute] Attribute `device` is not defined on `None` in union `None | Unknown`
+gse/curation/llm/qwen_client.py:194:16: error[unresolved-import] Cannot resolve imported module `torch`
+gse/curation/llm/qwen_client.py:197:23: error[unresolved-attribute] Attribute `generate` is not defined on `None` in union `None | Unknown`
+gse/curation/llm/qwen_client.py:204:30: error[unresolved-attribute] Attribute `pad_token_id` is not defined on `None` in union `None | Unknown`
+gse/curation/llm/qwen_client.py:204:61: error[unresolved-attribute] Attribute `eos_token_id` is not defined on `None` in union `None | Unknown`
+gse/curation/llm/qwen_client.py:208:20: error[unresolved-attribute] Attribute `decode` is not defined on `None` in union `None | Unknown`
+gse/curation/pipeline/staged_builder.py:353:13: error[invalid-assignment] Invalid subscript assignment with key of type `Literal["validation_rate"]` and value of type `float` on object of type `dict[str, int]`
+gse/demo/enum_repair.py:135:38: error[unresolved-attribute] Object of type `NativeToken` has no attribute `dep_`
+gse/demo/reasoning.py:93:13: error[unresolved-attribute] Attribute `head` is not defined on `Atom`, `Phrase`, `Negation`, `Op`, `Event`, `Comparison`, `Equality`, `TypeQuery`, `TypeAssertion`, `DegreeQuery`, `MinimalSufficiency`, `SetRestriction`, `BoundaryCase`, `Contrast`, `ClauseCoordination`, `Causation`, `Conditional`, `Temporal`, `Control` in union `Atom | Phrase | Negation | ... omitted 17 union elements`
+gse/demo/reasoning.py:93:13: error[unresolved-attribute] Attribute `lemma` is not defined on `Phrase`, `Negation`, `Op`, `Event`, `Comparison`, `Equality`, `TypeQuery`, `TypeAssertion`, `DegreeQuery`, `MinimalSufficiency`, `SetRestriction`, `BoundaryCase`, `Contrast`, `ClauseCoordination`, `Causation`, `Conditional`, `Temporal`, `RelativeRestriction`, `Control` in union `Atom | Phrase | Negation | ... omitted 17 union elements`
+gse/demo/reasoning.py:93:13: error[unresolved-attribute] Attribute `lhs` is not defined on `Event`, `TypeQuery`, `TypeAssertion`, `DegreeQuery`, `MinimalSufficiency`, `SetRestriction`, `BoundaryCase`, `Contrast`, `ClauseCoordination`, `Causation`, `Conditional`, `Temporal`, `RelativeRestriction`, `Control` in union `Event | Comparison | Equality | ... omitted 13 union elements`
+gse/demo/reasoning.py:93:42: error[unresolved-attribute] Attribute `sign` is not defined on `Event`, `Equality`, `TypeQuery`, `TypeAssertion`, `DegreeQuery`, `MinimalSufficiency`, `SetRestriction`, `BoundaryCase`, `Contrast`, `ClauseCoordination`, `Causation`, `Conditional`, `Temporal`, `RelativeRestriction`, `Control` in union `Event | Comparison | Equality | ... omitted 13 union elements`
+gse/demo/reasoning.py:93:67: error[unresolved-attribute] Attribute `head` is not defined on `Atom`, `Phrase`, `Negation`, `Op`, `Event`, `Comparison`, `Equality`, `TypeQuery`, `TypeAssertion`, `DegreeQuery`, `MinimalSufficiency`, `SetRestriction`, `BoundaryCase`, `Contrast`, `ClauseCoordination`, `Causation`, `Conditional`, `Temporal`, `Control` in union `Atom | Phrase | Negation | ... omitted 17 union elements`
+gse/demo/reasoning.py:93:67: error[unresolved-attribute] Attribute `lemma` is not defined on `Phrase`, `Negation`, `Op`, `Event`, `Comparison`, `Equality`, `TypeQuery`, `TypeAssertion`, `DegreeQuery`, `MinimalSufficiency`, `SetRestriction`, `BoundaryCase`, `Contrast`, `ClauseCoordination`, `Causation`, `Conditional`, `Temporal`, `RelativeRestriction`, `Control` in union `Atom | Phrase | Negation | ... omitted 17 union elements`
+gse/demo/reasoning.py:93:67: error[unresolved-attribute] Attribute `rhs` is not defined on `Event`, `TypeQuery`, `TypeAssertion`, `DegreeQuery`, `MinimalSufficiency`, `SetRestriction`, `BoundaryCase`, `Contrast`, `ClauseCoordination`, `Causation`, `Conditional`, `Temporal`, `RelativeRestriction`, `Control` in union `Event | Comparison | Equality | ... omitted 13 union elements`
+gse/discourse/nested_router.py:44:12: error[unresolved-import] Cannot resolve imported module `torch`
+gse/discourse/nested_router.py:45:12: error[unresolved-import] Cannot resolve imported module `torch.nn`
+gse/discourse/nested_router.py:106:16: error[unresolved-import] Cannot resolve imported module `torch`
+gse/discourse/router.py:21:8: error[unresolved-import] Cannot resolve imported module `torch`
+gse/discourse/router.py:22:8: error[unresolved-import] Cannot resolve imported module `torch.nn`
+gse/encoders/sentence_structure_encoder.py:403:16: error[invalid-return-type] Return type does not match returned value: expected `dict[str, float]`, found `dict[str, float | dict[str, float]]`
+gse/frequency.py:419:5: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `str`
+gse/lexicon/word_encoding.py:147:36: error[invalid-type-form] Function `any` is not valid in a return type annotation
+gse/lexicon_builder/build.py:90:21: error[invalid-argument-type] Method `__getitem__` of type `Overload[(i: SupportsIndex, /) -> Unknown, (s: slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None], /) -> list[Unknown]]` cannot be called with key of type `Literal["rule_id"]` on object of type `list[Unknown]`
+gse/lexicon_builder/build.py:90:21: error[invalid-argument-type] Method `__getitem__` of type `bound method str.__getitem__(key: SupportsIndex | slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None], /) -> str` cannot be called with key of type `Literal["rule_id"]` on object of type `str`
+gse/lexicon_builder/build.py:90:21: error[not-subscriptable] Cannot subscript object of type `int` with no `__getitem__` method
+gse/lexicon_builder/build.py:90:88: error[invalid-argument-type] Argument to function `sorted` is incorrect: Expected `Iterable[Unknown]`, found `Unknown | str | int | list[Unknown]`
+gse/lexicon_builder/build.py:92:49: error[invalid-argument-type] Method `__getitem__` of type `Overload[(i: SupportsIndex, /) -> Unknown, (s: slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None], /) -> list[Unknown]]` cannot be called with key of type `Literal["family"]` on object of type `list[Unknown]`
+gse/lexicon_builder/build.py:92:49: error[invalid-argument-type] Method `__getitem__` of type `bound method str.__getitem__(key: SupportsIndex | slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None], /) -> str` cannot be called with key of type `Literal["family"]` on object of type `str`
+gse/lexicon_builder/build.py:92:49: error[not-subscriptable] Cannot subscript object of type `int` with no `__getitem__` method
+gse/lexicon_builder/build.py:94:53: error[invalid-argument-type] Method `__getitem__` of type `Overload[(i: SupportsIndex, /) -> Unknown, (s: slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None], /) -> list[Unknown]]` cannot be called with key of type `Literal["family"]` on object of type `list[Unknown]`
+gse/lexicon_builder/build.py:94:53: error[invalid-argument-type] Method `__getitem__` of type `bound method str.__getitem__(key: SupportsIndex | slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None], /) -> str` cannot be called with key of type `Literal["family"]` on object of type `str`
+gse/lexicon_builder/build.py:94:53: error[not-subscriptable] Cannot subscript object of type `int` with no `__getitem__` method
+gse/merkle/decomposer.py:176:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `HadamardOTPBasis`
+gse/merkle/decomposer.py:337:17: error[invalid-assignment] Invalid subscript assignment with key of type `str` and value of type `float` on object of type `Counter[Unknown]`
+gse/merkle/decomposer.py:343:17: error[invalid-assignment] Invalid subscript assignment with key of type `str` and value of type `float` on object of type `Counter[Unknown]`
+gse/merkle/decomposer.py:344:17: error[invalid-assignment] Invalid subscript assignment with key of type `int` and value of type `float` on object of type `Counter[Unknown]`
+gse/merkle/learning_bridge.py:259:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `ScaleNetworkCollection`
+gse/merkle/learning_bridge.py:260:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `OrchestratorNetwork`
+gse/merkle/learning_bridge.py:294:25: error[not-iterable] Object of type `SemanticBank | list[str] | str` may not be iterable
+gse/merkle/router.py:96:51: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `HadamardOTPBasis`
+gse/merkle/router.py:519:31: error[unresolved-attribute] Attribute `vector_positive` is not defined on `None` in union `LexemeNode | None`
+gse/merkle/router.py:519:56: error[unresolved-attribute] Attribute `vector_negative` is not defined on `None` in union `LexemeNode | None`
+gse/merkle/translator.py:442:16: error[invalid-return-type] Return type does not match returned value: expected `int`, found `int | None`
+gse/merkle/translator.py:486:20: error[invalid-return-type] Return type does not match returned value: expected `dict[str, int]`, found `dict[str, Any | dict[Any, Any] | int]`
+gse/merkle/tree.py:101:17: error[invalid-argument-type] Argument to function `create_family_node` is incorrect: Expected `SemanticBank`, found `SemanticBank | list[str] | str`
+gse/merkle/tree.py:102:17: error[invalid-argument-type] Argument to function `create_family_node` is incorrect: Expected `list[str]`, found `SemanticBank | list[str] | str`
+gse/merkle/tree.py:103:17: error[invalid-argument-type] Argument to function `create_family_node` is incorrect: Expected `str`, found `SemanticBank | list[str] | str`
+gse/merkle/tree.py:106:47: error[unresolved-attribute] Attribute `value` is not defined on `list[str]`, `str` in union `SemanticBank | list[str] | str`
+gse/merkle/tree.py:110:17: error[invalid-argument-type] Argument to function `create_hub_node` is incorrect: Expected `str`, found `SemanticBank | list[str] | str`
+gse/merkle/tree.py:111:25: error[unresolved-attribute] Attribute `value` is not defined on `list[str]`, `str` in union `SemanticBank | list[str] | str`
+gse/merkle/tree.py:114:13: error[invalid-assignment] Invalid subscript assignment with key of type `SemanticBank | list[str] | str` and value of type `HubNode` on object of type `dict[str, HubNode]`
+gse/merkle/tree.py:115:13: error[invalid-assignment] Invalid subscript assignment with key of type `SemanticBank | list[str] | str` and value of type `str` on object of type `dict[str, str]`
+gse/merkle/tree.py:118:24: error[unresolved-attribute] Attribute `value` is not defined on `list[str]`, `str` in union `SemanticBank | list[str] | str`
+gse/merkle/tree.py:121:13: error[invalid-assignment] Invalid subscript assignment with key of type `SemanticBank | list[str] | str` and value of type `Literal[""]` on object of type `dict[str, str]`
+gse/nlp/sentence_parser.py:27:12: error[unresolved-import] Cannot resolve imported module `amrlib`
+gse/nlp/spellcheck.py:279:24: error[unresolved-import] Cannot resolve imported module `marisa_trie`
+gse/parsing/operators.py:145:13: error[unsupported-operator] Operator `*=` is not supported between objects of type `int` and `int | None`
+gse/parsing/operators.py:158:17: error[unsupported-operator] Operator `*` is not supported between objects of type `int | None` and `int`
+gse/patterns/networks_v2.py:39:27: error[invalid-assignment] Object of type `dataclasses.Field[None]` is not assignable to `ndarray[tuple[Any, ...], dtype[Any]]`
+gse/patterns/networks_v2.py:183:23: error[missing-argument] No arguments provided for required parameters `name`, `node_names`
+gse/patterns/networks_v2.py:284:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `list[str]`
+gse/patterns/networks_v2.py:487:16: error[invalid-return-type] Return type does not match returned value: expected `LearningNetwork`, found `TextScaleNetwork | ParagraphScaleNetwork | SentenceScaleNetwork | WordScaleNetwork | None`
+gse/patterns/networks_v2.py:496:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `dict[str, float]`
+gse/patterns/networks_v2.py:497:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `list[str]`
+gse/patterns/networks_v2.py:498:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `list[dict[str, float]]`
+gse/patterns/networks_v2.py:499:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `list[list[tuple[str, str, int]]]`
+gse/patterns/networks_v2.py:572:9: error[invalid-assignment] Object of type `LearningNetwork` is not assignable to attribute `text` of type `TextScaleNetwork`
+gse/patterns/networks_v2.py:573:9: error[invalid-assignment] Object of type `LearningNetwork` is not assignable to attribute `paragraph` of type `ParagraphScaleNetwork`
+gse/patterns/networks_v2.py:574:9: error[invalid-assignment] Object of type `LearningNetwork` is not assignable to attribute `sentence` of type `SentenceScaleNetwork`
+gse/patterns/networks_v2.py:575:9: error[invalid-assignment] Object of type `LearningNetwork` is not assignable to attribute `word` of type `WordScaleNetwork`
+gse/patterns/orchestrator.py:236:24: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `ScaleNetworkCollection`
+gse/patterns/orchestrator.py:309:22: error[no-matching-overload] No overload of function `max` matches arguments
+gse/patterns/orchestrator.py:322:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `OrchestratorNode`
+gse/patterns/orchestrator.py:323:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `str`
+gse/patterns/orchestrator.py:464:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `OrchestratorNode`
+gse/patterns/orchestrator.py:798:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `dict[str, Any]`
+gse/primitives_v2.py:939:16: error[invalid-return-type] Return type does not match returned value: expected `tuple[int, str] | None`, found `tuple[int, str | None]`
+gse/profiles/profile_manager.py:453:9: error[unresolved-attribute] Attribute `word_network` is not defined on `None` in union `LearningProfile | None`
+gse/profiles/profile_manager.py:454:43: error[unresolved-attribute] Attribute `word_network` is not defined on `None` in union `LearningProfile | None`
+gse/symbolic/grounding.py:1284:44: error[call-non-callable] Object of type `object` is not callable
+gse/symbolic/healer/envelope.py:122:38: error[unsupported-operator] Operator `in` is not supported between objects of type `Literal["ADJ"]` and `~AlwaysFalsy | frozenset[Unknown]`
+gse/symbolic/healer/envelope.py:122:55: error[unsupported-operator] Operator `not in` is not supported between objects of type `Literal["VERB"]` and `~AlwaysFalsy | frozenset[Unknown]`
+gse/symbolic/healer/envelope.py:271:17: error[invalid-assignment] Invalid subscript assignment with key of type `(Unknown & ~AlwaysFalsy) | (LiteralString & ~Literal[""])` and value of type `dict[str, bool | set[Unknown]]` on object of type `dict[str, dict[str, object]]`
+gse/symbolic/healer/envelope.py:272:13: error[unresolved-attribute] Object of type `object` has no attribute `add`
+gse/symbolic/healer/envelope.py:274:30: error[invalid-argument-type] Argument to constructor `frozenset.__new__` is incorrect: Expected `Iterable[Unknown]`, found `object`
+gse/symbolic/healer/lenses/__init__.py:42:26: error[invalid-assignment] Object of type `list[Lens | ParticipialAdjunct | InfinitivalControl]` is not assignable to `list[Lens]`
+gse/symbolic/healer/lenses/copula_predicate.py:55:27: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Any | None`
+gse/symbolic/healer/society.py:127:5: error[unresolved-attribute] Unresolved attribute `society` on type `def hook(timed: list[tuple[Unknown, ...]]) -> list[tuple[Unknown, ...]]`
+gse/symbolic/narrative.py:62:85: error[not-iterable] Object of type `SemanticBank | list[str] | str` may not be iterable
+gse/symbolic/narrative.py:488:44: error[unresolved-attribute] Attribute `verb` is not defined on `None` in union `Any | None`
+gse/symbolic/narrative.py:488:75: error[unresolved-attribute] Attribute `patient` is not defined on `None` in union `Any | None`
+gse/symbolic/narrative.py:491:25: error[unresolved-attribute] Attribute `agent` is not defined on `None` in union `Any | None`
+gse/symbolic/narrative.py:492:25: error[unresolved-attribute] Attribute `verb` is not defined on `None` in union `Any | None`
+gse/symbolic/narrative.py:493:25: error[unresolved-attribute] Attribute `patient` is not defined on `None` in union `Any | None`
+gse/symbolic/narrative.py:1003:19: error[invalid-argument-type] Method `__getitem__` of type `Overload[(i: SupportsIndex, /) -> Trace, (s: slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None], /) -> list[Trace]]` cannot be called with key of type `slice[None, float, None]` on object of type `list[Trace]`
+gse/symbolic/queries.py:148:19: error[invalid-argument-type] Argument to function `_walk` is incorrect: Expected `Atom | Phrase | Negation | ... omitted 18 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/queries.py:281:19: error[invalid-argument-type] Argument to function `_walk` is incorrect: Expected `Atom | Phrase | Negation | ... omitted 18 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/queries.py:495:35: error[invalid-argument-type] Argument to function `_structural_signature` is incorrect: Expected `Atom | Phrase | Negation | ... omitted 18 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/resolution.py:244:20: error[invalid-return-type] Return type does not match returned value: expected `Atom | Phrase | Negation | Op`, found `Entity`
+gse/symbolic/resolution.py:265:16: error[invalid-return-type] Return type does not match returned value: expected `Atom | Phrase | Negation | Op`, found `Coordination`
+gse/symbolic/resolution.py:269:16: error[invalid-return-type] Return type does not match returned value: expected `Atom | Phrase | Negation | Op`, found `Entity`
+gse/symbolic/resolution.py:286:24: error[invalid-return-type] Return type does not match returned value: expected `Atom | Phrase | Negation | Op`, found `ArgSplit`
+gse/symbolic/resolution.py:293:16: error[invalid-return-type] Return type does not match returned value: expected `Atom | Phrase | Negation | Op`, found `Entity`
+gse/symbolic/resolution.py:354:24: error[invalid-return-type] Return type does not match returned value: expected `Atom | Phrase | Negation | Op`, found `Entity`
+gse/symbolic/resolution.py:360:20: error[invalid-return-type] Return type does not match returned value: expected `Atom | Phrase | Negation | Op`, found `Entity`
+gse/symbolic/resolution.py:361:16: error[invalid-return-type] Return type does not match returned value: expected `Atom | Phrase | Negation | Op`, found `Entity`
+gse/symbolic/resolution.py:385:33: error[invalid-argument-type] Argument to function `_walk` is incorrect: Expected `Atom | Phrase | Negation | Op`, found `Atom | Phrase | Negation | ... omitted 17 union elements`
+gse/symbolic/resolution.py:388:42: error[invalid-assignment] Object of type `list[Atom | Phrase | Negation | Op | None]` is not assignable to `list[Atom | Phrase | Negation | Op]`
+gse/symbolic/resolution.py:395:37: error[invalid-argument-type] Argument to function `_walk` is incorrect: Expected `Atom | Phrase | Negation | Op`, found `Atom | Phrase | Negation | ... omitted 17 union elements`
+gse/symbolic/resolution.py:397:34: error[unresolved-attribute] Object of type `Atom | Phrase | Negation | Op` has no attribute `head`
+gse/symbolic/resolution.py:412:17: error[invalid-argument-type] Argument is incorrect: Expected `list[Atom | Phrase | Negation | ... omitted 17 union elements]`, found `list[Atom | Phrase | Negation | Op]`
+gse/symbolic/resolution.py:476:25: error[invalid-argument-type] Argument to function `_refine` is incorrect: Expected `Atom | Phrase | Negation | Op`, found `Atom | Phrase | Negation | ... omitted 17 union elements`
+gse/symbolic/resolution.py:488:13: error[invalid-argument-type] Argument is incorrect: Expected `list[Atom | Phrase | Negation | ... omitted 17 union elements]`, found `list[Atom | Phrase | Negation | Op]`
+gse/symbolic/resolution.py:503:20: error[invalid-return-type] Return type does not match returned value: expected `Atom | Phrase | Negation | Op`, found `Entity`
+gse/symbolic/serialization.py:279:23: error[invalid-argument-type] Argument is incorrect: Expected `list[Atom]`, found `list[Atom | Phrase | Negation | ... omitted 18 union elements]`
+gse/symbolic/serialization.py:281:25: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | Op`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:287:13: error[invalid-argument-type] Argument is incorrect: Expected `list[Atom | Phrase | Negation | ... omitted 17 union elements]`, found `list[Atom | Phrase | Negation | ... omitted 18 union elements]`
+gse/symbolic/serialization.py:292:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:293:13: error[invalid-argument-type] Argument is incorrect: Expected `Entity | None`, found `Atom | Phrase | Negation | ... omitted 19 union elements`
+gse/symbolic/serialization.py:295:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | None`, found `Atom | Phrase | Negation | ... omitted 19 union elements`
+gse/symbolic/serialization.py:303:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:304:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:310:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:311:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:315:26: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:317:28: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:320:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:321:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:325:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:326:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:331:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:332:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:338:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 18 union elements`, found `Atom | Phrase | Negation | ... omitted 19 union elements`
+gse/symbolic/serialization.py:339:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 18 union elements`, found `Atom | Phrase | Negation | ... omitted 19 union elements`
+gse/symbolic/serialization.py:345:25: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:345:52: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:348:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:349:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:354:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:355:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:360:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:361:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:366:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:367:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:372:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:373:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:378:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:379:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:383:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:384:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 17 union elements`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/symbolic/serialization.py:386:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | ... omitted 18 union elements`, found `Atom | Phrase | Negation | ... omitted 19 union elements`
+gse/symbolic/serialization.py:390:16: error[invalid-return-type] Return type does not match returned value: expected `Atom | Phrase | Negation | ... omitted 18 union elements`, found `Coordination`
+gse/symbolic/serialization.py:393:13: error[invalid-argument-type] Argument is incorrect: Expected `Atom | None`, found `Atom | Phrase | Negation | ... omitted 19 union elements`
+gse/symbolic/templating.py:109:23: error[invalid-argument-type] Argument is incorrect: Expected `list[Atom]`, found `list[Atom | Phrase | Negation | ... omitted 18 union elements]`
+gse/symbolic/templating.py:112:25: error[invalid-argument-type] Argument is incorrect: Expected `Atom | Phrase | Negation | Op`, found `Atom | Phrase | Negation | ... omitted 18 union elements`
+gse/teaching/feature_extractor.py:140:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `str`
+gse/teaching/feature_extractor.py:255:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `dict[str, int]`
+gse/teaching/feature_extractor.py:354:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `list[str]`
+gse/teaching/feature_extractor.py:355:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `list[str]`
+gse/teaching/feature_extractor.py:356:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `dict[str, dict[str, int]]`
+gse/teaching/feature_extractor.py:390:67: error[invalid-argument-type] Argument to bound method `FeatureExtractor.extract_paragraph_features` is incorrect: Expected `str`, found `None | str`
+gse/teaching/feature_extractor.py:406:16: error[invalid-return-type] Return type does not match returned value: expected `dict[str, dict[str, float]]`, found `dict[str, dict[str, float] | list[Unknown] | dict[Unknown, Unknown]]`
+gse/teaching/teacher.py:181:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `ProfileManager`
+gse/teaching/teacher.py:217:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `dict[int, str]`
+gse/teaching/teacher.py:253:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `dict[int, str]`
+gse/teaching/teacher.py:255:9: error[invalid-parameter-default] Default value of type `None` is not assignable to annotated parameter type `(int, int, str, /) -> None`
+gse/teaching/teacher.py:288:16: warning[truthiness-test-of-callable] Callable `progress_callback` might always be truthy (has type `(int, int, str, /) -> None` -- did you mean to call it?)
+gse/teaching/teacher.py:414:54: error[invalid-argument-type] Argument to bound method `LearningNetwork.learn` is incorrect: Expected `dict[str, float]`, found `str & ~AlwaysFalsy`
+gse/teaching/teacher.py:421:53: error[invalid-argument-type] Argument to bound method `LearningNetwork.learn` is incorrect: Expected `dict[str, float]`, found `str & ~AlwaysFalsy`
+gse/teaching/teacher.py:463:58: error[invalid-argument-type] Argument to bound method `LearningNetwork.learn` is incorrect: Expected `dict[str, float]`, found `str & ~AlwaysFalsy`
+gse/teaching/teacher.py:470:57: error[invalid-argument-type] Argument to bound method `LearningNetwork.learn` is incorrect: Expected `dict[str, float]`, found `str & ~AlwaysFalsy`
+gse/verification/symbolic_proof_suite.py:194:40: error[unresolved-attribute] Attribute `cause` is not defined on `Event`, `Comparison`, `Equality`, `TypeQuery`, `TypeAssertion`, `DegreeQuery`, `MinimalSufficiency`, `SetRestriction`, `BoundaryCase`, `Contrast`, `ClauseCoordination`, `Conditional`, `Temporal`, `RelativeRestriction`, `Control` in union `Event | Comparison | Equality | ... omitted 13 union elements`
+gse/verification/symbolic_proof_suite.py:195:41: error[unresolved-attribute] Attribute `effect` is not defined on `Event`, `Comparison`, `Equality`, `TypeQuery`, `TypeAssertion`, `DegreeQuery`, `MinimalSufficiency`, `SetRestriction`, `BoundaryCase`, `Contrast`, `ClauseCoordination`, `Conditional`, `Temporal`, `RelativeRestriction`, `Control` in union `Event | Comparison | Equality | ... omitted 13 union elements`
+gse/verification/symbolic_proof_suite.py:197:40: error[unresolved-attribute] Attribute `cause` is not defined on `Event`, `Comparison`, `Equality`, `TypeQuery`, `TypeAssertion`, `DegreeQuery`, `MinimalSufficiency`, `SetRestriction`, `BoundaryCase`, `Contrast`, `ClauseCoordination`, `Conditional`, `Temporal`, `RelativeRestriction`, `Control` in union `Event | Comparison | Equality | ... omitted 13 union elements`
+gse/verification/symbolic_proof_suite.py:198:41: error[unresolved-attribute] Attribute `effect` is not defined on `Event`, `Comparison`, `Equality`, `TypeQuery`, `TypeAssertion`, `DegreeQuery`, `MinimalSufficiency`, `SetRestriction`, `BoundaryCase`, `Contrast`, `ClauseCoordination`, `Conditional`, `Temporal`, `RelativeRestriction`, `Control` in union `Event | Comparison | Equality | ... omitted 13 union elements`
+gse/verification/symbolic_proof_suite.py:274:32: error[unresolved-attribute] Attribute `cause` is not defined on `Event`, `Comparison`, `Equality`, `TypeQuery`, `TypeAssertion`, `DegreeQuery`, `MinimalSufficiency`, `SetRestriction`, `BoundaryCase`, `Contrast`, `ClauseCoordination`, `Conditional`, `Temporal`, `RelativeRestriction`, `Control` in union `Event | Comparison | Equality | ... omitted 13 union elements`
+gse/verification/symbolic_proof_suite.py:275:38: error[unresolved-attribute] Attribute `cause` is not defined on `Event`, `Comparison`, `Equality`, `TypeQuery`, `TypeAssertion`, `DegreeQuery`, `MinimalSufficiency`, `SetRestriction`, `BoundaryCase`, `Contrast`, `ClauseCoordination`, `Conditional`, `Temporal`, `RelativeRestriction`, `Control` in union `Event | Comparison | Equality | ... omitted 13 union elements`
+gse/verification/symbolic_proof_suite.py:275:77: error[unresolved-attribute] Attribute `cause` is not defined on `Event`, `Comparison`, `Equality`, `TypeQuery`, `TypeAssertion`, `DegreeQuery`, `MinimalSufficiency`, `SetRestriction`, `BoundaryCase`, `Contrast`, `ClauseCoordination`, `Conditional`, `Temporal`, `RelativeRestriction`, `Control` in union `Event | Comparison | Equality | ... omitted 13 union elements`
+gse/verification/symbolic_proof_suite.py:276:38: error[unresolved-attribute] Attribute `effect` is not defined on `Event`, `Comparison`, `Equality`, `TypeQuery`, `TypeAssertion`, `DegreeQuery`, `MinimalSufficiency`, `SetRestriction`, `BoundaryCase`, `Contrast`, `ClauseCoordination`, `Conditional`, `Temporal`, `RelativeRestriction`, `Control` in union `Event | Comparison | Equality | ... omitted 13 union elements`
+gse/verification/symbolic_proof_suite.py:366:35: error[unresolved-attribute] Attribute `head` is not defined on `Event`, `Comparison`, `Equality`, `TypeQuery`, `TypeAssertion`, `DegreeQuery`, `MinimalSufficiency`, `SetRestriction`, `BoundaryCase`, `Contrast`, `ClauseCoordination`, `Causation`, `Conditional`, `Temporal`, `Control` in union `Event | Comparison | Equality | ... omitted 13 union elements`
+gse/verification/symbolic_proof_suite.py:367:43: error[unresolved-attribute] Attribute `restriction` is not defined on `Event`, `Comparison`, `Equality`, `TypeQuery`, `TypeAssertion`, `DegreeQuery`, `MinimalSufficiency`, `SetRestriction`, `BoundaryCase`, `Contrast`, `ClauseCoordination`, `Causation`, `Conditional`, `Temporal`, `Control` in union `Event | Comparison | Equality | ... omitted 13 union elements`
+gse/verification/symbolic_proof_suite.py:424:57: error[unresolved-attribute] Attribute `controller` is not defined on `Event`, `Comparison`, `Equality`, `TypeQuery`, `TypeAssertion`, `DegreeQuery`, `MinimalSufficiency`, `SetRestriction`, `BoundaryCase`, `Contrast`, `ClauseCoordination`, `Causation`, `Conditional`, `Temporal`, `RelativeRestriction` in union `Event | Comparison | Equality | ... omitted 13 union elements`
+gse/verification/symbolic_proof_suite.py:428:55: error[unresolved-attribute] Attribute `controller` is not defined on `Event`, `Comparison`, `Equality`, `TypeQuery`, `TypeAssertion`, `DegreeQuery`, `MinimalSufficiency`, `SetRestriction`, `BoundaryCase`, `Contrast`, `ClauseCoordination`, `Causation`, `Conditional`, `Temporal`, `RelativeRestriction` in union `Event | Comparison | Equality | ... omitted 13 union elements`
+Found 260 diagnostics
+== ty reported advisory findings (full output above)
+== gate passed

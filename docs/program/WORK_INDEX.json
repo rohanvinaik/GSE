@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "repo": "gse",
+  "packages": [
+    {
+      "id": "GSE-00",
+      "title": "Live contract and consumer map",
+      "depends_on": [],
+      "spec": "BUILD_SPEC.md#gse-00"
+    },
+    {
+      "id": "GSE-01",
+      "title": "Lexicon source and quality pipeline",
+      "depends_on": [
+        "GSE-00"
+      ],
+      "spec": "BUILD_SPEC.md#gse-01"
+    },
+    {
+      "id": "GSE-02",
+      "title": "Sparse Wiki provider integration",
+      "depends_on": [
+        "GSE-00",
+        "SW-04"
+      ],
+      "spec": "BUILD_SPEC.md#gse-02"
+    },
+    {
+      "id": "GSE-03",
+      "title": "SymbolicSpellCheck and repair",
+      "depends_on": [
+        "GSE-01"
+      ],
+      "spec": "BUILD_SPEC.md#gse-03"
+    },
+    {
+      "id": "GSE-04",
+      "title": "Genre, register, prose-style observations",
+      "depends_on": [
+        "GSE-00"
+      ],
+      "spec": "BUILD_SPEC.md#gse-04"
+    },
+    {
+      "id": "GSE-05",
+      "title": "Multiscale document and Janus signals",
+      "depends_on": [
+        "GSE-02",
+        "GSE-04"
+      ],
+      "spec": "BUILD_SPEC.md#gse-05"
+    },
+    {
+      "id": "GSE-06",
+      "title": "Versioned Regenesis output contract",
+      "depends_on": [
+        "GSE-02",
+        "GSE-03",
+        "GSE-05"
+      ],
+      "spec": "BUILD_SPEC.md#gse-06"
+    },
+    {
+      "id": "GSE-07",
+      "title": "Detective, CI, data-free performance gate",
+      "depends_on": [
+        "GSE-06"
+      ],
+      "spec": "BUILD_SPEC.md#gse-07"
+    }
+  ]
+}

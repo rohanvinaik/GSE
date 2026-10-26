@@ -1,0 +1,47 @@
+  … selection_status: tracing 16 function-routed tests
+  … selection_status: baseline traced · 16 tests · 0.1s
+  … selection_status: 1/63 mutants · 8.3/s · ETA estimating… (heartbeat)
+  … selection_status: 63/63 mutants · 82.4/s · done in 0.8s
+  ▸ pass 0: 18 value-survivor(s) — synthesizing killing tests…
+  ▸ pass 0: +13 new killing test(s) written [test_gse_lexicon_builder_model_selection_status_a7629fdfb4_synth.py]
+  … selection_status: tracing 27 function-routed tests
+  … selection_status: baseline traced · 27 tests · 0.0s
+  … selection_status: 63/63 mutants · 70.5/s · done in 0.9s
+  ▸ pass 1: 19 survivor(s) — no progress, at floor
+  ▸ witness pass: searching richer inputs for a distinguishing kill…
+  ▸ witness pass: +1 distinguishing kill test(s) auto-written
+  ▸ finalizing — re-profiling the full mutant universe against the written suite…
+  … selection_status: tracing 28 function-routed tests
+  … selection_status: baseline traced · 28 tests · 0.0s
+  … selection_status: 63/63 mutants · 72.5/s · done in 0.9s
+  ▸ minimizing — dropped 9 redundant test(s) our own cover flagged
+  … selection_status: tracing 19 function-routed tests
+  … selection_status: baseline traced · 19 tests · 0.0s
+  … selection_status: 63/63 mutants · 75.1/s · done in 0.8s
+  ▸ minimization would stop pinning 1 obligation(s) the suite on disk pins: contract:BOUNDARY_dd4a4dbb — retrying the un-minimized suite
+  … selection_status: tracing 28 function-routed tests
+  … selection_status: baseline traced · 28 tests · 0.0s
+  … selection_status: 63/63 mutants · 62.0/s · done in 1.0s
+  ▸ kept the suite already on disk — this run's would stop pinning 1 obligation(s) it currently pins: contract:BOUNDARY_dd4a4dbb
+  … selection_status: tracing 16 function-routed tests
+  … selection_status: baseline traced · 16 tests · 0.0s
+  … selection_status: 63/63 mutants · 70.7/s · done in 0.9s
+  ▸ 18 survivor(s) remain — classifying (killable / equivalent / needs-input)…
+──────────────────────────────────────────────────────────────────────────────
+gse/lexicon_builder/model.py::selection_status — converge · 63 behaviours · 45 pinned · 7 candidate-equivalent · 9 crash-only
+
+  ✓ wrote              2 test(s) → tests/detective/test_gse_lexicon_builder_model_selection_status_a7629fdfb4_synth.py
+  ✗ still killable     2 — a witness exists for each
+  · unproven-equiv     7 — the search found no distinguishing input
+  · crash-only-equiv   9 — detected by crash; no value pins them
+  · not consulted      5641 collected test(s) have no static path to this function — not traced (a missed dynamic reacher costs a redundant generated test, never a certificate)
+  · full report        .detective/reports/converge_selection_status.txt
+
+DO THIS:  detective converge 'gse/lexicon_builder/model.py::selection_status' --input "({'_unread': 'x'}, {})"
+
+  · Why these          Detective RAN each: the 1 call(s) above each
+                       make a mutant differ from your real function.
+                       (1 distinct call(s) cover 2 mutant obligation(s))
+                       SUGGESTED — not written: unsound ('MALFORMED_OPTIONS' vs 'FIELD_MISMATCH' observed).
+
+FINAL gse/lexicon_builder/model.py::selection_status: Incomplete: 2 killable · 54/63 killed · 2 test(s) → tests/detective/test_gse_lexicon_builder_model_selection_status_a7629fdfb4_synth.py · policy 9.261d14e34119

@@ -1,0 +1,207 @@
+{
+  "reference_status": "AUTHORED_MVP_READING_EXPECTATIONS; NOT_INDEPENDENT_LINGUISTIC_GOLD",
+  "scope": "Exact 58-state checks of declared MVP readings; not all senses or calibrated NUMBER values",
+  "outcomes": {
+    "IDENTIFIED": 11,
+    "WRONG": 0,
+    "PARTIAL": 1,
+    "ABSTAINED": 2,
+    "UNAVAILABLE": 0
+  },
+  "results": [
+    {
+      "word": "excellent",
+      "reading_id": "excellent:ADJ:A5.1+++:quality",
+      "code": "IDENTIFIED",
+      "differences": {},
+      "written": {
+        "SOMETHING": "0",
+        "GOOD": "+1",
+        "INTENSITY": "+1"
+      },
+      "silent_count": 55,
+      "review_status": "PROVISIONAL_CANDIDATE"
+    },
+    {
+      "word": "terrible",
+      "reading_id": "terrible:ADJ:A5.1-:quality",
+      "code": "IDENTIFIED",
+      "differences": {},
+      "written": {
+        "SOMETHING": "0",
+        "GOOD": "-1",
+        "INTENSITY": "+1"
+      },
+      "silent_count": 55,
+      "review_status": "PROVISIONAL_CANDIDATE"
+    },
+    {
+      "word": "superb",
+      "reading_id": "superb:ADJ:A5.1+:quality",
+      "code": "IDENTIFIED",
+      "differences": {},
+      "written": {
+        "SOMETHING": "0",
+        "GOOD": "+1",
+        "INTENSITY": "+1"
+      },
+      "silent_count": 55,
+      "review_status": "PROVISIONAL_CANDIDATE"
+    },
+    {
+      "word": "awful",
+      "reading_id": "awful:ADJ:A5.1-:quality",
+      "code": "IDENTIFIED",
+      "differences": {},
+      "written": {
+        "SOMETHING": "0",
+        "GOOD": "-1",
+        "INTENSITY": "+1"
+      },
+      "silent_count": 55,
+      "review_status": "PROVISIONAL_CANDIDATE"
+    },
+    {
+      "word": "enormous",
+      "reading_id": "enormous:ADJ:N3.2+++:size",
+      "code": "IDENTIFIED",
+      "differences": {},
+      "written": {
+        "SOMETHING": "0",
+        "BIG": "+1",
+        "INTENSITY": "+1"
+      },
+      "silent_count": 55,
+      "review_status": "PROVISIONAL_CANDIDATE"
+    },
+    {
+      "word": "tiny",
+      "reading_id": "tiny:ADJ:N3.2-:size",
+      "code": "IDENTIFIED",
+      "differences": {},
+      "written": {
+        "SOMETHING": "0",
+        "BIG": "-1",
+        "INTENSITY": "+1"
+      },
+      "silent_count": 55,
+      "review_status": "PROVISIONAL_CANDIDATE"
+    },
+    {
+      "word": "immense",
+      "code": "PARTIAL",
+      "reason": "NO_COMPLETE_CANDIDATE",
+      "open_readings": [
+        {
+          "reading_id": "immense:ADJ:N3.2++:size",
+          "omission": "QUANTITY"
+        }
+      ]
+    },
+    {
+      "word": "delighted",
+      "reading_id": "delighted:ADJ:E4.1+:feeling",
+      "code": "IDENTIFIED",
+      "differences": {},
+      "written": {
+        "SOMETHING": "0",
+        "KIND": "0",
+        "GOOD": "+1",
+        "FEEL": "+1",
+        "INTENSITY": "+1"
+      },
+      "silent_count": 53,
+      "review_status": "PROVISIONAL_CANDIDATE"
+    },
+    {
+      "word": "miserable",
+      "reading_id": "miserable:ADJ:E4.1-:feeling",
+      "code": "IDENTIFIED",
+      "differences": {},
+      "written": {
+        "SOMETHING": "0",
+        "KIND": "0",
+        "GOOD": "-1",
+        "FEEL": "+1",
+        "INTENSITY": "+1"
+      },
+      "silent_count": 53,
+      "review_status": "PROVISIONAL_CANDIDATE"
+    },
+    {
+      "word": "ecstatic",
+      "reading_id": "ecstatic:ADJ:E4.1+++:feeling",
+      "code": "IDENTIFIED",
+      "differences": {},
+      "written": {
+        "SOMETHING": "0",
+        "KIND": "0",
+        "GOOD": "+1",
+        "FEEL": "+1",
+        "INTENSITY": "+1"
+      },
+      "silent_count": 53,
+      "review_status": "PROVISIONAL_CANDIDATE"
+    },
+    {
+      "word": "sorrowful",
+      "reading_id": "sorrowful:ADJ:E4.1-:feeling",
+      "code": "IDENTIFIED",
+      "differences": {},
+      "written": {
+        "SOMETHING": "0",
+        "KIND": "0",
+        "GOOD": "-1",
+        "FEEL": "+1",
+        "INTENSITY": "+1"
+      },
+      "silent_count": 53,
+      "review_status": "PROVISIONAL_CANDIDATE"
+    },
+    {
+      "word": "happy",
+      "reading_id": "happy:ADJ:E4.1+:feeling",
+      "code": "IDENTIFIED",
+      "differences": {},
+      "written": {
+        "SOMETHING": "0",
+        "KIND": "0",
+        "GOOD": "+1",
+        "FEEL": "+1",
+        "INTENSITY": "+1"
+      },
+      "silent_count": 53,
+      "review_status": "PROVISIONAL_CANDIDATE"
+    },
+    {
+      "word": "furious",
+      "code": "ABSTAINED",
+      "reason": "UNSUPPORTED_READING_MUST_NOT_RECEIVE_A_COMPLETE_VECTOR"
+    },
+    {
+      "word": "quuxlexiconcontrol",
+      "code": "ABSTAINED",
+      "reason": "UNSUPPORTED_READING_MUST_NOT_RECEIVE_A_COMPLETE_VECTOR"
+    }
+  ],
+  "number_checks": [
+    {
+      "file": "number-happy-delighted.json",
+      "code": "IDENTIFIED"
+    },
+    {
+      "file": "number-self-control.json",
+      "code": "IDENTIFIED"
+    },
+    {
+      "file": "number-incompatible-control.json",
+      "code": "IDENTIFIED"
+    }
+  ],
+  "files": {
+    "cases.json": "33fe51d5793d43b9628a96f9df49fe7b1dce26fef163d4e3ee9187ba198f5452",
+    "words.jsonl": "8262b1b7c6ddfa09263449a32d3c28d21269145be865e04c2bafad94b9337d3e",
+    "vectors.jsonl": "97aabad0c2f1e32fc44f63036bf4bc711310877134b773494bef736ef7a4f37f",
+    "manifest.json": "8973d294441c11b4ec126639918be34b87ebf48946b3f4e0204fdc922b9f2ef6"
+  }
+}

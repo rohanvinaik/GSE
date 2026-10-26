@@ -1,0 +1,126 @@
+Aggregate (#103) <crowd, family, team, group, body>
+  def: This frame contains nouns denoting Aggregates of Individuals. The Aggregates may be described by an Aggregate_property.
+  FEs: Individuals C, Aggregate C, Aggregate_property X, Name X, Container_possessor X, Domain X
+Animals (#2840) <dog, cat>
+  def: The LUs in this frame refer to biological entities other than human beings and plants, which are labeled by the FE Animal.
+  FEs: Animal C, Descriptor P, Origin P, Characteristic P  || Core-FE semTypes: Animal=Living_thing
+Appellations (#2390) <child>
+  def: This frame is only for words that are used as the Titles of individuals. The Title is applied to a Name (surname or full name) and often designates their rank within a man-made institution (e.g. chief, king, bishop, brother) or general social status (mr., miss), or may indicate a kinship relationship (cousin, aunt). Pairings of Title and Name can be used as vocatives (see Attention_getting), while the Titles may not always be vocative on their own. Most LUs of this frame are related to LUs of the Leadership or Kinship frames, but some (e.g. Lady, Mr., Brother) occur only here. These LUs differ from normal examples of LUs in Leadership or Kinship in that the LUs are used simply as vocatives or as modifiers of names, to indicate how the individual fits into the general or specific social context.
+  FEs: Name C, Title C, Context P, Type P
+Artifact (#421) <wheel>
+  def: An Artifact is deliberately made or modified by an intelligent entity to be put to a certain kind of Use. Various properties of the Artifact may be specified, such as its Creator, Time_of_creation, Name, Type, and the Material of which it is composed. The Artifact may or may not be a physical entity.
+  FEs: Artifact C, Use P, Creator X, Time_of_creation X, Name X, Type X, Material X, Descriptor X
+Artifact_subpart (#2470) <part>
+  def: A Component has a distinct Function in the operation of a complex Artifact, which is not regarded as complete unless it is assembled from a number of different Components. Each Component may also be described by their Creator, Time_of_creation, or Material.
+  FEs: Component C, Artifact C, Function P, Material P, Creator P, Time_of_creation P
+Assigned_location (#2628) <place>
+  def: An Individual is assigned a Station to remain at, usually in order to accomplish a task. The Station may have an intended use based on its features (e.g., a vendor's booth), or it may be temporarily assigned a use.
+  FEs: Station C, Constituent_parts X, Relative_location P, Formational_cause X, Container_possessor X, Descriptor X, Related_event X, Task P, Responsible_party C  || Core-FE semTypes: Station=Location
+Awareness (#19) <idea>
+  def: A Cognizer has a piece of Content in their model of the world. The Content is not necessarily present due to immediate perception, but usually, rather, due to deduction from perceivables. In some cases, the deduction of the Content is implicitly based on confidence in sources of information (believe), in some cases based on logic (think), and in other cases the source of the deduction is deprofiled (know). Note that this frame is undergoing some degree of reconsideration. Many of the targets will be moved to the Opinion frame. That frame indicates that the Cognizer considers something as true, but the Opinion (compare to Content) is not presupposed to be true; rather it is something that is considered a potential point of difference, as in the following: In the uses that will remain in the Awareness frame, however, the Content is presupposed. This frame is also distinct from the Certainty frame, in that it does not profile the relationship of the Cognizer to the Content, but rather presupposes it. In Certainty, the Degree of confidence or certainty is expressible as a separate frame element, as in the following:
+  FEs: Cognizer C, Content C, Evidence P, Topic C, Degree P, Manner P, Expressor C, Role P, Paradigm X, Time P, Explanation X  || Core-FE semTypes: Cognizer=Sentient; Content=Content
+Biological_classification (#2701) <family, species>
+  def: This frame has to do with scientific taxonomy. The lexical units in this frame include the seven major classifications in which organisms are grouped based on common biological characteristics. These classifications are labeled Rank in this frame. The Members or Subtype of the Rank is often expressed with the use of the target-denoting noun.
+  FEs: Rank C, Member C, Subtype C, Property P  || Core-FE semTypes: Member=Living_thing
+Body_parts (#119) <hand, arm, finger, head, body>
+  def: This frame covers words for Body_part(s) (BP) belonging to a Possessor (Poss), which may be characterized by a Descriptor (Desc). The location of the BP may be identified in terms of its Attachment or its Orientational_location. A Subregion of a BP may also be indicated.
+  FEs: Possessor C, Descriptor P, Body_part C, Subregion P, Orientational_location P, Attachment P  || Core-FE semTypes: Body_part=Body_part
+Buildings (#173) <house>
+  def: This frame contains words which name permanent fixed structures forming an enclosure and providing protection from the elements.
+  FEs: Creator X, Building C, Function P, Name X, Material X, Time_of_creation X, Type P, Descriptor X, Place P, Relative_location P, Possessor X  || Core-FE semTypes: Building=Artifact
+Categorization (#21) <category>
+  def: A Cognizer construes an Item as belonging to a certain Category. In this process, the Cognizer may either passively perceive the Item and note that it fits the Criteria for a Category, or, alternatively, actively examine the Item for certain Criteria that define a Category (or set of Categorys). Most members of the frame can also describe a resulting cognitive state of the Cognizer with respect to the Item and Category which no longer requires the current perception or consideration of the Item. A few LUs (e.g. peg.v, pigeonhole.v) do not readily allow stative interpretation, and a few LUs (e.g. deem.v, regard.v) only allow stative interpretation.
+  FEs: Cognizer C, Item C, Category C, Criteria C, Manner P, Means P, Time P, Circumstances X, Concessive X, Explanation X  || Core-FE semTypes: Cognizer=Sentient
+Change_of_leadership (#72) <freedom> [frame semType: Non-perspectivalized_frame]
+  def: This frame concerns the appointment of a New_leader or removal from office of an Old_leader. The Selector brings about the change in leadership, for example, by electing or overthrowing a leader. Some words in the frame describe the successful removal from office of a leader (e.g. depose, oust), others simply the attempt (e.g. uprising, rebellion).
+  FEs: Selector C, Old_leader C, New_leader C, Role C, Old_order C, Degree P, Depictive X, Manner P, Means P, Result X, Circumstances X, Function C, Time P, Place P, Body C
+Clothing (#134) <glove> [frame semType: Artifact]
+  def: This frame refers to clothing and its characteristics, including anything that people conventionally wear. The Wearer wears a Garment that has a certain Style, is made of a certain Material, and can be otherwise characterized by a Descriptor. In some cases, the Body_location (where the garment is worn) and Subregion of the clothing may also be specified.
+  FEs: Garment C, Wearer P, Style P, Material P, Descriptor P, Subregion P, Use P, Body_location P, Creator P, Time_of_creation P, Name P  || Core-FE semTypes: Garment=Artifact
+Connecting_architecture (#1025) <door> [frame semType: Transparent Noun]
+  def: An entity is integrated into a building as a Part of a (possibly unexpressed) Whole which may refer to the whole building or merely to a sub-part of the building. The Part itself connects locations within the building to each other, Connected_locations. If a particular point of view is adopted in the context of real or imagined motion, then one of the locations can be construed as Goal and the other as Source.
+  FEs: Part C, Whole P, Descriptor P, Orientation P, Material P, Creator P, Source P, Connected_locations P, Direction P, Goal P
+Containers (#78) <box> [frame semType: Artifact]
+  def: This frame covers entities which are prototypically conceived of and created to fulfill the function of containing--i.e. Containers that contain objects or substances, the Contents. This can be expressed as a complement , and includes potential or intended contents. A Container may also have an Owner, a current Relative_location, Material from which it is constructed, a method of Construction, and a Type. Note the connection between words in this frame and those in the Filling, Emptying, and Fullness frames.
+  FEs: Container C, Contents P, Material P, Type P, Relative_location P, Construction P, Owner P, Use P, Part P, Descriptor P  || Core-FE semTypes: Container=Container
+Education_teaching (#111) <teacher> [frame semType: Non-perspectivalized_frame]
+  def: This frame contains words referring to teaching and the participants in teaching. A Student comes to learn either about a Subject; a Skill; a Precept; or a Fact as a result of instruction by a Teacher. Some of the nouns (schoolmaster, -mistress) in this frame refer to administrative positions and do not take relevant frame elements; these will be moved. Frame-Element relations: Several Frame element relations hold in this frame. There is a core-set {Material, Teacher} (possibly also including Institution); these FE's can fill the subject slot of the teach-type verbs. There is another core-set {Precept, Subject, Skill, Fact, Role} to do with what is learnt. In addition, the FE Qualification may occur with Subject and Role Phrases expressing Qualification also very often include information about the Subject (see below), which is to be annotated on the second layer.
+  FEs: Teacher C, Student C, Institution C, Subject C, Level P, Qualification C, Degree P, Depictive X, Manner P, Means P, Result X, Time P, Place P, Duration P, Skill C, Precept C, Fact C, Material C, Role C, Course C, Purpose P  || Core-FE semTypes: Teacher=Sentient; Student=Sentient
+Event_instance (#2140) <time> [frame semType: Transparent Noun]
+  def: This frame describes a particular instance of an event.
+  FEs: Instance C, Event C, Instance_prop P, Iteration_count P
+Food (#277) <water> [frame semType: Physical_object]
+  def: This frame contains words referring to items of food.
+  FEs: Descriptor P, Type P, Food C, Constituent_parts P
+Hair_configuration (#126) <part> [frame semType: Non-perspectivalized_frame]
+  def: Temporary or permanent Styles and Configurations of Hair, as well as its inherent Nature. Note that Attachment and Body Part will generally be incorporated in the lexical meanings. Subregions (e.g. roots, ends) are often not specified, and sometimes incorporated (e.g. in 'bangs')
+  FEs: Hair C, Possessor C, Subregion P, Configuration C, Hair_property C, Location P, Accessory P
+Imprisonment (#1111) <time>
+  def: The Authorities put a Prisoner in Prison as punishment for an Offense.
+  FEs: Prisoner C, Prison C, Authorities C, Offense P, Place P, Time P, Purpose P, Means P, Manner P, Explanation X, Duration P, Conviction X, Iterations X  || Core-FE semTypes: Prison=Goal; Authorities=Sentient
+Kinship (#104) <child, family, people>
+  def: This frame contains words that denote Kinship relations. In annotating the directional uses of these words, we use the standard terms from anthropology, Ego and Alter. Compare to: Appellations.
+  FEs: Alter C, Ego C, Relatives C, Degree P, Descriptor X
+Leadership (#73) <head>
+  def: These are words referring to control by a Leader over a particular entity or group (the Governed) or an Activity. The frame contains both nouns referring to a title or position (e.g. director, king, president), and verbs describing the action of leadership (e.g. rule, reign). With verbs, it is possible to mention the Role played by the Leader (often a name of a leading position, e.g., king) Compare to: Appellations.
+  FEs: Leader C, Role C, Duration P, Depictive X, Manner P, Means P, Degree P, Time P, Governed C, Descriptor P, Type P, Domain X, Activity C, Place P  || Core-FE semTypes: Activity=Activity
+Locale (#192) <place>
+  def: This frame contains general locale words, and is mostly a place-holder in the hierarchy. Words in this frame designate relatively stable bounded ares of the world which have permanent Relative_locations with respect to other locales, and thus are useful as permanent landmarks. It is inherited by Locale_by_use, which has to do with places that are named according to their intended use, or some habitual use, such as factory.n, dance floor.n, village.n, field.n. It is also inherited by Locale_by_event, which covers places that are names according to some event which took place there, such as concerts, battles, and meteor impacts.
+  FEs: Locale C, Constituent_parts X, Relative_location P, Formational_cause X, Container_possessor X, Name X, Descriptor X, Related_event X, Inherent_purpose X  || Core-FE semTypes: Locale=Location
+Location_in_time (#2141) <time>
+  def: The word(s) in this frame detail a particular moment in time.These often occur with demonstratives such as this and that.
+  FEs: Relative_time P, Name P, Whole P, Focal_time C, Salient_event X, Descriptor X
+Measure_duration (#224) <time>
+  def: This frame contains (transparent ) nouns that are Units of measurement for time. The frame elements are Count, Unit and Process. In this frame, we will NOT annotate deictic, calendric uses of nouns like week, month, etc. as in "next week, this month, in the 21st century".
+  FEs: Count C, Unit C, Process C, Agent X
+Measure_volume (#155) <box> [frame semType: Transparent Noun]
+  def: This frame is concerned with nouns that denote Units of measurement for volumes. The Frame Elements are Unit, Count, Stuff, and Size. The frame will be split soon into container-derived volumes (box, bottle etc.) and pure volumes (gallon, quart). For the moment we tag things as follows: This frame necessitated the introduction of the GF: Quant and the PT: Num used for expressions such as the following: FE: Count, GF: Quant, PT: Num Note that we treat cardinal numbers and "a" (= 1) in the same way. FE: Count, GF: Quant, PT: Num For the present, we prefer not to annotate "many cups of coffee" FE: Count, GF: Quant, PT: Adj
+  FEs: Count C, Stuff C, Unit C, Size P
+Membership (#1026) <part>
+  def: A Member is semi-permanently part of a socially constructed Group.
+  FEs: Member C, Group C, Standing P, Manner P, Time P, Place P
+Natural_features (#191) <water>
+  def: The Locale is a geographical location as defined by shape. This frame includes natural geographic features, including land/ice forms and bodies of water.
+  FEs: Constituent_parts P, Container_possessor X, Formational_cause X, Locale C, Name X, Relative_location P, Type X, Descriptor X  || Core-FE semTypes: Locale=Location
+Organization (#1371) <group>
+  def: This frame describes intentionally formed human social groups (here termed Organizations) with some definite structure and Members. They may be relatively informal, consisting only of a group of individuals who are aware of who is and who is not a fellow member, or they may be complex and long-lasting, such as the Roman Catholic Church or the Conservative Party.
+  FEs: Organization C, Members C, Purpose P, Period_of_existence X, Name X, Container_possessor X, Place P, Descriptor X  || Core-FE semTypes: Organization=Group; Members=Human
+Part_whole (#140) <part> [frame semType: Transparent Noun]
+  def: This frame is concerned with nouns denoting a part or parts of a Whole entity . The Part is not defined relative to the Whole's orientation, center, or edge and is not ordered. We also annotate properties of the Part, e.g. relating to its size.
+  FEs: Part C, Whole C, Part_prop X, Orientation X, System X, Name X
+People (#304) <person, people>
+  def: This frame contains general words for Individuals, i.e. humans. The Person is conceived of as independent of other specific individuals with whom they have relationships and independent of their participation in any particular activity. They may have an Age, Descriptor, Origin, Persistent_characteristic, or Ethnicity.
+  FEs: Origin X, Person C, Persistent_characteristic X, Descriptor X, Age X, Ethnicity X, Context_of_acquaintance X  || Core-FE semTypes: Person=Human
+People_by_age (#973) <child>
+  def: This frame contains words for individuals as viewed in terms of their age. The Person is conceived of as independent of other specific individuals with whom they have relationships and independent of their participation in any particular activity. They may have a Descriptor, Origin, Persistent_characteristic, or Ethnicity. A specific Age may sometimes be specified as well.
+  FEs: Origin P, Person C, Persistent_characteristic P, Descriptor P, Age C, Ethnicity P, Context_of_acquaintance P  || Core-FE semTypes: Person=Human
+People_by_vocation (#1071) <teacher>
+  def: This frame contains words for Individuals as viewed in terms of their vocation. The Person is conceived of as independent of other specific individuals with whom they have relationships and independent of their participation in any particular activity. They may have a Descriptor, Origin, Persistent_characteristic, or Ethnicity. A specific Age may sometimes be specified as well.
+  FEs: Origin P, Person C, Persistent_characteristic X, Descriptor X, Age P, Ethnicity P, Context_of_acquaintance X, Rank P, Place_of_employment P, Employer P, Type P, Compensation P, Contract_basis P  || Core-FE semTypes: Person=Human
+Performers_and_roles (#413) <part> [frame semType: Non-perspectivalized_frame]
+  def: A Performer has a certain Role in a Performance and plays their part by following the directions in the Script for that particular Role.
+  FEs: Audience C, Medium C, Performance C, Performer C, Score C, Script C, Type C, Role C, Time P, Place P, Manner P, Performer1 C, Performer2 C, Duration P, Event_description X
+Shaped_part (#970) <arm, handle> [frame semType: Transparent Noun]
+  def: An entity is a shaped Part of a larger Whole. The Part may correspond in form and function to a part of another entity. For instance, the leg of a table supports the weight of a table like the leg of an animal or person supports their weight. The Orientation of the Part relative to the Whole may be expressed.
+  FEs: Part C, Whole C, Part_prop P, Orientation P
+Substance (#1321) <water>
+  def: This frame concerns internally undifferentiated Substances.
+  FEs: Constituents P, Substance C, Type P, Origin X, Descriptor X, Inherent_purpose X  || Core-FE semTypes: Substance=Physical_entity
+Taking_sides (#1306) <part>
+  def: A Cognizer has a relatively fixed positive or negative point of view towards an Issue. A Side in a debate concerning an Issue or an Action of a Side may stand in for the Issue. The Cognizer's Degree of alignment may also be specified.
+  FEs: Cognizer C, Issue C, Side C, Degree P, Time P, Explanation X, Action C, Descriptor X, Particular_iteration X, Manner P, Concessive X, Place P  || Core-FE semTypes: Cognizer=Sentient
+Team (#2828) <team>
+  def: A Team is a group with shared goals and works toward them together in a coordinated fashion.
+  FEs: Members C, Team C, Aggregate_property X, Name X, Container_possessor X, Domain X, Activity C, Parent_organization P
+Temporal_pattern (#1040) <time>
+  def: A salient Subevent has a Pattern of recurrence within a larger Process.
+  FEs: Process C, Subevent C, Descriptor P, Pattern C, Type P
+Timespan (#2142) <time>
+  def: The words in this frame describe a period of time, as opposed to a point in time.
+  FEs: Duration C, State C, Whole P, Descriptor X
+Type (#128) <kind, type> [frame semType: Transparent Noun]
+  def: This frame has to do with nouns denoting types of entities. The Subtype refers to a collection of members of a more general Category which have certain defining characteristics; alternatively, the Subtype refers only to the type itself, i.e. a more restrictive set of characteristics than those of the more general Category. The properties of the items that are included in the collection may be specified by the Item_Property. Sometimes the Subtypes themselves are described by some Type_Property.
+  FEs: Subtype C, Category C, Type_property P, Item_property P
+Vehicle_subpart (#2426) <wheel, door, part>
+  def: An entity is integrated into a vehicle as a Part of a (possibly unexpressed) Whole which may refer to the whole vehicle or merely to a sub-part of the vehicle.
+  FEs: Part C, Whole C, Function P, Orientation P, Descriptor P

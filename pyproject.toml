@@ -6,6 +6,9 @@ build-backend = "setuptools.build_meta"
 include = ["gse*"]
 exclude = ["tests*", "scripts*", "data*", "daemon*", "logs*", "prompts*"]
 
+[tool.setuptools.package-data]
+"gse.lexicon_builder" = ["*.json"]
+
 [project]
 name = "gse"
 version = "2.0.0"
@@ -39,12 +42,14 @@ spellcheck-mcp = [
 
 [project.scripts]
 gse-spellcheck-mcp = "gse.mcp.spell_server:main"
+gse-lexicon = "gse.lexicon_builder.cli:main"
 
 [dependency-groups]
 dev = [
     "pytest>=9.1.0",
     "mcp>=1.0.0",        # tests import gse.mcp.spell_server; runtime consumers use the extra
     "requests>=2.28.0",  # tests import external_sources modules (previously undeclared)
+    "hypothesis>=6",  # generated producer/adoption contract tests
 ]
 # Detective pins behaviour by running this suite in-process under its own interpreter, so it runs from
 # this venv (`.venv/bin/detective`), never from a throwaway `uv run --with detective-spec` environment:
@@ -71,6 +76,7 @@ exclude = [
     "daemon",
     ".lintgate",
     "tests/detective",  # Detective-generated, content-hashed, regenerated wholesale: never hand- or tool-edited
+    "docs/verification",  # frozen evidence and implementation snapshots retain their original formatting
 ]
 
 [tool.ruff.format]
@@ -90,6 +96,7 @@ exclude = ["**/archive", "**/_archive", "data/external", "daemon"]
 
 [tool.pytest.ini_options]
 minversion = "9.0"
+pythonpath = ["."]
 # -ra: summarize every non-pass outcome; strict markers/config: a typo'd marker or ini key is an
 # error, not a silently ignored no-op; xfail_strict: an xfail that starts passing must be looked at.
 addopts = ["-ra", "--strict-markers", "--strict-config"]

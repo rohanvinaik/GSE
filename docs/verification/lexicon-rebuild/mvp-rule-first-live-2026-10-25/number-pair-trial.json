@@ -1,0 +1,158 @@
+[
+  {
+    "left": "happy",
+    "right": "delighted",
+    "call": {
+      "request_sha256": "eca75e419f7957dba74e2a616e09de5a514b453912ee75f213268d260cac7e1f",
+      "model": {
+        "name": "gemma4:e4b-it-q4_K_M",
+        "model": "gemma4:e4b-it-q4_K_M",
+        "modified_at": "2026-10-23T17:16:03.57499767-04:00",
+        "size": 6583656505,
+        "digest": "dc35e8d9c6061baa6f0fa870975ab6932e2542b579b13ea0f199fa4bb7300c9c",
+        "details": {
+          "parent_model": "gemma4-validation-20260929:e4b-imatrix-attention-q6-q8-draft2",
+          "format": "gguf",
+          "family": "gemma4",
+          "families": [
+            "gemma4"
+          ],
+          "parameter_size": "7.5B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 131072,
+          "embedding_length": 2560
+        },
+        "capabilities": [
+          "completion",
+          "vision",
+          "audio",
+          "tools",
+          "thinking"
+        ]
+      },
+      "request": {
+        "model": "gemma4:e4b-it-q4_K_M",
+        "messages": [
+          {
+            "role": "system",
+            "content": "{\"+1\": \"DEFINITIONAL_COMPONENT_PRESENT\", \"-1\": \"DEFINITIONAL_OPPOSITE_POLE_ONLY\", \"0\": \"EXPLICIT_ABSENCE_IN_APPLICABLE_UNPAIRED_DOMAIN_OR_NEITHER_BIPOLAR_POLE\", \"association_fields\": \"OBSERVATIONS_NOT_COMPONENTS\", \"empty\": \"DEFINITION_DOES_NOT_ADDRESS_THIS_COORDINATE\", \"operation\": \"LEXICAL_DEFINITION_TYPED_SELECTION\", \"scope\": \"TARGET_READING_OWN_DEFINITION_ONLY\", \"selection_schema\": {\"additionalProperties\": false, \"properties\": {\"LEFT_INTENSITY_RELATIVE_TO_RIGHT\": {\"enum\": [\"LESS\", \"EQUAL\", \"MORE\", \"UNRESOLVED\"], \"type\": \"string\"}}, \"required\": [\"LEFT_INTENSITY_RELATIVE_TO_RIGHT\"], \"type\": \"object\"}}"
+          },
+          {
+            "role": "user",
+            "content": "{\"comparison_codes\": {\"EQUAL\": \"same degree\", \"LESS\": \"left measure < right measure\", \"MORE\": \"left measure > right measure\", \"UNRESOLVED\": \"degree relation cannot be resolved\"}, \"decision\": {\"LEFT_INTENSITY_RELATIVE_TO_RIGHT\": null}, \"domain\": \"FELT_POSITIVE_VALENCE\", \"invariant\": \"NO_CHANGE_TO_ANY_COORDINATE_SIGN_OR_MASK\", \"left\": {\"reading_id\": \"happy:ADJ:E4.1+:feeling\", \"source_ordinal\": 1, \"word\": \"happy\"}, \"operation\": \"COMPARE_RELATIVE_INTENSITY_OF_THE_SAME_DEFINITION_PATTERN\", \"right\": {\"reading_id\": \"delighted:ADJ:E4.1+:feeling\", \"source_ordinal\": 1, \"word\": \"delighted\"}, \"schema\": \"GSE_NUMBER_RELATIVE_ORDER_V1\", \"shared_written_coordinates\": {\"FEEL\": \"+1\", \"GOOD\": \"+1\", \"INTENSITY\": \"+1\", \"KIND\": \"0\", \"SOMETHING\": \"0\"}}"
+          }
+        ],
+        "format": {
+          "type": "object",
+          "properties": {
+            "LEFT_INTENSITY_RELATIVE_TO_RIGHT": {
+              "type": "string",
+              "enum": [
+                "LESS",
+                "EQUAL",
+                "MORE",
+                "UNRESOLVED"
+              ]
+            }
+          },
+          "required": [
+            "LEFT_INTENSITY_RELATIVE_TO_RIGHT"
+          ],
+          "additionalProperties": false
+        },
+        "stream": false,
+        "think": false,
+        "keep_alive": "5m",
+        "options": {
+          "temperature": 0,
+          "seed": 17,
+          "num_ctx": 8192,
+          "num_predict": 256
+        }
+      },
+      "answer": {
+        "LEFT_INTENSITY_RELATIVE_TO_RIGHT": "LESS"
+      },
+      "done_reason": "stop",
+      "eval_count": 16
+    }
+  },
+  {
+    "left": "delighted",
+    "right": "happy",
+    "call": {
+      "request_sha256": "6d1a8a995e89cc0694ef30bff4bd83df04099163b6bf2bc64e3f49f09f6c1fcd",
+      "model": {
+        "name": "gemma4:e4b-it-q4_K_M",
+        "model": "gemma4:e4b-it-q4_K_M",
+        "modified_at": "2026-10-23T17:16:03.57499767-04:00",
+        "size": 6583656505,
+        "digest": "dc35e8d9c6061baa6f0fa870975ab6932e2542b579b13ea0f199fa4bb7300c9c",
+        "details": {
+          "parent_model": "gemma4-validation-20260929:e4b-imatrix-attention-q6-q8-draft2",
+          "format": "gguf",
+          "family": "gemma4",
+          "families": [
+            "gemma4"
+          ],
+          "parameter_size": "7.5B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 131072,
+          "embedding_length": 2560
+        },
+        "capabilities": [
+          "completion",
+          "vision",
+          "audio",
+          "tools",
+          "thinking"
+        ]
+      },
+      "request": {
+        "model": "gemma4:e4b-it-q4_K_M",
+        "messages": [
+          {
+            "role": "system",
+            "content": "{\"+1\": \"DEFINITIONAL_COMPONENT_PRESENT\", \"-1\": \"DEFINITIONAL_OPPOSITE_POLE_ONLY\", \"0\": \"EXPLICIT_ABSENCE_IN_APPLICABLE_UNPAIRED_DOMAIN_OR_NEITHER_BIPOLAR_POLE\", \"association_fields\": \"OBSERVATIONS_NOT_COMPONENTS\", \"empty\": \"DEFINITION_DOES_NOT_ADDRESS_THIS_COORDINATE\", \"operation\": \"LEXICAL_DEFINITION_TYPED_SELECTION\", \"scope\": \"TARGET_READING_OWN_DEFINITION_ONLY\", \"selection_schema\": {\"additionalProperties\": false, \"properties\": {\"LEFT_INTENSITY_RELATIVE_TO_RIGHT\": {\"enum\": [\"LESS\", \"EQUAL\", \"MORE\", \"UNRESOLVED\"], \"type\": \"string\"}}, \"required\": [\"LEFT_INTENSITY_RELATIVE_TO_RIGHT\"], \"type\": \"object\"}}"
+          },
+          {
+            "role": "user",
+            "content": "{\"comparison_codes\": {\"EQUAL\": \"same degree\", \"LESS\": \"left measure < right measure\", \"MORE\": \"left measure > right measure\", \"UNRESOLVED\": \"degree relation cannot be resolved\"}, \"decision\": {\"LEFT_INTENSITY_RELATIVE_TO_RIGHT\": null}, \"domain\": \"FELT_POSITIVE_VALENCE\", \"invariant\": \"NO_CHANGE_TO_ANY_COORDINATE_SIGN_OR_MASK\", \"left\": {\"reading_id\": \"delighted:ADJ:E4.1+:feeling\", \"source_ordinal\": 1, \"word\": \"delighted\"}, \"operation\": \"COMPARE_RELATIVE_INTENSITY_OF_THE_SAME_DEFINITION_PATTERN\", \"right\": {\"reading_id\": \"happy:ADJ:E4.1+:feeling\", \"source_ordinal\": 1, \"word\": \"happy\"}, \"schema\": \"GSE_NUMBER_RELATIVE_ORDER_V1\", \"shared_written_coordinates\": {\"FEEL\": \"+1\", \"GOOD\": \"+1\", \"INTENSITY\": \"+1\", \"KIND\": \"0\", \"SOMETHING\": \"0\"}}"
+          }
+        ],
+        "format": {
+          "type": "object",
+          "properties": {
+            "LEFT_INTENSITY_RELATIVE_TO_RIGHT": {
+              "type": "string",
+              "enum": [
+                "LESS",
+                "EQUAL",
+                "MORE",
+                "UNRESOLVED"
+              ]
+            }
+          },
+          "required": [
+            "LEFT_INTENSITY_RELATIVE_TO_RIGHT"
+          ],
+          "additionalProperties": false
+        },
+        "stream": false,
+        "think": false,
+        "keep_alive": "5m",
+        "options": {
+          "temperature": 0,
+          "seed": 17,
+          "num_ctx": 8192,
+          "num_predict": 256
+        }
+      },
+      "answer": {
+        "LEFT_INTENSITY_RELATIVE_TO_RIGHT": "MORE"
+      },
+      "done_reason": "stop",
+      "eval_count": 16
+    }
+  }
+]

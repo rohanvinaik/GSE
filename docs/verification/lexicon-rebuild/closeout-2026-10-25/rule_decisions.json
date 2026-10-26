@@ -1,0 +1,394 @@
+{
+  "schema": "GSE_RULE_ADMISSION_DECISIONS_V1",
+  "policy": "F129: review every rule; admit when it fits the founder's words",
+  "rulebook": "gse/lexicon_builder/bank_laws.json",
+  "rulebook_sha256": "60116f20f4551b8ec1eb5c4c85e3e2eef676deaf03a65a6650f1b227b572804b",
+  "review": "docs/verification/lexicon-rebuild/closeout-2026-10-25/RULE_REVIEW.md",
+  "literature": "docs/verification/lexicon-rebuild/closeout-2026-10-25/NSM_RESOLUTIONS.md",
+  "evidence": "docs/verification/lexicon-rebuild/closeout-2026-10-25/evidence",
+  "founder_decision_record": {
+    "record": "F144",
+    "date": "2026-10-25",
+    "words": "I approve the recommendations. Seems like sane priors to use, and it's more important to be consistent than to be \"perfect\" according to some arbitrary standard of truth.",
+    "covers": [
+      "rows 1-24 as recommended, each with its proposed_change (3b included; row 8 replaced by the emotion slice; rows 23 and 24b withdrawn)",
+      "the CAUSE decision: option B (row 25); row 26 dropped",
+      "F057 for the feeling nouns: the default, felt valence",
+      "row 22's proposed scope question (THOUGHT_PART / NO_THOUGHT_PART / UNRESOLVED)"
+    ],
+    "admission": "A decision is not admission: a rule writes cells once its review_state in the rulebook is FOUNDER_APPROVED, which for ADMIT_WITH_CHANGE and APPROVE_TO_BUILD follows the change or build and its tests."
+  },
+  "founder_decision_codes": {
+    "APPROVED_AS_RECOMMENDED": "the founder approved the row's recommendation, including its proposed_change",
+    "OPTION_B": "the CAUSE decision taken as option B: VerbNet cause(...) writes CAUSE +1, with DO +1 for an agent causer or HAPPEN +1 for an event causer; BECAUSE stays the reason / thought-to-feeling link",
+    "DROPPED": "not adopted: row 26 applies only under option A of the CAUSE decision"
+  },
+  "rows": [
+    {
+      "row": 1,
+      "family": "laws",
+      "rule_id": "OWN_AFFECTIVE_FEELING",
+      "current_review_state": "FOUNDER_APPROVED",
+      "recommendation": "ADMIT",
+      "proposed_change": "Drop rule 8's duplicate FEEL companion when 8 is revised.",
+      "founder_decision": "APPROVED_AS_RECOMMENDED",
+      "decided_in": "F144"
+    },
+    {
+      "row": 2,
+      "family": "laws",
+      "rule_id": "OWN_PHYSICAL_CHANGE_OF_PLACE",
+      "current_review_state": "FOUNDER_APPROVED",
+      "recommendation": "ADMIT_WITH_CHANGE",
+      "proposed_change": "Rule 9 asserts own_predicate=physical_change_of_place; this law becomes the single writer of MOVE.",
+      "founder_decision": "APPROVED_AS_RECOMMENDED",
+      "decided_in": "F144"
+    },
+    {
+      "row": 3,
+      "family": "laws",
+      "rule_id": "MODIFIER_LACKS_INDEPENDENT_OBJECTNESS",
+      "current_review_state": "FOUNDER_APPROVED",
+      "recommendation": "ADMIT",
+      "proposed_change": "3b (separate approval): extend 0 to I, YOU, SOMEONE, PEOPLE, BODY, KIND, PART. The literature answers the contract question it waited on: frames hold argument structure (G12 p.16) and adjectives qualify rather than categorize (GW2014 pp.56-59, restating GW07 p.766).",
+      "founder_decision": "APPROVED_AS_RECOMMENDED",
+      "decided_in": "F144"
+    },
+    {
+      "row": 4,
+      "family": "laws",
+      "rule_id": "FEELING_DENOTATUM_IS_NOT_A_CATEGORY",
+      "current_review_state": "FOUNDER_APPROVED",
+      "recommendation": "ADMIT",
+      "proposed_change": null,
+      "founder_decision": "APPROVED_AS_RECOMMENDED",
+      "decided_in": "F144"
+    },
+    {
+      "row": 5,
+      "family": "laws",
+      "rule_id": "OWN_DEGREE_BEARING_CONTENT",
+      "current_review_state": "FOUNDER_APPROVED",
+      "recommendation": "ADMIT",
+      "proposed_change": "Stage 3: record VERY-combinability (CH VERY box) in the profiles of the GOOD, BIG, FAR, LONG_TIME and WANT atoms and their poles, then write INTENSITY +1 on them through this law. QUANTITY waits for the quantifier scale family (F096).",
+      "founder_decision": "APPROVED_AS_RECOMMENDED",
+      "decided_in": "F144"
+    },
+    {
+      "row": 6,
+      "family": "source_rules",
+      "rule_id": "USAS_OWN_QUALITY_POLE",
+      "current_review_state": "IMPLEMENTED_FOR_PROTOTYPE_AUDIT",
+      "recommendation": "ADMIT_WITH_CHANGE",
+      "proposed_change": "Join by the reviewed contract table: A5.1 with Desirability is a same-field pair and certifies. 38 words (39 matches).",
+      "founder_decision": "APPROVED_AS_RECOMMENDED",
+      "decided_in": "F144"
+    },
+    {
+      "row": 7,
+      "family": "source_rules",
+      "rule_id": "USAS_OWN_SIZE_POLE",
+      "current_review_state": "IMPLEMENTED_FOR_PROTOTYPE_AUDIT",
+      "recommendation": "ADMIT_WITH_CHANGE",
+      "proposed_change": "Join with Size only: FrameNet's Dimension adjectives must take a measurement expression and carry no pole. Drops long and thick; 26 remain.",
+      "founder_decision": "APPROVED_AS_RECOMMENDED",
+      "decided_in": "F144"
+    },
+    {
+      "row": 8,
+      "family": "source_rules",
+      "rule_id": "USAS_OWN_HAPPY_SAD_STATE",
+      "current_review_state": "IMPLEMENTED_FOR_PROTOTYPE_AUDIT",
+      "recommendation": "REVISE",
+      "proposed_change": "Superseded by the emotion slice. Emotion_directed is generic, so all 35 joins go to the typed discriminator; mad counterexample (FrameNet 'slightly angry', USAS E4.1+).",
+      "founder_decision": "APPROVED_AS_RECOMMENDED",
+      "decided_in": "F144"
+    },
+    {
+      "row": 9,
+      "family": "native_predicate_rules",
+      "rule_id": "VN_EVENT_MOTION",
+      "current_review_state": "IMPLEMENTED_FOR_RULE_AUDIT",
+      "recommendation": "ADMIT_WITH_CHANGE",
+      "proposed_change": "Assert rule 2's guard instead of writing MOVE directly.",
+      "founder_decision": "APPROVED_AS_RECOMMENDED",
+      "decided_in": "F144"
+    },
+    {
+      "row": 10,
+      "family": "native_predicate_rules",
+      "rule_id": "VN_EVENT_CONTACT",
+      "current_review_state": "IMPLEMENTED_FOR_RULE_AUDIT",
+      "recommendation": "ADMIT_WITH_CHANGE",
+      "proposed_change": "Negated-only frames write nothing, never 0 (6 frames: hit/swat 'at' frames; pelt's in-flight negation); the negated predicate stays in the derivation.",
+      "founder_decision": "APPROVED_AS_RECOMMENDED",
+      "decided_in": "F144"
+    },
+    {
+      "row": 11,
+      "family": "native_predicate_rules",
+      "rule_id": "VN_AFFECTIVE_STATE",
+      "current_review_state": "IMPLEMENTED_FOR_RULE_AUDIT",
+      "recommendation": "ADMIT_WITH_CHANGE",
+      "proposed_change": "Record the experiencer's role as a typed fact; write FEEL only when the verb also has a USAS E tag (must-not: believe, matter, respect, support, value; known omissions: interest, throw, try). The guard answers the matter-91 question.",
+      "founder_decision": "APPROVED_AS_RECOMMENDED",
+      "decided_in": "F144"
+    },
+    {
+      "row": 12,
+      "family": "native_predicate_rules",
+      "rule_id": "VN_DESIRE",
+      "current_review_state": "IMPLEMENTED_FOR_RULE_AUDIT",
+      "recommendation": "ADMIT",
+      "proposed_change": null,
+      "founder_decision": "APPROVED_AS_RECOMMENDED",
+      "decided_in": "F144"
+    },
+    {
+      "row": 13,
+      "family": "native_predicate_rules",
+      "rule_id": "VN_VITALITY",
+      "current_review_state": "IMPLEMENTED_FOR_RULE_AUDIT",
+      "recommendation": "ADMIT",
+      "proposed_change": null,
+      "founder_decision": "APPROVED_AS_RECOMMENDED",
+      "decided_in": "F144"
+    },
+    {
+      "row": 14,
+      "family": "native_predicate_rules",
+      "rule_id": "VN_EXISTENCE",
+      "current_review_state": "IMPLEMENTED_FOR_RULE_AUDIT",
+      "recommendation": "ADMIT_WITH_CHANGE",
+      "proposed_change": "Project EXIST only for a change of existence (41 of 72 frames), or inside exist-47.1, whose verbs mean existing.",
+      "founder_decision": "APPROVED_AS_RECOMMENDED",
+      "decided_in": "F144"
+    },
+    {
+      "row": 15,
+      "family": "native_predicate_rules",
+      "rule_id": "VN_POSSESSION",
+      "current_review_state": "IMPLEMENTED_FOR_RULE_AUDIT",
+      "recommendation": "ADMIT",
+      "proposed_change": null,
+      "founder_decision": "APPROVED_AS_RECOMMENDED",
+      "decided_in": "F144"
+    },
+    {
+      "row": 16,
+      "family": "native_predicate_rules",
+      "rule_id": "VN_BEGIN",
+      "current_review_state": "IMPLEMENTED_FOR_RULE_AUDIT",
+      "recommendation": "ADMIT",
+      "proposed_change": null,
+      "founder_decision": "APPROVED_AS_RECOMMENDED",
+      "decided_in": "F144"
+    },
+    {
+      "row": 17,
+      "family": "native_predicate_rules",
+      "rule_id": "VN_END",
+      "current_review_state": "IMPLEMENTED_FOR_RULE_AUDIT",
+      "recommendation": "ADMIT_WITH_CHANGE",
+      "proposed_change": "Restrict to the aspectual classes 55.x. 'She hurried but didn't finish the report' is not a contradiction, so rush-53.2's 'the task ends' is not part of hurry.",
+      "founder_decision": "APPROVED_AS_RECOMMENDED",
+      "decided_in": "F144"
+    },
+    {
+      "row": 18,
+      "family": "native_residual_rules",
+      "rule_id": "VN_USAS_PERCEPTION_MODE",
+      "current_review_state": "IMPLEMENTED_FOR_RULE_AUDIT",
+      "recommendation": "ADMIT",
+      "proposed_change": null,
+      "founder_decision": "APPROVED_AS_RECOMMENDED",
+      "decided_in": "F144"
+    },
+    {
+      "row": 19,
+      "family": "proposed_emotion_rules",
+      "rule_id": "EMOTION_EXPERIENCER_STATE_ADJ",
+      "current_review_state": "PROPOSED",
+      "recommendation": "APPROVE_TO_BUILD",
+      "proposed_change": "Signed USAS E tag + FrameNet Emotion_directed/Fear/Emotions_by_stimulus adjective (77). Join: 5 certify through Fear, 72 go to the discriminator. GOOD is the felt valence: -1 for the Fear readings, from the pole for a valence-scale tag (E2, E3, E4.1, E4.2), and a typed field {+1, -1, empty} for the 14 readings outside Fear whose slice tags are all E5- or E6- (concerned: feeling unspecified, W1990b p.373, W1999 p.86). Substantive cells per row 3 and 3b.",
+      "founder_decision": "APPROVED_AS_RECOMMENDED",
+      "decided_in": "F144"
+    },
+    {
+      "row": 20,
+      "family": "proposed_emotion_rules",
+      "rule_id": "EMOTION_EXPERIENCER_FOCUS_VERB",
+      "current_review_state": "PROPOSED",
+      "recommendation": "APPROVE_TO_BUILD",
+      "proposed_change": "VerbNet admire-31.2 (subject feels) + signed USAS verb E tag (30); all 30 go to the discriminator. GOOD is the felt valence from the pole (a typed field for the E5- verbs dread and fear). Verbs head no substantive: SOMETHING, I, YOU, SOMEONE, PEOPLE, BODY, PART 0. Needs stage 1b.",
+      "founder_decision": "APPROVED_AS_RECOMMENDED",
+      "decided_in": "F144"
+    },
+    {
+      "row": 21,
+      "family": "proposed_emotion_rules",
+      "rule_id": "EMOTION_FEELING_NOUN",
+      "current_review_state": "PROPOSED",
+      "recommendation": "APPROVE_TO_BUILD",
+      "proposed_change": "Signed USAS noun E tag + FrameNet Experiencer_focus/Emotion_directed/Fear noun (52). Join: 4 certify through Fear, 48 go to the discriminator. The noun names the 'something' X felt: SOMETHING +1, the other substantives 0. GOOD for every feeling noun follows the F057 ruling: the felt valence (default: -1 for the 4 Fear nouns, from the pole for the 42 with a valence-scale tag, the typed field for the 6 whose tags are all E5- or E6- outside Fear) or empty for all 52. pleasure passes the guards but has no cognitive scenario (W1999 p.56), so it must not export until the scope question of row 22 lands.",
+      "founder_decision": "APPROVED_AS_RECOMMENDED",
+      "decided_in": "F144"
+    },
+    {
+      "row": 22,
+      "family": "proposed_emotion_rules",
+      "rule_id": "EMOTION_TEMPLATE",
+      "current_review_state": "PROPOSED",
+      "recommendation": "APPROVE_TO_BUILD",
+      "proposed_change": "A template line writes only the primes every published wording of the class contains: FEEL, THINK, LIKE for rows 19-21; WHEN for adjectives and nouns; BECAUSE for Fear readings, E5/E6 readings outside Fear, other nouns and verbs. BECAUSE is a field for the other adjectives: W1999's 'X was sad' drops the thought-to-feeling link on purpose (pp.62-63). Every other open coordinate is a typed field (+1 or +/-1, or empty; written 0 not offered). Proposed with this row: a typed scope question per reading (THOUGHT_PART / NO_THOUGHT_PART / UNRESOLVED); only THOUGHT_PART gets the template; controls pleasure NO_THOUGHT_PART (W1999 p.56), sad and afraid THOUGHT_PART. The draft's CAN and NOT relations are withdrawn.",
+      "founder_decision": "APPROVED_AS_RECOMMENDED",
+      "decided_in": "F144"
+    },
+    {
+      "row": 23,
+      "family": "proposed_emotion_rules",
+      "rule_id": "EMOTION_SCOPED_SILENCE",
+      "current_review_state": "PROPOSED",
+      "recommendation": "WITHDRAW",
+      "proposed_change": "The literature cannot certify silence (CH: 'More complex combinations are also possible'), and published explications falsify it for several banks. Silence comes from F101 measurement, checked against the explications.",
+      "founder_decision": "APPROVED_AS_RECOMMENDED",
+      "decided_in": "F144"
+    },
+    {
+      "row": 24,
+      "family": "proposed_emotion_rules",
+      "rule_id": "FEAR_FRAME_FUTURE_POSSIBILITY",
+      "current_review_state": "PROPOSED",
+      "recommendation": "APPROVE_TO_BUILD",
+      "proposed_change": "24a: a reading certified through FrameNet Fear gets CAN +1 and HAPPEN +1 (FrameNet Emotions_by_possibility). Both occur in all 8 sourced Fear explications (W1999 afraid, fear, nervous, terrified, apprehension, dread; W1990b scared, frightened), CAN only through the scope-blind projection: nervous and dread have it only as the experiencer's ability. MAYBE stays a field and must return +1 for nervous (W1999 p.84). 24b (AFTER) withdrawn: no Fear explication contains AFTER.",
+      "founder_decision": "APPROVED_AS_RECOMMENDED",
+      "decided_in": "F144"
+    },
+    {
+      "row": 25,
+      "family": "native_predicate_rules",
+      "rule_id": "VN_CAUSATION",
+      "current_review_state": "PROPOSED",
+      "recommendation": "FOUNDER_DECISION",
+      "proposed_change": "Decide with row 26, on its own. Option B (recommended; design 7.3 expects distinct contracts): VerbNet cause(...) writes CAUSE +1, with DO +1 for an agent causer or HAPPEN +1 for an event causer; BECAUSE stays the reason / thought-to-feeling link. Option A (NSM-literal): cause(...) writes BECAUSE +1 with DO or HAPPEN, and row 26 applies. Either way: stage 1b; count class-inherited copies once (design 5.3).",
+      "founder_decision": "OPTION_B",
+      "decided_in": "F144"
+    },
+    {
+      "row": 26,
+      "family": "laws",
+      "rule_id": "CAUSE_SILENT_IN_BASIS_V1",
+      "current_review_state": "PROPOSED",
+      "recommendation": "FOUNDER_DECISION",
+      "proposed_change": "Only under option A of the CAUSE decision: CAUSE is empty in every reading under GSE_LEXICAL_72_SIGNED_58_V1. Under option B it is dropped. Without it, CAUSE is one more open field per reading.",
+      "founder_decision": "DROPPED",
+      "decided_in": "F144"
+    }
+  ],
+  "deferred": [
+    {
+      "item": "atomic_definitions (72)",
+      "reason": "combinatorial-profile review, F091, stage 3"
+    }
+  ],
+  "contract_answers": {
+    "1_GOOD": "Felt valence, 'feel something good/bad' (G12 pp.24-25; GY14 p.6; CH FEEL vs THINK; G15 p.5, p.16; W1999 p.56: 'It is only the feeling which is (feels) good, no cognitive evaluation needs to be involved'; W1999 p.97: the scenario's evaluations 'are not always aligned in value with the feeling'): +1, -1, or empty when the word leaves it open (surprised, astonished, concerned). Read from the feeling line; a target evaluation is THINK/WANT content. USAS E5 and E6 are not valence scales, so E5/E6-only readings outside Fear get the typed field.",
+    "2_SUBSTANTIVES": "The word's own head (G12 p.16; GW2014 pp.56-59). Participants in the frame or scenario are argument roles. 3b holds (with KIND and PART); feeling nouns SOMETHING +1; experiencer verbs head no substantive.",
+    "source": "NSM_RESOLUTIONS.md sections 1-2"
+  },
+  "conflict_with_founder_words": {
+    "F057_hatred": {
+      "founder_words": "\"Can a noun have a sentiment weight to it? Of course not.\" ... \"Hatred\" is a noun without value attached",
+      "literature": "Nearly every feeling noun explicated states the felt valence (W1999 fear p.75, sadness p.39, sorrow p.67, grief p.68, despair p.70; W1990b fear, fright, anguish, anxiety, apprehension, panic, joy); the exceptions (concern, compassion, pity's explication) leave the quality open for reasons that hold for the adjective too, not because they are nouns. On hatred itself the evidence is weaker than first stated: W1990b p.360 (repeated in W1992) contrasts anger's controlled impulse, 'I WOULD want to do something bad to this person' (rather than 'I want'), with 'the case of hatred'; but W1999 p.88 withdraws that component from anger as less accurate. The aside is never retracted, but its point of comparison is gone. No source explicates English hate, hatred or love; W1999 omits them by name (pp.121-122).",
+      "default": "The felt valence for every feeling noun: -1 for the 4 Fear nouns (fear included), from the pole for the 42 with a valence-scale tag (-1 for hatred), the typed field for the 6 whose tags are all E5- or E6- outside Fear",
+      "alternative": "GOOD empty for every feeling noun, even where BAD sits in the thought content (fear: 'some bad things can happen'); that content is then recorded only in the derivation",
+      "affects": "row 21's GOOD cell for all 52 feeling nouns, including the four Fear nouns (apprehension, dread, fear, terror); under the alternative the 6 E5/E6-only nouns have one open field fewer",
+      "does_not_affect": "adjectives (row 19), verbs (row 20), the fear-adjective completion target",
+      "founder_answer": "DEFAULT",
+      "decided_in": "F144"
+    }
+  },
+  "founder_questions_answered": {
+    "Should VerbNet's cause map to CAUSE or BECAUSE?": "Decided in F144: option B (two contracts, design 7.3). NSM has no CAUSE, so the literature settles only NSM's side (causation = BECAUSE + DO/HAPPEN).",
+    "What should function words emit?": "Allolexes and portmanteaus emit their primes per CH's function-word box; in/at/of/with/about mark prime valencies; and/or/but/the/a get no lexical vector (GSE choice). THIS has no GSE coordinate.",
+    "What do box and dog get?": "SOMETHING +1 (own head); KIND 0 under F007, a recorded departure from NSM's 'of one kind'; the rest from the artefact and natural-kind templates, still to be read.",
+    "Does the GOOD prime itself carry INTENSITY?": "Its VERY-combinability goes in the atom's profile now; INTENSITY +1 on the atom through row 5 at stage 3 (row 5)."
+  },
+  "draft": "docs/verification/lexicon-rebuild/closeout-2026-10-25/EMOTION_SLICE_DRAFT.md",
+  "founder_calls": [
+    "row approvals (F129): does each row fit the founder words",
+    "F057 conflict: GOOD for the feeling nouns of row 21 (all 52, not only hatred)",
+    "CAUSE decision (rows 25-26), on its own: option B recommended"
+  ],
+  "proposed_answers_take_effect_with_the_row": {
+    "3b substantives": "frames hold argument structure; adjectives qualify (row 3)",
+    "5 INTENSITY on atoms": "CH VERY box; stage 3 (row 5)",
+    "7 Dimension frame (long, thick)": "Dimension adjectives must take a measurement expression; proposed: drop Dimension (row 7)",
+    "11 matter-91": "proposed USAS E-tag guard would remove matter (row 11)",
+    "17 hurry": "cancellation test; restrict to 55.x (row 17)",
+    "22 template cells": "FEEL, THINK, LIKE (and WHEN for adjectives and nouns) are in every published wording; BECAUSE in every wording of the Fear, E5/E6, noun and verb classes, and a field for the other adjectives (W1999 sad) (row 22)",
+    "22 scope question": "pleasure has no cognitive scenario (W1999 p.56); a typed THOUGHT_PART question gates the template (row 22)",
+    "23 silence": "withdrawn; F101 measurement (row 23)",
+    "24b AFTER": "withdrawn; no Fear explication contains AFTER, and their 'will' writes nothing (row 24)"
+  },
+  "recommendation_codes": {
+    "ADMIT": "fits as it stands",
+    "ADMIT_WITH_CHANGE": "fits once the stated change and its tests land",
+    "REVISE": "superseded by the rows named in proposed_change",
+    "APPROVE_TO_BUILD": "a proposed rule: approve its content now; it is built, tested against its controls and gold, then admitted",
+    "WITHDRAW": "no longer proposed",
+    "FOUNDER_DECISION": "not a fit check: a choice the literature cannot make, put to the founder on its own"
+  },
+  "source_precedence": {
+    "founder_words": "I mean, a conflict between WIERZBICKA 1992 and Goddard 2015, seems like Goddard 2015 would win, since he was a peer/collaborator and that came after decades of additional work?",
+    "record": "F137",
+    "date": "2026-10-25",
+    "rule": "Within the NSM program, when two published analyses of the same word or template component conflict, the later one wins (G15 acknowledges Wierzbicka's input to its explications).",
+    "limit": "A later source that only quotes an analysis second-hand, or applies a template to another language, informs but does not override a direct English analysis (agent's reading of the same reasoning).",
+    "applied": [
+      "amazed: G15 'felt something good' over W1992's 'surprise or amazement do not imply anything good or bad'",
+      "per word, W1999 over W1990b and W1992: fear is 'some bad things can happen' (1999), not 'something very bad can happen' (1990)",
+      "sad: W1999, the latest direct English analysis, drops the thought-to-feeling link on purpose, so row 22's BECAUSE is a field for adjectives outside Fear; the earlier claim that every later wording has the link was wrong for sad",
+      "anger: W1999 p.88 withdraws 'I (would) want to do something bad to this person', the component the W1990b/W1992 hatred aside was contrasted with"
+    ]
+  },
+  "literature_revision": {
+    "date": "2026-10-25",
+    "trigger": "F141: Rohan supplied W1999, W1990b, GW2014 and W1992-SCC",
+    "changes": [
+      "row 22: BECAUSE narrowed to the classes whose every wording has the link; a field for the other adjectives",
+      "rows 19-21: GOOD's typed field extends from E5- to E6- outside Fear (concern); 22 readings",
+      "row 24a: reason corrected (CAN only as ability in nervous and dread); MAYBE not silent in Fear (nervous); 24b's reason corrected",
+      "row 22: proposed scope question; pleasure is its NO control",
+      "F057: the hatred aside is weaker (W1999 p.88); default unchanged"
+    ],
+    "recorded_not_changed": [
+      "pity: W1999's explication leaves the feeling open, its prose says bad; the pole (-1) is kept and the gold carries SOURCE_CONFLICTS_WITH_ITSELF",
+      "frightened: W1990b p.367 prints 'feels' for 'thinks' (suspected misprint); its gold carries NOT_IN_EXPLICATION_SUSPECTED_MISPRINT",
+      "G15 p.14 attributes a frighten explication to W1990b, which has none; the components are W1990b's terrified"
+    ],
+    "fear_target": "afraid: 18 fixed, 40 open (option A) or 17 and 41 (option B); 7 real choices in the gold"
+  },
+  "sources": {
+    "received_and_read": [
+      "Wierzbicka 1999, Emotions across Languages and Cultures (CUP), doi:10.1017/CBO9780511521256: chapter 2 whole, chapter 1 section 9",
+      "Wierzbicka 1990, The semantics of emotions: Fear and its relatives in English, AJL 10(2): 359-375, doi:10.1080/07268609008599447: whole",
+      "Goddard & Wierzbicka 2014, Words and Meanings (OUP), ISBN 978-0-19-966843-4: sections 3.1-3.3, 5.7-5.8",
+      "Wierzbicka 1992, Semantics, Culture, and Cognition (OUP), ISBN 0-19-507325-8: contents and chapter 4's opening (OCR made here)"
+    ],
+    "received_not_the_requested_work": [
+      "'Ten Lectures' PDF: a review of Hart, Ten Lectures in Cognitive Linguistics: Cognitive Critical Discourse Analysis (Brill 2024), not Goddard 2018",
+      "'Semantic Analysis' HTML: a page of an unrelated text, not Goddard 2011"
+    ],
+    "still_wanted": [
+      "Wierzbicka 1985, Lexicography and Conceptual Analysis (Karoma): artefact and natural-kind templates (box, dog)",
+      "Goddard 2000, Polysemy: a problem of definition, in Ravin & Leacock (eds.), Polysemy (OUP), 129-151: love",
+      "Goddard 2018, Ten Lectures on Natural Semantic Metalanguage (Brill), lecture 3",
+      "Goddard 2011, Semantic Analysis, 2nd ed. (OUP), pp.105-107",
+      "Wierzbicka 1992, Talking about emotions: Semantics, culture and cognition, Cognition and Emotion 6(3-4): 285-319",
+      "Harkins & Wierzbicka (eds.) 2001, Emotions in Crosslinguistic Perspective (Mouton de Gruyter)"
+    ],
+    "copies": "data/external/references/ (git-ignored); CATALOG.json holds each file's sha256 and provenance"
+  },
+  "founder_calls_decided_in": "F144"
+}

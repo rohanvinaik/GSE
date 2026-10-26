@@ -1,0 +1,3930 @@
+{
+ "basis": "GSE_LEXICAL_72_SIGNED_58_V1",
+ "coordinates": 58,
+ "class_membership": {
+  "adjective_fear": [
+   "afraid",
+   "frightened",
+   "nervous",
+   "scared",
+   "terrified"
+  ],
+  "adjective_other": [
+   "affronted",
+   "agitated",
+   "amused",
+   "angry",
+   "contented",
+   "crestfallen",
+   "cross",
+   "crushed",
+   "dejected",
+   "delighted",
+   "depressed",
+   "desolate",
+   "despondent",
+   "devastated",
+   "disappointed",
+   "disconsolate",
+   "disgruntled",
+   "disheartened",
+   "distressed",
+   "downcast",
+   "downhearted",
+   "ecstatic",
+   "elated",
+   "embarrassed",
+   "embittered",
+   "enraged",
+   "furious",
+   "glad",
+   "gleeful",
+   "glum",
+   "gratified",
+   "grim",
+   "happy",
+   "heartbroken",
+   "incensed",
+   "inconsolable",
+   "indignant",
+   "irate",
+   "joyful",
+   "jubilant",
+   "livid",
+   "mad",
+   "miffed",
+   "miserable",
+   "mournful",
+   "offended",
+   "overjoyed",
+   "peeved",
+   "pleased",
+   "rattled",
+   "resentful",
+   "riled",
+   "sad",
+   "sore",
+   "sorrowful",
+   "thrilled",
+   "upset",
+   "vexed"
+  ],
+  "adjective_e5e6_outside_fear": [
+   "alarmed",
+   "anguished",
+   "anxious",
+   "concerned",
+   "dismayed",
+   "flabbergasted",
+   "flustered",
+   "horrified",
+   "perturbed",
+   "petrified",
+   "stressed",
+   "stunned",
+   "unsettled",
+   "worried"
+  ],
+  "noun_fear": [
+   "apprehension",
+   "dread",
+   "fear",
+   "terror"
+  ],
+  "noun_other": [
+   "adoration",
+   "agitation",
+   "agony",
+   "amusement",
+   "anger",
+   "annoyance",
+   "antipathy",
+   "bitterness",
+   "chagrin",
+   "dejection",
+   "delight",
+   "despair",
+   "disappointment",
+   "dislike",
+   "displeasure",
+   "distress",
+   "elation",
+   "embarrassment",
+   "exasperation",
+   "exhilaration",
+   "fulfillment",
+   "fury",
+   "glee",
+   "gratification",
+   "grief",
+   "hatred",
+   "heartbreak",
+   "loathing",
+   "misery",
+   "mourning",
+   "outrage",
+   "pity",
+   "pleasure",
+   "regret",
+   "relish",
+   "resentment",
+   "revulsion",
+   "sadness",
+   "satisfaction",
+   "sorrow",
+   "sympathy",
+   "vexation"
+  ],
+  "noun_e5e6_outside_fear": [
+   "anguish",
+   "concern",
+   "desperation",
+   "dismay",
+   "horror",
+   "stupefaction"
+  ],
+  "verb": [
+   "abhor",
+   "admire",
+   "adore",
+   "appreciate",
+   "bear",
+   "cherish",
+   "deplore",
+   "despise",
+   "detest",
+   "dislike",
+   "enjoy",
+   "fancy",
+   "favor",
+   "hate",
+   "like",
+   "loathe",
+   "love",
+   "miss",
+   "mourn",
+   "pity",
+   "prefer",
+   "regret",
+   "relish",
+   "resent",
+   "rue",
+   "suffer",
+   "treasure",
+   "worship"
+  ],
+  "verb_e5e6": [
+   "dread",
+   "fear"
+  ]
+ },
+ "classes": {
+  "adjective_fear": {
+   "population_words": 5,
+   "with_3b_cause_fixed_option_A": {
+    "fixed": {
+     "FEEL": {
+      "state": 1,
+      "source": "row 1 (F043); every NSM emotion explication: 'X felt something'"
+     },
+     "THINK": {
+      "state": 1,
+      "source": "row 22 (F129); every sourced explication of a slice word has THINK, at least in its typicality line"
+     },
+     "LIKE": {
+      "state": 1,
+      "source": "row 22; typicality in all published wordings ('X felt something like this', 'think like this')"
+     },
+     "KIND": {
+      "state": 0,
+      "source": "row 4 (F007)"
+     },
+     "INTENSITY": {
+      "state": 1,
+      "source": "row 5 (F125-F126)"
+     },
+     "WHEN": {
+      "state": 1,
+      "source": "row 22; 'sometimes' (W1990b), 'when this person thinks this' (W1999), 'when they think like this' (G15, GY14)"
+     },
+     "SOMETHING": {
+      "state": 0,
+      "source": "row 3 (F057, F088, F118)"
+     },
+     "I": {
+      "state": 0,
+      "source": "3b; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "YOU": {
+      "state": 0,
+      "source": "3b; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "SOMEONE": {
+      "state": 0,
+      "source": "3b; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "PEOPLE": {
+      "state": 0,
+      "source": "3b; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "BODY": {
+      "state": 0,
+      "source": "3b; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "PART": {
+      "state": 0,
+      "source": "3b; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "BECAUSE": {
+      "state": 1,
+      "source": "row 22: every fear-family explication links thought and feeling with BECAUSE (W1990b pp.363-373; W1999 pp.75-86)"
+     },
+     "CAN": {
+      "state": 1,
+      "source": "row 24a; FrameNet Fear < Emotions_by_possibility. CAN occurs in all 8 sourced Fear readings (scope-blind): as 'can happen' in afraid, fear, scared, frightened, terrified, apprehension; only as the experiencer's ability in nervous ('if I can', 'what I can do') and dread ('if I can', 'I can't do anything')"
+     },
+     "HAPPEN": {
+      "state": 1,
+      "source": "row 24a; HAPPEN occurs in all 8 sourced Fear readings"
+     },
+     "GOOD": {
+      "state": -1,
+      "source": "Q1 felt valence; every sourced Fear explication 'feels something (very) bad'"
+     },
+     "CAUSE": {
+      "state": null,
+      "source": "row 26, only under option A of the CAUSE decision (founder's call); under option B, CAUSE is an open field"
+     }
+    },
+    "good": "fixed",
+    "open_by_bank": {
+     "I YOU SOMEONE ...": [
+      "SAME"
+     ],
+     "ONE TWO QUANTITY ...": [
+      "ONE",
+      "TWO",
+      "QUANTITY"
+     ],
+     "GOOD BAD BIG ...": [
+      "BIG"
+     ],
+     "THINK KNOW WANT ...": [
+      "KNOW",
+      "WANT",
+      "SEE",
+      "HEAR",
+      "INFER"
+     ],
+     "SAY WORDS DO ...": [
+      "SAY",
+      "WORDS",
+      "DO",
+      "MOVE",
+      "BE",
+      "HAVE",
+      "EXIST",
+      "ALIVE"
+     ],
+     "MOMENT WHEN LONG_TIME ...": [
+      "MOMENT",
+      "LONG_TIME",
+      "BEFORE",
+      "THEN",
+      "START"
+     ],
+     "WHERE HERE SIDE ...": [
+      "WHERE",
+      "HERE",
+      "SIDE",
+      "TOUCH",
+      "ABOVE",
+      "FAR",
+      "OUTSIDE",
+      "TOWARD",
+      "WITH"
+     ],
+     "NOT MAYBE CAN ...": [
+      "NOT",
+      "MAYBE",
+      "MUST",
+      "IF",
+      "TRUE",
+      "HIER_PLUS",
+      "HIER_MINUS",
+      "CERTAINTY"
+     ]
+    }
+   },
+   "counts_by_scenario": {
+    "with_3b_cause_fixed_option_A": {
+     "fixed_count": 18,
+     "open_count": 40,
+     "left_open_compared_with_option_A": []
+    },
+    "with_3b_cause_open_option_B": {
+     "fixed_count": 17,
+     "open_count": 41,
+     "left_open_compared_with_option_A": [
+      "CAUSE"
+     ]
+    },
+    "without_3b_cause_fixed": {
+     "fixed_count": 12,
+     "open_count": 46,
+     "left_open_compared_with_option_A": [
+      "I",
+      "YOU",
+      "SOMEONE",
+      "PEOPLE",
+      "BODY",
+      "PART"
+     ]
+    },
+    "without_3b_cause_open": {
+     "fixed_count": 11,
+     "open_count": 47,
+     "left_open_compared_with_option_A": [
+      "I",
+      "YOU",
+      "SOMEONE",
+      "PEOPLE",
+      "BODY",
+      "PART",
+      "CAUSE"
+     ]
+    }
+   }
+  },
+  "adjective_other": {
+   "population_words": 58,
+   "with_3b_cause_fixed_option_A": {
+    "fixed": {
+     "FEEL": {
+      "state": 1,
+      "source": "row 1 (F043); every NSM emotion explication: 'X felt something'"
+     },
+     "THINK": {
+      "state": 1,
+      "source": "row 22 (F129); every sourced explication of a slice word has THINK, at least in its typicality line"
+     },
+     "LIKE": {
+      "state": 1,
+      "source": "row 22; typicality in all published wordings ('X felt something like this', 'think like this')"
+     },
+     "KIND": {
+      "state": 0,
+      "source": "row 4 (F007)"
+     },
+     "INTENSITY": {
+      "state": 1,
+      "source": "row 5 (F125-F126)"
+     },
+     "WHEN": {
+      "state": 1,
+      "source": "row 22; 'sometimes' (W1990b), 'when this person thinks this' (W1999), 'when they think like this' (G15, GY14)"
+     },
+     "SOMETHING": {
+      "state": 0,
+      "source": "row 3 (F057, F088, F118)"
+     },
+     "I": {
+      "state": 0,
+      "source": "3b; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "YOU": {
+      "state": 0,
+      "source": "3b; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "SOMEONE": {
+      "state": 0,
+      "source": "3b; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "PEOPLE": {
+      "state": 0,
+      "source": "3b; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "BODY": {
+      "state": 0,
+      "source": "3b; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "PART": {
+      "state": 0,
+      "source": "3b; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "GOOD": {
+      "state": "+1 or -1 from the certified pole",
+      "source": "Q1 felt valence"
+     },
+     "CAUSE": {
+      "state": null,
+      "source": "row 26, only under option A of the CAUSE decision (founder's call); under option B, CAUSE is an open field"
+     }
+    },
+    "good": "fixed",
+    "open_by_bank": {
+     "I YOU SOMEONE ...": [
+      "SAME"
+     ],
+     "ONE TWO QUANTITY ...": [
+      "ONE",
+      "TWO",
+      "QUANTITY"
+     ],
+     "GOOD BAD BIG ...": [
+      "BIG"
+     ],
+     "THINK KNOW WANT ...": [
+      "KNOW",
+      "WANT",
+      "SEE",
+      "HEAR",
+      "INFER"
+     ],
+     "SAY WORDS DO ...": [
+      "SAY",
+      "WORDS",
+      "DO",
+      "HAPPEN",
+      "MOVE",
+      "BE",
+      "HAVE",
+      "EXIST",
+      "ALIVE"
+     ],
+     "MOMENT WHEN LONG_TIME ...": [
+      "MOMENT",
+      "LONG_TIME",
+      "BEFORE",
+      "THEN",
+      "START"
+     ],
+     "WHERE HERE SIDE ...": [
+      "WHERE",
+      "HERE",
+      "SIDE",
+      "TOUCH",
+      "ABOVE",
+      "FAR",
+      "OUTSIDE",
+      "TOWARD",
+      "WITH"
+     ],
+     "NOT MAYBE CAN ...": [
+      "NOT",
+      "MAYBE",
+      "CAN",
+      "MUST",
+      "BECAUSE",
+      "IF",
+      "TRUE",
+      "HIER_PLUS",
+      "HIER_MINUS",
+      "CERTAINTY"
+     ]
+    }
+   },
+   "counts_by_scenario": {
+    "with_3b_cause_fixed_option_A": {
+     "fixed_count": 15,
+     "open_count": 43,
+     "left_open_compared_with_option_A": []
+    },
+    "with_3b_cause_open_option_B": {
+     "fixed_count": 14,
+     "open_count": 44,
+     "left_open_compared_with_option_A": [
+      "CAUSE"
+     ]
+    },
+    "without_3b_cause_fixed": {
+     "fixed_count": 9,
+     "open_count": 49,
+     "left_open_compared_with_option_A": [
+      "I",
+      "YOU",
+      "SOMEONE",
+      "PEOPLE",
+      "BODY",
+      "PART"
+     ]
+    },
+    "without_3b_cause_open": {
+     "fixed_count": 8,
+     "open_count": 50,
+     "left_open_compared_with_option_A": [
+      "I",
+      "YOU",
+      "SOMEONE",
+      "PEOPLE",
+      "BODY",
+      "PART",
+      "CAUSE"
+     ]
+    }
+   }
+  },
+  "adjective_e5e6_outside_fear": {
+   "population_words": 14,
+   "with_3b_cause_fixed_option_A": {
+    "fixed": {
+     "FEEL": {
+      "state": 1,
+      "source": "row 1 (F043); every NSM emotion explication: 'X felt something'"
+     },
+     "THINK": {
+      "state": 1,
+      "source": "row 22 (F129); every sourced explication of a slice word has THINK, at least in its typicality line"
+     },
+     "LIKE": {
+      "state": 1,
+      "source": "row 22; typicality in all published wordings ('X felt something like this', 'think like this')"
+     },
+     "KIND": {
+      "state": 0,
+      "source": "row 4 (F007)"
+     },
+     "INTENSITY": {
+      "state": 1,
+      "source": "row 5 (F125-F126)"
+     },
+     "WHEN": {
+      "state": 1,
+      "source": "row 22; 'sometimes' (W1990b), 'when this person thinks this' (W1999), 'when they think like this' (G15, GY14)"
+     },
+     "SOMETHING": {
+      "state": 0,
+      "source": "row 3 (F057, F088, F118)"
+     },
+     "I": {
+      "state": 0,
+      "source": "3b; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "YOU": {
+      "state": 0,
+      "source": "3b; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "SOMEONE": {
+      "state": 0,
+      "source": "3b; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "PEOPLE": {
+      "state": 0,
+      "source": "3b; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "BODY": {
+      "state": 0,
+      "source": "3b; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "PART": {
+      "state": 0,
+      "source": "3b; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "BECAUSE": {
+      "state": 1,
+      "source": "row 22: every sourced wording links them (G15 p.4; W1999 petrified p.77, horrified p.79, alarmed p.81, worried p.85, concern p.86)"
+     },
+     "CAUSE": {
+      "state": null,
+      "source": "row 26, only under option A of the CAUSE decision (founder's call); under option B, CAUSE is an open field"
+     }
+    },
+    "good": "GOOD is a typed field {+1, -1, empty}: USAS E5 and E6 are not valence scales, and concern's feeling is unspecified (W1990b p.373, W1999 p.86)",
+    "open_by_bank": {
+     "I YOU SOMEONE ...": [
+      "SAME"
+     ],
+     "ONE TWO QUANTITY ...": [
+      "ONE",
+      "TWO",
+      "QUANTITY"
+     ],
+     "GOOD BAD BIG ...": [
+      "GOOD",
+      "BIG"
+     ],
+     "THINK KNOW WANT ...": [
+      "KNOW",
+      "WANT",
+      "SEE",
+      "HEAR",
+      "INFER"
+     ],
+     "SAY WORDS DO ...": [
+      "SAY",
+      "WORDS",
+      "DO",
+      "HAPPEN",
+      "MOVE",
+      "BE",
+      "HAVE",
+      "EXIST",
+      "ALIVE"
+     ],
+     "MOMENT WHEN LONG_TIME ...": [
+      "MOMENT",
+      "LONG_TIME",
+      "BEFORE",
+      "THEN",
+      "START"
+     ],
+     "WHERE HERE SIDE ...": [
+      "WHERE",
+      "HERE",
+      "SIDE",
+      "TOUCH",
+      "ABOVE",
+      "FAR",
+      "OUTSIDE",
+      "TOWARD",
+      "WITH"
+     ],
+     "NOT MAYBE CAN ...": [
+      "NOT",
+      "MAYBE",
+      "CAN",
+      "MUST",
+      "IF",
+      "TRUE",
+      "HIER_PLUS",
+      "HIER_MINUS",
+      "CERTAINTY"
+     ]
+    }
+   },
+   "counts_by_scenario": {
+    "with_3b_cause_fixed_option_A": {
+     "fixed_count": 15,
+     "open_count": 43,
+     "left_open_compared_with_option_A": []
+    },
+    "with_3b_cause_open_option_B": {
+     "fixed_count": 14,
+     "open_count": 44,
+     "left_open_compared_with_option_A": [
+      "CAUSE"
+     ]
+    },
+    "without_3b_cause_fixed": {
+     "fixed_count": 9,
+     "open_count": 49,
+     "left_open_compared_with_option_A": [
+      "I",
+      "YOU",
+      "SOMEONE",
+      "PEOPLE",
+      "BODY",
+      "PART"
+     ]
+    },
+    "without_3b_cause_open": {
+     "fixed_count": 8,
+     "open_count": 50,
+     "left_open_compared_with_option_A": [
+      "I",
+      "YOU",
+      "SOMEONE",
+      "PEOPLE",
+      "BODY",
+      "PART",
+      "CAUSE"
+     ]
+    }
+   }
+  },
+  "noun_fear": {
+   "population_words": 4,
+   "with_3b_cause_fixed_option_A": {
+    "fixed": {
+     "FEEL": {
+      "state": 1,
+      "source": "row 1 (F043); every NSM emotion explication: 'X felt something'"
+     },
+     "THINK": {
+      "state": 1,
+      "source": "row 22 (F129); every sourced explication of a slice word has THINK, at least in its typicality line"
+     },
+     "LIKE": {
+      "state": 1,
+      "source": "row 22; typicality in all published wordings ('X felt something like this', 'think like this')"
+     },
+     "KIND": {
+      "state": 0,
+      "source": "row 4 (F007)"
+     },
+     "INTENSITY": {
+      "state": 1,
+      "source": "row 5 (F125-F126)"
+     },
+     "WHEN": {
+      "state": 1,
+      "source": "row 22; 'sometimes' (W1990b), 'when this person thinks this' (W1999), 'when they think like this' (G15, GY14)"
+     },
+     "SOMETHING": {
+      "state": 1,
+      "source": "row 21: the noun names the 'something' X felt (W1999 'Fear (X felt fear) (a) X felt something')"
+     },
+     "I": {
+      "state": 0,
+      "source": "row 21; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "YOU": {
+      "state": 0,
+      "source": "row 21; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "SOMEONE": {
+      "state": 0,
+      "source": "row 21; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "PEOPLE": {
+      "state": 0,
+      "source": "row 21; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "BODY": {
+      "state": 0,
+      "source": "row 21; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "PART": {
+      "state": 0,
+      "source": "row 21; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "BECAUSE": {
+      "state": 1,
+      "source": "row 22: every fear-family explication links thought and feeling with BECAUSE (W1990b pp.363-373; W1999 pp.75-86)"
+     },
+     "CAN": {
+      "state": 1,
+      "source": "row 24a; FrameNet Fear < Emotions_by_possibility. CAN occurs in all 8 sourced Fear readings (scope-blind): as 'can happen' in afraid, fear, scared, frightened, terrified, apprehension; only as the experiencer's ability in nervous ('if I can', 'what I can do') and dread ('if I can', 'I can't do anything')"
+     },
+     "HAPPEN": {
+      "state": 1,
+      "source": "row 24a; HAPPEN occurs in all 8 sourced Fear readings"
+     },
+     "GOOD": {
+      "state": -1,
+      "source": "Q1 felt valence (default); the F057 ruling covers every feeling noun: GOOD empty if F057 is read literally. Fixed either way, so the counts do not change."
+     },
+     "CAUSE": {
+      "state": null,
+      "source": "row 26, only under option A of the CAUSE decision (founder's call); under option B, CAUSE is an open field"
+     }
+    },
+    "good": "fixed",
+    "open_by_bank": {
+     "I YOU SOMEONE ...": [
+      "SAME"
+     ],
+     "ONE TWO QUANTITY ...": [
+      "ONE",
+      "TWO",
+      "QUANTITY"
+     ],
+     "GOOD BAD BIG ...": [
+      "BIG"
+     ],
+     "THINK KNOW WANT ...": [
+      "KNOW",
+      "WANT",
+      "SEE",
+      "HEAR",
+      "INFER"
+     ],
+     "SAY WORDS DO ...": [
+      "SAY",
+      "WORDS",
+      "DO",
+      "MOVE",
+      "BE",
+      "HAVE",
+      "EXIST",
+      "ALIVE"
+     ],
+     "MOMENT WHEN LONG_TIME ...": [
+      "MOMENT",
+      "LONG_TIME",
+      "BEFORE",
+      "THEN",
+      "START"
+     ],
+     "WHERE HERE SIDE ...": [
+      "WHERE",
+      "HERE",
+      "SIDE",
+      "TOUCH",
+      "ABOVE",
+      "FAR",
+      "OUTSIDE",
+      "TOWARD",
+      "WITH"
+     ],
+     "NOT MAYBE CAN ...": [
+      "NOT",
+      "MAYBE",
+      "MUST",
+      "IF",
+      "TRUE",
+      "HIER_PLUS",
+      "HIER_MINUS",
+      "CERTAINTY"
+     ]
+    }
+   },
+   "counts_by_scenario": {
+    "with_3b_cause_fixed_option_A": {
+     "fixed_count": 18,
+     "open_count": 40,
+     "left_open_compared_with_option_A": []
+    },
+    "with_3b_cause_open_option_B": {
+     "fixed_count": 17,
+     "open_count": 41,
+     "left_open_compared_with_option_A": [
+      "CAUSE"
+     ]
+    },
+    "without_3b_cause_fixed": {
+     "fixed_count": 11,
+     "open_count": 47,
+     "left_open_compared_with_option_A": [
+      "I",
+      "YOU",
+      "SOMEONE",
+      "SOMETHING",
+      "PEOPLE",
+      "BODY",
+      "PART"
+     ]
+    },
+    "without_3b_cause_open": {
+     "fixed_count": 10,
+     "open_count": 48,
+     "left_open_compared_with_option_A": [
+      "I",
+      "YOU",
+      "SOMEONE",
+      "SOMETHING",
+      "PEOPLE",
+      "BODY",
+      "PART",
+      "CAUSE"
+     ]
+    }
+   }
+  },
+  "noun_other": {
+   "population_words": 42,
+   "with_3b_cause_fixed_option_A": {
+    "fixed": {
+     "FEEL": {
+      "state": 1,
+      "source": "row 1 (F043); every NSM emotion explication: 'X felt something'"
+     },
+     "THINK": {
+      "state": 1,
+      "source": "row 22 (F129); every sourced explication of a slice word has THINK, at least in its typicality line"
+     },
+     "LIKE": {
+      "state": 1,
+      "source": "row 22; typicality in all published wordings ('X felt something like this', 'think like this')"
+     },
+     "KIND": {
+      "state": 0,
+      "source": "row 4 (F007)"
+     },
+     "INTENSITY": {
+      "state": 1,
+      "source": "row 5 (F125-F126)"
+     },
+     "WHEN": {
+      "state": 1,
+      "source": "row 22; 'sometimes' (W1990b), 'when this person thinks this' (W1999), 'when they think like this' (G15, GY14)"
+     },
+     "SOMETHING": {
+      "state": 1,
+      "source": "row 21: the noun names the 'something' X felt (W1999 'Fear (X felt fear) (a) X felt something')"
+     },
+     "I": {
+      "state": 0,
+      "source": "row 21; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "YOU": {
+      "state": 0,
+      "source": "row 21; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "SOMEONE": {
+      "state": 0,
+      "source": "row 21; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "PEOPLE": {
+      "state": 0,
+      "source": "row 21; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "BODY": {
+      "state": 0,
+      "source": "row 21; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "PART": {
+      "state": 0,
+      "source": "row 21; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "BECAUSE": {
+      "state": 1,
+      "source": "row 22: every sourced slice noun links them (W1999 sadness p.39, sorrow p.67, grief p.68, despair p.70, pity p.101; W1990b anger p.360). GW2014's happiness as an emotion ([H] p.120) has none; happiness is not in the population"
+     },
+     "GOOD": {
+      "state": "+1 or -1 from the certified pole",
+      "source": "Q1 felt valence (default); empty if F057 is read literally"
+     },
+     "CAUSE": {
+      "state": null,
+      "source": "row 26, only under option A of the CAUSE decision (founder's call); under option B, CAUSE is an open field"
+     }
+    },
+    "good": "fixed",
+    "open_by_bank": {
+     "I YOU SOMEONE ...": [
+      "SAME"
+     ],
+     "ONE TWO QUANTITY ...": [
+      "ONE",
+      "TWO",
+      "QUANTITY"
+     ],
+     "GOOD BAD BIG ...": [
+      "BIG"
+     ],
+     "THINK KNOW WANT ...": [
+      "KNOW",
+      "WANT",
+      "SEE",
+      "HEAR",
+      "INFER"
+     ],
+     "SAY WORDS DO ...": [
+      "SAY",
+      "WORDS",
+      "DO",
+      "HAPPEN",
+      "MOVE",
+      "BE",
+      "HAVE",
+      "EXIST",
+      "ALIVE"
+     ],
+     "MOMENT WHEN LONG_TIME ...": [
+      "MOMENT",
+      "LONG_TIME",
+      "BEFORE",
+      "THEN",
+      "START"
+     ],
+     "WHERE HERE SIDE ...": [
+      "WHERE",
+      "HERE",
+      "SIDE",
+      "TOUCH",
+      "ABOVE",
+      "FAR",
+      "OUTSIDE",
+      "TOWARD",
+      "WITH"
+     ],
+     "NOT MAYBE CAN ...": [
+      "NOT",
+      "MAYBE",
+      "CAN",
+      "MUST",
+      "IF",
+      "TRUE",
+      "HIER_PLUS",
+      "HIER_MINUS",
+      "CERTAINTY"
+     ]
+    }
+   },
+   "counts_by_scenario": {
+    "with_3b_cause_fixed_option_A": {
+     "fixed_count": 16,
+     "open_count": 42,
+     "left_open_compared_with_option_A": []
+    },
+    "with_3b_cause_open_option_B": {
+     "fixed_count": 15,
+     "open_count": 43,
+     "left_open_compared_with_option_A": [
+      "CAUSE"
+     ]
+    },
+    "without_3b_cause_fixed": {
+     "fixed_count": 9,
+     "open_count": 49,
+     "left_open_compared_with_option_A": [
+      "I",
+      "YOU",
+      "SOMEONE",
+      "SOMETHING",
+      "PEOPLE",
+      "BODY",
+      "PART"
+     ]
+    },
+    "without_3b_cause_open": {
+     "fixed_count": 8,
+     "open_count": 50,
+     "left_open_compared_with_option_A": [
+      "I",
+      "YOU",
+      "SOMEONE",
+      "SOMETHING",
+      "PEOPLE",
+      "BODY",
+      "PART",
+      "CAUSE"
+     ]
+    }
+   }
+  },
+  "noun_e5e6_outside_fear": {
+   "population_words": 6,
+   "with_3b_cause_fixed_option_A": {
+    "fixed": {
+     "FEEL": {
+      "state": 1,
+      "source": "row 1 (F043); every NSM emotion explication: 'X felt something'"
+     },
+     "THINK": {
+      "state": 1,
+      "source": "row 22 (F129); every sourced explication of a slice word has THINK, at least in its typicality line"
+     },
+     "LIKE": {
+      "state": 1,
+      "source": "row 22; typicality in all published wordings ('X felt something like this', 'think like this')"
+     },
+     "KIND": {
+      "state": 0,
+      "source": "row 4 (F007)"
+     },
+     "INTENSITY": {
+      "state": 1,
+      "source": "row 5 (F125-F126)"
+     },
+     "WHEN": {
+      "state": 1,
+      "source": "row 22; 'sometimes' (W1990b), 'when this person thinks this' (W1999), 'when they think like this' (G15, GY14)"
+     },
+     "SOMETHING": {
+      "state": 1,
+      "source": "row 21: the noun names the 'something' X felt (W1999 'Fear (X felt fear) (a) X felt something')"
+     },
+     "I": {
+      "state": 0,
+      "source": "row 21; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "YOU": {
+      "state": 0,
+      "source": "row 21; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "SOMEONE": {
+      "state": 0,
+      "source": "row 21; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "PEOPLE": {
+      "state": 0,
+      "source": "row 21; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "BODY": {
+      "state": 0,
+      "source": "row 21; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "PART": {
+      "state": 0,
+      "source": "row 21; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "BECAUSE": {
+      "state": 1,
+      "source": "row 22: every sourced wording links them (W1990b anguish p.371; W1999 concern p.86)"
+     },
+     "CAUSE": {
+      "state": null,
+      "source": "row 26, only under option A of the CAUSE decision (founder's call); under option B, CAUSE is an open field"
+     }
+    },
+    "good": "GOOD is a typed field {+1, -1, empty}: USAS E5 and E6 are not valence scales, and concern's feeling is unspecified (W1990b p.373, W1999 p.86)",
+    "open_by_bank": {
+     "I YOU SOMEONE ...": [
+      "SAME"
+     ],
+     "ONE TWO QUANTITY ...": [
+      "ONE",
+      "TWO",
+      "QUANTITY"
+     ],
+     "GOOD BAD BIG ...": [
+      "GOOD",
+      "BIG"
+     ],
+     "THINK KNOW WANT ...": [
+      "KNOW",
+      "WANT",
+      "SEE",
+      "HEAR",
+      "INFER"
+     ],
+     "SAY WORDS DO ...": [
+      "SAY",
+      "WORDS",
+      "DO",
+      "HAPPEN",
+      "MOVE",
+      "BE",
+      "HAVE",
+      "EXIST",
+      "ALIVE"
+     ],
+     "MOMENT WHEN LONG_TIME ...": [
+      "MOMENT",
+      "LONG_TIME",
+      "BEFORE",
+      "THEN",
+      "START"
+     ],
+     "WHERE HERE SIDE ...": [
+      "WHERE",
+      "HERE",
+      "SIDE",
+      "TOUCH",
+      "ABOVE",
+      "FAR",
+      "OUTSIDE",
+      "TOWARD",
+      "WITH"
+     ],
+     "NOT MAYBE CAN ...": [
+      "NOT",
+      "MAYBE",
+      "CAN",
+      "MUST",
+      "IF",
+      "TRUE",
+      "HIER_PLUS",
+      "HIER_MINUS",
+      "CERTAINTY"
+     ]
+    }
+   },
+   "counts_by_scenario": {
+    "with_3b_cause_fixed_option_A": {
+     "fixed_count": 15,
+     "open_count": 43,
+     "left_open_compared_with_option_A": []
+    },
+    "with_3b_cause_open_option_B": {
+     "fixed_count": 14,
+     "open_count": 44,
+     "left_open_compared_with_option_A": [
+      "CAUSE"
+     ]
+    },
+    "without_3b_cause_fixed": {
+     "fixed_count": 8,
+     "open_count": 50,
+     "left_open_compared_with_option_A": [
+      "I",
+      "YOU",
+      "SOMEONE",
+      "SOMETHING",
+      "PEOPLE",
+      "BODY",
+      "PART"
+     ]
+    },
+    "without_3b_cause_open": {
+     "fixed_count": 7,
+     "open_count": 51,
+     "left_open_compared_with_option_A": [
+      "I",
+      "YOU",
+      "SOMEONE",
+      "SOMETHING",
+      "PEOPLE",
+      "BODY",
+      "PART",
+      "CAUSE"
+     ]
+    }
+   }
+  },
+  "verb": {
+   "population_words": 28,
+   "with_3b_cause_fixed_option_A": {
+    "fixed": {
+     "FEEL": {
+      "state": 1,
+      "source": "row 1 (F043); every NSM emotion explication: 'X felt something'"
+     },
+     "THINK": {
+      "state": 1,
+      "source": "row 22 (F129); every sourced explication of a slice word has THINK, at least in its typicality line"
+     },
+     "LIKE": {
+      "state": 1,
+      "source": "row 22; typicality in all published wordings ('X felt something like this', 'think like this')"
+     },
+     "KIND": {
+      "state": 0,
+      "source": "row 4 (F007)"
+     },
+     "INTENSITY": {
+      "state": 1,
+      "source": "row 5 (F125-F126)"
+     },
+     "SOMETHING": {
+      "state": 0,
+      "source": "row 20; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "I": {
+      "state": 0,
+      "source": "row 20; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "YOU": {
+      "state": 0,
+      "source": "row 20; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "SOMEONE": {
+      "state": 0,
+      "source": "row 20; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "PEOPLE": {
+      "state": 0,
+      "source": "row 20; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "BODY": {
+      "state": 0,
+      "source": "row 20; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "PART": {
+      "state": 0,
+      "source": "row 20; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "BECAUSE": {
+      "state": 1,
+      "source": "row 22: W1990b fear, noun and verb (p.363); W1999 dread (p.80); TVS19 vihata"
+     },
+     "GOOD": {
+      "state": "+1 or -1 from the certified pole",
+      "source": "Q1 felt valence"
+     },
+     "CAUSE": {
+      "state": null,
+      "source": "row 26, only under option A of the CAUSE decision (founder's call); under option B, CAUSE is an open field"
+     }
+    },
+    "good": "fixed",
+    "open_by_bank": {
+     "I YOU SOMEONE ...": [
+      "SAME"
+     ],
+     "ONE TWO QUANTITY ...": [
+      "ONE",
+      "TWO",
+      "QUANTITY"
+     ],
+     "GOOD BAD BIG ...": [
+      "BIG"
+     ],
+     "THINK KNOW WANT ...": [
+      "KNOW",
+      "WANT",
+      "SEE",
+      "HEAR",
+      "INFER"
+     ],
+     "SAY WORDS DO ...": [
+      "SAY",
+      "WORDS",
+      "DO",
+      "HAPPEN",
+      "MOVE",
+      "BE",
+      "HAVE",
+      "EXIST",
+      "ALIVE"
+     ],
+     "MOMENT WHEN LONG_TIME ...": [
+      "MOMENT",
+      "WHEN",
+      "LONG_TIME",
+      "BEFORE",
+      "THEN",
+      "START"
+     ],
+     "WHERE HERE SIDE ...": [
+      "WHERE",
+      "HERE",
+      "SIDE",
+      "TOUCH",
+      "ABOVE",
+      "FAR",
+      "OUTSIDE",
+      "TOWARD",
+      "WITH"
+     ],
+     "NOT MAYBE CAN ...": [
+      "NOT",
+      "MAYBE",
+      "CAN",
+      "MUST",
+      "IF",
+      "TRUE",
+      "HIER_PLUS",
+      "HIER_MINUS",
+      "CERTAINTY"
+     ]
+    }
+   },
+   "counts_by_scenario": {
+    "with_3b_cause_fixed_option_A": {
+     "fixed_count": 15,
+     "open_count": 43,
+     "left_open_compared_with_option_A": []
+    },
+    "with_3b_cause_open_option_B": {
+     "fixed_count": 14,
+     "open_count": 44,
+     "left_open_compared_with_option_A": [
+      "CAUSE"
+     ]
+    },
+    "without_3b_cause_fixed": {
+     "fixed_count": 8,
+     "open_count": 50,
+     "left_open_compared_with_option_A": [
+      "I",
+      "YOU",
+      "SOMEONE",
+      "SOMETHING",
+      "PEOPLE",
+      "BODY",
+      "PART"
+     ]
+    },
+    "without_3b_cause_open": {
+     "fixed_count": 7,
+     "open_count": 51,
+     "left_open_compared_with_option_A": [
+      "I",
+      "YOU",
+      "SOMEONE",
+      "SOMETHING",
+      "PEOPLE",
+      "BODY",
+      "PART",
+      "CAUSE"
+     ]
+    }
+   }
+  },
+  "verb_e5e6": {
+   "population_words": 2,
+   "with_3b_cause_fixed_option_A": {
+    "fixed": {
+     "FEEL": {
+      "state": 1,
+      "source": "row 1 (F043); every NSM emotion explication: 'X felt something'"
+     },
+     "THINK": {
+      "state": 1,
+      "source": "row 22 (F129); every sourced explication of a slice word has THINK, at least in its typicality line"
+     },
+     "LIKE": {
+      "state": 1,
+      "source": "row 22; typicality in all published wordings ('X felt something like this', 'think like this')"
+     },
+     "KIND": {
+      "state": 0,
+      "source": "row 4 (F007)"
+     },
+     "INTENSITY": {
+      "state": 1,
+      "source": "row 5 (F125-F126)"
+     },
+     "SOMETHING": {
+      "state": 0,
+      "source": "row 20; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "I": {
+      "state": 0,
+      "source": "row 20; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "YOU": {
+      "state": 0,
+      "source": "row 20; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "SOMEONE": {
+      "state": 0,
+      "source": "row 20; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "PEOPLE": {
+      "state": 0,
+      "source": "row 20; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "BODY": {
+      "state": 0,
+      "source": "row 20; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "PART": {
+      "state": 0,
+      "source": "row 20; Q2 role contract: substantives other than the word's own head are roles (G12 p.16; GW2014 pp.56-59)"
+     },
+     "BECAUSE": {
+      "state": 1,
+      "source": "row 22: W1990b fear, noun and verb (p.363); W1999 dread (p.80)"
+     },
+     "CAUSE": {
+      "state": null,
+      "source": "row 26, only under option A of the CAUSE decision (founder's call); under option B, CAUSE is an open field"
+     }
+    },
+    "good": "GOOD is a typed field {+1, -1, empty}: USAS E5 and E6 are not valence scales, and concern's feeling is unspecified (W1990b p.373, W1999 p.86)",
+    "open_by_bank": {
+     "I YOU SOMEONE ...": [
+      "SAME"
+     ],
+     "ONE TWO QUANTITY ...": [
+      "ONE",
+      "TWO",
+      "QUANTITY"
+     ],
+     "GOOD BAD BIG ...": [
+      "GOOD",
+      "BIG"
+     ],
+     "THINK KNOW WANT ...": [
+      "KNOW",
+      "WANT",
+      "SEE",
+      "HEAR",
+      "INFER"
+     ],
+     "SAY WORDS DO ...": [
+      "SAY",
+      "WORDS",
+      "DO",
+      "HAPPEN",
+      "MOVE",
+      "BE",
+      "HAVE",
+      "EXIST",
+      "ALIVE"
+     ],
+     "MOMENT WHEN LONG_TIME ...": [
+      "MOMENT",
+      "WHEN",
+      "LONG_TIME",
+      "BEFORE",
+      "THEN",
+      "START"
+     ],
+     "WHERE HERE SIDE ...": [
+      "WHERE",
+      "HERE",
+      "SIDE",
+      "TOUCH",
+      "ABOVE",
+      "FAR",
+      "OUTSIDE",
+      "TOWARD",
+      "WITH"
+     ],
+     "NOT MAYBE CAN ...": [
+      "NOT",
+      "MAYBE",
+      "CAN",
+      "MUST",
+      "IF",
+      "TRUE",
+      "HIER_PLUS",
+      "HIER_MINUS",
+      "CERTAINTY"
+     ]
+    }
+   },
+   "counts_by_scenario": {
+    "with_3b_cause_fixed_option_A": {
+     "fixed_count": 14,
+     "open_count": 44,
+     "left_open_compared_with_option_A": []
+    },
+    "with_3b_cause_open_option_B": {
+     "fixed_count": 13,
+     "open_count": 45,
+     "left_open_compared_with_option_A": [
+      "CAUSE"
+     ]
+    },
+    "without_3b_cause_fixed": {
+     "fixed_count": 7,
+     "open_count": 51,
+     "left_open_compared_with_option_A": [
+      "I",
+      "YOU",
+      "SOMEONE",
+      "SOMETHING",
+      "PEOPLE",
+      "BODY",
+      "PART"
+     ]
+    },
+    "without_3b_cause_open": {
+     "fixed_count": 6,
+     "open_count": 52,
+     "left_open_compared_with_option_A": [
+      "I",
+      "YOU",
+      "SOMEONE",
+      "SOMETHING",
+      "PEOPLE",
+      "BODY",
+      "PART",
+      "CAUSE"
+     ]
+    }
+   }
+  }
+ },
+ "gold_from_published_explications": {
+  "afraid": {
+   "source": "W1999 p.75 (page image checked; matches K pp.150-151)",
+   "class": "adjective_fear",
+   "explication_lines": {
+    "a X felt something because X thought something": [
+     "FEEL",
+     "BECAUSE",
+     "THINK"
+    ],
+    "b sometimes a person thinks about something:": [
+     "QUANTITY",
+     "WHEN",
+     "THINK"
+    ],
+    "c something bad can happen to me because of this": [
+     "BAD",
+     "CAN",
+     "HAPPEN",
+     "BECAUSE"
+    ],
+    "d I don't want this to happen": [
+     "NOT",
+     "WANT",
+     "HAPPEN"
+    ],
+    "e I don't know if I can do anything now": [
+     "NOT",
+     "KNOW",
+     "IF",
+     "CAN",
+     "DO",
+     "NOW"
+    ],
+    "f when this person thinks this this person feels something bad": [
+     "WHEN",
+     "THINK",
+     "FEEL",
+     "BAD"
+    ],
+    "g X felt something like this": [
+     "FEEL",
+     "LIKE"
+    ],
+    "h because X thought something like this": [
+     "BECAUSE",
+     "THINK",
+     "LIKE"
+    ]
+   },
+   "feeling_line": "f",
+   "evaluations_inside_the_thought": [
+    "BAD in line c"
+   ],
+   "because": "THOUGHT_AND_FEELING_LINKED_BY_BECAUSE",
+   "written_coordinates": {
+    "BECAUSE": 1,
+    "BODY": 0,
+    "CAN": 1,
+    "DO": 1,
+    "FEEL": 1,
+    "GOOD": -1,
+    "HAPPEN": 1,
+    "I": 0,
+    "IF": 1,
+    "KIND": 0,
+    "KNOW": 1,
+    "LIKE": 1,
+    "NOT": 1,
+    "PART": 0,
+    "PEOPLE": 0,
+    "QUANTITY": 1,
+    "SOMEONE": 0,
+    "SOMETHING": 0,
+    "THEN": -1,
+    "THINK": 1,
+    "WANT": 1,
+    "WHEN": 1,
+    "YOU": 0
+   },
+   "fixed_cells_check": {
+    "FEEL": "AGREES",
+    "THINK": "AGREES",
+    "LIKE": "AGREES",
+    "KIND": "AGREES",
+    "INTENSITY": "WRITTEN_BY_DEGREE_LAW_NOT_IN_EXPLICATION",
+    "WHEN": "AGREES",
+    "SOMETHING": "AGREES",
+    "I": "AGREES",
+    "YOU": "AGREES",
+    "SOMEONE": "AGREES",
+    "PEOPLE": "AGREES",
+    "BODY": "AGREES",
+    "PART": "AGREES",
+    "BECAUSE": "AGREES",
+    "CAN": "AGREES",
+    "HAPPEN": "AGREES",
+    "GOOD": "AGREES",
+    "CAUSE": "AGREES"
+   },
+   "open_coordinates_with_content": [
+    "DO",
+    "IF",
+    "KNOW",
+    "NOT",
+    "QUANTITY",
+    "THEN",
+    "WANT"
+   ],
+   "open_coordinates_silent_in_the_explication": [
+    "ABOVE",
+    "ALIVE",
+    "BE",
+    "BEFORE",
+    "BIG",
+    "CERTAINTY",
+    "EXIST",
+    "FAR",
+    "HAVE",
+    "HEAR",
+    "HERE",
+    "HIER_MINUS",
+    "HIER_PLUS",
+    "INFER",
+    "LONG_TIME",
+    "MAYBE",
+    "MOMENT",
+    "MOVE",
+    "MUST",
+    "ONE",
+    "OUTSIDE",
+    "SAME",
+    "SAY",
+    "SEE",
+    "SIDE",
+    "START",
+    "TOUCH",
+    "TOWARD",
+    "TRUE",
+    "TWO",
+    "WHERE",
+    "WITH",
+    "WORDS"
+   ]
+  },
+  "fear": {
+   "source": "W1999 p.75 (page image checked; matches K p.150)",
+   "class": "noun_fear",
+   "explication_lines": {
+    "a X felt something because X thought something": [
+     "FEEL",
+     "BECAUSE",
+     "THINK"
+    ],
+    "b sometimes a person thinks:": [
+     "QUANTITY",
+     "WHEN",
+     "THINK"
+    ],
+    "c I don't know what will happen": [
+     "NOT",
+     "KNOW",
+     "HAPPEN"
+    ],
+    "d some bad things can happen": [
+     "QUANTITY",
+     "BAD",
+     "CAN",
+     "HAPPEN"
+    ],
+    "e I don't want these things to happen": [
+     "NOT",
+     "WANT",
+     "HAPPEN"
+    ],
+    "f I want to do something because of this if I can": [
+     "WANT",
+     "DO",
+     "BECAUSE",
+     "IF",
+     "CAN"
+    ],
+    "g I don't know if I can do anything": [
+     "NOT",
+     "KNOW",
+     "IF",
+     "CAN",
+     "DO"
+    ],
+    "h when this person thinks this this person feels something bad": [
+     "WHEN",
+     "THINK",
+     "FEEL",
+     "BAD"
+    ],
+    "i X felt something like this": [
+     "FEEL",
+     "LIKE"
+    ],
+    "j because X thought something like this": [
+     "BECAUSE",
+     "THINK",
+     "LIKE"
+    ]
+   },
+   "feeling_line": "h",
+   "evaluations_inside_the_thought": [
+    "BAD in line d"
+   ],
+   "because": "THOUGHT_AND_FEELING_LINKED_BY_BECAUSE",
+   "written_coordinates": {
+    "BECAUSE": 1,
+    "BODY": 0,
+    "CAN": 1,
+    "DO": 1,
+    "FEEL": 1,
+    "GOOD": -1,
+    "HAPPEN": 1,
+    "I": 0,
+    "IF": 1,
+    "KIND": 0,
+    "KNOW": 1,
+    "LIKE": 1,
+    "NOT": 1,
+    "PART": 0,
+    "PEOPLE": 0,
+    "QUANTITY": 1,
+    "SOMEONE": 0,
+    "SOMETHING": 1,
+    "THINK": 1,
+    "WANT": 1,
+    "WHEN": 1,
+    "YOU": 0
+   },
+   "fixed_cells_check": {
+    "FEEL": "AGREES",
+    "THINK": "AGREES",
+    "LIKE": "AGREES",
+    "KIND": "AGREES",
+    "INTENSITY": "WRITTEN_BY_DEGREE_LAW_NOT_IN_EXPLICATION",
+    "WHEN": "AGREES",
+    "SOMETHING": "AGREES",
+    "I": "AGREES",
+    "YOU": "AGREES",
+    "SOMEONE": "AGREES",
+    "PEOPLE": "AGREES",
+    "BODY": "AGREES",
+    "PART": "AGREES",
+    "BECAUSE": "AGREES",
+    "CAN": "AGREES",
+    "HAPPEN": "AGREES",
+    "GOOD": "AGREES",
+    "CAUSE": "AGREES"
+   },
+   "open_coordinates_with_content": [
+    "DO",
+    "IF",
+    "KNOW",
+    "NOT",
+    "QUANTITY",
+    "WANT"
+   ],
+   "open_coordinates_silent_in_the_explication": [
+    "ABOVE",
+    "ALIVE",
+    "BE",
+    "BEFORE",
+    "BIG",
+    "CERTAINTY",
+    "EXIST",
+    "FAR",
+    "HAVE",
+    "HEAR",
+    "HERE",
+    "HIER_MINUS",
+    "HIER_PLUS",
+    "INFER",
+    "LONG_TIME",
+    "MAYBE",
+    "MOMENT",
+    "MOVE",
+    "MUST",
+    "ONE",
+    "OUTSIDE",
+    "SAME",
+    "SAY",
+    "SEE",
+    "SIDE",
+    "START",
+    "THEN",
+    "TOUCH",
+    "TOWARD",
+    "TRUE",
+    "TWO",
+    "WHERE",
+    "WITH",
+    "WORDS"
+   ]
+  },
+  "nervous": {
+   "source": "W1999 p.84 (page image checked)",
+   "class": "adjective_fear",
+   "explication_lines": {
+    "a X felt something because X thought something": [
+     "FEEL",
+     "BECAUSE",
+     "THINK"
+    ],
+    "b sometimes a person thinks:": [
+     "QUANTITY",
+     "WHEN",
+     "THINK"
+    ],
+    "c I have to do something": [
+     "NOT",
+     "CAN",
+     "DO"
+    ],
+    "d I don't know what will happen when I am doing it": [
+     "NOT",
+     "KNOW",
+     "HAPPEN",
+     "WHEN",
+     "DO"
+    ],
+    "e maybe something bad will happen": [
+     "MAYBE",
+     "BAD",
+     "HAPPEN"
+    ],
+    "f I don't want this to happen": [
+     "NOT",
+     "WANT",
+     "HAPPEN"
+    ],
+    "g I want to do something because of this if I can": [
+     "WANT",
+     "DO",
+     "BECAUSE",
+     "IF",
+     "CAN"
+    ],
+    "h I don't know what I can do": [
+     "NOT",
+     "KNOW",
+     "CAN",
+     "DO"
+    ],
+    "i when this person thinks this this person feels something bad": [
+     "WHEN",
+     "THINK",
+     "FEEL",
+     "BAD"
+    ],
+    "j X felt something like this": [
+     "FEEL",
+     "LIKE"
+    ],
+    "k because X thought something like this": [
+     "BECAUSE",
+     "THINK",
+     "LIKE"
+    ]
+   },
+   "feeling_line": "i",
+   "evaluations_inside_the_thought": [
+    "BAD in line e"
+   ],
+   "because": "THOUGHT_AND_FEELING_LINKED_BY_BECAUSE",
+   "written_coordinates": {
+    "BECAUSE": 1,
+    "BODY": 0,
+    "CAN": 1,
+    "DO": 1,
+    "FEEL": 1,
+    "GOOD": -1,
+    "HAPPEN": 1,
+    "I": 0,
+    "IF": 1,
+    "KIND": 0,
+    "KNOW": 1,
+    "LIKE": 1,
+    "MAYBE": 1,
+    "NOT": 1,
+    "PART": 0,
+    "PEOPLE": 0,
+    "QUANTITY": 1,
+    "SOMEONE": 0,
+    "SOMETHING": 0,
+    "THINK": 1,
+    "WANT": 1,
+    "WHEN": 1,
+    "YOU": 0
+   },
+   "fixed_cells_check": {
+    "FEEL": "AGREES",
+    "THINK": "AGREES",
+    "LIKE": "AGREES",
+    "KIND": "AGREES",
+    "INTENSITY": "WRITTEN_BY_DEGREE_LAW_NOT_IN_EXPLICATION",
+    "WHEN": "AGREES",
+    "SOMETHING": "AGREES",
+    "I": "AGREES",
+    "YOU": "AGREES",
+    "SOMEONE": "AGREES",
+    "PEOPLE": "AGREES",
+    "BODY": "AGREES",
+    "PART": "AGREES",
+    "BECAUSE": "AGREES",
+    "CAN": "AGREES",
+    "HAPPEN": "AGREES",
+    "GOOD": "AGREES",
+    "CAUSE": "AGREES"
+   },
+   "open_coordinates_with_content": [
+    "DO",
+    "IF",
+    "KNOW",
+    "MAYBE",
+    "NOT",
+    "QUANTITY",
+    "WANT"
+   ],
+   "open_coordinates_silent_in_the_explication": [
+    "ABOVE",
+    "ALIVE",
+    "BE",
+    "BEFORE",
+    "BIG",
+    "CERTAINTY",
+    "EXIST",
+    "FAR",
+    "HAVE",
+    "HEAR",
+    "HERE",
+    "HIER_MINUS",
+    "HIER_PLUS",
+    "INFER",
+    "LONG_TIME",
+    "MOMENT",
+    "MOVE",
+    "MUST",
+    "ONE",
+    "OUTSIDE",
+    "SAME",
+    "SAY",
+    "SEE",
+    "SIDE",
+    "START",
+    "THEN",
+    "TOUCH",
+    "TOWARD",
+    "TRUE",
+    "TWO",
+    "WHERE",
+    "WITH",
+    "WORDS"
+   ]
+  },
+  "terrified": {
+   "source": "W1999 p.77 (page image checked)",
+   "class": "adjective_fear",
+   "explication_lines": {
+    "a X felt something because X thought something": [
+     "FEEL",
+     "BECAUSE",
+     "THINK"
+    ],
+    "b sometimes a person thinks:": [
+     "QUANTITY",
+     "WHEN",
+     "THINK"
+    ],
+    "c something very bad is happening": [
+     "INTENSITY",
+     "BAD",
+     "HAPPEN"
+    ],
+    "d something very bad can happen to me now because of this": [
+     "INTENSITY",
+     "BAD",
+     "CAN",
+     "HAPPEN",
+     "NOW",
+     "BECAUSE"
+    ],
+    "e I don't want this to happen": [
+     "NOT",
+     "WANT",
+     "HAPPEN"
+    ],
+    "f I want to do something because of this if I can": [
+     "WANT",
+     "DO",
+     "BECAUSE",
+     "IF",
+     "CAN"
+    ],
+    "g I can't do anything now": [
+     "NOT",
+     "CAN",
+     "DO",
+     "NOW"
+    ],
+    "h when this person thinks this this person feels something very bad": [
+     "WHEN",
+     "THINK",
+     "FEEL",
+     "INTENSITY",
+     "BAD"
+    ],
+    "i X felt something like this": [
+     "FEEL",
+     "LIKE"
+    ],
+    "j because X thought something like this": [
+     "BECAUSE",
+     "THINK",
+     "LIKE"
+    ]
+   },
+   "feeling_line": "h",
+   "evaluations_inside_the_thought": [
+    "BAD in line c",
+    "BAD in line d"
+   ],
+   "because": "THOUGHT_AND_FEELING_LINKED_BY_BECAUSE",
+   "written_coordinates": {
+    "BECAUSE": 1,
+    "BODY": 0,
+    "CAN": 1,
+    "DO": 1,
+    "FEEL": 1,
+    "GOOD": -1,
+    "HAPPEN": 1,
+    "I": 0,
+    "IF": 1,
+    "INTENSITY": 1,
+    "KIND": 0,
+    "LIKE": 1,
+    "NOT": 1,
+    "PART": 0,
+    "PEOPLE": 0,
+    "QUANTITY": 1,
+    "SOMEONE": 0,
+    "SOMETHING": 0,
+    "THEN": -1,
+    "THINK": 1,
+    "WANT": 1,
+    "WHEN": 1,
+    "YOU": 0
+   },
+   "fixed_cells_check": {
+    "FEEL": "AGREES",
+    "THINK": "AGREES",
+    "LIKE": "AGREES",
+    "KIND": "AGREES",
+    "INTENSITY": "AGREES",
+    "WHEN": "AGREES",
+    "SOMETHING": "AGREES",
+    "I": "AGREES",
+    "YOU": "AGREES",
+    "SOMEONE": "AGREES",
+    "PEOPLE": "AGREES",
+    "BODY": "AGREES",
+    "PART": "AGREES",
+    "BECAUSE": "AGREES",
+    "CAN": "AGREES",
+    "HAPPEN": "AGREES",
+    "GOOD": "AGREES",
+    "CAUSE": "AGREES"
+   },
+   "open_coordinates_with_content": [
+    "DO",
+    "IF",
+    "NOT",
+    "QUANTITY",
+    "THEN",
+    "WANT"
+   ],
+   "open_coordinates_silent_in_the_explication": [
+    "ABOVE",
+    "ALIVE",
+    "BE",
+    "BEFORE",
+    "BIG",
+    "CERTAINTY",
+    "EXIST",
+    "FAR",
+    "HAVE",
+    "HEAR",
+    "HERE",
+    "HIER_MINUS",
+    "HIER_PLUS",
+    "INFER",
+    "KNOW",
+    "LONG_TIME",
+    "MAYBE",
+    "MOMENT",
+    "MOVE",
+    "MUST",
+    "ONE",
+    "OUTSIDE",
+    "SAME",
+    "SAY",
+    "SEE",
+    "SIDE",
+    "START",
+    "TOUCH",
+    "TOWARD",
+    "TRUE",
+    "TWO",
+    "WHERE",
+    "WITH",
+    "WORDS"
+   ]
+  },
+  "scared": {
+   "source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)",
+   "class": "adjective_fear",
+   "explication_lines": {
+    "a X feels something": [
+     "FEEL"
+    ],
+    "b sometimes a person thinks something like this:": [
+     "QUANTITY",
+     "WHEN",
+     "THINK",
+     "LIKE"
+    ],
+    "c something bad can happen to me now": [
+     "BAD",
+     "CAN",
+     "HAPPEN",
+     "NOW"
+    ],
+    "d I don't want this": [
+     "NOT",
+     "WANT"
+    ],
+    "e because of this, I don't want to do something": [
+     "BECAUSE",
+     "NOT",
+     "WANT",
+     "DO"
+    ],
+    "f because of this, this person feels something bad": [
+     "BECAUSE",
+     "FEEL",
+     "BAD"
+    ],
+    "g X feels like this": [
+     "FEEL",
+     "LIKE"
+    ]
+   },
+   "feeling_line": "f",
+   "evaluations_inside_the_thought": [
+    "BAD in line c"
+   ],
+   "because": "THOUGHT_AND_FEELING_LINKED_BY_BECAUSE",
+   "written_coordinates": {
+    "BECAUSE": 1,
+    "BODY": 0,
+    "CAN": 1,
+    "DO": 1,
+    "FEEL": 1,
+    "GOOD": -1,
+    "HAPPEN": 1,
+    "I": 0,
+    "KIND": 0,
+    "LIKE": 1,
+    "NOT": 1,
+    "PART": 0,
+    "PEOPLE": 0,
+    "QUANTITY": 1,
+    "SOMEONE": 0,
+    "SOMETHING": 0,
+    "THEN": -1,
+    "THINK": 1,
+    "WANT": 1,
+    "WHEN": 1,
+    "YOU": 0
+   },
+   "fixed_cells_check": {
+    "FEEL": "AGREES",
+    "THINK": "AGREES",
+    "LIKE": "AGREES",
+    "KIND": "AGREES",
+    "INTENSITY": "WRITTEN_BY_DEGREE_LAW_NOT_IN_EXPLICATION",
+    "WHEN": "AGREES",
+    "SOMETHING": "AGREES",
+    "I": "AGREES",
+    "YOU": "AGREES",
+    "SOMEONE": "AGREES",
+    "PEOPLE": "AGREES",
+    "BODY": "AGREES",
+    "PART": "AGREES",
+    "BECAUSE": "AGREES",
+    "CAN": "AGREES",
+    "HAPPEN": "AGREES",
+    "GOOD": "AGREES",
+    "CAUSE": "AGREES"
+   },
+   "open_coordinates_with_content": [
+    "DO",
+    "NOT",
+    "QUANTITY",
+    "THEN",
+    "WANT"
+   ],
+   "open_coordinates_silent_in_the_explication": [
+    "ABOVE",
+    "ALIVE",
+    "BE",
+    "BEFORE",
+    "BIG",
+    "CERTAINTY",
+    "EXIST",
+    "FAR",
+    "HAVE",
+    "HEAR",
+    "HERE",
+    "HIER_MINUS",
+    "HIER_PLUS",
+    "IF",
+    "INFER",
+    "KNOW",
+    "LONG_TIME",
+    "MAYBE",
+    "MOMENT",
+    "MOVE",
+    "MUST",
+    "ONE",
+    "OUTSIDE",
+    "SAME",
+    "SAY",
+    "SEE",
+    "SIDE",
+    "START",
+    "TOUCH",
+    "TOWARD",
+    "TRUE",
+    "TWO",
+    "WHERE",
+    "WITH",
+    "WORDS"
+   ]
+  },
+  "frightened": {
+   "source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)",
+   "class": "adjective_fear",
+   "explication_lines": {
+    "a X feels something": [
+     "FEEL"
+    ],
+    "b sometimes a person feels something like this:": [
+     "QUANTITY",
+     "WHEN",
+     "FEEL",
+     "LIKE"
+    ],
+    "c something bad can happen now": [
+     "BAD",
+     "CAN",
+     "HAPPEN",
+     "NOW"
+    ],
+    "d I don't want this": [
+     "NOT",
+     "WANT"
+    ],
+    "e because of this, I would want to do something": [
+     "BECAUSE",
+     "IF",
+     "WANT",
+     "DO"
+    ],
+    "f I don't know what I can do": [
+     "NOT",
+     "KNOW",
+     "CAN",
+     "DO"
+    ],
+    "g because of this, this person feels something bad": [
+     "BECAUSE",
+     "FEEL",
+     "BAD"
+    ],
+    "h X feels like this": [
+     "FEEL",
+     "LIKE"
+    ]
+   },
+   "feeling_line": "g",
+   "evaluations_inside_the_thought": [
+    "BAD in line c"
+   ],
+   "because": "THOUGHT_AND_FEELING_LINKED_BY_BECAUSE",
+   "written_coordinates": {
+    "BECAUSE": 1,
+    "BODY": 0,
+    "CAN": 1,
+    "DO": 1,
+    "FEEL": 1,
+    "GOOD": -1,
+    "HAPPEN": 1,
+    "I": 0,
+    "IF": 1,
+    "KIND": 0,
+    "KNOW": 1,
+    "LIKE": 1,
+    "NOT": 1,
+    "PART": 0,
+    "PEOPLE": 0,
+    "QUANTITY": 1,
+    "SOMEONE": 0,
+    "SOMETHING": 0,
+    "THEN": -1,
+    "WANT": 1,
+    "WHEN": 1,
+    "YOU": 0
+   },
+   "fixed_cells_check": {
+    "FEEL": "AGREES",
+    "THINK": "NOT_IN_EXPLICATION_SUSPECTED_MISPRINT",
+    "LIKE": "AGREES",
+    "KIND": "AGREES",
+    "INTENSITY": "WRITTEN_BY_DEGREE_LAW_NOT_IN_EXPLICATION",
+    "WHEN": "AGREES",
+    "SOMETHING": "AGREES",
+    "I": "AGREES",
+    "YOU": "AGREES",
+    "SOMEONE": "AGREES",
+    "PEOPLE": "AGREES",
+    "BODY": "AGREES",
+    "PART": "AGREES",
+    "BECAUSE": "AGREES",
+    "CAN": "AGREES",
+    "HAPPEN": "AGREES",
+    "GOOD": "AGREES",
+    "CAUSE": "AGREES"
+   },
+   "open_coordinates_with_content": [
+    "DO",
+    "IF",
+    "KNOW",
+    "NOT",
+    "QUANTITY",
+    "THEN",
+    "WANT"
+   ],
+   "open_coordinates_silent_in_the_explication": [
+    "ABOVE",
+    "ALIVE",
+    "BE",
+    "BEFORE",
+    "BIG",
+    "CERTAINTY",
+    "EXIST",
+    "FAR",
+    "HAVE",
+    "HEAR",
+    "HERE",
+    "HIER_MINUS",
+    "HIER_PLUS",
+    "INFER",
+    "LONG_TIME",
+    "MAYBE",
+    "MOMENT",
+    "MOVE",
+    "MUST",
+    "ONE",
+    "OUTSIDE",
+    "SAME",
+    "SAY",
+    "SEE",
+    "SIDE",
+    "START",
+    "TOUCH",
+    "TOWARD",
+    "TRUE",
+    "TWO",
+    "WHERE",
+    "WITH",
+    "WORDS"
+   ],
+   "note": "Line b is printed 'feels' where every other explication in the paper prints 'thinks'; almost certainly a misprint. Projected literally, the explication has no THINK."
+  },
+  "apprehension": {
+   "source": "W1999 pp.86-87 (page images checked)",
+   "class": "noun_fear",
+   "explication_lines": {
+    "a X felt something because X thought something": [
+     "FEEL",
+     "BECAUSE",
+     "THINK"
+    ],
+    "b sometimes a person thinks:": [
+     "QUANTITY",
+     "WHEN",
+     "THINK"
+    ],
+    "c something bad can happen": [
+     "BAD",
+     "CAN",
+     "HAPPEN"
+    ],
+    "d I don't want this to happen": [
+     "NOT",
+     "WANT",
+     "HAPPEN"
+    ],
+    "e I don't know if it will happen": [
+     "NOT",
+     "KNOW",
+     "IF",
+     "HAPPEN"
+    ],
+    "f when this person thinks this this person feels something bad, not very bad": [
+     "WHEN",
+     "THINK",
+     "FEEL",
+     "BAD",
+     "NOT",
+     "INTENSITY"
+    ],
+    "g X felt something like this": [
+     "FEEL",
+     "LIKE"
+    ],
+    "h because X thought something like this": [
+     "BECAUSE",
+     "THINK",
+     "LIKE"
+    ]
+   },
+   "feeling_line": "f",
+   "evaluations_inside_the_thought": [
+    "BAD in line c"
+   ],
+   "because": "THOUGHT_AND_FEELING_LINKED_BY_BECAUSE",
+   "written_coordinates": {
+    "BECAUSE": 1,
+    "BODY": 0,
+    "CAN": 1,
+    "FEEL": 1,
+    "GOOD": -1,
+    "HAPPEN": 1,
+    "I": 0,
+    "IF": 1,
+    "INTENSITY": 1,
+    "KIND": 0,
+    "KNOW": 1,
+    "LIKE": 1,
+    "NOT": 1,
+    "PART": 0,
+    "PEOPLE": 0,
+    "QUANTITY": 1,
+    "SOMEONE": 0,
+    "SOMETHING": 1,
+    "THINK": 1,
+    "WANT": 1,
+    "WHEN": 1,
+    "YOU": 0
+   },
+   "fixed_cells_check": {
+    "FEEL": "AGREES",
+    "THINK": "AGREES",
+    "LIKE": "AGREES",
+    "KIND": "AGREES",
+    "INTENSITY": "AGREES",
+    "WHEN": "AGREES",
+    "SOMETHING": "AGREES",
+    "I": "AGREES",
+    "YOU": "AGREES",
+    "SOMEONE": "AGREES",
+    "PEOPLE": "AGREES",
+    "BODY": "AGREES",
+    "PART": "AGREES",
+    "BECAUSE": "AGREES",
+    "CAN": "AGREES",
+    "HAPPEN": "AGREES",
+    "GOOD": "AGREES",
+    "CAUSE": "AGREES"
+   },
+   "open_coordinates_with_content": [
+    "IF",
+    "KNOW",
+    "NOT",
+    "QUANTITY",
+    "WANT"
+   ],
+   "open_coordinates_silent_in_the_explication": [
+    "ABOVE",
+    "ALIVE",
+    "BE",
+    "BEFORE",
+    "BIG",
+    "CERTAINTY",
+    "DO",
+    "EXIST",
+    "FAR",
+    "HAVE",
+    "HEAR",
+    "HERE",
+    "HIER_MINUS",
+    "HIER_PLUS",
+    "INFER",
+    "LONG_TIME",
+    "MAYBE",
+    "MOMENT",
+    "MOVE",
+    "MUST",
+    "ONE",
+    "OUTSIDE",
+    "SAME",
+    "SAY",
+    "SEE",
+    "SIDE",
+    "START",
+    "THEN",
+    "TOUCH",
+    "TOWARD",
+    "TRUE",
+    "TWO",
+    "WHERE",
+    "WITH",
+    "WORDS"
+   ]
+  },
+  "dread": {
+   "source": "W1999 p.80 (page image checked)",
+   "class": "noun_fear",
+   "explication_lines": {
+    "a X felt something because X thought something": [
+     "FEEL",
+     "BECAUSE",
+     "THINK"
+    ],
+    "b sometimes a person thinks about something:": [
+     "QUANTITY",
+     "WHEN",
+     "THINK"
+    ],
+    "c if this happens, something very bad will happen to me": [
+     "IF",
+     "HAPPEN",
+     "INTENSITY",
+     "BAD"
+    ],
+    "d I know what": [
+     "KNOW"
+    ],
+    "e I don't want this to happen": [
+     "NOT",
+     "WANT",
+     "HAPPEN"
+    ],
+    "f I want to do something because of this if I can": [
+     "WANT",
+     "DO",
+     "BECAUSE",
+     "IF",
+     "CAN"
+    ],
+    "g I can't do anything": [
+     "NOT",
+     "CAN",
+     "DO"
+    ],
+    "h when this person thinks this this person feels something very bad": [
+     "WHEN",
+     "THINK",
+     "FEEL",
+     "INTENSITY",
+     "BAD"
+    ],
+    "i X felt something like this": [
+     "FEEL",
+     "LIKE"
+    ],
+    "j because X thought something like this": [
+     "BECAUSE",
+     "THINK",
+     "LIKE"
+    ]
+   },
+   "feeling_line": "h",
+   "evaluations_inside_the_thought": [
+    "BAD in line c"
+   ],
+   "because": "THOUGHT_AND_FEELING_LINKED_BY_BECAUSE",
+   "written_coordinates": {
+    "BECAUSE": 1,
+    "BODY": 0,
+    "CAN": 1,
+    "DO": 1,
+    "FEEL": 1,
+    "GOOD": -1,
+    "HAPPEN": 1,
+    "I": 0,
+    "IF": 1,
+    "INTENSITY": 1,
+    "KIND": 0,
+    "KNOW": 1,
+    "LIKE": 1,
+    "NOT": 1,
+    "PART": 0,
+    "PEOPLE": 0,
+    "QUANTITY": 1,
+    "SOMEONE": 0,
+    "SOMETHING": 1,
+    "THINK": 1,
+    "WANT": 1,
+    "WHEN": 1,
+    "YOU": 0
+   },
+   "fixed_cells_check": {
+    "FEEL": "AGREES",
+    "THINK": "AGREES",
+    "LIKE": "AGREES",
+    "KIND": "AGREES",
+    "INTENSITY": "AGREES",
+    "WHEN": "AGREES",
+    "SOMETHING": "AGREES",
+    "I": "AGREES",
+    "YOU": "AGREES",
+    "SOMEONE": "AGREES",
+    "PEOPLE": "AGREES",
+    "BODY": "AGREES",
+    "PART": "AGREES",
+    "BECAUSE": "AGREES",
+    "CAN": "AGREES",
+    "HAPPEN": "AGREES",
+    "GOOD": "AGREES",
+    "CAUSE": "AGREES"
+   },
+   "open_coordinates_with_content": [
+    "DO",
+    "IF",
+    "KNOW",
+    "NOT",
+    "QUANTITY",
+    "WANT"
+   ],
+   "open_coordinates_silent_in_the_explication": [
+    "ABOVE",
+    "ALIVE",
+    "BE",
+    "BEFORE",
+    "BIG",
+    "CERTAINTY",
+    "EXIST",
+    "FAR",
+    "HAVE",
+    "HEAR",
+    "HERE",
+    "HIER_MINUS",
+    "HIER_PLUS",
+    "INFER",
+    "LONG_TIME",
+    "MAYBE",
+    "MOMENT",
+    "MOVE",
+    "MUST",
+    "ONE",
+    "OUTSIDE",
+    "SAME",
+    "SAY",
+    "SEE",
+    "SIDE",
+    "START",
+    "THEN",
+    "TOUCH",
+    "TOWARD",
+    "TRUE",
+    "TWO",
+    "WHERE",
+    "WITH",
+    "WORDS"
+   ]
+  },
+  "sad": {
+   "source": "W1999 p.62 (page image checked; matches FBG22 p.265 in every prime)",
+   "class": "adjective_other",
+   "explication_lines": {
+    "a X felt something": [
+     "FEEL"
+    ],
+    "b sometimes a person thinks:": [
+     "QUANTITY",
+     "WHEN",
+     "THINK"
+    ],
+    "c I know: something bad happened": [
+     "KNOW",
+     "BAD",
+     "HAPPEN"
+    ],
+    "d I don't want things like this to happen": [
+     "NOT",
+     "WANT",
+     "LIKE",
+     "HAPPEN"
+    ],
+    "e I can't think: I will do something because of it now": [
+     "NOT",
+     "CAN",
+     "THINK",
+     "DO",
+     "BECAUSE",
+     "NOW"
+    ],
+    "f I know I can't do anything": [
+     "KNOW",
+     "NOT",
+     "CAN",
+     "DO"
+    ],
+    "g when this person thinks this this person feels something bad": [
+     "WHEN",
+     "THINK",
+     "FEEL",
+     "BAD"
+    ],
+    "h X felt something like this": [
+     "FEEL",
+     "LIKE"
+    ]
+   },
+   "feeling_line": "g",
+   "evaluations_inside_the_thought": [
+    "BAD in line c"
+   ],
+   "because": "BECAUSE_ONLY_INSIDE_THE_THOUGHT",
+   "written_coordinates": {
+    "BECAUSE": 1,
+    "BODY": 0,
+    "CAN": 1,
+    "DO": 1,
+    "FEEL": 1,
+    "GOOD": -1,
+    "HAPPEN": 1,
+    "I": 0,
+    "KIND": 0,
+    "KNOW": 1,
+    "LIKE": 1,
+    "NOT": 1,
+    "PART": 0,
+    "PEOPLE": 0,
+    "QUANTITY": 1,
+    "SOMEONE": 0,
+    "SOMETHING": 0,
+    "THEN": -1,
+    "THINK": 1,
+    "WANT": 1,
+    "WHEN": 1,
+    "YOU": 0
+   },
+   "fixed_cells_check": {
+    "FEEL": "AGREES",
+    "THINK": "AGREES",
+    "LIKE": "AGREES",
+    "KIND": "AGREES",
+    "INTENSITY": "WRITTEN_BY_DEGREE_LAW_NOT_IN_EXPLICATION",
+    "WHEN": "AGREES",
+    "SOMETHING": "AGREES",
+    "I": "AGREES",
+    "YOU": "AGREES",
+    "SOMEONE": "AGREES",
+    "PEOPLE": "AGREES",
+    "BODY": "AGREES",
+    "PART": "AGREES",
+    "GOOD": "AGREES",
+    "CAUSE": "AGREES"
+   },
+   "open_coordinates_with_content": [
+    "BECAUSE",
+    "CAN",
+    "DO",
+    "HAPPEN",
+    "KNOW",
+    "NOT",
+    "QUANTITY",
+    "THEN",
+    "WANT"
+   ],
+   "open_coordinates_silent_in_the_explication": [
+    "ABOVE",
+    "ALIVE",
+    "BE",
+    "BEFORE",
+    "BIG",
+    "CERTAINTY",
+    "EXIST",
+    "FAR",
+    "HAVE",
+    "HEAR",
+    "HERE",
+    "HIER_MINUS",
+    "HIER_PLUS",
+    "IF",
+    "INFER",
+    "LONG_TIME",
+    "MAYBE",
+    "MOMENT",
+    "MOVE",
+    "MUST",
+    "ONE",
+    "OUTSIDE",
+    "SAME",
+    "SAY",
+    "SEE",
+    "SIDE",
+    "START",
+    "TOUCH",
+    "TOWARD",
+    "TRUE",
+    "TWO",
+    "WHERE",
+    "WITH",
+    "WORDS"
+   ]
+  },
+  "concerned": {
+   "source": "W1999 p.86 (page image checked); W1990b p.373 also leaves the feeling open",
+   "class": "adjective_e5e6_outside_fear",
+   "explication_lines": {
+    "a X felt something because X thought something": [
+     "FEEL",
+     "BECAUSE",
+     "THINK"
+    ],
+    "b sometimes a person thinks for some time about someone:": [
+     "QUANTITY",
+     "WHEN",
+     "THINK"
+    ],
+    "c something bad can happen to this person": [
+     "BAD",
+     "CAN",
+     "HAPPEN"
+    ],
+    "d I don't want this to happen": [
+     "NOT",
+     "WANT",
+     "HAPPEN"
+    ],
+    "e I want good things to happen to this person": [
+     "WANT",
+     "GOOD",
+     "HAPPEN"
+    ],
+    "f because of this I want to do something if I can": [
+     "BECAUSE",
+     "WANT",
+     "DO",
+     "IF",
+     "CAN"
+    ],
+    "g when this person thinks this this person feels something": [
+     "WHEN",
+     "THINK",
+     "FEEL"
+    ],
+    "h X felt something like this": [
+     "FEEL",
+     "LIKE"
+    ],
+    "i because X thought something like this": [
+     "BECAUSE",
+     "THINK",
+     "LIKE"
+    ]
+   },
+   "feeling_line": "g",
+   "evaluations_inside_the_thought": [
+    "BAD in line c",
+    "GOOD in line e"
+   ],
+   "because": "THOUGHT_AND_FEELING_LINKED_BY_BECAUSE",
+   "written_coordinates": {
+    "BECAUSE": 1,
+    "BODY": 0,
+    "CAN": 1,
+    "DO": 1,
+    "FEEL": 1,
+    "HAPPEN": 1,
+    "I": 0,
+    "IF": 1,
+    "KIND": 0,
+    "LIKE": 1,
+    "NOT": 1,
+    "PART": 0,
+    "PEOPLE": 0,
+    "QUANTITY": 1,
+    "SOMEONE": 0,
+    "SOMETHING": 0,
+    "THINK": 1,
+    "WANT": 1,
+    "WHEN": 1,
+    "YOU": 0
+   },
+   "fixed_cells_check": {
+    "FEEL": "AGREES",
+    "THINK": "AGREES",
+    "LIKE": "AGREES",
+    "KIND": "AGREES",
+    "INTENSITY": "WRITTEN_BY_DEGREE_LAW_NOT_IN_EXPLICATION",
+    "WHEN": "AGREES",
+    "SOMETHING": "AGREES",
+    "I": "AGREES",
+    "YOU": "AGREES",
+    "SOMEONE": "AGREES",
+    "PEOPLE": "AGREES",
+    "BODY": "AGREES",
+    "PART": "AGREES",
+    "BECAUSE": "AGREES",
+    "CAUSE": "AGREES"
+   },
+   "open_coordinates_with_content": [
+    "CAN",
+    "DO",
+    "HAPPEN",
+    "IF",
+    "NOT",
+    "QUANTITY",
+    "WANT"
+   ],
+   "open_coordinates_silent_in_the_explication": [
+    "ABOVE",
+    "ALIVE",
+    "BE",
+    "BEFORE",
+    "BIG",
+    "CERTAINTY",
+    "EXIST",
+    "FAR",
+    "GOOD",
+    "HAVE",
+    "HEAR",
+    "HERE",
+    "HIER_MINUS",
+    "HIER_PLUS",
+    "INFER",
+    "KNOW",
+    "LONG_TIME",
+    "MAYBE",
+    "MOMENT",
+    "MOVE",
+    "MUST",
+    "ONE",
+    "OUTSIDE",
+    "SAME",
+    "SAY",
+    "SEE",
+    "SIDE",
+    "START",
+    "THEN",
+    "TOUCH",
+    "TOWARD",
+    "TRUE",
+    "TWO",
+    "WHERE",
+    "WITH",
+    "WORDS"
+   ]
+  },
+  "sadness": {
+   "source": "W1999 p.39 (page image checked)",
+   "class": "noun_other",
+   "explication_lines": {
+    "a X feels something": [
+     "FEEL"
+    ],
+    "b sometimes a person thinks:": [
+     "QUANTITY",
+     "WHEN",
+     "THINK"
+    ],
+    "c I know: something bad happened": [
+     "KNOW",
+     "BAD",
+     "HAPPEN"
+    ],
+    "d I don't want things like this to happen": [
+     "NOT",
+     "WANT",
+     "LIKE",
+     "HAPPEN"
+    ],
+    "e I can't think now: I will do something because of this": [
+     "NOT",
+     "CAN",
+     "THINK",
+     "NOW",
+     "DO",
+     "BECAUSE"
+    ],
+    "f I know that I can't do anything": [
+     "KNOW",
+     "NOT",
+     "CAN",
+     "DO"
+    ],
+    "g because of this, this person feels something bad": [
+     "BECAUSE",
+     "FEEL",
+     "BAD"
+    ],
+    "h X feels something like this": [
+     "FEEL",
+     "LIKE"
+    ]
+   },
+   "feeling_line": "g",
+   "evaluations_inside_the_thought": [
+    "BAD in line c"
+   ],
+   "because": "THOUGHT_AND_FEELING_LINKED_BY_BECAUSE",
+   "written_coordinates": {
+    "BECAUSE": 1,
+    "BODY": 0,
+    "CAN": 1,
+    "DO": 1,
+    "FEEL": 1,
+    "GOOD": -1,
+    "HAPPEN": 1,
+    "I": 0,
+    "KIND": 0,
+    "KNOW": 1,
+    "LIKE": 1,
+    "NOT": 1,
+    "PART": 0,
+    "PEOPLE": 0,
+    "QUANTITY": 1,
+    "SOMEONE": 0,
+    "SOMETHING": 1,
+    "THEN": -1,
+    "THINK": 1,
+    "WANT": 1,
+    "WHEN": 1,
+    "YOU": 0
+   },
+   "fixed_cells_check": {
+    "FEEL": "AGREES",
+    "THINK": "AGREES",
+    "LIKE": "AGREES",
+    "KIND": "AGREES",
+    "INTENSITY": "WRITTEN_BY_DEGREE_LAW_NOT_IN_EXPLICATION",
+    "WHEN": "AGREES",
+    "SOMETHING": "AGREES",
+    "I": "AGREES",
+    "YOU": "AGREES",
+    "SOMEONE": "AGREES",
+    "PEOPLE": "AGREES",
+    "BODY": "AGREES",
+    "PART": "AGREES",
+    "BECAUSE": "AGREES",
+    "GOOD": "AGREES",
+    "CAUSE": "AGREES"
+   },
+   "open_coordinates_with_content": [
+    "CAN",
+    "DO",
+    "HAPPEN",
+    "KNOW",
+    "NOT",
+    "QUANTITY",
+    "THEN",
+    "WANT"
+   ],
+   "open_coordinates_silent_in_the_explication": [
+    "ABOVE",
+    "ALIVE",
+    "BE",
+    "BEFORE",
+    "BIG",
+    "CERTAINTY",
+    "EXIST",
+    "FAR",
+    "HAVE",
+    "HEAR",
+    "HERE",
+    "HIER_MINUS",
+    "HIER_PLUS",
+    "IF",
+    "INFER",
+    "LONG_TIME",
+    "MAYBE",
+    "MOMENT",
+    "MOVE",
+    "MUST",
+    "ONE",
+    "OUTSIDE",
+    "SAME",
+    "SAY",
+    "SEE",
+    "SIDE",
+    "START",
+    "TOUCH",
+    "TOWARD",
+    "TRUE",
+    "TWO",
+    "WHERE",
+    "WITH",
+    "WORDS"
+   ]
+  },
+  "pity": {
+   "source": "W1999 p.101 (page image checked)",
+   "class": "noun_other",
+   "explication_lines": {
+    "a X felt something because X thought something": [
+     "FEEL",
+     "BECAUSE",
+     "THINK"
+    ],
+    "b sometimes a person thinks about someone else:": [
+     "QUANTITY",
+     "WHEN",
+     "THINK"
+    ],
+    "c something bad happened to this other person": [
+     "BAD",
+     "HAPPEN"
+    ],
+    "d this is bad": [
+     "BAD"
+    ],
+    "e something like this is not happening to me": [
+     "LIKE",
+     "NOT",
+     "HAPPEN"
+    ],
+    "f when this person thinks this this person feels something": [
+     "WHEN",
+     "THINK",
+     "FEEL"
+    ],
+    "g X felt something like this": [
+     "FEEL",
+     "LIKE"
+    ],
+    "h because X thought something like this": [
+     "BECAUSE",
+     "THINK",
+     "LIKE"
+    ]
+   },
+   "feeling_line": "f",
+   "evaluations_inside_the_thought": [
+    "BAD in line c",
+    "BAD in line d"
+   ],
+   "because": "THOUGHT_AND_FEELING_LINKED_BY_BECAUSE",
+   "written_coordinates": {
+    "BECAUSE": 1,
+    "BODY": 0,
+    "FEEL": 1,
+    "HAPPEN": 1,
+    "I": 0,
+    "KIND": 0,
+    "LIKE": 1,
+    "NOT": 1,
+    "PART": 0,
+    "PEOPLE": 0,
+    "QUANTITY": 1,
+    "SOMEONE": 0,
+    "SOMETHING": 1,
+    "THINK": 1,
+    "WHEN": 1,
+    "YOU": 0
+   },
+   "fixed_cells_check": {
+    "FEEL": "AGREES",
+    "THINK": "AGREES",
+    "LIKE": "AGREES",
+    "KIND": "AGREES",
+    "INTENSITY": "WRITTEN_BY_DEGREE_LAW_NOT_IN_EXPLICATION",
+    "WHEN": "AGREES",
+    "SOMETHING": "AGREES",
+    "I": "AGREES",
+    "YOU": "AGREES",
+    "SOMEONE": "AGREES",
+    "PEOPLE": "AGREES",
+    "BODY": "AGREES",
+    "PART": "AGREES",
+    "BECAUSE": "AGREES",
+    "GOOD": "SOURCE_CONFLICTS_WITH_ITSELF",
+    "CAUSE": "AGREES"
+   },
+   "open_coordinates_with_content": [
+    "HAPPEN",
+    "NOT",
+    "QUANTITY"
+   ],
+   "open_coordinates_silent_in_the_explication": [
+    "ABOVE",
+    "ALIVE",
+    "BE",
+    "BEFORE",
+    "BIG",
+    "CAN",
+    "CERTAINTY",
+    "DO",
+    "EXIST",
+    "FAR",
+    "HAVE",
+    "HEAR",
+    "HERE",
+    "HIER_MINUS",
+    "HIER_PLUS",
+    "IF",
+    "INFER",
+    "KNOW",
+    "LONG_TIME",
+    "MAYBE",
+    "MOMENT",
+    "MOVE",
+    "MUST",
+    "ONE",
+    "OUTSIDE",
+    "SAME",
+    "SAY",
+    "SEE",
+    "SIDE",
+    "START",
+    "THEN",
+    "TOUCH",
+    "TOWARD",
+    "TRUE",
+    "TWO",
+    "WANT",
+    "WHERE",
+    "WITH",
+    "WORDS"
+   ],
+   "note": "The explication leaves the feeling's quality open, while the text before it says 'the focus of pity, then, is on the other person ... and so the feeling is \"bad\" rather than \"good\"' (p.101). The pole (E4.1-) gives -1, which agrees with the prose and not with the explication."
+  },
+  "sorrow": {
+   "source": "W1999 p.67 (page image checked)",
+   "class": "noun_other",
+   "explication_lines": {
+    "a X felt something because X thought something": [
+     "FEEL",
+     "BECAUSE",
+     "THINK"
+    ],
+    "b sometimes a person thinks for a long time:": [
+     "QUANTITY",
+     "WHEN",
+     "THINK",
+     "LONG_TIME"
+    ],
+    "c something very bad is happening to me": [
+     "INTENSITY",
+     "BAD",
+     "HAPPEN"
+    ],
+    "d I don't want this to be happening": [
+     "NOT",
+     "WANT",
+     "HAPPEN"
+    ],
+    "e I can't think: I will do something because of this": [
+     "NOT",
+     "CAN",
+     "THINK",
+     "DO",
+     "BECAUSE"
+    ],
+    "f I can't do anything": [
+     "NOT",
+     "CAN",
+     "DO"
+    ],
+    "g I can't not think about this": [
+     "NOT",
+     "CAN",
+     "THINK"
+    ],
+    "h when this person thinks this this person feels something very bad": [
+     "WHEN",
+     "THINK",
+     "FEEL",
+     "INTENSITY",
+     "BAD"
+    ],
+    "i X felt something like this": [
+     "FEEL",
+     "LIKE"
+    ],
+    "j because X thought something like this": [
+     "BECAUSE",
+     "THINK",
+     "LIKE"
+    ]
+   },
+   "feeling_line": "h",
+   "evaluations_inside_the_thought": [
+    "BAD in line c"
+   ],
+   "because": "THOUGHT_AND_FEELING_LINKED_BY_BECAUSE",
+   "written_coordinates": {
+    "BECAUSE": 1,
+    "BODY": 0,
+    "CAN": 1,
+    "DO": 1,
+    "FEEL": 1,
+    "GOOD": -1,
+    "HAPPEN": 1,
+    "I": 0,
+    "INTENSITY": 1,
+    "KIND": 0,
+    "LIKE": 1,
+    "LONG_TIME": 1,
+    "NOT": 1,
+    "PART": 0,
+    "PEOPLE": 0,
+    "QUANTITY": 1,
+    "SOMEONE": 0,
+    "SOMETHING": 1,
+    "THINK": 1,
+    "WANT": 1,
+    "WHEN": 1,
+    "YOU": 0
+   },
+   "fixed_cells_check": {
+    "FEEL": "AGREES",
+    "THINK": "AGREES",
+    "LIKE": "AGREES",
+    "KIND": "AGREES",
+    "INTENSITY": "AGREES",
+    "WHEN": "AGREES",
+    "SOMETHING": "AGREES",
+    "I": "AGREES",
+    "YOU": "AGREES",
+    "SOMEONE": "AGREES",
+    "PEOPLE": "AGREES",
+    "BODY": "AGREES",
+    "PART": "AGREES",
+    "BECAUSE": "AGREES",
+    "GOOD": "AGREES",
+    "CAUSE": "AGREES"
+   },
+   "open_coordinates_with_content": [
+    "CAN",
+    "DO",
+    "HAPPEN",
+    "LONG_TIME",
+    "NOT",
+    "QUANTITY",
+    "WANT"
+   ],
+   "open_coordinates_silent_in_the_explication": [
+    "ABOVE",
+    "ALIVE",
+    "BE",
+    "BEFORE",
+    "BIG",
+    "CERTAINTY",
+    "EXIST",
+    "FAR",
+    "HAVE",
+    "HEAR",
+    "HERE",
+    "HIER_MINUS",
+    "HIER_PLUS",
+    "IF",
+    "INFER",
+    "KNOW",
+    "MAYBE",
+    "MOMENT",
+    "MOVE",
+    "MUST",
+    "ONE",
+    "OUTSIDE",
+    "SAME",
+    "SAY",
+    "SEE",
+    "SIDE",
+    "START",
+    "THEN",
+    "TOUCH",
+    "TOWARD",
+    "TRUE",
+    "TWO",
+    "WHERE",
+    "WITH",
+    "WORDS"
+   ]
+  }
+ },
+ "note_on_fixed_cells_vs_gold": "Not a held-out test: the fixed cells were drawn from these same explications, so agreement shows only that the rows don't contradict their sources. INTENSITY +1 comes from row 5's degree law (F125); WRITTEN_BY_DEGREE_LAW_NOT_IN_EXPLICATION marks explications with no VERY. CAN and HAPPEN are fixed only for Fear readings; sad, concerned, sadness and sorrow must find theirs through their own fields.",
+ "projection_choices_in_the_gold": [
+  "Every non-substantive prime an explication contains is written for the word, whatever its scope in the explication, except GOOD (next).",
+  "GOOD is the felt valence (Q1). It is read from the feeling line only ('feels something good/bad'); a feeling line with no quality leaves GOOD empty. An evaluation inside the thought stays in the derivation.",
+  "Substantives are roles unless they head the word's own denotation (Q2).",
+  "'know if' is written as IF, though CH's IF box shows only conditionals.",
+  "'now' is the THEN/NOW coordinate at -1.",
+  "'sometimes' (CH: a portmanteau of a quantifier and time) is QUANTITY and WHEN; 'some' is QUANTITY.",
+  "'will' and the past tense ('happened') write nothing; neither is a prime.",
+  "'think like this', 'like this' and 'feels like this' count as LIKE.",
+  "'this', 'these' have no coordinate (THIS is not in the basis).",
+  "'very' writes INTENSITY: the basis has no VERY, and F125 makes INTENSITY the mark of degree-bearing content, 'not very bad' included.",
+  "'maybe' writes MAYBE; 'can', 'can't' and 'could' write CAN, with NOT for the negation.",
+  "'have to' writes NOT and CAN: the chart glosses it as 'can't not'.",
+  "'would' writes IF: W1992's prime list pairs them as one meta-predicate ('if/would'). Only W1990b's frightened uses it here.",
+  "'for some time' writes nothing ((FOR) SOME TIME has no coordinate); 'for a long time' writes LONG_TIME.",
+  "Under option B of the CAUSE decision, each 'because' is sorted: CAUSE when a causer's DO or HAPPEN brings about a change in another participant, BECAUSE otherwise. Every 'because' in these explications is a thought-to-feeling or reason link, so the gold is the same under A and B; under B, CAUSE is one more open field."
+ ],
+ "unproven_versus_uncertain": "An open field is unproven, not necessarily uncertain: 33 of afraid's 40 open coordinates are silent in its published explication, and stay open only until a scoped silence law (F101, checked against the explications) proves it for the class. That leaves afraid 7 real choices.",
+ "good_field_controls": {
+  "concerned": {
+   "row": "19_adjective",
+   "expected": "empty",
+   "source": "W1999 p.86 (page image checked); W1990b p.373 'because of this, this person feels something'",
+   "feeling_line": "(g) when this person thinks this this person feels something",
+   "class": "adjective_e5e6_outside_fear",
+   "check": "GOOD_IS_A_FIELD_IN_THIS_CLASS"
+  },
+  "concern": {
+   "row": "21_noun",
+   "expected": "empty",
+   "source": "W1999 p.86, headed 'Concern (X was concerned)': one block for both forms, framed as the adjective",
+   "feeling_line": "(g) when this person thinks this this person feels something",
+   "class": "noun_e5e6_outside_fear",
+   "check": "GOOD_IS_A_FIELD_IN_THIS_CLASS"
+  },
+  "worried": {
+   "row": "19_adjective",
+   "expected": "-1",
+   "source": "W1999 p.85 (page image checked); W1990b p.372",
+   "feeling_line": "(h) when this person thinks this this person feels something bad",
+   "class": "adjective_e5e6_outside_fear",
+   "check": "GOOD_IS_A_FIELD_IN_THIS_CLASS"
+  },
+  "alarmed": {
+   "row": "19_adjective",
+   "expected": "-1",
+   "source": "W1999 p.81 (page image checked)",
+   "feeling_line": "(h) when this person thinks this this person feels something bad",
+   "class": "adjective_e5e6_outside_fear",
+   "check": "GOOD_IS_A_FIELD_IN_THIS_CLASS"
+  },
+  "anguish": {
+   "row": "21_noun",
+   "expected": "-1",
+   "source": "W1990b p.371 (page image checked)",
+   "feeling_line": "because of this, this person feels something bad",
+   "class": "noun_e5e6_outside_fear",
+   "check": "GOOD_IS_A_FIELD_IN_THIS_CLASS"
+  },
+  "horrified": {
+   "row": "19_adjective",
+   "expected": "-1",
+   "source": "W1999 p.79 (page image checked)",
+   "feeling_line": "(g) when this person thinks this this person feels something very bad",
+   "class": "adjective_e5e6_outside_fear",
+   "check": "GOOD_IS_A_FIELD_IN_THIS_CLASS"
+  },
+  "petrified": {
+   "row": "19_adjective",
+   "expected": "-1",
+   "source": "W1999 p.77 (page image checked)",
+   "feeling_line": "(i) when this person thinks this this person feels something very bad",
+   "class": "adjective_e5e6_outside_fear",
+   "check": "GOOD_IS_A_FIELD_IN_THIS_CLASS"
+  }
+ },
+ "surprise_valence_gold": {
+  "amazed": "+1 ('felt something good', [B]); W1992's 'surprise or amazement do not imply anything good or bad' is superseded (precedence rule)",
+  "shocked": "-1 ('felt something bad', [D]; W1999 p.97 agrees)",
+  "surprised": "empty ('felt something', [A])",
+  "astonished": "empty ('felt something', [C])"
+ },
+ "control_word_membership": {
+  "afraid": [
+   {
+    "row": "19_adjective",
+    "class": "adjective_fear",
+    "matching_tags": [
+     "E5-",
+     "E4.1-"
+    ],
+    "framenet_frames": [
+     "Fear.a"
+    ]
+   }
+  ],
+  "alarmed": [
+   {
+    "row": "19_adjective",
+    "class": "adjective_e5e6_outside_fear",
+    "matching_tags": [
+     "E5-",
+     "E6-"
+    ],
+    "framenet_frames": [
+     "Emotion_directed.a"
+    ]
+   }
+  ],
+  "amazed": [],
+  "anguish": [
+   {
+    "row": "21_noun",
+    "class": "noun_e5e6_outside_fear",
+    "matching_tags": [
+     "E6-"
+    ],
+    "framenet_frames": [
+     "Emotion_directed.n"
+    ]
+   }
+  ],
+  "apprehension": [
+   {
+    "row": "21_noun",
+    "class": "noun_fear",
+    "matching_tags": [
+     "E6-"
+    ],
+    "framenet_frames": [
+     "Arrest.n",
+     "Fear.n"
+    ]
+   }
+  ],
+  "astonished": [],
+  "concern": [
+   {
+    "row": "21_noun",
+    "class": "noun_e5e6_outside_fear",
+    "matching_tags": [
+     "E6-"
+    ],
+    "framenet_frames": [
+     "Cause_emotion.v",
+     "Emotion_directed.n",
+     "Point_of_dispute.n",
+     "Topic.v"
+    ]
+   }
+  ],
+  "concerned": [
+   {
+    "row": "19_adjective",
+    "class": "adjective_e5e6_outside_fear",
+    "matching_tags": [
+     "E6-"
+    ],
+    "framenet_frames": [
+     "Emotion_directed.a",
+     "Participation.a"
+    ]
+   }
+  ],
+  "dread": [
+   {
+    "row": "20_verb",
+    "class": "verb_e5e6",
+    "matching_tags": [
+     "E5-"
+    ],
+    "framenet_frames": [
+     "Experiencer_focus.v",
+     "Fear.n"
+    ]
+   },
+   {
+    "row": "21_noun",
+    "class": "noun_fear",
+    "matching_tags": [
+     "E5-"
+    ],
+    "framenet_frames": [
+     "Experiencer_focus.v",
+     "Fear.n"
+    ]
+   }
+  ],
+  "fear": [
+   {
+    "row": "20_verb",
+    "class": "verb_e5e6",
+    "matching_tags": [
+     "E5-"
+    ],
+    "framenet_frames": [
+     "Experiencer_focus.v",
+     "Fear.n"
+    ]
+   },
+   {
+    "row": "21_noun",
+    "class": "noun_fear",
+    "matching_tags": [
+     "E5-"
+    ],
+    "framenet_frames": [
+     "Experiencer_focus.v",
+     "Fear.n"
+    ]
+   }
+  ],
+  "flabbergasted": [
+   {
+    "row": "19_adjective",
+    "class": "adjective_e5e6_outside_fear",
+    "matching_tags": [
+     "E5-"
+    ],
+    "framenet_frames": [
+     "Emotion_directed.a"
+    ]
+   }
+  ],
+  "frightened": [
+   {
+    "row": "19_adjective",
+    "class": "adjective_fear",
+    "matching_tags": [
+     "E5-"
+    ],
+    "framenet_frames": [
+     "Emotion_directed.a",
+     "Fear.a"
+    ]
+   }
+  ],
+  "happy": [
+   {
+    "row": "19_adjective",
+    "class": "adjective_other",
+    "matching_tags": [
+     "E4.1+",
+     "E4.2+"
+    ],
+    "framenet_frames": [
+     "Emotion_directed.a",
+     "Luck.a"
+    ]
+   }
+  ],
+  "hate": [
+   {
+    "row": "20_verb",
+    "class": "verb",
+    "matching_tags": [
+     "E2-"
+    ],
+    "framenet_frames": [
+     "Experiencer_focus.v"
+    ]
+   }
+  ],
+  "hatred": [
+   {
+    "row": "21_noun",
+    "class": "noun_other",
+    "matching_tags": [
+     "E2-"
+    ],
+    "framenet_frames": [
+     "Experiencer_focus.n"
+    ]
+   }
+  ],
+  "horrified": [
+   {
+    "row": "19_adjective",
+    "class": "adjective_e5e6_outside_fear",
+    "matching_tags": [
+     "E5-"
+    ],
+    "framenet_frames": [
+     "Emotion_directed.a"
+    ]
+   }
+  ],
+  "love": [
+   {
+    "row": "20_verb",
+    "class": "verb",
+    "matching_tags": [
+     "E2+"
+    ],
+    "framenet_frames": [
+     "Experiencer_focus.v"
+    ]
+   }
+  ],
+  "mad": [
+   {
+    "row": "19_adjective",
+    "class": "adjective_other",
+    "matching_tags": [
+     "E4.1+"
+    ],
+    "framenet_frames": [
+     "Emotion_directed.a"
+    ]
+   }
+  ],
+  "nervous": [
+   {
+    "row": "19_adjective",
+    "class": "adjective_fear",
+    "matching_tags": [
+     "E6-"
+    ],
+    "framenet_frames": [
+     "Emotion_directed.a",
+     "Experiencer_focus.a",
+     "Fear.a"
+    ]
+   }
+  ],
+  "petrified": [
+   {
+    "row": "19_adjective",
+    "class": "adjective_e5e6_outside_fear",
+    "matching_tags": [
+     "E5-"
+    ],
+    "framenet_frames": [
+     "Emotion_directed.a"
+    ]
+   }
+  ],
+  "pity": [
+   {
+    "row": "20_verb",
+    "class": "verb",
+    "matching_tags": [
+     "E4.1-"
+    ],
+    "framenet_frames": [
+     "Experiencer_focus.n",
+     "Experiencer_focus.v",
+     "Others_situation_as_stimulus.v"
+    ]
+   },
+   {
+    "row": "21_noun",
+    "class": "noun_other",
+    "matching_tags": [
+     "E4.1-"
+    ],
+    "framenet_frames": [
+     "Experiencer_focus.n",
+     "Experiencer_focus.v",
+     "Others_situation_as_stimulus.v"
+    ]
+   }
+  ],
+  "pleasure": [
+   {
+    "row": "21_noun",
+    "class": "noun_other",
+    "matching_tags": [
+     "E4.2+"
+    ],
+    "framenet_frames": [
+     "Emotions_of_mental_activity.n",
+     "Experiencer_focus.n"
+    ]
+   }
+  ],
+  "sad": [
+   {
+    "row": "19_adjective",
+    "class": "adjective_other",
+    "matching_tags": [
+     "E4.1-"
+    ],
+    "framenet_frames": [
+     "Emotion_directed.a",
+     "Stimulus_focus.a"
+    ]
+   }
+  ],
+  "sadness": [
+   {
+    "row": "21_noun",
+    "class": "noun_other",
+    "matching_tags": [
+     "E4.1-"
+    ],
+    "framenet_frames": [
+     "Emotion_directed.n"
+    ]
+   }
+  ],
+  "scared": [
+   {
+    "row": "19_adjective",
+    "class": "adjective_fear",
+    "matching_tags": [
+     "E5-",
+     "E6-"
+    ],
+    "framenet_frames": [
+     "Fear.a"
+    ]
+   }
+  ],
+  "shocked": [],
+  "sorrow": [
+   {
+    "row": "21_noun",
+    "class": "noun_other",
+    "matching_tags": [
+     "E4.1-"
+    ],
+    "framenet_frames": [
+     "Emotion_directed.n"
+    ]
+   }
+  ],
+  "stunned": [
+   {
+    "row": "19_adjective",
+    "class": "adjective_e5e6_outside_fear",
+    "matching_tags": [
+     "E5-"
+    ],
+    "framenet_frames": [
+     "Emotion_directed.a"
+    ]
+   }
+  ],
+  "surprised": [],
+  "terrified": [
+   {
+    "row": "19_adjective",
+    "class": "adjective_fear",
+    "matching_tags": [
+     "E5-"
+    ],
+    "framenet_frames": [
+     "Fear.a"
+    ]
+   }
+  ],
+  "terror": [
+   {
+    "row": "21_noun",
+    "class": "noun_fear",
+    "matching_tags": [
+     "E5-"
+    ],
+    "framenet_frames": [
+     "Fear.n",
+     "Terrorism.n"
+    ]
+   }
+  ],
+  "worried": [
+   {
+    "row": "19_adjective",
+    "class": "adjective_e5e6_outside_fear",
+    "matching_tags": [
+     "E6-"
+    ],
+    "framenet_frames": [
+     "Emotion_directed.a",
+     "Experiencer_focus.a"
+    ]
+   }
+  ]
+ }
+}

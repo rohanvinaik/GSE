@@ -1,0 +1,746 @@
+{
+  "scope": "cProfile attribution of the real model-free 1000-word CLI; instrumentation timing, not a paired speed claim",
+  "profile_total_seconds": 1.3899207950000008,
+  "functions": [
+    {
+      "file": "__main__.py",
+      "function": "<module>",
+      "line": 1,
+      "calls": 1,
+      "own_seconds": 9.4832e-05,
+      "cumulative_seconds": 1.390258167
+    },
+    {
+      "file": "build.py",
+      "function": "main",
+      "line": 241,
+      "calls": 1,
+      "own_seconds": 0.0064741980000000005,
+      "cumulative_seconds": 1.330341666
+    },
+    {
+      "file": "sources.py",
+      "function": "__init__",
+      "line": 29,
+      "calls": 1,
+      "own_seconds": 0.000334384,
+      "cumulative_seconds": 0.8470872500000001
+    },
+    {
+      "file": "sources.py",
+      "function": "_tables",
+      "line": 49,
+      "calls": 1,
+      "own_seconds": 0.155124283,
+      "cumulative_seconds": 0.706002792
+    },
+    {
+      "file": "build.py",
+      "function": "build",
+      "line": 220,
+      "calls": 1001,
+      "own_seconds": 0.00407969,
+      "cumulative_seconds": 0.38987888200000004
+    },
+    {
+      "file": "native_constraints.py",
+      "function": "native_readings",
+      "line": 164,
+      "calls": 1000,
+      "own_seconds": 0.009496477000000001,
+      "cumulative_seconds": 0.36681811200000003
+    },
+    {
+      "file": "core.py",
+      "function": "resolve",
+      "line": 187,
+      "calls": 1186,
+      "own_seconds": 0.027794785000000002,
+      "cumulative_seconds": 0.22678382700000002
+    },
+    {
+      "file": "sources.py",
+      "function": "word_key",
+      "line": 18,
+      "calls": 352362,
+      "own_seconds": 0.124091451,
+      "cumulative_seconds": 0.212174785
+    },
+    {
+      "file": "core.py",
+      "function": "_resolution",
+      "line": 272,
+      "calls": 1186,
+      "own_seconds": 0.020664146,
+      "cumulative_seconds": 0.14558943500000002
+    },
+    {
+      "file": "sources.py",
+      "function": "_frames",
+      "line": 101,
+      "calls": 1,
+      "own_seconds": 0.01403294,
+      "cumulative_seconds": 0.140197541
+    },
+    {
+      "file": "core.py",
+      "function": "to_json",
+      "line": 142,
+      "calls": 1196,
+      "own_seconds": 0.039258761,
+      "cumulative_seconds": 0.10174263500000001
+    },
+    {
+      "file": "core.py",
+      "function": "<lambda>",
+      "line": 278,
+      "calls": 220558,
+      "own_seconds": 0.038212461,
+      "cumulative_seconds": 0.09097659000000001
+    },
+    {
+      "file": "audit.py",
+      "function": "<module>",
+      "line": 1,
+      "calls": 1,
+      "own_seconds": 1.4455000000000001e-05,
+      "cumulative_seconds": 0.059101916000000004
+    },
+    {
+      "file": "native_constraints.py",
+      "function": "<module>",
+      "line": 1,
+      "calls": 1,
+      "own_seconds": 1.2666e-05,
+      "cumulative_seconds": 0.040450708
+    },
+    {
+      "file": "model.py",
+      "function": "<module>",
+      "line": 1,
+      "calls": 1,
+      "own_seconds": 1.0333000000000001e-05,
+      "cumulative_seconds": 0.039853333000000005
+    },
+    {
+      "file": "core.py",
+      "function": "legal_domain",
+      "line": 50,
+      "calls": 70250,
+      "own_seconds": 0.034943088000000004,
+      "cumulative_seconds": 0.036409834
+    },
+    {
+      "file": "native_constraints.py",
+      "function": "frame_constraints",
+      "line": 83,
+      "calls": 1688,
+      "own_seconds": 0.012796488,
+      "cumulative_seconds": 0.028089638
+    },
+    {
+      "file": "sources.py",
+      "function": "visit",
+      "line": 126,
+      "calls": 429,
+      "own_seconds": 0.004060688000000001,
+      "cumulative_seconds": 0.026252865
+    },
+    {
+      "file": "sources.py",
+      "function": "sha256",
+      "line": 22,
+      "calls": 258,
+      "own_seconds": 0.000334157,
+      "cumulative_seconds": 0.017292922000000002
+    },
+    {
+      "file": "sources.py",
+      "function": "_pin",
+      "line": 38,
+      "calls": 7,
+      "own_seconds": 0.000142482,
+      "cumulative_seconds": 0.016887541000000002
+    },
+    {
+      "file": "sources.py",
+      "function": "<genexpr>",
+      "line": 129,
+      "calls": 1739,
+      "own_seconds": 0.0015647410000000001,
+      "cumulative_seconds": 0.014383329
+    },
+    {
+      "file": "core.py",
+      "function": "forced",
+      "line": 139,
+      "calls": 1196,
+      "own_seconds": 0.007434980000000001,
+      "cumulative_seconds": 0.011083795
+    },
+    {
+      "file": "native_constraints.py",
+      "function": "_bound_assertions",
+      "line": 48,
+      "calls": 1688,
+      "own_seconds": 0.005422602,
+      "cumulative_seconds": 0.007620949
+    },
+    {
+      "file": "core.py",
+      "function": "<module>",
+      "line": 1,
+      "calls": 1,
+      "own_seconds": 8.466200000000001e-05,
+      "cumulative_seconds": 0.006725458
+    },
+    {
+      "file": "build.py",
+      "function": "source_matches",
+      "line": 30,
+      "calls": 1000,
+      "own_seconds": 0.003030464,
+      "cumulative_seconds": 0.0064751570000000005
+    },
+    {
+      "file": "sources.py",
+      "function": "for_word",
+      "line": 156,
+      "calls": 1000,
+      "own_seconds": 0.003674633,
+      "cumulative_seconds": 0.006071854000000001
+    },
+    {
+      "file": "sources.py",
+      "function": "<module>",
+      "line": 1,
+      "calls": 1,
+      "own_seconds": 1.2541e-05,
+      "cumulative_seconds": 0.005242333
+    },
+    {
+      "file": "build.py",
+      "function": "construct",
+      "line": 91,
+      "calls": 10,
+      "own_seconds": 0.000146023,
+      "cumulative_seconds": 0.004895374
+    },
+    {
+      "file": "core.py",
+      "function": "_components",
+      "line": 165,
+      "calls": 1186,
+      "own_seconds": 0.002573994,
+      "cumulative_seconds": 0.003832704
+    },
+    {
+      "file": "core.py",
+      "function": "__post_init__",
+      "line": 98,
+      "calls": 647,
+      "own_seconds": 0.001478672,
+      "cumulative_seconds": 0.0033866150000000004
+    },
+    {
+      "file": "perception.py",
+      "function": "perception_constraints",
+      "line": 11,
+      "calls": 1688,
+      "own_seconds": 0.0020495350000000003,
+      "cumulative_seconds": 0.0032758320000000002
+    },
+    {
+      "file": "sources.py",
+      "function": "<genexpr>",
+      "line": 76,
+      "calls": 14200,
+      "own_seconds": 0.00230537,
+      "cumulative_seconds": 0.003207253
+    },
+    {
+      "file": "core.py",
+      "function": "<genexpr>",
+      "line": 211,
+      "calls": 4736,
+      "own_seconds": 0.001842085,
+      "cumulative_seconds": 0.002378341
+    },
+    {
+      "file": "core.py",
+      "function": "_active_laws",
+      "line": 153,
+      "calls": 1186,
+      "own_seconds": 0.0009056870000000001,
+      "cumulative_seconds": 0.0017786680000000002
+    },
+    {
+      "file": "core.py",
+      "function": "<genexpr>",
+      "line": 237,
+      "calls": 2368,
+      "own_seconds": 0.000588196,
+      "cumulative_seconds": 0.001705282
+    },
+    {
+      "file": "sources.py",
+      "function": "<genexpr>",
+      "line": 79,
+      "calls": 14200,
+      "own_seconds": 0.001543462,
+      "cumulative_seconds": 0.001543462
+    },
+    {
+      "file": "core.py",
+      "function": "<genexpr>",
+      "line": 236,
+      "calls": 2368,
+      "own_seconds": 0.001224344,
+      "cumulative_seconds": 0.001224344
+    },
+    {
+      "file": "core.py",
+      "function": "<genexpr>",
+      "line": 225,
+      "calls": 2368,
+      "own_seconds": 0.000548478,
+      "cumulative_seconds": 0.000922326
+    },
+    {
+      "file": "native_constraints.py",
+      "function": "<genexpr>",
+      "line": 156,
+      "calls": 1130,
+      "own_seconds": 0.00046821600000000003,
+      "cumulative_seconds": 0.0008942220000000001
+    },
+    {
+      "file": "core.py",
+      "function": "<genexpr>",
+      "line": 108,
+      "calls": 1522,
+      "own_seconds": 0.000345297,
+      "cumulative_seconds": 0.0007970620000000001
+    },
+    {
+      "file": "registry.py",
+      "function": "compile_law",
+      "line": 75,
+      "calls": 55,
+      "own_seconds": 0.000108215,
+      "cumulative_seconds": 0.000776924
+    },
+    {
+      "file": "core.py",
+      "function": "_reviewed_laws",
+      "line": 112,
+      "calls": 1,
+      "own_seconds": 1.5707e-05,
+      "cumulative_seconds": 0.0007694160000000001
+    },
+    {
+      "file": "core.py",
+      "function": "<lambda>",
+      "line": 237,
+      "calls": 1184,
+      "own_seconds": 0.00031709,
+      "cumulative_seconds": 0.000675362
+    },
+    {
+      "file": "native_constraints.py",
+      "function": "<genexpr>",
+      "line": 64,
+      "calls": 1865,
+      "own_seconds": 0.00046503500000000004,
+      "cumulative_seconds": 0.0006223520000000001
+    },
+    {
+      "file": "core.py",
+      "function": "<genexpr>",
+      "line": 266,
+      "calls": 2372,
+      "own_seconds": 0.0005002520000000001,
+      "cumulative_seconds": 0.000604162
+    },
+    {
+      "file": "core.py",
+      "function": "<genexpr>",
+      "line": 214,
+      "calls": 4736,
+      "own_seconds": 0.000536256,
+      "cumulative_seconds": 0.000536256
+    },
+    {
+      "file": "registry.py",
+      "function": "load_rulebook",
+      "line": 57,
+      "calls": 1,
+      "own_seconds": 9.791e-06,
+      "cumulative_seconds": 0.0005177080000000001
+    },
+    {
+      "file": "perception.py",
+      "function": "<genexpr>",
+      "line": 15,
+      "calls": 3376,
+      "own_seconds": 0.00048329400000000005,
+      "cumulative_seconds": 0.00048329400000000005
+    },
+    {
+      "file": "core.py",
+      "function": "canonical_pole",
+      "line": 43,
+      "calls": 808,
+      "own_seconds": 0.000472188,
+      "cumulative_seconds": 0.000472188
+    },
+    {
+      "file": "core.py",
+      "function": "<genexpr>",
+      "line": 238,
+      "calls": 2368,
+      "own_seconds": 0.000338749,
+      "cumulative_seconds": 0.00044690900000000005
+    },
+    {
+      "file": "native_constraints.py",
+      "function": "<genexpr>",
+      "line": 104,
+      "calls": 1478,
+      "own_seconds": 0.00025667100000000004,
+      "cumulative_seconds": 0.000329158
+    },
+    {
+      "file": "build.py",
+      "function": "<genexpr>",
+      "line": 236,
+      "calls": 3785,
+      "own_seconds": 0.00029309400000000004,
+      "cumulative_seconds": 0.00029309400000000004
+    },
+    {
+      "file": "native_constraints.py",
+      "function": "<genexpr>",
+      "line": 133,
+      "calls": 1357,
+      "own_seconds": 0.00023813800000000002,
+      "cumulative_seconds": 0.00023813800000000002
+    },
+    {
+      "file": "core.py",
+      "function": "<genexpr>",
+      "line": 279,
+      "calls": 2370,
+      "own_seconds": 0.000226158,
+      "cumulative_seconds": 0.000226158
+    },
+    {
+      "file": "native_constraints.py",
+      "function": "<genexpr>",
+      "line": 100,
+      "calls": 898,
+      "own_seconds": 0.000222116,
+      "cumulative_seconds": 0.000222116
+    },
+    {
+      "file": "native_constraints.py",
+      "function": "<genexpr>",
+      "line": 108,
+      "calls": 1438,
+      "own_seconds": 0.000221959,
+      "cumulative_seconds": 0.000221959
+    },
+    {
+      "file": "core.py",
+      "function": "<genexpr>",
+      "line": 245,
+      "calls": 2368,
+      "own_seconds": 0.00021232100000000002,
+      "cumulative_seconds": 0.00021232100000000002
+    },
+    {
+      "file": "native_constraints.py",
+      "function": "<genexpr>",
+      "line": 97,
+      "calls": 1470,
+      "own_seconds": 0.000205245,
+      "cumulative_seconds": 0.000205245
+    },
+    {
+      "file": "native_constraints.py",
+      "function": "<genexpr>",
+      "line": 93,
+      "calls": 1478,
+      "own_seconds": 0.000180716,
+      "cumulative_seconds": 0.000180716
+    },
+    {
+      "file": "build.py",
+      "function": "<module>",
+      "line": 1,
+      "calls": 1,
+      "own_seconds": 1.1376000000000001e-05,
+      "cumulative_seconds": 0.0001685
+    },
+    {
+      "file": "registry.py",
+      "function": "<genexpr>",
+      "line": 79,
+      "calls": 319,
+      "own_seconds": 7.3818e-05,
+      "cumulative_seconds": 0.000157288
+    },
+    {
+      "file": "native_constraints.py",
+      "function": "<genexpr>",
+      "line": 138,
+      "calls": 1098,
+      "own_seconds": 0.00014920500000000002,
+      "cumulative_seconds": 0.00014920500000000002
+    },
+    {
+      "file": "core.py",
+      "function": "<genexpr>",
+      "line": 162,
+      "calls": 1264,
+      "own_seconds": 0.00013739,
+      "cumulative_seconds": 0.00013739
+    },
+    {
+      "file": "native_constraints.py",
+      "function": "<genexpr>",
+      "line": 136,
+      "calls": 1251,
+      "own_seconds": 0.000124136,
+      "cumulative_seconds": 0.000124136
+    },
+    {
+      "file": "core.py",
+      "function": "<genexpr>",
+      "line": 115,
+      "calls": 6,
+      "own_seconds": 1.179e-05,
+      "cumulative_seconds": 8.525e-05
+    },
+    {
+      "file": "build.py",
+      "function": "restriction",
+      "line": 26,
+      "calls": 10,
+      "own_seconds": 1.2794000000000002e-05,
+      "cumulative_seconds": 6.6043e-05
+    },
+    {
+      "file": "native_constraints.py",
+      "function": "<genexpr>",
+      "line": 197,
+      "calls": 588,
+      "own_seconds": 6.593400000000001e-05,
+      "cumulative_seconds": 6.593400000000001e-05
+    },
+    {
+      "file": "build.py",
+      "function": "<genexpr>",
+      "line": 94,
+      "calls": 30,
+      "own_seconds": 2.8172e-05,
+      "cumulative_seconds": 5.0796000000000006e-05
+    },
+    {
+      "file": "basis.py",
+      "function": "<module>",
+      "line": 1,
+      "calls": 1,
+      "own_seconds": 2.2994e-05,
+      "cumulative_seconds": 4.1292000000000004e-05
+    },
+    {
+      "file": "core.py",
+      "function": "Cell",
+      "line": 23,
+      "calls": 1,
+      "own_seconds": 2.999e-06,
+      "cumulative_seconds": 4.0541000000000004e-05
+    },
+    {
+      "file": "registry.py",
+      "function": "<module>",
+      "line": 1,
+      "calls": 1,
+      "own_seconds": 8.624e-06,
+      "cumulative_seconds": 3.5958000000000004e-05
+    },
+    {
+      "file": "core.py",
+      "function": "<genexpr>",
+      "line": 119,
+      "calls": 16,
+      "own_seconds": 7.541e-06,
+      "cumulative_seconds": 2.4876e-05
+    },
+    {
+      "file": "native_constraints.py",
+      "function": "predicate_domain",
+      "line": 33,
+      "calls": 16,
+      "own_seconds": 7.792000000000001e-06,
+      "cumulative_seconds": 1.7084e-05
+    },
+    {
+      "file": "registry.py",
+      "function": "<genexpr>",
+      "line": 80,
+      "calls": 110,
+      "own_seconds": 1.6667e-05,
+      "cumulative_seconds": 1.6667e-05
+    },
+    {
+      "file": "basis.py",
+      "function": "<genexpr>",
+      "line": 78,
+      "calls": 15,
+      "own_seconds": 1.2125e-05,
+      "cumulative_seconds": 1.2125e-05
+    },
+    {
+      "file": "build.py",
+      "function": "<genexpr>",
+      "line": 27,
+      "calls": 20,
+      "own_seconds": 5.249e-06,
+      "cumulative_seconds": 9.125e-06
+    },
+    {
+      "file": "core.py",
+      "function": "<genexpr>",
+      "line": 37,
+      "calls": 59,
+      "own_seconds": 6.379e-06,
+      "cumulative_seconds": 6.379e-06
+    },
+    {
+      "file": "basis.py",
+      "function": "<genexpr>",
+      "line": 54,
+      "calls": 73,
+      "own_seconds": 5.590000000000001e-06,
+      "cumulative_seconds": 5.590000000000001e-06
+    },
+    {
+      "file": "artifact.py",
+      "function": "<module>",
+      "line": 1,
+      "calls": 1,
+      "own_seconds": 4.875e-06,
+      "cumulative_seconds": 5.583000000000001e-06
+    },
+    {
+      "file": "number.py",
+      "function": "<module>",
+      "line": 1,
+      "calls": 1,
+      "own_seconds": 3.917e-06,
+      "cumulative_seconds": 4.667e-06
+    },
+    {
+      "file": "perception.py",
+      "function": "<module>",
+      "line": 1,
+      "calls": 1,
+      "own_seconds": 3.209e-06,
+      "cumulative_seconds": 3.209e-06
+    },
+    {
+      "file": "model.py",
+      "function": "OllamaSelector",
+      "line": 31,
+      "calls": 1,
+      "own_seconds": 2.459e-06,
+      "cumulative_seconds": 2.459e-06
+    },
+    {
+      "file": "sources.py",
+      "function": "NativeSources",
+      "line": 26,
+      "calls": 1,
+      "own_seconds": 1.7920000000000002e-06,
+      "cumulative_seconds": 1.7920000000000002e-06
+    },
+    {
+      "file": "core.py",
+      "function": "Law",
+      "line": 88,
+      "calls": 1,
+      "own_seconds": 1.3750000000000002e-06,
+      "cumulative_seconds": 1.3750000000000002e-06
+    },
+    {
+      "file": "core.py",
+      "function": "Resolution",
+      "line": 131,
+      "calls": 1,
+      "own_seconds": 1.333e-06,
+      "cumulative_seconds": 1.333e-06
+    },
+    {
+      "file": "core.py",
+      "function": "<genexpr>",
+      "line": 120,
+      "calls": 10,
+      "own_seconds": 1.209e-06,
+      "cumulative_seconds": 1.209e-06
+    },
+    {
+      "file": "build.py",
+      "function": "<genexpr>",
+      "line": 145,
+      "calls": 10,
+      "own_seconds": 1.085e-06,
+      "cumulative_seconds": 1.085e-06
+    },
+    {
+      "file": "core.py",
+      "function": "Observation",
+      "line": 76,
+      "calls": 1,
+      "own_seconds": 1.0420000000000001e-06,
+      "cumulative_seconds": 1.0420000000000001e-06
+    },
+    {
+      "file": "native_constraints.py",
+      "function": "BindingProjection",
+      "line": 22,
+      "calls": 1,
+      "own_seconds": 1.0000000000000002e-06,
+      "cumulative_seconds": 1.0000000000000002e-06
+    },
+    {
+      "file": "core.py",
+      "function": "NumberScale",
+      "line": 284,
+      "calls": 1,
+      "own_seconds": 9.170000000000001e-07,
+      "cumulative_seconds": 9.170000000000001e-07
+    },
+    {
+      "file": "core.py",
+      "function": "AtomicSeed",
+      "line": 60,
+      "calls": 1,
+      "own_seconds": 8.33e-07,
+      "cumulative_seconds": 8.33e-07
+    },
+    {
+      "file": "__init__.py",
+      "function": "<module>",
+      "line": 1,
+      "calls": 1,
+      "own_seconds": 2.09e-07,
+      "cumulative_seconds": 2.09e-07
+    }
+  ],
+  "summary": {
+    "PARTIAL_NO_APPLICABLE_RULE": 886,
+    "PARTIAL": 598
+  }
+}

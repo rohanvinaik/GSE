@@ -1,0 +1,300 @@
+CHANGED CELLS IN READINGS PRESENT IN BOTH BUILDS (old = d2c2e52 replay, new = current worktree)
+paired readings: 470; changed paired readings: 470; changed cells: 4122; cells with unchanged domain but changed restricting-rule trace: 191
+groups (readings sharing identical fired-rule delta, code changes, differing keys, cell changes and trace-only changes): 10
+cell state: single value if resolved, else UNRESOLVED[remaining states]. trace notation: RULE->remaining state(s).
+cause: +RULE restricts the coordinate only in the new trace; -RULE only in the old trace; ~RULE both, different remaining.
+
+==============================================================================================================
+GROUP 1: 135 reading(s); 8 changed cell(s) per reading; 0 unchanged-domain cell(s) with changed trace; source_scope: {'NATIVE_CLASS_FRAME': 135}
+  fired rules delta        : added=VERB_HEADS_NO_SUBSTANTIVE
+  reading code             : unchanged
+  after_selection code     : unchanged
+  reading keys added       : none
+  reading keys removed     : none
+  other top-level keys that differ: ['symbolic_before']
+  after_selection keys that differ: ['domains', 'fired_rules', 'forced', 'trace']
+  changed cells (identical in every reading of the group):
+    I,YOU,SOMEONE,SOMETHING,PEOPLE,BODY,KIND,PART: UNRESOLVED[+1|0|empty] -> 0   [+VERB_HEADS_NO_SUBSTANTIVE]
+  readings (135), per word:
+    like: VERB:want-32.1 frames 0-1; VERB:want-32.1-1 frames 0-7; VERB:want-32.1-1-1 frames 0-1
+    see: VERB:see-30.1 frames 0-4; VERB:see-30.1-1 frames 0-2
+    need: VERB:want-32.1 frames 0-1; VERB:want-32.1-1 frames 0-7; VERB:want-32.1-1-1 frames 0-1
+    long: VERB:long-32.2 frames 0; VERB:long-32.2-1 frames 0
+    get: VERB:get-13.5.1 frames 6
+    think: VERB:wish-62 frames 0-5
+    order: VERB:get-13.5.1 frames 6
+    change: VERB:exchange-13.6 frames 3
+    find: VERB:get-13.5.1 frames 6
+    want: VERB:want-32.1 frames 0-1; VERB:want-32.1-1 frames 0-7; VERB:want-32.1-1-1 frames 0-1
+    end: VERB:stop-55.4 frames 1,3; VERB:stop-55.4-1 frames 0
+    experience: VERB:sight-30.2 frames 0
+    sense: VERB:see-30.1 frames 0-4; VERB:see-30.1-1 frames 0-2
+    feel: VERB:see-30.1 frames 0-4; VERB:see-30.1-1 frames 0-2; VERB:stimulus_subject-30.4 frames 0-1
+    give: VERB:give-13.1-1 frames 0-2
+    keep: VERB:keep-15.2 frames 1
+    view: VERB:sight-30.2 frames 0
+    study: VERB:sight-30.2 frames 0
+    look: VERB:peer-30.3 frames 0; VERB:stimulus_subject-30.4 frames 0-1
+    mean: VERB:wish-62 frames 0-5
+    plan: VERB:wish-62 frames 0-5
+    call: VERB:get-13.5.1 frames 6
+    start: VERB:begin-55.1-1 frames 1,3,6
+    hope: VERB:long-32.2 frames 0; VERB:long-32.2-1 frames 0; VERB:wish-62 frames 0-5
+    weight: VERB:equip-13.4.2-1-1 frames 0
+    note: VERB:sight-30.2 frames 0
+    trade: VERB:exchange-13.6 frames 3
+    fall: VERB:long-32.2 frames 0; VERB:long-32.2-1 frames 0
+    book: VERB:get-13.5.1 frames 6
+    check: VERB:peer-30.3 frames 0
+    serve: VERB:pay-68 frames 0-1
+    overhear: VERB:sight-30.2 frames 0
+    glimpse: VERB:sight-30.2 frames 0
+    detect: VERB:see-30.1 frames 0-4; VERB:see-30.1-1 frames 0-2
+    exchange: VERB:exchange-13.6 frames 3
+    hit: VERB:bump-18.4 frames 0; VERB:hit-18.1 frames 10-12
+
+==============================================================================================================
+GROUP 2: 118 reading(s); 10 changed cell(s) per reading; 1 unchanged-domain cell(s) with changed trace; source_scope: {'NATIVE_CLASS_FRAME': 118}
+  fired rules delta        : added=NATIVE:VN_CAUSATION,OWN_PHYSICAL_CHANGE_OF_PLACE,VERB_HEADS_NO_SUBSTANTIVE; removed=NATIVE:VN_EVENT_MOTION
+  reading code             : unchanged
+  after_selection code     : unchanged
+  reading keys added       : none
+  reading keys removed     : none
+  other top-level keys that differ: ['bindings', 'symbolic_before', 'unmapped']
+  after_selection keys that differ: ['domains', 'fired_rules', 'forced', 'trace']
+  bindings only in new (coordinate, rule_ids): CAUSE/VN_CAUSATION x118; DO/VN_CAUSATION x118
+  unmapped entries only in old (code, predicate): UNMAPPED_NATIVE_PREDICATE/cause x118
+  changed cells (identical in every reading of the group):
+    I,YOU,SOMEONE,SOMETHING,PEOPLE,BODY,KIND,PART: UNRESOLVED[+1|0|empty] -> 0   [+VERB_HEADS_NO_SUBSTANTIVE]
+    DO,CAUSE: UNRESOLVED[+1|0|empty] -> +1   [+NATIVE:VN_CAUSATION]
+  unchanged-domain cells whose restricting-rule trace changed (identical in every reading of the group):
+    MOVE: +1 -> +1 (domain unchanged)   old trace: NATIVE:VN_EVENT_MOTION->+1 | new trace: OWN_PHYSICAL_CHANGE_OF_PLACE->+1   [+OWN_PHYSICAL_CHANGE_OF_PLACE -NATIVE:VN_EVENT_MOTION]
+  readings (118), per word:
+    can: VERB:pocket-9.10 frames 0-1
+    set: VERB:put-9.1 frames 0-1; VERB:put-9.1-2 frames 0
+    point: VERB:wink-40.3.1 frames 0-2; VERB:wink-40.3.1-1 frames 0-5
+    take: VERB:bring-11.3 frames 0-5
+    case: VERB:pocket-9.10 frames 0-1
+    black: VERB:butter-9.9 frames 0-1
+    position: VERB:put-9.1 frames 0-1
+    place: VERB:put-9.1 frames 0-1; VERB:put-9.1-2 frames 0
+    line: VERB:fill-9.8 frames 0-1,3
+    paper: VERB:butter-9.9 frames 0-1
+    put: VERB:put-9.1 frames 0-1; VERB:put-9.1-2 frames 0
+    step: VERB:run-51.3.2 frames 2-5,9-10
+    run: VERB:run-51.3.2 frames 2-5,9-10
+    face: VERB:fill-9.8 frames 0-1,3
+    water: VERB:butter-9.9 frames 0-1
+    lower: VERB:put_direction-9.4 frames 0-2
+    box: VERB:pocket-9.10 frames 0-1
+    hand: VERB:send-11.1 frames 0-3; VERB:send-11.1-1 frames 0
+    return: VERB:send-11.1 frames 0-3
+    stress: VERB:butter-9.9 frames 0-1
+    ground: VERB:pocket-9.10 frames 0-1
+    rest: VERB:put_spatial-9.2 frames 0-1
+    tree: VERB:pocket-9.10 frames 0-1
+    house: VERB:pocket-9.10 frames 0-1
+    top: VERB:butter-9.9 frames 0-1
+    turn: VERB:roll-51.3.1 frames 2-3,6-7
+    move: VERB:roll-51.3.1 frames 2-3,6-7; VERB:slide-11.2 frames 4-7
+    walk: VERB:run-51.3.2 frames 2-5,9-10
+    throw: VERB:throw-17.1 frames 0-4; VERB:throw-17.1-1 frames 0
+    hit: VERB:throw-17.1 frames 0-4; VERB:throw-17.1-1 frames 0
+    pelt: VERB:pelt-17.2 frames 0-1
+    rush: VERB:run-51.3.2 frames 2-5,9-10
+
+==============================================================================================================
+GROUP 3: 118 reading(s); 10 changed cell(s) per reading; 0 unchanged-domain cell(s) with changed trace; source_scope: {'NATIVE_CLASS_FRAME': 118}
+  fired rules delta        : added=NATIVE:VN_CAUSATION,VERB_HEADS_NO_SUBSTANTIVE
+  reading code             : unchanged
+  after_selection code     : unchanged
+  reading keys added       : none
+  reading keys removed     : none
+  other top-level keys that differ: ['bindings', 'symbolic_before', 'unmapped']
+  after_selection keys that differ: ['domains', 'fired_rules', 'forced', 'trace']
+  bindings only in new (coordinate, rule_ids): CAUSE/VN_CAUSATION x118; DO/VN_CAUSATION x118
+  unmapped entries only in old (code, predicate): UNMAPPED_NATIVE_PREDICATE/cause x118
+  changed cells (identical in every reading of the group):
+    I,YOU,SOMEONE,SOMETHING,PEOPLE,BODY,KIND,PART: UNRESOLVED[+1|0|empty] -> 0   [+VERB_HEADS_NO_SUBSTANTIVE]
+    DO,CAUSE: UNRESOLVED[+1|0|empty] -> +1   [+NATIVE:VN_CAUSATION]
+  readings (118), per word:
+    will: VERB:future_having-13.3 frames 0-3
+    get: VERB:get-13.5.1 frames 0-5; VERB:get-13.5.1-1 frames 0
+    order: VERB:get-13.5.1 frames 0-5
+    change: VERB:exchange-13.6 frames 0-2
+    take: VERB:steal-10.5 frames 0-3
+    find: VERB:get-13.5.1 frames 0-5
+    end: VERB:stop-55.4 frames 0,2,4
+    present: VERB:fulfilling-13.4.1 frames 0-2
+    give: VERB:give-13.1 frames 0-3
+    provide: VERB:fulfilling-13.4.1 frames 0-2; VERB:fulfilling-13.4.1-2 frames 0
+    complete: VERB:complete-55.2 frames 0-1
+    call: VERB:get-13.5.1 frames 0-5
+    start: VERB:begin-55.1 frames 0; VERB:begin-55.1-1 frames 0,2,4-5
+    weight: VERB:equip-13.4.2 frames 0; VERB:equip-13.4.2-1 frames 0
+    appropriate: VERB:obtain-13.5.2 frames 0-1
+    issue: VERB:fulfilling-13.4.1 frames 0-2; VERB:future_having-13.3 frames 0-3
+    return: VERB:contribute-13.2 frames 0-3; VERB:contribute-13.2-2 frames 0
+    trust: VERB:fulfilling-13.4.1 frames 0-2
+    brain: VERB:spank-18.3 frames 0-7
+    trade: VERB:exchange-13.6 frames 0-2
+    book: VERB:get-13.5.1 frames 0-5
+    serve: VERB:fulfilling-13.4.1 frames 0-2; VERB:fulfilling-13.4.1-1 frames 0
+    kill: VERB:murder-42.1 frames 0-1; VERB:murder-42.1-1 frames 0
+    lose: VERB:contribute-13.2 frames 0-3; VERB:contribute-13.2-1 frames 0
+    exchange: VERB:exchange-13.6 frames 0-2
+    hit: VERB:hit-18.1 frames 0-6,9; VERB:hit-18.1-1 frames 0-1
+
+==============================================================================================================
+GROUP 4: 60 reading(s); 8 changed cell(s) per reading; 1 unchanged-domain cell(s) with changed trace; source_scope: {'NATIVE_CLASS_FRAME': 60}
+  fired rules delta        : added=OWN_PHYSICAL_CHANGE_OF_PLACE,VERB_HEADS_NO_SUBSTANTIVE; removed=NATIVE:VN_EVENT_MOTION
+  reading code             : unchanged
+  after_selection code     : unchanged
+  reading keys added       : none
+  reading keys removed     : none
+  other top-level keys that differ: ['symbolic_before']
+  after_selection keys that differ: ['domains', 'fired_rules', 'forced', 'trace']
+  changed cells (identical in every reading of the group):
+    I,YOU,SOMEONE,SOMETHING,PEOPLE,BODY,KIND,PART: UNRESOLVED[+1|0|empty] -> 0   [+VERB_HEADS_NO_SUBSTANTIVE]
+  unchanged-domain cells whose restricting-rule trace changed (identical in every reading of the group):
+    MOVE: +1 -> +1 (domain unchanged)   old trace: NATIVE:VN_EVENT_MOTION->+1 | new trace: OWN_PHYSICAL_CHANGE_OF_PLACE->+1   [+OWN_PHYSICAL_CHANGE_OF_PLACE -NATIVE:VN_EVENT_MOTION]
+  readings (60), per word:
+    make: VERB:reach-51.8 frames 0
+    go: VERB:escape-51.1-2 frames 0-1
+    approach: VERB:escape-51.1-2 frames 0-1
+    come: VERB:escape-51.1-2 frames 0-1
+    step: VERB:run-51.3.2 frames 0-1,6,11-13
+    run: VERB:run-51.3.2 frames 0-1,6,11-13
+    hand: VERB:send-11.1 frames 4
+    return: VERB:escape-51.1-2 frames 0-1; VERB:send-11.1 frames 4
+    lead: VERB:accompany-51.7 frames 0-1
+    follow: VERB:chase-51.6 frames 0-2
+    ground: VERB:pocket-9.10-1 frames 0-2
+    fall: VERB:escape-51.1-2 frames 0-1
+    turn: VERB:roll-51.3.1 frames 0-1,4-5
+    move: VERB:roll-51.3.1 frames 0-1,4-5; VERB:slide-11.2 frames 0-3
+    guide: VERB:accompany-51.7 frames 0-1
+    walk: VERB:run-51.3.2 frames 0-1,6,11-13
+    hit: VERB:reach-51.8 frames 0
+    rush: VERB:run-51.3.2 frames 0-1,6,11-13
+
+==============================================================================================================
+GROUP 5: 10 reading(s); 8 changed cell(s) per reading; 0 unchanged-domain cell(s) with changed trace; source_scope: {'NATIVE_CLASS_FRAME': 10}
+  fired rules delta        : added=VERB_HEADS_NO_SUBSTANTIVE
+  reading code             : unchanged
+  after_selection code     : unchanged
+  reading keys added       : none
+  reading keys removed     : none
+  other top-level keys that differ: ['symbolic_before', 'unmapped']
+  after_selection keys that differ: ['domains', 'fired_rules', 'forced', 'trace']
+  unmapped entries whose code changed (old -> new, predicate): UNMAPPED_NATIVE_PREDICATE -> PARTICIPANT_EXISTENCE_PRESUPPOSITION / exist x20
+  changed cells (identical in every reading of the group):
+    I,YOU,SOMEONE,SOMETHING,PEOPLE,BODY,KIND,PART: UNRESOLVED[+1|0|empty] -> 0   [+VERB_HEADS_NO_SUBSTANTIVE]
+  readings (10), per word:
+    support: VERB:contiguous_location-47.8 frames 0
+    line: VERB:contiguous_location-47.8 frames 0
+    head: VERB:contiguous_location-47.8 frames 0
+    cross: VERB:contiguous_location-47.8 frames 0; VERB:contiguous_location-47.8-1 frames 0
+    follow: VERB:contiguous_location-47.8 frames 0
+    top: VERB:contiguous_location-47.8 frames 0
+    hit: VERB:contiguous_location-47.8 frames 0; VERB:contiguous_location-47.8-1 frames 0
+    border: VERB:contiguous_location-47.8 frames 0
+
+==============================================================================================================
+GROUP 6: 8 reading(s); 1 changed cell(s) per reading; 0 unchanged-domain cell(s) with changed trace; source_scope: {'<absent>': 8}
+  fired rules delta        : added=EVALUATOR_EXCLUDES_SIZE
+  reading code             : unchanged
+  after_selection code     : unchanged
+  reading keys added       : ['relations'] (values: {'[]': 8})
+  reading keys removed     : none
+  other top-level keys that differ: ['symbolic_before']
+  after_selection keys that differ: ['domains', 'fired_rules', 'forced', 'trace']
+  changed cells (identical in every reading of the group):
+    BIG: UNRESOLVED[+1|-1|0|empty] -> 0   [+EVALUATOR_EXCLUDES_SIZE]
+  readings (8), per word:
+    good: good:ADJ:A5.1+:quality
+    great: great:ADJ:A5.1+:quality
+    fine: fine:ADJ:A5.1+:quality
+    bad: bad:ADJ:A5.1-:quality
+    excellent: excellent:ADJ:A5.1+++:quality
+    terrible: terrible:ADJ:A5.1-:quality
+    superb: superb:ADJ:A5.1+:quality
+    awful: awful:ADJ:A5.1-:quality
+
+==============================================================================================================
+GROUP 7: 8 reading(s); 9 changed cell(s) per reading; 1 unchanged-domain cell(s) with changed trace; source_scope: {'NATIVE_CLASS_FRAME': 8}
+  fired rules delta        : added=NATIVE:VN_CAUSATION,OWN_PHYSICAL_CHANGE_OF_PLACE,VERB_HEADS_NO_SUBSTANTIVE; removed=NATIVE:VN_EVENT_MOTION
+  reading code             : unchanged
+  after_selection code     : unchanged
+  reading keys added       : none
+  reading keys removed     : none
+  other top-level keys that differ: ['bindings', 'symbolic_before', 'unmapped']
+  after_selection keys that differ: ['domains', 'fired_rules', 'forced', 'trace']
+  bindings only in new (coordinate, rule_ids): CAUSE/VN_CAUSATION x8
+  unmapped entries only in old (code, predicate): UNMAPPED_NATIVE_PREDICATE/cause x8
+  changed cells (identical in every reading of the group):
+    I,YOU,SOMEONE,SOMETHING,PEOPLE,BODY,KIND,PART: UNRESOLVED[+1|0|empty] -> 0   [+VERB_HEADS_NO_SUBSTANTIVE]
+    CAUSE: UNRESOLVED[+1|0|empty] -> +1   [+NATIVE:VN_CAUSATION]
+  unchanged-domain cells whose restricting-rule trace changed (identical in every reading of the group):
+    MOVE: +1 -> +1 (domain unchanged)   old trace: NATIVE:VN_EVENT_MOTION->+1 | new trace: OWN_PHYSICAL_CHANGE_OF_PLACE->+1   [+OWN_PHYSICAL_CHANGE_OF_PLACE -NATIVE:VN_EVENT_MOTION]
+  readings (8), per word:
+    step: VERB:run-51.3.2 frames 7-8
+    run: VERB:run-51.3.2 frames 7-8
+    walk: VERB:run-51.3.2 frames 7-8
+    rush: VERB:run-51.3.2 frames 7-8
+
+==============================================================================================================
+GROUP 8: 8 reading(s); 1 changed cell(s) per reading; 0 unchanged-domain cell(s) with changed trace; source_scope: {'<absent>': 8}
+  fired rules delta        : added=SIZE_DESCRIPTOR_EXCLUDES_EVALUATION
+  reading code             : unchanged
+  after_selection code     : unchanged
+  reading keys added       : ['relations'] (values: {'[]': 8})
+  reading keys removed     : none
+  other top-level keys that differ: ['symbolic_before']
+  after_selection keys that differ: ['domains', 'fired_rules', 'forced', 'trace']
+  changed cells (identical in every reading of the group):
+    GOOD: UNRESOLVED[+1|-1|0|empty] -> 0   [+SIZE_DESCRIPTOR_EXCLUDES_EVALUATION]
+  readings (8), per word:
+    large: large:ADJ:N3.2+:size
+    small: small:ADJ:N3.2-:size
+    little: little:ADJ:N3.2-:size
+    great: great:ADJ:N3.2+:size
+    big: big:ADJ:N3.2+:size
+    enormous: enormous:ADJ:N3.2+++:size
+    tiny: tiny:ADJ:N3.2-:size
+    immense: immense:ADJ:N3.2++:size
+
+==============================================================================================================
+GROUP 9: 4 reading(s); 8 changed cell(s) per reading; 1 unchanged-domain cell(s) with changed trace; source_scope: {'NATIVE_CLASS_FRAME': 4}
+  fired rules delta        : added=OWN_PHYSICAL_CHANGE_OF_PLACE,VERB_HEADS_NO_SUBSTANTIVE; removed=NATIVE:VN_EVENT_MOTION
+  reading code             : unchanged
+  after_selection code     : unchanged
+  reading keys added       : none
+  reading keys removed     : none
+  other top-level keys that differ: ['symbolic_before', 'unmapped']
+  after_selection keys that differ: ['domains', 'fired_rules', 'forced', 'trace']
+  unmapped entries whose code changed (old -> new, predicate): UNMAPPED_NATIVE_PREDICATE -> PARTICIPANT_EXISTENCE_PRESUPPOSITION / exist x4
+  changed cells (identical in every reading of the group):
+    I,YOU,SOMEONE,SOMETHING,PEOPLE,BODY,KIND,PART: UNRESOLVED[+1|0|empty] -> 0   [+VERB_HEADS_NO_SUBSTANTIVE]
+  unchanged-domain cells whose restricting-rule trace changed (identical in every reading of the group):
+    MOVE: +1 -> +1 (domain unchanged)   old trace: NATIVE:VN_EVENT_MOTION->+1 | new trace: OWN_PHYSICAL_CHANGE_OF_PLACE->+1   [+OWN_PHYSICAL_CHANGE_OF_PLACE -NATIVE:VN_EVENT_MOTION]
+  readings (4), per word:
+    run: VERB:swarm-47.5.1-1 frames 0-3
+
+==============================================================================================================
+GROUP 10: 1 reading(s); 2 changed cell(s) per reading; 1 unchanged-domain cell(s) with changed trace; source_scope: {'<absent>': 1}
+  fired rules delta        : added=FEAR_AVERSION,SIGNED_FELT_VALENCE_DOMAIN; removed=EMOTION_FEAR_ADJ:FEEL
+  reading code             : unchanged
+  after_selection code     : unchanged
+  reading keys added       : ['relations'] (values: {'[{"event_reference": "ANTICIPATED_BAD_EVENT", "kind": "NEGATED_DESIRE", "predicate": "WANT"}]': 1})
+  reading keys removed     : none
+  other top-level keys that differ: ['coverage_gap', 'symbolic_before']
+  after_selection keys that differ: ['domains', 'fired_rules', 'forced', 'trace']
+  key coverage_gap differs in 1 reading(s) (old/new values in comparison.json)
+  changed cells (identical in every reading of the group):
+    WANT,NOT: UNRESOLVED[+1|0|empty] -> +1   [+FEAR_AVERSION]
+  unchanged-domain cells whose restricting-rule trace changed (identical in every reading of the group):
+    GOOD: -1 -> -1 (domain unchanged)   old trace: EMOTION_FEAR_ADJ->-1 | new trace: SIGNED_FELT_VALENCE_DOMAIN->+1|-1; EMOTION_FEAR_ADJ->-1   [+SIGNED_FELT_VALENCE_DOMAIN]
+  readings (1), per word:
+    afraid: afraid:ADJ:E5-:fear
+

@@ -1,0 +1,56 @@
+  ▸ recalled 1 supplied input(s) from a previous run
+  … selection_status: tracing 16 function-routed tests
+  … selection_status: baseline traced · 16 tests · 0.1s
+  … selection_status: 1/63 mutants · 7.9/s · ETA estimating… (heartbeat)
+  … selection_status: 63/63 mutants · 87.3/s · done in 0.7s
+  ▸ pass 0: 16 value-survivor(s) — synthesizing killing tests…
+  ▸ pass 0: +13 new killing test(s) written [test_gse_lexicon_builder_model_selection_status_a7629fdfb4_synth.py]
+  … selection_status: tracing 27 function-routed tests
+  … selection_status: baseline traced · 27 tests · 0.0s
+  … selection_status: 63/63 mutants · 79.9/s · done in 0.8s
+  ▸ pass 1: 17 survivor(s) — no progress, at floor
+  ▸ witness pass: searching richer inputs for a distinguishing kill…
+  ▸ finalizing — re-profiling the full mutant universe against the written suite…
+  … selection_status: tracing 27 function-routed tests
+  … selection_status: baseline traced · 27 tests · 0.0s
+  … selection_status: 63/63 mutants · 83.9/s · done in 0.8s
+  ▸ minimizing — dropped 9 redundant test(s) our own cover flagged
+  … selection_status: tracing 18 function-routed tests
+  … selection_status: baseline traced · 18 tests · 0.0s
+  … selection_status: 63/63 mutants · 90.1/s · done in 0.7s
+  ▸ minimization would stop pinning 1 obligation(s) the suite on disk pins: contract:BOUNDARY_dd4a4dbb — retrying the un-minimized suite
+  … selection_status: tracing 27 function-routed tests
+  … selection_status: baseline traced · 27 tests · 0.0s
+  … selection_status: 63/63 mutants · 79.5/s · done in 0.8s
+  ▸ kept the suite already on disk — this run's would stop pinning 1 obligation(s) it currently pins: contract:BOUNDARY_dd4a4dbb
+  … selection_status: tracing 16 function-routed tests
+  … selection_status: baseline traced · 16 tests · 0.0s
+  … selection_status: 63/63 mutants · 88.0/s · done in 0.7s
+  ▸ 16 survivor(s) remain — classifying (killable / equivalent / needs-input)…
+  ▸ verifying reproducibility — fresh isolated observation of the function's proof basis…
+  … selection_status: tracing 16 function-routed tests
+  … selection_status: baseline traced · 16 tests · 0.0s
+  ▸ reproducibility confirmed — the certificate rests on the isolated observation
+──────────────────────────────────────────────────────────────────────────────
+gse/lexicon_builder/model.py::selection_status — converge · 63 behaviours · 47 pinned · 7 candidate-equivalent · 9 crash-only
+
+  ✓ wrote              2 test(s) → tests/detective/test_gse_lexicon_builder_model_selection_status_a7629fdfb4_synth.py
+  · unproven-equiv     7 — the search found no distinguishing input
+  · crash-only-equiv   9 — detected by crash; no value pins them
+  · not consulted      5644 collected test(s) have no static path to this function — not traced (a missed dynamic reacher costs a redundant generated test, never a certificate)
+  · full report        .detective/reports/converge_selection_status.txt
+
+DONE:  every killable behaviour Detective found is pinned.
+       What remains was not distinguished by any input Detective TRIED — and it
+       probed this signature's boundaries (both sides of every comparison edge,
+       the None of every Optional). Still a bounded search, not a proof:
+       equivalence is undecidable in general, so the engine will not claim it.
+       If you can PROVE one equivalent: detective flag 'gse/lexicon_builder/model.py::selection_status' SWAP_8e09c978 --note "why"  (6 more in the report)
+
+       NEXT — the style pass (behaviour is pinned; this is the self-evident next move):
+         detective plan 'gse/lexicon_builder/model.py'
+         detective decompose 'gse/lexicon_builder/model.py::selection_status' --apply
+         detective survey 'gse/lexicon_builder/model.py'
+         (efficiency: verify-rewrite --budget against a receipt from policy 9.261d14e34119)
+
+FINAL gse/lexicon_builder/model.py::selection_status: ✓ COMPLETE (operator universe · modulo 7 unproven-equivalent · 9 crash-only value gaps) · 56/63 killed · 2 test(s) → tests/detective/test_gse_lexicon_builder_model_selection_status_a7629fdfb4_synth.py · policy 9.261d14e34119

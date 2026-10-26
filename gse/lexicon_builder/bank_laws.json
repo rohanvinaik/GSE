@@ -1,0 +1,1961 @@
+{
+  "schema_version": 2,
+  "basis_id": "GSE_LEXICAL_72_SIGNED_58_V1",
+  "version": "2026-10-25.8",
+  "authority": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md",
+  "association_policy": {
+    "NRC_emotion": "ASSOCIATION_ONLY; no lexical sign or silence implication",
+    "NRC_VAD": "RATING_ONLY; native score sign is not a lexical pole",
+    "Lancaster": "EXPERIENCE_RATING; no participant-property transfer",
+    "concreteness": "REFERENTIAL_RATING; not a definitional component inventory",
+    "coherence_candidates": "DISCOVERED_NOT_ADMITTED; investigate exceptions and validate the conditional mechanism"
+  },
+  "laws": [
+    {
+      "rule_id": "OWN_AFFECTIVE_FEELING",
+      "kind": "CONDITIONAL_DEFINITION",
+      "review_state": "FOUNDER_APPROVED",
+      "coordinates": [
+        "FEEL"
+      ],
+      "allowed": [
+        [
+          "+1"
+        ]
+      ],
+      "guard": [
+        [
+          "own_denotatum",
+          "affective_feeling"
+        ]
+      ],
+      "warrant": "Founder F043: the target reading's own explicit affective-feeling denotatum",
+      "positive": "love as an affective feeling",
+      "must_not": "a person associated with love; an instrument used to cause a feeling",
+      "empirical_refs": [],
+      "tier": "FOUNDATIONAL"
+    },
+    {
+      "rule_id": "OWN_PHYSICAL_CHANGE_OF_PLACE",
+      "kind": "CONDITIONAL_DEFINITION",
+      "review_state": "FOUNDER_APPROVED",
+      "coordinates": [
+        "MOVE"
+      ],
+      "allowed": [
+        [
+          "+1"
+        ]
+      ],
+      "guard": [
+        [
+          "own_predicate",
+          "physical_change_of_place"
+        ]
+      ],
+      "warrant": "Founder F043: the target reading's own explicit physical-change-of-place predicate",
+      "positive": "walk as physical locomotion",
+      "must_not": "moving testimony; the location of an argument",
+      "empirical_refs": [],
+      "tier": "FOUNDATIONAL"
+    },
+    {
+      "rule_id": "MODIFIER_LACKS_INDEPENDENT_OBJECTNESS",
+      "kind": "CONDITIONAL_DEFINITION",
+      "review_state": "FOUNDER_APPROVED",
+      "coordinates": [
+        "SOMETHING"
+      ],
+      "allowed": [
+        [
+          "0"
+        ]
+      ],
+      "guard": [
+        [
+          "own_role",
+          "modifier_property_only"
+        ]
+      ],
+      "warrant": "Founder F057/F088 and F118: an exclusively modifying property explicitly lacks independent objectness; write SOMETHING:0, not an unknown mask.",
+      "positive": "big as an adjectival property",
+      "must_not": "a substantivized adjective denoting people or objects",
+      "empirical_refs": [],
+      "tier": "FOUNDATIONAL"
+    },
+    {
+      "rule_id": "FEELING_DENOTATUM_IS_NOT_A_CATEGORY",
+      "kind": "CONDITIONAL_BANK_RELATION",
+      "review_state": "FOUNDER_APPROVED",
+      "coordinates": [
+        "FEEL",
+        "KIND"
+      ],
+      "allowed": [
+        [
+          "empty",
+          "empty"
+        ],
+        [
+          "empty",
+          "0"
+        ],
+        [
+          "empty",
+          "+1"
+        ],
+        [
+          "0",
+          "empty"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "+1"
+        ],
+        [
+          "+1",
+          "0"
+        ]
+      ],
+      "guard": [
+        [
+          "own_denotatum",
+          "affective_feeling"
+        ]
+      ],
+      "warrant": "Founder F007: +1 means the sense denotes a category/type itself; a feeling such as love gets zero despite belonging to a category. F118 fixes the explicit-absence state. The own-denotatum guard is essential; FEEL content alone does not exclude category content in an arbitrary compound.",
+      "positive": "love as the feeling itself: FEEL:+1 and KIND:0",
+      "must_not": "a category of feelings; mere membership in a semantic class; an unaligned source role",
+      "empirical_refs": [],
+      "tier": "FOUNDATIONAL"
+    },
+    {
+      "rule_id": "OWN_DEGREE_BEARING_CONTENT",
+      "kind": "CONDITIONAL_BANK_RELATION",
+      "review_state": "FOUNDER_APPROVED",
+      "coordinates": [
+        "INTENSITY"
+      ],
+      "allowed": [
+        [
+          "+1"
+        ]
+      ],
+      "guard": [
+        [
+          "own_degree_domain",
+          "graded_property"
+        ]
+      ],
+      "warrant": "Founder live clarification (2026-10-25): INTENSITY marks degree-bearing content; NUMBER holds relative strength. In the source-guided own scalar-property reading, a signed USAS semantic scale and compatible FrameNet property frame establish the applicable degree domain. This does not assert VERY, a numeric gain, or a general fact about an unaligned participant.",
+      "positive": "a located good/bad-quality, size, or happy/sad-feeling property on its native semantic scale",
+      "must_not": "an unrelated affect rating; a source alternative of another role; a literal atomic seed without this scoped source fact",
+      "empirical_refs": [],
+      "tier": "FOUNDATIONAL"
+    },
+    {
+      "rule_id": "MODIFIER_HEADS_NO_SUBSTANTIVE",
+      "kind": "CONDITIONAL_DEFINITION",
+      "review_state": "FOUNDER_APPROVED",
+      "coordinates": [
+        "I",
+        "YOU",
+        "SOMEONE",
+        "PEOPLE",
+        "BODY",
+        "KIND",
+        "PART"
+      ],
+      "allowed": [
+        [
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "guard": [
+        [
+          "own_role",
+          "modifier_property_only"
+        ]
+      ],
+      "warrant": "Row 3b (F144): an exclusively modifying reading heads no substantive; a participant in its content is a role, not a cell (G12 p.16; GW2014 pp.56-59). F118: written 0 is explicit absence.",
+      "positive": "big and afraid as adjectival properties",
+      "must_not": "a substantivized adjective (the poor); a noun",
+      "empirical_refs": [],
+      "tier": "FOUNDATIONAL"
+    },
+    {
+      "rule_id": "VERB_HEADS_NO_SUBSTANTIVE",
+      "kind": "SCOPED_BANK_RELATION",
+      "review_state": "SOURCE_JUSTIFIED",
+      "tier": "FOUNDATIONAL",
+      "coordinates": [
+        "I",
+        "YOU",
+        "SOMEONE",
+        "SOMETHING",
+        "PEOPLE",
+        "BODY",
+        "KIND",
+        "PART"
+      ],
+      "allowed": [
+        [
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "guard": [
+        [
+          "own_role",
+          "lexical_predicate"
+        ]
+      ],
+      "warrant": "F148 implementation of the agreed head/participant contract: a located lexical verb is not a substantive head. Participants remain in the derivation. A nominal predicate does not establish this guard.",
+      "empirical_refs": [],
+      "source_refs": [
+        "FOUNDER:F067,F075,F083,F148",
+        "NSM_CHART_V20",
+        "GSE_PROJECTION_V2"
+      ],
+      "positive": "The scoped positive witnesses in tests/test_lexicon_foundation_workflow.py",
+      "must_not": "An unaligned reading, participant property, or source absence must not trigger this rule.",
+      "founder_decision": "F151-F152",
+      "lifecycle": "ACTIVE",
+      "authority": {
+        "kind": "GSE_CONVENTION",
+        "refs": [
+          "FOUNDER:F151-F152"
+        ]
+      },
+      "validation": {
+        "status": "VALIDATED",
+        "contract_sha256": "62b8d8bfd189435918f4253afe250ef98bf7027d414dd0ff548d25a37d0e4cf5",
+        "positive": [
+          "tests/test_lexicon_conditional_rules.py::test_head_rules_write_the_located_head_contract"
+        ],
+        "must_not": [
+          "tests/test_lexicon_conditional_rules.py::test_head_rules_do_not_infer_a_head_from_pos_or_another_reading"
+        ]
+      }
+    },
+    {
+      "rule_id": "OPERATOR_HEADS_NO_SUBSTANTIVE",
+      "kind": "SCOPED_BANK_RELATION",
+      "review_state": "SOURCE_JUSTIFIED",
+      "tier": "FOUNDATIONAL",
+      "coordinates": [
+        "I",
+        "YOU",
+        "SOMEONE",
+        "SOMETHING",
+        "PEOPLE",
+        "BODY",
+        "KIND",
+        "PART"
+      ],
+      "allowed": [
+        [
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "guard": [
+        [
+          "own_role",
+          "non_substantive_operator"
+        ]
+      ],
+      "warrant": "A located quantifier, connective or other operator contributes an operation, not an independent substantive denotation. The eight substantive coordinates record the word's own head (NSM_RESOLUTIONS §2, approved F144), so all eight are explicitly absent (F118), as for modifiers (row 3b) and predicates (F151-F152). Explicit projection convention; not a rule for every use of its spelling.",
+      "empirical_refs": [],
+      "source_refs": [
+        "docs/verification/lexicon-rebuild/closeout-2026-10-25/NSM_RESOLUTIONS.md#2-what-the-substantive-coordinates-record-contract-question-2",
+        "data/external/references/nsm-primes-chart-v20-2022.pdf"
+      ],
+      "positive": "because, not, can, one and same as located prime readings: all eight substantive cells 0",
+      "must_not": "the substantive argument an operator takes (one of these people) writing PEOPLE into ONE",
+      "authority": {
+        "kind": "GSE_CONVENTION",
+        "refs": [
+          "NSM_RESOLUTIONS §2 head contract (approved F144)",
+          "F118"
+        ]
+      },
+      "lifecycle": "ACTIVE",
+      "validation": {
+        "status": "VALIDATED",
+        "contract_sha256": "a90a98b7a8a7011be08d115b06e16c12fbe2b3ecedecf80f4a004d7e219820a1",
+        "positive": [
+          "tests/test_lexicon_conditional_rules.py::test_head_rules_write_the_located_head_contract"
+        ],
+        "must_not": [
+          "tests/test_lexicon_conditional_rules.py::test_head_rules_do_not_infer_a_head_from_pos_or_another_reading"
+        ]
+      }
+    },
+    {
+      "rule_id": "TIME_PLACE_HEADS_NO_SUBSTANTIVE",
+      "kind": "SCOPED_BANK_RELATION",
+      "review_state": "SOURCE_JUSTIFIED",
+      "tier": "FOUNDATIONAL",
+      "authority": {
+        "kind": "GSE_CONVENTION",
+        "refs": [
+          "NSM_RESOLUTIONS §2 head contract (approved F144)",
+          "F057",
+          "F118"
+        ]
+      },
+      "coordinates": [
+        "I",
+        "YOU",
+        "SOMEONE",
+        "SOMETHING",
+        "PEOPLE",
+        "BODY",
+        "KIND",
+        "PART"
+      ],
+      "allowed": [
+        [
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "guard": [
+        [
+          "own_role",
+          "time_or_place_relation"
+        ]
+      ],
+      "warrant": "The eight substantive coordinates record the word's own head (NSM_RESOLUTIONS §2, approved F144). A time or place head (NOW, HERE, BEFORE, ABOVE, FAR, INSIDE) denotes a time or a place, not a person or a thing: shouting it sends no one looking for an object (F057), and the chart groups the time and place primes apart from the substantives. All eight are therefore explicitly absent (F118), as for modifiers (row 3b) and predicates (F151-F152). The noun-like WHEN~TIME, WHERE~PLACE, SIDE and MOMENT fall under this guard because each of their heads is its own coordinate, outside the substantive bank. The guard is an authored head classification; no adapter may infer it from grammatical nounhood or part of speech (F159).",
+      "source_refs": [
+        "docs/verification/lexicon-rebuild/closeout-2026-10-25/NSM_RESOLUTIONS.md#2-what-the-substantive-coordinates-record-contract-question-2",
+        "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#f057",
+        "data/external/references/nsm-primes-chart-v20-2022.pdf"
+      ],
+      "positive": "now and here as located prime readings: all eight substantive cells 0",
+      "must_not": "a time or place head class inferred from POS NOUN (afternoon, house); time or place typing writing WHEN into NOW or WHERE into HERE (families are metadata, F158 section 4)",
+      "empirical_refs": [],
+      "lifecycle": "ACTIVE",
+      "validation": {
+        "status": "VALIDATED",
+        "contract_sha256": "8b929f816bce49f44d3b65623f558462cdb17a4d453a88757b1e641f56f6dfa5",
+        "positive": [
+          "tests/test_lexicon_conditional_rules.py::test_head_rules_write_the_located_head_contract"
+        ],
+        "must_not": [
+          "tests/test_lexicon_conditional_rules.py::test_head_rules_do_not_infer_a_head_from_pos_or_another_reading"
+        ]
+      }
+    },
+    {
+      "rule_id": "SUBSTANTIVE_HEAD_IS_ONE_HOT",
+      "kind": "SCOPED_HEAD_CONTRACT",
+      "review_state": "SOURCE_JUSTIFIED",
+      "tier": "FOUNDATIONAL",
+      "authority": {
+        "kind": "GSE_CONVENTION",
+        "refs": [
+          "NSM_RESOLUTIONS §2 head contract (approved F144)",
+          "FEELING_NOUN_HEAD precedent (F144)",
+          "F118"
+        ]
+      },
+      "coordinates": [
+        "I",
+        "YOU",
+        "SOMEONE",
+        "SOMETHING",
+        "PEOPLE",
+        "BODY",
+        "KIND",
+        "PART"
+      ],
+      "allowed": [
+        [
+          "+1",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "+1",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "+1",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0",
+          "+1",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0",
+          "0",
+          "+1",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "+1",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "+1",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "+1"
+        ]
+      ],
+      "guard": [
+        [
+          "own_role",
+          "substantive"
+        ],
+        [
+          "lexical_unit_kind",
+          "PRIME"
+        ]
+      ],
+      "warrant": "The eight substantive coordinates record the word's own head (NSM_RESOLUTIONS §2, approved F144). A substantive prime's head is exactly one of them and the other seven are explicitly absent (F118), as the approved feeling-noun contract writes SOMETHING +1 and the rest 0. The guard names prime profiles explicitly (F159): an ordinary substantive reading never triggers it, so part and body nouns (hand, wheel, handle), which may need PART alongside BODY or SOMETHING, stay open until their own contract is settled. A GSE head-record convention; the zeros alone do not satisfy F148's V/U/W test (F159).",
+      "source_refs": [
+        "docs/verification/lexicon-rebuild/closeout-2026-10-25/NSM_RESOLUTIONS.md#2-what-the-substantive-coordinates-record-contract-question-2",
+        "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#f144"
+      ],
+      "positive": "I: I +1 and the other seven 0; SOMETHING: SOMETHING +1 and the other seven 0",
+      "must_not": "an ordinary substantive reading (box, hand) triggering it; WANT's experiencer writing SOMEONE into WANT; person typing writing SOMEONE +1 into I (F158 section 4)",
+      "empirical_refs": [],
+      "lifecycle": "ACTIVE",
+      "validation": {
+        "status": "VALIDATED",
+        "contract_sha256": "1d6e1a57a78bbe5d8581d28609b56f90c89270030fb0a1c8936e5c85472c8612",
+        "positive": [
+          "tests/test_lexicon_conditional_rules.py::test_substantive_one_hot_requires_a_located_prime_identity"
+        ],
+        "must_not": [
+          "tests/test_lexicon_conditional_rules.py::test_substantive_one_hot_never_closes_an_ordinary_noun"
+        ]
+      }
+    },
+    {
+      "rule_id": "EVALUATOR_EXCLUDES_SIZE",
+      "kind": "SCOPED_BANK_RELATION",
+      "review_state": "SOURCE_JUSTIFIED",
+      "tier": "FOUNDATIONAL",
+      "coordinates": [
+        "GOOD",
+        "BIG"
+      ],
+      "allowed": [
+        [
+          "empty",
+          "empty"
+        ],
+        [
+          "empty",
+          "0"
+        ],
+        [
+          "empty",
+          "+1"
+        ],
+        [
+          "empty",
+          "-1"
+        ],
+        [
+          "0",
+          "empty"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "+1"
+        ],
+        [
+          "0",
+          "-1"
+        ],
+        [
+          "+1",
+          "0"
+        ],
+        [
+          "-1",
+          "0"
+        ]
+      ],
+      "guard": [
+        [
+          "own_semantic_kind",
+          "evaluator"
+        ]
+      ],
+      "warrant": "F067: an own evaluator is not an own size descriptor. The guard is on the located head; felt valence inside an emotion does not establish it.",
+      "empirical_refs": [],
+      "source_refs": [
+        "FOUNDER:F067,F075,F083,F148",
+        "NSM_CHART_V20",
+        "GSE_PROJECTION_V2"
+      ],
+      "positive": "The scoped positive witnesses in tests/test_lexicon_foundation_workflow.py",
+      "must_not": "An unaligned reading, participant property, or source absence must not trigger this rule.",
+      "founder_decision": "F067; F151-F152",
+      "lifecycle": "ACTIVE",
+      "authority": {
+        "kind": "FOUNDER",
+        "refs": [
+          "FOUNDER:F067"
+        ]
+      },
+      "validation": {
+        "status": "VALIDATED",
+        "contract_sha256": "4a38b232e42bb17a45fefedcec80ac7181ffcf5b6031902a15326d185383dca4",
+        "positive": [
+          "tests/test_lexicon_conditional_rules.py::test_evaluator_and_size_exclusions_follow_the_own_head"
+        ],
+        "must_not": [
+          "tests/test_lexicon_conditional_rules.py::test_component_presence_does_not_classify_the_head"
+        ]
+      }
+    },
+    {
+      "rule_id": "SIZE_DESCRIPTOR_EXCLUDES_EVALUATION",
+      "kind": "SCOPED_BANK_RELATION",
+      "review_state": "SOURCE_JUSTIFIED",
+      "tier": "FOUNDATIONAL",
+      "coordinates": [
+        "BIG",
+        "GOOD"
+      ],
+      "allowed": [
+        [
+          "empty",
+          "empty"
+        ],
+        [
+          "empty",
+          "0"
+        ],
+        [
+          "empty",
+          "+1"
+        ],
+        [
+          "empty",
+          "-1"
+        ],
+        [
+          "0",
+          "empty"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "+1"
+        ],
+        [
+          "0",
+          "-1"
+        ],
+        [
+          "+1",
+          "0"
+        ],
+        [
+          "-1",
+          "0"
+        ]
+      ],
+      "guard": [
+        [
+          "own_semantic_kind",
+          "size_descriptor"
+        ]
+      ],
+      "warrant": "F067: an own size descriptor is not an own evaluator. A component of a larger definition is not automatically its head type.",
+      "empirical_refs": [],
+      "source_refs": [
+        "FOUNDER:F067,F075,F083,F148",
+        "NSM_CHART_V20",
+        "GSE_PROJECTION_V2"
+      ],
+      "positive": "The scoped positive witnesses in tests/test_lexicon_foundation_workflow.py",
+      "must_not": "An unaligned reading, participant property, or source absence must not trigger this rule.",
+      "founder_decision": "F067; F151-F152",
+      "lifecycle": "ACTIVE",
+      "authority": {
+        "kind": "FOUNDER",
+        "refs": [
+          "FOUNDER:F067"
+        ]
+      },
+      "validation": {
+        "status": "VALIDATED",
+        "contract_sha256": "1faadc37fba49768a8beee003e03785c8d74003602d9fa3dbfde39eeb87c9a34",
+        "positive": [
+          "tests/test_lexicon_conditional_rules.py::test_evaluator_and_size_exclusions_follow_the_own_head"
+        ],
+        "must_not": [
+          "tests/test_lexicon_conditional_rules.py::test_component_presence_does_not_classify_the_head"
+        ]
+      }
+    },
+    {
+      "rule_id": "FEAR_AVERSION",
+      "kind": "SCOPED_BANK_RELATION",
+      "review_state": "SOURCE_JUSTIFIED",
+      "tier": "CONDITIONAL",
+      "coordinates": [
+        "FEEL",
+        "THINK",
+        "WANT",
+        "NOT"
+      ],
+      "allowed": [
+        [
+          "empty",
+          "empty",
+          "empty",
+          "empty"
+        ],
+        [
+          "empty",
+          "empty",
+          "empty",
+          "0"
+        ],
+        [
+          "empty",
+          "empty",
+          "empty",
+          "+1"
+        ],
+        [
+          "empty",
+          "empty",
+          "0",
+          "empty"
+        ],
+        [
+          "empty",
+          "empty",
+          "0",
+          "0"
+        ],
+        [
+          "empty",
+          "empty",
+          "0",
+          "+1"
+        ],
+        [
+          "empty",
+          "empty",
+          "+1",
+          "empty"
+        ],
+        [
+          "empty",
+          "empty",
+          "+1",
+          "0"
+        ],
+        [
+          "empty",
+          "empty",
+          "+1",
+          "+1"
+        ],
+        [
+          "empty",
+          "0",
+          "empty",
+          "empty"
+        ],
+        [
+          "empty",
+          "0",
+          "empty",
+          "0"
+        ],
+        [
+          "empty",
+          "0",
+          "empty",
+          "+1"
+        ],
+        [
+          "empty",
+          "0",
+          "0",
+          "empty"
+        ],
+        [
+          "empty",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "empty",
+          "0",
+          "0",
+          "+1"
+        ],
+        [
+          "empty",
+          "0",
+          "+1",
+          "empty"
+        ],
+        [
+          "empty",
+          "0",
+          "+1",
+          "0"
+        ],
+        [
+          "empty",
+          "0",
+          "+1",
+          "+1"
+        ],
+        [
+          "empty",
+          "+1",
+          "empty",
+          "empty"
+        ],
+        [
+          "empty",
+          "+1",
+          "empty",
+          "0"
+        ],
+        [
+          "empty",
+          "+1",
+          "empty",
+          "+1"
+        ],
+        [
+          "empty",
+          "+1",
+          "0",
+          "empty"
+        ],
+        [
+          "empty",
+          "+1",
+          "0",
+          "0"
+        ],
+        [
+          "empty",
+          "+1",
+          "0",
+          "+1"
+        ],
+        [
+          "empty",
+          "+1",
+          "+1",
+          "empty"
+        ],
+        [
+          "empty",
+          "+1",
+          "+1",
+          "0"
+        ],
+        [
+          "empty",
+          "+1",
+          "+1",
+          "+1"
+        ],
+        [
+          "0",
+          "empty",
+          "empty",
+          "empty"
+        ],
+        [
+          "0",
+          "empty",
+          "empty",
+          "0"
+        ],
+        [
+          "0",
+          "empty",
+          "empty",
+          "+1"
+        ],
+        [
+          "0",
+          "empty",
+          "0",
+          "empty"
+        ],
+        [
+          "0",
+          "empty",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "empty",
+          "0",
+          "+1"
+        ],
+        [
+          "0",
+          "empty",
+          "+1",
+          "empty"
+        ],
+        [
+          "0",
+          "empty",
+          "+1",
+          "0"
+        ],
+        [
+          "0",
+          "empty",
+          "+1",
+          "+1"
+        ],
+        [
+          "0",
+          "0",
+          "empty",
+          "empty"
+        ],
+        [
+          "0",
+          "0",
+          "empty",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "empty",
+          "+1"
+        ],
+        [
+          "0",
+          "0",
+          "0",
+          "empty"
+        ],
+        [
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0",
+          "+1"
+        ],
+        [
+          "0",
+          "0",
+          "+1",
+          "empty"
+        ],
+        [
+          "0",
+          "0",
+          "+1",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "+1",
+          "+1"
+        ],
+        [
+          "0",
+          "+1",
+          "empty",
+          "empty"
+        ],
+        [
+          "0",
+          "+1",
+          "empty",
+          "0"
+        ],
+        [
+          "0",
+          "+1",
+          "empty",
+          "+1"
+        ],
+        [
+          "0",
+          "+1",
+          "0",
+          "empty"
+        ],
+        [
+          "0",
+          "+1",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "+1",
+          "0",
+          "+1"
+        ],
+        [
+          "0",
+          "+1",
+          "+1",
+          "empty"
+        ],
+        [
+          "0",
+          "+1",
+          "+1",
+          "0"
+        ],
+        [
+          "0",
+          "+1",
+          "+1",
+          "+1"
+        ],
+        [
+          "+1",
+          "empty",
+          "empty",
+          "empty"
+        ],
+        [
+          "+1",
+          "empty",
+          "empty",
+          "0"
+        ],
+        [
+          "+1",
+          "empty",
+          "empty",
+          "+1"
+        ],
+        [
+          "+1",
+          "empty",
+          "0",
+          "empty"
+        ],
+        [
+          "+1",
+          "empty",
+          "0",
+          "0"
+        ],
+        [
+          "+1",
+          "empty",
+          "0",
+          "+1"
+        ],
+        [
+          "+1",
+          "empty",
+          "+1",
+          "empty"
+        ],
+        [
+          "+1",
+          "empty",
+          "+1",
+          "0"
+        ],
+        [
+          "+1",
+          "empty",
+          "+1",
+          "+1"
+        ],
+        [
+          "+1",
+          "0",
+          "empty",
+          "empty"
+        ],
+        [
+          "+1",
+          "0",
+          "empty",
+          "0"
+        ],
+        [
+          "+1",
+          "0",
+          "empty",
+          "+1"
+        ],
+        [
+          "+1",
+          "0",
+          "0",
+          "empty"
+        ],
+        [
+          "+1",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "+1",
+          "0",
+          "0",
+          "+1"
+        ],
+        [
+          "+1",
+          "0",
+          "+1",
+          "empty"
+        ],
+        [
+          "+1",
+          "0",
+          "+1",
+          "0"
+        ],
+        [
+          "+1",
+          "0",
+          "+1",
+          "+1"
+        ],
+        [
+          "+1",
+          "+1",
+          "+1",
+          "+1"
+        ]
+      ],
+      "guard": [
+        [
+          "source_frame_family",
+          "Fear"
+        ]
+      ],
+      "warrant": "The eight sourced Fear explications share aversion: negated WANT, with its event referent retained. Scope is the sourced Fear template, not every feeling or negation. In-sample source agreement, not an independent held-out result.",
+      "empirical_refs": [],
+      "source_refs": [
+        "FOUNDER:F067,F075,F083,F148",
+        "NSM_CHART_V20",
+        "GSE_PROJECTION_V2"
+      ],
+      "positive": "The scoped positive witnesses in tests/test_lexicon_foundation_workflow.py",
+      "must_not": "An unaligned reading, participant property, or source absence must not trigger this rule.",
+      "founder_decision": "F151-F152",
+      "lifecycle": "ACTIVE",
+      "authority": {
+        "kind": "FOUNDER",
+        "refs": [
+          "FOUNDER:F152",
+          "Wierzbicka 1999 Fear explications; in-sample warrant, not a held-out result"
+        ]
+      },
+      "validation": {
+        "status": "VALIDATED",
+        "contract_sha256": "c6efe7b9e2930fbbeaf9880a585452c9e7765940571bc366f252bb98d74fea36",
+        "positive": [
+          "tests/test_lexicon_conditional_rules.py::test_fear_aversion_requires_both_components_in_the_fear_scope"
+        ],
+        "must_not": [
+          "tests/test_lexicon_conditional_rules.py::test_fear_aversion_never_turns_arbitrary_feeling_or_negation_into_want"
+        ]
+      }
+    },
+    {
+      "rule_id": "FEELING_NOUN_HEAD",
+      "kind": "SCOPED_HEAD_CONTRACT",
+      "review_state": "SOURCE_JUSTIFIED",
+      "tier": "FOUNDATIONAL",
+      "coordinates": [
+        "I",
+        "YOU",
+        "SOMEONE",
+        "SOMETHING",
+        "PEOPLE",
+        "BODY",
+        "KIND",
+        "PART"
+      ],
+      "allowed": [
+        [
+          "0",
+          "0",
+          "0",
+          "+1",
+          "0",
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "guard": [
+        [
+          "own_role",
+          "feeling_substantive"
+        ]
+      ],
+      "warrant": "F144 feeling-noun contract and the adopted gold projection: the head is the feeling-something, while experiencer and other participants remain roles. This does not apply to every noun.",
+      "empirical_refs": [],
+      "source_refs": [
+        "FOUNDER:F067,F075,F083,F148",
+        "NSM_CHART_V20",
+        "GSE_PROJECTION_V2"
+      ],
+      "positive": "The scoped positive witnesses in tests/test_lexicon_foundation_workflow.py",
+      "must_not": "An unaligned reading, participant property, or source absence must not trigger this rule.",
+      "lifecycle": "ACTIVE",
+      "authority": {
+        "kind": "FOUNDER",
+        "refs": [
+          "FOUNDER:F144",
+          "NSM_RESOLUTIONS section 2"
+        ]
+      },
+      "validation": {
+        "status": "VALIDATED",
+        "contract_sha256": "5c16e3a8b81fe9fb9814c6cdb183ba7753bb0fc4945fad0ba0adc6a1d5c10233",
+        "positive": [
+          "tests/test_lexicon_conditional_rules.py::test_head_rules_write_the_located_head_contract"
+        ],
+        "must_not": [
+          "tests/test_lexicon_conditional_rules.py::test_head_rules_do_not_infer_a_head_from_pos_or_another_reading"
+        ]
+      }
+    },
+    {
+      "rule_id": "SIGNED_FELT_VALENCE_DOMAIN",
+      "kind": "SCOPED_BANK_DOMAIN",
+      "review_state": "SOURCE_JUSTIFIED",
+      "tier": "FOUNDATIONAL",
+      "coordinates": [
+        "GOOD"
+      ],
+      "allowed": [
+        [
+          "-1"
+        ],
+        [
+          "+1"
+        ]
+      ],
+      "guard": [
+        [
+          "own_valence_domain",
+          "signed_felt_pole"
+        ]
+      ],
+      "warrant": "F066: an established strong signed emotive-valence domain is not zero. The guard requires a signed felt-pole reading, not merely an emotion association. Unqualified feeling readings do not establish it.",
+      "source_refs": [
+        "FOUNDER:F066"
+      ],
+      "positive": "Fear felt-valence reading; explicitly signed happiness/sadness",
+      "must_not": "An unsigned or unaligned emotion association; the bare FEEL prime",
+      "lifecycle": "ACTIVE",
+      "authority": {
+        "kind": "FOUNDER",
+        "refs": [
+          "FOUNDER:F066"
+        ]
+      },
+      "validation": {
+        "status": "VALIDATED",
+        "contract_sha256": "2dc11a285312b95d9e7b9874cc0ad57964f0b7535650cd7b1a29350fb07a8072",
+        "positive": [
+          "tests/test_lexicon_conditional_rules.py::test_signed_felt_domain_excludes_zero_but_does_not_choose_a_pole"
+        ],
+        "must_not": [
+          "tests/test_lexicon_conditional_rules.py::test_unsigned_feeling_and_emotion_association_do_not_exclude_zero"
+        ]
+      }
+    }
+  ],
+  "source_rules": [
+    {
+      "rule_id": "USAS_OWN_QUALITY_POLE",
+      "kind": "SOURCE_CONTRACT_PROJECTION",
+      "review_state": "FOUNDER_APPROVED",
+      "pos": [
+        "ADJ"
+      ],
+      "category": "A5.1",
+      "frames": [
+        "Desirability"
+      ],
+      "family": "quality",
+      "coordinate": "GOOD",
+      "companions": {},
+      "residual": [],
+      "coverage": "PROVISIONAL_PURE_QUALITY_TEMPLATE",
+      "warrant": "USAS guide A5.1 explicitly classifies evaluative good/bad quality; FrameNet Desirability corroborates an own quality reading. Numeric affect associations are not premises.",
+      "research": [
+        "https://ucrel.lancs.ac.uk/usas/usas_guide.pdf#page=5",
+        "https://framenet2.icsi.berkeley.edu/"
+      ],
+      "positive": "excellent.adj, terrible.adj in the quality reading",
+      "must_not": "sad as an affective state; Satan's reputation; a non-quality alternative of awful",
+      "empirical_refs": [],
+      "origin": "FIELD_CONTRACT_AND_READING_GUARD; not inferred from a correlation coefficient",
+      "residual_warrants": {},
+      "reading_facts": [
+        [
+          "own_degree_domain",
+          "graded_property"
+        ],
+        [
+          "own_semantic_kind",
+          "evaluator"
+        ]
+      ],
+      "degree_contract": "INTENSITY is presence of degree-bearing content, not VERY. Relative strength is NUMBER, never a change in sign or mask.",
+      "coverage_gap": "Additional masks remain provisional until the candidate has passed an omission challenge and lexical audit; source-native ordinal ranks are retained without claiming calibrated cross-word strength.",
+      "tier": "CONDITIONAL"
+    },
+    {
+      "rule_id": "USAS_OWN_SIZE_POLE",
+      "kind": "SOURCE_CONTRACT_PROJECTION",
+      "review_state": "FOUNDER_APPROVED",
+      "pos": [
+        "ADJ"
+      ],
+      "category": "N3.2",
+      "frames": [
+        "Size"
+      ],
+      "family": "size",
+      "coordinate": "BIG",
+      "companions": {},
+      "residual": [],
+      "coverage": "PROVISIONAL_PURE_SIZE_TEMPLATE",
+      "warrant": "USAS N3.2 is size; an aligned adjectival Dimension/Size lexical unit confirms own size rather than association. The signed tag locates the pole; unsuffixed size does not fix a pole.",
+      "research": [
+        "https://ucrel.lancs.ac.uk/usas/usas_guide.pdf",
+        "https://framenet2.icsi.berkeley.edu/"
+      ],
+      "positive": "enormous.adj, tiny.adj as size properties",
+      "must_not": "tiny.noun as a young person; great as quality; medium as an unspecified pole",
+      "empirical_refs": [],
+      "origin": "FIELD_CONTRACT_AND_READING_GUARD",
+      "residual_warrants": {},
+      "reading_facts": [
+        [
+          "own_degree_domain",
+          "graded_property"
+        ],
+        [
+          "own_semantic_kind",
+          "size_descriptor"
+        ]
+      ],
+      "degree_contract": "INTENSITY is presence of degree-bearing content, not VERY. Relative strength is NUMBER, never a change in sign or mask.",
+      "coverage_gap": "Additional masks remain provisional until the candidate has passed an omission challenge and lexical audit; source-native ordinal ranks are retained without claiming calibrated cross-word strength.",
+      "tier": "CONDITIONAL"
+    },
+    {
+      "rule_id": "USAS_OWN_HAPPY_SAD_STATE",
+      "kind": "SOURCE_CONTRACT_PROJECTION",
+      "review_state": "IMPLEMENTED_FOR_PROTOTYPE_AUDIT",
+      "pos": [
+        "ADJ"
+      ],
+      "category": "E4.1",
+      "frames": [
+        "Emotion_directed"
+      ],
+      "family": "feeling",
+      "coordinate": "GOOD",
+      "companions": {
+        "FEEL": "+1"
+      },
+      "residual": [],
+      "coverage": "PROVISIONAL_OWN_FELT_VALENCE_TEMPLATE",
+      "warrant": "USAS E4.1 locates happiness/sadness; the adjectival Emotion_directed reading identifies the experiencer's feeling. GOOD/BAD concerns the quality of feeling, not a moral judgement on its bearer. Additional content requires the typed residual and omission challenge.",
+      "research": [
+        "https://ucrel.lancs.ac.uk/usas/usas_guide.pdf#page=10",
+        "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#f043"
+      ],
+      "positive": "delighted.adj and sorrowful.adj as happy/sad feeling properties; not their other source readings",
+      "must_not": "delighted.verb as a cause of another person's emotion; sadness associated with a place; disgust inferred from furious",
+      "empirical_refs": [],
+      "origin": "FIELD_CONTRACT_AND_FOUNDER_OWN_FEELING_RULE",
+      "coverage_gap": "Additional masks remain provisional until the candidate has passed an omission challenge and lexical audit; source-native ordinal ranks are retained without claiming calibrated cross-word strength.",
+      "reading_facts": [
+        [
+          "own_denotatum",
+          "affective_feeling"
+        ],
+        [
+          "own_degree_domain",
+          "graded_property"
+        ]
+      ],
+      "residual_warrants": {},
+      "degree_contract": "INTENSITY is presence of degree-bearing content, not VERY. Relative strength is NUMBER, never a change in sign or mask.",
+      "tier": "CONDITIONAL"
+    },
+    {
+      "rule_id": "EMOTION_FEAR_ADJ",
+      "kind": "SOURCE_CONTRACT_PROJECTION",
+      "review_state": "FOUNDER_APPROVED",
+      "pos": [
+        "ADJ"
+      ],
+      "categories": [
+        "E5",
+        "E6"
+      ],
+      "signs": "-",
+      "frames": [
+        "Fear"
+      ],
+      "family": "fear",
+      "coordinate": "GOOD",
+      "companions": {
+        "THINK": "+1",
+        "LIKE": "+1",
+        "WHEN": "+1",
+        "BECAUSE": "+1",
+        "CAN": "+1",
+        "HAPPEN": "+1"
+      },
+      "residual": [],
+      "coverage": null,
+      "warrant": "Rows 19, 22 and 24a (F129, F144): a USAS E5- or E6- adjective certified through FrameNet's Fear frame, which inherits Emotions_by_possibility. Every published wording of the Fear class has FEEL, THINK, LIKE, WHEN and BECAUSE; every sourced Fear explication has CAN and HAPPEN; GOOD is the felt valence, -1 ('feels something (very) bad'). CAUSE stays open (option B).",
+      "research": [
+        "docs/verification/lexicon-rebuild/closeout-2026-10-25/NSM_RESOLUTIONS.md",
+        "docs/verification/lexicon-rebuild/closeout-2026-10-25/EMOTION_SLICE_DRAFT.md"
+      ],
+      "positive": "afraid, frightened, nervous, scared, terrified",
+      "must_not": "sad (no Fear frame); an E5+ courage tag; an unaligned Fear noun",
+      "empirical_refs": [],
+      "origin": "FOUNDER_APPROVED_TEMPLATE",
+      "residual_warrants": {},
+      "reading_facts": [
+        [
+          "own_denotatum",
+          "affective_feeling"
+        ],
+        [
+          "own_degree_domain",
+          "graded_property"
+        ],
+        [
+          "source_frame_family",
+          "Fear"
+        ],
+        [
+          "own_valence_domain",
+          "signed_felt_pole"
+        ]
+      ],
+      "degree_contract": "INTENSITY is presence of degree-bearing content, not VERY. Relative strength is NUMBER.",
+      "coverage_gap": "Unwarranted cells remain unresolved in the symbolic baseline. Tail decisions require an explicit diagnosed queue.",
+      "fill_scope": "THE_FEELING_AND_THE_PROTOTYPICAL_THOUGHT_IT_COMES_FROM (what a person thinks when feeling this; F129)",
+      "tier": "CONDITIONAL",
+      "relations": [
+        {
+          "kind": "NEGATED_DESIRE",
+          "predicate": "WANT",
+          "event_reference": "ANTICIPATED_BAD_EVENT"
+        }
+      ]
+    },
+    {
+      "rule_id": "EMOTION_FEAR_NOUN",
+      "kind": "SOURCE_CONTRACT_PROJECTION",
+      "review_state": "SOURCE_JUSTIFIED",
+      "pos": [
+        "NOUN"
+      ],
+      "categories": [
+        "E5",
+        "E6"
+      ],
+      "signs": "-",
+      "frames": [
+        "Fear"
+      ],
+      "family": "fear_noun",
+      "coordinate": "GOOD",
+      "companions": {
+        "THINK": "+1",
+        "LIKE": "+1",
+        "WHEN": "+1",
+        "BECAUSE": "+1",
+        "CAN": "+1",
+        "HAPPEN": "+1"
+      },
+      "residual": [],
+      "coverage": null,
+      "warrant": "Rows 19, 22 and 24a (F129, F144): a USAS E5- or E6- feeling noun certified through FrameNet's Fear frame, which inherits Emotions_by_possibility. Every published wording of the Fear class has FEEL, THINK, LIKE, WHEN and BECAUSE; every sourced Fear explication has CAN and HAPPEN; GOOD is the felt valence, -1 ('feels something (very) bad'). CAUSE stays open (option B).",
+      "research": [
+        "docs/verification/lexicon-rebuild/closeout-2026-10-25/NSM_RESOLUTIONS.md",
+        "docs/verification/lexicon-rebuild/closeout-2026-10-25/EMOTION_SLICE_DRAFT.md"
+      ],
+      "positive": "fear, apprehension, dread and terror as feeling nouns",
+      "must_not": "fear as a verb; a situation associated with fear",
+      "empirical_refs": [],
+      "origin": "SOURCE_JUSTIFIED_TEMPLATE_HEAD_ADAPTATION",
+      "residual_warrants": {},
+      "reading_facts": [
+        [
+          "own_denotatum",
+          "affective_feeling"
+        ],
+        [
+          "own_degree_domain",
+          "graded_property"
+        ],
+        [
+          "source_frame_family",
+          "Fear"
+        ],
+        [
+          "own_valence_domain",
+          "signed_felt_pole"
+        ]
+      ],
+      "degree_contract": "INTENSITY is presence of degree-bearing content, not VERY. Relative strength is NUMBER.",
+      "coverage_gap": "Unwarranted cells remain unresolved in the symbolic baseline. Tail decisions require an explicit diagnosed queue.",
+      "fill_scope": "THE_FEELING_AND_THE_PROTOTYPICAL_THOUGHT_IT_COMES_FROM (what a person thinks when feeling this; F129)",
+      "tier": "CONDITIONAL",
+      "relations": [
+        {
+          "kind": "NEGATED_DESIRE",
+          "predicate": "WANT",
+          "event_reference": "ANTICIPATED_BAD_EVENT"
+        }
+      ],
+      "own_role": "feeling_substantive",
+      "source_refs": [
+        "FOUNDER:F067,F075,F083,F148",
+        "NSM_CHART_V20",
+        "GSE_PROJECTION_V2"
+      ],
+      "lifecycle": "ACTIVE",
+      "authority": {
+        "kind": "GSE_CONVENTION",
+        "refs": [
+          "FOUNDER:F144 feeling-noun head contract",
+          "NSM_RESOLUTIONS section 2"
+        ]
+      },
+      "validation": {
+        "status": "VALIDATED",
+        "contract_sha256": "cc8fdb702808b3a2052bfe3127b5e5b07096fcad5c40cb638ff52b247f5dddca",
+        "positive": [
+          "tests/test_lexicon_conditional_rules.py::test_fear_noun_template_constructs_a_feeling_head_through_the_real_builder"
+        ],
+        "must_not": [
+          "tests/test_lexicon_conditional_rules.py::test_fear_noun_template_does_not_claim_a_verb_or_an_unaligned_frame"
+        ]
+      }
+    }
+  ],
+  "residual_contract": {
+    "options": "Exactly the rule-surviving domain, including 0 and silence when legal (F078).",
+    "zero": "Explicit absence, not a decoder prohibition (F118).",
+    "routing": "Construction residuals and diagnosed disagreements, independently of gold availability.",
+    "confirmation": "Builder output never confirms its own rule."
+  },
+  "state_contract": {
+    "authority": "Founder F118: Yes: 0 is explicit absence; empty is silence",
+    "unpaired": {
+      "allowed": [
+        "empty",
+        "0",
+        "+1"
+      ],
+      "+1": "Definitional content is present",
+      "0": "Definitional content is explicitly absent in an applicable domain",
+      "empty": "Definition is silent about this coordinate"
+    },
+    "bipolar": {
+      "allowed": [
+        "empty",
+        "-1",
+        "0",
+        "+1"
+      ],
+      "+1": "Positive pole is definitionally present",
+      "-1": "Opposite pole is definitionally present",
+      "0": "Neither pole is present within an applicable domain; a reviewed middle where meaningful",
+      "empty": "Definition is silent about this coordinate"
+    },
+    "epistemic_states": [
+      "UNRESOLVED",
+      "CONFLICT"
+    ],
+    "missing_source": "NO_RESTRICTION",
+    "not_a_default": [
+      "0",
+      "empty"
+    ],
+    "intensity": "Presence of degree-bearing content; relative strength belongs to the separate NUMBER operator. It is not a threshold for VERY-like strength."
+  },
+  "native_predicate_rules": [
+    {
+      "rule_id": "VN_EVENT_MOTION",
+      "predicate": "motion",
+      "prime": "MOVE",
+      "meaning": "Physical motion is asserted as a lexical event predicate, not inferred from an effector rating.",
+      "kind": "SOURCE_CONTRACT_PROJECTION",
+      "review_state": "FOUNDER_APPROVED",
+      "research": [
+        "https://verbs.colorado.edu/verb-index/VerbNet_Guidelines.pdf",
+        "https://verbs.colorado.edu/verbnet/"
+      ],
+      "scope": "ONE_NATIVE_CLASS_FRAME_AND_ARGUMENT_BINDING",
+      "phase_policy": "Retain all phases and participant bindings. Required positive content at any represented phase remains part of the definition; a later release or another participant lacking that relation does not erase it. Contradictory assertions in one binding and phase remain a source conflict.",
+      "missing_policy": "NO_RESTRICTION",
+      "empirical_refs": [],
+      "coverage": "PARTIAL; these fields are not a complete prime inventory",
+      "projection_kind": "LEXICAL_COMPONENT",
+      "tier": "CONDITIONAL"
+    },
+    {
+      "rule_id": "VN_EVENT_CONTACT",
+      "predicate": "contact",
+      "prime": "TOUCH",
+      "meaning": "Contact is explicitly asserted between the bound participants.",
+      "kind": "SOURCE_CONTRACT_PROJECTION",
+      "review_state": "FOUNDER_APPROVED",
+      "research": [
+        "https://verbs.colorado.edu/verb-index/VerbNet_Guidelines.pdf",
+        "https://verbs.colorado.edu/verbnet/"
+      ],
+      "scope": "ONE_NATIVE_CLASS_FRAME_AND_ARGUMENT_BINDING",
+      "phase_policy": "Retain all phases and participant bindings. Required positive content at any represented phase remains part of the definition; a later release or another participant lacking that relation does not erase it. Contradictory assertions in one binding and phase remain a source conflict.",
+      "missing_policy": "NO_RESTRICTION",
+      "empirical_refs": [],
+      "coverage": "PARTIAL; these fields are not a complete prime inventory",
+      "projection_kind": "LEXICAL_COMPONENT",
+      "tier": "CONDITIONAL"
+    },
+    {
+      "rule_id": "VN_AFFECTIVE_STATE",
+      "predicate": "emotional_state",
+      "prime": "FEEL",
+      "meaning": "An explicitly emotional state is part of the lexical event structure; animate selection restrictions alone do not establish this.",
+      "kind": "SOURCE_CONTRACT_PROJECTION",
+      "review_state": "SOURCE_JUSTIFIED",
+      "research": [
+        "https://verbs.colorado.edu/verb-index/VerbNet_Guidelines.pdf",
+        "https://verbs.colorado.edu/verbnet/"
+      ],
+      "scope": "ONE_NATIVE_CLASS_FRAME_AND_ARGUMENT_BINDING",
+      "phase_policy": "Retain all phases and participant bindings. Required positive content at any represented phase remains part of the definition; a later release or another participant lacking that relation does not erase it. Contradictory assertions in one binding and phase remain a source conflict.",
+      "missing_policy": "NO_RESTRICTION",
+      "empirical_refs": [],
+      "coverage": "PARTIAL; these fields are not a complete prime inventory",
+      "projection_kind": "LEXICAL_COMPONENT",
+      "tier": "CONDITIONAL",
+      "requires_verb_emotion_tag": true,
+      "lifecycle": "ACTIVE",
+      "authority": {
+        "kind": "NSM",
+        "refs": [
+          "NSM primes chart v20: FEEL",
+          "VerbNet native emotional_state predicate and aligned affective reading"
+        ]
+      },
+      "warrant": "An explicitly emotional state is part of the lexical event structure; animate selection restrictions alone do not establish this.",
+      "source_refs": [
+        "data/external/references/nsm-primes-chart-v20-2022.pdf",
+        "https://verbs.colorado.edu/verb-index/VerbNet_Guidelines.pdf",
+        "https://verbs.colorado.edu/verbnet/"
+      ],
+      "validation": {
+        "status": "VALIDATED",
+        "contract_sha256": "4b9ff2885a23275a4b29b76f3401eba0d6dc705e0ce7654f4a246529baa144cf",
+        "positive": [
+          "tests/test_lexicon_conditional_rules.py::test_typed_affective_and_existence_projections_write_their_own_content"
+        ],
+        "must_not": [
+          "tests/test_lexicon_conditional_rules.py::test_affective_join_and_participant_existence_never_invent_lexical_content"
+        ]
+      }
+    },
+    {
+      "rule_id": "VN_DESIRE",
+      "predicate": "desire",
+      "prime": "WANT",
+      "meaning": "An explicit desire predicate warrants volitional content; associations or goals of another event do not.",
+      "kind": "SOURCE_CONTRACT_PROJECTION",
+      "review_state": "FOUNDER_APPROVED",
+      "research": [
+        "https://verbs.colorado.edu/verb-index/VerbNet_Guidelines.pdf",
+        "https://verbs.colorado.edu/verbnet/"
+      ],
+      "scope": "ONE_NATIVE_CLASS_FRAME_AND_ARGUMENT_BINDING",
+      "phase_policy": "Retain all phases and participant bindings. Required positive content at any represented phase remains part of the definition; a later release or another participant lacking that relation does not erase it. Contradictory assertions in one binding and phase remain a source conflict.",
+      "missing_policy": "NO_RESTRICTION",
+      "empirical_refs": [],
+      "coverage": "PARTIAL; these fields are not a complete prime inventory",
+      "projection_kind": "LEXICAL_COMPONENT",
+      "tier": "CONDITIONAL"
+    },
+    {
+      "rule_id": "VN_VITALITY",
+      "predicate": "alive",
+      "prime": "ALIVE",
+      "meaning": "An explicit vitality state; false after true in the same role yields the DEAD pole. Negation alone does not universally entail a bipolar opposite.",
+      "kind": "SOURCE_CONTRACT_PROJECTION",
+      "review_state": "FOUNDER_APPROVED",
+      "research": [
+        "https://verbs.colorado.edu/verb-index/VerbNet_Guidelines.pdf",
+        "https://verbs.colorado.edu/verbnet/"
+      ],
+      "scope": "ONE_NATIVE_CLASS_FRAME_AND_ARGUMENT_BINDING",
+      "phase_policy": "Retain phase and participant evidence; use the terminal vitality pole only within the same event and participant binding. DEAD requires the reviewed prior-alive transition, not a universal negation-to-antonym flip.",
+      "missing_policy": "NO_RESTRICTION",
+      "empirical_refs": [],
+      "coverage": "PARTIAL; these fields are not a complete prime inventory",
+      "projection_kind": "TRANSITION_POLE",
+      "tier": "CONDITIONAL"
+    },
+    {
+      "rule_id": "VN_EXISTENCE",
+      "predicate": "exist",
+      "prime": "EXIST",
+      "meaning": "An explicit existence predicate; an argument being mentioned does not assert lexical existence content.",
+      "kind": "SOURCE_CONTRACT_PROJECTION",
+      "review_state": "SOURCE_JUSTIFIED",
+      "research": [
+        "https://verbs.colorado.edu/verb-index/VerbNet_Guidelines.pdf",
+        "https://verbs.colorado.edu/verbnet/"
+      ],
+      "scope": "ONE_NATIVE_CLASS_FRAME_AND_ARGUMENT_BINDING",
+      "phase_policy": "Retain all phases and participant bindings. Required positive content at any represented phase remains part of the definition; a later release or another participant lacking that relation does not erase it. Contradictory assertions in one binding and phase remain a source conflict.",
+      "missing_policy": "NO_RESTRICTION",
+      "empirical_refs": [],
+      "coverage": "PARTIAL; these fields are not a complete prime inventory",
+      "projection_kind": "LEXICAL_COMPONENT",
+      "tier": "CONDITIONAL",
+      "requires_existence_change": true,
+      "lifecycle": "ACTIVE",
+      "authority": {
+        "kind": "NSM",
+        "refs": [
+          "NSM primes chart v20: THERE_IS",
+          "VerbNet exist class or existence transition, not participant mention"
+        ]
+      },
+      "warrant": "An explicit existence predicate; an argument being mentioned does not assert lexical existence content.",
+      "source_refs": [
+        "data/external/references/nsm-primes-chart-v20-2022.pdf",
+        "https://verbs.colorado.edu/verb-index/VerbNet_Guidelines.pdf",
+        "https://verbs.colorado.edu/verbnet/"
+      ],
+      "validation": {
+        "status": "VALIDATED",
+        "contract_sha256": "ddbb35a853ca8d83ef76efd04a0ffb6a9c5726266d8e6777a7001c8a297d0e76",
+        "positive": [
+          "tests/test_lexicon_conditional_rules.py::test_typed_affective_and_existence_projections_write_their_own_content"
+        ],
+        "must_not": [
+          "tests/test_lexicon_conditional_rules.py::test_affective_join_and_participant_existence_never_invent_lexical_content"
+        ]
+      }
+    },
+    {
+      "rule_id": "VN_POSSESSION",
+      "predicate": "has_possession",
+      "prime": "HAVE",
+      "meaning": "An explicit possession relation; keep holder roles separate and do not cancel transfer endpoints.",
+      "kind": "SOURCE_CONTRACT_PROJECTION",
+      "review_state": "FOUNDER_APPROVED",
+      "research": [
+        "https://verbs.colorado.edu/verb-index/VerbNet_Guidelines.pdf",
+        "https://verbs.colorado.edu/verbnet/"
+      ],
+      "scope": "ONE_NATIVE_CLASS_FRAME_AND_ARGUMENT_BINDING",
+      "phase_policy": "Retain all phases and participant bindings. Required positive content at any represented phase remains part of the definition; a later release or another participant lacking that relation does not erase it. Contradictory assertions in one binding and phase remain a source conflict.",
+      "missing_policy": "NO_RESTRICTION",
+      "empirical_refs": [],
+      "coverage": "PARTIAL; these fields are not a complete prime inventory",
+      "projection_kind": "LEXICAL_COMPONENT",
+      "tier": "CONDITIONAL"
+    },
+    {
+      "rule_id": "VN_BEGIN",
+      "predicate": "begin",
+      "prime": "START",
+      "meaning": "An explicit aspectual beginning predicate, not an event variable containing start(E).",
+      "kind": "SOURCE_CONTRACT_PROJECTION",
+      "review_state": "FOUNDER_APPROVED",
+      "research": [
+        "https://verbs.colorado.edu/verb-index/VerbNet_Guidelines.pdf",
+        "https://verbs.colorado.edu/verbnet/"
+      ],
+      "scope": "ONE_NATIVE_CLASS_FRAME_AND_ARGUMENT_BINDING",
+      "phase_policy": "Project an explicitly named aspectual predicate. An Event argument containing start(E) or end(E) alone is not the lexical START or END predicate.",
+      "missing_policy": "NO_RESTRICTION",
+      "empirical_refs": [],
+      "coverage": "PARTIAL; these fields are not a complete prime inventory",
+      "projection_kind": "EXPLICIT_POLE",
+      "tier": "CONDITIONAL"
+    },
+    {
+      "rule_id": "VN_END",
+      "predicate": "end",
+      "prime": "END",
+      "meaning": "An explicit aspectual ending predicate, not an event variable containing end(E).",
+      "kind": "SOURCE_CONTRACT_PROJECTION",
+      "review_state": "FOUNDER_APPROVED",
+      "research": [
+        "https://verbs.colorado.edu/verb-index/VerbNet_Guidelines.pdf",
+        "https://verbs.colorado.edu/verbnet/"
+      ],
+      "scope": "ONE_NATIVE_CLASS_FRAME_AND_ARGUMENT_BINDING",
+      "phase_policy": "Project an explicitly named aspectual predicate. An Event argument containing start(E) or end(E) alone is not the lexical START or END predicate.",
+      "missing_policy": "NO_RESTRICTION",
+      "empirical_refs": [],
+      "coverage": "PARTIAL; these fields are not a complete prime inventory",
+      "projection_kind": "EXPLICIT_POLE",
+      "class_number_prefix": "55.",
+      "tier": "CONDITIONAL"
+    },
+    {
+      "rule_id": "VN_CAUSATION",
+      "predicate": "cause",
+      "prime": "CAUSE",
+      "kind": "SOURCE_CONTRACT_PROJECTION",
+      "review_state": "SOURCE_JUSTIFIED",
+      "tier": "CONDITIONAL",
+      "projection_kind": "LEXICAL_COMPONENT",
+      "requires_change_to_another_participant": true,
+      "warrant": "F144 option B: CAUSE is the word's own causative event, a causer's DO or HAPPEN bringing about a change in another participant. NSM writes that event as a doing followed by 'because of this, something happened to this someone else at the same time' (GW16, hit); the frames of cut, grind, dig, kick and kill and the outcomes of put, throw, push, make and build have the same shape, HAPPEN's undergoer frame (GW2014 Table 1.2). So VerbNet cause(...) writes CAUSE +1 only when the caused event asserts something happening to a participant other than the causer: a state or relation at its end or result, that participant's motion, transfer or emotional state during it, or its aspectual beginning or ending. A speech act's effect is only wanted ('this someone wanted something to happen because of it', GW2014 ch. 7), so say, tell, ask and talk get no CAUSE and no DO: their head is SAY. A typed Agent causer establishes DO; an event causer establishes HAPPEN; an unknown causer type establishes neither. A predicate refused as a wrong-sense or out-of-scope join never counts. BECAUSE is not an alias. When the native frame supplies participant declarations, the affected role must be declared there and must not be reflexive or an ownership-ambiguous body part. A generic Pred/result placeholder alone is construction data, not an asserted lexical outcome. A distinct role label alone does not establish a distinct participant.",
+      "research": [
+        "https://verbs.colorado.edu/verb-index/VerbNet_Guidelines.pdf",
+        "data/external/references/goddard-wierzbicka-2016-doing-and-happening.pdf",
+        "data/external/references/goddard-wierzbicka-2014-words-and-meanings.pdf"
+      ],
+      "scope": "ONE_NATIVE_EVENT_AND_CAUSER_BINDING",
+      "empirical_refs": [],
+      "source_refs": [
+        "FOUNDER:F144 (option B)",
+        "docs/verification/lexicon-rebuild/closeout-2026-10-25/NSM_RESOLUTIONS.md#6-the-four-founder-questions",
+        "GW16 sections 2.4-2.7",
+        "GW2014 Table 1.2 (p.14) and chapter 7 (pp.156-183)"
+      ],
+      "positive": "kill (murder-42.1: not alive as the result), give (give-13.1: possession at the end), put (put-9.1: location at the end), build (build-26.1: existence as the result), frighten and amuse (amuse-31.1: the experiencer's emotional state), hit (hit-18.1, spank-18.3: contact at the end), throw (throw-17.1: the theme's motion), name (dub-29.3: designation as the result), start and end (begin-55.1, stop-55.4: the theme event begins or ends)",
+      "must_not": "say, tell, ask and talk (transfer_info only); seeing or knowing someone as something (characterize-29.2); learn and study (learn-14); focus (focus-87); continue (continue-55.3); hitting at something (hit-18.1: no contact); an emotional state refused as a wrong-sense join (interest, try and throw in amuse-31.1; matter in appeal-31.4)",
+      "known_limits": "A source frame without participant declarations retains the explicit scratch-frame contract used by mechanism tests. In source-bound frames, undeclared affected roles, reflexives, body-part ownership ambiguity and generic construction-result placeholders leave CAUSE unresolved; this abstention does not assert absence.",
+      "lifecycle": "ACTIVE",
+      "authority": {
+        "kind": "NSM",
+        "refs": [
+          "FOUNDER:F144 option B",
+          "GW16 sections 2.4-2.7",
+          "GW2014 Table 1.2 and chapter 7"
+        ]
+      },
+      "validation": {
+        "status": "VALIDATED",
+        "contract_sha256": "059b3aeb7243deca0bf2c10212e06aed3f8109f3fb29d6c275f1072dd5dc8970",
+        "positive": [
+          "tests/test_lexicon_cause_bindings.py::test_declared_other_participant_with_lexical_outcome_qualifies",
+          "tests/test_lexicon_cause_bindings.py::test_actual_builder_keeps_kill_causative_and_withholds_wink_and_speech_causes"
+        ],
+        "must_not": [
+          "tests/test_lexicon_cause_bindings.py::test_body_part_without_owner_identity_must_not_prove_distinctness",
+          "tests/test_lexicon_cause_bindings.py::test_reflexive_target_does_not_qualify_even_with_a_distinct_role_name",
+          "tests/test_lexicon_cause_bindings.py::test_result_placeholder_or_undeclared_role_must_not_supply_lexical_cause",
+          "tests/test_lexicon_cause_bindings.py::test_refused_source_join_and_unrelated_event_must_not_support_cause"
+        ]
+      },
+      "requires_source_bound_affected_role": true
+    }
+  ],
+  "native_predicate_policy": {
+    "source_polarity": "A positive predicate asserts content. A negative unpaired predicate writes explicit absence 0. A negated bipolar pole only excludes that pole unless an exhaustive transition warrants the opposite.",
+    "transition_warrants": {
+      "ALIVE": "A positive start state and negative terminal state for the same event and participant establishes death."
+    },
+    "unmapped": "RETAIN_UNMAPPED_NATIVE_PREDICATE",
+    "role_collision": "UNRESOLVED_PROJECTION_SCOPE; keep participant/subevent bindings distinct, never cancel them, and do not infer a limitation of the basis from a projection failure",
+    "inheritance": "One class/frame annotation per origin, retaining all membership provenance; no independent-vote count",
+    "implicit_role_marker": "A leading ? marks an implicit realization of the same role variable; preserve original arguments and normalize identity for phase comparison",
+    "lexical_component": "For an unpaired lexical relation, a required positive instance in the class definition establishes component presence. A negative state for another participant or stage does not assert that the word definition lacks the relation. Keep all scoped positive and negative evidence.",
+    "transition_pole": "The reviewed vitality transition projects its result direction; do not apply endpoint selection indiscriminately to lexical relation content."
+  },
+  "native_residual_rules": [
+    {
+      "rule_id": "VN_USAS_PERCEPTION_MODE",
+      "kind": "GUARDED_CROSS_SOURCE_DISCRIMINATION",
+      "native_predicate": "perceive",
+      "native_predicate_polarity": "positive",
+      "source_pos": "VERB",
+      "category_modes": {
+        "X3.2": "HEARING",
+        "X3.4": "VISION",
+        "X3.1": "OTHER_OR_UNSPECIFIED",
+        "X3.3": "OTHER_OR_UNSPECIFIED",
+        "X3.5": "OTHER_OR_UNSPECIFIED"
+      },
+      "mode_coordinates": {
+        "HEARING": "HEAR",
+        "VISION": "SEE"
+      },
+      "residual_options": [
+        "HEARING",
+        "VISION",
+        "OTHER_OR_UNSPECIFIED",
+        "UNRESOLVED"
+      ],
+      "warrant": "A lexical perception predicate fixes the function; USAS sound/sight fixes modality. A sound-related noun or an effector rating alone cannot imply HEAR. Generic perception with no uniquely located modality remains a typed local decision.",
+      "research": [
+        "https://ucrel.lancs.ac.uk/usas/usas_guide.pdf#page=33",
+        "https://verbs.colorado.edu/verb-index/VerbNet_Guidelines.pdf"
+      ],
+      "positive": [
+        "overhear: perceive + X3.2 => HEAR",
+        "glimpse: perceive + X3.4 => SEE"
+      ],
+      "must_not": [
+        "sight-30.2 class name alone => SEE (overhear is a counterexample)",
+        "sound-emission without perception => HEAR",
+        "a negative source tag automatically means the opposite lexical prime"
+      ],
+      "review_state": "FOUNDER_APPROVED",
+      "empirical_refs": [],
+      "coverage": "PARTIAL; additional native fields and atomic grammar still apply",
+      "typed_anchors": [
+        {
+          "word": "see",
+          "reading": "primitive_visual_perception",
+          "PERCEPTION_MODE": "VISION",
+          "required_specific_channel": "visual"
+        },
+        {
+          "word": "hear",
+          "reading": "primitive_auditory_perception",
+          "PERCEPTION_MODE": "HEARING",
+          "required_specific_channel": "auditory"
+        },
+        {
+          "word": "perceive",
+          "reading": "generic_perception",
+          "PERCEPTION_MODE": "OTHER_OR_UNSPECIFIED",
+          "required_specific_channel": null
+        }
+      ],
+      "tier": "CONDITIONAL"
+    }
+  ],
+  "foundation_file": "foundation.json",
+  "profile_schema_version": 2,
+  "admission_contract": {
+    "schema": "GSE_RULE_ADMISSION_V2",
+    "legacy": "Seventeen recorded historical approvals are pinned in core.LEGACY_APPROVAL_CONTRACTS; edited contracts require v2 validation.",
+    "validated": "ACTIVE lifecycle, reviewed authority and warrant, semantic contract SHA256, and executable positive/must-not witness nodes. Release gate executes the witnesses.",
+    "independence": "Native source associations and builder-derived confirmations never grant lexical authority. Empirical mechanisms must be conditional.",
+    "exception": "An independently sourced correction retracts one exact reading/rule/application; foundational constraints remain active."
+  }
+}

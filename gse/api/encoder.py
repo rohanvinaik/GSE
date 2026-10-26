@@ -15,7 +15,7 @@ import sqlite3
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, TypedDict
 
-from gse.api.errors import OOVError, PrimitiveError
+from gse.api.errors import EncodingError, OOVError, PrimitiveError
 from gse.api.parse_repair import verbs_to_promote
 from gse.api.trace import (
     ClauseSpan,
@@ -239,11 +239,11 @@ class GSEEncoder:
             self._repair = NativeRepair(self)
         return self._repair
 
-    def lexical_lookup(self, lemma: str) -> Dict:
+    def lexical_lookup(self, lemma: str, pos: str | None = None) -> Dict:
         """Public source-row evidence; the encoding's first-ID projection, not sense resolution."""
         from gse.lexical_evidence import lookup_lexeme
 
-        return lookup_lexeme(lemma, self.db_path)
+        return lookup_lexeme(lemma, self.db_path, pos=pos)
 
     def encode(self, text: str) -> OperationTrace:
         """
@@ -309,10 +309,10 @@ class GSEEncoder:
         for i, tok in enumerate(doc):
             # Lexicon lookup (static primitives from database)
             lemma = tok.lemma_.lower()
-            word_prims, sent_prims, comp_meta = self._lookup_lexeme(lemma)
             if lemma not in lexical_rows:
                 lexical_rows[lemma] = self.lexical_lookup(lemma)
             lexical = lexical_rows[lemma]
+            word_prims, sent_prims, comp_meta = self._lookup_lexeme(lemma, lexical_evidence=lexical)
             negative = negation_evidence(lemma)
 
             # Recognition does not authorize overriding a different selected
@@ -700,29 +700,31 @@ class GSEEncoder:
 
         return primitives
 
-    def _lookup_lexeme(self, lemma: str) -> Tuple[Dict[str, int], Dict[str, int], CompositionalMetadata]:
+    def _lookup_lexeme(
+        self, lemma: str, pos: str | None = None, *, lexical_evidence: Dict | None = None
+    ) -> Tuple[Dict[str, int], Dict[str, int], CompositionalMetadata]:
         """
         Look up word-scale and sentence-scale primitives for a lemma.
 
         Fallback behavior (strict=False): Returns ({}, {}, {}) for OOV words
         Strict behavior (strict=True): Raises OOVError for OOV words
         """
-        # Get lexeme ID and compositional metadata
-        self.cursor.execute(
-            """
-            SELECT id, comp_primitive, comp_arity, comp_operation
-            FROM lexemes WHERE lemma = ? ORDER BY id LIMIT 1
-        """,
-            (lemma,),
-        )
-        row = self.cursor.fetchone()
-
-        if not row:
+        # The trace and vector must consume the same selected source row.
+        evidence = lexical_evidence if lexical_evidence is not None else self.lexical_lookup(lemma, pos)
+        if evidence["state"] == "unread":
+            if self.strict:
+                raise EncodingError(lemma, evidence.get("reason", "lexical_source_unread"))
+            return {}, {}, {}
+        selected = evidence["selected_record"]
+        if selected is None:
             if self.strict:
                 raise OOVError(lemma)
             return {}, {}, {}  # Graceful fallback: OOV word contributes nothing
 
-        lexeme_id, comp_prim, comp_arity, comp_op = row
+        lexeme_id = selected["id"]
+        comp_prim = selected.get("comp_primitive")
+        comp_arity = selected.get("comp_arity")
+        comp_op = selected.get("comp_operation")
         comp_meta: CompositionalMetadata = (
             {
                 "comp_primitive": comp_prim,
@@ -732,6 +734,12 @@ class GSEEncoder:
             if comp_prim
             else {}
         )
+
+        if selected.get("source") == "gse_symbolic_release":
+            # This is the validated projection from the same file identity as the
+            # trace, including after an atomic release replacement. Re-querying
+            # this encoder's older SQLite connection could pair different rows.
+            return dict(evidence["primitives"]), {}, comp_meta
 
         # Get word-scale primitives
         self.cursor.execute(

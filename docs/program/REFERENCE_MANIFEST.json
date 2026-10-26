@@ -1,0 +1,210 @@
+{
+  "schema_version": 1,
+  "purpose": "Pin the exact intent/reference corpus used for this GSE program. A hash mismatch requires a whole-unit reread and package review.",
+  "references": [
+    {
+      "id": "janus-two-faced-meaning",
+      "path": "/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/AI_architecture_papers/janus_two_faced_meaning.md",
+      "sha256": "705d0c60a9d121e635cd9ba56d1bb4a658965ef737d780450469a1b0ce963399",
+      "role": "literal/expected two-face inference boundary",
+      "cited_by": [
+        "BUILD_SPEC.md"
+      ]
+    },
+    {
+      "id": "deterministic-narrative-compaction",
+      "path": "/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/AI_architecture_papers/deterministic_narrative_compaction.md",
+      "sha256": "bcce1a578eee4f22fbb2a9c68a049f3ecbc05ea142e8341b756ca79385cbf3ba",
+      "role": "downstream narrative record and causal spine",
+      "cited_by": [
+        "START_HERE.md"
+      ]
+    },
+    {
+      "id": "strong-story",
+      "path": "/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/AI_architecture_papers/understanding_mechanized_strong_story.md",
+      "sha256": "39d553975d060f419b8a90394239b1654f4d163bf8a1fe5e26039c37b06f3bd9",
+      "role": "story-understanding downstream consumer",
+      "cited_by": [
+        "START_HERE.md"
+      ]
+    },
+    {
+      "id": "sentence-architecture",
+      "path": "/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/GSE/sentence_architecture.md",
+      "sha256": "8b3d81bb58090d566fec8ecdd063e26ba2e0347177ad9b9c9d0df2665122fb6f",
+      "role": "sentence-scale GSE intent",
+      "cited_by": [
+        "BUILD_SPEC.md",
+        "GLOSSARY.md"
+      ]
+    },
+    {
+      "id": "specification-complexity",
+      "path": "/Users/rohanvinaik/resume/Specification_Complexity_Paper/specification_complexity_paper.md",
+      "sha256": "64bdc521a17ad2b0835ff79e057a74d3bc5d8902fc292719a6234d3833aca694",
+      "role": "verification/specification discipline",
+      "cited_by": [
+        "ASSURANCE.md"
+      ]
+    },
+    {
+      "id": "significance-weighting",
+      "path": "/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/SIGNIFICANCE_WEIGHTING.md",
+      "sha256": "b3f5e0744f0e9a2b9fc21ddbbd58cb63b94a370a330ad072028893b943aa2502",
+      "role": "downstream significance, not lexical weighting",
+      "cited_by": [
+        "START_HERE.md"
+      ]
+    },
+    {
+      "id": "constrained-hallucination",
+      "path": "/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/CONSTRAINED_HALLUCINATION_PAPER.md",
+      "sha256": "b7e86f44fc432a40771223f692280380b993616c03aa9ae87ec1f7ac2578497e",
+      "role": "downstream controlled possibility generation",
+      "cited_by": [
+        "START_HERE.md"
+      ]
+    },
+    {
+      "id": "gse-directions",
+      "path": "/Users/rohanvinaik/resume/Communication/vision/GSE/gse_directions.md",
+      "sha256": "32c4cf43a574eed3cf1f0fdabebf66883a4957c2c550331e7efaa14a2403a9b2",
+      "role": "dated capacity direction",
+      "cited_by": [
+        "BUILD_SPEC.md"
+      ]
+    },
+    {
+      "id": "gse-vision",
+      "path": "/Users/rohanvinaik/resume/Communication/vision/GSE/GSE_vision.md",
+      "sha256": "7717c7026efc9ab6a95625456da85232402abc822fb56d951c066a35144cb578",
+      "role": "dated capacity vision",
+      "cited_by": [
+        "BUILD_SPEC.md",
+        "GLOSSARY.md"
+      ]
+    },
+    {
+      "id": "gse-proof-packet",
+      "path": "/Users/rohanvinaik/resume/Communication/vision/GSE/GSE_Proof_Packet.md",
+      "sha256": "113d6411a9dc7d0fdbfa611dce950492101a4e003f3cc54a5692481c76f7f73c",
+      "role": "dated demonstrations to reproduce",
+      "cited_by": [
+        "BUILD_SPEC.md",
+        "GLOSSARY.md"
+      ]
+    },
+    {
+      "id": "arc-glossary",
+      "path": "/Users/rohanvinaik/Projects/ARC_AGI_3/docs/GLOSSARY.md",
+      "sha256": "58444beb31c06a413969ce00561b7bdd712ad51549c964853b897267e3dd7816",
+      "role": "re-grounding pattern only",
+      "cited_by": [
+        "START_HERE.md"
+      ]
+    },
+    {
+      "id": "arc-build-gaps",
+      "path": "/Users/rohanvinaik/Projects/ARC_AGI_3/docs/BUILD_GAPS.md",
+      "sha256": "ea4072da91688226635dc102c6c007f08c54b50ccc6b94e419b102b022fe8100",
+      "role": "gap-ledger pattern only",
+      "cited_by": [
+        "START_HERE.md"
+      ]
+    },
+    {
+      "id": "arc-reference-manifest",
+      "path": "/Users/rohanvinaik/Projects/ARC_AGI_3/docs/REFERENCE_MANIFEST.yaml",
+      "sha256": "182bdc252837db8edbb78eae06ac6bbe9f9eb5664eb8e9a50126ddd0565501b4",
+      "role": "hash-pinned source pattern only",
+      "cited_by": [
+        "START_HERE.md"
+      ]
+    },
+    {
+      "id": "arc-dependency-contract",
+      "path": "/Users/rohanvinaik/Projects/ARC_AGI_3/docs/DEPENDENCY_CONTRACT.md",
+      "sha256": "551a91bb162b19f8a02bf666dd0a7a053ba139dd02e00f071dc60164e0f901c1",
+      "role": "verified integration-lock pattern, historical ownership superseded",
+      "cited_by": [
+        "START_HERE.md"
+      ]
+    },
+    {
+      "id": "gse_lexicon_rebuild",
+      "path": "/Users/rohanvinaik/Projects/gse/docs/LEXICON_REBUILD.md",
+      "sha256": "e0128b3fe335cb1f3fe40e7f63d3d4a3e085f1540f1ea0945fc1c309ba11ece1",
+      "role": "dated lexicon build report, verify live state",
+      "cited_by": [
+        "BUILD_SPEC.md"
+      ]
+    },
+    {
+      "id": "gse_spellcheck",
+      "path": "/Users/rohanvinaik/Projects/gse/docs/SPELLCHECK.md",
+      "sha256": "e2e573eecd6050d0116b08dfdf7a8d9f5b1d35b454df13bbe2489608ccec3c20",
+      "role": "dated spellcheck design/current code lead",
+      "cited_by": [
+        "BUILD_SPEC.md"
+      ]
+    },
+    {
+      "id": "lexicon-founder-words-2026-10-24",
+      "path": "/Users/rohanvinaik/Projects/gse/docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md",
+      "sha256": "23a43435a30d06a1b6f8e66ac294b9f2bc9315471b0b8016d16d6e440cb580b1",
+      "role": "verbatim user prompts governing GSE-01, beginning 2026-10-24 with live continuations",
+      "cited_by": [
+        "START_HERE.md",
+        "BUILD_SPEC.md",
+        "GLOSSARY.md",
+        "LEXICON_CONSTRUCTION_DESIGN.md"
+      ]
+    },
+    {
+      "id": "modelatlas-architecture-upgrade",
+      "path": "/Users/rohanvinaik/tools/ModelAtlas/docs/architecture-upgrade.md",
+      "sha256": "11c3064e68411868e90cd0ab94672a4b5ba1238e540348caaf42c307bfbb91d9",
+      "role": "bank signals, independent same-claim coherence, bounded residual routing; idea source",
+      "cited_by": [
+        "LEXICON_CONSTRUCTION_DESIGN.md"
+      ]
+    },
+    {
+      "id": "modelatlas-typed-contract",
+      "path": "/Users/rohanvinaik/tools/ModelAtlas/src/model_atlas/contract.py",
+      "sha256": "1275d8a97ed9db8a5605b7b8e07f28df260ac3ccb3c20f024d288cc917ca4a61",
+      "role": "closed bank-scoped selections and immutable provenance; idea source",
+      "cited_by": [
+        "LEXICON_CONSTRUCTION_DESIGN.md"
+      ]
+    },
+    {
+      "id": "modelatlas-certifier",
+      "path": "/Users/rohanvinaik/tools/ModelAtlas/src/model_atlas/certifier/certifier.py",
+      "sha256": "135dd05f05b5f27566c24d52c3e349f382a8cb2dfcfe7749d00f08905b0143da",
+      "role": "requires/forbids checks and typed outcomes; implementation evidence, not GSE authority",
+      "cited_by": [
+        "LEXICON_CONSTRUCTION_DESIGN.md"
+      ]
+    },
+    {
+      "id": "modelatlas-rule-library",
+      "path": "/Users/rohanvinaik/tools/ModelAtlas/src/model_atlas/certifier/rules.py",
+      "sha256": "f0d87fe77df0ae018d0568c1815ac9fb0c71e0280469b1c94ac3b4d658333134",
+      "role": "guarded structural consequences; domain-specific rules are not imported",
+      "cited_by": [
+        "LEXICON_CONSTRUCTION_DESIGN.md"
+      ]
+    },
+    {
+      "id": "modelatlas-bank-coherence",
+      "path": "/Users/rohanvinaik/tools/ModelAtlas/src/model_atlas/bank_coherence.py",
+      "sha256": "6d191945bf991e58f77b7b2225baeee8dc707017bbcb9e1174ade78ed9b3f899",
+      "role": "independent estimators of one bank claim; routing evidence, not lexical truth",
+      "cited_by": [
+        "LEXICON_CONSTRUCTION_DESIGN.md"
+      ]
+    }
+  ]
+}

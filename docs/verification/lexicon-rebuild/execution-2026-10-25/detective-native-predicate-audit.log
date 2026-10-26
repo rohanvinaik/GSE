@@ -1,0 +1,24 @@
+  … predicate_domain: static · no static smell · proves nothing (advisory)
+  … predicate_domain: tracing 4 function-routed tests
+  … predicate_domain: baseline traced · 4 tests · 0.0s
+  … predicate_domain: tracing 22 function-routed tests
+  … predicate_domain: baseline traced · 22 tests · 0.1s
+  … predicate_domain: 1/38 mutants · 1.6/s · ETA estimating… (heartbeat)
+  … predicate_domain: 38/38 mutants · 12.0/s · done in 3.2s
+──────────────────────────────────────────────────────────────────────────────
+gse/lexicon_builder/native_constraints.py::predicate_domain — audit · 11 test(s) · 34/38 value-pinned · 89.5% killed (value+crash) · complete, modulo 4 unproven-equivalent
+
+  · fan-in             11 reach this function · 4 in the basis-relative minimal cover (3:1)
+  · origin (ℋ⊎𝒢)       10 intent-grounded · 1 characterized
+  · unproven-equiv     4 survivor(s) — the search found no distinguishing input
+  · redundant          7 test(s) pointless for kills AND lines
+                       tests/test_lexicon_foundation_workflow.py::test_cause_needs_something_to_happen_to_another_participant[hit at-predicates3-None-None], tests/test_lexicon_foundation_workflow.py::test_cause_needs_something_to_happen_to_another_participant[start-predicates7-None-DO], tests/test_lexicon_foundation_workflow.py::test_native_causation_and_presupposed_existence_have_distinct_contracts, tests/test_lexicon_native_constraints.py::test_a_transfer_retains_possession_content_and_both_participant_states … (+3 more)
+
+DO THIS:  detective audit 'gse/lexicon_builder/native_constraints.py::predicate_domain' --remove
+
+  · Why                7 test(s) kill no mutant AND cover no line
+                       OF THIS FUNCTION that another test does not already. --remove
+                       re-checks every function each one serves (this file's functions, the
+                       target's direct callers and callees, every function the test is observed
+                       to execute), keeps any still needed there or not fully checked, and
+                       deletes the rest from whichever test file defines them.

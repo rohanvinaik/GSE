@@ -1,0 +1,184 @@
+{
+  "schema": "GSE_RELATIVE_NUMBER_V1",
+  "scope": "PAIR_ORDINAL; NOT_DISTANCE_OR_GLOBAL_GAIN",
+  "left": "happy:ADJ:E4.1+:feeling",
+  "right": "delighted:ADJ:E4.1+:feeling",
+  "code": "RESOLVED_RELATIVE_NUMBER",
+  "model_calls": [
+    {
+      "request_sha256": "58b416f5b87666626e665d8497dc5dbba7525e9b2f9eb2f0088d326406127626",
+      "model": {
+        "name": "gemma4:e4b-it-q4_K_M",
+        "model": "gemma4:e4b-it-q4_K_M",
+        "modified_at": "2026-10-23T17:16:03.57499767-04:00",
+        "size": 6583656505,
+        "digest": "dc35e8d9c6061baa6f0fa870975ab6932e2542b579b13ea0f199fa4bb7300c9c",
+        "details": {
+          "parent_model": "gemma4-validation-20260929:e4b-imatrix-attention-q6-q8-draft2",
+          "format": "gguf",
+          "family": "gemma4",
+          "families": [
+            "gemma4"
+          ],
+          "parameter_size": "7.5B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 131072,
+          "embedding_length": 2560
+        },
+        "capabilities": [
+          "completion",
+          "vision",
+          "audio",
+          "tools",
+          "thinking"
+        ]
+      },
+      "request": {
+        "model": "gemma4:e4b-it-q4_K_M",
+        "messages": [
+          {
+            "role": "system",
+            "content": "{\"+1\": \"DEFINITIONAL_COMPONENT_PRESENT\", \"-1\": \"DEFINITIONAL_OPPOSITE_POLE_ONLY\", \"0\": \"EXPLICIT_ABSENCE_IN_APPLICABLE_UNPAIRED_DOMAIN_OR_NEITHER_BIPOLAR_POLE\", \"association_fields\": \"OBSERVATIONS_NOT_COMPONENTS\", \"empty\": \"DEFINITION_DOES_NOT_ADDRESS_THIS_COORDINATE\", \"operation\": \"LEXICAL_DEFINITION_TYPED_SELECTION\", \"scope\": \"TARGET_READING_OWN_DEFINITION_ONLY\", \"selection_schema\": {\"additionalProperties\": false, \"properties\": {\"LEFT_INTENSITY_RELATIVE_TO_RIGHT\": {\"enum\": [\"LESS\", \"EQUAL\", \"MORE\", \"UNRESOLVED\"], \"type\": \"string\"}}, \"required\": [\"LEFT_INTENSITY_RELATIVE_TO_RIGHT\"], \"type\": \"object\"}}"
+          },
+          {
+            "role": "user",
+            "content": "{\"comparison_codes\": {\"EQUAL\": \"same degree\", \"LESS\": \"left measure < right measure\", \"MORE\": \"left measure > right measure\", \"UNRESOLVED\": \"degree relation cannot be resolved\"}, \"decision\": {\"LEFT_INTENSITY_RELATIVE_TO_RIGHT\": null}, \"domain\": \"feeling:+1\", \"invariant\": \"NO_CHANGE_TO_ANY_COORDINATE_SIGN_OR_MASK\", \"left\": {\"reading_id\": \"happy:ADJ:E4.1+:feeling\", \"source_ordinal\": 1, \"word\": \"happy\"}, \"operation\": \"COMPARE_RELATIVE_INTENSITY_OF_THE_SAME_DEFINITION_PATTERN\", \"right\": {\"reading_id\": \"delighted:ADJ:E4.1+:feeling\", \"source_ordinal\": 1, \"word\": \"delighted\"}, \"schema\": \"GSE_NUMBER_RELATIVE_ORDER_V1\", \"shared_written_coordinates\": {\"FEEL\": \"+1\", \"GOOD\": \"+1\", \"INTENSITY\": \"+1\", \"KIND\": \"0\", \"SOMETHING\": \"0\"}}"
+          }
+        ],
+        "format": {
+          "type": "object",
+          "properties": {
+            "LEFT_INTENSITY_RELATIVE_TO_RIGHT": {
+              "type": "string",
+              "enum": [
+                "LESS",
+                "EQUAL",
+                "MORE",
+                "UNRESOLVED"
+              ]
+            }
+          },
+          "required": [
+            "LEFT_INTENSITY_RELATIVE_TO_RIGHT"
+          ],
+          "additionalProperties": false
+        },
+        "stream": false,
+        "think": false,
+        "keep_alive": "5m",
+        "options": {
+          "temperature": 0,
+          "seed": 17,
+          "num_ctx": 8192,
+          "num_predict": 256
+        }
+      },
+      "answer": {
+        "LEFT_INTENSITY_RELATIVE_TO_RIGHT": "LESS"
+      },
+      "done_reason": "stop",
+      "eval_count": 16
+    },
+    {
+      "request_sha256": "ecd623ee290cbd29c006f42f96fac80d531f3911c0332fe35528459f7465ae24",
+      "model": {
+        "name": "gemma4:e4b-it-q4_K_M",
+        "model": "gemma4:e4b-it-q4_K_M",
+        "modified_at": "2026-10-23T17:16:03.57499767-04:00",
+        "size": 6583656505,
+        "digest": "dc35e8d9c6061baa6f0fa870975ab6932e2542b579b13ea0f199fa4bb7300c9c",
+        "details": {
+          "parent_model": "gemma4-validation-20260929:e4b-imatrix-attention-q6-q8-draft2",
+          "format": "gguf",
+          "family": "gemma4",
+          "families": [
+            "gemma4"
+          ],
+          "parameter_size": "7.5B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 131072,
+          "embedding_length": 2560
+        },
+        "capabilities": [
+          "completion",
+          "vision",
+          "audio",
+          "tools",
+          "thinking"
+        ]
+      },
+      "request": {
+        "model": "gemma4:e4b-it-q4_K_M",
+        "messages": [
+          {
+            "role": "system",
+            "content": "{\"+1\": \"DEFINITIONAL_COMPONENT_PRESENT\", \"-1\": \"DEFINITIONAL_OPPOSITE_POLE_ONLY\", \"0\": \"EXPLICIT_ABSENCE_IN_APPLICABLE_UNPAIRED_DOMAIN_OR_NEITHER_BIPOLAR_POLE\", \"association_fields\": \"OBSERVATIONS_NOT_COMPONENTS\", \"empty\": \"DEFINITION_DOES_NOT_ADDRESS_THIS_COORDINATE\", \"operation\": \"LEXICAL_DEFINITION_TYPED_SELECTION\", \"scope\": \"TARGET_READING_OWN_DEFINITION_ONLY\", \"selection_schema\": {\"additionalProperties\": false, \"properties\": {\"LEFT_INTENSITY_RELATIVE_TO_RIGHT\": {\"enum\": [\"LESS\", \"EQUAL\", \"MORE\", \"UNRESOLVED\"], \"type\": \"string\"}}, \"required\": [\"LEFT_INTENSITY_RELATIVE_TO_RIGHT\"], \"type\": \"object\"}}"
+          },
+          {
+            "role": "user",
+            "content": "{\"comparison_codes\": {\"EQUAL\": \"same degree\", \"LESS\": \"left measure < right measure\", \"MORE\": \"left measure > right measure\", \"UNRESOLVED\": \"degree relation cannot be resolved\"}, \"decision\": {\"LEFT_INTENSITY_RELATIVE_TO_RIGHT\": null}, \"domain\": \"feeling:+1\", \"invariant\": \"NO_CHANGE_TO_ANY_COORDINATE_SIGN_OR_MASK\", \"left\": {\"reading_id\": \"delighted:ADJ:E4.1+:feeling\", \"source_ordinal\": 1, \"word\": \"delighted\"}, \"operation\": \"COMPARE_RELATIVE_INTENSITY_OF_THE_SAME_DEFINITION_PATTERN\", \"right\": {\"reading_id\": \"happy:ADJ:E4.1+:feeling\", \"source_ordinal\": 1, \"word\": \"happy\"}, \"schema\": \"GSE_NUMBER_RELATIVE_ORDER_V1\", \"shared_written_coordinates\": {\"FEEL\": \"+1\", \"GOOD\": \"+1\", \"INTENSITY\": \"+1\", \"KIND\": \"0\", \"SOMETHING\": \"0\"}}"
+          }
+        ],
+        "format": {
+          "type": "object",
+          "properties": {
+            "LEFT_INTENSITY_RELATIVE_TO_RIGHT": {
+              "type": "string",
+              "enum": [
+                "LESS",
+                "EQUAL",
+                "MORE",
+                "UNRESOLVED"
+              ]
+            }
+          },
+          "required": [
+            "LEFT_INTENSITY_RELATIVE_TO_RIGHT"
+          ],
+          "additionalProperties": false
+        },
+        "stream": false,
+        "think": false,
+        "keep_alive": "5m",
+        "options": {
+          "temperature": 0,
+          "seed": 17,
+          "num_ctx": 8192,
+          "num_predict": 256
+        }
+      },
+      "answer": {
+        "LEFT_INTENSITY_RELATIVE_TO_RIGHT": "MORE"
+      },
+      "done_reason": "stop",
+      "eval_count": 16
+    }
+  ],
+  "number_values": {
+    "left": 0,
+    "right": 1
+  },
+  "numeric_gain": null,
+  "production_eligible": false,
+  "coordinate_changes": [],
+  "relation": "LESS",
+  "scale_id": "PAIR_ef4c44e19895183e",
+  "authority": "MODEL_CANDIDATE_INVERSION_CHECKED",
+  "input_sha256": "97aabad0c2f1e32fc44f63036bf4bc711310877134b773494bef736ef7a4f37f",
+  "implementation": {
+    "basis.py": "ab45551986507a1968dc27169ad9426f3cc7885975a54e8b1b4ef3d4bb62971e",
+    "build.py": "e924693518986822752346e8a62dea551340feee3664c71bcb78a1869ef64cf5",
+    "audit.py": "8a230c0d68668b746ef1cf7dd1de108d99edcbcf0bb759a073226ee7460b79ee",
+    "artifact.py": "ab59d842701633447c0f5730a6b45db80b03f8e6192ea8cdc47eafb10bb90db6",
+    "atomics.py": "d6f38e0d3350b6fa521c96bc148f5fd036ff17311c42cb937327ff5ffb1995a5",
+    "registry.py": "a842dfa9214884019da9a5d79014d295cd98061a87c7e69705bbef498e990204",
+    "number.py": "c4cb40a817ea799cfc86d5e6774f743ec45d604e7a865c3e65180c9129d1bf79",
+    "__init__.py": "6419f246c2579ae1967d225ccea65c8120cbcf3b22933f19d8aaa478069308a6",
+    "core.py": "de20a4fd6a27ce0a7df71b267cfa09d2e74993188cbe592bf7c2e83a50117cb2",
+    "model.py": "cf5e9db793a3bcf8ea9248c4f5e726adcfa06c780894b039ad5fbc36b236b6ab",
+    "sources.py": "61b01a9b19b6fa4eacf9e9d3d761cd773ca8557a70ec339158f86bdc7a9cfda3",
+    "perception.py": "632d127b79d63d2bed20e0916e6b5740e78f700acd6d5357c56967b02908b3b1",
+    "__main__.py": "c7be0fd063f1eceb19b99cb5c196fcc272e6d9baa21c9586d9790579f76392fd",
+    "native_constraints.py": "dd8eb99989f0cff18d3849ea75f98addad9942d88c73aacd0c3e6a522d25725e"
+  }
+}

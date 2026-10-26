@@ -1,0 +1,760 @@
+{
+ "candidate_words": 1737,
+ "rule_ids": {
+  "USAS_OWN_QUALITY_POLE": {
+   "category": "A5.1",
+   "frames": [
+    "Desirability"
+   ],
+   "pos": [
+    "ADJ"
+   ]
+  },
+  "USAS_OWN_SIZE_POLE": {
+   "category": "N3.2",
+   "frames": [
+    "Dimension",
+    "Size"
+   ],
+   "pos": [
+    "ADJ"
+   ]
+  },
+  "USAS_OWN_HAPPY_SAD_STATE": {
+   "category": "E4.1",
+   "frames": [
+    "Emotion_directed"
+   ],
+   "pos": [
+    "ADJ"
+   ]
+  }
+ },
+ "distinct_words": {
+  "USAS_OWN_HAPPY_SAD_STATE": 35,
+  "USAS_OWN_QUALITY_POLE": 38,
+  "USAS_OWN_SIZE_POLE": 28
+ },
+ "matches": {
+  "USAS_OWN_HAPPY_SAD_STATE": [
+   {
+    "word": "amused",
+    "tag": "E4.1+",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "crestfallen",
+    "tag": "E4.1-",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "crushed",
+    "tag": "E4.1-",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "dejected",
+    "tag": "E4.1-",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "delighted",
+    "tag": "E4.1+",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "depressed",
+    "tag": "E4.1-",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "desolate",
+    "tag": "E4.1-",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "despondent",
+    "tag": "E4.1-",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "devastated",
+    "tag": "E4.1-",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "disconsolate",
+    "tag": "E4.1-",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "disheartened",
+    "tag": "E4.1-",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "distressed",
+    "tag": "E4.1-",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "downcast",
+    "tag": "E4.1-",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "downhearted",
+    "tag": "E4.1-",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "ecstatic",
+    "tag": "E4.1+++",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "elated",
+    "tag": "E4.1+",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "embarrassed",
+    "tag": "E4.1-",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "gleeful",
+    "tag": "E4.1+",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "glum",
+    "tag": "E4.1-",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "gratified",
+    "tag": "E4.1+",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "grim",
+    "tag": "E4.1-",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "happy",
+    "tag": "E4.1+",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "heartbroken",
+    "tag": "E4.1-",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "inconsolable",
+    "tag": "E4.1-",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "jubilant",
+    "tag": "E4.1+++",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "mad",
+    "tag": "E4.1+",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "miserable",
+    "tag": "E4.1-",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "mournful",
+    "tag": "E4.1-",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "offended",
+    "tag": "E4.1-",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "overjoyed",
+    "tag": "E4.1+",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "sad",
+    "tag": "E4.1-",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "sore",
+    "tag": "E4.1-",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "sorrowful",
+    "tag": "E4.1-",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "thrilled",
+    "tag": "E4.1+++",
+    "frames": [
+     "Emotion_directed"
+    ]
+   },
+   {
+    "word": "upset",
+    "tag": "E4.1-",
+    "frames": [
+     "Emotion_directed"
+    ]
+   }
+  ],
+  "USAS_OWN_QUALITY_POLE": [
+   {
+    "word": "appalling",
+    "tag": "A5.1-",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "atrocious",
+    "tag": "A5.1---",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "awful",
+    "tag": "A5.1-",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "bad",
+    "tag": "A5.1-",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "crappy",
+    "tag": "A5.1-",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "decent",
+    "tag": "A5.1+",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "dreadful",
+    "tag": "A5.1-",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "excellent",
+    "tag": "A5.1+++",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "fabulous",
+    "tag": "A5.1+++",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "fair",
+    "tag": "A5.1+",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "fantastic",
+    "tag": "A5.1+",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "fine",
+    "tag": "A5.1+",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "first-rate",
+    "tag": "A5.1+",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "good",
+    "tag": "A5.1+",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "great",
+    "tag": "A5.1+",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "incredible",
+    "tag": "A5.1+",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "inferior",
+    "tag": "A5.1--",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "magnificent",
+    "tag": "A5.1+",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "magnificent",
+    "tag": "A5.1+",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "marvellous",
+    "tag": "A5.1+",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "okay",
+    "tag": "A5.1+",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "outstanding",
+    "tag": "A5.1++",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "pathetic",
+    "tag": "A5.1-",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "pitiful",
+    "tag": "A5.1-",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "poor",
+    "tag": "A5.1-",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "rotten",
+    "tag": "A5.1-",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "sensational",
+    "tag": "A5.1++",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "splendid",
+    "tag": "A5.1++",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "substandard",
+    "tag": "A5.1-",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "super",
+    "tag": "A5.1+",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "superb",
+    "tag": "A5.1+",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "superlative",
+    "tag": "A5.1+++",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "terrible",
+    "tag": "A5.1-",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "terrific",
+    "tag": "A5.1+",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "tip-top",
+    "tag": "A5.1+++",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "tolerable",
+    "tag": "A5.1+",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "tremendous",
+    "tag": "A5.1+",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "wonderful",
+    "tag": "A5.1+",
+    "frames": [
+     "Desirability"
+    ]
+   },
+   {
+    "word": "worthless",
+    "tag": "A5.1-",
+    "frames": [
+     "Desirability"
+    ]
+   }
+  ],
+  "USAS_OWN_SIZE_POLE": [
+   {
+    "word": "big",
+    "tag": "N3.2+",
+    "frames": [
+     "Size"
+    ]
+   },
+   {
+    "word": "bulky",
+    "tag": "N3.2+",
+    "frames": [
+     "Size"
+    ]
+   },
+   {
+    "word": "colossal",
+    "tag": "N3.2+",
+    "frames": [
+     "Size"
+    ]
+   },
+   {
+    "word": "enormous",
+    "tag": "N3.2+++",
+    "frames": [
+     "Size"
+    ]
+   },
+   {
+    "word": "giant",
+    "tag": "N3.2+++",
+    "frames": [
+     "Size"
+    ]
+   },
+   {
+    "word": "gigantic",
+    "tag": "N3.2+++",
+    "frames": [
+     "Size"
+    ]
+   },
+   {
+    "word": "grand",
+    "tag": "N3.2+",
+    "frames": [
+     "Size"
+    ]
+   },
+   {
+    "word": "great",
+    "tag": "N3.2+",
+    "frames": [
+     "Size"
+    ]
+   },
+   {
+    "word": "huge",
+    "tag": "N3.2+++",
+    "frames": [
+     "Size"
+    ]
+   },
+   {
+    "word": "immense",
+    "tag": "N3.2++",
+    "frames": [
+     "Size"
+    ]
+   },
+   {
+    "word": "infinitesimal",
+    "tag": "N3.2-",
+    "frames": [
+     "Size"
+    ]
+   },
+   {
+    "word": "jumbo",
+    "tag": "N3.2+",
+    "frames": [
+     "Size"
+    ]
+   },
+   {
+    "word": "large",
+    "tag": "N3.2+",
+    "frames": [
+     "Size"
+    ]
+   },
+   {
+    "word": "little",
+    "tag": "N3.2-",
+    "frames": [
+     "Size"
+    ]
+   },
+   {
+    "word": "long",
+    "tag": "N3.2+",
+    "frames": [
+     "Dimension"
+    ]
+   },
+   {
+    "word": "massive",
+    "tag": "N3.2+",
+    "frames": [
+     "Size"
+    ]
+   },
+   {
+    "word": "mini",
+    "tag": "N3.2-",
+    "frames": [
+     "Size"
+    ]
+   },
+   {
+    "word": "miniature",
+    "tag": "N3.2-",
+    "frames": [
+     "Size"
+    ]
+   },
+   {
+    "word": "miniscule",
+    "tag": "N3.2-",
+    "frames": [
+     "Size"
+    ]
+   },
+   {
+    "word": "petite",
+    "tag": "N3.2-",
+    "frames": [
+     "Size"
+    ]
+   },
+   {
+    "word": "puny",
+    "tag": "N3.2--",
+    "frames": [
+     "Size"
+    ]
+   },
+   {
+    "word": "sizable",
+    "tag": "N3.2+",
+    "frames": [
+     "Size"
+    ]
+   },
+   {
+    "word": "small",
+    "tag": "N3.2-",
+    "frames": [
+     "Size"
+    ]
+   },
+   {
+    "word": "substantial",
+    "tag": "N3.2+",
+    "frames": [
+     "Size"
+    ]
+   },
+   {
+    "word": "thick",
+    "tag": "N3.2+",
+    "frames": [
+     "Dimension"
+    ]
+   },
+   {
+    "word": "tiny",
+    "tag": "N3.2-",
+    "frames": [
+     "Size"
+    ]
+   },
+   {
+    "word": "voluminous",
+    "tag": "N3.2+++",
+    "frames": [
+     "Size"
+    ]
+   },
+   {
+    "word": "wee",
+    "tag": "N3.2-",
+    "frames": [
+     "Size"
+    ]
+   }
+  ]
+ }
+}
