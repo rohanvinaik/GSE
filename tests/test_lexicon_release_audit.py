@@ -13,10 +13,14 @@ from gse.lexicon_builder.artifact import export_sparse
 from gse.lexicon_builder.basis import BASIS_ID
 from gse.lexicon_builder.core import CANONICAL_COORDINATES, Cell, Law, resolve
 from gse.lexicon_builder.release_audit import (
+    SURFACE_EVIDENCE_STRATA,
+    WordEvidence,
+    _coverage,
     corpus_counts,
     file_digest,
     lexical_tokens,
     release_audit,
+    surface_evidence_stratum,
     threshold_status,
 )
 
@@ -142,6 +146,141 @@ def test_corpus_mass_and_genres_are_separate_from_completion(audit_fixture):
     assert brown["groups"]["fiction"]["metrics"]["surface_home"]["code"] == "THRESHOLD_MET"
     assert report["corpora"]["gutenberg"]["total"]["eligible_tokens"] == 4
     assert report["interpretation"]["semantic_completion"] == "NOT_ESTABLISHED_BY_COVERAGE_AUDIT"
+
+
+@pytest.mark.parametrize(
+    ("item", "expected"),
+    [
+        (None, "UNHOMED"),
+        (WordEvidence(), "UNHOMED"),
+        (WordEvidence(structural_home=True), "STRUCTURAL_ONLY"),
+        (WordEvidence(reading_count=1), "LEXICAL_ONLY"),
+        (WordEvidence(structural_home=True, reading_count=1), "MIXED_LEXICAL_STRUCTURAL"),
+    ],
+)
+def test_surface_stratum_is_a_named_disjoint_home_classification(item, expected):
+    assert surface_evidence_stratum(item) == expected
+
+
+@pytest.mark.parametrize(
+    ("field", "value"), [("reading_count", -1), ("reading_count", True), ("structural_home", "yes")]
+)
+def test_invalid_surface_home_evidence_has_a_named_refusal(field, value):
+    item = WordEvidence()
+    setattr(item, field, value)
+    with pytest.raises(ValueError, match="INVALID_SURFACE_EVIDENCE"):
+        surface_evidence_stratum(item)
+
+
+def test_surface_strata_partition_mass_without_selecting_a_mixed_sense():
+    counts = Counter({"the": 50, "box": 20, "before": 10, "mystery": 20})
+    evidence = {
+        "the": WordEvidence(structural_home=True),
+        "box": WordEvidence(reading_count=1, signed_evidence=True),
+        "before": WordEvidence(structural_home=True, reading_count=2, complete_readings=1, signed_evidence=True),
+    }
+    coverage = _coverage(counts, {"the", "box", "before"}, evidence, 0.9)
+    strata = coverage["surface_evidence_strata"]
+    assert set(strata) == set(SURFACE_EVIDENCE_STRATA)
+    assert {code: record["token_mass"] for code, record in strata.items()} == {
+        "STRUCTURAL_ONLY": 50,
+        "LEXICAL_ONLY": 20,
+        "MIXED_LEXICAL_STRUCTURAL": 10,
+        "UNHOMED": 20,
+    }
+    assert sum(record["token_mass"] for record in strata.values()) == coverage["eligible_tokens"]
+    assert sum(record["surface_types"] for record in strata.values()) == coverage["surface_types"]
+    assert coverage["metrics"]["signed_evidence"]["matched_tokens"] == 30
+    assert coverage["metrics"]["signed_evidence"]["eligible_tokens"] == 100
+    mixed = strata["MIXED_LEXICAL_STRUCTURAL"]
+    assert mixed["use_accounting"] == "LEXICAL_AND_STRUCTURAL_USES_UNDISAMBIGUATED"
+    assert mixed["observed_evidence_token_mass"]["any_complete_coordinate_profile"] == 10
+    assert mixed["observed_evidence_token_mass"]["all_readings_coordinate_complete"] == 0
+    candidates = coverage["lexical_candidate_surface_coverage"]
+    assert candidates["code"] == "POSSIBLE_LEXICAL_SURFACE_DENOMINATOR"
+    assert candidates["scope"] == "SURFACE_EVIDENCE_ONLY; NOT_TOKEN_POS_OR_SENSE_ACCURACY"
+    assert candidates["eligible_tokens"] == 30
+    assert candidates["structural_only_tokens_excluded"] == 50
+    assert candidates["unhomed_tokens_excluded_with_role_unknown"] == 20
+    assert candidates["mixed_tokens_included_without_sense_selection"] == 10
+    assert candidates["metrics"]["signed_evidence"]["fraction"] == 1.0
+    assert coverage["out_of_declared_vocabulary"] == [{"word": "mystery", "count": 20}]
+
+
+def test_structural_only_is_not_a_failed_signed_lexical_profile():
+    coverage = _coverage(Counter({"the": 7}), {"the"}, {"the": WordEvidence(structural_home=True)}, 0.9)
+    structural = coverage["surface_evidence_strata"]["STRUCTURAL_ONLY"]
+    assert structural["token_mass"] == 7 and structural["surface_types"] == 1
+    assert structural["lexical_metrics"]["signed_evidence"]["code"] == "NOT_APPLICABLE_STRUCTURAL_ONLY"
+    assert structural["lexical_metrics"]["signed_evidence"]["fraction"] is None
+    assert structural["observed_evidence_token_mass"]["signed_evidence"] == 0
+    candidates = coverage["lexical_candidate_surface_coverage"]
+    assert candidates["eligible_tokens"] == 0
+    assert candidates["metrics"]["signed_evidence"]["code"] == "NO_ELIGIBLE_TOKENS"
+    assert coverage["metrics"]["surface_home"]["matched_tokens"] == 7
+
+
+def test_unhomed_surface_role_is_unknown_and_not_a_content_pos_judgment():
+    coverage = _coverage(Counter({"missing": 3}), set(), {}, 0.9)
+    unhomed = coverage["surface_evidence_strata"]["UNHOMED"]
+    assert unhomed["token_mass"] == 3
+    assert unhomed["use_accounting"] == "LEXICAL_OR_STRUCTURAL_ROLE_UNKNOWN"
+    assert unhomed["lexical_metrics"]["signed_evidence"]["code"] == "NOT_EVALUABLE_UNHOMED"
+    assert coverage["lexical_candidate_surface_coverage"]["unhomed_tokens_excluded_with_role_unknown"] == 3
+    assert coverage["unhomed_surfaces"] == [{"word": "missing", "count": 3}]
+
+
+def test_empty_corpus_preserves_all_strata_without_a_zero_denominator_success():
+    coverage = _coverage(Counter(), set(), {}, 0.9)
+    assert set(coverage["surface_evidence_strata"]) == set(SURFACE_EVIDENCE_STRATA)
+    assert all(record["token_mass"] == 0 for record in coverage["surface_evidence_strata"].values())
+    assert all(record["fraction_of_eligible_tokens"] is None for record in coverage["surface_evidence_strata"].values())
+    assert coverage["lexical_candidate_surface_coverage"]["metrics"]["signed_evidence"]["code"] == "NO_ELIGIBLE_TOKENS"
+
+
+def test_real_audit_entry_reports_surface_strata_for_total_and_every_genre(audit_fixture):
+    build_dir, corpus_root, _ = audit_fixture
+    report = release_audit(build_dir, corpus_root)
+    assert report["build"]["declared_surface_evidence_strata"] == {
+        "STRUCTURAL_ONLY": 1,
+        "LEXICAL_ONLY": 3,
+        "MIXED_LEXICAL_STRUCTURAL": 0,
+        "UNHOMED": 1,
+    }
+    brown = report["corpora"]["brown"]
+    total = brown["total"]
+    assert {code: r["token_mass"] for code, r in total["surface_evidence_strata"].items()} == {
+        "STRUCTURAL_ONLY": 1,
+        "LEXICAL_ONLY": 4,
+        "MIXED_LEXICAL_STRUCTURAL": 0,
+        "UNHOMED": 1,
+    }
+    assert total["metrics"]["signed_evidence"]["matched_tokens"] == 4
+    assert total["metrics"]["signed_evidence"]["eligible_tokens"] == 6
+    assert total["lexical_candidate_surface_coverage"]["metrics"]["signed_evidence"]["fraction"] == 1.0
+    for genre in brown["groups"].values():
+        assert sum(r["token_mass"] for r in genre["surface_evidence_strata"].values()) == genre["eligible_tokens"]
+
+
+def test_real_audit_entry_keeps_mixed_homes_and_conflict_quarantine(audit_fixture):
+    build_dir, corpus_root, _ = audit_fixture
+    words = [json.loads(line) for line in (build_dir / "words.jsonl").read_text().splitlines()]
+    next(row for row in words if row["word"] == "runs")["structural_entries"] = [{"entry_id": "mixed-fixture"}]
+    (build_dir / "words.jsonl").write_text("".join(json.dumps(r) + "\n" for r in words))
+    with (build_dir / "structures.jsonl").open("a") as stream:
+        stream.write(json.dumps({"word": "runs", "entry_id": "mixed-fixture"}) + "\n")
+    sparse = [json.loads(line) for line in (build_dir / "sparse.jsonl").read_text().splitlines()]
+    next(row for row in sparse if row["word"] == "runs")["code"] = "SOURCE_CONFLICT"
+    (build_dir / "sparse.jsonl").write_text("".join(json.dumps(r) + "\n" for r in sparse))
+    report = release_audit(build_dir, corpus_root)
+    news = report["corpora"]["brown"]["groups"]["news"]
+    mixed = news["surface_evidence_strata"]["MIXED_LEXICAL_STRUCTURAL"]
+    assert mixed["token_mass"] == 1 and mixed["surface_types"] == 1
+    assert mixed["use_accounting"] == "LEXICAL_AND_STRUCTURAL_USES_UNDISAMBIGUATED"
+    assert mixed["observed_evidence_token_mass"]["signed_evidence"] == 0
+    assert mixed["observed_evidence_token_mass"]["any_complete_coordinate_profile"] == 0
+    assert news["lexical_candidate_surface_coverage"]["eligible_tokens"] == 2
+    assert news["lexical_candidate_surface_coverage"]["metrics"]["signed_evidence"]["matched_tokens"] == 1
 
 
 def test_build_and_corpus_inputs_are_fully_hashed(audit_fixture):

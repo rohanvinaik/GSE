@@ -45,6 +45,19 @@ METRICS = (
     "any_complete_coordinate_profile",
     "all_readings_coordinate_complete",
 )
+SURFACE_EVIDENCE_STRATA = (
+    "STRUCTURAL_ONLY",
+    "LEXICAL_ONLY",
+    "MIXED_LEXICAL_STRUCTURAL",
+    "UNHOMED",
+)
+LEXICAL_SURFACE_STRATA = frozenset({"LEXICAL_ONLY", "MIXED_LEXICAL_STRUCTURAL"})
+LEXICAL_EVIDENCE_METRICS = tuple(
+    metric
+    for metric in METRICS
+    if metric not in {"declared_surface", "native_record", "surface_home", "structural_home"}
+)
+SURFACE_EVIDENCE_SCOPE = "SURFACE_EVIDENCE_ONLY; NOT_TOKEN_POS_OR_SENSE_ACCURACY"
 
 
 @dataclass
@@ -60,6 +73,22 @@ class WordEvidence:
     non_head_zero_evidence: bool = False
     non_head_written_evidence: bool = False
     conflict: bool = False
+
+
+def surface_evidence_stratum(item: WordEvidence | None) -> str:
+    """Partition emitted surface homes without inferring a corpus token's use."""
+    if item is None:
+        return "UNHOMED"
+    if (
+        not isinstance(item, WordEvidence)
+        or type(item.reading_count) is not int
+        or item.reading_count < 0
+        or type(item.structural_home) is not bool
+    ):
+        raise ValueError("INVALID_SURFACE_EVIDENCE")
+    if item.reading_count:
+        return "MIXED_LEXICAL_STRUCTURAL" if item.structural_home else "LEXICAL_ONLY"
+    return "STRUCTURAL_ONLY" if item.structural_home else "UNHOMED"
 
 
 def file_digest(path: Path) -> str:
@@ -127,13 +156,87 @@ def _metric_flags(word: str, declared: set[str], evidence: dict[str, WordEvidenc
     }
 
 
+def _surface_evidence_report(
+    token_mass: Counter,
+    surface_types: Counter,
+    metric_mass: dict[str, Counter],
+    total: int,
+    threshold: float,
+) -> tuple[dict, dict]:
+    """Keep structural-only and unhomed mass outside the lexical denominator.
+
+    Mixed surfaces retain their full mass as *possible* lexical use. No choice
+    of a best sense, function/content class or actual token POS is made here.
+    """
+    strata = {}
+    for stratum in SURFACE_EVIDENCE_STRATA:
+        lexical = stratum in LEXICAL_SURFACE_STRATA
+        denominator = token_mass[stratum] if lexical else 0
+        metrics = {
+            metric: threshold_status(metric_mass[stratum][metric] if lexical else 0, denominator, threshold)
+            for metric in LEXICAL_EVIDENCE_METRICS
+        }
+        if not lexical:
+            code = "NOT_APPLICABLE_STRUCTURAL_ONLY" if stratum == "STRUCTURAL_ONLY" else "NOT_EVALUABLE_UNHOMED"
+            for record in metrics.values():
+                record["code"] = code
+        strata[stratum] = {
+            "code": stratum,
+            "scope": SURFACE_EVIDENCE_SCOPE,
+            "token_mass": token_mass[stratum],
+            "surface_types": surface_types[stratum],
+            "fraction_of_eligible_tokens": token_mass[stratum] / total if total else None,
+            "observed_evidence_token_mass": {
+                metric: metric_mass[stratum][metric] for metric in LEXICAL_EVIDENCE_METRICS
+            },
+            "lexical_metrics": metrics,
+            "use_accounting": (
+                "STRUCTURAL_HOME_WITH_NO_EMITTED_LEXICAL_READING"
+                if stratum == "STRUCTURAL_ONLY"
+                else "LEXICAL_AND_STRUCTURAL_USES_UNDISAMBIGUATED"
+                if stratum == "MIXED_LEXICAL_STRUCTURAL"
+                else "POSSIBLE_LEXICAL_USE_BY_SURFACE"
+                if lexical
+                else "LEXICAL_OR_STRUCTURAL_ROLE_UNKNOWN"
+            ),
+        }
+    denominator = sum(token_mass[stratum] for stratum in LEXICAL_SURFACE_STRATA)
+    candidates = {
+        "code": "POSSIBLE_LEXICAL_SURFACE_DENOMINATOR",
+        "scope": SURFACE_EVIDENCE_SCOPE,
+        "included_strata": [s for s in SURFACE_EVIDENCE_STRATA if s in LEXICAL_SURFACE_STRATA],
+        "eligible_tokens": denominator,
+        "surface_types": sum(surface_types[stratum] for stratum in LEXICAL_SURFACE_STRATA),
+        "structural_only_tokens_excluded": token_mass["STRUCTURAL_ONLY"],
+        "unhomed_tokens_excluded_with_role_unknown": token_mass["UNHOMED"],
+        "mixed_tokens_included_without_sense_selection": token_mass["MIXED_LEXICAL_STRUCTURAL"],
+        "metrics": {
+            metric: threshold_status(
+                sum(metric_mass[stratum][metric] for stratum in LEXICAL_SURFACE_STRATA), denominator, threshold
+            )
+            for metric in LEXICAL_EVIDENCE_METRICS
+        },
+    }
+    return strata, candidates
+
+
 def _coverage(counts: Counter, declared: set[str], evidence: dict[str, WordEvidence], threshold: float) -> dict:
     mass = Counter()
+    stratum_mass, stratum_types = Counter(), Counter()
+    stratum_metrics = {stratum: Counter() for stratum in SURFACE_EVIDENCE_STRATA}
     for word, frequency in counts.items():
+        stratum = surface_evidence_stratum(evidence.get(word))
+        stratum_mass[stratum] += frequency
+        stratum_types[stratum] += 1
         for metric, present in _metric_flags(word, declared, evidence).items():
             if present:
                 mass[metric] += frequency
+                if metric in LEXICAL_EVIDENCE_METRICS:
+                    stratum_metrics[stratum][metric] += frequency
     total = counts.total()
+    strata, lexical_candidates = _surface_evidence_report(
+        stratum_mass, stratum_types, stratum_metrics, total, threshold
+    )
     oov = Counter({word: count for word, count in counts.items() if word not in declared})
     unhomed = Counter(
         {word: count for word, count in counts.items() if not _metric_flags(word, declared, evidence)["surface_home"]}
@@ -142,6 +245,8 @@ def _coverage(counts: Counter, declared: set[str], evidence: dict[str, WordEvide
         "eligible_tokens": total,
         "surface_types": len(counts),
         "metrics": {metric: threshold_status(mass[metric], total, threshold) for metric in METRICS},
+        "surface_evidence_strata": strata,
+        "lexical_candidate_surface_coverage": lexical_candidates,
         "out_of_declared_vocabulary": [
             {"word": word, "count": count} for word, count in sorted(oov.items(), key=lambda x: (-x[1], x[0]))
         ],
@@ -321,6 +426,10 @@ def _read_build(build_dir: Path) -> tuple[dict, set[str], dict[str, WordEvidence
         "word_evidence": {
             metric: sum(_metric_flags(word, declared, evidence)[metric] for word in declared) for metric in METRICS
         },
+        "declared_surface_evidence_strata": {
+            stratum: sum(surface_evidence_stratum(evidence.get(word)) == stratum for word in declared)
+            for stratum in SURFACE_EVIDENCE_STRATA
+        },
         "words_with_conflicts": sum(item.conflict for item in evidence.values()),
     }
     return manifest, declared, evidence, summary
@@ -435,6 +544,7 @@ def release_audit(
             "conflict_policy": "Conflicted readings remain diagnostic and may have a surface home; their cells never support evidence or coordinate-completion coverage.",
             "production_readiness": "NOT_ESTABLISHED_BY_COVERAGE_AUDIT",
             "threshold_scope": "Each token-mass metric is tested separately; 90% surface coverage does not certify semantic completion.",
+            "surface_evidence_split": "Structural-only, lexical-only, mixed and unhomed surface evidence partition token mass. Structural-only is not missing lexical content; mixed usage remains undisambiguated. Lexical-candidate metrics use possible lexical surfaces, not actual token POS or sense accuracy.",
             "token_policy": TOKEN_POLICY,
         },
         "manifest": {
