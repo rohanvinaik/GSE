@@ -3,7 +3,7 @@
 from pathlib import Path
 
 from gse.lexicon_builder.build import build
-from gse.lexicon_builder.native_constraints import caused_change_status
+from gse.lexicon_builder.native_constraints import caused_change_status, frame_constraints
 from gse.lexicon_builder.registry import load_rulebook
 from gse.lexicon_builder.sources import NativeSources
 from tests.lexicon_sources import requires_lexicon_sources
@@ -81,6 +81,44 @@ def test_refused_source_join_and_unrelated_event_must_not_support_cause():
     value["predicates"][0] = predicate("cause", "E0", "Agent")
     value["predicates"][1] = predicate("motion", "during(E1)", "Patient")
     assert caused_change_status(value, 0, set())["code"] == "NO_CHANGE_TO_ANOTHER_PARTICIPANT"
+
+
+def test_unsupported_cause_or_outcome_polarity_must_not_supply_caused_change():
+    value = frame()
+    value["predicates"][1] = predicate("contact", "end(E)", "Patient")
+    value["predicates"][1]["predicate"]["bool"] = "?"
+    assert caused_change_status(value, 0, set()) == {
+        "code": "NO_CHANGE_TO_ANOTHER_PARTICIPANT",
+        "blocked_evidence": ["UNSUPPORTED_NATIVE_POLARITY"],
+    }
+    value = frame()
+    value["predicates"][0]["predicate"]["bool"] = "?"
+    assert caused_change_status(value, 0, set()) == {
+        "code": "NO_CHANGE_TO_ANOTHER_PARTICIPANT",
+        "blocked_evidence": ["UNSUPPORTED_NATIVE_POLARITY"],
+    }
+
+
+def test_frame_projection_refuses_unsupported_outcome_without_losing_terminal_negation():
+    value = frame()
+    value["predicates"][1] = predicate("contact", "end(E)", "Patient")
+    value["predicates"][1]["predicate"]["bool"] = "?"
+    result = frame_constraints(value, load_rulebook())
+    assert not any("CAUSE" in law.coordinates or "DO" in law.coordinates for law in result["laws"])
+    assert any(u["code"] == "UNSUPPORTED_NATIVE_POLARITY" for u in result["unmapped"])
+    assert any(
+        u["code"] == "NO_CHANGE_TO_ANOTHER_PARTICIPANT" and u["blocked_evidence"] == ["UNSUPPORTED_NATIVE_POLARITY"]
+        for u in result["unmapped"]
+    )
+    for polarity in (None, "!"):
+        value["predicates"][1]["predicate"]["bool"] = polarity
+        assert caused_change_status(value, 0, set())["code"] == "BOUND_CAUSED_CHANGE"
+        result = frame_constraints(value, load_rulebook())
+        writes = {
+            law.coordinates: tuple(tuple(cell.value for cell in row) for row in law.allowed) for law in result["laws"]
+        }
+        assert writes[("CAUSE",)] == (("+1",),)
+        assert writes[("DO",)] == (("+1",),)
 
 
 @requires_lexicon_sources

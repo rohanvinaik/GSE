@@ -93,6 +93,11 @@ def caused_change_status(frame: dict, cause_index: int, refused: set[int]) -> di
     someone wanted something to happen because of it', GW2014 ch. 7), so saying is not causing.
     """
     cause = frame["predicates"][cause_index]
+    if cause["predicate"].get("bool") not in (None, "!"):
+        return {
+            "code": "NO_CHANGE_TO_ANOTHER_PARTICIPANT",
+            "blocked_evidence": ["UNSUPPORTED_NATIVE_POLARITY"],
+        }
     causers = _roles(cause)
     caused_root = EVENT_FORMS[[a["value"] for a in cause["arguments"] if a["type"] == "Event"][-1]][0]
     declared = {r["role"] for r in frame.get("role_restrictions", [])}
@@ -136,7 +141,11 @@ def caused_change_status(frame: dict, cause_index: int, refused: set[int]) -> di
         if not bound:
             blocked.add("AFFECTED_PARTICIPANT_IDENTITY_UNCONFIRMED")
             continue
-        positive = predicate["predicate"].get("bool") != "!"
+        polarity = predicate["predicate"].get("bool")
+        if polarity not in (None, "!"):
+            blocked.add("UNSUPPORTED_NATIVE_POLARITY")
+            continue
+        positive = polarity != "!"
         if (
             phase in {"end", "result"}
             or (positive and phase == "during" and name in _UNDERGOER_EVENTS)
