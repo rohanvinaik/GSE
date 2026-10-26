@@ -12,7 +12,7 @@ from gse.lexicon_builder.artifact import read_sparse
 from gse.lexicon_builder.core import CANONICAL_COORDINATES, Resolution, coordinate_vocabulary, legal_domain
 from gse.lexicon_builder.families import optional_components
 from gse.lexicon_builder.model import OllamaSelector
-from gse.lexicon_builder.reading import CoordinateDecision, ReadingSeed
+from gse.lexicon_builder.reading import CoordinateDecision, ReadingSeed, model_task_status
 
 
 def nominated_components(source_rule: dict) -> list[str]:
@@ -23,7 +23,11 @@ def nominated_components(source_rule: dict) -> list[str]:
     class, including members absent from the evaluation references.
     """
     optional = ("DO", "IF", "KNOW") if source_rule["rule_id"] == "EMOTION_FEAR_ADJ" else ()
-    return list(dict.fromkeys([*source_rule.get("residual", []), *optional, *optional_components(source_rule)]))
+    components = list(dict.fromkeys([*source_rule.get("residual", []), *optional, *optional_components(source_rule)]))
+    policy = source_rule.get("model_selection_policy")
+    if policy is not None and model_task_status(policy, "DO") == "MALFORMED_MODEL_TASK_POLICY":
+        raise ValueError("MALFORMED_MODEL_TASK_POLICY")
+    return components if policy is None else [c for c in components if c in policy["coordinates"]]
 
 
 class BudgetedSelector(OllamaSelector):
@@ -137,6 +141,8 @@ def plan_tail(path: Path, max_tasks: int = 256, max_per_reading: int = 2) -> lis
             raise ValueError("INVALID_RESIDUAL_COORDINATES")
         emitted = 0
         for coordinate in sorted(set(nominated), key=lambda c: (len(record["cells"][c]["domain"]), c)):
+            if model_task_status(record.get("model_selection_policy"), coordinate) != "ADMITTED_MODEL_TASK_TYPE":
+                continue
             cell = record["cells"][coordinate]
             identity = (record["reading_id"], coordinate)
             if len(tasks) >= max_tasks:

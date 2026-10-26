@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "basis_id": "GSE_LEXICAL_72_SIGNED_58_V1",
-  "version": "2026-10-25.11",
+  "version": "2026-10-26.1",
   "authority": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md",
   "association_policy": {
     "NRC_emotion": "ASSOCIATION_ONLY; no lexical sign or silence implication",
@@ -2092,14 +2092,14 @@
             "kind": "OPTIONAL",
             "domain": [
               "+1",
-              "0",
               "empty"
             ],
-            "reason": "Possibility may be lexical MAYBE or another construction; nervous development evidence prohibits blanket silence.",
+            "reason": "Scoped epistemic-possibility account: MAYBE may be present or definitionally unaddressed. An applicable explicit absence (0) would assert absence of epistemic possibility/uncertainty, requiring a subjective-certainty reading. The selected adjectival Fear template does not establish that reading; dread is a separately scoped nominal subjective-certainty development analysis. Reference omission alone supplies no certainty. This rule does not restrict zero in other fields or other reading families.",
             "source_refs": [
               "GSE_FEAR_ADJ_BOUNDARY_V1",
               "FOUNDER:F148,F151-F152",
-              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)"
+              "Wierzbicka 1999 chapter 2; Wierzbicka 1990 Fear paper (development evidence)",
+              "USER_CORRECTION:2026-10-26"
             ]
           },
           "CAN": {
@@ -2121,7 +2121,7 @@
               "0",
               "empty"
             ],
-            "reason": "Practical necessity in the nervous scenario may require the GSE adaptation; the older evaluation projection omitted this coordinate. Retain the choice rather than forcing its omission.",
+            "reason": "Practical necessity remains unresolved by this class account. CAN and NOT in a scenario do not by themselves license MUST with its nested modal scope. MUST is excluded from this class model task after uninformative universal-positive selections; neither silence nor zero follows from withholding a task.",
             "source_refs": [
               "GSE_FEAR_ADJ_BOUNDARY_V1",
               "FOUNDER:F148,F151-F152",
@@ -2253,10 +2253,10 @@
           "Authored boundary, not a proof from omission in the literature.",
           "No untouched published positive Fear test was identified before this contract.",
           "DO/IF/KNOW have no invented dependency.",
-          "MUST remains open because the older have-to projection and the GSE adaptation need a per-reading decision.",
-          "No ordinary noun, causative verb, compound slash tag or other frame inherits this boundary."
+          "No ordinary noun, causative verb, compound slash tag or other frame inherits this boundary.",
+          "MUST stays open without a separate scoped practical-necessity warrant; this task type cannot select it."
         ],
-        "revision": 3
+        "revision": 4
       },
       "lifecycle": "ACTIVE",
       "authority": {
@@ -2273,13 +2273,29 @@
       ],
       "validation": {
         "status": "VALIDATED",
-        "contract_sha256": "81ebce93891cc9e4e31700218ae72200ba0f211dbe0f8b36438ca04edba0257b",
+        "contract_sha256": "2a8d4a2b62e117bd9dacb13019b21c43e7ad03bc990f5229a987caa5382bc85f",
         "positive": [
           "tests/test_lexicon_family_boundaries.py::test_native_family_boundary_reaches_the_real_builder_and_export"
         ],
         "must_not": [
           "tests/test_lexicon_family_boundaries.py::test_boundary_cannot_supply_a_deleted_content_warrant",
           "tests/test_lexicon_family_boundaries.py::test_wrong_source_scope_and_withheld_contract_cannot_close_cells"
+        ]
+      },
+      "model_selection_policy": {
+        "task_type": "FEAR_OPTIONAL_COMPONENT_V1",
+        "status": "WITHHELD",
+        "coordinates": [
+          "DO",
+          "IF",
+          "KNOW",
+          "THEN",
+          "MAYBE"
+        ],
+        "reason": "Reviewed development trial failed trivial-selector comparisons. Preserve these domains until a revised typed task demonstrates informative selection; no source-determinism requirement is imposed. MUST is outside this model task scope and remains open.",
+        "evidence_refs": [
+          "docs/verification/lexicon-rebuild/diagnosis-2026-10-26/evaluation/REPORT.md",
+          "USER_CORRECTION:2026-10-26"
         ]
       }
     },

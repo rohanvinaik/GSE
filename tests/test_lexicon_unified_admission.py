@@ -10,7 +10,7 @@ import copy
 
 from gse.lexicon_builder.build import build
 from gse.lexicon_builder.registry import load_rulebook
-from tests.lexicon_rulebook import admitted_rulebook, withheld_rulebook
+from tests.lexicon_rulebook import admitted_rulebook, certify_rule, withheld_rulebook
 
 
 class FixtureSources:
@@ -108,7 +108,20 @@ def test_an_unadmitted_perception_rule_writes_nothing_and_asks_no_model():
     (withheld,) = record["withheld_unadmitted_writes"]
     assert withheld["model_decision_withheld"] is True
     assert withheld["would_write"] == {}
-    live = run(ambiguous, load_rulebook(), selector)  # approved in F144 and live
+    book = load_rulebook()
+    unreviewed = run(ambiguous, book, selector)
+    assert selector.calls == 0
+    assert not {"SEE", "HEAR"} & set(unreviewed["readings"][0]["after_selection"]["forced"])
+    rule = book["native_residual_rules"][0]
+    rule["model_selection_policy"] = {
+        "task_type": "SYNTHETIC_PERCEPTION_CHOICE",
+        "status": "ADMITTED",
+        "coordinates": ["SEE", "HEAR"],
+        "reason": "Mechanics fixture only",
+        "evidence_refs": ["tests/test_lexicon_unified_admission.py"],
+    }
+    certify_rule(rule)
+    live = run(ambiguous, book, selector)
     assert selector.calls == 1
     assert live["readings"][0]["after_selection"]["forced"]["SEE"] == "+1"
 

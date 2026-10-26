@@ -1,8 +1,4 @@
-"""The rules fix what they can; every cell they leave open is filled one bank per call.
-
-The model sees exactly the states the rules leave, written 0 included (F078, F158), and every answer
-is solved again before the next bank.
-"""
+"""A legacy bank-fill request cannot bypass task-type review or fabricate closure."""
 
 from __future__ import annotations
 
@@ -37,7 +33,7 @@ class BankSelector:
         return {"request_sha256": f"fill-{len(self.calls)}", "answer": answer}
 
 
-def test_a_fear_adjective_gets_its_template_from_rules_and_the_rest_by_bank():
+def test_withheld_fear_selection_cannot_be_bypassed_by_bank_fill():
     book, record = load_rulebook(), native("E5-", "Fear")
     (match,) = source_matches(record, book)
     assert match["rule"]["rule_id"] == "EMOTION_FEAR_ADJ"
@@ -48,18 +44,13 @@ def test_a_fear_adjective_gets_its_template_from_rules_and_the_rest_by_bank():
         ("FEEL", "THINK", "LIKE", "WHEN", "BECAUSE", "CAN", "HAPPEN"), "+1"
     )
     assert forced["GOOD"] == "-1" and forced["SOMETHING"] == "0" and forced["KIND"] == "0"
-    assert reading["code"] == "CANDIDATE_COMPLETE"
-    states = reading["candidate_vector"]["states"]
-    assert states["THEN"] == "-1"  # a signed option reaches the model: "now"
-    assert states["WANT"] == "+1"
-    banks = [payload["bank"] for payload, _ in selector.calls]
-    assert len(banks) == len(set(banks))  # one call per bank
-    for payload, options in selector.calls:
-        assert payload["definition_scope"].startswith("THE_FEELING_AND_THE_PROTOTYPICAL_THOUGHT")
-        for coordinate, values in options.items():
-            assert coordinate not in forced
-            assert "0" in values  # a written 0 that survives the rules is offered (F078, F158)
-            assert values[0] == "empty"
+    assert reading["code"] == "PARTIAL"
+    assert reading["candidate_vector"] is None
+    assert selector.calls == []
+    assert {d["code"] for d in reading["decisions"]} == {"UNADMITTED_BANK_FILL"}
+    assert reading["after_selection"]["domains"]["THEN"] == ["-1", "0", "empty"]
+    assert "0" in reading["after_selection"]["domains"]["DO"]
+    assert reading["after_selection"]["domains"]["MAYBE"] == ["+1", "empty"]
 
 
 def test_without_a_selector_the_open_cells_stay_open():

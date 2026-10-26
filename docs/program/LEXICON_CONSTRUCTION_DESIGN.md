@@ -288,6 +288,19 @@ Compatibility `primitive_values` rows contain settled written states, including 
 
 ### 7.3 Evaluation, residual coverage and release receipts
 
+Rohan's 2026-10-26 correction preserves bounded statistical selection under F047/F066/F078:
+typed context includes the word, and sources need not determine a residual answer before the
+model can choose. Admission is per task type after evaluation against always-yes, always-silent
+and class-majority controls. Those controls and reference answers remain evaluation-only.
+Construction consumes a separately reviewed task-type status, not its scores or gold labels.
+An uninformative type stays withheld, leaving its cells open; a surviving zero remains legal.
+The current Fear optional-component type is withheld, and MUST is outside its queue. A scoped
+MAYBE domain rule follows the authored family account rather than a general ban on zero.
+The [diagnosis packet](../verification/lexicon-rebuild/diagnosis-2026-10-26/REPORT.md) records
+the symbolic comparisons, dispositions and F075 sample. Disagreements diagnose shared rules,
+independently warranted exceptions or unresolved cells; matching development answers alone
+cannot justify a new rule. The historical family completion count supplies no semantic acceptance.
+
 `surprise.compare_artifact` compares finished sparse output with published explications. It does not participate in construction or generate tail tasks. Missing reference content is a challenge to investigate; an omitted phrase in an explication does not prove GSE silence. A family used to derive a template is labeled as such rather than advertised as held-out accuracy. DeepNSM remains evaluation-only under the separate project restriction.
 
 `release_audit` streams the whole emitted sparse artifact and checks its identity sets against word/structure records. It counts reading states/scopes, signed cells, head-coordinate zeros, other zeros, explicit silence, unresolved cells, conflicts, structural homes and source availability/absence. Brown is measured by its native genres and Gutenberg by its independent local texts, with declared tokenization/encoding and complete input hashes. OOV and unhomed surface counts remain available. No stemming or alias credit is silently added.

@@ -45,3 +45,11 @@ required component from its expected profile. The family packet preserves indepe
 ablation checks, successive local-model development trials, quantified-time decomposition,
 signed-pole vocabulary and separate structural/lexical surface accounting. Coordinate completion
 does not waive the remaining semantic disagreements or the validator's uncertified Detective run.
+
+CORRECTION (2026-10-26): the Fear optional-component selector failed trivial baselines. Its
+task type is withheld on both dispatch routes; missing review also refuses construction selection.
+This is a task-type acceptance requirement, not a requirement that source facts determine the
+answer. Baselines and reference answers stay in evaluation. MUST leaves this class's queue while
+remaining unresolved; a scoped MAYBE rule excludes zero here without a global zero restriction.
+The diagnosis packet covers all 13 symbolic reference comparisons, disagreement dispositions,
+F075's frozen random rank cohort, independent unread-source handling and Detective shared state.

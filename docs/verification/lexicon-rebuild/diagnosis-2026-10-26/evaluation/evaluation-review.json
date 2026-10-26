@@ -1,0 +1,23 @@
+{
+  "schema": "GSE_EVALUATION_REVIEW_RECORD_V1",
+  "scope": "EVALUATION_ONLY; DOES_NOT_REVISE_GOLD_OR_CONSTRUCTION",
+  "qualifications": [
+    {
+      "word": "nervous",
+      "coordinate": "MUST",
+      "code": "GSE_HAVE_TO_PROJECTION_AMBIGUITY; OLD_REFERENCE_PROJECTS_CAN_NOT_ONLY"
+    }
+  ],
+  "exceptions": [],
+  "baseline_policy": {
+    "scope": "EVALUATION_ONLY_DEVELOPMENT_CHALLENGE",
+    "required_selectors": [
+      "ALWAYS_YES",
+      "ALWAYS_SILENT",
+      "CLASS_MAJORITY"
+    ],
+    "acceptance": "MODEL_IDENTIFIED_STRICTLY_EXCEEDS_EACH_BASELINE_ON_THE_SAME_COHORT",
+    "minority_and_abstentions": "REPORTED_SEPARATELY; NO_SOURCE_DETERMINISM_GATE",
+    "construction_effect": "NONE; ANY_ADMISSION_CHANGE_REQUIRES_A_SEPARATE_REVIEWED_CONSTRUCTION_POLICY"
+  }
+}

@@ -30,7 +30,10 @@ def test_family_temporal_domain_and_both_selector_routes_preserve_the_scope():
     seed = adjective_seed("afraid", match, native)
     result = construct_reading(seed, book, None)
     assert set(result["after_selection"]["domains"]["THEN"]) == {"-1", "0", "empty"}
-    assert match["rule"]["definition_boundary"]["revision"] == 3
+    assert match["rule"]["definition_boundary"]["revision"] == 4
+    assert result["after_selection"]["domains"]["MAYBE"] == ["+1", "empty"]
+    assert "0" in result["after_selection"]["domains"]["DO"]
+    assert "MUST" not in result["residual_coordinates"]
 
     class ScopeRecorder:
         def __init__(self):
@@ -44,6 +47,11 @@ def test_family_temporal_domain_and_both_selector_routes_preserve_the_scope():
 
     library = ScopeRecorder()
     construct_reading(seed, book, library)
+    assert library.calls == []
+    # Explicit fixture admission proves the bounded model mechanism still
+    # works when source facts leave a choice. This is not lexical admission.
+    seed.selection_policy = {**seed.selection_policy, "status": "ADMITTED", "reason": "Mechanics fixture only"}
+    construct_reading(seed, book, library)
     assert library.calls[0]["coordinate_vocabulary"]["THEN"]["signed_prime_names"]["-1"] == "NOW"
     task = {
         "reading_id": seed.reading_id,
@@ -53,7 +61,12 @@ def test_family_temporal_domain_and_both_selector_routes_preserve_the_scope():
         "source_record_ids": match["premises"],
     }
     queued = ScopeRecorder()
-    construct_reading(attach_tail(adjective_seed("afraid", match, native), [task]), book, queued)
+    queue_seed = adjective_seed("afraid", match, native)
+    blocked = construct_reading(attach_tail(queue_seed, [task]), book, queued)
+    assert queued.calls == []
+    assert blocked["decisions"][0]["code"] == "WITHHELD_MODEL_TASK_TYPE"
+    queue_seed.selection_policy = seed.selection_policy
+    construct_reading(attach_tail(queue_seed, [task]), book, queued)
     assert queued.calls[0]["coordinate_vocabulary"]["signed_prime_names"]["-1"] == "NOW"
     assert "family_optional_warrants" not in queued.calls[0]["native_observations"]
 

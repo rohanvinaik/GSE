@@ -54,6 +54,39 @@ def ask(
     return call
 
 
+def model_task_status(policy: object, coordinate: str) -> str:
+    """Consume a reviewed task-type decision, never reference answers or scores.
+
+    Admission permits statistical selection among surviving states; a source
+    need not determine the answer. Evaluation and review own the admission
+    record. An option list or a model's confidence cannot admit its own task.
+    """
+    if policy is None:
+        return "UNREVIEWED_MODEL_TASK_TYPE"
+    if not isinstance(policy, dict):
+        return "MALFORMED_MODEL_TASK_POLICY"
+    if any(not isinstance(policy.get(k), str) or not policy[k] for k in ("task_type", "reason")):
+        return "MALFORMED_MODEL_TASK_POLICY"
+    coordinates, refs = policy.get("coordinates"), policy.get("evidence_refs")
+    if (
+        not isinstance(coordinates, list)
+        or not coordinates
+        or any(not isinstance(c, str) or c not in CANONICAL_COORDINATES for c in coordinates)
+        or not isinstance(refs, list)
+        or not refs
+        or any(not isinstance(r, str) or not r for r in refs)
+    ):
+        return "MALFORMED_MODEL_TASK_POLICY"
+    if coordinate not in coordinates:
+        return "OUTSIDE_MODEL_TASK_SCOPE"
+    status = policy.get("status")
+    if status == "WITHHELD":
+        return "WITHHELD_MODEL_TASK_TYPE"
+    if status == "ADMITTED":
+        return "ADMITTED_MODEL_TASK_TYPE"
+    return "UNREVIEWED_MODEL_TASK_TYPE"
+
+
 @dataclass(frozen=True)
 class CoordinateDecision:
     """An open coordinate the local model may settle; it is open while its domain has two or more states."""
@@ -98,6 +131,7 @@ class ReadingSeed:
     exceptions: tuple[RuleException, ...] = ()
     context: dict = field(default_factory=dict)
     completion_check: Callable[[Resolution], dict] | None = None
+    selection_policy: dict | None = None
 
 
 @dataclass
@@ -152,10 +186,12 @@ def construct_reading(
             code = "STALE_TASK_DOMAIN"
         elif selector is None:
             code = "SYMBOLIC_ONLY"
+        elif model_task_status(seed.selection_policy, decision.coordinate) != "ADMITTED_MODEL_TASK_TYPE":
+            code = model_task_status(seed.selection_policy, decision.coordinate)
         elif not getattr(selector, "available", True):
             code = "BUDGET_EXHAUSTED"
         if code is not None:
-            if decision.task_id is not None:
+            if decision.task_id is not None or (selector is not None and code != "ALREADY_RESOLVED"):
                 decisions.append({**disposition, "code": code})
             continue
         assert options is not None and selector is not None
@@ -202,6 +238,9 @@ def construct_reading(
                 break
             fields = open_fields(state, bank)
             if not fields:
+                continue
+            if any(model_task_status(seed.selection_policy, c) != "ADMITTED_MODEL_TASK_TYPE" for c in fields):
+                decisions.append({"bank": BANK_NAMES[bank], "code": "UNADMITTED_BANK_FILL"})
                 continue
             call = selector.select(seed.fill(state, bank, fields), fields)
             calls.append(call)

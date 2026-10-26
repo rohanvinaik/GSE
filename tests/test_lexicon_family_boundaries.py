@@ -34,11 +34,14 @@ def source_case():
 def test_native_family_boundary_reaches_the_real_builder_and_export(source_case):
     sources, book = source_case
     record = next(build(["afraid"], sources, book, EmptyOptionalSelector()))["readings"][0]
-    assert record["code"] == "CANDIDATE_COMPLETE"
-    assert record["definition_accounting"]["code"] == "FAMILY_ACCOUNTED"
-    assert len(record["candidate_vector"]["states"]) == 58
-    assert len(record["model_calls"]) == 6
-    assert export_vector(record)["states"]["FEEL"] == "+1"
+    assert record["code"] == "PARTIAL"
+    assert record["definition_accounting"]["code"] == "FAMILY_UNRESOLVED"
+    assert record["candidate_vector"] is None
+    assert record["model_calls"] == []
+    assert {d["code"] for d in record["decisions"]} == {"WITHHELD_MODEL_TASK_TYPE"}
+    with pytest.raises(ValueError, match="only a complete candidate"):
+        export_vector(record)
+    assert export_sparse(record)["cells"]["FEEL"]["state"] == "+1"
     assert export_sparse(record)["definition_accounting"] == record["definition_accounting"]
     assert record["production_eligible"] is False
 
@@ -77,7 +80,7 @@ def test_removing_one_silence_support_reopens_only_its_coordinate(source_case):
     seed.laws = [law for law in seed.laws if law.rule_id != "FAMILY:GSE_FEAR_ADJ_BOUNDARY_V1:FAR"]
     result = construct_reading(seed, book, EmptyOptionalSelector())
     assert result["candidate_vector"] is None
-    assert result["definition_accounting"]["unresolved"] == ["FAR"]
+    assert set(result["definition_accounting"]["unresolved"]) == {"FAR", "DO", "IF", "KNOW", "THEN", "MAYBE", "MUST"}
     assert result["after_selection"]["forced"]["SEE"] == "empty"
 
 

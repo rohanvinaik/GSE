@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from gse.lexicon_builder.core import Cell, Law
 from gse.lexicon_builder.model import OllamaSelector
-from gse.lexicon_builder.reading import ask
+from gse.lexicon_builder.reading import ask, model_task_status
 
 PERCEPTION_RULE = "VN_USAS_PERCEPTION_MODE"
 
@@ -38,7 +38,10 @@ def perception_constraints(
                     witnesses.append({"record_id": record["record_id"], "category": category})
     calls = []
     code = next(iter(modes)) if len(modes) == 1 else "UNRESOLVED"
-    if code == "UNRESOLVED" and selector is not None:
+    admission = model_task_status(rule.get("model_selection_policy"), "SEE")
+    if admission == "ADMITTED_MODEL_TASK_TYPE":
+        admission = model_task_status(rule.get("model_selection_policy"), "HEAR")
+    if code == "UNRESOLVED" and selector is not None and admission == "ADMITTED_MODEL_TASK_TYPE":
         payload = {
             "schema": "GSE_PERCEPTION_MODE_V1",
             "word": word,
@@ -70,6 +73,7 @@ def perception_constraints(
                 "coordinate": coordinate,
                 "witnesses": witnesses,
                 "authority": "MODEL_CANDIDATE" if calls else "TYPED_SOURCE_CONJUNCTION",
+                **({"selection_status": admission} if selector is not None and code == "UNRESOLVED" else {}),
             }
         ],
     }

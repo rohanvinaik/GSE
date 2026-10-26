@@ -1,5 +1,11 @@
 # Ordinary-family construction checkpoint
 
+**Correction, 2026-10-26:** the five coordinate-complete candidates below relied on an optional
+selector that did not beat trivial baselines. That result does not establish five completed
+definitions. The [subsequent diagnosis](../diagnosis-2026-10-26/REPORT.md) withholds this task
+type and preserves its optional cells as unresolved. The original trials and reference receipts
+remain unchanged as historical development evidence.
+
 The constructor now supports a fully accounted ordinary-family projection and bounded local selection through the existing entry points. **Semantic family acceptance remains unestablished.** The [current independent result](evaluation/CURRENT_RESULT-V4.json) records five complete candidates and one partial Fear reading, with explicit reference disagreements. Production adoption is not authorized by these coordinate-completion results.
 
 ## Implemented path

@@ -1,0 +1,227 @@
+{
+  "schema": "GSE_SYMBOLIC_DIAGNOSIS_BUILD_RECEIPT_V1",
+  "code": "POST_CHANGE_SYMBOLIC_BUILD_FROZEN",
+  "observed_at_utc": "2026-10-26T04:46:16.326123+00:00",
+  "input_freeze_sha256": "c3db85d553553dde5376dae174dbca5024f10a1d8c35158e2117087d8002d823",
+  "build_directory": "/private/tmp/gse-diagnosis-symbolic-post-20261026",
+  "implementation_matches_freeze": {
+    "gse/lexicon_builder/basis.py": true,
+    "gse/lexicon_builder/build.py": true,
+    "gse/lexicon_builder/tail.py": true,
+    "gse/lexicon_builder/audit.py": true,
+    "gse/lexicon_builder/artifact.py": true,
+    "gse/lexicon_builder/atomics.py": true,
+    "gse/lexicon_builder/fill.py": true,
+    "gse/lexicon_builder/registry.py": true,
+    "gse/lexicon_builder/release_audit.py": true,
+    "gse/lexicon_builder/number.py": true,
+    "gse/lexicon_builder/families.py": true,
+    "gse/lexicon_builder/reading.py": true,
+    "gse/lexicon_builder/__init__.py": true,
+    "gse/lexicon_builder/foundation.py": true,
+    "gse/lexicon_builder/core.py": true,
+    "gse/lexicon_builder/coverage.py": true,
+    "gse/lexicon_builder/runtime.py": true,
+    "gse/lexicon_builder/model.py": true,
+    "gse/lexicon_builder/sources.py": true,
+    "gse/lexicon_builder/cli.py": true,
+    "gse/lexicon_builder/nouns.py": true,
+    "gse/lexicon_builder/conditionals.py": true,
+    "gse/lexicon_builder/surprise.py": true,
+    "gse/lexicon_builder/perception.py": true,
+    "gse/lexicon_builder/__main__.py": true,
+    "gse/lexicon_builder/native_constraints.py": true
+  },
+  "rulebook_matches_freeze": true,
+  "working_bytes_unchanged_after_build": {
+    "gse/lexicon_builder/basis.py": true,
+    "gse/lexicon_builder/build.py": true,
+    "gse/lexicon_builder/tail.py": true,
+    "gse/lexicon_builder/audit.py": true,
+    "gse/lexicon_builder/artifact.py": true,
+    "gse/lexicon_builder/atomics.py": true,
+    "gse/lexicon_builder/fill.py": true,
+    "gse/lexicon_builder/registry.py": true,
+    "gse/lexicon_builder/release_audit.py": true,
+    "gse/lexicon_builder/number.py": true,
+    "gse/lexicon_builder/families.py": true,
+    "gse/lexicon_builder/reading.py": true,
+    "gse/lexicon_builder/__init__.py": true,
+    "gse/lexicon_builder/foundation.py": true,
+    "gse/lexicon_builder/core.py": true,
+    "gse/lexicon_builder/coverage.py": true,
+    "gse/lexicon_builder/runtime.py": true,
+    "gse/lexicon_builder/model.py": true,
+    "gse/lexicon_builder/sources.py": true,
+    "gse/lexicon_builder/cli.py": true,
+    "gse/lexicon_builder/nouns.py": true,
+    "gse/lexicon_builder/conditionals.py": true,
+    "gse/lexicon_builder/surprise.py": true,
+    "gse/lexicon_builder/perception.py": true,
+    "gse/lexicon_builder/__main__.py": true,
+    "gse/lexicon_builder/native_constraints.py": true,
+    "gse/lexicon_builder/bank_laws.json": true,
+    "gse/lexicon_builder/foundation.json": true
+  },
+  "build_artifact_sha256": {
+    "manifest.json": "3305c7cc37f94f832e512fc6ff8fc2ee3f57168fc079454d8a6f3f3a79ebaf26",
+    "sparse.jsonl": "15ef6897c04dfc900748b7d21257adfae18a7471ca3427f04c269a5639ed2238",
+    "structures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "summary.json": "1e33a8c01e5e845549f6eb48fc9b6ca5952809c2b145c738927119741585c283",
+    "tail-ledger.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "vectors.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "words.jsonl": "c31f9d40ee0dd6c9b1ebbf13bd339f6caa1d00ffc69cb0102c7b75f40aaa30bd"
+  },
+  "reading_count": 43,
+  "reading_statuses": {
+    "PARTIAL": 36,
+    "UNRESOLVED_NOUN_HEAD": 7
+  },
+  "model_requests": 0,
+  "reference_count": 13,
+  "model_configuration": null,
+  "same_reading_ids_as_pre_change": true,
+  "settled_cell_changes": [],
+  "domain_changes": [
+    {
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "MAYBE",
+      "before": {
+        "state": "unresolved",
+        "domain": [
+          "+1",
+          "0",
+          "empty"
+        ],
+        "written": null,
+        "value": null
+      },
+      "after": {
+        "state": "unresolved",
+        "domain": [
+          "+1",
+          "empty"
+        ],
+        "written": null,
+        "value": null
+      }
+    },
+    {
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "MAYBE",
+      "before": {
+        "state": "unresolved",
+        "domain": [
+          "+1",
+          "0",
+          "empty"
+        ],
+        "written": null,
+        "value": null
+      },
+      "after": {
+        "state": "unresolved",
+        "domain": [
+          "+1",
+          "empty"
+        ],
+        "written": null,
+        "value": null
+      }
+    },
+    {
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "MAYBE",
+      "before": {
+        "state": "unresolved",
+        "domain": [
+          "+1",
+          "0",
+          "empty"
+        ],
+        "written": null,
+        "value": null
+      },
+      "after": {
+        "state": "unresolved",
+        "domain": [
+          "+1",
+          "empty"
+        ],
+        "written": null,
+        "value": null
+      }
+    },
+    {
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "MAYBE",
+      "before": {
+        "state": "unresolved",
+        "domain": [
+          "+1",
+          "0",
+          "empty"
+        ],
+        "written": null,
+        "value": null
+      },
+      "after": {
+        "state": "unresolved",
+        "domain": [
+          "+1",
+          "empty"
+        ],
+        "written": null,
+        "value": null
+      }
+    },
+    {
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "MAYBE",
+      "before": {
+        "state": "unresolved",
+        "domain": [
+          "+1",
+          "0",
+          "empty"
+        ],
+        "written": null,
+        "value": null
+      },
+      "after": {
+        "state": "unresolved",
+        "domain": [
+          "+1",
+          "empty"
+        ],
+        "written": null,
+        "value": null
+      }
+    },
+    {
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "MAYBE",
+      "before": {
+        "state": "unresolved",
+        "domain": [
+          "+1",
+          "0",
+          "empty"
+        ],
+        "written": null,
+        "value": null
+      },
+      "after": {
+        "state": "unresolved",
+        "domain": [
+          "+1",
+          "empty"
+        ],
+        "written": null,
+        "value": null
+      }
+    }
+  ],
+  "source_manifest_equal": true,
+  "rulebook_manifest_field": "rulebook_sha256"
+}

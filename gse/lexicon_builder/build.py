@@ -165,6 +165,7 @@ def _adjective_record(word: str, reading_id: str, match: dict, c: Construction) 
         "definition_accounting": c.definition_accounting,
         "relations": rule.get("relations", []),
         "residual_coordinates": nominated_components(rule),
+        "model_selection_policy": rule.get("model_selection_policy"),
         "number_scale": {
             "family": rule["family"] + ":" + match["pole"],
             "native_ordinal_rank": match["native_degree_rank"],
@@ -210,7 +211,7 @@ def adjective_seed(word: str, match: dict, native: dict, fill_labels: dict[str, 
                 rule["rule_id"] + ":DOMAIN:" + coordinate,
                 coordinate,
                 rule.get("residual_domains", {}).get(coordinate, sorted(v.value for v in legal_domain(coordinate))),
-                "Scoped template: optional own component; no written middle without a contract",
+                "Scoped template: optional own component; retain every rule-surviving state, including zero",
             )
         )
     laws.extend(family_laws(rule))
@@ -245,6 +246,7 @@ def adjective_seed(word: str, match: dict, native: dict, fill_labels: dict[str, 
             "projection_scope": rule.get("fill_scope", "TARGET_READING_OWN_DEFINITION"),
         },
         completion_check=partial(account_family, rule),
+        selection_policy=rule.get("model_selection_policy"),
     )
 
 

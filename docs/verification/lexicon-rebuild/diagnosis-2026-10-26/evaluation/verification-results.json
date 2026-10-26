@@ -1,0 +1,54 @@
+{
+  "schema": "GSE_EVALUATION_CHECK_RECEIPT_V1",
+  "observed_at_utc": "2026-10-26T04:46:29.185578+00:00",
+  "checks": [
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_lexicon_evaluation.py"
+      ],
+      "exit_code": 0,
+      "log": "/private/tmp/gse-diagnosis-evaluation-20261026/final-check-1.log",
+      "log_sha256": "5b73749c81f49f87a96f7155da58a1c124a7d7818ba6bae7c95e0526d24dcc93",
+      "output": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.6, pytest-9.1.0, pluggy-1.6.0\nrootdir: /Users/rohanvinaik/Projects/gse\nconfigfile: pyproject.toml\nplugins: hypothesis-6.170.7, anyio-4.15.1\ncollected 13 items\n\ntests/test_lexicon_evaluation.py .............                           [100%]\n\n=============================== warnings summary ===============================\n.venv/lib/python3.14/site-packages/_hypothesis_pytestplugin.py:487\n  /Users/rohanvinaik/Projects/gse/.venv/lib/python3.14/site-packages/_hypothesis_pytestplugin.py:487: UserWarning: Skipping collection of '.hypothesis' directory - this usually means you've explicitly set the `norecursedirs` pytest config option, replacing rather than extending the default ignores.\n    warnings.warn(\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n======================== 13 passed, 1 warning in 0.12s =========================\n"
+    },
+    {
+      "argv": [
+        ".venv/bin/ruff",
+        "check",
+        "gse/lexicon_builder/evaluation.py",
+        "tests/test_lexicon_evaluation.py"
+      ],
+      "exit_code": 0,
+      "log": "/private/tmp/gse-diagnosis-evaluation-20261026/final-check-2.log",
+      "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "output": "All checks passed!\n"
+    },
+    {
+      "argv": [
+        "uvx",
+        "ty",
+        "check",
+        "gse/lexicon_builder/evaluation.py"
+      ],
+      "exit_code": 2,
+      "log": "/private/tmp/gse-diagnosis-evaluation-20261026/final-check-3.log",
+      "log_sha256": "fa57370851859af59dffe0edfab10b6fa63b9461052bdd017132dc6a423fc3d2",
+      "output": "error: Failed to initialize cache at `/Users/rohanvinaik/.cache/uv`\n  Caused by: failed to open file `/Users/rohanvinaik/.cache/uv/sdists-v9/.git`: Operation not permitted (os error 1)\n"
+    },
+    {
+      "argv": [
+        "uvx",
+        "ty",
+        "check",
+        "gse/lexicon_builder/evaluation.py"
+      ],
+      "exit_code": 0,
+      "output": "All checks passed!\n",
+      "execution": "APPROVED_ESCALATED_RERUN_AFTER_UV_CACHE_SANDBOX_REFUSAL",
+      "supersedes_check_index": 2
+    }
+  ]
+}

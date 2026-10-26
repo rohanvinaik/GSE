@@ -175,6 +175,13 @@ def test_one_model_choice_can_force_another_field_without_a_second_selection(qua
     # Mechanism-only relation, explicitly not a proposed English law.
     book = load_rulebook()
     book["source_rules"][0]["residual"] = ["THINK", "WANT"]
+    book["source_rules"][0]["model_selection_policy"] = {
+        "task_type": "SYNTHETIC_COUPLED_CHOICE",
+        "status": "ADMITTED",
+        "coordinates": ["THINK", "WANT"],
+        "reason": "Mechanics fixture; not a production lexical acceptance claim",
+        "evidence_refs": ["tests/test_lexicon_builder_workflow.py"],
+    }
     certify_rule(book["source_rules"][0])
     book["laws"].append(
         certify_rule(
@@ -314,6 +321,13 @@ def test_a_fully_constrained_problem_can_still_complete_via_one_bounded_choice(q
     # Mechanism-only closed problem. This is NOT a proposed English definition.
     book = load_rulebook()
     book["source_rules"][0]["residual"] = ["THINK", "WANT"]
+    book["source_rules"][0]["model_selection_policy"] = {
+        "task_type": "SYNTHETIC_COUPLED_CHOICE",
+        "status": "ADMITTED",
+        "coordinates": ["THINK", "WANT"],
+        "reason": "Mechanics fixture; not a production lexical acceptance claim",
+        "evidence_refs": ["tests/test_lexicon_builder_workflow.py"],
+    }
     certify_rule(book["source_rules"][0])
     book["laws"].append(
         certify_rule(

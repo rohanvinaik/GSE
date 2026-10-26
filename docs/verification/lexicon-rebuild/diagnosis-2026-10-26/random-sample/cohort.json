@@ -1,0 +1,158 @@
+{
+  "schema": "GSE_F075_COHORT_V1",
+  "seed": 20261026,
+  "algorithm": "random.Random(seed).sample(ordered_database_rows,24)",
+  "source": "data/frequency.db",
+  "source_sha256": "ef220a937cc417084f2e95f62e06e61cf6a7234c9124b78e89be7870c197a9a9",
+  "rank": "combined_rank BETWEEN 2000 AND 10000 inclusive; no lexical/POS/source filtering",
+  "pool_count": 16176,
+  "pool_sha256": "1460f696593acafbd7d928bcd488754c7ff99f58186f883d036e3f1c5e08ab6f",
+  "sample": [
+    {
+      "word": "beethoven",
+      "combined_rank": 2093,
+      "david47k_rank": null,
+      "local_rank": 3275
+    },
+    {
+      "word": "electron",
+      "combined_rank": 2895,
+      "david47k_rank": 2416,
+      "local_rank": 5279
+    },
+    {
+      "word": "legislative",
+      "combined_rank": 3100,
+      "david47k_rank": 3100,
+      "local_rank": null
+    },
+    {
+      "word": "preferences",
+      "combined_rank": 3283,
+      "david47k_rank": 4986,
+      "local_rank": 2473
+    },
+    {
+      "word": "rs",
+      "combined_rank": 3799,
+      "david47k_rank": 3799,
+      "local_rank": null
+    },
+    {
+      "word": "computed",
+      "combined_rank": 4091,
+      "david47k_rank": 5141,
+      "local_rank": 4759
+    },
+    {
+      "word": "radiation",
+      "combined_rank": 4432,
+      "david47k_rank": 2515,
+      "local_rank": 9930
+    },
+    {
+      "word": "repurpose",
+      "combined_rank": 4887,
+      "david47k_rank": null,
+      "local_rank": 7644
+    },
+    {
+      "word": "schema",
+      "combined_rank": 4969,
+      "david47k_rank": 9119,
+      "local_rank": 1283
+    },
+    {
+      "word": "gathering",
+      "combined_rank": 4970,
+      "david47k_rank": 4395,
+      "local_rank": 8675
+    },
+    {
+      "word": "wrapped",
+      "combined_rank": 5075,
+      "david47k_rank": 6269,
+      "local_rank": 6072
+    },
+    {
+      "word": "flashlight",
+      "combined_rank": 5397,
+      "david47k_rank": null,
+      "local_rank": 8442
+    },
+    {
+      "word": "absorption",
+      "combined_rank": 5420,
+      "david47k_rank": 3258,
+      "local_rank": 11861
+    },
+    {
+      "word": "culmination",
+      "combined_rank": 6026,
+      "david47k_rank": null,
+      "local_rank": 9425
+    },
+    {
+      "word": "intermittent",
+      "combined_rank": 6104,
+      "david47k_rank": null,
+      "local_rank": 9548
+    },
+    {
+      "word": "successor",
+      "combined_rank": 6431,
+      "david47k_rank": 6346,
+      "local_rank": 10193
+    },
+    {
+      "word": "snapshots",
+      "combined_rank": 6693,
+      "david47k_rank": null,
+      "local_rank": 10468
+    },
+    {
+      "word": "witnessed",
+      "combined_rank": 6887,
+      "david47k_rank": 6551,
+      "local_rank": 11299
+    },
+    {
+      "word": "electromagnetic",
+      "combined_rank": 7177,
+      "david47k_rank": 9215,
+      "local_rank": 8039
+    },
+    {
+      "word": "charity",
+      "combined_rank": 7379,
+      "david47k_rank": 5699,
+      "local_rank": 14169
+    },
+    {
+      "word": "dislodging",
+      "combined_rank": 7521,
+      "david47k_rank": null,
+      "local_rank": 11764
+    },
+    {
+      "word": "pie",
+      "combined_rank": 8390,
+      "david47k_rank": 8390,
+      "local_rank": null
+    },
+    {
+      "word": "coped",
+      "combined_rank": 8574,
+      "david47k_rank": null,
+      "local_rank": 13411
+    },
+    {
+      "word": "reassemble",
+      "combined_rank": 8654,
+      "david47k_rank": null,
+      "local_rank": 13536
+    }
+  ],
+  "selected_before_build": true,
+  "reference_or_gold_input": null
+}

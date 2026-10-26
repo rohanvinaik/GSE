@@ -7,7 +7,7 @@ from gse.lexicon_builder.artifact import export_sparse
 from gse.lexicon_builder.build import build
 from gse.lexicon_builder.core import Observation, legal_domain
 from gse.lexicon_builder.model import selection_status
-from gse.lexicon_builder.reading import CoordinateDecision, ReadingSeed, construct_reading
+from gse.lexicon_builder.reading import CoordinateDecision, ReadingSeed, construct_reading, model_task_status
 from gse.lexicon_builder.registry import load_rulebook
 from gse.lexicon_builder.sources import NativeSources
 from gse.lexicon_builder.tail import BudgetedSelector, attach_tail, plan_tail, tail_ledger, tail_task_status
@@ -44,6 +44,7 @@ def layout(result):
         "model_calls": result.calls,
         "premise_record_ids": ["source:1"],
         "residual_coordinates": ["WANT", "THINK"],
+        "model_selection_policy": seed().selection_policy,
     }
 
 
@@ -55,6 +56,13 @@ def seed():
         [],
         layout,
         decisions=[CoordinateDecision("SAY", lambda _: {})],
+        selection_policy={
+            "task_type": "SYNTHETIC_TYPED_CHOICE",
+            "status": "ADMITTED",
+            "coordinates": ["WANT", "THINK"],
+            "reason": "Mechanics fixture only; no English lexical admission",
+            "evidence_refs": ["tests/test_lexicon_bounded_tail.py"],
+        },
     )
 
 
@@ -127,11 +135,24 @@ def test_real_source_projector_nominates_tasks_without_writing_them_or_using_gol
     path = tmp_path / "sparse.jsonl"
     path.write_text("".join(json.dumps(export_sparse(r)) + "\n" for r in before["readings"]))
     tasks = plan_tail(path, max_per_reading=3)
-    assert {t["coordinate"] for t in tasks} == {"DO", "IF", "KNOW"}
-    assert all("0" in t["options"] for t in tasks)
+    assert tasks == []  # This task type failed evaluation; no generic class fill.
+    assert {"DO", "IF", "KNOW"} <= set(before["readings"][0]["residual_coordinates"])
     backend = Recorder()
     after = next(build(["afraid"], sources, book, BudgetedSelector(backend, 0), tail_tasks=tasks))
     assert backend.calls == []
     assert after["readings"][0]["after_selection"]["domains"] == before["readings"][0]["after_selection"]["domains"]
     ledger = tail_ledger(tasks, [d for r in after["readings"] for d in r["decisions"]])
-    assert {d["code"] for d in ledger} == {"BUDGET_EXHAUSTED"}
+    assert ledger == []
+
+
+def test_unreviewed_and_malformed_task_types_cannot_admit_themselves():
+    assert model_task_status(None, "WANT") == "UNREVIEWED_MODEL_TASK_TYPE"
+    assert model_task_status([], "WANT") == "MALFORMED_MODEL_TASK_POLICY"
+    assert model_task_status({"status": "ADMITTED"}, "WANT") == "MALFORMED_MODEL_TASK_POLICY"
+    assert model_task_status(seed().selection_policy, "MUST") == "OUTSIDE_MODEL_TASK_SCOPE"
+    prepared = attach_tail(seed(), [task()])
+    prepared.selection_policy = None
+    backend = Recorder("+1")
+    result = construct_reading(prepared, {"laws": []}, backend)
+    assert backend.calls == []
+    assert result["decisions"][0]["code"] == "UNREVIEWED_MODEL_TASK_TYPE"

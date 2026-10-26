@@ -156,8 +156,19 @@ def test_model_receives_one_typed_field_and_its_answer_is_propagated_once():
     frame = {"predicates": [{"predicate": {"value": "perceive"}, "arguments": []}]}
     native = {"usas": {"records": []}, "framenet": {"records": []}}
     selector, cache = Selector(), {}
-    first = perception_constraints("test-word", frame, native, load_rulebook(), selector, cache)
-    second = perception_constraints("test-word", copy.deepcopy(frame), native, load_rulebook(), selector, cache)
+    book = load_rulebook()
+    unreviewed = perception_constraints("test-word", frame, native, book, selector, cache)
+    assert selector.calls == 0 and unreviewed["laws"] == []
+    assert unreviewed["decisions"][0]["selection_status"] == "UNREVIEWED_MODEL_TASK_TYPE"
+    book["native_residual_rules"][0]["model_selection_policy"] = {
+        "task_type": "SYNTHETIC_PERCEPTION_CHOICE",
+        "status": "ADMITTED",
+        "coordinates": ["SEE", "HEAR"],
+        "reason": "Mechanics fixture only",
+        "evidence_refs": ["tests/test_lexicon_atomic_and_tail.py"],
+    }
+    first = perception_constraints("test-word", frame, native, book, selector, cache)
+    second = perception_constraints("test-word", copy.deepcopy(frame), native, book, selector, cache)
     assert selector.calls == 1
     assert second["calls"][0]["cache_hit"] is True
     result = resolve("test-word", laws=tuple(first["laws"]))
