@@ -238,9 +238,9 @@ class TestToPrimitives:
         assert "SOMEONE" not in p.to_primitives("dog")
 
     def test_body_part_gets_part_via_isa(self, p):
-        # a genuine body part inherits BODY/PART from its body_part ancestor
+        # a genuine body part warrants PART, not own-word BODY
         d = p.to_primitives("hand")
-        assert d.get("BODY") == 1
+        assert "BODY" not in d
         assert d.get("PART") == 1
 
     def test_no_meronym_part(self, p):
@@ -265,71 +265,72 @@ class TestToPrimitives:
 
 class TestApplyAncestorPrimitives:
     def test_no_wn_no_op(self):
-        p = WordNetHierarchyParser()
-        p._wn = None
+        parser = WordNetHierarchyParser()
         prims = {}
-        p._apply_ancestor_primitives("dog", prims)
+        parser._apply_ancestor_primitives("dog", prims)
         assert prims == {}
 
-    def test_adds_root_concept_primitives(self):
-        p = WordNetHierarchyParser()
-        mock_wn = MagicMock()
-        mock_ancestor = MagicMock()
-        mock_ancestor.name.return_value = "person.n.01"
-        mock_synset = MagicMock()
-        mock_synset.hypernym_paths.return_value = [[mock_ancestor]]
-        mock_wn.synsets.return_value = [mock_synset]
-        p._wn = mock_wn
+    def test_delegates_primary_projection_preserving_known_values(self):
+        parser = WordNetHierarchyParser()
+        parser._wn = MagicMock()
+        prims = {"SOMEONE": -1}
+        with patch.object(parser, "to_primitives", return_value={"SOMEONE": 1, "ALIVE": 1}) as project:
+            parser._apply_ancestor_primitives("dog", prims)
+        project.assert_called_once_with("dog")
+        assert prims == {"SOMEONE": -1, "ALIVE": 1}
 
-        prims = {}
-        p._apply_ancestor_primitives("dog", prims)
-        assert prims["SOMEONE"] == 1
+    def test_programmer_errors_are_not_hidden(self):
+        parser = WordNetHierarchyParser()
+        parser._wn = MagicMock()
+        with patch.object(parser, "to_primitives", side_effect=RuntimeError("broken projection")):
+            with pytest.raises(RuntimeError, match="broken projection"):
+                parser._apply_ancestor_primitives("dog", {})
 
-    def test_first_value_wins(self):
-        p = WordNetHierarchyParser()
-        mock_wn = MagicMock()
-        mock_ancestor = MagicMock()
-        mock_ancestor.name.return_value = "person.n.01"
-        mock_synset = MagicMock()
-        mock_synset.hypernym_paths.return_value = [[mock_ancestor]]
-        mock_wn.synsets.return_value = [mock_synset]
-        p._wn = mock_wn
 
-        prims = {"SOMEONE": -1}  # pre-existing different value
-        p._apply_ancestor_primitives("dog", prims)
-        # Existing value preserved
-        assert prims["SOMEONE"] == -1
+class TestDefinitionProjection:
+    @pytest.fixture(scope="class")
+    def p(self):
+        # Already-installed corpus only. No adapter load/download path.
+        from nltk.corpus import wordnet
 
-    def test_exception_swallowed(self):
-        p = WordNetHierarchyParser()
-        mock_wn = MagicMock()
-        mock_wn.synsets.side_effect = RuntimeError("boom")
-        p._wn = mock_wn
-        # Should not raise
-        prims = {}
-        p._apply_ancestor_primitives("x", prims)
-        assert prims == {}
+        wordnet.ensure_loaded()
+        parser = WordNetHierarchyParser()
+        parser._wn = wordnet
+        parser._loaded = True
+        return parser
 
-    def test_only_first_five_ancestors(self):
-        p = WordNetHierarchyParser()
-        mock_wn = MagicMock()
-        ancestors = []
-        for i in range(8):
-            anc = MagicMock()
-            anc.name.return_value = f"anc{i}.n.01"
-            ancestors.append(anc)
-        # Only first 5 should be checked; place person.n.01 at index 6 — won't trigger
-        ancestors[6] = MagicMock()
-        ancestors[6].name.return_value = "person.n.01"
-        mock_synset = MagicMock()
-        mock_synset.hypernym_paths.return_value = [ancestors]
-        mock_wn.synsets.return_value = [mock_synset]
-        p._wn = mock_wn
+    def test_specific_animal_and_person_definitions_do_not_mix(self, p):
+        animal = p.to_primitives_for_definition("dog.n.01")
+        person = p.to_primitives_for_definition("dog.n.03")
+        assert animal == {"ALIVE": 1, "SOMETHING": 1}
+        assert person["SOMEONE"] == 1
+        assert "SOMEONE" not in animal
 
-        prims = {}
-        p._apply_ancestor_primitives("x", prims)
-        # person.n.01 is at index 6, not in first 5 → SOMEONE not added
-        assert "SOMEONE" not in prims
+    @pytest.mark.parametrize("synset", ["flock.n.02", "food.n.01", "abstraction.n.06"])
+    def test_unsafe_category_proposals_do_not_assert(self, p, synset):
+        result = p.to_primitives_for_definition(synset)
+        assert not {"PEOPLE", "BODY", "THINK"}.intersection(result)
+
+    def test_feeling_category_warrants_feel(self, p):
+        assert p.to_primitives_for_definition("emotion.n.01")["FEEL"] == 1
+        assert p.to_primitives_for_definition("feeling.n.01")["FEEL"] == 1
+        assert "FEEL" not in p.to_primitives_for_definition("psychological_feature.n.01")
+
+    def test_nonnominal_definition_abstains(self, p):
+        assert p.to_primitives_for_definition("run.v.01") == {}
+
+    def test_unknown_definition_abstains(self, p):
+        assert p.to_primitives_for_definition("unknown_xyz.n.01") == {}
+
+    def test_unloaded_projection_never_loads(self):
+        parser = WordNetHierarchyParser()
+        with patch.object(parser, "load", side_effect=AssertionError("must not load")):
+            assert parser.to_primitives_for_definition("dog.n.01") == {}
+
+    @pytest.mark.parametrize("invalid", [None, "", 42])
+    def test_malformed_definition_id_is_named(self, p, invalid):
+        with pytest.raises(ValueError, match="INVALID_DEFINITION_ID"):
+            p.to_primitives_for_definition(invalid)
 
 
 # ---------- get_all_words ----------

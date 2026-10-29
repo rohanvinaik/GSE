@@ -22,7 +22,9 @@ def encode_modifiers(db_path: Path, dry_run: bool = False) -> dict:
     """
     Apply modifier hierarchy encodings to the database.
     """
-    conn = sqlite3.connect(db_path)
+    if not dry_run:
+        raise ValueError("SUPERSEDED_ORDINAL_WRITER: use definition-specific lexicon-builder hierarchy manifests")
+    conn = sqlite3.connect(db_path.resolve().as_uri() + "?mode=ro", uri=True)
     cursor = conn.cursor()
 
     stats = {

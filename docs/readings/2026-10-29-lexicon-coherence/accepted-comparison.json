@@ -1,0 +1,41 @@
+{
+  "format": "gse.lexicon-build-comparison/1",
+  "baseline": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-10-29/lexicon.db",
+  "accepted": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-10-29/accepted.db",
+  "changed_or_lost_known_values": 0,
+  "changes": [],
+  "new_assignments": [
+    {
+      "bank": "HAPPEN",
+      "value": 1,
+      "count": 1939
+    },
+    {
+      "bank": "SOMETHING",
+      "value": 1,
+      "count": 1
+    },
+    {
+      "bank": "WANT",
+      "value": -1,
+      "count": 1
+    },
+    {
+      "bank": "WANT",
+      "value": 1,
+      "count": 1
+    }
+  ],
+  "guard_decisions": [
+    {
+      "status": "BLOCKED",
+      "reason": "GUARD_MISMATCH",
+      "count": 261334
+    },
+    {
+      "status": "BLOCKED",
+      "reason": "RELEVANT_EVIDENCE",
+      "count": 48892
+    }
+  ]
+}

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -99,58 +100,43 @@ class TestInit:
 class TestLoad:
     @pytest.fixture(autouse=True)
     def _stub_corpus(self, monkeypatch):
-        # The parser imports the corpus at call time. Replace NLTK's LazyCorpusLoader itself, so the
-        # attribute patches below never trigger a real corpus load (which needs installed NLTK data).
         monkeypatch.setattr("nltk.corpus.verbnet", MagicMock())
 
     def test_failure_returns_false(self):
-        p = VerbNetParser()
         with patch("nltk.corpus.verbnet.classids", side_effect=Exception("boom")):
-            assert p.load() is False
+            assert VerbNetParser().load() is False
 
-    def test_successful_load(self):
-        # Mock VerbNet calls
-        mock_vnclass = MagicMock()
-        mock_role = MagicMock()
-        mock_role.attrib = {"type": "Agent"}
-        mock_vnclass.findall.return_value = [mock_role]
+    def test_native_membership_and_parent_context_preserved_without_sibling_roles(self):
+        from xml.etree.ElementTree import fromstring
 
-        with patch("nltk.corpus.verbnet.classids", return_value=["run-51.3.2"]):
-            with patch("nltk.corpus.verbnet.lemmas", return_value=["run", "Run"]):
-                with patch("nltk.corpus.verbnet.vnclass", return_value=mock_vnclass):
-                    p = VerbNetParser()
-                    assert p.load() is True
-                    assert p._loaded is True
-                    assert "run" in p.entries
-                    # lemma "Run" lowercased
-                    assert p.entries["run"][0].word == "run"
-                    assert "Agent" in p.entries["run"][0].thematic_roles
+        parent = fromstring(
+            '<VNCLASS ID="parent-1"><MEMBERS><MEMBER name="Run" wn="run%2:38:00"/></MEMBERS>\n          <THEMROLES><THEMROLE type="Theme"><SELRESTRS logic="or"><SELRESTR Value="+" type="animate"/></SELRESTRS></THEMROLE></THEMROLES>\n          <FRAMES><FRAME><EXAMPLES><EXAMPLE>First example.</EXAMPLE><EXAMPLE>Second example.</EXAMPLE></EXAMPLES>\n          <SEMANTICS><PRED value="motion"><ARGS><ARG type="Event" value="during(E)"/><ARG type="ThemRole" value="Theme"/></ARGS></PRED></SEMANTICS></FRAME></FRAMES>\n          <SUBCLASSES><VNSUBCLASS ID="child-1"><MEMBERS><MEMBER name="walk" wn="walk%2:38:00"/></MEMBERS>\n          <THEMROLES><THEMROLE type="Agent"/></THEMROLES><FRAMES/><SUBCLASSES/></VNSUBCLASS></SUBCLASSES></VNCLASS>'
+        )
+        child = parent.find("SUBCLASSES/VNSUBCLASS")
+        with patch("nltk.corpus.verbnet.classids", return_value=["parent-1", "child-1"]):
+            with patch(
+                "nltk.corpus.verbnet.vnclass", side_effect=lambda name: {"parent-1": parent, "child-1": child}[name]
+            ):
+                parser = VerbNetParser()
+                assert parser.load() is True
+        run = parser.entries["run"][0]
+        walk = parser.entries["walk"][0]
+        assert run.thematic_roles == ["Theme"]
+        assert walk.thematic_roles == ["Agent", "Theme"]
+        assert run.wordnet_sense_keys == ["run%2:38:00"]
+        assert run.member_attributes["name"] == "Run"
+        assert [level["class_id"] for level in walk.class_context] == ["parent-1", "child-1"]
+        examples = run.class_context[0]["frames"][0]["native"]["children"][0]["children"]
+        assert [example["text"] for example in examples] == ["First example.", "Second example."]
+        assert parser.to_primitives_for_entry(walk) == {"MOVE": 1}
 
-    def test_handles_class_processing_exception(self):
-        # If processing a class raises, should continue not abort
-        with patch("nltk.corpus.verbnet.classids", return_value=["good-class", "bad-class"]):
-
-            def lemmas_side(classid):
-                if classid == "bad-class":
-                    raise RuntimeError("nope")
-                return ["walk"]
-
-            mock_vnclass = MagicMock()
-            mock_vnclass.findall.return_value = []
-            with patch("nltk.corpus.verbnet.lemmas", side_effect=lemmas_side):
-                with patch("nltk.corpus.verbnet.vnclass", return_value=mock_vnclass):
-                    p = VerbNetParser()
-                    assert p.load() is True
-                    assert "walk" in p.entries
-
-    def test_handles_role_parsing_failure(self):
-        # If role extraction fails, entry still created with empty roles
+    def test_unreadable_class_cannot_fabricate_memberships(self):
+        parser = VerbNetParser()
         with patch("nltk.corpus.verbnet.classids", return_value=["c1"]):
-            with patch("nltk.corpus.verbnet.lemmas", return_value=["x"]):
-                with patch("nltk.corpus.verbnet.vnclass", side_effect=Exception("no class")):
-                    p = VerbNetParser()
-                    p.load()
-                    assert p.entries["x"][0].thematic_roles == []
+            with patch("nltk.corpus.verbnet.vnclass", side_effect=ValueError("invalid native class")):
+                assert parser.load() is False
+                assert parser.entries == {}
+                assert not parser._loaded
 
 
 # ---------- get_verb_info ----------
@@ -312,6 +298,93 @@ class TestGetNewWords:
             mock_load.side_effect = lambda: setattr(p, "_loaded", True)
             p.get_new_words(set())
             mock_load.assert_called_once()
+
+
+def semantic_frame(*predicates):
+    return {"semantics": list(predicates)}
+
+
+def event_predicate(name, negated=False, argument_type="Event"):
+    return {
+        "predicate_value": name,
+        "negated": negated,
+        "polarity": "!" if negated else "",
+        "arguments": [{"type": argument_type, "value": "during(E)"}],
+    }
+
+
+class TestEntryProjection:
+    def test_induced_action_cause_is_not_universal_motion_is(self):
+        entry = mk_entry()
+        entry.class_context = [
+            {
+                "frames": [
+                    semantic_frame(event_predicate("motion")),
+                    semantic_frame(event_predicate("motion"), event_predicate("cause")),
+                ]
+            }
+        ]
+        assert VerbNetParser().to_primitives_for_entry(entry) == {"MOVE": 1}
+
+    def test_cause_requires_every_applicable_parent_and_child_frame(self):
+        entry = mk_entry()
+        entry.class_context = [
+            {"frames": [semantic_frame(event_predicate("cause"))]},
+            {"frames": [semantic_frame(event_predicate("cause"))]},
+        ]
+        parser = VerbNetParser()
+        assert parser.to_primitives_for_entry(entry) == {"CAUSE": 1}
+        entry.class_context[0]["frames"].append(semantic_frame())
+        assert parser.to_primitives_for_entry(entry) == {}
+
+    @pytest.mark.parametrize(
+        "predicate",
+        [
+            event_predicate("motion", negated=True),
+            event_predicate("motion", argument_type="ThemRole"),
+            {"predicate_value": "motion", "arguments": []},
+            {
+                "predicate_value": "motion",
+                "negated": False,
+                "polarity": "?",
+                "arguments": [{"type": "Event", "value": "E"}],
+            },
+        ],
+    )
+    def test_negative_missing_or_untyped_predicates_abstain(self, predicate):
+        entry = mk_entry()
+        entry.class_context = [{"frames": [semantic_frame(predicate)]}]
+        assert VerbNetParser().to_primitives_for_entry(entry) == {}
+
+    def test_empty_frames_and_class_name_role_hints_do_not_project(self):
+        entry = mk_entry(roles=["Agent", "Theme"])
+        assert VerbNetParser().to_primitives_for_entry(entry) == {}
+
+    def test_explicit_keys_preserve_uncertainty_and_reject_lemma_mismatch(self):
+        entry = mk_entry()
+        entry.wordnet_sense_keys = ["run%2:38:00", "?run%2:38:01", "wrong%2:38:00", "missing%2:38:00"]
+        synset = SimpleNamespace(name=lambda: "run.v.01", pos=lambda: "v")
+        lemmas = {
+            "run%2:38:00::": SimpleNamespace(name=lambda: "run", synset=lambda: synset),
+            "wrong%2:38:00::": SimpleNamespace(name=lambda: "wrong", synset=lambda: synset),
+        }
+        wordnet = SimpleNamespace(lemma_from_key=lambda key: lemmas[key])
+        links = VerbNetParser().definition_links(entry, wordnet)
+        assert [link["code"] for link in links] == [
+            "LINKED",
+            "UNCERTAIN_SENSE_KEY",
+            "SENSE_KEY_MISMATCH",
+            "INVALID_SENSE_KEY",
+        ]
+        assert links[0]["normalized_sense_key"] == "run%2:38:00::"
+        assert links[0]["synset_name"] == "run.v.01"
+
+    def test_uncertain_member_cannot_link_even_with_unmarked_key(self):
+        entry = mk_entry()
+        entry.member_attributes = {"name": "?run"}
+        entry.wordnet_sense_keys = ["run%2:38:00"]
+        wordnet = SimpleNamespace(lemma_from_key=lambda key: pytest.fail("must not guess uncertain member"))
+        assert VerbNetParser().definition_links(entry, wordnet)[0]["code"] == "UNCERTAIN_SENSE_KEY"
 
 
 # ---------- download_verbnet ----------

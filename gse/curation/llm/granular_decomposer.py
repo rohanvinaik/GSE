@@ -298,36 +298,4 @@ class GranularDecomposer:
 
 
 if __name__ == "__main__":
-    import argparse
-
-    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--db", default="data/lexicon.db")
-    parser.add_argument("--model", default="qwen3:32b")
-    parser.add_argument("--limit", type=int, help="Max words to process")
-    parser.add_argument("--word", help="Process single word")
-
-    args = parser.parse_args()
-
-    decomposer = GranularDecomposer(args.db, model=args.model)
-
-    if args.word:
-        # Process single word
-        cursor = decomposer.conn.execute("SELECT id, pos FROM lexemes WHERE lemma = ?", (args.word,))
-        row = cursor.fetchone()
-        if row:
-            results = decomposer.process_word(row[0], args.word, row[1], skip_filled=False)
-            print(f"\n=== {args.word} ===")
-            for bank, result in results.items():
-                print(f"{bank}: {result.primitives}")
-        else:
-            print(f"Word not found: {args.word}")
-    else:
-        # Process batch
-        stats = decomposer.process_batch(limit=args.limit)
-        print("\n=== Complete ===")
-        print(f"Processed: {stats['processed']}")
-        print(f"Primitives filled: {stats['primitives_filled']}")
-
-    decomposer.close()
+    raise SystemExit("SUPERSEDED_LEXICON_BUILDER: use python -m gse.curation.cli.commands --lexicon-db NEW.db build")

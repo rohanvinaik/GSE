@@ -1,15 +1,7 @@
-"""
-WordNet Semantic Hierarchy Parser
+"""WordNet native taxonomy records and conservative definition-specific projection.
 
-Leverages WordNet's taxonomy for:
-- Hypernym chains (IS-A relationships) → category primitives
-- Hyponym expansions → specificity
-- Meronym/holonym (PART-OF) → PART primitive
-- Domain categories → semantic field primitives
-- Semantic similarity for inheritance
-
-Key insight: Words higher in hierarchy are more abstract (THINK),
-words lower are more concrete (SOMETHING).
+Legacy category proposals remain available for provenance. Only explicitly
+warranted nominal IS-A roots yield lexical primitive assignments.
 """
 
 import logging
@@ -123,6 +115,23 @@ ROOT_CONCEPT_PRIMITIVES = {
 }
 
 
+# Exact nominal categories that directly warrant a closed-basis coordinate.
+# Generic groups need not be people; food is not BODY; abstraction is not
+# thinking. A body part warrants PART, without asserting that it is BODY.
+# Emotion and feeling warrant FEEL; psychological_feature is too broad.
+_WARRANTED_ROOT_PRIMITIVES = {
+    "entity.n.01": frozenset({"SOMETHING"}),
+    "physical_entity.n.01": frozenset({"SOMETHING"}),
+    "artifact.n.01": frozenset({"SOMETHING"}),
+    "person.n.01": frozenset({"SOMEONE"}),
+    "living_thing.n.01": frozenset({"ALIVE"}),
+    "organism.n.01": frozenset({"ALIVE"}),
+    "body_part.n.01": frozenset({"PART"}),
+    "emotion.n.01": frozenset({"FEEL"}),
+    "feeling.n.01": frozenset({"FEEL"}),
+}
+
+
 class WordNetHierarchyParser(BaseExternalParser):
     """Parse WordNet hierarchy and map to GSE primitives."""
 
@@ -211,55 +220,60 @@ class WordNetHierarchyParser(BaseExternalParser):
 
     @lru_cache(maxsize=10000)
     def to_primitives(self, word: str) -> Dict[str, int]:
-        """Map a word to GSE category primitives from its PRIMARY sense's IS-A path.
+        """Project only the primary definition through the shared exact-IS-A seam.
 
-        Two corrections over the original union-over-senses version (both found
-        in the Layer-1 audit):
-          * **Primary sense only.** WordNet orders senses by frequency, so the
-            primary synset is the everyday meaning. Unioning every sense bled
-            ``dog``/``sauce`` → ``SOMEONE`` from the "contemptible person" sense.
-          * **No meronym/holonym → PART.** "Has parts" is not the PART prime;
-            tagging it fired PART on nearly everything (``tau``, ``georgia``).
-            A genuine part still gets PART via its IS-A ancestor (``body_part`` →
-            ``BODY/PART`` in ROOT_CONCEPT_PRIMITIVES), so nothing real is lost.
+        Dictionary construction calls ``to_primitives_for_definition`` for
+        every definition. This compatibility API keeps primary-sense behavior
+        without reintroducing lexname heuristics or unioning secondary senses.
         """
         if not self._loaded:
             self.load()
         if self._wn is None:
             return {}
-        syns = self._wn.synsets(word.lower().replace(" ", "_"))
-        if not syns:
+        synsets = self._wn.synsets(word.lower().replace(" ", "_"))
+        if not synsets:
             return {}
-        primary = syns[0]
+        return self.to_primitives_for_definition(synsets[0].name())
 
+    def to_primitives_for_definition(self, synset_name: str) -> Dict[str, int]:
+        """Project one loaded native definition; never load or download here.
+
+        Unknown or unavailable definitions abstain. Lexname proposals, part
+        relations and argument slots do not assert own-word coordinates. Only
+        the exact approved nominal ancestor categories are admitted; callers
+        still enforce source scope and canonicalize bipolar coordinates.
+        """
+        if not self._loaded or self._wn is None:
+            return {}
+        if not isinstance(synset_name, str) or not synset_name:
+            raise ValueError("INVALID_DEFINITION_ID")
+        from nltk.corpus.reader.wordnet import WordNetError
+
+        try:
+            synset = self._wn.synset(synset_name)
+        except LookupError, WordNetError:
+            return {}
+        if synset.pos() != "n":
+            return {}
         primitives: Dict[str, int] = {}
-        lexname = primary.lexname() if hasattr(primary, "lexname") else None
-        if lexname and lexname in LEXNAME_TO_PRIMITIVE:
-            for prim, val in LEXNAME_TO_PRIMITIVE[lexname].items():
-                primitives.setdefault(prim, val)
-        for path in primary.hypernym_paths():
-            for anc in path:
-                if anc.name() in ROOT_CONCEPT_PRIMITIVES:
-                    for prim, val in ROOT_CONCEPT_PRIMITIVES[anc.name()].items():
-                        primitives.setdefault(prim, val)
+        ancestors = {ancestor.name() for path in synset.hypernym_paths() for ancestor in path}
+        for name in sorted(ancestors):
+            for primitive in sorted(_WARRANTED_ROOT_PRIMITIVES.get(name, ())):
+                if primitive in ROOT_CONCEPT_PRIMITIVES.get(name, {}):
+                    value = ROOT_CONCEPT_PRIMITIVES[name][primitive]
+                    if type(value) is not int or value not in (-1, 0, 1):
+                        raise ValueError("INVALID_TAXONOMY_VALUE")
+                    if primitive in primitives and primitives[primitive] != value:
+                        raise ValueError("CONFLICTING_TAXONOMY_VALUES")
+                    primitives[primitive] = value
         return primitives
 
     def _apply_ancestor_primitives(self, word: str, primitives: Dict[str, int]):
-        """Apply primitives from ancestor synsets."""
+        """Compatibility helper: primary definition only, preserving known values."""
         if self._wn is None:
             return
-
-        try:
-            for synset in self._wn.synsets(word):
-                for path in synset.hypernym_paths():
-                    # Check first 5 ancestors (closer to word)
-                    for ancestor in path[:5]:
-                        if ancestor.name() in ROOT_CONCEPT_PRIMITIVES:
-                            for prim, val in ROOT_CONCEPT_PRIMITIVES[ancestor.name()].items():
-                                if prim not in primitives:
-                                    primitives[prim] = val
-        except Exception:
-            pass
+        for primitive, value in self.to_primitives(word).items():
+            primitives.setdefault(primitive, value)
 
     def get_all_words(self) -> List[str]:
         """Get all unique words."""
@@ -267,7 +281,7 @@ class WordNetHierarchyParser(BaseExternalParser):
             self.load()
         return list(self.entries.keys())
 
-    def get_hypernyms(self, word: str, pos: str = None) -> List[str]:
+    def get_hypernyms(self, word: str, pos: Optional[str] = None) -> List[str]:
         """Get hypernym chain for a word."""
         if not self._loaded:
             self.load()
@@ -296,7 +310,7 @@ class WordNetHierarchyParser(BaseExternalParser):
         except Exception:
             return []
 
-    def get_hyponyms(self, word: str, pos: str = None) -> List[str]:
+    def get_hyponyms(self, word: str, pos: Optional[str] = None) -> List[str]:
         """Get direct hyponyms for a word."""
         if not self._loaded:
             self.load()

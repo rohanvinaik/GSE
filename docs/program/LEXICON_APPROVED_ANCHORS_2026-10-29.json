@@ -1,0 +1,65 @@
+{
+  "format": "gse.lexicon-rules/1",
+  "relations": [],
+  "definitions": [
+    {
+      "entry_id": "gse:prime:dont-want",
+      "lemma": "not want",
+      "pos": "verb",
+      "definition": "Not wanting a specified thing, action, or event; grammatical context supplies its target.",
+      "source_ids": [
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#want-polarity"
+      ]
+    },
+    {
+      "entry_id": "gse:prime:this",
+      "lemma": "this",
+      "pos": "demonstrative",
+      "definition": "Demonstrative object reference; grammatical structure and context identify which object is designated.",
+      "source_ids": [
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#word-and-sentence-boundary"
+      ]
+    }
+  ],
+  "anchors": {
+    "gse:prime:dont-want": [
+      {
+        "bank": "WANT",
+        "value": -1,
+        "source": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md",
+        "record_id": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#want-polarity",
+        "family": "founder_anchor",
+        "scope": "lexical"
+      }
+    ],
+    "gse:prime:this": [
+      {
+        "bank": "SOMETHING",
+        "value": 1,
+        "source": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md",
+        "record_id": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#word-and-sentence-boundary",
+        "family": "founder_anchor",
+        "scope": "lexical"
+      }
+    ],
+    "wordnet:want:desire.v.01": [
+      {
+        "bank": "WANT",
+        "value": 1,
+        "source": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md",
+        "record_id": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#want-polarity",
+        "family": "founder_anchor",
+        "scope": "lexical"
+      }
+    ]
+  },
+  "prime_entries": {
+    "nsm:v20:dont-want": [
+      "gse:prime:dont-want"
+    ],
+    "nsm:v20:this": [
+      "gse:prime:this"
+    ]
+  },
+  "hierarchy": {}
+}

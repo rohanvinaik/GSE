@@ -1,0 +1,25 @@
+{
+  "format": "gse.lexicon-replay-report/1",
+  "code": "REPLAY_VALIDATED",
+  "gold": "NOT_CHECKED",
+  "inference_scope": "LOCAL_ARC_CONSISTENCY",
+  "complete_search": false,
+  "metadata_verification": {
+    "representation_contract": "VERIFIED",
+    "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+    "catalog_definition_source_ids": "NOT_PERSISTED",
+    "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED",
+    "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+    "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+    "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+    "build_report": "NOT_CHECKED"
+  },
+  "entries_checked": 155113,
+  "entries_validated": 155113,
+  "entries_mismatched": 0,
+  "replayed_outcomes": {
+    "PARTIAL": 155113
+  },
+  "mismatch_counts": {},
+  "mismatches": []
+}

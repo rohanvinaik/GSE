@@ -4,7 +4,8 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
+from xml.etree.ElementTree import fromstring
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
@@ -106,11 +107,11 @@ class TestLoad:
 
     def test_successful_load(self):
         # Mock a roleset
-        mock_roleset = MagicMock()
-        mock_roleset.attrib = {"id": "run.01", "name": "operate"}
-        mock_role = MagicMock()
-        mock_role.attrib = {"n": "0", "descr": "operator"}
-        mock_roleset.findall.return_value = [mock_role]
+        mock_roleset = fromstring(
+            '<roleset id="run.01" name="operate" vncls="51.3.2"><roles>'
+            '<role n="0" descr="operator"><vnrole vncls="51.3.2" vntheta="Theme"/>'
+            "</role></roles><example><text>Full native example.</text></example></roleset>"
+        )
 
         with patch("nltk.corpus.propbank.rolesets", return_value=[mock_roleset]):
             p = PropBankParser()
@@ -120,11 +121,12 @@ class TestLoad:
             assert p.entries["run"][0].roleset_id == "run.01"
             assert p.entries["run"][0].name == "operate"
             assert p.entries["run"][0].roles["ARG0"] == "operator"
+            assert p.entries["run"][0].verbnet_classes == ["51.3.2"]
+            assert p.entries["run"][0].role_mappings == {"ARG0": [{"vncls": "51.3.2", "vntheta": "Theme"}]}
+            assert "Full native example." in p.entries["run"][0].native_xml
 
     def test_load_uses_lemma_prefix(self):
-        mock_roleset = MagicMock()
-        mock_roleset.attrib = {"id": "Take.01", "name": ""}
-        mock_roleset.findall.return_value = []
+        mock_roleset = fromstring('<roleset id="Take.01" name=""><roles/></roleset>')
         with patch("nltk.corpus.propbank.rolesets", return_value=[mock_roleset]):
             p = PropBankParser()
             p.load()

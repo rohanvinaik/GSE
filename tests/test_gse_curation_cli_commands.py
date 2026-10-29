@@ -83,62 +83,63 @@ class TestPrintStatus:
 
 
 class TestCmdBuild:
-    def test_default_phases(self):
-        args = mk_args(phases=None, lexicon_db="x", frequency_db=None, no_resume=False, mock=True)
-        with patch("gse.curation.pipeline.staged_builder.StagedBuilder") as MockBuilder:
-            mock_builder = MockBuilder.return_value.__enter__.return_value
-            mock_builder.get_status.return_value = {
-                "phases": {},
-                "total": {"words": 0, "validated": 0, "validation_rate": 0},
-            }
-            cmd_build(args)
-            # All three phase methods called
-            mock_builder.build_phase_one.assert_called_once()
-            mock_builder.build_phase_two.assert_called_once()
-            mock_builder.build_phase_three.assert_called_once()
+    def test_default_build_uses_symbolic_sources(self):
+        from argparse import Namespace
 
-    def test_specific_phase(self):
-        args = mk_args(phases=[1], lexicon_db="x", frequency_db=None, no_resume=False, mock=True)
-        with patch("gse.curation.pipeline.staged_builder.StagedBuilder") as MockBuilder:
-            mock_builder = MockBuilder.return_value.__enter__.return_value
-            mock_builder.get_status.return_value = {
-                "phases": {},
-                "total": {"words": 0, "validated": 0, "validation_rate": 0},
-            }
+        args = Namespace(
+            lexicon_db="new.db",
+            rules=None,
+            model=None,
+            max_model_calls=0,
+            evidence=None,
+            words_file=None,
+            report=None,
+            discover=False,
+        )
+        with patch(
+            "gse.curation.lexicon_builder.pipeline.build_from_sources", return_value={"model_calls": 0}
+        ) as build:
             cmd_build(args)
-            mock_builder.build_phase_one.assert_called_once()
-            mock_builder.build_phase_two.assert_not_called()
+        build.assert_called_once_with("new.db", words=None, manifest=None, max_model_calls=0, discover=False)
 
-    def test_resume_flag_inverted(self):
-        # no_resume=True → resume=False
-        args = mk_args(phases=[1], lexicon_db="x", frequency_db=None, no_resume=True, mock=True)
-        with patch("gse.curation.pipeline.staged_builder.StagedBuilder") as MockBuilder:
-            mock_builder = MockBuilder.return_value.__enter__.return_value
-            mock_builder.get_status.return_value = {
-                "phases": {},
-                "total": {"words": 0, "validated": 0, "validation_rate": 0},
-            }
+    def test_model_requires_explicit_budget(self):
+        from argparse import Namespace
+
+        args = Namespace(
+            lexicon_db="new.db",
+            rules=None,
+            model="configured-model",
+            max_model_calls=0,
+            evidence=None,
+            words_file=None,
+            report=None,
+            discover=False,
+        )
+        with pytest.raises(ValueError, match="MODEL_REQUIRES_EXPLICIT_CALL_BUDGET"):
             cmd_build(args)
-            mock_builder.build_phase_one.assert_called_with(resume=False)
 
 
 # ---------- cmd_init ----------
 
 
 class TestCmdInit:
-    def test_default_phases(self):
-        args = mk_args(phases=None, lexicon_db="x", frequency_db=None)
-        with patch("gse.curation.pipeline.staged_builder.StagedBuilder") as MockBuilder:
-            mock_builder = MockBuilder.return_value.__enter__.return_value
-            cmd_init(args)
-            mock_builder.initialize_from_frequency.assert_called_once_with([1, 2, 3])
+    def test_creates_versioned_empty_store(self, tmp_path):
+        import sqlite3
 
-    def test_specific_phases(self):
-        args = mk_args(phases=[2], lexicon_db="x", frequency_db=None)
-        with patch("gse.curation.pipeline.staged_builder.StagedBuilder") as MockBuilder:
-            mock_builder = MockBuilder.return_value.__enter__.return_value
-            cmd_init(args)
-            mock_builder.initialize_from_frequency.assert_called_once_with([2])
+        path = tmp_path / "new.db"
+        cmd_init(mk_args(lexicon_db=str(path)))
+        with sqlite3.connect(path) as conn:
+            assert conn.execute("SELECT value FROM builder_metadata WHERE key='format'").fetchone()
+            assert conn.execute("SELECT count(*) FROM lexemes").fetchone()[0] == 0
+
+    def test_refuses_legacy_store(self, tmp_path):
+        import sqlite3
+
+        path = tmp_path / "legacy.db"
+        with sqlite3.connect(path) as conn:
+            conn.execute("CREATE TABLE lexemes(id INTEGER)")
+        with pytest.raises(ValueError, match="LEGACY_DATABASE"):
+            cmd_init(mk_args(lexicon_db=str(path)))
 
 
 # ---------- cmd_status ----------
@@ -320,14 +321,16 @@ class TestMain:
                 main()
         # argparse prints help
 
-    def test_status_command(self, capsys):
-        with patch("sys.argv", ["prog", "status"]):
+    def test_status_command(self, capsys, tmp_path):
+        path = tmp_path / "existing.db"
+        path.touch()
+        with patch("sys.argv", ["prog", "--lexicon-db", str(path), "status"]):
             with patch("gse.curation.cli.commands.cmd_status") as mock_cmd:
                 main()
                 mock_cmd.assert_called_once()
 
     def test_build_command(self):
-        with patch("sys.argv", ["prog", "build", "--mock"]):
+        with patch("sys.argv", ["prog", "build"]):
             with patch("gse.curation.cli.commands.cmd_build") as mock_cmd:
                 main()
                 mock_cmd.assert_called_once()
@@ -338,20 +341,26 @@ class TestMain:
                 main()
                 mock_cmd.assert_called_once()
 
-    def test_validate_command(self):
-        with patch("sys.argv", ["prog", "validate"]):
+    def test_validate_command(self, tmp_path):
+        path = tmp_path / "existing.db"
+        path.touch()
+        with patch("sys.argv", ["prog", "--lexicon-db", str(path), "validate"]):
             with patch("gse.curation.cli.commands.cmd_validate") as mock_cmd:
                 main()
                 mock_cmd.assert_called_once()
 
-    def test_export_command(self):
-        with patch("sys.argv", ["prog", "export"]):
+    def test_export_command(self, tmp_path):
+        path = tmp_path / "existing.db"
+        path.touch()
+        with patch("sys.argv", ["prog", "--lexicon-db", str(path), "export"]):
             with patch("gse.curation.cli.commands.cmd_export") as mock_cmd:
                 main()
                 mock_cmd.assert_called_once()
 
-    def test_lookup_command(self):
-        with patch("sys.argv", ["prog", "lookup", "happy"]):
+    def test_lookup_command(self, tmp_path):
+        path = tmp_path / "existing.db"
+        path.touch()
+        with patch("sys.argv", ["prog", "--lexicon-db", str(path), "lookup", "happy"]):
             with patch("gse.curation.cli.commands.cmd_lookup") as mock_cmd:
                 main()
                 mock_cmd.assert_called_once()

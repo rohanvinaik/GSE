@@ -127,6 +127,16 @@ class TestLoad:
         assert p.entries["run"][0].semantic_tags == ["M1"]
         assert p.entries["run"][0].pos == "V"
 
+    def test_exact_native_header_is_skipped_without_losing_real_lemma_word(self, tmp_path):
+        path = tmp_path / "u.tsv"
+        path.write_text("lemma\tpos\tsemantic_tags\nlemma\tNOUN\tQ3\nrun\tVERB\tM1\n")
+        parser = USASParser(lexicon_path=path)
+        assert parser.load() is True
+        assert set(parser.entries) == {"lemma", "run"}
+        assert len(parser.entries["lemma"]) == 1
+        assert parser.entries["lemma"][0].pos == "NOUN"
+        assert parser.entries["lemma"][0].semantic_tags == ["Q3"]
+
     def test_basic_load_two_columns(self, tmp_path):
         path = tmp_path / "u.tsv"
         path.write_text("run\tM1\n")

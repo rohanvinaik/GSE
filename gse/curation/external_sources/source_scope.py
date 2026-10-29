@@ -100,6 +100,9 @@ SOURCE_PRIMITIVE_SCOPE: Mapping[str, Set[str]] = {
     # (Wiktionary defines `animal` as "a member of the kingdom Animalia", never
     # "alive"). Scoped to category only so it contributes IS-A grounding and
     # not the DO/CAUSE/THINK noise its union-over-senses also carries.
+    # FEEL is warranted only by exact nominal emotion.n.01 / feeling.n.01
+    # IS-A ancestry in the definition-specific adapter, not the broader
+    # psychological_feature category or an affect association rating.
     "wordnet_hierarchy": {
         "SOMETHING",
         "SOMEONE",
@@ -108,6 +111,7 @@ SOURCE_PRIMITIVE_SCOPE: Mapping[str, Set[str]] = {
         "PEOPLE",
         "PART",
         "KIND",
+        "FEEL",
     },
     # FrameNet: frame semantics — event structure, participant roles, and the
     # cognition/perception/communication/emotion frames that are its core

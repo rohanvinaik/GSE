@@ -15,6 +15,7 @@ from gse.curation.external_sources.framenet import (
     FRAME_TO_PRIMITIVE,
     FrameNetEntry,
     FrameNetParser,
+    _native_metadata,
     download_framenet,
 )
 
@@ -42,6 +43,27 @@ class TestFrameNetEntry:
         assert e.frame_id == 1
         assert e.core_fes == ["Self_mover"]
         assert e.is_core_lu is True
+
+    def test_native_metadata_keeps_lu_identity_and_bounded_graph_references(self):
+        frame = {"ID": 7, "name": "Motion", "definition": "Full frame definition."}
+        lu = {
+            "ID": 6,
+            "name": "move.v",
+            "definition": "Full lexical-unit definition.",
+            "lexemes": [{"name": "move", "POS": "V", "order": 1}],
+            "frame": frame,
+            "semTypes": [{"ID": 2, "name": "Type", "definition": "Full type definition."}],
+            "exemplars": [],
+            "subCorpus": [],
+        }
+        frame["lexUnit"] = {"move.v": lu}
+        result = _native_metadata(lu)
+        assert result["ID"] == 6
+        assert result["definition"] == "Full lexical-unit definition."
+        assert result["frame"] == {"ID": 7, "name": "Motion", "definition": "Full frame definition."}
+        assert result["lexemes"] == [{"name": "move", "POS": "V", "order": 1}]
+        assert result["semTypes"][0]["definition"] == "Full type definition."
+        assert result["unmaterialized_fields"] == ["exemplars", "subCorpus"]
 
 
 # ---------- FRAME_TO_PRIMITIVE ----------
@@ -144,14 +166,13 @@ class TestLoad:
         mock_frame.ID = 1
         mock_frame.FE = {"a": mock_fe}
         mock_frame.lexUnit = {}
-        mock_frame.definition = "X" * 300  # > 200 chars, truncated
+        mock_frame.definition = "X" * 300 + " original ending"
 
         with patch("nltk.corpus.framenet.frames", return_value=[mock_frame]):
             p = FrameNetParser()
             p.load()
             assert "Action" in p._frame_cache
-            # Definition truncated to 200
-            assert len(p._frame_cache["Action"]["definition"]) == 200
+            assert p._frame_cache["Action"]["definition"] == mock_frame.definition
 
     def test_empty_definition_handled(self):
         mock_frame = MagicMock()

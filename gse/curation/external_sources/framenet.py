@@ -12,7 +12,8 @@ Maps frame semantics to GSE primitives based on:
 """
 
 import logging
-from dataclasses import dataclass
+from collections.abc import Mapping
+from dataclasses import dataclass, field
 from functools import lru_cache
 from typing import Dict, List, Optional
 
@@ -31,6 +32,42 @@ class FrameNetEntry:
     frame_id: int
     core_fes: List[str]
     is_core_lu: bool  # Is this word a core lexical unit?
+    native_lu: Dict = field(default_factory=dict)
+
+
+def _native_reference(record) -> dict:
+    """Keep native identity and scalar description without expanding a graph."""
+    if not isinstance(record, Mapping):
+        return {}
+    return {key: value for key, value in record.items() if value is None or type(value) in (str, int, float, bool)}
+
+
+def _native_metadata(record) -> dict:
+    """One native record plus explicit references to related native records.
+
+    NLTK links frames, FEs and semantic types cyclically. References retain
+    their native IDs/names/descriptions; they never expand the whole graph.
+    Corpus example collections are reported as unmaterialized, not mistaken
+    for empty or absent annotation data.
+    """
+    if not isinstance(record, Mapping):
+        return {}
+    result = _native_reference(record)
+    unmaterialized = []
+    for key, value in record.items():
+        if key in result:
+            continue
+        if key in ("exemplars", "subCorpus"):
+            unmaterialized.append(key)
+        elif isinstance(value, Mapping):
+            result[key] = _native_reference(value)
+        elif isinstance(value, (list, tuple)):
+            result[key] = [_native_reference(item) if isinstance(item, Mapping) else item for item in value]
+        else:
+            unmaterialized.append(key)
+    if unmaterialized:
+        result["unmaterialized_fields"] = sorted(unmaterialized)
+    return result
 
 
 # Mapping from frame semantic types to GSE primitives
@@ -199,7 +236,13 @@ class FrameNetParser(BaseExternalParser):
                 self._frame_cache[frame_name] = {
                     "id": frame.ID,
                     "core_fes": core_fes,
-                    "definition": frame.definition[:200] if frame.definition else "",
+                    "definition": frame.definition if frame.definition else "",
+                    "frame_elements": {name: _native_metadata(fe) for name, fe in frame.FE.items()},
+                    "native_frame": _native_reference(frame),
+                    "frame_relations": [
+                        _native_metadata(relation) for relation in getattr(frame, "frameRelations", [])
+                    ],
+                    "semantic_types": [_native_metadata(kind) for kind in getattr(frame, "semTypes", [])],
                 }
 
                 # Extract lexical units
@@ -217,6 +260,7 @@ class FrameNetParser(BaseExternalParser):
                             frame_id=frame.ID,
                             core_fes=core_fes,
                             is_core_lu=True,
+                            native_lu=_native_metadata(lu),
                         )
 
                         if word not in self.entries:

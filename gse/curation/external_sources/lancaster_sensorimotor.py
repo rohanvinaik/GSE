@@ -26,9 +26,9 @@ The Lancaster Sensorimotor Norms. Behavior Research Methods, 52, 1271-1291.
 """
 
 import logging
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional, Set
+from typing import Any, Dict, List, Optional, Set
 
 import requests
 
@@ -62,6 +62,11 @@ class SensorimotorEntry:
     max_action: float = 0.0
     dominant_perceptual: str = ""
     dominant_action: str = ""
+    # Original CSV cells: absent columns stay absent, short-row cells are None,
+    # blanks stay "", and a measured zero stays its source string (e.g. "0").
+    # Numeric defaults above remain for legacy consumers, never lexical facts.
+    raw_fields: Dict[str, Optional[str]] = field(default_factory=dict)
+    raw_extra_fields: List[str] = field(default_factory=list)
 
     def __post_init__(self):
         perceptual = {
@@ -82,10 +87,10 @@ class SensorimotorEntry:
 
         if perceptual:
             self.max_perceptual = max(perceptual.values())
-            self.dominant_perceptual = max(perceptual, key=perceptual.get)
+            self.dominant_perceptual = max(perceptual, key=perceptual.__getitem__)
         if action:
             self.max_action = max(action.values())
-            self.dominant_action = max(action, key=action.get)
+            self.dominant_action = max(action, key=action.__getitem__)
 
 
 # Mapping from sensorimotor dimensions to GSE primitives
@@ -162,14 +167,14 @@ class LancasterSensorimotorParser:
                 for row in reader:
                     try:
                         # Get word (handle quoted values)
-                        word = row.get("Word", "").strip('"').lower()
+                        word = (row.get("Word") or "").strip('"').lower()
                         if not word:
                             continue
 
                         def get_float(key_variants):
                             for key in key_variants:
                                 if key in row:
-                                    val = row[key].strip()
+                                    val = (row[key] or "").strip()
                                     return float(val) if val else 0.0
                             return 0.0
 
@@ -186,6 +191,8 @@ class LancasterSensorimotorParser:
                             head=get_float(["Head.mean", "head.mean", "Head_mean"]),
                             mouth=get_float(["Mouth.mean", "mouth.mean", "Mouth_mean"]),
                             torso=get_float(["Torso.mean", "torso.mean", "Torso_mean"]),
+                            raw_fields={key: value for key, value in row.items() if key is not None},
+                            raw_extra_fields=list(row.get(None, [])),
                         )
 
                         self.entries[word] = entry
@@ -309,7 +316,7 @@ class LancasterSensorimotorParser:
 
         return results
 
-    def get_statistics(self) -> Dict[str, any]:
+    def get_statistics(self) -> Dict[str, Any]:
         """Get statistics about the loaded data."""
         if not self._loaded:
             self.load()

@@ -117,4 +117,4 @@ def main(clean_db: str = CLEAN_DB, freq_db: str = FREQ_DB) -> dict:
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit("SUPERSEDED_LEXICON_BUILDER: use python -m gse.curation.cli.commands --lexicon-db NEW.db build")

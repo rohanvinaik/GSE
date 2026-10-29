@@ -26,7 +26,7 @@ class USASEntry:
     """Entry from USAS lexicon."""
 
     lemma: str
-    pos: str
+    pos: str | None
     semantic_tags: List[str]  # e.g., ["M1", "A1.1.1"]
 
 
@@ -241,6 +241,8 @@ class USASParser(BaseExternalParser):
                         continue
 
                     parts = line.split("\t")
+                    if parts == ["lemma", "pos", "semantic_tags"]:
+                        continue
                     if len(parts) < 2:
                         continue
 

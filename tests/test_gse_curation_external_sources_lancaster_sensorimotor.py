@@ -164,6 +164,33 @@ class TestLoad:
         p.load()
         assert p.entries["x"].auditory == 0.0
 
+    def test_raw_fields_distinguish_zero_blank_missing_cell_and_missing_column(self, tmp_path):
+        path = tmp_path / "raw.csv"
+        path.write_text("Word,Auditory.mean,Visual.mean,Haptic.mean\nx,0,\n")
+        parser = LancasterSensorimotorParser(data_path=str(path))
+        assert parser.load() is True
+        entry = parser.entries["x"]
+        assert entry.raw_fields == {"Word": "x", "Auditory.mean": "0", "Visual.mean": "", "Haptic.mean": None}
+        assert "Gustatory.mean" not in entry.raw_fields
+        assert entry.auditory == entry.visual == entry.haptic == entry.gustatory == 0.0
+
+    def test_raw_fields_preserve_extra_columns_and_spacing(self, tmp_path):
+        path = tmp_path / "raw.csv"
+        path.write_text("Word,Auditory.mean,Additional.metadata\nx, 0.00 ,original,extra\n")
+        parser = LancasterSensorimotorParser(data_path=str(path))
+        assert parser.load() is True
+        entry = parser.entries["x"]
+        assert entry.raw_fields["Auditory.mean"] == " 0.00 "
+        assert entry.raw_fields["Additional.metadata"] == "original"
+        assert entry.raw_extra_fields == ["extra"]
+
+    def test_raw_field_defaults_are_independent(self):
+        first, second = mk_entry(), mk_entry()
+        first.raw_fields["Word"] = "first"
+        first.raw_extra_fields.append("first")
+        assert second.raw_fields == {}
+        assert second.raw_extra_fields == []
+
     def test_invalid_float_skipped(self, tmp_path):
         path = tmp_path / "ls.csv"
         path.write_text(

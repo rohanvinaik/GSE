@@ -1,0 +1,1958 @@
+{
+  "format": "gse.proposed-rule-effect-audit/1",
+  "status": "PROVISIONAL_EFFECTS_NOT_ADMISSION",
+  "gold": "NOT_CHECKED",
+  "database": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-10-29/lexicon.db",
+  "database_bytes": 4808675328,
+  "database_mtime_ns": 1793270441371514463,
+  "database_open_mode": "READ_ONLY_SNAPSHOT",
+  "database_file_unchanged_during_read": true,
+  "snapshot_fingerprint": {
+    "definition_and_native_assertion_sha256": "69a4bc9760f1be93d7573fd68b5d64e1f6bce1019c03faf2c40c3bcbc7cbf1f4",
+    "metadata": {
+      "anchors": {},
+      "format": "gse.lexicon-builder/1",
+      "last_report": {
+        "approved_relations": 3,
+        "cells": {
+          "assigned": 213913,
+          "conflicted": 0,
+          "explicit_zero": 106606,
+          "unresolved": 8472303
+        },
+        "coordinates": 56,
+        "definitions": 155111,
+        "explicit_anchor_definitions": 0,
+        "format": "gse.lexicon-build-report/1",
+        "foundation_readiness": {
+          "all_anchor_domains_resolved": false,
+          "all_units_linked": false,
+          "code": "SEMANTIC_FOUNDATION_NOT_VALIDATED",
+          "founder_signature_completeness": "NOT_ESTABLISHED",
+          "gold": "NOT_CHECKED",
+          "mapping_complete": false
+        },
+        "foundation_status": "PARTIAL_PROJECTED_BASELINE",
+        "gold_validation": "NOT_RUN_NO_GOLD_SUPPLIED",
+        "local_sources": [
+          {
+            "code": "LOADED",
+            "native_records": 206978,
+            "source": "wordnet_hierarchy",
+            "words": 147306
+          },
+          {
+            "code": "LOADED",
+            "native_records": 206978,
+            "source": "sentiwordnet",
+            "words": 147306
+          },
+          {
+            "code": "LOADED",
+            "native_records": 14154,
+            "source": "nrc_emotion",
+            "words": 14154
+          },
+          {
+            "code": "LOADED",
+            "native_records": 54801,
+            "source": "nrc_vad",
+            "words": 54801
+          },
+          {
+            "code": "LOADED",
+            "native_records": 4991,
+            "source": "verbnet",
+            "words": 3626
+          },
+          {
+            "code": "LOADED",
+            "native_records": 39954,
+            "source": "concreteness",
+            "words": 39954
+          },
+          {
+            "code": "LOADED",
+            "native_records": 39707,
+            "source": "lancaster_sensorimotor",
+            "words": 39707
+          },
+          {
+            "code": "LOADED",
+            "native_records": 13572,
+            "source": "framenet",
+            "words": 9413
+          },
+          {
+            "code": "LOADED",
+            "native_records": 4659,
+            "source": "propbank",
+            "words": 3319
+          },
+          {
+            "code": "LOADED",
+            "native_records": 3143479,
+            "path": "/Users/rohanvinaik/Projects/gse/data/external/conceptnet-en.sqlite",
+            "source": "conceptnet"
+          },
+          {
+            "code": "LOADED",
+            "native_records": 54797,
+            "source": "usas",
+            "words": 46147
+          }
+        ],
+        "model_calls": 0,
+        "model_outcomes": {},
+        "outcomes": {
+          "PARTIAL": 155111
+        },
+        "per_pos": {
+          "adjective": {
+            "PARTIAL": 24446
+          },
+          "adverb": {
+            "PARTIAL": 4381
+          },
+          "noun": {
+            "PARTIAL": 77779
+          },
+          "verb": {
+            "PARTIAL": 48505
+          }
+        },
+        "prime_coverage": {
+          "UNLINKED": 65
+        },
+        "source_observations": {
+          "conceptnet": 2772740,
+          "concreteness": 29348,
+          "framenet": 11865,
+          "lancaster_sensorimotor": 29186,
+          "nrc_emotion": 13542,
+          "nrc_vad": 34284,
+          "propbank": 4598,
+          "sentiwordnet": 114316,
+          "usas": 32924,
+          "verbnet": 10440,
+          "wordnet_hierarchy": 155111
+        },
+        "unresolved_source_records": 2930872,
+        "weighted_outcomes": null
+      },
+      "model_completions": [],
+      "relations": [
+        {
+          "allowed_rows": [
+            [
+              0
+            ]
+          ],
+          "approved": true,
+          "authority": "foundational",
+          "banks": [
+            "GOOD"
+          ],
+          "guards": [
+            [
+              "pos",
+              "noun"
+            ]
+          ],
+          "provenance": [
+            "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+          ],
+          "rule_id": "founder:noun-own-evaluation"
+        },
+        {
+          "allowed_rows": [
+            [
+              0
+            ]
+          ],
+          "approved": true,
+          "authority": "foundational",
+          "banks": [
+            "SOMETHING"
+          ],
+          "guards": [
+            [
+              "pos",
+              "adjective"
+            ]
+          ],
+          "provenance": [
+            "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+          ],
+          "rule_id": "founder:adjective-not-object"
+        },
+        {
+          "allowed_rows": [
+            [
+              0
+            ]
+          ],
+          "approved": true,
+          "authority": "foundational",
+          "banks": [
+            "SOMETHING"
+          ],
+          "guards": [
+            [
+              "pos",
+              "adverb"
+            ]
+          ],
+          "provenance": [
+            "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+          ],
+          "rule_id": "founder:adverb-not-object"
+        }
+      ]
+    }
+  },
+  "proposal": "/Users/rohanvinaik/Projects/gse/docs/program/LEXICON_PROJECTION_PROPOSALS_2026-10-29.json",
+  "proposal_sha256": "bfea1793a7f14cc0db43592676574488befe69e26d17bc29cf7aff479663ec23",
+  "definitions_evaluated": 155111,
+  "rules_evaluated": 20,
+  "exact_evidence_patterns": 11,
+  "baseline_outcomes": {
+    "PARTIAL": 155111
+  },
+  "baseline_relations": [
+    {
+      "rule_id": "founder:noun-own-evaluation",
+      "banks": [
+        "GOOD"
+      ],
+      "allowed_rows": [
+        [
+          0
+        ]
+      ],
+      "provenance": [
+        "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+      ],
+      "authority": "foundational",
+      "approved": true,
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ]
+      ]
+    },
+    {
+      "rule_id": "founder:adjective-not-object",
+      "banks": [
+        "SOMETHING"
+      ],
+      "allowed_rows": [
+        [
+          0
+        ]
+      ],
+      "provenance": [
+        "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+      ],
+      "authority": "foundational",
+      "approved": true,
+      "guards": [
+        [
+          "pos",
+          "adjective"
+        ]
+      ]
+    },
+    {
+      "rule_id": "founder:adverb-not-object",
+      "banks": [
+        "SOMETHING"
+      ],
+      "allowed_rows": [
+        [
+          0
+        ]
+      ],
+      "provenance": [
+        "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+      ],
+      "authority": "foundational",
+      "approved": true,
+      "guards": [
+        [
+          "pos",
+          "adverb"
+        ]
+      ]
+    }
+  ],
+  "native_bank_asserted_definitions": {
+    "ALIVE": 14825,
+    "CAUSE": 1439,
+    "FEEL": 853,
+    "MOVE": 796,
+    "PART": 1466,
+    "SOMEONE": 10149,
+    "SOMETHING": 77779
+  },
+  "baseline_bank_singleton_definitions": {
+    "ALIVE": 14825,
+    "CAUSE": 1439,
+    "FEEL": 853,
+    "GOOD": 77779,
+    "MOVE": 796,
+    "PART": 1466,
+    "SOMEONE": 10149,
+    "SOMETHING": 106606
+  },
+  "exact_evidence_pattern_populations": [
+    {
+      "pos": "adjective",
+      "bank_values": {},
+      "definitions": 24446
+    },
+    {
+      "pos": "adverb",
+      "bank_values": {},
+      "definitions": 4381
+    },
+    {
+      "pos": "noun",
+      "bank_values": {
+        "ALIVE": 1,
+        "SOMEONE": 1,
+        "SOMETHING": 1
+      },
+      "definitions": 10149
+    },
+    {
+      "pos": "noun",
+      "bank_values": {
+        "ALIVE": 1,
+        "SOMETHING": 1
+      },
+      "definitions": 4676
+    },
+    {
+      "pos": "noun",
+      "bank_values": {
+        "FEEL": 1,
+        "SOMETHING": 1
+      },
+      "definitions": 853
+    },
+    {
+      "pos": "noun",
+      "bank_values": {
+        "PART": 1,
+        "SOMETHING": 1
+      },
+      "definitions": 1466
+    },
+    {
+      "pos": "noun",
+      "bank_values": {
+        "SOMETHING": 1
+      },
+      "definitions": 60635
+    },
+    {
+      "pos": "verb",
+      "bank_values": {},
+      "definitions": 46566
+    },
+    {
+      "pos": "verb",
+      "bank_values": {
+        "CAUSE": 1
+      },
+      "definitions": 1143
+    },
+    {
+      "pos": "verb",
+      "bank_values": {
+        "CAUSE": 1,
+        "MOVE": 1
+      },
+      "definitions": 296
+    },
+    {
+      "pos": "verb",
+      "bank_values": {
+        "MOVE": 1
+      },
+      "definitions": 500
+    }
+  ],
+  "method": {
+    "native_assertions": "EXACT_STORED_NATIVE_ASSERTIONS",
+    "activation": "IN_MEMORY_ONLY",
+    "original_proposal_approvals_unchanged": true,
+    "solver": "resolve_dictionary",
+    "inference_scope": "LOCAL_ARC_CONSISTENCY",
+    "complete_search": false,
+    "memoization": "Exact POS and complete set of asserted bank/value pairs; every selected example recomputed with its own provenance",
+    "examples": "Up to ten distinct evidence-pattern examples per effect category; complete definitions and assertions retained",
+    "effect_category_precedence": [
+      "hard_conflict",
+      "exceptions",
+      "new_assignments",
+      "domain_only",
+      "unchanged"
+    ],
+    "new_assignment_counts_include_exception_cases": true,
+    "interpretation": "Effects measure the proposed conventions on this source coverage. Neither agreement nor lack of exception establishes truth."
+  },
+  "per_rule": {
+    "proposal:i-someone": {
+      "proposal_relation": {
+        "rule_id": "proposal:i-someone",
+        "banks": [
+          "I",
+          "SOMEONE"
+        ],
+        "allowed_rows": [
+          [
+            -1,
+            -1
+          ],
+          [
+            -1,
+            0
+          ],
+          [
+            -1,
+            1
+          ],
+          [
+            0,
+            -1
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "provenance": [
+          "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F148",
+          "data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "authority": "conditional",
+        "approved": false,
+        "guards": []
+      },
+      "counts": {
+        "changed_or_lost_assignments": 0,
+        "definitions": 155111,
+        "exception_definitions": 0,
+        "new_assignment_definitions": 0,
+        "new_assignments": 0,
+        "unchanged_definitions": 155111,
+        "domain_only_definitions": 0,
+        "hard_conflict_definitions": 0
+      },
+      "new_assignments_by_bank": {},
+      "examples": {
+        "new_assignments": [],
+        "exceptions": [],
+        "domain_only": []
+      }
+    },
+    "proposal:you-someone": {
+      "proposal_relation": {
+        "rule_id": "proposal:you-someone",
+        "banks": [
+          "YOU",
+          "SOMEONE"
+        ],
+        "allowed_rows": [
+          [
+            -1,
+            -1
+          ],
+          [
+            -1,
+            0
+          ],
+          [
+            -1,
+            1
+          ],
+          [
+            0,
+            -1
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "provenance": [
+          "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F148",
+          "data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "authority": "conditional",
+        "approved": false,
+        "guards": []
+      },
+      "counts": {
+        "changed_or_lost_assignments": 0,
+        "definitions": 155111,
+        "exception_definitions": 0,
+        "new_assignment_definitions": 0,
+        "new_assignments": 0,
+        "unchanged_definitions": 155111,
+        "domain_only_definitions": 0,
+        "hard_conflict_definitions": 0
+      },
+      "new_assignments_by_bank": {},
+      "examples": {
+        "new_assignments": [],
+        "exceptions": [],
+        "domain_only": []
+      }
+    },
+    "proposal:body-something": {
+      "proposal_relation": {
+        "rule_id": "proposal:body-something",
+        "banks": [
+          "BODY",
+          "SOMETHING"
+        ],
+        "allowed_rows": [
+          [
+            -1,
+            -1
+          ],
+          [
+            -1,
+            0
+          ],
+          [
+            -1,
+            1
+          ],
+          [
+            0,
+            -1
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "provenance": [
+          "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F148",
+          "data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "authority": "conditional",
+        "approved": false,
+        "guards": [
+          [
+            "pos",
+            "noun"
+          ]
+        ]
+      },
+      "counts": {
+        "changed_or_lost_assignments": 0,
+        "definitions": 155111,
+        "exception_definitions": 0,
+        "inactive_guard_definitions": 77332,
+        "new_assignment_definitions": 0,
+        "new_assignments": 0,
+        "unchanged_definitions": 155111,
+        "domain_only_definitions": 0,
+        "hard_conflict_definitions": 0
+      },
+      "new_assignments_by_bank": {},
+      "examples": {
+        "new_assignments": [],
+        "exceptions": [],
+        "domain_only": []
+      }
+    },
+    "proposal:one-quantity": {
+      "proposal_relation": {
+        "rule_id": "proposal:one-quantity",
+        "banks": [
+          "ONE",
+          "QUANTITY"
+        ],
+        "allowed_rows": [
+          [
+            -1,
+            -1
+          ],
+          [
+            -1,
+            0
+          ],
+          [
+            -1,
+            1
+          ],
+          [
+            0,
+            -1
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "provenance": [
+          "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F148",
+          "data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "authority": "conditional",
+        "approved": false,
+        "guards": []
+      },
+      "counts": {
+        "changed_or_lost_assignments": 0,
+        "definitions": 155111,
+        "exception_definitions": 0,
+        "new_assignment_definitions": 0,
+        "new_assignments": 0,
+        "unchanged_definitions": 155111,
+        "domain_only_definitions": 0,
+        "hard_conflict_definitions": 0
+      },
+      "new_assignments_by_bank": {},
+      "examples": {
+        "new_assignments": [],
+        "exceptions": [],
+        "domain_only": []
+      }
+    },
+    "proposal:two-quantity": {
+      "proposal_relation": {
+        "rule_id": "proposal:two-quantity",
+        "banks": [
+          "TWO",
+          "QUANTITY"
+        ],
+        "allowed_rows": [
+          [
+            -1,
+            -1
+          ],
+          [
+            -1,
+            0
+          ],
+          [
+            -1,
+            1
+          ],
+          [
+            0,
+            -1
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "provenance": [
+          "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F148",
+          "data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "authority": "conditional",
+        "approved": false,
+        "guards": []
+      },
+      "counts": {
+        "changed_or_lost_assignments": 0,
+        "definitions": 155111,
+        "exception_definitions": 0,
+        "new_assignment_definitions": 0,
+        "new_assignments": 0,
+        "unchanged_definitions": 155111,
+        "domain_only_definitions": 0,
+        "hard_conflict_definitions": 0
+      },
+      "new_assignments_by_bank": {},
+      "examples": {
+        "new_assignments": [],
+        "exceptions": [],
+        "domain_only": []
+      }
+    },
+    "proposal:move-happen": {
+      "proposal_relation": {
+        "rule_id": "proposal:move-happen",
+        "banks": [
+          "MOVE",
+          "HAPPEN"
+        ],
+        "allowed_rows": [
+          [
+            -1,
+            -1
+          ],
+          [
+            -1,
+            0
+          ],
+          [
+            -1,
+            1
+          ],
+          [
+            0,
+            -1
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "provenance": [
+          "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F148",
+          "data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "authority": "conditional",
+        "approved": false,
+        "guards": []
+      },
+      "counts": {
+        "changed_or_lost_assignments": 0,
+        "definitions": 155111,
+        "exception_definitions": 0,
+        "new_assignment_definitions": 796,
+        "new_assignments": 796,
+        "new_assignments_definitions": 796,
+        "unchanged_definitions": 154315,
+        "domain_only_definitions": 0,
+        "hard_conflict_definitions": 0
+      },
+      "new_assignments_by_bank": {
+        "HAPPEN:+1": 796
+      },
+      "examples": {
+        "new_assignments": [
+          {
+            "definition": {
+              "entry_id": "wordnet:abandon:abandon.v.01",
+              "lemma": "abandon",
+              "pos": "verb",
+              "definition": "forsake, leave behind"
+            },
+            "native_assertions": [
+              {
+                "bank": "MOVE",
+                "value": 1,
+                "source": "verbnet",
+                "record_id": "verbnet:abandon:e15a72cefc6636c4a0899298780d77eff9aaa0cea83713516684237c4d460485",
+                "family": "verb_structure",
+                "scope": "lexical"
+              }
+            ],
+            "baseline_assignments": {
+              "MOVE": 1
+            },
+            "provisional_assignments": {
+              "HAPPEN": 1,
+              "MOVE": 1
+            },
+            "new_assignments": {
+              "HAPPEN": 1
+            },
+            "changed_or_lost_assignments": {},
+            "changed_domains": {
+              "HAPPEN": {
+                "before": [
+                  -1,
+                  0,
+                  1
+                ],
+                "after": [
+                  1
+                ]
+              }
+            },
+            "conditional_exceptions": [],
+            "gold": "NOT_CHECKED"
+          },
+          {
+            "definition": {
+              "entry_id": "wordnet:archive:archive.v.01",
+              "lemma": "archive",
+              "pos": "verb",
+              "definition": "put into an archive"
+            },
+            "native_assertions": [
+              {
+                "bank": "CAUSE",
+                "value": 1,
+                "source": "verbnet",
+                "record_id": "verbnet:archive:d2e50d0b05fbc5880bf486f5c8a3f48c2f18c11708c79323ebb9cc22fff6ab2c",
+                "family": "verb_structure",
+                "scope": "lexical"
+              },
+              {
+                "bank": "MOVE",
+                "value": 1,
+                "source": "verbnet",
+                "record_id": "verbnet:archive:d2e50d0b05fbc5880bf486f5c8a3f48c2f18c11708c79323ebb9cc22fff6ab2c",
+                "family": "verb_structure",
+                "scope": "lexical"
+              }
+            ],
+            "baseline_assignments": {
+              "CAUSE": 1,
+              "MOVE": 1
+            },
+            "provisional_assignments": {
+              "CAUSE": 1,
+              "HAPPEN": 1,
+              "MOVE": 1
+            },
+            "new_assignments": {
+              "HAPPEN": 1
+            },
+            "changed_or_lost_assignments": {},
+            "changed_domains": {
+              "HAPPEN": {
+                "before": [
+                  -1,
+                  0,
+                  1
+                ],
+                "after": [
+                  1
+                ]
+              }
+            },
+            "conditional_exceptions": [],
+            "gold": "NOT_CHECKED"
+          }
+        ],
+        "exceptions": [],
+        "domain_only": []
+      }
+    },
+    "proposal:do-happen": {
+      "proposal_relation": {
+        "rule_id": "proposal:do-happen",
+        "banks": [
+          "DO",
+          "HAPPEN"
+        ],
+        "allowed_rows": [
+          [
+            -1,
+            -1
+          ],
+          [
+            -1,
+            0
+          ],
+          [
+            -1,
+            1
+          ],
+          [
+            0,
+            -1
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "provenance": [
+          "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F148",
+          "data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "authority": "conditional",
+        "approved": false,
+        "guards": []
+      },
+      "counts": {
+        "changed_or_lost_assignments": 0,
+        "definitions": 155111,
+        "exception_definitions": 0,
+        "new_assignment_definitions": 0,
+        "new_assignments": 0,
+        "unchanged_definitions": 155111,
+        "domain_only_definitions": 0,
+        "hard_conflict_definitions": 0
+      },
+      "new_assignments_by_bank": {},
+      "examples": {
+        "new_assignments": [],
+        "exceptions": [],
+        "domain_only": []
+      }
+    },
+    "proposal:cause-happen": {
+      "proposal_relation": {
+        "rule_id": "proposal:cause-happen",
+        "banks": [
+          "CAUSE",
+          "HAPPEN"
+        ],
+        "allowed_rows": [
+          [
+            -1,
+            -1
+          ],
+          [
+            -1,
+            0
+          ],
+          [
+            -1,
+            1
+          ],
+          [
+            0,
+            -1
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "provenance": [
+          "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F148",
+          "data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "authority": "conditional",
+        "approved": false,
+        "guards": []
+      },
+      "counts": {
+        "changed_or_lost_assignments": 0,
+        "definitions": 155111,
+        "exception_definitions": 0,
+        "new_assignment_definitions": 1439,
+        "new_assignments": 1439,
+        "new_assignments_definitions": 1439,
+        "unchanged_definitions": 153672,
+        "domain_only_definitions": 0,
+        "hard_conflict_definitions": 0
+      },
+      "new_assignments_by_bank": {
+        "HAPPEN:+1": 1439
+      },
+      "examples": {
+        "new_assignments": [
+          {
+            "definition": {
+              "entry_id": "wordnet:abduct:kidnap.v.01",
+              "lemma": "abduct",
+              "pos": "verb",
+              "definition": "take away to an undisclosed location against their will and usually in order to extract a ransom"
+            },
+            "native_assertions": [
+              {
+                "bank": "CAUSE",
+                "value": 1,
+                "source": "verbnet",
+                "record_id": "verbnet:abduct:19a15d7b2a1de3a54c678a1c6c8a3afd5d72daa9028fea20632d4eef9319664c",
+                "family": "verb_structure",
+                "scope": "lexical"
+              }
+            ],
+            "baseline_assignments": {
+              "CAUSE": 1
+            },
+            "provisional_assignments": {
+              "CAUSE": 1,
+              "HAPPEN": 1
+            },
+            "new_assignments": {
+              "HAPPEN": 1
+            },
+            "changed_or_lost_assignments": {},
+            "changed_domains": {
+              "HAPPEN": {
+                "before": [
+                  -1,
+                  0,
+                  1
+                ],
+                "after": [
+                  1
+                ]
+              }
+            },
+            "conditional_exceptions": [],
+            "gold": "NOT_CHECKED"
+          },
+          {
+            "definition": {
+              "entry_id": "wordnet:archive:archive.v.01",
+              "lemma": "archive",
+              "pos": "verb",
+              "definition": "put into an archive"
+            },
+            "native_assertions": [
+              {
+                "bank": "CAUSE",
+                "value": 1,
+                "source": "verbnet",
+                "record_id": "verbnet:archive:d2e50d0b05fbc5880bf486f5c8a3f48c2f18c11708c79323ebb9cc22fff6ab2c",
+                "family": "verb_structure",
+                "scope": "lexical"
+              },
+              {
+                "bank": "MOVE",
+                "value": 1,
+                "source": "verbnet",
+                "record_id": "verbnet:archive:d2e50d0b05fbc5880bf486f5c8a3f48c2f18c11708c79323ebb9cc22fff6ab2c",
+                "family": "verb_structure",
+                "scope": "lexical"
+              }
+            ],
+            "baseline_assignments": {
+              "CAUSE": 1,
+              "MOVE": 1
+            },
+            "provisional_assignments": {
+              "CAUSE": 1,
+              "HAPPEN": 1,
+              "MOVE": 1
+            },
+            "new_assignments": {
+              "HAPPEN": 1
+            },
+            "changed_or_lost_assignments": {},
+            "changed_domains": {
+              "HAPPEN": {
+                "before": [
+                  -1,
+                  0,
+                  1
+                ],
+                "after": [
+                  1
+                ]
+              }
+            },
+            "conditional_exceptions": [],
+            "gold": "NOT_CHECKED"
+          }
+        ],
+        "exceptions": [],
+        "domain_only": []
+      }
+    },
+    "proposal:good-big": {
+      "proposal_relation": {
+        "rule_id": "proposal:good-big",
+        "banks": [
+          "GOOD",
+          "BIG"
+        ],
+        "allowed_rows": [
+          [
+            -1,
+            0
+          ],
+          [
+            0,
+            -1
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "provenance": [
+          "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F148",
+          "data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "authority": "conditional",
+        "approved": false,
+        "guards": [
+          [
+            "pos",
+            "adjective"
+          ]
+        ]
+      },
+      "counts": {
+        "changed_or_lost_assignments": 0,
+        "definitions": 155111,
+        "exception_definitions": 0,
+        "inactive_guard_definitions": 130665,
+        "new_assignment_definitions": 0,
+        "new_assignments": 0,
+        "unchanged_definitions": 155111,
+        "domain_only_definitions": 0,
+        "hard_conflict_definitions": 0
+      },
+      "new_assignments_by_bank": {},
+      "examples": {
+        "new_assignments": [],
+        "exceptions": [],
+        "domain_only": []
+      }
+    },
+    "proposal:big-good": {
+      "proposal_relation": {
+        "rule_id": "proposal:big-good",
+        "banks": [
+          "BIG",
+          "GOOD"
+        ],
+        "allowed_rows": [
+          [
+            -1,
+            0
+          ],
+          [
+            0,
+            -1
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "provenance": [
+          "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F148",
+          "data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "authority": "conditional",
+        "approved": false,
+        "guards": [
+          [
+            "pos",
+            "adjective"
+          ]
+        ]
+      },
+      "counts": {
+        "changed_or_lost_assignments": 0,
+        "definitions": 155111,
+        "exception_definitions": 0,
+        "inactive_guard_definitions": 130665,
+        "new_assignment_definitions": 0,
+        "new_assignments": 0,
+        "unchanged_definitions": 155111,
+        "domain_only_definitions": 0,
+        "hard_conflict_definitions": 0
+      },
+      "new_assignments_by_bank": {},
+      "examples": {
+        "new_assignments": [],
+        "exceptions": [],
+        "domain_only": []
+      }
+    },
+    "proposal:then-when": {
+      "proposal_relation": {
+        "rule_id": "proposal:then-when",
+        "banks": [
+          "THEN",
+          "WHEN"
+        ],
+        "allowed_rows": [
+          [
+            -1,
+            1
+          ],
+          [
+            0,
+            -1
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "provenance": [
+          "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F148",
+          "data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "authority": "conditional",
+        "approved": false,
+        "guards": []
+      },
+      "counts": {
+        "changed_or_lost_assignments": 0,
+        "definitions": 155111,
+        "exception_definitions": 0,
+        "new_assignment_definitions": 0,
+        "new_assignments": 0,
+        "unchanged_definitions": 155111,
+        "domain_only_definitions": 0,
+        "hard_conflict_definitions": 0
+      },
+      "new_assignments_by_bank": {},
+      "examples": {
+        "new_assignments": [],
+        "exceptions": [],
+        "domain_only": []
+      }
+    },
+    "proposal:before-when": {
+      "proposal_relation": {
+        "rule_id": "proposal:before-when",
+        "banks": [
+          "BEFORE",
+          "WHEN"
+        ],
+        "allowed_rows": [
+          [
+            -1,
+            1
+          ],
+          [
+            0,
+            -1
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "provenance": [
+          "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F148",
+          "data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "authority": "conditional",
+        "approved": false,
+        "guards": []
+      },
+      "counts": {
+        "changed_or_lost_assignments": 0,
+        "definitions": 155111,
+        "exception_definitions": 0,
+        "new_assignment_definitions": 0,
+        "new_assignments": 0,
+        "unchanged_definitions": 155111,
+        "domain_only_definitions": 0,
+        "hard_conflict_definitions": 0
+      },
+      "new_assignments_by_bank": {},
+      "examples": {
+        "new_assignments": [],
+        "exceptions": [],
+        "domain_only": []
+      }
+    },
+    "proposal:long_time-when": {
+      "proposal_relation": {
+        "rule_id": "proposal:long_time-when",
+        "banks": [
+          "LONG_TIME",
+          "WHEN"
+        ],
+        "allowed_rows": [
+          [
+            -1,
+            1
+          ],
+          [
+            0,
+            -1
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "provenance": [
+          "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F148",
+          "data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "authority": "conditional",
+        "approved": false,
+        "guards": []
+      },
+      "counts": {
+        "changed_or_lost_assignments": 0,
+        "definitions": 155111,
+        "exception_definitions": 0,
+        "new_assignment_definitions": 0,
+        "new_assignments": 0,
+        "unchanged_definitions": 155111,
+        "domain_only_definitions": 0,
+        "hard_conflict_definitions": 0
+      },
+      "new_assignments_by_bank": {},
+      "examples": {
+        "new_assignments": [],
+        "exceptions": [],
+        "domain_only": []
+      }
+    },
+    "proposal:moment-when": {
+      "proposal_relation": {
+        "rule_id": "proposal:moment-when",
+        "banks": [
+          "MOMENT",
+          "WHEN"
+        ],
+        "allowed_rows": [
+          [
+            -1,
+            -1
+          ],
+          [
+            -1,
+            0
+          ],
+          [
+            -1,
+            1
+          ],
+          [
+            0,
+            -1
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "provenance": [
+          "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F148",
+          "data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "authority": "conditional",
+        "approved": false,
+        "guards": []
+      },
+      "counts": {
+        "changed_or_lost_assignments": 0,
+        "definitions": 155111,
+        "exception_definitions": 0,
+        "new_assignment_definitions": 0,
+        "new_assignments": 0,
+        "unchanged_definitions": 155111,
+        "domain_only_definitions": 0,
+        "hard_conflict_definitions": 0
+      },
+      "new_assignments_by_bank": {},
+      "examples": {
+        "new_assignments": [],
+        "exceptions": [],
+        "domain_only": []
+      }
+    },
+    "proposal:above-where": {
+      "proposal_relation": {
+        "rule_id": "proposal:above-where",
+        "banks": [
+          "ABOVE",
+          "WHERE"
+        ],
+        "allowed_rows": [
+          [
+            -1,
+            1
+          ],
+          [
+            0,
+            -1
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "provenance": [
+          "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F148",
+          "data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "authority": "conditional",
+        "approved": false,
+        "guards": []
+      },
+      "counts": {
+        "changed_or_lost_assignments": 0,
+        "definitions": 155111,
+        "exception_definitions": 0,
+        "new_assignment_definitions": 0,
+        "new_assignments": 0,
+        "unchanged_definitions": 155111,
+        "domain_only_definitions": 0,
+        "hard_conflict_definitions": 0
+      },
+      "new_assignments_by_bank": {},
+      "examples": {
+        "new_assignments": [],
+        "exceptions": [],
+        "domain_only": []
+      }
+    },
+    "proposal:far-where": {
+      "proposal_relation": {
+        "rule_id": "proposal:far-where",
+        "banks": [
+          "FAR",
+          "WHERE"
+        ],
+        "allowed_rows": [
+          [
+            -1,
+            1
+          ],
+          [
+            0,
+            -1
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "provenance": [
+          "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F148",
+          "data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "authority": "conditional",
+        "approved": false,
+        "guards": []
+      },
+      "counts": {
+        "changed_or_lost_assignments": 0,
+        "definitions": 155111,
+        "exception_definitions": 0,
+        "new_assignment_definitions": 0,
+        "new_assignments": 0,
+        "unchanged_definitions": 155111,
+        "domain_only_definitions": 0,
+        "hard_conflict_definitions": 0
+      },
+      "new_assignments_by_bank": {},
+      "examples": {
+        "new_assignments": [],
+        "exceptions": [],
+        "domain_only": []
+      }
+    },
+    "proposal:outside-where": {
+      "proposal_relation": {
+        "rule_id": "proposal:outside-where",
+        "banks": [
+          "OUTSIDE",
+          "WHERE"
+        ],
+        "allowed_rows": [
+          [
+            -1,
+            1
+          ],
+          [
+            0,
+            -1
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "provenance": [
+          "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F148",
+          "data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "authority": "conditional",
+        "approved": false,
+        "guards": []
+      },
+      "counts": {
+        "changed_or_lost_assignments": 0,
+        "definitions": 155111,
+        "exception_definitions": 0,
+        "new_assignment_definitions": 0,
+        "new_assignments": 0,
+        "unchanged_definitions": 155111,
+        "domain_only_definitions": 0,
+        "hard_conflict_definitions": 0
+      },
+      "new_assignments_by_bank": {},
+      "examples": {
+        "new_assignments": [],
+        "exceptions": [],
+        "domain_only": []
+      }
+    },
+    "proposal:toward-where": {
+      "proposal_relation": {
+        "rule_id": "proposal:toward-where",
+        "banks": [
+          "TOWARD",
+          "WHERE"
+        ],
+        "allowed_rows": [
+          [
+            -1,
+            1
+          ],
+          [
+            0,
+            -1
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "provenance": [
+          "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F148",
+          "data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "authority": "conditional",
+        "approved": false,
+        "guards": []
+      },
+      "counts": {
+        "changed_or_lost_assignments": 0,
+        "definitions": 155111,
+        "exception_definitions": 0,
+        "new_assignment_definitions": 0,
+        "new_assignments": 0,
+        "unchanged_definitions": 155111,
+        "domain_only_definitions": 0,
+        "hard_conflict_definitions": 0
+      },
+      "new_assignments_by_bank": {},
+      "examples": {
+        "new_assignments": [],
+        "exceptions": [],
+        "domain_only": []
+      }
+    },
+    "proposal:here-where": {
+      "proposal_relation": {
+        "rule_id": "proposal:here-where",
+        "banks": [
+          "HERE",
+          "WHERE"
+        ],
+        "allowed_rows": [
+          [
+            -1,
+            -1
+          ],
+          [
+            -1,
+            0
+          ],
+          [
+            -1,
+            1
+          ],
+          [
+            0,
+            -1
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "provenance": [
+          "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F148",
+          "data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "authority": "conditional",
+        "approved": false,
+        "guards": []
+      },
+      "counts": {
+        "changed_or_lost_assignments": 0,
+        "definitions": 155111,
+        "exception_definitions": 0,
+        "new_assignment_definitions": 0,
+        "new_assignments": 0,
+        "unchanged_definitions": 155111,
+        "domain_only_definitions": 0,
+        "hard_conflict_definitions": 0
+      },
+      "new_assignments_by_bank": {},
+      "examples": {
+        "new_assignments": [],
+        "exceptions": [],
+        "domain_only": []
+      }
+    },
+    "proposal:side-where": {
+      "proposal_relation": {
+        "rule_id": "proposal:side-where",
+        "banks": [
+          "SIDE",
+          "WHERE"
+        ],
+        "allowed_rows": [
+          [
+            -1,
+            -1
+          ],
+          [
+            -1,
+            0
+          ],
+          [
+            -1,
+            1
+          ],
+          [
+            0,
+            -1
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "provenance": [
+          "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F148",
+          "data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "authority": "conditional",
+        "approved": false,
+        "guards": []
+      },
+      "counts": {
+        "changed_or_lost_assignments": 0,
+        "definitions": 155111,
+        "exception_definitions": 0,
+        "new_assignment_definitions": 0,
+        "new_assignments": 0,
+        "unchanged_definitions": 155111,
+        "domain_only_definitions": 0,
+        "hard_conflict_definitions": 0
+      },
+      "new_assignments_by_bank": {},
+      "examples": {
+        "new_assignments": [],
+        "exceptions": [],
+        "domain_only": []
+      }
+    }
+  },
+  "joint_effects": {
+    "counts": {
+      "changed_or_lost_assignments": 0,
+      "definitions": 155111,
+      "exception_definitions": 0,
+      "new_assignment_definitions": 1939,
+      "new_assignments": 1939,
+      "new_assignments_definitions": 1939,
+      "unchanged_definitions": 153172,
+      "domain_only_definitions": 0,
+      "hard_conflict_definitions": 0
+    },
+    "new_assignments_by_bank": {
+      "HAPPEN:+1": 1939
+    },
+    "excepted_rules": {},
+    "examples": {
+      "new_assignments": [
+        {
+          "definition": {
+            "entry_id": "wordnet:abandon:abandon.v.01",
+            "lemma": "abandon",
+            "pos": "verb",
+            "definition": "forsake, leave behind"
+          },
+          "native_assertions": [
+            {
+              "bank": "MOVE",
+              "value": 1,
+              "source": "verbnet",
+              "record_id": "verbnet:abandon:e15a72cefc6636c4a0899298780d77eff9aaa0cea83713516684237c4d460485",
+              "family": "verb_structure",
+              "scope": "lexical"
+            }
+          ],
+          "baseline_assignments": {
+            "MOVE": 1
+          },
+          "provisional_assignments": {
+            "HAPPEN": 1,
+            "MOVE": 1
+          },
+          "new_assignments": {
+            "HAPPEN": 1
+          },
+          "changed_or_lost_assignments": {},
+          "changed_domains": {
+            "HAPPEN": {
+              "before": [
+                -1,
+                0,
+                1
+              ],
+              "after": [
+                1
+              ]
+            }
+          },
+          "conditional_exceptions": [],
+          "gold": "NOT_CHECKED"
+        },
+        {
+          "definition": {
+            "entry_id": "wordnet:abduct:kidnap.v.01",
+            "lemma": "abduct",
+            "pos": "verb",
+            "definition": "take away to an undisclosed location against their will and usually in order to extract a ransom"
+          },
+          "native_assertions": [
+            {
+              "bank": "CAUSE",
+              "value": 1,
+              "source": "verbnet",
+              "record_id": "verbnet:abduct:19a15d7b2a1de3a54c678a1c6c8a3afd5d72daa9028fea20632d4eef9319664c",
+              "family": "verb_structure",
+              "scope": "lexical"
+            }
+          ],
+          "baseline_assignments": {
+            "CAUSE": 1
+          },
+          "provisional_assignments": {
+            "CAUSE": 1,
+            "HAPPEN": 1
+          },
+          "new_assignments": {
+            "HAPPEN": 1
+          },
+          "changed_or_lost_assignments": {},
+          "changed_domains": {
+            "HAPPEN": {
+              "before": [
+                -1,
+                0,
+                1
+              ],
+              "after": [
+                1
+              ]
+            }
+          },
+          "conditional_exceptions": [],
+          "gold": "NOT_CHECKED"
+        },
+        {
+          "definition": {
+            "entry_id": "wordnet:archive:archive.v.01",
+            "lemma": "archive",
+            "pos": "verb",
+            "definition": "put into an archive"
+          },
+          "native_assertions": [
+            {
+              "bank": "CAUSE",
+              "value": 1,
+              "source": "verbnet",
+              "record_id": "verbnet:archive:d2e50d0b05fbc5880bf486f5c8a3f48c2f18c11708c79323ebb9cc22fff6ab2c",
+              "family": "verb_structure",
+              "scope": "lexical"
+            },
+            {
+              "bank": "MOVE",
+              "value": 1,
+              "source": "verbnet",
+              "record_id": "verbnet:archive:d2e50d0b05fbc5880bf486f5c8a3f48c2f18c11708c79323ebb9cc22fff6ab2c",
+              "family": "verb_structure",
+              "scope": "lexical"
+            }
+          ],
+          "baseline_assignments": {
+            "CAUSE": 1,
+            "MOVE": 1
+          },
+          "provisional_assignments": {
+            "CAUSE": 1,
+            "HAPPEN": 1,
+            "MOVE": 1
+          },
+          "new_assignments": {
+            "HAPPEN": 1
+          },
+          "changed_or_lost_assignments": {},
+          "changed_domains": {
+            "HAPPEN": {
+              "before": [
+                -1,
+                0,
+                1
+              ],
+              "after": [
+                1
+              ]
+            }
+          },
+          "conditional_exceptions": [],
+          "gold": "NOT_CHECKED"
+        }
+      ],
+      "exceptions": [],
+      "domain_only": []
+    }
+  },
+  "elapsed_seconds": 6.047
+}

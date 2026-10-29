@@ -1,14 +1,15 @@
 """Located lexical facts, independent of encoding and optional resource acquisition.
 
-Lookups use read-only SQLite and local files.  A selected row is deterministic,
-not a claim that a sense has been disambiguated.  Raw ratings never pass through
-their curation-to-prime conversions.
+Lookups use read-only SQLite and local files. Legacy dictionaries retain their
+first-row projection; versioned dictionaries select only a unique or explicitly
+named definition. Raw ratings never pass through their curation-to-prime conversions.
 """
 
 from __future__ import annotations
 
 import csv
 import hashlib
+import json
 import math
 import sqlite3
 from contextlib import closing
@@ -39,12 +40,69 @@ def resource_identity(path: str | Path) -> dict[str, Any]:
     return {"path": str(path), "state": "read", "sha256": digest}
 
 
-def lookup_lexeme(word: str, db_path: str | Path | None = None, *, pos: str | None = None) -> dict[str, Any]:
+def is_definition_database(conn: sqlite3.Connection) -> bool:
+    """Recognize the versioned builder format; never downgrade unknown versions."""
+    if conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='builder_metadata'").fetchone() is None:
+        return False
+    from gse.curation.lexicon_builder.storage import VERSION
+
+    row = conn.execute("SELECT value FROM builder_metadata WHERE key='format'").fetchone()
+    if row is None or json.loads(row[0]) != VERSION:
+        raise ValueError("UNSUPPORTED_BUILD_FORMAT")
+    return True
+
+
+def _definition_evidence(conn: sqlite3.Connection, word: str, entry_id: str | None, out: dict) -> dict:
+    """Keep ambiguity and residual domains visible without choosing a first row."""
+    from gse.curation.lexicon_builder.storage import read_entries, runtime_lookup
+
+    selection = runtime_lookup(conn, word, entry_id)
+    records = read_entries(conn, word, entry_id)
+    out.update(
+        selection_status=selection["code"],
+        candidate_entry_ids=selection["candidates"],
+        candidates=records,
+        ambiguous=selection["code"] == "AMBIGUOUS",
+        selection_policy="definition-identity/1",
+    )
+    selected = selection["selected"]
+    if selected is None:
+        out.update(
+            state="no_row" if selection["code"] == "NOT_FOUND" else "unread",
+            reason=selection["code"],
+        )
+        return out
+    prime_rows = conn.execute(
+        "SELECT * FROM primitive_values WHERE lexeme_id=? ORDER BY primitive", (selected["id"],)
+    ).fetchall()
+    out["primitive_evidence"] = [dict(row) for row in prime_rows]
+    if any(type(row["value"]) is not int or row["value"] not in (-1, 0, 1) for row in prime_rows):
+        out.update(reason="malformed_primitive_value", selection_status="INVALID")
+        return out
+    out.update(
+        selected_record=selected,
+        sense_resolved=True,
+        definition_status=selected["code"],
+        domains=selected["domains"],
+        hierarchy=selected["hierarchy"],
+        primitives={bank: value for bank, value in selected["assignments"].items() if value != 0},
+    )
+    out["state"] = "primes" if out["primitives"] else "no_primes"
+    return out
+
+
+def lookup_lexeme(
+    word: str,
+    db_path: str | Path | None = None,
+    *,
+    pos: str | None = None,
+    entry_id: str | None = None,
+) -> dict[str, Any]:
     """Return primes/no_primes/no_row/unread and complete selected-record evidence.
 
-    Policy: case-insensitive lemma, requested POS before generic x/NULL, then
-    ascending row ID. All candidate record identities are retained. This is a
-    bounded record-selection policy and explicitly does not resolve word senses.
+    Legacy policy retains its POS/first-ID projection. Versioned dictionaries
+    require a unique definition or an explicit entry_id; POS alone does not
+    authorize choosing among definitions. All candidate identities are retained.
     """
     path = Path(db_path) if db_path is not None else DATA / "lexicon_clean.db"
     provenance = resource_identity(path)
@@ -63,6 +121,11 @@ def lookup_lexeme(word: str, db_path: str | Path | None = None, *, pos: str | No
     try:
         with closing(sqlite3.connect(path.resolve().as_uri() + "?mode=ro", uri=True)) as conn:
             conn.row_factory = sqlite3.Row
+            if is_definition_database(conn):
+                return _definition_evidence(conn, word.lower(), entry_id, out)
+            if entry_id is not None:
+                out["reason"] = "DEFINITION_SELECTION_REQUIRES_VERSIONED_DATABASE"
+                return out
             rows = conn.execute("SELECT * FROM lexemes WHERE lemma = ? ORDER BY id", (word.lower(),)).fetchall()
             records = [dict(row) for row in rows]
             if pos is not None:
@@ -84,8 +147,8 @@ def lookup_lexeme(word: str, db_path: str | Path | None = None, *, pos: str | No
                 return out
             out["primitives"] = {row["primitive"]: row["value"] for row in prime_rows if row["value"]}
             out["state"] = "primes" if out["primitives"] else "no_primes"
-    except (OSError, sqlite3.Error) as exc:
-        out["reason"] = type(exc).__name__
+    except (OSError, sqlite3.Error, ValueError) as exc:
+        out["reason"] = str(exc) if isinstance(exc, ValueError) else type(exc).__name__
     return out
 
 

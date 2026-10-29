@@ -334,4 +334,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit("SUPERSEDED_LEXICON_BUILDER: use python -m gse.curation.cli.commands --lexicon-db NEW.db build")

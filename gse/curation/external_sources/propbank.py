@@ -11,9 +11,10 @@ Maps argument structure patterns to GSE primitives.
 """
 
 import logging
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from functools import lru_cache
 from typing import Dict, List, Optional
+from xml.etree.ElementTree import tostring
 
 from gse.curation.external_sources.base_parser import BaseExternalParser
 
@@ -28,6 +29,10 @@ class PropBankEntry:
     roleset_id: str  # e.g., "run.01"
     name: str  # e.g., "operate, proceed"
     roles: Dict[str, str]  # ARG0 -> "operator", ARG1 -> "machine"
+    native_attributes: Dict[str, str] = field(default_factory=dict)
+    verbnet_classes: List[str] = field(default_factory=list)
+    role_mappings: Dict[str, List[dict]] = field(default_factory=dict)
+    native_xml: str = ""
 
 
 # Mapping from PropBank argument types to GSE primitives
@@ -193,6 +198,13 @@ class PropBankParser(BaseExternalParser):
                     roleset_id=roleset_id,
                     name=name,
                     roles=roles,
+                    native_attributes=dict(roleset.attrib),
+                    verbnet_classes=roleset.attrib.get("vncls", "").split(),
+                    role_mappings={
+                        f"ARG{role.attrib.get('n', '')}": [dict(link.attrib) for link in role.findall("vnrole")]
+                        for role in roleset.findall("roles/role")
+                    },
+                    native_xml=tostring(roleset, encoding="unicode"),
                 )
 
                 if lemma not in self.entries:

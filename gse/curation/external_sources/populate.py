@@ -265,35 +265,4 @@ def populate_with_voting_and_exclusion(
 
 
 if __name__ == "__main__":
-    import argparse
-
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    )
-
-    parser = argparse.ArgumentParser(
-        description="Populate lexicon from external sources via majority voting",
-    )
-    parser.add_argument("--db", default="lexicon.db", help="Lexicon SQLite path")
-    parser.add_argument("--min-sources", type=int, default=2, help="Min agreeing sources")
-    parser.add_argument("--min-confidence", type=float, default=0.5, help="Min per-primitive vote ratio")
-    parser.add_argument("--default-pos", default="n", help="Default part-of-speech")
-    parser.add_argument("--limit", type=int, default=None, help="Cap on entries written")
-
-    args = parser.parse_args()
-
-    stats = populate_lexicon_from_external(
-        db_path=args.db,
-        min_sources=args.min_sources,
-        min_confidence=args.min_confidence,
-        default_pos=args.default_pos,
-        limit=args.limit,
-    )
-
-    print("\n=== Population complete ===")
-    print(f"  lexemes added:                 {stats.lexemes_added}")
-    print(f"  primitive values written:      {stats.primitives_set}")
-    print(f"  provenance rows:               {stats.provenance_rows}")
-    print(f"  skipped (already in lexicon):  {stats.lexemes_skipped_existing}")
-    print(f"  filtered (no primitives):      {stats.words_filtered_no_primitives}")
+    raise SystemExit("SUPERSEDED_LEXICON_BUILDER: use python -m gse.curation.cli.commands --lexicon-db NEW.db build")

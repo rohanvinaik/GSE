@@ -8,7 +8,7 @@ Maps verb classes to action/mental primitives.
 """
 
 import logging
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Set
 
 logger = logging.getLogger(__name__)
@@ -21,6 +21,49 @@ class VerbNetEntry:
     word: str
     verb_class: str
     thematic_roles: List[str]
+    wordnet_sense_keys: List[str] = field(default_factory=list)
+    member_attributes: Dict[str, str] = field(default_factory=dict)
+    class_context: List[dict] = field(default_factory=list)
+
+
+def _native_xml(node) -> dict:
+    """Lossless XML content tree, excluding only formatting between elements."""
+    return {
+        "tag": node.tag,
+        "attributes": dict(node.attrib),
+        "text": node.text or "",
+        "tail": node.tail or "",
+        "children": [_native_xml(child) for child in node],
+    }
+
+
+def _native_frame(frame) -> dict:
+    return {
+        "native": _native_xml(frame),
+        "semantics": [
+            {
+                "predicate_value": predicate.get("value"),
+                "negated": predicate.get("bool") == "!",
+                "polarity": predicate.get("bool", ""),
+                "arguments": [dict(argument.attrib) for argument in predicate.findall("ARGS/ARG")],
+            }
+            for predicate in frame.findall("SEMANTICS/PRED")
+        ],
+    }
+
+
+def _explicit_event_predicate(frame: dict, name: str) -> bool:
+    """Positive Event predicate only; negation or malformed polarity abstains."""
+    predicates = [p for p in frame.get("semantics", []) if p.get("predicate_value") == name]
+    if any(p.get("negated") is not False or p.get("polarity", "") not in ("", "+") for p in predicates):
+        return False
+    return any(
+        any(
+            argument.get("type") == "Event" and isinstance(argument.get("value"), str) and argument["value"]
+            for argument in predicate.get("arguments", [])
+        )
+        for predicate in predicates
+    )
 
 
 # Mapping from VerbNet thematic roles to GSE primitives
@@ -115,56 +158,131 @@ class VerbNetParser:
         self._loaded = False
 
     def load(self) -> bool:
-        """Load VerbNet via NLTK."""
+        """Load native memberships, exact sense links and inherited frame context."""
         try:
             import nltk
             from nltk.corpus import verbnet as vn
 
-            # Ensure downloaded
             try:
-                vn.classids()
+                class_ids = vn.classids()
             except LookupError:
                 logger.info("Downloading VerbNet...")
                 nltk.download("verbnet", quiet=True)
+                class_ids = vn.classids()
 
-            logger.info("Loading VerbNet entries...")
+            nodes = {class_id: vn.vnclass(class_id) for class_id in class_ids}
+            parents = {
+                child.get("ID"): class_id
+                for class_id, node in nodes.items()
+                for child in node.findall("SUBCLASSES/VNSUBCLASS")
+            }
+            contexts = {}
+            for class_id in class_ids:
+                chain = []
+                current = class_id
+                seen = set()
+                while current is not None:
+                    if current in seen or current not in nodes:
+                        raise ValueError("INVALID_VERBNET_CLASS_HIERARCHY")
+                    seen.add(current)
+                    node = nodes[current]
+                    chain.append(
+                        {
+                            "class_id": current,
+                            "thematic_roles": [_native_xml(role) for role in node.findall("THEMROLES/THEMROLE")],
+                            "frames": [_native_frame(frame) for frame in node.findall("FRAMES/FRAME")],
+                        }
+                    )
+                    current = parents.get(current)
+                contexts[class_id] = list(reversed(chain))
+
+            entries = {}
             count = 0
-
-            for classid in vn.classids():
-                try:
-                    # Get lemmas for this class
-                    lemmas = vn.lemmas(classid)
-
-                    # Get thematic roles
-                    try:
-                        roles = [r.attrib.get("type", "") for r in vn.vnclass(classid).findall(".//THEMROLE")]
-                    except Exception:
-                        roles = []
-
-                    for lemma in lemmas:
-                        word = lemma.lower()
-
-                        entry = VerbNetEntry(
-                            word=word,
-                            verb_class=classid,
-                            thematic_roles=roles,
-                        )
-
-                        if word not in self.entries:
-                            self.entries[word] = []
-                        self.entries[word].append(entry)
-                        count += 1
-
-                except Exception as e:
-                    logger.debug(f"Error processing class {classid}: {e}")
-
-            logger.info(f"Loaded {count} VerbNet entries for {len(self.entries)} verbs")
+            for class_id, node in nodes.items():
+                context = contexts[class_id]
+                roles = sorted(
+                    {
+                        role["attributes"]["type"]
+                        for level in context
+                        for role in level["thematic_roles"]
+                        if "type" in role["attributes"]
+                    }
+                )
+                for member in node.findall("MEMBERS/MEMBER"):
+                    word = member.get("name", "").lower().replace("_", " ")
+                    if not word:
+                        raise ValueError("MISSING_VERBNET_MEMBER_NAME")
+                    entry = VerbNetEntry(
+                        word=word,
+                        verb_class=class_id,
+                        thematic_roles=roles,
+                        wordnet_sense_keys=member.get("wn", "").split(),
+                        member_attributes=dict(member.attrib),
+                        class_context=context,
+                    )
+                    entries.setdefault(word, []).append(entry)
+                    count += 1
+            self.entries = entries
             self._loaded = True
+            logger.info("Loaded %s VerbNet memberships for %s verbs", count, len(entries))
             return True
-
-        except Exception as e:
-            logger.error(f"Failed to load VerbNet: {e}")
+        except Exception as error:
+            logger.error("Failed to load VerbNet: %s", error)
             return False
+
+    def definition_links(self, entry: VerbNetEntry, wordnet) -> List[dict]:
+        """Resolve only explicitly attached, unmarked native WordNet sense keys.
+
+        VerbNet omits the empty head-word/head-ID suffix on verb keys. Append
+        its conventional ``::`` before exact WordNet lookup; no fuzzy match,
+        key-prefix stripping or lemma-based sense guessing is performed.
+        """
+        from nltk.corpus.reader.wordnet import WordNetError
+
+        if not entry.wordnet_sense_keys:
+            return [{"code": "MISSING_SENSE_KEY"}]
+        links = []
+        for key in entry.wordnet_sense_keys:
+            link = {"sense_key": key}
+            if not isinstance(key, str) or not key:
+                links.append(dict(link, code="INVALID_SENSE_KEY"))
+                continue
+            if key.startswith("?") or entry.member_attributes.get("name", entry.word).startswith("?"):
+                links.append(dict(link, code="UNCERTAIN_SENSE_KEY"))
+                continue
+            if wordnet is None:
+                links.append(dict(link, code="WORDNET_UNAVAILABLE"))
+                continue
+            normalized = key + "::" if key.count(":") == 2 else key
+            link["normalized_sense_key"] = normalized
+            try:
+                lemma = wordnet.lemma_from_key(normalized)
+            except LookupError, WordNetError, ValueError, KeyError:
+                links.append(dict(link, code="INVALID_SENSE_KEY"))
+                continue
+            synset = lemma.synset()
+            if lemma.name().lower().replace("_", " ") != entry.word or synset.pos() != "v":
+                links.append(dict(link, code="SENSE_KEY_MISMATCH"))
+                continue
+            links.append(dict(link, code="LINKED", synset_name=synset.name()))
+        return links
+
+    def to_primitives_for_entry(self, entry: VerbNetEntry) -> Dict[str, int]:
+        """Project only universal positive motion/causation event predicates.
+
+        All native frames in the actual class/ancestor chain must warrant the
+        predicate. A construction-specific cause cannot label every sense of
+        a motion verb. Roles, class-name substrings and missing frames confer
+        no assignments. Original nested arguments remain in class_context.
+        """
+        frames = [frame for level in entry.class_context for frame in level["frames"]]
+        if not frames:
+            return {}
+        return {
+            bank: 1
+            for predicate, bank in (("motion", "MOVE"), ("cause", "CAUSE"))
+            if all(_explicit_event_predicate(frame, predicate) for frame in frames)
+        }
 
     def get_verb_info(self, word: str) -> Optional[List[VerbNetEntry]]:
         """Get VerbNet info for a verb."""

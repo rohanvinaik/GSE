@@ -211,13 +211,22 @@ class GSEEncoder:
             )
         self.conn = sqlite3.connect(self.db_path)
         self.cursor = self.conn.cursor()
+        from gse.lexical_evidence import is_definition_database
+
+        try:
+            self._definition_database = is_definition_database(self.conn)
+        except sqlite3.Error, ValueError:
+            self.conn.close()
+            raise
         try:
             n_lexemes = self.cursor.execute("SELECT count(*) FROM lexemes").fetchone()[0]
-        except sqlite3.OperationalError as e:  # no 'lexemes' table → not a lexicon db
+        except sqlite3.Error as e:  # no 'lexemes' table → not a lexicon db
+            self.conn.close()
             raise ValueError(
                 f"GSE lexicon {self.db_path} has no 'lexemes' table ({e}); it is not a valid lexicon database."
             ) from e
         if n_lexemes == 0:
+            self.conn.close()
             raise ValueError(
                 f"GSE lexicon {self.db_path} has 0 lexemes — the lexical oracle would "
                 "be blind. Refusing to construct a silently-empty encoder."
@@ -240,10 +249,34 @@ class GSEEncoder:
         return self._repair
 
     def lexical_lookup(self, lemma: str) -> Dict:
-        """Public source-row evidence; the encoding's first-ID projection, not sense resolution."""
+        """Source evidence with explicit selection status for versioned definitions."""
         from gse.lexical_evidence import lookup_lexeme
 
         return lookup_lexeme(lemma, self.db_path)
+
+    def lookup_definition(self, entry_id: str) -> Dict:
+        """Select exactly one dictionary identity, irrespective of vector equality."""
+        if not self._definition_database:
+            raise ValueError("DEFINITION_SELECTION_REQUIRES_VERSIONED_DATABASE")
+        if type(entry_id) is not str or not entry_id:
+            raise ValueError("INVALID_DEFINITION_ID")
+        from gse.curation.lexicon_builder.storage import runtime_lookup
+
+        row = self.conn.execute(
+            "SELECT l.lemma FROM lexemes l JOIN definition_states d ON l.id=d.lexeme_id WHERE d.entry_id=?",
+            (entry_id,),
+        ).fetchone()
+        if row is None:
+            return {"code": "NOT_FOUND", "candidates": [], "selected": None}
+        return runtime_lookup(self.conn, row[0], entry_id)
+
+    def encode_definition(self, entry_id: str) -> SparseVector:
+        """Encode an explicit definition's signed bases and per-target hierarchy."""
+        selection = self.lookup_definition(entry_id)
+        if selection["code"] != "IDENTIFIED":
+            raise ValueError(f"DEFINITION_{selection['code']}")
+        entry = selection["selected"]
+        return self._encode_definition_primitives(entry["assignments"], entry["hierarchy"])
 
     def encode(self, text: str) -> OperationTrace:
         """
@@ -309,10 +342,20 @@ class GSEEncoder:
         for i, tok in enumerate(doc):
             # Lexicon lookup (static primitives from database)
             lemma = tok.lemma_.lower()
-            word_prims, sent_prims, comp_meta = self._lookup_lexeme(lemma)
-            if lemma not in lexical_rows:
-                lexical_rows[lemma] = self.lexical_lookup(lemma)
-            lexical = lexical_rows[lemma]
+            lookup_form = lemma
+            if self._definition_database and tok.text.lower() != lemma:
+                if lemma not in lexical_rows:
+                    lexical_rows[lemma] = self.lexical_lookup(lemma)
+                # Exact surface spelling can recover a missing lemma (tired ->
+                # tire), but never resolves an ambiguous lemma by substitution.
+                if lexical_rows[lemma].get("selection_status") == "NOT_FOUND":
+                    lookup_form = tok.text.lower()
+            word_prims, sent_prims, comp_meta = self._lookup_lexeme(lookup_form)
+            if lookup_form not in lexical_rows:
+                lexical_rows[lookup_form] = self.lexical_lookup(lookup_form)
+            lexical: Dict[str, Any] = lexical_rows[lookup_form]
+            if self._definition_database:
+                lexical = {**lexical, "lookup_form": lookup_form, "parser_lemma": lemma}
             negative = negation_evidence(lemma)
 
             # Recognition does not authorize overriding a different selected
@@ -321,9 +364,23 @@ class GSEEncoder:
                 base_lemma = negative["base"]
                 if base_lemma not in lexical_rows:
                     lexical_rows[base_lemma] = self.lexical_lookup(base_lemma)
-                admission = negation_admission(
+                admission: Dict[str, Any] = negation_admission(
                     negative, lexical, lexical_rows[base_lemma], "VERB" if i in promote_to_verb else tok.pos_
                 )
+                if self._definition_database and admission["decision"] == "compose":
+                    selected = lexical.get("selected_record") or {}
+                    known = selected.get("assignments", {})
+                    candidate = admission["primitives"]
+                    if any(candidate.get(bank, 0) != value for bank, value in known.items()):
+                        admission.update(
+                            decision="preserve", code="selected_definition_assignment_conflict", primitives=None
+                        )
+                    elif selected and any(
+                        value not in selected["domains"].get(bank, []) for bank, value in candidate.items()
+                    ):
+                        admission.update(
+                            decision="preserve", code="selected_definition_domain_conflict", primitives=None
+                        )
                 negative = {**negative, "admission": admission}
                 if admission["decision"] == "compose":
                     word_prims = admission["primitives"]
@@ -373,7 +430,11 @@ class GSEEncoder:
             sent_prims = {**sent_prims, **dynamic_sent_prims}
 
             # Encode vectors
-            word_vec = self._encode_word_primitives(word_prims)
+            word_vec = (
+                self._encode_definition_primitives(word_prims, lexical.get("hierarchy", {}))
+                if self._definition_database
+                else self._encode_word_primitives(word_prims)
+            )
             sent_vec = self._encode_sent_primitives(sent_prims)
 
             # Compose: word_full = bundle([word_vec, sent_vec])
@@ -707,7 +768,34 @@ class GSEEncoder:
         Fallback behavior (strict=False): Returns ({}, {}, {}) for OOV words
         Strict behavior (strict=True): Raises OOVError for OOV words
         """
-        # Get lexeme ID and compositional metadata
+        if self._definition_database:
+            from gse.curation.lexicon_builder.storage import runtime_lookup
+
+            selection = runtime_lookup(self.conn, lemma.lower())
+            if selection["code"] != "IDENTIFIED":
+                if selection["code"] == "NOT_FOUND" and self.strict:
+                    raise OOVError(lemma)
+                return {}, {}, {}
+            entry = selection["selected"]
+            word_prims = {bank: value for bank, value in entry["assignments"].items() if value != 0}
+            sent_prims = dict(
+                self.conn.execute(
+                    "SELECT primitive,value FROM sentence_primitive_values WHERE lexeme_id=? AND value!=0",
+                    (entry["id"],),
+                ).fetchall()
+            )
+            comp_meta: CompositionalMetadata = (
+                {
+                    "comp_primitive": entry["comp_primitive"],
+                    "comp_arity": entry["comp_arity"] or 0,
+                    "comp_operation": entry["comp_operation"],
+                }
+                if entry.get("comp_primitive")
+                else {}
+            )
+            return word_prims, sent_prims, comp_meta
+
+        # Get lexeme ID and compositional metadata for the legacy active database.
         self.cursor.execute(
             """
             SELECT id, comp_primitive, comp_arity, comp_operation
@@ -754,6 +842,41 @@ class GSEEncoder:
         sent_prims = {row[0]: row[1] for row in self.cursor.fetchall()}
 
         return word_prims, sent_prims, comp_meta
+
+    def _encode_definition_primitives(self, primitives: Dict[str, int], hierarchy: Dict[str, int]) -> SparseVector:
+        """Compile each declared hierarchy on its own signed base, never infer a target.
+
+        Zero and silence have no vector activation but remain distinct in the
+        stored definition evidence. Hierarchy is metadata and cannot create a
+        base, change its sign, or become an ordinary NUMBER coordinate.
+        """
+        for bank, value in primitives.items():
+            if type(value) is not int or value not in (-1, 0, 1):
+                raise ValueError("INVALID_DEFINITION_VALUE")
+            if bank in {"NUMBER", "HIER_PLUS", "HIER_MINUS"}:
+                raise ValueError("HIERARCHY_IS_NOT_A_COORDINATE")
+        for bank, level in hierarchy.items():
+            if type(level) is not int:
+                raise ValueError("INVALID_HIERARCHY_LEVEL")
+            if primitives.get(bank, 0) == 0:
+                raise ValueError("HIERARCHY_REQUIRES_NONZERO_BASE")
+        components = []
+        for bank, value in sorted(primitives.items()):
+            if value == 0:
+                continue
+            base = self.word_basis.get_primitive(bank)
+            if base is None:
+                raise PrimitiveError(bank)
+            signed = base.negate() if value == -1 else base
+            level = hierarchy.get(bank, 0)
+            if level:
+                marker_name = "HIER_PLUS" if level > 0 else "HIER_MINUS"
+                marker = self.word_basis.get_primitive(marker_name)
+                if marker is None:
+                    raise PrimitiveError(marker_name)
+                signed = encode_hierarchy(signed, marker, abs(level))
+            components.append(signed)
+        return bundle(components) if components else SparseVector.zeros(self.word_basis.dimension)
 
     def _encode_word_primitives(self, primitives: Dict[str, int]) -> SparseVector:
         """
