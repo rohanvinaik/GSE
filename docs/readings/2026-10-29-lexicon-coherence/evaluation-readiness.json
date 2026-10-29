@@ -1,0 +1,1933 @@
+{
+  "format": "gse.lexicon-evaluation-readiness/1",
+  "code": "READINESS_AUDITED",
+  "bank_gold": "NOT_BANK_GOLD",
+  "semantic_correctness": "NOT_EVALUATED",
+  "build": {
+    "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-10-29/corpus.db",
+    "format": "gse.lexicon-builder/1",
+    "definitions": 155113,
+    "identity_sha256": "43edbbd0fe335ee2843ec27be780b4e04e2eef83efe478d2415965fc47a216b1",
+    "fingerprint_scope": "ORDERED_ENTRY_ID_LEMMA_POS_JSON_LINES_NOT_DATABASE_BYTES_OR_SEMANTIC_VALUES",
+    "read_mode": "SQLITE_MODE_RO_QUERY_ONLY_SINGLE_TRANSACTION"
+  },
+  "tool": {
+    "path": "/Users/rohanvinaik/Projects/gse/scripts/audit_lexicon_evaluation_readiness.py",
+    "sha256": "5775bfbee942e12208979ccb86771227aa6a01fceec0ef887d07f402d80b6dc5",
+    "bytes": 12409
+  },
+  "cohorts": {
+    "simlex999": {
+      "code": "SOURCE_READ",
+      "bank_gold": "NOT_BANK_GOLD",
+      "label_kind": "HUMAN_SIMILARITY_SCORE",
+      "source": {
+        "path": "/Users/rohanvinaik/.cache/gse_benchmarks/SimLex-999.txt",
+        "sha256": "ca00ff8515a36cde32d13c2b83def23f5a167b67db93ebfcfb7dae039ba22c0b",
+        "bytes": 44050
+      },
+      "records": 999,
+      "matching_basis": "SPELLING_AND_MAJORITY_POS",
+      "pair_identity_outcomes": {
+        "MISSING + MULTIPLE_DEFINITIONS": 16,
+        "MULTIPLE_DEFINITIONS + MULTIPLE_DEFINITIONS": 757,
+        "MULTIPLE_DEFINITIONS + UNIQUE_CANDIDATE": 204,
+        "UNIQUE_CANDIDATE + UNIQUE_CANDIDATE": 22
+      },
+      "identity": {
+        "word_pos_records": 1028,
+        "outcomes": {
+          "MISSING": 8,
+          "UNIQUE_CANDIDATE": 147,
+          "MULTIPLE_DEFINITIONS": 873
+        },
+        "outcomes_sha256": "fa21770253243a5cd9bf3da044cc3fa1faa78bf2b85e4c0d9f10270d1581fc4d",
+        "examples": {
+          "MISSING": [
+            {
+              "word": "believe",
+              "pos": "verb",
+              "code": "MISSING",
+              "candidate_entry_ids": []
+            },
+            {
+              "word": "differ",
+              "pos": "verb",
+              "code": "MISSING",
+              "candidate_entry_ids": []
+            },
+            {
+              "word": "inexpensive",
+              "pos": "adjective",
+              "code": "MISSING",
+              "candidate_entry_ids": []
+            }
+          ],
+          "UNIQUE_CANDIDATE": [
+            {
+              "word": "achieve",
+              "pos": "verb",
+              "code": "UNIQUE_CANDIDATE",
+              "candidate_entry_ids": [
+                "wordnet:achieve:achieve.v.01"
+              ]
+            },
+            {
+              "word": "actress",
+              "pos": "noun",
+              "code": "UNIQUE_CANDIDATE",
+              "candidate_entry_ids": [
+                "wordnet:actress:actress.n.01"
+              ]
+            },
+            {
+              "word": "adversary",
+              "pos": "noun",
+              "code": "UNIQUE_CANDIDATE",
+              "candidate_entry_ids": [
+                "wordnet:adversary:adversary.n.01"
+              ]
+            }
+          ],
+          "MULTIPLE_DEFINITIONS": [
+            {
+              "word": "abdomen",
+              "pos": "noun",
+              "code": "MULTIPLE_DEFINITIONS",
+              "candidate_entry_ids": [
+                "wordnet:abdomen:abdomen.n.01",
+                "wordnet:abdomen:abdominal_cavity.n.01"
+              ]
+            },
+            {
+              "word": "ability",
+              "pos": "noun",
+              "code": "MULTIPLE_DEFINITIONS",
+              "candidate_entry_ids": [
+                "wordnet:ability:ability.n.01",
+                "wordnet:ability:ability.n.02"
+              ]
+            },
+            {
+              "word": "absence",
+              "pos": "noun",
+              "code": "MULTIPLE_DEFINITIONS",
+              "candidate_entry_ids": [
+                "wordnet:absence:absence.n.01",
+                "wordnet:absence:absence.n.02",
+                "wordnet:absence:absence.n.03",
+                "wordnet:absence:absence.n.04"
+              ]
+            }
+          ]
+        },
+        "verified_sense_links": 0,
+        "policy": "SPELLING_POS_CANDIDATES_ONLY_UNIQUE_IS_NOT_VERIFIED_SENSE_IDENTITY"
+      },
+      "missing_for_bank_evaluation": [
+        "VERIFIED_DEFINITION_IDENTITY",
+        "AUTHORITATIVE_BANK_TRIT_LABELS"
+      ]
+    },
+    "wordsim353": {
+      "code": "SOURCE_READ",
+      "bank_gold": "NOT_BANK_GOLD",
+      "label_kind": "HUMAN_RELATEDNESS_SCORE",
+      "source": {
+        "path": "/Users/rohanvinaik/Projects/gse/data/benchmarks/wordsim353.csv",
+        "sha256": "6ebe5d67e4f462b2c4f15e9e41bafe0d6b0b4aba934c2b011b0d4287529c9a2e",
+        "bytes": 7488
+      },
+      "records": 353,
+      "matching_basis": "SPELLING_ONLY_NO_SOURCE_POS",
+      "pair_identity_outcomes": {
+        "MISSING + MULTIPLE_DEFINITIONS": 9,
+        "MULTIPLE_DEFINITIONS + MULTIPLE_DEFINITIONS": 255,
+        "MULTIPLE_DEFINITIONS + UNIQUE_CANDIDATE": 83,
+        "UNIQUE_CANDIDATE + UNIQUE_CANDIDATE": 6
+      },
+      "identity": {
+        "word_pos_records": 437,
+        "outcomes": {
+          "MISSING": 6,
+          "UNIQUE_CANDIDATE": 59,
+          "MULTIPLE_DEFINITIONS": 372
+        },
+        "outcomes_sha256": "198e8030f1d3179ac495d54def898438102553f7228da4521c350085a58d2cb8",
+        "examples": {
+          "MISSING": [
+            {
+              "word": "arafat",
+              "pos": null,
+              "code": "MISSING",
+              "candidate_entry_ids": []
+            },
+            {
+              "word": "cabbage",
+              "pos": null,
+              "code": "MISSING",
+              "candidate_entry_ids": []
+            },
+            {
+              "word": "defeating",
+              "pos": null,
+              "code": "MISSING",
+              "candidate_entry_ids": []
+            }
+          ],
+          "UNIQUE_CANDIDATE": [
+            {
+              "word": "airport",
+              "pos": null,
+              "code": "UNIQUE_CANDIDATE",
+              "candidate_entry_ids": [
+                "wordnet:airport:airport.n.01"
+              ]
+            },
+            {
+              "word": "aluminum",
+              "pos": null,
+              "code": "UNIQUE_CANDIDATE",
+              "candidate_entry_ids": [
+                "wordnet:aluminum:aluminum.n.01"
+              ]
+            },
+            {
+              "word": "artifact",
+              "pos": null,
+              "code": "UNIQUE_CANDIDATE",
+              "candidate_entry_ids": [
+                "wordnet:artifact:artifact.n.01"
+              ]
+            }
+          ],
+          "MULTIPLE_DEFINITIONS": [
+            {
+              "word": "abuse",
+              "pos": null,
+              "code": "MULTIPLE_DEFINITIONS",
+              "candidate_entry_ids": [
+                "wordnet:abuse:abuse.n.02",
+                "wordnet:abuse:abuse.v.03",
+                "wordnet:abuse:abuse.v.04",
+                "wordnet:abuse:maltreatment.n.01",
+                "wordnet:abuse:mistreat.v.01",
+                "wordnet:abuse:misuse.n.01",
+                "wordnet:abuse:pervert.v.03"
+              ]
+            },
+            {
+              "word": "accommodation",
+              "pos": null,
+              "code": "MULTIPLE_DEFINITIONS",
+              "candidate_entry_ids": [
+                "wordnet:accommodation:accommodation.n.02",
+                "wordnet:accommodation:accommodation.n.03",
+                "wordnet:accommodation:accommodation.n.04",
+                "wordnet:accommodation:accommodation.n.05",
+                "wordnet:accommodation:accommodation.n.06",
+                "wordnet:accommodation:adjustment.n.01"
+              ]
+            },
+            {
+              "word": "activity",
+              "pos": null,
+              "code": "MULTIPLE_DEFINITIONS",
+              "candidate_entry_ids": [
+                "wordnet:activity:action.n.02",
+                "wordnet:activity:activeness.n.02",
+                "wordnet:activity:activity.n.01",
+                "wordnet:activity:activity.n.04",
+                "wordnet:activity:bodily_process.n.01",
+                "wordnet:activity:natural_process.n.01"
+              ]
+            }
+          ]
+        },
+        "verified_sense_links": 0,
+        "policy": "SPELLING_POS_CANDIDATES_ONLY_UNIQUE_IS_NOT_VERIFIED_SENSE_IDENTITY"
+      },
+      "missing_for_bank_evaluation": [
+        "VERIFIED_DEFINITION_IDENTITY",
+        "AUTHORITATIVE_BANK_TRIT_LABELS"
+      ]
+    },
+    "demelo": {
+      "code": "SOURCE_READ",
+      "bank_gold": "NOT_BANK_GOLD",
+      "label_kind": "ORDINAL_INTENSITY_GROUPS_WITH_TIES",
+      "matching_basis": "SPELLING_AND_ADJECTIVE_POS_NO_SOURCE_SENSE_IDS",
+      "sources": [
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXalarming-unalarming.rankings",
+          "sha256": "e9881b8465fb42037e48ccc1a594baadd6834ee3fc98db2c49415f9c3cae5f8e",
+          "bytes": 56,
+          "rank_groups": 4,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXample-meager.rankings",
+          "sha256": "348a7fda256ad2e99f59a9263e608ffa42cfe783ba26a0c37c67e7642d0efae8",
+          "bytes": 35,
+          "rank_groups": 3,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXattractive-unattractive.rankings",
+          "sha256": "65c3aac1aebdd6d2e65f9a02c6d4ebb52ae6a91cf95d8d9e30b90d60c0d1182c",
+          "bytes": 52,
+          "rank_groups": 3,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXavailable-unavailable.rankings",
+          "sha256": "7eb3cd24181718b7b88da177802a31d5c37cedbb15225637b445abba7f78a3ed",
+          "bytes": 35,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXaware-incognizant.rankings",
+          "sha256": "eb8dd83a6fc247001ec9e2039aaa4f0400ea154ae6915be55ac339f7b7dba264",
+          "bytes": 37,
+          "rank_groups": 3,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXbeautiful-ugly.rankings",
+          "sha256": "102b91966484e7ed0edd8d6a2ad046521fd2aa84ca8cce5d97aa78ca66cc6130",
+          "bytes": 69,
+          "rank_groups": 2,
+          "tied_rank_groups": 2
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXbig-little.rankings",
+          "sha256": "7b5beac52224d0de9ea3cd4051a05ca02e7ee98a333b2f15322634cf1e507547",
+          "bytes": 44,
+          "rank_groups": 4,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXbloody-bloodless.rankings",
+          "sha256": "d9a15a58368f071bea3b4c5e4e40d2874108b439bf5bf315d15a5007056d750c",
+          "bytes": 35,
+          "rank_groups": 2,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXclean-dirty.rankings",
+          "sha256": "6678eab1633735431eb03bbf278c02edad9ba4fda2abc32885b30e92cf2d01e2",
+          "bytes": 33,
+          "rank_groups": 2,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXcomposed-discomposed.rankings",
+          "sha256": "7712eafd8ab1db58d185820182614885dcfaeb03ec678d7d8789550bdc482ba2",
+          "bytes": 24,
+          "rank_groups": 2,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXcomprehensive-incomprehensive.rankings",
+          "sha256": "13c06a3177f97392a48ef4c2ecfec9ac7a15e126291cecd5a6049758b04412fc",
+          "bytes": 37,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXcomprehensive-incomprehensive2.rankings",
+          "sha256": "85bf4962770bcf9090759652e385e087a0e9863aa29ad7597749686ac56c6759",
+          "bytes": 62,
+          "rank_groups": 4,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXconcerned-unconcerned.rankings",
+          "sha256": "0c063447468d136298b298f1e49134a866f578615a40c248c6c602af4a15c8e1",
+          "bytes": 37,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXcontent-discontent.rankings",
+          "sha256": "87c675bc1304591633157eb1d988dfd8c3d645f551b809f921c3987d22bd6129",
+          "bytes": 42,
+          "rank_groups": 2,
+          "tied_rank_groups": 2
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXecht-counterfeit.rankings",
+          "sha256": "3d906340bc1ea1cdfa2ba167ee33780df2f02100096e6d02d3496d1222e5ed8f",
+          "bytes": 26,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXfar-close.rankings",
+          "sha256": "ebf142edcbcd7fa37b4f5d5677effaa25e4299a7c41f07d63b2c16f9c85aeb36",
+          "bytes": 37,
+          "rank_groups": 3,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXfat-lean.rankings",
+          "sha256": "3f18be15b8c95ab870dfd889bf764ef8b0e76b68fe2bca69381b09d2c567429d",
+          "bytes": 36,
+          "rank_groups": 4,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXfriendly-unfriendly.rankings",
+          "sha256": "9561a04ec54b6c6e37a553193525d33f112f71e4ce9050cd1ff822cf95c3b881",
+          "bytes": 40,
+          "rank_groups": 3,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXfull-empty.rankings",
+          "sha256": "784ed957eae5f13737f2b20f82fd268e4068f68a647a7df10417545d4cad200a",
+          "bytes": 44,
+          "rank_groups": 4,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXgeneral-specific.rankings",
+          "sha256": "9f9202947b73efd7a1fd7cf6ba7c5a8ca6cc2ae350d9c2de559cf310b8d11276",
+          "bytes": 44,
+          "rank_groups": 3,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXhappy-unhappy.rankings",
+          "sha256": "4293c1e93a25f5282618a95e81978fc986cdd674ff43731a2a1e55f67454b846",
+          "bytes": 30,
+          "rank_groups": 2,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXhigh-low.rankings",
+          "sha256": "b55314ecc74367f080d5546c7493c1d7c9f1869888b3a86b49654194b3c97090",
+          "bytes": 26,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXhot-cold.rankings",
+          "sha256": "4531eae87d7ccef46d27fbc87988b969e800e6930273a99ed8a71d93747c1bf8",
+          "bytes": 47,
+          "rank_groups": 4,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXintelligent-stupid.rankings",
+          "sha256": "14439c75ca79080c5022e7de7b79c9cab4fe9845b62e600173328ada655d8f6d",
+          "bytes": 55,
+          "rank_groups": 2,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXinteresting-uninteresting.rankings",
+          "sha256": "7c50ddca2f30292eaea60534f3d39d1b7377b0f43c66570ba5c78f3bf15a7a9b",
+          "bytes": 79,
+          "rank_groups": 4,
+          "tied_rank_groups": 2
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXinvolved-uninvolved.rankings",
+          "sha256": "ac29ae3e55a471543b43ccca8b0fd63085ac6ffb82c9c7e98a45ff468a28eab3",
+          "bytes": 36,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXknown-unknown.rankings",
+          "sha256": "5fc60e7a10c7c1755ca5b9a7a0c0682fcc21363bd75f124bb099862fc98d323c",
+          "bytes": 29,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXlike-unlike.rankings",
+          "sha256": "f700899ef5950a341fd88a26c43f5e1716154954a2600cf864ad71122e5f8494",
+          "bytes": 22,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXmany-few.rankings",
+          "sha256": "8876ad6c711f89aed1a93c46aa541a35da3103181dd39441b3aabb4eee263984",
+          "bytes": 34,
+          "rank_groups": 4,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXmature-green.rankings",
+          "sha256": "8193e12730568daa6bdf7a04fcb49da61fa81b4f9a1361f02880f36f7a073e1f",
+          "bytes": 27,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXnecessary-unnecessary.rankings",
+          "sha256": "c91eb09eeeede96e49acb20a750e50d091f8e488992992eda7b882f390e85137",
+          "bytes": 61,
+          "rank_groups": 4,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXnoxious-innocuous.rankings",
+          "sha256": "ba8e7d1140991a5fa9353ce8169a29aa6afab98f501d59800af0c0812eb49e42",
+          "bytes": 27,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXpossible-impossible.rankings",
+          "sha256": "abd3b796e1a75afe932013aa3208e6c88ec8edb9675a19642c2448d9b0159e79",
+          "bytes": 46,
+          "rank_groups": 4,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXprivate-public.rankings",
+          "sha256": "07e1202895dc65a5936861f36a8bc94bda03f18767c52050de5332768d7919f6",
+          "bytes": 30,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXquiet-noisy.rankings",
+          "sha256": "1c727df6b1f05f02195ac217b16c0095bb9bd79bb3d36d9b0fe28b37db8dc1e0",
+          "bytes": 36,
+          "rank_groups": 4,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXsatisfactory-unsatisfactory.rankings",
+          "sha256": "4333f0d6cb36dfff35ea775a0147d1988bbc37539cd4637530b9f8bac999dd8f",
+          "bytes": 40,
+          "rank_groups": 2,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXseductive-unseductive.rankings",
+          "sha256": "a1da3ca3559b93ca2a6d84b607c4d56218c5f0d6e6e4614f75f860e57cb21703",
+          "bytes": 32,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXserious-frivolous.rankings",
+          "sha256": "6885bd311d743c9dc3761a41a0a8b699b646e1753550a072195e298c6eef1847",
+          "bytes": 34,
+          "rank_groups": 4,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXstimulating-unexciting.rankings",
+          "sha256": "b9da07f45e367920324f6e860615b23a1ca758b355497399c6ebfdfe4438f4b3",
+          "bytes": 46,
+          "rank_groups": 4,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXstrange-familiar.rankings",
+          "sha256": "301ee5368757911abe4fb6faaf28b4ad5b8a3c75db318c6dde89aaed06cbb389",
+          "bytes": 45,
+          "rank_groups": 4,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXsugary-nonsweet.rankings",
+          "sha256": "74971644e224e19f701de158a45f29ed51fabb2fb137ed84e2ff1743fdaf3026",
+          "bytes": 26,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXsurprising-unsurprising.rankings",
+          "sha256": "e1d50b7c576bf80649c25bbbbcb0645f413ec30b7baa495bf283b15e843e60fa",
+          "bytes": 39,
+          "rank_groups": 2,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXtasty-tasteless.rankings",
+          "sha256": "5ebc6131c853d7a89753f603aa301370453a40cc2650239223beb59617749932",
+          "bytes": 35,
+          "rank_groups": 3,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXthick-thin.rankings",
+          "sha256": "87c4aacbfd7a4c25e9f33d649feeed6617a2d5a9ca6d9b6f74690bf6227af82f",
+          "bytes": 31,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/XXvalid-invalid.rankings",
+          "sha256": "5cc0fc79e110394e8efbb474848a2e0156c0d57db251e5cc062b6800739c64d8",
+          "bytes": 29,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/attractive-unattractiveXX.rankings",
+          "sha256": "d49d231f81a6e4b9e777a8febdf1f85f4fa01997ea84179bff6ac61a60b1b931",
+          "bytes": 30,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/audible-inaudibleXX.rankings",
+          "sha256": "5a50ae36d09f1b96990c502cf730d2d65cd4433cd79cb566f117976066344741",
+          "bytes": 46,
+          "rank_groups": 3,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/big-littleXX.rankings",
+          "sha256": "8be51bcaa7b2ce6e9bc32c488ed0361879384bffca1f7f4aa859bc2f0be8978c",
+          "bytes": 79,
+          "rank_groups": 6,
+          "tied_rank_groups": 2
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/cardinal-ordinalXX.rankings",
+          "sha256": "42a0c79000d8c1a5883cb466199f5fc542ca408ada157e1ee6f66d90cc449058",
+          "bytes": 69,
+          "rank_groups": 8,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/careful-carelessXX.rankings",
+          "sha256": "9b5e445c0c04cd49bd9eee99760ef0e6e3886c94b008e2f0e17eeda423fdd3b1",
+          "bytes": 34,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/clean-dirtyXX.rankings",
+          "sha256": "43c4270a43c1e293c229e4408ea9c86552b2e2a547d199f5a1be6e56f56918a3",
+          "bytes": 31,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/comfortable-uncomfortableXX.rankings",
+          "sha256": "7840a1c79cf9955bbd7b8d8b28054b0fbbec9a464a3f122335fa50fe947b4dd2",
+          "bytes": 35,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/common-uncommonXX.rankings",
+          "sha256": "e81a5120e84b64d75dc1ae75ef4de5d6954f6c2c6b7c84189fcb97dbca49520a",
+          "bytes": 58,
+          "rank_groups": 5,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/current-noncurrentXX.rankings",
+          "sha256": "150d7903ce6e198e263e5188ef6f95ac536f2e7b54f06bcc261758ab3d1fbb0c",
+          "bytes": 29,
+          "rank_groups": 2,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/difficult-easyXX.rankings",
+          "sha256": "b5ca330f175bad0b5677595c0785b91733c5a36fde54d638aa53349661b3d315",
+          "bytes": 51,
+          "rank_groups": 3,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/dispensable-indispensableXX.rankings",
+          "sha256": "0689fde7c6ee58553b8c4b025300465a7110ceb72e27ca88da20475a9b83202d",
+          "bytes": 47,
+          "rank_groups": 4,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/distant-closeXX.rankings",
+          "sha256": "5f5ae1c890bcc00abb466bbbd2e52f9d7caf61bbc5585ad7e186e734ae392b70",
+          "bytes": 26,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/expensive-cheapXX.rankings",
+          "sha256": "b253a72f4a8aa2bfa1590a9d8c21c0d0e8eef92a897810bb79623e36abfe7397",
+          "bytes": 35,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/far-closeXX.rankings",
+          "sha256": "399b57cfc20452ea302c6e4f8b473dcdf89e09bdd26ad5d14dcc77e3601b9793",
+          "bytes": 36,
+          "rank_groups": 3,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/fat-leanXX.rankings",
+          "sha256": "e9efbe07b14258032537142483850c89a9d84799f2b5f4cffb0ada855321260e",
+          "bytes": 61,
+          "rank_groups": 7,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/favorable-unfavorableXX.rankings",
+          "sha256": "bf7875dcf5e831e3877fc43de8530e7e6ac0bec72e68f2fa22d3ea0c58afa41d",
+          "bytes": 32,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/fit-unfitXX.rankings",
+          "sha256": "b5b5891510fdf1be0b80f866c761a3bc0143a765ac841415f9dbe5ee8e9b059e",
+          "bytes": 36,
+          "rank_groups": 3,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/fortunate-unfortunateXX.rankings",
+          "sha256": "7c6123dcddf1fbdf06fb0992963f0445e9b9362bc3bac4b2aebfd108b65c1cfb",
+          "bytes": 35,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/friendly-unfriendlyXX.rankings",
+          "sha256": "faeafe32e1f5f9e7942c5a34fcbf6d950a1a4fc4ecc94a374e4bf04bc6e318f9",
+          "bytes": 40,
+          "rank_groups": 3,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/good-badXX.rankings",
+          "sha256": "4b1313dfb394d439dbefbbb5092a3f61a267594468f73a797bc64b1051e07fc8",
+          "bytes": 28,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/honest-dishonestXX.rankings",
+          "sha256": "cafae4d15776370c2c4c45ebc06b257cc031caf5eed8a6522644205b5959fcf9",
+          "bytes": 47,
+          "rank_groups": 3,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/hopeful-hopelessXX.rankings",
+          "sha256": "0384da42572386ac31171b93f0adcb14eab7ca50c1532578b921f6256b59ce5a",
+          "bytes": 32,
+          "rank_groups": 2,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/hot-cold2XX.rankings",
+          "sha256": "812a4d886ea61bfb9ac9b743912158779324b75e3f2fb3944a6c5874a4ba9a8a",
+          "bytes": 39,
+          "rank_groups": 4,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/hot-coldXX.rankings",
+          "sha256": "304883ad61d4ff2b9121374d1d98aec67c4b9155d8909bc629114c4b07dcb96a",
+          "bytes": 65,
+          "rank_groups": 4,
+          "tied_rank_groups": 2
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/light-darkXX.rankings",
+          "sha256": "4184a78d3ead6926e297508583f0220fe232b59bb20aed1101792c9420c9ad29",
+          "bytes": 30,
+          "rank_groups": 4,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/loose-tightXX.rankings",
+          "sha256": "69a31795cd0e9a2b1b95fe43b209ae89910224a3fd25999b73c3fa8b2d1fb26b",
+          "bytes": 23,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/loud-softXX.rankings",
+          "sha256": "3dd86b2e3f29ff961dd3d953c08b5193298b6ff00f34e848d61e015a4341ee7f",
+          "bytes": 24,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/many-fewXX.rankings",
+          "sha256": "5d2549392814123ce3e5412e9777065f52f9ccdb53f24337f2264635a681f7db",
+          "bytes": 21,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/mild-intenseXX.rankings",
+          "sha256": "1f9c097d5b1dfa17bab88598b4c46f452f81ecb09fdf04e9df38351ace22f242",
+          "bytes": 55,
+          "rank_groups": 5,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/national-internationalXX.rankings",
+          "sha256": "43c28ba9c375df992e36b94b0fcc5d0dc31731ee81c73206b3173b2eb691c39f",
+          "bytes": 41,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/noticed-unnoticedXX.rankings",
+          "sha256": "e6e128f38b31e37d2d9e484a21df61e5c0555bdd7a79749760d8ba323468afd8",
+          "bytes": 48,
+          "rank_groups": 3,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/open-closedXX.rankings",
+          "sha256": "e38f70729ad0932cff306c3d1ddc55cfef46fac5f7118c4bad5ba184e9c4d771",
+          "bytes": 25,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/possible-impossibleXX.rankings",
+          "sha256": "33b9b784bd9eb8605f0a060bfba2304602af74c7700478e9914cb5148f75ed28",
+          "bytes": 71,
+          "rank_groups": 4,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/proud-humbleXX.rankings",
+          "sha256": "7424175dfad1d9cbbbc613a12aa82bda72f4376ca8c8d5205252bb48080dcdeb",
+          "bytes": 33,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/realistic-unrealisticXX.rankings",
+          "sha256": "b8212716de467c96280c18291a4d7e59dd95ba70e5597511571c7c65f79cce8f",
+          "bytes": 41,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/safe-dangerousXX.rankings",
+          "sha256": "4d6114f74270710b94f580b9ca137d3a527c7fdfdb0eda0d7ec34da000c4d869",
+          "bytes": 45,
+          "rank_groups": 3,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/sane-insaneXX.rankings",
+          "sha256": "9285a1bf6dc3b63eaa483a75d4e45e9fa3ce3cd42ee1ce657d57b8f5efe87cc7",
+          "bytes": 28,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/single-multipleXX.rankings",
+          "sha256": "b511bf571b9c1840b2043319947e7ce469b0852683fbeee9c1a8950e54b1a2ca",
+          "bytes": 59,
+          "rank_groups": 3,
+          "tied_rank_groups": 2
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/smooth-roughXX.rankings",
+          "sha256": "c081b2cc8cb363c54136600b47b0a39a25105ece6729d5db4e60e7319f3b4370",
+          "bytes": 29,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/successful-unsuccessfulXX.rankings",
+          "sha256": "e5e10a4a827dc4e85bfa620b55f3a34acec6db91959c6e85b7ac42cd825b82fe",
+          "bytes": 39,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/superior-inferiorXX.rankings",
+          "sha256": "1e22153e6df0d6dcf028602fd7fc5594bf0bec8fb0729adfe0fed82bc7b24604",
+          "bytes": 34,
+          "rank_groups": 3,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/demelo/gold_rankings/virtuous-wickedXX.rankings",
+          "sha256": "1ca51fe38f139e8ab2b56961973031b945e491d27e3930fd500c8e7df2b86895",
+          "bytes": 34,
+          "rank_groups": 4,
+          "tied_rank_groups": 0
+        }
+      ],
+      "scale_files": 87,
+      "rank_groups": 286,
+      "tied_rank_groups": 45,
+      "word_occurrences": 339,
+      "ranked_groups_sha256": "0913431d54b7ce4070b8daa567821be4c13127d2a9a885453e06858143841cfa",
+      "tie_policy": "ORIGINAL_INTEGER_RANK_AND_TUPLE_OF_TIED_TERMS_PRESERVED_NO_FLATTENING",
+      "identity": {
+        "word_pos_records": 293,
+        "outcomes": {
+          "MISSING": 7,
+          "UNIQUE_CANDIDATE": 74,
+          "MULTIPLE_DEFINITIONS": 212
+        },
+        "outcomes_sha256": "53d0b1f130290cdbc3e90cad2277a32f891eb8848c20c9151b31ee1ef340efd3",
+        "examples": {
+          "MISSING": [
+            {
+              "word": "alright",
+              "pos": "adjective",
+              "code": "MISSING",
+              "candidate_entry_ids": []
+            },
+            {
+              "word": "fewer",
+              "pos": "adjective",
+              "code": "MISSING",
+              "candidate_entry_ids": []
+            },
+            {
+              "word": "gloomy",
+              "pos": "adjective",
+              "code": "MISSING",
+              "candidate_entry_ids": []
+            }
+          ],
+          "UNIQUE_CANDIDATE": [
+            {
+              "word": "affordable",
+              "pos": "adjective",
+              "code": "UNIQUE_CANDIDATE",
+              "candidate_entry_ids": [
+                "wordnet:affordable:low-cost.s.01"
+              ]
+            },
+            {
+              "word": "chubby",
+              "pos": "adjective",
+              "code": "UNIQUE_CANDIDATE",
+              "candidate_entry_ids": [
+                "wordnet:chubby:chubby.s.01"
+              ]
+            },
+            {
+              "word": "colossal",
+              "pos": "adjective",
+              "code": "UNIQUE_CANDIDATE",
+              "candidate_entry_ids": [
+                "wordnet:colossal:colossal.s.01"
+              ]
+            }
+          ],
+          "MULTIPLE_DEFINITIONS": [
+            {
+              "word": "acceptable",
+              "pos": "adjective",
+              "code": "MULTIPLE_DEFINITIONS",
+              "candidate_entry_ids": [
+                "wordnet:acceptable:acceptable.a.01",
+                "wordnet:acceptable:acceptable.s.01",
+                "wordnet:acceptable:acceptable.s.03",
+                "wordnet:acceptable:satisfactory.s.01"
+              ]
+            },
+            {
+              "word": "accessible",
+              "pos": "adjective",
+              "code": "MULTIPLE_DEFINITIONS",
+              "candidate_entry_ids": [
+                "wordnet:accessible:accessible.a.01",
+                "wordnet:accessible:accessible.s.01",
+                "wordnet:accessible:accessible.s.02",
+                "wordnet:accessible:accessible.s.03"
+              ]
+            },
+            {
+              "word": "adjacent",
+              "pos": "adjective",
+              "code": "MULTIPLE_DEFINITIONS",
+              "candidate_entry_ids": [
+                "wordnet:adjacent:adjacent.s.01",
+                "wordnet:adjacent:adjacent.s.02",
+                "wordnet:adjacent:adjacent.s.03"
+              ]
+            }
+          ]
+        },
+        "verified_sense_links": 0,
+        "policy": "SPELLING_POS_CANDIDATES_ONLY_UNIQUE_IS_NOT_VERIFIED_SENSE_IDENTITY"
+      },
+      "missing_for_bank_evaluation": [
+        "VERIFIED_DEFINITION_IDENTITY",
+        "AUTHORITATIVE_BANK_TRIT_LABELS"
+      ],
+      "missing_for_hierarchy_evaluation": [
+        "VERIFIED_DEFINITION_IDENTITY",
+        "NAMED_COMMON_HIERARCHY_AXIS"
+      ]
+    },
+    "crowd": {
+      "code": "SOURCE_READ",
+      "bank_gold": "NOT_BANK_GOLD",
+      "label_kind": "ORDINAL_INTENSITY_GROUPS_WITH_TIES",
+      "matching_basis": "SPELLING_AND_ADJECTIVE_POS_NO_SOURCE_SENSE_IDS",
+      "sources": [
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/abundant-plenty2XX.rankings",
+          "sha256": "76781b78ad2c32d2d039a07594407db1d674d90f706c1c65c8b43fa6c0487a2c",
+          "bytes": 25,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/abundant-plentyXX.rankings",
+          "sha256": "f4f8c31235f85729cc2e032ce8a49c78dc50f1230a93b0857606878888b747ea",
+          "bytes": 26,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/admirable-noteworthyXX.rankings",
+          "sha256": "012d1242a4da1b0ed2b759cbd951e6e68fd35d50b9cdc48a046c41aaaf4aa8d4",
+          "bytes": 33,
+          "rank_groups": 2,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/appropriate-excellentXX.rankings",
+          "sha256": "571cfcaf600bfaa6dd12e1861cb3728c6c7e3c7f507a99b13096cb5caab9ab9b",
+          "bytes": 34,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/awful-bad-lookingXX.rankings",
+          "sha256": "c8dadfc732bd0bbc9560a37c6805dc7d2eebc58f22ed77094c6e47677c04c827",
+          "bytes": 17,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/awful-dreadfulXX.rankings",
+          "sha256": "33d1d357eb7480508b065cbadd9553a04a84256c18fac70e59a143c57cdcb9b0",
+          "bytes": 19,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/bad-horrendousXX.rankings",
+          "sha256": "e86f70d1f253b28d79740a8b41cc971a7b98ceecedefe0ecf24e41766d8ced98",
+          "bytes": 30,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/bad-ludicrousXX.rankings",
+          "sha256": "16a833d491bfed2114a242b47a54e0cd56bbf0d3b29717841ec4330dc2817778",
+          "bytes": 18,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/beautiful-fairestXX.rankings",
+          "sha256": "9d0883fc032f42411e932f6d9bf91b2c40ce6a7e294445f52eab8715cd46afa3",
+          "bytes": 38,
+          "rank_groups": 4,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/beneficial-niceXX.rankings",
+          "sha256": "ff91e2fd0e030a9a906eac11f88d66d0695e7c68f14bf0e3a96a1f7a366606bf",
+          "bytes": 56,
+          "rank_groups": 2,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/better-exceptionalXX.rankings",
+          "sha256": "14df8b3942b4711191b0b4526fcc152e9d33797f5af2c8592ad9d3a95ea519e4",
+          "bytes": 53,
+          "rank_groups": 5,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/big-vastXX.rankings",
+          "sha256": "6ab0bf1eb4770a5e9f0de2b81a19236863be796b802b436f3dd275a9f2719cc8",
+          "bytes": 26,
+          "rank_groups": 2,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/bizarre-oddXX.rankings",
+          "sha256": "43fae0a7fba46d9a4007a91649be59f4ad8f13f406e36f5eb3fa349cde3c16a2",
+          "bytes": 16,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/clear-prominentXX.rankings",
+          "sha256": "b46d819b8bbb420352580eec29fab999b65c12905c321d47b746887989ed7259",
+          "bytes": 20,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/competent-impressiveXX.rankings",
+          "sha256": "9a15662bd04fc155938b7ac6588e329b3c1b6cbf5f2572579bfff8032d91de79",
+          "bytes": 25,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/comprehensive-generalXX.rankings",
+          "sha256": "f2e2213fd3a82c6f1fa70ea107f8bf70217b543345c8dbccfc3fda7e320108d5",
+          "bytes": 64,
+          "rank_groups": 2,
+          "tied_rank_groups": 2
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/content-pleasedXX.rankings",
+          "sha256": "d04856e567713774c4bd303e04bf7842ba9125464fb0bdcb28163b09ff0e2204",
+          "bytes": 33,
+          "rank_groups": 2,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/convenient-valuableXX.rankings",
+          "sha256": "38f4f215e66285818e4181489f48b6b6035274026b327541954c0509bbf81213",
+          "bytes": 33,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/costly-valuableXX.rankings",
+          "sha256": "2bf4a5758325480caa461e098923be36a8b6d9822b988fca9a9cc43bdfe24e02",
+          "bytes": 34,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/critical-gravestXX.rankings",
+          "sha256": "3b6aac0ae5a4bbdb23375e412344b9673bf9342b5621c576ec974fc3d3ce6213",
+          "bytes": 39,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/cute-gorgeousXX.rankings",
+          "sha256": "2e1a4206ce2097ed13a95c4cab0865c41ae053bfe516ab7e8bc85feb83a09d32",
+          "bytes": 18,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/cute-lovelierXX.rankings",
+          "sha256": "4205bb5347a1c3042f80e6f8263f6886552c0f4fb37d41d634c826248a5aa205",
+          "bytes": 51,
+          "rank_groups": 5,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/daunting-formidableXX.rankings",
+          "sha256": "e767105b5b189b61797f5c406120a2b8ab459ff1b5741c24ea2a74d36ffa14ec",
+          "bytes": 32,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/disappointing-obnoxiousXX.rankings",
+          "sha256": "ae3747551c473f68e6e8c29980cebf1e1fd89416bd7f67cd65d41a69ae8a3285",
+          "bytes": 23,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/distressing-badXX.rankings",
+          "sha256": "ec9b5d1daa7ec645fc293193f5bcfd8aa393cf486fbe38e82ff3b783d0a65a82",
+          "bytes": 20,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/effective-potentXX.rankings",
+          "sha256": "44aa2a23569b8298bfa11ae3523a32a07f9e1dea612767ba426e0caea094ff60",
+          "bytes": 21,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/efficient-functioningXX.rankings",
+          "sha256": "7bdaec1b9ce79205bcc52c51d3226d72af9391518f5e8b29a7d58677878508b9",
+          "bytes": 26,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/efficient-potentXX.rankings",
+          "sha256": "7f07ed6fe07ad29525d11d7888518ffd3024c8cc78288e46c7ccd1c10c21736e",
+          "bytes": 22,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/embarrassed-uncomfortableXX.rankings",
+          "sha256": "e1333f7a7e803f47f1941ea85b594065969155090cc2af6d22219dbe70980158",
+          "bytes": 30,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/embarrassing-uncomfortableXX.rankings",
+          "sha256": "5b979ad2216baa49c004d31c83453416c2140a013d9ae0d29a27ea48ced8ecc3",
+          "bytes": 31,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/enraged-irritatedXX.rankings",
+          "sha256": "18995283ec7ea907cecc29606986f1e7062da268040c53ea54c7d0b79e84d230",
+          "bytes": 26,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/excessive-hugeXX.rankings",
+          "sha256": "a10ea52c1f868af04eca94fffec38ff64c9227ed5d266b71eb0ef1ddc15e914d",
+          "bytes": 27,
+          "rank_groups": 2,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/excessive-valuableXX.rankings",
+          "sha256": "d9e829908db23e8a2a7d482f907c43b6d01170911ddc701f387d03837ac5e503",
+          "bytes": 47,
+          "rank_groups": 3,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/excited-delightedXX.rankings",
+          "sha256": "9b3297af274c8ecdd0040996ee6aefec326027dec16440224bf6d281569d45a3",
+          "bytes": 22,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/few-leastXX.rankings",
+          "sha256": "d7859c2b151984ecda6010c46d546492df5421555061d4df0db8203b70b7a939",
+          "bytes": 24,
+          "rank_groups": 2,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/fine-remarkable2XX.rankings",
+          "sha256": "4912b4945856592ac205024b5a973feab7e6516e0098ab4a45c5af42983420bb",
+          "bytes": 32,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/fine-remarkableXX.rankings",
+          "sha256": "3a7f479ac75886e505ffe6023ad857e09c380f0cb1a93d50c99842d9cadf0864",
+          "bytes": 33,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/finest-excellentXX.rankings",
+          "sha256": "994726ae4cbea271d29790d9ffa48fd39c8b95bc4dce8c1965a42aa461c4166c",
+          "bytes": 38,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/guaranteed-adequateXX.rankings",
+          "sha256": "62b42ad93671dd8694df705fc429b36f8d38b35c4e233418a053a21f3d2aefe0",
+          "bytes": 25,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/guaranteed-fittingXX.rankings",
+          "sha256": "a1839c68dfb66851099e4c0109c73a1d91b73868aa6e841681e06347a71f65d7",
+          "bytes": 37,
+          "rank_groups": 2,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/high-higherXX.rankings",
+          "sha256": "93251aed421e8cd4b6fc1c92aca3a46480a39448840f89c1dbe3c69d267e6d9c",
+          "bytes": 16,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/huge-broadXX.rankings",
+          "sha256": "1da4c5b477c44277eae5b2bc784d0127c81ba6cd51d677c1f756143da27b56d2",
+          "bytes": 60,
+          "rank_groups": 4,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/huge-tremendousXX.rankings",
+          "sha256": "28922229cbd9152588701d145a6cd505419c96af045db6144ba02263820e8084",
+          "bytes": 91,
+          "rank_groups": 5,
+          "tied_rank_groups": 2
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/incorrect-unfavourableXX.rankings",
+          "sha256": "56c8a9ca158b819bbbb6c8ecaf81df37a04aa83b1c1c8f8de6e461e761664207",
+          "bytes": 49,
+          "rank_groups": 2,
+          "tied_rank_groups": 2
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/inestimable-valuableXX.rankings",
+          "sha256": "0aa0ffc3db9227fc17811cc95df9ce78665bf720b4f2ca79cc5f59641ca41cd2",
+          "bytes": 26,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/known-noteworthyXX.rankings",
+          "sha256": "71cdceefab1c88eaf714736ef91e797e4ae3a0e50349d68efe5a5aad1c4668d1",
+          "bytes": 35,
+          "rank_groups": 2,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/limited-scarceXX.rankings",
+          "sha256": "ab8af21cf60f91c58b3125b62304a2bab58caa68e570f1e9f5e4e0af86f2836f",
+          "bytes": 25,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/little-feebleXX.rankings",
+          "sha256": "7383c4887ca0aee6ae6e2c0e4973b5e20f54c3ad3258ab4e8c5c6ad815b3cb25",
+          "bytes": 18,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/lousy-miserableXX.rankings",
+          "sha256": "7bb376d64ad7386db76c6abe114cb173ef4f208a1b2fea089f20851e8facfe90",
+          "bytes": 31,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/major-bigXX.rankings",
+          "sha256": "59f244f4d6dfdf83487a18927f1b9a025db298d5c5dd312f5c32fdea212fe406",
+          "bytes": 56,
+          "rank_groups": 3,
+          "tied_rank_groups": 2
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/major-staggeringXX.rankings",
+          "sha256": "d44ae401af0dad59df34d8e9be2537665205c22ed0b5ddc9fd7c6d2d5a67903f",
+          "bytes": 47,
+          "rank_groups": 3,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/marvellous-spectacularXX.rankings",
+          "sha256": "1a21076a6decc83070309c408d08a9b8dd6b633a1794e60eaa496491547116cc",
+          "bytes": 53,
+          "rank_groups": 2,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/miniscule-minuteXX.rankings",
+          "sha256": "e9842f8b361953280780a7d6e4513767c83865f59e58923d7fd48247db6dc932",
+          "bytes": 29,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/miserable-sad2XX.rankings",
+          "sha256": "1b51144c37f5e35dc2be5e60ec5c05f7da30ef7f6f65afe54ca4e828dd78829b",
+          "bytes": 29,
+          "rank_groups": 2,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/miserable-sadXX.rankings",
+          "sha256": "1b3322946fad51d61ec019cb4c277cd296763de0bc212a67ea064d3a4d7a2731",
+          "bytes": 28,
+          "rank_groups": 2,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/necessary-valuableXX.rankings",
+          "sha256": "83f62d0828e73d503937b51296f1cd5b45ea74743b7b322eb93988669ebbb468",
+          "bytes": 32,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/odd-bizarreXX.rankings",
+          "sha256": "cb98be21f951554df069701b84fe71675a9aa0ef3bc35526ea3060fb5b0dc1f0",
+          "bytes": 17,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/overwhelmed-happyXX.rankings",
+          "sha256": "d52583dfae5ba350fab2845b8dec4472389c9ee04593240873646607994b7935",
+          "bytes": 54,
+          "rank_groups": 5,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/perfect-fineXX.rankings",
+          "sha256": "83145c4e615c8d1497134872d80a85bcf3d1aa29667ecc74291798e5c37a53e2",
+          "bytes": 61,
+          "rank_groups": 4,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/perfect-wellXX.rankings",
+          "sha256": "42cc4a51c639ee96da543d71e77eccabf41c203526baa39b4f7dea56a3bcedf9",
+          "bytes": 47,
+          "rank_groups": 3,
+          "tied_rank_groups": 2
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/poor-inadequateXX.rankings",
+          "sha256": "b5b846d63b53290c189c3fe5985290e8eb751bae1c2125575f5dda8af4af5d2f",
+          "bytes": 43,
+          "rank_groups": 4,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/poor-indigentXX.rankings",
+          "sha256": "9a37e96e246a97913994f6a093d6d80facddc12ca83098a0cc64411f039c3a11",
+          "bytes": 29,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/precise-straightforwardXX.rankings",
+          "sha256": "e7fa302a8676db6c0e9c48e87d62c7c74d6cae92fad00e1d1e810ac61913c6de",
+          "bytes": 37,
+          "rank_groups": 4,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/problematic-uncomfortableXX.rankings",
+          "sha256": "39eda4a4d065e96ab0961ad74cdb4881428fea8492aec5fcb399d221d3606fc7",
+          "bytes": 21,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/proficient-trainedXX.rankings",
+          "sha256": "356e980358c860a09a2056feb295c91fd62e0b5761cca5bb73da882e0b8d5b14",
+          "bytes": 47,
+          "rank_groups": 2,
+          "tied_rank_groups": 2
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/relevant-significantXX.rankings",
+          "sha256": "70cf8feada8f511a9d4f7a69d2ff006ba36581f450fe0161164dc3bd385dfd5c",
+          "bytes": 21,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/rigorous-tougherXX.rankings",
+          "sha256": "932ad8ce50b7db422e6e6908b84782cfe54c9657924c678094e61d1ed29f29c2",
+          "bytes": 50,
+          "rank_groups": 5,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/satisfactory-excellentXX.rankings",
+          "sha256": "24b840ff74f447a3559ed53ba26ad2b37687e0c1c3c8cde10ccf7a67808952c5",
+          "bytes": 50,
+          "rank_groups": 2,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/scant-meagreXX.rankings",
+          "sha256": "66db931021cb6e216117dd9d16274e8d81042810efcac21a48996e231abdb687",
+          "bytes": 34,
+          "rank_groups": 3,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/scarce-limitedXX.rankings",
+          "sha256": "ab8af21cf60f91c58b3125b62304a2bab58caa68e570f1e9f5e4e0af86f2836f",
+          "bytes": 25,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/scary-frighteningXX.rankings",
+          "sha256": "f26db367827f025b54b97fbaf9711bc34eb9d5dca5f46d9637222b0dc48b17b4",
+          "bytes": 36,
+          "rank_groups": 2,
+          "tied_rank_groups": 1
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/shaky-vulnerableXX.rankings",
+          "sha256": "f0fb39ffe97365cc8b218bc37e87cefdddd565a7d1a6b5465d54ba5d5bb93a38",
+          "bytes": 28,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/shorter-tinyXX.rankings",
+          "sha256": "f9170cfb146e55f899f23798ce9905e19ec33ec68da29775aa0357f8ed4189ab",
+          "bytes": 16,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/small-minuteXX.rankings",
+          "sha256": "e9842f8b361953280780a7d6e4513767c83865f59e58923d7fd48247db6dc932",
+          "bytes": 29,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/sound-sturdyXX.rankings",
+          "sha256": "ca60ab6174df6497077f1d3265d1dcbe26da1a5f4b636c12274a15b2cbe16275",
+          "bytes": 18,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/tenacious-toughXX.rankings",
+          "sha256": "d7742b5189cba3110829036bb1b695278b1fd585a77387495d37bcc31b2a0a3d",
+          "bytes": 34,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/terrific-outstandingXX.rankings",
+          "sha256": "48d88dc762a6693b086e6eeda0318d6192fff40eae56d4f0739c6bd47c9adb85",
+          "bytes": 22,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/unfortunate-reprehensibleXX.rankings",
+          "sha256": "a90d877df576b59b18d41336e763a05b5879b1d580bd9caa7a703a1b496d6af7",
+          "bytes": 30,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/crowd/gold_rankings/wide-ranging-generalXX.rankings",
+          "sha256": "aa9ba070048110df6390b3b1c3ccacd0a4e3a4e3ac5bbae2a29aa1055d98d42a",
+          "bytes": 53,
+          "rank_groups": 5,
+          "tied_rank_groups": 0
+        }
+      ],
+      "scale_files": 79,
+      "rank_groups": 212,
+      "tied_rank_groups": 30,
+      "word_occurrences": 251,
+      "ranked_groups_sha256": "0b32d162b17ed8834fb59246d5789bc3d03a3c0ad2b576092dca6ab8b6bbf132",
+      "tie_policy": "ORIGINAL_INTEGER_RANK_AND_TUPLE_OF_TIED_TERMS_PRESERVED_NO_FLATTENING",
+      "identity": {
+        "word_pos_records": 171,
+        "outcomes": {
+          "MISSING": 9,
+          "UNIQUE_CANDIDATE": 51,
+          "MULTIPLE_DEFINITIONS": 111
+        },
+        "outcomes_sha256": "cc436d82eac3458f474df897c2fdd5a1891aec2dc0f09587dca45179db53496d",
+        "examples": {
+          "MISSING": [
+            {
+              "word": "a-okay",
+              "pos": "adjective",
+              "code": "MISSING",
+              "candidate_entry_ids": []
+            },
+            {
+              "word": "fairer",
+              "pos": "adjective",
+              "code": "MISSING",
+              "candidate_entry_ids": []
+            },
+            {
+              "word": "fairest",
+              "pos": "adjective",
+              "code": "MISSING",
+              "candidate_entry_ids": []
+            }
+          ],
+          "UNIQUE_CANDIDATE": [
+            {
+              "word": "abundant",
+              "pos": "adjective",
+              "code": "UNIQUE_CANDIDATE",
+              "candidate_entry_ids": [
+                "wordnet:abundant:abundant.a.01"
+              ]
+            },
+            {
+              "word": "annoying",
+              "pos": "adjective",
+              "code": "UNIQUE_CANDIDATE",
+              "candidate_entry_ids": [
+                "wordnet:annoying:annoying.s.01"
+              ]
+            },
+            {
+              "word": "appropriate",
+              "pos": "adjective",
+              "code": "UNIQUE_CANDIDATE",
+              "candidate_entry_ids": [
+                "wordnet:appropriate:appropriate.a.01"
+              ]
+            }
+          ],
+          "MULTIPLE_DEFINITIONS": [
+            {
+              "word": "accurate",
+              "pos": "adjective",
+              "code": "MULTIPLE_DEFINITIONS",
+              "candidate_entry_ids": [
+                "wordnet:accurate:accurate.a.01",
+                "wordnet:accurate:accurate.s.01"
+              ]
+            },
+            {
+              "word": "adequate",
+              "pos": "adjective",
+              "code": "MULTIPLE_DEFINITIONS",
+              "candidate_entry_ids": [
+                "wordnet:adequate:adequate.a.01",
+                "wordnet:adequate:adequate.s.01",
+                "wordnet:adequate:adequate.s.02"
+              ]
+            },
+            {
+              "word": "admirable",
+              "pos": "adjective",
+              "code": "MULTIPLE_DEFINITIONS",
+              "candidate_entry_ids": [
+                "wordnet:admirable:admirable.s.01",
+                "wordnet:admirable:admirable.s.02"
+              ]
+            }
+          ]
+        },
+        "verified_sense_links": 0,
+        "policy": "SPELLING_POS_CANDIDATES_ONLY_UNIQUE_IS_NOT_VERIFIED_SENSE_IDENTITY"
+      },
+      "missing_for_bank_evaluation": [
+        "VERIFIED_DEFINITION_IDENTITY",
+        "AUTHORITATIVE_BANK_TRIT_LABELS"
+      ],
+      "missing_for_hierarchy_evaluation": [
+        "VERIFIED_DEFINITION_IDENTITY",
+        "NAMED_COMMON_HIERARCHY_AXIS"
+      ]
+    },
+    "wilkinson": {
+      "code": "SOURCE_READ",
+      "bank_gold": "NOT_BANK_GOLD",
+      "label_kind": "ORDINAL_INTENSITY_GROUPS_WITH_TIES",
+      "matching_basis": "SPELLING_AND_ADJECTIVE_POS_NO_SOURCE_SENSE_IDS",
+      "sources": [
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/wilkinson/gold_rankings/XXbeautiful-ugly.rankings",
+          "sha256": "7ed8214a7c39b3c46f7ea8681fcf0a009c725721f7db489b314deaa348c65e06",
+          "bytes": 32,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/wilkinson/gold_rankings/XXbright-dark.rankings",
+          "sha256": "80b8cd3bfaa83b41fe62a5bb7ddc5536fa7285bd6e9419083663f435741a9a50",
+          "bytes": 17,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/wilkinson/gold_rankings/XXdifficult-easy.rankings",
+          "sha256": "36d047bb0a626a1516defd1638058c86662cb19405b6da7c62aa5675f1dc5457",
+          "bytes": 19,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/wilkinson/gold_rankings/XXdry-wet.rankings",
+          "sha256": "1e3f4fd0283efef0f615a1073f19e239287f552ee7b83f23ed12dd44f4e9e933",
+          "bytes": 23,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/wilkinson/gold_rankings/XXgood-bad.rankings",
+          "sha256": "972cdc4eab8fa95fc779104d9a2b5d3597c805d688226a4d6ca1288c5c1a53d8",
+          "bytes": 37,
+          "rank_groups": 4,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/wilkinson/gold_rankings/XXhot-cold.rankings",
+          "sha256": "03abbd1ab671a0e0547b4189b5433c7995b40eba7ad4c710ca42f428a07eff20",
+          "bytes": 12,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/wilkinson/gold_rankings/XXnew-old.rankings",
+          "sha256": "7e44e1612551d02a8d370f845da649c3f7ae8e430ac127bdda33343d0b9a2217",
+          "bytes": 14,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/wilkinson/gold_rankings/XXsmall-large.rankings",
+          "sha256": "11c9dddb64b3c3eb43a29d010ec71589978ee6ff7ab362233beb2d6fb560fcf9",
+          "bytes": 27,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/wilkinson/gold_rankings/XXsmart-stupid.rankings",
+          "sha256": "82103827f464e7573e21ddd878ffacc31bc2d25ba39e6dcfa21e25c1afedfbd6",
+          "bytes": 22,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/wilkinson/gold_rankings/beautiful-uglyXX.rankings",
+          "sha256": "6f7242ead62c0e8c6ba88b00f823a2ccf29a137773495bab86fd8f9faf3707c8",
+          "bytes": 17,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/wilkinson/gold_rankings/bright-darkXX.rankings",
+          "sha256": "e61b78bec100cb0ed61cbdc80d343ba8b6ac211942134a3ea5d2ef0912cb8e24",
+          "bytes": 13,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/wilkinson/gold_rankings/different-sameXX.rankings",
+          "sha256": "bdf40ffa44289bbb6fec32bbdff4ffc2c7ca4d0272029462a9b2670248b988e9",
+          "bytes": 25,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/wilkinson/gold_rankings/difficult-easyXX.rankings",
+          "sha256": "3365cc41a3feda0402dd4d47192feb6cfbb555472231300e9a7d421cc949a45e",
+          "bytes": 16,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/wilkinson/gold_rankings/dry-wetXX.rankings",
+          "sha256": "c331058b214c77ca81482a73e1ea6714f91801baba8f1ae9843f2b7b1f7db39e",
+          "bytes": 21,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/wilkinson/gold_rankings/few-manyXX.rankings",
+          "sha256": "2af145f88140bdcc82a1776ec491ea6556a4d0806c01e01b5ed0c127b2287f87",
+          "bytes": 30,
+          "rank_groups": 4,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/wilkinson/gold_rankings/good-badXX.rankings",
+          "sha256": "39293439220e6e9ab51f1c2a9dff1333a8f82a80b798f0364a6b0bc445b37228",
+          "bytes": 36,
+          "rank_groups": 4,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/wilkinson/gold_rankings/hot-coldXX.rankings",
+          "sha256": "ab7408b83b57108bb557f5caaccd4a4f67e69ada1498a60f6f70a74751793b65",
+          "bytes": 25,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/wilkinson/gold_rankings/new-oldXX.rankings",
+          "sha256": "b1f7764af58412db085a9e51b12fbc6e09d20ad2611fe2820b4222ae175bdaae",
+          "bytes": 16,
+          "rank_groups": 2,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/wilkinson/gold_rankings/slow-fastXX.rankings",
+          "sha256": "27797719a22f869c85fe27153ca8448e7112597d314669ff7491775e99e6db40",
+          "bytes": 24,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/wilkinson/gold_rankings/small-largeXX.rankings",
+          "sha256": "d4811a2127346978485f1ddd038dfdad09affdb7a53b2f1689c41117f57b1b55",
+          "bytes": 43,
+          "rank_groups": 5,
+          "tied_rank_groups": 0
+        },
+        {
+          "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/wilkinson/gold_rankings/smart-stupidXX.rankings",
+          "sha256": "c90e960164cd71b0647c5f2e1cfb2b90ed1d7b72f7c47e313ad5ecf61918e870",
+          "bytes": 26,
+          "rank_groups": 3,
+          "tied_rank_groups": 0
+        }
+      ],
+      "scale_files": 21,
+      "rank_groups": 59,
+      "tied_rank_groups": 0,
+      "word_occurrences": 59,
+      "ranked_groups_sha256": "4237d19067ad568649787a6085cca10a2d4ce3afc5351caac1e01ae250f9a55f",
+      "tie_policy": "ORIGINAL_INTEGER_RANK_AND_TUPLE_OF_TIED_TERMS_PRESERVED_NO_FLATTENING",
+      "identity": {
+        "word_pos_records": 58,
+        "outcomes": {
+          "MISSING": 2,
+          "UNIQUE_CANDIDATE": 14,
+          "MULTIPLE_DEFINITIONS": 42
+        },
+        "outcomes_sha256": "a5255feac8e43ab7fac4f8cce4cd1de5ccb1ff8e0424122a2366177fdd222fb4",
+        "examples": {
+          "MISSING": [
+            {
+              "word": "freezing",
+              "pos": "adjective",
+              "code": "MISSING",
+              "candidate_entry_ids": []
+            },
+            {
+              "word": "idiotic",
+              "pos": "adjective",
+              "code": "MISSING",
+              "candidate_entry_ids": []
+            }
+          ],
+          "UNIQUE_CANDIDATE": [
+            {
+              "word": "alike",
+              "pos": "adjective",
+              "code": "UNIQUE_CANDIDATE",
+              "candidate_entry_ids": [
+                "wordnet:alike:alike.a.01"
+              ]
+            },
+            {
+              "word": "awesome",
+              "pos": "adjective",
+              "code": "UNIQUE_CANDIDATE",
+              "candidate_entry_ids": [
+                "wordnet:awesome:amazing.s.02"
+              ]
+            },
+            {
+              "word": "damp",
+              "pos": "adjective",
+              "code": "UNIQUE_CANDIDATE",
+              "candidate_entry_ids": [
+                "wordnet:damp:damp.s.01"
+              ]
+            }
+          ],
+          "MULTIPLE_DEFINITIONS": [
+            {
+              "word": "ancient",
+              "pos": "adjective",
+              "code": "MULTIPLE_DEFINITIONS",
+              "candidate_entry_ids": [
+                "wordnet:ancient:ancient.s.01",
+                "wordnet:ancient:ancient.s.02"
+              ]
+            },
+            {
+              "word": "arid",
+              "pos": "adjective",
+              "code": "MULTIPLE_DEFINITIONS",
+              "candidate_entry_ids": [
+                "wordnet:arid:arid.s.01",
+                "wordnet:arid:arid.s.02"
+              ]
+            },
+            {
+              "word": "awful",
+              "pos": "adjective",
+              "code": "MULTIPLE_DEFINITIONS",
+              "candidate_entry_ids": [
+                "wordnet:awful:amazing.s.02",
+                "wordnet:awful:atrocious.s.02",
+                "wordnet:awful:awed.s.01",
+                "wordnet:awful:awful.s.02",
+                "wordnet:awful:frightful.s.02",
+                "wordnet:awful:nasty.a.01"
+              ]
+            }
+          ]
+        },
+        "verified_sense_links": 0,
+        "policy": "SPELLING_POS_CANDIDATES_ONLY_UNIQUE_IS_NOT_VERIFIED_SENSE_IDENTITY"
+      },
+      "missing_for_bank_evaluation": [
+        "VERIFIED_DEFINITION_IDENTITY",
+        "AUTHORITATIVE_BANK_TRIT_LABELS"
+      ],
+      "missing_for_hierarchy_evaluation": [
+        "VERIFIED_DEFINITION_IDENTITY",
+        "NAMED_COMMON_HIERARCHY_AXIS"
+      ]
+    }
+  },
+  "provenance_documents": [
+    {
+      "path": "/Users/rohanvinaik/.cache/gse_benchmarks/SimLex-999/README.txt",
+      "sha256": "9a5137f54986b4ef42099225885f086da60a55f387db01e661c3a59679be9131",
+      "bytes": 2766
+    },
+    {
+      "path": "/Users/rohanvinaik/Projects/gse/gse/benchmarks/datasets.py",
+      "sha256": "54ccc06df6c3cefecc6e81f60a699b23cda8fce31629d0ccdd23fb08567f81ff",
+      "bytes": 15481
+    },
+    {
+      "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/README.md",
+      "sha256": "fe665d24fb2c60e5670e1c32bcdac71eec954a1308e44be94b763d6175798b0d",
+      "bytes": 1237
+    },
+    {
+      "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/README.md",
+      "sha256": "62de9d9fd273d168514fc76b4288e89f994bb7ecb9c16cf50e915b8f234fda40",
+      "bytes": 346
+    },
+    {
+      "path": "/Users/rohanvinaik/Projects/gse/data/external/scalar-adj/globalorder/data/socal/readme.md",
+      "sha256": "0aab6c49180ffd909c7dab8c892b7c32bd62191cab89606277a95c98150fd2d0",
+      "bytes": 471
+    }
+  ],
+  "limitations": [
+    "SOURCE_LABELS_ARE_SCORES_OR_ORDINAL_RANKS_NOT_GSE_BANK_TRITS",
+    "SINGLE_DICTIONARY_CANDIDATE_DOES_NOT_PROVE_ANNOTATOR_SENSE_IDENTITY",
+    "NO_UNKNOWN_COORDINATE_WAS_CONVERTED_TO_ZERO",
+    "NO_SOURCE_LABEL_OR_RULE_WAS_ADMITTED_TO_THE_LEXICON",
+    "SOURCE_BYTE_IDENTITIES_ARE_RECORDED_BUT_INDEPENDENT_ANNOTATION_AUTHENTICITY_IS_NOT_REAUDITED"
+  ]
+}

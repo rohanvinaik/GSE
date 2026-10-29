@@ -51,6 +51,26 @@
         "family": "founder_anchor",
         "scope": "lexical"
       }
+    ],
+    "wordnet:very:very.r.01": [
+      {
+        "bank": "INTENSITY",
+        "value": 1,
+        "source": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md",
+        "record_id": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#ordinal-stability",
+        "family": "founder_anchor",
+        "scope": "lexical"
+      }
+    ],
+    "wordnet:extremely:extremely.r.02": [
+      {
+        "bank": "INTENSITY",
+        "value": 1,
+        "source": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md",
+        "record_id": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#ordinal-stability",
+        "family": "founder_anchor",
+        "scope": "lexical"
+      }
     ]
   },
   "prime_entries": {
@@ -61,5 +81,12 @@
       "gse:prime:this"
     ]
   },
-  "hierarchy": {}
+  "hierarchy": {
+    "wordnet:very:very.r.01": {
+      "INTENSITY": 1
+    },
+    "wordnet:extremely:extremely.r.02": {
+      "INTENSITY": 2
+    }
+  }
 }

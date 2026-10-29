@@ -26,9 +26,13 @@ Word geometry contains the minimal definitional content relevant at word scale. 
 
 THIS has demonstrative object-reference content: the approved lexical anchor is SOMETHING=+1. It does not gain a new THIS coordinate or a HAVE assignment. WHICH object is designated is a grammatical/contextual binding, represented through structured identity. Ownership here must not be conflated with possession: an object's assignment to a grammatical referent is different from asserting that someone possesses it.
 
-At the interface, each lexical definition has a set of permitted grammatical roles. A present but uninstantiated grammatical dimension is distinct from a dimension outside that set. Grammar narrows the permitted bindings to compatible entities; ambiguity remains unresolved. Set membership, argument ownership, and operator scope operate on structured identities, not vector equality. Two sentences can have similar lexical geometry and different comparison truth conditions.
+At the interface, grammar constrains the permitted roles and bindings. A present but uninstantiated grammatical dimension is distinct from a dimension outside the permitted set. This distinction does not require storing every possible role in the lexical artifact: the active encoder assigns roles dynamically. Set membership, argument ownership, and operator scope operate on structured identities, not vector equality. Two sentences can have similar lexical geometry and different comparison truth conditions.
 
-The construction artifact must eventually persist this capability set and the runtime must consume it without dropping its uninstantiated members. Current `sentence_primitive_values` storage exists but the new construction writer does not yet populate it; existing lookup filters zero-valued rows. Native parsing currently misclassifies determiner THIS in “this dog” as a pronoun, and generic reference binders do not yet enforce dedicated demonstrative constraints. These are identified implementation obligations, not evidence for changing the lexical basis.
+GSE already implements this separation. `gse/lexicon/pronouns.py` supplies demonstrative reference metadata, `gse/lexicon/function_words.py` supplies determiner metadata, and the symbolic/document paths bind references and represent possession separately. The separate `SentenceParser` also implements possible-role constraints; its existence is not a reason to replace the active dynamic path. Empty `sentence_primitive_values` tables do not establish missing grammar. The earlier requirement to populate static role masks as a prerequisite to this build was unsupported and is withdrawn.
+
+For versioned dictionaries, the encoder now obtains the established `COMP_METADATA` grammatical operations independently of lexical definition selection. BECAUSE, ONLY and THAN therefore retain their causal, restriction and comparison operations even when the word's lexical lookup is missing or ambiguous. No lexical definition or bank value is manufactured by this bridge. Conflicting selected-row operator metadata fails with `GRAMMATICAL_OPERATOR_METADATA_MISMATCH`; the legacy lookup path retains its existing behavior.
+
+Audit probes distinguish actual behavior from intermediate tags: “This dog runs” retains its running event, and “A dog runs. This is a dog” binds THIS to the antecedent. “A dog runs. This runs” instead loses the second event without a structural-loss warning. That is a specific existing parsing defect, not evidence that a new demonstrative or reference subsystem is needed. The lexicon migration obligation is compatibility with these existing consumers, including their grammatical metadata needs; sentence-wide repairs are tracked separately from dictionary construction.
 
 FOR SOME TIME likewise must not be forced into a positive or negative LONG_TIME value merely to close a vector. Temporal lexical content and a duration/interval operation belong at their appropriate scales; duration magnitude remains unspecified unless warranted. Its full construction-to-sentence integration remains open.
 
@@ -44,7 +48,9 @@ An assertion requires an exact definition link and source competence. An unresol
 
 An observation may carry `features.bank_relevance = {code: CLASSIFIED, banks: [...], provenance: [...]}`. This annotation names canonical coordinates the record can inform, without assigning their values. Empty banks means an explicitly justified classification as irrelevant to word-coordinate assignment. Missing classification means UNCLASSIFIED, conservatively potentially relevant to all coordinates. Malformed annotations fail ingestion/replay.
 
-Source competence is an upper bound on what may be asserted, not a complete relevance classification for an individual record. The current native adapters do not yet provide complete reviewed relevance annotations; unclassified records therefore block absence defaults. This conservative state is visible and must be improved through typed source interpretation, not by assuming every unparsed record irrelevant.
+Source competence is an upper bound on what may be asserted, not a complete relevance classification for an individual record. Existing `SOURCE_PRIMITIVE_SCOPE`, native parser fields and projections are the starting machinery for this interpretation. The new builder's relevance annotations are an integration boundary, not a demand for a separate grounding system or manual classification of every record. A projection that emits no BIG assertion does not prove that its full native definition contains no size information. Unclassified records therefore continue to block absence defaults until their typed interpretation justifies a narrower relevance set.
+
+The native collector now accepts an explicit adapter-owned `bank_relevance_for_entry` classification. SentiWordNet's exact six-field sentiment record is classified as relevant to GOOD; its identity fields introduce no additional measurement. This does not assert a positive, negative or zero lexical sign. Extra fields, malformed ratings, and unrecognized record shapes remain unclassified, and existing explicit annotations are preserved. Native record identity is computed before adding derived relevance. WordNet's unrestricted definition text remains potentially relevant to every bank; the bridge does not remove that separate blocker.
 
 ## Category content
 
@@ -90,11 +96,13 @@ The approved coordinate is exactly: −1 = NOT WANT, 0 = orthogonal to wanting, 
 
 The source of authority is a defensible law, not the filename `primitives_v2`. Rohan's sentence architecture explicitly gives VERY one positive step and repeated VERY two steps, with EXTREMELY corresponding to two steps. The construction contract pins VERY=+1 and EXTREMELY=+2 and checks that the runtime registry agrees; disagreement fails as ORDINAL_REPRESENTATION_DRIFT.
 
-Both historical competing tables already occur in the first repository commit. Their pre-repository origins cannot be recovered from this Git history. The exploratory quantity ordering does not justify declaring every historical rank authoritative. Other ordinal positions therefore require explicit justified definition-specific manifest input; they are not automatically imported from either old table.
+The approved manifest applies this convention to exact existing definitions: `wordnet:very:very.r.01` (the intensifier) and `wordnet:extremely:extremely.r.02` (“to an extreme degree”). Both carry INTENSITY=+1, with per-component hierarchy 1 and 2 respectively. The sign remains balanced ternary; degree is separate metadata. Other VERY and EXTREMELY definitions do not inherit these assignments by spelling. This fills the previously missing link between the approved ordinal convention and actual constructed entries; their remaining banks are not presumed zero.
+
+Both historical competing tables already occur in the first repository commit, and both have antecedents in the supplied project documents: `GSE_V2.md` gives VERY=1 and EXTREMELY=2, whereas `pronouns_numbers.md` gives the larger alternative scale. Their provenance is therefore not wholly unknown. The approved sentence-scale law determines the canonical convention used here. Other ordinal positions require explicit, justified definition-specific manifest input and a versioned migration where a consumer uses a competing scale; they are not automatically imported from either old table.
 
 The old `scripts/encode_modifiers.py` writer selects the first matching spelling and writes an unused competing hierarchy table. Writes through it are disabled; its dry-run inspection remains read-only. Historical constants remain readable for diagnosis, not authoritative construction inputs.
 
-The active encoder's repeated-VERY and negation-scope composition still do not implement the sentence document fully, and versioned per-component hierarchy does not yet enter its legacy modifier-transfer branch. A separate unused parser already accumulates modifiers but uses different vector operations; substituting it blindly would alter representation. These consumer repairs remain explicit work. Stable ranks alone do not claim to fix sentence composition.
+The full GSE path already represents modifier and negation scope: sign ownership distinguishes “not very good” from “very not good,” and the expression layer distinguishes hierarchy-direction evidence from syntactic negation. It is incorrect to describe composition architecture as absent. The narrower audit finding is that repeated VERY is not normalized to the approved composed degree, and the final structural comparison can treat “very good” and “not very good” as equal despite their distinct sign evidence. Versioned per-component hierarchy also needs to reach the existing sentence consumer. These are consumer integration and output-fidelity repairs, not missing lexical coordinates or reasons to import a second parser wholesale.
 
 ## Construction and inference
 
@@ -102,7 +110,9 @@ The production entry point is `python -m gse.curation.cli.commands`. Constructio
 
 Hard source assertions and foundational constraints are inviolate. Approved ordinary conditional constraints can be locally excepted with receipts. Jointly contradictory conditional components are withdrawn together rather than selecting an arbitrary winner. Current closure is generalized arc consistency, not exhaustive global satisfiability. Counts and weighting never turn a candidate into an approved law.
 
-The intended induction loop uses independent source evidence to propose mechanisms, retain counterexamples, identify justified typed guards, test specialized rules against independent anchors and the whole eligible population, and version admitted rules. Significance orders investigations; it does not become a truth gate. The current candidate-discovery and local-exception mechanisms do not yet implement the full induction/specialization/promotion loop.
+The intended induction loop uses independent source evidence to propose mechanisms, retain counterexamples, identify justified typed guards, test specialized rules against independent anchors and the whole eligible population, and version admitted rules. Significance orders investigations; it does not become a truth gate. GSE already has recursive genus/differentia construction, aggregation, lexical pattern networks, and `MerkleLearningBridge.train_from_tree`, called by the public `GSEPipeline.train_from_corpus` method. Document significance and coherence also already serve interpretation and repair. Their existence must be credited; their outputs and contracts must not be conflated with admission of a causal lexical rule.
+
+The inspected legacy aggregation/decomposition paths drop explicit zeros, select or combine conflicting signs, or resolve by the first lemma row. They cannot be substituted unchanged for definition identity, retained conflict, and warranted-zero semantics. The remaining construction work is to adapt usable machinery and supply the causal justification, typed guards, counterexample receipts and versioned admission boundary. The inspected candidate-discovery and local-exception paths do not yet establish that full process. This is a specific contract gap, not a project-wide claim that lexical learning or significance machinery is missing.
 
 ## Bounded residual model
 
@@ -122,22 +132,34 @@ The previous 155,111-definition baseline was replay-validated before these decis
 
 ## Implementation status and completion criteria
 
+This ledger distinguishes a capability already present elsewhere in GSE from an unverified connection to the new dictionary. The 2026-10-29 whole-project audit corrects the earlier ledger, which incorrectly elevated several builder-local omissions into missing architecture. Historical documents supply design context; code and executable checks establish current implementation.
+
 | Area | Status |
 |---|---|
 | Definition identity, strict evidence, domains, storage, runtime selection | Implemented |
 | Eighteen approved category relations | Implemented in default construction |
 | Evidence-conditioned evaluation/size defaults | Implemented with typed relevance and replay |
 | WANT polarity; explicit NOT WANT and THIS lexical anchors | Implemented contract and manifest |
-| Stable supported ordinal laws and competing writer prevention | Implemented; broader ordinal justification remains |
-| Complete reviewed prime signatures and native relevance classification | Incomplete |
-| Full significance-guided induction, specialization and promotion | Incomplete |
-| Grammatical capability persistence/consumption, demonstrative reference constraints | Incomplete |
-| Active modifier composition consistent with ordinal/scope laws | Incomplete |
-| Independent semantic gold and readiness to replace active lexicon | Not established |
+| Stable supported ordinal laws and competing writer prevention | Implemented; other existing scales require explicit reconciliation |
+| Complete reviewed, definition-scoped prime signatures | Not established by the inspected one-hot Tier-0 catalog; partial anchors are not complete signatures |
+| Native-record relevance | Existing source interpretation must feed the new guards; unrestricted or unresolved records remain conservative |
+| Lexical discovery and significance machinery | Existing; adaptation and causal rule admission remain incomplete in the new construction path |
+| Grammatical roles, THIS reference and possession | Existing in the active GSE path; no new static-mask prerequisite |
+| Modifier and negation scope | Existing; composed-degree and final-output fidelity have specific unresolved defects |
+| Existing evaluation resources | Present; their identity, scale and independence must match the claim being tested |
+| Independent ternary labels and readiness to replace active lexicon | Not established for this new artifact by replay or existing similarity labels alone |
 
-Completion requires these remaining consumers and semantic foundations to be implemented and exercised through the production path, followed by whole-corpus replay and independent semantic evaluation. Neither passing unit tests nor a fully populated registry substitutes for those requirements.
+A complete full-corpus build means every requested definition and source record has been processed, every warranted assignment stored, and every unresolved/conflicted outcome explicitly accounted for. It does not mean every cell has become known. Replay verifies that artifact's construction contract. Readiness to replace the active lexicon additionally requires compatible behavior through current consumers and independent semantic evaluation appropriate to the new representation. Neither a populated registry nor passing unit tests substitutes for these distinct requirements.
 
-## Verification receipt — accepted convention build
+The specific sentence parsing and modifier-output defects above are existing full-project issues. They must not be presented as missing lexicon construction subsystems or used to justify duplicating GSE's grammar, reference, or composition layers.
+
+### Whole-project audit sources
+
+The audit read `sentence_architecture.md`, `complex_sentence_architecture.md`, `pronouns_numbers.md`, `GSE_HDC_architecture.md`, `GSE_V2.md`, `geometric_frame_semantics_architecture_v2.md`, and the relevant complete method sections of `GSE_PAPER_EXPERIMENTS/GSE_PAPER_SKELETON.md` in the supplied Core Documents/GSE directory. The paper method explicitly separates vector similarity from logical structure and assigns roles dynamically. The learning summary and Wiktionary resolver document provide historical construction context, not proof that their old outputs satisfy the current contract.
+
+Current implementation evidence includes the active encoder/document intake, symbolic expression/sign/reference machinery, source scope and native adapters, Tier-0 dispatch, the definition linker, constraint aggregation and its daemon consumer, and the Merkle learning bridge. In particular, old word/POS-keyed artifacts and association-driven outputs are reusable evidence; their size or presence does not establish definition-scoped correctness. `docs/THEORY.md` remains excluded.
+
+## Historical verification receipt — accepted convention build
 
 The production CLI rebuilt the 67,111-spelling source cohort into `data/lexicon_builder/2026-10-29/accepted.db`, retaining the preceding baseline separately. The accepted snapshot has 155,113 definitions (including the two authored definitions), 3,208,354 source observations, 23 approved relations, and three explicit anchor definitions. It has 215,855 assigned cells, including 106,606 explicit zeros, and 8,470,473 unresolved cells. All entries remain PARTIAL; no model calls were made.
 
@@ -146,3 +168,40 @@ The read-only CLI replay checked all 155,113 definitions: REPLAY_VALIDATED, zero
 The native corpus did not trigger the new absence defaults: its 48,892 adjective guard checks were blocked by relevance (including unclassified evidence), and the remaining 261,334 guard checks were outside adjective scope. Focused integration tests cover eligible defaults, unresolved relevant evidence, both known nonzero components, candidate links, altered saved evidence, and model immutability. This distinction prevents a no-conflict corpus result from being mislabeled as validation of the defaults' linguistic coverage.
 
 `scripts/ci_local.sh` completed successfully after these implementation changes. Scoped type checking of the construction package and retired modifier writer also passed; the repository-wide type pass remains advisory. Machine-readable build, replay and comparison receipts are saved in `docs/readings/2026-10-29-lexicon-coherence/accepted-*.json`. These are structural verification results; independent semantic gold remains NOT_CHECKED.
+
+## Verification receipt — full-cohort rebuild after the project audit
+
+The production CLI rebuilt `data/lexicon_builder/2026-10-29/corpus.db` from the established 67,111-spelling cohort and all eleven available local source adapters. There are 155,113 definition entries and 3,208,354 native observations. Every requested spelling is accounted for: 65,967 have identified definitions and 1,144 carry an explicit `NO_IDENTIFIED_DEFINITION` diagnostic. The two separately authored spellings, THIS and NOT WANT, remain outside that requested list. This is full coverage of the requested cohort, not a claim to have enumerated every word in every local graph or dictionary.
+
+The snapshot contains 215,857 assigned cells, including 106,606 explicit zeros, with 8,470,471 unresolved cells. All definitions remain PARTIAL. There are no conflicted cells and no model calls. Compared with the preceding accepted artifact, no definition identity or known assignment was lost, and no known value changed. The only new assigned cells are the two exact INTENSITY anchors; their hierarchy levels are 1 and 2. The collector classified 114,316 in-cohort SentiWordNet observations. Unrestricted WordNet evidence still blocks all 48,892 adjective absence-guard checks; a relevance annotation on one source cannot suppress another source's unresolved information.
+
+Full read-only replay checked all 155,113 entries with zero mismatches and verified the representation contract. SQLite integrity checking returned `ok`, and all published coordinates are balanced ternary integers. Replay remains a local arc-consistency check; it is not a global satisfiability proof or independent semantic evaluation. The machine receipts preserve these qualifications rather than replacing them with a single success score.
+
+The public runtime audit verifies the restored causal, comparison and restriction operations, existing coordination/control/temporal structure and demonstrative type assertion, signed WANT anchors, THIS objectness without HAVE, and the distinct nonzero degree vectors. Its finite structural probes use the empty genealogy provider, so they do not establish world-grounded correctness. At this measurement, “not very good” still receives the wrong scope through ambiguous ordinary lexical lookup even though its explicit intensity definition encodes correctly. This migration failure is distinct from the older full-path degree-emission defect described above; the active lexicon has not been replaced.
+
+The independent-resource readiness audit reads SimLex-999, WordSim-353 and 187 adjective intensity scales with all 75 tied rank groups preserved. These are useful human-label resources. Their scores and ranks are not bank trits, and a unique spelling/POS candidate is not proof of the annotation's intended definition. The audit therefore records `NOT_BANK_GOLD` and `NOT_EVALUATED` for bank-semantic correctness. Complete sense-linked prime signatures and an appropriate independent bank evaluation remain unestablished; no missing labels or unknown coordinates have been manufactured to close that gap.
+
+The final repository gate completed successfully: 5,565 tests passed, 55 were skipped, and 16 were expected failures, with no failures or collection errors. The gate includes pinned lint and format checks; scoped type checking of changed production code and audit scripts also passed. A collection-order dependency exposed by the real `uv run pytest` entry point was fixed in `tests/conftest.py`, so operational-script imports no longer rely on another test having already placed the repository root on the import path.
+
+### Reproduction and receipts
+
+Run from the repository root:
+
+```bash
+.venv/bin/python -m gse.curation.cli.commands \
+  --lexicon-db data/lexicon_builder/2026-10-29/corpus.db build \
+  --words-file data/lexicon_builder/2026-10-29/words.txt \
+  --rules docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json \
+  --report docs/readings/2026-10-29-lexicon-coherence/corpus-build-report.json
+.venv/bin/python -m gse.curation.cli.commands \
+  --lexicon-db data/lexicon_builder/2026-10-29/corpus.db validate
+.venv/bin/python scripts/audit_lexicon_runtime.py \
+  --lexicon-db data/lexicon_builder/2026-10-29/corpus.db \
+  --report docs/readings/2026-10-29-lexicon-coherence/runtime-corpus-audit.json
+.venv/bin/python scripts/audit_lexicon_evaluation_readiness.py \
+  --lexicon-db data/lexicon_builder/2026-10-29/corpus.db \
+  --output docs/readings/2026-10-29-lexicon-coherence/evaluation-readiness.json
+bash scripts/ci_local.sh
+```
+
+`corpus-verification-receipt.json` indexes `corpus-build-report.json`, `corpus-validation-report.json`, `corpus-comparison.json`, `runtime-corpus-audit.json` and `evaluation-readiness.json`, saved together under `docs/readings/2026-10-29-lexicon-coherence/`. The comparison receipt includes hashes of the exact word list and approved manifest. The build database, JUnit results and detailed execution logs remain local under `data/lexicon_builder/2026-10-29/`.

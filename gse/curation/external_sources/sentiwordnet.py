@@ -6,6 +6,7 @@ Maps sentiment scores to GOOD/BAD primitives.
 """
 
 import logging
+import math
 from dataclasses import dataclass
 from typing import Dict, List, Optional
 
@@ -86,6 +87,43 @@ class SentiWordNetParser:
         """Convert WordNet POS to standard."""
         pos_map = {"n": "noun", "v": "verb", "a": "adj", "r": "adv", "s": "adj"}
         return pos_map.get(wn_pos, "unknown")
+
+    def bank_relevance_for_entry(self, entry: object) -> dict | None:
+        """Classify only the closed native sentiment record, never its polarity.
+
+        Positive, negative and objective scores measure one sentiment axis.
+        Word, POS and synset ID identify the rated object; they are not further
+        measurements. This is record-level relevance to canonical GOOD, not a
+        claim that a high or low rating defines the word's lexical sign.
+
+        Unknown fields or record shapes could carry additional semantic evidence
+        (including size), so they remain unclassified. In particular, neither
+        source competence nor the legacy threshold projection licenses narrowing.
+        """
+        if type(entry) is not SentiWordEntry or set(vars(entry)) != {
+            "word",
+            "pos",
+            "pos_score",
+            "neg_score",
+            "obj_score",
+            "synset_id",
+        }:
+            return None
+        if any(not isinstance(value, str) or not value.strip() for value in (entry.word, entry.pos, entry.synset_id)):
+            return None
+        scores = (entry.pos_score, entry.neg_score, entry.obj_score)
+        if any(type(value) not in (int, float) or not math.isfinite(value) or not 0 <= value <= 1 for value in scores):
+            return None
+        if not math.isclose(sum(scores), 1.0, rel_tol=0.0, abs_tol=1e-9):
+            return None
+        return {
+            "code": "CLASSIFIED",
+            "banks": ["GOOD"],
+            "provenance": [
+                "sentiwordnet:SentiWordEntry/1:positive-negative-objective-sentiment",
+                f"sentiwordnet:synset:{entry.synset_id}",
+            ],
+        }
 
     def get_sentiment(self, word: str, pos: Optional[str] = None) -> Optional[Dict[str, float]]:
         """

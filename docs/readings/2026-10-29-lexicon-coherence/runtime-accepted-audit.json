@@ -1,0 +1,721 @@
+{
+  "format": "gse.runtime-compatibility-audit/1",
+  "measured_at": "2026-10-29T17:13:51.760993+00:00",
+  "lexicon_db": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-10-29/accepted.db",
+  "file_identity": {
+    "size": 5080776704,
+    "mtime_ns": 1793291309308525340
+  },
+  "scope": {
+    "structure": "Eleven hand-authored top-operation probes; two also check sign ownership. Not full semantic gold.",
+    "anchors": "Explicit founder-approved definition IDs, signed bases, ordinal 1/2, and sense isolation.",
+    "genealogy": "EXPLICIT_NULL_GENEALOGY",
+    "world_grounding": "UNVERIFIED",
+    "corpus_semantic_accuracy": "NOT_MEASURED",
+    "degree_composition": "Only not-very versus very-not scope; repeated-VERY normalization is not measured."
+  },
+  "by_class": {
+    "causal": {
+      "IDENTIFIED": 1
+    },
+    "comparison": {
+      "IDENTIFIED": 1
+    },
+    "control": {
+      "IDENTIFIED": 1
+    },
+    "coordination": {
+      "IDENTIFIED": 1
+    },
+    "degree_vector_distinction": {
+      "ABSTAINED": 1
+    },
+    "demonstrative": {
+      "IDENTIFIED": 1
+    },
+    "event": {
+      "IDENTIFIED": 1
+    },
+    "extremely_degree": {
+      "ABSTAINED": 1
+    },
+    "negation": {
+      "IDENTIFIED": 1
+    },
+    "not_very_scope": {
+      "WRONG": 1
+    },
+    "other_very_senses_unknown": {
+      "IDENTIFIED": 3
+    },
+    "restriction": {
+      "IDENTIFIED": 1
+    },
+    "temporal": {
+      "IDENTIFIED": 1
+    },
+    "this_object": {
+      "IDENTIFIED": 1
+    },
+    "very_degree": {
+      "ABSTAINED": 1
+    },
+    "very_not_scope": {
+      "IDENTIFIED": 1
+    },
+    "want_negative": {
+      "IDENTIFIED": 1
+    },
+    "want_positive": {
+      "IDENTIFIED": 1
+    }
+  },
+  "records": [
+    {
+      "class": "event",
+      "text": "Alice helps Bob.",
+      "expected_top_operation": "EVENT",
+      "outcome": "IDENTIFIED",
+      "actual_top_operation": "EVENT",
+      "contract": {
+        "contract_version": "2.0",
+        "predicate": {
+          "op": "EVENT",
+          "args": [
+            {
+              "entity_id": "e0",
+              "lemma": "alice",
+              "type_thread": []
+            },
+            {
+              "entity_id": "e1",
+              "lemma": "bob",
+              "type_thread": []
+            }
+          ],
+          "features": {
+            "verb": "help"
+          }
+        }
+      },
+      "sign_owners": [],
+      "structural_loss": [],
+      "lexical_selection_counts": {
+        "NOT_FOUND": 2,
+        "AMBIGUOUS": 2
+      }
+    },
+    {
+      "class": "causal",
+      "text": "Alice helps Bob because Bob helps Carol.",
+      "expected_top_operation": "CAUSATION",
+      "outcome": "IDENTIFIED",
+      "actual_top_operation": "CAUSATION",
+      "contract": {
+        "contract_version": "2.0",
+        "predicate": {
+          "op": "CAUSATION",
+          "args": [
+            {
+              "op": "EVENT",
+              "args": [
+                {
+                  "entity_id": "e1",
+                  "lemma": "bob",
+                  "type_thread": []
+                },
+                {
+                  "entity_id": "e2",
+                  "lemma": "carol",
+                  "type_thread": []
+                }
+              ],
+              "features": {
+                "verb": "help"
+              }
+            },
+            {
+              "op": "EVENT",
+              "args": [
+                {
+                  "entity_id": "e0",
+                  "lemma": "alice",
+                  "type_thread": []
+                },
+                {
+                  "entity_id": "e1",
+                  "lemma": "bob",
+                  "type_thread": []
+                }
+              ],
+              "features": {
+                "verb": "help"
+              }
+            }
+          ],
+          "features": {
+            "conjunction": "because"
+          }
+        }
+      },
+      "sign_owners": [],
+      "structural_loss": [],
+      "lexical_selection_counts": {
+        "NOT_FOUND": 3,
+        "AMBIGUOUS": 5
+      }
+    },
+    {
+      "class": "coordination",
+      "text": "Alice helps Bob and Carol helps Dave.",
+      "expected_top_operation": "CLAUSE_COORD",
+      "outcome": "IDENTIFIED",
+      "actual_top_operation": "CLAUSE_COORD",
+      "contract": {
+        "contract_version": "2.0",
+        "predicate": {
+          "op": "CLAUSE_COORD",
+          "args": [
+            {
+              "op": "EVENT",
+              "args": [
+                {
+                  "entity_id": "e0",
+                  "lemma": "alice",
+                  "type_thread": []
+                },
+                {
+                  "entity_id": "e1",
+                  "lemma": "bob",
+                  "type_thread": []
+                }
+              ],
+              "features": {
+                "verb": "help"
+              }
+            },
+            {
+              "op": "EVENT",
+              "args": [
+                {
+                  "entity_id": "e2",
+                  "lemma": "carol",
+                  "type_thread": []
+                },
+                {
+                  "entity_id": "e3",
+                  "lemma": "dave",
+                  "type_thread": []
+                }
+              ],
+              "features": {
+                "verb": "help"
+              }
+            }
+          ],
+          "features": {
+            "conjunction": "and"
+          }
+        }
+      },
+      "sign_owners": [],
+      "structural_loss": [],
+      "lexical_selection_counts": {
+        "NOT_FOUND": 4,
+        "AMBIGUOUS": 4
+      }
+    },
+    {
+      "class": "comparison",
+      "text": "The dog is bigger than the cat.",
+      "expected_top_operation": "COMPARISON",
+      "outcome": "IDENTIFIED",
+      "actual_top_operation": "COMPARISON",
+      "contract": {
+        "contract_version": "2.0",
+        "predicate": {
+          "op": "COMPARISON",
+          "args": [
+            {
+              "entity_id": "e0",
+              "lemma": "big dog",
+              "type_thread": []
+            },
+            {
+              "entity_id": "e1",
+              "lemma": "cat",
+              "type_thread": []
+            }
+          ],
+          "features": {
+            "sign": 1,
+            "axis": null
+          }
+        }
+      },
+      "sign_owners": [],
+      "structural_loss": [],
+      "lexical_selection_counts": {
+        "NOT_FOUND": 4,
+        "AMBIGUOUS": 4
+      }
+    },
+    {
+      "class": "restriction",
+      "text": "Only the dog runs.",
+      "expected_top_operation": "SET_RESTRICT",
+      "outcome": "IDENTIFIED",
+      "actual_top_operation": "SET_RESTRICT",
+      "contract": {
+        "contract_version": "2.0",
+        "predicate": {
+          "op": "SET_RESTRICT",
+          "args": [
+            {
+              "entity_id": "e0",
+              "lemma": "dog",
+              "type_thread": []
+            },
+            {
+              "op": "EVENT",
+              "args": [
+                {
+                  "entity_id": "e0",
+                  "lemma": "dog",
+                  "type_thread": []
+                }
+              ],
+              "features": {
+                "verb": "run"
+              }
+            }
+          ],
+          "features": {}
+        }
+      },
+      "sign_owners": [],
+      "structural_loss": [],
+      "lexical_selection_counts": {
+        "AMBIGUOUS": 3,
+        "NOT_FOUND": 2
+      }
+    },
+    {
+      "class": "control",
+      "text": "Alice wants to leave.",
+      "expected_top_operation": "CONTROL",
+      "outcome": "IDENTIFIED",
+      "actual_top_operation": "CONTROL",
+      "contract": {
+        "contract_version": "2.0",
+        "predicate": {
+          "op": "CONTROL",
+          "args": [
+            {
+              "entity_id": "e0",
+              "lemma": "alice",
+              "type_thread": []
+            },
+            {
+              "entity_id": "e0",
+              "lemma": "alice",
+              "type_thread": []
+            },
+            {
+              "op": "EVENT",
+              "args": [
+                {
+                  "entity_id": "e0",
+                  "lemma": "alice",
+                  "type_thread": []
+                }
+              ],
+              "features": {
+                "verb": "leave"
+              }
+            }
+          ],
+          "features": {
+            "verb": "want"
+          }
+        }
+      },
+      "sign_owners": [],
+      "structural_loss": [],
+      "lexical_selection_counts": {
+        "NOT_FOUND": 3,
+        "AMBIGUOUS": 2
+      }
+    },
+    {
+      "class": "temporal",
+      "text": "When Alice leaves, Bob sleeps.",
+      "expected_top_operation": "TEMPORAL",
+      "outcome": "IDENTIFIED",
+      "actual_top_operation": "TEMPORAL",
+      "contract": {
+        "contract_version": "2.0",
+        "predicate": {
+          "op": "TEMPORAL",
+          "args": [
+            {
+              "op": "EVENT",
+              "args": [
+                {
+                  "entity_id": "e0",
+                  "lemma": "alice",
+                  "type_thread": []
+                }
+              ],
+              "features": {
+                "verb": "leave"
+              }
+            },
+            {
+              "op": "EVENT",
+              "args": [
+                {
+                  "entity_id": "e1",
+                  "lemma": "bob",
+                  "type_thread": []
+                }
+              ],
+              "features": {
+                "verb": "sleep"
+              }
+            }
+          ],
+          "features": {
+            "conjunction": "when"
+          }
+        }
+      },
+      "sign_owners": [],
+      "structural_loss": [],
+      "lexical_selection_counts": {
+        "NOT_FOUND": 4,
+        "AMBIGUOUS": 3
+      }
+    },
+    {
+      "class": "demonstrative",
+      "text": "This is a dog.",
+      "expected_top_operation": "TYPE_ASSERT",
+      "outcome": "IDENTIFIED",
+      "actual_top_operation": "TYPE_ASSERT",
+      "contract": {
+        "contract_version": "2.0",
+        "predicate": {
+          "op": "TYPE_ASSERT",
+          "args": [
+            {
+              "entity_id": "e0",
+              "lemma": "this",
+              "type_thread": []
+            },
+            {
+              "entity_id": "e1",
+              "lemma": "dog",
+              "type_thread": []
+            }
+          ],
+          "features": {}
+        }
+      },
+      "sign_owners": [],
+      "structural_loss": [
+        {
+          "code": "missing_predicate",
+          "position": 1,
+          "lemma": "be",
+          "utterance_id": "demonstrative:u0",
+          "boundary": "construction"
+        },
+        {
+          "code": "missing_predicate",
+          "position": 1,
+          "lemma": "be",
+          "utterance_id": "demonstrative:u0",
+          "boundary": "analysis"
+        }
+      ],
+      "lexical_selection_counts": {
+        "IDENTIFIED": 1,
+        "AMBIGUOUS": 2,
+        "NOT_FOUND": 2
+      }
+    },
+    {
+      "class": "negation",
+      "text": "Alice does not help Bob.",
+      "expected_top_operation": "NOT",
+      "outcome": "IDENTIFIED",
+      "actual_top_operation": "NOT",
+      "contract": {
+        "contract_version": "2.0",
+        "predicate": {
+          "op": "NOT",
+          "args": [
+            {
+              "op": "EVENT",
+              "args": [
+                {
+                  "entity_id": "e0",
+                  "lemma": "alice",
+                  "type_thread": []
+                },
+                {
+                  "entity_id": "e1",
+                  "lemma": "bob",
+                  "type_thread": []
+                }
+              ],
+              "features": {
+                "verb": "help"
+              }
+            }
+          ],
+          "features": {}
+        }
+      },
+      "sign_owners": [
+        {
+          "owner": 3,
+          "decision": "content",
+          "sources": [
+            {
+              "position": 2,
+              "lemma": "not",
+              "owner": 3,
+              "decision": "content"
+            }
+          ],
+          "count": 1,
+          "polarity": "negated",
+          "mechanism": "syntactic_negation"
+        }
+      ],
+      "structural_loss": [],
+      "lexical_selection_counts": {
+        "NOT_FOUND": 2,
+        "AMBIGUOUS": 3,
+        "IDENTIFIED": 1
+      }
+    },
+    {
+      "class": "not_very_scope",
+      "text": "The dog is not very good.",
+      "expected_top_operation": "TYPE_ASSERT",
+      "outcome": "WRONG",
+      "actual_top_operation": "NOT",
+      "contract": {
+        "contract_version": "2.0",
+        "predicate": {
+          "op": "NOT",
+          "args": [
+            {
+              "op": "TYPE_ASSERT",
+              "args": [
+                {
+                  "entity_id": "e0",
+                  "lemma": "dog",
+                  "type_thread": []
+                },
+                "very good"
+              ],
+              "features": {}
+            }
+          ],
+          "features": {}
+        }
+      },
+      "sign_owners": [
+        {
+          "owner": 5,
+          "decision": "content",
+          "sources": [
+            {
+              "position": 3,
+              "lemma": "not",
+              "owner": 5,
+              "decision": "content"
+            }
+          ],
+          "count": 1,
+          "polarity": "negated",
+          "mechanism": "syntactic_negation"
+        }
+      ],
+      "structural_loss": [],
+      "lexical_selection_counts": {
+        "NOT_FOUND": 2,
+        "AMBIGUOUS": 4,
+        "IDENTIFIED": 1
+      }
+    },
+    {
+      "class": "very_not_scope",
+      "text": "The dog is very not good.",
+      "expected_top_operation": "NOT",
+      "outcome": "IDENTIFIED",
+      "actual_top_operation": "NOT",
+      "contract": {
+        "contract_version": "2.0",
+        "predicate": {
+          "op": "NOT",
+          "args": [
+            {
+              "op": "TYPE_ASSERT",
+              "args": [
+                {
+                  "entity_id": "e0",
+                  "lemma": "dog",
+                  "type_thread": []
+                },
+                "very good"
+              ],
+              "features": {}
+            }
+          ],
+          "features": {}
+        }
+      },
+      "sign_owners": [
+        {
+          "owner": 5,
+          "decision": "content",
+          "sources": [
+            {
+              "position": 4,
+              "lemma": "not",
+              "owner": 5,
+              "decision": "content"
+            }
+          ],
+          "count": 1,
+          "polarity": "negated",
+          "mechanism": "syntactic_negation"
+        }
+      ],
+      "structural_loss": [],
+      "lexical_selection_counts": {
+        "NOT_FOUND": 2,
+        "AMBIGUOUS": 4,
+        "IDENTIFIED": 1
+      }
+    },
+    {
+      "class": "this_object",
+      "entry_id": "gse:prime:this",
+      "expected_bank": "SOMETHING",
+      "expected_value": 1,
+      "outcome": "IDENTIFIED",
+      "selection": "IDENTIFIED",
+      "assignments": {
+        "SOMETHING": 1
+      },
+      "hierarchy": {},
+      "vector_nnz": 113,
+      "signed_base_preserved": true,
+      "have_domain": [
+        -1,
+        0,
+        1
+      ]
+    },
+    {
+      "class": "want_positive",
+      "entry_id": "wordnet:want:desire.v.01",
+      "expected_bank": "WANT",
+      "expected_value": 1,
+      "outcome": "IDENTIFIED",
+      "selection": "IDENTIFIED",
+      "assignments": {
+        "WANT": 1
+      },
+      "hierarchy": {},
+      "vector_nnz": 146,
+      "signed_base_preserved": true
+    },
+    {
+      "class": "want_negative",
+      "entry_id": "gse:prime:dont-want",
+      "expected_bank": "WANT",
+      "expected_value": -1,
+      "outcome": "IDENTIFIED",
+      "selection": "IDENTIFIED",
+      "assignments": {
+        "WANT": -1
+      },
+      "hierarchy": {},
+      "vector_nnz": 146,
+      "signed_base_preserved": true
+    },
+    {
+      "class": "very_degree",
+      "entry_id": "wordnet:very:very.r.01",
+      "expected_bank": "INTENSITY",
+      "expected_value": 1,
+      "expected_hierarchy": 1,
+      "outcome": "ABSTAINED",
+      "selection": "IDENTIFIED",
+      "assignments": {
+        "SOMETHING": 0
+      },
+      "hierarchy": {},
+      "vector_nnz": 0
+    },
+    {
+      "class": "extremely_degree",
+      "entry_id": "wordnet:extremely:extremely.r.02",
+      "expected_bank": "INTENSITY",
+      "expected_value": 1,
+      "expected_hierarchy": 2,
+      "outcome": "ABSTAINED",
+      "selection": "IDENTIFIED",
+      "assignments": {
+        "SOMETHING": 0
+      },
+      "hierarchy": {},
+      "vector_nnz": 0
+    },
+    {
+      "class": "degree_vector_distinction",
+      "outcome": "ABSTAINED",
+      "property": "Two approved nonzero degree vectors differ while retaining their positive base."
+    },
+    {
+      "class": "other_very_senses_unknown",
+      "entry_id": "wordnet:very:identical.s.02",
+      "outcome": "IDENTIFIED",
+      "intensity_domain": [
+        -1,
+        0,
+        1
+      ],
+      "hierarchy": {}
+    },
+    {
+      "class": "other_very_senses_unknown",
+      "entry_id": "wordnet:very:very.r.02",
+      "outcome": "IDENTIFIED",
+      "intensity_domain": [
+        -1,
+        0,
+        1
+      ],
+      "hierarchy": {}
+    },
+    {
+      "class": "other_very_senses_unknown",
+      "entry_id": "wordnet:very:very.s.01",
+      "outcome": "IDENTIFIED",
+      "intensity_domain": [
+        -1,
+        0,
+        1
+      ],
+      "hierarchy": {}
+    }
+  ]
+}

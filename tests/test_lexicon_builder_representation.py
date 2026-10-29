@@ -17,6 +17,8 @@ from scripts.encode_modifiers import encode_modifiers
 
 APPROVED_MANIFEST = Path(__file__).resolve().parents[1] / "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json"
 WANT_ID = "wordnet:want:desire.v.01"
+VERY_ID = "wordnet:very:very.r.01"
+EXTREMELY_ID = "wordnet:extremely:extremely.r.02"
 
 
 def test_approved_intensity_contract_matches_runtime():
@@ -57,21 +59,27 @@ def test_runtime_ordinal_drift_is_named_and_prevents_output(tmp_path, monkeypatc
 
 @pytest.fixture
 def approved_build(tmp_path):
-    definition = Definition(WANT_ID, "want", "v", "feel or have a desire for; want strongly")
+    definitions = (
+        Definition(WANT_ID, "want", "v", "feel or have a desire for; want strongly"),
+        Definition(VERY_ID, "very", "adv", "used as intensifiers"),
+        Definition(EXTREMELY_ID, "extremely", "adv", "to an extreme degree"),
+    )
     output = tmp_path / "approved.db"
-    report = build_dictionary(EvidenceBundle((definition,), (), (), ()), output, manifest=APPROVED_MANIFEST)
+    report = build_dictionary(EvidenceBundle(definitions, (), (), ()), output, manifest=APPROVED_MANIFEST)
     return output, report
 
 
 def test_approved_anchors_preserve_unknown_banks_and_definition_identity(approved_build):
     path, report = approved_build
-    assert report["definitions"] == 3
+    assert report["definitions"] == 5
     assert report["source_observations"] == {}
     assert report["model_calls"] == 0
     expected = {
         WANT_ID: {"WANT": 1},
         "gse:prime:dont-want": {"WANT": -1},
         "gse:prime:this": {"SOMETHING": 1},
+        VERY_ID: {"SOMETHING": 0, "INTENSITY": 1},
+        EXTREMELY_ID: {"SOMETHING": 0, "INTENSITY": 1},
     }
     with GSEEncoder(str(path)) as encoder:
         for entry_id, assignments in expected.items():
@@ -86,8 +94,41 @@ def test_approved_anchors_preserve_unknown_banks_and_definition_identity(approve
         assert encoder.lookup_definition("gse:prime:this")["selected"]["domains"]["HAVE"] == [-1, 0, 1]
     replay = validate_build(path)
     assert replay["code"] == "REPLAY_VALIDATED", replay
-    assert replay["entries_validated"] == 3
+    assert replay["entries_validated"] == 5
     assert replay["metadata_verification"]["representation_contract"] == "VERIFIED"
+
+
+def test_approved_intensifier_definitions_preserve_base_and_distinguish_degree(approved_build):
+    path, _ = approved_build
+    with GSEEncoder(str(path)) as encoder:
+        very = encoder.lookup_definition(VERY_ID)["selected"]
+        extremely = encoder.lookup_definition(EXTREMELY_ID)["selected"]
+        assert very["assignments"] == extremely["assignments"] == {"SOMETHING": 0, "INTENSITY": 1}
+        assert very["hierarchy"] == {"INTENSITY": 1}
+        assert extremely["hierarchy"] == {"INTENSITY": 2}
+        very_vector = encoder.encode_definition(VERY_ID)
+        extreme_vector = encoder.encode_definition(EXTREMELY_ID)
+        assert very_vector.nnz > 0
+        assert extreme_vector.nnz > 0
+        assert not np.array_equal(very_vector.to_dense(), extreme_vector.to_dense())
+
+
+def test_intensity_anchors_do_not_leak_into_other_definitions(tmp_path):
+    other_id = "wordnet:very:identical.s.02"
+    definitions = (
+        Definition(WANT_ID, "want", "v", "feel or have a desire for; want strongly"),
+        Definition(VERY_ID, "very", "adv", "used as intensifiers"),
+        Definition(EXTREMELY_ID, "extremely", "adv", "to an extreme degree"),
+        Definition(other_id, "very", "adj", "being the exact same one; not any other"),
+    )
+    path = tmp_path / "other-definitions.db"
+    build_dictionary(EvidenceBundle(definitions, (), (), ()), path, manifest=APPROVED_MANIFEST)
+    with GSEEncoder(str(path)) as encoder:
+        assert encoder.lexical_lookup("very")["selection_status"] == "AMBIGUOUS"
+        other = encoder.lookup_definition(other_id)["selected"]
+        assert "INTENSITY" not in other["assignments"]
+        assert other["domains"]["INTENSITY"] == [-1, 0, 1]
+        assert other["hierarchy"] == {}
 
 
 @pytest.mark.parametrize(

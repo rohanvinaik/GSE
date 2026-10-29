@@ -431,6 +431,15 @@ def collect_evidence(parsers: dict[str, object], words: tuple[str, ...] | None =
                     if metadata is not None:
                         features["frame_metadata"] = _json_value(metadata)
                 record_id = _record_id(source, word, features)
+                # Adapter-owned, typed record semantics may classify relevance.
+                # Keep identity based on native data and preserve an explicit
+                # existing annotation; a projection's output is not exhaustive
+                # relevance. Missing/abstaining hooks leave every bank possible.
+                relevance_hook = getattr(parser, "bank_relevance_for_entry", None)
+                if "bank_relevance" not in features and callable(relevance_hook):
+                    relevance = relevance_hook(native)
+                    if relevance is not None:
+                        features["bank_relevance"] = relevance
                 native_pos = _pos(features.get("pos"))
                 candidate_ids = tuple(d.entry_id for d in candidates if native_pos is None or native_pos == d.pos)
                 synset_name = features.get("synset_name", features.get("synset_id"))

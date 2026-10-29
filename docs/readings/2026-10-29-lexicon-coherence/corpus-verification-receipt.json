@@ -1,0 +1,121 @@
+{
+  "bank_gold": "NOT_BANK_GOLD",
+  "build": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-10-29/corpus.db",
+  "comparison": "CORPUS_COMPARISON_VALIDATED",
+  "construction": "FULL_REQUESTED_COHORT_PROCESSED_WITH_EXPLICIT_RESIDUALS",
+  "format": "gse.lexicon-verification-receipt/1",
+  "independent_bank_semantics": "NOT_EVALUATED",
+  "measured_at": "2026-10-29T17:21:44.090693+00:00",
+  "promotion": "NOT_PROMOTED_RUNTIME_SCOPE_FAILURE_AND_UNVALIDATED_SEMANTIC_COVERAGE",
+  "replay": "REPLAY_VALIDATED",
+  "replay_entries": 155113,
+  "reports": {
+    "corpus-build-report.json": {
+      "sha256": "59f5b96315d96ee211fc548f09ed252ec29d3ba99a11e808cb6747d4317406e7"
+    },
+    "corpus-comparison.json": {
+      "sha256": "7ef546f35b7f40acdd3e7950601daa37bc60cdd8b4aa84072548287db7b5508b"
+    },
+    "corpus-validation-report.json": {
+      "sha256": "43a39afdcc85c20a2f38317481f10f20cd5bcaa77077c089f1fbdd02681b49cc"
+    },
+    "evaluation-readiness.json": {
+      "sha256": "1f0ee8aff70e2af1ab3167383a2602a7170ccb3607e15c1f6b04cde1785e81e5"
+    },
+    "runtime-corpus-audit.json": {
+      "sha256": "0b748813a696daf6003e9fb32c322638b74f6d38704b93ffe63443a5e6eb8d94"
+    }
+  },
+  "repository_gate": {
+    "command": "bash scripts/ci_local.sh",
+    "exit_code": 0,
+    "junit": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-10-29/corpus-tests.xml",
+    "skip_types": {
+      "pytest.skip": 55,
+      "pytest.xfail": 16
+    },
+    "tests": {
+      "errors": 0,
+      "failures": 0,
+      "passed": 5565,
+      "skipped": 71,
+      "tests": 5636
+    },
+    "type_check_policy": "REPOSITORY_ADVISORY_SCOPED_CHANGED_CODE_PASSED"
+  },
+  "requested_cohort": {
+    "authored_spellings_outside_requested_cohort": [
+      "not want",
+      "this"
+    ],
+    "explicitly_no_identified_definition": 1144,
+    "requested_spellings": 67111,
+    "unaccounted_spellings": [],
+    "with_identified_definitions": 65967
+  },
+  "runtime_by_class": {
+    "causal": {
+      "IDENTIFIED": 1
+    },
+    "comparison": {
+      "IDENTIFIED": 1
+    },
+    "control": {
+      "IDENTIFIED": 1
+    },
+    "coordination": {
+      "IDENTIFIED": 1
+    },
+    "degree_vector_distinction": {
+      "IDENTIFIED": 1
+    },
+    "demonstrative": {
+      "IDENTIFIED": 1
+    },
+    "event": {
+      "IDENTIFIED": 1
+    },
+    "extremely_degree": {
+      "IDENTIFIED": 1
+    },
+    "negation": {
+      "IDENTIFIED": 1
+    },
+    "not_very_scope": {
+      "WRONG": 1
+    },
+    "other_very_senses_unknown": {
+      "IDENTIFIED": 3
+    },
+    "restriction": {
+      "IDENTIFIED": 1
+    },
+    "temporal": {
+      "IDENTIFIED": 1
+    },
+    "this_object": {
+      "IDENTIFIED": 1
+    },
+    "very_degree": {
+      "IDENTIFIED": 1
+    },
+    "very_not_scope": {
+      "IDENTIFIED": 1
+    },
+    "want_negative": {
+      "IDENTIFIED": 1
+    },
+    "want_positive": {
+      "IDENTIFIED": 1
+    }
+  },
+  "source_fingerprints": {
+    "gse/api/encoder.py": "bbb5817c29d76e3fbc495f872cf6397cae8f2f0f1bbde056f1f9ae8d22a5588d",
+    "gse/curation/external_sources/sentiwordnet.py": "c13ed0e46035404574658c88607f1f862527febcf3412e8664f713a1c7151903",
+    "gse/curation/lexicon_builder/evidence.py": "5637643684ae07f20d9c9a1f30994d4b32bcb7e3e8e2b671ebc3d2280eb8c9a6",
+    "gse/curation/lexicon_builder/pipeline.py": "de484caf2be6f723d31705b7b93154d94f055baced67f04a1d3122c0303ab3ce",
+    "gse/curation/lexicon_builder/validation.py": "a3611b3396ebe3e710495b4a4d49d3d2f256de21d0413af6413c8855c81a467a",
+    "scripts/audit_lexicon_evaluation_readiness.py": "5775bfbee942e12208979ccb86771227aa6a01fceec0ef887d07f402d80b6dc5",
+    "scripts/audit_lexicon_runtime.py": "ee8c9a8e26664f698d80be38a0c46fb5141e77b736c95952ec914414bb80bc84"
+  }
+}

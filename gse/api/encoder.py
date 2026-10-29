@@ -13,7 +13,7 @@ import hashlib
 import os
 import sqlite3
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, TypedDict
+from typing import Any, Dict, List, Optional, Tuple, TypedDict, cast
 
 from gse.api.errors import OOVError, PrimitiveError
 from gse.api.parse_repair import verbs_to_promote
@@ -25,7 +25,7 @@ from gse.api.trace import (
 )
 from gse.nlp.linkers import head_linker_operation
 from gse.nlp.morphology import NEGATION
-from gse.primitives_v2 import BIPOLAR_PRIMITIVES
+from gse.primitives_v2 import BIPOLAR_PRIMITIVES, COMP_METADATA
 from gse.symbolic.modality import ATTITUDE_VERBS, EPISTEMIC_VERBS
 from gse.symbolic.tiers import is_clause_linking
 from gse.vectors_v2 import (
@@ -765,17 +765,30 @@ class GSEEncoder:
         """
         Look up word-scale and sentence-scale primitives for a lemma.
 
-        Fallback behavior (strict=False): Returns ({}, {}, {}) for OOV words
-        Strict behavior (strict=True): Raises OOVError for OOV words
+        Fallback behavior (strict=False): Returns empty content for OOV words.
+        Strict behavior (strict=True): Raises OOVError for unrecognized words.
+        Versioned dictionaries obtain registered grammatical operators separately
+        from lexical definition selection; their content can remain unresolved.
         """
         if self._definition_database:
             from gse.curation.lexicon_builder.storage import runtime_lookup
 
+            primitive = f"COMP_{lemma.upper()}"
+            registered = COMP_METADATA.get(primitive)
+            grammar: CompositionalMetadata = (
+                {
+                    "comp_primitive": primitive,
+                    "comp_arity": cast(int, registered["arity"]),
+                    "comp_operation": cast(str, registered["operation"]),
+                }
+                if registered is not None
+                else {}
+            )
             selection = runtime_lookup(self.conn, lemma.lower())
             if selection["code"] != "IDENTIFIED":
-                if selection["code"] == "NOT_FOUND" and self.strict:
+                if selection["code"] == "NOT_FOUND" and self.strict and not grammar:
                     raise OOVError(lemma)
-                return {}, {}, {}
+                return {}, {}, grammar
             entry = selection["selected"]
             word_prims = {bank: value for bank, value in entry["assignments"].items() if value != 0}
             sent_prims = dict(
@@ -793,7 +806,9 @@ class GSEEncoder:
                 if entry.get("comp_primitive")
                 else {}
             )
-            return word_prims, sent_prims, comp_meta
+            if grammar and comp_meta and grammar != comp_meta:
+                raise ValueError("GRAMMATICAL_OPERATOR_METADATA_MISMATCH")
+            return word_prims, sent_prims, grammar or comp_meta
 
         # Get lexeme ID and compositional metadata for the legacy active database.
         self.cursor.execute(

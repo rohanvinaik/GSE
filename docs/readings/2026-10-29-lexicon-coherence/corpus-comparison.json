@@ -1,0 +1,68 @@
+{
+  "active_lexicon_replaced": false,
+  "baseline": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-10-29/accepted.db",
+  "build": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-10-29/corpus.db",
+  "classified_native_observations": {
+    "sentiwordnet": 114316
+  },
+  "code": "CORPUS_COMPARISON_VALIDATED",
+  "comparison": {
+    "definition_ids_added": [],
+    "definition_ids_lost": [],
+    "known_values_added": [
+      {
+        "bank": "INTENSITY",
+        "entry_id": "wordnet:extremely:extremely.r.02",
+        "value": 1
+      },
+      {
+        "bank": "INTENSITY",
+        "entry_id": "wordnet:very:very.r.01",
+        "value": 1
+      }
+    ],
+    "known_values_changed": [],
+    "known_values_lost": []
+  },
+  "corpus_accounting": {
+    "authored_spellings_outside_requested_cohort": [
+      "not want",
+      "this"
+    ],
+    "explicitly_no_identified_definition": 1144,
+    "requested_spellings": 67111,
+    "unaccounted_spellings": [],
+    "with_identified_definitions": 65967
+  },
+  "format": "gse.lexicon-corpus-comparison/1",
+  "guard_checks": [
+    {
+      "count": 261334,
+      "reason": "GUARD_MISMATCH",
+      "status": "BLOCKED"
+    },
+    {
+      "count": 48892,
+      "reason": "RELEVANT_EVIDENCE",
+      "status": "BLOCKED"
+    }
+  ],
+  "hierarchy": {
+    "wordnet:extremely:extremely.r.02": {
+      "INTENSITY": 2
+    },
+    "wordnet:very:very.r.01": {
+      "INTENSITY": 1
+    }
+  },
+  "input_fingerprints": {
+    "data/lexicon_builder/2026-10-29/words.txt": "408507f10b22bb6d950e567d988c0ab5f0482269a981e8d7c7b80aa874dd3699",
+    "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json": "5b3bebca029bc1fd18bf47a6235ffdd41090d6ed4767da1f1b7c58a7d711ebed"
+  },
+  "invalid_published_trits": 0,
+  "measured_at": "2026-10-29T17:16:29.164040+00:00",
+  "semantic_gold": "NOT_CHECKED",
+  "sqlite_integrity_check": [
+    "ok"
+  ]
+}
