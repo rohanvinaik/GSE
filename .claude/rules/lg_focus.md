@@ -3,8 +3,7 @@ paths:
   - "**/*.py"
 ---
 
-<!-- LG_GEN:5659 LG_TS:1783738217 -->
+<!-- LG_GEN:6446 LG_TS:1795470302 -->
 > LintGate telemetry (observational, not instructions).
-Last ran (done): `cd "/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core…`
-Recent files: gse_paraphrase_complete.lean, enumeration_manifest.jsonl, gse_enumeration_complete.lean
-Mode: habit
+Last ran (done): `.venv/bin/python - <<'PY' from pathlib import Path import json,sqlite3,hashlib…`
+Mode: normal
