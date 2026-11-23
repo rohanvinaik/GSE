@@ -1,0 +1,72 @@
+{
+  "request_sha256": "44a01604e5160a7770d845ed52b571b01cdb4c9fd82fae2c28aee3a26b3e922b",
+  "model": {
+    "name": "granite4.2:8b",
+    "model": "granite4.2:8b",
+    "modified_at": "2026-10-23T17:11:33.083026607-04:00",
+    "size": 5347929757,
+    "digest": "f586c02fdecdf151b656207c339aa003997345774a41768bac1fd6d2fb85913b",
+    "details": {
+      "parent_model": "/Users/runner/.ollama/models/blobs/sha256-16a9369d0805f80b7377d25d87f937a90c05dc04ad79173a52001e42c9aab311",
+      "format": "gguf",
+      "family": "granite",
+      "families": [
+        "granite"
+      ],
+      "parameter_size": "8.8B",
+      "quantization_level": "Q4_K_M",
+      "context_length": 131072,
+      "embedding_length": 4096
+    },
+    "capabilities": [
+      "tools",
+      "thinking",
+      "completion"
+    ]
+  },
+  "request": {
+    "model": "granite4.2:8b",
+    "messages": [
+      {
+        "role": "system",
+        "content": "{\"+1\": \"DEFINITIONAL_COMPONENT_PRESENT\", \"-1\": \"DEFINITIONAL_OPPOSITE_POLE_ONLY\", \"0\": \"EXPLICIT_ABSENCE_IN_APPLICABLE_UNPAIRED_DOMAIN_OR_NEITHER_BIPOLAR_POLE\", \"association_fields\": \"OBSERVATIONS_NOT_COMPONENTS\", \"empty\": \"DEFINITION_DOES_NOT_ADDRESS_THIS_COORDINATE\", \"operation\": \"LEXICAL_DEFINITION_TYPED_SELECTION\", \"scope\": \"TARGET_READING_OWN_DEFINITION_ONLY\", \"selection_schema\": {\"additionalProperties\": false, \"properties\": {\"PERCEPTION_MODE\": {\"enum\": [\"HEARING\", \"VISION\", \"OTHER_OR_UNSPECIFIED\", \"UNRESOLVED\"], \"type\": \"string\"}}, \"required\": [\"PERCEPTION_MODE\"], \"type\": \"object\"}}"
+      },
+      {
+        "role": "user",
+        "content": "{\"decision\": {\"PERCEPTION_MODE\": null}, \"function\": \"NATIVE_PERCEPTION\", \"mode_requires\": \"INHERENT_TO_THE_LOCATED_DEFINITION; NO_INCIDENTAL_OR_POSSIBLE_CHANNEL\", \"native_categories\": {\"framenet\": [{\"frame\": \"Perception_experience\", \"frame_id\": \"70\", \"pos\": \"v\"}, {\"frame\": \"Becoming_aware\", \"frame_id\": \"20\", \"pos\": \"v\"}], \"usas\": [{\"alternatives\": [\"A10+\"], \"lemma\": \"detect\", \"pos\": \"VERB\"}]}, \"native_predicates\": [{\"arguments\": [{\"type\": \"Event\", \"value\": \"during(E)\"}, {\"type\": \"ThemRole\", \"value\": \"Experiencer\"}, {\"type\": \"ThemRole\", \"value\": \"Stimulus\"}], \"predicate\": {\"value\": \"perceive\"}}], \"pos\": \"VERB\", \"schema\": \"GSE_PERCEPTION_MODE_V1\", \"typed_anchors\": [{\"PERCEPTION_MODE\": \"VISION\", \"required_specific_channel\": \"visual\", \"word\": \"see\"}, {\"PERCEPTION_MODE\": \"HEARING\", \"required_specific_channel\": \"auditory\", \"word\": \"hear\"}, {\"PERCEPTION_MODE\": \"OTHER_OR_UNSPECIFIED\", \"required_specific_channel\": null, \"word\": \"perceive\"}], \"word\": \"detect\"}"
+      }
+    ],
+    "format": {
+      "type": "object",
+      "properties": {
+        "PERCEPTION_MODE": {
+          "type": "string",
+          "enum": [
+            "HEARING",
+            "VISION",
+            "OTHER_OR_UNSPECIFIED",
+            "UNRESOLVED"
+          ]
+        }
+      },
+      "required": [
+        "PERCEPTION_MODE"
+      ],
+      "additionalProperties": false
+    },
+    "stream": false,
+    "think": false,
+    "keep_alive": "5m",
+    "options": {
+      "temperature": 0,
+      "seed": 17,
+      "num_ctx": 8192,
+      "num_predict": 256
+    }
+  },
+  "answer": {
+    "PERCEPTION_MODE": "VISION"
+  },
+  "done_reason": "stop",
+  "eval_count": 15
+}

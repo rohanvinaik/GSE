@@ -1,0 +1,680 @@
+CHANGED CELLS IN READINGS PRESENT IN BOTH BUILDS (old = d2c2e52 replay, new = current worktree)
+paired readings: 470; changed paired readings: 470; changed cells: 4110; cells with unchanged domain but changed restricting-rule trace: 191
+groups (readings sharing identical fired-rule delta, code changes, differing keys, cell changes and trace-only changes): 10
+cell state: single value if resolved, else UNRESOLVED[remaining states]. trace notation: RULE->remaining state(s).
+cause: +RULE restricts the coordinate only in the new trace; -RULE only in the old trace; ~RULE both, different remaining.
+
+==============================================================================================================
+GROUP 1: 135 reading(s); 8 changed cell(s) per reading; 0 unchanged-domain cell(s) with changed trace; source_scope: {'NATIVE_CLASS_FRAME': 135}
+  fired rules delta        : added=VERB_HEADS_NO_SUBSTANTIVE
+  reading code             : unchanged
+  after_selection code     : unchanged
+  reading keys added       : none
+  reading keys removed     : none
+  other top-level keys that differ: ['symbolic_before']
+  after_selection keys that differ: ['domains', 'fired_rules', 'forced', 'trace']
+  changed cells (identical in every reading of the group):
+    I: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    YOU: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    SOMEONE: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    SOMETHING: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    PEOPLE: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    BODY: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    KIND: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    PART: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+  readings:
+    like | like:VERB:want-32.1:frame-0
+    like | like:VERB:want-32.1:frame-1
+    like | like:VERB:want-32.1-1:frame-0
+    like | like:VERB:want-32.1-1:frame-1
+    like | like:VERB:want-32.1-1:frame-2
+    like | like:VERB:want-32.1-1:frame-3
+    like | like:VERB:want-32.1-1:frame-4
+    like | like:VERB:want-32.1-1:frame-5
+    like | like:VERB:want-32.1-1:frame-6
+    like | like:VERB:want-32.1-1:frame-7
+    like | like:VERB:want-32.1-1-1:frame-0
+    like | like:VERB:want-32.1-1-1:frame-1
+    see | see:VERB:see-30.1:frame-0
+    see | see:VERB:see-30.1:frame-1
+    see | see:VERB:see-30.1:frame-2
+    see | see:VERB:see-30.1:frame-3
+    see | see:VERB:see-30.1:frame-4
+    see | see:VERB:see-30.1-1:frame-0
+    see | see:VERB:see-30.1-1:frame-1
+    see | see:VERB:see-30.1-1:frame-2
+    need | need:VERB:want-32.1:frame-0
+    need | need:VERB:want-32.1:frame-1
+    need | need:VERB:want-32.1-1:frame-0
+    need | need:VERB:want-32.1-1:frame-1
+    need | need:VERB:want-32.1-1:frame-2
+    need | need:VERB:want-32.1-1:frame-3
+    need | need:VERB:want-32.1-1:frame-4
+    need | need:VERB:want-32.1-1:frame-5
+    need | need:VERB:want-32.1-1:frame-6
+    need | need:VERB:want-32.1-1:frame-7
+    need | need:VERB:want-32.1-1-1:frame-0
+    need | need:VERB:want-32.1-1-1:frame-1
+    long | long:VERB:long-32.2:frame-0
+    long | long:VERB:long-32.2-1:frame-0
+    get | get:VERB:get-13.5.1:frame-6
+    think | think:VERB:wish-62:frame-0
+    think | think:VERB:wish-62:frame-1
+    think | think:VERB:wish-62:frame-2
+    think | think:VERB:wish-62:frame-3
+    think | think:VERB:wish-62:frame-4
+    think | think:VERB:wish-62:frame-5
+    order | order:VERB:get-13.5.1:frame-6
+    change | change:VERB:exchange-13.6:frame-3
+    find | find:VERB:get-13.5.1:frame-6
+    want | want:VERB:want-32.1:frame-0
+    want | want:VERB:want-32.1:frame-1
+    want | want:VERB:want-32.1-1:frame-0
+    want | want:VERB:want-32.1-1:frame-1
+    want | want:VERB:want-32.1-1:frame-2
+    want | want:VERB:want-32.1-1:frame-3
+    want | want:VERB:want-32.1-1:frame-4
+    want | want:VERB:want-32.1-1:frame-5
+    want | want:VERB:want-32.1-1:frame-6
+    want | want:VERB:want-32.1-1:frame-7
+    want | want:VERB:want-32.1-1-1:frame-0
+    want | want:VERB:want-32.1-1-1:frame-1
+    end | end:VERB:stop-55.4:frame-1
+    end | end:VERB:stop-55.4:frame-3
+    end | end:VERB:stop-55.4-1:frame-0
+    experience | experience:VERB:sight-30.2:frame-0
+    sense | sense:VERB:see-30.1:frame-0
+    sense | sense:VERB:see-30.1:frame-1
+    sense | sense:VERB:see-30.1:frame-2
+    sense | sense:VERB:see-30.1:frame-3
+    sense | sense:VERB:see-30.1:frame-4
+    sense | sense:VERB:see-30.1-1:frame-0
+    sense | sense:VERB:see-30.1-1:frame-1
+    sense | sense:VERB:see-30.1-1:frame-2
+    feel | feel:VERB:see-30.1:frame-0
+    feel | feel:VERB:see-30.1:frame-1
+    feel | feel:VERB:see-30.1:frame-2
+    feel | feel:VERB:see-30.1:frame-3
+    feel | feel:VERB:see-30.1:frame-4
+    feel | feel:VERB:see-30.1-1:frame-0
+    feel | feel:VERB:see-30.1-1:frame-1
+    feel | feel:VERB:see-30.1-1:frame-2
+    feel | feel:VERB:stimulus_subject-30.4:frame-0
+    feel | feel:VERB:stimulus_subject-30.4:frame-1
+    give | give:VERB:give-13.1-1:frame-0
+    give | give:VERB:give-13.1-1:frame-1
+    give | give:VERB:give-13.1-1:frame-2
+    keep | keep:VERB:keep-15.2:frame-1
+    view | view:VERB:sight-30.2:frame-0
+    study | study:VERB:sight-30.2:frame-0
+    look | look:VERB:peer-30.3:frame-0
+    look | look:VERB:stimulus_subject-30.4:frame-0
+    look | look:VERB:stimulus_subject-30.4:frame-1
+    mean | mean:VERB:wish-62:frame-0
+    mean | mean:VERB:wish-62:frame-1
+    mean | mean:VERB:wish-62:frame-2
+    mean | mean:VERB:wish-62:frame-3
+    mean | mean:VERB:wish-62:frame-4
+    mean | mean:VERB:wish-62:frame-5
+    plan | plan:VERB:wish-62:frame-0
+    plan | plan:VERB:wish-62:frame-1
+    plan | plan:VERB:wish-62:frame-2
+    plan | plan:VERB:wish-62:frame-3
+    plan | plan:VERB:wish-62:frame-4
+    plan | plan:VERB:wish-62:frame-5
+    call | call:VERB:get-13.5.1:frame-6
+    start | start:VERB:begin-55.1-1:frame-1
+    start | start:VERB:begin-55.1-1:frame-3
+    start | start:VERB:begin-55.1-1:frame-6
+    hope | hope:VERB:long-32.2:frame-0
+    hope | hope:VERB:long-32.2-1:frame-0
+    hope | hope:VERB:wish-62:frame-0
+    hope | hope:VERB:wish-62:frame-1
+    hope | hope:VERB:wish-62:frame-2
+    hope | hope:VERB:wish-62:frame-3
+    hope | hope:VERB:wish-62:frame-4
+    hope | hope:VERB:wish-62:frame-5
+    weight | weight:VERB:equip-13.4.2-1-1:frame-0
+    note | note:VERB:sight-30.2:frame-0
+    trade | trade:VERB:exchange-13.6:frame-3
+    fall | fall:VERB:long-32.2:frame-0
+    fall | fall:VERB:long-32.2-1:frame-0
+    book | book:VERB:get-13.5.1:frame-6
+    check | check:VERB:peer-30.3:frame-0
+    serve | serve:VERB:pay-68:frame-0
+    serve | serve:VERB:pay-68:frame-1
+    overhear | overhear:VERB:sight-30.2:frame-0
+    glimpse | glimpse:VERB:sight-30.2:frame-0
+    detect | detect:VERB:see-30.1:frame-0
+    detect | detect:VERB:see-30.1:frame-1
+    detect | detect:VERB:see-30.1:frame-2
+    detect | detect:VERB:see-30.1:frame-3
+    detect | detect:VERB:see-30.1:frame-4
+    detect | detect:VERB:see-30.1-1:frame-0
+    detect | detect:VERB:see-30.1-1:frame-1
+    detect | detect:VERB:see-30.1-1:frame-2
+    exchange | exchange:VERB:exchange-13.6:frame-3
+    hit | hit:VERB:bump-18.4:frame-0
+    hit | hit:VERB:hit-18.1:frame-10
+    hit | hit:VERB:hit-18.1:frame-11
+    hit | hit:VERB:hit-18.1:frame-12
+
+==============================================================================================================
+GROUP 2: 118 reading(s); 10 changed cell(s) per reading; 0 unchanged-domain cell(s) with changed trace; source_scope: {'NATIVE_CLASS_FRAME': 118}
+  fired rules delta        : added=NATIVE:VN_CAUSATION,VERB_HEADS_NO_SUBSTANTIVE
+  reading code             : unchanged
+  after_selection code     : unchanged
+  reading keys added       : none
+  reading keys removed     : none
+  other top-level keys that differ: ['bindings', 'symbolic_before', 'unmapped']
+  after_selection keys that differ: ['domains', 'fired_rules', 'forced', 'trace']
+  bindings only in new (coordinate, rule_ids): CAUSE/VN_CAUSATION x118; DO/VN_CAUSATION x118
+  unmapped entries only in old (code, predicate): UNMAPPED_NATIVE_PREDICATE/cause x118
+  changed cells (identical in every reading of the group):
+    I: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    YOU: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    SOMEONE: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    SOMETHING: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    PEOPLE: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    BODY: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    KIND: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    PART: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    DO: UNRESOLVED[+1|0|empty] -> +1   | cause +NATIVE:VN_CAUSATION | old trace: (no restricting rule in trace) | new trace: NATIVE:VN_CAUSATION->+1
+    CAUSE: UNRESOLVED[+1|0|empty] -> +1   | cause +NATIVE:VN_CAUSATION | old trace: (no restricting rule in trace) | new trace: NATIVE:VN_CAUSATION->+1
+  readings:
+    will | will:VERB:future_having-13.3:frame-0
+    will | will:VERB:future_having-13.3:frame-1
+    will | will:VERB:future_having-13.3:frame-2
+    will | will:VERB:future_having-13.3:frame-3
+    get | get:VERB:get-13.5.1:frame-0
+    get | get:VERB:get-13.5.1:frame-1
+    get | get:VERB:get-13.5.1:frame-2
+    get | get:VERB:get-13.5.1:frame-3
+    get | get:VERB:get-13.5.1:frame-4
+    get | get:VERB:get-13.5.1:frame-5
+    get | get:VERB:get-13.5.1-1:frame-0
+    order | order:VERB:get-13.5.1:frame-0
+    order | order:VERB:get-13.5.1:frame-1
+    order | order:VERB:get-13.5.1:frame-2
+    order | order:VERB:get-13.5.1:frame-3
+    order | order:VERB:get-13.5.1:frame-4
+    order | order:VERB:get-13.5.1:frame-5
+    change | change:VERB:exchange-13.6:frame-0
+    change | change:VERB:exchange-13.6:frame-1
+    change | change:VERB:exchange-13.6:frame-2
+    take | take:VERB:steal-10.5:frame-0
+    take | take:VERB:steal-10.5:frame-1
+    take | take:VERB:steal-10.5:frame-2
+    take | take:VERB:steal-10.5:frame-3
+    find | find:VERB:get-13.5.1:frame-0
+    find | find:VERB:get-13.5.1:frame-1
+    find | find:VERB:get-13.5.1:frame-2
+    find | find:VERB:get-13.5.1:frame-3
+    find | find:VERB:get-13.5.1:frame-4
+    find | find:VERB:get-13.5.1:frame-5
+    end | end:VERB:stop-55.4:frame-0
+    end | end:VERB:stop-55.4:frame-2
+    end | end:VERB:stop-55.4:frame-4
+    present | present:VERB:fulfilling-13.4.1:frame-0
+    present | present:VERB:fulfilling-13.4.1:frame-1
+    present | present:VERB:fulfilling-13.4.1:frame-2
+    give | give:VERB:give-13.1:frame-0
+    give | give:VERB:give-13.1:frame-1
+    give | give:VERB:give-13.1:frame-2
+    give | give:VERB:give-13.1:frame-3
+    provide | provide:VERB:fulfilling-13.4.1:frame-0
+    provide | provide:VERB:fulfilling-13.4.1:frame-1
+    provide | provide:VERB:fulfilling-13.4.1:frame-2
+    provide | provide:VERB:fulfilling-13.4.1-2:frame-0
+    complete | complete:VERB:complete-55.2:frame-0
+    complete | complete:VERB:complete-55.2:frame-1
+    call | call:VERB:get-13.5.1:frame-0
+    call | call:VERB:get-13.5.1:frame-1
+    call | call:VERB:get-13.5.1:frame-2
+    call | call:VERB:get-13.5.1:frame-3
+    call | call:VERB:get-13.5.1:frame-4
+    call | call:VERB:get-13.5.1:frame-5
+    start | start:VERB:begin-55.1:frame-0
+    start | start:VERB:begin-55.1-1:frame-0
+    start | start:VERB:begin-55.1-1:frame-2
+    start | start:VERB:begin-55.1-1:frame-4
+    start | start:VERB:begin-55.1-1:frame-5
+    weight | weight:VERB:equip-13.4.2:frame-0
+    weight | weight:VERB:equip-13.4.2-1:frame-0
+    appropriate | appropriate:VERB:obtain-13.5.2:frame-0
+    appropriate | appropriate:VERB:obtain-13.5.2:frame-1
+    issue | issue:VERB:fulfilling-13.4.1:frame-0
+    issue | issue:VERB:fulfilling-13.4.1:frame-1
+    issue | issue:VERB:fulfilling-13.4.1:frame-2
+    issue | issue:VERB:future_having-13.3:frame-0
+    issue | issue:VERB:future_having-13.3:frame-1
+    issue | issue:VERB:future_having-13.3:frame-2
+    issue | issue:VERB:future_having-13.3:frame-3
+    return | return:VERB:contribute-13.2:frame-0
+    return | return:VERB:contribute-13.2:frame-1
+    return | return:VERB:contribute-13.2:frame-2
+    return | return:VERB:contribute-13.2:frame-3
+    return | return:VERB:contribute-13.2-2:frame-0
+    trust | trust:VERB:fulfilling-13.4.1:frame-0
+    trust | trust:VERB:fulfilling-13.4.1:frame-1
+    trust | trust:VERB:fulfilling-13.4.1:frame-2
+    brain | brain:VERB:spank-18.3:frame-0
+    brain | brain:VERB:spank-18.3:frame-1
+    brain | brain:VERB:spank-18.3:frame-2
+    brain | brain:VERB:spank-18.3:frame-3
+    brain | brain:VERB:spank-18.3:frame-4
+    brain | brain:VERB:spank-18.3:frame-5
+    brain | brain:VERB:spank-18.3:frame-6
+    brain | brain:VERB:spank-18.3:frame-7
+    trade | trade:VERB:exchange-13.6:frame-0
+    trade | trade:VERB:exchange-13.6:frame-1
+    trade | trade:VERB:exchange-13.6:frame-2
+    book | book:VERB:get-13.5.1:frame-0
+    book | book:VERB:get-13.5.1:frame-1
+    book | book:VERB:get-13.5.1:frame-2
+    book | book:VERB:get-13.5.1:frame-3
+    book | book:VERB:get-13.5.1:frame-4
+    book | book:VERB:get-13.5.1:frame-5
+    serve | serve:VERB:fulfilling-13.4.1:frame-0
+    serve | serve:VERB:fulfilling-13.4.1:frame-1
+    serve | serve:VERB:fulfilling-13.4.1:frame-2
+    serve | serve:VERB:fulfilling-13.4.1-1:frame-0
+    kill | kill:VERB:murder-42.1:frame-0
+    kill | kill:VERB:murder-42.1:frame-1
+    kill | kill:VERB:murder-42.1-1:frame-0
+    lose | lose:VERB:contribute-13.2:frame-0
+    lose | lose:VERB:contribute-13.2:frame-1
+    lose | lose:VERB:contribute-13.2:frame-2
+    lose | lose:VERB:contribute-13.2:frame-3
+    lose | lose:VERB:contribute-13.2-1:frame-0
+    exchange | exchange:VERB:exchange-13.6:frame-0
+    exchange | exchange:VERB:exchange-13.6:frame-1
+    exchange | exchange:VERB:exchange-13.6:frame-2
+    hit | hit:VERB:hit-18.1:frame-0
+    hit | hit:VERB:hit-18.1:frame-1
+    hit | hit:VERB:hit-18.1:frame-2
+    hit | hit:VERB:hit-18.1:frame-3
+    hit | hit:VERB:hit-18.1:frame-4
+    hit | hit:VERB:hit-18.1:frame-5
+    hit | hit:VERB:hit-18.1:frame-6
+    hit | hit:VERB:hit-18.1:frame-9
+    hit | hit:VERB:hit-18.1-1:frame-0
+    hit | hit:VERB:hit-18.1-1:frame-1
+
+==============================================================================================================
+GROUP 3: 112 reading(s); 10 changed cell(s) per reading; 1 unchanged-domain cell(s) with changed trace; source_scope: {'NATIVE_CLASS_FRAME': 112}
+  fired rules delta        : added=NATIVE:VN_CAUSATION,OWN_PHYSICAL_CHANGE_OF_PLACE,VERB_HEADS_NO_SUBSTANTIVE; removed=NATIVE:VN_EVENT_MOTION
+  reading code             : unchanged
+  after_selection code     : unchanged
+  reading keys added       : none
+  reading keys removed     : none
+  other top-level keys that differ: ['bindings', 'symbolic_before', 'unmapped']
+  after_selection keys that differ: ['domains', 'fired_rules', 'forced', 'trace']
+  bindings only in new (coordinate, rule_ids): CAUSE/VN_CAUSATION x112; DO/VN_CAUSATION x112
+  unmapped entries only in old (code, predicate): UNMAPPED_NATIVE_PREDICATE/cause x112
+  changed cells (identical in every reading of the group):
+    I: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    YOU: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    SOMEONE: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    SOMETHING: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    PEOPLE: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    BODY: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    KIND: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    PART: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    DO: UNRESOLVED[+1|0|empty] -> +1   | cause +NATIVE:VN_CAUSATION | old trace: (no restricting rule in trace) | new trace: NATIVE:VN_CAUSATION->+1
+    CAUSE: UNRESOLVED[+1|0|empty] -> +1   | cause +NATIVE:VN_CAUSATION | old trace: (no restricting rule in trace) | new trace: NATIVE:VN_CAUSATION->+1
+  cells with unchanged domain but changed restricting-rule trace (identical in every reading of the group):
+    MOVE: +1 (unchanged) | cause +OWN_PHYSICAL_CHANGE_OF_PLACE -NATIVE:VN_EVENT_MOTION | old trace: NATIVE:VN_EVENT_MOTION->+1 | new trace: OWN_PHYSICAL_CHANGE_OF_PLACE->+1
+  readings:
+    can | can:VERB:pocket-9.10:frame-0
+    can | can:VERB:pocket-9.10:frame-1
+    set | set:VERB:put-9.1:frame-0
+    set | set:VERB:put-9.1:frame-1
+    set | set:VERB:put-9.1-2:frame-0
+    point | point:VERB:wink-40.3.1:frame-0
+    point | point:VERB:wink-40.3.1:frame-1
+    point | point:VERB:wink-40.3.1:frame-2
+    take | take:VERB:bring-11.3:frame-0
+    take | take:VERB:bring-11.3:frame-1
+    take | take:VERB:bring-11.3:frame-2
+    take | take:VERB:bring-11.3:frame-3
+    take | take:VERB:bring-11.3:frame-4
+    take | take:VERB:bring-11.3:frame-5
+    case | case:VERB:pocket-9.10:frame-0
+    case | case:VERB:pocket-9.10:frame-1
+    black | black:VERB:butter-9.9:frame-0
+    black | black:VERB:butter-9.9:frame-1
+    position | position:VERB:put-9.1:frame-0
+    position | position:VERB:put-9.1:frame-1
+    place | place:VERB:put-9.1:frame-0
+    place | place:VERB:put-9.1:frame-1
+    place | place:VERB:put-9.1-2:frame-0
+    line | line:VERB:fill-9.8:frame-0
+    line | line:VERB:fill-9.8:frame-1
+    line | line:VERB:fill-9.8:frame-3
+    paper | paper:VERB:butter-9.9:frame-0
+    paper | paper:VERB:butter-9.9:frame-1
+    put | put:VERB:put-9.1:frame-0
+    put | put:VERB:put-9.1:frame-1
+    put | put:VERB:put-9.1-2:frame-0
+    step | step:VERB:run-51.3.2:frame-2
+    step | step:VERB:run-51.3.2:frame-3
+    step | step:VERB:run-51.3.2:frame-4
+    step | step:VERB:run-51.3.2:frame-5
+    step | step:VERB:run-51.3.2:frame-9
+    step | step:VERB:run-51.3.2:frame-10
+    run | run:VERB:run-51.3.2:frame-2
+    run | run:VERB:run-51.3.2:frame-3
+    run | run:VERB:run-51.3.2:frame-4
+    run | run:VERB:run-51.3.2:frame-5
+    run | run:VERB:run-51.3.2:frame-9
+    run | run:VERB:run-51.3.2:frame-10
+    face | face:VERB:fill-9.8:frame-0
+    face | face:VERB:fill-9.8:frame-1
+    face | face:VERB:fill-9.8:frame-3
+    water | water:VERB:butter-9.9:frame-0
+    water | water:VERB:butter-9.9:frame-1
+    lower | lower:VERB:put_direction-9.4:frame-0
+    lower | lower:VERB:put_direction-9.4:frame-1
+    lower | lower:VERB:put_direction-9.4:frame-2
+    box | box:VERB:pocket-9.10:frame-0
+    box | box:VERB:pocket-9.10:frame-1
+    hand | hand:VERB:send-11.1:frame-0
+    hand | hand:VERB:send-11.1:frame-1
+    hand | hand:VERB:send-11.1:frame-2
+    hand | hand:VERB:send-11.1:frame-3
+    hand | hand:VERB:send-11.1-1:frame-0
+    return | return:VERB:send-11.1:frame-0
+    return | return:VERB:send-11.1:frame-1
+    return | return:VERB:send-11.1:frame-2
+    return | return:VERB:send-11.1:frame-3
+    stress | stress:VERB:butter-9.9:frame-0
+    stress | stress:VERB:butter-9.9:frame-1
+    ground | ground:VERB:pocket-9.10:frame-0
+    ground | ground:VERB:pocket-9.10:frame-1
+    rest | rest:VERB:put_spatial-9.2:frame-0
+    rest | rest:VERB:put_spatial-9.2:frame-1
+    tree | tree:VERB:pocket-9.10:frame-0
+    tree | tree:VERB:pocket-9.10:frame-1
+    house | house:VERB:pocket-9.10:frame-0
+    house | house:VERB:pocket-9.10:frame-1
+    top | top:VERB:butter-9.9:frame-0
+    top | top:VERB:butter-9.9:frame-1
+    turn | turn:VERB:roll-51.3.1:frame-2
+    turn | turn:VERB:roll-51.3.1:frame-3
+    turn | turn:VERB:roll-51.3.1:frame-6
+    turn | turn:VERB:roll-51.3.1:frame-7
+    move | move:VERB:roll-51.3.1:frame-2
+    move | move:VERB:roll-51.3.1:frame-3
+    move | move:VERB:roll-51.3.1:frame-6
+    move | move:VERB:roll-51.3.1:frame-7
+    move | move:VERB:slide-11.2:frame-4
+    move | move:VERB:slide-11.2:frame-5
+    move | move:VERB:slide-11.2:frame-6
+    move | move:VERB:slide-11.2:frame-7
+    walk | walk:VERB:run-51.3.2:frame-2
+    walk | walk:VERB:run-51.3.2:frame-3
+    walk | walk:VERB:run-51.3.2:frame-4
+    walk | walk:VERB:run-51.3.2:frame-5
+    walk | walk:VERB:run-51.3.2:frame-9
+    walk | walk:VERB:run-51.3.2:frame-10
+    throw | throw:VERB:throw-17.1:frame-0
+    throw | throw:VERB:throw-17.1:frame-1
+    throw | throw:VERB:throw-17.1:frame-2
+    throw | throw:VERB:throw-17.1:frame-3
+    throw | throw:VERB:throw-17.1:frame-4
+    throw | throw:VERB:throw-17.1-1:frame-0
+    hit | hit:VERB:throw-17.1:frame-0
+    hit | hit:VERB:throw-17.1:frame-1
+    hit | hit:VERB:throw-17.1:frame-2
+    hit | hit:VERB:throw-17.1:frame-3
+    hit | hit:VERB:throw-17.1:frame-4
+    hit | hit:VERB:throw-17.1-1:frame-0
+    pelt | pelt:VERB:pelt-17.2:frame-0
+    pelt | pelt:VERB:pelt-17.2:frame-1
+    rush | rush:VERB:run-51.3.2:frame-2
+    rush | rush:VERB:run-51.3.2:frame-3
+    rush | rush:VERB:run-51.3.2:frame-4
+    rush | rush:VERB:run-51.3.2:frame-5
+    rush | rush:VERB:run-51.3.2:frame-9
+    rush | rush:VERB:run-51.3.2:frame-10
+
+==============================================================================================================
+GROUP 4: 60 reading(s); 8 changed cell(s) per reading; 1 unchanged-domain cell(s) with changed trace; source_scope: {'NATIVE_CLASS_FRAME': 60}
+  fired rules delta        : added=OWN_PHYSICAL_CHANGE_OF_PLACE,VERB_HEADS_NO_SUBSTANTIVE; removed=NATIVE:VN_EVENT_MOTION
+  reading code             : unchanged
+  after_selection code     : unchanged
+  reading keys added       : none
+  reading keys removed     : none
+  other top-level keys that differ: ['symbolic_before']
+  after_selection keys that differ: ['domains', 'fired_rules', 'forced', 'trace']
+  changed cells (identical in every reading of the group):
+    I: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    YOU: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    SOMEONE: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    SOMETHING: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    PEOPLE: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    BODY: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    KIND: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    PART: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+  cells with unchanged domain but changed restricting-rule trace (identical in every reading of the group):
+    MOVE: +1 (unchanged) | cause +OWN_PHYSICAL_CHANGE_OF_PLACE -NATIVE:VN_EVENT_MOTION | old trace: NATIVE:VN_EVENT_MOTION->+1 | new trace: OWN_PHYSICAL_CHANGE_OF_PLACE->+1
+  readings:
+    make | make:VERB:reach-51.8:frame-0
+    go | go:VERB:escape-51.1-2:frame-0
+    go | go:VERB:escape-51.1-2:frame-1
+    approach | approach:VERB:escape-51.1-2:frame-0
+    approach | approach:VERB:escape-51.1-2:frame-1
+    come | come:VERB:escape-51.1-2:frame-0
+    come | come:VERB:escape-51.1-2:frame-1
+    step | step:VERB:run-51.3.2:frame-0
+    step | step:VERB:run-51.3.2:frame-1
+    step | step:VERB:run-51.3.2:frame-6
+    step | step:VERB:run-51.3.2:frame-11
+    step | step:VERB:run-51.3.2:frame-12
+    step | step:VERB:run-51.3.2:frame-13
+    run | run:VERB:run-51.3.2:frame-0
+    run | run:VERB:run-51.3.2:frame-1
+    run | run:VERB:run-51.3.2:frame-6
+    run | run:VERB:run-51.3.2:frame-11
+    run | run:VERB:run-51.3.2:frame-12
+    run | run:VERB:run-51.3.2:frame-13
+    hand | hand:VERB:send-11.1:frame-4
+    return | return:VERB:escape-51.1-2:frame-0
+    return | return:VERB:escape-51.1-2:frame-1
+    return | return:VERB:send-11.1:frame-4
+    lead | lead:VERB:accompany-51.7:frame-0
+    lead | lead:VERB:accompany-51.7:frame-1
+    follow | follow:VERB:chase-51.6:frame-0
+    follow | follow:VERB:chase-51.6:frame-1
+    follow | follow:VERB:chase-51.6:frame-2
+    ground | ground:VERB:pocket-9.10-1:frame-0
+    ground | ground:VERB:pocket-9.10-1:frame-1
+    ground | ground:VERB:pocket-9.10-1:frame-2
+    fall | fall:VERB:escape-51.1-2:frame-0
+    fall | fall:VERB:escape-51.1-2:frame-1
+    turn | turn:VERB:roll-51.3.1:frame-0
+    turn | turn:VERB:roll-51.3.1:frame-1
+    turn | turn:VERB:roll-51.3.1:frame-4
+    turn | turn:VERB:roll-51.3.1:frame-5
+    move | move:VERB:roll-51.3.1:frame-0
+    move | move:VERB:roll-51.3.1:frame-1
+    move | move:VERB:roll-51.3.1:frame-4
+    move | move:VERB:roll-51.3.1:frame-5
+    move | move:VERB:slide-11.2:frame-0
+    move | move:VERB:slide-11.2:frame-1
+    move | move:VERB:slide-11.2:frame-2
+    move | move:VERB:slide-11.2:frame-3
+    guide | guide:VERB:accompany-51.7:frame-0
+    guide | guide:VERB:accompany-51.7:frame-1
+    walk | walk:VERB:run-51.3.2:frame-0
+    walk | walk:VERB:run-51.3.2:frame-1
+    walk | walk:VERB:run-51.3.2:frame-6
+    walk | walk:VERB:run-51.3.2:frame-11
+    walk | walk:VERB:run-51.3.2:frame-12
+    walk | walk:VERB:run-51.3.2:frame-13
+    hit | hit:VERB:reach-51.8:frame-0
+    rush | rush:VERB:run-51.3.2:frame-0
+    rush | rush:VERB:run-51.3.2:frame-1
+    rush | rush:VERB:run-51.3.2:frame-6
+    rush | rush:VERB:run-51.3.2:frame-11
+    rush | rush:VERB:run-51.3.2:frame-12
+    rush | rush:VERB:run-51.3.2:frame-13
+
+==============================================================================================================
+GROUP 5: 10 reading(s); 8 changed cell(s) per reading; 1 unchanged-domain cell(s) with changed trace; source_scope: {'NATIVE_CLASS_FRAME': 10}
+  fired rules delta        : added=OWN_PHYSICAL_CHANGE_OF_PLACE,VERB_HEADS_NO_SUBSTANTIVE; removed=NATIVE:VN_EVENT_MOTION
+  reading code             : unchanged
+  after_selection code     : unchanged
+  reading keys added       : none
+  reading keys removed     : none
+  other top-level keys that differ: ['symbolic_before', 'unmapped']
+  after_selection keys that differ: ['domains', 'fired_rules', 'forced', 'trace']
+  unmapped entries whose code changed (old -> new, predicate): UNMAPPED_NATIVE_PREDICATE -> NO_CHANGE_TO_ANOTHER_PARTICIPANT / cause x6; UNMAPPED_NATIVE_PREDICATE -> PARTICIPANT_EXISTENCE_PRESUPPOSITION / exist x4
+  changed cells (identical in every reading of the group):
+    I: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    YOU: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    SOMEONE: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    SOMETHING: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    PEOPLE: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    BODY: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    KIND: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    PART: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+  cells with unchanged domain but changed restricting-rule trace (identical in every reading of the group):
+    MOVE: +1 (unchanged) | cause +OWN_PHYSICAL_CHANGE_OF_PLACE -NATIVE:VN_EVENT_MOTION | old trace: NATIVE:VN_EVENT_MOTION->+1 | new trace: OWN_PHYSICAL_CHANGE_OF_PLACE->+1
+  readings:
+    point | point:VERB:wink-40.3.1-1:frame-0
+    point | point:VERB:wink-40.3.1-1:frame-1
+    point | point:VERB:wink-40.3.1-1:frame-2
+    point | point:VERB:wink-40.3.1-1:frame-3
+    point | point:VERB:wink-40.3.1-1:frame-4
+    point | point:VERB:wink-40.3.1-1:frame-5
+    run | run:VERB:swarm-47.5.1-1:frame-0
+    run | run:VERB:swarm-47.5.1-1:frame-1
+    run | run:VERB:swarm-47.5.1-1:frame-2
+    run | run:VERB:swarm-47.5.1-1:frame-3
+
+==============================================================================================================
+GROUP 6: 10 reading(s); 8 changed cell(s) per reading; 0 unchanged-domain cell(s) with changed trace; source_scope: {'NATIVE_CLASS_FRAME': 10}
+  fired rules delta        : added=VERB_HEADS_NO_SUBSTANTIVE
+  reading code             : unchanged
+  after_selection code     : unchanged
+  reading keys added       : none
+  reading keys removed     : none
+  other top-level keys that differ: ['symbolic_before', 'unmapped']
+  after_selection keys that differ: ['domains', 'fired_rules', 'forced', 'trace']
+  unmapped entries whose code changed (old -> new, predicate): UNMAPPED_NATIVE_PREDICATE -> PARTICIPANT_EXISTENCE_PRESUPPOSITION / exist x20
+  changed cells (identical in every reading of the group):
+    I: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    YOU: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    SOMEONE: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    SOMETHING: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    PEOPLE: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    BODY: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    KIND: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    PART: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+  readings:
+    support | support:VERB:contiguous_location-47.8:frame-0
+    line | line:VERB:contiguous_location-47.8:frame-0
+    head | head:VERB:contiguous_location-47.8:frame-0
+    cross | cross:VERB:contiguous_location-47.8:frame-0
+    cross | cross:VERB:contiguous_location-47.8-1:frame-0
+    follow | follow:VERB:contiguous_location-47.8:frame-0
+    top | top:VERB:contiguous_location-47.8:frame-0
+    hit | hit:VERB:contiguous_location-47.8:frame-0
+    hit | hit:VERB:contiguous_location-47.8-1:frame-0
+    border | border:VERB:contiguous_location-47.8:frame-0
+
+==============================================================================================================
+GROUP 7: 8 reading(s); 1 changed cell(s) per reading; 0 unchanged-domain cell(s) with changed trace; source_scope: {'<absent>': 8}
+  fired rules delta        : added=EVALUATOR_EXCLUDES_SIZE
+  reading code             : unchanged
+  after_selection code     : unchanged
+  reading keys added       : ['relations'] (values: {'[]': 8})
+  reading keys removed     : none
+  other top-level keys that differ: ['symbolic_before']
+  after_selection keys that differ: ['domains', 'fired_rules', 'forced', 'trace']
+  changed cells (identical in every reading of the group):
+    BIG: UNRESOLVED[+1|-1|0|empty] -> 0   | cause +EVALUATOR_EXCLUDES_SIZE | old trace: (no restricting rule in trace) | new trace: EVALUATOR_EXCLUDES_SIZE->0
+  readings:
+    good | good:ADJ:A5.1+:quality
+    great | great:ADJ:A5.1+:quality
+    fine | fine:ADJ:A5.1+:quality
+    bad | bad:ADJ:A5.1-:quality
+    excellent | excellent:ADJ:A5.1+++:quality
+    terrible | terrible:ADJ:A5.1-:quality
+    superb | superb:ADJ:A5.1+:quality
+    awful | awful:ADJ:A5.1-:quality
+
+==============================================================================================================
+GROUP 8: 8 reading(s); 9 changed cell(s) per reading; 1 unchanged-domain cell(s) with changed trace; source_scope: {'NATIVE_CLASS_FRAME': 8}
+  fired rules delta        : added=NATIVE:VN_CAUSATION,OWN_PHYSICAL_CHANGE_OF_PLACE,VERB_HEADS_NO_SUBSTANTIVE; removed=NATIVE:VN_EVENT_MOTION
+  reading code             : unchanged
+  after_selection code     : unchanged
+  reading keys added       : none
+  reading keys removed     : none
+  other top-level keys that differ: ['bindings', 'symbolic_before', 'unmapped']
+  after_selection keys that differ: ['domains', 'fired_rules', 'forced', 'trace']
+  bindings only in new (coordinate, rule_ids): CAUSE/VN_CAUSATION x8
+  unmapped entries only in old (code, predicate): UNMAPPED_NATIVE_PREDICATE/cause x8
+  changed cells (identical in every reading of the group):
+    I: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    YOU: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    SOMEONE: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    SOMETHING: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    PEOPLE: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    BODY: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    KIND: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    PART: UNRESOLVED[+1|0|empty] -> 0   | cause +VERB_HEADS_NO_SUBSTANTIVE | old trace: (no restricting rule in trace) | new trace: VERB_HEADS_NO_SUBSTANTIVE->0
+    CAUSE: UNRESOLVED[+1|0|empty] -> +1   | cause +NATIVE:VN_CAUSATION | old trace: (no restricting rule in trace) | new trace: NATIVE:VN_CAUSATION->+1
+  cells with unchanged domain but changed restricting-rule trace (identical in every reading of the group):
+    MOVE: +1 (unchanged) | cause +OWN_PHYSICAL_CHANGE_OF_PLACE -NATIVE:VN_EVENT_MOTION | old trace: NATIVE:VN_EVENT_MOTION->+1 | new trace: OWN_PHYSICAL_CHANGE_OF_PLACE->+1
+  readings:
+    step | step:VERB:run-51.3.2:frame-7
+    step | step:VERB:run-51.3.2:frame-8
+    run | run:VERB:run-51.3.2:frame-7
+    run | run:VERB:run-51.3.2:frame-8
+    walk | walk:VERB:run-51.3.2:frame-7
+    walk | walk:VERB:run-51.3.2:frame-8
+    rush | rush:VERB:run-51.3.2:frame-7
+    rush | rush:VERB:run-51.3.2:frame-8
+
+==============================================================================================================
+GROUP 9: 8 reading(s); 1 changed cell(s) per reading; 0 unchanged-domain cell(s) with changed trace; source_scope: {'<absent>': 8}
+  fired rules delta        : added=SIZE_DESCRIPTOR_EXCLUDES_EVALUATION
+  reading code             : unchanged
+  after_selection code     : unchanged
+  reading keys added       : ['relations'] (values: {'[]': 8})
+  reading keys removed     : none
+  other top-level keys that differ: ['symbolic_before']
+  after_selection keys that differ: ['domains', 'fired_rules', 'forced', 'trace']
+  changed cells (identical in every reading of the group):
+    GOOD: UNRESOLVED[+1|-1|0|empty] -> 0   | cause +SIZE_DESCRIPTOR_EXCLUDES_EVALUATION | old trace: (no restricting rule in trace) | new trace: SIZE_DESCRIPTOR_EXCLUDES_EVALUATION->0
+  readings:
+    large | large:ADJ:N3.2+:size
+    small | small:ADJ:N3.2-:size
+    little | little:ADJ:N3.2-:size
+    great | great:ADJ:N3.2+:size
+    big | big:ADJ:N3.2+:size
+    enormous | enormous:ADJ:N3.2+++:size
+    tiny | tiny:ADJ:N3.2-:size
+    immense | immense:ADJ:N3.2++:size
+
+==============================================================================================================
+GROUP 10: 1 reading(s); 2 changed cell(s) per reading; 1 unchanged-domain cell(s) with changed trace; source_scope: {'<absent>': 1}
+  fired rules delta        : added=FEAR_AVERSION,SIGNED_FELT_VALENCE_DOMAIN; removed=EMOTION_FEAR_ADJ:FEEL
+  reading code             : unchanged
+  after_selection code     : unchanged
+  reading keys added       : ['relations'] (values: {'[{"event_reference": "ANTICIPATED_BAD_EVENT", "kind": "NEGATED_DESIRE", "predicate": "WANT"}]': 1})
+  reading keys removed     : none
+  other top-level keys that differ: ['coverage_gap', 'symbolic_before']
+  after_selection keys that differ: ['domains', 'fired_rules', 'forced', 'trace']
+  key coverage_gap differs in 1 reading(s) (old/new values in comparison.json)
+  changed cells (identical in every reading of the group):
+    WANT: UNRESOLVED[+1|0|empty] -> +1   | cause +FEAR_AVERSION | old trace: (no restricting rule in trace) | new trace: FEAR_AVERSION->+1
+    NOT: UNRESOLVED[+1|0|empty] -> +1   | cause +FEAR_AVERSION | old trace: (no restricting rule in trace) | new trace: FEAR_AVERSION->+1
+  cells with unchanged domain but changed restricting-rule trace (identical in every reading of the group):
+    GOOD: -1 (unchanged) | cause +SIGNED_FELT_VALENCE_DOMAIN | old trace: EMOTION_FEAR_ADJ->-1 | new trace: SIGNED_FELT_VALENCE_DOMAIN->+1|-1; EMOTION_FEAR_ADJ->-1
+  readings:
+    afraid | afraid:ADJ:E5-:fear
+

@@ -1,0 +1,302 @@
+[
+  {
+    "word": "tiny",
+    "call": {
+      "request_sha256": "55809d5b08e57e33ffad3dfe095f9e34fe9041e2328dbe6668e8b73ea0da0617",
+      "model": {
+        "name": "gemma4:e4b-it-q4_K_M",
+        "model": "gemma4:e4b-it-q4_K_M",
+        "modified_at": "2026-10-23T17:16:03.57499767-04:00",
+        "size": 6583656505,
+        "digest": "dc35e8d9c6061baa6f0fa870975ab6932e2542b579b13ea0f199fa4bb7300c9c",
+        "details": {
+          "parent_model": "gemma4-validation-20260929:e4b-imatrix-attention-q6-q8-draft2",
+          "format": "gguf",
+          "family": "gemma4",
+          "families": [
+            "gemma4"
+          ],
+          "parameter_size": "7.5B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 131072,
+          "embedding_length": 2560
+        },
+        "capabilities": [
+          "completion",
+          "vision",
+          "audio",
+          "tools",
+          "thinking"
+        ]
+      },
+      "request": {
+        "model": "gemma4:e4b-it-q4_K_M",
+        "messages": [
+          {
+            "role": "system",
+            "content": "{\"+1\": \"DEFINITIONAL_COMPONENT_PRESENT\", \"-1\": \"DEFINITIONAL_OPPOSITE_POLE_ONLY\", \"0\": \"EXPLICIT_ABSENCE_IN_APPLICABLE_UNPAIRED_DOMAIN_OR_NEITHER_BIPOLAR_POLE\", \"association_fields\": \"OBSERVATIONS_NOT_COMPONENTS\", \"empty\": \"DEFINITION_DOES_NOT_ADDRESS_THIS_COORDINATE\", \"operation\": \"LEXICAL_DEFINITION_TYPED_SELECTION\", \"scope\": \"TARGET_READING_OWN_DEFINITION_ONLY\", \"selection_schema\": {\"additionalProperties\": false, \"properties\": {\"INTENSITY\": {\"enum\": [\"+1\", \"empty\"], \"type\": \"string\"}}, \"required\": [\"INTENSITY\"], \"type\": \"object\"}}"
+          },
+          {
+            "role": "user",
+            "content": "{\"degree_contract\": {\"amplified_base\": {\"INTENSITY\": \"+1\", \"fixed_components\": {\"BIG\": \"-1\", \"SOMETHING\": \"0\"}}, \"coordinate\": \"INTENSITY\", \"native_degree_rank\": 1, \"plain_base\": {\"INTENSITY\": \"empty\", \"fixed_components\": {\"BIG\": \"-1\", \"SOMETHING\": \"0\"}}, \"pole_is_not_degree\": true, \"present\": \"LEXICALLY_AMPLIFIED_RELATIVE_TO_THE_ESTABLISHED_BASE_COMPONENTS\", \"prime_exponent\": \"VERY\", \"rating_limit\": \"WORD_ASSOCIATION_VALENCE_AND_AROUSAL_ARE_NOT_LEXICAL_DEGREE\", \"silent\": \"NO_LEXICAL_AMPLIFICATION_COMPONENT\"}, \"fixed_coordinates\": {\"BIG\": \"-1\", \"SOMETHING\": \"0\"}, \"native_word_observations\": {}, \"operation\": \"FILL_ONLY_REMAINING_TYPED_FIELDS\", \"reading_id\": \"tiny:ADJ:N3.2-:size\", \"residual_domains\": {\"INTENSITY\": [\"+1\", \"empty\"]}, \"residual_warrants\": {\"INTENSITY\": \"Bounded degree component of an established own quality/size reading. Selection does not invent another semantic domain.\"}, \"schema\": \"GSE_RESIDUAL_V1\", \"selected_native_types\": {\"frames\": [{\"frame\": \"Size\", \"frame_id\": \"2282\", \"pos\": \"a\"}], \"pos\": \"ADJ\", \"usas_tag\": \"N3.2-\"}, \"word\": \"tiny\"}"
+          }
+        ],
+        "format": {
+          "type": "object",
+          "properties": {
+            "INTENSITY": {
+              "type": "string",
+              "enum": [
+                "+1",
+                "empty"
+              ]
+            }
+          },
+          "required": [
+            "INTENSITY"
+          ],
+          "additionalProperties": false
+        },
+        "stream": false,
+        "think": false,
+        "keep_alive": "5m",
+        "options": {
+          "temperature": 0,
+          "seed": 17,
+          "num_ctx": 8192,
+          "num_predict": 256
+        }
+      },
+      "answer": {
+        "INTENSITY": "+1"
+      },
+      "done_reason": "stop",
+      "eval_count": 8
+    }
+  },
+  {
+    "word": "delighted",
+    "call": {
+      "request_sha256": "f53a02aea2315c677d9ad728d0834a2631227fe1f784e313c452bf513be7b73a",
+      "model": {
+        "name": "gemma4:e4b-it-q4_K_M",
+        "model": "gemma4:e4b-it-q4_K_M",
+        "modified_at": "2026-10-23T17:16:03.57499767-04:00",
+        "size": 6583656505,
+        "digest": "dc35e8d9c6061baa6f0fa870975ab6932e2542b579b13ea0f199fa4bb7300c9c",
+        "details": {
+          "parent_model": "gemma4-validation-20260929:e4b-imatrix-attention-q6-q8-draft2",
+          "format": "gguf",
+          "family": "gemma4",
+          "families": [
+            "gemma4"
+          ],
+          "parameter_size": "7.5B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 131072,
+          "embedding_length": 2560
+        },
+        "capabilities": [
+          "completion",
+          "vision",
+          "audio",
+          "tools",
+          "thinking"
+        ]
+      },
+      "request": {
+        "model": "gemma4:e4b-it-q4_K_M",
+        "messages": [
+          {
+            "role": "system",
+            "content": "{\"+1\": \"DEFINITIONAL_COMPONENT_PRESENT\", \"-1\": \"DEFINITIONAL_OPPOSITE_POLE_ONLY\", \"0\": \"EXPLICIT_ABSENCE_IN_APPLICABLE_UNPAIRED_DOMAIN_OR_NEITHER_BIPOLAR_POLE\", \"association_fields\": \"OBSERVATIONS_NOT_COMPONENTS\", \"empty\": \"DEFINITION_DOES_NOT_ADDRESS_THIS_COORDINATE\", \"operation\": \"LEXICAL_DEFINITION_TYPED_SELECTION\", \"scope\": \"TARGET_READING_OWN_DEFINITION_ONLY\", \"selection_schema\": {\"additionalProperties\": false, \"properties\": {\"INTENSITY\": {\"enum\": [\"+1\", \"empty\"], \"type\": \"string\"}}, \"required\": [\"INTENSITY\"], \"type\": \"object\"}}"
+          },
+          {
+            "role": "user",
+            "content": "{\"degree_contract\": {\"amplified_base\": {\"INTENSITY\": \"+1\", \"fixed_components\": {\"FEEL\": \"+1\", \"GOOD\": \"+1\", \"KIND\": \"0\", \"SOMETHING\": \"0\"}}, \"coordinate\": \"INTENSITY\", \"native_degree_rank\": 1, \"plain_base\": {\"INTENSITY\": \"empty\", \"fixed_components\": {\"FEEL\": \"+1\", \"GOOD\": \"+1\", \"KIND\": \"0\", \"SOMETHING\": \"0\"}}, \"pole_is_not_degree\": true, \"present\": \"LEXICALLY_AMPLIFIED_RELATIVE_TO_THE_ESTABLISHED_BASE_COMPONENTS\", \"prime_exponent\": \"VERY\", \"rating_limit\": \"WORD_ASSOCIATION_VALENCE_AND_AROUSAL_ARE_NOT_LEXICAL_DEGREE\", \"silent\": \"NO_LEXICAL_AMPLIFICATION_COMPONENT\"}, \"fixed_coordinates\": {\"FEEL\": \"+1\", \"GOOD\": \"+1\", \"KIND\": \"0\", \"SOMETHING\": \"0\"}, \"native_word_observations\": {}, \"operation\": \"FILL_ONLY_REMAINING_TYPED_FIELDS\", \"reading_id\": \"delighted:ADJ:E4.1+:feeling\", \"residual_domains\": {\"INTENSITY\": [\"+1\", \"empty\"]}, \"residual_warrants\": {\"INTENSITY\": \"Only the degree of the established happy/sad feeling. A stronger lexical feeling can amplify FEEL and felt valence; no THINK/WANT/HAPPEN/BECAUSE fields follow from this category.\"}, \"schema\": \"GSE_RESIDUAL_V1\", \"selected_native_types\": {\"frames\": [{\"frame\": \"Emotion_directed\", \"frame_id\": \"46\", \"pos\": \"a\"}], \"pos\": \"ADJ\", \"usas_tag\": \"E4.1+\"}, \"word\": \"delighted\"}"
+          }
+        ],
+        "format": {
+          "type": "object",
+          "properties": {
+            "INTENSITY": {
+              "type": "string",
+              "enum": [
+                "+1",
+                "empty"
+              ]
+            }
+          },
+          "required": [
+            "INTENSITY"
+          ],
+          "additionalProperties": false
+        },
+        "stream": false,
+        "think": false,
+        "keep_alive": "5m",
+        "options": {
+          "temperature": 0,
+          "seed": 17,
+          "num_ctx": 8192,
+          "num_predict": 256
+        }
+      },
+      "answer": {
+        "INTENSITY": "+1"
+      },
+      "done_reason": "stop",
+      "eval_count": 8
+    }
+  },
+  {
+    "word": "sorrowful",
+    "call": {
+      "request_sha256": "6fc0bb3300a48008eccada1ffccda24a76c04c8129ee7bd489f6adb5d0fa3edb",
+      "model": {
+        "name": "gemma4:e4b-it-q4_K_M",
+        "model": "gemma4:e4b-it-q4_K_M",
+        "modified_at": "2026-10-23T17:16:03.57499767-04:00",
+        "size": 6583656505,
+        "digest": "dc35e8d9c6061baa6f0fa870975ab6932e2542b579b13ea0f199fa4bb7300c9c",
+        "details": {
+          "parent_model": "gemma4-validation-20260929:e4b-imatrix-attention-q6-q8-draft2",
+          "format": "gguf",
+          "family": "gemma4",
+          "families": [
+            "gemma4"
+          ],
+          "parameter_size": "7.5B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 131072,
+          "embedding_length": 2560
+        },
+        "capabilities": [
+          "completion",
+          "vision",
+          "audio",
+          "tools",
+          "thinking"
+        ]
+      },
+      "request": {
+        "model": "gemma4:e4b-it-q4_K_M",
+        "messages": [
+          {
+            "role": "system",
+            "content": "{\"+1\": \"DEFINITIONAL_COMPONENT_PRESENT\", \"-1\": \"DEFINITIONAL_OPPOSITE_POLE_ONLY\", \"0\": \"EXPLICIT_ABSENCE_IN_APPLICABLE_UNPAIRED_DOMAIN_OR_NEITHER_BIPOLAR_POLE\", \"association_fields\": \"OBSERVATIONS_NOT_COMPONENTS\", \"empty\": \"DEFINITION_DOES_NOT_ADDRESS_THIS_COORDINATE\", \"operation\": \"LEXICAL_DEFINITION_TYPED_SELECTION\", \"scope\": \"TARGET_READING_OWN_DEFINITION_ONLY\", \"selection_schema\": {\"additionalProperties\": false, \"properties\": {\"INTENSITY\": {\"enum\": [\"+1\", \"empty\"], \"type\": \"string\"}}, \"required\": [\"INTENSITY\"], \"type\": \"object\"}}"
+          },
+          {
+            "role": "user",
+            "content": "{\"degree_contract\": {\"amplified_base\": {\"INTENSITY\": \"+1\", \"fixed_components\": {\"FEEL\": \"+1\", \"GOOD\": \"-1\", \"KIND\": \"0\", \"SOMETHING\": \"0\"}}, \"coordinate\": \"INTENSITY\", \"native_degree_rank\": 1, \"plain_base\": {\"INTENSITY\": \"empty\", \"fixed_components\": {\"FEEL\": \"+1\", \"GOOD\": \"-1\", \"KIND\": \"0\", \"SOMETHING\": \"0\"}}, \"pole_is_not_degree\": true, \"present\": \"LEXICALLY_AMPLIFIED_RELATIVE_TO_THE_ESTABLISHED_BASE_COMPONENTS\", \"prime_exponent\": \"VERY\", \"rating_limit\": \"WORD_ASSOCIATION_VALENCE_AND_AROUSAL_ARE_NOT_LEXICAL_DEGREE\", \"silent\": \"NO_LEXICAL_AMPLIFICATION_COMPONENT\"}, \"fixed_coordinates\": {\"FEEL\": \"+1\", \"GOOD\": \"-1\", \"KIND\": \"0\", \"SOMETHING\": \"0\"}, \"native_word_observations\": {}, \"operation\": \"FILL_ONLY_REMAINING_TYPED_FIELDS\", \"reading_id\": \"sorrowful:ADJ:E4.1-:feeling\", \"residual_domains\": {\"INTENSITY\": [\"+1\", \"empty\"]}, \"residual_warrants\": {\"INTENSITY\": \"Only the degree of the established happy/sad feeling. A stronger lexical feeling can amplify FEEL and felt valence; no THINK/WANT/HAPPEN/BECAUSE fields follow from this category.\"}, \"schema\": \"GSE_RESIDUAL_V1\", \"selected_native_types\": {\"frames\": [{\"frame\": \"Emotion_directed\", \"frame_id\": \"46\", \"pos\": \"a\"}], \"pos\": \"ADJ\", \"usas_tag\": \"E4.1-\"}, \"word\": \"sorrowful\"}"
+          }
+        ],
+        "format": {
+          "type": "object",
+          "properties": {
+            "INTENSITY": {
+              "type": "string",
+              "enum": [
+                "+1",
+                "empty"
+              ]
+            }
+          },
+          "required": [
+            "INTENSITY"
+          ],
+          "additionalProperties": false
+        },
+        "stream": false,
+        "think": false,
+        "keep_alive": "5m",
+        "options": {
+          "temperature": 0,
+          "seed": 17,
+          "num_ctx": 8192,
+          "num_predict": 256
+        }
+      },
+      "answer": {
+        "INTENSITY": "+1"
+      },
+      "done_reason": "stop",
+      "eval_count": 8
+    }
+  },
+  {
+    "word": "happy",
+    "call": {
+      "request_sha256": "2f8fa5240bae5bee33aecb3020d8d6d7e25285b6ae6a62630f813729632508bf",
+      "model": {
+        "name": "gemma4:e4b-it-q4_K_M",
+        "model": "gemma4:e4b-it-q4_K_M",
+        "modified_at": "2026-10-23T17:16:03.57499767-04:00",
+        "size": 6583656505,
+        "digest": "dc35e8d9c6061baa6f0fa870975ab6932e2542b579b13ea0f199fa4bb7300c9c",
+        "details": {
+          "parent_model": "gemma4-validation-20260929:e4b-imatrix-attention-q6-q8-draft2",
+          "format": "gguf",
+          "family": "gemma4",
+          "families": [
+            "gemma4"
+          ],
+          "parameter_size": "7.5B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 131072,
+          "embedding_length": 2560
+        },
+        "capabilities": [
+          "completion",
+          "vision",
+          "audio",
+          "tools",
+          "thinking"
+        ]
+      },
+      "request": {
+        "model": "gemma4:e4b-it-q4_K_M",
+        "messages": [
+          {
+            "role": "system",
+            "content": "{\"+1\": \"DEFINITIONAL_COMPONENT_PRESENT\", \"-1\": \"DEFINITIONAL_OPPOSITE_POLE_ONLY\", \"0\": \"EXPLICIT_ABSENCE_IN_APPLICABLE_UNPAIRED_DOMAIN_OR_NEITHER_BIPOLAR_POLE\", \"association_fields\": \"OBSERVATIONS_NOT_COMPONENTS\", \"empty\": \"DEFINITION_DOES_NOT_ADDRESS_THIS_COORDINATE\", \"operation\": \"LEXICAL_DEFINITION_TYPED_SELECTION\", \"scope\": \"TARGET_READING_OWN_DEFINITION_ONLY\", \"selection_schema\": {\"additionalProperties\": false, \"properties\": {\"INTENSITY\": {\"enum\": [\"+1\", \"empty\"], \"type\": \"string\"}}, \"required\": [\"INTENSITY\"], \"type\": \"object\"}}"
+          },
+          {
+            "role": "user",
+            "content": "{\"degree_contract\": {\"amplified_base\": {\"INTENSITY\": \"+1\", \"fixed_components\": {\"FEEL\": \"+1\", \"GOOD\": \"+1\", \"KIND\": \"0\", \"SOMETHING\": \"0\"}}, \"coordinate\": \"INTENSITY\", \"native_degree_rank\": 1, \"plain_base\": {\"INTENSITY\": \"empty\", \"fixed_components\": {\"FEEL\": \"+1\", \"GOOD\": \"+1\", \"KIND\": \"0\", \"SOMETHING\": \"0\"}}, \"pole_is_not_degree\": true, \"present\": \"LEXICALLY_AMPLIFIED_RELATIVE_TO_THE_ESTABLISHED_BASE_COMPONENTS\", \"prime_exponent\": \"VERY\", \"rating_limit\": \"WORD_ASSOCIATION_VALENCE_AND_AROUSAL_ARE_NOT_LEXICAL_DEGREE\", \"silent\": \"NO_LEXICAL_AMPLIFICATION_COMPONENT\"}, \"fixed_coordinates\": {\"FEEL\": \"+1\", \"GOOD\": \"+1\", \"KIND\": \"0\", \"SOMETHING\": \"0\"}, \"native_word_observations\": {}, \"operation\": \"FILL_ONLY_REMAINING_TYPED_FIELDS\", \"reading_id\": \"happy:ADJ:E4.1+:feeling\", \"residual_domains\": {\"INTENSITY\": [\"+1\", \"empty\"]}, \"residual_warrants\": {\"INTENSITY\": \"Only the degree of the established happy/sad feeling. A stronger lexical feeling can amplify FEEL and felt valence; no THINK/WANT/HAPPEN/BECAUSE fields follow from this category.\"}, \"schema\": \"GSE_RESIDUAL_V1\", \"selected_native_types\": {\"frames\": [{\"frame\": \"Emotion_directed\", \"frame_id\": \"46\", \"pos\": \"a\"}], \"pos\": \"ADJ\", \"usas_tag\": \"E4.1+\"}, \"word\": \"happy\"}"
+          }
+        ],
+        "format": {
+          "type": "object",
+          "properties": {
+            "INTENSITY": {
+              "type": "string",
+              "enum": [
+                "+1",
+                "empty"
+              ]
+            }
+          },
+          "required": [
+            "INTENSITY"
+          ],
+          "additionalProperties": false
+        },
+        "stream": false,
+        "think": false,
+        "keep_alive": "5m",
+        "options": {
+          "temperature": 0,
+          "seed": 17,
+          "num_ctx": 8192,
+          "num_predict": 256
+        }
+      },
+      "answer": {
+        "INTENSITY": "+1"
+      },
+      "done_reason": "stop",
+      "eval_count": 8
+    }
+  }
+]

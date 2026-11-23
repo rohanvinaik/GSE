@@ -1,0 +1,37 @@
+  ▸ recalled 1 pinned test(s) from a previous run
+  … cli_law_contract: tracing 1 function-routed tests
+  … cli_law_contract: baseline traced · 1 tests · 0.0s
+  … cli_law_contract: 1/75 mutants · 10.2/s · ETA estimating… (heartbeat)
+  … cli_law_contract: 75/75 mutants · 343.4/s · done in 0.2s
+  ▸ pass 0: 73 value-survivor(s) — synthesizing killing tests…
+  ▸ pass 0: +15 new killing test(s) written [test_gse_lexicon_builder_core_cli_law_contract_b98a7589c0_synth.py]
+  … cli_law_contract: tracing 16 function-routed tests
+  … cli_law_contract: baseline traced · 16 tests · 0.0s
+  … cli_law_contract: 75/75 mutants · 213.0/s · done in 0.4s
+  ▸ pass 1: 15 value-survivor(s) — synthesizing killing tests…
+  ▸ pass 1: no new killing test for the remaining survivor(s) — at ceiling
+  ▸ witness pass: searching richer inputs for a distinguishing kill…
+  ▸ finalizing — re-profiling the full mutant universe against the written suite…
+  … cli_law_contract: tracing 16 function-routed tests
+  … cli_law_contract: baseline traced · 16 tests · 0.0s
+  … cli_law_contract: 75/75 mutants · 219.9/s · done in 0.3s
+  ▸ 15 survivor(s) remain — classifying (killable / equivalent / needs-input)…
+  ▸ verifying reproducibility — fresh isolated observation of the function's proof basis…
+  … cli_law_contract: tracing 16 function-routed tests
+  … cli_law_contract: baseline traced · 16 tests · 0.0s
+  ▸ ⚠ the required fresh measurement did not establish the certificate — result non-gateable
+──────────────────────────────────────────────────────────────────────────────
+gse/lexicon_builder/core.py::cli_law_contract — converge · 75 behaviours · 60 pinned · 2 candidate-equivalent · 13 crash-only
+
+  ✓ wrote              16 test(s) → tests/detective/test_gse_lexicon_builder_core_cli_law_contract_b98a7589c0_synth.py
+  · unproven-equiv     2 — the search found no distinguishing input
+  · crash-only-equiv   13 — detected by crash; no value pins them
+  · not consulted      5635 collected test(s) have no static path to this function — not traced (a missed dynamic reacher costs a redundant generated test, never a certificate)
+  · full report        .detective/reports/converge_cli_law_contract.txt
+
+STOP:  the function or test basis changed between the two measurements
+
+  · Resolve            the reason above names the repair. Keep the proof basis fixed and
+                       re-run only once that cause is resolved — more budget is not a generic fix.
+
+FINAL gse/lexicon_builder/core.py::cli_law_contract: ⚠ UNGATEABLE — the function or test basis changed between the two measurements; diagnostic counts; no certified bound or verdict established · policy 9.261d14e34119

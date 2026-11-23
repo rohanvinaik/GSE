@@ -1,0 +1,133 @@
+{
+  "meta": {
+    "task": "FACT-GATHERING ONLY: every existing statement of what the GSE-adaptation coordinates are meant to mean, quoted with exact locations. No definition is proposed. No source is judged right. 'contradictions' quote both sides without a verdict.",
+    "generated": "2026-10-25",
+    "worktree": "/Users/rohanvinaik/Projects/gse/.claude/worktrees/lexicon-builder/gse",
+    "path_convention": "Paths are relative to the worktree unless they start with '/'. 'file:N' and 'file:N-M' are 1-based line numbers from whole-file Read output. Inside a quote, ' / ' marks a source line break and an ellipsis marks omitted text; everything else is verbatim.",
+    "basis_id": "GSE_LEXICAL_72_SIGNED_58_V1",
+    "coordinates_in_scope": [
+      "QUANTITY",
+      "INFER",
+      "ALIVE (DEAD)",
+      "THEN (NOW)",
+      "START (END)",
+      "OUTSIDE (INSIDE)",
+      "TOWARD (AWAY)",
+      "WITH (WITHOUT)",
+      "MUST",
+      "CAUSE",
+      "TRUE (FALSE)",
+      "HIER_PLUS",
+      "HIER_MINUS",
+      "INTENSITY",
+      "CERTAINTY"
+    ],
+    "also_noted": "NUMBER (a scale operation, not a coordinate) has its own top-level section, and the relations of HIER_PLUS/HIER_MINUS to NUMBER and INTENSITY are collected in hier_number_intensity_relations.",
+    "layout_of_this_file": {
+      "meta, attribution_key, files_read": "provenance of the facts",
+      "cross_cutting_basis_facts": "basis, state and fill-table facts that apply to every coordinate",
+      "inventories_of_gse_adaptation_coordinates_by_source": "which coordinates five sources call GSE additions",
+      "founder_record_index": "every founder-record entry that touches an in-scope coordinate or NUMBER, with speaker tag",
+      "coordinates": "one entry per in-scope coordinate: statements, nearest NSM primes named by sources, scale or numeric semantics, founder records, contradiction ids, absences. HIER_PLUS and HIER_MINUS each begin with the statements they share (marked shared_with).",
+      "NUMBER": "statements about the scale operation",
+      "hier_number_intensity_relations": "every statement relating HIER_PLUS/HIER_MINUS, NUMBER and INTENSITY",
+      "contradictions": "C01-C27, both sides quoted, no verdict"
+    },
+    "reading_method": "Files were read with the Read tool in whole-file consecutive chunks unless marked partial. No grep, rg, head, tail, sed, awk, cut, wc or jq and no pipes were used. Directories were discovered with ls only. After the first reading pass, the cited ranges were re-read to verify every quotation and line number. The only programs run were ls and python3 -I (to merge and validate this JSON).",
+    "state_of_tree": "The worktree has uncommitted changes (foundation.json, foundation.py, tail.py, surprise.py and others are untracked or modified), and it was still being edited while this pass ran. Line numbers describe the files as last read; the source_snapshot key records the size and modification time of each cited file at the end of the pass.",
+    "caveats": [
+      "AGENTS.md says: 'Docs are not ground truth ... Authoritative sources: Rohan, then the code. When sources conflict, surface it.' Statements are therefore tagged by speaker and status, not ranked.",
+      "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:6 says text pasted from other agents is 'quoted context, not his claim': F128, F130-F132, F135, F136, F146, F151, F155, F156, F158-F160. Those entries are tagged QUOTED_AGENT below. Blockquoted agent questions inside Rohan's own entries (for example F040 and F125) are context for his answer (file lines 4-6). Where Rohan endorsed or delegated, the endorsement is recorded separately (F144 approves the closeout recommendations; F152 delegates the four open questions of F151 to the NSM literature and the design consultant).",
+      "Many sources pre-date the October 2026 construction: June 2026 docs (NSM_GRAMMAR_MAPPING.md, LEXICON_REBUILD.md, ARCHITECTURE.md), the retired curation pipeline under gse/curation/, and Rohan's earlier papers. They are tagged DOC_JUNE2026, CODE_LEGACY or ROHAN_PAPER. They are included because they are existing statements; the repo's own docs mark several of those routes retired or historical.",
+      "docs/THEORY.md was deliberately not read: AGENTS.md calls it 'known-invalid'.",
+      "The NSM works themselves (Wierzbicka 1999 and others, filed under data/external/references/) were not read. What they say is known here only through the chart text (read in full) and through the agent-written docs/verification/lexicon-rebuild/closeout-2026-10-25/NSM_RESOLUTIONS.md and evidence/nsm_sources.json.",
+      "'nearest NSM prime named by a source' lists only primes a source actually names for the coordinate. The requester's examples (MORE, VERY, MANY/FEW/SOME/ALL, LIVE/DIE, CAN+NOT, BECAUSE+DO/HAPPEN) are prompts to look, not facts; where no source names a prime the field says 'none named' and any chart boxes are listed as context only.",
+      "Tests (tests/*) were not read, so statements about what tests pin are not made.",
+      "Papers-folder files (tag ROHAN_PAPER) are not treated as Rohan's rulings: GSE_V2.md and pronouns_numbers.md read as implementation plans, and sentence_architecture.md lines 84-117 as a pasted status report. They are quoted because they are existing statements; where they disagree with the founder record or the code, the contradictions section sets both sides out without a verdict.",
+      "The links between coordinates and contradiction ids are partly mechanical: each coordinate's contradiction_ids holds the ids cited by hand plus every id whose own coordinates list names that coordinate (added by merge.py; see meta.contradiction_id_links)."
+    ],
+    "drift_during_pass": {
+      "explanation": "Another actor edited the worktree while this pass ran. The files below were read once before their edit and again after it; statements about them quote the later text, and where the change touches a coordinate's meaning (CAUSE) the earlier text is kept and labelled.",
+      "files_changed_after_first_reading": {
+        "gse/lexicon_builder/bank_laws.json": "19:14 and again 19:28:07 (VN_CAUSATION rewritten twice; version 2026-10-25.7)",
+        "gse/lexicon_builder/native_constraints.py": "19:26 and 19:28:36 (CAUSE now requires a change to another participant)",
+        "gse/lexicon_builder/registry.py": "19:25 (native_predicate_contracts)",
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md": "19:16 and 19:27:53 (lines 3, 178, 282, 288 differ from the first reading)",
+        "docs/verification/lexicon-rebuild/foundation-2026-10-25/REPORT.md": "19:20 (revision 3; line numbers shifted)",
+        "docs/verification/lexicon-rebuild/foundation-2026-10-25/REPLAY.md": "new at 19:20, edited again 19:29",
+        "openspec/changes/lexicon-symbolic-foundation/tasks.md": "19:21 (one task ticked; line numbers shifted by one)",
+        "docs/verification/lexicon-rebuild/research-2026-10-25/": "19:17-19:18 (new)",
+        "openspec/changes/lexicon-symbolic-foundation/specs/lexicon-construction/spec.md": "19:28 (a CAUSE requirement added at lines 74-87)"
+      },
+      "modification_times_at_the_end_of_the_pass_were_18:26_or_earlier_for": "gse/lexicon_builder/{basis,core,fill,foundation,build,reading,sources,artifact,tail,surprise,audit,coverage,model,perception,number,atomics}.py and foundation.json (18:25 or earlier), the founder record and REFERENCE_MANIFEST.json (18:25), NSM_RESOLUTIONS.md, RULE_REVIEW.md, EMOTION_SLICE_DRAFT.md and rule_decisions.json (13:43-13:45), gse/primitives_v2.py and the legacy curation, lexicon and symbolic files and docs (08:34 on Oct 25), the chart text (Oct 23) and the papers folder (Mar-Jun)."
+    }
+  },
+  "attribution_key": {
+    "ROHAN": "Rohan's own words in the founder record (docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md) outside the entries its header line 6 lists as pasted from other agents. Nothing outside that record is tagged ROHAN.",
+    "QUOTED_AGENT": "Text another agent wrote that Rohan pasted into the founder record (header line 6); not his claim.",
+    "ROHAN_ENDORSEMENT": "Rohan's separate message endorsing or delegating on quoted text.",
+    "AGENT_DOC": "Design, review and verification documents in this repo written by agents (LEXICON_CONSTRUCTION_DESIGN.md, NSM_RESOLUTIONS.md, RULE_REVIEW.md, EMOTION_SLICE_DRAFT.md, REPORT.md, GLOSSARY.md, openspec). Some content was approved by Rohan at F144.",
+    "CODE_CURRENT": "The October 2026 builder: gse/lexicon_builder/* and its data files.",
+    "CODE_REGISTRY": "gse/primitives_v2.py, gse/vectors_v2.py, gse/prime_projection.py and other runtime registries still in the tree.",
+    "CODE_LEGACY": "Retired or historical code: gse/curation/*, gse/lexicon/* sentence-scope tables, gse/symbolic/modality.py, gse/_archive/*.",
+    "DOC_JUNE2026": "Agent-written docs dated 2025-12 to June 2026; the repo marks them as possibly drifted.",
+    "ROHAN_PAPER": "A file filed in /Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/GSE (outside the repo). Authorship of individual lines is not established. GSE_V2.md and pronouns_numbers.md are laid out as implementation plans (phases, files to create), and sentence_architecture.md lines 84-117 are a pasted status report; none of these is verified as Rohan's own statement. Passages written in the first person (for example sentence_architecture.md lines 12-13, 29 and 37) are quoted as found. The merge script adds an authorship_caveat to every statement carrying this tag.",
+    "NSM_CHART": "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt (NSM chart v20, 10 May 2022)."
+  },
+  "files_read": {
+    "mandated_in_full": [
+      "gse/primitives_v2.py (1-1022)",
+      "gse/lexicon_builder/basis.py (1-79)",
+      "gse/lexicon_builder/fill.py (1-143)",
+      "gse/lexicon_builder/core.py (1-411)",
+      "gse/lexicon_builder/bank_laws.json (1-1723)",
+      "gse/lexicon_builder/foundation.json (1-9661)",
+      "docs/program/LEXICON_CONSTRUCTION_DESIGN.md (1-325)",
+      "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md (1-1274)",
+      "docs/verification/lexicon-rebuild/closeout-2026-10-25/NSM_RESOLUTIONS.md (1-353)",
+      "docs/verification/lexicon-rebuild/closeout-2026-10-25/RULE_REVIEW.md (1-283)",
+      "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt (1-404)"
+    ],
+    "other_files_read_in_full": [
+      "gse/lexicon_builder/__main__.py, artifact.py, atomics.py, audit.py, build.py, coverage.py, foundation.py, model.py, native_constraints.py, number.py, perception.py, reading.py, registry.py, sources.py, surprise.py, tail.py",
+      "gse/prime_projection.py, gse/scale_definition.py, gse/vectors_v2.py (1-1275), gse/gse_otp_architecture.md",
+      "gse/lexicon/modifier_hierarchy.py, numerals.py, function_words.py, word_encoding.py",
+      "gse/symbolic/modality.py, signs.py, tiers.py; gse/encoders/marker_detection.py",
+      "gse/curation/schema.py, build_clean_closed_class.py, build_clean_operators.py, build_clean_quantifiers.py",
+      "gse/curation/external_sources/tier_0_dispatch.py, source_scope.py, bipolar_exclusion.py, verbnet.py, usas.py, framenet.py, propbank.py, wordnet_hierarchy.py, conceptnet.py, wiktionary.py, nrc_vad.py",
+      "gse/curation/constraint_aggregation/mapping_registry.py; gse/curation/validation/hierarchy_validator.py; gse/curation/decomposition/definitional_decomposer.py",
+      "gse/curation/llm/prompts.py, primitive_matcher.py, primitive_sweep.py, granular_decomposer.py",
+      "docs/NSM_GRAMMAR_MAPPING.md, docs/GSE_EXTENSION_MAP.md, docs/LEXICON_REBUILD.md, docs/LEXICON_STRATEGY_RECONSIDERATION.md, docs/ARCHITECTURE.md (1-830)",
+      "docs/program/START_HERE.md, BUILD_SPEC.md (1-54), GLOSSARY.md, LEXICON_DEFINITION_RESOLUTION.md, REFERENCE_MANIFEST.json",
+      "docs/verification/lexicon-rebuild/closeout-2026-10-25/EMOTION_SLICE_DRAFT.md, rule_decisions.json, evidence/nsm_sources.json",
+      "docs/verification/lexicon-rebuild/foundation-2026-10-25/REPORT.md",
+      "openspec/changes/lexicon-symbolic-foundation/design.md, proposal.md, tasks.md, specs/lexicon-construction/spec.md",
+      "/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/GSE/GSE_V2.md, pronouns_numbers.md, sentence_architecture.md, GSE_HDC_architecture.md, GSE_Novel_Contributions.md",
+      "docs/verification/lexicon-rebuild/foundation-2026-10-25/REPLAY.md (new at 19:20), research-2026-10-25/README.md, research-2026-10-25/nsm-prime-facts/parts/very_more_evidence.json; REPORT.md re-read as revision 3; LEXICON_CONSTRUCTION_DESIGN.md, bank_laws.json, native_constraints.py, registry.py and openspec tasks.md re-read after their 19:14-19:26 edits"
+    ],
+    "read_in_part": [
+      "docs/planning/gse_implementation_spec.md: lines 1-850, 1900-2399 and the cited ranges 540-585 and 2235-2265 only (Dec 2025, 65-primitive spec; the middle, phases 3-8 code, was not read)",
+      "gse/_archive/primitives.py: lines 1-450 only (archived 62-primitive set)",
+      "/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/GSE/numerical_semantics_theory.md: lines 1-700 only (similarity paper; the only statement on the coordinates found is the old bank listing at lines 365-386)",
+      "docs/verification/lexicon-rebuild/foundation-2026-10-25/summary.json: lines 1-200 only (examined-prime decision summary)"
+    ],
+    "directories_listed_with_ls": [
+      "worktree root; gse/; gse/lexicon_builder/; gse/lexicon/; gse/scales/; gse/symbolic/; gse/curation/ and its subpackages (decomposition, constraint_aggregation, validation, pipeline, llm, cli, external_sources); gse/api/; gse/nlp/; gse/_archive/ (+ curation, scales, encoders); gse/cassettes/; gse/encoders/; gse/parsing/; gse/composition/; gse/patterns/",
+      "docs/; docs/program/; docs/planning/; docs/verification/ and docs/verification/lexicon-rebuild/ (recursive); openspec/ (recursive)",
+      "/Users/rohanvinaik/Projects/gse/data/external/references/",
+      "/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/GSE/"
+    ],
+    "listed_but_not_read": [
+      "docs/THEORY.md - skipped on purpose (AGENTS.md: known-invalid)",
+      "gse/lexicon_builder/__init__.py (70 bytes)",
+      "docs/CLAIM_SEMANTICS.md, COMPLEX_SENTENCE_DESIGN.md, CONSTRUCTION_PLAN.md, FINAL_INTEGRATION_PLAN.md, FLYWHEEL_GAP_BACKLOG.md, JANUS_FIGURE_SYSTEM.md, JANUS_MODULE_DESIGN.md, LEXICAL_EVIDENCE_AND_HEALING.md, MORPHOLOGY_RESEARCH_BRIEF.md, OPTIMIZATION_PLAN.md, PHASE_B_SCOPE.md, RESOLVED_STRUCTURE_DESIGN.md, ROADMAP.md, ROHAN_VOICE_V2.md, SPELLCHECK.md, TYPED_READING_*.md - names do not indicate primitive definitions",
+      "docs/planning/UNIFIED_ARCHITECTURE.md, STATUS.md, SYSTEM_SUMMARY.md, gse_agent_instructions.md, gse_otp_genomevault_synthesis.md - unverified planning docs, names do not indicate primitive definitions",
+      "docs/verification/lexicon-rebuild/readings/* (Fable consult outputs), closeout-2026-10-25/{CODE_SHAPE_1A.md, COMMIT_SCOPE.md, evidence/* other than nsm_sources.json}, foundation-2026-10-25/prime_proof.json (2.1 MB) and gate/*, other lexicon-rebuild run folders",
+      "gse/api/encoder.py (59 KB) and other gse/symbolic/*.py, gse/lexicon/pronouns.py and the other gse/lexicon/*.py not listed above, gse/curation/external_sources/{comparator, concreteness, integrator, lancaster_sensorimotor, nrc_emotion, populate, prepopulate, run_comparison, sentiwordnet, weighted_voting, base_parser}.py, gse/curation/{lexicon_db, personal_dictionary, ...}.py, gse/curation/llm/{batch_processor, gap_filler, hybrid_builder, ollama_client, qwen_client, response_parser}.py",
+      "Core Documents/GSE: GFS_IMPLEMENTATION_SPEC_v3.md, geometric_frame_semantics_architecture_v2.md, geometric_frame_semantics_theory_v2.md, GSE_vs_LLMs_Brief.md, complex_sentence_architecture.md, GSE_PAPER_EXPERIMENTS/",
+      "data/external/references/* other than the chart (NSM literature PDFs/text, README.md, CATALOG.json)",
+      "tests/*",
+      "docs/verification/lexicon-rebuild/research-2026-10-25/nsm-prime-facts/prime_facts.json and its other parts, noun-facts/*; docs/verification/lexicon-rebuild/foundation-2026-10-25/replay/* (comparison data, scripts)"
+    ]
+  }
+}

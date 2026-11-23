@@ -1,0 +1,13 @@
+WARNING:pip_audit._cli:--no-deps is supported, but users are encouraged to fully hash their pinned dependencies
+WARNING:pip_audit._cli:Consider using a tool like `pip-compile`: https://pip-tools.readthedocs.io/en/latest/#using-hashes
+Found 4 known vulnerabilities in 4 packages
+Name       Version   ID                  Fix Versions
+---------- --------- ------------------- ------------
+certifi    2026.5.20 PYSEC-2026-4320     2026.10.19
+mcp        1.28.1    CVE-2026-59951      1.30.0,2.2.0
+nltk       3.10.3    PYSEC-2026-3740
+setuptools 84.0.0    GHSA-xmj3-9gf7-h52w 84.1.0
+
+Name           Skip Reason
+-------------- ---------------------------------------------------------------
+en-core-web-sm URL requirements cannot be pinned to a specific package version

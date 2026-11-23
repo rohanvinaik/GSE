@@ -1,0 +1,1526 @@
+Building source distribution...
+running egg_info
+creating gse.egg-info
+writing gse.egg-info/PKG-INFO
+writing dependency_links to gse.egg-info/dependency_links.txt
+writing entry points to gse.egg-info/entry_points.txt
+writing requirements to gse.egg-info/requires.txt
+writing top-level names to gse.egg-info/top_level.txt
+writing manifest file 'gse.egg-info/SOURCES.txt'
+reading manifest file 'gse.egg-info/SOURCES.txt'
+writing manifest file 'gse.egg-info/SOURCES.txt'
+running sdist
+running egg_info
+writing gse.egg-info/PKG-INFO
+writing dependency_links to gse.egg-info/dependency_links.txt
+writing entry points to gse.egg-info/entry_points.txt
+writing requirements to gse.egg-info/requires.txt
+writing top-level names to gse.egg-info/top_level.txt
+reading manifest file 'gse.egg-info/SOURCES.txt'
+writing manifest file 'gse.egg-info/SOURCES.txt'
+running check
+creating gse-2.0.0
+creating gse-2.0.0/gse
+creating gse-2.0.0/gse.egg-info
+creating gse-2.0.0/gse/_archive
+creating gse-2.0.0/gse/_archive/benchmarks
+creating gse-2.0.0/gse/_archive/code_agent
+creating gse-2.0.0/gse/_archive/curation
+creating gse-2.0.0/gse/_archive/encoders
+creating gse-2.0.0/gse/_archive/graph
+creating gse-2.0.0/gse/_archive/orchestration
+creating gse-2.0.0/gse/_archive/patterns
+creating gse-2.0.0/gse/_archive/scales
+creating gse-2.0.0/gse/api
+creating gse-2.0.0/gse/benchmarks
+creating gse-2.0.0/gse/cache
+creating gse-2.0.0/gse/cassettes
+creating gse-2.0.0/gse/cli
+creating gse-2.0.0/gse/composition
+creating gse-2.0.0/gse/curation
+creating gse-2.0.0/gse/curation/cli
+creating gse-2.0.0/gse/curation/constraint_aggregation
+creating gse-2.0.0/gse/curation/decomposition
+creating gse-2.0.0/gse/curation/external_sources
+creating gse-2.0.0/gse/curation/llm
+creating gse-2.0.0/gse/curation/pipeline
+creating gse-2.0.0/gse/curation/validation
+creating gse-2.0.0/gse/demo
+creating gse-2.0.0/gse/discourse
+creating gse-2.0.0/gse/encoders
+creating gse-2.0.0/gse/evaluation
+creating gse-2.0.0/gse/gse/encoders
+creating gse-2.0.0/gse/lexicon
+creating gse-2.0.0/gse/lexicon_builder
+creating gse-2.0.0/gse/mcp
+creating gse-2.0.0/gse/merkle
+creating gse-2.0.0/gse/nlp
+creating gse-2.0.0/gse/orchestration
+creating gse-2.0.0/gse/parsing
+creating gse-2.0.0/gse/patterns
+creating gse-2.0.0/gse/pragmatics
+creating gse-2.0.0/gse/profiles
+creating gse-2.0.0/gse/scales
+creating gse-2.0.0/gse/symbolic
+creating gse-2.0.0/gse/symbolic/healer
+creating gse-2.0.0/gse/symbolic/healer/lenses
+creating gse-2.0.0/gse/teaching
+creating gse-2.0.0/gse/verification
+creating gse-2.0.0/tests
+copying files to gse-2.0.0...
+copying README.md -> gse-2.0.0
+copying pyproject.toml -> gse-2.0.0
+copying gse/__init__.py -> gse-2.0.0/gse
+copying gse/cli.py -> gse-2.0.0/gse
+copying gse/frequency.py -> gse-2.0.0/gse
+copying gse/lexical_evidence.py -> gse-2.0.0/gse
+copying gse/pipeline_v2.py -> gse-2.0.0/gse
+copying gse/prime_projection.py -> gse-2.0.0/gse
+copying gse/primitives_v2.py -> gse-2.0.0/gse
+copying gse/scale_definition.py -> gse-2.0.0/gse
+copying gse/structure.py -> gse-2.0.0/gse
+copying gse/vectors_v2.py -> gse-2.0.0/gse
+copying gse/verb_templates.py -> gse-2.0.0/gse
+copying gse.egg-info/PKG-INFO -> gse-2.0.0/gse.egg-info
+copying gse.egg-info/SOURCES.txt -> gse-2.0.0/gse.egg-info
+copying gse.egg-info/dependency_links.txt -> gse-2.0.0/gse.egg-info
+copying gse.egg-info/entry_points.txt -> gse-2.0.0/gse.egg-info
+copying gse.egg-info/requires.txt -> gse-2.0.0/gse.egg-info
+copying gse.egg-info/top_level.txt -> gse-2.0.0/gse.egg-info
+copying gse/_archive/antonymy.py -> gse-2.0.0/gse/_archive
+copying gse/_archive/cascade.py -> gse-2.0.0/gse/_archive
+copying gse/_archive/coherence.py -> gse-2.0.0/gse/_archive
+copying gse/_archive/composer.py -> gse-2.0.0/gse/_archive
+copying gse/_archive/discourse.py -> gse-2.0.0/gse/_archive
+copying gse/_archive/lexicon_generator.py -> gse-2.0.0/gse/_archive
+copying gse/_archive/lexicon_validator.py -> gse-2.0.0/gse/_archive
+copying gse/_archive/merkle.py -> gse-2.0.0/gse/_archive
+copying gse/_archive/morphology.py -> gse-2.0.0/gse/_archive
+copying gse/_archive/pipeline.py -> gse-2.0.0/gse/_archive
+copying gse/_archive/primitives.py -> gse-2.0.0/gse/_archive
+copying gse/_archive/sense_selection.py -> gse-2.0.0/gse/_archive
+copying gse/_archive/vectors.py -> gse-2.0.0/gse/_archive
+copying gse/_archive/vectors_hadamard_otp.py -> gse-2.0.0/gse/_archive
+copying gse/_archive/vectors_old.py -> gse-2.0.0/gse/_archive
+copying gse/_archive/benchmarks/baselines.py -> gse-2.0.0/gse/_archive/benchmarks
+copying gse/_archive/benchmarks/evaluator.py -> gse-2.0.0/gse/_archive/benchmarks
+copying gse/_archive/code_agent/__init__.py -> gse-2.0.0/gse/_archive/code_agent
+copying gse/_archive/curation/__init__.py -> gse-2.0.0/gse/_archive/curation
+copying gse/_archive/curation/cognitive_complexity.py -> gse-2.0.0/gse/_archive/curation
+copying gse/_archive/curation/corpus_scorer.py -> gse-2.0.0/gse/_archive/curation
+copying gse/_archive/curation/curator.py -> gse-2.0.0/gse/_archive/curation
+copying gse/_archive/curation/tinker_export.py -> gse-2.0.0/gse/_archive/curation
+copying gse/_archive/encoders/conversation_encoder.py -> gse-2.0.0/gse/_archive/encoders
+copying gse/_archive/encoders/paragraph_encoder.py -> gse-2.0.0/gse/_archive/encoders
+copying gse/_archive/encoders/sentence_encoder.py -> gse-2.0.0/gse/_archive/encoders
+copying gse/_archive/graph/builder.py -> gse-2.0.0/gse/_archive/graph
+copying gse/_archive/graph/semantic_graph.py -> gse-2.0.0/gse/_archive/graph
+copying gse/_archive/graph/traversal.py -> gse-2.0.0/gse/_archive/graph
+copying gse/_archive/orchestration/ambiguity_handler.py -> gse-2.0.0/gse/_archive/orchestration
+copying gse/_archive/orchestration/collision.py -> gse-2.0.0/gse/_archive/orchestration
+copying gse/_archive/orchestration/coordinator.py -> gse-2.0.0/gse/_archive/orchestration
+copying gse/_archive/patterns/compound_network.py -> gse-2.0.0/gse/_archive/patterns
+copying gse/_archive/patterns/cooccurrence.py -> gse-2.0.0/gse/_archive/patterns
+copying gse/_archive/patterns/pattern_network.py -> gse-2.0.0/gse/_archive/patterns
+copying gse/_archive/scales/discourse.py -> gse-2.0.0/gse/_archive/scales
+copying gse/_archive/scales/lexical.py -> gse-2.0.0/gse/_archive/scales
+copying gse/_archive/scales/syntactic.py -> gse-2.0.0/gse/_archive/scales
+copying gse/_archive/scales/textual.py -> gse-2.0.0/gse/_archive/scales
+copying gse/api/__init__.py -> gse-2.0.0/gse/api
+copying gse/api/decoder.py -> gse-2.0.0/gse/api
+copying gse/api/encoder.py -> gse-2.0.0/gse/api
+copying gse/api/errors.py -> gse-2.0.0/gse/api
+copying gse/api/native_repair.py -> gse-2.0.0/gse/api
+copying gse/api/parse_repair.py -> gse-2.0.0/gse/api
+copying gse/api/trace.py -> gse-2.0.0/gse/api
+copying gse/benchmarks/__init__.py -> gse-2.0.0/gse/benchmarks
+copying gse/benchmarks/datasets.py -> gse-2.0.0/gse/benchmarks
+copying gse/benchmarks/metrics.py -> gse-2.0.0/gse/benchmarks
+copying gse/benchmarks/run.py -> gse-2.0.0/gse/benchmarks
+copying gse/cache/__init__.py -> gse-2.0.0/gse/cache
+copying gse/cassettes/__init__.py -> gse-2.0.0/gse/cassettes
+copying gse/cassettes/agent_eligibility.py -> gse-2.0.0/gse/cassettes
+copying gse/cassettes/base.py -> gse-2.0.0/gse/cassettes
+copying gse/cassettes/cheatsheet.py -> gse-2.0.0/gse/cassettes
+copying gse/cassettes/coref_junk.py -> gse-2.0.0/gse/cassettes
+copying gse/cassettes/deck.py -> gse-2.0.0/gse/cassettes
+copying gse/cassettes/entity_identity.py -> gse-2.0.0/gse/cassettes
+copying gse/cassettes/multiscale.py -> gse-2.0.0/gse/cassettes
+copying gse/cassettes/person_validation.py -> gse-2.0.0/gse/cassettes
+copying gse/cassettes/referent_validation.py -> gse-2.0.0/gse/cassettes
+copying gse/cassettes/relational_identity.py -> gse-2.0.0/gse/cassettes
+copying gse/cli/__init__.py -> gse-2.0.0/gse/cli
+copying gse/cli/__main__.py -> gse-2.0.0/gse/cli
+copying gse/cli/main.py -> gse-2.0.0/gse/cli
+copying gse/composition/__init__.py -> gse-2.0.0/gse/composition
+copying gse/composition/composer.py -> gse-2.0.0/gse/composition
+copying gse/curation/__init__.py -> gse-2.0.0/gse/curation
+copying gse/curation/build_clean_closed_class.py -> gse-2.0.0/gse/curation
+copying gse/curation/build_clean_layer1.py -> gse-2.0.0/gse/curation
+copying gse/curation/build_clean_layer2.py -> gse-2.0.0/gse/curation
+copying gse/curation/build_clean_operators.py -> gse-2.0.0/gse/curation
+copying gse/curation/build_clean_quantifiers.py -> gse-2.0.0/gse/curation
+copying gse/curation/build_hdc_speller.py -> gse-2.0.0/gse/curation
+copying gse/curation/build_misspellings.py -> gse-2.0.0/gse/curation
+copying gse/curation/build_spell_entities.py -> gse-2.0.0/gse/curation
+copying gse/curation/build_spellcheck_data.py -> gse-2.0.0/gse/curation
+copying gse/curation/build_wordlist.py -> gse-2.0.0/gse/curation
+copying gse/curation/frequency_integration.py -> gse-2.0.0/gse/curation
+copying gse/curation/lexicon_db.py -> gse-2.0.0/gse/curation
+copying gse/curation/personal_dictionary.py -> gse-2.0.0/gse/curation
+copying gse/curation/schema.py -> gse-2.0.0/gse/curation
+copying gse/curation/cli/__init__.py -> gse-2.0.0/gse/curation/cli
+copying gse/curation/cli/commands.py -> gse-2.0.0/gse/curation/cli
+copying gse/curation/constraint_aggregation/__init__.py -> gse-2.0.0/gse/curation/constraint_aggregation
+copying gse/curation/constraint_aggregation/conflict_detector.py -> gse-2.0.0/gse/curation/constraint_aggregation
+copying gse/curation/constraint_aggregation/engine.py -> gse-2.0.0/gse/curation/constraint_aggregation
+copying gse/curation/constraint_aggregation/mapping_registry.py -> gse-2.0.0/gse/curation/constraint_aggregation
+copying gse/curation/constraint_aggregation/scoring.py -> gse-2.0.0/gse/curation/constraint_aggregation
+copying gse/curation/constraint_aggregation/types.py -> gse-2.0.0/gse/curation/constraint_aggregation
+copying gse/curation/decomposition/__init__.py -> gse-2.0.0/gse/curation/decomposition
+copying gse/curation/decomposition/definition_linker.py -> gse-2.0.0/gse/curation/decomposition
+copying gse/curation/decomposition/definition_structure.py -> gse-2.0.0/gse/curation/decomposition
+copying gse/curation/decomposition/definitional_decomposer.py -> gse-2.0.0/gse/curation/decomposition
+copying gse/curation/decomposition/source_index.py -> gse-2.0.0/gse/curation/decomposition
+copying gse/curation/external_sources/__init__.py -> gse-2.0.0/gse/curation/external_sources
+copying gse/curation/external_sources/base_parser.py -> gse-2.0.0/gse/curation/external_sources
+copying gse/curation/external_sources/bipolar_exclusion.py -> gse-2.0.0/gse/curation/external_sources
+copying gse/curation/external_sources/comparator.py -> gse-2.0.0/gse/curation/external_sources
+copying gse/curation/external_sources/conceptnet.py -> gse-2.0.0/gse/curation/external_sources
+copying gse/curation/external_sources/concreteness.py -> gse-2.0.0/gse/curation/external_sources
+copying gse/curation/external_sources/framenet.py -> gse-2.0.0/gse/curation/external_sources
+copying gse/curation/external_sources/integrator.py -> gse-2.0.0/gse/curation/external_sources
+copying gse/curation/external_sources/lancaster_sensorimotor.py -> gse-2.0.0/gse/curation/external_sources
+copying gse/curation/external_sources/nrc_emotion.py -> gse-2.0.0/gse/curation/external_sources
+copying gse/curation/external_sources/nrc_vad.py -> gse-2.0.0/gse/curation/external_sources
+copying gse/curation/external_sources/populate.py -> gse-2.0.0/gse/curation/external_sources
+copying gse/curation/external_sources/prepopulate.py -> gse-2.0.0/gse/curation/external_sources
+copying gse/curation/external_sources/propbank.py -> gse-2.0.0/gse/curation/external_sources
+copying gse/curation/external_sources/run_comparison.py -> gse-2.0.0/gse/curation/external_sources
+copying gse/curation/external_sources/sentiwordnet.py -> gse-2.0.0/gse/curation/external_sources
+copying gse/curation/external_sources/source_scope.py -> gse-2.0.0/gse/curation/external_sources
+copying gse/curation/external_sources/tier_0_dispatch.py -> gse-2.0.0/gse/curation/external_sources
+copying gse/curation/external_sources/usas.py -> gse-2.0.0/gse/curation/external_sources
+copying gse/curation/external_sources/verbnet.py -> gse-2.0.0/gse/curation/external_sources
+copying gse/curation/external_sources/weighted_voting.py -> gse-2.0.0/gse/curation/external_sources
+copying gse/curation/external_sources/wiktionary.py -> gse-2.0.0/gse/curation/external_sources
+copying gse/curation/external_sources/wordnet_hierarchy.py -> gse-2.0.0/gse/curation/external_sources
+copying gse/curation/llm/__init__.py -> gse-2.0.0/gse/curation/llm
+copying gse/curation/llm/batch_processor.py -> gse-2.0.0/gse/curation/llm
+copying gse/curation/llm/gap_filler.py -> gse-2.0.0/gse/curation/llm
+copying gse/curation/llm/granular_decomposer.py -> gse-2.0.0/gse/curation/llm
+copying gse/curation/llm/hybrid_builder.py -> gse-2.0.0/gse/curation/llm
+copying gse/curation/llm/ollama_client.py -> gse-2.0.0/gse/curation/llm
+copying gse/curation/llm/primitive_matcher.py -> gse-2.0.0/gse/curation/llm
+copying gse/curation/llm/primitive_sweep.py -> gse-2.0.0/gse/curation/llm
+copying gse/curation/llm/prompts.py -> gse-2.0.0/gse/curation/llm
+copying gse/curation/llm/qwen_client.py -> gse-2.0.0/gse/curation/llm
+copying gse/curation/llm/response_parser.py -> gse-2.0.0/gse/curation/llm
+copying gse/curation/pipeline/__init__.py -> gse-2.0.0/gse/curation/pipeline
+copying gse/curation/pipeline/staged_builder.py -> gse-2.0.0/gse/curation/pipeline
+copying gse/curation/validation/__init__.py -> gse-2.0.0/gse/curation/validation
+copying gse/curation/validation/bipolar_validator.py -> gse-2.0.0/gse/curation/validation
+copying gse/curation/validation/coverage_checker.py -> gse-2.0.0/gse/curation/validation
+copying gse/curation/validation/discrimination_gate.py -> gse-2.0.0/gse/curation/validation
+copying gse/curation/validation/hierarchy_validator.py -> gse-2.0.0/gse/curation/validation
+copying gse/demo/__init__.py -> gse-2.0.0/gse/demo
+copying gse/demo/enum_measure.py -> gse-2.0.0/gse/demo
+copying gse/demo/enum_repair.py -> gse-2.0.0/gse/demo
+copying gse/demo/reasoning.py -> gse-2.0.0/gse/demo
+copying gse/demo/showcase.py -> gse-2.0.0/gse/demo
+copying gse/discourse/__init__.py -> gse-2.0.0/gse/discourse
+copying gse/discourse/infer.py -> gse-2.0.0/gse/discourse
+copying gse/discourse/intake.py -> gse-2.0.0/gse/discourse
+copying gse/discourse/nested_router.py -> gse-2.0.0/gse/discourse
+copying gse/discourse/profile.py -> gse-2.0.0/gse/discourse
+copying gse/discourse/registers.py -> gse-2.0.0/gse/discourse
+copying gse/discourse/router.py -> gse-2.0.0/gse/discourse
+copying gse/discourse/speech.py -> gse-2.0.0/gse/discourse
+copying gse/encoders/__init__.py -> gse-2.0.0/gse/encoders
+copying gse/encoders/marker_detection.py -> gse-2.0.0/gse/encoders
+copying gse/encoders/paragraph_structure_encoder.py -> gse-2.0.0/gse/encoders
+copying gse/encoders/sentence_structure_encoder.py -> gse-2.0.0/gse/encoders
+copying gse/encoders/som_genre.py -> gse-2.0.0/gse/encoders
+copying gse/encoders/text_structure_encoder.py -> gse-2.0.0/gse/encoders
+copying gse/evaluation/__init__.py -> gse-2.0.0/gse/evaluation
+copying gse/evaluation/world_model.py -> gse-2.0.0/gse/evaluation
+copying gse/gse/encoders/__init__.py -> gse-2.0.0/gse/gse/encoders
+copying gse/lexicon/__init__.py -> gse-2.0.0/gse/lexicon
+copying gse/lexicon/function_words.py -> gse-2.0.0/gse/lexicon
+copying gse/lexicon/modifier_hierarchy.py -> gse-2.0.0/gse/lexicon
+copying gse/lexicon/numerals.py -> gse-2.0.0/gse/lexicon
+copying gse/lexicon/pronouns.py -> gse-2.0.0/gse/lexicon
+copying gse/lexicon/similarity.py -> gse-2.0.0/gse/lexicon
+copying gse/lexicon/word_encoding.py -> gse-2.0.0/gse/lexicon
+copying gse/lexicon_builder/__init__.py -> gse-2.0.0/gse/lexicon_builder
+copying gse/lexicon_builder/__main__.py -> gse-2.0.0/gse/lexicon_builder
+copying gse/lexicon_builder/artifact.py -> gse-2.0.0/gse/lexicon_builder
+copying gse/lexicon_builder/atomics.py -> gse-2.0.0/gse/lexicon_builder
+copying gse/lexicon_builder/audit.py -> gse-2.0.0/gse/lexicon_builder
+copying gse/lexicon_builder/bank_laws.json -> gse-2.0.0/gse/lexicon_builder
+copying gse/lexicon_builder/basis.py -> gse-2.0.0/gse/lexicon_builder
+copying gse/lexicon_builder/build.py -> gse-2.0.0/gse/lexicon_builder
+copying gse/lexicon_builder/cli.py -> gse-2.0.0/gse/lexicon_builder
+copying gse/lexicon_builder/conditionals.py -> gse-2.0.0/gse/lexicon_builder
+copying gse/lexicon_builder/core.py -> gse-2.0.0/gse/lexicon_builder
+copying gse/lexicon_builder/coverage.py -> gse-2.0.0/gse/lexicon_builder
+copying gse/lexicon_builder/fill.py -> gse-2.0.0/gse/lexicon_builder
+copying gse/lexicon_builder/foundation.json -> gse-2.0.0/gse/lexicon_builder
+copying gse/lexicon_builder/foundation.py -> gse-2.0.0/gse/lexicon_builder
+copying gse/lexicon_builder/model.py -> gse-2.0.0/gse/lexicon_builder
+copying gse/lexicon_builder/native_constraints.py -> gse-2.0.0/gse/lexicon_builder
+copying gse/lexicon_builder/nouns.py -> gse-2.0.0/gse/lexicon_builder
+copying gse/lexicon_builder/number.py -> gse-2.0.0/gse/lexicon_builder
+copying gse/lexicon_builder/perception.py -> gse-2.0.0/gse/lexicon_builder
+copying gse/lexicon_builder/reading.py -> gse-2.0.0/gse/lexicon_builder
+copying gse/lexicon_builder/registry.py -> gse-2.0.0/gse/lexicon_builder
+copying gse/lexicon_builder/release_audit.py -> gse-2.0.0/gse/lexicon_builder
+copying gse/lexicon_builder/runtime.py -> gse-2.0.0/gse/lexicon_builder
+copying gse/lexicon_builder/sources.py -> gse-2.0.0/gse/lexicon_builder
+copying gse/lexicon_builder/surprise.py -> gse-2.0.0/gse/lexicon_builder
+copying gse/lexicon_builder/tail.py -> gse-2.0.0/gse/lexicon_builder
+copying gse/mcp/__init__.py -> gse-2.0.0/gse/mcp
+copying gse/mcp/spell_server.py -> gse-2.0.0/gse/mcp
+copying gse/merkle/__init__.py -> gse-2.0.0/gse/merkle
+copying gse/merkle/decomposer.py -> gse-2.0.0/gse/merkle
+copying gse/merkle/hash_chain.py -> gse-2.0.0/gse/merkle
+copying gse/merkle/learning_bridge.py -> gse-2.0.0/gse/merkle
+copying gse/merkle/nodes.py -> gse-2.0.0/gse/merkle
+copying gse/merkle/router.py -> gse-2.0.0/gse/merkle
+copying gse/merkle/translator.py -> gse-2.0.0/gse/merkle
+copying gse/merkle/tree.py -> gse-2.0.0/gse/merkle
+copying gse/nlp/__init__.py -> gse-2.0.0/gse/nlp
+copying gse/nlp/contractions.py -> gse-2.0.0/gse/nlp
+copying gse/nlp/hdc_speller.py -> gse-2.0.0/gse/nlp
+copying gse/nlp/heal.py -> gse-2.0.0/gse/nlp
+copying gse/nlp/healing_resources.py -> gse-2.0.0/gse/nlp
+copying gse/nlp/linkers.py -> gse-2.0.0/gse/nlp
+copying gse/nlp/morphology.py -> gse-2.0.0/gse/nlp
+copying gse/nlp/native.py -> gse-2.0.0/gse/nlp
+copying gse/nlp/sentence_parser.py -> gse-2.0.0/gse/nlp
+copying gse/nlp/spellcheck.py -> gse-2.0.0/gse/nlp
+copying gse/nlp/spellcheck_context.py -> gse-2.0.0/gse/nlp
+copying gse/nlp/spellcheck_entity.py -> gse-2.0.0/gse/nlp
+copying gse/nlp/spellcheck_repl.py -> gse-2.0.0/gse/nlp
+copying gse/orchestration/__init__.py -> gse-2.0.0/gse/orchestration
+copying gse/parsing/__init__.py -> gse-2.0.0/gse/parsing
+copying gse/parsing/graph.py -> gse-2.0.0/gse/parsing
+copying gse/parsing/operators.py -> gse-2.0.0/gse/parsing
+copying gse/parsing/parser.py -> gse-2.0.0/gse/parsing
+copying gse/patterns/__init__.py -> gse-2.0.0/gse/patterns
+copying gse/patterns/klines.py -> gse-2.0.0/gse/patterns
+copying gse/patterns/networks_v2.py -> gse-2.0.0/gse/patterns
+copying gse/patterns/orchestrator.py -> gse-2.0.0/gse/patterns
+copying gse/pragmatics/__init__.py -> gse-2.0.0/gse/pragmatics
+copying gse/pragmatics/figure_store.py -> gse-2.0.0/gse/pragmatics
+copying gse/pragmatics/figures.py -> gse-2.0.0/gse/pragmatics
+copying gse/pragmatics/janus.py -> gse-2.0.0/gse/pragmatics
+copying gse/profiles/__init__.py -> gse-2.0.0/gse/profiles
+copying gse/profiles/profile_manager.py -> gse-2.0.0/gse/profiles
+copying gse/scales/__init__.py -> gse-2.0.0/gse/scales
+copying gse/scales/syntactic_structure.py -> gse-2.0.0/gse/scales
+copying gse/symbolic/__init__.py -> gse-2.0.0/gse/symbolic
+copying gse/symbolic/claims.py -> gse-2.0.0/gse/symbolic
+copying gse/symbolic/coherence.py -> gse-2.0.0/gse/symbolic
+copying gse/symbolic/emit.py -> gse-2.0.0/gse/symbolic
+copying gse/symbolic/expression.py -> gse-2.0.0/gse/symbolic
+copying gse/symbolic/genealogy_store.py -> gse-2.0.0/gse/symbolic
+copying gse/symbolic/grounding.py -> gse-2.0.0/gse/symbolic
+copying gse/symbolic/inference.py -> gse-2.0.0/gse/symbolic
+copying gse/symbolic/modality.py -> gse-2.0.0/gse/symbolic
+copying gse/symbolic/narrative.py -> gse-2.0.0/gse/symbolic
+copying gse/symbolic/operators.py -> gse-2.0.0/gse/symbolic
+copying gse/symbolic/predicates.py -> gse-2.0.0/gse/symbolic
+copying gse/symbolic/propositions.py -> gse-2.0.0/gse/symbolic
+copying gse/symbolic/queries.py -> gse-2.0.0/gse/symbolic
+copying gse/symbolic/resolution.py -> gse-2.0.0/gse/symbolic
+copying gse/symbolic/sense_resonance.py -> gse-2.0.0/gse/symbolic
+copying gse/symbolic/serialization.py -> gse-2.0.0/gse/symbolic
+copying gse/symbolic/signs.py -> gse-2.0.0/gse/symbolic
+copying gse/symbolic/templating.py -> gse-2.0.0/gse/symbolic
+copying gse/symbolic/tiers.py -> gse-2.0.0/gse/symbolic
+copying gse/symbolic/variables.py -> gse-2.0.0/gse/symbolic
+copying gse/symbolic/healer/__init__.py -> gse-2.0.0/gse/symbolic/healer
+copying gse/symbolic/healer/envelope.py -> gse-2.0.0/gse/symbolic/healer
+copying gse/symbolic/healer/fold_reader.py -> gse-2.0.0/gse/symbolic/healer
+copying gse/symbolic/healer/lens.py -> gse-2.0.0/gse/symbolic/healer
+copying gse/symbolic/healer/recollect.py -> gse-2.0.0/gse/symbolic/healer
+copying gse/symbolic/healer/society.py -> gse-2.0.0/gse/symbolic/healer
+copying gse/symbolic/healer/treewalk.py -> gse-2.0.0/gse/symbolic/healer
+copying gse/symbolic/healer/lenses/__init__.py -> gse-2.0.0/gse/symbolic/healer/lenses
+copying gse/symbolic/healer/lenses/copula_predicate.py -> gse-2.0.0/gse/symbolic/healer/lenses
+copying gse/symbolic/healer/lenses/infinitival_control.py -> gse-2.0.0/gse/symbolic/healer/lenses
+copying gse/symbolic/healer/lenses/participial.py -> gse-2.0.0/gse/symbolic/healer/lenses
+copying gse/symbolic/healer/lenses/vp_coord.py -> gse-2.0.0/gse/symbolic/healer/lenses
+copying gse/teaching/__init__.py -> gse-2.0.0/gse/teaching
+copying gse/teaching/conversation_processor.py -> gse-2.0.0/gse/teaching
+copying gse/teaching/feature_extractor.py -> gse-2.0.0/gse/teaching
+copying gse/teaching/teacher.py -> gse-2.0.0/gse/teaching
+copying gse/verification/__init__.py -> gse-2.0.0/gse/verification
+copying gse/verification/proof_suite.py -> gse-2.0.0/gse/verification
+copying gse/verification/symbolic_proof_suite.py -> gse-2.0.0/gse/verification
+copying tests/test_aggregate_primitives_weighted.py -> gse-2.0.0/tests
+copying tests/test_audit_lexicon_violations.py -> gse-2.0.0/tests
+copying tests/test_bank_cosine_metrics.py -> gse-2.0.0/tests
+copying tests/test_basis_theory_invariants.py -> gse-2.0.0/tests
+copying tests/test_benchmark_runner.py -> gse-2.0.0/tests
+copying tests/test_bipolar_exclusion.py -> gse-2.0.0/tests
+copying tests/test_claim_semantics.py -> gse-2.0.0/tests
+copying tests/test_clause_linker_walkers.py -> gse-2.0.0/tests
+copying tests/test_closed_class_modals.py -> gse-2.0.0/tests
+copying tests/test_closed_class_rows.py -> gse-2.0.0/tests
+copying tests/test_comp_operator_trace.py -> gse-2.0.0/tests
+copying tests/test_complement_attachment.py -> gse-2.0.0/tests
+copying tests/test_complete_document_reading.py -> gse-2.0.0/tests
+copying tests/test_concreteness_native_fields.py -> gse-2.0.0/tests
+copying tests/test_contractions.py -> gse-2.0.0/tests
+copying tests/test_copula_complement.py -> gse-2.0.0/tests
+copying tests/test_data_paths.py -> gse-2.0.0/tests
+copying tests/test_discourse_profile.py -> gse-2.0.0/tests
+copying tests/test_discourse_speech.py -> gse-2.0.0/tests
+copying tests/test_gse_abstention.py -> gse-2.0.0/tests
+copying tests/test_gse_api_decoder.py -> gse-2.0.0/tests
+copying tests/test_gse_api_encoder.py -> gse-2.0.0/tests
+copying tests/test_gse_api_errors.py -> gse-2.0.0/tests
+copying tests/test_gse_api_trace.py -> gse-2.0.0/tests
+copying tests/test_gse_benchmarks_datasets.py -> gse-2.0.0/tests
+copying tests/test_gse_benchmarks_metrics.py -> gse-2.0.0/tests
+copying tests/test_gse_cli_main.py -> gse-2.0.0/tests
+copying tests/test_gse_coherence_selection.py -> gse-2.0.0/tests
+copying tests/test_gse_composition_composer.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_cli_commands.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_constraint_aggregation_conflict_detector.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_constraint_aggregation_engine.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_constraint_aggregation_mapping_registry.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_constraint_aggregation_scoring.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_constraint_aggregation_types.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_external_sources_base_parser.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_external_sources_comparator.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_external_sources_conceptnet.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_external_sources_concreteness.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_external_sources_framenet.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_external_sources_integrator.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_external_sources_lancaster_sensorimotor.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_external_sources_nrc_emotion.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_external_sources_nrc_vad.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_external_sources_prepopulate.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_external_sources_propbank.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_external_sources_run_comparison.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_external_sources_sentiwordnet.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_external_sources_usas.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_external_sources_verbnet.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_external_sources_wiktionary.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_external_sources_wordnet_hierarchy.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_frequency_integration.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_lexicon_db.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_llm_batch_processor.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_llm_gap_filler.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_llm_granular_decomposer.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_llm_hybrid_builder.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_llm_ollama_client.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_llm_primitive_matcher.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_llm_primitive_sweep.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_llm_prompts.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_llm_qwen_client.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_llm_response_parser.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_pipeline_staged_builder.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_schema.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_validation_bipolar_validator.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_validation_coverage_checker.py -> gse-2.0.0/tests
+copying tests/test_gse_curation_validation_hierarchy_validator.py -> gse-2.0.0/tests
+copying tests/test_gse_demiword.py -> gse-2.0.0/tests
+copying tests/test_gse_document.py -> gse-2.0.0/tests
+copying tests/test_gse_emit_contract.py -> gse-2.0.0/tests
+copying tests/test_gse_encoders_paragraph_structure_encoder.py -> gse-2.0.0/tests
+copying tests/test_gse_encoders_sentence_structure_encoder.py -> gse-2.0.0/tests
+copying tests/test_gse_encoders_text_structure_encoder.py -> gse-2.0.0/tests
+copying tests/test_gse_entity_refs.py -> gse-2.0.0/tests
+copying tests/test_gse_evaluation_world_model.py -> gse-2.0.0/tests
+copying tests/test_gse_event.py -> gse-2.0.0/tests
+copying tests/test_gse_frequency.py -> gse-2.0.0/tests
+copying tests/test_gse_genealogy_store.py -> gse-2.0.0/tests
+copying tests/test_gse_inference.py -> gse-2.0.0/tests
+copying tests/test_gse_lexicon_function_words.py -> gse-2.0.0/tests
+copying tests/test_gse_lexicon_modifier_hierarchy.py -> gse-2.0.0/tests
+copying tests/test_gse_lexicon_numerals.py -> gse-2.0.0/tests
+copying tests/test_gse_lexicon_pronouns.py -> gse-2.0.0/tests
+copying tests/test_gse_lexicon_similarity.py -> gse-2.0.0/tests
+copying tests/test_gse_lexicon_word_encoding.py -> gse-2.0.0/tests
+copying tests/test_gse_merkle_decomposer.py -> gse-2.0.0/tests
+copying tests/test_gse_merkle_hash_chain.py -> gse-2.0.0/tests
+copying tests/test_gse_merkle_learning_bridge.py -> gse-2.0.0/tests
+copying tests/test_gse_merkle_nodes.py -> gse-2.0.0/tests
+copying tests/test_gse_merkle_router.py -> gse-2.0.0/tests
+copying tests/test_gse_merkle_translator.py -> gse-2.0.0/tests
+copying tests/test_gse_merkle_tree.py -> gse-2.0.0/tests
+copying tests/test_gse_parsing_graph.py -> gse-2.0.0/tests
+copying tests/test_gse_parsing_operators.py -> gse-2.0.0/tests
+copying tests/test_gse_parsing_parser.py -> gse-2.0.0/tests
+copying tests/test_gse_patterns_klines.py -> gse-2.0.0/tests
+copying tests/test_gse_patterns_networks_v2.py -> gse-2.0.0/tests
+copying tests/test_gse_profiles_profile_manager.py -> gse-2.0.0/tests
+copying tests/test_gse_scale_definition.py -> gse-2.0.0/tests
+copying tests/test_gse_scales_syntactic_structure.py -> gse-2.0.0/tests
+copying tests/test_gse_teaching_conversation_processor.py -> gse-2.0.0/tests
+copying tests/test_gse_teaching_feature_extractor.py -> gse-2.0.0/tests
+copying tests/test_gse_teaching_teacher.py -> gse-2.0.0/tests
+copying tests/test_gse_triage.py -> gse-2.0.0/tests
+copying tests/test_gse_verb_templates.py -> gse-2.0.0/tests
+copying tests/test_gse_verification_proof_suite.py -> gse-2.0.0/tests
+copying tests/test_hdc_speller.py -> gse-2.0.0/tests
+copying tests/test_head_linker_decision.py -> gse-2.0.0/tests
+copying tests/test_healing_resource_provenance.py -> gse-2.0.0/tests
+copying tests/test_kb_assertion_modality.py -> gse-2.0.0/tests
+copying tests/test_klines.py -> gse-2.0.0/tests
+copying tests/test_knowability_sentences.py -> gse-2.0.0/tests
+copying tests/test_l1_ladder.py -> gse-2.0.0/tests
+copying tests/test_lemma_invariants.py -> gse-2.0.0/tests
+copying tests/test_lexical_connection_cache.py -> gse-2.0.0/tests
+copying tests/test_lexical_healing_contract.py -> gse-2.0.0/tests
+copying tests/test_lexicon_atomic_and_tail.py -> gse-2.0.0/tests
+copying tests/test_lexicon_bank_coverage.py -> gse-2.0.0/tests
+copying tests/test_lexicon_basis_profiles.py -> gse-2.0.0/tests
+copying tests/test_lexicon_bounded_tail.py -> gse-2.0.0/tests
+copying tests/test_lexicon_builder_foundation.py -> gse-2.0.0/tests
+copying tests/test_lexicon_builder_workflow.py -> gse-2.0.0/tests
+copying tests/test_lexicon_cause_bindings.py -> gse-2.0.0/tests
+copying tests/test_lexicon_coherence.py -> gse-2.0.0/tests
+copying tests/test_lexicon_conditional_rules.py -> gse-2.0.0/tests
+copying tests/test_lexicon_fill.py -> gse-2.0.0/tests
+copying tests/test_lexicon_foundation_workflow.py -> gse-2.0.0/tests
+copying tests/test_lexicon_frozen_build.py -> gse-2.0.0/tests
+copying tests/test_lexicon_mvp_artifact.py -> gse-2.0.0/tests
+copying tests/test_lexicon_native_constraints.py -> gse-2.0.0/tests
+copying tests/test_lexicon_noun_projection.py -> gse-2.0.0/tests
+copying tests/test_lexicon_number.py -> gse-2.0.0/tests
+copying tests/test_lexicon_release_audit.py -> gse-2.0.0/tests
+copying tests/test_lexicon_release_connection_identity.py -> gse-2.0.0/tests
+copying tests/test_lexicon_release_runtime.py -> gse-2.0.0/tests
+copying tests/test_lexicon_rooted_provenance.py -> gse-2.0.0/tests
+copying tests/test_lexicon_rule_admission.py -> gse-2.0.0/tests
+copying tests/test_lexicon_source_identity.py -> gse-2.0.0/tests
+copying tests/test_lexicon_unified_admission.py -> gse-2.0.0/tests
+copying tests/test_marker_detection.py -> gse-2.0.0/tests
+copying tests/test_modal_events.py -> gse-2.0.0/tests
+copying tests/test_modality_complements.py -> gse-2.0.0/tests
+copying tests/test_morphology.py -> gse-2.0.0/tests
+copying tests/test_multi_model_audit_shutdown.py -> gse-2.0.0/tests
+copying tests/test_negation.py -> gse-2.0.0/tests
+copying tests/test_negation_admission.py -> gse-2.0.0/tests
+copying tests/test_operation_trace.py -> gse-2.0.0/tests
+copying tests/test_operator_core_preservation.py -> gse-2.0.0/tests
+copying tests/test_orchestrator.py -> gse-2.0.0/tests
+copying tests/test_personal_dictionary.py -> gse-2.0.0/tests
+copying tests/test_polarity_propagation.py -> gse-2.0.0/tests
+copying tests/test_populate_from_external.py -> gse-2.0.0/tests
+copying tests/test_prime_projection.py -> gse-2.0.0/tests
+copying tests/test_primitives_v2.py -> gse-2.0.0/tests
+copying tests/test_propositions.py -> gse-2.0.0/tests
+copying tests/test_rarity_evidence.py -> gse-2.0.0/tests
+copying tests/test_reading_probes.py -> gse-2.0.0/tests
+copying tests/test_reading_probes_ring2.py -> gse-2.0.0/tests
+copying tests/test_rohan_voice_banks.py -> gse-2.0.0/tests
+copying tests/test_rohan_voice_v2.py -> gse-2.0.0/tests
+copying tests/test_scale_definition.py -> gse-2.0.0/tests
+copying tests/test_sentence_architecture.py -> gse-2.0.0/tests
+copying tests/test_serialization_field_completeness.py -> gse-2.0.0/tests
+copying tests/test_sign_composition.py -> gse-2.0.0/tests
+copying tests/test_sign_evidence.py -> gse-2.0.0/tests
+copying tests/test_sign_uptake.py -> gse-2.0.0/tests
+copying tests/test_source_scope.py -> gse-2.0.0/tests
+copying tests/test_spellcheck.py -> gse-2.0.0/tests
+copying tests/test_spellcheck_entity.py -> gse-2.0.0/tests
+copying tests/test_symbolic_copula.py -> gse-2.0.0/tests
+copying tests/test_symbolic_expression.py -> gse-2.0.0/tests
+copying tests/test_symbolic_operators.py -> gse-2.0.0/tests
+copying tests/test_symbolic_proof_suite.py -> gse-2.0.0/tests
+copying tests/test_symbolic_queries.py -> gse-2.0.0/tests
+copying tests/test_symbolic_resolution.py -> gse-2.0.0/tests
+copying tests/test_symbolic_serialization.py -> gse-2.0.0/tests
+copying tests/test_symbolic_templating.py -> gse-2.0.0/tests
+copying tests/test_symbolic_walker_parity.py -> gse-2.0.0/tests
+copying tests/test_templating_field_preservation.py -> gse-2.0.0/tests
+copying tests/test_thatless_complement.py -> gse-2.0.0/tests
+copying tests/test_tier_0_dispatch.py -> gse-2.0.0/tests
+copying tests/test_weighted_voting.py -> gse-2.0.0/tests
+copying tests/test_word_vector_sign.py -> gse-2.0.0/tests
+Writing gse-2.0.0/setup.cfg
+Creating tar archive
+removing 'gse-2.0.0' (and everything under it)
+Building wheel from source distribution...
+running egg_info
+writing gse.egg-info/PKG-INFO
+writing dependency_links to gse.egg-info/dependency_links.txt
+writing entry points to gse.egg-info/entry_points.txt
+writing requirements to gse.egg-info/requires.txt
+writing top-level names to gse.egg-info/top_level.txt
+reading manifest file 'gse.egg-info/SOURCES.txt'
+writing manifest file 'gse.egg-info/SOURCES.txt'
+running bdist_wheel
+running build
+running build_py
+creating build/lib/gse
+copying gse/frequency.py -> build/lib/gse
+copying gse/lexical_evidence.py -> build/lib/gse
+copying gse/vectors_v2.py -> build/lib/gse
+copying gse/__init__.py -> build/lib/gse
+copying gse/primitives_v2.py -> build/lib/gse
+copying gse/scale_definition.py -> build/lib/gse
+copying gse/cli.py -> build/lib/gse
+copying gse/pipeline_v2.py -> build/lib/gse
+copying gse/structure.py -> build/lib/gse
+copying gse/verb_templates.py -> build/lib/gse
+copying gse/prime_projection.py -> build/lib/gse
+creating build/lib/gse/lexicon_builder
+copying gse/lexicon_builder/basis.py -> build/lib/gse/lexicon_builder
+copying gse/lexicon_builder/build.py -> build/lib/gse/lexicon_builder
+copying gse/lexicon_builder/tail.py -> build/lib/gse/lexicon_builder
+copying gse/lexicon_builder/audit.py -> build/lib/gse/lexicon_builder
+copying gse/lexicon_builder/artifact.py -> build/lib/gse/lexicon_builder
+copying gse/lexicon_builder/atomics.py -> build/lib/gse/lexicon_builder
+copying gse/lexicon_builder/fill.py -> build/lib/gse/lexicon_builder
+copying gse/lexicon_builder/registry.py -> build/lib/gse/lexicon_builder
+copying gse/lexicon_builder/release_audit.py -> build/lib/gse/lexicon_builder
+copying gse/lexicon_builder/number.py -> build/lib/gse/lexicon_builder
+copying gse/lexicon_builder/reading.py -> build/lib/gse/lexicon_builder
+copying gse/lexicon_builder/__init__.py -> build/lib/gse/lexicon_builder
+copying gse/lexicon_builder/foundation.py -> build/lib/gse/lexicon_builder
+copying gse/lexicon_builder/core.py -> build/lib/gse/lexicon_builder
+copying gse/lexicon_builder/coverage.py -> build/lib/gse/lexicon_builder
+copying gse/lexicon_builder/runtime.py -> build/lib/gse/lexicon_builder
+copying gse/lexicon_builder/model.py -> build/lib/gse/lexicon_builder
+copying gse/lexicon_builder/sources.py -> build/lib/gse/lexicon_builder
+copying gse/lexicon_builder/cli.py -> build/lib/gse/lexicon_builder
+copying gse/lexicon_builder/nouns.py -> build/lib/gse/lexicon_builder
+copying gse/lexicon_builder/conditionals.py -> build/lib/gse/lexicon_builder
+copying gse/lexicon_builder/surprise.py -> build/lib/gse/lexicon_builder
+copying gse/lexicon_builder/perception.py -> build/lib/gse/lexicon_builder
+copying gse/lexicon_builder/__main__.py -> build/lib/gse/lexicon_builder
+copying gse/lexicon_builder/native_constraints.py -> build/lib/gse/lexicon_builder
+creating build/lib/gse/demo
+copying gse/demo/enum_measure.py -> build/lib/gse/demo
+copying gse/demo/__init__.py -> build/lib/gse/demo
+copying gse/demo/enum_repair.py -> build/lib/gse/demo
+copying gse/demo/showcase.py -> build/lib/gse/demo
+copying gse/demo/reasoning.py -> build/lib/gse/demo
+creating build/lib/gse/curation
+copying gse/curation/build_wordlist.py -> build/lib/gse/curation
+copying gse/curation/frequency_integration.py -> build/lib/gse/curation
+copying gse/curation/build_clean_quantifiers.py -> build/lib/gse/curation
+copying gse/curation/personal_dictionary.py -> build/lib/gse/curation
+copying gse/curation/build_spellcheck_data.py -> build/lib/gse/curation
+copying gse/curation/build_clean_layer2.py -> build/lib/gse/curation
+copying gse/curation/build_spell_entities.py -> build/lib/gse/curation
+copying gse/curation/__init__.py -> build/lib/gse/curation
+copying gse/curation/build_hdc_speller.py -> build/lib/gse/curation
+copying gse/curation/build_clean_operators.py -> build/lib/gse/curation
+copying gse/curation/lexicon_db.py -> build/lib/gse/curation
+copying gse/curation/build_clean_layer1.py -> build/lib/gse/curation
+copying gse/curation/build_clean_closed_class.py -> build/lib/gse/curation
+copying gse/curation/build_misspellings.py -> build/lib/gse/curation
+copying gse/curation/schema.py -> build/lib/gse/curation
+creating build/lib/gse/cache
+copying gse/cache/__init__.py -> build/lib/gse/cache
+creating build/lib/gse/patterns
+copying gse/patterns/klines.py -> build/lib/gse/patterns
+copying gse/patterns/networks_v2.py -> build/lib/gse/patterns
+copying gse/patterns/__init__.py -> build/lib/gse/patterns
+copying gse/patterns/orchestrator.py -> build/lib/gse/patterns
+creating build/lib/gse/cassettes
+copying gse/cassettes/referent_validation.py -> build/lib/gse/cassettes
+copying gse/cassettes/multiscale.py -> build/lib/gse/cassettes
+copying gse/cassettes/entity_identity.py -> build/lib/gse/cassettes
+copying gse/cassettes/deck.py -> build/lib/gse/cassettes
+copying gse/cassettes/agent_eligibility.py -> build/lib/gse/cassettes
+copying gse/cassettes/__init__.py -> build/lib/gse/cassettes
+copying gse/cassettes/relational_identity.py -> build/lib/gse/cassettes
+copying gse/cassettes/coref_junk.py -> build/lib/gse/cassettes
+copying gse/cassettes/person_validation.py -> build/lib/gse/cassettes
+copying gse/cassettes/cheatsheet.py -> build/lib/gse/cassettes
+copying gse/cassettes/base.py -> build/lib/gse/cassettes
+creating build/lib/gse/merkle
+copying gse/merkle/tree.py -> build/lib/gse/merkle
+copying gse/merkle/__init__.py -> build/lib/gse/merkle
+copying gse/merkle/hash_chain.py -> build/lib/gse/merkle
+copying gse/merkle/learning_bridge.py -> build/lib/gse/merkle
+copying gse/merkle/decomposer.py -> build/lib/gse/merkle
+copying gse/merkle/router.py -> build/lib/gse/merkle
+copying gse/merkle/nodes.py -> build/lib/gse/merkle
+copying gse/merkle/translator.py -> build/lib/gse/merkle
+creating build/lib/gse/mcp
+copying gse/mcp/__init__.py -> build/lib/gse/mcp
+copying gse/mcp/spell_server.py -> build/lib/gse/mcp
+creating build/lib/gse/cli
+copying gse/cli/__init__.py -> build/lib/gse/cli
+copying gse/cli/main.py -> build/lib/gse/cli
+copying gse/cli/__main__.py -> build/lib/gse/cli
+creating build/lib/gse/pragmatics
+copying gse/pragmatics/janus.py -> build/lib/gse/pragmatics
+copying gse/pragmatics/__init__.py -> build/lib/gse/pragmatics
+copying gse/pragmatics/figures.py -> build/lib/gse/pragmatics
+copying gse/pragmatics/figure_store.py -> build/lib/gse/pragmatics
+creating build/lib/gse/composition
+copying gse/composition/composer.py -> build/lib/gse/composition
+copying gse/composition/__init__.py -> build/lib/gse/composition
+creating build/lib/gse/scales
+copying gse/scales/syntactic_structure.py -> build/lib/gse/scales
+copying gse/scales/__init__.py -> build/lib/gse/scales
+creating build/lib/gse/verification
+copying gse/verification/symbolic_proof_suite.py -> build/lib/gse/verification
+copying gse/verification/proof_suite.py -> build/lib/gse/verification
+copying gse/verification/__init__.py -> build/lib/gse/verification
+creating build/lib/gse/teaching
+copying gse/teaching/conversation_processor.py -> build/lib/gse/teaching
+copying gse/teaching/teacher.py -> build/lib/gse/teaching
+copying gse/teaching/__init__.py -> build/lib/gse/teaching
+copying gse/teaching/feature_extractor.py -> build/lib/gse/teaching
+creating build/lib/gse/encoders
+copying gse/encoders/sentence_structure_encoder.py -> build/lib/gse/encoders
+copying gse/encoders/text_structure_encoder.py -> build/lib/gse/encoders
+copying gse/encoders/__init__.py -> build/lib/gse/encoders
+copying gse/encoders/marker_detection.py -> build/lib/gse/encoders
+copying gse/encoders/som_genre.py -> build/lib/gse/encoders
+copying gse/encoders/paragraph_structure_encoder.py -> build/lib/gse/encoders
+creating build/lib/gse/benchmarks
+copying gse/benchmarks/metrics.py -> build/lib/gse/benchmarks
+copying gse/benchmarks/run.py -> build/lib/gse/benchmarks
+copying gse/benchmarks/datasets.py -> build/lib/gse/benchmarks
+copying gse/benchmarks/__init__.py -> build/lib/gse/benchmarks
+creating build/lib/gse/nlp
+copying gse/nlp/hdc_speller.py -> build/lib/gse/nlp
+copying gse/nlp/spellcheck_repl.py -> build/lib/gse/nlp
+copying gse/nlp/heal.py -> build/lib/gse/nlp
+copying gse/nlp/spellcheck.py -> build/lib/gse/nlp
+copying gse/nlp/__init__.py -> build/lib/gse/nlp
+copying gse/nlp/native.py -> build/lib/gse/nlp
+copying gse/nlp/morphology.py -> build/lib/gse/nlp
+copying gse/nlp/sentence_parser.py -> build/lib/gse/nlp
+copying gse/nlp/healing_resources.py -> build/lib/gse/nlp
+copying gse/nlp/spellcheck_entity.py -> build/lib/gse/nlp
+copying gse/nlp/spellcheck_context.py -> build/lib/gse/nlp
+copying gse/nlp/linkers.py -> build/lib/gse/nlp
+copying gse/nlp/contractions.py -> build/lib/gse/nlp
+creating build/lib/gse/orchestration
+copying gse/orchestration/__init__.py -> build/lib/gse/orchestration
+creating build/lib/gse/discourse
+copying gse/discourse/intake.py -> build/lib/gse/discourse
+copying gse/discourse/registers.py -> build/lib/gse/discourse
+copying gse/discourse/profile.py -> build/lib/gse/discourse
+copying gse/discourse/__init__.py -> build/lib/gse/discourse
+copying gse/discourse/nested_router.py -> build/lib/gse/discourse
+copying gse/discourse/infer.py -> build/lib/gse/discourse
+copying gse/discourse/router.py -> build/lib/gse/discourse
+copying gse/discourse/speech.py -> build/lib/gse/discourse
+creating build/lib/gse/api
+copying gse/api/decoder.py -> build/lib/gse/api
+copying gse/api/trace.py -> build/lib/gse/api
+copying gse/api/native_repair.py -> build/lib/gse/api
+copying gse/api/__init__.py -> build/lib/gse/api
+copying gse/api/encoder.py -> build/lib/gse/api
+copying gse/api/parse_repair.py -> build/lib/gse/api
+copying gse/api/errors.py -> build/lib/gse/api
+creating build/lib/gse/evaluation
+copying gse/evaluation/__init__.py -> build/lib/gse/evaluation
+copying gse/evaluation/world_model.py -> build/lib/gse/evaluation
+creating build/lib/gse/lexicon
+copying gse/lexicon/word_encoding.py -> build/lib/gse/lexicon
+copying gse/lexicon/similarity.py -> build/lib/gse/lexicon
+copying gse/lexicon/pronouns.py -> build/lib/gse/lexicon
+copying gse/lexicon/__init__.py -> build/lib/gse/lexicon
+copying gse/lexicon/function_words.py -> build/lib/gse/lexicon
+copying gse/lexicon/numerals.py -> build/lib/gse/lexicon
+copying gse/lexicon/modifier_hierarchy.py -> build/lib/gse/lexicon
+creating build/lib/gse/symbolic
+copying gse/symbolic/propositions.py -> build/lib/gse/symbolic
+copying gse/symbolic/predicates.py -> build/lib/gse/symbolic
+copying gse/symbolic/signs.py -> build/lib/gse/symbolic
+copying gse/symbolic/templating.py -> build/lib/gse/symbolic
+copying gse/symbolic/sense_resonance.py -> build/lib/gse/symbolic
+copying gse/symbolic/variables.py -> build/lib/gse/symbolic
+copying gse/symbolic/genealogy_store.py -> build/lib/gse/symbolic
+copying gse/symbolic/coherence.py -> build/lib/gse/symbolic
+copying gse/symbolic/claims.py -> build/lib/gse/symbolic
+copying gse/symbolic/__init__.py -> build/lib/gse/symbolic
+copying gse/symbolic/narrative.py -> build/lib/gse/symbolic
+copying gse/symbolic/modality.py -> build/lib/gse/symbolic
+copying gse/symbolic/queries.py -> build/lib/gse/symbolic
+copying gse/symbolic/inference.py -> build/lib/gse/symbolic
+copying gse/symbolic/grounding.py -> build/lib/gse/symbolic
+copying gse/symbolic/operators.py -> build/lib/gse/symbolic
+copying gse/symbolic/resolution.py -> build/lib/gse/symbolic
+copying gse/symbolic/emit.py -> build/lib/gse/symbolic
+copying gse/symbolic/expression.py -> build/lib/gse/symbolic
+copying gse/symbolic/serialization.py -> build/lib/gse/symbolic
+copying gse/symbolic/tiers.py -> build/lib/gse/symbolic
+creating build/lib/gse/profiles
+copying gse/profiles/profile_manager.py -> build/lib/gse/profiles
+copying gse/profiles/__init__.py -> build/lib/gse/profiles
+creating build/lib/gse/parsing
+copying gse/parsing/graph.py -> build/lib/gse/parsing
+copying gse/parsing/__init__.py -> build/lib/gse/parsing
+copying gse/parsing/parser.py -> build/lib/gse/parsing
+copying gse/parsing/operators.py -> build/lib/gse/parsing
+creating build/lib/gse/_archive
+copying gse/_archive/vectors_old.py -> build/lib/gse/_archive
+copying gse/_archive/vectors.py -> build/lib/gse/_archive
+copying gse/_archive/sense_selection.py -> build/lib/gse/_archive
+copying gse/_archive/vectors_hadamard_otp.py -> build/lib/gse/_archive
+copying gse/_archive/lexicon_generator.py -> build/lib/gse/_archive
+copying gse/_archive/antonymy.py -> build/lib/gse/_archive
+copying gse/_archive/composer.py -> build/lib/gse/_archive
+copying gse/_archive/merkle.py -> build/lib/gse/_archive
+copying gse/_archive/primitives.py -> build/lib/gse/_archive
+copying gse/_archive/coherence.py -> build/lib/gse/_archive
+copying gse/_archive/morphology.py -> build/lib/gse/_archive
+copying gse/_archive/pipeline.py -> build/lib/gse/_archive
+copying gse/_archive/discourse.py -> build/lib/gse/_archive
+copying gse/_archive/lexicon_validator.py -> build/lib/gse/_archive
+copying gse/_archive/cascade.py -> build/lib/gse/_archive
+creating build/lib/gse/curation/pipeline
+copying gse/curation/pipeline/staged_builder.py -> build/lib/gse/curation/pipeline
+copying gse/curation/pipeline/__init__.py -> build/lib/gse/curation/pipeline
+creating build/lib/gse/curation/llm
+copying gse/curation/llm/batch_processor.py -> build/lib/gse/curation/llm
+copying gse/curation/llm/qwen_client.py -> build/lib/gse/curation/llm
+copying gse/curation/llm/ollama_client.py -> build/lib/gse/curation/llm
+copying gse/curation/llm/granular_decomposer.py -> build/lib/gse/curation/llm
+copying gse/curation/llm/hybrid_builder.py -> build/lib/gse/curation/llm
+copying gse/curation/llm/gap_filler.py -> build/lib/gse/curation/llm
+copying gse/curation/llm/__init__.py -> build/lib/gse/curation/llm
+copying gse/curation/llm/prompts.py -> build/lib/gse/curation/llm
+copying gse/curation/llm/response_parser.py -> build/lib/gse/curation/llm
+copying gse/curation/llm/primitive_matcher.py -> build/lib/gse/curation/llm
+copying gse/curation/llm/primitive_sweep.py -> build/lib/gse/curation/llm
+creating build/lib/gse/curation/external_sources
+copying gse/curation/external_sources/wiktionary.py -> build/lib/gse/curation/external_sources
+copying gse/curation/external_sources/tier_0_dispatch.py -> build/lib/gse/curation/external_sources
+copying gse/curation/external_sources/prepopulate.py -> build/lib/gse/curation/external_sources
+copying gse/curation/external_sources/usas.py -> build/lib/gse/curation/external_sources
+copying gse/curation/external_sources/integrator.py -> build/lib/gse/curation/external_sources
+copying gse/curation/external_sources/comparator.py -> build/lib/gse/curation/external_sources
+copying gse/curation/external_sources/sentiwordnet.py -> build/lib/gse/curation/external_sources
+copying gse/curation/external_sources/source_scope.py -> build/lib/gse/curation/external_sources
+copying gse/curation/external_sources/conceptnet.py -> build/lib/gse/curation/external_sources
+copying gse/curation/external_sources/__init__.py -> build/lib/gse/curation/external_sources
+copying gse/curation/external_sources/base_parser.py -> build/lib/gse/curation/external_sources
+copying gse/curation/external_sources/verbnet.py -> build/lib/gse/curation/external_sources
+copying gse/curation/external_sources/framenet.py -> build/lib/gse/curation/external_sources
+copying gse/curation/external_sources/propbank.py -> build/lib/gse/curation/external_sources
+copying gse/curation/external_sources/weighted_voting.py -> build/lib/gse/curation/external_sources
+copying gse/curation/external_sources/lancaster_sensorimotor.py -> build/lib/gse/curation/external_sources
+copying gse/curation/external_sources/bipolar_exclusion.py -> build/lib/gse/curation/external_sources
+copying gse/curation/external_sources/populate.py -> build/lib/gse/curation/external_sources
+copying gse/curation/external_sources/run_comparison.py -> build/lib/gse/curation/external_sources
+copying gse/curation/external_sources/wordnet_hierarchy.py -> build/lib/gse/curation/external_sources
+copying gse/curation/external_sources/concreteness.py -> build/lib/gse/curation/external_sources
+copying gse/curation/external_sources/nrc_vad.py -> build/lib/gse/curation/external_sources
+copying gse/curation/external_sources/nrc_emotion.py -> build/lib/gse/curation/external_sources
+creating build/lib/gse/curation/cli
+copying gse/curation/cli/__init__.py -> build/lib/gse/curation/cli
+copying gse/curation/cli/commands.py -> build/lib/gse/curation/cli
+creating build/lib/gse/curation/constraint_aggregation
+copying gse/curation/constraint_aggregation/mapping_registry.py -> build/lib/gse/curation/constraint_aggregation
+copying gse/curation/constraint_aggregation/scoring.py -> build/lib/gse/curation/constraint_aggregation
+copying gse/curation/constraint_aggregation/__init__.py -> build/lib/gse/curation/constraint_aggregation
+copying gse/curation/constraint_aggregation/types.py -> build/lib/gse/curation/constraint_aggregation
+copying gse/curation/constraint_aggregation/conflict_detector.py -> build/lib/gse/curation/constraint_aggregation
+copying gse/curation/constraint_aggregation/engine.py -> build/lib/gse/curation/constraint_aggregation
+creating build/lib/gse/curation/decomposition
+copying gse/curation/decomposition/__init__.py -> build/lib/gse/curation/decomposition
+copying gse/curation/decomposition/definition_structure.py -> build/lib/gse/curation/decomposition
+copying gse/curation/decomposition/source_index.py -> build/lib/gse/curation/decomposition
+copying gse/curation/decomposition/definitional_decomposer.py -> build/lib/gse/curation/decomposition
+copying gse/curation/decomposition/definition_linker.py -> build/lib/gse/curation/decomposition
+creating build/lib/gse/curation/validation
+copying gse/curation/validation/bipolar_validator.py -> build/lib/gse/curation/validation
+copying gse/curation/validation/discrimination_gate.py -> build/lib/gse/curation/validation
+copying gse/curation/validation/__init__.py -> build/lib/gse/curation/validation
+copying gse/curation/validation/coverage_checker.py -> build/lib/gse/curation/validation
+copying gse/curation/validation/hierarchy_validator.py -> build/lib/gse/curation/validation
+creating build/lib/gse/gse/encoders
+copying gse/gse/encoders/__init__.py -> build/lib/gse/gse/encoders
+creating build/lib/gse/symbolic/healer
+copying gse/symbolic/healer/lens.py -> build/lib/gse/symbolic/healer
+copying gse/symbolic/healer/treewalk.py -> build/lib/gse/symbolic/healer
+copying gse/symbolic/healer/recollect.py -> build/lib/gse/symbolic/healer
+copying gse/symbolic/healer/fold_reader.py -> build/lib/gse/symbolic/healer
+copying gse/symbolic/healer/__init__.py -> build/lib/gse/symbolic/healer
+copying gse/symbolic/healer/society.py -> build/lib/gse/symbolic/healer
+copying gse/symbolic/healer/envelope.py -> build/lib/gse/symbolic/healer
+creating build/lib/gse/symbolic/healer/lenses
+copying gse/symbolic/healer/lenses/infinitival_control.py -> build/lib/gse/symbolic/healer/lenses
+copying gse/symbolic/healer/lenses/vp_coord.py -> build/lib/gse/symbolic/healer/lenses
+copying gse/symbolic/healer/lenses/__init__.py -> build/lib/gse/symbolic/healer/lenses
+copying gse/symbolic/healer/lenses/copula_predicate.py -> build/lib/gse/symbolic/healer/lenses
+copying gse/symbolic/healer/lenses/participial.py -> build/lib/gse/symbolic/healer/lenses
+creating build/lib/gse/_archive/curation
+copying gse/_archive/curation/__init__.py -> build/lib/gse/_archive/curation
+copying gse/_archive/curation/corpus_scorer.py -> build/lib/gse/_archive/curation
+copying gse/_archive/curation/tinker_export.py -> build/lib/gse/_archive/curation
+copying gse/_archive/curation/cognitive_complexity.py -> build/lib/gse/_archive/curation
+copying gse/_archive/curation/curator.py -> build/lib/gse/_archive/curation
+creating build/lib/gse/_archive/patterns
+copying gse/_archive/patterns/compound_network.py -> build/lib/gse/_archive/patterns
+copying gse/_archive/patterns/cooccurrence.py -> build/lib/gse/_archive/patterns
+copying gse/_archive/patterns/pattern_network.py -> build/lib/gse/_archive/patterns
+creating build/lib/gse/_archive/graph
+copying gse/_archive/graph/traversal.py -> build/lib/gse/_archive/graph
+copying gse/_archive/graph/builder.py -> build/lib/gse/_archive/graph
+copying gse/_archive/graph/semantic_graph.py -> build/lib/gse/_archive/graph
+creating build/lib/gse/_archive/scales
+copying gse/_archive/scales/textual.py -> build/lib/gse/_archive/scales
+copying gse/_archive/scales/discourse.py -> build/lib/gse/_archive/scales
+copying gse/_archive/scales/lexical.py -> build/lib/gse/_archive/scales
+copying gse/_archive/scales/syntactic.py -> build/lib/gse/_archive/scales
+creating build/lib/gse/_archive/encoders
+copying gse/_archive/encoders/sentence_encoder.py -> build/lib/gse/_archive/encoders
+copying gse/_archive/encoders/conversation_encoder.py -> build/lib/gse/_archive/encoders
+copying gse/_archive/encoders/paragraph_encoder.py -> build/lib/gse/_archive/encoders
+creating build/lib/gse/_archive/benchmarks
+copying gse/_archive/benchmarks/baselines.py -> build/lib/gse/_archive/benchmarks
+copying gse/_archive/benchmarks/evaluator.py -> build/lib/gse/_archive/benchmarks
+creating build/lib/gse/_archive/orchestration
+copying gse/_archive/orchestration/coordinator.py -> build/lib/gse/_archive/orchestration
+copying gse/_archive/orchestration/ambiguity_handler.py -> build/lib/gse/_archive/orchestration
+copying gse/_archive/orchestration/collision.py -> build/lib/gse/_archive/orchestration
+creating build/lib/gse/_archive/code_agent
+copying gse/_archive/code_agent/__init__.py -> build/lib/gse/_archive/code_agent
+running egg_info
+writing gse.egg-info/PKG-INFO
+writing dependency_links to gse.egg-info/dependency_links.txt
+writing entry points to gse.egg-info/entry_points.txt
+writing requirements to gse.egg-info/requires.txt
+writing top-level names to gse.egg-info/top_level.txt
+reading manifest file 'gse.egg-info/SOURCES.txt'
+writing manifest file 'gse.egg-info/SOURCES.txt'
+copying gse/lexicon_builder/bank_laws.json -> build/lib/gse/lexicon_builder
+copying gse/lexicon_builder/foundation.json -> build/lib/gse/lexicon_builder
+installing to build/bdist.macosx-12.1-arm64/wheel
+running install
+running install_lib
+creating build/bdist.macosx-12.1-arm64/wheel
+creating build/bdist.macosx-12.1-arm64/wheel/gse
+creating build/bdist.macosx-12.1-arm64/wheel/gse/lexicon_builder
+copying build/lib/gse/lexicon_builder/basis.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon_builder
+copying build/lib/gse/lexicon_builder/build.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon_builder
+copying build/lib/gse/lexicon_builder/tail.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon_builder
+copying build/lib/gse/lexicon_builder/audit.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon_builder
+copying build/lib/gse/lexicon_builder/artifact.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon_builder
+copying build/lib/gse/lexicon_builder/atomics.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon_builder
+copying build/lib/gse/lexicon_builder/fill.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon_builder
+copying build/lib/gse/lexicon_builder/registry.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon_builder
+copying build/lib/gse/lexicon_builder/release_audit.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon_builder
+copying build/lib/gse/lexicon_builder/number.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon_builder
+copying build/lib/gse/lexicon_builder/reading.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon_builder
+copying build/lib/gse/lexicon_builder/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon_builder
+copying build/lib/gse/lexicon_builder/foundation.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon_builder
+copying build/lib/gse/lexicon_builder/core.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon_builder
+copying build/lib/gse/lexicon_builder/coverage.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon_builder
+copying build/lib/gse/lexicon_builder/runtime.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon_builder
+copying build/lib/gse/lexicon_builder/model.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon_builder
+copying build/lib/gse/lexicon_builder/sources.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon_builder
+copying build/lib/gse/lexicon_builder/cli.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon_builder
+copying build/lib/gse/lexicon_builder/nouns.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon_builder
+copying build/lib/gse/lexicon_builder/conditionals.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon_builder
+copying build/lib/gse/lexicon_builder/surprise.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon_builder
+copying build/lib/gse/lexicon_builder/bank_laws.json -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon_builder
+copying build/lib/gse/lexicon_builder/perception.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon_builder
+copying build/lib/gse/lexicon_builder/foundation.json -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon_builder
+copying build/lib/gse/lexicon_builder/__main__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon_builder
+copying build/lib/gse/lexicon_builder/native_constraints.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon_builder
+creating build/bdist.macosx-12.1-arm64/wheel/gse/demo
+copying build/lib/gse/demo/enum_measure.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/demo
+copying build/lib/gse/demo/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/demo
+copying build/lib/gse/demo/enum_repair.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/demo
+copying build/lib/gse/demo/showcase.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/demo
+copying build/lib/gse/demo/reasoning.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/demo
+copying build/lib/gse/frequency.py -> build/bdist.macosx-12.1-arm64/wheel/./gse
+creating build/bdist.macosx-12.1-arm64/wheel/gse/curation
+creating build/bdist.macosx-12.1-arm64/wheel/gse/curation/pipeline
+copying build/lib/gse/curation/pipeline/staged_builder.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/pipeline
+copying build/lib/gse/curation/pipeline/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/pipeline
+copying build/lib/gse/curation/build_wordlist.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation
+copying build/lib/gse/curation/frequency_integration.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation
+creating build/bdist.macosx-12.1-arm64/wheel/gse/curation/llm
+copying build/lib/gse/curation/llm/batch_processor.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/llm
+copying build/lib/gse/curation/llm/qwen_client.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/llm
+copying build/lib/gse/curation/llm/ollama_client.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/llm
+copying build/lib/gse/curation/llm/granular_decomposer.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/llm
+copying build/lib/gse/curation/llm/hybrid_builder.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/llm
+copying build/lib/gse/curation/llm/gap_filler.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/llm
+copying build/lib/gse/curation/llm/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/llm
+copying build/lib/gse/curation/llm/prompts.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/llm
+copying build/lib/gse/curation/llm/response_parser.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/llm
+copying build/lib/gse/curation/llm/primitive_matcher.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/llm
+copying build/lib/gse/curation/llm/primitive_sweep.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/llm
+copying build/lib/gse/curation/build_clean_quantifiers.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation
+copying build/lib/gse/curation/personal_dictionary.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation
+creating build/bdist.macosx-12.1-arm64/wheel/gse/curation/external_sources
+copying build/lib/gse/curation/external_sources/wiktionary.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/external_sources
+copying build/lib/gse/curation/external_sources/tier_0_dispatch.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/external_sources
+copying build/lib/gse/curation/external_sources/prepopulate.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/external_sources
+copying build/lib/gse/curation/external_sources/usas.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/external_sources
+copying build/lib/gse/curation/external_sources/integrator.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/external_sources
+copying build/lib/gse/curation/external_sources/comparator.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/external_sources
+copying build/lib/gse/curation/external_sources/sentiwordnet.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/external_sources
+copying build/lib/gse/curation/external_sources/source_scope.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/external_sources
+copying build/lib/gse/curation/external_sources/conceptnet.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/external_sources
+copying build/lib/gse/curation/external_sources/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/external_sources
+copying build/lib/gse/curation/external_sources/base_parser.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/external_sources
+copying build/lib/gse/curation/external_sources/verbnet.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/external_sources
+copying build/lib/gse/curation/external_sources/framenet.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/external_sources
+copying build/lib/gse/curation/external_sources/propbank.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/external_sources
+copying build/lib/gse/curation/external_sources/weighted_voting.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/external_sources
+copying build/lib/gse/curation/external_sources/lancaster_sensorimotor.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/external_sources
+copying build/lib/gse/curation/external_sources/bipolar_exclusion.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/external_sources
+copying build/lib/gse/curation/external_sources/populate.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/external_sources
+copying build/lib/gse/curation/external_sources/run_comparison.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/external_sources
+copying build/lib/gse/curation/external_sources/wordnet_hierarchy.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/external_sources
+copying build/lib/gse/curation/external_sources/concreteness.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/external_sources
+copying build/lib/gse/curation/external_sources/nrc_vad.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/external_sources
+copying build/lib/gse/curation/external_sources/nrc_emotion.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/external_sources
+copying build/lib/gse/curation/build_spellcheck_data.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation
+copying build/lib/gse/curation/build_clean_layer2.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation
+copying build/lib/gse/curation/build_spell_entities.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation
+copying build/lib/gse/curation/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation
+creating build/bdist.macosx-12.1-arm64/wheel/gse/curation/cli
+copying build/lib/gse/curation/cli/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/cli
+copying build/lib/gse/curation/cli/commands.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/cli
+copying build/lib/gse/curation/build_hdc_speller.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation
+copying build/lib/gse/curation/build_clean_operators.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation
+copying build/lib/gse/curation/lexicon_db.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation
+copying build/lib/gse/curation/build_clean_layer1.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation
+copying build/lib/gse/curation/build_clean_closed_class.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation
+creating build/bdist.macosx-12.1-arm64/wheel/gse/curation/constraint_aggregation
+copying build/lib/gse/curation/constraint_aggregation/mapping_registry.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/constraint_aggregation
+copying build/lib/gse/curation/constraint_aggregation/scoring.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/constraint_aggregation
+copying build/lib/gse/curation/constraint_aggregation/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/constraint_aggregation
+copying build/lib/gse/curation/constraint_aggregation/types.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/constraint_aggregation
+copying build/lib/gse/curation/constraint_aggregation/conflict_detector.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/constraint_aggregation
+copying build/lib/gse/curation/constraint_aggregation/engine.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/constraint_aggregation
+copying build/lib/gse/curation/build_misspellings.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation
+creating build/bdist.macosx-12.1-arm64/wheel/gse/curation/decomposition
+copying build/lib/gse/curation/decomposition/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/decomposition
+copying build/lib/gse/curation/decomposition/definition_structure.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/decomposition
+copying build/lib/gse/curation/decomposition/source_index.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/decomposition
+copying build/lib/gse/curation/decomposition/definitional_decomposer.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/decomposition
+copying build/lib/gse/curation/decomposition/definition_linker.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/decomposition
+creating build/bdist.macosx-12.1-arm64/wheel/gse/curation/validation
+copying build/lib/gse/curation/validation/bipolar_validator.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/validation
+copying build/lib/gse/curation/validation/discrimination_gate.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/validation
+copying build/lib/gse/curation/validation/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/validation
+copying build/lib/gse/curation/validation/coverage_checker.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/validation
+copying build/lib/gse/curation/validation/hierarchy_validator.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation/validation
+copying build/lib/gse/curation/schema.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/curation
+copying build/lib/gse/lexical_evidence.py -> build/bdist.macosx-12.1-arm64/wheel/./gse
+creating build/bdist.macosx-12.1-arm64/wheel/gse/cache
+copying build/lib/gse/cache/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/cache
+creating build/bdist.macosx-12.1-arm64/wheel/gse/patterns
+copying build/lib/gse/patterns/klines.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/patterns
+copying build/lib/gse/patterns/networks_v2.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/patterns
+copying build/lib/gse/patterns/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/patterns
+copying build/lib/gse/patterns/orchestrator.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/patterns
+copying build/lib/gse/vectors_v2.py -> build/bdist.macosx-12.1-arm64/wheel/./gse
+creating build/bdist.macosx-12.1-arm64/wheel/gse/cassettes
+copying build/lib/gse/cassettes/referent_validation.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/cassettes
+copying build/lib/gse/cassettes/multiscale.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/cassettes
+copying build/lib/gse/cassettes/entity_identity.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/cassettes
+copying build/lib/gse/cassettes/deck.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/cassettes
+copying build/lib/gse/cassettes/agent_eligibility.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/cassettes
+copying build/lib/gse/cassettes/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/cassettes
+copying build/lib/gse/cassettes/relational_identity.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/cassettes
+copying build/lib/gse/cassettes/coref_junk.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/cassettes
+copying build/lib/gse/cassettes/person_validation.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/cassettes
+copying build/lib/gse/cassettes/cheatsheet.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/cassettes
+copying build/lib/gse/cassettes/base.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/cassettes
+creating build/bdist.macosx-12.1-arm64/wheel/gse/merkle
+copying build/lib/gse/merkle/tree.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/merkle
+copying build/lib/gse/merkle/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/merkle
+copying build/lib/gse/merkle/hash_chain.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/merkle
+copying build/lib/gse/merkle/learning_bridge.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/merkle
+copying build/lib/gse/merkle/decomposer.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/merkle
+copying build/lib/gse/merkle/router.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/merkle
+copying build/lib/gse/merkle/nodes.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/merkle
+copying build/lib/gse/merkle/translator.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/merkle
+copying build/lib/gse/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse
+creating build/bdist.macosx-12.1-arm64/wheel/gse/mcp
+copying build/lib/gse/mcp/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/mcp
+copying build/lib/gse/mcp/spell_server.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/mcp
+creating build/bdist.macosx-12.1-arm64/wheel/gse/cli
+copying build/lib/gse/cli/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/cli
+copying build/lib/gse/cli/main.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/cli
+copying build/lib/gse/cli/__main__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/cli
+creating build/bdist.macosx-12.1-arm64/wheel/gse/pragmatics
+copying build/lib/gse/pragmatics/janus.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/pragmatics
+copying build/lib/gse/pragmatics/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/pragmatics
+copying build/lib/gse/pragmatics/figures.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/pragmatics
+copying build/lib/gse/pragmatics/figure_store.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/pragmatics
+creating build/bdist.macosx-12.1-arm64/wheel/gse/composition
+copying build/lib/gse/composition/composer.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/composition
+copying build/lib/gse/composition/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/composition
+copying build/lib/gse/primitives_v2.py -> build/bdist.macosx-12.1-arm64/wheel/./gse
+creating build/bdist.macosx-12.1-arm64/wheel/gse/scales
+copying build/lib/gse/scales/syntactic_structure.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/scales
+copying build/lib/gse/scales/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/scales
+creating build/bdist.macosx-12.1-arm64/wheel/gse/verification
+copying build/lib/gse/verification/symbolic_proof_suite.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/verification
+copying build/lib/gse/verification/proof_suite.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/verification
+copying build/lib/gse/verification/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/verification
+copying build/lib/gse/scale_definition.py -> build/bdist.macosx-12.1-arm64/wheel/./gse
+copying build/lib/gse/cli.py -> build/bdist.macosx-12.1-arm64/wheel/./gse
+creating build/bdist.macosx-12.1-arm64/wheel/gse/gse
+creating build/bdist.macosx-12.1-arm64/wheel/gse/gse/encoders
+copying build/lib/gse/gse/encoders/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/gse/encoders
+creating build/bdist.macosx-12.1-arm64/wheel/gse/teaching
+copying build/lib/gse/teaching/conversation_processor.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/teaching
+copying build/lib/gse/teaching/teacher.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/teaching
+copying build/lib/gse/teaching/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/teaching
+copying build/lib/gse/teaching/feature_extractor.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/teaching
+creating build/bdist.macosx-12.1-arm64/wheel/gse/encoders
+copying build/lib/gse/encoders/sentence_structure_encoder.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/encoders
+copying build/lib/gse/encoders/text_structure_encoder.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/encoders
+copying build/lib/gse/encoders/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/encoders
+copying build/lib/gse/encoders/marker_detection.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/encoders
+copying build/lib/gse/encoders/som_genre.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/encoders
+copying build/lib/gse/encoders/paragraph_structure_encoder.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/encoders
+creating build/bdist.macosx-12.1-arm64/wheel/gse/benchmarks
+copying build/lib/gse/benchmarks/metrics.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/benchmarks
+copying build/lib/gse/benchmarks/run.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/benchmarks
+copying build/lib/gse/benchmarks/datasets.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/benchmarks
+copying build/lib/gse/benchmarks/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/benchmarks
+copying build/lib/gse/pipeline_v2.py -> build/bdist.macosx-12.1-arm64/wheel/./gse
+copying build/lib/gse/structure.py -> build/bdist.macosx-12.1-arm64/wheel/./gse
+creating build/bdist.macosx-12.1-arm64/wheel/gse/nlp
+copying build/lib/gse/nlp/hdc_speller.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/nlp
+copying build/lib/gse/nlp/spellcheck_repl.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/nlp
+copying build/lib/gse/nlp/heal.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/nlp
+copying build/lib/gse/nlp/spellcheck.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/nlp
+copying build/lib/gse/nlp/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/nlp
+copying build/lib/gse/nlp/native.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/nlp
+copying build/lib/gse/nlp/morphology.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/nlp
+copying build/lib/gse/nlp/sentence_parser.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/nlp
+copying build/lib/gse/nlp/healing_resources.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/nlp
+copying build/lib/gse/nlp/spellcheck_entity.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/nlp
+copying build/lib/gse/nlp/spellcheck_context.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/nlp
+copying build/lib/gse/nlp/linkers.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/nlp
+copying build/lib/gse/nlp/contractions.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/nlp
+creating build/bdist.macosx-12.1-arm64/wheel/gse/orchestration
+copying build/lib/gse/orchestration/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/orchestration
+creating build/bdist.macosx-12.1-arm64/wheel/gse/discourse
+copying build/lib/gse/discourse/intake.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/discourse
+copying build/lib/gse/discourse/registers.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/discourse
+copying build/lib/gse/discourse/profile.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/discourse
+copying build/lib/gse/discourse/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/discourse
+copying build/lib/gse/discourse/nested_router.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/discourse
+copying build/lib/gse/discourse/infer.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/discourse
+copying build/lib/gse/discourse/router.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/discourse
+copying build/lib/gse/discourse/speech.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/discourse
+copying build/lib/gse/verb_templates.py -> build/bdist.macosx-12.1-arm64/wheel/./gse
+creating build/bdist.macosx-12.1-arm64/wheel/gse/api
+copying build/lib/gse/api/decoder.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/api
+copying build/lib/gse/api/trace.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/api
+copying build/lib/gse/api/native_repair.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/api
+copying build/lib/gse/api/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/api
+copying build/lib/gse/api/encoder.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/api
+copying build/lib/gse/api/parse_repair.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/api
+copying build/lib/gse/api/errors.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/api
+creating build/bdist.macosx-12.1-arm64/wheel/gse/evaluation
+copying build/lib/gse/evaluation/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/evaluation
+copying build/lib/gse/evaluation/world_model.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/evaluation
+creating build/bdist.macosx-12.1-arm64/wheel/gse/lexicon
+copying build/lib/gse/lexicon/word_encoding.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon
+copying build/lib/gse/lexicon/similarity.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon
+copying build/lib/gse/lexicon/pronouns.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon
+copying build/lib/gse/lexicon/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon
+copying build/lib/gse/lexicon/function_words.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon
+copying build/lib/gse/lexicon/numerals.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon
+copying build/lib/gse/lexicon/modifier_hierarchy.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/lexicon
+creating build/bdist.macosx-12.1-arm64/wheel/gse/symbolic
+copying build/lib/gse/symbolic/propositions.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic
+copying build/lib/gse/symbolic/predicates.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic
+copying build/lib/gse/symbolic/signs.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic
+copying build/lib/gse/symbolic/templating.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic
+copying build/lib/gse/symbolic/sense_resonance.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic
+copying build/lib/gse/symbolic/variables.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic
+copying build/lib/gse/symbolic/genealogy_store.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic
+copying build/lib/gse/symbolic/coherence.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic
+creating build/bdist.macosx-12.1-arm64/wheel/gse/symbolic/healer
+copying build/lib/gse/symbolic/healer/lens.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic/healer
+copying build/lib/gse/symbolic/healer/treewalk.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic/healer
+copying build/lib/gse/symbolic/healer/recollect.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic/healer
+copying build/lib/gse/symbolic/healer/fold_reader.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic/healer
+copying build/lib/gse/symbolic/healer/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic/healer
+copying build/lib/gse/symbolic/healer/society.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic/healer
+creating build/bdist.macosx-12.1-arm64/wheel/gse/symbolic/healer/lenses
+copying build/lib/gse/symbolic/healer/lenses/infinitival_control.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic/healer/lenses
+copying build/lib/gse/symbolic/healer/lenses/vp_coord.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic/healer/lenses
+copying build/lib/gse/symbolic/healer/lenses/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic/healer/lenses
+copying build/lib/gse/symbolic/healer/lenses/copula_predicate.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic/healer/lenses
+copying build/lib/gse/symbolic/healer/lenses/participial.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic/healer/lenses
+copying build/lib/gse/symbolic/healer/envelope.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic/healer
+copying build/lib/gse/symbolic/claims.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic
+copying build/lib/gse/symbolic/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic
+copying build/lib/gse/symbolic/narrative.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic
+copying build/lib/gse/symbolic/modality.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic
+copying build/lib/gse/symbolic/queries.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic
+copying build/lib/gse/symbolic/inference.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic
+copying build/lib/gse/symbolic/grounding.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic
+copying build/lib/gse/symbolic/operators.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic
+copying build/lib/gse/symbolic/resolution.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic
+copying build/lib/gse/symbolic/emit.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic
+copying build/lib/gse/symbolic/expression.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic
+copying build/lib/gse/symbolic/serialization.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic
+copying build/lib/gse/symbolic/tiers.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/symbolic
+creating build/bdist.macosx-12.1-arm64/wheel/gse/profiles
+copying build/lib/gse/profiles/profile_manager.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/profiles
+copying build/lib/gse/profiles/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/profiles
+creating build/bdist.macosx-12.1-arm64/wheel/gse/parsing
+copying build/lib/gse/parsing/graph.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/parsing
+copying build/lib/gse/parsing/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/parsing
+copying build/lib/gse/parsing/parser.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/parsing
+copying build/lib/gse/parsing/operators.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/parsing
+creating build/bdist.macosx-12.1-arm64/wheel/gse/_archive
+copying build/lib/gse/_archive/vectors_old.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive
+copying build/lib/gse/_archive/vectors.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive
+copying build/lib/gse/_archive/sense_selection.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive
+copying build/lib/gse/_archive/vectors_hadamard_otp.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive
+creating build/bdist.macosx-12.1-arm64/wheel/gse/_archive/curation
+copying build/lib/gse/_archive/curation/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive/curation
+copying build/lib/gse/_archive/curation/corpus_scorer.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive/curation
+copying build/lib/gse/_archive/curation/tinker_export.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive/curation
+copying build/lib/gse/_archive/curation/cognitive_complexity.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive/curation
+copying build/lib/gse/_archive/curation/curator.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive/curation
+copying build/lib/gse/_archive/lexicon_generator.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive
+creating build/bdist.macosx-12.1-arm64/wheel/gse/_archive/patterns
+copying build/lib/gse/_archive/patterns/compound_network.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive/patterns
+copying build/lib/gse/_archive/patterns/cooccurrence.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive/patterns
+copying build/lib/gse/_archive/patterns/pattern_network.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive/patterns
+copying build/lib/gse/_archive/antonymy.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive
+copying build/lib/gse/_archive/composer.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive
+copying build/lib/gse/_archive/merkle.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive
+copying build/lib/gse/_archive/primitives.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive
+copying build/lib/gse/_archive/coherence.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive
+creating build/bdist.macosx-12.1-arm64/wheel/gse/_archive/graph
+copying build/lib/gse/_archive/graph/traversal.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive/graph
+copying build/lib/gse/_archive/graph/builder.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive/graph
+copying build/lib/gse/_archive/graph/semantic_graph.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive/graph
+creating build/bdist.macosx-12.1-arm64/wheel/gse/_archive/scales
+copying build/lib/gse/_archive/scales/textual.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive/scales
+copying build/lib/gse/_archive/scales/discourse.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive/scales
+copying build/lib/gse/_archive/scales/lexical.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive/scales
+copying build/lib/gse/_archive/scales/syntactic.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive/scales
+copying build/lib/gse/_archive/morphology.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive
+copying build/lib/gse/_archive/pipeline.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive
+copying build/lib/gse/_archive/discourse.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive
+creating build/bdist.macosx-12.1-arm64/wheel/gse/_archive/encoders
+copying build/lib/gse/_archive/encoders/sentence_encoder.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive/encoders
+copying build/lib/gse/_archive/encoders/conversation_encoder.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive/encoders
+copying build/lib/gse/_archive/encoders/paragraph_encoder.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive/encoders
+creating build/bdist.macosx-12.1-arm64/wheel/gse/_archive/benchmarks
+copying build/lib/gse/_archive/benchmarks/baselines.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive/benchmarks
+copying build/lib/gse/_archive/benchmarks/evaluator.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive/benchmarks
+copying build/lib/gse/_archive/lexicon_validator.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive
+creating build/bdist.macosx-12.1-arm64/wheel/gse/_archive/orchestration
+copying build/lib/gse/_archive/orchestration/coordinator.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive/orchestration
+copying build/lib/gse/_archive/orchestration/ambiguity_handler.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive/orchestration
+copying build/lib/gse/_archive/orchestration/collision.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive/orchestration
+copying build/lib/gse/_archive/cascade.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive
+creating build/bdist.macosx-12.1-arm64/wheel/gse/_archive/code_agent
+copying build/lib/gse/_archive/code_agent/__init__.py -> build/bdist.macosx-12.1-arm64/wheel/./gse/_archive/code_agent
+copying build/lib/gse/prime_projection.py -> build/bdist.macosx-12.1-arm64/wheel/./gse
+running install_egg_info
+Copying gse.egg-info to build/bdist.macosx-12.1-arm64/wheel/./gse-2.0.0-py3.14.egg-info
+running install_scripts
+creating build/bdist.macosx-12.1-arm64/wheel/gse-2.0.0.dist-info/WHEEL
+creating '/private/tmp/gse-lexicon-staged-dist-20261025/.tmp-75za1eld/gse-2.0.0-py3-none-any.whl' and adding 'build/bdist.macosx-12.1-arm64/wheel' to it
+adding 'gse/__init__.py'
+adding 'gse/cli.py'
+adding 'gse/frequency.py'
+adding 'gse/lexical_evidence.py'
+adding 'gse/pipeline_v2.py'
+adding 'gse/prime_projection.py'
+adding 'gse/primitives_v2.py'
+adding 'gse/scale_definition.py'
+adding 'gse/structure.py'
+adding 'gse/vectors_v2.py'
+adding 'gse/verb_templates.py'
+adding 'gse/_archive/antonymy.py'
+adding 'gse/_archive/cascade.py'
+adding 'gse/_archive/coherence.py'
+adding 'gse/_archive/composer.py'
+adding 'gse/_archive/discourse.py'
+adding 'gse/_archive/lexicon_generator.py'
+adding 'gse/_archive/lexicon_validator.py'
+adding 'gse/_archive/merkle.py'
+adding 'gse/_archive/morphology.py'
+adding 'gse/_archive/pipeline.py'
+adding 'gse/_archive/primitives.py'
+adding 'gse/_archive/sense_selection.py'
+adding 'gse/_archive/vectors.py'
+adding 'gse/_archive/vectors_hadamard_otp.py'
+adding 'gse/_archive/vectors_old.py'
+adding 'gse/_archive/benchmarks/baselines.py'
+adding 'gse/_archive/benchmarks/evaluator.py'
+adding 'gse/_archive/code_agent/__init__.py'
+adding 'gse/_archive/curation/__init__.py'
+adding 'gse/_archive/curation/cognitive_complexity.py'
+adding 'gse/_archive/curation/corpus_scorer.py'
+adding 'gse/_archive/curation/curator.py'
+adding 'gse/_archive/curation/tinker_export.py'
+adding 'gse/_archive/encoders/conversation_encoder.py'
+adding 'gse/_archive/encoders/paragraph_encoder.py'
+adding 'gse/_archive/encoders/sentence_encoder.py'
+adding 'gse/_archive/graph/builder.py'
+adding 'gse/_archive/graph/semantic_graph.py'
+adding 'gse/_archive/graph/traversal.py'
+adding 'gse/_archive/orchestration/ambiguity_handler.py'
+adding 'gse/_archive/orchestration/collision.py'
+adding 'gse/_archive/orchestration/coordinator.py'
+adding 'gse/_archive/patterns/compound_network.py'
+adding 'gse/_archive/patterns/cooccurrence.py'
+adding 'gse/_archive/patterns/pattern_network.py'
+adding 'gse/_archive/scales/discourse.py'
+adding 'gse/_archive/scales/lexical.py'
+adding 'gse/_archive/scales/syntactic.py'
+adding 'gse/_archive/scales/textual.py'
+adding 'gse/api/__init__.py'
+adding 'gse/api/decoder.py'
+adding 'gse/api/encoder.py'
+adding 'gse/api/errors.py'
+adding 'gse/api/native_repair.py'
+adding 'gse/api/parse_repair.py'
+adding 'gse/api/trace.py'
+adding 'gse/benchmarks/__init__.py'
+adding 'gse/benchmarks/datasets.py'
+adding 'gse/benchmarks/metrics.py'
+adding 'gse/benchmarks/run.py'
+adding 'gse/cache/__init__.py'
+adding 'gse/cassettes/__init__.py'
+adding 'gse/cassettes/agent_eligibility.py'
+adding 'gse/cassettes/base.py'
+adding 'gse/cassettes/cheatsheet.py'
+adding 'gse/cassettes/coref_junk.py'
+adding 'gse/cassettes/deck.py'
+adding 'gse/cassettes/entity_identity.py'
+adding 'gse/cassettes/multiscale.py'
+adding 'gse/cassettes/person_validation.py'
+adding 'gse/cassettes/referent_validation.py'
+adding 'gse/cassettes/relational_identity.py'
+adding 'gse/cli/__init__.py'
+adding 'gse/cli/__main__.py'
+adding 'gse/cli/main.py'
+adding 'gse/composition/__init__.py'
+adding 'gse/composition/composer.py'
+adding 'gse/curation/__init__.py'
+adding 'gse/curation/build_clean_closed_class.py'
+adding 'gse/curation/build_clean_layer1.py'
+adding 'gse/curation/build_clean_layer2.py'
+adding 'gse/curation/build_clean_operators.py'
+adding 'gse/curation/build_clean_quantifiers.py'
+adding 'gse/curation/build_hdc_speller.py'
+adding 'gse/curation/build_misspellings.py'
+adding 'gse/curation/build_spell_entities.py'
+adding 'gse/curation/build_spellcheck_data.py'
+adding 'gse/curation/build_wordlist.py'
+adding 'gse/curation/frequency_integration.py'
+adding 'gse/curation/lexicon_db.py'
+adding 'gse/curation/personal_dictionary.py'
+adding 'gse/curation/schema.py'
+adding 'gse/curation/cli/__init__.py'
+adding 'gse/curation/cli/commands.py'
+adding 'gse/curation/constraint_aggregation/__init__.py'
+adding 'gse/curation/constraint_aggregation/conflict_detector.py'
+adding 'gse/curation/constraint_aggregation/engine.py'
+adding 'gse/curation/constraint_aggregation/mapping_registry.py'
+adding 'gse/curation/constraint_aggregation/scoring.py'
+adding 'gse/curation/constraint_aggregation/types.py'
+adding 'gse/curation/decomposition/__init__.py'
+adding 'gse/curation/decomposition/definition_linker.py'
+adding 'gse/curation/decomposition/definition_structure.py'
+adding 'gse/curation/decomposition/definitional_decomposer.py'
+adding 'gse/curation/decomposition/source_index.py'
+adding 'gse/curation/external_sources/__init__.py'
+adding 'gse/curation/external_sources/base_parser.py'
+adding 'gse/curation/external_sources/bipolar_exclusion.py'
+adding 'gse/curation/external_sources/comparator.py'
+adding 'gse/curation/external_sources/conceptnet.py'
+adding 'gse/curation/external_sources/concreteness.py'
+adding 'gse/curation/external_sources/framenet.py'
+adding 'gse/curation/external_sources/integrator.py'
+adding 'gse/curation/external_sources/lancaster_sensorimotor.py'
+adding 'gse/curation/external_sources/nrc_emotion.py'
+adding 'gse/curation/external_sources/nrc_vad.py'
+adding 'gse/curation/external_sources/populate.py'
+adding 'gse/curation/external_sources/prepopulate.py'
+adding 'gse/curation/external_sources/propbank.py'
+adding 'gse/curation/external_sources/run_comparison.py'
+adding 'gse/curation/external_sources/sentiwordnet.py'
+adding 'gse/curation/external_sources/source_scope.py'
+adding 'gse/curation/external_sources/tier_0_dispatch.py'
+adding 'gse/curation/external_sources/usas.py'
+adding 'gse/curation/external_sources/verbnet.py'
+adding 'gse/curation/external_sources/weighted_voting.py'
+adding 'gse/curation/external_sources/wiktionary.py'
+adding 'gse/curation/external_sources/wordnet_hierarchy.py'
+adding 'gse/curation/llm/__init__.py'
+adding 'gse/curation/llm/batch_processor.py'
+adding 'gse/curation/llm/gap_filler.py'
+adding 'gse/curation/llm/granular_decomposer.py'
+adding 'gse/curation/llm/hybrid_builder.py'
+adding 'gse/curation/llm/ollama_client.py'
+adding 'gse/curation/llm/primitive_matcher.py'
+adding 'gse/curation/llm/primitive_sweep.py'
+adding 'gse/curation/llm/prompts.py'
+adding 'gse/curation/llm/qwen_client.py'
+adding 'gse/curation/llm/response_parser.py'
+adding 'gse/curation/pipeline/__init__.py'
+adding 'gse/curation/pipeline/staged_builder.py'
+adding 'gse/curation/validation/__init__.py'
+adding 'gse/curation/validation/bipolar_validator.py'
+adding 'gse/curation/validation/coverage_checker.py'
+adding 'gse/curation/validation/discrimination_gate.py'
+adding 'gse/curation/validation/hierarchy_validator.py'
+adding 'gse/demo/__init__.py'
+adding 'gse/demo/enum_measure.py'
+adding 'gse/demo/enum_repair.py'
+adding 'gse/demo/reasoning.py'
+adding 'gse/demo/showcase.py'
+adding 'gse/discourse/__init__.py'
+adding 'gse/discourse/infer.py'
+adding 'gse/discourse/intake.py'
+adding 'gse/discourse/nested_router.py'
+adding 'gse/discourse/profile.py'
+adding 'gse/discourse/registers.py'
+adding 'gse/discourse/router.py'
+adding 'gse/discourse/speech.py'
+adding 'gse/encoders/__init__.py'
+adding 'gse/encoders/marker_detection.py'
+adding 'gse/encoders/paragraph_structure_encoder.py'
+adding 'gse/encoders/sentence_structure_encoder.py'
+adding 'gse/encoders/som_genre.py'
+adding 'gse/encoders/text_structure_encoder.py'
+adding 'gse/evaluation/__init__.py'
+adding 'gse/evaluation/world_model.py'
+adding 'gse/gse/encoders/__init__.py'
+adding 'gse/lexicon/__init__.py'
+adding 'gse/lexicon/function_words.py'
+adding 'gse/lexicon/modifier_hierarchy.py'
+adding 'gse/lexicon/numerals.py'
+adding 'gse/lexicon/pronouns.py'
+adding 'gse/lexicon/similarity.py'
+adding 'gse/lexicon/word_encoding.py'
+adding 'gse/lexicon_builder/__init__.py'
+adding 'gse/lexicon_builder/__main__.py'
+adding 'gse/lexicon_builder/artifact.py'
+adding 'gse/lexicon_builder/atomics.py'
+adding 'gse/lexicon_builder/audit.py'
+adding 'gse/lexicon_builder/bank_laws.json'
+adding 'gse/lexicon_builder/basis.py'
+adding 'gse/lexicon_builder/build.py'
+adding 'gse/lexicon_builder/cli.py'
+adding 'gse/lexicon_builder/conditionals.py'
+adding 'gse/lexicon_builder/core.py'
+adding 'gse/lexicon_builder/coverage.py'
+adding 'gse/lexicon_builder/fill.py'
+adding 'gse/lexicon_builder/foundation.json'
+adding 'gse/lexicon_builder/foundation.py'
+adding 'gse/lexicon_builder/model.py'
+adding 'gse/lexicon_builder/native_constraints.py'
+adding 'gse/lexicon_builder/nouns.py'
+adding 'gse/lexicon_builder/number.py'
+adding 'gse/lexicon_builder/perception.py'
+adding 'gse/lexicon_builder/reading.py'
+adding 'gse/lexicon_builder/registry.py'
+adding 'gse/lexicon_builder/release_audit.py'
+adding 'gse/lexicon_builder/runtime.py'
+adding 'gse/lexicon_builder/sources.py'
+adding 'gse/lexicon_builder/surprise.py'
+adding 'gse/lexicon_builder/tail.py'
+adding 'gse/mcp/__init__.py'
+adding 'gse/mcp/spell_server.py'
+adding 'gse/merkle/__init__.py'
+adding 'gse/merkle/decomposer.py'
+adding 'gse/merkle/hash_chain.py'
+adding 'gse/merkle/learning_bridge.py'
+adding 'gse/merkle/nodes.py'
+adding 'gse/merkle/router.py'
+adding 'gse/merkle/translator.py'
+adding 'gse/merkle/tree.py'
+adding 'gse/nlp/__init__.py'
+adding 'gse/nlp/contractions.py'
+adding 'gse/nlp/hdc_speller.py'
+adding 'gse/nlp/heal.py'
+adding 'gse/nlp/healing_resources.py'
+adding 'gse/nlp/linkers.py'
+adding 'gse/nlp/morphology.py'
+adding 'gse/nlp/native.py'
+adding 'gse/nlp/sentence_parser.py'
+adding 'gse/nlp/spellcheck.py'
+adding 'gse/nlp/spellcheck_context.py'
+adding 'gse/nlp/spellcheck_entity.py'
+adding 'gse/nlp/spellcheck_repl.py'
+adding 'gse/orchestration/__init__.py'
+adding 'gse/parsing/__init__.py'
+adding 'gse/parsing/graph.py'
+adding 'gse/parsing/operators.py'
+adding 'gse/parsing/parser.py'
+adding 'gse/patterns/__init__.py'
+adding 'gse/patterns/klines.py'
+adding 'gse/patterns/networks_v2.py'
+adding 'gse/patterns/orchestrator.py'
+adding 'gse/pragmatics/__init__.py'
+adding 'gse/pragmatics/figure_store.py'
+adding 'gse/pragmatics/figures.py'
+adding 'gse/pragmatics/janus.py'
+adding 'gse/profiles/__init__.py'
+adding 'gse/profiles/profile_manager.py'
+adding 'gse/scales/__init__.py'
+adding 'gse/scales/syntactic_structure.py'
+adding 'gse/symbolic/__init__.py'
+adding 'gse/symbolic/claims.py'
+adding 'gse/symbolic/coherence.py'
+adding 'gse/symbolic/emit.py'
+adding 'gse/symbolic/expression.py'
+adding 'gse/symbolic/genealogy_store.py'
+adding 'gse/symbolic/grounding.py'
+adding 'gse/symbolic/inference.py'
+adding 'gse/symbolic/modality.py'
+adding 'gse/symbolic/narrative.py'
+adding 'gse/symbolic/operators.py'
+adding 'gse/symbolic/predicates.py'
+adding 'gse/symbolic/propositions.py'
+adding 'gse/symbolic/queries.py'
+adding 'gse/symbolic/resolution.py'
+adding 'gse/symbolic/sense_resonance.py'
+adding 'gse/symbolic/serialization.py'
+adding 'gse/symbolic/signs.py'
+adding 'gse/symbolic/templating.py'
+adding 'gse/symbolic/tiers.py'
+adding 'gse/symbolic/variables.py'
+adding 'gse/symbolic/healer/__init__.py'
+adding 'gse/symbolic/healer/envelope.py'
+adding 'gse/symbolic/healer/fold_reader.py'
+adding 'gse/symbolic/healer/lens.py'
+adding 'gse/symbolic/healer/recollect.py'
+adding 'gse/symbolic/healer/society.py'
+adding 'gse/symbolic/healer/treewalk.py'
+adding 'gse/symbolic/healer/lenses/__init__.py'
+adding 'gse/symbolic/healer/lenses/copula_predicate.py'
+adding 'gse/symbolic/healer/lenses/infinitival_control.py'
+adding 'gse/symbolic/healer/lenses/participial.py'
+adding 'gse/symbolic/healer/lenses/vp_coord.py'
+adding 'gse/teaching/__init__.py'
+adding 'gse/teaching/conversation_processor.py'
+adding 'gse/teaching/feature_extractor.py'
+adding 'gse/teaching/teacher.py'
+adding 'gse/verification/__init__.py'
+adding 'gse/verification/proof_suite.py'
+adding 'gse/verification/symbolic_proof_suite.py'
+adding 'gse-2.0.0.dist-info/METADATA'
+adding 'gse-2.0.0.dist-info/WHEEL'
+adding 'gse-2.0.0.dist-info/entry_points.txt'
+adding 'gse-2.0.0.dist-info/top_level.txt'
+adding 'gse-2.0.0.dist-info/RECORD'
+removing build/bdist.macosx-12.1-arm64/wheel
+Successfully built /private/tmp/gse-lexicon-staged-dist-20261025/gse-2.0.0.tar.gz
+Successfully built /private/tmp/gse-lexicon-staged-dist-20261025/gse-2.0.0-py3-none-any.whl

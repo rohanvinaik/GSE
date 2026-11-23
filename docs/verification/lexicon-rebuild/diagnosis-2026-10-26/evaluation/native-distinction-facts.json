@@ -1,0 +1,636 @@
+{
+  "schema": "GSE_FEAR_TYPED_SOURCE_DISTINCTION_AUDIT_V1",
+  "source_build": "/private/tmp/gse-diagnosis-symbolic-pre-20261026",
+  "source_word_artifact_sha256": "73ccaa2ed8396f1cfb31311be4690098e36fb2075019fda4b3d05f3a75dafd6b",
+  "frame_file": "/Users/rohanvinaik/nltk_data/corpora/framenet_v17/frame/Fear.xml",
+  "frame_sha256": "0cf2c148bf23baedde884110495c1e66aa39ad7a26c297fafe0eeaf4571edc31",
+  "whole_source_unit_read": "Fear.xml complete: definition, all FE definitions/types, FE core sets, inheritance relations, lexical units and annotation counts.",
+  "facts": {
+    "afraid": {
+      "typed_features": {
+        "usas_alternatives": [
+          "E4.1-",
+          "E5-"
+        ],
+        "framenet": [
+          {
+            "frame": "Fear",
+            "pos": "a",
+            "semantic_types": [],
+            "incorporated_fes": [],
+            "target_role_evidence": []
+          }
+        ]
+      },
+      "typed_feature_sha256": "5719352ca9e6d47184d1bcdec2190c91177fc1e4e06c9aabbe30d54fa8f43c67",
+      "source_record_ids": [
+        "external:usas/semantic_lexicon_en.tsv:11981",
+        "nltk:framenet_v17/luIndex.xml#lu=14945"
+      ],
+      "native_fear_lu_ids": [
+        "14945"
+      ],
+      "frame_element_types": [
+        {
+          "ID": "12524",
+          "name": "Experiencer",
+          "coreType": "Core"
+        },
+        {
+          "ID": "12525",
+          "name": "Topic",
+          "coreType": "Core"
+        },
+        {
+          "ID": "12526",
+          "name": "Stimulus",
+          "coreType": "Core"
+        },
+        {
+          "ID": "12527",
+          "name": "Degree",
+          "coreType": "Peripheral"
+        },
+        {
+          "ID": "12528",
+          "name": "Empathy_target",
+          "coreType": "Extra-Thematic"
+        },
+        {
+          "ID": "12529",
+          "name": "Expressor",
+          "coreType": "Core"
+        },
+        {
+          "ID": "12530",
+          "name": "Explanation",
+          "coreType": "Extra-Thematic"
+        },
+        {
+          "ID": "12531",
+          "name": "Circumstances",
+          "coreType": "Extra-Thematic"
+        },
+        {
+          "ID": "12532",
+          "name": "State",
+          "coreType": "Core"
+        },
+        {
+          "ID": "12534",
+          "name": "Parameter",
+          "coreType": "Peripheral"
+        },
+        {
+          "ID": "12535",
+          "name": "Manner",
+          "coreType": "Peripheral"
+        },
+        {
+          "ID": "12536",
+          "name": "Time",
+          "coreType": "Peripheral"
+        }
+      ],
+      "other_source_status": {
+        "concreteness": {
+          "status": "OBSERVED",
+          "scope": "WORD",
+          "record_count": 1
+        },
+        "lancaster": {
+          "status": "OBSERVED",
+          "scope": "WORD",
+          "record_count": 1
+        },
+        "vad": {
+          "status": "OBSERVED",
+          "scope": "WORD",
+          "record_count": 1
+        },
+        "emotion": {
+          "status": "OBSERVED",
+          "scope": "WORD",
+          "record_count": 1
+        },
+        "verbnet": {
+          "status": "NO_RECORD",
+          "scope": "CLASS_FRAME",
+          "record_count": 0
+        }
+      },
+      "lu_definition_policy": "Read as source context; no phrase, synonym or regex heuristic applied to classify target cognitive scenarios."
+    },
+    "nervous": {
+      "typed_features": {
+        "usas_alternatives": [
+          "E6-"
+        ],
+        "framenet": [
+          {
+            "frame": "Fear",
+            "pos": "a",
+            "semantic_types": [],
+            "incorporated_fes": [],
+            "target_role_evidence": []
+          }
+        ]
+      },
+      "typed_feature_sha256": "915807aec0d4525d5b33426593f01ca0c937fd3ce5b70ea5e316539e4be26c6c",
+      "source_record_ids": [
+        "external:usas/semantic_lexicon_en.tsv:36907",
+        "nltk:framenet_v17/luIndex.xml#lu=14943"
+      ],
+      "native_fear_lu_ids": [
+        "14943"
+      ],
+      "frame_element_types": [
+        {
+          "ID": "12524",
+          "name": "Experiencer",
+          "coreType": "Core"
+        },
+        {
+          "ID": "12525",
+          "name": "Topic",
+          "coreType": "Core"
+        },
+        {
+          "ID": "12526",
+          "name": "Stimulus",
+          "coreType": "Core"
+        },
+        {
+          "ID": "12527",
+          "name": "Degree",
+          "coreType": "Peripheral"
+        },
+        {
+          "ID": "12528",
+          "name": "Empathy_target",
+          "coreType": "Extra-Thematic"
+        },
+        {
+          "ID": "12529",
+          "name": "Expressor",
+          "coreType": "Core"
+        },
+        {
+          "ID": "12530",
+          "name": "Explanation",
+          "coreType": "Extra-Thematic"
+        },
+        {
+          "ID": "12531",
+          "name": "Circumstances",
+          "coreType": "Extra-Thematic"
+        },
+        {
+          "ID": "12532",
+          "name": "State",
+          "coreType": "Core"
+        },
+        {
+          "ID": "12534",
+          "name": "Parameter",
+          "coreType": "Peripheral"
+        },
+        {
+          "ID": "12535",
+          "name": "Manner",
+          "coreType": "Peripheral"
+        },
+        {
+          "ID": "12536",
+          "name": "Time",
+          "coreType": "Peripheral"
+        }
+      ],
+      "other_source_status": {
+        "concreteness": {
+          "status": "OBSERVED",
+          "scope": "WORD",
+          "record_count": 1
+        },
+        "lancaster": {
+          "status": "OBSERVED",
+          "scope": "WORD",
+          "record_count": 1
+        },
+        "vad": {
+          "status": "OBSERVED",
+          "scope": "WORD",
+          "record_count": 1
+        },
+        "emotion": {
+          "status": "OBSERVED",
+          "scope": "WORD",
+          "record_count": 1
+        },
+        "verbnet": {
+          "status": "NO_RECORD",
+          "scope": "CLASS_FRAME",
+          "record_count": 0
+        }
+      },
+      "lu_definition_policy": "Read as source context; no phrase, synonym or regex heuristic applied to classify target cognitive scenarios."
+    },
+    "terrified": {
+      "typed_features": {
+        "usas_alternatives": [
+          "E5-"
+        ],
+        "framenet": [
+          {
+            "frame": "Fear",
+            "pos": "a",
+            "semantic_types": [],
+            "incorporated_fes": [],
+            "target_role_evidence": []
+          }
+        ]
+      },
+      "typed_feature_sha256": "b019f89bcf3301e276f1a6c9e71fb53d787f2b7c495b3c10fd1dc940806da0f6",
+      "source_record_ids": [
+        "external:usas/semantic_lexicon_en.tsv:50304",
+        "nltk:framenet_v17/luIndex.xml#lu=14942"
+      ],
+      "native_fear_lu_ids": [
+        "14942"
+      ],
+      "frame_element_types": [
+        {
+          "ID": "12524",
+          "name": "Experiencer",
+          "coreType": "Core"
+        },
+        {
+          "ID": "12525",
+          "name": "Topic",
+          "coreType": "Core"
+        },
+        {
+          "ID": "12526",
+          "name": "Stimulus",
+          "coreType": "Core"
+        },
+        {
+          "ID": "12527",
+          "name": "Degree",
+          "coreType": "Peripheral"
+        },
+        {
+          "ID": "12528",
+          "name": "Empathy_target",
+          "coreType": "Extra-Thematic"
+        },
+        {
+          "ID": "12529",
+          "name": "Expressor",
+          "coreType": "Core"
+        },
+        {
+          "ID": "12530",
+          "name": "Explanation",
+          "coreType": "Extra-Thematic"
+        },
+        {
+          "ID": "12531",
+          "name": "Circumstances",
+          "coreType": "Extra-Thematic"
+        },
+        {
+          "ID": "12532",
+          "name": "State",
+          "coreType": "Core"
+        },
+        {
+          "ID": "12534",
+          "name": "Parameter",
+          "coreType": "Peripheral"
+        },
+        {
+          "ID": "12535",
+          "name": "Manner",
+          "coreType": "Peripheral"
+        },
+        {
+          "ID": "12536",
+          "name": "Time",
+          "coreType": "Peripheral"
+        }
+      ],
+      "other_source_status": {
+        "concreteness": {
+          "status": "OBSERVED",
+          "scope": "WORD",
+          "record_count": 1
+        },
+        "lancaster": {
+          "status": "OBSERVED",
+          "scope": "WORD",
+          "record_count": 1
+        },
+        "vad": {
+          "status": "OBSERVED",
+          "scope": "WORD",
+          "record_count": 1
+        },
+        "emotion": {
+          "status": "NO_RECORD",
+          "scope": "WORD",
+          "record_count": 0
+        },
+        "verbnet": {
+          "status": "NO_RECORD",
+          "scope": "CLASS_FRAME",
+          "record_count": 0
+        }
+      },
+      "lu_definition_policy": "Read as source context; no phrase, synonym or regex heuristic applied to classify target cognitive scenarios."
+    },
+    "scared": {
+      "typed_features": {
+        "usas_alternatives": [
+          "E5-",
+          "E6-"
+        ],
+        "framenet": [
+          {
+            "frame": "Fear",
+            "pos": "a",
+            "semantic_types": [],
+            "incorporated_fes": [],
+            "target_role_evidence": []
+          }
+        ]
+      },
+      "typed_feature_sha256": "dbfe52d9f3ca6e6d4498c2c0e613316751ba2c506df71c1e681ad7298ba3cb29",
+      "source_record_ids": [
+        "external:usas/semantic_lexicon_en.tsv:45074",
+        "nltk:framenet_v17/luIndex.xml#lu=14949"
+      ],
+      "native_fear_lu_ids": [
+        "14949"
+      ],
+      "frame_element_types": [
+        {
+          "ID": "12524",
+          "name": "Experiencer",
+          "coreType": "Core"
+        },
+        {
+          "ID": "12525",
+          "name": "Topic",
+          "coreType": "Core"
+        },
+        {
+          "ID": "12526",
+          "name": "Stimulus",
+          "coreType": "Core"
+        },
+        {
+          "ID": "12527",
+          "name": "Degree",
+          "coreType": "Peripheral"
+        },
+        {
+          "ID": "12528",
+          "name": "Empathy_target",
+          "coreType": "Extra-Thematic"
+        },
+        {
+          "ID": "12529",
+          "name": "Expressor",
+          "coreType": "Core"
+        },
+        {
+          "ID": "12530",
+          "name": "Explanation",
+          "coreType": "Extra-Thematic"
+        },
+        {
+          "ID": "12531",
+          "name": "Circumstances",
+          "coreType": "Extra-Thematic"
+        },
+        {
+          "ID": "12532",
+          "name": "State",
+          "coreType": "Core"
+        },
+        {
+          "ID": "12534",
+          "name": "Parameter",
+          "coreType": "Peripheral"
+        },
+        {
+          "ID": "12535",
+          "name": "Manner",
+          "coreType": "Peripheral"
+        },
+        {
+          "ID": "12536",
+          "name": "Time",
+          "coreType": "Peripheral"
+        }
+      ],
+      "other_source_status": {
+        "concreteness": {
+          "status": "OBSERVED",
+          "scope": "WORD",
+          "record_count": 1
+        },
+        "lancaster": {
+          "status": "OBSERVED",
+          "scope": "WORD",
+          "record_count": 1
+        },
+        "vad": {
+          "status": "OBSERVED",
+          "scope": "WORD",
+          "record_count": 1
+        },
+        "emotion": {
+          "status": "NO_RECORD",
+          "scope": "WORD",
+          "record_count": 0
+        },
+        "verbnet": {
+          "status": "NO_RECORD",
+          "scope": "CLASS_FRAME",
+          "record_count": 0
+        }
+      },
+      "lu_definition_policy": "Read as source context; no phrase, synonym or regex heuristic applied to classify target cognitive scenarios."
+    },
+    "frightened": {
+      "typed_features": {
+        "usas_alternatives": [
+          "E5-"
+        ],
+        "framenet": [
+          {
+            "frame": "Fear",
+            "pos": "a",
+            "semantic_types": [],
+            "incorporated_fes": [],
+            "target_role_evidence": []
+          }
+        ]
+      },
+      "typed_feature_sha256": "b019f89bcf3301e276f1a6c9e71fb53d787f2b7c495b3c10fd1dc940806da0f6",
+      "source_record_ids": [
+        "external:usas/semantic_lexicon_en.tsv:27691",
+        "nltk:framenet_v17/luIndex.xml#lu=14944"
+      ],
+      "native_fear_lu_ids": [
+        "14944"
+      ],
+      "frame_element_types": [
+        {
+          "ID": "12524",
+          "name": "Experiencer",
+          "coreType": "Core"
+        },
+        {
+          "ID": "12525",
+          "name": "Topic",
+          "coreType": "Core"
+        },
+        {
+          "ID": "12526",
+          "name": "Stimulus",
+          "coreType": "Core"
+        },
+        {
+          "ID": "12527",
+          "name": "Degree",
+          "coreType": "Peripheral"
+        },
+        {
+          "ID": "12528",
+          "name": "Empathy_target",
+          "coreType": "Extra-Thematic"
+        },
+        {
+          "ID": "12529",
+          "name": "Expressor",
+          "coreType": "Core"
+        },
+        {
+          "ID": "12530",
+          "name": "Explanation",
+          "coreType": "Extra-Thematic"
+        },
+        {
+          "ID": "12531",
+          "name": "Circumstances",
+          "coreType": "Extra-Thematic"
+        },
+        {
+          "ID": "12532",
+          "name": "State",
+          "coreType": "Core"
+        },
+        {
+          "ID": "12534",
+          "name": "Parameter",
+          "coreType": "Peripheral"
+        },
+        {
+          "ID": "12535",
+          "name": "Manner",
+          "coreType": "Peripheral"
+        },
+        {
+          "ID": "12536",
+          "name": "Time",
+          "coreType": "Peripheral"
+        }
+      ],
+      "other_source_status": {
+        "concreteness": {
+          "status": "OBSERVED",
+          "scope": "WORD",
+          "record_count": 1
+        },
+        "lancaster": {
+          "status": "OBSERVED",
+          "scope": "WORD",
+          "record_count": 1
+        },
+        "vad": {
+          "status": "OBSERVED",
+          "scope": "WORD",
+          "record_count": 1
+        },
+        "emotion": {
+          "status": "OBSERVED",
+          "scope": "WORD",
+          "record_count": 1
+        },
+        "verbnet": {
+          "status": "NO_RECORD",
+          "scope": "CLASS_FRAME",
+          "record_count": 0
+        }
+      },
+      "lu_definition_policy": "Read as source context; no phrase, synonym or regex heuristic applied to classify target cognitive scenarios."
+    }
+  },
+  "equal_typed_feature_groups": [
+    {
+      "feature_sha256": "5719352ca9e6d47184d1bcdec2190c91177fc1e4e06c9aabbe30d54fa8f43c67",
+      "words": [
+        "afraid"
+      ]
+    },
+    {
+      "feature_sha256": "915807aec0d4525d5b33426593f01ca0c937fd3ce5b70ea5e316539e4be26c6c",
+      "words": [
+        "nervous"
+      ]
+    },
+    {
+      "feature_sha256": "b019f89bcf3301e276f1a6c9e71fb53d787f2b7c495b3c10fd1dc940806da0f6",
+      "words": [
+        "frightened",
+        "terrified"
+      ]
+    },
+    {
+      "feature_sha256": "dbfe52d9f3ca6e6d4498c2c0e613316751ba2c506df71c1e681ad7298ba3cb29",
+      "words": [
+        "scared"
+      ]
+    }
+  ],
+  "candidate_distinctions": [
+    {
+      "axis": "IMMEDIATE_HARM_EVENT_VS_UNCERTAIN_COPING",
+      "code": "SOURCE_FIELD_NOT_PRESENT",
+      "warrant": "No explicit lexical-unit categorical feature carrying this distinction is present in the inspected typed Fear records. The shared Stimulus FE permits person/event/state; it does not classify each target word by such an event."
+    },
+    {
+      "axis": "EPISTEMIC_GAP_KIND_OR_RESPONSE_NECESSITY",
+      "code": "SOURCE_FIELD_NOT_PRESENT",
+      "warrant": "The native FE inventory has no lexical coping-uncertainty or practical-necessity assertion. Missing such a field is not a lexical zero or silence."
+    },
+    {
+      "axis": "WORD_LEVEL_RATING_AS_SCENARIO_TYPE",
+      "code": "ASSOCIATION_SCOPE_ONLY",
+      "warrant": "Available norms/associations are word-scoped ratings; they do not explicitly identify the target scenario relation."
+    }
+  ],
+  "proposal": {
+    "code": "NO_ADDITIONAL_DETERMINISTIC_CLASS_SPLIT_WARRANTED_BY_THESE_FIELDS",
+    "next_source_boundary": "Require a separately sourced typed target-scenario assertion identifying event/epistemic/response scope before using that assertion as a new deterministic condition. Keep unavailable features unobserved. A bounded lemma-conditioned model selection remains permitted by design and must pass its own evaluation challenge.",
+    "must_not": [
+      "NO_NLP_PHRASE_HEURISTIC_FROM_LU_DEFINITIONS",
+      "NO_GOLD_COMPONENT_AS_NATIVE_SOURCE_FIELD",
+      "NO_SOURCE_ABSENCE_AS_LEXICAL_ZERO_OR_SILENCE",
+      "NO_SOURCE_DETERMINISM_GATE_ON_MODELS"
+    ]
+  }
+}

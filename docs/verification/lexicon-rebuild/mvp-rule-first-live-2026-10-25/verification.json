@@ -1,0 +1,49 @@
+{
+  "scope": "Scoped MVP; not full lexicon acceptance",
+  "targeted_tests": {
+    "passed": 82,
+    "warnings": 1,
+    "includes_detective_generated_tests": true
+  },
+  "ruff_check": "PASSED",
+  "ruff_format_check": "PASSED",
+  "ty_check": "PASSED",
+  "program_reference_check": "PASSED",
+  "word_outcomes": {
+    "IDENTIFIED": 11,
+    "WRONG": 0,
+    "PARTIAL": 1,
+    "ABSTAINED": 2,
+    "UNAVAILABLE": 0
+  },
+  "number_controls": [
+    {
+      "file": "number-happy-delighted.json",
+      "code": "IDENTIFIED"
+    },
+    {
+      "file": "number-self-control.json",
+      "code": "IDENTIFIED"
+    },
+    {
+      "file": "number-incompatible-control.json",
+      "code": "IDENTIFIED"
+    }
+  ],
+  "detective": {
+    "vector_status": "COMPLETE (operator universe; modulo 15 unproven-equivalent and 3 crash-only value gaps); final 66/79 killed",
+    "paired_order_status": "COMPLETE (operator universe; modulo 1 crash-only value gap); final 22/22 killed",
+    "meaning": "These are bounded behavioral checks, not proofs of lexical semantics."
+  },
+  "tests": {
+    "test_lexicon_native_constraints.py": "525827001e81583efc9268444ba2d9f96a49d29d954cf3bf3b4a83f7d99d3f9c",
+    "test_lexicon_builder_foundation.py": "88dc10569a656d1a7ea977a6c5c81317c5985ff4ab2b65ed83fec0282de41c01",
+    "test_lexicon_number.py": "c3d5dddb92f002075093407b1f535d4822f32f4dae03674887641301b8825925",
+    "test_lexicon_atomic_and_tail.py": "702b4fc4bb4d6902fde8e34e537393230b6435d365d483dc90981329dcfff866",
+    "test_lexicon_coherence.py": "f816b2e0c0bef38702c9b02bb43ea8f2fdf2244811d729ca549c728c9d4d096b",
+    "test_lexicon_mvp_artifact.py": "f122b66a8043048534b8d2f1df9e19baaa7f600773a60ea3e0989aef54e700af",
+    "test_lexicon_builder_workflow.py": "abc3505538e94376b583cb957301f29f6f871868f8b313bb4c614bc14e6d28bf"
+  },
+  "active_rulebook_sha256": "60116f20f4551b8ec1eb5c4c85e3e2eef676deaf03a65a6650f1b227b572804b",
+  "number_input_unchanged": true
+}

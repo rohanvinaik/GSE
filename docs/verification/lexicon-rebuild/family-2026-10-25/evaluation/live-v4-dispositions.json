@@ -1,0 +1,1450 @@
+{
+  "schema": "GSE_FAMILY_LIVE_DISPOSITION_V4",
+  "scope": "POST_REFERENCE_CHALLENGE_DEVELOPMENT; NOT_HELD_OUT_ACCURACY",
+  "candidate_dir": "/private/tmp/gse-family-live-v4-20261025",
+  "candidate_files": {
+    "summary.json": "f9174617304545c8a89e7e129fafb1640d3bf92e4f38429b8108d44094ef1df9",
+    "sparse.jsonl": "24ff6cb024533f4dce784ef5e51427ff6d5f99199851b25c5af359c116a5794d",
+    "structures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "words.jsonl": "a5a4bf1c8254374c408f4c86b07feb7385f7f6e100337bf449d9efc39363fa7d",
+    "tail-ledger.json": "d40300f46b91b38f25b2e012cfb027a8bbbb8d7522005531667614b3d50aaf56",
+    "manifest.json": "3615a5df86c29a00f705b1167b96d56349194c459538a96c03e503cced823dac",
+    "vectors.jsonl": "8946e1d46d33cabc86cf884c8aea361163c3e11819d323aef3225b413699b8ab"
+  },
+  "declared_run_identity_matches_v4_freeze": true,
+  "family_revision": 3,
+  "rulebook_version": "2026-10-25.11",
+  "aligned_readings": 6,
+  "aligned_surfaces": 5,
+  "reading_statuses": {
+    "CANDIDATE_COMPLETE": 5,
+    "PARTIAL": 1
+  },
+  "task_dispositions": {
+    "SELECTED": 35,
+    "ABSTAINED": 1
+  },
+  "request_records": 36,
+  "selected_state_counts": {
+    "+1": 26,
+    "0": 4,
+    "-1": 5
+  },
+  "reference_outcomes_by_family_account": {
+    "REQUIRED": {
+      "AGREES": 114,
+      "NO_REFERENCE_STATE": 6
+    },
+    "SILENT": {
+      "AGREES": 186,
+      "NO_REFERENCE_STATE": 6
+    },
+    "OPTIONAL": {
+      "AGREES": 18,
+      "FALSE_OMISSION": 1,
+      "ADDITION_CHALLENGE": 13,
+      "UNRESOLVED_REFERENCE_STATE": 1,
+      "ZERO_SILENCE_DISAGREEMENT": 3
+    }
+  },
+  "additional_optional_domain_changes_after_selection": [],
+  "canonical_vocabulary_matches_all_requests": true,
+  "temporal_options_valid_all_requests": true,
+  "positive_then_in_any_fear_artifact_domain": false,
+  "canonical_vocabulary_basis_then": {
+    "+1": "THEN",
+    "-1": "NOW"
+  },
+  "call_checks": [
+    {
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "DO",
+      "request_sha256": "32d4520820c4cee1d04e861b65803133b04038e01bb4cd312c31abdd3d334730",
+      "signed_prime_names": {
+        "+1": "DO"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "IF",
+      "request_sha256": "c473e76f90a11017d4382e9c5e5bf70af3485ed0a2ca496c4b5d3b317298607a",
+      "signed_prime_names": {
+        "+1": "IF"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "KNOW",
+      "request_sha256": "b078da0c2fb89e3da2c1e051202ad91f9ff9a13ebf22bd55594c994dffc0c56f",
+      "signed_prime_names": {
+        "+1": "KNOW"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "MAYBE",
+      "request_sha256": "80154aed61bdf61ad6908875b1b0cbab94dffe4bff45cbde747c5b316be04a43",
+      "signed_prime_names": {
+        "+1": "MAYBE"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "MUST",
+      "request_sha256": "0ea037d781b1d4c9f19b5fea659e713ee22b3480c38c8f83e5503d4ded881a30",
+      "signed_prime_names": {
+        "+1": "MUST"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "THEN",
+      "request_sha256": "c8a3c58844fd475de9fe599f2ed6fe2d3c9a4db0a764dcbea3d581670ec6720b",
+      "signed_prime_names": {
+        "+1": "THEN",
+        "-1": "NOW"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "-1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "-1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "DO",
+      "request_sha256": "33e93228f814776e7d8160413f98a91088c51d09b4a9f447160c05a1333cd526",
+      "signed_prime_names": {
+        "+1": "DO"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "IF",
+      "request_sha256": "63dcf6602ff89687afe3e3a6b1432b99c4b52077598cd5a4472661402ef63027",
+      "signed_prime_names": {
+        "+1": "IF"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "KNOW",
+      "request_sha256": "77fe7ffcbbf41ad1f7fac4b601b8ca2789c881bd0948c5299b3274aad66fcace",
+      "signed_prime_names": {
+        "+1": "KNOW"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "MAYBE",
+      "request_sha256": "7a2ed01c8099fae4507cdbb51a1071b35bad068fac57fb109bb69383016a27d6",
+      "signed_prime_names": {
+        "+1": "MAYBE"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "MUST",
+      "request_sha256": "cba37e01ba59c13f32d8b4897e5bd4e2dc8ee7cf29c2a987aebbc947e092e6ec",
+      "signed_prime_names": {
+        "+1": "MUST"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "THEN",
+      "request_sha256": "e3cf4b20037810a1be91d94d9444bffe42b4d00fc445f6b142248891570280f7",
+      "signed_prime_names": {
+        "+1": "THEN",
+        "-1": "NOW"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "-1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "-1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "DO",
+      "request_sha256": "f79735b6c35789b47d3bb670aaadc9e486595dfcb610b4ed8bdcfb7c91940807",
+      "signed_prime_names": {
+        "+1": "DO"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "IF",
+      "request_sha256": "af3b60b77b9962a1dcf76252aec696ab6b93d6573a02f329072d5b05dff421c8",
+      "signed_prime_names": {
+        "+1": "IF"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "KNOW",
+      "request_sha256": "ae02a16b7a903613387825db695e057d0c38f038fe803204a674b8ea1fd7f447",
+      "signed_prime_names": {
+        "+1": "KNOW"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "MAYBE",
+      "request_sha256": "f720cece703070a8083825e41c6f3e3f26259002f1073ddcb79434d3fd7abb8f",
+      "signed_prime_names": {
+        "+1": "MAYBE"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "MUST",
+      "request_sha256": "9b99efe04bffe9172581c2526c7025c7b65a7d84de52e3ec810ce655f6b40703",
+      "signed_prime_names": {
+        "+1": "MUST"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "THEN",
+      "request_sha256": "d5ebe03c7b5ae35911a755ee70e4dc2c6778d59174a40f4ebf4c7f74c8513764",
+      "signed_prime_names": {
+        "+1": "THEN",
+        "-1": "NOW"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "-1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "-1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "DO",
+      "request_sha256": "eda2ea8e6ec59f2103a46447b54086e93822fea9ab30fb5b27e88c953966ad8a",
+      "signed_prime_names": {
+        "+1": "DO"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "IF",
+      "request_sha256": "05dee85654cde1cedab5a2299562ca77c1fb4d98c41e625ba34512269993cb10",
+      "signed_prime_names": {
+        "+1": "IF"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "KNOW",
+      "request_sha256": "8892d6a5b141248a3648314b3d14c459e4784c6686da2ff48e5b109ae4bbff02",
+      "signed_prime_names": {
+        "+1": "KNOW"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "MAYBE",
+      "request_sha256": "b2e54306a18452149508442b2cf8ceee1acaedcc6ace578af8e2dc3df039af36",
+      "signed_prime_names": {
+        "+1": "MAYBE"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "MUST",
+      "request_sha256": "a67c753867ebf4bfb15c31c97266d70bc422ec407fb7b8abd00cbdb63212bd4e",
+      "signed_prime_names": {
+        "+1": "MUST"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "THEN",
+      "request_sha256": "c2286868a431b069f2afc8ac8f1afdb506b29ff4fd1ea2087be9d9c658ded71e",
+      "signed_prime_names": {
+        "+1": "THEN",
+        "-1": "NOW"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "-1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "-1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "DO",
+      "request_sha256": "eeecad274bc180b2ee8a175d03d47c9ed58c2544932ded69e36bf474076c94b2",
+      "signed_prime_names": {
+        "+1": "DO"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "IF",
+      "request_sha256": "aab997506bfa7a968e71c1d66a89af9db2873b8405447bbe7ecaba567b691db3",
+      "signed_prime_names": {
+        "+1": "IF"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "KNOW",
+      "request_sha256": "4170c9a80604a24ad24dcfe76433d998a8152286924b97be58392c3429a55179",
+      "signed_prime_names": {
+        "+1": "KNOW"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "MAYBE",
+      "request_sha256": "8daf303387e89329680ab77935de8e5ebc2db70247164c009a17ca1954ea0d23",
+      "signed_prime_names": {
+        "+1": "MAYBE"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "MUST",
+      "request_sha256": "002c3581d174037e0b45da12ead4827d374df77d52a749964117c2520e67d9cf",
+      "signed_prime_names": {
+        "+1": "MUST"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "THEN",
+      "request_sha256": "d91000ec8f9eacbb9b647d09d77da2e391b9f00d14ac4fd993893e8726d8545f",
+      "signed_prime_names": {
+        "+1": "THEN",
+        "-1": "NOW"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "-1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "-1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "DO",
+      "request_sha256": "2c010b4c9f9f43437a9890883afb569b6531621c8b094e27a1e1aeae400014d3",
+      "signed_prime_names": {
+        "+1": "DO"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "IF",
+      "request_sha256": "cf3a6dfe13b1870e2b2ec7f4bbb435b78ea13942b7ec36e17f0b3ce3ba5bbc37",
+      "signed_prime_names": {
+        "+1": "IF"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "KNOW",
+      "request_sha256": "b7d833e9c0fe75b86884538700267a7ef8596177915c464780ea6b17b9fcb1f0",
+      "signed_prime_names": {
+        "+1": "KNOW"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "MAYBE",
+      "request_sha256": "d25e1a58c2f48366e877ddb72493f3b1c554c721b7b7025008458a778d9fa572",
+      "signed_prime_names": {
+        "+1": "MAYBE"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "MUST",
+      "request_sha256": "2e013706de20d4b7699d8b4805906feb2bd85a29799f1e89f7e7dada4c08db0f",
+      "signed_prime_names": {
+        "+1": "MUST"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "+1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    },
+    {
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "THEN",
+      "request_sha256": "fb3b784607cd377edb192901f0b08d30fdbfa7f03b412e873efad753ca8a65f5",
+      "signed_prime_names": {
+        "+1": "THEN",
+        "-1": "NOW"
+      },
+      "vocabulary_matches_basis": true,
+      "surviving_domain": [
+        "-1",
+        "0",
+        "empty"
+      ],
+      "offered_options": [
+        "-1",
+        "0",
+        "empty",
+        "ABSTAIN"
+      ],
+      "temporal_domain_valid": true
+    }
+  ],
+  "temporal_domain_checks": [
+    {
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "actual_state": "0",
+      "positive_then_in_any_domain": false,
+      "observed_domains": [
+        {
+          "location": "serialized_cell",
+          "domain": [
+            "0"
+          ]
+        },
+        {
+          "location": "DO:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "DO:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "IF:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "IF:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "KNOW:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "KNOW:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "MAYBE:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "MAYBE:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "MUST:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "MUST:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "THEN:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "THEN:after",
+          "domain": [
+            "0"
+          ]
+        }
+      ]
+    },
+    {
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "actual_state": "-1",
+      "positive_then_in_any_domain": false,
+      "observed_domains": [
+        {
+          "location": "serialized_cell",
+          "domain": [
+            "-1"
+          ]
+        },
+        {
+          "location": "DO:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "DO:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "IF:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "IF:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "KNOW:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "KNOW:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "MUST:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "MUST:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "THEN:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "THEN:after",
+          "domain": [
+            "-1"
+          ]
+        }
+      ]
+    },
+    {
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "actual_state": "-1",
+      "positive_then_in_any_domain": false,
+      "observed_domains": [
+        {
+          "location": "serialized_cell",
+          "domain": [
+            "-1"
+          ]
+        },
+        {
+          "location": "DO:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "DO:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "IF:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "IF:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "KNOW:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "KNOW:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "MAYBE:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "MAYBE:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "MUST:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "MUST:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "THEN:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "THEN:after",
+          "domain": [
+            "-1"
+          ]
+        }
+      ]
+    },
+    {
+      "reading_id": "scared:ADJ:E5-:fear",
+      "actual_state": "-1",
+      "positive_then_in_any_domain": false,
+      "observed_domains": [
+        {
+          "location": "serialized_cell",
+          "domain": [
+            "-1"
+          ]
+        },
+        {
+          "location": "DO:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "DO:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "IF:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "IF:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "KNOW:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "KNOW:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "MAYBE:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "MAYBE:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "MUST:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "MUST:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "THEN:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "THEN:after",
+          "domain": [
+            "-1"
+          ]
+        }
+      ]
+    },
+    {
+      "reading_id": "scared:ADJ:E6-:fear",
+      "actual_state": "-1",
+      "positive_then_in_any_domain": false,
+      "observed_domains": [
+        {
+          "location": "serialized_cell",
+          "domain": [
+            "-1"
+          ]
+        },
+        {
+          "location": "DO:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "DO:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "IF:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "IF:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "KNOW:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "KNOW:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "MAYBE:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "MAYBE:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "MUST:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "MUST:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "THEN:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "THEN:after",
+          "domain": [
+            "-1"
+          ]
+        }
+      ]
+    },
+    {
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "actual_state": "-1",
+      "positive_then_in_any_domain": false,
+      "observed_domains": [
+        {
+          "location": "serialized_cell",
+          "domain": [
+            "-1"
+          ]
+        },
+        {
+          "location": "DO:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "DO:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "IF:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "IF:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "KNOW:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "KNOW:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "MAYBE:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "MAYBE:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "MUST:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "MUST:after",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "THEN:before",
+          "domain": [
+            "-1",
+            "0",
+            "empty"
+          ]
+        },
+        {
+          "location": "THEN:after",
+          "domain": [
+            "-1"
+          ]
+        }
+      ]
+    }
+  ]
+}

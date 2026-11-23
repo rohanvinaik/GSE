@@ -1,0 +1,98 @@
+{
+  "schema": "GSE_PUSH_DEPENDENCY_HYGIENE_V1",
+  "uv_lock_sha256": "c80bec143d743f6bc8945853a86e3a1a48260894d7ed03a4924894e2082fc4d0",
+  "pyproject_sha256": "12534294178fe753feef7f2e17e1df9cf62909f4cc5bd732709d3f56d1022f83",
+  "requirements_sha256": "26cbbd8bfbf6c9d133becf49e0781c9716cc9c9af51150ef4307f57d1b8e831a",
+  "requirements_path": "/private/tmp/gse-lexicon-hygiene-all-requirements-20261025.txt",
+  "scope": {
+    "frozen": true,
+    "all_extras": true,
+    "all_groups": true,
+    "emit_project": false,
+    "hashes": false
+  },
+  "commands": [
+    {
+      "command": "uv export --frozen --no-hashes --no-emit-project --all-extras --all-groups --format requirements-txt > /private/tmp/gse-lexicon-hygiene-all-requirements-20261025.txt 2> docs/verification/lexicon-rebuild/execution-2026-10-25/hygiene/uv-export.log",
+      "exit_code": 2,
+      "code": "SANDBOX_UV_CACHE_DENIED",
+      "log": "uv-export.log"
+    },
+    {
+      "command": "uvx deptry . > docs/verification/lexicon-rebuild/execution-2026-10-25/hygiene/deptry.log 2>&1",
+      "exit_code": 2,
+      "code": "SANDBOX_UV_CACHE_DENIED",
+      "log": "deptry.log"
+    },
+    {
+      "command": "uv export --frozen --no-hashes --no-emit-project --all-extras --all-groups --format requirements-txt > /private/tmp/gse-lexicon-hygiene-all-requirements-20261025.txt 2> docs/verification/lexicon-rebuild/execution-2026-10-25/hygiene/uv-export-escalated.log",
+      "exit_code": 0,
+      "code": "FULL_FROZEN_EXPORT_COMPLETE",
+      "escalated": true,
+      "log": "uv-export-escalated.log"
+    },
+    {
+      "command": "uvx deptry . > docs/verification/lexicon-rebuild/execution-2026-10-25/hygiene/deptry-escalated.log 2>&1",
+      "exit_code": 1,
+      "code": "DEPENDENCY_DRIFT_FINDINGS",
+      "escalated": true,
+      "reported_issues": 46,
+      "log": "deptry-escalated.log"
+    },
+    {
+      "command": "uvx pip-audit -r /private/tmp/gse-lexicon-hygiene-all-requirements-20261025.txt --no-deps --disable-pip > docs/verification/lexicon-rebuild/execution-2026-10-25/hygiene/pip-audit.log 2>&1",
+      "exit_code": 2,
+      "code": "SANDBOX_UV_CACHE_DENIED",
+      "log": "pip-audit.log"
+    },
+    {
+      "command": "uvx pip-audit -r /private/tmp/gse-lexicon-hygiene-all-requirements-20261025.txt --no-deps --disable-pip > docs/verification/lexicon-rebuild/execution-2026-10-25/hygiene/pip-audit-escalated.log 2>&1",
+      "exit_code": 1,
+      "code": "KNOWN_VULNERABILITIES_AND_URL_SKIP",
+      "escalated": true,
+      "reported_vulnerabilities": 4,
+      "reported_packages": 4,
+      "log": "pip-audit-escalated.log"
+    }
+  ],
+  "findings": [
+    {
+      "package": "certifi",
+      "version": "2026.5.20",
+      "advisory": "PYSEC-2026-4320",
+      "reported_fix_versions": [
+        "2026.10.19"
+      ]
+    },
+    {
+      "package": "mcp",
+      "version": "1.28.1",
+      "advisory": "CVE-2026-59951",
+      "reported_fix_versions": [
+        "1.30.0",
+        "2.2.0"
+      ]
+    },
+    {
+      "package": "nltk",
+      "version": "3.10.3",
+      "advisory": "PYSEC-2026-3740",
+      "reported_fix_versions": []
+    },
+    {
+      "package": "setuptools",
+      "version": "84.0.0",
+      "advisory": "GHSA-xmj3-9gf7-h52w",
+      "reported_fix_versions": [
+        "84.1.0"
+      ]
+    }
+  ],
+  "skips": [
+    {
+      "package": "en-core-web-sm",
+      "reason": "URL requirements cannot be pinned to a specific package version"
+    }
+  ],
+  "policy": "Report only; no source, test, dependency, lockfile, ignore or waiver changes were made by this audit task."
+}

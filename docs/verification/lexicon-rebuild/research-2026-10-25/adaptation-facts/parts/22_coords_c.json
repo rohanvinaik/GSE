@@ -1,0 +1,835 @@
+{
+  "TRUE": {
+    "pair": "TRUE (+1) / FALSE (-1); FALSE = TRUE -1 (basis.py:71)",
+    "shape": "bipolar; bank 7 (basis.py:45-46); legal states empty, 0, +1, -1 (core.py:50-57)",
+    "foundation_profile": "TRUE foundation.json:8605-8704: profile_status SOURCED_PROFILE (8611); CLASSIFIES_HEAD modifier_property_only (8626); CLASSIFIES_FAMILY operator (8634); REQUIRES_ARGUMENT source NSM_CHART_V20 slots [\"content:proposition\"] (8636-8645); source_mapping NSM_LEXICAL_UNIT (8647); remaining_cells UNRESOLVED_UNTIL_EXAMINED (8648); definition_axiom DRAFT (8650). FALSE foundation.json:8705-8804: profile_status GSE_ADAPTATION_PROFILE (8711); head modifier_property_only (8726); family operator (8734); REQUIRES_ARGUMENT source GSE_PROJECTION_V2 slots [\"content:proposition\"] (8736-8745); source_mapping GSE_ADAPTATION_NOT_AN_NSM_INVENTORY_CLAIM (8747); DRAFT (8750)",
+    "statements": [
+      {
+        "loc": "gse/primitives_v2.py:119-120",
+        "who": "CODE_REGISTRY",
+        "quote": "# Bank 7: LOGICAL / BipolarDimension(\"TRUTH\", \"TRUE\", \"FALSE\", SemanticBank.LOGICAL),",
+        "note": "SemanticBank.LOGICAL is described at line 54 as '# Modality, causation, hierarchy markers'."
+      },
+      {
+        "loc": "gse/primitives_v2.py:363-364",
+        "who": "CODE_REGISTRY",
+        "quote": "# Bank 7: LOGICAL (7 unipolar + hierarchy + 1 bipolar) / BANK_7_UNIPOLAR = [",
+        "note": "The one bipolar dimension of bank 7 is TRUTH (line 120), so TRUE and FALSE are not in BANK_7_UNIPOLAR (lines 364-377)."
+      },
+      {
+        "loc": "gse/primitives_v2.py:590-594",
+        "who": "CODE_REGISTRY",
+        "quote": "\"logical_modal\": { \"bank\": SemanticBank.LOGICAL, \"primitives\": [\"NOT\", \"MAYBE\", \"CAN\", \"MUST\", \"IF\", \"TRUE\", \"FALSE\"], \"hub\": \"NOT\" }"
+      },
+      {
+        "loc": "gse/lexicon_builder/fill.py:75",
+        "who": "CODE_CURRENT",
+        "quote": "\"TRUE\": \"+1 true; -1 false\"",
+        "note": "Sent verbatim to the local model as the field's 'means' (fill.py:139)."
+      },
+      {
+        "loc": "gse/lexicon_builder/foundation.json:8614-8618 and 8714-8718",
+        "who": "CODE_CURRENT",
+        "quote": "\"claim_id\": \"TRUE:01:IDENTIFIES_PRIME\" … \"source\": \"FOUNDER\", \"location\": \"F076, F098, F148; fixed GSE basis\", \"warrant\": \"The explicitly located lexical unit identifies this signed basis pole; it does not determine any other cell.\" (FALSE:01:IDENTIFIES_PRIME, same text)"
+      },
+      {
+        "loc": "gse/lexicon_builder/foundation.json:8620-8645 and 8720-8745",
+        "who": "CODE_CURRENT",
+        "quote": "TRUE and FALSE: CLASSIFIES_HEAD value \"modifier_property_only\"; CLASSIFIES_FAMILY value \"operator\"; REQUIRES_ARGUMENT slots [\"content:proposition\"] (TRUE source NSM_CHART_V20, FALSE source GSE_PROJECTION_V2)"
+      },
+      {
+        "loc": "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt:330-332",
+        "who": "NSM_CHART",
+        "quote": "TRUE / this is true / this is not true"
+      },
+      {
+        "loc": "docs/verification/lexicon-rebuild/closeout-2026-10-25/NSM_RESOLUTIONS.md:286-289",
+        "who": "AGENT_DOC",
+        "quote": "- **GSE coordinates with no NSM prime:** / - INFER, CAUSE (see §6), MUST, CERTAINTY, INTENSITY, START, END, TOWARD, AWAY, WITH and WITHOUT; / - HAVE: G12's 2012 table has \"HAVE (SOMETHING)\", but CH v20 replaces it with \"(IS) MINE\" and \"(HAVE) PARTS\"; / - the poles FALSE and OUTSIDE."
+      },
+      {
+        "loc": "docs/NSM_GRAMMAR_MAPPING.md:22-25 and 81-82",
+        "who": "DOC_JUNE2026",
+        "quote": "`i, you, not, if, because, can, must, maybe, do, be, have, with, without, one, two, other, same, like, kind, part, when, where, here, now, before, after, above, below, far, near, inside, side` (+ `then, toward, away, start, end, true, false, infer` — GSE extensions). … GSE adds `CAUSE, EXIST, NUMBER, INFER, START, END, THEN, TOWARD, AWAY, WITH, WITHOUT, TRUE, FALSE` beyond canon."
+      },
+      {
+        "loc": "/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/GSE/GSE_V2.md:51,55,110,125",
+        "who": "ROHAN_PAPER",
+        "quote": "| TRUTH          | TRUE          | FALSE         | 7    | / … **ADDED**: TRUE/FALSE, INSIDE/OUTSIDE, NOW/THEN, SAME/OTHER / … - Removed: TRUE (→ Bank 7), LIVE/DIE (problematic) / … - TRUTH (TRUE/FALSE bipolar)",
+        "note": "March refactor spec. 'ADDED' is relative to the older 62-primitive set; 'Removed: TRUE (→ Bank 7)' lists TRUE as moved out of Bank 4's unipolar list."
+      },
+      {
+        "loc": "gse/_archive/primitives.py:130-131; docs/planning/gse_implementation_spec.md:2236; /Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/GSE/numerical_semantics_theory.md:377",
+        "who": "CODE_LEGACY / DOC_JUNE2026",
+        "quote": "# Action/State (Bank 4) / \"SAY\", \"WORDS\", \"TRUE\", \"DO\", \"HAPPEN\", \"MOVE\", (archive); \"SAY\", \"WORDS\", \"TRUE\", (spec); Bank 4 - ACTIONS/SPEECH: SAY, WORDS, TRUE, DO, HAPPEN, MOVE, BE, HAVE, EXIST, LIVE, DIE (paper)",
+        "note": "In the older 62-primitive sets TRUE is a unipolar word in the action/speech bank, with no FALSE."
+      },
+      {
+        "loc": "gse/curation/schema.py:100-116 and 153-178",
+        "who": "CODE_LEGACY",
+        "quote": "# Bank 7: LOGICAL (14 primitives) … \"TRUE\", / \"FALSE\",  # Bipolar: TRUTH … # BIPOLAR PAIRS (14 pairs - cannot both be non-zero) … (\"TRUE\", \"FALSE\"),  # TRUTH"
+      },
+      {
+        "loc": "gse/curation/llm/prompts.py:60-61,86",
+        "who": "CODE_LEGACY",
+        "quote": "## BANK 7 - LOGICAL (14 primitives) / NOT, MAYBE, CAN, MUST, BECAUSE, CAUSE, IF, LIKE, TRUE, FALSE, HIER_PLUS, HIER_MINUS, INTENSITY, CERTAINTY … - TRUE/FALSE (truth)",
+        "note": "Retired LLM prompt: the name is listed with the other bipolar pairs and given no definition; every few-shot example sets TRUE and FALSE to 0 (lines 244-245, 318-319, 392-393)."
+      },
+      {
+        "loc": "docs/LEXICON_STRATEGY_RECONSIDERATION.md:101 and 201-202",
+        "who": "DOC_JUNE2026",
+        "quote": "| true / false | LOGICAL | **+0.635** ✗ | −1 | … **Premise:** the 14 bipolar dimensions are theory-anchored. They shouldn't be discovered via aggregation — they're definitional.",
+        "note": "HISTORICAL document (its own header, line 3): a measurement of the retired lexicon and a general claim about all 14 bipolar dimensions, not a statement specific to TRUE."
+      },
+      {
+        "loc": "gse/curation/external_sources/bipolar_exclusion.py:4-9",
+        "who": "CODE_LEGACY",
+        "quote": "The 14 bipolar dimensions in NSM (GOOD/BAD, BIG/SMALL, NEAR/FAR, etc.) are defined to be mutually exclusive: a word activates at most one pole of each pair, never both."
+      }
+    ],
+    "nearest_nsm_primes_named_by_sources": [
+      {
+        "primes": "TRUE (the +1 pole is the NSM prime TRUE: 'this is true', 'this is not true')",
+        "loc": "foundation.json:8639-8647 (REQUIRES_ARGUMENT source NSM_CHART_V20; source_mapping NSM_LEXICAL_UNIT); chart lines 330-332",
+        "who": "CODE_CURRENT / NSM_CHART"
+      },
+      {
+        "primes": "FALSE: none named. NSM_RESOLUTIONS.md:289 lists the pole FALSE under 'GSE coordinates with no NSM prime'; the chart's 'this is not true' (line 332) is context only, and no source states that FALSE is NOT plus TRUE.",
+        "loc": "NSM_RESOLUTIONS.md:286-289",
+        "who": "AGENT_DOC"
+      }
+    ],
+    "chart_boxes_context_only": "TRUE nsm-primes-chart-v20-2022.txt:330-332. NOT~DON'T box 207-211 ('not good, not bad'). No FALSE box.",
+    "scale_numeric_semantics": "none stated",
+    "founder_record": [
+      "No Rohan-spoken entry names TRUE or FALSE. F076 (ROHAN, 358) speaks generally of the 14 opposite-pole aliases, and the identity claims for TRUE and FALSE cite 'F076, F098, F148; fixed GSE basis' (foundation.json:8617, 8717)."
+    ],
+    "contradiction_ids": [
+      "C10",
+      "C17"
+    ],
+    "absences": "No rule in bank_laws.json writes TRUE. TRUE and FALSE appear in no SOURCE_PRIMITIVE_COVERAGE entry (mapping_registry.py:44-247), no SOURCE_PRIMITIVE_SCOPE entry (source_scope.py:61-232), no legacy parser mapping table read (usas.py:35-172, framenet.py:37-167, verbnet.py:27-103, propbank.py:34-153, wordnet_hierarchy.py:40-123, conceptnet.py:45-121, wiktionary.py:46-144, nrc_vad.py) and not in EPA_POLES (prime_projection.py:26-47). LEXICON_CONSTRUCTION_DESIGN.md (re-read in full), EMOTION_SLICE_DRAFT.md and RULE_REVIEW.md (read in full) contain no statement about TRUE or FALSE as coordinates."
+  },
+  "_HIER_PAIR_SHARED": {
+    "note": "Statements that concern HIER_PLUS and HIER_MINUS together. The merge script copies them into both entries and marks them shared_with.",
+    "statements": [
+      {
+        "loc": "gse/primitives_v2.py:363,373-374",
+        "who": "CODE_REGISTRY",
+        "quote": "# Bank 7: LOGICAL (7 unipolar + hierarchy + 1 bipolar) … \"HIER_PLUS\",  # Positive hierarchy marker [+] / \"HIER_MINUS\",  # Negative hierarchy marker [−]",
+        "note": "SemanticBank.LOGICAL = 7 is described at line 54 as '# Modality, causation, hierarchy markers'."
+      },
+      {
+        "loc": "gse/primitives_v2.py:393-394,415-416",
+        "who": "CODE_REGISTRY",
+        "quote": "is_hierarchy_base: bool = False / is_hierarchy_marker: bool = False … is_hier_base = prim in (\"QUANTITY\", \"INTENSITY\", \"CERTAINTY\") / is_hier_marker = prim in (\"HIER_PLUS\", \"HIER_MINUS\")"
+      },
+      {
+        "loc": "gse/primitives_v2.py:209-214",
+        "who": "CODE_REGISTRY",
+        "quote": "class HierarchyLevel: \"\"\"A level in an ordinal hierarchy.\"\"\" / name: str  # English word (e.g., \"MANY\") / level: int  # Ordinal level (-3 to +3) / markers: int  # Number of HIER_PLUS or HIER_MINUS markers"
+      },
+      {
+        "loc": "gse/primitives_v2.py:225-256",
+        "who": "CODE_REGISTRY",
+        "quote": "# Quantity Hierarchy (7 levels, middle-anchored) / # Encoding: base QUANTITY + N hierarchy markers … \"MORE\": HierarchyLevel(\"MORE\", 1, 1),  # [+][QUANTITY] / \"MANY\": … 2, 2,  # [+][+][QUANTITY] / \"ALL\": … 3, 3,  # [+][+][+][QUANTITY] … # Intensity Hierarchy (5 levels) … \"VERY\": HierarchyLevel(\"VERY\", 1, 1),  # [+][INTENSITY] / \"EXTREMELY\": … 2, 2,  # [+][+][INTENSITY] … # Certainty Hierarchy (7 levels, epistemic modality) / # Encoding: base CERTAINTY + N hierarchy markers",
+        "note": "In every row markers = |level|; level 0 carries the base with no marker; the negative levels use [−] markers (for example SOME -1, FEW -2, NONE -3, BARELY -2, SLIGHTLY -1, DOUBTFUL -1, UNLIKELY -2, IMPOSSIBLE -3)."
+      },
+      {
+        "loc": "gse/primitives_v2.py:273-296",
+        "who": "CODE_REGISTRY",
+        "quote": "def get_hierarchy_encoding(modifier: str) -> Optional[Tuple[str, int, int]]: … Returns: (base_primitive, level, marker_count) or None / Example: get_hierarchy_encoding(\"MANY\") -> (\"QUANTITY\", 2, 2) / Meaning: QUANTITY base + 2 positive markers"
+      },
+      {
+        "loc": "gse/primitives_v2.py:659,697-741",
+        "who": "CODE_REGISTRY",
+        "quote": "hierarchy_level: int = 0  # For hierarchical modifiers … def expand_hierarchy_activation( … \"\"\"Expand a hierarchical modifier into base + marker activations. / Example: expand_hierarchy_activation(\"MANY\") -> [ (QUANTITY, \"degree\", +1, 0), (HIER_PLUS, \"degree\", +1, 1), (HIER_PLUS, \"degree\", +1, 2), ] … marker = \"HIER_PLUS\" if level > 0 else \"HIER_MINUS\"",
+        "note": "At lines 731-739 every marker is appended with polarity=Polarity.POSITIVE and hierarchy_level=i + 1: the direction of the level is carried by which marker is used, not by a negative polarity."
+      },
+      {
+        "loc": "gse/primitives_v2.py:466-499,506-600",
+        "who": "CODE_REGISTRY",
+        "quote": "HUB_PRIMITIVES (24 hubs, lines 466-499) and PRIMITIVE_FAMILIES (lines 506-600) name QUANTITY (hub line 472; family quantity_scalar lines 529-533: \"primitives\": [\"QUANTITY\"],  # + hierarchy levels) but no hub or family contains HIER_PLUS, HIER_MINUS, INTENSITY or CERTAINTY",
+        "note": "An absence read from the full listing."
+      },
+      {
+        "loc": "gse/lexicon_builder/fill.py:19-20,76-77",
+        "who": "CODE_CURRENT",
+        "quote": "# What each coordinate records: NSM exponents where NSM has the prime, and primitives_v2's hierarchy / # contract for GSE's scale coordinates. A bipolar coordinate names both poles. … \"HIER_PLUS\": \"up a scale (more, many, very, likely) on QUANTITY, INTENSITY or CERTAINTY\", / \"HIER_MINUS\": \"down a scale (less, few, slightly, unlikely) on QUANTITY, INTENSITY or CERTAINTY\"",
+        "note": "Sent verbatim to the local model as each field's 'means' (fill.py:139)."
+      },
+      {
+        "loc": "gse/lexicon_builder/foundation.json:9633-9637",
+        "who": "CODE_CURRENT",
+        "quote": "\"projection_contract\": { … \"HIER_PLUS_MINUS\": \"Directional scale operators; never duplicate NUMBER as new lexical content\","
+      },
+      {
+        "loc": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md:84",
+        "who": "AGENT_DOC",
+        "quote": "The [USAS guide] … describes signed positions on semantic scales and doubled/tripled markers for comparative/superlative positions. Preserve that ordinal evidence in the scale channel; do not blindly turn marker count into VERY, HIER_PLUS or another lexical row. (F083, F095–F098, F125–F126)"
+      },
+      {
+        "loc": "docs/verification/lexicon-rebuild/closeout-2026-10-25/NSM_RESOLUTIONS.md:291-293",
+        "who": "AGENT_DOC",
+        "quote": "- **NSM primes with no GSE coordinate:** THIS and (FOR) SOME TIME. / - VERY has none of its own; INTENSITY records whether degree applies (F125), which is a different contract. / - How MORE relates to HIER_PLUS and HIER_MINUS is not established here."
+      },
+      {
+        "loc": "docs/verification/lexicon-rebuild/foundation-2026-10-25/REPORT.md:124; openspec/changes/lexicon-symbolic-foundation/tasks.md:18; docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:1257",
+        "who": "AGENT_DOC / QUOTED_AGENT",
+        "quote": "GSE-only coordinates, which need written GSE definitions first (INFER, HIER±, CERTAINTY, START/END, THEN, OUTSIDE, TOWARD/AWAY, WITH/WITHOUT, CAUSE, MUST's construction scope). (REPORT.md:124) / F160: The sixty remaining entries include GSE adaptations; their written definitions should precede examination and closure. (founder record:1257)"
+      },
+      {
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:860",
+        "who": "QUOTED_AGENT",
+        "quote": "3. **Quantifiers:** QUANTITY as the shared base, with NUMBER for ordering, plus what *all* ranges over. What HIER± add beyond NUMBER is yours to define.",
+        "note": "Inside F151 (a pasted agent message, header line 6). F152 (ROHAN_ENDORSEMENT, line 875): 'I agree. I think you and the literature from NSM can resolve the \"open questions\" we have.'"
+      },
+      {
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:1070-1072",
+        "who": "QUOTED_AGENT",
+        "quote": "| Quantifiers | Keep QUANTITY, quantifier identity, range, and scope distinct. Preserve universal/existential behavior in the construction record. | / | NUMBER | Retain the separate scale operation; it preserves mask, zero, and polarity. | / | HIER± | Pin their existing directional meaning explicitly. Do not use them as guessed substitutes for quantifier identity or numerical gain. |",
+        "note": "F158 (a pasted agent message, header line 6)."
+      },
+      {
+        "loc": "docs/NSM_GRAMMAR_MAPPING.md:12-16,37-39,44-47,62",
+        "who": "DOC_JUNE2026",
+        "quote": "GSE's registry has **68 word-scale primes** (the lexicon basis, `tier_0_dispatch`) and **29 sentence-scale operators** (`SENTENCE_SCALE` + the hierarchy markers: `SYN_*`, `COMP_*`, `INTENSITY`, `QUANTITY`, `HIER_PLUS/MINUS`, `CERTAINTY`). … | very | `INTENSITY` | / | much, many, all, some, (a) few, (a) little | `QUANTITY` (± `HIER_*`) | / | more, most; -er/-est | `HIER_PLUS` / `HIER_MAX` | … This is a deliberate, **named** computational adaptation of canonical NSM: strict NSM keeps `MUCH/MANY, ALL, SOME, VERY, MORE` as atomic *quantifier/intensifier primes*, whereas GSE (like Fähndrich 2014) realizes them as **scalar operators** (`QUANTITY`/`INTENSITY`/`HIER`). Document it as an adaptation, not canon. … `most` → `QUANTITY` + `HIER_MAX`.",
+        "note": "HIER_MAX is named here and at definitional_decomposer.py:16 but is not one of the 72 names in basis.py."
+      },
+      {
+        "loc": "gse/curation/validation/hierarchy_validator.py:31-41,63-74,91-101,112-141",
+        "who": "CODE_LEGACY",
+        "quote": "Each uses HIER_PLUS and HIER_MINUS markers to indicate level. / Rules: / - HIER_PLUS and HIER_MINUS should not both be active / - If a hierarchy base is active (QUANTITY/INTENSITY/CERTAINTY), hierarchy markers should be consistent … \"message\": \"Hierarchy markers should not both be active\" … \"detail\": \"Hierarchy markers present without active hierarchy base\" … if hier_plus > 0: level = hier_plus  # Positive level / elif hier_minus > 0: level = -hier_minus  # Negative level / else: level = 0  # Neutral level",
+        "note": "The validator reads the markers as nonnegative counts (decomposition.get(\"HIER_PLUS\", 0))."
+      },
+      {
+        "loc": "gse/curation/build_clean_quantifiers.py:1-9,59-65",
+        "who": "CODE_LEGACY",
+        "quote": "A quantifier (``many``/``few``/``all``) or intensifier (``very``/``extremely``) is NOT a flat bag of primitives — it is a position on an ordinal axis: a **base bank** (QUANTITY / INTENSITY) carried with N **HIER_PLUS / HIER_MINUS markers**. The encoder stacks the markers as permuted copies (``gse.vectors_v2.encode_hierarchy``), so the level is real and stays inside the closed ternary basis. … base, signed_level, count = get_hierarchy_encoding(level_name) / decomp = {base: 1} / if count: decomp[\"HIER_PLUS\" if signed_level > 0 else \"HIER_MINUS\"] = count"
+      },
+      {
+        "loc": "gse/curation/decomposition/definitional_decomposer.py:14-16,67-72,80-81",
+        "who": "CODE_LEGACY",
+        "quote": "plural of X            -> QUANTITY_SCALAR   (X ⊕ QUANTITY via encode_hierarchy) / comparative of X       -> HIER_PLUS         (X ⊕ HIER_PLUS, level +1) / superlative of X       -> HIER_MAX          (hierarchy max — NOT the SCALAR_EXTREME stub) … # NSM treats these as quantity / intensity / modality, which GSE realizes as the sentence-scale QUANTITY / INTENSITY / HIER / COMP_* operators — not word-lexicon content … \"more\", / \"most\",  # intensity / degree"
+      },
+      {
+        "loc": "gse/vectors_v2.py:1023-1042",
+        "who": "CODE_REGISTRY",
+        "quote": "def encode_hierarchy(base_vec, marker_vec, level): \"\"\"Encode hierarchical modifier by stacking markers. / Example: MANY = QUANTITY + HIER_PLUS + HIER_PLUS (level=2) \"\"\" if level == 0: return base_vec … for i in range(abs(level)): # Permute marker to distinguish stacking levels / shifted_marker = permute(marker_vec, shift=i * 100)"
+      },
+      {
+        "loc": "gse/lexicon/numerals.py:21-25; /Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/GSE/pronouns_numbers.md:126-130",
+        "who": "CODE_LEGACY / ROHAN_PAPER",
+        "quote": "Numbers are encoded as iterative modifiers on SING primitive: / - 1 = SING / - 2 = SING + PLUR + HIER_PLUS=1 / - 3 = SING + PLUR + HIER_PLUS=2 (numerals.py) … | many | PLUR=1, HIER_PLUS=3 (unspecified count) | / | all, every | PLUR=1, HIER_PLUS=5 (maximal) | (pronouns_numbers.md)",
+        "note": "Sentence-scope numeral encodings using SING, PLUR and ZERO, none of which is in the 72-name basis."
+      },
+      {
+        "loc": "gse/lexicon/word_encoding.py:180-200,282-305",
+        "who": "CODE_LEGACY",
+        "quote": "- HIERARCHY: Intensity modifier, consumes sign, acts on atomic … \"very\" -> OperatorSpec(op_type=HIERARCHY, binding=GREEDY, hier_delta=+1) … hier_delta: Optional[int] = None  # +1 for \"very\", -1 for \"slightly\" … \"extremely\": hier_delta=2, \"slightly\": hier_delta=-1, \"barely\": hier_delta=-2"
+      },
+      {
+        "loc": "gse/lexicon/modifier_hierarchy.py:1-32",
+        "who": "CODE_LEGACY",
+        "quote": "Four core scales, each with 11 positions (-5 to +5) … Stack Operation Encoding: / - Base primitive: INTENSITY, QUANTITY, CERTAINTY, or FREQUENCY / - Direction: -1 or +1 / - Level: 1-5 / Example: \"very\" = INTENSITY with direction=+1, level=2",
+        "note": "Sentence-scope encoding with direction and level and no marker primitives."
+      },
+      {
+        "loc": "/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/GSE/GSE_V2.md:72,76-78,127",
+        "who": "ROHAN_PAPER",
+        "quote": "Encoding: Each [+] or [−] is a HIERARCHY MARKER primitive in Bank 7 … - `HIER_PLUS` (+1 in hierarchy dims) and `HIER_MINUS` (-1 in hierarchy dims) / - Stack additively: \"most\" = QUANTITY ⊕ HIER_PLUS ⊕ HIER_PLUS ⊕ HIER_PLUS … - HIER_PLUS, HIER_MINUS (hierarchy markers)"
+      },
+      {
+        "loc": "/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/GSE/sentence_architecture.md:12-13,29,37",
+        "who": "ROHAN_PAPER",
+        "quote": "something like None--few--Some--More--Many--Most--All? Where there's a set middle point, and we can assign an additive stack of modifiers to denote a fixed and identifiable hierarchy without relying on arbitrary multipliers? So, for example, \"Most\" can be [+][+][+][Quantity] or something? The [+] or [-] is not actually an operation or a multiplier, but an encoded denotation of hierarchy? (line 12) … each level of hierarchy of a modifier should encode for an increase in the order of magnitude (1-->10-->100...) (line 29) … hierarchy (0.01-0.1-1-10-100; the base modifier of intensity encoded as sign-aware doubling of the operation at each step) (line 37)",
+        "note": "An idea-dump document (its own title) with first-person passages; authorship of individual lines is not established."
+      },
+      {
+        "loc": "docs/ARCHITECTURE.md:192-197,238-243",
+        "who": "DOC_JUNE2026",
+        "quote": "**Quantifier/intensifier hierarchy rows.** A small layer (`gse/curation/build_clean_quantifiers.py`) wires the hierarchy-level words … to **ordinal** decompositions — `{base bank, HIER_PLUS/MINUS × level}` … A word carrying `HIER_PLUS`/`HIER_MINUS` markers (a quantifier/intensifier) is encoded as an **ordinal stack** (`encode_hierarchy`: `many = QUANTITY + 2·HIER_PLUS`), not a flat scalar — the markers stack on the gradable bank."
+      },
+      {
+        "loc": "gse/curation/external_sources/tier_0_dispatch.py:11-13; gse/curation/external_sources/source_scope.py:28-50; docs/LEXICON_REBUILD.md:25-26,74-75",
+        "who": "CODE_LEGACY / DOC_JUNE2026",
+        "quote": "The 5 primitives flagged ``is_hierarchy_marker`` or ``is_hierarchy_base`` (``HIER_PLUS``, ``HIER_MINUS``, ``INTENSITY``, ``CERTAINTY``, ``QUANTITY``) are operators/anchors, not English lemmas; they are excluded from Tier 0. (tier_0_dispatch) … 24 sentence-scale (SYN_*, COMP_*) + 5 hierarchy ops (HIER_PLUS/MINUS, INTENSITY, CERTAINTY, QUANTITY) = 29 primitives no word-scale source may vote for. (source_scope) … The 5 hierarchy primes + the sentence-scale operators are excluded from the word lexicon. (LEXICON_REBUILD)"
+      },
+      {
+        "loc": "gse/curation/llm/prompts.py:60-61,246-247,320-321,394-395",
+        "who": "CODE_LEGACY",
+        "quote": "NOT, MAYBE, CAN, MUST, BECAUSE, CAUSE, IF, LIKE, TRUE, FALSE, HIER_PLUS, HIER_MINUS, INTENSITY, CERTAINTY",
+        "note": "Retired LLM prompt lists both names with no definition, and every few-shot example sets both to 0."
+      },
+      {
+        "loc": "gse/lexicon_builder/build.py:72-73,130-136",
+        "who": "CODE_CURRENT",
+        "quote": "\"pole\": \"+1\" if tag[1][0] == \"+\" else \"-1\", / \"native_degree_rank\": len(tag[1]), … \"number_scale\": { \"family\": rule[\"family\"] + \":\" + match[\"pole\"], \"native_ordinal_rank\": match[\"native_degree_rank\"], \"coordinates\": [rule[\"coordinate\"]], \"numeric_gain\": None, \"status\": \"NATIVE_TAG_ORDER_ONLY; NOT_CROSS_WORD_CALIBRATED\" }",
+        "note": "The count of doubled USAS markers (for example ++) becomes native_degree_rank in the number_scale record of the reading. It is not written to HIER_PLUS or HIER_MINUS."
+      }
+    ],
+    "scale_numeric_semantics": [
+      {
+        "loc": "gse/primitives_v2.py:209-256,273-296",
+        "who": "CODE_REGISTRY",
+        "quote": "level is an ordinal in -3..+3 (QUANTITY, CERTAINTY) or -2..+2 (INTENSITY); markers is the number of HIER_PLUS or HIER_MINUS markers stacked on the base, equal to |level|."
+      },
+      {
+        "loc": "gse/vectors_v2.py:1036-1041",
+        "who": "CODE_REGISTRY",
+        "quote": "components = [base_vec] / for i in range(abs(level)): shifted_marker = permute(marker_vec, shift=i * 100); components.append(shifted_marker)",
+        "note": "Stacking by permuted copies of one marker vector."
+      },
+      {
+        "loc": "gse/curation/validation/hierarchy_validator.py:63-74,124-137",
+        "who": "CODE_LEGACY",
+        "quote": "Both HIER_PLUS ({hier_plus}) and HIER_MINUS ({hier_minus}) are non-zero … level = hier_plus  # Positive level … level = -hier_minus  # Negative level"
+      },
+      {
+        "loc": "gse/lexicon_builder/core.py:50-57",
+        "who": "CODE_CURRENT",
+        "quote": "\"\"\"Unpaired primes have no negative state; silence differs from zero.\"\"\" / states = {Cell.SILENT, Cell.ZERO, Cell.PLUS} / if coordinate in _BIPOLAR_COORDINATES: / states.add(Cell.MINUS)",
+        "note": "HIER_PLUS and HIER_MINUS are each a single canonical cell in {empty, 0, +1}; no pair in basis.py:57-72 contains either, so neither is the negative pole of the other."
+      },
+      {
+        "loc": "gse/lexicon_builder/foundation.json:9637",
+        "who": "CODE_CURRENT",
+        "quote": "\"HIER_PLUS_MINUS\": \"Directional scale operators; never duplicate NUMBER as new lexical content\""
+      },
+      {
+        "loc": "/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/GSE/sentence_architecture.md:29,37",
+        "who": "ROHAN_PAPER",
+        "quote": "each level of hierarchy of a modifier should encode for an increase in the order of magnitude (1-->10-->100...) … hierarchy (0.01-0.1-1-10-100; the base modifier of intensity encoded as sign-aware doubling of the operation at each step)"
+      },
+      {
+        "loc": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md:80,84",
+        "who": "AGENT_DOC",
+        "quote": "`realized_i = gain_i(S) × v_i`, with `gain_i(S) > 0` … The scalar's own record is an operator/scale field, not a `NUMBER:+1` row or a 59th coordinate. … do not blindly turn marker count into VERY, HIER_PLUS or another lexical row."
+      }
+    ]
+  },
+  "HIER_PLUS": {
+    "pair": "HIER_PLUS is not paired with HIER_MINUS in basis.py:57-72; both are separate unpaired canonical coordinates",
+    "shape": "unpaired; bank 7 (basis.py:47); legal states empty, 0, +1 (core.py:50-57)",
+    "foundation_profile": "foundation.json:8805-8904: surfaces [\"more\"] (8808-8810); profile_status GSE_ADAPTATION_PROFILE (8811); CLASSIFIES_HEAD non_substantive_operator (8826); CLASSIFIES_FAMILY operator (8834); REQUIRES_ARGUMENT source GSE_PROJECTION_V2 slots [\"base:quantity_intensity_or_certainty\"] (8836-8845); source_mapping GSE_ADAPTATION_NOT_AN_NSM_INVENTORY_CLAIM (8847); remaining_cells UNRESOLVED_UNTIL_EXAMINED (8848); definition_axiom DRAFT (8850)",
+    "statements": [
+      {
+        "loc": "gse/lexicon_builder/foundation.json:8805-8847",
+        "who": "CODE_CURRENT",
+        "quote": "\"prime\": \"HIER_PLUS\", \"reading_id\": \"prime:HIER_PLUS\", \"surfaces\": [ \"more\" ], \"profile_status\": \"GSE_ADAPTATION_PROFILE\" … HIER_PLUS:03:CLASSIFIES_FAMILY \"value\": \"operator\" … HIER_PLUS:ARGUMENT_PROFILE \"slots\": [ \"base:quantity_intensity_or_certainty\" ]",
+        "note": "The only surface the profile routes to HIER_PLUS is the English word 'more'."
+      },
+      {
+        "loc": "gse/primitives_v2.py:232",
+        "who": "CODE_REGISTRY",
+        "quote": "\"MORE\": HierarchyLevel(\"MORE\", 1, 1),  # [+][QUANTITY]",
+        "note": "In primitives_v2 'more' is a QUANTITY level (QUANTITY plus one HIER_PLUS marker), not HIER_PLUS alone."
+      },
+      {
+        "loc": "docs/NSM_GRAMMAR_MAPPING.md:39",
+        "who": "DOC_JUNE2026",
+        "quote": "| more, most; -er/-est | `HIER_PLUS` / `HIER_MAX` |"
+      },
+      {
+        "loc": "/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/GSE/GSE_V2.md:68",
+        "who": "ROHAN_PAPER",
+        "quote": "Level +1: MORE     = [+][QUANTITY]"
+      },
+      {
+        "loc": "gse/curation/build_clean_quantifiers.py:44-51",
+        "who": "CODE_LEGACY",
+        "quote": "\"less\": \"SOME\",  # the -1 decrease counterpart of more→MORE(+1)",
+        "note": "The comment names more→MORE(+1); the code maps 'more' by identity through QUANTITY_HIERARCHY (line 72-73), not to HIER_PLUS."
+      },
+      {
+        "loc": "gse/_archive/primitives.py:137-138,302,306; docs/planning/gse_implementation_spec.md:2256-2257; Core Documents/GSE/GSE_HDC_architecture.md:37; GSE_Novel_Contributions.md:74",
+        "who": "CODE_LEGACY / ROHAN_PAPER",
+        "quote": "\"NOT\", \"MAYBE\", \"CAN\", \"BECAUSE\", \"IF\", \"VERY\", \"MORE\", \"LIKE\" # Logical/Modifiers (Bank 7) (archive primitives.py) … # Intensifier / \"VERY\", \"MORE\", (spec) … | 2: EVALUATORS | GOOD, BAD, BIG, SMALL, VERY, MORE | (HDC architecture note) … \"degree\",         # Scalar degree (MORE, LESS) (archive roles)",
+        "note": "In the older 62-primitive sets MORE is a word-scale primitive (a separate prime from any marker)."
+      },
+      {
+        "loc": "docs/verification/lexicon-rebuild/research-2026-10-25/nsm-prime-facts/parts/very_more_evidence.json:2,41",
+        "who": "AGENT_DOC",
+        "quote": "Curated list of every place found where VERY or MORE (including the anymore allolex) is combined with one of the 41 primes, in the parts read. … (line 2) / Found in the parts read: the chart's MORE~ANYMORE box has 'someone wants more' and 'not living anymore'; the MUCH~MANY box has 'much more, many more'. (line 41)",
+        "note": "A research packet of facts about NSM primes ('they decide nothing', research-2026-10-25/README.md:3), filed at 19:17, after this pass began. Only this one file of the packet was read."
+      }
+    ],
+    "nearest_nsm_primes_named_by_sources": [
+      {
+        "primes": "MORE",
+        "loc": "foundation.json:8808-8810 (surface 'more'); NSM_GRAMMAR_MAPPING.md:39 (more → HIER_PLUS) and 44-47 (strict NSM keeps MORE as an atomic prime); NSM_RESOLUTIONS.md:293 ('How MORE relates to HIER_PLUS and HIER_MINUS is not established here.'); older sets list MORE as a primitive",
+        "who": "CODE_CURRENT / DOC_JUNE2026 / AGENT_DOC"
+      }
+    ],
+    "chart_boxes_context_only": "MORE~ANYMORE nsm-primes-chart-v20-2022.txt:241-248 ('someone wants more, someone does more, someone knows more', 'one more, two more, many more', 'not living anymore', 'not like this anymore'); VERY 249-255; MUCH~MANY 68-74. 'Using NSM in explications' lines 375-378 lists 'comparative (e.g. better than, more than)' among the non-universal constructions to avoid.",
+    "scale_numeric_semantics": "see the shared HIER_PLUS/HIER_MINUS scale statements (prepended by the merge script); plus: relation to NUMBER and INTENSITY is collected in hier_number_intensity_relations",
+    "founder_record": [
+      "No Rohan-spoken entry names HIER_PLUS or HIER_MINUS. F096 (ROHAN, 473-475) says 'number is a scalar multiplier that allows for hierarchcial relationships between words that are not divisible with pure balanced ternary. Like many vs most vs all'; F083 (ROHAN, 392) says 'doubleplus good is a pretty obvious set theory operation'.",
+      "F151 item 3 (QUOTED_AGENT, 860), F152 (ROHAN_ENDORSEMENT, 875), F158 table row 'HIER±' (QUOTED_AGENT, 1072), F160 (QUOTED_AGENT, 1257)."
+    ],
+    "contradiction_ids": [
+      "C01",
+      "C02",
+      "C04",
+      "C10",
+      "C15",
+      "C16"
+    ],
+    "absences": "No rule in bank_laws.json writes HIER_PLUS. It is written by no foundation.json claim except its own identity claim. No source parser table read (usas, framenet, verbnet, propbank, wordnet_hierarchy, conceptnet, wiktionary, nrc_vad) maps to it, and it is in no SOURCE_PRIMITIVE_COVERAGE (mapping_registry.py:44-247) or SOURCE_PRIMITIVE_SCOPE (source_scope.py:61-232). No source states what a written +1, a written 0 or silence on HIER_PLUS means for a lexical reading."
+  },
+  "HIER_MINUS": {
+    "pair": "HIER_MINUS is not paired with HIER_PLUS in basis.py:57-72; both are separate unpaired canonical coordinates",
+    "shape": "unpaired; bank 7 (basis.py:48); legal states empty, 0, +1 (core.py:50-57)",
+    "foundation_profile": "foundation.json:8905-9004: surfaces [\"less\"] (8908-8910); profile_status GSE_ADAPTATION_PROFILE (8911); CLASSIFIES_HEAD non_substantive_operator (8926); CLASSIFIES_FAMILY operator (8934); REQUIRES_ARGUMENT source GSE_PROJECTION_V2 slots [\"base:quantity_intensity_or_certainty\"] (8936-8945); source_mapping GSE_ADAPTATION_NOT_AN_NSM_INVENTORY_CLAIM (8947); remaining_cells UNRESOLVED_UNTIL_EXAMINED (8948); definition_axiom DRAFT (8950)",
+    "statements": [
+      {
+        "loc": "gse/lexicon_builder/foundation.json:8905-8947",
+        "who": "CODE_CURRENT",
+        "quote": "\"prime\": \"HIER_MINUS\", \"reading_id\": \"prime:HIER_MINUS\", \"surfaces\": [ \"less\" ], \"profile_status\": \"GSE_ADAPTATION_PROFILE\" … HIER_MINUS:03:CLASSIFIES_FAMILY \"value\": \"operator\" … HIER_MINUS:ARGUMENT_PROFILE \"slots\": [ \"base:quantity_intensity_or_certainty\" ]",
+        "note": "The only surface the profile routes to HIER_MINUS is the English word 'less'."
+      },
+      {
+        "loc": "gse/curation/build_clean_quantifiers.py:44-51",
+        "who": "CODE_LEGACY",
+        "quote": "\"less\": \"SOME\",  # the -1 decrease counterpart of more→MORE(+1)",
+        "note": "'less' is mapped to the QUANTITY level SOME (one HIER_MINUS marker on QUANTITY), not to HIER_MINUS alone."
+      },
+      {
+        "loc": "gse/primitives_v2.py:229-230",
+        "who": "CODE_REGISTRY",
+        "quote": "\"FEW\": HierarchyLevel(\"FEW\", -2, 2),  # [−][−][QUANTITY] / \"SOME\": HierarchyLevel(\"SOME\", -1, 1),  # [−][QUANTITY]"
+      },
+      {
+        "loc": "gse/curation/decomposition/definitional_decomposer.py:86-87",
+        "who": "CODE_LEGACY",
+        "quote": "\"less\", / \"least\",  # quantity",
+        "note": "'less' and 'least' are listed in the sentence-scale _OPERATOR_WORDS (informational zero at word scale), with the quantity group."
+      }
+    ],
+    "nearest_nsm_primes_named_by_sources": "none named. NSM_RESOLUTIONS.md:293 names MORE and HIER_MINUS in one sentence ('How MORE relates to HIER_PLUS and HIER_MINUS is not established here.'). No source names an NSM prime for 'less'.",
+    "chart_boxes_context_only": "LITTLE~FEW nsm-primes-chart-v20-2022.txt:89-92 (a different prime). No LESS box; the MORE~ANYMORE box (241-248) is the only comparative-direction box.",
+    "scale_numeric_semantics": "see the shared HIER_PLUS/HIER_MINUS scale statements (prepended by the merge script)",
+    "founder_record": [
+      "No Rohan-spoken entry names HIER_MINUS. See HIER_PLUS for F096, F083, F151 item 3, F152, F158 and F160."
+    ],
+    "contradiction_ids": [
+      "C01",
+      "C03",
+      "C10",
+      "C15",
+      "C16"
+    ],
+    "absences": "As for HIER_PLUS: no rule in bank_laws.json, no source parser table, no coverage or scope entry, and no stated meaning for a written +1, 0 or silence."
+  },
+  "INTENSITY": {
+    "shape": "unpaired; bank 7 (basis.py:49); legal states empty, 0, +1 (core.py:50-57); F040 (ROHAN, 176): 'Use only 0/+1 for unpaired primes (recommended)'",
+    "foundation_profile": "foundation.json:9005-9104: surfaces [\"intensity\"] (9008-9010); profile_status GSE_ADAPTATION_PROFILE (9011); CLASSIFIES_HEAD non_substantive_operator (9026); CLASSIFIES_FAMILY operator (9034); REQUIRES_ARGUMENT source GSE_PROJECTION_V2 slots [\"degree_bearing:content\"] (9036-9045); source_mapping GSE_ADAPTATION_NOT_AN_NSM_INVENTORY_CLAIM (9047); remaining_cells UNRESOLVED_UNTIL_EXAMINED (9048); definition_axiom DRAFT (9050). The coordinate is also written +1 by the examined profiles of GOOD, BAD, BIG, SMALL and WANT",
+    "statements": [
+      {
+        "loc": "gse/primitives_v2.py:221,237-244,375",
+        "who": "CODE_REGISTRY",
+        "quote": "INTENSITY = \"intensity\"  # Degree/strength … # Intensity Hierarchy (5 levels) / \"BARELY\": HierarchyLevel(\"BARELY\", -2, 2),  # [−][−][INTENSITY] / \"SLIGHTLY\": … -1, 1,  # [−][INTENSITY] / \"MODERATE\": … 0, 0,  # [INTENSITY] / \"VERY\": … 1, 1,  # [+][INTENSITY] / \"EXTREMELY\": … 2, 2,  # [+][+][INTENSITY] … \"INTENSITY\",  # Base for intensity hierarchy"
+      },
+      {
+        "loc": "gse/primitives_v2.py:176-186",
+        "who": "CODE_REGISTRY",
+        "quote": "Negation (``un-``/``dis-``/``in-`` … and the standalone ``NOT`` flip) inverts a word's evaluative *poles* but leaves its non-evaluative content intact: ``dislike = NOT(like)`` flips ONLY the {GOOD,BAD}-style bipolar axes; intensity and the unipolar primes (DO, KNOW, FEEL, SOMETHING …) are preserved (vision §IV-D)."
+      },
+      {
+        "loc": "gse/primitives_v2.py:630-631",
+        "who": "CODE_REGISTRY",
+        "quote": "# Modifier roles / \"degree\",  # Intensity level"
+      },
+      {
+        "loc": "gse/lexicon_builder/fill.py:78",
+        "who": "CODE_CURRENT",
+        "quote": "\"INTENSITY\": \"a degree applies (scale base: slightly, very, extremely)\"",
+        "note": "Sent verbatim to the local model as the field's 'means' (fill.py:139)."
+      },
+      {
+        "loc": "gse/lexicon_builder/foundation.json:9605-9631",
+        "who": "CODE_CURRENT",
+        "quote": "\"reading_id\": \"construction:very\", \"surfaces\": [ \"very\" ], \"operation\": \"INTENSITY_SCALE\", \"source\": \"GSE_PROJECTION_V2\" … \"claim_id\": \"SCALE:VERY\", \"kind\": \"ASSERTS_COMPONENT\", \"location\": \"F125-F126; VERY box\", \"warrant\": \"The VERY reading establishes an intensity scale; the degree is carried outside lexical signs.\", \"coordinate\": \"INTENSITY\", \"state\": \"+1\" … \"scale\": { \"family\": \"INTENSITY\", \"position\": \"VERY\", \"numeric_gain\": null }"
+      },
+      {
+        "loc": "gse/lexicon_builder/foundation.json:1774-1781,1932-1947,3298-3313",
+        "who": "CODE_CURRENT",
+        "quote": "GOOD:05:ESTABLISHES_DEGREE_DOMAIN, \"source\": \"NSM_CHART_V20\", \"location\": \"VERY box; WANT box; F125-F126\", \"warrant\": \"The chart grades this reading. F125 makes degree applicability INTENSITY, with relative strength kept in NUMBER.\", \"value\": \"graded_property\" … GOOD:D2 \"coordinates\": [\"INTENSITY\"], \"state\": \"+1\", \"location\": \"chart VERY box: 'very good'; F125-F126; row 5 stage 3 (F144)\", \"derived_by\": [\"OWN_DEGREE_BEARING_CONTENT\"], \"warrant\": \"The chart grades this reading, so a measure of degree is relevant to it (F125); NUMBER holds its value.\" … WANT:D2 \"location\": \"chart VERY box: 'I want it very much (=very)'; F125-F126; row 5 stage 3 (F144)\"",
+        "note": "REPORT.md:31,52-56 records five degree domains among the 49 judged chart lines (GOOD, BAD, BIG, SMALL, WANT)."
+      },
+      {
+        "loc": "gse/lexicon_builder/bank_laws.json:136-159",
+        "who": "CODE_CURRENT",
+        "quote": "\"rule_id\": \"OWN_DEGREE_BEARING_CONTENT\", \"review_state\": \"FOUNDER_APPROVED\", \"coordinates\": [ \"INTENSITY\" ], \"allowed\": [ [ \"+1\" ] ], \"guard\": [ [ \"own_degree_domain\", \"graded_property\" ] ], \"warrant\": \"Founder live clarification (2026-10-25): INTENSITY marks degree-bearing content; NUMBER holds relative strength. In the source-guided own scalar-property reading, a signed USAS semantic scale and compatible FrameNet property frame establish the applicable degree domain. This does not assert VERY, a numeric gain, or a general fact about an unaligned participant.\", \"positive\": \"a located good/bad-quality, size, or happy/sad-feeling property on its native semantic scale\", \"must_not\": \"an unrelated affect rating; a source alternative of another role; a literal atomic seed without this scoped source fact\""
+      },
+      {
+        "loc": "gse/lexicon_builder/bank_laws.json:1178,1218,1261,1319,1386",
+        "who": "CODE_CURRENT",
+        "quote": "\"degree_contract\": \"INTENSITY is presence of degree-bearing content, not VERY. Relative strength is NUMBER, never a change in sign or mask.\" (lines 1178, 1218, 1261: USAS own-quality, own-size and happy/sad rules) / \"degree_contract\": \"INTENSITY is presence of degree-bearing content, not VERY. Relative strength is NUMBER.\" (lines 1319, 1386: EMOTION_FEAR_ADJ and EMOTION_FEAR_NOUN)"
+      },
+      {
+        "loc": "gse/lexicon_builder/bank_laws.json:1444",
+        "who": "CODE_CURRENT",
+        "quote": "\"intensity\": \"Presence of degree-bearing content; relative strength belongs to the separate NUMBER operator. It is not a threshold for VERY-like strength.\"",
+        "note": "Last key of state_contract (lines 1411-1445), after the unpaired and bipolar state definitions."
+      },
+      {
+        "loc": "gse/lexicon_builder/build.py:96-102",
+        "who": "CODE_CURRENT",
+        "quote": "\"degree_contract\": { \"coordinate\": \"INTENSITY\", \"present\": \"DEFINITION_CONTAINS_DEGREE_BEARING_CONTENT\", \"relative_strength\": \"SEPARATE_NUMBER_OPERATOR_PRESERVING_SIGNS_AND_MASKS\", \"native_degree_rank\": match[\"native_degree_rank\"], \"rating_limit\": \"ASSOCIATION_VALENCE_AND_AROUSAL_DO_NOT_ESTABLISH_LEXICAL_SCALE\" }",
+        "note": "Part of the payload sent to the local model for a residual decision."
+      },
+      {
+        "loc": "gse/lexicon_builder/number.py:37-38",
+        "who": "CODE_CURRENT",
+        "quote": "if left[\"states\"][\"INTENSITY\"] != \"+1\": / return \"NO_INTENSITY_DOMAIN\""
+      },
+      {
+        "loc": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md:82",
+        "who": "AGENT_DOC",
+        "quote": "**INTENSITY is applicability; NUMBER is value.** F125–F126 settle this explicitly: `INTENSITY:+1` records that a measure of intensity is relevant to the definition, not that the word is sufficiently strong to count as “very.” `NUMBER` records what that intensity is. Do not ask a model to threshold plain versus amplified words to decide INTENSITY presence. In a source-guided own gradable-property reading, the guarded degree domain warrants that presence symbolically."
+      },
+      {
+        "loc": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md:238,248,262,316",
+        "who": "AGENT_DOC",
+        "quote": "The guarded degree-domain law writes `INTENSITY:+1`; NUMBER carries the relative strength separately. (238) … A signed USAS scale and compatible FrameNet property frame establish the guarded degree domain, so INTENSITY presence is now symbolic. (248) … `OWN_DEGREE_BEARING_CONTENT`: it corrects the former mistaken INTENSITY-as-VERY question for every applicable source reading. (262) … **Degree relevance versus degree value — resolved:** F125–F126 define INTENSITY as the presence of a relevant measure; NUMBER encodes its value. A model must not decide INTENSITY presence by classifying a word as ordinary versus VERY-like. (316)"
+      },
+      {
+        "loc": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md:49",
+        "who": "AGENT_DOC",
+        "quote": "its own pole; the companions its content requires, such as INTENSITY +1 on a prime the chart grades with VERY (F125–F126; row 5, F144)"
+      },
+      {
+        "loc": "docs/verification/lexicon-rebuild/closeout-2026-10-25/NSM_RESOLUTIONS.md:265-276",
+        "who": "AGENT_DOC",
+        "quote": "### \"Does the GOOD prime itself carry INTENSITY?\" / **The literature.** CH's VERY box: \"very big, very small, very good, very bad, very far, very near, a very short time, a very long time / I want it very much (=very) / very very big, very very good, very very far etc.\" … W1999's *apprehension* feels \"something bad, not very bad\" (p.86): the degree is relevant even when it is low. / **Now:** taking VERY is a combinatorial property, and design §2 puts those in the atom's profile. Record it on the atoms for GOOD, BAD, BIG, SMALL, FAR, NEAR, LONG_TIME, SHORT_TIME and WANT. / **At stage 3 (recommended):** also write INTENSITY +1 on those atoms' vectors, through row 5's degree law, with the VERY box as the warrant that their own content is graded.",
+        "note": "Approved at F144 (rule_decisions.json:9-20 covers rows 1-24 as recommended). foundation.json examines GOOD, BAD, BIG, SMALL and WANT (examined_primes 9647-9660); FAR, NEAR, LONG_TIME and SHORT_TIME are not yet examined."
+      },
+      {
+        "loc": "docs/verification/lexicon-rebuild/closeout-2026-10-25/NSM_RESOLUTIONS.md:287,292",
+        "who": "AGENT_DOC",
+        "quote": "INFER, CAUSE (see §6), MUST, CERTAINTY, INTENSITY, START, END, TOWARD, AWAY, WITH and WITHOUT; … VERY has none of its own; INTENSITY records whether degree applies (F125), which is a different contract."
+      },
+      {
+        "loc": "docs/verification/lexicon-rebuild/closeout-2026-10-25/RULE_REVIEW.md:89-98 and rule_decisions.json:67-76,315",
+        "who": "AGENT_DOC",
+        "quote": "**5. OWN_DEGREE_BEARING_CONTENT** (law, currently approved) / - **Writes:** INTENSITY +1. / - **Fires when:** `own_degree_domain = graded_property`. Rules 6–8 assert this. / - **Basis:** F125–F126: \"intensity encodes that there is a measure of intensity that is relevant. 'Number' encodes what the intensity *is*.\" … (RULE_REVIEW) / \"Does the GOOD prime itself carry INTENSITY?\": \"Its VERY-combinability goes in the atom's profile now; INTENSITY +1 on the atom through row 5 at stage 3 (row 5).\" (rule_decisions.json:315)"
+      },
+      {
+        "loc": "docs/verification/lexicon-rebuild/closeout-2026-10-25/EMOTION_SLICE_DRAFT.md:81,120",
+        "who": "AGENT_DOC",
+        "quote": "| INTENSITY | +1 | +1 | +1 | row 5 (F125–F126) | … - \"very\" writes INTENSITY;",
+        "note": "Line 120 is one of the GSE projection choices behind the emotion-slice gold ('These are GSE choices, not Wierzbicka's', line 113)."
+      },
+      {
+        "loc": "docs/verification/lexicon-rebuild/foundation-2026-10-25/REPORT.md:52-56",
+        "who": "AGENT_DOC",
+        "quote": "| GOOD | GOOD +1; INTENSITY +1 (degree); SOMETHING 0 (row 3); the other 7 substantive cells 0 (3b); BIG 0 (F067) | 47 | 6 combinations, 1 degree domain | … | WANT | WANT +1; INTENSITY +1 (\"I want it very much\"); 8 substantive cells 0 (predicate head) | 48 | 6 combinations, 1 degree domain |"
+      },
+      {
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:613-621",
+        "who": "ROHAN (answer lines) / QUOTED_AGENT (question)",
+        "quote": "> One shared rule needs an exact interpretation before I change assignments: does INTENSITY:+1 mark a degree-bearing domain, while NUMBER distinguishes relative strengths such as happy/delighted, or does INTENSITY:+1 specifically assert VERY-like amplification? The current builder used the second reading; the older registry describes INTENSITY as a hierarchy base. Your NUMBER rule settles relative scale, but I should not invent the remaining bank contract. / INTENSITY marks degree-bearing content; NUMBER holds relative strength (F125, line 617) / Yes, intensity encodes that there is a measure of intensity that is relevant. \"Number\" encodes what the intensity *is* (F126, line 621)",
+        "note": "The blockquote in F125 is an agent's question pasted by Rohan; line 617 and F126 (line 621) are Rohan's own words."
+      },
+      {
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:314",
+        "who": "ROHAN",
+        "quote": "You can be \"exceptional\" (EVAL: <GOOD:+1, BAD:-1>, INTENSIFIER: <VERY:+1>\", but you can't be \"big good\" (your capacity for \"good\"-ness is evaluated, not described)).",
+        "note": "F067. VERY is named as the +1 value of an 'INTENSIFIER' bank in an informal sketch; no coordinate called INTENSIFIER or VERY exists in basis.py."
+      },
+      {
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:392",
+        "who": "ROHAN",
+        "quote": "What does it mean to be good? If you know that, and all the other atomic words, then \"doubleplus good\" is a pretty obvious set theory operation.",
+        "note": "F083."
+      },
+      {
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:370",
+        "who": "ROHAN",
+        "quote": "Like, a hand-wavy example, if the inputs we ahve are that a word is <GOOD:+1, VERY:+1>, then the model is handed <WANT:<>, HAPPEN:<>, SAY:<>,...etc>, and the output is just those fields filled in with +/-1, 0, or <empty>.",
+        "note": "F078, Rohan's own description of the example as 'hand-wavy'. VERY appears as a field with value +1 beside GOOD:+1; no coordinate called VERY exists in basis.py."
+      },
+      {
+        "loc": "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:806,844,933,1051,1079",
+        "who": "QUOTED_AGENT",
+        "quote": "F146: Approved review row 5 proposes INTENSITY on gradable atoms, while atomic_proof (…atomics.py:14) and its tests require exactly one nonzero content coordinate. Adding INTENSITY currently raises an error. (806) / F151: INTENSITY, NUMBER, felt valence and CAUSE option B are settled and shouldn't be reopened. (844) / F156: The cells it does write are real, like INTENSITY +1 on the graded primes. (933) / F158: Removing the sole degree warrant reopens the affected INTENSITY decision. (1051) … Preserve the already settled INTENSITY, NUMBER, felt-valence, and CAUSE option B decisions. (1079)"
+      },
+      {
+        "loc": "gse/curation/external_sources/nrc_vad.py:126-134 (and 6, 41-42)",
+        "who": "CODE_LEGACY",
+        "quote": "The previous mappings (Arousal → INTENSITY, Dominance → CAN/MUST) were category errors — INTENSITY is the GSE hierarchy anchor for BARELY/SLIGHTLY/.../EXTREMELY, not a generic intensity tag; CAN/MUST are logical-modal primitives, not affective.",
+        "note": "The same file's module docstring (line 6) still reads 'Arousal: calm to excited (maps to INTENSITY)' and the class docstring (lines 41-42) '- Arousal > 0.6 -> INTENSITY: +1 / - Arousal < 0.4 -> INTENSITY: -1'."
+      },
+      {
+        "loc": "gse/curation/external_sources/source_scope.py:4-11,28-50; docs/LEXICON_STRATEGY_RECONSIDERATION.md:71-76",
+        "who": "CODE_LEGACY / DOC_JUNE2026",
+        "quote": "NRC VAD voting on LOGICAL primitives (INTENSITY, MUST), Lancaster voting on TEMPORAL primitives, etc., cause cross-bank pollution (source_scope) … Per ``sentence_architecture.md``: tense, modifiers, comparison operators, and intensity/hierarchy anchors are sentence-scale concerns. The word-scale lexicon stores informational zeros for these dimensions but never activates them. (source_scope) … Plus NRC VAD parser bug fix removing the Arousal → INTENSITY and Dominance → CAN/MUST mappings. (reconsideration)"
+      },
+      {
+        "loc": "gse/curation/constraint_aggregation/mapping_registry.py:127-130,227-246",
+        "who": "CODE_LEGACY",
+        "quote": "\"nrc_vad\": { \"definitive\": [\"GOOD\"],  # Valence maps directly / \"inferential\": [\"INTENSITY\", \"CAN\", \"MUST\"], } … \"usas\": { … \"inferential\": [ \"SAME\", \"OTHER\", \"INTENSITY\", \"CAN\", \"MUST\", \"MAYBE\", \"START\", \"END\", \"LONG_TIME\", \"SHORT_TIME\", \"SOME\", \"ALL\", \"MUCH\", \"LITTLE\", \"CAUSE\", \"INSIDE\", \"BE\", ]"
+      },
+      {
+        "loc": "gse/curation/external_sources/usas.py:45,175-180,317-329",
+        "who": "CODE_LEGACY",
+        "quote": "\"A9\": {\"INTENSITY\": 1},  # Getting/losing … \"++\": {\"GOOD\": 1, \"INTENSITY\": 1}, / \"--\": {\"GOOD\": -1, \"INTENSITY\": 1}, … if plus_count > minus_count: primitives[\"GOOD\"] = 1 / if plus_count > 1: primitives[\"INTENSITY\"] = 1 / elif minus_count > plus_count: primitives[\"GOOD\"] = -1 / if minus_count > 1: primitives[\"INTENSITY\"] = 1"
+      },
+      {
+        "loc": "legacy source-to-INTENSITY mappings",
+        "who": "CODE_LEGACY",
+        "quote": "verbnet.py:57-58 whisper → {SAY:1, WORDS:1, INTENSITY:-1}, shout → {…, INTENSITY:1}; conceptnet.py:94-95,114 fast → INTENSITY 1, slow → INTENSITY -1, quiet → {HEAR:1, INTENSITY:-1}; framenet.py:162 FE Degree → {INTENSITY:1}; propbank.py:46 ARGM-EXT → {INTENSITY:1}; wiktionary.py:142-143 frequentative|intensive → {INTENSITY:1}; prompts.py:61 lists INTENSITY with no definition and gives \"happy\" and \"sad\" INTENSITY 1 (lines 248, 322) and \"walk\" INTENSITY 0 (line 396)"
+      },
+      {
+        "loc": "docs/NSM_GRAMMAR_MAPPING.md:37,44-47",
+        "who": "DOC_JUNE2026",
+        "quote": "| very | `INTENSITY` | … strict NSM keeps `MUCH/MANY, ALL, SOME, VERY, MORE` as atomic *quantifier/intensifier primes*, whereas GSE (like Fähndrich 2014) realizes them as **scalar operators** (`QUANTITY`/`INTENSITY`/`HIER`)."
+      },
+      {
+        "loc": "gse/curation/external_sources/tier_0_dispatch.py:11-13; docs/LEXICON_REBUILD.md:26,74-75",
+        "who": "CODE_LEGACY / DOC_JUNE2026",
+        "quote": "(``HIER_PLUS``, ``HIER_MINUS``, ``INTENSITY``, ``CERTAINTY``, ``QUANTITY``) are operators/anchors, not English lemmas; they are excluded from Tier 0. … **Grammatical words have three homes:** word-scale prime (tier-0), sentence-scale operator (`comp_*` / `SYN_*` / `INTENSITY` / `QUANTITY`), or informational zero — never decomposed as content."
+      },
+      {
+        "loc": "gse/lexicon/modifier_hierarchy.py:1-9,40-84; gse/lexicon/word_encoding.py:175-200; gse/curation/build_clean_quantifiers.py:5-9,52-55",
+        "who": "CODE_LEGACY",
+        "quote": "1. INTENSITY Scale / -5: not at all     0: [neutral]     +5: absolutely / -3: slightly       +2: very / -1: somewhat       +4: extremely (modifier_hierarchy) … \"very\": {\"direction\": 1, \"level\": 2} (line 64) … \"very\" -> OperatorSpec(op_type=HIERARCHY, binding=GREEDY, hier_delta=+1) (word_encoding) … # intensity (the gradable-adjective intensifiers surfaced by the flywheel) / \"too\": \"VERY\", \"really\": \"VERY\", \"quite\": \"VERY\" (build_clean_quantifiers)"
+      },
+      {
+        "loc": "docs/ARCHITECTURE.md:238-243",
+        "who": "DOC_JUNE2026",
+        "quote": "An INTENSITY modifier binds into a following gradable adjective (`very big` → markers fold onto `BIG`; `very happy` → onto `GOOD`)."
+      },
+      {
+        "loc": "/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/GSE/GSE_V2.md:80-89,128,314",
+        "who": "ROHAN_PAPER",
+        "quote": "**Intensity Hierarchy** (for non-quantity modifiers): / INTENSITY HIERARCHY (5 levels): / Level -2: BARELY   = [−][−][INTENSITY] … Level +2: EXTREMELY= [+][+][INTENSITY] … - INTENSITY (base for intensity hierarchy) … Learns: \"FEEL + EVALUATION(+) + INTENSITY(+) → 'ecstatic'\""
+      },
+      {
+        "loc": "/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/GSE/sentence_architecture.md:12-13",
+        "who": "ROHAN_PAPER",
+        "quote": "There needs to be a way to rigorously decompose intensity without relying on arbitrary multipliers, particularly since we’re intentionally quantizing the data to balanced ternary. … Pretty proud of this system as a way of deconvoluting the idea of \"intensity\" in speech (a continuous and non-normalized scale system) to a usably-objective relative encoding system using the stack operation insight.",
+        "note": "First-person prose in an idea-dump file (its own title); authorship of the lines is not established."
+      },
+      {
+        "loc": "/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/GSE/sentence_architecture.md:92",
+        "who": "ROHAN_PAPER",
+        "quote": "| NRCVADParser | ~20K words | GOOD, INTENSITY, CAN/MUST |",
+        "note": "A row of a parser table inside a pasted status report (lines 84-117, which ends 'The build is progressing well at ~4 words/second'); not first-person prose, and it describes the retired NRC VAD parser."
+      },
+      {
+        "loc": "gse/_archive/primitives.py:137-138,302-306; Core Documents/GSE/GSE_HDC_architecture.md:37; GSE_Novel_Contributions.md:74; numerical_semantics_theory.md:373; docs/planning/gse_implementation_spec.md:2256-2257",
+        "who": "CODE_LEGACY / ROHAN_PAPER",
+        "quote": "\"intensity\",      # How much/strong (VERY, MORE, LITTLE) (archive roles) … | 2: EVALUATORS | GOOD, BAD, BIG, SMALL, VERY, MORE | (HDC architecture) … # Intensifier / \"VERY\", \"MORE\", (spec)",
+        "note": "In the older 62-primitive sets VERY is a word-scale primitive in the EVALUATORS bank or the 'Intensifier' slot, and there is no INTENSITY coordinate."
+      },
+      {
+        "loc": "docs/verification/lexicon-rebuild/research-2026-10-25/nsm-prime-facts/parts/very_more_evidence.json:2,40",
+        "who": "AGENT_DOC",
+        "quote": "Curated list of every place found where VERY or MORE (including the anymore allolex) is combined with one of the 41 primes, in the parts read. … (line 2) / Found in the parts read: the chart's VERY box lists very big, very small, very good, very bad and 'I want it very much (=very)'; the LITTLE~FEW box has 'very little, very few'; GW2014 pp.34-35 'very small', 'very few things', 'very bad things'; GW2014 pp.174-176 'something very good'; GW2014 p.136 'Does it hurt very much?'; LFH22 pp.11 and 13 'something very bad'. (line 40)",
+        "note": "A research packet of facts about NSM primes ('they decide nothing', research-2026-10-25/README.md:3), filed at 19:17, after this pass began. Only this one file of the packet was read."
+      }
+    ],
+    "nearest_nsm_primes_named_by_sources": [
+      {
+        "primes": "VERY",
+        "loc": "NSM_RESOLUTIONS.md:267,270-271,292 (the chart's VERY box is the warrant that atoms' own content is graded; 'VERY has none of its own [GSE coordinate]; INTENSITY records whether degree applies (F125), which is a different contract'); NSM_GRAMMAR_MAPPING.md:37 (very → INTENSITY), 44-47 (strict NSM keeps VERY as an atomic prime); EMOTION_SLICE_DRAFT.md:120 ('very' writes INTENSITY); foundation.json:9606-9623 (construction:very SCALE:VERY writes INTENSITY +1); LEXICON_FOUNDER_WORDS F067 line 314 ('INTENSIFIER: <VERY:+1>') and F078 line 370 ('<GOOD:+1, VERY:+1>')",
+        "who": "AGENT_DOC / DOC_JUNE2026 / CODE_CURRENT / ROHAN"
+      },
+      {
+        "primes": "none named as an NSM prime for INTENSITY itself: NSM_RESOLUTIONS.md:287 lists INTENSITY among 'GSE coordinates with no NSM prime'; bank_laws.json:1178 and design L82 say INTENSITY is 'not VERY'",
+        "loc": "NSM_RESOLUTIONS.md:286-287; bank_laws.json:1178; LEXICON_CONSTRUCTION_DESIGN.md:82",
+        "who": "AGENT_DOC / CODE_CURRENT"
+      }
+    ],
+    "chart_boxes_context_only": "VERY nsm-primes-chart-v20-2022.txt:249-255; LITTLE~FEW 89-92 ('very little, very few' per NSM_RESOLUTIONS.md:267); WANT box ('I want it very much'); function word 'a lot': a variant of 'very much~many' (line 396).",
+    "scale_numeric_semantics": [
+      {
+        "loc": "gse/lexicon_builder/bank_laws.json:1444; docs/program/LEXICON_CONSTRUCTION_DESIGN.md:82; docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:617,621 (F125, F126)",
+        "who": "CODE_CURRENT / AGENT_DOC / ROHAN",
+        "quote": "INTENSITY is presence (applicability) of a degree-bearing domain; relative strength is held by NUMBER; it 'is not a threshold for VERY-like strength'."
+      },
+      {
+        "loc": "gse/primitives_v2.py:237-244",
+        "who": "CODE_REGISTRY",
+        "quote": "INTENSITY_HIERARCHY: BARELY -2, SLIGHTLY -1, MODERATE 0, VERY +1 (one marker), EXTREMELY +2 (two markers), each stacked on the INTENSITY base."
+      },
+      {
+        "loc": "gse/lexicon/modifier_hierarchy.py:1-32,40-84",
+        "who": "CODE_LEGACY",
+        "quote": "INTENSITY scale of 11 positions (-5 to +5); 'very' = direction +1, level 2."
+      },
+      {
+        "loc": "foundation.json:9626-9630",
+        "who": "CODE_CURRENT",
+        "quote": "\"scale\": { \"family\": \"INTENSITY\", \"position\": \"VERY\", \"numeric_gain\": null }"
+      },
+      {
+        "loc": "gse/lexicon_builder/core.py:50-57; docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md:176 (F040)",
+        "who": "CODE_CURRENT / ROHAN",
+        "quote": "INTENSITY is unpaired: legal states empty, 0, +1; 'Use only 0/+1 for unpaired primes (recommended)'. Legacy sources write INTENSITY -1 (conceptnet.py:95,114; verbnet.py:57)."
+      },
+      {
+        "loc": "gse/primitives_v2.py:176-186",
+        "who": "CODE_REGISTRY",
+        "quote": "word-scale negation preserves intensity"
+      }
+    ],
+    "founder_record": [
+      "F040 (ROHAN, 172-176): unpaired primes use only 0/+1.",
+      "F067 (ROHAN, 308-316): 'INTENSIFIER: <VERY:+1>'.",
+      "F078 (ROHAN, 366-372): hand-wavy example '<GOOD:+1, VERY:+1>'.",
+      "F083 (ROHAN, 390-392): 'doubleplus good is a pretty obvious set theory operation'.",
+      "F098 (ROHAN, 481-491): NUMBER 'allows for synonyms with differing intensity to be representable as the same word but with hierarchical discrimination'.",
+      "F125 (agent question pasted by Rohan, 613-617) with Rohan's answer 'INTENSITY marks degree-bearing content; NUMBER holds relative strength' (617).",
+      "F126 (ROHAN, 619-621): 'Yes, intensity encodes that there is a measure of intensity that is relevant. \"Number\" encodes what the intensity *is*'.",
+      "F144 (ROHAN, 780): blanket approval; rule_decisions.json:67-76 records row 5 'APPROVED_AS_RECOMMENDED'.",
+      "F146 (QUOTED_AGENT, 805-806), F151 (QUOTED_AGENT, 844), F156 (QUOTED_AGENT, 920,933), F158 (QUOTED_AGENT, 1051,1079)."
+    ],
+    "contradiction_ids": [
+      "C02",
+      "C10",
+      "C16",
+      "C18",
+      "C19",
+      "C22"
+    ],
+    "absences": "bank_laws.json writes INTENSITY only through OWN_DEGREE_BEARING_CONTENT (+1). No source states a meaning for INTENSITY 0 or for INTENSITY on a function word other than 'very'. The only mention of HIER_PLUS in LEXICON_CONSTRUCTION_DESIGN.md found on a full re-read is line 84, and HIER_MINUS is not named there."
+  },
+  "CERTAINTY": {
+    "shape": "unpaired; bank 7 (basis.py:50); legal states empty, 0, +1 (core.py:50-57)",
+    "foundation_profile": "foundation.json:9105-9204: surfaces [\"certainty\"] (9108-9110); profile_status GSE_ADAPTATION_PROFILE (9111); CLASSIFIES_HEAD non_substantive_operator (9126); CLASSIFIES_FAMILY operator (9134); REQUIRES_ARGUMENT source GSE_PROJECTION_V2 slots [\"proposition:content\"] (9136-9145); source_mapping GSE_ADAPTATION_NOT_AN_NSM_INVENTORY_CLAIM (9147); remaining_cells UNRESOLVED_UNTIL_EXAMINED (9148); definition_axiom DRAFT (9150)",
+    "statements": [
+      {
+        "loc": "gse/primitives_v2.py:222,246-256,376",
+        "who": "CODE_REGISTRY",
+        "quote": "CERTAINTY = \"certainty\"  # Epistemic modality … # Certainty Hierarchy (7 levels, epistemic modality) / # Encoding: base CERTAINTY + N hierarchy markers / \"IMPOSSIBLE\": HierarchyLevel(\"IMPOSSIBLE\", -3, 3),  # [−][−][−][CERTAINTY] / \"UNLIKELY\": … -2, 2 / \"DOUBTFUL\": … -1, 1 / \"POSSIBLE\": HierarchyLevel(\"POSSIBLE\", 0, 0),  # [CERTAINTY] (= MAYBE) / \"PROBABLE\": … 1, 1 / \"LIKELY\": … 2, 2 / \"CERTAIN\": … 3, 3,  # [+][+][+][CERTAINTY] … \"CERTAINTY\",  # Base for certainty hierarchy"
+      },
+      {
+        "loc": "gse/primitives_v2.py:366",
+        "who": "CODE_REGISTRY",
+        "quote": "\"MAYBE\",  # Epistemic possibility (= POSSIBLE anchor in CERTAINTY hierarchy)"
+      },
+      {
+        "loc": "gse/lexicon_builder/fill.py:79",
+        "who": "CODE_CURRENT",
+        "quote": "\"CERTAINTY\": \"a degree of certainty applies (scale base: possible, likely, certain)\"",
+        "note": "Sent verbatim to the local model as the field's 'means' (fill.py:139)."
+      },
+      {
+        "loc": "gse/lexicon_builder/foundation.json:9105-9147",
+        "who": "CODE_CURRENT",
+        "quote": "\"prime\": \"CERTAINTY\", \"reading_id\": \"prime:CERTAINTY\", \"surfaces\": [ \"certainty\" ], \"profile_status\": \"GSE_ADAPTATION_PROFILE\" … CERTAINTY:03:CLASSIFIES_FAMILY \"value\": \"operator\" … CERTAINTY:ARGUMENT_PROFILE \"slots\": [ \"proposition:content\" ]"
+      },
+      {
+        "loc": "docs/verification/lexicon-rebuild/closeout-2026-10-25/NSM_RESOLUTIONS.md:286-287",
+        "who": "AGENT_DOC",
+        "quote": "- **GSE coordinates with no NSM prime:** / - INFER, CAUSE (see §6), MUST, CERTAINTY, INTENSITY, START, END, TOWARD, AWAY, WITH and WITHOUT;"
+      },
+      {
+        "loc": "docs/verification/lexicon-rebuild/foundation-2026-10-25/REPORT.md:124; openspec/changes/lexicon-symbolic-foundation/tasks.md:18",
+        "who": "AGENT_DOC",
+        "quote": "GSE-only coordinates, which need written GSE definitions first (INFER, HIER±, CERTAINTY, START/END, THEN, OUTSIDE, TOWARD/AWAY, WITH/WITHOUT, CAUSE, MUST's construction scope)."
+      },
+      {
+        "loc": "gse/curation/validation/hierarchy_validator.py:34",
+        "who": "CODE_LEGACY",
+        "quote": "- CERTAINTY: IMPOSSIBLE(-3) to CERTAIN(+3) with POSSIBLE(0)"
+      },
+      {
+        "loc": "gse/curation/build_clean_quantifiers.py:22-23",
+        "who": "CODE_LEGACY",
+        "quote": "CERTAINTY (possible/likely/probable…) is deliberately OUT OF SCOPE here — that is the modal track, a separate gap."
+      },
+      {
+        "loc": "gse/curation/external_sources/source_scope.py:205-209",
+        "who": "CODE_LEGACY",
+        "quote": "# USAS: UCREL semantic-field taxonomy … Excluded: quantifier fields (the quantifier layer owns those), pronoun/deixis fields (tier-0 owns the primes), modality (the modal track is a separate gap), and affect modifiers (owned by the affect sources)."
+      },
+      {
+        "loc": "gse/curation/external_sources/framenet.py:46",
+        "who": "CODE_LEGACY",
+        "quote": "\"Certainty\": {\"KNOW\": 1, \"CERTAINTY\": 1},",
+        "note": "The only mapping from a source tag to CERTAINTY in the legacy parsers read."
+      },
+      {
+        "loc": "gse/lexicon/modifier_hierarchy.py:16-19,137-170",
+        "who": "CODE_LEGACY",
+        "quote": "3. CERTAINTY Scale / -5: impossible     0: [neutral]     +5: certainly / -3: unlikely       +2: probably / -1: maybe          +4: definitely … \"maybe\": {\"direction\": -1, \"level\": 1}, … \"likely\": {\"direction\": 1, \"level\": 1}, \"probably\": {\"direction\": 1, \"level\": 2}, … \"certainly\": {\"direction\": 1, \"level\": 4},"
+      },
+      {
+        "loc": "gse/symbolic/modality.py:121-126,144-157",
+        "who": "CODE_LEGACY",
+        "quote": "# The primes that make a clause modal when its auxiliary carries them (#66): Bank 7's modal primes (primitives_v2.BANK_7_UNIPOLAR), where GSE puts modality. \"might\"/\"may\"/\"would\" → MAYBE, \"can\"/\"could\" → CAN, / # \"must\"/\"should\" → MUST. … MODAL_PRIMES = frozenset({\"MAYBE\", \"CAN\", \"MUST\"})",
+        "note": "CERTAINTY is not among MODAL_PRIMES."
+      },
+      {
+        "loc": "docs/NSM_GRAMMAR_MAPPING.md:12-16,55-61",
+        "who": "DOC_JUNE2026",
+        "quote": "**29 sentence-scale operators** (`SENTENCE_SCALE` + the hierarchy markers: `SYN_*`, `COMP_*`, `INTENSITY`, `QUANTITY`, `HIER_PLUS/MINUS`, `CERTAINTY`) … modals `would, could, should, may` → via `CAN` / `MAYBE` / `MUST` / `GOOD`+`WANT` (no atomic modal prime exists). … `would → MAYBE` (the hypothetical), `may/might → MAYBE`"
+      },
+      {
+        "loc": "gse/curation/build_clean_closed_class.py:54-72",
+        "who": "CODE_LEGACY",
+        "quote": "#: Words that realize a prime (the founder's decision, 2026-10-04). … \"may\": {\"MAYBE\": 1}, \"might\": {\"MAYBE\": 1}, \"perhaps\": {\"MAYBE\": 1}, … \"could\": {\"CAN\": 1}, \"should\": {\"MUST\": 1}, \"would\": {\"MAYBE\": 1},"
+      },
+      {
+        "loc": "legacy source-to-MAYBE mappings",
+        "who": "CODE_LEGACY",
+        "quote": "usas.py:43 A7 Probability → MAYBE; propbank.py:48 ARGM-MOD → MAYBE; wiktionary.py:133 maybe|perhaps|possibly|might → MAYBE; verbnet.py:70 believe → {THINK, MAYBE}; framenet.py:45 Opinion → {THINK, MAYBE}"
+      },
+      {
+        "loc": "gse/curation/llm/prompts.py:61,249,323,397",
+        "who": "CODE_LEGACY",
+        "quote": "NOT, MAYBE, CAN, MUST, BECAUSE, CAUSE, IF, LIKE, TRUE, FALSE, HIER_PLUS, HIER_MINUS, INTENSITY, CERTAINTY",
+        "note": "Retired LLM prompt lists CERTAINTY with no definition; every few-shot example sets CERTAINTY to 0."
+      },
+      {
+        "loc": "/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/GSE/pronouns_numbers.md:165-170",
+        "who": "ROHAN_PAPER",
+        "quote": "### CERTAINTY Scale / -5: impossible     0: [neutral]     +5: certainly / -3: unlikely       +2: probably / -1: maybe          +4: definitely"
+      },
+      {
+        "loc": "gse/curation/external_sources/tier_0_dispatch.py:11-13; source_scope.py:28-50",
+        "who": "CODE_LEGACY",
+        "quote": "(``HIER_PLUS``, ``HIER_MINUS``, ``INTENSITY``, ``CERTAINTY``, ``QUANTITY``) are operators/anchors, not English lemmas; they are excluded from Tier 0."
+      }
+    ],
+    "nearest_nsm_primes_named_by_sources": [
+      {
+        "primes": "MAYBE (the POSSIBLE level, level 0, of the CERTAINTY hierarchy is equated with MAYBE)",
+        "loc": "gse/primitives_v2.py:252,366",
+        "who": "CODE_REGISTRY",
+        "note": "modifier_hierarchy.py:152 places 'maybe' at CERTAINTY direction -1, level 1; NSM_RESOLUTIONS.md:287 lists CERTAINTY among 'GSE coordinates with no NSM prime'."
+      }
+    ],
+    "chart_boxes_context_only": "MAYBE nsm-primes-chart-v20-2022.txt:233-236 ('maybe it is like this, maybe it is not like this', 'maybe someone else can do it'); KNOW 164-170; no CERTAINTY, LIKELY, POSSIBLE or CERTAIN box.",
+    "scale_numeric_semantics": [
+      {
+        "loc": "gse/primitives_v2.py:246-256",
+        "who": "CODE_REGISTRY",
+        "quote": "CERTAINTY_HIERARCHY: IMPOSSIBLE -3, UNLIKELY -2, DOUBTFUL -1, POSSIBLE 0 (= MAYBE), PROBABLE +1, LIKELY +2, CERTAIN +3; markers = |level|."
+      },
+      {
+        "loc": "gse/lexicon/modifier_hierarchy.py:16-19,137-170",
+        "who": "CODE_LEGACY",
+        "quote": "CERTAINTY scale of 11 positions (-5 to +5): impossible -5, unlikely -3, maybe -1, probably +2, definitely +4, certainly +5."
+      },
+      {
+        "loc": "none",
+        "who": "none",
+        "quote": "No source relates CERTAINTY to NUMBER. The design's scale-separation passages (LEXICON_CONSTRUCTION_DESIGN.md:80-86,300,315-316) name INTENSITY and QUANTITY only."
+      }
+    ],
+    "founder_record": [
+      "No Rohan-spoken entry names CERTAINTY. F160 (QUOTED_AGENT, 1257) and REPORT.md:124 list it among the GSE adaptations that need written definitions."
+    ],
+    "contradiction_ids": [
+      "C09",
+      "C10",
+      "C16"
+    ],
+    "absences": "No rule in bank_laws.json writes CERTAINTY. CERTAINTY is in no SOURCE_PRIMITIVE_COVERAGE entry (mapping_registry.py:44-247), no SOURCE_PRIMITIVE_SCOPE entry (source_scope.py:61-232) and not in EPA_POLES (prime_projection.py:26-47). GSE_V2.md (the March refactor spec) never mentions CERTAINTY (its Bank 7 list at lines 124-128 has no CERTAINTY, MUST or CAUSE). LEXICON_CONSTRUCTION_DESIGN.md (re-read in full), EMOTION_SLICE_DRAFT.md and RULE_REVIEW.md (read in full) contain no statement about CERTAINTY."
+  }
+}

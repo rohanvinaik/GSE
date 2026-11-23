@@ -1,0 +1,1264 @@
+{
+ "code": "INCOMPLETE_PRIME_FOUNDATION",
+ "definition_checks": {
+  "RECONSTRUCTED": 12,
+  "BOUNDARY_PENDING": 60
+ },
+ "examined": {
+  "I": {
+   "code": "CANDIDATE_COMPLETE",
+   "definition_check": "RECONSTRUCTED",
+   "written": {
+    "I:D1": {
+     "coordinates": [
+      "I"
+     ],
+     "state": "+1",
+     "derived_by": [
+      "PROFILE:I:01:IDENTIFIES_PRIME"
+     ],
+     "authority": [
+      "FOUNDER"
+     ],
+     "check": "RECONSTRUCTED"
+    },
+    "I:D2": {
+     "coordinates": [
+      "YOU",
+      "SOMEONE",
+      "SOMETHING",
+      "PEOPLE",
+      "BODY",
+      "KIND",
+      "PART"
+     ],
+     "state": "0",
+     "derived_by": [
+      "SUBSTANTIVE_HEAD_IS_ONE_HOT"
+     ],
+     "authority": [
+      "GSE_CONVENTION"
+     ],
+     "check": "RECONSTRUCTED"
+    }
+   },
+   "boundary": {
+    "I:D3": 50
+   },
+   "examined_lines": [
+    [
+     "I~ME",
+     "I want to do/know/say something",
+     "COMBINATION"
+    ],
+    [
+     "I~ME",
+     "I want this, I don't want this",
+     "COMBINATION"
+    ],
+    [
+     "I~ME",
+     "I don't know",
+     "COMBINATION"
+    ],
+    [
+     "I~ME",
+     "something bad can happen to me",
+     "COMBINATION"
+    ],
+    [
+     "I~ME",
+     "someone like me",
+     "COMBINATION"
+    ]
+   ]
+  },
+  "SOMEONE": {
+   "code": "CANDIDATE_COMPLETE",
+   "definition_check": "RECONSTRUCTED",
+   "written": {
+    "SOMEONE:D1": {
+     "coordinates": [
+      "SOMEONE"
+     ],
+     "state": "+1",
+     "derived_by": [
+      "PROFILE:SOMEONE:01:IDENTIFIES_PRIME"
+     ],
+     "authority": [
+      "FOUNDER"
+     ],
+     "check": "RECONSTRUCTED"
+    },
+    "SOMEONE:D2": {
+     "coordinates": [
+      "I",
+      "YOU",
+      "SOMETHING",
+      "PEOPLE",
+      "BODY",
+      "KIND",
+      "PART"
+     ],
+     "state": "0",
+     "derived_by": [
+      "SUBSTANTIVE_HEAD_IS_ONE_HOT"
+     ],
+     "authority": [
+      "GSE_CONVENTION"
+     ],
+     "check": "RECONSTRUCTED"
+    }
+   },
+   "boundary": {
+    "SOMEONE:D3": 50
+   },
+   "examined_lines": [
+    [
+     "SOMEONE",
+     "this someone, the same someone",
+     "COMBINATION"
+    ],
+    [
+     "SOMEONE",
+     "someone else, this other someone",
+     "COMBINATION"
+    ],
+    [
+     "SOMEONE",
+     "someone does/says something",
+     "COMBINATION"
+    ]
+   ]
+  },
+  "SOMETHING": {
+   "code": "CANDIDATE_COMPLETE",
+   "definition_check": "RECONSTRUCTED",
+   "written": {
+    "SOMETHING:D1": {
+     "coordinates": [
+      "SOMETHING"
+     ],
+     "state": "+1",
+     "derived_by": [
+      "PROFILE:SOMETHING:01:IDENTIFIES_PRIME"
+     ],
+     "authority": [
+      "FOUNDER"
+     ],
+     "check": "RECONSTRUCTED"
+    },
+    "SOMETHING:D2": {
+     "coordinates": [
+      "I",
+      "YOU",
+      "SOMEONE",
+      "PEOPLE",
+      "BODY",
+      "KIND",
+      "PART"
+     ],
+     "state": "0",
+     "derived_by": [
+      "SUBSTANTIVE_HEAD_IS_ONE_HOT"
+     ],
+     "authority": [
+      "GSE_CONVENTION"
+     ],
+     "check": "RECONSTRUCTED"
+    }
+   },
+   "boundary": {
+    "SOMETHING:D3": 50
+   },
+   "examined_lines": [
+    [
+     "SOMETHING~THING",
+     "this something~thing, the same something~thing, something else",
+     "COMBINATION"
+    ],
+    [
+     "SOMETHING~THING",
+     "something big, something small",
+     "COMBINATION"
+    ],
+    [
+     "SOMETHING~THING",
+     "something of one kind",
+     "COMBINATION"
+    ]
+   ]
+  },
+  "GOOD": {
+   "code": "CANDIDATE_COMPLETE",
+   "definition_check": "RECONSTRUCTED",
+   "written": {
+    "GOOD:D1": {
+     "coordinates": [
+      "GOOD"
+     ],
+     "state": "+1",
+     "derived_by": [
+      "PROFILE:GOOD:01:IDENTIFIES_PRIME"
+     ],
+     "authority": [
+      "FOUNDER"
+     ],
+     "check": "RECONSTRUCTED"
+    },
+    "GOOD:D2": {
+     "coordinates": [
+      "INTENSITY"
+     ],
+     "state": "+1",
+     "derived_by": [
+      "OWN_DEGREE_BEARING_CONTENT"
+     ],
+     "authority": [
+      "NSM",
+      "FOUNDER"
+     ],
+     "check": "RECONSTRUCTED"
+    },
+    "GOOD:D3": {
+     "coordinates": [
+      "SOMETHING"
+     ],
+     "state": "0",
+     "derived_by": [
+      "MODIFIER_LACKS_INDEPENDENT_OBJECTNESS"
+     ],
+     "authority": [
+      "FOUNDER"
+     ],
+     "check": "RECONSTRUCTED"
+    },
+    "GOOD:D4": {
+     "coordinates": [
+      "I",
+      "YOU",
+      "SOMEONE",
+      "PEOPLE",
+      "BODY",
+      "KIND",
+      "PART"
+     ],
+     "state": "0",
+     "derived_by": [
+      "MODIFIER_HEADS_NO_SUBSTANTIVE"
+     ],
+     "authority": [
+      "FOUNDER",
+      "NSM"
+     ],
+     "check": "RECONSTRUCTED"
+    },
+    "GOOD:D5": {
+     "coordinates": [
+      "BIG"
+     ],
+     "state": "0",
+     "derived_by": [
+      "EVALUATOR_EXCLUDES_SIZE"
+     ],
+     "authority": [
+      "FOUNDER"
+     ],
+     "check": "RECONSTRUCTED"
+    }
+   },
+   "boundary": {
+    "GOOD:D6": 47
+   },
+   "examined_lines": [
+    [
+     "GOOD",
+     "something good, someone good",
+     "COMBINATION"
+    ],
+    [
+     "GOOD",
+     "something good happens",
+     "COMBINATION"
+    ],
+    [
+     "GOOD",
+     "do something good (for someone)",
+     "COMBINATION"
+    ],
+    [
+     "GOOD",
+     "feel something good",
+     "COMBINATION"
+    ],
+    [
+     "GOOD",
+     "this is good",
+     "COMBINATION"
+    ],
+    [
+     "GOOD",
+     "it is good if...",
+     "COMBINATION"
+    ],
+    [
+     "VERY",
+     "very good",
+     "DEGREE_DOMAIN"
+    ]
+   ]
+  },
+  "BAD": {
+   "code": "CANDIDATE_COMPLETE",
+   "definition_check": "RECONSTRUCTED",
+   "written": {
+    "BAD:D1": {
+     "coordinates": [
+      "GOOD"
+     ],
+     "state": "-1",
+     "derived_by": [
+      "PROFILE:BAD:01:IDENTIFIES_PRIME"
+     ],
+     "authority": [
+      "FOUNDER"
+     ],
+     "check": "RECONSTRUCTED"
+    },
+    "BAD:D2": {
+     "coordinates": [
+      "INTENSITY"
+     ],
+     "state": "+1",
+     "derived_by": [
+      "OWN_DEGREE_BEARING_CONTENT"
+     ],
+     "authority": [
+      "NSM",
+      "FOUNDER"
+     ],
+     "check": "RECONSTRUCTED"
+    },
+    "BAD:D3": {
+     "coordinates": [
+      "SOMETHING"
+     ],
+     "state": "0",
+     "derived_by": [
+      "MODIFIER_LACKS_INDEPENDENT_OBJECTNESS"
+     ],
+     "authority": [
+      "FOUNDER"
+     ],
+     "check": "RECONSTRUCTED"
+    },
+    "BAD:D4": {
+     "coordinates": [
+      "I",
+      "YOU",
+      "SOMEONE",
+      "PEOPLE",
+      "BODY",
+      "KIND",
+      "PART"
+     ],
+     "state": "0",
+     "derived_by": [
+      "MODIFIER_HEADS_NO_SUBSTANTIVE"
+     ],
+     "authority": [
+      "FOUNDER",
+      "NSM"
+     ],
+     "check": "RECONSTRUCTED"
+    },
+    "BAD:D5": {
+     "coordinates": [
+      "BIG"
+     ],
+     "state": "0",
+     "derived_by": [
+      "EVALUATOR_EXCLUDES_SIZE"
+     ],
+     "authority": [
+      "FOUNDER"
+     ],
+     "check": "RECONSTRUCTED"
+    }
+   },
+   "boundary": {
+    "BAD:D6": 47
+   },
+   "examined_lines": [
+    [
+     "BAD",
+     "something bad, someone bad",
+     "COMBINATION"
+    ],
+    [
+     "BAD",
+     "something bad happens",
+     "COMBINATION"
+    ],
+    [
+     "BAD",
+     "do something bad (to someone)",
+     "COMBINATION"
+    ],
+    [
+     "BAD",
+     "feel something bad",
+     "COMBINATION"
+    ],
+    [
+     "BAD",
+     "this is bad",
+     "COMBINATION"
+    ],
+    [
+     "BAD",
+     "it is bad if...",
+     "COMBINATION"
+    ],
+    [
+     "VERY",
+     "very bad",
+     "DEGREE_DOMAIN"
+    ]
+   ]
+  },
+  "BIG": {
+   "code": "CANDIDATE_COMPLETE",
+   "definition_check": "RECONSTRUCTED",
+   "written": {
+    "BIG:D1": {
+     "coordinates": [
+      "BIG"
+     ],
+     "state": "+1",
+     "derived_by": [
+      "PROFILE:BIG:01:IDENTIFIES_PRIME"
+     ],
+     "authority": [
+      "FOUNDER"
+     ],
+     "check": "RECONSTRUCTED"
+    },
+    "BIG:D2": {
+     "coordinates": [
+      "INTENSITY"
+     ],
+     "state": "+1",
+     "derived_by": [
+      "OWN_DEGREE_BEARING_CONTENT"
+     ],
+     "authority": [
+      "NSM",
+      "FOUNDER"
+     ],
+     "check": "RECONSTRUCTED"
+    },
+    "BIG:D3": {
+     "coordinates": [
+      "SOMETHING"
+     ],
+     "state": "0",
+     "derived_by": [
+      "MODIFIER_LACKS_INDEPENDENT_OBJECTNESS"
+     ],
+     "authority": [
+      "FOUNDER"
+     ],
+     "check": "RECONSTRUCTED"
+    },
+    "BIG:D4": {
+     "coordinates": [
+      "I",
+      "YOU",
+      "SOMEONE",
+      "PEOPLE",
+      "BODY",
+      "KIND",
+      "PART"
+     ],
+     "state": "0",
+     "derived_by": [
+      "MODIFIER_HEADS_NO_SUBSTANTIVE"
+     ],
+     "authority": [
+      "FOUNDER",
+      "NSM"
+     ],
+     "check": "RECONSTRUCTED"
+    },
+    "BIG:D5": {
+     "coordinates": [
+      "GOOD"
+     ],
+     "state": "0",
+     "derived_by": [
+      "SIZE_DESCRIPTOR_EXCLUDES_EVALUATION"
+     ],
+     "authority": [
+      "FOUNDER"
+     ],
+     "check": "RECONSTRUCTED"
+    }
+   },
+   "boundary": {
+    "BIG:D6": 47
+   },
+   "examined_lines": [
+    [
+     "BIG",
+     "something big",
+     "COMBINATION"
+    ],
+    [
+     "BIG",
+     "a big place",
+     "COMBINATION"
+    ],
+    [
+     "BIG",
+     "very big",
+     "DEGREE_DOMAIN"
+    ]
+   ]
+  },
+  "SMALL": {
+   "code": "CANDIDATE_COMPLETE",
+   "definition_check": "RECONSTRUCTED",
+   "written": {
+    "SMALL:D1": {
+     "coordinates": [
+      "BIG"
+     ],
+     "state": "-1",
+     "derived_by": [
+      "PROFILE:SMALL:01:IDENTIFIES_PRIME"
+     ],
+     "authority": [
+      "FOUNDER"
+     ],
+     "check": "RECONSTRUCTED"
+    },
+    "SMALL:D2": {
+     "coordinates": [
+      "INTENSITY"
+     ],
+     "state": "+1",
+     "derived_by": [
+      "OWN_DEGREE_BEARING_CONTENT"
+     ],
+     "authority": [
+      "NSM",
+      "FOUNDER"
+     ],
+     "check": "RECONSTRUCTED"
+    },
+    "SMALL:D3": {
+     "coordinates": [
+      "SOMETHING"
+     ],
+     "state": "0",
+     "derived_by": [
+      "MODIFIER_LACKS_INDEPENDENT_OBJECTNESS"
+     ],
+     "authority": [
+      "FOUNDER"
+     ],
+     "check": "RECONSTRUCTED"
+    },
+    "SMALL:D4": {
+     "coordinates": [
+      "I",
+      "YOU",
+      "SOMEONE",
+      "PEOPLE",
+      "BODY",
+      "KIND",
+      "PART"
+     ],
+     "state": "0",
+     "derived_by": [
+      "MODIFIER_HEADS_NO_SUBSTANTIVE"
+     ],
+     "authority": [
+      "FOUNDER",
+      "NSM"
+     ],
+     "check": "RECONSTRUCTED"
+    },
+    "SMALL:D5": {
+     "coordinates": [
+      "GOOD"
+     ],
+     "state": "0",
+     "derived_by": [
+      "SIZE_DESCRIPTOR_EXCLUDES_EVALUATION"
+     ],
+     "authority": [
+      "FOUNDER"
+     ],
+     "check": "RECONSTRUCTED"
+    }
+   },
+   "boundary": {
+    "SMALL:D6": 47
+   },
+   "examined_lines": [
+    [
+     "SMALL",
+     "something small",
+     "COMBINATION"
+    ],
+    [
+     "SMALL",
+     "a small place",
+     "COMBINATION"
+    ],
+    [
+     "SMALL",
+     "very small",
+     "DEGREE_DOMAIN"
+    ]
+   ]
+  },
+  "WANT": {
+   "code": "CANDIDATE_COMPLETE",
+   "definition_check": "RECONSTRUCTED",
+   "written": {
+    "WANT:D1": {
+     "coordinates": [
+      "WANT"
+     ],
+     "state": "+1",
+     "derived_by": [
+      "PROFILE:WANT:01:IDENTIFIES_PRIME"
+     ],
+     "authority": [
+      "FOUNDER"
+     ],
+     "check": "RECONSTRUCTED"
+    },
+    "WANT:D2": {
+     "coordinates": [
+      "INTENSITY"
+     ],
+     "state": "+1",
+     "derived_by": [
+      "OWN_DEGREE_BEARING_CONTENT"
+     ],
+     "authority": [
+      "NSM",
+      "FOUNDER"
+     ],
+     "check": "RECONSTRUCTED"
+    },
+    "WANT:D3": {
+     "coordinates": [
+      "I",
+      "YOU",
+      "SOMEONE",
+      "SOMETHING",
+      "PEOPLE",
+      "BODY",
+      "KIND",
+      "PART"
+     ],
+     "state": "0",
+     "derived_by": [
+      "VERB_HEADS_NO_SUBSTANTIVE"
+     ],
+     "authority": [
+      "FOUNDER",
+      "NSM"
+     ],
+     "check": "RECONSTRUCTED"
+    }
+   },
+   "boundary": {
+    "WANT:D4": 48
+   },
+   "examined_lines": [
+    [
+     "WANT",
+     "I want this",
+     "COMBINATION"
+    ],
+    [
+     "WANT",
+     "someone wants something",
+     "COMBINATION"
+    ],
+    [
+     "WANT",
+     "someone wants to do/know/say something",
+     "COMBINATION"
+    ],
+    [
+     "WANT",
+     "someone wants someone else to do/know/say something",
+     "COMBINATION"
+    ],
+    [
+     "WANT",
+     "someone wants something to happen",
+     "COMBINATION"
+    ],
+    [
+     "WANT",
+     "I want it very much",
+     "DEGREE_DOMAIN"
+    ],
+    [
+     "DON'T WANT",
+     "I don't want this; someone doesn't want it to happen",
+     "COMBINATION"
+    ]
+   ]
+  },
+  "FEEL": {
+   "code": "CANDIDATE_COMPLETE",
+   "definition_check": "RECONSTRUCTED",
+   "written": {
+    "FEEL:D1": {
+     "coordinates": [
+      "FEEL"
+     ],
+     "state": "+1",
+     "derived_by": [
+      "PROFILE:FEEL:01:IDENTIFIES_PRIME"
+     ],
+     "authority": [
+      "FOUNDER"
+     ],
+     "check": "RECONSTRUCTED"
+    },
+    "FEEL:D2": {
+     "coordinates": [
+      "I",
+      "YOU",
+      "SOMEONE",
+      "SOMETHING",
+      "PEOPLE",
+      "BODY",
+      "KIND",
+      "PART"
+     ],
+     "state": "0",
+     "derived_by": [
+      "VERB_HEADS_NO_SUBSTANTIVE"
+     ],
+     "authority": [
+      "FOUNDER",
+      "NSM"
+     ],
+     "check": "RECONSTRUCTED"
+    }
+   },
+   "boundary": {
+    "FEEL:D3": 49
+   },
+   "examined_lines": [
+    [
+     "FEEL",
+     "someone feels something (good/bad)",
+     "COMBINATION"
+    ],
+    [
+     "FEEL",
+     "someone feels something (good/bad) in this part of the body",
+     "COMBINATION"
+    ],
+    [
+     "FEEL",
+     "someone feels like this",
+     "COMBINATION"
+    ],
+    [
+     "Using NSM in explications",
+     "DO and FEEL do not have any 'about' valency",
+     "PROHIBITION"
+    ]
+   ]
+  },
+  "NOW": {
+   "code": "CANDIDATE_COMPLETE",
+   "definition_check": "RECONSTRUCTED",
+   "written": {
+    "NOW:D1": {
+     "coordinates": [
+      "THEN"
+     ],
+     "state": "-1",
+     "derived_by": [
+      "PROFILE:NOW:01:IDENTIFIES_PRIME"
+     ],
+     "authority": [
+      "FOUNDER"
+     ],
+     "check": "RECONSTRUCTED"
+    },
+    "NOW:D2": {
+     "coordinates": [
+      "I",
+      "YOU",
+      "SOMEONE",
+      "SOMETHING",
+      "PEOPLE",
+      "BODY",
+      "KIND",
+      "PART"
+     ],
+     "state": "0",
+     "derived_by": [
+      "TIME_PLACE_HEADS_NO_SUBSTANTIVE"
+     ],
+     "authority": [
+      "GSE_CONVENTION"
+     ],
+     "check": "RECONSTRUCTED"
+    }
+   },
+   "boundary": {
+    "NOW:D3": 49
+   },
+   "examined_lines": [
+    [
+     "NOW",
+     "something is happening here now",
+     "COMBINATION"
+    ],
+    [
+     "NOW",
+     "when I say this now, ...",
+     "COMBINATION"
+    ]
+   ]
+  },
+  "HERE": {
+   "code": "CANDIDATE_COMPLETE",
+   "definition_check": "RECONSTRUCTED",
+   "written": {
+    "HERE:D1": {
+     "coordinates": [
+      "HERE"
+     ],
+     "state": "+1",
+     "derived_by": [
+      "PROFILE:HERE:01:IDENTIFIES_PRIME"
+     ],
+     "authority": [
+      "FOUNDER"
+     ],
+     "check": "RECONSTRUCTED"
+    },
+    "HERE:D2": {
+     "coordinates": [
+      "I",
+      "YOU",
+      "SOMEONE",
+      "SOMETHING",
+      "PEOPLE",
+      "BODY",
+      "KIND",
+      "PART"
+     ],
+     "state": "0",
+     "derived_by": [
+      "TIME_PLACE_HEADS_NO_SUBSTANTIVE"
+     ],
+     "authority": [
+      "GSE_CONVENTION"
+     ],
+     "check": "RECONSTRUCTED"
+    }
+   },
+   "boundary": {
+    "HERE:D3": 49
+   },
+   "examined_lines": [
+    [
+     "HERE",
+     "something is happening here now",
+     "COMBINATION"
+    ],
+    [
+     "HERE",
+     "people here",
+     "COMBINATION"
+    ]
+   ]
+  },
+  "BECAUSE": {
+   "code": "CANDIDATE_COMPLETE",
+   "definition_check": "RECONSTRUCTED",
+   "written": {
+    "BECAUSE:D1": {
+     "coordinates": [
+      "BECAUSE"
+     ],
+     "state": "+1",
+     "derived_by": [
+      "PROFILE:BECAUSE:01:IDENTIFIES_PRIME"
+     ],
+     "authority": [
+      "FOUNDER"
+     ],
+     "check": "RECONSTRUCTED"
+    },
+    "BECAUSE:D2": {
+     "coordinates": [
+      "I",
+      "YOU",
+      "SOMEONE",
+      "SOMETHING",
+      "PEOPLE",
+      "BODY",
+      "KIND",
+      "PART"
+     ],
+     "state": "0",
+     "derived_by": [
+      "OPERATOR_HEADS_NO_SUBSTANTIVE"
+     ],
+     "authority": [
+      "GSE_CONVENTION"
+     ],
+     "check": "RECONSTRUCTED"
+    }
+   },
+   "boundary": {
+    "BECAUSE:D3": 49
+   },
+   "examined_lines": [
+    [
+     "BECAUSE",
+     "because of this",
+     "COMBINATION"
+    ],
+    [
+     "BECAUSE",
+     "it happened because this someone did something before",
+     "COMBINATION"
+    ],
+    [
+     "BECAUSE",
+     "... not because of anything else",
+     "COMBINATION"
+    ]
+   ]
+  }
+ },
+ "draft_cell_states": {
+  "YOU": {
+   "0": 7,
+   "+1": 1,
+   "unresolved": 50
+  },
+  "PEOPLE": {
+   "0": 7,
+   "+1": 1,
+   "unresolved": 50
+  },
+  "BODY": {
+   "0": 7,
+   "+1": 1,
+   "unresolved": 50
+  },
+  "KIND": {
+   "0": 7,
+   "+1": 1,
+   "unresolved": 50
+  },
+  "PART": {
+   "0": 7,
+   "+1": 1,
+   "unresolved": 50
+  },
+  "SAME": {
+   "0": 8,
+   "+1": 1,
+   "unresolved": 49
+  },
+  "OTHER": {
+   "0": 8,
+   "-1": 1,
+   "unresolved": 49
+  },
+  "ONE": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "TWO": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "QUANTITY": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "THINK": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "KNOW": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "SEE": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "HEAR": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "INFER": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "SAY": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "WORDS": {
+   "unresolved": 57,
+   "+1": 1
+  },
+  "DO": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "HAPPEN": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "MOVE": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "BE": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "HAVE": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "EXIST": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "ALIVE": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "DEAD": {
+   "0": 8,
+   "unresolved": 49,
+   "-1": 1
+  },
+  "MOMENT": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "WHEN": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "LONG_TIME": {
+   "0": 8,
+   "unresolved": 48,
+   "+1": 2
+  },
+  "SHORT_TIME": {
+   "0": 8,
+   "unresolved": 48,
+   "-1": 1,
+   "+1": 1
+  },
+  "BEFORE": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "AFTER": {
+   "0": 8,
+   "unresolved": 49,
+   "-1": 1
+  },
+  "THEN": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "START": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "END": {
+   "0": 8,
+   "unresolved": 49,
+   "-1": 1
+  },
+  "WHERE": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "SIDE": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "TOUCH": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "ABOVE": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "BELOW": {
+   "0": 8,
+   "unresolved": 49,
+   "-1": 1
+  },
+  "FAR": {
+   "0": 8,
+   "unresolved": 48,
+   "+1": 2
+  },
+  "NEAR": {
+   "0": 8,
+   "unresolved": 48,
+   "-1": 1,
+   "+1": 1
+  },
+  "OUTSIDE": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "INSIDE": {
+   "0": 8,
+   "unresolved": 49,
+   "-1": 1
+  },
+  "TOWARD": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "AWAY": {
+   "0": 8,
+   "unresolved": 49,
+   "-1": 1
+  },
+  "WITH": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "WITHOUT": {
+   "0": 8,
+   "unresolved": 49,
+   "-1": 1
+  },
+  "NOT": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "MAYBE": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "CAN": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "MUST": {
+   "0": 8,
+   "unresolved": 47,
+   "+1": 3
+  },
+  "CAUSE": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "IF": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "LIKE": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "TRUE": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "FALSE": {
+   "0": 8,
+   "unresolved": 49,
+   "-1": 1
+  },
+  "HIER_PLUS": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "HIER_MINUS": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "INTENSITY": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  },
+  "CERTAINTY": {
+   "0": 8,
+   "unresolved": 49,
+   "+1": 1
+  }
+ },
+ "draft_totals": {
+  "0": 467,
+  "+1": 55,
+  "unresolved": 2947,
+  "-1": 11
+ }
+}

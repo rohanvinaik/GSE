@@ -1,0 +1,64 @@
+{
+  "schema": "NSM_RESEARCH_SOURCE_INVENTORY_V1",
+  "recorded_at_utc": "2026-10-26T04:50:33.479324+00:00",
+  "whole_records_read": [
+    {
+      "path": "data/external/references/CATALOG.json",
+      "sha256": "245b5283d3eaa31128fe2a9db6db70e5ce2adf535b7b7b35fefda1699b9f9a93"
+    },
+    {
+      "path": "docs/program/REFERENCE_MANIFEST.json",
+      "sha256": "3e4335a5e3b1ff624606b58331b0a77e1722f04ab0536bc906ec9f8538cef9d9"
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "WIERZBICKA_1999",
+      "author": "Anna Wierzbicka",
+      "year": 1999,
+      "title": "Emotions across Languages and Cultures: Diversity and Universals",
+      "publisher": "Cambridge University Press",
+      "doi": "10.1017/CBO9780511521256",
+      "access_status": "USER_SUPPLIED_LOCAL_PRIMARY_PDF_FROZEN_AND_CHAPTER3_READ",
+      "pdf_sha256": "634a79e7943aebdc8902e7f59f3758e6d6e36dab2a68777708819a97424e9e81",
+      "txt_sha256": "a1f93d423441737961c4ad1e1857c27b956e8c4bfc79b0b42915a53c4e1d80ac",
+      "source_quality": "Scanned primary with OCR; critical sections and English blocks checked on page images; OCR is not authoritative alone.",
+      "semantic_material_location": "PRIVATE_ONLY"
+    },
+    {
+      "source_id": "GODDARD_2011_2E",
+      "author": "Cliff Goddard",
+      "year": 2011,
+      "title": "Semantic Analysis: A Practical Introduction",
+      "edition": "Revised 2nd",
+      "publisher": "Oxford University Press",
+      "isbn": "9780199560288",
+      "institutional_record": "https://research-repository.griffith.edu.au/items/43fc9318-77db-5469-838d-9652dfc58f20",
+      "access_status": "PRIMARY_METADATA_VERIFIED; REQUESTED_BOOK_AND_EMOTION_CHAPTER_NOT_RETRIEVED",
+      "evidence": "Griffith record explicitly No Full Text and bundles API has zero elements. OUP product/resource requests return empty HTTP202; Canadian product URL returns HTTP403.",
+      "scope_limit": "These routes did not yield full text; this does not establish universal unavailability. The previously mislabeled local HTML is not this source."
+    },
+    {
+      "source_id": "HARKINS_WIERZBICKA_2001",
+      "editors": [
+        "Jean Harkins",
+        "Anna Wierzbicka"
+      ],
+      "year": 2001,
+      "title": "Emotions in Crosslinguistic Perspective",
+      "publisher": "Mouton de Gruyter",
+      "doi": "10.1515/9783110880168",
+      "isbn": "9783110880168",
+      "publisher_url": "https://www.degruyterbrill.com/document/doi/10.1515/9783110880168/html",
+      "access_status": "PRIMARY_METADATA_VERIFIED; REQUESTED_VOLUME_NOT_RETRIEVED",
+      "evidence": "Official publisher book/PDF and introduction-PDF routes return empty HTTP202. ANU introduction ORIGINAL bundle has zero public bitstreams. Another ANU volume chapter has only a SWORD XML deposit-metadata bitstream, no chapter text in listed bundles.",
+      "scope_limit": "Do not substitute a later paper or claim the entire volume is unavailable. No purchase, credentials, restricted content or access-control bypass used."
+    }
+  ],
+  "research_tools": {
+    "Firecrawl_paper_tools": "NOT_CALLABLE_AFTER_TOOL_DISCOVERY",
+    "fallback": "Web search/open plus official public university DSpace APIs and publisher URLs",
+    "network": "Sandbox DNS failed; explicit escalated retries succeeded for repository APIs."
+  },
+  "new_requested_fulltext_download_count": 0
+}

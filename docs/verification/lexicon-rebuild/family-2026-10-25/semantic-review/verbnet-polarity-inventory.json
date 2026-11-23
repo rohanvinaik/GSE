@@ -1,0 +1,971 @@
+{
+  "scope": "Origin predicates once per native VerbNet XML file; no inherited membership copies",
+  "counts": [
+    {
+      "bool": null,
+      "count": 2946
+    },
+    {
+      "bool": "!",
+      "count": 207
+    }
+  ],
+  "unsupported_count": 0,
+  "files": [
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/accompany-51.7.xml",
+      "sha256": "4e24d989052ed581baf4084a480b9557d7a20231b583fa54c1bcb74f89c9fdcb"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/admire-31.2.xml",
+      "sha256": "a2a3a3ae1f77baf4967e6b7a0af953777e77742da5fd89b8363e5312c3058e15"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/admit-65.xml",
+      "sha256": "a8d44b323412e38332a24932b742e2e30db46356048c97c8e4b721658c596bd3"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/adopt-93.xml",
+      "sha256": "faa718158b8cb318c311379d42443ec4b21344152c4a485f832dffd7aea1357d"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/advise-37.9.xml",
+      "sha256": "54ad74ccb9dc8cd96614a87500c967be483de2434b3fbb88e74c7b1c060da068"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/allow-64.xml",
+      "sha256": "fe7a92252c8ad8d20e26e63e5ace481c4a0295bd7d91c3c811a1c6f3d721bec5"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/amalgamate-22.2.xml",
+      "sha256": "4f31748bee76c39bd29a947fa7022f2cfad94217df2594bf7a9e70e0f7d4d196"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/amuse-31.1.xml",
+      "sha256": "b207548f07b702d2ec4d57ae943b42a1cb84017e213bb3f4ef831ae8bb98dce7"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/animal_sounds-38.xml",
+      "sha256": "687c47bf3876dbda4cb1574b8e945566954bff22b7a5531d63f355c666f57efa"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/appeal-31.4.xml",
+      "sha256": "9f18b87d12bce1793f0ec9c06da03540115e4ece7a2450650325016b19388417"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/appear-48.1.1.xml",
+      "sha256": "8ebb58432583f4eb5fb486228cdd6478b21c2fdd0b7a8645fdba6747ee86f6ff"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/appoint-29.1.xml",
+      "sha256": "c8eaa2e45fe8aa00ded98c42c056990256f01d1d9572296a3902bc008f416a1c"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/approve-77.xml",
+      "sha256": "d116fdee407b128c8f2213f24692176e960b05b5c66cb5a1e62ba69985f728aa"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/assessment-34.xml",
+      "sha256": "09b3cf2e2c0b0a87b021a5463dde0ba2adca123fb896bca821f4430455053f88"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/assuming_position-50.xml",
+      "sha256": "7e85bba91379b6635a2baa6d057aa2fe710376be697b8e790dadb7beff66668f"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/avoid-52.xml",
+      "sha256": "3b392001d6695087fdfbda4975e92dd0b660a42e339d7d20805a4feed18a1ce8"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/banish-10.2.xml",
+      "sha256": "5e8688c24a5864bfa25f2884663ba47e1669324fc3ac3f98626d193f1d179d3b"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/battle-36.4.xml",
+      "sha256": "ed1455bb1811640863fa34f9d8190bb94445d5bf2e95d156419662c770528bc1"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/begin-55.1.xml",
+      "sha256": "61781b1745e9c6cf133b08bd3e285dda759c17699d00fcbd21c248486c69550b"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/being_dressed-41.3.3.xml",
+      "sha256": "25734dd967189f52475a97f8edde74bbe2a834dd47e1c1bc18a80b1099ebfc9a"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/bend-45.2.xml",
+      "sha256": "eb322138e348a1907fbbe1e0b54c5788b93ac80c9538cc2b9cb5ce4d45c64dfb"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/berry-13.7.xml",
+      "sha256": "a6fe99efefb381276bc3b224bf3da236d7fc6cd2a2f967e30c0bfc27a2558124"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/bill-54.5.xml",
+      "sha256": "cd823c5896bc02b621132b3900e7ecd26626fd003ce600f9eb5b2b6864381902"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/body_internal_motion-49.xml",
+      "sha256": "3d780e39ed8f39091d158c9fd099037fa51b6c751dd91c36fb90a7aae55e52ed"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/body_internal_states-40.6.xml",
+      "sha256": "759772012cbfcce28a00b4cc73b07df161fabe48fb0bd6e5d3ffd24250938478"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/braid-41.2.2.xml",
+      "sha256": "9c55856c22841af0accca6904a8f58aa305a1357768da47e7be848d1774911f0"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/break-45.1.xml",
+      "sha256": "85e4f002126b3f31b7c4757020aae65594001cf82993360b59b1f5b460702cf7"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/breathe-40.1.2.xml",
+      "sha256": "5d30176d19f6c64cc9a699291bc86e7c9e73e501f6fb4ff5f49e0f89b1352a7b"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/bring-11.3.xml",
+      "sha256": "b5ae802b6f4ced155404dfc8ba38b54c4533bce1d37dda3350608d3b8245f9b2"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/build-26.1.xml",
+      "sha256": "fab60cf7030e3e5e939fc5efabfa185692989fd2d474276f0112f6d4e992dccb"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/bulge-47.5.3.xml",
+      "sha256": "94af5bff23864102c0a2bc6350a5787c70eb448eedb8e55459e1111570abb411"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/bump-18.4.xml",
+      "sha256": "0619f998eb3d18785e0febd0ff750d56f3fcbeecd9387e8d939aa610a15c3108"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/butter-9.9.xml",
+      "sha256": "1e442d5a699bdca7619138bfaa23c61394fe55fe592db7e5b24f4840568f6eba"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/calibratable_cos-45.6.xml",
+      "sha256": "614d6ca8ffcb13de8d2e71b24ff1f413902b38b8fcba48452027da81f7f70efd"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/calve-28.xml",
+      "sha256": "3b5cfe53bf87ec913ff1ec0dc847054423ae3eeb2c49f04bdf34f0494b54efdb"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/captain-29.8.xml",
+      "sha256": "5b6f4c45d0c0522a25d6b88326de1989a42a52ec76f6856798ada1eb2306d5f7"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/care-88.xml",
+      "sha256": "1567967e81fe80d6de5eec178757d864be66d338e654c4f4862679f27f6c4974"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/carry-11.4.xml",
+      "sha256": "83b9cc39b04d6cdbb3da5f102b94dbca949dffc29766365ef34161defcd3f5fa"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/carve-21.2.xml",
+      "sha256": "3777cbe908e0ffbca802d286842257d82fb4bb77a0ce5be39f36d1651f32e2af"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/change_bodily_state-40.8.4.xml",
+      "sha256": "4c72ac629f107fef86b8568fc776fadc4259fc11ebd5105a56ed102c5d2cc5c0"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/characterize-29.2.xml",
+      "sha256": "3e34fdd52356bf8496c21d5353436a2adbcd67a3c9ef336050955feacc3a662d"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/chase-51.6.xml",
+      "sha256": "3844afa5882411a78b915f1b88be61ca4507371f9b6d1d0503f294d86073844d"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/cheat-10.6.xml",
+      "sha256": "b78fd073c111e0ad8c48da28b843cbb82c98d0b932af2e66105278bea30621c8"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/chew-39.2.xml",
+      "sha256": "f0d44a432f3bc04b5018095ef7ff26daa250355f28a68894e07c48585af6d236"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/chit_chat-37.6.xml",
+      "sha256": "bf596873313d82d99f3425a2c65661edb899a63923b4b8aad1429f5f3aa1131e"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/clear-10.3.xml",
+      "sha256": "29389688d532b19028fc030136672a22ada5c8d8e3da94f66d1e5e0e2791faf4"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/cling-22.5.xml",
+      "sha256": "3cfe0cbea3ea181aeb0884a6361ef40e5cc9136eb60813d0edfb8dbcae847f59"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/coil-9.6.xml",
+      "sha256": "8a8b3be1d17df2f3df797e9bc403a178a3919625805fcfbb677fb0de17ae5aeb"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/coloring-24.xml",
+      "sha256": "ade0347471ba761b20a1d36df101d216e1cd5aecb71814f03e1ef86b33eade1c"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/complain-37.8.xml",
+      "sha256": "a48db4a6244ffa0e31321ab7ceab9f028bc4770454027b0ddbe68660aec54828"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/complete-55.2.xml",
+      "sha256": "4d45d69f9ac2257be06668e3c24eeb70467b49bede587aed7994ecb1d0c461eb"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/concealment-16.xml",
+      "sha256": "d41f420db60e75cb4dec9fa2a9a19c6c05bdf75be109afc9a1e220f4aa5612d1"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/confess-37.10.xml",
+      "sha256": "ffc88c8e43609231e0f641b4a696cc31bfb036e733f8a88836e4ef375a6e31de"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/confine-92.xml",
+      "sha256": "25eb597ba28bc678bcf645edbcfa191bb9f8500f2ad458cf256dd418df2babbe"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/conjecture-29.5.xml",
+      "sha256": "6fdda8a5bde86ce04da2143917fe8210d377e0c0cb3cf4e3f178611ae2d5b247"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/consider-29.9.xml",
+      "sha256": "b72586bee5d6b8f6b07b0591a4926c09d21d7915e7551437b2a47e6888c12a9b"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/conspire-71.xml",
+      "sha256": "e04a22bbddcb94df682c4b39a50c6abac03653a1df062de8cb7707e105c6418f"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/consume-66.xml",
+      "sha256": "5d8dc67230b6c1b28ad14e6de9692ca0ac093b495a20dd9af32fa1a005032c4e"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/contiguous_location-47.8.xml",
+      "sha256": "dc673e308b46ad7a6daff69fc4459bbad436f931c346c260fe30b4b39de002da"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/continue-55.3.xml",
+      "sha256": "92b4e3762993b16bc5bbf7d308014e4316e8efd33cc047cf3754917bccf95733"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/contribute-13.2.xml",
+      "sha256": "f612667cd50e538b61bc522c66e1c08ba1903108f4d41904b5a14bb2abb5504e"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/convert-26.6.2.xml",
+      "sha256": "b99f2dd14d0ec9a5607c1d98903204e14b2facd95a894f4088734d167bdc6d0e"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/cooking-45.3.xml",
+      "sha256": "0ad90100321272ca7f50e127323df97c639c985032dfb5124fa540979e06d14e"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/cooperate-73.xml",
+      "sha256": "d4cd7eb7500ccc5cab2772ddfbc053f2a6229fe5c423d016305e44bd5c1db207"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/cope-83.xml",
+      "sha256": "7a7b8d8f36e2df8fef490f31501a3052c28295780b87d6abe02736384f79e934"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/correlate-86.xml",
+      "sha256": "42d1c1b7efcaafbca8f93833b6c9f8518ef1c0cdc4943055e54b2e5e384ba787"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/correspond-36.1.xml",
+      "sha256": "d87ba8e1fbfe59fdbe693ade575ef3616da7c0c776774127043845f8aa2e4b44"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/cost-54.2.xml",
+      "sha256": "8b9b0734d3f285b4545ed8ef80e0f43f0f9c84c23e6af5cded499bfb6891bd61"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/crane-40.3.2.xml",
+      "sha256": "13a7beca1c704a0d954fe1a5abfa9d2bbfdca1d7baf279870ebc3f82da5642f8"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/create-26.4.xml",
+      "sha256": "1767c9d8de7fb223254b2206dd006a8100a7a70b760270e69a8a71c814108284"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/curtsey-40.3.3.xml",
+      "sha256": "e450e0cd88ef4616a6d23308bdac998437f87ba1d012666462cc421bb4d2ad11"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/cut-21.1.xml",
+      "sha256": "3315526769a29f753b9198eeb04b0844d9c71761dbb7ea5c5a8827799937032b"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/debone-10.8.xml",
+      "sha256": "c87e69f29b1c044c9a138a6083146ce37417e0e9278af87873aa31b1c2000183"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/declare-29.4.xml",
+      "sha256": "129082c492c980742a57381b748da840b1b4c7479c375c17dedd7e4ca146827a"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/dedicate-79.xml",
+      "sha256": "d85c5a63837a63b500e0877045ecbe132c835ca4d32e764bfd12af866ee2f95a"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/defend-85.xml",
+      "sha256": "b838429d7ba53b1c7414fdefae01dc1845a77a16b66f3097233d8e823d5866ce"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/destroy-44.xml",
+      "sha256": "9eb4b00b34b1cbe30b0fb57d8ff5b4a3ce566adb7d5c90b77bbc7fc3402e2167"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/devour-39.4.xml",
+      "sha256": "aa83649dbe50e3a4318b6a350ba4d503df01faed9d4f077b9d211862a4a170af"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/differ-23.4.xml",
+      "sha256": "55049f44886865f340a3fc74f5da6eaed700897228781fd490731f8ddb202983"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/dine-39.5.xml",
+      "sha256": "1e346a36e61c1856b399ef4af0d83fb7dd470d3b2ad91f63b80648c3ac2c7a78"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/disappearance-48.2.xml",
+      "sha256": "0d5c67355a8f81464b3306906b75dfaa3817032762a02e73c86410f43637b20d"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/disassemble-23.3.xml",
+      "sha256": "58a45b2744bbaff801c2542932c0858ee6ddd392cabfe98b93dafe66b43ed6bb"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/discover-84.xml",
+      "sha256": "0b1537bb986231f3b54550ac724206532ab8000679e912ddc737667ef5bffbd6"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/dress-41.1.1.xml",
+      "sha256": "f48b8107dde62a5e5654be823ab783cdeba9f374e3fd4b3825f40683dc9f1005"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/dressing_well-41.3.2.xml",
+      "sha256": "8fa62758ee863416e7ea06ff1e8c309a394418d8894575e4c717713e399f8213"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/drive-11.5.xml",
+      "sha256": "b243e12894b3162a35d15e1c50b76cb34f07e5d52b52e76b5317e7eb47e94eed"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/dub-29.3.xml",
+      "sha256": "f9cfb3add3a648235dee73792079a3cb96ff9845573382be8f0f9776da9bcfaf"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/eat-39.1.xml",
+      "sha256": "67d024b50a52f21febdce6580b063d0d8af1c90c2baa88e9805799b480b5fe8d"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/enforce-63.xml",
+      "sha256": "bdd106fe75a94215e3ddd28cac6eecd8eafe344a5cf4f251c318f859c01a3360"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/engender-27.xml",
+      "sha256": "139c25f7674d9f3770dea4a6febd8490841e332b4c5d797ba96770777b785dd4"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/entity_specific_cos-45.5.xml",
+      "sha256": "b34c2fdf07eaaeb5eb2854505714ae2661380c0ca6ac317e8a9da37832703b1d"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/entity_specific_modes_being-47.2.xml",
+      "sha256": "5355a6e40632cee795fd6b5dd9cac77ab9c4cf041490593545271e930d52522f"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/equip-13.4.2.xml",
+      "sha256": "2ac2f7802528e38497edb593414c467f7bd6226b6687672dda373a0e2a609fa7"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/escape-51.1.xml",
+      "sha256": "d4c716248958cf5e4002e641d912e8f8658d0130caf00d7a6f6a415464e60816"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/exceed-90.xml",
+      "sha256": "29f4daf2d06460e118c734bfb3849b7f02efa33ac5e7f49e5836b8d71e5973cc"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/exchange-13.6.xml",
+      "sha256": "4f84c4fcd250967bff5928b6795dd5b8ffa164cab62cb7c7e831f9e14297ef3f"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/exhale-40.1.3.xml",
+      "sha256": "dca088cd25a68d09db89c64283eb4f118193a44b98f3622532354047c793dd52"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/exist-47.1.xml",
+      "sha256": "dcb9cdac5fea1eceb7e5d5f7cc0ab733bdef27fe57c02e11a4682d1902eee8a0"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/feeding-39.7.xml",
+      "sha256": "0516344ffcbb15e59bc81d64c1bbe6ad704c6afb2e8f365811f62d048e1d3c03"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/ferret-35.6.xml",
+      "sha256": "98c5702b5b649c76fc81fa88ffadf0cca383cf773a58fe12e622081271106796"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/fill-9.8.xml",
+      "sha256": "279a1f544ec18e3a60285bdd420068edab9e1e66fdbdf1517782d5158db2a915"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/fit-54.3.xml",
+      "sha256": "1fdd0898e5b96218558775cd4845631c016cc0334ffac700b0742862f8ba75fe"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/flinch-40.5.xml",
+      "sha256": "35fec22846f83895544ceeb58c2dec995efe5acbc1d98d219be465b09ee4c7a9"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/floss-41.2.1.xml",
+      "sha256": "b4bc51fd7766efc8ebb2af82f0bce25f4aa10af23798c7e9464b9374d201f6cf"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/focus-87.xml",
+      "sha256": "a1a95619e2b407ae5f671ec4bb7fdbc9600f3863aadc510ac017edfc5b8668ff"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/forbid-67.xml",
+      "sha256": "9ce1ef45f883cff2b633608c83d1b1981084fdc1ae563171c30da9c730c7acdd"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/force-59.xml",
+      "sha256": "5a8cbe4b9da12b78b94668f7aa16556a72033dd1ac241e3be8bbbae0d9c61755"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/free-80.xml",
+      "sha256": "88f1aba8e8ca16ac5f55e8713fbd115f4d5dff3de5ee3ccfb22718d357f5a04b"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/fulfilling-13.4.1.xml",
+      "sha256": "717c970c35e3fd52dab77dc918b10dfbd8a764e47fbef6fe34433241ac367d68"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/funnel-9.3.xml",
+      "sha256": "6ecebfd4c100324462621841c2fa1a9d1a526b45fba89f79f9b7e7bfc351c9d4"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/future_having-13.3.xml",
+      "sha256": "fd1dac7ef2a193bf164370840fee2d9db8767e7f61f33ee993f23bd1ec7dc3e9"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/get-13.5.1.xml",
+      "sha256": "24233048cda64b7b2507b26fd0178a0b791ad5e5b47c90f55fa3c9523a9497a6"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/give-13.1.xml",
+      "sha256": "110cab8841e9af335d33d7f20f67ba1225acd5ca96c34f59176b7433710edf4d"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/gobble-39.3.xml",
+      "sha256": "94ef76c95897591a8eb4293a2c204e39d8a6946e7bac0700fe09d82b8de63555"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/gorge-39.6.xml",
+      "sha256": "1c61eb6be5b30d56de048ba3e6ef22ff601275d5d2e3a8cf4cae5c96bd59fe3f"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/groom-41.1.2.xml",
+      "sha256": "cff50fd2827f50527cf311da7992cf790a0746c6112d4b690e88ea260dbac137"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/grow-26.2.xml",
+      "sha256": "1d490791efea40efd74034ebfd574b0cfb5d69df47989eafe6ccec171e95ad4b"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/help-72.xml",
+      "sha256": "a64958714d3b9b114d4e38d32b9f2642672de5a9db90733d2c0e82a312550f13"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/herd-47.5.2.xml",
+      "sha256": "4c28f085e5d564cd0dfb25398908685b60a7051f0c95b06bf1a52fce9d92bff4"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/hiccup-40.1.1.xml",
+      "sha256": "11e2065fc2deec2458e9ecb7582fbf7164915dbd6cac1fe09d6546559b88b37a"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/hit-18.1.xml",
+      "sha256": "00a38ca1bacec4bcd7aa91dbd947a25b1f6ec209fb4c8c6c1af50cee5912c8b1"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/hold-15.1.xml",
+      "sha256": "4058fa79b84cef48a0fc608451f010ca9b08b334f3ed6e7ab4fa7e0eaf5081de"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/hunt-35.1.xml",
+      "sha256": "04b6ca7dcde86dea431d26342019651635f65780cf9fb35d611113415b71f77e"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/hurt-40.8.3.xml",
+      "sha256": "ea9a92a86b4cbb8afb7f4f06054fb6ef5abc8f37fefea1ae91e1cf11c44e9693"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/illustrate-25.3.xml",
+      "sha256": "27509d2d4741492d89bc03904f3127912f90d5bf44744e26ac92873885ce2329"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/image_impression-25.1.xml",
+      "sha256": "991982413b880f229cbc6022a5812e1c76f8e2e8249b7ffc72adb6b37b6e79b8"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/indicate-78.xml",
+      "sha256": "1498fdfd0e2b6c54d205f063b285967538b95031fac21c60fbdbd16b467f3798"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/inquire-37.1.2.xml",
+      "sha256": "cea77589bf0af941f2d3b1b0d6a9deb6c6fad149485104882ae07ac8e2d15b71"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/instr_communication-37.4.xml",
+      "sha256": "b9aee5ba83ade31b3e4caa6e93eb6305219f316579e38ce493e38e609a4ce803"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/investigate-35.4.xml",
+      "sha256": "8db2d1a1420e206b3f7ab8323792a65d8a50678542b4fae76c5fea6293538bae"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/judgement-33.xml",
+      "sha256": "84fd4a3f596b7b3bc206340e47a663624fb0f1304633a4c5e09309a159522662"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/keep-15.2.xml",
+      "sha256": "8f08d85857cf372455ff18c5a6cf83bb215581a82fe7aedfe3a6beb1490ae5a2"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/knead-26.5.xml",
+      "sha256": "a164b7868e749ce47632a994d94e4afa0aad3f1efdd3d3bc60762191cc2964fb"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/learn-14.xml",
+      "sha256": "90eab97611b660751565cc1f26e01bf3be868bfddb69a88bf93d3364c38c047d"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/leave-51.2.xml",
+      "sha256": "d57debc076e643e7795ea1098954a4c4645b609b3dcc2376e84681089e22842a"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/lecture-37.11.xml",
+      "sha256": "ab67ed69ca5e10d1c96ae9b5dfc6d83eeae54c8847f045089e42d8cea58c27a7"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/light_emission-43.1.xml",
+      "sha256": "d1da02ccfe14c837e77683c07fa6736798cd9c36cbd6f11e6f1e05a7d3baad17"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/limit-76.xml",
+      "sha256": "d62699c819fafad831ac40d99b7797cf7cb5283f2ee356d478fb3c2d0a58aebc"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/linger-53.1.xml",
+      "sha256": "44ae089bedec3e67839f29a925d58ee871a7f3e8138b560a493836947503cb2b"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/lodge-46.xml",
+      "sha256": "fe19bd714207a98e44980b5b75d6e083875d9eb7f73e705ea46901a7c9541703"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/long-32.2.xml",
+      "sha256": "9fae7005fffec1c62c74e049f1647ce11804fee8b558a8ae173a109b6a0b8104"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/manner_speaking-37.3.xml",
+      "sha256": "0dc9008c1df457404db213720a665c69a32ff63892f2d1d9d8774df1dd74dfa7"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/marry-36.2.xml",
+      "sha256": "a5bd8ed299f39d65914aa8671340943744815332f97ddfd367d667e0a133e2ba"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/marvel-31.3.xml",
+      "sha256": "e204f8fdd3155e18a6cf7c152ddc1b7ddd6fee2274b573d616b062df3b031b4b"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/masquerade-29.6.xml",
+      "sha256": "601bbeaf3835866f51292d4b3e0b8dacaa68dd4fd8181691d2cc20033a1ab701"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/matter-91.xml",
+      "sha256": "48babe6d97c656c1005b028d31ba1817473cedbbad32319f23ee0f9d306a41ee"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/meander-47.7.xml",
+      "sha256": "3d131b88dce30bfa3ce1335a37398f584ba4e36f091cf3487f980e48e219e2f2"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/meet-36.3.xml",
+      "sha256": "14020629c9993240c852f19891208785239f1900c14058fbe4f491bddd1205d1"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/mine-10.9.xml",
+      "sha256": "132a5a41cd47818f22e9f66ab38a4fdd50a11bdcc4cacf067603c08c63a24b60"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/mix-22.1.xml",
+      "sha256": "15f7814f9abfaae9e7be1d8f9b861498476220ce03bdb6476eb589e0f6c99b3f"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/modes_of_being_with_motion-47.3.xml",
+      "sha256": "fcca1a17540c7b76433765ffcf2e4c83881731f42ec622544ce4d205e145a234"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/murder-42.1.xml",
+      "sha256": "4726edb2ac0c917b14349ee8524b5b0e9e0c47acd8e0307889e79d0083e538ca"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/neglect-75.xml",
+      "sha256": "e5c48703b458a5d4b53e9dfa38c00545f3d31f493413e40a57f8acfb42527266"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/nonvehicle-51.4.2.xml",
+      "sha256": "a447abdd49ce19f711cb1f204613437961f8176f32ba8ce18338bcc3922f7903"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/nonverbal_expression-40.2.xml",
+      "sha256": "617632f020bdc501f89bc9fd62470da4ad9a54a75c91b694fc709f9630e8b066"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/obtain-13.5.2.xml",
+      "sha256": "bf64a74f470836448222efb0d3ddbbe8122bced706ca8de9d57a2686f7931ab3"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/occurrence-48.3.xml",
+      "sha256": "32ce91b60b209671df2ea5c3d9bc62c0f66f1c6b59eafd95f29bc3284dfc2eb3"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/order-60.xml",
+      "sha256": "32e4572ee70315b91f40780eca7dd609cb1032cd26a4455288f8bb9d92a3cece"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/orphan-29.7.xml",
+      "sha256": "49ad0b4df43682cc2f7757f7bf5768593e9b15690998467656ab3ba9af7f1e16"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/other_cos-45.4.xml",
+      "sha256": "563eaa04d437be39a914253e17573c65f85e70e9e1e4f3c5af67b2d154889844"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/pain-40.8.1.xml",
+      "sha256": "803bd254112d26a3d0b07f292964f7e4dba3756ad73312fe6e4c27812b4ef3e7"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/pay-68.xml",
+      "sha256": "1f68b30e4544c7f35b0b5b2e4589bb0c20983e3cf71accf2345e3ce2584ebb0b"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/peer-30.3.xml",
+      "sha256": "dbc8fae1f8db47b7f2cc686329c533e0f107726b70e89c670e2c2b8e80948ca7"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/pelt-17.2.xml",
+      "sha256": "907350bb696d254b357b3b8b0bb334b2b6419ad9238b89104930e9ecf4ee5dab"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/performance-26.7.xml",
+      "sha256": "21f7d18059e475d4180febb596a36a9af33c61e436430290744419fb4dc4e11e"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/pit-10.7.xml",
+      "sha256": "f92e9d462cf75db7132727ac909045b2c2a6dd224e0853c09624e7925ef1a422"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/pocket-9.10.xml",
+      "sha256": "c041aa70638c05ec4c3499c604978e1630c2136180b2087fbcbce6b96da701a1"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/poison-42.2.xml",
+      "sha256": "76d93945cd2dc483281cc1ad01814fba4d401a678e8485f93631b7e2e834956a"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/poke-19.xml",
+      "sha256": "ae439eae6565f183af0c7f696f57c2b516e5c6acc0d414da9afc2511ae145ce6"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/pour-9.5.xml",
+      "sha256": "8e69ac6dfeb73c34a03d29029aeb9f970013c05f2598dcd59d1ad40852c421ef"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/preparing-26.3.xml",
+      "sha256": "d829930792a14a20b945bef60d8f84470ed9534653bd7f68ffce14fa6b074581"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/price-54.4.xml",
+      "sha256": "cf2fe557d9d52e13c165fe807736e9820d0680e6c6db1614d69dbe4bc42eb482"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/push-12.xml",
+      "sha256": "df6fceb1175e60f22e13060a6903877e02e383c3640c36d2adb75a9f8e365d1d"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/put-9.1.xml",
+      "sha256": "363dd1087c82c4a4e86f9817ad780dec58414b4d9f22ab9df5f862e437837b81"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/put_direction-9.4.xml",
+      "sha256": "ccf71ab1e06da76fa3d09960513badb436a7d914b1d74cb1111ec27f2ce3a020"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/put_spatial-9.2.xml",
+      "sha256": "6299f3dcbfd8d4b14b843e170bf0024eb2ef76485be15a6721cf3e6979fac80f"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/reach-51.8.xml",
+      "sha256": "8503d6782ce1a3e9d521c7094ce92a9ab1d44a70db2c60fe82c144eb7ba4a00c"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/reflexive_appearance-48.1.2.xml",
+      "sha256": "a7ab14e3e8edd5e90093bf4fb4588399cc20be0e8bdc64cce7af88d48770ffbb"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/refrain-69.xml",
+      "sha256": "da9bac88d503c396422081fbba3c8a10779ca53469576ac69c9388292ff7a24d"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/register-54.1.xml",
+      "sha256": "4070db7f387e61054115d083eee1a1563b63502589eeb59730d5e2e68aeccfca"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/rely-70.xml",
+      "sha256": "39220ba29039b1b2c0dee1fd7faac55d5c643822ad4dc48628ebd0901ffdd00e"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/remove-10.1.xml",
+      "sha256": "53c4660042e6c544d71a3b75002ec8c620713336b133783945d00fde914a0386"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/risk-94.xml",
+      "sha256": "031cc4d8fff5632e18548939889d2581730669e099f461ad9b249e63edf916ad"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/roll-51.3.1.xml",
+      "sha256": "e2181b2017be7532135c19fcbf7d24b170168fbae20f8c4bf6e5131580d7015f"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/rummage-35.5.xml",
+      "sha256": "0282b3941ba00229d5cfb5b9582eb69093aff87c6de25242122b8f0ba15f1c18"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/run-51.3.2.xml",
+      "sha256": "b38904be88afab121a4684ab6d162f1dbfe8428c52b690968d488aee51987558"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/rush-53.2.xml",
+      "sha256": "0787e4f567cfb2d32dce1574b9f4a134c64cbe7920e0df89d851925b460b87e7"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/say-37.7.xml",
+      "sha256": "8d4dcc34ef4ef100acc49dc5b83ffc143b3590f3df19360159f7e5fef9fb9e9e"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/scribble-25.2.xml",
+      "sha256": "2179c949bbf23e8b0df0fa0113cbc7fd95ddcb012af3fd98c7cb00831898e36e"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/search-35.2.xml",
+      "sha256": "aafd0818f876fee2ee6b7e91318b66298cce3c41c3728f9843e4480fd8c76244"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/see-30.1.xml",
+      "sha256": "3550f2962617d47071477e0ec1650f41d12f65bed38d55230812e27fbbc7d89e"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/send-11.1.xml",
+      "sha256": "3b94f497688da6bc8e67854531163029fe6a55212a7e212f8b2a614341f87055"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/separate-23.1.xml",
+      "sha256": "4cca1052ab5dc9c4f45834c4a0977c0e38fb02d25b4661325445e4a5341ee07f"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/settle-89.xml",
+      "sha256": "c8db58dbb894c9b1c9593af126b7226edd1bb7bb20544cd93dca8a391b3b5cd3"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/shake-22.3.xml",
+      "sha256": "a6fa241ca37b03996aa49dc691efd9a70f0c0eebe33392b72078335ce9bae674"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/sight-30.2.xml",
+      "sha256": "d38a7394c00c2ecb0d2259c727da65fe8dc72ed48bd5b9116e71e3f10d30df03"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/simple_dressing-41.3.1.xml",
+      "sha256": "a35b748ff9be0fe223870333927c0f7562ec109ecb7ae6a277293f6c00725f4e"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/slide-11.2.xml",
+      "sha256": "3e16dba4a05761fb8216b72faf6f2053f0a03bbcf292433dc19dd5a0daced455"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/smell_emission-43.3.xml",
+      "sha256": "ce5664d570687a80f1ad34dcd691e6e5ad73a8a5162ef125716cd2f79adefa79"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/snooze-40.4.xml",
+      "sha256": "5e74f49dde50a2c775e663319de70af4adb6cc0f6458119508ac598601966019"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/sound_emission-43.2.xml",
+      "sha256": "a1aafddf5fd0842232a4b0e3211502362eafe95b0b883baebeec3fb1596f7aff"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/sound_existence-47.4.xml",
+      "sha256": "e3ee805f617f13bb77b5bbf601336050fc669792871c1d82d421a4882af28735"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/spank-18.3.xml",
+      "sha256": "dd1cecca3d630f78fdc4467e89b499493e8e06c9631e77655d6d0b32576ebd72"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/spatial_configuration-47.6.xml",
+      "sha256": "645ab2795e7e71bda53cddb6904ddf9cd5aa8b71fa74b6c7f27a684050c12cf0"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/split-23.2.xml",
+      "sha256": "d6a4a72b6a8fb44b041baa497d44872a20a5c3644fd6aab7fe61672ce22a349e"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/spray-9.7.xml",
+      "sha256": "6b8220535dc2cec3587fab06ba3b598eee2fba11318ee6ddc6bce54e84f13d05"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/stalk-35.3.xml",
+      "sha256": "74bc5793167247407248c14c893b048066b9ce5692319f5a3de637231f528031"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/steal-10.5.xml",
+      "sha256": "efa048f04662a2610ca8054564dcfbdc8580b3e6a49d834d33e8be199aba4cba"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/stimulus_subject-30.4.xml",
+      "sha256": "f0fe182dca2e96d1e50e9fe6d124cc1ef19e90c8b906635e14b0d092e9f3e14c"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/stop-55.4.xml",
+      "sha256": "fd1ad02277b3a3d74a0fb7ab5087f2aa416b529038bf22c18f56d2c0241b505b"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/substance_emission-43.4.xml",
+      "sha256": "d0d26335cf5279288626fb1c57e05ebaa253adc5579bf6f9a89de1c9c67c626a"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/succeed-74.xml",
+      "sha256": "d155bf208bd4469b52759f31d1ad3a371c90cff863435b55351271853f33a598"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/suffocate-40.7.xml",
+      "sha256": "ecb6f7dd31864590c2717083cff182c09c1acf371ac3836ec941de76025b19f7"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/suspect-81.xml",
+      "sha256": "aadeaabba80489b8c3ec121cd46e6ec22733e6497bacbec1847aa71facdf2600"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/swarm-47.5.1.xml",
+      "sha256": "e6f4580cc8c9e5309b0f1c45076accc2619c0429df226035deedd5e4bf846445"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/swat-18.2.xml",
+      "sha256": "24e423a3b45e1229fb6e22679bfdd20a2725ec46826ae972299be145dfa4f4fa"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/talk-37.5.xml",
+      "sha256": "ca7c9dab7ef8c616ef38106715ea142ff12508ada0345afc3335cbfb6ea30d0d"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/tape-22.4.xml",
+      "sha256": "cefd10c9220c6d9eb8ddbcf987987ac9506e173d44b9caf5379edcbf7fbe7001"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/tell-37.2.xml",
+      "sha256": "7d6f21a24caf316fa34a4ebb5f844dcfa96bf5137675d344683140c3c7938924"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/throw-17.1.xml",
+      "sha256": "f65091a2c44c60ea7c801b31278aac8b955f18dab72ed3278132ca6478d679b1"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/tingle-40.8.2.xml",
+      "sha256": "8fac00c9ec5f642dec69192241e2301d39415fed9778021fce4ec3f90c68cbfe"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/touch-20.xml",
+      "sha256": "6a66c74e5b610456fe02f6f12cf76ecebae7ba13797250056306623d984c9b8a"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/transcribe-25.4.xml",
+      "sha256": "e9ec810df669be47569d9d3a275fe121edf0cffab2fc6ddb6bd6b7469af0c97d"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/transfer_mesg-37.1.1.xml",
+      "sha256": "484b0ba02fea65e7d50282a0dc2a8d093c5dae17286b0fbec673561ee8b0034c"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/try-61.xml",
+      "sha256": "ad5d6879c4b9f63cc455f39d9b3b2b5f00ebd50957655aa3e4d2b771c66118f4"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/turn-26.6.1.xml",
+      "sha256": "e18751e54010d3aeba3d6a74e806b34bc47309f30c7cc01f62c3523104df3e4f"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/urge-58.xml",
+      "sha256": "95eaf8f99414b35dfb439fbe77fa0564bad8bb4b63e400e69b21809e84477eba"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/vehicle-51.4.1.xml",
+      "sha256": "882f09c38c4761e5d6a6631c7f28ac2ec77c4f91a0936c49861d20a311b51f19"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/waltz-51.5.xml",
+      "sha256": "ceda878712c175fb97023e08431c0df2c4c13a899e4972bb50de493d509825fb"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/want-32.1.xml",
+      "sha256": "d8562228e0f008d2f47d24b7adf0ad53774e5d6b89454e2b32d14ad16c895309"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/weather-57.xml",
+      "sha256": "1e1f20999106655f3ea32bebd16cca75821ed4563cd303936e2553118c56281f"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/weekend-56.xml",
+      "sha256": "392f7f9a25f4c9a7c34e27e9b4d13f137cb9707b9b70dc791130f21175d65d6f"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/wink-40.3.1.xml",
+      "sha256": "152709449c6ec27cff63abd5cb74d3d059a7ae2359c480376a61288e21ee70c6"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/wipe_instr-10.4.2.xml",
+      "sha256": "689d435f131414b7bca7e7c7864a1cf91c297d329487ce4a5d229090888a3e38"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/wipe_manner-10.4.1.xml",
+      "sha256": "b51ac66dd56966ef0cda589c3bace977d8404f81bc91587b2f3091e38dc26747"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/wish-62.xml",
+      "sha256": "dcd11936de00091e2381bd639c15264e63d986c363c686fb92e10b4f1a02e6b5"
+    },
+    {
+      "path": "/Users/rohanvinaik/nltk_data/corpora/verbnet/withdraw-82.xml",
+      "sha256": "ac8a1beeac994d20f9889f4628efba7dadc23a2bafd9e63753120853b3130f86"
+    }
+  ],
+  "release_pin_verification": {
+    "expected_file_count": 237,
+    "observed_file_count": 237,
+    "missing": [],
+    "mismatch": [],
+    "code": "SOURCE_PIN_MATCH"
+  }
+}

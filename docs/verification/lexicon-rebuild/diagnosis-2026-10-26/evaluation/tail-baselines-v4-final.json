@@ -1,0 +1,2312 @@
+{
+  "schema": "GSE_TAIL_TRIVIAL_BASELINE_CHALLENGE_V1",
+  "scope": "EVALUATION_ONLY_DEVELOPMENT_COHORT",
+  "code": "BASELINE_NOT_EXCEEDED",
+  "task_count": 36,
+  "failed_against": [
+    "ALWAYS_YES",
+    "CLASS_MAJORITY"
+  ],
+  "typed_groups": [
+    {
+      "family": "EMOTION_FEAR_ADJ",
+      "coordinate": "DO",
+      "options": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "task_count": 6,
+      "selectors": {
+        "MODEL": {
+          "IDENTIFIED": 6
+        },
+        "ALWAYS_YES": {
+          "IDENTIFIED": 6
+        },
+        "ALWAYS_SILENT": {
+          "WRONG": 6
+        },
+        "CLASS_MAJORITY": {
+          "IDENTIFIED": 6
+        }
+      },
+      "failed_against": [
+        "ALWAYS_YES",
+        "CLASS_MAJORITY"
+      ],
+      "code": "TYPED_GROUP_BASELINE_NOT_EXCEEDED",
+      "ceiling_baselines": [
+        "ALWAYS_YES",
+        "CLASS_MAJORITY"
+      ]
+    },
+    {
+      "family": "EMOTION_FEAR_ADJ",
+      "coordinate": "IF",
+      "options": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "task_count": 6,
+      "selectors": {
+        "MODEL": {
+          "IDENTIFIED": 4,
+          "WRONG": 2
+        },
+        "ALWAYS_YES": {
+          "IDENTIFIED": 4,
+          "WRONG": 2
+        },
+        "ALWAYS_SILENT": {
+          "WRONG": 4,
+          "IDENTIFIED": 2
+        },
+        "CLASS_MAJORITY": {
+          "IDENTIFIED": 4,
+          "WRONG": 2
+        }
+      },
+      "failed_against": [
+        "ALWAYS_YES",
+        "CLASS_MAJORITY"
+      ],
+      "code": "TYPED_GROUP_BASELINE_NOT_EXCEEDED",
+      "ceiling_baselines": []
+    },
+    {
+      "family": "EMOTION_FEAR_ADJ",
+      "coordinate": "KNOW",
+      "options": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "task_count": 6,
+      "selectors": {
+        "MODEL": {
+          "IDENTIFIED": 3,
+          "WRONG": 3
+        },
+        "ALWAYS_YES": {
+          "IDENTIFIED": 3,
+          "WRONG": 3
+        },
+        "ALWAYS_SILENT": {
+          "WRONG": 3,
+          "IDENTIFIED": 3
+        },
+        "CLASS_MAJORITY": {
+          "IDENTIFIED": 3,
+          "WRONG": 3
+        }
+      },
+      "failed_against": [
+        "ALWAYS_YES",
+        "ALWAYS_SILENT",
+        "CLASS_MAJORITY"
+      ],
+      "code": "TYPED_GROUP_BASELINE_NOT_EXCEEDED",
+      "ceiling_baselines": []
+    },
+    {
+      "family": "EMOTION_FEAR_ADJ",
+      "coordinate": "MAYBE",
+      "options": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "task_count": 6,
+      "selectors": {
+        "MODEL": {
+          "WRONG": 4,
+          "ABSTAINED": 1,
+          "IDENTIFIED": 1
+        },
+        "ALWAYS_YES": {
+          "WRONG": 5,
+          "IDENTIFIED": 1
+        },
+        "ALWAYS_SILENT": {
+          "IDENTIFIED": 5,
+          "WRONG": 1
+        },
+        "CLASS_MAJORITY": {
+          "IDENTIFIED": 5,
+          "WRONG": 1
+        }
+      },
+      "failed_against": [
+        "ALWAYS_YES",
+        "ALWAYS_SILENT",
+        "CLASS_MAJORITY"
+      ],
+      "code": "TYPED_GROUP_BASELINE_NOT_EXCEEDED",
+      "ceiling_baselines": []
+    },
+    {
+      "family": "EMOTION_FEAR_ADJ",
+      "coordinate": "MUST",
+      "options": [
+        "+1",
+        "0",
+        "empty"
+      ],
+      "task_count": 6,
+      "selectors": {
+        "MODEL": {
+          "WRONG": 6
+        },
+        "ALWAYS_YES": {
+          "WRONG": 6
+        },
+        "ALWAYS_SILENT": {
+          "IDENTIFIED": 6
+        },
+        "CLASS_MAJORITY": {
+          "IDENTIFIED": 6
+        }
+      },
+      "failed_against": [
+        "ALWAYS_YES",
+        "ALWAYS_SILENT",
+        "CLASS_MAJORITY"
+      ],
+      "code": "TYPED_GROUP_BASELINE_NOT_EXCEEDED",
+      "ceiling_baselines": [
+        "ALWAYS_SILENT",
+        "CLASS_MAJORITY"
+      ]
+    },
+    {
+      "family": "EMOTION_FEAR_ADJ",
+      "coordinate": "THEN",
+      "options": [
+        "-1",
+        "0",
+        "empty"
+      ],
+      "task_count": 6,
+      "selectors": {
+        "MODEL": {
+          "WRONG": 2,
+          "IDENTIFIED": 4
+        },
+        "ALWAYS_YES": {
+          "IDENTIFIED": 5,
+          "WRONG": 1
+        },
+        "ALWAYS_SILENT": {
+          "WRONG": 5,
+          "IDENTIFIED": 1
+        },
+        "CLASS_MAJORITY": {
+          "IDENTIFIED": 5,
+          "WRONG": 1
+        }
+      },
+      "failed_against": [
+        "ALWAYS_YES",
+        "CLASS_MAJORITY"
+      ],
+      "code": "TYPED_GROUP_BASELINE_NOT_EXCEEDED",
+      "ceiling_baselines": []
+    }
+  ],
+  "failed_typed_group_count": 6,
+  "options_basis_counts": {
+    "RECORDED_PRE_DECISION_DOMAIN": 35,
+    "FINAL_DOMAIN_FALLBACK; LATER_PROPAGATION_MAY_HAVE_NARROWED_OFFER": 1
+  },
+  "selectors": {
+    "MODEL": {
+      "counts": {
+        "IDENTIFIED": 18,
+        "WRONG": 17,
+        "ABSTAINED": 1
+      },
+      "by_family": {
+        "EMOTION_FEAR_ADJ": {
+          "IDENTIFIED": 18,
+          "WRONG": 17,
+          "ABSTAINED": 1
+        }
+      },
+      "ledger": [
+        {
+          "task_id": "dc51215bf03d3e4b804897825537620e35f26d3ecddb6934b0c12a0b6016646c",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "DO",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "d5db3efcf3f3fdceb4fc1f72d20897280e8ab1a18b6862964561ea72fdd188f9",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "IF",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "20fd3ff3fbc4be558657048a489ec63445c435084698b6373f6d49a607a2b59f",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "KNOW",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "014344496d20e9bbce329f5eaa38eedb6f8d22599f0f167d4cc74fac0e02f5a1",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MAYBE",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "20af47af9da1be524b7c9b733d1768664ee57d5f14514cd110a7c2f20d534f18",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MUST",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "cc1c5666de32bc53c2f20b78ff9c334ba7690d67fb21e91167bbe0c14c58ee13",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "THEN",
+          "expected": "-1",
+          "actual": "0",
+          "options": [
+            "-1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "c2eb846b5d77913bbfb5468cf8f495130e2a618c60bd9ce858e4e14a376af20c",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "DO",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "0940007a5268838af84e1a137a7d5fcea18511ce1e23d45c037f22e8d6c1aacb",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "IF",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "d783e154bce510c28267552f48197076ecf885ec5b6eb173ae7571d43bf28ba2",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "KNOW",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "79a4e8741a4c9940aa13ab8fb21e14e7a619bcc3b281140b79187d05eba268b3",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MAYBE",
+          "expected": "empty",
+          "actual": "ABSTAIN",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "FINAL_DOMAIN_FALLBACK; LATER_PROPAGATION_MAY_HAVE_NARROWED_OFFER",
+          "code": "ABSTAINED"
+        },
+        {
+          "task_id": "d63cc969e1451ac74da96f7eae2a9fb27b8ba3a448d8886004aadb79b24f320a",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MUST",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "a6256aa684dde180efa97c7b5337bd630f3e1c8c80050af73e9c96a9224ac1a8",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "THEN",
+          "expected": "-1",
+          "actual": "-1",
+          "options": [
+            "-1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "2c2a3a96a25de064af10dcbf5b62d3c99c8f69dc7df55b2422ce0aee95c6284b",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "DO",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "237381e9bb1abd028c73e5afdab50a1a086ff05116f95469aba164290f431a28",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "IF",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "b65d7c6deabff6aec66527a28c8d0f464243c82feb90d7afa674a2338587148a",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "KNOW",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "70d51d7e316e30ec05cb6da19778ede84ceef906039b1f0c872dffa7e0f1112d",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MAYBE",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "bf9d5da6227e65a904950ee78e7e3dbca7621d3b953de7ca26c1933d5e2895c0",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MUST",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "c5410d94e4ee453c681cfd14e8250c4aa96b1cf33fd1da66ca9ac98fbaf95643",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "THEN",
+          "expected": "empty",
+          "actual": "-1",
+          "options": [
+            "-1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "c7ee0e97d784fe9f0447aa66ce8278b0b45a405eecc784171aae7e10173a456e",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "DO",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "79992b0f5e461429465c464fb8a44efc6444b46d9cfc4940300d28703fd9f62c",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "IF",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "0c8c1ba6ab46ee82b4459433202306c8d1693d7f4b25f4af674596ebd7da0c59",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "KNOW",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "812110a6c01de930361c40ec28b6f089295f2d2471a96e1d4ba2804aa8b38bce",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MAYBE",
+          "expected": "empty",
+          "actual": "0",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "d8c8955c836da84d03ea9c8543e512e7cbc8030a6bfa7b85360b8a0d4983a666",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MUST",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "51a80f2305f779e28f30d6c6b1f3398d59b609d89618ed4b084594ac1fa149b9",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "THEN",
+          "expected": "-1",
+          "actual": "-1",
+          "options": [
+            "-1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "b013d25b6c16a0636e7a99777e16d4884f7f440fba42f1b431ea3eef7824ae67",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "DO",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "90f57c2068e0c173d2817bad1b181cb266236607c00980eff02c01d7bd38eea6",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "IF",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "2781618336fcc068fa5fa602369e2b2161312579988a6cb897d967a7011c72e5",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "KNOW",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "25228db5b51b95ed22e1ed7525fa174d946c5ee1077b8709b6fcfa050bec565d",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MAYBE",
+          "expected": "empty",
+          "actual": "0",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "1783516843f30b03bca8f8a53158724c783271303d06e8364b13608a37a8c13b",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MUST",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "8889d3a0bcba5494a53ffbdb186544f88f872b1732ab383d5125c5e6976d3005",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "THEN",
+          "expected": "-1",
+          "actual": "-1",
+          "options": [
+            "-1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "d771fd842eec50cf9fc484d30a04c2118b6c82544d377c7b86c06a42b0cf3d52",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "DO",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "d1f5396b31f1538d46216bf07646806baa79954e131d479cdcb6375e4ba4e33f",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "IF",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "2a5032ed1c553bfc4d02e9cb87141dc4aed7f56676f9e7ce39e4c20c4fb22ff0",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "KNOW",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "1530b86f571680f6ff1cee2a6d45e593b33620076a2c9d671518a5338bc50676",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MAYBE",
+          "expected": "empty",
+          "actual": "0",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "e59ec286eb1554bca6c0ff9529f5577afc22cf2e090af539d9df26c7aa2c86d3",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MUST",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "179e6e780b90ff822efa35d4e1ce319b063cbcf864fd1960523667f75676e070",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "THEN",
+          "expected": "-1",
+          "actual": "-1",
+          "options": [
+            "-1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        }
+      ]
+    },
+    "ALWAYS_YES": {
+      "counts": {
+        "IDENTIFIED": 19,
+        "WRONG": 17
+      },
+      "by_family": {
+        "EMOTION_FEAR_ADJ": {
+          "IDENTIFIED": 19,
+          "WRONG": 17
+        }
+      },
+      "ledger": [
+        {
+          "task_id": "dc51215bf03d3e4b804897825537620e35f26d3ecddb6934b0c12a0b6016646c",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "DO",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "d5db3efcf3f3fdceb4fc1f72d20897280e8ab1a18b6862964561ea72fdd188f9",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "IF",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "20fd3ff3fbc4be558657048a489ec63445c435084698b6373f6d49a607a2b59f",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "KNOW",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "014344496d20e9bbce329f5eaa38eedb6f8d22599f0f167d4cc74fac0e02f5a1",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MAYBE",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "20af47af9da1be524b7c9b733d1768664ee57d5f14514cd110a7c2f20d534f18",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MUST",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "cc1c5666de32bc53c2f20b78ff9c334ba7690d67fb21e91167bbe0c14c58ee13",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "THEN",
+          "expected": "-1",
+          "actual": "-1",
+          "options": [
+            "-1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "c2eb846b5d77913bbfb5468cf8f495130e2a618c60bd9ce858e4e14a376af20c",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "DO",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "0940007a5268838af84e1a137a7d5fcea18511ce1e23d45c037f22e8d6c1aacb",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "IF",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "d783e154bce510c28267552f48197076ecf885ec5b6eb173ae7571d43bf28ba2",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "KNOW",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "79a4e8741a4c9940aa13ab8fb21e14e7a619bcc3b281140b79187d05eba268b3",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MAYBE",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "FINAL_DOMAIN_FALLBACK; LATER_PROPAGATION_MAY_HAVE_NARROWED_OFFER",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "d63cc969e1451ac74da96f7eae2a9fb27b8ba3a448d8886004aadb79b24f320a",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MUST",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "a6256aa684dde180efa97c7b5337bd630f3e1c8c80050af73e9c96a9224ac1a8",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "THEN",
+          "expected": "-1",
+          "actual": "-1",
+          "options": [
+            "-1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "2c2a3a96a25de064af10dcbf5b62d3c99c8f69dc7df55b2422ce0aee95c6284b",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "DO",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "237381e9bb1abd028c73e5afdab50a1a086ff05116f95469aba164290f431a28",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "IF",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "b65d7c6deabff6aec66527a28c8d0f464243c82feb90d7afa674a2338587148a",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "KNOW",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "70d51d7e316e30ec05cb6da19778ede84ceef906039b1f0c872dffa7e0f1112d",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MAYBE",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "bf9d5da6227e65a904950ee78e7e3dbca7621d3b953de7ca26c1933d5e2895c0",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MUST",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "c5410d94e4ee453c681cfd14e8250c4aa96b1cf33fd1da66ca9ac98fbaf95643",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "THEN",
+          "expected": "empty",
+          "actual": "-1",
+          "options": [
+            "-1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "c7ee0e97d784fe9f0447aa66ce8278b0b45a405eecc784171aae7e10173a456e",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "DO",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "79992b0f5e461429465c464fb8a44efc6444b46d9cfc4940300d28703fd9f62c",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "IF",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "0c8c1ba6ab46ee82b4459433202306c8d1693d7f4b25f4af674596ebd7da0c59",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "KNOW",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "812110a6c01de930361c40ec28b6f089295f2d2471a96e1d4ba2804aa8b38bce",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MAYBE",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "d8c8955c836da84d03ea9c8543e512e7cbc8030a6bfa7b85360b8a0d4983a666",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MUST",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "51a80f2305f779e28f30d6c6b1f3398d59b609d89618ed4b084594ac1fa149b9",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "THEN",
+          "expected": "-1",
+          "actual": "-1",
+          "options": [
+            "-1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "b013d25b6c16a0636e7a99777e16d4884f7f440fba42f1b431ea3eef7824ae67",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "DO",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "90f57c2068e0c173d2817bad1b181cb266236607c00980eff02c01d7bd38eea6",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "IF",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "2781618336fcc068fa5fa602369e2b2161312579988a6cb897d967a7011c72e5",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "KNOW",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "25228db5b51b95ed22e1ed7525fa174d946c5ee1077b8709b6fcfa050bec565d",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MAYBE",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "1783516843f30b03bca8f8a53158724c783271303d06e8364b13608a37a8c13b",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MUST",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "8889d3a0bcba5494a53ffbdb186544f88f872b1732ab383d5125c5e6976d3005",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "THEN",
+          "expected": "-1",
+          "actual": "-1",
+          "options": [
+            "-1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "d771fd842eec50cf9fc484d30a04c2118b6c82544d377c7b86c06a42b0cf3d52",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "DO",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "d1f5396b31f1538d46216bf07646806baa79954e131d479cdcb6375e4ba4e33f",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "IF",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "2a5032ed1c553bfc4d02e9cb87141dc4aed7f56676f9e7ce39e4c20c4fb22ff0",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "KNOW",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "1530b86f571680f6ff1cee2a6d45e593b33620076a2c9d671518a5338bc50676",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MAYBE",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "e59ec286eb1554bca6c0ff9529f5577afc22cf2e090af539d9df26c7aa2c86d3",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MUST",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "179e6e780b90ff822efa35d4e1ce319b063cbcf864fd1960523667f75676e070",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "THEN",
+          "expected": "-1",
+          "actual": "-1",
+          "options": [
+            "-1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        }
+      ]
+    },
+    "ALWAYS_SILENT": {
+      "counts": {
+        "WRONG": 19,
+        "IDENTIFIED": 17
+      },
+      "by_family": {
+        "EMOTION_FEAR_ADJ": {
+          "WRONG": 19,
+          "IDENTIFIED": 17
+        }
+      },
+      "ledger": [
+        {
+          "task_id": "dc51215bf03d3e4b804897825537620e35f26d3ecddb6934b0c12a0b6016646c",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "DO",
+          "expected": "+1",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "d5db3efcf3f3fdceb4fc1f72d20897280e8ab1a18b6862964561ea72fdd188f9",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "IF",
+          "expected": "+1",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "20fd3ff3fbc4be558657048a489ec63445c435084698b6373f6d49a607a2b59f",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "KNOW",
+          "expected": "+1",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "014344496d20e9bbce329f5eaa38eedb6f8d22599f0f167d4cc74fac0e02f5a1",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MAYBE",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "20af47af9da1be524b7c9b733d1768664ee57d5f14514cd110a7c2f20d534f18",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MUST",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "cc1c5666de32bc53c2f20b78ff9c334ba7690d67fb21e91167bbe0c14c58ee13",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "THEN",
+          "expected": "-1",
+          "actual": "empty",
+          "options": [
+            "-1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "c2eb846b5d77913bbfb5468cf8f495130e2a618c60bd9ce858e4e14a376af20c",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "DO",
+          "expected": "+1",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "0940007a5268838af84e1a137a7d5fcea18511ce1e23d45c037f22e8d6c1aacb",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "IF",
+          "expected": "+1",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "d783e154bce510c28267552f48197076ecf885ec5b6eb173ae7571d43bf28ba2",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "KNOW",
+          "expected": "+1",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "79a4e8741a4c9940aa13ab8fb21e14e7a619bcc3b281140b79187d05eba268b3",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MAYBE",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "FINAL_DOMAIN_FALLBACK; LATER_PROPAGATION_MAY_HAVE_NARROWED_OFFER",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "d63cc969e1451ac74da96f7eae2a9fb27b8ba3a448d8886004aadb79b24f320a",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MUST",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "a6256aa684dde180efa97c7b5337bd630f3e1c8c80050af73e9c96a9224ac1a8",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "THEN",
+          "expected": "-1",
+          "actual": "empty",
+          "options": [
+            "-1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "2c2a3a96a25de064af10dcbf5b62d3c99c8f69dc7df55b2422ce0aee95c6284b",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "DO",
+          "expected": "+1",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "237381e9bb1abd028c73e5afdab50a1a086ff05116f95469aba164290f431a28",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "IF",
+          "expected": "+1",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "b65d7c6deabff6aec66527a28c8d0f464243c82feb90d7afa674a2338587148a",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "KNOW",
+          "expected": "+1",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "70d51d7e316e30ec05cb6da19778ede84ceef906039b1f0c872dffa7e0f1112d",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MAYBE",
+          "expected": "+1",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "bf9d5da6227e65a904950ee78e7e3dbca7621d3b953de7ca26c1933d5e2895c0",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MUST",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "c5410d94e4ee453c681cfd14e8250c4aa96b1cf33fd1da66ca9ac98fbaf95643",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "THEN",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "-1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "c7ee0e97d784fe9f0447aa66ce8278b0b45a405eecc784171aae7e10173a456e",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "DO",
+          "expected": "+1",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "79992b0f5e461429465c464fb8a44efc6444b46d9cfc4940300d28703fd9f62c",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "IF",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "0c8c1ba6ab46ee82b4459433202306c8d1693d7f4b25f4af674596ebd7da0c59",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "KNOW",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "812110a6c01de930361c40ec28b6f089295f2d2471a96e1d4ba2804aa8b38bce",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MAYBE",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "d8c8955c836da84d03ea9c8543e512e7cbc8030a6bfa7b85360b8a0d4983a666",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MUST",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "51a80f2305f779e28f30d6c6b1f3398d59b609d89618ed4b084594ac1fa149b9",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "THEN",
+          "expected": "-1",
+          "actual": "empty",
+          "options": [
+            "-1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "b013d25b6c16a0636e7a99777e16d4884f7f440fba42f1b431ea3eef7824ae67",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "DO",
+          "expected": "+1",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "90f57c2068e0c173d2817bad1b181cb266236607c00980eff02c01d7bd38eea6",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "IF",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "2781618336fcc068fa5fa602369e2b2161312579988a6cb897d967a7011c72e5",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "KNOW",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "25228db5b51b95ed22e1ed7525fa174d946c5ee1077b8709b6fcfa050bec565d",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MAYBE",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "1783516843f30b03bca8f8a53158724c783271303d06e8364b13608a37a8c13b",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MUST",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "8889d3a0bcba5494a53ffbdb186544f88f872b1732ab383d5125c5e6976d3005",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "THEN",
+          "expected": "-1",
+          "actual": "empty",
+          "options": [
+            "-1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "d771fd842eec50cf9fc484d30a04c2118b6c82544d377c7b86c06a42b0cf3d52",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "DO",
+          "expected": "+1",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "d1f5396b31f1538d46216bf07646806baa79954e131d479cdcb6375e4ba4e33f",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "IF",
+          "expected": "+1",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "2a5032ed1c553bfc4d02e9cb87141dc4aed7f56676f9e7ce39e4c20c4fb22ff0",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "KNOW",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "1530b86f571680f6ff1cee2a6d45e593b33620076a2c9d671518a5338bc50676",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MAYBE",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "e59ec286eb1554bca6c0ff9529f5577afc22cf2e090af539d9df26c7aa2c86d3",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MUST",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "179e6e780b90ff822efa35d4e1ce319b063cbcf864fd1960523667f75676e070",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "THEN",
+          "expected": "-1",
+          "actual": "empty",
+          "options": [
+            "-1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        }
+      ]
+    },
+    "CLASS_MAJORITY": {
+      "counts": {
+        "IDENTIFIED": 29,
+        "WRONG": 7
+      },
+      "by_family": {
+        "EMOTION_FEAR_ADJ": {
+          "IDENTIFIED": 29,
+          "WRONG": 7
+        }
+      },
+      "ledger": [
+        {
+          "task_id": "dc51215bf03d3e4b804897825537620e35f26d3ecddb6934b0c12a0b6016646c",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "DO",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "d5db3efcf3f3fdceb4fc1f72d20897280e8ab1a18b6862964561ea72fdd188f9",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "IF",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "20fd3ff3fbc4be558657048a489ec63445c435084698b6373f6d49a607a2b59f",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "KNOW",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "014344496d20e9bbce329f5eaa38eedb6f8d22599f0f167d4cc74fac0e02f5a1",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MAYBE",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "20af47af9da1be524b7c9b733d1768664ee57d5f14514cd110a7c2f20d534f18",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MUST",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "cc1c5666de32bc53c2f20b78ff9c334ba7690d67fb21e91167bbe0c14c58ee13",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "THEN",
+          "expected": "-1",
+          "actual": "-1",
+          "options": [
+            "-1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "c2eb846b5d77913bbfb5468cf8f495130e2a618c60bd9ce858e4e14a376af20c",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "DO",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "0940007a5268838af84e1a137a7d5fcea18511ce1e23d45c037f22e8d6c1aacb",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "IF",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "d783e154bce510c28267552f48197076ecf885ec5b6eb173ae7571d43bf28ba2",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "KNOW",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "79a4e8741a4c9940aa13ab8fb21e14e7a619bcc3b281140b79187d05eba268b3",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MAYBE",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "FINAL_DOMAIN_FALLBACK; LATER_PROPAGATION_MAY_HAVE_NARROWED_OFFER",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "d63cc969e1451ac74da96f7eae2a9fb27b8ba3a448d8886004aadb79b24f320a",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MUST",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "a6256aa684dde180efa97c7b5337bd630f3e1c8c80050af73e9c96a9224ac1a8",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "THEN",
+          "expected": "-1",
+          "actual": "-1",
+          "options": [
+            "-1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "2c2a3a96a25de064af10dcbf5b62d3c99c8f69dc7df55b2422ce0aee95c6284b",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "DO",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "237381e9bb1abd028c73e5afdab50a1a086ff05116f95469aba164290f431a28",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "IF",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "b65d7c6deabff6aec66527a28c8d0f464243c82feb90d7afa674a2338587148a",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "KNOW",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "70d51d7e316e30ec05cb6da19778ede84ceef906039b1f0c872dffa7e0f1112d",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MAYBE",
+          "expected": "+1",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "bf9d5da6227e65a904950ee78e7e3dbca7621d3b953de7ca26c1933d5e2895c0",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MUST",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "c5410d94e4ee453c681cfd14e8250c4aa96b1cf33fd1da66ca9ac98fbaf95643",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "THEN",
+          "expected": "empty",
+          "actual": "-1",
+          "options": [
+            "-1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "c7ee0e97d784fe9f0447aa66ce8278b0b45a405eecc784171aae7e10173a456e",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "DO",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "79992b0f5e461429465c464fb8a44efc6444b46d9cfc4940300d28703fd9f62c",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "IF",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "0c8c1ba6ab46ee82b4459433202306c8d1693d7f4b25f4af674596ebd7da0c59",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "KNOW",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "812110a6c01de930361c40ec28b6f089295f2d2471a96e1d4ba2804aa8b38bce",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MAYBE",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "d8c8955c836da84d03ea9c8543e512e7cbc8030a6bfa7b85360b8a0d4983a666",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MUST",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "51a80f2305f779e28f30d6c6b1f3398d59b609d89618ed4b084594ac1fa149b9",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "THEN",
+          "expected": "-1",
+          "actual": "-1",
+          "options": [
+            "-1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "b013d25b6c16a0636e7a99777e16d4884f7f440fba42f1b431ea3eef7824ae67",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "DO",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "90f57c2068e0c173d2817bad1b181cb266236607c00980eff02c01d7bd38eea6",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "IF",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "2781618336fcc068fa5fa602369e2b2161312579988a6cb897d967a7011c72e5",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "KNOW",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "25228db5b51b95ed22e1ed7525fa174d946c5ee1077b8709b6fcfa050bec565d",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MAYBE",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "1783516843f30b03bca8f8a53158724c783271303d06e8364b13608a37a8c13b",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MUST",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "8889d3a0bcba5494a53ffbdb186544f88f872b1732ab383d5125c5e6976d3005",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "THEN",
+          "expected": "-1",
+          "actual": "-1",
+          "options": [
+            "-1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "d771fd842eec50cf9fc484d30a04c2118b6c82544d377c7b86c06a42b0cf3d52",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "DO",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "d1f5396b31f1538d46216bf07646806baa79954e131d479cdcb6375e4ba4e33f",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "IF",
+          "expected": "+1",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "2a5032ed1c553bfc4d02e9cb87141dc4aed7f56676f9e7ce39e4c20c4fb22ff0",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "KNOW",
+          "expected": "empty",
+          "actual": "+1",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "WRONG"
+        },
+        {
+          "task_id": "1530b86f571680f6ff1cee2a6d45e593b33620076a2c9d671518a5338bc50676",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MAYBE",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "e59ec286eb1554bca6c0ff9529f5577afc22cf2e090af539d9df26c7aa2c86d3",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "MUST",
+          "expected": "empty",
+          "actual": "empty",
+          "options": [
+            "+1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        },
+        {
+          "task_id": "179e6e780b90ff822efa35d4e1ce319b063cbcf864fd1960523667f75676e070",
+          "family": "EMOTION_FEAR_ADJ",
+          "coordinate": "THEN",
+          "expected": "-1",
+          "actual": "-1",
+          "options": [
+            "-1",
+            "0",
+            "empty"
+          ],
+          "options_basis": "RECORDED_PRE_DECISION_DOMAIN",
+          "code": "IDENTIFIED"
+        }
+      ]
+    }
+  },
+  "policy": "Model IDENTIFIED must strictly exceed every trivial selector overall AND in every rule/coordinate/legal-options group. All other outcomes remain separate.",
+  "ceiling_interpretation": "A baseline at the group's reference ceiling makes strict improvement impossible on that development cohort; a tie is not evidence against bounded models in general.",
+  "majority_scope": "FITTED_TO_THE_SAME_DEVELOPMENT_REFERENCES; OPTIMISTIC_IN_SAMPLE_CONTROL",
+  "construction_effect": "NONE; NO_RUNTIME_ADMISSION_DEPENDENCY",
+  "input_sha256": "24ff6cb024533f4dce784ef5e51427ff6d5f99199851b25c5af359c116a5794d",
+  "reference_sha256": "499dcbc466ecb89f87faa6a9863f0aa916d2d784699679f9ffefd118f6905689",
+  "review_sha256": null,
+  "evaluator_implementation_sha256": {
+    "evaluation.py": "7503cf921a85f52cfbc9c18cd439a34cb143f0a0c6cc6bd99dde2c7c309d65b6",
+    "artifact.py": "2ed507b083af3a8f36e42e22ac0317294a1aec7664d72048273321a32cb2be89",
+    "core.py": "10f4f805a108ac46b95fe2fc0b516bcfc5bb2873394c01ddc9bd8cf7b8805aa8",
+    "surprise.py": "f03bc35143145f677923055c82ba69f81d581d292279c58654901b7d72fda1cf"
+  }
+}

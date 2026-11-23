@@ -1,0 +1,47 @@
+{
+  "schema": "GSE_EVALUATION_DIAGNOSIS_FINAL_FREEZE_V1",
+  "code": "EVALUATION_FROZEN; OWNERSHIP_RETURNED",
+  "frozen_at_utc": "2026-10-26T04:48:19.516426+00:00",
+  "reference_unchanged": true,
+  "reference_sha256": "499dcbc466ecb89f87faa6a9863f0aa916d2d784699679f9ffefd118f6905689",
+  "implementation_sha256": {
+    "gse/lexicon_builder/evaluation.py": "7503cf921a85f52cfbc9c18cd439a34cb143f0a0c6cc6bd99dde2c7c309d65b6",
+    "tests/test_lexicon_evaluation.py": "a2f3eb0980679f758e25697ea430b4b35a7f62426539a2bef91866978de79269"
+  },
+  "packet_sha256": {
+    "docs/verification/lexicon-rebuild/diagnosis-2026-10-26/evaluation/COMMANDS.md": "23b783fd51b6484a32eddf8039caa727fc68863399225745aab5373f598488c9",
+    "docs/verification/lexicon-rebuild/diagnosis-2026-10-26/evaluation/REPORT.md": "3822930da95989b846009225eae64619f407afe2b08dcae1d1da98103175f4c9",
+    "docs/verification/lexicon-rebuild/diagnosis-2026-10-26/evaluation/evaluation-review-final.json": "92d5a79f4aa64eb9c1068a3f406084b8ea4e92b2cee7c9c3b641fd55c383a17e",
+    "docs/verification/lexicon-rebuild/diagnosis-2026-10-26/evaluation/evaluation-review.json": "251df77275200b80af1b572d0d2fbb84b8505f4237f38ca65097e0cac0b0db92",
+    "docs/verification/lexicon-rebuild/diagnosis-2026-10-26/evaluation/native-distinction-facts.json": "ce2338acf1efd55f05b245e85032c05e78c6f811fe4141eb03b3ffc7b457178e",
+    "docs/verification/lexicon-rebuild/diagnosis-2026-10-26/evaluation/post-change-build-receipt.json": "70c75aae66b27aa1fb64be0c5e2385f1a1179784830b835b8975eee3a8522058",
+    "docs/verification/lexicon-rebuild/diagnosis-2026-10-26/evaluation/post-change-input-freeze.json": "c3db85d553553dde5376dae174dbca5024f10a1d8c35158e2117087d8002d823",
+    "docs/verification/lexicon-rebuild/diagnosis-2026-10-26/evaluation/pre-change-build-receipt.json": "f7201d648460c789131d7fe9ce7b583a1724a30feb8a83453f9d3a3bfe705982",
+    "docs/verification/lexicon-rebuild/diagnosis-2026-10-26/evaluation/pre-change-input-freeze.json": "61fb84a4435c8d160ce0e8d1cee2a112479f0534d78d192ac06162e1a22be304",
+    "docs/verification/lexicon-rebuild/diagnosis-2026-10-26/evaluation/reference-identities.json": "9a6bd79425e3cd166c00691bd3173796902fa359499b10864e34e79aa2f7bb37",
+    "docs/verification/lexicon-rebuild/diagnosis-2026-10-26/evaluation/symbolic-ledger-post-change.json": "93cc3e0080061e005317c44a0b937a5ff70b61ddacddaffb7492115e47c4297b",
+    "docs/verification/lexicon-rebuild/diagnosis-2026-10-26/evaluation/symbolic-ledger-pre-change-final-evaluator.json": "a8cfdcccc594bc76e8e7dea015361fadf8d2033bcaf410458f01ea039c4e5daa",
+    "docs/verification/lexicon-rebuild/diagnosis-2026-10-26/evaluation/symbolic-ledger-pre-change.json": "6a85c35030b92c7b8dd50832f85ba1c94a320afd88ec70833247705b30cb0168",
+    "docs/verification/lexicon-rebuild/diagnosis-2026-10-26/evaluation/tail-baselines-v4-final.json": "8ff60720f94ad92a8a6651d48a69e712561c320c97dffb70146b9f61403f120a",
+    "docs/verification/lexicon-rebuild/diagnosis-2026-10-26/evaluation/tail-baselines-v4.json": "4f6bece86aeeca245b88cc50b7a3a85ae840a8bd61b0c3f4ebaab81ff29e203d",
+    "docs/verification/lexicon-rebuild/diagnosis-2026-10-26/evaluation/verification-results.json": "4fffa360e21255daef82841c747a0c0d450488b87b904c4e1aff7ec65e288cf8"
+  },
+  "raw_candidate_sha256": {
+    "/private/tmp/gse-diagnosis-symbolic-pre-20261026/sparse.jsonl": "b424084eb2fe1b4dbb5c7760e045cef040f0dfdb5317f0bcae225f7dce27b4d8",
+    "/private/tmp/gse-diagnosis-symbolic-post-20261026/sparse.jsonl": "15ef6897c04dfc900748b7d21257adfae18a7471ca3427f04c269a5639ed2238",
+    "/private/tmp/gse-family-live-v4-20261025/sparse.jsonl": "24ff6cb024533f4dce784ef5e51427ff6d5f99199851b25c5af359c116a5794d"
+  },
+  "checks": {
+    "focused_tests_passed": 13,
+    "ruff": "PASSED",
+    "ty": "PASSED_AFTER_APPROVED_CACHE_ACCESS_RERUN",
+    "baseline_cli_exit": 1,
+    "baseline_code": "BASELINE_NOT_EXCEEDED",
+    "failing_typed_groups": 6,
+    "post_change_model_requests": 0,
+    "post_change_manifest_implementation_match": true,
+    "post_change_bytes_match_freeze": true
+  },
+  "construction_effect": "NONE; NO_SOURCE_EDITS_OR_MODEL_CALLS_IN_EVALUATION_TASK",
+  "prior_results": "INITIAL_PRECHANGE_AND_V4_REPORTS_PRESERVED; FINAL_EVALUATOR_OUTPUTS_USE_NEW_FILENAMES"
+}

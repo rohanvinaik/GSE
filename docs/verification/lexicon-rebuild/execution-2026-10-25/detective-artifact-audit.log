@@ -1,0 +1,25 @@
+  … vector_status: static · complexity (CC 20) · proves nothing (advisory)
+  … vector_status: tracing 5 function-routed tests
+  … vector_status: baseline traced · 5 tests · 0.0s
+  … vector_status: tracing 5 function-routed tests
+  … vector_status: baseline traced · 5 tests · 1.9s
+  … vector_status: 1/79 mutants · 4.4s/mutant · ETA estimating… (heartbeat)
+  … vector_status: 79/79 mutants · 6.7/s · done in 11.9s
+──────────────────────────────────────────────────────────────────────────────
+gse/lexicon_builder/artifact.py::vector_status — audit · 8 test(s) · 61/79 value-pinned · 83.5% killed (value+crash) · complete, modulo 15 unproven-equivalent and 3 crash-only value gaps
+
+  · fan-in             8 reach this function · 5 in the basis-relative minimal cover (2:1)
+  · origin (ℋ⊎𝒢)       7 intent-grounded · 1 characterized
+  · unproven-equiv     15 survivor(s) — the search found no distinguishing input
+  · crash-only-equiv   3 — detected by crash; no value pins them
+  · redundant          3 test(s) pointless for kills AND lines
+                       tests/test_lexicon_foundation_workflow.py::test_real_cli_builds_profiles_structures_and_fear_without_initializing_a_model, tests/test_lexicon_mvp_artifact.py::test_consumer_refuses_an_alias_that_disagrees_with_the_canonical_coordinate, tests/test_lexicon_mvp_artifact.py::test_explicit_declared_vector_round_trips_without_losing_zeros_or_masks
+
+DO THIS:  detective audit 'gse/lexicon_builder/artifact.py::vector_status' --remove
+
+  · Why                3 test(s) kill no mutant AND cover no line
+                       OF THIS FUNCTION that another test does not already. --remove
+                       re-checks every function each one serves (this file's functions, the
+                       target's direct callers and callees, every function the test is observed
+                       to execute), keeps any still needed there or not fully checked, and
+                       deletes the rest from whichever test file defines them.

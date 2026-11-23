@@ -1,0 +1,59 @@
+  … cli_law_contract: 1/75 mutants · 10.1/s · ETA estimating… (heartbeat)
+  … cli_law_contract: 75/75 mutants · 243.3/s · done in 0.3s
+  ▸ pass 0: 75 value-survivor(s) — synthesizing killing tests…
+  ▸ pass 0: +1 new killing test(s) written [test_gse_lexicon_builder_core_cli_law_contract_b98a7589c0_synth.py]
+  … cli_law_contract: tracing 1 function-routed tests
+  … cli_law_contract: baseline traced · 1 tests · 0.0s
+  … cli_law_contract: 75/75 mutants · 353.4/s · done in 0.2s
+  ▸ pass 1: 73 value-survivor(s) — synthesizing killing tests…
+  ▸ pass 1: no new killing test for the remaining survivor(s) — at ceiling
+  ▸ witness pass: searching richer inputs for a distinguishing kill…
+  ▸ finalizing — re-profiling the full mutant universe against the written suite…
+  … cli_law_contract: tracing 1 function-routed tests
+  … cli_law_contract: baseline traced · 1 tests · 0.0s
+  … cli_law_contract: 75/75 mutants · 349.3/s · done in 0.2s
+  ▸ 73 survivor(s) remain — classifying (killable / equivalent / needs-input)…
+  ▸ verifying reproducibility — fresh isolated observation of the function's proof basis…
+  … cli_law_contract: tracing 1 function-routed tests
+  … cli_law_contract: baseline traced · 1 tests · 0.0s
+  ▸ reproducibility confirmed — the certificate rests on the isolated observation
+──────────────────────────────────────────────────────────────────────────────
+gse/lexicon_builder/core.py::cli_law_contract — converge · 75 behaviours · 2 pinned · 69 candidate-equivalent · 4 crash-only
+
+  ✓ wrote              1 test(s) → tests/detective/test_gse_lexicon_builder_core_cli_law_contract_b98a7589c0_synth.py
+  ✗ uncovered          15 line(s): 671, 672, 673, 674, 675, 676, 677, 678 … (+7 more)
+                       line 673 runs only when: mode is not None and (not isinstance(mode, str) or mode not in {'DIRECT_CONSTRAINTS', 'ADMITTED_RULEBOOK'})
+                       line 675 runs only when: 'laws' not in payload
+                       line 678 runs only when: not isinstance(laws, list) or any((not isinstance(record, dict) for record in laws))
+                       (+2 more — all named in the action below)
+  · unproven-equiv     69 — the search found no distinguishing input
+  · crash-only-equiv   4 — detected by crash; no value pins them
+  ⚠ structural         a survivor above may be KILLABLE, not equivalent — confirm over a nested/cross-referential --input (or a branch no input reached) before you `flag` (full report)
+  · not consulted      5633 collected test(s) have no static path to this function — not traced (a missed dynamic reacher costs a redundant generated test, never a certificate)
+  · full report        .detective/reports/converge_cli_law_contract.txt
+
+AUTHOR INPUTS:  write the calls that reach the uncovered lines below
+
+  · Signature          cli_law_contract(payload: object)
+  · Template           --input "(<payload>,)"  (replace every <...> slot before running)
+
+  · Task               Author 10 call(s) — one per line below — each as
+                       its own --input. Detective derives every test from them.
+  · Why                Every killable mutant is already dead. What is left is
+                       lines no test executes; a mutant on a line that never
+                       runs cannot be killed, so reach these first.
+  · Uncovered          1. line 671 — reach it
+                       2. line 672 — reach it
+                       3. line 673 — reached only when: mode is not None and (not isinstance(mode, str) or mode not in {'DIRECT_CONSTRAINTS', 'ADMITTED_RULEBOOK'})
+                       4. line 674 — reach it
+                       5. line 675 — reached only when: 'laws' not in payload
+                       6. line 676 — reach it
+                       7. line 677 — reach it
+                       8. line 678 — reached only when: not isinstance(laws, list) or any((not isinstance(record, dict) for record in laws))
+                       9. line 679 — reach it
+                       10. line 680 — reach it
+                       (+5 more in .detective/reports/converge_cli_law_contract.txt)
+
+THEN RUN:  detective converge 'gse/lexicon_builder/core.py::cli_law_contract'
+
+FINAL gse/lexicon_builder/core.py::cli_law_contract: Incomplete: 15-line gap · 6/75 killed · 1 test(s) → tests/detective/test_gse_lexicon_builder_core_cli_law_contract_b98a7589c0_synth.py · policy 9.261d14e34119

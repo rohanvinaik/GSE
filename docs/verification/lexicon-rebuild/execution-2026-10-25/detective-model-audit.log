@@ -1,0 +1,22 @@
+  … selection_status: static · no static smell · proves nothing (advisory)
+  … selection_status: tracing 15 function-routed tests
+  … selection_status: baseline traced · 15 tests · 0.1s
+  … selection_status: tracing 1 function-routed tests
+  … selection_status: baseline traced · 1 tests · 0.0s
+  … selection_status: 1/63 mutants · 1.8/s · ETA estimating… (heartbeat)
+  … selection_status: 63/63 mutants · 12.5/s · done in 5.0s
+──────────────────────────────────────────────────────────────────────────────
+gse/lexicon_builder/model.py::selection_status — audit · 13 test(s) · 45/63 value-pinned · 85.7% killed (value+crash) · incomplete
+
+  · fan-in             13 reach this function · 6 in the basis-relative minimal cover (2:1)
+  · origin (ℋ⊎𝒢)       11 intent-grounded · 2 characterized
+  ✗ real gaps          2 killable mutant(s) no test kills
+  · unproven-equiv     7 survivor(s) — the search found no distinguishing input
+  · crash-only-equiv   9 — detected by crash; no value pins them
+  · redundant          7 test(s) pointless for kills AND lines
+                       tests/test_lexicon_builder_workflow.py::test_a_fully_constrained_problem_can_still_complete_via_one_bounded_choice, tests/test_lexicon_builder_workflow.py::test_bank_review_is_opt_in_and_cannot_change_an_exported_vector, tests/test_lexicon_builder_workflow.py::test_decoder_receives_the_schema_and_only_structured_input, tests/test_lexicon_builder_workflow.py::test_degree_presence_is_symbolic_and_candidate_mask_status_stays_provisional … (+3 more)
+
+DO THIS:  detective converge 'gse/lexicon_builder/model.py::selection_status'
+
+  · Why                2 killable mutant(s) — real gaps, not equivalents.
+  · Writes             the missing tests, and wires them into pytest.

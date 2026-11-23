@@ -1,0 +1,53 @@
+{
+  "schema": "NSM_SEALED_RESEARCH_STATUS_V1",
+  "recorded_at_utc": "2026-10-26T04:50:33.479324+00:00",
+  "role": "Independent reader; no builder/test/gold edits",
+  "private_packet_path": "/private/tmp/gse-unseen-nsm-20261026",
+  "private_manifest_sha256": "dee7da8b676964b92a7a7cae9f0628929e888215300e642bfa5f1434854130e4",
+  "private_file_count": 47,
+  "private_reference_sha256": "25fce1841f47be29f6159aa56dec21b3ecd16481d087d51e8407ddc4cfea445a",
+  "private_validation_sha256": "8101415809873923c75d3aced7f5a319d049201aa648f417cb4507ecf4d9ca90",
+  "source_snapshot_precedes_this_round_first_semantic_read": true,
+  "source_freeze_at_utc": "2026-10-26T04:27:39.144114+00:00",
+  "chapter3_read_started_at_utc": "2026-10-26T04:28:40.587995+00:00",
+  "chapter3_read_completed_recorded_at_utc": "2026-10-26T04:44:55.321169+00:00",
+  "reference_frozen_at_utc": "2026-10-26T04:44:55.381792+00:00",
+  "sealed_at_utc": "2026-10-26T04:50:33.479324+00:00",
+  "whole_unit": "Wierzbicka1999 chapter3, printed pp.123–167; PDF pp.135–179",
+  "critical_sections": {
+    "6": "printed pp.137-139 inclusive, section heading through immediately before section7; PDF pp.149-151",
+    "13": "printed pp.159-163 inclusive, section heading through immediately before section14; PDF pp.171-175"
+  },
+  "counts": {
+    "english_blocks": 5,
+    "coordinate_count": 58,
+    "content_cell_decisions": 30,
+    "unresolved_cell_decisions": 260,
+    "default_zero_decisions": 0,
+    "default_silent_decisions": 0,
+    "complete_profiles": 0,
+    "distinct_projected_coordinates": 9,
+    "source_sections_page_images_checked": 8,
+    "chapter3_read_printed_pages_inclusive": 45,
+    "eligible_english_blocks_section6": 0,
+    "eligible_english_blocks_section13": 5
+  },
+  "exposure": {
+    "chapter2": "DEVELOPMENT_ALREADY_EXPOSED",
+    "chapter1_section9": "DEVELOPMENT_ALREADY_EXPOSED",
+    "chapter3_prior_sessions": "UNKNOWN",
+    "this_round_root_received_new_quotations_explications_targets_or_cells": false,
+    "verified_globally_unseen_reference_count": null,
+    "isolation_limit": "Policy isolation in a shared same-user filesystem. Mode0700 and read-only snapshots do not prevent another same-user process from accessing files. No claim of cryptographic or global exposure proof."
+  },
+  "builder_inputs_used_for_reference_projection": false,
+  "reference_status": "PARTIAL_SCOPED_PROSPECTIVE_EVALUATION; not complete profiles, not construction inputs",
+  "checks": {
+    "reference_schema": "PASS",
+    "fixed58_per_record": "PASS",
+    "source_hashes": "PASS",
+    "pre_read_freeze_order": "PASS",
+    "page_image_verification": "PASS"
+  },
+  "release_condition": "Keep private answers out of construction, rule induction and model tasks. Freeze the evaluated constructor/config/source identities and prediction artifact before any unblinding; post-unblinding revisions belong to a new developmental round."
+}

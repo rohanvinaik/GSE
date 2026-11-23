@@ -1,0 +1,55 @@
+{
+  "what": "The must-not search behind the revised row 23: each in-scope reading's FrameNet definition, classified",
+  "classified_by": "reviewer judgment, 2026-10-25; not a source field and not construction input (F080)",
+  "frames_read_whole": ["Emotion_directed", "Experiencer_focus", "Fear", "Emotions_by_stimulus"],
+  "classes": {
+    "SUBSTANTIVE": "says something beyond naming or grading a feeling: a cause, an object, a thought, a possibility, an ability, another person, a bodily effect",
+    "SYNONYM_LEVEL": "names or grades a feeling by another feeling word; cannot falsify any bank",
+    "DIFFERENT_SENSE": "the FrameNet unit is a different sense from the USAS tag it would join",
+    "NO_DEFINITION_READ": "no unit in the four frames read"
+  },
+  "counts": {"SUBSTANTIVE": 30, "SYNONYM_LEVEL": 115, "DIFFERENT_SENSE": 2, "NO_DEFINITION_READ": 12, "total": 159},
+  "substantive": {
+    "ADJ": {
+      "despondent": ["hope: time, WANT"],
+      "disappointed": ["BECAUSE", "expectation: THINK, WANT", "NOT HAPPEN"],
+      "disconsolate": ["NOT", "CAN", "someone who comforts"],
+      "disheartened": ["hope: time, WANT"],
+      "embarrassed": ["self-conscious: THINK about others"],
+      "grim": ["hope and outlook: time"],
+      "inconsolable": ["NOT", "CAN", "someone who comforts"],
+      "indignant": ["someone's unfair treatment: SOMEONE, DO"],
+      "upset": ["BECAUSE"],
+      "nervous": ["anticipation (marked as typical): time"],
+      "petrified": ["paralysed: MOVE, CAN, NOT"],
+      "gleeful": ["triumph: DO or HAPPEN"],
+      "jubilant": ["triumph: DO or HAPPEN"]
+    },
+    "NOUN": {
+      "amusement": ["finding something funny: THINK"],
+      "chagrin": ["having failed: DO, NOT, before"],
+      "despair": ["absence of hope: NOT, time"],
+      "desperation": ["despair: NOT, time"],
+      "embarrassment": ["self-conscious: THINK about others"],
+      "fear": ["CAUSE", "threat: MAYBE or CAN", "harm"],
+      "grief": ["CAUSE", "someone's death (marked as typical): SOMEONE, DEAD"],
+      "mourning": ["someone who has died: SOMEONE, DEAD, before", "expression"],
+      "pity": ["CAUSE", "others' suffering: OTHER, SOMEONE"],
+      "regret": ["repentance: DO, before"],
+      "satisfaction": ["desires sated: WANT, HAPPEN"],
+      "sorrow": ["CAUSE", "loss: HAVE or HAPPEN"],
+      "sympathy": ["someone else's misfortune: SOMEONE, OTHER, HAPPEN"]
+    },
+    "VERB": {
+      "dread": ["anticipation: time, MAYBE or CAN"],
+      "fear": ["on behalf of: OTHER, SOMEONE"],
+      "mourn": ["death or loss: DEAD", "following: time"],
+      "regret": ["express: SAY", "repentance: DO, before"]
+    }
+  },
+  "different_sense": {
+    "rue/VERB": "FrameNet's Experiencer_focus unit is the compassion sense; USAS E4.2- is the regret sense",
+    "misery/NOUN": "FrameNet's Emotion_directed unit is a situation; USAS E4.1- is the feeling"
+  },
+  "no_definition_read": ["admire", "appreciate", "bear", "cherish", "deplore", "fancy", "favor", "miss", "prefer", "suffer", "treasure", "worship"]
+}

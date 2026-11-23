@@ -1,0 +1,291 @@
+{
+  "schema": "GSE_HISTORICAL_REPLAY_V1",
+  "basis_id": "GSE_LEXICAL_72_SIGNED_58_V1",
+  "comparison": "DATA_ONLY; DIFFERENCES_DO_NOT_ESTABLISH_SEMANTIC_APPROVAL",
+  "old_dir": "/private/tmp/gse-subagents/replay/old",
+  "new_dir": "/private/tmp/gse-lexicon-final-gate-build-current-20261025",
+  "input_sha256": {
+    "old": {
+      "summary.json": "6b35ec33ce05080194c5be97ee6630db7e0b970724311f5dbfc43d3b50e40813",
+      "words.jsonl": "de0559db62dbffb678121391d2f04bfa6d115ed7f43000a9f77dc7287b050582",
+      "manifest.json": "9b507fd38ae2df710a79a74704b1d6f7187e5cccf02891334e32527c3d783e94",
+      "vectors.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "new": {
+      "summary.json": "10d1179e2fa5e05d1f644ae815b860eeb41ab77d3527d1054b2acbe068ce8ed3",
+      "sparse.jsonl": "4eb7d285b200eca0834c2465e2d7ed102d818af61ba691b11ba248bfdf8fddbd",
+      "structures.jsonl": "f0c962a4c220c9757c273704b284fc7db403fa24f798fdc8b0d20c7f51d7a95b",
+      "words.jsonl": "5d91f86ac4d3495abcc75bc895f575b3d6a292b9e561d5484bcb36cf0f7e2322",
+      "tail-ledger.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "manifest.json": "fdc6e96f63fb6d52554113777f739e341d5ab237b15332723787d7fe56f13fdd",
+      "vectors.jsonl": "cc88a518b678f8b70f75554a8db464f6c5f94143c5ff17b34dc22cb6adc2d9e2"
+    }
+  },
+  "word_accounting": {
+    "old": 1040,
+    "new": 1040,
+    "removed": [],
+    "added": [],
+    "manifest_worklists_equal": true,
+    "native_records_changed_words": 1040
+  },
+  "readings": {
+    "old": 470,
+    "new": 2342,
+    "SHARED_READING": 470,
+    "ADDED_READING": 1872,
+    "REMOVED_READING": 0,
+    "shared_code_changes": [],
+    "added_by_source_scope": [
+      {
+        "source_scope": "FRAMENET_NOUN_TARGET",
+        "code": "PARTIAL",
+        "count": 51
+      },
+      {
+        "source_scope": "FRAMENET_NOUN_TARGET",
+        "code": "UNRESOLVED_NOUN_HEAD",
+        "count": 515
+      },
+      {
+        "source_scope": "LEMMA_POS_HEAD_CONTRACT",
+        "code": "PARTIAL",
+        "count": 861
+      },
+      {
+        "source_scope": "NATIVE_CLASS_FRAME",
+        "code": "PARTIAL",
+        "count": 358
+      },
+      {
+        "source_scope": "SCOPED_FUNCTION_WORD",
+        "code": "PARTIAL",
+        "count": 23
+      },
+      {
+        "source_scope": "SOURCED_PRIME_LEXICAL_UNIT",
+        "code": "CANDIDATE_COMPLETE",
+        "count": 63
+      },
+      {
+        "source_scope": null,
+        "code": "PARTIAL",
+        "count": 1
+      }
+    ]
+  },
+  "reading_codes": [
+    {
+      "side": "new",
+      "code": "CANDIDATE_COMPLETE",
+      "count": 63
+    },
+    {
+      "side": "new",
+      "code": "PARTIAL",
+      "count": 1764
+    },
+    {
+      "side": "new",
+      "code": "UNRESOLVED_NOUN_HEAD",
+      "count": 515
+    },
+    {
+      "side": "old",
+      "code": "PARTIAL",
+      "count": 470
+    }
+  ],
+  "cells": {
+    "coordinates": 58,
+    "ledger_rows": 135836,
+    "classifications": {
+      "ADDED_READING_CELL": 108576,
+      "UNCHANGED": 23178,
+      "OPEN_TO_SETTLED": 4082
+    },
+    "settled_review_rows": 0,
+    "settled_value_changes": 0,
+    "settled_reopened": 0,
+    "settled_to_conflict": 0,
+    "unchanged_domains_with_changed_restricting_trace": 191,
+    "by_coordinate": [
+      {
+        "coordinate": "BIG",
+        "code": "OPEN_TO_SETTLED",
+        "count": 8
+      },
+      {
+        "coordinate": "BODY",
+        "code": "OPEN_TO_SETTLED",
+        "count": 453
+      },
+      {
+        "coordinate": "CAUSE",
+        "code": "OPEN_TO_SETTLED",
+        "count": 220
+      },
+      {
+        "coordinate": "DO",
+        "code": "OPEN_TO_SETTLED",
+        "count": 220
+      },
+      {
+        "coordinate": "GOOD",
+        "code": "OPEN_TO_SETTLED",
+        "count": 8
+      },
+      {
+        "coordinate": "I",
+        "code": "OPEN_TO_SETTLED",
+        "count": 453
+      },
+      {
+        "coordinate": "KIND",
+        "code": "OPEN_TO_SETTLED",
+        "count": 453
+      },
+      {
+        "coordinate": "NOT",
+        "code": "OPEN_TO_SETTLED",
+        "count": 1
+      },
+      {
+        "coordinate": "PART",
+        "code": "OPEN_TO_SETTLED",
+        "count": 453
+      },
+      {
+        "coordinate": "PEOPLE",
+        "code": "OPEN_TO_SETTLED",
+        "count": 453
+      },
+      {
+        "coordinate": "SOMEONE",
+        "code": "OPEN_TO_SETTLED",
+        "count": 453
+      },
+      {
+        "coordinate": "SOMETHING",
+        "code": "OPEN_TO_SETTLED",
+        "count": 453
+      },
+      {
+        "coordinate": "WANT",
+        "code": "OPEN_TO_SETTLED",
+        "count": 1
+      },
+      {
+        "coordinate": "YOU",
+        "code": "OPEN_TO_SETTLED",
+        "count": 453
+      }
+    ]
+  },
+  "recorded_restricting_writers_for_shared_changes": [
+    {
+      "side": "new",
+      "transition": "OPEN_TO_SETTLED",
+      "rule": "EVALUATOR_EXCLUDES_SIZE",
+      "cell_trace_occurrences": 8
+    },
+    {
+      "side": "new",
+      "transition": "OPEN_TO_SETTLED",
+      "rule": "FEAR_AVERSION",
+      "cell_trace_occurrences": 2
+    },
+    {
+      "side": "new",
+      "transition": "OPEN_TO_SETTLED",
+      "rule": "NATIVE:VN_CAUSATION",
+      "cell_trace_occurrences": 440
+    },
+    {
+      "side": "new",
+      "transition": "OPEN_TO_SETTLED",
+      "rule": "SIZE_DESCRIPTOR_EXCLUDES_EVALUATION",
+      "cell_trace_occurrences": 8
+    },
+    {
+      "side": "new",
+      "transition": "OPEN_TO_SETTLED",
+      "rule": "VERB_HEADS_NO_SUBSTANTIVE",
+      "cell_trace_occurrences": 3624
+    }
+  ],
+  "source_pins": {
+    "ADDED_PIN": 1158,
+    "REMOVED_PIN": 0,
+    "HASH_CHANGED": 0,
+    "PATH_ONLY_CHANGED": 5,
+    "UNCHANGED_PIN": 238
+  },
+  "model_calls": {
+    "old": 0,
+    "new": 0
+  },
+  "manifest_models": {
+    "old": null,
+    "new": null
+  },
+  "structures": {
+    "ADDED_STRUCTURE": 58
+  },
+  "limitations": [
+    "A restricting trace records a constraint reduction, not a proof that a semantic change is justified.",
+    "Old records do not contain application IDs; absent application metadata is recorded as missing schema evidence, never fabricated.",
+    "Reading equality uses the exact (word, reading_id) key; no implicit cross-ID sense matching.",
+    "The full cell ledger includes added and removed reading cells and unchanged shared cells; summaries keep these classes separate."
+  ],
+  "outputs": {
+    "README.md": {
+      "sha256": "a38f77374b7a3c844abeb0f87a3f258dde2a25e647929fd6ce98bef6edc6a981",
+      "bytes": 2678
+    },
+    "cell-ledger.jsonl.gz": {
+      "sha256": "b8228ccd32d41298404e9f88559717f2d7fdb5046f19b2fcc34df0e1e6eb669c",
+      "bytes": 1317808
+    },
+    "cohort-metadata-refresh.json": {
+      "sha256": "b9e8f950d835228233f6dc0310858d2dd08164c90152af6c89b405e80d93b07d",
+      "bytes": 971
+    },
+    "compare.py": {
+      "sha256": "8af4c4f0e6ee13716dc57901083301f70eb56ec213f2a2c87c26061a3473e737",
+      "bytes": 18398
+    },
+    "model-calls.json": {
+      "sha256": "0730501c687ef0b0e86eb6fad681d045f9e7b492c575051c25eacb74bc35ab27",
+      "bytes": 29
+    },
+    "reading-ledger.jsonl.gz": {
+      "sha256": "21384f83b8a6b8f7bd55566f73ed1c9bf359fd04b14de29388f6883015d2faff",
+      "bytes": 521671
+    },
+    "removed-readings.jsonl": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "settled-cell-review.jsonl": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "source-pin-validation.json": {
+      "sha256": "2e777de372ca86390e331c9c24b18d819e68a7d08d3a5b7c440bc350db43f76d",
+      "bytes": 859741
+    },
+    "source-pins.json": {
+      "sha256": "194860f41728e3594dff71d38744e06882bbaaa1798f5c55a22edb28a4dc3201",
+      "bytes": 615617
+    },
+    "structures.jsonl": {
+      "sha256": "636389aff7fa4a0088e3bb7bcf623292882aa4c70adff7ae959d323e6781b968",
+      "bytes": 60813
+    },
+    "writers.json": {
+      "sha256": "876c12085cb4fcf8796c252749c726f1085b6706179aa606155fc88942be5c07",
+      "bytes": 432640
+    }
+  }
+}

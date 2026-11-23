@@ -1,0 +1,3894 @@
+{
+  "schema": "GSE_RETROSPECTIVE_FAMILY_REFERENCE_EVALUATION_V4",
+  "trial": "V4_TYPED_QUANTIFICATION_DEVELOPMENT",
+  "declared_run_implementation_matches_v4_freeze": true,
+  "identity_limit": "Run manifest source identity checked against the V4 frozen snapshot. Evaluation reader matches recorded artifact.py. No instrumented bytecode-execution identity claim.",
+  "evaluated_at_utc": "2026-10-26T03:39:13.066818+00:00",
+  "scope": "RETROSPECTIVE_DEVELOPMENT_REFERENCE_COMPARISON; NOT_HELD_OUT_ACCURACY",
+  "construction_freeze_sha256": "c103abac8a6c74f435bf0799fb970a20d676944c4a2a65144e2460a426f54c40",
+  "original_evaluation_manifest_sha256": "36fa553202caadde6767fe759b4d4c28ed4125c0b29c0fca50b738df9b782a2c",
+  "retrospective_reference_sha256": "ea379db6d85358ba55eec7c5860a230e76d82cc23bde7ad9ab3cc819fcfb6136",
+  "candidate_identities_before": {
+    "summary.json": "f9174617304545c8a89e7e129fafb1640d3bf92e4f38429b8108d44094ef1df9",
+    "sparse.jsonl": "24ff6cb024533f4dce784ef5e51427ff6d5f99199851b25c5af359c116a5794d",
+    "structures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "words.jsonl": "a5a4bf1c8254374c408f4c86b07feb7385f7f6e100337bf449d9efc39363fa7d",
+    "tail-ledger.json": "d40300f46b91b38f25b2e012cfb027a8bbbb8d7522005531667614b3d50aaf56",
+    "manifest.json": "3615a5df86c29a00f705b1167b96d56349194c459538a96c03e503cced823dac",
+    "vectors.jsonl": "8946e1d46d33cabc86cf884c8aea361163c3e11819d323aef3225b413699b8ab"
+  },
+  "candidate_identities_after": {
+    "summary.json": "f9174617304545c8a89e7e129fafb1640d3bf92e4f38429b8108d44094ef1df9",
+    "sparse.jsonl": "24ff6cb024533f4dce784ef5e51427ff6d5f99199851b25c5af359c116a5794d",
+    "structures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "words.jsonl": "a5a4bf1c8254374c408f4c86b07feb7385f7f6e100337bf449d9efc39363fa7d",
+    "tail-ledger.json": "d40300f46b91b38f25b2e012cfb027a8bbbb8d7522005531667614b3d50aaf56",
+    "manifest.json": "3615a5df86c29a00f705b1167b96d56349194c459538a96c03e503cced823dac",
+    "vectors.jsonl": "8946e1d46d33cabc86cf884c8aea361163c3e11819d323aef3225b413699b8ab"
+  },
+  "candidate_unchanged_during_comparison": true,
+  "raw_outcomes": {
+    "AGREES": 318,
+    "FALSE_OMISSION": 1,
+    "ADDITION_CHALLENGE": 13,
+    "NO_REFERENCE_STATE": 12,
+    "UNRESOLVED_REFERENCE_STATE": 1,
+    "ZERO_SILENCE_DISAGREEMENT": 3
+  },
+  "qualifications": {
+    "GSE_DEGREE_APPLICABILITY_CONVENTION; NOT_OLD_REFERENCE_ERROR": 5,
+    "SOURCE_TEXT_SUSPECTED_MISPRINT; NO_REPAIRED_GOLD_SUBSTITUTION": 1,
+    "GSE_HAVE_TO_PROJECTION_AMBIGUITY; OLD_REFERENCE_PROJECTS_CAN_NOT_ONLY": 1
+  },
+  "words": [
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "record_status": "CANDIDATE_COMPLETE",
+      "family_accounting": {
+        "code": "FAMILY_ACCOUNTED",
+        "family_id": "GSE_FEAR_ADJ_BOUNDARY_V1",
+        "authority": "AUTHORED_GSE_BOUNDARY; NOT_INDEPENDENT_SEMANTIC_COMPLETENESS",
+        "unresolved": [],
+        "contradictions": []
+      },
+      "raw_outcomes": {
+        "AGREES": 53,
+        "FALSE_OMISSION": 1,
+        "ADDITION_CHALLENGE": 2,
+        "NO_REFERENCE_STATE": 2
+      },
+      "disagreements_and_qualifications": [
+        {
+          "word": "afraid",
+          "reading_id": "afraid:ADJ:E5-:fear",
+          "coordinate": "THEN",
+          "reference": "-1",
+          "actual": "0",
+          "raw_code": "FALSE_OMISSION",
+          "qualification": null,
+          "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+        },
+        {
+          "word": "afraid",
+          "reading_id": "afraid:ADJ:E5-:fear",
+          "coordinate": "MAYBE",
+          "reference": "empty",
+          "actual": "+1",
+          "raw_code": "ADDITION_CHALLENGE",
+          "qualification": null,
+          "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+        },
+        {
+          "word": "afraid",
+          "reading_id": "afraid:ADJ:E5-:fear",
+          "coordinate": "MUST",
+          "reference": "empty",
+          "actual": "+1",
+          "raw_code": "ADDITION_CHALLENGE",
+          "qualification": null,
+          "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+        },
+        {
+          "word": "afraid",
+          "reading_id": "afraid:ADJ:E5-:fear",
+          "coordinate": "INTENSITY",
+          "reference": null,
+          "actual": "+1",
+          "raw_code": "NO_REFERENCE_STATE",
+          "qualification": "GSE_DEGREE_APPLICABILITY_CONVENTION; NOT_OLD_REFERENCE_ERROR",
+          "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+        }
+      ]
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "record_status": "PARTIAL",
+      "family_accounting": {
+        "code": "FAMILY_UNRESOLVED",
+        "family_id": "GSE_FEAR_ADJ_BOUNDARY_V1",
+        "authority": "AUTHORED_GSE_BOUNDARY; NOT_INDEPENDENT_SEMANTIC_COMPLETENESS",
+        "unresolved": [
+          "MAYBE"
+        ],
+        "contradictions": []
+      },
+      "raw_outcomes": {
+        "AGREES": 53,
+        "NO_REFERENCE_STATE": 3,
+        "UNRESOLVED_REFERENCE_STATE": 1,
+        "ADDITION_CHALLENGE": 1
+      },
+      "disagreements_and_qualifications": [
+        {
+          "word": "frightened",
+          "reading_id": "frightened:ADJ:E5-:fear",
+          "coordinate": "THINK",
+          "reference": null,
+          "actual": "+1",
+          "raw_code": "NO_REFERENCE_STATE",
+          "qualification": "SOURCE_TEXT_SUSPECTED_MISPRINT; NO_REPAIRED_GOLD_SUBSTITUTION",
+          "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+        },
+        {
+          "word": "frightened",
+          "reading_id": "frightened:ADJ:E5-:fear",
+          "coordinate": "MAYBE",
+          "reference": "empty",
+          "actual": "unresolved",
+          "raw_code": "UNRESOLVED_REFERENCE_STATE",
+          "qualification": null,
+          "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+        },
+        {
+          "word": "frightened",
+          "reading_id": "frightened:ADJ:E5-:fear",
+          "coordinate": "MUST",
+          "reference": "empty",
+          "actual": "+1",
+          "raw_code": "ADDITION_CHALLENGE",
+          "qualification": null,
+          "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+        },
+        {
+          "word": "frightened",
+          "reading_id": "frightened:ADJ:E5-:fear",
+          "coordinate": "INTENSITY",
+          "reference": null,
+          "actual": "+1",
+          "raw_code": "NO_REFERENCE_STATE",
+          "qualification": "GSE_DEGREE_APPLICABILITY_CONVENTION; NOT_OLD_REFERENCE_ERROR",
+          "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+        }
+      ]
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "record_status": "CANDIDATE_COMPLETE",
+      "family_accounting": {
+        "code": "FAMILY_ACCOUNTED",
+        "family_id": "GSE_FEAR_ADJ_BOUNDARY_V1",
+        "authority": "AUTHORED_GSE_BOUNDARY; NOT_INDEPENDENT_SEMANTIC_COMPLETENESS",
+        "unresolved": [],
+        "contradictions": []
+      },
+      "raw_outcomes": {
+        "AGREES": 54,
+        "ADDITION_CHALLENGE": 2,
+        "NO_REFERENCE_STATE": 2
+      },
+      "disagreements_and_qualifications": [
+        {
+          "word": "nervous",
+          "reading_id": "nervous:ADJ:E6-:fear",
+          "coordinate": "THEN",
+          "reference": "empty",
+          "actual": "-1",
+          "raw_code": "ADDITION_CHALLENGE",
+          "qualification": null,
+          "reference_source": "W1999 p.84 (page image checked)"
+        },
+        {
+          "word": "nervous",
+          "reading_id": "nervous:ADJ:E6-:fear",
+          "coordinate": "MUST",
+          "reference": "empty",
+          "actual": "+1",
+          "raw_code": "ADDITION_CHALLENGE",
+          "qualification": "GSE_HAVE_TO_PROJECTION_AMBIGUITY; OLD_REFERENCE_PROJECTS_CAN_NOT_ONLY",
+          "reference_source": "W1999 p.84 (page image checked)"
+        },
+        {
+          "word": "nervous",
+          "reading_id": "nervous:ADJ:E6-:fear",
+          "coordinate": "INTENSITY",
+          "reference": null,
+          "actual": "+1",
+          "raw_code": "NO_REFERENCE_STATE",
+          "qualification": "GSE_DEGREE_APPLICABILITY_CONVENTION; NOT_OLD_REFERENCE_ERROR",
+          "reference_source": "W1999 p.84 (page image checked)"
+        }
+      ]
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "record_status": "CANDIDATE_COMPLETE",
+      "family_accounting": {
+        "code": "FAMILY_ACCOUNTED",
+        "family_id": "GSE_FEAR_ADJ_BOUNDARY_V1",
+        "authority": "AUTHORED_GSE_BOUNDARY; NOT_INDEPENDENT_SEMANTIC_COMPLETENESS",
+        "unresolved": [],
+        "contradictions": []
+      },
+      "raw_outcomes": {
+        "AGREES": 52,
+        "ADDITION_CHALLENGE": 3,
+        "ZERO_SILENCE_DISAGREEMENT": 1,
+        "NO_REFERENCE_STATE": 2
+      },
+      "disagreements_and_qualifications": [
+        {
+          "word": "scared",
+          "reading_id": "scared:ADJ:E5-:fear",
+          "coordinate": "KNOW",
+          "reference": "empty",
+          "actual": "+1",
+          "raw_code": "ADDITION_CHALLENGE",
+          "qualification": null,
+          "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+        },
+        {
+          "word": "scared",
+          "reading_id": "scared:ADJ:E5-:fear",
+          "coordinate": "MAYBE",
+          "reference": "empty",
+          "actual": "0",
+          "raw_code": "ZERO_SILENCE_DISAGREEMENT",
+          "qualification": null,
+          "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+        },
+        {
+          "word": "scared",
+          "reading_id": "scared:ADJ:E5-:fear",
+          "coordinate": "MUST",
+          "reference": "empty",
+          "actual": "+1",
+          "raw_code": "ADDITION_CHALLENGE",
+          "qualification": null,
+          "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+        },
+        {
+          "word": "scared",
+          "reading_id": "scared:ADJ:E5-:fear",
+          "coordinate": "IF",
+          "reference": "empty",
+          "actual": "+1",
+          "raw_code": "ADDITION_CHALLENGE",
+          "qualification": null,
+          "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+        },
+        {
+          "word": "scared",
+          "reading_id": "scared:ADJ:E5-:fear",
+          "coordinate": "INTENSITY",
+          "reference": null,
+          "actual": "+1",
+          "raw_code": "NO_REFERENCE_STATE",
+          "qualification": "GSE_DEGREE_APPLICABILITY_CONVENTION; NOT_OLD_REFERENCE_ERROR",
+          "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+        }
+      ]
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "record_status": "CANDIDATE_COMPLETE",
+      "family_accounting": {
+        "code": "FAMILY_ACCOUNTED",
+        "family_id": "GSE_FEAR_ADJ_BOUNDARY_V1",
+        "authority": "AUTHORED_GSE_BOUNDARY; NOT_INDEPENDENT_SEMANTIC_COMPLETENESS",
+        "unresolved": [],
+        "contradictions": []
+      },
+      "raw_outcomes": {
+        "AGREES": 52,
+        "ADDITION_CHALLENGE": 3,
+        "ZERO_SILENCE_DISAGREEMENT": 1,
+        "NO_REFERENCE_STATE": 2
+      },
+      "disagreements_and_qualifications": [
+        {
+          "word": "scared",
+          "reading_id": "scared:ADJ:E6-:fear",
+          "coordinate": "KNOW",
+          "reference": "empty",
+          "actual": "+1",
+          "raw_code": "ADDITION_CHALLENGE",
+          "qualification": null,
+          "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+        },
+        {
+          "word": "scared",
+          "reading_id": "scared:ADJ:E6-:fear",
+          "coordinate": "MAYBE",
+          "reference": "empty",
+          "actual": "0",
+          "raw_code": "ZERO_SILENCE_DISAGREEMENT",
+          "qualification": null,
+          "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+        },
+        {
+          "word": "scared",
+          "reading_id": "scared:ADJ:E6-:fear",
+          "coordinate": "MUST",
+          "reference": "empty",
+          "actual": "+1",
+          "raw_code": "ADDITION_CHALLENGE",
+          "qualification": null,
+          "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+        },
+        {
+          "word": "scared",
+          "reading_id": "scared:ADJ:E6-:fear",
+          "coordinate": "IF",
+          "reference": "empty",
+          "actual": "+1",
+          "raw_code": "ADDITION_CHALLENGE",
+          "qualification": null,
+          "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+        },
+        {
+          "word": "scared",
+          "reading_id": "scared:ADJ:E6-:fear",
+          "coordinate": "INTENSITY",
+          "reference": null,
+          "actual": "+1",
+          "raw_code": "NO_REFERENCE_STATE",
+          "qualification": "GSE_DEGREE_APPLICABILITY_CONVENTION; NOT_OLD_REFERENCE_ERROR",
+          "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+        }
+      ]
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "record_status": "CANDIDATE_COMPLETE",
+      "family_accounting": {
+        "code": "FAMILY_ACCOUNTED",
+        "family_id": "GSE_FEAR_ADJ_BOUNDARY_V1",
+        "authority": "AUTHORED_GSE_BOUNDARY; NOT_INDEPENDENT_SEMANTIC_COMPLETENESS",
+        "unresolved": [],
+        "contradictions": []
+      },
+      "raw_outcomes": {
+        "AGREES": 54,
+        "ADDITION_CHALLENGE": 2,
+        "ZERO_SILENCE_DISAGREEMENT": 1,
+        "NO_REFERENCE_STATE": 1
+      },
+      "disagreements_and_qualifications": [
+        {
+          "word": "terrified",
+          "reading_id": "terrified:ADJ:E5-:fear",
+          "coordinate": "KNOW",
+          "reference": "empty",
+          "actual": "+1",
+          "raw_code": "ADDITION_CHALLENGE",
+          "qualification": null,
+          "reference_source": "W1999 p.77 (page image checked)"
+        },
+        {
+          "word": "terrified",
+          "reading_id": "terrified:ADJ:E5-:fear",
+          "coordinate": "MAYBE",
+          "reference": "empty",
+          "actual": "0",
+          "raw_code": "ZERO_SILENCE_DISAGREEMENT",
+          "qualification": null,
+          "reference_source": "W1999 p.77 (page image checked)"
+        },
+        {
+          "word": "terrified",
+          "reading_id": "terrified:ADJ:E5-:fear",
+          "coordinate": "MUST",
+          "reference": "empty",
+          "actual": "+1",
+          "raw_code": "ADDITION_CHALLENGE",
+          "qualification": null,
+          "reference_source": "W1999 p.77 (page image checked)"
+        }
+      ]
+    }
+  ],
+  "ledger": [
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "I",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "YOU",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "SOMEONE",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "SOMETHING",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "PEOPLE",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "BODY",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "KIND",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "PART",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "SAME",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "ONE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "TWO",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "QUANTITY",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "GOOD",
+      "reference": "-1",
+      "actual": "-1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "BIG",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "THINK",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "KNOW",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "WANT",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "FEEL",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "SEE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "HEAR",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "INFER",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "SAY",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "WORDS",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "DO",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "HAPPEN",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "MOVE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "BE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "HAVE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "EXIST",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "ALIVE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "MOMENT",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "WHEN",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "LONG_TIME",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "BEFORE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "THEN",
+      "reference": "-1",
+      "actual": "0",
+      "raw_code": "FALSE_OMISSION",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "START",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "WHERE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "HERE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "SIDE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "TOUCH",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "ABOVE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "FAR",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "OUTSIDE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "TOWARD",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "WITH",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "NOT",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "MAYBE",
+      "reference": "empty",
+      "actual": "+1",
+      "raw_code": "ADDITION_CHALLENGE",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "CAN",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "MUST",
+      "reference": "empty",
+      "actual": "+1",
+      "raw_code": "ADDITION_CHALLENGE",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "BECAUSE",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "CAUSE",
+      "reference": null,
+      "actual": "empty",
+      "raw_code": "NO_REFERENCE_STATE",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "IF",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "LIKE",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "TRUE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "HIER_PLUS",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "HIER_MINUS",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "INTENSITY",
+      "reference": null,
+      "actual": "+1",
+      "raw_code": "NO_REFERENCE_STATE",
+      "qualification": "GSE_DEGREE_APPLICABILITY_CONVENTION; NOT_OLD_REFERENCE_ERROR",
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "afraid",
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "CERTAINTY",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.75 (page image checked; matches K pp.150-151)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "I",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "YOU",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "SOMEONE",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "SOMETHING",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "PEOPLE",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "BODY",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "KIND",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "PART",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "SAME",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "ONE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "TWO",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "QUANTITY",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "GOOD",
+      "reference": "-1",
+      "actual": "-1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "BIG",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "THINK",
+      "reference": null,
+      "actual": "+1",
+      "raw_code": "NO_REFERENCE_STATE",
+      "qualification": "SOURCE_TEXT_SUSPECTED_MISPRINT; NO_REPAIRED_GOLD_SUBSTITUTION",
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "KNOW",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "WANT",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "FEEL",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "SEE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "HEAR",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "INFER",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "SAY",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "WORDS",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "DO",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "HAPPEN",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "MOVE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "BE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "HAVE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "EXIST",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "ALIVE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "MOMENT",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "WHEN",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "LONG_TIME",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "BEFORE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "THEN",
+      "reference": "-1",
+      "actual": "-1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "START",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "WHERE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "HERE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "SIDE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "TOUCH",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "ABOVE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "FAR",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "OUTSIDE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "TOWARD",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "WITH",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "NOT",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "MAYBE",
+      "reference": "empty",
+      "actual": "unresolved",
+      "raw_code": "UNRESOLVED_REFERENCE_STATE",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "CAN",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "MUST",
+      "reference": "empty",
+      "actual": "+1",
+      "raw_code": "ADDITION_CHALLENGE",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "BECAUSE",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "CAUSE",
+      "reference": null,
+      "actual": "empty",
+      "raw_code": "NO_REFERENCE_STATE",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "IF",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "LIKE",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "TRUE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "HIER_PLUS",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "HIER_MINUS",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "INTENSITY",
+      "reference": null,
+      "actual": "+1",
+      "raw_code": "NO_REFERENCE_STATE",
+      "qualification": "GSE_DEGREE_APPLICABILITY_CONVENTION; NOT_OLD_REFERENCE_ERROR",
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "frightened",
+      "reading_id": "frightened:ADJ:E5-:fear",
+      "coordinate": "CERTAINTY",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.367 (page image checked; W1999 gives no explication of frightened)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "I",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "YOU",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "SOMEONE",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "SOMETHING",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "PEOPLE",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "BODY",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "KIND",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "PART",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "SAME",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "ONE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "TWO",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "QUANTITY",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "GOOD",
+      "reference": "-1",
+      "actual": "-1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "BIG",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "THINK",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "KNOW",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "WANT",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "FEEL",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "SEE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "HEAR",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "INFER",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "SAY",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "WORDS",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "DO",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "HAPPEN",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "MOVE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "BE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "HAVE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "EXIST",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "ALIVE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "MOMENT",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "WHEN",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "LONG_TIME",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "BEFORE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "THEN",
+      "reference": "empty",
+      "actual": "-1",
+      "raw_code": "ADDITION_CHALLENGE",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "START",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "WHERE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "HERE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "SIDE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "TOUCH",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "ABOVE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "FAR",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "OUTSIDE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "TOWARD",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "WITH",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "NOT",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "MAYBE",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "CAN",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "MUST",
+      "reference": "empty",
+      "actual": "+1",
+      "raw_code": "ADDITION_CHALLENGE",
+      "qualification": "GSE_HAVE_TO_PROJECTION_AMBIGUITY; OLD_REFERENCE_PROJECTS_CAN_NOT_ONLY",
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "BECAUSE",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "CAUSE",
+      "reference": null,
+      "actual": "empty",
+      "raw_code": "NO_REFERENCE_STATE",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "IF",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "LIKE",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "TRUE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "HIER_PLUS",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "HIER_MINUS",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "INTENSITY",
+      "reference": null,
+      "actual": "+1",
+      "raw_code": "NO_REFERENCE_STATE",
+      "qualification": "GSE_DEGREE_APPLICABILITY_CONVENTION; NOT_OLD_REFERENCE_ERROR",
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "nervous",
+      "reading_id": "nervous:ADJ:E6-:fear",
+      "coordinate": "CERTAINTY",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.84 (page image checked)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "I",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "YOU",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "SOMEONE",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "SOMETHING",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "PEOPLE",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "BODY",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "KIND",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "PART",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "SAME",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "ONE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "TWO",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "QUANTITY",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "GOOD",
+      "reference": "-1",
+      "actual": "-1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "BIG",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "THINK",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "KNOW",
+      "reference": "empty",
+      "actual": "+1",
+      "raw_code": "ADDITION_CHALLENGE",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "WANT",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "FEEL",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "SEE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "HEAR",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "INFER",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "SAY",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "WORDS",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "DO",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "HAPPEN",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "MOVE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "BE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "HAVE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "EXIST",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "ALIVE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "MOMENT",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "WHEN",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "LONG_TIME",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "BEFORE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "THEN",
+      "reference": "-1",
+      "actual": "-1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "START",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "WHERE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "HERE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "SIDE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "TOUCH",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "ABOVE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "FAR",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "OUTSIDE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "TOWARD",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "WITH",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "NOT",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "MAYBE",
+      "reference": "empty",
+      "actual": "0",
+      "raw_code": "ZERO_SILENCE_DISAGREEMENT",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "CAN",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "MUST",
+      "reference": "empty",
+      "actual": "+1",
+      "raw_code": "ADDITION_CHALLENGE",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "BECAUSE",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "CAUSE",
+      "reference": null,
+      "actual": "empty",
+      "raw_code": "NO_REFERENCE_STATE",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "IF",
+      "reference": "empty",
+      "actual": "+1",
+      "raw_code": "ADDITION_CHALLENGE",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "LIKE",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "TRUE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "HIER_PLUS",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "HIER_MINUS",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "INTENSITY",
+      "reference": null,
+      "actual": "+1",
+      "raw_code": "NO_REFERENCE_STATE",
+      "qualification": "GSE_DEGREE_APPLICABILITY_CONVENTION; NOT_OLD_REFERENCE_ERROR",
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E5-:fear",
+      "coordinate": "CERTAINTY",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "I",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "YOU",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "SOMEONE",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "SOMETHING",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "PEOPLE",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "BODY",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "KIND",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "PART",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "SAME",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "ONE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "TWO",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "QUANTITY",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "GOOD",
+      "reference": "-1",
+      "actual": "-1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "BIG",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "THINK",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "KNOW",
+      "reference": "empty",
+      "actual": "+1",
+      "raw_code": "ADDITION_CHALLENGE",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "WANT",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "FEEL",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "SEE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "HEAR",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "INFER",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "SAY",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "WORDS",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "DO",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "HAPPEN",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "MOVE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "BE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "HAVE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "EXIST",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "ALIVE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "MOMENT",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "WHEN",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "LONG_TIME",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "BEFORE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "THEN",
+      "reference": "-1",
+      "actual": "-1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "START",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "WHERE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "HERE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "SIDE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "TOUCH",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "ABOVE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "FAR",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "OUTSIDE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "TOWARD",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "WITH",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "NOT",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "MAYBE",
+      "reference": "empty",
+      "actual": "0",
+      "raw_code": "ZERO_SILENCE_DISAGREEMENT",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "CAN",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "MUST",
+      "reference": "empty",
+      "actual": "+1",
+      "raw_code": "ADDITION_CHALLENGE",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "BECAUSE",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "CAUSE",
+      "reference": null,
+      "actual": "empty",
+      "raw_code": "NO_REFERENCE_STATE",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "IF",
+      "reference": "empty",
+      "actual": "+1",
+      "raw_code": "ADDITION_CHALLENGE",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "LIKE",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "TRUE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "HIER_PLUS",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "HIER_MINUS",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "INTENSITY",
+      "reference": null,
+      "actual": "+1",
+      "raw_code": "NO_REFERENCE_STATE",
+      "qualification": "GSE_DEGREE_APPLICABILITY_CONVENTION; NOT_OLD_REFERENCE_ERROR",
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "scared",
+      "reading_id": "scared:ADJ:E6-:fear",
+      "coordinate": "CERTAINTY",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1990b p.365 (page image checked; W1999 gives no explication of scared)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "I",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "YOU",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "SOMEONE",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "SOMETHING",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "PEOPLE",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "BODY",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "KIND",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "PART",
+      "reference": "0",
+      "actual": "0",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "SAME",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "ONE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "TWO",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "QUANTITY",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "GOOD",
+      "reference": "-1",
+      "actual": "-1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "BIG",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "THINK",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "KNOW",
+      "reference": "empty",
+      "actual": "+1",
+      "raw_code": "ADDITION_CHALLENGE",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "WANT",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "FEEL",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "SEE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "HEAR",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "INFER",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "SAY",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "WORDS",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "DO",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "HAPPEN",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "MOVE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "BE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "HAVE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "EXIST",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "ALIVE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "MOMENT",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "WHEN",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "LONG_TIME",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "BEFORE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "THEN",
+      "reference": "-1",
+      "actual": "-1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "START",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "WHERE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "HERE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "SIDE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "TOUCH",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "ABOVE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "FAR",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "OUTSIDE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "TOWARD",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "WITH",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "NOT",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "MAYBE",
+      "reference": "empty",
+      "actual": "0",
+      "raw_code": "ZERO_SILENCE_DISAGREEMENT",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "CAN",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "MUST",
+      "reference": "empty",
+      "actual": "+1",
+      "raw_code": "ADDITION_CHALLENGE",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "BECAUSE",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "CAUSE",
+      "reference": null,
+      "actual": "empty",
+      "raw_code": "NO_REFERENCE_STATE",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "IF",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "LIKE",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "TRUE",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "HIER_PLUS",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "HIER_MINUS",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "INTENSITY",
+      "reference": "+1",
+      "actual": "+1",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    },
+    {
+      "word": "terrified",
+      "reading_id": "terrified:ADJ:E5-:fear",
+      "coordinate": "CERTAINTY",
+      "reference": "empty",
+      "actual": "empty",
+      "raw_code": "AGREES",
+      "qualification": null,
+      "reference_source": "W1999 p.77 (page image checked)"
+    }
+  ],
+  "limits": [
+    "An unexpressed reference component yields an addition challenge, not a proved false addition.",
+    "No reference state is fabricated for coordinates the old projection did not account for.",
+    "The nervous MUST ambiguity and frightened suspected misprint remain separately identified without altering the frozen reference.",
+    "No untouched published positive Fear test has been established."
+  ]
+}

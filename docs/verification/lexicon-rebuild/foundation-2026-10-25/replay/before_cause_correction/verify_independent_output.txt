@@ -1,0 +1,43 @@
+independent: paired 470 only_old 0 only_new 1910
+independent: changed cells 4122 paired readings with a cell change 470
+independent: unchanged-domain cells with changed trace 191
+independent: by coordinate {'I': 453, 'YOU': 453, 'SOMEONE': 453, 'SOMETHING': 453, 'PEOPLE': 453, 'BODY': 453, 'KIND': 453, 'PART': 453, 'DO': 236, 'CAUSE': 244, 'BIG': 8, 'GOOD': 8, 'WANT': 1, 'NOT': 1}
+independent: by transition {"('+1', '0', 'empty')->('0',)": 3624, "('+1', '0', 'empty')->('+1',)": 482, "('+1', '-1', '0', 'empty')->('0',)": 16}
+comparison.json: records 1040 paired 470 only_old 0 only_new 1910
+comparison.json: cells 4122 trace-only cells 191
+summary: cells 4122 trace-only 191
+ALL HEADLINE NUMBERS AGREE ACROSS INDEPENDENT RE-COUNT, comparison.json AND summary: True
+--------------------------------------------------------------------------------
+old admission.admitted: {"laws": ["OWN_AFFECTIVE_FEELING", "OWN_PHYSICAL_CHANGE_OF_PLACE", "MODIFIER_LACKS_INDEPENDENT_OBJECTNESS", "FEELING_DENOTATUM_IS_NOT_A_CATEGORY", "OWN_DEGREE_BEARING_CONTENT", "MODIFIER_HEADS_NO_SUBSTANTIVE"], "source_rules": ["USAS_OWN_QUALITY_POLE", "USAS_OWN_SIZE_POLE", "EMOTION_FEAR_ADJ"], "native_predicate_rules": ["VN_EVENT_MOTION", "VN_EVENT_CONTACT", "VN_DESIRE", "VN_VITALITY", "VN_POSSESSION", "VN_BEGIN", "VN_END"], "native_residual_rules": ["VN_USAS_PERCEPTION_MODE"]}
+old admission.withheld: {"laws": [], "source_rules": ["USAS_OWN_HAPPY_SAD_STATE"], "native_predicate_rules": ["VN_AFFECTIVE_STATE", "VN_EXISTENCE"], "native_residual_rules": []}
+--------------------------------------------------------------------------------
+new admission.admitted: {"laws": ["OWN_AFFECTIVE_FEELING", "OWN_PHYSICAL_CHANGE_OF_PLACE", "MODIFIER_LACKS_INDEPENDENT_OBJECTNESS", "FEELING_DENOTATUM_IS_NOT_A_CATEGORY", "OWN_DEGREE_BEARING_CONTENT", "MODIFIER_HEADS_NO_SUBSTANTIVE", "VERB_HEADS_NO_SUBSTANTIVE", "OPERATOR_HEADS_NO_SUBSTANTIVE", "TIME_PLACE_HEADS_NO_SUBSTANTIVE", "SUBSTANTIVE_HEAD_IS_ONE_HOT", "EVALUATOR_EXCLUDES_SIZE", "SIZE_DESCRIPTOR_EXCLUDES_EVALUATION", "FEAR_AVERSION", "FEELING_NOUN_HEAD", "SIGNED_FELT_VALENCE_DOMAIN"], "source_rules": ["USAS_OWN_QUALITY_POLE", "USAS_OWN_SIZE_POLE", "EMOTION_FEAR_ADJ", "EMOTION_FEAR_NOUN"], "native_predicate_rules": ["VN_EVENT_MOTION", "VN_EVENT_CONTACT", "VN_AFFECTIVE_STATE", "VN_DESIRE", "VN_VITALITY", "VN_EXISTENCE", "VN_POSSESSION", "VN_BEGIN", "VN_END", "VN_CAUSATION"], "native_residual_rules": ["VN_USAS_PERCEPTION_MODE"]}
+new admission.withheld: {"laws": [], "source_rules": ["USAS_OWN_HAPPY_SAD_STATE"], "native_predicate_rules": [], "native_residual_rules": []}
+only_in_new readings with no fired rule: 707
+structural entries (word | reading_id | surfaces | operation | source | location | requires):
+  the | construction:definite | ['the'] | BIND_DEFINITE_REFERENCE | GSE_PROJECTION_V2 | Function words and portmanteaus; GSE projection contract | IDENTIFIABLE_REFERENT
+  of | construction:of | ['of'] | PARTITIVE_OR_RELATIONAL_BINDING | NSM_CHART_V20 | Function words and portmanteaus; GSE projection contract | ATTACHED_HEAD_AND_ARGUMENT
+  a | construction:indefinite | ['a', 'an'] | INTRODUCE_INDEFINITE_REFERENCE | GSE_PROJECTION_V2 | Function words and portmanteaus; GSE projection contract | None
+  in | construction:in | ['in'] | LOCATION_OR_INTERVAL_BINDING | NSM_CHART_V20 | Function words and portmanteaus; GSE projection contract | ATTACHED_HEAD_AND_ARGUMENT
+  it | construction:it | ['it'] | RESOLVE_PRONOUN_OR_DUMMY_SUBJECT | NSM_CHART_V20 | Function words and portmanteaus; GSE projection contract | None
+  this | construction:demonstrative | ['this', 'these'] | DEMONSTRATIVE_REFERENCE | NSM_CHART_V20 | Function words and portmanteaus; GSE projection contract | None
+  an | construction:indefinite | ['a', 'an'] | INTRODUCE_INDEFINITE_REFERENCE | GSE_PROJECTION_V2 | Function words and portmanteaus; GSE projection contract | None
+  at | construction:at | ['at'] | TIME_OR_LOCATION_BINDING | NSM_CHART_V20 | Function words and portmanteaus; GSE projection contract | ATTACHED_HEAD_AND_ARGUMENT
+  they | construction:plural_reference | ['they', 'them'] | RESOLVE_PLURAL_REFERENCE | NSM_CHART_V20 | Function words and portmanteaus; GSE projection contract | None
+  we | construction:inclusive_reference | ['we', 'us'] | GROUP_REFERENCE_INCLUDING_SPEAKER | GSE_PROJECTION_V2 | Function words and portmanteaus; GSE projection contract | None
+  all | construction:quantifier:all | ['all'] | QUANTITY_WITH_SCOPE | GSE_PROJECTION_V2 | Function words and portmanteaus; GSE projection contract | None
+  these | construction:demonstrative | ['this', 'these'] | DEMONSTRATIVE_REFERENCE | NSM_CHART_V20 | Function words and portmanteaus; GSE projection contract | None
+  about | construction:about | ['about'] | CONTENT_ABOUTNESS | NSM_CHART_V20 | Function words and portmanteaus; GSE projection contract | ATTACHED_HEAD_AND_ARGUMENT
+  them | construction:plural_reference | ['they', 'them'] | RESOLVE_PLURAL_REFERENCE | NSM_CHART_V20 | Function words and portmanteaus; GSE projection contract | None
+  some | construction:quantifier:some | ['some'] | QUANTITY_WITH_SCOPE | GSE_PROJECTION_V2 | Function words and portmanteaus; GSE projection contract | None
+  many | construction:quantifier:many | ['many'] | QUANTITY_WITH_SCOPE | GSE_PROJECTION_V2 | Function words and portmanteaus; GSE projection contract | None
+  such | construction:such | ['such'] | SIMILARITY_AND_DEMONSTRATIVE | NSM_CHART_V20 | Function words and portmanteaus; GSE projection contract | None
+  well | construction:well | ['well'] | ADVERBIAL_GOOD_READING | NSM_CHART_V20 | Function words and portmanteaus; GSE projection contract | None
+  very | construction:very | ['very'] | INTENSITY_SCALE | GSE_PROJECTION_V2 | Function words and portmanteaus; GSE projection contract | None
+  most | construction:quantifier:most | ['most'] | QUANTITY_WITH_SCOPE | GSE_PROJECTION_V2 | Function words and portmanteaus; GSE projection contract | None
+  often | construction:often | ['often'] | QUANTIFIED_TIME | NSM_CHART_V20 | Function words and portmanteaus; GSE projection contract | None
+  us | construction:inclusive_reference | ['we', 'us'] | GROUP_REFERENCE_INCLUDING_SPEAKER | GSE_PROJECTION_V2 | Function words and portmanteaus; GSE projection contract | None
+  never | construction:never | ['never'] | QUANTIFIED_TIME | NSM_CHART_V20 | Function words and portmanteaus; GSE projection contract | None
+  always | construction:always | ['always'] | QUANTIFIED_TIME | NSM_CHART_V20 | Function words and portmanteaus; GSE projection contract | None
+  few | construction:quantifier:few | ['few'] | QUANTITY_WITH_SCOPE | GSE_PROJECTION_V2 | Function words and portmanteaus; GSE projection contract | None
+  sometimes | construction:sometimes | ['sometimes'] | QUANTIFIED_TIME | NSM_CHART_V20 | Function words and portmanteaus; GSE projection contract | None

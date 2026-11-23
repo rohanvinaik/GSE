@@ -1,0 +1,54 @@
+{
+  "schema": "GSE_FAMILY_LIVE_DISPOSITION_V2",
+  "scope": "POST_FIRST_TRIAL_DEVELOPMENT; NOT_HELD_OUT_ACCURACY",
+  "candidate_dir": "/private/tmp/gse-family-live-v2-20261025",
+  "candidate_files": {
+    "summary.json": "0867a9b0a6c1543f4c5572700748ac3dfe87853c9e177b4243994c624e5386b5",
+    "sparse.jsonl": "ff222c00630f543acb1fd50d1893d2359269402b41b16a09e81c39fdec431ecc",
+    "structures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "words.jsonl": "4d213ccb825de45e1a9ffe4c3d6cc59ec7db51b829f8a214d1fb108c006508f1",
+    "tail-ledger.json": "439f400ec8295bca0da35b2ce2c1bb407ae08fa1688a7dc2f99292fec6cb5ea9",
+    "manifest.json": "65fb4f997ecd30f0d1653f29609f378b0af0bf42efbba590312890c1912f16e1",
+    "vectors.jsonl": "8d78d3638dc63129964ddcd1d86cc031bb2a8be02184abde7c3e6fda236f1919"
+  },
+  "declared_run_identity_matches_v2_freeze": true,
+  "v1_result_pins_unchanged": {
+    "contract-results.json": true,
+    "live-reference-results.json": true,
+    "live-dispositions.json": true,
+    "ablation-records.json": true
+  },
+  "original_evaluation_manifest_unchanged": true,
+  "aligned_readings": 6,
+  "aligned_surfaces": 5,
+  "reading_statuses": {
+    "CANDIDATE_COMPLETE": 6
+  },
+  "task_dispositions": {
+    "SELECTED": 42
+  },
+  "request_records": 42,
+  "selected_state_counts": {
+    "+1": 33,
+    "-1": 4,
+    "0": 5
+  },
+  "reference_outcomes_by_family_account": {
+    "REQUIRED": {
+      "AGREES": 108,
+      "NO_REFERENCE_STATE": 6
+    },
+    "SILENT": {
+      "AGREES": 186,
+      "NO_REFERENCE_STATE": 6
+    },
+    "OPTIONAL": {
+      "AGREES": 24,
+      "WRONG_POLE": 1,
+      "ADDITION_CHALLENGE": 12,
+      "ZERO_SILENCE_DISAGREEMENT": 5
+    }
+  },
+  "additional_optional_domain_changes_after_selection": [],
+  "untasked_readings": []
+}

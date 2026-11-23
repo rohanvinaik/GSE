@@ -1,0 +1,54 @@
+{
+  "schema": "GSE_RELEASE_HYGIENE_SUMMARY_V1",
+  "scope": "Read-only checks of current checkout/tracked working-tree contents; root owns staged export and Git publication",
+  "zizmor": {
+    "command": "uvx zizmor --offline .github/workflows",
+    "version": "1.31.1",
+    "exit_code": 0,
+    "code": "NO_WORKFLOW_FINDINGS",
+    "output": "zizmor.log"
+  },
+  "sp_repo_review": {
+    "command": "uvx 'sp-repo-review[cli]' .",
+    "exit_code": 3,
+    "code": "RUBRIC_FINDINGS_RECORDED",
+    "finding_ids": [
+      "PY003",
+      "PY006",
+      "PY007",
+      "PP309",
+      "RF002",
+      "RF101",
+      "SEC001"
+    ],
+    "output": "sp-repo-review.log",
+    "findings": "sp-repo-review-findings.json"
+  },
+  "secret_scan": {
+    "command": "uvx detect-secrets scan --no-verify .",
+    "version": "1.5.0",
+    "exit_code": 0,
+    "code": "SECRET_CANDIDATES_REQUIRE_REVIEW",
+    "candidate_count": 25859,
+    "files_with_candidates": 87,
+    "candidate_types": {
+      "Hex High Entropy String": 25859
+    },
+    "verified_candidate_count": 0,
+    "structured_provenance_outcomes": {
+      "DECLARED_DIGEST_OR_SIGNATURE_FIELD": 24279,
+      "STRUCTURED_HEX_VALUE_REQUIRES_CONTEXT_REVIEW": 1541,
+      "STRUCTURED_HEX_IDENTIFIER_REQUIRES_CONTEXT_REVIEW": 39
+    },
+    "noise_level": "Generic hex detector is dominated by recorded digest/signature fields; see structured provenance outcomes. Remaining candidates are not adjudicated."
+  },
+  "limitations": [
+    "No full-history secret scan",
+    "No network credential verification",
+    "Structural digest/identifier classification is not a blanket clean-secret verdict",
+    "External rubric findings are leads; project CI/solo-main/source policy was not changed"
+  ],
+  "sandbox": "Initial uv cache access failures preserved; escalated reruns completed",
+  "availability": "availability.json",
+  "commands": "commands.json"
+}

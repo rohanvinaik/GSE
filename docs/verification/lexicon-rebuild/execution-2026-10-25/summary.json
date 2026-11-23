@@ -1,0 +1,246 @@
+{
+  "schema": "GSE_LEXICON_EXECUTION_SUMMARY_V1",
+  "foundation": {
+    "schema": "GSE_FOUNDATION_RECONSTRUCTION_V3",
+    "basis_id": "GSE_LEXICAL_72_SIGNED_58_V1",
+    "code": "RECONSTRUCTED_PRIME_FOUNDATION",
+    "definition_checks": {
+      "RECONSTRUCTED": 72
+    },
+    "lexical_primes": 72,
+    "canonical_coordinates": 58,
+    "number_is_lexical_prime": false,
+    "scope": "Examined primes rebuilt by the shared rules and checked decision by decision; an authored boundary is checked for consistency, not completeness; drafts close nothing; no ordinary word inherits a boundary"
+  },
+  "build": {
+    "code": "BUILD_ARTIFACTS_CONSISTENT",
+    "declared_words": 82681,
+    "sparse_readings": 59410,
+    "candidate_vectors": 78,
+    "model_request_count": 0,
+    "profile_classes": {
+      "NO_WRITTEN_DEFINITIONAL_EVIDENCE": 25476,
+      "PARTIAL_HEAD_ZEROS_ONLY": 19948,
+      "PARTIAL_DEFINITIONAL_EVIDENCE": 13181,
+      "PARTIAL_HEAD_EVIDENCE_ONLY": 727,
+      "FULLY_SETTLED_COORDINATE_PROFILE": 78
+    },
+    "word_evidence": {
+      "declared_surface": 82681,
+      "native_record": 82681,
+      "surface_home": 40170,
+      "structural_home": 58,
+      "signed_evidence": 3113,
+      "zero_evidence": 21305,
+      "head_zero_evidence": 21305,
+      "non_head_zero_evidence": 63,
+      "non_head_written_evidence": 2485,
+      "any_complete_coordinate_profile": 78,
+      "all_readings_coordinate_complete": 2
+    }
+  },
+  "corpus_metrics": {
+    "brown": {
+      "declared_surface": {
+        "matched_tokens": 941884,
+        "eligible_tokens": 1006060,
+        "fraction": 0.9362105639822674,
+        "threshold": 0.9,
+        "code": "THRESHOLD_MET"
+      },
+      "native_record": {
+        "matched_tokens": 941884,
+        "eligible_tokens": 1006060,
+        "fraction": 0.9362105639822674,
+        "threshold": 0.9,
+        "code": "THRESHOLD_MET"
+      },
+      "surface_home": {
+        "matched_tokens": 852909,
+        "eligible_tokens": 1006060,
+        "fraction": 0.8477715046816293,
+        "threshold": 0.9,
+        "code": "THRESHOLD_NOT_MET"
+      },
+      "structural_home": {
+        "matched_tokens": 286498,
+        "eligible_tokens": 1006060,
+        "fraction": 0.2847722799833012,
+        "threshold": 0.9,
+        "code": "THRESHOLD_NOT_MET"
+      },
+      "signed_evidence": {
+        "matched_tokens": 184149,
+        "eligible_tokens": 1006060,
+        "fraction": 0.18303977893962586,
+        "threshold": 0.9,
+        "code": "THRESHOLD_NOT_MET"
+      },
+      "zero_evidence": {
+        "matched_tokens": 436715,
+        "eligible_tokens": 1006060,
+        "fraction": 0.4340844482436435,
+        "threshold": 0.9,
+        "code": "THRESHOLD_NOT_MET"
+      },
+      "head_zero_evidence": {
+        "matched_tokens": 436715,
+        "eligible_tokens": 1006060,
+        "fraction": 0.4340844482436435,
+        "threshold": 0.9,
+        "code": "THRESHOLD_NOT_MET"
+      },
+      "non_head_zero_evidence": {
+        "matched_tokens": 4928,
+        "eligible_tokens": 1006060,
+        "fraction": 0.004898316203804942,
+        "threshold": 0.9,
+        "code": "THRESHOLD_NOT_MET"
+      },
+      "non_head_written_evidence": {
+        "matched_tokens": 141294,
+        "eligible_tokens": 1006060,
+        "fraction": 0.14044291592946742,
+        "threshold": 0.9,
+        "code": "THRESHOLD_NOT_MET"
+      },
+      "any_complete_coordinate_profile": {
+        "matched_tokens": 74742,
+        "eligible_tokens": 1006060,
+        "fraction": 0.07429179174204321,
+        "threshold": 0.9,
+        "code": "THRESHOLD_NOT_MET"
+      },
+      "all_readings_coordinate_complete": {
+        "matched_tokens": 0,
+        "eligible_tokens": 1006060,
+        "fraction": 0.0,
+        "threshold": 0.9,
+        "code": "THRESHOLD_NOT_MET"
+      }
+    },
+    "gutenberg": {
+      "declared_surface": {
+        "matched_tokens": 1990168,
+        "eligible_tokens": 2110165,
+        "fraction": 0.9431338307667884,
+        "threshold": 0.9,
+        "code": "THRESHOLD_MET"
+      },
+      "native_record": {
+        "matched_tokens": 1990168,
+        "eligible_tokens": 2110165,
+        "fraction": 0.9431338307667884,
+        "threshold": 0.9,
+        "code": "THRESHOLD_MET"
+      },
+      "surface_home": {
+        "matched_tokens": 1741239,
+        "eligible_tokens": 2110165,
+        "fraction": 0.8251672262595579,
+        "threshold": 0.9,
+        "code": "THRESHOLD_NOT_MET"
+      },
+      "structural_home": {
+        "matched_tokens": 604939,
+        "eligible_tokens": 2110165,
+        "fraction": 0.2866785298779953,
+        "threshold": 0.9,
+        "code": "THRESHOLD_NOT_MET"
+      },
+      "signed_evidence": {
+        "matched_tokens": 486102,
+        "eligible_tokens": 2110165,
+        "fraction": 0.23036208069037256,
+        "threshold": 0.9,
+        "code": "THRESHOLD_NOT_MET"
+      },
+      "zero_evidence": {
+        "matched_tokens": 912459,
+        "eligible_tokens": 2110165,
+        "fraction": 0.4324112095499641,
+        "threshold": 0.9,
+        "code": "THRESHOLD_NOT_MET"
+      },
+      "head_zero_evidence": {
+        "matched_tokens": 912459,
+        "eligible_tokens": 2110165,
+        "fraction": 0.4324112095499641,
+        "threshold": 0.9,
+        "code": "THRESHOLD_NOT_MET"
+      },
+      "non_head_zero_evidence": {
+        "matched_tokens": 13432,
+        "eligible_tokens": 2110165,
+        "fraction": 0.006365379010646087,
+        "threshold": 0.9,
+        "code": "THRESHOLD_NOT_MET"
+      },
+      "non_head_written_evidence": {
+        "matched_tokens": 349714,
+        "eligible_tokens": 2110165,
+        "fraction": 0.16572827243367225,
+        "threshold": 0.9,
+        "code": "THRESHOLD_NOT_MET"
+      },
+      "any_complete_coordinate_profile": {
+        "matched_tokens": 219814,
+        "eligible_tokens": 2110165,
+        "fraction": 0.10416910525954132,
+        "threshold": 0.9,
+        "code": "THRESHOLD_NOT_MET"
+      },
+      "all_readings_coordinate_complete": {
+        "matched_tokens": 0,
+        "eligible_tokens": 2110165,
+        "fraction": 0.0,
+        "threshold": 0.9,
+        "code": "THRESHOLD_NOT_MET"
+      }
+    }
+  },
+  "published_reference_outcomes": {
+    "adjective_fear": {
+      "AGREES": 108,
+      "UNRESOLVED_REFERENCE_COMPONENT": 25,
+      "UNRESOLVED_REFERENCE_STATE": 203
+    },
+    "noun_fear": {
+      "AGREES": 56,
+      "UNRESOLVED_REFERENCE_COMPONENT": 11,
+      "UNRESOLVED_REFERENCE_STATE": 103
+    },
+    "adjective_other": {
+      "UNIMPLEMENTED_PROJECTION": 1
+    },
+    "adjective_e5e6_outside_fear": {
+      "UNIMPLEMENTED_PROJECTION": 1
+    },
+    "noun_other": {
+      "UNIMPLEMENTED_PROJECTION": 3
+    }
+  },
+  "source_pin_verification": {
+    "SOURCE_PIN_MATCH": 6846
+  },
+  "release": {
+    "schema": "GSE_SYMBOLIC_LEXICON_RELEASE_V1",
+    "basis_id": "GSE_LEXICAL_72_SIGNED_58_V1",
+    "code": "PUBLISHED_SYMBOLIC_RELEASE",
+    "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_symbolic.db",
+    "sha256": "174ded50fc77285638c611a48212fec6f7d9372e8f8a83144e7fa0d9548c7fed",
+    "input_sha256": {
+      "manifest.json": "7652c751a9c04dac76fd72962a4708c8bc06b67d710d1819a85d85d9488bd7aa",
+      "sparse.jsonl": "10ed972ff4468529cf7e95c605692a48bfb0ad6ffa94fbe026ac4d8016d5bfc5",
+      "structures.jsonl": "1db401681e47af5e91d58b5ad48ce9fd28da6f3ad8dda18c12fe1f3db0178912"
+    },
+    "counts": {
+      "symbolic_partial": 59332,
+      "symbolic_complete": 78,
+      "structures": 65
+    }
+  },
+  "readiness": "VERIFIED_SYMBOLIC_PARTIAL_ARTIFACT; ORDINARY_DEFINITION_COMPLETION_NOT_ESTABLISHED",
+  "full_build_directory": "/private/tmp/gse-lexicon-release-build-20261025",
+  "baseline_comparison": "IDENTICAL_AFTER_REVIEWED_REFRESH"
+}

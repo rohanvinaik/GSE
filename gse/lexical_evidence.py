@@ -1,8 +1,9 @@
 """Located lexical facts, independent of encoding and optional resource acquisition.
 
 Lookups use read-only SQLite and local files. Legacy dictionaries retain their
-first-row projection; versioned dictionaries select only a unique or explicitly
-named definition. Raw ratings never pass through their curation-to-prime conversions.
+first-consumable-row projection; versioned dictionaries select only a unique or
+explicitly named definition. Raw ratings never pass through their
+curation-to-prime conversions.
 """
 
 from __future__ import annotations
@@ -11,8 +12,9 @@ import csv
 import hashlib
 import json
 import math
+import os
 import sqlite3
-from contextlib import closing
+import threading
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
@@ -23,6 +25,23 @@ from gse.prime_projection import epa_projection
 DATA = Path(__file__).resolve().parents[1] / "data"
 POLICY = "gse.lexical-evidence/1"
 
+_tls = threading.local()
+
+
+def close_lexical_connections() -> None:
+    """Close and clear all thread-local cached SQLite connections."""
+    cache = getattr(_tls, "connections", None)
+    if cache is not None:
+        for _, conn in list(cache.values()):
+            try:
+                conn.close()
+            except Exception:
+                pass
+        cache.clear()
+    readers = getattr(_tls, "release_readers", None)
+    if readers is not None:
+        readers.clear()
+
 
 @lru_cache(maxsize=32)
 def _digest(path: str, mtime_ns: int, size: int, inode: int) -> str:
@@ -30,15 +49,33 @@ def _digest(path: str, mtime_ns: int, size: int, inode: int) -> str:
         return hashlib.file_digest(stream, "sha256").hexdigest()
 
 
-def resource_identity(path: str | Path) -> dict[str, Any]:
+def resource_identity(path: str | Path, *, stat: os.stat_result | None = None) -> dict[str, Any]:
     """A local resource's byte identity, or an explicit unavailable source."""
     path = Path(path).resolve()
     try:
-        stat = path.stat()
+        if stat is None:
+            stat = path.stat()
         digest = _digest(str(path), stat.st_mtime_ns, stat.st_size, stat.st_ino)
     except OSError as exc:
         return {"path": str(path), "state": "unread", "sha256": None, "reason": type(exc).__name__}
     return {"path": str(path), "state": "read", "sha256": digest}
+
+
+def select_consumable_record(records: list[dict[str, Any]]) -> tuple[str, dict[str, Any] | None]:
+    """Choose an encoding row without treating an unreviewed zero as absent."""
+    for record in records:
+        if record.get("validation_status") != "partial_candidate":
+            return "SELECTED", record
+    return ("PARTIAL_CANDIDATES_ONLY" if records else "NO_MATCHING_ROW"), None
+
+
+def _valid_primitive_value(primitive: str, value: Any, source: str | None) -> bool:
+    """Quantifier hierarchy levels are structural counts, not lexical signs."""
+    if type(value) is not int:
+        return False
+    if value in (-1, 0, 1):
+        return True
+    return source == "quantifiers" and primitive in {"HIER_PLUS", "HIER_MINUS"} and value in (2, 3)
 
 
 def is_definition_database(conn: sqlite3.Connection) -> bool:
@@ -105,15 +142,38 @@ def lookup_lexeme(
     *,
     pos: str | None = None,
     entry_id: str | None = None,
+    _retries: int = 1,
 ) -> dict[str, Any]:
     """Return primes/no_primes/no_row/unread and complete selected-record evidence.
 
-    Legacy policy retains its POS/first-ID projection. Versioned dictionaries
-    require a unique definition or an explicit entry_id; POS alone does not
-    authorize choosing among definitions. All candidate identities are retained.
+    Versioned dictionaries require a unique definition or an explicit entry_id;
+    POS alone does not authorize choosing among definitions. Legacy policy:
+    case-insensitive lemma, requested POS before generic x/NULL, then ascending
+    row ID among consumable rows. Partial rebuild candidates are retained as
+    evidence but cannot supply an encoding: their unreviewed zeros may mean
+    omission. All candidate identities are retained; this policy does not
+    resolve word senses.
     """
     path = resolve_lexicon_path(db_path)
-    provenance = resource_identity(path)
+    resolved_path = str(path.resolve())
+    try:
+        stat_before = path.stat()
+    except OSError as exc:
+        return {
+            "word": word,
+            "state": "unread",
+            "primitives": {},
+            "selected_record": None,
+            "candidates": [],
+            "ambiguous": False,
+            "sense_resolved": False,
+            "selection_policy": "lemma-pos-consumable-id/2",
+            "policy": POLICY,
+            "provenance": {"path": resolved_path, "state": "unread", "sha256": None, "reason": type(exc).__name__},
+            "reason": type(exc).__name__,
+        }
+
+    provenance = resource_identity(path, stat=stat_before)
     out: dict[str, Any] = {
         "word": word,
         "state": "unread",
@@ -122,18 +182,35 @@ def lookup_lexeme(
         "candidates": [],
         "ambiguous": False,
         "sense_resolved": False,
-        "selection_policy": "lemma-pos-generic-id/1",
+        "selection_policy": "lemma-pos-consumable-id/2",
         "policy": POLICY,
         "provenance": provenance,
     }
+    cache = getattr(_tls, "connections", None)
+    if cache is None:
+        cache = _tls.connections = {}
+    cached_entry = cache.get(resolved_path)
     try:
-        with closing(sqlite3.connect(path.resolve().as_uri() + "?mode=ro", uri=True)) as conn:
+        key = (resolved_path, stat_before.st_mtime_ns, stat_before.st_size, stat_before.st_ino)
+        if cached_entry is None or cached_entry[0] != key:
+            if cached_entry is not None:
+                try:
+                    cached_entry[1].close()
+                except Exception:
+                    pass
+            conn = sqlite3.connect(Path(resolved_path).as_uri() + "?mode=ro", uri=True)
             conn.row_factory = sqlite3.Row
-            if is_definition_database(conn):
-                return _definition_evidence(conn, word.lower(), entry_id, out)
-            if entry_id is not None:
-                out["reason"] = "DEFINITION_SELECTION_REQUIRES_VERSIONED_DATABASE"
-                return out
+            cached_entry = (key, conn)
+            cache[resolved_path] = cached_entry
+        else:
+            conn = cached_entry[1]
+
+        if is_definition_database(conn):
+            _definition_evidence(conn, word.lower(), entry_id, out)
+        elif entry_id is not None:
+            out["reason"] = "DEFINITION_SELECTION_REQUIRES_VERSIONED_DATABASE"
+            return out
+        else:
             rows = conn.execute("SELECT * FROM lexemes WHERE lemma = ? ORDER BY id", (word.lower(),)).fetchall()
             records = [dict(row) for row in rows]
             if pos is not None:
@@ -141,22 +218,71 @@ def lookup_lexeme(
                 records.sort(key=lambda row: (row.get("pos") != pos, row["id"]))
             out["candidates"] = records
             out["ambiguous"] = len(records) > 1
-            if not records:
+            selection_code, selected = select_consumable_record(records)
+            out["selection_code"] = selection_code
+            if selected is None:
                 out["state"] = "no_row"
-                return out
-            selected = records[0]
-            out["selected_record"] = selected
-            prime_rows = conn.execute(
-                "SELECT * FROM primitive_values WHERE lexeme_id = ? ORDER BY primitive", (selected["id"],)
-            ).fetchall()
-            out["primitive_evidence"] = [dict(row) for row in prime_rows]
-            if any(type(row["value"]) is not int or row["value"] not in (-1, 0, 1) for row in prime_rows):
-                out["reason"] = "malformed_primitive_value"
-                return out
-            out["primitives"] = {row["primitive"]: row["value"] for row in prime_rows if row["value"]}
-            out["state"] = "primes" if out["primitives"] else "no_primes"
+            else:
+                out["selected_record"] = selected
+                prime_rows = conn.execute(
+                    "SELECT * FROM primitive_values WHERE lexeme_id = ? ORDER BY primitive", (selected["id"],)
+                ).fetchall()
+                out["primitive_evidence"] = [dict(row) for row in prime_rows]
+                if any(
+                    not _valid_primitive_value(row["primitive"], row["value"], selected.get("source"))
+                    for row in prime_rows
+                ):
+                    out["reason"] = "malformed_primitive_value"
+                    return out
+                if selected.get("source") == "gse_symbolic_release":
+                    from gse.lexicon_builder.runtime import ReleaseReader, read_released_reading
+
+                    try:
+                        readers = getattr(_tls, "release_readers", None)
+                        if readers is None:
+                            readers = _tls.release_readers = {}
+                        reader = readers.get(resolved_path)
+                        if reader is None or reader.conn is not conn:
+                            reader = readers[resolved_path] = ReleaseReader(conn)
+                        definition = read_released_reading(conn, selected["id"], reader=reader)
+                    except ValueError as error:
+                        out["reason"] = str(error)
+                        return out
+                    expected = {
+                        coordinate: cell["value"]
+                        for coordinate, cell in definition["cells"].items()
+                        if cell["written"] is True
+                    }
+                    if expected != {row["primitive"]: row["value"] for row in prime_rows}:
+                        out["reason"] = "RELEASE_COMPATIBILITY_PROJECTION_MISMATCH"
+                        return out
+                    out["definition"] = definition
+                    out["definition_status"] = selected["validation_status"]
+                    out["projection_code"] = "SETTLED_COMPONENTS_ONLY; UNKNOWN_CELLS_RETAINED_IN_DEFINITION"
+                out["primitives"] = {row["primitive"]: row["value"] for row in prime_rows if row["value"]}
+                out["state"] = "primes" if out["primitives"] else "no_primes"
+
+        # Verify that the file identity did not change during reading.
+        # If atomic replacement occurred between stat_before and query completion,
+        # retry once so provenance and rows are guaranteed to originate from the same file.
+        stat_after = path.stat()
+        if (
+            stat_after.st_mtime_ns != stat_before.st_mtime_ns
+            or stat_after.st_size != stat_before.st_size
+            or stat_after.st_ino != stat_before.st_ino
+        ):
+            if _retries > 0:
+                return lookup_lexeme(word, db_path, pos=pos, entry_id=entry_id, _retries=_retries - 1)
+            out.update(state="unread", reason="LEXICON_CHANGED_DURING_READ", primitives={}, selected_record=None)
+
     except (OSError, sqlite3.Error, ValueError) as exc:
         out["reason"] = str(exc) if isinstance(exc, ValueError) else type(exc).__name__
+        if cached_entry is not None:
+            try:
+                cached_entry[1].close()
+            except Exception:
+                pass
+            cache.pop(resolved_path, None)
     return out
 
 

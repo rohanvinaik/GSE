@@ -11,7 +11,7 @@ from gse.api.errors import OOVError
 from gse.curation.lexicon_builder.engine import Assertion, Relation, propagate
 from gse.curation.lexicon_builder.evidence import Definition, Observation
 from gse.curation.lexicon_builder.storage import open_build, store_entry, store_observations
-from gse.lexical_evidence import lookup_lexeme
+from gse.lexical_evidence import close_lexical_connections, lookup_lexeme
 from gse.vectors_v2 import bundle, encode_hierarchy
 
 
@@ -369,7 +369,7 @@ def test_legacy_dictionary_keeps_existing_selection_contract(tmp_path):
     with GSEEncoder(str(path)) as legacy:
         assert legacy._lookup_lexeme("bank")[0] == {"HAVE": 1}
         evidence = legacy.lexical_lookup("bank")
-        assert evidence["selection_policy"] == "lemma-pos-generic-id/1"
+        assert evidence["selection_policy"] == "lemma-pos-consumable-id/2"
         assert evidence["selected_record"]["id"] == 1
         assert evidence["ambiguous"] is True
         with pytest.raises(ValueError, match="DEFINITION_SELECTION_REQUIRES_VERSIONED_DATABASE"):
@@ -411,8 +411,12 @@ def test_lexical_evidence_closes_connection_on_all_selection_paths(built_diction
         return result
 
     monkeypatch.setattr(sqlite3, "connect", tracked)
+    close_lexical_connections()
     lookup_lexeme(word, built_dictionary)
     assert opened
+    # Lookups share a per-thread cached connection (tests/test_lexical_connection_cache.py);
+    # releasing the cache must close every connection any selection path opened.
+    close_lexical_connections()
     for connection in opened:
         with pytest.raises(sqlite3.ProgrammingError, match="closed"):
             connection.execute("SELECT 1")

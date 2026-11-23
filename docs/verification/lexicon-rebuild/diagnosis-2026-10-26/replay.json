@@ -1,0 +1,51 @@
+{
+  "old": "/private/tmp/gse-family-gate-final-20261025",
+  "new": "/private/tmp/gse-diagnosis-gate-20261026",
+  "old_readings": 2334,
+  "new_readings": 2334,
+  "added": [],
+  "removed": [],
+  "settled_changes": [],
+  "coordinate_changes": [
+    {
+      "reading_id": "afraid:ADJ:E5-:fear",
+      "coordinate": "MAYBE",
+      "old": {
+        "state": "unresolved",
+        "domain": [
+          "+1",
+          "0",
+          "empty"
+        ],
+        "written": null,
+        "value": null
+      },
+      "new": {
+        "state": "unresolved",
+        "domain": [
+          "+1",
+          "empty"
+        ],
+        "written": null,
+        "value": null
+      }
+    }
+  ],
+  "change_counts": {
+    "MAYBE": 1
+  },
+  "source_manifest_equal": true,
+  "new_summary": {
+    "STRUCTURAL_ENTRIES": 18,
+    "PARTIAL_NO_APPLICABLE_RULE": 182,
+    "PARTIAL": 1764,
+    "CANDIDATE_COMPLETE": 63,
+    "UNRESOLVED_NOUN_HEAD": 515
+  },
+  "representation_changes": [
+    "Sparse/candidate records carry reviewed model-task admission policy.",
+    "Fear MUST no longer nominated for model choice.",
+    "Source domain warrant wording retains every rule-surviving zero."
+  ],
+  "justification": "User 2026-10-26 scoped MAYBE domain rule; no global zero restriction, no settled content change."
+}

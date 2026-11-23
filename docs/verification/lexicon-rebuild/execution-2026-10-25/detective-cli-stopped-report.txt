@@ -1,0 +1,91 @@
+gse/lexicon_builder/core.py::cli_law_contract: Incomplete
+  mutants: 69 → 2 survivors; score 8% → 97% (73/75 killed)
+  value: 73 → 15 unspecified; score 3% → 80% (60/75 pinned)
+  every-killable-killed=False  line-complete=True
+  universe: 75 operator mutants · comprehensive — full mutant universe (count ≈ in-process estimate; killset and proof stable) · 60/75 = 80% of scored mutants value-pinned · exhaustive — every operator-universe mutant tested · policy 9.261d14e34119
+  pass 0: 73 survivors, 15 sound tests written
+  pass 1: 15 survivors, 0 sound tests written
+  remaining: 1 BOUNDARY, 1 LOGICAL, 8 SWAP, 4 TYPE, 1 VALUE
+  ✓ every killable mutant killed — remaining survivors have no distinguishing input (candidate-equivalent, NOT proven)
+  candidate-equivalent — retained, UNPROVEN (2: SWAP); no distinguishing input in 20 tried. To KILL: supply an input reaching a mutated branch below (or `flag` what you can PROVE equivalent):
+      boundary-probed: 0 further probe input(s) — both sides of every edge, the None of every Optional — distinguished none of these
+    → mutant SWAP_5aee9cfe [SWAP]: - if mode is not None and (not isinstance(mode, str) or mode not in {'DIRECT_CONSTRAINTS', 'ADMITTED_RULEBOOK'}):  + if mode is not None and (not mode or mode not in {'DIRECT_CONSTRAINTS', 'ADMITTED_RULEBOOK'}):
+    → mutant SWAP_fde48fb5 [SWAP]: - if not isinstance(laws, list) or any((not isinstance(record, dict) for record in laws)):  + if not laws or any((not isinstance(record, dict) for record in laws)):
+      target:  cli_law_contract(payload: object)
+      template: --input "(<payload>,)"   # replace every <...> slot before running
+  value-equivalent, crash-only-distinguishable (13: BOUNDARY, LOGICAL, SWAP, TYPE, VALUE) — the mutant RAISES where the original returns, so no return-value assertion can pin it. Your suite already detects every one by crash — no input is owed for detection; a ↳ line below, where present, names the boundary input that would make the distinction explicit. An input distinguishes each, so none is an equivalence candidate — nothing to `flag`:
+    → mutant BOUNDARY_25d413a4 [BOUNDARY]: - if 'laws' not in payload:  + if False:
+    → mutant LOGICAL_6d22ed44 [LOGICAL]: - if not isinstance(laws, list) or any((not isinstance(record, dict) for record in laws)):  + if not isinstance(laws, list) and any((not isinstance(record, dict) for record in laws)):
+    → mutant SWAP_c5905470 [SWAP]: - if not isinstance(payload, dict):  + if not isinstance(dict, payload):
+    → mutant SWAP_1b62949f [SWAP]: - if mode is not None and (not isinstance(mode, str) or mode not in {'DIRECT_CONSTRAINTS', 'ADMITTED_RULEBOOK'}):  + if mode is not None and (not isinstance(str, mode) or mode not in {'DIRECT_CONSTRAINTS', 'ADMITTED_RULEBOOK'}):
+    → mutant SWAP_d71df4ef [SWAP]: - if not isinstance(laws, list) or any((not isinstance(record, dict) for record in laws)):  + if not isinstance(list, laws) or any((not isinstance(record, dict) for record in laws)):
+    → mutant SWAP_50bbd2aa [SWAP]: - if not isinstance(laws, list) or any((not isinstance(record, dict) for record in laws)):  + if not isinstance(laws, list) or all((not isinstance(record, dict) for record in laws)):
+    → mutant SWAP_6b792e45 [SWAP]: - if not isinstance(laws, list) or any((not isinstance(record, dict) for record in laws)):  + if not isinstance(laws, list) or any((not isinstance(dict, record) for record in laws)):
+    → mutant SWAP_211eccc9 [SWAP]: - metadata = any((review_fields & set(record) for record in laws))  + metadata = any((review_fields & record for record in laws))
+    → mutant TYPE_5b63d4dc [TYPE]: - if not isinstance(payload, dict):  + if not True:
+    → mutant TYPE_902f6a31 [TYPE]: - if mode is not None and (not isinstance(mode, str) or mode not in {'DIRECT_CONSTRAINTS', 'ADMITTED_RULEBOOK'}):  + if mode is not None and (not True or mode not in {'DIRECT_CONSTRAINTS', 'ADMITTED_RULEBOOK'}):
+    → mutant TYPE_fbf922df [TYPE]: - if not isinstance(laws, list) or any((not isinstance(record, dict) for record in laws)):  + if not True or any((not isinstance(record, dict) for record in laws)):
+    → mutant TYPE_465a980f [TYPE]: - if not isinstance(laws, list) or any((not isinstance(record, dict) for record in laws)):  + if not isinstance(laws, list) or any((not True for record in laws)):
+    → mutant VALUE_92b4ef94 [VALUE]: - laws = payload['laws']  + laws = payload['']
+  uncertain — no synthesized input discriminates the remaining survivor(s), and their inputs are expressible as literals — supply the distinguishing value(s) with --input rather than searching the covering suite
+  ▶ boundary-probed and still undistinguished — if you can PROVE one equivalent, record it: `detective flag 'gse/lexicon_builder/core.py::cli_law_contract' SWAP_5aee9cfe --note why-equivalent`   (repeat for: SWAP_fde48fb5)
+  ✓ line-complete — every executable line is covered by a test
+  · not consulted: 5635 collected test(s) have no static path to this function — not traced (a missed dynamic reacher costs a redundant generated test, never a certificate)
+  minimal suite: 16 test(s) cover all kills + lines
+  wrote: tests/detective/test_gse_lexicon_builder_core_cli_law_contract_b98a7589c0_synth.py
+  pytest wiring: pytest config already declares the marker — nothing to change; verified 16 test(s) pass under pytest
+  ▶ to run these tests: `pytest`   (only the generated ones: `pytest -m detective`; only your own: `pytest -m "not detective"`)
+  ── written to disk (auto-applied) ──
+  │ # detective-content-sha256: 154468f97d01f0d7be8f5554f519c61310ba2c4f72d3e8659d760ff92e5d0f9a
+  │ """Auto-generated by Detective — warrant-classed tests for gse/lexicon_builder/core.py::cli_law_contract.
+  │ Function digest: 935b6a7316a82cfc.
+  │
+  │ Regenerated wholesale by `detective converge`; hand edits will be
+  │ overwritten. Witness lines carry full fidelity on purpose."""
+  │
+  │ import pytest
+  │
+  │ from gse.lexicon_builder.core import cli_law_contract
+  │
+  │
+  │ @pytest.mark.detective
+  │ @pytest.mark.parametrize(
+  │     "args, expected",
+  │     [
+  │         ((1,), "MALFORMED_RESOLVE_PAYLOAD"),
+  │         (({},), "ADMITTED_RULEBOOK"),
+  │         (({"law_contract": "ADMITTED_RULEBOOK", "laws": [{}]},), "ADMITTED_RULEBOOK"),
+  │         (({"law_contract": []},), "UNKNOWN_LAW_CONTRACT"),
+  │         (({"law_contract": "invalid"},), "UNKNOWN_LAW_CONTRACT"),
+  │         (({"law_contract": "DIRECT_CONSTRAINTS"},), "DIRECT_CONSTRAINTS_REQUIRE_LAWS"),
+  │         (({"laws": None},), "MALFORMED_CLI_LAWS"),
+  │         (({"laws": [None, {}]},), "MALFORMED_CLI_LAWS"),
+  │         (({"laws": [{}]},), "MISSING_LAW_CONTRACT"),
+  │         (({"law_contract": "DIRECT_CONSTRAINTS", "laws": [{}]},), "DIRECT_CONSTRAINTS"),
+  │         (
+  │             ({"law_contract": "DIRECT_CONSTRAINTS", "laws": [{"review_state": "CANDIDATE"}, {}]},),
+  │             "DIRECT_CONSTRAINTS_WITH_REVIEW_METADATA",
+  │         ),
+  │         (
+  │             ({"law_contract": "DIRECT_CONSTRAINTS", "laws": [{"lifecycle": "ACTIVE"}]},),
+  │             "DIRECT_CONSTRAINTS_WITH_REVIEW_METADATA",
+  │         ),
+  │         (
+  │             ({"law_contract": "DIRECT_CONSTRAINTS", "laws": [{"authority": {}}]},),
+  │             "DIRECT_CONSTRAINTS_WITH_REVIEW_METADATA",
+  │         ),
+  │         (
+  │             ({"law_contract": "DIRECT_CONSTRAINTS", "laws": [{"validation": {}}]},),
+  │             "DIRECT_CONSTRAINTS_WITH_REVIEW_METADATA",
+  │         ),
+  │         (
+  │             ({"law_contract": "DIRECT_CONSTRAINTS", "laws": [{"may_write_lexical_cells": False}]},),
+  │             "DIRECT_CONSTRAINTS_WITH_REVIEW_METADATA",
+  │         ),
+  │         (({"laws": [{"kind": "NATIVE_ASSOCIATION"}]},), "ADMITTED_RULEBOOK"),
+  │     ],
+  │ )
+  │ def test_cli_law_contract_golden(args, expected):
+  │     """VALUE golden captures — pure + deterministic (16 inputs)."""
+  │     assert cli_law_contract(*args) == expected
+FINAL gse/lexicon_builder/core.py::cli_law_contract: ⚠ UNGATEABLE — the function or test basis changed between the two measurements; diagnostic counts; no certified bound or verdict established · policy 9.261d14e34119

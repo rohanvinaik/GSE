@@ -16,6 +16,21 @@ uv run python -m gse.cli compare "big" "small" --format json
 
 The encoder's default lexicon is `data/lexicon_clean.db`, resolved relative to the checkout. Optional spelling, frequency and rating resources have independent availability states and are never downloaded during reading.
 
+## Symbolic lexicon builder
+
+The builder uses a fixed 72-prime, 58-coordinate basis. Ordinary builds call no model and preserve written zero, silence, unresolved domains and conflicts separately.
+
+```bash
+uv run gse-lexicon prime-proof --output /tmp/prime-proof.json
+uv run gse-lexicon build --symbolic-only --all-source-words --output data/symbolic-build
+uv run gse-lexicon release --input data/symbolic-build --output data/lexicon_symbolic.db
+uv run gse-lexicon release-audit --build-dir data/symbolic-build --output data/symbolic-audit
+```
+
+Native resources are local inputs with independent availability and hash records. The SQLite release stores full partial definitions and construction homes. Consume it explicitly with `GSEEncoder(db_path="data/lexicon_symbolic.db")`; sense alternatives and unknown cells remain in lexical evidence. Model work requires an explicit diagnosed queue and a call budget.
+
+The [basis contract](docs/program/LEXICON_BASIS_CONTRACT.md) states the authored meanings and projection limits. The [execution packet](docs/verification/lexicon-rebuild/execution-2026-10-25/REPORT.md) records measured coverage, replay, gates and remaining work. A successful build does not certify that ordinary word definitions are complete.
+
 ## Public Python paths
 
 ```python

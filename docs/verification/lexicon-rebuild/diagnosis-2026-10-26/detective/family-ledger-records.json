@@ -1,0 +1,134 @@
+[
+  {
+    "args": {
+      "deadline": 300.0,
+      "max_iterations": 3,
+      "trace_budget": 50.0,
+      "trace_session_budget": 1800.0,
+      "write_dir": "tests/detective"
+    },
+    "dur_ms": 162966,
+    "env": {
+      "detective": "/Users/rohanvinaik/tools/Detective/Detective/__init__.py",
+      "interpreter": "/Users/rohanvinaik/Projects/gse/.venv/bin/python3",
+      "project_root": "/Users/rohanvinaik/Projects/gse",
+      "version": "1.2.2",
+      "wesker": "/Users/rohanvinaik/tools/Wesker/Wesker/__init__.py"
+    },
+    "exit": 1,
+    "outcome": [
+      [
+        "outcome",
+        "converge",
+        "fix_failing_test"
+      ]
+    ],
+    "refusal": null,
+    "state": {
+      "equivalents": "sha256:c49f11cea9de88a22e788d524b29d13a",
+      "inputs": "sha256:b92e2b6e6f5ea4ada46747f75eb399d4",
+      "suite": "sha256:ca97b1e19a8783a3c0870111a564f76a",
+      "target_src": "sha256:a4d21971ec6176b6368af0cfaeafe886"
+    },
+    "target": "gse/lexicon_builder/families.py::family_contract_status",
+    "ts": "2026-10-26T03:14:46Z",
+    "v": 1,
+    "verb": "converge"
+  },
+  {
+    "args": {
+      "deadline": 300.0,
+      "max_iterations": 3,
+      "trace_budget": 50.0,
+      "trace_session_budget": 1800.0,
+      "write_dir": "tests/detective"
+    },
+    "dur_ms": 11019,
+    "env": {
+      "detective": "/Users/rohanvinaik/tools/Detective/Detective/__init__.py",
+      "interpreter": "/Users/rohanvinaik/Projects/gse/.venv/bin/python3",
+      "project_root": "/Users/rohanvinaik/Projects/gse",
+      "version": "1.2.2",
+      "wesker": "/Users/rohanvinaik/tools/Wesker/Wesker/__init__.py"
+    },
+    "exit": 1,
+    "outcome": [
+      [
+        "outcome",
+        "converge",
+        "fix_failing_test"
+      ]
+    ],
+    "refusal": null,
+    "state": {
+      "equivalents": "sha256:c49f11cea9de88a22e788d524b29d13a",
+      "inputs": "sha256:b92e2b6e6f5ea4ada46747f75eb399d4",
+      "suite": "sha256:ca97b1e19a8783a3c0870111a564f76a",
+      "target_src": "sha256:a4d21971ec6176b6368af0cfaeafe886"
+    },
+    "target": "gse/lexicon_builder/families.py::family_contract_status",
+    "ts": "2026-10-26T03:16:53Z",
+    "v": 1,
+    "verb": "converge"
+  },
+  {
+    "args": {
+      "deadline": 300.0,
+      "max_iterations": 3,
+      "trace_budget": 50.0,
+      "trace_session_budget": 1800.0,
+      "write_dir": "/private/tmp/gse-detective-diagnosis-20261026/generated"
+    },
+    "dur_ms": 152780,
+    "env": {
+      "detective": "/Users/rohanvinaik/tools/Detective/Detective/__init__.py",
+      "interpreter": "/Users/rohanvinaik/Projects/gse/.venv/bin/python",
+      "project_root": "/Users/rohanvinaik/Projects/gse",
+      "version": "1.2.2",
+      "wesker": "/Users/rohanvinaik/tools/Wesker/Wesker/__init__.py"
+    },
+    "exit": null,
+    "outcome": [],
+    "refusal": null,
+    "state": {
+      "equivalents": "sha256:c49f11cea9de88a22e788d524b29d13a",
+      "inputs": "sha256:b92e2b6e6f5ea4ada46747f75eb399d4",
+      "suite": "sha256:ca97b1e19a8783a3c0870111a564f76a",
+      "target_src": "sha256:a4d21971ec6176b6368af0cfaeafe886"
+    },
+    "target": "gse/lexicon_builder/families.py::family_contract_status",
+    "ts": "2026-10-26T04:34:21Z",
+    "v": 1,
+    "verb": "converge"
+  },
+  {
+    "args": {
+      "deadline": 20.0,
+      "max_iterations": 3,
+      "trace_budget": 50.0,
+      "trace_session_budget": 1800.0,
+      "write_dir": "/private/tmp/gse-detective-diagnosis-20261026/generated"
+    },
+    "dur_ms": 35214,
+    "env": {
+      "detective": "/Users/rohanvinaik/tools/Detective/Detective/__init__.py",
+      "interpreter": "/Users/rohanvinaik/Projects/gse/.venv/bin/python3",
+      "project_root": "/Users/rohanvinaik/Projects/gse",
+      "version": "1.2.2",
+      "wesker": "/Users/rohanvinaik/tools/Wesker/Wesker/__init__.py"
+    },
+    "exit": 3,
+    "outcome": [],
+    "refusal": "property_render_timeout",
+    "state": {
+      "equivalents": "sha256:c49f11cea9de88a22e788d524b29d13a",
+      "inputs": "sha256:b92e2b6e6f5ea4ada46747f75eb399d4",
+      "suite": "sha256:ca97b1e19a8783a3c0870111a564f76a",
+      "target_src": "sha256:a4d21971ec6176b6368af0cfaeafe886"
+    },
+    "target": "gse/lexicon_builder/families.py::family_contract_status",
+    "ts": "2026-10-26T04:37:50Z",
+    "v": 1,
+    "verb": "converge"
+  }
+]

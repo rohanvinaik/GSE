@@ -1,0 +1,70 @@
+== ruff check
+All checks passed!
+== ruff format --check
+56 files already formatted
+== pytest (lexicon)
+============================= test session starts ==============================
+platform darwin -- Python 3.14.6, pytest-9.1.0, pluggy-1.6.0
+rootdir: /Users/rohanvinaik/Projects/gse
+configfile: pyproject.toml
+plugins: hypothesis-6.170.7, anyio-4.15.1
+collected 564 items / 92 deselected / 472 selected
+
+tests/test_lexicon_atomic_and_tail.py ...........                        [  2%]
+tests/test_lexicon_bank_coverage.py ......                               [  3%]
+tests/test_lexicon_basis_profiles.py ................................... [ 11%]
+........................................................................ [ 26%]
+                                                                         [ 26%]
+tests/test_lexicon_bounded_tail.py ........                              [ 27%]
+tests/test_lexicon_builder_foundation.py ........                        [ 29%]
+tests/test_lexicon_builder_workflow.py ..................                [ 33%]
+tests/test_lexicon_cause_bindings.py ........                            [ 35%]
+tests/test_lexicon_coherence.py ................                         [ 38%]
+tests/test_lexicon_conditional_rules.py ................................ [ 45%]
+..............                                                           [ 48%]
+tests/test_lexicon_evaluation.py .............                           [ 51%]
+tests/test_lexicon_family_boundaries.py ......                           [ 52%]
+tests/test_lexicon_family_selector_contract.py ....                      [ 53%]
+tests/test_lexicon_fill.py ....                                          [ 54%]
+tests/test_lexicon_foundation_workflow.py .............................. [ 60%]
+...........                                                              [ 62%]
+tests/test_lexicon_frozen_build.py ....                                  [ 63%]
+tests/test_lexicon_mvp_artifact.py .........                             [ 65%]
+tests/test_lexicon_native_constraints.py ............                    [ 68%]
+tests/test_lexicon_noun_projection.py .......................            [ 72%]
+tests/test_lexicon_number.py .......                                     [ 74%]
+tests/test_lexicon_release_audit.py .................................... [ 81%]
+...                                                                      [ 82%]
+tests/test_lexicon_release_connection_identity.py .                      [ 82%]
+tests/test_lexicon_release_runtime.py ............................       [ 88%]
+tests/test_lexicon_rooted_provenance.py ........                         [ 90%]
+tests/test_lexicon_rule_admission.py ..                                  [ 90%]
+tests/test_lexicon_source_identity.py ...                                [ 91%]
+tests/test_lexicon_unified_admission.py .....                            [ 92%]
+tests/detective/test_gse_lexicon_builder_artifact_vector_status_a1abed2c62_synth.py . [ 92%]
+                                                                         [ 92%]
+tests/detective/test_gse_lexicon_builder_core_cli_law_contract_b98a7589c0_synth.py . [ 93%]
+...............                                                          [ 96%]
+tests/detective/test_gse_lexicon_builder_model_selection_status_a7629fdfb4_synth.py . [ 96%]
+.                                                                        [ 96%]
+tests/detective/test_gse_lexicon_builder_native_constraints_predicate_domain_a4063ffbd3_synth.py . [ 96%]
+                                                                         [ 96%]
+tests/detective/test_gse_lexicon_builder_number_paired_order_status_abe314a791_synth.py . [ 97%]
+..                                                                       [ 97%]
+tests/detective/test_gse_lexicon_builder_surprise_comparison_status_de949a91dd_synth.py . [ 97%]
+......                                                                   [ 98%]
+tests/detective/test_gse_lexicon_builder_tail_tail_task_status_3730b42410_synth.py . [ 99%]
+....                                                                     [100%]
+
+=============================== warnings summary ===============================
+.venv/lib/python3.14/site-packages/_hypothesis_pytestplugin.py:487
+  /Users/rohanvinaik/Projects/gse/.venv/lib/python3.14/site-packages/_hypothesis_pytestplugin.py:487: UserWarning: Skipping collection of '.hypothesis' directory - this usually means you've explicitly set the `norecursedirs` pytest config option, replacing rather than extending the default ignores.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================ 472 passed, 92 deselected, 1 warning in 17.52s ================
+== ty check gse/lexicon_builder (advisory)
+All checks passed!
+== frozen symbolic build
+build directory and log: /var/folders/y3/9hy3l65d7xvdl89kh19dnlf40000gp/T/tmp.Pya5u9pDD6
+baseline written: 1040 records; refresh only with the change that justifies it

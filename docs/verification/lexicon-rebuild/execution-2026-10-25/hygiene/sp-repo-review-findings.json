@@ -1,0 +1,42 @@
+{
+  "schema": "GSE_RELEASE_HYGIENE_FINDINGS_V1",
+  "exit_code": 3,
+  "scope": "External rubric leads, not a verdict; no source/CI policy changes",
+  "findings": [
+    {
+      "id": "PY003",
+      "finding": "Rubric reports no LICENSE file",
+      "disposition": "LEAD_ONLY; no license invented or changed"
+    },
+    {
+      "id": "PY006",
+      "finding": "Rubric reports no pre-commit config",
+      "disposition": "LEAD_ONLY; existing repository gate policy preserved"
+    },
+    {
+      "id": "PY007",
+      "finding": "No rubric-supported task-runner config",
+      "disposition": "RUBRIC_SCOPE; existing scripts/ci_local.sh and scripts/lexicon_gate.sh are not a supported task-runner marker"
+    },
+    {
+      "id": "PP309",
+      "finding": "No pytest filterwarnings setting",
+      "disposition": "LEAD_ONLY; warning policy unchanged"
+    },
+    {
+      "id": "RF002",
+      "finding": "Both Ruff target-version and requires-python declared",
+      "disposition": "LEAD_ONLY; lint target policy unchanged"
+    },
+    {
+      "id": "RF101",
+      "finding": "Bugbear B rule family not selected",
+      "disposition": "LEAD_ONLY; no lint expansion during release"
+    },
+    {
+      "id": "SEC001",
+      "finding": "No persistent zizmor hook/action detected",
+      "disposition": "RUBRIC_INTEGRATION_GAP; this ad-hoc offline zizmor execution passed but does not install a persistent check"
+    }
+  ]
+}

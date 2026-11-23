@@ -15,7 +15,7 @@ import sqlite3
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, TypedDict, cast
 
-from gse.api.errors import OOVError, PrimitiveError
+from gse.api.errors import EncodingError, OOVError, PrimitiveError
 from gse.api.parse_repair import verbs_to_promote
 from gse.api.trace import (
     ClauseSpan,
@@ -258,11 +258,11 @@ class GSEEncoder:
             self._repair = NativeRepair(self)
         return self._repair
 
-    def lexical_lookup(self, lemma: str, *, entry_id: Optional[str] = None) -> Dict:
+    def lexical_lookup(self, lemma: str, pos: str | None = None, *, entry_id: Optional[str] = None) -> Dict:
         """Source evidence with explicit selection status for versioned definitions."""
         from gse.lexical_evidence import lookup_lexeme
 
-        return lookup_lexeme(lemma, self.db_path, entry_id=entry_id)
+        return lookup_lexeme(lemma, self.db_path, pos=pos, entry_id=entry_id)
 
     def _grammatical_definition(self, surface: str, lemma: str, pos: str) -> Optional[Tuple[str, str, Dict]]:
         """Resolve only the catalog identities licensed by the parsed role.
@@ -387,7 +387,8 @@ class GSEEncoder:
 
         grounding = (
             LexicalGrounding(self.conn, doc, clause_coords | implies_positions | temporal_positions)
-            if self._definition_database else None
+            if self._definition_database
+            else None
         )
         token_traces: List[TokenTrace] = []
         token_vectors: List[Tuple[int, SparseVector, CompositionalMetadata]] = []
@@ -422,16 +423,22 @@ class GSEEncoder:
                     lexical_rows[lookup_form] = self.lexical_lookup(lookup_form)
                 lexical = lexical_rows[lookup_form]
                 entry_id = None
-                if grounding is not None and tok.pos_ in {"NOUN", "PROPN"} and i not in promote_to_verb and lexical.get(
-                    "selection_status"
-                ) == "AMBIGUOUS":
+                if (
+                    grounding is not None
+                    and tok.pos_ in {"NOUN", "PROPN"}
+                    and i not in promote_to_verb
+                    and lexical.get("selection_status") == "AMBIGUOUS"
+                ):
                     alternatives = lexical["candidate_entry_ids"]
                     selection = grounding.select(i, lookup_form, alternatives)
                     if selection["code"] == "EXACT_WORDNET_SENSE":
                         entry_id = selection["entry_id"]
                         lexical = self.lexical_lookup(lookup_form, entry_id=entry_id)
                     lexical = {**lexical, "contextual_grounding": {**selection, "considered_entry_ids": alternatives}}
-                word_prims, sent_prims, comp_meta = self._lookup_lexeme(lookup_form, entry_id=entry_id)
+                # The trace and vector must consume the same selected source row.
+                word_prims, sent_prims, comp_meta = self._lookup_lexeme(
+                    lookup_form, entry_id=entry_id, lexical_evidence=lexical
+                )
             if self._definition_database:
                 lexical = {**lexical, "lookup_form": lookup_form, "parser_lemma": lemma}
             negative = negation_evidence(lemma)
@@ -862,7 +869,12 @@ class GSEEncoder:
         return primitives
 
     def _lookup_lexeme(
-        self, lemma: str, *, entry_id: Optional[str] = None
+        self,
+        lemma: str,
+        pos: str | None = None,
+        *,
+        entry_id: Optional[str] = None,
+        lexical_evidence: Dict | None = None,
     ) -> Tuple[Dict[str, int], Dict[str, int], CompositionalMetadata]:
         """
         Look up word-scale and sentence-scale primitives for a lemma.
@@ -915,22 +927,22 @@ class GSEEncoder:
         if entry_id is not None:
             raise ValueError("DEFINITION_SELECTION_REQUIRES_VERSIONED_DATABASE")
 
-        # Get lexeme ID and compositional metadata for the legacy active database.
-        self.cursor.execute(
-            """
-            SELECT id, comp_primitive, comp_arity, comp_operation
-            FROM lexemes WHERE lemma = ? ORDER BY id LIMIT 1
-        """,
-            (lemma,),
-        )
-        row = self.cursor.fetchone()
-
-        if not row:
+        # Legacy active database: the trace and vector must consume the same selected source row.
+        evidence = lexical_evidence if lexical_evidence is not None else self.lexical_lookup(lemma, pos)
+        if evidence["state"] == "unread":
+            if self.strict:
+                raise EncodingError(lemma, evidence.get("reason", "lexical_source_unread"))
+            return {}, {}, {}
+        selected = evidence["selected_record"]
+        if selected is None:
             if self.strict:
                 raise OOVError(lemma)
             return {}, {}, {}  # Graceful fallback: OOV word contributes nothing
 
-        lexeme_id, comp_prim, comp_arity, comp_op = row
+        lexeme_id = selected["id"]
+        comp_prim = selected.get("comp_primitive")
+        comp_arity = selected.get("comp_arity")
+        comp_op = selected.get("comp_operation")
         comp_meta: CompositionalMetadata = (
             {
                 "comp_primitive": comp_prim,
@@ -940,6 +952,12 @@ class GSEEncoder:
             if comp_prim
             else {}
         )
+
+        if selected.get("source") == "gse_symbolic_release":
+            # This is the validated projection from the same file identity as the
+            # trace, including after an atomic release replacement. Re-querying
+            # this encoder's older SQLite connection could pair different rows.
+            return dict(evidence["primitives"]), {}, comp_meta
 
         # Get word-scale primitives
         self.cursor.execute(

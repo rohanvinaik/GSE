@@ -1,0 +1,41 @@
+  ▸ recalled 15 supplied input(s) from a previous run
+  ▸ recalled 16 pinned test(s) from a previous run
+  … cli_law_contract: tracing 16 function-routed tests
+  … cli_law_contract: baseline traced · 16 tests · 0.0s
+  … cli_law_contract: 1/75 mutants · 8.5/s · ETA estimating… (heartbeat)
+  … cli_law_contract: 75/75 mutants · 171.8/s · done in 0.4s
+  ▸ pass 0: 15 value-survivor(s) — synthesizing killing tests…
+  ▸ pass 0: no new killing test for the remaining survivor(s) — at ceiling
+  ▸ witness pass: searching richer inputs for a distinguishing kill…
+  ▸ finalizing — re-profiling the full mutant universe against the written suite…
+  … cli_law_contract: tracing 16 function-routed tests
+  … cli_law_contract: baseline traced · 16 tests · 0.0s
+  … cli_law_contract: 75/75 mutants · 184.2/s · done in 0.4s
+  ▸ 15 survivor(s) remain — classifying (killable / equivalent / needs-input)…
+  ▸ verifying reproducibility — fresh isolated observation of the function's proof basis…
+  … cli_law_contract: tracing 16 function-routed tests
+  … cli_law_contract: baseline traced · 16 tests · 0.0s
+  ▸ reproducibility confirmed — the certificate rests on the isolated observation
+──────────────────────────────────────────────────────────────────────────────
+gse/lexicon_builder/core.py::cli_law_contract — converge · 75 behaviours · 60 pinned · 2 candidate-equivalent · 13 crash-only
+
+  ✓ wrote              16 test(s) → tests/detective/test_gse_lexicon_builder_core_cli_law_contract_b98a7589c0_synth.py
+  · unproven-equiv     2 — the search found no distinguishing input
+  · crash-only-equiv   13 — detected by crash; no value pins them
+  · not consulted      5641 collected test(s) have no static path to this function — not traced (a missed dynamic reacher costs a redundant generated test, never a certificate)
+  · full report        .detective/reports/converge_cli_law_contract.txt
+
+DONE:  every killable behaviour Detective found is pinned.
+       What remains was not distinguished by any input Detective TRIED — and it
+       probed this signature's boundaries (both sides of every comparison edge,
+       the None of every Optional). Still a bounded search, not a proof:
+       equivalence is undecidable in general, so the engine will not claim it.
+       If you can PROVE one equivalent: detective flag 'gse/lexicon_builder/core.py::cli_law_contract' SWAP_f1ab3a10 --note "why"  (1 more in the report)
+
+       NEXT — the style pass (behaviour is pinned; this is the self-evident next move):
+         detective plan 'gse/lexicon_builder/core.py'
+         detective decompose 'gse/lexicon_builder/core.py::cli_law_contract' --apply
+         detective survey 'gse/lexicon_builder/core.py'
+         (efficiency: verify-rewrite --budget against a receipt from policy 9.261d14e34119)
+
+FINAL gse/lexicon_builder/core.py::cli_law_contract: ✓ COMPLETE (operator universe · modulo 2 unproven-equivalent · 13 crash-only value gaps) · 73/75 killed · 16 test(s) → tests/detective/test_gse_lexicon_builder_core_cli_law_contract_b98a7589c0_synth.py · policy 9.261d14e34119

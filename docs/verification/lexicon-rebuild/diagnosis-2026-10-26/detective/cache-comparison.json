@@ -1,0 +1,39 @@
+{
+  "archived_regime": "9697199b44cbba08",
+  "cold_regime": "9697199b44cbba08",
+  "archived_targets": "7a885bbf017d5d2e",
+  "cold_targets": "7a885bbf017d5d2e",
+  "archived_failing": [
+    "tests/test_lexicon_family_boundaries.py::test_boundary_cannot_supply_a_deleted_content_warrant",
+    "tests/test_lexicon_family_boundaries.py::test_native_family_boundary_reaches_the_real_builder_and_export",
+    "tests/test_lexicon_family_boundaries.py::test_removing_one_silence_support_reopens_only_its_coordinate"
+  ],
+  "cold_failing": [],
+  "archived_outcome_status": {
+    "tests/test_lexicon_family_boundaries.py::test_native_family_boundary_reaches_the_real_builder_and_export": "failed",
+    "tests/test_lexicon_family_boundaries.py::test_boundary_cannot_supply_a_deleted_content_warrant": "failed",
+    "tests/test_lexicon_family_boundaries.py::test_wrong_source_scope_and_withheld_contract_cannot_close_cells": "passed",
+    "tests/test_lexicon_family_boundaries.py::test_removing_one_silence_support_reopens_only_its_coordinate": "failed",
+    "tests/test_lexicon_family_boundaries.py::test_optional_zero_survives_and_abstention_does_not_complete": "passed",
+    "tests/test_lexicon_family_boundaries.py::test_family_validator_refuses_malformed_and_unaccounted_decisions": "passed"
+  },
+  "cold_outcome_status": {
+    "tests/test_lexicon_family_boundaries.py::test_native_family_boundary_reaches_the_real_builder_and_export": "passed",
+    "tests/test_lexicon_family_boundaries.py::test_boundary_cannot_supply_a_deleted_content_warrant": "passed",
+    "tests/test_lexicon_family_boundaries.py::test_wrong_source_scope_and_withheld_contract_cannot_close_cells": "passed",
+    "tests/test_lexicon_family_boundaries.py::test_removing_one_silence_support_reopens_only_its_coordinate": "passed",
+    "tests/test_lexicon_family_boundaries.py::test_optional_zero_survives_and_abstention_does_not_complete": "passed",
+    "tests/test_lexicon_family_boundaries.py::test_family_validator_refuses_malformed_and_unaccounted_decisions": "passed"
+  },
+  "cold_traced_paths": [
+    "/Users/rohanvinaik/Projects/gse/gse/lexicon_builder/families.py"
+  ],
+  "tests_have_changed": true,
+  "purge_preserved": {
+    "inputs.json": true,
+    "pins.json": true,
+    "equivalents.json": true,
+    "judgments.json": true,
+    "ledger_preserved_as_prefix": true
+  }
+}

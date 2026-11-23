@@ -1,0 +1,25 @@
+  … comparison_status: static · no static smell · proves nothing (advisory)
+  … comparison_status: tracing 19 function-routed tests
+  … comparison_status: baseline traced · 19 tests · 0.2s
+  … comparison_status: tracing 26 function-routed tests
+  … comparison_status: baseline traced · 26 tests · 0.1s
+  … comparison_status: 1/80 mutants · 1.2/s · ETA estimating… (heartbeat)
+  … comparison_status: 80/80 mutants · 11.3/s · done in 7.1s
+──────────────────────────────────────────────────────────────────────────────
+gse/lexicon_builder/surprise.py::comparison_status — audit · 18 test(s) · 74/80 value-pinned · 95.0% killed (value+crash) · complete, modulo 4 unproven-equivalent and 2 crash-only value gaps
+
+  · fan-in             18 reach this function · 13 in the basis-relative minimal cover (1:1)
+  · origin (ℋ⊎𝒢)       11 intent-grounded · 7 characterized
+  · unproven-equiv     4 survivor(s) — the search found no distinguishing input
+  · crash-only-equiv   2 — detected by crash; no value pins them
+  · redundant          5 test(s) pointless for kills AND lines
+                       tests/test_lexicon_foundation_workflow.py::test_two_sided_comparison_never_confuses_unknown_absence_and_silence[+1-+1-AGREES], tests/test_lexicon_foundation_workflow.py::test_two_sided_comparison_never_confuses_unknown_absence_and_silence[+1--1-WRONG_POLE], tests/test_lexicon_foundation_workflow.py::test_two_sided_comparison_never_confuses_unknown_absence_and_silence[+1-None-INVALID_ACTUAL_STATE], tests/test_lexicon_foundation_workflow.py::test_two_sided_comparison_never_confuses_unknown_absence_and_silence[0-+1-FALSE_ADDITION] … (+1 more)
+
+DO THIS:  detective audit 'gse/lexicon_builder/surprise.py::comparison_status' --remove
+
+  · Why                5 test(s) kill no mutant AND cover no line
+                       OF THIS FUNCTION that another test does not already. --remove
+                       re-checks every function each one serves (this file's functions, the
+                       target's direct callers and callees, every function the test is observed
+                       to execute), keeps any still needed there or not fully checked, and
+                       deletes the rest from whichever test file defines them.
