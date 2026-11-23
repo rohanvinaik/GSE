@@ -1,0 +1,50 @@
+name: Three-repository program work
+description: Implement one SW, GSE, or RG package without losing its source warrant
+title: "[ID] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Read this repository's docs/program/START_HERE.md, GLOSSARY.md, BUILD_GAPS.md, BUILD_SPEC.md, REFERENCE_MANIFEST.json, and WORK_INDEX.json as whole units. The Git-tracked program is the intent authority; this issue tracks execution.
+  - type: input
+    id: work_id
+    attributes:
+      label: Stable work ID
+      description: One ID from WORK_INDEX.json, such as SW-03, GSE-04, or RG-02.
+    validations:
+      required: true
+  - type: textarea
+    id: source_and_intent
+    attributes:
+      label: Source and intent warrant
+      description: Cite founder instruction and pinned whole reference sections. Label observed code, dated report, inference, and unresolved questions.
+    validations:
+      required: true
+  - type: textarea
+    id: path
+    attributes:
+      label: Producer, artifact, consumer, abstention
+      description: Name the real entry point and any second implementation doing the same job.
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies and OpenSpec change
+      description: Include cross-repository IDs and the local OpenSpec change path.
+    validations:
+      required: true
+  - type: textarea
+    id: tests
+    attributes:
+      label: Intent and MUST-NOT witnesses
+      description: Give both signs, including null/empty/malformed and a real-entry case.
+    validations:
+      required: true
+  - type: textarea
+    id: receipt
+    attributes:
+      label: Completion receipt
+      description: Fill before closing with exact source/data/code digests, commands, identified/abstained/wrong by class, Detective state, and paired performance if relevant.
+    validations:
+      required: false
