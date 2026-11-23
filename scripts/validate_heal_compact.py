@@ -16,7 +16,7 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-GSE_ROOT = Path("/Users/rohanvinaik/Projects/gse")
+GSE_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(GSE_ROOT))
 from gse.api import GSEEncoder  # noqa: E402  # after sys.path setup
 from gse.discourse.speech import encode_document_utterances_traced  # noqa: E402  # after sys.path setup

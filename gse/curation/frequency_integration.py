@@ -237,14 +237,4 @@ def get_default_frequency_db_path() -> str:
     if gse_data.exists():
         return str(gse_data)
 
-    # Fall back to common locations
-    common_paths = [
-        Path.home() / "gse" / "data" / "frequency.db",
-        Path("/Users/rohanvinaik/gse/data/frequency.db"),
-    ]
-
-    for path in common_paths:
-        if path.exists():
-            return str(path)
-
-    raise FileNotFoundError("Could not find frequency.db")
+    raise FileNotFoundError(f"Could not find frequency.db at {gse_data}")

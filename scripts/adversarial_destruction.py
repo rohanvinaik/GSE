@@ -11,8 +11,9 @@ Run:  python scripts/adversarial_destruction.py
 
 import sys
 import time
+from pathlib import Path
 
-sys.path.insert(0, "/Users/rohanvinaik/Projects/gse")
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from gse.nlp.spellcheck import _DEFAULT_LEXICON as LX
 from gse.nlp.spellcheck import WORD_COMMIT_MARGIN, Candidate, _edits1, looks_non_lexical
 
