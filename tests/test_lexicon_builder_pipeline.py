@@ -105,7 +105,7 @@ def test_adjective_projection_and_invalid_source_link(tmp_path):
 def test_real_cli_build_lookup_export(tmp_path):
     data = bundle()
     evidence = tmp_path / "evidence.json"
-    evidence.write_text(json.dumps({"format": "gse.lexicon-evidence/1", **asdict(data)}))
+    evidence.write_text(json.dumps({"format": "GSE.lexicon-evidence/1", **asdict(data)}))
     db = tmp_path / "cli.db"
     base = [sys.executable, "-m", "GSE.curation.cli.commands", "--lexicon-db", str(db)]
     built = subprocess.run(base + ["build", "--evidence", str(evidence)], capture_output=True, text=True, check=True)
@@ -144,7 +144,7 @@ def test_model_budget_and_repropagation_are_consumed_by_pipeline(tmp_path):
 @pytest.mark.parametrize("level", [True, 1.5, "2"])
 def test_hierarchy_rejects_non_integer_levels(tmp_path, level):
     manifest = tmp_path / "rules.json"
-    manifest.write_text(json.dumps({"format": "gse.lexicon-rules/1", "hierarchy": {"hatred:feeling": {"FEEL": level}}}))
+    manifest.write_text(json.dumps({"format": "GSE.lexicon-rules/1", "hierarchy": {"hatred:feeling": {"FEEL": level}}}))
     with pytest.raises(ValueError, match="HIERARCHY"):
         build_dictionary(bundle(), tmp_path / "bad.db", manifest=manifest)
 
@@ -173,7 +173,7 @@ def test_native_assertions_require_matching_lexical_provenance(tmp_path, source,
 
 def test_duplicate_json_fields_are_rejected_before_build(tmp_path):
     path = tmp_path / "duplicate.json"
-    path.write_text('{"format":"gse.lexicon-evidence/1","definitions":[],"definitions":[]}')
+    path.write_text('{"format":"GSE.lexicon-evidence/1","definitions":[],"definitions":[]}')
     with pytest.raises(ValueError, match="DUPLICATE_JSON_FIELD"):
         load_evidence(path)
 
@@ -183,7 +183,7 @@ def test_boolean_definition_identity_is_not_coerced(tmp_path):
     path.write_text(
         json.dumps(
             {
-                "format": "gse.lexicon-evidence/1",
+                "format": "GSE.lexicon-evidence/1",
                 "definitions": [{"entry_id": True, "lemma": "word", "pos": "noun", "definition": "text"}],
             }
         )
@@ -221,7 +221,7 @@ def test_conflict_with_requested_hierarchy_never_publishes_hierarchy(tmp_path):
         (),
     )
     manifest = tmp_path / "rules.json"
-    manifest.write_text(json.dumps({"format": "gse.lexicon-rules/1", "hierarchy": {"hatred:feeling": {"FEEL": 2}}}))
+    manifest.write_text(json.dumps({"format": "GSE.lexicon-rules/1", "hierarchy": {"hatred:feeling": {"FEEL": 2}}}))
     path = tmp_path / "conflict.db"
     build_dictionary(data, path, manifest=manifest)
     with sqlite3.connect(path) as conn:
@@ -234,7 +234,7 @@ def test_explicit_prime_definition_and_catalog_gold_commands(tmp_path):
     manifest.write_text(
         json.dumps(
             {
-                "format": "gse.lexicon-rules/1",
+                "format": "GSE.lexicon-rules/1",
                 "definitions": [
                     {"entry_id": "manual:you", "lemma": "you", "pos": "pronoun", "definition": "the person addressed"}
                 ],
@@ -258,12 +258,12 @@ def test_explicit_prime_definition_and_catalog_gold_commands(tmp_path):
     assert report["prime_coverage"]["PARTIAL_FOUNDATION_CLOSURE"] == 1
     base = [sys.executable, "-m", "GSE.curation.cli.commands", "--lexicon-db", str(path)]
     catalog = subprocess.run(base + ["catalog"], capture_output=True, text=True, check=True)
-    assert json.loads(catalog.stdout)["format"] == "gse.nsm-catalog-coverage/2"
+    assert json.loads(catalog.stdout)["format"] == "GSE.nsm-catalog-coverage/2"
     assert json.loads(catalog.stdout)["coverage_counts"]["PARTIAL_FOUNDATION_CLOSURE"] == 1
     gold = tmp_path / "gold.json"
     gold.write_text(
         json.dumps(
-            {"format": "gse.lexicon-gold/1", "records": [{"entry_id": "manual:you", "bank": "YOU", "expected": 1}]}
+            {"format": "GSE.lexicon-gold/1", "records": [{"entry_id": "manual:you", "bank": "YOU", "expected": 1}]}
         )
     )
     evaluation = subprocess.run(base + ["evaluate", "--gold", str(gold)], capture_output=True, text=True, check=True)
@@ -300,7 +300,7 @@ def test_manifest_provenance_string_is_not_split_into_characters(tmp_path):
     manifest.write_text(
         json.dumps(
             {
-                "format": "gse.lexicon-rules/1",
+                "format": "GSE.lexicon-rules/1",
                 "relations": [
                     {"rule_id": "r", "banks": ["KNOW"], "allowed_rows": [[1]], "provenance": "paper", "approved": True}
                 ],

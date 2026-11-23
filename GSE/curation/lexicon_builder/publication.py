@@ -19,6 +19,7 @@ from contextlib import closing
 from pathlib import Path
 
 from GSE.lexicon_resource import ACTIVE_POINTER, POINTER_FORMAT, resolve_lexicon_path
+from GSE.namespace import current_id
 
 from .catalog import (
     SENTENCE_DURATION_SOURCE_RECORD,
@@ -133,7 +134,7 @@ def publication_readiness(path: str | Path, gold_path: str | Path | None = None,
     blockers, cells, outcomes = [], Counter(), Counter()
     with closing(sqlite3.connect(file.as_uri() + "?mode=ro", uri=True)) as conn:
         conn.execute("BEGIN")
-        if _metadata(conn, "format") != VERSION:
+        if current_id(_metadata(conn, "format")) != VERSION:
             raise ValueError("UNSUPPORTED_BUILD_FORMAT")
         if _metadata(conn, "representation_contract") != representation_contract():
             blockers.append("REPRESENTATION_CONTRACT_MISMATCH")
@@ -245,7 +246,7 @@ def publication_readiness(path: str | Path, gold_path: str | Path | None = None,
     else:
         gold = {"code": "NOT_RUN_INCOMPLETE_CANDIDATE", "path": str(Path(gold_path).resolve())}
     return {
-        "format": "gse.lexicon-publication-audit/1",
+        "format": "GSE.lexicon-publication-audit/1",
         "publication_mode": "sparse" if sparse else "complete",
         "code": "READY_FOR_PUBLICATION" if not blockers else "PUBLICATION_BLOCKED",
         "blockers": sorted(set(blockers)),

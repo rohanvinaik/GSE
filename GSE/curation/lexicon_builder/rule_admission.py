@@ -7,6 +7,8 @@ an authored warrant. The warrant/review remains named authority, never model gol
 import json
 from dataclasses import asdict, replace
 
+from GSE.namespace import current_id
+
 from .interchange import read_json
 from .residual import _request_id
 from .rule_history import digest, relation_records
@@ -17,7 +19,7 @@ CONVENTION_DECISION = "APPROVE_REPRESENTATIONAL_CONVENTION"
 def _convention_authority(record, candidate):
     """Validate an explicit operator attestation, not a model-derived approval."""
     fields = {"format", "convention_id", "approval", "premises", "consequent", "guards"}
-    if type(record) is not dict or set(record) != fields or record["format"] != "gse.approved-convention/1":
+    if type(record) is not dict or set(record) != fields or current_id(record["format"]) != "GSE.approved-convention/1":
         raise ValueError("INVALID_CONVENTION_APPROVAL")
     approval = record["approval"]
     if (
@@ -123,7 +125,7 @@ def admit_records(raw, saved, review):
     if relation.rule_id in {r.rule_id for r in baseline}:
         raise ValueError("RULE_ADMISSION_ALREADY_PRESENT")
     return {
-        "format": "gse.admitted-rule/2" if convention else "gse.admitted-rule/1",
+        "format": "GSE.admitted-rule/2" if convention else "GSE.admitted-rule/1",
         "code": "EXPLICIT_REPRESENTATIONAL_CONVENTION" if convention else "EXPLICIT_REVIEWED_RULE",
         "baseline_version": digest(relation_records(baseline)),
         "relation": asdict(relation),

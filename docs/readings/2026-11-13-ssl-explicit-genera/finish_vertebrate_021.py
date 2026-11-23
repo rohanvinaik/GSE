@@ -17,6 +17,7 @@ from pathlib import Path
 from GSE.api.encoder import GSEEncoder
 from GSE.curation.lexicon_builder.epoch import _resolve, exact_delta, fingerprint, read, record, scope_rows
 from GSE.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
+from GSE.namespace import current_id
 from scripts.audit_lexicon_sentences import audit, compare_reports
 from scripts.run_lexicon_epochs import publish_round
 
@@ -31,7 +32,7 @@ PAPER = Path.home() / "Projects/rohan-vinaik.github.io/papers/Core Documents/Sem
 def verify_candidate(result):
     round_.verify_sources()
     expected_questions = 5
-    if result.get("format") == "gse.lexicon-adjudicated-round/1":
+    if current_id(result.get("format")) == "GSE.lexicon-adjudicated-round/1":
         adjudication = import_module("docs.readings.2026-11-13-ssl-explicit-genera.adjudicate_vertebrate_021")
         manifest = adjudication.validate_manifest_artifacts()
         expected_questions = manifest["actual_bank_questions"]
@@ -189,7 +190,7 @@ def notebook(result, release=None, verified=None):
         prefix = prefix.partition(heading)[0]
     section = heading + "\nRohan approved constitutive anatomy, including verified defining-genus content, as sufficient for BODY=+1. Protocol 14 exposes that convention to both writers. The existing WordNet context-enrichment path now preserves complete verified ancestry definitions without selecting a sense or assigning a bank. Version 1 identity packets and the five pre-approval raw replies remain unchanged. Fresh audits reserve cat, duck, shark and salamander; the earlier diagnostic senses are not counted as held-out confirmations. The local model context bound is 81,920, below its declared 262,144 capacity; all five complete source contexts fit without truncation.\n\n"
     section += f"The new epoch outcome is {result['epochs'][0]['code']}, using {result['typed_questions_used']} new bounded bank questions ({5 + result['typed_questions_used']} including the earlier diagnostic round). It admits {len(result['admitted'])} rules and adds {result['new_cells']:,} singleton cells, with {result['reopened_cells']} reopenings. Full replay checks {result['replay']['entries_checked']:,} records with {result['replay']['entries_mismatched']} mismatches and {result['replay']['inference_counts']['components_solver_limited']} solver-limited components. Unknowns remain distinct from zero.\n\n"
-    if result.get("format") == "gse.lexicon-adjudicated-round/1":
+    if current_id(result.get("format")) == "GSE.lexicon-adjudicated-round/1":
         manifest = read(Path(result["adjudication_manifest"]))
         bad = [r["entry_id"] for r in manifest["native_questions"][1:] if json.loads(r["raw_output"])["BODY"] != 1]
         section += f"The native provider's signed disagreements on {', '.join(bad)} are retained. Source review found that their verified constitutive-anatomy witnesses satisfy the approved condition. Only those missing BODY cells received a bounded schema-constrained Fable subscription-CLI ruling; prior answers and per-case expected labels were absent from its input. The final audit consumes exact archived rulings with full request/schema checks. There are {manifest['unique_bank_questions']} unique word–bank questions and {len(manifest['corrections'])} additional adjudication attempts; source review, provider correction and population-rule exceptions are distinct. No exception was invented to exclude a difficult spelling. [Adjudication provenance and costs](../../../../gse/docs/readings/2026-11-13-ssl-explicit-genera/021-approved-adjudication-manifest.json)\n\n"
@@ -213,7 +214,7 @@ def notebook(result, release=None, verified=None):
         os.replace(temporary, PAPER)
     finally:
         temporary.unlink(missing_ok=True)
-    receipt = "021-approved-adjudicated-notebook-update.json" if result.get("format") == "gse.lexicon-adjudicated-round/1" else "021-approved-notebook-update.json"
+    receipt = "021-approved-adjudicated-notebook-update.json" if current_id(result.get("format")) == "GSE.lexicon-adjudicated-round/1" else "021-approved-notebook-update.json"
     record(NOTES / receipt, {"code": "APPROVED_BODY_FINAL_RESULTS_RECORDED", "notebook": str(PAPER), "sha256": fingerprint(PAPER), "activation_performed": bool(release)})
 
 

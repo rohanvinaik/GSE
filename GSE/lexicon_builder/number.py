@@ -14,6 +14,7 @@ from pathlib import Path
 from GSE.lexicon_builder.artifact import read_vectors
 from GSE.lexicon_builder.model import DEFAULT_MODEL, OllamaSelector
 from GSE.lexicon_builder.sources import sha256
+from GSE.namespace import identity_form
 
 ORDER_INVERSE = {"LESS": "MORE", "EQUAL": "EQUAL", "MORE": "LESS"}
 ORDER_CODES = ["LESS", "EQUAL", "MORE", "UNRESOLVED"]
@@ -99,7 +100,7 @@ def resolve_number_pair(left: dict, right: dict, selector: OllamaSelector) -> di
         {
             "code": "RESOLVED_RELATIVE_NUMBER",
             "relation": order,
-            "scale_id": "PAIR_" + hashlib.sha256(json.dumps(pair).encode()).hexdigest()[:16],
+            "scale_id": "PAIR_" + hashlib.sha256(json.dumps(identity_form(pair)).encode()).hexdigest()[:16],
             "number_values": {"left": 0 if order != "MORE" else 1, "right": 0 if order != "LESS" else 1},
             "authority": "ATOMIC_EQUALITY"
             if precondition == "REFLEXIVE_EQUALITY"

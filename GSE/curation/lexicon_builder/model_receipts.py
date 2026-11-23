@@ -8,15 +8,17 @@ from collections import defaultdict
 from collections.abc import Mapping
 from dataclasses import fields
 
+from GSE.namespace import current_id, identity_form
+
 from .engine import Assertion
 from .storage import _json
 
-VERSION = "gse.model-receipts/3"
-LEGACY_VERSION = "gse.model-receipts/1"
-CONTEXT_VERSION = "gse.model-receipts/2"
-REQUEST_STORAGE = "gse.model-receipt-request-storage/2"
-LEGACY_REQUEST_STORAGE = "gse.model-receipt-request-storage/1"
-PROOF_STORAGE = "gse.model-proof-trace/1"
+VERSION = "GSE.model-receipts/3"
+LEGACY_VERSION = "GSE.model-receipts/1"
+CONTEXT_VERSION = "GSE.model-receipts/2"
+REQUEST_STORAGE = "GSE.model-receipt-request-storage/2"
+LEGACY_REQUEST_STORAGE = "GSE.model-receipt-request-storage/1"
+PROOF_STORAGE = "GSE.model-proof-trace/1"
 TABLE = "accepted_model_receipts"
 SCHEMA = """CREATE TABLE IF NOT EXISTS accepted_model_receipts (
  entry_id TEXT NOT NULL, ordinal INTEGER NOT NULL, request_id TEXT NOT NULL UNIQUE,
@@ -77,7 +79,7 @@ def validate_receipt(record):
 
 
 def _context_digest(payload):
-    return hashlib.sha256(_json(payload).encode("utf-8")).hexdigest()
+    return hashlib.sha256(_json(identity_form(payload)).encode("utf-8")).hexdigest()
 
 
 def _read_context(conn, digest):
@@ -120,10 +122,10 @@ def _stored_scaffold_field(conn, key, value):
 
 
 def _restored_scaffold_field(conn, key, reference, version):
-    if version == VERSION and key == "proof_trace" and isinstance(reference, dict):
+    if current_id(version) == VERSION and key == "proof_trace" and isinstance(reference, dict):
         if (
             set(reference) != {"format", "trace_sha256", "record_sha256s"}
-            or reference["format"] != PROOF_STORAGE
+            or current_id(reference["format"]) != PROOF_STORAGE
             or not isinstance(reference["record_sha256s"], list)
         ):
             raise ValueError("INVALID_MODEL_RECEIPT_PROOF_TRACE")
@@ -151,7 +153,7 @@ def _stored_receipt(conn, record):
 
 
 def _restored_receipt(conn, record, version):
-    if version == LEGACY_VERSION:
+    if current_id(version) == LEGACY_VERSION:
         return validate_receipt(record)
     if not isinstance(record, dict):
         raise ValueError("INVALID_MODEL_AUTHORITY")
@@ -159,7 +161,7 @@ def _restored_receipt(conn, record, version):
     if (
         not isinstance(envelope, dict)
         or set(envelope) != {"format", "inline", "contexts", "scaffold"}
-        or envelope["format"] != (LEGACY_REQUEST_STORAGE if version == CONTEXT_VERSION else REQUEST_STORAGE)
+        or current_id(envelope["format"]) != (LEGACY_REQUEST_STORAGE if current_id(version) == CONTEXT_VERSION else REQUEST_STORAGE)
         or not isinstance(envelope["inline"], dict)
         or not isinstance(envelope["contexts"], dict)
         or set(envelope["contexts"]) - {"observations", "definition"}
@@ -228,13 +230,13 @@ def read_model_receipts(conn):
             requests.add(record["request_id"])
             grouped[record["entry_id"]].append(record)
         return grouped
-    if version not in (LEGACY_VERSION, CONTEXT_VERSION, VERSION):
+    if current_id(version) not in (LEGACY_VERSION, CONTEXT_VERSION, VERSION):
         raise ValueError("UNSUPPORTED_MODEL_RECEIPTS_FORMAT")
     if not exists:
         raise ValueError("MISSING_MODEL_RECEIPTS_TABLE")
     if legacy:
         raise ValueError("COMPETING_MODEL_RECEIPT_AUTHORITIES")
-    if version in (CONTEXT_VERSION, VERSION):
+    if current_id(version) in (CONTEXT_VERSION, VERSION):
         if not conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name=?", (CONTEXT_TABLE,)).fetchone():
             raise ValueError("MISSING_MODEL_RECEIPT_CONTEXT_TABLE")
         context_columns = {row[1] for row in conn.execute("PRAGMA table_info(model_receipt_contexts)")}
@@ -267,7 +269,7 @@ def read_model_receipts(conn):
 def append_model_receipt(conn, record):
     """Append one accepted ruling inside the caller's assignment transaction."""
     validate_receipt(record)
-    if _metadata(conn, "model_receipts_format") != VERSION:
+    if current_id(_metadata(conn, "model_receipts_format")) != VERSION:
         raise ValueError("MODEL_RECEIPTS_MIGRATION_REQUIRED")
     ordinal = conn.execute(
         "SELECT COALESCE(MAX(ordinal)+1,0) FROM accepted_model_receipts WHERE entry_id=?", (record["entry_id"],)
@@ -303,7 +305,7 @@ def migrate_model_receipts(conn):
     if not conn.in_transaction:
         conn.execute("BEGIN")
     records = read_model_receipts(conn)
-    if isinstance(records, ModelReceipts) and records.version == VERSION:
+    if isinstance(records, ModelReceipts) and current_id(records.version) == VERSION:
         return
     conn.execute(SCHEMA)
     conn.execute(CONTEXT_SCHEMA)
@@ -326,7 +328,7 @@ def reset_model_receipts(conn):
     if not conn.in_transaction:
         conn.execute("BEGIN")
     version = _metadata(conn, "model_receipts_format")
-    if version not in (None, LEGACY_VERSION, CONTEXT_VERSION, VERSION):
+    if current_id(version) not in (None, LEGACY_VERSION, CONTEXT_VERSION, VERSION):
         raise ValueError("UNSUPPORTED_MODEL_RECEIPTS_FORMAT")
     conn.execute(SCHEMA)
     conn.execute(CONTEXT_SCHEMA)

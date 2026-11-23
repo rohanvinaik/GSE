@@ -13,7 +13,7 @@ of the replacement read and compare entry points.
 The dense-vector/cosine option and `authentic_similarity` output are removed.
 The feature layout keeps ordered bank proportions, selected primitive presence,
 and the existing first/second-person and framing markers, under the new identity
-`gse.rohan-voice-features/2`. Words use the actual `NativeNLP` lemma and shared
+`GSE.rohan-voice-features/2`. Words use the actual `NativeNLP` lemma and shared
 first-ID lexical lookup. Distinct lexical senses are not merged by an independent
 SQL query. The projection records primes/no-primes/no-row/unread populations and
 refuses classification features when their lexical observations are unavailable.
@@ -29,7 +29,7 @@ declare its exact byte hash, label and split:
 
 ```json
 {
-  "schema": "gse.rohan-voice-sources/2",
+  "schema": "GSE.rohan-voice-sources/2",
   "sources": [
     {"path": "authored-train.txt", "label": "authored", "split": "train", "sha256": "<exact source SHA-256>", "group": "authored-source-a", "selection": {"method": "human_review"}},
     {"path": "authored-holdout.txt", "label": "authored", "split": "holdout", "sha256": "<exact source SHA-256>", "group": "authored-source-b", "selection": {"method": "human_review"}},
@@ -78,7 +78,7 @@ No refit of the user's private corpus is performed by this migration.
 
 ## Artifact identity and recognition
 
-Artifacts carry `gse.rohan-voice/2`, the complete feature layout/policy, source and
+Artifacts carry `GSE.rohan-voice/2`, the complete feature layout/policy, source and
 manifest hashes, actual feature-producer code hashes, selected lexicon hash,
 NLTK version and WordNet resource hash. Runtime `GSE_REPO`/`GSE_LEXICON` changes
 select and identify the resources actually consumed. Model output and prose

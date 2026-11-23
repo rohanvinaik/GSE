@@ -118,7 +118,7 @@ def test_real_cli_writes_failure_receipt_and_exits_nonzero(tmp_path, monkeypatch
     transport = ReaderLockTransport(path, short_wait(monkeypatch))
     monkeypatch.setattr(residual, "OllamaTransport", lambda *args, **kwargs: transport)
     arguments = [
-        "gse",
+        "GSE",
         "--lexicon-db",
         str(path),
         "complete",

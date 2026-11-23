@@ -102,8 +102,8 @@ def test_missing_required_modal_returns_named_unread(dictionary):
 
 def test_feature_identity_versions_the_selection_change(dictionary):
     identity = rohan_voice.feature_identity()
-    assert rohan_voice.SCHEMA == "gse.rohan-voice/2"
-    assert identity["features"] == "gse.rohan-voice-features/3"
+    assert rohan_voice.SCHEMA == "GSE.rohan-voice/2"
+    assert identity["features"] == "GSE.rohan-voice-features/3"
     assert "public encoder token lexical evidence" in identity["tokens"]
     paths = {Path(record["path"]).name for record in identity["code"]}
     assert {"encoder.py", "gse_closed_class.py", "storage.py", "lexicon_resource.py"} <= paths

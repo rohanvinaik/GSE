@@ -11,6 +11,7 @@ from GSE.curation.lexicon_builder import epoch
 from GSE.curation.lexicon_builder.model_batch import batch_contract
 from GSE.curation.lexicon_builder.model_protocol import model_input, protocol_contract
 from GSE.curation.lexicon_builder.residual import _canonical_json, _request_id
+from GSE.namespace import current_id
 
 round_ = import_module("docs.readings.2026-11-13-ssl-explicit-genera.vertebrate_021_approved")
 preview = import_module("docs.readings.2026-11-13-ssl-explicit-genera.prefetch_vertebrate_021")
@@ -135,7 +136,7 @@ def cli_questions(native):
         "list_price_equivalent_usd": result.get("total_cost_usd"),
         "billing_note": "Subscription CLI; list-price equivalent is not an API-credit debit.",
     })
-    manifest = {"format": "gse.source-adjudicated-bank-rulings/1", "native_questions": native,
+    manifest = {"format": "GSE.source-adjudicated-bank-rulings/1", "native_questions": native,
                 "corrections": corrections, "unique_bank_questions": len(native),
                 "actual_bank_questions": len(native) + len(corrections), "transport_invocations": len(native) + 1,
                 "source_review": "021-approved-source-adjudication.json", "protocol": protocol_contract()["format"],
@@ -152,7 +153,7 @@ class RulingReplay:
         native, corrections = manifest["native_questions"], manifest["corrections"]
         indexed = {r["request_id"]: r for r in native}
         if (
-            manifest["format"] != "gse.source-adjudicated-bank-rulings/1"
+            current_id(manifest["format"]) != "GSE.source-adjudicated-bank-rulings/1"
             or len(native) != 5 or len(indexed) != len(native)
             or manifest["unique_bank_questions"] != len(native)
             or manifest["actual_bank_questions"] != len(native) + len(corrections)
@@ -242,7 +243,7 @@ def run():
     admitted = {**original["epochs"][0], **migration, "code": "RULE_ADMITTED", "candidate": str(output),
                 "candidate_sha256": candidate_sha256, "audit_outcomes": candidate["audit_outcomes"],
                 "typed_questions_used": manifest["actual_bank_questions"]}
-    final = {**original, "format": "gse.lexicon-adjudicated-round/1", "candidate": str(output),
+    final = {**original, "format": "GSE.lexicon-adjudicated-round/1", "candidate": str(output),
              "candidate_sha256": candidate_sha256, "definitions_compared": count, "epochs": [admitted],
              "admitted": [{"epoch": 1, "family": family.id, "rule_id": migration["rule_id"]}],
              "changes": changes, "new_cells": len(epoch.gains({"changes": changes})), "reopened_cells": 0,

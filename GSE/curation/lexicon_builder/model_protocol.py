@@ -5,14 +5,15 @@ definitions and observations remain data; the output has exactly one field.
 """
 
 from GSE.curation.schema import BIPOLAR_PAIRS
+from GSE.namespace import current_id, identity_form
 from GSE.primitives_v2 import PRIMITIVE_FAMILIES, get_primitive_info
 
 from .foundation import BANKS
 from .model_evidence import FORMAT as EVIDENCE_VIEW_FORMAT
 from .model_evidence import candidate_links_contract, compact_candidate_links, evidence_view
 
-PROTOCOL_VERSION = "gse.lexical-component-entailment/14"
-SCAFFOLD_VIEW_FORMAT = "gse.symbolic-scaffold-view/1"
+PROTOCOL_VERSION = "GSE.lexical-component-entailment/14"
+SCAFFOLD_VIEW_FORMAT = "GSE.symbolic-scaffold-view/1"
 
 
 def coordinate_contract(bank: str) -> dict:
@@ -187,7 +188,7 @@ def compact_scaffold(scaffold: dict, bank: str) -> dict:
     import json
 
     def digest(value):
-        encoded = json.dumps(value, sort_keys=True, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
+        encoded = json.dumps(identity_form(value), sort_keys=True, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
         return hashlib.sha256(encoded.encode("utf-8")).hexdigest()
 
     connected = {bank}
@@ -286,12 +287,12 @@ def model_input(payload: dict) -> dict:
     """
     import copy
 
-    if payload.get("format") != "gse.bank-request/2" or payload.get("bank") not in BANKS:
+    if current_id(payload.get("format")) != "GSE.bank-request/2" or payload.get("bank") not in BANKS:
         raise ValueError("INVALID_MODEL_REQUEST")
     scaffold = payload.get("scaffold")
     if (
         type(scaffold) is not dict
-        or scaffold.get("format") != "gse.symbolic-scaffold/1"
+        or current_id(scaffold.get("format")) != "GSE.symbolic-scaffold/1"
         or type(scaffold.get("domains")) is not dict
         or scaffold["domains"].get(payload["bank"]) != payload.get("allowed_values")
         or type(scaffold.get("approved_relations")) is not list

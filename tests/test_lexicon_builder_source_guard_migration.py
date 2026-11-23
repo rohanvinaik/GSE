@@ -92,7 +92,7 @@ def source_guard_packet(tmp_path, *, redundant_shared_guard=False):
     if redundant_shared_guard:
         guards.append([SHARED, "true"])
     selection = {
-        "format": "gse.reviewed-pattern-selection/1",
+        "format": "GSE.reviewed-pattern-selection/1",
         "discovery_entry_ids": [DISCOVERY],
         "audit_entry_ids": [AUDIT],
         "reviews": [
@@ -294,7 +294,7 @@ def test_complement_guards_require_witness_and_distinguish_self_from_ancestor(tm
     assert lexical_context(definition, (with_other_ancestor,), (rule,)) == {"pos": "noun", other: "true"}
     path = tmp_path / "complement.db"
     manifest = tmp_path / "complement.json"
-    manifest.write_text(json.dumps({"format": "gse.lexicon-rules/1", "relations": [asdict(rule)]}))
+    manifest.write_text(json.dumps({"format": "GSE.lexicon-rules/1", "relations": [asdict(rule)]}))
     build_dictionary(
         EvidenceBundle((definition, root), (observation, root_observation), (), ()), path, manifest=manifest
     )

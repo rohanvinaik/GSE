@@ -12,7 +12,7 @@ import math
 from dataclasses import dataclass
 from typing import Any, Callable, Mapping
 
-CLAIM_KEY_VERSION = "gse.claim/1"
+CLAIM_KEY_VERSION = "GSE.claim/1"
 _TRANSPARENT = frozenset({"asserted", "epistemic", "negated"})
 _ATTITUDES = frozenset({"epistemic", "belief"})
 _GENERIC_PRIMES = frozenset(

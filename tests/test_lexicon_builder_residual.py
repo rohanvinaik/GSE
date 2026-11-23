@@ -513,7 +513,7 @@ def test_ollama_transport_sends_only_json_data_and_generation_schema():
     assert {key: value for key, value in protocol["input"].items() if key != "scaffold"} == {
         key: value for key, value in payload.items() if key not in {"fill", "scaffold"}
     }
-    assert protocol["input"]["scaffold"]["format"] == "gse.symbolic-scaffold-view/1"
+    assert protocol["input"]["scaffold"]["format"] == "GSE.symbolic-scaffold-view/1"
     assert protocol["input"]["scaffold"]["domains"] == payload["scaffold"]["domains"]
     assert protocol["operation"] == "LEXICAL_COMPONENT_ENTAILMENT"
     assert protocol["coordinate"]["negative_pole"] == "NOT_WANT"

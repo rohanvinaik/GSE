@@ -14,6 +14,8 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import quote
 
+from GSE.namespace import current_id
+
 WEBSTERS_MANIFEST = Path(__file__).resolve().parents[3] / "data/external/websters1913/manifest.json"
 _POS = {"n.": "noun", "v.": "verb", "a.": "adj", "adv.": "adv"}
 
@@ -33,7 +35,7 @@ class WebsterDefinition:
     source_html: str
     retrieved_utc: str
     definition_index: int
-    identity_scheme: str = "gse.websters1913-native-definition/1"
+    identity_scheme: str = "GSE.websters1913-native-definition/1"
 
 
 class _Meanings(HTMLParser):
@@ -93,7 +95,7 @@ class Websters1913Parser:
         if (
             not isinstance(document, dict)
             or set(document) != {"format", "records"}
-            or document["format"] != "gse.websters1913-snapshots/1"
+            or current_id(document["format"]) != "GSE.websters1913-snapshots/1"
             or not isinstance(document["records"], list)
             or not document["records"]
         ):

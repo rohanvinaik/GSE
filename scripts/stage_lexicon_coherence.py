@@ -20,6 +20,7 @@ from GSE.curation.lexicon_builder.resolution import resolve_dictionary
 from GSE.curation.lexicon_builder.rule_history import digest, relation_records
 from GSE.curation.lexicon_builder.validation import _metadata, _read_json, _relations, _schema
 from GSE.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
+from GSE.namespace import current_id
 
 
 def _digest(path):
@@ -178,7 +179,7 @@ def _scan(conn, manifest, proposals):
     validate_lexical_guards(all_rules)
     semantics = manifest.get("semantics", "FORWARD_PRIOR")
     relational = semantics == "RELATIONAL_CONSTRAINT"
-    version_two = manifest["format"] == "gse.coherence-stage-input/2"
+    version_two = current_id(manifest["format"]) == "GSE.coherence-stage-input/2"
     rows, population, spelling_counts, premise_counts = _cohort(
         conn, proposals, _indexed_challenges(manifest), relational=relational
     )
@@ -303,9 +304,9 @@ def stage(candidate, manifest):
     active = resolve_lexicon_path()
     if active.exists() and candidate.samefile(active):
         raise ValueError("COHERENCE_REQUIRES_SEPARATE_CANDIDATE")
-    version_two = manifest["format"] == "gse.coherence-stage-input/2"
+    version_two = current_id(manifest["format"]) == "GSE.coherence-stage-input/2"
     if (
-        manifest["format"] not in {"gse.coherence-stage-input/1", "gse.coherence-stage-input/2"}
+        current_id(manifest["format"]) not in {"GSE.coherence-stage-input/1", "GSE.coherence-stage-input/2"}
         or not manifest["proposals"]
     ):
         raise ValueError("INVALID_COHERENCE_STAGE_INPUT")
@@ -334,7 +335,7 @@ def stage(candidate, manifest):
         raise ValueError("COHERENCE_STAGE_SNAPSHOT_CHANGED")
     return {
         **report,
-        "format": "gse.coherence-stage-report/2" if version_two else "gse.coherence-stage-report/1",
+        "format": "GSE.coherence-stage-report/2" if version_two else "GSE.coherence-stage-report/1",
         **(
             {
                 "semantics": manifest["semantics"],

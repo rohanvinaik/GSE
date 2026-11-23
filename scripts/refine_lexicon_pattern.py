@@ -19,6 +19,7 @@ from GSE.curation.lexicon_builder.interchange import read_json
 from GSE.curation.lexicon_builder.reviewed_export import export_reviewed_input
 from GSE.curation.lexicon_builder.reviewed_patterns import run_workflow_input
 from GSE.curation.lexicon_builder.rule_history import digest
+from GSE.namespace import current_id
 
 
 def _fingerprint(path):
@@ -130,7 +131,7 @@ def refine(candidate, selection, *, antecedent, consequent):
     confirming = [_filler(key, witnessed[key]) for key in sorted(discovery)]
     guards = promotion_ledger.impute_guard_candidates(confirming, opposition)
     return {
-        "format": "gse.lexicon-atomic-refinement/1",
+        "format": "GSE.lexicon-atomic-refinement/1",
         "code": "ATOMIC_GUARDS_PROPOSED"
         if guards
         else ("NO_SEPARATING_ATOMIC_GUARD" if opposition else "NO_TYPED_INDEPENDENT_OPPOSITION"),
@@ -164,7 +165,7 @@ def prepare_audit(candidate, selection, refinement, review):
     path = Path(candidate).resolve(strict=True)
     snapshot = _fingerprint(path)
     if (
-        refinement["format"] != "gse.lexicon-atomic-refinement/1"
+        current_id(refinement["format"]) != "GSE.lexicon-atomic-refinement/1"
         or refinement["code"] != "ATOMIC_GUARDS_PROPOSED"
         or refinement["candidate_sha256"] != snapshot
         or refinement["selection_sha256"] != digest(selection)

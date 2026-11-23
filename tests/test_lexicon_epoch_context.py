@@ -16,7 +16,7 @@ def test_real_cli_forwards_context_and_preserves_default(tmp_path, monkeypatch, 
     def digest(path):
         return hashlib.sha256(path.read_bytes()).hexdigest()
     plan_path.write_text(json.dumps({
-        "format": "gse.lexicon-epoch-plan/1", "baseline_sha256": digest(baseline),
+        "format": "GSE.lexicon-epoch-plan/1", "baseline_sha256": digest(baseline),
         "active_pointer_sha256": digest(pointer), "epochs": 1, "audits_per_epoch": 1,
         "families": [{"id": "body", "antecedent": ["ALIVE", 1], "consequent": ["BODY", 1],
                       "guards": [["pos", "noun"], ["wordnet_native_lemma", "true"], ["wordnet_ancestor:vertebrate.n.01", "true"]],

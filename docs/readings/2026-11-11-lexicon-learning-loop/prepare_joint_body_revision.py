@@ -27,7 +27,7 @@ def main():
     teaching = read_json(FOLDER / "joint-teaching-checkpoint.json")
     evidence_ref = str((FOLDER / "joint-body-source-scope.json").relative_to(ROOT))
     selected = {
-        "format": "gse.reviewed-pattern-selection/1",
+        "format": "GSE.reviewed-pattern-selection/1",
         "discovery_entry_ids": teaching["selected_entry_ids"],
         "audit_entry_ids": [],
         "reviews": [],
@@ -35,7 +35,7 @@ def main():
     inventory = {
         row["entry_id"]: row for row in export_reviewed_input(SOURCE, selected)["inventory"] if row["bank"] == "BODY"
     }
-    plan = {"format": "gse.rule-revision-plan/1", "admissions": [], "retirements": [], "exceptions": []}
+    plan = {"format": "GSE.rule-revision-plan/1", "admissions": [], "retirements": [], "exceptions": []}
     outputs = {}
     for name, family in cycle["families"].items():
         members = {row["definition"]["entry_id"]: row for row in scope[family["ancestor"]]}

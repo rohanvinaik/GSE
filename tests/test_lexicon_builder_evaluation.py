@@ -44,7 +44,7 @@ def dictionary(tmp_path):
 
 def gold(tmp_path, records):
     path = tmp_path / "gold.json"
-    path.write_text(json.dumps({"format": "gse.lexicon-gold/1", "records": records}))
+    path.write_text(json.dumps({"format": "GSE.lexicon-gold/1", "records": records}))
     return path
 
 
@@ -150,22 +150,22 @@ def test_malformed_gold_is_rejected(dictionary, tmp_path, field, value, code):
     "raw,code",
     [
         (
-            '{"format":"gse.lexicon-gold/1","records":[{"entry_id":"a","bank":"GOOD","expected":1,"expected":-1}]}',
+            '{"format":"GSE.lexicon-gold/1","records":[{"entry_id":"a","bank":"GOOD","expected":1,"expected":-1}]}',
             "DUPLICATE_JSON_FIELD",
         ),
         (
-            '{"format":"gse.lexicon-gold/1","records":[{"entry_id":"a","bank":"GOOD","expected":NaN}]}',
+            '{"format":"GSE.lexicon-gold/1","records":[{"entry_id":"a","bank":"GOOD","expected":NaN}]}',
             "NONFINITE_JSON_VALUE",
         ),
         (
-            '{"format":"gse.lexicon-gold/1","records":[{"entry_id":"a","bank":"GOOD","expected":1,"weight":1e999}]}',
+            '{"format":"GSE.lexicon-gold/1","records":[{"entry_id":"a","bank":"GOOD","expected":1,"weight":1e999}]}',
             "INVALID_GOLD_WEIGHT",
         ),
-        ('{"format":"gse.lexicon-gold/1","records":[]}', "EMPTY_OR_INVALID_GOLD_RECORDS"),
-        ('{"format":"gse.lexicon-gold/1","records":{}}', "EMPTY_OR_INVALID_GOLD_RECORDS"),
-        ('{"format":"gse.lexicon-gold/1","records":[null]}', "INVALID_GOLD_RECORD"),
+        ('{"format":"GSE.lexicon-gold/1","records":[]}', "EMPTY_OR_INVALID_GOLD_RECORDS"),
+        ('{"format":"GSE.lexicon-gold/1","records":{}}', "EMPTY_OR_INVALID_GOLD_RECORDS"),
+        ('{"format":"GSE.lexicon-gold/1","records":[null]}', "INVALID_GOLD_RECORD"),
         ('{"format":"future","records":[]}', "INVALID_GOLD_FORMAT"),
-        ('{"format":"gse.lexicon-gold/1","records":[],"accuracy":1}', "INVALID_GOLD_FORMAT"),
+        ('{"format":"GSE.lexicon-gold/1","records":[],"accuracy":1}', "INVALID_GOLD_FORMAT"),
     ],
 )
 def test_strict_json_gold_boundary(dictionary, tmp_path, raw, code):

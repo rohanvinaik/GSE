@@ -137,7 +137,7 @@ def test_real_cli_forwards_entry_cap_to_journaled_completion(tmp_path, monkeypat
         sys,
         "argv",
         [
-            "gse",
+            "GSE",
             "--lexicon-db",
             str(path),
             "complete",

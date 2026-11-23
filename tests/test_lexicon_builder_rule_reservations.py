@@ -36,7 +36,7 @@ def packet(tmp_path, source_kind):
             identity = "wiktionary:reserved-fixture"
             definition = Definition(identity, lemma, "noun", gloss)
             features = {
-                "identity_scheme": "gse.wiktionary-native-leaf/1", "entry_id": identity, "lemma": lemma,
+                "identity_scheme": "GSE.wiktionary-native-leaf/1", "entry_id": identity, "lemma": lemma,
                 "word": lemma, "pos": "noun", "native_id": "reserved-fixture", "definition": gloss,
                 "native_sense": {"glosses": [gloss]},
             }
@@ -52,7 +52,7 @@ def packet(tmp_path, source_kind):
     with sqlite3.connect(source) as conn:
         receipt = read_model_receipts(conn)[seed][0]
     selection = {
-        "format": "gse.reviewed-pattern-selection/1", "discovery_entry_ids": [seed],
+        "format": "GSE.reviewed-pattern-selection/1", "discovery_entry_ids": [seed],
         "audit_entry_ids": [audit_id, reserved],
         "reviews": [{"request_id": receipt["request_id"], "review": {
             **REVIEW, "code": "ACCEPTED", "receipt_sha256": _request_id(receipt),

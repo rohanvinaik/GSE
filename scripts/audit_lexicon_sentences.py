@@ -10,13 +10,14 @@ from pathlib import Path
 from GSE.api.encoder import GSEEncoder
 from GSE.curation.lexicon_builder.epoch import fingerprint, read, record
 from GSE.curation.lexicon_builder.foundation import BANKS
+from GSE.namespace import current_id
 
-FORMAT = "gse.lexicon-sentence-benchmark/1"
+FORMAT = "GSE.lexicon-sentence-benchmark/1"
 
 
 def load_benchmark(path):
     benchmark = read(path)
-    if not isinstance(benchmark, dict) or set(benchmark) != {"format", "cases"} or benchmark["format"] != FORMAT:
+    if not isinstance(benchmark, dict) or set(benchmark) != {"format", "cases"} or current_id(benchmark["format"]) != FORMAT:
         raise ValueError("INVALID_SENTENCE_BENCHMARK")
     cases = benchmark["cases"]
     if not isinstance(cases, list) or not cases:
@@ -133,7 +134,7 @@ def audit(lexicon, benchmark):
             group["runtime_bank"][bank["runtime"]] += 1
             group["exact_sense_bank"][bank["exact_sense"]] += 1
     return {
-        "format": "gse.lexicon-sentence-benchmark-report/1",
+        "format": "GSE.lexicon-sentence-benchmark-report/1",
         "lexicon_sha256": lexicon_sha256,
         "benchmark_sha256": benchmark_sha256,
         "by_class": dict(counts),
@@ -173,7 +174,7 @@ def compare_reports(baseline, candidate):
             if cell["expected"] is not None and prior["domain"] and cell["domain"]:
                 group["exact_sense_bits_removed"] += log2(len(prior["domain"]) / len(cell["domain"]))
     return {
-        "format": "gse.lexicon-sentence-benchmark-comparison/1",
+        "format": "GSE.lexicon-sentence-benchmark-comparison/1",
         "code": "SENTENCE_BENCHMARK_REGRESSION" if failures else "SENTENCE_BENCHMARK_VALIDATED",
         "baseline_sha256": baseline["lexicon_sha256"],
         "candidate_sha256": candidate["lexicon_sha256"],

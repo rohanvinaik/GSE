@@ -156,7 +156,7 @@ def compare(directory, plan):
     else:
         code = "EPOCH_ACCEPTANCE_INCOMPLETE"
     result = {
-        "format": "gse.lexicon-epoch-comparison/1",
+        "format": "GSE.lexicon-epoch-comparison/1",
         "code": code,
         "budget": budgets,
         "equal_budget": equal,

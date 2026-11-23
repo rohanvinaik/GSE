@@ -15,7 +15,7 @@ from urllib.request import Request
 from .model_protocol import model_input, protocol_contract
 from .residual import ModelTransportError, OllamaTransport, _canonical_json, _json_copy, _request_id
 
-FORMAT = "gse.lexical-component-batch/2"
+FORMAT = "GSE.lexical-component-batch/2"
 
 
 def batch_contract() -> dict:

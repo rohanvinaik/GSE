@@ -156,7 +156,7 @@ def test_legacy_request_regenerates_original_bytes_but_cannot_be_submitted_to_ne
         DEFINITION.entry_id, "WANT", state, (), definition=DEFINITION, request_format=LEGACY_REQUEST_FORMAT
     )
     payload = {
-        "format": "gse.bank-request/1",
+        "format": "GSE.bank-request/1",
         "entry_id": DEFINITION.entry_id,
         "definition": {
             "entry_id": DEFINITION.entry_id,

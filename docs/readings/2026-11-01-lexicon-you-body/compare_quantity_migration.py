@@ -19,6 +19,8 @@ from collections import Counter
 from contextlib import ExitStack
 from pathlib import Path
 
+from GSE.namespace import current_id
+
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 
@@ -107,7 +109,7 @@ def inventory_scope(findings):
     if hashlib.sha256(raw).hexdigest() != INVENTORY_SHA256:
         raise ValueError("INVENTORY_READ_SHA256_MISMATCH")
     data = strict_json(raw)
-    if data.get("format") != "gse.quantity-native-population-inventory/1":
+    if current_id(data.get("format")) != "GSE.quantity-native-population-inventory/1":
         raise ValueError("INVENTORY_FORMAT_MISMATCH")
     population, eligible, synsets = {}, set(), set()
     for sense in data["senses"]:
@@ -330,7 +332,7 @@ def main():
     paths = {"before": before, "after": after, "before_wal": Path(str(before)+"-wal"),
              "after_wal": Path(str(after)+"-wal"), "active_pointer": ACTIVE_POINTER}
     start = {name: observe(path) for name, path in paths.items()}
-    report = {"format": "gse.quantity-migration-isolation/1", "authority": "FACTUAL_ISOLATION_NOT_SEMANTIC_ADMISSION",
+    report = {"format": "GSE.quantity-migration-isolation/1", "authority": "FACTUAL_ISOLATION_NOT_SEMANTIC_ADMISSION",
               "database_writes": 0, "model_calls": 0, "activation_performed": False,
               "hash_scope": "Filesystem observations of immutable, WAL-free snapshots; nonempty WAL refused; start/end hashes detect input changes.",
               "expected_before_sha256": args.expected_before_sha256, "start_observations": start}

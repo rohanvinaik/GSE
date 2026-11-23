@@ -17,6 +17,8 @@ from dataclasses import asdict
 from datetime import UTC, datetime
 from pathlib import Path
 
+from GSE.namespace import current_id
+
 from .completion import _entry, _refresh_coverage
 from .foundation import BANKS
 from .resolution import resolve_dictionary
@@ -60,7 +62,7 @@ def _refresh_catalog(conn, relations, native, bank_relevance):
     anchors, models = _authorities(conn)
     lexemes = {row["id"]: row for row in conn.execute("SELECT * FROM lexemes")}
     links = _optional_metadata(conn, "prime_entries", {})
-    if _metadata(conn, "catalog")["format"] == "gse.nsm-catalog-coverage/1":
+    if current_id(_metadata(conn, "catalog")["format"]) == "GSE.nsm-catalog-coverage/1":
         definitions = tuple(Definition(r["sense_id"], r["lemma"], r["pos"], r["gloss"]) for r in lexemes.values())
         catalog = catalog_report(anchors, definitions, relations, prime_entries=links)
     else:
@@ -235,7 +237,7 @@ def _apply_copy(conn, admission=None, *, revision=None):
             })
         store_entry(conn, definition, after, assertions, hierarchy, domain_restrictions=restrictions)
     event = {
-        "format": "gse.rule-migration-event/1",
+        "format": "GSE.rule-migration-event/1",
         "from_version": old_version,
         "to_version": new_version,
         "created_utc": datetime.now(UTC).isoformat(),
@@ -245,11 +247,11 @@ def _apply_copy(conn, admission=None, *, revision=None):
     if (
         revision is not None
         or history
-        and any(item["format"] == "gse.rule-migration-event/2" for item in history["events"])
+        and any(current_id(item["format"]) == "GSE.rule-migration-event/2" for item in history["events"])
     ):
         del event["admission"]
         event.update(
-            format="gse.rule-migration-event/2",
+            format="GSE.rule-migration-event/2",
             previous_event=history["head"] if history else None,
             revision=revision
             if revision is not None
@@ -270,7 +272,7 @@ def _apply_copy(conn, admission=None, *, revision=None):
     if verified["code"] != "REPLAY_VALIDATED" or not verified["complete_search"]:
         raise ValueError("MIGRATION_POST_REPLAY_FAILED:" + _json(verified["mismatch_counts"]))
     return {
-        "format": "gse.rule-migration/1" if revision is None else "gse.rule-migration/2",
+        "format": "GSE.rule-migration/1" if revision is None else "GSE.rule-migration/2",
         "code": "MIGRATED_CANDIDATE",
         "event_id": event_id,
         "from_version": old_version,
@@ -350,7 +352,7 @@ def _migrate_snapshot(source, temporary, output, admissions, admission, revision
         for reviewed in admissions:
             raw = reviewed["input"]
             selection = {
-                "format": "gse.reviewed-pattern-selection/1",
+                "format": "GSE.reviewed-pattern-selection/1",
                 "discovery_entry_ids": raw["discovery_entry_ids"],
                 "audit_entry_ids": raw["audit_entry_ids"],
                 "reviews": [{"request_id": r["receipt"]["request_id"], "review": r["review"]} for r in raw["rulings"]],

@@ -11,6 +11,8 @@ import json
 import urllib.request
 from dataclasses import dataclass
 
+from GSE.namespace import identity_form
+
 DEFAULT_MODEL = "gemma4:e4b-it-q4_K_M"
 
 
@@ -98,7 +100,7 @@ class OllamaSelector:
         answer = json.loads(response["message"]["content"])
         if not isinstance(answer, dict) or selection_status(options, answer) != "VALID_SELECTION":
             raise ValueError("local decoder violated typed selection schema")
-        request_hash = hashlib.sha256(json.dumps(request, sort_keys=True).encode()).hexdigest()
+        request_hash = hashlib.sha256(json.dumps(identity_form(request), sort_keys=True).encode()).hexdigest()
         return {
             "request_sha256": request_hash,
             "model": identity,

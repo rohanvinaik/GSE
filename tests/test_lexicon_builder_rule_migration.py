@@ -46,7 +46,7 @@ def packet(tmp_path):
     with sqlite3.connect(path) as conn:
         receipt = read_model_receipts(conn)["d"][0]
     selection = {
-        "format": "gse.reviewed-pattern-selection/1",
+        "format": "GSE.reviewed-pattern-selection/1",
         "discovery_entry_ids": ["d"],
         "audit_entry_ids": ["h"],
         "reviews": [

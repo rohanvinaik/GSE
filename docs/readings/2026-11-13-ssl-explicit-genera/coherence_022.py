@@ -64,7 +64,7 @@ def prepare():
         families.append(Family(key, None, (bank, 1), (("pos", "noun"), ("native_noun_frame:" + frame, "true")),
                                holdouts[key], warrant))
     plan = {
-        "format": "gse.lexicon-epoch-plan/1", "baseline_sha256": fingerprint(BASE),
+        "format": "GSE.lexicon-epoch-plan/1", "baseline_sha256": fingerprint(BASE),
         "active_pointer_sha256": fingerprint(ACTIVE_POINTER), "epochs": 2, "audits_per_epoch": 3,
         "families": [{"id": f.id, **f.proposal(), "holdouts": list(f.holdouts)} for f in families],
     }

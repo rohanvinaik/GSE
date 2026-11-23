@@ -1,6 +1,6 @@
 """Propose, stage and directly audit reviewed patterns without changing a lexicon.
 
-Input: gse.reviewed-pattern-input/2 (legacy /1 remains replayable), with native
+Input: GSE.reviewed-pattern-input/2 (legacy /1 remains replayable), with native
 premise proofs and explicit receipt-pinned ACCEPTED
 reviews, disjoint discovery/audit definition IDs, exact definition inputs and
 baseline relations. Reviewed model prefixes replay from the native/anchor

@@ -13,6 +13,7 @@ from GSE.lexicon_builder.core import CANONICAL_COORDINATES, Resolution, coordina
 from GSE.lexicon_builder.families import optional_components
 from GSE.lexicon_builder.model import OllamaSelector
 from GSE.lexicon_builder.reading import CoordinateDecision, ReadingSeed, model_task_status
+from GSE.namespace import identity_form
 
 
 def nominated_components(source_rule: dict) -> list[str]:
@@ -52,7 +53,7 @@ class BudgetedSelector(OllamaSelector):
 
 
 def task_id(task: dict) -> str:
-    return hashlib.sha256(json.dumps(task, sort_keys=True).encode()).hexdigest()
+    return hashlib.sha256(json.dumps(identity_form(task), sort_keys=True).encode()).hexdigest()
 
 
 def tail_task_status(task: dict) -> str:

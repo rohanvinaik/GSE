@@ -641,7 +641,7 @@ def catalog_inventory(*, legacy_duration: bool = False) -> dict:
             }
         )
     return {
-        "format": "gse.nsm-catalog/1",
+        "format": "GSE.nsm-catalog/1",
         "source": dict(SOURCE),
         "units": entries,
         "chart_notes": CHART_NOTES,
@@ -658,7 +658,7 @@ def basis_audit() -> dict:
     ordinary = collapsed - hierarchy - {"NUMBER"}
     runtime = set(PRIMITIVE_REGISTRY)
     return {
-        "format": "gse.lexicon-basis-audit/1",
+        "format": "GSE.lexicon-basis-audit/1",
         "legacy_schema_symbols": len(ALL_PRIMITIVES),
         "bipolar_pairs": len(BIPOLAR_PAIRS),
         "legacy_collapsed_coordinates": len(collapsed),
@@ -753,7 +753,7 @@ def proposal_template() -> dict:
             }
         )
     return {
-        "format": "gse.nsm-projection-proposal/1",
+        "format": "GSE.nsm-projection-proposal/1",
         "code": "REVIEW_TEMPLATE_UNAPPROVED",
         "source": inventory["source"],
         "basis": inventory["basis"],
@@ -949,7 +949,7 @@ def catalog_report(
         )
     mapped = {unit["mapping"]["bank"] for unit in units if unit["mapping"]["bank"] is not None}
     report = {
-        "format": "gse.nsm-catalog-coverage/2" if native_mode else "gse.nsm-catalog-coverage/1",
+        "format": "GSE.nsm-catalog-coverage/2" if native_mode else "GSE.nsm-catalog-coverage/1",
         "source": inventory["source"],
         "basis": inventory["basis"],
         "units": results,

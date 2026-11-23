@@ -81,7 +81,7 @@ def main():
     if active_hash != prior["active_pointer_sha256"] or baseline_hash != prior["candidate_sha256"]:
         raise ValueError("JOINT_REVISION_PARENT_OR_ACTIVE_POINTER_CHANGED")
     result = {
-        "format": "gse.joint-body-cycle-verification/1",
+        "format": "GSE.joint-body-cycle-verification/1",
         "code": "CYCLE_REPLAY_VALIDATED_CANDIDATE_INCOMPLETE",
         "candidate": str(CANDIDATE),
         "candidate_sha256": sha256(CANDIDATE),

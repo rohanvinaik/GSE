@@ -99,7 +99,7 @@ def provenance() -> dict:
         }
     states = {item["state"] for item in records.values()}
     return {
-        "schema": "gse.healing-resources/1",
+        "schema": "GSE.healing-resources/1",
         "state": "stale" if "stale" in states else "unverified_cache" if "unverified_cache" in states else "read",
         "files": records,
         "wordnet": {**wordnet, "resource": records["wordnet"]},

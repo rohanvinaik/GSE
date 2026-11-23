@@ -232,7 +232,7 @@ def main():
         counts[label][result["code"]] += 1
         agreements[label][result["expected_agreement"]] += 1
         report = {
-            "format": "gse.model-protocol-calibration/1",
+            "format": "GSE.model-protocol-calibration/1",
             "model": args.model,
             "transport_identity": transport.identity,
             "model_pin": model_pin,

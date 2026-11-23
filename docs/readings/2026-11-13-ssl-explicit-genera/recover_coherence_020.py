@@ -50,7 +50,7 @@ def recover():
             path.unlink()
             archived.append(str(archive))
     report = {
-        "format": "gse.lexicon-learning-round-status/1",
+        "format": "GSE.lexicon-learning-round-status/1",
         "code": "PUBLISHED_AND_ROLLING_RETENTION_VERIFIED",
         "verified_at_utc": datetime.now(timezone.utc).isoformat(),
         "active_path": release["path"],

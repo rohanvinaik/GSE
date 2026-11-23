@@ -5,6 +5,8 @@ from __future__ import annotations
 import hashlib
 from dataclasses import asdict
 
+from GSE.namespace import current_id, identity_form
+
 from .storage import _json
 
 TABLES = {
@@ -18,7 +20,7 @@ TABLES = {
 
 
 def digest(value):
-    return hashlib.sha256(_json(value).encode()).hexdigest()
+    return hashlib.sha256(_json(identity_form(value)).encode()).hexdigest()
 
 
 def receipt_binding_key(receipt):
@@ -100,9 +102,9 @@ def read_history(conn, current):
     events = {}
     for event_id, payload in conn.execute("SELECT event_id,payload FROM rule_migrations"):
         event = _read_json(payload)
-        if digest(event) != event_id or event.get("format") not in {
-            "gse.rule-migration-event/1",
-            "gse.rule-migration-event/2",
+        if digest(event) != event_id or current_id(event.get("format")) not in {
+            "GSE.rule-migration-event/1",
+            "GSE.rule-migration-event/2",
         }:
             raise ValueError("RULE_MIGRATION_HASH_MISMATCH")
         if event.get("from_version") not in versions or event.get("to_version") not in versions:
@@ -110,7 +112,7 @@ def read_history(conn, current):
         if not isinstance(event.get("archived"), list):
             raise ValueError("INVALID_RULE_MIGRATION_ARCHIVE")
         before = versions[event["from_version"]]
-        if event["format"] == "gse.rule-migration-event/1":
+        if current_id(event["format"]) == "GSE.rule-migration-event/1":
             verify_admission(event["admission"])
             if (
                 event["admission"]["warrant"].get("required_exception_ids")
@@ -141,7 +143,7 @@ def read_history(conn, current):
         "bindings": bindings,
         "events": [events[key] for key in ordered],
         "head": ordered[-1],
-        "allow_revisions": any(events[key]["format"] == "gse.rule-migration-event/2" for key in ordered),
+        "allow_revisions": any(current_id(events[key]["format"]) == "GSE.rule-migration-event/2" for key in ordered),
     }
 
 
@@ -154,7 +156,7 @@ def _event_chain(events, versions, current):
         old, new = event["from_version"], event["to_version"]
         if old == new:
             raise ValueError("RULE_MIGRATION_CHAIN_INVALID")
-        if event["format"] == "gse.rule-migration-event/1":
+        if current_id(event["format"]) == "GSE.rule-migration-event/1":
             if old in legacy or new in destinations:
                 raise ValueError("RULE_MIGRATION_CHAIN_INVALID")
             legacy[old] = key

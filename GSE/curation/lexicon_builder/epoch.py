@@ -13,6 +13,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from GSE.namespace import current_id
+
 from .completion import _contexts, _entry, _priority_source, complete_dictionary
 from .definition_frames import NATIVE_FRAME_PREFIX, WIKTIONARY_ANATOMY_FRAME_PREFIX
 from .engine import Relation
@@ -32,7 +34,7 @@ from .rule_revisions import FORMAT as REVISION_FORMAT
 from .rule_revisions import exception_source, touches_scope
 from .validation import _context_observations, _metadata, _relations, validate_build
 
-FORMAT = "gse.lexicon-epoch-plan/1"
+FORMAT = "GSE.lexicon-epoch-plan/1"
 POLICIES = ("closure", "zipf")
 SIGNS = (-1, 0, 1)
 
@@ -120,7 +122,7 @@ def parse_plan(raw):
         type(raw) is not dict
         or not required <= raw.keys()
         or raw.keys() - required - {"evaluation_holdout"}
-        or raw["format"] != FORMAT
+        or current_id(raw["format"]) != FORMAT
     ):
         raise ValueError("INVALID_EPOCH_PLAN")
     if "evaluation_holdout" in raw:
@@ -363,7 +365,7 @@ def mine_scope_chains(candidate, inventory):
                 }
             )
     return {
-        "format": "gse.lexicon-grounded-chains/1",
+        "format": "GSE.lexicon-grounded-chains/1",
         "definitions_checked": len(rows),
         "proposals": [grouped[key] for key in sorted(grouped)],
     }
@@ -635,7 +637,7 @@ def teach(base, working, selected, family, transport, directory):
 def reviewed_input(candidate, family, selected, taught):
     warrant = family.warrant
     selection = {
-        "format": "gse.reviewed-pattern-selection/1",
+        "format": "GSE.reviewed-pattern-selection/1",
         "discovery_entry_ids": [selected["entry_id"]],
         "audit_entry_ids": list(family.holdouts),
         "guarded_candidates": [family.proposal()],
@@ -891,7 +893,7 @@ def run_arm(plan, baseline, active_pointer, directory, inventory, policy, transp
     final_grounding = mine_scope_chains(base, inventory)
     record(directory / "grounded-chains-final.json", final_grounding)
     result = {
-        "format": "gse.lexicon-epoch-arm/1",
+        "format": "GSE.lexicon-epoch-arm/1",
         "policy": policy,
         "candidate": str(base),
         "candidate_sha256": fingerprint(base),

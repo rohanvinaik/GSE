@@ -12,6 +12,8 @@ from collections import Counter, defaultdict
 from dataclasses import asdict
 from pathlib import Path
 
+from GSE.namespace import current_id
+
 from .evidence import Observation
 from .foundation import lexical_context
 from .interchange import read_json
@@ -29,8 +31,8 @@ from .validation import (
     _restriction_provenance,
 )
 
-SELECTION_FORMAT = "gse.reviewed-pattern-selection/1"
-EXPORT_FORMAT = "gse.reviewed-pattern-export/1"
+SELECTION_FORMAT = "GSE.reviewed-pattern-selection/1"
+EXPORT_FORMAT = "GSE.reviewed-pattern-export/1"
 
 
 def _selected_observations(conn, entry_ids):
@@ -76,12 +78,12 @@ def export_reviewed_input(candidate: str | Path, selection: dict, *, input_forma
     """Export a consistent read-only selected snapshot and explicit review input."""
     from .rule_history import digest, read_history, receipt_binding_key, relation_records
 
-    if type(input_format) is not str or input_format not in {INPUT_FORMAT, LEGACY_INPUT_FORMAT}:
+    if type(input_format) is not str or current_id(input_format) not in {INPUT_FORMAT, LEGACY_INPUT_FORMAT}:
         raise ValueError("INVALID_PATTERN_INPUT_FORMAT")
     _fields(
         selection, ("format", "discovery_entry_ids", "audit_entry_ids", "reviews"), ("candidates", "guarded_candidates")
     )
-    if selection["format"] != SELECTION_FORMAT or type(selection["reviews"]) is not list:
+    if current_id(selection["format"]) != SELECTION_FORMAT or type(selection["reviews"]) is not list:
         raise ValueError("INVALID_PATTERN_SELECTION")
     discovery = _ids(selection["discovery_entry_ids"])
     audit = _ids(selection["audit_entry_ids"])
@@ -236,9 +238,9 @@ def export_reviewed_input(candidate: str | Path, selection: dict, *, input_forma
                 current_version = digest(relation_records(relations))
                 needed = {current_version, *(record["version"] for record in bindings)}
                 executable["rule_history"] = {
-                    "format": "gse.reviewed-pattern-history/2"
+                    "format": "GSE.reviewed-pattern-history/2"
                     if history["allow_revisions"]
-                    else "gse.reviewed-pattern-history/1",
+                    else "GSE.reviewed-pattern-history/1",
                     "current_version": current_version,
                     "versions": [
                         {"version": version, "relations": relation_records(history["versions"][version])}

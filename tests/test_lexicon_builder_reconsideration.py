@@ -55,7 +55,7 @@ def built(tmp_path):
     manifest.write_text(
         json.dumps(
             {
-                "format": "gse.lexicon-rules/1",
+                "format": "GSE.lexicon-rules/1",
                 "anchors": {"a": [asdict(Assertion("INTENSITY", 1, "anchor:fixture", "anchor:a", "fixture"))]},
                 "hierarchy": {"a": {"INTENSITY": 2}},
             }

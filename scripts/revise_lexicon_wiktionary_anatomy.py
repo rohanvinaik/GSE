@@ -16,8 +16,9 @@ from GSE.curation.lexicon_builder.source_enrichment import (
     wiktionary_projection_scope,
 )
 from GSE.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
+from GSE.namespace import current_id
 
-FORMAT = "gse.wiktionary-anatomy-projection-revision/2"
+FORMAT = "GSE.wiktionary-anatomy-projection-revision/2"
 
 
 def active_baseline(release):
@@ -55,7 +56,7 @@ def scope_witnesses(scope):
 
 def audit_support(active, witnesses, audit, baseline):
     if (
-        audit.get("format") != "gse.wiktionary-anatomy-genus-audit/1"
+        current_id(audit.get("format")) != "GSE.wiktionary-anatomy-genus-audit/1"
         or audit.get("candidate_writes") is not False
         or audit.get("candidate_sha256") != baseline["candidate_sha256"]
         or audit.get("active_pointer_sha256") != baseline["active_pointer_sha256"]
@@ -168,7 +169,7 @@ def main():
             raise ValueError("WIKTIONARY_ANATOMY_OUTPUT_REPORT_COLLISION")
         stage, audit = read(args.stage_report), read(args.audit)
         if (
-            stage.get("format") != FORMAT
+            current_id(stage.get("format")) != FORMAT
             or stage.get("code") != "WIKTIONARY_ANATOMY_STAGED"
             or stage.get("baseline") != baseline
         ):

@@ -26,14 +26,15 @@ from GSE.api import GSEEncoder
 from GSE.api.encoder import GrammaticalDefinitionError
 from GSE.lexical_evidence import is_definition_database, lookup_lexeme, resource_identity
 from GSE.lexicon_resource import resolve_lexicon_path
+from GSE.namespace import current_id
 from GSE.nlp.native import NativeNLP
 from GSE.primitives_v2 import get_all_primitives, get_bank_for_primitive
 
 GSE_REPO = Path(__file__).resolve().parents[1]
 MODEL = GSE_REPO / "data" / "voice" / "model.v2.json"
-SCHEMA = "gse.rohan-voice/2"
-FEATURES = "gse.rohan-voice-features/3"
-MANIFEST = "gse.rohan-voice-sources/2"
+SCHEMA = "GSE.rohan-voice/2"
+FEATURES = "GSE.rohan-voice-features/3"
+MANIFEST = "GSE.rohan-voice-sources/2"
 VOICE_WEIGHT = 2.5
 BANK_MAP = {p: bank.name for p in get_all_primitives() if (bank := get_bank_for_primitive(p)) is not None}
 BANKS = ["SUBSTANTIVES", "MENTAL", "ACTION", "EVALUATORS", "LOGICAL", "QUANTITY", "TEMPORAL", "SPATIAL"]
@@ -310,7 +311,7 @@ def _evaluation(model: dict) -> dict:
     return {
         "state": "heldout",
         "independence": "declared_source_groups",
-        "policy": "gse.rohan-source-groups/1",
+        "policy": "GSE.rohan-source-groups/1",
         "per_class": model["holdout"],
         "groups": {source["group"]: source["split"] for source in model["sources"]},
         "selection_policy": "recognizer_selected_sources_train_only",
@@ -321,7 +322,7 @@ def _manifest(path: Path) -> tuple[dict, list[dict]]:
     document = json.loads(path.read_bytes().decode("utf-8"))
     if (
         not isinstance(document, dict)
-        or document.get("schema") != MANIFEST
+        or current_id(document.get("schema")) != MANIFEST
         or not isinstance(document.get("sources"), list)
     ):
         raise ValueError("malformed_manifest")
@@ -511,8 +512,8 @@ def _valid_model(model: dict) -> bool:
     n = len(BANKS) + len(CURATED) + 4
     return (
         isinstance(model, dict)
-        and model.get("schema") == SCHEMA
-        and model.get("features") == FEATURES
+        and current_id(model.get("schema")) == SCHEMA
+        and current_id(model.get("features")) == FEATURES
         and model.get("nfeat") == n
         and model.get("nv") == 4
         and model.get("voice_weight") == VOICE_WEIGHT

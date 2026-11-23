@@ -20,7 +20,7 @@ def _links(tmp_path, entries=None):
     path.write_text(
         json.dumps(
             {
-                "format": "gse.prime-definition-links/1",
+                "format": "GSE.prime-definition-links/1",
                 "prime_entries": {"nsm:v20:good": ["entry"]} if entries is None else entries,
             }
         )
@@ -79,7 +79,7 @@ def test_read_only_preview_uses_one_observation_pass_and_keeps_saved_catalog(tmp
     assert result["dictionary_states"] == "UNCHANGED"
     assert calls == [1]
     assert path.read_bytes() == before
-    assert _metadata(path)["catalog"]["format"] == "gse.nsm-catalog-coverage/1"
+    assert _metadata(path)["catalog"]["format"] == "GSE.nsm-catalog-coverage/1"
     assert _metadata(path)["catalog"]["readiness"]["mapping_complete"] is False
 
 
@@ -94,7 +94,7 @@ def test_apply_changes_only_three_metadata_records_and_replays(tmp_path):
     assert set(after) == set(before)
     assert _non_metadata(path) == dictionary
     assert after["prime_entries"] == {"nsm:v20:good": ["entry"]}
-    assert after["catalog"]["format"] == "gse.nsm-catalog-coverage/2"
+    assert after["catalog"]["format"] == "GSE.nsm-catalog-coverage/2"
     assert after["catalog"]["readiness"]["mapping_complete"] is True
     assert after["last_report"]["model_calls"] == before["last_report"]["model_calls"]
     assert after["last_report"]["prime_coverage"] == after["catalog"]["coverage_counts"]
@@ -202,12 +202,12 @@ def test_invalid_identity_replacements_leave_metadata_unchanged(tmp_path, entrie
 @pytest.mark.parametrize(
     "raw",
     [
-        {"format": "gse.lexicon-rules/1", "prime_entries": {}},
-        {"format": "gse.prime-definition-links/1", "prime_entries": {}, "anchors": {}},
-        {"format": "gse.prime-definition-links/1", "prime_entries": {}, "relations": []},
-        {"format": "gse.prime-definition-links/1", "prime_entries": {"nsm:v20:good": "entry"}},
-        {"format": "gse.prime-definition-links/1", "prime_entries": {"nsm:v20:good": [None]}},
-        {"format": "gse.prime-definition-links/1"},
+        {"format": "GSE.lexicon-rules/1", "prime_entries": {}},
+        {"format": "GSE.prime-definition-links/1", "prime_entries": {}, "anchors": {}},
+        {"format": "GSE.prime-definition-links/1", "prime_entries": {}, "relations": []},
+        {"format": "GSE.prime-definition-links/1", "prime_entries": {"nsm:v20:good": "entry"}},
+        {"format": "GSE.prime-definition-links/1", "prime_entries": {"nsm:v20:good": [None]}},
+        {"format": "GSE.prime-definition-links/1"},
     ],
 )
 def test_link_only_format_rejects_semantic_manifest_and_malformed_records(tmp_path, raw):

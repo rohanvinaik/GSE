@@ -56,7 +56,7 @@ def main():
                   "chart_units": [u["unit_id"] for u in catalog["units"] if u["mapping"]["bank"] == bank],
                   "constraint_rule_ids": [r["rule_id"] for r in metadata["relations"] if bank in r["banks"]],
                   "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"} for bank in BANKS]
-        report = {"format": "gse.checkpoint-foundation-review/1", "code": "REVIEW_LEDGER_NO_BANK_WRITES",
+        report = {"format": "GSE.checkpoint-foundation-review/1", "code": "REVIEW_LEDGER_NO_BANK_WRITES",
                   "resource": str(resource), "rule_version": metadata["rule_version"],
                   "basis_size": len(banks), "nsm_units": len(units),
                   "unit_review_counts": dict(Counter(u["review_status"] for u in units)),

@@ -41,7 +41,7 @@ def _router():
         import sys
 
         print(
-            f"[gse.som_genre] register-router artifact missing ({_ARTIFACT.name}); "
+            f"[GSE.som_genre] register-router artifact missing ({_ARTIFACT.name}); "
             "genre abstains to MIXED until it is (re)built — "
             "`python scripts/train_register_router.py --nested`.",
             file=sys.stderr,

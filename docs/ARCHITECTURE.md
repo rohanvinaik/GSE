@@ -776,7 +776,7 @@ drift. Confirmed drift / not on the functional path:
 | Item | Status | Why |
 |---|---|---|
 | `docs/THEORY.md` | **invalid** | Declared known-invalid; not a source. |
-| root `README.md` | **stale** | Claims 10,000-dim vectors, `gse.pipeline.load_pipeline`, `data/basis.msgpack`, a Merkle-coherence `process()` pipeline. None match the 8192-dim `GSE.api` core. |
+| root `README.md` | **stale** | Claims 10,000-dim vectors, `GSE.pipeline.load_pipeline`, `data/basis.msgpack`, a Merkle-coherence `process()` pipeline. None match the 8192-dim `GSE.api` core. |
 | `data/lexicon.db` + root `lexicon.db` | **purged 2026-06-20** | The degenerate bag-of-words DB (`dog≈murder`) and the 0-row stub were deleted. The live DB is `data/lexicon_clean.db` (sparse, definitional). |
 | `GSE/__init__.py` top-level exports | **misleading** | Re-exports `GSEPipeline`, `merkle`, `patterns`, etc. The functional `GSE.api`/`GSE.symbolic` core does **not** import these. Docstring says "~45 primitives / 8 banks" — banks correct, count understated (74 word-scale primitives live). |
 | `GSE/_archive/` | **archived** | Self-evidently old. Exclude. |

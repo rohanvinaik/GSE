@@ -19,7 +19,7 @@ def _snapshot(tmp_path, body):
     path.write_text(
         json.dumps(
             {
-                "format": "gse.websters1913-snapshots/1",
+                "format": "GSE.websters1913-snapshots/1",
                 "records": [
                     {
                         "native_id": "Auf",

@@ -40,7 +40,7 @@ def candidate(tmp_path, monkeypatch, cases):
 
 def manifest(path, proposals, semantics="RELATIONAL_CONSTRAINT"):
     return {
-        "format": "gse.coherence-stage-input/2",
+        "format": "GSE.coherence-stage-input/2",
         "baseline_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
         "semantics": semantics,
         "proposals": proposals,
@@ -109,12 +109,12 @@ def test_unknown_guard_excludes_the_relation_and_unknown_values_stay_unknown(tmp
 def test_v1_report_remains_forward_only_and_rejects_silent_semantics_change(tmp_path, monkeypatch):
     path, _ = candidate(tmp_path, monkeypatch, {"old": {"DO": 0}})
     data = manifest(path, [proposal("action", ("SAY", 1), ("DO", 1))])
-    data["format"] = "gse.coherence-stage-input/1"
+    data["format"] = "GSE.coherence-stage-input/1"
     with pytest.raises(ValueError, match="COHERENCE_SEMANTICS_REQUIRES_VERSION_TWO"):
         script.stage(path, data)
     del data["semantics"]
     report = script.stage(path, data)
-    assert report["format"] == "gse.coherence-stage-report/1" and report["changes"] == []
+    assert report["format"] == "GSE.coherence-stage-report/1" and report["changes"] == []
 
 
 @pytest.mark.parametrize("semantics", [None, "", True, "MOSTLY_FORWARD", [], {}, 1.0])

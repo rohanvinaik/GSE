@@ -264,7 +264,7 @@ def main():
         progress_path = directory / "progress.jsonl"
         if progress_path.exists():
             outputs.append({"file": progress_path.name, "sha256": hashlib.sha256(progress_path.read_bytes()).hexdigest()})
-        save("manifest", {"format": "gse.bounded-worker-artifacts/1", "artifacts": list(outputs),
+        save("manifest", {"format": "GSE.bounded-worker-artifacts/1", "artifacts": list(outputs),
                           "hash_scope": "FILE_BYTES_EXCLUDING_THIS_MANIFEST", "worker_failed": failed})
     print(json.dumps({"reports": str(directory), "worker_failed": failed, "activation_performed": False}), flush=True)
     return int(failed)

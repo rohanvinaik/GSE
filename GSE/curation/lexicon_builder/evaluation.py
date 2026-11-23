@@ -15,6 +15,8 @@ from collections import defaultdict
 from contextlib import closing
 from pathlib import Path
 
+from GSE.namespace import current_id
+
 from .foundation import BANKS, definition_context
 from .interchange import read_json
 from .storage import VERSION, read_entries
@@ -24,7 +26,7 @@ OUTCOMES = ("IDENTIFIED_CORRECT", "ABSTAINED", "CONFLICT", "WRONG", "NOT_FOUND")
 
 def _load_gold(path: Path) -> tuple[list[dict], bool]:
     raw = read_json(path)
-    if not isinstance(raw, dict) or set(raw) != {"format", "records"} or raw["format"] != "gse.lexicon-gold/1":
+    if not isinstance(raw, dict) or set(raw) != {"format", "records"} or current_id(raw["format"]) != "GSE.lexicon-gold/1":
         raise ValueError("INVALID_GOLD_FORMAT")
     records = raw["records"]
     if not isinstance(records, list) or not records:
@@ -153,7 +155,7 @@ def _summary(records: list[dict], weighted: bool) -> dict:
 def evaluate_build(path: str | Path, gold_path: str | Path) -> dict:
     """Read exact entry/bank labels and return named outcomes without writing files.
 
-    Gold format: ``{"format":"gse.lexicon-gold/1","records":[
+    Gold format: ``{"format":"GSE.lexicon-gold/1","records":[
     {"entry_id":"...","bank":"GOOD","expected":0}]}``.
     Optional nonnegative finite ``weight`` must appear on every record or none.
     Coverage counts identified cells (correct plus wrong) over all supplied gold
@@ -171,7 +173,7 @@ def evaluate_build(path: str | Path, gold_path: str | Path) -> dict:
             conn.execute("PRAGMA query_only=ON")
             conn.execute("BEGIN")
             row = conn.execute("SELECT value FROM builder_metadata WHERE key='format'").fetchone()
-            if row is None or json.loads(row[0]) != VERSION:
+            if row is None or current_id(json.loads(row[0])) != VERSION:
                 raise ValueError("UNSUPPORTED_BUILD_FORMAT")
             cache = {}
             source_index = _source_index(conn, {record["entry_id"] for record in gold})
@@ -185,7 +187,7 @@ def evaluate_build(path: str | Path, gold_path: str | Path) -> dict:
         for source in record["sources"] or ["NOT_FOUND"]:
             per_source[source].append(record)
     return {
-        "format": "gse.lexicon-gold-report/1",
+        "format": "GSE.lexicon-gold-report/1",
         "code": "GOLD_EVALUATED",
         "gold": {
             "path": str(gold_file),

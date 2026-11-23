@@ -45,7 +45,7 @@ def _build(tmp_path, *, conflict=False, relevance=None, restriction=False, trans
     restrictions = (DomainRestriction("THINK", (0, 1), "fixture-native", "native:1", "fixture"),) if restriction else ()
     bundle = EvidenceBundle((definition,), tuple(observations), tuple(assertions), (), restrictions)
     manifest = tmp_path / "manifest.json"
-    manifest.write_text(json.dumps({"format": "gse.lexicon-rules/1", "prime_entries": {"nsm:v20:good": ["entry"]}}))
+    manifest.write_text(json.dumps({"format": "GSE.lexicon-rules/1", "prime_entries": {"nsm:v20:good": ["entry"]}}))
     db = tmp_path / "lexicon.db"
     build_dictionary(bundle, db, manifest=manifest, transport=transport, max_model_calls=int(transport is not None))
     return db, bundle
@@ -55,7 +55,7 @@ def test_native_report_records_restrictions_authority_and_unknowns(tmp_path):
     db, bundle = _build(tmp_path, restriction=True)
     report = _metadata(db)
     linked = _linked(report)
-    assert report["format"] == "gse.nsm-catalog-coverage/2"
+    assert report["format"] == "GSE.nsm-catalog-coverage/2"
     assert report["evidence_scope"] == "SOURCE_AND_AUTHORED_ANCHOR_FOUNDATION"
     assert report["model_completions"] == "EXCLUDED_FROM_FOUNDATION_REPLAY"
     assert linked["code"] == "PARTIAL_FOUNDATION_CLOSURE"
@@ -117,7 +117,7 @@ def test_tampered_native_catalog_is_rejected(tmp_path, mutation):
     elif mutation == "authority":
         linked["authority"]["native_evidence"] = "FOUNDER_APPROVED"
     elif mutation == "version":
-        report["format"] = "gse.nsm-catalog-coverage/99"
+        report["format"] = "GSE.nsm-catalog-coverage/99"
     elif mutation == "model_scope":
         report.pop("model_completions")
     else:
@@ -131,7 +131,7 @@ def test_tampered_native_catalog_is_rejected(tmp_path, mutation):
 def test_legacy_anchor_only_catalog_replay_remains_supported(tmp_path):
     db, bundle = _build(tmp_path, restriction=True)
     legacy = catalog_report({}, bundle.definitions, projection_relations(), prime_entries={"nsm:v20:good": ("entry",)})
-    assert legacy["format"] == "gse.nsm-catalog-coverage/1"
+    assert legacy["format"] == "GSE.nsm-catalog-coverage/1"
     assert _linked(legacy)["code"] == "NO_DECLARED_ANCHORS"
     assert "native_assertions" not in _linked(legacy)
     _save_metadata(db, legacy)
@@ -237,7 +237,7 @@ def test_six_verified_manifest_links_do_not_mint_anchors():
 
 def test_unknown_manifest_link_is_not_silently_dropped(tmp_path):
     manifest = tmp_path / "unknown.json"
-    manifest.write_text(json.dumps({"format": "gse.lexicon-rules/1", "prime_entries": {"nsm:v20:good": ["missing"]}}))
+    manifest.write_text(json.dumps({"format": "GSE.lexicon-rules/1", "prime_entries": {"nsm:v20:good": ["missing"]}}))
     db = tmp_path / "invalid.db"
     with pytest.raises(ValueError, match="UNKNOWN_CATALOG_DEFINITION"):
         build_dictionary(EvidenceBundle((), (), (), ()), db, manifest=manifest)

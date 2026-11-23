@@ -46,7 +46,7 @@ def test_cli_progress_is_json_on_stderr_and_summary_stays_on_stdout(tmp_path, mo
         sys,
         "argv",
         [
-            "gse",
+            "GSE",
             "--lexicon-db",
             str(path),
             "complete",

@@ -194,7 +194,7 @@ def historical_source_input():
     raw["guarded_candidates"][0].update(antecedent=["WANT", 1], consequent=["GOOD", 0])
     current, previous = digest(raw["relations"]), digest([])
     raw["rule_history"] = {
-        "format": "gse.reviewed-pattern-history/1",
+        "format": "GSE.reviewed-pattern-history/1",
         "current_version": current,
         "versions": [{"version": previous, "relations": []}, {"version": current, "relations": deepcopy(raw["relations"])}],
         "bindings": [

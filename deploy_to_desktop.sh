@@ -32,13 +32,13 @@ ssh ${DESKTOP_USER}@${DESKTOP_HOST} "mkdir -p ${REMOTE_DIR}/logs"
 
 # Step 4: Update plist with correct paths
 echo "Step 4: Updating launchd plist for desktop..."
-ssh ${DESKTOP_USER}@${DESKTOP_HOST} "cat > ${REMOTE_DIR}/daemon/com.gse.audit-daemon.plist << 'PLIST'
+ssh ${DESKTOP_USER}@${DESKTOP_HOST} "cat > ${REMOTE_DIR}/daemon/com.GSE.audit-daemon.plist << 'PLIST'
 <?xml version=\"1.0\" encoding=\"UTF-8\"?>
 <!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
 <plist version=\"1.0\">
 <dict>
     <key>Label</key>
-    <string>com.gse.audit-daemon</string>
+    <string>com.GSE.audit-daemon</string>
 
     <key>ProgramArguments</key>
     <array>
@@ -106,9 +106,9 @@ print('NLTK data downloaded')
 echo "Step 7: Installing launchd service..."
 ssh ${DESKTOP_USER}@${DESKTOP_HOST} "
     mkdir -p ~/Library/LaunchAgents
-    cp ${REMOTE_DIR}/daemon/com.gse.audit-daemon.plist ~/Library/LaunchAgents/
-    launchctl unload ~/Library/LaunchAgents/com.gse.audit-daemon.plist 2>/dev/null || true
-    launchctl load ~/Library/LaunchAgents/com.gse.audit-daemon.plist
+    cp ${REMOTE_DIR}/daemon/com.GSE.audit-daemon.plist ~/Library/LaunchAgents/
+    launchctl unload ~/Library/LaunchAgents/com.GSE.audit-daemon.plist 2>/dev/null || true
+    launchctl load ~/Library/LaunchAgents/com.GSE.audit-daemon.plist
 "
 
 # Step 8: Verify service is running
@@ -125,5 +125,5 @@ echo ""
 echo "=== Deployment Complete ==="
 echo ""
 echo "To check status: ssh ${DESKTOP_USER}@${DESKTOP_HOST} 'tail -f ~/GSE/logs/audit_daemon.log'"
-echo "To stop daemon:  ssh ${DESKTOP_USER}@${DESKTOP_HOST} 'launchctl unload ~/Library/LaunchAgents/com.gse.audit-daemon.plist'"
-echo "To start daemon: ssh ${DESKTOP_USER}@${DESKTOP_HOST} 'launchctl load ~/Library/LaunchAgents/com.gse.audit-daemon.plist'"
+echo "To stop daemon:  ssh ${DESKTOP_USER}@${DESKTOP_HOST} 'launchctl unload ~/Library/LaunchAgents/com.GSE.audit-daemon.plist'"
+echo "To start daemon: ssh ${DESKTOP_USER}@${DESKTOP_HOST} 'launchctl load ~/Library/LaunchAgents/com.GSE.audit-daemon.plist'"

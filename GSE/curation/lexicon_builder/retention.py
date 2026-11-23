@@ -118,7 +118,7 @@ def retire_snapshot(source, active, previous, *, expected_sha256, previous_sha25
             if rows:
                 tables[name] = {"columns": columns, "rows": rows}
     document = {
-        "format": "gse.checkpoint-audit-delta/1", "source": str(source), "source_sha256": source_hash,
+        "format": "GSE.checkpoint-audit-delta/1", "source": str(source), "source_sha256": source_hash,
         "witness": str(active), "witness_sha256": expected_sha256, "source_identity": before,
         "source_data_checks": checks,
         "excluded_new_context_ids_from_witness_only": list(missing), "tables": tables,

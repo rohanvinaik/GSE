@@ -14,7 +14,7 @@ def argv(tmp_path, options=()):
     path = tmp_path / "fixture.db"
     path.touch()
     return [
-        "gse",
+        "GSE",
         "--lexicon-db",
         str(path),
         "complete",

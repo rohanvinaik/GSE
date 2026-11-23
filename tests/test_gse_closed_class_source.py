@@ -146,11 +146,11 @@ def test_complete_native_evidence_replays_without_changed_ids_or_values(tmp_path
     parsers, _ = load_local_sources(("gse_closed_class",))
     bundle = collect_evidence(parsers, ("he",))
     path = tmp_path / "evidence.json"
-    path.write_text(json.dumps({"format": "gse.lexicon-evidence/1", **asdict(bundle)}))
+    path.write_text(json.dumps({"format": "GSE.lexicon-evidence/1", **asdict(bundle)}))
     assert load_evidence(path) == bundle
     observations = [asdict(o) for o in bundle.observations]
     view = evidence_view(observations, "WANT")
-    assert view["format"] == "gse.model-evidence/5"
+    assert view["format"] == "GSE.model-evidence/5"
     for raw, summary in zip(observations, view["records"], strict=True):
         assert summary["features"] == raw["features"]
         assert summary["omitted_fields"] == []

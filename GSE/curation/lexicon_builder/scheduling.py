@@ -10,7 +10,7 @@ from .residual import _scaffold
 
 COHORT_POLICIES = ("definition", "spelling")
 BANK_PRIORITIES = ("constraint", "evidence")
-POLICY_VERSION = "gse.completion-question-order/1"
+POLICY_VERSION = "GSE.completion-question-order/1"
 
 
 def question_order_policy(cohort_policy, bank_priority):

@@ -164,7 +164,7 @@ def test_production_model_input_pins_wire_contract_and_preserves_full_request():
     payload = request.payload()
     original = copy.deepcopy(payload)
     wire = model_input(payload)
-    assert PROTOCOL_VERSION == "gse.lexical-component-entailment/14"
+    assert PROTOCOL_VERSION == "GSE.lexical-component-entailment/14"
     assert protocol_contract()["candidate_links"]["format"] == CANDIDATE_LINKS_FORMAT
     assert restore_candidate_links(wire["input"]["evidence"]) == evidence_view(native, "WANT")
     assert request.payload() == payload == original

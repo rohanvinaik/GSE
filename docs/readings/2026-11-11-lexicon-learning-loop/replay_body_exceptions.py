@@ -196,7 +196,7 @@ def main():
         raise ValueError("BODY_COMPLETION_BASELINE_OR_ACTIVE_CHANGED")
     publication = publication_readiness(candidate)
     result = {
-        "format": "gse.body-exception-resumption/1",
+        "format": "GSE.body-exception-resumption/1",
         "candidate": str(candidate),
         "candidate_sha256": sha256(candidate),
         "baseline_sha256": baseline_hash,

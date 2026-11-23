@@ -922,7 +922,7 @@ def _trace_key(contract: Dict[str, Any]):
             return tuple(freeze(item) for item in value)
         return value
 
-    return ("gse.emitted-structure/1", freeze(contract.get("predicate", contract)))
+    return ("GSE.emitted-structure/1", freeze(contract.get("predicate", contract)))
 
 
 def document_sn(contracts: List[Dict[str, Any]]) -> float:

@@ -106,7 +106,7 @@ def build_from_kaikki(path: str | Path) -> dict:
     temporary.write_text("\n".join(sorted(words)) + "\n", encoding="utf-8")
     temporary.replace(OUT)
     report = {
-        "format": "gse.word-validity-build/1",
+        "format": "GSE.word-validity-build/1",
         "code": "MEMBERSHIP_ONLY",
         "source": str(source),
         "source_sha256": digest.hexdigest(),

@@ -377,7 +377,7 @@ class _Lexicon:
         from GSE.curation.personal_dictionary import membership
 
         w = word.lower()
-        out = {"word": word, "state": "not_rare_tail", "policy": "gse.rare-tail/2"}
+        out = {"word": word, "state": "not_rare_tail", "policy": "GSE.rare-tail/2"}
         protected = membership(word)
         if protected["state"] == "member":
             return {**out, "reason": "protected_dictionary"}

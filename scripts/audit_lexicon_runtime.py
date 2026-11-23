@@ -230,7 +230,7 @@ def audit_runtime(lexicon_db):
     for record in records:
         counts[record["class"]][record["outcome"]] += 1
     return {
-        "format": "gse.runtime-compatibility-audit/1",
+        "format": "GSE.runtime-compatibility-audit/1",
         "measured_at": datetime.now(timezone.utc).isoformat(),
         "lexicon_db": str(path),
         "file_identity": {"size": path.stat().st_size, "mtime_ns": path.stat().st_mtime_ns},

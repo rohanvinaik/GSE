@@ -242,7 +242,7 @@ def emit_contract(
         from GSE.symbolic.propositions import propositions
 
         contract["claim_semantics"] = {
-            "version": "gse.claim-semantics/1",
+            "version": "GSE.claim-semantics/1",
             "claims": [
                 {
                     "kind": item.kind,

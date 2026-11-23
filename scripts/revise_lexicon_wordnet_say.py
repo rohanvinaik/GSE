@@ -99,7 +99,7 @@ def revise(candidate, output, baseline_receipt):
         output,
         read(baseline_receipt),
         revise_entries,
-        format_tag="gse.wordnet-say-projection-revision/1",
+        format_tag="GSE.wordnet-say-projection-revision/1",
         metadata_key="wordnet_say_projection_revision",
     )
 

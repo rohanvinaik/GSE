@@ -259,7 +259,7 @@ def test_single_bank_validation_rejects_contradiction_inside_otherwise_valid_bat
         for i in range(3)
     ]
     manifest = tmp_path / "rules.json"
-    manifest.write_text(json.dumps({"format": "gse.lexicon-rules/1", "relations": [asdict(r) for r in relations]}))
+    manifest.write_text(json.dumps({"format": "GSE.lexicon-rules/1", "relations": [asdict(r) for r in relations]}))
     path = dictionary(tmp_path, 2, names, manifest)
     before = states(path)
     report = complete_dictionary(
@@ -369,7 +369,7 @@ def test_real_cli_forwards_batch_size_and_reports_question_and_invocation_counts
         sys,
         "argv",
         [
-            "gse",
+            "GSE",
             "--lexicon-db",
             str(path),
             "complete",

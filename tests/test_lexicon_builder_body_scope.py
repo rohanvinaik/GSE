@@ -168,7 +168,7 @@ def test_body_contract_has_scoped_interpretation_authority_and_protocol_pin():
         "source": BODY_SCOPE_SOURCE,
     }
     wire = model_input(original)
-    assert wire["format"] == "gse.lexical-component-entailment/14"
+    assert wire["format"] == "GSE.lexical-component-entailment/14"
     assert [example["output"] for example in coordinate["examples"]] == [
         {"BODY": 1}, {"BODY": 0}, {"BODY": None}, {"BODY": 1}, {"BODY": 1}
     ]

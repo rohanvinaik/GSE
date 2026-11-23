@@ -17,17 +17,19 @@ from contextlib import closing
 from dataclasses import asdict
 from pathlib import Path
 
+from GSE.namespace import current_id, identity_form
+
 from .evidence import Observation
 from .interchange import read_json
 from .model_receipts import read_model_receipts
 from .storage import _json, store_observations
 from .validation import validate_build
 
-FORMAT = "gse.source-enrichment-input/1"
+FORMAT = "GSE.source-enrichment-input/1"
 
 
 def _digest(value):
-    return hashlib.sha256(_json(value).encode("utf-8")).hexdigest()
+    return hashlib.sha256(_json(identity_form(value)).encode("utf-8")).hexdigest()
 
 
 def _file_digest(path):
@@ -75,7 +77,7 @@ def _definition(conn, entry):
 
 
 def _observations(value):
-    if type(value) is not dict or set(value) != {"format", "observations"} or value["format"] != FORMAT:
+    if type(value) is not dict or set(value) != {"format", "observations"} or current_id(value["format"]) != FORMAT:
         raise ValueError("INVALID_SOURCE_ENRICHMENT_INPUT")
     if type(value["observations"]) is not list or not value["observations"]:
         raise ValueError("SOURCE_ENRICHMENT_REQUIRES_OBSERVATIONS")
@@ -210,7 +212,7 @@ def _verify_wordnet(observations, definitions):
         definition = definitions[record.entry_id]
         packet = record.features["definition_identity"]
         synset = wordnet.synset(packet["native_synset"]["name"])
-        constructor = wordnet_defining_context if packet["format"] == DEFINING_CONTEXT_FORMAT else wordnet_identity_evidence
+        constructor = wordnet_defining_context if current_id(packet["format"]) == DEFINING_CONTEXT_FORMAT else wordnet_identity_evidence
         fresh = constructor(parser, definition["lemma"], synset, pos=definition["pos"])
         if _json(asdict(wordnet_identity_observation(fresh, definition))) != _json(asdict(record)):
             raise ValueError("ENRICHMENT_WORDNET_SOURCE_IDENTITY_MISMATCH")
@@ -286,7 +288,7 @@ def enrich_sources(source, output, input_path, *, wiktionary_source=None):
             if pointer != (ACTIVE_POINTER.read_bytes() if ACTIVE_POINTER.exists() else None):
                 raise ValueError("ENRICHMENT_ACTIVE_POINTER_CHANGED")
             report = {
-                "format": "gse.source-enrichment/1",
+                "format": "GSE.source-enrichment/1",
                 "code": "ENRICHED_CANDIDATE",
                 "source": str(source),
                 "candidate": str(output),

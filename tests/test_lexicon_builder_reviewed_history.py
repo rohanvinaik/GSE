@@ -39,7 +39,7 @@ def migrated_input(tmp_path):
             for receipt in receipts
         ]
     selection = {
-        "format": "gse.reviewed-pattern-selection/1",
+        "format": "GSE.reviewed-pattern-selection/1",
         "discovery_entry_ids": ["c"],
         "audit_entry_ids": ["b"],
         "reviews": reviews,
@@ -70,7 +70,7 @@ def migrated_input(tmp_path):
 def test_reviewed_prefix_replays_old_then_current_rules_and_audits_under_current(tmp_path):
     raw = migrated_input(tmp_path)
     history = raw["rule_history"]
-    assert history["format"] == "gse.reviewed-pattern-history/1"
+    assert history["format"] == "GSE.reviewed-pattern-history/1"
     assert len(history["bindings"]) == 1
     assert len(history["versions"]) == 2
     assert len(raw["rulings"]) == 2

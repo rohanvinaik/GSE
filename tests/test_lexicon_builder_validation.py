@@ -283,7 +283,7 @@ def test_anchor_authority_is_explicit_metadata_not_source_name(tmp_path):
     anchor = Assertion("THINK", 1, "a cited declaration", "an exact source section", "declared")
     manifest = tmp_path / "rules.json"
     manifest.write_text(
-        json.dumps({"format": "gse.lexicon-rules/1", "anchors": {definition.entry_id: [asdict(anchor)]}})
+        json.dumps({"format": "GSE.lexicon-rules/1", "anchors": {definition.entry_id: [asdict(anchor)]}})
     )
     path = tmp_path / "anchors.sqlite"
     build_dictionary(EvidenceBundle((definition,), (), (), ()), path, manifest=manifest)
@@ -447,7 +447,7 @@ def test_model_replay_rejects_new_conditional_exceptions(tmp_path, monkeypatch):
         for i, pair in enumerate((("THINK", "KNOW"), ("KNOW", "FEEL"), ("FEEL", "THINK")))
     )
     manifest = tmp_path / "rules.json"
-    manifest.write_text(json.dumps({"format": "gse.lexicon-rules/1", "relations": [asdict(rule) for rule in rules]}))
+    manifest.write_text(json.dumps({"format": "GSE.lexicon-rules/1", "relations": [asdict(rule) for rule in rules]}))
     path = tmp_path / "cycle.sqlite"
     build_dictionary(EvidenceBundle((definition,), (), (), ()), path, manifest=manifest)
     limited_report = validate_build(path)

@@ -19,9 +19,10 @@ from urllib.request import Request, urlopen
 from GSE.curation.lexicon_builder.engine import Assertion, DomainRestriction, Relation, Resolution
 from GSE.curation.lexicon_builder.evidence import Definition
 from GSE.curation.lexicon_builder.resolution import resolve_dictionary
+from GSE.namespace import current_id, identity_form
 
-REQUEST_FORMAT = "gse.bank-request/2"
-LEGACY_REQUEST_FORMAT = "gse.bank-request/1"
+REQUEST_FORMAT = "GSE.bank-request/2"
+LEGACY_REQUEST_FORMAT = "GSE.bank-request/1"
 
 
 def _json_copy(value: Any) -> Any:
@@ -82,7 +83,7 @@ def _request_payload(
         "observations": _json_copy(observations),
         "fill": {bank: None},
     }
-    if request_format == REQUEST_FORMAT:
+    if current_id(request_format) == REQUEST_FORMAT:
         payload["scaffold"] = _json_copy(scaffold)
     return payload
 
@@ -158,7 +159,7 @@ def _scaffold(
         )
     return _json_copy(
         {
-            "format": "gse.symbolic-scaffold/1",
+            "format": "GSE.symbolic-scaffold/1",
             "context": dict(sorted(context.items())),
             "domains": {name: sorted(values) for name, values in sorted(resolution.domains.items())},
             "approved_relations": records,
@@ -170,7 +171,7 @@ def _scaffold(
 
 
 def _request_id(payload: dict) -> str:
-    return hashlib.sha256(_canonical_json(payload).encode("utf-8")).hexdigest()
+    return hashlib.sha256(_canonical_json(identity_form(payload)).encode("utf-8")).hexdigest()
 
 
 @dataclass(frozen=True)
@@ -233,7 +234,7 @@ def build_request(
     if type(entry_id) is not str or not entry_id:
         raise ValueError("invalid_entry_id")
     _definition_payload(definition, entry_id)
-    if request_format not in {REQUEST_FORMAT, LEGACY_REQUEST_FORMAT}:
+    if current_id(request_format) not in {REQUEST_FORMAT, LEGACY_REQUEST_FORMAT}:
         raise ValueError("unsupported_request_format")
     if type(bank) is not str or not bank or bank not in resolution.domains:
         raise ValueError("unknown_bank")
@@ -265,7 +266,7 @@ def build_request(
     allowed = tuple(sorted(domain))
     known = dict(sorted(resolution.assignments.items()))
     copied = tuple(_json_copy(observations))
-    scaffold = _scaffold(resolution, relations, context, bank) if request_format == REQUEST_FORMAT else None
+    scaffold = _scaffold(resolution, relations, context, bank) if current_id(request_format) == REQUEST_FORMAT else None
     payload = _request_payload(entry_id, bank, allowed, known, copied, definition, scaffold, request_format)
     return BankRequest(
         entry_id, bank, allowed, known, copied, _request_id(payload), definition, scaffold, request_format

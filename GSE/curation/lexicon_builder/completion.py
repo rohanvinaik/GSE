@@ -11,6 +11,8 @@ from collections import Counter, defaultdict
 from dataclasses import asdict
 from pathlib import Path
 
+from GSE.namespace import identity_form
+
 from .catalog import SENTENCE_DURATION_SOURCE_RECORD
 from .evidence import Definition, Observation
 from .foundation import BANKS, definition_context, lexical_context, validate_lexical_guards
@@ -34,8 +36,8 @@ CREATE TABLE IF NOT EXISTS completion_visits (
  scope_id TEXT NOT NULL, pass_number INTEGER NOT NULL, entry_id TEXT NOT NULL,
  PRIMARY KEY(scope_id,pass_number,entry_id));
 """
-SCHEDULE_POLICY = "gse.completion-schedule/2"
-QUESTION_ORDER_SCHEDULE_POLICY = "gse.completion-schedule/3"
+SCHEDULE_POLICY = "GSE.completion-schedule/2"
+QUESTION_ORDER_SCHEDULE_POLICY = "GSE.completion-schedule/3"
 
 
 class CompletionDatabaseBusy(ValueError):
@@ -86,7 +88,7 @@ def _set_metadata(conn, key, value):
 
 
 def _state_key(domains):
-    return hashlib.sha256(_json(domains).encode()).hexdigest()
+    return hashlib.sha256(_json(identity_form(domains)).encode()).hexdigest()
 
 
 def _priority_source(priority, frequency_path):
@@ -104,7 +106,7 @@ def _priority_source(priority, frequency_path):
     if priority == "constraint":
         if frequency_path is not None:
             raise ValueError("FREQUENCY_PATH_REQUIRES_ZIPF_PRIORITY")
-        return {"mode": "constraint", "policy": "gse.completion-priority/constraint/1"}, None
+        return {"mode": "constraint", "policy": "GSE.completion-priority/constraint/1"}, None
     if frequency_path is not None and not isinstance(frequency_path, (str, Path)):
         raise ValueError("INVALID_COMPLETION_FREQUENCY_PATH")
     path = (
@@ -145,7 +147,7 @@ def _priority_source(priority, frequency_path):
         raise ValueError("INVALID_COMPLETION_FREQUENCY_SOURCE") from exc
     return {
         "mode": "zipf",
-        "policy": "gse.completion-priority/subtlex-count-order/2",
+        "policy": "GSE.completion-priority/subtlex-count-order/2",
         "source": str(path),
         "sha256": hashlib.sha256(raw).hexdigest(),
         "word_column": "Word",
@@ -220,7 +222,7 @@ def _schedule(conn, model, banks, priority_identity=None, order_policy=None):
         scope.append(priority_identity)
     if order_policy is not None:
         scope.append(order_policy)
-    scope_id = hashlib.sha256(_json(scope).encode()).hexdigest()
+    scope_id = hashlib.sha256(_json(identity_form(scope)).encode()).hexdigest()
     result = {
         "scope_id": scope_id,
         "protocol": model,
@@ -569,7 +571,7 @@ def complete_dictionary(
         if progress is not None:
             progress(
                 {
-                    "format": "gse.lexicon-completion-progress/1",
+                    "format": "GSE.lexicon-completion-progress/1",
                     "phase": phase,
                     "model_calls": session["calls"],
                     "transport_invocations": session["transport_invocations"],
@@ -582,7 +584,7 @@ def complete_dictionary(
 
     def busy_receipt(failed_phase):
         return {
-            "format": "gse.lexicon-completion-failure/1",
+            "format": "GSE.lexicon-completion-failure/1",
             "code": "COMPLETION_DATABASE_BUSY",
             "phase": failed_phase,
             "model": model,
@@ -895,7 +897,7 @@ def complete_dictionary(
             else "RESIDUAL_REMAINS"
         )
         result = {
-            "format": "gse.lexicon-completion-report/1",
+            "format": "GSE.lexicon-completion-report/1",
             "code": code,
             "model": model,
             "model_calls": session["calls"],

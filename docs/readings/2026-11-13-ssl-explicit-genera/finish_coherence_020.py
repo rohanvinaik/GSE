@@ -117,7 +117,7 @@ def retire_work(result, release):
     if candidate != WORK / "zipf/epoch-02/candidate.db" or fingerprint(candidate) != release["sha256"]:
         raise ValueError("FINAL_CANDIDATE_NOT_THE_PUBLISHED_COPY")
     archive = previous.parent / "ssl-explicit-genera/retired-audit/020-final-candidate-audit-delta.json.gz"
-    document = {"format": "gse.checkpoint-audit-delta/1", "source": str(candidate), "source_sha256": release["sha256"],
+    document = {"format": "GSE.checkpoint-audit-delta/1", "source": str(candidate), "source_sha256": release["sha256"],
                 "witness": str(active), "witness_sha256": release["sha256"], "scope": "EXACT_PUBLISHED_BYTE_COPY", "tables": {}}
     archive.write_bytes(gzip.compress(json.dumps(document, sort_keys=True).encode(), mtime=0))
     preparations.append({"path": str(candidate), "sha256": release["sha256"], **file_state(candidate),
@@ -128,7 +128,7 @@ def retire_work(result, release):
     preparations.append(old)
     for item in preparations:
         validate_retirement(item, protected)
-    ready = {"format": "gse.rolling-retention/1", "code": "VERIFIED_READY_FOR_RETIREMENT",
+    ready = {"format": "GSE.rolling-retention/1", "code": "VERIFIED_READY_FOR_RETIREMENT",
              "active": str(active), "previous": str(previous), "retirement": preparations,
              "source_and_audit_records_preserved": True, "external_backups_modified": False}
     record(NOTES / "020-retirement-ready.json", ready)
@@ -227,7 +227,7 @@ def finish(producer):
             raise ValueError("ACTIVE_SUCCESSOR_CHANGED_BEFORE_NOTEBOOK_UPDATE")
         update_notebook(verification, release, retention)
         record_status(NOTES / "020-round-status.json", {
-            "format": "gse.lexicon-learning-round-status/1", "code": "PUBLISHED_AND_ROLLING_RETENTION_VERIFIED",
+            "format": "GSE.lexicon-learning-round-status/1", "code": "PUBLISHED_AND_ROLLING_RETENTION_VERIFIED",
             "verified_at_utc": datetime.now(timezone.utc).isoformat(), "active_path": release["path"],
             "active_sha256": release["sha256"], "previous_path": release["previous_path"],
             "new_cells": result["new_cells"], "cells": release["cells"], "construction_model_questions": 8,

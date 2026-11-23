@@ -409,7 +409,7 @@ class TestCmdInteractive:
 
 class TestMain:
     def test_no_command_prints_help_and_exits(self, capsys):
-        with patch("sys.argv", ["gse"]):
+        with patch("sys.argv", ["GSE"]):
             with pytest.raises(SystemExit) as exc:
                 main()
         assert exc.value.code == 1
@@ -423,7 +423,7 @@ class TestMain:
         def fake_cmd_encode(args):
             called.append(args.text)
 
-        with patch("sys.argv", ["gse", "encode", "hello world"]), patch("GSE.cli.main.cmd_encode", fake_cmd_encode):
+        with patch("sys.argv", ["GSE", "encode", "hello world"]), patch("GSE.cli.main.cmd_encode", fake_cmd_encode):
             main()
         assert called == ["hello world"]
 
@@ -433,7 +433,7 @@ class TestMain:
         def fake(args):
             called.append((args.sentence1, args.sentence2))
 
-        with patch("sys.argv", ["gse", "compare", "a", "b"]), patch("GSE.cli.main.cmd_compare", fake):
+        with patch("sys.argv", ["GSE", "compare", "a", "b"]), patch("GSE.cli.main.cmd_compare", fake):
             main()
         assert called == [("a", "b")]
 
@@ -443,7 +443,7 @@ class TestMain:
         def fake(args):
             called.append(args.quiet)
 
-        with patch("sys.argv", ["gse", "verify", "--quiet"]), patch("GSE.cli.main.cmd_verify", fake):
+        with patch("sys.argv", ["GSE", "verify", "--quiet"]), patch("GSE.cli.main.cmd_verify", fake):
             main()
         assert called == [True]
 

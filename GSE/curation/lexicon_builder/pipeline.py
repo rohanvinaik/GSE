@@ -6,6 +6,8 @@ from contextlib import closing
 from dataclasses import asdict
 from pathlib import Path
 
+from GSE.namespace import current_id
+
 from .engine import Assertion, DomainRestriction, propagate
 from .evidence import Definition, EvidenceBundle, Observation, collect_evidence, validate_assertion_competence
 from .foundation import (
@@ -31,7 +33,7 @@ logger = logging.getLogger(__name__)
 def load_evidence(path: str | Path) -> EvidenceBundle:
     """Read the typed evidence interchange used for reproducible offline builds."""
     raw = read_json(path)
-    if not isinstance(raw, dict) or raw.get("format") != "gse.lexicon-evidence/1":
+    if not isinstance(raw, dict) or current_id(raw.get("format")) != "GSE.lexicon-evidence/1":
         raise ValueError("INVALID_EVIDENCE_FORMAT")
     if set(raw) - {"format", "definitions", "observations", "assertions", "unresolved", "domain_restrictions"}:
         raise ValueError("UNKNOWN_EVIDENCE_FIELD")
@@ -340,7 +342,7 @@ def build_dictionary(
                 cells["unresolved"] += sum(len(d) > 1 for d in resolution.domains.values())
                 cells["conflicted"] += sum(not d for d in resolution.domains.values())
             report = {
-                "format": "gse.lexicon-build-report/1",
+                "format": "GSE.lexicon-build-report/1",
                 "definitions": len(definitions),
                 "outcomes": dict(outcomes),
                 "cells": dict(cells),

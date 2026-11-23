@@ -1,7 +1,7 @@
 # Complete document readings
 
-The reading substrate exposes local Python records under `gse.intake/1` and
-profiles under `gse.profile/2`. These records support the accepted
+The reading substrate exposes local Python records under `GSE.intake/1` and
+profiles under `GSE.profile/2`. These records support the accepted
 `preserve-typed-prose-readings` change. The voice transport owner serializes
 live traces and trees into the separate `voice.reading/1` contract.
 

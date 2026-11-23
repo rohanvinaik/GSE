@@ -18,6 +18,8 @@ from dataclasses import asdict
 from datetime import UTC, datetime
 from pathlib import Path
 
+from GSE.namespace import current_id, identity_form
+
 from .completion import _entry, _refresh_coverage
 from .engine import Assertion
 from .evidence import Observation
@@ -28,7 +30,7 @@ from .resolution import resolve_dictionary
 from .storage import _json, read_entries, store_entry
 from .validation import _metadata, _provenance, _read_json, _relations, validate_build
 
-FORMAT = "gse.model-reconsideration/1"
+FORMAT = "GSE.model-reconsideration/1"
 TABLE = "model_reconsideration_archive"
 SCHEMA = f"""CREATE TABLE {TABLE} (
  event_id TEXT PRIMARY KEY NOT NULL, root_request_id TEXT NOT NULL,
@@ -42,7 +44,7 @@ TRIGGERS = {
 
 
 def _digest(value):
-    return hashlib.sha256(_json(value).encode()).hexdigest()
+    return hashlib.sha256(_json(identity_form(value)).encode()).hexdigest()
 
 
 def _text(value, code, maximum):
@@ -66,7 +68,7 @@ def _archive_schema(conn):
                 raise ValueError("RECONSIDERATION_ARCHIVE_HASH_MISMATCH")
             if (
                 not isinstance(payload, dict)
-                or payload.get("format") != FORMAT
+                or current_id(payload.get("format")) != FORMAT
                 or any(
                     payload.get(key) != row[index]
                     for index, key in enumerate(

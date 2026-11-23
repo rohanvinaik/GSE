@@ -24,6 +24,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Literal, Tuple
 
 from GSE.curation.schema import ALL_PRIMITIVES
+from GSE.namespace import current_id
 from GSE.primitives_v2 import get_canonical_pole
 
 _PRIMES = frozenset(ALL_PRIMITIVES)
@@ -100,7 +101,7 @@ def validated_concurrence(first: Dict[str, int], second: Dict[str, int]) -> dict
     }
 
 
-SCHEMA = "gse.protected-dictionary/1"
+SCHEMA = "GSE.protected-dictionary/1"
 DEFAULT_PATH = Path(__file__).resolve().parents[1] / "nlp" / "data" / "personal_dictionary.json"
 
 
@@ -190,7 +191,7 @@ def _load(path: Path) -> tuple[tuple[DictionaryEntry, ...], str]:
         document = json.loads(raw_bytes)
         if (
             not isinstance(document, dict)
-            or document.get("schema") != SCHEMA
+            or current_id(document.get("schema")) != SCHEMA
             or not isinstance(document.get("entries"), list)
         ):
             raise DictionaryError("malformed_store")

@@ -14,12 +14,13 @@ from GSE.curation.lexicon_builder.source_enrichment import (
     wiktionary_projection_scope,
 )
 from GSE.lexicon_resource import ACTIVE_POINTER
+from GSE.namespace import current_id
 
-FORMAT = "gse.wiktionary-person-projection-revision/1"
+FORMAT = "GSE.wiktionary-person-projection-revision/1"
 
 
 def _audit_support(scope, audit):
-    if audit.get("format") != "gse.wiktionary-person-source-audit/1" or audit.get("candidate_writes") is not False:
+    if current_id(audit.get("format")) != "GSE.wiktionary-person-source-audit/1" or audit.get("candidate_writes") is not False:
         raise ValueError("INVALID_WIKTIONARY_PERSON_AUDIT")
     supporting = []
     for case in audit["results"]:
@@ -92,7 +93,7 @@ def main():
         staged = read(args.stage_report)
         baseline = read(args.baseline_replay)
         if (
-            staged["format"] != FORMAT
+            current_id(staged["format"]) != FORMAT
             or staged["code"] != "WIKTIONARY_PERSON_STAGED"
             or staged["audit_sha256"] != digest(audit)
             or staged["active_pointer_sha256"] != baseline["active_pointer_sha256"]

@@ -14,6 +14,8 @@ from dataclasses import asdict, dataclass, replace
 from itertools import permutations
 from pathlib import Path
 
+from GSE.namespace import current_id
+
 from .definition_frames import NATIVE_FRAME_PREFIX
 from .engine import Assertion, DomainRestriction, Relation
 from .evidence import Definition, Observation, validate_assertion_competence
@@ -25,10 +27,10 @@ from .relevance import observation_relevance
 from .residual import _canonical_json, _request_id, build_request, complete_bank
 from .resolution import resolve_dictionary
 
-INPUT_FORMAT = "gse.reviewed-pattern-input/2"
-REPORT_FORMAT = "gse.reviewed-pattern-report/2"
-LEGACY_INPUT_FORMAT = "gse.reviewed-pattern-input/1"
-LEGACY_REPORT_FORMAT = "gse.reviewed-pattern-report/1"
+INPUT_FORMAT = "GSE.reviewed-pattern-input/2"
+REPORT_FORMAT = "GSE.reviewed-pattern-report/2"
+LEGACY_INPUT_FORMAT = "GSE.reviewed-pattern-input/1"
+LEGACY_REPORT_FORMAT = "GSE.reviewed-pattern-report/1"
 
 
 @dataclass(frozen=True)
@@ -586,7 +588,7 @@ def _input_rule_history(raw, relations, rulings, entries):
         return None
     _fields(raw, ("format", "current_version", "versions", "bindings"))
     if (
-        raw["format"] not in {"gse.reviewed-pattern-history/1", "gse.reviewed-pattern-history/2"}
+        current_id(raw["format"]) not in {"GSE.reviewed-pattern-history/1", "GSE.reviewed-pattern-history/2"}
         or type(raw["versions"]) is not list
         or type(raw["bindings"]) is not list
     ):
@@ -631,7 +633,7 @@ def _input_rule_history(raw, relations, rulings, entries):
     history = {
         "versions": versions,
         "bindings": bindings,
-        "allow_revisions": raw["format"] == "gse.reviewed-pattern-history/2",
+        "allow_revisions": current_id(raw["format"]) == "GSE.reviewed-pattern-history/2",
     }
     for request_id, _ in bindings:
         ruling = by_id[request_id]
@@ -946,12 +948,12 @@ def run_workflow_input(raw: dict, transport=None, *, max_calls=0):
     )
     if (
         type(raw["format"]) is not str
-        or raw["format"] not in {INPUT_FORMAT, LEGACY_INPUT_FORMAT}
+        or current_id(raw["format"]) not in {INPUT_FORMAT, LEGACY_INPUT_FORMAT}
         or type(raw["entries"]) is not list
         or type(raw["relations"]) is not list
     ):
         raise ValueError("INVALID_PATTERN_INPUT_FORMAT")
-    native_premises = raw["format"] == INPUT_FORMAT
+    native_premises = current_id(raw["format"]) == INPUT_FORMAT
     rulings = reviewed_rulings(raw["rulings"])
     relations = tuple(_relation(record) for record in raw["relations"])
     entries = {}

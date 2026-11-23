@@ -216,7 +216,7 @@ def built(tmp_path, *, transport=None):
     manifest.write_text(
         json.dumps(
             {
-                "format": "gse.lexicon-rules/1",
+                "format": "GSE.lexicon-rules/1",
                 "relations": [asdict(rule())],
                 "prime_entries": {"nsm:v20:want": [exact.entry_id]},
             }
@@ -299,7 +299,7 @@ def test_real_export_audit_migration_preserves_derived_historical_receipt(tmp_pa
     manifest.write_text(
         json.dumps(
             {
-                "format": "gse.lexicon-rules/1",
+                "format": "GSE.lexicon-rules/1",
                 "relations": [asdict(baseline)],
                 "prime_entries": {"nsm:v20:want": [unit.entry_id]},
             }
@@ -317,7 +317,7 @@ def test_real_export_audit_migration_preserves_derived_historical_receipt(tmp_pa
     receipt = originals[discovery.entry_id][0]
     guards = [[NATIVE, "true"]] + ([[ANCESTOR, "true"]] if combined_ancestry else [])
     selection = {
-        "format": "gse.reviewed-pattern-selection/1",
+        "format": "GSE.reviewed-pattern-selection/1",
         "discovery_entry_ids": [discovery.entry_id],
         "audit_entry_ids": [audit.entry_id, derived.entry_id],
         "reviews": [

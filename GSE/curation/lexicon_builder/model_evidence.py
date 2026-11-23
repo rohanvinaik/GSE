@@ -13,10 +13,12 @@ import math
 from dataclasses import asdict
 from typing import Any
 
+from GSE.namespace import current_id, identity_form
+
 from .foundation import BANKS
 
-FORMAT = "gse.model-evidence/5"
-CANDIDATE_LINKS_FORMAT = "gse.model-candidate-links/1"
+FORMAT = "GSE.model-evidence/5"
+CANDIDATE_LINKS_FORMAT = "GSE.model-candidate-links/1"
 _COMMON = frozenset({"lemma", "word", "bank_relevance", "projection_candidates"})
 _FIELDS = {
     "nsm_chart": _COMMON
@@ -208,7 +210,7 @@ def _json_copy(value: Any) -> Any:
 
 
 def _sha256(value: Any) -> str:
-    return hashlib.sha256(_canonical(value).encode("utf-8")).hexdigest()
+    return hashlib.sha256(_canonical(identity_form(value)).encode("utf-8")).hexdigest()
 
 
 def _path(parent: str, key: str) -> str:
@@ -460,7 +462,7 @@ def candidate_links_contract() -> dict:
 
 def _expanded_candidate_view(value: Any) -> dict:
     data = _json_copy(value)
-    if type(data) is not dict or data.get("format") != FORMAT or type(data.get("records")) is not list:
+    if type(data) is not dict or current_id(data.get("format")) != FORMAT or type(data.get("records")) is not list:
         raise ValueError("INVALID_CANDIDATE_LINK_VIEW")
     for record in data["records"]:
         if type(record) is not dict or "candidate_entry_ids_ref" in record:
@@ -527,10 +529,10 @@ def restore_candidate_links(value: dict) -> dict:
     data = _json_copy(value)
     if type(data) is not dict:
         raise ValueError("INVALID_CANDIDATE_LINK_VIEW")
-    if data.get("format") == FORMAT:
+    if current_id(data.get("format")) == FORMAT:
         return _expanded_candidate_view(data)
     required = {"format", "codebook", "expanded_view_sha256", "candidate_sets", "view"}
-    if set(data) != required or data.get("format") != CANDIDATE_LINKS_FORMAT:
+    if set(data) != required or current_id(data.get("format")) != CANDIDATE_LINKS_FORMAT:
         raise ValueError("INVALID_CANDIDATE_LINK_ENCODING")
     if data["codebook"] != candidate_links_contract():
         raise ValueError("INVALID_CANDIDATE_LINK_CODEBOOK")

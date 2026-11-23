@@ -141,7 +141,7 @@ def prepare():
                 }
             )
     return {
-        "format": "gse.unit-want-refinement-worklist/1",
+        "format": "GSE.unit-want-refinement-worklist/1",
         "baseline_sha256": scope["candidate_sha256"],
         "approved_quantity_rule": addition.rule_id,
         "priority": priority,
@@ -315,7 +315,7 @@ def finish():
     write(
         FOLDER / "unit-quantity-want-cycle-verification.json",
         {
-            "format": "gse.unit-quantity-want-cycle/1",
+            "format": "GSE.unit-quantity-want-cycle/1",
             "candidate": str(OUTPUT),
             "candidate_sha256": sha256(OUTPUT),
             "baseline_sha256": parent["candidate_sha256"],

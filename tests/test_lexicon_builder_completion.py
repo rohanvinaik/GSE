@@ -260,7 +260,7 @@ def test_conditional_contradiction_does_not_replace_hard_values(tmp_path, monkey
         for i in range(3)
     ]
     manifest = tmp_path / "rules.json"
-    manifest.write_text(json.dumps({"format": "gse.lexicon-rules/1", "relations": [asdict(r) for r in relations]}))
+    manifest.write_text(json.dumps({"format": "GSE.lexicon-rules/1", "relations": [asdict(r) for r in relations]}))
     path, _ = built(tmp_path, {"d": {bank: (-1, 1) for bank in names}}, manifest)
     before = state(path)
     assert any(record["kind"] == "SOLVER_LIMIT" for record in json.loads(before[2]))
@@ -332,7 +332,7 @@ def test_acceptance_transaction_failure_rolls_back_both_assignment_and_receipt(t
 
 def test_hierarchy_and_native_source_counts_survive_completion(tmp_path):
     manifest = tmp_path / "hierarchy.json"
-    manifest.write_text(json.dumps({"format": "gse.lexicon-rules/1", "hierarchy": {"d": {"INTENSITY": 2}}}))
+    manifest.write_text(json.dumps({"format": "GSE.lexicon-rules/1", "hierarchy": {"d": {"INTENSITY": 2}}}))
     path, _ = built(tmp_path, {"d": {"GOOD": (-1, 1), "INTENSITY": (1,)}}, manifest)
     sources = metadata(path, "last_report")["source_observations"]
     complete_dictionary(path, Transport(), 1, banks=("GOOD",))
@@ -464,7 +464,7 @@ def test_real_cli_parsing_and_completion_with_mocked_transport(tmp_path, monkeyp
         sys,
         "argv",
         [
-            "gse",
+            "GSE",
             "--lexicon-db",
             str(path),
             "complete",

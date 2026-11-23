@@ -42,7 +42,7 @@ token position do not certify identity. Supply the resolution document as
 only meaningful in the caller's existing resolution domain.
 
 `claim_key(proposition, relation_primitives=None, namespace=None)` returns a
-`ClaimKey` record. Successful `key` values are tagged `gse.claim/1` tuples;
+`ClaimKey` record. Successful `key` values are tagged `GSE.claim/1` tuples;
 polarity is carried separately in the returned record. The key's projection
 is `resolved_roles_signed_primitives_context/1`:
 
@@ -112,7 +112,7 @@ compaction key is explicitly an emitted-structure projection: it preserves
 ordered argument slots, nested NOT, themes and modal/context features, and
 does not independently decide truth.
 
-`emit_contract(..., include_semantics=True)` adds a `gse.claim-semantics/1`
+`emit_contract(..., include_semantics=True)` adds a `GSE.claim-semantics/1`
 sidecar containing these same decisions. The default Genesis-facing gold
 payload remains unchanged. Pass source text and selected relation evidence
 when those channels are available.

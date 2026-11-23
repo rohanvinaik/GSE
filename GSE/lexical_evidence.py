@@ -20,10 +20,11 @@ from pathlib import Path
 from typing import Any
 
 from GSE.lexicon_resource import resolve_lexicon_path
+from GSE.namespace import current_id
 from GSE.prime_projection import epa_projection
 
 DATA = Path(__file__).resolve().parents[1] / "data"
-POLICY = "gse.lexical-evidence/1"
+POLICY = "GSE.lexical-evidence/1"
 
 _tls = threading.local()
 
@@ -85,7 +86,7 @@ def is_definition_database(conn: sqlite3.Connection) -> bool:
     from GSE.curation.lexicon_builder.storage import VERSION
 
     row = conn.execute("SELECT value FROM builder_metadata WHERE key='format'").fetchone()
-    if row is None or json.loads(row[0]) != VERSION:
+    if row is None or current_id(json.loads(row[0])) != VERSION:
         raise ValueError("UNSUPPORTED_BUILD_FORMAT")
     return True
 
@@ -430,7 +431,7 @@ def structural_epa(signature: dict[str, int]) -> dict[str, Any]:
     return {
         "state": "measured" if value is not None else "absent",
         "value": value,
-        "source": "gse.prime_projection.epa_projection",
+        "source": "GSE.prime_projection.epa_projection",
         "policy": POLICY,
         "scale": "structural-prime-weights; not lexical-VAD",
     }

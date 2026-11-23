@@ -159,7 +159,7 @@ def main():
                             "boundaries": boundaries(enc)})
         finally:
             enc.close()
-    report = {"format": "gse.checkpoint-public-api-probe/1", "observed_at_utc": datetime.now(timezone.utc).isoformat(),
+    report = {"format": "GSE.checkpoint-public-api-probe/1", "observed_at_utc": datetime.now(timezone.utc).isoformat(),
               "active_pointer": json.loads((ROOT / "data/lexicon_active.json").read_text()),
               "legacy_sha256": hashlib.file_digest((ROOT / "data/lexicon_clean.db").open("rb"), "sha256").hexdigest(),
               "expectation_scope": "DECLARED_STRUCTURAL_SUBSET_NOT_GENERAL_SEMANTIC_ACCURACY",

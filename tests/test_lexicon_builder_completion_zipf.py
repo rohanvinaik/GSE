@@ -349,7 +349,7 @@ def test_real_cli_defaults_to_zipf_using_explicit_temporary_frequency_source(tmp
         sys,
         "argv",
         [
-            "gse",
+            "GSE",
             "--lexicon-db",
             str(path),
             "complete",
@@ -576,7 +576,7 @@ def test_legacy_cursor_scope_starts_new_visit_pass_without_reasking_same_request
         previous = conn.execute("SELECT request_id,code FROM completion_attempts").fetchall()
     transport = Transport(1)
     report = complete_dictionary(path, transport, 2, banks=("GOOD", "WANT"), priority="zipf", frequency_path=source)
-    assert report["scheduling"]["policy"] == "gse.completion-schedule/2"
+    assert report["scheduling"]["policy"] == "GSE.completion-schedule/2"
     assert report["scheduling"]["cursor_before"] is None
     assert [(p["entry_id"], p["bank"]) for p in transport.requests] == [("common", "WANT"), ("medium", "GOOD")]
     assert report["skipped_attempts"] == {"ABSTAINED": 1}

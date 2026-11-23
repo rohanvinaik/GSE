@@ -105,7 +105,7 @@ def watch(producer):
         time.sleep(10)
     install_section(section)
     record(NOTES / "021-notebook-update.json", {
-        "format": "gse.experiment-notebook-update/1",
+        "format": "GSE.experiment-notebook-update/1",
         "code": "CANDIDATE_OUTCOME_RECORDED_SEPARATELY_FROM_PUBLISHED_TOTALS",
         "updated_at_utc": datetime.now(timezone.utc).isoformat(),
         "notebook": str(PAPER),

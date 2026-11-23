@@ -87,7 +87,7 @@ def run():
     if fingerprint(baseline) != plan["baseline_sha256"] or fingerprint(ACTIVE_POINTER) != plan["active_pointer_sha256"]:
         raise ValueError("VERTEBRATE_DIAGNOSTIC_SNAPSHOT_CHANGED")
     report = {
-        "format": "gse.vertebrate-body-diagnostic/1",
+        "format": "GSE.vertebrate-body-diagnostic/1",
         "code": "RESERVED_BASELINE_QUESTIONS_COMPLETED_AFTER_SIGNED_TEACHING_CHALLENGE",
         "baseline": str(baseline),
         "baseline_sha256": plan["baseline_sha256"],

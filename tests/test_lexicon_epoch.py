@@ -201,7 +201,7 @@ def test_exact_native_gloss_scope_propagates_across_sources(tmp_path):
     gloss = "A part of a photographic system that reduces light."
     wiki = Definition(identity, "stop", "noun", gloss)
     features = {
-        "identity_scheme": "gse.wiktionary-native-leaf/1",
+        "identity_scheme": "GSE.wiktionary-native-leaf/1",
         "entry_id": identity,
         "lemma": "stop",
         "word": "stop",
@@ -216,7 +216,7 @@ def test_exact_native_gloss_scope_propagates_across_sources(tmp_path):
     definitions, observations = zip(*wordnet, (wiki, observation))
     build_dictionary(EvidenceBundle(definitions, observations, (), ()), base)
     plan = {
-        "format": "gse.lexicon-epoch-plan/1",
+        "format": "GSE.lexicon-epoch-plan/1",
         "baseline_sha256": fingerprint(base),
         "active_pointer_sha256": fingerprint(pointer),
         "epochs": 1,
@@ -297,7 +297,7 @@ def test_wiktionary_anatomy_scope_replays_without_filling_unknown_controls(tmp_p
         identity = "wiktionary:fixture-" + word
         definition = Definition(identity, word, "noun", gloss)
         features = {
-            "identity_scheme": "gse.wiktionary-native-leaf/1", "entry_id": identity,
+            "identity_scheme": "GSE.wiktionary-native-leaf/1", "entry_id": identity,
             "lemma": word, "word": word, "pos": "noun", "native_id": "fixture-" + word,
             "definition": gloss, "native_sense": {"glosses": [gloss], "topics": topics},
         }
@@ -311,7 +311,7 @@ def test_wiktionary_anatomy_scope_replays_without_filling_unknown_controls(tmp_p
             assertions.append(Assertion("BODY", 1, "wiktionary", observation.record_id, "wiktionary"))
     build_dictionary(EvidenceBundle(tuple(definitions), tuple(observations), tuple(assertions), ()), base)
     plan = {
-        "format": "gse.lexicon-epoch-plan/1", "baseline_sha256": fingerprint(base),
+        "format": "GSE.lexicon-epoch-plan/1", "baseline_sha256": fingerprint(base),
         "active_pointer_sha256": fingerprint(pointer), "epochs": 1, "audits_per_epoch": 2,
         "families": [{
             **family("anatomy-want", "body_part.n.01", ["BODY", 1], ["WANT", 0], "beta"),
@@ -348,7 +348,7 @@ def test_two_generations_replay_and_resume_at_equal_budget(tmp_path):
     manifest.write_text(
         json.dumps(
             {
-                "format": "gse.lexicon-rules/1",
+                "format": "GSE.lexicon-rules/1",
                 "relations": [
                     {
                         "rule_id": "synthetic-area-quantity",
@@ -365,7 +365,7 @@ def test_two_generations_replay_and_resume_at_equal_budget(tmp_path):
     )
     build_dictionary(EvidenceBundle(definitions, observations, assertions, ()), base, manifest=manifest)
     plan = {
-        "format": "gse.lexicon-epoch-plan/1",
+        "format": "GSE.lexicon-epoch-plan/1",
         "baseline_sha256": fingerprint(base),
         "active_pointer_sha256": fingerprint(active),
         "epochs": 2,
@@ -560,7 +560,7 @@ def test_stative_being_requires_own_qualified_condition(gloss, expected):
 def test_unary_ancestry_plan_refuses_unwitnessed_scope(guards, code):
     item = family("period-when", "time_period.n.01", ["SOMETHING", 1], ["WHEN", 1], "beta")
     plan = {
-        "format": "gse.lexicon-epoch-plan/1", "baseline_sha256": "a" * 64,
+        "format": "GSE.lexicon-epoch-plan/1", "baseline_sha256": "a" * 64,
         "active_pointer_sha256": "b" * 64, "epochs": 1, "audits_per_epoch": 1,
         "families": [{**item, "antecedent": None, "guards": guards}],
     }
@@ -586,7 +586,7 @@ def test_unary_native_ancestry_runs_through_real_epoch_cli(tmp_path, monkeypatch
     item = family("period-when", "time_period.n.01", ["SOMETHING", 1], ["WHEN", 1], "beta")
     item.update(antecedent=None, holdouts=["wordnet:beta:beta.n.01", "wordnet:gamma:gamma.n.01"])
     plan = {
-        "format": "gse.lexicon-epoch-plan/1", "baseline_sha256": fingerprint(base),
+        "format": "GSE.lexicon-epoch-plan/1", "baseline_sha256": fingerprint(base),
         "active_pointer_sha256": fingerprint(pointer), "epochs": 1, "audits_per_epoch": 2,
         "families": [item],
     }
@@ -688,7 +688,7 @@ def test_literal_genus_rule_replays_across_sources_without_complement_zeros(tmp_
     wiki_id, gloss = "wiktionary:literal-gamma", glosses[2]
     definition = Definition(wiki_id, "gamma", "noun", gloss)
     features = {
-        "identity_scheme": "gse.wiktionary-native-leaf/1", "entry_id": wiki_id,
+        "identity_scheme": "GSE.wiktionary-native-leaf/1", "entry_id": wiki_id,
         "lemma": "gamma", "word": "gamma", "pos": "noun", "native_id": "literal-gamma",
         "definition": gloss, "native_sense": {"glosses": [gloss]},
     }
@@ -702,7 +702,7 @@ def test_literal_genus_rule_replays_across_sources_without_complement_zeros(tmp_
     item.update(antecedent=None, guards=[["pos", "noun"], ["native_noun_frame:" + frame, "true"]],
                 holdouts=["wordnet:beta:beta.n.01", wiki_id])
     plan = {
-        "format": "gse.lexicon-epoch-plan/1", "baseline_sha256": fingerprint(base),
+        "format": "GSE.lexicon-epoch-plan/1", "baseline_sha256": fingerprint(base),
         "active_pointer_sha256": fingerprint(pointer), "epochs": 1, "audits_per_epoch": 2,
         "families": [item],
     }

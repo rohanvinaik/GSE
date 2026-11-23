@@ -20,6 +20,7 @@ from pathlib import Path
 
 from GSE.curation.lexicon_builder.foundation import definition_context
 from GSE.curation.lexicon_builder.storage import VERSION
+from GSE.namespace import current_id
 
 ROOT = Path(__file__).resolve().parents[1]
 STATUSES = ("MISSING", "UNIQUE_CANDIDATE", "MULTIPLE_DEFINITIONS")
@@ -102,7 +103,7 @@ def identity_index(path: Path) -> tuple[dict, dict]:
         conn.execute("PRAGMA query_only=ON")
         conn.execute("BEGIN")
         row = conn.execute("SELECT value FROM builder_metadata WHERE key='format'").fetchone()
-        if row is None or json.loads(row[0]) != VERSION:
+        if row is None or current_id(json.loads(row[0])) != VERSION:
             raise ValueError("UNSUPPORTED_BUILD_FORMAT")
         for entry_id, lemma, pos in conn.execute(
             "SELECT s.entry_id,l.lemma,l.pos FROM definition_states s JOIN lexemes l ON s.lexeme_id=l.id "
@@ -229,7 +230,7 @@ def audit(lexicon_db: Path, *, project_root: Path = ROOT, benchmark_cache: Path 
         },
     }
     return {
-        "format": "gse.lexicon-evaluation-readiness/1",
+        "format": "GSE.lexicon-evaluation-readiness/1",
         "code": "READINESS_AUDITED",
         "bank_gold": "NOT_BANK_GOLD",
         "semantic_correctness": "NOT_EVALUATED",

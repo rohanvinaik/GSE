@@ -8,6 +8,7 @@ from GSE.curation.lexicon_builder.interchange import read_json
 from GSE.curation.lexicon_builder.rule_admission import admit_rule
 from GSE.curation.lexicon_builder.rule_migration import migrate_revision
 from GSE.curation.lexicon_builder.rule_revisions import FORMAT
+from GSE.namespace import current_id
 
 
 def main():
@@ -23,7 +24,7 @@ def main():
         raise ValueError("MIGRATION_REPORT_COLLISION")
     plan = read_json(args.plan)
     fields = {"format", "baseline_version", "admissions", "retirements", "exceptions"}
-    if type(plan) is not dict or set(plan) != fields or plan["format"] != "gse.rule-revision-plan/1":
+    if type(plan) is not dict or set(plan) != fields or current_id(plan["format"]) != "GSE.rule-revision-plan/1":
         raise ValueError("INVALID_RULE_REVISION_PLAN")
     if type(plan["admissions"]) is not list or any(
         type(item) is not dict

@@ -11,9 +11,10 @@ from dataclasses import asdict, fields
 from pathlib import Path
 
 from GSE.curation.schema import SCHEMA
+from GSE.namespace import current_id
 
-VERSION = "gse.lexicon-builder/1"
-DOMAIN_RESTRICTIONS_VERSION = "gse.domain-restrictions/1"
+VERSION = "GSE.lexicon-builder/1"
+DOMAIN_RESTRICTIONS_VERSION = "GSE.domain-restrictions/1"
 EXTRA_SCHEMA = """
 CREATE TABLE IF NOT EXISTS builder_metadata (key TEXT PRIMARY KEY, value TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS definition_states (
@@ -58,12 +59,12 @@ def open_build(path: str | Path) -> sqlite3.Connection:
             raise ValueError("LEGACY_DATABASE_REQUIRES_NEW_BUILD_PATH")
         if "builder_metadata" in tables:
             row = conn.execute("SELECT value FROM builder_metadata WHERE key='format'").fetchone()
-            if row is None or json.loads(row[0]) != VERSION:
+            if row is None or current_id(json.loads(row[0])) != VERSION:
                 raise ValueError("UNSUPPORTED_BUILD_FORMAT")
             restriction_format = conn.execute(
                 "SELECT value FROM builder_metadata WHERE key='domain_restrictions_format'"
             ).fetchone()
-            if restriction_format is not None and json.loads(restriction_format[0]) != DOMAIN_RESTRICTIONS_VERSION:
+            if restriction_format is not None and current_id(json.loads(restriction_format[0])) != DOMAIN_RESTRICTIONS_VERSION:
                 raise ValueError("UNSUPPORTED_DOMAIN_RESTRICTIONS_FORMAT")
         conn.execute("PRAGMA foreign_keys=ON")
         conn.executescript(SCHEMA + EXTRA_SCHEMA)

@@ -19,7 +19,7 @@ MIGRATION = {
     "read": "From the declared SquishOS checkout: uv run tools/voice/voice.py read PATH",
     "compare": "From the declared SquishOS checkout: uv run tools/voice/voice.py compare ORIGINAL DRAFT",
     "environment": ["SQUISHOS_REPO", "GSE_REPO"],
-    "recognizer": "scripts/rohan_voice.py (gse.rohan-voice/2; explicit manifest refit required)",
+    "recognizer": "scripts/rohan_voice.py (GSE.rohan-voice/2; explicit manifest refit required)",
 }
 
 

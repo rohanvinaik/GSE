@@ -56,7 +56,7 @@ def main():
     write(
         scope_review,
         {
-            "format": "gse.unit-quantity-scope-review/1",
+            "format": "GSE.unit-quantity-scope-review/1",
             "baseline_sha256": scope["candidate_sha256"],
             "scope_census": str(SCOPE.relative_to(ROOT)),
             "native_entries": len(native),
@@ -69,7 +69,7 @@ def main():
         },
     )
     selection = {
-        "format": "gse.reviewed-pattern-selection/1",
+        "format": "GSE.reviewed-pattern-selection/1",
         "discovery_entry_ids": [SEED],
         "audit_entry_ids": [],
         "reviews": [],
@@ -150,7 +150,7 @@ def main():
     write(
         FOLDER / "unit-quantity-revision-plan.json",
         {
-            "format": "gse.rule-revision-plan/1",
+            "format": "GSE.rule-revision-plan/1",
             "baseline_version": admission["baseline_version"],
             "admissions": [files],
             "retirements": [],

@@ -19,7 +19,7 @@ def convention_packet(tmp_path, value=0):
     audited = run_workflow_input(raw, Transport(value), max_calls=1)
     [candidate] = audited["candidates"]
     convention = {
-        "format": "gse.approved-convention/1", "convention_id": "synthetic:convention-contract-test",
+        "format": "GSE.approved-convention/1", "convention_id": "synthetic:convention-contract-test",
         "approval": {"actor": "Rohan", "code": "APPROVED", "question": "Synthetic fixture approval?",
                      "answer": "Synthetic fixture, not an actual semantic convention.", "date": "2026-11-18"},
         "premises": [], "consequent": ["WANT", 1], "guards": [["pos", "verb"]],
@@ -41,7 +41,7 @@ def test_real_cli_convention_migration_keeps_the_diagnostic_reply_and_history(tm
     with pytest.raises(ValueError, match="AUDIT_INCOMPLETE"):
         admit_records(raw, audited, ordinary)
     admission = admit_records(raw, audited, review)
-    assert admission["format"] == "gse.admitted-rule/2"
+    assert admission["format"] == "GSE.admitted-rule/2"
     assert admission["semantic_authority"] == "FOUNDER_APPROVED_CONVENTION_MODEL_AUDITS_DIAGNOSTIC"
     assert admission["relation"]["authority"] == "foundational"
     assert json.loads(admission["audit"]["candidates"][0]["audits"][0]["raw_output"]) == {"WANT": value}

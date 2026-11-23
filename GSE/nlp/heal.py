@@ -27,7 +27,7 @@ from GSE.nlp.spellcheck import _DEFAULT_LEXICON, _PRIOR_UNRANKED, correct, looks
 from GSE.nlp.spellcheck_context import correct_in_context, recover_rare_tail
 from GSE.nlp.spellcheck_entity import _DEFAULT_ENTITIES, correct_entity
 
-POLICY = "gse.heal/1"
+POLICY = "GSE.heal/1"
 _CONTENT_POS = {"NOUN", "PROPN", "VERB", "ADJ", "ADV"}
 _REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 _enc: GSEEncoder | None = None

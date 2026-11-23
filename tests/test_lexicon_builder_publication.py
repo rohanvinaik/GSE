@@ -28,7 +28,7 @@ def candidate(tmp_path):
         Definition(f"fixture:{i}", f"fixture_{i}", "x", "Synthetic test identity") for i in range(len(units))
     )
     manifest = {
-        "format": "gse.lexicon-rules/1",
+        "format": "GSE.lexicon-rules/1",
         "anchors": {
             d.entry_id: [asdict(Assertion(bank, 0, "fixture", f"{d.entry_id}:{bank}", "test")) for bank in BANKS]
             for d in definitions
@@ -44,7 +44,7 @@ def candidate(tmp_path):
     gold.write_text(
         json.dumps(
             {
-                "format": "gse.lexicon-gold/1",
+                "format": "GSE.lexicon-gold/1",
                 "records": [{"entry_id": "fixture:0", "bank": bank, "expected": 0} for bank in BANKS],
             }
         )

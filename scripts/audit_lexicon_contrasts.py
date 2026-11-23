@@ -21,10 +21,11 @@ from GSE.curation.lexicon_builder.interchange import read_json
 from GSE.curation.lexicon_builder.model_batch import OllamaBatchTransport
 from GSE.curation.lexicon_builder.model_protocol import model_input
 from GSE.curation.lexicon_builder.residual import BankRequest, OllamaTransport
+from GSE.namespace import current_id
 from scripts.audit_lexicon_model_protocol import calibration_results, prepare_case
 
-INPUT_FORMAT = "gse.lexicon-contrast-cases/1"
-REPORT_FORMAT = "gse.lexicon-contrast-audit/1"
+INPUT_FORMAT = "GSE.lexicon-contrast-cases/1"
+REPORT_FORMAT = "GSE.lexicon-contrast-audit/1"
 
 
 def digest(value):
@@ -40,7 +41,7 @@ def prepare_contrast(payload, *, production_scaffold=True):
     certify the archived source semantics or authorize any database assignment.
     Fresh fixtures continue through the existing production-scaffold preparer.
     """
-    if payload.get("format") != "gse.bank-request/2":
+    if current_id(payload.get("format")) != "GSE.bank-request/2":
         return prepare_case(payload, production_scaffold=production_scaffold)
     try:
         request = BankRequest(
@@ -63,7 +64,7 @@ def prepare_contrast(payload, *, production_scaffold=True):
 
 def validate_cases(fixture):
     """Reject ambiguous labels and direct target leakage before any dispatch."""
-    if type(fixture) is not dict or set(fixture) != {"format", "cases"} or fixture["format"] != INPUT_FORMAT:
+    if type(fixture) is not dict or set(fixture) != {"format", "cases"} or current_id(fixture["format"]) != INPUT_FORMAT:
         raise ValueError("INVALID_CONTRAST_FIXTURE")
     cases = fixture["cases"]
     if type(cases) is not list or not 2 <= len(cases) <= 64:
@@ -111,7 +112,7 @@ def validate_cases(fixture):
             raise ValueError("INVALID_CONTRAST_INPUT")
         if payload.get("bank") in payload.get("known", {}):
             raise ValueError("CONTRAST_TARGET_ALREADY_SUPPLIED")
-        if payload.get("format") == "gse.bank-request/2":
+        if current_id(payload.get("format")) == "GSE.bank-request/2":
             if case.get("archived_request_sha256") != digest(payload):
                 raise ValueError("ARCHIVED_CONTRAST_REQUEST_HASH_MISMATCH")
         elif "archived_request_sha256" in case:
@@ -253,7 +254,7 @@ def contrast_reports(fixture, single, batched, *, budget, batch_size=4, include_
                 "presentation": presentation,
                 "transport_identity": transport.identity,
                 "request_id": digest(result["input"])
-                if result["input"].get("format") == "gse.bank-request/2"
+                if current_id(result["input"].get("format")) == "GSE.bank-request/2"
                 else None,
                 "model_answer": model_answer,
                 "invocation_case_ids": [selected[position]["id"] for position in result["invocation_case_indices"]],
@@ -319,7 +320,7 @@ def validate_report_path(report: Path, cases: Path, fixture_sha256: str) -> Path
             raise ValueError("CONTRAST_REPORT_NOT_OWN_CHECKPOINT") from exc
         if (
             type(prior) is not dict
-            or prior.get("format") != REPORT_FORMAT
+            or current_id(prior.get("format")) != REPORT_FORMAT
             or prior.get("fixture_sha256") != fixture_sha256
             or prior.get("database_writes") != 0
             or prior.get("rule_promotions") != 0

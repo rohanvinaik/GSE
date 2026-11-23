@@ -161,7 +161,7 @@ def test_canonical_lemma_alias_and_pos_alias_remain_exact_source_backed():
 def test_unsupported_guard_schema_refused_before_output_creation(tmp_path, key, value):
     assert not valid_lexical_guard(key, value)
     manifest = tmp_path / "bad-rule.json"
-    manifest.write_text(json.dumps({"format": "gse.lexicon-rules/1", "relations": [asdict(scoped_rule(key, value))]}))
+    manifest.write_text(json.dumps({"format": "GSE.lexicon-rules/1", "relations": [asdict(scoped_rule(key, value))]}))
     with pytest.raises(ValueError, match="UNSUPPORTED_LEXICAL_GUARD"):
         load_manifest(manifest)
     output = tmp_path / "never-created.db"
@@ -225,7 +225,7 @@ def build_fixture(tmp_path, *, transport=None):
     manifest.write_text(
         json.dumps(
             {
-                "format": "gse.lexicon-rules/1",
+                "format": "GSE.lexicon-rules/1",
                 "relations": [asdict(scoped_rule())],
                 "prime_entries": {"nsm:v20:want": [definition.entry_id]},
             }

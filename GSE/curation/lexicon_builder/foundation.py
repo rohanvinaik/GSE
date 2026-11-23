@@ -13,6 +13,7 @@ from pathlib import Path
 from urllib.parse import quote
 
 from GSE.curation.schema import ALL_PRIMITIVES, BIPOLAR_PAIRS
+from GSE.namespace import current_id
 
 from .definition_frames import (
     NATIVE_FRAME_PREFIX,
@@ -27,7 +28,7 @@ from .interchange import read_json
 
 FOUNDER_SOURCE = "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md"
 DESIGN_SOURCE = "docs/program/LEXICON_CONSTRUCTION_DESIGN.md"
-CONVENTION_VERSION = "gse.lexicon-conventions/2026-10-29"
+CONVENTION_VERSION = "GSE.lexicon-conventions/2026-10-29"
 WANT_POLARITY = {-1: "NOT_WANT", 0: "ORTHOGONAL_TO_WANTING", 1: "WANT"}
 ORDINAL_INTENSITY = {"VERY": 1, "EXTREMELY": 2}
 NEGATIVE_POLES = {negative: positive for positive, negative in BIPOLAR_PAIRS}
@@ -204,7 +205,7 @@ def native_frame_source(definition, observation) -> str | None:
         or _field(observation, "scope") != "lexical"
         or _field(observation, "entry_id") != entry_id
         or not isinstance(features, dict)
-        or features.get("identity_scheme") != "gse.wiktionary-native-leaf/1"
+        or current_id(features.get("identity_scheme")) != "GSE.wiktionary-native-leaf/1"
         or any(features.get(field) != _field(definition, field) for field in ("entry_id", "lemma", "pos", "definition"))
     ):
         return None
@@ -379,7 +380,7 @@ def load_manifest(path: str | Path | None) -> tuple[tuple[Relation, ...], dict[s
     if path is None:
         return (), {}, {}
     raw = read_json(path)
-    if not isinstance(raw, dict) or raw.get("format") != "gse.lexicon-rules/1":
+    if not isinstance(raw, dict) or current_id(raw.get("format")) != "GSE.lexicon-rules/1":
         raise ValueError("INVALID_RULE_MANIFEST")
     if set(raw) - {"format", "relations", "anchors", "hierarchy", "definitions", "prime_entries"}:
         raise ValueError("UNKNOWN_MANIFEST_FIELD")

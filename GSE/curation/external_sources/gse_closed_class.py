@@ -138,7 +138,7 @@ def _function_entries() -> list[GSEClosedClassEntry]:
                 ("PRON",),
                 encoding["primitives"],
                 grammar,
-                [_origin("gse.lexicon.pronouns", "PRONOUN_ENCODINGS", word, encoding)],
+                [_origin("GSE.lexicon.pronouns", "PRONOUN_ENCODINGS", word, encoding)],
             )
         )
     for catalog, table, symbol in (
@@ -156,11 +156,11 @@ def _function_entries() -> list[GSEClosedClassEntry]:
                 if word in _CCONJ
                 else "SCONJ"
             )
-            origins = [_origin("gse.lexicon.function_words", symbol, word, encoding)]
+            origins = [_origin("GSE.lexicon.function_words", symbol, word, encoding)]
             primitives = {}
             if catalog == "preposition" and word in EXPONENTS:
                 primitives = EXPONENTS[word]
-                origins.append(_origin("gse.curation.build_clean_closed_class", "EXPONENTS", word, primitives))
+                origins.append(_origin("GSE.curation.build_clean_closed_class", "EXPONENTS", word, primitives))
             entries.append(_entry(word, catalog, catalog, (role,), primitives, encoding, origins))
     return entries
 
@@ -183,18 +183,18 @@ def _auxiliary_entries() -> list[GSEClosedClassEntry]:
             key = word if word in table else lemma
             if key in table:
                 primitives = table[key]
-                origins.append(_origin("gse.curation.build_clean_closed_class", symbol, key, primitives))
+                origins.append(_origin("GSE.curation.build_clean_closed_class", symbol, key, primitives))
                 break
         else:
             primitives = canonical_decomposition(lemma) or {}
             origins.append(
-                _origin("gse.curation.external_sources.tier_0_dispatch", "canonical_decomposition", lemma, primitives)
+                _origin("GSE.curation.external_sources.tier_0_dispatch", "canonical_decomposition", lemma, primitives)
             )
         if word in _IRREGULAR_LEMMA:
-            origins.append(_origin("gse.nlp.native", "_IRREGULAR_LEMMA", word, lemma))
+            origins.append(_origin("GSE.nlp.native", "_IRREGULAR_LEMMA", word, lemma))
         for table, symbol in ((_AUX_MODAL, "_AUX_MODAL"), (_AUX_BE, "_AUX_BE"), (_AUX_DO, "_AUX_DO")):
             if word in table:
-                origins.append(_origin("gse.nlp.native", symbol, word, word))
+                origins.append(_origin("GSE.nlp.native", symbol, word, word))
         modal = word in _AUX_MODAL or bool(set(primitives) & MODAL_PRIMES)
         entries.append(
             _entry(
@@ -219,7 +219,7 @@ def _catalog_entries() -> tuple[GSEClosedClassEntry, ...]:
                 (role,),
                 primitives,
                 {},
-                [_origin("gse.curation.build_clean_closed_class", "EXPONENTS", word, primitives)],
+                [_origin("GSE.curation.build_clean_closed_class", "EXPONENTS", word, primitives)],
             )
         )
     for word in sorted(_NEG | {prime.lower() for prime in MODAL_PRIMES if prime.lower() in _ADV_CLOSED}):
@@ -235,9 +235,9 @@ def _catalog_entries() -> tuple[GSEClosedClassEntry, ...]:
                 primitives,
                 {"lemma": lemma},
                 [
-                    _origin("gse.nlp.native", "_NEG" if role == "PART" else "_ADV_CLOSED", word, word),
+                    _origin("GSE.nlp.native", "_NEG" if role == "PART" else "_ADV_CLOSED", word, word),
                     _origin(
-                        "gse.curation.external_sources.tier_0_dispatch", "canonical_decomposition", lemma, primitives
+                        "GSE.curation.external_sources.tier_0_dispatch", "canonical_decomposition", lemma, primitives
                     ),
                 ],
             )
@@ -253,7 +253,7 @@ def _catalog_entries() -> tuple[GSEClosedClassEntry, ...]:
                 (role,),
                 {},
                 {},
-                [_origin("gse.curation.build_clean_closed_class", "ZERO", word, {"declared_lexical_components": {}})],
+                [_origin("GSE.curation.build_clean_closed_class", "ZERO", word, {"declared_lexical_components": {}})],
             )
         )
     identities = [entry.entry_id for entry in entries]

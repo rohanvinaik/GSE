@@ -76,7 +76,7 @@ def test_spelling_rounds_cover_every_definition_and_resume_after_abstention(tmp_
     assert first["selected_entry_ids"] == ["a1", "b", "c"]
     assert second["selected_entry_ids"] == ["a2", "d", "a3"]
     assert [request["entry_id"] for request in transport.requests] == ["a1", "b", "c", "a2", "d", "a3"]
-    assert first["scheduling"]["policy"] == "gse.completion-schedule/3"
+    assert first["scheduling"]["policy"] == "GSE.completion-schedule/3"
     assert second["scheduling"]["wrapped"] is False
     assert second["dictionary_cells"]["unresolved"] == len(rows)
     wrapped = complete_dictionary(path, transport, 3, **options)
@@ -179,8 +179,8 @@ def test_policy_switch_preserves_journals_and_old_visit_scope(tmp_path):
     new = complete_dictionary(
         path, transport, 2, banks=("GOOD",), priority="zipf", frequency_path=source, cohort_policy="spelling"
     )
-    assert old["scheduling"]["policy"] == "gse.completion-schedule/2"
-    assert new["scheduling"]["policy"] == "gse.completion-schedule/3"
+    assert old["scheduling"]["policy"] == "GSE.completion-schedule/2"
+    assert new["scheduling"]["policy"] == "GSE.completion-schedule/3"
     assert new["skipped_attempts"] == {"ABSTAINED": 1}
     assert [request["entry_id"] for request in transport.requests] == ["b"]
     with sqlite3.connect(path) as conn:
@@ -246,7 +246,7 @@ def test_real_cli_forwards_both_explicit_order_policies(tmp_path, monkeypatch, c
         sys,
         "argv",
         [
-            "gse",
+            "GSE",
             "--lexicon-db",
             str(path),
             "complete",

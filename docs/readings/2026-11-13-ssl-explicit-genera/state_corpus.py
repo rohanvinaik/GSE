@@ -62,7 +62,7 @@ def audit(lexicon):
         counts[row["style"]][row["code"]] += 1
     wrong = [r for r in results if r["code"] in {"WRONG", "WRONG_EMISSION", "UNSUPPORTED_SENSE_EMISSION"}]
     return {
-        "format": "gse.state-corpus-grounding/1",
+        "format": "GSE.state-corpus-grounding/1",
         "code": "STATE_CORPUS_GROUNDING_VALIDATED" if not wrong else "STATE_CORPUS_GROUNDING_REVIEW_REQUIRED",
         "lexicon_sha256": before, "scope_snapshot_sha256": source["baseline_sha256"],
         "definitions": len(definitions), "cases": len(results), "by_class": dict(counts),

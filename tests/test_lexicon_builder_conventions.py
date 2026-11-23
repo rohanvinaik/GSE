@@ -157,7 +157,7 @@ def test_candidate_definition_link_retains_relevant_unknown_encoding(tmp_path):
 def test_independent_ordinary_size_rule_blocks_default_before_firing(tmp_path):
     relation = Relation("fixture:size", ("BIG",), ((1,),), ("fixture:size-evidence",), "foundational", True)
     manifest = tmp_path / "rules.json"
-    manifest.write_text(json.dumps({"format": "gse.lexicon-rules/1", "relations": [asdict(relation)]}))
+    manifest.write_text(json.dumps({"format": "GSE.lexicon-rules/1", "relations": [asdict(relation)]}))
     path, _, entry = build_case(tmp_path, {"GOOD": 1}, features=classified("GOOD"), manifest=manifest)
     assert entry["assignments"]["GOOD"] == entry["assignments"]["BIG"] == 1
     assert guard(entry)["witnesses"][0]["baseline_rule_ids"] == ["fixture:size"]
@@ -182,7 +182,7 @@ def test_older_relation_manifest_and_serialized_record_omit_absence_field(tmp_pa
         "approved": True,
     }
     manifest = tmp_path / "legacy.json"
-    manifest.write_text(json.dumps({"format": "gse.lexicon-rules/1", "relations": [legacy]}))
+    manifest.write_text(json.dumps({"format": "GSE.lexicon-rules/1", "relations": [legacy]}))
     assert load_manifest(manifest)[0][0].absent_evidence == ()
     path, _, entry = build_case(tmp_path, {}, features=classified(), manifest=manifest)
     assert entry["assignments"]["THINK"] == 1
@@ -241,7 +241,7 @@ def test_model_can_fill_relevant_unknown_size_without_touching_known_evaluation(
 def test_model_cannot_remove_known_default_when_new_evidence_blocks_its_guard(tmp_path):
     default = Relation("fixture:default", ("BIG",), ((0,),), ("fixture:scope",), "conditional", True, (), ("FEEL",))
     manifest = tmp_path / "default.json"
-    manifest.write_text(json.dumps({"format": "gse.lexicon-rules/1", "relations": [asdict(default)]}))
+    manifest.write_text(json.dumps({"format": "GSE.lexicon-rules/1", "relations": [asdict(default)]}))
 
     def transport(payload, schema):
         return json.dumps({payload["bank"]: 1 if payload["bank"] == "FEEL" else None})

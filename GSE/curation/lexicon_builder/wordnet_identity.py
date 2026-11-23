@@ -16,9 +16,11 @@ from urllib.parse import quote
 
 from nltk.corpus.reader.wordnet import WordNetError
 
-FORMAT = "gse.wordnet-definition-identity/1"
-DEFINING_CONTEXT_FORMAT = "gse.wordnet-definition-identity/2"
-ANCESTRY_FORMAT = "gse.wordnet-defining-ancestry/1"
+from GSE.namespace import current_id, identity_form
+
+FORMAT = "GSE.wordnet-definition-identity/1"
+DEFINING_CONTEXT_FORMAT = "GSE.wordnet-definition-identity/2"
+ANCESTRY_FORMAT = "GSE.wordnet-defining-ancestry/1"
 _POS = {
     "n": "noun",
     "noun": "noun",
@@ -275,7 +277,7 @@ def _validate_defining_ancestry(ancestry, native_synset):
     if (
         type(ancestry) is not dict
         or set(ancestry) != {"format", "code", "paths", "synsets", "semantics"}
-        or ancestry["format"] != ANCESTRY_FORMAT
+        or current_id(ancestry["format"]) != ANCESTRY_FORMAT
         or ancestry["code"] != "EXACT_NATIVE_HYPERNYM_PATHS"
         or ancestry["semantics"] != "DEFINING_GENUS_CONTEXT_NOT_AUTOMATIC_BANK_TRANSFER"
     ):
@@ -359,12 +361,12 @@ def validate_wordnet_identity(packet, definition):
         "selects_sense",
         "assigns_banks",
     }
-    if type(packet) is dict and packet.get("format") == DEFINING_CONTEXT_FORMAT:
+    if type(packet) is dict and current_id(packet.get("format")) == DEFINING_CONTEXT_FORMAT:
         keys.add("defining_ancestry")
     if type(packet) is not dict or set(packet) != keys:
         raise ValueError("INVALID_WORDNET_IDENTITY_PACKET")
     _json_packet(packet)
-    if type(packet["format"]) is not str or packet["format"] not in {FORMAT, DEFINING_CONTEXT_FORMAT}:
+    if type(packet["format"]) is not str or current_id(packet["format"]) not in {FORMAT, DEFINING_CONTEXT_FORMAT}:
         raise ValueError("INVALID_WORDNET_IDENTITY_FORMAT")
     states = {
         "NATIVE_LEMMA": ("IDENTITY_EVIDENCE_WITHIN_SELECTED_SENSE", "EXPLICIT_NATIVE_LEMMA_MEMBERSHIP"),
@@ -412,7 +414,7 @@ def validate_wordnet_identity(packet, definition):
         or _POS.get(root["pos"]) != _POS[witness["pos"]]
     ):
         raise ValueError("IDENTITY_ROOT_DEFINITION_MISMATCH")
-    if packet["format"] == DEFINING_CONTEXT_FORMAT:
+    if current_id(packet["format"]) == DEFINING_CONTEXT_FORMAT:
         _validate_defining_ancestry(packet["defining_ancestry"], witness)
     analyses, unmatched = packet["analyses"], packet["unmatched_candidates"]
     if type(analyses) is not list or type(unmatched) is not list:
@@ -491,7 +493,7 @@ def wordnet_identity_observation_fields(packet, definition):
     root = _definition_record(definition)
     checked = validate_wordnet_identity(packet, root)
     bound = {"definition": root, "definition_identity": checked}
-    serialized = json.dumps(bound, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False)
+    serialized = json.dumps(identity_form(bound), ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False)
     record_id = "wordnet_identity:" + hashlib.sha256(serialized.encode()).hexdigest()
     return {
         "entry_id": root["entry_id"],

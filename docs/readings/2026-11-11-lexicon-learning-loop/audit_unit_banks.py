@@ -159,7 +159,7 @@ def main():
                 }
             )
     result = {
-        "format": "gse.unit-banks-audit/1",
+        "format": "GSE.unit-banks-audit/1",
         "baseline_sha256": stage["candidate_sha256"],
         "population": stage["population"],
         "stage_rules": stage["rules"],

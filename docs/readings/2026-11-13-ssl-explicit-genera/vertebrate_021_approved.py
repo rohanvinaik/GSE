@@ -33,7 +33,7 @@ helpers = import_module("docs.readings.2026-11-13-ssl-explicit-genera.finish_coh
 
 def status(code, **details):
     helpers.record_status(NOTES / "021-approved-round-status.json", {
-        "format": "gse.lexicon-learning-round-status/1", "code": code,
+        "format": "GSE.lexicon-learning-round-status/1", "code": code,
         "observed_at_utc": datetime.now(timezone.utc).isoformat(),
         "baseline": str(BASE), "unknown_is_not_zero": True,
         "activation_performed": False, **details,
@@ -113,7 +113,7 @@ def run():
         ),
     })
     plan = {
-        "format": "gse.lexicon-epoch-plan/1", "baseline_sha256": enrichment["candidate_sha256"],
+        "format": "GSE.lexicon-epoch-plan/1", "baseline_sha256": enrichment["candidate_sha256"],
         "active_pointer_sha256": parent["pointer_sha256"], "epochs": 1,
         "audits_per_epoch": 4, "families": [family],
     }

@@ -24,7 +24,7 @@ round_ = import_module("docs.readings.2026-11-13-ssl-explicit-genera.vertebrate_
 
 def prepare_requests(baseline, raw):
     """Use existing loaders and closure on a read-only exact SQL overlay."""
-    records = _observations({"format": "gse.source-enrichment-input/1", "observations": raw})
+    records = _observations({"format": "GSE.source-enrichment-input/1", "observations": raw})
     identities = tuple(r.entry_id for r in records)
     requests = []
     with closing(sqlite3.connect(baseline.as_uri() + "?mode=ro", uri=True)) as conn:

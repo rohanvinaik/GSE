@@ -88,7 +88,7 @@ def test_collect_to_actual_model_input_preserves_native_ids_and_unknown_banks(tm
     assert request.allowed_values == (-1, 0, 1)
     assert request.payload() == before_request
     assert asdict(originals[0]) == before
-    assert protocol_contract()["evidence_view"] == "gse.model-evidence/5"
+    assert protocol_contract()["evidence_view"] == "GSE.model-evidence/5"
 
 
 @pytest.mark.parametrize("targets,code,count", [

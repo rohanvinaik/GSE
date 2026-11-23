@@ -3,11 +3,13 @@
 import json
 from dataclasses import replace
 
+from GSE.namespace import current_id
+
 from .foundation import EXCEPTION_GUARD_PREFIX, _exact_wordnet_ancestry, lexical_context, validate_lexical_guards
 from .rule_history import digest, relation_records
 
-FORMAT = "gse.rule-revision/1"
-RESERVATION_FORMAT = "gse.rule-revision/2"
+FORMAT = "GSE.rule-revision/1"
+RESERVATION_FORMAT = "GSE.rule-revision/2"
 REVIEW_FIELDS = {"review_id", "reviewer", "rationale", "source_refs"}
 
 
@@ -106,12 +108,12 @@ def _except(conn, rule, review):
 
 def validate_revision_shape(revision):
     required = {"format", "baseline_version", "admissions", "retirements", "exceptions"}
-    if type(revision) is dict and revision.get("format") == RESERVATION_FORMAT:
+    if type(revision) is dict and current_id(revision.get("format")) == RESERVATION_FORMAT:
         required.add("reservations")
     if (
         type(revision) is not dict
         or set(revision) != required
-        or type(revision["format"]) is not str or revision["format"] not in {FORMAT, RESERVATION_FORMAT}
+        or type(revision["format"]) is not str or current_id(revision["format"]) not in {FORMAT, RESERVATION_FORMAT}
         or any(type(revision[key]) is not list for key in ("admissions", "retirements", "exceptions"))
         or "reservations" in revision and type(revision["reservations"]) is not list
     ):

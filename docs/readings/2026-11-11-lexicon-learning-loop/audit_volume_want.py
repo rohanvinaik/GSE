@@ -136,7 +136,7 @@ def prepare(spec=VOLUME):
     spec.save(
         "stage-input",
         {
-            "format": "gse.coherence-stage-input/2",
+            "format": "GSE.coherence-stage-input/2",
             "baseline_sha256": parent["candidate_sha256"],
             "semantics": "RELATIONAL_CONSTRAINT",
             "proposals": [
@@ -162,7 +162,7 @@ def prepare(spec=VOLUME):
     if (FOLDER / f"{spec.prefix}-input.json").exists():
         return
     selection = {
-        "format": "gse.reviewed-pattern-selection/1",
+        "format": "GSE.reviewed-pattern-selection/1",
         "discovery_entry_ids": [identity for identity, _, _ in spec.seeds],
         "audit_entry_ids": [],
         "reviews": [],
@@ -284,7 +284,7 @@ def review(spec=VOLUME):
     spec.save(
         "revision-plan",
         {
-            "format": "gse.rule-revision-plan/1",
+            "format": "GSE.rule-revision-plan/1",
             "baseline_version": admission["baseline_version"],
             "admissions": [{kind: f"{spec.prefix}-{kind}.json" for kind in ("input", "audit", "review")}],
             "retirements": [],

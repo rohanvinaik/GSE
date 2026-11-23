@@ -36,7 +36,7 @@ def main():
                           "utterances": [{k: outcome[k] for k in ("content", "speaker", "quoted", "state")}
                                          for outcome in doc.utterance_outcomes]})
     destination = Path(__file__).with_name("checkpoint-composed-consumer-probe.json")
-    destination.write_text(json.dumps({"format": "gse.checkpoint-composed-consumer-probe/1", "cases": cases}, indent=2) + "\n")
+    destination.write_text(json.dumps({"format": "GSE.checkpoint-composed-consumer-probe/1", "cases": cases}, indent=2) + "\n")
     print(json.dumps([{"text": case["text"], "claims": case["claims"]} for case in cases], indent=2))
 
 

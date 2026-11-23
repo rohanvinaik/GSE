@@ -47,7 +47,7 @@ def test_existing_parser_returns_complete_target_and_original_without_signs(tmp_
     targets = entries(parser, "intrathecal")
     packet, = parser.get_definition_references(original)
     assert packet == {
-        "format": "gse.wiktionary-definition-reference/1",
+        "format": "GSE.wiktionary-definition-reference/1",
         "code": "TARGET_DEFINITIONS_AVAILABLE",
         "source_entry": json.loads(json.dumps(asdict(original[0]))),
         "relation": "alt_of",

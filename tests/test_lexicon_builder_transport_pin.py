@@ -196,7 +196,7 @@ def test_real_cli_pins_before_dispatch_and_forwards_explicit_limits(
     monkeypatch.setattr(pipeline, "build_dictionary", dispatch)
     monkeypatch.setattr(completion, "complete_dictionary", dispatch)
     arguments = [
-        "gse",
+        "GSE",
         "--lexicon-db",
         str(tmp_path / "unused.db"),
         command,

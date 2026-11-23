@@ -192,7 +192,7 @@ def reviewed(scope, name, working, receipts, transport, directory):
     raw = export_reviewed_input(
         working,
         {
-            "format": "gse.reviewed-pattern-selection/1",
+            "format": "GSE.reviewed-pattern-selection/1",
             "discovery_entry_ids": list(TEACHING[name]),
             "audit_entry_ids": list(scope.holdouts),
             "guarded_candidates": [scope.proposal()],
@@ -365,7 +365,7 @@ def publish():
     record(
         NOTES / "sparse-release-014-activation.json",
         {
-            "format": "gse.active-ssl-grounded-event-action/1",
+            "format": "GSE.active-ssl-grounded-event-action/1",
             "code": "ACTIVE_SSL_GROUNDED_EVENT_ACTION_VERIFIED",
             "path": str(destination),
             "previous_path": str(BASE),

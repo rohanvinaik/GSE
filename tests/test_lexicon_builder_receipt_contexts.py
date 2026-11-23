@@ -32,7 +32,7 @@ def _receipt(bank, ordinal=0):
         "code": "ASSIGNED",
         "schema": {"type": "object", "properties": {bank: {"enum": [-1, 0, 1, None]}}},
         "request": {
-            "format": "gse.bank-request/2",
+            "format": "GSE.bank-request/2",
             "bank": bank,
             "observations": [{"source": "native", "features": {"full_context": "unaltered source " * 4096}}],
             "definition": {"entry_id": "definition:1", "definition": "Native meaning."},
@@ -116,7 +116,7 @@ def test_failed_append_rolls_back_shared_context_and_receipt_together(connection
 
 def test_indexed_v1_receipts_read_and_migrate_without_request_changes(connection):
     record = _receipt("WANT")
-    record["request"]["format"] = "gse.bank-request/1"
+    record["request"]["format"] = "GSE.bank-request/1"
     record["request"].pop("scaffold")
     with connection:
         connection.execute("DROP TABLE model_receipt_contexts")

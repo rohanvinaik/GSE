@@ -243,7 +243,7 @@ class FrequencyDatabase:
             "david47k_rank": None,
             "local_rank": None,
             "source": "david47k/top-english-wordlists",
-            "policy": "gse.frequency-evidence/1",
+            "policy": "GSE.frequency-evidence/1",
             "provenance": resource_identity(path),
         }
         if not applicable:

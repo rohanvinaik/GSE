@@ -93,7 +93,7 @@ def bundle():
 
 
 def test_typed_interchange_and_stored_partial_domain_replay(tmp_path):
-    raw = {"format": "gse.lexicon-evidence/1", **asdict(bundle())}
+    raw = {"format": "GSE.lexicon-evidence/1", **asdict(bundle())}
     source = tmp_path / "evidence.json"
     source.write_text(json.dumps(raw))
     loaded = load_evidence(source)

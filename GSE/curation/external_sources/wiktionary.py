@@ -24,6 +24,7 @@ from pathlib import Path
 from typing import Dict, List, Literal, Optional, TypedDict
 
 from GSE.curation.external_sources.base_parser import BaseExternalParser
+from GSE.namespace import current_id, identity_form
 
 logger = logging.getLogger(__name__)
 
@@ -85,7 +86,7 @@ class _PendingNativeReference(TypedDict):
 class WiktionaryDefinitionReference(_PendingNativeReference):
     """A one-hop native reference packet; no sense choice or bank assertion."""
 
-    format: Literal["gse.wiktionary-definition-reference/1"]
+    format: Literal["GSE.wiktionary-definition-reference/1"]
     code: _NativeReferenceCode
     target_word: str
     target_lookup: str
@@ -96,7 +97,7 @@ class WiktionaryDefinitionReference(_PendingNativeReference):
 
 def _native_digest(value: dict) -> str:
     return hashlib.sha256(
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False).encode()
+        json.dumps(identity_form(value), sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False).encode()
     ).hexdigest()
 
 
@@ -142,7 +143,7 @@ def _native_reference_record(entry: WiktionaryDefinition, source_sha256: str) ->
         )
         valid = (
             entry.entry_id == expected_id
-            and entry.identity_scheme == "gse.wiktionary-native-leaf/1"
+            and current_id(entry.identity_scheme) == "GSE.wiktionary-native-leaf/1"
             and entry.native_id == entry.native_sense["id"]
             and entry.word == entry.record_context["word"]
             and entry.lemma == _lookup_form(entry.word)
@@ -744,7 +745,7 @@ class WiktionaryParser(BaseExternalParser):
                     definition,
                     sense_id,
                     tuple(senseid_path),
-                    "gse.wiktionary-native-leaf/1",
+                    "GSE.wiktionary-native-leaf/1",
                     sense,
                     context,
                     record_digest,
@@ -829,7 +830,7 @@ class WiktionaryParser(BaseExternalParser):
                 code = "TARGET_HAS_ONLY_OTHER_POS" if other else "TARGET_NOT_FOUND"
             result.append(
                 {
-                    "format": "gse.wiktionary-definition-reference/1",
+                    "format": "GSE.wiktionary-definition-reference/1",
                     "code": code,
                     **item,
                     "target_word": item["link"]["word"],

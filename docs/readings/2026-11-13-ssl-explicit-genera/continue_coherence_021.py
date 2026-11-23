@@ -44,7 +44,7 @@ def verify_pins(pins):
 
 def freeze_plan(baseline, review):
     plan = {
-        "format": "gse.lexicon-epoch-plan/1",
+        "format": "GSE.lexicon-epoch-plan/1",
         "baseline_sha256": fingerprint(baseline),
         "active_pointer_sha256": fingerprint(ACTIVE_POINTER),
         "epochs": 1,
@@ -95,7 +95,7 @@ def run():
         raise ValueError("COHERENCE_021_REQUIRES_EXACT_VALIDATED_ACTIVE_020")
     plan_path, plan = freeze_plan(baseline, reviewed)
     record_status(NOTES / "021-round-status.json", {
-        "format": "gse.lexicon-learning-round-status/1",
+        "format": "GSE.lexicon-learning-round-status/1",
         "code": "INITIALIZING_FROM_VALIDATED_020",
         "observed_at_utc": datetime.now(timezone.utc).isoformat(),
         "baseline": str(baseline),
@@ -137,7 +137,7 @@ def run():
     ):
         raise ValueError("COHERENCE_021_RESULT_CONTRACT_FAILED")
     report = {
-        "format": "gse.lexicon-learning-round-status/1",
+        "format": "GSE.lexicon-learning-round-status/1",
         "code": "CANDIDATE_REPLAY_VALIDATED_PENDING_PUBLICATION_REVIEW"
         if result["admitted"] else "RULE_WITHHELD_CANDIDATE_REPLAY_VALIDATED",
         "observed_at_utc": datetime.now(timezone.utc).isoformat(),

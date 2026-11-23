@@ -24,6 +24,7 @@ from GSE.curation.external_sources.wordnet_hierarchy import (
     LEXNAME_TO_PRIMITIVE,
     ROOT_CONCEPT_PRIMITIVES,
 )
+from GSE.namespace import current_id, identity_form
 from GSE.primitives_v2 import PRIMITIVE_REGISTRY, get_canonical_pole
 
 from .engine import Assertion, DomainRestriction
@@ -174,7 +175,7 @@ def _native_features(record) -> dict:
 
 def _record_id(source: str, word: str, features: dict) -> str:
     """Content identity, stable across adapter/dictionary iteration order."""
-    digest = hashlib.sha256(_canonical_json(features).encode()).hexdigest()
+    digest = hashlib.sha256(_canonical_json(identity_form(features)).encode()).hexdigest()
     return f"{source}:{quote(word, safe='')}:{digest}"
 
 
@@ -335,7 +336,7 @@ def _wordnet_relations(synset, version: str | None) -> dict:
     future state which a bare edge would erase.
     """
     result = {
-        "format": "gse.wordnet-native-relations/1",
+        "format": "GSE.wordnet-native-relations/1",
         "wordnet_version": version,
         "source_synset": synset.name(),
         "semantics": "NATIVE_RELATIONS_NOT_LEXICAL_ASSIGNMENTS",
@@ -638,7 +639,7 @@ def _native_reference_observation_fields(packet: dict) -> dict:
     if not isinstance(packet, dict) or set(packet) != required:
         raise ValueError("INVALID_NATIVE_REFERENCE_PACKET_FIELDS")
     _require_json(packet)
-    if packet["format"] != "gse.wiktionary-definition-reference/1":
+    if current_id(packet["format"]) != "GSE.wiktionary-definition-reference/1":
         raise ValueError("INVALID_NATIVE_REFERENCE_PACKET_FORMAT")
     sha = packet["source_sha256"]
     if not isinstance(sha, str) or len(sha) != 64 or any(char not in "0123456789abcdef" for char in sha):

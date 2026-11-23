@@ -221,7 +221,7 @@ def test_batch_cli_uses_real_wrapper_preserves_labels_outside_input_and_counts_q
     prompt = json.loads(network[0]["prompt"])
     assert all("expected" not in item and "expected" not in item["input"] for item in prompt["items"])
     assert {item["input"]["entry_id"] for item in prompt["items"]} == {"a", "b", "c"}
-    assert prompt["format"] == "gse.lexical-component-batch/2"
+    assert prompt["format"] == "GSE.lexical-component-batch/2"
     assert [item["slot"] for item in prompt["items"]] == ["q0", "q1", "q2"]
     assert all(len(item["request_id"]) == 64 for item in prompt["items"])
     assert all(record["transport_metrics"]["eval_count"] == 17 for record in result["cases"])

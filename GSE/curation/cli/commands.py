@@ -63,6 +63,29 @@ def cmd_build(args):
     print(encoded)
 
 
+def cmd_measure(args):
+    """Measure the whole persisted specification space without modifying it."""
+    import json
+    from pathlib import Path
+
+    from GSE.curation.lexicon_builder.specification import compare_measurements, measure_dictionary
+
+    protected = {Path(args.lexicon_db).resolve()}
+    if args.compare_to:
+        protected.add(Path(args.compare_to).resolve())
+    if args.frequency_file:
+        protected.add(Path(args.frequency_file).resolve())
+    if args.report and Path(args.report).resolve() in protected:
+        raise ValueError("REPORT_MUST_NOT_OVERWRITE_INPUT")
+    result = measure_dictionary(args.lexicon_db, args.frequency_file)
+    if args.compare_to:
+        result["change"] = compare_measurements(json.loads(Path(args.compare_to).read_text()), result)
+    encoded = json.dumps(result, indent=2, sort_keys=True)
+    if args.report:
+        Path(args.report).write_text(encoded + "\n")
+    print(encoded)
+
+
 def cmd_evaluate(args):
     """Compare the dictionary to explicitly supplied per-definition gold cells."""
     import json
@@ -340,7 +363,7 @@ def cmd_export(args):
     if Path(args.lexicon_db).exists():
         with closing(sqlite3.connect(f"file:{Path(args.lexicon_db).resolve()}?mode=ro", uri=True)) as conn:
             if conn.execute("SELECT 1 FROM sqlite_master WHERE name='builder_metadata'").fetchone():
-                data = {"format": "gse.lexicon-export/1", "entries": read_entries(conn)}
+                data = {"format": "GSE.lexicon-export/1", "entries": read_entries(conn)}
                 Path(args.output or "lexicon_export.json").write_text(json.dumps(data, indent=2))
                 print(f"Exported {len(data['entries'])} definitions")
                 return
@@ -550,6 +573,12 @@ def main():
     status_parser = subparsers.add_parser("status", help="Show build status")
     status_parser.set_defaults(func=cmd_status)
 
+    measure_parser = subparsers.add_parser("measure", help="Count joint specification space and Zipf-bucket coverage")
+    measure_parser.add_argument("--frequency-file", help="Pinned local Word/SUBTLEX CSV; default uses the existing source")
+    measure_parser.add_argument("--compare-to", help="Earlier measurement with the identical cohort and frequency policy")
+    measure_parser.add_argument("--report", help="Write the compact whole-corpus measurement")
+    measure_parser.set_defaults(func=cmd_measure)
+
     # validate command
     validate_parser = subparsers.add_parser("validate", help="Validate decompositions")
     validate_parser.set_defaults(func=cmd_validate)
@@ -590,7 +619,7 @@ def main():
         parser.print_help()
         sys.exit(1)
 
-    if args.command in {"status", "validate", "export", "lookup", "evaluate", "complete", "publish"} or (
+    if args.command in {"status", "validate", "export", "lookup", "evaluate", "complete", "publish", "measure"} or (
         args.command == "catalog" and not args.inventory
     ):
         from pathlib import Path

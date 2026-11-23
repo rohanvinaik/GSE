@@ -110,7 +110,7 @@ def test_joint_conflict_refuses_atomic_output_even_with_two_passing_audits(tmp_p
     raw = export_reviewed_input(
         source,
         {
-            "format": "gse.reviewed-pattern-selection/1",
+            "format": "GSE.reviewed-pattern-selection/1",
             "discovery_entry_ids": [UNIT],
             "audit_entry_ids": [AUDIT],
             "reviews": [
@@ -189,7 +189,7 @@ def test_reviewed_exception_reopens_bad_model_cell_and_retains_earlier_receipts(
     raw = export_reviewed_input(
         source,
         {
-            "format": "gse.reviewed-pattern-selection/1",
+            "format": "GSE.reviewed-pattern-selection/1",
             "discovery_entry_ids": [DISCOVERY],
             "audit_entry_ids": [AUDIT],
             "reviews": [

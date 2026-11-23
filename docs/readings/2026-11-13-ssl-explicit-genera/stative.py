@@ -57,7 +57,7 @@ def prepare():
     parent = freeze()
     WORK.mkdir(exist_ok=True)
     plan = {
-        "format": "gse.lexicon-epoch-plan/1",
+        "format": "GSE.lexicon-epoch-plan/1",
         "baseline_sha256": parent["sha256"],
         "active_pointer_sha256": parent["pointer_sha256"],
         "epochs": 1,

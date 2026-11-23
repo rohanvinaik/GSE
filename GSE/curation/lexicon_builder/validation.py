@@ -17,6 +17,8 @@ from functools import lru_cache
 from pathlib import Path
 from typing import NamedTuple
 
+from GSE.namespace import current_id
+
 from .definition_frames import NATIVE_FRAME_PREFIX, WIKTIONARY_ANATOMY_FRAME_PREFIX, native_noun_frames
 from .discovery import BankObservation
 from .engine import TERNARY, Assertion, DomainRestriction, Relation, propagate
@@ -868,14 +870,14 @@ def _catalog_integrity(
             unit["unit_id"] == "nsm:v20:some-time" and unit["mapping"]["code"] == "MISSING"
             for unit in saved["units"]
         )
-        if saved.get("format") == "gse.nsm-catalog-coverage/1":
+        if current_id(saved.get("format")) == "GSE.nsm-catalog-coverage/1":
             definitions = tuple(
                 Definition(row["sense_id"], row["lemma"], row["pos"], row["gloss"]) for row in lexemes.values()
             )
             expected = catalog_report(
                 anchors, definitions, relations, prime_entries=links, legacy_duration=legacy_duration
             )
-        elif saved.get("format") == "gse.nsm-catalog-coverage/2":
+        elif current_id(saved.get("format")) == "GSE.nsm-catalog-coverage/2":
             expected = _native_catalog(
                 anchors,
                 relations,
@@ -978,7 +980,7 @@ def _replay(conn: sqlite3.Connection, relations: tuple[Relation, ...], *, catalo
         if restriction_format is not None:
             raise ValueError("MISSING_DOMAIN_RESTRICTIONS_TABLE")
     else:
-        if restriction_format != DOMAIN_RESTRICTIONS_VERSION:
+        if current_id(restriction_format) != DOMAIN_RESTRICTIONS_VERSION:
             raise ValueError("UNSUPPORTED_DOMAIN_RESTRICTIONS_FORMAT")
         for row in conn.execute("SELECT entry_id,ordinal,payload FROM builder_domain_restrictions"):
             if row["entry_id"] not in entry_counts:
@@ -1009,7 +1011,7 @@ def _replay(conn: sqlite3.Connection, relations: tuple[Relation, ...], *, catalo
         if not _identity(lexeme["lemma"]) or not _identity(lexeme["pos"]):
             mismatch(entry_id, "INVALID_LEXICAL_IDENTITY")
             continue
-        if lexeme["source"] != VERSION:
+        if current_id(lexeme["source"]) != VERSION:
             mismatch(entry_id, "LEXEME_FORMAT_MISMATCH")
         try:
             assertions = _assertions(evidence[entry_id])
@@ -1098,7 +1100,7 @@ def _replay(conn: sqlite3.Connection, relations: tuple[Relation, ...], *, catalo
     mismatches.sort(key=lambda item: _canonical(item))
     validated.difference_update(item["entry_id"] for item in mismatches)
     report = {
-        "format": "gse.lexicon-replay-report/1",
+        "format": "GSE.lexicon-replay-report/1",
         "code": "REPLAY_MISMATCH" if mismatches else "REPLAY_VALIDATED",
         "gold": "NOT_CHECKED",
         "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
@@ -1154,7 +1156,7 @@ def _prime_definition_links(path: str | Path) -> dict[str, tuple[str, ...]]:
     if (
         not isinstance(raw, dict)
         or set(raw) != {"format", "prime_entries"}
-        or raw["format"] != "gse.prime-definition-links/1"
+        or current_id(raw["format"]) != "GSE.prime-definition-links/1"
         or not isinstance(raw["prime_entries"], dict)
     ):
         raise ValueError("INVALID_PRIME_DEFINITION_LINKS")
@@ -1194,7 +1196,7 @@ def refresh_catalog(path: str | Path, links_path: str | Path, *, apply_links: bo
         version = conn.execute("PRAGMA data_version").fetchone()[0]
         conn.execute("BEGIN")
         _schema(conn)
-        if _metadata(conn, "format") != VERSION:
+        if current_id(_metadata(conn, "format")) != VERSION:
             raise ValueError("UNSUPPORTED_BUILD_FORMAT")
         revision = _catalog_revision(conn)
         replay = _replay(conn, _relations(_metadata(conn, "relations")), catalog_links=links)
@@ -1202,7 +1204,7 @@ def refresh_catalog(path: str | Path, links_path: str | Path, *, apply_links: bo
             raise ValueError("CATALOG_REQUIRES_VALID_REPLAY:" + _canonical(replay["mismatch_counts"]))
         catalog = replay.pop("proposed_catalog")
         result = {
-            "format": "gse.catalog-links-update/1",
+            "format": "GSE.catalog-links-update/1",
             "code": "CATALOG_LINKS_PREVIEW",
             "link_semantics": "COMPLETE_REPLACEMENT",
             "prime_entries": links,
@@ -1252,7 +1254,7 @@ def validate_build(path: str | Path) -> dict:
             conn.execute("PRAGMA query_only=ON")
             conn.execute("BEGIN")
             _schema(conn)
-            if _metadata(conn, "format") != VERSION:
+            if current_id(_metadata(conn, "format")) != VERSION:
                 raise ValueError("UNSUPPORTED_BUILD_FORMAT")
             relations = _relations(_metadata(conn, "relations"))
             return _replay(conn, relations)

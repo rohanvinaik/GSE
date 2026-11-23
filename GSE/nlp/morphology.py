@@ -135,7 +135,7 @@ def negation_evidence(surface: str) -> dict:
 
     out = {
         "surface": surface,
-        "policy": "gse.negation/2",
+        "policy": "GSE.negation/2",
         "state": "resolved",
         "decision": "no_prefix",
         "base": None,
@@ -231,7 +231,7 @@ def negation_admission(recognition: dict, surface: dict, base: dict, token_pos: 
         "token_pos": token_pos,
         "surface_record": surface.get("selected_record"),
         "base_record": base.get("selected_record"),
-        "policy": "gse.negation-admission/1",
+        "policy": "GSE.negation-admission/1",
     }
     if recognition.get("feature") != NEGATION or recognition.get("state") != "resolved":
         return out

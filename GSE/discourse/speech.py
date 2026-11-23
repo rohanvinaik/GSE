@@ -563,7 +563,7 @@ def encode_document_utterance_events(enc, sentences, deadline=None):
         metadata.append(record)
     yield {
         "type": "manifest",
-        "version": "gse.intake/1",
+        "version": "GSE.intake/1",
         "sentences": [
             {"id": unit.id, "paragraph_id": unit.paragraph_id, "expected_utterance_ids": expected[unit.id]}
             for unit in units
@@ -624,7 +624,7 @@ def encode_document_utterance_events(enc, sentences, deadline=None):
             failed += 1
         yield {
             "type": "utterance",
-            "version": "gse.intake/1",
+            "version": "GSE.intake/1",
             **record,
             "state": "read" if error is None else "unread",
             "trace": trace,
@@ -640,7 +640,7 @@ def encode_document_utterance_events(enc, sentences, deadline=None):
         }
     yield {
         "type": "end",
-        "version": "gse.intake/1",
+        "version": "GSE.intake/1",
         "reason": "deadline" if timed_out else "complete",
         "expected": len(utterances),
         "read": read,

@@ -175,5 +175,5 @@ if __name__ == "__main__":
    python -m pytest tests/ -v
 
 4. Try it out:
-   python -c "from gse.pipeline import load_pipeline; p = load_pipeline(); print(p.process('The dog runs.'))"
+   python -c "from GSE.pipeline import load_pipeline; p = load_pipeline(); print(p.process('The dog runs.'))"
 """)

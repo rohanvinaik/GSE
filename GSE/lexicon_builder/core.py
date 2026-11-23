@@ -19,6 +19,7 @@ from pathlib import Path
 from typing import Any
 
 from GSE.lexicon_builder.basis import OPPOSITE_POLES, PRIME_TO_BANK, PRIMES
+from GSE.namespace import current_id, identity_form
 
 
 class Cell(StrEnum):
@@ -160,7 +161,7 @@ LEGACY_APPROVAL_CONTRACTS = {
 def rule_contract_digest(record: dict) -> str:
     """Pin every rule field except the validation receipt itself."""
     contract = {key: value for key, value in record.items() if key != "validation"}
-    encoded = json.dumps(contract, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()
+    encoded = json.dumps(identity_form(contract), sort_keys=True, separators=(",", ":"), allow_nan=False).encode()
     return hashlib.sha256(encoded).hexdigest()
 
 
@@ -330,10 +331,10 @@ class RuleException:
             )
         source = self.source.casefold().replace("-", "_")
         record = self.record_id.casefold()
-        if source.split(":", 1)[0] in {
+        if current_id(source.split(":", 1)[0]) in {
             "builder",
             "gse_builder",
-            "gse.lexicon_builder",
+            "GSE.lexicon_builder",
             "model",
             "ollama",
             "generated",
@@ -371,7 +372,7 @@ def law_application_id(law: Law) -> str:
         "tier": law.tier,
     }
     return (
-        "RELATION:" + hashlib.sha256(json.dumps(contract, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+        "RELATION:" + hashlib.sha256(json.dumps(identity_form(contract), sort_keys=True, separators=(",", ":")).encode()).hexdigest()
     )
 
 

@@ -79,7 +79,7 @@ class TextProfile:
     affect: Dict[str, float | None]
     register: Dict[str, float | None]
     primitives: Dict[str, float | None]
-    version: str = "gse.profile/2"
+    version: str = "GSE.profile/2"
     state: str = "unread"
     n_read: int = 0
     failures: List[dict] = field(default_factory=list)
@@ -109,7 +109,7 @@ class TextProfile:
         }
 
     def vector(self) -> List[float]:
-        """Compatibility alias for :meth:`legacy_vector` (layout gse.profile/1).
+        """Compatibility alias for :meth:`legacy_vector` (layout GSE.profile/1).
 
         This projection fills missing measurements with zero for historical
         classifiers only; it must not be used as an auditable reading record.

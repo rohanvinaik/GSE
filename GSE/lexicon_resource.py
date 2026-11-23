@@ -13,10 +13,12 @@ from contextlib import closing
 from functools import lru_cache
 from pathlib import Path
 
+from GSE.namespace import current_id
+
 DATA = Path(__file__).resolve().parents[1] / "data"
 ACTIVE_POINTER = DATA / "lexicon_active.json"
 ARCHIVED_LEXICON = DATA / "lexicon_clean.db"
-POINTER_FORMAT = "gse.active-lexicon/1"
+POINTER_FORMAT = "GSE.active-lexicon/1"
 
 
 def _signature(path: Path) -> tuple[int, int, int]:
@@ -33,7 +35,7 @@ def _pointer_target(path: Path, signature: tuple[int, int, int]) -> Path:
     if (
         not isinstance(payload, dict)
         or set(payload) != {"format", "path"}
-        or payload["format"] != POINTER_FORMAT
+        or current_id(payload["format"]) != POINTER_FORMAT
         or not isinstance(payload["path"], str)
         or not payload["path"].strip()
     ):
@@ -49,7 +51,7 @@ def _validate_active(path: Path, signature: tuple[int, int, int]) -> None:
     try:
         with closing(sqlite3.connect(path.as_uri() + "?mode=ro", uri=True)) as conn:
             row = conn.execute("SELECT value FROM builder_metadata WHERE key='format'").fetchone()
-            if row is None or json.loads(row[0]) != VERSION:
+            if row is None or current_id(json.loads(row[0])) != VERSION:
                 raise ValueError("ACTIVE_LEXICON_NOT_VERSIONED")
     except (sqlite3.Error, TypeError, ValueError) as error:
         raise ValueError("ACTIVE_LEXICON_NOT_VERSIONED") from error

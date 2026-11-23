@@ -41,14 +41,14 @@ def test_metadata_repair_changes_transport_pin_but_not_original_request(monkeypa
         return result
 
     with monkeypatch.context() as old:
-        old.setattr(model_protocol, "PROTOCOL_VERSION", "gse.lexical-component-entailment/7")
+        old.setattr(model_protocol, "PROTOCOL_VERSION", "GSE.lexical-component-entailment/7")
         old.setattr(model_protocol, "coordinate_contract", previous_contract)
         previous_wire = model_protocol.model_input(original)
         previous_identity = OllamaTransport("fixture", thinking=False, output_tokens=1024).identity
     current_wire = model_protocol.model_input(original)
     current_identity = OllamaTransport("fixture", thinking=False, output_tokens=1024).identity
     assert current_identity != previous_identity
-    assert current_wire["format"] == "gse.lexical-component-entailment/14"
+    assert current_wire["format"] == "GSE.lexical-component-entailment/14"
     assert current_wire["coordinate"]["registry_gloss"] == "Stative existence"
     previous_wire["format"] = current_wire["format"]
     previous_wire["coordinate"]["scope_convention"] = current_wire["coordinate"]["scope_convention"]

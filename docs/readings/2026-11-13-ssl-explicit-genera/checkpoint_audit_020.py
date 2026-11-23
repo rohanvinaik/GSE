@@ -85,7 +85,7 @@ def prepare(label):
             if rows:
                 tables[name] = {"columns": columns, "rows": rows}
     document = {
-        "format": "gse.checkpoint-audit-delta/1", "source": str(source), "source_sha256": digest,
+        "format": "GSE.checkpoint-audit-delta/1", "source": str(source), "source_sha256": digest,
         "witness": str(witness), "witness_sha256": lineage["witness_sha256"],
         "scope": "All source and definition identity streams match retained 019; archive every unique row outside reproducible bank projections.",
         "source_data_checks": checks, "derived_or_verified_tables": sorted(DERIVED_OR_VERIFIED), "tables": tables,
@@ -95,7 +95,7 @@ def prepare(label):
     if json.loads(gzip.decompress(archive.read_bytes())) != json.loads(json.dumps(document)) or identity(source) != before:
         raise ValueError("CHECKPOINT_ARCHIVE_ROUNDTRIP_OR_SOURCE_CHANGED")
     result = {
-        "format": "gse.retirement-preparation/1", "code": "WORK_AUDITS_PRESERVED_NO_CHECKPOINT_REMOVED",
+        "format": "GSE.retirement-preparation/1", "code": "WORK_AUDITS_PRESERVED_NO_CHECKPOINT_REMOVED",
         "path": str(source), "sha256": digest, **before, "witness": str(witness),
         "witness_sha256": lineage["witness_sha256"], "audit_delta": str(archive),
         "audit_delta_sha256": sha256(archive.read_bytes()).hexdigest(),

@@ -119,7 +119,7 @@ def prepare():
     ):
         evaluated.extend(load_benchmark(path))
     plan = {
-        "format": "gse.lexicon-epoch-plan/1", "baseline_sha256": parent["sha256"],
+        "format": "GSE.lexicon-epoch-plan/1", "baseline_sha256": parent["sha256"],
         "active_pointer_sha256": parent["pointer_sha256"], "epochs": 1,
         "audits_per_epoch": len(family["holdouts"]), "families": [family],
         "evaluation_holdout": {
@@ -208,7 +208,7 @@ def seed():
     phase.mkdir(exist_ok=True)
     transport = previous.anatomy.previous.prior.previous.model()
     manifest = {
-        "format": "gse.seeded-rule-round/1", "baseline_sha256": fingerprint(BASE),
+        "format": "GSE.seeded-rule-round/1", "baseline_sha256": fingerprint(BASE),
         "active_pointer_sha256": fingerprint(ACTIVE_POINTER), "original_plan_sha256": digest(plan),
         "discovery_entry_ids": seeds, "audit_entry_ids": list(family.holdouts),
         "prior_teaching": teaching, "prior_teaching_sha256": fingerprint(teaching_path),
@@ -216,7 +216,7 @@ def seed():
     }
     record(phase / "plan.json", manifest)
     selection = {
-        "format": "gse.reviewed-pattern-selection/1", "discovery_entry_ids": seeds,
+        "format": "GSE.reviewed-pattern-selection/1", "discovery_entry_ids": seeds,
         "audit_entry_ids": list(family.holdouts), "reviews": [], "guarded_candidates": [family.proposal()],
     }
     exported = export_reviewed_input(BASE, selection)
@@ -248,7 +248,7 @@ def seed():
     if fingerprint(teaching_path) != manifest["prior_teaching_sha256"]:
         raise ValueError("STATIVE_TRANSFER_ABSTENTION_CHANGED")
     result = {
-        "format": "gse.lexicon-seeded-round/1", "policy": "zipf-grounded-seeds",
+        "format": "GSE.lexicon-seeded-round/1", "policy": "zipf-grounded-seeds",
         "candidate": str(output), "candidate_sha256": fingerprint(output),
         "plan_sha256": digest(manifest), "active_pointer_sha256": manifest["active_pointer_sha256"],
         "definitions_compared": migration["definitions_replayed"], "changes": staged["changes"],
@@ -312,7 +312,7 @@ def refine_prepare():
     ):
         raise ValueError("STATIVE_TRANSFER_REFINED_STAGE_UNSAFE")
     selection = {
-        "format": "gse.reviewed-pattern-selection/1", "discovery_entry_ids": seed_plan["discovery_entry_ids"],
+        "format": "GSE.reviewed-pattern-selection/1", "discovery_entry_ids": seed_plan["discovery_entry_ids"],
         "audit_entry_ids": holdouts, "reviews": [], "guarded_candidates": [family.proposal()],
     }
     raw = export_reviewed_input(BASE, selection)["input"]
@@ -321,7 +321,7 @@ def refine_prepare():
     record(phase / "selection.json", selection)
     record(phase / "reviewed-input.json", raw)
     record(phase / "plan.json", {
-        "format": "gse.seeded-rule-refinement/1", "baseline_sha256": fingerprint(BASE),
+        "format": "GSE.seeded-rule-refinement/1", "baseline_sha256": fingerprint(BASE),
         "active_pointer_sha256": fingerprint(ACTIVE_POINTER), "parent_audit_sha256": digest(parent),
         "prior_teaching_sha256": seed_plan["prior_teaching_sha256"],
         "reserved_entry_ids": reserved, "audit_entry_ids": holdouts, "new_audit_budget": 2,
@@ -409,7 +409,7 @@ def refine():
     if fingerprint(teaching_path) != plan["prior_teaching_sha256"]:
         raise ValueError("STATIVE_TRANSFER_ABSTENTION_CHANGED")
     result = {
-        "format": "gse.lexicon-seeded-round/1", "policy": "zipf-grounded-seeds-with-reservations",
+        "format": "GSE.lexicon-seeded-round/1", "policy": "zipf-grounded-seeds-with-reservations",
         "candidate": str(output), "candidate_sha256": fingerprint(output), "plan_sha256": digest(plan),
         "active_pointer_sha256": plan["active_pointer_sha256"], "definitions_compared": definitions,
         "changes": changes, "new_cells": len(changes), "reopened_cells": 0, "discovery_seed_count": 5,
@@ -452,7 +452,7 @@ def calibrate():
     phase.mkdir(exist_ok=True)
     transport = previous.anatomy.previous.prior.previous.model()
     record(phase / "plan.json", {
-        "format": "gse.bank-auditor-calibration/1", "seed_entry_ids": seeds,
+        "format": "GSE.bank-auditor-calibration/1", "seed_entry_ids": seeds,
         "withheld_rule_ids": removed, "baseline_sha256": fingerprint(BASE),
         "questions": 5, "transport": transport.identity, "lexicon_writes": False,
         "authority": "COMPARISON_WITH_RELEASE_018_ADMITTED_RULE_NOT_INDEPENDENT_SEMANTIC_GOLD",
@@ -492,7 +492,7 @@ def convention():
         raise ValueError("STATIVE_CONVENTION_DIAGNOSTIC_IDENTITIES_CHANGED")
     family["holdouts"] = audit_ids
     selection = {
-        "format": "gse.reviewed-pattern-selection/1", "discovery_entry_ids": parent["discovery_entry_ids"],
+        "format": "GSE.reviewed-pattern-selection/1", "discovery_entry_ids": parent["discovery_entry_ids"],
         "audit_entry_ids": audit_ids, "reviews": [],
         "guarded_candidates": [{
             "antecedent": None, "consequent": family["consequent"], "guards": family["guards"],
@@ -526,7 +526,7 @@ def convention():
     if staged["contradictions"] or by_cell(staged["changes"]) != by_cell(read(PREVIEW)["changes"]):
         raise ValueError("STATIVE_CONVENTION_SCOPE_CHANGED")
     revision = {
-        "format": "gse.rule-revision/1", "baseline_version": admission["baseline_version"],
+        "format": "GSE.rule-revision/1", "baseline_version": admission["baseline_version"],
         "admissions": [admission], "retirements": [], "exceptions": [],
     }
     for name, payload in (
@@ -557,7 +557,7 @@ def convention():
     if fingerprint(WORK / "zipf/epoch-01/teaching.json") != parent["prior_teaching_sha256"]:
         raise ValueError("STATIVE_CONVENTION_ORIGINAL_ABSTENTION_CHANGED")
     result = {
-        "format": "gse.lexicon-convention-round/1", "policy": "founder-approved-scoped-convention",
+        "format": "GSE.lexicon-convention-round/1", "policy": "founder-approved-scoped-convention",
         "candidate": str(output), "candidate_sha256": fingerprint(output), "plan_sha256": digest(revision),
         "active_pointer_sha256": parent["active_pointer_sha256"], "definitions_compared": definitions,
         "changes": changes, "new_cells": len(changes), "reopened_cells": 0,

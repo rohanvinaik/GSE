@@ -156,11 +156,11 @@ def test_source_only_values_do_not_invent_a_reviewed_teaching_event(tmp_path):
 @pytest.mark.parametrize("guarded", [False, True])
 def test_legacy_input_retains_its_original_discovery_semantics_for_replay(tmp_path, guarded):
     raw = source_premise_input()
-    raw["format"] = "gse.reviewed-pattern-input/1"
+    raw["format"] = "GSE.reviewed-pattern-input/1"
     if not guarded:
         del raw["guarded_candidates"]
     report = execute(tmp_path, raw)
-    assert report["format"] == "gse.reviewed-pattern-report/1"
+    assert report["format"] == "GSE.reviewed-pattern-report/1"
     if guarded:
         assert report["candidates"][0]["discovery_outcomes"] == {"ANTECEDENT_UNKNOWN": 1}
     else:

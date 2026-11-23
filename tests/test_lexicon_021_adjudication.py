@@ -18,7 +18,7 @@ def fixture():
                "raw_output": json.dumps({"BODY": 0 if i == 1 else 1}), "transport": "native", "sign": 0 if i == 1 else 1}
               for i, p in enumerate(payloads)]
     correction = {native[1]["request_id"]: {"entry_id": native[1]["entry_id"], "raw_output": '{"BODY":1}', "transport": "typed-cli"}}
-    return payloads, schema, {"format": "gse.source-adjudicated-bank-rulings/1", "native_questions": native,
+    return payloads, schema, {"format": "GSE.source-adjudicated-bank-rulings/1", "native_questions": native,
                              "corrections": correction, "unique_bank_questions": 5, "actual_bank_questions": 6}
 
 

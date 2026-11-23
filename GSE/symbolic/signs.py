@@ -16,7 +16,7 @@ def negation_signs(trace: OperationTrace) -> dict:
     """
     if not isinstance(trace, OperationTrace):
         return {
-            "schema": "gse.signs/1",
+            "schema": "GSE.signs/1",
             "state": "unread",
             "reason": "invalid_trace",
             "owners": [],
@@ -27,7 +27,7 @@ def negation_signs(trace: OperationTrace) -> dict:
         prepare_degree_modifiers(trace.tokens)
     except ValueError as error:
         return {
-            "schema": "gse.signs/1",
+            "schema": "GSE.signs/1",
             "state": "unread",
             "reason": getattr(error, "code", str(error)),
             "owners": [],
@@ -74,7 +74,7 @@ def negation_signs(trace: OperationTrace) -> dict:
             unresolved.append({"position": token.position, "lemma": token.lemma, "evidence": evidence})
     count = sum(item["count"] for item in owners if item["mechanism"] == "syntactic_negation") + len(lexical)
     return {
-        "schema": "gse.signs/1",
+        "schema": "GSE.signs/1",
         "state": "partial" if unresolved else "read",
         "count": count,
         "owners": owners,

@@ -11,6 +11,7 @@ from GSE.lexicon_builder.basis import BASIS_ID
 from GSE.lexicon_builder.core import compile_law as compile_law
 from GSE.lexicon_builder.core import law_admission_status, rule_admission_reason, rule_contract_digest
 from GSE.lexicon_builder.families import family_contract
+from GSE.namespace import identity_form
 
 RULEBOOK = Path(__file__).with_name("bank_laws.json")
 RULE_FAMILIES = ("laws", "source_rules", "native_predicate_rules", "native_residual_rules")
@@ -65,7 +66,7 @@ def split_by_admission(book: dict) -> tuple[dict, dict]:
 def candidate_id(record: dict) -> str:
     """Identity describes a relation; repeated measurements retain that identity."""
     claim = {"antecedents": sorted(record["antecedents"]), "consequent": record["consequent"]}
-    return "COH_" + hashlib.sha256(json.dumps(claim, sort_keys=True).encode()).hexdigest()[:16]
+    return "COH_" + hashlib.sha256(json.dumps(identity_form(claim), sort_keys=True).encode()).hexdigest()[:16]
 
 
 def export_candidates(results: Path, output: Path) -> dict:

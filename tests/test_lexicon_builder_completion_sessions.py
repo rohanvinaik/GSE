@@ -313,7 +313,7 @@ def test_real_cli_continues_past_one_bounded_cohort(tmp_path, monkeypatch, capsy
         sys,
         "argv",
         [
-            "gse",
+            "GSE",
             "--lexicon-db",
             str(path),
             "complete",
