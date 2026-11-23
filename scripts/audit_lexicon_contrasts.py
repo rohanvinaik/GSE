@@ -21,7 +21,7 @@ from GSE.curation.lexicon_builder.interchange import read_json
 from GSE.curation.lexicon_builder.model_batch import OllamaBatchTransport
 from GSE.curation.lexicon_builder.model_protocol import model_input
 from GSE.curation.lexicon_builder.residual import BankRequest, OllamaTransport
-from GSE.namespace import current_id
+from GSE.namespace import current_id, identity_form
 from scripts.audit_lexicon_model_protocol import calibration_results, prepare_case
 
 INPUT_FORMAT = "GSE.lexicon-contrast-cases/1"
@@ -30,7 +30,7 @@ REPORT_FORMAT = "GSE.lexicon-contrast-audit/1"
 
 def digest(value):
     return hashlib.sha256(
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False).encode()
+        json.dumps(identity_form(value), sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False).encode()
     ).hexdigest()
 
 
@@ -54,7 +54,7 @@ def prepare_contrast(payload, *, production_scaffold=True):
             definition=Definition(**payload["definition"]),
             scaffold=payload["scaffold"],
         )
-        if request.payload() != payload or request.entry_id != request.definition.entry_id:
+        if identity_form(request.payload()) != identity_form(payload) or request.entry_id != request.definition.entry_id:
             raise ValueError("ARCHIVED_CONTRAST_REQUEST_MISMATCH")
         model_input(request.payload())
     except (KeyError, TypeError) as exc:

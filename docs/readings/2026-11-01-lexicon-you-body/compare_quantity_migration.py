@@ -19,7 +19,7 @@ from collections import Counter
 from contextlib import ExitStack
 from pathlib import Path
 
-from GSE.namespace import current_id
+from GSE.namespace import current_id, identity_form
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
@@ -37,7 +37,7 @@ def canonical(value):
 
 
 def digest(value):
-    return hashlib.sha256(canonical(value).encode()).hexdigest()
+    return hashlib.sha256(canonical(identity_form(value)).encode()).hexdigest()
 
 
 def strict_json(text):

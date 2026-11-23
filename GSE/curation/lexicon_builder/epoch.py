@@ -13,7 +13,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from GSE.namespace import current_id
+from GSE.namespace import current_id, identity_form
 
 from .completion import _contexts, _entry, _priority_source, complete_dictionary
 from .definition_frames import NATIVE_FRAME_PREFIX, WIKTIONARY_ANATOMY_FRAME_PREFIX
@@ -627,7 +627,7 @@ def teach(base, working, selected, family, transport, directory):
             }
             record(receipt_file, result)
             return result
-    if receipt["request"] != request.payload() or receipt["assertion"]["value"] != value:
+    if identity_form(receipt["request"]) != identity_form(request.payload()) or receipt["assertion"]["value"] != value:
         raise ValueError("EPOCH_TEACHING_RECEIPT_CHANGED")
     result = {"code": "REVIEWED_TEACHING", "request_id": request.request_id, "receipt_sha256": _request_id(receipt)}
     record(receipt_file, result)

@@ -11,7 +11,7 @@ from GSE.curation.lexicon_builder import epoch
 from GSE.curation.lexicon_builder.model_batch import batch_contract
 from GSE.curation.lexicon_builder.model_protocol import model_input, protocol_contract
 from GSE.curation.lexicon_builder.residual import _canonical_json, _request_id
-from GSE.namespace import current_id
+from GSE.namespace import current_id, identity_form
 
 round_ = import_module("docs.readings.2026-11-13-ssl-explicit-genera.vertebrate_021_approved")
 preview = import_module("docs.readings.2026-11-13-ssl-explicit-genera.prefetch_vertebrate_021")
@@ -199,7 +199,7 @@ def validate_manifest_artifacts():
         raise ValueError("ADJUDICATION_SLOT_COUNT_MISMATCH")
     for item in packet["items"]:
         chosen = manifest["corrections"][item["request_id"]]
-        if chosen["raw_output"] != _canonical_json(result["structured_output"][item["slot"]]) or chosen["transport"] != identity:
+        if identity_form(chosen["raw_output"]) != _canonical_json(identity_form(result["structured_output"][item["slot"]])) or chosen["transport"] != identity:
             raise ValueError("ADJUDICATION_PROVIDER_RULING_MISMATCH")
     return manifest
 

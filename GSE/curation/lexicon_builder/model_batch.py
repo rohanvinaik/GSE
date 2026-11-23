@@ -12,6 +12,8 @@ import math
 from dataclasses import dataclass
 from urllib.request import Request
 
+from GSE.namespace import identity_form
+
 from .model_protocol import model_input, protocol_contract
 from .residual import ModelTransportError, OllamaTransport, _canonical_json, _json_copy, _request_id
 
@@ -149,7 +151,7 @@ class OllamaBatchTransport:
                     "required": [bank],
                     "additionalProperties": False,
                 }
-                if _canonical_json(schema) != _canonical_json(expected_schema):
+                if _canonical_json(identity_form(schema)) != _canonical_json(identity_form(expected_schema)):
                     raise ValueError("invalid_single_bank_schema")
                 wire = model_input(payload)
                 coordinate, data = wire.pop("coordinate"), wire.pop("input")

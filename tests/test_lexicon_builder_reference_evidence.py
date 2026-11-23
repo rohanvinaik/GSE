@@ -18,6 +18,7 @@ from GSE.curation.lexicon_builder.model_evidence import evidence_view, restore_c
 from GSE.curation.lexicon_builder.model_protocol import model_input, protocol_contract
 from GSE.curation.lexicon_builder.residual import build_request
 from GSE.curation.lexicon_builder.resolution import resolve_dictionary
+from GSE.namespace import identity_form
 
 
 def native(word, pos="adj", senses=None):
@@ -82,7 +83,7 @@ def test_collect_to_actual_model_input_preserves_native_ids_and_unknown_banks(tm
     assert {item["field"] for item in record["omitted_fields"]} == {
         "/features/native_reference/target_entries/0/native_sense/examples"}
     assert record["full_record_sha256"] == hashlib.sha256(json.dumps(
-        asdict(expansion), sort_keys=True, ensure_ascii=False, separators=(",", ":")
+        identity_form(asdict(expansion)), sort_keys=True, ensure_ascii=False, separators=(",", ":")
     ).encode()).hexdigest()
     assert request.known == state.assignments == {}
     assert request.allowed_values == (-1, 0, 1)

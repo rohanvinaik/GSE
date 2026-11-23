@@ -29,6 +29,7 @@ from GSE.curation.lexicon_builder.rule_admission import admit_records
 from GSE.curation.lexicon_builder.rule_migration import migrate_revision
 from GSE.curation.lexicon_builder.rule_revisions import FORMAT
 from GSE.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
+from GSE.namespace import identity_form
 from scripts.audit_lexicon_sentences import audit, compare_reports
 from scripts.run_lexicon_epochs import publish_round
 
@@ -129,7 +130,7 @@ def heart_teaching():
     with closing(connect(TEACHING)) as conn:
         receipts = read_model_receipts(conn).get(HEART, ())
     [receipt] = [r for r in receipts if r["request_id"] == question.request_id]
-    if receipt["request"] != question.payload() or receipt["assertion"]["value"] != 0:
+    if identity_form(receipt["request"]) != identity_form(question.payload()) or receipt["assertion"]["value"] != 0:
         raise ValueError("ANATOMICAL_WANT_HEART_UNCONFIRMED")
     return {
         "code": "REVIEWED_TEACHING",

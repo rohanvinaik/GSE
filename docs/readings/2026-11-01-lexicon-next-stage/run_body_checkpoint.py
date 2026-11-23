@@ -13,10 +13,11 @@ from GSE.curation.lexicon_builder.model_receipts import read_model_receipts
 from GSE.curation.lexicon_builder.publication import publication_readiness
 from GSE.curation.lexicon_builder.residual import OllamaTransport
 from GSE.curation.lexicon_builder.validation import validate_build
+from GSE.namespace import identity_form
 
 
 def digest(value):
-    return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    return hashlib.sha256(json.dumps(identity_form(value), sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
 
 def snapshot(path):

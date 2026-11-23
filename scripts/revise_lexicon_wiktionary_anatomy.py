@@ -16,7 +16,7 @@ from GSE.curation.lexicon_builder.source_enrichment import (
     wiktionary_projection_scope,
 )
 from GSE.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
-from GSE.namespace import current_id
+from GSE.namespace import current_id, identity_form
 
 FORMAT = "GSE.wiktionary-anatomy-projection-revision/2"
 
@@ -77,8 +77,8 @@ def audit_support(active, witnesses, audit, baseline):
             or case["value"] != 1
             or len(question.allowed_values) < 2
             or question.request_id != case.get("request_id")
-            or question.payload() != case.get("request")
-            or question.output_schema() != case.get("schema")
+            or identity_form(question.payload()) != identity_form(case.get("request"))
+            or identity_form(question.output_schema()) != identity_form(case.get("schema"))
             or _read_value(case["raw"], question) != 1
         ):
             raise ValueError("WIKTIONARY_ANATOMY_AUDIT_DISAGREEMENT:" + entry_id)

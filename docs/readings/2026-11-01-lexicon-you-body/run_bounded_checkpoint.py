@@ -23,6 +23,7 @@ from GSE.curation.lexicon_builder.publication import publication_readiness
 from GSE.curation.lexicon_builder.residual import OllamaTransport
 from GSE.curation.lexicon_builder.validation import validate_build
 from GSE.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
+from GSE.namespace import identity_form
 
 MODEL = "qwen3.8:27b-q4_K_M"
 MODEL_DIGEST = "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e"
@@ -43,7 +44,7 @@ DISCOVERY_IDS = ("wordnet:in:inch.n.01", "wordnet:are:are.n.01", "wordnet:at:at.
 
 
 def digest(value):
-    raw = json.dumps(value, sort_keys=True, ensure_ascii=False, allow_nan=False, separators=(",", ":"))
+    raw = json.dumps(identity_form(value), sort_keys=True, ensure_ascii=False, allow_nan=False, separators=(",", ":"))
     return hashlib.sha256(raw.encode("utf-8")).hexdigest()
 
 

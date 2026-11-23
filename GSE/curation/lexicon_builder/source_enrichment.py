@@ -126,7 +126,7 @@ def _construct(conn, observation):
                 (observation.entry_id,),
             )
         ]
-        if not any(_json(record["features"]) == _json(root) for record in matches):
+        if not any(_json(identity_form(record["features"])) == _json(identity_form(root)) for record in matches):
             raise ValueError("ENRICHMENT_ORIGINAL_NATIVE_ROOT_MISSING")
     elif observation.source == "wordnet_hierarchy":
         from .wordnet_identity import wordnet_identity_observation
@@ -156,7 +156,7 @@ def _construct(conn, observation):
                 raise ValueError("ENRICHMENT_NATIVE_ROOT_ANCESTRY_MISMATCH")
     else:
         raise ValueError("UNSUPPORTED_SOURCE_ENRICHMENT")
-    if _json(asdict(expected)) != _json(asdict(observation)):
+    if _json(identity_form(asdict(expected))) != _json(identity_form(asdict(observation))):
         raise ValueError("ENRICHMENT_OBSERVATION_CONSTRUCTOR_MISMATCH")
     return definition
 
@@ -214,7 +214,7 @@ def _verify_wordnet(observations, definitions):
         synset = wordnet.synset(packet["native_synset"]["name"])
         constructor = wordnet_defining_context if current_id(packet["format"]) == DEFINING_CONTEXT_FORMAT else wordnet_identity_evidence
         fresh = constructor(parser, definition["lemma"], synset, pos=definition["pos"])
-        if _json(asdict(wordnet_identity_observation(fresh, definition))) != _json(asdict(record)):
+        if _json(identity_form(asdict(wordnet_identity_observation(fresh, definition)))) != _json(identity_form(asdict(record))):
             raise ValueError("ENRICHMENT_WORDNET_SOURCE_IDENTITY_MISMATCH")
 
 

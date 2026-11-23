@@ -106,7 +106,7 @@ def _store_context(conn, value):
     digest = _context_digest(value)
     conn.execute("INSERT OR IGNORE INTO model_receipt_contexts VALUES (?,?)", (digest, _json(value)))
     # An existing key is not sufficient: load and verify the immutable payload.
-    if _json(_read_context(conn, digest)) != _json(value):
+    if _json(identity_form(_read_context(conn, digest))) != _json(identity_form(value)):
         raise ValueError("MODEL_RECEIPT_CONTEXT_HASH_COLLISION")
     return digest
 

@@ -18,6 +18,7 @@ from GSE.curation.lexicon_builder.model_evidence import (
 )
 from GSE.curation.lexicon_builder.model_protocol import PROTOCOL_VERSION, model_input, protocol_contract
 from GSE.curation.lexicon_builder.residual import build_request
+from GSE.namespace import identity_form
 
 
 def canonical(value):
@@ -25,7 +26,8 @@ def canonical(value):
 
 
 def digest(value):
-    return hashlib.sha256(canonical(value).encode()).hexdigest()
+    """Content identities hash the pre-rename spelling (GSE.namespace.identity_form)."""
+    return hashlib.sha256(canonical(identity_form(value)).encode()).hexdigest()
 
 
 def observations():

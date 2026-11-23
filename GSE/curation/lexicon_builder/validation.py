@@ -17,7 +17,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import NamedTuple
 
-from GSE.namespace import current_id
+from GSE.namespace import current_id, identity_form
 
 from .definition_frames import NATIVE_FRAME_PREFIX, WIKTIONARY_ANATOMY_FRAME_PREFIX, native_noun_frames
 from .discovery import BankObservation
@@ -440,8 +440,8 @@ def _provenance(
                 )
                 if (
                     request.request_id != receipt["request_id"]
-                    or _canonical(request.payload()) != _canonical(payload)
-                    or _canonical(request.output_schema()) != _canonical(receipt["schema"])
+                    or _canonical(identity_form(request.payload())) != _canonical(identity_form(payload))
+                    or _canonical(identity_form(request.output_schema())) != _canonical(identity_form(receipt["schema"]))
                     or assertion.value not in request.allowed_values
                 ):
                     raise ValueError("MODEL_REQUEST_MISMATCH")
@@ -512,7 +512,7 @@ def _unresolved_integrity(conn, mismatch):
             mismatch(None, "MALFORMED_SOURCE_DIAGNOSTIC", ordinal=row["ordinal"], reason=str(error))
         total += 1
     expected = {"table": "unresolved_sources", "records": total, "outcomes": dict(counts)}
-    if _canonical(_optional_metadata(conn, "unresolved_sources", None)) != _canonical(expected):
+    if _canonical(identity_form(_optional_metadata(conn, "unresolved_sources", None))) != _canonical(identity_form(expected)):
         mismatch(None, "SOURCE_DIAGNOSTIC_METADATA_MISMATCH")
 
 
@@ -684,9 +684,9 @@ def _candidate_receipt(record, category, summary, native, assertions_for):
             raise ValueError("CROSS_SOURCE_CANDIDATE_INCOMPLETE_EVIDENCE")
     (left, a), (right, b) = summary["antecedent"], summary["consequent"]
     left_values, right_values = values[left], values[right]
-    if _canonical(record["antecedent_values"]) != _canonical(sorted(left_values)) or _canonical(
-        record["consequent_values"]
-    ) != _canonical(sorted(right_values)):
+    if _canonical(identity_form(record["antecedent_values"])) != _canonical(identity_form(sorted(left_values))) or _canonical(
+        identity_form(record["consequent_values"])
+    ) != _canonical(identity_form(sorted(right_values))):
         raise ValueError("CANDIDATE_DOMAIN_RECEIPT_MISMATCH")
     if len(left_values) > 1:
         expected = ("conflicting", "ANTECEDENT_CONFLICT")
@@ -779,7 +779,7 @@ def _candidates_integrity(conn, native, mismatch):
             mismatch(None, "MALFORMED_CANDIDATE", rule_id=rule_id, reason=str(error))
     saved = _optional_metadata(conn, "candidate_relations", None)
     expected = {"table": "candidate_relations", "evidence_table": "candidate_evidence", "records": total}
-    if (saved is not None or total) and _canonical(saved) != _canonical(expected):
+    if (saved is not None or total) and _canonical(identity_form(saved)) != _canonical(identity_form(expected)):
         mismatch(None, "CANDIDATE_METADATA_MISMATCH")
 
 
@@ -897,7 +897,7 @@ def _catalog_integrity(
             for unit in report["units"]:
                 for record in unit["definitions"]:
                     record["definition"].pop("source_ids", None)
-        if _canonical(saved) != _canonical(expected):
+        if _canonical(identity_form(saved)) != _canonical(identity_form(expected)):
             raise ValueError("CATALOG_REPLAY_MISMATCH")
     except (TypeError, ValueError, KeyError, AttributeError) as error:
         mismatch(None, "CATALOG_METADATA_MISMATCH", reason=str(error))
@@ -1088,9 +1088,9 @@ def _replay(conn: sqlite3.Connection, relations: tuple[Relation, ...], *, catalo
                 mismatch(entry_id, "INVALID_HIERARCHY_TARGET", bank=bank)
             elif resolution.code == "CONFLICT" or resolution.assignments.get(bank) not in {-1, 1}:
                 mismatch(entry_id, "HIERARCHY_WITHOUT_NONZERO_BASE", bank=bank)
-        if _canonical(saved_trace) != _canonical(resolution.trace):
+        if _canonical(identity_form(saved_trace)) != _canonical(identity_form(resolution.trace)):
             mismatch(entry_id, "TRACE_MISMATCH")
-        if _canonical(saved_conflicts) != _canonical(resolution.conflicts):
+        if _canonical(identity_form(saved_conflicts)) != _canonical(identity_form(resolution.conflicts)):
             mismatch(entry_id, "CONFLICT_RECEIPT_MISMATCH")
         if len(mismatches) == start:
             validated.add(entry_id)

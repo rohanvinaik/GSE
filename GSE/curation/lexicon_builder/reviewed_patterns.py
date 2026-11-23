@@ -14,7 +14,7 @@ from dataclasses import asdict, dataclass, replace
 from itertools import permutations
 from pathlib import Path
 
-from GSE.namespace import current_id
+from GSE.namespace import current_id, identity_form
 
 from .definition_frames import NATIVE_FRAME_PREFIX
 from .engine import Assertion, DomainRestriction, Relation
@@ -120,7 +120,7 @@ def reviewed_rulings(records: list[dict]) -> tuple[ReviewedRuling, ...]:
             or assertion.bank != bank
             or assertion.value not in payload["allowed_values"]
             or bank in payload["known"]
-            or _canonical_json(receipt["schema"]) != _canonical_json(schema)
+            or _canonical_json(identity_form(receipt["schema"])) != _canonical_json(identity_form(schema))
         ):
             raise ValueError("REVIEWED_RULING_REQUEST_MISMATCH")
         if receipt["request_id"] in seen:

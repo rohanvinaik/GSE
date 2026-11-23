@@ -11,6 +11,7 @@ from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Ob
 from GSE.curation.lexicon_builder.model_receipts import _stored_receipt, read_model_receipts
 from GSE.curation.lexicon_builder.pipeline import build_dictionary
 from GSE.curation.lexicon_builder.validation import validate_build
+from GSE.namespace import identity_form
 
 
 @pytest.fixture
@@ -369,7 +370,7 @@ def test_model_cannot_precede_native_symbolic_evidence(modeled):
         payload = records[0]["request"]
         payload["observations"].append(asdict(observation))
         request_id = hashlib.sha256(
-            json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
+            json.dumps(identity_form(payload), sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
         ).hexdigest()
         records[0]["request_id"] = request_id
         records[0]["assertion"]["record_id"] = request_id

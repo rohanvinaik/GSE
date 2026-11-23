@@ -143,7 +143,7 @@ def _prepare(conn, request_id):
         row = conn.execute(
             "SELECT payload FROM source_observations WHERE record_id=?", (original["record_id"],)
         ).fetchone()
-        if row is None or _json(_read_json(row[0])) != _json(original):
+        if row is None or _json(identity_form(_read_json(row[0]))) != _json(identity_form(original)):
             raise ValueError("RECONSIDERATION_SOURCE_CONTEXT_CHANGED")
         raw = _read_json(row[0])
         observation = Observation(
@@ -245,8 +245,8 @@ def _local_replay(conn, plan):
         or saved["code"] != expected.code
         or saved["domains"] != {bank: sorted(values) for bank, values in expected.domains.items()}
         or saved["assignments"] != expected.assignments
-        or _json(saved["trace"]) != _json(expected.trace)
-        or _json(saved["conflicts"]) != _json(expected.conflicts)
+        or _json(identity_form(saved["trace"])) != _json(identity_form(expected.trace))
+        or _json(identity_form(saved["conflicts"])) != _json(identity_form(expected.conflicts))
     ):
         raise ValueError("RECONSIDERATION_LOCAL_REPLAY_MISMATCH")
     return "LOCAL_REPLAY_VALIDATED"

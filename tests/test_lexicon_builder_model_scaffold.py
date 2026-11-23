@@ -13,6 +13,7 @@ from GSE.curation.lexicon_builder.evidence import Definition
 from GSE.curation.lexicon_builder.model_protocol import coordinate_contract, model_input, protocol_contract
 from GSE.curation.lexicon_builder.residual import LEGACY_REQUEST_FORMAT, OllamaTransport, build_request, complete_bank
 from GSE.curation.lexicon_builder.resolution import resolve_dictionary
+from GSE.namespace import identity_form
 
 DEFINITION = Definition("entry:desire", "desire", "verb", "feel a desire for something")
 BANKS = ("FEEL", "WANT", "GOOD")
@@ -171,7 +172,7 @@ def test_legacy_request_regenerates_original_bytes_but_cannot_be_submitted_to_ne
         "fill": {"WANT": None},
     }
     assert old.payload() == payload
-    raw = json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False)
+    raw = json.dumps(identity_form(payload), sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False)
     assert old.request_id == hashlib.sha256(raw.encode()).hexdigest()
     with pytest.raises(ValueError, match="INVALID_MODEL_REQUEST"):
         model_input(payload)
