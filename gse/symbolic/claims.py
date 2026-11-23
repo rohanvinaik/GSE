@@ -225,7 +225,11 @@ def _freeze(value: Any, depth: int = 0) -> Any:
     if dataclasses.is_dataclass(value) and not isinstance(value, type):
         return (
             type(value).__name__,
-            tuple((f.name, _freeze(getattr(value, f.name), depth + 1)) for f in dataclasses.fields(value)),
+            tuple(
+                (f.name, _freeze(getattr(value, f.name), depth + 1))
+                for f in dataclasses.fields(value)
+                if f.name != "duration" or getattr(value, f.name) is not None
+            ),
         )
     return ("unsupported", type(value).__name__)
 
@@ -245,15 +249,17 @@ def scope_signature(proposition: Any) -> tuple:
         if scope.field == "modal":
             return ("modal", tuple(getattr(owner, "modal", ())))
         if scope.owner_kind == "Event" and scope.field == "patient":
-            return (
+            context = (
                 owner.verb,
                 _freeze(owner.agent),
                 _freeze(getattr(owner, "themes", ())),
                 tuple(getattr(owner, "modal", ())),
             )
+            return (*context, _freeze(owner.duration)) if owner.duration is not None else context
         if scope.owner_kind == "Temporal":
             other = owner.setting if scope.field == "event" else owner.event
-            return (owner.conjunction, _freeze(other))
+            context = (owner.conjunction, _freeze(other))
+            return (*context, _freeze(owner.duration)) if owner.duration is not None else context
         if scope.owner_kind == "Conditional":
             other = owner.antecedent if scope.field == "consequent" else owner.consequent
             return (owner.conjunction, _freeze(other))
@@ -327,6 +333,9 @@ def claim_key(
         roles = [("lhs", node.lhs), ("rhs", node.rhs)]
     else:
         return ClaimKey("unsupported", None, pol, projection, "unsupported_predicate_kind")
+    duration = getattr(node, "duration", None)
+    if duration is not None:
+        relation = (*relation, ("duration", _freeze(duration)))
     ids = [(role, identity(operand, namespace)) for role, operand in roles]
     if any(item.state != "resolved" for _, item in ids):
         return ClaimKey("unresolved", None, pol, projection, "unresolved_argument_identity")

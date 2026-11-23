@@ -7,11 +7,21 @@ and hand-reviewed definition anchors enter through the build manifest.
 
 import hashlib
 import json
+import re
 from itertools import product
 from pathlib import Path
+from urllib.parse import quote
 
 from gse.curation.schema import ALL_PRIMITIVES, BIPOLAR_PAIRS
 
+from .definition_frames import (
+    NATIVE_FRAME_PREFIX,
+    NATIVE_NOUN_FRAMES,
+    WIKTIONARY_ANATOMY_FRAME_PREFIX,
+    WIKTIONARY_ANATOMY_FRAMES,
+    native_noun_frames,
+    wiktionary_anatomy_frame,
+)
 from .engine import Assertion, Relation
 from .interchange import read_json
 
@@ -59,6 +69,226 @@ def definition_context(pos: str) -> dict[str, str]:
     """Keep unknown POS unknown; only explicit lexical types activate a law."""
     normalized = pos.lower()
     return {"pos": POS_NAMES.get(normalized, normalized)}
+
+
+_WORDNET_SYNSET = re.compile(r"[^\s:]+\.[nvasr]\.(?:0[1-9]|[1-9][0-9]+)\Z")
+_ANCESTOR_PREFIX = "wordnet_ancestor:"
+
+
+EXCEPTION_GUARD_PREFIX = "except_entry:"
+WORDNET_OUTSIDE_ANCESTOR_PREFIX = "wordnet_outside_ancestor:"
+WORDNET_OTHER_SYNSET_PREFIX = "wordnet_other_than_synset:"
+WORDNET_ANCESTRY_GUARD_PREFIXES = (
+    _ANCESTOR_PREFIX,
+    WORDNET_OUTSIDE_ANCESTOR_PREFIX,
+    WORDNET_OTHER_SYNSET_PREFIX,
+)
+
+
+def valid_lexical_guard(key, value) -> bool:
+    """Recognize lexical scope predicates, never bank values or inferred signs."""
+    if not isinstance(key, str) or not isinstance(value, str):
+        return False
+    if key == "pos":
+        return bool(value.strip())
+    if key == "wordnet_native_lemma":
+        return value == "true"
+    if key.startswith(NATIVE_FRAME_PREFIX):
+        return value == "true" and key.removeprefix(NATIVE_FRAME_PREFIX) in NATIVE_NOUN_FRAMES
+    if key.startswith(WIKTIONARY_ANATOMY_FRAME_PREFIX):
+        return value == "true" and key.removeprefix(WIKTIONARY_ANATOMY_FRAME_PREFIX) in WIKTIONARY_ANATOMY_FRAMES
+    if key.startswith(EXCEPTION_GUARD_PREFIX):
+        identity = key.removeprefix(EXCEPTION_GUARD_PREFIX)
+        return bool(identity) and not any(char.isspace() for char in identity) and value == "true"
+    return value == "true" and any(
+        key.startswith(prefix) and _WORDNET_SYNSET.fullmatch(key.removeprefix(prefix)) is not None
+        for prefix in WORDNET_ANCESTRY_GUARD_PREFIXES
+    )
+
+
+def validate_lexical_guards(relations) -> tuple[str, ...]:
+    """Refuse unsupported scope schemas, including for empty build populations."""
+    requested = set()
+    for relation in relations:
+        for key, value in relation.guards:
+            if not valid_lexical_guard(key, value):
+                raise ValueError("UNSUPPORTED_LEXICAL_GUARD")
+            for prefix in WORDNET_ANCESTRY_GUARD_PREFIXES:
+                if key.startswith(prefix):
+                    requested.add(key.removeprefix(prefix))
+    return tuple(sorted(requested))
+
+
+def _field(record, name):
+    return record.get(name) if isinstance(record, dict) else getattr(record, name, None)
+
+
+def _exact_wordnet_ancestry(definition, observation) -> frozenset[str]:
+    """Read a complete exact native witness; malformed/mismatched data abstains.
+
+    Native paths include the synset itself. Aliases are not guessed: both the
+    definition identity and each path must name the recorded canonical synset.
+    Candidate links and association observations supply no membership authority.
+    """
+    entry_id = _field(definition, "entry_id")
+    if (
+        _field(observation, "source") != "wordnet_hierarchy"
+        or _field(observation, "scope") != "lexical"
+        or _field(observation, "entry_id") != entry_id
+        or _field(observation, "record_id") != entry_id
+    ):
+        return frozenset()
+    features = _field(observation, "features")
+    if not isinstance(features, dict):
+        return frozenset()
+    lemma, pos, gloss = (_field(definition, name) for name in ("lemma", "pos", "definition"))
+    synset = features.get("synset_name")
+    native_pos = features.get("pos")
+    if (
+        not isinstance(synset, str)
+        or _WORDNET_SYNSET.fullmatch(synset) is None
+        or not isinstance(lemma, str)
+        or not isinstance(pos, str)
+        or not isinstance(native_pos, str)
+        or not isinstance(gloss, str)
+        or not gloss.strip()
+        or features.get("lemma") != lemma
+        or features.get("definition") != gloss
+        or entry_id != f"wordnet:{quote(lemma, safe='')}:{quote(synset, safe='')}"
+        or definition_context(native_pos) != definition_context(pos)
+        or definition_context(synset.rsplit(".", 2)[1]) != definition_context(pos)
+    ):
+        return frozenset()
+    paths = features.get("hypernym_paths")
+    if not isinstance(paths, (list, tuple)) or not paths:
+        return frozenset()
+    ancestors = set()
+    for path in paths:
+        if (
+            not isinstance(path, (list, tuple))
+            or not path
+            or any(not isinstance(node, str) or _WORDNET_SYNSET.fullmatch(node) is None for node in path)
+            or path[-1] != synset
+            or len(set(path)) != len(path)
+            or any(node.rsplit(".", 2)[1] != synset.rsplit(".", 2)[1] for node in path)
+        ):
+            return frozenset()
+        ancestors.update(path)
+    return frozenset(ancestors)
+
+
+def _attested_wordnet_lemma(definition, observation) -> bool:
+    """Test the native spelling after an exact WordNet identity check."""
+    names = _field(observation, "features").get("lemma_names")
+    return (
+        isinstance(names, (list, tuple))
+        and bool(names)
+        and all(isinstance(name, str) and name.strip() for name in names)
+        and _field(definition, "lemma").casefold().replace("_", " ")
+        in {name.casefold().replace("_", " ") for name in names}
+    )
+
+
+def native_frame_source(definition, observation) -> str | None:
+    """Return the native sense group for an exact WordNet or Wiktionary witness."""
+    source = _field(observation, "source")
+    features = _field(observation, "features")
+    if source == "wordnet_hierarchy":
+        if _exact_wordnet_ancestry(definition, observation) and _attested_wordnet_lemma(definition, observation):
+            return "wordnet:" + features["synset_name"]
+        return None
+    entry_id = _field(definition, "entry_id")
+    if (
+        source != "wiktionary"
+        or _field(observation, "family") != "wiktionary"
+        or _field(observation, "scope") != "lexical"
+        or _field(observation, "entry_id") != entry_id
+        or not isinstance(features, dict)
+        or features.get("identity_scheme") != "gse.wiktionary-native-leaf/1"
+        or any(features.get(field) != _field(definition, field) for field in ("entry_id", "lemma", "pos", "definition"))
+    ):
+        return None
+    sense = features.get("native_sense")
+    native_id, word = features.get("native_id"), features.get("word")
+    if (
+        not isinstance(sense, dict)
+        or sense.get("glosses") != [features["definition"]]
+        or any(key in sense for key in ("alt_of", "form_of"))
+        or not isinstance(sense.get("tags", []), list)
+        or any(tag in ("figuratively", "figurative", "metaphorical") for tag in sense.get("tags", []))
+        or not isinstance(native_id, str)
+        or not native_id
+        or not isinstance(word, str)
+        or not word
+    ):
+        return None
+    from .evidence import _record_id
+
+    if _field(observation, "record_id") != _record_id("wiktionary", word, features):
+        return None
+    return "wiktionary:" + native_id
+
+
+def lexical_context(definition, observations, relations) -> dict[str, str]:
+    """Add only requested predicates supported by exact native witnesses.
+
+    Accept typed Definition/Observation objects or their serialized dictionaries.
+    Missing witnesses remain absent, never false or a bank zero. With no source
+    guards, the result is byte-for-byte equivalent to the old POS-only context;
+    unrelated source context cannot perturb historical model request identities.
+    """
+    context = definition_context(_field(definition, "pos"))
+    requested = validate_lexical_guards(relations)
+    native_lemma_requested = any(key == "wordnet_native_lemma" for rule in relations for key, _ in rule.guards)
+    frame_guards = {key for rule in relations for key, _ in rule.guards if key.startswith(NATIVE_FRAME_PREFIX)}
+    gloss = _field(definition, "definition")
+    if frame_guards and context.get("pos") == "noun" and isinstance(gloss, str):
+        matched = frame_guards.intersection(NATIVE_FRAME_PREFIX + frame for frame in native_noun_frames(gloss))
+        if matched and any(native_frame_source(definition, row) for row in observations):
+            context.update(dict.fromkeys(sorted(matched), "true"))
+    anatomy_guards = {
+        key for rule in relations for key, _ in rule.guards if key.startswith(WIKTIONARY_ANATOMY_FRAME_PREFIX)
+    }
+    if anatomy_guards and context.get("pos") == "noun" and isinstance(gloss, str):
+        for observation in observations:
+            if _field(observation, "source") != "wiktionary" or not native_frame_source(definition, observation):
+                continue
+            frame = wiktionary_anatomy_frame(gloss, "noun", _field(observation, "features")["native_sense"])
+            if frame is not None and WIKTIONARY_ANATOMY_FRAME_PREFIX + frame in anatomy_guards:
+                context[WIKTIONARY_ANATOMY_FRAME_PREFIX + frame] = "true"
+    if requested or native_lemma_requested:
+        ancestors = set()
+        synsets = set()
+        for observation in observations:
+            witnessed = _exact_wordnet_ancestry(definition, observation)
+            ancestors.update(witnessed)
+            if witnessed:
+                synsets.add(_field(observation, "features")["synset_name"])
+            if native_lemma_requested and witnessed and _attested_wordnet_lemma(definition, observation):
+                context["wordnet_native_lemma"] = "true"
+        if ancestors:
+            for relation in relations:
+                for key, _ in relation.guards:
+                    if (
+                        key.startswith(_ANCESTOR_PREFIX)
+                        and key.removeprefix(_ANCESTOR_PREFIX) in ancestors
+                        or key.startswith(WORDNET_OUTSIDE_ANCESTOR_PREFIX)
+                        and key.removeprefix(WORDNET_OUTSIDE_ANCESTOR_PREFIX) not in ancestors
+                        or key.startswith(WORDNET_OTHER_SYNSET_PREFIX)
+                        and len(synsets) == 1
+                        and key.removeprefix(WORDNET_OTHER_SYNSET_PREFIX) not in synsets
+                    ):
+                        context[key] = "true"
+    for relation in relations:
+        exclusions = [key for key, _ in relation.guards if key.startswith(EXCEPTION_GUARD_PREFIX)]
+        if exclusions and all(context.get(key) == value for key, value in relation.guards if key not in exclusions):
+            identity = _field(definition, "entry_id")
+            if not isinstance(identity, str) or not identity:
+                continue
+            context.update(
+                {key: "false" if identity == key.removeprefix(EXCEPTION_GUARD_PREFIX) else "true" for key in exclusions}
+            )
+    return context
 
 
 def projection_relations() -> tuple[Relation, ...]:
@@ -195,6 +425,7 @@ def load_manifest(path: str | Path | None) -> tuple[tuple[Relation, ...], dict[s
         for bank, level in targets.items():
             if bank not in BANKS or type(level) is not int:
                 raise ValueError("INVALID_HIERARCHY_TARGET")
+    validate_lexical_guards(relations)
     return tuple(relations), anchors, hierarchy
 
 

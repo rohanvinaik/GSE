@@ -7,12 +7,16 @@ naming its issue, so the fix that lands it fails the xfail and the marker comes 
 are guards against over-correction: a name stays a name, a comparative keeps its stem.
 """
 
-import sqlite3
-from contextlib import closing
-
 import pytest
 
 from gse.api import GSEEncoder
+from gse.curation.external_sources.nrc_emotion import EmotionEntry, NRCEmotionParser
+from gse.curation.external_sources.nrc_vad import NRCVADParser
+from gse.curation.lexicon_builder.engine import Assertion, propagate
+from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle
+from gse.curation.lexicon_builder.foundation import BANKS
+from gse.curation.lexicon_builder.pipeline import build_dictionary
+from gse.curation.lexicon_builder.storage import open_build, store_entry
 from gse.symbolic import emit_contract, evaluate_tree, from_trace, resolve
 
 
@@ -44,14 +48,50 @@ def _contract_events(encoder, sentence):
     return _events(emit_contract(evaluate_tree(resolve(from_trace(encoder.encode(sentence)))))["predicate"])
 
 
-def _row(encoder, lemma):
-    """A lemma's stored signature, non-zero values only, in the lexicon this encoder reads."""
-    query = (
-        "SELECT pv.primitive, pv.value FROM primitive_values pv JOIN lexemes l ON l.id = pv.lexeme_id "
-        "WHERE l.lemma = ? AND pv.value != 0"
+def _row(encoder, entry_id):
+    """One explicit definition's stored signs; homographs are never merged."""
+    reading = encoder.lookup_definition(entry_id)
+    assert reading["code"] == "IDENTIFIED"
+    return {bank: value for bank, value in reading["selected"]["assignments"].items() if value}
+
+
+def _store_fixture(conn, entry_id, lemma, pos, values, banks=BANKS):
+    assertions = tuple(Assertion(bank, value, "fixture", entry_id, "dictionary") for bank, value in values.items())
+    store_entry(
+        conn,
+        Definition(entry_id, lemma, pos, "Explicit identity fixture"),
+        propagate(banks, assertions, ()),
+        assertions,
     )
-    with closing(sqlite3.connect(f"file:{encoder.db_path}?mode=ro", uri=True)) as db:
-        return dict(db.execute(query, (lemma,)).fetchall())
+
+
+@pytest.fixture
+def word_encoder(tmp_path):
+    """Declared signs exercise identity preservation; they are not dictionary gold."""
+    path = tmp_path / "word-identities.db"
+    conn = open_build(path)
+    try:
+        _store_fixture(conn, "fixture:inside:spatial", "inside", "adj", {"OUTSIDE": -1})
+        _store_fixture(conn, "fixture:independent:adjective", "independent", "adj", {"CAN": 1})
+        _store_fixture(conn, "fixture:side", "side", "noun", {"SOMETHING": 1})
+        _store_fixture(conn, "fixture:dependent", "dependent", "adj", {"WANT": 1})
+        conn.commit()
+    finally:
+        conn.close()
+    with GSEEncoder(path) as instance:
+        yield instance
+
+
+@pytest.fixture
+def category_encoder(tmp_path):
+    path = tmp_path / "noun-categories.db"
+    definitions = tuple(
+        Definition(f"fixture:noun:{word}", word, "noun", "Explicit noun-category fixture")
+        for word in ("rule", "elements", "case", "compassion")
+    )
+    build_dictionary(EvidenceBundle(definitions, (), (), ()), path)
+    with GSEEncoder(path) as instance:
+        yield instance
 
 
 # ── tokens: the front end ─────────────────────────────────────────────────────────────────────────────────
@@ -210,33 +250,91 @@ def test_dislike_is_not_like(encoder):
 
 
 @pytest.mark.parametrize(
-    ("sentence", "surface"), [("It is inside.", "inside"), ("The country is independent.", "independent")]
+    ("sentence", "surface", "entry_id"),
+    [
+        ("It is inside.", "inside", "fixture:inside:spatial"),
+        ("The country is independent.", "independent", "fixture:independent:adjective"),
+    ],
 )
-def test_a_word_keeps_its_own_row(encoder, sentence, surface):
-    assert dict(_token(encoder, sentence, surface).word_primitives) == _row(encoder, surface)
+def test_a_word_keeps_its_own_row(word_encoder, sentence, surface, entry_id):
+    token = _token(word_encoder, sentence, surface)
+    assert token.lemma == surface
+    assert token.lexical_evidence["selected_record"]["entry_id"] == entry_id
+    assert dict(token.word_primitives) == _row(word_encoder, entry_id)
+
+    # A noun homograph cannot be unioned into the adjective or selected first.
+    other = f"fixture:{surface}:noun"
+    _store_fixture(word_encoder.conn, other, surface, "noun", {"SOMETHING": 1, "ALIVE": 1})
+    word_encoder.conn.commit()
+    ambiguous = _token(word_encoder, sentence, surface)
+    assert ambiguous.lemma == surface
+    assert ambiguous.lexical_evidence["selection_status"] == "AMBIGUOUS"
+    assert set(ambiguous.lexical_evidence["candidate_entry_ids"]) == {entry_id, other}
+    assert ambiguous.word_primitives == {}
+    assert _row(word_encoder, other) == {"SOMETHING": 1, "ALIVE": 1}
+    assert _row(word_encoder, entry_id) == dict(token.word_primitives)
 
 
-def test_an_unknown_word_and_a_designed_zero_are_told_apart(encoder):
-    tokens = {token.token: token for token in encoder.encode("Only the xqzzt fell.").tokens}
+def test_an_unknown_word_and_a_designed_zero_are_told_apart(tmp_path):
+    path = tmp_path / "explicit-zero.db"
+    conn = open_build(path)
+    banks = ("GOOD", "FEEL", "HAPPEN")
+    try:
+        # This small fixture basis has three explicitly supplied zeros. No
+        # missing coordinate or real grammatical word is declared zero.
+        _store_fixture(conn, "fixture:zero", "zerofixture", "noun", {"GOOD": 0, "FEEL": 0, "HAPPEN": 0}, banks)
+        _store_fixture(conn, "fixture:partial", "partialfixture", "noun", {}, banks)
+        _store_fixture(conn, "fixture:fall", "fall", "verb", {"HAPPEN": 1}, banks)
+        conn.commit()
+    finally:
+        conn.close()
+    with GSEEncoder(path) as instance:
+        tokens = {token.token: token for token in instance.encode("Zerofixture partialfixture xqzzt fell.").tokens}
     assert tokens["xqzzt"].lexicon_status == "unknown"
     assert tokens["xqzzt"].lexical_evidence["state"] == "no_row"
     assert tokens["fell"].lexicon_status == "found"
-    assert tokens["Only"].lexicon_status == "found"
-    assert tokens["Only"].lexical_evidence["state"] == "no_primes"
-    # The actual lexical resource has no 'the' row; empty primes cannot invent one.
-    assert tokens["the"].lexical_evidence["state"] == "no_row"
+    assert tokens["fell"].lexical_evidence["selected_record"]["entry_id"] == "fixture:fall"
+    zero = tokens["Zerofixture"]
+    assert zero.lexicon_status == "found"
+    assert zero.lexical_evidence["state"] == "no_primes"
+    assert zero.lexical_evidence["domains"] == {bank: [0] for bank in banks}
+    partial = tokens["partialfixture"]
+    assert partial.lexical_evidence["selection_status"] == "IDENTIFIED"
+    assert partial.lexicon_status == "unread"
+    assert partial.lexical_evidence["state"] == "unread"
+    assert partial.lexical_evidence["domains"] == {bank: [-1, 0, 1] for bank in banks}
 
 
-@pytest.mark.xfail(
-    strict=True, raises=AssertionError, reason="#51 L-vad: the v2 VAD lexicon read on the v1 scale votes GOOD -1"
-)
 @pytest.mark.parametrize("lemma", ["rule", "elements", "case"])
-def test_a_neutral_word_carries_no_valence(encoder, lemma):
-    assert "GOOD" not in _row(encoder, lemma)
+def test_a_neutral_word_carries_no_valence(category_encoder, tmp_path, lemma):
+    # #51: native v2 zero is the scale center, not negative v1 valence.
+    path = tmp_path / "vad-v2.txt"
+    path.write_text(f"term\tvalence\tarousal\tdominance\n{lemma}\t0\t0\t0\n")
+    parser = NRCVADParser(str(path))
+    assert parser.load()
+    native = parser.entries[lemma]
+    assert native.native_version == "2" and native.native_scale == (-1.0, 1.0)
+    assert native.valence == 0
+    assert parser.projection_candidates_for_entry(native) == []
+    reading = category_encoder.lookup_definition(f"fixture:noun:{lemma}")["selected"]
+    # Noun evaluation zero comes from the explicit category rule, not the
+    # absence of an affect candidate. Other missing banks remain unresolved.
+    assert reading["domains"]["GOOD"] == [0]
+    assert reading["domains"]["FEEL"] == [-1, 0, 1]
+    assert "GOOD" not in _row(category_encoder, f"fixture:noun:{lemma}")
 
 
-@pytest.mark.xfail(
-    strict=True, raises=AssertionError, reason="#52 L-emolex: a GOOD conflict is settled by alphabetical emotion order"
-)
-def test_compassion_is_not_negative(encoder):
-    assert _row(encoder, "compassion").get("GOOD") != -1
+def test_compassion_is_not_negative(category_encoder):
+    # #52: keep opposing affect associations, independent of insertion order.
+    parser = NRCEmotionParser()
+    forward = parser.projection_candidates_for_entry(EmotionEntry("compassion", {"positive": 1, "sadness": 1}))
+    reverse = parser.projection_candidates_for_entry(EmotionEntry("compassion", {"sadness": 1, "positive": 1}))
+    assert forward == reverse
+    assert forward is not None
+    evaluation = next(candidate for candidate in forward if candidate["bank"] == "GOOD")
+    assert evaluation["suggested_values"] == [-1, 1]
+    assert evaluation["evidence_disposition"] == "ASSOCIATION_OWN_DEFINITION_UNESTABLISHED"
+    reading = category_encoder.lookup_definition("fixture:noun:compassion")["selected"]
+    assert reading["domains"]["GOOD"] == [0]
+    assert reading["domains"]["FEEL"] == [-1, 0, 1]
+    assert _row(category_encoder, "fixture:noun:compassion").get("GOOD") != -1

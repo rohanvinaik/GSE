@@ -15,6 +15,8 @@ from typing import Dict, List, Optional, Set
 
 import requests
 
+from gse.curation.external_sources.source_scope import SOURCE_PRIMITIVE_SCOPE
+
 logger = logging.getLogger(__name__)
 
 # NRC EmoLex download URL (academic use)
@@ -121,6 +123,44 @@ class NRCEmotionParser:
         except Exception as e:
             logger.error(f"Failed to load NRC EmoLex: {e}")
             return False
+
+    def projection_candidates_for_entry(self, entry: object) -> list[dict] | None:
+        """Retain every scoped mapping alternative as association evidence only.
+
+        Emotion associations do not establish a word's own FEEL/GOOD/etc.
+        Missing or zero association flags provide no lexical zero assignment.
+        """
+        if (
+            type(entry) is not EmotionEntry
+            or set(vars(entry)) != {"word", "emotions"}
+            or not isinstance(entry.word, str)
+            or not entry.word.strip()
+            or not isinstance(entry.emotions, dict)
+            or any(
+                emotion not in EMOTION_TO_PRIMITIVE or type(value) is not int or value not in (0, 1)
+                for emotion, value in entry.emotions.items()
+            )
+        ):
+            return None
+        suggestions: dict[str, set[int]] = {}
+        provenance: dict[str, list[str]] = {}
+        for emotion, associated in sorted(entry.emotions.items()):
+            if associated != 1:
+                continue
+            for bank, value in EMOTION_TO_PRIMITIVE[emotion].items():
+                if bank not in SOURCE_PRIMITIVE_SCOPE["nrc_emotion"]:
+                    continue
+                suggestions.setdefault(bank, set()).add(value)
+                provenance.setdefault(bank, []).append(f"nrc_emotion:EMOTION_TO_PRIMITIVE:{emotion}:{bank}={value}")
+        return [
+            {
+                "bank": bank,
+                "suggested_values": sorted(values),
+                "mapping_provenance": sorted(provenance[bank]),
+                "evidence_disposition": "ASSOCIATION_OWN_DEFINITION_UNESTABLISHED",
+            }
+            for bank, values in sorted(suggestions.items())
+        ]
 
     def get_emotions(self, word: str) -> Optional[Dict[str, int]]:
         """Get emotion scores for a word."""

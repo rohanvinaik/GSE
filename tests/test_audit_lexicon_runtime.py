@@ -4,9 +4,15 @@ import json
 
 import pytest
 
-from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle
+from gse.curation.lexicon_builder.evidence import EvidenceBundle, collect_evidence, load_local_sources
 from gse.curation.lexicon_builder.pipeline import build_dictionary
-from scripts.audit_lexicon_runtime import anchor_outcome, audit_runtime, main
+from scripts.audit_lexicon_runtime import (
+    ORDINAL_ANCHOR_RECORD,
+    anchor_outcome,
+    audit_runtime,
+    main,
+    ordinal_anchor_isolation,
+)
 
 
 @pytest.mark.parametrize(
@@ -43,16 +49,11 @@ def test_audit_exercises_approved_degree_vectors_and_leaves_database_unchanged(t
     from pathlib import Path
 
     manifest = Path(__file__).resolve().parents[1] / "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json"
-    definitions = (
-        Definition("wordnet:want:desire.v.01", "want", "verb", "feel or have a desire for; want strongly"),
-        Definition("wordnet:very:very.r.01", "very", "adverb", "used as intensifiers"),
-        Definition("wordnet:extremely:extremely.r.02", "extremely", "adverb", "to an extreme degree"),
-        Definition("wordnet:very:identical.s.02", "very", "adjective", "being the exact same one; not any other"),
-        Definition("wordnet:very:very.r.02", "very", "adverb", "precisely so"),
-        Definition("wordnet:very:very.s.01", "very", "adjective", "precisely as stated"),
-    )
     path = tmp_path / "anchors.db"
-    build_dictionary(EvidenceBundle(definitions, (), (), ()), path, manifest=manifest)
+    parsers, diagnostics = load_local_sources(("gse_closed_class", "nsm_chart", "wordnet_hierarchy"))
+    assert all(record["code"] == "LOADED" for record in diagnostics)
+    native = collect_evidence(parsers, words=("extremely",))
+    build_dictionary(native, path, manifest=manifest)
     before = path.read_bytes()
     report = audit_runtime(path)
     assert path.read_bytes() == before
@@ -66,6 +67,50 @@ def test_audit_exercises_approved_degree_vectors_and_leaves_database_unchanged(t
         "degree_vector_distinction",
     ):
         assert report["by_class"][name] == {"IDENTIFIED": 1}
-    assert report["by_class"]["other_very_senses_unknown"] == {"IDENTIFIED": 3}
-    assert report["by_class"]["not_very_scope"] == {"WRONG": 1}
+    assert report["by_class"]["other_very_senses_anchor_isolation"] == {"IDENTIFIED": 3}
+    for name in (
+        "not_very_scope",
+        "very_not_scope",
+        "repeated_extreme_equivalence",
+        "degree_scope_distinction",
+        "ordinal_distinction",
+    ):
+        assert report["by_class"][name] == {"IDENTIFIED": 1}
     json.dumps(report, allow_nan=False)
+
+
+@pytest.mark.parametrize("value", [-1, 0, 1])
+def test_sense_isolation_allows_independent_completion_but_rejects_copied_anchor(value):
+    entry = {
+        "entry_id": "wordnet:very:very.r.02",
+        "assignments": {"INTENSITY": value},
+        "domains": {"INTENSITY": [value]},
+        "trace": [{"kind": "ASSERTION", "bank": "INTENSITY", "value": value, "record_id": "independent:exact-sense"}],
+    }
+    assert ordinal_anchor_isolation(entry)["outcome"] == "IDENTIFIED"
+    entry["trace"][0]["record_id"] = ORDINAL_ANCHOR_RECORD
+    assert ordinal_anchor_isolation(entry)["outcome"] == "WRONG"
+
+
+def test_runtime_audit_accepts_justified_this_have_zero(tmp_path):
+    from pathlib import Path
+
+    from gse.curation.lexicon_builder.completion import complete_dictionary
+
+    manifest = json.loads(
+        (Path(__file__).resolve().parents[1] / "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json").read_text()
+    )
+    # A deliberately small fixture retains only the authored THIS definition.
+    manifest["definitions"] = [d for d in manifest["definitions"] if d["entry_id"] == "gse:prime:this"]
+    manifest["anchors"] = {"gse:prime:this": manifest["anchors"]["gse:prime:this"]}
+    manifest["prime_entries"] = {"nsm:v20:this": ["gse:prime:this"]}
+    manifest["hierarchy"] = {}
+    rules = tmp_path / "this-rules.json"
+    rules.write_text(json.dumps(manifest))
+    path = tmp_path / "this.db"
+    build_dictionary(EvidenceBundle((), (), (), ()), path, manifest=rules)
+    complete_dictionary(path, lambda payload, schema: '{"HAVE":0}', 1, entry_ids=("gse:prime:this",), banks=("HAVE",))
+    report = audit_runtime(path)
+    this = next(record for record in report["records"] if record["class"] == "this_object")
+    assert this["have_domain"] == [0]
+    assert this["outcome"] == "IDENTIFIED"

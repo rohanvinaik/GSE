@@ -17,6 +17,7 @@ import typing
 
 import pytest
 
+from gse.symbolic.duration import Duration
 from gse.symbolic.expression import Atom, Negation, Op, Phrase
 from gse.symbolic.predicates import OPERAND_FIELDS, Event, Predicate
 from gse.symbolic.resolution import Coordination, Entity
@@ -33,6 +34,8 @@ def _atom(lemma: str, position: int = 3) -> Atom:
         number="plur",
         graded=True,
         apposition="warrior",
+        degree={"scale": "INTENSITY", "level": 2, "sources": [1, 2]},
+        degree_modifier=True,
     )
 
 
@@ -58,6 +61,7 @@ _FEATURES = {
     "note": "probe",
     "themes": (Entity(head=_atom("letter")),),
     "modal": ("MAYBE",),
+    "duration": Duration("short", "during"),
 }
 
 
@@ -65,7 +69,10 @@ def _predicate(cls):
     kwargs = {f: _entity(f"{cls.__name__.lower()}_{f}") for f in OPERAND_FIELDS[cls.__name__]}
     for f in dataclasses.fields(cls):
         if f.name not in kwargs:
-            kwargs[f.name] = _FEATURES[f.name]
+            kwargs[f.name] = (
+                Duration("long", "after") if cls.__name__ == "Temporal" and f.name == "duration"
+                else _FEATURES[f.name]
+            )
     return cls(**kwargs)
 
 
@@ -73,7 +80,14 @@ NODES = [
     _atom("hens"),
     Phrase(atoms=[_atom("mike", 4), _atom("dog", 5)]),
     Negation(operand=_atom("leave")),
-    Op(primitive="kill", operation="EVENT", arity=2, args=[_atom("macbeth"), _atom("duncan")], modal=("MAYBE",)),
+    Op(
+        primitive="kill",
+        operation="EVENT",
+        arity=2,
+        args=[_atom("macbeth"), _atom("duncan")],
+        modal=("MAYBE",),
+        duration=Duration("short", "during"),
+    ),
     _entity("macbeth"),
     Coordination(members=(_entity("spot"), _entity("rex")), conjunction="or", modifier=_atom("cute")),
 ] + [_predicate(cls) for cls in typing.get_args(Predicate)]
@@ -126,4 +140,4 @@ def test_fields_at_their_defaults_are_not_emitted():
     d = to_dict(Entity(head=Atom(lemma="dog")))
     assert "apposition_thread" not in d
     assert not {"number", "graded", "apposition"} & set(d["head"])
-    assert "themes" not in to_dict(Event(verb="run", agent=Atom(lemma="rex")))
+    assert not {"themes", "duration"} & set(to_dict(Event(verb="run", agent=Atom(lemma="rex"))))

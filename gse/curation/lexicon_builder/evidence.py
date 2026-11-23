@@ -14,7 +14,7 @@ import json
 import math
 import sqlite3
 from collections.abc import Mapping
-from dataclasses import asdict, dataclass, is_dataclass, replace
+from dataclasses import asdict, dataclass, fields, is_dataclass, replace
 from pathlib import Path
 from typing import Protocol, cast
 from urllib.parse import quote
@@ -26,7 +26,7 @@ from gse.curation.external_sources.wordnet_hierarchy import (
 )
 from gse.primitives_v2 import PRIMITIVE_REGISTRY, get_canonical_pole
 
-from .engine import Assertion
+from .engine import Assertion, DomainRestriction
 from .foundation import BANKS
 
 
@@ -69,6 +69,17 @@ class Observation:
             from .relevance import validate_bank_relevance
 
             validate_bank_relevance(self.features["bank_relevance"])
+        if "native_reference" in self.features:
+            expected = _native_reference_observation_fields(self.features["native_reference"])
+            if any(getattr(self, key) != value for key, value in expected.items()):
+                raise ValueError("NATIVE_REFERENCE_OBSERVATION_MISMATCH")
+        if "definition_identity" in self.features:
+            from .wordnet_identity import wordnet_identity_observation_fields
+
+            root = {key: self.features.get(key) for key in ("entry_id", "lemma", "pos", "definition")}
+            expected = wordnet_identity_observation_fields(self.features["definition_identity"], root)
+            if any(getattr(self, key) != value for key, value in expected.items()):
+                raise ValueError("WORDNET_IDENTITY_OBSERVATION_MISMATCH")
 
 
 def _require_string(value, code: str) -> None:
@@ -108,9 +119,12 @@ class EvidenceBundle:
     observations: tuple[Observation, ...]
     assertions: tuple[Assertion, ...]
     unresolved: tuple[dict, ...]
+    domain_restrictions: tuple[DomainRestriction, ...] = ()
 
 
 _FAMILIES = {
+    "nsm_chart": "nsm_primary_chart",
+    "gse_closed_class": "gse_curated_grammar",
     "wordnet_hierarchy": "wordnet",
     "sentiwordnet": "wordnet",
     "verbnet": "verb_structure",
@@ -195,12 +209,19 @@ def _native_records(source: str, parser: object, word: str) -> list:
 
 
 def _vocabulary(parsers: dict[str, object], words: tuple[str, ...] | None) -> tuple[str, ...]:
+    foundation_words: tuple[str, ...] = ()
+    if "nsm_chart" in parsers:
+        from .catalog import native_foundation_words
+
+        foundation_words = native_foundation_words()
     if words is not None:
         if not isinstance(words, tuple) or any(not isinstance(word, str) or not word.strip() for word in words):
             raise ValueError("INVALID_WORDS")
-        return tuple(sorted({word.strip().lower().replace("_", " ") for word in words}))
-    vocabulary = set()
+        return tuple(sorted({word.strip().lower().replace("_", " ") for word in (*words, *foundation_words)}))
+    vocabulary = set(foundation_words)
     for source, parser in parsers.items():
+        if source == "wiktionary" and getattr(parser, "data_path", None) is not None:
+            vocabulary.update(getattr(parser, "get_all_words")())
         entries = getattr(parser, "entries", {})
         if isinstance(entries, Mapping):
             vocabulary.update(word for word in entries if isinstance(word, str) and word)
@@ -232,11 +253,19 @@ def _taxonomy_proposals(lexname: str, paths: list[list[str]]) -> list[dict]:
     ]
 
 
+def _native_definition_scope(source):
+    # The old Wiktionary word adapter has no authority. Only the native
+    # definition path may project the explicitly reviewed native genera.
+    if source == "wiktionary":
+        return frozenset({"SOMEONE", "BODY"})
+    return SOURCE_PRIMITIVE_SCOPE.get(source)
+
+
 def _taxonomy_assertions(
     record_id: str, projected: dict[str, int], source: str = "wordnet_hierarchy", family: str = "wordnet"
 ) -> tuple[Assertion, ...]:
     """Apply source competence and canonical coordinates to adapter projection."""
-    permitted = SOURCE_PRIMITIVE_SCOPE.get(source)
+    permitted = _native_definition_scope(source)
     if permitted is None:
         return ()
     assignments = set()
@@ -258,7 +287,7 @@ def _taxonomy_assertions(
     return assertions
 
 
-def validate_assertion_competence(assertion: Assertion) -> None:
+def validate_assertion_competence(assertion: Assertion | DomainRestriction) -> None:
     """Enforce native source competence for collected and imported assertions.
 
     Source scopes name both primitive poles, while assertions use canonical
@@ -267,9 +296,13 @@ def validate_assertion_competence(assertion: Assertion) -> None:
     restriction here; their identity, lexical typing and closed-basis checks
     remain the caller's evidence/engine contract.
     """
-    if not isinstance(assertion, Assertion):
+    if not isinstance(assertion, (Assertion, DomainRestriction)):
         raise ValueError("INVALID_ASSERTION")
-    permitted = SOURCE_PRIMITIVE_SCOPE.get(assertion.source)
+    if assertion.source == "wiktionary" and (
+        not isinstance(assertion, Assertion) or assertion.value != 1 or assertion.scope != "lexical"
+    ):
+        raise ValueError("ASSERTION_OUTSIDE_NATIVE_DEFINITION_SCOPE")
+    permitted = _native_definition_scope(assertion.source)
     if permitted is None:
         return
     allowed = {
@@ -283,6 +316,57 @@ def validate_assertion_competence(assertion: Assertion) -> None:
         raise ValueError("ASSERTION_OUTSIDE_SOURCE_SCOPE")
 
 
+def _wordnet_relation_target(synset) -> dict:
+    """Locate a native sense without projecting its participants or associations."""
+    return {
+        "synset_name": synset.name(),
+        "pos": synset.pos(),
+        "definition": synset.definition(),
+        "lemma_names": sorted(synset.lemma_names()),
+    }
+
+
+def _wordnet_relations(synset, version: str | None) -> dict:
+    """Preserve native adjective edges; no edge licenses sign inheritance.
+
+    Antonyms relate lemma senses, while similar-to and attribute edges relate
+    synsets. Missing reader APIs are distinguished from observed empty relations.
+    Full target glosses retain restrictions such as appearance, capability, and
+    future state which a bare edge would erase.
+    """
+    result = {
+        "format": "gse.wordnet-native-relations/1",
+        "wordnet_version": version,
+        "source_synset": synset.name(),
+        "semantics": "NATIVE_RELATIONS_NOT_LEXICAL_ASSIGNMENTS",
+    }
+    for name, method in (("similar_to", "similar_tos"), ("attributes", "attributes")):
+        reader = getattr(synset, method, None)
+        result[name] = (
+            {"code": "READ", "records": sorted((_wordnet_relation_target(s) for s in reader()), key=_canonical_json)}
+            if callable(reader)
+            else {"code": "RELATION_API_UNAVAILABLE", "records": []}
+        )
+    reader = getattr(synset, "lemmas", None)
+    if not callable(reader):
+        result["antonyms"] = {"code": "RELATION_API_UNAVAILABLE", "records": []}
+        return result
+    records = []
+    for lemma in reader():
+        for target in lemma.antonyms():
+            records.append(
+                {
+                    "source_lemma": lemma.name(),
+                    "source_key": lemma.key(),
+                    "target_lemma": target.name(),
+                    "target_key": target.key(),
+                    "target": _wordnet_relation_target(target.synset()),
+                }
+            )
+    result["antonyms"] = {"code": "READ", "records": sorted(records, key=_canonical_json)}
+    return result
+
+
 def _wordnet_definitions(parser: object | None, words: tuple[str, ...]):
     definitions: dict[str, Definition] = {}
     observations: dict[str, Observation] = {}
@@ -291,6 +375,8 @@ def _wordnet_definitions(parser: object | None, words: tuple[str, ...]):
     wordnet = getattr(parser, "_wn", None)
     if wordnet is None:
         return definitions, observations, assertions, unresolved
+    version_reader = getattr(wordnet, "get_version", None)
+    version = version_reader() if callable(version_reader) else None
     for word in words:
         try:
             synsets = wordnet.synsets(word.replace(" ", "_"))
@@ -324,6 +410,8 @@ def _wordnet_definitions(parser: object | None, words: tuple[str, ...]):
                 features["examples"] = synset.examples()
             if callable(getattr(synset, "lemma_names", None)):
                 features["lemma_names"] = synset.lemma_names()
+            if synset.pos() in {"a", "s"}:
+                features["native_relations"] = _wordnet_relations(synset, version)
             native = _native_records("wordnet_hierarchy", parser, word)
             matching = [record for record in native if getattr(record, "synset_name", None) == synset_name]
             features["native_records"] = [_native_features(record) for record in matching]
@@ -332,6 +420,21 @@ def _wordnet_definitions(parser: object | None, words: tuple[str, ...]):
             observations[record_id] = Observation(
                 record_id, "wordnet_hierarchy", record_id, "wordnet", features, "lexical", (record_id,)
             )
+            native_names = features.get("lemma_names", [])
+            if word.casefold().replace("_", " ") not in {
+                name.casefold().replace("_", " ") for name in native_names if isinstance(name, str)
+            }:
+                from .wordnet_identity import wordnet_identity_evidence, wordnet_identity_observation
+
+                identity = wordnet_identity_evidence(parser, word, synset, pos=pos)
+                if identity["code"] in {"EXCEPTION_DERIVED", "REGULAR_RULE_CANDIDATES"} or (
+                    identity["code"] == "UNRESOLVED" and identity["reason"] == "NO_MATCHING_NATIVE_BASE"
+                ):
+                    witness = wordnet_identity_observation(identity, definitions[record_id])
+                    observations[witness.record_id] = witness
+                else:
+                    unresolved.append({"code": "WORDNET_IDENTITY_CONTEXT_UNAVAILABLE", "record_id": record_id,
+                                       "source": "wordnet_hierarchy", "identity": identity})
             project = getattr(parser, "to_primitives_for_definition", None)
             if callable(project):
                 assertions.extend(_taxonomy_assertions(record_id, project(synset_name)))
@@ -387,6 +490,338 @@ def _verbnet_links(parser, native, features, native_record_id, word, by_synset, 
     return observations, assertions, diagnostics
 
 
+def _validated_projection_candidates(source: str, candidates: object) -> list[dict]:
+    """Validate advisory mappings without promoting them to lexical facts."""
+    if not isinstance(candidates, list):
+        raise ValueError("INVALID_PROJECTION_CANDIDATES")
+    permitted = {
+        get_canonical_pole(primitive)[0]
+        for primitive in SOURCE_PRIMITIVE_SCOPE.get(source, ())
+        if primitive in PRIMITIVE_REGISTRY
+    }
+    seen = set()
+    result = []
+    for candidate in candidates:
+        if not isinstance(candidate, dict) or set(candidate) != {
+            "bank",
+            "suggested_values",
+            "mapping_provenance",
+            "evidence_disposition",
+        }:
+            raise ValueError("INVALID_PROJECTION_CANDIDATES")
+        bank = candidate["bank"]
+        values = candidate["suggested_values"]
+        provenance = candidate["mapping_provenance"]
+        if (
+            not isinstance(bank, str)
+            or bank not in BANKS
+            or bank in seen
+            or not isinstance(values, list)
+            or not values
+            or any(type(value) is not int or value not in (-1, 0, 1) for value in values)
+            or len(set(values)) != len(values)
+            or not isinstance(provenance, list)
+            or not provenance
+            or any(not isinstance(value, str) or not value.strip() for value in provenance)
+            or candidate["evidence_disposition"] != "ASSOCIATION_OWN_DEFINITION_UNESTABLISHED"
+        ):
+            raise ValueError("INVALID_PROJECTION_CANDIDATES")
+        if bank not in permitted:
+            raise ValueError("CANDIDATE_OUTSIDE_SOURCE_SCOPE")
+        seen.add(bank)
+        result.append({**candidate, "suggested_values": sorted(values), "mapping_provenance": sorted(set(provenance))})
+    return sorted(result, key=lambda candidate: candidate["bank"])
+
+
+def _closed_class_definitions(parser):
+    """Import native catalog identities without using a spelling-selected sense."""
+    definitions, observations, assertions = {}, {}, []
+    if parser is None:
+        return definitions, observations, assertions
+    from gse.curation.external_sources.gse_closed_class import GSEClosedClassEntry
+
+    for word in parser.get_all_words():
+        for native in parser.get_entries(word):
+            if not isinstance(native, GSEClosedClassEntry) or native.lemma != word:
+                raise ValueError("INVALID_CLOSED_CLASS_ENTRY")
+            entry_id = native.entry_id
+            if entry_id in definitions:
+                raise ValueError("DUPLICATE_CLOSED_CLASS_DEFINITION")
+            features = _native_features(native)
+            record_id = _record_id("gse_closed_class", word, features)
+            pos = _pos(native.pos)
+            if pos is None:
+                raise ValueError("INVALID_CLOSED_CLASS_POS")
+            definitions[entry_id] = Definition(entry_id, word, pos, native.definition, (record_id,))
+            observations[record_id] = Observation(
+                entry_id, "gse_closed_class", record_id, "gse_curated_grammar", features, "lexical", (entry_id,)
+            )
+            assertions.extend(
+                _taxonomy_assertions(
+                    record_id, parser.to_primitives_for_entry(native), "gse_closed_class", "gse_curated_grammar"
+                )
+            )
+    return definitions, observations, assertions
+
+
+def _chart_definitions(parser):
+    """Persist primary frames as exact definition evidence, without projections."""
+    definitions, observations = {}, {}
+    if parser is None:
+        return definitions, observations
+    from gse.curation.external_sources.nsm_chart import NSMChartEntry
+
+    for word in parser.get_all_words():
+        for native in parser.get_entries(word):
+            if not isinstance(native, NSMChartEntry) or native.lemma != word:
+                raise ValueError("INVALID_NSM_CHART_ENTRY")
+            if native.entry_id in definitions:
+                raise ValueError("DUPLICATE_NSM_CHART_DEFINITION")
+            if parser.to_primitives_for_entry(native):
+                raise ValueError("UNWARRANTED_NSM_CHART_PROJECTION")
+            features = _native_features(native)
+            record_id = _record_id("nsm_chart", word, features)
+            definitions[native.entry_id] = Definition(
+                native.entry_id, word, native.pos, native.definition, (record_id,)
+            )
+            observations[record_id] = Observation(
+                native.entry_id,
+                "nsm_chart",
+                record_id,
+                "nsm_primary_chart",
+                features,
+                "source_structure",
+                (native.entry_id,),
+            )
+    return definitions, observations
+
+
+def _native_reference_leaf(value: dict, source_sha256: str):
+    """Validate a complete serialized native leaf without fetching or selecting it."""
+    from gse.curation.external_sources.wiktionary import (
+        WiktionaryDefinition,
+        _native_reference_links,
+        _native_reference_record,
+    )
+
+    if not isinstance(value, dict) or set(value) != {field.name for field in fields(WiktionaryDefinition)}:
+        raise ValueError("INVALID_NATIVE_REFERENCE_LEAF_FIELDS")
+    _require_json(value)
+    for key in ("entry_id", "lemma", "word", "pos", "native_id", "record_sha256", "source_sha256", "identity_scheme"):
+        _require_string(value[key], "INVALID_NATIVE_REFERENCE_LEAF_IDENTITY")
+    if (
+        not isinstance(value["senseid_path"], list)
+        or any(not isinstance(part, str) for part in value["senseid_path"])
+        or not isinstance(value["native_sense"], dict)
+        or not isinstance(value["record_context"], dict)
+        or value["record_context"].get("lang") != "English"
+        or value["record_context"].get("lang_code") != "en"
+    ):
+        raise ValueError("INVALID_NATIVE_REFERENCE_LEAF_CONTENT")
+    native_fields = dict(value)
+    native_fields["senseid_path"] = tuple(value["senseid_path"])
+    entry = WiktionaryDefinition(**native_fields)
+    _native_reference_links(entry)
+    if _native_reference_record(entry, source_sha256) != value:
+        raise ValueError("INVALID_NATIVE_REFERENCE_LEAF_CONTENT")
+    return entry
+
+
+def _native_reference_observation_fields(packet: dict) -> dict:
+    """Validate packet consistency; snapshot authenticity belongs to source replay."""
+    from gse.curation.external_sources.wiktionary import _lookup_form, _native_reference_links
+
+    required = {
+        "format", "code", "source_entry", "relation", "link", "target_word", "target_lookup",
+        "target_entries", "other_pos_entries", "source_sha256",
+    }
+    if not isinstance(packet, dict) or set(packet) != required:
+        raise ValueError("INVALID_NATIVE_REFERENCE_PACKET_FIELDS")
+    _require_json(packet)
+    if packet["format"] != "gse.wiktionary-definition-reference/1":
+        raise ValueError("INVALID_NATIVE_REFERENCE_PACKET_FORMAT")
+    sha = packet["source_sha256"]
+    if not isinstance(sha, str) or len(sha) != 64 or any(char not in "0123456789abcdef" for char in sha):
+        raise ValueError("INVALID_NATIVE_REFERENCE_SOURCE_HASH")
+    original = _native_reference_leaf(packet["source_entry"], sha)
+    if not any(
+        packet["relation"] == relation and packet["link"] == link
+        for relation, link in _native_reference_links(original)
+    ):
+        raise ValueError("NATIVE_REFERENCE_LINK_NOT_IN_SOURCE")
+    word = packet["link"]["word"]
+    if packet["target_word"] != word or packet["target_lookup"] != _lookup_form(word):
+        raise ValueError("NATIVE_REFERENCE_TARGET_WORD_MISMATCH")
+    matching, other = [], []
+    for key, result in (("target_entries", matching), ("other_pos_entries", other)):
+        records = packet[key]
+        if not isinstance(records, list):
+            raise ValueError("INVALID_NATIVE_REFERENCE_TARGET_LIST")
+        seen = set()
+        for record in records:
+            target = _native_reference_leaf(record, sha)
+            location = (target.source_line, target.sense_index)
+            if location in seen:
+                raise ValueError("DUPLICATE_NATIVE_REFERENCE_TARGET_LOCATION")
+            seen.add(location)
+            if target.lemma != packet["target_lookup"]:
+                raise ValueError("NATIVE_REFERENCE_TARGET_IDENTITY_MISMATCH")
+            if (target.pos == original.pos) != (key == "target_entries"):
+                raise ValueError("NATIVE_REFERENCE_TARGET_POS_MISMATCH")
+            result.append(target)
+        if records != sorted(records, key=lambda record: (record["entry_id"], record["source_line"], record["sense_index"])):
+            raise ValueError("NONDETERMINISTIC_NATIVE_REFERENCE_TARGET_ORDER")
+    if len({target.entry_id for target in matching}) > 1:
+        code = "AMBIGUOUS_TARGET_SENSES"
+    elif matching:
+        code = "TARGET_IS_REFERENCE" if any(_native_reference_links(target) for target in matching) else "TARGET_DEFINITIONS_AVAILABLE"
+    else:
+        code = "TARGET_HAS_ONLY_OTHER_POS" if other else "TARGET_NOT_FOUND"
+    if packet["code"] != code:
+        raise ValueError("NATIVE_REFERENCE_STATUS_MISMATCH")
+    features = {
+        "entry_id": original.entry_id,
+        "lemma": original.lemma,
+        "word": original.word,
+        "pos": original.pos,
+        "definition": original.definition,
+        "reference_semantics": "ONE_HOP_NATIVE_REFERENCE_CONTEXT_NOT_IDENTITY_OR_BANK_TRANSFER",
+        "native_reference": _json_value(packet),
+    }
+    return {
+        "entry_id": original.entry_id,
+        "source": "wiktionary",
+        "record_id": _record_id("wiktionary_reference", original.word, features),
+        "family": "wiktionary",
+        "features": features,
+        "scope": "lexical",
+        "candidate_entry_ids": (original.entry_id,),
+    }
+
+
+def native_reference_observation(packet: dict) -> Observation:
+    """Construct one validated exact-root context observation, never an assertion."""
+    return Observation(**_native_reference_observation_fields(packet))
+
+
+def native_reference_observations(parser, entries) -> tuple[Observation, ...]:
+    """Retrieve explicit target context and verify every returned original witness."""
+    from gse.curation.external_sources.wiktionary import WiktionaryDefinition
+
+    if not isinstance(entries, tuple) or any(not isinstance(entry, WiktionaryDefinition) for entry in entries):
+        raise ValueError("INVALID_WIKTIONARY_REFERENCE_ENTRIES")
+    if not entries:
+        return ()
+    getter = getattr(parser, "get_definition_references", None)
+    if not callable(getter):
+        raise ValueError("NATIVE_REFERENCE_RETRIEVAL_UNAVAILABLE")
+    originals = {_canonical_json(_native_features(entry)) for entry in entries}
+    observations = {}
+    for packet in getter(entries):
+        observation = native_reference_observation(packet)
+        if _canonical_json(packet["source_entry"]) not in originals:
+            raise ValueError("NATIVE_REFERENCE_WRONG_SOURCE_WITNESS")
+        observations[observation.record_id] = observation
+    return tuple(observations[key] for key in sorted(observations))
+
+
+def wiktionary_definition_projection(definition: Definition, features: dict) -> dict[str, int]:
+    from gse.curation.external_sources.wiktionary import native_definition_primitives
+
+    gloss = definition.definition
+    if (
+        features.get("entry_id") == definition.entry_id
+        and features.get("lemma") == definition.lemma
+        and features.get("definition") == gloss
+        and features.get("pos") == definition.pos
+        and isinstance(gloss, str)
+        and isinstance(features.get("native_sense"), dict)
+    ):
+        return native_definition_primitives(gloss, definition.pos, features["native_sense"])
+    return {}
+
+
+def wiktionary_person_witness(definition: Definition, features: dict) -> bool:
+    return wiktionary_definition_projection(definition, features).get("SOMEONE") == 1
+
+
+def _wiktionary_definitions(parser, words):
+    """Keep each native definition identity, without guessing cross-source equivalence."""
+    definitions, observations, assertions, unresolved = {}, {}, [], []
+    if parser is None or getattr(parser, "data_path", None) is None:
+        return definitions, observations, assertions, unresolved
+    from gse.curation.external_sources.wiktionary import WiktionaryDefinition
+
+    reference_entries = []
+    for native in parser.get_definition_entries(words):
+        if not isinstance(native, WiktionaryDefinition):
+            raise ValueError("INVALID_WIKTIONARY_DEFINITION")
+        features = _native_features(native)
+        entry_id = native.entry_id
+        record_id = _record_id("wiktionary", native.word, features)
+        pos = _pos(native.pos)
+        if pos is None:
+            raise ValueError("INVALID_WIKTIONARY_DEFINITION_IDENTITY")
+        definition = Definition(entry_id, native.lemma, pos, native.definition, (record_id,))
+        if entry_id in definitions:
+            previous = definitions[entry_id]
+            if replace(previous, source_ids=(record_id,)) != definition:
+                raise ValueError("CONFLICTING_WIKTIONARY_LEAF_IDENTITY")
+            definition = replace(previous, source_ids=tuple(sorted(set(previous.source_ids) | {record_id})))
+        definitions[entry_id] = definition
+        observations[record_id] = Observation(
+            entry_id, "wiktionary", record_id, "wiktionary", features, "lexical", (entry_id,)
+        )
+        if any(relation in native.native_sense for relation in ("alt_of", "form_of")):
+            reference_entries.append(native)
+        assertions.extend(
+            _taxonomy_assertions(record_id, parser.to_primitives_for_entry(native), "wiktionary", "wiktionary")
+        )
+        if not native.definition.strip():
+            unresolved.append(
+                {
+                    "code": "MISSING_DEFINITION",
+                    "source": "wiktionary",
+                    "lemma": native.lemma,
+                    "entry_id": entry_id,
+                    "record_id": record_id,
+                }
+            )
+    for observation in native_reference_observations(parser, tuple(reference_entries)):
+        if observation.record_id in observations:
+            raise ValueError("NATIVE_REFERENCE_OBSERVATION_ID_COLLISION")
+        observations[observation.record_id] = observation
+    unresolved.append({"code": "NATIVE_DEFINITIONS_IMPORTED", "source": "wiktionary", **parser.native_statistics})
+    return definitions, observations, assertions, unresolved
+
+
+def _historical_definitions(parser, words):
+    """Import exact source-tagged definitions with no synonym-based assignments."""
+    definitions, observations, assertions = {}, {}, []
+    if parser is None:
+        return definitions, observations, assertions
+    from gse.curation.external_sources.websters1913 import WebsterDefinition
+
+    for native in parser.get_definition_entries(words):
+        if not isinstance(native, WebsterDefinition):
+            raise ValueError("INVALID_WEBSTERS_DEFINITION")
+        features = _native_features(native)
+        record_id = _record_id("websters1913", native.word, features)
+        entry_id = native.entry_id
+        if entry_id in definitions:
+            raise ValueError("DEFINITION_ID_COLLISION")
+        definitions[entry_id] = Definition(entry_id, native.lemma, native.pos, native.definition, (record_id,))
+        observations[record_id] = Observation(
+            entry_id, "websters1913", record_id, "historical_dictionary", features, "lexical", (entry_id,)
+        )
+        assertions.extend(
+            _taxonomy_assertions(
+                record_id, parser.to_primitives_for_entry(native), "websters1913", "historical_dictionary"
+            )
+        )
+    return definitions, observations, assertions
+
+
 def collect_evidence(parsers: dict[str, object], words: tuple[str, ...] | None = None) -> EvidenceBundle:
     """Collect complete native observations and warranted per-definition facts.
 
@@ -403,18 +838,53 @@ def collect_evidence(parsers: dict[str, object], words: tuple[str, ...] | None =
     definitions, observations, assertions, unresolved = _wordnet_definitions(
         loaded.get("wordnet_hierarchy"), vocabulary
     )
+    grammar_definitions, grammar_observations, grammar_assertions = _closed_class_definitions(
+        loaded.get("gse_closed_class")
+    )
+    if definitions.keys() & grammar_definitions.keys():
+        raise ValueError("DEFINITION_ID_COLLISION")
+    definitions.update(grammar_definitions)
+    observations.update(grammar_observations)
+    assertions.extend(grammar_assertions)
+    chart_definitions, chart_observations = _chart_definitions(loaded.get("nsm_chart"))
+    if definitions.keys() & chart_definitions.keys() or observations.keys() & chart_observations.keys():
+        raise ValueError("DEFINITION_ID_COLLISION")
+    definitions.update(chart_definitions)
+    observations.update(chart_observations)
+    native_definitions, native_observations, native_assertions, native_diagnostics = _wiktionary_definitions(
+        loaded.get("wiktionary"), vocabulary
+    )
+    if definitions.keys() & native_definitions.keys() or observations.keys() & native_observations.keys():
+        raise ValueError("DEFINITION_ID_COLLISION")
+    definitions.update(native_definitions)
+    observations.update(native_observations)
+    assertions.extend(native_assertions)
+    unresolved.extend(native_diagnostics)
+    historical_definitions, historical_observations, historical_assertions = _historical_definitions(
+        loaded.get("websters1913"), vocabulary
+    )
+    if definitions.keys() & historical_definitions.keys() or observations.keys() & historical_observations.keys():
+        raise ValueError("DEFINITION_ID_COLLISION")
+    definitions.update(historical_definitions)
+    observations.update(historical_observations)
+    assertions.extend(historical_assertions)
     unresolved.extend({"code": "SOURCE_NOT_LOADED", "source": name} for name in sorted(unavailable))
     by_word: dict[str, list[Definition]] = {}
     by_synset: dict[tuple[str, str], str] = {}
     for definition in definitions.values():
         by_word.setdefault(definition.lemma, []).append(definition)
-        features = observations[definition.entry_id].features
-        by_synset[(definition.lemma, features["synset_name"])] = definition.entry_id
+        native_observation = observations.get(definition.entry_id)
+        if native_observation is not None and "synset_name" in native_observation.features:
+            by_synset[(definition.lemma, native_observation.features["synset_name"])] = definition.entry_id
     for word in vocabulary:
         candidates = tuple(sorted(by_word.get(word, []), key=lambda definition: definition.entry_id))
         if not candidates:
             unresolved.append({"code": "NO_IDENTIFIED_DEFINITION", "lemma": word})
         for source, parser in sorted(loaded.items()):
+            if source == "wiktionary" and getattr(parser, "data_path", None) is not None:
+                continue  # Native definitions and their sense evidence were streamed once.
+            if source in {"gse_closed_class", "websters1913", "nsm_chart"}:
+                continue  # Already imported once through native catalog IDs.
             if source == "wordnet_hierarchy" and getattr(parser, "_wn", None) is not None:
                 continue
             for native in _native_records(source, parser, word):
@@ -431,6 +901,18 @@ def collect_evidence(parsers: dict[str, object], words: tuple[str, ...] | None =
                     if metadata is not None:
                         features["frame_metadata"] = _json_value(metadata)
                 record_id = _record_id(source, word, features)
+                # Mapping candidates are model/diagnostic context only. They do
+                # not narrow domains, assert signs, classify exhaustive bank
+                # relevance, or alter native record identity.
+                candidate_hook = getattr(parser, "projection_candidates_for_entry", None)
+                if "projection_candidates" not in features and callable(candidate_hook):
+                    proposed = candidate_hook(native)
+                    if proposed is not None:
+                        features["projection_candidates"] = _validated_projection_candidates(source, proposed)
+                elif "projection_candidates" in features:
+                    features["projection_candidates"] = _validated_projection_candidates(
+                        source, features["projection_candidates"]
+                    )
                 # Adapter-owned, typed record semantics may classify relevance.
                 # Keep identity based on native data and preserve an explicit
                 # existing annotation; a projection's output is not exhaustive
@@ -494,6 +976,10 @@ def collect_evidence(parsers: dict[str, object], words: tuple[str, ...] | None =
 
 
 _SOURCE_CLASSES = {
+    "nsm_chart": "NSMChartParser",
+    "websters1913": "Websters1913Parser",
+    "wiktionary": "WiktionaryParser",
+    "gse_closed_class": "GSEClosedClassParser",
     "wordnet_hierarchy": "WordNetHierarchyParser",
     "sentiwordnet": "SentiWordNetParser",
     "nrc_emotion": "NRCEmotionParser",
@@ -575,7 +1061,7 @@ def _load_local_source(source: str, parser: _LocalAdapter) -> dict:
         indexed.conn = connection
         indexed._loaded = True
         return {"source": source, "code": "LOADED", "native_records": count, "path": str(path)}
-    else:
+    elif source not in {"gse_closed_class", "nsm_chart"}:
         path = getattr(parser, "lexicon_path", None) if source == "usas" else getattr(parser, "data_path", None)
         if path is None or not Path(path).is_file():
             return {
@@ -586,9 +1072,21 @@ def _load_local_source(source: str, parser: _LocalAdapter) -> dict:
             }
     if not parser.load():
         return {"source": source, "code": "UNAVAILABLE", "reason": "LOCAL_PARSE_FAILED"}
+    if source == "wiktionary":
+        return {
+            "source": source,
+            "code": "LOADED",
+            "mode": "STREAMED_NATIVE_DEFINITIONS",
+            "path": str(getattr(parser, "data_path")),
+            "source_sha256": getattr(parser, "source_sha256"),
+        }
     entries = parser.entries
     count = sum(len(records) if isinstance(records, (list, tuple)) else 1 for records in entries.values())
-    return {"source": source, "code": "LOADED", "words": len(entries), "native_records": count}
+    diagnostic = {"source": source, "code": "LOADED", "words": len(entries), "native_records": count}
+    if source in {"gse_closed_class", "nsm_chart"}:
+        diagnostic["cohort"] = "MANDATORY_FOUNDATION_COHORT"
+        diagnostic["mandatory_definitions"] = count
+    return diagnostic
 
 
 def load_local_sources(sources: tuple[str, ...] | None = None) -> tuple[dict[str, object], tuple[dict, ...]]:
@@ -606,7 +1104,11 @@ def load_local_sources(sources: tuple[str, ...] | None = None) -> tuple[dict[str
     for source in dict.fromkeys(requested):
         try:
             module = importlib.import_module(f"gse.curation.external_sources.{source}")
-            parser = getattr(module, _SOURCE_CLASSES[source])()
+            parser = (
+                module.WiktionaryParser(data_path=module.WIKTIONARY_DUMP)
+                if source == "wiktionary"
+                else getattr(module, _SOURCE_CLASSES[source])()
+            )
             diagnostic = _load_local_source(source, parser)
         except (ImportError, OSError, ValueError, sqlite3.Error) as error:
             diagnostic = {"source": source, "code": "UNAVAILABLE", "reason": type(error).__name__}

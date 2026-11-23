@@ -8,6 +8,7 @@ NRC VAD (Valence-Arousal-Dominance) Lexicon Parser
 """
 
 import logging
+import math
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Optional, Set
@@ -29,6 +30,11 @@ class VADEntry:
     valence: float  # 0-1 (0=negative, 1=positive)
     arousal: float  # 0-1 (0=calm, 1=excited)
     dominance: float  # 0-1 (0=submissive, 1=dominant)
+    # Native scores are never rescaled in storage. The header declares whether
+    # they are v1 [0,1] or v2 [-1,1]; unknown headers remain unclassified.
+    native_version: str | None = None
+    native_scale: tuple[float, float] | None = None
+    native_header: tuple[str, ...] = ()
 
 
 class NRCVADParser:
@@ -78,7 +84,12 @@ class NRCVADParser:
             logger.info(f"Loading NRC VAD Lexicon from {self.data_path}...")
 
             with open(self.data_path, "r", encoding="utf-8") as f:
-                f.readline()  # skip the header row
+                header = tuple(f.readline().rstrip("\r\n").split("\t"))
+                normalized_header = tuple(field.casefold() for field in header)
+                version, scale = {
+                    ("word", "valence", "arousal", "dominance"): ("1", (0.0, 1.0)),
+                    ("term", "valence", "arousal", "dominance"): ("2", (-1.0, 1.0)),
+                }.get(normalized_header, (None, None))
 
                 for line in f:
                     line = line.strip()
@@ -97,6 +108,9 @@ class NRCVADParser:
                         valence=float(valence),
                         arousal=float(arousal),
                         dominance=float(dominance),
+                        native_version=version,
+                        native_scale=scale,
+                        native_header=header,
                     )
 
             logger.info(f"Loaded {len(self.entries)} words from NRC VAD")
@@ -106,6 +120,60 @@ class NRCVADParser:
         except Exception as e:
             logger.error(f"Failed to load NRC VAD: {e}")
             return False
+
+    def projection_candidates_for_entry(self, entry: object) -> list[dict] | None:
+        """Version-declared valence suggestions, with raw scores retained.
+
+        The existing valence threshold is candidate mapping evidence, not a
+        lexical ruling. Arousal/dominance never project to logical banks, and
+        the neutral interval never supplies a lexical zero.
+        """
+        if type(entry) is not VADEntry or set(vars(entry)) != {
+            "word",
+            "valence",
+            "arousal",
+            "dominance",
+            "native_version",
+            "native_scale",
+            "native_header",
+        }:
+            return None
+        declarations = {"1": (0.0, 1.0), "2": (-1.0, 1.0)}
+        if (
+            not isinstance(entry.word, str)
+            or not entry.word.strip()
+            or not isinstance(entry.native_version, str)
+            or entry.native_version not in declarations
+            or entry.native_scale != declarations[entry.native_version]
+            or not isinstance(entry.native_header, tuple)
+            or any(not isinstance(field, str) for field in entry.native_header)
+            or tuple(field.casefold() for field in entry.native_header)
+            != (("word" if entry.native_version == "1" else "term"), "valence", "arousal", "dominance")
+        ):
+            return None
+        low, high = declarations[entry.native_version]
+        if any(
+            type(value) not in (int, float) or not math.isfinite(value) or not low <= value <= high
+            for value in (entry.valence, entry.arousal, entry.dominance)
+        ):
+            return None
+        # Explicit affine conversion only for the declared v2 source format.
+        valence = entry.valence if entry.native_version == "1" else (entry.valence + 1.0) / 2.0
+        value = 1 if valence > 0.65 else -1 if valence < 0.35 else None
+        if value is None:
+            return []
+        return [
+            {
+                "bank": "GOOD",
+                "suggested_values": [value],
+                "mapping_provenance": [
+                    f"nrc_vad:declared_version={entry.native_version}:native_scale={low},{high}",
+                    "nrc_vad:v1_valence=raw" if entry.native_version == "1" else "nrc_vad:v1_valence=(raw+1)/2",
+                    f"nrc_vad:to_primitives:valence_threshold=0.15:center=0.5:GOOD={value}",
+                ],
+                "evidence_disposition": "ASSOCIATION_OWN_DEFINITION_UNESTABLISHED",
+            }
+        ]
 
     def get_vad(self, word: str) -> Optional[VADEntry]:
         """Get VAD scores for a word."""

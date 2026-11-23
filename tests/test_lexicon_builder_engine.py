@@ -89,7 +89,7 @@ def test_rule_conflict_cannot_overwrite_source_assertion():
     assert next(row for row in result.trace if row["kind"] == "RELATION")["domains_before"] == {"A": (1,)}
 
 
-def test_arc_consistency_does_not_claim_complete_global_satisfiability():
+def test_joint_search_detects_arc_consistent_odd_cycle():
     unequal = ((0, 1), (1, 0))
     relations = (
         rule("ab", ("A", "B"), unequal),
@@ -97,9 +97,12 @@ def test_arc_consistency_does_not_claim_complete_global_satisfiability():
         rule("ac", ("A", "C"), unequal),
     )
     result = propagate(("A", "B", "C"), (), relations)
-    assert result.code == "PARTIAL"
+    assert result.code == "CONFLICT"
     assert result.assignments == {}
-    assert result.trace[-1]["complete_search"] is False
+    assert all(not domain for domain in result.domains.values())
+    assert result.conflicts[0]["code"] == "JOINT_CONFLICT"
+    assert result.conflicts[0]["rule_ids"] == ("ab", "ac", "bc")
+    assert result.trace[-1]["satisfiability"] == "UNSATISFIABLE"
     for value in (0, 1):
         assert propagate(("A", "B", "C"), (claim("A", value),), relations).code == "CONFLICT"
 
@@ -192,6 +195,60 @@ def test_propagation_never_eliminates_a_complete_joint_witness():
             assert solutions == []
         if result.code == "RESOLVED":
             assert result.assignments in solutions
+        if solutions:
+            assert result.domains == {bank: frozenset(solution[bank] for solution in solutions) for bank in banks}
+            assert result.trace[-1]["complete_search"] is True
+        else:
+            assert result.code == "CONFLICT"
+
+
+def test_joint_support_can_prove_zero_without_assuming_unknown_is_zero():
+    rules = (
+        rule("ab", ("A", "B"), ((0, 0), (1, 1))),
+        rule("bc", ("B", "C"), ((0, 0), (1, 1))),
+        rule("ac", ("A", "C"), ((0, 0), (0, 1), (1, 0))),
+    )
+    result = propagate(("A", "B", "C", "UNRELATED"), (), rules)
+    assert result.code == "PARTIAL"
+    assert result.assignments == {"A": 0, "B": 0, "C": 0}
+    assert result.domains["UNRELATED"] == frozenset((-1, 0, 1))
+    assert len([record for record in result.trace if record["kind"] == "JOINT_SUPPORT"]) == 3
+    assert result.trace[-1]["satisfiability"] == "SATISFIABLE"
+    assert result == propagate(("UNRELATED", "C", "B", "A"), (), tuple(reversed(rules)))
+
+
+def test_limit_never_prunes_from_incomplete_search_and_checks_independent_component():
+    unequal = ((0, 1), (1, 0))
+    rules = tuple(
+        rule(name, pair, unequal)
+        for name, pair in (("ab", ("A", "B")), ("bc", ("B", "C")), ("ac", ("A", "C")), ("de", ("D", "E")))
+    )
+    limited = propagate(("A", "B", "C", "D", "E", "F"), (claim("F", 0),), rules, max_joint_assignments=7)
+    assert limited.code == "PARTIAL"
+    assert limited.assignments == {"F": 0}
+    assert all(limited.domains[bank] == frozenset((0, 1)) for bank in ("A", "B", "C", "D", "E"))
+    limits = [record for record in limited.trace if record["kind"] == "SOLVER_LIMIT"]
+    assert len(limits) == 1
+    assert limits[0]["banks"] == ("A", "B", "C")
+    assert limits[0]["joint_assignments"] == 8
+    assert any(record["kind"] == "JOINT_CHECK" and record["banks"] == ("D", "E") for record in limited.trace)
+    assert limited.trace[-1]["complete_search"] is False
+    assert limited.trace[-1]["satisfiability"] == "NOT_ESTABLISHED"
+    assert propagate(("A", "B", "C", "D", "E"), (), rules, max_joint_assignments=8).code == "CONFLICT"
+
+
+def test_disconnected_components_do_not_multiply_budget():
+    rules = tuple(rule(f"r-{index}", (f"A{index}",), ((-1,), (0,), (1,))) for index in range(15))
+    result = propagate(tuple(f"A{index}" for index in range(15)), (), rules, max_joint_assignments=3)
+    assert result.assignments == {}
+    assert result.trace[-1]["complete_search"] is True
+    assert not any(record["kind"] == "SOLVER_LIMIT" for record in result.trace)
+
+
+@pytest.mark.parametrize("limit", [0, -1, True, False, 1.0, "10", None])
+def test_invalid_joint_search_budget_is_rejected(limit):
+    with pytest.raises(ValueError, match="INVALID_JOINT_SEARCH_LIMIT"):
+        propagate((), (), (), max_joint_assignments=limit)
 
 
 def test_direct_propagation_fails_closed_on_unevaluated_evidence_guard():

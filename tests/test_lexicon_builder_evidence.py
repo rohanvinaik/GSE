@@ -408,7 +408,8 @@ def test_observation_preserves_typed_zero_null_and_nested_native_values():
     assert observation.features == features
 
 
-def test_verbnet_explicit_sense_links_have_distinct_witnesses_and_no_ambiguous_copy(monkeypatch):
+@pytest.mark.parametrize("predicate,bank", [("motion", "MOVE"), ("emotional_state", "FEEL"), ("desire", "WANT")])
+def test_verbnet_explicit_sense_links_have_distinct_witnesses_and_no_ambiguous_copy(monkeypatch, predicate, bank):
     from gse.curation.external_sources.verbnet import VerbNetEntry, VerbNetParser
 
     synsets = [Synset(f"run.v.0{i}", f"Run definition {i}.", "verb.motion", pos="v") for i in (1, 2, 3)]
@@ -427,7 +428,7 @@ def test_verbnet_explicit_sense_links_have_distinct_witnesses_and_no_ambiguous_c
                     {
                         "semantics": [
                             {
-                                "predicate_value": "motion",
+                                "predicate_value": predicate,
                                 "negated": False,
                                 "polarity": "",
                                 "arguments": [{"type": "Event", "value": "during(E)"}],
@@ -451,7 +452,7 @@ def test_verbnet_explicit_sense_links_have_distinct_witnesses_and_no_ambiguous_c
     assert all(o.features["native_record_id"] == native_observation.record_id for o in witnesses)
     assert {a.record_id for a in result.assertions} == {o.record_id for o in witnesses}
     assert {(a.bank, a.value, a.source, a.family, a.scope) for a in result.assertions} == {
-        ("MOVE", 1, "verbnet", "verb_structure", "lexical")
+        (bank, 1, "verbnet", "verb_structure", "lexical")
     }
     assert not any(o.entry_id == "wordnet:run:run.v.03" for o in witnesses)
     assert any(d.get("reason") == "UNCERTAIN_SENSE_KEY" for d in result.unresolved)
@@ -494,3 +495,25 @@ def test_authored_dictionary_source_has_no_invented_native_scope():
 def test_assertion_competence_rejects_untyped_input():
     with pytest.raises(ValueError, match="INVALID_ASSERTION"):
         validate_assertion_competence({"bank": "GOOD"})
+
+
+def test_real_verb_ancestry_reaches_collector_without_polysemy_fanout():
+    from nltk.corpus import wordnet as wn
+
+    wn.ensure_loaded()
+    parser = WordNetHierarchyParser()
+    parser._loaded = True
+    parser._wn = wn
+    result = collect_evidence({"wordnet_hierarchy": parser}, ("contemplate", "want", "hear", "shake"))
+    by_record = {}
+    for assertion in result.assertions:
+        by_record.setdefault(assertion.record_id, {})[assertion.bank] = assertion.value
+    assert by_record["wordnet:contemplate:contemplate.v.02"]["THINK"] == 1
+    assert "THINK" not in by_record.get("wordnet:contemplate:contemplate.v.01", {})
+    assert by_record["wordnet:want:desire.v.01"]["WANT"] == 1
+    assert "WANT" not in by_record.get("wordnet:want:want.v.05", {})
+    assert by_record["wordnet:hear:hear.v.01"]["HEAR"] == 1
+    assert "HEAR" not in by_record.get("wordnet:hear:hear.v.03", {})
+    assert by_record["wordnet:shake:shake.v.02"]["MOVE"] == 1
+    observation = next(o for o in result.observations if o.record_id == "wordnet:shake:shake.v.02")
+    assert any("move.v.03" in path for path in observation.features["hypernym_paths"])

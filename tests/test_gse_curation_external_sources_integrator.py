@@ -53,8 +53,10 @@ class TestInit:
 
 
 class TestLoadAllSources:
-    # every parser load_all_sources registers — kept in sync with integrator.py
+    # External corpus parsers; the built-in grammar catalog needs no corpus cache.
     _ALL_PARSERS = [
+        "gse.curation.external_sources.websters1913.Websters1913Parser",
+        "gse.curation.external_sources.wiktionary.WiktionaryParser",
         "gse.curation.external_sources.sentiwordnet.SentiWordNetParser",
         "gse.curation.external_sources.nrc_emotion.NRCEmotionParser",
         "gse.curation.external_sources.nrc_vad.NRCVADParser",
@@ -68,7 +70,7 @@ class TestLoadAllSources:
         "gse.curation.external_sources.usas.USASParser",
     ]
 
-    def test_all_unavailable(self):
+    def test_external_sources_unavailable_keeps_builtin_grammar(self):
         from contextlib import ExitStack
 
         i = ExternalSourcesIntegrator()
@@ -76,45 +78,45 @@ class TestLoadAllSources:
             for target in self._ALL_PARSERS:
                 stack.enter_context(patch(target, side_effect=ImportError))
             stats = i.load_all_sources()
-        assert stats == {}
+        grammar = i.parsers["gse_closed_class"]
+        chart = i.parsers["nsm_chart"]
+        assert stats == {"gse_closed_class": len(grammar.get_all_words()), "nsm_chart": len(chart.get_all_words())}
+        assert set(i.parsers) == {"gse_closed_class", "nsm_chart"}
+        assert grammar.to_primitives("might") == {"MAYBE": 1}
+        assert chart.to_primitives("big") == {}
         assert i._loaded is True
 
     def test_loads_one_source(self):
+        from contextlib import ExitStack
+
         i = ExternalSourcesIntegrator()
         mp = MagicMock()
         mp.load.return_value = True
         mp.entries = {"a": [], "b": []}
-        with patch("gse.curation.external_sources.sentiwordnet.SentiWordNetParser", return_value=mp):
-            with patch("gse.curation.external_sources.nrc_emotion.NRCEmotionParser", side_effect=ImportError):
-                with patch("gse.curation.external_sources.nrc_vad.NRCVADParser", side_effect=ImportError):
-                    with patch("gse.curation.external_sources.verbnet.VerbNetParser", side_effect=ImportError):
-                        with patch(
-                            "gse.curation.external_sources.concreteness.ConcretenessParser", side_effect=ImportError
-                        ):
-                            with patch(
-                                "gse.curation.external_sources.lancaster_sensorimotor.LancasterSensorimotorParser",
-                                side_effect=ImportError,
-                            ):
-                                stats = i.load_all_sources()
+        with ExitStack() as stack:
+            for target in self._ALL_PARSERS:
+                if target == "gse.curation.external_sources.sentiwordnet.SentiWordNetParser":
+                    stack.enter_context(patch(target, return_value=mp))
+                else:
+                    stack.enter_context(patch(target, side_effect=ImportError))
+            stats = i.load_all_sources()
         assert stats["sentiwordnet"] == 2
         assert "sentiwordnet" in i.parsers
 
     def test_load_returning_false_excluded(self):
+        from contextlib import ExitStack
+
         i = ExternalSourcesIntegrator()
         mp = MagicMock()
         mp.load.return_value = False
-        with patch("gse.curation.external_sources.sentiwordnet.SentiWordNetParser", return_value=mp):
-            with patch("gse.curation.external_sources.nrc_emotion.NRCEmotionParser", side_effect=ImportError):
-                with patch("gse.curation.external_sources.nrc_vad.NRCVADParser", side_effect=ImportError):
-                    with patch("gse.curation.external_sources.verbnet.VerbNetParser", side_effect=ImportError):
-                        with patch(
-                            "gse.curation.external_sources.concreteness.ConcretenessParser", side_effect=ImportError
-                        ):
-                            with patch(
-                                "gse.curation.external_sources.lancaster_sensorimotor.LancasterSensorimotorParser",
-                                side_effect=ImportError,
-                            ):
-                                stats = i.load_all_sources()
+        mp.entries = {"a": [], "b": []}
+        with ExitStack() as stack:
+            for target in self._ALL_PARSERS:
+                if target == "gse.curation.external_sources.sentiwordnet.SentiWordNetParser":
+                    stack.enter_context(patch(target, return_value=mp))
+                else:
+                    stack.enter_context(patch(target, side_effect=ImportError))
+            stats = i.load_all_sources()
         assert "sentiwordnet" not in stats
 
 

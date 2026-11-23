@@ -10,14 +10,18 @@ from __future__ import annotations
 import hashlib
 import json
 import math
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from typing import Any, Callable
+from urllib.error import HTTPError, URLError
 from urllib.parse import urlsplit
 from urllib.request import Request, urlopen
 
-from gse.curation.lexicon_builder.engine import Assertion, Relation, Resolution
+from gse.curation.lexicon_builder.engine import Assertion, DomainRestriction, Relation, Resolution
 from gse.curation.lexicon_builder.evidence import Definition
 from gse.curation.lexicon_builder.resolution import resolve_dictionary
+
+REQUEST_FORMAT = "gse.bank-request/2"
+LEGACY_REQUEST_FORMAT = "gse.bank-request/1"
 
 
 def _json_copy(value: Any) -> Any:
@@ -65,9 +69,11 @@ def _request_payload(
     known: dict[str, int],
     observations: tuple[dict, ...],
     definition: Definition,
+    scaffold: dict | None = None,
+    request_format: str = REQUEST_FORMAT,
 ) -> dict:
-    return {
-        "format": "gse.bank-request/1",
+    payload = {
+        "format": request_format,
         "entry_id": entry_id,
         "definition": _definition_payload(definition, entry_id),
         "bank": bank,
@@ -76,6 +82,91 @@ def _request_payload(
         "observations": _json_copy(observations),
         "fill": {bank: None},
     }
+    if request_format == REQUEST_FORMAT:
+        payload["scaffold"] = _json_copy(scaffold)
+    return payload
+
+
+def _scaffold(
+    resolution: Resolution, relations: tuple[Relation, ...], context: dict[str, str] | None, bank: str
+) -> dict:
+    """Snapshot the actual closure, retaining rule dispositions and proof data.
+
+    All domains and proofs are context, not requested output. Approved tables
+    are preserved even when skipped or locally excepted; only ACTIVE tables
+    constrain this definition. Candidate tables never become model authority.
+    """
+    if type(relations) is not tuple or any(not isinstance(rule, Relation) for rule in relations):
+        raise ValueError("invalid_request_relations")
+    context = {} if context is None else context
+    if type(context) is not dict or any(type(k) is not str or type(v) is not str for k, v in context.items()):
+        raise ValueError("invalid_request_context")
+    by_id = {}
+    for rule in relations:
+        rule.__post_init__()
+        if rule.rule_id in by_id or not set(rule.banks + rule.absent_evidence) <= resolution.domains.keys():
+            raise ValueError("invalid_request_relations")
+        by_id[rule.rule_id] = rule
+    active, excepted, skipped, referenced = set(), set(), {}, set()
+    for receipt in resolution.trace:
+        ids = set(receipt.get("rule_ids", ()))
+        if "rule_id" in receipt:
+            ids.add(receipt["rule_id"])
+        referenced.update(ids)
+        if receipt["kind"] in {"JOINT_CHECK", "SOLVER_LIMIT"}:
+            active.update(ids)
+        elif receipt["kind"] == "CONDITIONAL_EXCEPTION":
+            excepted.update(ids)
+        elif receipt["kind"] == "RELATION_SKIPPED":
+            skipped[receipt["rule_id"]] = receipt["reason"]
+        elif receipt["kind"] == "EVIDENCE_GUARD" and receipt["status"] == "BLOCKED":
+            skipped[receipt["rule_id"]] = receipt["reason"]
+    if not referenced <= by_id.keys():
+        raise ValueError("missing_request_relation_context")
+    connected = {bank}
+    approved = tuple(rule for rule in relations if rule.approved)
+    while True:
+        expanded = connected | {
+            name
+            for rule in approved
+            if connected.intersection(rule.banks + rule.absent_evidence)
+            for name in rule.banks + rule.absent_evidence
+        }
+        if expanded == connected:
+            break
+        connected = expanded
+    records = []
+    for rule in sorted(approved, key=lambda item: item.rule_id):
+        if rule.rule_id in excepted:
+            disposition, reason = "EXCEPTED_FOR_THIS_DEFINITION", "CONDITIONAL_EXCEPTION"
+        elif rule.rule_id in skipped:
+            disposition, reason = "BLOCKED", skipped[rule.rule_id]
+        elif rule.rule_id in active:
+            disposition, reason = "ACTIVE", "SYMBOLIC_CLOSURE"
+        else:
+            raise ValueError("missing_request_rule_proof")
+        guard_matches = all(context.get(key) == value for key, value in rule.guards)
+        if (disposition == "ACTIVE" and not guard_matches) or (reason == "GUARD_MISMATCH" and guard_matches):
+            raise ValueError("inconsistent_request_guard_context")
+        records.append(
+            {
+                **asdict(rule),
+                "disposition": disposition,
+                "reason": reason,
+                "requested_component": bool(connected.intersection(rule.banks)),
+            }
+        )
+    return _json_copy(
+        {
+            "format": "gse.symbolic-scaffold/1",
+            "context": dict(sorted(context.items())),
+            "domains": {name: sorted(values) for name, values in sorted(resolution.domains.items())},
+            "approved_relations": records,
+            "proof_trace": resolution.trace,
+            "relation_semantics": "ONLY_ACTIVE_TABLES_CONSTRAIN_THIS_DEFINITION",
+            "proof_semantics": "SYMBOLIC_JUSTIFICATION_NOT_ADDITIONAL_MODEL_OUTPUT",
+        }
+    )
 
 
 def _request_id(payload: dict) -> str:
@@ -91,11 +182,20 @@ class BankRequest:
     observations: tuple[dict, ...]
     request_id: str
     definition: Definition
+    scaffold: dict | None = None
+    request_format: str = REQUEST_FORMAT
 
     def payload(self) -> dict:
         """Return independent JSON data; mutating it cannot alter the request."""
         return _request_payload(
-            self.entry_id, self.bank, self.allowed_values, self.known, self.observations, self.definition
+            self.entry_id,
+            self.bank,
+            self.allowed_values,
+            self.known,
+            self.observations,
+            self.definition,
+            self.scaffold,
+            self.request_format,
         )
 
     def output_schema(self) -> dict:
@@ -125,11 +225,16 @@ def build_request(
     observations: tuple[dict, ...],
     *,
     definition: Definition,
+    relations: tuple[Relation, ...] = (),
+    context: dict[str, str] | None = None,
+    request_format: str = REQUEST_FORMAT,
 ) -> BankRequest:
     """Build a typed request only for an unresolved, nonconflicted coordinate."""
     if type(entry_id) is not str or not entry_id:
         raise ValueError("invalid_entry_id")
     _definition_payload(definition, entry_id)
+    if request_format not in {REQUEST_FORMAT, LEGACY_REQUEST_FORMAT}:
+        raise ValueError("unsupported_request_format")
     if type(bank) is not str or not bank or bank not in resolution.domains:
         raise ValueError("unknown_bank")
     if resolution.code == "CONFLICT":
@@ -137,8 +242,15 @@ def build_request(
     if resolution.code not in {"PARTIAL", "RESOLVED"}:
         raise ValueError("invalid_resolution_code")
     domain = resolution.domains[bank]
-    if not domain or any(type(value) is not int or value not in (-1, 0, 1) for value in domain):
-        raise ValueError("invalid_domain")
+    for name, values in resolution.domains.items():
+        if (
+            type(name) is not str
+            or not name
+            or type(values) is not frozenset
+            or not values
+            or any(type(value) is not int or value not in (-1, 0, 1) for value in values)
+        ):
+            raise ValueError("invalid_domain")
     if bank in resolution.assignments or len(domain) == 1:
         raise ValueError("already_assigned")
     for name, value in resolution.assignments.items():
@@ -146,13 +258,18 @@ def build_request(
             raise ValueError("invalid_known_assignment")
         if name not in resolution.domains or resolution.domains[name] != frozenset({value}):
             raise ValueError("inconsistent_known_assignment")
+    if set(resolution.assignments) != {name for name, values in resolution.domains.items() if len(values) == 1}:
+        raise ValueError("incomplete_known_assignments")
     if type(observations) is not tuple or any(type(item) is not dict for item in observations):
         raise ValueError("invalid_observations")
     allowed = tuple(sorted(domain))
     known = dict(sorted(resolution.assignments.items()))
     copied = tuple(_json_copy(observations))
-    payload = _request_payload(entry_id, bank, allowed, known, copied, definition)
-    return BankRequest(entry_id, bank, allowed, known, copied, _request_id(payload), definition)
+    scaffold = _scaffold(resolution, relations, context, bank) if request_format == REQUEST_FORMAT else None
+    payload = _request_payload(entry_id, bank, allowed, known, copied, definition, scaffold, request_format)
+    return BankRequest(
+        entry_id, bank, allowed, known, copied, _request_id(payload), definition, scaffold, request_format
+    )
 
 
 def _unique_object(pairs: list[tuple[str, Any]]) -> dict:
@@ -187,16 +304,26 @@ def complete_bank(
     context: dict[str, str] | None = None,
     *,
     evidence_banks: tuple[str, ...] = (),
+    domain_restrictions: tuple[DomainRestriction, ...] = (),
 ) -> Completion:
     """Validate freshness, obtain one ruling, then propagate before admitting it.
 
     Inputs are never mutated. Invalid caller-supplied engine inputs raise the
     engine's ValueError rather than being mislabeled as a model/network failure.
     """
-    current = resolve_dictionary(banks, assertions, relations, context, evidence_banks=evidence_banks)
+    current = resolve_dictionary(
+        banks, assertions, relations, context, evidence_banks=evidence_banks, domain_restrictions=domain_restrictions
+    )
     try:
         fresh = build_request(
-            request.entry_id, request.bank, current, request.observations, definition=request.definition
+            request.entry_id,
+            request.bank,
+            current,
+            request.observations,
+            definition=request.definition,
+            relations=relations,
+            context=context,
+            request_format=request.request_format,
         )
         same = fresh.request_id == request.request_id and _request_id(request.payload()) == request.request_id
     except ValueError as exc:
@@ -207,7 +334,10 @@ def complete_bank(
     try:
         raw = transport(fresh.payload(), fresh.output_schema())
     except Exception as exc:
-        return Completion("TRANSPORT_ERROR", None, current, {"error_type": type(exc).__name__})
+        details = {"error_type": type(exc).__name__}
+        if isinstance(exc, ModelTransportError):
+            details["reason"] = exc.code
+        return Completion("TRANSPORT_ERROR", None, current, details)
     try:
         value = _read_value(raw, fresh)
     except (ValueError, TypeError, RecursionError) as exc:
@@ -215,11 +345,24 @@ def complete_bank(
     if value is None:
         return Completion("ABSTAINED", None, current, {"request_id": fresh.request_id})
 
-    model = getattr(transport, "model", "typed-residual")
+    from .scope_admission import model_scope_admission
+
+    scope = model_scope_admission(fresh.entry_id, fresh.bank, value, fresh.observations)
+    if scope["code"] == "SCOPE_UNJUSTIFIED":
+        return Completion("SCOPE_UNJUSTIFIED", None, current, {"request_id": fresh.request_id, **scope})
+
+    model = getattr(transport, "identity", getattr(transport, "model", "typed-residual"))
     if type(model) is not str or not model:
         model = "typed-residual"
     assertion = Assertion(fresh.bank, value, f"model:{model}", fresh.request_id, "model")
-    resolved = resolve_dictionary(banks, assertions + (assertion,), relations, context, evidence_banks=evidence_banks)
+    resolved = resolve_dictionary(
+        banks,
+        assertions + (assertion,),
+        relations,
+        context,
+        evidence_banks=evidence_banks,
+        domain_restrictions=domain_restrictions,
+    )
     previous_exceptions = {
         rule_id
         for record in current.trace
@@ -252,10 +395,52 @@ def complete_bank(
     return Completion("ASSIGNED", assertion, resolved, {"request_id": fresh.request_id})
 
 
+class ModelTransportError(ValueError):
+    """A named transport refusal without request contents or endpoint secrets."""
+
+    def __init__(self, code: str):
+        if code not in {
+            "MODEL_CONTEXT_EXCEEDED",
+            "MODEL_IDENTITY_NOT_PINNED",
+            "MODEL_IDENTITY_CHANGED",
+            "MODEL_IDENTITY_NOT_FOUND_OR_AMBIGUOUS",
+            "INVALID_MODEL_DIGEST",
+            "INVALID_MODEL_IDENTITY_RESPONSE",
+            "INVALID_OLLAMA_RESPONSE",
+            "INCOMPLETE_MODEL_OUTPUT",
+            "MODEL_TIMEOUT",
+            "MODEL_HTTP_ERROR",
+            "MODEL_CONNECTION_ERROR",
+            "INVALID_MODEL_INPUT",
+            "BATCH_INPUT_TOO_LARGE",
+            "BATCH_ITEM_LIMIT_EXCEEDED",
+            "BATCH_OUTPUT_BUDGET_EXCEEDED",
+            "BATCH_DUPLICATE_REQUEST",
+            "BATCH_DEPENDENT_REQUESTS",
+            "BATCH_CONFIGURATION_CHANGED",
+            "BATCH_DUPLICATE_OUTPUT_FIELD",
+            "BATCH_MISSING_OUTPUT_ID",
+            "BATCH_EXTRA_OUTPUT_ID",
+            "BATCH_INVALID_OUTPUT",
+        }:
+            raise ValueError("invalid_transport_error_code")
+        self.code = code
+        super().__init__(code)
+
+
 class OllamaTransport:
     """Explicit local model selection with typed input and constrained generation."""
 
-    def __init__(self, model: str, base_url: str = "http://localhost:11434", timeout: float = 60):
+    def __init__(
+        self,
+        model: str,
+        base_url: str = "http://localhost:11434",
+        timeout: float = 120,
+        *,
+        context_tokens: int = 32768,
+        thinking: bool = True,
+        output_tokens: int | None = None,
+    ):
         if type(model) is not str or not model.strip():
             raise ValueError("model_required")
         if type(timeout) not in (int, float) or not math.isfinite(timeout) or timeout <= 0:
@@ -268,15 +453,96 @@ class OllamaTransport:
         self.model = model
         self.base_url = base_url.rstrip("/")
         self.timeout = float(timeout)
+        if type(context_tokens) is not int or context_tokens < 2048:
+            raise ValueError("invalid_context_tokens")
+        self.context_tokens = context_tokens
+        if type(thinking) is not bool:
+            raise ValueError("invalid_thinking_mode")
+        self.thinking = thinking
+        self.output_tokens = (1024 if thinking else 128) if output_tokens is None else output_tokens
+        if (
+            type(self.output_tokens) is not int
+            or not 1 <= self.output_tokens <= 32768
+            or self.output_tokens + 1024 >= context_tokens
+        ):
+            raise ValueError("invalid_output_tokens")
+        from .model_protocol import protocol_contract
+
+        digest = _request_id(
+            {
+                "protocol": protocol_contract(),
+                "thinking": thinking,
+                "context_tokens": context_tokens,
+                "output_tokens": self.output_tokens,
+                "temperature": 0,
+            }
+        )
+        self._protocol_digest = digest
+        self.model_digest: str | None = None
+        self.identity = f"{model}@{digest}"
+
+    def _request_json(self, request: Request, malformed_code: str) -> Any:
+        try:
+            with urlopen(request, timeout=self.timeout) as response:
+                return json.loads(response.read().decode("utf-8"))
+        except HTTPError as exc:
+            raise ModelTransportError("MODEL_HTTP_ERROR") from exc
+        except TimeoutError as exc:
+            raise ModelTransportError("MODEL_TIMEOUT") from exc
+        except URLError as exc:
+            code = "MODEL_TIMEOUT" if isinstance(exc.reason, TimeoutError) else "MODEL_CONNECTION_ERROR"
+            raise ModelTransportError(code) from exc
+        except (ValueError, UnicodeError) as exc:
+            raise ModelTransportError(malformed_code) from exc
+
+    def _installed_digest(self) -> str:
+        request = Request(f"{self.base_url}/api/tags", method="GET")
+        envelope = self._request_json(request, "INVALID_MODEL_IDENTITY_RESPONSE")
+        if type(envelope) is not dict or type(envelope.get("models")) is not list:
+            raise ModelTransportError("INVALID_MODEL_IDENTITY_RESPONSE")
+        matches = [item for item in envelope["models"] if isinstance(item, dict) and item.get("name") == self.model]
+        if len(matches) != 1:
+            raise ModelTransportError("MODEL_IDENTITY_NOT_FOUND_OR_AMBIGUOUS")
+        digest = matches[0].get("digest")
+        if type(digest) is not str or len(digest) != 64 or any(c not in "0123456789abcdef" for c in digest):
+            raise ModelTransportError("INVALID_MODEL_DIGEST")
+        return digest
+
+    def pin(self) -> dict[str, str]:
+        """Resolve the installed artifact explicitly; never repin a changed tag."""
+        digest = self._installed_digest()
+        if self.model_digest is not None and digest != self.model_digest:
+            raise ModelTransportError("MODEL_IDENTITY_CHANGED")
+        self.model_digest = digest
+        self.identity = f"{self.model}#{digest}@{self._protocol_digest}"
+        return {"model": self.model, "digest": digest}
+
+    def _verify_pin(self) -> None:
+        if self.model_digest is None:
+            raise ModelTransportError("MODEL_IDENTITY_NOT_PINNED")
+        if self._installed_digest() != self.model_digest:
+            raise ModelTransportError("MODEL_IDENTITY_CHANGED")
 
     def __call__(self, payload: dict, schema: dict) -> str:
+        from .model_protocol import model_input
+
+        try:
+            prompt = _canonical_json(model_input(_json_copy(payload)))
+        except ValueError as exc:
+            raise ModelTransportError("INVALID_MODEL_INPUT") from exc
+        # UTF-8 byte count is a conservative bound for byte-backed tokenizers.
+        # Reserve template/output space; refusal is preferable to silent loss
+        # of a contradictory observation near the start of a long request.
+        if len(prompt.encode("utf-8")) > self.context_tokens - self.output_tokens - 1024:
+            raise ModelTransportError("MODEL_CONTEXT_EXCEEDED")
+        self._verify_pin()
         body = {
             "model": self.model,
-            "prompt": _canonical_json(_json_copy(payload)),
+            "prompt": prompt,
             "format": _json_copy(schema),
             "stream": False,
-            "raw": True,
-            "options": {"temperature": 0, "num_predict": 128},
+            "think": self.thinking,
+            "options": {"temperature": 0, "num_predict": self.output_tokens, "num_ctx": self.context_tokens},
         }
         request = Request(
             f"{self.base_url}/api/generate",
@@ -284,10 +550,12 @@ class OllamaTransport:
             headers={"Content-Type": "application/json"},
             method="POST",
         )
-        with urlopen(request, timeout=self.timeout) as response:
-            envelope = json.loads(response.read().decode("utf-8"))
+        envelope = self._request_json(request, "INVALID_OLLAMA_RESPONSE")
+        self._verify_pin()
         if type(envelope) is not dict or type(envelope.get("response")) is not str:
-            raise ValueError("invalid_ollama_response")
+            raise ModelTransportError("INVALID_OLLAMA_RESPONSE")
+        if envelope.get("done_reason") == "length":
+            raise ModelTransportError("INCOMPLETE_MODEL_OUTPUT")
         from gse.curation.llm.ollama_client import register_model
 
         register_model(self.model, self.base_url)

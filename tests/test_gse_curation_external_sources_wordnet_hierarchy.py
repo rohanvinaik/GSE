@@ -316,8 +316,53 @@ class TestDefinitionProjection:
         assert p.to_primitives_for_definition("feeling.n.01")["FEEL"] == 1
         assert "FEEL" not in p.to_primitives_for_definition("psychological_feature.n.01")
 
-    def test_nonnominal_definition_abstains(self, p):
+    def test_unreviewed_motion_root_abstains(self, p):
         assert p.to_primitives_for_definition("run.v.01") == {}
+
+    @pytest.mark.parametrize(
+        "synset,bank",
+        [
+            ("think.v.03", "THINK"),
+            ("know.v.01", "KNOW"),
+            ("desire.v.01", "WANT"),
+            ("see.v.01", "SEE"),
+            ("hear.v.01", "HEAR"),
+            ("state.v.01", "SAY"),
+            ("perform.v.01", "DO"),
+            ("act.v.01", "DO"),
+            ("cause.v.01", "CAUSE"),
+            ("happen.v.01", "HAPPEN"),
+            ("feel.v.01", "FEEL"),
+            ("move.v.03", "MOVE"),
+        ],
+    )
+    def test_reviewed_exact_verb_definition_has_native_ancestry(self, p, synset, bank):
+        paths = p._wn.synset(synset).hypernym_paths()
+        assert any(synset in {node.name() for node in path} for path in paths)
+        assert p.to_primitives_for_definition(synset)[bank] == 1
+
+    def test_descendant_ancestry_does_not_leak_to_another_lemma_sense(self, p):
+        assert p.to_primitives_for_definition("contemplate.v.02") == {"THINK": 1}
+        assert p.to_primitives_for_definition("contemplate.v.01") == {}
+        assert p.to_primitives_for_definition("shake.v.02") == {"MOVE": 1}
+        assert p.to_primitives_for_definition("shake.v.05") == {}
+
+    @pytest.mark.parametrize("synset", ["bridle.v.03", "rent.v.04", "summarize.v.02"])
+    def test_reviewed_own_content_exclusion_withdraws_say(self, p, synset):
+        sense = p._wn.synset(synset)
+        assert any("state.v.01" in {ancestor.name() for ancestor in path} for path in sense.hypernym_paths())
+        assert "SAY" not in p.to_primitives_for_definition(synset)
+
+    @pytest.mark.parametrize("synset", ["answer.v.01", "articulate.v.05"])
+    def test_reviewed_own_content_exclusion_preserves_expression_senses(self, p, synset):
+        assert p.to_primitives_for_definition(synset)["SAY"] == 1
+
+    @pytest.mark.parametrize(
+        "synset,absent",
+        [("understand.v.02", "SEE"), ("hear.v.03", "HEAR"), ("want.v.05", "WANT")],
+    )
+    def test_homograph_is_not_a_definition_link(self, p, synset, absent):
+        assert absent not in p.to_primitives_for_definition(synset)
 
     def test_unknown_definition_abstains(self, p):
         assert p.to_primitives_for_definition("unknown_xyz.n.01") == {}

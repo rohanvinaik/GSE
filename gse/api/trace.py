@@ -41,6 +41,9 @@ class TokenTrace:
     lexical_evidence: Dict = field(default_factory=dict)
     negation_evidence: Dict = field(default_factory=dict)
     operator_tier: Optional[str] = None
+    # Sentence grammar, independent of lexical definition selection.
+    degree_modifier: Dict = field(default_factory=dict)
+    degree: Dict = field(default_factory=dict)
 
     def to_dict(self) -> Dict:
         return asdict(self)

@@ -156,6 +156,21 @@ def test_generic_unresolved_and_malformed_keys_abstain():
     assert claim_key(Proposition(TypeAssertion(_entity("it", "c"), Atom("thing")))).reason == "generic_kind"
 
 
+def test_duration_qualifies_exact_claims_and_temporal_scope():
+    from dataclasses import replace
+
+    from gse.symbolic.duration import Duration
+
+    event = Event("hurt", _entity("guard", "g"), _entity("prisoner", "p"))
+    signature = {"GOOD": -1}
+    qualified = replace(event, duration=Duration("unspecified", "during"))
+    long = replace(event, duration=Duration("long", "during"))
+    assert len({claim_key(Proposition(node), signature).key for node in (event, qualified, long)}) == 3
+    after = Temporal(Event("arrive", _entity("warden", "w")), event, "after")
+    offset = replace(after, duration=Duration("unspecified", "after"))
+    assert scope_signature(propositions(after)[-1]) != scope_signature(propositions(offset)[-1])
+
+
 def test_temporal_context_is_preserved_and_is_not_a_missing_qualifier_match():
     event = Event("hurt", _entity("guard", "g"), _entity("prisoner", "p"))
     context = Temporal(Event("arrive", _entity("warden", "w")), event, "after")

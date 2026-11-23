@@ -111,6 +111,6 @@ class TestEmpiricalScopeMap:
         assert "wiktionary_v2" not in SOURCE_PRIMITIVE_SCOPE
 
 
-def test_wordnet_scope_admits_nominal_feeling_but_not_thought():
-    votes = {"FEEL": (1, 1.0), "THINK": (1, 1.0)}
-    assert filter_votes_by_scope("wordnet_hierarchy", votes) == {"FEEL": (1, 1.0)}
+def test_wordnet_scope_admits_reviewed_verb_roots_but_not_affect_polarity():
+    votes = {"FEEL": (1, 1.0), "THINK": (1, 1.0), "GOOD": (1, 1.0)}
+    assert filter_votes_by_scope("wordnet_hierarchy", votes) == {"FEEL": (1, 1.0), "THINK": (1, 1.0)}

@@ -120,7 +120,7 @@ def test_strict_mode_accepts_registered_grammar_but_rejects_unknown_content(dict
 def test_selected_definition_cannot_override_registered_grammar(encoder, operation, arity):
     store_entry(
         encoder.conn,
-        Definition("because:one", "because", "conjunction", "fixture"),
+        Definition("gse_closed_class:conjunction:because", "because", "conjunction", "fixture"),
         propagate(("GOOD",), (), ()),
     )
     encoder.conn.execute(
@@ -136,7 +136,7 @@ def test_matching_metadata_and_known_content_are_preserved(encoder):
     assertions = (Assertion("GOOD", 0, "fixture", "because", "dictionary"),)
     store_entry(
         encoder.conn,
-        Definition("because:one", "because", "conjunction", "fixture"),
+        Definition("gse_closed_class:conjunction:because", "because", "conjunction", "fixture"),
         propagate(("GOOD",), assertions, ()),
         assertions,
     )
@@ -159,7 +159,7 @@ def test_conflicted_lexical_definition_does_not_disable_registered_grammar(encod
     )
     store_entry(
         encoder.conn,
-        Definition("because:conflict", "because", "conjunction", "conflicting lexical evidence"),
+        Definition("gse_closed_class:conjunction:because", "because", "conjunction", "conflicting lexical evidence"),
         propagate(("GOOD",), assertions, ()),
         assertions,
     )

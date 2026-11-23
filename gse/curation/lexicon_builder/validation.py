@@ -17,13 +17,15 @@ from functools import lru_cache
 from pathlib import Path
 from typing import NamedTuple
 
+from .definition_frames import NATIVE_FRAME_PREFIX, WIKTIONARY_ANATOMY_FRAME_PREFIX, native_noun_frames
 from .discovery import BankObservation
-from .engine import TERNARY, Assertion, Relation, propagate
+from .engine import TERNARY, Assertion, DomainRestriction, Relation, propagate
 from .evidence import Definition, Observation, validate_assertion_competence
-from .foundation import BANKS, definition_context
+from .foundation import BANKS, lexical_context
+from .model_receipts import read_model_receipts
 from .residual import build_request
 from .resolution import resolve_dictionary
-from .storage import VERSION
+from .storage import DOMAIN_RESTRICTIONS_VERSION, VERSION
 
 _REQUIRED_COLUMNS = {
     "builder_metadata": {"key", "value"},
@@ -91,6 +93,10 @@ def _schema(conn: sqlite3.Connection) -> None:
         actual = {row[1] for row in conn.execute(f"PRAGMA table_info({table})")}
         if not required <= actual:
             raise ValueError(f"INVALID_BUILD_SCHEMA:{table}")
+    if "builder_domain_restrictions" in tables:
+        actual = {row[1] for row in conn.execute("PRAGMA table_info(builder_domain_restrictions)")}
+        if not {"entry_id", "ordinal", "payload"} <= actual:
+            raise ValueError("INVALID_BUILD_SCHEMA:builder_domain_restrictions")
 
 
 def _metadata(conn: sqlite3.Connection, key: str):
@@ -160,6 +166,46 @@ def _assertions(rows: list[tuple[int, str]]) -> tuple[Assertion, ...]:
     return tuple(result)
 
 
+def _domain_restrictions(rows) -> tuple[DomainRestriction, ...]:
+    ordered = sorted(rows, key=lambda row: row[0])
+    if any(type(ordinal) is not int for ordinal, _ in rows) or [ordinal for ordinal, _ in ordered] != list(
+        range(len(rows))
+    ):
+        raise ValueError("INVALID_RESTRICTION_ORDINAL")
+    result = []
+    required = {field.name for field in fields(DomainRestriction)}
+    for _, payload in ordered:
+        record = _read_json(payload)
+        if not isinstance(record, dict) or set(record) != required or not isinstance(record["allowed_values"], list):
+            raise ValueError("INVALID_RESTRICTION_FIELDS")
+        result.append(
+            DomainRestriction(
+                record["bank"],
+                tuple(record["allowed_values"]),
+                record["source"],
+                record["record_id"],
+                record["family"],
+                record["scope"],
+            )
+        )
+    return tuple(result)
+
+
+def _restriction_provenance(entry_id, restrictions, native):
+    for restriction in restrictions:
+        validate_assertion_competence(restriction)
+        observation = native.get((restriction.source, restriction.record_id))
+        if (
+            observation is None
+            or observation.entry_id != entry_id
+            or observation.family != restriction.family
+            or observation.scope != "lexical"
+            or restriction.source.startswith(("model:", "rule:", "derived:"))
+            or restriction.family in {"model", "derived"}
+        ):
+            raise ValueError("DOMAIN_RESTRICTION_PROVENANCE_MISMATCH")
+
+
 def _domains(raw: object) -> dict[str, frozenset[int]]:
     if not isinstance(raw, dict) or set(raw) != set(BANKS):
         raise ValueError("MISSING_OR_UNKNOWN_DOMAIN_BANK")
@@ -197,30 +243,14 @@ def _optional_metadata(conn, key, default):
 
 def _authorities(conn):
     anchors = _optional_metadata(conn, "anchors", {})
-    completions = _optional_metadata(conn, "model_completions", [])
-    if not isinstance(anchors, dict) or not isinstance(completions, list):
+    if not isinstance(anchors, dict):
         raise ValueError("INVALID_ASSERTION_AUTHORITIES")
     anchor_records = {}
     for entry_id, records in anchors.items():
         if not _identity(entry_id) or not isinstance(records, list):
             raise ValueError("INVALID_ANCHOR_AUTHORITY")
         anchor_records[entry_id] = _assertions([(i, _canonical(record)) for i, record in enumerate(records)])
-    model_records = defaultdict(list)
-    required = {"entry_id", "assertion", "request_id", "code", "request", "schema"}
-    for record in completions:
-        if not isinstance(record, dict) or set(record) != required or not _identity(record["entry_id"]):
-            raise ValueError("INVALID_MODEL_AUTHORITY")
-        assertion = _assertions([(0, _canonical(record["assertion"]))])[0]
-        if (
-            record["code"] != "ASSIGNED"
-            or record["request_id"] != assertion.record_id
-            or assertion.family != "model"
-            or not assertion.source.startswith("model:")
-            or not assertion.source.removeprefix("model:").strip()
-        ):
-            raise ValueError("INVALID_MODEL_AUTHORITY")
-        model_records[record["entry_id"]].append(record)
-    return anchor_records, model_records
+    return anchor_records, read_model_receipts(conn)
 
 
 class _NativeReference(NamedTuple):
@@ -297,8 +327,64 @@ def _model_observations(conn, record_ids):
             yield _read_json(row[0])
 
 
+def _context_observations(conn, entry_id, relations, definition=None):
+    """Load exact native evidence only where a requested guard can apply."""
+    from .foundation import WORDNET_ANCESTRY_GUARD_PREFIXES
+
+    wordnet = any(
+        key.startswith(WORDNET_ANCESTRY_GUARD_PREFIXES) or key == "wordnet_native_lemma"
+        for rule in relations
+        for key, _ in rule.guards
+    )
+    frames = {key for rule in relations for key, _ in rule.guards if key.startswith(NATIVE_FRAME_PREFIX)}
+    has_frame = (
+        frames
+        and definition is not None
+        and definition.pos == "noun"
+        and isinstance(definition.definition, str)
+        and frames.intersection(NATIVE_FRAME_PREFIX + frame for frame in native_noun_frames(definition.definition))
+    )
+    if entry_id.startswith("wordnet:") and (wordnet or has_frame):
+        row = conn.execute("SELECT payload FROM source_observations WHERE record_id=?", (entry_id,)).fetchone()
+        return (_read_json(row[0]),) if row is not None else ()
+    has_wiktionary_anatomy_scope = (
+        definition is not None
+        and definition.pos == "noun"
+        and isinstance(definition.definition, str)
+        and any(key.startswith(WIKTIONARY_ANATOMY_FRAME_PREFIX) for rule in relations for key, _ in rule.guards)
+    )
+    if entry_id.startswith("wiktionary:") and (has_frame or has_wiktionary_anatomy_scope):
+        return tuple(
+            _read_json(row[0])
+            for row in conn.execute(
+                "SELECT payload FROM source_observations "
+                "WHERE entry_id=? AND source='wiktionary' AND scope='lexical' "
+                "AND (? OR EXISTS (SELECT 1 FROM json_each(payload,'$.features.native_sense.topics') "
+                "WHERE type='text' AND value='anatomy')) ORDER BY record_id",
+                (entry_id, bool(has_frame)),
+            )
+        )
+    return ()
+
+
+def _stored_context(conn, definition, relations):
+    return lexical_context(definition, _context_observations(conn, definition.entry_id, relations, definition), relations)
+
+
 def _provenance(
-    entry_id, assertions, definition, relations, native, relevant, anchors, models, conn, evidence_banks=()
+    entry_id,
+    assertions,
+    definition,
+    relations,
+    native,
+    relevant,
+    anchors,
+    models,
+    conn,
+    evidence_banks=(),
+    domain_restrictions=(),
+    *,
+    rule_history=None,
 ):
     """Check authority separately from whether an assertion changes a domain."""
     remaining_anchors = Counter(anchors.get(entry_id, ()))
@@ -317,6 +403,10 @@ def _provenance(
                 if len(matching) != 1:
                     raise ValueError("AMBIGUOUS_MODEL_AUTHORITY")
                 receipt = matching[0]
+                from .rule_history import read_history, receipt_relations
+
+                if rule_history is None:
+                    rule_history = read_history(conn, relations)
                 payload = receipt["request"]
                 if not isinstance(payload, dict) or not isinstance(payload.get("observations"), list):
                     raise ValueError("INVALID_MODEL_REQUEST")
@@ -324,11 +414,27 @@ def _provenance(
                     map(_canonical, _model_observations(conn, relevant[entry_id]))
                 ):
                     raise ValueError("MODEL_OBSERVATIONS_MISMATCH")
+                request_relations = receipt_relations(
+                    receipt, relations, None, rule_history, definition=definition, observations=payload["observations"]
+                )
+                request_context = lexical_context(definition, payload["observations"], request_relations)
                 before = resolve_dictionary(
-                    BANKS, prefix, relations, definition_context(definition.pos), evidence_banks=evidence_banks
+                    BANKS,
+                    prefix,
+                    request_relations,
+                    request_context,
+                    evidence_banks=evidence_banks,
+                    domain_restrictions=domain_restrictions,
                 )
                 request = build_request(
-                    entry_id, assertion.bank, before, tuple(payload["observations"]), definition=definition
+                    entry_id,
+                    assertion.bank,
+                    before,
+                    tuple(payload["observations"]),
+                    definition=definition,
+                    relations=request_relations,
+                    context=request_context,
+                    request_format=payload["format"],
                 )
                 if (
                     request.request_id != receipt["request_id"]
@@ -340,9 +446,10 @@ def _provenance(
                 after = resolve_dictionary(
                     BANKS,
                     prefix + (assertion,),
-                    relations,
-                    definition_context(definition.pos),
+                    request_relations,
+                    request_context,
                     evidence_banks=evidence_banks,
+                    domain_restrictions=domain_restrictions,
                 )
                 if after.code == "CONFLICT":
                     raise ValueError("MODEL_ACCEPTED_CONTRADICTION")
@@ -372,6 +479,17 @@ def _provenance(
                     or observation.scope != "lexical"
                 ):
                     raise ValueError("ASSERTION_PROVENANCE_MISMATCH")
+                if assertion.source == "wiktionary":
+                    from .evidence import wiktionary_definition_projection
+
+                    row = conn.execute(
+                        "SELECT payload FROM source_observations WHERE record_id=?", (assertion.record_id,)
+                    ).fetchone()
+                    features = _read_json(row[0])["features"] if row is not None else {}
+                    projected = wiktionary_definition_projection(definition, features)
+                    if projected.get(assertion.bank) != assertion.value:
+                        genus = "PERSON" if assertion.bank == "SOMEONE" else "ANATOMY"
+                        raise ValueError(f"WIKTIONARY_{genus}_PROJECTION_WITNESS_MISMATCH")
         prefix += (assertion,)
     if any(remaining_anchors.values()) or remaining_models:
         raise ValueError("UNCONSUMED_ASSERTION_AUTHORITY")
@@ -485,6 +603,11 @@ def _candidate_receipt(record, category, summary, native, assertions_for):
             raise ValueError("INVALID_CANDIDATE_RECEIPT_FIELDS")
         _candidate_weight(record["weight"])
         observations = record["observations"]
+    cross_source = (
+        category != "ineligible"
+        and record["source"] == f"definition:{record['entry_id']}"
+        and record["family"] == "cross-source"
+    )
     values = defaultdict(set)
     provenance = set()
     for raw in observations:
@@ -521,7 +644,10 @@ def _candidate_receipt(record, category, summary, native, assertions_for):
             if (
                 observation.origin != "source"
                 or observation.scope != "lexical"
-                or any(getattr(observation, key) != record[key] for key in ("entry_id", "source", "family"))
+                or any(
+                    getattr(observation, key) != record[key]
+                    for key in (("entry_id",) if cross_source else ("entry_id", "source", "family"))
+                )
                 or observation.bank not in (summary["antecedent"][0], summary["consequent"][0])
             ):
                 raise ValueError("INVALID_CANDIDATE_GROUP")
@@ -529,6 +655,31 @@ def _candidate_receipt(record, category, summary, native, assertions_for):
             provenance.add(f"{observation.source}:{observation.record_id}")
     if category == "ineligible":
         return set()
+    if cross_source:
+        expected = set()
+        for assertion in assertions_for(record["entry_id"]):
+            reference = native.get((assertion.source, assertion.record_id))
+            if (
+                assertion.bank in (summary["antecedent"][0], summary["consequent"][0])
+                and reference is not None
+                and reference.entry_id == record["entry_id"]
+                and reference.family == assertion.family
+                and reference.scope == "lexical"
+                and not assertion.source.startswith(("model:", "rule:", "derived:"))
+                and assertion.family not in {"model", "derived"}
+            ):
+                expected.add(
+                    BankObservation(
+                        record["entry_id"],
+                        assertion.bank,
+                        assertion.value,
+                        assertion.source,
+                        assertion.record_id,
+                        assertion.family,
+                    )
+                )
+        if {BankObservation(**raw) for raw in observations} != expected:
+            raise ValueError("CROSS_SOURCE_CANDIDATE_INCOMPLETE_EVIDENCE")
     (left, a), (right, b) = summary["antecedent"], summary["consequent"]
     left_values, right_values = values[left], values[right]
     if _canonical(record["antecedent_values"]) != _canonical(sorted(left_values)) or _canonical(
@@ -598,10 +749,19 @@ def _candidates_integrity(conn, native, mismatch):
                     if group in groups:
                         raise ValueError("DUPLICATE_CANDIDATE_EVIDENCE_GROUP")
                     groups.add(group)
-                    for status in (category, "eligible") if category in {"support", "counterexamples"} else (category,):
-                        families[(receipt["family"], status)] += 1
-                        weighted[(receipt["family"], status)] += receipt["weight"]
-                        _candidate_weight(weighted[(receipt["family"], status)])
+                    evidence_families = (
+                        {item["family"] for item in receipt["observations"]}
+                        if receipt["source"] == f"definition:{receipt['entry_id']}"
+                        and receipt["family"] == "cross-source"
+                        else {receipt["family"]}
+                    )
+                    for family in sorted(evidence_families):
+                        for status in (
+                            (category, "eligible") if category in {"support", "counterexamples"} else (category,)
+                        ):
+                            families[(family, status)] += 1
+                            weighted[(family, status)] += receipt["weight"]
+                            _candidate_weight(weighted[(family, status)])
             if {category: counts[category] for category in _CANDIDATE_CATEGORIES} != summary["evidence_counts"]:
                 raise ValueError("CANDIDATE_EVIDENCE_COUNT_MISMATCH")
             if tuple(sorted(support_provenance)) != relation.provenance:
@@ -621,7 +781,79 @@ def _candidates_integrity(conn, native, mismatch):
         mismatch(None, "CANDIDATE_METADATA_MISMATCH")
 
 
-def _catalog_integrity(conn, anchors, relations, lexemes, mismatch):
+def _catalog_foundation(links, anchors, models, evidence, restriction_evidence, native):
+    """Recover linked native records without conflating their authority with anchors/models."""
+    assertions_by_entry, restrictions_by_entry = {}, {}
+    for entry_id in {entry for entries in links.values() for entry in entries}:
+        remaining_anchors = Counter(anchors.get(entry_id, ()))
+        remaining_models = Counter(Assertion(**record["assertion"]) for record in models.get(entry_id, ()))
+        assertions = []
+        for assertion in _assertions(evidence.get(entry_id, [])):
+            if remaining_anchors[assertion]:
+                remaining_anchors[assertion] -= 1
+            elif remaining_models[assertion]:
+                remaining_models[assertion] -= 1
+            else:
+                validate_assertion_competence(assertion)
+                observation = native.get((assertion.source, assertion.record_id))
+                if (
+                    observation is None
+                    or observation.entry_id != entry_id
+                    or observation.family != assertion.family
+                    or observation.scope != "lexical"
+                ):
+                    raise ValueError("CATALOG_NATIVE_PROVENANCE_MISMATCH")
+                assertions.append(assertion)
+        if any(remaining_anchors.values()) or any(remaining_models.values()):
+            raise ValueError("UNCONSUMED_CATALOG_ASSERTION_AUTHORITY")
+        restrictions = _domain_restrictions(restriction_evidence.get(entry_id, []))
+        _restriction_provenance(entry_id, restrictions, native)
+        assertions_by_entry[entry_id] = tuple(assertions)
+        restrictions_by_entry[entry_id] = restrictions
+    return assertions_by_entry, restrictions_by_entry
+
+
+def _native_catalog(
+    anchors, relations, lexemes, links, models, evidence, restriction_evidence, native, bank_relevance, *,
+    conn=None, legacy_duration=False
+):
+    from .catalog import catalog_report
+    from .foundation import WORDNET_ANCESTRY_GUARD_PREFIXES
+
+    definitions = tuple(Definition(row["sense_id"], row["lemma"], row["pos"], row["gloss"]) for row in lexemes.values())
+    assertions, restrictions = _catalog_foundation(links, anchors, models, evidence, restriction_evidence, native)
+    needs_context = any(
+        key.startswith((*WORDNET_ANCESTRY_GUARD_PREFIXES, NATIVE_FRAME_PREFIX)) or key == "wordnet_native_lemma"
+        for rule in relations
+        for key, _ in rule.guards
+    )
+    if needs_context and conn is None:
+        raise ValueError("CATALOG_SOURCE_CONTEXT_REQUIRED")
+    observations = (
+        {
+            definition.entry_id: _context_observations(conn, definition.entry_id, relations, definition)
+            for definition in definitions
+            if definition.entry_id in assertions
+        }
+        if needs_context
+        else {}
+    )
+    return catalog_report(
+        anchors,
+        definitions,
+        relations,
+        prime_entries=links,
+        native_assertions=assertions,
+        native_domain_restrictions=restrictions,
+        evidence_banks={entry: tuple(sorted(bank_relevance.get(entry, ()))) for entry in assertions},
+        observations_by_entry=observations,
+        legacy_duration=legacy_duration,
+    )
+
+
+def _catalog_integrity(
+    conn, anchors, relations, lexemes, mismatch, models, evidence, restriction_evidence, native, bank_relevance
+):
     from .catalog import catalog_report
 
     saved = _optional_metadata(conn, "catalog", None)
@@ -630,10 +862,35 @@ def _catalog_integrity(conn, anchors, relations, lexemes, mismatch):
         mismatch(None, "CATALOG_METADATA_MISSING")
         return "MISSING"
     try:
-        definitions = tuple(
-            Definition(row["sense_id"], row["lemma"], row["pos"], row["gloss"]) for row in lexemes.values()
+        if not isinstance(saved, dict):
+            raise ValueError("INVALID_CATALOG_METADATA")
+        legacy_duration = any(
+            unit["unit_id"] == "nsm:v20:some-time" and unit["mapping"]["code"] == "MISSING"
+            for unit in saved["units"]
         )
-        expected = catalog_report(anchors, definitions, relations, prime_entries=links)
+        if saved.get("format") == "gse.nsm-catalog-coverage/1":
+            definitions = tuple(
+                Definition(row["sense_id"], row["lemma"], row["pos"], row["gloss"]) for row in lexemes.values()
+            )
+            expected = catalog_report(
+                anchors, definitions, relations, prime_entries=links, legacy_duration=legacy_duration
+            )
+        elif saved.get("format") == "gse.nsm-catalog-coverage/2":
+            expected = _native_catalog(
+                anchors,
+                relations,
+                lexemes,
+                links,
+                models,
+                evidence,
+                restriction_evidence,
+                native,
+                bank_relevance,
+                conn=conn,
+                legacy_duration=legacy_duration,
+            )
+        else:
+            raise ValueError("UNSUPPORTED_CATALOG_FORMAT")
         for report in (saved, expected):
             for unit in report["units"]:
                 for record in unit["definitions"]:
@@ -646,7 +903,7 @@ def _catalog_integrity(conn, anchors, relations, lexemes, mismatch):
     return "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS"
 
 
-def _replay(conn: sqlite3.Connection, relations: tuple[Relation, ...]) -> dict:
+def _replay(conn: sqlite3.Connection, relations: tuple[Relation, ...], *, catalog_links: dict | None = None) -> dict:
     mismatches: list[dict] = []
 
     def mismatch(entry_id, code, **details):
@@ -672,9 +929,18 @@ def _replay(conn: sqlite3.Connection, relations: tuple[Relation, ...]) -> dict:
     entry_counts = Counter(row[0] for row in identities)
     state_counts = Counter(row[1] for row in identities)
     anchors, models = _authorities(conn)
+    from .rule_history import read_history, replay_archives
+
+    rule_history = read_history(conn, relations)
+    archived_entries = {
+        record["definition"]["entry_id"]
+        for event in (rule_history["events"] if rule_history else ())
+        for record in event["archived"]
+    }
     for entry_id in (set(anchors) | set(models)) - entry_counts.keys():
         mismatch(entry_id, "ORPHAN_ASSERTION_AUTHORITY")
-    native, relevant, bank_relevance = _observations(conn, entry_counts, mismatch, models)
+    native, relevant, bank_relevance = _observations(conn, entry_counts, mismatch, set(models) | archived_entries)
+    replay_archives(conn, rule_history, native, relevant, anchors)
     _unresolved_integrity(conn, mismatch)
     _candidates_integrity(conn, native, mismatch)
     for entry_id, count in entry_counts.items():
@@ -703,6 +969,21 @@ def _replay(conn: sqlite3.Connection, relations: tuple[Relation, ...]) -> dict:
         if row["entry_id"] not in entry_counts:
             mismatch(row["entry_id"], "ORPHAN_ASSERTION", ordinal=row["ordinal"])
         evidence[row["entry_id"]].append((row["ordinal"], row["payload"]))
+    restriction_evidence = defaultdict(list)
+    restriction_table = conn.execute(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='builder_domain_restrictions'"
+    ).fetchone()
+    restriction_format = _optional_metadata(conn, "domain_restrictions_format", None)
+    if restriction_table is None:
+        if restriction_format is not None:
+            raise ValueError("MISSING_DOMAIN_RESTRICTIONS_TABLE")
+    else:
+        if restriction_format != DOMAIN_RESTRICTIONS_VERSION:
+            raise ValueError("UNSUPPORTED_DOMAIN_RESTRICTIONS_FORMAT")
+        for row in conn.execute("SELECT entry_id,ordinal,payload FROM builder_domain_restrictions"):
+            if row["entry_id"] not in entry_counts:
+                mismatch(row["entry_id"], "ORPHAN_DOMAIN_RESTRICTION", ordinal=row["ordinal"])
+            restriction_evidence[row["entry_id"]].append((row["ordinal"], row["payload"]))
     projections: dict[int, list[tuple[str, int]]] = defaultdict(list)
     for row in conn.execute("SELECT lexeme_id,primitive,value FROM primitive_values"):
         if row["lexeme_id"] not in state_counts:
@@ -711,6 +992,7 @@ def _replay(conn: sqlite3.Connection, relations: tuple[Relation, ...]) -> dict:
 
     validated = set()
     outcomes: Counter = Counter()
+    inference_counts: Counter = Counter()
     for row in conn.execute("SELECT * FROM definition_states ORDER BY entry_id,lexeme_id"):
         entry_id, lexeme_id = row["entry_id"], row["lexeme_id"]
         if not _identity(entry_id) or entry_counts[entry_id] != 1 or state_counts[lexeme_id] != 1:
@@ -731,10 +1013,23 @@ def _replay(conn: sqlite3.Connection, relations: tuple[Relation, ...]) -> dict:
             mismatch(entry_id, "LEXEME_FORMAT_MISMATCH")
         try:
             assertions = _assertions(evidence[entry_id])
+            domain_restrictions = _domain_restrictions(restriction_evidence[entry_id])
+            _restriction_provenance(entry_id, domain_restrictions, native)
             definition = Definition(entry_id, lexeme["lemma"], lexeme["pos"], lexeme["gloss"])
             evidence_banks = tuple(sorted(bank_relevance.get(entry_id, ())))
             _provenance(
-                entry_id, assertions, definition, relations, native, relevant, anchors, models, conn, evidence_banks
+                entry_id,
+                assertions,
+                definition,
+                relations,
+                native,
+                relevant,
+                anchors,
+                models,
+                conn,
+                evidence_banks,
+                domain_restrictions,
+                rule_history=rule_history,
             )
             saved_domains = _domains(_read_json(row["domains"]))
             published = _published(projections[lexeme_id])
@@ -750,12 +1045,26 @@ def _replay(conn: sqlite3.Connection, relations: tuple[Relation, ...]) -> dict:
             if not isinstance(saved_conflicts, list) or any(not isinstance(record, dict) for record in saved_conflicts):
                 raise ValueError("INVALID_CONFLICT_RECORDS")
             resolution = resolve_dictionary(
-                BANKS, assertions, relations, definition_context(lexeme["pos"]), evidence_banks=evidence_banks
+                BANKS,
+                assertions,
+                relations,
+                _stored_context(conn, definition, relations),
+                evidence_banks=evidence_banks,
+                domain_restrictions=domain_restrictions,
             )
         except (ValueError, TypeError) as error:
             mismatch(entry_id, "MALFORMED_ENTRY", reason=str(error))
             continue
         outcomes[resolution.code] += 1
+        scope = next(record for record in resolution.trace if record["kind"] == "INFERENCE_SCOPE")
+        inference_counts["entries_replayed"] += 1
+        inference_counts["entries_complete_search"] += int(scope["complete_search"])
+        limited_components = sum(record["kind"] == "SOLVER_LIMIT" for record in resolution.trace)
+        inference_counts["entries_solver_limited"] += int(limited_components > 0)
+        inference_counts["components_solver_limited"] += limited_components
+        inference_counts["components_joint_checked"] += sum(
+            record["kind"] == "JOINT_CHECK" for record in resolution.trace
+        )
         if resolution.code != row["code"]:
             mismatch(entry_id, "RESOLUTION_CODE_MISMATCH", stored=row["code"], replayed=resolution.code)
         if resolution.domains != saved_domains:
@@ -783,20 +1092,30 @@ def _replay(conn: sqlite3.Connection, relations: tuple[Relation, ...]) -> dict:
             mismatch(entry_id, "CONFLICT_RECEIPT_MISMATCH")
         if len(mismatches) == start:
             validated.add(entry_id)
-    catalog_verification = _catalog_integrity(conn, anchors, relations, lexemes, mismatch)
+    catalog_verification = _catalog_integrity(
+        conn, anchors, relations, lexemes, mismatch, models, evidence, restriction_evidence, native, bank_relevance
+    )
     mismatches.sort(key=lambda item: _canonical(item))
     validated.difference_update(item["entry_id"] for item in mismatches)
-    return {
+    report = {
         "format": "gse.lexicon-replay-report/1",
         "code": "REPLAY_MISMATCH" if mismatches else "REPLAY_VALIDATED",
         "gold": "NOT_CHECKED",
-        "inference_scope": "LOCAL_ARC_CONSISTENCY",
-        "complete_search": False,
+        "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+        "complete_search": (
+            bool(identities)
+            and len(validated) == len(identities)
+            and inference_counts["entries_complete_search"] == len(identities)
+        ),
+        "inference_counts": dict(sorted(inference_counts.items())),
         "metadata_verification": {
             "representation_contract": representation_verification,
             "catalog": catalog_verification,
             "catalog_definition_source_ids": "NOT_PERSISTED",
             "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED",
+            "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED"
+            if restriction_table
+            else "LEGACY_NO_RESTRICTIONS",
             "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
             "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
             "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
@@ -809,6 +1128,111 @@ def _replay(conn: sqlite3.Connection, relations: tuple[Relation, ...]) -> dict:
         "mismatch_counts": dict(sorted(Counter(item["code"] for item in mismatches).items())),
         "mismatches": mismatches,
     }
+    if catalog_links is not None and not mismatches:
+        # Reuse the one source-observation pass and its validated authority maps.
+        # This proposal changes no saved semantics and excludes model assertions.
+        report["proposed_catalog"] = _native_catalog(
+            anchors,
+            relations,
+            lexemes,
+            catalog_links,
+            models,
+            evidence,
+            restriction_evidence,
+            native,
+            bank_relevance,
+            conn=conn,
+        )
+    return report
+
+
+def _prime_definition_links(path: str | Path) -> dict[str, tuple[str, ...]]:
+    """A complete identity-link replacement; no assertions, rules or definitions."""
+    from .interchange import read_json
+
+    raw = read_json(path)
+    if (
+        not isinstance(raw, dict)
+        or set(raw) != {"format", "prime_entries"}
+        or raw["format"] != "gse.prime-definition-links/1"
+        or not isinstance(raw["prime_entries"], dict)
+    ):
+        raise ValueError("INVALID_PRIME_DEFINITION_LINKS")
+    for unit, entries in raw["prime_entries"].items():
+        if not _identity(unit) or not isinstance(entries, list) or any(not _identity(entry) for entry in entries):
+            raise ValueError("INVALID_PRIME_DEFINITION_LINKS")
+    return {unit: tuple(entries) for unit, entries in raw["prime_entries"].items()}
+
+
+def _catalog_revision(conn) -> str:
+    """Fingerprint saved metadata in addition to the same-connection change counter."""
+    digest = hashlib.sha256()
+    for key, value in conn.execute("SELECT key,value FROM builder_metadata ORDER BY key"):
+        digest.update(_canonical((key, value)).encode())
+        digest.update(b"\n")
+    return digest.hexdigest()
+
+
+def refresh_catalog(path: str | Path, links_path: str | Path, *, apply_links: bool = False) -> dict:
+    """Replay once, preview explicit links, optionally replace only catalog metadata.
+
+    The read snapshot's revision must survive obtaining the write lock. A busy
+    or changed database is refused, never retried against a different snapshot.
+    No source records, dictionary states, bank values or schema are rewritten.
+    """
+    if type(apply_links) is not bool:
+        raise ValueError("INVALID_CATALOG_APPLY_FLAG")
+    links = _prime_definition_links(links_path)
+    file = Path(path).expanduser().resolve()
+    if not file.is_file():
+        raise ValueError("BUILD_NOT_FOUND")
+    conn = sqlite3.connect(file.as_uri() + ("?mode=rw" if apply_links else "?mode=ro"), uri=True, timeout=0)
+    try:
+        conn.row_factory = sqlite3.Row
+        if not apply_links:
+            conn.execute("PRAGMA query_only=ON")
+        version = conn.execute("PRAGMA data_version").fetchone()[0]
+        conn.execute("BEGIN")
+        _schema(conn)
+        if _metadata(conn, "format") != VERSION:
+            raise ValueError("UNSUPPORTED_BUILD_FORMAT")
+        revision = _catalog_revision(conn)
+        replay = _replay(conn, _relations(_metadata(conn, "relations")), catalog_links=links)
+        if replay["code"] != "REPLAY_VALIDATED":
+            raise ValueError("CATALOG_REQUIRES_VALID_REPLAY:" + _canonical(replay["mismatch_counts"]))
+        catalog = replay.pop("proposed_catalog")
+        result = {
+            "format": "gse.catalog-links-update/1",
+            "code": "CATALOG_LINKS_PREVIEW",
+            "link_semantics": "COMPLETE_REPLACEMENT",
+            "prime_entries": links,
+            "catalog": catalog,
+            "replay": replay,
+            "snapshot_metadata_sha256": revision,
+            "dictionary_states": "UNCHANGED",
+        }
+        if not apply_links:
+            return result
+        conn.commit()
+        conn.execute("BEGIN IMMEDIATE")
+        if conn.execute("PRAGMA data_version").fetchone()[0] != version or _catalog_revision(conn) != revision:
+            raise ValueError("CATALOG_CONCURRENT_MODIFICATION")
+        build_report = _optional_metadata(conn, "last_report", None)
+        if not isinstance(build_report, dict):
+            raise ValueError("CATALOG_BUILD_REPORT_UNAVAILABLE")
+        build_report["foundation_readiness"] = catalog["readiness"]
+        build_report["prime_coverage"] = catalog["coverage_counts"]
+        for key, value in (("prime_entries", links), ("catalog", catalog), ("last_report", build_report)):
+            conn.execute("INSERT OR REPLACE INTO builder_metadata VALUES (?,?)", (key, _canonical(value)))
+        conn.commit()
+        result["code"] = "CATALOG_LINKS_APPLIED"
+        return result
+    except sqlite3.DatabaseError as error:
+        if getattr(error, "sqlite_errorname", "") in {"SQLITE_BUSY", "SQLITE_LOCKED"}:
+            raise ValueError("CATALOG_WRITER_BUSY") from error
+        raise ValueError("INVALID_BUILD_DATABASE") from error
+    finally:
+        conn.close()
 
 
 def validate_build(path: str | Path) -> dict:

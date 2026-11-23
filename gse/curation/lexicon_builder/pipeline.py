@@ -6,19 +6,21 @@ from contextlib import closing
 from dataclasses import asdict
 from pathlib import Path
 
-from .engine import Assertion, propagate
+from .engine import Assertion, DomainRestriction, propagate
 from .evidence import Definition, EvidenceBundle, Observation, collect_evidence, validate_assertion_competence
 from .foundation import (
     BANKS,
     CONVENTION_VERSION,
     WANT_POLARITY,
-    definition_context,
+    lexical_context,
     load_manifest,
     load_manifest_extensions,
     projection_relations,
     representation_contract,
+    validate_lexical_guards,
 )
 from .interchange import read_json
+from .model_receipts import append_model_receipt, reset_model_receipts
 from .relevance import observation_relevance
 from .resolution import resolve_dictionary
 from .storage import _json, open_build, store_candidates, store_entry, store_observations, store_unresolved
@@ -31,9 +33,9 @@ def load_evidence(path: str | Path) -> EvidenceBundle:
     raw = read_json(path)
     if not isinstance(raw, dict) or raw.get("format") != "gse.lexicon-evidence/1":
         raise ValueError("INVALID_EVIDENCE_FORMAT")
-    if set(raw) - {"format", "definitions", "observations", "assertions", "unresolved"}:
+    if set(raw) - {"format", "definitions", "observations", "assertions", "unresolved", "domain_restrictions"}:
         raise ValueError("UNKNOWN_EVIDENCE_FIELD")
-    for key in ("definitions", "observations", "assertions", "unresolved"):
+    for key in ("definitions", "observations", "assertions", "unresolved", "domain_restrictions"):
         if not isinstance(raw.get(key, []), list):
             raise ValueError(f"INVALID_EVIDENCE_{key.upper()}")
     for key, permitted, sequences in (
@@ -42,6 +44,11 @@ def load_evidence(path: str | Path) -> EvidenceBundle:
             "observations",
             {"entry_id", "source", "record_id", "family", "features", "scope", "candidate_entry_ids"},
             ("candidate_entry_ids",),
+        ),
+        (
+            "domain_restrictions",
+            {"bank", "allowed_values", "source", "record_id", "family", "scope"},
+            ("allowed_values",),
         ),
     ):
         for record in raw.get(key, []):
@@ -67,9 +74,20 @@ def load_evidence(path: str | Path) -> EvidenceBundle:
             for r in raw.get("observations", [])
         )
         assertions = tuple(Assertion(**r) for r in raw.get("assertions", []))
+        restrictions = tuple(
+            DomainRestriction(
+                r["bank"],
+                tuple(r["allowed_values"]),
+                r["source"],
+                r["record_id"],
+                r["family"],
+                r.get("scope", "lexical"),
+            )
+            for r in raw.get("domain_restrictions", [])
+        )
     except (TypeError, KeyError) as exc:
         raise ValueError("INVALID_EVIDENCE_RECORD") from exc
-    return EvidenceBundle(definitions, observations, assertions, tuple(raw.get("unresolved", [])))
+    return EvidenceBundle(definitions, observations, assertions, tuple(raw.get("unresolved", [])), restrictions)
 
 
 def build_dictionary(
@@ -81,6 +99,7 @@ def build_dictionary(
     max_model_calls: int = 0,
     weights=None,
     discover: bool = False,
+    requested_words: tuple[str, ...] | None = None,
 ) -> dict:
     """Propagate every definition, optionally complete bounded residuals, then store.
 
@@ -95,6 +114,7 @@ def build_dictionary(
         (bundle.definitions, Definition),
         (bundle.observations, Observation),
         (bundle.assertions, Assertion),
+        (bundle.domain_restrictions, DomainRestriction),
     ):
         if not isinstance(values, tuple) or any(not isinstance(value, kind) for value in values):
             raise ValueError("INVALID_EVIDENCE_BUNDLE")
@@ -115,9 +135,21 @@ def build_dictionary(
     relations = projection_relations() + extra_relations
     # Validate even an empty corpus, before creating an output database.
     propagate(BANKS, (), relations)
+    ancestry_guards = validate_lexical_guards(relations)
+    native_lemma_guard = any(key == "wordnet_native_lemma" for rule in relations for key, _ in rule.guards)
     definitions = {d.entry_id: d for d in bundle.definitions}
     if len(definitions) != len(bundle.definitions):
         raise ValueError("DUPLICATE_DEFINITION_ID")
+    if requested_words is not None and (
+        not isinstance(requested_words, tuple)
+        or any(not isinstance(word, str) or not word.strip() for word in requested_words)
+    ):
+        raise ValueError("INVALID_REQUESTED_WORDS")
+    worklist = sorted(
+        {word.strip().lower() for word in requested_words}
+        if requested_words is not None
+        else {definition.lemma.strip().lower() for definition in bundle.definitions}
+    )
     authored_ids = set()
     for definition in authored_definitions:
         if definition.entry_id in authored_ids:
@@ -130,9 +162,8 @@ def build_dictionary(
         raise ValueError("UNKNOWN_WEIGHT_DEFINITION")
     if (set(anchors) | set(hierarchy)) - definitions.keys():
         raise ValueError("UNKNOWN_MANIFEST_DEFINITION")
-    from .catalog import catalog_report
+    from .catalog import SENTENCE_DURATION_SOURCE_RECORD, catalog_report
 
-    catalog = catalog_report(anchors, tuple(definitions.values()), relations, prime_entries=prime_entries)
     links, observations, record_ids = {}, defaultdict(list), {}
     relevance_by_entry = {}
     for observation in bundle.observations:
@@ -150,25 +181,46 @@ def build_dictionary(
         for target in targets:
             if target not in definitions:
                 raise ValueError("UNKNOWN_CANDIDATE_DEFINITION")
-            if transport is not None:
+            if transport is not None or (
+                (ancestry_guards or native_lemma_guard) and observation.source == "wordnet_hierarchy"
+            ):
                 observations[target].append(observation)
             previous = relevance_by_entry.get(target, frozenset())
             if len(previous) < len(BANKS):
                 relevance_by_entry[target] = previous | relevance
     assertions_by_entry = defaultdict(list)
-    for assertion in bundle.assertions:
+    restrictions_by_entry = defaultdict(list)
+    for assertion in bundle.assertions + bundle.domain_restrictions:
         validate_assertion_competence(assertion)
         observation = links.get((assertion.source, assertion.record_id))
         if observation is None or observation.entry_id is None:
             raise ValueError("ASSERTION_REQUIRES_EXACT_DEFINITION_LINK")
         if observation.family != assertion.family or observation.scope != "lexical":
             raise ValueError("ASSERTION_PROVENANCE_MISMATCH")
-        assertions_by_entry[observation.entry_id].append(assertion)
+        if isinstance(assertion, DomainRestriction):
+            if assertion.source.startswith(("model:", "rule:", "derived:")) or assertion.family in {"model", "derived"}:
+                raise ValueError("INVALID_RESTRICTION_AUTHORITY")
+            restrictions_by_entry[observation.entry_id].append(assertion)
+        else:
+            assertions_by_entry[observation.entry_id].append(assertion)
+
+    # Report only the validated source-and-anchor foundation. Later bounded
+    # model rulings do not change its meaning or make the saved report stale.
+    catalog_entries = {entry for entries in prime_entries.values() for entry in entries if entry in definitions}
+    catalog = catalog_report(
+        anchors,
+        tuple(definitions.values()),
+        relations,
+        prime_entries=prime_entries,
+        native_assertions={entry: tuple(assertions_by_entry.get(entry, ())) for entry in catalog_entries},
+        native_domain_restrictions={entry: tuple(restrictions_by_entry.get(entry, ())) for entry in catalog_entries},
+        evidence_banks={entry: tuple(sorted(relevance_by_entry.get(entry, ()))) for entry in catalog_entries},
+        observations_by_entry={entry: tuple(observations.get(entry, ())) for entry in catalog_entries},
+    )
 
     outcomes, cells, per_pos, completion_codes = Counter(), Counter(), defaultdict(Counter), Counter()
     weighted = Counter()
     calls = 0
-    model_completions = []
     logger.info(
         "Building %s definitions from %s native observations; %s unresolved source records",
         len(definitions),
@@ -178,11 +230,20 @@ def build_dictionary(
     conn = open_build(output)
     try:
         with conn:
+            reset_model_receipts(conn)
             # A build is a complete snapshot of its requested corpus. Rebuilding
             # a versioned destination must not leave old, unreported definitions.
+            if conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='completion_attempts'").fetchone():
+                conn.execute("DELETE FROM completion_attempts")
+            if conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='completion_schedule'").fetchone():
+                conn.execute("DELETE FROM completion_schedule")
+            if conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='completion_visits'").fetchone():
+                conn.execute("DELETE FROM completion_visits")
+            conn.execute("DELETE FROM builder_metadata WHERE key='last_completion_report'")
             for table in (
                 "definition_states",
                 "builder_assertions",
+                "builder_domain_restrictions",
                 "source_observations",
                 "unresolved_sources",
                 "candidate_evidence",
@@ -195,11 +256,19 @@ def build_dictionary(
             store_observations(conn, bundle.observations)
             logger.info("Native observations stored; propagating dictionary definitions")
             for entry_id, definition in sorted(definitions.items()):
-                context = definition_context(definition.pos)
+                context = lexical_context(definition, observations.get(entry_id, ()), relations)
                 assertions = tuple(assertions_by_entry[entry_id]) + anchors.get(entry_id, ())
+                domain_restrictions = tuple(restrictions_by_entry[entry_id])
                 evidence_banks = tuple(sorted(relevance_by_entry.get(entry_id, ())))
-                resolution = resolve_dictionary(BANKS, assertions, relations, context, evidence_banks=evidence_banks)
-                if transport is not None:
+                resolution = resolve_dictionary(
+                    BANKS,
+                    assertions,
+                    relations,
+                    context,
+                    evidence_banks=evidence_banks,
+                    domain_restrictions=domain_restrictions,
+                )
+                if transport is not None and entry_id != SENTENCE_DURATION_SOURCE_RECORD:
                     from .residual import build_request, complete_bank
 
                     attempted = set()
@@ -218,9 +287,18 @@ def build_dictionary(
                             resolution,
                             tuple(asdict(o) for o in observations[entry_id]),
                             definition=definition,
+                            relations=relations,
+                            context=context,
                         )
                         completion = complete_bank(
-                            request, BANKS, assertions, relations, transport, context, evidence_banks=evidence_banks
+                            request,
+                            BANKS,
+                            assertions,
+                            relations,
+                            transport,
+                            context,
+                            evidence_banks=evidence_banks,
+                            domain_restrictions=domain_restrictions,
                         )
                         calls += 1
                         attempted.add(bank)
@@ -230,7 +308,8 @@ def build_dictionary(
                                 raise ValueError("INVALID_COMPLETION_RECEIPT")
                             assertions += (completion.assertion,)
                             resolution = completion.resolution
-                            model_completions.append(
+                            append_model_receipt(
+                                conn,
                                 {
                                     "entry_id": entry_id,
                                     "assertion": asdict(completion.assertion),
@@ -238,9 +317,16 @@ def build_dictionary(
                                     "code": completion.code,
                                     "request": request.payload(),
                                     "schema": request.output_schema(),
-                                }
+                                },
                             )
-                store_entry(conn, definition, resolution, assertions, hierarchy.get(entry_id))
+                store_entry(
+                    conn,
+                    definition,
+                    resolution,
+                    assertions,
+                    hierarchy.get(entry_id),
+                    domain_restrictions=domain_restrictions,
+                )
                 outcomes[resolution.code] += 1
                 per_pos[context["pos"]][resolution.code] += 1
                 weight = weights.get(entry_id, 0.0)
@@ -261,6 +347,7 @@ def build_dictionary(
                 "per_pos": {p: dict(c) for p, c in per_pos.items()},
                 "weighted_outcomes": dict(weighted) if weights else None,
                 "source_observations": dict(Counter(o.source for o in bundle.observations)),
+                "domain_restrictions": len(bundle.domain_restrictions),
                 "unresolved_source_records": len(bundle.unresolved),
                 "model_calls": calls,
                 "model_outcomes": dict(completion_codes),
@@ -284,13 +371,14 @@ def build_dictionary(
             )
             for key, value in (
                 ("anchors", {entry: [asdict(a) for a in records] for entry, records in anchors.items()}),
-                ("model_completions", model_completions),
                 ("requested_hierarchy", hierarchy),
                 ("catalog", catalog),
                 ("prime_entries", prime_entries),
                 ("convention_version", CONVENTION_VERSION),
                 ("want_polarity", WANT_POLARITY),
                 ("representation_contract", representation),
+                ("requested_words", worklist),
+                ("requested_definition_ids", sorted(definitions)),
             ):
                 conn.execute("INSERT OR REPLACE INTO builder_metadata VALUES (?,?)", (key, _json(value)))
             if discover:
@@ -318,8 +406,9 @@ def build_from_sources(output: str | Path, *, parsers: dict | None = None, words
 
         parsers, diagnostics = load_local_sources()
     try:
-        bundle = collect_evidence(parsers, tuple(words) if words is not None else None)
-        report = build_dictionary(bundle, output, **kwargs)
+        requested = tuple(words) if words is not None else None
+        bundle = collect_evidence(parsers, requested)
+        report = build_dictionary(bundle, output, requested_words=requested, **kwargs)
     finally:
         if diagnostics is not None:
             for parser in parsers.values():

@@ -4,7 +4,7 @@ from collections import defaultdict
 
 from gse.api.trace import OperationTrace
 from gse.nlp.morphology import NEGATION, REVERSAL
-from gse.symbolic.expression import _sign_owners, node_negation_count, node_polarity
+from gse.symbolic.expression import _sign_owners, node_negation_count, node_polarity, prepare_degree_modifiers
 
 
 def negation_signs(trace: OperationTrace) -> dict:
@@ -19,6 +19,17 @@ def negation_signs(trace: OperationTrace) -> dict:
             "schema": "gse.signs/1",
             "state": "unread",
             "reason": "invalid_trace",
+            "owners": [],
+            "lexical": [],
+            "count": None,
+        }
+    try:
+        prepare_degree_modifiers(trace.tokens)
+    except ValueError as error:
+        return {
+            "schema": "gse.signs/1",
+            "state": "unread",
+            "reason": getattr(error, "code", str(error)),
             "owners": [],
             "lexical": [],
             "count": None,

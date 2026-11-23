@@ -61,12 +61,12 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Dict, FrozenSet, List, Optional, Sequence, Set, Tuple
 
+from gse.lexicon_resource import resolve_lexicon_path
 from gse.nlp.native import _STOP
 
 # Absolute paths resolved from this module (repo root), so the corrector loads its
 # data regardless of the process working directory — usable from any caller/repo.
 _REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-_DEFAULT_DB = os.path.join(_REPO_ROOT, "data", "lexicon_clean.db")
 
 _ALPHABET = "abcdefghijklmnopqrstuvwxyz"
 
@@ -218,12 +218,13 @@ def _damerau(a: str, b: str) -> int:
 
 
 class _Lexicon:
-    """Lazy, cached view of ``data/lexicon_clean.db`` (+ WordNet for coverage) for the
+    """Lazy, cached view of the selected lexicon (+ WordNet for coverage) for the
     grounding gate, the frequency prior, and the coherence Jaccard. Vocabulary =
     content lemmas ∪ closed-class function words ∪ WordNet lemmas."""
 
-    def __init__(self, db_path: str = _DEFAULT_DB) -> None:
-        self.db_path = db_path
+    def __init__(self, db_path: str | Path | None = None) -> None:
+        self._explicit_db_path = db_path
+        self._selected_db_path = resolve_lexicon_path(db_path)
         self._lex_vocab: Optional[FrozenSet[str]] = None
         self._wn_vocab: Optional[FrozenSet[str]] = None
         self._validity_vocab = None
@@ -234,15 +235,44 @@ class _Lexicon:
         self._freq: Optional[Dict[str, int]] = None
         self._confusions: Optional[Dict[str, List[str]]] = None
         self._conn: Optional[sqlite3.Connection] = None
+        self._database_version: Optional[int] = None
+        self._database_file_identity: Optional[tuple[int, int]] = None
+
+    @property
+    def db_path(self) -> str:
+        """Follow activation and committed writes, invalidating lexical caches."""
+        selected = resolve_lexicon_path(self._explicit_db_path)
+        changed = selected != self._selected_db_path
+        if self._conn is not None and not changed:
+            stat = selected.stat()
+            changed = (stat.st_dev, stat.st_ino) != self._database_file_identity or (
+                self._conn.execute("PRAGMA data_version").fetchone()[0] != self._database_version
+            )
+        if changed:
+            if self._conn is not None:
+                self._conn.close()
+                self._conn = None
+            self._database_version = None
+            self._database_file_identity = None
+            self._lex_vocab = None
+            self._freq = None
+            self._primitives.cache_clear()
+            self._selected_db_path = selected
+        return str(selected)
 
     @property
     def conn(self) -> sqlite3.Connection:
+        selected = self.db_path
         if self._conn is None:
-            self._conn = sqlite3.connect(self.db_path)
+            self._conn = sqlite3.connect(Path(selected).resolve().as_uri() + "?mode=ro", uri=True)
+            stat = Path(selected).stat()
+            self._database_file_identity = (stat.st_dev, stat.st_ino)
+            self._database_version = self._conn.execute("PRAGMA data_version").fetchone()[0]
         return self._conn
 
     @property
     def lex_vocab(self) -> FrozenSet[str]:
+        self.db_path  # Refresh activation before reading a cached lexical set.
         if self._lex_vocab is None:
             rows = self.conn.execute("SELECT lemma FROM lexemes").fetchall()
             self._lex_vocab = frozenset(r[0].lower() for r in rows) | _STOP
@@ -258,6 +288,7 @@ class _Lexicon:
 
     @property
     def freq(self) -> Dict[str, int]:
+        self.db_path
         if self._freq is None:
             rows = self.conn.execute(
                 "SELECT lemma, frequency_rank FROM lexemes WHERE frequency_rank IS NOT NULL"
@@ -400,12 +431,26 @@ class _Lexicon:
         """Ordered observed corrections for ``surface`` (primary first), or []."""
         return self.confusions.get(surface.lower(), [])
 
-    @lru_cache(maxsize=8192)
     def primitives(self, lemma: str) -> FrozenSet[str]:
         """The lemma's word-scale primitive set (for the coherence Jaccard). Empty
-        for function words / words with no primitive rows."""
+        for absent/ambiguous definitions or definitions without active banks."""
+        self.db_path
+        return self._primitives(lemma)
+
+    @lru_cache(maxsize=8192)
+    def _primitives(self, lemma: str) -> FrozenSet[str]:
+        from gse.lexical_evidence import is_definition_database
+
+        if is_definition_database(self.conn):
+            from gse.curation.lexicon_builder.storage import runtime_lookup
+
+            selected = runtime_lookup(self.conn, lemma.lower())["selected"]
+            if selected is None:
+                return frozenset()
+            return frozenset(bank for bank, value in selected["assignments"].items() if value != 0)
         rows = self.conn.execute(
-            "SELECT pv.primitive FROM primitive_values pv JOIN lexemes lx ON lx.id = pv.lexeme_id WHERE lx.lemma = ?",
+            "SELECT pv.primitive FROM primitive_values pv JOIN lexemes lx ON lx.id = pv.lexeme_id "
+            "WHERE lx.lemma = ? AND pv.value != 0",
             (lemma.lower(),),
         ).fetchall()
         return frozenset(r[0] for r in rows)

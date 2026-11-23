@@ -24,6 +24,7 @@ or via the test runner (``tests/test_symbolic_proof_suite.py``).
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass, field
 from typing import List, Optional
 
@@ -51,6 +52,14 @@ class ProofResult:
     passed: bool
     description: str
     detail: str = ""
+    code: str = ""
+
+    def __post_init__(self) -> None:
+        self.passed = bool(self.passed)
+        if not self.code:
+            self.code = "PASSED" if self.passed else "FAILED"
+        if self.code not in {"PASSED", "FAILED", "ABSTAINED"} or self.passed != (self.code == "PASSED"):
+            raise ValueError("INVALID_PROOF_DECISION")
 
 
 @dataclass
@@ -67,19 +76,27 @@ class ProofSuiteResult:
     def n_total(self) -> int:
         return len(self.results)
 
+    @property
+    def n_failed(self) -> int:
+        return sum(r.code == "FAILED" for r in self.results)
+
+    @property
+    def n_abstained(self) -> int:
+        return sum(r.code == "ABSTAINED" for r in self.results)
+
     def print_report(self) -> None:
         print()
         print("=" * 78)
         print("GSE Symbolic Proof Suite — line 154 architecture validation")
         print("=" * 78)
         for r in self.results:
-            mark = "✓" if r.passed else "✗"
-            print(f"  {mark} {r.name}")
+            mark = {"PASSED": "✓", "FAILED": "✗", "ABSTAINED": "?"}[r.code]
+            print(f"  {mark} {r.name} [{r.code}]")
             print(f"      {r.description}")
             if r.detail:
                 print(f"      detail: {r.detail}")
         print()
-        print(f"  Total: {self.n_passed}/{self.n_total} proofs passed.")
+        print(f"  Total: {self.n_passed} PASSED, {self.n_failed} FAILED, {self.n_abstained} ABSTAINED.")
         print()
 
 
@@ -230,13 +247,29 @@ def proof_bipolar_distinct_from_relational(encoder: GSEEncoder) -> ProofResult:
     love/hate."""
     from gse.primitives_v2 import DIMS_PER_BANK, SemanticBank
 
-    bs_pos = encoder.encode("big").vector
-    bs_neg = encoder.encode("small").vector
+    traces = {word: encoder.encode(word) for word in ("big", "small", "love", "hate")}
+    unavailable = []
+    for word, trace in traces.items():
+        evidence = trace.tokens[0].lexical_evidence if len(trace.tokens) == 1 else {}
+        if evidence.get("selected_record") is None or evidence.get("ambiguous") or evidence.get("state") != "primes":
+            unavailable.append({"word": word, "code": "LEXICAL_SELECTION_UNAVAILABLE", "evidence": evidence})
+        elif trace.vector.with_bank_only(SemanticBank.EVALUATORS.value, DIMS_PER_BANK).nnz == 0:
+            unavailable.append({"word": word, "code": "EMPTY_EVALUATION_BANK", "evidence": evidence})
+    if unavailable:
+        return ProofResult(
+            name="bipolar_distinct_from_relational",
+            passed=False,
+            code="ABSTAINED",
+            description="Selected lexical evidence with a nonempty evaluation bank is required before cosine.",
+            detail=json.dumps(unavailable, sort_keys=True),
+        )
+    bs_pos = traces["big"].vector
+    bs_neg = traces["small"].vector
     bs_eval = bs_pos.with_bank_only(SemanticBank.EVALUATORS.value, DIMS_PER_BANK).cosine(
         bs_neg.with_bank_only(SemanticBank.EVALUATORS.value, DIMS_PER_BANK)
     )
-    lh_pos = encoder.encode("love").vector
-    lh_neg = encoder.encode("hate").vector
+    lh_pos = traces["love"].vector
+    lh_neg = traces["hate"].vector
     lh_eval = lh_pos.with_bank_only(SemanticBank.EVALUATORS.value, DIMS_PER_BANK).cosine(
         lh_neg.with_bank_only(SemanticBank.EVALUATORS.value, DIMS_PER_BANK)
     )
@@ -518,7 +551,7 @@ def run_all(encoder: Optional[GSEEncoder] = None) -> ProofSuiteResult:
 def main():
     result = run_all()
     result.print_report()
-    return 0 if result.n_passed == result.n_total else 1
+    return 1 if result.n_failed else 2 if result.n_abstained else 0
 
 
 if __name__ == "__main__":

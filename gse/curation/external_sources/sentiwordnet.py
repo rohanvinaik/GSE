@@ -125,6 +125,33 @@ class SentiWordNetParser:
             ],
         }
 
+    def projection_candidates_for_entry(self, entry: object) -> list[dict] | None:
+        """Independent sentiment suggestions; never average senses or pick a winner.
+
+        The historical 0.25 threshold is retained as mapping provenance, not
+        asserted lexical truth. Objectivity and subthreshold scores confer no
+        zero. A synset link identifies the rated definition but does not prove
+        that sentiment association is that definition's own evaluation.
+        """
+        if not isinstance(entry, SentiWordEntry) or self.bank_relevance_for_entry(entry) is None:
+            return None
+        suggestions = []
+        provenance = []
+        for field, value in (("pos_score", 1), ("neg_score", -1)):
+            if getattr(entry, field) > 0.25:
+                suggestions.append(value)
+                provenance.append(f"sentiwordnet:to_primitives:independent:{field}>0.25:GOOD={value}")
+        if not suggestions:
+            return []
+        return [
+            {
+                "bank": "GOOD",
+                "suggested_values": sorted(suggestions),
+                "mapping_provenance": sorted(provenance),
+                "evidence_disposition": "ASSOCIATION_OWN_DEFINITION_UNESTABLISHED",
+            }
+        ]
+
     def get_sentiment(self, word: str, pos: Optional[str] = None) -> Optional[Dict[str, float]]:
         """
         Get aggregated sentiment for a word.

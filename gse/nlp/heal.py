@@ -14,6 +14,7 @@ from typing import Any, Dict, List
 
 from gse.api import GSEEncoder
 from gse.curation import personal_dictionary
+from gse.lexicon_resource import resolve_lexicon_path
 from gse.nlp.hdc_speller import (
     HDC_COMMIT_COS,
     HDC_OFFER_COS,
@@ -29,7 +30,6 @@ from gse.nlp.spellcheck_entity import _DEFAULT_ENTITIES, correct_entity
 POLICY = "gse.heal/1"
 _CONTENT_POS = {"NOUN", "PROPN", "VERB", "ADJ", "ADV"}
 _REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-_LEXICON_DB = os.path.join(_REPO_ROOT, "data", "lexicon_clean.db")
 _enc: GSEEncoder | None = None
 
 
@@ -42,8 +42,12 @@ def resource_provenance() -> dict:
 
 def _encoder() -> GSEEncoder:
     global _enc
-    if _enc is None:
-        _enc = GSEEncoder(db_path=_LEXICON_DB)
+    selected = resolve_lexicon_path()
+    if _enc is None or _enc.db_path != selected:
+        replacement = GSEEncoder(db_path=selected)
+        if _enc is not None:
+            _enc.close()
+        _enc = replacement
     return _enc
 
 

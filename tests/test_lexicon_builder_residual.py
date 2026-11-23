@@ -3,6 +3,7 @@
 import copy
 import json
 from dataclasses import replace
+from functools import partial
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -204,7 +205,12 @@ def test_request_rejects_untyped_or_non_json_observations(observations):
 def test_request_domain_is_narrowed_by_symbolic_rules():
     rules = (relation("allowed", ("WANT",), ((0,), (1,))),)
     request = build_request(
-        "d", "WANT", propagate(("WANT",), (), rules), (), definition=Definition("d", "want", "verb", "desire something")
+        "d",
+        "WANT",
+        propagate(("WANT",), (), rules),
+        (),
+        definition=Definition("d", "want", "verb", "desire something"),
+        relations=rules,
     )
     assert request.allowed_values == (0, 1)
     assert request.output_schema()["properties"]["WANT"]["enum"] == [0, 1, None]
@@ -285,7 +291,12 @@ def test_valid_ternary_outside_remaining_domain_is_rejected():
     banks = ("WANT",)
     rules = (relation("nonnegative", banks, ((0,), (1,))),)
     request = build_request(
-        "d", "WANT", propagate(banks, (), rules), (), definition=Definition("d", "want", "verb", "desire something")
+        "d",
+        "WANT",
+        propagate(banks, (), rules),
+        (),
+        definition=Definition("d", "want", "verb", "desire something"),
+        relations=rules,
     )
     result = complete_bank(request, banks, (), rules, Transport('{"WANT":-1}'))
     assert result.code == "INVALID_OUTPUT"
@@ -350,24 +361,43 @@ def test_assigned_ruling_propagates_before_another_request():
     banks = ("A", "B")
     rules = (relation("equal", banks, ((0, 0), (1, 1))),)
     initial = propagate(banks, (), rules)
-    request = build_request("d", "A", initial, (), definition=Definition("d", "want", "verb", "desire something"))
+    request = build_request(
+        "d", "A", initial, (), definition=Definition("d", "want", "verb", "desire something"), relations=rules
+    )
     result = complete_bank(request, banks, (), rules, Transport('{"A":1}'))
     assert result.code == "ASSIGNED"
     assert result.resolution.assignments == {"A": 1, "B": 1}
     with pytest.raises(ValueError, match="already_assigned"):
-        build_request("d", "B", result.resolution, (), definition=Definition("d", "want", "verb", "desire something"))
+        build_request(
+            "d",
+            "B",
+            result.resolution,
+            (),
+            definition=Definition("d", "want", "verb", "desire something"),
+            relations=rules,
+        )
 
 
-def test_ruling_that_exposes_joint_contradiction_is_not_admitted():
-    banks = ("A", "B", "C")
-    rules = tuple(
-        relation(name, pair, ((0, 1), (1, 0)))
-        for name, pair in (("ab", ("A", "B")), ("bc", ("B", "C")), ("ac", ("A", "C")))
+def test_ruling_that_exposes_joint_contradiction_is_not_admitted(monkeypatch):
+    # Deliberately cap joint search below the eight combinations. The problem
+    # has the witness A=B=C=0, but GAC alone also leaves unsupported value 1.
+    monkeypatch.setattr(
+        "gse.curation.lexicon_builder.resolution.propagate", partial(propagate, max_joint_assignments=7)
     )
-    initial = propagate(banks, (), rules)
+    banks = ("A", "B", "C")
+    rules = (
+        relation("ab", ("A", "B"), ((0, 0), (1, 1))),
+        relation("bc", ("B", "C"), ((0, 0), (1, 1))),
+        relation("ac", ("A", "C"), ((0, 0), (0, 1), (1, 0))),
+    )
+    initial = resolve_dictionary(banks, (), rules)
     assert initial.code == "PARTIAL"
-    request = build_request("d", "A", initial, (), definition=Definition("d", "want", "verb", "desire something"))
-    result = complete_bank(request, banks, (), rules, Transport('{"A":0}'))
+    assert any(record["kind"] == "SOLVER_LIMIT" for record in initial.trace)
+    assert propagate(banks, (), rules).assignments == {"A": 0, "B": 0, "C": 0}
+    request = build_request(
+        "d", "A", initial, (), definition=Definition("d", "want", "verb", "desire something"), relations=rules
+    )
+    result = complete_bank(request, banks, (), rules, Transport('{"A":1}'))
     assert result.code == "CONTRADICTION"
     assert result.assertion is None
     assert result.resolution.domains == initial.domains
@@ -380,7 +410,9 @@ def test_model_can_resolve_previously_excepted_conditional_component():
     banks = ("WANT",)
     rules = (relation("positive", banks, ((1,),)), relation("negative", banks, ((-1,),)))
     initial = resolve_dictionary(banks, (), rules)
-    request = build_request("d", "WANT", initial, (), definition=Definition("d", "want", "verb", "desire something"))
+    request = build_request(
+        "d", "WANT", initial, (), definition=Definition("d", "want", "verb", "desire something"), relations=rules
+    )
     result = complete_bank(request, banks, (), rules, Transport('{"WANT":1}'))
     assert result.code == "ASSIGNED"
     assert result.resolution.assignments == {"WANT": 1}
@@ -388,19 +420,26 @@ def test_model_can_resolve_previously_excepted_conditional_component():
     assert exceptions[0]["rule_ids"] == ("negative",)
 
 
-def test_model_may_not_erase_a_known_conditional_assignment():
+def test_model_may_not_erase_a_known_conditional_assignment(monkeypatch):
+    monkeypatch.setattr(
+        "gse.curation.lexicon_builder.resolution.propagate", partial(propagate, max_joint_assignments=7)
+    )
     banks = ("A", "B", "C", "D")
-    rules = tuple(
-        relation(name, pair, ((0, 1), (1, 0)))
-        for name, pair in (("ab", ("A", "B")), ("bc", ("B", "C")), ("ac", ("A", "C")))
-    ) + (
+    rules = (
+        relation("ab", ("A", "B"), ((0, 0), (1, 1))),
+        relation("bc", ("B", "C"), ((0, 0), (1, 1))),
+        relation("ac", ("A", "C"), ((0, 0), (0, 1), (1, 0))),
         relation("known", ("D",), ((1,),)),
         relation("bridge", ("A", "D"), ((0, 1), (1, 1))),
     )
     initial = resolve_dictionary(banks, (), rules)
     assert initial.assignments == {"D": 1}
-    request = build_request("d", "A", initial, (), definition=Definition("d", "want", "verb", "desire something"))
-    result = complete_bank(request, banks, (), rules, Transport('{"A":0}'))
+    assert any(record["kind"] == "SOLVER_LIMIT" for record in initial.trace)
+    assert propagate(banks, (), rules).assignments == {"A": 0, "B": 0, "C": 0, "D": 1}
+    request = build_request(
+        "d", "A", initial, (), definition=Definition("d", "want", "verb", "desire something"), relations=rules
+    )
+    result = complete_bank(request, banks, (), rules, Transport('{"A":1}'))
     assert result.code == "CONTRADICTION"
     assert result.resolution.assignments == {"D": 1}
     assert result.details["changed_known"] == {"D": {"before": 1, "after": None}}
@@ -416,6 +455,8 @@ def test_guard_context_is_used_for_freshness_and_repropagation():
         propagate(banks, (), rules, context),
         (),
         definition=Definition("d", "want", "verb", "desire something"),
+        relations=rules,
+        context=context,
     )
     result = complete_bank(request, banks, (), rules, Transport('{"A":1}'), context)
     assert result.code == "ASSIGNED"
@@ -443,23 +484,43 @@ def test_transport_validates_endpoint(base_url):
 
 
 def test_ollama_transport_sends_only_json_data_and_generation_schema():
-    payload = {"entry_id": "d", "known": {"FEEL": 1}, "fill": {"WANT": None}}
+    payload = build_request(
+        "d",
+        "WANT",
+        propagate(("WANT", "FEEL"), (known_assertion(),), ()),
+        (),
+        definition=Definition("d", "want", "verb", "desire something"),
+    ).payload()
     schema = {"type": "object", "additionalProperties": False}
     before = copy.deepcopy((payload, schema))
     response = MagicMock()
     response.__enter__.return_value.read.return_value = b'{"response":"{\\"WANT\\":0}"}'
     with patch("gse.curation.lexicon_builder.residual.urlopen", return_value=response) as opening:
-        with patch("gse.curation.llm.ollama_client.register_model") as register:
-            result = OllamaTransport("explicit-model", "http://localhost:11434/", 7)(payload, schema)
+        with (
+            patch("gse.curation.llm.ollama_client.register_model") as register,
+            patch.object(OllamaTransport, "_installed_digest", return_value="a" * 64),
+        ):
+            transport = OllamaTransport("explicit-model", "http://localhost:11434/", 7)
+            transport.pin()
+            result = transport(payload, schema)
     assert result == '{"WANT":0}'
     request = opening.call_args.args[0]
     assert opening.call_args.kwargs == {"timeout": 7.0}
     assert request.full_url == "http://localhost:11434/api/generate"
     body = json.loads(request.data)
     assert body["model"] == "explicit-model"
-    assert json.loads(body["prompt"]) == payload
+    protocol = json.loads(body["prompt"])
+    assert {key: value for key, value in protocol["input"].items() if key != "scaffold"} == {
+        key: value for key, value in payload.items() if key not in {"fill", "scaffold"}
+    }
+    assert protocol["input"]["scaffold"]["format"] == "gse.symbolic-scaffold-view/1"
+    assert protocol["input"]["scaffold"]["domains"] == payload["scaffold"]["domains"]
+    assert protocol["operation"] == "LEXICAL_COMPONENT_ENTAILMENT"
+    assert protocol["coordinate"]["negative_pole"] == "NOT_WANT"
+    assert "negative_poles" not in protocol
     assert body["format"] == schema
-    assert body["raw"] is True
+    assert "raw" not in body
+    assert body["think"] is True
     assert body["stream"] is False
     assert "system" not in body
     assert (payload, schema) == before
@@ -468,8 +529,117 @@ def test_ollama_transport_sends_only_json_data_and_generation_schema():
 
 @pytest.mark.parametrize("envelope", [b"null", b"{}", b'{"response":0}', b"not json"])
 def test_ollama_transport_rejects_missing_or_malformed_envelope(envelope):
+    payload = build_request(
+        "d",
+        "WANT",
+        propagate(("WANT",), (), ()),
+        (),
+        definition=Definition("d", "want", "verb", "desire something"),
+    ).payload()
     response = MagicMock()
     response.__enter__.return_value.read.return_value = envelope
     with patch("gse.curation.lexicon_builder.residual.urlopen", return_value=response):
-        with pytest.raises(ValueError):
-            OllamaTransport("explicit-model")({}, {})
+        with patch.object(OllamaTransport, "_installed_digest", return_value="a" * 64):
+            transport = OllamaTransport("explicit-model")
+            transport.pin()
+            with pytest.raises(ValueError):
+                transport(payload, {})
+
+
+def test_transport_rejects_context_overflow_without_truncation_or_call():
+    request = build_request(
+        "d",
+        "WANT",
+        propagate(("WANT",), (), ()),
+        (
+            {
+                "source": "nrc_emotion",
+                "record_id": "a",
+                "family": "ratings",
+                "scope": "association",
+                "features": {"lemma": "x" * 40000},
+            },
+        ),
+        definition=Definition("d", "want", "verb", "desire something"),
+    )
+    with patch("gse.curation.lexicon_builder.residual.urlopen") as opening:
+        with pytest.raises(ValueError, match="MODEL_CONTEXT_EXCEEDED"):
+            OllamaTransport("explicit-model")(request.payload(), request.output_schema())
+    opening.assert_not_called()
+
+
+def test_model_receipt_identity_includes_protocol():
+    transport = Transport('{"WANT":0}')
+    transport.identity = "model@protocol-hash"
+    request = build_request(
+        "d",
+        "WANT",
+        propagate(("WANT",), (), ()),
+        (),
+        definition=Definition("d", "stone", "noun", "a lump of mineral matter"),
+    )
+    result = complete_bank(request, ("WANT",), (), (), transport)
+    assert result.assertion.source == "model:model@protocol-hash"
+
+
+@pytest.mark.parametrize("context", [None, True, 0, -1, 2047, 8192.0])
+def test_transport_requires_valid_context_budget(context):
+    with pytest.raises(ValueError, match="invalid_context_tokens"):
+        OllamaTransport("explicit-model", context_tokens=context)
+
+
+def test_model_protocol_keeps_all_source_observations():
+    from gse.curation.lexicon_builder.model_protocol import model_input
+
+    records = tuple(
+        {
+            "source": "nrc_emotion",
+            "record_id": key,
+            "family": "ratings",
+            "scope": "association",
+            "entry_id": None,
+            "candidate_entry_ids": ["d"],
+            "features": {"emotions": {"joy": value}},
+        }
+        for key, value in (("a", 1), ("b", 0))
+    )
+    request = build_request(
+        "d",
+        "WANT",
+        propagate(("WANT",), (), ()),
+        records,
+        definition=Definition("d", "stone", "noun", "a lump of mineral matter"),
+    )
+    wire = model_input(request.payload())
+    assert [record["features"] for record in wire["input"]["evidence"]["records"]] == [
+        record["features"] for record in records
+    ]
+    assert wire["input"]["evidence"]["omission_semantics"] == "OMITTED_IS_NOT_ZERO"
+    assert "fill" not in wire["input"]
+    wire["input"]["evidence"]["records"][0]["record_id"] = "changed"
+    assert request.observations == records
+
+
+def test_transport_identity_changes_with_generation_contract():
+    default = OllamaTransport("model")
+    assert default.identity != OllamaTransport("model", thinking=False).identity
+    assert default.identity != OllamaTransport("model", context_tokens=8192).identity
+    assert default.identity == OllamaTransport("model").identity
+
+
+def test_incomplete_model_output_is_never_admitted():
+    payload = build_request(
+        "d",
+        "WANT",
+        propagate(("WANT",), (), ()),
+        (),
+        definition=Definition("d", "want", "verb", "desire something"),
+    ).payload()
+    response = MagicMock()
+    response.__enter__.return_value.read.return_value = b'{"response":"{\\"WANT\\":1}","done_reason":"length"}'
+    with patch("gse.curation.lexicon_builder.residual.urlopen", return_value=response):
+        with patch.object(OllamaTransport, "_installed_digest", return_value="a" * 64):
+            transport = OllamaTransport("model")
+            transport.pin()
+            with pytest.raises(ValueError, match="INCOMPLETE_MODEL_OUTPUT"):
+                transport(payload, {})

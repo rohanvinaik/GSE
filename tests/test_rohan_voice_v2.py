@@ -9,8 +9,56 @@ from pathlib import Path
 
 import pytest
 
+from gse.api import GSEEncoder
+from gse.curation.external_sources.gse_closed_class import GSEClosedClassParser
+from gse.curation.lexicon_builder.engine import Assertion, propagate
+from gse.curation.lexicon_builder.evidence import Definition, collect_evidence
+from gse.curation.lexicon_builder.foundation import BANKS
+from gse.curation.lexicon_builder.pipeline import build_dictionary
+from gse.curation.lexicon_builder.storage import open_build, store_entry
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import rohan_voice  # noqa: E402
+
+
+@pytest.fixture
+def voice_dictionary(tmp_path, monkeypatch):
+    """A controlled identity/feature input, not a claim of active-corpus readiness.
+
+    Partition/refit/CLI tests require readable input. Real-corpus ambiguity and
+    completion remain independently audited; no default resource is substituted.
+    """
+    path = tmp_path / "voice-definitions.db"
+    grammar = GSEClosedClassParser()
+    grammar.load()
+    build_dictionary(collect_evidence({"gse_closed_class": grammar}, ()), path)
+    conn = open_build(path)
+    try:
+        for lemma, pos, definition, values in (
+            ("feel", "verb", "Experience a feeling.", {"FEEL": 1}),
+            ("happy", "adj", "Feeling good.", {"FEEL": 1, "GOOD": 1}),
+            ("help", "verb", "Do something to assist someone.", {"DO": 1}),
+            ("today", "adv", "At the present day.", {"WHEN": 1}),
+            ("explain", "verb", "Say something so someone can know it.", {"SAY": 1, "KNOW": 1}),
+            (
+                "dog",
+                "noun",
+                "The animal definition in this controlled fixture.",
+                {"SOMETHING": 1, "ALIVE": 1, "GOOD": 0},
+            ),
+        ):
+            entry_id = f"fixture:voice:{lemma}"
+            assertions = tuple(
+                Assertion(bank, value, "fixture", entry_id, "dictionary") for bank, value in values.items()
+            )
+            store_entry(
+                conn, Definition(entry_id, lemma, pos, definition), propagate(BANKS, assertions, ()), assertions
+            )
+        conn.commit()
+    finally:
+        conn.close()
+    monkeypatch.setenv("GSE_LEXICON", str(path))
+    return path
 
 
 def _manifest(tmp_path, *, holdout=True):
@@ -18,7 +66,7 @@ def _manifest(tmp_path, *, holdout=True):
         ("authored", "train", "I feel happy."),
         ("llm", "train", "You can help."),
         ("authored", "holdout", "I I I I I feel happy today."),
-        ("llm", "holdout", "Here is how you can explain the happy dog."),
+        ("llm", "holdout", "You can explain happy dogs."),
     ]
     sources = []
     for index, (label, split, text) in enumerate(examples):
@@ -54,7 +102,7 @@ def test_fit_requires_explicit_labels_and_holdout_without_scanning_defaults(tmp_
     assert not output.exists()
 
 
-def test_manifest_fit_grades_holdout_per_class_and_never_trains_on_it(tmp_path):
+def test_manifest_fit_grades_holdout_per_class_and_never_trains_on_it(tmp_path, voice_dictionary):
     manifest = _manifest(tmp_path)
     output = tmp_path / "model.json"
     result = rohan_voice.fit(manifest, model_path=output)
@@ -90,7 +138,7 @@ def test_changed_hash_or_duplicate_holdout_refuses_and_preserves_artifact(tmp_pa
     assert output.read_bytes() == b"old artifact"
 
 
-def test_legacy_and_resource_changed_models_require_refit(tmp_path, monkeypatch):
+def test_legacy_and_resource_changed_models_require_refit(tmp_path, monkeypatch, voice_dictionary):
     output = tmp_path / "model.json"
     assert rohan_voice.recognize("I feel happy.", model_path=output)["state"] == "refit_required"
     output.write_text(json.dumps({"profile_dense": [1.0], "n_train": 500}))
@@ -123,7 +171,7 @@ def test_featurize_uses_selected_lexical_row_and_retains_empty_populations(tmp_p
     assert rohan_voice.featurize("xqzzzt")["state"] == "unread"
 
 
-def test_real_cli_uses_named_manifest_and_reports_refit_without_dense(tmp_path):
+def test_real_cli_uses_named_manifest_and_reports_refit_without_dense(tmp_path, voice_dictionary):
     manifest = _manifest(tmp_path)
     output = tmp_path / "model.json"
     command = [sys.executable, str(Path(rohan_voice.__file__).resolve())]
@@ -175,7 +223,7 @@ def test_fit_requires_declared_independent_groups_and_selection_evidence(tmp_pat
     assert output.read_bytes() == b"preserved model"
 
 
-def test_recognition_retains_per_class_grade_and_rejects_forged_overlap(tmp_path):
+def test_recognition_retains_per_class_grade_and_rejects_forged_overlap(tmp_path, voice_dictionary):
     manifest = _manifest(tmp_path)
     output = tmp_path / "model.json"
     fitted = rohan_voice.fit(manifest, model_path=output)
@@ -190,3 +238,19 @@ def test_recognition_retains_per_class_grade_and_rejects_forged_overlap(tmp_path
     output.write_text(json.dumps(model))
     rejected = rohan_voice.recognize("I feel happy.", model_path=output)
     assert rejected["state"] == "refit_required" and "evaluation" not in rejected
+
+
+def test_real_catalog_partial_grammar_remains_unread(voice_dictionary):
+    with GSEEncoder(voice_dictionary) as encoder:
+        token = next(token for token in encoder.encode("You can help the dog.").tokens if token.token == "the")
+    evidence = token.lexical_evidence
+    assert evidence["selected_record"]["entry_id"] == "gse_closed_class:determiner:the"
+    assert evidence["definition_status"] == "PARTIAL"
+    assert evidence["state"] == "unread"
+    assert evidence["reason"] == "UNRESOLVED_DEFINITION_VALUES"
+    assert evidence["primitives"] == {}
+    assert all(domain == [-1, 0, 1] for domain in evidence["domains"].values())
+    features = rohan_voice.featurize("You can help the dog.")
+    assert features["state"] == "unread"
+    assert features["reason"] == "incomplete_lexical_features"
+    assert features["populations"]["unread"] == 1

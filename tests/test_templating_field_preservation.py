@@ -16,6 +16,7 @@ import typing
 
 import pytest
 
+from gse.symbolic.duration import Duration
 from gse.symbolic.expression import Atom
 from gse.symbolic.predicates import OPERAND_FIELDS, Event, Predicate
 from gse.symbolic.resolution import Entity
@@ -56,6 +57,7 @@ _FEATURES = {
     "note": "probe",
     "themes": (_entity("letter"),),
     "modal": ("MAYBE",),
+    "duration": Duration("long", "during"),
 }
 
 

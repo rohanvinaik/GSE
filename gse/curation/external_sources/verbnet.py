@@ -52,18 +52,192 @@ def _native_frame(frame) -> dict:
     }
 
 
-def _explicit_event_predicate(frame: dict, name: str) -> bool:
-    """Positive Event predicate only; negation or malformed polarity abstains."""
-    predicates = [p for p in frame.get("semantics", []) if p.get("predicate_value") == name]
-    if any(p.get("negated") is not False or p.get("polarity", "") not in ("", "+") for p in predicates):
-        return False
-    return any(
-        any(
-            argument.get("type") == "Event" and isinstance(argument.get("value"), str) and argument["value"]
-            for argument in predicate.get("arguments", [])
-        )
-        for predicate in predicates
+_EVENT_FORMS = {root: (root, "whole") for root in ("E", "E0", "E1")}
+_EVENT_FORMS.update(
+    {f"{phase}({root})": (root, phase) for root in ("E", "E0", "E1") for phase in ("start", "during", "end", "result")}
+)
+_UNDERGOER_EVENTS = frozenset({"motion", "transfer", "emotional_state"})
+
+
+def _native_nodes(tree):
+    if not isinstance(tree, dict):
+        return
+    yield tree
+    for child in tree.get("children", []):
+        yield from _native_nodes(child)
+
+
+def _predicate_binding(predicate: dict) -> dict:
+    """Read typed native polarity, phase and roles; never guess event syntax."""
+    arguments = predicate.get("arguments")
+    if not isinstance(arguments, list) or any(not isinstance(a, dict) for a in arguments):
+        return {"code": "MALFORMED_NATIVE_ARGUMENTS"}
+    if any(not isinstance(a.get("type"), str) or not isinstance(a.get("value"), str) for a in arguments):
+        return {"code": "MALFORMED_NATIVE_ARGUMENTS"}
+    negative, polarity = predicate.get("negated"), predicate.get("polarity", "")
+    if not ((negative is False and polarity in ("", "+")) or (negative is True and polarity == "!")):
+        return {"code": "UNSUPPORTED_NATIVE_POLARITY"}
+    events = [a["value"] for a in arguments if a["type"] == "Event"]
+    event_causer = predicate.get("predicate_value") == "cause" and len(events) == 2
+    if (len(events) != 1 and not event_causer) or any(event not in _EVENT_FORMS for event in events):
+        return {"code": "UNSUPPORTED_EVENT_FORM"}
+    event, phase = _EVENT_FORMS[events[-1]]
+    roles = tuple(a["value"].removeprefix("?") for a in arguments if a["type"] == "ThemRole")
+    marked = tuple(
+        a["value"].removeprefix("?") for a in arguments if a["type"] == "ThemRole" and a["value"].startswith("?")
     )
+    constants = tuple((a["type"], a["value"]) for a in arguments if a["type"] not in {"Event", "ThemRole"})
+    return {
+        "code": "TYPED_NATIVE_BINDING",
+        "event": event,
+        "phase": phase,
+        "roles": roles,
+        "marked_roles": marked,
+        "negative": negative,
+        "event_causer": event_causer,
+        "causing_event": _EVENT_FORMS[events[0]][0] if event_causer else None,
+        "binding_key": (event, phase, roles, constants),
+    }
+
+
+def _component_status(frame: dict, name: str) -> dict:
+    """Positive content survives later negation; same-phase conflicts do not."""
+    predicates = frame.get("semantics", [])
+    if not isinstance(predicates, list) or any(
+        not isinstance(predicate, dict)
+        or not isinstance(predicate.get("predicate_value"), str)
+        or not predicate["predicate_value"]
+        for predicate in predicates
+    ):
+        return {"code": "MALFORMED_NATIVE_SEMANTICS"}
+    bindings = []
+    signs = {}
+    for index, predicate in enumerate(predicates):
+        if predicate.get("predicate_value") != name:
+            continue
+        binding = _predicate_binding(predicate)
+        if binding["code"] != "TYPED_NATIVE_BINDING":
+            return binding
+        signs.setdefault(binding["binding_key"], set()).add(binding["negative"])
+        bindings.append({**binding, "predicate_index": index})
+    if any(len(values) > 1 for values in signs.values()):
+        return {"code": "CONTRADICTORY_NATIVE_BINDING"}
+    positive = [binding for binding in bindings if not binding["negative"]]
+    return {
+        "code": "WARRANTED_LEXICAL_COMPONENT" if positive else "NO_POSITIVE_LEXICAL_COMPONENT",
+        "bindings": positive,
+    }
+
+
+def _existence_change(frame: dict, binding: dict) -> bool:
+    """Static participant existence does not supply a caused lexical change."""
+    phases = {}
+    for predicate in frame.get("semantics", []):
+        if predicate.get("predicate_value") != "exist":
+            continue
+        candidate = _predicate_binding(predicate)
+        if (
+            candidate["code"] == "TYPED_NATIVE_BINDING"
+            and candidate["event"] == binding["event"]
+            and candidate["roles"] == binding["roles"]
+        ):
+            phases.setdefault(candidate["phase"], set()).add(candidate["negative"])
+    return any(
+        before != after
+        for before in phases.get("start", ())
+        for phase in ("end", "result")
+        for after in phases.get(phase, ())
+    )
+
+
+def _cause_status(frame: dict, role_trees: dict[str, dict]) -> dict:
+    """Require an actual lexical outcome for a confirmed other participant.
+
+    Adapts upstream native_constraints.caused_change_status to this adapter's
+    lossless frame schema. No lemma association or participant type contributes
+    a bank. Only a guarded native cause supplies CAUSE and its causer component.
+    """
+    cause = _component_status(frame, "cause")
+    if cause["code"] != "WARRANTED_LEXICAL_COMPONENT":
+        return cause
+    if not role_trees:
+        return {"code": "PARTICIPANT_DECLARATIONS_UNAVAILABLE"}
+    uncertain = {
+        role
+        for role, tree in role_trees.items()
+        for node in _native_nodes(tree)
+        if node.get("attributes", {}).get("type") == "body_part" and node.get("attributes", {}).get("Value") == "+"
+    }
+    for node in _native_nodes(frame.get("native", {})):
+        if node.get("tag") == "NP" and any(
+            child.get("attributes", {}).get("type") == "refl" and child.get("attributes", {}).get("Value") == "+"
+            for child in _native_nodes(node)
+        ):
+            uncertain.add(node.get("attributes", {}).get("value"))
+    proofs, blocked = [], set()
+    for causer in cause["bindings"]:
+        causer_roles = set(causer["roles"])
+        if (
+            (not causer_roles and not causer["event_causer"])
+            or causer_roles - role_trees.keys()
+            or causer_roles & uncertain
+            or (causer["event_causer"] and causer["causing_event"] == causer["event"])
+        ):
+            blocked.add("CAUSER_IDENTITY_UNCONFIRMED")
+            continue
+        for index, predicate in enumerate(frame.get("semantics", [])):
+            name = predicate.get("predicate_value")
+            if name == "cause":
+                continue
+            binding = _predicate_binding(predicate)
+            if binding["code"] != "TYPED_NATIVE_BINDING":
+                blocked.add(binding["code"])
+                continue
+            if causer["event"] != "E" and binding["event"] != causer["event"]:
+                continue
+            affected = set(binding["roles"]) - causer_roles
+            if not affected:
+                continue
+            if name == "Pred":
+                blocked.add("CONSTRUCTION_RESULT_PLACEHOLDER")
+                continue
+            if name == "exist" and not _existence_change(frame, binding):
+                blocked.add("PARTICIPANT_EXISTENCE_PRESUPPOSITION")
+                continue
+            if _component_status(frame, name)["code"] == "CONTRADICTORY_NATIVE_BINDING":
+                blocked.add("CONTRADICTORY_NATIVE_BINDING")
+                continue
+            # A native ? marker does not remove the declared participant from
+            # the predicate. Keep its binding, as upstream _roles does; this
+            # is distinct from an uncertain WordNet sense-key attachment.
+            bound = affected & role_trees.keys() - uncertain
+            if not bound:
+                blocked.add("AFFECTED_PARTICIPANT_IDENTITY_UNCONFIRMED")
+                continue
+            positive = not binding["negative"]
+            if (
+                binding["phase"] in {"end", "result"}
+                or (positive and binding["phase"] == "during" and name in _UNDERGOER_EVENTS)
+                or (positive and binding["phase"] == "whole" and name in {"begin", "end"})
+            ):
+                banks = {"CAUSE": 1}
+                if "Agent" in causer_roles:
+                    banks["DO"] = 1
+                elif causer["event_causer"]:
+                    banks["HAPPEN"] = 1
+                proofs.append(
+                    {
+                        "cause_predicate": causer["predicate_index"],
+                        "outcome_predicate": index,
+                        "affected_roles": sorted(bound),
+                        "primitives": banks,
+                    }
+                )
+    return {
+        "code": "BOUND_CAUSED_CHANGE" if proofs else "NO_CHANGE_TO_ANOTHER_PARTICIPANT",
+        "proofs": proofs,
+        "blocked_evidence": sorted(blocked),
+    }
 
 
 # Mapping from VerbNet thematic roles to GSE primitives
@@ -268,20 +442,63 @@ class VerbNetParser:
         return links
 
     def to_primitives_for_entry(self, entry: VerbNetEntry) -> Dict[str, int]:
-        """Project only universal positive motion/causation event predicates.
+        """Only components warranted in every applicable native class frame.
 
-        All native frames in the actual class/ancestor chain must warrant the
-        predicate. A construction-specific cause cannot label every sense of
-        a motion verb. Roles, class-name substrings and missing frames confer
-        no assignments. Original nested arguments remain in class_context.
+        Positive phase-scoped components are retained; negation alone never
+        fills a bank. CAUSE requires a bound lexical change in another
+        participant. Raw source frames and exact sense-key links are unchanged.
         """
-        frames = [frame for level in entry.class_context for frame in level["frames"]]
+        return self.projection_diagnostics_for_entry(entry)["primitives"]
+
+    def projection_diagnostics_for_entry(self, entry: VerbNetEntry) -> dict:
+        """Named native decisions with the frame and predicate proof locations."""
+        if not isinstance(entry, VerbNetEntry):
+            raise ValueError("INVALID_VERBNET_ENTRY")
+        if not isinstance(entry.class_context, list):
+            raise ValueError("INVALID_VERBNET_CLASS_CONTEXT")
+        roles = {}
+        frames = []
+        for level in entry.class_context:
+            if (
+                not isinstance(level, dict)
+                or not isinstance(level.get("frames"), list)
+                or any(not isinstance(frame, dict) for frame in level["frames"])
+                or not isinstance(level.get("thematic_roles", []), list)
+                or any(not isinstance(role, dict) for role in level.get("thematic_roles", []))
+            ):
+                raise ValueError("INVALID_VERBNET_CLASS_CONTEXT")
+            for role in level.get("thematic_roles", []):
+                name = role.get("attributes", {}).get("type")
+                if isinstance(name, str) and name:
+                    roles[name] = role
+            frames.extend((level.get("class_id"), index, frame) for index, frame in enumerate(level["frames"]))
         if not frames:
-            return {}
+            return {"code": "NO_APPLICABLE_FRAMES", "primitives": {}, "frames": []}
+        diagnostics, proposals = [], []
+        for class_id, frame_index, frame in frames:
+            components = {
+                bank: _component_status(frame, predicate)
+                for predicate, bank in (("motion", "MOVE"), ("emotional_state", "FEEL"), ("desire", "WANT"))
+            }
+            projected = {
+                bank: 1 for bank, result in components.items() if result["code"] == "WARRANTED_LEXICAL_COMPONENT"
+            }
+            cause = _cause_status(frame, roles)
+            for proof in cause.get("proofs", []):
+                projected.update(proof["primitives"])
+            proposals.append(projected)
+            diagnostics.append(
+                {"class_id": class_id, "frame_index": frame_index, "components": components, "cause": cause}
+            )
+        universal = {
+            bank: value
+            for bank, value in proposals[0].items()
+            if all(proposal.get(bank) == value for proposal in proposals[1:])
+        }
         return {
-            bank: 1
-            for predicate, bank in (("motion", "MOVE"), ("cause", "CAUSE"))
-            if all(_explicit_event_predicate(frame, predicate) for frame in frames)
+            "code": "NATIVE_COMPONENTS_PROJECTED" if universal else "NO_UNIVERSAL_NATIVE_COMPONENT",
+            "primitives": universal,
+            "frames": diagnostics,
         }
 
     def get_verb_info(self, word: str) -> Optional[List[VerbNetEntry]]:

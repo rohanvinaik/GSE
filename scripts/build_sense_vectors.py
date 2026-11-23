@@ -32,6 +32,7 @@ import time
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from nltk.corpus import wordnet as wn  # noqa: E402
 
+from gse.lexicon_resource import resolve_lexicon_path  # noqa: E402
 from gse.pipeline_v2 import GSEPipeline  # noqa: E402
 from gse.vectors_v2 import bundle  # noqa: E402
 
@@ -60,9 +61,10 @@ def collect_corpus_lemmas(corpus_glob):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--corpus", default="/Users/rohanvinaik/Genesis/stories/*.story.txt")
-    ap.add_argument("--lexicon", default=os.path.join(_REPO, "data", "lexicon_clean.db"))
+    ap.add_argument("--lexicon", default=None)
     ap.add_argument("--out", default=os.path.join(_REPO, "data", "sense_vectors.db"))
     args = ap.parse_args()
+    args.lexicon = str(resolve_lexicon_path(args.lexicon))
 
     print(f"[1/5] collecting corpus vocab from {args.corpus}")
     corpus, nfiles = collect_corpus_lemmas(args.corpus)

@@ -169,16 +169,19 @@ def test_input_validation_is_not_bypassed_by_partitioning():
         resolve_dictionary(("A",), [], ())
 
 
-def test_local_consistency_is_not_claimed_as_global_satisfiability():
+def test_joint_inconsistency_excepts_conditional_component_before_model():
     rules = tuple(
         rule(name, pair, ((0, 1), (1, 0)))
         for name, pair in (("ab", ("A", "B")), ("bc", ("B", "C")), ("ac", ("A", "C")))
     )
     result = resolve_dictionary(("A", "B", "C"), (), rules)
     assert result.code == "PARTIAL"
-    assert exceptions(result) == []
+    assert exceptions(result)[0]["rule_ids"] == ("ab", "ac", "bc")
+    assert exceptions(result)[0]["conflicts"][0]["code"] == "JOINT_CONFLICT"
+    assert result.assignments == {}
     scope = next(item for item in result.trace if item["kind"] == "INFERENCE_SCOPE")
-    assert scope["complete_search"] is False
+    assert scope["complete_search"] is True
+    assert scope["satisfiability"] == "SATISFIABLE"
 
 
 def evaluative_default():

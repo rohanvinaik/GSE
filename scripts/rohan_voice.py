@@ -15,19 +15,24 @@ import json
 import math
 import os
 import re
+import sqlite3
 import sys
 import tempfile
 from collections import defaultdict
+from contextlib import closing
 from pathlib import Path
 
-from gse.lexical_evidence import lookup_lexeme, resource_identity
+from gse.api import GSEEncoder
+from gse.api.encoder import GrammaticalDefinitionError
+from gse.lexical_evidence import is_definition_database, lookup_lexeme, resource_identity
+from gse.lexicon_resource import resolve_lexicon_path
 from gse.nlp.native import NativeNLP
 from gse.primitives_v2 import get_all_primitives, get_bank_for_primitive
 
 GSE_REPO = Path(__file__).resolve().parents[1]
 MODEL = GSE_REPO / "data" / "voice" / "model.v2.json"
 SCHEMA = "gse.rohan-voice/2"
-FEATURES = "gse.rohan-voice-features/2"
+FEATURES = "gse.rohan-voice-features/3"
 MANIFEST = "gse.rohan-voice-sources/2"
 VOICE_WEIGHT = 2.5
 BANK_MAP = {p: bank.name for p in get_all_primitives() if (bank := get_bank_for_primitive(p)) is not None}
@@ -49,7 +54,7 @@ _ENTH = re.compile(r"^\W*(fantastic|excellent|absolutely|certainly|perfect|wonde
 
 def _lexicon_path() -> Path:
     root = Path(os.environ.get("GSE_REPO", str(GSE_REPO)))
-    return Path(os.environ.get("GSE_LEXICON", str(root / "data" / "lexicon_clean.db")))
+    return resolve_lexicon_path(os.environ.get("GSE_LEXICON"), pointer_path=root / "data" / "lexicon_active.json")
 
 
 def _model_path() -> Path:
@@ -80,14 +85,37 @@ def feature_identity() -> dict:
     from nltk import __version__ as nltk_version
     from nltk.corpus import wordnet as wn
 
-    from gse import lexical_evidence, primitives_v2
+    from gse import lexical_evidence, lexicon_resource, primitives_v2
+    from gse.api import encoder, parse_repair
+    from gse.curation import build_clean_closed_class
+    from gse.curation.external_sources import gse_closed_class, source_scope, tier_0_dispatch
+    from gse.curation.lexicon_builder import storage
+    from gse.lexicon import function_words, pronouns
     from gse.nlp import contractions, morphology, native
+    from gse.symbolic import modality
 
     code_paths = [
         Path(__file__).resolve(),
         *(
             Path(module.__file__).resolve()
-            for module in (native, morphology, contractions, primitives_v2, lexical_evidence)
+            for module in (
+                native,
+                morphology,
+                contractions,
+                primitives_v2,
+                lexical_evidence,
+                encoder,
+                parse_repair,
+                lexicon_resource,
+                storage,
+                gse_closed_class,
+                build_clean_closed_class,
+                source_scope,
+                tier_0_dispatch,
+                function_words,
+                pronouns,
+                modality,
+            )
         ),
     ]
     try:
@@ -105,7 +133,11 @@ def feature_identity() -> dict:
         "banks": BANKS,
         "curated": CURATED,
         "voice_weight": VOICE_WEIGHT,
-        "tokens": "NativeNLP alphabetic surfaces length>=3; selected lemma first-ID; unsigned prime presence",
+        "tokens": (
+            "Alphabetic surfaces length>=3; versioned dictionaries use public encoder token lexical evidence "
+            "with exact grammatical definition selection and content abstention; legacy dictionaries retain "
+            "NativeNLP lemma first-ID; unsigned nonzero prime presence"
+        ),
         "lexicon": resource_identity(_lexicon_path()),
         "wordnet": wordnet,
         "nltk": nltk_version,
@@ -119,20 +151,41 @@ def featurize(text: str) -> dict:
     nw = len(tokens)
     if not nw:
         return {"state": "empty", "reason": "no_eligible_source_words", "features": FEATURES}
+    path = _lexicon_path()
+    readings = []
+    try:
+        with closing(sqlite3.connect(path.resolve().as_uri() + "?mode=ro", uri=True)) as connection:
+            versioned = is_definition_database(connection)
+    except (OSError, sqlite3.Error, ValueError) as exc:
+        return {"state": "unread", "reason": str(exc), "features": FEATURES}
+    if versioned:
+        try:
+            with GSEEncoder(path) as encoder:
+                trace = encoder.encode(text)
+            readings = [
+                token.lexical_evidence for token in trace.tokens if token.token.isalpha() and len(token.token) >= 3
+            ]
+        except GrammaticalDefinitionError as exc:
+            return {"state": "unread", "reason": exc.code, "features": FEATURES}
+        nw = len(readings)
+        if not nw:
+            return {"state": "empty", "reason": "no_eligible_source_words", "features": FEATURES}
+    else:
+        selected = {}
+        for token in tokens:
+            if token.lemma_ not in selected:
+                selected[token.lemma_] = lookup_lexeme(token.lemma_, path)
+            readings.append(selected[token.lemma_])
     prim, bank = defaultdict(int), defaultdict(float)
     populations = {state: 0 for state in ("primes", "no_primes", "no_row", "unread")}
-    selected = {}
-    for token in tokens:
-        if token.lemma_ not in selected:
-            selected[token.lemma_] = lookup_lexeme(token.lemma_, _lexicon_path())
-        reading = selected[token.lemma_]
+    for reading in readings:
         populations[reading["state"]] += 1
         for prime in reading["primitives"]:
             prim[prime] += 1
             if prime in BANK_MAP:
                 bank[BANK_MAP[prime]] += 1
     nwp, bank_total = populations["primes"], sum(bank.values())
-    if not nwp or not bank_total or populations["unread"]:
+    if not nwp or not bank_total or populations["unread"] or (versioned and populations["no_row"]):
         return {
             "state": "unread",
             "reason": "incomplete_lexical_features",

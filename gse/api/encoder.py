@@ -23,6 +23,7 @@ from gse.api.trace import (
     OperatorTrace,
     TokenTrace,
 )
+from gse.lexicon_resource import resolve_lexicon_path
 from gse.nlp.linkers import head_linker_operation
 from gse.nlp.morphology import NEGATION
 from gse.primitives_v2 import BIPOLAR_PRIMITIVES, COMP_METADATA
@@ -41,7 +42,6 @@ from gse.vectors_v2 import (
 # Absolute path resolved from this module (repo root), as gse.nlp.spellcheck resolves its own, so
 # the default lexicon is the same file whatever the process working directory (#20).
 _REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-_DEFAULT_LEXICON = os.path.join(_REPO_ROOT, "data", "lexicon_clean.db")
 
 # Dynamic syntactic role mappings from spaCy dependency labels
 # Based on Universal Dependencies schema - see sentence_parser.py for full docs
@@ -155,6 +155,16 @@ def word_vector_plan(primitives: Dict[str, int]) -> Tuple[str, int, Tuple[str, i
     return "BUNDLE", 0, ("", 0), list(primitives.items())
 
 
+class GrammaticalDefinitionError(ValueError):
+    """A required grammatical definition could not be read without guessing."""
+
+    def __init__(self, code: str, lemma: str, entry_ids: Tuple[str, ...]):
+        self.code = code
+        self.lemma = lemma
+        self.entry_ids = entry_ids
+        super().__init__(f"{code}: {lemma} ({', '.join(entry_ids)})")
+
+
 class GSEEncoder:
     """
     Encode natural language to HDC vectors with full operation trace.
@@ -174,19 +184,19 @@ class GSEEncoder:
         - Failed operators: Return None for operator result
     """
 
-    def __init__(self, db_path: str = _DEFAULT_LEXICON, strict: bool = False):
+    def __init__(self, db_path: str | Path | None = None, strict: bool = False):
         """
         Initialize encoder with bases and database.
 
         Args:
-            db_path: Path to lexicon database (default: the repo's data/lexicon_clean.db)
+            db_path: Explicit database path, or the activated lexical resource.
             strict: If True, raise exceptions for OOV words and errors.
                     If False (default), use graceful fallbacks.
 
         Token front-end: the deterministic, arc-free GSE-native parser (WS1). spaCy
         was retired — native is the ONLY front-end (there is no stochastic POS path).
         """
-        self.db_path = Path(db_path)
+        self.db_path = resolve_lexicon_path(db_path)
         self.strict = strict
 
         # Load HDC bases
@@ -248,11 +258,50 @@ class GSEEncoder:
             self._repair = NativeRepair(self)
         return self._repair
 
-    def lexical_lookup(self, lemma: str) -> Dict:
+    def lexical_lookup(self, lemma: str, *, entry_id: Optional[str] = None) -> Dict:
         """Source evidence with explicit selection status for versioned definitions."""
         from gse.lexical_evidence import lookup_lexeme
 
-        return lookup_lexeme(lemma, self.db_path)
+        return lookup_lexeme(lemma, self.db_path, entry_id=entry_id)
+
+    def _grammatical_definition(self, surface: str, lemma: str, pos: str) -> Optional[Tuple[str, str, Dict]]:
+        """Resolve only the catalog identities licensed by the parsed role.
+
+        The catalog supplies identity and grammatical competence; the database
+        supplies every value. Missing and ambiguous definitions never substitute
+        an unrelated same-spelling noun or become an unqualified modal claim.
+        """
+        from gse.curation.external_sources.gse_closed_class import grammatical_entry_ids, grammatical_requirement
+        from gse.symbolic.modality import modal_primes
+
+        form = surface
+        entry_ids = grammatical_entry_ids(form, pos)
+        if not entry_ids and lemma != surface:
+            form = lemma
+            entry_ids = grammatical_entry_ids(form, pos)
+        if not entry_ids:
+            return None
+        if len(entry_ids) != 1:
+            raise GrammaticalDefinitionError("AMBIGUOUS_GRAMMATICAL_DEFINITION", form, entry_ids)
+        entry_id = entry_ids[0]
+        lexical = self.lexical_lookup(form, entry_id=entry_id)
+        status = lexical.get("selection_status")
+        code = "GRAMMATICAL_DEFINITION_SELECTED" if status == "IDENTIFIED" else "MISSING_GRAMMATICAL_DEFINITION"
+        if status not in {"IDENTIFIED", "NOT_FOUND"}:
+            code = "UNRESOLVED_GRAMMATICAL_DEFINITION"
+        lexical = {
+            **lexical,
+            "grammatical_selection": {"code": code, "pos": pos, "entry_ids": list(entry_ids)},
+        }
+        if status != "IDENTIFIED":
+            lexical["reason"] = code
+        if grammatical_requirement(entry_id) == "MODAL_PROJECTION_REQUIRED" and (
+            status != "IDENTIFIED" or not modal_primes([lexical.get("primitives")])
+        ):
+            if status == "IDENTIFIED":
+                code = "UNRESOLVED_MODAL_DEFINITION"
+            raise GrammaticalDefinitionError(code, form, entry_ids)
+        return form, entry_id, lexical
 
     def lookup_definition(self, entry_id: str) -> Dict:
         """Select exactly one dictionary identity, irrespective of vector equality."""
@@ -294,6 +343,7 @@ class GSEEncoder:
         doc = self.nlp(text)
         head_position = next((i for i, token in enumerate(doc) if token.pos_ != "PUNCT"), None)
         lexical_rows: Dict[str, Dict] = {}
+        grammatical_rows: Dict[Tuple[str, str, str], Optional[Tuple[str, str, Dict]]] = {}
 
         # 1b. Upstream parse repair: spaCy mistags some verbs as nouns
         #     ("Macbeth murders Duncan"). Promote buried verbs to POS=VERB so the
@@ -333,27 +383,55 @@ class GSEEncoder:
                 self._in_repair = False
 
         # 2. Process each token
+        from gse.symbolic.lexical_grounding import LexicalGrounding
+
+        grounding = (
+            LexicalGrounding(self.conn, doc, clause_coords | implies_positions | temporal_positions)
+            if self._definition_database else None
+        )
         token_traces: List[TokenTrace] = []
         token_vectors: List[Tuple[int, SparseVector, CompositionalMetadata]] = []
         operator_indices: List[int] = []
-        pending_intensity: Optional[Dict[str, int]] = None  # intensifier→adjective carry
         comp_meta: CompositionalMetadata
 
         for i, tok in enumerate(doc):
             # Lexicon lookup (static primitives from database)
             lemma = tok.lemma_.lower()
             lookup_form = lemma
-            if self._definition_database and tok.text.lower() != lemma:
+            grammatical = None
+            if self._definition_database:
+                # Predicate promotion assigns a sentence role; an existing AUX
+                # reading still licenses its exact grammatical definition.
+                grammar_key = (tok.text.lower(), lemma, tok.pos_)
+                if grammar_key not in grammatical_rows:
+                    grammatical_rows[grammar_key] = self._grammatical_definition(*grammar_key)
+                grammatical = grammatical_rows[grammar_key]
+            if self._definition_database and grammatical is None and tok.text.lower() != lemma:
                 if lemma not in lexical_rows:
                     lexical_rows[lemma] = self.lexical_lookup(lemma)
                 # Exact surface spelling can recover a missing lemma (tired ->
                 # tire), but never resolves an ambiguous lemma by substitution.
                 if lexical_rows[lemma].get("selection_status") == "NOT_FOUND":
                     lookup_form = tok.text.lower()
-            word_prims, sent_prims, comp_meta = self._lookup_lexeme(lookup_form)
-            if lookup_form not in lexical_rows:
-                lexical_rows[lookup_form] = self.lexical_lookup(lookup_form)
-            lexical: Dict[str, Any] = lexical_rows[lookup_form]
+            lexical: Dict[str, Any]
+            if grammatical is not None:
+                lookup_form, entry_id, lexical = grammatical
+                word_prims, sent_prims, comp_meta = self._lookup_lexeme(lookup_form, entry_id=entry_id)
+            else:
+                if lookup_form not in lexical_rows:
+                    lexical_rows[lookup_form] = self.lexical_lookup(lookup_form)
+                lexical = lexical_rows[lookup_form]
+                entry_id = None
+                if grounding is not None and tok.pos_ in {"NOUN", "PROPN"} and i not in promote_to_verb and lexical.get(
+                    "selection_status"
+                ) == "AMBIGUOUS":
+                    alternatives = lexical["candidate_entry_ids"]
+                    selection = grounding.select(i, lookup_form, alternatives)
+                    if selection["code"] == "EXACT_WORDNET_SENSE":
+                        entry_id = selection["entry_id"]
+                        lexical = self.lexical_lookup(lookup_form, entry_id=entry_id)
+                    lexical = {**lexical, "contextual_grounding": {**selection, "considered_entry_ids": alternatives}}
+                word_prims, sent_prims, comp_meta = self._lookup_lexeme(lookup_form, entry_id=entry_id)
             if self._definition_database:
                 lexical = {**lexical, "lookup_form": lookup_form, "parser_lemma": lemma}
             negative = negation_evidence(lemma)
@@ -384,24 +462,6 @@ class GSEEncoder:
                 negative = {**negative, "admission": admission}
                 if admission["decision"] == "compose":
                     word_prims = admission["primitives"]
-
-            # B — intensifier→adjective binding: an INTENSITY-hierarchy modifier folds
-            # its HIER markers into a FOLLOWING adjective's bank (very big → BIG
-            # intensified via encode_hierarchy) and is itself absorbed. QUANTITY→noun
-            # binding is a separate pass (gated on a POS-tag fix).
-            if pending_intensity is not None:
-                word_prims = {**word_prims, **pending_intensity}
-                pending_intensity = None
-            elif (
-                "INTENSITY" in word_prims
-                and ("HIER_PLUS" in word_prims or "HIER_MINUS" in word_prims)
-                and i + 1 < len(doc)
-                # target = the next word's gradable (bipolar) bank — checked by
-                # decomposition, not POS, so a mistagged adjective still binds.
-                and any(p in BIPOLAR_PRIMITIVES for p in self._lookup_lexeme(doc[i + 1].lemma_.lower())[0])
-            ):
-                pending_intensity = {k: v for k, v in word_prims.items() if k in ("HIER_PLUS", "HIER_MINUS")}
-                word_prims = {}  # the intensifier is absorbed into the adjective
 
             if i in clause_coords:
                 comp_meta = {"comp_primitive": "COMP_AND", "comp_operation": "CLAUSE_COORD", "comp_arity": 2}
@@ -486,6 +546,46 @@ class GSEEncoder:
 
             if is_operator:
                 operator_indices.append(i)
+
+        # Sentence degree is grammatical evidence even when lexical senses
+        # abstain. It never creates a base or selects a candidate definition.
+        from gse.symbolic.expression import bind_degree_modifiers
+
+        bind_degree_modifiers(token_traces)
+        for token in token_traces:
+            if not token.degree and not token.degree_modifier:
+                continue
+            primitives = token.word_primitives
+            if token.degree_modifier and not self._definition_database:
+                primitives = {}
+                token.word_primitives = primitives
+            hierarchy = dict(token.lexical_evidence.get("hierarchy", {}))
+            bases = [bank for bank, value in primitives.items() if bank in BIPOLAR_PRIMITIVES and value]
+            if token.degree and len(bases) == 1:
+                target = bases[0]
+                if self._definition_database:
+                    hierarchy[target] = hierarchy.get(target, 0) + token.degree["level"]
+                else:
+                    level = primitives.get("HIER_PLUS", 0) - primitives.get("HIER_MINUS", 0) + token.degree["level"]
+                    primitives = {
+                        key: value for key, value in primitives.items() if key not in {"HIER_PLUS", "HIER_MINUS"}
+                    }
+                    if level:
+                        primitives["HIER_PLUS" if level > 0 else "HIER_MINUS"] = abs(level)
+                    token.word_primitives = primitives
+            word_vec = (
+                self._encode_definition_primitives(primitives, hierarchy)
+                if self._definition_database
+                else self._encode_word_primitives(primitives)
+            )
+            sent_vec = self._encode_sent_primitives(token.sent_primitives)
+            components = [vector for vector in (word_vec, sent_vec) if vector.nnz]
+            full_vec = bundle(components) if components else SparseVector.zeros(self.word_basis.dimension)
+            token.word_vec_nnz = word_vec.nnz
+            token.sent_vec_nnz = sent_vec.nnz
+            token.full_vec_nnz = full_vec.nnz
+            position, _, metadata = token_vectors[token.position]
+            token_vectors[token.position] = (position, full_vec, metadata)
 
         # 3. Plan clauses (sequential because/so splits + embedded relative
         #    clauses), then resolve operators within their innermost clause.
@@ -761,7 +861,9 @@ class GSEEncoder:
 
         return primitives
 
-    def _lookup_lexeme(self, lemma: str) -> Tuple[Dict[str, int], Dict[str, int], CompositionalMetadata]:
+    def _lookup_lexeme(
+        self, lemma: str, *, entry_id: Optional[str] = None
+    ) -> Tuple[Dict[str, int], Dict[str, int], CompositionalMetadata]:
         """
         Look up word-scale and sentence-scale primitives for a lemma.
 
@@ -784,7 +886,7 @@ class GSEEncoder:
                 if registered is not None
                 else {}
             )
-            selection = runtime_lookup(self.conn, lemma.lower())
+            selection = runtime_lookup(self.conn, lemma.lower(), entry_id)
             if selection["code"] != "IDENTIFIED":
                 if selection["code"] == "NOT_FOUND" and self.strict and not grammar:
                     raise OOVError(lemma)
@@ -809,6 +911,9 @@ class GSEEncoder:
             if grammar and comp_meta and grammar != comp_meta:
                 raise ValueError("GRAMMATICAL_OPERATOR_METADATA_MISMATCH")
             return word_prims, sent_prims, grammar or comp_meta
+
+        if entry_id is not None:
+            raise ValueError("DEFINITION_SELECTION_REQUIRES_VERSIONED_DATABASE")
 
         # Get lexeme ID and compositional metadata for the legacy active database.
         self.cursor.execute(

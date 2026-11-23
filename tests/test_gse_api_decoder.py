@@ -93,8 +93,8 @@ class TestInit:
     def test_builds_lexeme_index(self, populated_db):
         decoder = GSEDecoder(db_path=populated_db)
         # Both lexemes have primitives, so both should be indexed
-        assert "person" in decoder.lexeme_vectors
-        assert "good" in decoder.lexeme_vectors
+        assert set(decoder.lexeme_labels.values()) == {"person", "good"}
+        assert set(decoder.lexeme_vectors) == set(decoder.lexeme_labels)
         decoder.close()
 
 

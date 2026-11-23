@@ -8,6 +8,7 @@ import pytest
 
 from gse.curation.lexicon_builder.engine import Assertion
 from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
+from gse.curation.lexicon_builder.model_receipts import _stored_receipt, read_model_receipts
 from gse.curation.lexicon_builder.pipeline import build_dictionary
 from gse.curation.lexicon_builder.validation import validate_build
 
@@ -41,6 +42,25 @@ def modify(path, sql, parameters=()):
 
 def codes(report):
     return {item["code"] for item in report["mismatches"]}
+
+
+def model_records(conn):
+    authority = read_model_receipts(conn)
+    return [record for entry in authority for record in authority[entry]]
+
+
+def replace_model_records(conn, records):
+    """Write intentionally malformed test receipts without production admission."""
+    conn.execute("DELETE FROM accepted_model_receipts")
+    ordinals = {}
+    for record in records:
+        entry = record["entry_id"]
+        ordinal = ordinals.get(entry, 0)
+        conn.execute(
+            "INSERT INTO accepted_model_receipts VALUES (?,?,?,?)",
+            (entry, ordinal, record["request_id"], json.dumps(_stored_receipt(conn, record))),
+        )
+        ordinals[entry] = ordinal + 1
 
 
 def test_build_replays_with_zero_silence_conflicts_and_distinct_definitions(built):
@@ -295,9 +315,7 @@ def test_model_receipt_replays_narrow_missing_coordinate(modeled):
 @pytest.mark.parametrize("part", ["request_id", "schema", "observations", "definition", "known"])
 def test_model_authority_cannot_bypass_request_replay(modeled, part):
     with sqlite3.connect(modeled) as conn:
-        records = json.loads(
-            conn.execute("SELECT value FROM builder_metadata WHERE key='model_completions'").fetchone()[0]
-        )
+        records = model_records(conn)
         receipt = records[0]
         if part == "request_id":
             receipt["request_id"] = "forged"
@@ -309,7 +327,7 @@ def test_model_authority_cannot_bypass_request_replay(modeled, part):
             receipt["request"]["definition"]["definition"] = "a different meaning"
         else:
             receipt["request"]["known"] = {"THINK": 0}
-        conn.execute("UPDATE builder_metadata SET value=? WHERE key='model_completions'", (json.dumps(records),))
+        replace_model_records(conn, records)
     if part == "request_id":
         with pytest.raises(ValueError, match="INVALID_MODEL_AUTHORITY"):
             validate_build(modeled)
@@ -318,7 +336,7 @@ def test_model_authority_cannot_bypass_request_replay(modeled, part):
 
 
 def test_model_source_name_without_accepted_receipt_has_no_authority(modeled):
-    modify(modeled, "DELETE FROM builder_metadata WHERE key='model_completions'")
+    modify(modeled, "DELETE FROM accepted_model_receipts")
     assert any(item.get("reason") == "ASSERTION_PROVENANCE_MISMATCH" for item in validate_build(modeled)["mismatches"])
 
 
@@ -345,9 +363,7 @@ def test_model_cannot_precede_native_symbolic_evidence(modeled):
             ),
         )
         conn.execute("INSERT INTO builder_assertions VALUES (?,?,?)", ("model:test", 1, json.dumps(asdict(source))))
-        records = json.loads(
-            conn.execute("SELECT value FROM builder_metadata WHERE key='model_completions'").fetchone()[0]
-        )
+        records = model_records(conn)
         # Supply the newly visible observation and regenerate the content hash;
         # this still cannot grant permission to defer its lexical assertion.
         payload = records[0]["request"]
@@ -361,7 +377,7 @@ def test_model_cannot_precede_native_symbolic_evidence(modeled):
             "UPDATE builder_assertions SET payload=? WHERE entry_id='model:test' AND ordinal=0",
             (json.dumps(records[0]["assertion"]),),
         )
-        conn.execute("UPDATE builder_metadata SET value=? WHERE key='model_completions'", (json.dumps(records),))
+        replace_model_records(conn, records)
     assert any(item.get("reason") == "MODEL_BEFORE_SYMBOLIC_EVIDENCE" for item in validate_build(modeled)["mismatches"])
 
 
@@ -403,24 +419,42 @@ def test_replay_streams_feature_payloads_without_retaining_corpus_copies(built):
     assert peak < 4 * 1024 * 1024
 
 
-def test_model_replay_rejects_new_conditional_exceptions(tmp_path):
+def test_model_replay_rejects_new_conditional_exceptions(tmp_path, monkeypatch):
     from dataclasses import asdict
+    from functools import partial
 
-    from gse.curation.lexicon_builder.engine import Relation
+    from gse.curation.lexicon_builder.engine import Relation, propagate
     from gse.curation.lexicon_builder.foundation import BANKS
     from gse.curation.lexicon_builder.residual import build_request
     from gse.curation.lexicon_builder.resolution import resolve_dictionary
     from gse.curation.lexicon_builder.storage import store_entry
 
-    definition = Definition("odd:cycle", "cycle", "verb", "synthetic conditional cycle")
+    # This satisfiable cycle exceeds the deliberately small joint-search cap.
+    # Native replay must still reject a model choice that exposes a contradiction.
+    monkeypatch.setattr(
+        "gse.curation.lexicon_builder.resolution.propagate", partial(propagate, max_joint_assignments=7)
+    )
+    definition = Definition("limited:cycle", "cycle", "verb", "synthetic conditional cycle")
     rules = tuple(
-        Relation(f"conditional:{i}", pair, ((-1, 1), (1, -1)), ("fixture",), "conditional", True)
+        Relation(
+            f"conditional:{i}",
+            pair,
+            ((-1, -1), (1, 1)) if i < 2 else ((-1, -1), (-1, 1), (1, -1)),
+            ("fixture",),
+            "conditional",
+            True,
+        )
         for i, pair in enumerate((("THINK", "KNOW"), ("KNOW", "FEEL"), ("FEEL", "THINK")))
     )
     manifest = tmp_path / "rules.json"
     manifest.write_text(json.dumps({"format": "gse.lexicon-rules/1", "relations": [asdict(rule) for rule in rules]}))
     path = tmp_path / "cycle.sqlite"
     build_dictionary(EvidenceBundle((definition,), (), (), ()), path, manifest=manifest)
+    limited_report = validate_build(path)
+    assert limited_report["code"] == "REPLAY_VALIDATED"
+    assert limited_report["complete_search"] is False
+    assert limited_report["inference_counts"]["entries_solver_limited"] == 1
+    assert limited_report["inference_counts"]["components_solver_limited"] >= 1
     with sqlite3.connect(path) as conn:
         raw = json.loads(conn.execute("SELECT value FROM builder_metadata WHERE key='relations'").fetchone()[0])
         relations = tuple(
@@ -432,11 +466,22 @@ def test_model_replay_rejects_new_conditional_exceptions(tmp_path):
                 record["authority"],
                 record["approved"],
                 tuple(tuple(g) for g in record["guards"]),
+                tuple(record.get("absent_evidence", ())),
             )
             for record in raw
         )
         before = resolve_dictionary(BANKS, (), relations, {"pos": "verb"})
-        request = build_request(definition.entry_id, "THINK", before, (), definition=definition)
+        assert any(record["kind"] == "SOLVER_LIMIT" for record in before.trace)
+        assert propagate(BANKS, (), relations, {"pos": "verb"}).assignments["THINK"] == -1
+        request = build_request(
+            definition.entry_id,
+            "THINK",
+            before,
+            (),
+            definition=definition,
+            relations=relations,
+            context={"pos": "verb"},
+        )
         assertion = Assertion("THINK", 1, "model:forged", request.request_id, "model")
         after = resolve_dictionary(BANKS, (assertion,), relations, {"pos": "verb"})
         assert after.code == "PARTIAL"
@@ -451,8 +496,22 @@ def test_model_replay_rejects_new_conditional_exceptions(tmp_path):
                 "schema": request.output_schema(),
             }
         ]
-        conn.execute("UPDATE builder_metadata SET value=? WHERE key='model_completions'", (json.dumps(receipts),))
+        replace_model_records(conn, receipts)
     assert any(item.get("reason") == "MODEL_ADDED_CONDITIONAL_EXCEPTION" for item in validate_build(path)["mismatches"])
+
+
+def test_replay_reports_complete_constraint_search_without_claiming_semantic_completion(tmp_path):
+    definition = Definition("unresolved:verb", "work", "verb", "a test definition with unspecified semantic values")
+    path = tmp_path / "unknown.sqlite"
+    build_dictionary(EvidenceBundle((definition,), (), (), ()), path)
+    report = validate_build(path)
+    assert report["code"] == "REPLAY_VALIDATED"
+    assert report["complete_search"] is True
+    assert report["replayed_outcomes"] == {"PARTIAL": 1}
+    assert report["gold"] == "NOT_CHECKED"
+    assert report["inference_counts"]["entries_complete_search"] == 1
+    assert report["inference_counts"]["entries_solver_limited"] == 0
+    assert report["inference_counts"]["components_joint_checked"] > 0
 
 
 @pytest.fixture

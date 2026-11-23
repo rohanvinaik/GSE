@@ -17,6 +17,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
+from gse.lexicon_resource import resolve_lexicon_path
 from gse.prime_projection import epa_projection
 
 DATA = Path(__file__).resolve().parents[1] / "data"
@@ -87,7 +88,14 @@ def _definition_evidence(conn: sqlite3.Connection, word: str, entry_id: str | No
         hierarchy=selected["hierarchy"],
         primitives={bank: value for bank, value in selected["assignments"].items() if value != 0},
     )
-    out["state"] = "primes" if out["primitives"] else "no_primes"
+    if out["primitives"]:
+        out["state"] = "primes"
+    elif selected["code"] == "PARTIAL":
+        # Identity can be resolved while the representation remains unresolved.
+        # An empty projection of known nonzero values does not establish zero.
+        out.update(state="unread", reason="UNRESOLVED_DEFINITION_VALUES")
+    else:
+        out["state"] = "no_primes"
     return out
 
 
@@ -104,7 +112,7 @@ def lookup_lexeme(
     require a unique definition or an explicit entry_id; POS alone does not
     authorize choosing among definitions. All candidate identities are retained.
     """
-    path = Path(db_path) if db_path is not None else DATA / "lexicon_clean.db"
+    path = resolve_lexicon_path(db_path)
     provenance = resource_identity(path)
     out: dict[str, Any] = {
         "word": word,

@@ -23,6 +23,8 @@ from dataclasses import dataclass, field, replace
 from typing import TYPE_CHECKING, Dict, List, Optional, Sequence, Tuple, Union
 
 from gse.api.trace import ClauseSpan, OperationTrace, OperatorTrace, TokenTrace
+from gse.primitives_v2 import get_hierarchy_encoding
+from gse.symbolic.duration import Duration, split_duration, temporal_offset
 from gse.symbolic.modality import modal_primes
 
 if TYPE_CHECKING:
@@ -63,6 +65,8 @@ class Atom:
     # type_thread from this — ONLY when the proper-noun world-strand lookup is empty, and only at the
     # annotate seam (post-coherence) so it cannot perturb agent selection. None when absent.
     apposition: Optional[str] = None
+    degree: Dict = field(default_factory=dict)
+    degree_modifier: bool = False
 
     def __hash__(self) -> int:
         # word_primitives is unhashable; hash on lemma+position
@@ -114,6 +118,7 @@ class Op:
     arity: int
     args: List["Operand"]
     modal: tuple = ()
+    duration: Duration | None = None
 
 
 # A symbolic Expression is one of the four structural node types above.
@@ -198,6 +203,8 @@ def _bound_intensifier(tok: TokenTrace, following: Optional[TokenTrace]) -> bool
     """An intensifier the encoder bound to the next word: it is left empty and its hierarchy mark sits on that word
     (encoder.py's intensifier binding, which binds only to a gradable word). Read here only until #98 carries the
     hierarchy on the trace itself."""
+    if tok.degree_modifier.get("state") == "bound":
+        return True
     return (
         not tok.word_primitives and following is not None and bool(_HIER_MARKS & set(following.word_primitives or {}))
     )
@@ -230,6 +237,10 @@ def _uptake_kinds(right: Sequence[TokenTrace]) -> List[str]:
             kinds.append("hierarchy")
         elif tok.lemma in _NEGATION_LEMMAS or tok.pos in _UPTAKE_PASS_POS:
             kinds.append("pass")
+        elif tok.degree:
+            # Grammar has identified an operand even if lexical ambiguity
+            # leaves its projection empty or the parser labels it ADV.
+            kinds.append("content")
         elif (
             (tok.pos in _UPTAKE_GAP_POS and not (tok.pos == "ADV" and tok.word_primitives))
             or tok.lemma == "be"
@@ -271,6 +282,85 @@ def _sign_owners(tokens: Sequence[TokenTrace]) -> Signs:
                 owner = next(t.position for t in right[k:] if t.is_operator)
         owners[tok.position] = (code, owner, tok.lemma)
     return owners
+
+
+class DegreeScopeError(ValueError):
+    """A candidate-dependent grammatical degree cannot be selected safely."""
+
+    code = "UNRESOLVED_DEGREE_SCOPE"
+
+
+def bind_degree_modifiers(tokens: Sequence[TokenTrace]) -> None:
+    """Bind the existing ordinal grammar without choosing lexical definitions.
+
+    A contiguous chain of intensity adverbs and sign arguments takes an
+    adjective/adverb operand. Nominal uses, punctuation and other operators
+    terminate this construction. The ordinary sign-uptake decision owns NOT;
+    its hierarchy signs change ordinal direction, never a lexical base sign.
+    """
+    ordered = sorted(tokens, key=lambda token: token.position)
+    modifiers = {}
+    sources = {}
+    uncertain = set()
+    for token in ordered:
+        token.degree_modifier = {}
+        token.degree = {}
+        encoding = get_hierarchy_encoding(token.lemma.upper())
+        if encoding and encoding[0] == "INTENSITY" and token.pos == "ADV" and not token.is_operator:
+            modifiers[token.position] = encoding[1]
+        elif token.pos == "ADV" and not token.is_operator:
+            lexical = token.lexical_evidence
+            original = lexical.get("primitives") or token.word_primitives
+            if "selection_status" not in lexical and "INTENSITY" in original and _HIER_MARKS & original.keys():
+                modifiers[token.position] = original.get("HIER_PLUS", 0) - original.get("HIER_MINUS", 0)
+                sources[token.position] = "legacy_lexical_hierarchy"
+            elif lexical.get("selection_status") in {"AMBIGUOUS", "CONFLICT"} and any(
+                candidate.get("hierarchy", {}).get("INTENSITY") for candidate in lexical.get("candidates", [])
+            ):
+                uncertain.add(token.position)
+    for index, token in enumerate(ordered):
+        if token.position not in modifiers and token.position not in uncertain:
+            continue
+        for following in ordered[index + 1 :]:
+            if following.is_operator or following.pos == "PUNCT":
+                break
+            if (
+                following.position in modifiers
+                or following.position in uncertain
+                or following.lemma in _NEGATION_LEMMAS
+            ):
+                continue
+            if following.pos in {"ADJ", "ADV"}:
+                if token.position in uncertain:
+                    raise DegreeScopeError(f"{DegreeScopeError.code}: token {token.position}")
+                token.degree_modifier = {
+                    "state": "bound",
+                    "scale": "INTENSITY",
+                    "target": following.position,
+                    "level": modifiers[token.position],
+                    "source": sources.get(token.position, "canonical_intensity_grammar"),
+                }
+                if not following.degree:
+                    following.degree = {"scale": "INTENSITY", "level": 0, "sources": []}
+            break
+    signs = _sign_owners(ordered)
+    for token in ordered:
+        if not token.degree_modifier:
+            continue
+        binding = token.degree_modifier
+        arguments = [
+            (position, lemma)
+            for position, (code, owner, lemma) in signs.items()
+            if code == "hierarchy" and owner == token.position
+        ]
+        polarity = -1 if node_polarity([lemma for _, lemma in arguments]) == "negated" else 1
+        binding["signed_level"] = polarity * binding["level"]
+        binding["sign_positions"] = [position for position, _ in arguments]
+        target = next(item for item in ordered if item.position == binding["target"])
+        if not target.degree:
+            target.degree = {"scale": "INTENSITY", "level": 0, "sources": []}
+        target.degree["level"] += binding["signed_level"]
+        target.degree["sources"].append(token.position)
 
 
 def node_negation_count(negations: List[str]) -> int:
@@ -342,6 +432,8 @@ def _atom_from_token(token: TokenTrace, role: Optional[str] = None) -> Atom:
         pos=pos,
         number=number,
         graded=graded,
+        degree=dict(token.degree),
+        degree_modifier=bool(token.degree_modifier),
     )
 
 
@@ -766,6 +858,14 @@ def _with_clause_modal(expr: Expression, tokens: Sequence[TokenTrace]) -> Expres
     return expr
 
 
+def _operator_primitive(op: OperatorTrace, tokens: Sequence[TokenTrace]) -> str:
+    if op.operation == "TEMPORAL":
+        linker = next((t.lemma for t in tokens if t.position == op.position), None)
+        if linker in ("before", "after"):
+            return linker.upper()
+    return op.primitive
+
+
 def _build_operator_op(
     op: OperatorTrace,
     tokens: Sequence[TokenTrace],
@@ -784,7 +884,7 @@ def _build_operator_op(
     if op.arity >= 2:
         args.append(_build_arg_expression(op.arg2_tokens, tokens, operator_positions, signs))
     built = Op(
-        primitive=op.primitive,
+        primitive=_operator_primitive(op, tokens),
         operation=op.operation,
         arity=op.arity,
         args=args,
@@ -843,14 +943,21 @@ def operator_composition_plan(
 
 def _clause_core(tokens, shared_subject, signs):
     """Build the recoverable clause before a qualifying operator is attached."""
+    content, duration = split_duration(tokens)
+    if duration is not None and split_duration(content)[1] is None:
+        qualified = _clause_core(content, shared_subject, signs)
+        core, negations = _unwrap_negations(qualified)
+        if isinstance(core, Op) and core.operation in {"EVENT", "TYPE_ASSERT"}:
+            return _rewrap_negations(replace(core, duration=duration), negations)
     copula = _try_copula_type_assertion(tokens, signs)
     if copula is not None:
         return _with_clause_modal(copula, tokens)
     event = _try_event(tokens, shared_subject=shared_subject, signs=signs)
     if event is not None:
         return event
-    atoms = [_atom_from_token(t) for t in tokens]
-    return atoms[0] if len(atoms) == 1 else Phrase(atoms=atoms)
+    atoms = [_atom_from_token(t) for t in tokens if t.lemma not in _NEGATION_LEMMAS or t.pos in {"NOUN", "PRON"}]
+    core = atoms[0] if len(atoms) == 1 else Phrase(atoms=atoms)
+    return Negation(operand=core) if _takes_sign(tokens, signs) else core
 
 
 def _build_clause_expr(
@@ -898,7 +1005,12 @@ def _build_clause_expr(
         plan = operator_composition_plan(op.operation, op.arity, left_pred, right_pred, head)
         remaining = [i for i in clause.operator_indices if i != index]
         args: List[Operand]
+        duration = None
         if plan == "clause_pair":
+            operand_exclusions = excluded
+            if op.operation == "TEMPORAL":
+                duration, offset_positions = temporal_offset(clause_tokens, op.position)
+                operand_exclusions = excluded | offset_positions
             before = replace(
                 clause,
                 token_end=op.position,
@@ -911,7 +1023,8 @@ def _build_clause_expr(
             )
             args = [
                 _build_clause_expr(
-                    before, tokens, operators, operator_positions, excluded, drop_relativizers, shared_subject, signs
+                    before, tokens, operators, operator_positions, operand_exclusions, drop_relativizers,
+                    shared_subject, signs
                 ),
                 _build_clause_expr(
                     after, tokens, operators, operator_positions, excluded, drop_relativizers, shared_subject, signs
@@ -937,7 +1050,13 @@ def _build_clause_expr(
             continue
         else:
             continue
-        built = Op(primitive=op.primitive, operation=op.operation, arity=len(args), args=args)
+        built = Op(
+            primitive=_operator_primitive(op, clause_tokens),
+            operation=op.operation,
+            arity=len(args),
+            args=args,
+            duration=duration,
+        )
         return Negation(operand=built) if op.position in _negated_operators(signs) else built
 
     built = [_build_operator_op(op, tokens, operator_positions, signs) for op in clause_ops]
@@ -993,9 +1112,7 @@ def _wrap_antecedent(
                 wrapped = wrapped or w
             else:
                 new_args.append(a)
-        return Op(
-            primitive=expr.primitive, operation=expr.operation, arity=expr.arity, args=new_args, modal=expr.modal
-        ), wrapped
+        return replace(expr, args=new_args), wrapped
     if isinstance(expr, Negation):
         inner, w = _wrap_antecedent(expr.operand, position, restriction, operation, primitive)
         return Negation(operand=inner), w
@@ -1073,6 +1190,7 @@ def _build_control(
     clean_args = [a for a in core.args if not _is_all_punct(a)] or list(core.args)
     subject = clean_args[0]
     controller = clean_args[1] if len(clean_args) > 1 else clean_args[0]
+    inner_tokens, duration = split_duration(inner_tokens)
     inner_obj = [
         _atom_from_token(t)
         for t in inner_tokens
@@ -1086,6 +1204,7 @@ def _build_control(
         operation="EVENT",
         arity=len(inner_args),
         args=inner_args,
+        duration=duration,
     )
     if _takes_sign(inner_tokens, signs, inner_verb.position):
         inner_event = Negation(operand=inner_event)
@@ -1095,6 +1214,7 @@ def _build_control(
         arity=3,
         args=[subject, controller, inner_event],
         modal=core.modal,
+        duration=core.duration,
     )
     return _rewrap_negations(control, negations)
 
@@ -1131,16 +1251,14 @@ def _attach_complement(expr: Expression, verb_lemma: str, inner: Expression) -> 
         if node is target:
             args: List[Operand] = [a for a in target.args if not _is_all_punct(a)]
             args.append(inner)
-            return Op(primitive=target.primitive, operation="EVENT", arity=len(args), args=args, modal=target.modal)
+            return replace(target, arity=len(args), args=args)
         if isinstance(node, Op):
             new_args: List[Operand] = [
                 _replace(a) if isinstance(a, (Atom, Phrase, Negation, Op)) else a for a in node.args
             ]
             if all(new is old for new, old in zip(new_args, node.args)):
                 return node
-            return Op(
-                primitive=node.primitive, operation=node.operation, arity=node.arity, args=new_args, modal=node.modal
-            )
+            return replace(node, args=new_args)
         if isinstance(node, Negation):
             operand = _replace(node.operand)
             return node if operand is node.operand else Negation(operand=operand)
@@ -1213,6 +1331,7 @@ def _build_relative_restriction(
     if verb is None or emb.gap_role not in ("subject", "object") or emb.attaches_to_token is None:
         return _build_clause_expr(emb, tokens, operators, operator_positions, drop_relativizers=True, signs=signs)
 
+    inner_tokens, duration = split_duration(inner_tokens)
     antecedent = _atom_from_token(tokens[emb.attaches_to_token])
     # A negation is the event's sign, never one of its participants.
     participants = [t for t in inner_tokens if t.lemma not in _NEGATION_LEMMAS]
@@ -1229,8 +1348,35 @@ def _build_relative_restriction(
     if patient_atoms:
         args.append(Phrase(atoms=patient_atoms))
     modal = modal_primes([t.word_primitives for t in inner_tokens if t.position < verb.position and t.pos == "AUX"])
-    event = Op(primitive=verb.lemma, operation="EVENT", arity=len(args), args=args, modal=modal)
+    event = Op(primitive=verb.lemma, operation="EVENT", arity=len(args), args=args, modal=modal, duration=duration)
     return Negation(operand=event) if _takes_sign(inner_tokens, signs, verb.position) else event
+
+
+def prepare_degree_modifiers(tokens: Sequence[TokenTrace]) -> None:
+    """Reconstruct missing grammar metadata and reject inconsistent supplied fields."""
+    # Old traces have no degree fields; reconstruct the same grammar at this
+    # public construction boundary. Supplied metadata must agree with it.
+    expected = [replace(token, degree={}, degree_modifier={}) for token in tokens]
+    bind_degree_modifiers(expected)
+    for token, computed in zip(tokens, expected):
+        if not isinstance(token.degree, dict) or not isinstance(token.degree_modifier, dict):
+            raise ValueError("INVALID_DEGREE_METADATA")
+        if token.degree and (
+            type(token.degree.get("level")) is not int
+            or not isinstance(token.degree.get("sources"), list)
+            or any(type(position) is not int for position in token.degree["sources"])
+        ):
+            raise ValueError("INVALID_DEGREE_METADATA")
+        if token.degree_modifier and any(
+            type(token.degree_modifier.get(key)) is not int for key in ("level", "signed_level", "target")
+        ):
+            raise ValueError("INVALID_DEGREE_METADATA")
+        if (token.degree or token.degree_modifier) and (
+            token.degree != computed.degree or token.degree_modifier != computed.degree_modifier
+        ):
+            raise ValueError("INVALID_DEGREE_METADATA")
+        token.degree = computed.degree
+        token.degree_modifier = computed.degree_modifier
 
 
 def from_trace(trace: OperationTrace) -> Expression:
@@ -1252,6 +1398,7 @@ def from_trace(trace: OperationTrace) -> Expression:
     ``docs/COMPLEX_SENTENCE_DESIGN.md`` §0.
     """
     tokens = trace.tokens
+    prepare_degree_modifiers(tokens)
     operators = sorted(trace.operators, key=lambda o: o.position)
     operator_positions = [op.position for op in operators]
     # Where each negation's sign lands, decided once for the whole sentence (sentence_architecture.md L27, L45, L66).
@@ -1302,6 +1449,19 @@ def _from_trace_segmented(
     embedded_tokens = set()
     for emb in embedded:
         embedded_tokens.update(range(emb.token_start, emb.token_end))
+    owned = {i for c in all_clauses for i in c.operator_indices}
+    linking_ops = sorted(
+        (op for i, op in enumerate(operators) if i not in owned),
+        key=lambda o: o.position,
+    )
+    visible = [t for t in tokens if t.position not in embedded_tokens]
+    offsets = {}
+    for op in linking_ops:
+        if op.operation == "TEMPORAL":
+            offset, positions = temporal_offset(visible, op.position)
+            if offset is not None:
+                offsets[op.position] = offset
+                embedded_tokens.update(positions)
 
     # Build sequential clauses in surface order, carrying the subject forward: a
     # subject-less coordinated clause ("…and murdered him") inherits the prior conjunct's
@@ -1323,22 +1483,17 @@ def _from_trace_segmented(
         if subj:
             shared_subject = subj
 
-    owned = {i for c in all_clauses for i in c.operator_indices}
-    linking_ops = sorted(
-        (op for i, op in enumerate(operators) if i not in owned),
-        key=lambda o: o.position,
-    )
-
     # Fold clause-linking operators over the sequential clause expressions in
     # surface order: c0 [op0] c1 [op1] c2 …
     expr: Expression = clause_exprs[0]
     for k, op in enumerate(linking_ops):
         right: Operand = clause_exprs[k + 1] if k + 1 < len(clause_exprs) else Phrase(atoms=[])
         expr = Op(
-            primitive=op.primitive,
+            primitive=_operator_primitive(op, tokens),
             operation=op.operation,
             arity=op.arity,
             args=[expr, right],
+            duration=offsets.get(op.position),
         )
         if op.position in negated_ops:
             expr = Negation(operand=expr)

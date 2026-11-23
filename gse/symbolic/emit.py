@@ -24,6 +24,7 @@ than silent.
 from __future__ import annotations
 
 import json
+from dataclasses import asdict
 from typing import Any, Dict
 
 # Contract versions. v1 = bare-string args; v2 = entity-ref args
@@ -81,6 +82,25 @@ def _leaf_str(node: Any) -> str:
     return node if isinstance(node, str) else str(node)
 
 
+def _degree_features(node: Any) -> list[dict]:
+    """Retain operand degree without changing the contract's leaf schema."""
+    name = type(node).__name__
+    if name == "Atom":
+        degree = node.degree
+        return [{"target": node.lemma, "scale": degree["scale"], "level": degree["level"]}] if degree else []
+    if name == "Phrase":
+        return [record for atom in node.atoms for record in _degree_features(atom)]
+    if name == "Entity":
+        return _degree_features(node.head) + _degree_features(node.modifier)
+    if name == "Coordination":
+        return [record for member in node.members for record in _degree_features(member)] + _degree_features(
+            node.modifier
+        )
+    if name == "Negation":
+        return _degree_features(node.operand)
+    return []
+
+
 def emit(node: Any) -> Any:
     """Walk an evaluated node into its §5 envelope (or a leaf string).
 
@@ -101,6 +121,7 @@ def emit(node: Any) -> Any:
         # stemmer (NPE-ing the whole sentence). Dropping it reduces arity, which the
         # bridge's arity guards absorb. General over constructions, not a per-word patch.
         args = []
+        degrees = []
         for f in fields:
             v = getattr(node, f)
             if v is None:
@@ -108,6 +129,7 @@ def emit(node: Any) -> Any:
             ev = emit(v)
             if isinstance(ev, str) and not ev.strip():
                 continue
+            degrees.extend({"argument": len(args), **record} for record in _degree_features(v))
             args.append(ev)
         # Likewise drop blank feature values (e.g. a Control with an empty verb).
         features = {
@@ -126,6 +148,11 @@ def emit(node: Any) -> Any:
         modal = getattr(node, "modal", ())
         if modal:
             features["modal"] = list(modal)
+        duration = getattr(node, "duration", None)
+        if duration is not None:
+            features["duration"] = asdict(duration)
+        if degrees:
+            features["degree"] = degrees
         return {"op": op, "args": args, "features": features}
 
     if name == "Negation":
@@ -143,10 +170,18 @@ def emit(node: Any) -> Any:
 
     if name == "Op":
         # Un-reduced operator (shouldn't appear post-evaluate_tree; stay total).
+        degrees = [
+            {"argument": index, **record}
+            for index, argument in enumerate(node.args)
+            for record in _degree_features(argument)
+        ]
+        op_features: Dict[str, Any] = {"degree": degrees} if degrees else {}
+        if node.duration is not None:
+            op_features["duration"] = asdict(node.duration)
         return {
             "op": node.operation,
             "args": [emit(a) for a in node.args],
-            "features": {},
+            "features": op_features,
         }
 
     # A reference-resolved Entity → v2 entity-ref. (Possessor folds into the
@@ -199,9 +234,10 @@ def emit_contract(
     if version is None:
         version = CONTRACT_VERSION_V2 if _has_entity_ref(payload) else CONTRACT_VERSION
     contract = {"contract_version": version, "predicate": payload}
+    degrees = _degree_features(node)
+    if degrees:
+        contract["degree"] = degrees
     if include_semantics:
-        from dataclasses import asdict
-
         from gse.symbolic.claims import claim_key, commitment, polarity, scope_signature
         from gse.symbolic.propositions import propositions
 

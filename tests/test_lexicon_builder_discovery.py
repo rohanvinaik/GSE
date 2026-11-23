@@ -187,3 +187,41 @@ def test_bundle_rejects_ambiguous_links_instead_of_duplicating_definitions():
     )
     with pytest.raises(ValueError, match="UNRESOLVED_ASSERTION_LINK"):
         discover_bundle(bundle)
+
+
+def test_exact_definition_join_meets_distinct_source_measurements():
+    observations = (
+        observation("one", "A", 1, source="left", family="taxonomy"),
+        observation("one", "B", 0, source="right", family="lexical"),
+        observation("two", "A", 1, source="left", family="taxonomy"),
+    )
+    (report,) = discover_relations(observations, candidates=(("A", 1, "B", 0),), cross_source=True)
+    assert [r["entry_id"] for r in report.support] == ["one"]
+    assert [r["entry_id"] for r in report.unknown] == ["two"]
+    assert report.support[0]["source"] == "definition:one"
+    assert {r["source"] for r in report.support[0]["observations"]} == {"left", "right"}
+    assert report.by_family["taxonomy"]["support"] == report.by_family["lexical"]["support"] == 1
+    assert report.relation.approved is False
+    assert discover_relations(tuple(reversed(observations)), candidates=(("A", 1, "B", 0),), cross_source=True) == (
+        report,
+    )
+
+
+def test_cross_source_disagreement_survives_repetition_and_weights():
+    observations = (
+        observation("one", "A", 1, source="left"),
+        observation("one", "B", 0, source="right", record="zero1"),
+        observation("one", "B", 0, source="right", record="zero2"),
+        observation("one", "B", 1, source="other"),
+    )
+    (report,) = discover_relations(observations, {"one": 100000}, (("A", 1, "B", 0),), cross_source=True)
+    assert report.support == report.counterexamples == ()
+    assert report.conflicting[0]["consequent_values"] == (0, 1)
+    assert len(report.conflicting[0]["observations"]) == 4
+
+
+def test_cross_source_join_does_not_join_distinct_definitions():
+    observations = (observation("same:1", "A", 1), observation("same:2", "B", 0, source="other"))
+    (report,) = discover_relations(observations, candidates=(("A", 1, "B", 0),), cross_source=True)
+    assert not report.support
+    assert report.unknown[0]["entry_id"] == "same:1"

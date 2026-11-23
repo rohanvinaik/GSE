@@ -1,8 +1,7 @@
 """A word's sign survives its hierarchy level: "very ugly" is very bad, never very good (SA L33, L43; GSE #98).
 
 The lexicon writes a negative two ways, as its own surface pole ({BAD: 1}) or as the canonical pole negated
-({GOOD: -1}), and the front end absorbs an intensifier's level into the word it modifies ("very ugly" becomes
-{GOOD: -1, HIER_PLUS: 1}). The sign was lost in the vector step, which stacked the level on the unsigned pole
+({GOOD: -1}). The public trace carries degree on the modified token, independently of lexical signs. The sign was lost in the vector step, which stacked the level on the unsigned pole
 (c7cd661), so these pin that step through the real encoder: word_vector_plan's own pins cannot see a consumer that
 drops the sign.
 """
@@ -12,7 +11,10 @@ import pytest
 
 from gse.api import GSEEncoder
 from gse.api.errors import PrimitiveError
-from gse.primitives_v2 import BIPOLAR_PRIMITIVES, get_canonical_pole
+from gse.curation.lexicon_builder.engine import Assertion, propagate
+from gse.curation.lexicon_builder.evidence import Definition
+from gse.curation.lexicon_builder.storage import open_build, store_entry
+from gse.primitives_v2 import BIPOLAR_PRIMITIVES, SemanticBank, get_canonical_pole
 from gse.vectors_v2 import bundle, encode_hierarchy
 
 ANTONYMS = [("ugly", "beautiful"), ("terrible", "wonderful"), ("sad", "happy"), ("cruel", "kind")]
@@ -21,10 +23,30 @@ LEVELS = [{}, {"HIER_PLUS": 1}, {"HIER_PLUS": 2}, {"HIER_MINUS": 1}, {"HIER_MINU
 
 
 @pytest.fixture(scope="module")
-def encoder():
-    enc = GSEEncoder()
-    yield enc
-    enc.close()
+def encoder(tmp_path_factory):
+    """Synthetic sign-mechanism fixtures, not semantic gold or corpus coverage."""
+    path = tmp_path_factory.mktemp("word-sign") / "definitions.db"
+    connection = open_build(path)
+    records = [(word, "adj", {"GOOD": sign}, {}) for pair in ANTONYMS for word, sign in zip(pair, (-1, 1))]
+    records += [
+        ("bad", "adj", {"GOOD": -1}, {}),
+        ("very", "adv", {"INTENSITY": 1}, {"INTENSITY": 1}),
+        ("extremely", "adv", {"INTENSITY": 1}, {"INTENSITY": 2}),
+    ]
+    for word, pos, values, hierarchy in records:
+        entry_id = f"fixture:{word}"
+        assertions = tuple(Assertion(bank, value, "fixture", entry_id, "mechanism") for bank, value in values.items())
+        store_entry(
+            connection,
+            Definition(entry_id, word, pos, "Synthetic sign-mechanism fixture"),
+            propagate(("GOOD", "INTENSITY"), assertions, ()),
+            assertions,
+            hierarchy,
+        )
+    connection.commit()
+    connection.close()
+    with GSEEncoder(str(path)) as enc:
+        yield enc
 
 
 def same(a, b):
@@ -32,11 +54,14 @@ def same(a, b):
 
 
 def absorbed_adjective(encoder, text):
-    """The last word as the front end hands it over (the intensifier absorbed into it), through the encoder's own
-    vector step."""
-    word = [t for t in encoder.encode(text).tokens if t.pos != "PUNCT"][-1]
-    primitives = dict(word.word_primitives)
-    return primitives, encoder._encode_word_primitives(primitives)
+    """Project the actual phrase vector to its fixture's sole evaluative axis.
+
+    Shared grammatical and intensifier components are not an antonym sign.
+    The separate sentence tests retain the original unprojected comparisons.
+    """
+    trace = encoder.encode(text)
+    word = [token for token in trace.tokens if token.pos != "PUNCT"][-1]
+    return word, trace.vector.with_bank_only(SemanticBank.EVALUATORS)
 
 
 @pytest.mark.parametrize("level", LEVELS, ids=lambda lv: "_".join(f"{k}{v}" for k, v in lv.items()) or "bare")
@@ -58,10 +83,13 @@ def test_a_surface_negative_and_its_canonical_form_are_one_vector(encoder, surfa
 @pytest.mark.parametrize("intensifier", ["very", "extremely"])
 @pytest.mark.parametrize("negative, positive", ANTONYMS)
 def test_an_intensified_negative_stays_opposite_its_antonym(encoder, negative, positive, intensifier):
-    neg_primitives, neg = absorbed_adjective(encoder, f"{intensifier} {negative}")
-    pos_primitives, pos = absorbed_adjective(encoder, f"{intensifier} {positive}")
-    # The level must be on both words, or the pair is only the bare reading, which was never wrong.
-    assert "HIER_PLUS" in neg_primitives and "HIER_PLUS" in pos_primitives
+    neg_target, neg = absorbed_adjective(encoder, f"{intensifier} {negative}")
+    pos_target, pos = absorbed_adjective(encoder, f"{intensifier} {positive}")
+    level = {"very": 1, "extremely": 2}[intensifier]
+    for target, sign in ((neg_target, -1), (pos_target, 1)):
+        assert target.degree == {"scale": "INTENSITY", "level": level, "sources": [0]}
+        assert target.word_primitives == {"GOOD": sign}
+        assert target.word_vec_nnz > 0
     assert neg.cosine(pos) < 0
 
 
@@ -82,7 +110,7 @@ def test_a_signed_companion_keeps_its_sign_beside_the_stacked_target(encoder):
 
 def test_a_missing_companion_raises_in_strict_mode_and_is_skipped_otherwise(encoder):
     word = {"GOOD": 1, "NOT_A_PRIME": 1, "HIER_PLUS": 1}
-    strict = GSEEncoder(strict=True)
+    strict = GSEEncoder(encoder.db_path, strict=True)
     try:
         with pytest.raises(PrimitiveError):
             strict._encode_word_primitives(word)

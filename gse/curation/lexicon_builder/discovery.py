@@ -1,7 +1,8 @@
 """Source-backed implication diagnostics; no frequency-based rule admission.
 
-Observation groups preserve a dictionary entry, source and evidence family.
-Disagreement within such a group stays disagreement. Unknown antecedents are
+Observation groups preserve exact dictionary identity and native provenance.
+The bundle path joins sources by definition; the standalone diagnostic retains
+its source-separated default. Disagreement within a group stays disagreement. Unknown antecedents are
 outside the candidate's eligible population; unknown consequents are reported
 separately and never count as confirmation. Weights describe coverage only.
 """
@@ -16,6 +17,8 @@ from itertools import permutations
 from typing import TYPE_CHECKING
 
 from .engine import TERNARY, Relation
+
+CROSS_SOURCE_FAMILY = "cross-source"
 
 if TYPE_CHECKING:
     from .evidence import EvidenceBundle
@@ -132,6 +135,8 @@ def discover_relations(
     observations: tuple[BankObservation, ...],
     weights: dict[str, float] | None = None,
     candidates: tuple[tuple[str, int, str, int], ...] | None = None,
+    *,
+    cross_source: bool = False,
 ) -> tuple[CandidateReport, ...]:
     """Diagnose candidate implications using native own-word observations.
 
@@ -140,11 +145,18 @@ def discover_relations(
     zero. Missing cells never generate a candidate. Counts are source-entry-group
     counts by family, not a claim of independent votes or causal confidence.
 
+    With cross_source=True, exact definition identity joins competent native
+    measurements across sources. The receipt's source is a definition group
+    marker, not an invented source; every observation retains its real source and
+    family. Family counts are overlapping evidence incidence, never votes.
+
     The returned table encodes the candidate implication, but approved=False means
     the solver cannot apply it. Structural justification and admission are separate.
     """
     if not isinstance(observations, tuple) or any(not isinstance(item, BankObservation) for item in observations):
         raise ValueError("INVALID_OBSERVATIONS")
+    if type(cross_source) is not bool:
+        raise ValueError("INVALID_CROSS_SOURCE_MODE")
     word_weights = _weight_map(weights)
     grouped: dict[tuple[str, str, str], dict[str, list[BankObservation]]] = {}
     excluded: list[dict] = []
@@ -165,7 +177,12 @@ def discover_relations(
         if item.origin != "source" or item.scope != "lexical":
             excluded.append({**_record(item), "code": "NOT_SOURCE_LEXICAL_EVIDENCE"})
         else:
-            grouped.setdefault((item.entry_id, item.source, item.family), {}).setdefault(item.bank, []).append(item)
+            key = (
+                (item.entry_id, f"definition:{item.entry_id}", CROSS_SOURCE_FAMILY)
+                if cross_source
+                else (item.entry_id, item.source, item.family)
+            )
+            grouped.setdefault(key, {}).setdefault(item.bank, []).append(item)
 
     values = {
         key: {bank: frozenset(item.value for item in rows if item.value is not None) for bank, rows in banks.items()}
@@ -198,10 +215,22 @@ def discover_relations(
 
     reports: list[CandidateReport] = []
     all_keys = set(grouped)
-    totals = _population(all_keys, word_weights)
-    observed_totals = {bank: _population(keys, word_weights) for bank, keys in observed.items()}
-    matching_totals = {literal: _population(keys, word_weights) for literal, keys in matching.items()}
-    conflict_totals = {bank: _population(keys, word_weights) for bank, keys in conflicts.items()}
+
+    def population(keys):
+        if not cross_source:
+            return _population(keys, word_weights)
+        family_keys = {
+            (entry_id, source, item.family)
+            for entry_id, source, family in keys
+            for rows in grouped[(entry_id, source, family)].values()
+            for item in rows
+        }
+        return _population(family_keys, word_weights)
+
+    totals = population(all_keys)
+    observed_totals = {bank: population(keys) for bank, keys in observed.items()}
+    matching_totals = {literal: population(keys) for literal, keys in matching.items()}
+    conflict_totals = {bank: population(keys) for bank, keys in conflicts.items()}
     excluded_records = tuple(excluded)
     for left, a, right, b in sorted(generated):
         antecedent_keys = matching.get((left, a), set())
@@ -245,9 +274,11 @@ def discover_relations(
                 "observations": tuple(_record(item) for item in rows),
             }
             buckets[status].append(receipt)
-            _count(counts, family, status, weight)
-            if status in {"support", "counterexamples"}:
-                _count(counts, family, "eligible", weight)
+            families = {item.family for item in rows} if cross_source else {family}
+            for evidence_family in sorted(families):
+                _count(counts, evidence_family, status, weight)
+                if status in {"support", "counterexamples"}:
+                    _count(counts, evidence_family, "eligible", weight)
         identity = hashlib.sha256(json.dumps([left, a, right, b], separators=(",", ":")).encode()).hexdigest()[:20]
         provenance = tuple(
             sorted(
@@ -285,6 +316,7 @@ def discover_relations(
 def discover_bundle(bundle: EvidenceBundle, weights: dict[str, float] | None = None) -> tuple[CandidateReport, ...]:
     """Diagnose the bundle's already-warranted projections, using exact links.
 
+    Exact definition links join banks measured by different competent sources.
     This does not reinterpret raw ratings, manufacture definitions, or re-ground a
     source. An assertion must have one exact source-record link to a known entry;
     ambiguous or missing links are refused. Records with nonlexical provenance and
@@ -325,4 +357,4 @@ def discover_bundle(bundle: EvidenceBundle, weights: dict[str, float] | None = N
                 scope=next(iter(scopes)),
             )
         )
-    return discover_relations(tuple(observations), weights)
+    return discover_relations(tuple(observations), weights, cross_source=True)

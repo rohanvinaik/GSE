@@ -16,8 +16,10 @@ just wrap (de)serialization in ``json.dumps`` / ``json.loads``.
 from __future__ import annotations
 
 import json
+from dataclasses import asdict
 from typing import Any, Dict, Union
 
+from gse.symbolic.duration import Duration
 from gse.symbolic.expression import Atom, Expression, Negation, Op, Phrase
 from gse.symbolic.predicates import (
     BoundaryCase,
@@ -49,6 +51,33 @@ class SerializationError(ValueError):
     """Raised when a dict's ``_kind`` is missing or unknown."""
 
 
+def _with_duration(data: Dict[str, Any], duration: Duration | None) -> Dict[str, Any]:
+    if duration is not None:
+        data["duration"] = asdict(duration)
+    return data
+
+
+def _read_duration(data: Dict[str, Any]) -> Duration | None:
+    if "duration" not in data:
+        return None
+    value = data["duration"]
+    if not isinstance(value, dict) or set(value) != {"extent", "relation"}:
+        raise SerializationError("INVALID_DURATION")
+    try:
+        duration = Duration(extent=value["extent"], relation=value["relation"])
+    except ValueError as error:
+        raise SerializationError("INVALID_DURATION") from error
+    operation = data.get("operation")
+    is_temporal = data.get("_kind") == "Temporal" or operation == "TEMPORAL"
+    if is_temporal == (duration.relation == "during"):
+        raise SerializationError("INVALID_DURATION_SCOPE")
+    if data.get("_kind") == "Op" and operation not in ("EVENT", "CONTROL", "TYPE_ASSERT", "TEMPORAL"):
+        raise SerializationError("INVALID_DURATION_SCOPE")
+    if data.get("_kind") == "Temporal" and data.get("conjunction", duration.relation) != duration.relation:
+        raise SerializationError("INVALID_DURATION_SCOPE")
+    return duration
+
+
 # ---------------------------------------------------------------------------
 # Serialization
 # ---------------------------------------------------------------------------
@@ -76,6 +105,10 @@ def to_dict(node: Node) -> Dict[str, Any]:
             d["graded"] = node.graded
         if node.apposition is not None:
             d["apposition"] = node.apposition
+        if node.degree:
+            d["degree"] = dict(node.degree)
+        if node.degree_modifier:
+            d["degree_modifier"] = True
         return d
     if isinstance(node, Phrase):
         return {
@@ -97,7 +130,7 @@ def to_dict(node: Node) -> Dict[str, Any]:
         }
         if node.modal:  # an EVENT's modal primes (#66); absent for a plain clause, so its dict is unchanged
             out["modal"] = list(node.modal)
-        return out
+        return _with_duration(out, node.duration)
     if isinstance(node, Entity):
         d = {
             "_kind": "Entity",
@@ -171,7 +204,7 @@ def to_dict(node: Node) -> Dict[str, Any]:
         # The latent secondary args are preserved, never destroyed (#4); emitted only when present.
         if node.themes:
             d["themes"] = [to_dict(t) for t in node.themes]
-        return d
+        return _with_duration(d, node.duration)
     if isinstance(node, Contrast):
         return {
             "_kind": "Contrast",
@@ -200,12 +233,12 @@ def to_dict(node: Node) -> Dict[str, Any]:
             "conjunction": node.conjunction,
         }
     if isinstance(node, Temporal):
-        return {
+        return _with_duration({
             "_kind": "Temporal",
             "setting": to_dict(node.setting),
             "event": to_dict(node.event),
             "conjunction": node.conjunction,
-        }
+        }, node.duration)
     if isinstance(node, TypeAssertion):
         d = {
             "_kind": "TypeAssertion",
@@ -214,7 +247,7 @@ def to_dict(node: Node) -> Dict[str, Any]:
         }
         if node.modal:  # the modal primes (#66); absent otherwise, so the dict is unchanged
             d["modal"] = list(node.modal)
-        return d
+        return _with_duration(d, node.duration)
     if isinstance(node, RelativeRestriction):
         return {
             "_kind": "RelativeRestriction",
@@ -231,7 +264,7 @@ def to_dict(node: Node) -> Dict[str, Any]:
         }
         if node.modal:  # the modal primes (#66); absent otherwise, so the dict is unchanged
             d["modal"] = list(node.modal)
-        return d
+        return _with_duration(d, node.duration)
     if isinstance(node, Coordination):
         return {
             "_kind": "Coordination",
@@ -272,6 +305,8 @@ def from_dict(d: Dict[str, Any]) -> Node:
             number=d.get("number"),
             graded=d.get("graded", False),
             apposition=d.get("apposition"),
+            degree=dict(d.get("degree") or {}),
+            degree_modifier=d.get("degree_modifier", False),
         )
     if kind == "Phrase":
         return Phrase(atoms=[from_dict(x) for x in d["atoms"]])
@@ -284,6 +319,7 @@ def from_dict(d: Dict[str, Any]) -> Node:
             arity=d["arity"],
             args=[from_dict(x) for x in d["args"]],
             modal=tuple(d.get("modal") or ()),
+            duration=_read_duration(d),
         )
     if kind == "Entity":
         return Entity(
@@ -337,6 +373,7 @@ def from_dict(d: Dict[str, Any]) -> Node:
             patient=from_dict(d["patient"]) if d.get("patient") else None,
             themes=tuple(from_dict(t) for t in d.get("themes") or ()),
             modal=tuple(d.get("modal") or ()),
+            duration=_read_duration(d),
         )
     if kind == "Contrast":
         return Contrast(left=from_dict(d["left"]), right=from_dict(d["right"]))
@@ -359,16 +396,19 @@ def from_dict(d: Dict[str, Any]) -> Node:
             conjunction=d.get("conjunction", "if"),
         )
     if kind == "Temporal":
+        duration = _read_duration(d)
         return Temporal(
             setting=from_dict(d["setting"]),
             event=from_dict(d["event"]),
-            conjunction=d.get("conjunction", "when"),
+            conjunction=d.get("conjunction", duration.relation if duration else "when"),
+            duration=duration,
         )
     if kind == "TypeAssertion":
         return TypeAssertion(
             entity=from_dict(d["entity"]),
             kind=from_dict(d["kind"]),
             modal=tuple(d.get("modal") or ()),
+            duration=_read_duration(d),
         )
     if kind == "RelativeRestriction":
         return RelativeRestriction(
@@ -382,6 +422,7 @@ def from_dict(d: Dict[str, Any]) -> Node:
             verb=d.get("verb", ""),
             subject=from_dict(d["subject"]) if d.get("subject") else None,
             modal=tuple(d.get("modal") or ()),
+            duration=_read_duration(d),
         )
     if kind == "Coordination":
         return Coordination(

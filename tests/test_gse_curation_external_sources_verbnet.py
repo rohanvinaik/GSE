@@ -314,6 +314,30 @@ def event_predicate(name, negated=False, argument_type="Event"):
 
 
 class TestEntryProjection:
+    @pytest.mark.parametrize("predicate,bank", [("emotional_state", "FEEL"), ("desire", "WANT")])
+    def test_mental_predicate_requires_every_frame_without_affect_polarity(self, predicate, bank):
+        entry = mk_entry()
+        entry.class_context = [
+            {"frames": [semantic_frame(event_predicate(predicate))]},
+            {"frames": [semantic_frame(event_predicate(predicate))]},
+        ]
+        parser = VerbNetParser()
+        assert parser.to_primitives_for_entry(entry) == {bank: 1}
+        entry.class_context[1]["frames"].append(semantic_frame())
+        assert parser.to_primitives_for_entry(entry) == {}
+
+    @pytest.mark.parametrize("name", ["emotional_state", "desire"])
+    @pytest.mark.parametrize("negative", [True, False])
+    def test_mental_negation_and_non_event_arguments_abstain(self, name, negative):
+        entry = mk_entry()
+        invalid = event_predicate(name, negated=negative, argument_type="Event" if negative else "ThemRole")
+        entry.class_context = [{"frames": [semantic_frame(event_predicate(name), invalid)]}]
+        # A role-only duplicate does not invalidate a separate warranted Event;
+        # on its own it cannot create an assertion.
+        if not negative:
+            entry.class_context = [{"frames": [semantic_frame(invalid)]}]
+        assert VerbNetParser().to_primitives_for_entry(entry) == {}
+
     def test_induced_action_cause_is_not_universal_motion_is(self):
         entry = mk_entry()
         entry.class_context = [
@@ -326,16 +350,18 @@ class TestEntryProjection:
         ]
         assert VerbNetParser().to_primitives_for_entry(entry) == {"MOVE": 1}
 
-    def test_cause_requires_every_applicable_parent_and_child_frame(self):
+    def test_bare_cause_in_every_frame_still_needs_participant_and_outcome_proof(self):
         entry = mk_entry()
         entry.class_context = [
             {"frames": [semantic_frame(event_predicate("cause"))]},
             {"frames": [semantic_frame(event_predicate("cause"))]},
         ]
         parser = VerbNetParser()
-        assert parser.to_primitives_for_entry(entry) == {"CAUSE": 1}
-        entry.class_context[0]["frames"].append(semantic_frame())
         assert parser.to_primitives_for_entry(entry) == {}
+        assert all(
+            frame["cause"]["code"] == "PARTICIPANT_DECLARATIONS_UNAVAILABLE"
+            for frame in parser.projection_diagnostics_for_entry(entry)["frames"]
+        )
 
     @pytest.mark.parametrize(
         "predicate",

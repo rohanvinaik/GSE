@@ -11,7 +11,7 @@ from __future__ import annotations
 from collections import defaultdict
 from dataclasses import asdict, replace
 
-from .engine import TERNARY, Assertion, Relation, Resolution, _validated_inputs, propagate
+from .engine import TERNARY, Assertion, DomainRestriction, Relation, Resolution, _validated_inputs, propagate
 
 
 def _conditional_components(
@@ -63,6 +63,7 @@ def _resolve_ordinary(
     assertions: tuple[Assertion, ...],
     relations: tuple[Relation, ...],
     context: dict[str, str] | None = None,
+    domain_restrictions: tuple[DomainRestriction, ...] = (),
 ) -> Resolution:
     """Apply conditional rules unless they contradict hard evidence or each other.
 
@@ -75,12 +76,13 @@ def _resolve_ordinary(
 
     This conservative component withdrawal can also remove a harmless rule that
     shares the component. Receipts name every withdrawn rule and the demonstrated
-    contradiction. Constraint consistency remains generalized arc consistency,
-    not a claim of global satisfiability or completed significance induction.
+    contradiction. The engine follows arc consistency with bounded joint support
+    checks. Its receipts distinguish proven consistency from components exceeding
+    the search limit; this does not establish semantic truth or significance.
     """
     # Validate all inputs through the existing engine and preserve its normal
     # single-pass path when no contradiction requires an exception decision.
-    combined = propagate(banks, assertions, relations, context)
+    combined = propagate(banks, assertions, relations, context, domain_restrictions=domain_restrictions)
     if combined.code != "CONFLICT":
         return combined
     context_values = context or {}
@@ -94,24 +96,28 @@ def _resolve_ordinary(
         sorted((rule for rule in active if rule.authority == "conditional"), key=lambda rule: rule.rule_id)
     )
     inactive = tuple(rule for rule in relations if rule not in active)
-    hard = propagate(banks, assertions, foundational, context)
+    hard = propagate(banks, assertions, foundational, context, domain_restrictions=domain_restrictions)
     if hard.code == "CONFLICT":
         return hard
     exceptions, eligible = [], []
     for rule in conditional:
-        witness = propagate(banks, assertions, foundational + (rule,), context)
+        witness = propagate(banks, assertions, foundational + (rule,), context, domain_restrictions=domain_restrictions)
         if witness.code == "CONFLICT":
             exceptions.append(_exception((rule,), "HARD_CONTRADICTION", witness, hard, context_values))
         else:
             eligible.append(rule)
     retained = []
     for component in _conditional_components(foundational, tuple(eligible)):
-        witness = propagate(banks, assertions, foundational + component, context)
+        witness = propagate(
+            banks, assertions, foundational + component, context, domain_restrictions=domain_restrictions
+        )
         if witness.code == "CONFLICT":
             exceptions.append(_exception(component, "CONDITIONAL_COMPONENT_CONFLICT", witness, hard, context_values))
         else:
             retained.extend(component)
-    resolved = propagate(banks, assertions, foundational + tuple(retained) + inactive, context)
+    resolved = propagate(
+        banks, assertions, foundational + tuple(retained) + inactive, context, domain_restrictions=domain_restrictions
+    )
     receipts = tuple(sorted(exceptions, key=lambda item: item["rule_ids"]))
     return Resolution(
         resolved.code, resolved.domains, resolved.assignments, resolved.conflicts, resolved.trace + receipts
@@ -178,6 +184,7 @@ def resolve_dictionary(
     context: dict[str, str] | None = None,
     *,
     evidence_banks: tuple[str, ...] = (),
+    domain_restrictions: tuple[DomainRestriction, ...] = (),
 ) -> Resolution:
     """Resolve ordinary evidence before admitting evidence-conditioned defaults.
 
@@ -187,7 +194,7 @@ def resolve_dictionary(
     cannot make another default eligible or ineligible. Blocked defaults never
     enter propagation and therefore never require contradiction-based fallback.
     """
-    context_values = _validated_inputs(banks, assertions, relations, context)
+    context_values = _validated_inputs(banks, assertions, relations, context, domain_restrictions)
     if not isinstance(evidence_banks, tuple) or any(
         not isinstance(bank, str) or not bank.strip() for bank in evidence_banks
     ):
@@ -198,17 +205,21 @@ def resolve_dictionary(
         raise ValueError("UNKNOWN_EVIDENCE_BANK")
     ordinary = tuple(rule for rule in relations if not rule.absent_evidence)
     defaults = tuple(sorted((rule for rule in relations if rule.absent_evidence), key=lambda rule: rule.rule_id))
-    baseline = _resolve_ordinary(banks, assertions, ordinary, context_values)
+    baseline = _resolve_ordinary(banks, assertions, ordinary, context_values, domain_restrictions)
     if not defaults:
         return baseline
-    supplied = set(evidence_banks)
+    supplied = set(evidence_banks) | {item.bank for item in domain_restrictions}
     receipts = tuple(_evidence_guard_receipt(rule, assertions, baseline, supplied, context_values) for rule in defaults)
     eligible = tuple(
         replace(rule, absent_evidence=())
         for rule, receipt in zip(defaults, receipts, strict=True)
         if receipt["status"] == "ELIGIBLE"
     )
-    resolved = _resolve_ordinary(banks, assertions, ordinary + eligible, context_values) if eligible else baseline
+    resolved = (
+        _resolve_ordinary(banks, assertions, ordinary + eligible, context_values, domain_restrictions)
+        if eligible
+        else baseline
+    )
     return Resolution(
         resolved.code, resolved.domains, resolved.assignments, resolved.conflicts, resolved.trace + receipts
     )

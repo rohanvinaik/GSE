@@ -13,10 +13,13 @@ from dataclasses import asdict
 from gse.curation.schema import ALL_PRIMITIVES, BIPOLAR_PAIRS
 from gse.primitives_v2 import PRIMITIVE_REGISTRY
 
-from .engine import Assertion, Relation, propagate
-from .evidence import Definition
-from .foundation import BANKS, definition_context
+from .engine import Assertion, DomainRestriction, Relation, propagate
+from .evidence import Definition, validate_assertion_competence
+from .foundation import BANKS, CONVENTION_VERSION, DESIGN_SOURCE, lexical_context, validate_lexical_guards
 from .resolution import resolve_dictionary
+
+SENTENCE_DURATION_UNIT = "nsm:v20:some-time"
+SENTENCE_DURATION_SOURCE_RECORD = "nsm_chart:v20:some-time"
 
 SOURCE = {
     "title": "Chart of NSM Semantic Primes",
@@ -384,6 +387,16 @@ _EXACT = {
     "far": "FAR",
 }
 _ADAPTED = {
+    "this": (
+        "SOMETHING",
+        1,
+        "Approved demonstrative object-reference anchor; which object is designated is a grammatical/contextual binding.",
+    ),
+    "dont-want": (
+        "WANT",
+        -1,
+        "Approved NOT WANT pole; zero remains orthogonal to wanting, and sentence negation retains its grammatical scope.",
+    ),
     "parts": ("PART", 1, "Registry PART is singular; chart specifies (HAVE) PARTS and its relational frames."),
     "kinds": ("KIND", 1, "Registry KIND is singular; identify the taxonomic sense rather than the kindness homograph."),
     "same": ("SAME", 1, "Registry positive identity pole represents the chart form THE SAME."),
@@ -448,18 +461,143 @@ _METADATA = {
     ),
 }
 _MISSING = {
-    "this": "No THIS coordinate in the current closed basis; the chart includes plural THESE as a variant.",
-    "dont-want": "No distinct negative-volition coordinate; ordinary WANT sign reversal has not been approved as equivalent.",
     "some-time": "No distinct FOR SOME TIME coordinate; LONG_TIME and WHEN do not by themselves specify this duration unit.",
 }
 
+# Existing founder anchors have exact identities. Listing them here documents
+# approval; only an explicitly supplied build manifest can activate an anchor.
+_APPROVED_CORRESPONDENCES = {
+    "this": ("SOMETHING", 1, "gse:prime:this", "word-and-sentence-boundary", None),
+    "dont-want": ("WANT", -1, "gse:prime:dont-want", "want-polarity", None),
+    "want": ("WANT", 1, "wordnet:want:desire.v.01", "want-polarity", None),
+    "very": ("INTENSITY", 1, "wordnet:very:very.r.01", "ordinal-stability", 1),
+}
 
-def catalog_inventory() -> dict:
+# Definition identity only. These links do not promote chart correspondences
+# into assignments or imply that a definition has a complete prime signature.
+# Native lexical definitions and grammatical records were inspected separately
+# from their spellings. Remaining units retain the primary chart's own scope.
+_NATIVE_PRIME_DEFINITIONS = {
+    "dont-want": "gse:prime:dont-want",
+    "this": "gse:prime:this",
+    "want": "wordnet:want:desire.v.01",
+    "very": "wordnet:very:very.r.01",
+    "someone": "gse_closed_class:pronoun:someone",
+    "something": "gse_closed_class:pronoun:something",
+    "not": "gse_closed_class:negation:not",
+    "can": "gse_closed_class:modal:can",
+    "maybe": "gse_closed_class:modal:maybe",
+    "like": "gse_closed_class:preposition:like",
+    "i": "gse_closed_class:pronoun:i",
+    "you": "gse_closed_class:pronoun:you",
+    "because": "gse_closed_class:conjunction:because",
+    "if": "gse_closed_class:conjunction:if",
+    "before": "gse_closed_class:conjunction:before",
+    "after": "gse_closed_class:conjunction:after",
+    "all": "gse_closed_class:determiner:all",
+    "above": "gse_closed_class:preposition:above",
+    "below": "gse_closed_class:preposition:below",
+    "inside": "gse_closed_class:preposition:inside",
+    "people": "wordnet:people:people.n.01",
+    "body": "wordnet:body:body.n.01",
+    "words": "wordnet:word:word.n.01",
+    "parts": "wordnet:part:part.n.01",
+    "kinds": "wordnet:kind:kind.n.01",
+    "know": "wordnet:know:know.v.01",
+    "hear": "wordnet:hear:hear.v.01",
+    "see": "wordnet:see:see.v.01",
+    "do": "wordnet:do:perform.v.01",
+    "happen": "wordnet:happen:happen.v.01",
+    "same": "wordnet:same:same.a.01",
+    "other": "wordnet:other:other.a.01",
+    "one": "wordnet:one:one.s.01",
+    "two": "wordnet:two:two.s.01",
+    "here": "wordnet:here:here.r.01",
+    "true": "wordnet:true:true.a.01",
+}
+_CHART_CONSTRUCTIONS = frozenset(
+    {"short-time", "long-time", "some-time", "be-somewhere", "mine", "be-someone-something", "there-is", "side"}
+)
+_CHART_LEMMAS = {
+    "much-many": "many",
+    "little-few": "few",
+    "short-time": "a short time",
+    "long-time": "a long time",
+    "some-time": "for some time",
+    "be-somewhere": "be somewhere",
+    "be-someone-something": "be someone or something",
+    "there-is": "there is",
+    "side": "on one side",
+}
+
+
+def foundation_prime_links() -> dict[str, tuple[str, ...]]:
+    """Return explicit primary-unit identities, never a lemma-selected vector."""
+    return {
+        f"nsm:v20:{key}": (_NATIVE_PRIME_DEFINITIONS.get(key, f"nsm_chart:v20:{key}"),) for key, _, _, _ in _CHART_BOXES
+    }
+
+
+def chart_definition_records() -> tuple[dict, ...]:
+    """Primary-source identities for units without a demonstrated native match.
+
+    The full box is contextual evidence, not an explication invented here. A
+    lexical unit's POS is deliberately unspecified: an English exponent's POS
+    does not prove that every allowable NSM frame has that grammatical type.
+    No candidate coordinate or frame participant becomes a bank assertion.
+    """
+    records = []
+    for key, heading, forms, frames in _CHART_BOXES:
+        if key in _NATIVE_PRIME_DEFINITIONS:
+            continue
+        kind = "GRAMMATICAL_CONSTRUCTION" if key in _CHART_CONSTRUCTIONS else "LEXICAL_UNIT"
+        records.append(
+            {
+                "entry_id": f"nsm_chart:v20:{key}",
+                "unit_id": f"nsm:v20:{key}",
+                "lemma": _CHART_LEMMAS.get(key, key),
+                "pos": "nsm_construction" if key in _CHART_CONSTRUCTIONS else "nsm_lexical_unit",
+                "definition": f"NSM v20 {kind.lower().replace('_', ' ')} {heading.replace(chr(10), '')}. "
+                "The source identifies this elementary meaning through its exponent forms and allowable frames; "
+                "these frames are preserved as context, not asserted as the unit's own bank values.",
+                "definition_kind": kind,
+                "chart_heading": heading,
+                "forms": tuple(forms),
+                "frame_text": frames,
+                "source_reference": dict(SOURCE),
+                "chart_notes": CHART_NOTES,
+                "frames_are": "COMBINATORIAL_NOT_OWN_WORD_ASSIGNMENTS",
+            }
+        )
+    return tuple(records)
+
+
+def native_foundation_words() -> tuple[str, ...]:
+    """Native WordNet lemmas required by explicit prime links, not guessed senses."""
+    return tuple(
+        sorted({entry.split(":")[1] for entry in _NATIVE_PRIME_DEFINITIONS.values() if entry.startswith("wordnet:")})
+    )
+
+
+def catalog_inventory(*, legacy_duration: bool = False) -> dict:
     """Return independent JSON-compatible primary boxes and audited mappings."""
     entries = []
     for key, heading, forms, frames in _CHART_BOXES:
         mapping: dict
-        if key in _EXACT:
+        if key == "some-time" and not legacy_duration:
+            mapping = {
+                "code": "METADATA",
+                "bank": None,
+                "value": None,
+                "note": "Sentence duration and temporal offset carry an interval with unspecified extent.",
+                "construction": {
+                    "field": "duration",
+                    "extent": "unspecified",
+                    "relations": ["during", "before", "after"],
+                    "source": DESIGN_SOURCE + "#word-and-sentence-boundary",
+                },
+            }
+        elif key in _EXACT:
             mapping = {
                 "code": "EXACT",
                 "bank": _EXACT[key],
@@ -475,6 +613,24 @@ def catalog_inventory() -> dict:
         else:
             mapping = {"code": "MISSING", "bank": None, "value": None, "note": _MISSING[key]}
         mapping["assignment_approved"] = False
+        mapping["correspondence_approved"] = key in _APPROVED_CORRESPONDENCES or (
+            key == "some-time" and not legacy_duration
+        )
+        mapping["approved_claims"] = []
+        if key in _APPROVED_CORRESPONDENCES:
+            bank, value, entry_id, section, level = _APPROVED_CORRESPONDENCES[key]
+            mapping["approved_claims"].append(
+                {
+                    "entry_id": entry_id,
+                    "bank": bank,
+                    "value": value,
+                    "hierarchy_level": level,
+                    "source": DESIGN_SOURCE + "#" + section,
+                    "version": CONVENTION_VERSION,
+                    "scope": "EXACT_DEFINITION_ONLY",
+                    "signature_complete": False,
+                }
+            )
         entries.append(
             {
                 "unit_id": f"nsm:v20:{key}",
@@ -544,6 +700,8 @@ def proposal_template() -> dict:
     )
     for unit in inventory["units"]:
         mapping = unit["mapping"]
+        approved_claims = mapping["approved_claims"]
+        construction = mapping.get("construction")
         extra = {
             "EXACT": ("COORDINATE_CORRESPONDENCE_APPROVAL", "Confirm the candidate coordinate for this exact sense."),
             "ADAPTED": ("ADAPTATION_EQUIVALENCE", mapping["note"]),
@@ -563,15 +721,34 @@ def proposal_template() -> dict:
                 "forms": unit["forms"],
                 "frame_text": unit["frame_text"],
                 "mapping_candidate": mapping,
-                "definition_ids": [],
+                "definition_ids": [claim["entry_id"] for claim in approved_claims],
+                "existing_approved_claims": approved_claims,
                 "proposed_assertions": [],
                 "proposed_relations": [],
                 "proposed_hierarchy": {},
                 "bank_values": {bank: None for bank in BANKS},
                 "undefined_decisions": [
                     {"code": code, "question": question, "status": "UNDECIDED", "answer": None, "provenance": []}
-                    for code, question in (*common, extra)
+                    for code, question in (common[1:] if approved_claims else common if construction else (*common, extra))
                 ],
+                "acknowledged_decisions": [
+                    {
+                        "code": "DEFINITION_IDENTITY_AND_COMPONENT",
+                        "status": "APPROVED",
+                        "answer": claim,
+                        "provenance": [claim["source"]],
+                    }
+                    for claim in approved_claims
+                ]
+                + (
+                    [{
+                        "code": "SENTENCE_CONSTRUCTION",
+                        "status": "APPROVED",
+                        "answer": construction,
+                        "provenance": [construction["source"]],
+                    }]
+                    if construction else []
+                ),
                 "approved": False,
             }
         )
@@ -593,13 +770,25 @@ def catalog_report(
     relations: tuple[Relation, ...],
     *,
     prime_entries: dict[str, tuple[str, ...]] | None = None,
+    native_assertions: dict[str, tuple[Assertion, ...]] | None = None,
+    native_domain_restrictions: dict[str, tuple[DomainRestriction, ...]] | None = None,
+    evidence_banks: dict[str, tuple[str, ...]] | None = None,
+    observations_by_entry: dict | None = None,
+    legacy_duration: bool = False,
 ) -> dict:
     """Replay explicit unit-to-definition links, never identify by lemma spelling.
 
     Anchors supplied here are the build's declared authority records, not a gold
-    standard. Local closure coverage and semantic correctness remain distinct.
+    standard. Bounded joint closure and semantic correctness remain distinct;
+    each linked definition records whether its constraint search was complete.
+
+    Omitting native inputs preserves the legacy /1 anchor-only report. /2 is
+    the source-and-anchor foundation, deliberately excluding model completions.
+    Callers validate native source competence and exact observation provenance
+    before supplying these definition-keyed records; identity links are still
+    explicit manifest declarations, never inferred from the resulting values.
     """
-    inventory = catalog_inventory()
+    inventory = catalog_inventory(legacy_duration=legacy_duration)
     units = inventory["units"]
     unit_ids = {unit["unit_id"] for unit in units}
     if not isinstance(anchors, dict) or not isinstance(prime_entries, (dict, type(None))):
@@ -614,11 +803,6 @@ def catalog_report(
         raise ValueError("DUPLICATE_CATALOG_DEFINITION")
     if set(anchors) - by_id.keys():
         raise ValueError("UNKNOWN_ANCHOR_DEFINITION")
-    propagate(BANKS, (), relations)
-    for entry_id, assertions in anchors.items():
-        if not isinstance(assertions, (tuple, list)) or any(not isinstance(a, Assertion) for a in assertions):
-            raise ValueError("INVALID_CATALOG_ANCHORS")
-        propagate(BANKS, tuple(assertions), relations, definition_context(by_id[entry_id].pos))
     claimed = set()
     for entries in prime_entries.values():
         if not isinstance(entries, (tuple, list)) or any(
@@ -628,30 +812,86 @@ def catalog_report(
         if len(set(entries)) != len(entries) or claimed.intersection(entries):
             raise ValueError("AMBIGUOUS_CATALOG_DEFINITION")
         claimed.update(entries)
+    native_mode = any(value is not None for value in (native_assertions, native_domain_restrictions, evidence_banks))
+    native_assertions = {} if native_assertions is None else native_assertions
+    native_domain_restrictions = {} if native_domain_restrictions is None else native_domain_restrictions
+    evidence_banks = {} if evidence_banks is None else evidence_banks
+    observations_by_entry = {} if observations_by_entry is None else observations_by_entry
+    if not isinstance(observations_by_entry, dict) or set(observations_by_entry) - by_id.keys():
+        raise ValueError("INVALID_CATALOG_OBSERVATIONS")
+    if any(not isinstance(records, (tuple, list)) for records in observations_by_entry.values()):
+        raise ValueError("INVALID_CATALOG_OBSERVATIONS")
+    for supplied, kind in ((native_assertions, Assertion), (native_domain_restrictions, DomainRestriction)):
+        if not isinstance(supplied, dict) or set(supplied) - by_id.keys():
+            raise ValueError("INVALID_CATALOG_NATIVE_EVIDENCE")
+        for records in supplied.values():
+            if not isinstance(records, (tuple, list)) or any(not isinstance(record, kind) for record in records):
+                raise ValueError("INVALID_CATALOG_NATIVE_EVIDENCE")
+            for record in records:
+                record.__post_init__()
+                validate_assertion_competence(record)
+                if record.bank not in BANKS or record.source.startswith("model:") or record.family == "model":
+                    raise ValueError("INVALID_CATALOG_NATIVE_EVIDENCE")
+    if not isinstance(evidence_banks, dict) or set(evidence_banks) - by_id.keys():
+        raise ValueError("INVALID_CATALOG_RELEVANCE")
+    for banks in evidence_banks.values():
+        if (
+            not isinstance(banks, tuple)
+            or any(not isinstance(bank, str) or bank not in BANKS for bank in banks)
+            or len(set(banks)) != len(banks)
+        ):
+            raise ValueError("INVALID_CATALOG_RELEVANCE")
+    propagate(BANKS, (), relations)
+    validate_lexical_guards(relations)
+    for entry_id, assertions in anchors.items():
+        if not isinstance(assertions, (tuple, list)) or any(not isinstance(a, Assertion) for a in assertions):
+            raise ValueError("INVALID_CATALOG_ANCHORS")
+        propagate(
+            BANKS,
+            tuple(assertions),
+            relations,
+            lexical_context(by_id[entry_id], observations_by_entry.get(entry_id, ()), relations),
+        )
     results = []
+    search_checks: list[bool] = []
     outcomes = Counter()
     for unit in units:
         links = []
         for entry_id in sorted(prime_entries.get(unit["unit_id"], ())):
             definition = by_id[entry_id]
-            assertions = tuple(anchors.get(entry_id, ()))
-            resolution = resolve_dictionary(BANKS, assertions, relations, definition_context(definition.pos))
-            outcome = (
-                "NO_DECLARED_ANCHORS"
-                if not assertions
-                else "CONFLICT"
-                if resolution.code == "CONFLICT"
-                else "RESOLVED_ANCHOR_CLOSURE"
-                if resolution.code == "RESOLVED"
-                else "PARTIAL_ANCHOR_CLOSURE"
+            declared = tuple(anchors.get(entry_id, ()))
+            native = tuple(native_assertions.get(entry_id, ()))
+            restrictions = tuple(native_domain_restrictions.get(entry_id, ()))
+            relevance = tuple(sorted(evidence_banks.get(entry_id, ())))
+            assertions = native + declared
+            resolution = resolve_dictionary(
+                BANKS,
+                assertions,
+                relations,
+                lexical_context(definition, observations_by_entry.get(entry_id, ()), relations),
+                evidence_banks=relevance,
+                domain_restrictions=restrictions,
             )
+            inference = next(record for record in resolution.trace if record["kind"] == "INFERENCE_SCOPE")
+            search_checks.append(inference["complete_search"])
+            outcome = (
+                "CONFLICT"
+                if resolution.code == "CONFLICT"
+                else ("NO_FOUNDATION_EVIDENCE" if native_mode else "NO_DECLARED_ANCHORS")
+                if not assertions and not restrictions
+                else ("RESOLVED_FOUNDATION_CLOSURE" if native_mode else "RESOLVED_ANCHOR_CLOSURE")
+                if resolution.code == "RESOLVED"
+                else ("PARTIAL_FOUNDATION_CLOSURE" if native_mode else "PARTIAL_ANCHOR_CLOSURE")
+            )
+            if not native_mode and not assertions:
+                outcome = "NO_DECLARED_ANCHORS"  # Exact legacy /1 report semantics.
             links.append(
                 {
                     "entry_id": entry_id,
                     "definition": asdict(definition),
                     "code": outcome,
                     "resolution": resolution.code,
-                    "anchors": [asdict(a) for a in assertions],
+                    "anchors": [asdict(a) for a in declared],
                     "assignments": {} if resolution.code == "CONFLICT" else resolution.assignments,
                     "unresolved_banks": sorted(bank for bank, domain in resolution.domains.items() if len(domain) > 1),
                     "empty_domains": sorted(bank for bank, domain in resolution.domains.items() if not domain),
@@ -660,18 +900,43 @@ def catalog_report(
                         record for record in resolution.trace if record["kind"] == "CONDITIONAL_EXCEPTION"
                     ],
                     "gold": "NOT_CHECKED",
+                    "inference": inference,
                 }
             )
+            if native_mode:
+                links[-1].update(
+                    {
+                        "native_assertions": [asdict(a) for a in native],
+                        "native_domain_restrictions": [asdict(r) for r in restrictions],
+                        "evidence_banks": list(relevance),
+                        "domains": {bank: sorted(values) for bank, values in resolution.domains.items()},
+                        "evidence_guards": [
+                            record for record in resolution.trace if record["kind"] == "EVIDENCE_GUARD"
+                        ],
+                        "authority": {
+                            "identity": "EXPLICIT_MANIFEST_LINK",
+                            "anchors": "DECLARED_MANIFEST_AUTHORITY",
+                            "native_evidence": "EXACT_DEFINITION_SOURCE_PROVENANCE",
+                            "closure": "APPROVED_RELATIONS",
+                            "model_completions": "EXCLUDED",
+                        },
+                    }
+                )
         if not links:
             code = "UNLINKED"
         elif any(link["code"] == "CONFLICT" for link in links):
             code = "CONFLICT"
-        elif all(link["code"] == "RESOLVED_ANCHOR_CLOSURE" for link in links):
-            code = "RESOLVED_ANCHOR_CLOSURE"
-        elif any(link["code"] == "NO_DECLARED_ANCHORS" for link in links):
-            code = "MISSING_DECLARED_ANCHORS"
+        elif all(
+            link["code"] == ("RESOLVED_FOUNDATION_CLOSURE" if native_mode else "RESOLVED_ANCHOR_CLOSURE")
+            for link in links
+        ):
+            code = "RESOLVED_FOUNDATION_CLOSURE" if native_mode else "RESOLVED_ANCHOR_CLOSURE"
+        elif any(
+            link["code"] == ("NO_FOUNDATION_EVIDENCE" if native_mode else "NO_DECLARED_ANCHORS") for link in links
+        ):
+            code = "MISSING_FOUNDATION_EVIDENCE" if native_mode else "MISSING_DECLARED_ANCHORS"
         else:
-            code = "PARTIAL_ANCHOR_CLOSURE"
+            code = "PARTIAL_FOUNDATION_CLOSURE" if native_mode else "PARTIAL_ANCHOR_CLOSURE"
         outcomes[code] += 1
         results.append(
             {
@@ -683,8 +948,8 @@ def catalog_report(
             }
         )
     mapped = {unit["mapping"]["bank"] for unit in units if unit["mapping"]["bank"] is not None}
-    return {
-        "format": "gse.nsm-catalog-coverage/1",
+    report = {
+        "format": "gse.nsm-catalog-coverage/2" if native_mode else "gse.nsm-catalog-coverage/1",
         "source": inventory["source"],
         "basis": inventory["basis"],
         "units": results,
@@ -696,10 +961,17 @@ def catalog_report(
             "code": "SEMANTIC_FOUNDATION_NOT_VALIDATED",
             "gold": "NOT_CHECKED",
             "all_units_linked": "UNLINKED" not in outcomes,
-            "all_anchor_domains_resolved": outcomes["RESOLVED_ANCHOR_CLOSURE"] == len(units),
+            ("all_foundation_domains_resolved" if native_mode else "all_anchor_domains_resolved"): outcomes[
+                "RESOLVED_FOUNDATION_CLOSURE" if native_mode else "RESOLVED_ANCHOR_CLOSURE"
+            ]
+            == len(units),
             "mapping_complete": all(u["mapping"]["code"] != "MISSING" for u in units),
             "founder_signature_completeness": "NOT_ESTABLISHED",
         },
-        "inference_scope": "LOCAL_ARC_CONSISTENCY",
-        "complete_search": False,
+        "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+        "complete_search": bool(search_checks) and all(search_checks),
     }
+    if native_mode:
+        report["evidence_scope"] = "SOURCE_AND_AUTHORED_ANCHOR_FOUNDATION"
+        report["model_completions"] = "EXCLUDED_FROM_FOUNDATION_REPLAY"
+    return report

@@ -24,6 +24,8 @@ from typing import Set
 
 from nltk.corpus import wordnet as wn
 
+from gse.lexicon.numerals import get_numeral_encoding
+
 _NOMINAL_POS = {"PROPN", "NOUN", "PRON"}
 
 # Tokens skipped when finding the nearest *content* flanker (determiners and
@@ -113,6 +115,12 @@ def verbs_to_promote(doc) -> Set[int]:
             continue
         if _in_hyphen_compound(toks, i):  # a hyphenated noun-compound member is a modifier, not a verb
             continue
+        # In a governed counted NP, the cardinal belongs to the noun phrase.
+        # A clause-initial "one" can still serve as the subject of a real verb.
+        if t.pos_ == "NOUN" and i >= 2 and toks[i - 2].pos_ in {"ADP", "DET"}:
+            numeral = get_numeral_encoding(toks[i - 1].lemma_) or {}
+            if numeral.get("quantity_type") == "cardinal":
+                continue
         left = _nearest_content(i, -1)
         right = _nearest_content(i, +1)
         # A possessive determiner on the left is NOT the subject — it governs the candidate as the

@@ -38,7 +38,20 @@ def cmd_build(args):
 
         if args.max_model_calls <= 0:
             raise ValueError("MODEL_REQUIRES_EXPLICIT_CALL_BUDGET")
-        options["transport"] = OllamaTransport(args.model)
+        transport_options = {
+            name: value
+            for name, value in (
+                ("base_url", getattr(args, "model_base_url", None)),
+                ("timeout", getattr(args, "model_timeout", None)),
+                ("output_tokens", getattr(args, "model_output_tokens", None)),
+            )
+            if value is not None
+        }
+        if getattr(args, "no_thinking", False):
+            transport_options["thinking"] = False
+        transport = OllamaTransport(args.model, **transport_options)
+        transport.pin()
+        options["transport"] = transport
     if args.evidence:
         report = build_dictionary(load_evidence(args.evidence), args.lexicon_db, **options)
     else:
@@ -66,15 +79,122 @@ def cmd_evaluate(args):
         raise SystemExit(2)
 
 
+def cmd_complete(args):
+    """Complete explicitly budgeted residual cells in an existing dictionary."""
+    import json
+    from pathlib import Path
+
+    from gse.curation.lexicon_builder.completion import CompletionDatabaseBusy, complete_dictionary
+    from gse.curation.lexicon_builder.residual import OllamaTransport
+
+    if args.report and Path(args.report).resolve() == Path(args.lexicon_db).resolve():
+        raise ValueError("REPORT_MUST_NOT_OVERWRITE_DATABASE")
+    transport_options = {
+        name: value
+        for name, value in (
+            ("base_url", getattr(args, "model_base_url", None)),
+            ("timeout", getattr(args, "model_timeout", None)),
+            ("context_tokens", getattr(args, "model_context_tokens", None)),
+            ("output_tokens", getattr(args, "model_output_tokens", None)),
+        )
+        if value is not None
+    }
+    if getattr(args, "no_thinking", False):
+        transport_options["thinking"] = False
+    transport = OllamaTransport(args.model, **transport_options)
+    if getattr(args, "batch_size", 1) > 1:
+        from gse.curation.lexicon_builder.model_batch import OllamaBatchTransport
+
+        transport = OllamaBatchTransport(transport, max_items=args.batch_size)
+    transport.pin()
+
+    def progress(event):
+        print(json.dumps(event, sort_keys=True), file=sys.stderr, flush=True)
+
+    progress_options = {"progress": progress} if getattr(args, "progress", False) else {}
+    failed = False
+    try:
+        result = complete_dictionary(
+            args.lexicon_db,
+            transport,
+            args.max_model_calls,
+            entry_ids=tuple(args.entry_id) if args.entry_id else None,
+            banks=tuple(args.bank) if args.bank else None,
+            max_calls_per_entry=args.max_calls_per_entry,
+            max_entries_per_pass=getattr(args, "max_entries", 64),
+            continue_cohorts=getattr(args, "continue_cohorts", False),
+            retry=args.retry,
+            batch_size=getattr(args, "batch_size", 1),
+            priority=getattr(args, "priority", "zipf"),
+            frequency_path=getattr(args, "frequency_file", None),
+            cohort_policy=getattr(args, "cohort_policy", "definition"),
+            bank_priority=getattr(args, "bank_priority", "constraint"),
+            **progress_options,
+        )
+    except CompletionDatabaseBusy as error:
+        result = error.receipt
+        failed = True
+    encoded = json.dumps(result, indent=2, sort_keys=True)
+    if args.report:
+        Path(args.report).write_text(encoded + "\n")
+    print(encoded)
+    if failed:
+        raise SystemExit(1)
+
+
+def cmd_publish(args):
+    """Audit the declared corpus and optionally publish a validated snapshot."""
+    import json
+    from pathlib import Path
+
+    from gse.curation.lexicon_builder.publication import publication_readiness, publish_complete, publish_sparse
+    from gse.lexicon_resource import ACTIVE_POINTER
+
+    protected = {Path(args.lexicon_db).resolve(), ACTIVE_POINTER.resolve()}
+    if args.destination:
+        protected.add(Path(args.destination).resolve())
+    if args.gold:
+        protected.add(Path(args.gold).resolve())
+    if args.report and Path(args.report).resolve() in protected:
+        raise ValueError("REPORT_MUST_NOT_OVERWRITE_DATABASE")
+    if args.expected_sha256 and (not args.sparse or not args.destination):
+        raise ValueError("SNAPSHOT_DIGEST_REQUIRES_SPARSE_DESTINATION")
+    if args.destination:
+        if not args.gold:
+            raise ValueError("PUBLICATION_REQUIRES_SEMANTIC_AUDIT")
+        if args.sparse:
+            result = publish_sparse(args.lexicon_db, args.destination, args.gold, expected_sha256=args.expected_sha256)
+        else:
+            result = publish_complete(args.lexicon_db, args.destination, args.gold)
+    else:
+        result = publication_readiness(args.lexicon_db, args.gold, sparse=True) if args.sparse else publication_readiness(
+            args.lexicon_db, args.gold
+        )
+    encoded = json.dumps(result, indent=2, sort_keys=True)
+    if args.report:
+        Path(args.report).write_text(encoded + "\n")
+    print(encoded)
+    if result["code"] == "PUBLICATION_BLOCKED":
+        raise SystemExit(2)
+
+
 def cmd_catalog(args):
-    """Show primary inventory or the build's explicit prime-anchor coverage."""
+    """Show saved coverage, or replay an explicit link-only catalog replacement."""
     import json
     import sqlite3
     from pathlib import Path
 
     from gse.curation.lexicon_builder.catalog import catalog_inventory
 
-    if args.inventory:
+    if args.apply_links and not args.links:
+        raise ValueError("CATALOG_APPLY_REQUIRES_LINKS")
+    if args.inventory and (args.links or args.apply_links):
+        raise ValueError("CATALOG_INVENTORY_CANNOT_USE_LINKS")
+    if args.links:
+        from gse.curation.lexicon_builder.validation import refresh_catalog
+
+        result = refresh_catalog(args.lexicon_db, args.links, apply_links=args.apply_links)
+    elif args.inventory:
         result = catalog_inventory()
     else:
         with closing(sqlite3.connect(Path(args.lexicon_db).resolve().as_uri() + "?mode=ro", uri=True)) as conn:
@@ -340,6 +460,12 @@ def main():
     build_parser.add_argument("--rules", help="Versioned approved relations, definition anchors, and hierarchy JSON")
     build_parser.add_argument("--words-file", help="Optional complete list of spellings to build")
     build_parser.add_argument("--model", help="Explicit local Ollama model for residual cell completion")
+    build_parser.add_argument("--model-base-url", help="Explicit Ollama-compatible endpoint; otherwise localhost")
+    build_parser.add_argument("--model-timeout", type=float, help="Seconds allowed for one bounded model call")
+    build_parser.add_argument("--model-output-tokens", type=int, help="Bounded reasoning and response token allowance")
+    build_parser.add_argument(
+        "--no-thinking", action="store_true", help="Disable model thinking for this pinned configuration"
+    )
     build_parser.add_argument(
         "--max-model-calls", type=int, default=0, help="Explicit residual call budget; default zero"
     )
@@ -349,6 +475,72 @@ def main():
         "--discover", action="store_true", help="Record unapproved cross-bank candidate diagnostics"
     )
     build_parser.set_defaults(func=cmd_build)
+
+    complete_parser = subparsers.add_parser("complete", help="Resume bounded completion of an existing dictionary")
+    complete_parser.add_argument("--model", required=True, help="Explicit local Ollama model")
+    complete_parser.add_argument("--model-base-url", help="Explicit Ollama-compatible endpoint; otherwise localhost")
+    complete_parser.add_argument("--model-timeout", type=float, help="Seconds allowed for one bounded model call")
+    complete_parser.add_argument(
+        "--model-context-tokens", type=int, help="Full-evidence model context token allowance (default: 32768)"
+    )
+    complete_parser.add_argument(
+        "--model-output-tokens", type=int, help="Bounded reasoning and response token allowance"
+    )
+    complete_parser.add_argument(
+        "--no-thinking", action="store_true", help="Disable model thinking for this pinned configuration"
+    )
+    complete_parser.add_argument(
+        "--max-model-calls", required=True, type=int, help="Positive global bank-question budget"
+    )
+    complete_parser.add_argument(
+        "--batch-size", type=int, default=1, help="Maximum independent definition–bank questions per invocation"
+    )
+    complete_parser.add_argument("--max-calls-per-entry", type=int, default=3)
+    complete_parser.add_argument(
+        "--priority",
+        choices=("zipf", "constraint"),
+        default="zipf",
+        help="Order residual work by local corpus frequency, or constraint tightness",
+    )
+    complete_parser.add_argument(
+        "--frequency-file", help="Explicit local CSV with Word and SUBTLEX columns for Zipf ordering"
+    )
+    complete_parser.add_argument(
+        "--cohort-policy",
+        choices=("definition", "spelling"),
+        default="definition",
+        help="Spelling mode selects one definition per spelling per round within each bounded cohort",
+    )
+    complete_parser.add_argument(
+        "--bank-priority",
+        choices=("constraint", "evidence"),
+        default="constraint",
+        help="Evidence mode breaks domain-size ties using typed evidence and active rule connectivity",
+    )
+    complete_parser.add_argument(
+        "--max-entries", type=int, default=64, help="Maximum definition contexts retained per completion invocation"
+    )
+    complete_parser.add_argument(
+        "--continue-cohorts",
+        action="store_true",
+        help="Continue bounded cohorts under one validated connection until budget or no new attempts",
+    )
+    complete_parser.add_argument("--entry-id", action="append", help="Exact definition ID; repeat to select several")
+    complete_parser.add_argument(
+        "--bank", action="append", help="Canonical bank; repeat to restrict the residual scope"
+    )
+    complete_parser.add_argument("--retry", action="store_true", help="Retry identical previously journaled requests")
+    complete_parser.add_argument("--report", help="Write the computed completion report")
+    complete_parser.add_argument("--progress", action="store_true", help="Emit committed progress events to stderr")
+    complete_parser.set_defaults(func=cmd_complete)
+
+    publish_parser = subparsers.add_parser("publish", help="Audit completeness and optionally activate a new release")
+    publish_parser.add_argument("--gold", help="Explicit semantic audit labels for every coordinate")
+    publish_parser.add_argument("--destination", help="New release path; omit for read-only readiness audit")
+    publish_parser.add_argument("--report", help="Write the computed publication audit")
+    publish_parser.add_argument("--sparse", action="store_true", help="Allow open lexical domains after validation")
+    publish_parser.add_argument("--expected-sha256", help="Require these exact snapshot bytes for sparse activation")
+    publish_parser.set_defaults(func=cmd_publish)
 
     # init command
     init_parser = subparsers.add_parser("init", help="Initialize an empty versioned dictionary")
@@ -372,6 +564,10 @@ def main():
         "--inventory", action="store_true", help="Show the saved primary chart independently of a build"
     )
     catalog_parser.add_argument("--report", help="Write the catalog report to this JSON file")
+    catalog_parser.add_argument("--links", help="Versioned link-only JSON: complete replacement prime_entries mapping")
+    catalog_parser.add_argument(
+        "--apply-links", action="store_true", help="After replay, atomically update catalog metadata only"
+    )
     catalog_parser.set_defaults(func=cmd_catalog)
 
     # export command
@@ -394,7 +590,7 @@ def main():
         parser.print_help()
         sys.exit(1)
 
-    if args.command in {"status", "validate", "export", "lookup", "evaluate"} or (
+    if args.command in {"status", "validate", "export", "lookup", "evaluate", "complete", "publish"} or (
         args.command == "catalog" and not args.inventory
     ):
         from pathlib import Path

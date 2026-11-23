@@ -15,21 +15,46 @@ These tests assert that:
 1. The token-level ``word_primitives`` field is identical across
    inflected surface forms of the same lemma (the strict architecture
    contract — word-scale is lemma-keyed).
-2. The full bundled vector cosine across inflections is ≥ 0.99. The small
-   residual gap comes from the encoder's sentence-scale dynamic
-   primitives (subject/predicate dependency detection per spaCy on the
-   surface form), which is the *correct* behavior — sentence-scale
-   picks up the surface variation that word-scale deliberately ignores.
+2. Word geometry remains equal for selected definitions, while progressive
+   aspect is represented independently at sentence scale. No bundled cosine
+   floor defines lexical identity.
 """
 
+import numpy as np
 import pytest
 
 from gse.api import GSEEncoder
+from gse.curation.external_sources.gse_closed_class import grammatical_entry_ids
+from gse.curation.lexicon_builder.engine import Assertion, propagate
+from gse.curation.lexicon_builder.evidence import Definition
+from gse.curation.lexicon_builder.storage import open_build, store_entry
 
 
 @pytest.fixture(scope="module")
-def encoder():
-    return GSEEncoder()
+def encoder(tmp_path_factory):
+    # Synthetic nonempty coordinates test the mechanism, not lexical gold.
+    path = tmp_path_factory.mktemp("lemma-geometry") / "fixture.db"
+    conn = open_build(path)
+    entries = [
+        (f"fixture:{word}", word, bank)
+        for word, bank in (("run", "DO"), ("be", "SOMETHING"), ("big", "BIG"), ("know", "KNOW"), ("see", "SEE"))
+    ]
+    for form in ("be", "am", "was", "is", "were", "are"):
+        entries.extend((entry, form, "SOMETHING") for entry in grammatical_entry_ids(form, "AUX"))
+    try:
+        for entry, word, bank in entries:
+            assertions = (Assertion(bank, 1, "fixture", entry, "dictionary"),)
+            store_entry(
+                conn,
+                Definition(entry, word, "v", "synthetic geometry fixture"),
+                propagate((bank,), assertions, ()),
+                assertions,
+            )
+        conn.commit()
+    finally:
+        conn.close()
+    with GSEEncoder(path) as result:
+        yield result
 
 
 # Inflected forms whose lemma is the same English word. spaCy's
@@ -53,6 +78,7 @@ class TestWordPrimitivesLemmaInvariant:
         # First form's word_primitives is the reference; every other
         # form must match it exactly.
         reference = traces[0].tokens[0].word_primitives
+        assert reference, "Fixture must exercise nonempty word geometry"
         for form, trace in zip(forms[1:], traces[1:]):
             actual = trace.tokens[0].word_primitives
             assert actual == reference, (
@@ -69,40 +95,38 @@ class TestWordPrimitivesLemmaInvariant:
         assert len(set(lemmas)) == 1, f"spaCy produced different lemmas for {forms!r}: {lemmas!r}"
 
 
-class TestFullVectorCosineNearOne:
-    """Bundled vectors across inflections stay close (cos ≥ 0.85 on the sparse
-    clean lexicon; most pairs are 1.0000, the progressive "running"/"run" is 0.88).
+class TestWordGeometryAndSentenceAspect:
+    """Equal lexical geometry does not imply identical sentence geometry."""
 
-    The architecture allows residual variation from sentence-scale dynamic
-    primitives (which respond to surface form, e.g. progressive aspect). The strict
-    word-scale invariant is captured by ``TestWordPrimitivesLemmaInvariant``.
-    """
+    @pytest.mark.parametrize(
+        "w1,w2",
+        [
+            ("ran", "run"),
+            ("running", "run"),
+            ("bigger", "big"),
+            ("biggest", "big"),
+            ("knew", "know"),
+            ("known", "know"),
+        ],
+    )
+    def test_inflected_vs_lemma_word_geometry_equal(self, encoder, w1, w2):
+        tokens = [encoder.encode(word).tokens[0] for word in (w1, w2)]
+        assert tokens[0].word_primitives == tokens[1].word_primitives != {}
+        vectors = [encoder.encode_definition(token.lexical_evidence["selected_record"]["entry_id"]) for token in tokens]
+        assert all(vector.nnz > 0 for vector in vectors)
+        np.testing.assert_array_equal(vectors[0].to_dense(), vectors[1].to_dense())
 
-    LEMMA_PAIRS = [
-        ("ran", "run"),
-        ("running", "run"),
-        ("bigger", "big"),
-        ("biggest", "big"),
-        ("knew", "know"),
-        ("known", "know"),
-    ]
+    def test_progressive_aspect_changes_sentence_not_word(self, encoder):
+        plain, progressive = encoder.encode("run"), encoder.encode("running")
+        assert plain.tokens[0].word_primitives == progressive.tokens[0].word_primitives != {}
+        assert "SYN_ASPECT_PROG" not in plain.tokens[0].sent_primitives
+        assert progressive.tokens[0].sent_primitives["SYN_ASPECT_PROG"] == 1
+        assert not np.array_equal(plain.vector.to_dense(), progressive.vector.to_dense())
 
-    @pytest.mark.parametrize("w1,w2", LEMMA_PAIRS)
-    def test_inflected_vs_lemma_cosine_high(self, encoder, w1, w2):
-        # The bundled (word ⊕ sentence) cosine across inflections stays high but is
-        # not 1.0: sentence-scale dynamic primitives respond to surface form (e.g.
-        # "running" carries Aspect=Prog, which "run" lacks). On the *clean* lexicon the
-        # word-scale decomposition is SPARSE (a few primitives), so that legitimate
-        # aspect variation weighs proportionally more — "running"/"run" measures 0.88
-        # (every other pair here is 1.0000). Threshold 0.85 (measured floor + margin),
-        # recalibrated from 0.98 when the dense degenerate lexicon was retired.
-        # The strict word-scale invariant — word_primitives IDENTICAL across
-        # inflections — is the real contract (TestWordPrimitivesLemmaInvariant, which
-        # still passes for every pair); this is the supplementary "stays bounded" check.
-        t1 = encoder.encode(w1)
-        t2 = encoder.encode(w2)
-        cos = t1.vector.cosine(t2.vector)
-        assert cos >= 0.85, (
-            f"{w1!r}/{w2!r} bundled vector cos={cos:.4f}, "
-            f"expected ≥ 0.85 (sentence-scale aspect/POS variation, sparse clean lexicon)"
-        )
+    def test_missing_word_is_abstention_not_a_zero_assignment(self, encoder):
+        token = encoder.encode("zxqvunknown").tokens[0]
+        assert token.word_primitives == {}
+        assert token.word_vec_nnz == 0
+        assert token.lexical_evidence["selection_status"] == "NOT_FOUND"
+        assert token.lexical_evidence["selected_record"] is None
+        assert token.lexical_evidence.get("primitive_evidence", []) == []

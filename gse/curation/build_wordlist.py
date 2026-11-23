@@ -16,6 +16,8 @@ Out:  data/wordlist_wiktionary.txt   (gitignored; one validity word per line)
 from __future__ import annotations
 
 import gzip
+import hashlib
+import json
 import re
 import sys
 import urllib.request
@@ -68,8 +70,62 @@ def build(local_gz: str | None = None) -> int:
     return len(words)
 
 
+def build_from_kaikki(path: str | Path) -> dict:
+    """Build the existing text validity resource from complete local JSON records.
+
+    This establishes token membership only, never a semantic definition or bank.
+    Malformed input fails before replacing a usable resource. A pre-existing trie
+    must be rebuilt too, because runtime prefers it over the text resource.
+    """
+    from gse.nlp.spellcheck import _DEFAULT_LEXICON as LX
+
+    source = Path(path).resolve()
+    words, excluded, rejected = set(), set(LX.confusions), set()
+    digest = hashlib.sha256()
+    records = 0
+    with source.open("rb") as stream:
+        for line in stream:
+            digest.update(line)
+            record = json.loads(line)
+            records += 1
+            if not isinstance(record, dict) or not isinstance(record.get("word"), str):
+                raise ValueError("INVALID_KAIKKI_WORD_RECORD")
+            if record.get("lang_code") != "en":
+                continue
+            word = record["word"].lower()
+            if _WORD.fullmatch(word) and word in excluded:
+                rejected.add(word)
+            if _WORD.fullmatch(word) and word not in excluded:
+                words.add(word)
+    if not words:
+        raise ValueError("EMPTY_VALIDITY_CORPUS")
+    if TRIE.exists():
+        _write_trie(words)
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    temporary = OUT.with_suffix(".tmp")
+    temporary.write_text("\n".join(sorted(words)) + "\n", encoding="utf-8")
+    temporary.replace(OUT)
+    report = {
+        "format": "gse.word-validity-build/1",
+        "code": "MEMBERSHIP_ONLY",
+        "source": str(source),
+        "source_sha256": digest.hexdigest(),
+        "records": records,
+        "words": len(words),
+        "known_misspellings_excluded": len(rejected),
+        "output": str(OUT.resolve()),
+        "output_sha256": hashlib.sha256(OUT.read_bytes()).hexdigest(),
+        "storage": "TEXT_AND_TRIE" if TRIE.exists() else "TEXT",
+        "semantic_assignments": 0,
+    }
+    OUT.with_suffix(".receipt.json").write_text(json.dumps(report, indent=2) + "\n")
+    return report
+
+
 if __name__ == "__main__":
-    if len(sys.argv) > 1 and sys.argv[1] == "--trie-only":
+    if len(sys.argv) == 3 and sys.argv[1] == "--kaikki":
+        print(json.dumps(build_from_kaikki(sys.argv[2]), indent=2))
+    elif len(sys.argv) > 1 and sys.argv[1] == "--trie-only":
         n = build_trie_from_txt()
         print(f"rebuilt {TRIE} from {OUT} ({n} words)")
     else:

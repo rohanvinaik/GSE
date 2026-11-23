@@ -21,7 +21,7 @@ coreference is out of scope.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from typing import List, Optional
 
 from gse.symbolic.expression import Atom, Expression, Negation, Op, Phrase
@@ -221,7 +221,9 @@ def _collapse_phrase_to_entity(phrase: Phrase) -> Expression:
       pick the rightmost as the head; B5 v1 doesn't model compound
       entities.
     """
-    atoms = phrase.atoms
+    # Bound degree words are grammatical operations. Their ordinal result is
+    # retained on the operand Atom; their source positions remain in the trace.
+    atoms = [atom for atom in phrase.atoms if not atom.degree_modifier]
     if not atoms:
         return phrase
 
@@ -378,13 +380,7 @@ def _bind_pronouns(expr: Expression) -> Expression:
             # a pronoun in one clause MAY bind into the sibling clause ("Mike left
             # because he was tired" → he = Mike); bind those by plain recency.
             if e.operation != "EVENT":
-                return Op(
-                    primitive=e.primitive,
-                    operation=e.operation,
-                    arity=e.arity,
-                    args=[_walk(a) for a in e.args],
-                    modal=e.modal,
-                )
+                return replace(e, args=[_walk(a) for a in e.args])
             new_args: List[Expression] = [None] * len(e.args)  # type: ignore[list-item]
             # Pass 1: resolve the non-pronoun args first — they are this clause's
             # co-arguments, which its pronoun args must avoid (anti-reflexive).
@@ -405,13 +401,7 @@ def _bind_pronouns(expr: Expression) -> Expression:
                     seen_entities.append(a)
                 else:  # bound: next sibling pronoun avoids it
                     excluded.add(bound.head.lemma)
-            return Op(
-                primitive=e.primitive,
-                operation=e.operation,
-                arity=e.arity,
-                args=new_args,
-                modal=e.modal,
-            )
+            return replace(e, args=new_args)
         if isinstance(e, Negation):
             return Negation(operand=_walk(e.operand))
         if isinstance(e, Phrase):
@@ -481,13 +471,7 @@ def _refine(expr: Expression) -> Expression:
                     new_args.append(r.members[0])
             else:
                 new_args.append(r)
-        return Op(
-            primitive=expr.primitive,
-            operation=expr.operation,
-            arity=len(new_args),
-            args=new_args,
-            modal=expr.modal,
-        )
+        return replace(expr, arity=len(new_args), args=new_args)
     if isinstance(expr, Negation):
         return Negation(operand=_refine(expr.operand))
     if isinstance(expr, Atom):

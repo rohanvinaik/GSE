@@ -534,10 +534,17 @@ def _gse_encoder_for(encoder):
     global _default_gse_encoder
     if encoder is not None:
         return encoder
-    if _default_gse_encoder is None:
+    from gse.lexicon_resource import resolve_lexicon_path
+
+    selected = resolve_lexicon_path()
+    if _default_gse_encoder is None or _default_gse_encoder.db_path != selected:
         from gse.api import GSEEncoder
 
-        _default_gse_encoder = GSEEncoder()
+        replacement = GSEEncoder(db_path=selected)
+        if _default_gse_encoder is not None:
+            _default_gse_encoder.close()
+        _default_gse_encoder = replacement
+        _text_encoders.pop(0, None)
     return _default_gse_encoder
 
 
@@ -545,12 +552,13 @@ def get_text_encoder(encoder=None) -> TextStructureEncoder:
     """Get or create the document encoder, wired with the SoM genre detector. ``encoder``
     is the sentence-level GSEEncoder the genre profile is computed on — inject the warm
     one to avoid a second load (the bridge does)."""
+    sentence_encoder = _gse_encoder_for(encoder)
     key = id(encoder) if encoder is not None else 0
     enc = _text_encoders.get(key)
     if enc is None:
         from gse.encoders.som_genre import SomGenreDetector
 
-        det = SomGenreDetector(_gse_encoder_for(encoder))
+        det = SomGenreDetector(sentence_encoder)
         enc = TextStructureEncoder(genre_detector=det)
         _text_encoders[key] = enc
     return enc

@@ -21,6 +21,18 @@ VERY_ID = "wordnet:very:very.r.01"
 EXTREMELY_ID = "wordnet:extremely:extremely.r.02"
 
 
+def _anchor_only_manifest(tmp_path):
+    """This fixture exercises authored anchors, independently of the grammar cohort."""
+    manifest = json.loads(APPROVED_MANIFEST.read_text())
+    manifest["prime_entries"] = {
+        unit: manifest["prime_entries"][unit]
+        for unit in ("nsm:v20:want", "nsm:v20:very", "nsm:v20:this", "nsm:v20:dont-want")
+    }
+    path = tmp_path / "anchor-only-rules.json"
+    path.write_text(json.dumps(manifest))
+    return path
+
+
 def test_approved_intensity_contract_matches_runtime():
     contract = representation_contract()
     assert contract["ordinal_intensity"] == {"VERY": 1, "EXTREMELY": 2}
@@ -65,7 +77,7 @@ def approved_build(tmp_path):
         Definition(EXTREMELY_ID, "extremely", "adv", "to an extreme degree"),
     )
     output = tmp_path / "approved.db"
-    report = build_dictionary(EvidenceBundle(definitions, (), (), ()), output, manifest=APPROVED_MANIFEST)
+    report = build_dictionary(EvidenceBundle(definitions, (), (), ()), output, manifest=_anchor_only_manifest(tmp_path))
     return output, report
 
 
@@ -122,7 +134,7 @@ def test_intensity_anchors_do_not_leak_into_other_definitions(tmp_path):
         Definition(other_id, "very", "adj", "being the exact same one; not any other"),
     )
     path = tmp_path / "other-definitions.db"
-    build_dictionary(EvidenceBundle(definitions, (), (), ()), path, manifest=APPROVED_MANIFEST)
+    build_dictionary(EvidenceBundle(definitions, (), (), ()), path, manifest=_anchor_only_manifest(tmp_path))
     with GSEEncoder(str(path)) as encoder:
         assert encoder.lexical_lookup("very")["selection_status"] == "AMBIGUOUS"
         other = encoder.lookup_definition(other_id)["selected"]

@@ -29,6 +29,7 @@ from nltk.corpus import wordnet as wn
 
 from gse.nlp.contractions import POSSESSIVE_PLURAL, resolve_apostrophe_s, resolve_contraction
 from gse.nlp.morphology import resolve_degree
+from gse.primitives_v2 import get_hierarchy_encoding
 
 # --- closed classes (finite function-word sets) ----------------------------
 _DET = {
@@ -865,6 +866,17 @@ class NativeNLP:
         # of the object span (they were defaulting to NOUN via the has_n fallback below).
         if has_r and not prev_det and prev not in _ADP and i > 0:
             return "ADV"
+
+        # A complete bare degree phrase provides adjective context even without
+        # a copula. Use the existing adjective inventory, not lexical bank
+        # values, and leave determined NPs, following noun heads, prepositional
+        # complements and intervening operators to their existing readings.
+        # This selects a grammatical category, never an individual word sense.
+        if has_a and i > 0 and all(_PUNCT_RE.fullmatch(item) for item in surfaces[i + 1 :]):
+            prefix = [item.lower() for item in surfaces[:i] if item.lower() not in _NEG]
+            encodings = [get_hierarchy_encoding(item.upper()) for item in prefix]
+            if encodings and all(encoding and encoding[0] == "INTENSITY" for encoding in encodings):
+                return "ADJ"
 
         if has_n:
             return "NOUN"

@@ -8,6 +8,7 @@ import argparse
 import json
 import sys
 
+from gse.lexicon_resource import resolve_lexicon_path
 from gse.pipeline_v2 import GSEPipeline
 
 
@@ -18,33 +19,33 @@ def main():
     # Encode command
     encode_parser = subparsers.add_parser("encode", help="Encode text to vector")
     encode_parser.add_argument("--text", "-t", required=True, help="Input text")
-    encode_parser.add_argument("--lexicon", "-l", default="data/lexicon_clean.db")
+    encode_parser.add_argument("--lexicon", "-l", default=None)
 
     # Similarity command
     sim_parser = subparsers.add_parser("similarity", help="Compare two texts")
     sim_parser.add_argument("--text1", "-t1", required=True, help="First text")
     sim_parser.add_argument("--text2", "-t2", required=True, help="Second text")
-    sim_parser.add_argument("--lexicon", "-l", default="data/lexicon.db")
+    sim_parser.add_argument("--lexicon", "-l", default=None)
 
     # Decompose command
     decomp_parser = subparsers.add_parser("decompose", help="Decompose unknown word")
     decomp_parser.add_argument("--word", "-w", required=True, help="Word to decompose")
     decomp_parser.add_argument("--pos", "-p", default="NOUN", help="Part of speech")
-    decomp_parser.add_argument("--lexicon", "-l", default="data/lexicon.db")
+    decomp_parser.add_argument("--lexicon", "-l", default=None)
 
     # Search command
     search_parser = subparsers.add_parser("search", help="Find similar words")
     search_parser.add_argument("--word", "-w", required=True, help="Query word")
     search_parser.add_argument("--top", "-n", type=int, default=5, help="Number of results")
-    search_parser.add_argument("--lexicon", "-l", default="data/lexicon.db")
+    search_parser.add_argument("--lexicon", "-l", default=None)
 
     # Stats command
     stats_parser = subparsers.add_parser("stats", help="Show lexicon statistics")
-    stats_parser.add_argument("--lexicon", "-l", default="data/lexicon.db")
+    stats_parser.add_argument("--lexicon", "-l", default=None)
 
     # Integrity command
     integrity_parser = subparsers.add_parser("integrity", help="Verify lexicon integrity")
-    integrity_parser.add_argument("--lexicon", "-l", default="data/lexicon.db")
+    integrity_parser.add_argument("--lexicon", "-l", default=None)
 
     args = parser.parse_args()
 
@@ -55,15 +56,11 @@ def main():
     # Initialize pipeline
     pipeline = GSEPipeline()
 
-    # Load lexicon if specified
-    lexicon_path = getattr(args, "lexicon", "data/lexicon_clean.db")
-    try:
-        import os
-
-        if os.path.exists(lexicon_path):
-            pipeline.load_lexicon(lexicon_path)
-    except Exception as e:
-        print(f"Warning: Could not load lexicon: {e}", file=sys.stderr)
+    # Invalid activation must not turn into an empty or archived lexicon.
+    lexicon_path = resolve_lexicon_path(args.lexicon)
+    if not lexicon_path.is_file():
+        raise FileNotFoundError(f"LEXICON_UNAVAILABLE: {lexicon_path}")
+    pipeline.load_lexicon(str(lexicon_path))
 
     if args.command == "encode":
         result = pipeline.encode_sentence(args.text)

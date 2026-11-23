@@ -7,18 +7,21 @@ Parses pre-processed Wiktionary dump for:
 - Part of speech
 - Semantic relationships (synonyms, antonyms)
 
-Uses SQLite for memory-efficient storage and querying.
+Explicit native mode streams complete local JSON records and sense identities.
+The historical SQLite API remains available only through its separate mode.
 Data source: kaikki.org pre-processed JSON dumps.
 """
 
+import hashlib
 import json
 import logging
 import re
 import sqlite3
-from dataclasses import dataclass
+from collections.abc import Iterator
+from dataclasses import asdict, dataclass
 from functools import lru_cache
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List, Literal, Optional, TypedDict
 
 from gse.curation.external_sources.base_parser import BaseExternalParser
 
@@ -27,6 +30,7 @@ logger = logging.getLogger(__name__)
 DATA_DIR = Path(__file__).parent.parent.parent.parent / "data" / "external"
 WIKTIONARY_DIR = DATA_DIR / "wiktionary"
 WIKTIONARY_DB = WIKTIONARY_DIR / "wiktionary-en.sqlite"
+WIKTIONARY_DUMP = WIKTIONARY_DIR / "kaikki-english.jsonl"
 
 
 @dataclass
@@ -39,6 +43,125 @@ class WiktionaryEntry:
     etymology: Optional[str]
     synonyms: List[str]
     antonyms: List[str]
+
+
+@dataclass(frozen=True)
+class WiktionaryDefinition:
+    """One native sense, with complete sense and enclosing record context."""
+
+    entry_id: str
+    lemma: str
+    word: str
+    pos: str
+    definition: str
+    native_id: str
+    senseid_path: tuple[str, ...]
+    identity_scheme: str
+    native_sense: dict
+    record_context: dict
+    record_sha256: str
+    source_sha256: str
+    source_line: int
+    sense_index: int
+    sense_count: int
+
+
+_NativeReferenceKind = Literal["alt_of", "form_of"]
+_NativeReferenceCode = Literal[
+    "TARGET_DEFINITIONS_AVAILABLE",
+    "TARGET_NOT_FOUND",
+    "TARGET_HAS_ONLY_OTHER_POS",
+    "TARGET_IS_REFERENCE",
+    "AMBIGUOUS_TARGET_SENSES",
+]
+
+
+class _PendingNativeReference(TypedDict):
+    source_entry: dict
+    relation: _NativeReferenceKind
+    link: dict
+
+
+class WiktionaryDefinitionReference(_PendingNativeReference):
+    """A one-hop native reference packet; no sense choice or bank assertion."""
+
+    format: Literal["gse.wiktionary-definition-reference/1"]
+    code: _NativeReferenceCode
+    target_word: str
+    target_lookup: str
+    target_entries: list[dict]
+    other_pos_entries: list[dict]
+    source_sha256: str
+
+
+def _native_digest(value: dict) -> str:
+    return hashlib.sha256(
+        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False).encode()
+    ).hexdigest()
+
+
+def _lookup_form(word: str) -> str:
+    return word.strip().lower().replace("_", " ")
+
+
+def _source_identity(path: Path) -> tuple[int, int, int, int]:
+    stat = path.stat()
+    return stat.st_dev, stat.st_ino, stat.st_size, stat.st_mtime_ns
+
+
+def _native_reference_links(entry: WiktionaryDefinition) -> tuple[tuple[_NativeReferenceKind, dict], ...]:
+    """Validate explicit native links, including links on one-hop targets."""
+    if not isinstance(entry.native_sense, dict):
+        raise ValueError("INVALID_WIKTIONARY_REFERENCE_ENTRY")
+    result: list[tuple[_NativeReferenceKind, dict]] = []
+    relations: tuple[_NativeReferenceKind, ...] = ("alt_of", "form_of")
+    for relation in relations:
+        if relation not in entry.native_sense:
+            continue
+        links = entry.native_sense[relation]
+        if not isinstance(links, list):
+            raise ValueError(f"MALFORMED_WIKTIONARY_REFERENCE_LINKS:{entry.entry_id}:{relation}")
+        for link in links:
+            if not isinstance(link, dict):
+                raise ValueError(f"MALFORMED_WIKTIONARY_REFERENCE_LINK:{entry.entry_id}:{relation}")
+            word = link.get("word")
+            if not isinstance(word, str) or not _lookup_form(word).strip():
+                raise ValueError(f"MALFORMED_WIKTIONARY_REFERENCE_TARGET:{entry.entry_id}:{relation}")
+            result.append((relation, link))
+    return tuple(result)
+
+
+def _native_reference_record(entry: WiktionaryDefinition, source_sha256: str) -> dict:
+    """Copy a complete, internally consistent native leaf into JSON data."""
+    if entry.source_sha256 != source_sha256:
+        raise ValueError("WIKTIONARY_REFERENCE_SOURCE_MISMATCH")
+    try:
+        record = json.loads(json.dumps(asdict(entry), ensure_ascii=False, allow_nan=False))
+        expected_id = "wiktionary:" + entry.native_id + ":" + _native_digest(
+            {"record_context": entry.record_context, "native_sense": entry.native_sense}
+        )
+        valid = (
+            entry.entry_id == expected_id
+            and entry.identity_scheme == "gse.wiktionary-native-leaf/1"
+            and entry.native_id == entry.native_sense["id"]
+            and entry.word == entry.record_context["word"]
+            and entry.lemma == _lookup_form(entry.word)
+            and entry.pos == entry.record_context["pos"]
+            and entry.definition == "\n".join(entry.native_sense.get("glosses", []))
+            and tuple(entry.senseid_path) == tuple(entry.native_sense.get("senseid", []))
+            and type(entry.source_line) is int
+            and entry.source_line > 0
+            and type(entry.sense_index) is int
+            and type(entry.sense_count) is int
+            and 0 <= entry.sense_index < entry.sense_count
+            and len(entry.record_sha256) == 64
+            and all(char in "0123456789abcdef" for char in entry.record_sha256)
+        )
+    except (KeyError, TypeError, ValueError) as error:
+        raise ValueError("INVALID_WIKTIONARY_REFERENCE_ENTRY") from error
+    if not valid:
+        raise ValueError("INVALID_WIKTIONARY_REFERENCE_ENTRY")
+    return record
 
 
 # Definition keywords to primitives mapping
@@ -144,13 +267,166 @@ ETYMOLOGY_PATTERNS = {
 }
 
 
+def native_person_genus(definition: str, pos: str, native_sense: dict) -> bool:
+    """Recognize a single native noun definition whose genus is an explicit person."""
+    if (
+        pos != "noun"
+        or native_sense.get("glosses") != [definition]
+        or any(key in native_sense for key in ("alt_of", "form_of"))
+    ):
+        return False
+    head = definition.casefold().split(maxsplit=3)
+    if len(head) != 4 or head[:2] != ["a", "person"] or head[2] not in {"who", "that"}:
+        return False
+    from gse.nlp.native import _tokenize
+
+    tokens = _tokenize(definition.casefold())
+    if tokens and tokens[-1] == ".":
+        tokens.pop()
+    # An explicit relative clause identifies the person by a property. Reserve
+    # coordinated or separately punctuated definitions for further scope review.
+    boundary = {",", ";", ":", ".", "!", "?", "/", "(", ")", "[", "]", "and", "or"}
+    return len(tokens) > 3 and not boundary.intersection(tokens)
+
+
+ANATOMICAL_GENERA = frozenset({"artery", "bone", "cartilage", "gland", "ligament", "muscle", "nerve", "organ", "tendon", "vein"})
+_ANATOMY_COMPOUNDS = {("nerve", "tissue"), ("nerve", "ending"), ("muscle", "fibre"), ("muscle", "fiber")}
+_COORDINATORS = {"and", "or", "nor"}
+
+
+def _anatomy_head(tokens, start):
+    """Read a genus and its exact compound boundary after optional modifiers."""
+    index = start
+    while index < len(tokens) and tokens[index].pos_ in {"ADJ", "ADV"}:
+        index += 1
+    if index == len(tokens) or tokens[index].pos_ != "NOUN" or tokens[index].lemma_ not in ANATOMICAL_GENERA:
+        return None
+    head = tokens[index].lemma_
+    if index + 1 < len(tokens) and (head, tokens[index + 1].text.casefold()) in _ANATOMY_COMPOUNDS:
+        return head, index + 2, "compound"
+    return head, index + 1, "genus"
+
+
+def _anatomy_boundary(tokens) -> bool:
+    if not tokens:
+        return True
+    first = tokens[0]
+    if first.text in {".", ",", ";"}:
+        return len(tokens) == 1 or tokens[1].text.casefold() not in _COORDINATORS
+    return first.pos_ == "ADP" or first.text.casefold() in {"that", "which", "whose", "where", "with"}
+
+
+def _anatomy_disjunction(head, tokens) -> bool:
+    parenthetical = bool(tokens and tokens[0].text == "(")
+    if tokens and tokens[0].text in {",", "("}:
+        tokens = tokens[1:]
+    if not tokens or tokens[0].text.casefold() != "or":
+        return False
+    start = 2 if len(tokens) > 1 and tokens[1].text.casefold() in {"a", "an", "the"} else 1
+    alternative = _anatomy_head(tokens, start)
+    if alternative:
+        _, boundary, _ = alternative
+    elif parenthetical and head == "bone" and [t.text.casefold() for t in tokens[start : start + 2]] == [
+        "bony", "structure",
+    ]:
+        boundary = start + 2
+    else:
+        return False
+    tail = tokens[boundary:]
+    if parenthetical:
+        return bool(tail and tail[0].text == ")" and _anatomy_boundary(tail[1:]))
+    return not tail or (len(tail) == 1 and tail[0].text == ".") or (
+        len(tail) > 1 and tail[0].text == "," and tail[1].text.casefold() in {"especially", "specifically"}
+    )
+
+
+def _skin_fold(tokens) -> bool:
+    index = 1
+    while index < len(tokens):
+        if tokens[index].pos_ in {"ADJ", "ADV"}:
+            index += 1
+        elif (
+            index + 2 < len(tokens)
+            and tokens[index].pos_ == "NOUN"
+            and tokens[index + 1].text == "-"
+            and tokens[index + 2].pos_ == "ADJ"
+        ):
+            index += 3
+        else:
+            break
+        if index + 1 < len(tokens) and tokens[index].text == "," and tokens[index + 1].pos_ == "ADJ":
+            index += 1
+    return [t.text.casefold() for t in tokens[index : index + 3]] == ["fold", "of", "skin"] and _anatomy_boundary(
+        tokens[index + 3 :]
+    )
+
+
+def native_anatomy_witness(definition: str, pos: str, native_sense: dict) -> tuple[str, str] | None:
+    """Return the exact genus and the supported attachment in a native gloss."""
+    topics = native_sense.get("topics")
+    tags = native_sense.get("tags", [])
+    if (
+        pos != "noun"
+        or native_sense.get("glosses") != [definition]
+        or any(key in native_sense for key in ("alt_of", "form_of"))
+        or not isinstance(topics, list)
+        or "anatomy" not in topics
+        or not isinstance(tags, list)
+        or any(tag in ("figuratively", "figurative", "metaphorical") for tag in tags)
+    ):
+        return None
+    from gse.nlp.native import NativeNLP
+
+    tokens = tuple(NativeNLP()(definition))
+    if not tokens or tokens[0].pos_ != "DET" or tokens[0].text.casefold() not in {"a", "an", "the"}:
+        return None
+    if _skin_fold(tokens):
+        return "skin", "material_fold"
+    witness = _anatomy_head(tokens, 1)
+    if witness is None:
+        return None
+    head, boundary, construction = witness
+    following = tokens[boundary:]
+    if _anatomy_boundary(following):
+        return head, construction
+    if _anatomy_disjunction(head, following):
+        return head, "disjunction"
+    if (
+        len(following) > 1 and following[0].pos_ == "VERB"
+        and following[0].text.casefold() in {"having", "forming"}
+        and following[1].pos_ in {"DET", "NOUN", "ADJ", "NUM"}
+    ):
+        return head, "participle"
+    return None
+
+
+def native_anatomy_genus(definition: str, pos: str, native_sense: dict) -> str | None:
+    witness = native_anatomy_witness(definition, pos, native_sense)
+    return witness[0] if witness else None
+
+
+def native_definition_primitives(definition: str, pos: str, native_sense: dict) -> dict[str, int]:
+    """Project the supported bank of an exact native genus."""
+    if native_person_genus(definition, pos, native_sense):
+        return {"SOMEONE": 1}
+    if native_anatomy_genus(definition, pos, native_sense):
+        return {"BODY": 1}
+    return {}
+
+
 class WiktionaryParser(BaseExternalParser):
     """Parse Wiktionary local dump and map to GSE primitives."""
 
-    def __init__(self, db_path: Optional[Path] = None):
+    def __init__(self, db_path: Optional[Path] = None, *, data_path: Optional[Path] = None):
         super().__init__()
         self.config.name = "wiktionary"
         self.db_path = db_path or WIKTIONARY_DB
+        if db_path is not None and data_path is not None:
+            raise ValueError("AMBIGUOUS_WIKTIONARY_INPUT")
+        self.data_path = Path(data_path) if data_path is not None else None
+        self.source_sha256 = ""
+        self._source_stat = None
+        self.native_statistics: dict = {}
         self.conn: Optional[sqlite3.Connection] = None
         # Precompile regex patterns for performance
         self._compiled_def_patterns = {
@@ -273,17 +549,37 @@ class WiktionaryParser(BaseExternalParser):
 
     def _insert_batch(self, batch: List):
         """Insert batch of entries."""
-        self.conn.executemany(
+        connection = self._sqlite_connection()
+        connection.executemany(
             """
             INSERT INTO entries (word, pos, definition, etymology, synonyms, antonyms)
             VALUES (?, ?, ?, ?, ?, ?)
         """,
             batch,
         )
-        self.conn.commit()
+        connection.commit()
+
+    def _sqlite_connection(self) -> sqlite3.Connection:
+        """Legacy queries cannot select a first sense from native records."""
+        if self.data_path is not None:
+            raise ValueError("WIKTIONARY_NATIVE_REQUIRES_DEFINITION_ID")
+        if self.conn is None:
+            raise ValueError("WIKTIONARY_SQLITE_NOT_LOADED")
+        return self.conn
 
     def load(self) -> bool:
-        """Load Wiktionary database."""
+        """Fingerprint native input, or open the explicitly selected legacy cache."""
+        if self.data_path is not None:
+            if not self.data_path.is_file():
+                return False
+            before = _source_identity(self.data_path)
+            with self.data_path.open("rb") as stream:
+                self.source_sha256 = hashlib.file_digest(stream, "sha256").hexdigest()
+            self._source_stat = _source_identity(self.data_path)
+            if before != self._source_stat:
+                raise ValueError("WIKTIONARY_SOURCE_CHANGED")
+            self._loaded = True
+            return True
         if not self.db_path.exists():
             logger.info("Wiktionary database not found.")
             logger.info("Run download_and_process() to download from kaikki.org")
@@ -308,13 +604,16 @@ class WiktionaryParser(BaseExternalParser):
     @lru_cache(maxsize=20000)
     def to_primitives(self, word: str) -> Dict[str, int]:
         """Map word to GSE primitives based on definition analysis."""
+        if self.data_path is not None:
+            # Native definitions are evidence, not bag-of-words assignments.
+            return {}
         if not self._loaded:
             if not self.load():
                 return {}
 
         word = word.lower()
 
-        cursor = self.conn.execute("SELECT * FROM entries WHERE word = ? LIMIT 5", (word,))
+        cursor = self._sqlite_connection().execute("SELECT * FROM entries WHERE word = ? LIMIT 5", (word,))
         rows = cursor.fetchall()
 
         if not rows:
@@ -343,13 +642,204 @@ class WiktionaryParser(BaseExternalParser):
         return primitives
 
     def get_all_words(self) -> List[str]:
-        """Get all unique words (limited for memory)."""
+        """Get the native vocabulary; the legacy SQLite API retains its cap."""
+        if self.data_path is not None:
+            return sorted({form for _, record in self._native_records() if (form := _lookup_form(record["word"]))})
         if not self._loaded:
             if not self.load():
                 return []
 
-        cursor = self.conn.execute("SELECT DISTINCT word FROM entries LIMIT 50000")
+        cursor = self._sqlite_connection().execute("SELECT DISTINCT word FROM entries LIMIT 50000")
         return [row[0] for row in cursor.fetchall()]
+
+    def _native_records(self) -> Iterator[tuple[int, dict]]:
+        """Stream full records from an explicitly configured immutable cache."""
+        if self.data_path is None:
+            raise ValueError("WIKTIONARY_NATIVE_INPUT_REQUIRED")
+        if not self._loaded and not self.load():
+            raise ValueError("WIKTIONARY_NATIVE_INPUT_UNAVAILABLE")
+        if _source_identity(self.data_path) != self._source_stat:
+            raise ValueError("WIKTIONARY_SOURCE_CHANGED")
+        with self.data_path.open("rb") as stream:
+            for line_number, line in enumerate(stream, 1):
+                if not line.strip():
+                    continue
+                try:
+                    record = json.loads(line)
+                except (json.JSONDecodeError, UnicodeDecodeError) as error:
+                    raise ValueError(f"MALFORMED_WIKTIONARY_JSON:{line_number}") from error
+                if not isinstance(record, dict) or not isinstance(record.get("word"), str):
+                    raise ValueError(f"MALFORMED_WIKTIONARY_RECORD:{line_number}")
+                yield line_number, record
+        if _source_identity(self.data_path) != self._source_stat:
+            raise ValueError("WIKTIONARY_SOURCE_CHANGED")
+
+    def get_definition_entries(self, words: tuple[str, ...]) -> Iterator[WiktionaryDefinition]:
+        """Every native sense for the cohort; no first-sense or target guessing.
+
+        Normalization selects candidate spellings only. Original spelling and
+        case remain in native identity and content. Form/alternative links are
+        preserved as evidence and never transfer a target's bank assignments.
+        Memory holds one source record plus identity digests, not the dump.
+        """
+        if not isinstance(words, tuple) or any(not isinstance(w, str) or not w.strip() for w in words):
+            raise ValueError("INVALID_WIKTIONARY_WORDS")
+        wanted = {_lookup_form(word) for word in words}
+        seen: set[tuple[str, str]] = set()
+        native_ids: set[str] = set()
+        stats = {
+            "records": 0,
+            "definitions": 0,
+            "sense_occurrences": 0,
+            "identical_duplicate_senses": 0,
+            "additional_leaves_sharing_native_id": 0,
+            "missing_glosses": 0,
+        }
+        self.native_statistics = stats
+        for line_number, record in self._native_records():
+            word = record["word"]
+            lemma = _lookup_form(word)
+            if lemma not in wanted:
+                continue
+            if record.get("lang_code") != "en" or record.get("lang") != "English":
+                raise ValueError(f"NON_ENGLISH_WIKTIONARY_RECORD:{line_number}")
+            pos, senses = record.get("pos"), record.get("senses")
+            if not isinstance(pos, str) or not pos.strip() or not isinstance(senses, list) or not senses:
+                raise ValueError(f"MALFORMED_WIKTIONARY_SENSES:{line_number}")
+            stats["records"] += 1
+            context = {key: value for key, value in record.items() if key != "senses"}
+            record_digest = _native_digest(record)
+            for index, sense in enumerate(senses):
+                if not isinstance(sense, dict):
+                    raise ValueError(f"MALFORMED_WIKTIONARY_SENSE:{line_number}:{index}")
+                sense_id, glosses = sense.get("id"), sense.get("glosses", [])
+                if not isinstance(sense_id, str) or not sense_id.strip():
+                    raise ValueError(f"MISSING_WIKTIONARY_SENSE_ID:{line_number}:{index}")
+                if not isinstance(glosses, list) or any(not isinstance(gloss, str) for gloss in glosses):
+                    raise ValueError(f"MALFORMED_WIKTIONARY_GLOSSES:{line_number}:{index}")
+                senseid_path = sense.get("senseid", [])
+                if not isinstance(senseid_path, list) or any(not isinstance(part, str) for part in senseid_path):
+                    raise ValueError(f"MALFORMED_WIKTIONARY_SENSE_PATH:{line_number}:{index}")
+                payload_digest = _native_digest({"record_context": context, "native_sense": sense})
+                key = (sense_id, payload_digest)
+                stats["sense_occurrences"] += 1
+                definition = "\n".join(glosses)
+                if key in seen:
+                    stats["identical_duplicate_senses"] += 1
+                else:
+                    stats["additional_leaves_sharing_native_id"] += sense_id in native_ids
+                    native_ids.add(sense_id)
+                    seen.add(key)
+                    stats["definitions"] += 1
+                    stats["missing_glosses"] += not definition.strip()
+                # Native IDs can identify a parent group, not a leaf. Uniform
+                # content addressing preserves all distinct leaf/context pairs.
+                # This is snapshot identity, not cross-version equivalence.
+                # Duplicate witnesses still yield their distinct source locations.
+                yield WiktionaryDefinition(
+                    "wiktionary:" + sense_id + ":" + payload_digest,
+                    lemma,
+                    word,
+                    pos,
+                    definition,
+                    sense_id,
+                    tuple(senseid_path),
+                    "gse.wiktionary-native-leaf/1",
+                    sense,
+                    context,
+                    record_digest,
+                    self.source_sha256,
+                    line_number,
+                    index,
+                    len(senses),
+                )
+
+    def to_primitives_for_entry(self, entry: WiktionaryDefinition) -> Dict[str, int]:
+        """Project only an exact, independently warranted native sense feature."""
+        if not isinstance(entry, WiktionaryDefinition):
+            raise ValueError("INVALID_WIKTIONARY_DEFINITION")
+        return native_definition_primitives(entry.definition, entry.pos, entry.native_sense)
+
+    def get_definition_references(
+        self, entries: tuple[WiktionaryDefinition, ...]
+    ) -> tuple[WiktionaryDefinitionReference, ...]:
+        """Retrieve one hop of explicit alt/form targets in one native scan.
+
+        Same-POS leaves are candidates, never an implicit first-sense choice.
+        Other-POS leaves remain visible for diagnosis. A target that is itself
+        a reference is reported as such; chains and cycles are not followed.
+        Identical repeated inputs/links are deduplicated, while distinct native
+        identities and duplicate witnesses at different source locations remain.
+        Neither original records nor bank assignments are changed.
+        """
+        if not isinstance(entries, tuple) or any(not isinstance(entry, WiktionaryDefinition) for entry in entries):
+            raise ValueError("INVALID_WIKTIONARY_REFERENCE_ENTRIES")
+        if not entries:
+            return ()
+        if self.data_path is None:
+            raise ValueError("WIKTIONARY_NATIVE_INPUT_REQUIRED")
+        if not self._loaded and not self.load():
+            raise ValueError("WIKTIONARY_NATIVE_INPUT_UNAVAILABLE")
+        if _source_identity(self.data_path) != self._source_stat:
+            raise ValueError("WIKTIONARY_SOURCE_CHANGED")
+        pending: dict[str, _PendingNativeReference] = {}
+        for entry in entries:
+            links = _native_reference_links(entry)
+            original = _native_reference_record(entry, self.source_sha256)
+            for relation, link in links:
+                copied_link = json.loads(json.dumps(link, ensure_ascii=False, allow_nan=False))
+                item: _PendingNativeReference = {"source_entry": original, "relation": relation, "link": copied_link}
+                pending[_native_digest(dict(item))] = item
+        if _source_identity(self.data_path) != self._source_stat:
+            raise ValueError("WIKTIONARY_SOURCE_CHANGED")
+        if not pending:
+            return ()
+        wanted = tuple(sorted({_lookup_form(item["link"]["word"]) for item in pending.values()}))
+        targets: dict[str, dict[str, dict]] = {}
+        original_statistics = self.native_statistics
+        try:
+            for target in self.get_definition_entries(wanted):
+                _native_reference_links(target)
+                record = _native_reference_record(target, self.source_sha256)
+                targets.setdefault(target.lemma, {})[_native_digest(record)] = record
+        finally:
+            self.native_statistics = original_statistics
+        if _source_identity(self.data_path) != self._source_stat:
+            raise ValueError("WIKTIONARY_SOURCE_CHANGED")
+        result: list[WiktionaryDefinitionReference] = []
+        for key in sorted(pending):
+            item = pending[key]
+            source = item["source_entry"]
+            lookup = _lookup_form(item["link"]["word"])
+            candidates = targets.get(lookup, {})
+            ordered = sorted(
+                candidates.values(),
+                key=lambda record: (record["entry_id"], record["source_line"], record["sense_index"]),
+            )
+            matching = [record for record in ordered if record["pos"] == source["pos"]]
+            other = [record for record in ordered if record["pos"] != source["pos"]]
+            identities = {record["entry_id"] for record in matching}
+            code: _NativeReferenceCode
+            if len(identities) > 1:
+                code = "AMBIGUOUS_TARGET_SENSES"
+            elif matching:
+                reference = any(record["native_sense"].get(kind) for record in matching for kind in ("alt_of", "form_of"))
+                code = "TARGET_IS_REFERENCE" if reference else "TARGET_DEFINITIONS_AVAILABLE"
+            else:
+                code = "TARGET_HAS_ONLY_OTHER_POS" if other else "TARGET_NOT_FOUND"
+            result.append(
+                {
+                    "format": "gse.wiktionary-definition-reference/1",
+                    "code": code,
+                    **item,
+                    "target_word": item["link"]["word"],
+                    "target_lookup": lookup,
+                    "target_entries": matching,
+                    "other_pos_entries": other,
+                    "source_sha256": self.source_sha256,
+                }
+            )
+        return tuple(result)
 
     def get_definition(self, word: str) -> Optional[str]:
         """Get the primary definition for a word."""
@@ -357,7 +847,9 @@ class WiktionaryParser(BaseExternalParser):
             if not self.load():
                 return None
 
-        cursor = self.conn.execute("SELECT definition FROM entries WHERE word = ? LIMIT 1", (word.lower(),))
+        cursor = self._sqlite_connection().execute(
+            "SELECT definition FROM entries WHERE word = ? LIMIT 1", (word.lower(),)
+        )
         row = cursor.fetchone()
         return row["definition"] if row else None
 
@@ -367,7 +859,9 @@ class WiktionaryParser(BaseExternalParser):
             if not self.load():
                 return []
 
-        cursor = self.conn.execute("SELECT synonyms FROM entries WHERE word = ? LIMIT 1", (word.lower(),))
+        cursor = self._sqlite_connection().execute(
+            "SELECT synonyms FROM entries WHERE word = ? LIMIT 1", (word.lower(),)
+        )
         row = cursor.fetchone()
         if row and row["synonyms"]:
             try:
@@ -382,7 +876,9 @@ class WiktionaryParser(BaseExternalParser):
             if not self.load():
                 return []
 
-        cursor = self.conn.execute("SELECT antonyms FROM entries WHERE word = ? LIMIT 1", (word.lower(),))
+        cursor = self._sqlite_connection().execute(
+            "SELECT antonyms FROM entries WHERE word = ? LIMIT 1", (word.lower(),)
+        )
         row = cursor.fetchone()
         if row and row["antonyms"]:
             try:
@@ -397,7 +893,7 @@ class WiktionaryParser(BaseExternalParser):
             if not self.load():
                 return None
 
-        cursor = self.conn.execute(
+        cursor = self._sqlite_connection().execute(
             "SELECT etymology FROM entries WHERE word = ? AND etymology != '' LIMIT 1", (word.lower(),)
         )
         row = cursor.fetchone()

@@ -14,6 +14,9 @@ Two faces of one operation, each tested at its own layer:
 import pytest
 
 from gse.api.encoder import GSEEncoder
+from gse.curation.lexicon_builder.engine import Assertion, propagate
+from gse.curation.lexicon_builder.evidence import Definition
+from gse.curation.lexicon_builder.storage import open_build, store_entry
 from gse.nlp.morphology import NEGATION, REVERSAL, resolve_negation
 from gse.primitives_v2 import negate_decomposition
 
@@ -29,7 +32,10 @@ from gse.primitives_v2 import negate_decomposition
         ({"BAD": 1}, {"GOOD": 1}),  # bad = GOOD:-1 → flip → GOOD:+1 (dual convention)
         ({"BIG": 1}, {"BIG": -1}),
         # unipolar primes preserved; only the bipolar pole moves
-        ({"GOOD": 1, "SOMETHING": 1}, {"GOOD": -1, "SOMETHING": 1}),  # ≈ kind → unkind
+        (
+            {"GOOD": 1, "SOMETHING": 1},
+            {"GOOD": -1, "SOMETHING": 1},
+        ),  # arbitrary unipolar companion, not a kind/unkind claim
         ({"FEEL": 1, "GOOD": 1}, {"FEEL": 1, "GOOD": -1}),  # ≈ happy → unhappy
         # purely unipolar decomposition is unchanged (nothing evaluative to flip)
         ({"DO": 1, "SOMETHING": 1}, {"DO": 1, "SOMETHING": 1}),
@@ -103,8 +109,23 @@ def test_known_lexical_surface_never_licenses_a_false_prefix(enc):
 
 
 @pytest.fixture(scope="module")
-def enc():
-    return GSEEncoder()
+def enc(tmp_path_factory):
+    """Explicit mechanism fixtures; these partial definitions are not corpus gold."""
+    path = tmp_path_factory.mktemp("negation") / "definitions.db"
+    connection = open_build(path)
+    for word, values in (("happy", {"FEEL": 1, "GOOD": 1}), ("kind", {"GOOD": 1, "SOMETHING": 0})):
+        entry_id = f"fixture:{word}"
+        assertions = tuple(Assertion(bank, value, "fixture", entry_id, "mechanism") for bank, value in values.items())
+        store_entry(
+            connection,
+            Definition(entry_id, word, "adj", "Synthetic negation-mechanism fixture"),
+            propagate(("GOOD", "FEEL", "SOMETHING"), assertions, ()),
+            assertions,
+        )
+    connection.commit()
+    connection.close()
+    with GSEEncoder(str(path)) as encoder:
+        yield encoder
 
 
 @pytest.mark.parametrize(
@@ -126,11 +147,9 @@ def test_encoder_negation_equals_negated_base(enc, negated, base):
 
 
 def test_encoder_concrete_values(enc):
-    """Pin the exact decompositions so a lexicon regression on the base surfaces here."""
+    """Pin the supplied mechanism values, including adjective non-objectness."""
     assert next(t.word_primitives for t in enc.encode("unhappy").tokens if t.word_primitives) == {"FEEL": 1, "GOOD": -1}
-    assert next(t.word_primitives for t in enc.encode("unkind").tokens if t.word_primitives) == {
-        "GOOD": -1,
-        "SOMETHING": 1,
-    }
+    assert next(t.word_primitives for t in enc.encode("unkind").tokens if t.word_primitives) == {"GOOD": -1}
+    assert enc.lexical_lookup("kind")["selected_record"]["assignments"]["SOMETHING"] == 0
     # the base itself is untouched (no spurious negation of a non-prefixed word)
     assert next(t.word_primitives for t in enc.encode("happy").tokens if t.word_primitives) == {"FEEL": 1, "GOOD": 1}

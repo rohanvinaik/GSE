@@ -17,6 +17,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Dict, Optional, Tuple, Union
 
+from gse.symbolic.duration import Duration
 from gse.symbolic.expression import Operand
 
 
@@ -190,6 +191,7 @@ class Temporal:
     setting: Operand
     event: Operand
     conjunction: str = "when"
+    duration: Duration | None = None
 
 
 @dataclass(frozen=True)
@@ -213,6 +215,7 @@ class TypeAssertion:
     entity: Operand
     kind: Operand
     modal: tuple = ()
+    duration: Duration | None = None
 
 
 @dataclass(frozen=True)
@@ -262,6 +265,7 @@ class Control:
     verb: str = ""
     subject: Optional[Operand] = None
     modal: tuple = ()
+    duration: Duration | None = None
 
 
 @dataclass(frozen=True)
@@ -296,6 +300,7 @@ class Event:
     patient: Optional[Operand] = None
     themes: tuple = ()
     modal: tuple = ()
+    duration: Duration | None = None
 
 
 # A Predicate is any one of the semantic output types.

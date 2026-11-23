@@ -407,7 +407,7 @@ def fingerprint() -> None:
 # --------------------------------------------------------------------------- #
 def coined() -> None:
     header("COINED WORDS — meaning for words that never existed")
-    conn = sqlite3.connect(os.path.join(os.path.dirname(__file__), "..", "data", "lexicon_clean.db"))
+    conn = sqlite3.connect(_ENC.db_path.resolve().as_uri() + "?mode=ro", uri=True)
     for base, coin in [("loyal", "unloyal"), ("merry", "unmerry")]:
         in_lex = conn.execute("SELECT 1 FROM lexemes WHERE lemma=?", (coin,)).fetchone()
         (p,) = predicates(pipe(f"The knight is {coin}."))

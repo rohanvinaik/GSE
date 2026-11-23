@@ -13,6 +13,7 @@ from pathlib import Path
 from gse.curation.schema import SCHEMA
 
 VERSION = "gse.lexicon-builder/1"
+DOMAIN_RESTRICTIONS_VERSION = "gse.domain-restrictions/1"
 EXTRA_SCHEMA = """
 CREATE TABLE IF NOT EXISTS builder_metadata (key TEXT PRIMARY KEY, value TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS definition_states (
@@ -24,6 +25,9 @@ CREATE TABLE IF NOT EXISTS source_observations (
  record_id TEXT PRIMARY KEY, entry_id TEXT, source TEXT NOT NULL,
  family TEXT NOT NULL, scope TEXT NOT NULL, payload TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS builder_assertions (
+ entry_id TEXT NOT NULL, ordinal INTEGER NOT NULL, payload TEXT NOT NULL,
+ PRIMARY KEY(entry_id,ordinal));
+CREATE TABLE IF NOT EXISTS builder_domain_restrictions (
  entry_id TEXT NOT NULL, ordinal INTEGER NOT NULL, payload TEXT NOT NULL,
  PRIMARY KEY(entry_id,ordinal));
 CREATE TABLE IF NOT EXISTS unresolved_sources (
@@ -56,6 +60,11 @@ def open_build(path: str | Path) -> sqlite3.Connection:
             row = conn.execute("SELECT value FROM builder_metadata WHERE key='format'").fetchone()
             if row is None or json.loads(row[0]) != VERSION:
                 raise ValueError("UNSUPPORTED_BUILD_FORMAT")
+            restriction_format = conn.execute(
+                "SELECT value FROM builder_metadata WHERE key='domain_restrictions_format'"
+            ).fetchone()
+            if restriction_format is not None and json.loads(restriction_format[0]) != DOMAIN_RESTRICTIONS_VERSION:
+                raise ValueError("UNSUPPORTED_DOMAIN_RESTRICTIONS_FORMAT")
         conn.execute("PRAGMA foreign_keys=ON")
         conn.executescript(SCHEMA + EXTRA_SCHEMA)
         columns = {r[1] for r in conn.execute("PRAGMA table_info(lexemes)")}
@@ -67,6 +76,10 @@ def open_build(path: str | Path) -> sqlite3.Connection:
             if name not in columns:
                 conn.execute(f"ALTER TABLE lexemes ADD COLUMN {name} {declaration}")
         conn.execute("INSERT OR REPLACE INTO builder_metadata VALUES ('format',?)", (_json(VERSION),))
+        conn.execute(
+            "INSERT OR REPLACE INTO builder_metadata VALUES ('domain_restrictions_format',?)",
+            (_json(DOMAIN_RESTRICTIONS_VERSION),),
+        )
         conn.commit()
         return conn
     except BaseException:
@@ -74,7 +87,7 @@ def open_build(path: str | Path) -> sqlite3.Connection:
         raise
 
 
-def store_entry(conn, definition, resolution, assertions=(), hierarchy=None) -> None:
+def store_entry(conn, definition, resolution, assertions=(), hierarchy=None, *, domain_restrictions=()) -> None:
     """Replace one explicitly identified definition's complete build receipt."""
     hierarchy = hierarchy or {}
     if resolution.code == "CONFLICT":
@@ -114,6 +127,11 @@ def store_entry(conn, definition, resolution, assertions=(), hierarchy=None) -> 
     conn.executemany(
         "INSERT INTO builder_assertions VALUES (?,?,?)",
         [(definition.entry_id, i, _json(asdict(a))) for i, a in enumerate(assertions)],
+    )
+    conn.execute("DELETE FROM builder_domain_restrictions WHERE entry_id=?", (definition.entry_id,))
+    conn.executemany(
+        "INSERT INTO builder_domain_restrictions VALUES (?,?,?)",
+        [(definition.entry_id, i, _json(asdict(r))) for i, r in enumerate(domain_restrictions)],
     )
 
 

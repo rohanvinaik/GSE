@@ -16,6 +16,7 @@ Public API:
 
 from __future__ import annotations
 
+from dataclasses import replace
 from typing import Callable, Dict
 
 from gse.symbolic.expression import Negation, Op, Operand
@@ -113,7 +114,7 @@ def type_assert(op: Op) -> TypeAssertion:
     asserted kind.
     """
     _require_arity(op, 2)
-    return TypeAssertion(entity=op.args[0], kind=op.args[1], modal=op.modal)
+    return TypeAssertion(entity=op.args[0], kind=op.args[1], modal=op.modal, duration=op.duration)
 
 
 def card_lower(op: Op) -> MinimalSufficiency:
@@ -217,9 +218,10 @@ def control(op: Op) -> Control:
             verb=op.primitive,
             subject=op.args[0],
             modal=op.modal,
+            duration=op.duration,
         )
     _require_arity(op, 2)  # degraded fall-back (non-Event matrix)
-    return Control(controller=op.args[0], inner=op.args[1], modal=op.modal)
+    return Control(controller=op.args[0], inner=op.args[1], modal=op.modal, duration=op.duration)
 
 
 def event(op: Op) -> Event:
@@ -242,6 +244,7 @@ def event(op: Op) -> Event:
         patient=op.args[1] if len(op.args) > 1 else None,
         themes=tuple(op.args[2:]) if len(op.args) > 2 else (),
         modal=op.modal,
+        duration=op.duration,
     )
 
 
@@ -276,7 +279,13 @@ def temporal(op: Op) -> Temporal:
     the setting: setting = arg1, event = arg0.
     """
     _require_arity(op, 2)
-    return Temporal(setting=op.args[1], event=op.args[0])
+    conjunction = op.primitive.lower() if op.primitive in ("BEFORE", "AFTER") else "when"
+    return Temporal(
+        setting=op.args[1],
+        event=op.args[0],
+        conjunction=op.duration.relation if op.duration else conjunction,
+        duration=op.duration,
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -326,15 +335,7 @@ def evaluate_tree(expr: Operand):
         # Recurse into args first so nested Ops become Predicates before
         # the parent dispatch sees them.
         evaluated_args = [evaluate_tree(a) for a in expr.args]
-        return evaluate(
-            Op(
-                primitive=expr.primitive,
-                operation=expr.operation,
-                arity=expr.arity,
-                args=evaluated_args,
-                modal=expr.modal,
-            )
-        )
+        return evaluate(replace(expr, args=evaluated_args))
     if isinstance(expr, Negation):
         # Preserve the sign around WHATEVER the operand evaluates to — including a
         # Predicate (a negated event/type-assertion, "X does not harm Y"). The old

@@ -63,6 +63,43 @@ class ExternalSourcesIntegrator:
         """
         stats = {}
 
+        try:
+            from gse.curation.external_sources.websters1913 import Websters1913Parser
+
+            historical = Websters1913Parser()
+            if historical.load():
+                self.parsers["websters1913"] = historical
+                stats["websters1913"] = len(historical.get_all_words())
+        except (ImportError, OSError, ValueError) as error:
+            logger.warning(f"Failed to load local Webster's 1913 definitions: {error}")
+
+        # Full native senses are definition evidence. This mode never invokes
+        # the legacy SQLite regex projection or downloads/indexes a dump.
+        try:
+            from gse.curation.external_sources.wiktionary import WIKTIONARY_DUMP, WiktionaryParser
+
+            wiktionary = WiktionaryParser(data_path=WIKTIONARY_DUMP)
+            if wiktionary.load():
+                self.parsers["wiktionary"] = wiktionary
+                stats["wiktionary"] = len(wiktionary.get_all_words())
+        except (ImportError, OSError, ValueError) as error:
+            logger.warning(f"Failed to load native Wiktionary: {error}")
+
+        # Curated grammatical definitions use the same parser/source boundary.
+        from gse.curation.external_sources.gse_closed_class import GSEClosedClassParser
+
+        grammar = GSEClosedClassParser()
+        if grammar.load():
+            self.parsers["gse_closed_class"] = grammar
+            stats["gse_closed_class"] = len(grammar.entries)
+
+        from gse.curation.external_sources.nsm_chart import NSMChartParser
+
+        chart = NSMChartParser()
+        if chart.load():
+            self.parsers["nsm_chart"] = chart
+            stats["nsm_chart"] = len(chart.entries)
+
         # SentiWordNet
         try:
             from gse.curation.external_sources.sentiwordnet import SentiWordNetParser

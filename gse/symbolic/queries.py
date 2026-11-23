@@ -18,6 +18,7 @@ operations and tree walks.
 
 from __future__ import annotations
 
+from dataclasses import replace
 from typing import List, Optional, Set, Union
 
 from gse.symbolic.expression import Atom, Expression, Negation, Op, Phrase
@@ -396,13 +397,7 @@ def is_argument_swap_of(a: TreeNode, b: TreeNode) -> bool:
 def _swap_args(node: TreeNode) -> TreeNode:
     if isinstance(node, Op):
         if node.arity == 2 and len(node.args) == 2:
-            return Op(
-                primitive=node.primitive,
-                operation=node.operation,
-                arity=node.arity,
-                args=[node.args[1], node.args[0]],
-                modal=node.modal,
-            )
+            return replace(node, args=[node.args[1], node.args[0]])
         return node
     if isinstance(node, Comparison):
         return Comparison(lhs=node.rhs, rhs=node.lhs, sign=node.sign, axis=node.axis)
@@ -417,7 +412,7 @@ def _swap_args(node: TreeNode) -> TreeNode:
     if isinstance(node, Conditional):
         return Conditional(antecedent=node.consequent, consequent=node.antecedent, conjunction=node.conjunction)
     if isinstance(node, Temporal):
-        return Temporal(setting=node.event, event=node.setting, conjunction=node.conjunction)
+        return replace(node, setting=node.event, event=node.setting)
     if isinstance(node, MinimalSufficiency):
         return MinimalSufficiency(threshold=node.purpose, purpose=node.threshold)
     return node
@@ -425,26 +420,50 @@ def _swap_args(node: TreeNode) -> TreeNode:
 
 def _structural_signature(node: TreeNode):
     """A canonical tuple representation for structural comparison."""
+    if isinstance(node, (Op, Event, TypeAssertion, Control, Temporal)) and node.duration is not None:
+        verb = node.primitive if isinstance(node, Op) and node.operation in {"EVENT", "CONTROL"} else None
+        return ("Duration", node.duration, verb, _structural_signature(replace(node, duration=None)))
     if isinstance(node, Atom):
-        return ("Atom", node.lemma)
+        if not node.degree:
+            return ("Atom", node.lemma)
+        return ("Atom", node.lemma, node.degree.get("scale"), node.degree.get("level"))
     if isinstance(node, Phrase):
-        return ("Phrase", tuple(_structural_signature(a) for a in node.atoms))
+        atoms = [a for a in node.atoms if not a.degree_modifier]
+        if len(atoms) == 1 and any(a.degree_modifier for a in node.atoms):
+            return _structural_signature(atoms[0])
+        return ("Phrase", tuple(_structural_signature(a) for a in atoms))
     if isinstance(node, Negation):
         return ("Negation", _structural_signature(node.operand))
     if isinstance(node, Op):
+        direction = (node.primitive,) if node.operation == "TEMPORAL" and node.primitive in ("BEFORE", "AFTER") else ()
         return (
             "Op",
             node.operation,
             node.arity,
             tuple(_structural_signature(a) for a in node.args),
+            *direction,
         )
     if isinstance(node, Entity):
+        if node.head.degree or (node.modifier is not None and node.modifier.degree):
+            return (
+                "Entity",
+                _structural_signature(node.head),
+                _structural_signature(node.modifier) if node.modifier is not None else None,
+                _structural_signature(node.possessor) if node.possessor else None,
+            )
         return (
             "Entity",
             node.head.lemma,
             _structural_signature(node.possessor) if node.possessor else None,
         )
     if isinstance(node, Coordination):
+        if node.modifier is not None and node.modifier.degree:
+            return (
+                "Coordination",
+                node.conjunction,
+                tuple(_structural_signature(m) for m in node.members),
+                _structural_signature(node.modifier),
+            )
         return (
             "Coordination",
             node.conjunction,

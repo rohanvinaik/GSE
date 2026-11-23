@@ -255,10 +255,11 @@ def test_explicit_prime_definition_and_catalog_gold_commands(tmp_path):
     )
     path = tmp_path / "manual.db"
     report = build_dictionary(EvidenceBundle((), (), (), ()), path, manifest=manifest)
-    assert report["prime_coverage"]["PARTIAL_ANCHOR_CLOSURE"] == 1
+    assert report["prime_coverage"]["PARTIAL_FOUNDATION_CLOSURE"] == 1
     base = [sys.executable, "-m", "gse.curation.cli.commands", "--lexicon-db", str(path)]
     catalog = subprocess.run(base + ["catalog"], capture_output=True, text=True, check=True)
-    assert json.loads(catalog.stdout)["coverage_counts"]["PARTIAL_ANCHOR_CLOSURE"] == 1
+    assert json.loads(catalog.stdout)["format"] == "gse.nsm-catalog-coverage/2"
+    assert json.loads(catalog.stdout)["coverage_counts"]["PARTIAL_FOUNDATION_CLOSURE"] == 1
     gold = tmp_path / "gold.json"
     gold.write_text(
         json.dumps(

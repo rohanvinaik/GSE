@@ -59,6 +59,16 @@ WORD_SCALE_EXCLUDED_PRIMITIVES: FrozenSet[str] = _build_word_scale_excluded()
 # degenerate broad-coverage source (wiktionary_v2) that this note once referenced
 # was retired 2026-06-20.
 SOURCE_PRIMITIVE_SCOPE: Mapping[str, Set[str]] = {
+    # Primary prime-unit frames identify meanings; they are not own-word values.
+    "nsm_chart": set(),
+    # Historical native definitions are source context, never copied synonym signs.
+    "websters1913": set(),
+    # Native Wiktionary senses supply definitions and typed relations only.
+    # No text pattern or unresolved form/alternative link is a bank proof.
+    "wiktionary": set(),
+    # Existing authored pronoun/form/modal components, never grammar features
+    # projected into lexical banks and never the complement of these values.
+    "gse_closed_class": {"SOMEONE", "SOMETHING", "BE", "DO", "HAVE", "CAN", "NOT", "LIKE", "BELOW", "MAYBE", "MUST"},
     # NRC Emotion Lexicon: 8 emotions + 2 sentiments. Affective signal only.
     "nrc_emotion": {"GOOD", "BAD", "FEEL", "WANT", "KNOW"},
     # NRC VAD: valence/arousal/dominance. Currently valence-only after the
@@ -83,23 +93,24 @@ SOURCE_PRIMITIVE_SCOPE: Mapping[str, Set[str]] = {
         "INSIDE",
         "DO",
     },
-    # VerbNet: verb classes with thematic roles. Action and causation.
+    # VerbNet: explicit Event predicates in all applicable native frames.
+    # emotional_state/desire warrant FEEL/WANT; an Experiencer role alone does not.
     "verbnet": {
         "DO",
         "HAPPEN",
         "MOVE",
         "BE",
         "CAUSE",
+        "FEEL",
+        "WANT",
         "SAY",
         "WORDS",
         "SOMEONE",
         "SOMETHING",
     },
-    # WordNet hierarchy: IS-A taxonomy. Its competence is *category* — the
-    # SUBSTANTIVES bank — which the dictionary genus chains cannot reach
-    # (Wiktionary defines `animal` as "a member of the kingdom Animalia", never
-    # "alive"). Scoped to category only so it contributes IS-A grounding and
-    # not the DO/CAUSE/THINK noise its union-over-senses also carries.
+    # WordNet hierarchy: exact definition IS-A taxonomy, never union over
+    # senses or a lexname label. Approved nominal roots contribute category;
+    # approved verb roots contribute their explicit action/mental meaning.
     # FEEL is warranted only by exact nominal emotion.n.01 / feeling.n.01
     # IS-A ancestry in the definition-specific adapter, not the broader
     # psychological_feature category or an affect association rating.
@@ -112,6 +123,16 @@ SOURCE_PRIMITIVE_SCOPE: Mapping[str, Set[str]] = {
         "PART",
         "KIND",
         "FEEL",
+        "THINK",
+        "KNOW",
+        "WANT",
+        "SEE",
+        "HEAR",
+        "SAY",
+        "DO",
+        "CAUSE",
+        "HAPPEN",
+        "MOVE",
     },
     # FrameNet: frame semantics — event structure, participant roles, and the
     # cognition/perception/communication/emotion frames that are its core

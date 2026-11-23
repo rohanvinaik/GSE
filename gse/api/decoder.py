@@ -9,7 +9,6 @@ Decodes HDC vectors to semantic information:
 - Nearest lexemes (similarity search)
 """
 
-import os
 import sqlite3
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
@@ -21,17 +20,13 @@ from gse.api.trace import (
     RelationExtraction,
     SimilarityResult,
 )
+from gse.lexicon_resource import resolve_lexicon_path
 from gse.vectors_v2 import (
     SparseVector,
     bundle,
     create_basis,
     create_sentence_basis,
 )
-
-# Absolute path resolved from this module (repo root), as the encoder resolves its default, so the
-# decoder reads the same lexicon whatever the process working directory (#20).
-_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-_DEFAULT_LEXICON = os.path.join(_REPO_ROOT, "data", "lexicon_clean.db")
 
 
 class GSEDecoder:
@@ -68,15 +63,15 @@ class GSEDecoder:
         "COMP_LIKE": "BIND_EQ",
     }
 
-    def __init__(self, db_path: str = _DEFAULT_LEXICON):
+    def __init__(self, db_path: str | Path | None = None):
         """Initialize decoder with bases and database."""
-        self.db_path = Path(db_path)
+        self.db_path = resolve_lexicon_path(db_path)
         # sqlite3.connect() creates a missing file, so check first: a wrong path fails here
         # instead of leaving an empty database behind (#20).
         if not self.db_path.exists():
             raise FileNotFoundError(
                 f"GSE lexicon not found: {self.db_path} (cwd={Path.cwd()}). Pass an absolute "
-                "db_path or omit it for the repo's data/lexicon_clean.db."
+                "db_path or omit it for the activated lexical resource."
             )
 
         # Load HDC bases
@@ -92,7 +87,11 @@ class GSEDecoder:
 
     def _build_lexeme_index(self):
         """Build index of lexeme vectors for similarity search."""
-        self.lexeme_vectors: Dict[str, Tuple[SparseVector, str]] = {}
+        # Distinct definition IDs remain distinct even when their lemma and
+        # geometric representation coincide. Displaying a lemma is not selecting
+        # one of its definitions.
+        self.lexeme_vectors: Dict[int, Tuple[SparseVector, str]] = {}
+        self.lexeme_labels: Dict[int, str] = {}
 
         # Get all lexemes with primitives
         self.cursor.execute("""
@@ -119,7 +118,8 @@ class GSEDecoder:
             if prims:
                 vec = self._encode_primitives(prims)
                 if vec.nnz > 0:
-                    self.lexeme_vectors[lemma] = (vec, pos or "UNK")
+                    self.lexeme_vectors[lexeme_id] = (vec, pos or "UNK")
+                    self.lexeme_labels[lexeme_id] = lemma
 
     def _encode_primitives(self, primitives: Dict[str, int]) -> SparseVector:
         """Encode primitives into a vector."""
@@ -207,18 +207,18 @@ class GSEDecoder:
             return entities
 
         # Find lexemes with high similarity that have entity primitives
-        for lemma, (lex_vec, pos) in self.lexeme_vectors.items():
+        for lexeme_id, (lex_vec, pos) in self.lexeme_vectors.items():
+            lemma = self.lexeme_labels[lexeme_id]
             cos = vector.cosine(lex_vec)
             if cos > 0.005:
                 # Check if this lexeme has entity primitives
                 self.cursor.execute(
                     """
                     SELECT pv.primitive FROM primitive_values pv
-                    JOIN lexemes l ON l.id = pv.lexeme_id
-                    WHERE l.lemma = ? AND pv.primitive IN (?, ?, ?, ?)
+                    WHERE pv.lexeme_id = ? AND pv.primitive IN (?, ?, ?, ?)
                     AND pv.value = 1
                 """,
-                    (lemma, *self.ENTITY_PRIMITIVES),
+                    (lexeme_id, *self.ENTITY_PRIMITIVES),
                 )
 
                 prims = [row[0] for row in self.cursor.fetchall()]
@@ -296,7 +296,8 @@ class GSEDecoder:
         """Find lexemes most similar to vector."""
         similarities = []
 
-        for lemma, (lex_vec, _) in self.lexeme_vectors.items():
+        for lexeme_id, (lex_vec, _) in self.lexeme_vectors.items():
+            lemma = self.lexeme_labels[lexeme_id]
             cos = vector.cosine(lex_vec)
             if cos > 0.02:
                 similarities.append((lemma, round(cos, 4)))

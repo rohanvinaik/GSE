@@ -603,7 +603,7 @@ def encode_document_utterance_events(enc, sentences, deadline=None):
                 tree = _apply_deixis(tree, utterance)
             except Exception as exc:
                 error = {
-                    "code": f"{phase}_error",
+                    "code": getattr(exc, "code", f"{phase}_error"),
                     "phase": phase,
                     "error_type": type(exc).__name__,
                     "message": str(exc),

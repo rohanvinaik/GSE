@@ -9,8 +9,8 @@ import pytest
 from gse.api.encoder import GSEEncoder
 from gse.api.errors import OOVError
 from gse.curation.lexicon_builder.engine import Assertion, Relation, propagate
-from gse.curation.lexicon_builder.evidence import Definition
-from gse.curation.lexicon_builder.storage import open_build, store_entry
+from gse.curation.lexicon_builder.evidence import Definition, Observation
+from gse.curation.lexicon_builder.storage import open_build, store_entry, store_observations
 from gse.lexical_evidence import lookup_lexeme
 from gse.vectors_v2 import bundle, encode_hierarchy
 
@@ -74,6 +74,60 @@ def test_ambiguous_spelling_does_not_choose_first_definition(encoder):
     assert evidence["candidate_entry_ids"] == ["bank:finance", "bank:river"]
 
 
+def test_contextual_grounding_binds_exact_native_senses_and_preserves_open_domains(tmp_path):
+    path = tmp_path / "wordnet.db"
+    rows = (
+        ("bank", "bank.n.01", "Sloping land beside a body of water.", ["The bank of the river."]),
+        ("bank", "depository_financial_institution.n.01", "A financial institution.", ["A mortgage from the bank."]),
+        ("river", "river.n.01", "A natural stream of water.", []),
+        ("mortgage", "mortgage.n.01", "A loan secured by property.", []),
+        ("electrician", "electrician.n.01", "A skilled electrical worker.", []),
+        ("light", "light.n.08", "A person regarded fondly.", []),
+        ("light", "light.n.02", "A source of illumination.", []),
+    )
+    conn = open_build(path)
+    try:
+        for lemma, synset, gloss, examples in rows:
+            entry_id = f"wordnet:{lemma}:{synset}"
+            definition = Definition(entry_id, lemma, "noun", gloss)
+            assignments = (
+                Assertion("SOMETHING", 1, "fixture", entry_id, "test"),
+                Assertion("GOOD", 0, "fixture", entry_id, "test"),
+            )
+            store_entry(conn, definition, propagate(("GOOD", "SOMETHING", "WANT"), assignments, ()), assignments)
+            store_observations(conn, (Observation(entry_id, "wordnet_hierarchy", entry_id, "wordnet", {
+                "lemma": lemma, "pos": "noun", "definition": gloss, "synset_name": synset,
+                "lemma_names": [lemma], "hypernym_paths": [[
+                    "entity.n.01", *(["person.n.01"] if synset in {"electrician.n.01", "light.n.08"} else []), synset
+                ]], "examples": examples,
+            }, "lexical"),))
+        conn.commit()
+    finally:
+        conn.close()
+
+    with GSEEncoder(path) as enc:
+        for sentence, expected in (
+            ("The river rose above the bank.", "wordnet:bank:bank.n.01"),
+            ("The bank approved the mortgage.", "wordnet:bank:depository_financial_institution.n.01"),
+            ("The river flooded. I saw a bank.", None),
+            ("The river and mortgage are near the bank.", None),
+        ):
+            token = next(token for token in enc.encode(sentence).tokens if token.lemma == "bank")
+            evidence = token.lexical_evidence
+            if expected is None:
+                assert evidence["selection_status"] == "AMBIGUOUS"
+                assert token.word_primitives == {}
+            else:
+                assert evidence["selected_record"]["entry_id"] == expected
+                assert evidence["domains"]["GOOD"] == [0]
+                assert evidence["domains"]["WANT"] == [-1, 0, 1]
+                assert token.word_primitives == {"SOMETHING": 1}
+        light = next(token for token in enc.encode("An electrician repaired the light.").tokens if token.lemma == "light")
+        assert light.lexical_evidence["selection_status"] == "AMBIGUOUS"
+        assert light.lexical_evidence["contextual_grounding"]["code"] == "TYPE_COHERENCE_WITHOUT_LEXICAL_WITNESS"
+        assert light.word_primitives == {}
+
+
 def test_normal_sentence_trace_reports_ambiguity_without_lexical_activation(encoder):
     trace = encoder.encode("bank")
     token = trace.tokens[0]
@@ -126,8 +180,44 @@ def test_entirely_silent_identified_definition_stays_empty(encoder):
     assert evidence["selection_status"] == "IDENTIFIED"
     assert evidence["definition_status"] == "PARTIAL"
     assert evidence["primitive_evidence"] == []
-    assert evidence["state"] == "no_primes"
+    assert evidence["state"] == "unread"
+    assert evidence["reason"] == "UNRESOLVED_DEFINITION_VALUES"
+    assert evidence["sense_resolved"] is True
+    assert evidence["selected_record"]["entry_id"] == "silent:state"
     assert encoder.encode_definition("silent:state").nnz == 0
+    token = encoder.encode("silent").tokens[0]
+    assert token.lexicon_status == "unread"
+    assert token.word_vec_nnz == 0
+
+
+@pytest.mark.parametrize("values,partial", [({}, True), ({"GOOD": 0}, True), ({"GOOD": 0, "FEEL": 0}, False)])
+def test_empty_partial_and_justified_zero_have_distinct_negation_evidence(tmp_path, values, partial):
+    from gse.nlp.morphology import NEGATION, negation_admission
+
+    path = tmp_path / "zero-evidence.db"
+    conn = open_build(path)
+    assertions = tuple(Assertion(bank, value, "fixture", "unhappy:1", "dictionary") for bank, value in values.items())
+    store_entry(
+        conn,
+        Definition("unhappy:1", "unhappy", "a", "fixture definition"),
+        propagate(("GOOD", "FEEL"), assertions, ()),
+        assertions,
+    )
+    conn.commit()
+    conn.close()
+    evidence = lookup_lexeme("unhappy", path)
+    assert evidence["state"] == ("unread" if partial else "no_primes")
+    assert evidence["selected_record"]["assignments"] == values
+    assert evidence["primitives"] == {}
+    assert evidence["domains"]["FEEL"] == ([-1, 0, 1] if partial else [0])
+    admission = negation_admission(
+        {"state": "resolved", "feature": NEGATION},
+        evidence,
+        {"state": "primes", "selected_record": {"pos": "a"}, "primitives": {"GOOD": 1}},
+        "ADJ",
+    )
+    assert admission["decision"] == "preserve"
+    assert admission["code"] == ("lexical_unread" if partial else "surface_lexical_zero")
 
 
 def test_conflicted_definition_never_publishes_a_vector(encoder):

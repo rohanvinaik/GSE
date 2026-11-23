@@ -1,7 +1,7 @@
 """WordNet native taxonomy records and conservative definition-specific projection.
 
 Legacy category proposals remain available for provenance. Only explicitly
-warranted nominal IS-A roots yield lexical primitive assignments.
+warranted definition-specific IS-A roots yield lexical primitive assignments.
 """
 
 import logging
@@ -112,10 +112,23 @@ ROOT_CONCEPT_PRIMITIVES = {
     "measure.n.02": {"QUANTITY": 1},
     "shape.n.02": {"SOMETHING": 1},
     "change.n.03": {"HAPPEN": 1},
+    # Exact verb definitions, not the union of senses sharing these lemmas.
+    "think.v.03": {"THINK": 1},
+    "know.v.01": {"KNOW": 1},
+    "desire.v.01": {"WANT": 1},
+    "see.v.01": {"SEE": 1},
+    "hear.v.01": {"HEAR": 1},
+    "state.v.01": {"SAY": 1},
+    "perform.v.01": {"DO": 1},
+    "act.v.01": {"DO": 1},
+    "cause.v.01": {"CAUSE": 1},
+    "happen.v.01": {"HAPPEN": 1},
+    "feel.v.01": {"FEEL": 1},
+    "move.v.03": {"MOVE": 1},
 }
 
 
-# Exact nominal categories that directly warrant a closed-basis coordinate.
+# Exact categories that directly warrant a closed-basis coordinate.
 # Generic groups need not be people; food is not BODY; abstraction is not
 # thinking. A body part warrants PART, without asserting that it is BODY.
 # Emotion and feeling warrant FEEL; psychological_feature is too broad.
@@ -129,7 +142,39 @@ _WARRANTED_ROOT_PRIMITIVES = {
     "body_part.n.01": frozenset({"PART"}),
     "emotion.n.01": frozenset({"FEEL"}),
     "feeling.n.01": frozenset({"FEEL"}),
+    # Native verb IS-A ancestry carries the specified act/state, without
+    # propagating it to another sense of the same lemma. For example, see.v.01
+    # is visual perception, not understanding or visiting; desire.v.01 is
+    # wanting, not the lack/need senses also spelled "want". move.v.03 is
+    # nontranslational motion, not emotional impact or abstract transfer.
+    "think.v.03": frozenset({"THINK"}),
+    "know.v.01": frozenset({"KNOW"}),
+    "desire.v.01": frozenset({"WANT"}),
+    "see.v.01": frozenset({"SEE"}),
+    "hear.v.01": frozenset({"HEAR"}),
+    "state.v.01": frozenset({"SAY"}),
+    "perform.v.01": frozenset({"DO"}),
+    "act.v.01": frozenset({"DO"}),
+    "cause.v.01": frozenset({"CAUSE"}),
+    "happen.v.01": frozenset({"HAPPEN"}),
+    "feel.v.01": frozenset({"FEEL"}),
+    "move.v.03": frozenset({"MOVE"}),
 }
+
+
+REVIEWED_SAY_EXCLUSIONS = {
+    "bridle.v.03": "respond to the reins, as of horses",
+    "rent.v.04": "hold under a lease or rental agreement; of goods and services",
+    "summarize.v.02": "be a summary of",
+}
+
+
+def reviewed_say_exclusion(synset_name: str, definition: str) -> tuple[str, str]:
+    """Return the withdrawn ancestor projection for one exact reviewed sense."""
+    expected = REVIEWED_SAY_EXCLUSIONS.get(synset_name)
+    if expected is None or expected != definition:
+        raise ValueError("WORDNET_PROJECTION_REVIEW_SOURCE_CHANGED:" + synset_name)
+    return "state.v.01", "SAY"
 
 
 class WordNetHierarchyParser(BaseExternalParser):
@@ -240,7 +285,7 @@ class WordNetHierarchyParser(BaseExternalParser):
 
         Unknown or unavailable definitions abstain. Lexname proposals, part
         relations and argument slots do not assert own-word coordinates. Only
-        the exact approved nominal ancestor categories are admitted; callers
+        the exact approved nominal and verbal ancestor categories are admitted; callers
         still enforce source scope and canonicalize bipolar coordinates.
         """
         if not self._loaded or self._wn is None:
@@ -253,12 +298,19 @@ class WordNetHierarchyParser(BaseExternalParser):
             synset = self._wn.synset(synset_name)
         except LookupError, WordNetError:
             return {}
-        if synset.pos() != "n":
+        if synset.pos() not in ("n", "v"):
             return {}
         primitives: Dict[str, int] = {}
         ancestors = {ancestor.name() for path in synset.hypernym_paths() for ancestor in path}
+        excluded = (
+            reviewed_say_exclusion(synset_name, synset.definition())
+            if synset_name in REVIEWED_SAY_EXCLUSIONS
+            else None
+        )
         for name in sorted(ancestors):
             for primitive in sorted(_WARRANTED_ROOT_PRIMITIVES.get(name, ())):
+                if (name, primitive) == excluded:
+                    continue
                 if primitive in ROOT_CONCEPT_PRIMITIVES.get(name, {}):
                     value = ROOT_CONCEPT_PRIMITIVES[name][primitive]
                     if type(value) is not int or value not in (-1, 0, 1):
