@@ -15,8 +15,8 @@ type-assertion is the first build step of the Genesis × GSE swap.
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.symbolic import (
+from GSE.api import GSEEncoder
+from GSE.symbolic import (
     Causation,
     Comparison,
     Event,
@@ -26,7 +26,7 @@ from gse.symbolic import (
     predicates,
     resolve,
 )
-from gse.symbolic.resolution import Entity
+from GSE.symbolic.resolution import Entity
 
 
 @pytest.fixture(scope="module")

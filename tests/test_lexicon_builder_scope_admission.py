@@ -6,12 +6,12 @@ from dataclasses import asdict
 
 import pytest
 
-from gse.curation.external_sources.gse_closed_class import GSEClosedClassParser
-from gse.curation.lexicon_builder.engine import Assertion, propagate
-from gse.curation.lexicon_builder.evidence import collect_evidence
-from gse.curation.lexicon_builder.model_batch import OllamaBatchTransport
-from gse.curation.lexicon_builder.residual import OllamaTransport, build_request, complete_bank
-from gse.curation.lexicon_builder.scope_admission import model_scope_admission
+from GSE.curation.external_sources.gse_closed_class import GSEClosedClassParser
+from GSE.curation.lexicon_builder.engine import Assertion, propagate
+from GSE.curation.lexicon_builder.evidence import collect_evidence
+from GSE.curation.lexicon_builder.model_batch import OllamaBatchTransport
+from GSE.curation.lexicon_builder.residual import OllamaTransport, build_request, complete_bank
+from GSE.curation.lexicon_builder.scope_admission import model_scope_admission
 
 BANKS = ("BE", "SOMEONE", "SOMETHING", "EXIST")
 
@@ -150,7 +150,7 @@ def test_refusal_also_follows_actual_batch_transport_and_preserves_known_value(m
         return {"done": True, "done_reason": "stop", "response": '{"q0":{"BE":1}}'}
 
     monkeypatch.setattr(base, "_request_json", network)
-    monkeypatch.setattr("gse.curation.llm.ollama_client.register_model", lambda *args: None)
+    monkeypatch.setattr("GSE.curation.llm.ollama_client.register_model", lambda *args: None)
     batch = OllamaBatchTransport(base)
     batch.pin()
     result = complete_bank(request, BANKS, assertions, (), batch)

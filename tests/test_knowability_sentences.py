@@ -9,10 +9,10 @@ import importlib
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.symbolic import KnowledgeBase, evaluate_tree, from_trace, resolve
+from GSE.api import GSEEncoder
+from GSE.symbolic import KnowledgeBase, evaluate_tree, from_trace, resolve
 
-propositions = importlib.import_module("gse.symbolic.propositions")
+propositions = importlib.import_module("GSE.symbolic.propositions")
 
 
 @pytest.fixture(scope="module")

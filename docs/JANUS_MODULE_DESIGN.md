@@ -68,7 +68,7 @@ no new module," made concrete).
 
 ### Face A — structural / literal (intrinsic)
 
-Already produced by `gse/discourse/profile.py` and the symbolic core:
+Already produced by `GSE/discourse/profile.py` and the symbolic core:
 
 - **valence** — per-word `GOOD − BAD` from `encoder._lookup_lexeme` (profile.py:134),
   aggregated as `affect.valence_mean / valence_spread / valence_arc` (profile.py:163).
@@ -155,7 +155,7 @@ disagreement(axis) × confidence(Face A) × confidence(Face B)
   uncertainty band → the module reports *"possible irony, low confidence"* rather
   than committing.
 - faces near-tied → the genuinely-ambiguous regime → **graded abstention**, the same
-  honest signal as `grounding_flags` in IV-E (`gse/symbolic/grounding.py`): GSE
+  honest signal as `grounding_flags` in IV-E (`GSE/symbolic/grounding.py`): GSE
   already separates *"I built the logic"* from *"I could ground the words"*; Janus
   adds *"the two faces agree / clash / are genuinely uncertain."*
 
@@ -239,8 +239,8 @@ Each tier is a real boundary; Tier 0 is genuinely a now-thing.
   graded abstention. Sentence / short-context. **Demonstrates the *form*** — two
   faces, disagreement-as-signal, calibrated uncertainty — which is the proof-of-
   concept the vision doc §IV½ marks as "design, not result," now *running*. No L2
-  TMS, no Genesis. Proposed home: `gse/pragmatics/janus.py` (reads `discourse` +
-  `symbolic.coherence`); tests in `tests/test_janus.py`; a `gse.demo.irony` showcase.
+  TMS, no Genesis. Proposed home: `GSE/pragmatics/janus.py` (reads `discourse` +
+  `symbolic.coherence`); tests in `tests/test_janus.py`; a `GSE.demo.irony` showcase.
 - **Tier 1 — learned Face B.** Replace the static prior with **per-register
   expectation k-lines** mined from the *same flywheel corpus* (the contour is just
   another aggregate of `text_profile`, grouped per register node and inherited down

@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.validation.bipolar_validator."""
+"""Manual contract tests for GSE.curation.validation.bipolar_validator."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.validation.bipolar_validator import (
+from GSE.curation.validation.bipolar_validator import (
     BipolarValidator,
     ValidationResult,
     validate_bipolar,

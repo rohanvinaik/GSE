@@ -26,7 +26,7 @@ from scipy.stats import pearsonr, spearmanr
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from gse.benchmarks.datasets import (
+from GSE.benchmarks.datasets import (
     BenchmarkDataset,
     load_custom_antonyms,
     load_custom_synonyms,
@@ -34,7 +34,7 @@ from gse.benchmarks.datasets import (
     load_sts_benchmark,
     load_wordsim353,
 )
-from gse.pipeline_v2 import GSEPipeline
+from GSE.pipeline_v2 import GSEPipeline
 
 # =============================================================================
 # RESULT DATA STRUCTURES

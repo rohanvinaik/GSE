@@ -7,8 +7,8 @@ import json
 
 import pytest
 
-from gse.lexicon_builder.core import CANONICAL_COORDINATES
-from gse.lexicon_builder.number import pair_precondition, paired_order_status, resolve_number_pair
+from GSE.lexicon_builder.core import CANONICAL_COORDINATES
+from GSE.lexicon_builder.number import pair_precondition, paired_order_status, resolve_number_pair
 
 
 def test_inverse_comparisons_and_equality_are_coherent():

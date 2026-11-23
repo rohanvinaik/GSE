@@ -9,7 +9,7 @@ The information-theoretic frame (Rohan, 2026-07-10):
 
 This is the OBSERVATIONAL run: the discord gate is DERIVED from the reference corpus (Youden's J on the
 train ROC), never hand-picked — GSE's own `ANCHOR_AUDIT` discipline (thresholds from evidence). The
-signal is `gse.pragmatics.janus.read` — grounded valence only, NO cosine. Corpus: TweetEval irony
+signal is `GSE.pragmatics.janus.read` — grounded valence only, NO cosine. Corpus: TweetEval irony
 (SemEval-2018 Task 3A; `data/tweeteval_irony/`), label 1 = ironic.
 
 Usage: python scripts/janus_surprise.py [--n-train N] [--n-test M]
@@ -76,13 +76,13 @@ def main() -> int:
     ap.add_argument("--world", action="store_true", help="headline run uses the sparse-wiki world-EPA Face B")
     args = ap.parse_args()
 
-    from gse.api import GSEEncoder
-    from gse.pragmatics.janus import read as janus_read
-    from gse.symbolic import GenealogyStore
+    from GSE.api import GSEEncoder
+    from GSE.pragmatics.janus import read as janus_read
+    from GSE.symbolic import GenealogyStore
 
     enc = GSEEncoder()
     store = GenealogyStore()
-    print("[Janus discord = grounded valence Face A ⟂ Face B sign-flip (gse.pragmatics.janus); NO cosine]")
+    print("[Janus discord = grounded valence Face A ⟂ Face B sign-flip (GSE.pragmatics.janus); NO cosine]")
     print("[gate DERIVED from train reference data (Youden's J), not picked; corpus = TweetEval irony]\n")
 
     def discords(texts, use_world):

@@ -89,23 +89,23 @@ The system uses a **Hadamard Orthogonal Ternary Projection** architecture:
 
 | Module | Purpose |
 |--------|---------|
-| `gse/vectors.py` | Hadamard-OTP vector operations |
-| `gse/primitives.py` | NSM primitive definitions, intensity/aspect markers |
-| `gse/lexicon_generator.py` | Lexicon creation and lookup |
-| `gse/parser.py` | Dependency parsing (spaCy) |
-| `gse/composer.py` | Sentence composition with syntactic permutation |
-| `gse/coherence.py` | Semantic coherence checking with bank-based selectional restrictions |
-| `gse/pipeline.py` | End-to-end processing |
+| `GSE/vectors.py` | Hadamard-OTP vector operations |
+| `GSE/primitives.py` | NSM primitive definitions, intensity/aspect markers |
+| `GSE/lexicon_generator.py` | Lexicon creation and lookup |
+| `GSE/parser.py` | Dependency parsing (spaCy) |
+| `GSE/composer.py` | Sentence composition with syntactic permutation |
+| `GSE/coherence.py` | Semantic coherence checking with bank-based selectional restrictions |
+| `GSE/pipeline.py` | End-to-end processing |
 
 ### Enhancement Modules (New)
 
 | Module | Purpose |
 |--------|---------|
-| `gse/morphology.py` | Morphological decomposition (un-, re-, -ness, -ful, etc.) |
-| `gse/antonymy.py` | Graded antonymy scales (hot → warm → cool → cold) |
-| `gse/verb_templates.py` | Verb argument structure templates |
-| `gse/sense_selection.py` | Context-sensitive word sense disambiguation |
-| `gse/discourse.py` | Cross-sentence discourse coherence tracking |
+| `GSE/morphology.py` | Morphological decomposition (un-, re-, -ness, -ful, etc.) |
+| `GSE/antonymy.py` | Graded antonymy scales (hot → warm → cool → cold) |
+| `GSE/verb_templates.py` | Verb argument structure templates |
+| `GSE/sense_selection.py` | Context-sensitive word sense disambiguation |
+| `GSE/discourse.py` | Cross-sentence discourse coherence tracking |
 
 ### Data Files
 
@@ -122,7 +122,7 @@ The system uses a **Hadamard Orthogonal Ternary Projection** architecture:
 ### Basic Example
 
 ```python
-from gse.pipeline import load_pipeline
+from GSE.pipeline import load_pipeline
 
 pipeline = load_pipeline()
 
@@ -288,7 +288,7 @@ python scripts/rebuild_lexicon.py
 Automatically decomposes morphologically complex words:
 
 ```python
-from gse.morphology import get_morphological_analyzer
+from GSE.morphology import get_morphological_analyzer
 
 analyzer = get_morphological_analyzer()
 result = analyzer.analyze("unhappy")
@@ -311,7 +311,7 @@ Supported affixes:
 Handles graded opposition between words:
 
 ```python
-from gse.antonymy import get_antonymy_handler
+from GSE.antonymy import get_antonymy_handler
 
 antonymy = get_antonymy_handler()
 
@@ -327,7 +327,7 @@ Scales: temperature, size, quality, speed, age, height, weight, emotion, certain
 Defines expected argument structures:
 
 ```python
-from gse.verb_templates import get_verb_template_handler
+from GSE.verb_templates import get_verb_template_handler
 
 verbs = get_verb_template_handler()
 template = verbs.get_template("give")  # ditransitive
@@ -341,7 +341,7 @@ Template types: transitive, intransitive, ditransitive, mental_state, emotion, p
 Disambiguates polysemous words:
 
 ```python
-from gse.sense_selection import get_sense_selector
+from GSE.sense_selection import get_sense_selector
 
 selector = get_sense_selector()
 
@@ -359,7 +359,7 @@ result = selector.select_sense("bank", "NOUN", context_words=["river", "water"])
 Tracks coherence across sentences:
 
 ```python
-from gse.discourse import get_discourse_tracker
+from GSE.discourse import get_discourse_tracker
 
 tracker = get_discourse_tracker()
 tracker.reset()
@@ -394,4 +394,4 @@ Violations detected:
 
 - Natural Semantic Metalanguage (Wierzbicka & Goddard)
 - Hyperdimensional Computing (Kanerva)
-- Geometric Semantic Encoding theory documents in `gse/gse_otp_architecture.md`
+- Geometric Semantic Encoding theory documents in `GSE/gse_otp_architecture.md`

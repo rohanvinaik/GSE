@@ -1,6 +1,6 @@
-"""Tests for gse.encoders.marker_detection."""
+"""Tests for GSE.encoders.marker_detection."""
 
-from gse.encoders.marker_detection import KeywordDetector, RegexPatternDetector
+from GSE.encoders.marker_detection import KeywordDetector, RegexPatternDetector
 
 
 class TestKeywordDetector:

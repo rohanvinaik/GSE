@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.patterns.networks_v2."""
+"""Manual contract tests for GSE.patterns.networks_v2."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import numpy as np
 import pytest
 
-from gse.patterns.networks_v2 import (
+from GSE.patterns.networks_v2 import (
     PARAGRAPH_PRIMITIVES,
     SENTENCE_PRIMITIVES,
     TEXT_PRIMITIVES,

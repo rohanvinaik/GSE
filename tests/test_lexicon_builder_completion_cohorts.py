@@ -5,12 +5,12 @@ import sys
 
 import pytest
 
-from gse.curation.lexicon_builder.completion import complete_dictionary
-from gse.curation.lexicon_builder.engine import DomainRestriction
-from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
-from gse.curation.lexicon_builder.foundation import BANKS
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.validation import validate_build
+from GSE.curation.lexicon_builder.completion import complete_dictionary
+from GSE.curation.lexicon_builder.engine import DomainRestriction
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
+from GSE.curation.lexicon_builder.foundation import BANKS
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.validation import validate_build
 
 
 class Transport:
@@ -48,7 +48,7 @@ def dictionary(tmp_path, count):
 
 
 def test_huge_call_budget_keeps_default_cohort_bounded_and_resumes(tmp_path, monkeypatch):
-    from gse.curation.lexicon_builder import completion
+    from GSE.curation.lexicon_builder import completion
 
     path = dictionary(tmp_path, 65)
     actual_contexts = completion._contexts
@@ -127,8 +127,8 @@ def test_explicit_scope_at_limit_preserves_requested_identities(tmp_path):
 
 
 def test_real_cli_forwards_entry_cap_to_journaled_completion(tmp_path, monkeypatch, capsys):
-    from gse.curation.cli import commands
-    from gse.curation.lexicon_builder import residual
+    from GSE.curation.cli import commands
+    from GSE.curation.lexicon_builder import residual
 
     path = dictionary(tmp_path, 3)
     transport = Transport()

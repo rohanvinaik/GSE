@@ -5,7 +5,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from gse.curation.lexicon_builder.epoch import (
+from GSE.curation.lexicon_builder.epoch import (
     Family,
     fingerprint,
     forecast,
@@ -14,7 +14,7 @@ from gse.curation.lexicon_builder.epoch import (
     record,
     scope_rows,
 )
-from gse.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
+from GSE.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
 
 ROOT = Path(__file__).resolve().parents[3]
 NOTES = Path(__file__).resolve().parent
@@ -49,7 +49,7 @@ def prepare():
             "reviewer": "Exact native-source and approved-coordinate review",
             "source_refs": [str(NOTES / "022-source-review.md"),
                             str(ROOT / "data/external/references/nsm-primes-chart-v20-2022.txt"),
-                            str(ROOT / "gse/primitives_v2.py"),
+                            str(ROOT / "GSE/primitives_v2.py"),
                             str(ROOT / "docs/program/LEXICON_CONSTRUCTION_DESIGN.md")],
             "statement": (
                 "An exact native noun definition whose own genus explicitly denotes a period, interval, span or duration "

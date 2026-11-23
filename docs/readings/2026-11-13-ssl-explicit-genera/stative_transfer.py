@@ -9,8 +9,8 @@ from importlib import import_module
 from math import log2
 from pathlib import Path
 
-from gse.curation.lexicon_builder.completion import _priority_source
-from gse.curation.lexicon_builder.epoch import (
+from GSE.curation.lexicon_builder.completion import _priority_source
+from GSE.curation.lexicon_builder.epoch import (
     JournaledTransport,
     admit_and_migrate,
     census,
@@ -25,16 +25,16 @@ from gse.curation.lexicon_builder.epoch import (
     run_arm,
     scope_rows,
 )
-from gse.curation.lexicon_builder.foundation import EXCEPTION_GUARD_PREFIX, lexical_context
-from gse.curation.lexicon_builder.reviewed_export import export_reviewed_input
-from gse.curation.lexicon_builder.reviewed_patterns import run_workflow_input
-from gse.curation.lexicon_builder.rule_admission import _AuditReplay, admit_records
-from gse.curation.lexicon_builder.rule_history import digest
-from gse.curation.lexicon_builder.rule_migration import migrate_revision
-from gse.curation.lexicon_builder.rule_reservations import reservation_source
-from gse.curation.lexicon_builder.rule_revisions import RESERVATION_FORMAT
-from gse.curation.lexicon_builder.validation import validate_build
-from gse.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
+from GSE.curation.lexicon_builder.foundation import EXCEPTION_GUARD_PREFIX, lexical_context
+from GSE.curation.lexicon_builder.reviewed_export import export_reviewed_input
+from GSE.curation.lexicon_builder.reviewed_patterns import run_workflow_input
+from GSE.curation.lexicon_builder.rule_admission import _AuditReplay, admit_records
+from GSE.curation.lexicon_builder.rule_history import digest
+from GSE.curation.lexicon_builder.rule_migration import migrate_revision
+from GSE.curation.lexicon_builder.rule_reservations import reservation_source
+from GSE.curation.lexicon_builder.rule_revisions import RESERVATION_FORMAT
+from GSE.curation.lexicon_builder.validation import validate_build
+from GSE.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
 from scripts.audit_lexicon_sentences import audit, compare_reports, load_benchmark
 from scripts.run_lexicon_epochs import publish_round
 
@@ -434,7 +434,7 @@ def calibrate():
     })
     if len(removed) != 1:
         raise ValueError("STATIVE_CALIBRATION_UNEXPECTED_PROOF_ROOTS")
-    from gse.curation.lexicon_builder.validation import _relations
+    from GSE.curation.lexicon_builder.validation import _relations
 
     relations = [rule for rule in prior["relations"] if rule["rule_id"] not in removed]
     seeds = prior["discovery_entry_ids"]
@@ -515,7 +515,7 @@ def convention():
         "source_refs": family["warrant"]["source_refs"], "rationale": family["warrant"]["statement"],
     }
     admission = admit_records(raw, audited, review)
-    from gse.curation.lexicon_builder.validation import _relations
+    from GSE.curation.lexicon_builder.validation import _relations
 
     inventory = read(WORK / "inventory.json")[family["id"]]
     rules, rows = scope_rows(BASE, inventory)
@@ -613,7 +613,7 @@ def publish():
     ):
         raise ValueError("STATIVE_TRANSFER_GROUNDING_CORPUS_NOT_VALIDATED")
     result = verified["result"]
-    from gse.api.encoder import GSEEncoder
+    from GSE.api.encoder import GSEEncoder
 
     with GSEEncoder(result["candidate"]) as encoder:
         for entry in (*GOLD, *result.get("convention_controls", ())):

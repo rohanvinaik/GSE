@@ -23,7 +23,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
-from gse.curation.llm.ollama_client import register_model
+from GSE.curation.llm.ollama_client import register_model
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)

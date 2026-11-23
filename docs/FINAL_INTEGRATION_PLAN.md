@@ -176,7 +176,7 @@
 
 ### Phase 1: GSE Encoder API (1 day)
 
-**File: `gse/api/encoder.py`**
+**File: `GSE/api/encoder.py`**
 
 ```python
 class GSEEncoder:
@@ -195,7 +195,7 @@ class GSEEncoder:
 
 ### Phase 2: Verification Suite (1 day)
 
-**File: `gse/verification/`**
+**File: `GSE/verification/`**
 
 1. **Reproducibility Test**
    - Same input → identical JSON trace
@@ -316,7 +316,7 @@ gse/
 
 ## Next Steps
 
-1. Implement `gse/api/encoder.py` with full trace generation
+1. Implement `GSE/api/encoder.py` with full trace generation
 2. Create verification suite with concrete test cases
 3. Run verification and document results
 4. Package as importable library

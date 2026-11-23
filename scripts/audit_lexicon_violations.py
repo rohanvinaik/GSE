@@ -37,8 +37,8 @@ from typing import Any, Dict
 # gse package isn't on sys.path; fix that before importing.
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from gse.curation.external_sources.bipolar_exclusion import count_violations  # noqa: E402
-from gse.curation.schema import BIPOLAR_PAIRS  # noqa: E402
+from GSE.curation.external_sources.bipolar_exclusion import count_violations  # noqa: E402
+from GSE.curation.schema import BIPOLAR_PAIRS  # noqa: E402
 
 logger = logging.getLogger(__name__)
 

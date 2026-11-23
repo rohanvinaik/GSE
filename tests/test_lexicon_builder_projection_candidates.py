@@ -5,11 +5,11 @@ from types import SimpleNamespace
 
 import pytest
 
-from gse.curation.external_sources.nrc_emotion import EmotionEntry, NRCEmotionParser
-from gse.curation.external_sources.nrc_vad import NRCVADParser, VADEntry
-from gse.curation.external_sources.sentiwordnet import SentiWordEntry, SentiWordNetParser
-from gse.curation.external_sources.wordnet_hierarchy import WordNetHierarchyParser
-from gse.curation.lexicon_builder.evidence import collect_evidence
+from GSE.curation.external_sources.nrc_emotion import EmotionEntry, NRCEmotionParser
+from GSE.curation.external_sources.nrc_vad import NRCVADParser, VADEntry
+from GSE.curation.external_sources.sentiwordnet import SentiWordEntry, SentiWordNetParser
+from GSE.curation.external_sources.wordnet_hierarchy import WordNetHierarchyParser
+from GSE.curation.lexicon_builder.evidence import collect_evidence
 
 
 def sentiment(positive=0.4, negative=0.5):

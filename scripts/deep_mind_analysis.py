@@ -19,8 +19,8 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Set, Tuple
 
 import numpy as np
-from gse.cascade import ConstraintCascade
-from gse.primitives import PRIMITIVE_TO_BANK
+from GSE.cascade import ConstraintCascade
+from GSE.primitives import PRIMITIVE_TO_BANK
 
 
 @dataclass

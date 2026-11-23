@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.llm.response_parser."""
+"""Manual contract tests for GSE.curation.llm.response_parser."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.llm.response_parser import (
+from GSE.curation.llm.response_parser import (
     ParseError,
     ParseResult,
     check_bipolar_consistency,
@@ -23,7 +23,7 @@ from gse.curation.llm.response_parser import (
     parse_llm_response,
     sparse_to_decomposition,
 )
-from gse.curation.schema import ALL_PRIMITIVES
+from GSE.curation.schema import ALL_PRIMITIVES
 
 # ---------- ParseError ----------
 
@@ -319,7 +319,7 @@ class TestParseBatchResponse:
         # Item that's not a dict creates empty fallback
         from unittest.mock import patch
 
-        with patch("gse.curation.llm.response_parser.parse_llm_response", side_effect=ParseError("bad")):
+        with patch("GSE.curation.llm.response_parser.parse_llm_response", side_effect=ParseError("bad")):
             results = parse_batch_response('[{"GOOD": 1}]', expected_count=1)
         assert len(results) == 1
         assert results[0].confidence == 0.0

@@ -23,8 +23,8 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from gse.profiles.profile_manager import ProfileManager
-from gse.teaching.teacher import NetworkTeacher, TeachingSession
+from GSE.profiles.profile_manager import ProfileManager
+from GSE.teaching.teacher import NetworkTeacher, TeachingSession
 
 # =============================================================================
 # CONFIGURATION

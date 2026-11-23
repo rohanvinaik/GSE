@@ -11,23 +11,23 @@ from pathlib import Path
 from probe_unit_banks import execute
 from replay_body_exceptions import FOLDER, ROOT, ReviewedReplay, read, sha256, write
 
-from gse.curation.lexicon_builder.completion import (
+from GSE.curation.lexicon_builder.completion import (
     _contexts,
     _entry,
     _priority_source,
     _select_entries,
     complete_dictionary,
 )
-from gse.curation.lexicon_builder.foundation import BANKS, lexical_context
-from gse.curation.lexicon_builder.model_batch import OllamaBatchTransport
-from gse.curation.lexicon_builder.model_receipts import read_model_receipts
-from gse.curation.lexicon_builder.publication import publication_readiness
-from gse.curation.lexicon_builder.residual import OllamaTransport, build_request
-from gse.curation.lexicon_builder.resolution import resolve_dictionary
-from gse.curation.lexicon_builder.rule_admission import admit_records
-from gse.curation.lexicon_builder.rule_history import digest
-from gse.curation.lexicon_builder.rule_revisions import exception_source, touches_scope
-from gse.curation.lexicon_builder.validation import _metadata, _relations, validate_build
+from GSE.curation.lexicon_builder.foundation import BANKS, lexical_context
+from GSE.curation.lexicon_builder.model_batch import OllamaBatchTransport
+from GSE.curation.lexicon_builder.model_receipts import read_model_receipts
+from GSE.curation.lexicon_builder.publication import publication_readiness
+from GSE.curation.lexicon_builder.residual import OllamaTransport, build_request
+from GSE.curation.lexicon_builder.resolution import resolve_dictionary
+from GSE.curation.lexicon_builder.rule_admission import admit_records
+from GSE.curation.lexicon_builder.rule_history import digest
+from GSE.curation.lexicon_builder.rule_revisions import exception_source, touches_scope
+from GSE.curation.lexicon_builder.validation import _metadata, _relations, validate_build
 
 DATA = ROOT / "data/lexicon_builder/2026-11-01"
 BASELINE = DATA / "constructed-corpus-body-exceptions-resumed.db"

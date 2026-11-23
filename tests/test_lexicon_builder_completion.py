@@ -7,13 +7,13 @@ from dataclasses import asdict
 
 import pytest
 
-from gse.curation.cli import commands
-from gse.curation.lexicon_builder.completion import complete_dictionary
-from gse.curation.lexicon_builder.engine import DomainRestriction, Relation
-from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
-from gse.curation.lexicon_builder.foundation import BANKS
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.validation import validate_build
+from GSE.curation.cli import commands
+from GSE.curation.lexicon_builder.completion import complete_dictionary
+from GSE.curation.lexicon_builder.engine import DomainRestriction, Relation
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
+from GSE.curation.lexicon_builder.foundation import BANKS
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.validation import validate_build
 
 
 class Transport:
@@ -241,12 +241,12 @@ def test_candidate_observations_are_included_in_request_and_replay(tmp_path):
 def test_conditional_contradiction_does_not_replace_hard_values(tmp_path, monkeypatch):
     from functools import partial
 
-    from gse.curation.lexicon_builder.engine import propagate
+    from GSE.curation.lexicon_builder.engine import propagate
 
     # The all-negative assignment satisfies this cycle. A seven-combination
     # search limit leaves the unsupported positive choice for the residual tail.
     monkeypatch.setattr(
-        "gse.curation.lexicon_builder.resolution.propagate", partial(propagate, max_joint_assignments=7)
+        "GSE.curation.lexicon_builder.resolution.propagate", partial(propagate, max_joint_assignments=7)
     )
     names = ("GOOD", "WANT", "THINK")
     relations = [
@@ -310,7 +310,7 @@ def test_rebuild_clears_old_attempts(tmp_path):
 
 
 def test_acceptance_transaction_failure_rolls_back_both_assignment_and_receipt(tmp_path, monkeypatch):
-    from gse.curation.lexicon_builder import completion
+    from GSE.curation.lexicon_builder import completion
 
     path, _ = built(tmp_path)
     before = state(path)
@@ -448,7 +448,7 @@ def test_invalid_selection_and_budgets_do_not_call_transport(tmp_path, options):
 
 @pytest.mark.parametrize("timeout", [None, 300])
 def test_real_cli_parsing_and_completion_with_mocked_transport(tmp_path, monkeypatch, capsys, timeout):
-    from gse.curation.lexicon_builder import residual
+    from GSE.curation.lexicon_builder import residual
 
     path, _ = built(tmp_path)
     report = tmp_path / "report.json"

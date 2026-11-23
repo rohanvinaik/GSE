@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.encoders.paragraph_structure_encoder."""
+"""Manual contract tests for GSE.encoders.paragraph_structure_encoder."""
 
 from __future__ import annotations
 
@@ -10,8 +10,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import numpy as np
 import pytest
 
-import gse.encoders.paragraph_structure_encoder as psem
-from gse.encoders.paragraph_structure_encoder import (
+import GSE.encoders.paragraph_structure_encoder as psem
+from GSE.encoders.paragraph_structure_encoder import (
     RELATION_TO_PRIMITIVE,
     CoherenceRelation,
     GestaltCodebook,

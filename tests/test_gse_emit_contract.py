@@ -9,8 +9,8 @@ import json
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.symbolic import (
+from GSE.api import GSEEncoder
+from GSE.symbolic import (
     CONTRACT_VERSION,
     emit,
     emit_contract,

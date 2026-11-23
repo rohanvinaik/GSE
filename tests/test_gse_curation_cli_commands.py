@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.cli.commands."""
+"""Manual contract tests for GSE.curation.cli.commands."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.cli.commands import (
+from GSE.curation.cli.commands import (
     _print_status,
     cmd_build,
     cmd_export,
@@ -97,7 +97,7 @@ class TestCmdBuild:
             discover=False,
         )
         with patch(
-            "gse.curation.lexicon_builder.pipeline.build_from_sources", return_value={"model_calls": 0}
+            "GSE.curation.lexicon_builder.pipeline.build_from_sources", return_value={"model_calls": 0}
         ) as build:
             cmd_build(args)
         build.assert_called_once_with("new.db", words=None, manifest=None, max_model_calls=0, discover=False)
@@ -148,7 +148,7 @@ class TestCmdInit:
 class TestCmdStatus:
     def test_calls_get_status(self):
         args = mk_args(lexicon_db="x")
-        with patch("gse.curation.pipeline.staged_builder.StagedBuilder") as MockBuilder:
+        with patch("GSE.curation.pipeline.staged_builder.StagedBuilder") as MockBuilder:
             mock_builder = MockBuilder.return_value.__enter__.return_value
             mock_builder.get_status.return_value = {
                 "phases": {},
@@ -164,11 +164,11 @@ class TestCmdStatus:
 class TestCmdValidate:
     def test_no_entries(self):
         args = mk_args(lexicon_db="x")
-        with patch("gse.curation.lexicon_db.LexiconDatabase") as MockDB:
+        with patch("GSE.curation.lexicon_db.LexiconDatabase") as MockDB:
             MockDB.return_value.get_validated_entries.return_value = []
-            with patch("gse.curation.validation.bipolar_validator.BipolarValidator"):
-                with patch("gse.curation.validation.coverage_checker.CoverageChecker"):
-                    with patch("gse.curation.validation.hierarchy_validator.HierarchyValidator"):
+            with patch("GSE.curation.validation.bipolar_validator.BipolarValidator"):
+                with patch("GSE.curation.validation.coverage_checker.CoverageChecker"):
+                    with patch("GSE.curation.validation.hierarchy_validator.HierarchyValidator"):
                         with pytest.raises(ZeroDivisionError):
                             cmd_validate(args)
                         # Division by zero with no entries
@@ -185,13 +185,13 @@ class TestCmdValidate:
         hierarchy_result = MagicMock()
         hierarchy_result.passed = True
 
-        with patch("gse.curation.lexicon_db.LexiconDatabase") as MockDB:
+        with patch("GSE.curation.lexicon_db.LexiconDatabase") as MockDB:
             MockDB.return_value.get_validated_entries.return_value = [entry]
-            with patch("gse.curation.validation.bipolar_validator.BipolarValidator") as MockBP:
+            with patch("GSE.curation.validation.bipolar_validator.BipolarValidator") as MockBP:
                 MockBP.return_value.validate.return_value = bipolar_result
-                with patch("gse.curation.validation.coverage_checker.CoverageChecker") as MockCV:
+                with patch("GSE.curation.validation.coverage_checker.CoverageChecker") as MockCV:
                     MockCV.return_value.validate.return_value = coverage_result
-                    with patch("gse.curation.validation.hierarchy_validator.HierarchyValidator") as MockH:
+                    with patch("GSE.curation.validation.hierarchy_validator.HierarchyValidator") as MockH:
                         MockH.return_value.validate.return_value = hierarchy_result
                         cmd_validate(args)
         out = capsys.readouterr().out
@@ -210,13 +210,13 @@ class TestCmdValidate:
         hierarchy_result = MagicMock()
         hierarchy_result.passed = True
 
-        with patch("gse.curation.lexicon_db.LexiconDatabase") as MockDB:
+        with patch("GSE.curation.lexicon_db.LexiconDatabase") as MockDB:
             MockDB.return_value.get_validated_entries.return_value = [entry]
-            with patch("gse.curation.validation.bipolar_validator.BipolarValidator") as MockBP:
+            with patch("GSE.curation.validation.bipolar_validator.BipolarValidator") as MockBP:
                 MockBP.return_value.validate.return_value = bipolar_result
-                with patch("gse.curation.validation.coverage_checker.CoverageChecker") as MockCV:
+                with patch("GSE.curation.validation.coverage_checker.CoverageChecker") as MockCV:
                     MockCV.return_value.validate.return_value = coverage_result
-                    with patch("gse.curation.validation.hierarchy_validator.HierarchyValidator") as MockH:
+                    with patch("GSE.curation.validation.hierarchy_validator.HierarchyValidator") as MockH:
                         MockH.return_value.validate.return_value = hierarchy_result
                         cmd_validate(args)
         out = capsys.readouterr().out
@@ -241,7 +241,7 @@ class TestCmdExport:
         output = tmp_path / "out.json"
         args = mk_args(lexicon_db="x", output=str(output))
 
-        with patch("gse.curation.lexicon_db.LexiconDatabase") as MockDB:
+        with patch("GSE.curation.lexicon_db.LexiconDatabase") as MockDB:
             MockDB.return_value.get_validated_entries.return_value = [entry]
             cmd_export(args)
 
@@ -253,7 +253,7 @@ class TestCmdExport:
     def test_default_output_path(self, tmp_path, monkeypatch):
         monkeypatch.chdir(tmp_path)
         args = mk_args(lexicon_db="x", output=None)
-        with patch("gse.curation.lexicon_db.LexiconDatabase") as MockDB:
+        with patch("GSE.curation.lexicon_db.LexiconDatabase") as MockDB:
             MockDB.return_value.get_validated_entries.return_value = []
             cmd_export(args)
         # Default file created
@@ -266,7 +266,7 @@ class TestCmdExport:
 class TestCmdLookup:
     def test_not_found(self, capsys):
         args = mk_args(lexicon_db="x", word="missing")
-        with patch("gse.curation.lexicon_db.LexiconDatabase") as MockDB:
+        with patch("GSE.curation.lexicon_db.LexiconDatabase") as MockDB:
             MockDB.return_value.get_lexeme.return_value = None
             cmd_lookup(args)
         assert "not found" in capsys.readouterr().out
@@ -283,7 +283,7 @@ class TestCmdLookup:
         entry.decomposition = {"GOOD": 1}
 
         args = mk_args(lexicon_db="x", word="happy")
-        with patch("gse.curation.lexicon_db.LexiconDatabase") as MockDB:
+        with patch("GSE.curation.lexicon_db.LexiconDatabase") as MockDB:
             MockDB.return_value.get_lexeme.return_value = entry
             cmd_lookup(args)
         out = capsys.readouterr().out
@@ -303,7 +303,7 @@ class TestCmdLookup:
         entry.decomposition = {"GOOD": 1, "BAD": 0}
 
         args = mk_args(lexicon_db="x", word="x")
-        with patch("gse.curation.lexicon_db.LexiconDatabase") as MockDB:
+        with patch("GSE.curation.lexicon_db.LexiconDatabase") as MockDB:
             MockDB.return_value.get_lexeme.return_value = entry
             cmd_lookup(args)
         out = capsys.readouterr().out
@@ -325,19 +325,19 @@ class TestMain:
         path = tmp_path / "existing.db"
         path.touch()
         with patch("sys.argv", ["prog", "--lexicon-db", str(path), "status"]):
-            with patch("gse.curation.cli.commands.cmd_status") as mock_cmd:
+            with patch("GSE.curation.cli.commands.cmd_status") as mock_cmd:
                 main()
                 mock_cmd.assert_called_once()
 
     def test_build_command(self):
         with patch("sys.argv", ["prog", "build"]):
-            with patch("gse.curation.cli.commands.cmd_build") as mock_cmd:
+            with patch("GSE.curation.cli.commands.cmd_build") as mock_cmd:
                 main()
                 mock_cmd.assert_called_once()
 
     def test_init_command(self):
         with patch("sys.argv", ["prog", "init"]):
-            with patch("gse.curation.cli.commands.cmd_init") as mock_cmd:
+            with patch("GSE.curation.cli.commands.cmd_init") as mock_cmd:
                 main()
                 mock_cmd.assert_called_once()
 
@@ -345,7 +345,7 @@ class TestMain:
         path = tmp_path / "existing.db"
         path.touch()
         with patch("sys.argv", ["prog", "--lexicon-db", str(path), "validate"]):
-            with patch("gse.curation.cli.commands.cmd_validate") as mock_cmd:
+            with patch("GSE.curation.cli.commands.cmd_validate") as mock_cmd:
                 main()
                 mock_cmd.assert_called_once()
 
@@ -353,7 +353,7 @@ class TestMain:
         path = tmp_path / "existing.db"
         path.touch()
         with patch("sys.argv", ["prog", "--lexicon-db", str(path), "export"]):
-            with patch("gse.curation.cli.commands.cmd_export") as mock_cmd:
+            with patch("GSE.curation.cli.commands.cmd_export") as mock_cmd:
                 main()
                 mock_cmd.assert_called_once()
 
@@ -361,7 +361,7 @@ class TestMain:
         path = tmp_path / "existing.db"
         path.touch()
         with patch("sys.argv", ["prog", "--lexicon-db", str(path), "lookup", "happy"]):
-            with patch("gse.curation.cli.commands.cmd_lookup") as mock_cmd:
+            with patch("GSE.curation.cli.commands.cmd_lookup") as mock_cmd:
                 main()
                 mock_cmd.assert_called_once()
 

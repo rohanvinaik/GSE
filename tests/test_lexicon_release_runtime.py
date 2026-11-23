@@ -11,12 +11,12 @@ import sys
 
 import pytest
 
-from gse.api.encoder import GSEEncoder
-from gse.api.errors import EncodingError
-from gse.lexical_evidence import close_lexical_connections, lookup_lexeme
-from gse.lexicon_builder.basis import BASIS_ID
-from gse.lexicon_builder.core import CANONICAL_COORDINATES
-from gse.lexicon_builder.runtime import (
+from GSE.api.encoder import GSEEncoder
+from GSE.api.errors import EncodingError
+from GSE.lexical_evidence import close_lexical_connections, lookup_lexeme
+from GSE.lexicon_builder.basis import BASIS_ID
+from GSE.lexicon_builder.core import CANONICAL_COORDINATES
+from GSE.lexicon_builder.runtime import (
     RELEASE_SOURCE,
     ReleaseReader,
     build_release,
@@ -293,7 +293,7 @@ def test_a_damaged_released_payload_and_basis_are_refused(build_dir, tmp_path):
 
 
 def test_a_reader_reuses_validation_only_for_its_unchanged_connection(build_dir, tmp_path, monkeypatch):
-    from gse.lexicon_builder import runtime
+    from GSE.lexicon_builder import runtime
 
     destination = tmp_path / "release.db"
     build_release(build_dir, destination)
@@ -356,7 +356,7 @@ def test_real_builder_output_is_released_without_a_model(tmp_path):
         [
             sys.executable,
             "-m",
-            "gse.lexicon_builder",
+            "GSE.lexicon_builder",
             "build",
             "--words",
             "good",

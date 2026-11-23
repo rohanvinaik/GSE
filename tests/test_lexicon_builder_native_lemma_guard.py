@@ -8,25 +8,25 @@ from dataclasses import asdict, replace
 import pytest
 from test_lexicon_builder_lexical_context import native as ancestry_native
 
-from gse.curation.lexicon_builder.completion import complete_dictionary
-from gse.curation.lexicon_builder.engine import Relation
-from gse.curation.lexicon_builder.evidence import EvidenceBundle
-from gse.curation.lexicon_builder.foundation import (
+from GSE.curation.lexicon_builder.completion import complete_dictionary
+from GSE.curation.lexicon_builder.engine import Relation
+from GSE.curation.lexicon_builder.evidence import EvidenceBundle
+from GSE.curation.lexicon_builder.foundation import (
     BANKS,
     lexical_context,
     projection_relations,
     valid_lexical_guard,
     validate_lexical_guards,
 )
-from gse.curation.lexicon_builder.model_receipts import read_model_receipts
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.residual import _request_id, build_request
-from gse.curation.lexicon_builder.resolution import resolve_dictionary
-from gse.curation.lexicon_builder.reviewed_export import export_reviewed_input
-from gse.curation.lexicon_builder.reviewed_patterns import run_workflow
-from gse.curation.lexicon_builder.rule_migration import migrate_rule
-from gse.curation.lexicon_builder.storage import read_entries
-from gse.curation.lexicon_builder.validation import validate_build
+from GSE.curation.lexicon_builder.model_receipts import read_model_receipts
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.residual import _request_id, build_request
+from GSE.curation.lexicon_builder.resolution import resolve_dictionary
+from GSE.curation.lexicon_builder.reviewed_export import export_reviewed_input
+from GSE.curation.lexicon_builder.reviewed_patterns import run_workflow
+from GSE.curation.lexicon_builder.rule_migration import migrate_rule
+from GSE.curation.lexicon_builder.storage import read_entries
+from GSE.curation.lexicon_builder.validation import validate_build
 
 NATIVE = "wordnet_native_lemma"
 ANCESTOR = "wordnet_ancestor:linear_unit.n.01"

@@ -7,8 +7,8 @@ This adaptation is an ordinary regression test, not a fresh mutation receipt.
 
 import pytest
 
-from gse.api.trace import TokenTrace
-from gse.symbolic.expression import Atom, Op, _with_clause_modal
+from GSE.api.trace import TokenTrace
+from GSE.symbolic.expression import Atom, Op, _with_clause_modal
 
 
 @pytest.mark.detective

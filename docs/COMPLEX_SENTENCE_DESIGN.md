@@ -1,7 +1,7 @@
 # Complex-Sentence Architecture — Build Design
 
 > The agreed design for lifting GSE from single-clause to multi-clause sentences,
-> on the **live spine** (`gse.api` + `gse.symbolic`). Companion to the spec
+> on the **live spine** (`GSE.api` + `GSE.symbolic`). Companion to the spec
 > `complex_sentence_architecture.md`. Authoritative source: Rohan, then the code.
 >
 > **Status.** Design agreed 2026-06-14. Implementation in progress.
@@ -11,7 +11,7 @@
 ## 0. The keystone (corrected)
 
 The recursion machinery **already exists**. `evaluate_tree`
-(`gse/symbolic/operators.py:215`) recurses into `Op.args`, evaluating nested
+(`GSE/symbolic/operators.py:215`) recurses into `Op.args`, evaluating nested
 `Op`s into `Predicate`s before the parent dispatch — so `Op(args=[Op(...)])`
 already yields nested predicates at runtime. The `Expression` union excluding
 `Predicate` is a *type annotation that under-describes runtime behavior*, not a
@@ -72,31 +72,31 @@ documented candidate for promotion, out of this build's scope.
 
 ## 3. Surface-by-surface changes
 
-1. **`gse/symbolic/tiers.py` (new).** `OperationTier` enum + `OPERATION_TIER`
+1. **`GSE/symbolic/tiers.py` (new).** `OperationTier` enum + `OPERATION_TIER`
    map + `is_clause_linking(operation)`. The single source of truth for §2.
-2. **`gse/api/trace.py`.** Add `ClauseSpan(clause_id, token_start, token_end,
+2. **`GSE/api/trace.py`.** Add `ClauseSpan(clause_id, token_start, token_end,
    operator_indices)` and `OperationTrace.clauses: List[ClauseSpan] = []`. Flat
    `operators` list stays. JSON round-trip extended; empty `clauses` ⇒
    byte-identical single-clause traces (back-compat).
-3. **`gse/api/encoder.py`.** A segmentation pre-pass partitions tokens at
+3. **`GSE/api/encoder.py`.** A segmentation pre-pass partitions tokens at
    `CLAUSE_LINKING` operator positions + clause punctuation into ordered spans.
    Within-clause arg resolution runs *inside each span*. Clause-linking operators
    record their left/right operands by clause-id. Connectives with no lexicon
    operator row (`and`/`who`/`which`/`that`/`to`) are recognized structurally
    from the native front-end's arc-free connective/position cues — same pattern
    as the copula `TYPE_ASSERT` synthesis.
-4. **`gse/symbolic/expression.py`.** `Operand = Union[Atom, Phrase, Negation, Op,
+4. **`GSE/symbolic/expression.py`.** `Operand = Union[Atom, Phrase, Negation, Op,
    Predicate]`; annotate operand-bearing fields with it. Replace positional
    left-fold in `from_trace` with tier-aware build: within-clause `Op` per span,
    then clause-linking `Op`s folded over clause results by surface order.
-5. **`gse/symbolic/predicates.py`.** Add `Coordination(members, conjunction)`,
+5. **`GSE/symbolic/predicates.py`.** Add `Coordination(members, conjunction)`,
    `RelativeRestriction(head, restriction)`, `Control(verb, controller, inner)`.
    `Causation`/`Contrast` unchanged.
-6. **`gse/symbolic/operators.py`.** Dispatch entries for `COORDINATION`,
+6. **`GSE/symbolic/operators.py`.** Dispatch entries for `COORDINATION`,
    `REL_RESTRICT`, `CONTROL`.
-7. **`gse/symbolic/queries.py`.** Add `clauses(tree)` and clause-scoped
+7. **`GSE/symbolic/queries.py`.** Add `clauses(tree)` and clause-scoped
    `entities()`.
-8. **`gse/verification/symbolic_proof_suite.py`.** Lift the argument-swap proof
+8. **`GSE/verification/symbolic_proof_suite.py`.** Lift the argument-swap proof
    to clauses (`X because Y` ≠ `Y because X`, HDC-similar); add the
    nesting/inversion proof and novel-clause systematicity.
 
@@ -155,7 +155,7 @@ offline lexicon-bootstrap definition-parser, which never runs at encode time).
 
 ## Showcase
 
-`python -m gse.demo.showcase` (`gse/demo/showcase.py`) prints a self-evident,
+`python -m GSE.demo.showcase` (`GSE/demo/showcase.py`) prints a self-evident,
 at-a-glance demonstration of the whole scope: it renders the clause graph for a
 "see Spot run" → Macbeth-grade climb of sentences, shows the argument-swap jewel
 (HDC cosine ≈ 0.93 yet logically opposite), proves byte-identical determinism
@@ -167,9 +167,9 @@ run when someone asks "what does this actually do, and how is it not an LLM?"
 All milestones complete. **13/13 proofs, 345 tests pass.** New predicates:
 `Coordination`, `RelativeRestriction`, `Control` (plus `Causation`/`Contrast`
 reused). Single-clause traces stay byte-identical; multi-clause trees round-trip
-JSON. Files touched: `gse/symbolic/{tiers,expression,predicates,operators,
-resolution,queries,templating,serialization}.py`, `gse/api/{trace,encoder}.py`,
-`gse/verification/symbolic_proof_suite.py`.
+JSON. Files touched: `GSE/symbolic/{tiers,expression,predicates,operators,
+resolution,queries,templating,serialization}.py`, `GSE/api/{trace,encoder}.py`,
+`GSE/verification/symbolic_proof_suite.py`.
 
 Out of scope for this build (unchanged): sparse-wiki OOV grounding + abstention
 (separable later track), paragraph/cross-sentence (Genesis), clause-level `and`,

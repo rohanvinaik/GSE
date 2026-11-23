@@ -6,13 +6,13 @@ import pytest
 from test_lexicon_builder_reviewed_dependencies import warranted
 from test_lexicon_builder_reviewed_patterns import FakeTransport, execute, ruling
 
-from gse.curation.lexicon_builder.engine import Assertion, Relation
-from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
-from gse.curation.lexicon_builder.foundation import lexical_context
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.reviewed_export import SELECTION_FORMAT, export_reviewed_input
-from gse.curation.lexicon_builder.reviewed_patterns import INPUT_FORMAT, run_workflow_input
-from gse.curation.lexicon_builder.rule_history import digest, relation_records
+from GSE.curation.lexicon_builder.engine import Assertion, Relation
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
+from GSE.curation.lexicon_builder.foundation import lexical_context
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.reviewed_export import SELECTION_FORMAT, export_reviewed_input
+from GSE.curation.lexicon_builder.reviewed_patterns import INPUT_FORMAT, run_workflow_input
+from GSE.curation.lexicon_builder.rule_history import digest, relation_records
 
 ANCESTOR = "wordnet_ancestor:linear_unit.n.01"
 
@@ -274,7 +274,7 @@ def test_symbolic_seed_unknown_disagreement_and_conflict_remain_distinct(values,
 
 
 def test_symbolic_seed_does_not_bypass_audit_abstention_or_admission():
-    from gse.curation.lexicon_builder.rule_admission import admit_records
+    from GSE.curation.lexicon_builder.rule_admission import admit_records
 
     raw = source_input()
     raw["rulings"] = []
@@ -295,7 +295,7 @@ def test_symbolic_seed_does_not_bypass_audit_abstention_or_admission():
 
 
 def test_symbolic_conclusion_keeps_legacy_discovery_semantics():
-    from gse.curation.lexicon_builder.reviewed_patterns import LEGACY_INPUT_FORMAT
+    from GSE.curation.lexicon_builder.reviewed_patterns import LEGACY_INPUT_FORMAT
 
     raw = source_input()
     raw["format"] = LEGACY_INPUT_FORMAT
@@ -332,7 +332,7 @@ def test_conjunctive_discovery_reuses_conclusion_proof_and_still_audits_target()
 
 
 def test_symbolically_seeded_rule_admission_replays_the_independent_audit():
-    from gse.curation.lexicon_builder.rule_admission import admit_records
+    from GSE.curation.lexicon_builder.rule_admission import admit_records
 
     raw = source_input()
     raw["audit_entry_ids"] = raw["audit_entry_ids"][:1]

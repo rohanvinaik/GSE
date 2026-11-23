@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.external_sources.lancaster_sensorimotor."""
+"""Manual contract tests for GSE.curation.external_sources.lancaster_sensorimotor."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.external_sources.lancaster_sensorimotor import (
+from GSE.curation.external_sources.lancaster_sensorimotor import (
     DIMENSION_TO_PRIMITIVE,
     LancasterSensorimotorParser,
     SensorimotorEntry,

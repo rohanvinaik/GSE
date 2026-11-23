@@ -12,9 +12,9 @@ import json
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.symbolic import emit_contract, evaluate_tree, from_trace, resolve
-from gse.symbolic.modality import assertion_mode
+from GSE.api import GSEEncoder
+from GSE.symbolic import emit_contract, evaluate_tree, from_trace, resolve
+from GSE.symbolic.modality import assertion_mode
 
 
 @pytest.fixture(scope="module")

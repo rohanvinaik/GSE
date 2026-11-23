@@ -10,8 +10,8 @@ import json
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.symbolic import (
+from GSE.api import GSEEncoder
+from GSE.symbolic import (
     emit,
     evaluate_tree,
     from_dict,
@@ -20,7 +20,7 @@ from gse.symbolic import (
     resolve,
     to_dict,
 )
-from gse.symbolic.predicates import Causation, Control, Event
+from GSE.symbolic.predicates import Causation, Control, Event
 
 
 @pytest.fixture(scope="module")

@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.llm.granular_decomposer."""
+"""Manual contract tests for GSE.curation.llm.granular_decomposer."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.llm.granular_decomposer import (
+from GSE.curation.llm.granular_decomposer import (
     GRANULAR_SYSTEM_PROMPT,
     PRIMITIVE_GROUPS,
     GranularDecomposer,
@@ -139,14 +139,14 @@ class TestGranularResult:
 
 class TestInit:
     def test_basic(self, fresh_db):
-        with patch("gse.curation.llm.granular_decomposer.OllamaClient"):
+        with patch("GSE.curation.llm.granular_decomposer.OllamaClient"):
             d = GranularDecomposer(db_path=fresh_db)
             assert d.db_path == fresh_db
             assert d.model == "qwen3:32b"
             assert d.temperature == 0.2
 
     def test_custom_model_temp(self, fresh_db):
-        with patch("gse.curation.llm.granular_decomposer.OllamaClient"):
+        with patch("GSE.curation.llm.granular_decomposer.OllamaClient"):
             d = GranularDecomposer(db_path=fresh_db, model="llama", temperature=0.5)
             assert d.model == "llama"
             assert d.temperature == 0.5
@@ -157,12 +157,12 @@ class TestInit:
 
 class TestGetFilled:
     def test_empty(self, fresh_db):
-        with patch("gse.curation.llm.granular_decomposer.OllamaClient"):
+        with patch("GSE.curation.llm.granular_decomposer.OllamaClient"):
             d = GranularDecomposer(db_path=fresh_db)
             assert d.get_filled_primitives(1) == {}
 
     def test_returns_value_and_source(self, fresh_db):
-        with patch("gse.curation.llm.granular_decomposer.OllamaClient"):
+        with patch("GSE.curation.llm.granular_decomposer.OllamaClient"):
             d = GranularDecomposer(db_path=fresh_db)
             d.conn.execute(
                 "INSERT INTO primitive_values (lexeme_id, primitive, value, confidence, source) "
@@ -178,14 +178,14 @@ class TestGetFilled:
 
 class TestGetMissing:
     def test_all_missing_when_empty(self, fresh_db):
-        from gse.curation.schema import ALL_PRIMITIVES
+        from GSE.curation.schema import ALL_PRIMITIVES
 
-        with patch("gse.curation.llm.granular_decomposer.OllamaClient"):
+        with patch("GSE.curation.llm.granular_decomposer.OllamaClient"):
             d = GranularDecomposer(db_path=fresh_db)
             assert set(d.get_missing_primitives(1)) == set(ALL_PRIMITIVES)
 
     def test_excludes_filled(self, fresh_db):
-        with patch("gse.curation.llm.granular_decomposer.OllamaClient"):
+        with patch("GSE.curation.llm.granular_decomposer.OllamaClient"):
             d = GranularDecomposer(db_path=fresh_db)
             d.conn.execute(
                 "INSERT INTO primitive_values (lexeme_id, primitive, value, confidence, source) "
@@ -200,12 +200,12 @@ class TestGetMissing:
 
 class TestDecomposePrimitives:
     def test_empty_list(self, fresh_db):
-        with patch("gse.curation.llm.granular_decomposer.OllamaClient"):
+        with patch("GSE.curation.llm.granular_decomposer.OllamaClient"):
             d = GranularDecomposer(db_path=fresh_db)
             assert d.decompose_primitives("x", []) == {}
 
     def test_basic_response(self, fresh_db):
-        with patch("gse.curation.llm.granular_decomposer.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.granular_decomposer.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = '{"GOOD": 1, "BAD": 0}'
             d = GranularDecomposer(db_path=fresh_db)
             result = d.decompose_primitives("happy", ["GOOD", "BAD"])
@@ -213,46 +213,46 @@ class TestDecomposePrimitives:
 
     def test_positive_value_normalized(self, fresh_db):
         # Value 5 normalized to 1
-        with patch("gse.curation.llm.granular_decomposer.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.granular_decomposer.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = '{"GOOD": 5}'
             d = GranularDecomposer(db_path=fresh_db)
             assert d.decompose_primitives("x", ["GOOD"])["GOOD"] == 1
 
     def test_negative_value_normalized(self, fresh_db):
-        with patch("gse.curation.llm.granular_decomposer.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.granular_decomposer.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = '{"GOOD": -3}'
             d = GranularDecomposer(db_path=fresh_db)
             assert d.decompose_primitives("x", ["GOOD"])["GOOD"] == -1
 
     def test_zero_value(self, fresh_db):
-        with patch("gse.curation.llm.granular_decomposer.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.granular_decomposer.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = '{"GOOD": 0}'
             d = GranularDecomposer(db_path=fresh_db)
             assert d.decompose_primitives("x", ["GOOD"])["GOOD"] == 0
 
     def test_non_numeric_value_becomes_0(self, fresh_db):
-        with patch("gse.curation.llm.granular_decomposer.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.granular_decomposer.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = '{"GOOD": "yes"}'
             d = GranularDecomposer(db_path=fresh_db)
             assert d.decompose_primitives("x", ["GOOD"])["GOOD"] == 0
 
     def test_missing_primitive_filled_with_0(self, fresh_db):
         # If LLM returns response without one of the requested primitives → 0
-        with patch("gse.curation.llm.granular_decomposer.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.granular_decomposer.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = '{"GOOD": 1}'
             d = GranularDecomposer(db_path=fresh_db)
             result = d.decompose_primitives("x", ["GOOD", "BAD"])
             assert result == {"GOOD": 1, "BAD": 0}
 
     def test_no_json_returns_all_zeros(self, fresh_db):
-        with patch("gse.curation.llm.granular_decomposer.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.granular_decomposer.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = "no json here"
             d = GranularDecomposer(db_path=fresh_db)
             result = d.decompose_primitives("x", ["GOOD", "BAD"])
             assert result == {"GOOD": 0, "BAD": 0}
 
     def test_exception_returns_all_zeros(self, fresh_db):
-        with patch("gse.curation.llm.granular_decomposer.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.granular_decomposer.OllamaClient") as MockClient:
             MockClient.return_value.generate.side_effect = RuntimeError("boom")
             d = GranularDecomposer(db_path=fresh_db)
             result = d.decompose_primitives("x", ["GOOD", "BAD"])
@@ -264,7 +264,7 @@ class TestDecomposePrimitives:
 
 class TestProcessWord:
     def test_skips_filled_when_skip_filled_true(self, fresh_db):
-        with patch("gse.curation.llm.granular_decomposer.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.granular_decomposer.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = '{"GOOD": 1}'
             d = GranularDecomposer(db_path=fresh_db)
             # All evaluators pre-filled
@@ -280,7 +280,7 @@ class TestProcessWord:
             assert "evaluators" not in results
 
     def test_no_skip_processes_all_banks(self, fresh_db):
-        with patch("gse.curation.llm.granular_decomposer.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.granular_decomposer.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = "{}"
             d = GranularDecomposer(db_path=fresh_db)
             results = d.process_word(1, "happy", skip_filled=False)
@@ -288,7 +288,7 @@ class TestProcessWord:
             assert len(results) == 8
 
     def test_stores_results_in_db(self, fresh_db):
-        with patch("gse.curation.llm.granular_decomposer.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.granular_decomposer.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = '{"GOOD": 1}'
             d = GranularDecomposer(db_path=fresh_db, model="m")
             d.process_word(1, "happy", skip_filled=False)
@@ -303,13 +303,13 @@ class TestProcessWord:
 
 class TestProcessBatch:
     def test_no_words(self, fresh_db):
-        with patch("gse.curation.llm.granular_decomposer.OllamaClient"):
+        with patch("GSE.curation.llm.granular_decomposer.OllamaClient"):
             d = GranularDecomposer(db_path=fresh_db)
             stats = d.process_batch()
             assert stats["processed"] == 0
 
     def test_processes_words(self, fresh_db):
-        with patch("gse.curation.llm.granular_decomposer.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.granular_decomposer.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = "{}"
             d = GranularDecomposer(db_path=fresh_db)
             d.conn.execute("INSERT INTO lexemes VALUES (1, 'happy', 'adj', 1)")
@@ -318,7 +318,7 @@ class TestProcessBatch:
             assert stats["processed"] == 1
 
     def test_limit(self, fresh_db):
-        with patch("gse.curation.llm.granular_decomposer.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.granular_decomposer.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = "{}"
             d = GranularDecomposer(db_path=fresh_db)
             for i in range(5):
@@ -328,7 +328,7 @@ class TestProcessBatch:
             assert stats["processed"] == 3
 
     def test_only_missing_false_returns_all(self, fresh_db):
-        with patch("gse.curation.llm.granular_decomposer.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.granular_decomposer.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = "{}"
             d = GranularDecomposer(db_path=fresh_db)
             d.conn.execute("INSERT INTO lexemes VALUES (1, 'w1', 'n', 1)")
@@ -342,7 +342,7 @@ class TestProcessBatch:
 
 class TestClose:
     def test_closes_conn(self, fresh_db):
-        with patch("gse.curation.llm.granular_decomposer.OllamaClient"):
+        with patch("GSE.curation.llm.granular_decomposer.OllamaClient"):
             d = GranularDecomposer(db_path=fresh_db)
             d.close()
             with pytest.raises(sqlite3.ProgrammingError):

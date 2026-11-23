@@ -5,8 +5,8 @@ from pathlib import Path
 
 import pytest
 
-from gse.lexicon_builder.core import CANONICAL_COORDINATES, legal_domain
-from gse.lexicon_builder.evaluation import (
+from GSE.lexicon_builder.core import CANONICAL_COORDINATES, legal_domain
+from GSE.lexicon_builder.evaluation import (
     artifact_tasks,
     baseline_choice,
     compare_baselines,
@@ -211,11 +211,11 @@ def test_overall_win_cannot_hide_a_failing_typed_group():
 
 
 def test_construction_modules_do_not_import_gold_evaluator():
-    directory = Path(__file__).resolve().parents[1] / "gse/lexicon_builder"
+    directory = Path(__file__).resolve().parents[1] / "GSE/lexicon_builder"
     for filename in ("build.py", "tail.py", "reading.py", "families.py", "native_constraints.py"):
         tree = ast.parse((directory / filename).read_text())
         for node in ast.walk(tree):
             if isinstance(node, ast.ImportFrom):
-                assert node.module != "gse.lexicon_builder.evaluation"
+                assert node.module != "GSE.lexicon_builder.evaluation"
             elif isinstance(node, ast.Import):
-                assert all(alias.name != "gse.lexicon_builder.evaluation" for alias in node.names)
+                assert all(alias.name != "GSE.lexicon_builder.evaluation" for alias in node.names)

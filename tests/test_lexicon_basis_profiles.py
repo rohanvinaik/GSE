@@ -9,9 +9,9 @@ import sys
 
 import pytest
 
-from gse.lexicon_builder.basis import OPPOSITE_POLES, PRIMES
-from gse.lexicon_builder.core import CANONICAL_COORDINATES, canonical_pole
-from gse.lexicon_builder.foundation import (
+from GSE.lexicon_builder.basis import OPPOSITE_POLES, PRIMES
+from GSE.lexicon_builder.core import CANONICAL_COORDINATES, canonical_pole
+from GSE.lexicon_builder.foundation import (
     definition_status,
     examination_status,
     foundation_readings,
@@ -19,7 +19,7 @@ from gse.lexicon_builder.foundation import (
     reconstruct_profile,
     structural_entries,
 )
-from gse.lexicon_builder.registry import load_rulebook
+from GSE.lexicon_builder.registry import load_rulebook
 
 
 @pytest.fixture(scope="module")
@@ -49,7 +49,7 @@ def test_each_located_prime_rebuilds_its_authored_58_cell_definition(prime, foun
 def test_real_prime_proof_entry_point_requires_all_72(tmp_path):
     output = tmp_path / "proof.json"
     subprocess.run(
-        [sys.executable, "-m", "gse.lexicon_builder", "prime-proof", "--output", str(output)],
+        [sys.executable, "-m", "GSE.lexicon_builder", "prime-proof", "--output", str(output)],
         check=True,
         capture_output=True,
         text=True,

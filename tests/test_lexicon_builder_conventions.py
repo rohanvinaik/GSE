@@ -6,12 +6,12 @@ from dataclasses import asdict
 
 import pytest
 
-from gse.curation.lexicon_builder.engine import Assertion, Relation
-from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
-from gse.curation.lexicon_builder.foundation import BANKS, load_manifest, projection_relations
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.storage import read_entries
-from gse.curation.lexicon_builder.validation import validate_build
+from GSE.curation.lexicon_builder.engine import Assertion, Relation
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
+from GSE.curation.lexicon_builder.foundation import BANKS, load_manifest, projection_relations
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.storage import read_entries
+from GSE.curation.lexicon_builder.validation import validate_build
 
 
 def classified(*banks):

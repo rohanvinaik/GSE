@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.external_sources.comparator."""
+"""Manual contract tests for GSE.curation.external_sources.comparator."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.external_sources.comparator import (
+from GSE.curation.external_sources.comparator import (
     ComparisonResult,
     DisagreementRecord,
     ExternalSourcesComparator,
@@ -113,16 +113,16 @@ class TestLoadAllSources:
     def test_no_sources_available(self):
         # Patch every parser import to raise — comparator catches and continues
         c = ExternalSourcesComparator()
-        with patch("gse.curation.external_sources.sentiwordnet.SentiWordNetParser", side_effect=ImportError("nope")):
-            with patch("gse.curation.external_sources.nrc_emotion.NRCEmotionParser", side_effect=ImportError("nope")):
-                with patch("gse.curation.external_sources.nrc_vad.NRCVADParser", side_effect=ImportError("nope")):
-                    with patch("gse.curation.external_sources.verbnet.VerbNetParser", side_effect=ImportError("nope")):
+        with patch("GSE.curation.external_sources.sentiwordnet.SentiWordNetParser", side_effect=ImportError("nope")):
+            with patch("GSE.curation.external_sources.nrc_emotion.NRCEmotionParser", side_effect=ImportError("nope")):
+                with patch("GSE.curation.external_sources.nrc_vad.NRCVADParser", side_effect=ImportError("nope")):
+                    with patch("GSE.curation.external_sources.verbnet.VerbNetParser", side_effect=ImportError("nope")):
                         with patch(
-                            "gse.curation.external_sources.concreteness.ConcretenessParser",
+                            "GSE.curation.external_sources.concreteness.ConcretenessParser",
                             side_effect=ImportError("nope"),
                         ):
                             with patch(
-                                "gse.curation.external_sources.lancaster_sensorimotor.LancasterSensorimotorParser",
+                                "GSE.curation.external_sources.lancaster_sensorimotor.LancasterSensorimotorParser",
                                 side_effect=ImportError("nope"),
                             ):
                                 stats = c.load_all_sources()
@@ -134,16 +134,16 @@ class TestLoadAllSources:
         mock_parser = MagicMock()
         mock_parser.load.return_value = True
         mock_parser.entries = {"happy": []}
-        with patch("gse.curation.external_sources.sentiwordnet.SentiWordNetParser", return_value=mock_parser):
-            with patch("gse.curation.external_sources.nrc_emotion.NRCEmotionParser", side_effect=ImportError("nope")):
-                with patch("gse.curation.external_sources.nrc_vad.NRCVADParser", side_effect=ImportError("nope")):
-                    with patch("gse.curation.external_sources.verbnet.VerbNetParser", side_effect=ImportError("nope")):
+        with patch("GSE.curation.external_sources.sentiwordnet.SentiWordNetParser", return_value=mock_parser):
+            with patch("GSE.curation.external_sources.nrc_emotion.NRCEmotionParser", side_effect=ImportError("nope")):
+                with patch("GSE.curation.external_sources.nrc_vad.NRCVADParser", side_effect=ImportError("nope")):
+                    with patch("GSE.curation.external_sources.verbnet.VerbNetParser", side_effect=ImportError("nope")):
                         with patch(
-                            "gse.curation.external_sources.concreteness.ConcretenessParser",
+                            "GSE.curation.external_sources.concreteness.ConcretenessParser",
                             side_effect=ImportError("nope"),
                         ):
                             with patch(
-                                "gse.curation.external_sources.lancaster_sensorimotor.LancasterSensorimotorParser",
+                                "GSE.curation.external_sources.lancaster_sensorimotor.LancasterSensorimotorParser",
                                 side_effect=ImportError("nope"),
                             ):
                                 stats = c.load_all_sources()
@@ -154,15 +154,15 @@ class TestLoadAllSources:
         c = ExternalSourcesComparator()
         mock_parser = MagicMock()
         mock_parser.load.return_value = False  # Load failed
-        with patch("gse.curation.external_sources.sentiwordnet.SentiWordNetParser", return_value=mock_parser):
-            with patch("gse.curation.external_sources.nrc_emotion.NRCEmotionParser", side_effect=ImportError):
-                with patch("gse.curation.external_sources.nrc_vad.NRCVADParser", side_effect=ImportError):
-                    with patch("gse.curation.external_sources.verbnet.VerbNetParser", side_effect=ImportError):
+        with patch("GSE.curation.external_sources.sentiwordnet.SentiWordNetParser", return_value=mock_parser):
+            with patch("GSE.curation.external_sources.nrc_emotion.NRCEmotionParser", side_effect=ImportError):
+                with patch("GSE.curation.external_sources.nrc_vad.NRCVADParser", side_effect=ImportError):
+                    with patch("GSE.curation.external_sources.verbnet.VerbNetParser", side_effect=ImportError):
                         with patch(
-                            "gse.curation.external_sources.concreteness.ConcretenessParser", side_effect=ImportError
+                            "GSE.curation.external_sources.concreteness.ConcretenessParser", side_effect=ImportError
                         ):
                             with patch(
-                                "gse.curation.external_sources.lancaster_sensorimotor.LancasterSensorimotorParser",
+                                "GSE.curation.external_sources.lancaster_sensorimotor.LancasterSensorimotorParser",
                                 side_effect=ImportError,
                             ):
                                 stats = c.load_all_sources()
@@ -632,7 +632,7 @@ class TestIntegrateComparison:
     def test_runs_without_error(self, capsys):
         mock_llm = MagicMock()
         mock_llm.decompose_word.return_value = {"GOOD": 1}
-        with patch("gse.curation.llm.ollama_client.OllamaClient", return_value=mock_llm):
+        with patch("GSE.curation.llm.ollama_client.OllamaClient", return_value=mock_llm):
             with patch.object(ExternalSourcesComparator, "load_all_sources"):
                 with patch.object(ExternalSourcesComparator, "compare") as mock_compare:
                     mock_result = ComparisonResult(
@@ -651,7 +651,7 @@ class TestIntegrateComparison:
     def test_prints_disagreements(self, capsys):
         mock_llm = MagicMock()
         mock_llm.decompose_word.return_value = {}
-        with patch("gse.curation.llm.ollama_client.OllamaClient", return_value=mock_llm):
+        with patch("GSE.curation.llm.ollama_client.OllamaClient", return_value=mock_llm):
             with patch.object(ExternalSourcesComparator, "load_all_sources"):
                 with patch.object(ExternalSourcesComparator, "compare") as mock_compare:
                     mock_result = ComparisonResult(

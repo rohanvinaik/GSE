@@ -3,14 +3,14 @@ requires = ["setuptools>=84.1.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-include = ["gse*"]
+include = ["GSE*"]
 exclude = ["tests*", "scripts*", "data*", "daemon*", "logs*", "prompts*"]
 
 [tool.setuptools.package-data]
-"gse.lexicon_builder" = ["*.json"]
+"GSE.lexicon_builder" = ["*.json"]
 
 [project]
-name = "gse"
+name = "GSE"
 version = "2.0.0"
 description = "Geometric Semantic Encoding — hyperdimensional computing framework for semantic representation"
 requires-python = ">=3.14"
@@ -24,9 +24,9 @@ dependencies = [
 ]
 
 # spaCy is no longer required to run the encoder: the default GSE-native token
-# engine (gse/nlp/native.py) is deterministic and arc-free (WS1, docs/ROADMAP.md).
+# engine (GSE/nlp/native.py) is deterministic and arc-free (WS1, docs/ROADMAP.md).
 # It is needed only for the lexicon bootstrap definition-parser
-# (gse/curation/decomposition/definition_structure.py), the opt-in
+# (GSE/curation/decomposition/definition_structure.py), the opt-in
 # GSEEncoder(engine="spacy"), and the WS1 parity harness (scripts/ws1_parity.py).
 [project.optional-dependencies]
 curation = [
@@ -34,20 +34,20 @@ curation = [
     "en-core-web-sm",
     "requests>=2.28.0",   # external_sources downloaders (nrc/concreteness/…)
 ]
-# SymbolicSpellCheck MCP server (gse/mcp/spell_server.py). The corrector core needs no
+# SymbolicSpellCheck MCP server (GSE/mcp/spell_server.py). The corrector core needs no
 # extra deps; only the MCP transport does.
 spellcheck-mcp = [
     "mcp>=1.30.0",
 ]
 
 [project.scripts]
-gse-spellcheck-mcp = "gse.mcp.spell_server:main"
-gse-lexicon = "gse.lexicon_builder.cli:main"
+GSE-spellcheck-mcp = "GSE.mcp.spell_server:main"
+GSE-lexicon = "GSE.lexicon_builder.cli:main"
 
 [dependency-groups]
 dev = [
     "pytest>=9.1.0",
-    "mcp>=1.30.0",        # tests import gse.mcp.spell_server; runtime consumers use the extra
+    "mcp>=1.30.0",        # tests import GSE.mcp.spell_server; runtime consumers use the extra
     "requests>=2.28.0",  # tests import external_sources modules (previously undeclared)
     "hypothesis>=6",  # generated producer/adoption contract tests
 ]
@@ -67,12 +67,12 @@ default-groups = ["dev", "detective"]  # a plain `uv sync` or `uv run` keeps Det
 target-version = "py314"
 line-length = 120
 
-# The archives (archive/, gse/_archive/, scripts/_archive/) are kept in the repo for provenance but
+# The archives (archive/, GSE/_archive/, scripts/_archive/) are kept in the repo for provenance but
 # are not maintained code: every tool skips them (ruff here, ty below, pytest norecursedirs).
 exclude = [
     "data/external",
     "archive",   # single-path patterns: any directory named archive/_archive, at any depth
-    "_archive",  # (gse/, scripts/, tests/ — tests/_archive was missed when these were listed by hand)
+    "_archive",  # (GSE/, scripts/, tests/ — tests/_archive was missed when these were listed by hand)
     "daemon",
     ".lintgate",
     "tests/detective",  # Detective-generated, content-hashed, regenerated wholesale: never hand- or tool-edited

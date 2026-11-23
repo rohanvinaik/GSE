@@ -6,13 +6,13 @@ import sqlite3
 import numpy as np
 import pytest
 
-from gse.api.encoder import GSEEncoder
-from gse.api.errors import OOVError
-from gse.curation.lexicon_builder.engine import Assertion, Relation, propagate
-from gse.curation.lexicon_builder.evidence import Definition, Observation
-from gse.curation.lexicon_builder.storage import open_build, store_entry, store_observations
-from gse.lexical_evidence import close_lexical_connections, lookup_lexeme
-from gse.vectors_v2 import bundle, encode_hierarchy
+from GSE.api.encoder import GSEEncoder
+from GSE.api.errors import OOVError
+from GSE.curation.lexicon_builder.engine import Assertion, Relation, propagate
+from GSE.curation.lexicon_builder.evidence import Definition, Observation
+from GSE.curation.lexicon_builder.storage import open_build, store_entry, store_observations
+from GSE.lexical_evidence import close_lexical_connections, lookup_lexeme
+from GSE.vectors_v2 import bundle, encode_hierarchy
 
 
 @pytest.fixture
@@ -192,7 +192,7 @@ def test_entirely_silent_identified_definition_stays_empty(encoder):
 
 @pytest.mark.parametrize("values,partial", [({}, True), ({"GOOD": 0}, True), ({"GOOD": 0, "FEEL": 0}, False)])
 def test_empty_partial_and_justified_zero_have_distinct_negation_evidence(tmp_path, values, partial):
-    from gse.nlp.morphology import NEGATION, negation_admission
+    from GSE.nlp.morphology import NEGATION, negation_admission
 
     path = tmp_path / "zero-evidence.db"
     conn = open_build(path)

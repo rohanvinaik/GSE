@@ -1,12 +1,12 @@
 """Tests for per-source primitive scope restriction."""
 
-from gse.curation.external_sources.source_scope import (
+from GSE.curation.external_sources.source_scope import (
     SOURCE_PRIMITIVE_SCOPE,
     WORD_SCALE_EXCLUDED_PRIMITIVES,
     filter_votes_by_scope,
     in_scope,
 )
-from gse.primitives_v2 import SENTENCE_SCALE
+from GSE.primitives_v2 import SENTENCE_SCALE
 
 
 class TestWordScaleBoundary:

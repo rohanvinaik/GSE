@@ -106,8 +106,8 @@ class ComposedReader:
     """
 
     def __init__(self):
-        from gse.api import GSEEncoder
-        from gse.symbolic import GenealogyStore
+        from GSE.api import GSEEncoder
+        from GSE.symbolic import GenealogyStore
 
         self.enc = GSEEncoder()
         self.store = GenealogyStore()
@@ -121,7 +121,7 @@ class ComposedReader:
         produced this tree (single-sentence vs whole-document)."""
         from nltk.corpus import wordnet as wn
 
-        from gse.symbolic.grounding import _collect_entities, _is_proper, _lookup_key, _position
+        from GSE.symbolic.grounding import _collect_entities, _is_proper, _lookup_key, _position
 
         ents: list = []
         _collect_entities(tree, ents)
@@ -167,7 +167,7 @@ class ComposedReader:
           (what information the disambiguator has with NO external scale imported).
         Returns list aligned to sent_texts: each element is a list of committed-sense dicts
           (empty for sentences that failed to encode)."""
-        from gse.symbolic import evaluate_tree, from_trace, resolve, resolve_document
+        from GSE.symbolic import evaluate_tree, from_trace, resolve, resolve_document
 
         # encode each sentence, keeping index alignment (skip un-encodable, remember which)
         trees, idx_map = [], []
@@ -267,7 +267,7 @@ def run_scale(reader, files: int, max_sents: int, scale: str = "document"):
     from nltk.corpus import wordnet as wn
 
     try:
-        from gse.discourse import super_register_of
+        from GSE.discourse import super_register_of
     except Exception:
 
         def super_register_of(genre):

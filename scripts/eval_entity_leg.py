@@ -1,7 +1,7 @@
 """Evaluate the ALIAS-FREE entity leg against Wikipedia's misspelling-redirects.
 
 The thesis measurement, entity edition: the correction path uses NO collated
-error-pair data (gse/nlp/spellcheck_entity.py runs on canonical labels + the closed
+error-pair data (GSE/nlp/spellcheck_entity.py runs on canonical labels + the closed
 edit model + the pagerank prior). Wikipedia's redirect table — humans collating
 "the entity people actually mean when they mistype" — is held out and used ONLY
 here, as the eval corpus: how much of what the collated data knows does pure
@@ -30,8 +30,8 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from gse.nlp.spellcheck import _damerau  # noqa: E402
-from gse.nlp.spellcheck_entity import (  # noqa: E402
+from GSE.nlp.spellcheck import _damerau  # noqa: E402
+from GSE.nlp.spellcheck_entity import (  # noqa: E402
     _DEFAULT_ENTITIES,
     correct_entity,
 )

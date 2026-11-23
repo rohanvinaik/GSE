@@ -1,4 +1,4 @@
-"""Destruction bound for the keyboard-HDC recovery path (gse.nlp.hdc_speller, wired into
+"""Destruction bound for the keyboard-HDC recovery path (GSE.nlp.hdc_speller, wired into
 spell_server's abstain branch). The edit-distance bound is measured separately
 (scripts/adversarial_destruction.py -> 0.00000% frequency-weighted); this measures the
 NEW risk HDC adds: a valid word that doesn't ground getting AUTO-COMMITTED to a different
@@ -17,9 +17,9 @@ import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from gse.mcp.spell_server import _hdc_recover  # the production gate (commit/offer)
-from gse.nlp.spellcheck import _DEFAULT_LEXICON as LX
-from gse.nlp.spellcheck import looks_non_lexical
+from GSE.mcp.spell_server import _hdc_recover  # the production gate (commit/offer)
+from GSE.nlp.spellcheck import _DEFAULT_LEXICON as LX
+from GSE.nlp.spellcheck import looks_non_lexical
 
 REF = "/usr/share/dict/web2"
 SAMPLE_CAP = 6000  # cap on weightless danger-zone words (for the unweighted estimate)

@@ -2,7 +2,7 @@
 """
 Enhance Function Words in GSE Lexicon Database
 
-Applies function word encodings from gse/lexicon/function_words.py:
+Applies function word encodings from GSE/lexicon/function_words.py:
 1. Adds definiteness to determiners
 2. Adds clause relations to conjunctions/complementizers
 3. Adds spatial/temporal features to prepositions
@@ -16,7 +16,7 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from gse.lexicon.function_words import (
+from GSE.lexicon.function_words import (
     CONJUNCTION_ENCODINGS,
     DETERMINER_ENCODINGS,
     PREPOSITION_ENCODINGS,

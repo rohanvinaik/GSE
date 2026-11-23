@@ -30,8 +30,8 @@ from typing import Any, Dict, List
 # Add project root
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from gse.api import GSEDecoder, GSEEncoder
-from gse.evaluation.world_model import create_test_world
+from GSE.api import GSEDecoder, GSEEncoder
+from GSE.evaluation.world_model import create_test_world
 
 
 @dataclass

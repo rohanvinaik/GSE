@@ -13,8 +13,8 @@ from datetime import datetime, timezone
 from hashlib import file_digest, sha256
 from pathlib import Path
 
-from gse.curation.lexicon_builder.epoch import read, record
-from gse.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
+from GSE.curation.lexicon_builder.epoch import read, record
+from GSE.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
 from scripts.run_lexicon_epochs import retire_published_work
 
 NOTES = Path(__file__).resolve().parent

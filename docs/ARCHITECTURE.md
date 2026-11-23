@@ -36,14 +36,14 @@ layer; the same input always produces the same output.
 > **Beyond the sentence — the post-sentence flywheel + healer (BEING BUILT, the production layer).**
 > Above this sentence-level core sits the **L2 voice-mode flywheel** (memory
 > `project_l2_voice_modes_flywheel.md`): a nested register-ID dispatcher (the RECOGNIZER, built —
-> `gse/discourse/registers.py`, `nested_router.py`) and the **statement-healer Society of Mind** (the
-> HEALER — now under construction in `gse/symbolic/healer/`; see **Layer 6.5**). The healer is law-
+> `GSE/discourse/registers.py`, `nested_router.py`) and the **statement-healer Society of Mind** (the
+> HEALER — now under construction in `GSE/symbolic/healer/`; see **Layer 6.5**). The healer is law-
 > grounded (`Law as Architecture`), derived by **Winston near-miss** over the entire corpus against
 > manually-built clean gold, recalling clean cases from **K-line/HDC memory**, and heals degraded
 > statements into clean ones (structural + semantic) **before** the document-level compaction
-> (`gse/symbolic/narrative.py`, which exposes a `from_document(repair=…)` seam for it), which then
+> (`GSE/symbolic/narrative.py`, which exposes a `from_document(repair=…)` seam for it), which then
 > collapses them to the spine for Genesis. **Trigger correction (measured 2026-06-24):** the coherence
-> gate (`gse/symbolic/coherence.py`) radically *under*-fires (its docstring admits it detects only
+> gate (`GSE/symbolic/coherence.py`) radically *under*-fires (its docstring admits it detects only
 > collapse, deferring partial degradations), so the healer's trigger is a **structural-failure
 > detector** — the *fate of the real verbs* (a content verb lost, or a non-verb cast as the EVENT
 > verb), not word-coverage. Full design + build handoff: `~/Genesis/docs/HANDOFF_STATEMENT_HEALER.md`.
@@ -57,20 +57,20 @@ layer; the same input always produces the same output.
             │
             ▼
    ┌─────────────────────┐
-   │  gse.api.GSEEncoder  │   GSE-native front-end (tokenize + lemma + coarse-POS, deterministic) + lexicon lookup + HDC ops
+   │  GSE.api.GSEEncoder  │   GSE-native front-end (tokenize + lemma + coarse-POS, deterministic) + lexicon lookup + HDC ops
    │     .encode(text)    │
    └─────────────────────┘
             │   produces
             ▼
    ┌─────────────────────┐
    │   OperationTrace     │   HDC vector  +  token traces  +  operator traces
-   │  (gse.api.trace)     │   ── JSON-serializable, deterministic ──
+   │  (GSE.api.trace)     │   ── JSON-serializable, deterministic ──
    └─────────────────────┘
             │
    ┌────────┴───────────────────────────┐
    │                                     │
    ▼ symbolic path                       ▼ vector path
- from_trace(trace)                  gse.api.GSEDecoder
+ from_trace(trace)                  GSE.api.GSEDecoder
    → Expression AST                   .decode(vector)  → DecodedSemantics
             │                          .similarity(v1,v2) → SimilarityResult
             ▼
@@ -94,11 +94,11 @@ the **vector path** is the HDC geometry (similarity, decoding back to lexemes).
 The architecture's guarantee — "two sentences quite similar in HDC space but
 provably distinct symbolically" — is exactly the split between these two paths.
 
-### Worked example (`gse/verification/symbolic_proof_suite.py:85`)
+### Worked example (`GSE/verification/symbolic_proof_suite.py:85`)
 
 ```python
-from gse.api import GSEEncoder
-from gse.symbolic import from_trace, resolve, evaluate_tree, predicates
+from GSE.api import GSEEncoder
+from GSE.symbolic import from_trace, resolve, evaluate_tree, predicates
 
 enc   = GSEEncoder()                                  # opens data/lexicon_clean.db, GSE-native front-end (no spaCy)
 trace = enc.encode("The dog is cuter than the cat")   # → OperationTrace
@@ -117,7 +117,7 @@ v1.cosine(v2)           # ≈ 0.93  (similar geometry)
 
 ## 3. Layers, bottom-up
 
-### Layer 0 — HDC substrate · `gse/vectors_v2.py`, `gse/primitives_v2.py`
+### Layer 0 — HDC substrate · `GSE/vectors_v2.py`, `GSE/primitives_v2.py`
 
 The mathematical floor. Pure NumPy/SciPy; no I/O, no neural anything.
 
@@ -173,7 +173,7 @@ Live contents (clean rebuild, June 2026):
 | `sentence_primitive_values` | 0 | sentence-scale `SYN_*`/`COMP_*` activations are computed *dynamically* at encode time (arc-free roles + TAM), not stored |
 
 Lexeme `source` values are `tier_0` (the 68 primes) / `layer1` / `layer2` /
-`operators` — the clean scoped build (`gse/curation/build_clean_layer1/layer2/
+`operators` — the clean scoped build (`GSE/curation/build_clean_layer1/layer2/
 operators.py`, §6), not the retired LLM bag-of-words pipeline.
 
 The encoder reads three queries only: lexeme row (for compositional metadata),
@@ -190,22 +190,22 @@ the sparse lexicon — word-meaning preserved, `ran≡run`). The degenerate bag-
 (2026-06-20).
 
 **Quantifier/intensifier hierarchy rows.** A small layer
-(`gse/curation/build_clean_quantifiers.py`) wires the hierarchy-level words
+(`GSE/curation/build_clean_quantifiers.py`) wires the hierarchy-level words
 (`many/few/all/none/very/extremely/…` + a closed synonym map `much/most→MANY`,
 `no→NONE`) to **ordinal** decompositions — `{base bank, HIER_PLUS/MINUS × level}`
 read from the system's own `QUANTITY_HIERARCHY`/`INTENSITY_HIERARCHY`. Not flat
 scalars: the encoder stacks the markers (see Layer 2).
 
-### Layer 2 — Encoder · `gse/api/encoder.py`
+### Layer 2 — Encoder · `GSE/api/encoder.py`
 
 `GSEEncoder.encode(text) -> OperationTrace`. The steps:
 
-1. **Parse** — the GSE-native front-end (`gse/nlp/native.py`, `NativeNLP`)
+1. **Parse** — the GSE-native front-end (`GSE/nlp/native.py`, `NativeNLP`)
    tokenizes, lemmatizes, and tags coarse POS. Inflectional morphology is a
-   **word-scale operation** (`gse/nlp/morphology.py`), not bare suffix-stripping
+   **word-scale operation** (`GSE/nlp/morphology.py`), not bare suffix-stripping
    (which mints non-words — `together`→`togeth`): an inflected surface collapses to
    `base × grammatical-feature` by the same propose→coherence-resolve shape as the
-   spell-check (`gse/nlp/contractions.py`) — candidate bases proposed by the inverse
+   spell-check (`GSE/nlp/contractions.py`) — candidate bases proposed by the inverse
    formation model, the one that *grounds* (the WordNet gradable-adjective oracle)
    selected; this also resolves the `-er` collision (`bigger`/`teacher`/`water`) with
    no disambiguation table. Comparative/superlative is the first instance
@@ -219,9 +219,9 @@ scalars: the encoder stacks the markers (see Layer 2).
    `scripts/ws1_parity.py` only.)
    **Word-scale operations** run in this front-end as the same
    propose→coherence-resolve shape: **negation** (`un-`/`dis-` → the sign-flipped base,
-   `gse/nlp/morphology.resolve_negation` + `primitives_v2.negate_decomposition`:
+   `GSE/nlp/morphology.resolve_negation` + `primitives_v2.negate_decomposition`:
    `unhappy == negate(happy)`), and the **`'s` clitic voice-mode** (the spell-check
-   pattern, `gse/nlp/contractions.resolve_apostrophe_s`): a verbal `'s` with no other
+   pattern, `GSE/nlp/contractions.resolve_apostrophe_s`): a verbal `'s` with no other
    predicate → copula `be` (so `fire's too big` fires a TypeAssertion), a following
    participle → perfect `have`, otherwise possessive (left untouched — that path works).
 2. **Per-token lookup** — `_lookup_lexeme(lemma)` pulls word-scale + sentence-scale
@@ -252,7 +252,7 @@ scalars: the encoder stacks the markers (see Layer 2).
 `strict=True` raises `OOVError`/`PrimitiveError`; the default `strict=False`
 degrades gracefully (OOV words contribute nothing).
 
-### Layer 3 — Trace · `gse/api/trace.py`
+### Layer 3 — Trace · `GSE/api/trace.py`
 
 The JSON-serializable contract between encoder and everything downstream.
 
@@ -269,7 +269,7 @@ The JSON-serializable contract between encoder and everything downstream.
 - **`DecodedSemantics`, `SimilarityResult`** and their parts — the decoder's
   output types (§ decoder below).
 
-### Layer 4 — Symbolic evaluator · `gse/symbolic/`
+### Layer 4 — Symbolic evaluator · `GSE/symbolic/`
 
 Pure Python, set theory, no HDC math (per `sentence_architecture.md` line 164).
 Four stages, each a module:
@@ -350,7 +350,7 @@ a predicate **adjective** as well as a nominal (`men are not callous` →
 `Negation(TypeAssertion(men, callous))` — meaning preserved); a coordinated phrase
 resolves to a `Coordination` (`Thunder and Lightning`), not a collapse.
 
-**Coherence gate** (`gse/symbolic/coherence.py`). `coherence_report(tree, trace)`
+**Coherence gate** (`GSE/symbolic/coherence.py`). `coherence_report(tree, trace)`
 flags **degraded clauses** — clauses that collapse to a bare nominal where a predicate
 was expected (a `Coordination` is *not* bare — it is a coherent structure). This is
 the abstention signal AND the dogfooding instrument: the degraded-clause rate over a
@@ -402,14 +402,14 @@ On top of evaluation, three resolution stages run (Stage 2–3):
 
 And **`inference.py`** (`KnowledgeBase`) adds transitive-closure logical reasoning
 over the clause graph — is-a syllogism + ordering with derivation chains (the
-`python -m gse.demo.reasoning` LSAT-style demo).
+`python -m GSE.demo.reasoning` LSAT-style demo).
 
-### Layer 5 — L2 register dispatcher & the dogfooding flywheel · `gse/discourse/`, `scripts/flywheel.py`
+### Layer 5 — L2 register dispatcher & the dogfooding flywheel · `GSE/discourse/`, `scripts/flywheel.py`
 
 The coverage layer above the sentence engine — and the empirical answer to *"don't
 symbolic NLP systems get more brittle as coverage grows?"*
 
-- **Register dispatcher** (`gse/discourse/`). A Society-of-Mind **nested router**
+- **Register dispatcher** (`GSE/discourse/`). A Society-of-Mind **nested router**
   (`nested_router.py`) over GSE's deterministic `text_profile` features (operator mix,
   complexity, coherence rate, affect, register, primitives — never raw text). It
   classifies a text's register by **confidence-gated descent** of the taxonomy tree
@@ -440,14 +440,14 @@ correctness; the residual is **lexical coverage** (archaic/slang/names — addit
 deferrable) plus a few rare constructions (gapping, partitives) and the stated
 bounded-register limit — all catalogued in the backlog.
 
-### Layer 5.5 — SymbolicSpellCheck: the shipped voice-mode product · `gse/nlp/spellcheck*.py`, `gse/mcp/spell_server.py`
+### Layer 5.5 — SymbolicSpellCheck: the shipped voice-mode product · `GSE/nlp/spellcheck*.py`, `GSE/mcp/spell_server.py`
 
 The flywheel's first voice-mode, built out into a **complete, standalone, shipped
 product** (2026-06-27). A deterministic spell-corrector: it auto-applies corrections it is
 confident of and **surfaces ranked suggestions** ("did you mean…") otherwise — ordinary
 spell-check workflow, but every suggestion is **symbolically derived**, not statistical.
 
-- **Noisy-channel core** (`gse/nlp/spellcheck.py`): keyboard-weighted Damerau edit model
+- **Noisy-channel core** (`GSE/nlp/spellcheck.py`): keyboard-weighted Damerau edit model
   (error model) → **grounding gate** (a candidate must be a real word) → frequency prior
   → empirical confusion-table overlay (Wikipedia common-misspellings, CC-BY-SA, injected
   *within* the symbolic frame: still grounding-gated, never pre-empting). `propose` /
@@ -455,16 +455,16 @@ spell-check workflow, but every suggestion is **symbolically derived**, not stat
 - **Validity sources for `grounds()`** (validity, NOT meaning — never touches the closed
   72-prime `lexicon_clean`): the lexicon ∪ WordNet ∪ closed-class `_STOP` ∪ a broad
   Wiktionary English-titles list (`data/wordlist_wiktionary.txt`, gitignored/rebuildable
-  via `gse/curation/build_wordlist.py`, known-misspelling keys subtracted) ∪ a committed
-  project allowlist (`gse/nlp/data/project_allowlist.txt`).
+  via `GSE/curation/build_wordlist.py`, known-misspelling keys subtracted) ∪ a committed
+  project allowlist (`GSE/nlp/data/project_allowlist.txt`).
 - **Shape gate** (`looks_non_lexical`): all-caps / digit / internal-caps / hyphen /
   underscore / apostrophe / mid-sentence Title-case → offered, never auto-committed. The
   word-level path carries the same commit margin as the context path (no independent
   commits).
-- **Context layer** (`gse/nlp/spellcheck_context.py`): substitute-and-reparse structural
+- **Context layer** (`GSE/nlp/spellcheck_context.py`): substitute-and-reparse structural
   well-formedness + Lesk gloss overlap, to break ties; margin-gated abstention.
-- **Orthogonal keyboard-HDC recovery** (`gse/nlp/hdc_speller.py`, native `vectors_v2`
-  sparse-ternary; cache `data/hdc_speller.npz` via `gse/curation/build_hdc_speller.py`): a
+- **Orthogonal keyboard-HDC recovery** (`GSE/nlp/hdc_speller.py`, native `vectors_v2`
+  sparse-ternary; cache `data/hdc_speller.npz` via `GSE/curation/build_hdc_speller.py`): a
   second error model for the far, length-preserving multi-key slips the edit model abstains
   on (`ecifentky → evidently`, `pshychollgical → psychological`). Keyboard-blurred key
   hypervectors, fractional-position binding + bookend weighting + bigram binds, length-banded
@@ -477,9 +477,9 @@ spell-check workflow, but every suggestion is **symbolically derived**, not stat
   real ~/.claude typo corpus (7/10 hard targets; broad 66/89% top-1/5; tiebreak 100%
   precision, 0 jargon false-commits). Frequency-weighted destruction stays **0.00000%**
   (`scripts/hdc_destruction.py`). `tests/test_hdc_speller.py`.
-- **Surfaces**: an MCP server (`gse/mcp/spell_server.py`, tool `spell_suggest`, registered
+- **Surfaces**: an MCP server (`GSE/mcp/spell_server.py`, tool `spell_suggest`, registered
   as **SymbolicSpellCheck**; absolute data paths so it runs from any cwd) and a REPL
-  (`gse/nlp/spellcheck_repl.py`). `tests/test_spellcheck.py` — 40 tests.
+  (`GSE/nlp/spellcheck_repl.py`). `tests/test_spellcheck.py` — 40 tests.
 - **The property** (information-theoretic): failures are confined to *non-recovery* (a typo
   left or mis-targeted), never *destruction* (a valid token made wrong) — every token the
   system recognizes as valid is left untouched. Residual destruction is a measure-near-zero
@@ -489,7 +489,7 @@ spell-check workflow, but every suggestion is **symbolically derived**, not stat
   31.2% → +confusion table 31.6% — symbolic structure alone reaches ~90% of the full
   statistical stack; the collated typo corpus adds <1%. The GSE thesis in miniature.
 
-### Layer 6 — Document compression: the narrative skeleton & multi-strand repair · `gse/symbolic/narrative.py`, `gse/api/native_repair.py`
+### Layer 6 — Document compression: the narrative skeleton & multi-strand repair · `GSE/symbolic/narrative.py`, `GSE/api/native_repair.py`
 
 Layers 0–5 resolve a *sentence*. Layer 6 resolves a *document* into a compressed
 **narrative skeleton** — the load-bearing spine of a multi-sentence text — and heals the
@@ -540,7 +540,7 @@ mechanism.
   global iteration counter is the efficiency profile). `emit()` serializes the spine as
   standard §5 contract envelopes the Genesis bridge walks 1:1.
 
-### Layer 6.5 — The statement-healer Society of Mind · `gse/symbolic/healer/`
+### Layer 6.5 — The statement-healer Society of Mind · `GSE/symbolic/healer/`
 
 The **HEALER**: a society of law-grounded specialist **lenses** that cleans the per-statement parse
 *before* compaction, at the `NarrativeGraph.from_document(repair=…)` seam (Layer 6), so the compactor
@@ -580,7 +580,7 @@ audited path. **Three tiers** partition every statement: (1) **GSE** handles the
    supplies the minimal pair itself (GOLD = the law parsed right; NEAR-MISS = violated by one structural
    feature). The distinguishing feature **is** the `must`/`must-not`; the repair is the thin correction.
 
-**The frame** (`gse/symbolic/healer/`): `lens.py` — the **Lens** protocol, `claims(node, env) →
+**The frame** (`GSE/symbolic/healer/`): `lens.py` — the **Lens** protocol, `claims(node, env) →
 Repair | Hole`, one law each, **no cross-talk** (inverse-brittleness, like distinct DNA-repair
 pathways). `society.py` — the **Society** orchestrator + `make_repair_hook(envelopes)`: over the wide
 predicate set, the *one* lens whose law claims a node repairs-or-abstains, provenance recorded; an
@@ -609,7 +609,7 @@ kinds, and only one belongs in the audited path:
   (below): the fold-reader supplies the subject by document-recurrence and a confidence gate ABSTAINS the
   doubtful — clean-or-hole, the residual handed to the trained K-line memory.
 
-**Layer 2 — the fold-reader (semantic isolation), `gse/symbolic/healer/fold_reader.py`.** A document-scale
+**Layer 2 — the fold-reader (semantic isolation), `GSE/symbolic/healer/fold_reader.py`.** A document-scale
 phase-0 pre-pass: it resolves each entity's role/significance/type by a **multi-strand vote** — *word* (NSM
 banks) ∨ *world* (sparse-wiki) ∨ *document* (recurrence×span) ∨ *local* (±2-line) — each strand empty in a
 different place, so their combination is never empty everywhere (the "shape from the field" move; the
@@ -639,19 +639,19 @@ distilled to the deterministic K-line; never the audited path) builds corpus-wid
 HDC-native recollective memory + recall wiring remain. Full state + plan: `~/Genesis` docs
 `SPINE_SOCIETY_DESIGN.md` / `HEALER_TRAINING.md` + memory `project_healer-build.md`.
 
-### Decoder · `gse/api/decoder.py`
+### Decoder · `GSE/api/decoder.py`
 
 The reverse / geometric view. `GSEDecoder.decode(vector) -> DecodedSemantics`
 reads entities, attributes, relations, nearest lexemes (DB-backed), and the bank
 activity profile straight out of the HDC vector. `similarity(v1, v2, …) ->
 SimilarityResult` reports cosine + alignment/opposition/orthogonality breakdown.
 
-### Verification · `gse/verification/`
+### Verification · `GSE/verification/`
 
 - **`symbolic_proof_suite.py`** — the line-154 validation: 7 end-to-end proofs
   (recover entities, recover the cuteness assertion, distinguish argument swap,
   templating preserves structure, causation directionality, JSON round-trip,
-  bipolar-vs-relational). Run: `python -m gse.verification.symbolic_proof_suite`.
+  bipolar-vs-relational). Run: `python -m GSE.verification.symbolic_proof_suite`.
 - **`proof_suite.py`** — `GSEProofSuite`, the HDC-level proof suite the CLI's
   `verify` command runs.
 
@@ -662,10 +662,10 @@ SimilarityResult` reports cosine + alignment/opposition/orthogonality breakdown.
 These are the surfaces you import or call when interfacing with GSE. Everything
 else is internal.
 
-### 4.1 `gse.api` — encode / decode (primary surface)
+### 4.1 `GSE.api` — encode / decode (primary surface)
 
 ```python
-from gse.api import GSEEncoder, GSEDecoder
+from GSE.api import GSEEncoder, GSEDecoder
 
 enc   = GSEEncoder(db_path="data/lexicon_clean.db", strict=False)  # the default
 trace = enc.encode("The dog is cuter than the cat")   # OperationTrace
@@ -677,20 +677,20 @@ dec.decode(trace.vector)                               # DecodedSemantics
 dec.similarity(v1, v2, s1, s2)                         # SimilarityResult
 ```
 
-Errors (`gse.api.errors`): `GSEError` ⊃ `OOVError`, `EncodingError`,
+Errors (`GSE.api.errors`): `GSEError` ⊃ `OOVError`, `EncodingError`,
 `PrimitiveError`, `OperatorError`, `DecodingError`. Both classes are context
 managers (`with GSEEncoder() as enc:`) and hold a SQLite connection — call
 `.close()` or use `with`.
 
-Trace types (`gse.api.trace`) are the stable data contract:
+Trace types (`GSE.api.trace`) are the stable data contract:
 `OperationTrace`, `TokenTrace`, `OperatorTrace`, `DecodedSemantics`,
 `SimilarityResult`, `EntityExtraction`, `AttributeExtraction`,
 `RelationExtraction`.
 
-### 4.2 `gse.symbolic` — symbolic reasoning surface
+### 4.2 `GSE.symbolic` — symbolic reasoning surface
 
 ```python
-from gse.symbolic import (
+from GSE.symbolic import (
     from_trace, resolve, evaluate_tree,            # the pipeline
     entities, entity_lemmas, predicates,           # queries
     axis_of_comparison, is_argument_swap_of, is_logically_equal_to,
@@ -706,22 +706,22 @@ from gse.symbolic import (
 This is the "pure Python / order of operations / set theory" API the
 architecture mandates. It never calls back into HDC.
 
-### 4.3 `gse.cli` — command line
+### 4.3 `GSE.cli` — command line
 
 ```bash
-python -m gse.cli encode "The dog is cuter than the cat" [--format json|summary]
-python -m gse.cli compare "I love you" "I hate you"
-python -m gse.cli decode --text "The big dog" [--trace file.json]
-python -m gse.cli verify
-python -m gse.cli interactive
+python -m GSE.cli encode "The dog is cuter than the cat" [--format json|summary]
+python -m GSE.cli compare "I love you" "I hate you"
+python -m GSE.cli decode --text "The big dog" [--trace file.json]
+python -m GSE.cli verify
+python -m GSE.cli interactive
 ```
 
-Backed entirely by `gse.api` + `gse.verification` — no separate logic.
+Backed entirely by `GSE.api` + `GSE.verification` — no separate logic.
 
 ### 4.4 The HDC substrate (advanced / extension surface)
 
-`from gse.vectors_v2 import SparseVector, bind, bundle, permute, create_basis,
-create_sentence_basis` and `from gse.primitives_v2 import D, N_BANKS,
+`from GSE.vectors_v2 import SparseVector, bind, bundle, permute, create_basis,
+create_sentence_basis` and `from GSE.primitives_v2 import D, N_BANKS,
 DIMS_PER_BANK, SemanticBank, BIPOLAR_DIMENSIONS`. Only needed when extending the
 primitive set or working below the trace level.
 
@@ -750,7 +750,7 @@ The lexicon is **generated offline**, not at runtime. The live clean DB is built
 the **scoped layered pipeline** (the LLM bag-of-words stack that produced the
 degenerate `dog≈murder` lexicon is retired):
 
-- **`gse/curation/build_clean_layer1.py` / `build_clean_layer2.py` /
+- **`GSE/curation/build_clean_layer1.py` / `build_clean_layer2.py` /
   `build_clean_operators.py` / `build_clean_quantifiers.py` /
   `build_clean_closed_class.py`** — the live build:
   tier_0 (the 68 primes) → layer1 (source-grounded via the existing
@@ -760,7 +760,7 @@ degenerate `dog≈murder` lexicon is retired):
   inflected tier-0 word's prime, or informational zero). **Build order matters** (quantifiers
   and the closed-class layer overwrite earlier rows, so they run last). Method:
   [`LEXICON_REBUILD.md`](LEXICON_REBUILD.md).
-- **`gse/curation/external_sources/`** — the sources layer1 grounds against (WordNet
+- **`GSE/curation/external_sources/`** — the sources layer1 grounds against (WordNet
   authoritative in its substantives scope; others need ≥2 agreeing).
 
 Treat this as a data-build subsystem: its output is `data/lexicon_clean.db`; its
@@ -776,14 +776,14 @@ drift. Confirmed drift / not on the functional path:
 | Item | Status | Why |
 |---|---|---|
 | `docs/THEORY.md` | **invalid** | Declared known-invalid; not a source. |
-| root `README.md` | **stale** | Claims 10,000-dim vectors, `gse.pipeline.load_pipeline`, `data/basis.msgpack`, a Merkle-coherence `process()` pipeline. None match the 8192-dim `gse.api` core. |
+| root `README.md` | **stale** | Claims 10,000-dim vectors, `gse.pipeline.load_pipeline`, `data/basis.msgpack`, a Merkle-coherence `process()` pipeline. None match the 8192-dim `GSE.api` core. |
 | `data/lexicon.db` + root `lexicon.db` | **purged 2026-06-20** | The degenerate bag-of-words DB (`dog≈murder`) and the 0-row stub were deleted. The live DB is `data/lexicon_clean.db` (sparse, definitional). |
-| `gse/__init__.py` top-level exports | **misleading** | Re-exports `GSEPipeline`, `merkle`, `patterns`, etc. The functional `gse.api`/`gse.symbolic` core does **not** import these. Docstring says "~45 primitives / 8 banks" — banks correct, count understated (74 word-scale primitives live). |
-| `gse/_archive/` | **archived** | Self-evidently old. Exclude. |
-| `gse/pipeline_v2.py` (`GSEPipeline`) | **older stack** | A separate entry point built on the Merkle lexicon + learning networks; not the path the positioning claims run through. |
-| `gse/merkle/` | **older stack** | Merkle-tree lexicon. The functional encoder reads a flat SQLite lexicon instead. |
-| `gse/patterns/` | **contradicts core** | Hebbian "learning networks" — adaptation conflicts with the determinism guarantee at the semantic layer. |
-| `gse/encoders/`, `gse/nlp/sentence_parser.py`, `gse/scales/`, `gse/composition/`, `gse/parsing/`, `gse/evaluation/`, `gse/teaching/`, `gse/profiles/`, `gse/orchestration/`, `gse/graph/` | **not on the spine** | None are imported by `gse.api`/`gse.symbolic`/`gse.cli`. Older or auxiliary; treat as drift unless wired back in. |
+| `GSE/__init__.py` top-level exports | **misleading** | Re-exports `GSEPipeline`, `merkle`, `patterns`, etc. The functional `GSE.api`/`GSE.symbolic` core does **not** import these. Docstring says "~45 primitives / 8 banks" — banks correct, count understated (74 word-scale primitives live). |
+| `GSE/_archive/` | **archived** | Self-evidently old. Exclude. |
+| `GSE/pipeline_v2.py` (`GSEPipeline`) | **older stack** | A separate entry point built on the Merkle lexicon + learning networks; not the path the positioning claims run through. |
+| `GSE/merkle/` | **older stack** | Merkle-tree lexicon. The functional encoder reads a flat SQLite lexicon instead. |
+| `GSE/patterns/` | **contradicts core** | Hebbian "learning networks" — adaptation conflicts with the determinism guarantee at the semantic layer. |
+| `GSE/encoders/`, `GSE/nlp/sentence_parser.py`, `GSE/scales/`, `GSE/composition/`, `GSE/parsing/`, `GSE/evaluation/`, `GSE/teaching/`, `GSE/profiles/`, `GSE/orchestration/`, `GSE/graph/` | **not on the spine** | None are imported by `GSE.api`/`GSE.symbolic`/`GSE.cli`. Older or auxiliary; treat as drift unless wired back in. |
 
 The older planning docs (`UNIFIED_ARCHITECTURE.md`, `SYSTEM_SUMMARY.md`, `STATUS.md`,
 `gse_implementation_spec.md`, `gse_agent_instructions.md`, `gse_otp_genomevault_synthesis.md`,
@@ -801,31 +801,31 @@ unverified) predate the current core — defer to this document and the code.
 
 | Module | Responsibility |
 |---|---|
-| `gse/primitives_v2.py` | Banks, dimensions, bipolar defs, primitive registries, the QUANTITY/INTENSITY/CERTAINTY hierarchies, `negate_decomposition` |
-| `gse/vectors_v2.py` | `SparseVector`, Hadamard-OTP bases, `bind`/`bundle`/`permute`, `encode_hierarchy` |
+| `GSE/primitives_v2.py` | Banks, dimensions, bipolar defs, primitive registries, the QUANTITY/INTENSITY/CERTAINTY hierarchies, `negate_decomposition` |
+| `GSE/vectors_v2.py` | `SparseVector`, Hadamard-OTP bases, `bind`/`bundle`/`permute`, `encode_hierarchy` |
 | `data/lexicon_clean.db` | Precompiled lemma → primitive decompositions (the live, default data) |
-| `gse/nlp/native.py` | Deterministic front-end: tokenize + lemma + coarse-POS, arc-free clause structure, the `'s` voice-mode |
-| `gse/nlp/morphology.py` · `gse/nlp/contractions.py` | Word-scale operations: comparative/superlative + negation; the `'s`/contraction spell-check |
-| `gse/nlp/spellcheck.py` · `spellcheck_context.py` · `spellcheck_repl.py` | **SymbolicSpellCheck** (Layer 5.5): noisy-channel corrector + grounding/shape gates + validity sources; context layer; REPL |
-| `gse/mcp/spell_server.py` | SymbolicSpellCheck MCP server (tool `spell_suggest`) |
-| `gse/nlp/data/` · `gse/curation/build_misspellings.py` · `build_wordlist.py` | Spell-check data (committed allowlist + misspellings table) and offline builders |
-| `gse/api/encoder.py` | `GSEEncoder`: text → `OperationTrace` |
-| `gse/api/decoder.py` | `GSEDecoder`: vector → `DecodedSemantics`, similarity |
-| `gse/api/trace.py` | `OperationTrace`/`TokenTrace`/`OperatorTrace` + decoded types |
-| `gse/api/errors.py` | Exception hierarchy |
-| `gse/symbolic/expression.py` | AST + `from_trace` |
-| `gse/symbolic/resolution.py` | `resolve`: phrases → entities, pronoun binding |
-| `gse/symbolic/operators.py` | Operator dispatch + `evaluate_tree` |
-| `gse/symbolic/predicates.py` | Predicate dataclasses |
-| `gse/symbolic/queries.py` | `entities`/`predicates`/`axis_of_comparison`/swap checks |
-| `gse/symbolic/serialization.py` | Symbolic-tree JSON round-trip |
-| `gse/symbolic/templating.py` | `substitute` |
-| `gse/symbolic/coherence.py` | Coherence gate: degraded-clause / collapse detection (abstention + dogfooding signal) |
-| `gse/discourse/**` | L2 register dispatcher: `registers` (taxonomy), `profile` (text features), `router`/`nested_router` (the SoM) |
+| `GSE/nlp/native.py` | Deterministic front-end: tokenize + lemma + coarse-POS, arc-free clause structure, the `'s` voice-mode |
+| `GSE/nlp/morphology.py` · `GSE/nlp/contractions.py` | Word-scale operations: comparative/superlative + negation; the `'s`/contraction spell-check |
+| `GSE/nlp/spellcheck.py` · `spellcheck_context.py` · `spellcheck_repl.py` | **SymbolicSpellCheck** (Layer 5.5): noisy-channel corrector + grounding/shape gates + validity sources; context layer; REPL |
+| `GSE/mcp/spell_server.py` | SymbolicSpellCheck MCP server (tool `spell_suggest`) |
+| `GSE/nlp/data/` · `GSE/curation/build_misspellings.py` · `build_wordlist.py` | Spell-check data (committed allowlist + misspellings table) and offline builders |
+| `GSE/api/encoder.py` | `GSEEncoder`: text → `OperationTrace` |
+| `GSE/api/decoder.py` | `GSEDecoder`: vector → `DecodedSemantics`, similarity |
+| `GSE/api/trace.py` | `OperationTrace`/`TokenTrace`/`OperatorTrace` + decoded types |
+| `GSE/api/errors.py` | Exception hierarchy |
+| `GSE/symbolic/expression.py` | AST + `from_trace` |
+| `GSE/symbolic/resolution.py` | `resolve`: phrases → entities, pronoun binding |
+| `GSE/symbolic/operators.py` | Operator dispatch + `evaluate_tree` |
+| `GSE/symbolic/predicates.py` | Predicate dataclasses |
+| `GSE/symbolic/queries.py` | `entities`/`predicates`/`axis_of_comparison`/swap checks |
+| `GSE/symbolic/serialization.py` | Symbolic-tree JSON round-trip |
+| `GSE/symbolic/templating.py` | `substitute` |
+| `GSE/symbolic/coherence.py` | Coherence gate: degraded-clause / collapse detection (abstention + dogfooding signal) |
+| `GSE/discourse/**` | L2 register dispatcher: `registers` (taxonomy), `profile` (text features), `router`/`nested_router` (the SoM) |
 | `scripts/flywheel.py` · `audit_l2_parses.py` · `build_l2_corpus.py` | The dogfooding loop: rebuild corpus → train dispatcher → audit failure shapes |
-| `gse/cli/main.py` | CLI over the API |
-| `gse/verification/symbolic_proof_suite.py` | Line-154 end-to-end proofs |
-| `gse/verification/proof_suite.py` | HDC-level proof suite (`GSEProofSuite`) |
-| `gse/curation/**`, `scripts/**` | Offline lexicon construction (build-time only) |
+| `GSE/cli/main.py` | CLI over the API |
+| `GSE/verification/symbolic_proof_suite.py` | Line-154 end-to-end proofs |
+| `GSE/verification/proof_suite.py` | HDC-level proof suite (`GSEProofSuite`) |
+| `GSE/curation/**`, `scripts/**` | Offline lexicon construction (build-time only) |
 </content>
 </invoke>

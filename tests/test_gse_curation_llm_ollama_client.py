@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.llm.ollama_client."""
+"""Manual contract tests for GSE.curation.llm.ollama_client."""
 
 from __future__ import annotations
 
@@ -14,8 +14,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import pytest
 import requests
 
-import gse.curation.llm.ollama_client as ollama_client
-from gse.curation.llm.ollama_client import (
+import GSE.curation.llm.ollama_client as ollama_client
+from GSE.curation.llm.ollama_client import (
     DEFAULT_MODEL,
     OLLAMA_URL,
     UNLOAD_TIMEOUT_SECONDS,
@@ -360,8 +360,8 @@ class TestDecomposeWord:
         mock_result = MagicMock()
         mock_result.decomposition = {"GOOD": 1}
         with patch("requests.post", return_value=mock_resp):
-            with patch("gse.curation.llm.response_parser.parse_llm_response", return_value=mock_result):
-                with patch("gse.curation.llm.prompts.build_user_prompt", return_value="prompt"):
+            with patch("GSE.curation.llm.response_parser.parse_llm_response", return_value=mock_result):
+                with patch("GSE.curation.llm.prompts.build_user_prompt", return_value="prompt"):
                     result = c.decompose_word("happy", "adj")
         assert result == {"GOOD": 1}
 
@@ -374,8 +374,8 @@ class TestDecomposeWord:
         mock_result = MagicMock()
         mock_result.decomposition = {}
         with patch("requests.post", return_value=mock_resp):
-            with patch("gse.curation.llm.response_parser.parse_llm_response", return_value=mock_result):
-                with patch("gse.curation.llm.prompts.build_user_prompt", return_value="x") as mock_build:
+            with patch("GSE.curation.llm.response_parser.parse_llm_response", return_value=mock_result):
+                with patch("GSE.curation.llm.prompts.build_user_prompt", return_value="x") as mock_build:
                     c.decompose_word("happy")
                     # POS defaults to "unknown"
                     call_args = mock_build.call_args
@@ -402,8 +402,8 @@ class TestDecomposeBatch:
         mock_result.confidence = 0.9
         mock_result.warnings = []
         with patch("requests.post", return_value=mock_resp):
-            with patch("gse.curation.llm.response_parser.parse_llm_response", return_value=mock_result):
-                with patch("gse.curation.llm.prompts.build_user_prompt", return_value="x"):
+            with patch("GSE.curation.llm.response_parser.parse_llm_response", return_value=mock_result):
+                with patch("GSE.curation.llm.prompts.build_user_prompt", return_value="x"):
                     results = c.decompose_batch(
                         [
                             {"word": "happy", "pos": "adj"},
@@ -414,12 +414,12 @@ class TestDecomposeBatch:
         assert results[0] == ({"GOOD": 1}, 0.9, [])
 
     def test_exception_yields_empty_decomp(self):
-        from gse.curation.schema import ALL_PRIMITIVES
+        from GSE.curation.schema import ALL_PRIMITIVES
 
         c = OllamaClient()
         c._loaded = True
         with patch.object(c, "generate", side_effect=RuntimeError("network")):
-            with patch("gse.curation.llm.prompts.build_user_prompt", return_value="x"):
+            with patch("GSE.curation.llm.prompts.build_user_prompt", return_value="x"):
                 results = c.decompose_batch([{"word": "happy"}])
         decomp, conf, warnings = results[0]
         assert decomp == {p: 0 for p in ALL_PRIMITIVES}
@@ -437,8 +437,8 @@ class TestDecomposeBatch:
         mock_result.confidence = 0.0
         mock_result.warnings = []
         with patch("requests.post", return_value=mock_resp):
-            with patch("gse.curation.llm.response_parser.parse_llm_response", return_value=mock_result):
-                with patch("gse.curation.llm.prompts.build_user_prompt", return_value="x") as mock_build:
+            with patch("GSE.curation.llm.response_parser.parse_llm_response", return_value=mock_result):
+                with patch("GSE.curation.llm.prompts.build_user_prompt", return_value="x") as mock_build:
                     c.decompose_batch([{"word": "happy"}])
                     # simple=True kwarg
                     assert mock_build.call_args.kwargs.get("simple") is True
@@ -454,8 +454,8 @@ class TestDecomposeBatch:
         mock_result.confidence = 0.0
         mock_result.warnings = []
         with patch("requests.post", return_value=mock_resp):
-            with patch("gse.curation.llm.response_parser.parse_llm_response", return_value=mock_result):
-                with patch("gse.curation.llm.prompts.build_user_prompt", return_value="x") as mock_build:
+            with patch("GSE.curation.llm.response_parser.parse_llm_response", return_value=mock_result):
+                with patch("GSE.curation.llm.prompts.build_user_prompt", return_value="x") as mock_build:
                     c.decompose_batch([{"word": "happy"}])
                     assert mock_build.call_args.args[1] == "unknown"
 
@@ -548,7 +548,7 @@ class TestExitHook:
 
             mock.patch("requests.post", side_effect=fake_post).start()
 
-            from gse.curation.llm.ollama_client import OllamaClient, register_model
+            from GSE.curation.llm.ollama_client import OllamaClient, register_model
 
             client = OllamaClient(model="via-generate")
             client._loaded = True

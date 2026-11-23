@@ -22,8 +22,8 @@ $RUFF format --check .
 echo "== pytest"
 uv run pytest
 
-echo "== ty check gse (advisory)"
-if uvx ty check gse --output-format concise; then
+echo "== ty check GSE (advisory)"
+if uvx ty check GSE --output-format concise; then
     echo "== ty passed"
 else
     echo "== ty reported advisory findings (full output above)"

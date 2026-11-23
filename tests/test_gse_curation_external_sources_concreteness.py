@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.external_sources.concreteness."""
+"""Manual contract tests for GSE.curation.external_sources.concreteness."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.external_sources.concreteness import (
+from GSE.curation.external_sources.concreteness import (
     ConcretenessEntry,
     ConcretenessParser,
 )

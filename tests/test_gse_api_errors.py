@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.api.errors.
+"""Manual contract tests for GSE.api.errors.
 
 LintGate classified these 5 exception class __init__ methods as
 manual_contract (routing decision: trivial wrappers with no auto-generatable
@@ -15,7 +15,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.api.errors import (
+from GSE.api.errors import (
     DecodingError,
     EncodingError,
     GSEError,

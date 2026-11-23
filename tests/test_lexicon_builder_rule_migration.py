@@ -5,18 +5,18 @@ import sqlite3
 
 import pytest
 
-from gse.curation.lexicon_builder.completion import complete_dictionary
-from gse.curation.lexicon_builder.engine import Assertion
-from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
-from gse.curation.lexicon_builder.model_receipts import read_model_receipts
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.residual import _request_id
-from gse.curation.lexicon_builder.reviewed_export import export_reviewed_input
-from gse.curation.lexicon_builder.reviewed_patterns import run_workflow
-from gse.curation.lexicon_builder.rule_admission import admit_rule
-from gse.curation.lexicon_builder.rule_migration import migrate_rule
-from gse.curation.lexicon_builder.storage import read_entries
-from gse.curation.lexicon_builder.validation import validate_build
+from GSE.curation.lexicon_builder.completion import complete_dictionary
+from GSE.curation.lexicon_builder.engine import Assertion
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
+from GSE.curation.lexicon_builder.model_receipts import read_model_receipts
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.residual import _request_id
+from GSE.curation.lexicon_builder.reviewed_export import export_reviewed_input
+from GSE.curation.lexicon_builder.reviewed_patterns import run_workflow
+from GSE.curation.lexicon_builder.rule_admission import admit_rule
+from GSE.curation.lexicon_builder.rule_migration import migrate_rule
+from GSE.curation.lexicon_builder.storage import read_entries
+from GSE.curation.lexicon_builder.validation import validate_build
 from scripts.migrate_lexicon_rule import main
 
 
@@ -182,11 +182,11 @@ def test_corpus_counterexample_refuses_entire_migration(tmp_path):
     path, input_path, audit_path, review = packet(tmp_path)
     # New hard source evidence outside discovery/audit defeats the synthetic law.
     with sqlite3.connect(path) as conn:
-        from gse.curation.lexicon_builder.completion import _entry
-        from gse.curation.lexicon_builder.foundation import BANKS, definition_context
-        from gse.curation.lexicon_builder.resolution import resolve_dictionary
-        from gse.curation.lexicon_builder.storage import store_entry
-        from gse.curation.lexicon_builder.validation import _metadata, _relations
+        from GSE.curation.lexicon_builder.completion import _entry
+        from GSE.curation.lexicon_builder.foundation import BANKS, definition_context
+        from GSE.curation.lexicon_builder.resolution import resolve_dictionary
+        from GSE.curation.lexicon_builder.storage import store_entry
+        from GSE.curation.lexicon_builder.validation import _metadata, _relations
 
         definition, assertions, restrictions, hierarchy = _entry(conn, "c")
         assertions = assertions + (Assertion("WANT", -1, "wordnet_hierarchy", "c", "taxonomy"),)

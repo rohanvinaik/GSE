@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.external_sources.base_parser."""
+"""Manual contract tests for GSE.curation.external_sources.base_parser."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.external_sources.base_parser import (
+from GSE.curation.external_sources.base_parser import (
     BaseExternalParser,
     ParserConfig,
 )

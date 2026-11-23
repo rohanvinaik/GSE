@@ -7,12 +7,12 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-from gse.curation.lexicon_builder.completion import complete_dictionary
-from gse.curation.lexicon_builder.model_batch import OllamaBatchTransport
-from gse.curation.lexicon_builder.model_receipts import read_model_receipts
-from gse.curation.lexicon_builder.publication import publication_readiness
-from gse.curation.lexicon_builder.residual import OllamaTransport
-from gse.curation.lexicon_builder.validation import validate_build
+from GSE.curation.lexicon_builder.completion import complete_dictionary
+from GSE.curation.lexicon_builder.model_batch import OllamaBatchTransport
+from GSE.curation.lexicon_builder.model_receipts import read_model_receipts
+from GSE.curation.lexicon_builder.publication import publication_readiness
+from GSE.curation.lexicon_builder.residual import OllamaTransport
+from GSE.curation.lexicon_builder.validation import validate_build
 
 
 def digest(value):

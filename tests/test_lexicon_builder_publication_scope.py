@@ -5,13 +5,13 @@ import sqlite3
 
 import pytest
 
-from gse.curation.external_sources.gse_closed_class import GSEClosedClassParser
-from gse.curation.lexicon_builder.completion import complete_dictionary
-from gse.curation.lexicon_builder.evidence import EvidenceBundle, _closed_class_definitions
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.publication import publication_readiness
-from gse.curation.lexicon_builder.reconsideration import reconsider
-from gse.curation.lexicon_builder.validation import validate_build
+from GSE.curation.external_sources.gse_closed_class import GSEClosedClassParser
+from GSE.curation.lexicon_builder.completion import complete_dictionary
+from GSE.curation.lexicon_builder.evidence import EvidenceBundle, _closed_class_definitions
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.publication import publication_readiness
+from GSE.curation.lexicon_builder.reconsideration import reconsider
+from GSE.curation.lexicon_builder.validation import validate_build
 
 
 class PositiveFixtureTransport:
@@ -24,7 +24,7 @@ class PositiveFixtureTransport:
 @pytest.fixture
 def historical_candidate(tmp_path, monkeypatch):
     """Create an accepted historical ruling before the current scope check."""
-    from gse.curation.lexicon_builder import scope_admission
+    from GSE.curation.lexicon_builder import scope_admission
 
     definitions, observations, assertions = _closed_class_definitions(GSEClosedClassParser())
     entry_id = "gse_closed_class:pronoun:you"
@@ -96,7 +96,7 @@ def test_malformed_active_receipt_names_scope_audit_failure(historical_candidate
 
 
 def test_actual_cli_reports_scope_block_even_when_incomplete(historical_candidate, monkeypatch, capsys):
-    from gse.curation.cli.commands import main
+    from GSE.curation.cli.commands import main
 
     path, _ = historical_candidate
     monkeypatch.setattr("sys.argv", ["lexicon", "--lexicon-db", str(path), "publish"])

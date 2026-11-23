@@ -2,11 +2,11 @@
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.api.encoder import head_linker_operation
-from gse.symbolic import evaluate_tree, from_trace, resolve
-from gse.symbolic.expression import Phrase, operator_composition_plan
-from gse.symbolic.predicates import BoundaryCase, Contrast, Event, SetRestriction, TypeQuery
+from GSE.api import GSEEncoder
+from GSE.api.encoder import head_linker_operation
+from GSE.symbolic import evaluate_tree, from_trace, resolve
+from GSE.symbolic.expression import Phrase, operator_composition_plan
+from GSE.symbolic.predicates import BoundaryCase, Contrast, Event, SetRestriction, TypeQuery
 
 
 @pytest.fixture(scope="module")
@@ -39,7 +39,7 @@ def test_head_linker_codes_are_scoped():
     "linker", ["However", "Yet", "Still", "Instead", "Thus", "Therefore", "Hence", "Consequently", "And", "Then"]
 )
 def test_supported_head_linkers_retain_their_open_relation_and_event(encoder, linker):
-    from gse.symbolic.propositions import propositions
+    from GSE.symbolic.propositions import propositions
 
     trace = encoder.encode(f"{linker} the cell moved.")
     assert trace.tokens[0].operator_tier == "discourse"

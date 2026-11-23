@@ -66,7 +66,7 @@ commitments are:
 | SPATIAL (6) | 14 | WHERE, HERE, SIDE, TOUCH, ABOVE/BELOW, FAR/NEAR, OUTSIDE/INSIDE, TOWARD/AWAY, WITH/WITHOUT |
 | LOGICAL (7) | 14 | NOT, MAYBE, CAN, MUST, BECAUSE, CAUSE, IF, LIKE, TRUE/FALSE, HIER_PLUS, HIER_MINUS, INTENSITY, CERTAINTY |
 
-Source of truth: `gse/curation/schema.py:14-78` (`ALL_PRIMITIVES`).
+Source of truth: `GSE/curation/schema.py:14-78` (`ALL_PRIMITIVES`).
 
 ### 1.2 14 bipolar dimensions with mutual exclusion
 
@@ -106,7 +106,7 @@ core of the rebuild.
 QUANTITY (NONE → FEW → SOME → MIDDLE → MORE → MANY → ALL), INTENSITY
 (BARELY → … → EXTREMELY), CERTAINTY (IMPOSSIBLE → … → CERTAIN). Encoded
 as base primitive + N hierarchical markers (HIER_PLUS / HIER_MINUS). See
-`gse/primitives_v2.py:179-217`.
+`GSE/primitives_v2.py:179-217`.
 
 ### 1.4 Sub-context-conditioned similarity
 
@@ -124,7 +124,7 @@ investigation corrected.
 
 ## 2. Encoding architecture (already correct — preserve)
 
-### 2.1 Hadamard partition basis (`gse/vectors_v2.py`)
+### 2.1 Hadamard partition basis (`GSE/vectors_v2.py`)
 
 * 8192-dim sparse-ternary vectors, 1024 dims per bank, 8 banks.
 * `generate_hadamard_pattern` assigns each primitive a disjoint local
@@ -153,20 +153,20 @@ even though both contain FEEL/SOMEONE. 13 tests in
 
 ### 2.4 Multi-scale ScaleDefinition
 
-`gse/scale_definition.py`. TEXT, PARAGRAPH, SENTENCE scales use the
+`GSE/scale_definition.py`. TEXT, PARAGRAPH, SENTENCE scales use the
 generic `ScaleDefinition` pattern (Genesis Atom). WORD-scale
 deliberately retains its richer legacy `PrimitiveInfo` because the
 semantic richness (is_bipolar, hierarchy markers, bipolar dim) doesn't
 fit the generic schema.
 
-### 2.5 OperationTrace (`gse/api/trace.py`)
+### 2.5 OperationTrace (`GSE/api/trace.py`)
 
 Every encode produces a trace with per-token primitives, operators,
 sparsity stats, and a vector hash. Bridges the HDC layer with logical
 auditability — answers "what operators were applied, in what order, to
 what tokens" without inspecting the bundle.
 
-### 2.6 Orchestrator (`gse/patterns/orchestrator.py`)
+### 2.6 Orchestrator (`GSE/patterns/orchestrator.py`)
 
 Top-down cascade: text → paragraph → sentence → word. Each scale's
 output becomes a `prior_*` feature for the next. `cascade=True` runs
@@ -201,7 +201,7 @@ Verified empirically on 8 pairs:
 | good/bad | +0.66 | **+0.000** | +0.75 | anomaly: EVAL=0 |
 | near/far | +0.63 | +0.00 | +0.365 | anomaly: SPATIAL=+0.365 |
 
-**Action**: `gse/benchmarks/metrics.py` now provides
+**Action**: `GSE/benchmarks/metrics.py` now provides
 `bank_cosine_signature` and `min_bank_cosine`. The benchmark runner
 reports both global and bank-projected for antonym tasks.
 
@@ -269,7 +269,7 @@ without rebuilding.
 | Scalar adjectives | `data/external/scalar-adj/` | Adjective orderings |
 | Custom intensity GT | `data/external/intensity_ground_truth.json` | Gold intensity scores |
 
-Parsers: `gse/curation/external_sources/{conceptnet,wiktionary,nrc_emotion,nrc_vad,lancaster_sensorimotor,concreteness,verbnet,framenet,propbank,usas,sentiwordnet,wordnet_hierarchy}.py` — 18 parsers, each implementing `BaseExternalParser.to_primitives(word) → Dict[str, int]`.
+Parsers: `GSE/curation/external_sources/{conceptnet,wiktionary,nrc_emotion,nrc_vad,lancaster_sensorimotor,concreteness,verbnet,framenet,propbank,usas,sentiwordnet,wordnet_hierarchy}.py` — 18 parsers, each implementing `BaseExternalParser.to_primitives(word) → Dict[str, int]`.
 
 ### 4.2 Population steps (the rebuild proper)
 
@@ -281,7 +281,7 @@ stratified per `sentence_architecture.md`. Per-tier handling:
 
 | Tier | Words | Method | Module |
 |---|---|---|---|
-| 0 | 68 — English labels for the GSE primitives (good, bad, big, small, someone, think, ...) | Definitional: `{LABEL: +1}` identity decomposition. No aggregation. | `gse/curation/external_sources/tier_0_dispatch.py` |
+| 0 | 68 — English labels for the GSE primitives (good, bad, big, small, someone, think, ...) | Definitional: `{LABEL: +1}` identity decomposition. No aggregation. | `GSE/curation/external_sources/tier_0_dispatch.py` |
 | 1 | ~200-500 NSM-analyzed core lemmas (happy, sad, know, want, see, ...) | Published Wierzbicka analyses or hand-authored sparse decompositions. **Deferred to a follow-up round; not part of this rebuild.** | Not yet built |
 | 2 | ~1.3M Wiktionary lemmas (long tail) | Confidence-weighted voting + bipolar mutual exclusion + per-source scope + Wiktionary scaffolding filter | `populate.populate_with_voting_and_exclusion` |
 
@@ -313,7 +313,7 @@ of.
 #### 4.2.2 Recreate schema
 
 Fresh `data/lexicon.db` with the existing schema in
-`gse/curation/schema.py` (`LexiconDatabase()._initialize_schema()`).
+`GSE/curation/schema.py` (`LexiconDatabase()._initialize_schema()`).
 No changes to schema in this rebuild; the constraint policy lives in
 the *population code*, not the table definitions.
 
@@ -386,7 +386,7 @@ def enforce_bipolar_exclusion(
     return primitives, confidences, suppressions
 ```
 
-This module lives at `gse/curation/external_sources/bipolar_exclusion.py`
+This module lives at `GSE/curation/external_sources/bipolar_exclusion.py`
 (new). The suppression records flow into
 `decomposition_provenance.source_detail` so the audit trail captures
 both the kept pole's evidence AND the suppressed-pole evidence.
@@ -394,7 +394,7 @@ both the kept pole's evidence AND the suppressed-pole evidence.
 #### 4.2.6 Write to `data/lexicon.db` via populate_from_external.py
 
 The existing `populate_from_external.py` Store connector
-(`gse/curation/external_sources/populate.py`, written in this session,
+(`GSE/curation/external_sources/populate.py`, written in this session,
 10 tests passing) writes:
 
 * a `lexemes` row (source='external_sources_voting', avg conf)
@@ -403,7 +403,7 @@ The existing `populate_from_external.py` Store connector
 * a `decomposition_provenance` row (source_type='external',
   source_detail = sorted source list + suppressed-pole records)
 
-CLI: `python -m gse.curation.external_sources.populate --db data/lexicon.db --min-sources 2 --min-confidence 0.5`
+CLI: `python -m GSE.curation.external_sources.populate --db data/lexicon.db --min-sources 2 --min-confidence 0.5`
 
 This step is **irreversible in practice** (writes 50-80k rows). Gate on
 explicit user authorization. The dry-run produces a CSV/JSON of what
@@ -416,7 +416,7 @@ would be written; the apply step writes it.
 | After §4.2.5 dry-run | No `ExternalWordData` has both poles of any bipolar pair active | new `test_bipolar_exclusion_invariant` |
 | After §4.2.6 | For each of the 28 bipolar primitive words (good, bad, big, small, …), the lexicon row contains the matching primitive with +1 and the opposing pole with 0 (not -1) | new `test_bipolar_primitives_have_canonical_decomp` |
 | After §4.2.6 | `cos(good, bad) on EVALUATORS bank < -0.7` (theory predicts -1; allow noise from secondary primitives) | new `test_bipolar_eval_bank_opposes` |
-| After §4.2.6 | Antonym benchmark min-bank cos negative-rate ≥ 0.8 | `python -m gse.benchmarks.run --task antonyms` |
+| After §4.2.6 | Antonym benchmark min-bank cos negative-rate ≥ 0.8 | `python -m GSE.benchmarks.run --task antonyms` |
 
 ---
 
@@ -509,7 +509,7 @@ anchors_per_layer = 15   # decomposition layer cap
   until lexicon quality is high enough that disambiguation becomes the
   bottleneck.
 * **Promote validated curation entries into the canonical Merkle
-  store** (`gse/merkle/translator.py`): bridge between the curation DB
+  store** (`GSE/merkle/translator.py`): bridge between the curation DB
   and the canonical store; do after the curation DB has clean content.
 
 ---

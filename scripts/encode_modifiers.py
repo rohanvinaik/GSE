@@ -2,7 +2,7 @@
 """
 Encode Modifier Hierarchies in GSE Lexicon Database
 
-Applies modifier hierarchy encodings from gse/lexicon/modifier_hierarchy.py:
+Applies modifier hierarchy encodings from GSE/lexicon/modifier_hierarchy.py:
 - Populates hierarchy_levels table with scale positions
 - Covers INTENSITY, QUANTITY, CERTAINTY, FREQUENCY scales
 """
@@ -15,7 +15,7 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from gse.lexicon.modifier_hierarchy import ALL_MODIFIER_SCALES
+from GSE.lexicon.modifier_hierarchy import ALL_MODIFIER_SCALES
 
 
 def encode_modifiers(db_path: Path, dry_run: bool = False) -> dict:

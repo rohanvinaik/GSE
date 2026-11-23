@@ -8,16 +8,16 @@
     <key>ProgramArguments</key>
     <array>
         <string>/usr/bin/python3</string>
-        <string>/Users/rohanvinaik/gse/daemon/audit_daemon.py</string>
+        <string>/Users/rohanvinaik/Projects/GSE/daemon/audit_daemon.py</string>
     </array>
 
     <key>WorkingDirectory</key>
-    <string>/Users/rohanvinaik/gse</string>
+    <string>/Users/rohanvinaik/Projects/GSE</string>
 
     <key>EnvironmentVariables</key>
     <dict>
         <key>PYTHONPATH</key>
-        <string>/Users/rohanvinaik/gse</string>
+        <string>/Users/rohanvinaik/Projects/GSE</string>
     </dict>
 
     <!-- Run on login -->
@@ -33,10 +33,10 @@
 
     <!-- Logging -->
     <key>StandardOutPath</key>
-    <string>/Users/rohanvinaik/gse/logs/audit_daemon.stdout.log</string>
+    <string>/Users/rohanvinaik/Projects/GSE/logs/audit_daemon.stdout.log</string>
 
     <key>StandardErrorPath</key>
-    <string>/Users/rohanvinaik/gse/logs/audit_daemon.stderr.log</string>
+    <string>/Users/rohanvinaik/Projects/GSE/logs/audit_daemon.stderr.log</string>
 
     <!-- Run with lowest CPU/IO priority -->
     <key>Nice</key>

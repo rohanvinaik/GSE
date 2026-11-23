@@ -4,7 +4,7 @@ import argparse
 import json
 from pathlib import Path
 
-from gse.curation.lexicon_builder.reconsideration import reconsider
+from GSE.curation.lexicon_builder.reconsideration import reconsider
 
 
 def main():

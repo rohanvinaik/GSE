@@ -6,13 +6,13 @@ from dataclasses import asdict
 
 import pytest
 
-from gse.curation.lexicon_builder.engine import Assertion, Relation
-from gse.curation.lexicon_builder.evidence import Definition, Observation
-from gse.curation.lexicon_builder.foundation import BANKS
-from gse.curation.lexicon_builder.relevance import observation_relevance
-from gse.curation.lexicon_builder.residual import _request_id, build_request
-from gse.curation.lexicon_builder.resolution import resolve_dictionary
-from gse.curation.lexicon_builder.reviewed_patterns import INPUT_FORMAT, run_workflow
+from GSE.curation.lexicon_builder.engine import Assertion, Relation
+from GSE.curation.lexicon_builder.evidence import Definition, Observation
+from GSE.curation.lexicon_builder.foundation import BANKS
+from GSE.curation.lexicon_builder.relevance import observation_relevance
+from GSE.curation.lexicon_builder.residual import _request_id, build_request
+from GSE.curation.lexicon_builder.resolution import resolve_dictionary
+from GSE.curation.lexicon_builder.reviewed_patterns import INPUT_FORMAT, run_workflow
 from scripts import audit_lexicon_patterns as script
 
 

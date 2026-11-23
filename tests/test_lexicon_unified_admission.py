@@ -8,8 +8,8 @@ from __future__ import annotations
 
 import copy
 
-from gse.lexicon_builder.build import build
-from gse.lexicon_builder.registry import load_rulebook
+from GSE.lexicon_builder.build import build
+from GSE.lexicon_builder.registry import load_rulebook
 from tests.lexicon_rulebook import admitted_rulebook, certify_rule, withheld_rulebook
 
 

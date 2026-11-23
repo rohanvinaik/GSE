@@ -2,11 +2,11 @@
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.symbolic import evaluate_tree, from_dict, from_trace, is_logically_equal_to, resolve, to_dict
-from gse.symbolic.duration import Duration
-from gse.symbolic.emit import emit_contract
-from gse.symbolic.serialization import SerializationError
+from GSE.api import GSEEncoder
+from GSE.symbolic import evaluate_tree, from_dict, from_trace, is_logically_equal_to, resolve, to_dict
+from GSE.symbolic.duration import Duration
+from GSE.symbolic.emit import emit_contract
+from GSE.symbolic.serialization import SerializationError
 
 
 @pytest.fixture(scope="module")

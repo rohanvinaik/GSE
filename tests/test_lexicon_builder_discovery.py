@@ -6,8 +6,8 @@ from types import SimpleNamespace
 
 import pytest
 
-from gse.curation.lexicon_builder.discovery import BankObservation, discover_bundle, discover_relations
-from gse.curation.lexicon_builder.engine import Assertion, propagate
+from GSE.curation.lexicon_builder.discovery import BankObservation, discover_bundle, discover_relations
+from GSE.curation.lexicon_builder.engine import Assertion, propagate
 
 
 def observation(entry, bank, value, source="dictionary", record=None, family="dictionary", **kwargs):

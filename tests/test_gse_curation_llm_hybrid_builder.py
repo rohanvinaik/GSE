@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.llm.hybrid_builder."""
+"""Manual contract tests for GSE.curation.llm.hybrid_builder."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.llm.hybrid_builder import (
+from GSE.curation.llm.hybrid_builder import (
     BuilderStats,
     HybridLexiconBuilder,
     main,
@@ -39,7 +39,7 @@ def fresh_db(tmp_path):
 
 def mk_builder(fresh_db):
     """Make a builder with both clients mocked."""
-    with patch("gse.curation.llm.hybrid_builder.OllamaClient"):
+    with patch("GSE.curation.llm.hybrid_builder.OllamaClient"):
         b = HybridLexiconBuilder(db_path=fresh_db)
         # Get the two distinct mock instances
         # OllamaClient was called twice (fast + validator)
@@ -71,30 +71,30 @@ class TestBuilderStats:
 
 class TestInit:
     def test_default_models(self, fresh_db):
-        with patch("gse.curation.llm.hybrid_builder.OllamaClient"):
+        with patch("GSE.curation.llm.hybrid_builder.OllamaClient"):
             b = HybridLexiconBuilder(db_path=fresh_db)
             assert b.fast_model == "qwen2.5:7b"
             assert b.validator_model == "qwen3:32b"
 
     def test_validation_threshold_default(self, fresh_db):
-        with patch("gse.curation.llm.hybrid_builder.OllamaClient"):
+        with patch("GSE.curation.llm.hybrid_builder.OllamaClient"):
             b = HybridLexiconBuilder(db_path=fresh_db)
             assert b.validation_threshold == 0.6
 
     def test_fast_config(self, fresh_db):
-        with patch("gse.curation.llm.hybrid_builder.OllamaClient"):
+        with patch("GSE.curation.llm.hybrid_builder.OllamaClient"):
             b = HybridLexiconBuilder(db_path=fresh_db)
             assert b.fast_config.temperature == 0.1
             assert b.fast_config.max_tokens == 20
 
     def test_validator_config(self, fresh_db):
-        with patch("gse.curation.llm.hybrid_builder.OllamaClient"):
+        with patch("GSE.curation.llm.hybrid_builder.OllamaClient"):
             b = HybridLexiconBuilder(db_path=fresh_db)
             assert b.validator_config.temperature == 0.3
             assert b.validator_config.max_tokens == 200
 
     def test_stats_initialized(self, fresh_db):
-        with patch("gse.curation.llm.hybrid_builder.OllamaClient"):
+        with patch("GSE.curation.llm.hybrid_builder.OllamaClient"):
             b = HybridLexiconBuilder(db_path=fresh_db)
             assert isinstance(b.stats, BuilderStats)
 
@@ -212,7 +212,7 @@ class TestFastDecompose:
 
     def test_single_primitives_processed(self, fresh_db):
         # NOT is a single primitive
-        from gse.curation.llm.primitive_matcher import SINGLE_PRIMITIVES
+        from GSE.curation.llm.primitive_matcher import SINGLE_PRIMITIVES
 
         b = mk_builder(fresh_db)
         b.fast_client.generate.return_value = "YES"
@@ -232,7 +232,7 @@ class TestFastDecompose:
 
 class TestGetMissingPrimitives:
     def test_all_missing(self, fresh_db):
-        from gse.curation.schema import ALL_PRIMITIVES
+        from GSE.curation.schema import ALL_PRIMITIVES
 
         b = mk_builder(fresh_db)
         assert b.get_missing_primitives(1) == set(ALL_PRIMITIVES)
@@ -311,7 +311,7 @@ class TestValidateDecomposition:
 
 class TestProcessWord:
     def test_all_filled_returns_empty(self, fresh_db):
-        from gse.curation.schema import ALL_PRIMITIVES
+        from GSE.curation.schema import ALL_PRIMITIVES
 
         b = mk_builder(fresh_db)
         # Fill all primitives
@@ -369,7 +369,7 @@ class TestProcessBatch:
         b = mk_builder(fresh_db)
         b.conn.execute("INSERT INTO lexemes VALUES (1, 'x', 1)")
         # Fill almost all primitives (only 5 missing)
-        from gse.curation.schema import ALL_PRIMITIVES
+        from GSE.curation.schema import ALL_PRIMITIVES
 
         for p in list(ALL_PRIMITIVES)[:67]:
             b.conn.execute(
@@ -417,14 +417,14 @@ class TestClose:
 class TestMain:
     def test_default_batch_run(self, fresh_db, capsys):
         with patch("sys.argv", ["prog", "--db", fresh_db, "--limit", "0"]):
-            with patch("gse.curation.llm.hybrid_builder.OllamaClient"):
+            with patch("GSE.curation.llm.hybrid_builder.OllamaClient"):
                 with patch.object(HybridLexiconBuilder, "process_batch", return_value=BuilderStats()):
                     main()
         assert "HYBRID BUILD COMPLETE" in capsys.readouterr().out
 
     def test_word_arg_not_found(self, fresh_db, capsys):
         with patch("sys.argv", ["prog", "--db", fresh_db, "--word", "missing"]):
-            with patch("gse.curation.llm.hybrid_builder.OllamaClient"):
+            with patch("GSE.curation.llm.hybrid_builder.OllamaClient"):
                 main()
         assert "Word not found" in capsys.readouterr().out
 
@@ -435,7 +435,7 @@ class TestMain:
         conn.commit()
         conn.close()
         with patch("sys.argv", ["prog", "--db", fresh_db, "--word", "happy"]):
-            with patch("gse.curation.llm.hybrid_builder.OllamaClient"):
+            with patch("GSE.curation.llm.hybrid_builder.OllamaClient"):
                 with patch.object(HybridLexiconBuilder, "process_word", return_value={"GOOD": 1}):
                     main()
         assert "happy" in capsys.readouterr().out

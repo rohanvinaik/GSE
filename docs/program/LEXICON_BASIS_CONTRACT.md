@@ -4,7 +4,7 @@ This is the authored completion of the prime definitions requested in F148 and F
 
 ## Meaning, warrants and closure
 
-Each row below identifies a located prime reading. Its complete profile is in `gse/lexicon_builder/foundation.json`: typed identity, own head, arguments, permissions, reference bindings, applicable degree and an authored decision for every coordinate. An ordinary homograph does not inherit this boundary. Existing examined definitions remain unchanged.
+Each row below identifies a located prime reading. Its complete profile is in `GSE/lexicon_builder/foundation.json`: typed identity, own head, arguments, permissions, reference bindings, applicable degree and an authored decision for every coordinate. An ordinary homograph does not inherit this boundary. Existing examined definitions remain unchanged.
 
 The chart presents some combinations. Every entry of each selected chart box is classified as a permission unless it establishes the prime's own degree domain or an explicit prohibition. A participant, topic or co-occurring operator is not automatically a lexical component. The author explicitly declares the remainder silent only after identifying the intended sense and its companions; reconstruction tests consistency, not independent semantic completeness (F158 §3; F159). Removing the declaration reopens that remainder.
 

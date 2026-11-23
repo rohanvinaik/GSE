@@ -1,13 +1,13 @@
-"""Tests for gse.curation.external_sources.populate."""
+"""Tests for GSE.curation.external_sources.populate."""
 
 import pytest
 
-from gse.curation.external_sources.integrator import ExternalWordData
-from gse.curation.external_sources.populate import (
+from GSE.curation.external_sources.integrator import ExternalWordData
+from GSE.curation.external_sources.populate import (
     PopulationStats,
     populate_from_entries,
 )
-from gse.curation.lexicon_db import LexiconDatabase
+from GSE.curation.lexicon_db import LexiconDatabase
 
 
 @pytest.fixture

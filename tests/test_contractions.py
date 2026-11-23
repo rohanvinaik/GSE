@@ -2,13 +2,13 @@
 
 import pytest
 
-from gse.nlp.contractions import (
+from GSE.nlp.contractions import (
     POSSESSIVE,
     candidates,
     resolve_apostrophe_s,
     resolve_contraction,
 )
-from gse.nlp.native import NativeNLP
+from GSE.nlp.native import NativeNLP
 
 
 @pytest.fixture(scope="module")

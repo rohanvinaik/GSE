@@ -18,8 +18,8 @@ from collections import Counter, defaultdict
 from contextlib import closing
 from pathlib import Path
 
-from gse.curation.lexicon_builder.foundation import definition_context
-from gse.curation.lexicon_builder.storage import VERSION
+from GSE.curation.lexicon_builder.foundation import definition_context
+from GSE.curation.lexicon_builder.storage import VERSION
 
 ROOT = Path(__file__).resolve().parents[1]
 STATUSES = ("MISSING", "UNIQUE_CANDIDATE", "MULTIPLE_DEFINITIONS")
@@ -240,7 +240,7 @@ def audit(lexicon_db: Path, *, project_root: Path = ROOT, benchmark_cache: Path 
             source_reference(path)
             for path in (
                 cache / "SimLex-999/README.txt",
-                project_root / "gse/benchmarks/datasets.py",
+                project_root / "GSE/benchmarks/datasets.py",
                 scalar / "README.md",
                 scalar / "globalorder/README.md",
                 scalar / "globalorder/data/socal/readme.md",

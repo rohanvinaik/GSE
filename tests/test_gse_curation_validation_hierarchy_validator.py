@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.validation.hierarchy_validator."""
+"""Manual contract tests for GSE.curation.validation.hierarchy_validator."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.validation.hierarchy_validator import (
+from GSE.curation.validation.hierarchy_validator import (
     HierarchyValidator,
     ValidationResult,
     validate_hierarchy,

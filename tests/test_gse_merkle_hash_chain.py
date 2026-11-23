@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.merkle.hash_chain."""
+"""Manual contract tests for GSE.merkle.hash_chain."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.merkle.hash_chain import (
+from GSE.merkle.hash_chain import (
     DifferenceProof,
     MembershipProof,
     MerkleHashChain,

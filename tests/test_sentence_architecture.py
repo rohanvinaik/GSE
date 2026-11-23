@@ -11,9 +11,9 @@ Tests validate:
 import numpy as np
 import pytest
 
-from gse.composition.composer import SemanticComposer, compose_sentence
-from gse.lexicon.similarity import semantic_similarity
-from gse.lexicon.word_encoding import (
+from GSE.composition.composer import SemanticComposer, compose_sentence
+from GSE.lexicon.similarity import semantic_similarity
+from GSE.lexicon.word_encoding import (
     PREDEFINED_OPERATORS,
     ComponentType,
     GrammaticalFeatures,
@@ -21,10 +21,10 @@ from gse.lexicon.word_encoding import (
     LexemeEntry,
     OperatorSpec,
 )
-from gse.parsing.graph import EdgeType, ParseEdge, ParseGraph, ParseNode
-from gse.parsing.operators import OperatorState, apply_operators_to_atomic, resolve_operator
-from gse.parsing.parser import SentenceParser
-from gse.vectors_v2 import SparseVector
+from GSE.parsing.graph import EdgeType, ParseEdge, ParseGraph, ParseNode
+from GSE.parsing.operators import OperatorState, apply_operators_to_atomic, resolve_operator
+from GSE.parsing.parser import SentenceParser
+from GSE.vectors_v2 import SparseVector
 
 # ============================================================
 # FIXTURES

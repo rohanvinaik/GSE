@@ -8,24 +8,24 @@ from types import SimpleNamespace
 
 import pytest
 
-from gse.curation.external_sources.gse_closed_class import (
+from GSE.curation.external_sources.gse_closed_class import (
     FOUNDATION_COHORT,
     GSEClosedClassParser,
     grammatical_entry_ids,
     grammatical_requirement,
 )
-from gse.curation.external_sources.integrator import ExternalSourcesIntegrator
-from gse.curation.external_sources.source_scope import SOURCE_PRIMITIVE_SCOPE
-from gse.curation.lexicon_builder.evidence import (
+from GSE.curation.external_sources.integrator import ExternalSourcesIntegrator
+from GSE.curation.external_sources.source_scope import SOURCE_PRIMITIVE_SCOPE
+from GSE.curation.lexicon_builder.evidence import (
     _SOURCE_CLASSES,
     collect_evidence,
     load_local_sources,
     validate_assertion_competence,
 )
-from gse.curation.lexicon_builder.model_evidence import evidence_view
-from gse.curation.lexicon_builder.pipeline import load_evidence
-from gse.lexicon.function_words import DETERMINER_ENCODINGS
-from gse.lexicon.pronouns import PRONOUN_ENCODINGS
+from GSE.curation.lexicon_builder.model_evidence import evidence_view
+from GSE.curation.lexicon_builder.pipeline import load_evidence
+from GSE.lexicon.function_words import DETERMINER_ENCODINGS
+from GSE.lexicon.pronouns import PRONOUN_ENCODINGS
 
 
 @pytest.mark.parametrize(
@@ -184,7 +184,7 @@ def test_actual_integrator_registers_source_without_external_network(monkeypatch
     for source, class_name in _SOURCE_CLASSES.items():
         if source == "gse_closed_class":
             continue
-        module = importlib.import_module(f"gse.curation.external_sources.{source}")
+        module = importlib.import_module(f"GSE.curation.external_sources.{source}")
         monkeypatch.setattr(getattr(module, class_name), "load", lambda self: False)
     integrator = ExternalSourcesIntegrator()
     stats = integrator.load_all_sources()

@@ -2,13 +2,13 @@
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.curation.lexicon_builder.engine import Assertion, propagate
-from gse.curation.lexicon_builder.evidence import Definition
-from gse.curation.lexicon_builder.foundation import BANKS
-from gse.curation.lexicon_builder.storage import open_build, store_entry
-from gse.nlp.morphology import NEGATION, negation_admission
-from gse.primitives_v2 import negate_decomposition
+from GSE.api import GSEEncoder
+from GSE.curation.lexicon_builder.engine import Assertion, propagate
+from GSE.curation.lexicon_builder.evidence import Definition
+from GSE.curation.lexicon_builder.foundation import BANKS
+from GSE.curation.lexicon_builder.storage import open_build, store_entry
+from GSE.nlp.morphology import NEGATION, negation_admission
+from GSE.primitives_v2 import negate_decomposition
 
 NEG = {"state": "resolved", "feature": NEGATION}
 

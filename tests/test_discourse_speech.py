@@ -6,7 +6,7 @@ swap on the resolved tree) is exercised end-to-end by the bridge; here we pin th
 
 import re
 
-from gse.discourse.speech import _attribution, segment_document, segment_speech
+from GSE.discourse.speech import _attribution, segment_document, segment_speech
 
 
 def _split(text):

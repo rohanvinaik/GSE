@@ -2,16 +2,16 @@
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.symbolic import evaluate_tree, from_trace, resolve
-from gse.symbolic.claims import claim_key, commitment, commitment_modes, identity, polarity, scope_signature
-from gse.symbolic.emit import emit_contract
-from gse.symbolic.expression import Atom, Negation
-from gse.symbolic.inference import KnowledgeBase
-from gse.symbolic.narrative import NarrativeGraph, _collect_predicates, _trace_key
-from gse.symbolic.predicates import ClauseCoordination, Conditional, Event, Temporal, TypeAssertion
-from gse.symbolic.propositions import Proposition, propositions
-from gse.symbolic.resolution import Entity
+from GSE.api import GSEEncoder
+from GSE.symbolic import evaluate_tree, from_trace, resolve
+from GSE.symbolic.claims import claim_key, commitment, commitment_modes, identity, polarity, scope_signature
+from GSE.symbolic.emit import emit_contract
+from GSE.symbolic.expression import Atom, Negation
+from GSE.symbolic.inference import KnowledgeBase
+from GSE.symbolic.narrative import NarrativeGraph, _collect_predicates, _trace_key
+from GSE.symbolic.predicates import ClauseCoordination, Conditional, Event, Temporal, TypeAssertion
+from GSE.symbolic.propositions import Proposition, propositions
+from GSE.symbolic.resolution import Entity
 
 
 @pytest.fixture(scope="module")
@@ -159,7 +159,7 @@ def test_generic_unresolved_and_malformed_keys_abstain():
 def test_duration_qualifies_exact_claims_and_temporal_scope():
     from dataclasses import replace
 
-    from gse.symbolic.duration import Duration
+    from GSE.symbolic.duration import Duration
 
     event = Event("hurt", _entity("guard", "g"), _entity("prisoner", "p"))
     signature = {"GOOD": -1}

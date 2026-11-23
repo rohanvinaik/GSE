@@ -5,15 +5,15 @@ import json
 from contextlib import closing
 from pathlib import Path
 
-from gse.curation.lexicon_builder.epoch import connect, fingerprint, read, record
-from gse.curation.lexicon_builder.residual import _request_id
-from gse.curation.lexicon_builder.rule_history import digest
-from gse.curation.lexicon_builder.source_enrichment import (
+from GSE.curation.lexicon_builder.epoch import connect, fingerprint, read, record
+from GSE.curation.lexicon_builder.residual import _request_id
+from GSE.curation.lexicon_builder.rule_history import digest
+from GSE.curation.lexicon_builder.source_enrichment import (
     forecast_wiktionary_projection,
     revise_source_candidate,
     wiktionary_projection_scope,
 )
-from gse.lexicon_resource import ACTIVE_POINTER
+from GSE.lexicon_resource import ACTIVE_POINTER
 
 FORMAT = "gse.wiktionary-person-projection-revision/1"
 

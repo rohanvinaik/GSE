@@ -173,7 +173,7 @@ Already have WordNet - extend to extract:
 ### Phase 2: USAS Integration (1-2 sessions)
 
 1. Download USAS English lexicon from GitHub
-2. Create `gse/curation/external_sources/usas.py` parser
+2. Create `GSE/curation/external_sources/usas.py` parser
 3. Map USAS categories to GSE primitives
 4. Add to constraint aggregation engine
 

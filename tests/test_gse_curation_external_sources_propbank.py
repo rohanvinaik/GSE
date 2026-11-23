@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.external_sources.propbank."""
+"""Manual contract tests for GSE.curation.external_sources.propbank."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.external_sources.propbank import (
+from GSE.curation.external_sources.propbank import (
     ARG_TO_PRIMITIVE,
     ROLESET_CLASS_TO_PRIMITIVE,
     PropBankEntry,

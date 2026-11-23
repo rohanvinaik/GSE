@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.lexicon.modifier_hierarchy."""
+"""Manual contract tests for GSE.lexicon.modifier_hierarchy."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.lexicon.modifier_hierarchy import (
+from GSE.lexicon.modifier_hierarchy import (
     ALL_MODIFIER_SCALES,
     CERTAINTY_WORDS,
     FREQUENCY_WORDS,

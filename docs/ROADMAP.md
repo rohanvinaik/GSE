@@ -7,11 +7,11 @@
 ## Where we are (snapshot)
 
 Branch `feat/resolved-structure`. Done and committed this session:
-- **Parse-repair** (`gse/api/parse_repair.py`): promote spaCy-mistagged buried
+- **Parse-repair** (`GSE/api/parse_repair.py`): promote spaCy-mistagged buried
   verbs to `VERB` via WordNet verb-sense + entity-flanking → recovers dropped subjects.
-- **Coherence gate** (`gse/symbolic/coherence.py`): post-build collapse detector;
+- **Coherence gate** (`GSE/symbolic/coherence.py`): post-build collapse detector;
   surfaces degraded clauses so Genesis can *abstain*. Wrapper pattern, zero core edits.
-- **Typed variables** (`gse/symbolic/variables.py`) + the variables↔coherence compose.
+- **Typed variables** (`GSE/symbolic/variables.py`) + the variables↔coherence compose.
 - **A-theme (embedded predication) complete:** A1 relative-clause gap-binding,
   A2 clausal-complement embedding, A3 control. All bind correctly.
 - **L1 compositionality ladder** (`tests/test_l1_ladder.py`): the spine that forces
@@ -42,7 +42,7 @@ spaCy on an 87-sentence golden register, suite green at every commit):
 3. **`_syn_roles`** (`31d557a`) — core syntactic roles (SUBJ/PRED/OBJ/COMPL)
    assigned positionally, not from `dep_`. 0 struct divergence; vector
    recalibration only (the deliberate one flagged below).
-4. **GSE-native token engine** (`86398cd`, `gse/nlp/native.py`) — deterministic
+4. **GSE-native token engine** (`86398cd`, `GSE/nlp/native.py`) — deterministic
    tokenizer + WordNet-morphy lemmatizer + coarse-UPOS tagger replace
    `spacy.load`. `GSEEncoder(engine="native")` is the default; `"spacy"` remains
    for the parity harness (`scripts/ws1_parity.py`, `ws1_characterize.py`).
@@ -50,7 +50,7 @@ spaCy on an 87-sentence golden register, suite green at every commit):
 Full suite after the swap: 3941 passed; the 9 failures are pre-existing
 curation-env issues (none touch the encoder). spaCy is retired from the encoder;
 it remains only the **bootstrap definition-parser** for the lexicon build
-(`gse/curation/decomposition/definition_structure.py`) — explicitly in-scope to
+(`GSE/curation/decomposition/definition_structure.py`) — explicitly in-scope to
 keep. Remaining tidiness (non-blocking): the legacy `*_arcs` reference functions
 in `parse_repair`/`encoder` are dead in production, kept only for the parity A/B.
 
@@ -172,7 +172,7 @@ frames / k-lines (the script stacks), genre-selection (the dispatcher), negative
 learning (k-line censors), irony/humor (L3 voice-modes, frame-conditioned),
 sparse-wiki grounding (the second-loop world layer).
 
-**Build order:** (1) the deterministic *signal layer* — `gse/discourse/profile.py`,
+**Build order:** (1) the deterministic *signal layer* — `GSE/discourse/profile.py`,
 text → GSE feature profile (DONE, validated on Brown). (2) the *corpus* — Brown
 (NLTK, genre-labeled) → labeled profile vectors (also the dogfooding failure-list).
 (3) the *dispatcher* — the SoM router, three-stage (per the SoM design doc). (4) the

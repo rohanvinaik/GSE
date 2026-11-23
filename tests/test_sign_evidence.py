@@ -2,9 +2,9 @@
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.symbolic import negation_signs
-from gse.symbolic.expression import node_negation_count
+from GSE.api import GSEEncoder
+from GSE.symbolic import negation_signs
+from GSE.symbolic.expression import node_negation_count
 
 
 @pytest.fixture(scope="module")

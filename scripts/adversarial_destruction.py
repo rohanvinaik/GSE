@@ -14,8 +14,8 @@ import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from gse.nlp.spellcheck import _DEFAULT_LEXICON as LX
-from gse.nlp.spellcheck import WORD_COMMIT_MARGIN, Candidate, _edits1, looks_non_lexical
+from GSE.nlp.spellcheck import _DEFAULT_LEXICON as LX
+from GSE.nlp.spellcheck import WORD_COMMIT_MARGIN, Candidate, _edits1, looks_non_lexical
 
 REF = "/usr/share/dict/web2"  # ~234k clean English words, independent of our build
 

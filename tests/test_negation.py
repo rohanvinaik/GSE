@@ -13,12 +13,12 @@ Two faces of one operation, each tested at its own layer:
 
 import pytest
 
-from gse.api.encoder import GSEEncoder
-from gse.curation.lexicon_builder.engine import Assertion, propagate
-from gse.curation.lexicon_builder.evidence import Definition
-from gse.curation.lexicon_builder.storage import open_build, store_entry
-from gse.nlp.morphology import NEGATION, REVERSAL, resolve_negation
-from gse.primitives_v2 import negate_decomposition
+from GSE.api.encoder import GSEEncoder
+from GSE.curation.lexicon_builder.engine import Assertion, propagate
+from GSE.curation.lexicon_builder.evidence import Definition
+from GSE.curation.lexicon_builder.storage import open_build, store_entry
+from GSE.nlp.morphology import NEGATION, REVERSAL, resolve_negation
+from GSE.primitives_v2 import negate_decomposition
 
 # --- Piece 1: selective bipolar negate ------------------------------------------
 

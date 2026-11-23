@@ -7,10 +7,10 @@ import sys
 import time
 from importlib import import_module
 
-from gse.curation.lexicon_builder import epoch
-from gse.curation.lexicon_builder.model_batch import batch_contract
-from gse.curation.lexicon_builder.model_protocol import model_input, protocol_contract
-from gse.curation.lexicon_builder.residual import _canonical_json, _request_id
+from GSE.curation.lexicon_builder import epoch
+from GSE.curation.lexicon_builder.model_batch import batch_contract
+from GSE.curation.lexicon_builder.model_protocol import model_input, protocol_contract
+from GSE.curation.lexicon_builder.residual import _canonical_json, _request_id
 
 round_ = import_module("docs.readings.2026-11-13-ssl-explicit-genera.vertebrate_021_approved")
 preview = import_module("docs.readings.2026-11-13-ssl-explicit-genera.prefetch_vertebrate_021")

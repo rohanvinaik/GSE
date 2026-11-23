@@ -336,22 +336,22 @@ The {-1, 0, +1} encoding is crucial:
 
 ### What to Keep
 
-1. **`gse/vectors.py`** (Hadamard-OTP architecture) - Core is solid
-2. **`gse/primitives.py`** - Extend with scale-specific primitives
-3. **`gse/lexicon_generator.py`** - Word-scale encoding works
-4. **`gse/patterns/klines.py`** - Refactor to use primitive indices, not words
+1. **`GSE/vectors.py`** (Hadamard-OTP architecture) - Core is solid
+2. **`GSE/primitives.py`** - Extend with scale-specific primitives
+3. **`GSE/lexicon_generator.py`** - Word-scale encoding works
+4. **`GSE/patterns/klines.py`** - Refactor to use primitive indices, not words
 
 ### What to Refactor
 
-1. **`gse/patterns/pattern_network.py`** → Compound pattern network
-2. **`gse/scales/`** → Implement scale-specific primitives and constraints
-3. **`gse/orchestration/coordinator.py`** → Implement constraint cascade
-4. **`gse/pipeline.py`** → Unified entry point
+1. **`GSE/patterns/pattern_network.py`** → Compound pattern network
+2. **`GSE/scales/`** → Implement scale-specific primitives and constraints
+3. **`GSE/orchestration/coordinator.py`** → Implement constraint cascade
+4. **`GSE/pipeline.py`** → Unified entry point
 
 ### What to Remove/Replace
 
-1. **`gse/encoders/`** (torch-based) → Merge into scales with SparseVector
-2. **`gse/patterns/cooccurrence.py`** (word co-occurrence) → Replace with primitive patterns
+1. **`GSE/encoders/`** (torch-based) → Merge into scales with SparseVector
+2. **`GSE/patterns/cooccurrence.py`** (word co-occurrence) → Replace with primitive patterns
 
 ---
 
@@ -360,7 +360,7 @@ The {-1, 0, +1} encoding is crucial:
 ### Phase 1: Scale-Specific Primitives
 
 ```python
-# gse/primitives.py - extend
+# GSE/primitives.py - extend
 
 class Scale(Enum):
     TEXT = "text"
@@ -379,7 +379,7 @@ PRIMITIVES_BY_SCALE = {
 ### Phase 2: Compound Pattern Network
 
 ```python
-# gse/patterns/compound_network.py
+# GSE/patterns/compound_network.py
 
 class CompoundPatternNetwork:
     """
@@ -431,7 +431,7 @@ class CompoundPatternNetwork:
 ### Phase 3: Constraint Cascade
 
 ```python
-# gse/cascade.py
+# GSE/cascade.py
 
 class ConstraintCascade:
     """
@@ -500,7 +500,7 @@ class ConstraintCascade:
 ### Phase 4: Merkle Caching
 
 ```python
-# gse/cache/merkle.py - extend
+# GSE/cache/merkle.py - extend
 
 class MerkleCache:
     """

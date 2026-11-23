@@ -5,13 +5,13 @@ from pathlib import Path
 
 import pytest
 
-from gse.lexicon_builder.artifact import export_sparse, export_vector
-from gse.lexicon_builder.build import adjective_seed, build, source_matches
-from gse.lexicon_builder.core import legal_domain
-from gse.lexicon_builder.families import family_contract_status
-from gse.lexicon_builder.reading import construct_reading
-from gse.lexicon_builder.registry import load_rulebook
-from gse.lexicon_builder.sources import NativeSources
+from GSE.lexicon_builder.artifact import export_sparse, export_vector
+from GSE.lexicon_builder.build import adjective_seed, build, source_matches
+from GSE.lexicon_builder.core import legal_domain
+from GSE.lexicon_builder.families import family_contract_status
+from GSE.lexicon_builder.reading import construct_reading
+from GSE.lexicon_builder.registry import load_rulebook
+from GSE.lexicon_builder.sources import NativeSources
 from tests.lexicon_sources import requires_lexicon_sources
 
 

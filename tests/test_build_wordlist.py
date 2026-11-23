@@ -5,8 +5,8 @@ from types import SimpleNamespace
 
 import pytest
 
-from gse.curation import build_wordlist
-from gse.nlp import spellcheck
+from GSE.curation import build_wordlist
+from GSE.nlp import spellcheck
 
 
 def configure(tmp_path, monkeypatch, records):

@@ -6,7 +6,7 @@ from random import Random
 
 import pytest
 
-from gse.curation.lexicon_builder.engine import Assertion, Relation, propagate
+from GSE.curation.lexicon_builder.engine import Assertion, Relation, propagate
 
 
 def claim(bank, value, record="r", source="dictionary"):

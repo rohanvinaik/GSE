@@ -9,7 +9,7 @@ precompute ONCE, here, and persist:
   sense_vec(synset.name) -> SparseVector  (the candidate-sense vector to resonate)
 
 A synset's vector is the bundle of its gloss content-words' decompositions (the form
-the spike validated). Runtime (gse/symbolic/grounding.py) loads this store and does
+the spike validated). Runtime (GSE/symbolic/grounding.py) loads this store and does
 cheap cosine re-ranking, margin-gated over the WordNet frequency-primary.
 
 Scope: the Genesis run corpus (stories/*.story.txt) — every content lemma + the
@@ -32,9 +32,9 @@ import time
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from nltk.corpus import wordnet as wn  # noqa: E402
 
-from gse.lexicon_resource import resolve_lexicon_path  # noqa: E402
-from gse.pipeline_v2 import GSEPipeline  # noqa: E402
-from gse.vectors_v2 import bundle  # noqa: E402
+from GSE.lexicon_resource import resolve_lexicon_path  # noqa: E402
+from GSE.pipeline_v2 import GSEPipeline  # noqa: E402
+from GSE.vectors_v2 import bundle  # noqa: E402
 
 _REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _STOP = set(
@@ -151,7 +151,7 @@ def main():
     print("\n[self-test] men sense discrimination from the persisted store")
     import numpy as np
 
-    from gse.vectors_v2 import SparseVector
+    from GSE.vectors_v2 import SparseVector
 
     def load(tbl, key, conn):
         r = conn.execute(

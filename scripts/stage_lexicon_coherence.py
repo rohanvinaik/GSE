@@ -12,14 +12,14 @@ from itertools import batched, product
 from pathlib import Path
 from urllib.parse import unquote
 
-from gse.curation.lexicon_builder.completion import _contexts, _entry, _prepare_context_index, _priority_source
-from gse.curation.lexicon_builder.engine import TERNARY, Relation
-from gse.curation.lexicon_builder.foundation import BANKS, lexical_context, validate_lexical_guards
-from gse.curation.lexicon_builder.interchange import read_json
-from gse.curation.lexicon_builder.resolution import resolve_dictionary
-from gse.curation.lexicon_builder.rule_history import digest, relation_records
-from gse.curation.lexicon_builder.validation import _metadata, _read_json, _relations, _schema
-from gse.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
+from GSE.curation.lexicon_builder.completion import _contexts, _entry, _prepare_context_index, _priority_source
+from GSE.curation.lexicon_builder.engine import TERNARY, Relation
+from GSE.curation.lexicon_builder.foundation import BANKS, lexical_context, validate_lexical_guards
+from GSE.curation.lexicon_builder.interchange import read_json
+from GSE.curation.lexicon_builder.resolution import resolve_dictionary
+from GSE.curation.lexicon_builder.rule_history import digest, relation_records
+from GSE.curation.lexicon_builder.validation import _metadata, _read_json, _relations, _schema
+from GSE.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
 
 
 def _digest(path):

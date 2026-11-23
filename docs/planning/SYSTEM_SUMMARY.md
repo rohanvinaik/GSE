@@ -123,7 +123,7 @@ Disambiguates polysemous words:
 
 ### Basic Processing
 ```python
-from gse.pipeline import load_pipeline
+from GSE.pipeline import load_pipeline
 
 pipeline = load_pipeline()
 

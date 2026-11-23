@@ -7,8 +7,8 @@ personal-wiki copies carried for each prime as stored.
 
 import pytest
 
-from gse.prime_projection import epa_projection
-from gse.primitives_v2 import literal_valence
+from GSE.prime_projection import epa_projection
+from GSE.primitives_v2 import literal_valence
 
 
 @pytest.mark.parametrize(

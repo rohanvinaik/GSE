@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import copy
 
-from gse.lexicon_builder.build import construct, source_matches
-from gse.lexicon_builder.fill import usas_type
-from gse.lexicon_builder.registry import load_rulebook
+from GSE.lexicon_builder.build import construct, source_matches
+from GSE.lexicon_builder.fill import usas_type
+from GSE.lexicon_builder.registry import load_rulebook
 
 
 def native(tag: str, frame: str) -> dict:

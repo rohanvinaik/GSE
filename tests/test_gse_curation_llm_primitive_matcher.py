@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.llm.primitive_matcher."""
+"""Manual contract tests for GSE.curation.llm.primitive_matcher."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.llm.primitive_matcher import (
+from GSE.curation.llm.primitive_matcher import (
     BIPOLAR_PAIRS,
     MATCHER_SYSTEM,
     SINGLE_PRIMITIVES,
@@ -25,7 +25,7 @@ from gse.curation.llm.primitive_matcher import (
 
 # Imported under another name: a bare `test_matcher` is collected by pytest as a module-level test and
 # runs the production smoke check unmocked, 36 generate() calls against whatever Ollama is serving.
-from gse.curation.llm.primitive_matcher import test_matcher as smoke_check_matcher
+from GSE.curation.llm.primitive_matcher import test_matcher as smoke_check_matcher
 
 
 @pytest.fixture
@@ -48,7 +48,7 @@ def fresh_db(tmp_path):
 
 
 def mk_matcher(fresh_db=None):
-    with patch("gse.curation.llm.primitive_matcher.OllamaClient"):
+    with patch("GSE.curation.llm.primitive_matcher.OllamaClient"):
         m = PrimitiveMatcher(db_path=fresh_db)
         m.client = MagicMock()
         return m
@@ -158,7 +158,7 @@ class TestMatchResult:
 
 class TestInit:
     def test_defaults(self):
-        with patch("gse.curation.llm.primitive_matcher.OllamaClient"):
+        with patch("GSE.curation.llm.primitive_matcher.OllamaClient"):
             m = PrimitiveMatcher()
             assert m.model == "qwen2.5:7b"
             assert m.temperature == 0.1
@@ -167,7 +167,7 @@ class TestInit:
             assert m.conn is None
 
     def test_with_db(self, fresh_db):
-        with patch("gse.curation.llm.primitive_matcher.OllamaClient"):
+        with patch("GSE.curation.llm.primitive_matcher.OllamaClient"):
             m = PrimitiveMatcher(db_path=fresh_db)
             assert m.db_path == fresh_db
             assert m.conn is not None
@@ -487,7 +487,7 @@ class TestCommonSensePostProcessor:
 
 class TestEntrypoints:
     def test_test_matcher_runs(self, capsys):
-        with patch("gse.curation.llm.primitive_matcher.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.primitive_matcher.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = "NO"
             smoke_check_matcher()
         # Should print at least the test words
@@ -496,7 +496,7 @@ class TestEntrypoints:
 
     def test_run_batch_basic(self, fresh_db, capsys):
         with patch("sys.argv", ["prog", "--db", fresh_db, "--limit", "0"]):
-            with patch("gse.curation.llm.primitive_matcher.OllamaClient"):
+            with patch("GSE.curation.llm.primitive_matcher.OllamaClient"):
                 with patch.object(
                     PrimitiveMatcher,
                     "process_batch",
@@ -507,7 +507,7 @@ class TestEntrypoints:
 
     def test_run_batch_post_process(self, fresh_db, capsys):
         with patch("sys.argv", ["prog", "--db", fresh_db, "--post-process", "--limit", "0"]):
-            with patch("gse.curation.llm.primitive_matcher.OllamaClient"):
+            with patch("GSE.curation.llm.primitive_matcher.OllamaClient"):
                 with patch.object(
                     PrimitiveMatcher,
                     "process_batch",

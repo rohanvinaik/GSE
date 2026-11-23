@@ -6,10 +6,10 @@ from dataclasses import asdict
 
 import pytest
 
-from gse.curation.external_sources.source_scope import SOURCE_PRIMITIVE_SCOPE
-from gse.curation.external_sources.websters1913 import Websters1913Parser
-from gse.curation.lexicon_builder.evidence import collect_evidence, load_local_sources
-from gse.curation.lexicon_builder.model_evidence import FORMAT, evidence_view
+from GSE.curation.external_sources.source_scope import SOURCE_PRIMITIVE_SCOPE
+from GSE.curation.external_sources.websters1913 import Websters1913Parser
+from GSE.curation.lexicon_builder.evidence import collect_evidence, load_local_sources
+from GSE.curation.lexicon_builder.model_evidence import FORMAT, evidence_view
 
 
 def _snapshot(tmp_path, body):
@@ -95,7 +95,7 @@ def test_changed_snapshot_is_not_silently_used(tmp_path):
 
 
 def test_registered_local_loader_loads_native_data_without_download(tmp_path, monkeypatch):
-    from gse.curation.external_sources import websters1913
+    from GSE.curation.external_sources import websters1913
 
     path = _snapshot(tmp_path, "<meaning><hw>Auf</hw><pos>n.</pos><def>A child.</def></meaning>")
     monkeypatch.setattr(websters1913, "WEBSTERS_MANIFEST", path)

@@ -13,13 +13,13 @@ from complete_unit_want_cycle import OUTPUT as BASELINE
 from probe_unit_banks import execute
 from replay_body_exceptions import FOLDER, ROOT, read, sha256, write
 
-from gse.curation.lexicon_builder.model_batch import OllamaBatchTransport
-from gse.curation.lexicon_builder.residual import OllamaTransport
-from gse.curation.lexicon_builder.reviewed_export import export_reviewed_input
-from gse.curation.lexicon_builder.reviewed_patterns import run_workflow_input
-from gse.curation.lexicon_builder.rule_admission import _AuditReplay, admit_records
-from gse.curation.lexicon_builder.rule_history import digest
-from gse.curation.lexicon_builder.rule_revisions import exception_source
+from GSE.curation.lexicon_builder.model_batch import OllamaBatchTransport
+from GSE.curation.lexicon_builder.residual import OllamaTransport
+from GSE.curation.lexicon_builder.reviewed_export import export_reviewed_input
+from GSE.curation.lexicon_builder.reviewed_patterns import run_workflow_input
+from GSE.curation.lexicon_builder.rule_admission import _AuditReplay, admit_records
+from GSE.curation.lexicon_builder.rule_history import digest
+from GSE.curation.lexicon_builder.rule_revisions import exception_source
 
 SEED = "wordnet:cup:cup.n.04"
 ANCESTOR = "volume_unit.n.01"

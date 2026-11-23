@@ -11,7 +11,7 @@ import re
 import sqlite3
 from typing import Dict, List, Tuple
 
-from gse.curation.llm.ollama_client import GenerationConfig, OllamaClient
+from GSE.curation.llm.ollama_client import GenerationConfig, OllamaClient
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)

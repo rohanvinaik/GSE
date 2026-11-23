@@ -19,12 +19,12 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from gse.api import GSEEncoder  # noqa: E402
-from gse.symbolic import evaluate_tree, from_trace, resolve, resolve_document  # noqa: E402
-from gse.symbolic.claims import claim_key, commitment  # noqa: E402
-from gse.symbolic.inference import KnowledgeBase  # noqa: E402
-from gse.symbolic.propositions import propositions  # noqa: E402
-from gse.symbolic.queries import predicates  # noqa: E402
+from GSE.api import GSEEncoder  # noqa: E402
+from GSE.symbolic import evaluate_tree, from_trace, resolve, resolve_document  # noqa: E402
+from GSE.symbolic.claims import claim_key, commitment  # noqa: E402
+from GSE.symbolic.inference import KnowledgeBase  # noqa: E402
+from GSE.symbolic.propositions import propositions  # noqa: E402
+from GSE.symbolic.queries import predicates  # noqa: E402
 
 _ENC = GSEEncoder()
 
@@ -40,7 +40,7 @@ def vec_hash(s: str) -> str:
 
 def _decomp(word: str) -> dict:
     """The same bounded first-record lexical evidence used by the encoder."""
-    from gse.lexical_evidence import lookup_lexeme
+    from GSE.lexical_evidence import lookup_lexeme
 
     evidence = lookup_lexeme(word)
     if evidence["state"] == "unread":
@@ -102,7 +102,7 @@ def basics() -> None:
     hashes = {vec_hash(s) for _ in range(3)}
     print(f"{s!r}\n  encode ×3 -> sha256 {hashes} (byte-identical)")
     print()
-    from gse.symbolic import GenealogyStore, grounding_flags, resolve_references
+    from GSE.symbolic import GenealogyStore, grounding_flags, resolve_references
 
     store = GenealogyStore()
     t = resolve_references(pipe("The zorble is bigger than the florp"), store)
@@ -220,7 +220,7 @@ def _run_chain(sentences) -> list:
 
 def dirty() -> None:
     header("DIRTY INPUT — typos healed with a ledger, then the SAME derivation")
-    from gse.mcp.spell_server import spell_suggest
+    from GSE.mcp.spell_server import spell_suggest
 
     healed, ledger = [], []
     for s in _DIRTY_CHAIN:
@@ -266,7 +266,7 @@ def policy() -> None:
 # --------------------------------------------------------------------------- #
 def world() -> None:
     header("WORLD GROUNDING — the premise the text never states")
-    from gse.symbolic import GenealogyStore, resolve_references
+    from GSE.symbolic import GenealogyStore, resolve_references
 
     store = GenealogyStore()
     rpipe = lambda s: resolve_references(pipe(s), store)  # noqa: E731
@@ -423,7 +423,7 @@ def coined() -> None:
 # --------------------------------------------------------------------------- #
 def spell() -> None:
     header("SPELLCHECK — never destroys, honestly abstains, names included")
-    from gse.mcp.spell_server import spell_suggest
+    from GSE.mcp.spell_server import spell_suggest
 
     for text in [
         "I beleive this is teh correct anser",

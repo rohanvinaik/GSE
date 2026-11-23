@@ -30,8 +30,8 @@ from typing import Dict, List, Optional, Tuple
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from gse.primitives import PRIMITIVES, ROLES
-from gse.vectors import PrimitiveBasis
+from GSE.primitives import PRIMITIVES, ROLES
+from GSE.vectors import PrimitiveBasis
 
 # Try to import anthropic
 try:
@@ -242,7 +242,7 @@ def get_words_to_decompose(db_path: Path, limit: int = 100) -> List[Dict]:
 
 def update_decomposition(db_path: Path, basis: PrimitiveBasis, word_id: int, decomposition: List[Tuple[str, str]]):
     """Update database with new decomposition and re-encoded vector."""
-    from gse.lexicon_generator import LexiconGenerator
+    from GSE.lexicon_generator import LexiconGenerator
 
     encoder = LexiconGenerator(basis)
     vector = encoder.encode_decomposition(decomposition)

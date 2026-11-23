@@ -11,24 +11,24 @@ from dataclasses import asdict, replace
 
 import pytest
 
-from gse.curation.lexicon_builder.completion import complete_dictionary
-from gse.curation.lexicon_builder.engine import Assertion, Relation
-from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
-from gse.curation.lexicon_builder.foundation import (
+from GSE.curation.lexicon_builder.completion import complete_dictionary
+from GSE.curation.lexicon_builder.engine import Assertion, Relation
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
+from GSE.curation.lexicon_builder.foundation import (
     WORDNET_OTHER_SYNSET_PREFIX,
     WORDNET_OUTSIDE_ANCESTOR_PREFIX,
     lexical_context,
 )
-from gse.curation.lexicon_builder.model_receipts import _context_digest, read_model_receipts
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.reconsideration import reconsider
-from gse.curation.lexicon_builder.residual import _request_id
-from gse.curation.lexicon_builder.reviewed_export import export_reviewed_input
-from gse.curation.lexicon_builder.reviewed_patterns import run_workflow
-from gse.curation.lexicon_builder.rule_admission import admit_rule
-from gse.curation.lexicon_builder.rule_migration import migrate_rule
-from gse.curation.lexicon_builder.storage import read_entries
-from gse.curation.lexicon_builder.validation import validate_build
+from GSE.curation.lexicon_builder.model_receipts import _context_digest, read_model_receipts
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.reconsideration import reconsider
+from GSE.curation.lexicon_builder.residual import _request_id
+from GSE.curation.lexicon_builder.reviewed_export import export_reviewed_input
+from GSE.curation.lexicon_builder.reviewed_patterns import run_workflow
+from GSE.curation.lexicon_builder.rule_admission import admit_rule
+from GSE.curation.lexicon_builder.rule_migration import migrate_rule
+from GSE.curation.lexicon_builder.storage import read_entries
+from GSE.curation.lexicon_builder.validation import validate_build
 
 UNIT = "wordnet:foot:foot.n.02"
 HOMOGRAPH = "wordnet:foot:foot.n.01"

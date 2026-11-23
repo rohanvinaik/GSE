@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.api.encoder."""
+"""Manual contract tests for GSE.api.encoder."""
 
 from __future__ import annotations
 
@@ -11,14 +11,14 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.api.encoder import (
+from GSE.api.encoder import (
     DEP_TO_SYNTACTIC,
     MORPH_TO_TAM,
     GSEEncoder,
 )
-from gse.api.errors import OOVError, PrimitiveError
-from gse.api.trace import OperationTrace, OperatorTrace, TokenTrace
-from gse.vectors_v2 import SparseVector
+from GSE.api.errors import OOVError, PrimitiveError
+from GSE.api.trace import OperationTrace, OperatorTrace, TokenTrace
+from GSE.vectors_v2 import SparseVector
 
 
 @pytest.fixture(scope="module")

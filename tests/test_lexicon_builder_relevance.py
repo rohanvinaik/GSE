@@ -8,13 +8,13 @@ from types import SimpleNamespace
 
 import pytest
 
-from gse.curation.external_sources.sentiwordnet import SentiWordEntry, SentiWordNetParser
-from gse.curation.lexicon_builder.engine import Assertion
-from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation, collect_evidence
-from gse.curation.lexicon_builder.foundation import BANKS
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.relevance import observation_relevance, validate_bank_relevance
-from gse.curation.lexicon_builder.storage import runtime_lookup
+from GSE.curation.external_sources.sentiwordnet import SentiWordEntry, SentiWordNetParser
+from GSE.curation.lexicon_builder.engine import Assertion
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation, collect_evidence
+from GSE.curation.lexicon_builder.foundation import BANKS
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.relevance import observation_relevance, validate_bank_relevance
+from GSE.curation.lexicon_builder.storage import runtime_lookup
 
 
 def test_unclassified_ratings_and_source_scope_do_not_limit_relevance():

@@ -7,8 +7,8 @@ Predicate type and content from the corresponding Op node. Plus
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.symbolic import (
+from GSE.api import GSEEncoder
+from GSE.symbolic import (
     BoundaryCase,
     Causation,
     Comparison,
@@ -24,7 +24,7 @@ from gse.symbolic import (
     evaluate_tree,
     from_trace,
 )
-from gse.symbolic.expression import Atom
+from GSE.symbolic.expression import Atom
 
 
 @pytest.fixture(scope="module")
@@ -182,8 +182,8 @@ class TestArityErrors:
 
 class TestDispatchCoverage:
     def test_all_comp_metadata_operations_have_dispatch(self):
-        from gse.primitives_v2 import COMP_METADATA
-        from gse.symbolic.operators import OPERATION_DISPATCH
+        from GSE.primitives_v2 import COMP_METADATA
+        from GSE.symbolic.operators import OPERATION_DISPATCH
 
         for prim, meta in COMP_METADATA.items():
             op_label = meta["operation"]
@@ -242,7 +242,7 @@ class TestEvaluateTreeLeaves:
         assert evaluate_tree(a) is a
 
     def test_negation_of_atom_preserves_negation(self):
-        from gse.symbolic.expression import Negation
+        from GSE.symbolic.expression import Negation
 
         n = Negation(operand=_atom("good"))
         result = evaluate_tree(n)

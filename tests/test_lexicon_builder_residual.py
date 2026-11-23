@@ -8,10 +8,10 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from gse.curation.lexicon_builder.engine import Assertion, Relation, propagate
-from gse.curation.lexicon_builder.evidence import Definition
-from gse.curation.lexicon_builder.residual import OllamaTransport, build_request, complete_bank
-from gse.curation.lexicon_builder.resolution import resolve_dictionary
+from GSE.curation.lexicon_builder.engine import Assertion, Relation, propagate
+from GSE.curation.lexicon_builder.evidence import Definition
+from GSE.curation.lexicon_builder.residual import OllamaTransport, build_request, complete_bank
+from GSE.curation.lexicon_builder.resolution import resolve_dictionary
 
 
 class Transport:
@@ -382,7 +382,7 @@ def test_ruling_that_exposes_joint_contradiction_is_not_admitted(monkeypatch):
     # Deliberately cap joint search below the eight combinations. The problem
     # has the witness A=B=C=0, but GAC alone also leaves unsupported value 1.
     monkeypatch.setattr(
-        "gse.curation.lexicon_builder.resolution.propagate", partial(propagate, max_joint_assignments=7)
+        "GSE.curation.lexicon_builder.resolution.propagate", partial(propagate, max_joint_assignments=7)
     )
     banks = ("A", "B", "C")
     rules = (
@@ -422,7 +422,7 @@ def test_model_can_resolve_previously_excepted_conditional_component():
 
 def test_model_may_not_erase_a_known_conditional_assignment(monkeypatch):
     monkeypatch.setattr(
-        "gse.curation.lexicon_builder.resolution.propagate", partial(propagate, max_joint_assignments=7)
+        "GSE.curation.lexicon_builder.resolution.propagate", partial(propagate, max_joint_assignments=7)
     )
     banks = ("A", "B", "C", "D")
     rules = (
@@ -495,9 +495,9 @@ def test_ollama_transport_sends_only_json_data_and_generation_schema():
     before = copy.deepcopy((payload, schema))
     response = MagicMock()
     response.__enter__.return_value.read.return_value = b'{"response":"{\\"WANT\\":0}"}'
-    with patch("gse.curation.lexicon_builder.residual.urlopen", return_value=response) as opening:
+    with patch("GSE.curation.lexicon_builder.residual.urlopen", return_value=response) as opening:
         with (
-            patch("gse.curation.llm.ollama_client.register_model") as register,
+            patch("GSE.curation.llm.ollama_client.register_model") as register,
             patch.object(OllamaTransport, "_installed_digest", return_value="a" * 64),
         ):
             transport = OllamaTransport("explicit-model", "http://localhost:11434/", 7)
@@ -538,7 +538,7 @@ def test_ollama_transport_rejects_missing_or_malformed_envelope(envelope):
     ).payload()
     response = MagicMock()
     response.__enter__.return_value.read.return_value = envelope
-    with patch("gse.curation.lexicon_builder.residual.urlopen", return_value=response):
+    with patch("GSE.curation.lexicon_builder.residual.urlopen", return_value=response):
         with patch.object(OllamaTransport, "_installed_digest", return_value="a" * 64):
             transport = OllamaTransport("explicit-model")
             transport.pin()
@@ -562,7 +562,7 @@ def test_transport_rejects_context_overflow_without_truncation_or_call():
         ),
         definition=Definition("d", "want", "verb", "desire something"),
     )
-    with patch("gse.curation.lexicon_builder.residual.urlopen") as opening:
+    with patch("GSE.curation.lexicon_builder.residual.urlopen") as opening:
         with pytest.raises(ValueError, match="MODEL_CONTEXT_EXCEEDED"):
             OllamaTransport("explicit-model")(request.payload(), request.output_schema())
     opening.assert_not_called()
@@ -589,7 +589,7 @@ def test_transport_requires_valid_context_budget(context):
 
 
 def test_model_protocol_keeps_all_source_observations():
-    from gse.curation.lexicon_builder.model_protocol import model_input
+    from GSE.curation.lexicon_builder.model_protocol import model_input
 
     records = tuple(
         {
@@ -637,7 +637,7 @@ def test_incomplete_model_output_is_never_admitted():
     ).payload()
     response = MagicMock()
     response.__enter__.return_value.read.return_value = b'{"response":"{\\"WANT\\":1}","done_reason":"length"}'
-    with patch("gse.curation.lexicon_builder.residual.urlopen", return_value=response):
+    with patch("GSE.curation.lexicon_builder.residual.urlopen", return_value=response):
         with patch.object(OllamaTransport, "_installed_digest", return_value="a" * 64):
             transport = OllamaTransport("model")
             transport.pin()

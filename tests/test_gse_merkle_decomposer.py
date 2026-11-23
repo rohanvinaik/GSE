@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.merkle.decomposer."""
+"""Manual contract tests for GSE.merkle.decomposer."""
 
 from __future__ import annotations
 
@@ -9,17 +9,17 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.merkle.decomposer import (
+from GSE.merkle.decomposer import (
     POS_DEFAULTS,
     PREFIX_PATTERNS,
     SUFFIX_PATTERNS,
     DecompositionResult,
     HDCFuzzyDecomposer,
 )
-from gse.merkle.nodes import LexemeNode
-from gse.merkle.router import MerkleBellmanFord
-from gse.merkle.tree import MerkleLexiconTree
-from gse.vectors_v2 import SparseVector, compose_decomposition, create_basis
+from GSE.merkle.nodes import LexemeNode
+from GSE.merkle.router import MerkleBellmanFord
+from GSE.merkle.tree import MerkleLexiconTree
+from GSE.vectors_v2 import SparseVector, compose_decomposition, create_basis
 
 
 @pytest.fixture(scope="module")

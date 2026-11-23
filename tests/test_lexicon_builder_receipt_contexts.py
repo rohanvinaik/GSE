@@ -6,9 +6,9 @@ from dataclasses import asdict
 
 import pytest
 
-from gse.curation.lexicon_builder.engine import Assertion
-from gse.curation.lexicon_builder.foundation import BANKS
-from gse.curation.lexicon_builder.model_receipts import (
+from GSE.curation.lexicon_builder.engine import Assertion
+from GSE.curation.lexicon_builder.foundation import BANKS
+from GSE.curation.lexicon_builder.model_receipts import (
     CONTEXT_VERSION,
     LEGACY_REQUEST_STORAGE,
     LEGACY_VERSION,
@@ -20,7 +20,7 @@ from gse.curation.lexicon_builder.model_receipts import (
     read_model_receipts,
     reset_model_receipts,
 )
-from gse.curation.lexicon_builder.storage import _json, open_build
+from GSE.curation.lexicon_builder.storage import _json, open_build
 
 
 def _receipt(bank, ordinal=0):
@@ -143,7 +143,7 @@ def test_indexed_v1_receipts_read_and_migrate_without_request_changes(connection
 
 
 def test_indexed_v1_migration_rollback_preserves_old_authority(connection, monkeypatch):
-    from gse.curation.lexicon_builder import model_receipts
+    from GSE.curation.lexicon_builder import model_receipts
 
     record = _receipt("WANT")
     with connection:
@@ -275,7 +275,7 @@ def test_v2_trace_blob_reads_and_migrates_without_retaining_duplicate_payload(co
 
 
 def test_v2_proof_migration_failure_rolls_back_all_new_records(connection, monkeypatch):
-    from gse.curation.lexicon_builder import model_receipts
+    from GSE.curation.lexicon_builder import model_receipts
 
     record = _receipt("WANT")
     record["request"]["scaffold"]["proof_trace"] = [_proof_record(0)]
@@ -296,9 +296,9 @@ def test_v2_proof_migration_failure_rolls_back_all_new_records(connection, monke
 
 
 def test_full_56_bank_completion_replays_with_interned_proof_records(tmp_path):
-    from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle
-    from gse.curation.lexicon_builder.pipeline import build_dictionary
-    from gse.curation.lexicon_builder.validation import validate_build
+    from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle
+    from GSE.curation.lexicon_builder.pipeline import build_dictionary
+    from GSE.curation.lexicon_builder.validation import validate_build
 
     path = tmp_path / "full-fixture.db"
     definition = Definition("fixture:storage", "storage-fixture", "synthetic", "Storage fixture, not linguistic gold.")

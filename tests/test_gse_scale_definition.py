@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.scale_definition."""
+"""Manual contract tests for GSE.scale_definition."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ from enum import IntEnum
 
 import pytest
 
-from gse.scale_definition import (
+from GSE.scale_definition import (
     BankDef,
     PrimitiveInfo,
     ScaleDefinition,

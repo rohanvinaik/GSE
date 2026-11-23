@@ -12,8 +12,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.api.trace import OperationTrace
-from gse.pipeline_v2 import GSEPipeline
+from GSE.api.trace import OperationTrace
+from GSE.pipeline_v2 import GSEPipeline
 
 
 @pytest.fixture(scope="module")

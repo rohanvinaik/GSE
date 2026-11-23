@@ -3,8 +3,8 @@
 from math import log2
 from pathlib import Path
 
-from gse.curation.lexicon_builder.epoch import Family, census, fingerprint, forecast, read, record, scope_rows
-from gse.lexicon_resource import ACTIVE_POINTER
+from GSE.curation.lexicon_builder.epoch import Family, census, fingerprint, forecast, read, record, scope_rows
+from GSE.lexicon_resource import ACTIVE_POINTER
 
 NOTES = Path(__file__).resolve().parent
 ROOT = NOTES.parents[2]
@@ -22,7 +22,7 @@ def run():
         "kind": "DEFINITIONAL_DERIVATION", "warrant_id": "023:nonperson-physical-noun-reference",
         "review_id": "023:proposed-boundary-requires-fresh-audit", "reviewer": "UNADMITTED_SOURCE_REVIEW",
         "source_refs": [str(NOTES / "023-approved-person-reference-boundary.json"),
-                        str(ROOT / "gse/primitives_v2.py"), str(ROOT / "docs/program/LEXICON_CONSTRUCTION_DESIGN.md")],
+                        str(ROOT / "GSE/primitives_v2.py"), str(ROOT / "docs/program/LEXICON_CONSTRUCTION_DESIGN.md")],
         "statement": "Conditional hypothesis: exact native physical non-person noun definitions denote their own "
         "object/kind rather than the current speaker or addressee. Under the approved person-reference-only "
         "coordinates, these defining contents are orthogonal to I and YOU. Sentence reference binding is separate. "

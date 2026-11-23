@@ -5,8 +5,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from gse.curation.lexicon_builder.completion import _priority_source
-from gse.curation.lexicon_builder.epoch import Family, _sense_group, census, fingerprint, forecast, record, scope_rows
+from GSE.curation.lexicon_builder.completion import _priority_source
+from GSE.curation.lexicon_builder.epoch import Family, _sense_group, census, fingerprint, forecast, record, scope_rows
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]

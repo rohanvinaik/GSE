@@ -2,11 +2,11 @@
 # Never vendored; not history-safe. Re-buildable / re-ingestable separately.
 data/
 
-# Exception: small package-data files live in the source tree (gse/nlp/data/) and ARE
+# Exception: small package-data files live in the source tree (GSE/nlp/data/) and ARE
 # committed, despite the broad data/ rule above (the CC-BY-SA misspellings table, the
 # project allowlist). The big rebuildable validity wordlist stays under data/ (ignored).
-!gse/nlp/data/
-!gse/nlp/data/**
+!GSE/nlp/data/
+!GSE/nlp/data/**
 
 # Virtual env & build artifacts
 .venv/

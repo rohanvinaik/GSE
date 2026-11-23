@@ -1,9 +1,9 @@
 # Shared claim semantics, version 1
 
-`gse.symbolic.propositions.propositions` is the extraction authority. The
-atomic decisions in `gse.symbolic.claims` consume its `Proposition.node` and
+`GSE.symbolic.propositions.propositions` is the extraction authority. The
+atomic decisions in `GSE.symbolic.claims` consume its `Proposition.node` and
 ordered `Scope` records; they do not parse a second tree. The decisions are
-also re-exported from `gse.symbolic.propositions`.
+also re-exported from `GSE.symbolic.propositions`.
 
 ## Commitment and signs
 

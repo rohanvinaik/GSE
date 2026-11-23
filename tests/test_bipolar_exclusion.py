@@ -1,6 +1,6 @@
 """Tests for bipolar mutual-exclusion enforcement."""
 
-from gse.curation.external_sources.bipolar_exclusion import (
+from GSE.curation.external_sources.bipolar_exclusion import (
     count_violations,
     enforce_bipolar_exclusion,
 )

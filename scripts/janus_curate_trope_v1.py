@@ -17,7 +17,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from gse.pragmatics.figure_store import (  # noqa: E402
+from GSE.pragmatics.figure_store import (  # noqa: E402
     FigureExample,
     Label,
     clear_user,

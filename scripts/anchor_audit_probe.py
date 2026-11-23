@@ -10,10 +10,10 @@ import glob
 import json
 import sys
 
-from gse.api import GSEEncoder
-from gse.discourse.profile import split_sentences
-from gse.discourse.speech import encode_document_utterances
-from gse.symbolic import GenealogyStore, grounding, resolve_document
+from GSE.api import GSEEncoder
+from GSE.discourse.profile import split_sentences
+from GSE.discourse.speech import encode_document_utterances
+from GSE.symbolic import GenealogyStore, grounding, resolve_document
 
 # The measured corpus = every story that has an artifact beside it (the curated set the
 # engine actually ran), not the full 1600-file accumulation.

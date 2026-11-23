@@ -7,13 +7,13 @@ from pathlib import Path
 
 import pytest
 
-from gse.curation.lexicon_builder.catalog import catalog_report
-from gse.curation.lexicon_builder.completion import complete_dictionary
-from gse.curation.lexicon_builder.engine import Assertion, DomainRestriction
-from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
-from gse.curation.lexicon_builder.foundation import BANKS, load_manifest, load_manifest_extensions, projection_relations
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.validation import validate_build
+from GSE.curation.lexicon_builder.catalog import catalog_report
+from GSE.curation.lexicon_builder.completion import complete_dictionary
+from GSE.curation.lexicon_builder.engine import Assertion, DomainRestriction
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
+from GSE.curation.lexicon_builder.foundation import BANKS, load_manifest, load_manifest_extensions, projection_relations
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.validation import validate_build
 
 
 def _metadata(path, key="catalog"):

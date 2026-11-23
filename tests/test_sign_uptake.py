@@ -3,8 +3,8 @@ nearest operator or atomic after it — and how the signs landing on one node co
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.symbolic.expression import _sign_owners, node_polarity, sign_uptake
+from GSE.api import GSEEncoder
+from GSE.symbolic.expression import _sign_owners, node_polarity, sign_uptake
 
 
 @pytest.mark.parametrize(

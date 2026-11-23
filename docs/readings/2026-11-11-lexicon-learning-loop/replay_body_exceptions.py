@@ -7,13 +7,13 @@ import sqlite3
 from contextlib import closing
 from pathlib import Path
 
-from gse.curation.lexicon_builder.completion import complete_dictionary
-from gse.curation.lexicon_builder.model_receipts import read_model_receipts
-from gse.curation.lexicon_builder.publication import publication_readiness
-from gse.curation.lexicon_builder.residual import _request_id
-from gse.curation.lexicon_builder.rule_history import digest
-from gse.curation.lexicon_builder.rule_revisions import exception_source
-from gse.curation.lexicon_builder.validation import validate_build
+from GSE.curation.lexicon_builder.completion import complete_dictionary
+from GSE.curation.lexicon_builder.model_receipts import read_model_receipts
+from GSE.curation.lexicon_builder.publication import publication_readiness
+from GSE.curation.lexicon_builder.residual import _request_id
+from GSE.curation.lexicon_builder.rule_history import digest
+from GSE.curation.lexicon_builder.rule_revisions import exception_source
+from GSE.curation.lexicon_builder.validation import validate_build
 
 FOLDER = Path(__file__).resolve().parent
 ROOT = FOLDER.parents[2]

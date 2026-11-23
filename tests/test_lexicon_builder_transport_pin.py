@@ -8,9 +8,9 @@ from urllib.error import HTTPError, URLError
 
 import pytest
 
-from gse.curation.lexicon_builder.engine import propagate
-from gse.curation.lexicon_builder.evidence import Definition
-from gse.curation.lexicon_builder.residual import (
+from GSE.curation.lexicon_builder.engine import propagate
+from GSE.curation.lexicon_builder.evidence import Definition
+from GSE.curation.lexicon_builder.residual import (
     ModelTransportError,
     OllamaTransport,
     build_request,
@@ -39,7 +39,7 @@ def tags(digest="a" * 64):
 
 
 def test_constructor_is_network_free_and_unpinned_generation_is_refused():
-    with patch("gse.curation.lexicon_builder.residual.urlopen") as opening:
+    with patch("GSE.curation.lexicon_builder.residual.urlopen") as opening:
         transport = OllamaTransport("fixture-model")
         question = request()
         result = complete_bank(question, ("WANT",), (), (), transport)
@@ -64,7 +64,7 @@ def test_constructor_is_network_free_and_unpinned_generation_is_refused():
 def test_bad_or_ambiguous_identity_cannot_pin(value):
     transport = OllamaTransport("fixture-model")
     before = transport.identity
-    with patch("gse.curation.lexicon_builder.residual.urlopen", return_value=envelope(value)):
+    with patch("GSE.curation.lexicon_builder.residual.urlopen", return_value=envelope(value)):
         with pytest.raises(ModelTransportError):
             transport.pin()
     assert transport.model_digest is None
@@ -76,8 +76,8 @@ def test_pin_checks_before_and_after_generation_and_retains_its_digest():
     question = request()
     transport = OllamaTransport("fixture-model", output_tokens=2048, timeout=300)
     with (
-        patch("gse.curation.lexicon_builder.residual.urlopen", side_effect=responses) as opening,
-        patch("gse.curation.llm.ollama_client.register_model"),
+        patch("GSE.curation.lexicon_builder.residual.urlopen", side_effect=responses) as opening,
+        patch("GSE.curation.llm.ollama_client.register_model"),
     ):
         assert transport.pin() == {"model": "fixture-model", "digest": "a" * 64}
         result = complete_bank(question, ("WANT",), (), (), transport)
@@ -101,7 +101,7 @@ def test_changed_tag_refuses_the_answer_without_a_lexical_assignment(when):
         else [tags(), tags(), envelope({"response": '{"WANT":0}'}), tags("b" * 64)]
     )
     transport = OllamaTransport("fixture-model")
-    with patch("gse.curation.lexicon_builder.residual.urlopen", side_effect=responses):
+    with patch("GSE.curation.lexicon_builder.residual.urlopen", side_effect=responses):
         transport.pin()
         result = complete_bank(request(), ("WANT",), (), (), transport)
     assert result.code == "TRANSPORT_ERROR"
@@ -113,7 +113,7 @@ def test_changed_tag_refuses_the_answer_without_a_lexical_assignment(when):
 
 def test_repin_cannot_silently_accept_a_new_model():
     transport = OllamaTransport("fixture-model")
-    with patch("gse.curation.lexicon_builder.residual.urlopen", side_effect=[tags(), tags("b" * 64)]):
+    with patch("GSE.curation.lexicon_builder.residual.urlopen", side_effect=[tags(), tags("b" * 64)]):
         transport.pin()
         before = transport.identity
         with pytest.raises(ModelTransportError, match="MODEL_IDENTITY_CHANGED"):
@@ -143,7 +143,7 @@ def test_output_budget_must_leave_room_for_context_and_changes_protocol_identity
 )
 def test_named_network_errors_do_not_copy_sensitive_details(error, code):
     transport = OllamaTransport("fixture-model")
-    with patch("gse.curation.lexicon_builder.residual.urlopen", side_effect=[tags(), error]):
+    with patch("GSE.curation.lexicon_builder.residual.urlopen", side_effect=[tags(), error]):
         transport.pin()
         result = complete_bank(request(), ("WANT",), (), (), transport)
     assert result.details == {"error_type": "ModelTransportError", "reason": code}
@@ -165,8 +165,8 @@ def test_refusal_reason_survives_complete_bank_and_cannot_be_arbitrary_text():
 def test_real_cli_pins_before_dispatch_and_forwards_explicit_limits(
     command, no_thinking, monkeypatch, capsys, tmp_path
 ):
-    from gse.curation.cli import commands
-    from gse.curation.lexicon_builder import completion, pipeline, residual
+    from GSE.curation.cli import commands
+    from GSE.curation.lexicon_builder import completion, pipeline, residual
 
     events = []
     output_tokens = 128 if no_thinking else 2048

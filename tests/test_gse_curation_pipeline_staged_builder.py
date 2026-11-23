@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.pipeline.staged_builder."""
+"""Manual contract tests for GSE.curation.pipeline.staged_builder."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.pipeline.staged_builder import (
+from GSE.curation.pipeline.staged_builder import (
     BuildStats,
     StagedBuilder,
     build_lexicon,
@@ -111,7 +111,7 @@ class TestInit:
         b.close()
 
     def test_real_llm_when_not_mock(self, lex_path, freq_db):
-        with patch("gse.curation.pipeline.staged_builder.OllamaClient") as MockClient:
+        with patch("GSE.curation.pipeline.staged_builder.OllamaClient") as MockClient:
             b = StagedBuilder(
                 lexicon_db_path=lex_path,
                 frequency_db_path=freq_db,
@@ -121,9 +121,9 @@ class TestInit:
             b.close()
 
     def test_default_freq_db_uses_helper(self, lex_path):
-        with patch("gse.curation.frequency_integration.get_default_frequency_db_path", return_value=lex_path):
+        with patch("GSE.curation.frequency_integration.get_default_frequency_db_path", return_value=lex_path):
             # Get the real func to return something usable
-            with patch("gse.curation.pipeline.staged_builder.FrequencyDatabase"):
+            with patch("GSE.curation.pipeline.staged_builder.FrequencyDatabase"):
                 b = StagedBuilder(
                     lexicon_db_path=lex_path,
                     use_mock_llm=True,

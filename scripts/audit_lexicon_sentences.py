@@ -7,9 +7,9 @@ from collections import Counter, defaultdict
 from math import log2
 from pathlib import Path
 
-from gse.api.encoder import GSEEncoder
-from gse.curation.lexicon_builder.epoch import fingerprint, read, record
-from gse.curation.lexicon_builder.foundation import BANKS
+from GSE.api.encoder import GSEEncoder
+from GSE.curation.lexicon_builder.epoch import fingerprint, read, record
+from GSE.curation.lexicon_builder.foundation import BANKS
 
 FORMAT = "gse.lexicon-sentence-benchmark/1"
 

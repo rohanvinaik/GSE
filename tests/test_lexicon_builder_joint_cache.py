@@ -8,10 +8,10 @@ from random import Random
 
 import pytest
 
-from gse.curation.lexicon_builder import engine
-from gse.curation.lexicon_builder.engine import Assertion, DomainRestriction, Relation, propagate
-from gse.curation.lexicon_builder.foundation import BANKS, projection_relations
-from gse.curation.lexicon_builder.resolution import resolve_dictionary
+from GSE.curation.lexicon_builder import engine
+from GSE.curation.lexicon_builder.engine import Assertion, DomainRestriction, Relation, propagate
+from GSE.curation.lexicon_builder.foundation import BANKS, projection_relations
+from GSE.curation.lexicon_builder.resolution import resolve_dictionary
 
 
 @pytest.fixture(autouse=True)

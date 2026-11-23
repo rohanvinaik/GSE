@@ -9,16 +9,16 @@ from typing import Any
 
 import pytest
 
-from gse.curation.lexicon_builder import reconsideration as reconsider_module
-from gse.curation.lexicon_builder.completion import complete_dictionary
-from gse.curation.lexicon_builder.engine import Assertion, DomainRestriction
-from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
-from gse.curation.lexicon_builder.foundation import BANKS
-from gse.curation.lexicon_builder.model_receipts import read_model_receipts
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.reconsideration import TABLE, reconsider
-from gse.curation.lexicon_builder.storage import read_entries
-from gse.curation.lexicon_builder.validation import validate_build
+from GSE.curation.lexicon_builder import reconsideration as reconsider_module
+from GSE.curation.lexicon_builder.completion import complete_dictionary
+from GSE.curation.lexicon_builder.engine import Assertion, DomainRestriction
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
+from GSE.curation.lexicon_builder.foundation import BANKS
+from GSE.curation.lexicon_builder.model_receipts import read_model_receipts
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.reconsideration import TABLE, reconsider
+from GSE.curation.lexicon_builder.storage import read_entries
+from GSE.curation.lexicon_builder.validation import validate_build
 from scripts.reconsider_lexicon_model import main
 
 

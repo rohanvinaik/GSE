@@ -4,7 +4,7 @@
 
 DESKTOP_HOST="192.168.50.73"
 DESKTOP_USER="SquishFam"
-REMOTE_DIR="/Users/${DESKTOP_USER}/gse"
+REMOTE_DIR="/Users/${DESKTOP_USER}/GSE"
 
 echo "=== GSE Audit Daemon Deployment ==="
 echo "Target: ${DESKTOP_USER}@${DESKTOP_HOST}"
@@ -24,7 +24,7 @@ rsync -avz --progress \
     --exclude 'data/external/conceptnet-assertions-5.7.0.csv' \
     --exclude 'data/external/*.sqlite' \
     --exclude 'logs/*' \
-    /Users/rohanvinaik/gse/ ${DESKTOP_USER}@${DESKTOP_HOST}:${REMOTE_DIR}/
+    "$(cd "$(dirname "$0")" && pwd)/" ${DESKTOP_USER}@${DESKTOP_HOST}:${REMOTE_DIR}/
 
 # Step 3: Create logs directory
 echo "Step 3: Creating logs directory..."
@@ -43,16 +43,16 @@ ssh ${DESKTOP_USER}@${DESKTOP_HOST} "cat > ${REMOTE_DIR}/daemon/com.gse.audit-da
     <key>ProgramArguments</key>
     <array>
         <string>/usr/bin/python3</string>
-        <string>/Users/${DESKTOP_USER}/gse/daemon/audit_daemon.py</string>
+        <string>/Users/${DESKTOP_USER}/GSE/daemon/audit_daemon.py</string>
     </array>
 
     <key>WorkingDirectory</key>
-    <string>/Users/${DESKTOP_USER}/gse</string>
+    <string>/Users/${DESKTOP_USER}/GSE</string>
 
     <key>EnvironmentVariables</key>
     <dict>
         <key>PYTHONPATH</key>
-        <string>/Users/${DESKTOP_USER}/gse</string>
+        <string>/Users/${DESKTOP_USER}/GSE</string>
     </dict>
 
     <key>RunAtLoad</key>
@@ -65,10 +65,10 @@ ssh ${DESKTOP_USER}@${DESKTOP_HOST} "cat > ${REMOTE_DIR}/daemon/com.gse.audit-da
     </dict>
 
     <key>StandardOutPath</key>
-    <string>/Users/${DESKTOP_USER}/gse/logs/audit_daemon.stdout.log</string>
+    <string>/Users/${DESKTOP_USER}/GSE/logs/audit_daemon.stdout.log</string>
 
     <key>StandardErrorPath</key>
-    <string>/Users/${DESKTOP_USER}/gse/logs/audit_daemon.stderr.log</string>
+    <string>/Users/${DESKTOP_USER}/GSE/logs/audit_daemon.stderr.log</string>
 
     <key>Nice</key>
     <integer>19</integer>
@@ -124,6 +124,6 @@ ssh ${DESKTOP_USER}@${DESKTOP_HOST} "
 echo ""
 echo "=== Deployment Complete ==="
 echo ""
-echo "To check status: ssh ${DESKTOP_USER}@${DESKTOP_HOST} 'tail -f ~/gse/logs/audit_daemon.log'"
+echo "To check status: ssh ${DESKTOP_USER}@${DESKTOP_HOST} 'tail -f ~/GSE/logs/audit_daemon.log'"
 echo "To stop daemon:  ssh ${DESKTOP_USER}@${DESKTOP_HOST} 'launchctl unload ~/Library/LaunchAgents/com.gse.audit-daemon.plist'"
 echo "To start daemon: ssh ${DESKTOP_USER}@${DESKTOP_HOST} 'launchctl load ~/Library/LaunchAgents/com.gse.audit-daemon.plist'"

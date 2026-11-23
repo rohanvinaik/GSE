@@ -10,11 +10,11 @@ import importlib
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.api.encoder import thatless_complement
-from gse.symbolic import evaluate_tree, from_trace, resolve
+from GSE.api import GSEEncoder
+from GSE.api.encoder import thatless_complement
+from GSE.symbolic import evaluate_tree, from_trace, resolve
 
-propositions = importlib.import_module("gse.symbolic.propositions")
+propositions = importlib.import_module("GSE.symbolic.propositions")
 
 
 @pytest.fixture(scope="module")

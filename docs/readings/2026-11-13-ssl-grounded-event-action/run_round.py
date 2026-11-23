@@ -5,8 +5,8 @@ from contextlib import closing
 from math import log2
 from pathlib import Path
 
-from gse.curation.lexicon_builder.completion import complete_dictionary
-from gse.curation.lexicon_builder.epoch import (
+from GSE.curation.lexicon_builder.completion import complete_dictionary
+from GSE.curation.lexicon_builder.epoch import (
     Family,
     JournaledTransport,
     census,
@@ -20,14 +20,14 @@ from gse.curation.lexicon_builder.epoch import (
     scope_rows,
     snapshot_copy,
 )
-from gse.curation.lexicon_builder.model_receipts import read_model_receipts
-from gse.curation.lexicon_builder.residual import OllamaTransport, _request_id
-from gse.curation.lexicon_builder.reviewed_export import export_reviewed_input
-from gse.curation.lexicon_builder.reviewed_patterns import run_workflow_input
-from gse.curation.lexicon_builder.rule_admission import admit_records
-from gse.curation.lexicon_builder.rule_migration import migrate_revision
-from gse.curation.lexicon_builder.rule_revisions import FORMAT
-from gse.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
+from GSE.curation.lexicon_builder.model_receipts import read_model_receipts
+from GSE.curation.lexicon_builder.residual import OllamaTransport, _request_id
+from GSE.curation.lexicon_builder.reviewed_export import export_reviewed_input
+from GSE.curation.lexicon_builder.reviewed_patterns import run_workflow_input
+from GSE.curation.lexicon_builder.rule_admission import admit_records
+from GSE.curation.lexicon_builder.rule_migration import migrate_revision
+from GSE.curation.lexicon_builder.rule_revisions import FORMAT
+from GSE.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
 from scripts.audit_lexicon_sentences import audit, compare_reports
 from scripts.run_lexicon_epochs import publish_round
 
@@ -249,7 +249,7 @@ def contrast_controls(candidate):
         "wordnet:destruction:destruction.n.02": ("HAPPEN",),
         "wordnet:arrival:arrival.n.03": ("DO", "HAPPEN"),
     }
-    from gse.api.encoder import GSEEncoder
+    from GSE.api.encoder import GSEEncoder
 
     with GSEEncoder(candidate) as encoder:
         findings = []

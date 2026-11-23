@@ -2,7 +2,7 @@
 
 import pytest
 
-from gse.nlp.linkers import head_linker_operation
+from GSE.nlp.linkers import head_linker_operation
 
 
 @pytest.mark.parametrize(

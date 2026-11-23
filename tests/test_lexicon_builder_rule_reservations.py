@@ -10,19 +10,19 @@ from test_lexicon_builder_joint_revisions import REVIEW
 from test_lexicon_builder_source_guard_migration import SyntheticTransport, states
 from test_lexicon_epoch import native
 
-from gse.curation.lexicon_builder.completion import complete_dictionary
-from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation, _record_id
-from gse.curation.lexicon_builder.model_receipts import read_model_receipts
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.residual import _request_id
-from gse.curation.lexicon_builder.reviewed_export import export_reviewed_input
-from gse.curation.lexicon_builder.reviewed_patterns import run_workflow_input
-from gse.curation.lexicon_builder.rule_admission import admit_records
-from gse.curation.lexicon_builder.rule_history import digest
-from gse.curation.lexicon_builder.rule_migration import migrate_revision
-from gse.curation.lexicon_builder.rule_reservations import reservation_source
-from gse.curation.lexicon_builder.rule_revisions import RESERVATION_FORMAT, validate_revision_shape
-from gse.curation.lexicon_builder.validation import validate_build
+from GSE.curation.lexicon_builder.completion import complete_dictionary
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation, _record_id
+from GSE.curation.lexicon_builder.model_receipts import read_model_receipts
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.residual import _request_id
+from GSE.curation.lexicon_builder.reviewed_export import export_reviewed_input
+from GSE.curation.lexicon_builder.reviewed_patterns import run_workflow_input
+from GSE.curation.lexicon_builder.rule_admission import admit_records
+from GSE.curation.lexicon_builder.rule_history import digest
+from GSE.curation.lexicon_builder.rule_migration import migrate_revision
+from GSE.curation.lexicon_builder.rule_reservations import reservation_source
+from GSE.curation.lexicon_builder.rule_revisions import RESERVATION_FORMAT, validate_revision_shape
+from GSE.curation.lexicon_builder.validation import validate_build
 
 
 def packet(tmp_path, source_kind):

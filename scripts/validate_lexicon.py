@@ -6,9 +6,9 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from gse.lexicon_generator import Lexicon
-from gse.lexicon_validator import VALIDATION_PAIRS, validate_lexicon
-from gse.vectors import PrimitiveBasis
+from GSE.lexicon_generator import Lexicon
+from GSE.lexicon_validator import VALIDATION_PAIRS, validate_lexicon
+from GSE.vectors import PrimitiveBasis
 
 
 def main():

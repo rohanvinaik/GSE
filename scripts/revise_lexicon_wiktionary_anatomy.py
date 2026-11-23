@@ -6,16 +6,16 @@ import tempfile
 from contextlib import closing
 from pathlib import Path
 
-from gse.curation.external_sources.wiktionary import native_anatomy_witness
-from gse.curation.lexicon_builder.epoch import connect, exact_delta, fingerprint, make_questions, read, record
-from gse.curation.lexicon_builder.residual import _read_value
-from gse.curation.lexicon_builder.rule_history import digest
-from gse.curation.lexicon_builder.source_enrichment import (
+from GSE.curation.external_sources.wiktionary import native_anatomy_witness
+from GSE.curation.lexicon_builder.epoch import connect, exact_delta, fingerprint, make_questions, read, record
+from GSE.curation.lexicon_builder.residual import _read_value
+from GSE.curation.lexicon_builder.rule_history import digest
+from GSE.curation.lexicon_builder.source_enrichment import (
     forecast_wiktionary_projection,
     revise_source_candidate,
     wiktionary_projection_scope,
 )
-from gse.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
+from GSE.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
 
 FORMAT = "gse.wiktionary-anatomy-projection-revision/2"
 
@@ -92,7 +92,7 @@ def audit_support(active, witnesses, audit, baseline):
 
 def publish_revision(active, stage, destination, gold, revise):
     """Validate and publish using an owned working database with a bounded lifetime."""
-    from gse.curation.lexicon_builder.publication import publish_sparse
+    from GSE.curation.lexicon_builder.publication import publish_sparse
     from scripts.audit_lexicon_runtime import audit_sparse_runtime
 
     destination = destination.resolve()

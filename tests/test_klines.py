@@ -10,8 +10,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.patterns import KLine, KLineStore
-from gse.primitives_v2 import Polarity, PrimitiveActivation
+from GSE.patterns import KLine, KLineStore
+from GSE.primitives_v2 import Polarity, PrimitiveActivation
 
 
 class TestKLineStorage:

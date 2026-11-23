@@ -6,9 +6,9 @@ from copy import deepcopy
 
 import pytest
 
-from gse.curation.lexicon_builder.engine import Assertion
-from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
-from gse.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.engine import Assertion
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
 from scripts import stage_lexicon_coherence as script
 
 

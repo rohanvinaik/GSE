@@ -18,12 +18,12 @@ from pathlib import Path
 
 GSE_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(GSE_ROOT))
-from gse.api import GSEEncoder  # noqa: E402  # after sys.path setup
-from gse.discourse.speech import encode_document_utterances_traced  # noqa: E402  # after sys.path setup
-from gse.symbolic import GenealogyStore, resolve_document  # noqa: E402  # after sys.path setup
-from gse.symbolic.healer import build_envelope, make_repair_hook  # noqa: E402  # after sys.path setup
-from gse.symbolic.healer.recollect import default_memory, default_memory_path  # noqa: E402  # after sys.path setup
-from gse.symbolic.narrative import NarrativeGraph, compress  # noqa: E402  # after sys.path setup
+from GSE.api import GSEEncoder  # noqa: E402  # after sys.path setup
+from GSE.discourse.speech import encode_document_utterances_traced  # noqa: E402  # after sys.path setup
+from GSE.symbolic import GenealogyStore, resolve_document  # noqa: E402  # after sys.path setup
+from GSE.symbolic.healer import build_envelope, make_repair_hook  # noqa: E402  # after sys.path setup
+from GSE.symbolic.healer.recollect import default_memory, default_memory_path  # noqa: E402  # after sys.path setup
+from GSE.symbolic.narrative import NarrativeGraph, compress  # noqa: E402  # after sys.path setup
 
 EVAL = GSE_ROOT / "data" / "eval_corpus"
 

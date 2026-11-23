@@ -8,16 +8,16 @@ deterministic; the real encoder confirms it end-to-end on an LSAT-style problem.
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.symbolic import (
+from GSE.api import GSEEncoder
+from GSE.symbolic import (
     KnowledgeBase,
     evaluate_tree,
     from_trace,
     resolve,
 )
-from gse.symbolic.expression import Atom
-from gse.symbolic.predicates import Comparison, TypeAssertion
-from gse.symbolic.resolution import Entity
+from GSE.symbolic.expression import Atom
+from GSE.symbolic.predicates import Comparison, TypeAssertion
+from GSE.symbolic.resolution import Entity
 
 
 def _e(lemma):
@@ -153,7 +153,7 @@ def _et(lemma, thread=()):
 
 
 def test_resolved_thread_becomes_isa_edges():
-    from gse.symbolic.predicates import Event
+    from GSE.symbolic.predicates import Event
 
     ev = Event(
         verb="lead",
@@ -168,7 +168,7 @@ def test_resolved_thread_becomes_isa_edges():
 
 
 def test_rule_binds_generic_patient_through_isa():
-    from gse.symbolic.predicates import Conditional, Event
+    from GSE.symbolic.predicates import Conditional, Event
 
     def _plain(lemma):
         return Entity(head=Atom(lemma=lemma, word_primitives={}, role=None, position=0, pos="NOUN"))

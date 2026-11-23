@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from gse.nlp import healing_resources
+from GSE.nlp import healing_resources
 
 
 def _reset(monkeypatch):

@@ -12,13 +12,13 @@ import time
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from gse.curation.lexicon_builder.engine import Assertion, DomainRestriction, propagate
-from gse.curation.lexicon_builder.evidence import Definition, Observation, validate_assertion_competence
-from gse.curation.lexicon_builder.foundation import BANKS, definition_context, projection_relations
-from gse.curation.lexicon_builder.interchange import read_json
-from gse.curation.lexicon_builder.relevance import observation_relevance
-from gse.curation.lexicon_builder.residual import OllamaTransport, _read_value, build_request
-from gse.curation.lexicon_builder.resolution import resolve_dictionary
+from GSE.curation.lexicon_builder.engine import Assertion, DomainRestriction, propagate
+from GSE.curation.lexicon_builder.evidence import Definition, Observation, validate_assertion_competence
+from GSE.curation.lexicon_builder.foundation import BANKS, definition_context, projection_relations
+from GSE.curation.lexicon_builder.interchange import read_json
+from GSE.curation.lexicon_builder.relevance import observation_relevance
+from GSE.curation.lexicon_builder.residual import OllamaTransport, _read_value, build_request
+from GSE.curation.lexicon_builder.resolution import resolve_dictionary
 
 
 def prepare_case(payload: dict, *, production_scaffold: bool = False):
@@ -214,7 +214,7 @@ def main():
     model_pin = transport.pin()
     base_transport = transport
     if args.batch_size > 1:
-        from gse.curation.lexicon_builder.model_batch import OllamaBatchTransport
+        from GSE.curation.lexicon_builder.model_batch import OllamaBatchTransport
 
         transport = OllamaBatchTransport(base_transport, max_items=args.batch_size)
     records = []

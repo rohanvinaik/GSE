@@ -3,7 +3,7 @@
 import pytest
 from test_lexicon_builder_reviewed_patterns import FakeTransport, execute, fixture, ruling
 
-from gse.curation.lexicon_builder.engine import Assertion
+from GSE.curation.lexicon_builder.engine import Assertion
 
 
 def warranted(*, antecedent=None, guards=None, absent=()):

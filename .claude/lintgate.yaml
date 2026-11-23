@@ -5,13 +5,13 @@ pipeline_critical_paths: []
 
 # daemon/ is intentionally out of scope (separate application track)
 # data/external/ is third-party Python 2 code (already in ruff exclude)
-# gse/_archive/ is historical code, not part of active surface
+# GSE/_archive/ is historical code, not part of active surface
 
 # Scope: paths excluded from all LintGate analysis (mirrors ruff exclude)
 exclude_paths:
   - "data/external"
   - "daemon"
-  - "gse/_archive"
+  - "GSE/_archive"
   - "scripts/_archive"
   - ".lintgate"
   - ".venv"

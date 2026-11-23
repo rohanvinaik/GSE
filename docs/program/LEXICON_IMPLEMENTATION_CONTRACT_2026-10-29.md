@@ -18,7 +18,7 @@ Model: only after symbolic closure, one specifically unresolved bank per call. T
 
 ## Composition and file ownership
 
-Use gse/curation/lexicon_builder/ as the new construction path, integrated into the actual curation CLI by the lead. Existing weighted and full-vector builder paths must not remain the default CLI build. No new dependencies. Standard library core; existing source and vector machinery reused at typed boundaries.
+Use GSE/curation/lexicon_builder/ as the new construction path, integrated into the actual curation CLI by the lead. Existing weighted and full-vector builder paths must not remain the default CLI build. No new dependencies. Standard library core; existing source and vector machinery reused at typed boundaries.
 
 constraint_engine agent owns engine.py, discovery.py, and tests/test_lexicon_builder_engine.py plus tests/test_lexicon_builder_discovery.py.
 source_evidence agent owns evidence.py and tests/test_lexicon_builder_evidence.py.
@@ -57,7 +57,7 @@ Build CLI invokes collect_evidence -> approved foundations/relations -> propagat
 
 ## Implemented composition
 
-The production path is `python -m gse.curation.cli.commands`. `build` uses the new package, and `init` creates its versioned empty store. The old whole-word builders' five executable entry points now stop with `SUPERSEDED_LEXICON_BUILDER`; their imported legacy APIs remain for existing consumers and tests. The default active runtime dictionary is not switched to this sparse construction output.
+The production path is `python -m GSE.curation.cli.commands`. `build` uses the new package, and `init` creates its versioned empty store. The old whole-word builders' five executable entry points now stop with `SUPERSEDED_LEXICON_BUILDER`; their imported legacy APIs remain for existing consumers and tests. The default active runtime dictionary is not switched to this sparse construction output.
 
 `engine.propagate` is the hard relational closure. `resolution.resolve_dictionary` composes it with local exceptions: hard source/anchor assertions and foundational relations survive; an individually contradicted conditional is excepted locally. Jointly conflicting conditional components are withdrawn together, including connectivity through foundational rules. This is conservative and independent of rule iteration order. A harmless conditional sharing that component may also be withdrawn; the receipt names all affected rules. This is not a substitute for significance-guided rule induction or a proof of global satisfiability.
 
@@ -71,13 +71,13 @@ Storage separates published assignments, unresolved domains, hard assertions, so
 
 ## Running it
 
-From `/Users/rohanvinaik/Projects/gse`, with the project's environment:
+From `/Users/rohanvinaik/Projects/GSE`, with the project's environment:
 
 ```sh
-.venv/bin/python -m gse.curation.cli.commands --lexicon-db data/lexicon_builder/2026-10-29/lexicon.db build --words-file data/lexicon_builder/2026-10-29/words.txt --report data/lexicon_builder/2026-10-29/build-report.json
-.venv/bin/python -m gse.curation.cli.commands --lexicon-db data/lexicon_builder/2026-10-29/lexicon.db validate
-.venv/bin/python -m gse.curation.cli.commands --lexicon-db data/lexicon_builder/2026-10-29/lexicon.db lookup dog
-.venv/bin/python -m gse.curation.cli.commands --lexicon-db data/lexicon_builder/2026-10-29/lexicon.db catalog
+.venv/bin/python -m GSE.curation.cli.commands --lexicon-db data/lexicon_builder/2026-10-29/lexicon.db build --words-file data/lexicon_builder/2026-10-29/words.txt --report data/lexicon_builder/2026-10-29/build-report.json
+.venv/bin/python -m GSE.curation.cli.commands --lexicon-db data/lexicon_builder/2026-10-29/lexicon.db validate
+.venv/bin/python -m GSE.curation.cli.commands --lexicon-db data/lexicon_builder/2026-10-29/lexicon.db lookup dog
+.venv/bin/python -m GSE.curation.cli.commands --lexicon-db data/lexicon_builder/2026-10-29/lexicon.db catalog
 ```
 
 `build --evidence FILE` consumes `gse.lexicon-evidence/1` instead of loading native sources. `--rules FILE` consumes `gse.lexicon-rules/1`: relations, exact-entry anchors, per-bank hierarchy, explicitly authored missing definitions, and explicit `prime_entries` bindings. Unknown fields, duplicate JSON keys, malformed provenance, boolean trits and invalid hierarchy levels fail. Source silence is never defaulted to zero. `--weights FILE` supplies nonnegative frequency weights keyed by definition ID; `--discover` records unapproved implication diagnostics. Neither option approves rules.

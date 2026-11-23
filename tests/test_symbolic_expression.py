@@ -6,9 +6,9 @@ Expression tree. No semantics tested here (that's B2/B3).
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.api.parse_repair import verbs_to_promote
-from gse.symbolic.expression import (
+from GSE.api import GSEEncoder
+from GSE.api.parse_repair import verbs_to_promote
+from GSE.symbolic.expression import (
     Atom,
     Negation,
     Op,
@@ -16,7 +16,7 @@ from gse.symbolic.expression import (
     _select_clause_verb,
     from_trace,
 )
-from gse.symbolic.operators import evaluate_tree
+from GSE.symbolic.operators import evaluate_tree
 
 
 @pytest.fixture(scope="module")

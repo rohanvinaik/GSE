@@ -9,10 +9,10 @@ from collections import Counter
 
 import pytest
 
-from gse.lexicon_builder.artifact import export_sparse
-from gse.lexicon_builder.basis import BASIS_ID
-from gse.lexicon_builder.core import CANONICAL_COORDINATES, Cell, Law, resolve
-from gse.lexicon_builder.release_audit import (
+from GSE.lexicon_builder.artifact import export_sparse
+from GSE.lexicon_builder.basis import BASIS_ID
+from GSE.lexicon_builder.core import CANONICAL_COORDINATES, Cell, Law, resolve
+from GSE.lexicon_builder.release_audit import (
     SURFACE_EVIDENCE_STRATA,
     WordEvidence,
     _coverage,
@@ -478,7 +478,7 @@ def test_release_audit_cli_is_wired_and_preserves_artifacts(audit_fixture, tmp_p
     command = [
         sys.executable,
         "-m",
-        "gse.lexicon_builder.release_audit",
+        "GSE.lexicon_builder.release_audit",
         "--build-dir",
         str(build_dir),
         "--nltk",

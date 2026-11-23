@@ -17,7 +17,7 @@ cd "$(dirname "$0")/.."
 
 RUFF="uvx ruff@0.16.10"
 GATE=docs/verification/lexicon-rebuild/closeout-2026-10-25/gate
-PY_PATHS=(gse/lexicon_builder tests/lexicon_sources.py tests/test_lexicon_*.py
+PY_PATHS=(GSE/lexicon_builder tests/lexicon_sources.py tests/test_lexicon_*.py
     scripts/lexicon_coherence.py scripts/lexicon_frozen_build.py)
 
 echo "== ruff check"
@@ -29,8 +29,8 @@ $RUFF format --check "${PY_PATHS[@]}"
 echo "== pytest (lexicon)"
 uv run pytest tests/test_lexicon_*.py tests/detective/ -k "lexicon or coherence or bank or admission"
 
-echo "== ty check gse/lexicon_builder (advisory)"
-uvx ty check gse/lexicon_builder --output-format concise || echo "== ty reported advisory findings"
+echo "== ty check GSE/lexicon_builder (advisory)"
+uvx ty check GSE/lexicon_builder --output-format concise || echo "== ty reported advisory findings"
 
 echo "== frozen symbolic build"
 if [[ ! -f data/external/usas/semantic_lexicon_en.tsv || ! -d "$HOME/nltk_data/corpora/verbnet" ]]; then
@@ -39,7 +39,7 @@ if [[ ! -f data/external/usas/semantic_lexicon_en.tsv || ! -d "$HOME/nltk_data/c
 fi
 out=$(mktemp -d)
 echo "build directory and log: $out"
-uv run python -m gse.lexicon_builder build --symbolic-only --word-file "$GATE/gate_words.txt" --output "$out" \
+uv run python -m GSE.lexicon_builder build --symbolic-only --word-file "$GATE/gate_words.txt" --output "$out" \
     >"$out/build.log" 2>&1
 if [[ "${1:-}" == "--rebaseline" ]]; then
     uv run python scripts/lexicon_frozen_build.py write "$out" "$GATE"

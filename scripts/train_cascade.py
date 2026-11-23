@@ -17,7 +17,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from gse.cascade import ConstraintCascade
+from GSE.cascade import ConstraintCascade
 
 
 def main():

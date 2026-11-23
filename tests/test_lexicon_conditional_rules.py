@@ -10,8 +10,8 @@ from pathlib import Path
 
 import pytest
 
-from gse.lexicon_builder.build import construct, source_matches
-from gse.lexicon_builder.conditionals import (
+from GSE.lexicon_builder.build import construct, source_matches
+from GSE.lexicon_builder.conditionals import (
     CatalogError,
     catalog_entry_status,
     catalog_report,
@@ -20,7 +20,7 @@ from gse.lexicon_builder.conditionals import (
     load_catalog,
     native_feature_evidence,
 )
-from gse.lexicon_builder.core import (
+from GSE.lexicon_builder.core import (
     LEGACY_APPROVAL_CONTRACTS,
     Cell,
     Law,
@@ -34,8 +34,8 @@ from gse.lexicon_builder.core import (
     rule_admission_reason,
     rule_contract_digest,
 )
-from gse.lexicon_builder.native_constraints import frame_constraints
-from gse.lexicon_builder.registry import admission_report, candidate_id, load_rulebook, split_by_admission
+from GSE.lexicon_builder.native_constraints import frame_constraints
+from GSE.lexicon_builder.registry import admission_report, candidate_id, load_rulebook, split_by_admission
 from tests.lexicon_rulebook import certify_rule
 
 SUBSTANTIVES = ("I", "YOU", "SOMEONE", "SOMETHING", "PEOPLE", "BODY", "KIND", "PART")
@@ -515,7 +515,7 @@ def test_resolve_cli_separates_reviewed_records_and_explicit_scratch_equations(t
         "warrant": "scratch problem",
     }
     path, output = tmp_path / "problem.json", tmp_path / "result.json"
-    command = [sys.executable, "-m", "gse.lexicon_builder", "resolve", "--input", str(path), "--output", str(output)]
+    command = [sys.executable, "-m", "GSE.lexicon_builder", "resolve", "--input", str(path), "--output", str(output)]
     payload = {"reading_id": "fixture", "laws": [raw]}
     path.write_text(json.dumps(payload))
     refused = subprocess.run(command, capture_output=True, text=True)
@@ -554,7 +554,7 @@ def test_resolve_cli_retracts_only_the_application_id_it_previously_emitted(tmp_
         ],
     }
     path, output = tmp_path / "problem.json", tmp_path / "result.json"
-    command = [sys.executable, "-m", "gse.lexicon_builder", "resolve", "--input", str(path), "--output", str(output)]
+    command = [sys.executable, "-m", "GSE.lexicon_builder", "resolve", "--input", str(path), "--output", str(output)]
     path.write_text(json.dumps(payload))
     subprocess.run(command, check=True, capture_output=True, text=True)
     initial = json.loads(output.read_text())

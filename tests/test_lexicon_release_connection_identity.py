@@ -2,7 +2,7 @@
 
 import sqlite3
 
-from gse import lexical_evidence
+from GSE import lexical_evidence
 
 
 def database(path, value):

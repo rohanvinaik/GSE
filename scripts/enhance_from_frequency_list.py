@@ -15,19 +15,20 @@ import sqlite3
 import sys
 import time
 from datetime import datetime
+from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 import requests
 
 sys.path.insert(0, "/Users/rohanvinaik/gse")
-from gse.lexicon_generator import LexiconGenerator
-from gse.primitives import PRIMITIVES, ROLES
-from gse.vectors import PrimitiveBasis
+from GSE.lexicon_generator import LexiconGenerator
+from GSE.primitives import PRIMITIVES, ROLES
+from GSE.vectors import PrimitiveBasis
 
-from gse.curation.llm.ollama_client import register_model
+from GSE.curation.llm.ollama_client import register_model
 
 # Configuration
-DB_PATH = "/Users/rohanvinaik/gse/data/lexicon.db"
+DB_PATH = str(Path(__file__).resolve().parents[1] / "data" / "lexicon.db")
 FREQ_FILE = "/Users/rohanvinaik/relational-ai/word_frequency_report.txt"
 FAILURES_LOG = "/Users/rohanvinaik/relational-ai/data/lexicon_enhancement_failures.jsonl"
 OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434")

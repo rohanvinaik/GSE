@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.lexicon.numerals."""
+"""Manual contract tests for GSE.lexicon.numerals."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.lexicon.numerals import (
+from GSE.lexicon.numerals import (
     NUMERAL_ENCODINGS,
     get_all_numerals,
     get_numeral_encoding,

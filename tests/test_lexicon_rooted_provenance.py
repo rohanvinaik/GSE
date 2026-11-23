@@ -1,7 +1,7 @@
 """Independent roots, cyclic counterexamples and joint provenance support."""
 
-from gse.lexicon_builder.core import rooted_law_status
-from gse.lexicon_builder.foundation import decision_check
+from GSE.lexicon_builder.core import rooted_law_status
+from GSE.lexicon_builder.foundation import decision_check
 
 EQUAL = (("THINK", "KNOW"), (("0", "0"), ("+1", "+1")))
 

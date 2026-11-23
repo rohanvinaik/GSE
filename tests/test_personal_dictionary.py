@@ -1,6 +1,6 @@
 """The personal dictionary's two decisions, stated as the readings GSE's word-scale rules require (#60)."""
 
-from gse.curation.personal_dictionary import check_decomposition, concur
+from GSE.curation.personal_dictionary import check_decomposition, concur
 
 
 def test_a_surface_pole_is_written_as_its_canonical_pole():

@@ -4,8 +4,8 @@ import os
 from datetime import datetime, timezone
 from importlib import import_module
 
-from gse.curation.lexicon_builder.epoch import fingerprint, read, record
-from gse.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
+from GSE.curation.lexicon_builder.epoch import fingerprint, read, record
+from GSE.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
 
 helpers = import_module("docs.readings.2026-11-13-ssl-explicit-genera.finish_coherence_020")
 NOTES, ROOT, WORK = helpers.NOTES, helpers.ROOT, helpers.WORK

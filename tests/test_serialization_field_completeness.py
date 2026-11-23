@@ -17,11 +17,11 @@ import typing
 
 import pytest
 
-from gse.symbolic.duration import Duration
-from gse.symbolic.expression import Atom, Negation, Op, Phrase
-from gse.symbolic.predicates import OPERAND_FIELDS, Event, Predicate
-from gse.symbolic.resolution import Coordination, Entity
-from gse.symbolic.serialization import from_dict, from_json, to_dict, to_json
+from GSE.symbolic.duration import Duration
+from GSE.symbolic.expression import Atom, Negation, Op, Phrase
+from GSE.symbolic.predicates import OPERAND_FIELDS, Event, Predicate
+from GSE.symbolic.resolution import Coordination, Entity
+from GSE.symbolic.serialization import from_dict, from_json, to_dict, to_json
 
 
 def _atom(lemma: str, position: int = 3) -> Atom:
@@ -126,8 +126,8 @@ def test_json_round_trip_is_exact(node):
 
 def test_ditransitive_themes_survive_the_real_pipeline():
     # The issue's own repro, end to end: the secondary argument must survive JSON.
-    from gse.api import GSEEncoder
-    from gse.symbolic import evaluate_tree, from_trace, resolve
+    from GSE.api import GSEEncoder
+    from GSE.symbolic import evaluate_tree, from_trace, resolve
 
     with GSEEncoder() as enc:
         tree = evaluate_tree(resolve(from_trace(enc.encode("Macbeth gave Duncan a letter"))))

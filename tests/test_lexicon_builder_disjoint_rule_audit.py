@@ -6,9 +6,9 @@ import pytest
 from test_lexicon_builder_reviewed_patterns import FakeTransport, execute
 from test_lexicon_builder_reviewed_source_guards import source_input
 
-from gse.curation.lexicon_builder.engine import Relation
-from gse.curation.lexicon_builder.foundation import lexical_context
-from gse.curation.lexicon_builder.rule_history import relation_records
+from GSE.curation.lexicon_builder.engine import Relation
+from GSE.curation.lexicon_builder.foundation import lexical_context
+from GSE.curation.lexicon_builder.rule_history import relation_records
 
 
 def scoped_input(rule):

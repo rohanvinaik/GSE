@@ -17,10 +17,10 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from gse.api import GSEEncoder
-from gse.discourse.speech import encode_document_utterance_events
-from gse.symbolic import emit_contract, negation_signs, resolve_references
-from gse.symbolic.queries import is_logically_equal_to
+from GSE.api import GSEEncoder
+from GSE.discourse.speech import encode_document_utterance_events
+from GSE.symbolic import emit_contract, negation_signs, resolve_references
+from GSE.symbolic.queries import is_logically_equal_to
 
 PROBES = (
     ("event", "Alice helps Bob.", "EVENT"),
@@ -249,8 +249,8 @@ def audit_runtime(lexicon_db):
 
 def audit_sparse_runtime(lexicon_db):
     """Check the production encoder's exact selection and abstention cases."""
-    from gse.api.encoder import GrammaticalDefinitionError
-    from gse.symbolic.expression import from_trace
+    from GSE.api.encoder import GrammaticalDefinitionError
+    from GSE.symbolic.expression import from_trace
 
     report = audit_runtime(lexicon_db)
     checks = (

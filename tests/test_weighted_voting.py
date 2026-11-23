@@ -2,7 +2,7 @@
 
 import pytest
 
-from gse.curation.external_sources.weighted_voting import aggregate_weighted
+from GSE.curation.external_sources.weighted_voting import aggregate_weighted
 
 
 class TestSingleSource:

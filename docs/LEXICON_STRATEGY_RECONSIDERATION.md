@@ -18,7 +18,7 @@
 > **Status:** Retrospective + decision document. Written after the
 > May 2026 attempt to fix antonym-cosine geometry via multi-source
 > aggregation hit a bounded payoff. The four aggregation mechanisms
-> built this session land cleanly tested in `gse/curation/external_sources/`,
+> built this session land cleanly tested in `GSE/curation/external_sources/`,
 > but the headline metric (per-bank cos(good, bad) ≈ −1) didn't move.
 > This document is the honest accounting + the strategic fork.
 

@@ -2,8 +2,8 @@
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.discourse import PROFILE_FIELDS, TextProfile, split_sentences, text_profile
+from GSE.api import GSEEncoder
+from GSE.discourse import PROFILE_FIELDS, TextProfile, split_sentences, text_profile
 
 
 @pytest.fixture(scope="module")

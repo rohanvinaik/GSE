@@ -8,11 +8,11 @@ from itertools import product
 
 import pytest
 
-from gse.curation.lexicon_builder.engine import DomainRestriction, Relation
-from gse.curation.lexicon_builder.evidence import Definition
-from gse.curation.lexicon_builder.model_protocol import coordinate_contract, model_input, protocol_contract
-from gse.curation.lexicon_builder.residual import LEGACY_REQUEST_FORMAT, OllamaTransport, build_request, complete_bank
-from gse.curation.lexicon_builder.resolution import resolve_dictionary
+from GSE.curation.lexicon_builder.engine import DomainRestriction, Relation
+from GSE.curation.lexicon_builder.evidence import Definition
+from GSE.curation.lexicon_builder.model_protocol import coordinate_contract, model_input, protocol_contract
+from GSE.curation.lexicon_builder.residual import LEGACY_REQUEST_FORMAT, OllamaTransport, build_request, complete_bank
+from GSE.curation.lexicon_builder.resolution import resolve_dictionary
 
 DEFINITION = Definition("entry:desire", "desire", "verb", "feel a desire for something")
 BANKS = ("FEEL", "WANT", "GOOD")
@@ -216,7 +216,7 @@ def test_polarity_registry_metadata_and_scope_are_pinned_in_protocol_identity(mo
     before = OllamaTransport("model").identity
     altered = copy.deepcopy(contract)
     altered["coordinates"]["KIND"]["registry_gloss"] = "changed meaning"
-    monkeypatch.setattr("gse.curation.lexicon_builder.model_protocol.protocol_contract", lambda: altered)
+    monkeypatch.setattr("GSE.curation.lexicon_builder.model_protocol.protocol_contract", lambda: altered)
     assert OllamaTransport("model").identity != before
 
 
@@ -229,8 +229,8 @@ def test_missing_or_malformed_scaffold_never_reaches_model(bad):
 
 
 def test_wire_component_omits_disconnected_tables_only_with_hashes_and_preserves_full_receipt():
-    from gse.curation.lexicon_builder.foundation import BANKS as ALL_BANKS
-    from gse.curation.lexicon_builder.foundation import projection_relations
+    from GSE.curation.lexicon_builder.foundation import BANKS as ALL_BANKS
+    from GSE.curation.lexicon_builder.foundation import projection_relations
 
     rules = projection_relations()
     state = resolve_dictionary(ALL_BANKS, (), rules, {"pos": "noun"})

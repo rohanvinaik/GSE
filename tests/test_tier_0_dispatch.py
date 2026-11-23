@@ -7,12 +7,12 @@ The dispatch must:
 - Normalize multi-word phrases (long time → LONG_TIME) and pronouns (i → I).
 """
 
-from gse.curation.external_sources.tier_0_dispatch import (
+from GSE.curation.external_sources.tier_0_dispatch import (
     TIER_0_PRIMITIVES,
     canonical_decomposition,
     is_tier_0,
 )
-from gse.primitives_v2 import PRIMITIVE_REGISTRY
+from GSE.primitives_v2 import PRIMITIVE_REGISTRY
 
 
 class TestCanonical:

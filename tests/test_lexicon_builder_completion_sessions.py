@@ -6,13 +6,13 @@ import sys
 
 import pytest
 
-from gse.curation.lexicon_builder import completion
-from gse.curation.lexicon_builder.completion import complete_dictionary
-from gse.curation.lexicon_builder.engine import DomainRestriction
-from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
-from gse.curation.lexicon_builder.foundation import BANKS
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.validation import validate_build
+from GSE.curation.lexicon_builder import completion
+from GSE.curation.lexicon_builder.completion import complete_dictionary
+from GSE.curation.lexicon_builder.engine import DomainRestriction
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
+from GSE.curation.lexicon_builder.foundation import BANKS
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.validation import validate_build
 
 
 class Transport:
@@ -303,8 +303,8 @@ def test_sustained_flag_requires_a_boolean_before_database_access(tmp_path, valu
 
 
 def test_real_cli_continues_past_one_bounded_cohort(tmp_path, monkeypatch, capsys):
-    from gse.curation.cli import commands
-    from gse.curation.lexicon_builder import residual
+    from GSE.curation.cli import commands
+    from GSE.curation.lexicon_builder import residual
 
     path = dictionary(tmp_path)
     transport = Transport()

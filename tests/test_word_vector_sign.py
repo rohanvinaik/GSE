@@ -9,13 +9,13 @@ drops the sign.
 import numpy as np
 import pytest
 
-from gse.api import GSEEncoder
-from gse.api.errors import PrimitiveError
-from gse.curation.lexicon_builder.engine import Assertion, propagate
-from gse.curation.lexicon_builder.evidence import Definition
-from gse.curation.lexicon_builder.storage import open_build, store_entry
-from gse.primitives_v2 import BIPOLAR_PRIMITIVES, SemanticBank, get_canonical_pole
-from gse.vectors_v2 import bundle, encode_hierarchy
+from GSE.api import GSEEncoder
+from GSE.api.errors import PrimitiveError
+from GSE.curation.lexicon_builder.engine import Assertion, propagate
+from GSE.curation.lexicon_builder.evidence import Definition
+from GSE.curation.lexicon_builder.storage import open_build, store_entry
+from GSE.primitives_v2 import BIPOLAR_PRIMITIVES, SemanticBank, get_canonical_pole
+from GSE.vectors_v2 import bundle, encode_hierarchy
 
 ANTONYMS = [("ugly", "beautiful"), ("terrible", "wonderful"), ("sad", "happy"), ("cruel", "kind")]
 SURFACE_NEGATIVES = sorted(p for p in BIPOLAR_PRIMITIVES if get_canonical_pole(p)[1] == -1)

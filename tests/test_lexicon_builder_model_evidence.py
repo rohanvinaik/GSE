@@ -6,7 +6,7 @@ import json
 
 import pytest
 
-from gse.curation.lexicon_builder.model_evidence import evidence_view
+from GSE.curation.lexicon_builder.model_evidence import evidence_view
 
 
 def record(source="wordnet_hierarchy", features=None, **kwargs):

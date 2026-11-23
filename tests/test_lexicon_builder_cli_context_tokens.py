@@ -5,8 +5,8 @@ import sys
 
 import pytest
 
-from gse.curation.cli import commands
-from gse.curation.lexicon_builder import completion, residual
+from GSE.curation.cli import commands
+from GSE.curation.lexicon_builder import completion, residual
 
 
 def argv(tmp_path, options=()):

@@ -7,16 +7,16 @@ from dataclasses import asdict
 
 import pytest
 
-from gse.curation.external_sources.gse_closed_class import GSEClosedClassParser
-from gse.curation.lexicon_builder.completion import complete_dictionary
-from gse.curation.lexicon_builder.engine import propagate
-from gse.curation.lexicon_builder.evidence import collect_evidence
-from gse.curation.lexicon_builder.model_batch import OllamaBatchTransport
-from gse.curation.lexicon_builder.model_protocol import coordinate_contract, model_input
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.residual import OllamaTransport, build_request, complete_bank
-from gse.curation.lexicon_builder.scope_admission import BODY_SCOPE_SOURCE, model_scope_admission
-from gse.curation.lexicon_builder.validation import validate_build
+from GSE.curation.external_sources.gse_closed_class import GSEClosedClassParser
+from GSE.curation.lexicon_builder.completion import complete_dictionary
+from GSE.curation.lexicon_builder.engine import propagate
+from GSE.curation.lexicon_builder.evidence import collect_evidence
+from GSE.curation.lexicon_builder.model_batch import OllamaBatchTransport
+from GSE.curation.lexicon_builder.model_protocol import coordinate_contract, model_input
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.residual import OllamaTransport, build_request, complete_bank
+from GSE.curation.lexicon_builder.scope_admission import BODY_SCOPE_SOURCE, model_scope_admission
+from GSE.curation.lexicon_builder.validation import validate_build
 
 BANKS = ("BODY", "BE", "SOMEONE", "SOMETHING", "EXIST")
 
@@ -200,7 +200,7 @@ def test_actual_batched_completion_refuses_body_and_journals_without_assignment(
         return {"done": True, "done_reason": "stop", "response": '{"q0":{"BODY":1},"q1":{"BODY":1}}'}
 
     monkeypatch.setattr(base, "_request_json", network)
-    monkeypatch.setattr("gse.curation.llm.ollama_client.register_model", lambda *_: None)
+    monkeypatch.setattr("GSE.curation.llm.ollama_client.register_model", lambda *_: None)
     transport = OllamaBatchTransport(base, max_items=2)
     transport.pin()
     report = complete_dictionary(path, transport, 2, banks=("BODY",), entry_ids=entries, batch_size=2)
@@ -217,8 +217,8 @@ def test_actual_batched_completion_refuses_body_and_journals_without_assignment(
 
 
 def test_publication_audit_flags_historical_reference_body_ruling_without_rewriting(tmp_path, monkeypatch):
-    from gse.curation.lexicon_builder import scope_admission
-    from gse.curation.lexicon_builder.publication import _model_scope_audit
+    from GSE.curation.lexicon_builder import scope_admission
+    from GSE.curation.lexicon_builder.publication import _model_scope_audit
 
     parser = GSEClosedClassParser()
     parser.load()

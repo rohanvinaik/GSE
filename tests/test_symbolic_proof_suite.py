@@ -1,6 +1,6 @@
 """Pytest wrapper for the symbolic proof suite (Phase B7).
 
-Runs the suite from gse.verification.symbolic_proof_suite once at module
+Runs the suite from GSE.verification.symbolic_proof_suite once at module
 level, then asserts each individual proof passed. Failures are reported
 per-proof so test output identifies the specific architectural claim
 that broke.
@@ -8,12 +8,12 @@ that broke.
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.curation.lexicon_builder.engine import Assertion, propagate
-from gse.curation.lexicon_builder.evidence import Definition
-from gse.curation.lexicon_builder.storage import open_build, store_entry
-from gse.verification import symbolic_proof_suite as proofs
-from gse.verification.symbolic_proof_suite import PROOFS, run_all
+from GSE.api import GSEEncoder
+from GSE.curation.lexicon_builder.engine import Assertion, propagate
+from GSE.curation.lexicon_builder.evidence import Definition
+from GSE.curation.lexicon_builder.storage import open_build, store_entry
+from GSE.verification import symbolic_proof_suite as proofs
+from GSE.verification.symbolic_proof_suite import PROOFS, run_all
 
 
 def geometry_dictionary(path, *, mode="selected"):

@@ -10,8 +10,8 @@ import sqlite3
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.curation.build_clean_closed_class import CLEAN_DB, plan, targets
+from GSE.api import GSEEncoder
+from GSE.curation.build_clean_closed_class import CLEAN_DB, plan, targets
 
 
 @pytest.fixture(scope="module")

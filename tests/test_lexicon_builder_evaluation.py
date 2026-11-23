@@ -6,11 +6,11 @@ import sqlite3
 
 import pytest
 
-from gse.curation.lexicon_builder.engine import Assertion, propagate
-from gse.curation.lexicon_builder.evaluation import evaluate_build
-from gse.curation.lexicon_builder.evidence import Definition, Observation
-from gse.curation.lexicon_builder.foundation import BANKS
-from gse.curation.lexicon_builder.storage import open_build, store_entry, store_observations
+from GSE.curation.lexicon_builder.engine import Assertion, propagate
+from GSE.curation.lexicon_builder.evaluation import evaluate_build
+from GSE.curation.lexicon_builder.evidence import Definition, Observation
+from GSE.curation.lexicon_builder.foundation import BANKS
+from GSE.curation.lexicon_builder.storage import open_build, store_entry, store_observations
 
 
 @pytest.fixture

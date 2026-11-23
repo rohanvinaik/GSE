@@ -7,20 +7,20 @@ from pathlib import Path
 
 import pytest
 
-from gse.curation.external_sources.nsm_chart import NSMChartParser
-from gse.curation.external_sources.source_scope import SOURCE_PRIMITIVE_SCOPE
-from gse.curation.lexicon_builder.catalog import (
+from GSE.curation.external_sources.nsm_chart import NSMChartParser
+from GSE.curation.external_sources.source_scope import SOURCE_PRIMITIVE_SCOPE
+from GSE.curation.lexicon_builder.catalog import (
     SOURCE,
     catalog_inventory,
     chart_definition_records,
     foundation_prime_links,
     native_foundation_words,
 )
-from gse.curation.lexicon_builder.evidence import collect_evidence, load_local_sources
-from gse.curation.lexicon_builder.foundation import BANKS
-from gse.curation.lexicon_builder.model_evidence import evidence_view
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.validation import validate_build
+from GSE.curation.lexicon_builder.evidence import collect_evidence, load_local_sources
+from GSE.curation.lexicon_builder.foundation import BANKS
+from GSE.curation.lexicon_builder.model_evidence import evidence_view
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.validation import validate_build
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json"

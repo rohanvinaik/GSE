@@ -6,18 +6,18 @@ import sqlite3
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.api.encoder import GrammaticalDefinitionError
-from gse.curation.external_sources.gse_closed_class import GSEClosedClassParser
-from gse.curation.lexicon_builder.engine import Assertion, propagate
-from gse.curation.lexicon_builder.evidence import Definition, collect_evidence
-from gse.curation.lexicon_builder.foundation import BANKS
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.storage import open_build, store_entry
-from gse.discourse.speech import encode_document_utterance_events
-from gse.symbolic import emit_contract, evaluate_tree, from_trace, resolve
-from gse.symbolic.inference import KnowledgeBase
-from gse.symbolic.propositions import propositions
+from GSE.api import GSEEncoder
+from GSE.api.encoder import GrammaticalDefinitionError
+from GSE.curation.external_sources.gse_closed_class import GSEClosedClassParser
+from GSE.curation.lexicon_builder.engine import Assertion, propagate
+from GSE.curation.lexicon_builder.evidence import Definition, collect_evidence
+from GSE.curation.lexicon_builder.foundation import BANKS
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.storage import open_build, store_entry
+from GSE.discourse.speech import encode_document_utterance_events
+from GSE.symbolic import emit_contract, evaluate_tree, from_trace, resolve
+from GSE.symbolic.inference import KnowledgeBase
+from GSE.symbolic.propositions import propositions
 
 
 def _store(conn, entry_id, lemma, pos, values):
@@ -43,7 +43,7 @@ def catalog_path(tmp_path_factory):
 
 @pytest.fixture
 def encoder(catalog_path, monkeypatch):
-    from gse import lexicon_resource
+    from GSE import lexicon_resource
 
     pointer = catalog_path.parent / "active.json"
     pointer.write_text(json.dumps({"format": lexicon_resource.POINTER_FORMAT, "path": str(catalog_path)}))
@@ -164,7 +164,7 @@ def test_unread_modal_cannot_become_an_asserted_event(catalog_path, tmp_path, ca
 
 
 def test_multiple_eligible_ids_never_select_a_first_definition(encoder, monkeypatch):
-    from gse.curation.external_sources import gse_closed_class
+    from GSE.curation.external_sources import gse_closed_class
 
     original = gse_closed_class.grammatical_entry_ids
 

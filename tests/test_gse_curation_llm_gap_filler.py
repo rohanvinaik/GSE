@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.llm.gap_filler."""
+"""Manual contract tests for GSE.curation.llm.gap_filler."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.llm.gap_filler import (
+from GSE.curation.llm.gap_filler import (
     BIPOLAR_INFERENCE,
     NEED_LLM,
     SYSTEM_PROMPT,
@@ -130,18 +130,18 @@ class TestGetSinglePrompt:
 
 class TestInit:
     def test_basic(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient"):
+        with patch("GSE.curation.llm.gap_filler.OllamaClient"):
             g = GapFiller(db_path=fresh_db)
             assert g.db_path == fresh_db
             assert g.model == "qwen2.5:7b"
 
     def test_custom_model(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient"):
+        with patch("GSE.curation.llm.gap_filler.OllamaClient"):
             g = GapFiller(db_path=fresh_db, model="llama2")
             assert g.model == "llama2"
 
     def test_config_low_temperature(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient"):
+        with patch("GSE.curation.llm.gap_filler.OllamaClient"):
             g = GapFiller(db_path=fresh_db)
             assert g.config.temperature == 0.1
             assert g.config.max_tokens == 20
@@ -152,19 +152,19 @@ class TestInit:
 
 class TestGetExternalPrimitives:
     def test_empty(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient"):
+        with patch("GSE.curation.llm.gap_filler.OllamaClient"):
             g = GapFiller(db_path=fresh_db)
             assert g.get_external_primitives(1) == {}
 
     def test_returns_non_llm(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient"):
+        with patch("GSE.curation.llm.gap_filler.OllamaClient"):
             g = GapFiller(db_path=fresh_db)
             g.conn.execute("INSERT INTO primitive_values VALUES (1, 'GOOD', 1, 0.9, 'verbnet')")
             g.conn.commit()
             assert g.get_external_primitives(1) == {"GOOD": 1}
 
     def test_excludes_llm_sources(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient"):
+        with patch("GSE.curation.llm.gap_filler.OllamaClient"):
             g = GapFiller(db_path=fresh_db)
             g.conn.execute("INSERT INTO primitive_values VALUES (1, 'GOOD', 1, 0.9, 'verbnet')")
             g.conn.execute("INSERT INTO primitive_values VALUES (1, 'BAD', 1, 0.7, 'llm:qwen')")
@@ -179,36 +179,36 @@ class TestGetExternalPrimitives:
 
 class TestInferBipolarCounterpart:
     def test_empty(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient"):
+        with patch("GSE.curation.llm.gap_filler.OllamaClient"):
             g = GapFiller(db_path=fresh_db)
             assert g.infer_bipolar_counterpart({}) == {}
 
     def test_good_to_bad_zero(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient"):
+        with patch("GSE.curation.llm.gap_filler.OllamaClient"):
             g = GapFiller(db_path=fresh_db)
             # GOOD known, BAD inferred as 0
             assert g.infer_bipolar_counterpart({"GOOD": 1}) == {"BAD": 0}
 
     def test_negative_good_still_zero_bad(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient"):
+        with patch("GSE.curation.llm.gap_filler.OllamaClient"):
             g = GapFiller(db_path=fresh_db)
             # GOOD=-1 → still BAD=0 (never positive)
             assert g.infer_bipolar_counterpart({"GOOD": -1}) == {"BAD": 0}
 
     def test_no_inference_when_unknown_pole_present(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient"):
+        with patch("GSE.curation.llm.gap_filler.OllamaClient"):
             g = GapFiller(db_path=fresh_db)
             # Both poles in external → no inference
             assert g.infer_bipolar_counterpart({"GOOD": 1, "BAD": 1}) == {}
 
     def test_skips_none_inferable_pairs(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient"):
+        with patch("GSE.curation.llm.gap_filler.OllamaClient"):
             g = GapFiller(db_path=fresh_db)
             # TRUE/FALSE is None in BIPOLAR_INFERENCE
             assert g.infer_bipolar_counterpart({"TRUE": 1}) == {}
 
     def test_alive_to_dead(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient"):
+        with patch("GSE.curation.llm.gap_filler.OllamaClient"):
             g = GapFiller(db_path=fresh_db)
             assert g.infer_bipolar_counterpart({"ALIVE": 1}) == {"DEAD": 0}
 
@@ -218,14 +218,14 @@ class TestInferBipolarCounterpart:
 
 class TestGetPrimitivesToQuery:
     def test_default_returns_need_llm(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient"):
+        with patch("GSE.curation.llm.gap_filler.OllamaClient"):
             g = GapFiller(db_path=fresh_db)
             result = g.get_primitives_to_query(1)
             # Should match NEED_LLM
             assert result == NEED_LLM
 
     def test_removes_inferred(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient"):
+        with patch("GSE.curation.llm.gap_filler.OllamaClient"):
             g = GapFiller(db_path=fresh_db)
             # Insert GOOD external → BAD inferred → removed from to_query
             g.conn.execute("INSERT INTO primitive_values VALUES (1, 'GOOD', 1, 0.9, 'verbnet')")
@@ -234,7 +234,7 @@ class TestGetPrimitivesToQuery:
             assert "BAD" not in result
 
     def test_removes_already_done(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient"):
+        with patch("GSE.curation.llm.gap_filler.OllamaClient"):
             g = GapFiller(db_path=fresh_db)
             g.conn.execute("INSERT INTO primitive_values VALUES (1, 'BAD', 1, 0.7, 'llm:qwen')")
             g.conn.commit()
@@ -247,49 +247,49 @@ class TestGetPrimitivesToQuery:
 
 class TestQueryPrimitive:
     def test_yes_returns_1(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.gap_filler.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = "YES"
             g = GapFiller(db_path=fresh_db)
             assert g.query_primitive("happy", "GOOD") == 1
 
     def test_y_returns_1(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.gap_filler.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = "Y"
             g = GapFiller(db_path=fresh_db)
             assert g.query_primitive("happy", "GOOD") == 1
 
     def test_opposite_returns_minus_1(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.gap_filler.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = "OPPOSITE"
             g = GapFiller(db_path=fresh_db)
             assert g.query_primitive("sad", "GOOD") == -1
 
     def test_opp_returns_minus_1(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.gap_filler.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = "OPP"
             g = GapFiller(db_path=fresh_db)
             assert g.query_primitive("x", "Y") == -1
 
     def test_no_returns_0(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.gap_filler.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = "NO"
             g = GapFiller(db_path=fresh_db)
             assert g.query_primitive("x", "Y") == 0
 
     def test_unknown_returns_0(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.gap_filler.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = "MAYBE"
             g = GapFiller(db_path=fresh_db)
             assert g.query_primitive("x", "Y") == 0
 
     def test_exception_returns_0(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.gap_filler.OllamaClient") as MockClient:
             MockClient.return_value.generate.side_effect = RuntimeError("network")
             g = GapFiller(db_path=fresh_db)
             assert g.query_primitive("x", "Y") == 0
 
     def test_lowercase_yes(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.gap_filler.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = "yes"
             g = GapFiller(db_path=fresh_db)
             assert g.query_primitive("x", "Y") == 1
@@ -300,7 +300,7 @@ class TestQueryPrimitive:
 
 class TestProcessWord:
     def test_stores_inferred(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.gap_filler.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = "NO"
             g = GapFiller(db_path=fresh_db)
             # Insert GOOD=1 external → BAD inferred=0
@@ -315,7 +315,7 @@ class TestProcessWord:
             assert "inferred:bipolar" in sources
 
     def test_stores_llm_results(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.gap_filler.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = "YES"
             g = GapFiller(db_path=fresh_db)
             g.process_word(1, "happy")
@@ -330,14 +330,14 @@ class TestProcessWord:
 
 class TestProcessBatch:
     def test_empty(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.gap_filler.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = "NO"
             g = GapFiller(db_path=fresh_db)
             stats = g.process_batch()
             assert stats["processed"] == 0
 
     def test_processes_words(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.gap_filler.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = "NO"
             g = GapFiller(db_path=fresh_db)
             g.conn.execute("INSERT INTO lexemes VALUES (1, 'happy', 1)")
@@ -346,7 +346,7 @@ class TestProcessBatch:
             assert stats["processed"] == 1
 
     def test_limit(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.gap_filler.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = "NO"
             g = GapFiller(db_path=fresh_db)
             for i in range(5):
@@ -356,7 +356,7 @@ class TestProcessBatch:
             assert stats["processed"] == 2
 
     def test_start_rank(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient") as MockClient:
+        with patch("GSE.curation.llm.gap_filler.OllamaClient") as MockClient:
             MockClient.return_value.generate.return_value = "NO"
             g = GapFiller(db_path=fresh_db)
             for i in range(5):
@@ -372,7 +372,7 @@ class TestProcessBatch:
 
 class TestClose:
     def test_closes_conn(self, fresh_db):
-        with patch("gse.curation.llm.gap_filler.OllamaClient"):
+        with patch("GSE.curation.llm.gap_filler.OllamaClient"):
             g = GapFiller(db_path=fresh_db)
             g.close()
             # After close, executing should fail
@@ -386,7 +386,7 @@ class TestClose:
 class TestMain:
     def test_default_runs_batch(self, fresh_db, capsys):
         with patch("sys.argv", ["prog", "--db", fresh_db, "--limit", "0"]):
-            with patch("gse.curation.llm.gap_filler.OllamaClient"):
+            with patch("GSE.curation.llm.gap_filler.OllamaClient"):
                 with patch.object(
                     GapFiller, "process_batch", return_value={"processed": 0, "inferred": 0, "llm_queries": 0}
                 ):
@@ -401,7 +401,7 @@ class TestMain:
         conn.close()
 
         with patch("sys.argv", ["prog", "--db", fresh_db, "--word", "happy"]):
-            with patch("gse.curation.llm.gap_filler.OllamaClient") as MockClient:
+            with patch("GSE.curation.llm.gap_filler.OllamaClient") as MockClient:
                 MockClient.return_value.generate.return_value = "NO"
                 main()
         out = capsys.readouterr().out
@@ -409,7 +409,7 @@ class TestMain:
 
     def test_word_arg_not_found(self, fresh_db, capsys):
         with patch("sys.argv", ["prog", "--db", fresh_db, "--word", "nonexistent"]):
-            with patch("gse.curation.llm.gap_filler.OllamaClient"):
+            with patch("GSE.curation.llm.gap_filler.OllamaClient"):
                 main()
         out = capsys.readouterr().out
         assert "Word not found" in out

@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.frequency_integration."""
+"""Manual contract tests for GSE.curation.frequency_integration."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.frequency_integration import (
+from GSE.curation.frequency_integration import (
     FrequencyDatabase,
     FrequencyIntegration,
     WordFrequency,
@@ -149,7 +149,7 @@ def lexicon_db(tmp_path):
     """Build a lexicon database fixture."""
     db_path = tmp_path / "lex.db"
     # Create a real LexiconDatabase by importing and calling its init
-    from gse.curation.lexicon_db import LexiconDatabase
+    from GSE.curation.lexicon_db import LexiconDatabase
 
     db = LexiconDatabase(str(db_path))
     db.close()
@@ -235,7 +235,7 @@ class TestFrequencyIntegration:
 class TestGetDefaultPath:
     def test_returns_existing_gse_data_path(self, tmp_path):
         # Patch Path to make gse_data exist
-        with patch("gse.curation.frequency_integration.Path") as MockPath:
+        with patch("GSE.curation.frequency_integration.Path") as MockPath:
             mock_self_path = MagicMock()
             # __file__ resolution
             mock_self_path.parent.parent.parent.__truediv__.return_value = MagicMock(

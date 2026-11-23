@@ -1,4 +1,4 @@
-"""Tests for gse.benchmarks.run CLI plumbing.
+"""Tests for GSE.benchmarks.run CLI plumbing.
 
 These tests stub the GSEEncoder so they don't hit the heavy real encoder;
 the goal is to verify the runner wires the datasets, encoder, and metrics
@@ -9,8 +9,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from gse.benchmarks.datasets import BenchmarkDataset, SentencePair, WordPair
-from gse.benchmarks.run import PairResult, _encode_pairs, run_task
+from GSE.benchmarks.datasets import BenchmarkDataset, SentencePair, WordPair
+from GSE.benchmarks.run import PairResult, _encode_pairs, run_task
 
 
 def _fake_encoder(cos_value, bank_cos=None):
@@ -83,7 +83,7 @@ class TestRunTask:
         # so the bank-projected section also reports.
         ds = BenchmarkDataset("toy-ant", [WordPair("good", "bad", 0.0)])
         encoder = _fake_encoder(-0.8, bank_cos=-0.9)
-        with patch("gse.benchmarks.run.TASKS", {"antonyms": (lambda: ds, "antonym")}):
+        with patch("GSE.benchmarks.run.TASKS", {"antonyms": (lambda: ds, "antonym")}):
             results = run_task("antonyms", encoder=encoder)
         assert results[0].predicted == -0.8
         assert results[0].min_bank_cosine == -0.9
@@ -99,7 +99,7 @@ class TestRunTask:
         # (shared context) but a single bank opposes strongly.
         ds = BenchmarkDataset("toy-ant", [WordPair("good", "bad", 0.0)])
         encoder = _fake_encoder(+0.6, bank_cos=-1.0)
-        with patch("gse.benchmarks.run.TASKS", {"antonyms": (lambda: ds, "antonym")}):
+        with patch("GSE.benchmarks.run.TASKS", {"antonyms": (lambda: ds, "antonym")}):
             results = run_task("antonyms", encoder=encoder)
         assert results[0].predicted == +0.6
         assert results[0].min_bank_cosine == -1.0
@@ -114,7 +114,7 @@ class TestRunTask:
             [WordPair("happy", "joyful", 1.0), WordPair("big", "large", 1.0)],
         )
         encoder = _fake_encoder(0.5, bank_cos=0.5)
-        with patch("gse.benchmarks.run.TASKS", {"synonyms": (lambda: ds, "synonym")}):
+        with patch("GSE.benchmarks.run.TASKS", {"synonyms": (lambda: ds, "synonym")}):
             run_task("synonyms", encoder=encoder)
         out = capsys.readouterr().out
         assert "Positive rate:  1.000" in out
@@ -185,7 +185,7 @@ class TestRunTask:
             return r
 
         encoder.encode = MagicMock(side_effect=encode)
-        with patch("gse.benchmarks.run.TASKS", {"toy": (lambda: ds, "correlation")}):
+        with patch("GSE.benchmarks.run.TASKS", {"toy": (lambda: ds, "correlation")}):
             run_task("toy", encoder=encoder, n_bootstrap=10)
         out = capsys.readouterr().out
         assert "Spearman rho:" in out

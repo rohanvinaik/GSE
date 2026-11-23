@@ -10,11 +10,11 @@ from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 
-from gse.api import GSEEncoder
-from gse.cassettes.multiscale import MultiScaleDoc
-from gse.discourse.speech import encode_document_utterance_events
-from gse.structure import structural_loss_evidence
-from gse.symbolic import commitment, evaluate_tree, from_trace, polarity, propositions, resolve, to_dict
+from GSE.api import GSEEncoder
+from GSE.cassettes.multiscale import MultiScaleDoc
+from GSE.discourse.speech import encode_document_utterance_events
+from GSE.structure import structural_loss_evidence
+from GSE.symbolic import commitment, evaluate_tree, from_trace, polarity, propositions, resolve, to_dict
 
 ROOT = Path(__file__).resolve().parents[3]
 HERE = Path(__file__).resolve().parent

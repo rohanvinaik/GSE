@@ -2,10 +2,10 @@
 
 from pathlib import Path
 
-from gse.lexicon_builder.build import build
-from gse.lexicon_builder.native_constraints import frame_constraints, native_readings, predicate_domain
-from gse.lexicon_builder.registry import load_rulebook
-from gse.lexicon_builder.sources import NativeSources
+from GSE.lexicon_builder.build import build
+from GSE.lexicon_builder.native_constraints import frame_constraints, native_readings, predicate_domain
+from GSE.lexicon_builder.registry import load_rulebook
+from GSE.lexicon_builder.sources import NativeSources
 from tests.lexicon_rulebook import admitted_rulebook
 from tests.lexicon_sources import requires_lexicon_sources
 

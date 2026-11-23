@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.frequency."""
+"""Manual contract tests for GSE.frequency."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.frequency import (
+from GSE.frequency import (
     FrequencyDatabase,
     FrequencyInfo,
     WeightProfile,

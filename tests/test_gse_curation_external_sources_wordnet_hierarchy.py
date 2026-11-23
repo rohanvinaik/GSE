@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.external_sources.wordnet_hierarchy."""
+"""Manual contract tests for GSE.curation.external_sources.wordnet_hierarchy."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.external_sources.wordnet_hierarchy import (
+from GSE.curation.external_sources.wordnet_hierarchy import (
     LEXNAME_TO_PRIMITIVE,
     ROOT_CONCEPT_PRIMITIVES,
     WordNetHierarchyEntry,

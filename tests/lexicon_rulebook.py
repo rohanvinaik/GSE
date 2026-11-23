@@ -6,8 +6,8 @@ review states are untouched; each helper returns a fresh copy for the test.
 
 from __future__ import annotations
 
-from gse.lexicon_builder.core import rule_contract_digest
-from gse.lexicon_builder.registry import RULE_FAMILIES, load_rulebook
+from GSE.lexicon_builder.core import rule_contract_digest
+from GSE.lexicon_builder.registry import RULE_FAMILIES, load_rulebook
 
 
 def certify_rule(

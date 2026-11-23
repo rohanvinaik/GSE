@@ -30,8 +30,8 @@ import numpy as np
 # Add project root
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from gse.api import GSEDecoder, GSEEncoder
-from gse.primitives_v2 import (
+from GSE.api import GSEDecoder, GSEEncoder
+from GSE.primitives_v2 import (
     BIPOLAR_DIMENSIONS,
     SemanticBank,
     get_bank_primitives,

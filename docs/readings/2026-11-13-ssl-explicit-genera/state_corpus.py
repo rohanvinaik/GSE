@@ -3,8 +3,8 @@
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from gse.api.encoder import GrammaticalDefinitionError, GSEEncoder
-from gse.curation.lexicon_builder.epoch import fingerprint, read
+from GSE.api.encoder import GrammaticalDefinitionError, GSEEncoder
+from GSE.curation.lexicon_builder.epoch import fingerprint, read
 
 NOTES = Path(__file__).resolve().parent
 

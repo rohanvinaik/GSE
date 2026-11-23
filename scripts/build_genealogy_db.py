@@ -6,7 +6,7 @@ Build the GSE-local genealogy store — two orthogonal type-genealogy strands.
   world strand (sparse-wiki) : a referent's DBpedia lineage (world-grounding)
 
 Option B: nltk and the relational-ai sparse_wiki.db are read **once, here, at
-ingest time**. The runtime GenealogyStore (gse/symbolic/genealogy_store.py) reads
+ingest time**. The runtime GenealogyStore (GSE/symbolic/genealogy_store.py) reads
 only data/genealogy.db — no nltk at runtime, no coupling to relational-ai.
 
 Senses are stored in WordNet frequency order (sense 0 = most common), so a

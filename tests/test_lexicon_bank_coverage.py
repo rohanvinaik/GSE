@@ -5,8 +5,8 @@ Coupled repair fixtures test the mechanism, not proposed laws of English.
 
 import copy
 
-from gse.lexicon_builder.core import Cell, Law, resolve
-from gse.lexicon_builder.coverage import BANK_FIELDS, bank_coverage_status, review_banks
+from GSE.lexicon_builder.core import Cell, Law, resolve
+from GSE.lexicon_builder.coverage import BANK_FIELDS, bank_coverage_status, review_banks
 
 
 class BankSelector:

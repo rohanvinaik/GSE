@@ -7,12 +7,12 @@ import sqlite3
 from contextlib import closing
 from pathlib import Path
 
-from gse.curation.lexicon_builder.completion import _contexts, _entry
-from gse.curation.lexicon_builder.foundation import BANKS, lexical_context
-from gse.curation.lexicon_builder.model_batch import OllamaBatchTransport
-from gse.curation.lexicon_builder.residual import ModelTransportError, OllamaTransport, _request_id, build_request
-from gse.curation.lexicon_builder.resolution import resolve_dictionary
-from gse.curation.lexicon_builder.validation import _metadata, _relations
+from GSE.curation.lexicon_builder.completion import _contexts, _entry
+from GSE.curation.lexicon_builder.foundation import BANKS, lexical_context
+from GSE.curation.lexicon_builder.model_batch import OllamaBatchTransport
+from GSE.curation.lexicon_builder.residual import ModelTransportError, OllamaTransport, _request_id, build_request
+from GSE.curation.lexicon_builder.resolution import resolve_dictionary
+from GSE.curation.lexicon_builder.validation import _metadata, _relations
 
 
 def write(path, value):

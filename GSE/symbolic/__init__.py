@@ -1,0 +1,197 @@
+"""
+Symbolic evaluator over OperationTrace.
+
+Per ``sentence_architecture.md`` line 164: the API for engaging with the
+system should be pure Python / order of operations / set theory — not
+direct vector math. This package lifts encoder traces into typed ASTs
+and applies the set-theory semantics of each compositional operator
+symbolically.
+
+Sub-packages:
+
+* :mod:`expression` — the AST (Atom, Phrase, Negation, Op) + builder
+  ``from_trace`` that turns an :class:`GSE.api.trace.OperationTrace`
+  into an :class:`Expression`.
+* :mod:`resolution` *(planned, B5)* — multi-word entity grouping and
+  within-sentence reference binding.
+* :mod:`operators` *(planned, B2)* — pure-Python implementations of
+  SET_DIFF, BIND_EQ, etc.
+* :mod:`queries` *(planned, B3)* — consumer interface: entities(),
+  predicates(), is_logically_equal_to(), etc.
+* :mod:`templating` *(planned, B6)* — structural substitution.
+
+See ``docs/PHASE_B_SCOPE.md`` for the live scope.
+"""
+
+from GSE.symbolic.claims import (
+    CLAIM_KEY_VERSION,
+    ClaimKey,
+    Identity,
+    Polarity,
+    claim_key,
+    commitment,
+    commitment_modes,
+    identity,
+    polarity,
+    scope_signature,
+)
+from GSE.symbolic.emit import (
+    CONTRACT_VERSION,
+    emit,
+    emit_contract,
+    emit_json,
+)
+from GSE.symbolic.expression import (
+    Atom,
+    Expression,
+    Negation,
+    Op,
+    Phrase,
+    from_trace,
+)
+from GSE.symbolic.genealogy_store import GenealogyStore
+from GSE.symbolic.grounding import (
+    GenealogyProvider,
+    GroundingFlag,
+    NullGenealogy,
+    TriageResult,
+    grounding_flags,
+    resolve_document,
+    resolve_references,
+    triage_flags,
+)
+from GSE.symbolic.inference import Derivation, KnowledgeBase
+from GSE.symbolic.operators import (
+    OPERATION_DISPATCH,
+    UnknownOperation,
+    evaluate,
+    evaluate_tree,
+)
+from GSE.symbolic.predicates import (
+    BoundaryCase,
+    Causation,
+    ClauseCoordination,
+    Comparison,
+    Conditional,
+    Contrast,
+    Control,
+    DegreeQuery,
+    Equality,
+    Event,
+    MinimalSufficiency,
+    Predicate,
+    RelativeRestriction,
+    SetRestriction,
+    Temporal,
+    TypeAssertion,
+    TypeQuery,
+)
+from GSE.symbolic.propositions import Proposition, Scope, proposition_status, propositions
+from GSE.symbolic.queries import (
+    axis_of_comparison,
+    clauses,
+    entities,
+    entity_lemmas,
+    is_argument_swap_of,
+    is_logically_equal_to,
+    predicates,
+)
+from GSE.symbolic.resolution import Coordination, Entity, resolve, resolve_with_sources
+from GSE.symbolic.serialization import (
+    SerializationError,
+    from_dict,
+    from_json,
+    to_dict,
+    to_json,
+)
+from GSE.symbolic.signs import negation_signs
+from GSE.symbolic.templating import substitute
+
+__all__ = [
+    # AST
+    "Atom",
+    "Expression",
+    "Negation",
+    "Op",
+    "Phrase",
+    "from_trace",
+    # Predicates
+    "BoundaryCase",
+    "Causation",
+    "ClauseCoordination",
+    "Comparison",
+    "Conditional",
+    "Contrast",
+    "Control",
+    "DegreeQuery",
+    "Equality",
+    "Event",
+    "MinimalSufficiency",
+    "Predicate",
+    "RelativeRestriction",
+    "SetRestriction",
+    "Temporal",
+    "TypeAssertion",
+    "TypeQuery",
+    # Dispatch
+    "OPERATION_DISPATCH",
+    "UnknownOperation",
+    "evaluate",
+    "evaluate_tree",
+    # Emit contract (Genesis-facing §5 envelope)
+    "CONTRACT_VERSION",
+    "emit",
+    "emit_contract",
+    "emit_json",
+    # Resolution
+    "Coordination",
+    "Entity",
+    "resolve",
+    "resolve_with_sources",
+    # Reference resolution (entity ids + type threads) + document scope
+    "GenealogyProvider",
+    "NullGenealogy",
+    "resolve_references",
+    "resolve_document",
+    "GenealogyStore",
+    # Abstention signal (grounding confidence flags) + persist triage
+    "GroundingFlag",
+    "grounding_flags",
+    "TriageResult",
+    "triage_flags",
+    # Logical inference (transitive closure over the clause graph)
+    "KnowledgeBase",
+    "Derivation",
+    # Queries
+    "axis_of_comparison",
+    "clauses",
+    "entities",
+    "entity_lemmas",
+    "is_argument_swap_of",
+    "is_logically_equal_to",
+    "predicates",
+    # Signed propositions (one extraction under the shared modality decision)
+    "Proposition",
+    "Scope",
+    "proposition_status",
+    "propositions",
+    "CLAIM_KEY_VERSION",
+    "ClaimKey",
+    "Identity",
+    "Polarity",
+    "claim_key",
+    "commitment",
+    "commitment_modes",
+    "identity",
+    "polarity",
+    "scope_signature",
+    "negation_signs",
+    # Serialization
+    "SerializationError",
+    "from_dict",
+    "from_json",
+    "to_dict",
+    "to_json",
+    # Templating
+    "substitute",
+]

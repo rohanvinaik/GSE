@@ -4,8 +4,8 @@ import argparse
 from importlib import import_module
 from pathlib import Path
 
-from gse.curation.lexicon_builder.epoch import census, fingerprint, parse_plan, read, record, run_arm
-from gse.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
+from GSE.curation.lexicon_builder.epoch import census, fingerprint, parse_plan, read, record, run_arm
+from GSE.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
 from scripts.audit_lexicon_sentences import audit, compare_reports
 from scripts.run_lexicon_epochs import publish_round
 
@@ -111,7 +111,7 @@ def publish():
     gold = read(anatomy.NOTES / "sparse-release-017-gold.json")
     controls = ("wordnet:arrest:arrest.n.02", "wordnet:sleeping:sleeping.n.01", "wordnet:anger:anger.n.02")
     gold["records"].extend({"entry_id": entry, "bank": "BE", "expected": 1} for entry in controls)
-    from gse.api.encoder import GSEEncoder
+    from GSE.api.encoder import GSEEncoder
 
     with GSEEncoder(result["candidate"]) as encoder:
         for entry in controls:

@@ -10,8 +10,8 @@ import json
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.symbolic import (
+from GSE.api import GSEEncoder
+from GSE.symbolic import (
     emit,
     evaluate_tree,
     from_dict,
@@ -20,9 +20,9 @@ from gse.symbolic import (
     resolve_references,
     to_dict,
 )
-from gse.symbolic.expression import Atom
-from gse.symbolic.predicates import Control
-from gse.symbolic.resolution import Entity
+from GSE.symbolic.expression import Atom
+from GSE.symbolic.predicates import Control
+from GSE.symbolic.resolution import Entity
 
 
 @pytest.fixture(scope="module")
@@ -78,7 +78,7 @@ _DB = Path("data/genealogy.db")
 
 @pytest.mark.skipif(not _DB.exists(), reason="genealogy.db not built")
 def test_demiword_grounds_via_span(encoder):
-    from gse.symbolic import GenealogyStore
+    from GSE.symbolic import GenealogyStore
 
     with GenealogyStore() as store:
         tree = resolve_references(evaluate_tree(resolve(from_trace(encoder.encode("Mike likes ice cream")))), store)
@@ -91,10 +91,10 @@ def test_demiword_grounds_via_span(encoder):
 def test_lexicalized_adj_noun_promotes_to_demiword(encoder):
     # "hot dog" is a WordNet MWE → promoted to one unit (span set); "big dog" is
     # not lexicalized → stays compositional. WordNet's lexicalization is the gate.
-    from gse.symbolic import GenealogyStore
+    from GSE.symbolic import GenealogyStore
 
     def first_entity(tree, store):
-        from gse.symbolic import entities
+        from GSE.symbolic import entities
 
         return entities(resolve_references(tree, store))
 

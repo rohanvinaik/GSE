@@ -2,7 +2,7 @@
 """
 Encode Numerals in GSE Lexicon Database
 
-Applies numeral encodings from gse/lexicon/numerals.py to the database:
+Applies numeral encodings from GSE/lexicon/numerals.py to the database:
 1. Sets SING/PLUR/ZERO primitives based on the mutual transparency system
 2. Populates hierarchy_levels table for quantity scale positions
 """
@@ -15,7 +15,7 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from gse.lexicon.numerals import NUMERAL_ENCODINGS, validate_mutual_transparency
+from GSE.lexicon.numerals import NUMERAL_ENCODINGS, validate_mutual_transparency
 
 
 def encode_numerals(db_path: Path, dry_run: bool = False) -> dict:

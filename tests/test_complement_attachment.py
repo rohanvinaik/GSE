@@ -9,9 +9,9 @@ abstains (CSA §5: "never a silent wrong commit").
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.symbolic import emit_contract, evaluate_tree, from_trace, resolve
-from gse.symbolic.expression import Atom, Negation, Op, Phrase, _attach_complement
+from GSE.api import GSEEncoder
+from GSE.symbolic import emit_contract, evaluate_tree, from_trace, resolve
+from GSE.symbolic.expression import Atom, Negation, Op, Phrase, _attach_complement
 
 
 def _event(verb, *subjects):

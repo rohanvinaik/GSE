@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.llm.qwen_client."""
+"""Manual contract tests for GSE.curation.llm.qwen_client."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.llm.qwen_client import (
+from GSE.curation.llm.qwen_client import (
     DEFAULT_MODEL_PATH,
     HUGGINGFACE_MODEL_ID,
     LOCAL_MODEL_PATH,
@@ -238,11 +238,11 @@ class TestQwenGenerate:
         c = QwenClient(device="cpu")
         c._loaded = True
         c.generate = MagicMock(return_value="{}")
-        with patch("gse.curation.llm.response_parser.parse_llm_response") as mock_parse:
+        with patch("GSE.curation.llm.response_parser.parse_llm_response") as mock_parse:
             mock_result = MagicMock()
             mock_result.decomposition = {"GOOD": 1}
             mock_parse.return_value = mock_result
-            with patch("gse.curation.llm.prompts.build_user_prompt", return_value="P") as mock_build:
+            with patch("GSE.curation.llm.prompts.build_user_prompt", return_value="P") as mock_build:
                 result = c.decompose_word("happy", pos="adj")
                 # build_user_prompt called without simple=True
                 assert (
@@ -255,11 +255,11 @@ class TestQwenGenerate:
         c = QwenClient(device="cpu")
         c._loaded = True
         c.generate = MagicMock(return_value="{}")
-        with patch("gse.curation.llm.response_parser.parse_llm_response") as mock_parse:
+        with patch("GSE.curation.llm.response_parser.parse_llm_response") as mock_parse:
             mock_result = MagicMock()
             mock_result.decomposition = {}
             mock_parse.return_value = mock_result
-            with patch("gse.curation.llm.prompts.build_user_prompt", return_value="P") as mock_build:
+            with patch("GSE.curation.llm.prompts.build_user_prompt", return_value="P") as mock_build:
                 c.decompose_word("x")
                 # 2nd positional arg defaults to "unknown"
                 assert mock_build.call_args.args[1] == "unknown"
@@ -268,13 +268,13 @@ class TestQwenGenerate:
         c = QwenClient(device="cpu")
         c._loaded = True
         c.generate = MagicMock(return_value="{}")
-        with patch("gse.curation.llm.response_parser.parse_llm_response") as mock_parse:
+        with patch("GSE.curation.llm.response_parser.parse_llm_response") as mock_parse:
             mock_result = MagicMock()
             mock_result.decomposition = {"GOOD": 1}
             mock_result.confidence = 0.9
             mock_result.warnings = []
             mock_parse.return_value = mock_result
-            with patch("gse.curation.llm.prompts.build_user_prompt", return_value="P"):
+            with patch("GSE.curation.llm.prompts.build_user_prompt", return_value="P"):
                 results = c.decompose_batch(
                     [
                         {"word": "happy"},
@@ -288,24 +288,24 @@ class TestQwenGenerate:
         c = QwenClient(device="cpu")
         c._loaded = True
         c.generate = MagicMock(return_value="{}")
-        with patch("gse.curation.llm.response_parser.parse_llm_response") as mock_parse:
+        with patch("GSE.curation.llm.response_parser.parse_llm_response") as mock_parse:
             mock_result = MagicMock()
             mock_result.decomposition = {}
             mock_result.confidence = 0.0
             mock_result.warnings = []
             mock_parse.return_value = mock_result
-            with patch("gse.curation.llm.prompts.build_user_prompt", return_value="P") as mock_build:
+            with patch("GSE.curation.llm.prompts.build_user_prompt", return_value="P") as mock_build:
                 c.decompose_batch([{"word": "x"}])
                 # simple=True kwarg passed
                 assert mock_build.call_args.kwargs.get("simple") is True
 
     def test_decompose_batch_exception_fallback(self):
-        from gse.curation.schema import ALL_PRIMITIVES
+        from GSE.curation.schema import ALL_PRIMITIVES
 
         c = QwenClient(device="cpu")
         c._loaded = True
         c.generate = MagicMock(side_effect=RuntimeError("fail"))
-        with patch("gse.curation.llm.prompts.build_user_prompt", return_value="P"):
+        with patch("GSE.curation.llm.prompts.build_user_prompt", return_value="P"):
             results = c.decompose_batch([{"word": "happy"}])
         decomp, conf, warnings = results[0]
         assert decomp == {p: 0 for p in ALL_PRIMITIVES}

@@ -6,9 +6,9 @@ and two cancel. node_polarity's own rule: neither...nor is one sign; a nor besid
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.symbolic import emit_contract, evaluate_tree, from_trace, resolve
-from gse.symbolic.expression import _sign_owners, node_polarity
+from GSE.api import GSEEncoder
+from GSE.symbolic import emit_contract, evaluate_tree, from_trace, resolve
+from GSE.symbolic.expression import _sign_owners, node_polarity
 
 
 @pytest.mark.parametrize(

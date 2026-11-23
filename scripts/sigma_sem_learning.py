@@ -48,8 +48,8 @@ def main() -> int:
     from nltk.corpus import wordnet as wn
     from nltk.corpus.reader.wordnet import Lemma
 
-    from gse.symbolic import GenealogyStore
-    from gse.symbolic.grounding import _jaccard
+    from GSE.symbolic import GenealogyStore
+    from GSE.symbolic.grounding import _jaccard
 
     store = GenealogyStore()
     print(

@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.teaching.conversation_processor."""
+"""Manual contract tests for GSE.teaching.conversation_processor."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.teaching.conversation_processor import (
+from GSE.teaching.conversation_processor import (
     ConversationProcessor,
     ConversationTurn,
 )

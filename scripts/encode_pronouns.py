@@ -2,7 +2,7 @@
 """
 Encode Pronouns in GSE Lexicon Database
 
-Applies pronoun encodings from gse/lexicon/pronouns.py to the database:
+Applies pronoun encodings from GSE/lexicon/pronouns.py to the database:
 1. Sets SOMEONE=1 or SOMETHING=1 as the semantic primitive
 2. Populates gram_feature_values table with grammatical features
 3. Sets animacy on the lexemes table
@@ -16,7 +16,7 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from gse.lexicon.pronouns import PRONOUN_ENCODINGS
+from GSE.lexicon.pronouns import PRONOUN_ENCODINGS
 
 
 def encode_pronouns(db_path: Path, dry_run: bool = False) -> dict:

@@ -7,7 +7,7 @@ every other reader of GSE's banks.
 import sys
 from pathlib import Path
 
-from gse.primitives_v2 import SemanticBank, get_all_primitives, get_bank_for_primitive
+from GSE.primitives_v2 import SemanticBank, get_all_primitives, get_bank_for_primitive
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import rohan_voice  # noqa: E402  (a script, importable from scripts/)

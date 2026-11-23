@@ -7,12 +7,12 @@ import sys
 
 import pytest
 
-from gse.curation.lexicon_builder import validation
-from gse.curation.lexicon_builder.catalog import catalog_report
-from gse.curation.lexicon_builder.engine import Assertion, DomainRestriction
-from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
-from gse.curation.lexicon_builder.foundation import projection_relations
-from gse.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder import validation
+from GSE.curation.lexicon_builder.catalog import catalog_report
+from GSE.curation.lexicon_builder.engine import Assertion, DomainRestriction
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
+from GSE.curation.lexicon_builder.foundation import projection_relations
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
 
 
 def _links(tmp_path, entries=None):
@@ -222,7 +222,7 @@ def test_real_cli_previews_applies_and_still_reads_saved_catalog(tmp_path):
     path = _build(tmp_path)
     links = _links(tmp_path)
     report = tmp_path / "preview.json"
-    command = [sys.executable, "-m", "gse.curation.cli.commands", "--lexicon-db", str(path), "catalog"]
+    command = [sys.executable, "-m", "GSE.curation.cli.commands", "--lexicon-db", str(path), "catalog"]
     preview = subprocess.run(
         command + ["--links", str(links), "--report", str(report)], capture_output=True, text=True, check=True
     )
@@ -247,7 +247,7 @@ def test_cli_rejects_incompatible_catalog_flags(tmp_path, arguments, error):
     path = _build(tmp_path)
     before = _metadata(path)
     result = subprocess.run(
-        [sys.executable, "-m", "gse.curation.cli.commands", "--lexicon-db", str(path), "catalog", *arguments],
+        [sys.executable, "-m", "GSE.curation.cli.commands", "--lexicon-db", str(path), "catalog", *arguments],
         capture_output=True,
         text=True,
     )

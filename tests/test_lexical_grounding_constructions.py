@@ -5,11 +5,11 @@ from dataclasses import replace
 import pytest
 from nltk.corpus import wordnet as wn
 
-from gse.api.encoder import GSEEncoder
-from gse.curation.lexicon_builder.engine import Assertion, propagate
-from gse.curation.lexicon_builder.evidence import Definition, Observation
-from gse.curation.lexicon_builder.storage import open_build, store_entry, store_observations
-from gse.symbolic.lexical_grounding import LexicalGrounding, _unique_native_witness
+from GSE.api.encoder import GSEEncoder
+from GSE.curation.lexicon_builder.engine import Assertion, propagate
+from GSE.curation.lexicon_builder.evidence import Definition, Observation
+from GSE.curation.lexicon_builder.storage import open_build, store_entry, store_observations
+from GSE.symbolic.lexical_grounding import LexicalGrounding, _unique_native_witness
 
 
 @pytest.fixture(scope="module")

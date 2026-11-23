@@ -18,7 +18,7 @@
 ## 1. The architecture, corrected
 
 Everything — every input span — is first ground through the GSE pipeline to a fixed
-relational profile (`gse/discourse/profile.py::text_profile` → `TextProfile.vector()`:
+relational profile (`GSE/discourse/profile.py::text_profile` → `TextProfile.vector()`:
 operator mix, complexity, coherence, affect, register, 72-prime signature). That
 profile is the **bounded, finite-VC hypothesis space** in which both faces live. The
 two faces differ by *epistemic method*, not by input:
@@ -47,7 +47,7 @@ collapse the thesis indicts in LLMs. One bounded grounding, two methods over it.
 
 A **closed basis**, disciplined like the lexicon and **grounded in two research passes**
 (2026-06-21) against the linguistics, not improvised. The single source of truth is
-`gse/pragmatics/figures.py`; this table mirrors it.
+`GSE/pragmatics/figures.py`; this table mirrors it.
 
 **The admission criterion** (Silva Rhetoricae, traceable to Quintilian) is a four-way
 cut. A figure is a **trope** — and so IN the set — iff it turns word *meaning*
@@ -145,7 +145,7 @@ other grounded DBs.
 
 ## 4. Face B — the learned inductive face
 
-Extend the existing SoM, do not build a new model type (`gse/discourse/nested_router.py`
+Extend the existing SoM, do not build a new model type (`GSE/discourse/nested_router.py`
 is the recognizer; `klines.py` the pattern store). Face B:
 
 - **Input** = `TextProfile.vector()` of the span (the grounded profile — §1). No raw
@@ -164,7 +164,7 @@ is the recognizer; `klines.py` the pattern store). Face B:
 
 ## 5. The comparator + the specialty flywheel
 
-- `gse/pragmatics/janus.py` — the comparator. **Multi-label, resolved by ternary
+- `GSE/pragmatics/janus.py` — the comparator. **Multi-label, resolved by ternary
   set-theory voting** (the OTP interference the lexicon already runs — *reuse*
   `weighted_voting`/the integrator, do not build a new voter). Each face emits a ternary
   vote per figure: `+1` asserted, `−1` considered-and-excluded, `0` orthogonal/OOV. The
@@ -190,7 +190,7 @@ is the recognizer; `klines.py` the pattern store). Face B:
 
 ## 6. Build order
 
-1. **This spec** + the figure enum as code (`gse/pragmatics/figures.py`: the closed set
+1. **This spec** + the figure enum as code (`GSE/pragmatics/figures.py`: the closed set
    + bank map + per-figure Face-A tell). Unblocks everything.
 2. **Data**: bootstrap-gather → hand-curate → `data/janus_figures.db` with provenance.
    *(The next heavy step; parameters open — see below.)*

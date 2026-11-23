@@ -7,17 +7,17 @@ from dataclasses import asdict
 
 import pytest
 
-from gse.curation.external_sources.wordnet_hierarchy import WordNetHierarchyParser
-from gse.curation.lexicon_builder.engine import propagate
-from gse.curation.lexicon_builder.evidence import EvidenceBundle, collect_evidence
-from gse.curation.lexicon_builder.foundation import BANKS
-from gse.curation.lexicon_builder.model_batch import OllamaBatchTransport
-from gse.curation.lexicon_builder.model_evidence import restore_candidate_links
-from gse.curation.lexicon_builder.model_protocol import model_input
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.residual import OllamaTransport, build_request
-from gse.curation.lexicon_builder.source_enrichment import FORMAT
-from gse.curation.lexicon_builder.wordnet_identity import (
+from GSE.curation.external_sources.wordnet_hierarchy import WordNetHierarchyParser
+from GSE.curation.lexicon_builder.engine import propagate
+from GSE.curation.lexicon_builder.evidence import EvidenceBundle, collect_evidence
+from GSE.curation.lexicon_builder.foundation import BANKS
+from GSE.curation.lexicon_builder.model_batch import OllamaBatchTransport
+from GSE.curation.lexicon_builder.model_evidence import restore_candidate_links
+from GSE.curation.lexicon_builder.model_protocol import model_input
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.residual import OllamaTransport, build_request
+from GSE.curation.lexicon_builder.source_enrichment import FORMAT
+from GSE.curation.lexicon_builder.wordnet_identity import (
     DEFINING_CONTEXT_FORMAT,
     validate_wordnet_identity,
     wordnet_defining_context,

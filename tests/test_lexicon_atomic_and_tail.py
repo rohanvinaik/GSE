@@ -5,15 +5,15 @@ from pathlib import Path
 
 import pytest
 
-from gse.lexicon_builder.atomics import atomic_proof
-from gse.lexicon_builder.basis import OPPOSITE_POLES, PRIMES
-from gse.lexicon_builder.core import CANONICAL_COORDINATES, Cell, Observation, resolve
-from gse.lexicon_builder.foundation import load_foundation, profile_seed, reconstruct_profile
-from gse.lexicon_builder.model import OllamaSelector
-from gse.lexicon_builder.perception import perception_constraints
-from gse.lexicon_builder.reading import ask, construct_reading
-from gse.lexicon_builder.registry import compile_law, load_rulebook
-from gse.lexicon_builder.sources import NativeSources
+from GSE.lexicon_builder.atomics import atomic_proof
+from GSE.lexicon_builder.basis import OPPOSITE_POLES, PRIMES
+from GSE.lexicon_builder.core import CANONICAL_COORDINATES, Cell, Observation, resolve
+from GSE.lexicon_builder.foundation import load_foundation, profile_seed, reconstruct_profile
+from GSE.lexicon_builder.model import OllamaSelector
+from GSE.lexicon_builder.perception import perception_constraints
+from GSE.lexicon_builder.reading import ask, construct_reading
+from GSE.lexicon_builder.registry import compile_law, load_rulebook
+from GSE.lexicon_builder.sources import NativeSources
 from tests.lexicon_rulebook import certify_rule
 from tests.lexicon_sources import requires_lexicon_sources
 

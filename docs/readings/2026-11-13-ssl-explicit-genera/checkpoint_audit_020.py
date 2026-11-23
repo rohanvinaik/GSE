@@ -10,7 +10,7 @@ import sqlite3
 from hashlib import file_digest, sha256
 from pathlib import Path
 
-from gse.curation.lexicon_builder.epoch import read, record
+from GSE.curation.lexicon_builder.epoch import read, record
 
 NOTES = Path(__file__).resolve().parent
 ROOT = NOTES.parents[2]

@@ -6,11 +6,11 @@ from typing import Any
 
 import pytest
 
-from gse.curation.lexicon_builder.engine import DomainRestriction, propagate
-from gse.curation.lexicon_builder.evidence import Definition
-from gse.curation.lexicon_builder.foundation import BANKS
-from gse.curation.lexicon_builder.model_batch import FORMAT, OllamaBatchTransport
-from gse.curation.lexicon_builder.residual import ModelTransportError, OllamaTransport, build_request, complete_bank
+from GSE.curation.lexicon_builder.engine import DomainRestriction, propagate
+from GSE.curation.lexicon_builder.evidence import Definition
+from GSE.curation.lexicon_builder.foundation import BANKS
+from GSE.curation.lexicon_builder.model_batch import FORMAT, OllamaBatchTransport
+from GSE.curation.lexicon_builder.residual import ModelTransportError, OllamaTransport, build_request, complete_bank
 
 
 def _request(entry_id, bank="WANT", *, allowed=None, gloss="Fixture definition."):
@@ -60,7 +60,7 @@ def transport(monkeypatch):
     base = OllamaTransport("fixture:batch", thinking=False, output_tokens=1024)
     server = FakeServer(base.model)
     monkeypatch.setattr(base, "_request_json", server.request)
-    monkeypatch.setattr("gse.curation.llm.ollama_client.register_model", lambda *args: None)
+    monkeypatch.setattr("GSE.curation.llm.ollama_client.register_model", lambda *args: None)
     batch = OllamaBatchTransport(base)
     batch.pin()
     server.calls.clear()

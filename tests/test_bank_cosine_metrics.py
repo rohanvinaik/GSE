@@ -2,8 +2,8 @@
 
 from unittest.mock import MagicMock
 
-from gse.benchmarks.metrics import bank_cosine_signature, min_bank_cosine
-from gse.primitives_v2 import SemanticBank
+from GSE.benchmarks.metrics import bank_cosine_signature, min_bank_cosine
+from GSE.primitives_v2 import SemanticBank
 
 
 def _vec(per_bank_cosines, global_cos):

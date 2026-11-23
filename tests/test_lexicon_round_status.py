@@ -6,7 +6,7 @@ from importlib import import_module
 
 import pytest
 
-from gse.curation.lexicon_builder.epoch import record
+from GSE.curation.lexicon_builder.epoch import record
 
 status_module = import_module(
     "docs.readings.2026-11-13-ssl-explicit-genera.finish_coherence_020"

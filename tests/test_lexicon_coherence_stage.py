@@ -1,7 +1,7 @@
 """The staging boundary must preserve missing values and expose competing rules."""
 
-from gse.curation.lexicon_builder.engine import TERNARY, Assertion
-from gse.curation.lexicon_builder.resolution import resolve_dictionary
+from GSE.curation.lexicon_builder.engine import TERNARY, Assertion
+from GSE.curation.lexicon_builder.resolution import resolve_dictionary
 from scripts.stage_lexicon_coherence import _forward, _relation
 
 

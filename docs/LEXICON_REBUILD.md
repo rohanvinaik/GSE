@@ -25,7 +25,7 @@ clean DB (identical to the baseline).
 **Layer 0 — primes.** The 68 word-scale NSM primes as axioms (`canonical_decomposition`).
 The 5 hierarchy primes + the sentence-scale operators are excluded from the word lexicon.
 
-**Layer 1 — `gse/curation/build_clean_layer1.py`.** Grounds the frequency-ranked common
+**Layer 1 — `GSE/curation/build_clean_layer1.py`.** Grounds the frequency-ranked common
 register through the existing `integrator` → `source_scope` → `weighted_voting` pipeline.
 Policy:
 - **WordNet IS-A is the category source, authoritative within its scope** (SUBSTANTIVES) —
@@ -35,22 +35,22 @@ Policy:
 - WordNet was fixed (`wordnet_hierarchy.to_primitives`) to use the **primary sense only** and
   **not** tag PART from meronyms (was union-over-senses + has-parts→PART noise).
 
-**Layer 2 — `gse/curation/build_clean_layer2.py`.** Genus-differentia decomposition
+**Layer 2 — `GSE/curation/build_clean_layer2.py`.** Genus-differentia decomposition
 (`definition_linker`, the genus chain bottoming on the grounded floor + differentia) for words
 the sources didn't ground, over the **frequency register + WordNet's real-word lemmas** (WordNet
 is the "is this a real word" filter that excludes the exotic junk in the raw definitions dump).
 Grammatical words are **not decomposed**: function words and the quantity/intensity/modality
 operators route to informational-zero (`definitional_decomposer`, grounded in
-`gse/lexicon/function_words.py` + `docs/NSM_GRAMMAR_MAPPING.md`).
+`GSE/lexicon/function_words.py` + `docs/NSM_GRAMMAR_MAPPING.md`).
 
-**Operators — `gse/curation/build_clean_operators.py`.** The clause/comparison operators
+**Operators — `GSE/curation/build_clean_operators.py`.** The clause/comparison operators
 (`than→SET_DIFF`, `so→CONSEQUENCE`, `because→CAUSAL_SOURCE`…) carry no word content but MUST
 exist in the lexicon with their `comp_*` metadata, because the **encoder reads the operator
 from there** to build clause structure. Grounded in `primitives_v2.COMP_METADATA`.
 
-**Closed class — `gse/curation/build_clean_closed_class.py`** (runs last, after the quantifier
+**Closed class — `GSE/curation/build_clean_closed_class.py`** (runs last, after the quantifier
 rows). Puts each grammatical word in one of the three homes below and only there: a pronoun takes
-its word-scale prime from `gse/lexicon/pronouns.py` (SOMEONE or SOMETHING); an inflected tier-0
+its word-scale prime from `GSE/lexicon/pronouns.py` (SOMEONE or SOMETHING); an inflected tier-0
 word takes that word's prime (`am/are/being → BE`, `does/did → DO`, `has → HAVE`; `cannot → CAN,
 NOT`); five words take the prime they realize (`like → LIKE`, `underneath → BELOW`,
 `may/might/perhaps → MAYBE`); the periphrastic modals take the primes `NSM_GRAMMAR_MAPPING.md` routes

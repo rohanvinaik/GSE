@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.external_sources.run_comparison."""
+"""Manual contract tests for GSE.curation.external_sources.run_comparison."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.external_sources.run_comparison import (
+from GSE.curation.external_sources.run_comparison import (
     calculate_stats,
     generate_report,
     main,
@@ -187,9 +187,9 @@ class TestRunComparison:
         db_path = str(tmp_path / "lex.db")
         mock_db, mock_comparator = self._setup_mocks()
 
-        with patch("gse.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
+        with patch("GSE.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
             with patch(
-                "gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
+                "GSE.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
             ):
                 stats = run_comparison(db_path=db_path)
 
@@ -199,9 +199,9 @@ class TestRunComparison:
         db_path = str(tmp_path / "lex.db")
         mock_db, mock_comparator = self._setup_mocks()
 
-        with patch("gse.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
+        with patch("GSE.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
             with patch(
-                "gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
+                "GSE.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
             ):
                 run_comparison(db_path=db_path, phase=3)
 
@@ -211,9 +211,9 @@ class TestRunComparison:
         db_path = str(tmp_path / "lex.db")
         mock_db, mock_comparator = self._setup_mocks()
 
-        with patch("gse.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
+        with patch("GSE.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
             with patch(
-                "gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
+                "GSE.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
             ):
                 run_comparison(db_path=db_path, phase=None)
 
@@ -231,9 +231,9 @@ class TestRunComparison:
             entries.append(e)
         mock_db, mock_comparator = self._setup_mocks(entries=entries)
 
-        with patch("gse.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
+        with patch("GSE.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
             with patch(
-                "gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
+                "GSE.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
             ):
                 stats = run_comparison(db_path=db_path, limit=3)
 
@@ -244,11 +244,11 @@ class TestRunComparison:
         db_path = str(tmp_path / "lex.db")
         mock_db, mock_comparator = self._setup_mocks()
 
-        with patch("gse.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
+        with patch("GSE.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
             with patch(
-                "gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
+                "GSE.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
             ):
-                with patch("gse.curation.external_sources.integrator.download_all_sources") as mock_dl:
+                with patch("GSE.curation.external_sources.integrator.download_all_sources") as mock_dl:
                     run_comparison(db_path=db_path, download_sources=True)
                     mock_dl.assert_called_once()
 
@@ -256,11 +256,11 @@ class TestRunComparison:
         db_path = str(tmp_path / "lex.db")
         mock_db, mock_comparator = self._setup_mocks()
 
-        with patch("gse.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
+        with patch("GSE.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
             with patch(
-                "gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
+                "GSE.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
             ):
-                with patch("gse.curation.external_sources.integrator.download_all_sources") as mock_dl:
+                with patch("GSE.curation.external_sources.integrator.download_all_sources") as mock_dl:
                     run_comparison(db_path=db_path, download_sources=False)
                     mock_dl.assert_not_called()
 
@@ -273,9 +273,9 @@ class TestRunComparison:
         cmp_result = mk_comparison_result(disagreements=[mk_disagreement()])
         mock_db, mock_comparator = self._setup_mocks(entries=[entry], comparison_result=cmp_result)
 
-        with patch("gse.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
+        with patch("GSE.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
             with patch(
-                "gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
+                "GSE.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
             ):
                 run_comparison(db_path=db_path)
 
@@ -285,9 +285,9 @@ class TestRunComparison:
         db_path = str(tmp_path / "lex.db")
         mock_db, mock_comparator = self._setup_mocks()
 
-        with patch("gse.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
+        with patch("GSE.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
             with patch(
-                "gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
+                "GSE.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
             ):
                 run_comparison(db_path=db_path)
 
@@ -304,9 +304,9 @@ class TestRunComparison:
         )
         mock_db, mock_comparator = self._setup_mocks(entries=[entry], comparison_result=cmp_result)
 
-        with patch("gse.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
+        with patch("GSE.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
             with patch(
-                "gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
+                "GSE.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
             ):
                 run_comparison(db_path=db_path)
 
@@ -318,9 +318,9 @@ class TestRunComparison:
         db_path = str(tmp_path / "lex.db")
         mock_db, mock_comparator = self._setup_mocks()
 
-        with patch("gse.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
+        with patch("GSE.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
             with patch(
-                "gse.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
+                "GSE.curation.external_sources.run_comparison.ExternalSourcesComparator", return_value=mock_comparator
             ):
                 run_comparison(db_path=db_path)
 
@@ -341,7 +341,7 @@ class TestGenerateReport:
         }
         mock_db.get_disagreements.return_value = []
 
-        with patch("gse.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
+        with patch("GSE.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
             report = generate_report(str(tmp_path / "lex.db"))
 
         assert "Total disagreements: 5" in report
@@ -360,7 +360,7 @@ class TestGenerateReport:
         mock_db.get_disagreements.return_value = []
         output_path = tmp_path / "out.md"
 
-        with patch("gse.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
+        with patch("GSE.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
             generate_report(str(tmp_path / "lex.db"), output_path=str(output_path))
 
         assert output_path.exists()
@@ -380,7 +380,7 @@ class TestGenerateReport:
         mock_entry.lemma = "happy"
         mock_db.get_lexeme_by_id.return_value = mock_entry
 
-        with patch("gse.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
+        with patch("GSE.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
             report = generate_report(str(tmp_path / "lex.db"))
 
         assert "Sign-Flip" in report
@@ -399,7 +399,7 @@ class TestGenerateReport:
         mock_db.get_disagreements.side_effect = [[d], []]
         mock_db.get_lexeme_by_id.return_value = None
 
-        with patch("gse.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
+        with patch("GSE.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
             report = generate_report(str(tmp_path / "lex.db"))
 
         assert "unknown" in report
@@ -421,7 +421,7 @@ class TestGenerateReport:
         mock_entry.lemma = "x"
         mock_db.get_lexeme_by_id.return_value = mock_entry
 
-        with patch("gse.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
+        with patch("GSE.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
             report = generate_report(str(tmp_path / "lex.db"))
 
         # Only first 20 included
@@ -438,7 +438,7 @@ class TestGenerateReport:
         }
         mock_db.get_disagreements.return_value = []
 
-        with patch("gse.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
+        with patch("GSE.curation.external_sources.run_comparison.LexiconDatabase", return_value=mock_db):
             generate_report(str(tmp_path / "lex.db"))
 
         mock_db.close.assert_called_once()
@@ -451,7 +451,7 @@ class TestMain:
     def test_report_only_calls_generate(self, capsys):
         with patch("sys.argv", ["prog", "--report-only", "--db", "x"]):
             with patch(
-                "gse.curation.external_sources.run_comparison.generate_report", return_value="REPORT"
+                "GSE.curation.external_sources.run_comparison.generate_report", return_value="REPORT"
             ) as mock_gen:
                 main()
                 mock_gen.assert_called_once_with("x", None)
@@ -464,14 +464,14 @@ class TestMain:
             "by_primitive": {"GOOD": 1},
         }
         with patch("sys.argv", ["prog", "--db", "x"]):
-            with patch("gse.curation.external_sources.run_comparison.run_comparison", return_value=stats) as mock_run:
+            with patch("GSE.curation.external_sources.run_comparison.run_comparison", return_value=stats) as mock_run:
                 main()
                 mock_run.assert_called_once()
 
     def test_phase_flag(self):
         with patch("sys.argv", ["prog", "--phase", "2", "--db", "x"]):
             with patch(
-                "gse.curation.external_sources.run_comparison.run_comparison",
+                "GSE.curation.external_sources.run_comparison.run_comparison",
                 return_value={"by_severity": {}, "by_source": {}, "by_primitive": {}},
             ) as mock_run:
                 main()
@@ -481,7 +481,7 @@ class TestMain:
     def test_limit_flag(self):
         with patch("sys.argv", ["prog", "--limit", "5", "--db", "x"]):
             with patch(
-                "gse.curation.external_sources.run_comparison.run_comparison",
+                "GSE.curation.external_sources.run_comparison.run_comparison",
                 return_value={"by_severity": {}, "by_source": {}, "by_primitive": {}},
             ) as mock_run:
                 main()

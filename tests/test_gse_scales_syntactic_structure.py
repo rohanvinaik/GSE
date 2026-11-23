@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.scales.syntactic_structure."""
+"""Manual contract tests for GSE.scales.syntactic_structure."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import numpy as np
 import pytest
 
-from gse.scales.syntactic_structure import (
+from GSE.scales.syntactic_structure import (
     BANK_ALLOCATIONS,
     BANK_ASSIGNMENTS,
     SentenceSyntax,

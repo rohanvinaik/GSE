@@ -7,18 +7,18 @@ from collections import Counter
 from contextlib import closing
 from pathlib import Path
 
-from gse.curation.lexicon_builder.completion import _entry
-from gse.curation.lexicon_builder.evidence import Observation
-from gse.curation.lexicon_builder.foundation import (
+from GSE.curation.lexicon_builder.completion import _entry
+from GSE.curation.lexicon_builder.evidence import Observation
+from GSE.curation.lexicon_builder.foundation import (
     BANKS,
     _attested_wordnet_lemma,
     _exact_wordnet_ancestry,
     lexical_context,
 )
-from gse.curation.lexicon_builder.relevance import observation_relevance
-from gse.curation.lexicon_builder.residual import build_request, complete_bank
-from gse.curation.lexicon_builder.resolution import resolve_dictionary
-from gse.curation.lexicon_builder.validation import _metadata, _relations
+from GSE.curation.lexicon_builder.relevance import observation_relevance
+from GSE.curation.lexicon_builder.residual import build_request, complete_bank
+from GSE.curation.lexicon_builder.resolution import resolve_dictionary
+from GSE.curation.lexicon_builder.validation import _metadata, _relations
 
 FOLDER = Path(__file__).resolve().parent
 

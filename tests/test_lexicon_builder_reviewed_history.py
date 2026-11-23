@@ -6,13 +6,13 @@ from copy import deepcopy
 import pytest
 from test_lexicon_builder_rule_migration import Transport, packet
 
-from gse.curation.lexicon_builder.completion import complete_dictionary
-from gse.curation.lexicon_builder.model_receipts import read_model_receipts
-from gse.curation.lexicon_builder.residual import _request_id
-from gse.curation.lexicon_builder.reviewed_export import export_reviewed_input
-from gse.curation.lexicon_builder.reviewed_patterns import run_workflow_input
-from gse.curation.lexicon_builder.rule_history import digest
-from gse.curation.lexicon_builder.rule_migration import migrate_rule
+from GSE.curation.lexicon_builder.completion import complete_dictionary
+from GSE.curation.lexicon_builder.model_receipts import read_model_receipts
+from GSE.curation.lexicon_builder.residual import _request_id
+from GSE.curation.lexicon_builder.reviewed_export import export_reviewed_input
+from GSE.curation.lexicon_builder.reviewed_patterns import run_workflow_input
+from GSE.curation.lexicon_builder.rule_history import digest
+from GSE.curation.lexicon_builder.rule_migration import migrate_rule
 
 
 def migrated_input(tmp_path):

@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.profiles.profile_manager."""
+"""Manual contract tests for GSE.profiles.profile_manager."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.profiles.profile_manager import (
+from GSE.profiles.profile_manager import (
     LearningProfile,
     ProfileManager,
     ProfileMetadata,

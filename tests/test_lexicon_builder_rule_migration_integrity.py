@@ -7,12 +7,12 @@ import sys
 import pytest
 from test_lexicon_builder_rule_migration import Transport, packet
 
-from gse.curation.lexicon_builder.completion import complete_dictionary
-from gse.curation.lexicon_builder.model_receipts import read_model_receipts
-from gse.curation.lexicon_builder.reconsideration import reconsider
-from gse.curation.lexicon_builder.rule_history import digest, install_history
-from gse.curation.lexicon_builder.rule_migration import migrate_rule
-from gse.curation.lexicon_builder.validation import validate_build
+from GSE.curation.lexicon_builder.completion import complete_dictionary
+from GSE.curation.lexicon_builder.model_receipts import read_model_receipts
+from GSE.curation.lexicon_builder.reconsideration import reconsider
+from GSE.curation.lexicon_builder.rule_history import digest, install_history
+from GSE.curation.lexicon_builder.rule_migration import migrate_rule
+from GSE.curation.lexicon_builder.validation import validate_build
 
 
 @pytest.mark.parametrize(
@@ -183,7 +183,7 @@ def test_report_symlink_created_after_preflight_cannot_overwrite_source(tmp_path
 
 
 def test_racing_candidate_destination_is_never_overwritten(tmp_path, monkeypatch):
-    from gse.curation.lexicon_builder import rule_migration
+    from GSE.curation.lexicon_builder import rule_migration
 
     source, input_path, audit_path, review = packet(tmp_path)
     output = tmp_path / "migrated.db"

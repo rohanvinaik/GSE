@@ -6,7 +6,7 @@ import json
 
 import pytest
 
-from gse.curation.lexicon_builder.residual import _request_id
+from GSE.curation.lexicon_builder.residual import _request_id
 
 adjudication = importlib.import_module("docs.readings.2026-11-13-ssl-explicit-genera.adjudicate_vertebrate_021")
 

@@ -7,11 +7,11 @@ from pathlib import Path
 
 import pytest
 
-from gse.lexicon_builder.artifact import export_vector, read_vectors, vector_status
-from gse.lexicon_builder.build import build
-from gse.lexicon_builder.core import CANONICAL_COORDINATES
-from gse.lexicon_builder.model import selection_status
-from gse.lexicon_builder.sources import NativeSources
+from GSE.lexicon_builder.artifact import export_vector, read_vectors, vector_status
+from GSE.lexicon_builder.build import build
+from GSE.lexicon_builder.core import CANONICAL_COORDINATES
+from GSE.lexicon_builder.model import selection_status
+from GSE.lexicon_builder.sources import NativeSources
 from tests.lexicon_rulebook import admitted_rulebook
 from tests.lexicon_sources import requires_lexicon_sources
 

@@ -15,7 +15,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.primitives_v2 import (
+from GSE.primitives_v2 import (
     DIMS_PER_BANK,
     N_BANKS,
     PARAGRAPH_PRIMITIVE_REGISTRY,
@@ -44,8 +44,8 @@ from gse.primitives_v2 import (
     get_text_primitive_info,
     is_compositional_operator,
 )
-from gse.scale_definition import BankDef, PrimitiveInfo, ScaleDefinition
-from gse.vectors_v2 import SentenceScaleBasis
+from GSE.scale_definition import BankDef, PrimitiveInfo, ScaleDefinition
+from GSE.vectors_v2 import SentenceScaleBasis
 
 # =============================================================================
 # SCALE DEFINITION CORE

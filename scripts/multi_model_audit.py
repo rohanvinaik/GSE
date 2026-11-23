@@ -35,7 +35,7 @@ from typing import Dict, List, Optional, Tuple
 
 import requests
 
-from gse.curation.llm.ollama_client import register_model
+from GSE.curation.llm.ollama_client import register_model
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
@@ -727,7 +727,7 @@ def run_continuous_audit(
 
     # This mode runs under `nohup … &` and is stopped with `kill`. SIGTERM would end the process
     # without running `finally` or exit hooks; routed into the Ctrl+C path, the auditor closes and
-    # the models this process used are unloaded at exit (gse.curation.llm.ollama_client).
+    # the models this process used are unloaded at exit (GSE.curation.llm.ollama_client).
     signal.signal(signal.SIGTERM, signal.default_int_handler)
 
     os.makedirs(output_dir, exist_ok=True)

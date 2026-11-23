@@ -3,9 +3,9 @@
 from copy import deepcopy
 from pathlib import Path
 
-from gse.lexicon_builder.build import adjective_seed, build, source_matches
-from gse.lexicon_builder.registry import load_rulebook
-from gse.lexicon_builder.sources import NativeSources
+from GSE.lexicon_builder.build import adjective_seed, build, source_matches
+from GSE.lexicon_builder.registry import load_rulebook
+from GSE.lexicon_builder.sources import NativeSources
 from tests.lexicon_sources import requires_lexicon_sources
 
 

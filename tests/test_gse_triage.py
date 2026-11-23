@@ -6,10 +6,10 @@ Over a corpus of flagged trees, a tag-class that systematically flags is a
 trees make the split deterministic.
 """
 
-from gse.symbolic import triage_flags
-from gse.symbolic.expression import Atom
-from gse.symbolic.predicates import Comparison, TypeAssertion
-from gse.symbolic.resolution import Entity
+from GSE.symbolic import triage_flags
+from GSE.symbolic.expression import Atom
+from GSE.symbolic.predicates import Comparison, TypeAssertion
+from GSE.symbolic.resolution import Entity
 
 
 def _ent(lemma, pos, position, prims, eid, thread):

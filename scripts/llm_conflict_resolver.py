@@ -34,7 +34,7 @@ from typing import Dict, List, Optional
 
 import requests
 
-from gse.curation.llm.ollama_client import register_model
+from GSE.curation.llm.ollama_client import register_model
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)

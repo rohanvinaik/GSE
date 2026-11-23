@@ -8,11 +8,11 @@ from pathlib import Path
 
 import pytest
 
-from gse.lexicon_builder.build import build, construct, source_matches
-from gse.lexicon_builder.core import CANONICAL_COORDINATES
-from gse.lexicon_builder.model import OllamaSelector, selection_status
-from gse.lexicon_builder.registry import candidate_id, export_candidates, load_rulebook
-from gse.lexicon_builder.sources import NativeSources
+from GSE.lexicon_builder.build import build, construct, source_matches
+from GSE.lexicon_builder.core import CANONICAL_COORDINATES
+from GSE.lexicon_builder.model import OllamaSelector, selection_status
+from GSE.lexicon_builder.registry import candidate_id, export_candidates, load_rulebook
+from GSE.lexicon_builder.sources import NativeSources
 from tests.lexicon_rulebook import admitted_rulebook, certify_rule
 from tests.lexicon_sources import requires_lexicon_sources
 

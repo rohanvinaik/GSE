@@ -8,11 +8,11 @@ from urllib.parse import quote
 
 import pytest
 
-from gse.curation.lexicon_builder.catalog import catalog_report
-from gse.curation.lexicon_builder.completion import complete_dictionary
-from gse.curation.lexicon_builder.engine import Relation
-from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
-from gse.curation.lexicon_builder.foundation import (
+from GSE.curation.lexicon_builder.catalog import catalog_report
+from GSE.curation.lexicon_builder.completion import complete_dictionary
+from GSE.curation.lexicon_builder.engine import Relation
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
+from GSE.curation.lexicon_builder.foundation import (
     BANKS,
     definition_context,
     lexical_context,
@@ -20,10 +20,10 @@ from gse.curation.lexicon_builder.foundation import (
     projection_relations,
     valid_lexical_guard,
 )
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.residual import build_request
-from gse.curation.lexicon_builder.resolution import resolve_dictionary
-from gse.curation.lexicon_builder.validation import validate_build
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.residual import build_request
+from GSE.curation.lexicon_builder.resolution import resolve_dictionary
+from GSE.curation.lexicon_builder.validation import validate_build
 
 GUARD = "wordnet_ancestor:linear_unit.n.01"
 

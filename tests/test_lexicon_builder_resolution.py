@@ -4,8 +4,8 @@ from itertools import permutations
 
 import pytest
 
-from gse.curation.lexicon_builder.engine import Assertion, Relation, propagate
-from gse.curation.lexicon_builder.resolution import resolve_dictionary
+from GSE.curation.lexicon_builder.engine import Assertion, Relation, propagate
+from GSE.curation.lexicon_builder.resolution import resolve_dictionary
 
 
 def assertion(bank, value):

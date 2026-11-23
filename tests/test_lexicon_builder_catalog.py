@@ -6,10 +6,10 @@ from pathlib import Path
 
 import pytest
 
-from gse.curation.lexicon_builder.catalog import SOURCE, catalog_inventory, catalog_report
-from gse.curation.lexicon_builder.engine import Assertion, Relation
-from gse.curation.lexicon_builder.evidence import Definition
-from gse.curation.lexicon_builder.foundation import BANKS, projection_relations
+from GSE.curation.lexicon_builder.catalog import SOURCE, catalog_inventory, catalog_report
+from GSE.curation.lexicon_builder.engine import Assertion, Relation
+from GSE.curation.lexicon_builder.evidence import Definition
+from GSE.curation.lexicon_builder.foundation import BANKS, projection_relations
 
 
 def test_inventory_preserves_every_chart_box_and_notes_exactly():
@@ -148,7 +148,7 @@ def test_distinct_allolex_definitions_can_be_explicitly_linked():
 
 
 def test_basis_audit_separates_ordinary_coordinates_markers_and_meta_number():
-    from gse.curation.lexicon_builder.catalog import basis_audit
+    from GSE.curation.lexicon_builder.catalog import basis_audit
 
     audit = basis_audit()
     assert audit["legacy_schema_symbols"] == 72
@@ -164,7 +164,7 @@ def test_basis_audit_separates_ordinary_coordinates_markers_and_meta_number():
 
 
 def test_proposal_template_exposes_all_unit_decisions_without_assigning_cells():
-    from gse.curation.lexicon_builder.catalog import proposal_template
+    from GSE.curation.lexicon_builder.catalog import proposal_template
 
     template = proposal_template()
     assert template["code"] == "REVIEW_TEMPLATE_UNAPPROVED"
@@ -215,7 +215,7 @@ def test_approved_correspondences_are_definition_scoped_and_never_full_signature
 
 
 def test_approved_manifest_links_exact_want_and_very_without_merging_other_senses():
-    from gse.curation.lexicon_builder.foundation import load_manifest, load_manifest_extensions
+    from GSE.curation.lexicon_builder.foundation import load_manifest, load_manifest_extensions
 
     path = Path(__file__).resolve().parents[1] / "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json"
     _, anchors, hierarchy = load_manifest(path)
@@ -228,7 +228,7 @@ def test_approved_manifest_links_exact_want_and_very_without_merging_other_sense
 
 
 def test_proposals_acknowledge_approved_identity_and_component_without_reasking():
-    from gse.curation.lexicon_builder.catalog import proposal_template
+    from GSE.curation.lexicon_builder.catalog import proposal_template
 
     entries = {entry["unit_id"]: entry for entry in proposal_template()["entries"]}
     for key in ("this", "dont-want", "want", "very"):

@@ -3,8 +3,8 @@
 from importlib import import_module
 from pathlib import Path
 
-from gse.curation.lexicon_builder.epoch import exact_delta, fingerprint, read, record
-from gse.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
+from GSE.curation.lexicon_builder.epoch import exact_delta, fingerprint, read, record
+from GSE.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
 from scripts.audit_lexicon_sentences import audit, compare_reports
 from scripts.run_lexicon_epochs import publish_round
 

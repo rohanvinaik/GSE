@@ -4,8 +4,8 @@ from importlib import import_module
 
 import pytest
 
-from gse.curation.lexicon_builder.engine import Assertion, Relation, propagate
-from gse.curation.lexicon_builder.grounded_rules import implication_rows
+from GSE.curation.lexicon_builder.engine import Assertion, Relation, propagate
+from GSE.curation.lexicon_builder.grounded_rules import implication_rows
 
 support_count = import_module(
     "docs.readings.2026-11-13-ssl-explicit-genera.coherence_020"

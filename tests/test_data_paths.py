@@ -2,8 +2,8 @@
 
 import pytest
 
-from gse.api import GSEDecoder, GSEEncoder
-from gse.lexicon_resource import resolve_lexicon_path
+from GSE.api import GSEDecoder, GSEEncoder
+from GSE.lexicon_resource import resolve_lexicon_path
 
 
 def test_encoder_default_lexicon_from_another_directory(tmp_path, monkeypatch):

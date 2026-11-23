@@ -4,7 +4,7 @@ import argparse
 import json
 from pathlib import Path
 
-from gse.curation.lexicon_builder.reviewed_export import export_from_selection
+from GSE.curation.lexicon_builder.reviewed_export import export_from_selection
 
 
 def main():

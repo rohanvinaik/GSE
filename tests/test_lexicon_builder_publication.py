@@ -7,18 +7,18 @@ from dataclasses import asdict
 
 import pytest
 
-from gse.curation.lexicon_builder.catalog import (
+from GSE.curation.lexicon_builder.catalog import (
     SENTENCE_DURATION_SOURCE_RECORD,
     SENTENCE_DURATION_UNIT,
     catalog_inventory,
 )
-from gse.curation.lexicon_builder.completion import complete_dictionary
-from gse.curation.lexicon_builder.engine import Assertion
-from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle, collect_evidence, load_local_sources
-from gse.curation.lexicon_builder.foundation import BANKS
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.publication import publication_readiness, publish_complete, publish_sparse
-from gse.lexicon_resource import resolve_lexicon_path
+from GSE.curation.lexicon_builder.completion import complete_dictionary
+from GSE.curation.lexicon_builder.engine import Assertion
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, collect_evidence, load_local_sources
+from GSE.curation.lexicon_builder.foundation import BANKS
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.publication import publication_readiness, publish_complete, publish_sparse
+from GSE.lexicon_resource import resolve_lexicon_path
 
 
 @pytest.fixture
@@ -203,7 +203,7 @@ def test_publication_switches_to_validated_copy_and_keeps_source(candidate, tmp_
 
 
 def test_change_between_preflight_and_copy_is_revalidated(candidate, tmp_path, monkeypatch):
-    from gse.curation.lexicon_builder import publication
+    from GSE.curation.lexicon_builder import publication
 
     path, gold, _, _ = candidate
     original = publication.publication_readiness
@@ -228,7 +228,7 @@ def test_change_between_preflight_and_copy_is_revalidated(candidate, tmp_path, m
 
 
 def test_real_cli_refuses_incomplete_checkpoint(candidate, monkeypatch, capsys):
-    from gse.curation.cli.commands import main
+    from GSE.curation.cli.commands import main
 
     path, _, _, _ = candidate
     monkeypatch.setattr("sys.argv", ["lexicon", "--lexicon-db", str(path), "publish"])

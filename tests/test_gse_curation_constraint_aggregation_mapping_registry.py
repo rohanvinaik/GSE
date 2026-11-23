@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.constraint_aggregation.mapping_registry."""
+"""Manual contract tests for GSE.curation.constraint_aggregation.mapping_registry."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.constraint_aggregation.mapping_registry import (
+from GSE.curation.constraint_aggregation.mapping_registry import (
     SOURCE_PRIMITIVE_COVERAGE,
     SOURCE_RELIABILITY,
     get_all_covered_primitives,
@@ -18,7 +18,7 @@ from gse.curation.constraint_aggregation.mapping_registry import (
     get_primitive_constraint_type,
     get_sources_for_primitive,
 )
-from gse.curation.constraint_aggregation.types import (
+from GSE.curation.constraint_aggregation.types import (
     ConstraintType,
     EvidenceStrength,
     SourceMapping,

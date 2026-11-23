@@ -14,10 +14,10 @@ from math import log2
 from pathlib import Path
 from typing import TypedDict
 
-from gse.api.encoder import GSEEncoder
-from gse.curation.lexicon_builder.epoch import _resolve, exact_delta, fingerprint, read, record, scope_rows
-from gse.curation.lexicon_builder.retention import retire_snapshot
-from gse.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
+from GSE.api.encoder import GSEEncoder
+from GSE.curation.lexicon_builder.epoch import _resolve, exact_delta, fingerprint, read, record, scope_rows
+from GSE.curation.lexicon_builder.retention import retire_snapshot
+from GSE.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
 from scripts.audit_lexicon_sentences import audit, compare_reports
 from scripts.run_lexicon_epochs import publish_round
 

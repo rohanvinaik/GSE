@@ -6,13 +6,13 @@ import sys
 
 import pytest
 
-from gse.curation.lexicon_builder import completion
-from gse.curation.lexicon_builder.completion import CompletionDatabaseBusy, complete_dictionary
-from gse.curation.lexicon_builder.engine import DomainRestriction
-from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
-from gse.curation.lexicon_builder.foundation import BANKS
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.validation import validate_build
+from GSE.curation.lexicon_builder import completion
+from GSE.curation.lexicon_builder.completion import CompletionDatabaseBusy, complete_dictionary
+from GSE.curation.lexicon_builder.engine import DomainRestriction
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
+from GSE.curation.lexicon_builder.foundation import BANKS
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.validation import validate_build
 
 
 def dictionary(tmp_path, count=1):
@@ -109,8 +109,8 @@ def test_reader_blocks_acceptance_without_losing_running_receipt_then_explicit_r
 
 @pytest.mark.parametrize("sustained", [False, True])
 def test_real_cli_writes_failure_receipt_and_exits_nonzero(tmp_path, monkeypatch, capsys, sustained):
-    from gse.curation.cli import commands
-    from gse.curation.lexicon_builder import residual
+    from GSE.curation.cli import commands
+    from GSE.curation.lexicon_builder import residual
 
     path = dictionary(tmp_path)
     before = states(path)

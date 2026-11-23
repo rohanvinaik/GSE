@@ -2,9 +2,9 @@
 
 from replay_body_exceptions import FOLDER, ROOT, read, write
 
-from gse.curation.lexicon_builder.reviewed_export import export_reviewed_input
-from gse.curation.lexicon_builder.reviewed_patterns import run_workflow_input
-from gse.curation.lexicon_builder.rule_admission import _AuditReplay, admit_records
+from GSE.curation.lexicon_builder.reviewed_export import export_reviewed_input
+from GSE.curation.lexicon_builder.reviewed_patterns import run_workflow_input
+from GSE.curation.lexicon_builder.rule_admission import _AuditReplay, admit_records
 
 SOURCE = ROOT / "data/lexicon_builder/2026-11-01/constructed-corpus-unit-quantity-teaching.db"
 SCOPE = FOLDER / "native-unit-quantity-scope.json"

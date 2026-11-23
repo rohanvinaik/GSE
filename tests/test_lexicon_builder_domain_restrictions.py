@@ -6,13 +6,13 @@ from dataclasses import asdict
 
 import pytest
 
-from gse.curation.lexicon_builder.engine import Assertion, DomainRestriction, Relation, propagate
-from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
-from gse.curation.lexicon_builder.foundation import BANKS
-from gse.curation.lexicon_builder.pipeline import build_dictionary, load_evidence
-from gse.curation.lexicon_builder.residual import build_request, complete_bank
-from gse.curation.lexicon_builder.resolution import resolve_dictionary
-from gse.curation.lexicon_builder.validation import validate_build
+from GSE.curation.lexicon_builder.engine import Assertion, DomainRestriction, Relation, propagate
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
+from GSE.curation.lexicon_builder.foundation import BANKS
+from GSE.curation.lexicon_builder.pipeline import build_dictionary, load_evidence
+from GSE.curation.lexicon_builder.residual import build_request, complete_bank
+from GSE.curation.lexicon_builder.resolution import resolve_dictionary
+from GSE.curation.lexicon_builder.validation import validate_build
 
 
 def restriction(bank="GOOD", values=(-1, 1), source="native", record="r", family="lexical"):

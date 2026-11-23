@@ -13,12 +13,12 @@ structure; landing the feature flips the rung green. The ladder is the roadmap.
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.symbolic import evaluate_tree
-from gse.symbolic.coherence import coherence_report
-from gse.symbolic.expression import from_trace
-from gse.symbolic.resolution import resolve
-from gse.symbolic.serialization import to_dict
+from GSE.api import GSEEncoder
+from GSE.symbolic import evaluate_tree
+from GSE.symbolic.coherence import coherence_report
+from GSE.symbolic.expression import from_trace
+from GSE.symbolic.resolution import resolve
+from GSE.symbolic.serialization import to_dict
 
 
 @pytest.fixture(scope="module")

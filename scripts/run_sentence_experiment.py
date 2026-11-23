@@ -27,7 +27,7 @@ from scipy.stats import pearsonr, spearmanr
 # Add project root
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from gse.benchmarks.datasets import SentencePair, load_sts_benchmark
+from GSE.benchmarks.datasets import SentencePair, load_sts_benchmark
 
 # Global for worker processes
 _worker_encoder = None
@@ -38,7 +38,7 @@ def init_worker(db_path: str = "data/lexicon.db"):
     """Initialize worker process with GSE encoder/decoder."""
     global _worker_encoder, _worker_decoder
 
-    from gse.api import GSEDecoder, GSEEncoder
+    from GSE.api import GSEDecoder, GSEEncoder
 
     _worker_encoder = GSEEncoder(db_path=db_path)
     _worker_decoder = GSEDecoder(db_path=db_path)

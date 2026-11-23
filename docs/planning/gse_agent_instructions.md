@@ -35,7 +35,7 @@ Output: {
 ## Implementation Order
 
 ### Phase 1: Vector Foundation (Start Here)
-**Files**: `gse/vectors.py`, `gse/primitives.py`, `tests/test_vectors.py`
+**Files**: `GSE/vectors.py`, `GSE/primitives.py`, `tests/test_vectors.py`
 
 Create:
 1. `SparseVector` class with sparse ternary representation
@@ -57,7 +57,7 @@ Create:
 - Serialization roundtrip works
 
 ### Phase 2: Lexicon Generation
-**Files**: `gse/lexicon_generator.py`, `gse/lexicon_validator.py`, `scripts/generate_lexicon.py`
+**Files**: `GSE/lexicon_generator.py`, `GSE/lexicon_validator.py`, `scripts/generate_lexicon.py`
 
 Create:
 1. LLM-based word decomposition pipeline (prompt included in spec)
@@ -68,7 +68,7 @@ Create:
 **Key**: Use provided prompt template for LLM decomposition. Store: lemma, POS, sense_id, decomposition JSON, vector blob, frequency.
 
 ### Phase 3: Parser Integration
-**Files**: `gse/parser.py`, `tests/test_parser.py`
+**Files**: `GSE/parser.py`, `tests/test_parser.py`
 
 Create:
 1. SpaCy wrapper for tokenization, POS tagging, dependency parsing
@@ -78,7 +78,7 @@ Create:
 **Use SpaCy**: `en_core_web_sm` model. Map deps like `nsubj`→`agent`, `dobj`→`patient`.
 
 ### Phase 4: Composition Engine
-**Files**: `gse/composer.py`, `tests/test_composer.py`
+**Files**: `GSE/composer.py`, `tests/test_composer.py`
 
 Create:
 1. Bottom-up composition following dependency tree
@@ -99,7 +99,7 @@ for token_idx in parsed.bottom_up_order():
 ```
 
 ### Phase 5: Coherence Checking
-**Files**: `gse/coherence.py`, `tests/test_coherence.py`
+**Files**: `GSE/coherence.py`, `tests/test_coherence.py`
 
 Create:
 1. Coherence scorer (0-1 scale)
@@ -107,7 +107,7 @@ Create:
 3. Threshold-based pass/fail
 
 ### Phase 6: Pipeline API
-**Files**: `gse/pipeline.py`, `gse/cli.py`, `tests/test_integration.py`
+**Files**: `GSE/pipeline.py`, `GSE/cli.py`, `tests/test_integration.py`
 
 Create:
 1. `GSEPipeline` class wrapping all components

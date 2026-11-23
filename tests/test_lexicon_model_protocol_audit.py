@@ -4,7 +4,7 @@ import json
 
 import pytest
 
-from gse.curation.lexicon_builder.foundation import BANKS
+from GSE.curation.lexicon_builder.foundation import BANKS
 from scripts import audit_lexicon_model_protocol as audit
 
 
@@ -170,8 +170,8 @@ def batch_cases(entries=("a", "b", "c")):
 
 
 def pinned_batch(monkeypatch, *, max_items=4, max_input_bytes=None):
-    from gse.curation.lexicon_builder.model_batch import OllamaBatchTransport
-    from gse.curation.lexicon_builder.residual import OllamaTransport
+    from GSE.curation.lexicon_builder.model_batch import OllamaBatchTransport
+    from GSE.curation.lexicon_builder.residual import OllamaTransport
 
     base = OllamaTransport("test", thinking=False, output_tokens=1024)
     requests = []
@@ -194,7 +194,7 @@ def pinned_batch(monkeypatch, *, max_items=4, max_input_bytes=None):
         }
 
     monkeypatch.setattr(base, "_request_json", network)
-    monkeypatch.setattr("gse.curation.llm.ollama_client.register_model", lambda *args: None)
+    monkeypatch.setattr("GSE.curation.llm.ollama_client.register_model", lambda *args: None)
     base.pin()
     return base, OllamaBatchTransport(base, max_items=max_items, max_input_bytes=max_input_bytes), requests
 
@@ -229,7 +229,7 @@ def test_batch_cli_uses_real_wrapper_preserves_labels_outside_input_and_counts_q
 
 
 def test_batch_shrinks_group_without_changing_single_request_evidence(monkeypatch):
-    from gse.curation.lexicon_builder.model_batch import OllamaBatchTransport
+    from GSE.curation.lexicon_builder.model_batch import OllamaBatchTransport
 
     cases = batch_cases()
     base, transport, network = pinned_batch(monkeypatch)

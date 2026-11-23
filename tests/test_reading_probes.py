@@ -9,15 +9,15 @@ are guards against over-correction: a name stays a name, a comparative keeps its
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.curation.external_sources.nrc_emotion import EmotionEntry, NRCEmotionParser
-from gse.curation.external_sources.nrc_vad import NRCVADParser
-from gse.curation.lexicon_builder.engine import Assertion, propagate
-from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle
-from gse.curation.lexicon_builder.foundation import BANKS
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.storage import open_build, store_entry
-from gse.symbolic import emit_contract, evaluate_tree, from_trace, resolve
+from GSE.api import GSEEncoder
+from GSE.curation.external_sources.nrc_emotion import EmotionEntry, NRCEmotionParser
+from GSE.curation.external_sources.nrc_vad import NRCVADParser
+from GSE.curation.lexicon_builder.engine import Assertion, propagate
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle
+from GSE.curation.lexicon_builder.foundation import BANKS
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.storage import open_build, store_entry
+from GSE.symbolic import emit_contract, evaluate_tree, from_trace, resolve
 
 
 @pytest.fixture(scope="module")

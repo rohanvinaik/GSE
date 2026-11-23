@@ -5,7 +5,7 @@ These are evidence channels, not substitutes for a successful sentence reading.
 
 ## Lexical and frequency facts
 
-`gse.lexical_evidence.lookup_lexeme(word, db_path=None, pos=None)` opens the
+`GSE.lexical_evidence.lookup_lexeme(word, db_path=None, pos=None)` opens the
 lexicon read-only and returns `primes`, `no_primes`, `no_row`, or `unread`.
 The selected row, all candidate rows, primitive rows, source metadata, resource
 hash and selection policy remain inspectable. A row with no active primes is
@@ -53,18 +53,18 @@ actual rater count when present (`Total`/`N`). Missing metadata stays null.
 `Percent_known` or `%known` are retained exactly, without inventing their units
 or normalizing them. No estimated count is reported as measured.
 
-`structural_epa(signature)` wraps `gse.prime_projection.epa_projection` and
+`structural_epa(signature)` wraps `GSE.prime_projection.epa_projection` and
 reports silence as absent. It never substitutes lexical VAD. Resource hashes
 and immutable parsed tables are cached under path/stat identity; file changes
 invalidate dependent resource readings.
 
 ## Protected dictionary and semantic review
 
-`gse.curation.personal_dictionary.entries(path=None)` returns typed immutable
+`GSE.curation.personal_dictionary.entries(path=None)` returns typed immutable
 entries with `surface`, `kind=term|name`, aliases, optional definition,
 `source=confirmed|draft|learned`, review status, and separate semantic status.
 `membership` and `identity` return explicit absent/unread evidence. The default
-store is `gse/nlp/data/personal_dictionary.json`; an absent historical store
+store is `GSE/nlp/data/personal_dictionary.json`; an absent historical store
 stays absent until learning. The older project allowlist remains a spelling
 protection source and is not recast as an authored semantic dictionary.
 
@@ -87,13 +87,13 @@ validation complete. No absent historical drafts or definitions are recreated.
 
 ## One healing operation
 
-`gse.nlp.heal.suggest(text, n=5, original_text=None, source_map=None,
+`GSE.nlp.heal.suggest(text, n=5, original_text=None, source_map=None,
 dictionary_path=None)` is the reusable operation. It accepts exact decoded text
 or strict UTF-8 bytes, preserving CRLF. Invalid UTF-8 is an explicit refusal.
 The spelling MCP's `spell_suggest` delegates to this core; `spell_learn`
 delegates to `heal.learn`. The core imports no MCP transport.
 
-The standalone `python -m gse.nlp.spellcheck_repl --json "text"` command emits
+The standalone `python -m GSE.nlp.spellcheck_repl --json "text"` command emits
 the same complete result. One quoted argument retains its exact source text;
 the interactive presentation renders that result without a separate correction
 policy or token reconstruction.

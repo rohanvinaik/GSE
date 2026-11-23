@@ -5,20 +5,20 @@ import json
 from dataclasses import asdict
 from pathlib import Path
 
-from gse.curation.external_sources.wordnet_hierarchy import REVIEWED_SAY_EXCLUSIONS, reviewed_say_exclusion
-from gse.curation.lexicon_builder.completion import (
+from GSE.curation.external_sources.wordnet_hierarchy import REVIEWED_SAY_EXCLUSIONS, reviewed_say_exclusion
+from GSE.curation.lexicon_builder.completion import (
     _contexts,
     _entry,
     _prepare_context_index,
 )
-from gse.curation.lexicon_builder.epoch import read, record
-from gse.curation.lexicon_builder.foundation import BANKS, lexical_context
-from gse.curation.lexicon_builder.resolution import resolve_dictionary
-from gse.curation.lexicon_builder.rule_history import digest
-from gse.curation.lexicon_builder.rule_revisions import exception_source
-from gse.curation.lexicon_builder.source_enrichment import _refuse_bound_receipts, revise_source_candidate
-from gse.curation.lexicon_builder.storage import store_entry
-from gse.curation.lexicon_builder.validation import _metadata, _relations
+from GSE.curation.lexicon_builder.epoch import read, record
+from GSE.curation.lexicon_builder.foundation import BANKS, lexical_context
+from GSE.curation.lexicon_builder.resolution import resolve_dictionary
+from GSE.curation.lexicon_builder.rule_history import digest
+from GSE.curation.lexicon_builder.rule_revisions import exception_source
+from GSE.curation.lexicon_builder.source_enrichment import _refuse_bound_receipts, revise_source_candidate
+from GSE.curation.lexicon_builder.storage import store_entry
+from GSE.curation.lexicon_builder.validation import _metadata, _relations
 
 
 def revise_entries(conn):

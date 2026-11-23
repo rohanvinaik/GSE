@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.evaluation.world_model."""
+"""Manual contract tests for GSE.evaluation.world_model."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.evaluation.world_model import (
+from GSE.evaluation.world_model import (
     Entity,
     EntityType,
     Relation,

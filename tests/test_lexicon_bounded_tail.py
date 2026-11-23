@@ -3,14 +3,14 @@
 import json
 from pathlib import Path
 
-from gse.lexicon_builder.artifact import export_sparse
-from gse.lexicon_builder.build import build
-from gse.lexicon_builder.core import Observation, legal_domain
-from gse.lexicon_builder.model import selection_status
-from gse.lexicon_builder.reading import CoordinateDecision, ReadingSeed, construct_reading, model_task_status
-from gse.lexicon_builder.registry import load_rulebook
-from gse.lexicon_builder.sources import NativeSources
-from gse.lexicon_builder.tail import BudgetedSelector, attach_tail, plan_tail, tail_ledger, tail_task_status
+from GSE.lexicon_builder.artifact import export_sparse
+from GSE.lexicon_builder.build import build
+from GSE.lexicon_builder.core import Observation, legal_domain
+from GSE.lexicon_builder.model import selection_status
+from GSE.lexicon_builder.reading import CoordinateDecision, ReadingSeed, construct_reading, model_task_status
+from GSE.lexicon_builder.registry import load_rulebook
+from GSE.lexicon_builder.sources import NativeSources
+from GSE.lexicon_builder.tail import BudgetedSelector, attach_tail, plan_tail, tail_ledger, tail_task_status
 from tests.lexicon_sources import requires_lexicon_sources
 
 

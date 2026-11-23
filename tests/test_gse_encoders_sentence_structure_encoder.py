@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.encoders.sentence_structure_encoder."""
+"""Manual contract tests for GSE.encoders.sentence_structure_encoder."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import numpy as np
 import pytest
 
-from gse.encoders.sentence_structure_encoder import (
+from GSE.encoders.sentence_structure_encoder import (
     ALL_SYNTACTIC_PRIMITIVES,
     BANK_ALLOCATIONS,
     CORE_STRUCTURE_PRIMITIVES,
@@ -145,7 +145,7 @@ def encoder():
 
 class TestEncoderInit:
     def test_default_dims(self):
-        from gse.primitives_v2 import D
+        from GSE.primitives_v2 import D
 
         e = SentenceStructureEncoder()
         assert e.total_dims == D

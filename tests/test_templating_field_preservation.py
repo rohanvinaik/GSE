@@ -16,11 +16,11 @@ import typing
 
 import pytest
 
-from gse.symbolic.duration import Duration
-from gse.symbolic.expression import Atom
-from gse.symbolic.predicates import OPERAND_FIELDS, Event, Predicate
-from gse.symbolic.resolution import Entity
-from gse.symbolic.templating import substitute
+from GSE.symbolic.duration import Duration
+from GSE.symbolic.expression import Atom
+from GSE.symbolic.predicates import OPERAND_FIELDS, Event, Predicate
+from GSE.symbolic.resolution import Entity
+from GSE.symbolic.templating import substitute
 
 
 def _atom(lemma: str, position: int = 3) -> Atom:
@@ -132,14 +132,14 @@ def test_string_head_substitution_keeps_the_heads_grammatical_attributes():
 
 @pytest.fixture(scope="module")
 def encoder():
-    from gse.api import GSEEncoder
+    from GSE.api import GSEEncoder
 
     with GSEEncoder() as enc:
         yield enc
 
 
 def _tree(encoder, sentence):
-    from gse.symbolic import evaluate_tree, from_trace, resolve
+    from GSE.symbolic import evaluate_tree, from_trace, resolve
 
     return evaluate_tree(resolve(from_trace(encoder.encode(sentence))))
 

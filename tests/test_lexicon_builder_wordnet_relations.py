@@ -3,9 +3,9 @@
 from dataclasses import asdict
 from types import SimpleNamespace
 
-from gse.curation.external_sources.wordnet_hierarchy import WordNetHierarchyParser
-from gse.curation.lexicon_builder.evidence import _wordnet_relations, collect_evidence
-from gse.curation.lexicon_builder.model_evidence import evidence_view
+from GSE.curation.external_sources.wordnet_hierarchy import WordNetHierarchyParser
+from GSE.curation.lexicon_builder.evidence import _wordnet_relations, collect_evidence
+from GSE.curation.lexicon_builder.model_evidence import evidence_view
 
 
 def test_real_adjective_edges_reach_collection_and_model_without_sign_inheritance():

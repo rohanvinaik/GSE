@@ -23,8 +23,8 @@ When this test fails, the failure mode tells you which layer is broken:
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.primitives_v2 import COMP_METADATA
+from GSE.api import GSEEncoder
+from GSE.primitives_v2 import COMP_METADATA
 
 # Representative sentence + the operator it should activate.
 # Lemma forms are drawn directly from COMP_METADATA keys; sentences are

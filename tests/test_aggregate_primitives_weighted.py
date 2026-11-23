@@ -8,7 +8,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from gse.curation.external_sources.integrator import ExternalSourcesIntegrator
+from GSE.curation.external_sources.integrator import ExternalSourcesIntegrator
 
 
 def _parser_returning(prim_dict, per_vote_conf=None):

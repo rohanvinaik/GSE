@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.validation.coverage_checker."""
+"""Manual contract tests for GSE.curation.validation.coverage_checker."""
 
 from __future__ import annotations
 
@@ -9,8 +9,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.schema import ALL_PRIMITIVES
-from gse.curation.validation.coverage_checker import (
+from GSE.curation.schema import ALL_PRIMITIVES
+from GSE.curation.validation.coverage_checker import (
     CoverageChecker,
     ValidationResult,
     ensure_full_coverage,

@@ -1,7 +1,7 @@
 # Resolved-Structure Architecture — Build Design
 
 > The agreed design for the next GSE lift: **emit resolved structure, not just
-> parsed structure**, on the live spine (`gse.api` + `gse.symbolic`). Companion
+> parsed structure**, on the live spine (`GSE.api` + `GSE.symbolic`). Companion
 > to `COMPLEX_SENTENCE_DESIGN.md` (which built the clause graph this resolves
 > over). Authoritative source: Rohan, then the code.
 >
@@ -183,7 +183,7 @@ signal doubles as the archetype coherence-veto Genesis needs.
    quarantine. Stage 3c's mismatch-repair now catalogues the native front-end's
    *bounded-coverage* limits (inspectable, reproducible) rather than veto-gating a
    stochastic proposer. (spaCy survives only in the offline lexicon-bootstrap
-   definition-parser, `gse/curation/decomposition/definition_structure.py`, which
+   definition-parser, `GSE/curation/decomposition/definition_structure.py`, which
    never runs at encode time.)
 4. **Single-clause / single-sentence traces stay byte-identical** when nothing
    new fires — same back-compat discipline as `ClauseSpan` (emit new fields only
@@ -232,7 +232,7 @@ signal doubles as the archetype coherence-veto Genesis needs.
   resolved by the existing coherence selector (`0fb3afb`, `7b353df`).
 - **Inference ✅** transitive-closure logical reasoning over the clause graph
   (`KnowledgeBase`: is-a syllogism + ordering, with derivation chains) — the
-  LSAT-style "zorble/florp" demo, real (`045ab61`, `gse/demo/reasoning.py`).
+  LSAT-style "zorble/florp" demo, real (`045ab61`, `GSE/demo/reasoning.py`).
 
 ---
 

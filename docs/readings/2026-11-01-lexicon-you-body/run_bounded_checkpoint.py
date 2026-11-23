@@ -15,14 +15,14 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import TypedDict
 
-from gse.curation.lexicon_builder.completion import complete_dictionary
-from gse.curation.lexicon_builder.foundation import BANKS
-from gse.curation.lexicon_builder.model_batch import OllamaBatchTransport
-from gse.curation.lexicon_builder.model_receipts import read_model_receipts
-from gse.curation.lexicon_builder.publication import publication_readiness
-from gse.curation.lexicon_builder.residual import OllamaTransport
-from gse.curation.lexicon_builder.validation import validate_build
-from gse.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
+from GSE.curation.lexicon_builder.completion import complete_dictionary
+from GSE.curation.lexicon_builder.foundation import BANKS
+from GSE.curation.lexicon_builder.model_batch import OllamaBatchTransport
+from GSE.curation.lexicon_builder.model_receipts import read_model_receipts
+from GSE.curation.lexicon_builder.publication import publication_readiness
+from GSE.curation.lexicon_builder.residual import OllamaTransport
+from GSE.curation.lexicon_builder.validation import validate_build
+from GSE.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
 
 MODEL = "qwen3.8:27b-q4_K_M"
 MODEL_DIGEST = "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e"

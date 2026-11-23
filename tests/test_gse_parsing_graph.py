@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.parsing.graph."""
+"""Manual contract tests for GSE.parsing.graph."""
 
 from __future__ import annotations
 
@@ -10,14 +10,14 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import numpy as np
 import pytest
 
-from gse.lexicon.word_encoding import (
+from GSE.lexicon.word_encoding import (
     ComponentType,
     GrammaticalFeatures,
     GramRole,
     LexemeEntry,
 )
-from gse.parsing.graph import EdgeType, ParseEdge, ParseGraph, ParseNode
-from gse.vectors_v2 import SparseVector
+from GSE.parsing.graph import EdgeType, ParseEdge, ParseGraph, ParseNode
+from GSE.vectors_v2 import SparseVector
 
 
 def make_vec():

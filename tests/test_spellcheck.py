@@ -1,4 +1,4 @@
-"""Behavioral spec for the deterministic spell-corrector (gse/nlp/spellcheck*.py).
+"""Behavioral spec for the deterministic spell-corrector (GSE/nlp/spellcheck*.py).
 
 These lock down the four properties that *define* the system — the ones a statistical
 or neural checker cannot guarantee:
@@ -13,11 +13,11 @@ from pathlib import Path
 
 import pytest
 
-from gse.nlp.spellcheck import _DEFAULT_LEXICON as LX
-from gse.nlp.spellcheck import correct, propose, suggest
+from GSE.nlp.spellcheck import _DEFAULT_LEXICON as LX
+from GSE.nlp.spellcheck import correct, propose, suggest
 
 # Built locally, not tracked (measured in a fresh clone): the Wiktionary validity wordlist
-# (gse/curation/build_wordlist.py) and the real-usage frequency ranks. Tests that need them skip
+# (GSE/curation/build_wordlist.py) and the real-usage frequency ranks. Tests that need them skip
 # where they are absent, like the genealogy.db and HDC-speller-cache tests.
 _HAVE_WORDLIST = Path("data/wordlist_wiktionary.marisa").exists() or Path("data/wordlist_wiktionary.txt").exists()
 _HAVE_FREQUENCY = Path("data/frequency.db").exists()
@@ -103,14 +103,14 @@ def test_injected_candidate_must_ground():
 
 # ---- 6. sentence / MCP integration (context layer) ------------------------------
 def test_spell_suggest_sentence_corrects_tokens():
-    from gse.mcp.spell_server import spell_suggest
+    from GSE.mcp.spell_server import spell_suggest
 
     out = spell_suggest("she recieved a seperate goverment notice", n=3)
     assert out["corrected"] == "she received a separate government notice"
 
 
 def test_spell_suggest_marks_real_word_not_misspelled():
-    from gse.mcp.spell_server import spell_suggest
+    from GSE.mcp.spell_server import spell_suggest
 
     out = spell_suggest("the dog runs", n=3)
     assert all(t["misspelled"] is False for t in out["tokens"])
@@ -166,7 +166,7 @@ def test_project_allowlist_term_is_left_alone(term):
 
 
 def test_clitic_rejoined_in_corrected_output():
-    from gse.mcp.spell_server import spell_suggest
+    from GSE.mcp.spell_server import spell_suggest
 
     out = spell_suggest("it's a wierd seperate thing")
     assert out["corrected"] == "it's a weird separate thing"  # no "it 's"
@@ -178,7 +178,7 @@ def test_clitic_rejoined_in_corrected_output():
 )
 def test_rare_tail_recovered_in_predicate_slot():
     # 'cen' after a subject pronoun is in a verb slot it can't fill -> recovered to 'can'
-    from gse.mcp.spell_server import spell_suggest
+    from GSE.mcp.spell_server import spell_suggest
 
     out = spell_suggest("as far as we cen tell")
     assert "can" in out["corrected"].split() and "cen" not in out["corrected"]
@@ -186,21 +186,21 @@ def test_rare_tail_recovered_in_predicate_slot():
 
 def test_rare_tail_jargon_in_allowlist_untouched():
     # learn-spelling: project vocab is never reconsidered, even verbed after a pronoun
-    from gse.mcp.spell_server import spell_suggest
+    from GSE.mcp.spell_server import spell_suggest
 
     assert spell_suggest("we gse the data")["corrected"] == "we gse the data"
     assert spell_suggest("the gse encoder uses adj tags")["corrected"] == "the gse encoder uses adj tags"
 
 
 def test_rare_tail_acronym_protected():
-    from gse.mcp.spell_server import spell_suggest
+    from GSE.mcp.spell_server import spell_suggest
 
     assert "GSE" in spell_suggest("I refactored the GSE encoder")["corrected"]
 
 
 def test_spell_learn_validates_and_is_idempotent():
     # 'Add to Dictionary' — non-mutating checks: rejects junk, no-ops on known words
-    from gse.mcp.spell_server import spell_learn
+    from GSE.mcp.spell_server import spell_learn
 
     assert spell_learn("a1!")["ok"] is False
     r = spell_learn("gse")  # already in the allowlist

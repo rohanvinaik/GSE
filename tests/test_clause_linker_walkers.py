@@ -13,8 +13,8 @@ from pathlib import Path
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.symbolic import (
+from GSE.api import GSEEncoder
+from GSE.symbolic import (
     KnowledgeBase,
     clauses,
     entity_lemmas,
@@ -25,7 +25,7 @@ from gse.symbolic import (
     resolve,
     substitute,
 )
-from gse.symbolic.coherence import emit_contract_with_coherence
+from GSE.symbolic.coherence import emit_contract_with_coherence
 
 # The emit contract grounds entities through GenealogyStore, which reads data/genealogy.db (built
 # locally, not tracked) — the same guard the other genealogy tests use.

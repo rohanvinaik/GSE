@@ -22,7 +22,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 
-from gse.curation.lexicon_builder.foundation import BANKS, _exact_wordnet_ancestry  # noqa: E402
+from GSE.curation.lexicon_builder.foundation import BANKS, _exact_wordnet_ancestry  # noqa: E402
 
 INVENTORY = ROOT / "docs/readings/2026-11-01-lexicon-next-stage/quantity-unit-population-inventory.json"
 INVENTORY_SHA256 = "5a392a773cef5cebd2e9d05df34258bf17c35307cddd82d46be9dbb8134ced79"
@@ -336,7 +336,7 @@ def main():
               "expected_before_sha256": args.expected_before_sha256, "start_observations": start}
     report["implementation_observations"] = {
         "comparison_script": observe(Path(__file__).resolve()),
-        "native_witness_validator": observe(ROOT / "gse/curation/lexicon_builder/foundation.py"),
+        "native_witness_validator": observe(ROOT / "GSE/curation/lexicon_builder/foundation.py"),
     }
     try:
         if not start["active_pointer"]["exists"]:

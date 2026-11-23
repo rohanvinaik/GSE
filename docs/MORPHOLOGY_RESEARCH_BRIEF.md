@@ -6,7 +6,7 @@
 > is **load-bearing on the system design** — it decides what counts as a *lexeme* vs a
 > *computation*, which touches the closed-basis claim — so it is worked up to that
 > scale. The implementation style throughout is the "spell-check" propose→coherence-
-> resolve shape already validated by `gse/nlp/contractions.py`.
+> resolve shape already validated by `GSE/nlp/contractions.py`.
 
 ## 0. Why this exists, and why it's load-bearing
 
@@ -18,7 +18,7 @@ architecture). The right type is the one GSE already uses for grammar: a **typed
 operation triggered by a marker**, decomposing surface into operands, with
 **coherence as the arbiter**. Inflection is grammar; grammar is operations; so
 morphology is a **word-scale operation tier**, parallel to the `WITHIN_CLAUSE` /
-`CLAUSE_LINKING` tiers in `gse/symbolic/tiers.py`.
+`CLAUSE_LINKING` tiers in `GSE/symbolic/tiers.py`.
 
 This is load-bearing because morphology is where surface words meet the **closed
 72-prime basis**. Get it right and the *representational collapse* extends down to the
@@ -114,7 +114,7 @@ suppletion (`go/went`, `good/better/best`, `be/am/was`), zero (`sheep`), foreign
 
 ## Part B — The principled design: the spell-check operation system
 
-A morphological operation is `gse/nlp/contractions.py` generalized into the operator
+A morphological operation is `GSE/nlp/contractions.py` generalized into the operator
 algebra.
 
 ### B.1 The four-step shape (identical to the contraction resolver)
@@ -208,7 +208,7 @@ whole shape end-to-end and sets the template the rest follow.
 comparative proves the pattern.
 
 ### Integration points
-- New module (likely `gse/nlp/morphology.py`) defining the operation(s) in the
+- New module (likely `GSE/nlp/morphology.py`) defining the operation(s) in the
   `contractions.py` style with a shared propose→resolve core.
 - `NativeNLP._lemma` consumes the operation's base (stops ADJ comparative stripping);
   the feature rides the existing `morph` channel / operator algebra.

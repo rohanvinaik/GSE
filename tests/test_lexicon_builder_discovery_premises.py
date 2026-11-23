@@ -7,8 +7,8 @@ import pytest
 from test_lexicon_builder_reviewed_dependencies import warranted
 from test_lexicon_builder_reviewed_patterns import FakeTransport, entry, execute, ruling
 
-from gse.curation.lexicon_builder.engine import Assertion, Relation
-from gse.curation.lexicon_builder.reviewed_patterns import INPUT_FORMAT
+from GSE.curation.lexicon_builder.engine import Assertion, Relation
+from GSE.curation.lexicon_builder.reviewed_patterns import INPUT_FORMAT
 from scripts import audit_lexicon_patterns as script
 
 

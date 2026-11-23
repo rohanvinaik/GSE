@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.lexicon.function_words."""
+"""Manual contract tests for GSE.lexicon.function_words."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.lexicon.function_words import (
+from GSE.lexicon.function_words import (
     CONJUNCTION_ENCODINGS,
     DETERMINER_ENCODINGS,
     PREPOSITION_ENCODINGS,

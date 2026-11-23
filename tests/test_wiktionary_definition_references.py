@@ -6,7 +6,7 @@ from dataclasses import asdict, replace
 
 import pytest
 
-from gse.curation.external_sources.wiktionary import WiktionaryParser
+from GSE.curation.external_sources.wiktionary import WiktionaryParser
 
 
 def native(word, *, pos="noun", senses=None, **context):
@@ -282,7 +282,7 @@ def test_changed_source_refuses_even_when_original_has_no_references(tmp_path):
 
 
 def test_change_during_no_reference_validation_is_detected(tmp_path, monkeypatch):
-    from gse.curation.external_sources import wiktionary
+    from GSE.curation.external_sources import wiktionary
 
     parser = parser_for(tmp_path, native("plain"))
     original = entries(parser, "plain")

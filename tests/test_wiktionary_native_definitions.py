@@ -8,10 +8,10 @@ from types import SimpleNamespace
 
 import pytest
 
-from gse.curation.external_sources.wiktionary import WiktionaryParser, native_anatomy_witness
-from gse.curation.lexicon_builder.engine import Assertion
-from gse.curation.lexicon_builder.evidence import collect_evidence, load_local_sources, validate_assertion_competence
-from gse.curation.lexicon_builder.model_evidence import evidence_view
+from GSE.curation.external_sources.wiktionary import WiktionaryParser, native_anatomy_witness
+from GSE.curation.lexicon_builder.engine import Assertion
+from GSE.curation.lexicon_builder.evidence import collect_evidence, load_local_sources, validate_assertion_competence
+from GSE.curation.lexicon_builder.model_evidence import evidence_view
 
 
 def native(word="example", senses=None, **extra):
@@ -37,13 +37,13 @@ def test_person_genus_projection_requires_single_native_noun_definition(tmp_path
     import sqlite3
     from contextlib import closing
 
-    from gse.curation.lexicon_builder.engine import Assertion
-    from gse.curation.lexicon_builder.evidence import collect_evidence
-    from gse.curation.lexicon_builder.foundation import BANKS
-    from gse.curation.lexicon_builder.pipeline import build_dictionary
-    from gse.curation.lexicon_builder.resolution import resolve_dictionary
-    from gse.curation.lexicon_builder.storage import store_entry
-    from gse.curation.lexicon_builder.validation import validate_build
+    from GSE.curation.lexicon_builder.engine import Assertion
+    from GSE.curation.lexicon_builder.evidence import collect_evidence
+    from GSE.curation.lexicon_builder.foundation import BANKS
+    from GSE.curation.lexicon_builder.pipeline import build_dictionary
+    from GSE.curation.lexicon_builder.resolution import resolve_dictionary
+    from GSE.curation.lexicon_builder.storage import store_entry
+    from GSE.curation.lexicon_builder.validation import validate_build
 
     senses = [
         {"id": "sense:person", "glosses": ["A person who writes for a living."]},
@@ -98,11 +98,11 @@ def test_anatomy_genus_projects_own_body_content_and_replays_exact_witness(tmp_p
     import sqlite3
     from contextlib import closing
 
-    from gse.curation.lexicon_builder.foundation import BANKS
-    from gse.curation.lexicon_builder.pipeline import build_dictionary
-    from gse.curation.lexicon_builder.resolution import resolve_dictionary
-    from gse.curation.lexicon_builder.storage import read_entries, store_entry
-    from gse.curation.lexicon_builder.validation import validate_build
+    from GSE.curation.lexicon_builder.foundation import BANKS
+    from GSE.curation.lexicon_builder.pipeline import build_dictionary
+    from GSE.curation.lexicon_builder.resolution import resolve_dictionary
+    from GSE.curation.lexicon_builder.storage import read_entries, store_entry
+    from GSE.curation.lexicon_builder.validation import validate_build
 
     senses = [
         {"id": "bone", "glosses": ["A small bone in the wrist."], "topics": ["anatomy"]},
@@ -285,7 +285,7 @@ def test_native_mode_required_for_definition_stream(tmp_path):
 
 
 def test_registered_local_loader_selects_native_cache_and_source_has_no_assertion_authority(tmp_path, monkeypatch):
-    from gse.curation.external_sources import wiktionary
+    from GSE.curation.external_sources import wiktionary
 
     fixture = parser_for(tmp_path, native())
     monkeypatch.setattr(wiktionary, "WIKTIONARY_DUMP", fixture.data_path)

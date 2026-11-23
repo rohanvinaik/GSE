@@ -9,7 +9,7 @@ import json
 import sys
 from pathlib import Path
 
-REPOSITORIES = ("sparse-wiki-grounding", "gse", "Regenesis")
+REPOSITORIES = ("sparse-wiki-grounding", "GSE", "Regenesis")
 
 
 def _json(path: Path) -> dict:

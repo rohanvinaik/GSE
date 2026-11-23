@@ -17,14 +17,14 @@ from types import SimpleNamespace
 
 import pytest
 
-from gse.symbolic.coherence import coherence_report
-from gse.symbolic.emit import _PRED_SPEC  # the package re-exports a FUNCTION named emit, so import by name
-from gse.symbolic.expression import Atom, Phrase
-from gse.symbolic.grounding import OPERAND_FIELDS as GROUNDING_OPERAND_FIELDS
-from gse.symbolic.grounding import NullGenealogy, _walk_predicates, resolve_references
-from gse.symbolic.narrative import _CONTAINER_FIELDS
-from gse.symbolic.predicates import OPERAND_FIELDS, Predicate
-from gse.symbolic.queries import (
+from GSE.symbolic.coherence import coherence_report
+from GSE.symbolic.emit import _PRED_SPEC  # the package re-exports a FUNCTION named emit, so import by name
+from GSE.symbolic.expression import Atom, Phrase
+from GSE.symbolic.grounding import OPERAND_FIELDS as GROUNDING_OPERAND_FIELDS
+from GSE.symbolic.grounding import NullGenealogy, _walk_predicates, resolve_references
+from GSE.symbolic.narrative import _CONTAINER_FIELDS
+from GSE.symbolic.predicates import OPERAND_FIELDS, Predicate
+from GSE.symbolic.queries import (
     _structural_signature,
     clauses,
     entities,
@@ -32,8 +32,8 @@ from gse.symbolic.queries import (
     is_logically_equal_to,
     predicates,
 )
-from gse.symbolic.resolution import Entity
-from gse.symbolic.templating import substitute
+from GSE.symbolic.resolution import Entity
+from GSE.symbolic.templating import substitute
 
 PREDICATE_TYPES = typing.get_args(Predicate)
 CLAUSE_LINKERS = ("Contrast", "ClauseCoordination", "Causation", "Conditional", "Temporal")

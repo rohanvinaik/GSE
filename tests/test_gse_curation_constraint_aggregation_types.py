@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.constraint_aggregation.types."""
+"""Manual contract tests for GSE.curation.constraint_aggregation.types."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.constraint_aggregation.types import (
+from GSE.curation.constraint_aggregation.types import (
     ConflictRecord,
     ConstraintType,
     EvidenceStrength,

@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.merkle.nodes."""
+"""Manual contract tests for GSE.merkle.nodes."""
 
 from __future__ import annotations
 
@@ -10,8 +10,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import numpy as np
 import pytest
 
-from gse.merkle.hash_chain import MerkleHashChain
-from gse.merkle.nodes import (
+from GSE.merkle.hash_chain import MerkleHashChain
+from GSE.merkle.nodes import (
     BankNode,
     FamilyNode,
     HubNode,
@@ -21,7 +21,7 @@ from gse.merkle.nodes import (
     create_bank_node,
     create_family_node,
 )
-from gse.primitives_v2 import SemanticBank
+from GSE.primitives_v2 import SemanticBank
 
 
 class TestMerkleNodeUpdateCombinedHash:

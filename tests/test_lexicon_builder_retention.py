@@ -6,7 +6,7 @@ import sqlite3
 
 import pytest
 
-from gse.curation.lexicon_builder import retention
+from GSE.curation.lexicon_builder import retention
 
 
 @pytest.fixture

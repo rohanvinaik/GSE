@@ -49,8 +49,8 @@ def main() -> int:
     from sklearn.model_selection import StratifiedKFold
     from sklearn.preprocessing import StandardScaler
 
-    from gse.discourse import register_class_of, super_register_of
-    from gse.discourse.router import BANKS, RegisterRouter
+    from GSE.discourse import register_class_of, super_register_of
+    from GSE.discourse.router import BANKS, RegisterRouter
 
     torch.manual_seed(0)
     np.random.seed(0)
@@ -74,7 +74,7 @@ def main() -> int:
     if args.nested:
         # Hierarchical SoM: a specialist per taxonomy node, evaluated by confidence-
         # gated descent. Stratify folds on super_register (the comparison level).
-        from gse.discourse.nested_router import NestedRouter
+        from GSE.discourse.nested_router import NestedRouter
 
         genres = np.array([r["genre"] for r in rows])
         sup = np.array([super_register_of(g) for g in genres])
@@ -111,7 +111,7 @@ def main() -> int:
             print(f"    {n}×  {a} ~ {b}")
 
         # Final nested model on ALL data, persisted TORCH-FREE for the runtime
-        # dispatcher (gse.discourse.infer.NumpyNestedRouter). Previously the nested
+        # dispatcher (GSE.discourse.infer.NumpyNestedRouter). Previously the nested
         # branch only cross-val-scored and discarded the model — so the SoM could
         # never be deployed; this closes that gap.
         out = str(Path(args.out).with_suffix(".nested.pkl"))

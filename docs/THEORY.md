@@ -8,8 +8,8 @@
 > invalid because it mixed claims that match the system with older,
 > unscoped material presented as if it were live. It has been reconciled
 > against [`ARCHITECTURE.md`](ARCHITECTURE.md) and the code: every claim in
-> the body describes the **functional system** (the `gse.api` +
-> `gse.symbolic` core on the `vectors_v2` / `primitives_v2` substrate and
+> the body describes the **functional system** (the `GSE.api` +
+> `GSE.symbolic` core on the `vectors_v2` / `primitives_v2` substrate and
 > the `data/lexicon.db` lexicon). Theory that the code does not yet realize
 > is confined to a single clearly-fenced section, [§11 Not yet
 > implemented](#11-not-yet-implemented). Machinery that the functional core
@@ -117,7 +117,7 @@ values above are illustrative of the regime, not fixed constants.)
 ### Principle 4: Compositional algebra
 
 Meaning composition follows algebraic operations over the substrate
-(`gse/vectors_v2.py`):
+(`GSE/vectors_v2.py`):
 
 * **Binding (⊗, `bind`)**: element-wise ternary multiplication; creates
   compounds dissimilar to inputs. Used to attach roles to fillers
@@ -227,7 +227,7 @@ Antonym pairs are encoded on **bipolar dimensions** — a single dimension
 where the two poles share the partition with opposite signs, so the
 negative pole is the exact negation of the positive pole and
 `cosine(pole₊, pole₋) = −1.0` exactly. The system defines 14 such
-dimensions (`BIPOLAR_DIMENSIONS` in `gse/primitives_v2.py`):
+dimensions (`BIPOLAR_DIMENSIONS` in `GSE/primitives_v2.py`):
 
 | Dimension | Positive pole | Negative pole | Bank |
 |---|---|---|---|
@@ -252,7 +252,7 @@ share the GOOD/BAD dimension with opposite polarity) instead of ≈ 0.
 ### 4.4 Polarity-aware similarity
 
 Beyond raw cosine, the substrate exposes a polarity-decomposed similarity
-(`polarity_aware_similarity` in `gse/vectors_v2.py`):
+(`polarity_aware_similarity` in `GSE/vectors_v2.py`):
 
 ```python
 {
@@ -327,7 +327,7 @@ separate, near-orthogonal partitions** of the 8192-dim space.
 A token's full vector **bundles** the two so both signals survive:
 
 ```python
-full = bundle([word_vec, sent_vec])   # gse/api/encoder.py
+full = bundle([word_vec, sent_vec])   # GSE/api/encoder.py
 ```
 
 (Earlier theory drafts wrote `bind` here; the live encoder uses `bundle`
@@ -347,7 +347,7 @@ destroys the signal.)
 | 6 | SPATIAL | WHERE, ABOVE, BELOW, NEAR, FAR, INSIDE |
 | 7 | LOGICAL | NOT, MAYBE, CAN, BECAUSE, IF, TRUE, FALSE |
 
-(Bank identities are the `SemanticBank` enum in `gse/primitives_v2.py`.
+(Bank identities are the `SemanticBank` enum in `GSE/primitives_v2.py`.
 Example primitives are illustrative of each bank's category.)
 
 ### 6.3 Sentence scale: 8 banks × 1024 dims
@@ -398,7 +398,7 @@ comparison signs opposite).
 ### 7.2 The 10 compositional operators
 
 Each `COMP_*` primitive carries an operation label and a pure-Python
-dispatch function (`gse/symbolic/operators.py`, `OPERATION_DISPATCH`):
+dispatch function (`GSE/symbolic/operators.py`, `OPERATION_DISPATCH`):
 
 | Operator | Operation | Semantics | Predicate |
 |---|---|---|---|

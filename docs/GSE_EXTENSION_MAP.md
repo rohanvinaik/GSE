@@ -6,7 +6,7 @@
 > codebase-mapping pass 2026-06-19; verify file:line against the source before editing.
 >
 > **STATUS (2026-06-19):**
-> - **(A) typed variables — BUILT, VERIFIED, AND CONSUMED END-TO-END.** GSE side: `gse/symbolic/variables.py`
+> - **(A) typed variables — BUILT, VERIFIED, AND CONSUMED END-TO-END.** GSE side: `GSE/symbolic/variables.py`
 >   (`emit_contract_with_variables`) substitutes declared vars → nonce sentinels → unchanged pipeline →
 >   restores typed variable-refs (`lemma="$X"`, `var_type`, distinct entity_ids). Both formats
 >   (`X is a person.` / inline `${x:person}`) verified; ZERO core edits; symbolic suite green (3922).
@@ -26,11 +26,11 @@
 ## Pipeline
 ```
 GSE-native front-end (tokenize + lemma + coarse-POS, deterministic; arc-free clause structure from connectives + verb-inventory + position)
- → gse/api/encoder.py        tokenize, dynamic role assignment, clause segmentation → OperationTrace
- → gse/symbolic/from_trace   → Expression AST
- → gse/symbolic/operators.py → predicates.py  (Comparison/TypeAssertion/Causation/Control/Event/…)
- → gse/symbolic/grounding.py + genealogy_store.py  (entity ids + two-strand type threads)
- → gse/symbolic/emit.py      → Genesis contract {op, args[], features{}}
+ → GSE/api/encoder.py        tokenize, dynamic role assignment, clause segmentation → OperationTrace
+ → GSE/symbolic/from_trace   → Expression AST
+ → GSE/symbolic/operators.py → predicates.py  (Comparison/TypeAssertion/Causation/Control/Event/…)
+ → GSE/symbolic/grounding.py + genealogy_store.py  (entity ids + two-strand type threads)
+ → GSE/symbolic/emit.py      → Genesis contract {op, args[], features{}}
 ```
 Three-stage resolution per `docs/RESOLVED_STRUCTURE_DESIGN.md` (predicate tree → entity identity → context).
 

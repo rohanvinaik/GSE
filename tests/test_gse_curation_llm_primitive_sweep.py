@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.llm.primitive_sweep."""
+"""Manual contract tests for GSE.curation.llm.primitive_sweep."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.llm.primitive_sweep import (
+from GSE.curation.llm.primitive_sweep import (
     BIPOLAR_PAIRS,
     SINGLE_PRIMITIVES,
     SYSTEM_PROMPT,
@@ -43,7 +43,7 @@ def fresh_db(tmp_path):
 
 
 def mk_sweep(fresh_db):
-    with patch("gse.curation.llm.primitive_sweep.OllamaClient"):
+    with patch("GSE.curation.llm.primitive_sweep.OllamaClient"):
         s = PrimitiveSweep(db_path=fresh_db)
         s.client = MagicMock()
         return s
@@ -165,19 +165,19 @@ class TestSweepStats:
 
 class TestInit:
     def test_basic(self, fresh_db):
-        with patch("gse.curation.llm.primitive_sweep.OllamaClient"):
+        with patch("GSE.curation.llm.primitive_sweep.OllamaClient"):
             s = PrimitiveSweep(db_path=fresh_db)
             assert s.db_path == fresh_db
             assert s.model == "qwen2.5:7b"
             assert s.batch_size == 20
 
     def test_custom_batch_size(self, fresh_db):
-        with patch("gse.curation.llm.primitive_sweep.OllamaClient"):
+        with patch("GSE.curation.llm.primitive_sweep.OllamaClient"):
             s = PrimitiveSweep(db_path=fresh_db, batch_size=5)
             assert s.batch_size == 5
 
     def test_config_max_tokens(self, fresh_db):
-        with patch("gse.curation.llm.primitive_sweep.OllamaClient"):
+        with patch("GSE.curation.llm.primitive_sweep.OllamaClient"):
             s = PrimitiveSweep(db_path=fresh_db)
             assert s.config.max_tokens == 500
 
@@ -377,7 +377,7 @@ class TestClose:
 class TestMain:
     def test_basic_run(self, fresh_db, capsys):
         with patch("sys.argv", ["prog", "--db", fresh_db, "--words", "0"]):
-            with patch("gse.curation.llm.primitive_sweep.OllamaClient"):
+            with patch("GSE.curation.llm.primitive_sweep.OllamaClient"):
                 with patch.object(PrimitiveSweep, "run_full_sweep", return_value=SweepStats()):
                     main()
         assert "SWEEP COMPLETE" in capsys.readouterr().out

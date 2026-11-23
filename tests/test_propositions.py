@@ -6,11 +6,11 @@ it (so a belief's attitude verb stays readable: factive "know" against "believe"
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.symbolic import evaluate_tree, from_trace, resolve
+from GSE.api import GSEEncoder
+from GSE.symbolic import evaluate_tree, from_trace, resolve
 
 # From the defining module, not the package re-export, so a test calls the function Detective patches.
-from gse.symbolic.propositions import proposition_status, propositions
+from GSE.symbolic.propositions import proposition_status, propositions
 
 
 @pytest.fixture(scope="module")

@@ -1,9 +1,9 @@
 """A compiled candidate must never become an admitted bank law by accident."""
 
-from gse.lexicon_builder.atomics import atomic_proof
-from gse.lexicon_builder.build import construct, source_matches
-from gse.lexicon_builder.core import Cell, admitted_laws, law_admission_status, resolve
-from gse.lexicon_builder.registry import load_rulebook
+from GSE.lexicon_builder.atomics import atomic_proof
+from GSE.lexicon_builder.build import construct, source_matches
+from GSE.lexicon_builder.core import Cell, admitted_laws, law_admission_status, resolve
+from GSE.lexicon_builder.registry import load_rulebook
 from tests.lexicon_rulebook import certify_rule
 
 

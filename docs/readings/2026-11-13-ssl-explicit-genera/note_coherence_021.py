@@ -9,7 +9,7 @@ from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 
-from gse.curation.lexicon_builder.epoch import fingerprint, read, record
+from GSE.curation.lexicon_builder.epoch import fingerprint, read, record
 
 NOTES = Path(__file__).resolve().parent
 ROOT = NOTES.parents[2]

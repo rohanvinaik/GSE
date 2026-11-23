@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.verification.proof_suite."""
+"""Manual contract tests for GSE.verification.proof_suite."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.verification.proof_suite import GSEProofSuite, TestResult, main
+from GSE.verification.proof_suite import GSEProofSuite, TestResult, main
 
 
 def make_token(lemma="dog", word_primitives=None):
@@ -38,8 +38,8 @@ def make_trace(tokens=None, vec_hash="sha256:abc", nnz=10, vec=None):
 def suite():
     """A suite with mocked encoder + decoder, verbose off."""
     with (
-        patch("gse.verification.proof_suite.GSEEncoder") as enc_cls,
-        patch("gse.verification.proof_suite.GSEDecoder") as dec_cls,
+        patch("GSE.verification.proof_suite.GSEEncoder") as enc_cls,
+        patch("GSE.verification.proof_suite.GSEDecoder") as dec_cls,
     ):
         enc = MagicMock()
         dec = MagicMock()
@@ -73,8 +73,8 @@ class TestTestResultDataclass:
 class TestInit:
     def test_creates_encoder_and_decoder(self):
         with (
-            patch("gse.verification.proof_suite.GSEEncoder") as enc_cls,
-            patch("gse.verification.proof_suite.GSEDecoder") as dec_cls,
+            patch("GSE.verification.proof_suite.GSEEncoder") as enc_cls,
+            patch("GSE.verification.proof_suite.GSEDecoder") as dec_cls,
         ):
             s = GSEProofSuite(verbose=True)
             assert s.verbose is True
@@ -88,13 +88,13 @@ class TestInit:
 
 class TestLog:
     def test_verbose_prints(self, capsys):
-        with patch("gse.verification.proof_suite.GSEEncoder"), patch("gse.verification.proof_suite.GSEDecoder"):
+        with patch("GSE.verification.proof_suite.GSEEncoder"), patch("GSE.verification.proof_suite.GSEDecoder"):
             s = GSEProofSuite(verbose=True)
             s.log("hello")
             assert "hello" in capsys.readouterr().out
 
     def test_silent_skips(self, capsys):
-        with patch("gse.verification.proof_suite.GSEEncoder"), patch("gse.verification.proof_suite.GSEDecoder"):
+        with patch("GSE.verification.proof_suite.GSEEncoder"), patch("GSE.verification.proof_suite.GSEDecoder"):
             s = GSEProofSuite(verbose=False)
             s.log("hello")
             assert capsys.readouterr().out == ""
@@ -518,8 +518,8 @@ class TestClose:
 class TestMain:
     def test_exits_zero_on_success(self):
         with (
-            patch("gse.verification.proof_suite.GSEEncoder"),
-            patch("gse.verification.proof_suite.GSEDecoder"),
+            patch("GSE.verification.proof_suite.GSEEncoder"),
+            patch("GSE.verification.proof_suite.GSEDecoder"),
             patch.object(GSEProofSuite, "run_all", return_value={}),
             patch.object(GSEProofSuite, "print_report", return_value=True),
             patch.object(GSEProofSuite, "close"),
@@ -530,8 +530,8 @@ class TestMain:
 
     def test_exits_one_on_failure(self):
         with (
-            patch("gse.verification.proof_suite.GSEEncoder"),
-            patch("gse.verification.proof_suite.GSEDecoder"),
+            patch("GSE.verification.proof_suite.GSEEncoder"),
+            patch("GSE.verification.proof_suite.GSEDecoder"),
             patch.object(GSEProofSuite, "run_all", return_value={}),
             patch.object(GSEProofSuite, "print_report", return_value=False),
             patch.object(GSEProofSuite, "close"),
@@ -542,8 +542,8 @@ class TestMain:
 
     def test_close_called_even_on_exception(self):
         with (
-            patch("gse.verification.proof_suite.GSEEncoder"),
-            patch("gse.verification.proof_suite.GSEDecoder"),
+            patch("GSE.verification.proof_suite.GSEEncoder"),
+            patch("GSE.verification.proof_suite.GSEDecoder"),
             patch.object(GSEProofSuite, "run_all", side_effect=RuntimeError("x")),
             patch.object(GSEProofSuite, "close") as mc,
         ):

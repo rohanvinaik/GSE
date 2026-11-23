@@ -32,7 +32,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from gse.lexical_evidence import (  # noqa: E402
+from GSE.lexical_evidence import (  # noqa: E402
     _tls,
     close_lexical_connections,
     lookup_lexeme,
@@ -196,7 +196,7 @@ def test_atomic_replacement_between_steps_prevents_provenance_race(tmp_path, mon
     # Must return rows and provenance from the newly swapped file consistently
     assert res["primitives"] == {"FEEL": 1}
     # Verify provenance matches the current db file bytes exactly
-    from gse.lexical_evidence import resource_identity
+    from GSE.lexical_evidence import resource_identity
 
     current_provenance = resource_identity(db)
     assert res["provenance"]["sha256"] == current_provenance["sha256"]

@@ -25,8 +25,8 @@ import math
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.primitives_v2 import (
+from GSE.api import GSEEncoder
+from GSE.primitives_v2 import (
     BIPOLAR_DIMENSIONS,
     DIMS_PER_BANK,
     PRIMITIVE_REGISTRY,

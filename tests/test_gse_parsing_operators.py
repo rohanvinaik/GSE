@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.parsing.operators."""
+"""Manual contract tests for GSE.parsing.operators."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import numpy as np
 import pytest
 
-from gse.lexicon.word_encoding import (
+from GSE.lexicon.word_encoding import (
     BindingBehavior,
     ComponentType,
     GrammaticalFeatures,
@@ -19,14 +19,14 @@ from gse.lexicon.word_encoding import (
     OperatorSpec,
     OperatorType,
 )
-from gse.parsing.graph import ParseNode
-from gse.parsing.operators import (
+from GSE.parsing.graph import ParseNode
+from GSE.parsing.operators import (
     OperatorState,
     apply_operators_to_atomic,
     can_operator_apply,
     resolve_operator,
 )
-from gse.vectors_v2 import SparseVector
+from GSE.vectors_v2 import SparseVector
 
 
 def make_vec():

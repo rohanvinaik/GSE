@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.constraint_aggregation.engine."""
+"""Manual contract tests for GSE.curation.constraint_aggregation.engine."""
 
 from __future__ import annotations
 
@@ -10,11 +10,11 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.constraint_aggregation.engine import (
+from GSE.curation.constraint_aggregation.engine import (
     ConstraintAggregationEngine,
     test_word,
 )
-from gse.curation.constraint_aggregation.types import (
+from GSE.curation.constraint_aggregation.types import (
     PrimitiveConstraint,
     WordConstraintProfile,
 )
@@ -362,7 +362,7 @@ class TestClose:
 class TestTestWord:
     def test_returns_profile(self, capsys):
         # Patch the engine class to use mock parsers
-        with patch("gse.curation.constraint_aggregation.engine.ConstraintAggregationEngine") as MockEngine:
+        with patch("GSE.curation.constraint_aggregation.engine.ConstraintAggregationEngine") as MockEngine:
             mock_engine = MockEngine.return_value
             mock_engine.aggregate_constraints.return_value = WordConstraintProfile(
                 word="run",
@@ -380,7 +380,7 @@ class TestTestWord:
             assert result.word == "run"
 
     def test_verbose_prints(self, capsys):
-        with patch("gse.curation.constraint_aggregation.engine.ConstraintAggregationEngine") as MockEngine:
+        with patch("GSE.curation.constraint_aggregation.engine.ConstraintAggregationEngine") as MockEngine:
             mock_engine = MockEngine.return_value
             mock_engine.aggregate_constraints.return_value = WordConstraintProfile(
                 word="run",
@@ -409,7 +409,7 @@ class TestTestWord:
             assert "GOOD" in captured.out
 
     def test_calls_aggregate(self):
-        with patch("gse.curation.constraint_aggregation.engine.ConstraintAggregationEngine") as MockEngine:
+        with patch("GSE.curation.constraint_aggregation.engine.ConstraintAggregationEngine") as MockEngine:
             mock_engine = MockEngine.return_value
             mock_engine.aggregate_constraints.return_value = WordConstraintProfile(
                 word="run",
@@ -426,7 +426,7 @@ class TestTestWord:
             mock_engine.aggregate_constraints.assert_called_once_with("run")
 
     def test_uses_no_large_sources(self):
-        with patch("gse.curation.constraint_aggregation.engine.ConstraintAggregationEngine") as MockEngine:
+        with patch("GSE.curation.constraint_aggregation.engine.ConstraintAggregationEngine") as MockEngine:
             mock_engine = MockEngine.return_value
             mock_engine.aggregate_constraints.return_value = WordConstraintProfile(
                 word="run",

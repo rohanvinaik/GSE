@@ -6,13 +6,14 @@ Apply Manual Lexicon Fixes from JSONL file
 import json
 import sqlite3
 import sys
+from pathlib import Path
 
 sys.path.insert(0, "/Users/rohanvinaik/gse")
-from gse.lexicon_generator import LexiconGenerator
-from gse.primitives import PRIMITIVES, ROLES
-from gse.vectors import PrimitiveBasis
+from GSE.lexicon_generator import LexiconGenerator
+from GSE.primitives import PRIMITIVES, ROLES
+from GSE.vectors import PrimitiveBasis
 
-DB_PATH = "/Users/rohanvinaik/gse/data/lexicon.db"
+DB_PATH = str(Path(__file__).resolve().parents[1] / "data" / "lexicon.db")
 FIXES_FILE = "/Users/rohanvinaik/relational-ai/manual_lexicon_fixes.jsonl"
 
 # Role corrections for common typos/invalid roles

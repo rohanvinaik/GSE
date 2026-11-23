@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.benchmarks.datasets."""
+"""Manual contract tests for GSE.benchmarks.datasets."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.benchmarks.datasets import (
+from GSE.benchmarks.datasets import (
     PRIMITIVE_ANTONYM_PAIRS,
     SYNONYM_PAIRS,
     BenchmarkDataset,
@@ -166,7 +166,7 @@ class TestLoadWordsim:
         empty_path = cache / "wordsim353.csv"
         empty_path.touch()
         monkeypatch.setattr(
-            "gse.benchmarks.datasets._ensure_wordsim353",
+            "GSE.benchmarks.datasets._ensure_wordsim353",
             lambda cache_dir=None: empty_path,
         )
         ds = load_wordsim353(cache_dir=cache)
@@ -181,7 +181,7 @@ class TestLoadWordsim:
             f.write("word1\tword2\tscore\n")
             f.write("dog\tcat\t7.5\n")
         monkeypatch.setattr(
-            "gse.benchmarks.datasets._ensure_wordsim353",
+            "GSE.benchmarks.datasets._ensure_wordsim353",
             lambda cache_dir=None: ws_path,
         )
         ds = load_wordsim353(cache_dir=cache)
@@ -196,7 +196,7 @@ class TestLoadWordsim:
             f.write("word1,word2,score\n")
             f.write("dog,cat,7.5\n")
         monkeypatch.setattr(
-            "gse.benchmarks.datasets._ensure_wordsim353",
+            "GSE.benchmarks.datasets._ensure_wordsim353",
             lambda cache_dir=None: ws_path,
         )
         ds = load_wordsim353(cache_dir=cache)
@@ -211,7 +211,7 @@ class TestLoadWordsim:
             f.write("dog\tcat\tnotanumber\n")
             f.write("a\tb\t1.0\n")
         monkeypatch.setattr(
-            "gse.benchmarks.datasets._ensure_wordsim353",
+            "GSE.benchmarks.datasets._ensure_wordsim353",
             lambda cache_dir=None: ws_path,
         )
         ds = load_wordsim353(cache_dir=cache)
@@ -232,7 +232,7 @@ class TestEnsureStsBenchmark:
 
     def test_download_failure_creates_dir(self, tmp_path):
         cache = tmp_path / "cache"
-        with patch("gse.benchmarks.datasets._download_file", side_effect=Exception("network failure")):
+        with patch("GSE.benchmarks.datasets._download_file", side_effect=Exception("network failure")):
             result = _ensure_sts_benchmark(cache)
             # Directory created as fallback
             assert result.exists()

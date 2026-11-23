@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.external_sources.integrator."""
+"""Manual contract tests for GSE.curation.external_sources.integrator."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.external_sources.integrator import (
+from GSE.curation.external_sources.integrator import (
     ExternalSourcesIntegrator,
     ExternalWordData,
     download_all_sources,
@@ -43,7 +43,7 @@ class TestInit:
         assert i._loaded is False
 
     def test_with_db_path(self, tmp_path):
-        with patch("gse.curation.external_sources.integrator.LexiconDatabase") as MockDB:
+        with patch("GSE.curation.external_sources.integrator.LexiconDatabase") as MockDB:
             i = ExternalSourcesIntegrator(lexicon_db_path=str(tmp_path / "x.db"))
             MockDB.assert_called_once_with(str(tmp_path / "x.db"))
             assert i.lexicon_db is not None
@@ -55,19 +55,19 @@ class TestInit:
 class TestLoadAllSources:
     # External corpus parsers; the built-in grammar catalog needs no corpus cache.
     _ALL_PARSERS = [
-        "gse.curation.external_sources.websters1913.Websters1913Parser",
-        "gse.curation.external_sources.wiktionary.WiktionaryParser",
-        "gse.curation.external_sources.sentiwordnet.SentiWordNetParser",
-        "gse.curation.external_sources.nrc_emotion.NRCEmotionParser",
-        "gse.curation.external_sources.nrc_vad.NRCVADParser",
-        "gse.curation.external_sources.verbnet.VerbNetParser",
-        "gse.curation.external_sources.concreteness.ConcretenessParser",
-        "gse.curation.external_sources.lancaster_sensorimotor.LancasterSensorimotorParser",
-        "gse.curation.external_sources.wordnet_hierarchy.WordNetHierarchyParser",
-        "gse.curation.external_sources.framenet.FrameNetParser",
-        "gse.curation.external_sources.propbank.PropBankParser",
-        "gse.curation.external_sources.conceptnet.ConceptNetParser",
-        "gse.curation.external_sources.usas.USASParser",
+        "GSE.curation.external_sources.websters1913.Websters1913Parser",
+        "GSE.curation.external_sources.wiktionary.WiktionaryParser",
+        "GSE.curation.external_sources.sentiwordnet.SentiWordNetParser",
+        "GSE.curation.external_sources.nrc_emotion.NRCEmotionParser",
+        "GSE.curation.external_sources.nrc_vad.NRCVADParser",
+        "GSE.curation.external_sources.verbnet.VerbNetParser",
+        "GSE.curation.external_sources.concreteness.ConcretenessParser",
+        "GSE.curation.external_sources.lancaster_sensorimotor.LancasterSensorimotorParser",
+        "GSE.curation.external_sources.wordnet_hierarchy.WordNetHierarchyParser",
+        "GSE.curation.external_sources.framenet.FrameNetParser",
+        "GSE.curation.external_sources.propbank.PropBankParser",
+        "GSE.curation.external_sources.conceptnet.ConceptNetParser",
+        "GSE.curation.external_sources.usas.USASParser",
     ]
 
     def test_external_sources_unavailable_keeps_builtin_grammar(self):
@@ -95,7 +95,7 @@ class TestLoadAllSources:
         mp.entries = {"a": [], "b": []}
         with ExitStack() as stack:
             for target in self._ALL_PARSERS:
-                if target == "gse.curation.external_sources.sentiwordnet.SentiWordNetParser":
+                if target == "GSE.curation.external_sources.sentiwordnet.SentiWordNetParser":
                     stack.enter_context(patch(target, return_value=mp))
                 else:
                     stack.enter_context(patch(target, side_effect=ImportError))
@@ -112,7 +112,7 @@ class TestLoadAllSources:
         mp.entries = {"a": [], "b": []}
         with ExitStack() as stack:
             for target in self._ALL_PARSERS:
-                if target == "gse.curation.external_sources.sentiwordnet.SentiWordNetParser":
+                if target == "GSE.curation.external_sources.sentiwordnet.SentiWordNetParser":
                     stack.enter_context(patch(target, return_value=mp))
                 else:
                     stack.enter_context(patch(target, side_effect=ImportError))
@@ -349,7 +349,7 @@ class TestExportForLLM:
         assert n == 3
 
     def test_needed_primitives_full_when_no_known(self, tmp_path):
-        from gse.curation.schema import ALL_PRIMITIVES
+        from GSE.curation.schema import ALL_PRIMITIVES
 
         i = ExternalSourcesIntegrator()
         i._loaded = True
@@ -415,16 +415,16 @@ class TestDownloadAllSources:
     def test_calls_nltk_and_parsers(self, capsys):
         with patch("nltk.download") as mock_dl:
             with patch.object(
-                __import__("gse.curation.external_sources.nrc_emotion", fromlist=["NRCEmotionParser"]).NRCEmotionParser,
+                __import__("GSE.curation.external_sources.nrc_emotion", fromlist=["NRCEmotionParser"]).NRCEmotionParser,
                 "download",
             ) as mock_em:
                 with patch.object(
-                    __import__("gse.curation.external_sources.nrc_vad", fromlist=["NRCVADParser"]).NRCVADParser,
+                    __import__("GSE.curation.external_sources.nrc_vad", fromlist=["NRCVADParser"]).NRCVADParser,
                     "download",
                 ) as mock_vad:
                     with patch.object(
                         __import__(
-                            "gse.curation.external_sources.concreteness", fromlist=["ConcretenessParser"]
+                            "GSE.curation.external_sources.concreteness", fromlist=["ConcretenessParser"]
                         ).ConcretenessParser,
                         "download",
                     ) as mock_conc:
@@ -439,16 +439,16 @@ class TestDownloadAllSources:
     def test_prints_progress(self, capsys):
         with patch("nltk.download"):
             with patch.object(
-                __import__("gse.curation.external_sources.nrc_emotion", fromlist=["NRCEmotionParser"]).NRCEmotionParser,
+                __import__("GSE.curation.external_sources.nrc_emotion", fromlist=["NRCEmotionParser"]).NRCEmotionParser,
                 "download",
             ):
                 with patch.object(
-                    __import__("gse.curation.external_sources.nrc_vad", fromlist=["NRCVADParser"]).NRCVADParser,
+                    __import__("GSE.curation.external_sources.nrc_vad", fromlist=["NRCVADParser"]).NRCVADParser,
                     "download",
                 ):
                     with patch.object(
                         __import__(
-                            "gse.curation.external_sources.concreteness", fromlist=["ConcretenessParser"]
+                            "GSE.curation.external_sources.concreteness", fromlist=["ConcretenessParser"]
                         ).ConcretenessParser,
                         "download",
                     ):

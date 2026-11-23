@@ -13,8 +13,8 @@ import argparse
 import json
 from pathlib import Path
 
-from gse.curation.lexicon_builder.residual import OllamaTransport
-from gse.curation.lexicon_builder.reviewed_patterns import run_workflow
+from GSE.curation.lexicon_builder.residual import OllamaTransport
+from GSE.curation.lexicon_builder.reviewed_patterns import run_workflow
 
 
 def main():

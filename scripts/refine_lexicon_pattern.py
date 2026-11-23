@@ -14,11 +14,11 @@ from contextlib import closing
 from pathlib import Path
 from types import SimpleNamespace
 
-from gse.curation.lexicon_builder.foundation import _attested_wordnet_lemma, _exact_wordnet_ancestry
-from gse.curation.lexicon_builder.interchange import read_json
-from gse.curation.lexicon_builder.reviewed_export import export_reviewed_input
-from gse.curation.lexicon_builder.reviewed_patterns import run_workflow_input
-from gse.curation.lexicon_builder.rule_history import digest
+from GSE.curation.lexicon_builder.foundation import _attested_wordnet_lemma, _exact_wordnet_ancestry
+from GSE.curation.lexicon_builder.interchange import read_json
+from GSE.curation.lexicon_builder.reviewed_export import export_reviewed_input
+from GSE.curation.lexicon_builder.reviewed_patterns import run_workflow_input
+from GSE.curation.lexicon_builder.rule_history import digest
 
 
 def _fingerprint(path):

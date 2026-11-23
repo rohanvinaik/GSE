@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.encoders.text_structure_encoder."""
+"""Manual contract tests for GSE.encoders.text_structure_encoder."""
 
 from __future__ import annotations
 
@@ -10,8 +10,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import numpy as np
 import pytest
 
-import gse.encoders.text_structure_encoder as tsem
-from gse.encoders.text_structure_encoder import (
+import GSE.encoders.text_structure_encoder as tsem
+from GSE.encoders.text_structure_encoder import (
     Domain,
     Genre,
     Register,
@@ -137,7 +137,7 @@ class TestDetectGenre:
     def test_som_super_register_to_genre_mapping(self):
         # The SoM resolves a super_register; only the prose registers map to a Genesis
         # ground, the rest abstain (MIXED) by design.
-        from gse.encoders.som_genre import SomGenreDetector
+        from GSE.encoders.som_genre import SomGenreDetector
 
         m = SomGenreDetector.SUPER_TO_GENRE
         assert m["narrative"] == "NARRATIVE"

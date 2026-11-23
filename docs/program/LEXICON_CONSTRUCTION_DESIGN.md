@@ -10,7 +10,7 @@ The sentence boundary is grounded in `/Users/rohanvinaik/Projects/rohan-vinaik.g
 
 The deliverable is a definition-indexed, provenance-carrying geometric lexicon, built primarily by deterministic source projection and relational closure. It is not a word-association table or a collection of complete vectors guessed by a model.
 
-This is the lexicon construction stage of [the larger GSE program](https://github.com/users/rohanvinaik/projects/5/views/1), specifically its GSE-01 grounding basis. SparseWiki supplies world knowledge and Regenesis consumes language structure for reasoning. Their responsibilities do not migrate into the lexical artifact. SymbolicSpellCheck already serves spelling through `gse/mcp/spell_server.py`, `gse/nlp/heal.py`, and `gse/nlp/spellcheck.py`; spelling vocabulary is a separate resource and contributes no semantic assignments.
+This is the lexicon construction stage of [the larger GSE program](https://github.com/users/rohanvinaik/projects/5/views/1), specifically its GSE-01 grounding basis. SparseWiki supplies world knowledge and Regenesis consumes language structure for reasoning. Their responsibilities do not migrate into the lexical artifact. SymbolicSpellCheck already serves spelling through `GSE/mcp/spell_server.py`, `GSE/nlp/heal.py`, and `GSE/nlp/spellcheck.py`; spelling vocabulary is a separate resource and contributes no semantic assignments.
 
 Rohan's further requirement is: **“Require justification for each remaining bank.”** Each assigned bank needs a definition-scoped source projection, approved anchor, justified rule derivation, or accepted bounded model ruling with retained provenance. An unknown remains unknown without that justification. Neither processing every source record nor writing a database fulfills the requested complete lexicon. Missing assignments do not license complement zeros, and the old default lexicon is not semantic gold. Replacement of that flawed default is explicitly authorized after the replacement's runtime checks; preserving the old artifact's mistakes is not a compatibility requirement.
 
@@ -32,7 +32,7 @@ THIS has demonstrative object-reference content: the approved lexical anchor is 
 
 At the interface, grammar constrains the permitted roles and bindings. A present but uninstantiated grammatical dimension is distinct from a dimension outside the permitted set. This distinction does not require storing every possible role in the lexical artifact: the active encoder assigns roles dynamically. Set membership, argument ownership, and operator scope operate on structured identities, not vector equality. Two sentences can have similar lexical geometry and different comparison truth conditions.
 
-GSE already implements this separation. `gse/lexicon/pronouns.py` supplies demonstrative reference metadata, `gse/lexicon/function_words.py` supplies determiner metadata, and the symbolic/document paths bind references and represent possession separately. The separate `SentenceParser` also implements possible-role constraints; its existence is not a reason to replace the active dynamic path. Empty `sentence_primitive_values` tables do not establish missing grammar. The earlier requirement to populate static role masks as a prerequisite to this build was unsupported and is withdrawn.
+GSE already implements this separation. `GSE/lexicon/pronouns.py` supplies demonstrative reference metadata, `GSE/lexicon/function_words.py` supplies determiner metadata, and the symbolic/document paths bind references and represent possession separately. The separate `SentenceParser` also implements possible-role constraints; its existence is not a reason to replace the active dynamic path. Empty `sentence_primitive_values` tables do not establish missing grammar. The earlier requirement to populate static role masks as a prerequisite to this build was unsupported and is withdrawn.
 
 For versioned dictionaries, the encoder now obtains the established `COMP_METADATA` grammatical operations independently of lexical definition selection. BECAUSE, ONLY and THAN therefore retain their causal, restriction and comparison operations even when the word's lexical lookup is missing or ambiguous. No lexical definition or bank value is manufactured by this bridge. Conflicting selected-row operator metadata fails with `GRAMMATICAL_OPERATOR_METADATA_MISMATCH`; the legacy lookup path retains its existing behavior.
 
@@ -68,7 +68,7 @@ The native collector now accepts an explicit adapter-owned `bank_relevance_for_e
 
 ### Audited source-integration deficits
 
-The audited collector in `gse/curation/lexicon_builder/evidence.py` emits exact source assertions from WordNet, linked VerbNet, and the scoped native Wiktionary projection above. The remaining source integrations require definition-scoped warrants:
+The audited collector in `GSE/curation/lexicon_builder/evidence.py` emits exact source assertions from WordNet, linked VerbNet, and the scoped native Wiktionary projection above. The remaining source integrations require definition-scoped warrants:
 
 * `external_sources/integrator.py` obtains per-source projections before aggregation. Its subsequent voting and bipolar exclusion discard alternatives. `constraint_aggregation/engine.py` also drops zeros and loses native sense identity. Candidate ingestion must preserve native record identity, applicable definition candidates and competing signs before those reductions; their final aggregates cannot be treated as exact-definition truth.
 * FrameNet provides native lexical-unit/frame identities and frame projections. Participant-role projections are not the lexical object's own bank content. PropBank retains rolesets and VerbNet links, but its old projector uses spelling-based mappings and a default DO assignment; those outputs are not exact sense proofs.
@@ -188,6 +188,36 @@ Epoch plans accept a witnessed unary ancestry rule as well as a bank-pair or con
 
 ## Native reference and derived identity context
 
+The approved person-reference boundary is now implemented in the registered
+`GSEClosedClassParser`: a native nominative first-person singular pronoun
+warrants I=+1, and the reviewed second-person nominative pronoun warrants
+YOU=+1. The source catalog currently yields exactly the I and YOU definitions
+under these guards. The full native catalog row must witness the grammatical
+features; a submitted `person` field alone is insufficient. This does not
+project BODY, ALIVE, possession, opposite-person zeros, plural first-person
+forms, or unreviewed case variants. Original definitions and source records
+remain unchanged. The historical pronoun module's claim that I/YOU differ only
+at sentence scale is superseded for this projection by Rohan's approved bank
+meanings; grammatical reference binding still belongs to sentence composition.
+
+Replay independently reconstructs these derived reference signs from the
+stored native witness. Source competence alone cannot certify a sign. The
+known `gse` to `GSE` module rename may be normalized when comparing this
+witness; the stored observation, identifier and digest are preserved. A
+changed definition, native row or unwarranted sign is refused.
+
+Before adding source proofs to a previously model-filled definition,
+`reconsider_many` retires the affected model suffixes through the same shared
+implementation as single-request reconsideration. One complete preflight
+precedes one transaction; multiple roots on a definition coalesce to the
+earliest requested suffix. Every original receipt survives in the append-only
+archive. A missing root, changed snapshot or failure on any entry rolls back
+the whole batch. Withdrawn values reopen under retained evidence, never as
+complement zeros. The CLI accepts repeated `--request-id` arguments. The
+[checkpoint transition](../readings/2026-11-13-ssl-explicit-genera/checkpoint_reference_migration.py)
+uses one working clone and performs full post-projection replay. Its success
+does not authorize activation without the practical common-language gate.
+
 The existing Wiktionary parser follows one explicit `alt_of` or `form_of` hop. It preserves the complete original leaf, link, source snapshot and every matching target leaf. Matching requires the existing spelling normalization and the same lexical type; other-type targets remain separate diagnostic evidence. Missing targets, other-type-only targets, multiple target senses and targets that are themselves references have distinct outcomes. No first-sense choice, recursive alias collapse or bank transfer occurs.
 
 WordNet-derived spellings retain their original exact definition and original source observation. An additional identity packet records the selected native synset, all matching morphological alternatives, native base records, source version, and either explicit exception evidence or the actual suffix substitutions. An explicit exception such as `is`→`be` supplies identity evidence within the already selected sense; it does not select that sense from all meanings of `be`. Generic suffix analyses remain candidates, including the questionable abbreviation-derived forms. Neither class supplies a bank value or relaxes the native-lemma population guard.
@@ -216,7 +246,7 @@ The fix also carries versioned per-component hierarchy through the existing sent
 
 ## Construction and inference
 
-The production entry point is `python -m gse.curation.cli.commands`. Construction loads local sources or strict typed evidence; establishes definitions and source links; validates competence/relevance; loads approved anchors, relations and per-component hierarchy; resolves ordinary structure and guarded absence; optionally completes a bounded residual; stores one atomic snapshot; and reports coverage/conflicts.
+The production entry point is `python -m GSE.curation.cli.commands`. Construction loads local sources or strict typed evidence; establishes definitions and source links; validates competence/relevance; loads approved anchors, relations and per-component hierarchy; resolves ordinary structure and guarded absence; optionally completes a bounded residual; stores one atomic snapshot; and reports coverage/conflicts.
 
 Hard source assertions and foundational constraints are inviolate. Approved ordinary conditional constraints can be locally excepted with receipts. Jointly contradictory conditional components are withdrawn together rather than selecting an arbitrary winner. Closure now performs generalized arc consistency followed by exact enumeration of connected components within an explicit search bound. Complete witness support may narrow domains; an unfinished component search preserves the earlier domains and emits `SOLVER_LIMIT`. Reports distinguish complete searches, limited components, and semantic validation. Counts and weighting never turn a candidate into an approved law.
 
@@ -241,7 +271,7 @@ The explicitly selected `--cohort-policy spelling --bank-priority evidence` uses
 A bounded local run against the current candidate is:
 
 ```bash
-.venv/bin/python -m gse.curation.cli.commands \
+.venv/bin/python -m GSE.curation.cli.commands \
   --lexicon-db data/lexicon_builder/2026-11-01/constructed-corpus-linear-unit-want.db complete \
   --model qwen3.8:27b-q4_K_M --no-thinking \
   --model-context-tokens 65536 --model-output-tokens 1024 --model-timeout 300 \
@@ -384,7 +414,7 @@ The separately documented “This runs” parsing defect remains distinct from d
 
 ### Reconciliation with the existing upstream constructor
 
-The inspected `origin/main` at `f58b1e0` contains `gse/lexicon_builder`, a second, substantive constructor. It already has source pins, native event/role restrictions, bounded joint solving, examined prime profiles, typed residual tasks, state-preserving publication and coverage audits. These capabilities are existing project work, not missing architecture. Its records use 58 coordinates including `HIER_PLUS`/`HIER_MINUS`, and distinguish authored silence from written zero. This local runtime contract instead has 56 ordinary coordinates and separate hierarchy metadata. The formats cannot be substituted or silently collapsed.
+The inspected `origin/main` at `f58b1e0` contains `GSE/lexicon_builder`, a second, substantive constructor. It already has source pins, native event/role restrictions, bounded joint solving, examined prime profiles, typed residual tasks, state-preserving publication and coverage audits. These capabilities are existing project work, not missing architecture. Its records use 58 coordinates including `HIER_PLUS`/`HIER_MINUS`, and distinguish authored silence from written zero. This local runtime contract instead has 56 ordinary coordinates and separate hierarchy metadata. The formats cannot be substituted or silently collapsed.
 
 Its authored prime boundaries do not prove semantic completeness. In particular, blanket remaining-coordinate silence cannot justify the remaining banks under the current instruction. The upstream I profile's one-hot substantive exclusion conflicts with the currently approved I→SOMEONE relation; its unconditional evaluative size exclusion conflicts with the currently approved evidence-conditioned iff guard. Its first-eligible-reading runtime selection also differs from explicit definition selection or abstention. Compatible joint solving, native role checks and publication mechanics are being reconciled while these semantic and identity differences remain explicit. No blanket merge or conversion of silence to zero is authorized by code reuse. That constructor's own contract is [Part II](#part-ii--upstream-symbolic-constructor-contract) of this document.
 
@@ -597,12 +627,12 @@ At this historical checkpoint, the repository gate completed successfully: 5,565
 Run from the repository root:
 
 ```bash
-.venv/bin/python -m gse.curation.cli.commands \
+.venv/bin/python -m GSE.curation.cli.commands \
   --lexicon-db data/lexicon_builder/2026-10-29/corpus.db build \
   --words-file data/lexicon_builder/2026-10-29/words.txt \
   --rules docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json \
   --report docs/readings/2026-10-29-lexicon-coherence/corpus-build-report.json
-.venv/bin/python -m gse.curation.cli.commands \
+.venv/bin/python -m GSE.curation.cli.commands \
   --lexicon-db data/lexicon_builder/2026-10-29/corpus.db validate
 .venv/bin/python scripts/audit_lexicon_runtime.py \
   --lexicon-db data/lexicon_builder/2026-10-29/corpus.db \
@@ -625,7 +655,7 @@ These are interim first-pass snapshot measurements, not the final replacement ou
 
 # Part II — Upstream symbolic constructor contract
 
-This part is the contract for the second constructor, `gse/lexicon_builder`, merged verbatim from `origin/main` at `f58b1e0` on 2026-11-23 with its headings demoted one level. Both constructors cite this file by path in stored provenance: the definition-scoped constructor's anchors and model-protocol sources, and `gse/lexicon_builder/foundation.json` (`GSE_PROJECTION_V2`), whose hash is pinned in that constructor's release manifests. The two contracts therefore share this file rather than either moving. The semantic and identity differences listed under [Reconciliation with the existing upstream constructor](#reconciliation-with-the-existing-upstream-constructor) remain unresolved.
+This part is the contract for the second constructor, `GSE/lexicon_builder`, merged verbatim from `origin/main` at `f58b1e0` on 2026-11-23 with its headings demoted one level; its package paths and command names follow the later package rename from gse to GSE. Both constructors cite this file by path in stored provenance: the definition-scoped constructor's anchors and model-protocol sources, and `GSE/lexicon_builder/foundation.json` (`GSE_PROJECTION_V2`), whose hash is pinned in that constructor's release manifests. The two contracts therefore share this file rather than either moving. The semantic and identity differences listed under [Reconciliation with the existing upstream constructor](#reconciliation-with-the-existing-upstream-constructor) remain unresolved.
 
 ## GSE lexicon construction: bank laws, prime words, and source-guided definition
 
@@ -666,7 +696,7 @@ The builder reduces uncertainty about **which definition vector is warranted**. 
 
 **Primes are the smallest stable lexical contents in this representation.** A prime reading is hand-reviewed, like a letter in an alphabet. Its name or written exponent alone is insufficient: that spelling may also name other senses. Goddard's point in F091 is that the prime's **basic combinatorial properties help identify which sense is primitive**. The atomic record must therefore bind a located lexical unit to its coordinate/sign **and its combinatorial profile**: its semantic and syntactic role, permitted argument slots and valencies, documented combinations and exclusions, and the source that warrants each. It is not inferred from WordNet, a dictionary gloss, or a model. The current stored GSE schema names 72 primes in eight banks and identifies 14 opposite-pole pairs, leaving 58 canonical coordinates. This is **GSE's** basis, not a claim that NSM research specifies exactly these names or this HDC encoding. The basis and its mapping to NSM research must be versioned and reviewed before a bulk build. (F072–F076, F083, F088, F091)
 
-**`NUMBER` is not a 73rd lexical prime or bank.** All 72 lexical primes have literal word exponents and intrinsic definitional content; `NUMBER` has none in any bank. The 73-entry computational registry in `gse/primitives_v2.py` must not be read as a later, competing lexical ontology. The 72-prime inventory and the registry's additional `NUMBER` operation are simultaneously valid at different levels. The 14 antonym pairs quotient the 72 lexical names to 58 signed coordinates. `NUMBER` then supplies hierarchical scale to a representation already made from those coordinates; it adds no coordinate. This is Rohan's explicit correction in F096–F098, and any code or document that calls `NUMBER` a lexical prime is wrong about the design.
+**`NUMBER` is not a 73rd lexical prime or bank.** All 72 lexical primes have literal word exponents and intrinsic definitional content; `NUMBER` has none in any bank. The 73-entry computational registry in `GSE/primitives_v2.py` must not be read as a later, competing lexical ontology. The 72-prime inventory and the registry's additional `NUMBER` operation are simultaneously valid at different levels. The 14 antonym pairs quotient the 72 lexical names to 58 signed coordinates. `NUMBER` then supplies hierarchical scale to a representation already made from those coordinates; it adds no coordinate. This is Rohan's explicit correction in F096–F098, and any code or document that calls `NUMBER` a lexical prime is wrong about the design.
 
 **Relations among banks are the smallest construction operations.** They say which coordinate states can coexist, which require another bank or role, and which exclude another value. They are more basic to the *builder* than a word's prime vector, yet they are not extra lexical contents or extra coordinates. An alphabet has letters and rules for forming valid combinations; the rules do not become additional letters. Likewise, a 58-coordinate representation can have a much smaller lawful subset of the full Cartesian product. Linear independence of basis directions does not imply independence of admissible word definitions. This resolves the apparent contradiction in F088.
 
@@ -779,7 +809,7 @@ The relevant lesson of *Significance Weighting* §§5, 7b, 12–14 is **marginal
 
 Apply a validated relation, propagate its consequences, then recompute the residual and the marginal value of the remaining rules. A bridge can increase another rule's value; a redundant rule can fall to zero. Do not import a static submodular bound, a knee location, or the paper's measured constants into this changing rule graph. Native records must corroborate proposed relations independently of the builder's own derived signs; otherwise the loop would be measuring its own assumptions. Counterexamples can reveal a missing POS, role, source-scope or semantic-type condition: specialize and re-test the rule when the data warrants it.
 
-The first executable discovery pass is [scripts/lexicon_coherence.py](/Users/rohanvinaik/Projects/gse/scripts/lexicon_coherence.py). Its [measured report](../verification/lexicon-rebuild/coherence-2026-10-24/REPORT.md) and complete `results.json` record source hashes, overlaps, continuous relations, held-out directional candidates, joint gains, and counterexamples. It observes native source dimensions; it does not use old generated prime signs as labels or claim to have completed the lexical rulebook. The next construction step is to turn the strongest scoped relations into explicit allowed/forbidden bank tuples, with research warrants and two-sign witnesses, then measure their actual closure contribution.
+The first executable discovery pass is [scripts/lexicon_coherence.py](/Users/rohanvinaik/Projects/GSE/scripts/lexicon_coherence.py). Its [measured report](../verification/lexicon-rebuild/coherence-2026-10-24/REPORT.md) and complete `results.json` record source hashes, overlaps, continuous relations, held-out directional candidates, joint gains, and counterexamples. It observes native source dimensions; it does not use old generated prime signs as labels or claim to have completed the lexical rulebook. The next construction step is to turn the strongest scoped relations into explicit allowed/forbidden bank tuples, with research warrants and two-sign witnesses, then measure their actual closure contribution.
 
 #### 5.3 How the rules were obtained, where they are saved, and how they become executable
 
@@ -797,15 +827,15 @@ The saved run contains 41,597 shared words, 458 directional candidates and 190 c
 | Original discovery evidence | [`coherence-2026-10-24/results.json`](../verification/lexicon-rebuild/coherence-2026-10-24/results.json), with its [report](../verification/lexicon-rebuild/coherence-2026-10-24/REPORT.md) and [verification receipt](../verification/lexicon-rebuild/coherence-2026-10-24/VERIFICATION.md). Includes source snapshot hashes, discovery-script hash, split policy, supporting examples and every observed counterexample. |
 | Individually addressable candidate rules | [`rule-registry-2026-10-24/coherence_candidates.jsonl`](../verification/lexicon-rebuild/rule-registry-2026-10-24/coherence_candidates.jsonl). One complete record per discovered relation, with a stable `COH_<hash>` identity derived from its native antecedents and consequent. Each retains the evidence-file digest, native counts, held-out results, exceptions and source lineage. All 648 initially have `DISCOVERED_NOT_ADMITTED` and `may_write_lexical_cells:false`. |
 | Catalog integrity | [`rule-registry-2026-10-24/manifest.json`](../verification/lexicon-rebuild/rule-registry-2026-10-24/manifest.json). Records candidate count, catalog digest, active rulebook path and rulebook digest. |
-| Executable bank laws and source projections | [`gse/lexicon_builder/bank_laws.json`](../../gse/lexicon_builder/bank_laws.json). The builder actually loads this file. `laws` holds allowed coordinate tuples and certified guards; `source_rules` holds explicit native POS/category/frame conjunctions, their own-content projection, residual warrant and coverage status. Source projections under prototype audit are distinguished from founder-approved laws. |
-| Rule loader and catalog writer | [`gse/lexicon_builder/registry.py`](../../gse/lexicon_builder/registry.py). Checks the basis and IDs, compiles the saved relations, and exports the evidence catalog. |
+| Executable bank laws and source projections | [`GSE/lexicon_builder/bank_laws.json`](../../GSE/lexicon_builder/bank_laws.json). The builder actually loads this file. `laws` holds allowed coordinate tuples and certified guards; `source_rules` holds explicit native POS/category/frame conjunctions, their own-content projection, residual warrant and coverage status. Source projections under prototype audit are distinguished from founder-approved laws. |
+| Rule loader and catalog writer | [`GSE/lexicon_builder/registry.py`](../../GSE/lexicon_builder/registry.py). Checks the basis and IDs, compiles the saved relations, and exports the evidence catalog. |
 | Per-word derivation | A build directory contains `manifest.json`, `words.jsonl`, and `summary.json`. The word record retains native records, premise IDs, rule IDs, before/after coordinate domains, exact model request/schema/answer and model digest, propagated changes, candidate mask, and any provisional silence. |
 
 Reproduce the discovery and export the rule candidates:
 
 ```sh
 uv run python scripts/lexicon_coherence.py --output docs/verification/lexicon-rebuild/coherence-2026-10-24
-uv run python -m gse.lexicon_builder rules --output docs/verification/lexicon-rebuild/rule-registry-2026-10-24
+uv run python -m GSE.lexicon_builder rules --output docs/verification/lexicon-rebuild/rule-registry-2026-10-24
 ```
 
 For example, the discovery run found that an NRC-negative association together with Lancaster-dominant interoception predicted negative VAD valence in 459 of 474 observed words. That is useful conditional information, with 15 retained counterexamples. It does **not** itself establish `FEEL:+1`, `GOOD:-1`, disgust, or a silent bank. The proposed lexical rule must first explain the word's own definitional role and what those fields actually assert. Conversely, an explicit good/bad-quality category plus a compatible own-quality lexical unit supplies a different sort of premise from a human affect rating.
@@ -911,7 +941,7 @@ The sparse reader validates state, domain, written mask, numeric value, basis an
 
 `runtime.build_release` validates `manifest.json`, `sparse.jsonl` and `structures.jsonl`, stages a deterministic SQLite release, checks input identity again and atomically replaces the destination only after validation and integrity checks. Failure preserves the prior release. The database retains full sparse payloads and their digests in `released_readings`, structures separately, source/recipe metadata, and symbolic complete/partial/conflict status. Conflicted readings remain audit records and are excluded from selectable compatibility rows.
 
-Compatibility `primitive_values` rows contain settled written states, including zero. Missing compatibility rows cannot distinguish unresolved from silent; the full sparse payload is authoritative. The real [lexical evidence consumer](../../gse/lexical_evidence.py) recognizes the symbolic release, validates the full record through `ReleaseReader`, checks compatibility projection against it and returns the definition and its status alongside settled components. Deterministic row selection is not sense disambiguation. Connection-scoped validation is invalidated by same-connection or external database changes; no global cache makes an old validation permanent.
+Compatibility `primitive_values` rows contain settled written states, including zero. Missing compatibility rows cannot distinguish unresolved from silent; the full sparse payload is authoritative. The real [lexical evidence consumer](../../GSE/lexical_evidence.py) recognizes the symbolic release, validates the full record through `ReleaseReader`, checks compatibility projection against it and returns the definition and its status alongside settled components. Deterministic row selection is not sense disambiguation. Connection-scoped validation is invalidated by same-connection or external database changes; no global cache makes an old validation permanent.
 
 `NUMBER` operations remain sidecars over compatible signed/masked vectors. Relative order does not create a coordinate, change zero or silence, flip polarity or establish a universal numeric distance. Global scale reconciliation and numeric gain calibration remain separate work.
 
@@ -945,11 +975,11 @@ The current acceptance destination is [execution-2026-10-25](../verification/lex
 Representative commands (the final report records the exact arguments and artifact digests):
 
 ```sh
-gse-lexicon prime-proof
-gse-lexicon build --all-source-words --symbolic-only --output BUILD_DIR
-gse-lexicon plan-tail --input BUILD_DIR/sparse.jsonl --output TASK_FILE
-gse-lexicon release-audit --build-dir BUILD_DIR --output AUDIT_DIR --gold REFERENCE_JSON
-gse-lexicon release --input BUILD_DIR --output RELEASE_DB
+GSE-lexicon prime-proof
+GSE-lexicon build --all-source-words --symbolic-only --output BUILD_DIR
+GSE-lexicon plan-tail --input BUILD_DIR/sparse.jsonl --output TASK_FILE
+GSE-lexicon release-audit --build-dir BUILD_DIR --output AUDIT_DIR --gold REFERENCE_JSON
+GSE-lexicon release --input BUILD_DIR --output RELEASE_DB
 ```
 
 ### 8. Demonstration and release sequence

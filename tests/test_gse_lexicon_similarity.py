@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.lexicon.similarity."""
+"""Manual contract tests for GSE.lexicon.similarity."""
 
 from __future__ import annotations
 
@@ -10,14 +10,14 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import numpy as np
 import pytest
 
-from gse.lexicon.similarity import (
+from GSE.lexicon.similarity import (
     bank_masked_similarity,
     full_similarity,
     polarity_analysis,
     semantic_similarity,
     without_banks,
 )
-from gse.vectors_v2 import SparseVector
+from GSE.vectors_v2 import SparseVector
 
 
 def make_vec(positive=(), negative=(), dimension=8192):

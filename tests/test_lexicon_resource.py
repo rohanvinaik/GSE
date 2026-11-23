@@ -5,13 +5,13 @@ import sqlite3
 
 import pytest
 
-from gse import lexicon_resource
-from gse.api import GSEDecoder, GSEEncoder
-from gse.curation.lexicon_builder.engine import Assertion, propagate
-from gse.curation.lexicon_builder.evidence import Definition
-from gse.curation.lexicon_builder.storage import open_build, store_entry
-from gse.lexical_evidence import lookup_lexeme
-from gse.nlp import heal, spellcheck
+from GSE import lexicon_resource
+from GSE.api import GSEDecoder, GSEEncoder
+from GSE.curation.lexicon_builder.engine import Assertion, propagate
+from GSE.curation.lexicon_builder.evidence import Definition
+from GSE.curation.lexicon_builder.storage import open_build, store_entry
+from GSE.lexical_evidence import lookup_lexeme
+from GSE.nlp import heal, spellcheck
 
 
 def database(path, rows):
@@ -128,7 +128,7 @@ def test_decoder_preserves_definition_identity_and_queries_own_entity_banks(tmp_
 def test_public_cli_uses_active_resource(tmp_path, monkeypatch, capsys):
     import argparse
 
-    from gse.cli.main import cmd_encode
+    from GSE.cli.main import cmd_encode
 
     target = database(tmp_path / "active.db", [("alpha:thing", "alpha", "SOMETHING")])
     pointer = tmp_path / "active.json"
@@ -210,7 +210,7 @@ def test_spelling_refreshes_committed_values_without_pointer_change(tmp_path, jo
 
 
 def test_document_encoder_refreshes_both_default_cache_layers(tmp_path, monkeypatch):
-    from gse.encoders import text_structure_encoder as text_module
+    from GSE.encoders import text_structure_encoder as text_module
 
     first = database(tmp_path / "first.db", [("alpha:thing", "alpha", "SOMETHING")])
     second = database(tmp_path / "second.db", [("beta:thing", "beta", "SOMETHING")])

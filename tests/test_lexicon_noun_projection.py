@@ -7,10 +7,10 @@ from pathlib import Path
 
 import pytest
 
-from gse.lexicon_builder.build import build
-from gse.lexicon_builder.nouns import noun_head_claim, noun_readings, noun_record_status
-from gse.lexicon_builder.registry import load_rulebook
-from gse.lexicon_builder.sources import NativeSources, sha256
+from GSE.lexicon_builder.build import build
+from GSE.lexicon_builder.nouns import noun_head_claim, noun_readings, noun_record_status
+from GSE.lexicon_builder.registry import load_rulebook
+from GSE.lexicon_builder.sources import NativeSources, sha256
 from tests.lexicon_sources import NLTK, SOURCES, requires_lexicon_sources
 
 

@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.merkle.router."""
+"""Manual contract tests for GSE.merkle.router."""
 
 from __future__ import annotations
 
@@ -10,8 +10,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import numpy as np
 import pytest
 
-from gse.merkle.nodes import LexemeNode
-from gse.merkle.router import (
+from GSE.merkle.nodes import LexemeNode
+from GSE.merkle.router import (
     FamilyCentroid,
     MerkleBellmanFord,
     RouteResult,
@@ -19,8 +19,8 @@ from gse.merkle.router import (
     find_semantic_path,
     semantic_distance,
 )
-from gse.merkle.tree import MerkleLexiconTree
-from gse.vectors_v2 import SparseVector, compose_decomposition, create_basis
+from GSE.merkle.tree import MerkleLexiconTree
+from GSE.vectors_v2 import SparseVector, compose_decomposition, create_basis
 
 
 def make_lex(lemma, decomposition, sense="01", pos="adj"):

@@ -5,11 +5,11 @@ import sqlite3
 import subprocess
 import sys
 
-from gse.curation.personal_dictionary import entries, identity, learn, membership, validated_concurrence
-from gse.frequency import FrequencyDatabase
-from gse.lexical_evidence import lookup_lexeme, raw_concreteness, raw_vad, structural_epa
-from gse.nlp.heal import apply_edits, boundaries, suggest
-from gse.nlp.morphology import NEGATION, REVERSAL, negation_evidence, resolve_negation
+from GSE.curation.personal_dictionary import entries, identity, learn, membership, validated_concurrence
+from GSE.frequency import FrequencyDatabase
+from GSE.lexical_evidence import lookup_lexeme, raw_concreteness, raw_vad, structural_epa
+from GSE.nlp.heal import apply_edits, boundaries, suggest
+from GSE.nlp.morphology import NEGATION, REVERSAL, negation_evidence, resolve_negation
 
 
 def test_lexical_zero_absence_and_unread_are_distinct(tmp_path):
@@ -227,7 +227,7 @@ def test_boundary_capital_alone_only_offers_and_witness_applies_exact_gap():
 
 
 def test_mcp_and_direct_healing_have_identical_text_and_ledgers():
-    from gse.mcp.spell_server import spell_suggest
+    from GSE.mcp.spell_server import spell_suggest
 
     text = '"I beleive it is teh thing,"\r\nPapert said.'
     direct = suggest(text)
@@ -239,7 +239,7 @@ def test_mcp_and_direct_healing_have_identical_text_and_ledgers():
 def test_standalone_cli_shares_exact_source_and_ledger():
     text = '\t"I beleive it,"\r\nPapert said.  '
     process = subprocess.run(
-        [sys.executable, "-m", "gse.nlp.spellcheck_repl", "--json", text],
+        [sys.executable, "-m", "GSE.nlp.spellcheck_repl", "--json", text],
         check=True,
         capture_output=True,
         text=True,
@@ -260,7 +260,7 @@ def test_learning_drafts_passes_actual_intersection_through_validation(tmp_path)
 
 
 def test_dictionary_survives_restart_and_failed_atomic_replace(tmp_path, monkeypatch):
-    from gse.curation import personal_dictionary
+    from GSE.curation import personal_dictionary
 
     path = tmp_path / "dict.json"
     assert learn({"surface": "Zerum Loom", "aliases": ["ZerumLoom"], "source": "draft"}, path=path)["ok"]
@@ -268,7 +268,7 @@ def test_dictionary_survives_restart_and_failed_atomic_replace(tmp_path, monkeyp
         [
             sys.executable,
             "-c",
-            "import sys; from gse.curation.personal_dictionary import membership; print(membership('ZerumLoom', sys.argv[1])['state'])",
+            "import sys; from GSE.curation.personal_dictionary import membership; print(membership('ZerumLoom', sys.argv[1])['state'])",
             str(path),
         ],
         check=True,
@@ -288,8 +288,8 @@ def test_dictionary_survives_restart_and_failed_atomic_replace(tmp_path, monkeyp
 
 
 def test_learning_invalidates_protection_and_multiword_entries_protect_all_parts(tmp_path, monkeypatch):
-    from gse.curation import personal_dictionary
-    from gse.nlp.spellcheck import correct
+    from GSE.curation import personal_dictionary
+    from GSE.nlp.spellcheck import correct
 
     path = tmp_path / "dict.json"
     monkeypatch.setattr(personal_dictionary, "DEFAULT_PATH", path)

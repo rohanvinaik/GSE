@@ -8,8 +8,8 @@ from unittest.mock import patch
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.nlp.native import NativeNLP
+from GSE.api import GSEEncoder
+from GSE.nlp.native import NativeNLP
 
 DEGREE_WORDS = (
     "very",
@@ -142,7 +142,7 @@ PARTICIPLE_ROWS = (
 
 
 def test_table_left_role_truths():
-    from gse.nlp.native import copula_left_role
+    from GSE.nlp.native import copula_left_role
 
     for word, previous, answers in ROLE_PATTERNS:
         for facts, wanted in zip(BOOL_TRIPLES, answers):
@@ -187,7 +187,7 @@ def test_table_left_role_truths():
 
 
 def test_table_participle_truths():
-    from gse.nlp.native import copula_participle_kind
+    from GSE.nlp.native import copula_participle_kind
 
     for word, lemma, qualifying_code in PARTICIPLE_ROWS:
         for has_v, closed_nonverb in BOOL_PAIRS:
@@ -197,7 +197,7 @@ def test_table_participle_truths():
 
 
 def test_table_modifier_truths():
-    from gse.nlp.native import copula_modifier_context
+    from GSE.nlp.native import copula_modifier_context
 
     ordinary_rows = (
         (False, False, "NOT_MODIFIER"),
@@ -224,7 +224,7 @@ def test_table_modifier_truths():
 
 
 def test_table_complement_truths():
-    from gse.nlp.native import copula_complement_reading
+    from GSE.nlp.native import copula_complement_reading
 
     for left, eligible in LEFT_ROWS:
         for facts, eligible_code in READING_ROWS:
@@ -240,7 +240,7 @@ def test_table_complement_truths():
 
 
 def test_table_degree_truths():
-    from gse.nlp.native import copula_degree_reading
+    from GSE.nlp.native import copula_degree_reading
 
     for word in DEGREE_WORDS:
         assert copula_degree_reading(word, False) == "DEGREE_ADV"
@@ -262,7 +262,7 @@ def test_table_degree_truths():
 
 
 def test_table_lexical_and_code_boundaries():
-    from gse.nlp.native import (
+    from GSE.nlp.native import (
         copula_complement_reading,
         copula_degree_reading,
         copula_left_role,
@@ -331,8 +331,8 @@ def test_table_lexical_and_code_boundaries():
     ),
 )
 def test_table_participle_caller(sentence, surface, next_kind, modifier_code, reading_code, wanted_pos):
-    import gse.nlp.native as native
-    from gse.nlp.native import (
+    import GSE.nlp.native as native
+    from GSE.nlp.native import (
         copula_complement_reading,
         copula_modifier_context,
         copula_participle_kind,
@@ -418,8 +418,8 @@ def test_table_participle_caller(sentence, surface, next_kind, modifier_code, re
 
 @pytest.mark.parametrize("word", SKIP_WORDS)
 def test_table_skip_caller(word):
-    import gse.nlp.native as native
-    from gse.nlp.native import (
+    import GSE.nlp.native as native
+    from GSE.nlp.native import (
         copula_complement_reading,
         copula_left_role,
     )
@@ -458,8 +458,8 @@ def test_table_skip_caller(word):
 
 @pytest.mark.parametrize("base", CONTRACTED_BASES)
 def test_table_contraction_caller(base):
-    import gse.nlp.native as native
-    from gse.nlp.native import (
+    import GSE.nlp.native as native
+    from GSE.nlp.native import (
         copula_complement_reading,
         copula_left_role,
     )
@@ -503,8 +503,8 @@ def test_table_contraction_caller(base):
     ),
 )
 def test_table_walk_caller(skip_words):
-    import gse.nlp.native as native
-    from gse.nlp.native import copula_complement_reading
+    import GSE.nlp.native as native
+    from GSE.nlp.native import copula_complement_reading
 
     expected_roles = ["BE"] + ["SKIP"] * len(skip_words)
     assert copula_complement_reading(expected_roles, False, False, True, True) == "ADJ"
@@ -528,8 +528,8 @@ def test_table_walk_caller(skip_words):
 
 
 def test_table_barrier_caller():
-    import gse.nlp.native as native
-    from gse.nlp.native import (
+    import GSE.nlp.native as native
+    from GSE.nlp.native import (
         copula_complement_reading,
         copula_left_role,
     )
@@ -565,8 +565,8 @@ def test_table_barrier_caller():
 
 
 def test_table_modifier_deferral_caller():
-    import gse.nlp.native as native
-    from gse.nlp.native import (
+    import GSE.nlp.native as native
+    from GSE.nlp.native import (
         copula_complement_reading,
         copula_modifier_context,
         copula_participle_kind,
@@ -621,8 +621,8 @@ def test_table_modifier_deferral_caller():
 
 
 def test_table_determined_very_caller():
-    import gse.nlp.native as native
-    from gse.nlp.native import (
+    import GSE.nlp.native as native
+    from GSE.nlp.native import (
         copula_complement_reading,
         copula_degree_reading,
     )

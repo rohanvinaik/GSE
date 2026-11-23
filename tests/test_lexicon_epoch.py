@@ -6,9 +6,9 @@ from dataclasses import replace
 
 import pytest
 
-from gse.curation.lexicon_builder.definition_frames import native_noun_frames, wiktionary_anatomy_frame
-from gse.curation.lexicon_builder.engine import Assertion
-from gse.curation.lexicon_builder.epoch import (
+from GSE.curation.lexicon_builder.definition_frames import native_noun_frames, wiktionary_anatomy_frame
+from GSE.curation.lexicon_builder.engine import Assertion
+from GSE.curation.lexicon_builder.epoch import (
     EpochTransportRefusal,
     JournaledTransport,
     census,
@@ -18,10 +18,10 @@ from gse.curation.lexicon_builder.epoch import (
     record,
     run_arm,
 )
-from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation, _record_id
-from gse.curation.lexicon_builder.grounded_rules import observed_conjunctions
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.sqlite_snapshot import copy_database
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation, _record_id
+from GSE.curation.lexicon_builder.grounded_rules import observed_conjunctions
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.sqlite_snapshot import copy_database
 from scripts.run_lexicon_epochs import compare
 
 
@@ -281,7 +281,7 @@ def test_wiktionary_anatomy_want_scope_requires_physical_definition(gloss, frame
 
 
 def test_wiktionary_anatomy_scope_replays_without_filling_unknown_controls(tmp_path):
-    from gse.curation.lexicon_builder.foundation import lexical_context
+    from GSE.curation.lexicon_builder.foundation import lexical_context
 
     base, pointer = tmp_path / "base.db", tmp_path / "pointer.json"
     pointer.write_text("{}")
@@ -493,7 +493,7 @@ def test_production_retention_protects_active_rollback_and_busy_database(tmp_pat
 
 
 def test_source_round_working_copy_is_removed_after_publication(tmp_path, monkeypatch):
-    from gse.curation.lexicon_builder import publication
+    from GSE.curation.lexicon_builder import publication
     from scripts import audit_lexicon_runtime, revise_lexicon_wiktionary_anatomy
 
     source = tmp_path / "active.db"

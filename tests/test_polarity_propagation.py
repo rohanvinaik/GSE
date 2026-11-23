@@ -17,8 +17,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.primitives_v2 import SemanticBank
-from gse.vectors_v2 import (
+from GSE.primitives_v2 import SemanticBank
+from GSE.vectors_v2 import (
     POLARITY_PROPAGATION_RULES,
     compose_decomposition,
     create_basis,

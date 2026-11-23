@@ -5,10 +5,10 @@ from types import SimpleNamespace
 
 import pytest
 
-from gse.curation.external_sources.wordnet_hierarchy import WordNetHierarchyParser
-from gse.curation.lexicon_builder import evidence
-from gse.curation.lexicon_builder.engine import Assertion
-from gse.curation.lexicon_builder.evidence import (
+from GSE.curation.external_sources.wordnet_hierarchy import WordNetHierarchyParser
+from GSE.curation.lexicon_builder import evidence
+from GSE.curation.lexicon_builder.engine import Assertion
+from GSE.curation.lexicon_builder.evidence import (
     Definition,
     Observation,
     collect_evidence,
@@ -327,7 +327,7 @@ def test_missing_definition_projection_is_explicit():
 
 
 def test_lancaster_raw_missingness_survives_collection_without_lexical_claim(tmp_path):
-    from gse.curation.external_sources.lancaster_sensorimotor import LancasterSensorimotorParser
+    from GSE.curation.external_sources.lancaster_sensorimotor import LancasterSensorimotorParser
 
     path = tmp_path / "raw.csv"
     path.write_text("Word,Auditory.mean,Visual.mean,Haptic.mean\ndog,0,\n")
@@ -410,7 +410,7 @@ def test_observation_preserves_typed_zero_null_and_nested_native_values():
 
 @pytest.mark.parametrize("predicate,bank", [("motion", "MOVE"), ("emotional_state", "FEEL"), ("desire", "WANT")])
 def test_verbnet_explicit_sense_links_have_distinct_witnesses_and_no_ambiguous_copy(monkeypatch, predicate, bank):
-    from gse.curation.external_sources.verbnet import VerbNetEntry, VerbNetParser
+    from GSE.curation.external_sources.verbnet import VerbNetEntry, VerbNetParser
 
     synsets = [Synset(f"run.v.0{i}", f"Run definition {i}.", "verb.motion", pos="v") for i in (1, 2, 3)]
     spine = wordnet({"run": synsets})

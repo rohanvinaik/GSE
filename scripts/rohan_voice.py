@@ -22,12 +22,12 @@ from collections import defaultdict
 from contextlib import closing
 from pathlib import Path
 
-from gse.api import GSEEncoder
-from gse.api.encoder import GrammaticalDefinitionError
-from gse.lexical_evidence import is_definition_database, lookup_lexeme, resource_identity
-from gse.lexicon_resource import resolve_lexicon_path
-from gse.nlp.native import NativeNLP
-from gse.primitives_v2 import get_all_primitives, get_bank_for_primitive
+from GSE.api import GSEEncoder
+from GSE.api.encoder import GrammaticalDefinitionError
+from GSE.lexical_evidence import is_definition_database, lookup_lexeme, resource_identity
+from GSE.lexicon_resource import resolve_lexicon_path
+from GSE.nlp.native import NativeNLP
+from GSE.primitives_v2 import get_all_primitives, get_bank_for_primitive
 
 GSE_REPO = Path(__file__).resolve().parents[1]
 MODEL = GSE_REPO / "data" / "voice" / "model.v2.json"
@@ -85,14 +85,14 @@ def feature_identity() -> dict:
     from nltk import __version__ as nltk_version
     from nltk.corpus import wordnet as wn
 
-    from gse import lexical_evidence, lexicon_resource, primitives_v2
-    from gse.api import encoder, parse_repair
-    from gse.curation import build_clean_closed_class
-    from gse.curation.external_sources import gse_closed_class, source_scope, tier_0_dispatch
-    from gse.curation.lexicon_builder import storage
-    from gse.lexicon import function_words, pronouns
-    from gse.nlp import contractions, morphology, native
-    from gse.symbolic import modality
+    from GSE import lexical_evidence, lexicon_resource, primitives_v2
+    from GSE.api import encoder, parse_repair
+    from GSE.curation import build_clean_closed_class
+    from GSE.curation.external_sources import gse_closed_class, source_scope, tier_0_dispatch
+    from GSE.curation.lexicon_builder import storage
+    from GSE.lexicon import function_words, pronouns
+    from GSE.nlp import contractions, morphology, native
+    from GSE.symbolic import modality
 
     code_paths = [
         Path(__file__).resolve(),

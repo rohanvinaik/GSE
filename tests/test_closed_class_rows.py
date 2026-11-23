@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from gse.curation import build_clean_closed_class as cc
+from GSE.curation import build_clean_closed_class as cc
 
 LEXICON = Path(__file__).resolve().parents[1] / "data" / "lexicon_clean.db"
 
@@ -65,7 +65,7 @@ def test_layer_on_a_copy_of_the_lexicon_then_a_second_run_changes_nothing(lexico
 
 def test_the_built_lexicon_carries_the_layer():
     """Pins data/lexicon_clean.db itself: the build ran the closed-class layer last."""
-    from gse.api import GSEEncoder
+    from GSE.api import GSEEncoder
 
     enc = GSEEncoder()
     prims = {t.token: t.word_primitives for t in enc.encode("She saw him in the box.").tokens}

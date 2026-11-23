@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from gse.curation.external_sources.concreteness import ConcretenessParser
+from GSE.curation.external_sources.concreteness import ConcretenessParser
 
 
 def test_total_is_rating_count_and_percent_known_is_not_total(tmp_path: Path) -> None:

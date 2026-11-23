@@ -8,11 +8,11 @@ from dataclasses import asdict
 
 import pytest
 
-from gse.curation.lexicon_builder.engine import Assertion
-from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
-from gse.curation.lexicon_builder.foundation import BANKS
-from gse.curation.lexicon_builder.pipeline import build_dictionary, load_evidence
-from gse.curation.lexicon_builder.storage import open_build, read_entries, runtime_lookup
+from GSE.curation.lexicon_builder.engine import Assertion
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
+from GSE.curation.lexicon_builder.foundation import BANKS
+from GSE.curation.lexicon_builder.pipeline import build_dictionary, load_evidence
+from GSE.curation.lexicon_builder.storage import open_build, read_entries, runtime_lookup
 
 
 def bundle():
@@ -107,7 +107,7 @@ def test_real_cli_build_lookup_export(tmp_path):
     evidence = tmp_path / "evidence.json"
     evidence.write_text(json.dumps({"format": "gse.lexicon-evidence/1", **asdict(data)}))
     db = tmp_path / "cli.db"
-    base = [sys.executable, "-m", "gse.curation.cli.commands", "--lexicon-db", str(db)]
+    base = [sys.executable, "-m", "GSE.curation.cli.commands", "--lexicon-db", str(db)]
     built = subprocess.run(base + ["build", "--evidence", str(evidence)], capture_output=True, text=True, check=True)
     assert json.loads(built.stdout)["model_calls"] == 0
     looked = subprocess.run(base + ["lookup", "bank"], capture_output=True, text=True, check=True)
@@ -207,7 +207,7 @@ def test_failed_snapshot_rolls_back_and_success_removes_old_definitions(tmp_path
 
 
 def test_conflict_with_requested_hierarchy_never_publishes_hierarchy(tmp_path):
-    from gse.curation.lexicon_builder.validation import validate_build
+    from GSE.curation.lexicon_builder.validation import validate_build
 
     data = bundle()
     data = EvidenceBundle(
@@ -256,7 +256,7 @@ def test_explicit_prime_definition_and_catalog_gold_commands(tmp_path):
     path = tmp_path / "manual.db"
     report = build_dictionary(EvidenceBundle((), (), (), ()), path, manifest=manifest)
     assert report["prime_coverage"]["PARTIAL_FOUNDATION_CLOSURE"] == 1
-    base = [sys.executable, "-m", "gse.curation.cli.commands", "--lexicon-db", str(path)]
+    base = [sys.executable, "-m", "GSE.curation.cli.commands", "--lexicon-db", str(path)]
     catalog = subprocess.run(base + ["catalog"], capture_output=True, text=True, check=True)
     assert json.loads(catalog.stdout)["format"] == "gse.nsm-catalog-coverage/2"
     assert json.loads(catalog.stdout)["coverage_counts"]["PARTIAL_FOUNDATION_CLOSURE"] == 1
@@ -274,7 +274,7 @@ def test_explicit_prime_definition_and_catalog_gold_commands(tmp_path):
 def test_read_commands_never_create_a_missing_database(tmp_path, command):
     path = tmp_path / "missing.db"
     result = subprocess.run(
-        [sys.executable, "-m", "gse.curation.cli.commands", "--lexicon-db", str(path), *command],
+        [sys.executable, "-m", "GSE.curation.cli.commands", "--lexicon-db", str(path), *command],
         capture_output=True,
         text=True,
     )
@@ -332,7 +332,7 @@ def test_uppercase_short_pos_uses_same_founder_projection(tmp_path):
 
 
 def test_diagnostics_are_rows_not_a_corpus_sized_json_value(tmp_path, monkeypatch):
-    from gse.curation.lexicon_builder import pipeline
+    from GSE.curation.lexicon_builder import pipeline
 
     def limited_open(path):
         conn = open_build(path)

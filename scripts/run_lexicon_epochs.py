@@ -6,7 +6,7 @@ import json
 import math
 from pathlib import Path
 
-from gse.curation.lexicon_builder.epoch import (
+from GSE.curation.lexicon_builder.epoch import (
     POLICIES,
     _domains,
     _resolve,
@@ -19,9 +19,9 @@ from gse.curation.lexicon_builder.epoch import (
     run_arm,
     scope_rows,
 )
-from gse.curation.lexicon_builder.residual import OllamaTransport
-from gse.curation.lexicon_builder.rule_history import digest
-from gse.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
+from GSE.curation.lexicon_builder.residual import OllamaTransport
+from GSE.curation.lexicon_builder.rule_history import digest
+from GSE.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
 
 
 def rule_interactions(candidate, inventory, child, parents, bank):
@@ -231,7 +231,7 @@ def retire_published_work(directory, result, release):
 
 
 def publish_round(result, directory, destination, gold):
-    from gse.curation.lexicon_builder.publication import publish_sparse
+    from GSE.curation.lexicon_builder.publication import publish_sparse
     from scripts.audit_lexicon_runtime import audit_sparse_runtime
 
     if not result["changes"]:

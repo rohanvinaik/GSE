@@ -4,10 +4,10 @@ import argparse
 import json
 from pathlib import Path
 
-from gse.curation.lexicon_builder.interchange import read_json
-from gse.curation.lexicon_builder.rule_admission import admit_rule
-from gse.curation.lexicon_builder.rule_migration import migrate_revision
-from gse.curation.lexicon_builder.rule_revisions import FORMAT
+from GSE.curation.lexicon_builder.interchange import read_json
+from GSE.curation.lexicon_builder.rule_admission import admit_rule
+from GSE.curation.lexicon_builder.rule_migration import migrate_revision
+from GSE.curation.lexicon_builder.rule_revisions import FORMAT
 
 
 def main():

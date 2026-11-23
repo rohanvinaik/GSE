@@ -5,11 +5,11 @@ import sqlite3
 
 import pytest
 
-from gse.curation.lexicon_builder.completion import complete_dictionary
-from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
-from gse.curation.lexicon_builder.model_receipts import ModelReceipts, migrate_model_receipts, read_model_receipts
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.validation import validate_build
+from GSE.curation.lexicon_builder.completion import complete_dictionary
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
+from GSE.curation.lexicon_builder.model_receipts import ModelReceipts, migrate_model_receipts, read_model_receipts
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.validation import validate_build
 
 
 @pytest.fixture
@@ -81,7 +81,7 @@ def test_legacy_replay_then_one_time_completion_migration(modeled):
 
 
 def test_migration_failure_rolls_back_schema_rows_and_legacy_authority(modeled, monkeypatch):
-    from gse.curation.lexicon_builder import model_receipts
+    from GSE.curation.lexicon_builder import model_receipts
 
     old = make_legacy(modeled)
     original = model_receipts.append_model_receipt

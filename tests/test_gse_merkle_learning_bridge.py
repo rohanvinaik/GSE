@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.merkle.learning_bridge."""
+"""Manual contract tests for GSE.merkle.learning_bridge."""
 
 from __future__ import annotations
 
@@ -10,14 +10,14 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import numpy as np
 import pytest
 
-from gse.merkle.learning_bridge import (
+from GSE.merkle.learning_bridge import (
     FamilyAffinityMatrix,
     KLinePattern,
     KLineStore,
     MerkleLearningBridge,
 )
-from gse.merkle.nodes import LexemeNode
-from gse.merkle.tree import MerkleLexiconTree
+from GSE.merkle.nodes import LexemeNode
+from GSE.merkle.tree import MerkleLexiconTree
 
 
 def make_lexeme(lemma="happy", decomposition=None):

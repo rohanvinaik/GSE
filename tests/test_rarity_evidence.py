@@ -5,8 +5,8 @@ from types import SimpleNamespace
 
 import pytest
 
-from gse.curation import personal_dictionary
-from gse.nlp import heal, spellcheck
+from GSE.curation import personal_dictionary
+from GSE.nlp import heal, spellcheck
 
 
 def _lexicon(tmp_path, monkeypatch, ranks=None):

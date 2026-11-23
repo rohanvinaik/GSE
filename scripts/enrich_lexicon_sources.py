@@ -4,7 +4,7 @@ import argparse
 import json
 from pathlib import Path
 
-from gse.curation.lexicon_builder.source_enrichment import enrich_sources
+from GSE.curation.lexicon_builder.source_enrichment import enrich_sources
 
 
 def main():

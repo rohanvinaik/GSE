@@ -23,11 +23,11 @@ These tests assert that:
 import numpy as np
 import pytest
 
-from gse.api import GSEEncoder
-from gse.curation.external_sources.gse_closed_class import grammatical_entry_ids
-from gse.curation.lexicon_builder.engine import Assertion, propagate
-from gse.curation.lexicon_builder.evidence import Definition
-from gse.curation.lexicon_builder.storage import open_build, store_entry
+from GSE.api import GSEEncoder
+from GSE.curation.external_sources.gse_closed_class import grammatical_entry_ids
+from GSE.curation.lexicon_builder.engine import Assertion, propagate
+from GSE.curation.lexicon_builder.evidence import Definition
+from GSE.curation.lexicon_builder.storage import open_build, store_entry
 
 
 @pytest.fixture(scope="module")

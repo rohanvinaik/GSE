@@ -4,18 +4,18 @@ import copy
 
 import pytest
 
-from gse.curation.lexicon_builder import model_protocol
-from gse.curation.lexicon_builder.engine import Assertion, propagate
-from gse.curation.lexicon_builder.evidence import Definition
-from gse.curation.lexicon_builder.foundation import BANKS
-from gse.curation.lexicon_builder.residual import OllamaTransport, build_request
+from GSE.curation.lexicon_builder import model_protocol
+from GSE.curation.lexicon_builder.engine import Assertion, propagate
+from GSE.curation.lexicon_builder.evidence import Definition
+from GSE.curation.lexicon_builder.foundation import BANKS
+from GSE.curation.lexicon_builder.residual import OllamaTransport, build_request
 
 
 @pytest.mark.parametrize("bank,gloss", [("BE", "Stative existence"), ("EXIST", "Ontological status")])
 def test_coordinate_gloss_quotes_registry_without_inventing_negative_pole(bank, gloss):
     coordinate = model_protocol.coordinate_contract(bank)
     assert coordinate["registry_gloss"] == gloss
-    assert coordinate["registry_source"] == "gse/primitives_v2.py"
+    assert coordinate["registry_source"] == "GSE/primitives_v2.py"
     assert coordinate["negative_pole"] == {"code": "NOT_DECLARED"}
     assert coordinate["zero"] == "JUSTIFIED_ORTHOGONALITY"
     assert coordinate["null"] == "CANNOT_DETERMINE"

@@ -1,5 +1,5 @@
 """Entity-leg spell-correction: the alias-free proper-noun instance of the
-noisy-channel discipline (gse/nlp/spellcheck_entity.py).
+noisy-channel discipline (GSE/nlp/spellcheck_entity.py).
 
 Two layers: synthetic-fixture tests pin the DISCIPLINE (grounding gate, margin,
 anchor corroboration, graceful absence); real-dictionary tests pin the behaviour
@@ -12,7 +12,7 @@ import sqlite3
 
 import pytest
 
-from gse.nlp.spellcheck_entity import (
+from GSE.nlp.spellcheck_entity import (
     _DEFAULT_ENTITIES,
     EntityCorrection,
     _Entities,
@@ -142,7 +142,7 @@ def test_deterministic():
 
 @needs_db
 def test_server_sentence_entity_commit_and_casing():
-    from gse.mcp.spell_server import spell_suggest
+    from GSE.mcp.spell_server import spell_suggest
 
     r = spell_suggest("Einstien published the theory of relativity")
     assert r["corrected"].startswith("Einstein ")
@@ -150,7 +150,7 @@ def test_server_sentence_entity_commit_and_casing():
 
 @needs_db
 def test_server_rare_tail_name_offer_only():
-    from gse.mcp.spell_server import spell_suggest
+    from GSE.mcp.spell_server import spell_suggest
 
     r = spell_suggest("we visited Bosina during the war")
     assert "Bosina" in r["corrected"]  # never auto-applied
@@ -160,7 +160,7 @@ def test_server_rare_tail_name_offer_only():
 
 @needs_db
 def test_server_real_name_left_alone():
-    from gse.mcp.spell_server import spell_suggest
+    from GSE.mcp.spell_server import spell_suggest
 
     r = spell_suggest("we flew to Melbourn yesterday")
     assert "Melbourn" in r["corrected"]

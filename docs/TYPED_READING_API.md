@@ -7,13 +7,13 @@ live traces and trees into the separate `voice.reading/1` contract.
 
 ## Source units and intake
 
-`gse.discourse.split_paragraphs(text)` preserves internal paragraph whitespace.
+`GSE.discourse.split_paragraphs(text)` preserves internal paragraph whitespace.
 `document_sentences(text)` collapses wrapped prose for the bounded sentence
 splitter and returns `SourceSentence(id, text, paragraph_id)` records. Exact
 original offsets and source maps remain the source-file owner's responsibility.
 `split_sentences` retains its existing `. ! ?` followed by whitespace policy.
 
-`gse.discourse.speech.encode_document_utterance_events(enc, sentences,
+`GSE.discourse.speech.encode_document_utterance_events(enc, sentences,
 deadline=None)` accepts complete ordered source records (`{"id": ..., "text":
 ...}`), `SourceSentence` objects, `(id, text)` pairs, or legacy strings. Explicit
 IDs survive unchanged; legacy strings receive positional `s0`, `s1`, … IDs.
@@ -33,7 +33,7 @@ Errors distinguish `encode_error`, `construction_error`, `evaluation_error`,
 checked before starting each synchronous encode. It cannot interrupt a running
 encoder. Remaining expected outcomes are unread with their original IDs.
 
-`gse.symbolic.resolve_with_sources(expression)` returns `source` and `bound`
+`GSE.symbolic.resolve_with_sources(expression)` returns `source` and `bound`
 expressions after one shared refinement. `resolve(expression)` retains the same
 bound result. The source expression precedes within-sentence pronoun binding.
 Intake evaluates it as a separate `source_tree` with `source_origins` availability;
@@ -72,7 +72,7 @@ and person-validation cassettes retain their distinct questions.
 
 ## Public structural measurements
 
-`gse.structure.operation_counts(tree)` accepts live or serialized trees and
+`GSE.structure.operation_counts(tree)` accepts live or serialized trees and
 retains every encountered operation, including `TEMPORAL` and unknown labels.
 `OPERATION_VOCABULARY` publishes the supported evaluated-label catalog.
 `clause_depth(tree)` counts embedded Control, relative and event-complement

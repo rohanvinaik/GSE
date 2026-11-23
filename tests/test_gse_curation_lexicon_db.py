@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.lexicon_db."""
+"""Manual contract tests for GSE.curation.lexicon_db."""
 
 from __future__ import annotations
 
@@ -10,12 +10,12 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.lexicon_db import (
+from GSE.curation.lexicon_db import (
     LexemeEntry,
     LexiconDatabase,
     ValidationResult,
 )
-from gse.curation.schema import ALL_PRIMITIVES
+from GSE.curation.schema import ALL_PRIMITIVES
 
 
 @pytest.fixture

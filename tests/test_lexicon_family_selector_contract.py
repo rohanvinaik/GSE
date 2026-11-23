@@ -4,12 +4,12 @@ from pathlib import Path
 
 import pytest
 
-from gse.lexicon_builder.build import adjective_seed, build, source_matches
-from gse.lexicon_builder.core import coordinate_vocabulary
-from gse.lexicon_builder.reading import construct_reading
-from gse.lexicon_builder.registry import load_rulebook
-from gse.lexicon_builder.sources import NativeSources
-from gse.lexicon_builder.tail import attach_tail
+from GSE.lexicon_builder.build import adjective_seed, build, source_matches
+from GSE.lexicon_builder.core import coordinate_vocabulary
+from GSE.lexicon_builder.reading import construct_reading
+from GSE.lexicon_builder.registry import load_rulebook
+from GSE.lexicon_builder.sources import NativeSources
+from GSE.lexicon_builder.tail import attach_tail
 from tests.lexicon_sources import requires_lexicon_sources
 
 

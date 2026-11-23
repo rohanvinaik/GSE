@@ -10,8 +10,8 @@ import json
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.symbolic import (
+from GSE.api import GSEEncoder
+from GSE.symbolic import (
     NullGenealogy,
     emit,
     emit_contract,
@@ -22,9 +22,9 @@ from gse.symbolic import (
     resolve_references,
     to_dict,
 )
-from gse.symbolic.expression import Atom
-from gse.symbolic.predicates import Comparison, TypeAssertion
-from gse.symbolic.resolution import Entity
+from GSE.symbolic.expression import Atom
+from GSE.symbolic.predicates import Comparison, TypeAssertion
+from GSE.symbolic.resolution import Entity
 
 
 @pytest.fixture(scope="module")

@@ -4,13 +4,13 @@ import sqlite3
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.api.errors import OOVError
-from gse.curation.lexicon_builder.engine import Assertion, propagate
-from gse.curation.lexicon_builder.evidence import Definition
-from gse.curation.lexicon_builder.storage import open_build, store_entry
-from gse.discourse.speech import encode_document_utterance_events
-from gse.symbolic import emit_contract, evaluate_tree, from_trace, resolve
+from GSE.api import GSEEncoder
+from GSE.api.errors import OOVError
+from GSE.curation.lexicon_builder.engine import Assertion, propagate
+from GSE.curation.lexicon_builder.evidence import Definition
+from GSE.curation.lexicon_builder.storage import open_build, store_entry
+from GSE.discourse.speech import encode_document_utterance_events
+from GSE.symbolic import emit_contract, evaluate_tree, from_trace, resolve
 
 
 @pytest.fixture

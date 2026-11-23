@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.lexicon.word_encoding.
+"""Manual contract tests for GSE.lexicon.word_encoding.
 
 LintGate classified all 6 functions as manual_contract:
 - GrammaticalFeatures.is_empty
@@ -16,13 +16,13 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import numpy as np
 import pytest
 
-from gse.lexicon.word_encoding import (
+from GSE.lexicon.word_encoding import (
     ComponentType,
     GrammaticalFeatures,
     GramRole,
     LexemeEntry,
 )
-from gse.vectors_v2 import SparseVector
+from GSE.vectors_v2 import SparseVector
 
 
 def make_vector(nnz: int = 4) -> SparseVector:

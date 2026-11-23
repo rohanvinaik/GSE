@@ -16,9 +16,9 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from gse.lexicon_generator import LexiconGenerator
-from gse.primitives import PRIMITIVES, ROLES
-from gse.vectors import PrimitiveBasis
+from GSE.lexicon_generator import LexiconGenerator
+from GSE.primitives import PRIMITIVES, ROLES
+from GSE.vectors import PrimitiveBasis
 
 
 def validate_decomposition(word: str, decomposition: list) -> list:

@@ -38,13 +38,13 @@ logical/symbolic lens on top.
 
 | Phase | Deliverable | LoC | Theory blocker | Status |
 |---|---|---|---|---|
-| **B1** | `gse/symbolic/expression.py` — AST (`Atom`, `Phrase`, `Negation`, `Op`) + `from_trace(trace)` builder | ~100 | None | Pending |
-| **B5** | `gse/symbolic/resolution.py` — multi-word entity grouping, possessive resolution, single-sentence pronoun binding | ~150 | None | Pending |
+| **B1** | `GSE/symbolic/expression.py` — AST (`Atom`, `Phrase`, `Negation`, `Op`) + `from_trace(trace)` builder | ~100 | None | Pending |
+| **B5** | `GSE/symbolic/resolution.py` — multi-word entity grouping, possessive resolution, single-sentence pronoun binding | ~150 | None | Pending |
 | **B4** | `Expression.to_json()` / `from_json()` round-trip | ~50 | None | Pending |
-| **B2** | `gse/symbolic/operators.py` — pure-Python semantic functions for each of 10 `OperatorTrace.operation` labels | ~300 | **6 specs needed** (see below) | Pending |
-| **B3** | `gse/symbolic/queries.py` — `entities()`, `predicates()`, `is_logically_equal_to()`, `is_argument_swap_of()`, `axis_of_comparison()` | ~150 | None (uses B2) | Pending |
-| **B6** | `gse/symbolic/templating.py` — `Expression.substitute(Atom, Atom) → Expression` for structural substitution | ~100 | None | Pending |
-| **B7** | `gse/verification/symbolic_proof_suite.py` — the architecture's line 154 validation queries | ~150 | None | Pending |
+| **B2** | `GSE/symbolic/operators.py` — pure-Python semantic functions for each of 10 `OperatorTrace.operation` labels | ~300 | **6 specs needed** (see below) | Pending |
+| **B3** | `GSE/symbolic/queries.py` — `entities()`, `predicates()`, `is_logically_equal_to()`, `is_argument_swap_of()`, `axis_of_comparison()` | ~150 | None (uses B2) | Pending |
+| **B6** | `GSE/symbolic/templating.py` — `Expression.substitute(Atom, Atom) → Expression` for structural substitution | ~100 | None | Pending |
+| **B7** | `GSE/verification/symbolic_proof_suite.py` — the architecture's line 154 validation queries | ~150 | None | Pending |
 
 **Total: ~1000 LoC + tests, gated on 6 operator specs.**
 

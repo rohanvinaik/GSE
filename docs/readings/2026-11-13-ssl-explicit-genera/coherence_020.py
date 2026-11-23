@@ -7,8 +7,8 @@ from importlib import import_module
 from math import log2, prod
 from pathlib import Path
 
-from gse.api.encoder import GSEEncoder
-from gse.curation.lexicon_builder.epoch import (
+from GSE.api.encoder import GSEEncoder
+from GSE.curation.lexicon_builder.epoch import (
     _domains,
     _resolve,
     fingerprint,
@@ -16,7 +16,7 @@ from gse.curation.lexicon_builder.epoch import (
     record,
     scope_rows,
 )
-from gse.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
+from GSE.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
 from scripts.audit_lexicon_sentences import audit, compare_reports
 from scripts.run_lexicon_epochs import publish_round
 

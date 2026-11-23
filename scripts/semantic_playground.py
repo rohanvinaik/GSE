@@ -20,9 +20,9 @@ from collections import Counter
 from typing import Dict, List, Tuple
 
 import numpy as np
-from gse.pipeline import GSEResult, load_cascade_pipeline
+from GSE.pipeline import GSEResult, load_cascade_pipeline
 
-from gse.patterns.klines import KLineStore
+from GSE.patterns.klines import KLineStore
 
 
 class SemanticPlayground:
@@ -122,7 +122,7 @@ class SemanticPlayground:
         target = vb.to_dense().astype(float) - va.to_dense().astype(float) + vc.to_dense().astype(float)
 
         # Find top activated primitives in target
-        from gse.vectors import SparseVector
+        from GSE.vectors import SparseVector
 
         target_sparse = SparseVector(dimension=va.dimension)
 

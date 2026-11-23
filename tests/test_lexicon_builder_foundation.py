@@ -4,8 +4,8 @@ from decimal import Decimal
 
 import pytest
 
-from gse.lexicon_builder.basis import OPPOSITE_POLES, PRIMES
-from gse.lexicon_builder.core import (
+from GSE.lexicon_builder.basis import OPPOSITE_POLES, PRIMES
+from GSE.lexicon_builder.core import (
     CANONICAL_COORDINATES,
     Cell,
     Law,

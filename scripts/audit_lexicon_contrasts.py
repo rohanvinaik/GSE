@@ -16,11 +16,11 @@ import tempfile
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from gse.curation.lexicon_builder.evidence import Definition
-from gse.curation.lexicon_builder.interchange import read_json
-from gse.curation.lexicon_builder.model_batch import OllamaBatchTransport
-from gse.curation.lexicon_builder.model_protocol import model_input
-from gse.curation.lexicon_builder.residual import BankRequest, OllamaTransport
+from GSE.curation.lexicon_builder.evidence import Definition
+from GSE.curation.lexicon_builder.interchange import read_json
+from GSE.curation.lexicon_builder.model_batch import OllamaBatchTransport
+from GSE.curation.lexicon_builder.model_protocol import model_input
+from GSE.curation.lexicon_builder.residual import BankRequest, OllamaTransport
 from scripts.audit_lexicon_model_protocol import calibration_results, prepare_case
 
 INPUT_FORMAT = "gse.lexicon-contrast-cases/1"

@@ -7,12 +7,12 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from gse.api.encoder import GSEEncoder
-from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle
-from gse.curation.lexicon_builder.foundation import BANKS, representation_contract
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.validation import validate_build
-from gse.primitives_v2 import get_hierarchy_encoding
+from GSE.api.encoder import GSEEncoder
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle
+from GSE.curation.lexicon_builder.foundation import BANKS, representation_contract
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.validation import validate_build
+from GSE.primitives_v2 import get_hierarchy_encoding
 from scripts.encode_modifiers import encode_modifiers
 
 APPROVED_MANIFEST = Path(__file__).resolve().parents[1] / "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json"
@@ -58,7 +58,7 @@ def test_basis_fingerprint_is_stable_until_an_explicit_migration():
 )
 def test_runtime_ordinal_drift_is_named_and_prevents_output(tmp_path, monkeypatch, modifier, replacement):
     monkeypatch.setattr(
-        "gse.primitives_v2.get_hierarchy_encoding",
+        "GSE.primitives_v2.get_hierarchy_encoding",
         lambda word: replacement if word == modifier else get_hierarchy_encoding(word),
     )
     with pytest.raises(ValueError, match="^ORDINAL_REPRESENTATION_DRIFT$"):

@@ -8,8 +8,8 @@ token front-end consumes it (the lemma is the grounded base, never a mangled ste
 
 import pytest
 
-from gse.nlp.morphology import COMPARATIVE, SUPERLATIVE, resolve_degree
-from gse.nlp.native import NativeNLP
+from GSE.nlp.morphology import COMPARATIVE, SUPERLATIVE, resolve_degree
+from GSE.nlp.native import NativeNLP
 
 
 @pytest.fixture(scope="module")

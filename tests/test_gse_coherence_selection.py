@@ -10,10 +10,10 @@ from pathlib import Path
 
 import pytest
 
-from gse.symbolic import resolve_references
-from gse.symbolic.expression import Atom
-from gse.symbolic.predicates import Comparison
-from gse.symbolic.resolution import Entity
+from GSE.symbolic import resolve_references
+from GSE.symbolic.expression import Atom
+from GSE.symbolic.predicates import Comparison
+from GSE.symbolic.resolution import Entity
 
 
 # A two-sense lemma ("king": monarch vs chess piece) plus context words that
@@ -80,7 +80,7 @@ _DB = Path("data/genealogy.db")
 
 @pytest.mark.skipif(not _DB.exists(), reason="genealogy.db not built")
 def test_real_store_selection_stays_sane():
-    from gse.symbolic import GenealogyStore
+    from GSE.symbolic import GenealogyStore
 
     with GenealogyStore() as store:
         out = resolve_references(_pair("dog", "cat"), store)

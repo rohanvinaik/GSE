@@ -167,7 +167,7 @@ def _hf_stream(name, cfg, field: str, n: int, max_sents: int, group: int = 1):
 def _providers(docs_per_genre: int, max_sents: int):
     """Yield ``(register_class, genre, source, doc_id, text)`` across all sources.
 
-    Genres must be declared in ``gse.discourse.REGISTER_TAXONOMY`` (validated in
+    Genres must be declared in ``GSE.discourse.REGISTER_TAXONOMY`` (validated in
     ``main``) so the corpus and the router share one label space.
     """
     from nltk.corpus import brown, gutenberg, nps_chat, reuters
@@ -298,8 +298,8 @@ def main() -> int:
         except LookupError:
             nltk.download(name, quiet=True)
 
-    from gse.api import GSEEncoder
-    from gse.discourse import register_class_of, text_profile
+    from GSE.api import GSEEncoder
+    from GSE.discourse import register_class_of, text_profile
 
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)

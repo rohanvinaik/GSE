@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.verb_templates."""
+"""Manual contract tests for GSE.verb_templates."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.verb_templates import (
+from GSE.verb_templates import (
     VERB_TEMPLATES,
     VerbTemplateHandler,
     get_verb_template_handler,

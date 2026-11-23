@@ -8,15 +8,15 @@ complement ("believes that Duncan is a traitor") were asserted; and a conditiona
 side became a positive rule ("if Rex does not bark, Mike leaves" → bark ⇒ leave), which then
 derived conclusions the text contradicts.
 
-The fix ingests each tree by its assertion modality (``gse.symbolic.modality.assertion_mode``),
+The fix ingests each tree by its assertion modality (``GSE.symbolic.modality.assertion_mode``),
 the same decision the narrative skeleton applies. These tests drive the real pipeline and read
 the knowledge base through its public queries.
 """
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.symbolic import KnowledgeBase, evaluate_tree, from_trace, resolve
+from GSE.api import GSEEncoder
+from GSE.symbolic import KnowledgeBase, evaluate_tree, from_trace, resolve
 
 
 @pytest.fixture(scope="module")

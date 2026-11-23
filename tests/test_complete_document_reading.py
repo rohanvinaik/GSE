@@ -5,16 +5,16 @@ from types import SimpleNamespace
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.api.trace import OperationTrace, TokenTrace
-from gse.cassettes.deck import CassetteDeck
-from gse.cassettes.entity_identity import EntityIdentity, IdentityGap
-from gse.cassettes.multiscale import Mention, MultiScaleDoc
-from gse.cassettes.relational_identity import RelationalIdentity
-from gse.discourse.intake import SourceSentence, document_sentences, split_paragraphs
-from gse.discourse.profile import PROFILE_FIELDS, text_profile
-from gse.discourse.speech import encode_document_utterance_events, encode_document_utterances_traced, segment_document
-from gse.structure import (
+from GSE.api import GSEEncoder
+from GSE.api.trace import OperationTrace, TokenTrace
+from GSE.cassettes.deck import CassetteDeck
+from GSE.cassettes.entity_identity import EntityIdentity, IdentityGap
+from GSE.cassettes.multiscale import Mention, MultiScaleDoc
+from GSE.cassettes.relational_identity import RelationalIdentity
+from GSE.discourse.intake import SourceSentence, document_sentences, split_paragraphs
+from GSE.discourse.profile import PROFILE_FIELDS, text_profile
+from GSE.discourse.speech import encode_document_utterance_events, encode_document_utterances_traced, segment_document
+from GSE.structure import (
     clause_depth,
     clause_head_evidence,
     entity_source_evidence,
@@ -22,9 +22,9 @@ from gse.structure import (
     structural_loss_evidence,
     verb_head_evidence,
 )
-from gse.symbolic.expression import Atom
-from gse.symbolic.predicates import Event
-from gse.symbolic.resolution import Entity
+from GSE.symbolic.expression import Atom
+from GSE.symbolic.predicates import Event
+from GSE.symbolic.resolution import Entity
 
 
 class Encoder:
@@ -53,13 +53,13 @@ class Encoder:
 
 @pytest.fixture
 def simple_pipeline(monkeypatch):
-    import gse.symbolic
+    import GSE.symbolic
 
     alice = Entity(Atom("alice", {}, position=0, pos="PROPN"), entity_id="alice")
     tree = Event("run", alice)
-    monkeypatch.setattr(gse.symbolic, "from_trace", lambda trace: tree)
-    monkeypatch.setattr(gse.symbolic, "resolve", lambda node: node)
-    monkeypatch.setattr(gse.symbolic, "evaluate_tree", lambda node: node)
+    monkeypatch.setattr(GSE.symbolic, "from_trace", lambda trace: tree)
+    monkeypatch.setattr(GSE.symbolic, "resolve", lambda node: node)
+    monkeypatch.setattr(GSE.symbolic, "evaluate_tree", lambda node: node)
     return tree
 
 
@@ -95,7 +95,7 @@ def test_empty_manifest_is_explicit(simple_pipeline):
 
 
 def test_deixis_failure_is_a_located_outcome(simple_pipeline, monkeypatch):
-    import gse.discourse.speech as speech
+    import GSE.discourse.speech as speech
 
     def fail(tree, utterance):
         raise ValueError("deixis failed")
@@ -110,12 +110,12 @@ def test_deixis_failure_is_a_located_outcome(simple_pipeline, monkeypatch):
 
 @pytest.mark.parametrize("phase", ["construction", "evaluation"])
 def test_construction_and_evaluation_failures_are_named(simple_pipeline, monkeypatch, phase):
-    import gse.symbolic
+    import GSE.symbolic
 
     def fail(node):
         raise ValueError("phase failed")
 
-    monkeypatch.setattr(gse.symbolic, "from_trace" if phase == "construction" else "evaluate_tree", fail)
+    monkeypatch.setattr(GSE.symbolic, "from_trace" if phase == "construction" else "evaluate_tree", fail)
     events = list(encode_document_utterance_events(Encoder(), [("fixed", "good")]))
     assert events[1]["error"]["code"] == f"{phase}_error"
 
@@ -269,7 +269,7 @@ def test_entity_identity_split_requires_positive_person_evidence():
 
 
 def test_multiscale_resolution_failure_keeps_sentence_success(simple_pipeline, monkeypatch):
-    import gse.cassettes.multiscale as multiscale
+    import GSE.cassettes.multiscale as multiscale
 
     def fail(*args, **kwargs):
         raise ValueError("resolution failed")
@@ -285,7 +285,7 @@ def test_multiscale_resolution_failure_keeps_sentence_success(simple_pipeline, m
 
 
 def test_fold_failure_does_not_destroy_resolved_document(simple_pipeline, monkeypatch):
-    import gse.cassettes.multiscale as multiscale
+    import GSE.cassettes.multiscale as multiscale
 
     monkeypatch.setattr(multiscale, "resolve_document", lambda trees, *args, **kwargs: trees)
 
@@ -301,8 +301,8 @@ def test_fold_failure_does_not_destroy_resolved_document(simple_pipeline, monkey
 
 
 def test_graph_failure_is_independent_of_successful_fold(simple_pipeline, monkeypatch):
-    import gse.cassettes.multiscale as multiscale
-    from gse.symbolic.narrative import NarrativeGraph
+    import GSE.cassettes.multiscale as multiscale
+    from GSE.symbolic.narrative import NarrativeGraph
 
     monkeypatch.setattr(multiscale, "resolve_document", lambda trees, *args, **kwargs: trees)
 
@@ -317,7 +317,7 @@ def test_graph_failure_is_independent_of_successful_fold(simple_pipeline, monkey
 
 
 def test_paragraph_view_keeps_whole_document_referent_and_antecedent(simple_pipeline, monkeypatch):
-    import gse.cassettes.multiscale as multiscale
+    import GSE.cassettes.multiscale as multiscale
 
     monkeypatch.setattr(multiscale, "resolve_document", lambda trees, *args, **kwargs: trees)
     encoder = Encoder()
@@ -331,7 +331,7 @@ def test_paragraph_view_keeps_whole_document_referent_and_antecedent(simple_pipe
 
 
 def test_real_document_context_keeps_cross_paragraph_antecedent(monkeypatch):
-    import gse.cassettes.multiscale as multiscale
+    import GSE.cassettes.multiscale as multiscale
 
     monkeypatch.setattr(multiscale, "_safe_store", lambda: None)
     doc = MultiScaleDoc("A woman smiled.\n\nShe ran.", GSEEncoder())
@@ -353,8 +353,8 @@ def test_real_event_construction_witness_must_not_report_surviving_verb_lost():
     "text", ["A woman smiled.", "A woman smiled because she ran.", "Her dog barked.", "Alice and Bob ran."]
 )
 def test_source_resolution_preserves_default_bound_tree(text):
-    from gse.symbolic import evaluate_tree, from_trace, resolve, resolve_with_sources
-    from gse.symbolic.serialization import to_dict
+    from GSE.symbolic import evaluate_tree, from_trace, resolve, resolve_with_sources
+    from GSE.symbolic.serialization import to_dict
 
     expression = from_trace(GSEEncoder().encode(text))
     pair = resolve_with_sources(expression)
@@ -362,7 +362,7 @@ def test_source_resolution_preserves_default_bound_tree(text):
 
 
 def test_source_entity_join_retains_local_pronoun_with_document_identity():
-    from gse.symbolic import resolve_document
+    from GSE.symbolic import resolve_document
 
     outcomes = [
         event
@@ -395,7 +395,7 @@ def test_source_entity_join_retains_within_sentence_pronoun_before_binding():
 
 
 def test_source_origin_failure_does_not_erase_primary_reading(simple_pipeline, monkeypatch):
-    import gse.symbolic
+    import GSE.symbolic
 
     calls = []
 
@@ -405,7 +405,7 @@ def test_source_origin_failure_does_not_erase_primary_reading(simple_pipeline, m
             raise ValueError("auxiliary source evaluation failed")
         return node
 
-    monkeypatch.setattr(gse.symbolic, "evaluate_tree", evaluate)
+    monkeypatch.setattr(GSE.symbolic, "evaluate_tree", evaluate)
     event = list(encode_document_utterance_events(Encoder(), [("fixed", "good")]))[1]
     assert event["state"] == "read" and event["tree"] is not None and event["error"] is None
     assert event["source_tree"] is None

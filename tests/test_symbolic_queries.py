@@ -7,8 +7,8 @@ evaluated trees from real encoder output.
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.symbolic import (
+from GSE.api import GSEEncoder
+from GSE.symbolic import (
     Atom,
     Causation,
     Comparison,
@@ -111,7 +111,7 @@ class TestAxisOfComparison:
         # Even if the resolved Predicate loses the axis, the *raw* AST
         # (no resolve) still contains it. Verifies the extractor works
         # when given content that has ADJ/ADV atoms.
-        from gse.symbolic import Phrase
+        from GSE.symbolic import Phrase
 
         phrase = Phrase(
             atoms=[

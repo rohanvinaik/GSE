@@ -8,16 +8,16 @@ from types import SimpleNamespace
 
 import pytest
 
-from gse.curation.external_sources.wiktionary import WiktionaryParser
-from gse.curation.lexicon_builder.evidence import (
+from GSE.curation.external_sources.wiktionary import WiktionaryParser
+from GSE.curation.lexicon_builder.evidence import (
     collect_evidence,
     native_reference_observation,
     native_reference_observations,
 )
-from gse.curation.lexicon_builder.model_evidence import evidence_view, restore_candidate_links
-from gse.curation.lexicon_builder.model_protocol import model_input, protocol_contract
-from gse.curation.lexicon_builder.residual import build_request
-from gse.curation.lexicon_builder.resolution import resolve_dictionary
+from GSE.curation.lexicon_builder.model_evidence import evidence_view, restore_candidate_links
+from GSE.curation.lexicon_builder.model_protocol import model_input, protocol_contract
+from GSE.curation.lexicon_builder.residual import build_request
+from GSE.curation.lexicon_builder.resolution import resolve_dictionary
 
 
 def native(word, pos="adj", senses=None):

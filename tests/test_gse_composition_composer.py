@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.composition.composer."""
+"""Manual contract tests for GSE.composition.composer."""
 
 from __future__ import annotations
 
@@ -10,21 +10,21 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import numpy as np
 import pytest
 
-from gse.composition.composer import (
+from GSE.composition.composer import (
     NEGATION_VECTOR,
     ROLE_VECTORS,
     SemanticComposer,
     _generate_role_vector,
     compose_sentence,
 )
-from gse.lexicon.word_encoding import (
+from GSE.lexicon.word_encoding import (
     ComponentType,
     GrammaticalFeatures,
     GramRole,
     LexemeEntry,
 )
-from gse.parsing.graph import EdgeType, ParseGraph, ParseNode
-from gse.vectors_v2 import SparseVector
+from GSE.parsing.graph import EdgeType, ParseGraph, ParseNode
+from GSE.vectors_v2 import SparseVector
 
 
 def make_vec(seed=42, nnz=20):

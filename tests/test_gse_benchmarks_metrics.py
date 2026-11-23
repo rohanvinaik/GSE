@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.benchmarks.metrics."""
+"""Manual contract tests for GSE.benchmarks.metrics."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import numpy as np
 import pytest
 
-from gse.benchmarks.metrics import (
+from GSE.benchmarks.metrics import (
     CorrelationResult,
     DiscriminationMetrics,
     antonym_detection_rate,

@@ -4,8 +4,8 @@ import json
 
 import pytest
 
-from gse.curation.lexicon_builder.evidence import EvidenceBundle, collect_evidence, load_local_sources
-from gse.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.evidence import EvidenceBundle, collect_evidence, load_local_sources
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
 from scripts.audit_lexicon_runtime import (
     ORDINAL_ANCHOR_RECORD,
     anchor_outcome,
@@ -95,7 +95,7 @@ def test_sense_isolation_allows_independent_completion_but_rejects_copied_anchor
 def test_runtime_audit_accepts_justified_this_have_zero(tmp_path):
     from pathlib import Path
 
-    from gse.curation.lexicon_builder.completion import complete_dictionary
+    from GSE.curation.lexicon_builder.completion import complete_dictionary
 
     manifest = json.loads(
         (Path(__file__).resolve().parents[1] / "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json").read_text()

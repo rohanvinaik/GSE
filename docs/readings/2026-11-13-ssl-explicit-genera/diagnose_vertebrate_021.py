@@ -9,14 +9,14 @@ from contextlib import closing
 from dataclasses import asdict
 from pathlib import Path
 
-from gse.curation.lexicon_builder.completion import _contexts, _entry
-from gse.curation.lexicon_builder.epoch import JournaledTransport, connect, fingerprint, read, record
-from gse.curation.lexicon_builder.foundation import BANKS, lexical_context
-from gse.curation.lexicon_builder.residual import OllamaTransport, build_request, complete_bank
-from gse.curation.lexicon_builder.resolution import resolve_dictionary
-from gse.curation.lexicon_builder.reviewed_patterns import _CapturedTransport
-from gse.curation.lexicon_builder.validation import _metadata, _relations
-from gse.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
+from GSE.curation.lexicon_builder.completion import _contexts, _entry
+from GSE.curation.lexicon_builder.epoch import JournaledTransport, connect, fingerprint, read, record
+from GSE.curation.lexicon_builder.foundation import BANKS, lexical_context
+from GSE.curation.lexicon_builder.residual import OllamaTransport, build_request, complete_bank
+from GSE.curation.lexicon_builder.resolution import resolve_dictionary
+from GSE.curation.lexicon_builder.reviewed_patterns import _CapturedTransport
+from GSE.curation.lexicon_builder.validation import _metadata, _relations
+from GSE.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
 
 NOTES = Path(__file__).resolve().parent
 ROOT = NOTES.parents[2]

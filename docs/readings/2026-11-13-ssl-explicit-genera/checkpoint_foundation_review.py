@@ -8,9 +8,9 @@ import sqlite3
 from collections import Counter
 from pathlib import Path
 
-from gse.curation.lexicon_builder.catalog import catalog_inventory
-from gse.curation.lexicon_builder.foundation import BANKS
-from gse.lexicon_resource import resolve_lexicon_path
+from GSE.curation.lexicon_builder.catalog import catalog_inventory
+from GSE.curation.lexicon_builder.foundation import BANKS
+from GSE.lexicon_resource import resolve_lexicon_path
 
 
 def main():

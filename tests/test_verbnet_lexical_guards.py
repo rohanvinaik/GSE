@@ -6,8 +6,8 @@ from xml.etree.ElementTree import fromstring
 
 import pytest
 
-from gse.curation.external_sources.verbnet import VerbNetEntry, VerbNetParser, _native_frame, _native_xml
-from gse.curation.lexicon_builder.evidence import collect_evidence
+from GSE.curation.external_sources.verbnet import VerbNetEntry, VerbNetParser, _native_frame, _native_xml
+from GSE.curation.lexicon_builder.evidence import collect_evidence
 
 
 def predicate(name, event="during(E)", roles=("Theme",), *, negative=False, extra=""):

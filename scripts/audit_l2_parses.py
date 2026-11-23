@@ -48,10 +48,10 @@ def main() -> int:
         except LookupError:
             nltk.download(name, quiet=True)
 
-    from gse.api import GSEEncoder
-    from gse.discourse import split_sentences, super_register_of
-    from gse.symbolic import evaluate_tree, from_trace, resolve
-    from gse.symbolic.coherence import coherence_report
+    from GSE.api import GSEEncoder
+    from GSE.discourse import split_sentences, super_register_of
+    from GSE.symbolic import evaluate_tree, from_trace, resolve
+    from GSE.symbolic.coherence import coherence_report
     from scripts.build_l2_corpus import _providers
 
     enc = GSEEncoder()

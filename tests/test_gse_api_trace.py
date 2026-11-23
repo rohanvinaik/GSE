@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.api.trace.
+"""Manual contract tests for GSE.api.trace.
 
 LintGate classified 19 of 20 functions as manual_contract (dataclass
 serialization + logical equality methods). These tests exercise each
@@ -16,7 +16,7 @@ import json
 
 import pytest
 
-from gse.api.trace import (
+from GSE.api.trace import (
     AttributeExtraction,
     DecodedSemantics,
     EntityExtraction,

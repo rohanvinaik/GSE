@@ -8,11 +8,11 @@ import logging
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.symbolic import emit_contract, evaluate_tree, from_trace, resolve
-from gse.symbolic.modality import modal_force, modal_primes
-from gse.symbolic.propositions import propositions
-from gse.symbolic.serialization import from_dict, to_dict
+from GSE.api import GSEEncoder
+from GSE.symbolic import emit_contract, evaluate_tree, from_trace, resolve
+from GSE.symbolic.modality import modal_force, modal_primes
+from GSE.symbolic.propositions import propositions
+from GSE.symbolic.serialization import from_dict, to_dict
 
 logging.disable(logging.CRITICAL)
 
@@ -137,7 +137,7 @@ def test_table_modal_force(primes, expected):
 
 # Direct calls that reach each branch of the clause-modal attachment (Detective's ask for _with_clause_modal).
 def _token(lemma, pos, primes, position):
-    from gse.api.trace import TokenTrace
+    from GSE.api.trace import TokenTrace
 
     return TokenTrace(
         token=lemma, lemma=lemma, pos=pos, position=position, word_primitives=primes, sent_primitives={},
@@ -155,40 +155,40 @@ _IS = [_token("it", "PRON", {"SOMETHING": 1}, 0), _token("be", "AUX", {"BE": 1},
 
 
 def _copula(modal=()):
-    from gse.symbolic.expression import Atom, Op
+    from GSE.symbolic.expression import Atom, Op
 
     return Op(primitive="COPULA", operation="TYPE_ASSERT", arity=2, args=[Atom(lemma="it"), Atom(lemma="dog")],
               modal=modal)  # fmt: skip
 
 
 def test_the_clause_modal_lands_on_a_bare_op():
-    from gse.symbolic.expression import _with_clause_modal
+    from GSE.symbolic.expression import _with_clause_modal
 
     assert _with_clause_modal(_copula(), _MIGHT_BE).modal == ("MAYBE",)
 
 
 def test_the_clause_modal_lands_inside_a_negation():
-    from gse.symbolic.expression import Negation, _with_clause_modal
+    from GSE.symbolic.expression import Negation, _with_clause_modal
 
     out = _with_clause_modal(Negation(operand=_copula()), _MIGHT_BE)
     assert isinstance(out, Negation) and out.operand.modal == ("MAYBE",)
 
 
 def test_an_op_that_already_has_a_modal_keeps_it():
-    from gse.symbolic.expression import _with_clause_modal
+    from GSE.symbolic.expression import _with_clause_modal
 
     assert _with_clause_modal(_copula(("CAN",)), _MIGHT_BE).modal == ("CAN",)
 
 
 def test_a_clause_without_a_modal_auxiliary_is_unchanged():
-    from gse.symbolic.expression import _with_clause_modal
+    from GSE.symbolic.expression import _with_clause_modal
 
     op = _copula()
     assert _with_clause_modal(op, _IS) is op
 
 
 def test_a_leaf_or_a_negated_leaf_is_unchanged():
-    from gse.symbolic.expression import Atom, Negation, _with_clause_modal
+    from GSE.symbolic.expression import Atom, Negation, _with_clause_modal
 
     leaf = Atom(lemma="it")
     assert _with_clause_modal(leaf, _MIGHT_BE) is leaf

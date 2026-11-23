@@ -9,10 +9,10 @@ import sys
 
 import pytest
 
-from gse.lexicon_builder.artifact import read_sparse, read_vectors
-from gse.lexicon_builder.build import construct, source_matches
-from gse.lexicon_builder.core import Cell, Law, Observation, RuleException, resolve
-from gse.lexicon_builder.foundation import (
+from GSE.lexicon_builder.artifact import read_sparse, read_vectors
+from GSE.lexicon_builder.build import construct, source_matches
+from GSE.lexicon_builder.core import Cell, Law, Observation, RuleException, resolve
+from GSE.lexicon_builder.foundation import (
     decision_check,
     definition_status,
     examination_status,
@@ -21,11 +21,11 @@ from gse.lexicon_builder.foundation import (
     reconstruct_profile,
     reconstruction,
 )
-from gse.lexicon_builder.native_constraints import frame_constraints
-from gse.lexicon_builder.reading import construct_reading
-from gse.lexicon_builder.registry import load_rulebook, split_by_admission
-from gse.lexicon_builder.surprise import comparison_status
-from gse.lexicon_builder.tail import tail_task_status
+from GSE.lexicon_builder.native_constraints import frame_constraints
+from GSE.lexicon_builder.reading import construct_reading
+from GSE.lexicon_builder.registry import load_rulebook, split_by_admission
+from GSE.lexicon_builder.surprise import comparison_status
+from GSE.lexicon_builder.tail import tail_task_status
 from tests.lexicon_rulebook import certify_rule
 
 SUBSTANTIVE_BLOCK = ("I", "YOU", "SOMEONE", "SOMETHING", "PEOPLE", "BODY", "KIND", "PART")
@@ -352,7 +352,7 @@ def test_real_cli_builds_profiles_structures_and_fear_without_initializing_a_mod
     command = [
         sys.executable,
         "-m",
-        "gse.lexicon_builder",
+        "GSE.lexicon_builder",
         "build",
         "--words",
         "good",
@@ -436,7 +436,7 @@ def test_real_cli_exception_and_empty_worklist_boundaries(tmp_path):
     source, output = tmp_path / "input.json", tmp_path / "output.json"
     source.write_text(json.dumps(payload))
     subprocess.run(
-        [sys.executable, "-m", "gse.lexicon_builder", "resolve", "--input", str(source), "--output", str(output)],
+        [sys.executable, "-m", "GSE.lexicon_builder", "resolve", "--input", str(source), "--output", str(output)],
         check=True,
         capture_output=True,
         text=True,
@@ -448,7 +448,7 @@ def test_real_cli_exception_and_empty_worklist_boundaries(tmp_path):
         [
             sys.executable,
             "-m",
-            "gse.lexicon_builder",
+            "GSE.lexicon_builder",
             "build",
             "--word-file",
             str(empty),

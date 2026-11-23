@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.llm.prompts."""
+"""Manual contract tests for GSE.curation.llm.prompts."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.llm.prompts import (
+from GSE.curation.llm.prompts import (
     BATCH_CONFIG,
     EXAMPLE_DECOMPOSITIONS,
     SYSTEM_PROMPT,

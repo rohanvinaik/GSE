@@ -6,11 +6,11 @@ import sqlite3
 
 import pytest
 
-from gse.curation.lexicon_builder.engine import Assertion
-from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
-from gse.curation.lexicon_builder.model_receipts import _stored_receipt, read_model_receipts
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.validation import validate_build
+from GSE.curation.lexicon_builder.engine import Assertion
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
+from GSE.curation.lexicon_builder.model_receipts import _stored_receipt, read_model_receipts
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.validation import validate_build
 
 
 @pytest.fixture
@@ -423,16 +423,16 @@ def test_model_replay_rejects_new_conditional_exceptions(tmp_path, monkeypatch):
     from dataclasses import asdict
     from functools import partial
 
-    from gse.curation.lexicon_builder.engine import Relation, propagate
-    from gse.curation.lexicon_builder.foundation import BANKS
-    from gse.curation.lexicon_builder.residual import build_request
-    from gse.curation.lexicon_builder.resolution import resolve_dictionary
-    from gse.curation.lexicon_builder.storage import store_entry
+    from GSE.curation.lexicon_builder.engine import Relation, propagate
+    from GSE.curation.lexicon_builder.foundation import BANKS
+    from GSE.curation.lexicon_builder.residual import build_request
+    from GSE.curation.lexicon_builder.resolution import resolve_dictionary
+    from GSE.curation.lexicon_builder.storage import store_entry
 
     # This satisfiable cycle exceeds the deliberately small joint-search cap.
     # Native replay must still reject a model choice that exposes a contradiction.
     monkeypatch.setattr(
-        "gse.curation.lexicon_builder.resolution.propagate", partial(propagate, max_joint_assignments=7)
+        "GSE.curation.lexicon_builder.resolution.propagate", partial(propagate, max_joint_assignments=7)
     )
     definition = Definition("limited:cycle", "cycle", "verb", "synthetic conditional cycle")
     rules = tuple(
@@ -658,9 +658,9 @@ def test_oversized_candidate_weight_is_reported_without_numeric_overflow(discove
 
 def test_native_source_scope_cannot_be_bypassed_with_matching_provenance(tmp_path):
 
-    from gse.curation.lexicon_builder.foundation import BANKS, projection_relations
-    from gse.curation.lexicon_builder.resolution import resolve_dictionary
-    from gse.curation.lexicon_builder.storage import store_entry
+    from GSE.curation.lexicon_builder.foundation import BANKS, projection_relations
+    from GSE.curation.lexicon_builder.resolution import resolve_dictionary
+    from GSE.curation.lexicon_builder.storage import store_entry
 
     definition = Definition("scope:verb", "act", "verb", "synthetic scope tampering fixture")
     observation = Observation(definition.entry_id, "sentiwordnet", "scope:record", "wordnet", {}, "lexical")

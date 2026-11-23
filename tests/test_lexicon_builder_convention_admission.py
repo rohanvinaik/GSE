@@ -6,9 +6,9 @@ from copy import deepcopy
 import pytest
 from test_lexicon_builder_rule_migration import Transport, packet
 
-from gse.curation.lexicon_builder.reviewed_patterns import run_workflow_input
-from gse.curation.lexicon_builder.rule_admission import admit_records, verify_admission
-from gse.curation.lexicon_builder.validation import validate_build
+from GSE.curation.lexicon_builder.reviewed_patterns import run_workflow_input
+from GSE.curation.lexicon_builder.rule_admission import admit_records, verify_admission
+from GSE.curation.lexicon_builder.validation import validate_build
 from scripts.migrate_lexicon_rule import main
 
 

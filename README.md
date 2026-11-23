@@ -10,8 +10,8 @@ The project requires Python 3.14 or later. `uv sync --locked` creates the locked
 
 ```bash
 uv run python -m nltk.downloader wordnet
-uv run python -m gse.cli encode "The dog runs." --format json
-uv run python -m gse.cli compare "big" "small" --format json
+uv run python -m GSE.cli encode "The dog runs." --format json
+uv run python -m GSE.cli compare "big" "small" --format json
 ```
 
 The encoder's default lexicon is `data/lexicon_clean.db`, resolved relative to the checkout. Optional spelling, frequency and rating resources have independent availability states and are never downloaded during reading.
@@ -21,10 +21,10 @@ The encoder's default lexicon is `data/lexicon_clean.db`, resolved relative to t
 The builder uses a fixed 72-prime, 58-coordinate basis. Ordinary builds call no model and preserve written zero, silence, unresolved domains and conflicts separately.
 
 ```bash
-uv run gse-lexicon prime-proof --output /tmp/prime-proof.json
-uv run gse-lexicon build --symbolic-only --all-source-words --output data/symbolic-build
-uv run gse-lexicon release --input data/symbolic-build --output data/lexicon_symbolic.db
-uv run gse-lexicon release-audit --build-dir data/symbolic-build --output data/symbolic-audit
+uv run GSE-lexicon prime-proof --output /tmp/prime-proof.json
+uv run GSE-lexicon build --symbolic-only --all-source-words --output data/symbolic-build
+uv run GSE-lexicon release --input data/symbolic-build --output data/lexicon_symbolic.db
+uv run GSE-lexicon release-audit --build-dir data/symbolic-build --output data/symbolic-audit
 ```
 
 Native resources are local inputs with independent availability and hash records. The SQLite release stores full partial definitions and construction homes. Consume it explicitly with `GSEEncoder(db_path="data/lexicon_symbolic.db")`; sense alternatives and unknown cells remain in lexical evidence. Model work requires an explicit diagnosed queue and a call budget.
@@ -34,8 +34,8 @@ The [basis contract](docs/program/LEXICON_BASIS_CONTRACT.md) states the authored
 ## Public Python paths
 
 ```python
-from gse.api import GSEEncoder
-from gse.symbolic import from_trace, resolve, evaluate_tree, propositions, commitment
+from GSE.api import GSEEncoder
+from GSE.symbolic import from_trace, resolve, evaluate_tree, propositions, commitment
 
 encoder = GSEEncoder()
 try:
@@ -46,7 +46,7 @@ finally:
     encoder.close()
 ```
 
-For a complete document, consume `encode_document_utterance_events` from `gse.discourse.speech`. It returns a manifest, an outcome for every expected utterance, and a termination record. `MultiScaleDoc` adds shared document resolution and unit views without re-grounding each paragraph. Legacy success-only wrappers and fixed classifier vectors remain explicit compatibility projections.
+For a complete document, consume `encode_document_utterance_events` from `GSE.discourse.speech`. It returns a manifest, an outcome for every expected utterance, and a termination record. `MultiScaleDoc` adds shared document resolution and unit views without re-grounding each paragraph. Legacy success-only wrappers and fixed classifier vectors remain explicit compatibility projections.
 
 The shared claim API separates commitment, polarity, scope and identity. `KnowledgeBase` admits supported premises through that authority. Its legacy lexical queries and its resolved claim query have distinct documented limits. Default Genesis serialization is preserved; `emit_contract(..., include_semantics=True)` adds the versioned claim sidecar.
 

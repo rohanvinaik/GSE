@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 from importlib import import_module
 from pathlib import Path
 
-from gse.curation.lexicon_builder.epoch import (
+from GSE.curation.lexicon_builder.epoch import (
     fingerprint,
     forecast,
     parse_plan,
@@ -16,7 +16,7 @@ from gse.curation.lexicon_builder.epoch import (
     scope_rows,
     snapshot_copy,
 )
-from gse.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
+from GSE.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
 
 NOTES = Path(__file__).resolve().parent
 ROOT = NOTES.parents[2]

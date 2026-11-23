@@ -2,8 +2,8 @@
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.symbolic import (
+from GSE.api import GSEEncoder
+from GSE.symbolic import (
     Atom,
     Entity,
     entity_lemmas,

@@ -6,19 +6,19 @@ from dataclasses import asdict, replace
 
 import pytest
 
-from gse.curation.external_sources.wiktionary import WiktionaryParser
-from gse.curation.lexicon_builder.completion import complete_dictionary
-from gse.curation.lexicon_builder.evidence import collect_evidence
-from gse.curation.lexicon_builder.model_protocol import model_input
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.source_enrichment import FORMAT, _refuse_bound_receipts, enrich_sources
-from gse.curation.lexicon_builder.storage import read_entries
-from gse.curation.lexicon_builder.validation import validate_build
+from GSE.curation.external_sources.wiktionary import WiktionaryParser
+from GSE.curation.lexicon_builder.completion import complete_dictionary
+from GSE.curation.lexicon_builder.evidence import collect_evidence
+from GSE.curation.lexicon_builder.model_protocol import model_input
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.source_enrichment import FORMAT, _refuse_bound_receipts, enrich_sources
+from GSE.curation.lexicon_builder.storage import read_entries
+from GSE.curation.lexicon_builder.validation import validate_build
 from scripts.enrich_lexicon_sources import main
 
 
 def fixture(tmp_path, *, other=False):
-    from gse.curation.lexicon_builder.evidence import native_reference_observation
+    from GSE.curation.lexicon_builder.evidence import native_reference_observation
 
     source = tmp_path / "dictionary.jsonl"
     source.write_text(
@@ -157,7 +157,7 @@ def test_existing_model_receipt_requires_explicit_reconsideration(tmp_path):
 
 
 def test_unrelated_model_zero_and_receipt_survive_enrichment_exactly(tmp_path):
-    from gse.curation.lexicon_builder.model_receipts import read_model_receipts
+    from GSE.curation.lexicon_builder.model_receipts import read_model_receipts
 
     candidate, native, input_path, entry = fixture(tmp_path, other=True)
     unrelated = next(row["entry_id"] for row in states(candidate) if row["lemma"] == "other")
@@ -198,7 +198,7 @@ def test_valid_packet_from_different_snapshot_cannot_enrich_candidate(tmp_path):
 
 
 def test_self_consistent_missing_target_packet_is_refused_against_native_source(tmp_path):
-    from gse.curation.lexicon_builder.evidence import native_reference_observation
+    from GSE.curation.lexicon_builder.evidence import native_reference_observation
 
     candidate, native, input_path, _ = fixture(tmp_path)
     raw = json.loads(input_path.read_text())
@@ -259,7 +259,7 @@ def test_rule_migration_archives_also_bind_old_context(tmp_path):
 
 
 def test_failed_postflight_never_installs_successor(tmp_path, monkeypatch):
-    from gse.curation.lexicon_builder import source_enrichment
+    from GSE.curation.lexicon_builder import source_enrichment
 
     candidate, native, input_path, _ = fixture(tmp_path)
     actual = source_enrichment.validate_build
@@ -298,7 +298,7 @@ def test_trigger_side_effect_cannot_change_any_preexisting_state(tmp_path):
 def test_active_candidate_is_refused_even_through_hardlink(tmp_path, monkeypatch):
     import os
 
-    from gse import lexicon_resource
+    from GSE import lexicon_resource
 
     candidate, native, input_path, _ = fixture(tmp_path)
     active = tmp_path / "active.db"
@@ -347,9 +347,9 @@ def test_cli_report_cannot_alias_native_source(tmp_path, monkeypatch):
 def test_real_wordnet_exception_context_is_verified_without_assigning_a_bank(tmp_path):
     from nltk.corpus import wordnet
 
-    from gse.curation.external_sources.wordnet_hierarchy import WordNetHierarchyParser
-    from gse.curation.lexicon_builder.evidence import EvidenceBundle
-    from gse.curation.lexicon_builder.wordnet_identity import wordnet_identity_evidence, wordnet_identity_observation
+    from GSE.curation.external_sources.wordnet_hierarchy import WordNetHierarchyParser
+    from GSE.curation.lexicon_builder.evidence import EvidenceBundle
+    from GSE.curation.lexicon_builder.wordnet_identity import wordnet_identity_evidence, wordnet_identity_observation
 
     try:
         wordnet.ensure_loaded()

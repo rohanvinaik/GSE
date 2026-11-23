@@ -5,13 +5,13 @@ import sqlite3
 
 import pytest
 
-from gse.curation.lexicon_builder.completion import complete_dictionary
-from gse.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
-from gse.curation.lexicon_builder.model_receipts import read_model_receipts
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.residual import _request_id
-from gse.curation.lexicon_builder.reviewed_export import SELECTION_FORMAT, export_reviewed_input
-from gse.curation.lexicon_builder.reviewed_patterns import run_workflow
+from GSE.curation.lexicon_builder.completion import complete_dictionary
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
+from GSE.curation.lexicon_builder.model_receipts import read_model_receipts
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.residual import _request_id
+from GSE.curation.lexicon_builder.reviewed_export import SELECTION_FORMAT, export_reviewed_input
+from GSE.curation.lexicon_builder.reviewed_patterns import run_workflow
 from scripts import export_lexicon_patterns as script
 
 

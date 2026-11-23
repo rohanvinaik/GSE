@@ -166,7 +166,7 @@ Implement the sparse ternary vector infrastructure with binding, bundling, and p
 ### 3.3 Implementation
 
 ```python
-# File: gse/vectors.py
+# File: GSE/vectors.py
 
 import numpy as np
 from dataclasses import dataclass
@@ -422,7 +422,7 @@ class PrimitiveBasis:
 
 import pytest
 import numpy as np
-from gse.vectors import SparseVector, bind, bundle, permute, PrimitiveBasis
+from GSE.vectors import SparseVector, bind, bundle, permute, PrimitiveBasis
 
 def test_sparse_vector_creation():
     v = SparseVector.random(10000, 1000, seed=42)
@@ -500,7 +500,7 @@ def test_permute_inverse():
     assert recovered.cosine(v) == pytest.approx(1.0)
 
 def test_primitive_basis_orthogonality():
-    from gse.primitives import PRIMITIVES, ROLES
+    from GSE.primitives import PRIMITIVES, ROLES
     
     basis = PrimitiveBasis(dimension=10000, sparsity=0.1, seed=42)
     basis.generate(PRIMITIVES, ROLES)
@@ -524,8 +524,8 @@ def test_serialization_roundtrip():
 
 ### 3.5 Phase 1 Deliverables
 
-- [ ] `gse/vectors.py` - SparseVector class with all operations
-- [ ] `gse/primitives.py` - Primitive and role name constants
+- [ ] `GSE/vectors.py` - SparseVector class with all operations
+- [ ] `GSE/primitives.py` - Primitive and role name constants
 - [ ] `tests/test_vectors.py` - Comprehensive vector tests
 - [ ] `data/basis.msgpack` - Pre-generated primitive basis
 
@@ -571,7 +571,7 @@ DECOMPOSITIONS = {
 ### 4.3 LLM Decomposition Pipeline
 
 ```python
-# File: gse/lexicon_generator.py
+# File: GSE/lexicon_generator.py
 
 import json
 import sqlite3
@@ -579,8 +579,8 @@ from typing import List, Dict, Tuple, Optional
 from dataclasses import dataclass
 import anthropic  # or openai
 
-from gse.primitives import PRIMITIVES, ROLES
-from gse.vectors import SparseVector, PrimitiveBasis, bind, bundle
+from GSE.primitives import PRIMITIVES, ROLES
+from GSE.vectors import SparseVector, PrimitiveBasis, bind, bundle
 
 @dataclass
 class LexiconEntry:
@@ -863,11 +863,11 @@ class Lexicon:
 ### 4.4 Lexicon Validation
 
 ```python
-# File: gse/lexicon_validator.py
+# File: GSE/lexicon_validator.py
 
 from typing import List, Tuple, Dict
-from gse.lexicon_generator import Lexicon, LexiconEntry
-from gse.vectors import SparseVector
+from GSE.lexicon_generator import Lexicon, LexiconEntry
+from GSE.vectors import SparseVector
 
 def validate_lexicon(lexicon: Lexicon, test_pairs: Dict[str, List[str]]) -> Dict:
     """
@@ -991,8 +991,8 @@ Use one of these freely available frequency lists:
 
 ### 4.6 Phase 2 Deliverables
 
-- [ ] `gse/lexicon_generator.py` - LLM decomposition pipeline
-- [ ] `gse/lexicon_validator.py` - Validation utilities
+- [ ] `GSE/lexicon_generator.py` - LLM decomposition pipeline
+- [ ] `GSE/lexicon_validator.py` - Validation utilities
 - [ ] `scripts/generate_lexicon.py` - Batch generation script
 - [ ] `scripts/validate_lexicon.py` - Validation runner
 - [ ] `data/lexicon.db` - SQLite database with 20K entries
@@ -1009,7 +1009,7 @@ Integrate SpaCy for tokenization, POS tagging, and dependency parsing. Map synta
 ### 5.2 Implementation
 
 ```python
-# File: gse/parser.py
+# File: GSE/parser.py
 
 import spacy
 from dataclasses import dataclass
@@ -1217,7 +1217,7 @@ class Parser:
 # File: tests/test_parser.py
 
 import pytest
-from gse.parser import Parser, POS
+from GSE.parser import Parser, POS
 
 @pytest.fixture
 def parser():
@@ -1273,7 +1273,7 @@ def test_multiple_sentences(parser):
 
 ### 5.4 Phase 3 Deliverables
 
-- [ ] `gse/parser.py` - SpaCy integration
+- [ ] `GSE/parser.py` - SpaCy integration
 - [ ] `tests/test_parser.py` - Parser tests
 - [ ] Verified POS → sense filtering works
 
@@ -1288,15 +1288,15 @@ Implement bottom-up semantic composition following the dependency tree.
 ### 6.2 Implementation
 
 ```python
-# File: gse/composer.py
+# File: GSE/composer.py
 
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Tuple
 import hashlib
 
-from gse.vectors import SparseVector, bind, bundle, permute, PrimitiveBasis
-from gse.parser import ParsedSentence, Token, SemanticRole
-from gse.lexicon_generator import Lexicon, LexiconEntry
+from GSE.vectors import SparseVector, bind, bundle, permute, PrimitiveBasis
+from GSE.parser import ParsedSentence, Token, SemanticRole
+from GSE.lexicon_generator import Lexicon, LexiconEntry
 
 @dataclass
 class CompositionTrace:
@@ -1434,7 +1434,7 @@ class Composer:
                 return role.role
         
         # Fallback: map dependency relation to role
-        from gse.parser import DEP_TO_ROLE
+        from GSE.parser import DEP_TO_ROLE
         return DEP_TO_ROLE.get(token.dep.lower())
     
     def _fallback_encoding(self, token: Token) -> SparseVector:
@@ -1485,10 +1485,10 @@ class Composer:
 # File: tests/test_composer.py
 
 import pytest
-from gse.vectors import PrimitiveBasis
-from gse.parser import Parser
-from gse.lexicon_generator import Lexicon
-from gse.composer import Composer
+from GSE.vectors import PrimitiveBasis
+from GSE.parser import Parser
+from GSE.lexicon_generator import Lexicon
+from GSE.composer import Composer
 
 @pytest.fixture
 def composer(tmp_path):
@@ -1553,7 +1553,7 @@ def test_similar_sentences_similar_vectors(composer):
 
 ### 6.4 Phase 4 Deliverables
 
-- [ ] `gse/composer.py` - Composition engine
+- [ ] `GSE/composer.py` - Composition engine
 - [ ] `tests/test_composer.py` - Composition tests
 - [ ] Verified Merkle tree computation
 
@@ -1568,15 +1568,15 @@ Implement coherence checking and anomaly detection.
 ### 7.2 Implementation
 
 ```python
-# File: gse/coherence.py
+# File: GSE/coherence.py
 
 from dataclasses import dataclass
 from typing import List, Dict, Optional, Tuple
 import numpy as np
 
-from gse.vectors import SparseVector, bind, bundle
-from gse.composer import CompositionResult
-from gse.parser import ParsedSentence
+from GSE.vectors import SparseVector, bind, bundle
+from GSE.composer import CompositionResult
+from GSE.parser import ParsedSentence
 
 @dataclass
 class CoherenceResult:
@@ -1781,7 +1781,7 @@ ANOMALY_TEST_CASES = [
 
 ### 7.4 Phase 5 Deliverables
 
-- [ ] `gse/coherence.py` - Coherence checking
+- [ ] `GSE/coherence.py` - Coherence checking
 - [ ] `tests/test_coherence.py` - Coherence tests
 - [ ] Verified anomaly detection on test cases
 
@@ -1796,17 +1796,17 @@ Create a clean API for the complete GSE pipeline.
 ### 8.2 Implementation
 
 ```python
-# File: gse/pipeline.py
+# File: GSE/pipeline.py
 
 from dataclasses import dataclass
 from typing import Optional, List, Dict
 import time
 
-from gse.vectors import PrimitiveBasis, SparseVector
-from gse.parser import Parser, ParsedSentence
-from gse.lexicon_generator import Lexicon
-from gse.composer import Composer, CompositionResult
-from gse.coherence import CoherenceChecker, CoherenceResult
+from GSE.vectors import PrimitiveBasis, SparseVector
+from GSE.parser import Parser, ParsedSentence
+from GSE.lexicon_generator import Lexicon
+from GSE.composer import Composer, CompositionResult
+from GSE.coherence import CoherenceChecker, CoherenceResult
 
 @dataclass
 class GSEConfig:
@@ -1969,11 +1969,11 @@ def load_pipeline(lexicon_path: str = "data/lexicon.db",
 ### 8.3 CLI Interface
 
 ```python
-# File: gse/cli.py
+# File: GSE/cli.py
 
 import argparse
 import json
-from gse.pipeline import load_pipeline
+from GSE.pipeline import load_pipeline
 
 def main():
     parser = argparse.ArgumentParser(description="GSE Semantic Encoding")
@@ -2037,8 +2037,8 @@ if __name__ == "__main__":
 
 ### 8.4 Phase 6 Deliverables
 
-- [ ] `gse/pipeline.py` - Main pipeline API
-- [ ] `gse/cli.py` - Command line interface
+- [ ] `GSE/pipeline.py` - Main pipeline API
+- [ ] `GSE/cli.py` - Command line interface
 - [ ] `tests/test_pipeline.py` - Integration tests
 - [ ] README.md with usage examples
 
@@ -2058,7 +2058,7 @@ Run with: `pytest tests/ -v`
 # File: tests/test_integration.py
 
 import pytest
-from gse.pipeline import load_pipeline
+from GSE.pipeline import load_pipeline
 
 @pytest.fixture(scope="module")
 def pipeline():
@@ -2118,7 +2118,7 @@ def test_batch_processing(pipeline):
 # File: tests/benchmark.py
 
 import time
-from gse.pipeline import load_pipeline
+from GSE.pipeline import load_pipeline
 
 def benchmark_throughput():
     pipeline = load_pipeline()
@@ -2208,7 +2208,7 @@ setup.py
 ### 11.1 Semantic Primitives (NSM-based)
 
 ```python
-# File: gse/primitives.py
+# File: GSE/primitives.py
 
 PRIMITIVES = [
     # Substantives
@@ -2364,8 +2364,8 @@ def main():
     print("\n3. Checking basis vectors...")
     if not os.path.exists("data/basis.msgpack"):
         print("   Generating basis vectors...")
-        from gse.vectors import PrimitiveBasis
-        from gse.primitives import PRIMITIVES, ROLES
+        from GSE.vectors import PrimitiveBasis
+        from GSE.primitives import PRIMITIVES, ROLES
         
         os.makedirs("data", exist_ok=True)
         basis = PrimitiveBasis(dimension=10000, sparsity=0.1, seed=42)
@@ -2386,7 +2386,7 @@ def main():
     
     # Step 5: Test basic functionality
     print("\n5. Testing basic functionality...")
-    from gse.vectors import SparseVector, bind, bundle
+    from GSE.vectors import SparseVector, bind, bundle
     
     v1 = SparseVector.random(10000, 1000, seed=1)
     v2 = SparseVector.random(10000, 1000, seed=2)
@@ -2400,7 +2400,7 @@ def main():
     
     # Step 6: Test parser
     print("\n6. Testing parser...")
-    from gse.parser import Parser
+    from GSE.parser import Parser
     
     parser = Parser()
     result = parser.parse_single("The dog runs.")
@@ -2412,7 +2412,7 @@ def main():
     print("\nNext steps:")
     print("1. Generate lexicon: python scripts/generate_lexicon.py")
     print("2. Run tests: pytest tests/ -v")
-    print("3. Try it: python -m gse.cli encode -t 'The dog runs.'")
+    print("3. Try it: python -m GSE.cli encode -t 'The dog runs.'")
 
 if __name__ == "__main__":
     main()
@@ -2440,8 +2440,8 @@ def main():
     parser.add_argument("--basis", default="data/basis.msgpack")
     args = parser.parse_args()
     
-    from gse.vectors import PrimitiveBasis
-    from gse.lexicon_generator import LexiconGenerator
+    from GSE.vectors import PrimitiveBasis
+    from GSE.lexicon_generator import LexiconGenerator
     
     # Load basis
     print("Loading basis...")

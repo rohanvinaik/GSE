@@ -9,13 +9,13 @@ from pathlib import Path
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.curation.external_sources.gse_closed_class import GSEClosedClassParser
-from gse.curation.lexicon_builder.engine import Assertion, propagate
-from gse.curation.lexicon_builder.evidence import Definition, collect_evidence
-from gse.curation.lexicon_builder.foundation import BANKS
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.storage import open_build, store_entry
+from GSE.api import GSEEncoder
+from GSE.curation.external_sources.gse_closed_class import GSEClosedClassParser
+from GSE.curation.lexicon_builder.engine import Assertion, propagate
+from GSE.curation.lexicon_builder.evidence import Definition, collect_evidence
+from GSE.curation.lexicon_builder.foundation import BANKS
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.storage import open_build, store_entry
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import rohan_voice  # noqa: E402

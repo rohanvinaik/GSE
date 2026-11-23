@@ -16,10 +16,10 @@ and the project allowlist). For **full jargon coverage** it also wants the large
 wordlist, which is gitignored (rebuildable). On a fresh clone, build it once:
 
 ```bash
-python -m gse.curation.build_spellcheck_data            # fetches Wiktionary + builds all data
+python -m GSE.curation.build_spellcheck_data            # fetches Wiktionary + builds all data
 # or just the validity list / its compact trie:
-python -m gse.curation.build_wordlist                   # downloads dump -> .txt + .marisa
-python -m gse.curation.build_wordlist --trie-only       # rebuild .marisa from existing .txt
+python -m GSE.curation.build_wordlist                   # downloads dump -> .txt + .marisa
+python -m GSE.curation.build_wordlist --trie-only       # rebuild .marisa from existing .txt
 ```
 
 Without the validity wordlist the corrector still works — it just falls back to the core
@@ -29,12 +29,12 @@ broadly. The runtime loads the compact EXACT **marisa-trie**
 (marisa over a bloom filter: bloom false positives would let a non-word pass the grounding
 gate, breaking "every suggestion is a real word" — exactness matters.)
 
-**Keyboard-HDC recovery layer (optional).** An orthogonal error model (`gse/nlp/hdc_speller.py`)
+**Keyboard-HDC recovery layer (optional).** An orthogonal error model (`GSE/nlp/hdc_speller.py`)
 recovers the far, length-preserving multi-key slips edit-distance abstains on (`ecifentky →
 evidently`). It needs a cached common-word lexicon (gitignored, rebuildable):
 
 ```bash
-python -m gse.curation.build_hdc_speller               # encodes ~12k words -> data/hdc_speller.npz
+python -m GSE.curation.build_hdc_speller               # encodes ~12k words -> data/hdc_speller.npz
 ```
 
 If the cache is absent the layer simply no-ops (the corrector degrades to edit-distance only).
@@ -42,9 +42,9 @@ It fires **only on the abstain-residue** — tokens that don't ground *and* edit
 up on — behind the same grounding + shape gates, so the destruction bound is preserved.
 
 **Entity leg (optional): proper-noun correction, alias-free.** Names get their own instance
-of the same structural law (`gse/nlp/spellcheck_entity.py`): the SAME keyboard-weighted edit
+of the same structural law (`GSE/nlp/spellcheck_entity.py`): the SAME keyboard-weighted edit
 generators, a grounding gate over `data/spell_entities.db` — an entity-name dictionary derived
-purely from **canonical labels + their name-part tokens** (`gse.curation.build_spell_entities`,
+purely from **canonical labels + their name-part tokens** (`GSE.curation.build_spell_entities`,
 reads `data/genealogy.db`) — a PageRank-percentile prior through the same
 `edit_cost + λ·log10(rank)` score, and the referent's semantic-anchor bag ∩ document context
 as a parameter-free confirmation. Wikipedia's redirect table (826K rows, including its
@@ -63,15 +63,15 @@ edit from a prominent entity would be rewritten (`Bosnja` → Bosnia); the mitig
 `spell_learn`, exactly as for jargon. Absent `spell_entities.db` the leg no-ops.
 
 ```bash
-python -m gse.curation.build_spell_entities            # genealogy.db labels -> data/spell_entities.db
+python -m GSE.curation.build_spell_entities            # genealogy.db labels -> data/spell_entities.db
 ```
 
 ## Usage
 
-**Python API** (`gse/nlp/spellcheck.py`):
+**Python API** (`GSE/nlp/spellcheck.py`):
 
 ```python
-from gse.nlp.spellcheck import correct, suggest
+from GSE.nlp.spellcheck import correct, suggest
 correct("recieve")          # Correction(committed="receive", …)
 correct("GSE")              # committed=None — valid-shaped token, never mangled
 suggest("wierd", n=3)       # [weird, wired, wield] ranked, each with its score trace
@@ -80,19 +80,19 @@ suggest("wierd", n=3)       # [weird, wired, wield] ranked, each with its score 
 **REPL**:
 
 ```bash
-python -m gse.nlp.spellcheck_repl                 # interactive
-python -m gse.nlp.spellcheck_repl "teh wierd dog" # one-shot
+python -m GSE.nlp.spellcheck_repl                 # interactive
+python -m GSE.nlp.spellcheck_repl "teh wierd dog" # one-shot
 ```
 
 **MCP server** (`SymbolicSpellCheck`, tool `spell_suggest(text, n)`):
 
 ```bash
 pip install -e ".[spellcheck-mcp]"     # installs the `mcp` transport + the console script
-gse-spellcheck-mcp                      # runs the stdio server
+GSE-spellcheck-mcp                      # runs the stdio server
 ```
 
 Or register it in your MCP client (command = the repo's Python, args = `-m
-gse.mcp.spell_server`, cwd = repo root). Data paths resolve absolutely, so it runs from
+GSE.mcp.spell_server`, cwd = repo root). Data paths resolve absolutely, so it runs from
 any working directory.
 
 ## Tests & verification

@@ -17,7 +17,7 @@ in the bounded **cis-regulatory neighborhood** (~±2 lines — `resolve_document
 clean statement) ≠ signal scope (±2 lines)**; meaning is in the combination of local +
 regional frames. Full: Genesis `docs/ARCHITECTURE.md` + memory `project_l2_voice_modes_flywheel`.
 
-## The cassette layer (additive; `gse/cassettes/`).
+## The cassette layer (additive; `GSE/cassettes/`).
 
 Domain-portable experts that resolve ONE in-frame uncertainty using OUT-OF-frame multi-scale context —
 **GSE is the player, a cassette is the tape**; the single-sentence scale is the ceiling, cassettes are

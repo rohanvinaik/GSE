@@ -11,13 +11,13 @@ import sqlite3
 from contextlib import closing
 from importlib import import_module
 
-from gse.curation.lexicon_builder.completion import _contexts, _entry
-from gse.curation.lexicon_builder.epoch import JournaledTransport, read, record
-from gse.curation.lexicon_builder.foundation import BANKS, lexical_context
-from gse.curation.lexicon_builder.residual import OllamaTransport, build_request
-from gse.curation.lexicon_builder.resolution import resolve_dictionary
-from gse.curation.lexicon_builder.source_enrichment import _construct, _observations, _verify_wordnet
-from gse.curation.lexicon_builder.validation import _metadata, _relations
+from GSE.curation.lexicon_builder.completion import _contexts, _entry
+from GSE.curation.lexicon_builder.epoch import JournaledTransport, read, record
+from GSE.curation.lexicon_builder.foundation import BANKS, lexical_context
+from GSE.curation.lexicon_builder.residual import OllamaTransport, build_request
+from GSE.curation.lexicon_builder.resolution import resolve_dictionary
+from GSE.curation.lexicon_builder.source_enrichment import _construct, _observations, _verify_wordnet
+from GSE.curation.lexicon_builder.validation import _metadata, _relations
 
 round_ = import_module("docs.readings.2026-11-13-ssl-explicit-genera.vertebrate_021_approved")
 

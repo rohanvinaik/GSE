@@ -6,18 +6,18 @@ import json
 
 import pytest
 
-from gse.curation.lexicon_builder.engine import propagate
-from gse.curation.lexicon_builder.evidence import Definition
-from gse.curation.lexicon_builder.foundation import BANKS
-from gse.curation.lexicon_builder.model_evidence import (
+from GSE.curation.lexicon_builder.engine import propagate
+from GSE.curation.lexicon_builder.evidence import Definition
+from GSE.curation.lexicon_builder.foundation import BANKS
+from GSE.curation.lexicon_builder.model_evidence import (
     CANDIDATE_LINKS_FORMAT,
     FORMAT,
     compact_candidate_links,
     evidence_view,
     restore_candidate_links,
 )
-from gse.curation.lexicon_builder.model_protocol import PROTOCOL_VERSION, model_input, protocol_contract
-from gse.curation.lexicon_builder.residual import build_request
+from GSE.curation.lexicon_builder.model_protocol import PROTOCOL_VERSION, model_input, protocol_contract
+from GSE.curation.lexicon_builder.residual import build_request
 
 
 def canonical(value):

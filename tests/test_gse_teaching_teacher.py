@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.teaching.teacher."""
+"""Manual contract tests for GSE.teaching.teacher."""
 
 from __future__ import annotations
 
@@ -12,8 +12,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import numpy as np
 import pytest
 
-from gse.profiles.profile_manager import ProfileManager
-from gse.teaching.teacher import (
+from GSE.profiles.profile_manager import ProfileManager
+from GSE.teaching.teacher import (
     NetworkSnapshot,
     NetworkTeacher,
     TeachingEpoch,

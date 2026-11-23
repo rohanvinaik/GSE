@@ -26,7 +26,7 @@ left unchanged.
 
 ## Public changes and preserved projections
 
-`gse.symbolic` exports shared claims and `negation_signs`; `gse.structure` exposes
+`GSE.symbolic` exports shared claims and `negation_signs`; `GSE.structure` exposes
 operation counts, clause depth, verb-head and structural-loss evidence.
 `encode_document_utterance_events` is the loss-preserving intake; older wrappers
 remain explicitly success-only. `text_profile` has versioned failure accounting;

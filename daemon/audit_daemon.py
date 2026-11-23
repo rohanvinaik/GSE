@@ -67,7 +67,7 @@ signal.signal(signal.SIGINT, signal_handler)
 
 def load_constraint_engine():
     """Load the constraint aggregation engine."""
-    from gse.curation.constraint_aggregation import ConstraintAggregationEngine
+    from GSE.curation.constraint_aggregation import ConstraintAggregationEngine
 
     logger.info("Loading constraint aggregation engine...")
     engine = ConstraintAggregationEngine(

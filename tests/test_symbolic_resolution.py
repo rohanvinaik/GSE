@@ -9,9 +9,9 @@ Covers:
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.symbolic import Atom, Op, Phrase, from_trace, resolve
-from gse.symbolic.resolution import Entity
+from GSE.api import GSEEncoder
+from GSE.symbolic import Atom, Op, Phrase, from_trace, resolve
+from GSE.symbolic.resolution import Entity
 
 
 @pytest.fixture(scope="module")

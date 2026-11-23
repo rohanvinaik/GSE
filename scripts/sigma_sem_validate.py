@@ -159,9 +159,9 @@ def main() -> int:
     from nltk.corpus import wordnet as wn
     from nltk.corpus.reader.wordnet import Lemma
 
-    from gse.api import GSEEncoder
-    from gse.symbolic import GenealogyStore, evaluate_tree, from_trace, resolve, resolve_document
-    from gse.symbolic.grounding import _collect_entities, _is_proper, _jaccard, _lookup_key
+    from GSE.api import GSEEncoder
+    from GSE.symbolic import GenealogyStore, evaluate_tree, from_trace, resolve, resolve_document
+    from GSE.symbolic.grounding import _collect_entities, _is_proper, _jaccard, _lookup_key
 
     enc, store = GSEEncoder(), GenealogyStore()
     print("[D1 paraphrase-invariance — σ_sem under synonym (gold-synset) substitution; discrete IS-A, NO cosine]\n")

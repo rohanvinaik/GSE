@@ -18,7 +18,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import numpy as np
 import pytest
 
-from gse.primitives_v2 import (
+from GSE.primitives_v2 import (
     BIPOLAR_DIMENSIONS,
     DIMS_PER_BANK,
     HUB_PRIMITIVES,
@@ -35,7 +35,7 @@ from gse.primitives_v2 import (
     get_hierarchy_encoding,
     is_bipolar,
 )
-from gse.vectors_v2 import (
+from GSE.vectors_v2 import (
     SparseVector,
     bank_activity_profile,
     bind,

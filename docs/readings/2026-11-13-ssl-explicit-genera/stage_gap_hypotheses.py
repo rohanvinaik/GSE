@@ -7,7 +7,7 @@ import sqlite3
 from collections import Counter
 from pathlib import Path
 
-from gse.curation.lexicon_builder.epoch import Family, census, fingerprint, forecast, record, scope_rows
+from GSE.curation.lexicon_builder.epoch import Family, census, fingerprint, forecast, record, scope_rows
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]

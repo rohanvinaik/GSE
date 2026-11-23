@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.teaching.feature_extractor."""
+"""Manual contract tests for GSE.teaching.feature_extractor."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.teaching.feature_extractor import (
+from GSE.teaching.feature_extractor import (
     DISCOURSE_CUES,
     SYNTACTIC_PATTERNS,
     TEXT_INDICATORS,

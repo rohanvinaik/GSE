@@ -4,10 +4,10 @@ import importlib
 import json
 from dataclasses import asdict
 
-from gse.curation.lexicon_builder.epoch import fingerprint, make_question
-from gse.curation.lexicon_builder.pipeline import build_dictionary
-from gse.curation.lexicon_builder.source_enrichment import FORMAT, enrich_sources
-from gse.curation.lexicon_builder.wordnet_identity import wordnet_defining_context, wordnet_identity_observation
+from GSE.curation.lexicon_builder.epoch import fingerprint, make_question
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.source_enrichment import FORMAT, enrich_sources
+from GSE.curation.lexicon_builder.wordnet_identity import wordnet_defining_context, wordnet_identity_observation
 
 prefetch = importlib.import_module("docs.readings.2026-11-13-ssl-explicit-genera.prefetch_vertebrate_021")
 pytest_plugins = ("test_lexicon_builder_defining_genus",)

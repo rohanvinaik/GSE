@@ -6,9 +6,9 @@ import dataclasses
 import json
 from pathlib import Path
 
-from gse.api import GSEEncoder
-from gse.cassettes.multiscale import MultiScaleDoc
-from gse.symbolic import claim_key, commitment, propositions, to_dict
+from GSE.api import GSEEncoder
+from GSE.cassettes.multiscale import MultiScaleDoc
+from GSE.symbolic import claim_key, commitment, propositions, to_dict
 
 
 def main():

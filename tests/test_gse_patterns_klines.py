@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.patterns.klines."""
+"""Manual contract tests for GSE.patterns.klines."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.patterns.klines import KLine, KLineStore
+from GSE.patterns.klines import KLine, KLineStore
 
 
 def make_activation(prim, polarity=1):

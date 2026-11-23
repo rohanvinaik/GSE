@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.external_sources.nrc_vad."""
+"""Manual contract tests for GSE.curation.external_sources.nrc_vad."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.external_sources.nrc_vad import NRCVADParser, VADEntry
+from GSE.curation.external_sources.nrc_vad import NRCVADParser, VADEntry
 
 
 def mk_entry(word="x", v=0.5, a=0.5, d=0.5):

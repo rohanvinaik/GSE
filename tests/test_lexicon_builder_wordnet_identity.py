@@ -7,8 +7,8 @@ from urllib.parse import quote
 
 import pytest
 
-from gse.curation.lexicon_builder.evidence import Definition
-from gse.curation.lexicon_builder.wordnet_identity import (
+from GSE.curation.lexicon_builder.evidence import Definition
+from GSE.curation.lexicon_builder.wordnet_identity import (
     validate_wordnet_identity,
     wordnet_identity_evidence,
     wordnet_identity_observation,

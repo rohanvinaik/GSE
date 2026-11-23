@@ -15,14 +15,14 @@ from complete_unit_want_cycle import DATA, ROOT, ReviewedReplay, compare, questi
 from probe_unit_banks import execute
 from replay_body_exceptions import read, sha256
 
-from gse.curation.lexicon_builder.completion import _contexts, _priority_source, _select_entries, complete_dictionary
-from gse.curation.lexicon_builder.foundation import lexical_context
-from gse.curation.lexicon_builder.model_receipts import read_model_receipts
-from gse.curation.lexicon_builder.publication import publication_readiness
-from gse.curation.lexicon_builder.rule_admission import admit_records
-from gse.curation.lexicon_builder.rule_history import digest
-from gse.curation.lexicon_builder.rule_revisions import exception_source, touches_scope
-from gse.curation.lexicon_builder.validation import _metadata, _relations, validate_build
+from GSE.curation.lexicon_builder.completion import _contexts, _priority_source, _select_entries, complete_dictionary
+from GSE.curation.lexicon_builder.foundation import lexical_context
+from GSE.curation.lexicon_builder.model_receipts import read_model_receipts
+from GSE.curation.lexicon_builder.publication import publication_readiness
+from GSE.curation.lexicon_builder.rule_admission import admit_records
+from GSE.curation.lexicon_builder.rule_history import digest
+from GSE.curation.lexicon_builder.rule_revisions import exception_source, touches_scope
+from GSE.curation.lexicon_builder.validation import _metadata, _relations, validate_build
 
 MIGRATED = DATA / "constructed-corpus-volume-want.db"
 OUTPUT = DATA / "constructed-corpus-volume-want-zipf.db"

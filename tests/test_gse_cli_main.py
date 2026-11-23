@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.cli.main."""
+"""Manual contract tests for GSE.cli.main."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.cli.main import (
+from GSE.cli.main import (
     cmd_compare,
     cmd_decode,
     cmd_encode,
@@ -95,7 +95,7 @@ class TestCmdEncode:
     def test_summary_format_prints_human_lines(self, capsys):
         encoder_inst = MagicMock()
         encoder_inst.encode.return_value = make_trace()
-        with patch("gse.cli.main.GSEEncoder", return_value=encoder_inst):
+        with patch("GSE.cli.main.GSEEncoder", return_value=encoder_inst):
             cmd_encode(self._args(format="summary"))
         out = capsys.readouterr().out
         assert "Tokens:" in out
@@ -106,7 +106,7 @@ class TestCmdEncode:
     def test_json_format_prints_json(self, capsys):
         encoder_inst = MagicMock()
         encoder_inst.encode.return_value = make_trace()
-        with patch("gse.cli.main.GSEEncoder", return_value=encoder_inst):
+        with patch("GSE.cli.main.GSEEncoder", return_value=encoder_inst):
             cmd_encode(self._args(format="json"))
         out = capsys.readouterr().out
         # to_json(indent=2) output should be present
@@ -115,7 +115,7 @@ class TestCmdEncode:
     def test_unknown_format_falls_back_to_json(self, capsys):
         encoder_inst = MagicMock()
         encoder_inst.encode.return_value = make_trace()
-        with patch("gse.cli.main.GSEEncoder", return_value=encoder_inst):
+        with patch("GSE.cli.main.GSEEncoder", return_value=encoder_inst):
             cmd_encode(self._args(format="weird"))
         out = capsys.readouterr().out
         # Falls through to else branch (no-indent to_json)
@@ -125,7 +125,7 @@ class TestCmdEncode:
         encoder_inst = MagicMock()
         encoder_inst.encode.return_value = make_trace()
         out_path = tmp_path / "trace.json"
-        with patch("gse.cli.main.GSEEncoder", return_value=encoder_inst):
+        with patch("GSE.cli.main.GSEEncoder", return_value=encoder_inst):
             cmd_encode(self._args(format="summary", output=str(out_path)))
         assert out_path.exists()
         assert "trace" in out_path.read_text()
@@ -133,7 +133,7 @@ class TestCmdEncode:
     def test_close_called_even_on_exception(self):
         encoder_inst = MagicMock()
         encoder_inst.encode.side_effect = RuntimeError("boom")
-        with patch("gse.cli.main.GSEEncoder", return_value=encoder_inst):
+        with patch("GSE.cli.main.GSEEncoder", return_value=encoder_inst):
             with pytest.raises(RuntimeError):
                 cmd_encode(self._args())
         encoder_inst.close.assert_called_once()
@@ -154,8 +154,8 @@ class TestCmdCompare:
         decoder_inst = MagicMock()
         decoder_inst.similarity.return_value = make_similarity()
         with (
-            patch("gse.cli.main.GSEEncoder", return_value=encoder_inst),
-            patch("gse.cli.main.GSEDecoder", return_value=decoder_inst),
+            patch("GSE.cli.main.GSEEncoder", return_value=encoder_inst),
+            patch("GSE.cli.main.GSEDecoder", return_value=decoder_inst),
         ):
             cmd_compare(self._args())
         out = capsys.readouterr().out
@@ -169,8 +169,8 @@ class TestCmdCompare:
         decoder_inst = MagicMock()
         decoder_inst.similarity.return_value = make_similarity()
         with (
-            patch("gse.cli.main.GSEEncoder", return_value=encoder_inst),
-            patch("gse.cli.main.GSEDecoder", return_value=decoder_inst),
+            patch("GSE.cli.main.GSEEncoder", return_value=encoder_inst),
+            patch("GSE.cli.main.GSEDecoder", return_value=decoder_inst),
         ):
             cmd_compare(self._args(format="json"))
         out = capsys.readouterr().out
@@ -182,8 +182,8 @@ class TestCmdCompare:
         decoder_inst = MagicMock()
         decoder_inst.similarity.return_value = make_similarity()
         with (
-            patch("gse.cli.main.GSEEncoder", return_value=encoder_inst),
-            patch("gse.cli.main.GSEDecoder", return_value=decoder_inst),
+            patch("GSE.cli.main.GSEEncoder", return_value=encoder_inst),
+            patch("GSE.cli.main.GSEDecoder", return_value=decoder_inst),
         ):
             cmd_compare(self._args())
         encoder_inst.close.assert_called_once()
@@ -205,8 +205,8 @@ class TestCmdDecode:
         decoder_inst = MagicMock()
         decoder_inst.decode.return_value = make_semantics()
         with (
-            patch("gse.cli.main.GSEEncoder", return_value=encoder_inst),
-            patch("gse.cli.main.GSEDecoder", return_value=decoder_inst),
+            patch("GSE.cli.main.GSEEncoder", return_value=encoder_inst),
+            patch("GSE.cli.main.GSEDecoder", return_value=decoder_inst),
         ):
             cmd_decode(self._args(text="hello", trace=None))
         out = capsys.readouterr().out
@@ -235,8 +235,8 @@ class TestCmdDecode:
         decoder_inst = MagicMock()
         decoder_inst.decode.return_value = make_semantics()
         with (
-            patch("gse.cli.main.GSEEncoder", return_value=encoder_inst),
-            patch("gse.cli.main.GSEDecoder", return_value=decoder_inst),
+            patch("GSE.cli.main.GSEEncoder", return_value=encoder_inst),
+            patch("GSE.cli.main.GSEDecoder", return_value=decoder_inst),
         ):
             cmd_decode(self._args(text=None, trace=str(trace_file)))
         # encoder.encode was called with the trace.input_text
@@ -246,8 +246,8 @@ class TestCmdDecode:
         encoder_inst = MagicMock()
         decoder_inst = MagicMock()
         with (
-            patch("gse.cli.main.GSEEncoder", return_value=encoder_inst),
-            patch("gse.cli.main.GSEDecoder", return_value=decoder_inst),
+            patch("GSE.cli.main.GSEEncoder", return_value=encoder_inst),
+            patch("GSE.cli.main.GSEDecoder", return_value=decoder_inst),
         ):
             with pytest.raises(SystemExit) as exc_info:
                 cmd_decode(self._args(text=None, trace=None))
@@ -259,8 +259,8 @@ class TestCmdDecode:
         decoder_inst = MagicMock()
         decoder_inst.decode.return_value = make_semantics()
         with (
-            patch("gse.cli.main.GSEEncoder", return_value=encoder_inst),
-            patch("gse.cli.main.GSEDecoder", return_value=decoder_inst),
+            patch("GSE.cli.main.GSEEncoder", return_value=encoder_inst),
+            patch("GSE.cli.main.GSEDecoder", return_value=decoder_inst),
         ):
             cmd_decode(self._args(text="hi", format="json"))
         out = capsys.readouterr().out
@@ -274,7 +274,7 @@ class TestCmdVerify:
     def test_success_exits_zero(self):
         suite_inst = MagicMock()
         suite_inst.print_report.return_value = True
-        with patch("gse.cli.main.GSEProofSuite", return_value=suite_inst):
+        with patch("GSE.cli.main.GSEProofSuite", return_value=suite_inst):
             with pytest.raises(SystemExit) as exc:
                 cmd_verify(argparse.Namespace(quiet=False))
         assert exc.value.code == 0
@@ -284,7 +284,7 @@ class TestCmdVerify:
     def test_failure_exits_one(self):
         suite_inst = MagicMock()
         suite_inst.print_report.return_value = False
-        with patch("gse.cli.main.GSEProofSuite", return_value=suite_inst):
+        with patch("GSE.cli.main.GSEProofSuite", return_value=suite_inst):
             with pytest.raises(SystemExit) as exc:
                 cmd_verify(argparse.Namespace(quiet=True))
         assert exc.value.code == 1
@@ -292,7 +292,7 @@ class TestCmdVerify:
     def test_quiet_flag_passed_to_suite(self):
         suite_inst = MagicMock()
         suite_inst.print_report.return_value = True
-        with patch("gse.cli.main.GSEProofSuite", return_value=suite_inst) as klass:
+        with patch("GSE.cli.main.GSEProofSuite", return_value=suite_inst) as klass:
             with pytest.raises(SystemExit):
                 cmd_verify(argparse.Namespace(quiet=True))
         # GSEProofSuite called with verbose=False (not quiet)
@@ -307,8 +307,8 @@ class TestCmdInteractive:
         encoder_inst = MagicMock()
         decoder_inst = MagicMock()
         with (
-            patch("gse.cli.main.GSEEncoder", return_value=encoder_inst),
-            patch("gse.cli.main.GSEDecoder", return_value=decoder_inst),
+            patch("GSE.cli.main.GSEEncoder", return_value=encoder_inst),
+            patch("GSE.cli.main.GSEDecoder", return_value=decoder_inst),
             patch("builtins.input", side_effect=["quit"]),
         ):
             cmd_interactive(argparse.Namespace())
@@ -319,8 +319,8 @@ class TestCmdInteractive:
         encoder_inst = MagicMock()
         decoder_inst = MagicMock()
         with (
-            patch("gse.cli.main.GSEEncoder", return_value=encoder_inst),
-            patch("gse.cli.main.GSEDecoder", return_value=decoder_inst),
+            patch("GSE.cli.main.GSEEncoder", return_value=encoder_inst),
+            patch("GSE.cli.main.GSEDecoder", return_value=decoder_inst),
             patch("builtins.input", side_effect=EOFError),
         ):
             cmd_interactive(argparse.Namespace())
@@ -330,8 +330,8 @@ class TestCmdInteractive:
         encoder_inst = MagicMock()
         decoder_inst = MagicMock()
         with (
-            patch("gse.cli.main.GSEEncoder", return_value=encoder_inst),
-            patch("gse.cli.main.GSEDecoder", return_value=decoder_inst),
+            patch("GSE.cli.main.GSEEncoder", return_value=encoder_inst),
+            patch("GSE.cli.main.GSEDecoder", return_value=decoder_inst),
             patch("builtins.input", side_effect=["", "quit"]),
         ):
             cmd_interactive(argparse.Namespace())
@@ -341,8 +341,8 @@ class TestCmdInteractive:
         encoder_inst.encode.return_value = make_trace()
         decoder_inst = MagicMock()
         with (
-            patch("gse.cli.main.GSEEncoder", return_value=encoder_inst),
-            patch("gse.cli.main.GSEDecoder", return_value=decoder_inst),
+            patch("GSE.cli.main.GSEEncoder", return_value=encoder_inst),
+            patch("GSE.cli.main.GSEDecoder", return_value=decoder_inst),
             patch("builtins.input", side_effect=["encode hello world", "quit"]),
         ):
             cmd_interactive(argparse.Namespace())
@@ -357,8 +357,8 @@ class TestCmdInteractive:
         encoder_inst.encode.return_value = trace_obj
         decoder_inst = MagicMock()
         with (
-            patch("gse.cli.main.GSEEncoder", return_value=encoder_inst),
-            patch("gse.cli.main.GSEDecoder", return_value=decoder_inst),
+            patch("GSE.cli.main.GSEEncoder", return_value=encoder_inst),
+            patch("GSE.cli.main.GSEDecoder", return_value=decoder_inst),
             patch("builtins.input", side_effect=["compare a | b", "quit"]),
         ):
             cmd_interactive(argparse.Namespace())
@@ -369,8 +369,8 @@ class TestCmdInteractive:
         encoder_inst = MagicMock()
         decoder_inst = MagicMock()
         with (
-            patch("gse.cli.main.GSEEncoder", return_value=encoder_inst),
-            patch("gse.cli.main.GSEDecoder", return_value=decoder_inst),
+            patch("GSE.cli.main.GSEEncoder", return_value=encoder_inst),
+            patch("GSE.cli.main.GSEDecoder", return_value=decoder_inst),
             patch("builtins.input", side_effect=["compare nosplit", "quit"]),
         ):
             cmd_interactive(argparse.Namespace())
@@ -383,8 +383,8 @@ class TestCmdInteractive:
         decoder_inst = MagicMock()
         decoder_inst.decode.return_value = make_semantics()
         with (
-            patch("gse.cli.main.GSEEncoder", return_value=encoder_inst),
-            patch("gse.cli.main.GSEDecoder", return_value=decoder_inst),
+            patch("GSE.cli.main.GSEEncoder", return_value=encoder_inst),
+            patch("GSE.cli.main.GSEDecoder", return_value=decoder_inst),
             patch("builtins.input", side_effect=["decode hello", "quit"]),
         ):
             cmd_interactive(argparse.Namespace())
@@ -395,8 +395,8 @@ class TestCmdInteractive:
         encoder_inst = MagicMock()
         decoder_inst = MagicMock()
         with (
-            patch("gse.cli.main.GSEEncoder", return_value=encoder_inst),
-            patch("gse.cli.main.GSEDecoder", return_value=decoder_inst),
+            patch("GSE.cli.main.GSEEncoder", return_value=encoder_inst),
+            patch("GSE.cli.main.GSEDecoder", return_value=decoder_inst),
             patch("builtins.input", side_effect=["foobar", "quit"]),
         ):
             cmd_interactive(argparse.Namespace())
@@ -423,7 +423,7 @@ class TestMain:
         def fake_cmd_encode(args):
             called.append(args.text)
 
-        with patch("sys.argv", ["gse", "encode", "hello world"]), patch("gse.cli.main.cmd_encode", fake_cmd_encode):
+        with patch("sys.argv", ["gse", "encode", "hello world"]), patch("GSE.cli.main.cmd_encode", fake_cmd_encode):
             main()
         assert called == ["hello world"]
 
@@ -433,7 +433,7 @@ class TestMain:
         def fake(args):
             called.append((args.sentence1, args.sentence2))
 
-        with patch("sys.argv", ["gse", "compare", "a", "b"]), patch("gse.cli.main.cmd_compare", fake):
+        with patch("sys.argv", ["gse", "compare", "a", "b"]), patch("GSE.cli.main.cmd_compare", fake):
             main()
         assert called == [("a", "b")]
 
@@ -443,7 +443,7 @@ class TestMain:
         def fake(args):
             called.append(args.quiet)
 
-        with patch("sys.argv", ["gse", "verify", "--quiet"]), patch("gse.cli.main.cmd_verify", fake):
+        with patch("sys.argv", ["gse", "verify", "--quiet"]), patch("GSE.cli.main.cmd_verify", fake):
             main()
         assert called == [True]
 

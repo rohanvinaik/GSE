@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.external_sources.usas."""
+"""Manual contract tests for GSE.curation.external_sources.usas."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.external_sources.usas import (
+from GSE.curation.external_sources.usas import (
     USAS_MODIFIERS,
     USAS_TO_GSE,
     USASEntry,
@@ -94,7 +94,7 @@ class TestInit:
 class TestDownload:
     def test_success(self, tmp_path):
         # Monkey-patch DATA_DIR to tmp_path
-        with patch("gse.curation.external_sources.usas.DATA_DIR", tmp_path):
+        with patch("GSE.curation.external_sources.usas.DATA_DIR", tmp_path):
             p = USASParser(lexicon_path=tmp_path / "x.tsv")
             mock_resp = MagicMock()
             mock_resp.content = b"happy\tA\tE4+"
@@ -102,7 +102,7 @@ class TestDownload:
                 assert p.download() is True
 
     def test_failure(self, tmp_path):
-        with patch("gse.curation.external_sources.usas.DATA_DIR", tmp_path):
+        with patch("GSE.curation.external_sources.usas.DATA_DIR", tmp_path):
             p = USASParser(lexicon_path=tmp_path / "x.tsv")
             with patch("requests.get", side_effect=Exception("net")):
                 assert p.download() is False

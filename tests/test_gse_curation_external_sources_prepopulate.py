@@ -1,4 +1,4 @@
-"""Manual contract tests for gse.curation.external_sources.prepopulate."""
+"""Manual contract tests for GSE.curation.external_sources.prepopulate."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from gse.curation.external_sources.prepopulate import (
+from GSE.curation.external_sources.prepopulate import (
     PrimitiveEvidence,
     aggregate_external_evidence,
     get_missing_primitives,
@@ -154,7 +154,7 @@ def fresh_db(tmp_path):
 
 class TestPrepopulateFromExternal:
     def test_no_lexemes_no_filled(self, fresh_db):
-        with patch("gse.curation.external_sources.prepopulate.ExternalSourcesComparator") as MockComp:
+        with patch("GSE.curation.external_sources.prepopulate.ExternalSourcesComparator") as MockComp:
             MockComp.return_value.load_all_sources.return_value = {}
             MockComp.return_value.parsers = {}
             stats = prepopulate_from_external(fresh_db)
@@ -169,7 +169,7 @@ class TestPrepopulateFromExternal:
 
         mock_parser = MagicMock()
         mock_parser.to_primitives.return_value = {"GOOD": 1}
-        with patch("gse.curation.external_sources.prepopulate.ExternalSourcesComparator") as MockComp:
+        with patch("GSE.curation.external_sources.prepopulate.ExternalSourcesComparator") as MockComp:
             MockComp.return_value.load_all_sources.return_value = {"s1": 1}
             MockComp.return_value.parsers = {"s1": mock_parser}
             stats = prepopulate_from_external(fresh_db)
@@ -192,7 +192,7 @@ class TestPrepopulateFromExternal:
 
         mock_parser = MagicMock()
         mock_parser.to_primitives.return_value = {"GOOD": 1}
-        with patch("gse.curation.external_sources.prepopulate.ExternalSourcesComparator") as MockComp:
+        with patch("GSE.curation.external_sources.prepopulate.ExternalSourcesComparator") as MockComp:
             MockComp.return_value.load_all_sources.return_value = {}
             MockComp.return_value.parsers = {"s1": mock_parser}
             # min_confidence=0.99 → 0.65 single-source confidence not enough
@@ -206,7 +206,7 @@ class TestPrepopulateFromExternal:
         conn.commit()
         conn.close()
 
-        with patch("gse.curation.external_sources.prepopulate.ExternalSourcesComparator") as MockComp:
+        with patch("GSE.curation.external_sources.prepopulate.ExternalSourcesComparator") as MockComp:
             MockComp.return_value.load_all_sources.return_value = {}
             MockComp.return_value.parsers = {}
             prepopulate_from_external(fresh_db, reset_existing=True)
@@ -222,7 +222,7 @@ class TestPrepopulateFromExternal:
         conn.commit()
         conn.close()
 
-        with patch("gse.curation.external_sources.prepopulate.ExternalSourcesComparator") as MockComp:
+        with patch("GSE.curation.external_sources.prepopulate.ExternalSourcesComparator") as MockComp:
             MockComp.return_value.load_all_sources.return_value = {}
             MockComp.return_value.parsers = {}
             prepopulate_from_external(fresh_db, reset_existing=False)
@@ -242,7 +242,7 @@ class TestPrepopulateFromExternal:
         p1.to_primitives.return_value = {"GOOD": 1}
         p2 = MagicMock()
         p2.to_primitives.return_value = {"GOOD": 1}
-        with patch("gse.curation.external_sources.prepopulate.ExternalSourcesComparator") as MockComp:
+        with patch("GSE.curation.external_sources.prepopulate.ExternalSourcesComparator") as MockComp:
             MockComp.return_value.load_all_sources.return_value = {}
             MockComp.return_value.parsers = {"s1": p1, "s2": p2}
             stats = prepopulate_from_external(fresh_db, min_confidence=0.0)
@@ -256,7 +256,7 @@ class TestPrepopulateFromExternal:
 
 class TestGetMissingPrimitives:
     def test_all_missing_when_no_data(self, fresh_db):
-        from gse.curation.schema import ALL_PRIMITIVES
+        from GSE.curation.schema import ALL_PRIMITIVES
 
         result = get_missing_primitives(fresh_db, lexeme_id=42)
         assert set(result) == set(ALL_PRIMITIVES)

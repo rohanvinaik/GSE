@@ -11,8 +11,8 @@ from pathlib import Path
 
 import pytest
 
-from gse.api import GSEEncoder
-from gse.symbolic import (
+from GSE.api import GSEEncoder
+from GSE.symbolic import (
     GenealogyStore,
     emit,
     evaluate_tree,
@@ -20,9 +20,9 @@ from gse.symbolic import (
     resolve,
     resolve_document,
 )
-from gse.symbolic.expression import Atom
-from gse.symbolic.predicates import TypeAssertion
-from gse.symbolic.resolution import Entity
+from GSE.symbolic.expression import Atom
+from GSE.symbolic.predicates import TypeAssertion
+from GSE.symbolic.resolution import Entity
 
 
 def _refs(node):
