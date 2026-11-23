@@ -40,3 +40,31 @@ logs/
 # tool scrape cache (re-fetchable; not source)
 .firecrawl/
 .serena/
+
+# Raw lexicon-run dumps of 10 MB or more stay on disk as records but out of git: GitHub warns
+# above 50 MB and history keeps every byte. Smaller receipts in the same directories are committed.
+docs/readings/2026-11-01-lexicon-alias-identity/body-zipf-006/receipts.json
+docs/readings/2026-11-01-lexicon-alias-identity/derived-form-native-evidence.json
+docs/readings/2026-11-01-lexicon-alias-identity/monetary-unit-quantity-admission.json
+docs/readings/2026-11-01-lexicon-next-stage/linear-unit-pattern-audit.json
+docs/readings/2026-11-01-lexicon-next-stage/linear-unit-pattern-export.json
+docs/readings/2026-11-01-lexicon-next-stage/linear-unit-pattern-input.json
+docs/readings/2026-11-01-lexicon-next-stage/zipf-body-batch-004-reviewed-export.json
+docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-reviewed-export.json
+docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-reviewed-input.json
+docs/readings/2026-11-01-lexicon-you-body/linear-unit-quantity-audit.json
+docs/readings/2026-11-01-lexicon-you-body/linear-unit-quantity-export.json
+docs/readings/2026-11-01-lexicon-you-body/linear-unit-quantity-input.json
+docs/readings/2026-11-11-lexicon-learning-loop/alive-refined-audit-retry.json
+docs/readings/2026-11-11-lexicon-learning-loop/alive-refined-audit.json
+docs/readings/2026-11-11-lexicon-learning-loop/alive-refined-input.json
+docs/readings/2026-11-11-lexicon-learning-loop/alive-refinement.json
+docs/readings/2026-11-11-lexicon-learning-loop/joint-linear-input.json
+docs/readings/2026-11-11-lexicon-learning-loop/monetary-want-residual-worklist.json
+docs/readings/2026-11-11-lexicon-learning-loop/unit-banks-probe-requests.json
+docs/readings/2026-11-11-lexicon-learning-loop/unit-quantity-refined-audit.json
+docs/readings/2026-11-11-lexicon-learning-loop/unit-quantity-refined-input.json
+docs/readings/2026-11-11-lexicon-learning-loop/unit-want-refined-worklist.json
+docs/readings/2026-11-11-lexicon-learning-loop/volume-want-residual-worklist.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-auditor-calibration.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-reserved-body-audits.json
