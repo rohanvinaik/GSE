@@ -1,0 +1,551 @@
+{
+  "authority": "MODEL_RULINGS_NOT_SEMANTIC_GOLD",
+  "format": "gse.model-ruling-review-navigator/1",
+  "full_receipts": {
+    "path": "data/lexicon_builder/2026-10-29/zipf-batch-002-accepted-receipts.json",
+    "sha256": "d1b58ee77f8ec8e6f0978fdb825f3117629456e2a54518df090dbb2c0a4c5e04"
+  },
+  "records": [
+    {
+      "bank": "BE",
+      "definition": {
+        "definition": "Curated GSE pronoun use of 'you'. Declared lexical components: SOMEONE=+1. Grammatical features: {\"animacy\": \"ANIMATE\", \"gram\": {\"case\": \"NOM\", \"person\": 2}}.",
+        "entry_id": "gse_closed_class:pronoun:you",
+        "lemma": "you",
+        "pos": "pronoun"
+      },
+      "prior_known": {
+        "ABOVE": 0,
+        "ALIVE": 0,
+        "SOMEONE": 1
+      },
+      "receipt_sha256": "16dd762afea54adeb4e67f311a1f18bc8e021be3da65e0d0a72268e3e4858eb6",
+      "request_id": "5d2ba6eeed5b948d90fdc7f0a9e554afdb82fc9e1dc471a33f6f140cd5d52c2d",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+      "value": 0
+    },
+    {
+      "bank": "BECAUSE",
+      "definition": {
+        "definition": "Curated GSE pronoun use of 'you'. Declared lexical components: SOMEONE=+1. Grammatical features: {\"animacy\": \"ANIMATE\", \"gram\": {\"case\": \"NOM\", \"person\": 2}}.",
+        "entry_id": "gse_closed_class:pronoun:you",
+        "lemma": "you",
+        "pos": "pronoun"
+      },
+      "prior_known": {
+        "ABOVE": 0,
+        "ALIVE": 0,
+        "BE": 0,
+        "SOMEONE": 1
+      },
+      "receipt_sha256": "4d4641e2138d3faf27a429541b54631207ae35967ab0238e47150178c9970f07",
+      "request_id": "053ec0bd837cdb2f91fffa1cd94cf54c6a7d18d5af8035c1d099d03825e633e9",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+      "value": 0
+    },
+    {
+      "bank": "ABOVE",
+      "definition": {
+        "definition": "Synonym of Youzhou, one of the Nine Provinces of Chinese legend.",
+        "entry_id": "wiktionary:en-You-en-name-0mwj1dYY:7234799d123248384c3484c387b692b48d20910a2b9dc802284d97c3ffd7624b",
+        "lemma": "you",
+        "pos": "name"
+      },
+      "prior_known": {},
+      "receipt_sha256": "e052e0d672ea7351661d59acd2c4cc75994e2e4f41b032f2c8717a0a8903f5b4",
+      "request_id": "cbbf0444453758575e38ff8f6403b1af61d97e51446bd28dba37c21b4b4eec8b",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+      "value": 0
+    },
+    {
+      "bank": "ALIVE",
+      "definition": {
+        "definition": "Synonym of Youzhou, one of the Nine Provinces of Chinese legend.",
+        "entry_id": "wiktionary:en-You-en-name-0mwj1dYY:7234799d123248384c3484c387b692b48d20910a2b9dc802284d97c3ffd7624b",
+        "lemma": "you",
+        "pos": "name"
+      },
+      "prior_known": {
+        "ABOVE": 0
+      },
+      "receipt_sha256": "4ecd48b099c09143cb8522c031f1c658c462518fde7fd32ceb2df096043698d2",
+      "request_id": "d66faa676298ff88450423d3a9b7e97ddf4f7dc3fe6f5095440692590ed6e7d3",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+      "value": 0
+    },
+    {
+      "bank": "ABOVE",
+      "definition": {
+        "definition": "A former prefecture of China.",
+        "entry_id": "wiktionary:en-You-en-name-D6-sNozV:dc51e3c48f665cca6ad321b7a04562ddfe2bd9a092c70d12ec980d043e729d05",
+        "lemma": "you",
+        "pos": "name"
+      },
+      "prior_known": {},
+      "receipt_sha256": "b06552e927fd69fa143897c795f39b14bc649c816028f2266e49ca750c4c77f0",
+      "request_id": "1ae74b314ded05bf39f867c990278f68c4d9e1815b878773bb2e140d71090686",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+      "value": 0
+    },
+    {
+      "bank": "ALIVE",
+      "definition": {
+        "definition": "A former prefecture of China.",
+        "entry_id": "wiktionary:en-You-en-name-D6-sNozV:dc51e3c48f665cca6ad321b7a04562ddfe2bd9a092c70d12ec980d043e729d05",
+        "lemma": "you",
+        "pos": "name"
+      },
+      "prior_known": {
+        "ABOVE": 0
+      },
+      "receipt_sha256": "65c9407b676161781eec2e59ee2f9670194f4a651d93652ef1fea172e53a395f",
+      "request_id": "79e12d04da9ed2cef3ca99a7815a5f66d0c947913bb75fad496779c0dc5cf992",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+      "value": 0
+    },
+    {
+      "bank": "ABOVE",
+      "definition": {
+        "definition": "A surname from Chinese",
+        "entry_id": "wiktionary:en-You-en-name-j8uMPsK5:a9147949697f6d435e78334c0782cc583f11017268be883b08dec5d6303d3b9e",
+        "lemma": "you",
+        "pos": "name"
+      },
+      "prior_known": {},
+      "receipt_sha256": "dfc45955e1755cb30f0612becbcf166fc4a9fce7ddae954e250a429c52ac62fc",
+      "request_id": "6a6dc1ce53e84ebe67bc9ca533ecb7852f69e08cac0bf74882f482ce0a9bbc9b",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+      "value": 0
+    },
+    {
+      "bank": "ALIVE",
+      "definition": {
+        "definition": "A surname from Chinese",
+        "entry_id": "wiktionary:en-You-en-name-j8uMPsK5:a9147949697f6d435e78334c0782cc583f11017268be883b08dec5d6303d3b9e",
+        "lemma": "you",
+        "pos": "name"
+      },
+      "prior_known": {
+        "ABOVE": 0
+      },
+      "receipt_sha256": "2268b06ff6e49d0df416db38443d331358cbb05d9ed27ea30f670be7abfcb8c8",
+      "request_id": "291b6039d959c0fd581ac68be660fd5b6e3d1523ade0265ad1283a8634f84960",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+      "value": 0
+    },
+    {
+      "bank": "ABOVE",
+      "definition": {
+        "definition": "Honorific alternative letter-case form of you, sometimes used when referring to God or another important figure who is understood from context.",
+        "entry_id": "wiktionary:en-You-en-pron-xI8HvWFm:9a4843015ee1e368f28fc60cf88240ef0dd2812f22b7f698d6cdd53205fdd5e2",
+        "lemma": "you",
+        "pos": "pron"
+      },
+      "prior_known": {},
+      "receipt_sha256": "409e4f482e1f92491b5f4879de8a8a901219d9008989f231fb655bcd71e79373",
+      "request_id": "9aba89c887a6650396d34178405f589365fb498790b6be8a29762deb4ff5672e",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+      "value": 0
+    },
+    {
+      "bank": "ALIVE",
+      "definition": {
+        "definition": "Honorific alternative letter-case form of you, sometimes used when referring to God or another important figure who is understood from context.",
+        "entry_id": "wiktionary:en-You-en-pron-xI8HvWFm:9a4843015ee1e368f28fc60cf88240ef0dd2812f22b7f698d6cdd53205fdd5e2",
+        "lemma": "you",
+        "pos": "pron"
+      },
+      "prior_known": {
+        "ABOVE": 0
+      },
+      "receipt_sha256": "0cb4140070967119152f5c4160b670088f2dedef15f09573f8a0f6281fe8fcdf",
+      "request_id": "3991bcd7de5c6bfaffbf1682a5c3f74bd97b970a8338308d47851fbf270a67c6",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+      "value": 0
+    },
+    {
+      "bank": "ABOVE",
+      "definition": {
+        "definition": "Used before epithets, describing the person being addressed, for emphasis.",
+        "entry_id": "wiktionary:en-you-en-det-UalyzIdG:d04627490a2714881a4178559595efe9f28cff73b7a305e51d243697bbad62f1",
+        "lemma": "you",
+        "pos": "det"
+      },
+      "prior_known": {},
+      "receipt_sha256": "5deda6ac023915a3f3d43b3a9fe6d6d2bd24235da8502f4e1bc4131a7cc18db2",
+      "request_id": "3c7c022168a1c49d4965b247a6e75792abaeb65920c06a65c6f720027f1d56e7",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+      "value": 0
+    },
+    {
+      "bank": "ALIVE",
+      "definition": {
+        "definition": "Used before epithets, describing the person being addressed, for emphasis.",
+        "entry_id": "wiktionary:en-you-en-det-UalyzIdG:d04627490a2714881a4178559595efe9f28cff73b7a305e51d243697bbad62f1",
+        "lemma": "you",
+        "pos": "det"
+      },
+      "prior_known": {
+        "ABOVE": 0
+      },
+      "receipt_sha256": "ad2bfb6247c9f9f11d6b0110e4b678d8cbb1867ede5346ea64f7c8b8d7b9670f",
+      "request_id": "d1011646a35359738639628c5ac7514c3f1f5c4aeb6425ab9cd0d0339612bc06",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+      "value": 0
+    },
+    {
+      "bank": "ABOVE",
+      "definition": {
+        "definition": "Your.",
+        "entry_id": "wiktionary:en-you-en-det-cETw4r4E:c2d9737029a6e6b714fc84955a847f0550b8590fd621db3e61186923b1edf8e3",
+        "lemma": "you",
+        "pos": "det"
+      },
+      "prior_known": {},
+      "receipt_sha256": "2c3b85a45fe540527de69a4589400938ef7781238f37d56d08e9b2b14a2b8099",
+      "request_id": "137a5c8b9d41f60fe85ead11fcc02868996d633ede18ac6d8272e10be308ea78",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+      "value": 0
+    },
+    {
+      "bank": "ALIVE",
+      "definition": {
+        "definition": "Your.",
+        "entry_id": "wiktionary:en-you-en-det-cETw4r4E:c2d9737029a6e6b714fc84955a847f0550b8590fd621db3e61186923b1edf8e3",
+        "lemma": "you",
+        "pos": "det"
+      },
+      "prior_known": {
+        "ABOVE": 0
+      },
+      "receipt_sha256": "22f846c6e0542b016f4e22352b4dd8bac003724ef2f1bcc9dca34268dca0f20e",
+      "request_id": "1529ad94dbde4d3b0f2fb3eecd1e1195e3f80b008d7e8d5e01a2073781398db0",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+      "value": 0
+    },
+    {
+      "bank": "ABOVE",
+      "definition": {
+        "definition": "The individual or group spoken or written to.",
+        "entry_id": "wiktionary:en-you-en-det-ppKe~vKx:a3b429ce71e000e71911e421b6b42cf0aa906db74d3300276f8bb83cd105d372",
+        "lemma": "you",
+        "pos": "det"
+      },
+      "prior_known": {},
+      "receipt_sha256": "740be156e10f33b24d066bd4fb7cf276efcf5b3c6599f0d480aa91588704593a",
+      "request_id": "f67f2ceb63185667bb1f28c02f37077697dae355a7eea8cd773decd6855fdb0a",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+      "value": 0
+    },
+    {
+      "bank": "ALIVE",
+      "definition": {
+        "definition": "The individual or group spoken or written to.",
+        "entry_id": "wiktionary:en-you-en-det-ppKe~vKx:a3b429ce71e000e71911e421b6b42cf0aa906db74d3300276f8bb83cd105d372",
+        "lemma": "you",
+        "pos": "det"
+      },
+      "prior_known": {
+        "ABOVE": 0
+      },
+      "receipt_sha256": "2d928dd784c96274a483fdc31dd702e3018bb9490c7dcd74e25465f6836494c3",
+      "request_id": "daab37b89d001e438a9cafb703498e2d592313bb3e4233d6e15511ab2f0bbc85",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+      "value": 0
+    },
+    {
+      "bank": "CAN",
+      "definition": {
+        "definition": "The name of the Latin script letter U/u.",
+        "entry_id": "wiktionary:en-you-en-noun-2YsMsj8i:1a8439a0a38c9ceda0caa33ff6c2362469673c22b330b24292e5176d7be33894",
+        "lemma": "you",
+        "pos": "noun"
+      },
+      "prior_known": {
+        "ABOVE": 0,
+        "ALIVE": 0,
+        "BE": 0,
+        "BECAUSE": 0,
+        "BEFORE": 0,
+        "BIG": 0,
+        "BODY": 0,
+        "GOOD": 0
+      },
+      "receipt_sha256": "bb4a67d5756a6502ebbf495d892525b1c52ca468798abd3d98ddf8e07d547f92",
+      "request_id": "3ab3cdfc0bb36efa63fabc82b2f9cd22bf9c55878ca18cde3a6abf6d899422a1",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+      "value": 0
+    },
+    {
+      "bank": "CAUSE",
+      "definition": {
+        "definition": "The name of the Latin script letter U/u.",
+        "entry_id": "wiktionary:en-you-en-noun-2YsMsj8i:1a8439a0a38c9ceda0caa33ff6c2362469673c22b330b24292e5176d7be33894",
+        "lemma": "you",
+        "pos": "noun"
+      },
+      "prior_known": {
+        "ABOVE": 0,
+        "ALIVE": 0,
+        "BE": 0,
+        "BECAUSE": 0,
+        "BEFORE": 0,
+        "BIG": 0,
+        "BODY": 0,
+        "CAN": 0,
+        "GOOD": 0
+      },
+      "receipt_sha256": "04f9e88681695d151f2c88d757bcff63e92ccc42a02659f5c0455afc5a7ff672",
+      "request_id": "c1307ae86042d301c1a905a420ee4bafbb4384bece672afdaa66f5e7ac5380a8",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+      "value": 0
+    },
+    {
+      "bank": "ALIVE",
+      "definition": {
+        "definition": "The people spoken, or written to, as an object.",
+        "entry_id": "wiktionary:en-you-en-pron-2LSqalKj:9668929a339a55583add1f0d51a0efbb36feddcabea20443226ca03da474da55",
+        "lemma": "you",
+        "pos": "pron"
+      },
+      "prior_known": {},
+      "receipt_sha256": "4857dc6bd9e0ea1034d40ae7f28816cf8b93c560ab6c76df59d2cbc41044244b",
+      "request_id": "f75c5d1c1274a526de2682ba271b3813b81d55c4dae1d3627e6568984674518d",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+      "value": 0
+    },
+    {
+      "bank": "ABOVE",
+      "definition": {
+        "definition": "The people spoken, or written to, as an object.",
+        "entry_id": "wiktionary:en-you-en-pron-2LSqalKj:9668929a339a55583add1f0d51a0efbb36feddcabea20443226ca03da474da55",
+        "lemma": "you",
+        "pos": "pron"
+      },
+      "prior_known": {
+        "ALIVE": 0
+      },
+      "receipt_sha256": "3d153cabf52a4827dae2d5b035b2cebb685b200d7ff86a41015df19e97d3a98e",
+      "request_id": "bbab931388d0a55ede24e5dd8c97829f1f7616f49b0dee058f38459e316dc7a9",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@31030ef1d07e335abf049743e15a567abb1a7d0febbbae91351421b6b6682271:batch@489050095eeb67d04e5a46d0487f47b285c0fc9898c420dbf2868a8b2dfdf082",
+      "value": 0
+    },
+    {
+      "bank": "ALIVE",
+      "definition": {
+        "definition": "(To) yourselves, (to) yourself.",
+        "entry_id": "wiktionary:en-you-en-pron-HaQwzWRI:1295d3d5da7dba78418a90d60168f97d251449dce1d5103ed163a088427e1b70",
+        "lemma": "you",
+        "pos": "pron"
+      },
+      "prior_known": {},
+      "receipt_sha256": "20b8c3d1aeaaa8bfa910f881221cacfb8d29b8c1130fbc279c828bd1cc9402ef",
+      "request_id": "b16448b47ada4bbc06ff36ad38e9d0939010b96fb97be21f9b1df8eab9ba90b4",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+      "value": 0
+    },
+    {
+      "bank": "ABOVE",
+      "definition": {
+        "definition": "(To) yourselves, (to) yourself.",
+        "entry_id": "wiktionary:en-you-en-pron-HaQwzWRI:1295d3d5da7dba78418a90d60168f97d251449dce1d5103ed163a088427e1b70",
+        "lemma": "you",
+        "pos": "pron"
+      },
+      "prior_known": {
+        "ALIVE": 0
+      },
+      "receipt_sha256": "b83a146fa4f9d21a4b1db95be46136bcefa10e153b9925c7cc19163ec5502241",
+      "request_id": "6bdbae09471836b651734f0b482a35f82f5be54998ae3a64e566aa082d42d296",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@31030ef1d07e335abf049743e15a567abb1a7d0febbbae91351421b6b6682271:batch@489050095eeb67d04e5a46d0487f47b285c0fc9898c420dbf2868a8b2dfdf082",
+      "value": 0
+    },
+    {
+      "bank": "ALIVE",
+      "definition": {
+        "definition": "The person spoken to or written to, as an object. (Replacing thee; originally as a mark of respect.)",
+        "entry_id": "wiktionary:en-you-en-pron-M7hbUBCF:d42e9c16442d37ceb686b1d8af8566d0be8e70ac86931168ccc00c8cd448cf8b",
+        "lemma": "you",
+        "pos": "pron"
+      },
+      "prior_known": {},
+      "receipt_sha256": "49fd26d6a108d593c2028e694bf2f497ad438969fc494f834913d9bb36c258e7",
+      "request_id": "d3eae713b6e76397ea30d9dcc5dfff3e7fc1ae5bd59474bade4cf36c69e822c7",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+      "value": 0
+    },
+    {
+      "bank": "ABOVE",
+      "definition": {
+        "definition": "The person spoken to or written to, as an object. (Replacing thee; originally as a mark of respect.)",
+        "entry_id": "wiktionary:en-you-en-pron-M7hbUBCF:d42e9c16442d37ceb686b1d8af8566d0be8e70ac86931168ccc00c8cd448cf8b",
+        "lemma": "you",
+        "pos": "pron"
+      },
+      "prior_known": {
+        "ALIVE": 0
+      },
+      "receipt_sha256": "046296c5e483c0388f8634cac604cb49a1daec77bcc8ac0d79fb35aa41941206",
+      "request_id": "ba0abecc8f0c3658e5a1ebbd4b49b31df9186dbdcfd3efabae41d086bfea7e96",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@31030ef1d07e335abf049743e15a567abb1a7d0febbbae91351421b6b6682271:batch@489050095eeb67d04e5a46d0487f47b285c0fc9898c420dbf2868a8b2dfdf082",
+      "value": 0
+    },
+    {
+      "bank": "ALIVE",
+      "definition": {
+        "definition": "A dummy pronoun used in certain constructions, usually with verbs of receiving (such as get or find) or sensing (such as see or hear), typically stating the existence or typicality of something.",
+        "entry_id": "wiktionary:en-you-en-pron-en:dummy:9e5fbc823fa9cd6a73eca0b8cbace4e052e1290f9d58efd5c63c5bdc14b7e3a8",
+        "lemma": "you",
+        "pos": "pron"
+      },
+      "prior_known": {},
+      "receipt_sha256": "4416245e6ae9b1238b183e63fc3e4d76b0bfc828d1e8049ce9b34ed60614b2fb",
+      "request_id": "555684b22916ab97716bb748b3e36ced737e20cc14c6f79b6d8276014e9453eb",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+      "value": 0
+    },
+    {
+      "bank": "ABOVE",
+      "definition": {
+        "definition": "A dummy pronoun used in certain constructions, usually with verbs of receiving (such as get or find) or sensing (such as see or hear), typically stating the existence or typicality of something.",
+        "entry_id": "wiktionary:en-you-en-pron-en:dummy:9e5fbc823fa9cd6a73eca0b8cbace4e052e1290f9d58efd5c63c5bdc14b7e3a8",
+        "lemma": "you",
+        "pos": "pron"
+      },
+      "prior_known": {
+        "ALIVE": 0
+      },
+      "receipt_sha256": "a977d99636fa59e229c8ab0eed22df08f3de1f70cd86b731150d4eaa0b1f2809",
+      "request_id": "251c29f09d298e693d9e2269924cb13215ee00f861fdc2b9e75ec1051125abad",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@31030ef1d07e335abf049743e15a567abb1a7d0febbbae91351421b6b6682271:batch@489050095eeb67d04e5a46d0487f47b285c0fc9898c420dbf2868a8b2dfdf082",
+      "value": 0
+    },
+    {
+      "bank": "ALIVE",
+      "definition": {
+        "definition": "Anyone, one; an unspecified individual or group of individuals (as subject or object).",
+        "entry_id": "wiktionary:en-you-en-pron-en:indefinite:8f3e6ad44f8472d9822a64093a60cee3f0eaa9dea9048db393e675b3b14a63a3",
+        "lemma": "you",
+        "pos": "pron"
+      },
+      "prior_known": {},
+      "receipt_sha256": "dc6de2e6ab2a790ef223a1e82594a8ebf620c5b43216c8540e2e06024c3b53e1",
+      "request_id": "41d9bedd7378ff3c6c987fe5ff56c8a1ded792bb45514963e3938caefd81a591",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+      "value": 0
+    },
+    {
+      "bank": "ABOVE",
+      "definition": {
+        "definition": "Anyone, one; an unspecified individual or group of individuals (as subject or object).",
+        "entry_id": "wiktionary:en-you-en-pron-en:indefinite:8f3e6ad44f8472d9822a64093a60cee3f0eaa9dea9048db393e675b3b14a63a3",
+        "lemma": "you",
+        "pos": "pron"
+      },
+      "prior_known": {
+        "ALIVE": 0
+      },
+      "receipt_sha256": "f8892a93b528d73af62004a61ee5fc5b3bebaf70555bdb42b86ec757672d19c5",
+      "request_id": "72179a30f5917ee5e5f6ff6230f41425ec52e5fdf5ddd03ae9115e743300b068",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@31030ef1d07e335abf049743e15a567abb1a7d0febbbae91351421b6b6682271:batch@489050095eeb67d04e5a46d0487f47b285c0fc9898c420dbf2868a8b2dfdf082",
+      "value": 0
+    },
+    {
+      "bank": "ALIVE",
+      "definition": {
+        "definition": "The person spoken to or written to, as a subject. (Originally as a mark of respect.)",
+        "entry_id": "wiktionary:en-you-en-pron-rwcdiI~X:d0073ae2c947dca6309e0fa19f668f1f93df915c15338c687a4c083768cac625",
+        "lemma": "you",
+        "pos": "pron"
+      },
+      "prior_known": {},
+      "receipt_sha256": "c4fe3a7f37f367bb46f176c57c62ca988cec363f2749d545eee0da15f6f0a1ac",
+      "request_id": "bbc82a42bc5b2d9317979a73a11e3cce9d2ae430f0bef2775b4696ff67a4c193",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+      "value": 0
+    },
+    {
+      "bank": "ABOVE",
+      "definition": {
+        "definition": "The person spoken to or written to, as a subject. (Originally as a mark of respect.)",
+        "entry_id": "wiktionary:en-you-en-pron-rwcdiI~X:d0073ae2c947dca6309e0fa19f668f1f93df915c15338c687a4c083768cac625",
+        "lemma": "you",
+        "pos": "pron"
+      },
+      "prior_known": {
+        "ALIVE": 0
+      },
+      "receipt_sha256": "159199fe99448101613312615305f5c4c0f76a16c3b4d06b0ae801c1d045c695",
+      "request_id": "7b75588cb8d9438be6a2ffdc3f8ec641daff124e99d267e18c1b9866b06f0c19",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@31030ef1d07e335abf049743e15a567abb1a7d0febbbae91351421b6b6682271:batch@489050095eeb67d04e5a46d0487f47b285c0fc9898c420dbf2868a8b2dfdf082",
+      "value": 0
+    },
+    {
+      "bank": "ALIVE",
+      "definition": {
+        "definition": "The people spoken to or written to, as a subject. (Replacing ye.)",
+        "entry_id": "wiktionary:en-you-en-pron-yQF~npAz:733d2918c05b6c41545666e5f0135845c02336d845c373b46f45117d7b0d0c1b",
+        "lemma": "you",
+        "pos": "pron"
+      },
+      "prior_known": {},
+      "receipt_sha256": "3d969cf419af02ec3f8c5cbfa7ff4258900893e45ad8032e04b8bb5d9fdd87b1",
+      "request_id": "b90338648757d276bed13bea7bc1a291728f9e107b4d8c62644ca4f999df438f",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+      "value": 0
+    },
+    {
+      "bank": "ABOVE",
+      "definition": {
+        "definition": "The people spoken to or written to, as a subject. (Replacing ye.)",
+        "entry_id": "wiktionary:en-you-en-pron-yQF~npAz:733d2918c05b6c41545666e5f0135845c02336d845c373b46f45117d7b0d0c1b",
+        "lemma": "you",
+        "pos": "pron"
+      },
+      "prior_known": {
+        "ALIVE": 0
+      },
+      "receipt_sha256": "3380bccbeefc2ab6dd727f1ca408b3604c398f91d4b3c665f4830cc6fecc89fb",
+      "request_id": "2563d5a7515e19d02f5fe04f67a9401d3abd42a247db2539d968342c15d73a02",
+      "review": "NOT_INDEPENDENTLY_REVIEWED",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@31030ef1d07e335abf049743e15a567abb1a7d0febbbae91351421b6b6682271:batch@489050095eeb67d04e5a46d0487f47b285c0fc9898c420dbf2868a8b2dfdf082",
+      "value": 0
+    }
+  ],
+  "rule_promotions": 0,
+  "source_reports": [
+    "docs/readings/2026-10-29-lexicon-coherence/constructed-zipf-batch-002.json",
+    "docs/readings/2026-10-29-lexicon-coherence/constructed-zipf-batch-002-context-retry.json"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "active_pointer_sha256": "449020ca41a461a7d418e4bdffe402da5c0798cb98444c5f88e7ecf6acd099b5",
+  "automatic_activation": false,
+  "candidate": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-01/constructed-corpus-body-010.db",
+  "expected_model_digest": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+  "max_model_calls": 2,
+  "mode": "selected",
+  "model": "qwen3.8:27b-q4_K_M",
+  "model_options": {
+    "context_tokens": 65536,
+    "output_tokens": 1024,
+    "thinking": false,
+    "timeout": 300
+  },
+  "options": {
+    "bank_priority": "evidence",
+    "banks": [
+      "BODY"
+    ],
+    "batch_size": 4,
+    "cohort_policy": "spelling",
+    "continue_cohorts": true,
+    "entry_ids": [
+      "wiktionary:en-IT-en-adj-N0V58kbS:520df74924d176806d07ce216ab3eb04aeb3e54e2dde3fc6ebd104298b8cecdc",
+      "wordnet:kidney:kidney.n.01"
+    ],
+    "max_calls_per_entry": 1,
+    "max_entries_per_pass": 8,
+    "priority": "zipf",
+    "retry": false
+  },
+  "semantic_rule_approval": false,
+  "started_utc": "2026-11-11T15:59:03.475659+00:00",
+  "worker_sha256": "8a0e216758f74056be28ee7a26065da8667a495a507bff4babf13e2c6ee89c47"
+}

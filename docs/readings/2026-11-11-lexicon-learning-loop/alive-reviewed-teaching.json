@@ -1,0 +1,53 @@
+{
+  "audit_entry_ids": [],
+  "discovery_entry_ids": [
+    "wordnet:dollar:dollar.n.01",
+    "wordnet:cent:cent.n.01",
+    "wordnet:euro:euro.n.01"
+  ],
+  "format": "gse.reviewed-pattern-selection/1",
+  "reviews": [
+    {
+      "request_id": "6b266f9e1d3f7bdbf2d03d110560caa05539280e8c6071d1f38dfcd80d01d83f",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The exact sense defines a monetary denomination through currency use or a fractional exchange unit. The definition's subject is a unit of tender. Living or dying is orthogonal to that definitional role, warranting the reviewed ALIVE=0 ruling.",
+        "receipt_sha256": "570146f514ffe83a2a7a9309a105087ac5cc9d5b6ba6fc98c0e905ce462be3c5",
+        "review_id": "alive-native-definition-review:wordnet:cent:cent.n.01",
+        "reviewer": "Codex source-backed review",
+        "source_refs": [
+          "native-source:wordnet:cent:cent.n.01@sha256:36d040a54b0421121b5218606441f044290ceebc6637bac95b12ada368541b05",
+          "docs/readings/2026-11-11-lexicon-learning-loop/alive-native-scope.json"
+        ]
+      }
+    },
+    {
+      "request_id": "1f45ae55daa5bcd6c82a6e17e2c3fdf3a97e6cab3a5bf1e33468398ce81ad46f",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The exact sense defines a monetary denomination through currency use or a fractional exchange unit. The definition's subject is a unit of tender. Living or dying is orthogonal to that definitional role, warranting the reviewed ALIVE=0 ruling.",
+        "receipt_sha256": "a4aed1d4c5580ab1aeba3e3340605c49df76c5096fa344a6fe0eacd09157276d",
+        "review_id": "alive-native-definition-review:wordnet:dollar:dollar.n.01",
+        "reviewer": "Codex source-backed review",
+        "source_refs": [
+          "native-source:wordnet:dollar:dollar.n.01@sha256:0002c5d706fb6a07034ef96dcc1bfc6824f6bc8abcac6361f780d3b1122eef42",
+          "docs/readings/2026-11-11-lexicon-learning-loop/alive-native-scope.json"
+        ]
+      }
+    },
+    {
+      "request_id": "444ab9941592267500d67c1aaf58003fe90dde2463e0111e09624ca90c0f5bd5",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The exact sense defines a monetary denomination through currency use or a fractional exchange unit. The definition's subject is a unit of tender. Living or dying is orthogonal to that definitional role, warranting the reviewed ALIVE=0 ruling.",
+        "receipt_sha256": "26a939032503f5bebbe2bd55e0622bf1d85df9d276b425e1e3779ebacaed4f14",
+        "review_id": "alive-native-definition-review:wordnet:euro:euro.n.01",
+        "reviewer": "Codex source-backed review",
+        "source_refs": [
+          "native-source:wordnet:euro:euro.n.01@sha256:83e76ff29d897e95e712e64b1367f6bf477b463068b9b1071d768108fb969572",
+          "docs/readings/2026-11-11-lexicon-learning-loop/alive-native-scope.json"
+        ]
+      }
+    }
+  ]
+}

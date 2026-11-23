@@ -1,0 +1,263 @@
+{
+  "activation_performed": false,
+  "active_pointer_sha256": "449020ca41a461a7d418e4bdffe402da5c0798cb98444c5f88e7ecf6acd099b5",
+  "arms": {
+    "closure": {
+      "candidate": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-grounded-comparison/closure/epoch-03/candidate.db",
+      "direct_typed_assignments": 3,
+      "epoch_families": [
+        "mass-want",
+        "duration-body",
+        "weight-want"
+      ],
+      "marginal_domain_potential_removed_bits": 137.8917375627406,
+      "new_cells": 87,
+      "remaining_unknown": 22084182,
+      "reopened_cells": 0,
+      "symbolic_new_cells": 84
+    },
+    "zipf": {
+      "candidate": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-grounded-comparison/zipf/epoch-03/candidate.db",
+      "direct_typed_assignments": 3,
+      "epoch_families": [
+        "area-body",
+        "duration-body",
+        "mass-want"
+      ],
+      "marginal_domain_potential_removed_bits": 128.38196255841365,
+      "new_cells": 81,
+      "remaining_unknown": 22084188,
+      "reopened_cells": 0,
+      "symbolic_new_cells": 78
+    }
+  },
+  "baseline_sha256": "d4f7a0f2219013e32432d6535935faf6e6ea2e3f15b4adc1655d070576e92ca6",
+  "budget": {
+    "closure": 9,
+    "zipf": 9
+  },
+  "closure_minus_zipf_new_cells": 6,
+  "code": "EQUAL_BUDGET_GROUNDED_DISCOVERY_VALIDATED",
+  "conjunctive_admissions": {
+    "closure": [
+      {
+        "audit_outcomes": {
+          "MODEL_AGREEMENT": 2
+        },
+        "consequent": [
+          "BODY",
+          0
+        ],
+        "epoch": 2,
+        "family": "duration-body",
+        "interactions": [
+          {
+            "bank": "BODY",
+            "definitions_checked": 20,
+            "joint_only": 20,
+            "parent": "reviewed-guarded-pattern:4d9f9f13721144cbba9db5d6a3e3343507e4222966fee5d50c4aaed0f6cfcb50",
+            "singletons": {
+              "both": 20,
+              "child_only": 0,
+              "neither": 0,
+              "parent_only": 0
+            }
+          },
+          {
+            "bank": "BODY",
+            "definitions_checked": 20,
+            "joint_only": 20,
+            "parent": "reviewed-guarded-pattern:8d1fe210c053571b631d01240ef7ee3f7b29d33b014c7bf4721f9e1f078aaaef",
+            "singletons": {
+              "both": 20,
+              "child_only": 0,
+              "neither": 0,
+              "parent_only": 0
+            }
+          }
+        ],
+        "premises": [
+          [
+            "QUANTITY",
+            1
+          ],
+          [
+            "WANT",
+            0
+          ]
+        ],
+        "rule_id": "reviewed-guarded-pattern:d30431f3531032b0121f4e7bec3e84ab19914eb7ffe1599d33d7671b7535e744",
+        "symbolic_new_cells": 19
+      }
+    ],
+    "zipf": [
+      {
+        "audit_outcomes": {
+          "MODEL_AGREEMENT": 2
+        },
+        "consequent": [
+          "BODY",
+          0
+        ],
+        "epoch": 2,
+        "family": "duration-body",
+        "interactions": [
+          {
+            "bank": "BODY",
+            "definitions_checked": 20,
+            "joint_only": 20,
+            "parent": "reviewed-guarded-pattern:4d9f9f13721144cbba9db5d6a3e3343507e4222966fee5d50c4aaed0f6cfcb50",
+            "singletons": {
+              "both": 20,
+              "child_only": 0,
+              "neither": 0,
+              "parent_only": 0
+            }
+          },
+          {
+            "bank": "BODY",
+            "definitions_checked": 20,
+            "joint_only": 20,
+            "parent": "reviewed-guarded-pattern:8d1fe210c053571b631d01240ef7ee3f7b29d33b014c7bf4721f9e1f078aaaef",
+            "singletons": {
+              "both": 20,
+              "child_only": 0,
+              "neither": 0,
+              "parent_only": 0
+            }
+          }
+        ],
+        "premises": [
+          [
+            "QUANTITY",
+            1
+          ],
+          [
+            "WANT",
+            0
+          ]
+        ],
+        "rule_id": "reviewed-guarded-pattern:d30431f3531032b0121f4e7bec3e84ab19914eb7ffe1599d33d7671b7535e744",
+        "symbolic_new_cells": 19
+      }
+    ]
+  },
+  "equal_budget": true,
+  "format": "gse.lexicon-epoch-comparison/1",
+  "grounded_chain_proposals": {
+    "closure": 4,
+    "zipf": 4
+  },
+  "inventory_size": {
+    "families": 6,
+    "lexical_entries": 127,
+    "synsets": 89
+  },
+  "second_generation_rules": [],
+  "verified_replays": {
+    "closure": {
+      "audits": {
+        "MODEL_AGREEMENT": 6
+      },
+      "candidate_sha256": "f74cfcf3feb72bb59c0d675c45b3fdc3061f0b1543ef61790413b67bfaa1ae54",
+      "publication": {
+        "blockers": [
+          "INCOMPLETE_DEFINITIONS",
+          "INCOMPLETE_PRIME_FOUNDATION",
+          "SEMANTIC_AUDIT_NOT_SUPPLIED"
+        ],
+        "cells": {
+          "assigned": 405194,
+          "explicit_zero": 280594,
+          "unresolved": 22084182
+        },
+        "code": "PUBLICATION_BLOCKED"
+      },
+      "replay": {
+        "code": "REPLAY_VALIDATED",
+        "complete_search": true,
+        "entries_checked": 401596,
+        "entries_mismatched": 0,
+        "entries_validated": 401596,
+        "format": "gse.lexicon-replay-report/1",
+        "gold": "NOT_CHECKED",
+        "inference_counts": {
+          "components_joint_checked": 2495368,
+          "components_solver_limited": 0,
+          "entries_complete_search": 401596,
+          "entries_replayed": 401596,
+          "entries_solver_limited": 0
+        },
+        "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+        "metadata_verification": {
+          "build_report": "NOT_CHECKED",
+          "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+          "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+          "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+          "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+          "catalog_definition_source_ids": "NOT_PERSISTED",
+          "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+          "representation_contract": "VERIFIED",
+          "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+        },
+        "mismatch_counts": {},
+        "mismatches": [],
+        "replayed_outcomes": {
+          "PARTIAL": 401596
+        }
+      }
+    },
+    "zipf": {
+      "audits": {
+        "MODEL_AGREEMENT": 6
+      },
+      "candidate_sha256": "f7cdf048aa132326310575d6a2d9acd9aec074ef84a384a6d586d0ce8cf144ac",
+      "publication": {
+        "blockers": [
+          "INCOMPLETE_DEFINITIONS",
+          "INCOMPLETE_PRIME_FOUNDATION",
+          "SEMANTIC_AUDIT_NOT_SUPPLIED"
+        ],
+        "cells": {
+          "assigned": 405188,
+          "explicit_zero": 280588,
+          "unresolved": 22084188
+        },
+        "code": "PUBLICATION_BLOCKED"
+      },
+      "replay": {
+        "code": "REPLAY_VALIDATED",
+        "complete_search": true,
+        "entries_checked": 401596,
+        "entries_mismatched": 0,
+        "entries_validated": 401596,
+        "format": "gse.lexicon-replay-report/1",
+        "gold": "NOT_CHECKED",
+        "inference_counts": {
+          "components_joint_checked": 2495368,
+          "components_solver_limited": 0,
+          "entries_complete_search": 401596,
+          "entries_replayed": 401596,
+          "entries_solver_limited": 0
+        },
+        "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+        "metadata_verification": {
+          "build_report": "NOT_CHECKED",
+          "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+          "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+          "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+          "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+          "catalog_definition_source_ids": "NOT_PERSISTED",
+          "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+          "representation_contract": "VERIFIED",
+          "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+        },
+        "mismatch_counts": {},
+        "mismatches": [],
+        "replayed_outcomes": {
+          "PARTIAL": 401596
+        }
+      }
+    }
+  }
+}

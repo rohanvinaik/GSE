@@ -1,0 +1,100 @@
+{
+  "audit": [
+    {
+      "bank": "SOMEONE",
+      "code": "MODEL_AGREEMENT",
+      "entry_id": "wiktionary:en-god-en-noun-XjVVibGB:cb2af954822c1b57e4edad3e91df86be881f746aa148c1dbae77473ebe917f96",
+      "request_id": "c924e45be96b1b8bf2f1de3677666106f783e8f530363cf262d57ba7502277ca",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@70fb5b398dd5ab932841d11c4bad97e9c1454b71261206346619664f4fd361f4",
+      "value": 1,
+      "writes": false
+    },
+    {
+      "bank": "SOMEONE",
+      "code": "MODEL_AGREEMENT",
+      "entry_id": "wordnet:saint:saint.n.01",
+      "request_id": "ec7a85995ea45f4d351408db672088bf6a196c5fd26e0106f8f9d1c2119155ab",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@70fb5b398dd5ab932841d11c4bad97e9c1454b71261206346619664f4fd361f4",
+      "value": 1,
+      "writes": false
+    }
+  ],
+  "baseline_sha256": "505a356504b3ef81c6c9a5313119c4945ef040eff52b0853419d07606451d9fb",
+  "bits_removed": 45.963912520913524,
+  "candidate_sha256": "c9513434bca9450adbc969c2d8653b551d22b575119b3542657f20646276cc42",
+  "changes_by_source": {
+    "wiktionary": 28,
+    "wordnet": 1
+  },
+  "code": "SOMEONE_RULE_REPLAY_VALIDATED",
+  "epoch_code": "RULE_ADMITTED",
+  "format": "gse.ssl-someone-rebase/1",
+  "fraction_of_initial_potential_removed": 1.3132543089345626e-06,
+  "historical_event_id": "f0ab580625011f5cc2a7a862854d654249c511211aae4cfd72fa99cf2a2773a5",
+  "new_cells": 29,
+  "parent_rule_id": "reviewed-guarded-pattern:82cac960b4a20869a408a2bd552a5163dc32874d0e966255769dcdb6d7846c13",
+  "reopened_cells": 0,
+  "replay": {
+    "code": "REPLAY_VALIDATED",
+    "complete_search": true,
+    "entries_checked": 401596,
+    "entries_mismatched": 0,
+    "entries_validated": 401596,
+    "format": "gse.lexicon-replay-report/1",
+    "gold": "NOT_CHECKED",
+    "inference_counts": {
+      "components_joint_checked": 2495392,
+      "components_solver_limited": 0,
+      "entries_complete_search": 401596,
+      "entries_replayed": 401596,
+      "entries_solver_limited": 0
+    },
+    "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+    "metadata_verification": {
+      "build_report": "NOT_CHECKED",
+      "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+      "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+      "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+      "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+      "catalog_definition_source_ids": "NOT_PERSISTED",
+      "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+      "representation_contract": "VERIFIED",
+      "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+    },
+    "mismatch_counts": {},
+    "mismatches": [],
+    "replayed_outcomes": {
+      "PARTIAL": 401596
+    }
+  },
+  "rule_id": "reviewed-guarded-pattern:82cac960b4a20869a408a2bd552a5163dc32874d0e966255769dcdb6d7846c13",
+  "teaching_entry_id": "wiktionary:en-it-en-noun-en:tag:940261067ea2654c843c34aa76029546ce3f2bf7f952829a9ecc26fadc47dda9",
+  "typed_questions_used": 3,
+  "unchanged_open_controls": [
+    "gse_closed_class:pronoun:it",
+    "wiktionary:en-God-en-noun-aiufd7Y9:ca95a06b096578f0d398f788eb6ea920dc00c9ea3e7d9bd04acde1b3077b553e",
+    "wiktionary:en-IT-en-noun-en:inclusive_tour:c2d32c6227cad5ab309460a5887e854a902542df564dfd27bf75236a4c215fd2",
+    "wiktionary:en-IT-en-noun-en:information_technology:e92356d7754f89656f508b08336bd147d3900d0f1f96014ef29b8a882ccabbc1",
+    "wiktionary:en-IT-en-noun-en:intercept_time_method:c3a1ecc4816b07749d8ce4e4fd529fb8da92b09d4bb84665fb231af6ab7680a2",
+    "wiktionary:en-It-en-noun-Uk59mqe7:7bc619cb5f8a6af8fc6773615f8a2fc13370635c580b6943affc0f2cbad87f76",
+    "wiktionary:en-It-en-noun-eHLqdHT0:43fd74767f7511c4b7d876908758c8ee73a35559fc815ed3f16d6d2404b78b38",
+    "wiktionary:en-It-en-noun-mGVi1skZ:acfb59bf1e7f58d139f445df575e9b9447a21813e3dccd026d2ac5daa0f39736",
+    "wiktionary:en-god-en-noun-AcdYfifO:b172e060ac8bf8f1b2c2661593394299b807d4487e9a8fc8081bdb0da700199c",
+    "wiktionary:en-god-en-noun-CmDFSlDD:57fea56dbacce05cd10b83dc05b2fe25a965a0bc8a4a447e0472c3b076ddcf21",
+    "wiktionary:en-god-en-noun-en:Q178885:d6a18d6d8781e01f72ace89e0f5413ae1fb0d9357d8954750d0f9d82750d4c33",
+    "wiktionary:en-god-en-noun-kobLl1OO:d52fb01bcc5d02f7191c3c99e39f742750a276907bd54d64b0dcf149fbaa913b",
+    "wiktionary:en-god-en-noun-~HZrqgws:1106ab4fde94c7af5993ad3b0681dd394753bd3a0a953399cd7e2e5a3e95b8da",
+    "wiktionary:en-it-en-noun-7OrmVk47:05634ab69a99fbb54b9427fa788aafae3e72d81dfd198cb966c2cc06683e4909",
+    "wiktionary:en-it-en-noun-8Z1~mhhc:969b86c241a14cd9da36cf42cba8c036d1b58fe5946a9947de10310f6e0608af",
+    "wiktionary:en-it-en-noun-EXKmmtZO:c87a20ab1d0e94ac6c97f0c2808d92adc88e1da5536988ce8ce470d0769bb430",
+    "wiktionary:en-it-en-noun-GhuGvqqA:62aa4dd794ecdd2bf63ee1771ceebc4b4d9bde89642de151fd262fb5e6f4a49a",
+    "wiktionary:en-it-en-noun-KASAD8nM:16d218d67680679c77848e6805f306c3cc802513b3868da789726e11c62fa8f2",
+    "wiktionary:en-it-en-noun-f8Co6fTO:3642b7fa2149b54fc54cd1b1ef82cb5109266d56075d50097ac60cc242c31d28",
+    "wiktionary:en-it-en-noun-kLouhqSJ:8c77578e9ed5a43bc8dc5fcbcffcdd3a64b3103bbd55a951d90222f1717bfd4a",
+    "wiktionary:en-it-en-noun-pf4Fnuis:99112869a2cfeed3d6c6c4e3b5e45aeceaf3d7bb7d0e2bad6678043791721822",
+    "wordnet:god:deity.n.01",
+    "wordnet:god:god.n.01",
+    "wordnet:god:idol.n.01",
+    "wordnet:it:information_technology.n.01"
+  ]
+}

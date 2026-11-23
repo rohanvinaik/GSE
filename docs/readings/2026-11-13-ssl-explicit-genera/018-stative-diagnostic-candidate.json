@@ -1,0 +1,180 @@
+{
+  "benchmark_sha256": "5804f94c5f6d911b882417cc112b18db44a97ec4defcfb92547a3d7cadef5987",
+  "by_class": {
+    "reserved-nonbeing": {
+      "exact_sense_bank": {
+        "OPEN_AS_EXPECTED": 2
+      },
+      "runtime_bank": {
+        "BLOCKED_BY_SENSE": 2
+      },
+      "sense": {
+        "ABSTAINED": 2
+      }
+    },
+    "stative-positive": {
+      "exact_sense_bank": {
+        "CORRECT": 3
+      },
+      "runtime_bank": {
+        "BLOCKED_BY_SENSE": 3
+      },
+      "sense": {
+        "ABSTAINED": 3
+      }
+    }
+  },
+  "cases": [
+    {
+      "banks": {
+        "BE": {
+          "domain": [
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "CORRECT",
+          "expected": 1,
+          "runtime": "BLOCKED_BY_SENSE"
+        }
+      },
+      "basis": "Explicit native state genus under the approved own-stative-content convention; nonbeing polarity reserved. This is a runtime-path diagnostic, outside the teaching and model audits.",
+      "class": "stative-positive",
+      "grounding": "INSUFFICIENT_CONTEXTUAL_SUPPORT",
+      "id": "stative-inactivity",
+      "lemma": "arrest",
+      "observed_sense": null,
+      "parser_lemma": "arrest",
+      "parser_pos": "NOUN",
+      "selection_status": "AMBIGUOUS",
+      "sense": "wordnet:arrest:arrest.n.02",
+      "sense_outcome": "ABSTAINED",
+      "text": "The arrest was a state of inactivity.",
+      "token": "arrest"
+    },
+    {
+      "banks": {
+        "BE": {
+          "domain": [
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "CORRECT",
+          "expected": 1,
+          "runtime": "BLOCKED_BY_SENSE"
+        }
+      },
+      "basis": "Explicit native state genus under the approved own-stative-content convention; nonbeing polarity reserved. This is a runtime-path diagnostic, outside the teaching and model audits.",
+      "class": "stative-positive",
+      "grounding": null,
+      "id": "stative-sleeping",
+      "lemma": "sleeping",
+      "observed_sense": null,
+      "parser_lemma": "sleeping",
+      "parser_pos": "PROPN",
+      "selection_status": "AMBIGUOUS",
+      "sense": "wordnet:sleeping:sleeping.n.01",
+      "sense_outcome": "ABSTAINED",
+      "text": "Sleeping is the state of being asleep.",
+      "token": "Sleeping"
+    },
+    {
+      "banks": {
+        "BE": {
+          "domain": [
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "CORRECT",
+          "expected": 1,
+          "runtime": "BLOCKED_BY_SENSE"
+        }
+      },
+      "basis": "Explicit native state genus under the approved own-stative-content convention; nonbeing polarity reserved. This is a runtime-path diagnostic, outside the teaching and model audits.",
+      "class": "stative-positive",
+      "grounding": "INSUFFICIENT_CONTEXTUAL_SUPPORT",
+      "id": "stative-anger",
+      "lemma": "anger",
+      "observed_sense": null,
+      "parser_lemma": "anger",
+      "parser_pos": "NOUN",
+      "selection_status": "AMBIGUOUS",
+      "sense": "wordnet:anger:anger.n.02",
+      "sense_outcome": "ABSTAINED",
+      "text": "The anger was the state of being angry.",
+      "token": "anger"
+    },
+    {
+      "banks": {
+        "BE": {
+          "domain": [
+            -1,
+            0,
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "OPEN_AS_EXPECTED",
+          "expected": null,
+          "runtime": "BLOCKED_BY_SENSE"
+        }
+      },
+      "basis": "Explicit native state genus under the approved own-stative-content convention; nonbeing polarity reserved. This is a runtime-path diagnostic, outside the teaching and model audits.",
+      "class": "reserved-nonbeing",
+      "grounding": null,
+      "id": "stative-nonbeing",
+      "lemma": "nonbeing",
+      "observed_sense": null,
+      "parser_lemma": "nonbeing",
+      "parser_pos": "PROPN",
+      "selection_status": "AMBIGUOUS",
+      "sense": "wordnet:nonbeing:nonbeing.n.01",
+      "sense_outcome": "ABSTAINED",
+      "text": "Nonbeing is the state of not being.",
+      "token": "Nonbeing"
+    },
+    {
+      "banks": {
+        "BE": {
+          "domain": [
+            -1,
+            0,
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "OPEN_AS_EXPECTED",
+          "expected": null,
+          "runtime": "BLOCKED_BY_SENSE"
+        }
+      },
+      "basis": "Explicit native state genus under the approved own-stative-content convention; nonbeing polarity reserved. This is a runtime-path diagnostic, outside the teaching and model audits.",
+      "class": "reserved-nonbeing",
+      "grounding": null,
+      "id": "stative-nonexistence",
+      "lemma": "nonexistence",
+      "observed_sense": null,
+      "parser_lemma": "nonexistence",
+      "parser_pos": "PROPN",
+      "selection_status": "AMBIGUOUS",
+      "sense": "wordnet:nonexistence:nonexistence.n.01",
+      "sense_outcome": "ABSTAINED",
+      "text": "Nonexistence is the state of not existing.",
+      "token": "Nonexistence"
+    }
+  ],
+  "comparison": {
+    "baseline_sha256": "0eb3a8f0557afe8b869d8dcfe741df5893176d00c1ff3cdb7fec395fe7c32121",
+    "benchmark_sha256": "5804f94c5f6d911b882417cc112b18db44a97ec4defcfb92547a3d7cadef5987",
+    "by_class": {
+      "reserved-nonbeing": {},
+      "stative-positive": {
+        "exact_sense_bits_removed": 4.754887502163468,
+        "exact_sense_new_correct": 3
+      }
+    },
+    "candidate_sha256": "a3919c7146809e5bbc898e5d08f0cf2b34aeedb22b42efb4c5b94cf382be9bfd",
+    "code": "SENTENCE_BENCHMARK_VALIDATED",
+    "failures": [],
+    "format": "gse.lexicon-sentence-benchmark-comparison/1"
+  },
+  "format": "gse.lexicon-sentence-benchmark-report/1",
+  "lexicon_sha256": "a3919c7146809e5bbc898e5d08f0cf2b34aeedb22b42efb4c5b94cf382be9bfd"
+}

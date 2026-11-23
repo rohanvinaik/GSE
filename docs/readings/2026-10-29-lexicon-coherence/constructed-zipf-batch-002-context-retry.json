@@ -1,0 +1,112 @@
+{
+  "banks": [
+    "ABOVE"
+  ],
+  "batch_size": 4,
+  "code": "SELECTED_SCOPE_RESOLVED",
+  "continue_cohorts": false,
+  "dictionary_cells": {
+    "assigned": 403286,
+    "conflicted": 0,
+    "explicit_zero": 279442,
+    "unresolved": 22086090
+  },
+  "dictionary_outcomes": {
+    "PARTIAL": 401596
+  },
+  "dictionary_status": "INCOMPLETE",
+  "format": "gse.lexicon-completion-report/1",
+  "max_calls_per_entry": 1,
+  "max_entries_per_pass": 8,
+  "max_model_calls": 7,
+  "model": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@31030ef1d07e335abf049743e15a567abb1a7d0febbbae91351421b6b6682271:batch@489050095eeb67d04e5a46d0487f47b285c0fc9898c420dbf2868a8b2dfdf082",
+  "model_calls": 7,
+  "outcomes": {
+    "ASSIGNED": 7
+  },
+  "outside_selected_scope": {
+    "unresolved_or_conflicted_cells": 22086090
+  },
+  "preflight": "REPLAY_VALIDATED",
+  "priority": {
+    "excluded_count": 1,
+    "excluded_records": [
+      {
+        "code": "MISSING_WORD",
+        "count": 27,
+        "csv_line": 21732,
+        "record_number": 21731
+      }
+    ],
+    "frequency_column": "SUBTLEX",
+    "included_words": 39953,
+    "mode": "zipf",
+    "ordering": "DESCENDING_POSITIVE_COUNT_THEN_CONSTRAINT_PRIORITY_THEN_DEFINITION_ID",
+    "policy": "gse.completion-priority/subtlex-count-order/2",
+    "ranked_words": 28902,
+    "rows": 39954,
+    "score": "MONOTONIC_ZIPF_ORDER_NOT_ABSOLUTE_ZIPF_SCORE",
+    "semantic_authority": "NONE_SCHEDULING_ONLY",
+    "sha256": "fa636292ba0b1b5cf4d6d335690ddcf3a162e4a8204124d95c64e795eb336226",
+    "source": "/Users/rohanvinaik/Projects/gse/data/external/concreteness.csv",
+    "unranked": "ZERO_OR_ABSENT_FREQUENCY_LAST_NOT_SEMANTIC_ZERO",
+    "word_column": "Word",
+    "zero_count_words": 11051
+  },
+  "remaining_selected_scope": {
+    "cells": 0,
+    "conflicted_entries": 0,
+    "entries": 0
+  },
+  "scheduling": {
+    "code": "EXPLICIT_SCOPE",
+    "cohorts_processed": 1,
+    "cursor_after": null,
+    "cursor_before": null,
+    "pass_number": null,
+    "policy": "gse.completion-schedule/2",
+    "resume_frontier": "COMPLETED_OR_PER_ENTRY_LIMIT_VISITS",
+    "visited_entry_ids": [
+      "wiktionary:en-you-en-pron-2LSqalKj:9668929a339a55583add1f0d51a0efbb36feddcabea20443226ca03da474da55",
+      "wiktionary:en-you-en-pron-HaQwzWRI:1295d3d5da7dba78418a90d60168f97d251449dce1d5103ed163a088427e1b70",
+      "wiktionary:en-you-en-pron-M7hbUBCF:d42e9c16442d37ceb686b1d8af8566d0be8e70ac86931168ccc00c8cd448cf8b",
+      "wiktionary:en-you-en-pron-en:dummy:9e5fbc823fa9cd6a73eca0b8cbace4e052e1290f9d58efd5c63c5bdc14b7e3a8",
+      "wiktionary:en-you-en-pron-en:indefinite:8f3e6ad44f8472d9822a64093a60cee3f0eaa9dea9048db393e675b3b14a63a3",
+      "wiktionary:en-you-en-pron-rwcdiI~X:d0073ae2c947dca6309e0fa19f668f1f93df915c15338c687a4c083768cac625",
+      "wiktionary:en-you-en-pron-yQF~npAz:733d2918c05b6c41545666e5f0135845c02336d845c373b46f45117d7b0d0c1b"
+    ],
+    "wrapped": false
+  },
+  "selected_entry_ids": [
+    "wiktionary:en-you-en-pron-2LSqalKj:9668929a339a55583add1f0d51a0efbb36feddcabea20443226ca03da474da55",
+    "wiktionary:en-you-en-pron-HaQwzWRI:1295d3d5da7dba78418a90d60168f97d251449dce1d5103ed163a088427e1b70",
+    "wiktionary:en-you-en-pron-M7hbUBCF:d42e9c16442d37ceb686b1d8af8566d0be8e70ac86931168ccc00c8cd448cf8b",
+    "wiktionary:en-you-en-pron-en:dummy:9e5fbc823fa9cd6a73eca0b8cbace4e052e1290f9d58efd5c63c5bdc14b7e3a8",
+    "wiktionary:en-you-en-pron-en:indefinite:8f3e6ad44f8472d9822a64093a60cee3f0eaa9dea9048db393e675b3b14a63a3",
+    "wiktionary:en-you-en-pron-rwcdiI~X:d0073ae2c947dca6309e0fa19f668f1f93df915c15338c687a4c083768cac625",
+    "wiktionary:en-you-en-pron-yQF~npAz:733d2918c05b6c41545666e5f0135845c02336d845c373b46f45117d7b0d0c1b"
+  ],
+  "semantic_gold": "NOT_CHECKED",
+  "skipped_attempts": {},
+  "targeted_retry": {
+    "context_tokens": 36864,
+    "evidence_truncated": false,
+    "historical_attempts_preserved": true,
+    "input_byte_limit": 35584,
+    "native_model_digest_unchanged": true,
+    "original_report_sha256": "ee5af5e02b36f476f0436caf1de11450998e2ef4b379557a981da823bbfc44fd",
+    "original_request_ids": [
+      "2eddcb26b4e177a427547fbc5e6010a3d72e3db09514fed3aa3e0d6dfea035c7",
+      "5524fd48a86220af716cdaf2f1c69348b9675db416752ad96bfe781009b90bd4",
+      "8d220a78d82e7d3ab2ab440e7857a2721ecf08e99f8b27b0109c8dc66ad34737",
+      "e0e1a57df1f601b785415e8e73a38922f8510c770e230500278e54e558fb63b9",
+      "9fb984e60d1c50f68ba7631bf5f29765f6d2254dbb1b2d2c3c33ec4d36fdbc59",
+      "53f82d73c33924dbde276f645a482f13b0134c2a7fe853fb677d7f673310ee1d",
+      "2253149b5493b7fc593cecf42bbbdeef005c1f880cf9b04b8568ee9b2b33451c"
+    ],
+    "output_tokens": 256,
+    "reason": "BATCH_INPUT_TOO_LARGE"
+  },
+  "transport_invocations": 7,
+  "unselected_residual": false
+}

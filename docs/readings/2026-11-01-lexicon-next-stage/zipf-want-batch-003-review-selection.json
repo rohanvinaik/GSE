@@ -1,0 +1,250 @@
+{
+  "audit_entry_ids": [
+    "gse_closed_class:pronoun:what",
+    "gse_closed_class:pronoun:you",
+    "wiktionary:en-you-en-noun-2YsMsj8i:1a8439a0a38c9ceda0caa33ff6c2362469673c22b330b24292e5176d7be33894",
+    "wordnet:i:i.n.03",
+    "wordnet:i:iodine.n.01",
+    "wordnet:in:inch.n.01",
+    "wordnet:it:information_technology.n.01",
+    "wordnet:me:maine.n.01"
+  ],
+  "candidates": [],
+  "discovery_entry_ids": [
+    "gse_closed_class:conjunction:and",
+    "gse_closed_class:conjunction:that",
+    "gse_closed_class:determiner:a",
+    "gse_closed_class:determiner:the",
+    "gse_closed_class:preposition:of",
+    "gse_closed_class:preposition:to",
+    "gse_closed_class:pronoun:it",
+    "gse_closed_class:pronoun:that"
+  ],
+  "format": "gse.reviewed-pattern-selection/1",
+  "reviews": [
+    {
+      "request_id": "2a071f2ee8a168b6d0d5fcf91fbc4d2b731e175b47391babc1e886181fa817cc",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The exact native entry identifies additive coordination of clauses. That compositional relation connects its operands independently of whether either operand describes desire or refusal. Desire introduced by a coordinated clause belongs to that clause, not to this additive connector. WANT=0 is supported by the identified function, not by the empty primitives map.",
+        "receipt_sha256": "cc5ae41ed20fba7cb7568f73ed9fcf9a083e418c8fc5e17c0647b8c4c4961157",
+        "review_id": "want-source-review-2026-11-01:cc5ae41ed20fba7cb7568f73ed9fcf9a083e418c8fc5e17c0647b8c4c4961157",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/0/request/observations/0@sha256:c57049a2c9e220c1fd89af65af282dc5fb723974a81ffff964c1ff400dd5efa8",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      }
+    },
+    {
+      "request_id": "30b02e1acf40a1453f2ca5052821a55e22744ae4767518a4d825f85df20c69e7",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The native entry explicitly identifies a declarative complement link. It can link a content clause to a desire predicate or a non-desire predicate without changing this lexical use. Wanting belongs to the governing predicate or the content clause; complement linkage itself is orthogonal to wanting. This judgment is confined to the conjunction entry, not the demonstrative spelling.",
+        "receipt_sha256": "676d4c3d61fbf91b5edf3c818184e41fffe8e5ca918601245764fadf8b6ee5e8",
+        "review_id": "want-source-review-2026-11-01:676d4c3d61fbf91b5edf3c818184e41fffe8e5ca918601245764fadf8b6ee5e8",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/1/request/observations/0@sha256:58db7a8fecea771431893716ec1d202bc84012ffee32379a8429c63fbe9ddba5",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      }
+    },
+    {
+      "request_id": "e3882a6081c75ced2cf068f3d8a6511592ae8f9e0edcee048d8fa887e2b4f6f3",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The native entry specifies indefinite singular determination. Selecting a singular indefinite nominal reference does not assert that an experiencer wants or does not want it. A desire for the referent must be supplied by the containing predicate. This explicit reference function supports WANT=0; the missing bank declaration alone would not.",
+        "receipt_sha256": "d41f6190d28a4b408cd9fd5c29eefe45caaaedce1c3c10960bb713b79078aa22",
+        "review_id": "want-source-review-2026-11-01:d41f6190d28a4b408cd9fd5c29eefe45caaaedce1c3c10960bb713b79078aa22",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/2/request/observations/0@sha256:6d0d91eb5441a6c3b3238e66ba0bb54f028ede65a99928478d110db147901572",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      }
+    },
+    {
+      "request_id": "fa8567e14251d0187fbfe9946a06a7c50cbdaf44b1052d39e44e9f90ddbcbd01",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The native entry specifies definite determination. Identifiability of the nominal referent is independent of an experiencer favoring or refusing that referent. The definite-reference contribution supports WANT=0 for this entry; no conclusion is drawn about desire expressed elsewhere in a sentence.",
+        "receipt_sha256": "118eb969aff3300ba08ad0b6b78e5f65435275e8aa8350ac9ee445a70adc2ce0",
+        "review_id": "want-source-review-2026-11-01:118eb969aff3300ba08ad0b6b78e5f65435275e8aa8350ac9ee445a70adc2ce0",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/3/request/observations/0@sha256:7b1ae7a25d72f17b0a9ba68d543368ba3b140dd49dabde14baf4031907741714",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      }
+    },
+    {
+      "request_id": "518dcb60873bfd6aa723ee6060427f952d86d35e8fdaae038abcbb27e79d2bf3",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The native entry specifies a possessive relation. A possession or association relation does not assert wanting to obtain, keep, or avoid either participant. Those attitudes would require additional lexical content. WANT=0 is justified for this exact possessive relational use; no HAVE or other-bank ruling is being made.",
+        "receipt_sha256": "6c095ffbc8080f2aff87844b78c5a09451d6423b7151d0d1d1f786188c17d621",
+        "review_id": "want-source-review-2026-11-01:6c095ffbc8080f2aff87844b78c5a09451d6423b7151d0d1d1f786188c17d621",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/4/request/observations/0@sha256:8a525ba19a5b43cc8cee72fc81b313fed3027e316b40eeeb189a016b535007c0",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      }
+    },
+    {
+      "request_id": "2f031c7231c43012f8594645d3bbbd8c083dd70e536f75c3a56bf654c779ea4d",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The native feature is specifically spatial_type=GOAL. A destination relation is not itself a mental desire or an absence/refusal of desire; something can move to a destination without any wanting being asserted. WANT=0 applies to this spatial-goal preposition entry, not every infinitival, purposive, or idiomatic use of the spelling to.",
+        "receipt_sha256": "3035c2514c1862c8e1de798d80e6b161300a255023f1fed27b338558bdafe28c",
+        "review_id": "want-source-review-2026-11-01:3035c2514c1862c8e1de798d80e6b161300a255023f1fed27b338558bdafe28c",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/5/request/observations/0@sha256:5efb66b9bbdbcdc94eb1b8d1fba821b219cbbe5c79e7e7ee6b957992a6e1a84a",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      }
+    },
+    {
+      "request_id": "3205f202a9a9aafe0e98a1b8c14762751a3b2beb19ee66fa1942a0595a872c2b",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The exact source declares SOMETHING with third-person singular neuter reference. The pronoun identifies a referent; it does not predicate that the referent or speaker wants something. Grammatical INANIMATE is not being projected to NOT WANT. Reference itself is orthogonal to the wanting coordinate, supporting explicit 0 for this entry.",
+        "receipt_sha256": "2115564a8e4635ca3bc68c45059156cd6dc10e2d1804c18e11afb4517b13fc2a",
+        "review_id": "want-source-review-2026-11-01:2115564a8e4635ca3bc68c45059156cd6dc10e2d1804c18e11afb4517b13fc2a",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/6/request/observations/100@sha256:05c4493eca48ebc1716d925e1dbadc68b620d128147f3e6484677bfce29553d9",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      }
+    },
+    {
+      "request_id": "c97c70076314994b6dd28632b87fe8dc7a7f96fbce12a0915cfb25aa450a3023",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The exact source declares SOMETHING with distal singular deixis. Distal identification supplies which referent is indicated, not an attitude of wanting or refusing it. Desiring a distal object is separate predicate content. WANT=0 is supported for this demonstrative pronoun use only.",
+        "receipt_sha256": "3a52f2ff561ddbdf6d3afca2b6b9b14c0721b85259e191cad9f4b9a843b5f294",
+        "review_id": "want-source-review-2026-11-01:3a52f2ff561ddbdf6d3afca2b6b9b14c0721b85259e191cad9f4b9a843b5f294",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/7/request/observations/0@sha256:af32c894d94c1688622d68cdf860597f7a007103b461edc1840180d5a79e7a44",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      }
+    },
+    {
+      "request_id": "f189bf67b934eb3a7990887168ce53f036f858b6da0148733d67535f41023fe8",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The source declares SOMETHING and marks its grammatical use interrogative. This identifies the queried entity slot; a speaker's wish to know an answer is a possible speech-act interpretation, not the slot's own lexical desire component. Under the existing word/grammar boundary, this exact pronoun use is orthogonal to WANT. This does not set sentence-level questioning or intention to zero.",
+        "receipt_sha256": "9ff8d65562371763856bc916c67b511d4190df27c003c9ed2b05e45bfe0f23b5",
+        "review_id": "want-source-review-2026-11-01:9ff8d65562371763856bc916c67b511d4190df27c003c9ed2b05e45bfe0f23b5",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/8/request/observations/130@sha256:d48f2cd6480d16d0064999e1fa60579ffb0f1a182fa2c601977f2f79f26fe26d",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      }
+    },
+    {
+      "request_id": "1198f122b413bb0503443d6e7adf2a34049f4cafab20b607a2f98facf20269f0",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The exact native row declares SOMEONE with second-person nominative reference. It identifies the addressee independently of that person's present wants or refusals. Being an animate person capable of wanting is not an assertion of lexical WANT. Explicit 0 is supported for this reference use. Earlier model-valued banks in this receipt are not used as justification or retrospectively approved.",
+        "receipt_sha256": "c37c165e155ed8caab82ce9d7d101b12ea909b2af0bb7edccaf2debd07863ae6",
+        "review_id": "want-source-review-2026-11-01:c37c165e155ed8caab82ce9d7d101b12ea909b2af0bb7edccaf2debd07863ae6",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/9/request/observations/163@sha256:243d7fac73aff612045e869daeee5c538c7d21cf41d18ba929e031ba69d79997",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      }
+    },
+    {
+      "request_id": "eb742b15a9b864787081a1ee63d183c5c81cc1ed8fd733eb3879707fea9562eb",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The complete native leaf identifies the name of Latin U/u; its linked forms and spelling examples support that letter-name sense rather than the second-person pronoun. Naming a letter is not a desire or a refusal. WANT=0 follows from this identified lexical sense, not the noun category or its previous model zeros. Those older model rulings remain unreviewed here.",
+        "receipt_sha256": "6e5f863e8129563ab5c1c74f722d1f335be9d2621c1944e418c6fa7437d60b77",
+        "review_id": "want-source-review-2026-11-01:6e5f863e8129563ab5c1c74f722d1f335be9d2621c1944e418c6fa7437d60b77",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/10/request/observations/164@sha256:fb7ca88c7a3473c9167b6c52bf890ee1b5c02770ea6eb1367b9c62fb46d8b36c",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      }
+    },
+    {
+      "request_id": "1f4d632588509b22afcfbf45db8382cbbd38e5dd22fab3917c1be561f7e40fb4",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The exact synset defines the ninth Roman-alphabet letter and traces ancestry through letter, character, written symbol and communication. This lexical object identifies a symbol, not an experiencer's desire concerning it. WANT=0 is supported for this letter sense; no evidence is transferred from first-person I.",
+        "receipt_sha256": "d69f19520080ae29e6c159ca2810f1772a2759ec11d423788a2aec09ff9beaab",
+        "review_id": "want-source-review-2026-11-01:d69f19520080ae29e6c159ca2810f1772a2759ec11d423788a2aec09ff9beaab",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/11/request/observations/145@sha256:f98c1c4312d3c3440620b7e2311943d7332a849de11fae4bcbc8572b055e7b79",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      }
+    },
+    {
+      "request_id": "8f5ee261febccf310b5a529753429dace24153a8f6d017fa74e9a20a1ac89af1",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The complete definition and explicit chemical-element/halogen ancestry identify iodine. Its listed applications and occurrence describe uses and physical occurrence, not a lexical attitude of wanting or refusing. A person may desire iodine, but that external relation is not the chemical-element meaning. WANT=0 is supported for this exact synset, not by an assumption that all substances or nouns receive zero.",
+        "receipt_sha256": "2f95593a73bf15bc4f106702a79a8e0324ce98d78475a5f63aa7744ea74c50d7",
+        "review_id": "want-source-review-2026-11-01:2f95593a73bf15bc4f106702a79a8e0324ce98d78475a5f63aa7744ea74c50d7",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/12/request/observations/145@sha256:1f1ee7501bc52e82f56be9215991b72e3401f6296605c5e923ed5e667a1a922a",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      }
+    },
+    {
+      "request_id": "91be1d87e5a994494570e97eef23cfc4c8cedfc4c25f5178ad6f746803613822",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The exact definition fixes a length unit equal to one twelfth of a foot, with linear-unit and measurement ancestry. That metrological identity does not predicate desire or refusal by an experiencer. WANT=0 is supported for this unit sense; the prepositional spelling in is not being substituted for the definition.",
+        "receipt_sha256": "db05d65eadb5d5018b159503ed2b8762b5eeec43146628a567fca546794f50c0",
+        "review_id": "want-source-review-2026-11-01:db05d65eadb5d5018b159503ed2b8762b5eeec43146628a567fca546794f50c0",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/13/request/observations/235@sha256:eb878c1615a4d2f6dec6099e7ebbcbe8141a55ac7513df4b424b7b8b489d89cb",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      }
+    },
+    {
+      "request_id": "bfc66f7825e23381ba8b74a4a43ea72003ece1b4b65acecfce4f429000735ed5",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The complete gloss and knowledge-domain/engineering ancestry identify the discipline concerned with computer and telecommunications information handling. The functions retrieve, store and transmit describe its technical subject matter. They do not lexically assert a particular experiencer's desire or refusal. WANT=0 is supported for this discipline sense; human purposes motivating its practice are separate from this definition's own attitude content.",
+        "receipt_sha256": "70aef2ab4d2bf2f8ded135d1d668dbc85728e3f5c2fd5f6ad89312f9e321dfe8",
+        "review_id": "want-source-review-2026-11-01:70aef2ab4d2bf2f8ded135d1d668dbc85728e3f5c2fd5f6ad89312f9e321dfe8",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/14/request/observations/104@sha256:1c5763c456adc9e1ddcffd7138edc93a69080bdfa95ef4d328b55da1547f9912",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      }
+    },
+    {
+      "request_id": "d2bc770003ae98b0053fd0c335ea18565ae815dd4a02553df196f7ade9f99fa6",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The exact synset and administrative-district/state ancestry identify Maine in New England. Geographic or administrative identification does not encode an experiencer's desire or refusal. WANT=0 is supported for this named-state sense, without importing first-person me or claims about what residents want. This review does not decide whether geographic facts should remain in the corpus.",
+        "receipt_sha256": "fe6bd7298d4196d1b3b44e83312a2ec01f5f6e1b8fcfc41508237e451effb778",
+        "review_id": "want-source-review-2026-11-01:fe6bd7298d4196d1b3b44e83312a2ec01f5f6e1b8fcfc41508237e451effb778",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/15/request/observations/82@sha256:97181d2ea11dc4a4e196a1ee156de1870c8acef88b95ea2f43797774ed1f542e",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      }
+    }
+  ]
+}

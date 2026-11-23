@@ -1,0 +1,321 @@
+{
+  "active_pointer_sha256": "449020ca41a461a7d418e4bdffe402da5c0798cb98444c5f88e7ecf6acd099b5",
+  "audits_per_epoch": 2,
+  "baseline_sha256": "d4f7a0f2219013e32432d6535935faf6e6ea2e3f15b4adc1655d070576e92ca6",
+  "epochs": 3,
+  "families": [
+    {
+      "consequent": [
+        "BODY",
+        0
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:time_unit.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:birthday.n.02",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:date.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:date.n.07",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:eve.n.02",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:future_date.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:maturity.n.03",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:mean_time.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:morrow.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:night.n.04",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:rain_date.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:sell-by_date.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:terrestrial_time.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:today.n.02",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:tomorrow.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:yesterday.n.01",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wordnet:moon:lunar_month.n.01",
+        "wordnet:microsecond:microsecond.n.01"
+      ],
+      "id": "duration-body",
+      "premises": [
+        [
+          "QUANTITY",
+          1
+        ],
+        [
+          "WANT",
+          0
+        ]
+      ],
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "duration-body-source-review",
+        "reviewer": "Codex source-backed review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-grounded-comparison/SOURCE_SCOPE.md"
+        ],
+        "statement": "The exact scope defines astronomical periods or conventional durations. The proved quantity and conative orthogonality describe a duration standard. Its definition is independent of bodily structure. The conjunction is a sufficient scoped condition. The review makes no claim of minimality.",
+        "warrant_id": "duration-body"
+      }
+    },
+    {
+      "antecedent": [
+        "QUANTITY",
+        1
+      ],
+      "consequent": [
+        "BODY",
+        0
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:area_unit.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:em.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:agate_line.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:section.n.07",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wordnet:hectare:hectare.n.01",
+        "wordnet:perch:perch.n.03"
+      ],
+      "id": "area-body",
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "area-body-source-review",
+        "reviewer": "Codex source-backed review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-grounded-comparison/SOURCE_SCOPE.md"
+        ],
+        "statement": "Exact attested area-unit senses denote a geometric magnitude independent of bodily structure. The printing spacer is excluded. Agate line and section are kept outside the migration to preserve other-bank model provenance.",
+        "warrant_id": "area-body"
+      }
+    },
+    {
+      "antecedent": [
+        "QUANTITY",
+        1
+      ],
+      "consequent": [
+        "WANT",
+        0
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:mass_unit.n.01",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wordnet:ounce:ounce.n.02",
+        "wordnet:kilogram:kilogram.n.01"
+      ],
+      "id": "mass-want",
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "mass-want-source-review",
+        "reviewer": "Codex source-backed review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-grounded-comparison/SOURCE_SCOPE.md"
+        ],
+        "statement": "These exact mass-unit senses denote a standard or counted amount, including substances used as reference cases. A person can use or desire the measured substance without changing the measured amount. The definition of the mass unit is orthogonal to wanting.",
+        "warrant_id": "mass-want"
+      }
+    },
+    {
+      "antecedent": [
+        "QUANTITY",
+        1
+      ],
+      "consequent": [
+        "WANT",
+        0
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:weight_unit.n.02",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wordnet:picul:picul.n.01",
+        "wordnet:crith:crith.n.01"
+      ],
+      "id": "weight-want",
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "weight-want-source-review",
+        "reviewer": "Codex source-backed review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-grounded-comparison/SOURCE_SCOPE.md"
+        ],
+        "statement": "These exact weight-unit senses specify a magnitude or conventional weight standard. Load, material, locale, or apothecary use can be part of the measurement standard. A person\u2019s desires are independent of the weight so defined.",
+        "warrant_id": "weight-want"
+      }
+    },
+    {
+      "antecedent": [
+        "QUANTITY",
+        1
+      ],
+      "consequent": [
+        "WANT",
+        0
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:angular_unit.n.01",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wordnet:steradian:steradian.n.01",
+        "wordnet:mil:mil.n.05"
+      ],
+      "id": "angle-want",
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "angle-want-source-review",
+        "reviewer": "Codex source-backed review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-grounded-comparison/SOURCE_SCOPE.md"
+        ],
+        "statement": "The retained exact angular units define a measure of angle. Intended applications such as artillery do not add a conative role to the angular magnitude.",
+        "warrant_id": "angle-want"
+      }
+    },
+    {
+      "antecedent": [
+        "QUANTITY",
+        1
+      ],
+      "consequent": [
+        "BODY",
+        0
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:work_unit.n.01",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wordnet:erg:erg.n.01",
+        "wordnet:joule:joule.n.01"
+      ],
+      "id": "energy-body",
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "energy-body-source-review",
+        "reviewer": "Codex source-backed review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-grounded-comparison/SOURCE_SCOPE.md"
+        ],
+        "statement": "The retained exact work or energy units are defined by a physical magnitude, such as force over distance or temperature change in water. Nutrition is an application of one unit. The definition of each magnitude is independent of anatomical structure.",
+        "warrant_id": "energy-body"
+      }
+    }
+  ],
+  "format": "gse.lexicon-epoch-plan/1"
+}

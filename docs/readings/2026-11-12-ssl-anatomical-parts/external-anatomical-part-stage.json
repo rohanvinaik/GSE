@@ -1,0 +1,1328 @@
+{
+  "authority": "UNADMITTED",
+  "format": "gse.anatomical-part-followup-stage/1",
+  "plan": {
+    "active_pointer_sha256": "c458d88ccd4b5bb142a77b04044cd87627d38d9e64f4d0cc5bcb42f9eefbb5c6",
+    "audits_per_epoch": 2,
+    "baseline_sha256": "e269224e4ed59dd5ca61b6617c2476bc934d8a43d2417a5713098c10de8d85e7",
+    "epochs": 1,
+    "families": [
+      {
+        "antecedent": [
+          "PART",
+          1
+        ],
+        "consequent": [
+          "BODY",
+          1
+        ],
+        "guards": [
+          [
+            "pos",
+            "noun"
+          ],
+          [
+            "wordnet_native_lemma",
+            "true"
+          ],
+          [
+            "wordnet_ancestor:external_body_part.n.01",
+            "true"
+          ],
+          [
+            "wordnet_other_than_synset:hood.n.10",
+            "true"
+          ]
+        ],
+        "holdouts": [
+          "wordnet:finger:finger.n.01",
+          "wordnet:paw:paw.n.01"
+        ],
+        "id": "external-anatomical-part-body",
+        "warrant": {
+          "kind": "DEFINITIONAL_DERIVATION",
+          "review_id": "external-anatomical-part-body-native-gloss-review",
+          "reviewer": "Source-backed construction review",
+          "source_refs": [
+            "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-anatomical-parts/SOURCE_SCOPE.md",
+            "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#body-reference-content-scope"
+          ],
+          "statement": "The exact noun glosses name anatomical regions, limbs, digits or other external appendages of a human or animal. Bodily structure is part of what the definition identifies. Hood is excluded because its alternate genus allows a marking.",
+          "warrant_id": "external-anatomical-part-body"
+        }
+      }
+    ],
+    "format": "gse.lexicon-epoch-plan/1"
+  },
+  "scope_challenge": {
+    "code": "DISJUNCTIVE_MARKING_REQUIRES_SEPARATE_WARRANT",
+    "definition": "(zoology) an expandable part or marking that resembles a hood on the head or neck of an animal",
+    "entry_id": "wordnet:hood:hood.n.10"
+  },
+  "scope_size": 105,
+  "staged": {
+    "changes": [
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:appendage:extremity.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:arm:arm.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:arthromere:arthromere.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:attic:attic.n.03"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:bean:attic.n.03"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:bonce:attic.n.03"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:bosom:bosom.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:bowleg:bowleg.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:breast:breast.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:breast:breast.n.04"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:bullethead:bullethead.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:caput:head.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:cervix:neck.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:chela:claw.n.03"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:chelicera:chelicera.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:chest:breast.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:claw:claw.n.03"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:claw:claw.n.04"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:countenance:countenance.n.03"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:crus:crus.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:cubitus:cubitus.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:dactyl:digit.n.03"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:digit:digit.n.03"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:dome:attic.n.03"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:extremity:extremity.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:extremity:extremity.n.05"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:face:face.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:face:face.n.07"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:fang:fang.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:fin:fin.n.06"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:finger:finger.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:fist:fist.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:flatfoot:flatfoot.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:flipper:flipper.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:foot:animal_foot.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:foot:foot.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:forearm:forearm.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:forefinger:index.n.05"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:forefoot:forefoot.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:foreleg:foreleg.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:forelimb:forelimb.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:forepaw:forepaw.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:frill:frill.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:hallux:big_toe.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:hammertoe:hammertoe.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:hand:hand.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:hand:hand.n.13"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:head:head.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:hindfoot:hindfoot.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:hindlimb:hind_limb.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:hoof:hoof.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:hooks:hooks.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:index:index.n.05"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:kisser:countenance.n.03"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:labium:labium.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:lap:lap.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:left:left.n.03"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:leg:leg.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:leg:leg.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:limb:limb.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:lip:lip.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:manus:hand.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:maulers:hooks.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:member:extremity.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:minimus:minimus.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:mitt:hand.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:mouthpart:mouthpart.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:mug:countenance.n.03"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:muzzle:muzzle.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:neck:neck.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:nipper:claw.n.03"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:noggin:attic.n.03"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:noodle:attic.n.03"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:overlip:overlip.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:parapodium:parapodium.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:paw:hand.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:paw:paw.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:peg:pin.n.05"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:pes:foot.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:phiz:countenance.n.03"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:physiognomy:countenance.n.03"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:pin:pin.n.05"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:pincer:claw.n.03"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:pinkie:little_finger.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:pinky:little_finger.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:pleopod:swimmeret.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:pollex:thumb.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:prehensor:prehensor.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:right:right.n.05"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:ruff:frill.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:smiler:countenance.n.03"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:spindlelegs:spindlelegs.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:spindleshanks:spindlelegs.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:splayfoot:flatfoot.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:stick:pin.n.05"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:swimmeret:swimmeret.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:thigh:thigh.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:throat:throat.n.04"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:thumb:thumb.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:toe:toe.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:toxicognath:toxicognath.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:trotter:trotter.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:underlip:underlip.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:visage:countenance.n.03"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:webfoot:webfoot.n.01"
+      }
+    ],
+    "contradictions": []
+  }
+}

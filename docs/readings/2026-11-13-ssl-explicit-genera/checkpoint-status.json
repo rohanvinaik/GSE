@@ -1,0 +1,358 @@
+{
+  "format": "gse.usability-checkpoint/1",
+  "code": "SCOPED_CHECKPOINT_WITH_OPEN_READINESS_FINDINGS",
+  "observed_at_utc": "2026-11-23T21:00:16.558649+00:00",
+  "checkpoint_resource": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-021.db",
+  "checkpoint_resource_sha256": "91e744cdb4012738d7c9c15929c39cd44211306f75613aeea8e4409708cc6e00",
+  "active_pointer_at_recording": {
+    "format": "gse.active-lexicon/1",
+    "path": "lexicon_builder/2026-11-12/sparse-release-021.db"
+  },
+  "general_lexical_readiness": "NOT_ESTABLISHED",
+  "scope": "PUBLIC_STRUCTURED_READING_AND_EXACT_DEFINITION_ENCODING_WITH_EXPLICIT_LEXICAL_AVAILABILITY",
+  "resources": [
+    {
+      "resource": "active_sparse",
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-021.db",
+      "structural_subset": {
+        "IDENTIFIED": 16
+      },
+      "lexical_availability": {
+        "content_occurrences": 49,
+        "with_signed_values": 1,
+        "states": {
+          "unread": 47,
+          "no_row": 1,
+          "primes": 1
+        }
+      },
+      "scope_checks": [
+        {
+          "case": "negation",
+          "expected": [
+            "chase",
+            "committed",
+            -1
+          ],
+          "outcome": "IDENTIFIED"
+        },
+        {
+          "case": "possibility",
+          "expected": [
+            "chase",
+            "non_committed",
+            1
+          ],
+          "outcome": "IDENTIFIED"
+        },
+        {
+          "case": "conditional",
+          "expected": [
+            "run",
+            "non_committed",
+            1
+          ],
+          "outcome": "IDENTIFIED"
+        },
+        {
+          "case": "conditional",
+          "expected": [
+            "sleep",
+            "non_committed",
+            1
+          ],
+          "outcome": "IDENTIFIED"
+        },
+        {
+          "case": "reported_claim",
+          "expected": [
+            "leave",
+            "non_committed",
+            1
+          ],
+          "outcome": "WRONG"
+        }
+      ],
+      "document_phases": [
+        {
+          "intake": {
+            "state": "read",
+            "expected": 2,
+            "read": 2,
+            "failed": 0
+          },
+          "resolution": {
+            "state": "read",
+            "error": null
+          },
+          "fold": {
+            "state": "read",
+            "error": null
+          },
+          "graph": {
+            "state": "read",
+            "error": null
+          }
+        },
+        {
+          "intake": {
+            "state": "read",
+            "expected": 2,
+            "read": 2,
+            "failed": 0
+          },
+          "resolution": {
+            "state": "read",
+            "error": null
+          },
+          "fold": {
+            "state": "read",
+            "error": null
+          },
+          "graph": {
+            "state": "read",
+            "error": null
+          }
+        },
+        {
+          "intake": {
+            "state": "read",
+            "expected": 2,
+            "read": 2,
+            "failed": 0
+          },
+          "resolution": {
+            "state": "read",
+            "error": null
+          },
+          "fold": {
+            "state": "read",
+            "error": null
+          },
+          "graph": {
+            "state": "read",
+            "error": null
+          }
+        }
+      ]
+    },
+    {
+      "resource": "legacy_proposal_resource",
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_clean.db",
+      "structural_subset": {
+        "IDENTIFIED": 16
+      },
+      "lexical_availability": {
+        "content_occurrences": 49,
+        "with_signed_values": 48,
+        "states": {
+          "primes": 48,
+          "no_row": 1
+        }
+      },
+      "scope_checks": [
+        {
+          "case": "negation",
+          "expected": [
+            "chase",
+            "committed",
+            -1
+          ],
+          "outcome": "IDENTIFIED"
+        },
+        {
+          "case": "possibility",
+          "expected": [
+            "chase",
+            "non_committed",
+            1
+          ],
+          "outcome": "IDENTIFIED"
+        },
+        {
+          "case": "conditional",
+          "expected": [
+            "run",
+            "non_committed",
+            1
+          ],
+          "outcome": "IDENTIFIED"
+        },
+        {
+          "case": "conditional",
+          "expected": [
+            "sleep",
+            "non_committed",
+            1
+          ],
+          "outcome": "IDENTIFIED"
+        },
+        {
+          "case": "reported_claim",
+          "expected": [
+            "leave",
+            "non_committed",
+            1
+          ],
+          "outcome": "WRONG"
+        }
+      ],
+      "document_phases": [
+        {
+          "intake": {
+            "state": "read",
+            "expected": 2,
+            "read": 2,
+            "failed": 0
+          },
+          "resolution": {
+            "state": "read",
+            "error": null
+          },
+          "fold": {
+            "state": "read",
+            "error": null
+          },
+          "graph": {
+            "state": "read",
+            "error": null
+          }
+        },
+        {
+          "intake": {
+            "state": "read",
+            "expected": 2,
+            "read": 2,
+            "failed": 0
+          },
+          "resolution": {
+            "state": "read",
+            "error": null
+          },
+          "fold": {
+            "state": "read",
+            "error": null
+          },
+          "graph": {
+            "state": "read",
+            "error": null
+          }
+        },
+        {
+          "intake": {
+            "state": "read",
+            "expected": 2,
+            "read": 2,
+            "failed": 0
+          },
+          "resolution": {
+            "state": "read",
+            "error": null
+          },
+          "fold": {
+            "state": "read",
+            "error": null
+          },
+          "graph": {
+            "state": "read",
+            "error": null
+          }
+        }
+      ]
+    }
+  ],
+  "composed_claim_consumers": [
+    {
+      "text": "The dog is bigger than the cat.",
+      "claims": [
+        {
+          "kind": "Comparison",
+          "verb": null,
+          "commitment": "committed",
+          "key_state": "supported",
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "text": "The dog is an animal.",
+      "claims": [
+        {
+          "kind": "TypeAssertion",
+          "verb": null,
+          "commitment": "committed",
+          "key_state": "supported",
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "text": "Alice says that Bob left.",
+      "claims": [
+        {
+          "kind": "Event",
+          "verb": "say",
+          "commitment": "committed",
+          "key_state": "unsupported",
+          "reason": "missing_relation_primitive_evidence"
+        },
+        {
+          "kind": "Event",
+          "verb": "leave",
+          "commitment": "committed",
+          "key_state": "unsupported",
+          "reason": "missing_relation_primitive_evidence"
+        }
+      ]
+    },
+    {
+      "text": "The dog chases the cat.",
+      "claims": [
+        {
+          "kind": "Event",
+          "verb": "chase",
+          "commitment": "committed",
+          "key_state": "unsupported",
+          "reason": "missing_relation_primitive_evidence"
+        }
+      ]
+    }
+  ],
+  "foundation_own_coordinate_counts": {
+    "proposed_scalar_correspondences": 58,
+    "matching_singletons": 14,
+    "open": 44,
+    "opposing_singletons": 0
+  },
+  "investigation_regressions": {
+    "command": ".venv/bin/python -m pytest tests/test_complete_document_reading.py tests/test_claim_semantics.py tests/test_lexical_grounding_constructions.py -q",
+    "passed": 127,
+    "elapsed_seconds": 19.91,
+    "scope": "EXISTING_REGRESSION_SUITE_NOT_INDEPENDENT_OPEN_DOMAIN_ACCURACY"
+  },
+  "body_refinement": {
+    "family": "explicit-human-person-genus-body",
+    "formal_contradictions": 0,
+    "native_sense_groups": 860,
+    "provisional_new_singletons": 1453,
+    "scope_definitions": 1453
+  },
+  "review_status": "ALL_NEW_RULE_HYPOTHESES_UNADMITTED",
+  "bank_assignments_written_by_investigation": 0,
+  "model_questions_by_investigation": 0,
+  "checkpoint_databases_created_by_investigation": 0,
+  "active_resource_changed_by_investigation": false,
+  "retention": "ACTIVE_PLUS_ONE_ROLLBACK_AND_SOURCE_AUDIT_RECORDS; THIS_MANIFEST_DOES_NOT_ADD_A_RETAINED_DATABASE",
+  "successor_capability_gate": "NOT_YET_WIRED; NEW_PROBES_MUST_JOIN_EXISTING_RUNTIME_VALIDATION_BEFORE_CLAIMING_SUCCESSOR_NONREGRESSION",
+  "artifacts": {
+    "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-public-api-probe.json": "9513255f36fa9173dae756edb13a5cd3483788944a45543f15c6d73177aee973",
+    "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-exact-definition-probe.json": "4616f5ac69c3733fb23620b45aec897d68c73e774927099084e1e4b44d5e1741",
+    "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-composed-consumer-probe.json": "b6ff43986f061d404ae59693c7b8c896a5a0b1c9688999d915a9c089b569c9cb",
+    "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-foundation-census.json": "4188bae3d3b153197a9eb559cc78708f367670b9a6f89de3c4492ee15df7ade3",
+    "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/legacy-discovery-inventory.json": "5666247d0749c21d357c1fccf885fc7859fee1ddb29f13dc663063b518646adf",
+    "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/gap-hypotheses-expanded-summary.json": "183ce2a8eb341e171ad4d68cc46f3f0be1eb765436c344deaa780985274fcb71",
+    "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-proposal-review-queue-v2.json": "b302520a48483c198db204e3e8150264b7d7b9b9fbc324917e69ed4fd02d58ec",
+    "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/021-approved-verification.json": "95f6b16aae2162b63c17771ad7e4a8014ae93dd51a693fcc4d44ca8b8815d7fa"
+  },
+  "reproduction_notes": "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-and-legacy-hypotheses.md"
+}

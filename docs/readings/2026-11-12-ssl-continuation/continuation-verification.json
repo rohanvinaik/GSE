@@ -1,0 +1,81 @@
+{
+  "activation_performed": false,
+  "active_pointer_sha256": "449020ca41a461a7d418e4bdffe402da5c0798cb98444c5f88e7ecf6acd099b5",
+  "candidate": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-continuation/wiktionary-person-revised.db",
+  "candidate_sha256": "68ba5c75a06247e7da0d372ba776ce2787d450c3f43cabdcf52c101b01cb5ca8",
+  "code": "CONTINUATION_REPLAY_VALIDATED_PUBLICATION_BLOCKED",
+  "coverage": {
+    "assigned": 405829,
+    "conflicted": 0,
+    "explicit_zero": 280643,
+    "unresolved": 22083547
+  },
+  "format": "gse.ssl-continuation-verification/1",
+  "geometry": {
+    "checked": 401596,
+    "contrasts": [
+      {
+        "bank": "BODY",
+        "domain": [
+          1
+        ],
+        "entry_id": "wordnet:heart:heart.n.02"
+      },
+      {
+        "bank": "BODY",
+        "domain": [
+          0
+        ],
+        "entry_id": "wordnet:heart:heart.n.07"
+      }
+    ],
+    "new": 49,
+    "propagated": 48,
+    "questions": 3
+  },
+  "publication_blockers": [
+    "INCOMPLETE_DEFINITIONS",
+    "INCOMPLETE_PRIME_FOUNDATION",
+    "SEMANTIC_AUDIT_NOT_SUPPLIED"
+  ],
+  "replay": {
+    "code": "REPLAY_VALIDATED",
+    "complete_search": true,
+    "entries_checked": 401596,
+    "entries_mismatched": 0,
+    "entries_validated": 401596,
+    "format": "gse.lexicon-replay-report/1",
+    "gold": "NOT_CHECKED",
+    "inference_counts": {
+      "components_joint_checked": 2495368,
+      "components_solver_limited": 0,
+      "entries_complete_search": 401596,
+      "entries_replayed": 401596,
+      "entries_solver_limited": 0
+    },
+    "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+    "metadata_verification": {
+      "build_report": "NOT_CHECKED",
+      "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+      "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+      "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+      "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+      "catalog_definition_source_ids": "NOT_PERSISTED",
+      "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+      "representation_contract": "VERIFIED",
+      "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+    },
+    "mismatch_counts": {},
+    "mismatches": [],
+    "replayed_outcomes": {
+      "PARTIAL": 401596
+    }
+  },
+  "source": {
+    "bank": "SOMEONE",
+    "definitions_compared": 401596,
+    "new": 606,
+    "stage_match": true,
+    "typed_probes_in_scope": 3
+  }
+}

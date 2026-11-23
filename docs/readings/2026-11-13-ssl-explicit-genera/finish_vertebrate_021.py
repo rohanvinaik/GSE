@@ -1,0 +1,277 @@
+"""Validate, publish and retain the approved 021 successor using existing gates."""
+
+import argparse
+import gzip
+import json
+import os
+import sqlite3
+import tempfile
+import time
+from collections import Counter
+from contextlib import closing
+from fractions import Fraction
+from importlib import import_module
+from math import log2
+from pathlib import Path
+
+from gse.api.encoder import GSEEncoder
+from gse.curation.lexicon_builder.epoch import _resolve, exact_delta, fingerprint, read, record, scope_rows
+from gse.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
+from scripts.audit_lexicon_sentences import audit, compare_reports
+from scripts.run_lexicon_epochs import publish_round
+
+round_ = import_module("docs.readings.2026-11-13-ssl-explicit-genera.vertebrate_021_approved")
+prior = import_module("docs.readings.2026-11-13-ssl-explicit-genera.coherence_020")
+archive = import_module("docs.readings.2026-11-13-ssl-explicit-genera.checkpoint_audit_020")
+NOTES, BASE, WORK, ROOT = round_.NOTES, round_.BASE, round_.WORK, round_.ROOT
+DESTINATION = BASE.with_name("sparse-release-021.db")
+PAPER = Path.home() / "Projects/rohan-vinaik.github.io/papers/Core Documents/Semantic_Specification_Learning/07_GSE_LEXICON_NSM_WORKING_DRAFT.md"
+
+
+def verify_candidate(result):
+    round_.verify_sources()
+    expected_questions = 5
+    if result.get("format") == "gse.lexicon-adjudicated-round/1":
+        adjudication = import_module("docs.readings.2026-11-13-ssl-explicit-genera.adjudicate_vertebrate_021")
+        manifest = adjudication.validate_manifest_artifacts()
+        expected_questions = manifest["actual_bank_questions"]
+        if result["unique_bank_questions"] != manifest["unique_bank_questions"]:
+            raise ValueError("APPROVED_BODY_ADJUDICATED_QUESTION_ACCOUNTING_MISMATCH")
+    if (
+        len(result["epochs"]) != 1 or result["epochs"][0]["code"] != "RULE_ADMITTED"
+        or result["typed_questions_used"] != expected_questions or result["reopened_cells"]
+        or result["replay"]["code"] != "REPLAY_VALIDATED" or not result["replay"]["complete_search"]
+        or result["epochs"][0]["audit_outcomes"] != {"MODEL_AGREEMENT": 4}
+    ):
+        raise ValueError("APPROVED_BODY_COMPLETE_TEACHING_AND_AUDIT_REQUIRED")
+    candidate = Path(result["candidate"])
+    if fingerprint(candidate) != result["candidate_sha256"]:
+        raise ValueError("APPROVED_BODY_CANDIDATE_CHANGED")
+    stage = read(NOTES / "021-approved-population-stage.json")
+    expected = {(r["entry_id"], r["bank"]): (r["before"], r["after"]) for r in stage["changes"]}
+    count, changes = exact_delta(BASE, candidate)
+    observed = {(r["entry_id"], r["bank"]): (r["before"], r["after"]) for r in changes}
+    if count != 401596 or observed != expected or len(changes) != result["new_cells"]:
+        raise ValueError("APPROVED_BODY_DELTA_DIFFERS_FROM_FULL_STAGE")
+    if any(bank != "BODY" or before != [-1, 0, 1] or after != [1] for (_, bank), (before, after) in observed.items()):
+        raise ValueError("APPROVED_BODY_UNEXPECTED_SIGN_OR_KNOWN_CELL_CHANGE")
+    family = read(NOTES / "021-approved-coherence-plan.json")["families"][0]
+    teacher = result["epochs"][0]["selected"]["entry_id"]
+    if teacher != "wordnet:man:homo.n.02" or family["holdouts"] != list(round_.HOLDOUTS):
+        raise ValueError("APPROVED_BODY_RESERVED_IDENTITIES_CHANGED")
+    with GSEEncoder(candidate) as encoder:
+        for identity in (teacher, *round_.HOLDOUTS):
+            if encoder.lookup_definition(identity)["selected"]["domains"]["BODY"] != [1]:
+                raise ValueError("APPROVED_BODY_EXACT_CONSUMER_FAILED:" + identity)
+            encoder.encode_definition(identity)
+    rows = read(WORK / "inventory.json")[family["id"]]
+    before_rules, before_rows = scope_rows(BASE, rows)
+    after_rules, after_rows = scope_rows(candidate, rows)
+    factor, records = Fraction(1), []
+    for identity, before_row in sorted(before_rows.items()):
+        before = prior.support_count(_resolve(before_row, before_rules))
+        after = prior.support_count(_resolve(after_rows[identity], after_rules))
+        if after > before:
+            raise ValueError("APPROVED_BODY_SUPPORT_EXPANDED:" + identity)
+        ratio = Fraction(before, after)
+        factor *= ratio
+        if ratio != 1:
+            records.append({"entry_id": identity, "support_before": before, "support_after": after, "ratio": str(ratio)})
+    joint = {
+        "code": "COMPLETE_SCOPED_JOINT_SUPPORT_REPLAY_VALIDATED", "scope_definitions": len(rows),
+        "records": records, "ratio_frequency": dict(Counter(r["ratio"] for r in records)),
+        "reduction_bits": log2(factor.numerator) - log2(factor.denominator),
+        "ratio_numerator": factor.numerator, "ratio_denominator": factor.denominator,
+    }
+    record(NOTES / "021-approved-joint-support.json", joint)
+    stative = import_module("docs.readings.2026-11-13-ssl-explicit-genera.stative_transfer")
+    comparisons = {}
+    for name, cases in (
+        ("sentences", stative.previous.anatomy.previous.prior.SOURCE_CASES),
+        ("contrasts", stative.previous.anatomy.previous.prior.CONTRAST_CASES),
+        ("states", NOTES / "018-stative-diagnostic-cases.json"),
+    ):
+        report = audit(candidate, cases)
+        comparison = compare_reports(read(NOTES / f"020-candidate-{name}.json"), report)
+        record(NOTES / f"021-approved-candidate-{name}.json", {**report, "comparison": comparison})
+        if comparison["failures"]:
+            raise ValueError("APPROVED_BODY_BENCHMARK_REGRESSION:" + name)
+        comparisons[name] = comparison
+    corpus = import_module("docs.readings.2026-11-13-ssl-explicit-genera.state_corpus").audit(candidate)
+    old = {(r["entry_id"], r["style"]): r for r in read(NOTES / "020-candidate-state-corpus.json")["results"]}
+    regressions = [r for r in corpus["results"] if old[(r["entry_id"], r["style"])]["code"] == "IDENTIFIED_CORRECT" and r["code"] != "IDENTIFIED_CORRECT"]
+    if corpus["code"] != "STATE_CORPUS_GROUNDING_VALIDATED" or regressions:
+        raise ValueError("APPROVED_BODY_STATE_CORPUS_REGRESSION")
+    record(NOTES / "021-approved-candidate-state-corpus.json", corpus)
+    gold = read(NOTES / "sparse-release-020-gold.json")
+    gold["records"].extend({"entry_id": identity, "bank": "BODY", "expected": 1} for identity in (teacher, *round_.HOLDOUTS))
+    record(NOTES / "sparse-release-021-gold.json", gold)
+    verified = {
+        "code": "APPROVED_BODY_CANDIDATE_VALIDATED", "candidate": str(candidate),
+        "candidate_sha256": result["candidate_sha256"], "new_cells": result["new_cells"],
+        "baseline": str(BASE), "benchmark_comparisons": comparisons,
+        "state_corpus_outcomes": dict(Counter(r["code"] for r in corpus["results"])),
+        "joint_support_reduction_bits": joint["reduction_bits"], "semantic_controls": len(gold["records"]),
+    }
+    record(NOTES / "021-approved-verification.json", verified)
+    return verified
+
+
+def retire(source, release):
+    """Preserve unique audit rows, prove source streams, then unlink one snapshot."""
+    if source.resolve() in {DESTINATION, BASE} or source.is_symlink():
+        raise ValueError("APPROVED_BODY_RETIREMENT_PROTECTS_ACTIVE_AND_ROLLBACK")
+    if fingerprint(DESTINATION) != release["sha256"]:
+        raise ValueError("APPROVED_BODY_RETIREMENT_WITNESS_CHANGED")
+    receipt = NOTES / ("021-retirement-" + ("019" if source.name == "sparse-release-019.db" else source.parent.name + "-" + source.stem) + ".json")
+    if receipt.exists():
+        if source.exists():
+            raise ValueError("RETIRED_SNAPSHOT_REAPPEARED")
+        return read(receipt)
+    before, source_hash = archive.identity(source), fingerprint(source)
+    new_ids = [r["record_id"] for r in read(NOTES / "021-approved-source-context.json")["observations"]]
+    tables, checks = {}, {}
+    with closing(sqlite3.connect(source.as_uri() + "?mode=ro", uri=True)) as c, closing(sqlite3.connect(DESTINATION.as_uri() + "?mode=ro", uri=True)) as witness:
+        c.execute("PRAGMA query_only=ON")
+        witness.execute("PRAGMA query_only=ON")
+        missing = [identity for identity in new_ids if not c.execute("SELECT 1 FROM source_observations WHERE record_id=?", (identity,)).fetchone()]
+        for name, query in archive.STREAMS.items():
+            target_query = query
+            if name == "native_observations" and missing:
+                quoted = ",".join("'" + identity.replace("'", "''") + "'" for identity in missing)
+                target_query = query.replace(" ORDER BY record_id", " WHERE record_id NOT IN (" + quoted + ") ORDER BY record_id")
+            observed = archive.stream_fingerprint(c, query)
+            expected = archive.stream_fingerprint(witness, target_query)
+            if observed != expected:
+                raise ValueError("APPROVED_BODY_RETIREMENT_SOURCE_STREAM_MISMATCH:" + name)
+            checks[name] = observed
+        c.execute("ATTACH DATABASE ? AS retained", (DESTINATION.as_uri() + "?mode=ro",))
+        for (name,) in c.execute("SELECT name FROM main.sqlite_master WHERE type='table' ORDER BY name").fetchall():
+            if name in archive.DERIVED_OR_VERIFIED:
+                continue
+            quoted = '"' + name.replace('"', '""') + '"'
+            columns = [r[1] for r in c.execute("PRAGMA main.table_info(" + quoted + ")")]
+            if columns != [r[1] for r in c.execute("PRAGMA retained.table_info(" + quoted + ")")]:
+                raise ValueError("APPROVED_BODY_RETIREMENT_SCHEMA_MISMATCH:" + name)
+            fields = ",".join('"' + column.replace('"', '""') + '"' for column in columns)
+            rows = c.execute("SELECT " + fields + " FROM main." + quoted + " EXCEPT SELECT " + fields + " FROM retained." + quoted).fetchall()
+            if rows:
+                tables[name] = {"columns": columns, "rows": rows}
+    document = {"source": str(source), "source_sha256": source_hash, "witness": str(DESTINATION),
+                "witness_sha256": release["sha256"], "source_data_checks": checks,
+                "excluded_new_context_ids_from_witness_only": missing, "tables": tables,
+                "derived_or_verified_tables": sorted(archive.DERIVED_OR_VERIFIED)}
+    target = BASE.parent / "ssl-explicit-genera/retired-audit" / (receipt.stem + ".json.gz")
+    target.write_bytes(gzip.compress(json.dumps(document, sort_keys=True, ensure_ascii=False).encode(), mtime=0))
+    if json.loads(gzip.decompress(target.read_bytes())) != json.loads(json.dumps(document)):
+        raise ValueError("APPROVED_BODY_RETIREMENT_ARCHIVE_ROUNDTRIP_FAILED")
+    round_.helpers.no_open_handles(source)
+    if archive.identity(source) != before or fingerprint(source) != source_hash:
+        raise ValueError("APPROVED_BODY_RETIREMENT_SOURCE_CHANGED")
+    if any(Path(str(source) + suffix).exists() for suffix in ("-wal", "-shm", "-journal")):
+        raise ValueError("APPROVED_BODY_RETIREMENT_HAS_SIDECAR")
+    source.unlink()
+    result = {"code": "SOURCE_AND_UNIQUE_AUDITS_PRESERVED_SNAPSHOT_RETIRED", "path": str(source),
+              "sha256": source_hash, "identity": before, "audit_archive": str(target),
+              "archive_sha256": fingerprint(target), "unique_audit_rows": {name: len(value["rows"]) for name, value in tables.items()}}
+    record(receipt, result)
+    return result
+
+
+def notebook(result, release=None, verified=None):
+    original = PAPER.read_text()
+    heading = "#### Approved constitutive-anatomy BODY cycle\n"
+    boundary = "### 6. Linguistic and sociological implications\n"
+    prefix, found, suffix = original.partition(boundary)
+    if not found:
+        raise ValueError("APPROVED_BODY_NOTEBOOK_BOUNDARY_MISSING")
+    if heading in prefix:
+        prefix = prefix.partition(heading)[0]
+    section = heading + "\nRohan approved constitutive anatomy, including verified defining-genus content, as sufficient for BODY=+1. Protocol 14 exposes that convention to both writers. The existing WordNet context-enrichment path now preserves complete verified ancestry definitions without selecting a sense or assigning a bank. Version 1 identity packets and the five pre-approval raw replies remain unchanged. Fresh audits reserve cat, duck, shark and salamander; the earlier diagnostic senses are not counted as held-out confirmations. The local model context bound is 81,920, below its declared 262,144 capacity; all five complete source contexts fit without truncation.\n\n"
+    section += f"The new epoch outcome is {result['epochs'][0]['code']}, using {result['typed_questions_used']} new bounded bank questions ({5 + result['typed_questions_used']} including the earlier diagnostic round). It admits {len(result['admitted'])} rules and adds {result['new_cells']:,} singleton cells, with {result['reopened_cells']} reopenings. Full replay checks {result['replay']['entries_checked']:,} records with {result['replay']['entries_mismatched']} mismatches and {result['replay']['inference_counts']['components_solver_limited']} solver-limited components. Unknowns remain distinct from zero.\n\n"
+    if result.get("format") == "gse.lexicon-adjudicated-round/1":
+        manifest = read(Path(result["adjudication_manifest"]))
+        bad = [r["entry_id"] for r in manifest["native_questions"][1:] if json.loads(r["raw_output"])["BODY"] != 1]
+        section += f"The native provider's signed disagreements on {', '.join(bad)} are retained. Source review found that their verified constitutive-anatomy witnesses satisfy the approved condition. Only those missing BODY cells received a bounded schema-constrained Fable subscription-CLI ruling; prior answers and per-case expected labels were absent from its input. The final audit consumes exact archived rulings with full request/schema checks. There are {manifest['unique_bank_questions']} unique word–bank questions and {len(manifest['corrections'])} additional adjudication attempts; source review, provider correction and population-rule exceptions are distinct. No exception was invented to exclude a difficult spelling. [Adjudication provenance and costs](../../../../gse/docs/readings/2026-11-13-ssl-explicit-genera/021-approved-adjudication-manifest.json)\n\n"
+    if release:
+        if verified is None:
+            raise ValueError("APPROVED_BODY_NOTEBOOK_PUBLICATION_REQUIRES_VERIFICATION")
+        section += f"Sparse release 021 is active, with 020 retained as the rolling rollback. It contains {release['cells']['assigned']:,} assigned cells, including {release['cells']['explicit_zero']:,} explicit zeros, and {release['cells']['unresolved']:,} unresolved cells. Runtime, cumulative semantic controls and isolated publication replay passed before activation; the {verified['semantic_controls']} semantic controls are regression expectations, not independent labels for the unlabelled corpus. The scoped exact joint-support reduction is {verified['joint_support_reduction_bits']:.6f} bits. This measures the completed conditional's propagation; no cross-epoch exponential rate or equal-budget superiority is inferred from this round.\n\n"
+    else:
+        section += "The rule remains withheld and no successor was published. The approved convention is preserved independently of a statistical model's answer. The exact source and signed disagreement require further adjudication; no complement zero or unaudited population fill was introduced.\n\n"
+    section += "[Approval and ledger](../../../../gse/docs/readings/2026-11-13-ssl-explicit-genera/021-body-convention-approval.json) · [Fresh round status](../../../../gse/docs/readings/2026-11-13-ssl-explicit-genera/021-approved-round-status.json) · [Context enrichment](../../../../gse/docs/readings/2026-11-13-ssl-explicit-genera/021-approved-source-enrichment.json)\n\n"
+    revised = prefix + section + boundary + suffix
+    fd, name = tempfile.mkstemp(prefix=".gse-021-results-", dir=PAPER.parent)
+    temporary = Path(name)
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as stream:
+            stream.write(revised)
+            stream.flush()
+            os.fsync(stream.fileno())
+        if PAPER.read_text() != original:
+            raise ValueError("APPROVED_BODY_NOTEBOOK_CHANGED")
+        os.replace(temporary, PAPER)
+    finally:
+        temporary.unlink(missing_ok=True)
+    receipt = "021-approved-adjudicated-notebook-update.json" if result.get("format") == "gse.lexicon-adjudicated-round/1" else "021-approved-notebook-update.json"
+    record(NOTES / receipt, {"code": "APPROVED_BODY_FINAL_RESULTS_RECORDED", "notebook": str(PAPER), "sha256": fingerprint(PAPER), "activation_performed": bool(release)})
+
+
+def verify_release_sources():
+    checks = read(NOTES / "021-approved-release-verification-v2.json")
+    if not checks["source_sha256"] or any(fingerprint(ROOT / name) != digest for name, digest in checks["source_sha256"].items()):
+        raise ValueError("APPROVED_BODY_RELEASE_IMPLEMENTATION_CHANGED")
+
+
+def run(result_path=None):
+    verify_release_sources()
+    while result_path is None:
+        path = NOTES / "021-approved-round-status.json"
+        state = read(path) if path.exists() else {}
+        if state.get("code") == "CANDIDATE_REPLAY_VALIDATED_PENDING_PUBLICATION_CHECKS":
+            break
+        if state.get("code") == "FRESH_BODY_RULE_WITHHELD_REPLAY_VALIDATED":
+            notebook(read(WORK / "zipf/arm-result.json"))
+            return
+        if state.get("code") == "APPROVED_BODY_CYCLE_STOPPED":
+            raise ValueError("APPROVED_BODY_PRODUCER_STOPPED:" + state["reason"])
+        time.sleep(10)
+    result = read(result_path if result_path is not None else WORK / "zipf/arm-result.json")
+    verified = verify_candidate(result)
+    verify_release_sources()
+    publication = WORK / "publication"
+    publication.mkdir(exist_ok=True)
+    release = publish_round(result, publication, DESTINATION, NOTES / "sparse-release-021-gold.json")
+    record(NOTES / "021-approved-publication.json", release)
+    if release["code"] != "PUBLISHED_SPARSE_LEXICON" or resolve_lexicon_path() != DESTINATION or Path(release["previous_path"]) != BASE:
+        raise ValueError("APPROVED_BODY_PUBLICATION_NOT_VERIFIED")
+    parent = read(NOTES / "sparse-release-020-activation.json")
+    if release["cells"]["assigned"] != parent["cells"]["assigned"] + result["new_cells"] or release["cells"]["explicit_zero"] != parent["cells"]["explicit_zero"]:
+        raise ValueError("APPROVED_BODY_PUBLICATION_COUNTS_MISMATCH")
+    checks = []
+    with GSEEncoder() as encoder:
+        if encoder.db_path != DESTINATION:
+            raise ValueError("APPROVED_BODY_DEFAULT_ENCODER_NOT_ACTIVE")
+        for identity in ("wordnet:man:homo.n.02", *round_.HOLDOUTS):
+            domain = encoder.lookup_definition(identity)["selected"]["domains"]["BODY"]
+            if domain != [1]:
+                raise ValueError("APPROVED_BODY_FRESH_CONSUMER_MISMATCH")
+            encoder.encode_definition(identity)
+            checks.append({"entry_id": identity, "BODY": domain, "compiled": True})
+    record(NOTES / "sparse-release-021-activation.json", {"code": "ACTIVE_APPROVED_BODY_021_VERIFIED", "path": str(DESTINATION), "previous_path": str(BASE), "sha256": release["sha256"], "pointer_sha256": fingerprint(ACTIVE_POINTER), "cells": release["cells"], "replay": release["replay"], "semantic_outcomes": release["semantic_audit"]["outcomes"], "fresh_default_consumer": checks})
+    retired = [retire(path, release) for path in (BASE.with_name("sparse-release-019.db"), WORK / "enriched.db", WORK / "zipf/epoch-01/teaching.db", Path(result["candidate"]))]
+    record(NOTES / "021-approved-retention.json", {"code": "ACTIVE_021_ROLLBACK_020_AND_AUDIT_RECORDS_RETAINED", "retired": retired})
+    notebook(result, release, verified)
+    round_.status("PUBLISHED_AND_ROLLING_RETENTION_VERIFIED", activation_performed=True,
+                  active_path=str(DESTINATION), previous_path=str(BASE), new_cells=result["new_cells"],
+                  typed_questions_used=result["typed_questions_used"], joint_support_reduction_bits=verified["joint_support_reduction_bits"])
+
+
+if __name__ == "__main__":
+    try:
+        parser = argparse.ArgumentParser(description=__doc__)
+        parser.add_argument("--result", type=Path)
+        run(parser.parse_args().result)
+    except BaseException as error:
+        round_.status("APPROVED_BODY_FINALIZATION_STOPPED", reason=repr(error), activation_performed=resolve_lexicon_path() == DESTINATION)
+        raise

@@ -1,0 +1,55 @@
+{
+  "format": "gse.reviewed-pattern-selection/1",
+  "discovery_entry_ids": [
+    "wordnet:in:inch.n.01"
+  ],
+  "audit_entry_ids": [
+    "wordnet:meter:meter.n.01",
+    "wordnet:mesh:mesh.n.01",
+    "wordnet:fistmele:fistmele.n.01",
+    "wordnet:hand:hand.n.09",
+    "wordnet:head:head.n.11",
+    "wordnet:parsec:parsec.n.01",
+    "wordnet:footer:footer.n.01",
+    "wordnet:cubit:cubit.n.01"
+  ],
+  "reviews": [],
+  "guarded_candidates": [
+    {
+      "antecedent": null,
+      "consequent": [
+        "QUANTITY",
+        1
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_ancestor:linear_unit.n.01",
+          "true"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ]
+      ],
+      "absent_evidence": [],
+      "warrant": {
+        "warrant_id": "native-linear-unit-quantity-2026-11-01",
+        "kind": "DEFINITIONAL_DERIVATION",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/quantity-unit-population-inventory.json@sha256:5a392a773cef5cebd2e9d05df34258bf17c35307cddd82d46be9dbb8134ced79",
+          "docs/readings/2026-11-01-lexicon-you-body/you-body-reading.md",
+          "data/external/references/goddard-2012-primes-molecules-templates.pdf#section-3",
+          "gse/curation/lexicon_builder/foundation.py#projection_relations",
+          "docs/readings/2026-11-01-lexicon-you-body/linear-unit-native-lemma-scope.json"
+        ],
+        "statement": "Every inspected exact native linear-unit sense denotes a metrological magnitude: a specified length or distance, a magnitude expressed in such units, or the count per linear inch in mesh. QUANTITY=+1 expresses this own-definition quantitative content without setting a size sign, numerical value, anatomical value, or ordinal. Scope requires noun POS and verified complete native linear_unit.n.01 ancestry tied to the exact definition. All 56 complete definitions and examples were read; discovery and held-out distinct-synset model audit remain separate. No other measurement branch, homograph, or world-associated quantity is admitted. A native subtype lacking this quantitative meaning falsifies the proposed scope. Additional identity guard: the spelling must occur explicitly in the same native synset lemma_names, with casefold/underscore-space normalization only. This restricts the inspected population to 100 entries; the other 33 derived spellings are deferred for separate identity justification, not declared false. The previous ancestry-only proposal is superseded for admission.",
+        "review_id": "native-linear-unit-quantity-source-review-2026-11-01",
+        "reviewer": "Codex primary source-backed review; not independent semantic gold"
+      }
+    }
+  ]
+}

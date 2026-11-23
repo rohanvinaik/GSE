@@ -1,0 +1,35 @@
+{
+  "code": "EPOCH_AND_SUPPORT_CONTRACT_TESTS_PASSED",
+  "counts": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 153
+  },
+  "format": "gse.lexicon-implementation-checks/1",
+  "observed_at_utc": "2026-11-19T04:51:50.457593+00:00",
+  "orchestration_static_checks": {
+    "ruff": "PASSED",
+    "scope": [
+      "coherence_020.py",
+      "checkpoint_audit_020.py",
+      "finish_coherence_020.py"
+    ],
+    "ty": "PASSED"
+  },
+  "ruff": "PASSED",
+  "scope": "147 existing epoch/source/disjoint-audit/domain tests plus 6 support-measurement tests; no semantic certification of unlabelled corpus cells.",
+  "source_sha256": {
+    "docs/readings/2026-11-13-ssl-explicit-genera/coherence_020.py": "f7c5bf840478d1a8d8a564faeb7507dcb6740e9a46dd6c7f5b81af3df493b41d",
+    "gse/curation/lexicon_builder/engine.py": "1f53a4f63103694824696bdc63af6d17d4415764360cf276b0eaa09f452c4b9f",
+    "gse/curation/lexicon_builder/epoch.py": "3d333ba400ec58bc1ea801484ecb4bca5fdca7ccdcf910e12087a440ce7c0fc9",
+    "gse/curation/lexicon_builder/resolution.py": "69d6fe441f471a1179b04c63b617766a93701ea54912e2e3548b24501e2d91fa",
+    "gse/curation/lexicon_builder/reviewed_export.py": "7b4871bc770e1312294957a54b4ea9cdcd6c4b58a432354bc0711deb763256ed",
+    "gse/curation/lexicon_builder/reviewed_patterns.py": "84922a27c45ddde10fe7d8512ee5a5225cf6c0f3f34eca0f1179227c522370b7",
+    "gse/curation/lexicon_builder/rule_admission.py": "0d1f5303ccae9383f7af85c911fe0785016b4e2d891475c05c1966c70129eda1",
+    "gse/curation/lexicon_builder/rule_migration.py": "3ab299601ece88b829e64843fc9847ab09b829407d29794ccd2ce3e1abca4c70",
+    "scripts/run_lexicon_epochs.py": "8e4184d563cae4f52a25cfc7e2d9312ade0b1ab11a1a444415fa22299c13dd02",
+    "tests/test_lexicon_coherence_support_counts.py": "0e4f61b88b0c118ee9793a6e5fed952482d39ea76ffd882d08069aa82d697caf"
+  },
+  "ty": "PASSED"
+}

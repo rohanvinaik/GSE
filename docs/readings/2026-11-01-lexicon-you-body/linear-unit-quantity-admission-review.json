@@ -1,0 +1,14 @@
+{
+  "rule_id": "reviewed-guarded-pattern:65d16959c01e4411fe908f0a08ab3a0b130fa0cdf3095f20602b256862b56aa2",
+  "review_id": "native-linear-unit-quantity-admission-2026-11-01",
+  "reviewer": "Codex primary source-backed review; not independent semantic gold",
+  "decision": "APPROVE_DEFINITIONAL_RULE",
+  "rationale": "The reviewed 56 native linear-unit definitions encode metrological magnitude, including amount in length units and count per linear inch. The exact native-lemma identity guard limits this derivation to 100 entries and defers 33 derived spellings. All eight distinct-synset held-out questions returned QUANTITY=+1 with no null, disagreement, or staging conflict, with the candidate relation and target assignment withheld. This warrants QUANTITY content only, not a numerical amount, size, bodily content, or an extension to the broader measurement ancestor. Prior source review and these audits are named evidence, not independent semantic gold.",
+  "source_refs": [
+    "docs/readings/2026-11-01-lexicon-you-body/you-body-reading.md",
+    "docs/readings/2026-11-01-lexicon-you-body/linear-unit-native-lemma-scope.json",
+    "docs/readings/2026-11-01-lexicon-you-body/linear-unit-quantity-audit.json",
+    "docs/readings/2026-11-01-lexicon-you-body/quantity-discovery-source-review.json"
+  ],
+  "warrant_sha256": "7734adc5cf42a3fce86a013df3ce152ea06c4c4ac06b498a6131f8272a0440e3"
+}

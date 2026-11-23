@@ -1,0 +1,57 @@
+{
+  "format": "gse.contrast-scope-verification/1",
+  "report_sha256": "039f4f6752f93375546c185e85eee4a8b9e37da71f369a0f6b10823093fad00b",
+  "records": [
+    {
+      "presentation": "SINGLE",
+      "request_id": "d7156a10b33e9b1bf824de36621ed50018e6461599c3ada31c2134d6dc02d6c0",
+      "value": null,
+      "assessment": "ABSTAINED",
+      "production_scope_admission": {
+        "code": "NOT_APPLICABLE",
+        "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+      }
+    },
+    {
+      "presentation": "BATCH_FORWARD",
+      "request_id": "d7156a10b33e9b1bf824de36621ed50018e6461599c3ada31c2134d6dc02d6c0",
+      "value": null,
+      "assessment": "ABSTAINED",
+      "production_scope_admission": {
+        "code": "NOT_APPLICABLE",
+        "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+      }
+    },
+    {
+      "presentation": "BATCH_REVERSED",
+      "request_id": "d7156a10b33e9b1bf824de36621ed50018e6461599c3ada31c2134d6dc02d6c0",
+      "value": 0,
+      "assessment": "NOT_ADJUDICATED",
+      "production_scope_admission": {
+        "code": "NOT_APPLICABLE",
+        "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+      }
+    },
+    {
+      "presentation": "BATCH_ROTATED",
+      "request_id": "d7156a10b33e9b1bf824de36621ed50018e6461599c3ada31c2134d6dc02d6c0",
+      "value": 1,
+      "assessment": "SCOPE_VIOLATION",
+      "production_scope_admission": {
+        "code": "SCOPE_UNJUSTIFIED",
+        "reason": "ENTITY_REFERENCE_ALONE_DOES_NOT_JUSTIFY_POSITIVE_BE",
+        "entry_id": "gse_closed_class:pronoun:you",
+        "bank": "BE",
+        "proposed_value": 1,
+        "source": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#be-stative-content-scope",
+        "exact_native_record_ids": [
+          "gse_closed_class:you:fbff12e440d68d97d943dd6e45a5ff93016a4fe8fe259c2c1e91e114ef17165b"
+        ],
+        "classification": "EXCLUSIVELY_EXACT_NATIVE_REFERENCE_ONLY_CATALOG",
+        "disposition": "NO_ASSERTION_CURRENT_DOMAINS_UNCHANGED"
+      }
+    }
+  ],
+  "database_writes": 0,
+  "interpretation": "NOT_APPLICABLE is not semantic validation; SCOPE_UNJUSTIFIED rejects unsupported positive BE without supplying zero."
+}

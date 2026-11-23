@@ -1,0 +1,65 @@
+{
+  "format": "gse.lexicon-sentence-benchmark/1",
+  "cases": [
+    {
+      "id": "incident-explicit-event",
+      "class": "occurrence",
+      "text": "The incident was a single distinct event that delayed the train.",
+      "token": "incident",
+      "lemma": "incident",
+      "sense": "wordnet:incident:incident.n.01",
+      "banks": {"HAPPEN": 1},
+      "basis": "The complement repeats WordNet's defining nominal and identifies the cause of the delay."
+    },
+    {
+      "id": "incident-disturbance",
+      "class": "contrast",
+      "text": "The incident was a public disturbance.",
+      "token": "incident",
+      "lemma": "incident",
+      "sense": "wordnet:incident:incident.n.02",
+      "banks": {"HAPPEN": null},
+      "basis": "The complement repeats the competing definition. Its HAPPEN bank is open in release 014."
+    },
+    {
+      "id": "accident-chance-event",
+      "class": "occurrence",
+      "text": "The accident was a chance event that brought the ships into port together.",
+      "token": "accident",
+      "lemma": "accident",
+      "sense": "wordnet:accident:accident.n.02",
+      "banks": {"HAPPEN": 1},
+      "basis": "Chance event is an attested multiword lemma of this exact WordNet sense."
+    },
+    {
+      "id": "accident-damaging-mishap",
+      "class": "contrast",
+      "text": "The accident was a mishap that caused damage and injury.",
+      "token": "accident",
+      "lemma": "accident",
+      "sense": "wordnet:accident:accident.n.01",
+      "banks": {"HAPPEN": null},
+      "basis": "The noun and elaboration match the unfortunate mishap definition. Its HAPPEN bank is open in release 014."
+    },
+    {
+      "id": "incident-cause-is-not-identity",
+      "class": "ambiguous",
+      "text": "The incident caused a public disturbance.",
+      "token": "incident",
+      "lemma": "incident",
+      "sense": null,
+      "banks": {},
+      "basis": "The result phrase names what the incident caused and supplies no definition of the incident itself."
+    },
+    {
+      "id": "accident-alternative-readings",
+      "class": "ambiguous",
+      "text": "It was an accident that the woman fell and broke her arm.",
+      "token": "accident",
+      "lemma": "accident",
+      "sense": null,
+      "banks": {},
+      "basis": "The context permits both a chance occurrence and a mishap with injury."
+    }
+  ]
+}

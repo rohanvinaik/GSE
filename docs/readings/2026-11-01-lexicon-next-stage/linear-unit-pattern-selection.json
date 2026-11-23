@@ -1,0 +1,94 @@
+{
+  "format": "gse.reviewed-pattern-selection/1",
+  "discovery_entry_ids": [
+    "wordnet:in:inch.n.01"
+  ],
+  "audit_entry_ids": [
+    "wordnet:meter:meter.n.01",
+    "wordnet:mesh:mesh.n.01",
+    "wordnet:fistmele:fistmele.n.01",
+    "wordnet:hand:hand.n.09",
+    "wordnet:head:head.n.11",
+    "wordnet:parsec:parsec.n.01",
+    "wordnet:footer:footer.n.01",
+    "wordnet:cubit:cubit.n.01"
+  ],
+  "reviews": [
+    {
+      "request_id": "91be1d87e5a994494570e97eef23cfc4c8cedfc4c25f5178ad6f746803613822",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The exact definition fixes a length unit equal to one twelfth of a foot, with linear-unit and measurement ancestry. That metrological identity does not predicate desire or refusal by an experiencer. WANT=0 is supported for this unit sense; the prepositional spelling in is not being substituted for the definition.",
+        "receipt_sha256": "db05d65eadb5d5018b159503ed2b8762b5eeec43146628a567fca546794f50c0",
+        "review_id": "want-source-review-2026-11-01:db05d65eadb5d5018b159503ed2b8762b5eeec43146628a567fca546794f50c0",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/13/request/observations/235@sha256:eb878c1615a4d2f6dec6099e7ebbcbe8141a55ac7513df4b424b7b8b489d89cb",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      }
+    }
+  ],
+  "guarded_candidates": [
+    {
+      "antecedent": null,
+      "consequent": [
+        "WANT",
+        0
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_ancestor:linear_unit.n.01",
+          "true"
+        ]
+      ],
+      "absent_evidence": [],
+      "warrant": {
+        "warrant_id": "linear-unit-want-2026-11-01",
+        "kind": "DEFINITIONAL_DERIVATION",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/linear-unit-inventory.json",
+          "docs/readings/2026-11-01-lexicon-next-stage/linear-unit-rule-ledger.md",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ],
+        "statement": "In the inspected native linear-unit population, each exact noun sense denotes a specified metrological length, distance, or linear-density quantity. Its defining relation concerns magnitude and measurement, independent of an experiencer wanting or refusing it. This positive definitional independence warrants WANT=0 under the user polarity convention. Scope is exact native linear_unit.n.01 ancestry with matching identity and full definition, not all nouns or all measurement units. A native subtype whose own definition predicates desire/refusal would falsify this scope and require narrowing before use.",
+        "review_id": "linear-unit-want-proposal-review-2026-11-01",
+        "reviewer": "Codex source-backed review; not independent semantic gold"
+      }
+    },
+    {
+      "antecedent": null,
+      "consequent": [
+        "BODY",
+        0
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_ancestor:linear_unit.n.01",
+          "true"
+        ]
+      ],
+      "absent_evidence": [],
+      "warrant": {
+        "warrant_id": "linear-unit-body-2026-11-01",
+        "kind": "DEFINITIONAL_DERIVATION",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/linear-unit-inventory.json",
+          "docs/readings/2026-11-01-lexicon-next-stage/linear-unit-rule-ledger.md",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ],
+        "statement": "Audit hypothesis only: an exact linear-unit sense denotes a measurement rather than the anatomical part whose name it may share, so BODY may be orthogonal. Body-based standards such as hand, head, and cubit are deliberate counterexample candidates: if their defining dependence on anatomy makes BODY nonzero, this proposed universal rule must be rejected. No reviewed BODY discovery receipt exists, so this proposal cannot be admitted from audit agreement alone.",
+        "review_id": "linear-unit-body-proposal-review-2026-11-01",
+        "reviewer": "Codex source-backed review; not independent semantic gold"
+      }
+    }
+  ]
+}

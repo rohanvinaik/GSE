@@ -1,0 +1,291 @@
+{
+  "candidate_sha256": "1da61580f92b7b8799110d2c9d5a57363f9cfa1a7ea24c63d28e66d29ac66fb9",
+  "format": "gse.unit-banks-probe-plan/1",
+  "previous_zipf_cohort": [
+    {
+      "BODY": [
+        -1,
+        0,
+        1
+      ],
+      "entry_id": "wordnet:head:head.n.11"
+    },
+    {
+      "BODY": [
+        0
+      ],
+      "entry_id": "wordnet:hand:hand.n.09"
+    },
+    {
+      "BODY": [
+        0
+      ],
+      "entry_id": "wordnet:point:point.n.17"
+    },
+    {
+      "BODY": [
+        0
+      ],
+      "entry_id": "wordnet:foot:foot.n.02"
+    },
+    {
+      "BODY": [
+        -1,
+        0,
+        1
+      ],
+      "entry_id": "wordnet:finger:finger.n.02"
+    },
+    {
+      "BODY": [
+        0
+      ],
+      "entry_id": "wordnet:yard:yard.n.01"
+    },
+    {
+      "BODY": [
+        0
+      ],
+      "entry_id": "wordnet:cable:cable.n.04"
+    },
+    {
+      "BODY": [
+        -1,
+        0,
+        1
+      ],
+      "entry_id": "wordnet:cubit:cubit.n.01"
+    },
+    {
+      "BODY": [
+        -1,
+        0,
+        1
+      ],
+      "entry_id": "wordnet:span:span.n.04"
+    },
+    {
+      "BODY": [
+        0
+      ],
+      "entry_id": "wordnet:at:at.n.02"
+    },
+    {
+      "BODY": [
+        0
+      ],
+      "entry_id": "wordnet:won:south_korean_won.n.01"
+    },
+    {
+      "BODY": [
+        0
+      ],
+      "entry_id": "wordnet:real:real.n.02"
+    },
+    {
+      "BODY": [
+        0
+      ],
+      "entry_id": "wordnet:sent:sent.n.01"
+    },
+    {
+      "BODY": [
+        0
+      ],
+      "entry_id": "wordnet:bob:british_shilling.n.01"
+    },
+    {
+      "BODY": [
+        0
+      ],
+      "entry_id": "wordnet:mark:mark.n.07"
+    },
+    {
+      "BODY": [
+        0
+      ],
+      "entry_id": "wordnet:dollar:dollar.n.01"
+    }
+  ],
+  "priority": {
+    "excluded_count": 1,
+    "excluded_records": [
+      {
+        "code": "MISSING_WORD",
+        "count": 27,
+        "csv_line": 21732,
+        "record_number": 21731
+      }
+    ],
+    "frequency_column": "SUBTLEX",
+    "included_words": 39953,
+    "mode": "zipf",
+    "ordering": "DESCENDING_POSITIVE_COUNT_THEN_CONSTRAINT_PRIORITY_THEN_DEFINITION_ID",
+    "policy": "gse.completion-priority/subtlex-count-order/2",
+    "ranked_words": 28902,
+    "rows": 39954,
+    "score": "MONOTONIC_ZIPF_ORDER_NOT_ABSOLUTE_ZIPF_SCORE",
+    "semantic_authority": "NONE_SCHEDULING_ONLY",
+    "sha256": "fa636292ba0b1b5cf4d6d335690ddcf3a162e4a8204124d95c64e795eb336226",
+    "source": "/Users/rohanvinaik/Projects/gse/data/external/concreteness.csv",
+    "unranked": "ZERO_OR_ABSENT_FREQUENCY_LAST_NOT_SEMANTIC_ZERO",
+    "word_column": "Word",
+    "zero_count_words": 11051
+  },
+  "questions": [
+    {
+      "bank": "BODY",
+      "entry_id": "wordnet:head:head.n.11",
+      "expected": 1,
+      "family": "BODY_EXCEPTION",
+      "zipf_count": 18947
+    },
+    {
+      "bank": "BODY",
+      "entry_id": "wordnet:finger:finger.n.02",
+      "expected": 1,
+      "family": "BODY_EXCEPTION",
+      "zipf_count": 1870
+    },
+    {
+      "bank": "BODY",
+      "entry_id": "wordnet:palm:palm.n.02",
+      "expected": 1,
+      "family": "BODY_EXCEPTION",
+      "zipf_count": 675
+    },
+    {
+      "bank": "BODY",
+      "entry_id": "wordnet:span:span.n.04",
+      "expected": 1,
+      "family": "BODY_EXCEPTION",
+      "zipf_count": 101
+    },
+    {
+      "bank": "BODY",
+      "entry_id": "wordnet:digit:finger.n.02",
+      "expected": 1,
+      "family": "BODY_EXCEPTION",
+      "zipf_count": 30
+    },
+    {
+      "bank": "BODY",
+      "entry_id": "wordnet:cubit:cubit.n.01",
+      "expected": 1,
+      "family": "BODY_EXCEPTION",
+      "zipf_count": 0
+    },
+    {
+      "bank": "BODY",
+      "entry_id": "wordnet:fingerbreadth:finger.n.02",
+      "expected": 1,
+      "family": "BODY_EXCEPTION",
+      "zipf_count": 0
+    },
+    {
+      "bank": "BODY",
+      "entry_id": "wordnet:fistmele:fistmele.n.01",
+      "expected": 1,
+      "family": "BODY_EXCEPTION",
+      "zipf_count": 0
+    },
+    {
+      "bank": "BODY",
+      "entry_id": "wordnet:handbreadth:handbreadth.n.01",
+      "expected": 1,
+      "family": "BODY_EXCEPTION",
+      "zipf_count": 0
+    },
+    {
+      "bank": "BODY",
+      "entry_id": "wordnet:handsbreadth:handbreadth.n.01",
+      "expected": 1,
+      "family": "BODY_EXCEPTION",
+      "zipf_count": 0
+    },
+    {
+      "bank": "WANT",
+      "entry_id": "wordnet:are:are.n.01",
+      "expected": 0,
+      "family": "NATIVE_MEASUREMENT_UNITS",
+      "zipf_count": 265672
+    },
+    {
+      "bank": "WANT",
+      "entry_id": "wordnet:at:at.n.02",
+      "expected": 0,
+      "family": "NATIVE_MEASUREMENT_UNITS",
+      "zipf_count": 164072
+    },
+    {
+      "bank": "QUANTITY",
+      "entry_id": "wordnet:last:last.n.05",
+      "expected": 1,
+      "family": "NATIVE_MEASUREMENT_UNITS",
+      "zipf_count": 36878
+    },
+    {
+      "bank": "QUANTITY",
+      "entry_id": "wordnet:minute:minute.n.04",
+      "expected": 1,
+      "family": "NATIVE_MEASUREMENT_UNITS",
+      "zipf_count": 19252
+    },
+    {
+      "bank": "WANT",
+      "entry_id": "wordnet:point:point.n.10",
+      "expected": 0,
+      "family": "NATIVE_MEASUREMENT_UNITS",
+      "zipf_count": 12063
+    },
+    {
+      "bank": "QUANTITY",
+      "entry_id": "wordnet:word:word.n.07",
+      "expected": 1,
+      "family": "NATIVE_MEASUREMENT_UNITS",
+      "zipf_count": 12013
+    },
+    {
+      "bank": "WANT",
+      "entry_id": "wordnet:word:word.n.07",
+      "expected": 0,
+      "family": "NATIVE_MEASUREMENT_UNITS",
+      "zipf_count": 12013
+    },
+    {
+      "bank": "QUANTITY",
+      "entry_id": "wordnet:bit:bit.n.06",
+      "expected": 1,
+      "family": "NATIVE_MEASUREMENT_UNITS",
+      "zipf_count": 11987
+    },
+    {
+      "bank": "WANT",
+      "entry_id": "wordnet:key:key.n.05",
+      "expected": 0,
+      "family": "NATIVE_MEASUREMENT_UNITS",
+      "zipf_count": 4430
+    },
+    {
+      "bank": "WANT",
+      "entry_id": "wordnet:cup:cup.n.04",
+      "expected": 0,
+      "family": "NATIVE_MEASUREMENT_UNITS",
+      "zipf_count": 2634
+    },
+    {
+      "bank": "QUANTITY",
+      "entry_id": "wordnet:stone:stone.n.05",
+      "expected": 1,
+      "family": "NATIVE_MEASUREMENT_UNITS",
+      "zipf_count": 2072
+    },
+    {
+      "bank": "QUANTITY",
+      "entry_id": "wordnet:block:block.n.06",
+      "expected": 1,
+      "family": "NATIVE_MEASUREMENT_UNITS",
+      "zipf_count": 2067
+    }
+  ]
+}

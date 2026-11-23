@@ -1,0 +1,233 @@
+[
+  {
+    "answer": {
+      "code": "TYPED_ANSWER",
+      "raw_output": "{\"QUANTITY\":1}",
+      "request_id": "55c05b0737cb543ccd08d0a3a6686564b6ff841283ce59584571a2f97d73da54",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb"
+    },
+    "code": "UNRESOLVED_MODEL_DISAGREES",
+    "definition": {
+      "definition": "a quad with a square body",
+      "entry_id": "wordnet:em:em.n.01",
+      "lemma": "em",
+      "pos": "noun"
+    },
+    "expected": 0,
+    "frequency": 0,
+    "request_id": "55c05b0737cb543ccd08d0a3a6686564b6ff841283ce59584571a2f97d73da54",
+    "scope": "QUANTITY_BOUNDARY",
+    "source_rationale": "The referent is a printing spacer, defined by a square body. The corpus gloss for the printing quad identifies a blank type block used for spacing. Square shape specifies geometry while leaving magnitude free. The separate linear-measure sense em.n.02 requires its own ruling.",
+    "source_sha256": "96610f3acf967954ac720d4c6bf817473fde0177ea9f12f62c61f27da4d7ed08"
+  },
+  {
+    "answer": {
+      "code": "TYPED_ANSWER",
+      "raw_output": "{\"QUANTITY\":1}",
+      "request_id": "107276a52966a2e6aabdf7084a1ad5d13ce6dd4b9b88dacc4b47902aa85e98ab",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb"
+    },
+    "code": "UNRESOLVED_NO_DEFINITIONAL_WARRANT",
+    "definition": {
+      "definition": "any of various systems of units for measuring electricity and magnetism",
+      "entry_id": "wordnet:emu:electromagnetic_unit.n.01",
+      "lemma": "emu",
+      "pos": "noun"
+    },
+    "expected": null,
+    "frequency": 22,
+    "request_id": "107276a52966a2e6aabdf7084a1ad5d13ce6dd4b9b88dacc4b47902aa85e98ab",
+    "scope": "QUANTITY_BOUNDARY",
+    "source_rationale": "The source defines a system of measurement units. The system is quantitative in subject matter, while the gloss gives no magnitude that the system itself denotes. The conflicting sense label and gloss do not establish either sign or orthogonality.",
+    "source_sha256": "1496029a091344a24d15bcad07b28e0c860a89f7b6e39c65428f3023de3527a8"
+  },
+  {
+    "answer": {
+      "code": "TYPED_ANSWER",
+      "raw_output": "{\"QUANTITY\":1}",
+      "request_id": "394e769c0da9ff9234db702cf0bc1f973fc63fb848422fb2ab3f78ef27549fbb",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb"
+    },
+    "code": "ACCEPTED_SOURCE_AND_MODEL_AGREE",
+    "definition": {
+      "definition": "the intensity of light falling on a photographic film or plate",
+      "entry_id": "wordnet:exposure:exposure.n.06",
+      "lemma": "exposure",
+      "pos": "noun"
+    },
+    "expected": 1,
+    "frequency": 291,
+    "request_id": "394e769c0da9ff9234db702cf0bc1f973fc63fb848422fb2ab3f78ef27549fbb",
+    "scope": "QUANTITY_BOUNDARY",
+    "source_rationale": "This exact sense denotes the intensity of incident light, a magnitude of illumination. The corpus also distinguishes intensity as transmitted energy amount from other intensity senses. The present warrant comes from the magnitude in this gloss, independent of the measurement-unit ancestry.",
+    "source_sha256": "49fa9b54209841a1e66aa5fc00f7bd209cadd7f0a36c138c64c8e949a2dc8654"
+  },
+  {
+    "answer": {
+      "code": "TYPED_ANSWER",
+      "raw_output": "{\"QUANTITY\":1}",
+      "request_id": "06789df8d40949378630fb5068b251a05917222a42a05e0c52893f2c48d9eaf5",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb"
+    },
+    "code": "UNRESOLVED_NO_DEFINITIONAL_WARRANT",
+    "definition": {
+      "definition": "(computer science) the part of a hard disk that is dedicated to a particular operating system or application and accessed as a single unit",
+      "entry_id": "wordnet:partition:partition.n.02",
+      "lemma": "partition",
+      "pos": "noun"
+    },
+    "expected": null,
+    "frequency": 25,
+    "request_id": "06789df8d40949378630fb5068b251a05917222a42a05e0c52893f2c48d9eaf5",
+    "scope": "QUANTITY_BOUNDARY",
+    "source_rationale": "The role is an allocated disk region accessed as a single logical unit. The quantitative contribution of 'single unit' is ambiguous between a quantity and an access boundary; the gloss gives no capacity.",
+    "source_sha256": "c7ee88c39fdb3c37a0d0179e7c0cf1de517ac01abbc63c0a3f18ba67825b1b84"
+  },
+  {
+    "answer": {
+      "code": "TYPED_ANSWER",
+      "raw_output": "{\"QUANTITY\":1}",
+      "request_id": "557b96fb09a046c90005f19b11a0b5f8d2cf2e062f5ddac9cd63e0761f183c73",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb"
+    },
+    "code": "UNRESOLVED_NO_DEFINITIONAL_WARRANT",
+    "definition": {
+      "definition": "a word is a string of bits stored in computer memory",
+      "entry_id": "wordnet:word:word.n.07",
+      "lemma": "word",
+      "pos": "noun"
+    },
+    "expected": null,
+    "frequency": 12013,
+    "request_id": "557b96fb09a046c90005f19b11a0b5f8d2cf2e062f5ddac9cd63e0761f183c73",
+    "scope": "QUANTITY_BOUNDARY",
+    "source_rationale": "The definition describes a stored bit string without a constitutive number or unit magnitude. The example gives a machine-specific width. A definition explicitly specifying the architecture's native grouping would be relevant to deciding whether amount belongs to this exact sense.",
+    "source_sha256": "4c4db4018f7155f20edcff386a1a2f0c25d83d465e14ea46b25940a987657d85"
+  },
+  {
+    "answer": {
+      "code": "TYPED_ANSWER",
+      "raw_output": "{\"WANT\":0}",
+      "request_id": "9524cdab3a44767b0e70d425b5493a452d7e80ae89cb5ae11c17f42ba182f6a5",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb"
+    },
+    "code": "ACCEPTED_SOURCE_AND_MODEL_AGREE",
+    "definition": {
+      "definition": "the basic unit of money in South Korea",
+      "entry_id": "wordnet:won:south_korean_won.n.01",
+      "lemma": "won",
+      "pos": "noun"
+    },
+    "expected": 0,
+    "frequency": 38729,
+    "request_id": "9524cdab3a44767b0e70d425b5493a452d7e80ae89cb5ae11c17f42ba182f6a5",
+    "scope": "ZIPF_CONTINUATION",
+    "source_rationale": "The definition identifies South Korea's denomination. Desire for money is independent of that denomination.",
+    "source_sha256": "552d75c872041e3edbb0d630de1f723da4d53012e13f0c8ee734bb9d1537ed9b"
+  },
+  {
+    "answer": {
+      "code": "TYPED_ANSWER",
+      "raw_output": "{\"WANT\":0}",
+      "request_id": "4e510959eea8e06c16e3effa81800a21c0562f79390ea4576e1767aa06909434",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb"
+    },
+    "code": "ACCEPTED_SOURCE_AND_MODEL_AGREE",
+    "definition": {
+      "definition": "100 senti equal 1 kroon in Estonia",
+      "entry_id": "wordnet:sent:sent.n.01",
+      "lemma": "sent",
+      "pos": "noun"
+    },
+    "expected": 0,
+    "frequency": 7038,
+    "request_id": "4e510959eea8e06c16e3effa81800a21c0562f79390ea4576e1767aa06909434",
+    "scope": "ZIPF_CONTINUATION",
+    "source_rationale": "The sent is one hundredth of the Estonian kroon. Its denomination is independent of anyone's aims or wishes.",
+    "source_sha256": "eda2cdeebc66be3d827ee68af2243cefe893706d39277234aae8677fcef8622f"
+  },
+  {
+    "answer": {
+      "code": "TYPED_ANSWER",
+      "raw_output": "{\"WANT\":0}",
+      "request_id": "bf179886266f8dc1e45157e69ebcd8f7130c452b1717fccd55616c842bbbadf6",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb"
+    },
+    "code": "ACCEPTED_SOURCE_AND_MODEL_AGREE",
+    "definition": {
+      "definition": "a cgs unit of illumination equal to the brightness of a perfectly diffusing surface that emits or reflects one lumen per square centimeter",
+      "entry_id": "wordnet:l:lambert.n.01",
+      "lemma": "l",
+      "pos": "noun"
+    },
+    "expected": 0,
+    "frequency": 4841,
+    "request_id": "bf179886266f8dc1e45157e69ebcd8f7130c452b1717fccd55616c842bbbadf6",
+    "scope": "ZIPF_CONTINUATION",
+    "source_rationale": "The lambert is a luminance unit defined by the brightness of a specified surface. The surface and light supply the defining scale.",
+    "source_sha256": "43afe95661553feeb72cf9de80d92382134b67cec1c2b2c3c2256ff2f9f6be72"
+  },
+  {
+    "answer": {
+      "code": "TYPED_ANSWER",
+      "raw_output": "{\"WANT\":0}",
+      "request_id": "4e59533d88540af81de8f19f2ccd042eed4e5d30a26f3739ef454c60a7e55c14",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb"
+    },
+    "code": "ACCEPTED_SOURCE_AND_MODEL_AGREE",
+    "definition": {
+      "definition": "a former monetary unit in Great Britain",
+      "entry_id": "wordnet:bob:british_shilling.n.01",
+      "lemma": "bob",
+      "pos": "noun"
+    },
+    "expected": 0,
+    "frequency": 4666,
+    "request_id": "4e59533d88540af81de8f19f2ccd042eed4e5d30a26f3739ef454c60a7e55c14",
+    "scope": "ZIPF_CONTINUATION",
+    "source_rationale": "This bob is a former British denomination. A money holder's intentions are independent of the monetary unit.",
+    "source_sha256": "b07be116a9ff82d8dd4914265bc2a4978ca7829a10b8c911e06250510ec92902"
+  },
+  {
+    "answer": {
+      "code": "TYPED_ANSWER",
+      "raw_output": "{\"WANT\":0}",
+      "request_id": "ac057ba96eb34f9b53faefd6128ebf06b8b2daa0258fe8e6eab4724a3ea69076",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb"
+    },
+    "code": "ACCEPTED_SOURCE_AND_MODEL_AGREE",
+    "definition": {
+      "definition": "(meteorology) a unit of pressure equal to a million dynes per square centimeter",
+      "entry_id": "wordnet:bar:bar.n.07",
+      "lemma": "bar",
+      "pos": "noun"
+    },
+    "expected": 0,
+    "frequency": 4385,
+    "request_id": "ac057ba96eb34f9b53faefd6128ebf06b8b2daa0258fe8e6eab4724a3ea69076",
+    "scope": "ZIPF_CONTINUATION",
+    "source_rationale": "The bar is pressure equivalent to a million dynes per square centimeter. The definition supplies a physical magnitude.",
+    "source_sha256": "22d257293a5e58175063ecd1a657370593a8693166f214af031fb1eb9f047dd9"
+  },
+  {
+    "answer": {
+      "code": "TYPED_ANSWER",
+      "raw_output": "{\"WANT\":0}",
+      "request_id": "7934e16653cee7ace53fb9a2f73bdc5e42f6ea1607d8657abc6b23e9268b5df3",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb"
+    },
+    "code": "ACCEPTED_SOURCE_AND_MODEL_AGREE",
+    "definition": {
+      "definition": "formerly the basic unit of money in Germany",
+      "entry_id": "wordnet:mark:mark.n.07",
+      "lemma": "mark",
+      "pos": "noun"
+    },
+    "expected": 0,
+    "frequency": 4183,
+    "request_id": "7934e16653cee7ace53fb9a2f73bdc5e42f6ea1607d8657abc6b23e9268b5df3",
+    "scope": "ZIPF_CONTINUATION",
+    "source_rationale": "This mark is a historical German denomination. The monetary standard has its own identity across different purposes of exchange.",
+    "source_sha256": "3a44cb09a76fba6a3d442f8541451a5489844f144bbef750bd9354b47f153c02"
+  }
+]

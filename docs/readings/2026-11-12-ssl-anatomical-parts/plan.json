@@ -1,0 +1,136 @@
+{
+  "active_pointer_sha256": "c458d88ccd4b5bb142a77b04044cd87627d38d9e64f4d0cc5bcb42f9eefbb5c6",
+  "audits_per_epoch": 2,
+  "baseline_sha256": "e269224e4ed59dd5ca61b6617c2476bc934d8a43d2417a5713098c10de8d85e7",
+  "epochs": 1,
+  "families": [
+    {
+      "antecedent": [
+        "PART",
+        1
+      ],
+      "consequent": [
+        "BODY",
+        1
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:bone.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:conodont.n.01",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wordnet:radius:radius.n.04",
+        "wordnet:incisor:incisor.n.01"
+      ],
+      "id": "skeletal-part-body",
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "skeletal-part-body-native-gloss-review",
+        "reviewer": "Source-backed construction review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-anatomical-parts/SOURCE_SCOPE.md",
+          "/Users/rohanvinaik/Projects/gse/docs/program/LEXICON_CONSTRUCTION_DESIGN.md#body-reference-content-scope",
+          "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "statement": "The reviewed exact glosses define a skeletal structure, tooth, skeletal subdivision, or the anatomical tissue making up a skeleton. That structural or material identity supplies own bodily content. The fossil tooth sense has separate scope.",
+        "warrant_id": "skeletal-part-body"
+      }
+    },
+    {
+      "antecedent": [
+        "PART",
+        1
+      ],
+      "consequent": [
+        "BODY",
+        1
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:joint.n.01",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wordnet:wrist:wrist.n.01",
+        "wordnet:hip:hip.n.03"
+      ],
+      "id": "anatomical-joint-part-body",
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "anatomical-joint-part-body-native-gloss-review",
+        "reviewer": "Source-backed construction review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-anatomical-parts/SOURCE_SCOPE.md",
+          "/Users/rohanvinaik/Projects/gse/docs/program/LEXICON_CONSTRUCTION_DESIGN.md#body-reference-content-scope",
+          "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "statement": "The reviewed exact joint glosses identify anatomical attachments between skeletal structures. The anatomy is constitutive of the joint defined, including when the gloss names the site of a connection.",
+        "warrant_id": "anatomical-joint-part-body"
+      }
+    },
+    {
+      "antecedent": [
+        "PART",
+        1
+      ],
+      "consequent": [
+        "BODY",
+        1
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:muscle.n.01",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wordnet:deltoid:deltoid.n.01",
+        "wordnet:sphincter:sphincter.n.01"
+      ],
+      "id": "muscular-part-body",
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "muscular-part-body-native-gloss-review",
+        "reviewer": "Source-backed construction review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-anatomical-parts/SOURCE_SCOPE.md",
+          "/Users/rohanvinaik/Projects/gse/docs/program/LEXICON_CONSTRUCTION_DESIGN.md#body-reference-content-scope",
+          "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "statement": "The reviewed exact muscle glosses identify bodily contractile structures or anatomical regions whose genus is defined by musculature. The bodily content follows from the definition's structure, independently of a current act of contraction.",
+        "warrant_id": "muscular-part-body"
+      }
+    }
+  ],
+  "format": "gse.lexicon-epoch-plan/1"
+}

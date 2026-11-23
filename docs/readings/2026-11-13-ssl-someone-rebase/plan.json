@@ -1,0 +1,43 @@
+{
+  "active_pointer_sha256": "18512cc8a732f3966a75b24c29962a96c4d8884e0bc71467b3e98bb4e7d554ad",
+  "audits_per_epoch": 2,
+  "baseline_sha256": "505a356504b3ef81c6c9a5313119c4945ef040eff52b0853419d07606451d9fb",
+  "epochs": 1,
+  "families": [
+    {
+      "antecedent": null,
+      "consequent": [
+        "SOMEONE",
+        1
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "native_noun_frame:coordinated_person",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wordnet:saint:saint.n.01",
+        "wiktionary:en-god-en-noun-XjVVibGB:cb2af954822c1b57e4edad3e91df86be881f746aa148c1dbae77473ebe917f96"
+      ],
+      "id": "coordinated-person-genus",
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "coordinated-person-genus-exact-gloss-review",
+        "reviewer": "Source-backed construction review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-cross-source/SOURCE_SCOPE.md",
+          "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content",
+          "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "statement": "The noun's explicit genus is a person. The following relative clause describes coordinated properties of that person. The shared genus continues to denote someone.",
+        "warrant_id": "coordinated-person-genus"
+      }
+    }
+  ],
+  "format": "gse.lexicon-epoch-plan/1"
+}

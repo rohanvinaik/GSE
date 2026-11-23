@@ -1,0 +1,2131 @@
+{
+  "actual_rule_forecast": {
+    "bits_removed": 45.963912520913524,
+    "by_bank": {
+      "SOMEONE": 29
+    },
+    "narrowed_cells": 29,
+    "new_singletons": 29
+  },
+  "authority": "HYPOTHESES_NO_LEXICON_WRITES",
+  "baseline_sha256": "505a356504b3ef81c6c9a5313119c4945ef040eff52b0853419d07606451d9fb",
+  "existing_do_happen_rule": [
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "DO",
+        "HAPPEN"
+      ],
+      "guards": [],
+      "provenance": [
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+      ],
+      "rule_id": "founder:category:do-happen"
+    }
+  ],
+  "existing_rules_touching_someone": [
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "I",
+        "SOMEONE"
+      ],
+      "guards": [],
+      "provenance": [
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+      ],
+      "rule_id": "founder:category:i-someone"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "YOU",
+        "SOMEONE"
+      ],
+      "guards": [],
+      "provenance": [
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+      ],
+      "rule_id": "founder:category:you-someone"
+    }
+  ],
+  "experiments": {
+    "explicit-capacity": {
+      "child_alone": {
+        "bits_removed": 3.169925001442312,
+        "by_bank": {
+          "CAN": 2
+        },
+        "narrowed_cells": 2,
+        "new_singletons": 2
+      },
+      "consequent": [
+        "CAN",
+        1
+      ],
+      "joint": {
+        "bits_removed": 6.339850002884624,
+        "by_bank": {
+          "CAN": 3,
+          "SOMEONE": 1
+        },
+        "narrowed_cells": 4,
+        "new_singletons": 4
+      },
+      "joint_only": [
+        {
+          "bank": "CAN",
+          "entry_id": "wiktionary:en-literate-en-noun-e-Kh8qRa:f0c1cd062f5e12cb79cdd9409291b3583e7e371cf278332c3c3be89d6ae3afec",
+          "gloss": "A person who is able to read and write.",
+          "value": 1
+        }
+      ],
+      "joint_only_count": 1,
+      "parent_alone": {
+        "bits_removed": 1.584962500721156,
+        "by_bank": {
+          "SOMEONE": 1
+        },
+        "narrowed_cells": 1,
+        "new_singletons": 1
+      },
+      "premise": [
+        "SOMEONE",
+        1
+      ],
+      "scope_entry_ids": [
+        "wiktionary:en-literate-en-noun-e-Kh8qRa:f0c1cd062f5e12cb79cdd9409291b3583e7e371cf278332c3c3be89d6ae3afec",
+        "wordnet:literate:literate.n.01",
+        "wordnet:writer:writer.n.02"
+      ],
+      "scope_records": 3,
+      "solver_contradictions": {
+        "child_alone": [],
+        "joint": [],
+        "parent_alone": []
+      },
+      "status": "STAGED_FOR_TYPED_PROBE"
+    },
+    "generic-person-as-agent": {
+      "child_alone": {
+        "bits_removed": 123.62707505625018,
+        "by_bank": {
+          "DO": 39,
+          "HAPPEN": 39
+        },
+        "narrowed_cells": 78,
+        "new_singletons": 78
+      },
+      "consequent": [
+        "DO",
+        1
+      ],
+      "joint": {
+        "bits_removed": 261.51881261899075,
+        "by_bank": {
+          "DO": 68,
+          "HAPPEN": 68,
+          "SOMEONE": 29
+        },
+        "narrowed_cells": 165,
+        "new_singletons": 165
+      },
+      "joint_only": [
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-arbiter-en-noun-eJ3v540m:7d74ded5a240dbd7c29be1ffa799cbe32760bbb5874effbb28bc88f91a67c1a7",
+          "gloss": "The person who oversees a chess match and ensures the rules are followed.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-arbiter-en-noun-eJ3v540m:7d74ded5a240dbd7c29be1ffa799cbe32760bbb5874effbb28bc88f91a67c1a7",
+          "gloss": "The person who oversees a chess match and ensures the rules are followed.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-burnout-en-noun-L6DoQcJs:76745e7039f21e5b4b5645b79e1bdea8f02a8d5d5872da32201d3b8d93e3e184",
+          "gloss": "A person who has the experience of long-term exhaustion and diminished interest.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-burnout-en-noun-L6DoQcJs:76745e7039f21e5b4b5645b79e1bdea8f02a8d5d5872da32201d3b8d93e3e184",
+          "gloss": "A person who has the experience of long-term exhaustion and diminished interest.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-caller-en-noun-HK02VxwV:e26ad73ff9131e4d3e6a63fb794c2c4d78efcfde0e783479ed1230c94ba2ef71",
+          "gloss": "The person who stands at the front of the hall and announces the numbers.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-caller-en-noun-HK02VxwV:e26ad73ff9131e4d3e6a63fb794c2c4d78efcfde0e783479ed1230c94ba2ef71",
+          "gloss": "The person who stands at the front of the hall and announces the numbers.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-controller-en-noun-QDeulJDc:2fd9c4fa340ed49cb015aa0b177ffc858b59ac9eaa1c2dc915a2dce32702bcde",
+          "gloss": "The person who supervises and handles communication with an agent in the field.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-controller-en-noun-QDeulJDc:2fd9c4fa340ed49cb015aa0b177ffc858b59ac9eaa1c2dc915a2dce32702bcde",
+          "gloss": "The person who supervises and handles communication with an agent in the field.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-counterrevolutionary-en-noun-1o16TUDy:dbfef960c4107e203a260c36d5086520dd90ab469808aa0cf8938f00ad3d6a68",
+          "gloss": "A person who opposes a revolution and attempts to reverse the changes made by it.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-counterrevolutionary-en-noun-1o16TUDy:dbfef960c4107e203a260c36d5086520dd90ab469808aa0cf8938f00ad3d6a68",
+          "gloss": "A person who opposes a revolution and attempts to reverse the changes made by it.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-courier-en-noun-aJ4u846t:1780005ce984ec016ec5d4c94ada135e81ec8a902a097fc0c35eb1d612946efa",
+          "gloss": "A person who looks after and guides tourists.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-courier-en-noun-aJ4u846t:1780005ce984ec016ec5d4c94ada135e81ec8a902a097fc0c35eb1d612946efa",
+          "gloss": "A person who looks after and guides tourists.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-craftsman-en-noun-3BdgYv-Y:e7595a3e84eb8f206fa788f831ee27b2ec74f573962a88f339b6795354d9c9d9",
+          "gloss": "A person who produces arts and crafts.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-craftsman-en-noun-3BdgYv-Y:e7595a3e84eb8f206fa788f831ee27b2ec74f573962a88f339b6795354d9c9d9",
+          "gloss": "A person who produces arts and crafts.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-cropper-en-noun-TS5JJbqt:0a08042a0c0eb223af50adcceae21c20401cc09d8097eaa3dacd6429783b3026",
+          "gloss": "A person who nurtures and gathers a crop.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-cropper-en-noun-TS5JJbqt:0a08042a0c0eb223af50adcceae21c20401cc09d8097eaa3dacd6429783b3026",
+          "gloss": "A person who nurtures and gathers a crop.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-denturist-en-noun-9Mfa8jr~:da6f067302d1804c27885262be29cbc1d706ebac07cbe3c27410345d40146ea8",
+          "gloss": "A person who makes and fits dentures.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-denturist-en-noun-9Mfa8jr~:da6f067302d1804c27885262be29cbc1d706ebac07cbe3c27410345d40146ea8",
+          "gloss": "A person who makes and fits dentures.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-drafter-en-noun-iisUPfn4:a18497718ba84d1ed1e5cf3c67ed53f0f1689933da7acf1b2961a436ea35b367",
+          "gloss": "A person who prepares technical drawings and plans.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-drafter-en-noun-iisUPfn4:a18497718ba84d1ed1e5cf3c67ed53f0f1689933da7acf1b2961a436ea35b367",
+          "gloss": "A person who prepares technical drawings and plans.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-god-en-noun-XjVVibGB:cb2af954822c1b57e4edad3e91df86be881f746aa148c1dbae77473ebe917f96",
+          "gloss": "The person who owns and runs a multi-user dungeon.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-god-en-noun-XjVVibGB:cb2af954822c1b57e4edad3e91df86be881f746aa148c1dbae77473ebe917f96",
+          "gloss": "The person who owns and runs a multi-user dungeon.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-grunt-en-noun-vNhwveW8:908c1805489446d134e2ff5eeec0117f4c7c8aa1a2911db069d140da1ab55188",
+          "gloss": "A person who does ordinary and boring work.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-grunt-en-noun-vNhwveW8:908c1805489446d134e2ff5eeec0117f4c7c8aa1a2911db069d140da1ab55188",
+          "gloss": "A person who does ordinary and boring work.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-housewrecker-en-noun-8S59uZ0A:b03a532faab1e2c2162fc6b3b2da01830830096103ea8f130d42237c7866a031",
+          "gloss": "A person who demolishes old houses and salvages materials from them.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-housewrecker-en-noun-8S59uZ0A:b03a532faab1e2c2162fc6b3b2da01830830096103ea8f130d42237c7866a031",
+          "gloss": "A person who demolishes old houses and salvages materials from them.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-indie-en-noun-3Th8iFPJ:928ad858374badcf3b2574abfe55ef420496e744bebd329ca4f80ff48900cf41",
+          "gloss": "A person who listens to indie music and follows indie fashion.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-indie-en-noun-3Th8iFPJ:928ad858374badcf3b2574abfe55ef420496e744bebd329ca4f80ff48900cf41",
+          "gloss": "A person who listens to indie music and follows indie fashion.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-it-en-noun-en:tag:940261067ea2654c843c34aa76029546ce3f2bf7f952829a9ecc26fadc47dda9",
+          "gloss": "The person who chases and tries to catch the other players in the playground game of tag.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-it-en-noun-en:tag:940261067ea2654c843c34aa76029546ce3f2bf7f952829a9ecc26fadc47dda9",
+          "gloss": "The person who chases and tries to catch the other players in the playground game of tag.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-librarian-en-noun-BPpx~Y0E:7801b98b27311c8bc33530853b84582b21441a55740de71be0c0a8212e51b161",
+          "gloss": "A person who processes and organizes information.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-librarian-en-noun-BPpx~Y0E:7801b98b27311c8bc33530853b84582b21441a55740de71be0c0a8212e51b161",
+          "gloss": "A person who processes and organizes information.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-literate-en-noun-e-Kh8qRa:f0c1cd062f5e12cb79cdd9409291b3583e7e371cf278332c3c3be89d6ae3afec",
+          "gloss": "A person who is able to read and write.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-literate-en-noun-e-Kh8qRa:f0c1cd062f5e12cb79cdd9409291b3583e7e371cf278332c3c3be89d6ae3afec",
+          "gloss": "A person who is able to read and write.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-mitra-en-noun-YNXrDtVu:ffc568d553b656f880587dcd4ba15cd43b95b282e7ba9b1ec6e60421515a2be1",
+          "gloss": "A person who is interested in becoming a Buddhist and elects to join a Buddhist community to learn more.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-mitra-en-noun-YNXrDtVu:ffc568d553b656f880587dcd4ba15cd43b95b282e7ba9b1ec6e60421515a2be1",
+          "gloss": "A person who is interested in becoming a Buddhist and elects to join a Buddhist community to learn more.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-nurseryman-en-noun-MQDhYDwX:b17e113f89c4364c63c01656258894cf4f6cfb49199b88d56ea027bae763e04d",
+          "gloss": "A person who rears and sells plants in a nursery.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-nurseryman-en-noun-MQDhYDwX:b17e113f89c4364c63c01656258894cf4f6cfb49199b88d56ea027bae763e04d",
+          "gloss": "A person who rears and sells plants in a nursery.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-philatelist-en-noun-2pKmJ1zd:f84c386c1a5dd3882bd41d9d54cb7e4b7083dfff7e89c10e1a2adba49bfbb193",
+          "gloss": "A person who collects and studies postage stamps.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-philatelist-en-noun-2pKmJ1zd:f84c386c1a5dd3882bd41d9d54cb7e4b7083dfff7e89c10e1a2adba49bfbb193",
+          "gloss": "A person who collects and studies postage stamps.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-plowwright-en-noun-3tE1bqIq:4bd4d319e673810c023967e8b717a019d3c62f6b113b52dd69ed15887bbf6c34",
+          "gloss": "A person who builds and repairs plows.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-plowwright-en-noun-3tE1bqIq:4bd4d319e673810c023967e8b717a019d3c62f6b113b52dd69ed15887bbf6c34",
+          "gloss": "A person who builds and repairs plows.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-porter-en-noun-en:luggage:684ef08fcdb9b1e7e51bb731b68b716c03fe6b3f0f774e91f1f628991989f8dd",
+          "gloss": "A person who carries luggage and related objects.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-porter-en-noun-en:luggage:684ef08fcdb9b1e7e51bb731b68b716c03fe6b3f0f774e91f1f628991989f8dd",
+          "gloss": "A person who carries luggage and related objects.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-sadomasochist-en-noun-zANKs8VA:aea78ae6e9478aaa27c5eeb4dbdd5288dc2e665d7fcf05702432f13bbcac2ec9",
+          "gloss": "A person who enjoys both inflicting and receiving pain for sexual gratification.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-sadomasochist-en-noun-zANKs8VA:aea78ae6e9478aaa27c5eeb4dbdd5288dc2e665d7fcf05702432f13bbcac2ec9",
+          "gloss": "A person who enjoys both inflicting and receiving pain for sexual gratification.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-shipbuilder-en-noun-9BurOrXZ:f33c7e2feeb8340abdd146f1d9cc50c86e1a5b04f3ad3e332365e9f098e029c8",
+          "gloss": "A person who builds vessels such as ships and boats.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-shipbuilder-en-noun-9BurOrXZ:f33c7e2feeb8340abdd146f1d9cc50c86e1a5b04f3ad3e332365e9f098e029c8",
+          "gloss": "A person who builds vessels such as ships and boats.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-sniveler-en-noun-Nk6x9~Kh:781f57d30d5bca40d6183a0ae39a02cd7c1a8bcd4b5d73e2e653e75915db1f34",
+          "gloss": "A person who whines and complains about small matters.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-sniveler-en-noun-Nk6x9~Kh:781f57d30d5bca40d6183a0ae39a02cd7c1a8bcd4b5d73e2e653e75915db1f34",
+          "gloss": "A person who whines and complains about small matters.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-stacker-en-noun-42XxJPsf:d6065274d3f91bf7d06347b9e386c19cba266615a7222dd7690748c220076a13",
+          "gloss": "A person who collects precious metal in the form of various small objects such as coins and bars.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-stacker-en-noun-42XxJPsf:d6065274d3f91bf7d06347b9e386c19cba266615a7222dd7690748c220076a13",
+          "gloss": "A person who collects precious metal in the form of various small objects such as coins and bars.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-valuer-en-noun-Rhx8syrB:cfc0991318a99f913656385fb95183a8d80ea7fe9d982366e3e6eef889f3c372",
+          "gloss": "A person who appreciates something and sets a value on it.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-valuer-en-noun-Rhx8syrB:cfc0991318a99f913656385fb95183a8d80ea7fe9d982366e3e6eef889f3c372",
+          "gloss": "A person who appreciates something and sets a value on it.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-wainwright-en-noun-jnd2Tc2A:7925dfb8e37e021705e7a0f3623c83dfeb4ea9c24780ecdb458f4dca1fbcea80",
+          "gloss": "A person who builds and repairs wagons.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-wainwright-en-noun-jnd2Tc2A:7925dfb8e37e021705e7a0f3623c83dfeb4ea9c24780ecdb458f4dca1fbcea80",
+          "gloss": "A person who builds and repairs wagons.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wordnet:saint:saint.n.01",
+          "gloss": "a person who has died and has been declared a saint by canonization",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wordnet:saint:saint.n.01",
+          "gloss": "a person who has died and has been declared a saint by canonization",
+          "value": 1
+        }
+      ],
+      "joint_only_count": 58,
+      "parent_alone": {
+        "bits_removed": 45.963912520913524,
+        "by_bank": {
+          "SOMEONE": 29
+        },
+        "narrowed_cells": 29,
+        "new_singletons": 29
+      },
+      "premise": [
+        "SOMEONE",
+        1
+      ],
+      "scope_entry_ids": [
+        "wiktionary:en-arbiter-en-noun-eJ3v540m:7d74ded5a240dbd7c29be1ffa799cbe32760bbb5874effbb28bc88f91a67c1a7",
+        "wiktionary:en-burnout-en-noun-L6DoQcJs:76745e7039f21e5b4b5645b79e1bdea8f02a8d5d5872da32201d3b8d93e3e184",
+        "wiktionary:en-caller-en-noun-HK02VxwV:e26ad73ff9131e4d3e6a63fb794c2c4d78efcfde0e783479ed1230c94ba2ef71",
+        "wiktionary:en-controller-en-noun-QDeulJDc:2fd9c4fa340ed49cb015aa0b177ffc858b59ac9eaa1c2dc915a2dce32702bcde",
+        "wiktionary:en-counterrevolutionary-en-noun-1o16TUDy:dbfef960c4107e203a260c36d5086520dd90ab469808aa0cf8938f00ad3d6a68",
+        "wiktionary:en-courier-en-noun-aJ4u846t:1780005ce984ec016ec5d4c94ada135e81ec8a902a097fc0c35eb1d612946efa",
+        "wiktionary:en-craftsman-en-noun-3BdgYv-Y:e7595a3e84eb8f206fa788f831ee27b2ec74f573962a88f339b6795354d9c9d9",
+        "wiktionary:en-cropper-en-noun-TS5JJbqt:0a08042a0c0eb223af50adcceae21c20401cc09d8097eaa3dacd6429783b3026",
+        "wiktionary:en-denturist-en-noun-9Mfa8jr~:da6f067302d1804c27885262be29cbc1d706ebac07cbe3c27410345d40146ea8",
+        "wiktionary:en-drafter-en-noun-iisUPfn4:a18497718ba84d1ed1e5cf3c67ed53f0f1689933da7acf1b2961a436ea35b367",
+        "wiktionary:en-god-en-noun-XjVVibGB:cb2af954822c1b57e4edad3e91df86be881f746aa148c1dbae77473ebe917f96",
+        "wiktionary:en-grunt-en-noun-vNhwveW8:908c1805489446d134e2ff5eeec0117f4c7c8aa1a2911db069d140da1ab55188",
+        "wiktionary:en-housewrecker-en-noun-8S59uZ0A:b03a532faab1e2c2162fc6b3b2da01830830096103ea8f130d42237c7866a031",
+        "wiktionary:en-indie-en-noun-3Th8iFPJ:928ad858374badcf3b2574abfe55ef420496e744bebd329ca4f80ff48900cf41",
+        "wiktionary:en-it-en-noun-en:tag:940261067ea2654c843c34aa76029546ce3f2bf7f952829a9ecc26fadc47dda9",
+        "wiktionary:en-librarian-en-noun-BPpx~Y0E:7801b98b27311c8bc33530853b84582b21441a55740de71be0c0a8212e51b161",
+        "wiktionary:en-literate-en-noun-e-Kh8qRa:f0c1cd062f5e12cb79cdd9409291b3583e7e371cf278332c3c3be89d6ae3afec",
+        "wiktionary:en-mitra-en-noun-YNXrDtVu:ffc568d553b656f880587dcd4ba15cd43b95b282e7ba9b1ec6e60421515a2be1",
+        "wiktionary:en-nurseryman-en-noun-MQDhYDwX:b17e113f89c4364c63c01656258894cf4f6cfb49199b88d56ea027bae763e04d",
+        "wiktionary:en-philatelist-en-noun-2pKmJ1zd:f84c386c1a5dd3882bd41d9d54cb7e4b7083dfff7e89c10e1a2adba49bfbb193",
+        "wiktionary:en-plowwright-en-noun-3tE1bqIq:4bd4d319e673810c023967e8b717a019d3c62f6b113b52dd69ed15887bbf6c34",
+        "wiktionary:en-porter-en-noun-en:luggage:684ef08fcdb9b1e7e51bb731b68b716c03fe6b3f0f774e91f1f628991989f8dd",
+        "wiktionary:en-sadomasochist-en-noun-zANKs8VA:aea78ae6e9478aaa27c5eeb4dbdd5288dc2e665d7fcf05702432f13bbcac2ec9",
+        "wiktionary:en-shipbuilder-en-noun-9BurOrXZ:f33c7e2feeb8340abdd146f1d9cc50c86e1a5b04f3ad3e332365e9f098e029c8",
+        "wiktionary:en-sniveler-en-noun-Nk6x9~Kh:781f57d30d5bca40d6183a0ae39a02cd7c1a8bcd4b5d73e2e653e75915db1f34",
+        "wiktionary:en-stacker-en-noun-42XxJPsf:d6065274d3f91bf7d06347b9e386c19cba266615a7222dd7690748c220076a13",
+        "wiktionary:en-valuer-en-noun-Rhx8syrB:cfc0991318a99f913656385fb95183a8d80ea7fe9d982366e3e6eef889f3c372",
+        "wiktionary:en-wainwright-en-noun-jnd2Tc2A:7925dfb8e37e021705e7a0f3623c83dfeb4ea9c24780ecdb458f4dca1fbcea80",
+        "wordnet:abseiler:abseiler.n.01",
+        "wordnet:actor:actor.n.02",
+        "wordnet:appreciator:appreciator.n.01",
+        "wordnet:attendant:attendant.n.02",
+        "wordnet:attendee:attendant.n.02",
+        "wordnet:attender:attendant.n.02",
+        "wordnet:betrayer:double-crosser.n.01",
+        "wordnet:birder:bird_watcher.n.02",
+        "wordnet:blogger:blogger.n.01",
+        "wordnet:bootblack:bootblack.n.01",
+        "wordnet:boss:boss.n.03",
+        "wordnet:controller:restrainer.n.02",
+        "wordnet:doer:actor.n.02",
+        "wordnet:glutton:glutton.n.01",
+        "wordnet:gourmand:glutton.n.01",
+        "wordnet:gourmandizer:glutton.n.01",
+        "wordnet:hoarder:hoarder.n.01",
+        "wordnet:horseman:horseman.n.02",
+        "wordnet:landlubber:landlubber.n.01",
+        "wordnet:landman:landlubber.n.01",
+        "wordnet:landsman:landlubber.n.01",
+        "wordnet:literate:literate.n.01",
+        "wordnet:meeter:attendant.n.02",
+        "wordnet:overseer:overseer.n.01",
+        "wordnet:rappeller:abseiler.n.01",
+        "wordnet:realist:realist.n.02",
+        "wordnet:restrainer:restrainer.n.02",
+        "wordnet:saint:saint.n.01",
+        "wordnet:scaremonger:scaremonger.n.01",
+        "wordnet:shoeblack:bootblack.n.01",
+        "wordnet:skydiver:skydiver.n.01",
+        "wordnet:stirrer:scaremonger.n.01",
+        "wordnet:superintendent:overseer.n.01",
+        "wordnet:symposiarch:toastmaster.n.01",
+        "wordnet:toastmaster:toastmaster.n.01",
+        "wordnet:traitor:double-crosser.n.01",
+        "wordnet:trencherman:glutton.n.01",
+        "wordnet:warder:warder.n.01",
+        "wordnet:worker:actor.n.02",
+        "wordnet:writer:writer.n.02"
+      ],
+      "scope_records": 68,
+      "solver_contradictions": {
+        "child_alone": [],
+        "joint": [],
+        "parent_alone": []
+      },
+      "status": "BROAD_HYPOTHESIS_ONLY"
+    },
+    "generic-person-as-alive": {
+      "child_alone": {
+        "bits_removed": 0,
+        "by_bank": {},
+        "narrowed_cells": 0,
+        "new_singletons": 0
+      },
+      "consequent": [
+        "ALIVE",
+        1
+      ],
+      "joint": {
+        "bits_removed": 91.92782504182705,
+        "by_bank": {
+          "ALIVE": 29,
+          "SOMEONE": 29
+        },
+        "narrowed_cells": 58,
+        "new_singletons": 58
+      },
+      "joint_only": [
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-arbiter-en-noun-eJ3v540m:7d74ded5a240dbd7c29be1ffa799cbe32760bbb5874effbb28bc88f91a67c1a7",
+          "gloss": "The person who oversees a chess match and ensures the rules are followed.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-burnout-en-noun-L6DoQcJs:76745e7039f21e5b4b5645b79e1bdea8f02a8d5d5872da32201d3b8d93e3e184",
+          "gloss": "A person who has the experience of long-term exhaustion and diminished interest.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-caller-en-noun-HK02VxwV:e26ad73ff9131e4d3e6a63fb794c2c4d78efcfde0e783479ed1230c94ba2ef71",
+          "gloss": "The person who stands at the front of the hall and announces the numbers.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-controller-en-noun-QDeulJDc:2fd9c4fa340ed49cb015aa0b177ffc858b59ac9eaa1c2dc915a2dce32702bcde",
+          "gloss": "The person who supervises and handles communication with an agent in the field.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-counterrevolutionary-en-noun-1o16TUDy:dbfef960c4107e203a260c36d5086520dd90ab469808aa0cf8938f00ad3d6a68",
+          "gloss": "A person who opposes a revolution and attempts to reverse the changes made by it.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-courier-en-noun-aJ4u846t:1780005ce984ec016ec5d4c94ada135e81ec8a902a097fc0c35eb1d612946efa",
+          "gloss": "A person who looks after and guides tourists.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-craftsman-en-noun-3BdgYv-Y:e7595a3e84eb8f206fa788f831ee27b2ec74f573962a88f339b6795354d9c9d9",
+          "gloss": "A person who produces arts and crafts.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-cropper-en-noun-TS5JJbqt:0a08042a0c0eb223af50adcceae21c20401cc09d8097eaa3dacd6429783b3026",
+          "gloss": "A person who nurtures and gathers a crop.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-denturist-en-noun-9Mfa8jr~:da6f067302d1804c27885262be29cbc1d706ebac07cbe3c27410345d40146ea8",
+          "gloss": "A person who makes and fits dentures.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-drafter-en-noun-iisUPfn4:a18497718ba84d1ed1e5cf3c67ed53f0f1689933da7acf1b2961a436ea35b367",
+          "gloss": "A person who prepares technical drawings and plans.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-god-en-noun-XjVVibGB:cb2af954822c1b57e4edad3e91df86be881f746aa148c1dbae77473ebe917f96",
+          "gloss": "The person who owns and runs a multi-user dungeon.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-grunt-en-noun-vNhwveW8:908c1805489446d134e2ff5eeec0117f4c7c8aa1a2911db069d140da1ab55188",
+          "gloss": "A person who does ordinary and boring work.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-housewrecker-en-noun-8S59uZ0A:b03a532faab1e2c2162fc6b3b2da01830830096103ea8f130d42237c7866a031",
+          "gloss": "A person who demolishes old houses and salvages materials from them.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-indie-en-noun-3Th8iFPJ:928ad858374badcf3b2574abfe55ef420496e744bebd329ca4f80ff48900cf41",
+          "gloss": "A person who listens to indie music and follows indie fashion.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-it-en-noun-en:tag:940261067ea2654c843c34aa76029546ce3f2bf7f952829a9ecc26fadc47dda9",
+          "gloss": "The person who chases and tries to catch the other players in the playground game of tag.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-librarian-en-noun-BPpx~Y0E:7801b98b27311c8bc33530853b84582b21441a55740de71be0c0a8212e51b161",
+          "gloss": "A person who processes and organizes information.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-literate-en-noun-e-Kh8qRa:f0c1cd062f5e12cb79cdd9409291b3583e7e371cf278332c3c3be89d6ae3afec",
+          "gloss": "A person who is able to read and write.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-mitra-en-noun-YNXrDtVu:ffc568d553b656f880587dcd4ba15cd43b95b282e7ba9b1ec6e60421515a2be1",
+          "gloss": "A person who is interested in becoming a Buddhist and elects to join a Buddhist community to learn more.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-nurseryman-en-noun-MQDhYDwX:b17e113f89c4364c63c01656258894cf4f6cfb49199b88d56ea027bae763e04d",
+          "gloss": "A person who rears and sells plants in a nursery.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-philatelist-en-noun-2pKmJ1zd:f84c386c1a5dd3882bd41d9d54cb7e4b7083dfff7e89c10e1a2adba49bfbb193",
+          "gloss": "A person who collects and studies postage stamps.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-plowwright-en-noun-3tE1bqIq:4bd4d319e673810c023967e8b717a019d3c62f6b113b52dd69ed15887bbf6c34",
+          "gloss": "A person who builds and repairs plows.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-porter-en-noun-en:luggage:684ef08fcdb9b1e7e51bb731b68b716c03fe6b3f0f774e91f1f628991989f8dd",
+          "gloss": "A person who carries luggage and related objects.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-sadomasochist-en-noun-zANKs8VA:aea78ae6e9478aaa27c5eeb4dbdd5288dc2e665d7fcf05702432f13bbcac2ec9",
+          "gloss": "A person who enjoys both inflicting and receiving pain for sexual gratification.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-shipbuilder-en-noun-9BurOrXZ:f33c7e2feeb8340abdd146f1d9cc50c86e1a5b04f3ad3e332365e9f098e029c8",
+          "gloss": "A person who builds vessels such as ships and boats.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-sniveler-en-noun-Nk6x9~Kh:781f57d30d5bca40d6183a0ae39a02cd7c1a8bcd4b5d73e2e653e75915db1f34",
+          "gloss": "A person who whines and complains about small matters.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-stacker-en-noun-42XxJPsf:d6065274d3f91bf7d06347b9e386c19cba266615a7222dd7690748c220076a13",
+          "gloss": "A person who collects precious metal in the form of various small objects such as coins and bars.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-valuer-en-noun-Rhx8syrB:cfc0991318a99f913656385fb95183a8d80ea7fe9d982366e3e6eef889f3c372",
+          "gloss": "A person who appreciates something and sets a value on it.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wiktionary:en-wainwright-en-noun-jnd2Tc2A:7925dfb8e37e021705e7a0f3623c83dfeb4ea9c24780ecdb458f4dca1fbcea80",
+          "gloss": "A person who builds and repairs wagons.",
+          "value": 1
+        },
+        {
+          "bank": "ALIVE",
+          "entry_id": "wordnet:saint:saint.n.01",
+          "gloss": "a person who has died and has been declared a saint by canonization",
+          "value": 1
+        }
+      ],
+      "joint_only_count": 29,
+      "parent_alone": {
+        "bits_removed": 45.963912520913524,
+        "by_bank": {
+          "SOMEONE": 29
+        },
+        "narrowed_cells": 29,
+        "new_singletons": 29
+      },
+      "premise": [
+        "SOMEONE",
+        1
+      ],
+      "scope_entry_ids": [
+        "wiktionary:en-arbiter-en-noun-eJ3v540m:7d74ded5a240dbd7c29be1ffa799cbe32760bbb5874effbb28bc88f91a67c1a7",
+        "wiktionary:en-burnout-en-noun-L6DoQcJs:76745e7039f21e5b4b5645b79e1bdea8f02a8d5d5872da32201d3b8d93e3e184",
+        "wiktionary:en-caller-en-noun-HK02VxwV:e26ad73ff9131e4d3e6a63fb794c2c4d78efcfde0e783479ed1230c94ba2ef71",
+        "wiktionary:en-controller-en-noun-QDeulJDc:2fd9c4fa340ed49cb015aa0b177ffc858b59ac9eaa1c2dc915a2dce32702bcde",
+        "wiktionary:en-counterrevolutionary-en-noun-1o16TUDy:dbfef960c4107e203a260c36d5086520dd90ab469808aa0cf8938f00ad3d6a68",
+        "wiktionary:en-courier-en-noun-aJ4u846t:1780005ce984ec016ec5d4c94ada135e81ec8a902a097fc0c35eb1d612946efa",
+        "wiktionary:en-craftsman-en-noun-3BdgYv-Y:e7595a3e84eb8f206fa788f831ee27b2ec74f573962a88f339b6795354d9c9d9",
+        "wiktionary:en-cropper-en-noun-TS5JJbqt:0a08042a0c0eb223af50adcceae21c20401cc09d8097eaa3dacd6429783b3026",
+        "wiktionary:en-denturist-en-noun-9Mfa8jr~:da6f067302d1804c27885262be29cbc1d706ebac07cbe3c27410345d40146ea8",
+        "wiktionary:en-drafter-en-noun-iisUPfn4:a18497718ba84d1ed1e5cf3c67ed53f0f1689933da7acf1b2961a436ea35b367",
+        "wiktionary:en-god-en-noun-XjVVibGB:cb2af954822c1b57e4edad3e91df86be881f746aa148c1dbae77473ebe917f96",
+        "wiktionary:en-grunt-en-noun-vNhwveW8:908c1805489446d134e2ff5eeec0117f4c7c8aa1a2911db069d140da1ab55188",
+        "wiktionary:en-housewrecker-en-noun-8S59uZ0A:b03a532faab1e2c2162fc6b3b2da01830830096103ea8f130d42237c7866a031",
+        "wiktionary:en-indie-en-noun-3Th8iFPJ:928ad858374badcf3b2574abfe55ef420496e744bebd329ca4f80ff48900cf41",
+        "wiktionary:en-it-en-noun-en:tag:940261067ea2654c843c34aa76029546ce3f2bf7f952829a9ecc26fadc47dda9",
+        "wiktionary:en-librarian-en-noun-BPpx~Y0E:7801b98b27311c8bc33530853b84582b21441a55740de71be0c0a8212e51b161",
+        "wiktionary:en-literate-en-noun-e-Kh8qRa:f0c1cd062f5e12cb79cdd9409291b3583e7e371cf278332c3c3be89d6ae3afec",
+        "wiktionary:en-mitra-en-noun-YNXrDtVu:ffc568d553b656f880587dcd4ba15cd43b95b282e7ba9b1ec6e60421515a2be1",
+        "wiktionary:en-nurseryman-en-noun-MQDhYDwX:b17e113f89c4364c63c01656258894cf4f6cfb49199b88d56ea027bae763e04d",
+        "wiktionary:en-philatelist-en-noun-2pKmJ1zd:f84c386c1a5dd3882bd41d9d54cb7e4b7083dfff7e89c10e1a2adba49bfbb193",
+        "wiktionary:en-plowwright-en-noun-3tE1bqIq:4bd4d319e673810c023967e8b717a019d3c62f6b113b52dd69ed15887bbf6c34",
+        "wiktionary:en-porter-en-noun-en:luggage:684ef08fcdb9b1e7e51bb731b68b716c03fe6b3f0f774e91f1f628991989f8dd",
+        "wiktionary:en-sadomasochist-en-noun-zANKs8VA:aea78ae6e9478aaa27c5eeb4dbdd5288dc2e665d7fcf05702432f13bbcac2ec9",
+        "wiktionary:en-shipbuilder-en-noun-9BurOrXZ:f33c7e2feeb8340abdd146f1d9cc50c86e1a5b04f3ad3e332365e9f098e029c8",
+        "wiktionary:en-sniveler-en-noun-Nk6x9~Kh:781f57d30d5bca40d6183a0ae39a02cd7c1a8bcd4b5d73e2e653e75915db1f34",
+        "wiktionary:en-stacker-en-noun-42XxJPsf:d6065274d3f91bf7d06347b9e386c19cba266615a7222dd7690748c220076a13",
+        "wiktionary:en-valuer-en-noun-Rhx8syrB:cfc0991318a99f913656385fb95183a8d80ea7fe9d982366e3e6eef889f3c372",
+        "wiktionary:en-wainwright-en-noun-jnd2Tc2A:7925dfb8e37e021705e7a0f3623c83dfeb4ea9c24780ecdb458f4dca1fbcea80",
+        "wordnet:abseiler:abseiler.n.01",
+        "wordnet:actor:actor.n.02",
+        "wordnet:appreciator:appreciator.n.01",
+        "wordnet:attendant:attendant.n.02",
+        "wordnet:attendee:attendant.n.02",
+        "wordnet:attender:attendant.n.02",
+        "wordnet:betrayer:double-crosser.n.01",
+        "wordnet:birder:bird_watcher.n.02",
+        "wordnet:blogger:blogger.n.01",
+        "wordnet:bootblack:bootblack.n.01",
+        "wordnet:boss:boss.n.03",
+        "wordnet:controller:restrainer.n.02",
+        "wordnet:doer:actor.n.02",
+        "wordnet:glutton:glutton.n.01",
+        "wordnet:gourmand:glutton.n.01",
+        "wordnet:gourmandizer:glutton.n.01",
+        "wordnet:hoarder:hoarder.n.01",
+        "wordnet:horseman:horseman.n.02",
+        "wordnet:landlubber:landlubber.n.01",
+        "wordnet:landman:landlubber.n.01",
+        "wordnet:landsman:landlubber.n.01",
+        "wordnet:literate:literate.n.01",
+        "wordnet:meeter:attendant.n.02",
+        "wordnet:overseer:overseer.n.01",
+        "wordnet:rappeller:abseiler.n.01",
+        "wordnet:realist:realist.n.02",
+        "wordnet:restrainer:restrainer.n.02",
+        "wordnet:saint:saint.n.01",
+        "wordnet:scaremonger:scaremonger.n.01",
+        "wordnet:shoeblack:bootblack.n.01",
+        "wordnet:skydiver:skydiver.n.01",
+        "wordnet:stirrer:scaremonger.n.01",
+        "wordnet:superintendent:overseer.n.01",
+        "wordnet:symposiarch:toastmaster.n.01",
+        "wordnet:toastmaster:toastmaster.n.01",
+        "wordnet:traitor:double-crosser.n.01",
+        "wordnet:trencherman:glutton.n.01",
+        "wordnet:warder:warder.n.01",
+        "wordnet:worker:actor.n.02",
+        "wordnet:writer:writer.n.02"
+      ],
+      "scope_records": 68,
+      "solver_contradictions": {
+        "child_alone": [],
+        "joint": [],
+        "parent_alone": []
+      },
+      "status": "BROAD_HYPOTHESIS_ONLY"
+    },
+    "generic-person-as-body": {
+      "child_alone": {
+        "bits_removed": 61.81353752812509,
+        "by_bank": {
+          "BODY": 39
+        },
+        "narrowed_cells": 39,
+        "new_singletons": 39
+      },
+      "consequent": [
+        "BODY",
+        1
+      ],
+      "joint": {
+        "bits_removed": 198.12031259014452,
+        "by_bank": {
+          "BODY": 68,
+          "SOMEONE": 29,
+          "SOMETHING": 28
+        },
+        "narrowed_cells": 125,
+        "new_singletons": 125
+      },
+      "joint_only": [
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-arbiter-en-noun-eJ3v540m:7d74ded5a240dbd7c29be1ffa799cbe32760bbb5874effbb28bc88f91a67c1a7",
+          "gloss": "The person who oversees a chess match and ensures the rules are followed.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-arbiter-en-noun-eJ3v540m:7d74ded5a240dbd7c29be1ffa799cbe32760bbb5874effbb28bc88f91a67c1a7",
+          "gloss": "The person who oversees a chess match and ensures the rules are followed.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-burnout-en-noun-L6DoQcJs:76745e7039f21e5b4b5645b79e1bdea8f02a8d5d5872da32201d3b8d93e3e184",
+          "gloss": "A person who has the experience of long-term exhaustion and diminished interest.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-burnout-en-noun-L6DoQcJs:76745e7039f21e5b4b5645b79e1bdea8f02a8d5d5872da32201d3b8d93e3e184",
+          "gloss": "A person who has the experience of long-term exhaustion and diminished interest.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-caller-en-noun-HK02VxwV:e26ad73ff9131e4d3e6a63fb794c2c4d78efcfde0e783479ed1230c94ba2ef71",
+          "gloss": "The person who stands at the front of the hall and announces the numbers.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-caller-en-noun-HK02VxwV:e26ad73ff9131e4d3e6a63fb794c2c4d78efcfde0e783479ed1230c94ba2ef71",
+          "gloss": "The person who stands at the front of the hall and announces the numbers.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-controller-en-noun-QDeulJDc:2fd9c4fa340ed49cb015aa0b177ffc858b59ac9eaa1c2dc915a2dce32702bcde",
+          "gloss": "The person who supervises and handles communication with an agent in the field.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-controller-en-noun-QDeulJDc:2fd9c4fa340ed49cb015aa0b177ffc858b59ac9eaa1c2dc915a2dce32702bcde",
+          "gloss": "The person who supervises and handles communication with an agent in the field.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-counterrevolutionary-en-noun-1o16TUDy:dbfef960c4107e203a260c36d5086520dd90ab469808aa0cf8938f00ad3d6a68",
+          "gloss": "A person who opposes a revolution and attempts to reverse the changes made by it.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-counterrevolutionary-en-noun-1o16TUDy:dbfef960c4107e203a260c36d5086520dd90ab469808aa0cf8938f00ad3d6a68",
+          "gloss": "A person who opposes a revolution and attempts to reverse the changes made by it.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-courier-en-noun-aJ4u846t:1780005ce984ec016ec5d4c94ada135e81ec8a902a097fc0c35eb1d612946efa",
+          "gloss": "A person who looks after and guides tourists.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-courier-en-noun-aJ4u846t:1780005ce984ec016ec5d4c94ada135e81ec8a902a097fc0c35eb1d612946efa",
+          "gloss": "A person who looks after and guides tourists.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-craftsman-en-noun-3BdgYv-Y:e7595a3e84eb8f206fa788f831ee27b2ec74f573962a88f339b6795354d9c9d9",
+          "gloss": "A person who produces arts and crafts.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-craftsman-en-noun-3BdgYv-Y:e7595a3e84eb8f206fa788f831ee27b2ec74f573962a88f339b6795354d9c9d9",
+          "gloss": "A person who produces arts and crafts.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-cropper-en-noun-TS5JJbqt:0a08042a0c0eb223af50adcceae21c20401cc09d8097eaa3dacd6429783b3026",
+          "gloss": "A person who nurtures and gathers a crop.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-cropper-en-noun-TS5JJbqt:0a08042a0c0eb223af50adcceae21c20401cc09d8097eaa3dacd6429783b3026",
+          "gloss": "A person who nurtures and gathers a crop.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-denturist-en-noun-9Mfa8jr~:da6f067302d1804c27885262be29cbc1d706ebac07cbe3c27410345d40146ea8",
+          "gloss": "A person who makes and fits dentures.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-denturist-en-noun-9Mfa8jr~:da6f067302d1804c27885262be29cbc1d706ebac07cbe3c27410345d40146ea8",
+          "gloss": "A person who makes and fits dentures.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-drafter-en-noun-iisUPfn4:a18497718ba84d1ed1e5cf3c67ed53f0f1689933da7acf1b2961a436ea35b367",
+          "gloss": "A person who prepares technical drawings and plans.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-drafter-en-noun-iisUPfn4:a18497718ba84d1ed1e5cf3c67ed53f0f1689933da7acf1b2961a436ea35b367",
+          "gloss": "A person who prepares technical drawings and plans.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-god-en-noun-XjVVibGB:cb2af954822c1b57e4edad3e91df86be881f746aa148c1dbae77473ebe917f96",
+          "gloss": "The person who owns and runs a multi-user dungeon.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-god-en-noun-XjVVibGB:cb2af954822c1b57e4edad3e91df86be881f746aa148c1dbae77473ebe917f96",
+          "gloss": "The person who owns and runs a multi-user dungeon.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-grunt-en-noun-vNhwveW8:908c1805489446d134e2ff5eeec0117f4c7c8aa1a2911db069d140da1ab55188",
+          "gloss": "A person who does ordinary and boring work.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-grunt-en-noun-vNhwveW8:908c1805489446d134e2ff5eeec0117f4c7c8aa1a2911db069d140da1ab55188",
+          "gloss": "A person who does ordinary and boring work.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-housewrecker-en-noun-8S59uZ0A:b03a532faab1e2c2162fc6b3b2da01830830096103ea8f130d42237c7866a031",
+          "gloss": "A person who demolishes old houses and salvages materials from them.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-housewrecker-en-noun-8S59uZ0A:b03a532faab1e2c2162fc6b3b2da01830830096103ea8f130d42237c7866a031",
+          "gloss": "A person who demolishes old houses and salvages materials from them.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-indie-en-noun-3Th8iFPJ:928ad858374badcf3b2574abfe55ef420496e744bebd329ca4f80ff48900cf41",
+          "gloss": "A person who listens to indie music and follows indie fashion.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-indie-en-noun-3Th8iFPJ:928ad858374badcf3b2574abfe55ef420496e744bebd329ca4f80ff48900cf41",
+          "gloss": "A person who listens to indie music and follows indie fashion.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-it-en-noun-en:tag:940261067ea2654c843c34aa76029546ce3f2bf7f952829a9ecc26fadc47dda9",
+          "gloss": "The person who chases and tries to catch the other players in the playground game of tag.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-it-en-noun-en:tag:940261067ea2654c843c34aa76029546ce3f2bf7f952829a9ecc26fadc47dda9",
+          "gloss": "The person who chases and tries to catch the other players in the playground game of tag.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-librarian-en-noun-BPpx~Y0E:7801b98b27311c8bc33530853b84582b21441a55740de71be0c0a8212e51b161",
+          "gloss": "A person who processes and organizes information.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-librarian-en-noun-BPpx~Y0E:7801b98b27311c8bc33530853b84582b21441a55740de71be0c0a8212e51b161",
+          "gloss": "A person who processes and organizes information.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-literate-en-noun-e-Kh8qRa:f0c1cd062f5e12cb79cdd9409291b3583e7e371cf278332c3c3be89d6ae3afec",
+          "gloss": "A person who is able to read and write.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-literate-en-noun-e-Kh8qRa:f0c1cd062f5e12cb79cdd9409291b3583e7e371cf278332c3c3be89d6ae3afec",
+          "gloss": "A person who is able to read and write.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-mitra-en-noun-YNXrDtVu:ffc568d553b656f880587dcd4ba15cd43b95b282e7ba9b1ec6e60421515a2be1",
+          "gloss": "A person who is interested in becoming a Buddhist and elects to join a Buddhist community to learn more.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-mitra-en-noun-YNXrDtVu:ffc568d553b656f880587dcd4ba15cd43b95b282e7ba9b1ec6e60421515a2be1",
+          "gloss": "A person who is interested in becoming a Buddhist and elects to join a Buddhist community to learn more.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-nurseryman-en-noun-MQDhYDwX:b17e113f89c4364c63c01656258894cf4f6cfb49199b88d56ea027bae763e04d",
+          "gloss": "A person who rears and sells plants in a nursery.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-nurseryman-en-noun-MQDhYDwX:b17e113f89c4364c63c01656258894cf4f6cfb49199b88d56ea027bae763e04d",
+          "gloss": "A person who rears and sells plants in a nursery.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-philatelist-en-noun-2pKmJ1zd:f84c386c1a5dd3882bd41d9d54cb7e4b7083dfff7e89c10e1a2adba49bfbb193",
+          "gloss": "A person who collects and studies postage stamps.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-philatelist-en-noun-2pKmJ1zd:f84c386c1a5dd3882bd41d9d54cb7e4b7083dfff7e89c10e1a2adba49bfbb193",
+          "gloss": "A person who collects and studies postage stamps.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-plowwright-en-noun-3tE1bqIq:4bd4d319e673810c023967e8b717a019d3c62f6b113b52dd69ed15887bbf6c34",
+          "gloss": "A person who builds and repairs plows.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-plowwright-en-noun-3tE1bqIq:4bd4d319e673810c023967e8b717a019d3c62f6b113b52dd69ed15887bbf6c34",
+          "gloss": "A person who builds and repairs plows.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-porter-en-noun-en:luggage:684ef08fcdb9b1e7e51bb731b68b716c03fe6b3f0f774e91f1f628991989f8dd",
+          "gloss": "A person who carries luggage and related objects.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-porter-en-noun-en:luggage:684ef08fcdb9b1e7e51bb731b68b716c03fe6b3f0f774e91f1f628991989f8dd",
+          "gloss": "A person who carries luggage and related objects.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-sadomasochist-en-noun-zANKs8VA:aea78ae6e9478aaa27c5eeb4dbdd5288dc2e665d7fcf05702432f13bbcac2ec9",
+          "gloss": "A person who enjoys both inflicting and receiving pain for sexual gratification.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-sadomasochist-en-noun-zANKs8VA:aea78ae6e9478aaa27c5eeb4dbdd5288dc2e665d7fcf05702432f13bbcac2ec9",
+          "gloss": "A person who enjoys both inflicting and receiving pain for sexual gratification.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-shipbuilder-en-noun-9BurOrXZ:f33c7e2feeb8340abdd146f1d9cc50c86e1a5b04f3ad3e332365e9f098e029c8",
+          "gloss": "A person who builds vessels such as ships and boats.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-shipbuilder-en-noun-9BurOrXZ:f33c7e2feeb8340abdd146f1d9cc50c86e1a5b04f3ad3e332365e9f098e029c8",
+          "gloss": "A person who builds vessels such as ships and boats.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-sniveler-en-noun-Nk6x9~Kh:781f57d30d5bca40d6183a0ae39a02cd7c1a8bcd4b5d73e2e653e75915db1f34",
+          "gloss": "A person who whines and complains about small matters.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-sniveler-en-noun-Nk6x9~Kh:781f57d30d5bca40d6183a0ae39a02cd7c1a8bcd4b5d73e2e653e75915db1f34",
+          "gloss": "A person who whines and complains about small matters.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-stacker-en-noun-42XxJPsf:d6065274d3f91bf7d06347b9e386c19cba266615a7222dd7690748c220076a13",
+          "gloss": "A person who collects precious metal in the form of various small objects such as coins and bars.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-stacker-en-noun-42XxJPsf:d6065274d3f91bf7d06347b9e386c19cba266615a7222dd7690748c220076a13",
+          "gloss": "A person who collects precious metal in the form of various small objects such as coins and bars.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-valuer-en-noun-Rhx8syrB:cfc0991318a99f913656385fb95183a8d80ea7fe9d982366e3e6eef889f3c372",
+          "gloss": "A person who appreciates something and sets a value on it.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-valuer-en-noun-Rhx8syrB:cfc0991318a99f913656385fb95183a8d80ea7fe9d982366e3e6eef889f3c372",
+          "gloss": "A person who appreciates something and sets a value on it.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wiktionary:en-wainwright-en-noun-jnd2Tc2A:7925dfb8e37e021705e7a0f3623c83dfeb4ea9c24780ecdb458f4dca1fbcea80",
+          "gloss": "A person who builds and repairs wagons.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-wainwright-en-noun-jnd2Tc2A:7925dfb8e37e021705e7a0f3623c83dfeb4ea9c24780ecdb458f4dca1fbcea80",
+          "gloss": "A person who builds and repairs wagons.",
+          "value": 1
+        },
+        {
+          "bank": "BODY",
+          "entry_id": "wordnet:saint:saint.n.01",
+          "gloss": "a person who has died and has been declared a saint by canonization",
+          "value": 1
+        }
+      ],
+      "joint_only_count": 57,
+      "parent_alone": {
+        "bits_removed": 45.963912520913524,
+        "by_bank": {
+          "SOMEONE": 29
+        },
+        "narrowed_cells": 29,
+        "new_singletons": 29
+      },
+      "premise": [
+        "SOMEONE",
+        1
+      ],
+      "scope_entry_ids": [
+        "wiktionary:en-arbiter-en-noun-eJ3v540m:7d74ded5a240dbd7c29be1ffa799cbe32760bbb5874effbb28bc88f91a67c1a7",
+        "wiktionary:en-burnout-en-noun-L6DoQcJs:76745e7039f21e5b4b5645b79e1bdea8f02a8d5d5872da32201d3b8d93e3e184",
+        "wiktionary:en-caller-en-noun-HK02VxwV:e26ad73ff9131e4d3e6a63fb794c2c4d78efcfde0e783479ed1230c94ba2ef71",
+        "wiktionary:en-controller-en-noun-QDeulJDc:2fd9c4fa340ed49cb015aa0b177ffc858b59ac9eaa1c2dc915a2dce32702bcde",
+        "wiktionary:en-counterrevolutionary-en-noun-1o16TUDy:dbfef960c4107e203a260c36d5086520dd90ab469808aa0cf8938f00ad3d6a68",
+        "wiktionary:en-courier-en-noun-aJ4u846t:1780005ce984ec016ec5d4c94ada135e81ec8a902a097fc0c35eb1d612946efa",
+        "wiktionary:en-craftsman-en-noun-3BdgYv-Y:e7595a3e84eb8f206fa788f831ee27b2ec74f573962a88f339b6795354d9c9d9",
+        "wiktionary:en-cropper-en-noun-TS5JJbqt:0a08042a0c0eb223af50adcceae21c20401cc09d8097eaa3dacd6429783b3026",
+        "wiktionary:en-denturist-en-noun-9Mfa8jr~:da6f067302d1804c27885262be29cbc1d706ebac07cbe3c27410345d40146ea8",
+        "wiktionary:en-drafter-en-noun-iisUPfn4:a18497718ba84d1ed1e5cf3c67ed53f0f1689933da7acf1b2961a436ea35b367",
+        "wiktionary:en-god-en-noun-XjVVibGB:cb2af954822c1b57e4edad3e91df86be881f746aa148c1dbae77473ebe917f96",
+        "wiktionary:en-grunt-en-noun-vNhwveW8:908c1805489446d134e2ff5eeec0117f4c7c8aa1a2911db069d140da1ab55188",
+        "wiktionary:en-housewrecker-en-noun-8S59uZ0A:b03a532faab1e2c2162fc6b3b2da01830830096103ea8f130d42237c7866a031",
+        "wiktionary:en-indie-en-noun-3Th8iFPJ:928ad858374badcf3b2574abfe55ef420496e744bebd329ca4f80ff48900cf41",
+        "wiktionary:en-it-en-noun-en:tag:940261067ea2654c843c34aa76029546ce3f2bf7f952829a9ecc26fadc47dda9",
+        "wiktionary:en-librarian-en-noun-BPpx~Y0E:7801b98b27311c8bc33530853b84582b21441a55740de71be0c0a8212e51b161",
+        "wiktionary:en-literate-en-noun-e-Kh8qRa:f0c1cd062f5e12cb79cdd9409291b3583e7e371cf278332c3c3be89d6ae3afec",
+        "wiktionary:en-mitra-en-noun-YNXrDtVu:ffc568d553b656f880587dcd4ba15cd43b95b282e7ba9b1ec6e60421515a2be1",
+        "wiktionary:en-nurseryman-en-noun-MQDhYDwX:b17e113f89c4364c63c01656258894cf4f6cfb49199b88d56ea027bae763e04d",
+        "wiktionary:en-philatelist-en-noun-2pKmJ1zd:f84c386c1a5dd3882bd41d9d54cb7e4b7083dfff7e89c10e1a2adba49bfbb193",
+        "wiktionary:en-plowwright-en-noun-3tE1bqIq:4bd4d319e673810c023967e8b717a019d3c62f6b113b52dd69ed15887bbf6c34",
+        "wiktionary:en-porter-en-noun-en:luggage:684ef08fcdb9b1e7e51bb731b68b716c03fe6b3f0f774e91f1f628991989f8dd",
+        "wiktionary:en-sadomasochist-en-noun-zANKs8VA:aea78ae6e9478aaa27c5eeb4dbdd5288dc2e665d7fcf05702432f13bbcac2ec9",
+        "wiktionary:en-shipbuilder-en-noun-9BurOrXZ:f33c7e2feeb8340abdd146f1d9cc50c86e1a5b04f3ad3e332365e9f098e029c8",
+        "wiktionary:en-sniveler-en-noun-Nk6x9~Kh:781f57d30d5bca40d6183a0ae39a02cd7c1a8bcd4b5d73e2e653e75915db1f34",
+        "wiktionary:en-stacker-en-noun-42XxJPsf:d6065274d3f91bf7d06347b9e386c19cba266615a7222dd7690748c220076a13",
+        "wiktionary:en-valuer-en-noun-Rhx8syrB:cfc0991318a99f913656385fb95183a8d80ea7fe9d982366e3e6eef889f3c372",
+        "wiktionary:en-wainwright-en-noun-jnd2Tc2A:7925dfb8e37e021705e7a0f3623c83dfeb4ea9c24780ecdb458f4dca1fbcea80",
+        "wordnet:abseiler:abseiler.n.01",
+        "wordnet:actor:actor.n.02",
+        "wordnet:appreciator:appreciator.n.01",
+        "wordnet:attendant:attendant.n.02",
+        "wordnet:attendee:attendant.n.02",
+        "wordnet:attender:attendant.n.02",
+        "wordnet:betrayer:double-crosser.n.01",
+        "wordnet:birder:bird_watcher.n.02",
+        "wordnet:blogger:blogger.n.01",
+        "wordnet:bootblack:bootblack.n.01",
+        "wordnet:boss:boss.n.03",
+        "wordnet:controller:restrainer.n.02",
+        "wordnet:doer:actor.n.02",
+        "wordnet:glutton:glutton.n.01",
+        "wordnet:gourmand:glutton.n.01",
+        "wordnet:gourmandizer:glutton.n.01",
+        "wordnet:hoarder:hoarder.n.01",
+        "wordnet:horseman:horseman.n.02",
+        "wordnet:landlubber:landlubber.n.01",
+        "wordnet:landman:landlubber.n.01",
+        "wordnet:landsman:landlubber.n.01",
+        "wordnet:literate:literate.n.01",
+        "wordnet:meeter:attendant.n.02",
+        "wordnet:overseer:overseer.n.01",
+        "wordnet:rappeller:abseiler.n.01",
+        "wordnet:realist:realist.n.02",
+        "wordnet:restrainer:restrainer.n.02",
+        "wordnet:saint:saint.n.01",
+        "wordnet:scaremonger:scaremonger.n.01",
+        "wordnet:shoeblack:bootblack.n.01",
+        "wordnet:skydiver:skydiver.n.01",
+        "wordnet:stirrer:scaremonger.n.01",
+        "wordnet:superintendent:overseer.n.01",
+        "wordnet:symposiarch:toastmaster.n.01",
+        "wordnet:toastmaster:toastmaster.n.01",
+        "wordnet:traitor:double-crosser.n.01",
+        "wordnet:trencherman:glutton.n.01",
+        "wordnet:warder:warder.n.01",
+        "wordnet:worker:actor.n.02",
+        "wordnet:writer:writer.n.02"
+      ],
+      "scope_records": 68,
+      "solver_contradictions": {
+        "child_alone": [],
+        "joint": [],
+        "parent_alone": []
+      },
+      "status": "BROAD_HYPOTHESIS_ONLY"
+    },
+    "generic-person-as-stative": {
+      "child_alone": {
+        "bits_removed": 61.81353752812509,
+        "by_bank": {
+          "BE": 39
+        },
+        "narrowed_cells": 39,
+        "new_singletons": 39
+      },
+      "consequent": [
+        "BE",
+        1
+      ],
+      "joint": {
+        "bits_removed": 153.74136256995214,
+        "by_bank": {
+          "BE": 68,
+          "SOMEONE": 29
+        },
+        "narrowed_cells": 97,
+        "new_singletons": 97
+      },
+      "joint_only": [
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-arbiter-en-noun-eJ3v540m:7d74ded5a240dbd7c29be1ffa799cbe32760bbb5874effbb28bc88f91a67c1a7",
+          "gloss": "The person who oversees a chess match and ensures the rules are followed.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-burnout-en-noun-L6DoQcJs:76745e7039f21e5b4b5645b79e1bdea8f02a8d5d5872da32201d3b8d93e3e184",
+          "gloss": "A person who has the experience of long-term exhaustion and diminished interest.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-caller-en-noun-HK02VxwV:e26ad73ff9131e4d3e6a63fb794c2c4d78efcfde0e783479ed1230c94ba2ef71",
+          "gloss": "The person who stands at the front of the hall and announces the numbers.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-controller-en-noun-QDeulJDc:2fd9c4fa340ed49cb015aa0b177ffc858b59ac9eaa1c2dc915a2dce32702bcde",
+          "gloss": "The person who supervises and handles communication with an agent in the field.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-counterrevolutionary-en-noun-1o16TUDy:dbfef960c4107e203a260c36d5086520dd90ab469808aa0cf8938f00ad3d6a68",
+          "gloss": "A person who opposes a revolution and attempts to reverse the changes made by it.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-courier-en-noun-aJ4u846t:1780005ce984ec016ec5d4c94ada135e81ec8a902a097fc0c35eb1d612946efa",
+          "gloss": "A person who looks after and guides tourists.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-craftsman-en-noun-3BdgYv-Y:e7595a3e84eb8f206fa788f831ee27b2ec74f573962a88f339b6795354d9c9d9",
+          "gloss": "A person who produces arts and crafts.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-cropper-en-noun-TS5JJbqt:0a08042a0c0eb223af50adcceae21c20401cc09d8097eaa3dacd6429783b3026",
+          "gloss": "A person who nurtures and gathers a crop.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-denturist-en-noun-9Mfa8jr~:da6f067302d1804c27885262be29cbc1d706ebac07cbe3c27410345d40146ea8",
+          "gloss": "A person who makes and fits dentures.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-drafter-en-noun-iisUPfn4:a18497718ba84d1ed1e5cf3c67ed53f0f1689933da7acf1b2961a436ea35b367",
+          "gloss": "A person who prepares technical drawings and plans.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-god-en-noun-XjVVibGB:cb2af954822c1b57e4edad3e91df86be881f746aa148c1dbae77473ebe917f96",
+          "gloss": "The person who owns and runs a multi-user dungeon.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-grunt-en-noun-vNhwveW8:908c1805489446d134e2ff5eeec0117f4c7c8aa1a2911db069d140da1ab55188",
+          "gloss": "A person who does ordinary and boring work.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-housewrecker-en-noun-8S59uZ0A:b03a532faab1e2c2162fc6b3b2da01830830096103ea8f130d42237c7866a031",
+          "gloss": "A person who demolishes old houses and salvages materials from them.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-indie-en-noun-3Th8iFPJ:928ad858374badcf3b2574abfe55ef420496e744bebd329ca4f80ff48900cf41",
+          "gloss": "A person who listens to indie music and follows indie fashion.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-it-en-noun-en:tag:940261067ea2654c843c34aa76029546ce3f2bf7f952829a9ecc26fadc47dda9",
+          "gloss": "The person who chases and tries to catch the other players in the playground game of tag.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-librarian-en-noun-BPpx~Y0E:7801b98b27311c8bc33530853b84582b21441a55740de71be0c0a8212e51b161",
+          "gloss": "A person who processes and organizes information.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-literate-en-noun-e-Kh8qRa:f0c1cd062f5e12cb79cdd9409291b3583e7e371cf278332c3c3be89d6ae3afec",
+          "gloss": "A person who is able to read and write.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-mitra-en-noun-YNXrDtVu:ffc568d553b656f880587dcd4ba15cd43b95b282e7ba9b1ec6e60421515a2be1",
+          "gloss": "A person who is interested in becoming a Buddhist and elects to join a Buddhist community to learn more.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-nurseryman-en-noun-MQDhYDwX:b17e113f89c4364c63c01656258894cf4f6cfb49199b88d56ea027bae763e04d",
+          "gloss": "A person who rears and sells plants in a nursery.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-philatelist-en-noun-2pKmJ1zd:f84c386c1a5dd3882bd41d9d54cb7e4b7083dfff7e89c10e1a2adba49bfbb193",
+          "gloss": "A person who collects and studies postage stamps.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-plowwright-en-noun-3tE1bqIq:4bd4d319e673810c023967e8b717a019d3c62f6b113b52dd69ed15887bbf6c34",
+          "gloss": "A person who builds and repairs plows.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-porter-en-noun-en:luggage:684ef08fcdb9b1e7e51bb731b68b716c03fe6b3f0f774e91f1f628991989f8dd",
+          "gloss": "A person who carries luggage and related objects.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-sadomasochist-en-noun-zANKs8VA:aea78ae6e9478aaa27c5eeb4dbdd5288dc2e665d7fcf05702432f13bbcac2ec9",
+          "gloss": "A person who enjoys both inflicting and receiving pain for sexual gratification.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-shipbuilder-en-noun-9BurOrXZ:f33c7e2feeb8340abdd146f1d9cc50c86e1a5b04f3ad3e332365e9f098e029c8",
+          "gloss": "A person who builds vessels such as ships and boats.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-sniveler-en-noun-Nk6x9~Kh:781f57d30d5bca40d6183a0ae39a02cd7c1a8bcd4b5d73e2e653e75915db1f34",
+          "gloss": "A person who whines and complains about small matters.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-stacker-en-noun-42XxJPsf:d6065274d3f91bf7d06347b9e386c19cba266615a7222dd7690748c220076a13",
+          "gloss": "A person who collects precious metal in the form of various small objects such as coins and bars.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-valuer-en-noun-Rhx8syrB:cfc0991318a99f913656385fb95183a8d80ea7fe9d982366e3e6eef889f3c372",
+          "gloss": "A person who appreciates something and sets a value on it.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wiktionary:en-wainwright-en-noun-jnd2Tc2A:7925dfb8e37e021705e7a0f3623c83dfeb4ea9c24780ecdb458f4dca1fbcea80",
+          "gloss": "A person who builds and repairs wagons.",
+          "value": 1
+        },
+        {
+          "bank": "BE",
+          "entry_id": "wordnet:saint:saint.n.01",
+          "gloss": "a person who has died and has been declared a saint by canonization",
+          "value": 1
+        }
+      ],
+      "joint_only_count": 29,
+      "parent_alone": {
+        "bits_removed": 45.963912520913524,
+        "by_bank": {
+          "SOMEONE": 29
+        },
+        "narrowed_cells": 29,
+        "new_singletons": 29
+      },
+      "premise": [
+        "SOMEONE",
+        1
+      ],
+      "scope_entry_ids": [
+        "wiktionary:en-arbiter-en-noun-eJ3v540m:7d74ded5a240dbd7c29be1ffa799cbe32760bbb5874effbb28bc88f91a67c1a7",
+        "wiktionary:en-burnout-en-noun-L6DoQcJs:76745e7039f21e5b4b5645b79e1bdea8f02a8d5d5872da32201d3b8d93e3e184",
+        "wiktionary:en-caller-en-noun-HK02VxwV:e26ad73ff9131e4d3e6a63fb794c2c4d78efcfde0e783479ed1230c94ba2ef71",
+        "wiktionary:en-controller-en-noun-QDeulJDc:2fd9c4fa340ed49cb015aa0b177ffc858b59ac9eaa1c2dc915a2dce32702bcde",
+        "wiktionary:en-counterrevolutionary-en-noun-1o16TUDy:dbfef960c4107e203a260c36d5086520dd90ab469808aa0cf8938f00ad3d6a68",
+        "wiktionary:en-courier-en-noun-aJ4u846t:1780005ce984ec016ec5d4c94ada135e81ec8a902a097fc0c35eb1d612946efa",
+        "wiktionary:en-craftsman-en-noun-3BdgYv-Y:e7595a3e84eb8f206fa788f831ee27b2ec74f573962a88f339b6795354d9c9d9",
+        "wiktionary:en-cropper-en-noun-TS5JJbqt:0a08042a0c0eb223af50adcceae21c20401cc09d8097eaa3dacd6429783b3026",
+        "wiktionary:en-denturist-en-noun-9Mfa8jr~:da6f067302d1804c27885262be29cbc1d706ebac07cbe3c27410345d40146ea8",
+        "wiktionary:en-drafter-en-noun-iisUPfn4:a18497718ba84d1ed1e5cf3c67ed53f0f1689933da7acf1b2961a436ea35b367",
+        "wiktionary:en-god-en-noun-XjVVibGB:cb2af954822c1b57e4edad3e91df86be881f746aa148c1dbae77473ebe917f96",
+        "wiktionary:en-grunt-en-noun-vNhwveW8:908c1805489446d134e2ff5eeec0117f4c7c8aa1a2911db069d140da1ab55188",
+        "wiktionary:en-housewrecker-en-noun-8S59uZ0A:b03a532faab1e2c2162fc6b3b2da01830830096103ea8f130d42237c7866a031",
+        "wiktionary:en-indie-en-noun-3Th8iFPJ:928ad858374badcf3b2574abfe55ef420496e744bebd329ca4f80ff48900cf41",
+        "wiktionary:en-it-en-noun-en:tag:940261067ea2654c843c34aa76029546ce3f2bf7f952829a9ecc26fadc47dda9",
+        "wiktionary:en-librarian-en-noun-BPpx~Y0E:7801b98b27311c8bc33530853b84582b21441a55740de71be0c0a8212e51b161",
+        "wiktionary:en-literate-en-noun-e-Kh8qRa:f0c1cd062f5e12cb79cdd9409291b3583e7e371cf278332c3c3be89d6ae3afec",
+        "wiktionary:en-mitra-en-noun-YNXrDtVu:ffc568d553b656f880587dcd4ba15cd43b95b282e7ba9b1ec6e60421515a2be1",
+        "wiktionary:en-nurseryman-en-noun-MQDhYDwX:b17e113f89c4364c63c01656258894cf4f6cfb49199b88d56ea027bae763e04d",
+        "wiktionary:en-philatelist-en-noun-2pKmJ1zd:f84c386c1a5dd3882bd41d9d54cb7e4b7083dfff7e89c10e1a2adba49bfbb193",
+        "wiktionary:en-plowwright-en-noun-3tE1bqIq:4bd4d319e673810c023967e8b717a019d3c62f6b113b52dd69ed15887bbf6c34",
+        "wiktionary:en-porter-en-noun-en:luggage:684ef08fcdb9b1e7e51bb731b68b716c03fe6b3f0f774e91f1f628991989f8dd",
+        "wiktionary:en-sadomasochist-en-noun-zANKs8VA:aea78ae6e9478aaa27c5eeb4dbdd5288dc2e665d7fcf05702432f13bbcac2ec9",
+        "wiktionary:en-shipbuilder-en-noun-9BurOrXZ:f33c7e2feeb8340abdd146f1d9cc50c86e1a5b04f3ad3e332365e9f098e029c8",
+        "wiktionary:en-sniveler-en-noun-Nk6x9~Kh:781f57d30d5bca40d6183a0ae39a02cd7c1a8bcd4b5d73e2e653e75915db1f34",
+        "wiktionary:en-stacker-en-noun-42XxJPsf:d6065274d3f91bf7d06347b9e386c19cba266615a7222dd7690748c220076a13",
+        "wiktionary:en-valuer-en-noun-Rhx8syrB:cfc0991318a99f913656385fb95183a8d80ea7fe9d982366e3e6eef889f3c372",
+        "wiktionary:en-wainwright-en-noun-jnd2Tc2A:7925dfb8e37e021705e7a0f3623c83dfeb4ea9c24780ecdb458f4dca1fbcea80",
+        "wordnet:abseiler:abseiler.n.01",
+        "wordnet:actor:actor.n.02",
+        "wordnet:appreciator:appreciator.n.01",
+        "wordnet:attendant:attendant.n.02",
+        "wordnet:attendee:attendant.n.02",
+        "wordnet:attender:attendant.n.02",
+        "wordnet:betrayer:double-crosser.n.01",
+        "wordnet:birder:bird_watcher.n.02",
+        "wordnet:blogger:blogger.n.01",
+        "wordnet:bootblack:bootblack.n.01",
+        "wordnet:boss:boss.n.03",
+        "wordnet:controller:restrainer.n.02",
+        "wordnet:doer:actor.n.02",
+        "wordnet:glutton:glutton.n.01",
+        "wordnet:gourmand:glutton.n.01",
+        "wordnet:gourmandizer:glutton.n.01",
+        "wordnet:hoarder:hoarder.n.01",
+        "wordnet:horseman:horseman.n.02",
+        "wordnet:landlubber:landlubber.n.01",
+        "wordnet:landman:landlubber.n.01",
+        "wordnet:landsman:landlubber.n.01",
+        "wordnet:literate:literate.n.01",
+        "wordnet:meeter:attendant.n.02",
+        "wordnet:overseer:overseer.n.01",
+        "wordnet:rappeller:abseiler.n.01",
+        "wordnet:realist:realist.n.02",
+        "wordnet:restrainer:restrainer.n.02",
+        "wordnet:saint:saint.n.01",
+        "wordnet:scaremonger:scaremonger.n.01",
+        "wordnet:shoeblack:bootblack.n.01",
+        "wordnet:skydiver:skydiver.n.01",
+        "wordnet:stirrer:scaremonger.n.01",
+        "wordnet:superintendent:overseer.n.01",
+        "wordnet:symposiarch:toastmaster.n.01",
+        "wordnet:toastmaster:toastmaster.n.01",
+        "wordnet:traitor:double-crosser.n.01",
+        "wordnet:trencherman:glutton.n.01",
+        "wordnet:warder:warder.n.01",
+        "wordnet:worker:actor.n.02",
+        "wordnet:writer:writer.n.02"
+      ],
+      "scope_records": 68,
+      "solver_contradictions": {
+        "child_alone": [],
+        "joint": [],
+        "parent_alone": []
+      },
+      "status": "BROAD_HYPOTHESIS_ONLY"
+    },
+    "generic-person-as-thing": {
+      "child_alone": {
+        "bits_removed": 0,
+        "by_bank": {},
+        "narrowed_cells": 0,
+        "new_singletons": 0
+      },
+      "consequent": [
+        "SOMETHING",
+        1
+      ],
+      "joint": {
+        "bits_removed": 90.3428625411059,
+        "by_bank": {
+          "SOMEONE": 29,
+          "SOMETHING": 28
+        },
+        "narrowed_cells": 57,
+        "new_singletons": 57
+      },
+      "joint_only": [
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-arbiter-en-noun-eJ3v540m:7d74ded5a240dbd7c29be1ffa799cbe32760bbb5874effbb28bc88f91a67c1a7",
+          "gloss": "The person who oversees a chess match and ensures the rules are followed.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-burnout-en-noun-L6DoQcJs:76745e7039f21e5b4b5645b79e1bdea8f02a8d5d5872da32201d3b8d93e3e184",
+          "gloss": "A person who has the experience of long-term exhaustion and diminished interest.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-caller-en-noun-HK02VxwV:e26ad73ff9131e4d3e6a63fb794c2c4d78efcfde0e783479ed1230c94ba2ef71",
+          "gloss": "The person who stands at the front of the hall and announces the numbers.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-controller-en-noun-QDeulJDc:2fd9c4fa340ed49cb015aa0b177ffc858b59ac9eaa1c2dc915a2dce32702bcde",
+          "gloss": "The person who supervises and handles communication with an agent in the field.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-counterrevolutionary-en-noun-1o16TUDy:dbfef960c4107e203a260c36d5086520dd90ab469808aa0cf8938f00ad3d6a68",
+          "gloss": "A person who opposes a revolution and attempts to reverse the changes made by it.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-courier-en-noun-aJ4u846t:1780005ce984ec016ec5d4c94ada135e81ec8a902a097fc0c35eb1d612946efa",
+          "gloss": "A person who looks after and guides tourists.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-craftsman-en-noun-3BdgYv-Y:e7595a3e84eb8f206fa788f831ee27b2ec74f573962a88f339b6795354d9c9d9",
+          "gloss": "A person who produces arts and crafts.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-cropper-en-noun-TS5JJbqt:0a08042a0c0eb223af50adcceae21c20401cc09d8097eaa3dacd6429783b3026",
+          "gloss": "A person who nurtures and gathers a crop.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-denturist-en-noun-9Mfa8jr~:da6f067302d1804c27885262be29cbc1d706ebac07cbe3c27410345d40146ea8",
+          "gloss": "A person who makes and fits dentures.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-drafter-en-noun-iisUPfn4:a18497718ba84d1ed1e5cf3c67ed53f0f1689933da7acf1b2961a436ea35b367",
+          "gloss": "A person who prepares technical drawings and plans.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-god-en-noun-XjVVibGB:cb2af954822c1b57e4edad3e91df86be881f746aa148c1dbae77473ebe917f96",
+          "gloss": "The person who owns and runs a multi-user dungeon.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-grunt-en-noun-vNhwveW8:908c1805489446d134e2ff5eeec0117f4c7c8aa1a2911db069d140da1ab55188",
+          "gloss": "A person who does ordinary and boring work.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-housewrecker-en-noun-8S59uZ0A:b03a532faab1e2c2162fc6b3b2da01830830096103ea8f130d42237c7866a031",
+          "gloss": "A person who demolishes old houses and salvages materials from them.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-indie-en-noun-3Th8iFPJ:928ad858374badcf3b2574abfe55ef420496e744bebd329ca4f80ff48900cf41",
+          "gloss": "A person who listens to indie music and follows indie fashion.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-it-en-noun-en:tag:940261067ea2654c843c34aa76029546ce3f2bf7f952829a9ecc26fadc47dda9",
+          "gloss": "The person who chases and tries to catch the other players in the playground game of tag.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-librarian-en-noun-BPpx~Y0E:7801b98b27311c8bc33530853b84582b21441a55740de71be0c0a8212e51b161",
+          "gloss": "A person who processes and organizes information.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-literate-en-noun-e-Kh8qRa:f0c1cd062f5e12cb79cdd9409291b3583e7e371cf278332c3c3be89d6ae3afec",
+          "gloss": "A person who is able to read and write.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-mitra-en-noun-YNXrDtVu:ffc568d553b656f880587dcd4ba15cd43b95b282e7ba9b1ec6e60421515a2be1",
+          "gloss": "A person who is interested in becoming a Buddhist and elects to join a Buddhist community to learn more.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-nurseryman-en-noun-MQDhYDwX:b17e113f89c4364c63c01656258894cf4f6cfb49199b88d56ea027bae763e04d",
+          "gloss": "A person who rears and sells plants in a nursery.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-philatelist-en-noun-2pKmJ1zd:f84c386c1a5dd3882bd41d9d54cb7e4b7083dfff7e89c10e1a2adba49bfbb193",
+          "gloss": "A person who collects and studies postage stamps.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-plowwright-en-noun-3tE1bqIq:4bd4d319e673810c023967e8b717a019d3c62f6b113b52dd69ed15887bbf6c34",
+          "gloss": "A person who builds and repairs plows.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-porter-en-noun-en:luggage:684ef08fcdb9b1e7e51bb731b68b716c03fe6b3f0f774e91f1f628991989f8dd",
+          "gloss": "A person who carries luggage and related objects.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-sadomasochist-en-noun-zANKs8VA:aea78ae6e9478aaa27c5eeb4dbdd5288dc2e665d7fcf05702432f13bbcac2ec9",
+          "gloss": "A person who enjoys both inflicting and receiving pain for sexual gratification.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-shipbuilder-en-noun-9BurOrXZ:f33c7e2feeb8340abdd146f1d9cc50c86e1a5b04f3ad3e332365e9f098e029c8",
+          "gloss": "A person who builds vessels such as ships and boats.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-sniveler-en-noun-Nk6x9~Kh:781f57d30d5bca40d6183a0ae39a02cd7c1a8bcd4b5d73e2e653e75915db1f34",
+          "gloss": "A person who whines and complains about small matters.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-stacker-en-noun-42XxJPsf:d6065274d3f91bf7d06347b9e386c19cba266615a7222dd7690748c220076a13",
+          "gloss": "A person who collects precious metal in the form of various small objects such as coins and bars.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-valuer-en-noun-Rhx8syrB:cfc0991318a99f913656385fb95183a8d80ea7fe9d982366e3e6eef889f3c372",
+          "gloss": "A person who appreciates something and sets a value on it.",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "entry_id": "wiktionary:en-wainwright-en-noun-jnd2Tc2A:7925dfb8e37e021705e7a0f3623c83dfeb4ea9c24780ecdb458f4dca1fbcea80",
+          "gloss": "A person who builds and repairs wagons.",
+          "value": 1
+        }
+      ],
+      "joint_only_count": 28,
+      "parent_alone": {
+        "bits_removed": 45.963912520913524,
+        "by_bank": {
+          "SOMEONE": 29
+        },
+        "narrowed_cells": 29,
+        "new_singletons": 29
+      },
+      "premise": [
+        "SOMEONE",
+        1
+      ],
+      "scope_entry_ids": [
+        "wiktionary:en-arbiter-en-noun-eJ3v540m:7d74ded5a240dbd7c29be1ffa799cbe32760bbb5874effbb28bc88f91a67c1a7",
+        "wiktionary:en-burnout-en-noun-L6DoQcJs:76745e7039f21e5b4b5645b79e1bdea8f02a8d5d5872da32201d3b8d93e3e184",
+        "wiktionary:en-caller-en-noun-HK02VxwV:e26ad73ff9131e4d3e6a63fb794c2c4d78efcfde0e783479ed1230c94ba2ef71",
+        "wiktionary:en-controller-en-noun-QDeulJDc:2fd9c4fa340ed49cb015aa0b177ffc858b59ac9eaa1c2dc915a2dce32702bcde",
+        "wiktionary:en-counterrevolutionary-en-noun-1o16TUDy:dbfef960c4107e203a260c36d5086520dd90ab469808aa0cf8938f00ad3d6a68",
+        "wiktionary:en-courier-en-noun-aJ4u846t:1780005ce984ec016ec5d4c94ada135e81ec8a902a097fc0c35eb1d612946efa",
+        "wiktionary:en-craftsman-en-noun-3BdgYv-Y:e7595a3e84eb8f206fa788f831ee27b2ec74f573962a88f339b6795354d9c9d9",
+        "wiktionary:en-cropper-en-noun-TS5JJbqt:0a08042a0c0eb223af50adcceae21c20401cc09d8097eaa3dacd6429783b3026",
+        "wiktionary:en-denturist-en-noun-9Mfa8jr~:da6f067302d1804c27885262be29cbc1d706ebac07cbe3c27410345d40146ea8",
+        "wiktionary:en-drafter-en-noun-iisUPfn4:a18497718ba84d1ed1e5cf3c67ed53f0f1689933da7acf1b2961a436ea35b367",
+        "wiktionary:en-god-en-noun-XjVVibGB:cb2af954822c1b57e4edad3e91df86be881f746aa148c1dbae77473ebe917f96",
+        "wiktionary:en-grunt-en-noun-vNhwveW8:908c1805489446d134e2ff5eeec0117f4c7c8aa1a2911db069d140da1ab55188",
+        "wiktionary:en-housewrecker-en-noun-8S59uZ0A:b03a532faab1e2c2162fc6b3b2da01830830096103ea8f130d42237c7866a031",
+        "wiktionary:en-indie-en-noun-3Th8iFPJ:928ad858374badcf3b2574abfe55ef420496e744bebd329ca4f80ff48900cf41",
+        "wiktionary:en-it-en-noun-en:tag:940261067ea2654c843c34aa76029546ce3f2bf7f952829a9ecc26fadc47dda9",
+        "wiktionary:en-librarian-en-noun-BPpx~Y0E:7801b98b27311c8bc33530853b84582b21441a55740de71be0c0a8212e51b161",
+        "wiktionary:en-literate-en-noun-e-Kh8qRa:f0c1cd062f5e12cb79cdd9409291b3583e7e371cf278332c3c3be89d6ae3afec",
+        "wiktionary:en-mitra-en-noun-YNXrDtVu:ffc568d553b656f880587dcd4ba15cd43b95b282e7ba9b1ec6e60421515a2be1",
+        "wiktionary:en-nurseryman-en-noun-MQDhYDwX:b17e113f89c4364c63c01656258894cf4f6cfb49199b88d56ea027bae763e04d",
+        "wiktionary:en-philatelist-en-noun-2pKmJ1zd:f84c386c1a5dd3882bd41d9d54cb7e4b7083dfff7e89c10e1a2adba49bfbb193",
+        "wiktionary:en-plowwright-en-noun-3tE1bqIq:4bd4d319e673810c023967e8b717a019d3c62f6b113b52dd69ed15887bbf6c34",
+        "wiktionary:en-porter-en-noun-en:luggage:684ef08fcdb9b1e7e51bb731b68b716c03fe6b3f0f774e91f1f628991989f8dd",
+        "wiktionary:en-sadomasochist-en-noun-zANKs8VA:aea78ae6e9478aaa27c5eeb4dbdd5288dc2e665d7fcf05702432f13bbcac2ec9",
+        "wiktionary:en-shipbuilder-en-noun-9BurOrXZ:f33c7e2feeb8340abdd146f1d9cc50c86e1a5b04f3ad3e332365e9f098e029c8",
+        "wiktionary:en-sniveler-en-noun-Nk6x9~Kh:781f57d30d5bca40d6183a0ae39a02cd7c1a8bcd4b5d73e2e653e75915db1f34",
+        "wiktionary:en-stacker-en-noun-42XxJPsf:d6065274d3f91bf7d06347b9e386c19cba266615a7222dd7690748c220076a13",
+        "wiktionary:en-valuer-en-noun-Rhx8syrB:cfc0991318a99f913656385fb95183a8d80ea7fe9d982366e3e6eef889f3c372",
+        "wiktionary:en-wainwright-en-noun-jnd2Tc2A:7925dfb8e37e021705e7a0f3623c83dfeb4ea9c24780ecdb458f4dca1fbcea80",
+        "wordnet:abseiler:abseiler.n.01",
+        "wordnet:actor:actor.n.02",
+        "wordnet:appreciator:appreciator.n.01",
+        "wordnet:attendant:attendant.n.02",
+        "wordnet:attendee:attendant.n.02",
+        "wordnet:attender:attendant.n.02",
+        "wordnet:betrayer:double-crosser.n.01",
+        "wordnet:birder:bird_watcher.n.02",
+        "wordnet:blogger:blogger.n.01",
+        "wordnet:bootblack:bootblack.n.01",
+        "wordnet:boss:boss.n.03",
+        "wordnet:controller:restrainer.n.02",
+        "wordnet:doer:actor.n.02",
+        "wordnet:glutton:glutton.n.01",
+        "wordnet:gourmand:glutton.n.01",
+        "wordnet:gourmandizer:glutton.n.01",
+        "wordnet:hoarder:hoarder.n.01",
+        "wordnet:horseman:horseman.n.02",
+        "wordnet:landlubber:landlubber.n.01",
+        "wordnet:landman:landlubber.n.01",
+        "wordnet:landsman:landlubber.n.01",
+        "wordnet:literate:literate.n.01",
+        "wordnet:meeter:attendant.n.02",
+        "wordnet:overseer:overseer.n.01",
+        "wordnet:rappeller:abseiler.n.01",
+        "wordnet:realist:realist.n.02",
+        "wordnet:restrainer:restrainer.n.02",
+        "wordnet:saint:saint.n.01",
+        "wordnet:scaremonger:scaremonger.n.01",
+        "wordnet:shoeblack:bootblack.n.01",
+        "wordnet:skydiver:skydiver.n.01",
+        "wordnet:stirrer:scaremonger.n.01",
+        "wordnet:superintendent:overseer.n.01",
+        "wordnet:symposiarch:toastmaster.n.01",
+        "wordnet:toastmaster:toastmaster.n.01",
+        "wordnet:traitor:double-crosser.n.01",
+        "wordnet:trencherman:glutton.n.01",
+        "wordnet:warder:warder.n.01",
+        "wordnet:worker:actor.n.02",
+        "wordnet:writer:writer.n.02"
+      ],
+      "scope_records": 68,
+      "solver_contradictions": {
+        "child_alone": [],
+        "joint": [],
+        "parent_alone": []
+      },
+      "status": "BROAD_HYPOTHESIS_ONLY"
+    },
+    "own-productive-action": {
+      "child_alone": {
+        "bits_removed": 0,
+        "by_bank": {},
+        "narrowed_cells": 0,
+        "new_singletons": 0
+      },
+      "consequent": [
+        "DO",
+        1
+      ],
+      "joint": {
+        "bits_removed": 28.52932501298081,
+        "by_bank": {
+          "DO": 6,
+          "HAPPEN": 6,
+          "SOMEONE": 6
+        },
+        "narrowed_cells": 18,
+        "new_singletons": 18
+      },
+      "joint_only": [
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-craftsman-en-noun-3BdgYv-Y:e7595a3e84eb8f206fa788f831ee27b2ec74f573962a88f339b6795354d9c9d9",
+          "gloss": "A person who produces arts and crafts.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-craftsman-en-noun-3BdgYv-Y:e7595a3e84eb8f206fa788f831ee27b2ec74f573962a88f339b6795354d9c9d9",
+          "gloss": "A person who produces arts and crafts.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-denturist-en-noun-9Mfa8jr~:da6f067302d1804c27885262be29cbc1d706ebac07cbe3c27410345d40146ea8",
+          "gloss": "A person who makes and fits dentures.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-denturist-en-noun-9Mfa8jr~:da6f067302d1804c27885262be29cbc1d706ebac07cbe3c27410345d40146ea8",
+          "gloss": "A person who makes and fits dentures.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-housewrecker-en-noun-8S59uZ0A:b03a532faab1e2c2162fc6b3b2da01830830096103ea8f130d42237c7866a031",
+          "gloss": "A person who demolishes old houses and salvages materials from them.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-housewrecker-en-noun-8S59uZ0A:b03a532faab1e2c2162fc6b3b2da01830830096103ea8f130d42237c7866a031",
+          "gloss": "A person who demolishes old houses and salvages materials from them.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-plowwright-en-noun-3tE1bqIq:4bd4d319e673810c023967e8b717a019d3c62f6b113b52dd69ed15887bbf6c34",
+          "gloss": "A person who builds and repairs plows.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-plowwright-en-noun-3tE1bqIq:4bd4d319e673810c023967e8b717a019d3c62f6b113b52dd69ed15887bbf6c34",
+          "gloss": "A person who builds and repairs plows.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-shipbuilder-en-noun-9BurOrXZ:f33c7e2feeb8340abdd146f1d9cc50c86e1a5b04f3ad3e332365e9f098e029c8",
+          "gloss": "A person who builds vessels such as ships and boats.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-shipbuilder-en-noun-9BurOrXZ:f33c7e2feeb8340abdd146f1d9cc50c86e1a5b04f3ad3e332365e9f098e029c8",
+          "gloss": "A person who builds vessels such as ships and boats.",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "entry_id": "wiktionary:en-wainwright-en-noun-jnd2Tc2A:7925dfb8e37e021705e7a0f3623c83dfeb4ea9c24780ecdb458f4dca1fbcea80",
+          "gloss": "A person who builds and repairs wagons.",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "entry_id": "wiktionary:en-wainwright-en-noun-jnd2Tc2A:7925dfb8e37e021705e7a0f3623c83dfeb4ea9c24780ecdb458f4dca1fbcea80",
+          "gloss": "A person who builds and repairs wagons.",
+          "value": 1
+        }
+      ],
+      "joint_only_count": 12,
+      "parent_alone": {
+        "bits_removed": 9.509775004326936,
+        "by_bank": {
+          "SOMEONE": 6
+        },
+        "narrowed_cells": 6,
+        "new_singletons": 6
+      },
+      "premise": [
+        "SOMEONE",
+        1
+      ],
+      "scope_entry_ids": [
+        "wiktionary:en-craftsman-en-noun-3BdgYv-Y:e7595a3e84eb8f206fa788f831ee27b2ec74f573962a88f339b6795354d9c9d9",
+        "wiktionary:en-denturist-en-noun-9Mfa8jr~:da6f067302d1804c27885262be29cbc1d706ebac07cbe3c27410345d40146ea8",
+        "wiktionary:en-housewrecker-en-noun-8S59uZ0A:b03a532faab1e2c2162fc6b3b2da01830830096103ea8f130d42237c7866a031",
+        "wiktionary:en-plowwright-en-noun-3tE1bqIq:4bd4d319e673810c023967e8b717a019d3c62f6b113b52dd69ed15887bbf6c34",
+        "wiktionary:en-shipbuilder-en-noun-9BurOrXZ:f33c7e2feeb8340abdd146f1d9cc50c86e1a5b04f3ad3e332365e9f098e029c8",
+        "wiktionary:en-wainwright-en-noun-jnd2Tc2A:7925dfb8e37e021705e7a0f3623c83dfeb4ea9c24780ecdb458f4dca1fbcea80"
+      ],
+      "scope_records": 6,
+      "solver_contradictions": {
+        "child_alone": [],
+        "joint": [],
+        "parent_alone": []
+      },
+      "status": "STAGED_FOR_TYPED_PROBE"
+    }
+  },
+  "format": "gse.ssl-someone-cross-bank-stage/1",
+  "scope_records": 68,
+  "semantic_scope_challenges": {
+    "generic-person-as-agent": [
+      "The deceased saint is the patient of canonization. Literate states a capacity.",
+      "The burnout sense describes a person's experience."
+    ],
+    "generic-person-as-alive": [
+      "The canonized saint definition explicitly describes a person who has died."
+    ],
+    "generic-person-as-body": [
+      "The approved BODY scope requires bodily content in the definition itself."
+    ],
+    "generic-person-as-stative": [
+      "The approved BE scope requires stative content in the definition itself."
+    ],
+    "generic-person-as-thing": [
+      "NSM keeps SOMEONE and SOMETHING as separate arguments. WordNet root overlap is source-specific.",
+      "The curated pronoun someone has SOMETHING open."
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "format": "gse.lexicon-gold/1",
+  "records": [
+    {"entry_id": "gse:prime:dont-want", "bank": "WANT", "expected": -1},
+    {"entry_id": "gse:prime:this", "bank": "SOMETHING", "expected": 1},
+    {"entry_id": "wordnet:want:desire.v.01", "bank": "WANT", "expected": 1},
+    {"entry_id": "wordnet:very:very.r.01", "bank": "INTENSITY", "expected": 1},
+    {"entry_id": "wordnet:extremely:extremely.r.02", "bank": "INTENSITY", "expected": 1},
+    {"entry_id": "wordnet:heart:heart.n.02", "bank": "BODY", "expected": 1},
+    {"entry_id": "wordnet:heart:heart.n.07", "bank": "BODY", "expected": 0},
+    {"entry_id": "wordnet:pyramid:pyramid.n.01", "bank": "BODY", "expected": 0},
+    {"entry_id": "wordnet:tetrahedron:tetrahedron.n.01", "bank": "BODY", "expected": 0},
+    {"entry_id": "wordnet:tesseract:tesseract.n.01", "bank": "BODY", "expected": 0},
+    {"entry_id": "wordnet:bank:bank.n.01", "bank": "SOMETHING", "expected": 1},
+    {"entry_id": "wordnet:bank:depository_financial_institution.n.01", "bank": "SOMETHING", "expected": 1},
+    {"entry_id": "wordnet:heart:heart.n.02", "bank": "WANT", "expected": 0},
+    {"entry_id": "wiktionary:en-aorta-en-noun-en:Q101004:7843be2899d20ac10865cd43e641d8676622d7285f1b7bcaf47ecb0e914a658e", "bank": "BODY", "expected": 1},
+    {"entry_id": "wiktionary:en-aorta-en-noun-en:Q101004:7843be2899d20ac10865cd43e641d8676622d7285f1b7bcaf47ecb0e914a658e", "bank": "SOMETHING", "expected": 1},
+    {"entry_id": "wiktionary:en-pancreas-en-noun-y0qWM6Sy:f53e26107a852a1d2cac61e0a561a67570daa747e3c38c6f70618c6d61f94225", "bank": "BODY", "expected": 1},
+    {"entry_id": "wiktionary:en-uterus-en-noun-tbgLMDu6:2ca172324d086a083d99000ff64cab08658702e6a915fc41674e36f2f8d70bbb", "bank": "BODY", "expected": 1},
+    {"entry_id": "wiktionary:en-deltoid-en-noun-5uS9I7N5:7b685203ce06d6dd58432e185382d660ed2aebda8490713fa49a243b4071baf4", "bank": "BODY", "expected": 1},
+    {"entry_id": "wiktionary:en-deltoid-en-noun-WFQOalAu:7883b760ea025a06f7faabfdd47a46ad3602fe7290bd0d5f2d2aa082227f14eb", "bank": "BODY", "expected": 1}
+  ]
+}

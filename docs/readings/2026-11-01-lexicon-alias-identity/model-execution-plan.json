@@ -1,0 +1,19 @@
+{
+  "activation_performed": false,
+  "bank_priority": "evidence",
+  "batch_size": 4,
+  "cohort_policy": "spelling",
+  "cohort_size": 8,
+  "execution_status": "PREPARED_NOT_EXECUTED",
+  "format": "gse.bounded-execution-plan/1",
+  "model_pin": {
+    "batch_protocol_digest": "d9e0149bff4b7302cdeb67aac876340be23112e7e211c8ca5a048efab3d8ec55",
+    "digest": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+    "model": "qwen3.8:27b-q4_K_M"
+  },
+  "priority": "zipf",
+  "requested_bank": "BODY",
+  "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1902ce2fa596ab12c066fff8e97b976c3e0fd0007f432334f97af2401fb6959e:batch@d9e0149bff4b7302cdeb67aac876340be23112e7e211c8ca5a048efab3d8ec55",
+  "unknown_semantics": "UNASSIGNED_DOMAIN_NOT_ZERO",
+  "zipf_budget_questions": 16
+}

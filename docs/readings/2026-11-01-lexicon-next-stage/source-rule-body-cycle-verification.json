@@ -1,0 +1,351 @@
+{
+  "format": "gse.lexicon-incremental-cycle-verification/1",
+  "code": "BOUNDED_CYCLE_VERIFIED_NOT_COMPLETE_LEXICON",
+  "checked_utc": "2026-11-01T20:59:05.463035+00:00",
+  "candidate": {
+    "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-01/constructed-corpus-linear-unit-want.db",
+    "sha256": "e9ce62353157554744aff6832450c16c5ca3a77986442f3bd665a0570bc2b5aa",
+    "status": "INCOMPLETE"
+  },
+  "migration": {
+    "changed_cells": 132,
+    "rule_supported_entries": 133,
+    "rule_supported_synsets": 56,
+    "archived_model_receipts": 1,
+    "retained_model_receipts": 56,
+    "isolation_code": "ISOLATION_VERIFIED"
+  },
+  "model_batch": {
+    "questions": 16,
+    "transport_invocations": 4,
+    "outcomes": {
+      "ABSTAINED": 7,
+      "ASSIGNED": 9
+    },
+    "value_counts": {
+      "0": 8,
+      "1": 1
+    },
+    "prior_known_or_other_bank_violations": 0
+  },
+  "review": {
+    "new_BODY_accepted": 8,
+    "new_BODY_deferred": 1,
+    "older_parent_reviews_added": 2,
+    "reviewed_export_outcomes": {
+      "EXPLICIT_REVIEW_SUPPLIED": 17
+    },
+    "deferred": [
+      {
+        "entry_id": "gse_closed_class:pronoun:you",
+        "request_id": "7f63747d07f91e3669f0940640a274b391f5be899a14e7f6dd0a0e91e1617be8",
+        "receipt_sha256": "0480bd4d0991bb6f779797fbf2bacf18c26b05f09e09260e6a53ab4ae4b8c9e1",
+        "value": 1,
+        "code": "DEFERRED_PROJECTION_JUSTIFICATION",
+        "rationale": "The model supplies BODY=+1 from a definition specifying SOMEONE and animate second-person reference. The saved NSM chart gives separate YOU/SOMEONE/BODY meanings and body constructions, but not a complete GSE cross-bank signature. Approved relations include YOU->SOMEONE, not YOU->BODY. This review cannot settle whether body content is constitutive here or comes from the referent. The answer remains a model ruling, is not accepted for rule discovery, and is not silently changed to zero."
+      }
+    ],
+    "authority": "SOURCE_BACKED_INTERPRETATIONS_NOT_INDEPENDENT_GOLD"
+  },
+  "replay": {
+    "code": "REPLAY_VALIDATED",
+    "complete_search": true,
+    "entries_checked": 401596,
+    "entries_mismatched": 0,
+    "entries_validated": 401596,
+    "format": "gse.lexicon-replay-report/1",
+    "gold": "NOT_CHECKED",
+    "inference_counts": {
+      "components_joint_checked": 2496067,
+      "components_solver_limited": 0,
+      "entries_complete_search": 401596,
+      "entries_replayed": 401596,
+      "entries_solver_limited": 0
+    },
+    "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+    "metadata_verification": {
+      "build_report": "NOT_CHECKED",
+      "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+      "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+      "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+      "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+      "catalog_definition_source_ids": "NOT_PERSISTED",
+      "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+      "representation_contract": "VERIFIED",
+      "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+    },
+    "mismatch_counts": {},
+    "mismatches": [],
+    "replayed_outcomes": {
+      "PARTIAL": 401596
+    }
+  },
+  "coverage": {
+    "definitions": 401596,
+    "cells": {
+      "assigned": 403441,
+      "explicit_zero": 279596,
+      "unresolved": 22085935
+    },
+    "outcomes": {
+      "PARTIAL": 401596
+    }
+  },
+  "publication": {
+    "code": "PUBLICATION_BLOCKED",
+    "blockers": [
+      "INCOMPLETE_DEFINITIONS",
+      "INCOMPLETE_PRIME_FOUNDATION",
+      "SEMANTIC_AUDIT_NOT_SUPPLIED"
+    ],
+    "performed": false,
+    "active_pointer_unchanged": true,
+    "active_pointer_sha256": "449020ca41a461a7d418e4bdffe402da5c0798cb98444c5f88e7ecf6acd099b5"
+  },
+  "tests": {
+    "builder": 1310,
+    "additional_cli": 11,
+    "audit_cli": 36,
+    "failures": 0
+  },
+  "source_files": [
+    {
+      "path": "gse/curation/lexicon_builder/catalog.py",
+      "sha256": "a9f1832597a0704046124e226d10b4ffe574ab1edaf00e8cb7eb553212e60eb0"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/batching.py",
+      "sha256": "abfab706f9742453f77d121990cf58d66c51b3e7cb0bc852e47c7f31897a9c5f"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/residual.py",
+      "sha256": "88757e0bac9b6860538f9756d6a89c8493c9eb783042dda315e280c45abe8ee9"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/completion.py",
+      "sha256": "c9f359b922192b8f87813dc2ddd1bff0e3239af828bd23860a780bdb7aecd691"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/discovery.py",
+      "sha256": "e74e913525b6f6051e60c5a9b3a041b635d3c056fcdb9cfb4f15316123cbfb6d"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/model_evidence.py",
+      "sha256": "2e0518c933b31a542a0f7b8ff2f929ece76ae316e821be3fae76d70b89804cbe"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/rule_admission.py",
+      "sha256": "f56966bfd013aa809aba77d2d973e8b8006148872f85204910c3a0e321dc39a1"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/evaluation.py",
+      "sha256": "a54b507509420789011a1b0446b455e1858fb66f8e4b99526c02f9daa000ce6b"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/scope_admission.py",
+      "sha256": "136d0da9ee0d4aebc228487e1edecc43a9cebb821f90f26c95b4c22914c5c7f5"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/rule_migration.py",
+      "sha256": "e586b8b30b7240a9b9b1f48100900e5f2d085ab8dfdba982629588c4db1d0fb8"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/reviewed_patterns.py",
+      "sha256": "0bf6a90ff052e7c989f1576964370477369f8d0108cbedba685628049ba11fc6"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/__init__.py",
+      "sha256": "34fb005b6861c0dc111f7ce03ccffc3d15a78ed9870b66bf2633e3559ce43a4c"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/foundation.py",
+      "sha256": "094e225ec3cf73eae42a370e987bc1fc33db3f845e5ed3253839095f53a4b087"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/model_receipts.py",
+      "sha256": "db8b281bae6baddf96387f677c1d8e49c1aee6cbda6ccc9c4f5c6a8fbf789f02"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/reconsideration.py",
+      "sha256": "3475f65a8bd5057434c0f746cd922b8a0ee6354660e4dab57c0a44b0cfa5fadb"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/engine.py",
+      "sha256": "1f53a4f63103694824696bdc63af6d17d4415764360cf276b0eaa09f452c4b9f"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/pipeline.py",
+      "sha256": "d599f059e22fe5864b6bdb0b712d205cbd483701b3dea6be411ba2d38e1c8f1b"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/interchange.py",
+      "sha256": "300a6c7a918dc0667fe05f17532a693d4bb7a734beae89c190ff84463ebd29f2"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/publication.py",
+      "sha256": "f053b712b380b8eddeb34fda5880facadd514d47fd6cd7d7dbbde53e80265c53"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/storage.py",
+      "sha256": "7b318b9bfc9bf8aaceadf4a26c6905398721805b214a70363e8ef7a6d4063cb4"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/scheduling.py",
+      "sha256": "50bf19153fc85226823169f813c58d04efa1902f11d4e5a0f052ab4bae2661ac"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/reviewed_export.py",
+      "sha256": "1e6eb94357934ae51facfa95cd3dbd2e87b5939f10ed9dbb92f447e681691b07"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/model_batch.py",
+      "sha256": "c537b83f3975f7639614432c4af7291dc12a9f9524ad08a3d9930555ab6184bf"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/resolution.py",
+      "sha256": "69d6fe441f471a1179b04c63b617766a93701ea54912e2e3548b24501e2d91fa"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/rule_history.py",
+      "sha256": "07c775ab85fc18f9d12181dd24ba8b33625d240864b4e2c021f6a17b8e64c46c"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/evidence.py",
+      "sha256": "5eceeddad344ae5e51f6f07fbaff8172a925cc1be244b93848ea7a66dd692d73"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/model_protocol.py",
+      "sha256": "30f7a706a828ad412f4317d847f6b8563b068d977f09919188780abe00f934ec"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/relevance.py",
+      "sha256": "b229501847ecad1f40b1c86bdf61374ad706bf5d1051e2d6baee8395520a5639"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/validation.py",
+      "sha256": "70f5794d94890948526a628c7f81a45d1d26544f8b17e3c8299dddbf7c8c3d25"
+    },
+    {
+      "path": "scripts/audit_lexicon_patterns.py",
+      "sha256": "1f25fb828bd33883ec036eb4efbae40d310be8724bbffedd3a6b15a715a0e25f"
+    },
+    {
+      "path": "scripts/export_lexicon_patterns.py",
+      "sha256": "97f19060fb3bdb1417619bdb453da86f6a8451154273524d6eda8743a926b5f8"
+    },
+    {
+      "path": "scripts/migrate_lexicon_rule.py",
+      "sha256": "4c6e47fd8627a52e0ff1814e5612be106a25847ac0a1d8b958bdf7ba64020067"
+    },
+    {
+      "path": "gse/curation/cli/commands.py",
+      "sha256": "ea68bc9a3283828437a817ec7a9197f96d604614b12921ab4b0bbdfa90143404"
+    },
+    {
+      "path": "tests/test_lexicon_builder_cli_context_tokens.py",
+      "sha256": "d62700d1fee0d8dd3581cbfcf3d88fab7e07821db9f327380fd3b31d61719757"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/readings/2026-11-01-lexicon-next-stage/source-guard-implementation-verification.json",
+      "sha256": "50376931909d2bbea98323212b465dd0fcc215818138a8cefb28772e4f808a37"
+    },
+    {
+      "path": "docs/readings/2026-11-01-lexicon-next-stage/linear-unit-rule-ledger.md",
+      "sha256": "a8dac183b461f205642947774d13dcaf66dbc111b8effee7b3057634be4766a0"
+    },
+    {
+      "path": "docs/readings/2026-11-01-lexicon-next-stage/linear-unit-inventory.json",
+      "sha256": "0a323f5c0611f4f1a9f967dc660f19ea4e91d757146b107ef77e3ba7f1410523"
+    },
+    {
+      "path": "docs/readings/2026-11-01-lexicon-next-stage/linear-unit-pattern-selection.json",
+      "sha256": "16ef1ef069b15669cf4128c3ce8f94be424e378391832d897f62015f620aa06a"
+    },
+    {
+      "path": "docs/readings/2026-11-01-lexicon-next-stage/linear-unit-pattern-input.json",
+      "sha256": "63a608917a26500c60c65c09a9dbbb15b549a0fc21d0304e23518f2411319db8"
+    },
+    {
+      "path": "docs/readings/2026-11-01-lexicon-next-stage/linear-unit-pattern-audit.json",
+      "sha256": "eef4a15dcd7baa8dd9e536da0f170f93d07f8abcb6cdd0a58d7ffad271a220e9"
+    },
+    {
+      "path": "docs/readings/2026-11-01-lexicon-next-stage/linear-unit-pattern-assessment.json",
+      "sha256": "59fcc69774d1dbcbdf0a706019e0f16d5f6150077b226c5c53d43a81beb4f3e0"
+    },
+    {
+      "path": "docs/readings/2026-11-01-lexicon-next-stage/linear-unit-want-admission-review.json",
+      "sha256": "71037399a66910f1ca93a12612d338954f4d077df11d6250f2e7ba049c07902f"
+    },
+    {
+      "path": "docs/readings/2026-11-01-lexicon-next-stage/linear-unit-want-migration.json",
+      "sha256": "af21c90a875d813fb89b161df191f076e61d359a076389a01a1ad9b48d02530f"
+    },
+    {
+      "path": "docs/readings/2026-11-01-lexicon-next-stage/linear-unit-want-isolation.json",
+      "sha256": "12aa169e0ee307f49788f13e2fd4fbf82e43d6e3f22f27b26dd4f63bd8f09715"
+    },
+    {
+      "path": "docs/readings/2026-11-01-lexicon-next-stage/body-batch-review-ledger.md",
+      "sha256": "d337180e4e90a5994adc5ec3f4f87c7cff52c421f6db8b7fc256cc52570c61c2"
+    },
+    {
+      "path": "docs/readings/2026-11-01-lexicon-next-stage/run_body_checkpoint.py",
+      "sha256": "1cc429793a8f0bae89906155e95f9404cdbf1089b929666d3174f8446ee2fac5"
+    },
+    {
+      "path": "docs/readings/2026-11-01-lexicon-next-stage/zipf-body-batch-004-execution.json",
+      "sha256": "4f0dee50a19dcc3f2e5212ed8df9f03d5ebb0b9f144e19db82d38bb608cff4e9"
+    },
+    {
+      "path": "docs/readings/2026-11-01-lexicon-next-stage/zipf-body-batch-004.json",
+      "sha256": "fdca983c14e0db60eac55f3523845b53d056edd36fc5412566547bad03c857fa"
+    },
+    {
+      "path": "docs/readings/2026-11-01-lexicon-next-stage/zipf-body-batch-004-receipts.json",
+      "sha256": "5ab6a823f92316d0d93c1f09265a25b5be120b7695ee8bddf0a81dc0c4f074dd"
+    },
+    {
+      "path": "docs/readings/2026-11-01-lexicon-next-stage/zipf-body-batch-004-assignment-audit.json",
+      "sha256": "a11acc791f4c3aacd2cd9e1b2422fd3ede2e56118b2c768f3fd6130c3b696aa3"
+    },
+    {
+      "path": "docs/readings/2026-11-01-lexicon-next-stage/zipf-body-batch-004-replay.json",
+      "sha256": "507c03b3501f5c05e8969205a0f1e8e19d4e9d5a32ed055cc328fc8b727f51ac"
+    },
+    {
+      "path": "docs/readings/2026-11-01-lexicon-next-stage/zipf-body-batch-004-publication.json",
+      "sha256": "5ace32d5d8bf1c6995627b44070878b9aaa482298d242337b0f98818d5ca5fd9"
+    },
+    {
+      "path": "docs/readings/2026-11-01-lexicon-next-stage/zipf-body-batch-004-source-review.json",
+      "sha256": "840cedb6d3a3f1ee7b5886b86059e1886ee8e80061e1d89cec39fbdcb6290dfb"
+    },
+    {
+      "path": "docs/readings/2026-11-01-lexicon-next-stage/zipf-body-batch-004-parent-review.json",
+      "sha256": "c0c5b2c6c96604941ca186389072caf91a28160ef3c712220ce4be82225182fa"
+    },
+    {
+      "path": "docs/readings/2026-11-01-lexicon-next-stage/zipf-body-batch-004-review-selection.json",
+      "sha256": "afc571b6d768ebd1c81947c37663726d44b1ffddc5543e02d27ac4b2e864abf9"
+    },
+    {
+      "path": "docs/readings/2026-11-01-lexicon-next-stage/zipf-body-batch-004-reviewed-input.json",
+      "sha256": "15d6a646e61ff1b1f99beeface233be29cb7badbfe94f69b51c7fb6754d6d742"
+    },
+    {
+      "path": "docs/readings/2026-11-01-lexicon-next-stage/zipf-body-batch-004-reviewed-export.json",
+      "sha256": "ee02a8eadbe831353c89e515119dfbf3f310fc27a79712122098512e071ca8f9"
+    },
+    {
+      "path": "docs/readings/2026-11-01-lexicon-next-stage/zipf-body-batch-004-reviewed-workflow.json",
+      "sha256": "a6aadf3e196c0ff3a28a3e3bcb265b1f0dfe36aea29ff005faded847e83c9fd5"
+    }
+  ],
+  "formal_design": {
+    "path": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md",
+    "sha256": "3e2eb4da50f039682a9daadea5af57d588a5e0a0840dd392d9d32280cf6c57eb"
+  }
+}

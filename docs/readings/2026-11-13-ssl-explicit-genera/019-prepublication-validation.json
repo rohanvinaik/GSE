@@ -1,0 +1,76 @@
+{
+  "benchmark_comparisons": {
+    "contrasts": {
+      "baseline_sha256": "a3919c7146809e5bbc898e5d08f0cf2b34aeedb22b42efb4c5b94cf382be9bfd",
+      "benchmark_sha256": "2ed90740edc6c26a82bba6b60c21133de69043cd8a457b9590b15c34670bb16a",
+      "by_class": {
+        "ambiguous": {},
+        "contrast": {},
+        "occurrence": {
+          "exact_sense_bits_removed": 0.0
+        }
+      },
+      "candidate_sha256": "92158b9b2b17bd9376083d8458a0e56bcf66b3fd60f46826fa5c54c5c653c219",
+      "code": "SENTENCE_BENCHMARK_VALIDATED",
+      "failures": [],
+      "format": "gse.lexicon-sentence-benchmark-comparison/1"
+    },
+    "sentences": {
+      "baseline_sha256": "a3919c7146809e5bbc898e5d08f0cf2b34aeedb22b42efb4c5b94cf382be9bfd",
+      "benchmark_sha256": "7a7b0af0064bffe4c3cd37d5d0e3546a6061e6d5febeac1a9a0c6f87993fae68",
+      "by_class": {
+        "action": {
+          "exact_sense_bits_removed": 0.0
+        },
+        "ambiguous": {},
+        "grammar": {
+          "exact_sense_bits_removed": 0.0
+        },
+        "occurrence": {
+          "exact_sense_bits_removed": 0.0
+        },
+        "participant": {
+          "exact_sense_bits_removed": 0.0
+        },
+        "result-or-state": {}
+      },
+      "candidate_sha256": "92158b9b2b17bd9376083d8458a0e56bcf66b3fd60f46826fa5c54c5c653c219",
+      "code": "SENTENCE_BENCHMARK_VALIDATED",
+      "failures": [],
+      "format": "gse.lexicon-sentence-benchmark-comparison/1"
+    },
+    "states": {
+      "baseline_sha256": "a3919c7146809e5bbc898e5d08f0cf2b34aeedb22b42efb4c5b94cf382be9bfd",
+      "benchmark_sha256": "5804f94c5f6d911b882417cc112b18db44a97ec4defcfb92547a3d7cadef5987",
+      "by_class": {
+        "reserved-nonbeing": {},
+        "stative-positive": {
+          "exact_sense_bits_removed": 0.0
+        }
+      },
+      "candidate_sha256": "92158b9b2b17bd9376083d8458a0e56bcf66b3fd60f46826fa5c54c5c653c219",
+      "code": "SENTENCE_BENCHMARK_VALIDATED",
+      "failures": [],
+      "format": "gse.lexicon-sentence-benchmark-comparison/1"
+    }
+  },
+  "by_source": {
+    "wiktionary": 460,
+    "wordnet": 6
+  },
+  "candidate_sha256": "92158b9b2b17bd9376083d8458a0e56bcf66b3fd60f46826fa5c54c5c653c219",
+  "code": "CONVENTION_CANDIDATE_PREPUBLICATION_VALIDATED",
+  "grounding_counts": {
+    "ABSTAINED": 27,
+    "ABSTAINED_TOKEN_BOUNDARY": 6,
+    "IDENTIFIED_CORRECT": 817
+  },
+  "grounding_regressions": [],
+  "known_domain_changes": [],
+  "log2_support_factor": 738.5925253360588,
+  "new_cells": 466,
+  "new_model_questions": 0,
+  "source_code_matches_tested_receipt": true,
+  "support_factor_expression": "3^466",
+  "tests_passed": 1756
+}

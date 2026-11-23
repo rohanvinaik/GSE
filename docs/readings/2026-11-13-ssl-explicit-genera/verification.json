@@ -1,0 +1,138 @@
+{
+  "baseline_sha256": "145225558ab044afbeb062764853a5080bc13b8c44b9391256c6e81c7559a855",
+  "bits_removed": 727.4977878310107,
+  "candidate_sha256": "04c318118ef6c972f9b59cb8cbd9dad0b696e0da57c40be3ff1b3ed824f44228",
+  "changes_by_bank": {
+    "CAN": 1,
+    "SOMEONE": 355,
+    "WHEN": 35,
+    "WHERE": 68
+  },
+  "changes_by_bank_and_source": {
+    "CAN": {
+      "wiktionary": 1
+    },
+    "SOMEONE": {
+      "wiktionary": 342,
+      "wordnet": 13
+    },
+    "WHEN": {
+      "wiktionary": 19,
+      "wordnet": 16
+    },
+    "WHERE": {
+      "wiktionary": 48,
+      "wordnet": 20
+    }
+  },
+  "code": "EXPLICIT_GENERA_REPLAY_VALIDATED",
+  "dependent_can_entry_id": "wiktionary:en-aliterate-en-noun-r0GKhLR0:d7f0f69a76cdc051bde54499f81c169cd4b38ad311ac75be4ecd777b21fe4d10",
+  "format": "gse.ssl-explicit-genera-verification/1",
+  "fraction_of_initial_potential_removed": 2.0785681554573353e-05,
+  "migration_event_id": "57fb616bb5d12d0d1187e19897ae23f607f0ab8c4b1b6f145be97691272a14fb",
+  "new_cells": 459,
+  "outcomes": {
+    "explicit-person": {
+      "audit_outcomes": {
+        "MODEL_AGREEMENT": 2
+      },
+      "audits": [
+        {
+          "code": "MODEL_AGREEMENT",
+          "entry_id": "wiktionary:en-vaccinee-en-noun-bF525y-p:701161ab56e4c26dd891a83ba32c180e6ac1024994fb1c7b0a009784e3770cb5",
+          "request_id": "a177d4504d41e13d7c56f2c2c284f31fb368ff3db8d295c86ce48d21783a3202",
+          "value": 1
+        },
+        {
+          "code": "MODEL_AGREEMENT",
+          "entry_id": "wordnet:racer:racer.n.01",
+          "request_id": "6c6c51607d79d957eb24aa1ac06c5c9d077b5a3f5f06081ab33a3bafd2001593",
+          "value": 1
+        }
+      ],
+      "rule_id": "reviewed-guarded-pattern:b0330d58fba756e72154c845037780cfe858c06f328a73660b8707b2b8349c72",
+      "selected": "wiktionary:en-agent-en-noun-en:person_who_finds_and_arranges_work_for_another:bd890f2190a4f3a9ada3fee51d14987fc4a8650f8ac28f6262a4a9887c3f80dd",
+      "teaching": "REVIEWED_TEACHING"
+    },
+    "explicit-place": {
+      "audit_outcomes": {
+        "MODEL_AGREEMENT": 2
+      },
+      "audits": [
+        {
+          "code": "MODEL_AGREEMENT",
+          "entry_id": "wiktionary:en-apiary-en-noun-x4Uysc1P:1bf78ac4a1d60068c105325beabd18bc4e7827de8c49c470f70b1063300f9d7a",
+          "request_id": "999cec1e06e670b7dd7f7ae29909d906fcf2ad7924b5544399e4595c0183b83c",
+          "value": 1
+        },
+        {
+          "code": "MODEL_AGREEMENT",
+          "entry_id": "wordnet:rendezvous:rendezvous.n.02",
+          "request_id": "b8fab21a87e054e761c6922bd218f9c88b0bc9cc971595950f44fa54b1edbe13",
+          "value": 1
+        }
+      ],
+      "rule_id": "reviewed-guarded-pattern:12e4c4c3fe8dcc724c57608d440ea2246e3f09dd6a2954c1ecefbd9da0d03a71",
+      "selected": "wordnet:work:workplace.n.01",
+      "teaching": "REVIEWED_TEACHING"
+    },
+    "explicit-time": {
+      "audit_outcomes": {
+        "MODEL_AGREEMENT": 2
+      },
+      "audits": [
+        {
+          "code": "MODEL_AGREEMENT",
+          "entry_id": "wiktionary:en-dawn-en-noun-QA0IPeyA:2ce485efcbe69405b11ff068b6684681906b95371b00d21bca15147fafae8e4a",
+          "request_id": "4cd65d2a49f63654004504961dc8c69dccc06200a71c225383d6688d2d92a90d",
+          "value": 1
+        },
+        {
+          "code": "MODEL_AGREEMENT",
+          "entry_id": "wordnet:lease:lease.n.03",
+          "request_id": "7ea2b42a2c07e01451d0103fa063d9b305af3b50bec13217f7cb8f1c407a5fcd",
+          "value": 1
+        }
+      ],
+      "rule_id": "reviewed-guarded-pattern:281026a2d347619b2a5c6f301fdd70cde96d00fd9aca20333aff0496804888a8",
+      "selected": "wiktionary:en-night-en-noun-en:Q575:482026f9e840f3027537337f0fba80bb758f3af6903fc3776ef23f8afe7ab71e",
+      "teaching": "REVIEWED_TEACHING"
+    }
+  },
+  "reopened_cells": 0,
+  "replay": {
+    "code": "REPLAY_VALIDATED",
+    "complete_search": true,
+    "entries_checked": 401596,
+    "entries_mismatched": 0,
+    "entries_validated": 401596,
+    "format": "gse.lexicon-replay-report/1",
+    "gold": "NOT_CHECKED",
+    "inference_counts": {
+      "components_joint_checked": 2495392,
+      "components_solver_limited": 0,
+      "entries_complete_search": 401596,
+      "entries_replayed": 401596,
+      "entries_solver_limited": 0
+    },
+    "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+    "metadata_verification": {
+      "build_report": "NOT_CHECKED",
+      "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+      "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+      "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+      "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+      "catalog_definition_source_ids": "NOT_PERSISTED",
+      "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+      "representation_contract": "VERIFIED",
+      "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+    },
+    "mismatch_counts": {},
+    "mismatches": [],
+    "replayed_outcomes": {
+      "PARTIAL": 401596
+    }
+  },
+  "symbolic_new_cells": 456,
+  "typed_questions_used": 9
+}

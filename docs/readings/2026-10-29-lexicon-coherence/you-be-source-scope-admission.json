@@ -1,0 +1,26 @@
+{
+  "format": "gse.source-scope-admission-probe/1",
+  "request_id": "5d2ba6eeed5b948d90fdc7f0a9e554afdb82fc9e1dc471a33f6f140cd5d52c2d",
+  "definition": {
+    "definition": "Curated GSE pronoun use of 'you'. Declared lexical components: SOMEONE=+1. Grammatical features: {\"animacy\": \"ANIMATE\", \"gram\": {\"case\": \"NOM\", \"person\": 2}}.",
+    "entry_id": "gse_closed_class:pronoun:you",
+    "lemma": "you",
+    "pos": "pronoun"
+  },
+  "observation_count": 165,
+  "decision": {
+    "code": "SCOPE_UNJUSTIFIED",
+    "reason": "ENTITY_REFERENCE_ALONE_DOES_NOT_JUSTIFY_POSITIVE_BE",
+    "entry_id": "gse_closed_class:pronoun:you",
+    "bank": "BE",
+    "proposed_value": 1,
+    "source": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#be-stative-content-scope",
+    "exact_native_record_ids": [
+      "gse_closed_class:you:fbff12e440d68d97d943dd6e45a5ff93016a4fe8fe259c2c1e91e114ef17165b"
+    ],
+    "classification": "EXCLUSIVELY_EXACT_NATIVE_REFERENCE_ONLY_CATALOG",
+    "disposition": "NO_ASSERTION_CURRENT_DOMAINS_UNCHANGED"
+  },
+  "database_writes": 0,
+  "model_calls": 0
+}

@@ -1,0 +1,86 @@
+{
+  "audit": [
+    {
+      "bank": "WORDS",
+      "code": "MODEL_AGREEMENT",
+      "entry_id": "wiktionary:en-negative-en-noun-oErVryuq:f929932ee4decec428c342a9ff05b8fa09166f885d0dbe75886cee63960c33b9",
+      "request_id": "b5ac5ba4f887360ed70ced47dcd13476dd530869d42ef8c61c2a165ae994b869",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@70fb5b398dd5ab932841d11c4bad97e9c1454b71261206346619664f4fd361f4",
+      "value": 1,
+      "writes": false
+    },
+    {
+      "bank": "WORDS",
+      "code": "MODEL_AGREEMENT",
+      "entry_id": "wiktionary:en-rhyme-en-noun-91LhEYOE:321f76cef7bee7d41d93f7ac03eb537d3f9608659c1ce6d9b7466b71e2851063",
+      "request_id": "8ad1b2aa0d55add9f634c98f1cd8511cb8c2e2d0526f23b7fc4eb76d4a48afd0",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@70fb5b398dd5ab932841d11c4bad97e9c1454b71261206346619664f4fd361f4",
+      "value": 1,
+      "writes": false
+    },
+    {
+      "bank": "WORDS",
+      "code": "MODEL_AGREEMENT",
+      "entry_id": "wordnet:hypernym:hypernym.n.01",
+      "request_id": "6616f886d575371b1d3dfb9b9571cd18f4ffc24fdcf2c3109eeea2d532e82acc",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@70fb5b398dd5ab932841d11c4bad97e9c1454b71261206346619664f4fd361f4",
+      "value": 1,
+      "writes": false
+    }
+  ],
+  "baseline_sha256": "2915bc84d40b9c2f02c7f01c68519ec5533baf8efff1372467d9cdfa4db8cfb9",
+  "bits_removed": 38.039100017307746,
+  "candidate_sha256": "505a356504b3ef81c6c9a5313119c4945ef040eff52b0853419d07606451d9fb",
+  "changes_by_source": {
+    "wiktionary": 6,
+    "wordnet": 18
+  },
+  "code": "WORDS_RULE_REPLAY_VALIDATED",
+  "epoch_code": "RULE_ADMITTED",
+  "format": "gse.ssl-words-resolution/1",
+  "fraction_of_initial_potential_removed": 1.0868299710210374e-06,
+  "new_cells": 24,
+  "reopened_cells": 0,
+  "replay": {
+    "code": "REPLAY_VALIDATED",
+    "complete_search": true,
+    "entries_checked": 401596,
+    "entries_mismatched": 0,
+    "entries_validated": 401596,
+    "format": "gse.lexicon-replay-report/1",
+    "gold": "NOT_CHECKED",
+    "inference_counts": {
+      "components_joint_checked": 2495392,
+      "components_solver_limited": 0,
+      "entries_complete_search": 401596,
+      "entries_replayed": 401596,
+      "entries_solver_limited": 0
+    },
+    "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+    "metadata_verification": {
+      "build_report": "NOT_CHECKED",
+      "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+      "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+      "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+      "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+      "catalog_definition_source_ids": "NOT_PERSISTED",
+      "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+      "representation_contract": "VERIFIED",
+      "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+    },
+    "mismatch_counts": {},
+    "mismatches": [],
+    "replayed_outcomes": {
+      "PARTIAL": 401596
+    }
+  },
+  "rule_id": "reviewed-guarded-pattern:39c7bb1a3376ab358c6deab977fa52b632a5adaf0aa06e93d994b522cf07fed5",
+  "teaching_entry_id": "wordnet:silly:silly.n.01",
+  "typed_questions_used": 4,
+  "unchanged_open_controls": [
+    "wiktionary:en-hypernym-en-noun-en:Q609507:aa9e3ab30aecafc4179bac1b9ca56cb437ebac50d6fa6f91357093c7a2547e58",
+    "wiktionary:en-negative-en-noun-tOlrjVVX:cb23d84c432dda4c840d85ad09c7fef6a8c5055caaddab6b7950f5e72ca3f680",
+    "wordnet:logogram:logogram.n.01",
+    "wordnet:negative:negative.n.02"
+  ]
+}

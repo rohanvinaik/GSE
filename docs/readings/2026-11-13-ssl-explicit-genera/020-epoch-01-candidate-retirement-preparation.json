@@ -1,0 +1,34 @@
+{
+  "audit_delta": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-explicit-genera/retired-audit/020-epoch-01-candidate-audit-delta.json.gz",
+  "audit_delta_sha256": "f7ff600e8c4a1dcf82189f2b464dc106ece43b1c5c085d8d2b29bcaada8569cb",
+  "code": "WORK_AUDITS_PRESERVED_NO_CHECKPOINT_REMOVED",
+  "device": 16777232,
+  "format": "gse.retirement-preparation/1",
+  "inode": 102944843,
+  "logical_bytes": 19807637504,
+  "mtime_ns": 1795069588840696261,
+  "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-explicit-genera/coherence-020/zipf/epoch-01/candidate.db",
+  "retired_only_row_counts": {
+    "builder_metadata": 5,
+    "completion_attempts": 1,
+    "model_receipt_contexts": 10,
+    "model_rule_versions": 1,
+    "rule_migrations": 1,
+    "rule_versions": 1
+  },
+  "sha256": "61482487d9586299cf8e10cba420d69aba0056ab8f2bffd213627d704c3367c5",
+  "source_data_checks": {
+    "definitions": {
+      "code": "EXACT_STREAM_HASH_EQUAL",
+      "rows": 401596,
+      "sha256": "cecb186124446774945d9df5c293a79b824665990adf895c0d4c64cf54a54845"
+    },
+    "native_observations": {
+      "code": "EXACT_STREAM_HASH_EQUAL",
+      "rows": 3454882,
+      "sha256": "564a6e17ab702372bc38fe6e8b55df693d38f9c443315960f736406bc440453a"
+    }
+  },
+  "witness": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-019.db",
+  "witness_sha256": "92158b9b2b17bd9376083d8458a0e56bcf66b3fd60f46826fa5c54c5c653c219"
+}

@@ -1,0 +1,102 @@
+{
+  "active_pointer_changed": false,
+  "archived_model_receipts": 2,
+  "candidate": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-01/constructed-corpus-unit-quantity.db",
+  "cells_symbolically_narrowed": 363,
+  "code": "MIGRATED_CANDIDATE",
+  "coverage": {
+    "cells": {
+      "assigned": 404751,
+      "conflicted": 0,
+      "explicit_zero": 280174,
+      "unresolved": 22084625
+    },
+    "definitions": 401596,
+    "outcomes": {
+      "PARTIAL": 401596
+    }
+  },
+  "entries_changed_domains": 361,
+  "entries_reclosed": 401596,
+  "event_id": "ef7843797dbd4b8529dfd55d9c2b47838edfbbe8baf5d3ea74c5ca1591db6e97",
+  "format": "gse.rule-migration/2",
+  "from_version": "e9497291743de5632c8775191b61067abfbf79eea03b4d91459512a71e01d573",
+  "known_domain_changes": [],
+  "model_calls": 0,
+  "postflight": {
+    "code": "REPLAY_VALIDATED",
+    "complete_search": true,
+    "entries_checked": 401596,
+    "entries_mismatched": 0,
+    "entries_validated": 401596,
+    "format": "gse.lexicon-replay-report/1",
+    "gold": "NOT_CHECKED",
+    "inference_counts": {
+      "components_joint_checked": 2495388,
+      "components_solver_limited": 0,
+      "entries_complete_search": 401596,
+      "entries_replayed": 401596,
+      "entries_solver_limited": 0
+    },
+    "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+    "metadata_verification": {
+      "build_report": "NOT_CHECKED",
+      "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+      "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+      "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+      "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+      "catalog_definition_source_ids": "NOT_PERSISTED",
+      "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+      "representation_contract": "VERIFIED",
+      "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+    },
+    "mismatch_counts": {},
+    "mismatches": [],
+    "replayed_outcomes": {
+      "PARTIAL": 401596
+    }
+  },
+  "preflight": {
+    "code": "REPLAY_VALIDATED",
+    "complete_search": true,
+    "entries_checked": 401596,
+    "entries_mismatched": 0,
+    "entries_validated": 401596,
+    "format": "gse.lexicon-replay-report/1",
+    "gold": "NOT_CHECKED",
+    "inference_counts": {
+      "components_joint_checked": 2495751,
+      "components_solver_limited": 0,
+      "entries_complete_search": 401596,
+      "entries_replayed": 401596,
+      "entries_solver_limited": 0
+    },
+    "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+    "metadata_verification": {
+      "build_report": "NOT_CHECKED",
+      "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+      "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+      "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+      "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+      "catalog_definition_source_ids": "NOT_PERSISTED",
+      "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+      "representation_contract": "VERIFIED",
+      "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+    },
+    "mismatch_counts": {},
+    "mismatches": [],
+    "replayed_outcomes": {
+      "PARTIAL": 401596
+    }
+  },
+  "retained_model_receipts": 111,
+  "reviewed_exceptions": [],
+  "revised_scope_changes": {
+    "new_rule_ids": [
+      "reviewed-guarded-pattern:7c2e51d627e6816f13b3eca0abdf608621fab14b26eab1b8c0733e35e35ea03c"
+    ],
+    "old_rule_ids": []
+  },
+  "source": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-01/constructed-corpus-unit-quantity-teaching.db",
+  "to_version": "bf1d6be3ed6e4748f819c96efa7b91f1edaa880af3bee7950873ea84fb0745a9"
+}

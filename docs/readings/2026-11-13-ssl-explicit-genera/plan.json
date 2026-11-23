@@ -1,0 +1,108 @@
+{
+  "active_pointer_sha256": "5d18a4c1b9b4e2620ab96e7273c694e8a9dae4e091fd542db9f8f97d63ccb049",
+  "audits_per_epoch": 2,
+  "baseline_sha256": "145225558ab044afbeb062764853a5080bc13b8c44b9391256c6e81c7559a855",
+  "epochs": 3,
+  "families": [
+    {
+      "antecedent": null,
+      "consequent": [
+        "SOMEONE",
+        1
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "native_noun_frame:explicit_person",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wiktionary:en-vaccinee-en-noun-bF525y-p:701161ab56e4c26dd891a83ba32c180e6ac1024994fb1c7b0a009784e3770cb5",
+        "wordnet:racer:racer.n.01"
+      ],
+      "id": "explicit-person",
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "explicit-person-scope",
+        "reviewer": "Source-backed construction review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/SOURCE_SCOPE.md",
+          "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "statement": "The exact noun gloss defines a person or someone. A subject relative specifies which person, including by an activity, a state, or an event they undergo.",
+        "warrant_id": "explicit-person"
+      }
+    },
+    {
+      "antecedent": null,
+      "consequent": [
+        "WHERE",
+        1
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "native_noun_frame:explicit_place",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wiktionary:en-apiary-en-noun-x4Uysc1P:1bf78ac4a1d60068c105325beabd18bc4e7827de8c49c470f70b1063300f9d7a",
+        "wordnet:rendezvous:rendezvous.n.02"
+      ],
+      "id": "explicit-place",
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "explicit-place-scope",
+        "reviewer": "Source-backed construction review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/SOURCE_SCOPE.md",
+          "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "statement": "The exact noun gloss defines a place by what happens there. The defining genus itself supplies the WHERE content.",
+        "warrant_id": "explicit-place"
+      }
+    },
+    {
+      "antecedent": null,
+      "consequent": [
+        "WHEN",
+        1
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "native_noun_frame:explicit_time",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wiktionary:en-dawn-en-noun-QA0IPeyA:2ce485efcbe69405b11ff068b6684681906b95371b00d21bca15147fafae8e4a",
+        "wordnet:lease:lease.n.03"
+      ],
+      "id": "explicit-time",
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "explicit-time-scope",
+        "reviewer": "Source-backed construction review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/SOURCE_SCOPE.md",
+          "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "statement": "The exact noun gloss defines a time point or interval by an event or state that locates it temporally. The defining genus supplies WHEN content.",
+        "warrant_id": "explicit-time"
+      }
+    }
+  ],
+  "format": "gse.lexicon-epoch-plan/1"
+}

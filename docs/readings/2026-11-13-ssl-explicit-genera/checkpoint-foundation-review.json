@@ -1,0 +1,3027 @@
+{
+  "format": "gse.checkpoint-foundation-review/1",
+  "code": "REVIEW_LEDGER_NO_BANK_WRITES",
+  "resource": "/Users/rohanvinaik/Projects/GSE/data/lexicon_builder/2026-11-12/sparse-release-021.db",
+  "rule_version": "7833acfc3c3e3ba0110364c98ab9530e092859c5a7f5342bf1151eb90de0b69a",
+  "basis_size": 56,
+  "nsm_units": 65,
+  "unit_review_counts": {
+    "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT": 44,
+    "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS": 14,
+    "CONSTRUCTION_OR_HIERARCHY_REVIEW": 7
+  },
+  "banks_with_no_published_assignment": [
+    "I",
+    "YOU",
+    "PEOPLE",
+    "KIND",
+    "SAME",
+    "ONE",
+    "TWO",
+    "EXIST",
+    "MOMENT",
+    "LONG_TIME",
+    "THEN",
+    "START",
+    "HERE",
+    "SIDE",
+    "TOUCH",
+    "FAR",
+    "OUTSIDE",
+    "TOWARD",
+    "WITH",
+    "IF",
+    "TRUE",
+    "CERTAINTY"
+  ],
+  "bank_assignments_written": 0,
+  "model_calls": 0,
+  "measurement_boundary": "FOUNDATION_REVIEW_BEFORE_NEXT_METHOD_REVISION",
+  "code_sha256": "998b2709afbe4ce99ffe06fe4ea51649a6ef5cb028783541683f23d4ed166872",
+  "banks": [
+    {
+      "bank": "I",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 0
+      },
+      "chart_units": [
+        "nsm:v20:i"
+      ],
+      "constraint_rule_ids": [
+        "founder:category:i-someone"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "YOU",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 0
+      },
+      "chart_units": [
+        "nsm:v20:you"
+      ],
+      "constraint_rule_ids": [
+        "founder:category:you-someone"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "SOMEONE",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 11182
+      },
+      "chart_units": [
+        "nsm:v20:someone"
+      ],
+      "constraint_rule_ids": [
+        "founder:category:i-someone",
+        "founder:category:you-someone",
+        "reviewed-guarded-pattern:82cac960b4a20869a408a2bd552a5163dc32874d0e966255769dcdb6d7846c13",
+        "reviewed-guarded-pattern:7cbbaee934518a7032d8ecaff3ecb8127803896f1f9685b1d6fdb9a330f77e39",
+        "reviewed-guarded-pattern:b0330d58fba756e72154c845037780cfe858c06f328a73660b8707b2b8349c72"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "SOMETHING",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 70848,
+        "1": 78018
+      },
+      "chart_units": [
+        "nsm:v20:something",
+        "nsm:v20:this"
+      ],
+      "constraint_rule_ids": [
+        "founder:adjective-not-object",
+        "founder:adverb-not-object",
+        "founder:category:body-something",
+        "reviewed-guarded-pattern:7c2e51d627e6816f13b3eca0abdf608621fab14b26eab1b8c0733e35e35ea03c",
+        "reviewed-guarded-pattern:4d9f9f13721144cbba9db5d6a3e3343507e4222966fee5d50c4aaed0f6cfcb50",
+        "reviewed-guarded-pattern:4e512ae007c8f10dc26ba11b34d4e538b3493f24bfa30c08ec701eef9ed3ae42",
+        "reviewed-guarded-pattern:e0d5fced5d793a0da96ccc5a260eadc2c2134cfd1a82de5ed2c788a90a8f47a9",
+        "reviewed-guarded-pattern:9d18932ec9f4583f7debecef1d3f5d662f5f4e7c71b069d8b91ed7b4df04a414",
+        "reviewed-guarded-pattern:1260743f67e8834680862a02d9da1fafa1e8659a6f1b80ea5f4ffc2d97720eb4"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "PEOPLE",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 0
+      },
+      "chart_units": [
+        "nsm:v20:people"
+      ],
+      "constraint_rule_ids": [],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "BODY",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 448,
+        "1": 2267
+      },
+      "chart_units": [
+        "nsm:v20:body"
+      ],
+      "constraint_rule_ids": [
+        "founder:category:body-something",
+        "reviewed-guarded-pattern:4020ffd7ce72eb23aea7686a62a21eaa2bdc974306586560d69cbc89a63853a7",
+        "reviewed-guarded-pattern:2a5698334fe3f070549cae52a4e52440acb5965862dec358825001f5a2496a60",
+        "reviewed-guarded-pattern:5c6806eb8bd28446fab5529e7ed01ef04aef6ef5511fc15383109415887ef271",
+        "reviewed-guarded-pattern:d30431f3531032b0121f4e7bec3e84ab19914eb7ffe1599d33d7671b7535e744",
+        "reviewed-guarded-pattern:4e512ae007c8f10dc26ba11b34d4e538b3493f24bfa30c08ec701eef9ed3ae42",
+        "reviewed-guarded-pattern:e0d5fced5d793a0da96ccc5a260eadc2c2134cfd1a82de5ed2c788a90a8f47a9",
+        "reviewed-guarded-pattern:0a91caaa3f362c403173bc2cfef6e7cb6e6a96800fab64197513c11fd3b4f684",
+        "reviewed-guarded-pattern:275d72d2802ac76818610dcfd7c0e52aa0bf7b8675bf996759a83227a3cb674d",
+        "reviewed-guarded-pattern:f03108ad6d664f341966d19172d2d3230dd14e6e25da0f2d30fc17fdb39e1e8e",
+        "reviewed-guarded-pattern:200bdf39463c0f8f44b33b44a74760b127d11e4b14b2fcd3ca510990178eb8a5",
+        "reviewed-guarded-pattern:811c16ede9d6b68a78280795304591756df11517354a24f35a3a7a2c30d2227e",
+        "reviewed-guarded-pattern:92d646b88ee096a8a5f17765a3e27f866831147593329fe852cab0d663942bc4",
+        "reviewed-guarded-pattern:f330b08035dd35d80260dbd27d28a0d96546504ada1b6b010c8d23951740faa2",
+        "reviewed-guarded-pattern:65152c2f326a1052e59b0a6fdd313ee3bebe908edb99e91edb78a67ea1d5856e"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "KIND",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 0
+      },
+      "chart_units": [
+        "nsm:v20:kinds"
+      ],
+      "constraint_rule_ids": [],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "PART",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 1694
+      },
+      "chart_units": [
+        "nsm:v20:parts"
+      ],
+      "constraint_rule_ids": [
+        "reviewed-guarded-pattern:0a91caaa3f362c403173bc2cfef6e7cb6e6a96800fab64197513c11fd3b4f684",
+        "reviewed-guarded-pattern:275d72d2802ac76818610dcfd7c0e52aa0bf7b8675bf996759a83227a3cb674d",
+        "reviewed-guarded-pattern:f03108ad6d664f341966d19172d2d3230dd14e6e25da0f2d30fc17fdb39e1e8e",
+        "reviewed-guarded-pattern:d9adaf94c372dfe041e10f5b8625c0c183a05831c632a1573220275d899b0fe6",
+        "reviewed-guarded-pattern:9d18932ec9f4583f7debecef1d3f5d662f5f4e7c71b069d8b91ed7b4df04a414"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "SAME",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 0
+      },
+      "chart_units": [
+        "nsm:v20:same",
+        "nsm:v20:other"
+      ],
+      "constraint_rule_ids": [],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "ONE",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 0
+      },
+      "chart_units": [
+        "nsm:v20:one"
+      ],
+      "constraint_rule_ids": [
+        "founder:category:one-quantity"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "TWO",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 0
+      },
+      "chart_units": [
+        "nsm:v20:two"
+      ],
+      "constraint_rule_ids": [
+        "founder:category:two-quantity"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "QUANTITY",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 712
+      },
+      "chart_units": [
+        "nsm:v20:much-many",
+        "nsm:v20:little-few",
+        "nsm:v20:some",
+        "nsm:v20:all"
+      ],
+      "constraint_rule_ids": [
+        "founder:category:one-quantity",
+        "founder:category:two-quantity",
+        "reviewed-guarded-pattern:65d16959c01e4411fe908f0a08ab3a0b130fa0cdf3095f20602b256862b56aa2",
+        "reviewed-guarded-pattern:3bf66d8b1cf0cf629d8bd968d3a5e7cdcfee5b508d007afcd49793d8b4bbace1",
+        "reviewed-guarded-pattern:2a5698334fe3f070549cae52a4e52440acb5965862dec358825001f5a2496a60",
+        "reviewed-guarded-pattern:5c6806eb8bd28446fab5529e7ed01ef04aef6ef5511fc15383109415887ef271",
+        "reviewed-guarded-pattern:7c2e51d627e6816f13b3eca0abdf608621fab14b26eab1b8c0733e35e35ea03c",
+        "reviewed-guarded-pattern:15b623faa3a7f480ae4bb55b38b12330b19bc02a59404d2e312985d6c4d123d6",
+        "reviewed-guarded-pattern:75529e500654a013832858c8c49beff7b9344ea82b7738273ecb8013de419a90",
+        "reviewed-guarded-pattern:4d9f9f13721144cbba9db5d6a3e3343507e4222966fee5d50c4aaed0f6cfcb50",
+        "reviewed-guarded-pattern:8d1fe210c053571b631d01240ef7ee3f7b29d33b014c7bf4721f9e1f078aaaef",
+        "reviewed-guarded-pattern:1ad9148bf06029d4b0f49346585ddceff9ad4415005116d85ef1ef4544f3fc52",
+        "reviewed-guarded-pattern:d30431f3531032b0121f4e7bec3e84ab19914eb7ffe1599d33d7671b7535e744",
+        "reviewed-guarded-pattern:8d388f4033f939925a44eb20c7d09e833a9ee6af6102f382249bdef7adcb1810"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "GOOD",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 208553,
+        "1": 0
+      },
+      "chart_units": [
+        "nsm:v20:good",
+        "nsm:v20:bad"
+      ],
+      "constraint_rule_ids": [
+        "founder:noun-own-evaluation",
+        "founder:absence:good-big",
+        "founder:absence:big-good",
+        "reviewed-guarded-pattern:d5c74077e4237a30ca36de5ae0808fe2646ce7efd860ac2f9f999b8e80ccf634"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "BIG",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 1,
+        "1": 0
+      },
+      "chart_units": [
+        "nsm:v20:small",
+        "nsm:v20:big"
+      ],
+      "constraint_rule_ids": [
+        "founder:absence:good-big",
+        "founder:absence:big-good"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "THINK",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 1921
+      },
+      "chart_units": [
+        "nsm:v20:think"
+      ],
+      "constraint_rule_ids": [
+        "reviewed-guarded-pattern:5230a98014811920d6de934b3bac8359fad729ae3ad8220d587510895b8ff659"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "KNOW",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 28
+      },
+      "chart_units": [
+        "nsm:v20:know"
+      ],
+      "constraint_rule_ids": [],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "WANT",
+      "published_sign_counts": {
+        "-1": 2,
+        "0": 745,
+        "1": 113
+      },
+      "chart_units": [
+        "nsm:v20:want",
+        "nsm:v20:dont-want"
+      ],
+      "constraint_rule_ids": [
+        "reviewed-guarded-pattern:f4ff18466dbc0cfce0b075ac7dae052e0a42eee33e6ceebfb979c63f0cbbab37",
+        "reviewed-guarded-pattern:15b623faa3a7f480ae4bb55b38b12330b19bc02a59404d2e312985d6c4d123d6",
+        "reviewed-guarded-pattern:75529e500654a013832858c8c49beff7b9344ea82b7738273ecb8013de419a90",
+        "reviewed-guarded-pattern:8d1fe210c053571b631d01240ef7ee3f7b29d33b014c7bf4721f9e1f078aaaef",
+        "reviewed-guarded-pattern:1ad9148bf06029d4b0f49346585ddceff9ad4415005116d85ef1ef4544f3fc52",
+        "reviewed-guarded-pattern:d30431f3531032b0121f4e7bec3e84ab19914eb7ffe1599d33d7671b7535e744",
+        "reviewed-guarded-pattern:8d388f4033f939925a44eb20c7d09e833a9ee6af6102f382249bdef7adcb1810",
+        "reviewed-guarded-pattern:200bdf39463c0f8f44b33b44a74760b127d11e4b14b2fcd3ca510990178eb8a5",
+        "reviewed-guarded-pattern:811c16ede9d6b68a78280795304591756df11517354a24f35a3a7a2c30d2227e",
+        "reviewed-guarded-pattern:92d646b88ee096a8a5f17765a3e27f866831147593329fe852cab0d663942bc4",
+        "reviewed-guarded-pattern:f330b08035dd35d80260dbd27d28a0d96546504ada1b6b010c8d23951740faa2"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "FEEL",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 1095
+      },
+      "chart_units": [
+        "nsm:v20:feel"
+      ],
+      "constraint_rule_ids": [],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "SEE",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 15
+      },
+      "chart_units": [
+        "nsm:v20:see"
+      ],
+      "constraint_rule_ids": [],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "HEAR",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 18
+      },
+      "chart_units": [
+        "nsm:v20:hear"
+      ],
+      "constraint_rule_ids": [],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "INFER",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 21
+      },
+      "chart_units": [],
+      "constraint_rule_ids": [
+        "reviewed-guarded-pattern:5230a98014811920d6de934b3bac8359fad729ae3ad8220d587510895b8ff659"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "SAY",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 653
+      },
+      "chart_units": [
+        "nsm:v20:say"
+      ],
+      "constraint_rule_ids": [
+        "reviewed-guarded-pattern:df78893e68c07101bdf4cc137d93472a9fe783dd96948f1cdfc4e561864d66e4"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "WORDS",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 24
+      },
+      "chart_units": [
+        "nsm:v20:words"
+      ],
+      "constraint_rule_ids": [
+        "reviewed-guarded-pattern:39c7bb1a3376ab358c6deab977fa52b632a5adaf0aa06e93d994b522cf07fed5"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "DO",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 5644
+      },
+      "chart_units": [
+        "nsm:v20:do"
+      ],
+      "constraint_rule_ids": [
+        "founder:category:do-happen",
+        "reviewed-guarded-pattern:907bc6895fc441905747d0316ccba11bea897a657bdf23d86c4b561330884322",
+        "reviewed-guarded-pattern:c55e01c1778f7a6872ced2f4cae6e90b344acb0f83135f08596e6dc90fdd580d",
+        "reviewed-guarded-pattern:df78893e68c07101bdf4cc137d93472a9fe783dd96948f1cdfc4e561864d66e4"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "HAPPEN",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 7743
+      },
+      "chart_units": [
+        "nsm:v20:happen"
+      ],
+      "constraint_rule_ids": [
+        "founder:category:move-happen",
+        "founder:category:do-happen",
+        "founder:category:cause-happen",
+        "reviewed-guarded-pattern:3a2f84cecc33494518217d2e6be7beaa687b05e2237b0d3691dc31cf4bf30e5c",
+        "reviewed-guarded-pattern:88e422632c95cb57ab299331f6d64976af01384e880f98e9d22ad7868ea824bc"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "MOVE",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 1774
+      },
+      "chart_units": [
+        "nsm:v20:move"
+      ],
+      "constraint_rule_ids": [
+        "founder:category:move-happen"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "BE",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 1,
+        "1": 880
+      },
+      "chart_units": [
+        "nsm:v20:be-somewhere",
+        "nsm:v20:be-someone-something"
+      ],
+      "constraint_rule_ids": [
+        "reviewed-guarded-pattern:1260743f67e8834680862a02d9da1fafa1e8659a6f1b80ea5f4ffc2d97720eb4",
+        "reviewed-guarded-pattern:b8fa57ced713800c5f26b65d67ae5600e3b1d6f54bdb752151fb9dfcf0dcd71b"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "HAVE",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 5
+      },
+      "chart_units": [
+        "nsm:v20:mine"
+      ],
+      "constraint_rule_ids": [],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "EXIST",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 0
+      },
+      "chart_units": [
+        "nsm:v20:there-is"
+      ],
+      "constraint_rule_ids": [],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "ALIVE",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 242,
+        "1": 14825
+      },
+      "chart_units": [
+        "nsm:v20:die",
+        "nsm:v20:live"
+      ],
+      "constraint_rule_ids": [
+        "reviewed-guarded-pattern:d5c74077e4237a30ca36de5ae0808fe2646ce7efd860ac2f9f999b8e80ccf634",
+        "reviewed-guarded-pattern:65152c2f326a1052e59b0a6fdd313ee3bebe908edb99e91edb78a67ea1d5856e"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "MOMENT",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 0
+      },
+      "chart_units": [
+        "nsm:v20:moment"
+      ],
+      "constraint_rule_ids": [
+        "founder:category:moment-when"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "WHEN",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 35
+      },
+      "chart_units": [
+        "nsm:v20:time"
+      ],
+      "constraint_rule_ids": [
+        "founder:category:then-when",
+        "founder:category:before-when",
+        "founder:category:long_time-when",
+        "founder:category:moment-when",
+        "reviewed-guarded-pattern:281026a2d347619b2a5c6f301fdd70cde96d00fd9aca20333aff0496804888a8"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "LONG_TIME",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 0
+      },
+      "chart_units": [
+        "nsm:v20:short-time",
+        "nsm:v20:long-time"
+      ],
+      "constraint_rule_ids": [
+        "founder:category:long_time-when"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "BEFORE",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 1,
+        "1": 0
+      },
+      "chart_units": [
+        "nsm:v20:after",
+        "nsm:v20:before"
+      ],
+      "constraint_rule_ids": [
+        "founder:category:before-when"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "THEN",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 0
+      },
+      "chart_units": [
+        "nsm:v20:now"
+      ],
+      "constraint_rule_ids": [
+        "founder:category:then-when"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "START",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 0
+      },
+      "chart_units": [],
+      "constraint_rule_ids": [],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "WHERE",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 69
+      },
+      "chart_units": [
+        "nsm:v20:place"
+      ],
+      "constraint_rule_ids": [
+        "founder:category:above-where",
+        "founder:category:far-where",
+        "founder:category:outside-where",
+        "founder:category:toward-where",
+        "founder:category:here-where",
+        "founder:category:side-where",
+        "reviewed-guarded-pattern:12e4c4c3fe8dcc724c57608d440ea2246e3f09dd6a2954c1ecefbd9da0d03a71"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "HERE",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 0
+      },
+      "chart_units": [
+        "nsm:v20:here"
+      ],
+      "constraint_rule_ids": [
+        "founder:category:here-where"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "SIDE",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 0
+      },
+      "chart_units": [
+        "nsm:v20:side"
+      ],
+      "constraint_rule_ids": [
+        "founder:category:side-where"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "TOUCH",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 0
+      },
+      "chart_units": [
+        "nsm:v20:touch"
+      ],
+      "constraint_rule_ids": [],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "ABOVE",
+      "published_sign_counts": {
+        "-1": 1,
+        "0": 16,
+        "1": 0
+      },
+      "chart_units": [
+        "nsm:v20:below",
+        "nsm:v20:above"
+      ],
+      "constraint_rule_ids": [
+        "founder:category:above-where"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "FAR",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 0
+      },
+      "chart_units": [
+        "nsm:v20:far",
+        "nsm:v20:near"
+      ],
+      "constraint_rule_ids": [
+        "founder:category:far-where"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "OUTSIDE",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 0
+      },
+      "chart_units": [
+        "nsm:v20:inside"
+      ],
+      "constraint_rule_ids": [
+        "founder:category:outside-where"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "TOWARD",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 0
+      },
+      "chart_units": [],
+      "constraint_rule_ids": [
+        "founder:category:toward-where"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "WITH",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 0
+      },
+      "chart_units": [],
+      "constraint_rule_ids": [],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "NOT",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 3
+      },
+      "chart_units": [
+        "nsm:v20:not"
+      ],
+      "constraint_rule_ids": [],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "MAYBE",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 5
+      },
+      "chart_units": [
+        "nsm:v20:maybe"
+      ],
+      "constraint_rule_ids": [],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "CAN",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 1,
+        "1": 13
+      },
+      "chart_units": [
+        "nsm:v20:can"
+      ],
+      "constraint_rule_ids": [
+        "reviewed-guarded-pattern:7cbbaee934518a7032d8ecaff3ecb8127803896f1f9685b1d6fdb9a330f77e39"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "MUST",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 2
+      },
+      "chart_units": [],
+      "constraint_rule_ids": [],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "BECAUSE",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 1,
+        "1": 0
+      },
+      "chart_units": [
+        "nsm:v20:because"
+      ],
+      "constraint_rule_ids": [],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "CAUSE",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 1,
+        "1": 1347
+      },
+      "chart_units": [],
+      "constraint_rule_ids": [
+        "founder:category:cause-happen"
+      ],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "IF",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 0
+      },
+      "chart_units": [
+        "nsm:v20:if"
+      ],
+      "constraint_rule_ids": [],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "LIKE",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 1
+      },
+      "chart_units": [
+        "nsm:v20:like"
+      ],
+      "constraint_rule_ids": [],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "TRUE",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 0
+      },
+      "chart_units": [
+        "nsm:v20:true"
+      ],
+      "constraint_rule_ids": [],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "INTENSITY",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 2
+      },
+      "chart_units": [
+        "nsm:v20:very"
+      ],
+      "constraint_rule_ids": [],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    },
+    {
+      "bank": "CERTAINTY",
+      "published_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 0
+      },
+      "chart_units": [],
+      "constraint_rule_ids": [],
+      "semantic_readiness": "NOT_INFERRED_FROM_CELL_COUNT"
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "nsm:v20:i",
+      "chart_heading": "I~ME",
+      "forms": [
+        "I",
+        "ME"
+      ],
+      "frame_text": "I want to do/know/say something\nI want this, I don\u2019t want this\nI don\u2019t know\nsomething bad can happen to me\nsomeone like me",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "I",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "gse_closed_class:pronoun:i",
+          "definition": "Curated GSE pronoun use of 'i'. Declared lexical components: SOMEONE=+1. Grammatical features: {\"animacy\": \"ANIMATE\", \"gram\": {\"case\": \"NOM\", \"number\": \"SINGULAR\", \"person\": 1}}.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 2,
+          "open_coordinates": 54
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:you",
+      "chart_heading": "YOU",
+      "forms": [
+        "YOU"
+      ],
+      "frame_text": "I want you to do/know/say something\nsomething bad can happen to you\nyou are someone like me",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "YOU",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "gse_closed_class:pronoun:you",
+          "definition": "Curated GSE pronoun use of 'you'. Declared lexical components: SOMEONE=+1. Grammatical features: {\"animacy\": \"ANIMATE\", \"gram\": {\"case\": \"NOM\", \"person\": 2}}.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 5,
+          "open_coordinates": 51
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:someone",
+      "chart_heading": "SOMEONE",
+      "forms": [
+        "SOMEONE"
+      ],
+      "frame_text": "this someone, the same someone,\nsomeone else, this other someone\nsomeone does/says something",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "SOMEONE",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+      "linked_definitions": [
+        {
+          "entry_id": "gse_closed_class:pronoun:someone",
+          "definition": "Curated GSE pronoun use of 'someone'. Declared lexical components: SOMEONE=+1. Grammatical features: {\"animacy\": \"ANIMATE\", \"gram\": {\"number\": \"SINGULAR\", \"person\": 3}}.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            1
+          ],
+          "known_coordinates": 1,
+          "open_coordinates": 55
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:people",
+      "chart_heading": "PEOPLE",
+      "forms": [
+        "PEOPLE"
+      ],
+      "frame_text": "these people, many people, some\npeople, few people\nmany people think like this:...\npeople can say...\npeople of one kind",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "PEOPLE",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "wordnet:people:people.n.01",
+          "definition": "(plural) any group of human beings (men or women or children) collectively",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 2,
+          "open_coordinates": 54
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:body",
+      "chart_heading": "BODY",
+      "forms": [
+        "BODY"
+      ],
+      "frame_text": "people\u2019s bodies\na body of one kind, bodies of two kinds\nsomething bad happens inside\nsomeone\u2019s body\nsomeone feels something in the body",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "BODY",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "wordnet:body:body.n.01",
+          "definition": "the entire structure of an organism (an animal, plant, or human being)",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 2,
+          "open_coordinates": 54
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:something",
+      "chart_heading": "SOMETHING~THING",
+      "forms": [
+        "SOMETHING",
+        "THING"
+      ],
+      "frame_text": "this something~thing, the same\nsomething~thing, something else\nsomething big, something small\nsomething of one kind",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "SOMETHING",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+      "linked_definitions": [
+        {
+          "entry_id": "gse_closed_class:pronoun:something",
+          "definition": "Curated GSE pronoun use of 'something'. Declared lexical components: SOMETHING=+1. Grammatical features: {\"animacy\": \"INANIMATE\", \"gram\": {\"number\": \"SINGULAR\", \"person\": 3}}.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            1
+          ],
+          "known_coordinates": 1,
+          "open_coordinates": 55
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:words",
+      "chart_heading": "WORDS",
+      "forms": [
+        "WORDS"
+      ],
+      "frame_text": "many words, other words, one word\nwords of one kind\nsay something with (not with) words, say\nsomething in other words\nsay these words",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "WORDS",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "wordnet:word:word.n.01",
+          "definition": "a unit of language that native speakers can identify",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 2,
+          "open_coordinates": 54
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:parts",
+      "chart_heading": "(HAVE) PARTS",
+      "forms": [
+        "(HAVE) PARTS"
+      ],
+      "frame_text": "people\u2019s bodies have many parts\none/two of these parts...\nsomething of this kind has two/many\nparts\nthis part, the same part, this other part",
+      "mapping": {
+        "code": "ADAPTED",
+        "bank": "PART",
+        "value": 1,
+        "note": "Registry PART is singular; chart specifies (HAVE) PARTS and its relational frames.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "wordnet:part:part.n.01",
+          "definition": "something determined in relation to something that includes it",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 2,
+          "open_coordinates": 54
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:kinds",
+      "chart_heading": "KINDS",
+      "forms": [
+        "KINDS"
+      ],
+      "frame_text": "people of one/two/many kinds\nthis kind, the same kind, another kind,\nthis other kind\nsomething/someone of one kind\na place of one kind",
+      "mapping": {
+        "code": "ADAPTED",
+        "bank": "KIND",
+        "value": 1,
+        "note": "Registry KIND is singular; identify the taxonomic sense rather than the kindness homograph.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "wordnet:kind:kind.n.01",
+          "definition": "a category of things distinguished by some common characteristic or quality",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 2,
+          "open_coordinates": 54
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:this",
+      "chart_heading": "THIS",
+      "forms": [
+        "THIS"
+      ],
+      "frame_text": "this someone/something, these people,\nthis kind, this part\nat this time, in this place\nbecause of this\nit is like this:...",
+      "mapping": {
+        "code": "ADAPTED",
+        "bank": "SOMETHING",
+        "value": 1,
+        "note": "Approved demonstrative object-reference anchor; which object is designated is a grammatical/contextual binding.",
+        "assignment_approved": false,
+        "correspondence_approved": true,
+        "approved_claims": [
+          {
+            "entry_id": "gse:prime:this",
+            "bank": "SOMETHING",
+            "value": 1,
+            "hierarchy_level": null,
+            "source": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#word-and-sentence-boundary",
+            "version": "gse.lexicon-conventions/2026-10-29",
+            "scope": "EXACT_DEFINITION_ONLY",
+            "signature_complete": false
+          }
+        ]
+      },
+      "review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+      "linked_definitions": [
+        {
+          "entry_id": "gse:prime:this",
+          "definition": "Demonstrative object reference; grammatical structure and context identify which object is designated.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            1
+          ],
+          "known_coordinates": 1,
+          "open_coordinates": 55
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:same",
+      "chart_heading": "THE SAME",
+      "forms": [
+        "THE SAME"
+      ],
+      "frame_text": "the same someone, the same thing, the\nsame kind\nat the same time, in the same place\nsomeone says/does/thinks/knows/\nwants/feels the same",
+      "mapping": {
+        "code": "ADAPTED",
+        "bank": "SAME",
+        "value": 1,
+        "note": "Registry positive identity pole represents the chart form THE SAME.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "wordnet:same:same.a.01",
+          "definition": "same in identity",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 1,
+          "open_coordinates": 55
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:other",
+      "chart_heading": "OTHER~ELSE",
+      "forms": [
+        "OTHER",
+        "ELSE"
+      ],
+      "frame_text": "someone else, something else, at\nanother time, somewhere else\nsome other kinds, some other parts\nthis other kind, this other part, this other\nsomeone, this other thing",
+      "mapping": {
+        "code": "ADAPTED",
+        "bank": "SAME",
+        "value": -1,
+        "note": "Existing bipolar convention folds OTHER into SAME; ELSE is a chart allolex.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "wordnet:other:other.a.01",
+          "definition": "not the same one or ones already mentioned or implied; - the White Queen",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 1,
+          "open_coordinates": 55
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:much-many",
+      "chart_heading": "MUCH~MANY",
+      "forms": [
+        "MUCH",
+        "MANY"
+      ],
+      "frame_text": "many people, many things, many kinds\npeople\u2019s bodies have many parts\nsomething of this kind has many parts\nat many times, in many places\nmuch of this something (e.g. water)\nmuch more, many more",
+      "mapping": {
+        "code": "METADATA",
+        "bank": "QUANTITY",
+        "value": null,
+        "note": "Current quantity hierarchy has MANY; a complete definition and hierarchy level require explicit anchors.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "CONSTRUCTION_OR_HIERARCHY_REVIEW",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:much-many",
+          "definition": "NSM v20 lexical unit MUCH~MANY. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:two",
+      "chart_heading": "TWO",
+      "forms": [
+        "TWO"
+      ],
+      "frame_text": "two someones/people, two things, two\nkinds\ntwo of these parts\nsomething of this kind has two parts\ntwo of these things/people\ntwo more things",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "TWO",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "wordnet:two:two.s.01",
+          "definition": "being one more than one",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 1,
+          "open_coordinates": 55
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:one",
+      "chart_heading": "ONE",
+      "forms": [
+        "ONE"
+      ],
+      "frame_text": "one someone, one thing, one kind\none of these parts\none of these things/people\nin one place, at one time\nsomething of one kind\none more thing",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "ONE",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "wordnet:one:one.s.01",
+          "definition": "used of a single unit or thing; not two or more",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 1,
+          "open_coordinates": 55
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:little-few",
+      "chart_heading": "LITTLE~FEW",
+      "forms": [
+        "LITTLE",
+        "FEW"
+      ],
+      "frame_text": "few people, few things\na little of this something (e.g. water)\nvery little, very few",
+      "mapping": {
+        "code": "METADATA",
+        "bank": "QUANTITY",
+        "value": null,
+        "note": "Current quantity hierarchy has FEW; a complete definition and hierarchy level require explicit anchors.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "CONSTRUCTION_OR_HIERARCHY_REVIEW",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:little-few",
+          "definition": "NSM v20 lexical unit LITTLE~FEW. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:some",
+      "chart_heading": "SOME",
+      "forms": [
+        "SOME"
+      ],
+      "frame_text": "some people, some things, some kinds\nsome of these parts\nsome of these things/people\nat some times, in some places\nsome of this something (e.g. water)",
+      "mapping": {
+        "code": "METADATA",
+        "bank": "QUANTITY",
+        "value": null,
+        "note": "Current quantity hierarchy has SOME; no ordinary SOME coordinate exists.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "CONSTRUCTION_OR_HIERARCHY_REVIEW",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:some",
+          "definition": "NSM v20 lexical unit SOME. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:all",
+      "chart_heading": "ALL",
+      "forms": [
+        "ALL"
+      ],
+      "frame_text": "all people, all things, all kinds\nall of these parts\nat all times, in all places\nall of this something (e.g. water)",
+      "mapping": {
+        "code": "METADATA",
+        "bank": "QUANTITY",
+        "value": null,
+        "note": "Current quantity hierarchy has ALL; no ordinary ALL coordinate exists.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "CONSTRUCTION_OR_HIERARCHY_REVIEW",
+      "linked_definitions": [
+        {
+          "entry_id": "gse_closed_class:determiner:all",
+          "definition": "Curated GSE determiner use of 'all'. No lexical bank assignment is declared. Grammatical features: {\"definiteness\": \"UNIVERSAL\", \"number\": \"PLURAL\"}.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:time",
+      "chart_heading": "TIME~WHEN",
+      "forms": [
+        "TIME",
+        "WHEN"
+      ],
+      "frame_text": "(at) this time, (at) the same time, at\nsome other time, at this other time\nat some times, at many times\nat the time when ...",
+      "mapping": {
+        "code": "ADAPTED",
+        "bank": "WHEN",
+        "value": 1,
+        "note": "Chart TIME~WHEN is represented by registry WHEN; preserve both chart forms.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:time",
+          "definition": "NSM v20 lexical unit TIME~WHEN. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:now",
+      "chart_heading": "NOW",
+      "forms": [
+        "NOW"
+      ],
+      "frame_text": "something is happening here now\nwhen I say this now, ...",
+      "mapping": {
+        "code": "ADAPTED",
+        "bank": "THEN",
+        "value": -1,
+        "note": "Existing bipolar convention folds NOW into THEN; the chart does not list THEN as a separate prime.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:now",
+          "definition": "NSM v20 lexical unit NOW. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:moment",
+      "chart_heading": "MOMENT",
+      "forms": [
+        "MOMENT"
+      ],
+      "frame_text": "it happens in one moment\na moment before, a moment after\nat this moment",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "MOMENT",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:moment",
+          "definition": "NSM v20 lexical unit MOMENT. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:short-time",
+      "chart_heading": "A SHORT TIME",
+      "forms": [
+        "A SHORT TIME"
+      ],
+      "frame_text": "a short time before\na short time after\na very short time\n[for a short time = for some time, a\nshort time]",
+      "mapping": {
+        "code": "ADAPTED",
+        "bank": "LONG_TIME",
+        "value": -1,
+        "note": "Existing bipolar convention folds SHORT_TIME into LONG_TIME.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:short-time",
+          "definition": "NSM v20 grammatical construction A SHORT TIME. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:long-time",
+      "chart_heading": "A LONG TIME",
+      "forms": [
+        "A LONG TIME"
+      ],
+      "frame_text": "a long time before\na long time after\na very long time\n[for a long time = for some time, a long\ntime]",
+      "mapping": {
+        "code": "ADAPTED",
+        "bank": "LONG_TIME",
+        "value": 1,
+        "note": "Registry spelling omits the chart article A.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:long-time",
+          "definition": "NSM v20 grammatical construction A LONG TIME. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:some-time",
+      "chart_heading": "(FOR) SOME TIME",
+      "forms": [
+        "(FOR) SOME TIME"
+      ],
+      "frame_text": "some time before\nsome time after\nit happens like this for some time\nsomeone does this for some time\n[during this time = at this time, for some\ntime]",
+      "mapping": {
+        "code": "METADATA",
+        "bank": null,
+        "value": null,
+        "note": "Sentence duration and temporal offset carry an interval with unspecified extent.",
+        "construction": {
+          "field": "duration",
+          "extent": "unspecified",
+          "relations": [
+            "during",
+            "before",
+            "after"
+          ],
+          "source": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#word-and-sentence-boundary"
+        },
+        "assignment_approved": false,
+        "correspondence_approved": true,
+        "approved_claims": []
+      },
+      "review_status": "CONSTRUCTION_OR_HIERARCHY_REVIEW",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:some-time",
+          "definition": "NSM v20 grammatical construction (FOR) SOME TIME. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": null,
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:after",
+      "chart_heading": "AFTER",
+      "forms": [
+        "AFTER"
+      ],
+      "frame_text": "after this\nsome time after\na short time after\na long time after",
+      "mapping": {
+        "code": "ADAPTED",
+        "bank": "BEFORE",
+        "value": -1,
+        "note": "Existing bipolar convention folds AFTER into BEFORE.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "gse_closed_class:conjunction:after",
+          "definition": "Curated GSE conjunction use of 'after'. No lexical bank assignment is declared. Grammatical features: {\"clause_relation\": \"TEMPORAL\", \"temporal_type\": \"POSTERIOR\"}.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:before",
+      "chart_heading": "BEFORE",
+      "forms": [
+        "BEFORE"
+      ],
+      "frame_text": "before this\nsome time before\na short time before\na long time before",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "BEFORE",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "gse_closed_class:conjunction:before",
+          "definition": "Curated GSE conjunction use of 'before'. No lexical bank assignment is declared. Grammatical features: {\"clause_relation\": \"TEMPORAL\", \"temporal_type\": \"ANTERIOR\"}.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:want",
+      "chart_heading": "WANT",
+      "forms": [
+        "WANT"
+      ],
+      "frame_text": "I want this\nsomeone wants something\nsomeone wants to do/know/say\nsomething\nsomeone wants someone else to do/\nknow/say something\nsomeone wants something to happen\nI want it very much",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "WANT",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": true,
+        "approved_claims": [
+          {
+            "entry_id": "wordnet:want:desire.v.01",
+            "bank": "WANT",
+            "value": 1,
+            "hierarchy_level": null,
+            "source": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#want-polarity",
+            "version": "gse.lexicon-conventions/2026-10-29",
+            "scope": "EXACT_DEFINITION_ONLY",
+            "signature_complete": false
+          }
+        ]
+      },
+      "review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+      "linked_definitions": [
+        {
+          "entry_id": "wordnet:want:desire.v.01",
+          "definition": "feel or have a desire for; want strongly",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            1
+          ],
+          "known_coordinates": 1,
+          "open_coordinates": 55
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:dont-want",
+      "chart_heading": "DON\u2019T WANT",
+      "forms": [
+        "DON\u2019T WANT"
+      ],
+      "frame_text": "I don\u2019t want this\nsomeone doesn\u2019t want this\nsomeone doesn\u2019t want to do/say it\nsomeone doesn\u2019t want it to happen",
+      "mapping": {
+        "code": "ADAPTED",
+        "bank": "WANT",
+        "value": -1,
+        "note": "Approved NOT WANT pole; zero remains orthogonal to wanting, and sentence negation retains its grammatical scope.",
+        "assignment_approved": false,
+        "correspondence_approved": true,
+        "approved_claims": [
+          {
+            "entry_id": "gse:prime:dont-want",
+            "bank": "WANT",
+            "value": -1,
+            "hierarchy_level": null,
+            "source": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#want-polarity",
+            "version": "gse.lexicon-conventions/2026-10-29",
+            "scope": "EXACT_DEFINITION_ONLY",
+            "signature_complete": false
+          }
+        ]
+      },
+      "review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+      "linked_definitions": [
+        {
+          "entry_id": "gse:prime:dont-want",
+          "definition": "Not wanting a specified thing, action, or event; grammatical context supplies its target.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1
+          ],
+          "known_coordinates": 1,
+          "open_coordinates": 55
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:feel",
+      "chart_heading": "FEEL",
+      "forms": [
+        "FEEL"
+      ],
+      "frame_text": "someone feels something (good/bad)\nsomeone feels something (good/bad) in\nthis part of the body\nsomeone feels like this",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "FEEL",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:feel",
+          "definition": "NSM v20 lexical unit FEEL. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:know",
+      "chart_heading": "KNOW",
+      "forms": [
+        "KNOW"
+      ],
+      "frame_text": "I know\nthis someone knows it\nthis someone knows something (many\nthings) about someone/something\npeople can know this\n[I know that...= it is like this: ..., I know it]",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "KNOW",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+      "linked_definitions": [
+        {
+          "entry_id": "wordnet:know:know.v.01",
+          "definition": "be cognizant or aware of a fact or a specific piece of information; possess knowledge or information about",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            1
+          ],
+          "known_coordinates": 1,
+          "open_coordinates": 55
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:say",
+      "chart_heading": "SAY",
+      "forms": [
+        "SAY"
+      ],
+      "frame_text": "I say: ...\nsomeone says something (good/bad)\n(to someone)\nsomeone says something (good/bad)\n(about someone/something)\nsomeone says something like this: \u201c--\u201d\nsomeone says something with words\nsomeone says a word to someone",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "SAY",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:say",
+          "definition": "NSM v20 lexical unit SAY. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:do",
+      "chart_heading": "DO",
+      "forms": [
+        "DO"
+      ],
+      "frame_text": "someone does something (to someone\nelse)\nsomeone does something with\nsomething else/part of the body\nsomeone does something with someone\nelse\nsomeone does something good (for\nsomeone else)/bad (to someone else)",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "DO",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+      "linked_definitions": [
+        {
+          "entry_id": "wordnet:do:perform.v.01",
+          "definition": "carry out or perform an action",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            1
+          ],
+          "known_coordinates": 2,
+          "open_coordinates": 54
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:think",
+      "chart_heading": "THINK",
+      "forms": [
+        "THINK"
+      ],
+      "frame_text": "someone thinks about someone else/\nsomething\nsomeone thinks something good/bad\nabout someone else/something\nsomeone thinks like this: \u201c- -\u201d\nmany people think like this: \u201c- -\u201d",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "THINK",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:think",
+          "definition": "NSM v20 lexical unit THINK. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:hear",
+      "chart_heading": "HEAR",
+      "forms": [
+        "HEAR"
+      ],
+      "frame_text": "someone hears something\npeople can feel something bad when\nthey hear this word",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "HEAR",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+      "linked_definitions": [
+        {
+          "entry_id": "wordnet:hear:hear.v.01",
+          "definition": "perceive (sound) via the auditory sense",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            1
+          ],
+          "known_coordinates": 1,
+          "open_coordinates": 55
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:see",
+      "chart_heading": "SEE",
+      "forms": [
+        "SEE"
+      ],
+      "frame_text": "someone sees someone/something (in\na place)\npeople can/can\u2019t see well in this place\nsomeone/people can/can\u2019t see this\nsomething\npeople can see this place",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "SEE",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+      "linked_definitions": [
+        {
+          "entry_id": "wordnet:see:see.v.01",
+          "definition": "perceive by sight or have the power to perceive by sight",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            1
+          ],
+          "known_coordinates": 1,
+          "open_coordinates": 55
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:not",
+      "chart_heading": "NOT~DON\u2019T",
+      "forms": [
+        "NOT",
+        "DON\u2019T"
+      ],
+      "frame_text": "not good, not bad\nnot like this\nI don\u2019t know\nsomeone can\u2019t do this",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "NOT",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+      "linked_definitions": [
+        {
+          "entry_id": "gse_closed_class:negation:not",
+          "definition": "Curated GSE negation use of 'not'. Declared lexical components: NOT=+1. Grammatical features: {\"lemma\": \"not\"}.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            1
+          ],
+          "known_coordinates": 1,
+          "open_coordinates": 55
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:can",
+      "chart_heading": "CAN",
+      "forms": [
+        "CAN"
+      ],
+      "frame_text": "something (good/bad) can happen\nthis someone can/can\u2019t do it now\nsomeone can\u2019t do something\nsomeone can\u2019t not (\u2248 \u2018have to\u2019) do\nsomething\nit can be like this: \u2026",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "CAN",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+      "linked_definitions": [
+        {
+          "entry_id": "gse_closed_class:modal:can",
+          "definition": "Curated GSE modal use of 'can'. Declared lexical components: CAN=+1. Grammatical features: {\"lemma\": \"can\"}.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            1
+          ],
+          "known_coordinates": 1,
+          "open_coordinates": 55
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:because",
+      "chart_heading": "BECAUSE",
+      "forms": [
+        "BECAUSE"
+      ],
+      "frame_text": "because of this\nit happened because this someone did\nsomething before\n... not because of anything else",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "BECAUSE",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "gse_closed_class:conjunction:because",
+          "definition": "Curated GSE conjunction use of 'because'. No lexical bank assignment is declared. Grammatical features: {\"causal_type\": \"REASON\", \"clause_relation\": \"CAUSAL\"}.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:like",
+      "chart_heading": "LIKE~AS~WAY",
+      "forms": [
+        "LIKE",
+        "AS",
+        "WAY"
+      ],
+      "frame_text": "it happens like this:...\nit is like this:...\nsomeone thinks like this: \u201c--\u201d\nsomeone like me\nthis someone does it like this\nit happens as this someone wants\nit is good if someone does/says it in this\nway, not in some other way",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "LIKE",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+      "linked_definitions": [
+        {
+          "entry_id": "gse_closed_class:preposition:like",
+          "definition": "Curated GSE preposition use of 'like'. Declared lexical components: LIKE=+1. Grammatical features: {\"relation_type\": \"MANNER\"}.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            1
+          ],
+          "known_coordinates": 1,
+          "open_coordinates": 55
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:maybe",
+      "chart_heading": "MAYBE",
+      "forms": [
+        "MAYBE"
+      ],
+      "frame_text": "maybe it is like this, maybe it is not\nlike this\nmaybe someone else can do it",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "MAYBE",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+      "linked_definitions": [
+        {
+          "entry_id": "gse_closed_class:modal:maybe",
+          "definition": "Curated GSE modal use of 'maybe'. Declared lexical components: MAYBE=+1. Grammatical features: {\"lemma\": \"maybe\"}.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            1
+          ],
+          "known_coordinates": 2,
+          "open_coordinates": 54
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:if",
+      "chart_heading": "IF",
+      "forms": [
+        "IF"
+      ],
+      "frame_text": "if it happens like this for some time, ...\nif you do this, ...\nif someone does something like this, ...",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "IF",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "gse_closed_class:conjunction:if",
+          "definition": "Curated GSE conjunction use of 'if'. No lexical bank assignment is declared. Grammatical features: {\"clause_relation\": \"CONDITIONAL\", \"conditional_type\": \"HYPOTHETICAL\"}.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:more",
+      "chart_heading": "MORE~ANYMORE",
+      "forms": [
+        "MORE",
+        "ANYMORE"
+      ],
+      "frame_text": "someone wants more, someone does\nmore, someone knows more\nsomeone wants to know/say more\n(about it)\none more, two more, many more\nnot living anymore\nnot like this anymore",
+      "mapping": {
+        "code": "METADATA",
+        "bank": null,
+        "value": null,
+        "note": "Chart MORE applies to several predicates and quantities; hierarchy must target an explicitly known nonzero base.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "CONSTRUCTION_OR_HIERARCHY_REVIEW",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:more",
+          "definition": "NSM v20 lexical unit MORE~ANYMORE. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": null,
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:very",
+      "chart_heading": "VERY",
+      "forms": [
+        "VERY"
+      ],
+      "frame_text": "very big, very small, very good, very\nbad, very far, very near, a very short\ntime, a very long time\nI want it very much (=very)\nvery very big, very very good, very very\nfar etc.",
+      "mapping": {
+        "code": "METADATA",
+        "bank": "INTENSITY",
+        "value": null,
+        "note": "Current intensity hierarchy represents VERY; the chart also permits repeated intensity modification.",
+        "assignment_approved": false,
+        "correspondence_approved": true,
+        "approved_claims": [
+          {
+            "entry_id": "wordnet:very:very.r.01",
+            "bank": "INTENSITY",
+            "value": 1,
+            "hierarchy_level": 1,
+            "source": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#ordinal-stability",
+            "version": "gse.lexicon-conventions/2026-10-29",
+            "scope": "EXACT_DEFINITION_ONLY",
+            "signature_complete": false
+          }
+        ]
+      },
+      "review_status": "CONSTRUCTION_OR_HIERARCHY_REVIEW",
+      "linked_definitions": [
+        {
+          "entry_id": "wordnet:very:very.r.01",
+          "definition": "used as intensifiers; `real' is sometimes used informally for `really'; `rattling' is informal",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            1
+          ],
+          "known_coordinates": 2,
+          "open_coordinates": 54
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:die",
+      "chart_heading": "DIE",
+      "forms": [
+        "DIE"
+      ],
+      "frame_text": "all people die at some time\nthis someone died at this time/in this\nplace\nafter someone dies, ...",
+      "mapping": {
+        "code": "ADAPTED",
+        "bank": "ALIVE",
+        "value": -1,
+        "note": "Candidate alignment to DEAD pole; event DIE versus state DEAD requires semantic validation.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:die",
+          "definition": "NSM v20 lexical unit DIE. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:happen",
+      "chart_heading": "HAPPEN",
+      "forms": [
+        "HAPPEN"
+      ],
+      "frame_text": "something happens\nsomething happens to someone\nsomething happens to something\nsomething happens somewhere (in a\nplace)\nsomething happens in someone/\nsomething",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "HAPPEN",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+      "linked_definitions": [
+        {
+          "entry_id": "wordnet:happen:happen.v.01",
+          "definition": "come to pass",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            1
+          ],
+          "known_coordinates": 1,
+          "open_coordinates": 55
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:be-somewhere",
+      "chart_heading": "BE (SOMEWHERE)",
+      "forms": [
+        "BE (SOMEWHERE)"
+      ],
+      "frame_text": "someone is somewhere (in a place)\nsomething is somewhere (in a place)\nsomeone is with someone else",
+      "mapping": {
+        "code": "ADAPTED",
+        "bank": "BE",
+        "value": 1,
+        "note": "Registry BE is shared with specification; a location sense must remain separately identified.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:be-somewhere",
+          "definition": "NSM v20 grammatical construction BE (SOMEWHERE). The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:live",
+      "chart_heading": "LIVE",
+      "forms": [
+        "LIVE"
+      ],
+      "frame_text": "someone lives for a long time\nmany people live in this place\nthis someone lives with someone else\nit is good if someone lives like this",
+      "mapping": {
+        "code": "ADAPTED",
+        "bank": "ALIVE",
+        "value": 1,
+        "note": "Candidate alignment to ALIVE; verbal LIVE and state ALIVE require sense-specific validation.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:live",
+          "definition": "NSM v20 lexical unit LIVE. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:mine",
+      "chart_heading": "(IS) MINE",
+      "forms": [
+        "(IS) MINE"
+      ],
+      "frame_text": "this thing (knife, shirt, etc.) is mine\n[this thing is someone else\u2019s = someone\nelse can say about this thing: \u201cit is\nmine\u201d]",
+      "mapping": {
+        "code": "ADAPTED",
+        "bank": "HAVE",
+        "value": 1,
+        "note": "Candidate possession alignment; chart (IS) MINE includes first-person perspective absent from HAVE alone.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:mine",
+          "definition": "NSM v20 grammatical construction (IS) MINE. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:be-someone-something",
+      "chart_heading": "BE (SOMEONE/\nSOMETHING)",
+      "forms": [
+        "BE (SOMEONE/SOMETHING)"
+      ],
+      "frame_text": "this someone is someone like me\nthis is something of one kind\nthis is something big/small\nI know who this someone is",
+      "mapping": {
+        "code": "ADAPTED",
+        "bank": "BE",
+        "value": 1,
+        "note": "Registry BE is shared with location; a specification sense must remain separately identified.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:be-someone-something",
+          "definition": "NSM v20 grammatical construction BE (SOMEONE/SOMETHING). The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:there-is",
+      "chart_heading": "THERE IS",
+      "forms": [
+        "THERE IS"
+      ],
+      "frame_text": "there is something in this place\nthere is someone in this place\nthere are two/many kinds of ...",
+      "mapping": {
+        "code": "ADAPTED",
+        "bank": "EXIST",
+        "value": 1,
+        "note": "Registry EXIST is the proposed existential coordinate, not an English spelling match.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:there-is",
+          "definition": "NSM v20 grammatical construction THERE IS. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:inside",
+      "chart_heading": "INSIDE",
+      "forms": [
+        "INSIDE"
+      ],
+      "frame_text": "inside this something\ninside this part of someone\u2019s body",
+      "mapping": {
+        "code": "ADAPTED",
+        "bank": "OUTSIDE",
+        "value": -1,
+        "note": "Existing bipolar convention folds INSIDE into OUTSIDE.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "gse_closed_class:preposition:inside",
+          "definition": "Curated GSE preposition use of 'inside'. No lexical bank assignment is declared. Grammatical features: {\"spatial_type\": \"INTERIOR\"}.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:touch",
+      "chart_heading": "TOUCH",
+      "forms": [
+        "TOUCH"
+      ],
+      "frame_text": "something touches something else\n(somewhere)\nsomething touches part of someone\u2019s\nbody\nsomeone/people can/can\u2019t touch this\nsomething",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "TOUCH",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:touch",
+          "definition": "NSM v20 lexical unit TOUCH. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:move",
+      "chart_heading": "MOVE",
+      "forms": [
+        "MOVE"
+      ],
+      "frame_text": "someone moves (in this place)\nsomething moves in this place\nparts of this someone\u2019s body move as\nthis someone wants",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "MOVE",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:move",
+          "definition": "NSM v20 lexical unit MOVE. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:small",
+      "chart_heading": "SMALL",
+      "forms": [
+        "SMALL"
+      ],
+      "frame_text": "something small\na small place\nvery small",
+      "mapping": {
+        "code": "ADAPTED",
+        "bank": "BIG",
+        "value": -1,
+        "note": "Existing bipolar convention folds SMALL into BIG.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:small",
+          "definition": "NSM v20 lexical unit SMALL. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:big",
+      "chart_heading": "BIG",
+      "forms": [
+        "BIG"
+      ],
+      "frame_text": "something big\na big place\nvery big",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "BIG",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:big",
+          "definition": "NSM v20 lexical unit BIG. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:good",
+      "chart_heading": "GOOD",
+      "forms": [
+        "GOOD"
+      ],
+      "frame_text": "something good, someone good\nsomething good happens\ndo something good (for someone)\nfeel something good\nthis is good\nit is good if...",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "GOOD",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:good",
+          "definition": "NSM v20 lexical unit GOOD. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:bad",
+      "chart_heading": "BAD",
+      "forms": [
+        "BAD"
+      ],
+      "frame_text": "something bad, someone bad\nsomething bad happens\ndo something bad (to someone)\nfeel something bad\nthis is bad\nit is bad if...",
+      "mapping": {
+        "code": "ADAPTED",
+        "bank": "GOOD",
+        "value": -1,
+        "note": "Existing bipolar convention folds BAD into GOOD.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:bad",
+          "definition": "NSM v20 lexical unit BAD. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:true",
+      "chart_heading": "TRUE",
+      "forms": [
+        "TRUE"
+      ],
+      "frame_text": "this is true\nthis is not true",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "TRUE",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "wordnet:true:true.a.01",
+          "definition": "consistent with fact or reality; not false; ; - B. Russell",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 1,
+          "open_coordinates": 55
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:place",
+      "chart_heading": "PLACE~WHERE~\nSOMEWHERE",
+      "forms": [
+        "PLACE",
+        "WHERE",
+        "SOMEWHERE"
+      ],
+      "frame_text": "(in) this place, (in) the same place,\nsomewhere else, (in) this other place\nin some places, in many places\nin the place where ...\nthere are many places in this place",
+      "mapping": {
+        "code": "ADAPTED",
+        "bank": "WHERE",
+        "value": 1,
+        "note": "Chart PLACE~WHERE~SOMEWHERE shares registry WHERE; preserve the full exponent set.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:place",
+          "definition": "NSM v20 lexical unit PLACE~WHERE~SOMEWHERE. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:here",
+      "chart_heading": "HERE",
+      "forms": [
+        "HERE"
+      ],
+      "frame_text": "something is happening here now\npeople here",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "HERE",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "wordnet:here:here.r.01",
+          "definition": "in or at this place; where the speaker or writer is",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 1,
+          "open_coordinates": 55
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:side",
+      "chart_heading": "ON (ONE) SIDE",
+      "forms": [
+        "ON (ONE) SIDE"
+      ],
+      "frame_text": "on this side, on the same side\non one side, on two sides\non all sides",
+      "mapping": {
+        "code": "ADAPTED",
+        "bank": "SIDE",
+        "value": 1,
+        "note": "Registry SIDE omits chart relational frame ON (ONE) SIDE.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:side",
+          "definition": "NSM v20 grammatical construction ON (ONE) SIDE. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:below",
+      "chart_heading": "BELOW",
+      "forms": [
+        "BELOW"
+      ],
+      "frame_text": "below this place\nfar below this place",
+      "mapping": {
+        "code": "ADAPTED",
+        "bank": "ABOVE",
+        "value": -1,
+        "note": "Existing bipolar convention folds BELOW into ABOVE.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "gse_closed_class:preposition:below",
+          "definition": "Curated GSE preposition use of 'below'. No lexical bank assignment is declared. Grammatical features: {\"spatial_type\": \"BELOW\"}.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:above",
+      "chart_heading": "ABOVE",
+      "forms": [
+        "ABOVE"
+      ],
+      "frame_text": "above this place\nfar above this place\nsomeone above other people",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "ABOVE",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "gse_closed_class:preposition:above",
+          "definition": "Curated GSE preposition use of 'above'. No lexical bank assignment is declared. Grammatical features: {\"spatial_type\": \"ABOVE\"}.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:far",
+      "chart_heading": "FAR",
+      "forms": [
+        "FAR"
+      ],
+      "frame_text": "far from this place\nfar above/below this place",
+      "mapping": {
+        "code": "EXACT",
+        "bank": "FAR",
+        "value": 1,
+        "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:far",
+          "definition": "NSM v20 lexical unit FAR. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:near",
+      "chart_heading": "NEAR",
+      "forms": [
+        "NEAR"
+      ],
+      "frame_text": "near this place\nnear someone",
+      "mapping": {
+        "code": "ADAPTED",
+        "bank": "FAR",
+        "value": -1,
+        "note": "Existing bipolar convention folds NEAR into FAR.",
+        "assignment_approved": false,
+        "correspondence_approved": false,
+        "approved_claims": []
+      },
+      "review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+      "linked_definitions": [
+        {
+          "entry_id": "nsm_chart:v20:near",
+          "definition": "NSM v20 lexical unit NEAR. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+          "code": "PARTIAL",
+          "mapped_bank_domain": [
+            -1,
+            0,
+            1
+          ],
+          "known_coordinates": 0,
+          "open_coordinates": 56
+        }
+      ]
+    }
+  ]
+}

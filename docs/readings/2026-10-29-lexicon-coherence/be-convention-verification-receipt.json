@@ -1,0 +1,191 @@
+{
+  "active_pointer": {
+    "artifact": {
+      "path": "data/lexicon_active.json",
+      "sha256": "449020ca41a461a7d418e4bdffe402da5c0798cb98444c5f88e7ecf6acd099b5"
+    },
+    "value": {
+      "format": "gse.active-lexicon/1",
+      "path": "lexicon_builder/2026-10-29/replacement.db"
+    }
+  },
+  "approved_convention": "BE_DEFINITION_OWN_STATIVE_CONTENT_REQUIRED",
+  "archive_event_id": "a9d166a0cb3384f7eb9e6fe2e5564c4589dd9bae9acdbce3138ab7bfa6a4263e",
+  "artifacts": [
+    {
+      "path": "docs/readings/2026-10-29-lexicon-coherence/you-be-reconsideration.json",
+      "sha256": "9e5a1c4c855125e1e681b75c95c79c6037338b38c38d1d9da25b92c6943a6311"
+    },
+    {
+      "path": "docs/readings/2026-10-29-lexicon-coherence/you-be-reconsideration-replay.json",
+      "sha256": "c6288b0b01caea68486463a172356316bd698662e1bdf9afa650ee913fb89688"
+    },
+    {
+      "path": "docs/readings/2026-10-29-lexicon-coherence/you-be-publication-audit.json",
+      "sha256": "cc3d4fd8ceab77c35809fcb3144cdc9af42d314f7f081b645c55e95e0c27ff54"
+    },
+    {
+      "path": "docs/readings/2026-10-29-lexicon-coherence/you-be-direct-protocol8.json",
+      "sha256": "a277137fc3fe3621be32fcd043548e434cb12f88dc9c388f558c3c8c015e4601"
+    },
+    {
+      "path": "docs/readings/2026-10-29-lexicon-coherence/you-be-source-scope-admission.json",
+      "sha256": "bfa35b8e8446f5c9b2b1b006539f4976f0ba26f5c967a68820d7d3e943464288"
+    }
+  ],
+  "candidate_complete": false,
+  "checkpoint": "POST_RECONSIDERATION_BEFORE_ZIPF_BATCH_002",
+  "coverage": {
+    "cells": {
+      "assigned": 403254,
+      "conflicted": 0,
+      "explicit_zero": 279410,
+      "unresolved": 22086122
+    },
+    "definitions": 401596,
+    "outcomes": {
+      "PARTIAL": 401596
+    }
+  },
+  "created_utc": "2026-10-30T00:36:40.741410+00:00",
+  "format": "gse.be-convention-verification/1",
+  "full_replay": {
+    "code": "REPLAY_VALIDATED",
+    "complete_search": true,
+    "entries_checked": 401596,
+    "entries_mismatched": 0,
+    "entries_validated": 401596,
+    "format": "gse.lexicon-replay-report/1",
+    "gold": "NOT_CHECKED",
+    "inference_counts": {
+      "components_joint_checked": 2495934,
+      "components_solver_limited": 0,
+      "entries_complete_search": 401596,
+      "entries_replayed": 401596,
+      "entries_solver_limited": 0
+    },
+    "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+    "metadata_verification": {
+      "build_report": "NOT_CHECKED",
+      "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+      "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+      "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+      "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+      "catalog_definition_source_ids": "NOT_PERSISTED",
+      "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+      "representation_contract": "VERIFIED",
+      "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+    },
+    "mismatch_counts": {},
+    "mismatches": [],
+    "replayed_outcomes": {
+      "PARTIAL": 401596
+    }
+  },
+  "publication": {
+    "blockers": [
+      "INCOMPLETE_DEFINITIONS",
+      "INCOMPLETE_PRIME_FOUNDATION",
+      "SEMANTIC_AUDIT_NOT_SUPPLIED"
+    ],
+    "code": "PUBLICATION_BLOCKED",
+    "model_scope_code": "NO_SCOPE_REJECTION"
+  },
+  "publication_performed": false,
+  "retained_assignments": {
+    "ABOVE": 0,
+    "ALIVE": 0,
+    "SOMEONE": 1
+  },
+  "semantic_gold": "NOT_CHECKED",
+  "sources": [
+    {
+      "path": "gse/curation/lexicon_builder/model_protocol.py",
+      "sha256": "30f7a706a828ad412f4317d847f6b8563b068d977f09919188780abe00f934ec"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/scope_admission.py",
+      "sha256": "136d0da9ee0d4aebc228487e1edecc43a9cebb821f90f26c95b4c22914c5c7f5"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/residual.py",
+      "sha256": "88757e0bac9b6860538f9756d6a89c8493c9eb783042dda315e280c45abe8ee9"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/reconsideration.py",
+      "sha256": "d1004ee89fda261395a5c9d2cc6bc93b57e25d08e22f113ac74057814dea5c59"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/publication.py",
+      "sha256": "f053b712b380b8eddeb34fda5880facadd514d47fd6cd7d7dbbde53e80265c53"
+    },
+    {
+      "path": "scripts/reconsider_lexicon_model.py",
+      "sha256": "744e3305b3e1bffde62cb840e191233ca1bdb34009fdbd59fe69c0ab9b6050f2"
+    }
+  ],
+  "tests": [
+    {
+      "errors": 0,
+      "failures": 0,
+      "path": "data/lexicon_builder/2026-10-29/be-scope-final-tests.xml",
+      "sha256": "bbc51d87979d5617b7afbf9ce85153a5a05f4fcb85d661e943394aca90edd2f6",
+      "skipped": 0,
+      "tests": 75
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "path": "data/lexicon_builder/2026-10-29/be-scope-integration-tests.xml",
+      "sha256": "7581c47b48a6b17ba1ea74b7c771023513581a4b83d3354a13a64546d9362451",
+      "skipped": 0,
+      "tests": 1180
+    }
+  ],
+  "withdrawn_banks": [
+    "BE",
+    "BECAUSE",
+    "BEFORE",
+    "BIG",
+    "BODY",
+    "CAN",
+    "CAUSE"
+  ],
+  "withdrawn_domains": {
+    "BE": [
+      -1,
+      0,
+      1
+    ],
+    "BECAUSE": [
+      -1,
+      0,
+      1
+    ],
+    "BEFORE": [
+      -1,
+      0,
+      1
+    ],
+    "BIG": [
+      -1,
+      0,
+      1
+    ],
+    "BODY": [
+      -1,
+      0,
+      1
+    ],
+    "CAN": [
+      -1,
+      0,
+      1
+    ],
+    "CAUSE": [
+      -1,
+      0,
+      1
+    ]
+  }
+}

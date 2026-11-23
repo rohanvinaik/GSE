@@ -1,0 +1,245 @@
+{
+  "active_pointer": {
+    "format": "gse.active-lexicon/1",
+    "path": "lexicon_builder/2026-10-29/replacement.db"
+  },
+  "batch": {
+    "path": "docs/readings/2026-10-29-lexicon-coherence/constructed-zipf-batch-001.json",
+    "result": {
+      "banks": [
+        "ABOVE",
+        "ALIVE",
+        "BE",
+        "BECAUSE",
+        "BEFORE",
+        "BIG",
+        "BODY",
+        "CAN",
+        "CAUSE",
+        "CERTAINTY",
+        "DO",
+        "EXIST",
+        "FAR",
+        "FEEL",
+        "GOOD",
+        "HAPPEN",
+        "HAVE",
+        "HEAR",
+        "HERE",
+        "I",
+        "IF",
+        "INFER",
+        "INTENSITY",
+        "KIND",
+        "KNOW",
+        "LIKE",
+        "LONG_TIME",
+        "MAYBE",
+        "MOMENT",
+        "MOVE",
+        "MUST",
+        "NOT",
+        "ONE",
+        "OUTSIDE",
+        "PART",
+        "PEOPLE",
+        "QUANTITY",
+        "SAME",
+        "SAY",
+        "SEE",
+        "SIDE",
+        "SOMEONE",
+        "SOMETHING",
+        "START",
+        "THEN",
+        "THINK",
+        "TOUCH",
+        "TOWARD",
+        "TRUE",
+        "TWO",
+        "WANT",
+        "WHEN",
+        "WHERE",
+        "WITH",
+        "WORDS",
+        "YOU"
+      ],
+      "batch_size": 4,
+      "code": "BUDGET_EXHAUSTED",
+      "continue_cohorts": true,
+      "dictionary_cells": {
+        "assigned": 403261,
+        "conflicted": 0,
+        "explicit_zero": 279415,
+        "unresolved": 22086115
+      },
+      "dictionary_outcomes": {
+        "PARTIAL": 401596
+      },
+      "dictionary_status": "INCOMPLETE",
+      "format": "gse.lexicon-completion-report/1",
+      "max_calls_per_entry": 56,
+      "max_entries_per_pass": 4,
+      "max_model_calls": 16,
+      "model": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@d064293c2541aa8d8c8c96c95cd2750ad43c03f2a4dd25bd71d8c233de90a449:batch@faae179fbd2a0ed19462c54a10d17e23811f9b1b5b7f9c89b8ca3d19cbc9130f",
+      "model_calls": 16,
+      "outcomes": {
+        "ASSIGNED": 16
+      },
+      "outside_selected_scope": {
+        "unresolved_or_conflicted_cells": 22085909
+      },
+      "preflight": "REPLAY_VALIDATED",
+      "priority": {
+        "excluded_count": 1,
+        "excluded_records": [
+          {
+            "code": "MISSING_WORD",
+            "count": 27,
+            "csv_line": 21732,
+            "record_number": 21731
+          }
+        ],
+        "frequency_column": "SUBTLEX",
+        "included_words": 39953,
+        "mode": "zipf",
+        "ordering": "DESCENDING_POSITIVE_COUNT_THEN_CONSTRAINT_PRIORITY_THEN_DEFINITION_ID",
+        "policy": "gse.completion-priority/subtlex-count-order/2",
+        "ranked_words": 28902,
+        "rows": 39954,
+        "score": "MONOTONIC_ZIPF_ORDER_NOT_ABSOLUTE_ZIPF_SCORE",
+        "semantic_authority": "NONE_SCHEDULING_ONLY",
+        "sha256": "fa636292ba0b1b5cf4d6d335690ddcf3a162e4a8204124d95c64e795eb336226",
+        "source": "/Users/rohanvinaik/Projects/gse/data/external/concreteness.csv",
+        "unranked": "ZERO_OR_ABSENT_FREQUENCY_LAST_NOT_SEMANTIC_ZERO",
+        "word_column": "Word",
+        "zero_count_words": 11051
+      },
+      "remaining_selected_scope": {
+        "cells": 206,
+        "conflicted_entries": 0,
+        "entries": 4
+      },
+      "scheduling": {
+        "code": "MODEL_BUDGET_EXHAUSTED",
+        "cohorts_processed": 1,
+        "cursor_after": null,
+        "cursor_before": null,
+        "pass_number": 1,
+        "visited_entry_ids": [],
+        "wrapped": false
+      },
+      "selected_entry_ids": [
+        "gse_closed_class:pronoun:you",
+        "wiktionary:en-you-en-noun-2YsMsj8i:1a8439a0a38c9ceda0caa33ff6c2362469673c22b330b24292e5176d7be33894",
+        "wiktionary:en-You-en-name-0mwj1dYY:7234799d123248384c3484c387b692b48d20910a2b9dc802284d97c3ffd7624b",
+        "wiktionary:en-You-en-name-D6-sNozV:dc51e3c48f665cca6ad321b7a04562ddfe2bd9a092c70d12ec980d043e729d05"
+      ],
+      "semantic_gold": "NOT_CHECKED",
+      "skipped_attempts": {},
+      "transport_invocations": 9,
+      "unselected_residual": false
+    },
+    "sha256": "5011174aa18e27e9011d0489df7d80c8e6dbd6a4269dcf2ea9f7cbc0dc5cd311"
+  },
+  "code": "BATCH_REPLAY_VALIDATED_CANDIDATE_INCOMPLETE",
+  "current_source_sha256": {
+    "gse/curation/lexicon_builder/batching.py": "6bdae36f62092f6d07e6d4d0c56c7951ce352c74a9e1451762dc44026c12127d",
+    "gse/curation/lexicon_builder/completion.py": "d482f37df38d311df28cd0cce026702ba2d62751203629a5368ff1847ffd6372",
+    "gse/curation/lexicon_builder/model_batch.py": "c537b83f3975f7639614432c4af7291dc12a9f9524ad08a3d9930555ab6184bf",
+    "gse/curation/lexicon_builder/model_evidence.py": "2e0518c933b31a542a0f7b8ff2f929ece76ae316e821be3fae76d70b89804cbe",
+    "gse/curation/lexicon_builder/model_protocol.py": "aff21d245550e5edad5979e12e5172661884497dc7edd7054c0e64c6f300d14c",
+    "gse/curation/lexicon_builder/reviewed_patterns.py": "81d022b6ded2fcc23f36fd1853d1e87b5cbf3cb38dbbe4abccd57b9d158060ba",
+    "scripts/audit_lexicon_patterns.py": "471df096eee3662a1ec4337b17b7ae2bd94c4164288efac238d2850a09bc6deb"
+  },
+  "format": "gse.incremental-verification-receipt/1",
+  "generated_utc": "2026-10-29T23:53:21.181534+00:00",
+  "outstanding_review": {
+    "bank": "BE",
+    "code": "SCOPE_CONVENTION_PENDING_REVIEW",
+    "direct_recheck": "you-be-direct-protocol7.json",
+    "entry_id": "gse_closed_class:pronoun:you",
+    "packet": "first-zipf-you-be-review.json"
+  },
+  "post_batch_replay": {
+    "path": "docs/readings/2026-10-29-lexicon-coherence/constructed-zipf-batch-001-replay.json",
+    "result": {
+      "code": "REPLAY_VALIDATED",
+      "complete_search": true,
+      "entries_checked": 401596,
+      "entries_mismatched": 0,
+      "entries_validated": 401596,
+      "format": "gse.lexicon-replay-report/1",
+      "gold": "NOT_CHECKED",
+      "inference_counts": {
+        "components_joint_checked": 2495934,
+        "components_solver_limited": 0,
+        "entries_complete_search": 401596,
+        "entries_replayed": 401596,
+        "entries_solver_limited": 0
+      },
+      "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+      "metadata_verification": {
+        "build_report": "NOT_CHECKED",
+        "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+        "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+        "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+        "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+        "catalog_definition_source_ids": "NOT_PERSISTED",
+        "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+        "representation_contract": "VERIFIED",
+        "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+      },
+      "mismatch_counts": {},
+      "mismatches": [],
+      "replayed_outcomes": {
+        "PARTIAL": 401596
+      }
+    },
+    "sha256": "c6288b0b01caea68486463a172356316bd698662e1bdf9afa650ee913fb89688"
+  },
+  "publication": "NOT_PERFORMED",
+  "qualifications": [
+    "The completed batch used protocol /6 and the pre-repair scheduler; its saved cursor remained null.",
+    "Current scheduler /2 and protocol /7 are covered by later focused checks; the /7 isolated recheck made no lexicon writes.",
+    "The full repository suite preceded the final pattern-input and protocol-gloss edits; their later focused results are separately recorded.",
+    "Model agreement and structural replay do not supply independent semantic gold.",
+    "Reviewed-pattern proposal, staging and direct audits do not promote production rules or implement historical-ruleset migration."
+  ],
+  "semantic_gold": "NOT_CHECKED",
+  "tests": [
+    {
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "passed": 6307,
+        "skipped": 66,
+        "tests": 6373
+      },
+      "path": "data/lexicon_builder/2026-10-29/incremental-candidate-tests.xml",
+      "sha256": "3d41efccca96154f3823230619ad1ca86ac1153eb019ae9aad2690d1b7d2162a"
+    },
+    {
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "passed": 149,
+        "skipped": 0,
+        "tests": 149
+      },
+      "path": "data/lexicon_builder/2026-10-29/incremental-final-focused-tests.xml",
+      "sha256": "d9691d990805a1361cae976b9a5205723ed365c0142be61f32cca1bf4d45755e"
+    },
+    {
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "passed": 114,
+        "skipped": 0,
+        "tests": 114
+      },
+      "path": "data/lexicon_builder/2026-10-29/incremental-protocol7-tests.xml",
+      "sha256": "231a171dd87e30ed37d96a12a58890367b6b84c10e973c74898adb37ed9ef9e4"
+    }
+  ]
+}

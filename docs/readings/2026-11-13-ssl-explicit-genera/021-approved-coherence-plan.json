@@ -1,0 +1,55 @@
+{
+  "active_pointer_sha256": "86c3b92dedf178901b8e5fc846307f0157c8a425604cc5656d5c5479aecbc151",
+  "audits_per_epoch": 4,
+  "baseline_sha256": "a9f9bc5fb5ecb8230b54570e37fa5bcbee1b9fea2a20ba8eb7502918c7e9c5da",
+  "epochs": 1,
+  "families": [
+    {
+      "antecedent": [
+        "ALIVE",
+        1
+      ],
+      "consequent": [
+        "BODY",
+        1
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:vertebrate.n.01",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wordnet:cat:cat.n.01",
+        "wordnet:duck:duck.n.01",
+        "wordnet:shark:shark.n.01",
+        "wordnet:salamander:salamander.n.01"
+      ],
+      "id": "approved-constitutive-vertebrate-alive-body",
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "021:approved-constitutive-anatomy-and-exact-genus",
+        "reviewer": "Founder-approved BODY projection and exact native-source review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/021-vertebrate-source-review.json",
+          "/Users/rohanvinaik/Projects/gse/docs/program/LEXICON_CONSTRUCTION_DESIGN.md#body-reference-content-scope",
+          "https://doi.org/10.22363/2312-9182-2018-22-3-539-559",
+          "wordnet:vertebrate:vertebrate.n.01",
+          "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/021-body-convention-approval.json",
+          "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/021-approved-source-enrichment.json"
+        ],
+        "statement": "Rohan explicitly approved constitutive anatomy, including verified defining-genus content, as sufficient for BODY=+1. Exact native vertebrate noun senses inherit the defining skeletal, spinal and cranial structure of the witnessed vertebrate genus. ALIVE=+1 must already be independently proved. The fresh teaching and four disjoint audits receive complete verified native ancestry definitions through the existing context-only enrichment path. This excludes reference-only roles, association, uncertain derived identities and other taxa; excluded cases stay unresolved. It supplies no other sign, no complement zeros, and does not treat the original five diagnostic replies as held-out confirmations.",
+        "warrant_id": "021:approved-constitutive-vertebrate-alive-body"
+      }
+    }
+  ],
+  "format": "gse.lexicon-epoch-plan/1"
+}

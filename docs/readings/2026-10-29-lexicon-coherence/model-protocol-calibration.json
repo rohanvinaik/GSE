@@ -1,0 +1,838 @@
+{
+  "format": "gse.model-protocol-calibration/1",
+  "model": "qwen3.5:4b",
+  "transport_identity": "qwen3.5:4b@a451026f4dacb98bbd3e565ba485bb74bf19ab948dfde30f4f29581ed4059d97",
+  "label_authority": "AUTHORED_CONTRACT_PROBES_NOT_INDEPENDENT_GOLD",
+  "per_class": {
+    "1": {
+      "IDENTIFIED": 6,
+      "WRONG": 3
+    },
+    "-1": {
+      "IDENTIFIED": 5,
+      "WRONG": 1
+    },
+    "0": {
+      "IDENTIFIED": 7,
+      "WRONG": 2
+    },
+    "UNRESOLVED": {
+      "WRONG": 2,
+      "IDENTIFIED": 2
+    }
+  },
+  "cases": [
+    {
+      "value": 1,
+      "code": "IDENTIFIED",
+      "raw": "{\n  \"WANT\": 1\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:0",
+        "definition": {
+          "entry_id": "calibration:0",
+          "lemma": "desire",
+          "pos": "verb",
+          "definition": "feel or have a desire for"
+        },
+        "bank": "WANT",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "WANT": null
+        }
+      },
+      "expected": 1,
+      "expected_class": "1",
+      "elapsed_seconds": 2.878
+    },
+    {
+      "value": -1,
+      "code": "IDENTIFIED",
+      "raw": "{\n  \"WANT\": -1\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:1",
+        "definition": {
+          "entry_id": "calibration:1",
+          "lemma": "unwilling",
+          "pos": "adjective",
+          "definition": "not willing; not wanting to do something"
+        },
+        "bank": "WANT",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "WANT": null
+        }
+      },
+      "expected": -1,
+      "expected_class": "-1",
+      "elapsed_seconds": 0.792
+    },
+    {
+      "value": 0,
+      "code": "IDENTIFIED",
+      "raw": "{\n  \"WANT\": 0\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:2",
+        "definition": {
+          "entry_id": "calibration:2",
+          "lemma": "table",
+          "pos": "noun",
+          "definition": "a piece of furniture with a flat top supported by legs"
+        },
+        "bank": "WANT",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "WANT": null
+        }
+      },
+      "expected": 0,
+      "expected_class": "0",
+      "elapsed_seconds": 0.766
+    },
+    {
+      "value": 1,
+      "code": "IDENTIFIED",
+      "raw": "{\n  \"WANT\": 1\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:3",
+        "definition": {
+          "entry_id": "calibration:3",
+          "lemma": "yearn",
+          "pos": "verb",
+          "definition": "desire strongly or persistently"
+        },
+        "bank": "WANT",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "WANT": null
+        }
+      },
+      "expected": 1,
+      "expected_class": "1",
+      "elapsed_seconds": 0.722
+    },
+    {
+      "value": -1,
+      "code": "IDENTIFIED",
+      "raw": "{\n  \"WANT\": -1\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:4",
+        "definition": {
+          "entry_id": "calibration:4",
+          "lemma": "averse",
+          "pos": "adjective",
+          "definition": "strongly opposed; not wanting something"
+        },
+        "bank": "WANT",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "WANT": null
+        }
+      },
+      "expected": -1,
+      "expected_class": "-1",
+      "elapsed_seconds": 0.763
+    },
+    {
+      "value": 0,
+      "code": "IDENTIFIED",
+      "raw": "{\n  \"WANT\": 0\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:5",
+        "definition": {
+          "entry_id": "calibration:5",
+          "lemma": "triangle",
+          "pos": "noun",
+          "definition": "a polygon with three sides"
+        },
+        "bank": "WANT",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "WANT": null
+        }
+      },
+      "expected": 0,
+      "expected_class": "0",
+      "elapsed_seconds": 0.722
+    },
+    {
+      "value": 1,
+      "code": "IDENTIFIED",
+      "raw": "{\n  \"SEE\": 1\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:6",
+        "definition": {
+          "entry_id": "calibration:6",
+          "lemma": "behold",
+          "pos": "verb",
+          "definition": "see with attention"
+        },
+        "bank": "SEE",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "SEE": null
+        }
+      },
+      "expected": 1,
+      "expected_class": "1",
+      "elapsed_seconds": 0.7
+    },
+    {
+      "value": 0,
+      "code": "WRONG",
+      "raw": "{\n  \"HEAR\": 0\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:7",
+        "definition": {
+          "entry_id": "calibration:7",
+          "lemma": "audition",
+          "pos": "verb",
+          "definition": "hear a performance in order to evaluate it"
+        },
+        "bank": "HEAR",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "HEAR": null
+        }
+      },
+      "expected": 1,
+      "expected_class": "1",
+      "elapsed_seconds": 0.759
+    },
+    {
+      "value": 0,
+      "code": "WRONG",
+      "raw": "{\n  \"SAY\": 0\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:8",
+        "definition": {
+          "entry_id": "calibration:8",
+          "lemma": "whisper",
+          "pos": "verb",
+          "definition": "speak softly"
+        },
+        "bank": "SAY",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "SAY": null
+        }
+      },
+      "expected": 1,
+      "expected_class": "1",
+      "elapsed_seconds": 0.717
+    },
+    {
+      "value": 0,
+      "code": "IDENTIFIED",
+      "raw": "{\n  \"SEE\": 0\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:9",
+        "definition": {
+          "entry_id": "calibration:9",
+          "lemma": "triangle",
+          "pos": "noun",
+          "definition": "a polygon with three sides"
+        },
+        "bank": "SEE",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "SEE": null
+        }
+      },
+      "expected": 0,
+      "expected_class": "0",
+      "elapsed_seconds": 0.721
+    },
+    {
+      "value": 0,
+      "code": "IDENTIFIED",
+      "raw": "{\n  \"HEAR\": 0\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:10",
+        "definition": {
+          "entry_id": "calibration:10",
+          "lemma": "triangle",
+          "pos": "noun",
+          "definition": "a polygon with three sides"
+        },
+        "bank": "HEAR",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "HEAR": null
+        }
+      },
+      "expected": 0,
+      "expected_class": "0",
+      "elapsed_seconds": 0.722
+    },
+    {
+      "value": 0,
+      "code": "IDENTIFIED",
+      "raw": "{\n  \"SAY\": 0\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:11",
+        "definition": {
+          "entry_id": "calibration:11",
+          "lemma": "triangle",
+          "pos": "noun",
+          "definition": "a polygon with three sides"
+        },
+        "bank": "SAY",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "SAY": null
+        }
+      },
+      "expected": 0,
+      "expected_class": "0",
+      "elapsed_seconds": 0.725
+    },
+    {
+      "value": -1,
+      "code": "WRONG",
+      "raw": "{\n  \"BIG\": -1\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:12",
+        "definition": {
+          "entry_id": "calibration:12",
+          "lemma": "enormous",
+          "pos": "adjective",
+          "definition": "very large in size"
+        },
+        "bank": "BIG",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "BIG": null
+        }
+      },
+      "expected": 1,
+      "expected_class": "1",
+      "elapsed_seconds": 0.772
+    },
+    {
+      "value": -1,
+      "code": "IDENTIFIED",
+      "raw": "{\n  \"BIG\": -1\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:13",
+        "definition": {
+          "entry_id": "calibration:13",
+          "lemma": "minute",
+          "pos": "adjective",
+          "definition": "very small in size"
+        },
+        "bank": "BIG",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "BIG": null
+        }
+      },
+      "expected": -1,
+      "expected_class": "-1",
+      "elapsed_seconds": 0.791
+    },
+    {
+      "value": 1,
+      "code": "WRONG",
+      "raw": "{\n  \"BIG\": 1\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:14",
+        "definition": {
+          "entry_id": "calibration:14",
+          "lemma": "circular",
+          "pos": "adjective",
+          "definition": "having the shape of a circle"
+        },
+        "bank": "BIG",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "BIG": null
+        }
+      },
+      "expected": 0,
+      "expected_class": "0",
+      "elapsed_seconds": 0.827
+    },
+    {
+      "value": 1,
+      "code": "IDENTIFIED",
+      "raw": "{\n  \"GOOD\": 1\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:15",
+        "definition": {
+          "entry_id": "calibration:15",
+          "lemma": "excellent",
+          "pos": "adjective",
+          "definition": "very good"
+        },
+        "bank": "GOOD",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "GOOD": null
+        }
+      },
+      "expected": 1,
+      "expected_class": "1",
+      "elapsed_seconds": 0.793
+    },
+    {
+      "value": -1,
+      "code": "IDENTIFIED",
+      "raw": "{\n  \"GOOD\": -1\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:16",
+        "definition": {
+          "entry_id": "calibration:16",
+          "lemma": "awful",
+          "pos": "adjective",
+          "definition": "very bad"
+        },
+        "bank": "GOOD",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "GOOD": null
+        }
+      },
+      "expected": -1,
+      "expected_class": "-1",
+      "elapsed_seconds": 0.753
+    },
+    {
+      "value": 1,
+      "code": "WRONG",
+      "raw": "{\n  \"GOOD\": 1\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:17",
+        "definition": {
+          "entry_id": "calibration:17",
+          "lemma": "triangular",
+          "pos": "adjective",
+          "definition": "having three sides"
+        },
+        "bank": "GOOD",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "GOOD": null
+        }
+      },
+      "expected": 0,
+      "expected_class": "0",
+      "elapsed_seconds": 0.768
+    },
+    {
+      "value": 0,
+      "code": "WRONG",
+      "raw": "{\n  \"OUTSIDE\": 0\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:18",
+        "definition": {
+          "entry_id": "calibration:18",
+          "lemma": "inside",
+          "pos": "adverb",
+          "definition": "in the interior"
+        },
+        "bank": "OUTSIDE",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "OUTSIDE": null
+        }
+      },
+      "expected": -1,
+      "expected_class": "-1",
+      "elapsed_seconds": 0.731
+    },
+    {
+      "value": 1,
+      "code": "IDENTIFIED",
+      "raw": "{\n  \"OUTSIDE\": 1\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:19",
+        "definition": {
+          "entry_id": "calibration:19",
+          "lemma": "outside",
+          "pos": "adverb",
+          "definition": "in the exterior"
+        },
+        "bank": "OUTSIDE",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "OUTSIDE": null
+        }
+      },
+      "expected": 1,
+      "expected_class": "1",
+      "elapsed_seconds": 0.709
+    },
+    {
+      "value": 0,
+      "code": "IDENTIFIED",
+      "raw": "{\n  \"OUTSIDE\": 0\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:20",
+        "definition": {
+          "entry_id": "calibration:20",
+          "lemma": "loudly",
+          "pos": "adverb",
+          "definition": "with a loud sound"
+        },
+        "bank": "OUTSIDE",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "OUTSIDE": null
+        }
+      },
+      "expected": 0,
+      "expected_class": "0",
+      "elapsed_seconds": 0.84
+    },
+    {
+      "value": 1,
+      "code": "IDENTIFIED",
+      "raw": "{\n  \"BEFORE\": 1\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:21",
+        "definition": {
+          "entry_id": "calibration:21",
+          "lemma": "before",
+          "pos": "adverb",
+          "definition": "at an earlier time"
+        },
+        "bank": "BEFORE",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "BEFORE": null
+        }
+      },
+      "expected": 1,
+      "expected_class": "1",
+      "elapsed_seconds": 0.713
+    },
+    {
+      "value": -1,
+      "code": "IDENTIFIED",
+      "raw": "{\n  \"BEFORE\": -1\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:22",
+        "definition": {
+          "entry_id": "calibration:22",
+          "lemma": "after",
+          "pos": "adverb",
+          "definition": "at a later time"
+        },
+        "bank": "BEFORE",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "BEFORE": null
+        }
+      },
+      "expected": -1,
+      "expected_class": "-1",
+      "elapsed_seconds": 0.729
+    },
+    {
+      "value": 0,
+      "code": "IDENTIFIED",
+      "raw": "{\n  \"BEFORE\": 0\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:23",
+        "definition": {
+          "entry_id": "calibration:23",
+          "lemma": "smoothly",
+          "pos": "adverb",
+          "definition": "without bumps or irregularities"
+        },
+        "bank": "BEFORE",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "BEFORE": null
+        }
+      },
+      "expected": 0,
+      "expected_class": "0",
+      "elapsed_seconds": 0.758
+    },
+    {
+      "value": 0,
+      "code": "WRONG",
+      "raw": "{\n  \"WANT\": 0\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:24",
+        "definition": {
+          "entry_id": "calibration:24",
+          "lemma": "unidentified",
+          "pos": "noun",
+          "definition": "[DEFINITION_UNAVAILABLE]"
+        },
+        "bank": "WANT",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "WANT": null
+        }
+      },
+      "expected": null,
+      "expected_class": "UNRESOLVED",
+      "elapsed_seconds": 0.779
+    },
+    {
+      "value": null,
+      "code": "IDENTIFIED",
+      "raw": "{\n  \"SEE\": null\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:25",
+        "definition": {
+          "entry_id": "calibration:25",
+          "lemma": "unidentified",
+          "pos": "noun",
+          "definition": "[DEFINITION_UNAVAILABLE]"
+        },
+        "bank": "SEE",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "SEE": null
+        }
+      },
+      "expected": null,
+      "expected_class": "UNRESOLVED",
+      "elapsed_seconds": 0.733
+    },
+    {
+      "value": -1,
+      "code": "WRONG",
+      "raw": "{\n  \"BIG\": -1\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:26",
+        "definition": {
+          "entry_id": "calibration:26",
+          "lemma": "unidentified",
+          "pos": "adjective",
+          "definition": "[DEFINITION_UNAVAILABLE]"
+        },
+        "bank": "BIG",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "BIG": null
+        }
+      },
+      "expected": null,
+      "expected_class": "UNRESOLVED",
+      "elapsed_seconds": 0.785
+    },
+    {
+      "value": null,
+      "code": "IDENTIFIED",
+      "raw": "{\n  \"GOOD\": null\n}",
+      "input": {
+        "format": "gse.bank-request/1",
+        "entry_id": "calibration:27",
+        "definition": {
+          "entry_id": "calibration:27",
+          "lemma": "unidentified",
+          "pos": "adjective",
+          "definition": "[DEFINITION_UNAVAILABLE]"
+        },
+        "bank": "GOOD",
+        "allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "known": {},
+        "observations": [],
+        "fill": {
+          "GOOD": null
+        }
+      },
+      "expected": null,
+      "expected_class": "UNRESOLVED",
+      "elapsed_seconds": 0.774
+    }
+  ]
+}

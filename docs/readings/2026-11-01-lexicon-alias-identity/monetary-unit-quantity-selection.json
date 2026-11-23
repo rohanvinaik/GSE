@@ -1,0 +1,68 @@
+{
+  "format": "gse.reviewed-pattern-selection/1",
+  "discovery_entry_ids": [
+    "wordnet:at:at.n.02"
+  ],
+  "audit_entry_ids": [
+    "wordnet:anna:anna.n.01",
+    "wordnet:eurodollar:eurodollar.n.01",
+    "wordnet:cent:cent.n.01",
+    "wordnet:real:real.n.02",
+    "wordnet:won:south_korean_won.n.01",
+    "wordnet:mark:mark.n.07",
+    "wordnet:yen:yen.n.02",
+    "wordnet:paisa:paisa.n.01"
+  ],
+  "reviews": [
+    {
+      "request_id": "afa0f6be53598e01813dfeeb13238ad990cb183d6d3a6f7634cdbcb89e0a7e75",
+      "review": {
+        "code": "ACCEPTED",
+        "receipt_sha256": "6700ea6304f3181b0076a01d28623feafc7e0cec21b8f62cd933f6d871bfd019",
+        "review_id": "quantity-source-review-2026-11-01:6700ea6304f3181b0076a01d28623feafc7e0cec21b8f62cd933f6d871bfd019",
+        "reviewer": "Codex primary source-backed review; not independent semantic gold",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-you-body/quantity-discovery-001/receipts.json#wordnet:at:at.n.02",
+          "native-source:wordnet:at:at.n.02@sha256:ceec138962850aba7d8e35d1c118a175890346144ad59eb4e8664c44d7c60b67"
+        ],
+        "rationale": "The exact noun sense defines a monetary denomination by the equation 100 at = 1 kip. The numerical exchange denomination warrants QUANTITY=+1. This review is confined to at.n.02, not the preposition at or the broader monetary hierarchy."
+      }
+    }
+  ],
+  "guarded_candidates": [
+    {
+      "antecedent": null,
+      "consequent": [
+        "QUANTITY",
+        1
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_ancestor:monetary_unit.n.01",
+          "true"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ]
+      ],
+      "absent_evidence": [],
+      "warrant": {
+        "warrant_id": "native-monetary-unit-quantity-2026-11-01",
+        "kind": "DEFINITIONAL_DERIVATION",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/quantity-unit-population-inventory.json@sha256:5a392a773cef5cebd2e9d05df34258bf17c35307cddd82d46be9dbb8134ced79",
+          "docs/readings/2026-11-01-lexicon-you-body/you-body-reading.md",
+          "gse/curation/lexicon_builder/foundation.py#projection_relations"
+        ],
+        "statement": "Proposed scope: exact native noun senses with complete monetary_unit.n.01 ancestry and an explicitly attested native spelling. The 208 inspected native sense definitions and examples denote monetary units, fractional denominations, or denomination-bearing coin types. Their quantity content is intrinsic to the denomination, not the wealth or desirability of a referent. QUANTITY=+1 does not encode a particular amount, current exchange rate, size, value judgement, or ownership. A subtype whose own definition lacks quantitative denomination content falsifies this proposal. Anna (a former copper coin) and eurodollar (a deposited dollar used for international trade) are deliberately included as hard held-out audits. Morphology-derived spellings remain outside this rule until their identity is separately justified; no fallback signs apply. This is a GSE definitional projection interpreted from the native scope and measurement account, not an NSM-authored sign matrix. Source reading supports testing this proposed law; admission additionally requires independent withheld-answer model agreement across eight distinct senses and corpus replay.",
+        "review_id": "native-monetary-unit-quantity-proposal-2026-11-01",
+        "reviewer": "Codex primary source-backed proposal; not independent semantic gold"
+      }
+    }
+  ]
+}

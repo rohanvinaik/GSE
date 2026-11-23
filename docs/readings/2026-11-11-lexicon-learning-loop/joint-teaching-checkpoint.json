@@ -1,0 +1,137 @@
+{
+  "attempts": [
+    {
+      "BODY": [
+        0
+      ],
+      "code": "ASSIGNED",
+      "entry_id": "wordnet:at:at.n.02",
+      "request_id": "1b48675d4b049078ad91a0964c565226343addeca3dac474c791fc4c6db68d39",
+      "zipf_count": 164072
+    },
+    {
+      "BODY": [
+        -1,
+        0,
+        1
+      ],
+      "code": "RUNNING",
+      "entry_id": "wordnet:bob:british_shilling.n.01",
+      "request_id": "2d874e03fa109b9a47bb3e5c417b56493704edd321a5c50f26973c9789f27d46",
+      "zipf_count": 4666
+    },
+    {
+      "BODY": [
+        0
+      ],
+      "code": "ASSIGNED",
+      "entry_id": "wordnet:hand:hand.n.09",
+      "request_id": "e59d1c4bd2611569b8f155d1bb03e96e2dc1c805b82f8bdd243c6bc20885e519",
+      "zipf_count": 14262
+    },
+    {
+      "BODY": [
+        0
+      ],
+      "code": "ASSIGNED",
+      "entry_id": "wordnet:head:head.n.11",
+      "request_id": "1b119a3c3ce434cdeac09206350e71df5f57c10994d370dca78c9baea4b67a0a",
+      "zipf_count": 18947
+    },
+    {
+      "BODY": [
+        -1,
+        0,
+        1
+      ],
+      "code": "TRANSPORT_ERROR",
+      "entry_id": "wordnet:point:point.n.17",
+      "request_id": "04a05e057966acf8b0c9366e1f751bfcfa561c0b23b2424d5b2015e75ce8af27",
+      "zipf_count": 12063
+    },
+    {
+      "BODY": [
+        0
+      ],
+      "code": "ASSIGNED",
+      "entry_id": "wordnet:real:real.n.02",
+      "request_id": "e7d8dcc758677ac59ed78453497a2082cf3604a56e64c5f87e634e5ff763f69f",
+      "zipf_count": 22583
+    },
+    {
+      "BODY": [
+        -1,
+        0,
+        1
+      ],
+      "code": "RUNNING",
+      "entry_id": "wordnet:sent:sent.n.01",
+      "request_id": "8b62adf92bf0faa5ae0bd0afcf33cdbebbb99d73017c85e8fb7915668079092f",
+      "zipf_count": 7038
+    },
+    {
+      "BODY": [
+        0
+      ],
+      "code": "ASSIGNED",
+      "entry_id": "wordnet:won:south_korean_won.n.01",
+      "request_id": "e4720e2f04086db88d1d2d5b2a975c73100eb3aa2d74cefa5f582ff26c26c855",
+      "zipf_count": 38729
+    }
+  ],
+  "code": "TEACHING_INTERRUPTED",
+  "format": "gse.body-teaching-checkpoint/1",
+  "never_started": [
+    "wordnet:cable:cable.n.04",
+    "wordnet:cubit:cubit.n.01",
+    "wordnet:dollar:dollar.n.01",
+    "wordnet:finger:finger.n.02",
+    "wordnet:foot:foot.n.02",
+    "wordnet:mark:mark.n.07",
+    "wordnet:span:span.n.04",
+    "wordnet:yard:yard.n.01"
+  ],
+  "priority": {
+    "excluded_count": 1,
+    "excluded_records": [
+      {
+        "code": "MISSING_WORD",
+        "count": 27,
+        "csv_line": 21732,
+        "record_number": 21731
+      }
+    ],
+    "frequency_column": "SUBTLEX",
+    "included_words": 39953,
+    "mode": "zipf",
+    "ordering": "DESCENDING_POSITIVE_COUNT_THEN_CONSTRAINT_PRIORITY_THEN_DEFINITION_ID",
+    "policy": "gse.completion-priority/subtlex-count-order/2",
+    "ranked_words": 28902,
+    "rows": 39954,
+    "score": "MONOTONIC_ZIPF_ORDER_NOT_ABSOLUTE_ZIPF_SCORE",
+    "semantic_authority": "NONE_SCHEDULING_ONLY",
+    "sha256": "fa636292ba0b1b5cf4d6d335690ddcf3a162e4a8204124d95c64e795eb336226",
+    "source": "/Users/rohanvinaik/Projects/gse/data/external/concreteness.csv",
+    "unranked": "ZERO_OR_ABSENT_FREQUENCY_LAST_NOT_SEMANTIC_ZERO",
+    "word_column": "Word",
+    "zero_count_words": 11051
+  },
+  "selected_entry_ids": [
+    "wordnet:head:head.n.11",
+    "wordnet:hand:hand.n.09",
+    "wordnet:point:point.n.17",
+    "wordnet:foot:foot.n.02",
+    "wordnet:finger:finger.n.02",
+    "wordnet:yard:yard.n.01",
+    "wordnet:cable:cable.n.04",
+    "wordnet:cubit:cubit.n.01",
+    "wordnet:span:span.n.04",
+    "wordnet:at:at.n.02",
+    "wordnet:won:south_korean_won.n.01",
+    "wordnet:real:real.n.02",
+    "wordnet:sent:sent.n.01",
+    "wordnet:bob:british_shilling.n.01",
+    "wordnet:mark:mark.n.07",
+    "wordnet:dollar:dollar.n.01"
+  ]
+}

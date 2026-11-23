@@ -1,0 +1,81 @@
+{
+  "format": "gse.lexicon-source-scope-review/1",
+  "code": "PROPOSED_VERTEBRATE_BODY_PROJECTION_AWAITING_TEACHING_AND_AUDITS",
+  "request_verbatim": "Yes, continue. Finish validating 020, publish only if it passes, and update the experiment notebook. Then resume Zipf-prioritized teaching and coherence rules. Keep unknowns distinct from zero. Also please update me on the SSL-driven build concept, where we are in terms of constructing a full, usable lexicon for GSE",
+  "instrument": "The saved SSL semantic-construction workflow, the approved GSE own-content boundary and the existing exact-source epoch controller",
+  "specimen": "Literal native vertebrate definitions, their independently established ALIVE domains, the NSM body-template analyses and the proposed BODY consequence",
+  "claim_ledger": [
+    {
+      "claim": "The source supplies body-structure components for the reviewed bird, fish, snake, dog and kangaroo meanings.",
+      "kind": "EXTERNAL_ANALYSIS",
+      "scope": "Goddard 2018, complete article, especially sections 3 to 5 and their complete explications",
+      "falsifier": "A claimed body component is absent, attached only to an observer, or read outside its full explication.",
+      "test": "Read all 21 pages; retain taxonomic, participant, modal and cultural-script distinctions.",
+      "status": "COMPLETE_PRIMARY_READING"
+    },
+    {
+      "claim": "Exact native vertebrate kinds have their own defining bodily structure, supporting a conditional BODY=+1 projection when ALIVE=+1 is independently justified.",
+      "kind": "DERIVATION_PROPOSAL",
+      "scope": "Noun, attested native spelling, exact vertebrate.n.01 ancestry; no general entity, pronoun, plant or all-animal rule",
+      "falsifier": "An independently justified in-scope nonpositive BODY sign, an invalid native identity, or a definition lacking the purported inherited bodily-kind content.",
+      "test": "Whole-population stage, Zipf teaching, withheld native sense groups spanning four other vertebrate classes, and complete replay before admission or publication.",
+      "status": "UNADMITTED"
+    },
+    {
+      "claim": "This proposal demonstrates corpus-wide semantic correctness or an epoch-to-epoch exponential contraction rate.",
+      "kind": "EMPIRICAL_GENERALIZATION",
+      "scope": "The eventual 021 results, if obtained",
+      "falsifier": "Insufficient independent labels or a measured sequence that does not establish the stated rate.",
+      "test": "Report audits by outcome, exact scoped support contraction and budget; reserve wider correctness and rate claims for matching evidence.",
+      "status": "NOT_ESTABLISHED"
+    }
+  ],
+  "primary_source": {
+    "author": "Cliff Goddard",
+    "year": 2018,
+    "title": "A Semantic Menagerie: The Conceptual Semantics of Ethnozoological Categories",
+    "doi": "10.22363/2312-9182-2018-22-3-539-559",
+    "url": "https://journals.rudn.ru/linguistics/article/download/19346/16160",
+    "pdf": "data/external/references/goddard-2018-semantic-menagerie.pdf",
+    "pdf_sha256": "1d35375297255b9daac539485a268bdc5d0cc4c745a32b309f6fa5c5eb4022a0",
+    "text": "data/external/references/goddard-2018-semantic-menagerie.txt",
+    "text_sha256": "4fba1e666598aba542ebfd98ded45ad7035211f56be625bf61a19cc74ec13c09",
+    "pages_read": 21,
+    "printed_pages": "539-559",
+    "projection_caution": "The paper analyses structured NSM meanings. It does not provide a GSE sign matrix. Its English animal category is narrower than WordNet animal.n.01; those labels are not treated as equivalent. Observers, other participants, cultural attitudes and hypothetical capacities are not flattened into target-bank assignments."
+  },
+  "family": {
+    "id": "scoped-vertebrate-alive-body",
+    "antecedent": ["ALIVE", 1],
+    "consequent": ["BODY", 1],
+    "guards": [
+      ["pos", "noun"],
+      ["wordnet_native_lemma", "true"],
+      ["wordnet_ancestor:vertebrate.n.01", "true"]
+    ],
+    "holdouts": [
+      "wordnet:bird:bird.n.01",
+      "wordnet:fish:fish.n.01",
+      "wordnet:snake:snake.n.01",
+      "wordnet:frog:frog.n.01"
+    ],
+    "warrant": {
+      "kind": "DEFINITIONAL_DERIVATION",
+      "review_id": "021:vertebrate-defining-body-structure",
+      "reviewer": "Source-backed construction review",
+      "warrant_id": "021:scoped-vertebrate-alive-body",
+      "source_refs": [
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/021-vertebrate-source-review.json",
+        "/Users/rohanvinaik/Projects/gse/docs/program/LEXICON_CONSTRUCTION_DESIGN.md#body-reference-content-scope",
+        "https://doi.org/10.22363/2312-9182-2018-22-3-539-559",
+        "wordnet:vertebrate:vertebrate.n.01"
+      ],
+      "statement": "Within exact native vertebrate noun senses, the defining genus requires the organism's skeletal, spinal and cranial bodily structure. The complete NSM vertebrate examples distinguish such target-body components from observer, participant and cultural-script content. With independently justified ALIVE=+1, this own bodily-kind content supports BODY=+1 under GSE's existing projection boundary. This conditional derivation is narrower than all animals and is not an NSM theorem, a spelling association or a blanket entity-reference inference. It assigns no WANT, PART, MOVE, capacity, evaluative or other bank value. A source identity gap, missing premise, audit abstention or excluded taxon leaves its domain unchanged. Admission requires independent typed audits and replay."
+    }
+  },
+  "audits_per_epoch": 4,
+  "construction_question_budget": 5,
+  "publication_contract": "Rebase on validated active 020, obtain the bounded teaching and disjoint audits, admit only an evidenced rule, run full corpus replay and runtime plus cumulative semantic validation, and preserve all unknown domains. No publication is authorized by this proposal alone.",
+  "lexicon_writes": false,
+  "unknown_is_not_zero": true
+}

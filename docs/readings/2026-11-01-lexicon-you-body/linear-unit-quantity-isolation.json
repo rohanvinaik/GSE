@@ -1,0 +1,1689 @@
+{
+  "format": "gse.quantity-migration-isolation/1",
+  "authority": "FACTUAL_ISOLATION_NOT_SEMANTIC_ADMISSION",
+  "database_writes": 0,
+  "model_calls": 0,
+  "activation_performed": false,
+  "hash_scope": "Filesystem observations of immutable, WAL-free snapshots; nonempty WAL refused; start/end hashes detect input changes.",
+  "expected_before_sha256": "20760b93ff953cd1443289fcbaccd32db640284c6f7ecaee7ada7536f4f43e73",
+  "start_observations": {
+    "before": {
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-01/constructed-corpus-linear-unit-want.db",
+      "exists": true,
+      "sha256": "20760b93ff953cd1443289fcbaccd32db640284c6f7ecaee7ada7536f4f43e73",
+      "stat": {
+        "st_dev": 16777232,
+        "st_ino": 70868355,
+        "st_size": 15668195328,
+        "st_mtime_ns": 1793583816829214114
+      },
+      "stable_during_hash": true
+    },
+    "after": {
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-01/constructed-corpus-native-linear-quantity.db",
+      "exists": true,
+      "sha256": "e8c02b5f51f2c9e571f9d8f236544028bca246ecabdabfa0a322d8a63c68c5ed",
+      "stat": {
+        "st_dev": 16777232,
+        "st_ino": 74074506,
+        "st_size": 15765831680,
+        "st_mtime_ns": 1793586200119378203
+      },
+      "stable_during_hash": true
+    },
+    "before_wal": {
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-01/constructed-corpus-linear-unit-want.db-wal",
+      "exists": false
+    },
+    "after_wal": {
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-01/constructed-corpus-native-linear-quantity.db-wal",
+      "exists": false
+    },
+    "active_pointer": {
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_active.json",
+      "exists": true,
+      "sha256": "449020ca41a461a7d418e4bdffe402da5c0798cb98444c5f88e7ecf6acd099b5",
+      "stat": {
+        "st_dev": 16777232,
+        "st_ino": 64509817,
+        "st_size": 94,
+        "st_mtime_ns": 1793298009894765208
+      },
+      "stable_during_hash": true
+    }
+  },
+  "implementation_observations": {
+    "comparison_script": {
+      "path": "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-01-lexicon-you-body/compare_quantity_migration.py",
+      "exists": true,
+      "sha256": "1a20c3c173892c6771a960567a04ca31f4777d48a1d90256fff41b626633ec95",
+      "stat": {
+        "st_dev": 16777232,
+        "st_ino": 73933237,
+        "st_size": 18733,
+        "st_mtime_ns": 1793583445490803486
+      },
+      "stable_during_hash": true
+    },
+    "native_witness_validator": {
+      "path": "/Users/rohanvinaik/Projects/gse/gse/curation/lexicon_builder/foundation.py",
+      "exists": true,
+      "sha256": "d4fedd2fe6b36a44c91ab26bb0ae5c21317f1f9078eef78e11f1a93bd722054b",
+      "stat": {
+        "st_dev": 16777232,
+        "st_ino": 63976529,
+        "st_size": 14936,
+        "st_mtime_ns": 1793583228407099277
+      },
+      "stable_during_hash": true
+    }
+  },
+  "inventory": {
+    "path": "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-01-lexicon-next-stage/quantity-unit-population-inventory.json",
+    "exists": true,
+    "sha256": "5a392a773cef5cebd2e9d05df34258bf17c35307cddd82d46be9dbb8134ced79",
+    "stat": {
+      "st_dev": 16777232,
+      "st_ino": 73757717,
+      "st_size": 7300810,
+      "st_mtime_ns": 1793582173351412284
+    },
+    "stable_during_hash": true
+  },
+  "scope": {
+    "native_linear_unit_entries": 133,
+    "eligible_native_spellings": 100,
+    "eligible_entry_ids": [
+      "wordnet:angstrom:angstrom.n.01",
+      "wordnet:archine:archine.n.01",
+      "wordnet:au:astronomical_unit.n.01",
+      "wordnet:cable:cable.n.04",
+      "wordnet:centimeter:centimeter.n.01",
+      "wordnet:centimetre:centimeter.n.01",
+      "wordnet:chain:chain.n.06",
+      "wordnet:cicero:cicero.n.01",
+      "wordnet:cm:centimeter.n.01",
+      "wordnet:coss:kos.n.01",
+      "wordnet:cubit:cubit.n.01",
+      "wordnet:dam:decameter.n.01",
+      "wordnet:decameter:decameter.n.01",
+      "wordnet:decametre:decameter.n.01",
+      "wordnet:decimeter:decimeter.n.01",
+      "wordnet:decimetre:decimeter.n.01",
+      "wordnet:dekameter:decameter.n.01",
+      "wordnet:dekametre:decameter.n.01",
+      "wordnet:digit:finger.n.02",
+      "wordnet:dm:decimeter.n.01",
+      "wordnet:em:em.n.02",
+      "wordnet:en:en.n.01",
+      "wordnet:fathom:fathom.n.01",
+      "wordnet:femtometer:femtometer.n.01",
+      "wordnet:femtometre:femtometer.n.01",
+      "wordnet:fermi:femtometer.n.01",
+      "wordnet:finger:finger.n.02",
+      "wordnet:fingerbreadth:finger.n.02",
+      "wordnet:fistmele:fistmele.n.01",
+      "wordnet:foot:foot.n.02",
+      "wordnet:footer:footer.n.01",
+      "wordnet:ft:foot.n.02",
+      "wordnet:furlong:furlong.n.01",
+      "wordnet:hand:hand.n.09",
+      "wordnet:handbreadth:handbreadth.n.01",
+      "wordnet:handsbreadth:handbreadth.n.01",
+      "wordnet:head:head.n.11",
+      "wordnet:hectometer:hectometer.n.01",
+      "wordnet:hectometre:hectometer.n.01",
+      "wordnet:hm:hectometer.n.01",
+      "wordnet:in:inch.n.01",
+      "wordnet:inch:inch.n.01",
+      "wordnet:kilometer:kilometer.n.01",
+      "wordnet:kilometre:kilometer.n.01",
+      "wordnet:klick:kilometer.n.01",
+      "wordnet:km:kilometer.n.01",
+      "wordnet:knot:nautical_mile.n.02",
+      "wordnet:kos:kos.n.01",
+      "wordnet:lea:lea.n.01",
+      "wordnet:league:league.n.03",
+      "wordnet:li:li.n.02",
+      "wordnet:ligne:ligne.n.01",
+      "wordnet:link:link.n.05",
+      "wordnet:m:meter.n.01",
+      "wordnet:mesh:mesh.n.01",
+      "wordnet:meter:meter.n.01",
+      "wordnet:metre:meter.n.01",
+      "wordnet:mi:mile.n.01",
+      "wordnet:mi:nautical_mile.n.01",
+      "wordnet:mi:nautical_mile.n.02",
+      "wordnet:micrometer:micron.n.01",
+      "wordnet:micromillimeter:nanometer.n.01",
+      "wordnet:micromillimetre:nanometer.n.01",
+      "wordnet:micron:micron.n.01",
+      "wordnet:mil:mil.n.03",
+      "wordnet:mil:mile.n.07",
+      "wordnet:mile:mile.n.01",
+      "wordnet:mile:mile.n.06",
+      "wordnet:mile:mile.n.07",
+      "wordnet:mile:nautical_mile.n.01",
+      "wordnet:mile:nautical_mile.n.02",
+      "wordnet:mile:sea_mile.n.01",
+      "wordnet:miler:miler.n.01",
+      "wordnet:millimeter:millimeter.n.01",
+      "wordnet:millimetre:millimeter.n.01",
+      "wordnet:millimicron:nanometer.n.01",
+      "wordnet:mm:millimeter.n.01",
+      "wordnet:myriameter:myriameter.n.01",
+      "wordnet:myriametre:myriameter.n.01",
+      "wordnet:nail:nail.n.03",
+      "wordnet:nanometer:nanometer.n.01",
+      "wordnet:nanometre:nanometer.n.01",
+      "wordnet:nm:nanometer.n.01",
+      "wordnet:nut:en.n.01",
+      "wordnet:pace:yard.n.01",
+      "wordnet:palm:palm.n.02",
+      "wordnet:parsec:parsec.n.01",
+      "wordnet:perch:perch.n.02",
+      "wordnet:pica:em.n.02",
+      "wordnet:picometer:picometer.n.01",
+      "wordnet:picometre:picometer.n.01",
+      "wordnet:point:point.n.17",
+      "wordnet:pole:perch.n.02",
+      "wordnet:rod:perch.n.02",
+      "wordnet:secpar:parsec.n.01",
+      "wordnet:span:span.n.04",
+      "wordnet:vara:vara.n.01",
+      "wordnet:verst:verst.n.01",
+      "wordnet:yard:yard.n.01",
+      "wordnet:yarder:yarder.n.01"
+    ],
+    "excluded_count": 33,
+    "excluded_entry_ids": [
+      "wordnet:as:angstrom.n.01",
+      "wordnet:aus:astronomical_unit.n.01",
+      "wordnet:cables:cable.n.04",
+      "wordnet:chains:chain.n.06",
+      "wordnet:digits:finger.n.02",
+      "wordnet:feet:foot.n.02",
+      "wordnet:fingers:finger.n.02",
+      "wordnet:hands:hand.n.09",
+      "wordnet:heads:head.n.11",
+      "wordnet:inches:inch.n.01",
+      "wordnet:ins:inch.n.01",
+      "wordnet:kilometers:kilometer.n.01",
+      "wordnet:links:link.n.05",
+      "wordnet:meshes:mesh.n.01",
+      "wordnet:meters:meter.n.01",
+      "wordnet:metres:meter.n.01",
+      "wordnet:miles:mile.n.01",
+      "wordnet:miles:mile.n.06",
+      "wordnet:miles:mile.n.07",
+      "wordnet:miles:nautical_mile.n.01",
+      "wordnet:miles:nautical_mile.n.02",
+      "wordnet:miles:sea_mile.n.01",
+      "wordnet:mis:mile.n.01",
+      "wordnet:mis:nautical_mile.n.01",
+      "wordnet:mis:nautical_mile.n.02",
+      "wordnet:ms:meter.n.01",
+      "wordnet:nails:nail.n.03",
+      "wordnet:nuts:en.n.01",
+      "wordnet:points:point.n.17",
+      "wordnet:poles:perch.n.02",
+      "wordnet:rods:perch.n.02",
+      "wordnet:spans:span.n.04",
+      "wordnet:yards:yard.n.01"
+    ]
+  },
+  "comparison": {
+    "counts": {
+      "before_entries": 401596,
+      "after_entries": 401596,
+      "entries_compared": 401596,
+      "bank_cells_compared": 22489376,
+      "changed_cells": 99
+    },
+    "changes": [
+      {
+        "entry_id": "wordnet:angstrom:angstrom.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:archine:archine.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:au:astronomical_unit.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:cable:cable.n.04",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:centimeter:centimeter.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:centimetre:centimeter.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:chain:chain.n.06",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:cicero:cicero.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:cm:centimeter.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:coss:kos.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:cubit:cubit.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:dam:decameter.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:decameter:decameter.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:decametre:decameter.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:decimeter:decimeter.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:decimetre:decimeter.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:dekameter:decameter.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:dekametre:decameter.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:digit:finger.n.02",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:dm:decimeter.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:em:em.n.02",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:en:en.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:fathom:fathom.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:femtometer:femtometer.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:femtometre:femtometer.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:fermi:femtometer.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:finger:finger.n.02",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:fingerbreadth:finger.n.02",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:fistmele:fistmele.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:foot:foot.n.02",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:footer:footer.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:ft:foot.n.02",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:furlong:furlong.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:hand:hand.n.09",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:handbreadth:handbreadth.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:handsbreadth:handbreadth.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:head:head.n.11",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:hectometer:hectometer.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:hectometre:hectometer.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:hm:hectometer.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:inch:inch.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:kilometer:kilometer.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:kilometre:kilometer.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:klick:kilometer.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:km:kilometer.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:knot:nautical_mile.n.02",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:kos:kos.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:lea:lea.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:league:league.n.03",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:li:li.n.02",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:ligne:ligne.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:link:link.n.05",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:m:meter.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:mesh:mesh.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:meter:meter.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:metre:meter.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:mi:mile.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:mi:nautical_mile.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:mi:nautical_mile.n.02",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:micrometer:micron.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:micromillimeter:nanometer.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:micromillimetre:nanometer.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:micron:micron.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:mil:mil.n.03",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:mil:mile.n.07",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:mile:mile.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:mile:mile.n.06",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:mile:mile.n.07",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:mile:nautical_mile.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:mile:nautical_mile.n.02",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:mile:sea_mile.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:miler:miler.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:millimeter:millimeter.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:millimetre:millimeter.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:millimicron:nanometer.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:mm:millimeter.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:myriameter:myriameter.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:myriametre:myriameter.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:nail:nail.n.03",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:nanometer:nanometer.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:nanometre:nanometer.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:nm:nanometer.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:nut:en.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:pace:yard.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:palm:palm.n.02",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:parsec:parsec.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:perch:perch.n.02",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:pica:em.n.02",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:picometer:picometer.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:picometre:picometer.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:point:point.n.17",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:pole:perch.n.02",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:rod:perch.n.02",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:secpar:parsec.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:span:span.n.04",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:vara:vara.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:verst:verst.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:yard:yard.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      },
+      {
+        "entry_id": "wordnet:yarder:yarder.n.01",
+        "bank": "QUANTITY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "after": [
+          1
+        ]
+      }
+    ],
+    "omitted_change_details": 0,
+    "changed_entry_ids": [
+      "wordnet:angstrom:angstrom.n.01",
+      "wordnet:archine:archine.n.01",
+      "wordnet:au:astronomical_unit.n.01",
+      "wordnet:cable:cable.n.04",
+      "wordnet:centimeter:centimeter.n.01",
+      "wordnet:centimetre:centimeter.n.01",
+      "wordnet:chain:chain.n.06",
+      "wordnet:cicero:cicero.n.01",
+      "wordnet:cm:centimeter.n.01",
+      "wordnet:coss:kos.n.01",
+      "wordnet:cubit:cubit.n.01",
+      "wordnet:dam:decameter.n.01",
+      "wordnet:decameter:decameter.n.01",
+      "wordnet:decametre:decameter.n.01",
+      "wordnet:decimeter:decimeter.n.01",
+      "wordnet:decimetre:decimeter.n.01",
+      "wordnet:dekameter:decameter.n.01",
+      "wordnet:dekametre:decameter.n.01",
+      "wordnet:digit:finger.n.02",
+      "wordnet:dm:decimeter.n.01",
+      "wordnet:em:em.n.02",
+      "wordnet:en:en.n.01",
+      "wordnet:fathom:fathom.n.01",
+      "wordnet:femtometer:femtometer.n.01",
+      "wordnet:femtometre:femtometer.n.01",
+      "wordnet:fermi:femtometer.n.01",
+      "wordnet:finger:finger.n.02",
+      "wordnet:fingerbreadth:finger.n.02",
+      "wordnet:fistmele:fistmele.n.01",
+      "wordnet:foot:foot.n.02",
+      "wordnet:footer:footer.n.01",
+      "wordnet:ft:foot.n.02",
+      "wordnet:furlong:furlong.n.01",
+      "wordnet:hand:hand.n.09",
+      "wordnet:handbreadth:handbreadth.n.01",
+      "wordnet:handsbreadth:handbreadth.n.01",
+      "wordnet:head:head.n.11",
+      "wordnet:hectometer:hectometer.n.01",
+      "wordnet:hectometre:hectometer.n.01",
+      "wordnet:hm:hectometer.n.01",
+      "wordnet:inch:inch.n.01",
+      "wordnet:kilometer:kilometer.n.01",
+      "wordnet:kilometre:kilometer.n.01",
+      "wordnet:klick:kilometer.n.01",
+      "wordnet:km:kilometer.n.01",
+      "wordnet:knot:nautical_mile.n.02",
+      "wordnet:kos:kos.n.01",
+      "wordnet:lea:lea.n.01",
+      "wordnet:league:league.n.03",
+      "wordnet:li:li.n.02",
+      "wordnet:ligne:ligne.n.01",
+      "wordnet:link:link.n.05",
+      "wordnet:m:meter.n.01",
+      "wordnet:mesh:mesh.n.01",
+      "wordnet:meter:meter.n.01",
+      "wordnet:metre:meter.n.01",
+      "wordnet:mi:mile.n.01",
+      "wordnet:mi:nautical_mile.n.01",
+      "wordnet:mi:nautical_mile.n.02",
+      "wordnet:micrometer:micron.n.01",
+      "wordnet:micromillimeter:nanometer.n.01",
+      "wordnet:micromillimetre:nanometer.n.01",
+      "wordnet:micron:micron.n.01",
+      "wordnet:mil:mil.n.03",
+      "wordnet:mil:mile.n.07",
+      "wordnet:mile:mile.n.01",
+      "wordnet:mile:mile.n.06",
+      "wordnet:mile:mile.n.07",
+      "wordnet:mile:nautical_mile.n.01",
+      "wordnet:mile:nautical_mile.n.02",
+      "wordnet:mile:sea_mile.n.01",
+      "wordnet:miler:miler.n.01",
+      "wordnet:millimeter:millimeter.n.01",
+      "wordnet:millimetre:millimeter.n.01",
+      "wordnet:millimicron:nanometer.n.01",
+      "wordnet:mm:millimeter.n.01",
+      "wordnet:myriameter:myriameter.n.01",
+      "wordnet:myriametre:myriameter.n.01",
+      "wordnet:nail:nail.n.03",
+      "wordnet:nanometer:nanometer.n.01",
+      "wordnet:nanometre:nanometer.n.01",
+      "wordnet:nm:nanometer.n.01",
+      "wordnet:nut:en.n.01",
+      "wordnet:pace:yard.n.01",
+      "wordnet:palm:palm.n.02",
+      "wordnet:parsec:parsec.n.01",
+      "wordnet:perch:perch.n.02",
+      "wordnet:pica:em.n.02",
+      "wordnet:picometer:picometer.n.01",
+      "wordnet:picometre:picometer.n.01",
+      "wordnet:point:point.n.17",
+      "wordnet:pole:perch.n.02",
+      "wordnet:rod:perch.n.02",
+      "wordnet:secpar:parsec.n.01",
+      "wordnet:span:span.n.04",
+      "wordnet:vara:vara.n.01",
+      "wordnet:verst:verst.n.01",
+      "wordnet:yard:yard.n.01",
+      "wordnet:yarder:yarder.n.01"
+    ],
+    "expected_changed_entry_ids": [
+      "wordnet:angstrom:angstrom.n.01",
+      "wordnet:archine:archine.n.01",
+      "wordnet:au:astronomical_unit.n.01",
+      "wordnet:cable:cable.n.04",
+      "wordnet:centimeter:centimeter.n.01",
+      "wordnet:centimetre:centimeter.n.01",
+      "wordnet:chain:chain.n.06",
+      "wordnet:cicero:cicero.n.01",
+      "wordnet:cm:centimeter.n.01",
+      "wordnet:coss:kos.n.01",
+      "wordnet:cubit:cubit.n.01",
+      "wordnet:dam:decameter.n.01",
+      "wordnet:decameter:decameter.n.01",
+      "wordnet:decametre:decameter.n.01",
+      "wordnet:decimeter:decimeter.n.01",
+      "wordnet:decimetre:decimeter.n.01",
+      "wordnet:dekameter:decameter.n.01",
+      "wordnet:dekametre:decameter.n.01",
+      "wordnet:digit:finger.n.02",
+      "wordnet:dm:decimeter.n.01",
+      "wordnet:em:em.n.02",
+      "wordnet:en:en.n.01",
+      "wordnet:fathom:fathom.n.01",
+      "wordnet:femtometer:femtometer.n.01",
+      "wordnet:femtometre:femtometer.n.01",
+      "wordnet:fermi:femtometer.n.01",
+      "wordnet:finger:finger.n.02",
+      "wordnet:fingerbreadth:finger.n.02",
+      "wordnet:fistmele:fistmele.n.01",
+      "wordnet:foot:foot.n.02",
+      "wordnet:footer:footer.n.01",
+      "wordnet:ft:foot.n.02",
+      "wordnet:furlong:furlong.n.01",
+      "wordnet:hand:hand.n.09",
+      "wordnet:handbreadth:handbreadth.n.01",
+      "wordnet:handsbreadth:handbreadth.n.01",
+      "wordnet:head:head.n.11",
+      "wordnet:hectometer:hectometer.n.01",
+      "wordnet:hectometre:hectometer.n.01",
+      "wordnet:hm:hectometer.n.01",
+      "wordnet:inch:inch.n.01",
+      "wordnet:kilometer:kilometer.n.01",
+      "wordnet:kilometre:kilometer.n.01",
+      "wordnet:klick:kilometer.n.01",
+      "wordnet:km:kilometer.n.01",
+      "wordnet:knot:nautical_mile.n.02",
+      "wordnet:kos:kos.n.01",
+      "wordnet:lea:lea.n.01",
+      "wordnet:league:league.n.03",
+      "wordnet:li:li.n.02",
+      "wordnet:ligne:ligne.n.01",
+      "wordnet:link:link.n.05",
+      "wordnet:m:meter.n.01",
+      "wordnet:mesh:mesh.n.01",
+      "wordnet:meter:meter.n.01",
+      "wordnet:metre:meter.n.01",
+      "wordnet:mi:mile.n.01",
+      "wordnet:mi:nautical_mile.n.01",
+      "wordnet:mi:nautical_mile.n.02",
+      "wordnet:micrometer:micron.n.01",
+      "wordnet:micromillimeter:nanometer.n.01",
+      "wordnet:micromillimetre:nanometer.n.01",
+      "wordnet:micron:micron.n.01",
+      "wordnet:mil:mil.n.03",
+      "wordnet:mil:mile.n.07",
+      "wordnet:mile:mile.n.01",
+      "wordnet:mile:mile.n.06",
+      "wordnet:mile:mile.n.07",
+      "wordnet:mile:nautical_mile.n.01",
+      "wordnet:mile:nautical_mile.n.02",
+      "wordnet:mile:sea_mile.n.01",
+      "wordnet:miler:miler.n.01",
+      "wordnet:millimeter:millimeter.n.01",
+      "wordnet:millimetre:millimeter.n.01",
+      "wordnet:millimicron:nanometer.n.01",
+      "wordnet:mm:millimeter.n.01",
+      "wordnet:myriameter:myriameter.n.01",
+      "wordnet:myriametre:myriameter.n.01",
+      "wordnet:nail:nail.n.03",
+      "wordnet:nanometer:nanometer.n.01",
+      "wordnet:nanometre:nanometer.n.01",
+      "wordnet:nm:nanometer.n.01",
+      "wordnet:nut:en.n.01",
+      "wordnet:pace:yard.n.01",
+      "wordnet:palm:palm.n.02",
+      "wordnet:parsec:parsec.n.01",
+      "wordnet:perch:perch.n.02",
+      "wordnet:pica:em.n.02",
+      "wordnet:picometer:picometer.n.01",
+      "wordnet:picometre:picometer.n.01",
+      "wordnet:point:point.n.17",
+      "wordnet:pole:perch.n.02",
+      "wordnet:rod:perch.n.02",
+      "wordnet:secpar:parsec.n.01",
+      "wordnet:span:span.n.04",
+      "wordnet:vara:vara.n.01",
+      "wordnet:verst:verst.n.01",
+      "wordnet:yard:yard.n.01",
+      "wordnet:yarder:yarder.n.01"
+    ]
+  },
+  "end_observations": {
+    "before": {
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-01/constructed-corpus-linear-unit-want.db",
+      "exists": true,
+      "sha256": "20760b93ff953cd1443289fcbaccd32db640284c6f7ecaee7ada7536f4f43e73",
+      "stat": {
+        "st_dev": 16777232,
+        "st_ino": 70868355,
+        "st_size": 15668195328,
+        "st_mtime_ns": 1793583816829214114
+      },
+      "stable_during_hash": true
+    },
+    "after": {
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-01/constructed-corpus-native-linear-quantity.db",
+      "exists": true,
+      "sha256": "e8c02b5f51f2c9e571f9d8f236544028bca246ecabdabfa0a322d8a63c68c5ed",
+      "stat": {
+        "st_dev": 16777232,
+        "st_ino": 74074506,
+        "st_size": 15765831680,
+        "st_mtime_ns": 1793586200119378203
+      },
+      "stable_during_hash": true
+    },
+    "before_wal": {
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-01/constructed-corpus-linear-unit-want.db-wal",
+      "exists": false
+    },
+    "after_wal": {
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-01/constructed-corpus-native-linear-quantity.db-wal",
+      "exists": false
+    },
+    "active_pointer": {
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_active.json",
+      "exists": true,
+      "sha256": "449020ca41a461a7d418e4bdffe402da5c0798cb98444c5f88e7ecf6acd099b5",
+      "stat": {
+        "st_dev": 16777232,
+        "st_ino": 64509817,
+        "st_size": 94,
+        "st_mtime_ns": 1793298009894765208
+      },
+      "stable_during_hash": true
+    }
+  },
+  "findings": {
+    "counts": {},
+    "details": [],
+    "omitted_details": 0
+  },
+  "code": "ISOLATION_VERIFIED"
+}

@@ -1,0 +1,63 @@
+{
+  "format": "gse.checkpoint-exact-definition-probe/1",
+  "cases": [
+    {
+      "requested_id": "wordnet:dog:dog.n.01",
+      "selection": "IDENTIFIED",
+      "selected_id": "wordnet:dog:dog.n.01",
+      "assignments": {
+        "ALIVE": 1,
+        "BODY": 1,
+        "GOOD": 0,
+        "SOMETHING": 1
+      },
+      "open_banks": 52,
+      "vector_class": "SparseVector",
+      "code": "EXACT_DEFINITION_ENCODED_WITH_OPEN_DOMAINS_RETAINED"
+    },
+    {
+      "requested_id": "wordnet:cat:cat.n.01",
+      "selection": "IDENTIFIED",
+      "selected_id": "wordnet:cat:cat.n.01",
+      "assignments": {
+        "ALIVE": 1,
+        "BODY": 1,
+        "GOOD": 0,
+        "SOMETHING": 1
+      },
+      "open_banks": 52,
+      "vector_class": "SparseVector",
+      "code": "EXACT_DEFINITION_ENCODED_WITH_OPEN_DOMAINS_RETAINED"
+    },
+    {
+      "requested_id": "wordnet:chase:chase.v.01",
+      "selection": "IDENTIFIED",
+      "selected_id": "wordnet:chase:chase.v.01",
+      "assignments": {
+        "HAPPEN": 1,
+        "MOVE": 1
+      },
+      "open_banks": 54,
+      "vector_class": "SparseVector",
+      "code": "EXACT_DEFINITION_ENCODED_WITH_OPEN_DOMAINS_RETAINED"
+    },
+    {
+      "requested_id": "wordnet:person:person.n.01",
+      "selection": "IDENTIFIED",
+      "selected_id": "wordnet:person:person.n.01",
+      "assignments": {
+        "ALIVE": 1,
+        "GOOD": 0,
+        "SOMEONE": 1,
+        "SOMETHING": 1
+      },
+      "open_banks": 52,
+      "vector_class": "SparseVector",
+      "code": "EXACT_DEFINITION_ENCODED_WITH_OPEN_DOMAINS_RETAINED"
+    }
+  ],
+  "identity_test": {
+    "dog_cat_distinct_ids": true,
+    "dog_cat_equal_justified_assignments": true
+  }
+}

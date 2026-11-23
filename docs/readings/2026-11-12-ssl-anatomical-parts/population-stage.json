@@ -1,0 +1,3773 @@
+{
+  "active_pointer_sha256": "c458d88ccd4b5bb142a77b04044cd87627d38d9e64f4d0cc5bcb42f9eefbb5c6",
+  "authority": "UNADMITTED",
+  "baseline_sha256": "e269224e4ed59dd5ca61b6617c2476bc934d8a43d2417a5713098c10de8d85e7",
+  "format": "gse.anatomical-part-full-cohort-stage/1",
+  "lexicon_writes": false,
+  "selected": {
+    "closure": {
+      "bank": "BODY",
+      "bridge_options": [],
+      "contradictions": 0,
+      "entry_id": "wordnet:bone:bone.n.01",
+      "family": "skeletal-part-body",
+      "premise": [
+        "PART",
+        1
+      ],
+      "premise_proof": [
+        {
+          "bank": "PART",
+          "family": "wordnet",
+          "kind": "ASSERTION",
+          "record_id": "wordnet:bone:bone.n.01",
+          "remaining": [
+            1
+          ],
+          "removed": [
+            -1,
+            0
+          ],
+          "scope": "lexical",
+          "source": "wordnet_hierarchy",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "family": "wordnet",
+          "kind": "ASSERTION",
+          "record_id": "wordnet:bone:bone.n.01",
+          "remaining": [
+            1
+          ],
+          "removed": [
+            -1,
+            0
+          ],
+          "scope": "lexical",
+          "source": "wordnet_hierarchy",
+          "value": 1
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "founder:adjective-not-object"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "founder:adverb-not-object"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:15b623faa3a7f480ae4bb55b38b12330b19bc02a59404d2e312985d6c4d123d6"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:1ad9148bf06029d4b0f49346585ddceff9ad4415005116d85ef1ef4544f3fc52"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:2a5698334fe3f070549cae52a4e52440acb5965862dec358825001f5a2496a60"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:3bf66d8b1cf0cf629d8bd968d3a5e7cdcfee5b508d007afcd49793d8b4bbace1"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:4020ffd7ce72eb23aea7686a62a21eaa2bdc974306586560d69cbc89a63853a7"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:4d9f9f13721144cbba9db5d6a3e3343507e4222966fee5d50c4aaed0f6cfcb50"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:4e512ae007c8f10dc26ba11b34d4e538b3493f24bfa30c08ec701eef9ed3ae42"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:5c6806eb8bd28446fab5529e7ed01ef04aef6ef5511fc15383109415887ef271"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:65d16959c01e4411fe908f0a08ab3a0b130fa0cdf3095f20602b256862b56aa2"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:75529e500654a013832858c8c49beff7b9344ea82b7738273ecb8013de419a90"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:7c2e51d627e6816f13b3eca0abdf608621fab14b26eab1b8c0733e35e35ea03c"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:8d1fe210c053571b631d01240ef7ee3f7b29d33b014c7bf4721f9e1f078aaaef"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:8d388f4033f939925a44eb20c7d09e833a9ee6af6102f382249bdef7adcb1810"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:d30431f3531032b0121f4e7bec3e84ab19914eb7ffe1599d33d7671b7535e744"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:d5c74077e4237a30ca36de5ae0808fe2646ce7efd860ac2f9f999b8e80ccf634"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:e0d5fced5d793a0da96ccc5a260eadc2c2134cfd1a82de5ed2c788a90a8f47a9"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:f4ff18466dbc0cfce0b075ac7dae052e0a42eee33e6ceebfb979c63f0cbbab37"
+        },
+        {
+          "bank": "GOOD",
+          "domains_before": {
+            "GOOD": [
+              -1,
+              0,
+              1
+            ]
+          },
+          "kind": "RELATION",
+          "provenance": [
+            "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+          ],
+          "remaining": [
+            0
+          ],
+          "removed": [
+            -1,
+            1
+          ],
+          "rule_id": "founder:noun-own-evaluation",
+          "support_rows": [
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "banks": [
+            "ABOVE",
+            "FAR",
+            "HERE",
+            "OUTSIDE",
+            "SIDE",
+            "TOWARD",
+            "WHERE"
+          ],
+          "domains_before": {
+            "ABOVE": [
+              -1,
+              0,
+              1
+            ],
+            "FAR": [
+              -1,
+              0,
+              1
+            ],
+            "HERE": [
+              -1,
+              0,
+              1
+            ],
+            "OUTSIDE": [
+              -1,
+              0,
+              1
+            ],
+            "SIDE": [
+              -1,
+              0,
+              1
+            ],
+            "TOWARD": [
+              -1,
+              0,
+              1
+            ],
+            "WHERE": [
+              -1,
+              0,
+              1
+            ]
+          },
+          "joint_assignments": 2187,
+          "kind": "JOINT_CHECK",
+          "max_joint_assignments": 100000,
+          "provenance": [
+            [
+              "founder:category:above-where",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ],
+            [
+              "founder:category:far-where",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ],
+            [
+              "founder:category:here-where",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ],
+            [
+              "founder:category:outside-where",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ],
+            [
+              "founder:category:side-where",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ],
+            [
+              "founder:category:toward-where",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ]
+          ],
+          "rule_ids": [
+            "founder:category:above-where",
+            "founder:category:far-where",
+            "founder:category:here-where",
+            "founder:category:outside-where",
+            "founder:category:side-where",
+            "founder:category:toward-where"
+          ],
+          "witnesses": 737
+        },
+        {
+          "banks": [
+            "BEFORE",
+            "LONG_TIME",
+            "MOMENT",
+            "THEN",
+            "WHEN"
+          ],
+          "domains_before": {
+            "BEFORE": [
+              -1,
+              0,
+              1
+            ],
+            "LONG_TIME": [
+              -1,
+              0,
+              1
+            ],
+            "MOMENT": [
+              -1,
+              0,
+              1
+            ],
+            "THEN": [
+              -1,
+              0,
+              1
+            ],
+            "WHEN": [
+              -1,
+              0,
+              1
+            ]
+          },
+          "joint_assignments": 243,
+          "kind": "JOINT_CHECK",
+          "max_joint_assignments": 100000,
+          "provenance": [
+            [
+              "founder:category:before-when",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ],
+            [
+              "founder:category:long_time-when",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ],
+            [
+              "founder:category:moment-when",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ],
+            [
+              "founder:category:then-when",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ]
+          ],
+          "rule_ids": [
+            "founder:category:before-when",
+            "founder:category:long_time-when",
+            "founder:category:moment-when",
+            "founder:category:then-when"
+          ],
+          "witnesses": 85
+        },
+        {
+          "banks": [
+            "BODY",
+            "SOMETHING"
+          ],
+          "domains_before": {
+            "BODY": [
+              -1,
+              0,
+              1
+            ],
+            "SOMETHING": [
+              1
+            ]
+          },
+          "joint_assignments": 3,
+          "kind": "JOINT_CHECK",
+          "max_joint_assignments": 100000,
+          "provenance": [
+            [
+              "founder:category:body-something",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ]
+          ],
+          "rule_ids": [
+            "founder:category:body-something"
+          ],
+          "witnesses": 3
+        },
+        {
+          "banks": [
+            "CAUSE",
+            "DO",
+            "HAPPEN",
+            "MOVE"
+          ],
+          "domains_before": {
+            "CAUSE": [
+              -1,
+              0,
+              1
+            ],
+            "DO": [
+              -1,
+              0,
+              1
+            ],
+            "HAPPEN": [
+              -1,
+              0,
+              1
+            ],
+            "MOVE": [
+              -1,
+              0,
+              1
+            ]
+          },
+          "joint_assignments": 81,
+          "kind": "JOINT_CHECK",
+          "max_joint_assignments": 100000,
+          "provenance": [
+            [
+              "founder:category:cause-happen",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ],
+            [
+              "founder:category:do-happen",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ],
+            [
+              "founder:category:move-happen",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ]
+          ],
+          "rule_ids": [
+            "founder:category:cause-happen",
+            "founder:category:do-happen",
+            "founder:category:move-happen"
+          ],
+          "witnesses": 43
+        },
+        {
+          "banks": [
+            "GOOD"
+          ],
+          "domains_before": {
+            "GOOD": [
+              0
+            ]
+          },
+          "joint_assignments": 1,
+          "kind": "JOINT_CHECK",
+          "max_joint_assignments": 100000,
+          "provenance": [
+            [
+              "founder:noun-own-evaluation",
+              [
+                "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+              ]
+            ]
+          ],
+          "rule_ids": [
+            "founder:noun-own-evaluation"
+          ],
+          "witnesses": 1
+        },
+        {
+          "banks": [
+            "I",
+            "SOMEONE",
+            "YOU"
+          ],
+          "domains_before": {
+            "I": [
+              -1,
+              0,
+              1
+            ],
+            "SOMEONE": [
+              -1,
+              0,
+              1
+            ],
+            "YOU": [
+              -1,
+              0,
+              1
+            ]
+          },
+          "joint_assignments": 27,
+          "kind": "JOINT_CHECK",
+          "max_joint_assignments": 100000,
+          "provenance": [
+            [
+              "founder:category:i-someone",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ],
+            [
+              "founder:category:you-someone",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ]
+          ],
+          "rule_ids": [
+            "founder:category:i-someone",
+            "founder:category:you-someone"
+          ],
+          "witnesses": 17
+        },
+        {
+          "banks": [
+            "ONE",
+            "QUANTITY",
+            "TWO"
+          ],
+          "domains_before": {
+            "ONE": [
+              -1,
+              0,
+              1
+            ],
+            "QUANTITY": [
+              -1,
+              0,
+              1
+            ],
+            "TWO": [
+              -1,
+              0,
+              1
+            ]
+          },
+          "joint_assignments": 27,
+          "kind": "JOINT_CHECK",
+          "max_joint_assignments": 100000,
+          "provenance": [
+            [
+              "founder:category:one-quantity",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ],
+            [
+              "founder:category:two-quantity",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ]
+          ],
+          "rule_ids": [
+            "founder:category:one-quantity",
+            "founder:category:two-quantity"
+          ],
+          "witnesses": 17
+        },
+        {
+          "complete_search": true,
+          "kind": "INFERENCE_SCOPE",
+          "method": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+          "partial_means": "AMBIGUOUS_JOINT_SUPPORTED_DOMAINS",
+          "satisfiability": "SATISFIABLE"
+        },
+        {
+          "context": {
+            "pos": "noun",
+            "wordnet_native_lemma": "true",
+            "wordnet_other_than_synset:birthday.n.02": "true",
+            "wordnet_other_than_synset:cladogram.n.01": "true",
+            "wordnet_other_than_synset:date.n.01": "true",
+            "wordnet_other_than_synset:date.n.07": "true",
+            "wordnet_other_than_synset:delta.n.02": "true",
+            "wordnet_other_than_synset:electromagnetic_unit.n.01": "true",
+            "wordnet_other_than_synset:ellipsoid.n.01": "true",
+            "wordnet_other_than_synset:em.n.01": "true",
+            "wordnet_other_than_synset:eve.n.02": "true",
+            "wordnet_other_than_synset:exposure.n.06": "true",
+            "wordnet_other_than_synset:future_date.n.01": "true",
+            "wordnet_other_than_synset:maturity.n.03": "true",
+            "wordnet_other_than_synset:mean_time.n.01": "true",
+            "wordnet_other_than_synset:morrow.n.01": "true",
+            "wordnet_other_than_synset:night.n.04": "true",
+            "wordnet_other_than_synset:partition.n.02": "true",
+            "wordnet_other_than_synset:quadrate.n.01": "true",
+            "wordnet_other_than_synset:quadrate.n.02": "true",
+            "wordnet_other_than_synset:quarter.n.09": "true",
+            "wordnet_other_than_synset:rain_date.n.01": "true",
+            "wordnet_other_than_synset:sell-by_date.n.01": "true",
+            "wordnet_other_than_synset:stemma.n.01": "true",
+            "wordnet_other_than_synset:terrestrial_time.n.01": "true",
+            "wordnet_other_than_synset:today.n.02": "true",
+            "wordnet_other_than_synset:tomorrow.n.01": "true",
+            "wordnet_other_than_synset:tree.n.02": "true",
+            "wordnet_other_than_synset:word.n.07": "true",
+            "wordnet_other_than_synset:yesterday.n.01": "true",
+            "wordnet_outside_ancestor:linear_unit.n.01": "true",
+            "wordnet_outside_ancestor:monetary_unit.n.01": "true"
+          },
+          "kind": "EVIDENCE_GUARD",
+          "reason": "GUARD_MISMATCH",
+          "relation": {
+            "absent_evidence": [
+              "GOOD"
+            ],
+            "allowed_rows": [
+              [
+                -1,
+                0
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "BIG",
+              "GOOD"
+            ],
+            "guards": [
+              [
+                "pos",
+                "adjective"
+              ]
+            ],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+            ],
+            "rule_id": "founder:absence:big-good"
+          },
+          "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+          "rule_id": "founder:absence:big-good",
+          "status": "BLOCKED",
+          "witnesses": [
+            {
+              "assertions": [],
+              "bank": "GOOD",
+              "baseline_domain": [
+                0
+              ],
+              "baseline_narrowed": true,
+              "baseline_rule_ids": [
+                "founder:noun-own-evaluation"
+              ],
+              "supplied_evidence": true
+            }
+          ]
+        },
+        {
+          "context": {
+            "pos": "noun",
+            "wordnet_native_lemma": "true",
+            "wordnet_other_than_synset:birthday.n.02": "true",
+            "wordnet_other_than_synset:cladogram.n.01": "true",
+            "wordnet_other_than_synset:date.n.01": "true",
+            "wordnet_other_than_synset:date.n.07": "true",
+            "wordnet_other_than_synset:delta.n.02": "true",
+            "wordnet_other_than_synset:electromagnetic_unit.n.01": "true",
+            "wordnet_other_than_synset:ellipsoid.n.01": "true",
+            "wordnet_other_than_synset:em.n.01": "true",
+            "wordnet_other_than_synset:eve.n.02": "true",
+            "wordnet_other_than_synset:exposure.n.06": "true",
+            "wordnet_other_than_synset:future_date.n.01": "true",
+            "wordnet_other_than_synset:maturity.n.03": "true",
+            "wordnet_other_than_synset:mean_time.n.01": "true",
+            "wordnet_other_than_synset:morrow.n.01": "true",
+            "wordnet_other_than_synset:night.n.04": "true",
+            "wordnet_other_than_synset:partition.n.02": "true",
+            "wordnet_other_than_synset:quadrate.n.01": "true",
+            "wordnet_other_than_synset:quadrate.n.02": "true",
+            "wordnet_other_than_synset:quarter.n.09": "true",
+            "wordnet_other_than_synset:rain_date.n.01": "true",
+            "wordnet_other_than_synset:sell-by_date.n.01": "true",
+            "wordnet_other_than_synset:stemma.n.01": "true",
+            "wordnet_other_than_synset:terrestrial_time.n.01": "true",
+            "wordnet_other_than_synset:today.n.02": "true",
+            "wordnet_other_than_synset:tomorrow.n.01": "true",
+            "wordnet_other_than_synset:tree.n.02": "true",
+            "wordnet_other_than_synset:word.n.07": "true",
+            "wordnet_other_than_synset:yesterday.n.01": "true",
+            "wordnet_outside_ancestor:linear_unit.n.01": "true",
+            "wordnet_outside_ancestor:monetary_unit.n.01": "true"
+          },
+          "kind": "EVIDENCE_GUARD",
+          "reason": "GUARD_MISMATCH",
+          "relation": {
+            "absent_evidence": [
+              "BIG"
+            ],
+            "allowed_rows": [
+              [
+                -1,
+                0
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "GOOD",
+              "BIG"
+            ],
+            "guards": [
+              [
+                "pos",
+                "adjective"
+              ]
+            ],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+            ],
+            "rule_id": "founder:absence:good-big"
+          },
+          "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+          "rule_id": "founder:absence:good-big",
+          "status": "BLOCKED",
+          "witnesses": [
+            {
+              "assertions": [],
+              "bank": "BIG",
+              "baseline_domain": [
+                -1,
+                0,
+                1
+              ],
+              "baseline_narrowed": false,
+              "baseline_rule_ids": [],
+              "supplied_evidence": true
+            }
+          ]
+        }
+      ],
+      "singletons": 115,
+      "subtlex": 1329,
+      "synset": "bone.n.01"
+    },
+    "zipf": {
+      "bank": "BODY",
+      "bridge_options": [],
+      "contradictions": 0,
+      "entry_id": "wordnet:joint:joint.n.01",
+      "family": "anatomical-joint-part-body",
+      "premise": [
+        "PART",
+        1
+      ],
+      "premise_proof": [
+        {
+          "bank": "PART",
+          "family": "wordnet",
+          "kind": "ASSERTION",
+          "record_id": "wordnet:joint:joint.n.01",
+          "remaining": [
+            1
+          ],
+          "removed": [
+            -1,
+            0
+          ],
+          "scope": "lexical",
+          "source": "wordnet_hierarchy",
+          "value": 1
+        },
+        {
+          "bank": "SOMETHING",
+          "family": "wordnet",
+          "kind": "ASSERTION",
+          "record_id": "wordnet:joint:joint.n.01",
+          "remaining": [
+            1
+          ],
+          "removed": [
+            -1,
+            0
+          ],
+          "scope": "lexical",
+          "source": "wordnet_hierarchy",
+          "value": 1
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "founder:adjective-not-object"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "founder:adverb-not-object"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:15b623faa3a7f480ae4bb55b38b12330b19bc02a59404d2e312985d6c4d123d6"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:1ad9148bf06029d4b0f49346585ddceff9ad4415005116d85ef1ef4544f3fc52"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:2a5698334fe3f070549cae52a4e52440acb5965862dec358825001f5a2496a60"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:3bf66d8b1cf0cf629d8bd968d3a5e7cdcfee5b508d007afcd49793d8b4bbace1"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:4020ffd7ce72eb23aea7686a62a21eaa2bdc974306586560d69cbc89a63853a7"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:4d9f9f13721144cbba9db5d6a3e3343507e4222966fee5d50c4aaed0f6cfcb50"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:4e512ae007c8f10dc26ba11b34d4e538b3493f24bfa30c08ec701eef9ed3ae42"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:5c6806eb8bd28446fab5529e7ed01ef04aef6ef5511fc15383109415887ef271"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:65d16959c01e4411fe908f0a08ab3a0b130fa0cdf3095f20602b256862b56aa2"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:75529e500654a013832858c8c49beff7b9344ea82b7738273ecb8013de419a90"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:7c2e51d627e6816f13b3eca0abdf608621fab14b26eab1b8c0733e35e35ea03c"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:8d1fe210c053571b631d01240ef7ee3f7b29d33b014c7bf4721f9e1f078aaaef"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:8d388f4033f939925a44eb20c7d09e833a9ee6af6102f382249bdef7adcb1810"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:d30431f3531032b0121f4e7bec3e84ab19914eb7ffe1599d33d7671b7535e744"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:d5c74077e4237a30ca36de5ae0808fe2646ce7efd860ac2f9f999b8e80ccf634"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:e0d5fced5d793a0da96ccc5a260eadc2c2134cfd1a82de5ed2c788a90a8f47a9"
+        },
+        {
+          "kind": "RELATION_SKIPPED",
+          "reason": "GUARD_MISMATCH",
+          "rule_id": "reviewed-guarded-pattern:f4ff18466dbc0cfce0b075ac7dae052e0a42eee33e6ceebfb979c63f0cbbab37"
+        },
+        {
+          "bank": "GOOD",
+          "domains_before": {
+            "GOOD": [
+              -1,
+              0,
+              1
+            ]
+          },
+          "kind": "RELATION",
+          "provenance": [
+            "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+          ],
+          "remaining": [
+            0
+          ],
+          "removed": [
+            -1,
+            1
+          ],
+          "rule_id": "founder:noun-own-evaluation",
+          "support_rows": [
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "banks": [
+            "ABOVE",
+            "FAR",
+            "HERE",
+            "OUTSIDE",
+            "SIDE",
+            "TOWARD",
+            "WHERE"
+          ],
+          "domains_before": {
+            "ABOVE": [
+              -1,
+              0,
+              1
+            ],
+            "FAR": [
+              -1,
+              0,
+              1
+            ],
+            "HERE": [
+              -1,
+              0,
+              1
+            ],
+            "OUTSIDE": [
+              -1,
+              0,
+              1
+            ],
+            "SIDE": [
+              -1,
+              0,
+              1
+            ],
+            "TOWARD": [
+              -1,
+              0,
+              1
+            ],
+            "WHERE": [
+              -1,
+              0,
+              1
+            ]
+          },
+          "joint_assignments": 2187,
+          "kind": "JOINT_CHECK",
+          "max_joint_assignments": 100000,
+          "provenance": [
+            [
+              "founder:category:above-where",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ],
+            [
+              "founder:category:far-where",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ],
+            [
+              "founder:category:here-where",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ],
+            [
+              "founder:category:outside-where",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ],
+            [
+              "founder:category:side-where",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ],
+            [
+              "founder:category:toward-where",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ]
+          ],
+          "rule_ids": [
+            "founder:category:above-where",
+            "founder:category:far-where",
+            "founder:category:here-where",
+            "founder:category:outside-where",
+            "founder:category:side-where",
+            "founder:category:toward-where"
+          ],
+          "witnesses": 737
+        },
+        {
+          "banks": [
+            "BEFORE",
+            "LONG_TIME",
+            "MOMENT",
+            "THEN",
+            "WHEN"
+          ],
+          "domains_before": {
+            "BEFORE": [
+              -1,
+              0,
+              1
+            ],
+            "LONG_TIME": [
+              -1,
+              0,
+              1
+            ],
+            "MOMENT": [
+              -1,
+              0,
+              1
+            ],
+            "THEN": [
+              -1,
+              0,
+              1
+            ],
+            "WHEN": [
+              -1,
+              0,
+              1
+            ]
+          },
+          "joint_assignments": 243,
+          "kind": "JOINT_CHECK",
+          "max_joint_assignments": 100000,
+          "provenance": [
+            [
+              "founder:category:before-when",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ],
+            [
+              "founder:category:long_time-when",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ],
+            [
+              "founder:category:moment-when",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ],
+            [
+              "founder:category:then-when",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ]
+          ],
+          "rule_ids": [
+            "founder:category:before-when",
+            "founder:category:long_time-when",
+            "founder:category:moment-when",
+            "founder:category:then-when"
+          ],
+          "witnesses": 85
+        },
+        {
+          "banks": [
+            "BODY",
+            "SOMETHING"
+          ],
+          "domains_before": {
+            "BODY": [
+              -1,
+              0,
+              1
+            ],
+            "SOMETHING": [
+              1
+            ]
+          },
+          "joint_assignments": 3,
+          "kind": "JOINT_CHECK",
+          "max_joint_assignments": 100000,
+          "provenance": [
+            [
+              "founder:category:body-something",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ]
+          ],
+          "rule_ids": [
+            "founder:category:body-something"
+          ],
+          "witnesses": 3
+        },
+        {
+          "banks": [
+            "CAUSE",
+            "DO",
+            "HAPPEN",
+            "MOVE"
+          ],
+          "domains_before": {
+            "CAUSE": [
+              -1,
+              0,
+              1
+            ],
+            "DO": [
+              -1,
+              0,
+              1
+            ],
+            "HAPPEN": [
+              -1,
+              0,
+              1
+            ],
+            "MOVE": [
+              -1,
+              0,
+              1
+            ]
+          },
+          "joint_assignments": 81,
+          "kind": "JOINT_CHECK",
+          "max_joint_assignments": 100000,
+          "provenance": [
+            [
+              "founder:category:cause-happen",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ],
+            [
+              "founder:category:do-happen",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ],
+            [
+              "founder:category:move-happen",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ]
+          ],
+          "rule_ids": [
+            "founder:category:cause-happen",
+            "founder:category:do-happen",
+            "founder:category:move-happen"
+          ],
+          "witnesses": 43
+        },
+        {
+          "banks": [
+            "GOOD"
+          ],
+          "domains_before": {
+            "GOOD": [
+              0
+            ]
+          },
+          "joint_assignments": 1,
+          "kind": "JOINT_CHECK",
+          "max_joint_assignments": 100000,
+          "provenance": [
+            [
+              "founder:noun-own-evaluation",
+              [
+                "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+              ]
+            ]
+          ],
+          "rule_ids": [
+            "founder:noun-own-evaluation"
+          ],
+          "witnesses": 1
+        },
+        {
+          "banks": [
+            "I",
+            "SOMEONE",
+            "YOU"
+          ],
+          "domains_before": {
+            "I": [
+              -1,
+              0,
+              1
+            ],
+            "SOMEONE": [
+              -1,
+              0,
+              1
+            ],
+            "YOU": [
+              -1,
+              0,
+              1
+            ]
+          },
+          "joint_assignments": 27,
+          "kind": "JOINT_CHECK",
+          "max_joint_assignments": 100000,
+          "provenance": [
+            [
+              "founder:category:i-someone",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ],
+            [
+              "founder:category:you-someone",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ]
+          ],
+          "rule_ids": [
+            "founder:category:i-someone",
+            "founder:category:you-someone"
+          ],
+          "witnesses": 17
+        },
+        {
+          "banks": [
+            "ONE",
+            "QUANTITY",
+            "TWO"
+          ],
+          "domains_before": {
+            "ONE": [
+              -1,
+              0,
+              1
+            ],
+            "QUANTITY": [
+              -1,
+              0,
+              1
+            ],
+            "TWO": [
+              -1,
+              0,
+              1
+            ]
+          },
+          "joint_assignments": 27,
+          "kind": "JOINT_CHECK",
+          "max_joint_assignments": 100000,
+          "provenance": [
+            [
+              "founder:category:one-quantity",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ],
+            [
+              "founder:category:two-quantity",
+              [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ]
+            ]
+          ],
+          "rule_ids": [
+            "founder:category:one-quantity",
+            "founder:category:two-quantity"
+          ],
+          "witnesses": 17
+        },
+        {
+          "complete_search": true,
+          "kind": "INFERENCE_SCOPE",
+          "method": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+          "partial_means": "AMBIGUOUS_JOINT_SUPPORTED_DOMAINS",
+          "satisfiability": "SATISFIABLE"
+        },
+        {
+          "context": {
+            "pos": "noun",
+            "wordnet_native_lemma": "true",
+            "wordnet_other_than_synset:birthday.n.02": "true",
+            "wordnet_other_than_synset:cladogram.n.01": "true",
+            "wordnet_other_than_synset:date.n.01": "true",
+            "wordnet_other_than_synset:date.n.07": "true",
+            "wordnet_other_than_synset:delta.n.02": "true",
+            "wordnet_other_than_synset:electromagnetic_unit.n.01": "true",
+            "wordnet_other_than_synset:ellipsoid.n.01": "true",
+            "wordnet_other_than_synset:em.n.01": "true",
+            "wordnet_other_than_synset:eve.n.02": "true",
+            "wordnet_other_than_synset:exposure.n.06": "true",
+            "wordnet_other_than_synset:future_date.n.01": "true",
+            "wordnet_other_than_synset:maturity.n.03": "true",
+            "wordnet_other_than_synset:mean_time.n.01": "true",
+            "wordnet_other_than_synset:morrow.n.01": "true",
+            "wordnet_other_than_synset:night.n.04": "true",
+            "wordnet_other_than_synset:partition.n.02": "true",
+            "wordnet_other_than_synset:quadrate.n.01": "true",
+            "wordnet_other_than_synset:quadrate.n.02": "true",
+            "wordnet_other_than_synset:quarter.n.09": "true",
+            "wordnet_other_than_synset:rain_date.n.01": "true",
+            "wordnet_other_than_synset:sell-by_date.n.01": "true",
+            "wordnet_other_than_synset:stemma.n.01": "true",
+            "wordnet_other_than_synset:terrestrial_time.n.01": "true",
+            "wordnet_other_than_synset:today.n.02": "true",
+            "wordnet_other_than_synset:tomorrow.n.01": "true",
+            "wordnet_other_than_synset:tree.n.02": "true",
+            "wordnet_other_than_synset:word.n.07": "true",
+            "wordnet_other_than_synset:yesterday.n.01": "true",
+            "wordnet_outside_ancestor:linear_unit.n.01": "true",
+            "wordnet_outside_ancestor:monetary_unit.n.01": "true"
+          },
+          "kind": "EVIDENCE_GUARD",
+          "reason": "GUARD_MISMATCH",
+          "relation": {
+            "absent_evidence": [
+              "GOOD"
+            ],
+            "allowed_rows": [
+              [
+                -1,
+                0
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "BIG",
+              "GOOD"
+            ],
+            "guards": [
+              [
+                "pos",
+                "adjective"
+              ]
+            ],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+            ],
+            "rule_id": "founder:absence:big-good"
+          },
+          "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+          "rule_id": "founder:absence:big-good",
+          "status": "BLOCKED",
+          "witnesses": [
+            {
+              "assertions": [],
+              "bank": "GOOD",
+              "baseline_domain": [
+                0
+              ],
+              "baseline_narrowed": true,
+              "baseline_rule_ids": [
+                "founder:noun-own-evaluation"
+              ],
+              "supplied_evidence": true
+            }
+          ]
+        },
+        {
+          "context": {
+            "pos": "noun",
+            "wordnet_native_lemma": "true",
+            "wordnet_other_than_synset:birthday.n.02": "true",
+            "wordnet_other_than_synset:cladogram.n.01": "true",
+            "wordnet_other_than_synset:date.n.01": "true",
+            "wordnet_other_than_synset:date.n.07": "true",
+            "wordnet_other_than_synset:delta.n.02": "true",
+            "wordnet_other_than_synset:electromagnetic_unit.n.01": "true",
+            "wordnet_other_than_synset:ellipsoid.n.01": "true",
+            "wordnet_other_than_synset:em.n.01": "true",
+            "wordnet_other_than_synset:eve.n.02": "true",
+            "wordnet_other_than_synset:exposure.n.06": "true",
+            "wordnet_other_than_synset:future_date.n.01": "true",
+            "wordnet_other_than_synset:maturity.n.03": "true",
+            "wordnet_other_than_synset:mean_time.n.01": "true",
+            "wordnet_other_than_synset:morrow.n.01": "true",
+            "wordnet_other_than_synset:night.n.04": "true",
+            "wordnet_other_than_synset:partition.n.02": "true",
+            "wordnet_other_than_synset:quadrate.n.01": "true",
+            "wordnet_other_than_synset:quadrate.n.02": "true",
+            "wordnet_other_than_synset:quarter.n.09": "true",
+            "wordnet_other_than_synset:rain_date.n.01": "true",
+            "wordnet_other_than_synset:sell-by_date.n.01": "true",
+            "wordnet_other_than_synset:stemma.n.01": "true",
+            "wordnet_other_than_synset:terrestrial_time.n.01": "true",
+            "wordnet_other_than_synset:today.n.02": "true",
+            "wordnet_other_than_synset:tomorrow.n.01": "true",
+            "wordnet_other_than_synset:tree.n.02": "true",
+            "wordnet_other_than_synset:word.n.07": "true",
+            "wordnet_other_than_synset:yesterday.n.01": "true",
+            "wordnet_outside_ancestor:linear_unit.n.01": "true",
+            "wordnet_outside_ancestor:monetary_unit.n.01": "true"
+          },
+          "kind": "EVIDENCE_GUARD",
+          "reason": "GUARD_MISMATCH",
+          "relation": {
+            "absent_evidence": [
+              "BIG"
+            ],
+            "allowed_rows": [
+              [
+                -1,
+                0
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "GOOD",
+              "BIG"
+            ],
+            "guards": [
+              [
+                "pos",
+                "adjective"
+              ]
+            ],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+            ],
+            "rule_id": "founder:absence:good-big"
+          },
+          "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+          "rule_id": "founder:absence:good-big",
+          "status": "BLOCKED",
+          "witnesses": [
+            {
+              "assertions": [],
+              "bank": "BIG",
+              "baseline_domain": [
+                -1,
+                0,
+                1
+              ],
+              "baseline_narrowed": false,
+              "baseline_rule_ids": [],
+              "supplied_evidence": true
+            }
+          ]
+        }
+      ],
+      "singletons": 22,
+      "subtlex": 1405,
+      "synset": "joint.n.01"
+    }
+  },
+  "staged": {
+    "anatomical-joint-part-body": {
+      "changes": [
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:ankle:ankle.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:articulation:joint.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:carpus:wrist.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:coxa:hip.n.03"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:cubitus:elbow.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:diarthrosis:synovial_joint.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:elbow:elbow.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:elbow:elbow.n.05"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:enarthrosis:ball-and-socket_joint.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:fetlock:fetlock.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:genu:knee.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:ginglymus:hinge_joint.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:hip:hip.n.03"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:hock:hock.n.02"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:joint:joint.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:knee:knee.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:knee:stifle.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:knuckle:knuckle.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:shoulder:shoulder.n.03"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:stifle:stifle.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:suture:suture.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:wrist:wrist.n.01"
+        }
+      ],
+      "contradictions": [],
+      "new_assignments": {
+        "BODY": 22
+      },
+      "reopened_or_replaced": [],
+      "scope_size": 22
+    },
+    "muscular-part-body": {
+      "changes": [
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:ab:abdominal.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:abdominal:abdominal.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:abductor:abductor.n.02"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:adductor:adductor.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:agonist:agonist.n.03"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:antagonist:antagonist.n.02"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:biceps:biceps.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:calf:calf.n.02"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:deltoid:deltoid.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:depressor:depressor.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:extensor:extensor_muscle.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:flexor:flexor_muscle.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:gastrocnemius:gastrocnemius.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:glute:gluteus.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:gluteus:gluteus.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:intercostal:intercostal.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:lat:latissimus_dorsi.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:levator:levator.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:masseter:masseter.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:muscle:muscle.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:musculus:muscle.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:myometrium:myometrium.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:oblique:external_oblique_muscle.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:pecs:pectoral.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:pectoral:pectoral.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:pectoralis:pectoral.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:peroneus:peroneus.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:platysma:platysma.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:pronator:pronator.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:psoas:psoas.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:quad:quadriceps.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:quadriceps:quadriceps.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:rectus:rectus.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:rhomboid:rhomboid.n.02"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:sartorius:sartorius.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:scalenus:scalenus.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:serratus:serratus.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:soleus:soleus.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:sphincter:sphincter.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:splenius:splenius.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:sternocleidomastoid:sternocleidomastoid.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:supinator:supinator.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:sura:calf.n.02"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:temporalis:temporalis_muscle.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:tensor:tensor.n.02"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:teres:teres.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:tibialis:tibialis.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:trapezius:trapezius.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:triceps:triceps.n.01"
+        }
+      ],
+      "contradictions": [],
+      "new_assignments": {
+        "BODY": 49
+      },
+      "reopened_or_replaced": [],
+      "scope_size": 49
+    },
+    "skeletal-part-body": {
+      "changes": [
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:anklebone:anklebone.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:anterior:front_tooth.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:anvil:incus.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:astragal:anklebone.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:astragalus:anklebone.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:atlas:atlas.n.03"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:axis:axis.n.05"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:bicuspid:premolar.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:bone:bone.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:bonelet:ossicle.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:braincase:cranium.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:brainpan:cranium.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:breastbone:sternum.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:bucktooth:bucktooth.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:calcaneus:heelbone.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:calvaria:calvaria.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:capitate:capitate.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:carpal:carpal_bone.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:centrum:centrum.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:cheekbone:cheekbone.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:chop:chop.n.03"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:chopper:chopper.n.02"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:clavicle:clavicle.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:coccyx:coccyx.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:collarbone:clavicle.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:costa:rib.n.02"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:cranium:cranium.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:cuspid:canine.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:dentin:dentine.n.02"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:dentine:dentine.n.02"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:diaphysis:diaphysis.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:dogtooth:canine.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:epiphysis:epiphysis.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:eyetooth:canine.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:fang:fang.n.03"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:fang:fang.n.04"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:femur:femur.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:fibula:fibula.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:fishbone:fishbone.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:forehead:frontal_bone.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:furcula:furcula.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:gladiolus:gladiolus.n.02"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:grinder:molar.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:hamate:hamate.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:hammer:malleus.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:heelbone:heelbone.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:hipbone:hipbone.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:humerus:humerus.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:hyoid:hyoid.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:ilium:ilium.n.02"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:incisor:incisor.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:incus:incus.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:ischium:ischium.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:jaw:jaw.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:jawbone:lower_jaw.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:jowl:lower_jaw.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:kneecap:patella.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:kneepan:patella.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:malar:cheekbone.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:malleus:malleus.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:mandible:lower_jaw.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:mandibula:lower_jaw.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:manubrium:manubrium.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:marrowbone:marrowbone.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:maxilla:upper_jaw.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:maxillary:upper_jaw.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:modiolus:modiolus.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:molar:molar.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:nasal:nasal.n.02"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:navicular:scaphoid_bone.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:occiput:occiput.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:os:bone.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:ossicle:ossicle.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:ossiculum:ossicle.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:palatine:palatine.n.04"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:pastern:pastern.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:patella:patella.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:pearly:chopper.n.02"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:phalanx:phalanx.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:posterior:back_tooth.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:premolar:premolar.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:pubis:pubis.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:radius:radius.n.04"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:ramus:ramus.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:rib:rib.n.02"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:sacrum:sacrum.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:scapula:scapula.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:shaft:diaphysis.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:shin:tibia.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:shinbone:tibia.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:sinciput:sinciput.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:skull:skull.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:skullcap:calvaria.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:sphenoid:sphenoid_bone.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:stapes:stapes.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:sternum:sternum.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:stirrup:stapes.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:submaxilla:lower_jaw.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:talus:anklebone.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:tarsal:tarsal.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:thighbone:femur.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:tibia:tibia.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:tooth:tooth.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:trapezium:trapezium.n.03"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:trapezoid:trapezoid.n.02"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:triquetral:triquetral.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:turbinal:turbinate_bone.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:turbinate:turbinate_bone.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:tusk:tusk.n.02"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:ulna:ulna.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:vertebra:vertebra.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:vomer:vomer.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:wishbone:wishbone.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:zygoma:zygoma.n.01"
+        },
+        {
+          "after": [
+            1
+          ],
+          "bank": "BODY",
+          "before": [
+            -1,
+            0,
+            1
+          ],
+          "entry_id": "wordnet:zygomatic:cheekbone.n.01"
+        }
+      ],
+      "contradictions": [],
+      "new_assignments": {
+        "BODY": 115
+      },
+      "reopened_or_replaced": [],
+      "scope_size": 115
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "audits": [
+    {
+      "definition": "The state of being well arranged.",
+      "entry_id": "wiktionary:en-order-en-noun-tbotEJlt:b19893fb015d4777d2cc3d7f7584ad13f86e5758d6d977f41472a8b89f302bbc",
+      "full_request_utf8_bytes": 4488739,
+      "request_id": "e42067afed19750004eb27033d3168f6d16db9c010b2f49bc4f4fd4735cab61c",
+      "schema": {
+        "additionalProperties": false,
+        "properties": {
+          "BE": {
+            "enum": [
+              -1,
+              0,
+              1,
+              null
+            ],
+            "type": [
+              "integer",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "BE"
+        ],
+        "type": "object"
+      },
+      "wire_utf8_bytes": 103674
+    },
+    {
+      "definition": "the state of being stormy",
+      "entry_id": "wordnet:storminess:storminess.n.01",
+      "full_request_utf8_bytes": 76878,
+      "request_id": "91a8acbba0e42fd68b89fcd6e391cc6c05c1da17be7f0b2963ef979a313f9391",
+      "schema": {
+        "additionalProperties": false,
+        "properties": {
+          "BE": {
+            "enum": [
+              -1,
+              0,
+              1,
+              null
+            ],
+            "type": [
+              "integer",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "BE"
+        ],
+        "type": "object"
+      },
+      "wire_utf8_bytes": 48229
+    }
+  ],
+  "code": "FRESH_BE_AUDIT_CONTRACTS_VALIDATED",
+  "model_calls": 0
+}

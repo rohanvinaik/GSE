@@ -1,0 +1,226 @@
+{
+  "baseline": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-019.db",
+  "baseline_sha256": "92158b9b2b17bd9376083d8458a0e56bcf66b3fd60f46826fa5c54c5c653c219",
+  "claim_ledger": [
+    {
+      "claim": "Own expression in the witnessed operational scope supports DO=+1 from SAY=+1.",
+      "falsifier": "An in-scope independently justified nonpositive DO assignment, or a full definition showing a stative relation rather than the expressive act.",
+      "kind": "DERIVATION_PROPOSAL",
+      "scope": [
+        [
+          "pos",
+          "verb"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:express.v.02",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:argue.v.03",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:sign.v.03",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:bridle.v.03",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:rent.v.04",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:summarize.v.02",
+          "true"
+        ]
+      ],
+      "test": "Complete native-sense review, retained excluded senses, disjoint direct audits, full-population staging and replay."
+    },
+    {
+      "claim": "Specified reasoning supports INFER=+1 from THINK=+1.",
+      "falsifier": "An in-scope definition that requires no evidence-to-conclusion operation.",
+      "kind": "DERIVATION_PROPOSAL",
+      "scope": [
+        [
+          "pos",
+          "verb"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:reason.v.01",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:find.v.05",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:universalize.v.01",
+          "true"
+        ]
+      ],
+      "test": "Complete native-sense review, intuition/result-only exclusions, three distinct withheld inference methods, exact replay."
+    },
+    {
+      "claim": "The proposed constraints contract the representation support.",
+      "falsifier": "A staged gain that does not reproduce under migration, or an unsupported entropy factorization.",
+      "kind": "CONDITIONAL_COMPUTATION",
+      "scope": "Pinned per-definition GSE constraint system on 019.",
+      "test": "Exact before/after domain delta; report marginal potential separately from any exactly counted joint support."
+    }
+  ],
+  "code": "REVIEWED_CONDITIONAL_HYPOTHESES_AWAITING_DIRECT_AUDITS",
+  "conditional_families": [
+    {
+      "antecedent": [
+        "SAY",
+        1
+      ],
+      "consequent": [
+        "DO",
+        1
+      ],
+      "guards": [
+        [
+          "pos",
+          "verb"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:express.v.02",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:argue.v.03",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:sign.v.03",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:bridle.v.03",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:rent.v.04",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:summarize.v.02",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wordnet:abuse:abuse.v.03",
+        "wordnet:legislate:legislate.v.01",
+        "wordnet:promise:promise.v.01"
+      ],
+      "id": "scoped-expression-say-do",
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "020:complete-native-definition-review:scoped-expression-say-do",
+        "reviewer": "Source-backed construction review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/020-source-review.json",
+          "/Users/rohanvinaik/Projects/gse/docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content",
+          "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "statement": "Within this exact native expression scope, the definition denotes performing verbal expression, an expressive intervention, or a declared undertaking. Its own saying component supports the act itself (DO=+1), independently of whether a described or promised action occurs. Static evidential indication, continuing contractual status, nonverbal response to reins, lease holding, and being a summary are excluded by witnessed native ancestry. This is a conditional GSE definitional derivation, not an NSM identity between SAY and DO, and it does not assign a value to WORDS or to an embedded proposition.",
+        "warrant_id": "020:scoped-expression-say-do"
+      }
+    },
+    {
+      "antecedent": [
+        "THINK",
+        1
+      ],
+      "consequent": [
+        "INFER",
+        1
+      ],
+      "guards": [
+        [
+          "pos",
+          "verb"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:reason.v.01",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:find.v.05",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:universalize.v.01",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wordnet:deduce:deduce.v.02",
+        "wordnet:induce:induce.v.04",
+        "wordnet:surmise:surmise.v.01"
+      ],
+      "id": "scoped-reasoning-think-infer",
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "020:complete-native-definition-review:scoped-reasoning-think-infer",
+        "reviewer": "Source-backed construction review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/020-source-review.json",
+          "/Users/rohanvinaik/Projects/gse/docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content",
+          "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "statement": "Within the exact native reasoning branch, the definition specifies drawing or establishing a conclusion by reasoning, deduction, induction, extrapolation, or an evidential basis. Its own thinking supports INFER=+1 under the registry's epistemic-inference meaning. Incomplete evidence and overgeneralization can still be inference; no correctness or truth bank follows. Belief from emotion/intuition/indefinite grounds and merely making something universal are excluded by witnessed ancestry. This is a scoped definitional derivation, not a general THINK-to-INFER rule.",
+        "warrant_id": "020:scoped-reasoning-think-infer"
+      }
+    }
+  ],
+  "earlier_challenges_retained": [
+    "bridle.v.03",
+    "rent.v.04",
+    "summarize.v.02",
+    "find.v.05",
+    "universalize.v.01"
+  ],
+  "excluded_does_not_mean_zero": true,
+  "format": "gse.lexicon-source-scope-review/1",
+  "instrument": "SSL and the saved semantic-construction workflow, instantiated by the existing GSE resolver, exact native source witnesses and epoch controller",
+  "model_question_budget": 8,
+  "new_scope_challenges": [
+    {
+      "definition": "give evidence of",
+      "disposition": "Exclude the stative evidential-indication branch; preserve its present domains. Its SAY projection requires separate review.",
+      "synset": "argue.v.03"
+    },
+    {
+      "definition": "be engaged by a written agreement",
+      "disposition": "Exclude the continuing-status branch; preserve its present domains. Its SAY projection requires separate review.",
+      "synset": "sign.v.03"
+    }
+  ],
+  "publication_contract": "Full cohort replay and runtime validation plus cumulative supplied semantic controls; no incomplete support search or unexplained changed known cell.",
+  "request_verbatim": "Yes, continue from 019. Resume Zipf-prioritized teaching and broader inter-bank coherence rules. Keep unknowns distinct from zero, publish only after full replay and validation, and update the experiment notebook.",
+  "reviewed_native_sense_counts": {
+    "expression_parent": 180,
+    "reasoning_parent": 13
+  },
+  "specimen": "Release 019 native expression and reasoning definitions, their prior bank domains, complete source meanings and proposed scoped consequences"
+}

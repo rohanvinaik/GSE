@@ -1,0 +1,1555 @@
+{
+  "active_pointer_sha256": "449020ca41a461a7d418e4bdffe402da5c0798cb98444c5f88e7ecf6acd099b5",
+  "authority": "PERSISTED_EVIDENCE_DIFFERENCE",
+  "candidate_sha256": "2e46555f1801a87f326c167a6fd8a3efdf45192f6d7f14d8b9a9e4fcf177d8c7",
+  "format": "gse.sparse-release-reopen-provenance/1",
+  "groups": [
+    {
+      "bank": "CAUSE",
+      "cells": 414,
+      "examples": [
+        {
+          "entry_id": "wordnet:absolve:absolve.v.02",
+          "old_sign": 1,
+          "old_trace": [
+            {
+              "bank": "CAUSE",
+              "family": "verb_structure",
+              "kind": "ASSERTION",
+              "record_id": "verbnet:absolve:5a5508ebd0bdca90c3cacbc8711a222755114852e99a6f4c0cfc8db5146becfa",
+              "remaining": [
+                1
+              ],
+              "removed": [
+                -1,
+                0
+              ],
+              "scope": "lexical",
+              "source": "verbnet",
+              "value": 1
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:adjective-not-object"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:adverb-not-object"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:category:body-something"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:noun-own-evaluation"
+            },
+            {
+              "bank": "HAPPEN",
+              "domains_before": {
+                "CAUSE": [
+                  1
+                ],
+                "HAPPEN": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "kind": "RELATION",
+              "provenance": [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ],
+              "remaining": [
+                1
+              ],
+              "removed": [
+                -1,
+                0
+              ],
+              "rule_id": "founder:category:cause-happen",
+              "support_rows": [
+                [
+                  1,
+                  1
+                ]
+              ]
+            },
+            {
+              "complete_search": false,
+              "kind": "INFERENCE_SCOPE",
+              "method": "GENERALIZED_ARC_CONSISTENCY",
+              "partial_means": "LOCAL_FIXED_POINT_NOT_GLOBAL_SATISFIABILITY"
+            },
+            {
+              "context": {
+                "pos": "verb"
+              },
+              "kind": "EVIDENCE_GUARD",
+              "reason": "GUARD_MISMATCH",
+              "relation": {
+                "absent_evidence": [
+                  "GOOD"
+                ],
+                "allowed_rows": [
+                  [
+                    -1,
+                    0
+                  ],
+                  [
+                    0,
+                    -1
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    0
+                  ]
+                ],
+                "approved": true,
+                "authority": "conditional",
+                "banks": [
+                  "BIG",
+                  "GOOD"
+                ],
+                "guards": [
+                  [
+                    "pos",
+                    "adjective"
+                  ]
+                ],
+                "provenance": [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+                ],
+                "rule_id": "founder:absence:big-good"
+              },
+              "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+              "rule_id": "founder:absence:big-good",
+              "status": "BLOCKED",
+              "witnesses": [
+                {
+                  "assertions": [],
+                  "bank": "GOOD",
+                  "baseline_domain": [
+                    -1,
+                    0,
+                    1
+                  ],
+                  "baseline_narrowed": false,
+                  "baseline_rule_ids": [],
+                  "supplied_evidence": true
+                }
+              ]
+            },
+            {
+              "context": {
+                "pos": "verb"
+              },
+              "kind": "EVIDENCE_GUARD",
+              "reason": "GUARD_MISMATCH",
+              "relation": {
+                "absent_evidence": [
+                  "BIG"
+                ],
+                "allowed_rows": [
+                  [
+                    -1,
+                    0
+                  ],
+                  [
+                    0,
+                    -1
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    0
+                  ]
+                ],
+                "approved": true,
+                "authority": "conditional",
+                "banks": [
+                  "GOOD",
+                  "BIG"
+                ],
+                "guards": [
+                  [
+                    "pos",
+                    "adjective"
+                  ]
+                ],
+                "provenance": [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+                ],
+                "rule_id": "founder:absence:good-big"
+              },
+              "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+              "rule_id": "founder:absence:good-big",
+              "status": "BLOCKED",
+              "witnesses": [
+                {
+                  "assertions": [],
+                  "bank": "BIG",
+                  "baseline_domain": [
+                    -1,
+                    0,
+                    1
+                  ],
+                  "baseline_narrowed": false,
+                  "baseline_rule_ids": [],
+                  "supplied_evidence": true
+                }
+              ]
+            }
+          ],
+          "removed_assertions": [
+            {
+              "bank": "CAUSE",
+              "family": "verb_structure",
+              "record_id": "verbnet:absolve:5a5508ebd0bdca90c3cacbc8711a222755114852e99a6f4c0cfc8db5146becfa",
+              "scope": "lexical",
+              "source": "verbnet",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "entry_id": "wordnet:absolve:shrive.v.01",
+          "old_sign": 1,
+          "old_trace": [
+            {
+              "bank": "CAUSE",
+              "family": "verb_structure",
+              "kind": "ASSERTION",
+              "record_id": "verbnet:absolve:a4ab93174284136b909d31a624557f7dc6760cc80ee4dd5d892a5829a2daf919",
+              "remaining": [
+                1
+              ],
+              "removed": [
+                -1,
+                0
+              ],
+              "scope": "lexical",
+              "source": "verbnet",
+              "value": 1
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:adjective-not-object"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:adverb-not-object"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:category:body-something"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:noun-own-evaluation"
+            },
+            {
+              "bank": "HAPPEN",
+              "domains_before": {
+                "CAUSE": [
+                  1
+                ],
+                "HAPPEN": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "kind": "RELATION",
+              "provenance": [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ],
+              "remaining": [
+                1
+              ],
+              "removed": [
+                -1,
+                0
+              ],
+              "rule_id": "founder:category:cause-happen",
+              "support_rows": [
+                [
+                  1,
+                  1
+                ]
+              ]
+            },
+            {
+              "complete_search": false,
+              "kind": "INFERENCE_SCOPE",
+              "method": "GENERALIZED_ARC_CONSISTENCY",
+              "partial_means": "LOCAL_FIXED_POINT_NOT_GLOBAL_SATISFIABILITY"
+            },
+            {
+              "context": {
+                "pos": "verb"
+              },
+              "kind": "EVIDENCE_GUARD",
+              "reason": "GUARD_MISMATCH",
+              "relation": {
+                "absent_evidence": [
+                  "GOOD"
+                ],
+                "allowed_rows": [
+                  [
+                    -1,
+                    0
+                  ],
+                  [
+                    0,
+                    -1
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    0
+                  ]
+                ],
+                "approved": true,
+                "authority": "conditional",
+                "banks": [
+                  "BIG",
+                  "GOOD"
+                ],
+                "guards": [
+                  [
+                    "pos",
+                    "adjective"
+                  ]
+                ],
+                "provenance": [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+                ],
+                "rule_id": "founder:absence:big-good"
+              },
+              "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+              "rule_id": "founder:absence:big-good",
+              "status": "BLOCKED",
+              "witnesses": [
+                {
+                  "assertions": [],
+                  "bank": "GOOD",
+                  "baseline_domain": [
+                    -1,
+                    0,
+                    1
+                  ],
+                  "baseline_narrowed": false,
+                  "baseline_rule_ids": [],
+                  "supplied_evidence": true
+                }
+              ]
+            },
+            {
+              "context": {
+                "pos": "verb"
+              },
+              "kind": "EVIDENCE_GUARD",
+              "reason": "GUARD_MISMATCH",
+              "relation": {
+                "absent_evidence": [
+                  "BIG"
+                ],
+                "allowed_rows": [
+                  [
+                    -1,
+                    0
+                  ],
+                  [
+                    0,
+                    -1
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    0
+                  ]
+                ],
+                "approved": true,
+                "authority": "conditional",
+                "banks": [
+                  "GOOD",
+                  "BIG"
+                ],
+                "guards": [
+                  [
+                    "pos",
+                    "adjective"
+                  ]
+                ],
+                "provenance": [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+                ],
+                "rule_id": "founder:absence:good-big"
+              },
+              "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+              "rule_id": "founder:absence:good-big",
+              "status": "BLOCKED",
+              "witnesses": [
+                {
+                  "assertions": [],
+                  "bank": "BIG",
+                  "baseline_domain": [
+                    -1,
+                    0,
+                    1
+                  ],
+                  "baseline_narrowed": false,
+                  "baseline_rule_ids": [],
+                  "supplied_evidence": true
+                }
+              ]
+            }
+          ],
+          "removed_assertions": [
+            {
+              "bank": "CAUSE",
+              "family": "verb_structure",
+              "record_id": "verbnet:absolve:a4ab93174284136b909d31a624557f7dc6760cc80ee4dd5d892a5829a2daf919",
+              "scope": "lexical",
+              "source": "verbnet",
+              "value": 1
+            }
+          ]
+        }
+      ],
+      "removed_assertion_sources": [
+        "verbnet"
+      ],
+      "removed_direct_source": [
+        "verbnet"
+      ]
+    },
+    {
+      "bank": "HAPPEN",
+      "cells": 269,
+      "examples": [
+        {
+          "entry_id": "wordnet:absolve:absolve.v.02",
+          "old_sign": 1,
+          "old_trace": [
+            {
+              "bank": "CAUSE",
+              "family": "verb_structure",
+              "kind": "ASSERTION",
+              "record_id": "verbnet:absolve:5a5508ebd0bdca90c3cacbc8711a222755114852e99a6f4c0cfc8db5146becfa",
+              "remaining": [
+                1
+              ],
+              "removed": [
+                -1,
+                0
+              ],
+              "scope": "lexical",
+              "source": "verbnet",
+              "value": 1
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:adjective-not-object"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:adverb-not-object"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:category:body-something"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:noun-own-evaluation"
+            },
+            {
+              "bank": "HAPPEN",
+              "domains_before": {
+                "CAUSE": [
+                  1
+                ],
+                "HAPPEN": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "kind": "RELATION",
+              "provenance": [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ],
+              "remaining": [
+                1
+              ],
+              "removed": [
+                -1,
+                0
+              ],
+              "rule_id": "founder:category:cause-happen",
+              "support_rows": [
+                [
+                  1,
+                  1
+                ]
+              ]
+            },
+            {
+              "complete_search": false,
+              "kind": "INFERENCE_SCOPE",
+              "method": "GENERALIZED_ARC_CONSISTENCY",
+              "partial_means": "LOCAL_FIXED_POINT_NOT_GLOBAL_SATISFIABILITY"
+            },
+            {
+              "context": {
+                "pos": "verb"
+              },
+              "kind": "EVIDENCE_GUARD",
+              "reason": "GUARD_MISMATCH",
+              "relation": {
+                "absent_evidence": [
+                  "GOOD"
+                ],
+                "allowed_rows": [
+                  [
+                    -1,
+                    0
+                  ],
+                  [
+                    0,
+                    -1
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    0
+                  ]
+                ],
+                "approved": true,
+                "authority": "conditional",
+                "banks": [
+                  "BIG",
+                  "GOOD"
+                ],
+                "guards": [
+                  [
+                    "pos",
+                    "adjective"
+                  ]
+                ],
+                "provenance": [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+                ],
+                "rule_id": "founder:absence:big-good"
+              },
+              "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+              "rule_id": "founder:absence:big-good",
+              "status": "BLOCKED",
+              "witnesses": [
+                {
+                  "assertions": [],
+                  "bank": "GOOD",
+                  "baseline_domain": [
+                    -1,
+                    0,
+                    1
+                  ],
+                  "baseline_narrowed": false,
+                  "baseline_rule_ids": [],
+                  "supplied_evidence": true
+                }
+              ]
+            },
+            {
+              "context": {
+                "pos": "verb"
+              },
+              "kind": "EVIDENCE_GUARD",
+              "reason": "GUARD_MISMATCH",
+              "relation": {
+                "absent_evidence": [
+                  "BIG"
+                ],
+                "allowed_rows": [
+                  [
+                    -1,
+                    0
+                  ],
+                  [
+                    0,
+                    -1
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    0
+                  ]
+                ],
+                "approved": true,
+                "authority": "conditional",
+                "banks": [
+                  "GOOD",
+                  "BIG"
+                ],
+                "guards": [
+                  [
+                    "pos",
+                    "adjective"
+                  ]
+                ],
+                "provenance": [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+                ],
+                "rule_id": "founder:absence:good-big"
+              },
+              "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+              "rule_id": "founder:absence:good-big",
+              "status": "BLOCKED",
+              "witnesses": [
+                {
+                  "assertions": [],
+                  "bank": "BIG",
+                  "baseline_domain": [
+                    -1,
+                    0,
+                    1
+                  ],
+                  "baseline_narrowed": false,
+                  "baseline_rule_ids": [],
+                  "supplied_evidence": true
+                }
+              ]
+            }
+          ],
+          "removed_assertions": [
+            {
+              "bank": "CAUSE",
+              "family": "verb_structure",
+              "record_id": "verbnet:absolve:5a5508ebd0bdca90c3cacbc8711a222755114852e99a6f4c0cfc8db5146becfa",
+              "scope": "lexical",
+              "source": "verbnet",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "entry_id": "wordnet:absolve:shrive.v.01",
+          "old_sign": 1,
+          "old_trace": [
+            {
+              "bank": "CAUSE",
+              "family": "verb_structure",
+              "kind": "ASSERTION",
+              "record_id": "verbnet:absolve:a4ab93174284136b909d31a624557f7dc6760cc80ee4dd5d892a5829a2daf919",
+              "remaining": [
+                1
+              ],
+              "removed": [
+                -1,
+                0
+              ],
+              "scope": "lexical",
+              "source": "verbnet",
+              "value": 1
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:adjective-not-object"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:adverb-not-object"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:category:body-something"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:noun-own-evaluation"
+            },
+            {
+              "bank": "HAPPEN",
+              "domains_before": {
+                "CAUSE": [
+                  1
+                ],
+                "HAPPEN": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "kind": "RELATION",
+              "provenance": [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ],
+              "remaining": [
+                1
+              ],
+              "removed": [
+                -1,
+                0
+              ],
+              "rule_id": "founder:category:cause-happen",
+              "support_rows": [
+                [
+                  1,
+                  1
+                ]
+              ]
+            },
+            {
+              "complete_search": false,
+              "kind": "INFERENCE_SCOPE",
+              "method": "GENERALIZED_ARC_CONSISTENCY",
+              "partial_means": "LOCAL_FIXED_POINT_NOT_GLOBAL_SATISFIABILITY"
+            },
+            {
+              "context": {
+                "pos": "verb"
+              },
+              "kind": "EVIDENCE_GUARD",
+              "reason": "GUARD_MISMATCH",
+              "relation": {
+                "absent_evidence": [
+                  "GOOD"
+                ],
+                "allowed_rows": [
+                  [
+                    -1,
+                    0
+                  ],
+                  [
+                    0,
+                    -1
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    0
+                  ]
+                ],
+                "approved": true,
+                "authority": "conditional",
+                "banks": [
+                  "BIG",
+                  "GOOD"
+                ],
+                "guards": [
+                  [
+                    "pos",
+                    "adjective"
+                  ]
+                ],
+                "provenance": [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+                ],
+                "rule_id": "founder:absence:big-good"
+              },
+              "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+              "rule_id": "founder:absence:big-good",
+              "status": "BLOCKED",
+              "witnesses": [
+                {
+                  "assertions": [],
+                  "bank": "GOOD",
+                  "baseline_domain": [
+                    -1,
+                    0,
+                    1
+                  ],
+                  "baseline_narrowed": false,
+                  "baseline_rule_ids": [],
+                  "supplied_evidence": true
+                }
+              ]
+            },
+            {
+              "context": {
+                "pos": "verb"
+              },
+              "kind": "EVIDENCE_GUARD",
+              "reason": "GUARD_MISMATCH",
+              "relation": {
+                "absent_evidence": [
+                  "BIG"
+                ],
+                "allowed_rows": [
+                  [
+                    -1,
+                    0
+                  ],
+                  [
+                    0,
+                    -1
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    0
+                  ]
+                ],
+                "approved": true,
+                "authority": "conditional",
+                "banks": [
+                  "GOOD",
+                  "BIG"
+                ],
+                "guards": [
+                  [
+                    "pos",
+                    "adjective"
+                  ]
+                ],
+                "provenance": [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+                ],
+                "rule_id": "founder:absence:good-big"
+              },
+              "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+              "rule_id": "founder:absence:good-big",
+              "status": "BLOCKED",
+              "witnesses": [
+                {
+                  "assertions": [],
+                  "bank": "BIG",
+                  "baseline_domain": [
+                    -1,
+                    0,
+                    1
+                  ],
+                  "baseline_narrowed": false,
+                  "baseline_rule_ids": [],
+                  "supplied_evidence": true
+                }
+              ]
+            }
+          ],
+          "removed_assertions": [
+            {
+              "bank": "CAUSE",
+              "family": "verb_structure",
+              "record_id": "verbnet:absolve:a4ab93174284136b909d31a624557f7dc6760cc80ee4dd5d892a5829a2daf919",
+              "scope": "lexical",
+              "source": "verbnet",
+              "value": 1
+            }
+          ]
+        }
+      ],
+      "removed_assertion_sources": [
+        "verbnet"
+      ],
+      "removed_direct_source": []
+    },
+    {
+      "bank": "SAY",
+      "cells": 20,
+      "examples": [
+        {
+          "entry_id": "wordnet:bridle:bridle.v.03",
+          "old_sign": 1,
+          "old_trace": [
+            {
+              "bank": "SAY",
+              "family": "wordnet",
+              "kind": "ASSERTION",
+              "record_id": "wordnet:bridle:bridle.v.03",
+              "remaining": [
+                1
+              ],
+              "removed": [
+                -1,
+                0
+              ],
+              "scope": "lexical",
+              "source": "wordnet_hierarchy",
+              "value": 1
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:adjective-not-object"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:adverb-not-object"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:category:body-something"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:noun-own-evaluation"
+            },
+            {
+              "complete_search": false,
+              "kind": "INFERENCE_SCOPE",
+              "method": "GENERALIZED_ARC_CONSISTENCY",
+              "partial_means": "LOCAL_FIXED_POINT_NOT_GLOBAL_SATISFIABILITY"
+            },
+            {
+              "context": {
+                "pos": "verb"
+              },
+              "kind": "EVIDENCE_GUARD",
+              "reason": "GUARD_MISMATCH",
+              "relation": {
+                "absent_evidence": [
+                  "GOOD"
+                ],
+                "allowed_rows": [
+                  [
+                    -1,
+                    0
+                  ],
+                  [
+                    0,
+                    -1
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    0
+                  ]
+                ],
+                "approved": true,
+                "authority": "conditional",
+                "banks": [
+                  "BIG",
+                  "GOOD"
+                ],
+                "guards": [
+                  [
+                    "pos",
+                    "adjective"
+                  ]
+                ],
+                "provenance": [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+                ],
+                "rule_id": "founder:absence:big-good"
+              },
+              "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+              "rule_id": "founder:absence:big-good",
+              "status": "BLOCKED",
+              "witnesses": [
+                {
+                  "assertions": [],
+                  "bank": "GOOD",
+                  "baseline_domain": [
+                    -1,
+                    0,
+                    1
+                  ],
+                  "baseline_narrowed": false,
+                  "baseline_rule_ids": [],
+                  "supplied_evidence": true
+                }
+              ]
+            },
+            {
+              "context": {
+                "pos": "verb"
+              },
+              "kind": "EVIDENCE_GUARD",
+              "reason": "GUARD_MISMATCH",
+              "relation": {
+                "absent_evidence": [
+                  "BIG"
+                ],
+                "allowed_rows": [
+                  [
+                    -1,
+                    0
+                  ],
+                  [
+                    0,
+                    -1
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    0
+                  ]
+                ],
+                "approved": true,
+                "authority": "conditional",
+                "banks": [
+                  "GOOD",
+                  "BIG"
+                ],
+                "guards": [
+                  [
+                    "pos",
+                    "adjective"
+                  ]
+                ],
+                "provenance": [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+                ],
+                "rule_id": "founder:absence:good-big"
+              },
+              "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+              "rule_id": "founder:absence:good-big",
+              "status": "BLOCKED",
+              "witnesses": [
+                {
+                  "assertions": [],
+                  "bank": "BIG",
+                  "baseline_domain": [
+                    -1,
+                    0,
+                    1
+                  ],
+                  "baseline_narrowed": false,
+                  "baseline_rule_ids": [],
+                  "supplied_evidence": true
+                }
+              ]
+            }
+          ],
+          "removed_assertions": [
+            {
+              "bank": "SAY",
+              "family": "wordnet",
+              "record_id": "wordnet:bridle:bridle.v.03",
+              "scope": "lexical",
+              "source": "wordnet_hierarchy",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "entry_id": "wordnet:charter:rent.v.04",
+          "old_sign": 1,
+          "old_trace": [
+            {
+              "bank": "SAY",
+              "family": "wordnet",
+              "kind": "ASSERTION",
+              "record_id": "wordnet:charter:rent.v.04",
+              "remaining": [
+                1
+              ],
+              "removed": [
+                -1,
+                0
+              ],
+              "scope": "lexical",
+              "source": "wordnet_hierarchy",
+              "value": 1
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:adjective-not-object"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:adverb-not-object"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:category:body-something"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:noun-own-evaluation"
+            },
+            {
+              "complete_search": false,
+              "kind": "INFERENCE_SCOPE",
+              "method": "GENERALIZED_ARC_CONSISTENCY",
+              "partial_means": "LOCAL_FIXED_POINT_NOT_GLOBAL_SATISFIABILITY"
+            },
+            {
+              "context": {
+                "pos": "verb"
+              },
+              "kind": "EVIDENCE_GUARD",
+              "reason": "GUARD_MISMATCH",
+              "relation": {
+                "absent_evidence": [
+                  "GOOD"
+                ],
+                "allowed_rows": [
+                  [
+                    -1,
+                    0
+                  ],
+                  [
+                    0,
+                    -1
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    0
+                  ]
+                ],
+                "approved": true,
+                "authority": "conditional",
+                "banks": [
+                  "BIG",
+                  "GOOD"
+                ],
+                "guards": [
+                  [
+                    "pos",
+                    "adjective"
+                  ]
+                ],
+                "provenance": [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+                ],
+                "rule_id": "founder:absence:big-good"
+              },
+              "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+              "rule_id": "founder:absence:big-good",
+              "status": "BLOCKED",
+              "witnesses": [
+                {
+                  "assertions": [],
+                  "bank": "GOOD",
+                  "baseline_domain": [
+                    -1,
+                    0,
+                    1
+                  ],
+                  "baseline_narrowed": false,
+                  "baseline_rule_ids": [],
+                  "supplied_evidence": true
+                }
+              ]
+            },
+            {
+              "context": {
+                "pos": "verb"
+              },
+              "kind": "EVIDENCE_GUARD",
+              "reason": "GUARD_MISMATCH",
+              "relation": {
+                "absent_evidence": [
+                  "BIG"
+                ],
+                "allowed_rows": [
+                  [
+                    -1,
+                    0
+                  ],
+                  [
+                    0,
+                    -1
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    0
+                  ]
+                ],
+                "approved": true,
+                "authority": "conditional",
+                "banks": [
+                  "GOOD",
+                  "BIG"
+                ],
+                "guards": [
+                  [
+                    "pos",
+                    "adjective"
+                  ]
+                ],
+                "provenance": [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+                ],
+                "rule_id": "founder:absence:good-big"
+              },
+              "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+              "rule_id": "founder:absence:good-big",
+              "status": "BLOCKED",
+              "witnesses": [
+                {
+                  "assertions": [],
+                  "bank": "BIG",
+                  "baseline_domain": [
+                    -1,
+                    0,
+                    1
+                  ],
+                  "baseline_narrowed": false,
+                  "baseline_rule_ids": [],
+                  "supplied_evidence": true
+                }
+              ]
+            }
+          ],
+          "removed_assertions": [
+            {
+              "bank": "SAY",
+              "family": "wordnet",
+              "record_id": "wordnet:charter:rent.v.04",
+              "scope": "lexical",
+              "source": "wordnet_hierarchy",
+              "value": 1
+            }
+          ]
+        }
+      ],
+      "removed_assertion_sources": [
+        "wordnet_hierarchy"
+      ],
+      "removed_direct_source": [
+        "wordnet_hierarchy"
+      ]
+    },
+    {
+      "bank": "WANT",
+      "cells": 1,
+      "examples": [
+        {
+          "entry_id": "wordnet:table:table.n.02",
+          "old_sign": 0,
+          "old_trace": [
+            {
+              "bank": "SOMETHING",
+              "family": "wordnet",
+              "kind": "ASSERTION",
+              "record_id": "wordnet:table:table.n.02",
+              "remaining": [
+                1
+              ],
+              "removed": [
+                -1,
+                0
+              ],
+              "scope": "lexical",
+              "source": "wordnet_hierarchy",
+              "value": 1
+            },
+            {
+              "bank": "WANT",
+              "family": "model",
+              "kind": "ASSERTION",
+              "record_id": "29fbbb7c39cb0710dc069ef8083992b2e2620a675f0377b7ea30adf3a7c3068b",
+              "remaining": [
+                0
+              ],
+              "removed": [
+                -1,
+                1
+              ],
+              "scope": "lexical",
+              "source": "model:qwen3.8:27b-q4_K_M@57d0c16fd9c81e9c7f2cc61364a27c73388b0f8bea6021407038aa02abd0a90f",
+              "value": 0
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:adjective-not-object"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:adverb-not-object"
+            },
+            {
+              "bank": "GOOD",
+              "domains_before": {
+                "GOOD": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "kind": "RELATION",
+              "provenance": [
+                "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+              ],
+              "remaining": [
+                0
+              ],
+              "removed": [
+                -1,
+                1
+              ],
+              "rule_id": "founder:noun-own-evaluation",
+              "support_rows": [
+                [
+                  0
+                ]
+              ]
+            },
+            {
+              "complete_search": false,
+              "kind": "INFERENCE_SCOPE",
+              "method": "GENERALIZED_ARC_CONSISTENCY",
+              "partial_means": "LOCAL_FIXED_POINT_NOT_GLOBAL_SATISFIABILITY"
+            },
+            {
+              "context": {
+                "pos": "noun"
+              },
+              "kind": "EVIDENCE_GUARD",
+              "reason": "GUARD_MISMATCH",
+              "relation": {
+                "absent_evidence": [
+                  "GOOD"
+                ],
+                "allowed_rows": [
+                  [
+                    -1,
+                    0
+                  ],
+                  [
+                    0,
+                    -1
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    0
+                  ]
+                ],
+                "approved": true,
+                "authority": "conditional",
+                "banks": [
+                  "BIG",
+                  "GOOD"
+                ],
+                "guards": [
+                  [
+                    "pos",
+                    "adjective"
+                  ]
+                ],
+                "provenance": [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+                ],
+                "rule_id": "founder:absence:big-good"
+              },
+              "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+              "rule_id": "founder:absence:big-good",
+              "status": "BLOCKED",
+              "witnesses": [
+                {
+                  "assertions": [],
+                  "bank": "GOOD",
+                  "baseline_domain": [
+                    0
+                  ],
+                  "baseline_narrowed": true,
+                  "baseline_rule_ids": [
+                    "founder:noun-own-evaluation"
+                  ],
+                  "supplied_evidence": true
+                }
+              ]
+            },
+            {
+              "context": {
+                "pos": "noun"
+              },
+              "kind": "EVIDENCE_GUARD",
+              "reason": "GUARD_MISMATCH",
+              "relation": {
+                "absent_evidence": [
+                  "BIG"
+                ],
+                "allowed_rows": [
+                  [
+                    -1,
+                    0
+                  ],
+                  [
+                    0,
+                    -1
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    0
+                  ]
+                ],
+                "approved": true,
+                "authority": "conditional",
+                "banks": [
+                  "GOOD",
+                  "BIG"
+                ],
+                "guards": [
+                  [
+                    "pos",
+                    "adjective"
+                  ]
+                ],
+                "provenance": [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+                ],
+                "rule_id": "founder:absence:good-big"
+              },
+              "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+              "rule_id": "founder:absence:good-big",
+              "status": "BLOCKED",
+              "witnesses": [
+                {
+                  "assertions": [],
+                  "bank": "BIG",
+                  "baseline_domain": [
+                    -1,
+                    0,
+                    1
+                  ],
+                  "baseline_narrowed": false,
+                  "baseline_rule_ids": [],
+                  "supplied_evidence": true
+                }
+              ]
+            }
+          ],
+          "removed_assertions": [
+            {
+              "bank": "WANT",
+              "family": "model",
+              "record_id": "29fbbb7c39cb0710dc069ef8083992b2e2620a675f0377b7ea30adf3a7c3068b",
+              "scope": "lexical",
+              "source": "model:qwen3.8:27b-q4_K_M@57d0c16fd9c81e9c7f2cc61364a27c73388b0f8bea6021407038aa02abd0a90f",
+              "value": 0
+            }
+          ]
+        }
+      ],
+      "removed_assertion_sources": [
+        "model:qwen3.8:27b-q4_K_M@57d0c16fd9c81e9c7f2cc61364a27c73388b0f8bea6021407038aa02abd0a90f"
+      ],
+      "removed_direct_source": [
+        "model:qwen3.8:27b-q4_K_M@57d0c16fd9c81e9c7f2cc61364a27c73388b0f8bea6021407038aa02abd0a90f"
+      ]
+    }
+  ]
+}

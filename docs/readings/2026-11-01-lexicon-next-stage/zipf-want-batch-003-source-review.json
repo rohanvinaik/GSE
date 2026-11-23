@@ -1,0 +1,2186 @@
+{
+  "authority": "EXPLICIT_SOURCE_BACKED_REVIEW_OF_MODEL_RULINGS_NOT_INDEPENDENT_GOLD",
+  "claim_ledger": [
+    {
+      "claim": "Each reviewed value belongs to the exact saved request and was previously unresolved",
+      "falsifier": "wrong receipt/request hash, known WANT or changed bank",
+      "id": "W1",
+      "kind": "operational",
+      "scope": "16 WANT receipts",
+      "status": "VERIFIED",
+      "test": "validate_receipt, canonical request/receipt digests, schema and known/domain checks"
+    },
+    {
+      "claim": "The exact lexical definition supports WANT orthogonality",
+      "falsifier": "own lexical desire/refusal content in the full exact lexical source or an applicable approved projection contradicting 0",
+      "id": "W2",
+      "kind": "source-backed semantic interpretation",
+      "scope": "one definition and bank per row",
+      "status": "ACCEPTED_PER_CELL_WITH_RATIONALE_NOT_A_GENERAL_RULE",
+      "test": "whole lexical observation plus definition, known-bank context and explicit word/grammar/world boundary"
+    },
+    {
+      "claim": "Reviewing new WANT also validates older model-valued context",
+      "falsifier": "absence of exact independent prefix reviews",
+      "id": "W3",
+      "kind": "authority claim",
+      "scope": "two YOU definitions with earlier model prefixes",
+      "status": "REJECTED_OLDER_PREFIXES_REMAIN_UNREVIEWED",
+      "test": "inventory complete model assertion prefixes"
+    },
+    {
+      "claim": "An all-zero batch proves a general zero rule or broad model quality",
+      "falsifier": "no independent heldout rule audit or broad contrast coverage",
+      "id": "W4",
+      "kind": "generalization",
+      "scope": "unseen definitions/banks",
+      "status": "NOT_ESTABLISHED",
+      "test": "no proposed or promoted rule; report limited to exact cells"
+    }
+  ],
+  "created_utc": "2026-11-01T19:09:38.347008+00:00",
+  "dependency_counts": {
+    "NO_PRIOR_MODEL_PREFIX": 14,
+    "PRIOR_MODEL_PREFIX_NOT_REVIEWED_HERE": 2
+  },
+  "format": "gse.source-backed-cell-review/1",
+  "instrument": {
+    "WANT": {
+      "-1": "NOT WANT",
+      "0": "orthogonal to wanting",
+      "1": "WANT"
+    },
+    "word_scope": "own lexical content; grammatical binding and speech-act/world attitudes are separate"
+  },
+  "lexicon_writes": false,
+  "model_calls": 0,
+  "parent_verification": "PENDING",
+  "reading_scope": {
+    "whole_exact_lexical_observations": 16,
+    "whole_exact_linked_nonlexical_observations": 5,
+    "world_and_ambiguous_association_records": "INVENTORIED_NOT_USED_AS_SEMANTIC_AUTHORITY; no claim of complete semantic review"
+  },
+  "records": [
+    {
+      "association_scope_note": "SentiWordNet exact records, where present, classify GOOD relevance and supply no WANT proof. Ambiguous spelling-level ratings and ConceptNet associations are not used as lexical sign authority.",
+      "bank": "WANT",
+      "basis_code": "ADDITIVE_COORDINATION",
+      "definition": {
+        "definition": "Curated GSE conjunction use of 'and'. No lexical bank assignment is declared. Grammatical features: {\"clause_relation\": \"ADDITIVE\", \"coord_type\": \"ADDITIVE\"}.",
+        "entry_id": "gse_closed_class:conjunction:and",
+        "lemma": "and",
+        "pos": "conjunction"
+      },
+      "dependency_review_status": "NO_PRIOR_MODEL_PREFIX",
+      "entry_id": "gse_closed_class:conjunction:and",
+      "exact_linked_nonlexical_records_read": [],
+      "independent_gold": false,
+      "known_banks_at_request": {},
+      "lexical_source_records": [
+        {
+          "observation_index": 0,
+          "record": {
+            "candidate_entry_ids": [
+              "gse_closed_class:conjunction:and"
+            ],
+            "entry_id": "gse_closed_class:conjunction:and",
+            "family": "gse_curated_grammar",
+            "features": {
+              "catalog": "conjunction",
+              "cohort": "MANDATORY_FOUNDATION_COHORT",
+              "definition": "Curated GSE conjunction use of 'and'. No lexical bank assignment is declared. Grammatical features: {\"clause_relation\": \"ADDITIVE\", \"coord_type\": \"ADDITIVE\"}.",
+              "entry_id": "gse_closed_class:conjunction:and",
+              "grammar_roles": [
+                "CCONJ"
+              ],
+              "grammatical_features": {
+                "clause_relation": "ADDITIVE",
+                "coord_type": "ADDITIVE"
+              },
+              "lemma": "and",
+              "native_encodings": [
+                {
+                  "key": "and",
+                  "module": "gse.lexicon.function_words",
+                  "symbol": "CONJUNCTION_ENCODINGS",
+                  "value": {
+                    "clause_relation": "ADDITIVE",
+                    "coord_type": "ADDITIVE"
+                  }
+                }
+              ],
+              "pos": "conjunction",
+              "primitives": {},
+              "provenance": [
+                "gse.lexicon.function_words:CONJUNCTION_ENCODINGS:and"
+              ]
+            },
+            "record_id": "gse_closed_class:and:cd34c346333017cbcea0c07cc0aeddae0baf58477b45d18cbf66b11d89c9b311",
+            "scope": "lexical",
+            "source": "gse_closed_class"
+          },
+          "sha256": "c57049a2c9e220c1fd89af65af282dc5fb723974a81ffff964c1ff400dd5efa8"
+        }
+      ],
+      "model_authority_preserved": true,
+      "other_source_inventory": {},
+      "parent_verification": "PENDING",
+      "prior_model_prefix": [],
+      "rationale": "The exact native entry identifies additive coordination of clauses. That compositional relation connects its operands independently of whether either operand describes desire or refusal. Desire introduced by a coordinated clause belongs to that clause, not to this additive connector. WANT=0 is supported by the identified function, not by the empty primitives map.",
+      "receipt_sha256": "cc5ae41ed20fba7cb7568f73ed9fcf9a083e418c8fc5e17c0647b8c4c4961157",
+      "recorded_value": 0,
+      "request_id": "2a071f2ee8a168b6d0d5fcf91fbc4d2b731e175b47391babc1e886181fa817cc",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The exact native entry identifies additive coordination of clauses. That compositional relation connects its operands independently of whether either operand describes desire or refusal. Desire introduced by a coordinated clause belongs to that clause, not to this additive connector. WANT=0 is supported by the identified function, not by the empty primitives map.",
+        "receipt_sha256": "cc5ae41ed20fba7cb7568f73ed9fcf9a083e418c8fc5e17c0647b8c4c4961157",
+        "review_id": "want-source-review-2026-11-01:cc5ae41ed20fba7cb7568f73ed9fcf9a083e418c8fc5e17c0647b8c4c4961157",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/0/request/observations/0@sha256:c57049a2c9e220c1fd89af65af282dc5fb723974a81ffff964c1ff400dd5efa8",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      },
+      "review_status": "ACCEPTED",
+      "reviewed_value": 0
+    },
+    {
+      "association_scope_note": "SentiWordNet exact records, where present, classify GOOD relevance and supply no WANT proof. Ambiguous spelling-level ratings and ConceptNet associations are not used as lexical sign authority.",
+      "bank": "WANT",
+      "basis_code": "DECLARATIVE_COMPLEMENT_LINK",
+      "definition": {
+        "definition": "Curated GSE conjunction use of 'that'. No lexical bank assignment is declared. Grammatical features: {\"clause_relation\": \"COMPLEMENT\", \"complement_type\": \"DECLARATIVE\"}.",
+        "entry_id": "gse_closed_class:conjunction:that",
+        "lemma": "that",
+        "pos": "conjunction"
+      },
+      "dependency_review_status": "NO_PRIOR_MODEL_PREFIX",
+      "entry_id": "gse_closed_class:conjunction:that",
+      "exact_linked_nonlexical_records_read": [],
+      "independent_gold": false,
+      "known_banks_at_request": {},
+      "lexical_source_records": [
+        {
+          "observation_index": 0,
+          "record": {
+            "candidate_entry_ids": [
+              "gse_closed_class:conjunction:that"
+            ],
+            "entry_id": "gse_closed_class:conjunction:that",
+            "family": "gse_curated_grammar",
+            "features": {
+              "catalog": "conjunction",
+              "cohort": "MANDATORY_FOUNDATION_COHORT",
+              "definition": "Curated GSE conjunction use of 'that'. No lexical bank assignment is declared. Grammatical features: {\"clause_relation\": \"COMPLEMENT\", \"complement_type\": \"DECLARATIVE\"}.",
+              "entry_id": "gse_closed_class:conjunction:that",
+              "grammar_roles": [
+                "SCONJ"
+              ],
+              "grammatical_features": {
+                "clause_relation": "COMPLEMENT",
+                "complement_type": "DECLARATIVE"
+              },
+              "lemma": "that",
+              "native_encodings": [
+                {
+                  "key": "that",
+                  "module": "gse.lexicon.function_words",
+                  "symbol": "CONJUNCTION_ENCODINGS",
+                  "value": {
+                    "clause_relation": "COMPLEMENT",
+                    "complement_type": "DECLARATIVE"
+                  }
+                }
+              ],
+              "pos": "conjunction",
+              "primitives": {},
+              "provenance": [
+                "gse.lexicon.function_words:CONJUNCTION_ENCODINGS:that"
+              ]
+            },
+            "record_id": "gse_closed_class:that:b95706728f9c7009833e8f6b97b724a0b02348bb74ba01b06bb70d0f5e2908ff",
+            "scope": "lexical",
+            "source": "gse_closed_class"
+          },
+          "sha256": "58db7a8fecea771431893716ec1d202bc84012ffee32379a8429c63fbe9ddba5"
+        }
+      ],
+      "model_authority_preserved": true,
+      "other_source_inventory": {},
+      "parent_verification": "PENDING",
+      "prior_model_prefix": [],
+      "rationale": "The native entry explicitly identifies a declarative complement link. It can link a content clause to a desire predicate or a non-desire predicate without changing this lexical use. Wanting belongs to the governing predicate or the content clause; complement linkage itself is orthogonal to wanting. This judgment is confined to the conjunction entry, not the demonstrative spelling.",
+      "receipt_sha256": "676d4c3d61fbf91b5edf3c818184e41fffe8e5ca918601245764fadf8b6ee5e8",
+      "recorded_value": 0,
+      "request_id": "30b02e1acf40a1453f2ca5052821a55e22744ae4767518a4d825f85df20c69e7",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The native entry explicitly identifies a declarative complement link. It can link a content clause to a desire predicate or a non-desire predicate without changing this lexical use. Wanting belongs to the governing predicate or the content clause; complement linkage itself is orthogonal to wanting. This judgment is confined to the conjunction entry, not the demonstrative spelling.",
+        "receipt_sha256": "676d4c3d61fbf91b5edf3c818184e41fffe8e5ca918601245764fadf8b6ee5e8",
+        "review_id": "want-source-review-2026-11-01:676d4c3d61fbf91b5edf3c818184e41fffe8e5ca918601245764fadf8b6ee5e8",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/1/request/observations/0@sha256:58db7a8fecea771431893716ec1d202bc84012ffee32379a8429c63fbe9ddba5",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      },
+      "review_status": "ACCEPTED",
+      "reviewed_value": 0
+    },
+    {
+      "association_scope_note": "SentiWordNet exact records, where present, classify GOOD relevance and supply no WANT proof. Ambiguous spelling-level ratings and ConceptNet associations are not used as lexical sign authority.",
+      "bank": "WANT",
+      "basis_code": "INDEFINITE_SINGULAR_REFERENCE",
+      "definition": {
+        "definition": "Curated GSE determiner use of 'a'. No lexical bank assignment is declared. Grammatical features: {\"definiteness\": \"INDEFINITE\", \"number\": \"SINGULAR\"}.",
+        "entry_id": "gse_closed_class:determiner:a",
+        "lemma": "a",
+        "pos": "determiner"
+      },
+      "dependency_review_status": "NO_PRIOR_MODEL_PREFIX",
+      "entry_id": "gse_closed_class:determiner:a",
+      "exact_linked_nonlexical_records_read": [],
+      "independent_gold": false,
+      "known_banks_at_request": {},
+      "lexical_source_records": [
+        {
+          "observation_index": 0,
+          "record": {
+            "candidate_entry_ids": [
+              "gse_closed_class:determiner:a"
+            ],
+            "entry_id": "gse_closed_class:determiner:a",
+            "family": "gse_curated_grammar",
+            "features": {
+              "catalog": "determiner",
+              "cohort": "MANDATORY_FOUNDATION_COHORT",
+              "definition": "Curated GSE determiner use of 'a'. No lexical bank assignment is declared. Grammatical features: {\"definiteness\": \"INDEFINITE\", \"number\": \"SINGULAR\"}.",
+              "entry_id": "gse_closed_class:determiner:a",
+              "grammar_roles": [
+                "DET"
+              ],
+              "grammatical_features": {
+                "definiteness": "INDEFINITE",
+                "number": "SINGULAR"
+              },
+              "lemma": "a",
+              "native_encodings": [
+                {
+                  "key": "a",
+                  "module": "gse.lexicon.function_words",
+                  "symbol": "DETERMINER_ENCODINGS",
+                  "value": {
+                    "definiteness": "INDEFINITE",
+                    "number": "SINGULAR"
+                  }
+                }
+              ],
+              "pos": "determiner",
+              "primitives": {},
+              "provenance": [
+                "gse.lexicon.function_words:DETERMINER_ENCODINGS:a"
+              ]
+            },
+            "record_id": "gse_closed_class:a:3dabbcd72eebcb31fb0accdb743c39336281a8eb46cbfdc5cd207a944d0d812d",
+            "scope": "lexical",
+            "source": "gse_closed_class"
+          },
+          "sha256": "6d0d91eb5441a6c3b3238e66ba0bb54f028ede65a99928478d110db147901572"
+        }
+      ],
+      "model_authority_preserved": true,
+      "other_source_inventory": {},
+      "parent_verification": "PENDING",
+      "prior_model_prefix": [],
+      "rationale": "The native entry specifies indefinite singular determination. Selecting a singular indefinite nominal reference does not assert that an experiencer wants or does not want it. A desire for the referent must be supplied by the containing predicate. This explicit reference function supports WANT=0; the missing bank declaration alone would not.",
+      "receipt_sha256": "d41f6190d28a4b408cd9fd5c29eefe45caaaedce1c3c10960bb713b79078aa22",
+      "recorded_value": 0,
+      "request_id": "e3882a6081c75ced2cf068f3d8a6511592ae8f9e0edcee048d8fa887e2b4f6f3",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The native entry specifies indefinite singular determination. Selecting a singular indefinite nominal reference does not assert that an experiencer wants or does not want it. A desire for the referent must be supplied by the containing predicate. This explicit reference function supports WANT=0; the missing bank declaration alone would not.",
+        "receipt_sha256": "d41f6190d28a4b408cd9fd5c29eefe45caaaedce1c3c10960bb713b79078aa22",
+        "review_id": "want-source-review-2026-11-01:d41f6190d28a4b408cd9fd5c29eefe45caaaedce1c3c10960bb713b79078aa22",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/2/request/observations/0@sha256:6d0d91eb5441a6c3b3238e66ba0bb54f028ede65a99928478d110db147901572",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      },
+      "review_status": "ACCEPTED",
+      "reviewed_value": 0
+    },
+    {
+      "association_scope_note": "SentiWordNet exact records, where present, classify GOOD relevance and supply no WANT proof. Ambiguous spelling-level ratings and ConceptNet associations are not used as lexical sign authority.",
+      "bank": "WANT",
+      "basis_code": "DEFINITE_REFERENCE",
+      "definition": {
+        "definition": "Curated GSE determiner use of 'the'. No lexical bank assignment is declared. Grammatical features: {\"definiteness\": \"DEFINITE\"}.",
+        "entry_id": "gse_closed_class:determiner:the",
+        "lemma": "the",
+        "pos": "determiner"
+      },
+      "dependency_review_status": "NO_PRIOR_MODEL_PREFIX",
+      "entry_id": "gse_closed_class:determiner:the",
+      "exact_linked_nonlexical_records_read": [],
+      "independent_gold": false,
+      "known_banks_at_request": {},
+      "lexical_source_records": [
+        {
+          "observation_index": 0,
+          "record": {
+            "candidate_entry_ids": [
+              "gse_closed_class:determiner:the"
+            ],
+            "entry_id": "gse_closed_class:determiner:the",
+            "family": "gse_curated_grammar",
+            "features": {
+              "catalog": "determiner",
+              "cohort": "MANDATORY_FOUNDATION_COHORT",
+              "definition": "Curated GSE determiner use of 'the'. No lexical bank assignment is declared. Grammatical features: {\"definiteness\": \"DEFINITE\"}.",
+              "entry_id": "gse_closed_class:determiner:the",
+              "grammar_roles": [
+                "DET"
+              ],
+              "grammatical_features": {
+                "definiteness": "DEFINITE"
+              },
+              "lemma": "the",
+              "native_encodings": [
+                {
+                  "key": "the",
+                  "module": "gse.lexicon.function_words",
+                  "symbol": "DETERMINER_ENCODINGS",
+                  "value": {
+                    "definiteness": "DEFINITE"
+                  }
+                }
+              ],
+              "pos": "determiner",
+              "primitives": {},
+              "provenance": [
+                "gse.lexicon.function_words:DETERMINER_ENCODINGS:the"
+              ]
+            },
+            "record_id": "gse_closed_class:the:fcedcf63e57cb7e571c1ffd5a130b91f731a059a4702c23d3f042d85e8892302",
+            "scope": "lexical",
+            "source": "gse_closed_class"
+          },
+          "sha256": "7b1ae7a25d72f17b0a9ba68d543368ba3b140dd49dabde14baf4031907741714"
+        }
+      ],
+      "model_authority_preserved": true,
+      "other_source_inventory": {},
+      "parent_verification": "PENDING",
+      "prior_model_prefix": [],
+      "rationale": "The native entry specifies definite determination. Identifiability of the nominal referent is independent of an experiencer favoring or refusing that referent. The definite-reference contribution supports WANT=0 for this entry; no conclusion is drawn about desire expressed elsewhere in a sentence.",
+      "receipt_sha256": "118eb969aff3300ba08ad0b6b78e5f65435275e8aa8350ac9ee445a70adc2ce0",
+      "recorded_value": 0,
+      "request_id": "fa8567e14251d0187fbfe9946a06a7c50cbdaf44b1052d39e44e9f90ddbcbd01",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The native entry specifies definite determination. Identifiability of the nominal referent is independent of an experiencer favoring or refusing that referent. The definite-reference contribution supports WANT=0 for this entry; no conclusion is drawn about desire expressed elsewhere in a sentence.",
+        "receipt_sha256": "118eb969aff3300ba08ad0b6b78e5f65435275e8aa8350ac9ee445a70adc2ce0",
+        "review_id": "want-source-review-2026-11-01:118eb969aff3300ba08ad0b6b78e5f65435275e8aa8350ac9ee445a70adc2ce0",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/3/request/observations/0@sha256:7b1ae7a25d72f17b0a9ba68d543368ba3b140dd49dabde14baf4031907741714",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      },
+      "review_status": "ACCEPTED",
+      "reviewed_value": 0
+    },
+    {
+      "association_scope_note": "SentiWordNet exact records, where present, classify GOOD relevance and supply no WANT proof. Ambiguous spelling-level ratings and ConceptNet associations are not used as lexical sign authority.",
+      "bank": "WANT",
+      "basis_code": "POSSESSIVE_RELATION",
+      "definition": {
+        "definition": "Curated GSE preposition use of 'of'. No lexical bank assignment is declared. Grammatical features: {\"relation_type\": \"POSSESSIVE\"}.",
+        "entry_id": "gse_closed_class:preposition:of",
+        "lemma": "of",
+        "pos": "preposition"
+      },
+      "dependency_review_status": "NO_PRIOR_MODEL_PREFIX",
+      "entry_id": "gse_closed_class:preposition:of",
+      "exact_linked_nonlexical_records_read": [],
+      "independent_gold": false,
+      "known_banks_at_request": {},
+      "lexical_source_records": [
+        {
+          "observation_index": 0,
+          "record": {
+            "candidate_entry_ids": [
+              "gse_closed_class:preposition:of"
+            ],
+            "entry_id": "gse_closed_class:preposition:of",
+            "family": "gse_curated_grammar",
+            "features": {
+              "catalog": "preposition",
+              "cohort": "MANDATORY_FOUNDATION_COHORT",
+              "definition": "Curated GSE preposition use of 'of'. No lexical bank assignment is declared. Grammatical features: {\"relation_type\": \"POSSESSIVE\"}.",
+              "entry_id": "gse_closed_class:preposition:of",
+              "grammar_roles": [
+                "ADP"
+              ],
+              "grammatical_features": {
+                "relation_type": "POSSESSIVE"
+              },
+              "lemma": "of",
+              "native_encodings": [
+                {
+                  "key": "of",
+                  "module": "gse.lexicon.function_words",
+                  "symbol": "PREPOSITION_ENCODINGS",
+                  "value": {
+                    "relation_type": "POSSESSIVE"
+                  }
+                }
+              ],
+              "pos": "preposition",
+              "primitives": {},
+              "provenance": [
+                "gse.lexicon.function_words:PREPOSITION_ENCODINGS:of"
+              ]
+            },
+            "record_id": "gse_closed_class:of:a8f17bff9356272063fc105a6b91d230ce47e480f327b4501d50e11208bf7873",
+            "scope": "lexical",
+            "source": "gse_closed_class"
+          },
+          "sha256": "8a525ba19a5b43cc8cee72fc81b313fed3027e316b40eeeb189a016b535007c0"
+        }
+      ],
+      "model_authority_preserved": true,
+      "other_source_inventory": {},
+      "parent_verification": "PENDING",
+      "prior_model_prefix": [],
+      "rationale": "The native entry specifies a possessive relation. A possession or association relation does not assert wanting to obtain, keep, or avoid either participant. Those attitudes would require additional lexical content. WANT=0 is justified for this exact possessive relational use; no HAVE or other-bank ruling is being made.",
+      "receipt_sha256": "6c095ffbc8080f2aff87844b78c5a09451d6423b7151d0d1d1f786188c17d621",
+      "recorded_value": 0,
+      "request_id": "518dcb60873bfd6aa723ee6060427f952d86d35e8fdaae038abcbb27e79d2bf3",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The native entry specifies a possessive relation. A possession or association relation does not assert wanting to obtain, keep, or avoid either participant. Those attitudes would require additional lexical content. WANT=0 is justified for this exact possessive relational use; no HAVE or other-bank ruling is being made.",
+        "receipt_sha256": "6c095ffbc8080f2aff87844b78c5a09451d6423b7151d0d1d1f786188c17d621",
+        "review_id": "want-source-review-2026-11-01:6c095ffbc8080f2aff87844b78c5a09451d6423b7151d0d1d1f786188c17d621",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/4/request/observations/0@sha256:8a525ba19a5b43cc8cee72fc81b313fed3027e316b40eeeb189a016b535007c0",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      },
+      "review_status": "ACCEPTED",
+      "reviewed_value": 0
+    },
+    {
+      "association_scope_note": "SentiWordNet exact records, where present, classify GOOD relevance and supply no WANT proof. Ambiguous spelling-level ratings and ConceptNet associations are not used as lexical sign authority.",
+      "bank": "WANT",
+      "basis_code": "SPATIAL_GOAL_RELATION",
+      "definition": {
+        "definition": "Curated GSE preposition use of 'to'. No lexical bank assignment is declared. Grammatical features: {\"spatial_type\": \"GOAL\"}.",
+        "entry_id": "gse_closed_class:preposition:to",
+        "lemma": "to",
+        "pos": "preposition"
+      },
+      "dependency_review_status": "NO_PRIOR_MODEL_PREFIX",
+      "entry_id": "gse_closed_class:preposition:to",
+      "exact_linked_nonlexical_records_read": [],
+      "independent_gold": false,
+      "known_banks_at_request": {},
+      "lexical_source_records": [
+        {
+          "observation_index": 0,
+          "record": {
+            "candidate_entry_ids": [
+              "gse_closed_class:preposition:to"
+            ],
+            "entry_id": "gse_closed_class:preposition:to",
+            "family": "gse_curated_grammar",
+            "features": {
+              "catalog": "preposition",
+              "cohort": "MANDATORY_FOUNDATION_COHORT",
+              "definition": "Curated GSE preposition use of 'to'. No lexical bank assignment is declared. Grammatical features: {\"spatial_type\": \"GOAL\"}.",
+              "entry_id": "gse_closed_class:preposition:to",
+              "grammar_roles": [
+                "ADP"
+              ],
+              "grammatical_features": {
+                "spatial_type": "GOAL"
+              },
+              "lemma": "to",
+              "native_encodings": [
+                {
+                  "key": "to",
+                  "module": "gse.lexicon.function_words",
+                  "symbol": "PREPOSITION_ENCODINGS",
+                  "value": {
+                    "spatial_type": "GOAL"
+                  }
+                }
+              ],
+              "pos": "preposition",
+              "primitives": {},
+              "provenance": [
+                "gse.lexicon.function_words:PREPOSITION_ENCODINGS:to"
+              ]
+            },
+            "record_id": "gse_closed_class:to:58c937e4667b9559bf47a98c818b197dda9b335958f78fc2d83fc78dd83eec7c",
+            "scope": "lexical",
+            "source": "gse_closed_class"
+          },
+          "sha256": "5efb66b9bbdbcdc94eb1b8d1fba821b219cbbe5c79e7e7ee6b957992a6e1a84a"
+        }
+      ],
+      "model_authority_preserved": true,
+      "other_source_inventory": {},
+      "parent_verification": "PENDING",
+      "prior_model_prefix": [],
+      "rationale": "The native feature is specifically spatial_type=GOAL. A destination relation is not itself a mental desire or an absence/refusal of desire; something can move to a destination without any wanting being asserted. WANT=0 applies to this spatial-goal preposition entry, not every infinitival, purposive, or idiomatic use of the spelling to.",
+      "receipt_sha256": "3035c2514c1862c8e1de798d80e6b161300a255023f1fed27b338558bdafe28c",
+      "recorded_value": 0,
+      "request_id": "2f031c7231c43012f8594645d3bbbd8c083dd70e536f75c3a56bf654c779ea4d",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The native feature is specifically spatial_type=GOAL. A destination relation is not itself a mental desire or an absence/refusal of desire; something can move to a destination without any wanting being asserted. WANT=0 applies to this spatial-goal preposition entry, not every infinitival, purposive, or idiomatic use of the spelling to.",
+        "receipt_sha256": "3035c2514c1862c8e1de798d80e6b161300a255023f1fed27b338558bdafe28c",
+        "review_id": "want-source-review-2026-11-01:3035c2514c1862c8e1de798d80e6b161300a255023f1fed27b338558bdafe28c",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/5/request/observations/0@sha256:5efb66b9bbdbcdc94eb1b8d1fba821b219cbbe5c79e7e7ee6b957992a6e1a84a",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      },
+      "review_status": "ACCEPTED",
+      "reviewed_value": 0
+    },
+    {
+      "association_scope_note": "SentiWordNet exact records, where present, classify GOOD relevance and supply no WANT proof. Ambiguous spelling-level ratings and ConceptNet associations are not used as lexical sign authority.",
+      "bank": "WANT",
+      "basis_code": "THIRD_PERSON_ENTITY_REFERENCE",
+      "definition": {
+        "definition": "Curated GSE pronoun use of 'it'. Declared lexical components: SOMETHING=+1. Grammatical features: {\"animacy\": \"INANIMATE\", \"gram\": {\"gender\": \"NEUT\", \"number\": \"SINGULAR\", \"person\": 3}}.",
+        "entry_id": "gse_closed_class:pronoun:it",
+        "lemma": "it",
+        "pos": "pronoun"
+      },
+      "dependency_review_status": "NO_PRIOR_MODEL_PREFIX",
+      "entry_id": "gse_closed_class:pronoun:it",
+      "exact_linked_nonlexical_records_read": [],
+      "independent_gold": false,
+      "known_banks_at_request": {
+        "SOMETHING": 1
+      },
+      "lexical_source_records": [
+        {
+          "observation_index": 100,
+          "record": {
+            "candidate_entry_ids": [
+              "gse_closed_class:pronoun:it"
+            ],
+            "entry_id": "gse_closed_class:pronoun:it",
+            "family": "gse_curated_grammar",
+            "features": {
+              "catalog": "pronoun",
+              "cohort": "MANDATORY_FOUNDATION_COHORT",
+              "definition": "Curated GSE pronoun use of 'it'. Declared lexical components: SOMETHING=+1. Grammatical features: {\"animacy\": \"INANIMATE\", \"gram\": {\"gender\": \"NEUT\", \"number\": \"SINGULAR\", \"person\": 3}}.",
+              "entry_id": "gse_closed_class:pronoun:it",
+              "grammar_roles": [
+                "PRON"
+              ],
+              "grammatical_features": {
+                "animacy": "INANIMATE",
+                "gram": {
+                  "gender": "NEUT",
+                  "number": "SINGULAR",
+                  "person": 3
+                }
+              },
+              "lemma": "it",
+              "native_encodings": [
+                {
+                  "key": "it",
+                  "module": "gse.lexicon.pronouns",
+                  "symbol": "PRONOUN_ENCODINGS",
+                  "value": {
+                    "animacy": "INANIMATE",
+                    "gram": {
+                      "gender": "NEUT",
+                      "number": "SINGULAR",
+                      "person": 3
+                    },
+                    "primitives": {
+                      "SOMETHING": 1
+                    }
+                  }
+                }
+              ],
+              "pos": "pronoun",
+              "primitives": {
+                "SOMETHING": 1
+              },
+              "provenance": [
+                "gse.lexicon.pronouns:PRONOUN_ENCODINGS:it"
+              ]
+            },
+            "record_id": "gse_closed_class:it:2da62768f86970c92a86f2968cd64b12e587c56a45681aa3dcd8e3a3fc37a3ef",
+            "scope": "lexical",
+            "source": "gse_closed_class"
+          },
+          "sha256": "05c4493eca48ebc1716d925e1dbadc68b620d128147f3e6484677bfce29553d9"
+        }
+      ],
+      "model_authority_preserved": true,
+      "other_source_inventory": {
+        "conceptnet:source_structure": 99,
+        "concreteness:association": 1,
+        "lancaster_sensorimotor:association": 1,
+        "nrc_vad:association": 1
+      },
+      "parent_verification": "PENDING",
+      "prior_model_prefix": [],
+      "rationale": "The exact source declares SOMETHING with third-person singular neuter reference. The pronoun identifies a referent; it does not predicate that the referent or speaker wants something. Grammatical INANIMATE is not being projected to NOT WANT. Reference itself is orthogonal to the wanting coordinate, supporting explicit 0 for this entry.",
+      "receipt_sha256": "2115564a8e4635ca3bc68c45059156cd6dc10e2d1804c18e11afb4517b13fc2a",
+      "recorded_value": 0,
+      "request_id": "3205f202a9a9aafe0e98a1b8c14762751a3b2beb19ee66fa1942a0595a872c2b",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The exact source declares SOMETHING with third-person singular neuter reference. The pronoun identifies a referent; it does not predicate that the referent or speaker wants something. Grammatical INANIMATE is not being projected to NOT WANT. Reference itself is orthogonal to the wanting coordinate, supporting explicit 0 for this entry.",
+        "receipt_sha256": "2115564a8e4635ca3bc68c45059156cd6dc10e2d1804c18e11afb4517b13fc2a",
+        "review_id": "want-source-review-2026-11-01:2115564a8e4635ca3bc68c45059156cd6dc10e2d1804c18e11afb4517b13fc2a",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/6/request/observations/100@sha256:05c4493eca48ebc1716d925e1dbadc68b620d128147f3e6484677bfce29553d9",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      },
+      "review_status": "ACCEPTED",
+      "reviewed_value": 0
+    },
+    {
+      "association_scope_note": "SentiWordNet exact records, where present, classify GOOD relevance and supply no WANT proof. Ambiguous spelling-level ratings and ConceptNet associations are not used as lexical sign authority.",
+      "bank": "WANT",
+      "basis_code": "DISTAL_ENTITY_REFERENCE",
+      "definition": {
+        "definition": "Curated GSE pronoun use of 'that'. Declared lexical components: SOMETHING=+1. Grammatical features: {\"animacy\": \"INANIMATE\", \"gram\": {\"deixis\": \"DISTAL\", \"number\": \"SINGULAR\"}}.",
+        "entry_id": "gse_closed_class:pronoun:that",
+        "lemma": "that",
+        "pos": "pronoun"
+      },
+      "dependency_review_status": "NO_PRIOR_MODEL_PREFIX",
+      "entry_id": "gse_closed_class:pronoun:that",
+      "exact_linked_nonlexical_records_read": [],
+      "independent_gold": false,
+      "known_banks_at_request": {
+        "SOMETHING": 1
+      },
+      "lexical_source_records": [
+        {
+          "observation_index": 0,
+          "record": {
+            "candidate_entry_ids": [
+              "gse_closed_class:pronoun:that"
+            ],
+            "entry_id": "gse_closed_class:pronoun:that",
+            "family": "gse_curated_grammar",
+            "features": {
+              "catalog": "pronoun",
+              "cohort": "MANDATORY_FOUNDATION_COHORT",
+              "definition": "Curated GSE pronoun use of 'that'. Declared lexical components: SOMETHING=+1. Grammatical features: {\"animacy\": \"INANIMATE\", \"gram\": {\"deixis\": \"DISTAL\", \"number\": \"SINGULAR\"}}.",
+              "entry_id": "gse_closed_class:pronoun:that",
+              "grammar_roles": [
+                "PRON"
+              ],
+              "grammatical_features": {
+                "animacy": "INANIMATE",
+                "gram": {
+                  "deixis": "DISTAL",
+                  "number": "SINGULAR"
+                }
+              },
+              "lemma": "that",
+              "native_encodings": [
+                {
+                  "key": "that",
+                  "module": "gse.lexicon.pronouns",
+                  "symbol": "PRONOUN_ENCODINGS",
+                  "value": {
+                    "animacy": "INANIMATE",
+                    "gram": {
+                      "deixis": "DISTAL",
+                      "number": "SINGULAR"
+                    },
+                    "primitives": {
+                      "SOMETHING": 1
+                    }
+                  }
+                }
+              ],
+              "pos": "pronoun",
+              "primitives": {
+                "SOMETHING": 1
+              },
+              "provenance": [
+                "gse.lexicon.pronouns:PRONOUN_ENCODINGS:that"
+              ]
+            },
+            "record_id": "gse_closed_class:that:9a45fabf841b3af13b33ff8dc2498629baf99028c6ff00a4f490cdcdb6c29259",
+            "scope": "lexical",
+            "source": "gse_closed_class"
+          },
+          "sha256": "af32c894d94c1688622d68cdf860597f7a007103b461edc1840180d5a79e7a44"
+        }
+      ],
+      "model_authority_preserved": true,
+      "other_source_inventory": {},
+      "parent_verification": "PENDING",
+      "prior_model_prefix": [],
+      "rationale": "The exact source declares SOMETHING with distal singular deixis. Distal identification supplies which referent is indicated, not an attitude of wanting or refusing it. Desiring a distal object is separate predicate content. WANT=0 is supported for this demonstrative pronoun use only.",
+      "receipt_sha256": "3a52f2ff561ddbdf6d3afca2b6b9b14c0721b85259e191cad9f4b9a843b5f294",
+      "recorded_value": 0,
+      "request_id": "c97c70076314994b6dd28632b87fe8dc7a7f96fbce12a0915cfb25aa450a3023",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The exact source declares SOMETHING with distal singular deixis. Distal identification supplies which referent is indicated, not an attitude of wanting or refusing it. Desiring a distal object is separate predicate content. WANT=0 is supported for this demonstrative pronoun use only.",
+        "receipt_sha256": "3a52f2ff561ddbdf6d3afca2b6b9b14c0721b85259e191cad9f4b9a843b5f294",
+        "review_id": "want-source-review-2026-11-01:3a52f2ff561ddbdf6d3afca2b6b9b14c0721b85259e191cad9f4b9a843b5f294",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/7/request/observations/0@sha256:af32c894d94c1688622d68cdf860597f7a007103b461edc1840180d5a79e7a44",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      },
+      "review_status": "ACCEPTED",
+      "reviewed_value": 0
+    },
+    {
+      "association_scope_note": "SentiWordNet exact records, where present, classify GOOD relevance and supply no WANT proof. Ambiguous spelling-level ratings and ConceptNet associations are not used as lexical sign authority.",
+      "bank": "WANT",
+      "basis_code": "INTERROGATIVE_ENTITY_SLOT",
+      "definition": {
+        "definition": "Curated GSE pronoun use of 'what'. Declared lexical components: SOMETHING=+1. Grammatical features: {\"animacy\": \"INANIMATE\", \"gram\": {\"gender\": \"NEUT\"}, \"is_interrogative\": true}.",
+        "entry_id": "gse_closed_class:pronoun:what",
+        "lemma": "what",
+        "pos": "pronoun"
+      },
+      "dependency_review_status": "NO_PRIOR_MODEL_PREFIX",
+      "entry_id": "gse_closed_class:pronoun:what",
+      "exact_linked_nonlexical_records_read": [],
+      "independent_gold": false,
+      "known_banks_at_request": {
+        "SOMETHING": 1
+      },
+      "lexical_source_records": [
+        {
+          "observation_index": 130,
+          "record": {
+            "candidate_entry_ids": [
+              "gse_closed_class:pronoun:what"
+            ],
+            "entry_id": "gse_closed_class:pronoun:what",
+            "family": "gse_curated_grammar",
+            "features": {
+              "catalog": "pronoun",
+              "cohort": "MANDATORY_FOUNDATION_COHORT",
+              "definition": "Curated GSE pronoun use of 'what'. Declared lexical components: SOMETHING=+1. Grammatical features: {\"animacy\": \"INANIMATE\", \"gram\": {\"gender\": \"NEUT\"}, \"is_interrogative\": true}.",
+              "entry_id": "gse_closed_class:pronoun:what",
+              "grammar_roles": [
+                "PRON"
+              ],
+              "grammatical_features": {
+                "animacy": "INANIMATE",
+                "gram": {
+                  "gender": "NEUT"
+                },
+                "is_interrogative": true
+              },
+              "lemma": "what",
+              "native_encodings": [
+                {
+                  "key": "what",
+                  "module": "gse.lexicon.pronouns",
+                  "symbol": "PRONOUN_ENCODINGS",
+                  "value": {
+                    "animacy": "INANIMATE",
+                    "gram": {
+                      "gender": "NEUT"
+                    },
+                    "is_interrogative": true,
+                    "primitives": {
+                      "SOMETHING": 1
+                    }
+                  }
+                }
+              ],
+              "pos": "pronoun",
+              "primitives": {
+                "SOMETHING": 1
+              },
+              "provenance": [
+                "gse.lexicon.pronouns:PRONOUN_ENCODINGS:what"
+              ]
+            },
+            "record_id": "gse_closed_class:what:83718f20e704a1d1ec6957b28df2f8af106b42ee53cc7a549b0004bcfeeb23b2",
+            "scope": "lexical",
+            "source": "gse_closed_class"
+          },
+          "sha256": "d48f2cd6480d16d0064999e1fa60579ffb0f1a182fa2c601977f2f79f26fe26d"
+        }
+      ],
+      "model_authority_preserved": true,
+      "other_source_inventory": {
+        "conceptnet:source_structure": 129,
+        "concreteness:association": 1,
+        "lancaster_sensorimotor:association": 1,
+        "nrc_vad:association": 1
+      },
+      "parent_verification": "PENDING",
+      "prior_model_prefix": [],
+      "rationale": "The source declares SOMETHING and marks its grammatical use interrogative. This identifies the queried entity slot; a speaker's wish to know an answer is a possible speech-act interpretation, not the slot's own lexical desire component. Under the existing word/grammar boundary, this exact pronoun use is orthogonal to WANT. This does not set sentence-level questioning or intention to zero.",
+      "receipt_sha256": "9ff8d65562371763856bc916c67b511d4190df27c003c9ed2b05e45bfe0f23b5",
+      "recorded_value": 0,
+      "request_id": "f189bf67b934eb3a7990887168ce53f036f858b6da0148733d67535f41023fe8",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The source declares SOMETHING and marks its grammatical use interrogative. This identifies the queried entity slot; a speaker's wish to know an answer is a possible speech-act interpretation, not the slot's own lexical desire component. Under the existing word/grammar boundary, this exact pronoun use is orthogonal to WANT. This does not set sentence-level questioning or intention to zero.",
+        "receipt_sha256": "9ff8d65562371763856bc916c67b511d4190df27c003c9ed2b05e45bfe0f23b5",
+        "review_id": "want-source-review-2026-11-01:9ff8d65562371763856bc916c67b511d4190df27c003c9ed2b05e45bfe0f23b5",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/8/request/observations/130@sha256:d48f2cd6480d16d0064999e1fa60579ffb0f1a182fa2c601977f2f79f26fe26d",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      },
+      "review_status": "ACCEPTED",
+      "reviewed_value": 0
+    },
+    {
+      "association_scope_note": "SentiWordNet exact records, where present, classify GOOD relevance and supply no WANT proof. Ambiguous spelling-level ratings and ConceptNet associations are not used as lexical sign authority.",
+      "bank": "WANT",
+      "basis_code": "ADDRESSEE_REFERENCE",
+      "definition": {
+        "definition": "Curated GSE pronoun use of 'you'. Declared lexical components: SOMEONE=+1. Grammatical features: {\"animacy\": \"ANIMATE\", \"gram\": {\"case\": \"NOM\", \"person\": 2}}.",
+        "entry_id": "gse_closed_class:pronoun:you",
+        "lemma": "you",
+        "pos": "pronoun"
+      },
+      "dependency_review_status": "PRIOR_MODEL_PREFIX_NOT_REVIEWED_HERE",
+      "entry_id": "gse_closed_class:pronoun:you",
+      "exact_linked_nonlexical_records_read": [],
+      "independent_gold": false,
+      "known_banks_at_request": {
+        "ABOVE": 0,
+        "ALIVE": 0,
+        "SOMEONE": 1
+      },
+      "lexical_source_records": [
+        {
+          "observation_index": 163,
+          "record": {
+            "candidate_entry_ids": [
+              "gse_closed_class:pronoun:you"
+            ],
+            "entry_id": "gse_closed_class:pronoun:you",
+            "family": "gse_curated_grammar",
+            "features": {
+              "catalog": "pronoun",
+              "cohort": "MANDATORY_FOUNDATION_COHORT",
+              "definition": "Curated GSE pronoun use of 'you'. Declared lexical components: SOMEONE=+1. Grammatical features: {\"animacy\": \"ANIMATE\", \"gram\": {\"case\": \"NOM\", \"person\": 2}}.",
+              "entry_id": "gse_closed_class:pronoun:you",
+              "grammar_roles": [
+                "PRON"
+              ],
+              "grammatical_features": {
+                "animacy": "ANIMATE",
+                "gram": {
+                  "case": "NOM",
+                  "person": 2
+                }
+              },
+              "lemma": "you",
+              "native_encodings": [
+                {
+                  "key": "you",
+                  "module": "gse.lexicon.pronouns",
+                  "symbol": "PRONOUN_ENCODINGS",
+                  "value": {
+                    "animacy": "ANIMATE",
+                    "gram": {
+                      "case": "NOM",
+                      "person": 2
+                    },
+                    "primitives": {
+                      "SOMEONE": 1
+                    }
+                  }
+                }
+              ],
+              "pos": "pronoun",
+              "primitives": {
+                "SOMEONE": 1
+              },
+              "provenance": [
+                "gse.lexicon.pronouns:PRONOUN_ENCODINGS:you"
+              ]
+            },
+            "record_id": "gse_closed_class:you:fbff12e440d68d97d943dd6e45a5ff93016a4fe8fe259c2c1e91e114ef17165b",
+            "scope": "lexical",
+            "source": "gse_closed_class"
+          },
+          "sha256": "243d7fac73aff612045e869daeee5c538c7d21cf41d18ba929e031ba69d79997"
+        }
+      ],
+      "model_authority_preserved": true,
+      "other_source_inventory": {
+        "conceptnet:source_structure": 162,
+        "concreteness:association": 1,
+        "lancaster_sensorimotor:association": 1
+      },
+      "parent_verification": "PENDING",
+      "prior_model_prefix": [
+        {
+          "bank": "ABOVE",
+          "family": "model",
+          "record_id": "7292b7b1140cda797375611e08ae49443e981d681a190fa073cf2bc591b5d429",
+          "scope": "lexical",
+          "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@d064293c2541aa8d8c8c96c95cd2750ad43c03f2a4dd25bd71d8c233de90a449:batch@faae179fbd2a0ed19462c54a10d17e23811f9b1b5b7f9c89b8ca3d19cbc9130f",
+          "value": 0
+        },
+        {
+          "bank": "ALIVE",
+          "family": "model",
+          "record_id": "7a172235256c0d244f7e73b5221d7bc2435eb958d60350a1410f3465ec309150",
+          "scope": "lexical",
+          "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@d064293c2541aa8d8c8c96c95cd2750ad43c03f2a4dd25bd71d8c233de90a449:batch@faae179fbd2a0ed19462c54a10d17e23811f9b1b5b7f9c89b8ca3d19cbc9130f",
+          "value": 0
+        }
+      ],
+      "rationale": "The exact native row declares SOMEONE with second-person nominative reference. It identifies the addressee independently of that person's present wants or refusals. Being an animate person capable of wanting is not an assertion of lexical WANT. Explicit 0 is supported for this reference use. Earlier model-valued banks in this receipt are not used as justification or retrospectively approved.",
+      "receipt_sha256": "c37c165e155ed8caab82ce9d7d101b12ea909b2af0bb7edccaf2debd07863ae6",
+      "recorded_value": 0,
+      "request_id": "1198f122b413bb0503443d6e7adf2a34049f4cafab20b607a2f98facf20269f0",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The exact native row declares SOMEONE with second-person nominative reference. It identifies the addressee independently of that person's present wants or refusals. Being an animate person capable of wanting is not an assertion of lexical WANT. Explicit 0 is supported for this reference use. Earlier model-valued banks in this receipt are not used as justification or retrospectively approved.",
+        "receipt_sha256": "c37c165e155ed8caab82ce9d7d101b12ea909b2af0bb7edccaf2debd07863ae6",
+        "review_id": "want-source-review-2026-11-01:c37c165e155ed8caab82ce9d7d101b12ea909b2af0bb7edccaf2debd07863ae6",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/9/request/observations/163@sha256:243d7fac73aff612045e869daeee5c538c7d21cf41d18ba929e031ba69d79997",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      },
+      "review_status": "ACCEPTED",
+      "reviewed_value": 0
+    },
+    {
+      "association_scope_note": "SentiWordNet exact records, where present, classify GOOD relevance and supply no WANT proof. Ambiguous spelling-level ratings and ConceptNet associations are not used as lexical sign authority.",
+      "bank": "WANT",
+      "basis_code": "LETTER_NAME_U",
+      "definition": {
+        "definition": "The name of the Latin script letter U/u.",
+        "entry_id": "wiktionary:en-you-en-noun-2YsMsj8i:1a8439a0a38c9ceda0caa33ff6c2362469673c22b330b24292e5176d7be33894",
+        "lemma": "you",
+        "pos": "noun"
+      },
+      "dependency_review_status": "PRIOR_MODEL_PREFIX_NOT_REVIEWED_HERE",
+      "entry_id": "wiktionary:en-you-en-noun-2YsMsj8i:1a8439a0a38c9ceda0caa33ff6c2362469673c22b330b24292e5176d7be33894",
+      "exact_linked_nonlexical_records_read": [],
+      "independent_gold": false,
+      "known_banks_at_request": {
+        "ABOVE": 0,
+        "ALIVE": 0,
+        "BE": 0,
+        "BECAUSE": 0,
+        "BEFORE": 0,
+        "BIG": 0,
+        "BODY": 0,
+        "CAN": 0,
+        "CAUSE": 0,
+        "GOOD": 0
+      },
+      "lexical_source_records": [
+        {
+          "observation_index": 164,
+          "record": {
+            "candidate_entry_ids": [
+              "wiktionary:en-you-en-noun-2YsMsj8i:1a8439a0a38c9ceda0caa33ff6c2362469673c22b330b24292e5176d7be33894"
+            ],
+            "entry_id": "wiktionary:en-you-en-noun-2YsMsj8i:1a8439a0a38c9ceda0caa33ff6c2362469673c22b330b24292e5176d7be33894",
+            "family": "wiktionary",
+            "features": {
+              "definition": "The name of the Latin script letter U/u.",
+              "entry_id": "wiktionary:en-you-en-noun-2YsMsj8i:1a8439a0a38c9ceda0caa33ff6c2362469673c22b330b24292e5176d7be33894",
+              "identity_scheme": "gse.wiktionary-native-leaf/1",
+              "lemma": "you",
+              "native_id": "en-you-en-noun-2YsMsj8i",
+              "native_sense": {
+                "categories": [
+                  {
+                    "kind": "other",
+                    "langcode": "en",
+                    "name": "Latin letter names",
+                    "orig": "en:Latin letter names",
+                    "parents": [],
+                    "source": "w"
+                  }
+                ],
+                "derived": [
+                  {
+                    "word": "doubleyou"
+                  }
+                ],
+                "examples": [
+                  {
+                    "bold_text_offsets": [
+                      [
+                        6,
+                        9
+                      ]
+                    ],
+                    "ref": "1969, Michael Feld, The Sabbatical Year, London: Alan Ross Ltd, page 301:",
+                    "text": "\u2018Eff. You. En,\u2019 said Mr Banstead. \u2018Fun![\u2026]\u2019",
+                    "type": "quotation"
+                  },
+                  {
+                    "bold_text_offsets": [
+                      [
+                        46,
+                        49
+                      ]
+                    ],
+                    "ref": "2004, Will Rogers, The Stonking Steps, page 170:",
+                    "text": "It said, in a whispering, buzzing voice, \"Gee-you-ess-ess-ay-dash-em-ee-ar-ar-wye-dash-em-eye-en-gee-oh-dash-pee-eye-pee-dash-pee-ee-ar-ar-wye-dash-pee-eye-en-gee-oh.\"",
+                    "type": "quotation"
+                  },
+                  {
+                    "bold_text_offsets": [
+                      [
+                        29,
+                        32
+                      ]
+                    ],
+                    "ref": "2019, Anand Ranganathan, Chitra Subramaniam, The Rat Eater, Bloomsbury India, \u2192ISBN:",
+                    "text": "\u2018S-S-C\u2026sitting on a tree\u2026eff-you-cee-kay-i-en-ji.\u2019",
+                    "type": "quotation"
+                  }
+                ],
+                "glosses": [
+                  "The name of the Latin script letter U/u."
+                ],
+                "id": "en-you-en-noun-2YsMsj8i",
+                "links": [
+                  [
+                    "U",
+                    "U#English"
+                  ],
+                  [
+                    "u",
+                    "u#English"
+                  ]
+                ]
+              },
+              "pos": "noun",
+              "record_context": {
+                "etymology_number": "2",
+                "forms": [
+                  {
+                    "form": "yous",
+                    "tags": [
+                      "plural"
+                    ]
+                  },
+                  {
+                    "form": "u",
+                    "tags": [
+                      "alternative"
+                    ]
+                  }
+                ],
+                "head_templates": [
+                  {
+                    "args": {
+                      "1": "s"
+                    },
+                    "expansion": "you (plural yous)",
+                    "name": "en-noun"
+                  }
+                ],
+                "lang": "English",
+                "lang_code": "en",
+                "pos": "noun",
+                "word": "you"
+              },
+              "record_sha256": "b3ba70005f1920646e6e785c748d3a759afce6c9a7fda6b00ee978648ef1efe3",
+              "sense_count": 1,
+              "sense_index": 0,
+              "senseid_path": [],
+              "source_line": 2942,
+              "source_sha256": "8f6814f7909bdf64106e7fe746a004526930bf698d7230ad212da545975c76a9",
+              "word": "you"
+            },
+            "record_id": "wiktionary:you:4be1a353beaa67a32fe7e8fb3c7a4ca1bc59235c937e3b3cdb2043cb1b0ed155",
+            "scope": "lexical",
+            "source": "wiktionary"
+          },
+          "sha256": "fb7ca88c7a3473c9167b6c52bf890ee1b5c02770ea6eb1367b9c62fb46d8b36c"
+        }
+      ],
+      "model_authority_preserved": true,
+      "other_source_inventory": {
+        "conceptnet:source_structure": 162,
+        "concreteness:association": 1,
+        "lancaster_sensorimotor:association": 1
+      },
+      "parent_verification": "PENDING",
+      "prior_model_prefix": [
+        {
+          "bank": "ABOVE",
+          "family": "model",
+          "record_id": "356ff8db46e57cc2926c609e0faf245b691c2219a15baf8dcf0dcb75423cd6e5",
+          "scope": "lexical",
+          "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@d064293c2541aa8d8c8c96c95cd2750ad43c03f2a4dd25bd71d8c233de90a449:batch@faae179fbd2a0ed19462c54a10d17e23811f9b1b5b7f9c89b8ca3d19cbc9130f",
+          "value": 0
+        },
+        {
+          "bank": "ALIVE",
+          "family": "model",
+          "record_id": "fcc7cdce709a4318cdc3b482996f849a39039dd5a902529364df031c0000a0b5",
+          "scope": "lexical",
+          "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@d064293c2541aa8d8c8c96c95cd2750ad43c03f2a4dd25bd71d8c233de90a449:batch@faae179fbd2a0ed19462c54a10d17e23811f9b1b5b7f9c89b8ca3d19cbc9130f",
+          "value": 0
+        },
+        {
+          "bank": "BE",
+          "family": "model",
+          "record_id": "b58ec9b342fd1438d8895580b570e1c9f5162868ee158710b77d181137281501",
+          "scope": "lexical",
+          "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@d064293c2541aa8d8c8c96c95cd2750ad43c03f2a4dd25bd71d8c233de90a449:batch@faae179fbd2a0ed19462c54a10d17e23811f9b1b5b7f9c89b8ca3d19cbc9130f",
+          "value": 0
+        },
+        {
+          "bank": "BECAUSE",
+          "family": "model",
+          "record_id": "017cf19a03a6ddf8e805ee3fb3688e560cc806a690fe8728a944c0fcdbdb923a",
+          "scope": "lexical",
+          "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@d064293c2541aa8d8c8c96c95cd2750ad43c03f2a4dd25bd71d8c233de90a449:batch@faae179fbd2a0ed19462c54a10d17e23811f9b1b5b7f9c89b8ca3d19cbc9130f",
+          "value": 0
+        },
+        {
+          "bank": "BEFORE",
+          "family": "model",
+          "record_id": "76cb7a69aaa0ef2a0e06d96e08757e5490d221d08b15ec00e92343390ef7566e",
+          "scope": "lexical",
+          "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@d064293c2541aa8d8c8c96c95cd2750ad43c03f2a4dd25bd71d8c233de90a449:batch@faae179fbd2a0ed19462c54a10d17e23811f9b1b5b7f9c89b8ca3d19cbc9130f",
+          "value": 0
+        },
+        {
+          "bank": "BIG",
+          "family": "model",
+          "record_id": "f67339fab869064c948d111536f4ddb8e4e8d183eee048d6d8fbd311136247bb",
+          "scope": "lexical",
+          "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@d064293c2541aa8d8c8c96c95cd2750ad43c03f2a4dd25bd71d8c233de90a449:batch@faae179fbd2a0ed19462c54a10d17e23811f9b1b5b7f9c89b8ca3d19cbc9130f",
+          "value": 0
+        },
+        {
+          "bank": "BODY",
+          "family": "model",
+          "record_id": "0f9bfdd82fb70ecc4a08a1ffd149e73c03ff8d4a31d6dad4c583f9c114fc3869",
+          "scope": "lexical",
+          "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@d064293c2541aa8d8c8c96c95cd2750ad43c03f2a4dd25bd71d8c233de90a449:batch@faae179fbd2a0ed19462c54a10d17e23811f9b1b5b7f9c89b8ca3d19cbc9130f",
+          "value": 0
+        },
+        {
+          "bank": "CAN",
+          "family": "model",
+          "record_id": "3ab3cdfc0bb36efa63fabc82b2f9cd22bf9c55878ca18cde3a6abf6d899422a1",
+          "scope": "lexical",
+          "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+          "value": 0
+        },
+        {
+          "bank": "CAUSE",
+          "family": "model",
+          "record_id": "c1307ae86042d301c1a905a420ee4bafbb4384bece672afdaa66f5e7ac5380a8",
+          "scope": "lexical",
+          "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+          "value": 0
+        }
+      ],
+      "rationale": "The complete native leaf identifies the name of Latin U/u; its linked forms and spelling examples support that letter-name sense rather than the second-person pronoun. Naming a letter is not a desire or a refusal. WANT=0 follows from this identified lexical sense, not the noun category or its previous model zeros. Those older model rulings remain unreviewed here.",
+      "receipt_sha256": "6e5f863e8129563ab5c1c74f722d1f335be9d2621c1944e418c6fa7437d60b77",
+      "recorded_value": 0,
+      "request_id": "eb742b15a9b864787081a1ee63d183c5c81cc1ed8fd733eb3879707fea9562eb",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The complete native leaf identifies the name of Latin U/u; its linked forms and spelling examples support that letter-name sense rather than the second-person pronoun. Naming a letter is not a desire or a refusal. WANT=0 follows from this identified lexical sense, not the noun category or its previous model zeros. Those older model rulings remain unreviewed here.",
+        "receipt_sha256": "6e5f863e8129563ab5c1c74f722d1f335be9d2621c1944e418c6fa7437d60b77",
+        "review_id": "want-source-review-2026-11-01:6e5f863e8129563ab5c1c74f722d1f335be9d2621c1944e418c6fa7437d60b77",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/10/request/observations/164@sha256:fb7ca88c7a3473c9167b6c52bf890ee1b5c02770ea6eb1367b9c62fb46d8b36c",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      },
+      "review_status": "ACCEPTED",
+      "reviewed_value": 0
+    },
+    {
+      "association_scope_note": "SentiWordNet exact records, where present, classify GOOD relevance and supply no WANT proof. Ambiguous spelling-level ratings and ConceptNet associations are not used as lexical sign authority.",
+      "bank": "WANT",
+      "basis_code": "LETTER_I",
+      "definition": {
+        "definition": "the 9th letter of the Roman alphabet",
+        "entry_id": "wordnet:i:i.n.03",
+        "lemma": "i",
+        "pos": "noun"
+      },
+      "dependency_review_status": "NO_PRIOR_MODEL_PREFIX",
+      "entry_id": "wordnet:i:i.n.03",
+      "exact_linked_nonlexical_records_read": [
+        {
+          "observation_index": 144,
+          "record": {
+            "candidate_entry_ids": [
+              "wiktionary:en-I-en-noun-3MiJga7v:8371195b6840d4247b286cfa444c70d32e88c4ef839ad74d2881eb7513dc7dc4",
+              "wiktionary:en-I-en-noun-EtkDupl5:546710b8ed681719bfc29c868cdd6f4f0e9c847254884e4038f8c9f1dd1e2272",
+              "wiktionary:en-I-en-noun-Fq6lUwfd:55da473bde1778f1e616fe8da78b96768f179795831ad40eef40ad3986be94af",
+              "wiktionary:en-I-en-noun-ccfZsDVH:0d859fec5859e57c2470c9d7ebc36099d200f96e76ea6fb5e30bc80d8d1c77e4",
+              "wiktionary:en-I-en-noun-rHsrM-Qb:ee91d2122a66c913a26243c3403055bc56869eb9eb123b357270b4e534c7ddf3",
+              "wiktionary:en-i-en-noun-JDTgajb-:23a9b4742196eb6e6e80e2b529aae8bed1c62229148790feb8f82c46a33ee139",
+              "wordnet:i:i.n.03",
+              "wordnet:i:iodine.n.01",
+              "wordnet:i:one.n.01"
+            ],
+            "entry_id": "wordnet:i:i.n.03",
+            "family": "wordnet",
+            "features": {
+              "bank_relevance": {
+                "banks": [
+                  "GOOD"
+                ],
+                "code": "CLASSIFIED",
+                "provenance": [
+                  "sentiwordnet:SentiWordEntry/1:positive-negative-objective-sentiment",
+                  "sentiwordnet:synset:i.n.03"
+                ]
+              },
+              "lemma": "i",
+              "neg_score": 0.0,
+              "obj_score": 1.0,
+              "pos": "noun",
+              "pos_score": 0.0,
+              "projection_candidates": [],
+              "synset_id": "i.n.03",
+              "word": "i"
+            },
+            "record_id": "sentiwordnet:i:3b39ca09fc5bc6f601648daf61c9eb04963295e42c7ae62092cb02e8668d8e00",
+            "scope": "association",
+            "source": "sentiwordnet"
+          },
+          "sha256": "bdd4e96adaf2620db9bd1c821f4b5f5f522f6dfb8983b3d153fc99f446b098bf"
+        }
+      ],
+      "independent_gold": false,
+      "known_banks_at_request": {
+        "GOOD": 0,
+        "SOMETHING": 1
+      },
+      "lexical_source_records": [
+        {
+          "observation_index": 145,
+          "record": {
+            "candidate_entry_ids": [
+              "wordnet:i:i.n.03"
+            ],
+            "entry_id": "wordnet:i:i.n.03",
+            "family": "wordnet",
+            "features": {
+              "definition": "the 9th letter of the Roman alphabet",
+              "examples": [],
+              "hypernym_paths": [
+                [
+                  "entity.n.01",
+                  "abstraction.n.06",
+                  "communication.n.02",
+                  "signal.n.01",
+                  "symbol.n.01",
+                  "written_symbol.n.01",
+                  "character.n.08",
+                  "letter.n.02",
+                  "i.n.03"
+                ]
+              ],
+              "lemma": "i",
+              "lemma_names": [
+                "I",
+                "i"
+              ],
+              "lexname": "noun.communication",
+              "native_records": [
+                {
+                  "has_holonyms": true,
+                  "has_meronyms": false,
+                  "hypernym_depth": 9,
+                  "hyponym_count": 0,
+                  "lexname": "noun.communication",
+                  "pos": "noun",
+                  "synset_name": "i.n.03",
+                  "word": "i"
+                },
+                {
+                  "has_holonyms": true,
+                  "has_meronyms": false,
+                  "hypernym_depth": 9,
+                  "hyponym_count": 0,
+                  "lexname": "noun.communication",
+                  "pos": "noun",
+                  "synset_name": "i.n.03",
+                  "word": "i"
+                }
+              ],
+              "pos": "noun",
+              "synset_name": "i.n.03",
+              "taxonomy_proposals": [
+                {
+                  "kind": "lexname",
+                  "origin": "noun.communication",
+                  "primitive": "SAY",
+                  "status": "CANDIDATE",
+                  "value": 1
+                },
+                {
+                  "kind": "lexname",
+                  "origin": "noun.communication",
+                  "primitive": "WORDS",
+                  "status": "CANDIDATE",
+                  "value": 1
+                },
+                {
+                  "kind": "is_a",
+                  "origin": "abstraction.n.06",
+                  "primitive": "THINK",
+                  "status": "CANDIDATE",
+                  "value": 1
+                },
+                {
+                  "kind": "is_a",
+                  "origin": "communication.n.02",
+                  "primitive": "SAY",
+                  "status": "CANDIDATE",
+                  "value": 1
+                },
+                {
+                  "kind": "is_a",
+                  "origin": "communication.n.02",
+                  "primitive": "WORDS",
+                  "status": "CANDIDATE",
+                  "value": 1
+                },
+                {
+                  "kind": "is_a",
+                  "origin": "entity.n.01",
+                  "primitive": "SOMETHING",
+                  "status": "CANDIDATE",
+                  "value": 1
+                }
+              ]
+            },
+            "record_id": "wordnet:i:i.n.03",
+            "scope": "lexical",
+            "source": "wordnet_hierarchy"
+          },
+          "sha256": "f98c1c4312d3c3440620b7e2311943d7332a849de11fae4bcbc8572b055e7b79"
+        }
+      ],
+      "model_authority_preserved": true,
+      "other_source_inventory": {
+        "conceptnet:source_structure": 142,
+        "concreteness:association": 1,
+        "lancaster_sensorimotor:association": 1,
+        "sentiwordnet:association": 1
+      },
+      "parent_verification": "PENDING",
+      "prior_model_prefix": [],
+      "rationale": "The exact synset defines the ninth Roman-alphabet letter and traces ancestry through letter, character, written symbol and communication. This lexical object identifies a symbol, not an experiencer's desire concerning it. WANT=0 is supported for this letter sense; no evidence is transferred from first-person I.",
+      "receipt_sha256": "d69f19520080ae29e6c159ca2810f1772a2759ec11d423788a2aec09ff9beaab",
+      "recorded_value": 0,
+      "request_id": "1f4d632588509b22afcfbf45db8382cbbd38e5dd22fab3917c1be561f7e40fb4",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The exact synset defines the ninth Roman-alphabet letter and traces ancestry through letter, character, written symbol and communication. This lexical object identifies a symbol, not an experiencer's desire concerning it. WANT=0 is supported for this letter sense; no evidence is transferred from first-person I.",
+        "receipt_sha256": "d69f19520080ae29e6c159ca2810f1772a2759ec11d423788a2aec09ff9beaab",
+        "review_id": "want-source-review-2026-11-01:d69f19520080ae29e6c159ca2810f1772a2759ec11d423788a2aec09ff9beaab",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/11/request/observations/145@sha256:f98c1c4312d3c3440620b7e2311943d7332a849de11fae4bcbc8572b055e7b79",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      },
+      "review_status": "ACCEPTED",
+      "reviewed_value": 0
+    },
+    {
+      "association_scope_note": "SentiWordNet exact records, where present, classify GOOD relevance and supply no WANT proof. Ambiguous spelling-level ratings and ConceptNet associations are not used as lexical sign authority.",
+      "bank": "WANT",
+      "basis_code": "CHEMICAL_ELEMENT_IODINE",
+      "definition": {
+        "definition": "a nonmetallic element belonging to the halogens; used especially in medicine and photography and in dyes; occurs naturally only in combination in small quantities (as in sea water or rocks)",
+        "entry_id": "wordnet:i:iodine.n.01",
+        "lemma": "i",
+        "pos": "noun"
+      },
+      "dependency_review_status": "NO_PRIOR_MODEL_PREFIX",
+      "entry_id": "wordnet:i:iodine.n.01",
+      "exact_linked_nonlexical_records_read": [
+        {
+          "observation_index": 144,
+          "record": {
+            "candidate_entry_ids": [
+              "wiktionary:en-I-en-noun-3MiJga7v:8371195b6840d4247b286cfa444c70d32e88c4ef839ad74d2881eb7513dc7dc4",
+              "wiktionary:en-I-en-noun-EtkDupl5:546710b8ed681719bfc29c868cdd6f4f0e9c847254884e4038f8c9f1dd1e2272",
+              "wiktionary:en-I-en-noun-Fq6lUwfd:55da473bde1778f1e616fe8da78b96768f179795831ad40eef40ad3986be94af",
+              "wiktionary:en-I-en-noun-ccfZsDVH:0d859fec5859e57c2470c9d7ebc36099d200f96e76ea6fb5e30bc80d8d1c77e4",
+              "wiktionary:en-I-en-noun-rHsrM-Qb:ee91d2122a66c913a26243c3403055bc56869eb9eb123b357270b4e534c7ddf3",
+              "wiktionary:en-i-en-noun-JDTgajb-:23a9b4742196eb6e6e80e2b529aae8bed1c62229148790feb8f82c46a33ee139",
+              "wordnet:i:i.n.03",
+              "wordnet:i:iodine.n.01",
+              "wordnet:i:one.n.01"
+            ],
+            "entry_id": "wordnet:i:iodine.n.01",
+            "family": "wordnet",
+            "features": {
+              "bank_relevance": {
+                "banks": [
+                  "GOOD"
+                ],
+                "code": "CLASSIFIED",
+                "provenance": [
+                  "sentiwordnet:SentiWordEntry/1:positive-negative-objective-sentiment",
+                  "sentiwordnet:synset:iodine.n.01"
+                ]
+              },
+              "lemma": "i",
+              "neg_score": 0.0,
+              "obj_score": 1.0,
+              "pos": "noun",
+              "pos_score": 0.0,
+              "projection_candidates": [],
+              "synset_id": "iodine.n.01",
+              "word": "i"
+            },
+            "record_id": "sentiwordnet:i:6d22408f2f2cd0aa5545a9c251d9356555200805411e46cd0b66f6c037dced87",
+            "scope": "association",
+            "source": "sentiwordnet"
+          },
+          "sha256": "965ccb037dfb2e8321c9e2424370a3069d707ee756489ea24904e48b601f77f1"
+        }
+      ],
+      "independent_gold": false,
+      "known_banks_at_request": {
+        "GOOD": 0,
+        "SOMETHING": 1
+      },
+      "lexical_source_records": [
+        {
+          "observation_index": 145,
+          "record": {
+            "candidate_entry_ids": [
+              "wordnet:i:iodine.n.01"
+            ],
+            "entry_id": "wordnet:i:iodine.n.01",
+            "family": "wordnet",
+            "features": {
+              "definition": "a nonmetallic element belonging to the halogens; used especially in medicine and photography and in dyes; occurs naturally only in combination in small quantities (as in sea water or rocks)",
+              "examples": [],
+              "hypernym_paths": [
+                [
+                  "entity.n.01",
+                  "abstraction.n.06",
+                  "group.n.01",
+                  "halogen.n.01",
+                  "iodine.n.01"
+                ],
+                [
+                  "entity.n.01",
+                  "abstraction.n.06",
+                  "relation.n.01",
+                  "part.n.01",
+                  "substance.n.01",
+                  "chemical_element.n.01",
+                  "iodine.n.01"
+                ],
+                [
+                  "entity.n.01",
+                  "physical_entity.n.01",
+                  "matter.n.03",
+                  "substance.n.01",
+                  "chemical_element.n.01",
+                  "iodine.n.01"
+                ]
+              ],
+              "lemma": "i",
+              "lemma_names": [
+                "iodine",
+                "iodin",
+                "I",
+                "atomic_number_53"
+              ],
+              "lexname": "noun.substance",
+              "native_records": [
+                {
+                  "has_holonyms": true,
+                  "has_meronyms": false,
+                  "hypernym_depth": 5,
+                  "hyponym_count": 2,
+                  "lexname": "noun.substance",
+                  "pos": "noun",
+                  "synset_name": "iodine.n.01",
+                  "word": "i"
+                }
+              ],
+              "pos": "noun",
+              "synset_name": "iodine.n.01",
+              "taxonomy_proposals": [
+                {
+                  "kind": "lexname",
+                  "origin": "noun.substance",
+                  "primitive": "SOMETHING",
+                  "status": "CANDIDATE",
+                  "value": 1
+                },
+                {
+                  "kind": "is_a",
+                  "origin": "abstraction.n.06",
+                  "primitive": "THINK",
+                  "status": "CANDIDATE",
+                  "value": 1
+                },
+                {
+                  "kind": "is_a",
+                  "origin": "entity.n.01",
+                  "primitive": "SOMETHING",
+                  "status": "CANDIDATE",
+                  "value": 1
+                },
+                {
+                  "kind": "is_a",
+                  "origin": "group.n.01",
+                  "primitive": "PEOPLE",
+                  "status": "CANDIDATE",
+                  "value": 1
+                },
+                {
+                  "kind": "is_a",
+                  "origin": "physical_entity.n.01",
+                  "primitive": "SOMETHING",
+                  "status": "CANDIDATE",
+                  "value": 1
+                },
+                {
+                  "kind": "is_a",
+                  "origin": "relation.n.01",
+                  "primitive": "WITH",
+                  "status": "CANDIDATE",
+                  "value": 1
+                },
+                {
+                  "kind": "is_a",
+                  "origin": "substance.n.01",
+                  "primitive": "SOMETHING",
+                  "status": "CANDIDATE",
+                  "value": 1
+                }
+              ]
+            },
+            "record_id": "wordnet:i:iodine.n.01",
+            "scope": "lexical",
+            "source": "wordnet_hierarchy"
+          },
+          "sha256": "1f1ee7501bc52e82f56be9215991b72e3401f6296605c5e923ed5e667a1a922a"
+        }
+      ],
+      "model_authority_preserved": true,
+      "other_source_inventory": {
+        "conceptnet:source_structure": 142,
+        "concreteness:association": 1,
+        "lancaster_sensorimotor:association": 1,
+        "sentiwordnet:association": 1
+      },
+      "parent_verification": "PENDING",
+      "prior_model_prefix": [],
+      "rationale": "The complete definition and explicit chemical-element/halogen ancestry identify iodine. Its listed applications and occurrence describe uses and physical occurrence, not a lexical attitude of wanting or refusing. A person may desire iodine, but that external relation is not the chemical-element meaning. WANT=0 is supported for this exact synset, not by an assumption that all substances or nouns receive zero.",
+      "receipt_sha256": "2f95593a73bf15bc4f106702a79a8e0324ce98d78475a5f63aa7744ea74c50d7",
+      "recorded_value": 0,
+      "request_id": "8f5ee261febccf310b5a529753429dace24153a8f6d017fa74e9a20a1ac89af1",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The complete definition and explicit chemical-element/halogen ancestry identify iodine. Its listed applications and occurrence describe uses and physical occurrence, not a lexical attitude of wanting or refusing. A person may desire iodine, but that external relation is not the chemical-element meaning. WANT=0 is supported for this exact synset, not by an assumption that all substances or nouns receive zero.",
+        "receipt_sha256": "2f95593a73bf15bc4f106702a79a8e0324ce98d78475a5f63aa7744ea74c50d7",
+        "review_id": "want-source-review-2026-11-01:2f95593a73bf15bc4f106702a79a8e0324ce98d78475a5f63aa7744ea74c50d7",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/12/request/observations/145@sha256:1f1ee7501bc52e82f56be9215991b72e3401f6296605c5e923ed5e667a1a922a",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      },
+      "review_status": "ACCEPTED",
+      "reviewed_value": 0
+    },
+    {
+      "association_scope_note": "SentiWordNet exact records, where present, classify GOOD relevance and supply no WANT proof. Ambiguous spelling-level ratings and ConceptNet associations are not used as lexical sign authority.",
+      "bank": "WANT",
+      "basis_code": "UNIT_OF_LENGTH_INCH",
+      "definition": {
+        "definition": "a unit of length equal to one twelfth of a foot",
+        "entry_id": "wordnet:in:inch.n.01",
+        "lemma": "in",
+        "pos": "noun"
+      },
+      "dependency_review_status": "NO_PRIOR_MODEL_PREFIX",
+      "entry_id": "wordnet:in:inch.n.01",
+      "exact_linked_nonlexical_records_read": [
+        {
+          "observation_index": 234,
+          "record": {
+            "candidate_entry_ids": [
+              "wiktionary:en-IN-en-noun-en:Q412550:941833cad40356b3bd5c110b0fec4339eafdeab9343af13338bc4608a14e6bee",
+              "wiktionary:en-IN-en-noun-en:Q4169289:14b72c3ebd0e9e29c6930dc25d049c3a853a83038ddf75912729436c822654a6",
+              "wiktionary:en-in-en-noun-3TpVW~G1:18e24e4c46dc92fdb8c948cda8bfc7fe71854c6f0f623df4cb2989478855dbed",
+              "wiktionary:en-in-en-noun-Dntdqn5G:2939de21afcc68ebc0e25d482fa87caa1d2af843ed5ed84b09b48cd82c761fef",
+              "wiktionary:en-in-en-noun-iVn67n1r:2f2de9137d3a030bbc957a841365c47feb3a09dfe296d2df1e10caf3002e3365",
+              "wiktionary:en-in-en-noun-yvPyKdnm:b24036a72b473ae973e914a8ae1ca797c6c78de83cae38c47c64ce3c9edbce07",
+              "wordnet:in:inch.n.01",
+              "wordnet:in:indiana.n.01",
+              "wordnet:in:indium.n.01"
+            ],
+            "entry_id": "wordnet:in:inch.n.01",
+            "family": "wordnet",
+            "features": {
+              "bank_relevance": {
+                "banks": [
+                  "GOOD"
+                ],
+                "code": "CLASSIFIED",
+                "provenance": [
+                  "sentiwordnet:SentiWordEntry/1:positive-negative-objective-sentiment",
+                  "sentiwordnet:synset:inch.n.01"
+                ]
+              },
+              "lemma": "in",
+              "neg_score": 0.0,
+              "obj_score": 1.0,
+              "pos": "noun",
+              "pos_score": 0.0,
+              "projection_candidates": [],
+              "synset_id": "inch.n.01",
+              "word": "in"
+            },
+            "record_id": "sentiwordnet:in:4b2ef958e1781ddc0c259db68de091597688028b68289e1d6a5836a2d0765a84",
+            "scope": "association",
+            "source": "sentiwordnet"
+          },
+          "sha256": "7312f20189af53628276e4904b68b46f1340369dbea91fcdafe8407098be5c6a"
+        }
+      ],
+      "independent_gold": false,
+      "known_banks_at_request": {
+        "GOOD": 0,
+        "SOMETHING": 1
+      },
+      "lexical_source_records": [
+        {
+          "observation_index": 235,
+          "record": {
+            "candidate_entry_ids": [
+              "wordnet:in:inch.n.01"
+            ],
+            "entry_id": "wordnet:in:inch.n.01",
+            "family": "wordnet",
+            "features": {
+              "definition": "a unit of length equal to one twelfth of a foot",
+              "examples": [],
+              "hypernym_paths": [
+                [
+                  "entity.n.01",
+                  "abstraction.n.06",
+                  "measure.n.02",
+                  "definite_quantity.n.01",
+                  "unit_of_measurement.n.01",
+                  "linear_unit.n.01",
+                  "inch.n.01"
+                ]
+              ],
+              "lemma": "in",
+              "lemma_names": [
+                "inch",
+                "in"
+              ],
+              "lexname": "noun.quantity",
+              "native_records": [
+                {
+                  "has_holonyms": true,
+                  "has_meronyms": true,
+                  "hypernym_depth": 7,
+                  "hyponym_count": 0,
+                  "lexname": "noun.quantity",
+                  "pos": "noun",
+                  "synset_name": "inch.n.01",
+                  "word": "in"
+                }
+              ],
+              "pos": "noun",
+              "synset_name": "inch.n.01",
+              "taxonomy_proposals": [
+                {
+                  "kind": "lexname",
+                  "origin": "noun.quantity",
+                  "primitive": "QUANTITY",
+                  "status": "CANDIDATE",
+                  "value": 1
+                },
+                {
+                  "kind": "is_a",
+                  "origin": "abstraction.n.06",
+                  "primitive": "THINK",
+                  "status": "CANDIDATE",
+                  "value": 1
+                },
+                {
+                  "kind": "is_a",
+                  "origin": "entity.n.01",
+                  "primitive": "SOMETHING",
+                  "status": "CANDIDATE",
+                  "value": 1
+                },
+                {
+                  "kind": "is_a",
+                  "origin": "measure.n.02",
+                  "primitive": "QUANTITY",
+                  "status": "CANDIDATE",
+                  "value": 1
+                }
+              ]
+            },
+            "record_id": "wordnet:in:inch.n.01",
+            "scope": "lexical",
+            "source": "wordnet_hierarchy"
+          },
+          "sha256": "eb878c1615a4d2f6dec6099e7ebbcbe8141a55ac7513df4b424b7b8b489d89cb"
+        }
+      ],
+      "model_authority_preserved": true,
+      "other_source_inventory": {
+        "conceptnet:source_structure": 232,
+        "concreteness:association": 1,
+        "lancaster_sensorimotor:association": 1,
+        "sentiwordnet:association": 1
+      },
+      "parent_verification": "PENDING",
+      "prior_model_prefix": [],
+      "rationale": "The exact definition fixes a length unit equal to one twelfth of a foot, with linear-unit and measurement ancestry. That metrological identity does not predicate desire or refusal by an experiencer. WANT=0 is supported for this unit sense; the prepositional spelling in is not being substituted for the definition.",
+      "receipt_sha256": "db05d65eadb5d5018b159503ed2b8762b5eeec43146628a567fca546794f50c0",
+      "recorded_value": 0,
+      "request_id": "91be1d87e5a994494570e97eef23cfc4c8cedfc4c25f5178ad6f746803613822",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The exact definition fixes a length unit equal to one twelfth of a foot, with linear-unit and measurement ancestry. That metrological identity does not predicate desire or refusal by an experiencer. WANT=0 is supported for this unit sense; the prepositional spelling in is not being substituted for the definition.",
+        "receipt_sha256": "db05d65eadb5d5018b159503ed2b8762b5eeec43146628a567fca546794f50c0",
+        "review_id": "want-source-review-2026-11-01:db05d65eadb5d5018b159503ed2b8762b5eeec43146628a567fca546794f50c0",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/13/request/observations/235@sha256:eb878c1615a4d2f6dec6099e7ebbcbe8141a55ac7513df4b424b7b8b489d89cb",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      },
+      "review_status": "ACCEPTED",
+      "reviewed_value": 0
+    },
+    {
+      "association_scope_note": "SentiWordNet exact records, where present, classify GOOD relevance and supply no WANT proof. Ambiguous spelling-level ratings and ConceptNet associations are not used as lexical sign authority.",
+      "bank": "WANT",
+      "basis_code": "INFORMATION_TECHNOLOGY_DISCIPLINE",
+      "definition": {
+        "definition": "the branch of engineering that deals with the use of computers and telecommunications to retrieve and store and transmit information",
+        "entry_id": "wordnet:it:information_technology.n.01",
+        "lemma": "it",
+        "pos": "noun"
+      },
+      "dependency_review_status": "NO_PRIOR_MODEL_PREFIX",
+      "entry_id": "wordnet:it:information_technology.n.01",
+      "exact_linked_nonlexical_records_read": [
+        {
+          "observation_index": 102,
+          "record": {
+            "candidate_entry_ids": [
+              "wiktionary:en-IT-en-noun-en:inclusive_tour:c2d32c6227cad5ab309460a5887e854a902542df564dfd27bf75236a4c215fd2",
+              "wiktionary:en-IT-en-noun-en:information_technology:e92356d7754f89656f508b08336bd147d3900d0f1f96014ef29b8a882ccabbc1",
+              "wiktionary:en-IT-en-noun-en:intercept_time_method:c3a1ecc4816b07749d8ce4e4fd529fb8da92b09d4bb84665fb231af6ab7680a2",
+              "wiktionary:en-It-en-noun-Uk59mqe7:7bc619cb5f8a6af8fc6773615f8a2fc13370635c580b6943affc0f2cbad87f76",
+              "wiktionary:en-It-en-noun-eHLqdHT0:43fd74767f7511c4b7d876908758c8ee73a35559fc815ed3f16d6d2404b78b38",
+              "wiktionary:en-It-en-noun-mGVi1skZ:acfb59bf1e7f58d139f445df575e9b9447a21813e3dccd026d2ac5daa0f39736",
+              "wiktionary:en-it-en-noun-7OrmVk47:05634ab69a99fbb54b9427fa788aafae3e72d81dfd198cb966c2cc06683e4909",
+              "wiktionary:en-it-en-noun-8Z1~mhhc:969b86c241a14cd9da36cf42cba8c036d1b58fe5946a9947de10310f6e0608af",
+              "wiktionary:en-it-en-noun-EXKmmtZO:c87a20ab1d0e94ac6c97f0c2808d92adc88e1da5536988ce8ce470d0769bb430",
+              "wiktionary:en-it-en-noun-GhuGvqqA:62aa4dd794ecdd2bf63ee1771ceebc4b4d9bde89642de151fd262fb5e6f4a49a",
+              "wiktionary:en-it-en-noun-KASAD8nM:16d218d67680679c77848e6805f306c3cc802513b3868da789726e11c62fa8f2",
+              "wiktionary:en-it-en-noun-en:tag:940261067ea2654c843c34aa76029546ce3f2bf7f952829a9ecc26fadc47dda9",
+              "wiktionary:en-it-en-noun-f8Co6fTO:3642b7fa2149b54fc54cd1b1ef82cb5109266d56075d50097ac60cc242c31d28",
+              "wiktionary:en-it-en-noun-kLouhqSJ:8c77578e9ed5a43bc8dc5fcbcffcdd3a64b3103bbd55a951d90222f1717bfd4a",
+              "wiktionary:en-it-en-noun-pf4Fnuis:99112869a2cfeed3d6c6c4e3b5e45aeceaf3d7bb7d0e2bad6678043791721822",
+              "wordnet:it:information_technology.n.01"
+            ],
+            "entry_id": "wordnet:it:information_technology.n.01",
+            "family": "wordnet",
+            "features": {
+              "bank_relevance": {
+                "banks": [
+                  "GOOD"
+                ],
+                "code": "CLASSIFIED",
+                "provenance": [
+                  "sentiwordnet:SentiWordEntry/1:positive-negative-objective-sentiment",
+                  "sentiwordnet:synset:information_technology.n.01"
+                ]
+              },
+              "lemma": "it",
+              "neg_score": 0.0,
+              "obj_score": 1.0,
+              "pos": "noun",
+              "pos_score": 0.0,
+              "projection_candidates": [],
+              "synset_id": "information_technology.n.01",
+              "word": "it"
+            },
+            "record_id": "sentiwordnet:it:e77d52242c11a0509bd3accd7a07081f749ea1dfce48a2ff2e8ba7676d1f69c0",
+            "scope": "association",
+            "source": "sentiwordnet"
+          },
+          "sha256": "8478f80d361a2e807ae55a450688f69bdd88caf9bee38203bf8f796fe7e3aade"
+        }
+      ],
+      "independent_gold": false,
+      "known_banks_at_request": {
+        "GOOD": 0,
+        "SOMETHING": 1
+      },
+      "lexical_source_records": [
+        {
+          "observation_index": 104,
+          "record": {
+            "candidate_entry_ids": [
+              "wordnet:it:information_technology.n.01"
+            ],
+            "entry_id": "wordnet:it:information_technology.n.01",
+            "family": "wordnet",
+            "features": {
+              "definition": "the branch of engineering that deals with the use of computers and telecommunications to retrieve and store and transmit information",
+              "examples": [],
+              "hypernym_paths": [
+                [
+                  "entity.n.01",
+                  "abstraction.n.06",
+                  "psychological_feature.n.01",
+                  "cognition.n.01",
+                  "content.n.05",
+                  "knowledge_domain.n.01",
+                  "discipline.n.01",
+                  "engineering.n.02",
+                  "information_technology.n.01"
+                ]
+              ],
+              "lemma": "it",
+              "lemma_names": [
+                "information_technology",
+                "IT"
+              ],
+              "lexname": "noun.cognition",
+              "native_records": [
+                {
+                  "has_holonyms": false,
+                  "has_meronyms": false,
+                  "hypernym_depth": 9,
+                  "hyponym_count": 0,
+                  "lexname": "noun.cognition",
+                  "pos": "noun",
+                  "synset_name": "information_technology.n.01",
+                  "word": "it"
+                }
+              ],
+              "pos": "noun",
+              "synset_name": "information_technology.n.01",
+              "taxonomy_proposals": [
+                {
+                  "kind": "lexname",
+                  "origin": "noun.cognition",
+                  "primitive": "THINK",
+                  "status": "CANDIDATE",
+                  "value": 1
+                },
+                {
+                  "kind": "is_a",
+                  "origin": "abstraction.n.06",
+                  "primitive": "THINK",
+                  "status": "CANDIDATE",
+                  "value": 1
+                },
+                {
+                  "kind": "is_a",
+                  "origin": "cognition.n.01",
+                  "primitive": "KNOW",
+                  "status": "CANDIDATE",
+                  "value": 1
+                },
+                {
+                  "kind": "is_a",
+                  "origin": "cognition.n.01",
+                  "primitive": "THINK",
+                  "status": "CANDIDATE",
+                  "value": 1
+                },
+                {
+                  "kind": "is_a",
+                  "origin": "entity.n.01",
+                  "primitive": "SOMETHING",
+                  "status": "CANDIDATE",
+                  "value": 1
+                },
+                {
+                  "kind": "is_a",
+                  "origin": "psychological_feature.n.01",
+                  "primitive": "FEEL",
+                  "status": "CANDIDATE",
+                  "value": 1
+                },
+                {
+                  "kind": "is_a",
+                  "origin": "psychological_feature.n.01",
+                  "primitive": "THINK",
+                  "status": "CANDIDATE",
+                  "value": 1
+                }
+              ]
+            },
+            "record_id": "wordnet:it:information_technology.n.01",
+            "scope": "lexical",
+            "source": "wordnet_hierarchy"
+          },
+          "sha256": "1c5763c456adc9e1ddcffd7138edc93a69080bdfa95ef4d328b55da1547f9912"
+        }
+      ],
+      "model_authority_preserved": true,
+      "other_source_inventory": {
+        "conceptnet:source_structure": 99,
+        "concreteness:association": 1,
+        "lancaster_sensorimotor:association": 1,
+        "nrc_vad:association": 1,
+        "sentiwordnet:association": 1,
+        "usas:source_structure": 1
+      },
+      "parent_verification": "PENDING",
+      "prior_model_prefix": [],
+      "rationale": "The complete gloss and knowledge-domain/engineering ancestry identify the discipline concerned with computer and telecommunications information handling. The functions retrieve, store and transmit describe its technical subject matter. They do not lexically assert a particular experiencer's desire or refusal. WANT=0 is supported for this discipline sense; human purposes motivating its practice are separate from this definition's own attitude content.",
+      "receipt_sha256": "70aef2ab4d2bf2f8ded135d1d668dbc85728e3f5c2fd5f6ad89312f9e321dfe8",
+      "recorded_value": 0,
+      "request_id": "bfc66f7825e23381ba8b74a4a43ea72003ece1b4b65acecfce4f429000735ed5",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The complete gloss and knowledge-domain/engineering ancestry identify the discipline concerned with computer and telecommunications information handling. The functions retrieve, store and transmit describe its technical subject matter. They do not lexically assert a particular experiencer's desire or refusal. WANT=0 is supported for this discipline sense; human purposes motivating its practice are separate from this definition's own attitude content.",
+        "receipt_sha256": "70aef2ab4d2bf2f8ded135d1d668dbc85728e3f5c2fd5f6ad89312f9e321dfe8",
+        "review_id": "want-source-review-2026-11-01:70aef2ab4d2bf2f8ded135d1d668dbc85728e3f5c2fd5f6ad89312f9e321dfe8",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/14/request/observations/104@sha256:1c5763c456adc9e1ddcffd7138edc93a69080bdfa95ef4d328b55da1547f9912",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      },
+      "review_status": "ACCEPTED",
+      "reviewed_value": 0
+    },
+    {
+      "association_scope_note": "SentiWordNet exact records, where present, classify GOOD relevance and supply no WANT proof. Ambiguous spelling-level ratings and ConceptNet associations are not used as lexical sign authority.",
+      "bank": "WANT",
+      "basis_code": "GEOGRAPHIC_STATE_MAINE",
+      "definition": {
+        "definition": "a state in New England",
+        "entry_id": "wordnet:me:maine.n.01",
+        "lemma": "me",
+        "pos": "noun"
+      },
+      "dependency_review_status": "NO_PRIOR_MODEL_PREFIX",
+      "entry_id": "wordnet:me:maine.n.01",
+      "exact_linked_nonlexical_records_read": [
+        {
+          "observation_index": 81,
+          "record": {
+            "candidate_entry_ids": [
+              "wiktionary:en-ME-en-noun-OM6mL~L4:aa06572147c7cd5c40fcc46fe83ea4588eec1fdbe3675205a203acfd1f99749f",
+              "wiktionary:en-ME-en-noun-Ptu9i8C1:0e41f66e6807c916bb217aa6cdb975da7f3fc2584a82fa30a4d1d44bb88fbae5",
+              "wiktionary:en-ME-en-noun-aLvxDD01:085d030a15c50d97de719142d43cd656ec77a94a45c46931482a4f275b437f37",
+              "wiktionary:en-ME-en-noun-fWrlmgX2:cdb26d24384df9e96d4eda34c053b4717d63806ddb60f873e578ae8f45fffb8f",
+              "wiktionary:en-ME-en-noun-psa1pF~g:85ceb767e9b1476b3fd37987c13669435ba17d7490541e48bb5b6c7b1d64582f",
+              "wiktionary:en-ME-en-noun-~RyesteX:094dfe780c7de1041fcf2b026d9ba6e5f68d1369d14a98af3b6bd7e36cac11ff",
+              "wiktionary:en-Me-en-noun-4ElnfzG5:81019141b7c3e4f6904fae5b3042157694653f60ca3ba714349611f9bc6aa652",
+              "wiktionary:en-me-en-noun-0BhxXhaH:51835091bcdb8992834bab81720b155415c1c803986dd9027d0efb410052269c",
+              "wiktionary:en-me-en-noun-8-L2IDlH:e8b8b3365f8fed4a6a9db3b6c3003f992bcaf8ee56bc807b988b9760bbcfc415",
+              "wordnet:me:maine.n.01"
+            ],
+            "entry_id": "wordnet:me:maine.n.01",
+            "family": "wordnet",
+            "features": {
+              "bank_relevance": {
+                "banks": [
+                  "GOOD"
+                ],
+                "code": "CLASSIFIED",
+                "provenance": [
+                  "sentiwordnet:SentiWordEntry/1:positive-negative-objective-sentiment",
+                  "sentiwordnet:synset:maine.n.01"
+                ]
+              },
+              "lemma": "me",
+              "neg_score": 0.0,
+              "obj_score": 1.0,
+              "pos": "noun",
+              "pos_score": 0.0,
+              "projection_candidates": [],
+              "synset_id": "maine.n.01",
+              "word": "me"
+            },
+            "record_id": "sentiwordnet:me:7520de45c70ea169867eb297b7b75ec50b91e9c7ef52de16e8b71be7501945cc",
+            "scope": "association",
+            "source": "sentiwordnet"
+          },
+          "sha256": "909e4d654a44a5c687eff2cfb527ed8ae55854c082fb0b90720545dd15bf0ed1"
+        }
+      ],
+      "independent_gold": false,
+      "known_banks_at_request": {
+        "GOOD": 0,
+        "SOMETHING": 1
+      },
+      "lexical_source_records": [
+        {
+          "observation_index": 82,
+          "record": {
+            "candidate_entry_ids": [
+              "wordnet:me:maine.n.01"
+            ],
+            "entry_id": "wordnet:me:maine.n.01",
+            "family": "wordnet",
+            "features": {
+              "definition": "a state in New England",
+              "examples": [],
+              "hypernym_paths": [
+                [
+                  "entity.n.01",
+                  "physical_entity.n.01",
+                  "object.n.01",
+                  "location.n.01",
+                  "region.n.03",
+                  "district.n.01",
+                  "administrative_district.n.01",
+                  "state.n.01",
+                  "american_state.n.01",
+                  "maine.n.01"
+                ]
+              ],
+              "lemma": "me",
+              "lemma_names": [
+                "Maine",
+                "Pine_Tree_State",
+                "ME"
+              ],
+              "lexname": "noun.location",
+              "native_records": [
+                {
+                  "has_holonyms": true,
+                  "has_meronyms": true,
+                  "hypernym_depth": 10,
+                  "hyponym_count": 0,
+                  "lexname": "noun.location",
+                  "pos": "noun",
+                  "synset_name": "maine.n.01",
+                  "word": "me"
+                }
+              ],
+              "pos": "noun",
+              "synset_name": "maine.n.01",
+              "taxonomy_proposals": [
+                {
+                  "kind": "lexname",
+                  "origin": "noun.location",
+                  "primitive": "WHERE",
+                  "status": "CANDIDATE",
+                  "value": 1
+                },
+                {
+                  "kind": "is_a",
+                  "origin": "entity.n.01",
+                  "primitive": "SOMETHING",
+                  "status": "CANDIDATE",
+                  "value": 1
+                },
+                {
+                  "kind": "is_a",
+                  "origin": "location.n.01",
+                  "primitive": "WHERE",
+                  "status": "CANDIDATE",
+                  "value": 1
+                },
+                {
+                  "kind": "is_a",
+                  "origin": "physical_entity.n.01",
+                  "primitive": "SOMETHING",
+                  "status": "CANDIDATE",
+                  "value": 1
+                }
+              ]
+            },
+            "record_id": "wordnet:me:maine.n.01",
+            "scope": "lexical",
+            "source": "wordnet_hierarchy"
+          },
+          "sha256": "97181d2ea11dc4a4e196a1ee156de1870c8acef88b95ea2f43797774ed1f542e"
+        }
+      ],
+      "model_authority_preserved": true,
+      "other_source_inventory": {
+        "conceptnet:source_structure": 79,
+        "concreteness:association": 1,
+        "lancaster_sensorimotor:association": 1,
+        "sentiwordnet:association": 1
+      },
+      "parent_verification": "PENDING",
+      "prior_model_prefix": [],
+      "rationale": "The exact synset and administrative-district/state ancestry identify Maine in New England. Geographic or administrative identification does not encode an experiencer's desire or refusal. WANT=0 is supported for this named-state sense, without importing first-person me or claims about what residents want. This review does not decide whether geographic facts should remain in the corpus.",
+      "receipt_sha256": "fe6bd7298d4196d1b3b44e83312a2ec01f5f6e1b8fcfc41508237e451effb778",
+      "recorded_value": 0,
+      "request_id": "d2bc770003ae98b0053fd0c335ea18565ae815dd4a02553df196f7ade9f99fa6",
+      "review": {
+        "code": "ACCEPTED",
+        "rationale": "The exact synset and administrative-district/state ancestry identify Maine in New England. Geographic or administrative identification does not encode an experiencer's desire or refusal. WANT=0 is supported for this named-state sense, without importing first-person me or claims about what residents want. This review does not decide whether geographic facts should remain in the corpus.",
+        "receipt_sha256": "fe6bd7298d4196d1b3b44e83312a2ec01f5f6e1b8fcfc41508237e451effb778",
+        "review_id": "want-source-review-2026-11-01:fe6bd7298d4196d1b3b44e83312a2ec01f5f6e1b8fcfc41508237e451effb778",
+        "reviewer": "Codex source-backed lexical review, 2026-11-01",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json#/receipts/15/request/observations/82@sha256:97181d2ea11dc4a4e196a1ee156de1870c8acef88b95ea2f43797774ed1f542e",
+          "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+        ]
+      },
+      "review_status": "ACCEPTED",
+      "reviewed_value": 0
+    }
+  ],
+  "retrospective_prefix_reviews": 0,
+  "review_counts": {
+    "ACCEPTED": 16
+  },
+  "reviewer": "Codex source-backed lexical review, 2026-11-01",
+  "rule_promotions": 0,
+  "scope": "EXACT_16_NEW_WANT_RECEIPTS_ONLY",
+  "selection_partition_note": "Administrative disjoint split only. No rule candidate was authored; neither split is semantic gold or a completed model audit.",
+  "source_packet": {
+    "path": "docs/readings/2026-11-01-lexicon-next-stage/zipf-want-batch-003-receipts.json",
+    "sha256": "7ce28d1fff3b61e60c83d053968e404a147e8928c073d2c31fd8bb483fa2c825"
+  }
+}

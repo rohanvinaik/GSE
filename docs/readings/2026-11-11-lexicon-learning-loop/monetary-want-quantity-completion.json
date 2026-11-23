@@ -1,0 +1,91 @@
+{
+  "banks": [
+    "QUANTITY"
+  ],
+  "batch_size": 1,
+  "code": "SELECTED_SCOPE_RESOLVED",
+  "continue_cohorts": false,
+  "dictionary_cells": {
+    "assigned": 405061,
+    "conflicted": 0,
+    "explicit_zero": 280481,
+    "unresolved": 22084315
+  },
+  "dictionary_outcomes": {
+    "PARTIAL": 401596
+  },
+  "dictionary_status": "INCOMPLETE",
+  "format": "gse.lexicon-completion-report/1",
+  "max_calls_per_entry": 1,
+  "max_entries_per_pass": 2,
+  "max_model_calls": 2,
+  "model": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@96e30d615d48019e52f11473ba145005d4ed2a920041cf92cc337d660cdabc42",
+  "model_calls": 2,
+  "outcomes": {
+    "ASSIGNED": 2
+  },
+  "outside_selected_scope": {
+    "unresolved_or_conflicted_cells": 22084315
+  },
+  "preflight": "REPLAY_VALIDATED",
+  "priority": {
+    "excluded_count": 1,
+    "excluded_records": [
+      {
+        "code": "MISSING_WORD",
+        "count": 27,
+        "csv_line": 21732,
+        "record_number": 21731
+      }
+    ],
+    "frequency_column": "SUBTLEX",
+    "included_words": 39953,
+    "mode": "zipf",
+    "ordering": "DESCENDING_POSITIVE_COUNT_THEN_CONSTRAINT_PRIORITY_THEN_DEFINITION_ID",
+    "policy": "gse.completion-priority/subtlex-count-order/2",
+    "ranked_words": 28902,
+    "rows": 39954,
+    "score": "MONOTONIC_ZIPF_ORDER_NOT_ABSOLUTE_ZIPF_SCORE",
+    "semantic_authority": "NONE_SCHEDULING_ONLY",
+    "sha256": "fa636292ba0b1b5cf4d6d335690ddcf3a162e4a8204124d95c64e795eb336226",
+    "source": "/Users/rohanvinaik/Projects/gse/data/external/concreteness.csv",
+    "unranked": "ZERO_OR_ABSENT_FREQUENCY_LAST_NOT_SEMANTIC_ZERO",
+    "word_column": "Word",
+    "zero_count_words": 11051
+  },
+  "question_order": {
+    "bank_order": "DOMAIN_SIZE_THEN_BANK",
+    "bank_priority": "constraint",
+    "cohort_order": "EXISTING_DEFINITION_PRIORITY",
+    "cohort_policy": "definition",
+    "policy": "gse.completion-question-order/1",
+    "semantic_authority": "NONE_QUESTION_ORDER_ONLY"
+  },
+  "remaining_selected_scope": {
+    "cells": 0,
+    "conflicted_entries": 0,
+    "entries": 0
+  },
+  "scheduling": {
+    "code": "EXPLICIT_SCOPE",
+    "cohorts_processed": 1,
+    "cursor_after": null,
+    "cursor_before": null,
+    "pass_number": null,
+    "policy": "gse.completion-schedule/2",
+    "resume_frontier": "COMPLETED_OR_PER_ENTRY_LIMIT_VISITS",
+    "visited_entry_ids": [
+      "wordnet:word:word.n.07",
+      "wordnet:em:em.n.01"
+    ],
+    "wrapped": false
+  },
+  "selected_entry_ids": [
+    "wordnet:word:word.n.07",
+    "wordnet:em:em.n.01"
+  ],
+  "semantic_gold": "NOT_CHECKED",
+  "skipped_attempts": {},
+  "transport_invocations": 2,
+  "unselected_residual": false
+}

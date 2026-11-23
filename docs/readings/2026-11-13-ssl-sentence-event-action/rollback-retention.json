@@ -1,0 +1,84 @@
+{
+  "active": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-013.db",
+  "code": "ROLLING_ROLLBACK_VERIFIED",
+  "format": "gse.rolling-sparse-rollback-retirement/1",
+  "retired": [
+    {
+      "audit_delta": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-sentence-event-action/retired-comparison-audit/closure-epoch-01-teaching-audit-delta.json.gz",
+      "audit_delta_sha256": "f07433542f8e5c4018c011481451f77f6fafd0f01926d5d3afba74b06c53a6ab",
+      "logical_bytes": 18751512576,
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-sentence-event-action/closure/epoch-01/teaching.db",
+      "retired_only_row_counts": {
+        "accepted_model_receipts": 1,
+        "builder_metadata": 4
+      },
+      "sha256": "107f5a1b12a32d3b02c47796dabc48f9f45f6c0fca10e52ca7e2b353f554ce5f"
+    },
+    {
+      "audit_delta": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-sentence-event-action/retired-comparison-audit/closure-epoch-01-candidate-recovered-audit-delta.json.gz",
+      "audit_delta_sha256": "2a82f7a88a4ba43a9a4f6da545d5543c60f6b0a5f7005c95830effd8f9f05f8b",
+      "logical_bytes": 18815819776,
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-sentence-event-action/closure/epoch-01/candidate-recovered.db",
+      "retired_only_row_counts": {
+        "builder_metadata": 4,
+        "rule_migrations": 1,
+        "rule_versions": 1
+      },
+      "sha256": "d5f34bf9fac90e8d916a42fb38ad29405a47772bfd563f115fa3336a0cb237ae"
+    },
+    {
+      "audit_delta": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-sentence-event-action/retired-comparison-audit/zipf-epoch-01-teaching-audit-delta.json.gz",
+      "audit_delta_sha256": "73954134b425398e4daa189b123ba7ad7ba1295cf5b5fed087020ed2feda8eaf",
+      "logical_bytes": 18739564544,
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-sentence-event-action/zipf/epoch-01/teaching.db",
+      "retired_only_row_counts": {
+        "accepted_model_receipts": 1,
+        "builder_metadata": 4
+      },
+      "sha256": "5a6847971324c09af559c2965af468607f9591c8bedf27da74fbd08962a679db"
+    },
+    {
+      "audit_delta": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-sentence-event-action/retired-comparison-audit/zipf-epoch-01-candidate-audit-delta.json.gz",
+      "audit_delta_sha256": "a588b384bec49bf441e367ee2db735b3f1c776e647f776a5fe7197e686d75f80",
+      "logical_bytes": 18762080256,
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-sentence-event-action/zipf/epoch-01/candidate.db",
+      "retired_only_row_counts": {
+        "builder_metadata": 4,
+        "rule_migrations": 1,
+        "rule_versions": 1
+      },
+      "sha256": "3ac3de73f7bc2ca295ebf99823eb891dad766725f687e2ec1dcad6db75007653"
+    },
+    {
+      "audit_delta": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-sentence-event-action/retired-comparison-audit/joint-teaching-audit-delta.json.gz",
+      "audit_delta_sha256": "8f56ba8c0852f6c33194c01c8f9f653106dc739e46f430894d7403c87ce55943",
+      "logical_bytes": 18752679936,
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-sentence-event-action/joint/teaching.db",
+      "retired_only_row_counts": {
+        "accepted_model_receipts": 2,
+        "builder_metadata": 3
+      },
+      "sha256": "f73f9f383343e570db6b6d67422e540c745c3fc687e8da621681a198b24e80f6"
+    },
+    {
+      "audit_delta": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-sentence-event-action/retired-comparison-audit/joint-candidate-audit-delta.json.gz",
+      "audit_delta_sha256": "59a9daebcd632eb4971620efafef8da2fae5105e7af613fc1a389b786e57f5a2",
+      "logical_bytes": 18855653376,
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-sentence-event-action/joint/candidate.db",
+      "retired_only_row_counts": {},
+      "sha256": "5b00c3927a6626a4cc258ad740f685d32ecf3bc16a34119d0d78324ac40f5310"
+    },
+    {
+      "audit_delta": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/sparse-release-011-audit-delta.json.gz",
+      "audit_delta_sha256": "dd8169a4df9955590cf42c2ba281099152539886f485cf9ea5ce7ae29e88c96e",
+      "logical_bytes": 18533351424,
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-011.db",
+      "retired_only_row_counts": {
+        "builder_metadata": 4
+      },
+      "sha256": "145225558ab044afbeb062764853a5080bc13b8c44b9391256c6e81c7559a855"
+    }
+  ],
+  "rollback": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-012.db",
+  "total_logical_bytes": 131210661888
+}

@@ -1,0 +1,52 @@
+{
+  "active_pointer_sha256": "449020ca41a461a7d418e4bdffe402da5c0798cb98444c5f88e7ecf6acd099b5",
+  "audits_per_epoch": 2,
+  "baseline_sha256": "2e46555f1801a87f326c167a6fd8a3efdf45192f6d7f14d8b9a9e4fcf177d8c7",
+  "epochs": 1,
+  "families": [
+    {
+      "antecedent": [
+        "SOMETHING",
+        1
+      ],
+      "consequent": [
+        "BODY",
+        0
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:polyhedron.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:quadrate.n.01",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wordnet:tetrahedron:tetrahedron.n.01",
+        "wordnet:tesseract:tesseract.n.01"
+      ],
+      "id": "polyhedron-body",
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "polyhedron-body-source-review",
+        "reviewer": "Source-backed construction review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-continuation/SOURCE_SCOPE.md"
+        ],
+        "statement": "The exact source defines the retained forms through geometric boundaries and dimension. The face of the solid is a geometric boundary, and the four-dimensional analogue is defined by formal structure. The cubelike object sense is excluded.",
+        "warrant_id": "polyhedron-body"
+      }
+    }
+  ],
+  "format": "gse.lexicon-epoch-plan/1"
+}

@@ -1,0 +1,229 @@
+{
+  "code": "REAL_DEFINITION_SCOPED_JOINT_INFORMATION_WITNESS",
+  "resource": "/Users/rohanvinaik/Projects/GSE/data/lexicon_builder/2026-11-12/sparse-release-021.db",
+  "entry_id": "wordnet:dog:dog.n.01",
+  "banks": [
+    "I",
+    "YOU",
+    "SOMEONE"
+  ],
+  "rules": [
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "I",
+        "SOMEONE"
+      ],
+      "guards": [],
+      "provenance": [
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+      ],
+      "rule_id": "founder:category:i-someone"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "YOU",
+        "SOMEONE"
+      ],
+      "guards": [],
+      "provenance": [
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+      ],
+      "rule_id": "founder:category:you-someone"
+    }
+  ],
+  "before_marginals": {
+    "I": [
+      -1,
+      0,
+      1
+    ],
+    "YOU": [
+      -1,
+      0,
+      1
+    ],
+    "SOMEONE": [
+      -1,
+      0,
+      1
+    ]
+  },
+  "after_marginals": {
+    "I": [
+      -1,
+      0,
+      1
+    ],
+    "YOU": [
+      -1,
+      0,
+      1
+    ],
+    "SOMEONE": [
+      -1,
+      0,
+      1
+    ]
+  },
+  "before_joint_assignments": 27,
+  "after_joint_assignments": 17,
+  "supported_assignments": [
+    {
+      "I": -1,
+      "YOU": -1,
+      "SOMEONE": -1
+    },
+    {
+      "I": -1,
+      "YOU": -1,
+      "SOMEONE": 0
+    },
+    {
+      "I": -1,
+      "YOU": -1,
+      "SOMEONE": 1
+    },
+    {
+      "I": -1,
+      "YOU": 0,
+      "SOMEONE": -1
+    },
+    {
+      "I": -1,
+      "YOU": 0,
+      "SOMEONE": 0
+    },
+    {
+      "I": -1,
+      "YOU": 0,
+      "SOMEONE": 1
+    },
+    {
+      "I": -1,
+      "YOU": 1,
+      "SOMEONE": 1
+    },
+    {
+      "I": 0,
+      "YOU": -1,
+      "SOMEONE": -1
+    },
+    {
+      "I": 0,
+      "YOU": -1,
+      "SOMEONE": 0
+    },
+    {
+      "I": 0,
+      "YOU": -1,
+      "SOMEONE": 1
+    },
+    {
+      "I": 0,
+      "YOU": 0,
+      "SOMEONE": -1
+    },
+    {
+      "I": 0,
+      "YOU": 0,
+      "SOMEONE": 0
+    },
+    {
+      "I": 0,
+      "YOU": 0,
+      "SOMEONE": 1
+    },
+    {
+      "I": 0,
+      "YOU": 1,
+      "SOMEONE": 1
+    },
+    {
+      "I": 1,
+      "YOU": -1,
+      "SOMEONE": 1
+    },
+    {
+      "I": 1,
+      "YOU": 0,
+      "SOMEONE": 1
+    },
+    {
+      "I": 1,
+      "YOU": 1,
+      "SOMEONE": 1
+    }
+  ],
+  "singleton_gain": 0,
+  "joint_log_support_reduction_bits": 0.6674246609131291,
+  "marginal_potential_reduction_bits": 0.0,
+  "scope": "EXACT_FOR_THE_STATED_THREE_BANK_SUBSYSTEM_NOT_FULL_56_BANK_ENTROPY",
+  "role": "ALREADY_ADMITTED_RULES_DEMONSTRATE_MEASUREMENT_REQUIREMENT_NOT_NEW_LEARNING",
+  "bank_assignments_written": 0
+}

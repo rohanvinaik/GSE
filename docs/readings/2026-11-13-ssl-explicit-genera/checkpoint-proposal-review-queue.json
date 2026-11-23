@@ -1,0 +1,817 @@
+{
+  "code": "SOURCE_GAP_PROPOSAL_REVIEW_QUEUE_NOT_ADMISSION",
+  "frequency_source": {
+    "mode": "zipf",
+    "policy": "gse.completion-priority/subtlex-count-order/2",
+    "source": "/Users/rohanvinaik/Projects/gse/data/external/concreteness.csv",
+    "sha256": "fa636292ba0b1b5cf4d6d335690ddcf3a162e4a8204124d95c64e795eb336226",
+    "word_column": "Word",
+    "frequency_column": "SUBTLEX",
+    "ordering": "DESCENDING_POSITIVE_COUNT_THEN_CONSTRAINT_PRIORITY_THEN_DEFINITION_ID",
+    "score": "MONOTONIC_ZIPF_ORDER_NOT_ABSOLUTE_ZIPF_SCORE",
+    "unranked": "ZERO_OR_ABSENT_FREQUENCY_LAST_NOT_SEMANTIC_ZERO",
+    "rows": 39954,
+    "included_words": 39953,
+    "excluded_count": 1,
+    "excluded_records": [
+      {
+        "code": "MISSING_WORD",
+        "record_number": 21731,
+        "csv_line": 21732,
+        "count": 27
+      }
+    ],
+    "ranked_words": 28902,
+    "zero_count_words": 11051,
+    "semantic_authority": "NONE_SCHEDULING_ONLY"
+  },
+  "frequency_semantics": "SPELLING_ORDER_ONLY_NOT_SENSE_FREQUENCY",
+  "families": [
+    {
+      "family": "constitutive-human-person-body",
+      "direct_review_candidates": [
+        {
+          "entry_id": "wordnet:have:rich_person.n.01",
+          "lemma": "have",
+          "definition": "a person who possesses great material wealth",
+          "source_sha256": "f602359a2281b7e70effa8df5ee11c6779b200bb18f41f0fe4c348eaa1ddd6e5",
+          "subtlex_spelling_count": 314232,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:back:back.n.04",
+          "lemma": "back",
+          "definition": "(football) a person who plays in the backfield",
+          "source_sha256": "163176a750d9e9a5ab3bef2cbc37e02219cf36046e47bca7c2eaccef9084c1ef",
+          "subtlex_spelling_count": 102467,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:man:man.n.01",
+          "lemma": "man",
+          "definition": "an adult person who is male (as opposed to a woman)",
+          "source_sha256": "a3c61a6da70fa44c0958ef9ca5bc3a20d132655bc4e8863e2c1465dd76f8629f",
+          "subtlex_spelling_count": 94133,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:man:man.n.03",
+          "lemma": "man",
+          "definition": "the generic use of the word to refer to any human being",
+          "source_sha256": "0feee5f3745c03020a1c17de051cf16e044a6779cc29d37cb6f5635a6b9f4994",
+          "subtlex_spelling_count": 94133,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:man:man.n.05",
+          "lemma": "man",
+          "definition": "a male subordinate",
+          "source_sha256": "78d62226af94da4bc71b3a2476493dca1610222d0c00e939aa11681dc28b0534",
+          "subtlex_spelling_count": 94133,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:man:man.n.06",
+          "lemma": "man",
+          "definition": "an adult male person who has a manly character (virile and courageous competent)",
+          "source_sha256": "e6094725079248064cc286e0ad84450addf5f2f617285e1b793335d9bc15decb",
+          "subtlex_spelling_count": 94133,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:man:man.n.08",
+          "lemma": "man",
+          "definition": "a male person who plays a significant role (husband or lover or boyfriend) in the life of a particular woman",
+          "source_sha256": "136bcf884415b00c5697f0b6b1e08a68210ef9e0d2c70eaabc13d442681ce823",
+          "subtlex_spelling_count": 94133,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:man:serviceman.n.01",
+          "lemma": "man",
+          "definition": "someone who serves in the armed forces; a member of a military force",
+          "source_sha256": "ef35d851763982cf50aabab2a481d4194e8d87cf442cc6f2e46b9841758c3a20",
+          "subtlex_spelling_count": 94133,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:man:valet.n.01",
+          "lemma": "man",
+          "definition": "a manservant who acts as a personal attendant to his employer",
+          "source_sha256": "bc5eb87b7f6e794b2a22fe25453c0fb4d63a9be74b3ac90d98a29c2d14d57714",
+          "subtlex_spelling_count": 94133,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:tell:tell.n.01",
+          "lemma": "tell",
+          "definition": "a Swiss patriot who lived in the early 14th century and who was renowned for his skill as an archer; according to legend an Austrian governor compelled him to shoot an apple from his son's head with his crossbow (which he did successfully without mishap)",
+          "source_sha256": "b18c76dfb1c5de0dd08fa9b81d36a6b2e89985e0f91ecfe6d4b8257b94480aac",
+          "subtlex_spelling_count": 87949,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:down:down.n.03",
+          "lemma": "down",
+          "definition": "English physician who first described Down's syndrome (1828-1896)",
+          "source_sha256": "38ec997c492ddbc60e0f13eca53cf996480b072677ba7e51e0333a1c8b9d4f46",
+          "subtlex_spelling_count": 76004,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:more:more.n.01",
+          "lemma": "more",
+          "definition": "English statesman who opposed Henry VIII's divorce from Catherine of Aragon and was imprisoned and beheaded; recalled for his concept of Utopia, the ideal state",
+          "source_sha256": "acd02ab5261d225347692fc3bd4682ef8e9182de43a9206eddc9a0312ae339f6",
+          "subtlex_spelling_count": 66228,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ],
+      "identities_with_ranked_spelling": 4472,
+      "scope_definitions": 9021
+    },
+    {
+      "family": "physical-contact-touch",
+      "direct_review_candidates": [
+        {
+          "entry_id": "wordnet:get:get.v.19",
+          "lemma": "get",
+          "definition": "reach with a blow or hit in a particular spot",
+          "source_sha256": "db9881e319159d2516eb2a0552e51a4741c75b2ff1aad7d8473ebeadf60e343c",
+          "subtlex_spelling_count": 233772,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:down:down.v.05",
+          "lemma": "down",
+          "definition": "cause to come or go down",
+          "source_sha256": "08e9f1986a812dd8e243ab84da089d0c78f40d9689ac3ab8d05ad3a2b3e2c93d",
+          "subtlex_spelling_count": 76004,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:work:knead.v.01",
+          "lemma": "work",
+          "definition": "make uniform",
+          "source_sha256": "3af450445f004c14d0b87f2ee1f0e9dc3832ad4cbdc04cf5ea7aa5c379dc8cc7",
+          "subtlex_spelling_count": 40699,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:feel:feel.v.13",
+          "lemma": "feel",
+          "definition": "pass one's hands over the sexual organs of",
+          "source_sha256": "4b6d54f69d998aff1e63db1a716b7bdefc1051c6c39da4466ff733a9ba425648",
+          "subtlex_spelling_count": 31989,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:feel:palpate.v.01",
+          "lemma": "feel",
+          "definition": "examine (a body part) by palpation",
+          "source_sha256": "0fe7c3ca9dced480759dc6dcb5b6387e8ec25a918d4d0e18f2fcceb28697e57d",
+          "subtlex_spelling_count": 31989,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:play:toy.v.02",
+          "lemma": "play",
+          "definition": "manipulate manually or in one's mind or imagination",
+          "source_sha256": "8905feb894c7efd1e383180257b403e71808335fd8891e471ad95f2892897a2c",
+          "subtlex_spelling_count": 18081,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:turn:turn.v.22",
+          "lemma": "turn",
+          "definition": "alter the functioning or setting of",
+          "source_sha256": "5f2fe3c5f7c91b2e64f1f3f217646207d7e450c7025d018f01efb0d5115939d1",
+          "subtlex_spelling_count": 15630,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:hit:hit.v.02",
+          "lemma": "hit",
+          "definition": "hit against; come into sudden contact with",
+          "source_sha256": "b33231502b14d169ee1baaece4bd258ffdc3ebb08d5a456ca2376c9755002c9a",
+          "subtlex_spelling_count": 14025,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:hit:hit.v.03",
+          "lemma": "hit",
+          "definition": "deal a blow to, either with the hand or with an instrument",
+          "source_sha256": "56969f9414943b7380e9719baa01bfcb73e8ca064ebe30893b6ea3cef002f39b",
+          "subtlex_spelling_count": 14025,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:hit:strike.v.10",
+          "lemma": "hit",
+          "definition": "produce by manipulating keys or strings of musical instruments, also metaphorically",
+          "source_sha256": "19c8ca0b92e9547e5a7cdaf455cd280c09107b647864fa8afb4ab4fc709a1cd7",
+          "subtlex_spelling_count": 14025,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:cut:cut.v.08",
+          "lemma": "cut",
+          "definition": "hit (a ball) with a spin so that it turns in the opposite direction",
+          "source_sha256": "5e33422b03cc87e7a98a2824472b478983833fa8792003d8061106774e5d57aa",
+          "subtlex_spelling_count": 11718,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:cut:cut.v.26",
+          "lemma": "cut",
+          "definition": "divide a deck of cards at random into two parts to make selection difficult",
+          "source_sha256": "2627abff052313be44f5576406306ec00e7abe5258de62177a6463a7a0b6ec26",
+          "subtlex_spelling_count": 11718,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ],
+      "identities_with_ranked_spelling": 228,
+      "scope_definitions": 269
+    },
+    {
+      "family": "repeated-light-contact-touch",
+      "direct_review_candidates": [
+        {
+          "entry_id": "wordnet:nose:nuzzle.v.02",
+          "lemma": "nose",
+          "definition": "rub noses",
+          "source_sha256": "03fa055aa8c9826f954166963ff00a937eca2b725d318604e9b43db822bc6574",
+          "subtlex_spelling_count": 3557,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:neck:neck.v.01",
+          "lemma": "neck",
+          "definition": "kiss, embrace, or fondle with sexual passion",
+          "source_sha256": "b2cae4bcf1532cee201f6e7074c2f5da08221c91920df8268a8eed64f1d17047",
+          "subtlex_spelling_count": 3035,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:tongue:tongue.v.02",
+          "lemma": "tongue",
+          "definition": "lick or explore with the tongue",
+          "source_sha256": "803b9777b33eac2d7169eb1b8dc718294077ac3f347ab736720ef32fcf60130b",
+          "subtlex_spelling_count": 1589,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:chuck:chuck.v.03",
+          "lemma": "chuck",
+          "definition": "pat or squeeze fondly or playfully, especially under the chin",
+          "source_sha256": "65c9be6a4931a938eba2b52a148367f40042ce6ee3a1bb2182fffc8269b187a8",
+          "subtlex_spelling_count": 1096,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:pet:pet.v.01",
+          "lemma": "pet",
+          "definition": "stroke or caress gently",
+          "source_sha256": "caa8053588dfc3c435ee9c94bfed75872dafac2889eb325c204fc0a4343bfcbb",
+          "subtlex_spelling_count": 1029,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:pet:pet.v.02",
+          "lemma": "pet",
+          "definition": "stroke or caress in an erotic manner, as during lovemaking",
+          "source_sha256": "37c0a5ec99aeae5f3c37d5d15b6ef0a7464002c782103f5217ea19eb0a24b455",
+          "subtlex_spelling_count": 1029,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:gentle:gentle.v.03",
+          "lemma": "gentle",
+          "definition": "stroke soothingly",
+          "source_sha256": "744b865189e5844c084674ef3ef9e643f496f0a54238b9afb725f60c3580b49c",
+          "subtlex_spelling_count": 844,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:lap:lick.v.02",
+          "lemma": "lap",
+          "definition": "pass the tongue over",
+          "source_sha256": "55fb2bd145f07a22499110d094529a56e08c74edfd7a7866214a0d919344691f",
+          "subtlex_spelling_count": 687,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:stroke:stroke.v.01",
+          "lemma": "stroke",
+          "definition": "touch lightly and repeatedly, as with brushing motions",
+          "source_sha256": "3cde12c2d0864f5d5435b487cad338d3c4adea56ddc8113dcc6e241b8d7d9b83",
+          "subtlex_spelling_count": 667,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:spoon:smooch.v.01",
+          "lemma": "spoon",
+          "definition": "snuggle and lie in a position where one person faces the back of the others",
+          "source_sha256": "05cd03b46542eeaa37f5e94da511e9c78c4e5b72c2ce26a35b93d49c06ced1df",
+          "subtlex_spelling_count": 388,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:tickle:tickle.v.03",
+          "lemma": "tickle",
+          "definition": "touch or stroke lightly",
+          "source_sha256": "170d31817a0559d43c6378519b7128d3141bd1f2bc0e93079f407950056f61c3",
+          "subtlex_spelling_count": 245,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:paw:paw.v.02",
+          "lemma": "paw",
+          "definition": "touch clumsily",
+          "source_sha256": "45a280c2bc25a450f61c3720e4a64fd95b4083867be613c77dc250be2a0732ca",
+          "subtlex_spelling_count": 159,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ],
+      "identities_with_ranked_spelling": 19,
+      "scope_definitions": 21
+    },
+    {
+      "family": "collision-touch",
+      "direct_review_candidates": [
+        {
+          "entry_id": "wordnet:hit:hit.v.02",
+          "lemma": "hit",
+          "definition": "hit against; come into sudden contact with",
+          "source_sha256": "b33231502b14d169ee1baaece4bd258ffdc3ebb08d5a456ca2376c9755002c9a",
+          "subtlex_spelling_count": 14025,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:knock:bump.v.01",
+          "lemma": "knock",
+          "definition": "knock against with force or violence",
+          "source_sha256": "2d77f6feb9dd7c11201fe82b6664c4d31fbd693b35e008bb6d72047880df2625",
+          "subtlex_spelling_count": 3299,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:bottom:bottom.v.02",
+          "lemma": "bottom",
+          "definition": "strike the ground, as with a ship's bottom",
+          "source_sha256": "fcd6871ed1b74a7ea514dfa14b2217272e74511ef787d89ec2a8609f34d3219d",
+          "subtlex_spelling_count": 2546,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:shock:shock.v.04",
+          "lemma": "shock",
+          "definition": "collide violently",
+          "source_sha256": "96272be664b3d8a1d42a89efd87aa12a9763299d01a0232b3560920c6863d343",
+          "subtlex_spelling_count": 1468,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:crash:crash.v.03",
+          "lemma": "crash",
+          "definition": "undergo damage or destruction on impact",
+          "source_sha256": "0484cbea710b292f80b4b96f3c4a42de446ac1dceff08e74aeeda3d53a22b9c7",
+          "subtlex_spelling_count": 1461,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:bang:spang.v.01",
+          "lemma": "bang",
+          "definition": "leap, jerk, bang",
+          "source_sha256": "ce542f83869f9f59e96de08f4337332a22c777bf999da1a02e68d4881ab35a52",
+          "subtlex_spelling_count": 1019,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:connect:connect.v.05",
+          "lemma": "connect",
+          "definition": "land on or hit solidly",
+          "source_sha256": "257406ee732f81494c7d30007d8a6677772b1e00f47f95872a076d803090b1c5",
+          "subtlex_spelling_count": 492,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:smash:smash.v.08",
+          "lemma": "smash",
+          "definition": "collide or strike violently and suddenly",
+          "source_sha256": "5b1aae1a06a51a94879f687e1a6afaf82a212a4ee370b84f9c8f9217307fbf64",
+          "subtlex_spelling_count": 421,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:glance:glance.v.02",
+          "lemma": "glance",
+          "definition": "hit at an angle",
+          "source_sha256": "3247c85eb662b87ac0e95921dfe685bd7232a80d776d1c406b6f6c68dabecc83",
+          "subtlex_spelling_count": 175,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:ping:ping.v.01",
+          "lemma": "ping",
+          "definition": "hit with a pinging noise",
+          "source_sha256": "6486c0418c0084b847a069f49903264e1f9d63ffb5a26a0852639aa10f9ddd5b",
+          "subtlex_spelling_count": 168,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:thud:thud.v.02",
+          "lemma": "thud",
+          "definition": "strike with a dull sound",
+          "source_sha256": "8d24654a71b2a1794755bef0e546581bb06c70136ca5fd3c406b88b521b2405f",
+          "subtlex_spelling_count": 99,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:spat:spat.v.03",
+          "lemma": "spat",
+          "definition": "strike with a sound like that of falling rain",
+          "source_sha256": "5ba5a0441fb30e370033288a0e1db5aad416eda33cd532246e3d5a2dbbb9c76a",
+          "subtlex_spelling_count": 79,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ],
+      "identities_with_ranked_spelling": 19,
+      "scope_definitions": 20
+    },
+    {
+      "family": "possess-have",
+      "direct_review_candidates": [
+        {
+          "entry_id": "wordnet:have:own.v.01",
+          "lemma": "have",
+          "definition": "have ownership or possession of",
+          "source_sha256": "4c923a62c9242e1a3132caac343f422bd00b4661595f6e0ba58dc00ae64a469d",
+          "subtlex_spelling_count": 314232,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:prepossess:prepossess.v.01",
+          "lemma": "prepossess",
+          "definition": "possess beforehand",
+          "source_sha256": "4527b256d327f15e786eb2d0402757c647f76915ab48deca63895c11db67ca56",
+          "subtlex_spelling_count": 0,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ],
+      "identities_with_ranked_spelling": 3,
+      "scope_definitions": 4
+    },
+    {
+      "family": "concrete-or-abstract-possession-have",
+      "direct_review_candidates": [
+        {
+          "entry_id": "wordnet:have:have.v.01",
+          "lemma": "have",
+          "definition": "have or possess, either in a concrete or an abstract sense",
+          "source_sha256": "681550f85e3062d6569db5235023841766d118374dd244fe209d3f4cd77888af",
+          "subtlex_spelling_count": 314232,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:take:film.v.01",
+          "lemma": "take",
+          "definition": "make a film or photograph of something",
+          "source_sha256": "33e67b0fb0e8d8a1b1b165e9f18dda9a243556f59ecfb54752d9df3fb587e5c5",
+          "subtlex_spelling_count": 96443,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:keep:keep.v.03",
+          "lemma": "keep",
+          "definition": "retain possession of",
+          "source_sha256": "e78b6a01a60d6c856d31549db97df308fd31253f39ccda249aed523dc793b145",
+          "subtlex_spelling_count": 35846,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:keep:keep.v.07",
+          "lemma": "keep",
+          "definition": "look after; be the keeper of; have charge of",
+          "source_sha256": "a80d83a6ca4076e903b8d1b9515ae0a127200a1579347e70097e1ac1fbc84875",
+          "subtlex_spelling_count": 35846,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:keep:keep.v.08",
+          "lemma": "keep",
+          "definition": "maintain by writing regular records",
+          "source_sha256": "ceb23db216a58bb694b74c689493368f87443912e94ae576cd8931c18d8571be",
+          "subtlex_spelling_count": 35846,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:keep:keep.v.18",
+          "lemma": "keep",
+          "definition": "store or keep customarily",
+          "source_sha256": "82e44f5f4cd414e2ff59e42b61b5b65f1fe30e61e1d7b376f3fd69237992691a",
+          "subtlex_spelling_count": 35846,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:keep:keep.v.19",
+          "lemma": "keep",
+          "definition": "have as a supply",
+          "source_sha256": "8f1807951a1ee8ee00d95b5b78ae668aa3b86ca31771f02bcb4ffdc00d78e574",
+          "subtlex_spelling_count": 35846,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:keep:keep.v.20",
+          "lemma": "keep",
+          "definition": "maintain for use and service",
+          "source_sha256": "62321bd93435ba58d884d6c41e60e8892b282fdc7ed11baf0e70d541603eba98",
+          "subtlex_spelling_count": 35846,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:keep:sustain.v.04",
+          "lemma": "keep",
+          "definition": "supply with necessities and support",
+          "source_sha256": "a512f96ee3d6150625301d859748dd1680427bc038de1497e2746ba098f539ab",
+          "subtlex_spelling_count": 35846,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:fine:ticket.v.01",
+          "lemma": "fine",
+          "definition": "issue a ticket or a fine to as a penalty",
+          "source_sha256": "c67242686fb3663ac8caa300f7c4e849ccc42716025b0c27bde3821e5e5e0464",
+          "subtlex_spelling_count": 30502,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:hold:bear.v.11",
+          "lemma": "hold",
+          "definition": "have rightfully; of rights, titles, and offices",
+          "source_sha256": "7b4dfcb34ad2c545df909910e14e4c4c0a4ccca84e7db9c56911cb26bd993b45",
+          "subtlex_spelling_count": 22273,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "entry_id": "wordnet:hold:retain.v.03",
+          "lemma": "hold",
+          "definition": "secure and keep for possible future use or application",
+          "source_sha256": "e20cbbdd087a7a5cb8429b3f84b266dbe108ce8d2f822babdfb5f7f05f7a4a31",
+          "subtlex_spelling_count": 22273,
+          "target_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ],
+      "identities_with_ranked_spelling": 159,
+      "scope_definitions": 181
+    }
+  ]
+}

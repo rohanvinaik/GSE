@@ -1,0 +1,68 @@
+{
+  "api_key_source": "none",
+  "auth_method": "claude.ai",
+  "billing_note": "CLI logged in through Claude.ai Max; reported list-price equivalent is not evidence of an API-credit debit.",
+  "cli_version": "2.1.326",
+  "duration_ms": 71144,
+  "is_error": false,
+  "mcp_servers": [],
+  "model": "claude-fable-5-2",
+  "model_usage": {
+    "claude-fable-5-2": {
+      "cacheCreationEphemeral1hInputTokens": 4234,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationInputTokens": 4234,
+      "cacheReadInputTokens": 0,
+      "canonicalModel": "claude-fable-5-2",
+      "contextWindow": 1000000,
+      "costBasis": "list",
+      "costUSD": 0.32376000000000005,
+      "inputTokens": 2,
+      "maxOutputTokens": 128000,
+      "outputTokens": 6400,
+      "provider": "firstParty",
+      "thinkingTokens": 4806,
+      "webSearchRequests": 0
+    }
+  },
+  "num_turns": 1,
+  "reported_list_price_usd": 0.32376000000000005,
+  "route": "CLAUDE_CODE_SUBSCRIPTION_CLI",
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "tools": [],
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 4234,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 4234,
+    "cache_read_input_tokens": 0,
+    "fallback_credit": null,
+    "inference_geo": "global",
+    "input_tokens": 2,
+    "iterations": [
+      {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 4234,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 4234,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 2,
+        "output_tokens": 6400,
+        "type": "message"
+      }
+    ],
+    "output_tokens": 6400,
+    "output_tokens_details": {
+      "thinking_tokens": 4806
+    },
+    "server_tool_use": {
+      "web_fetch_requests": 0,
+      "web_search_requests": 0
+    },
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}

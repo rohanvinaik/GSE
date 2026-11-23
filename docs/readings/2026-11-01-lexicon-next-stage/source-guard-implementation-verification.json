@@ -1,0 +1,176 @@
+{
+  "format": "gse.source-guard-implementation-verification/1",
+  "tests": [
+    {
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "1310",
+      "time": "78.096",
+      "timestamp": "2026-11-01T14:47:26.495730-05:00",
+      "hostname": "MacBookPro"
+    }
+  ],
+  "audit_cli_tests": {
+    "passed": 36
+  },
+  "static_checks": {
+    "ruff": "PASSED",
+    "ty": "PASSED"
+  },
+  "source_files": [
+    {
+      "path": "gse/curation/lexicon_builder/catalog.py",
+      "sha256": "a9f1832597a0704046124e226d10b4ffe574ab1edaf00e8cb7eb553212e60eb0"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/batching.py",
+      "sha256": "abfab706f9742453f77d121990cf58d66c51b3e7cb0bc852e47c7f31897a9c5f"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/residual.py",
+      "sha256": "88757e0bac9b6860538f9756d6a89c8493c9eb783042dda315e280c45abe8ee9"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/completion.py",
+      "sha256": "c9f359b922192b8f87813dc2ddd1bff0e3239af828bd23860a780bdb7aecd691"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/discovery.py",
+      "sha256": "e74e913525b6f6051e60c5a9b3a041b635d3c056fcdb9cfb4f15316123cbfb6d"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/model_evidence.py",
+      "sha256": "2e0518c933b31a542a0f7b8ff2f929ece76ae316e821be3fae76d70b89804cbe"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/rule_admission.py",
+      "sha256": "f56966bfd013aa809aba77d2d973e8b8006148872f85204910c3a0e321dc39a1"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/evaluation.py",
+      "sha256": "a54b507509420789011a1b0446b455e1858fb66f8e4b99526c02f9daa000ce6b"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/scope_admission.py",
+      "sha256": "136d0da9ee0d4aebc228487e1edecc43a9cebb821f90f26c95b4c22914c5c7f5"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/rule_migration.py",
+      "sha256": "e586b8b30b7240a9b9b1f48100900e5f2d085ab8dfdba982629588c4db1d0fb8"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/reviewed_patterns.py",
+      "sha256": "0bf6a90ff052e7c989f1576964370477369f8d0108cbedba685628049ba11fc6"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/__init__.py",
+      "sha256": "34fb005b6861c0dc111f7ce03ccffc3d15a78ed9870b66bf2633e3559ce43a4c"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/foundation.py",
+      "sha256": "094e225ec3cf73eae42a370e987bc1fc33db3f845e5ed3253839095f53a4b087"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/model_receipts.py",
+      "sha256": "db8b281bae6baddf96387f677c1d8e49c1aee6cbda6ccc9c4f5c6a8fbf789f02"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/reconsideration.py",
+      "sha256": "3475f65a8bd5057434c0f746cd922b8a0ee6354660e4dab57c0a44b0cfa5fadb"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/engine.py",
+      "sha256": "1f53a4f63103694824696bdc63af6d17d4415764360cf276b0eaa09f452c4b9f"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/pipeline.py",
+      "sha256": "d599f059e22fe5864b6bdb0b712d205cbd483701b3dea6be411ba2d38e1c8f1b"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/interchange.py",
+      "sha256": "300a6c7a918dc0667fe05f17532a693d4bb7a734beae89c190ff84463ebd29f2"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/publication.py",
+      "sha256": "f053b712b380b8eddeb34fda5880facadd514d47fd6cd7d7dbbde53e80265c53"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/storage.py",
+      "sha256": "7b318b9bfc9bf8aaceadf4a26c6905398721805b214a70363e8ef7a6d4063cb4"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/scheduling.py",
+      "sha256": "50bf19153fc85226823169f813c58d04efa1902f11d4e5a0f052ab4bae2661ac"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/reviewed_export.py",
+      "sha256": "1e6eb94357934ae51facfa95cd3dbd2e87b5939f10ed9dbb92f447e681691b07"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/model_batch.py",
+      "sha256": "c537b83f3975f7639614432c4af7291dc12a9f9524ad08a3d9930555ab6184bf"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/resolution.py",
+      "sha256": "69d6fe441f471a1179b04c63b617766a93701ea54912e2e3548b24501e2d91fa"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/rule_history.py",
+      "sha256": "07c775ab85fc18f9d12181dd24ba8b33625d240864b4e2c021f6a17b8e64c46c"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/evidence.py",
+      "sha256": "5eceeddad344ae5e51f6f07fbaff8172a925cc1be244b93848ea7a66dd692d73"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/model_protocol.py",
+      "sha256": "30f7a706a828ad412f4317d847f6b8563b068d977f09919188780abe00f934ec"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/relevance.py",
+      "sha256": "b229501847ecad1f40b1c86bdf61374ad706bf5d1051e2d6baee8395520a5639"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/validation.py",
+      "sha256": "70f5794d94890948526a628c7f81a45d1d26544f8b17e3c8299dddbf7c8c3d25"
+    },
+    {
+      "path": "scripts/audit_lexicon_patterns.py",
+      "sha256": "1f25fb828bd33883ec036eb4efbae40d310be8724bbffedd3a6b15a715a0e25f"
+    },
+    {
+      "path": "scripts/export_lexicon_patterns.py",
+      "sha256": "97f19060fb3bdb1417619bdb453da86f6a8451154273524d6eda8743a926b5f8"
+    },
+    {
+      "path": "scripts/migrate_lexicon_rule.py",
+      "sha256": "4c6e47fd8627a52e0ff1814e5612be106a25847ac0a1d8b958bdf7ba64020067"
+    },
+    {
+      "path": "gse/curation/cli/commands.py",
+      "sha256": "ea68bc9a3283828437a817ec7a9197f96d604614b12921ab4b0bbdfa90143404"
+    },
+    {
+      "path": "tests/test_lexicon_builder_cli_context_tokens.py",
+      "sha256": "d62700d1fee0d8dd3581cbfcf3d88fab7e07821db9f327380fd3b31d61719757"
+    }
+  ],
+  "additional_cli_tests": [
+    {
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "11",
+      "time": "0.120",
+      "timestamp": "2026-11-01T15:05:53.168641-05:00",
+      "hostname": "MacBookPro"
+    }
+  ],
+  "cli_static_checks": {
+    "ruff": "PASSED",
+    "ty": "PASSED"
+  }
+}

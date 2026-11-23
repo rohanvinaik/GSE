@@ -1,0 +1,447 @@
+{
+  "bank": "BODY",
+  "candidate_semantics": "PROJECTION_CANDIDATES_ARE_ASSOCIATION_NOT_ASSIGNMENTS",
+  "code": "PARTIAL_TYPED_VIEW",
+  "excluded_sources": [],
+  "format": "gse.model-evidence/5",
+  "omission_semantics": "OMITTED_IS_NOT_ZERO",
+  "record_count": 2,
+  "records": [
+    {
+      "candidate_entry_ids": [
+        "wordnet:is:embody.v.02"
+      ],
+      "entry_id": "wordnet:is:embody.v.02",
+      "family": "wordnet",
+      "features": {
+        "context_only": true,
+        "definition": "represent, as of a character on stage",
+        "definition_identity": {
+          "analyses": [
+            {
+              "base": "be",
+              "derivation": {
+                "exception_bases": [
+                  "be"
+                ],
+                "kind": "EXCEPTION",
+                "substitutions": []
+              },
+              "native_lemmas": [
+                "be"
+              ],
+              "native_records": [
+                {
+                  "has_holonyms": false,
+                  "has_meronyms": false,
+                  "hypernym_depth": 10,
+                  "hyponym_count": 2,
+                  "lexname": "verb.stative",
+                  "pos": "verb",
+                  "synset_name": "embody.v.02",
+                  "word": "be"
+                }
+              ]
+            }
+          ],
+          "assigns_banks": false,
+          "authority": "IDENTITY_EVIDENCE_WITHIN_SELECTED_SENSE",
+          "code": "EXCEPTION_DERIVED",
+          "format": "gse.wordnet-definition-identity/1",
+          "native_synset": {
+            "definition": "represent, as of a character on stage",
+            "lemma_names": [
+              "embody",
+              "be",
+              "personify"
+            ],
+            "lexname": "verb.stative",
+            "name": "embody.v.02",
+            "pos": "v"
+          },
+          "normalized_surface": "is",
+          "reason": "EXPLICIT_NATIVE_EXCEPTION",
+          "selects_sense": false,
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "surface": "is",
+          "unmatched_candidates": []
+        },
+        "entry_id": "wordnet:is:embody.v.02",
+        "lemma": "is",
+        "pos": "verb"
+      },
+      "full_record_sha256": "fd67b76ea33e5249cfd78dfaee442cd2080dbf6adcbb0788839e773e0a561ca7",
+      "omitted_fields": [],
+      "record_id": "wordnet_identity:0f409736bcf6b14d2bc47ed1273c76d58cbc33f2ad1ed8d5048106f03009a9c1",
+      "scope": "lexical",
+      "selected_fields": [
+        "/candidate_entry_ids",
+        "/entry_id",
+        "/family",
+        "/features/context_only",
+        "/features/definition",
+        "/features/definition_identity",
+        "/features/entry_id",
+        "/features/lemma",
+        "/features/pos",
+        "/record_id",
+        "/scope",
+        "/source"
+      ],
+      "source": "wordnet_hierarchy"
+    },
+    {
+      "candidate_entry_ids": [
+        "wiktionary:en-IT-en-adj-N0V58kbS:520df74924d176806d07ce216ab3eb04aeb3e54e2dde3fc6ebd104298b8cecdc"
+      ],
+      "entry_id": "wiktionary:en-IT-en-adj-N0V58kbS:520df74924d176806d07ce216ab3eb04aeb3e54e2dde3fc6ebd104298b8cecdc",
+      "family": "wiktionary",
+      "features": {
+        "definition": "Initialism of intrathecal.",
+        "entry_id": "wiktionary:en-IT-en-adj-N0V58kbS:520df74924d176806d07ce216ab3eb04aeb3e54e2dde3fc6ebd104298b8cecdc",
+        "lemma": "it",
+        "native_reference": {
+          "code": "TARGET_DEFINITIONS_AVAILABLE",
+          "format": "gse.wiktionary-definition-reference/1",
+          "link": {
+            "word": "intrathecal"
+          },
+          "other_pos_entries": [
+            {
+              "definition": "An intrathecal injection.",
+              "entry_id": "wiktionary:en-intrathecal-en-noun-er4~vtp-:53bd50516f591d78ea57ee9db9857a9edfdd437fc69f63b2cdadc86b2cc52d74",
+              "identity_scheme": "gse.wiktionary-native-leaf/1",
+              "lemma": "intrathecal",
+              "native_id": "en-intrathecal-en-noun-er4~vtp-",
+              "native_sense": {
+                "glosses": [
+                  "An intrathecal injection."
+                ],
+                "id": "en-intrathecal-en-noun-er4~vtp-",
+                "links": [
+                  [
+                    "medicine",
+                    "medicine"
+                  ],
+                  [
+                    "injection",
+                    "injection"
+                  ]
+                ],
+                "raw_glosses": [
+                  "(medicine) An intrathecal injection."
+                ],
+                "topics": [
+                  "medicine",
+                  "sciences"
+                ]
+              },
+              "pos": "noun",
+              "record_context": {
+                "etymology_text": "From intra- + theca + -al.",
+                "forms": [
+                  {
+                    "form": "intrathecals",
+                    "tags": [
+                      "plural"
+                    ]
+                  }
+                ],
+                "lang": "English",
+                "lang_code": "en",
+                "pos": "noun",
+                "word": "intrathecal"
+              },
+              "record_sha256": "d5cb1644eead8a0b455bc0cf9f6bd73ef1b6682b37e24a0ccf81d54733bf62f0",
+              "sense_count": 1,
+              "sense_index": 0,
+              "senseid_path": [],
+              "source_line": 55541,
+              "source_sha256": "8f6814f7909bdf64106e7fe746a004526930bf698d7230ad212da545975c76a9",
+              "word": "intrathecal"
+            }
+          ],
+          "relation": "alt_of",
+          "source_entry": {
+            "definition": "Initialism of intrathecal.",
+            "entry_id": "wiktionary:en-IT-en-adj-N0V58kbS:520df74924d176806d07ce216ab3eb04aeb3e54e2dde3fc6ebd104298b8cecdc",
+            "identity_scheme": "gse.wiktionary-native-leaf/1",
+            "lemma": "it",
+            "native_id": "en-IT-en-adj-N0V58kbS",
+            "native_sense": {
+              "alt_of": [
+                {
+                  "word": "intrathecal"
+                }
+              ],
+              "glosses": [
+                "Initialism of intrathecal."
+              ],
+              "id": "en-IT-en-adj-N0V58kbS",
+              "links": [
+                [
+                  "medicine",
+                  "medicine"
+                ],
+                [
+                  "pharmacology",
+                  "pharmacology"
+                ],
+                [
+                  "intrathecal",
+                  "intrathecal#English"
+                ]
+              ],
+              "raw_glosses": [
+                "(medicine, pharmacology) Initialism of intrathecal."
+              ],
+              "tags": [
+                "abbreviation",
+                "alt-of",
+                "initialism",
+                "not-comparable"
+              ],
+              "topics": [
+                "medicine",
+                "pharmacology",
+                "sciences"
+              ]
+            },
+            "pos": "adj",
+            "record_context": {
+              "lang": "English",
+              "lang_code": "en",
+              "pos": "adj",
+              "word": "IT"
+            },
+            "record_sha256": "3fda55ebd97e8a0fdc343a19cc05705efcc41afbca70cf10af2d4d1d1695f295",
+            "sense_count": 1,
+            "sense_index": 0,
+            "senseid_path": [],
+            "source_line": 57951,
+            "source_sha256": "8f6814f7909bdf64106e7fe746a004526930bf698d7230ad212da545975c76a9",
+            "word": "IT"
+          },
+          "source_sha256": "8f6814f7909bdf64106e7fe746a004526930bf698d7230ad212da545975c76a9",
+          "target_entries": [
+            {
+              "definition": "Delivered into the spinal canal (intrathecal space surrounding the spinal cord), e.g. a spinal anesthesia.",
+              "entry_id": "wiktionary:en-intrathecal-en-adj-w4Oa2qhh:ed898098303123b5f7658dbab6c595d5677d62de52c1715fbb8c9f38631b1b98",
+              "identity_scheme": "gse.wiktionary-native-leaf/1",
+              "lemma": "intrathecal",
+              "native_id": "en-intrathecal-en-adj-w4Oa2qhh",
+              "native_sense": {
+                "glosses": [
+                  "Delivered into the spinal canal (intrathecal space surrounding the spinal cord), e.g. a spinal anesthesia."
+                ],
+                "id": "en-intrathecal-en-adj-w4Oa2qhh",
+                "links": [
+                  [
+                    "medicine",
+                    "medicine"
+                  ],
+                  [
+                    "spinal canal",
+                    "spinal canal"
+                  ],
+                  [
+                    "spinal cord",
+                    "spinal cord"
+                  ],
+                  [
+                    "anesthesia",
+                    "anesthesia"
+                  ]
+                ],
+                "raw_glosses": [
+                  "(medicine) Delivered into the spinal canal (intrathecal space surrounding the spinal cord), e.g. a spinal anesthesia."
+                ],
+                "related": [
+                  {
+                    "word": "extrathecal"
+                  },
+                  {
+                    "word": "thecal"
+                  }
+                ],
+                "tags": [
+                  "not-comparable"
+                ],
+                "topics": [
+                  "medicine",
+                  "sciences"
+                ]
+              },
+              "pos": "adj",
+              "record_context": {
+                "etymology_text": "From intra- + theca + -al.",
+                "lang": "English",
+                "lang_code": "en",
+                "pos": "adj",
+                "word": "intrathecal"
+              },
+              "record_sha256": "8e51c9ec0762eb9a177a31b0edde942b5566385aee4fe6d3eab59d9e6eb8c3b4",
+              "sense_count": 1,
+              "sense_index": 0,
+              "senseid_path": [],
+              "source_line": 55540,
+              "source_sha256": "8f6814f7909bdf64106e7fe746a004526930bf698d7230ad212da545975c76a9",
+              "word": "intrathecal"
+            }
+          ],
+          "target_lookup": "intrathecal",
+          "target_word": "intrathecal"
+        },
+        "pos": "adj",
+        "reference_semantics": "ONE_HOP_NATIVE_REFERENCE_CONTEXT_NOT_IDENTITY_OR_BANK_TRANSFER",
+        "word": "IT"
+      },
+      "full_record_sha256": "4bc30e8e43dcec0f2e62d149ea7d91930997a1df7e84f8e138da347489ceef8b",
+      "omitted_fields": [
+        {
+          "code": "EDITORIAL_CATEGORIES_NOT_INCLUDED_IN_DEFINITION_VIEW",
+          "field": "/features/native_reference/other_pos_entries/0/native_sense/categories"
+        },
+        {
+          "code": "RENDERED_MARKUP_NOT_INCLUDED_IN_DEFINITION_VIEW",
+          "field": "/features/native_reference/other_pos_entries/0/record_context/etymology_templates"
+        },
+        {
+          "code": "RENDERED_MARKUP_NOT_INCLUDED_IN_DEFINITION_VIEW",
+          "field": "/features/native_reference/other_pos_entries/0/record_context/head_templates"
+        },
+        {
+          "code": "EDITORIAL_CATEGORIES_NOT_INCLUDED_IN_DEFINITION_VIEW",
+          "field": "/features/native_reference/source_entry/native_sense/categories"
+        },
+        {
+          "code": "RENDERED_MARKUP_NOT_INCLUDED_IN_DEFINITION_VIEW",
+          "field": "/features/native_reference/source_entry/record_context/head_templates"
+        },
+        {
+          "code": "EDITORIAL_CATEGORIES_NOT_INCLUDED_IN_DEFINITION_VIEW",
+          "field": "/features/native_reference/target_entries/0/native_sense/categories"
+        },
+        {
+          "code": "DICTIONARY_NAVIGATION_NOT_INCLUDED_IN_DEFINITION_VIEW",
+          "field": "/features/native_reference/target_entries/0/native_sense/derived"
+        },
+        {
+          "code": "TRANSLATIONS_NOT_INCLUDED_IN_DEFINITION_VIEW",
+          "field": "/features/native_reference/target_entries/0/native_sense/translations"
+        },
+        {
+          "code": "RENDERED_MARKUP_NOT_INCLUDED_IN_DEFINITION_VIEW",
+          "field": "/features/native_reference/target_entries/0/record_context/etymology_templates"
+        },
+        {
+          "code": "RENDERED_MARKUP_NOT_INCLUDED_IN_DEFINITION_VIEW",
+          "field": "/features/native_reference/target_entries/0/record_context/head_templates"
+        }
+      ],
+      "record_id": "wiktionary_reference:IT:167e67986e73763bb09187da75769141c5ae9303396e36bbcbdea66258b97d91",
+      "scope": "lexical",
+      "selected_fields": [
+        "/candidate_entry_ids",
+        "/entry_id",
+        "/family",
+        "/features/definition",
+        "/features/entry_id",
+        "/features/lemma",
+        "/features/native_reference/code",
+        "/features/native_reference/format",
+        "/features/native_reference/link",
+        "/features/native_reference/other_pos_entries/0/definition",
+        "/features/native_reference/other_pos_entries/0/entry_id",
+        "/features/native_reference/other_pos_entries/0/identity_scheme",
+        "/features/native_reference/other_pos_entries/0/lemma",
+        "/features/native_reference/other_pos_entries/0/native_id",
+        "/features/native_reference/other_pos_entries/0/native_sense/glosses",
+        "/features/native_reference/other_pos_entries/0/native_sense/id",
+        "/features/native_reference/other_pos_entries/0/native_sense/links",
+        "/features/native_reference/other_pos_entries/0/native_sense/raw_glosses",
+        "/features/native_reference/other_pos_entries/0/native_sense/topics",
+        "/features/native_reference/other_pos_entries/0/pos",
+        "/features/native_reference/other_pos_entries/0/record_context/etymology_text",
+        "/features/native_reference/other_pos_entries/0/record_context/forms",
+        "/features/native_reference/other_pos_entries/0/record_context/lang",
+        "/features/native_reference/other_pos_entries/0/record_context/lang_code",
+        "/features/native_reference/other_pos_entries/0/record_context/pos",
+        "/features/native_reference/other_pos_entries/0/record_context/word",
+        "/features/native_reference/other_pos_entries/0/record_sha256",
+        "/features/native_reference/other_pos_entries/0/sense_count",
+        "/features/native_reference/other_pos_entries/0/sense_index",
+        "/features/native_reference/other_pos_entries/0/senseid_path",
+        "/features/native_reference/other_pos_entries/0/source_line",
+        "/features/native_reference/other_pos_entries/0/source_sha256",
+        "/features/native_reference/other_pos_entries/0/word",
+        "/features/native_reference/relation",
+        "/features/native_reference/source_entry/definition",
+        "/features/native_reference/source_entry/entry_id",
+        "/features/native_reference/source_entry/identity_scheme",
+        "/features/native_reference/source_entry/lemma",
+        "/features/native_reference/source_entry/native_id",
+        "/features/native_reference/source_entry/native_sense/alt_of",
+        "/features/native_reference/source_entry/native_sense/glosses",
+        "/features/native_reference/source_entry/native_sense/id",
+        "/features/native_reference/source_entry/native_sense/links",
+        "/features/native_reference/source_entry/native_sense/raw_glosses",
+        "/features/native_reference/source_entry/native_sense/tags",
+        "/features/native_reference/source_entry/native_sense/topics",
+        "/features/native_reference/source_entry/pos",
+        "/features/native_reference/source_entry/record_context/lang",
+        "/features/native_reference/source_entry/record_context/lang_code",
+        "/features/native_reference/source_entry/record_context/pos",
+        "/features/native_reference/source_entry/record_context/word",
+        "/features/native_reference/source_entry/record_sha256",
+        "/features/native_reference/source_entry/sense_count",
+        "/features/native_reference/source_entry/sense_index",
+        "/features/native_reference/source_entry/senseid_path",
+        "/features/native_reference/source_entry/source_line",
+        "/features/native_reference/source_entry/source_sha256",
+        "/features/native_reference/source_entry/word",
+        "/features/native_reference/source_sha256",
+        "/features/native_reference/target_entries/0/definition",
+        "/features/native_reference/target_entries/0/entry_id",
+        "/features/native_reference/target_entries/0/identity_scheme",
+        "/features/native_reference/target_entries/0/lemma",
+        "/features/native_reference/target_entries/0/native_id",
+        "/features/native_reference/target_entries/0/native_sense/glosses",
+        "/features/native_reference/target_entries/0/native_sense/id",
+        "/features/native_reference/target_entries/0/native_sense/links",
+        "/features/native_reference/target_entries/0/native_sense/raw_glosses",
+        "/features/native_reference/target_entries/0/native_sense/related",
+        "/features/native_reference/target_entries/0/native_sense/tags",
+        "/features/native_reference/target_entries/0/native_sense/topics",
+        "/features/native_reference/target_entries/0/pos",
+        "/features/native_reference/target_entries/0/record_context/etymology_text",
+        "/features/native_reference/target_entries/0/record_context/lang",
+        "/features/native_reference/target_entries/0/record_context/lang_code",
+        "/features/native_reference/target_entries/0/record_context/pos",
+        "/features/native_reference/target_entries/0/record_context/word",
+        "/features/native_reference/target_entries/0/record_sha256",
+        "/features/native_reference/target_entries/0/sense_count",
+        "/features/native_reference/target_entries/0/sense_index",
+        "/features/native_reference/target_entries/0/senseid_path",
+        "/features/native_reference/target_entries/0/source_line",
+        "/features/native_reference/target_entries/0/source_sha256",
+        "/features/native_reference/target_entries/0/word",
+        "/features/native_reference/target_lookup",
+        "/features/native_reference/target_word",
+        "/features/pos",
+        "/features/reference_semantics",
+        "/features/word",
+        "/record_id",
+        "/scope",
+        "/source"
+      ],
+      "source": "wiktionary"
+    }
+  ],
+  "reference_semantics": "ONE_HOP_NATIVE_REFERENCE_CONTEXT_NOT_IDENTITY_OR_BANK_TRANSFER",
+  "role_semantics": "ARGUMENT_ROLES_ARE_NOT_OWN_WORD_BANK_ASSIGNMENTS",
+  "selection": "SOURCE_SCHEMA_ALL_BANK_CONTEXT"
+}

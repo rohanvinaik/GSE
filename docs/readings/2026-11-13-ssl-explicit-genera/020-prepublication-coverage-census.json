@@ -1,0 +1,273 @@
+{
+  "active_path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-019.db",
+  "admitted_relations": 61,
+  "assigned_cell_fraction": 0.018169824610081587,
+  "assigned_cells": 408627,
+  "basis_coordinates": 56,
+  "explicit_zeros_subset": 280858,
+  "format": "gse.lexicon-coverage-census/1",
+  "frequency_coverage_is_not_semantic_correctness": true,
+  "frequency_source": {
+    "excluded_count": 1,
+    "excluded_records": [
+      {
+        "code": "MISSING_WORD",
+        "count": 27,
+        "csv_line": 21732,
+        "record_number": 21731
+      }
+    ],
+    "frequency_column": "SUBTLEX",
+    "included_words": 39953,
+    "mode": "zipf",
+    "ordering": "DESCENDING_POSITIVE_COUNT_THEN_CONSTRAINT_PRIORITY_THEN_DEFINITION_ID",
+    "policy": "gse.completion-priority/subtlex-count-order/2",
+    "ranked_words": 28902,
+    "rows": 39954,
+    "score": "MONOTONIC_ZIPF_ORDER_NOT_ABSOLUTE_ZIPF_SCORE",
+    "semantic_authority": "NONE_SCHEDULING_ONLY",
+    "sha256": "fa636292ba0b1b5cf4d6d335690ddcf3a162e4a8204124d95c64e795eb336226",
+    "source": "/Users/rohanvinaik/Projects/gse/data/external/concreteness.csv",
+    "unranked": "ZERO_OR_ABSENT_FREQUENCY_LAST_NOT_SEMANTIC_ZERO",
+    "word_column": "Word",
+    "zero_count_words": 11051
+  },
+  "frequency_weighted_assigned_cell_fraction": 0.017297423989838176,
+  "frequency_weighting": "SPELLING_COUNT_SPLIT_EQUALLY_ACROSS_ITS_RETAINED_LEXICAL_RECORDS",
+  "known_cells_by_bank": {
+    "ABOVE": 17,
+    "ALIVE": 15067,
+    "BE": 881,
+    "BECAUSE": 1,
+    "BEFORE": 1,
+    "BIG": 1,
+    "BODY": 943,
+    "CAN": 14,
+    "CAUSE": 1348,
+    "CERTAINTY": 0,
+    "DO": 5369,
+    "EXIST": 0,
+    "FAR": 0,
+    "FEEL": 1095,
+    "GOOD": 208553,
+    "HAPPEN": 7468,
+    "HAVE": 5,
+    "HEAR": 18,
+    "HERE": 0,
+    "I": 0,
+    "IF": 0,
+    "INFER": 0,
+    "INTENSITY": 2,
+    "KIND": 0,
+    "KNOW": 28,
+    "LIKE": 1,
+    "LONG_TIME": 0,
+    "MAYBE": 5,
+    "MOMENT": 0,
+    "MOVE": 1774,
+    "MUST": 2,
+    "NOT": 3,
+    "ONE": 0,
+    "OUTSIDE": 0,
+    "PART": 1694,
+    "PEOPLE": 0,
+    "QUANTITY": 712,
+    "SAME": 0,
+    "SAY": 653,
+    "SEE": 15,
+    "SIDE": 0,
+    "SOMEONE": 11182,
+    "SOMETHING": 148866,
+    "START": 0,
+    "THEN": 0,
+    "THINK": 1921,
+    "TOUCH": 0,
+    "TOWARD": 0,
+    "TRUE": 0,
+    "TWO": 0,
+    "WANT": 860,
+    "WHEN": 35,
+    "WHERE": 69,
+    "WITH": 0,
+    "WORDS": 24,
+    "YOU": 0
+  },
+  "lexical_records": 401595,
+  "lexicon_writes": false,
+  "measured_at_utc": "2026-11-19T06:52:10.646176+00:00",
+  "most_frequent_20": [
+    {
+      "assigned_cells": 49,
+      "explicit_zeros": 48,
+      "lemma": "you",
+      "retained_lexical_records": 18,
+      "subtlex": 2134713
+    },
+    {
+      "assigned_cells": 23,
+      "explicit_zeros": 19,
+      "lemma": "i",
+      "retained_lexical_records": 18,
+      "subtlex": 2038529
+    },
+    {
+      "assigned_cells": 2,
+      "explicit_zeros": 2,
+      "lemma": "the",
+      "retained_lexical_records": 1,
+      "subtlex": 1501908
+    },
+    {
+      "assigned_cells": 2,
+      "explicit_zeros": 2,
+      "lemma": "to",
+      "retained_lexical_records": 1,
+      "subtlex": 1156570
+    },
+    {
+      "assigned_cells": 2,
+      "explicit_zeros": 2,
+      "lemma": "a",
+      "retained_lexical_records": 1,
+      "subtlex": 1041179
+    },
+    {
+      "assigned_cells": 29,
+      "explicit_zeros": 25,
+      "lemma": "it",
+      "retained_lexical_records": 36,
+      "subtlex": 963712
+    },
+    {
+      "assigned_cells": 6,
+      "explicit_zeros": 5,
+      "lemma": "that",
+      "retained_lexical_records": 3,
+      "subtlex": 719677
+    },
+    {
+      "assigned_cells": 2,
+      "explicit_zeros": 2,
+      "lemma": "and",
+      "retained_lexical_records": 1,
+      "subtlex": 682780
+    },
+    {
+      "assigned_cells": 2,
+      "explicit_zeros": 2,
+      "lemma": "of",
+      "retained_lexical_records": 1,
+      "subtlex": 590439
+    },
+    {
+      "assigned_cells": 12,
+      "explicit_zeros": 11,
+      "lemma": "what",
+      "retained_lexical_records": 24,
+      "subtlex": 501965
+    },
+    {
+      "assigned_cells": 42,
+      "explicit_zeros": 38,
+      "lemma": "in",
+      "retained_lexical_records": 58,
+      "subtlex": 498444
+    },
+    {
+      "assigned_cells": 17,
+      "explicit_zeros": 15,
+      "lemma": "me",
+      "retained_lexical_records": 31,
+      "subtlex": 471339
+    },
+    {
+      "assigned_cells": 13,
+      "explicit_zeros": 10,
+      "lemma": "is",
+      "retained_lexical_records": 27,
+      "subtlex": 459663
+    },
+    {
+      "assigned_cells": 5,
+      "explicit_zeros": 4,
+      "lemma": "we",
+      "retained_lexical_records": 20,
+      "subtlex": 459607
+    },
+    {
+      "assigned_cells": 2,
+      "explicit_zeros": 0,
+      "lemma": "this",
+      "retained_lexical_records": 3,
+      "subtlex": 406915
+    },
+    {
+      "assigned_cells": 21,
+      "explicit_zeros": 18,
+      "lemma": "he",
+      "retained_lexical_records": 30,
+      "subtlex": 389497
+    },
+    {
+      "assigned_cells": 0,
+      "explicit_zeros": 0,
+      "lemma": "on",
+      "retained_lexical_records": 1,
+      "subtlex": 354742
+    },
+    {
+      "assigned_cells": 0,
+      "explicit_zeros": 0,
+      "lemma": "for",
+      "retained_lexical_records": 2,
+      "subtlex": 351650
+    },
+    {
+      "assigned_cells": 3,
+      "explicit_zeros": 2,
+      "lemma": "my",
+      "retained_lexical_records": 10,
+      "subtlex": 344899
+    },
+    {
+      "assigned_cells": 1,
+      "explicit_zeros": 0,
+      "lemma": "your",
+      "retained_lexical_records": 8,
+      "subtlex": 328715
+    }
+  ],
+  "pointer_sha256": "95c3ea26bc32c01042f3e2ba8dcbaee798feff6b3f331e02cba5b642ffeba5b9",
+  "ranked_stored_lemma_strings": 25402,
+  "record_outcomes_including_construction": {
+    "PARTIAL": 401596
+  },
+  "stored_lemma_strings": 67173,
+  "unknown_is_not_zero": true,
+  "unresolved_cells": 22080693,
+  "unseeded_lexical_coordinates": [
+    "I",
+    "YOU",
+    "PEOPLE",
+    "KIND",
+    "SAME",
+    "ONE",
+    "TWO",
+    "INFER",
+    "EXIST",
+    "MOMENT",
+    "LONG_TIME",
+    "THEN",
+    "START",
+    "HERE",
+    "SIDE",
+    "TOUCH",
+    "FAR",
+    "OUTSIDE",
+    "TOWARD",
+    "WITH",
+    "IF",
+    "TRUE",
+    "CERTAINTY"
+  ]
+}

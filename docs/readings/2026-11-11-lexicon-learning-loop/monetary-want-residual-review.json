@@ -1,0 +1,232 @@
+[
+  {
+    "answer": {
+      "code": "TYPED_ANSWER",
+      "raw_output": "{\"QUANTITY\":1}",
+      "request_id": "f03828e5ed66e8bb5e3ebef578ba28369fda1a93ccc5c510b5be3beeca1ac59b",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@96e30d615d48019e52f11473ba145005d4ed2a920041cf92cc337d660cdabc42"
+    },
+    "code": "ACCEPTED_SOURCE_AND_MODEL_AGREE",
+    "definition": {
+      "definition": "a quad with a square body",
+      "entry_id": "wordnet:em:em.n.01",
+      "lemma": "em",
+      "pos": "noun"
+    },
+    "expected": 1,
+    "frequency": 0,
+    "prior_timeout": {
+      "code": "MODEL_TIMEOUT",
+      "request_id": "f03828e5ed66e8bb5e3ebef578ba28369fda1a93ccc5c510b5be3beeca1ac59b",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb"
+    },
+    "request_id": "f03828e5ed66e8bb5e3ebef578ba28369fda1a93ccc5c510b5be3beeca1ac59b",
+    "scope": "QUANTITY_BOUNDARY",
+    "source_rationale": "The historical printer's glossary and the Amalgamated Printers' Association describe the same square spacing block, also called mutton quad in the latter. Its width equals the type body size. An equal-side artifact can have arbitrary absolute size, but this exact spacer denotes one type body of horizontal spacing by convention. This resolves the size-standard issue in the prior review.",
+    "source_refs": [
+      "https://apa-letterpress.com/?page_id=26201",
+      "https://upload.wikimedia.org/wikipedia/commons/a/a2/The_printer%27s_dictionary_of_technical_terms%3B_a_handbook_of_definitions_and_information_about_processes_of_printing_%28IA_printersdictiona00stew%29.pdf"
+    ],
+    "source_sha256": "96610f3acf967954ac720d4c6bf817473fde0177ea9f12f62c61f27da4d7ed08"
+  },
+  {
+    "answer": {
+      "code": "NOT_REQUERIED_SOURCE_WARRANT_STILL_UNRESOLVED"
+    },
+    "code": "UNRESOLVED_NO_DEFINITIONAL_WARRANT",
+    "definition": {
+      "definition": "any of various systems of units for measuring electricity and magnetism",
+      "entry_id": "wordnet:emu:electromagnetic_unit.n.01",
+      "lemma": "emu",
+      "pos": "noun"
+    },
+    "expected": null,
+    "frequency": 22,
+    "request_id": "daa55aca3c4cf6904029962ed45ab5741833bccb55de5f3947cf00382e0e22c8",
+    "scope": "QUANTITY_BOUNDARY",
+    "source_rationale": "NIST distinguishes EMU as the cgs electromagnetic system from the use of emu for an individual unit of magnetic moment. The exact corpus gloss denotes a system. A quantitative subject matter is compatible with a system-level definition, and the unit abbreviation does not resolve that bank here.",
+    "source_refs": [
+      "https://www.nist.gov/publications/persistence-electromagnetic-units-magnetism",
+      "https://www.nist.gov/system/files/documents/pml/electromagnetics/magnetics/magnetic_units.pdf"
+    ],
+    "source_sha256": "1496029a091344a24d15bcad07b28e0c860a89f7b6e39c65428f3023de3527a8"
+  },
+  {
+    "answer": {
+      "code": "NOT_REQUERIED_SOURCE_WARRANT_STILL_UNRESOLVED"
+    },
+    "code": "UNRESOLVED_NO_DEFINITIONAL_WARRANT",
+    "definition": {
+      "definition": "(computer science) the part of a hard disk that is dedicated to a particular operating system or application and accessed as a single unit",
+      "entry_id": "wordnet:partition:partition.n.02",
+      "lemma": "partition",
+      "pos": "noun"
+    },
+    "expected": null,
+    "frequency": 25,
+    "request_id": "6609d4d9387587bd10dc7f85ed945814d236b1e224b4b340ec429b5eff702f7d",
+    "scope": "QUANTITY_BOUNDARY",
+    "source_rationale": "The UEFI specification defines a GPT partition as a range with specified start and end addresses. Its span can be counted, but different extents remain partitions and 'single unit' in the corpus gloss specifies access. This source establishes the extent of each object rather than a lexical standard, count, or magnitude for this exact definition.",
+    "source_refs": [
+      "https://uefi.org/specs/UEFI/2.11/05_GUID_Partition_Table_Format.html"
+    ],
+    "source_sha256": "c7ee88c39fdb3c37a0d0179e7c0cf1de517ac01abbc63c0a3f18ba67825b1b84"
+  },
+  {
+    "answer": {
+      "code": "TYPED_ANSWER",
+      "raw_output": "{\"QUANTITY\":1}",
+      "request_id": "20bf9fbefc3510b634d1a6dc9ac19625f1aa57ca7d0f7af558342a1d236c7727",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@96e30d615d48019e52f11473ba145005d4ed2a920041cf92cc337d660cdabc42"
+    },
+    "code": "ACCEPTED_SOURCE_AND_MODEL_AGREE",
+    "definition": {
+      "definition": "a word is a string of bits stored in computer memory",
+      "entry_id": "wordnet:word:word.n.07",
+      "lemma": "word",
+      "pos": "noun"
+    },
+    "expected": 1,
+    "frequency": 12013,
+    "prior_timeout": {
+      "code": "MODEL_TIMEOUT",
+      "request_id": "20bf9fbefc3510b634d1a6dc9ac19625f1aa57ca7d0f7af558342a1d236c7727",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb"
+    },
+    "request_id": "20bf9fbefc3510b634d1a6dc9ac19625f1aa57ca7d0f7af558342a1d236c7727",
+    "scope": "QUANTITY_BOUNDARY",
+    "source_rationale": "The RISC-V and IBM storage specifications define a 32-bit word, while the Intel data-type specification defines a 16-bit word. The stored bit string in this exact corpus sense is that conventional unit of information. The positive sign encodes the grouping, with no shared bit count imposed across architectures or other word senses.",
+    "source_refs": [
+      "https://docs.riscv.org/reference/isa/v20250508/unpriv/intro.html#memory",
+      "https://www.ibm.com/docs/en/module_1678991624569/pdf/SA22-7832-13.pdf",
+      "https://cdrdv2-public.intel.com/843827/253665-sdm-vol-1-dec-24.pdf"
+    ],
+    "source_sha256": "4c4db4018f7155f20edcff386a1a2f0c25d83d465e14ea46b25940a987657d85"
+  },
+  {
+    "answer": {
+      "code": "TYPED_ANSWER",
+      "raw_output": "{\"WANT\":0}",
+      "request_id": "d98aa4234657aa5c7b6e6ed9f06efb428831b189216edc6d9422c6699ca512fc",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb"
+    },
+    "code": "ACCEPTED_SOURCE_AND_MODEL_AGREE",
+    "definition": {
+      "definition": "an avoirdupois unit used to measure the weight of a human body; equal to 14 pounds",
+      "entry_id": "wordnet:stone:stone.n.05",
+      "lemma": "stone",
+      "pos": "noun"
+    },
+    "expected": 0,
+    "frequency": 2072,
+    "request_id": "d98aa4234657aa5c7b6e6ed9f06efb428831b189216edc6d9422c6699ca512fc",
+    "scope": "ZIPF_CONTINUATION",
+    "source_rationale": "The stone denotes a standard of fourteen pounds. Application to weighing people is independent of a person's desire.",
+    "source_sha256": "cfc179c98d355fa0b38104f32e3132eb7367da6a0c71d1342f0ff50c3c6b51cf"
+  },
+  {
+    "answer": {
+      "code": "TYPED_ANSWER",
+      "raw_output": "{\"WANT\":0}",
+      "request_id": "9461c008ddcdae7561636c291973c62b19b4e644f770a418670ec00493160bfa",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb"
+    },
+    "code": "ACCEPTED_SOURCE_AND_MODEL_AGREE",
+    "definition": {
+      "definition": "(computer science) a sector or group of sectors that function as the smallest data unit permitted",
+      "entry_id": "wordnet:block:block.n.06",
+      "lemma": "block",
+      "pos": "noun"
+    },
+    "expected": 0,
+    "frequency": 2067,
+    "request_id": "9461c008ddcdae7561636c291973c62b19b4e644f770a418670ec00493160bfa",
+    "scope": "ZIPF_CONTINUATION",
+    "source_rationale": "The computer-storage block is a minimum permitted data granule. Its size follows the storage system's structure.",
+    "source_sha256": "df6196146c8cba8b8cf459956a39b576c5e01f16acdef0c8e437dd4445f5b10b"
+  },
+  {
+    "answer": {
+      "code": "TYPED_ANSWER",
+      "raw_output": "{\"WANT\":0}",
+      "request_id": "55e0da22fd11b6520f8c28f38c358797de709595d1e623ab730bba8661b38059",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb"
+    },
+    "code": "ACCEPTED_SOURCE_AND_MODEL_AGREE",
+    "definition": {
+      "definition": "a unit used to measure weight",
+      "entry_id": "wordnet:weight:weight_unit.n.02",
+      "lemma": "weight",
+      "pos": "noun"
+    },
+    "expected": 0,
+    "frequency": 1850,
+    "request_id": "55e0da22fd11b6520f8c28f38c358797de709595d1e623ab730bba8661b38059",
+    "scope": "ZIPF_CONTINUATION",
+    "source_rationale": "This exact weight is a standard for measuring weight. The magnitude is independent of an agent's wants.",
+    "source_sha256": "e2a05977120128e220ed11cb7061a4e5ee49721c96747eac4c783f625308b23c"
+  },
+  {
+    "answer": {
+      "code": "TYPED_ANSWER",
+      "raw_output": "{\"WANT\":0}",
+      "request_id": "e3735c673fc5c9e23fa4f73c68503b4e88f917d8b050ef2c95526f54e0cfb1a0",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb"
+    },
+    "code": "ACCEPTED_SOURCE_AND_MODEL_AGREE",
+    "definition": {
+      "definition": "any division of quantity accepted as a standard of measurement or exchange",
+      "entry_id": "wordnet:unit:unit_of_measurement.n.01",
+      "lemma": "unit",
+      "pos": "noun"
+    },
+    "expected": 0,
+    "frequency": 1845,
+    "request_id": "e3735c673fc5c9e23fa4f73c68503b4e88f917d8b050ef2c95526f54e0cfb1a0",
+    "scope": "ZIPF_CONTINUATION",
+    "source_rationale": "This unit is a recognized quantitative standard. Acceptance establishes the convention across different purposes of measuring or exchanging.",
+    "source_sha256": "934ccc52b017375bbff7fcc821a8aaa8211a2738aea6d0f0aa4331f4b9f0004d"
+  },
+  {
+    "answer": {
+      "code": "TYPED_ANSWER",
+      "raw_output": "{\"WANT\":0}",
+      "request_id": "e694dc5f71ebe939923c4ff4046cc75364b7e179550af38744147216ad7bbf84",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb"
+    },
+    "code": "ACCEPTED_SOURCE_AND_MODEL_AGREE",
+    "definition": {
+      "definition": "one-hundredth of a right angle",
+      "entry_id": "wordnet:grade:grad.n.01",
+      "lemma": "grade",
+      "pos": "noun"
+    },
+    "expected": 0,
+    "frequency": 1493,
+    "request_id": "e694dc5f71ebe939923c4ff4046cc75364b7e179550af38744147216ad7bbf84",
+    "scope": "ZIPF_CONTINUATION",
+    "source_rationale": "The grade is an angular fraction of a right angle. Its mathematical scale is independent of desire.",
+    "source_sha256": "667098acf22b47c793ec1260462decc171241ac2c43fd19f2914895963d962f4"
+  },
+  {
+    "answer": {
+      "code": "TYPED_ANSWER",
+      "raw_output": "{\"WANT\":0}",
+      "request_id": "92bb138cd28e4bd2448450ba15e4942ad11c917289e2116d1477187cef631640",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb"
+    },
+    "code": "ACCEPTED_SOURCE_AND_MODEL_AGREE",
+    "definition": {
+      "definition": "a land unit equal to 1 square mile",
+      "entry_id": "wordnet:section:section.n.07",
+      "lemma": "section",
+      "pos": "noun"
+    },
+    "expected": 0,
+    "frequency": 1394,
+    "request_id": "92bb138cd28e4bd2448450ba15e4942ad11c917289e2116d1477187cef631640",
+    "scope": "ZIPF_CONTINUATION",
+    "source_rationale": "The section is a land-area unit equal to one square mile. Its survey magnitude is independent of ownership or desire for land.",
+    "source_sha256": "c3526cb88d0db4c332475bc9ebe058a012e94bad88f9e52bf804d17c9b2251ad"
+  }
+]

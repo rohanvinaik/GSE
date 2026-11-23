@@ -1,0 +1,131 @@
+{
+  "exceptions": {
+    "wordnet:cubit:cubit.n.01": "The forearm length defines the unit.",
+    "wordnet:digit:finger.n.02": "Finger breadth is the defining standard for this exact synonym.",
+    "wordnet:finger:finger.n.02": "The finger's dimension is the defining standard.",
+    "wordnet:fingerbreadth:finger.n.02": "The exact sense measures the breadth of a finger.",
+    "wordnet:fistmele:fistmele.n.01": "The fist with an extended thumb defines the magnitude; seven inches is an approximation.",
+    "wordnet:handbreadth:handbreadth.n.01": "The human hand's breadth defines the magnitude.",
+    "wordnet:handsbreadth:handbreadth.n.01": "This exact synonym measures the breadth of a human hand.",
+    "wordnet:head:head.n.11": "A human or animal head supplies the defining length or height.",
+    "wordnet:palm:palm.n.02": "Length or width of a human hand supplies the defining standard.",
+    "wordnet:span:span.n.04": "The expanded hand supplies the defining width; the inch value is conventional."
+  },
+  "families": {
+    "linear": {
+      "ancestor": "linear_unit.n.01",
+      "audit": [
+        "wordnet:mile:mile.n.01",
+        "wordnet:meter:meter.n.01",
+        "wordnet:nail:nail.n.03",
+        "wordnet:fathom:fathom.n.01"
+      ],
+      "discovery": [
+        "wordnet:point:point.n.17",
+        "wordnet:foot:foot.n.02",
+        "wordnet:cable:cable.n.04"
+      ],
+      "proposal": {
+        "absent_evidence": [],
+        "antecedent": [
+          "QUANTITY",
+          1
+        ],
+        "consequent": [
+          "BODY",
+          0
+        ],
+        "guards": [
+          [
+            "pos",
+            "noun"
+          ],
+          [
+            "wordnet_native_lemma",
+            "true"
+          ],
+          [
+            "wordnet_ancestor:linear_unit.n.01",
+            "true"
+          ]
+        ],
+        "warrant": {
+          "kind": "DEFINITIONAL_DERIVATION",
+          "required_exception_ids": [
+            "wordnet:cubit:cubit.n.01",
+            "wordnet:digit:finger.n.02",
+            "wordnet:finger:finger.n.02",
+            "wordnet:fingerbreadth:finger.n.02",
+            "wordnet:fistmele:fistmele.n.01",
+            "wordnet:handbreadth:handbreadth.n.01",
+            "wordnet:handsbreadth:handbreadth.n.01",
+            "wordnet:head:head.n.11",
+            "wordnet:palm:palm.n.02",
+            "wordnet:span:span.n.04"
+          ],
+          "review_id": "joint-body-scope-linear",
+          "reviewer": "Codex source-backed review",
+          "source_refs": [
+            "docs/readings/2026-11-11-lexicon-learning-loop/joint-body-source-scope.json",
+            "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#body-reference-content-scope"
+          ],
+          "statement": "The exact native noun linear-unit sense defines length, depth, or a standardized quantity of distance. Standardized units are orthogonal to anatomical structure. The reviewed source scope identifies ten exceptions where the defining magnitude explicitly depends on a body part. The horse application of the four-inch hand and historical stride origin of the standardized yard do not provide anatomical standards for those units. A native definition with a constitutive anatomical standard must receive an exact reviewed exception before this rule can apply.",
+          "warrant_id": "joint-native-body-linear"
+        }
+      },
+      "statement": "The exact native noun linear-unit sense defines length, depth, or a standardized quantity of distance. Standardized units are orthogonal to anatomical structure. The reviewed source scope identifies ten exceptions where the defining magnitude explicitly depends on a body part. The horse application of the four-inch hand and historical stride origin of the standardized yard do not provide anatomical standards for those units. A native definition with a constitutive anatomical standard must receive an exact reviewed exception before this rule can apply."
+    },
+    "monetary": {
+      "ancestor": "monetary_unit.n.01",
+      "audit": [
+        "wordnet:pound:british_pound.n.01",
+        "wordnet:anna:anna.n.01",
+        "wordnet:eurodollar:eurodollar.n.01",
+        "wordnet:yen:yen.n.02"
+      ],
+      "discovery": [
+        "wordnet:at:at.n.02",
+        "wordnet:won:south_korean_won.n.01",
+        "wordnet:sent:sent.n.01",
+        "wordnet:dollar:dollar.n.01"
+      ],
+      "proposal": {
+        "absent_evidence": [],
+        "antecedent": [
+          "QUANTITY",
+          1
+        ],
+        "consequent": [
+          "BODY",
+          0
+        ],
+        "guards": [
+          [
+            "pos",
+            "noun"
+          ],
+          [
+            "wordnet_native_lemma",
+            "true"
+          ],
+          [
+            "wordnet_ancestor:monetary_unit.n.01",
+            "true"
+          ]
+        ],
+        "warrant": {
+          "kind": "DEFINITIONAL_DERIVATION",
+          "review_id": "joint-body-scope-monetary",
+          "reviewer": "Codex source-backed review",
+          "source_refs": [
+            "docs/readings/2026-11-11-lexicon-learning-loop/joint-body-source-scope.json",
+            "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#body-reference-content-scope"
+          ],
+          "statement": "Exact native monetary-unit noun senses define denominations, denomination-bearing coin types, or a deposited currency unit. Their monetary or exchange magnitude is independent of anatomical structure and bodily sites. BODY=0 records orthogonality for this positively identified definitional role. Homographs and unattested derived spellings fall outside the guard.",
+          "warrant_id": "joint-native-body-monetary"
+        }
+      },
+      "statement": "Exact native monetary-unit noun senses define denominations, denomination-bearing coin types, or a deposited currency unit. Their monetary or exchange magnitude is independent of anatomical structure and bodily sites. BODY=0 records orthogonality for this positively identified definitional role. Homographs and unattested derived spellings fall outside the guard."
+    }
+  }
+}

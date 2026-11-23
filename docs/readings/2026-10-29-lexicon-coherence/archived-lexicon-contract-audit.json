@@ -1,0 +1,6432 @@
+{
+  "format": "gse.archived-lexicon-contract-audit/1",
+  "recorded_at_utc": "2026-10-29T18:07:59.313585+00:00",
+  "scope": "Read-only stored-representation audit against the approved definition-indexed balanced-ternary contract. No aggregate accuracy score; no claim to exhaustive semantic gold.",
+  "access": "SQLite URI mode=ro with read transactions; no database mutations",
+  "artifacts": {
+    "old": {
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_clean.db",
+      "bytes": 16396288
+    },
+    "replacement_comparison": {
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-10-29/replacement.db",
+      "bytes": 5384237056,
+      "purpose": "Same-spelling illustration only; neither database is treated as gold."
+    }
+  },
+  "approved_ordinary_basis": [
+    "I",
+    "YOU",
+    "SOMEONE",
+    "SOMETHING",
+    "PEOPLE",
+    "BODY",
+    "KIND",
+    "PART",
+    "SAME",
+    "ONE",
+    "TWO",
+    "QUANTITY",
+    "GOOD",
+    "BIG",
+    "THINK",
+    "KNOW",
+    "WANT",
+    "FEEL",
+    "SEE",
+    "HEAR",
+    "INFER",
+    "SAY",
+    "WORDS",
+    "DO",
+    "HAPPEN",
+    "MOVE",
+    "BE",
+    "HAVE",
+    "EXIST",
+    "ALIVE",
+    "MOMENT",
+    "WHEN",
+    "LONG_TIME",
+    "BEFORE",
+    "THEN",
+    "START",
+    "WHERE",
+    "HERE",
+    "SIDE",
+    "TOUCH",
+    "ABOVE",
+    "FAR",
+    "OUTSIDE",
+    "TOWARD",
+    "WITH",
+    "NOT",
+    "MAYBE",
+    "CAN",
+    "MUST",
+    "BECAUSE",
+    "CAUSE",
+    "IF",
+    "LIKE",
+    "TRUE",
+    "INTENSITY",
+    "CERTAINTY"
+  ],
+  "old_schema": [
+    {
+      "type": "table",
+      "name": "decompositions",
+      "sql": "CREATE TABLE decompositions (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    lexeme_id INTEGER NOT NULL,\n    primitive TEXT NOT NULL,\n    role TEXT NOT NULL,\n    polarity INTEGER NOT NULL DEFAULT 1,\n    position INTEGER NOT NULL DEFAULT 0,\n    FOREIGN KEY (lexeme_id) REFERENCES lexemes(id) ON DELETE CASCADE\n)"
+    },
+    {
+      "type": "table",
+      "name": "lexemes",
+      "sql": "CREATE TABLE lexemes(id INTEGER PRIMARY KEY AUTOINCREMENT, lemma TEXT NOT NULL, pos TEXT,\n  sense_id TEXT, gloss TEXT, frequency_rank INTEGER, confidence REAL,\n  validation_status TEXT DEFAULT 'pending', component_type TEXT, source TEXT DEFAULT 'engine',\n  frequency REAL DEFAULT 1.0, content_hash TEXT, comp_primitive TEXT, comp_arity INTEGER DEFAULT 0,\n  comp_operation TEXT, UNIQUE(lemma,pos,sense_id))"
+    },
+    {
+      "type": "table",
+      "name": "metadata",
+      "sql": "CREATE TABLE metadata (\n    key TEXT PRIMARY KEY,\n    value TEXT\n)"
+    },
+    {
+      "type": "table",
+      "name": "primitive_values",
+      "sql": "CREATE TABLE primitive_values(lexeme_id INTEGER NOT NULL, primitive TEXT NOT NULL,\n  value INTEGER NOT NULL, confidence REAL, source TEXT, PRIMARY KEY(lexeme_id,primitive))"
+    },
+    {
+      "type": "table",
+      "name": "sentence_primitive_values",
+      "sql": "CREATE TABLE sentence_primitive_values(\n  id INTEGER PRIMARY KEY AUTOINCREMENT, lexeme_id INTEGER NOT NULL, primitive TEXT NOT NULL,\n  value INTEGER NOT NULL DEFAULT 0, confidence REAL DEFAULT 1.0, source TEXT DEFAULT 'inferred',\n  UNIQUE(lexeme_id,primitive))"
+    },
+    {
+      "type": "table",
+      "name": "sqlite_sequence",
+      "sql": "CREATE TABLE sqlite_sequence(name,seq)"
+    },
+    {
+      "type": "table",
+      "name": "vectors",
+      "sql": "CREATE TABLE vectors (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    lexeme_id INTEGER NOT NULL UNIQUE,\n    positive_indices BLOB,\n    negative_indices BLOB,\n    FOREIGN KEY (lexeme_id) REFERENCES lexemes(id) ON DELETE CASCADE\n)"
+    }
+  ],
+  "old_metadata": [],
+  "counts": {
+    "lexemes": 67111,
+    "distinct_spellings": 67111,
+    "missing_gloss": 67045,
+    "missing_sense_id": 0,
+    "pos_and_sense_id_distribution": [
+      {
+        "pos": "x",
+        "sense_id": "0",
+        "count": 67111
+      }
+    ],
+    "duplicate_lemma_pos_sense_groups": 0,
+    "duplicate_spelling_groups": 0,
+    "duplicate_primitive_cell_groups": 0,
+    "orphan_primitive_values": 0,
+    "empty_signatures": 45,
+    "stored_primitive_rows": 124930,
+    "ordinary_bank_rows": 124346,
+    "nonbasis_rows": 584,
+    "explicit_zero_rows": 0,
+    "noninteger_rows": 0,
+    "nonternary_rows_all_names": 11,
+    "nonternary_rows_ordinary_banks": 0,
+    "ordinary_coordinates_never_stored": [
+      "CERTAINTY"
+    ],
+    "decompositions": 0,
+    "sentence_values": 0,
+    "cached_vectors": 0
+  },
+  "source_counts": [
+    {
+      "source": "closed_class",
+      "count": 95
+    },
+    {
+      "source": "layer1",
+      "count": 11800
+    },
+    {
+      "source": "layer2",
+      "count": 55121
+    },
+    {
+      "source": "operators",
+      "count": 8
+    },
+    {
+      "source": "quantifiers",
+      "count": 21
+    },
+    {
+      "source": "tier_0",
+      "count": 66
+    }
+  ],
+  "all_primitive_value_distributions": [
+    {
+      "primitive": "ABOVE",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 27
+    },
+    {
+      "primitive": "AFTER",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 58
+    },
+    {
+      "primitive": "ALIVE",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 9409
+    },
+    {
+      "primitive": "AWAY",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 40
+    },
+    {
+      "primitive": "BAD",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 20
+    },
+    {
+      "primitive": "BE",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 861
+    },
+    {
+      "primitive": "BECAUSE",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 26
+    },
+    {
+      "primitive": "BEFORE",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 34
+    },
+    {
+      "primitive": "BELOW",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 34
+    },
+    {
+      "primitive": "BIG",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 6
+    },
+    {
+      "primitive": "BODY",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 2814
+    },
+    {
+      "primitive": "CAN",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 5
+    },
+    {
+      "primitive": "CAUSE",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 627
+    },
+    {
+      "primitive": "DEAD",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 11
+    },
+    {
+      "primitive": "DO",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 16599
+    },
+    {
+      "primitive": "END",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 67
+    },
+    {
+      "primitive": "EXIST",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 42
+    },
+    {
+      "primitive": "FALSE",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 19
+    },
+    {
+      "primitive": "FAR",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 65
+    },
+    {
+      "primitive": "FEEL",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 2864
+    },
+    {
+      "primitive": "GOOD",
+      "storage_type": "integer",
+      "value": -1,
+      "count": 9910
+    },
+    {
+      "primitive": "GOOD",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 3977
+    },
+    {
+      "primitive": "HAPPEN",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 197
+    },
+    {
+      "primitive": "HAVE",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 1137
+    },
+    {
+      "primitive": "HEAR",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 17
+    },
+    {
+      "primitive": "HERE",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 3
+    },
+    {
+      "primitive": "HIER_MINUS",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 3
+    },
+    {
+      "primitive": "HIER_MINUS",
+      "storage_type": "integer",
+      "value": 2,
+      "count": 2
+    },
+    {
+      "primitive": "HIER_MINUS",
+      "storage_type": "integer",
+      "value": 3,
+      "count": 2
+    },
+    {
+      "primitive": "HIER_PLUS",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 5
+    },
+    {
+      "primitive": "HIER_PLUS",
+      "storage_type": "integer",
+      "value": 2,
+      "count": 5
+    },
+    {
+      "primitive": "HIER_PLUS",
+      "storage_type": "integer",
+      "value": 3,
+      "count": 2
+    },
+    {
+      "primitive": "I",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 4
+    },
+    {
+      "primitive": "IF",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 1
+    },
+    {
+      "primitive": "INFER",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 4
+    },
+    {
+      "primitive": "INSIDE",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 182
+    },
+    {
+      "primitive": "INTENSITY",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 8
+    },
+    {
+      "primitive": "KIND",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 302
+    },
+    {
+      "primitive": "KNOW",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 53
+    },
+    {
+      "primitive": "LIKE",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 204
+    },
+    {
+      "primitive": "LONG_TIME",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 1
+    },
+    {
+      "primitive": "MAYBE",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 6
+    },
+    {
+      "primitive": "MOMENT",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 14
+    },
+    {
+      "primitive": "MOVE",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 432
+    },
+    {
+      "primitive": "MUST",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 2
+    },
+    {
+      "primitive": "NEAR",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 37
+    },
+    {
+      "primitive": "NOT",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 2
+    },
+    {
+      "primitive": "NOW",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 13
+    },
+    {
+      "primitive": "NUMBER",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 3
+    },
+    {
+      "primitive": "ONE",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 86
+    },
+    {
+      "primitive": "OTHER",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 35
+    },
+    {
+      "primitive": "OUTSIDE",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 16
+    },
+    {
+      "primitive": "PART",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 1545
+    },
+    {
+      "primitive": "PEOPLE",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 3629
+    },
+    {
+      "primitive": "QUANTITY",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 13
+    },
+    {
+      "primitive": "SAME",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 40
+    },
+    {
+      "primitive": "SAY",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 39
+    },
+    {
+      "primitive": "SEE",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 72
+    },
+    {
+      "primitive": "SHORT_TIME",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 1
+    },
+    {
+      "primitive": "SIDE",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 68
+    },
+    {
+      "primitive": "SMALL",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 42
+    },
+    {
+      "primitive": "SOMEONE",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 8207
+    },
+    {
+      "primitive": "SOMETHING",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 59282
+    },
+    {
+      "primitive": "START",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 17
+    },
+    {
+      "primitive": "THEN",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 2
+    },
+    {
+      "primitive": "THINK",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 18
+    },
+    {
+      "primitive": "TOUCH",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 9
+    },
+    {
+      "primitive": "TOWARD",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 23
+    },
+    {
+      "primitive": "TRUE",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 13
+    },
+    {
+      "primitive": "TWO",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 2
+    },
+    {
+      "primitive": "WANT",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 13
+    },
+    {
+      "primitive": "WHEN",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 6
+    },
+    {
+      "primitive": "WHERE",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 2
+    },
+    {
+      "primitive": "WITH",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 1588
+    },
+    {
+      "primitive": "WITHOUT",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 3
+    },
+    {
+      "primitive": "WORDS",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 2
+    },
+    {
+      "primitive": "YOU",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 1
+    }
+  ],
+  "nonbasis_value_distributions": [
+    {
+      "primitive": "AFTER",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 58
+    },
+    {
+      "primitive": "AWAY",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 40
+    },
+    {
+      "primitive": "BAD",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 20
+    },
+    {
+      "primitive": "BELOW",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 34
+    },
+    {
+      "primitive": "DEAD",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 11
+    },
+    {
+      "primitive": "END",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 67
+    },
+    {
+      "primitive": "FALSE",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 19
+    },
+    {
+      "primitive": "HIER_MINUS",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 3
+    },
+    {
+      "primitive": "HIER_MINUS",
+      "storage_type": "integer",
+      "value": 2,
+      "count": 2
+    },
+    {
+      "primitive": "HIER_MINUS",
+      "storage_type": "integer",
+      "value": 3,
+      "count": 2
+    },
+    {
+      "primitive": "HIER_PLUS",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 5
+    },
+    {
+      "primitive": "HIER_PLUS",
+      "storage_type": "integer",
+      "value": 2,
+      "count": 5
+    },
+    {
+      "primitive": "HIER_PLUS",
+      "storage_type": "integer",
+      "value": 3,
+      "count": 2
+    },
+    {
+      "primitive": "INSIDE",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 182
+    },
+    {
+      "primitive": "NEAR",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 37
+    },
+    {
+      "primitive": "NOW",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 13
+    },
+    {
+      "primitive": "NUMBER",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 3
+    },
+    {
+      "primitive": "OTHER",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 35
+    },
+    {
+      "primitive": "SHORT_TIME",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 1
+    },
+    {
+      "primitive": "SMALL",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 42
+    },
+    {
+      "primitive": "WITHOUT",
+      "storage_type": "integer",
+      "value": 1,
+      "count": 3
+    }
+  ],
+  "checks": [
+    {
+      "class": "ordinary_bank_storage",
+      "outcome": "IDENTIFIED",
+      "code": "TERNARY_INTEGER_VALUES",
+      "rows_checked": 124346,
+      "invalid_rows": 0,
+      "scope": "Only stored names in the approved 56-coordinate basis; semantic signs are not independently gold-validated."
+    },
+    {
+      "class": "definition_indexing",
+      "outcome": "WRONG",
+      "code": "SPELLING_INDEXED_NOT_DEFINITION_INDEXED",
+      "reason": "Exactly one lexeme per spelling, generic POS/sense identifiers, and missing definitions for almost all rows do not fulfill the approved one-entry-per-definition contract."
+    },
+    {
+      "class": "unknown_zero_distinction",
+      "outcome": "WRONG",
+      "code": "NO_EXPLICIT_ZERO_OR_UNRESOLVED_STATE",
+      "reason": "No stored zero values and no definition-state domains. Sparse omissions cannot distinguish justified orthogonality from unresolved banks."
+    },
+    {
+      "class": "basis_and_hierarchy",
+      "outcome": "WRONG",
+      "code": "LEGACY_UNVERSIONED_REPRESENTATION",
+      "reason": "Empty metadata; legacy negative-pole labels and HIER/NUMBER entries coexist with ordinary coordinates, without component-target hierarchy metadata. This is not the approved versioned 56-coordinate artifact; it is not a claim that every legacy alias is meaningless."
+    },
+    {
+      "class": "duplicate_identity_integrity",
+      "outcome": "IDENTIFIED",
+      "code": "NO_DUPLICATE_ROWS_OR_ORPHAN_VALUES"
+    },
+    {
+      "class": "all_definition_semantic_correctness",
+      "outcome": "ABSTAINED",
+      "code": "NOT_INDEPENDENTLY_EVALUATED",
+      "reason": "Schema and same-spelling comparisons cannot establish intended definition or sign correctness for every entry. The old database is not gold; the replacement is also partial."
+    }
+  ],
+  "complete_lexical_examples": {
+    "want": {
+      "old": [
+        {
+          "id": 62,
+          "lemma": "want",
+          "pos": "x",
+          "sense_id": "0",
+          "gloss": "<tier0:WANT>",
+          "frequency_rank": null,
+          "confidence": null,
+          "validation_status": "pending",
+          "component_type": null,
+          "source": "tier_0",
+          "frequency": 1.0,
+          "content_hash": null,
+          "comp_primitive": null,
+          "comp_arity": 0,
+          "comp_operation": null,
+          "primitive_values": [
+            {
+              "lexeme_id": 62,
+              "primitive": "WANT",
+              "value": 1,
+              "confidence": 1.0,
+              "source": "tier_0"
+            }
+          ],
+          "sentence_primitive_values": []
+        }
+      ],
+      "replacement": [
+        {
+          "id": 150905,
+          "lemma": "want",
+          "pos": "verb",
+          "sense_id": "wordnet:want:desire.v.01",
+          "gloss": "feel or have a desire for; want strongly",
+          "source": "gse.lexicon-builder/1",
+          "confidence": 1.0,
+          "frequency_rank": null,
+          "frequency_weight": null,
+          "phase": 0,
+          "validation_status": "partial",
+          "created_at": "2026-10-29 17:52:49",
+          "updated_at": "2026-10-29 17:52:49",
+          "comp_primitive": null,
+          "comp_arity": 0,
+          "comp_operation": null,
+          "primitive_values": [
+            {
+              "id": 223360,
+              "lexeme_id": 150905,
+              "primitive": "WANT",
+              "value": 1,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            }
+          ],
+          "sentence_primitive_values": [],
+          "definition_state": [
+            {
+              "entry_id": "wordnet:want:desire.v.01",
+              "code": "PARTIAL",
+              "domains": {
+                "ABOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ALIVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BECAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BEFORE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BIG": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BODY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CERTAINTY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "DO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "EXIST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FEEL": [
+                  -1,
+                  0,
+                  1
+                ],
+                "GOOD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAPPEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HEAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "I": [
+                  -1,
+                  0,
+                  1
+                ],
+                "IF": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INFER": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INTENSITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KIND": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KNOW": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LIKE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LONG_TIME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MAYBE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOMENT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MUST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "NOT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "OUTSIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PART": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PEOPLE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "QUANTITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SEE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMEONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMETHING": [
+                  -1,
+                  0,
+                  1
+                ],
+                "START": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THINK": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOUCH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOWARD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TRUE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TWO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WANT": [
+                  1
+                ],
+                "WHEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WITH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WORDS": [
+                  -1,
+                  0,
+                  1
+                ],
+                "YOU": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "conflicts": [],
+              "hierarchy": {}
+            }
+          ]
+        },
+        {
+          "id": 150906,
+          "lemma": "want",
+          "pos": "noun",
+          "sense_id": "wordnet:want:lack.n.01",
+          "gloss": "the state of needing something that is absent or unavailable",
+          "source": "gse.lexicon-builder/1",
+          "confidence": 1.0,
+          "frequency_rank": null,
+          "frequency_weight": null,
+          "phase": 0,
+          "validation_status": "partial",
+          "created_at": "2026-10-29 17:52:49",
+          "updated_at": "2026-10-29 17:52:49",
+          "comp_primitive": null,
+          "comp_arity": 0,
+          "comp_operation": null,
+          "primitive_values": [
+            {
+              "id": 223361,
+              "lexeme_id": 150906,
+              "primitive": "GOOD",
+              "value": 0,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            },
+            {
+              "id": 223362,
+              "lexeme_id": 150906,
+              "primitive": "SOMETHING",
+              "value": 1,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            }
+          ],
+          "sentence_primitive_values": [],
+          "definition_state": [
+            {
+              "entry_id": "wordnet:want:lack.n.01",
+              "code": "PARTIAL",
+              "domains": {
+                "ABOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ALIVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BECAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BEFORE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BIG": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BODY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CERTAINTY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "DO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "EXIST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FEEL": [
+                  -1,
+                  0,
+                  1
+                ],
+                "GOOD": [
+                  0
+                ],
+                "HAPPEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HEAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "I": [
+                  -1,
+                  0,
+                  1
+                ],
+                "IF": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INFER": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INTENSITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KIND": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KNOW": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LIKE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LONG_TIME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MAYBE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOMENT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MUST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "NOT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "OUTSIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PART": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PEOPLE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "QUANTITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SEE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMEONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMETHING": [
+                  1
+                ],
+                "START": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THINK": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOUCH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOWARD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TRUE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TWO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WANT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WITH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WORDS": [
+                  -1,
+                  0,
+                  1
+                ],
+                "YOU": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "conflicts": [],
+              "hierarchy": {}
+            }
+          ]
+        },
+        {
+          "id": 150907,
+          "lemma": "want",
+          "pos": "noun",
+          "sense_id": "wordnet:want:need.n.02",
+          "gloss": "anything that is necessary but lacking",
+          "source": "gse.lexicon-builder/1",
+          "confidence": 1.0,
+          "frequency_rank": null,
+          "frequency_weight": null,
+          "phase": 0,
+          "validation_status": "partial",
+          "created_at": "2026-10-29 17:52:49",
+          "updated_at": "2026-10-29 17:52:49",
+          "comp_primitive": null,
+          "comp_arity": 0,
+          "comp_operation": null,
+          "primitive_values": [
+            {
+              "id": 223363,
+              "lexeme_id": 150907,
+              "primitive": "GOOD",
+              "value": 0,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            },
+            {
+              "id": 223364,
+              "lexeme_id": 150907,
+              "primitive": "SOMETHING",
+              "value": 1,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            }
+          ],
+          "sentence_primitive_values": [],
+          "definition_state": [
+            {
+              "entry_id": "wordnet:want:need.n.02",
+              "code": "PARTIAL",
+              "domains": {
+                "ABOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ALIVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BECAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BEFORE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BIG": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BODY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CERTAINTY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "DO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "EXIST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FEEL": [
+                  -1,
+                  0,
+                  1
+                ],
+                "GOOD": [
+                  0
+                ],
+                "HAPPEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HEAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "I": [
+                  -1,
+                  0,
+                  1
+                ],
+                "IF": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INFER": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INTENSITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KIND": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KNOW": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LIKE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LONG_TIME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MAYBE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOMENT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MUST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "NOT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "OUTSIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PART": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PEOPLE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "QUANTITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SEE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMEONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMETHING": [
+                  1
+                ],
+                "START": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THINK": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOUCH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOWARD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TRUE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TWO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WANT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WITH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WORDS": [
+                  -1,
+                  0,
+                  1
+                ],
+                "YOU": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "conflicts": [],
+              "hierarchy": {}
+            }
+          ]
+        },
+        {
+          "id": 150908,
+          "lemma": "want",
+          "pos": "noun",
+          "sense_id": "wordnet:want:privation.n.01",
+          "gloss": "a state of extreme poverty",
+          "source": "gse.lexicon-builder/1",
+          "confidence": 1.0,
+          "frequency_rank": null,
+          "frequency_weight": null,
+          "phase": 0,
+          "validation_status": "partial",
+          "created_at": "2026-10-29 17:52:49",
+          "updated_at": "2026-10-29 17:52:49",
+          "comp_primitive": null,
+          "comp_arity": 0,
+          "comp_operation": null,
+          "primitive_values": [
+            {
+              "id": 223365,
+              "lexeme_id": 150908,
+              "primitive": "GOOD",
+              "value": 0,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            },
+            {
+              "id": 223366,
+              "lexeme_id": 150908,
+              "primitive": "SOMETHING",
+              "value": 1,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            }
+          ],
+          "sentence_primitive_values": [],
+          "definition_state": [
+            {
+              "entry_id": "wordnet:want:privation.n.01",
+              "code": "PARTIAL",
+              "domains": {
+                "ABOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ALIVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BECAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BEFORE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BIG": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BODY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CERTAINTY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "DO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "EXIST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FEEL": [
+                  -1,
+                  0,
+                  1
+                ],
+                "GOOD": [
+                  0
+                ],
+                "HAPPEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HEAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "I": [
+                  -1,
+                  0,
+                  1
+                ],
+                "IF": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INFER": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INTENSITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KIND": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KNOW": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LIKE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LONG_TIME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MAYBE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOMENT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MUST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "NOT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "OUTSIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PART": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PEOPLE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "QUANTITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SEE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMEONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMETHING": [
+                  1
+                ],
+                "START": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THINK": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOUCH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOWARD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TRUE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TWO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WANT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WITH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WORDS": [
+                  -1,
+                  0,
+                  1
+                ],
+                "YOU": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "conflicts": [],
+              "hierarchy": {}
+            }
+          ]
+        },
+        {
+          "id": 150909,
+          "lemma": "want",
+          "pos": "verb",
+          "sense_id": "wordnet:want:want.v.02",
+          "gloss": "have need of",
+          "source": "gse.lexicon-builder/1",
+          "confidence": 1.0,
+          "frequency_rank": null,
+          "frequency_weight": null,
+          "phase": 0,
+          "validation_status": "partial",
+          "created_at": "2026-10-29 17:52:49",
+          "updated_at": "2026-10-29 17:52:49",
+          "comp_primitive": null,
+          "comp_arity": 0,
+          "comp_operation": null,
+          "primitive_values": [
+            {
+              "id": 223367,
+              "lexeme_id": 150909,
+              "primitive": "WANT",
+              "value": 1,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            }
+          ],
+          "sentence_primitive_values": [],
+          "definition_state": [
+            {
+              "entry_id": "wordnet:want:want.v.02",
+              "code": "PARTIAL",
+              "domains": {
+                "ABOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ALIVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BECAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BEFORE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BIG": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BODY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CERTAINTY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "DO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "EXIST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FEEL": [
+                  -1,
+                  0,
+                  1
+                ],
+                "GOOD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAPPEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HEAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "I": [
+                  -1,
+                  0,
+                  1
+                ],
+                "IF": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INFER": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INTENSITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KIND": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KNOW": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LIKE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LONG_TIME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MAYBE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOMENT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MUST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "NOT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "OUTSIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PART": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PEOPLE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "QUANTITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SEE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMEONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMETHING": [
+                  -1,
+                  0,
+                  1
+                ],
+                "START": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THINK": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOUCH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOWARD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TRUE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TWO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WANT": [
+                  1
+                ],
+                "WHEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WITH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WORDS": [
+                  -1,
+                  0,
+                  1
+                ],
+                "YOU": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "conflicts": [],
+              "hierarchy": {}
+            }
+          ]
+        },
+        {
+          "id": 150910,
+          "lemma": "want",
+          "pos": "verb",
+          "sense_id": "wordnet:want:want.v.03",
+          "gloss": "hunt or look for; want for a particular reason",
+          "source": "gse.lexicon-builder/1",
+          "confidence": 1.0,
+          "frequency_rank": null,
+          "frequency_weight": null,
+          "phase": 0,
+          "validation_status": "partial",
+          "created_at": "2026-10-29 17:52:49",
+          "updated_at": "2026-10-29 17:52:49",
+          "comp_primitive": null,
+          "comp_arity": 0,
+          "comp_operation": null,
+          "primitive_values": [
+            {
+              "id": 223368,
+              "lexeme_id": 150910,
+              "primitive": "WANT",
+              "value": 1,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            }
+          ],
+          "sentence_primitive_values": [],
+          "definition_state": [
+            {
+              "entry_id": "wordnet:want:want.v.03",
+              "code": "PARTIAL",
+              "domains": {
+                "ABOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ALIVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BECAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BEFORE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BIG": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BODY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CERTAINTY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "DO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "EXIST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FEEL": [
+                  -1,
+                  0,
+                  1
+                ],
+                "GOOD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAPPEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HEAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "I": [
+                  -1,
+                  0,
+                  1
+                ],
+                "IF": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INFER": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INTENSITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KIND": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KNOW": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LIKE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LONG_TIME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MAYBE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOMENT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MUST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "NOT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "OUTSIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PART": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PEOPLE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "QUANTITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SEE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMEONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMETHING": [
+                  -1,
+                  0,
+                  1
+                ],
+                "START": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THINK": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOUCH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOWARD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TRUE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TWO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WANT": [
+                  1
+                ],
+                "WHEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WITH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WORDS": [
+                  -1,
+                  0,
+                  1
+                ],
+                "YOU": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "conflicts": [],
+              "hierarchy": {}
+            }
+          ]
+        },
+        {
+          "id": 150911,
+          "lemma": "want",
+          "pos": "verb",
+          "sense_id": "wordnet:want:want.v.04",
+          "gloss": "wish or demand the presence of",
+          "source": "gse.lexicon-builder/1",
+          "confidence": 1.0,
+          "frequency_rank": null,
+          "frequency_weight": null,
+          "phase": 0,
+          "validation_status": "partial",
+          "created_at": "2026-10-29 17:52:49",
+          "updated_at": "2026-10-29 17:52:49",
+          "comp_primitive": null,
+          "comp_arity": 0,
+          "comp_operation": null,
+          "primitive_values": [
+            {
+              "id": 223369,
+              "lexeme_id": 150911,
+              "primitive": "CAUSE",
+              "value": 1,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            },
+            {
+              "id": 223370,
+              "lexeme_id": 150911,
+              "primitive": "HAPPEN",
+              "value": 1,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            },
+            {
+              "id": 223371,
+              "lexeme_id": 150911,
+              "primitive": "WANT",
+              "value": 1,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            }
+          ],
+          "sentence_primitive_values": [],
+          "definition_state": [
+            {
+              "entry_id": "wordnet:want:want.v.04",
+              "code": "PARTIAL",
+              "domains": {
+                "ABOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ALIVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BECAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BEFORE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BIG": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BODY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAUSE": [
+                  1
+                ],
+                "CERTAINTY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "DO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "EXIST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FEEL": [
+                  -1,
+                  0,
+                  1
+                ],
+                "GOOD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAPPEN": [
+                  1
+                ],
+                "HAVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HEAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "I": [
+                  -1,
+                  0,
+                  1
+                ],
+                "IF": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INFER": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INTENSITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KIND": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KNOW": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LIKE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LONG_TIME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MAYBE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOMENT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MUST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "NOT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "OUTSIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PART": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PEOPLE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "QUANTITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SEE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMEONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMETHING": [
+                  -1,
+                  0,
+                  1
+                ],
+                "START": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THINK": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOUCH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOWARD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TRUE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TWO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WANT": [
+                  1
+                ],
+                "WHEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WITH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WORDS": [
+                  -1,
+                  0,
+                  1
+                ],
+                "YOU": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "conflicts": [],
+              "hierarchy": {}
+            }
+          ]
+        },
+        {
+          "id": 150912,
+          "lemma": "want",
+          "pos": "verb",
+          "sense_id": "wordnet:want:want.v.05",
+          "gloss": "be without, lack; be deficient in",
+          "source": "gse.lexicon-builder/1",
+          "confidence": 1.0,
+          "frequency_rank": null,
+          "frequency_weight": null,
+          "phase": 0,
+          "validation_status": "partial",
+          "created_at": "2026-10-29 17:52:49",
+          "updated_at": "2026-10-29 17:52:49",
+          "comp_primitive": null,
+          "comp_arity": 0,
+          "comp_operation": null,
+          "primitive_values": [
+            {
+              "id": 223372,
+              "lexeme_id": 150912,
+              "primitive": "WANT",
+              "value": 1,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            }
+          ],
+          "sentence_primitive_values": [],
+          "definition_state": [
+            {
+              "entry_id": "wordnet:want:want.v.05",
+              "code": "PARTIAL",
+              "domains": {
+                "ABOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ALIVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BECAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BEFORE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BIG": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BODY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CERTAINTY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "DO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "EXIST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FEEL": [
+                  -1,
+                  0,
+                  1
+                ],
+                "GOOD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAPPEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HEAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "I": [
+                  -1,
+                  0,
+                  1
+                ],
+                "IF": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INFER": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INTENSITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KIND": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KNOW": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LIKE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LONG_TIME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MAYBE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOMENT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MUST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "NOT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "OUTSIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PART": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PEOPLE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "QUANTITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SEE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMEONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMETHING": [
+                  -1,
+                  0,
+                  1
+                ],
+                "START": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THINK": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOUCH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOWARD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TRUE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TWO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WANT": [
+                  1
+                ],
+                "WHEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WITH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WORDS": [
+                  -1,
+                  0,
+                  1
+                ],
+                "YOU": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "conflicts": [],
+              "hierarchy": {}
+            }
+          ]
+        },
+        {
+          "id": 150913,
+          "lemma": "want",
+          "pos": "noun",
+          "sense_id": "wordnet:want:wish.n.01",
+          "gloss": "a specific feeling of desire",
+          "source": "gse.lexicon-builder/1",
+          "confidence": 1.0,
+          "frequency_rank": null,
+          "frequency_weight": null,
+          "phase": 0,
+          "validation_status": "partial",
+          "created_at": "2026-10-29 17:52:49",
+          "updated_at": "2026-10-29 17:52:49",
+          "comp_primitive": null,
+          "comp_arity": 0,
+          "comp_operation": null,
+          "primitive_values": [
+            {
+              "id": 223373,
+              "lexeme_id": 150913,
+              "primitive": "FEEL",
+              "value": 1,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            },
+            {
+              "id": 223374,
+              "lexeme_id": 150913,
+              "primitive": "GOOD",
+              "value": 0,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            },
+            {
+              "id": 223375,
+              "lexeme_id": 150913,
+              "primitive": "SOMETHING",
+              "value": 1,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            }
+          ],
+          "sentence_primitive_values": [],
+          "definition_state": [
+            {
+              "entry_id": "wordnet:want:wish.n.01",
+              "code": "PARTIAL",
+              "domains": {
+                "ABOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ALIVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BECAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BEFORE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BIG": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BODY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CERTAINTY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "DO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "EXIST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FEEL": [
+                  1
+                ],
+                "GOOD": [
+                  0
+                ],
+                "HAPPEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HEAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "I": [
+                  -1,
+                  0,
+                  1
+                ],
+                "IF": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INFER": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INTENSITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KIND": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KNOW": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LIKE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LONG_TIME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MAYBE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOMENT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MUST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "NOT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "OUTSIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PART": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PEOPLE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "QUANTITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SEE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMEONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMETHING": [
+                  1
+                ],
+                "START": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THINK": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOUCH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOWARD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TRUE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TWO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WANT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WITH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WORDS": [
+                  -1,
+                  0,
+                  1
+                ],
+                "YOU": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "conflicts": [],
+              "hierarchy": {}
+            }
+          ]
+        }
+      ]
+    },
+    "very": {
+      "old": [
+        {
+          "id": 115529,
+          "lemma": "very",
+          "pos": "x",
+          "sense_id": "0",
+          "gloss": null,
+          "frequency_rank": null,
+          "confidence": 1.0,
+          "validation_status": "hierarchy",
+          "component_type": "hierarchy",
+          "source": "quantifiers",
+          "frequency": 1.0,
+          "content_hash": null,
+          "comp_primitive": null,
+          "comp_arity": 0,
+          "comp_operation": null,
+          "primitive_values": [
+            {
+              "lexeme_id": 115529,
+              "primitive": "HIER_PLUS",
+              "value": 1,
+              "confidence": 1.0,
+              "source": "quantifiers"
+            },
+            {
+              "lexeme_id": 115529,
+              "primitive": "INTENSITY",
+              "value": 1,
+              "confidence": 1.0,
+              "source": "quantifiers"
+            }
+          ],
+          "sentence_primitive_values": []
+        }
+      ],
+      "replacement": [
+        {
+          "id": 149298,
+          "lemma": "very",
+          "pos": "adj",
+          "sense_id": "wordnet:very:identical.s.02",
+          "gloss": "being the exact same one; not any other:",
+          "source": "gse.lexicon-builder/1",
+          "confidence": 1.0,
+          "frequency_rank": null,
+          "frequency_weight": null,
+          "phase": 0,
+          "validation_status": "partial",
+          "created_at": "2026-10-29 17:52:49",
+          "updated_at": "2026-10-29 17:52:49",
+          "comp_primitive": null,
+          "comp_arity": 0,
+          "comp_operation": null,
+          "primitive_values": [
+            {
+              "id": 220695,
+              "lexeme_id": 149298,
+              "primitive": "SOMETHING",
+              "value": 0,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            }
+          ],
+          "sentence_primitive_values": [],
+          "definition_state": [
+            {
+              "entry_id": "wordnet:very:identical.s.02",
+              "code": "PARTIAL",
+              "domains": {
+                "ABOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ALIVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BECAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BEFORE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BIG": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BODY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CERTAINTY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "DO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "EXIST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FEEL": [
+                  -1,
+                  0,
+                  1
+                ],
+                "GOOD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAPPEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HEAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "I": [
+                  -1,
+                  0,
+                  1
+                ],
+                "IF": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INFER": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INTENSITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KIND": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KNOW": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LIKE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LONG_TIME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MAYBE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOMENT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MUST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "NOT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "OUTSIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PART": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PEOPLE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "QUANTITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SEE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMEONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMETHING": [
+                  0
+                ],
+                "START": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THINK": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOUCH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOWARD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TRUE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TWO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WANT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WITH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WORDS": [
+                  -1,
+                  0,
+                  1
+                ],
+                "YOU": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "conflicts": [],
+              "hierarchy": {}
+            }
+          ]
+        },
+        {
+          "id": 149299,
+          "lemma": "very",
+          "pos": "adv",
+          "sense_id": "wordnet:very:very.r.01",
+          "gloss": "used as intensifiers; `real' is sometimes used informally for `really'; `rattling' is informal",
+          "source": "gse.lexicon-builder/1",
+          "confidence": 1.0,
+          "frequency_rank": null,
+          "frequency_weight": null,
+          "phase": 0,
+          "validation_status": "partial",
+          "created_at": "2026-10-29 17:52:49",
+          "updated_at": "2026-10-29 17:52:49",
+          "comp_primitive": null,
+          "comp_arity": 0,
+          "comp_operation": null,
+          "primitive_values": [
+            {
+              "id": 220696,
+              "lexeme_id": 149299,
+              "primitive": "INTENSITY",
+              "value": 1,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            },
+            {
+              "id": 220697,
+              "lexeme_id": 149299,
+              "primitive": "SOMETHING",
+              "value": 0,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            }
+          ],
+          "sentence_primitive_values": [],
+          "definition_state": [
+            {
+              "entry_id": "wordnet:very:very.r.01",
+              "code": "PARTIAL",
+              "domains": {
+                "ABOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ALIVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BECAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BEFORE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BIG": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BODY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CERTAINTY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "DO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "EXIST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FEEL": [
+                  -1,
+                  0,
+                  1
+                ],
+                "GOOD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAPPEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HEAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "I": [
+                  -1,
+                  0,
+                  1
+                ],
+                "IF": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INFER": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INTENSITY": [
+                  1
+                ],
+                "KIND": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KNOW": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LIKE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LONG_TIME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MAYBE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOMENT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MUST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "NOT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "OUTSIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PART": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PEOPLE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "QUANTITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SEE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMEONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMETHING": [
+                  0
+                ],
+                "START": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THINK": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOUCH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOWARD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TRUE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TWO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WANT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WITH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WORDS": [
+                  -1,
+                  0,
+                  1
+                ],
+                "YOU": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "conflicts": [],
+              "hierarchy": {
+                "INTENSITY": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": 149300,
+          "lemma": "very",
+          "pos": "adv",
+          "sense_id": "wordnet:very:very.r.02",
+          "gloss": "precisely so",
+          "source": "gse.lexicon-builder/1",
+          "confidence": 1.0,
+          "frequency_rank": null,
+          "frequency_weight": null,
+          "phase": 0,
+          "validation_status": "partial",
+          "created_at": "2026-10-29 17:52:49",
+          "updated_at": "2026-10-29 17:52:49",
+          "comp_primitive": null,
+          "comp_arity": 0,
+          "comp_operation": null,
+          "primitive_values": [
+            {
+              "id": 220698,
+              "lexeme_id": 149300,
+              "primitive": "SOMETHING",
+              "value": 0,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            }
+          ],
+          "sentence_primitive_values": [],
+          "definition_state": [
+            {
+              "entry_id": "wordnet:very:very.r.02",
+              "code": "PARTIAL",
+              "domains": {
+                "ABOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ALIVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BECAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BEFORE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BIG": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BODY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CERTAINTY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "DO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "EXIST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FEEL": [
+                  -1,
+                  0,
+                  1
+                ],
+                "GOOD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAPPEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HEAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "I": [
+                  -1,
+                  0,
+                  1
+                ],
+                "IF": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INFER": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INTENSITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KIND": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KNOW": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LIKE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LONG_TIME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MAYBE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOMENT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MUST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "NOT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "OUTSIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PART": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PEOPLE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "QUANTITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SEE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMEONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMETHING": [
+                  0
+                ],
+                "START": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THINK": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOUCH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOWARD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TRUE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TWO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WANT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WITH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WORDS": [
+                  -1,
+                  0,
+                  1
+                ],
+                "YOU": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "conflicts": [],
+              "hierarchy": {}
+            }
+          ]
+        },
+        {
+          "id": 149301,
+          "lemma": "very",
+          "pos": "adj",
+          "sense_id": "wordnet:very:very.s.01",
+          "gloss": "precisely as stated",
+          "source": "gse.lexicon-builder/1",
+          "confidence": 1.0,
+          "frequency_rank": null,
+          "frequency_weight": null,
+          "phase": 0,
+          "validation_status": "partial",
+          "created_at": "2026-10-29 17:52:49",
+          "updated_at": "2026-10-29 17:52:49",
+          "comp_primitive": null,
+          "comp_arity": 0,
+          "comp_operation": null,
+          "primitive_values": [
+            {
+              "id": 220699,
+              "lexeme_id": 149301,
+              "primitive": "SOMETHING",
+              "value": 0,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            }
+          ],
+          "sentence_primitive_values": [],
+          "definition_state": [
+            {
+              "entry_id": "wordnet:very:very.s.01",
+              "code": "PARTIAL",
+              "domains": {
+                "ABOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ALIVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BECAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BEFORE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BIG": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BODY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CERTAINTY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "DO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "EXIST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FEEL": [
+                  -1,
+                  0,
+                  1
+                ],
+                "GOOD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAPPEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HEAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "I": [
+                  -1,
+                  0,
+                  1
+                ],
+                "IF": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INFER": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INTENSITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KIND": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KNOW": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LIKE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LONG_TIME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MAYBE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOMENT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MUST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "NOT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "OUTSIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PART": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PEOPLE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "QUANTITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SEE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMEONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMETHING": [
+                  0
+                ],
+                "START": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THINK": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOUCH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOWARD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TRUE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TWO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WANT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WITH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WORDS": [
+                  -1,
+                  0,
+                  1
+                ],
+                "YOU": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "conflicts": [],
+              "hierarchy": {}
+            }
+          ]
+        }
+      ]
+    },
+    "extremely": {
+      "old": [
+        {
+          "id": 48795,
+          "lemma": "extremely",
+          "pos": "x",
+          "sense_id": "0",
+          "gloss": null,
+          "frequency_rank": 1329,
+          "confidence": 0.8,
+          "validation_status": "decomposed",
+          "component_type": "hierarchy",
+          "source": "quantifiers",
+          "frequency": 1.0,
+          "content_hash": null,
+          "comp_primitive": null,
+          "comp_arity": 0,
+          "comp_operation": null,
+          "primitive_values": [
+            {
+              "lexeme_id": 48795,
+              "primitive": "HIER_PLUS",
+              "value": 2,
+              "confidence": 1.0,
+              "source": "quantifiers"
+            },
+            {
+              "lexeme_id": 48795,
+              "primitive": "INTENSITY",
+              "value": 1,
+              "confidence": 1.0,
+              "source": "quantifiers"
+            }
+          ],
+          "sentence_primitive_values": []
+        }
+      ],
+      "replacement": [
+        {
+          "id": 50122,
+          "lemma": "extremely",
+          "pos": "adv",
+          "sense_id": "wordnet:extremely:extremely.r.02",
+          "gloss": "to an extreme degree",
+          "source": "gse.lexicon-builder/1",
+          "confidence": 1.0,
+          "frequency_rank": null,
+          "frequency_weight": null,
+          "phase": 0,
+          "validation_status": "partial",
+          "created_at": "2026-10-29 17:52:15",
+          "updated_at": "2026-10-29 17:52:15",
+          "comp_primitive": null,
+          "comp_arity": 0,
+          "comp_operation": null,
+          "primitive_values": [
+            {
+              "id": 72796,
+              "lexeme_id": 50122,
+              "primitive": "INTENSITY",
+              "value": 1,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            },
+            {
+              "id": 72797,
+              "lexeme_id": 50122,
+              "primitive": "SOMETHING",
+              "value": 0,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            }
+          ],
+          "sentence_primitive_values": [],
+          "definition_state": [
+            {
+              "entry_id": "wordnet:extremely:extremely.r.02",
+              "code": "PARTIAL",
+              "domains": {
+                "ABOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ALIVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BECAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BEFORE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BIG": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BODY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CERTAINTY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "DO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "EXIST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FEEL": [
+                  -1,
+                  0,
+                  1
+                ],
+                "GOOD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAPPEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HEAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "I": [
+                  -1,
+                  0,
+                  1
+                ],
+                "IF": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INFER": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INTENSITY": [
+                  1
+                ],
+                "KIND": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KNOW": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LIKE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LONG_TIME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MAYBE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOMENT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MUST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "NOT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "OUTSIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PART": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PEOPLE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "QUANTITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SEE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMEONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMETHING": [
+                  0
+                ],
+                "START": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THINK": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOUCH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOWARD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TRUE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TWO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WANT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WITH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WORDS": [
+                  -1,
+                  0,
+                  1
+                ],
+                "YOU": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "conflicts": [],
+              "hierarchy": {
+                "INTENSITY": 2
+              }
+            }
+          ]
+        },
+        {
+          "id": 50123,
+          "lemma": "extremely",
+          "pos": "adv",
+          "sense_id": "wordnet:extremely:highly.r.01",
+          "gloss": "to a high degree or extent; favorably or with much respect",
+          "source": "gse.lexicon-builder/1",
+          "confidence": 1.0,
+          "frequency_rank": null,
+          "frequency_weight": null,
+          "phase": 0,
+          "validation_status": "partial",
+          "created_at": "2026-10-29 17:52:15",
+          "updated_at": "2026-10-29 17:52:15",
+          "comp_primitive": null,
+          "comp_arity": 0,
+          "comp_operation": null,
+          "primitive_values": [
+            {
+              "id": 72798,
+              "lexeme_id": 50123,
+              "primitive": "SOMETHING",
+              "value": 0,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            }
+          ],
+          "sentence_primitive_values": [],
+          "definition_state": [
+            {
+              "entry_id": "wordnet:extremely:highly.r.01",
+              "code": "PARTIAL",
+              "domains": {
+                "ABOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ALIVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BECAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BEFORE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BIG": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BODY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CERTAINTY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "DO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "EXIST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FEEL": [
+                  -1,
+                  0,
+                  1
+                ],
+                "GOOD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAPPEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HEAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "I": [
+                  -1,
+                  0,
+                  1
+                ],
+                "IF": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INFER": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INTENSITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KIND": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KNOW": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LIKE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LONG_TIME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MAYBE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOMENT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MUST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "NOT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "OUTSIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PART": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PEOPLE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "QUANTITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SEE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMEONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMETHING": [
+                  0
+                ],
+                "START": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THINK": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOUCH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOWARD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TRUE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TWO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WANT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WITH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WORDS": [
+                  -1,
+                  0,
+                  1
+                ],
+                "YOU": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "conflicts": [],
+              "hierarchy": {}
+            }
+          ]
+        }
+      ]
+    },
+    "he": {
+      "old": [
+        {
+          "id": 103700,
+          "lemma": "he",
+          "pos": "x",
+          "sense_id": "0",
+          "gloss": null,
+          "frequency_rank": 36,
+          "confidence": 1.0,
+          "validation_status": "grounded",
+          "component_type": "closed_class",
+          "source": "closed_class",
+          "frequency": 1.0,
+          "content_hash": null,
+          "comp_primitive": null,
+          "comp_arity": 0,
+          "comp_operation": null,
+          "primitive_values": [
+            {
+              "lexeme_id": 103700,
+              "primitive": "SOMEONE",
+              "value": 1,
+              "confidence": 1.0,
+              "source": "closed_class"
+            }
+          ],
+          "sentence_primitive_values": []
+        }
+      ],
+      "replacement": [
+        {
+          "id": 63665,
+          "lemma": "he",
+          "pos": "noun",
+          "sense_id": "wordnet:he:he.n.02",
+          "gloss": "the 5th letter of the Hebrew alphabet",
+          "source": "gse.lexicon-builder/1",
+          "confidence": 1.0,
+          "frequency_rank": null,
+          "frequency_weight": null,
+          "phase": 0,
+          "validation_status": "partial",
+          "created_at": "2026-10-29 17:52:20",
+          "updated_at": "2026-10-29 17:52:20",
+          "comp_primitive": null,
+          "comp_arity": 0,
+          "comp_operation": null,
+          "primitive_values": [
+            {
+              "id": 92772,
+              "lexeme_id": 63665,
+              "primitive": "GOOD",
+              "value": 0,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            },
+            {
+              "id": 92773,
+              "lexeme_id": 63665,
+              "primitive": "SOMETHING",
+              "value": 1,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            }
+          ],
+          "sentence_primitive_values": [],
+          "definition_state": [
+            {
+              "entry_id": "wordnet:he:he.n.02",
+              "code": "PARTIAL",
+              "domains": {
+                "ABOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ALIVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BECAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BEFORE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BIG": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BODY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CERTAINTY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "DO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "EXIST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FEEL": [
+                  -1,
+                  0,
+                  1
+                ],
+                "GOOD": [
+                  0
+                ],
+                "HAPPEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HEAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "I": [
+                  -1,
+                  0,
+                  1
+                ],
+                "IF": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INFER": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INTENSITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KIND": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KNOW": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LIKE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LONG_TIME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MAYBE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOMENT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MUST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "NOT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "OUTSIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PART": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PEOPLE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "QUANTITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SEE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMEONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMETHING": [
+                  1
+                ],
+                "START": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THINK": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOUCH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOWARD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TRUE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TWO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WANT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WITH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WORDS": [
+                  -1,
+                  0,
+                  1
+                ],
+                "YOU": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "conflicts": [],
+              "hierarchy": {}
+            }
+          ]
+        },
+        {
+          "id": 63666,
+          "lemma": "he",
+          "pos": "noun",
+          "sense_id": "wordnet:he:helium.n.01",
+          "gloss": "a very light colorless element that is one of the six inert gasses; the most difficult gas to liquefy; occurs in economically extractable amounts in certain natural gases (as those found in Texas and Kansas)",
+          "source": "gse.lexicon-builder/1",
+          "confidence": 1.0,
+          "frequency_rank": null,
+          "frequency_weight": null,
+          "phase": 0,
+          "validation_status": "partial",
+          "created_at": "2026-10-29 17:52:20",
+          "updated_at": "2026-10-29 17:52:20",
+          "comp_primitive": null,
+          "comp_arity": 0,
+          "comp_operation": null,
+          "primitive_values": [
+            {
+              "id": 92774,
+              "lexeme_id": 63666,
+              "primitive": "GOOD",
+              "value": 0,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            },
+            {
+              "id": 92775,
+              "lexeme_id": 63666,
+              "primitive": "SOMETHING",
+              "value": 1,
+              "confidence": 1.0,
+              "source": "gse.lexicon-builder/1"
+            }
+          ],
+          "sentence_primitive_values": [],
+          "definition_state": [
+            {
+              "entry_id": "wordnet:he:helium.n.01",
+              "code": "PARTIAL",
+              "domains": {
+                "ABOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ALIVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BECAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BEFORE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BIG": [
+                  -1,
+                  0,
+                  1
+                ],
+                "BODY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "CERTAINTY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "DO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "EXIST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FEEL": [
+                  -1,
+                  0,
+                  1
+                ],
+                "GOOD": [
+                  0
+                ],
+                "HAPPEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HEAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "I": [
+                  -1,
+                  0,
+                  1
+                ],
+                "IF": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INFER": [
+                  -1,
+                  0,
+                  1
+                ],
+                "INTENSITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KIND": [
+                  -1,
+                  0,
+                  1
+                ],
+                "KNOW": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LIKE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LONG_TIME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MAYBE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOMENT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MUST": [
+                  -1,
+                  0,
+                  1
+                ],
+                "NOT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "ONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "OUTSIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PART": [
+                  -1,
+                  0,
+                  1
+                ],
+                "PEOPLE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "QUANTITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SAY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SEE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMEONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMETHING": [
+                  1
+                ],
+                "START": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THINK": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOUCH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOWARD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TRUE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TWO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WANT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WITH": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WORDS": [
+                  -1,
+                  0,
+                  1
+                ],
+                "YOU": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "conflicts": [],
+              "hierarchy": {}
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "example_interpretation": {
+    "want": "Old spelling row has WANT=1. Replacement separates exact native senses; the approved desire sense is not interchangeable with deprivation senses.",
+    "very_and_extremely": "Old spelling rows use INTENSITY plus HIER_PLUS values 1 and 2. Replacement exact intensifier definitions attach hierarchy to INTENSITY, while other senses retain separate identities. No spelling-wide inheritance is warranted.",
+    "he": "Old closed-class row has SOMEONE=1. Replacement native WordNet entries denote helium and a Hebrew letter. These are different definitions, so coordinate differences do not prove the pronoun assignment wrong. They expose a missing catalog-definition identity adapter.",
+    "equal_vectors": "Distinct lexical identities may legitimately share coordinates; equality of vectors is not itself an error."
+  },
+  "replacement_snapshot_counts": {
+    "definitions": 155113,
+    "published_cells": 230041,
+    "explicit_zero_rows": 106606,
+    "states": [
+      {
+        "code": "PARTIAL",
+        "count": 155113
+      }
+    ]
+  },
+  "limitations": [
+    "No live runtime execution in this audit.",
+    "No claim of complete lexical sense coverage in either artifact.",
+    "No inferred complement zeros.",
+    "No claim that missing metadata makes every stored sign semantically false.",
+    "Activation status is outside this receipt; root controls final build and activation."
+  ]
+}

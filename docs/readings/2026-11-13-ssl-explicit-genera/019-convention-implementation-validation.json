@@ -1,0 +1,26 @@
+{
+  "code": "CONVENTION_REGRESSION_SUITE_PASSED",
+  "command": ".venv/bin/python -m pytest tests/test_lexicon_builder_*.py tests/test_lexicon_epoch.py tests/test_lexical_grounding_constructions.py tests/test_lexicon_resource.py tests/test_audit_lexicon_sentences.py tests/test_lexicon_contrast_audit.py",
+  "convention_sha256": "391c1a8440a39d9dae9bfd97873c26c69f78de5e41456c34baf5b9dc1e3fbe85",
+  "elapsed_seconds": 103.23,
+  "ruff": "PASSED",
+  "semantic_authority": "CONTRACT_TESTS_NOT_UNLABELLED_CORPUS_GOLD",
+  "source_sha256": {
+    "docs/readings/2026-11-13-ssl-explicit-genera/stative_transfer.py": "bfd3e42ad3d45b409e6d765c8452cee129bd6ebea1db28700134e8883261a5e4",
+    "gse/api/encoder.py": "2ba5b63c541ebc8765de91346b0d934c0a7fd66a6751fd5e00d9861ee93ff117",
+    "gse/curation/lexicon_builder/definition_frames.py": "7aac48dcfbb73a8d336bf48f14ece32613eecc361f53d06197343d6bd183e925",
+    "gse/curation/lexicon_builder/foundation.py": "f9330a5f9098fd075aabb3b38896a0fb7a7ebb2b945473257b91ec5ad02eaa5f",
+    "gse/curation/lexicon_builder/model_protocol.py": "2281d8181790ed17a5e99ab2d8900067c13a8fcf37b35ba6c7586db4a5186772",
+    "gse/curation/lexicon_builder/reviewed_patterns.py": "84922a27c45ddde10fe7d8512ee5a5225cf6c0f3f34eca0f1179227c522370b7",
+    "gse/curation/lexicon_builder/rule_admission.py": "0d1f5303ccae9383f7af85c911fe0785016b4e2d891475c05c1966c70129eda1",
+    "gse/curation/lexicon_builder/rule_history.py": "b33a2b25bec84c616f0000a00761c05660d9b9d32cd8539c8da0f4a95453351e",
+    "gse/curation/lexicon_builder/rule_migration.py": "3ab299601ece88b829e64843fc9847ab09b829407d29794ccd2ce3e1abca4c70",
+    "gse/curation/lexicon_builder/rule_reservations.py": "65913054b312c3748cdaa0b0c4aba5c025f7759ada3ddbd1b4fd66355a82fca5",
+    "gse/curation/lexicon_builder/rule_revisions.py": "003e0c8e4fd3f721f0c10b333aeea28657c701c8d38561b4c69ab9ef7a282a53",
+    "gse/curation/lexicon_builder/validation.py": "d7700e0c6a369f52761ba49fb33e33f2a4488d655946dc0c537cba92d8b39c61",
+    "gse/symbolic/lexical_grounding.py": "f59679cd7989270919ad4c8f8243c1b2807cb265ebe0d0635914218ba1dbe6a5"
+  },
+  "tests_failed": 0,
+  "tests_passed": 1756,
+  "ty": "PASSED"
+}

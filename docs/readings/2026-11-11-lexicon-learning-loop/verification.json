@@ -1,0 +1,97 @@
+{
+  "active_pointer_sha256": "449020ca41a461a7d418e4bdffe402da5c0798cb98444c5f88e7ecf6acd099b5",
+  "active_pointer_unchanged_since_stage": true,
+  "artifact_hashes": {
+    "LEARNING_LOOP_AUDIT.md": "ce9238eaed5633b75279c619133164f21cb6ccd7c5b432851ed13de44d1d390c",
+    "corpus-comparison.json": "2fe21700818e4ee93409ed3c438818042f2edd0368f83b975d7a9e110d76c8d1",
+    "regression.xml": "8f922a48339a29422e2adf46bd0a599b585a7f7de270c38fbbd14cb485bf7ac3",
+    "relational-stage-input.json": "ef0636c85e86420e7644a305b5e05ffd3c74bbfc8a48f4a0b260ca7c13421bf9",
+    "relational-stage-report.json": "431023c878b5df54da543b2f22956542d2e81e0328f1cb3423fa1a5321dfe958",
+    "surprise-ledger.json": "95d90abdb87c9987a076d67911b6b7d248e2762b0f25cbe05f13566cd167228d"
+  },
+  "candidate_sha256": "20804a7325dd55fa1541a00fab66451125ad99ae6019abcdc347dd819ee99749",
+  "candidate_unchanged_since_stage": true,
+  "complete_candidate_replay_this_run": false,
+  "corpus_stage_scope": "ALL_DEFINITIONS_CONSIDERED_APPLICABLE_ENTRIES_RECLOSED",
+  "external_model_calls": 0,
+  "formal_contradictions": 0,
+  "format": "gse.learning-loop-verification/1",
+  "historical_admission_replay": [
+    {
+      "audit_sha256": "116cd8c9625864aaae3c2418139549e9ef7802df5e54035837351cfddc82b335",
+      "code": "EXPLICIT_REVIEWED_RULE",
+      "input_format": "gse.reviewed-pattern-input/1",
+      "rule": "monetary-unit-quantity"
+    },
+    {
+      "audit_sha256": "c1579da8ea7f3313f918b83b4f0683549ca58c15d06d00ce45faaec74dccedc6",
+      "code": "EXPLICIT_REVIEWED_RULE",
+      "input_format": "gse.reviewed-pattern-input/1",
+      "rule": "internal-organ-body"
+    }
+  ],
+  "lexicon_activation": false,
+  "population": {
+    "cells": 22489376,
+    "definitions": 401596,
+    "explicit_zero": 279633,
+    "unknown": 22085538
+  },
+  "provisional_joint_effects": {
+    "definitions_with_fired_rules": 259,
+    "domain_potential_bits": 450.1293502048061,
+    "joint_only_singletons": 0,
+    "narrowed_cells": 284,
+    "new_singletons": 284,
+    "new_value_0": 226,
+    "new_value_1": 58,
+    "standalone_union_singletons": 284,
+    "subtlex_weighted_domain_potential": 22656.977715930458
+  },
+  "remaining_contracts": [
+    "PERSISTENT_TEACH_DISCOVER_AUDIT_REFINE_REPLAY_CONTROLLER",
+    "REVIEWED_EXCEPTION_AND_RULE_REVISION_MIGRATION",
+    "MODEL_RECEIPT_RETIREMENT_FORECAST",
+    "JOINT_AND_CONJUNCTIVE_PROPOSAL_GRAMMAR",
+    "CROSS_BANK_AND_BOUNDARY_CURRICULUM",
+    "COMPLETE_VALID_LEXICON_RELEASE"
+  ],
+  "review_queue": {
+    "definition_cases": 35,
+    "formal_contradictions": 0,
+    "groups": 6,
+    "next_operations": {
+      "REVIEW_DEFINITION_ALTERNATIVES": 1,
+      "REVIEW_RULE_CONDITION": 2,
+      "REVIEW_SOURCE_PREMISE": 3
+    }
+  },
+  "source_fingerprints_at_verification": {
+    "gse/curation/lexicon_builder/reviewed_export.py": "3385a1ee528abc4552ec320258d36e3bbc0df038a313aa2fb219f0151616fdc4",
+    "gse/curation/lexicon_builder/reviewed_patterns.py": "fff5788b096775b5ff7024e6d2fd5fcc28eb1005d4927e10b6255a9b0fc0a7c9",
+    "gse/curation/lexicon_builder/rule_migration.py": "5e8f1b8852376f336af39f5789e196477dd5f091de6baafc3dfe5d666713839c",
+    "scripts/audit_lexicon_patterns.py": "386d967977d6b2bf9a867bf9fc6002854a841906b6d67c86e4353b3cab20e2ad",
+    "scripts/stage_lexicon_coherence.py": "e43117e45991a96bfd1c09a5f575f6c1c67b615594d4fd24772100dffe91f9c4",
+    "tests/test_lexicon_builder_discovery_premises.py": "68e6027f9778a1b03b59db85e9980f21a46079374ccd11f62d4557b51647c273",
+    "tests/test_lexicon_coherence_relational_stage.py": "f77a86aa004555c97c38b19d0eeca1ab1805d23a77957d8654a8c33d5cec304f"
+  },
+  "status": "MECHANICS_VALIDATED_LEARNING_CONTROLLER_INCOMPLETE",
+  "teaching_census": {
+    "authority": "RETAINED_MODEL_RECEIPTS_NOT_ALL_TEACHING_OR_INDEPENDENT_REVIEWS",
+    "banks": 11,
+    "receipts": 103,
+    "sign_counts": {
+      "-1": 1,
+      "0": 99,
+      "1": 3
+    }
+  },
+  "tests": {
+    "errors": 0,
+    "failures": 0,
+    "passed": 1546,
+    "skipped": 0,
+    "tests": 1546
+  },
+  "verified_utc": "2026-11-11T20:04:05.970661+00:00"
+}

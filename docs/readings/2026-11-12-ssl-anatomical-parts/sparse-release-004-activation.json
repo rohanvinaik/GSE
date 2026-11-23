@@ -1,0 +1,85 @@
+{
+  "arm_receipt": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-anatomical-parts/closure/arm-result.json",
+  "audit_outcomes": {
+    "MODEL_AGREEMENT": 2
+  },
+  "cells": {
+    "assigned": 406082,
+    "explicit_zero": 280661,
+    "unresolved": 22083238
+  },
+  "code": "ACTIVE_SSL_SKELETAL_BODY_VERIFIED",
+  "delta": {
+    "BODY": 115
+  },
+  "format": "gse.active-ssl-anatomical-parts/1",
+  "mismatches": 0,
+  "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-004.db",
+  "pointer_sha256": "6095b0f763515677acd82bf7dfd6a526ad1a4e13f0abeb9dc939974f4e9028d6",
+  "population_stage_sha256": "a0e394d2dba8033820b199e5666679e1c0e72bdfeef33be1418ffdded05a9cd4",
+  "previous_path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-003.db",
+  "publication_receipt": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-anatomical-parts/closure/sparse-publication.json",
+  "records_replayed": 401596,
+  "rule_id": "reviewed-guarded-pattern:0a91caaa3f362c403173bc2cfef6e7cb6e6a96800fab64197513c11fd3b4f684",
+  "semantic_outcomes": {
+    "ABSTAINED": 1,
+    "CONFLICT": 0,
+    "IDENTIFIED_CORRECT": 28,
+    "NOT_FOUND": 0,
+    "WRONG": 0
+  },
+  "sha256": "fa724edbe771df907509c18c043fccb79928d7181dceca1afe87cc81985af7d3",
+  "symbolic_new_cells": 114,
+  "teaching_entry_id": "wordnet:bone:bone.n.01",
+  "typed_questions_used": 3,
+  "verified_controls": {
+    "wordnet:bone:bone.n.01": [
+      1
+    ],
+    "wordnet:bone:bone.n.03": [
+      -1,
+      0,
+      1
+    ],
+    "wordnet:conodont:conodont.n.01": [
+      -1,
+      0,
+      1
+    ],
+    "wordnet:deltoid:deltoid.n.01": [
+      -1,
+      0,
+      1
+    ],
+    "wordnet:hammer:hammer.n.02": [
+      -1,
+      0,
+      1
+    ],
+    "wordnet:hammer:malleus.n.01": [
+      1
+    ],
+    "wordnet:hip:hip.n.03": [
+      -1,
+      0,
+      1
+    ],
+    "wordnet:radius:radius.n.02": [
+      -1,
+      0,
+      1
+    ],
+    "wordnet:radius:radius.n.04": [
+      1
+    ]
+  },
+  "working_snapshot_retention": {
+    "code": "WORK_SNAPSHOTS_RETIRED",
+    "deferred": [],
+    "published_snapshot": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-004.db",
+    "retired": [
+      "epoch-01/teaching.db",
+      "epoch-01/candidate.db"
+    ]
+  }
+}

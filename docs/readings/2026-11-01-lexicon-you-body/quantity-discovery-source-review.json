@@ -1,0 +1,48 @@
+{
+  "format": "gse.source-backed-cell-review/1",
+  "reviews": [
+    {
+      "request_id": "e14ed26d2c8ddee0baccbf63fd39e023b66284ea61477b94e2a58971baafa62d",
+      "review": {
+        "code": "ACCEPTED",
+        "receipt_sha256": "e59b42ef7720aa96e84dd84c607a8ccdf77756e15c6c9f7e65c91ae999e8739a",
+        "review_id": "quantity-source-review-2026-11-01:e59b42ef7720aa96e84dd84c607a8ccdf77756e15c6c9f7e65c91ae999e8739a",
+        "reviewer": "Codex primary source-backed review; not independent semantic gold",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-you-body/quantity-discovery-001/receipts.json#wordnet:are:are.n.01",
+          "native-source:wordnet:are:are.n.01@sha256:f59559ec61e1ad39d2df7b758b1648201eee9b4624528bef4e99a9cee524a56c"
+        ],
+        "rationale": "The exact noun sense defines 100 square meters of surface area. This fixed area magnitude warrants QUANTITY=+1. The verb spelling are is a different definition; no rule over that homograph or all area units is admitted by this review."
+      }
+    },
+    {
+      "request_id": "afa0f6be53598e01813dfeeb13238ad990cb183d6d3a6f7634cdbcb89e0a7e75",
+      "review": {
+        "code": "ACCEPTED",
+        "receipt_sha256": "6700ea6304f3181b0076a01d28623feafc7e0cec21b8f62cd933f6d871bfd019",
+        "review_id": "quantity-source-review-2026-11-01:6700ea6304f3181b0076a01d28623feafc7e0cec21b8f62cd933f6d871bfd019",
+        "reviewer": "Codex primary source-backed review; not independent semantic gold",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-you-body/quantity-discovery-001/receipts.json#wordnet:at:at.n.02",
+          "native-source:wordnet:at:at.n.02@sha256:ceec138962850aba7d8e35d1c118a175890346144ad59eb4e8664c44d7c60b67"
+        ],
+        "rationale": "The exact noun sense defines a monetary denomination by the equation 100 at = 1 kip. The numerical exchange denomination warrants QUANTITY=+1. This review is confined to at.n.02, not the preposition at or the broader monetary hierarchy."
+      }
+    },
+    {
+      "request_id": "3732da7639a1fe900eda0e3bffe7a7f29b0df20b195defb0d57f4cde1f706632",
+      "review": {
+        "code": "ACCEPTED",
+        "receipt_sha256": "99c6a92744faacd78fc6de79cf1fd4d2a24a23234064315216d525a9748a2e6c",
+        "review_id": "quantity-source-review-2026-11-01:99c6a92744faacd78fc6de79cf1fd4d2a24a23234064315216d525a9748a2e6c",
+        "reviewer": "Codex primary source-backed review; not independent semantic gold",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-you-body/quantity-discovery-001/receipts.json#wordnet:in:inch.n.01",
+          "native-source:wordnet:in:inch.n.01@sha256:eb878c1615a4d2f6dec6099e7ebbcbe8141a55ac7513df4b424b7b8b489d89cb"
+        ],
+        "rationale": "The exact noun sense defines one twelfth of a foot, a specified length magnitude. QUANTITY=+1 is own-definition quantitative content, independent of the preposition in. The native synonym in is explicitly attested in inch.n.01. The existing WANT=0 is symbolic under its separately recorded rule, not a model dependency."
+      }
+    }
+  ],
+  "semantic_authority": "SOURCE_BACKED_REVIEW_NOT_INDEPENDENT_GOLD"
+}

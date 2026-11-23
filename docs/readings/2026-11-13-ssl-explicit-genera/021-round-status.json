@@ -1,0 +1,56 @@
+{
+  "activation_performed": false,
+  "admitted": [],
+  "baseline": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-020.db",
+  "candidate": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-020.db",
+  "candidate_sha256": "d2b966385b71a8674615607355c75375d043b48a6c30a42eca8b2882825f5379",
+  "code": "RULE_WITHHELD_BODY_PROJECTION_CONVENTION_PENDING",
+  "diagnostic_outcomes": {
+    "MODEL_COUNTEREXAMPLE": 4
+  },
+  "epoch_controller_typed_questions_used": 1,
+  "epoch_outcomes": [
+    "TEACHING_NOT_ACCEPTED"
+  ],
+  "format": "gse.lexicon-learning-round-status/1",
+  "new_cells": 0,
+  "observed_at_utc": "2026-11-19T09:27:17.287039+00:00",
+  "pending_decision": "Whether literal organism kinds have BODY=+1 when constitutive anatomy is explicit or inherited through a verified defining genus; exclude reference-only roles, mere association, and uncertain identity.",
+  "reconciliation": "021-body-reconciliation.json",
+  "replay": {
+    "code": "REPLAY_VALIDATED",
+    "complete_search": true,
+    "entries_checked": 401596,
+    "entries_mismatched": 0,
+    "entries_validated": 401596,
+    "format": "gse.lexicon-replay-report/1",
+    "gold": "NOT_CHECKED",
+    "inference_counts": {
+      "components_joint_checked": 2495879,
+      "components_solver_limited": 0,
+      "entries_complete_search": 401596,
+      "entries_replayed": 401596,
+      "entries_solver_limited": 0
+    },
+    "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+    "metadata_verification": {
+      "build_report": "NOT_CHECKED",
+      "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+      "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+      "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+      "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+      "catalog_definition_source_ids": "NOT_PERSISTED",
+      "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+      "representation_contract": "VERIFIED",
+      "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+    },
+    "mismatch_counts": {},
+    "mismatches": [],
+    "replayed_outcomes": {
+      "PARTIAL": 401596
+    }
+  },
+  "reserved_diagnostic_questions_used": 4,
+  "typed_questions_used": 5,
+  "unknown_is_not_zero": true
+}

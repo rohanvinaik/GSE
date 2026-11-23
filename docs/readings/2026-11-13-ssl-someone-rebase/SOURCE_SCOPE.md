@@ -1,0 +1,21 @@
+# Coordinated person definitions on release 009
+
+The existing rule applies to exact native noun senses with an explicit *person* genus and a matched coordinated relative clause. That genus warrants SOMEONE=+1. In the tag-game noun sense of *it*, the person is the one who chases the other players. The WordNet canonization sense of *saint* and the Wiktionary game-administrator sense of *god* supply the held-out contrasts. Distinct senses of the same spelling are checked individually. [Original scope and source warrant](../2026-11-12-ssl-cross-source/SOURCE_SCOPE.md)
+
+The 009 rebase pins the same 68 native witnesses. The stored domains and the existing solver project the same 29 new SOMEONE assignments as the experiment on 006. Later admissions changed the typed request context, so the production round obtains fresh teaching and audit receipts. The earlier evidence stays tied to its original baseline. [Rebased plan](plan.json) · [Frozen population](population-stage.json)
+
+## What the person coordinate enables
+
+The active category rules admit I and YOU as premises for SOMEONE. The person projection by itself produces no new domains in other banks. NSM's example *someone does something* distinguishes the person argument from the action. The same separation matters for the canonized *saint*, who has died and is the patient of canonization, and the noun sense of *literate*, which specifies a capacity. The GSE BODY and BE conventions also require their own definitional content. WordNet's co-assigned SOMETHING is grounded in its entity ancestry. Transfer to Wiktionary requires a separate warrant that distinguishes the SOMEONE and SOMETHING frames. [Saved NSM chart](../../../data/external/references/nsm-primes-chart-v20-2022.txt) · [GSE category content](../../program/LEXICON_CONSTRUCTION_DESIGN.md#category-content)
+
+The follow-up stages two narrower hypotheses on explicitly reviewed exact records. Six production and repair definitions describe actions performed by the person, such as making dentures and building wagons. If they justify DO=+1, GSE's existing DO-to-HAPPEN rule would also apply. The joint stage forecasts six DO and six HAPPEN assignments that are unreachable with either proposal alone. Three capacity definitions explicitly use *can* or *is able to*. The joint stage forecasts one newly reachable CAN cell in Wiktionary, with two WordNet capacity cells already reachable from the child hypothesis alone. These forecasts are for the reviewed records. The typed probes can expose scope failures before a broader, independently auditable guard is proposed. [Cross-bank staging](cross-bank-stage.json)
+
+## Typed probe results
+
+The two DO questions on *denturist* and *wainwright* returned 0. Both glosses describe characteristic actions. The unresolved design distinction is whether the participant noun carries the action coordinate at word scale or whether its gloss supplies an action frame with a participant slot. The model output gives a disagreement with the proposed positive sign. An independently justified orthogonality ruling would require that distinction to be settled. No DO or HAPPEN value entered the candidate.
+
+The exact Wiktionary *literate* sense returned CAN=+1. The gloss explicitly requires the capacity to read and write. That is one source-supported probe for a scoped capacity rule. A person coordinate by itself does not supply capacity. The model abstained on ALIVE for the canonized *saint* sense, whose gloss explicitly describes a person who has died. That case rules out the proposed universal positive link and does not settle which ALIVE representation the exact sense warrants. The probes used hypothetical SOMEONE closure as context and wrote no lexical values. [Typed probe receipts](cross-bank-probes.json)
+
+## Measured rebase
+
+The fresh teaching and both held-out audits agreed on SOMEONE=+1. The admitted rule retained its historical identity. Exact replay found 29 new assignments, 28 in Wiktionary and one in WordNet. All were in SOMEONE. The rebase removed 45.96 bits of marginal potential, 0.000131325% of the residual on 009, with zero reopenings. Full replay covered 401,596 records with zero mismatches. [Audit and replay](verification.json)

@@ -1,0 +1,70 @@
+{
+  "route": "CLAUDE_CODE_SUBSCRIPTION_CLI",
+  "auth_method": "claude.ai",
+  "api_key_source": "none",
+  "subscription_type": "max",
+  "cli_version": "2.1.326 (Claude Code)",
+  "prompt_sha256": "559687fd38ed70b0eac6e83def6c01425cf8959be843fb47644d0121f77481c6",
+  "model": "claude-fable-5-2",
+  "tools": [],
+  "mcp_servers": [],
+  "num_turns": 1,
+  "is_error": false,
+  "stop_reason": "end_turn",
+  "terminal_reason": "success",
+  "duration_ms": 107179,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 37267,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 10804,
+    "output_tokens_details": {
+      "thinking_tokens": 8635
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 37267,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 10804,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 37267,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 37267
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "model_usage": {
+    "claude-fable-5-2": {
+      "inputTokens": 2,
+      "outputTokens": 10804,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 37267,
+      "webSearchRequests": 0,
+      "costUSD": 1.028448,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 8635,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 37267,
+      "canonicalModel": "claude-fable-5-2",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "reported_list_price_usd": 1.028448,
+  "billing_note": "Subscription CLI; list-price equivalent is not an API-credit debit."
+}

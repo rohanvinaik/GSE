@@ -1,0 +1,38 @@
+{
+  "active": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-014.db",
+  "code": "ROLLING_ROLLBACK_VERIFIED",
+  "format": "gse.rolling-sparse-rollback-retirement/1",
+  "retired": [
+    {
+      "audit_delta": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-grounded-event-action/retired-audit/teaching-audit-delta.json.gz",
+      "audit_delta_sha256": "fd237bfe28a95b1462a575145b5ba884b86b855dc570f949b421683d4d3aa814",
+      "logical_bytes": 18860871680,
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-grounded-event-action/teaching.db",
+      "retired_only_row_counts": {
+        "accepted_model_receipts": 4,
+        "builder_metadata": 3
+      },
+      "sha256": "4fc74da39f19ed7947e6da288a0ee0024835d3ffab6fe2f4c608a1ad622dcb2c"
+    },
+    {
+      "audit_delta": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-grounded-event-action/retired-audit/candidate-audit-delta.json.gz",
+      "audit_delta_sha256": "f0224fc0ea7d1cc163a49cb957ad3aabd982e599edf0ae3b0f6324529ceba5bd",
+      "logical_bytes": 18951647232,
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-grounded-event-action/candidate.db",
+      "retired_only_row_counts": {},
+      "sha256": "49705cc89afa52e0136ecade746906497d344101a0068e72abd5739337878f2f"
+    },
+    {
+      "audit_delta": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-grounded-event-action/retired-audit/sparse-release-012-audit-delta.json.gz",
+      "audit_delta_sha256": "d03a560d37e822edaf615264ca53484d3408ed765310a0166006e1ff29257238",
+      "logical_bytes": 18738352128,
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-012.db",
+      "retired_only_row_counts": {
+        "builder_metadata": 4
+      },
+      "sha256": "04c318118ef6c972f9b59cb8cbd9dad0b696e0da57c40be3ff1b3ed824f44228"
+    }
+  ],
+  "rollback": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-013.db",
+  "total_logical_bytes": 56550871040
+}

@@ -1,0 +1,164 @@
+{
+  "actual_bank_questions": 7,
+  "cli_input_sha256": "06ceb97e1991884946f77797bc363520e5ca580b39d056120867fef79ecdd671",
+  "cli_result_sha256": "84693dfda6724df39b1352949a181ec2ac7b3eb9268ec0bbe573b4cfa9942360",
+  "corrections": {
+    "22f8f0889721c87e161c931222b4dae4dac0a9b24779f9d7144e4a75b8f358ed": {
+      "entry_id": "wordnet:shark:shark.n.01",
+      "raw_output": "{\"BODY\":1}",
+      "transport": "claude-code-subscription:claude-fable-5-2@5be1f2e1163f89a28ee13a0f78f389f18bf5976675c3ba33c86ad1d01b1d0152"
+    },
+    "e7bc80f1b54e0882c905317e054658340238996aa2b8056d9e0b5d01f8de6105": {
+      "entry_id": "wordnet:cat:cat.n.01",
+      "raw_output": "{\"BODY\":1}",
+      "transport": "claude-code-subscription:claude-fable-5-2@5be1f2e1163f89a28ee13a0f78f389f18bf5976675c3ba33c86ad1d01b1d0152"
+    }
+  },
+  "format": "gse.source-adjudicated-bank-rulings/1",
+  "native_questions": [
+    {
+      "entry_id": "wordnet:man:homo.n.02",
+      "raw_output": "{\n  \"BODY\": 1\n}",
+      "request_id": "21d6fafc3830751695e1e6b867b95ebf174a95287ba283d0073614a7ce00cf54",
+      "schema": {
+        "additionalProperties": false,
+        "properties": {
+          "BODY": {
+            "enum": [
+              -1,
+              0,
+              1,
+              null
+            ],
+            "type": [
+              "integer",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "BODY"
+        ],
+        "type": "object"
+      },
+      "sign": 1,
+      "transport": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@3aa2ffd8ee77850d4da4ae7321be3b53503dbcdd6521d7de0d8acff723d7ca58"
+    },
+    {
+      "entry_id": "wordnet:cat:cat.n.01",
+      "raw_output": "{\n  \"BODY\": 0\n}",
+      "request_id": "e7bc80f1b54e0882c905317e054658340238996aa2b8056d9e0b5d01f8de6105",
+      "schema": {
+        "additionalProperties": false,
+        "properties": {
+          "BODY": {
+            "enum": [
+              -1,
+              0,
+              1,
+              null
+            ],
+            "type": [
+              "integer",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "BODY"
+        ],
+        "type": "object"
+      },
+      "sign": 0,
+      "transport": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@3aa2ffd8ee77850d4da4ae7321be3b53503dbcdd6521d7de0d8acff723d7ca58"
+    },
+    {
+      "entry_id": "wordnet:duck:duck.n.01",
+      "raw_output": "{\n  \"BODY\": 1\n}",
+      "request_id": "f8f1bfac2fc4d62a4baa2bc3c61010ccde310f79ddf3a0c2f4bb6a4b49049845",
+      "schema": {
+        "additionalProperties": false,
+        "properties": {
+          "BODY": {
+            "enum": [
+              -1,
+              0,
+              1,
+              null
+            ],
+            "type": [
+              "integer",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "BODY"
+        ],
+        "type": "object"
+      },
+      "sign": 1,
+      "transport": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@3aa2ffd8ee77850d4da4ae7321be3b53503dbcdd6521d7de0d8acff723d7ca58"
+    },
+    {
+      "entry_id": "wordnet:shark:shark.n.01",
+      "raw_output": "{\n  \"BODY\": 0\n}",
+      "request_id": "22f8f0889721c87e161c931222b4dae4dac0a9b24779f9d7144e4a75b8f358ed",
+      "schema": {
+        "additionalProperties": false,
+        "properties": {
+          "BODY": {
+            "enum": [
+              -1,
+              0,
+              1,
+              null
+            ],
+            "type": [
+              "integer",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "BODY"
+        ],
+        "type": "object"
+      },
+      "sign": 0,
+      "transport": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@3aa2ffd8ee77850d4da4ae7321be3b53503dbcdd6521d7de0d8acff723d7ca58"
+    },
+    {
+      "entry_id": "wordnet:salamander:salamander.n.01",
+      "raw_output": "{\n  \"BODY\": 1\n}",
+      "request_id": "6d6329b5e4ce79b6dd013369de06fc68fd23d331d948a6e02105ec06ef8d8880",
+      "schema": {
+        "additionalProperties": false,
+        "properties": {
+          "BODY": {
+            "enum": [
+              -1,
+              0,
+              1,
+              null
+            ],
+            "type": [
+              "integer",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "BODY"
+        ],
+        "type": "object"
+      },
+      "sign": 1,
+      "transport": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@3aa2ffd8ee77850d4da4ae7321be3b53503dbcdd6521d7de0d8acff723d7ca58"
+    }
+  ],
+  "protocol": "gse.lexical-component-entailment/14",
+  "source_review": "021-approved-source-adjudication.json",
+  "transport_invocations": 6,
+  "unique_bank_questions": 5
+}

@@ -1,0 +1,129 @@
+{
+  "expanded_configuration_inference_tested": false,
+  "format": "gse.batch-input-budget-audit/1",
+  "lexicon_writes": false,
+  "model_calls": 0,
+  "records": [
+    {
+      "bank": "ABOVE",
+      "code": "EXACT_REQUEST_RESTORED",
+      "configurations": [
+        {
+          "code": "BATCH_INPUT_TOO_LARGE",
+          "input_limit": 30720,
+          "output_tokens": 1024
+        },
+        {
+          "code": "BATCH_INPUT_TOO_LARGE",
+          "input_limit": 31232,
+          "output_tokens": 512
+        },
+        {
+          "code": "BATCH_INPUT_TOO_LARGE",
+          "input_limit": 31488,
+          "output_tokens": 256
+        },
+        {
+          "code": "BATCH_INPUT_TOO_LARGE",
+          "input_limit": 31616,
+          "output_tokens": 128
+        }
+      ],
+      "entry_id": "wiktionary:en-you-en-pron-2LSqalKj:9668929a339a55583add1f0d51a0efbb36feddcabea20443226ca03da474da55",
+      "expanded_input_measurement": {
+        "code": "FITS_OFFLINE",
+        "context_tokens": 65536,
+        "input_bytes": 32063,
+        "input_limit": 63488,
+        "network_calls": 0,
+        "output_token_bound": 21,
+        "output_tokens": 1024
+      },
+      "reason": "BATCH_INPUT_TOO_LARGE",
+      "request_id": "2eddcb26b4e177a427547fbc5e6010a3d72e3db09514fed3aa3e0d6dfea035c7"
+    },
+    {
+      "bank": "ABOVE",
+      "code": "EXACT_REQUEST_RESTORED",
+      "configurations": [
+        {
+          "code": "BATCH_INPUT_TOO_LARGE",
+          "input_limit": 30720,
+          "output_tokens": 1024
+        },
+        {
+          "code": "BATCH_INPUT_TOO_LARGE",
+          "input_limit": 31232,
+          "output_tokens": 512
+        },
+        {
+          "code": "BATCH_INPUT_TOO_LARGE",
+          "input_limit": 31488,
+          "output_tokens": 256
+        },
+        {
+          "code": "BATCH_INPUT_TOO_LARGE",
+          "input_limit": 31616,
+          "output_tokens": 128
+        }
+      ],
+      "entry_id": "wiktionary:en-you-en-pron-HaQwzWRI:1295d3d5da7dba78418a90d60168f97d251449dce1d5103ed163a088427e1b70",
+      "expanded_input_measurement": {
+        "code": "FITS_OFFLINE",
+        "context_tokens": 65536,
+        "input_bytes": 32035,
+        "input_limit": 63488,
+        "network_calls": 0,
+        "output_token_bound": 21,
+        "output_tokens": 1024
+      },
+      "reason": "BATCH_INPUT_TOO_LARGE",
+      "request_id": "5524fd48a86220af716cdaf2f1c69348b9675db416752ad96bfe781009b90bd4"
+    },
+    {
+      "bank": "ABOVE",
+      "code": "EXACT_REQUEST_RESTORED",
+      "configurations": [
+        {
+          "code": "BATCH_INPUT_TOO_LARGE",
+          "input_limit": 30720,
+          "output_tokens": 1024
+        },
+        {
+          "code": "BATCH_INPUT_TOO_LARGE",
+          "input_limit": 31232,
+          "output_tokens": 512
+        },
+        {
+          "code": "BATCH_INPUT_TOO_LARGE",
+          "input_limit": 31488,
+          "output_tokens": 256
+        },
+        {
+          "code": "BATCH_INPUT_TOO_LARGE",
+          "input_limit": 31616,
+          "output_tokens": 128
+        }
+      ],
+      "entry_id": "wiktionary:en-you-en-pron-M7hbUBCF:d42e9c16442d37ceb686b1d8af8566d0be8e70ac86931168ccc00c8cd448cf8b",
+      "expanded_input_measurement": {
+        "code": "FITS_OFFLINE",
+        "context_tokens": 65536,
+        "input_bytes": 32303,
+        "input_limit": 63488,
+        "network_calls": 0,
+        "output_token_bound": 21,
+        "output_tokens": 1024
+      },
+      "reason": "BATCH_INPUT_TOO_LARGE",
+      "request_id": "8d220a78d82e7d3ab2ab440e7857a2721ecf08e99f8b27b0109c8dc66ad34737"
+    },
+    {
+      "bank": "ABOVE",
+      "code": "EXACT_REQUEST_NOT_RESTORED_FROM_ACCEPTED_RECEIPTS",
+      "entry_id": "wiktionary:en-you-en-pron-en:dummy:9e5fbc823fa9cd6a73eca0b8cbace4e052e1290f9d58efd5c63c5bdc14b7e3a8",
+      "reason": "BATCH_INPUT_TOO_LARGE",
+      "request_id": "e0e1a57df1f601b785415e8e73a38922f8510c770e230500278e54e558fb63b9"
+    }
+  ]
+}

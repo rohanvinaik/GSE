@@ -1,0 +1,127 @@
+{
+  "banks": [
+    "BODY"
+  ],
+  "batch_size": 4,
+  "code": "BUDGET_EXHAUSTED",
+  "continue_cohorts": true,
+  "dictionary_cells": {
+    "assigned": 403441,
+    "conflicted": 0,
+    "explicit_zero": 279596,
+    "unresolved": 22085935
+  },
+  "dictionary_outcomes": {
+    "PARTIAL": 401596
+  },
+  "dictionary_status": "INCOMPLETE",
+  "format": "gse.lexicon-completion-report/1",
+  "max_calls_per_entry": 1,
+  "max_entries_per_pass": 8,
+  "max_model_calls": 16,
+  "model": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1972c197aa3b72fddf2084b0caca38549de51127f1bd3ebfa3890028295e4b4b:batch@7dca8c7e77a91b51ce48c954cfbfe17054aa821dde95466fa5a100c60ee55bec",
+  "model_calls": 16,
+  "outcomes": {
+    "ABSTAINED": 7,
+    "ASSIGNED": 9
+  },
+  "outside_selected_scope": {
+    "unresolved_or_conflicted_cells": 22085928
+  },
+  "preflight": "REPLAY_VALIDATED",
+  "priority": {
+    "excluded_count": 1,
+    "excluded_records": [
+      {
+        "code": "MISSING_WORD",
+        "count": 27,
+        "csv_line": 21732,
+        "record_number": 21731
+      }
+    ],
+    "frequency_column": "SUBTLEX",
+    "included_words": 39953,
+    "mode": "zipf",
+    "ordering": "DESCENDING_POSITIVE_COUNT_THEN_CONSTRAINT_PRIORITY_THEN_DEFINITION_ID",
+    "policy": "gse.completion-priority/subtlex-count-order/2",
+    "ranked_words": 28902,
+    "rows": 39954,
+    "score": "MONOTONIC_ZIPF_ORDER_NOT_ABSOLUTE_ZIPF_SCORE",
+    "semantic_authority": "NONE_SCHEDULING_ONLY",
+    "sha256": "fa636292ba0b1b5cf4d6d335690ddcf3a162e4a8204124d95c64e795eb336226",
+    "source": "/Users/rohanvinaik/Projects/gse/data/external/concreteness.csv",
+    "unranked": "ZERO_OR_ABSENT_FREQUENCY_LAST_NOT_SEMANTIC_ZERO",
+    "word_column": "Word",
+    "zero_count_words": 11051
+  },
+  "question_order": {
+    "bank_order": "DOMAIN_SIZE_THEN_EXPLICIT_EVIDENCE_THEN_ACTIVE_UNRESOLVED_NEIGHBORS_THEN_BANK",
+    "bank_priority": "evidence",
+    "cohort_order": "CASEFOLDED_SPELLING_ROUNDS_THEN_EXISTING_PRIORITY",
+    "cohort_policy": "spelling",
+    "policy": "gse.completion-question-order/1",
+    "semantic_authority": "NONE_QUESTION_ORDER_ONLY"
+  },
+  "remaining_selected_scope": {
+    "cells": 7,
+    "conflicted_entries": 0,
+    "entries": 7
+  },
+  "scheduling": {
+    "code": "MODEL_BUDGET_EXHAUSTED",
+    "cohorts_processed": 2,
+    "cursor_after": [
+      [
+        -471339,
+        3
+      ],
+      -3,
+      "wordnet:me:maine.n.01"
+    ],
+    "cursor_before": null,
+    "pass_number": 1,
+    "policy": "gse.completion-schedule/3",
+    "resume_frontier": "COMPLETED_OR_PER_ENTRY_LIMIT_VISITS",
+    "visited_entry_ids": [
+      "gse_closed_class:pronoun:you",
+      "wordnet:i:i.n.03",
+      "gse_closed_class:determiner:the",
+      "gse_closed_class:preposition:to",
+      "gse_closed_class:determiner:a",
+      "wordnet:it:information_technology.n.01",
+      "gse_closed_class:pronoun:that",
+      "gse_closed_class:conjunction:and",
+      "wiktionary:en-You-en-name-0mwj1dYY:7234799d123248384c3484c387b692b48d20910a2b9dc802284d97c3ffd7624b",
+      "wordnet:i:iodine.n.01",
+      "gse_closed_class:pronoun:it",
+      "gse_closed_class:conjunction:that",
+      "gse_closed_class:preposition:of",
+      "gse_closed_class:pronoun:what",
+      "wordnet:in:inch.n.01",
+      "wordnet:me:maine.n.01"
+    ],
+    "wrapped": false
+  },
+  "selected_entry_ids": [
+    "gse_closed_class:pronoun:you",
+    "wordnet:i:i.n.03",
+    "gse_closed_class:determiner:the",
+    "gse_closed_class:preposition:to",
+    "gse_closed_class:determiner:a",
+    "wordnet:it:information_technology.n.01",
+    "gse_closed_class:pronoun:that",
+    "gse_closed_class:conjunction:and",
+    "wiktionary:en-You-en-name-0mwj1dYY:7234799d123248384c3484c387b692b48d20910a2b9dc802284d97c3ffd7624b",
+    "wordnet:i:iodine.n.01",
+    "gse_closed_class:pronoun:it",
+    "gse_closed_class:conjunction:that",
+    "gse_closed_class:preposition:of",
+    "gse_closed_class:pronoun:what",
+    "wordnet:in:inch.n.01",
+    "wordnet:me:maine.n.01"
+  ],
+  "semantic_gold": "NOT_CHECKED",
+  "skipped_attempts": {},
+  "transport_invocations": 4,
+  "unselected_residual": false
+}

@@ -1,0 +1,86 @@
+{
+  "active_path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-019.db",
+  "baseline_sha256": "a3919c7146809e5bbc898e5d08f0cf2b34aeedb22b42efb4c5b94cf382be9bfd",
+  "bits_removed": 738.5925253360588,
+  "by_bank": {
+    "BE": 466
+  },
+  "by_source": {
+    "wiktionary": 460,
+    "wordnet": 6
+  },
+  "candidate_sha256": "92158b9b2b17bd9376083d8458a0e56bcf66b3fd60f46826fa5c54c5c653c219",
+  "cells": {
+    "assigned": 408627,
+    "conflicted": 0,
+    "explicit_zero": 280858,
+    "unresolved": 22080749
+  },
+  "cells_scope": "ALL_REPLAY_RECORDS_INCLUDING_THE_SENTENCE_CONSTRUCTION",
+  "changed_lemmas": 460,
+  "changed_native_sense_groups": 465,
+  "code": "CANDIDATE_CONTRACTION_REPLAY_VALIDATED",
+  "definitions_compared": 401596,
+  "format": "gse.lexicon-convention-contraction/1",
+  "fraction_baseline_unknown_cells": 2.1103964696780637e-05,
+  "human_representation_decisions": 1,
+  "known_domain_changes": [],
+  "lexical_cells": {
+    "assigned": 408627,
+    "conflicted": 0,
+    "explicit_zero": 280858,
+    "unresolved": 22080693
+  },
+  "lexical_cells_derivation": "Frozen baseline lexical counts plus the replay-validated exact BE-only delta; the sentence-construction record is unchanged.",
+  "local_model_calibration_questions": 5,
+  "local_model_construction_questions": 9,
+  "log2_support_factor": 738.5925253360588,
+  "new_cells": 466,
+  "new_model_questions_after_approval": 0,
+  "previous_path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-018.db",
+  "publication": "PUBLISHED_SPARSE_LEXICON",
+  "publication_replay": {
+    "code": "REPLAY_VALIDATED",
+    "complete_search": true,
+    "entries_checked": 401596,
+    "entries_mismatched": 0,
+    "entries_validated": 401596,
+    "format": "gse.lexicon-replay-report/1",
+    "gold": "NOT_CHECKED",
+    "inference_counts": {
+      "components_joint_checked": 2495858,
+      "components_solver_limited": 0,
+      "entries_complete_search": 401596,
+      "entries_replayed": 401596,
+      "entries_solver_limited": 0
+    },
+    "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+    "metadata_verification": {
+      "build_report": "NOT_CHECKED",
+      "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+      "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+      "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+      "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+      "catalog_definition_source_ids": "NOT_PERSISTED",
+      "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+      "representation_contract": "VERIFIED",
+      "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+    },
+    "mismatch_counts": {},
+    "mismatches": [],
+    "replayed_outcomes": {
+      "PARTIAL": 401596
+    }
+  },
+  "publication_semantic_outcomes": {
+    "ABSTAINED": 0,
+    "CONFLICT": 0,
+    "IDENTIFIED_CORRECT": 109,
+    "NOT_FOUND": 0,
+    "WRONG": 0
+  },
+  "published_consumer_verification": "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/019-published-consumer-verification.json",
+  "reopened_cells": 0,
+  "semantic_authority": "FOUNDER_APPROVED_CONVENTION_MODEL_AUDITS_DIAGNOSTIC",
+  "support_factor_expression": "3^466"
+}

@@ -1,0 +1,59 @@
+{
+  "banks": [
+    "WANT"
+  ],
+  "batch_size": 4,
+  "code": "BUDGET_EXHAUSTED",
+  "continue_cohorts": false,
+  "dictionary_cells": {
+    "assigned": 403245,
+    "conflicted": 0,
+    "explicit_zero": 279401,
+    "unresolved": 22086131
+  },
+  "dictionary_outcomes": {
+    "PARTIAL": 401596
+  },
+  "dictionary_status": "INCOMPLETE",
+  "format": "gse.lexicon-completion-report/1",
+  "max_calls_per_entry": 1,
+  "max_entries_per_pass": 64,
+  "max_model_calls": 3,
+  "model": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@2c72cdc9a5d068087814eeb0324b588a61bd7d90c1e0fa56cc01c3a2ee7c572b:batch@8275ce1474f1229eaa286c9e485ee02c93fad6f922f7dbce408459ad439e71b7",
+  "model_calls": 3,
+  "outcomes": {
+    "ASSIGNED": 2,
+    "TRANSPORT_ERROR": 1
+  },
+  "outside_selected_scope": {
+    "unresolved_or_conflicted_cells": 22086130
+  },
+  "preflight": "REPLAY_VALIDATED",
+  "remaining_selected_scope": {
+    "cells": 1,
+    "conflicted_entries": 0,
+    "entries": 1
+  },
+  "scheduling": {
+    "code": "EXPLICIT_SCOPE",
+    "cohorts_processed": 1,
+    "cursor_after": null,
+    "cursor_before": null,
+    "pass_number": null,
+    "visited_entry_ids": [
+      "wordnet:table:table.n.02",
+      "wordnet:eager:eager.a.01",
+      "wordnet:reluctant:loath.s.01"
+    ],
+    "wrapped": false
+  },
+  "selected_entry_ids": [
+    "wordnet:table:table.n.02",
+    "wordnet:eager:eager.a.01",
+    "wordnet:reluctant:loath.s.01"
+  ],
+  "semantic_gold": "NOT_CHECKED",
+  "skipped_attempts": {},
+  "transport_invocations": 2,
+  "unselected_residual": false
+}

@@ -1,0 +1,22 @@
+{
+  "model_pin": {
+    "batch_protocol_digest": "cee23fb5929847f28d46c27f4e3abefd49aea66bbb0373aa6b433b6961f251de",
+    "digest": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+    "model": "qwen3.8:27b-q4_K_M"
+  },
+  "options": {
+    "bank_priority": "evidence",
+    "banks": [
+      "BODY"
+    ],
+    "batch_size": 4,
+    "cohort_policy": "spelling",
+    "continue_cohorts": true,
+    "entry_ids": null,
+    "max_calls_per_entry": 1,
+    "max_entries_per_pass": 8,
+    "priority": "zipf",
+    "retry": false
+  },
+  "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@9ed4ba381f34e9596c06ddb5b1797a55f9e82662facf64195963b8006a9a9620:batch@cee23fb5929847f28d46c27f4e3abefd49aea66bbb0373aa6b433b6961f251de"
+}

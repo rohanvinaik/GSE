@@ -1,0 +1,135 @@
+{
+  "active_pointer_sha256": "de025ad8bdc1bd82fb33a54fdbd9d0b09b26a2d61f10412958d552ca683fc495",
+  "audits_per_epoch": 2,
+  "baseline_sha256": "63db90e7ae2044213d7c5dbaa401b03c8fe1fbec390b2fed1cc0045494c2fbe4",
+  "epochs": 1,
+  "families": [
+    {
+      "antecedent": [
+        "PART",
+        1
+      ],
+      "consequent": [
+        "BODY",
+        1
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:joint.n.01",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wordnet:wrist:wrist.n.01",
+        "wordnet:hip:hip.n.03"
+      ],
+      "id": "anatomical-joint-part-body",
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "anatomical-joint-part-body-native-gloss-review",
+        "reviewer": "Source-backed construction review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-anatomical-parts/SOURCE_SCOPE.md",
+          "/Users/rohanvinaik/Projects/gse/docs/program/LEXICON_CONSTRUCTION_DESIGN.md#body-reference-content-scope",
+          "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "statement": "The reviewed exact joint glosses identify anatomical attachments between skeletal structures. The anatomy is constitutive of the joint defined, including when the gloss names the site of a connection.",
+        "warrant_id": "anatomical-joint-part-body"
+      }
+    },
+    {
+      "antecedent": [
+        "PART",
+        1
+      ],
+      "consequent": [
+        "BODY",
+        1
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:muscle.n.01",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wordnet:deltoid:deltoid.n.01",
+        "wordnet:sphincter:sphincter.n.01"
+      ],
+      "id": "muscular-part-body",
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "muscular-part-body-native-gloss-review",
+        "reviewer": "Source-backed construction review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-anatomical-parts/SOURCE_SCOPE.md",
+          "/Users/rohanvinaik/Projects/gse/docs/program/LEXICON_CONSTRUCTION_DESIGN.md#body-reference-content-scope",
+          "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "statement": "The reviewed exact muscle glosses identify bodily contractile structures or anatomical regions whose genus is defined by musculature. The bodily content follows from the definition's structure, independently of a current act of contraction.",
+        "warrant_id": "muscular-part-body"
+      }
+    },
+    {
+      "antecedent": [
+        "PART",
+        1
+      ],
+      "consequent": [
+        "BODY",
+        1
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:external_body_part.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:hood.n.10",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wordnet:finger:finger.n.01",
+        "wordnet:paw:paw.n.01"
+      ],
+      "id": "external-anatomical-part-body",
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "external-anatomical-part-body-native-gloss-review",
+        "reviewer": "Source-backed construction review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-anatomical-parts/SOURCE_SCOPE.md",
+          "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#body-reference-content-scope"
+        ],
+        "statement": "The exact noun glosses name anatomical regions, limbs, digits or other external appendages of a human or animal. Bodily structure is part of what the definition identifies. Hood is excluded because its alternate genus allows a marking.",
+        "warrant_id": "external-anatomical-part-body"
+      }
+    }
+  ],
+  "format": "gse.lexicon-epoch-plan/1"
+}

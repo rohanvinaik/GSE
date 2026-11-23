@@ -1,0 +1,205 @@
+{
+  "active": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-020.db",
+  "code": "VERIFIED_READY_FOR_RETIREMENT",
+  "external_backups_modified": false,
+  "format": "gse.rolling-retention/1",
+  "previous": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-019.db",
+  "retirement": [
+    {
+      "audit_delta": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-explicit-genera/retired-audit/020-epoch-01-teaching-audit-delta.json.gz",
+      "audit_delta_sha256": "f55df6eee870851f0e8191c285877b91f03d970156a9f2b2f66d97985c25b426",
+      "code": "WORK_AUDITS_PRESERVED_NO_CHECKPOINT_REMOVED",
+      "device": 16777232,
+      "format": "gse.retirement-preparation/1",
+      "inode": 102870559,
+      "logical_bytes": 19658448896,
+      "mtime_ns": 1795064462298790050,
+      "open_file_check": {
+        "code": "NO_OPEN_LOCAL_FILE_MATCHES",
+        "stderr": "lsof: WARNING: can't stat() smbfs file system /Volumes/.timemachine/SquishNAS.local/F9347808-F1D2-4199-93FD-B54A62297E9D/TimeMachine\n      Output information may be incomplete.\n      assuming \"dev=360001f5\" from mount table\n",
+        "unrelated_mount": {
+          "code": "UNRELATED_INACCESSIBLE_SMB_MOUNT",
+          "device": 905970165,
+          "path": "/Volumes/.timemachine/SquishNAS.local/F9347808-F1D2-4199-93FD-B54A62297E9D/TimeMachine"
+        }
+      },
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-explicit-genera/coherence-020/zipf/epoch-01/teaching.db",
+      "retired_only_row_counts": {
+        "accepted_model_receipts": 1,
+        "builder_assertions": 1,
+        "builder_metadata": 2,
+        "completion_attempts": 1,
+        "model_receipt_contexts": 10
+      },
+      "sha256": "ef0f6c7ec3cad238afa408bf1b92edd8a4a26baef9c34cbe34e78b0994e5199d",
+      "source_data_checks": {
+        "definitions": {
+          "code": "EXACT_STREAM_HASH_EQUAL",
+          "rows": 401596,
+          "sha256": "cecb186124446774945d9df5c293a79b824665990adf895c0d4c64cf54a54845"
+        },
+        "native_observations": {
+          "code": "EXACT_STREAM_HASH_EQUAL",
+          "rows": 3454882,
+          "sha256": "564a6e17ab702372bc38fe6e8b55df693d38f9c443315960f736406bc440453a"
+        }
+      },
+      "witness": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-019.db",
+      "witness_sha256": "92158b9b2b17bd9376083d8458a0e56bcf66b3fd60f46826fa5c54c5c653c219"
+    },
+    {
+      "audit_delta": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-explicit-genera/retired-audit/020-epoch-01-candidate-audit-delta.json.gz",
+      "audit_delta_sha256": "f7ff600e8c4a1dcf82189f2b464dc106ece43b1c5c085d8d2b29bcaada8569cb",
+      "code": "WORK_AUDITS_PRESERVED_NO_CHECKPOINT_REMOVED",
+      "device": 16777232,
+      "format": "gse.retirement-preparation/1",
+      "inode": 102944843,
+      "logical_bytes": 19807637504,
+      "mtime_ns": 1795069588840696261,
+      "open_file_check": {
+        "code": "NO_OPEN_LOCAL_FILE_MATCHES",
+        "stderr": "lsof: WARNING: can't stat() smbfs file system /Volumes/.timemachine/SquishNAS.local/F9347808-F1D2-4199-93FD-B54A62297E9D/TimeMachine\n      Output information may be incomplete.\n      assuming \"dev=360001f5\" from mount table\n",
+        "unrelated_mount": {
+          "code": "UNRELATED_INACCESSIBLE_SMB_MOUNT",
+          "device": 905970165,
+          "path": "/Volumes/.timemachine/SquishNAS.local/F9347808-F1D2-4199-93FD-B54A62297E9D/TimeMachine"
+        }
+      },
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-explicit-genera/coherence-020/zipf/epoch-01/candidate.db",
+      "retired_only_row_counts": {
+        "builder_metadata": 5,
+        "completion_attempts": 1,
+        "model_receipt_contexts": 10,
+        "model_rule_versions": 1,
+        "rule_migrations": 1,
+        "rule_versions": 1
+      },
+      "sha256": "61482487d9586299cf8e10cba420d69aba0056ab8f2bffd213627d704c3367c5",
+      "source_data_checks": {
+        "definitions": {
+          "code": "EXACT_STREAM_HASH_EQUAL",
+          "rows": 401596,
+          "sha256": "cecb186124446774945d9df5c293a79b824665990adf895c0d4c64cf54a54845"
+        },
+        "native_observations": {
+          "code": "EXACT_STREAM_HASH_EQUAL",
+          "rows": 3454882,
+          "sha256": "564a6e17ab702372bc38fe6e8b55df693d38f9c443315960f736406bc440453a"
+        }
+      },
+      "witness": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-019.db",
+      "witness_sha256": "92158b9b2b17bd9376083d8458a0e56bcf66b3fd60f46826fa5c54c5c653c219"
+    },
+    {
+      "audit_delta": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-explicit-genera/retired-audit/020-epoch-02-teaching-audit-delta.json.gz",
+      "audit_delta_sha256": "cd78ddf4e51652eaa5bd10894abaf4170b3b23bd403da1db1205bed0f48cd22a",
+      "code": "WORK_AUDITS_PRESERVED_NO_CHECKPOINT_REMOVED",
+      "device": 16777232,
+      "format": "gse.retirement-preparation/1",
+      "inode": 104018156,
+      "logical_bytes": 19808468992,
+      "mtime_ns": 1795071309745823284,
+      "open_file_check": {
+        "code": "NO_OPEN_LOCAL_FILE_MATCHES",
+        "stderr": "lsof: WARNING: can't stat() smbfs file system /Volumes/.timemachine/SquishNAS.local/F9347808-F1D2-4199-93FD-B54A62297E9D/TimeMachine\n      Output information may be incomplete.\n      assuming \"dev=360001f5\" from mount table\n",
+        "unrelated_mount": {
+          "code": "UNRELATED_INACCESSIBLE_SMB_MOUNT",
+          "device": 905970165,
+          "path": "/Volumes/.timemachine/SquishNAS.local/F9347808-F1D2-4199-93FD-B54A62297E9D/TimeMachine"
+        }
+      },
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-explicit-genera/coherence-020/zipf/epoch-02/teaching.db",
+      "retired_only_row_counts": {
+        "accepted_model_receipts": 1,
+        "builder_assertions": 1,
+        "builder_metadata": 5,
+        "completion_attempts": 2,
+        "model_receipt_contexts": 19,
+        "model_rule_versions": 1,
+        "rule_migrations": 1,
+        "rule_versions": 1
+      },
+      "sha256": "76925f303f038d52af08e4c29bec5c52590d0ca3b2066d4a9c42739bebbe380c",
+      "source_data_checks": {
+        "definitions": {
+          "code": "EXACT_STREAM_HASH_EQUAL",
+          "rows": 401596,
+          "sha256": "cecb186124446774945d9df5c293a79b824665990adf895c0d4c64cf54a54845"
+        },
+        "native_observations": {
+          "code": "EXACT_STREAM_HASH_EQUAL",
+          "rows": 3454882,
+          "sha256": "564a6e17ab702372bc38fe6e8b55df693d38f9c443315960f736406bc440453a"
+        }
+      },
+      "witness": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-019.db",
+      "witness_sha256": "92158b9b2b17bd9376083d8458a0e56bcf66b3fd60f46826fa5c54c5c653c219"
+    },
+    {
+      "audit_delta": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-explicit-genera/retired-audit/020-final-candidate-audit-delta.json.gz",
+      "audit_delta_sha256": "c8a29a64b7264e7468260026fbbeb959cf0caca91e0e00bfdb12d7d4de2fa1b3",
+      "device": 16777232,
+      "inode": 104361163,
+      "logical_bytes": 19833716736,
+      "mtime_ns": 1795075743875293662,
+      "open_file_check": {
+        "code": "NO_OPEN_LOCAL_FILE_MATCHES",
+        "stderr": "lsof: WARNING: can't stat() smbfs file system /Volumes/.timemachine/SquishNAS.local/F9347808-F1D2-4199-93FD-B54A62297E9D/TimeMachine\n      Output information may be incomplete.\n      assuming \"dev=360001f5\" from mount table\n",
+        "unrelated_mount": {
+          "code": "UNRELATED_INACCESSIBLE_SMB_MOUNT",
+          "device": 905970165,
+          "path": "/Volumes/.timemachine/SquishNAS.local/F9347808-F1D2-4199-93FD-B54A62297E9D/TimeMachine"
+        }
+      },
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-explicit-genera/coherence-020/zipf/epoch-02/candidate.db",
+      "sha256": "d2b966385b71a8674615607355c75375d043b48a6c30a42eca8b2882825f5379"
+    },
+    {
+      "audit_delta": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-explicit-genera/retired-audit/020-obsolete-018-audit-delta.json.gz",
+      "audit_delta_sha256": "54b8972196b55f5cf60d15336b5a90b41313bc459e56fb4916ef0716b137cd57",
+      "device": 16777232,
+      "inode": 100940558,
+      "logical_bytes": 19529752576,
+      "mtime_ns": 1794969300896858076,
+      "open_file_check": {
+        "code": "NO_OPEN_LOCAL_FILE_MATCHES",
+        "stderr": "lsof: WARNING: can't stat() smbfs file system /Volumes/.timemachine/SquishNAS.local/F9347808-F1D2-4199-93FD-B54A62297E9D/TimeMachine\n      Output information may be incomplete.\n      assuming \"dev=360001f5\" from mount table\n",
+        "unrelated_mount": {
+          "code": "UNRELATED_INACCESSIBLE_SMB_MOUNT",
+          "device": 905970165,
+          "path": "/Volumes/.timemachine/SquishNAS.local/F9347808-F1D2-4199-93FD-B54A62297E9D/TimeMachine"
+        }
+      },
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-018.db",
+      "retired_only_row_counts": {
+        "builder_metadata": 3
+      },
+      "sha256": "a3919c7146809e5bbc898e5d08f0cf2b34aeedb22b42efb4c5b94cf382be9bfd",
+      "source_data_checks": {
+        "definitions": {
+          "code": "EXACT_STREAM_HASH_EQUAL",
+          "source": {
+            "rows": 401596,
+            "sha256": "cecb186124446774945d9df5c293a79b824665990adf895c0d4c64cf54a54845"
+          },
+          "witness": {
+            "rows": 401596,
+            "sha256": "cecb186124446774945d9df5c293a79b824665990adf895c0d4c64cf54a54845"
+          }
+        },
+        "native_observations": {
+          "code": "EXACT_STREAM_HASH_EQUAL",
+          "source": {
+            "rows": 3454882,
+            "sha256": "564a6e17ab702372bc38fe6e8b55df693d38f9c443315960f736406bc440453a"
+          },
+          "witness": {
+            "rows": 3454882,
+            "sha256": "564a6e17ab702372bc38fe6e8b55df693d38f9c443315960f736406bc440453a"
+          }
+        }
+      }
+    }
+  ],
+  "source_and_audit_records_preserved": true
+}

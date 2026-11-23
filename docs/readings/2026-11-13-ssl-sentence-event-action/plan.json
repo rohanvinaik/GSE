@@ -1,0 +1,123 @@
+{
+  "active_pointer_sha256": "872a9fc9bd95d5562438fb55d027ae5ad3492da0a997969d9fa20e381f89fd96",
+  "audits_per_epoch": 2,
+  "baseline_sha256": "04c318118ef6c972f9b59cb8cbd9dad0b696e0da57c40be3ff1b3ed824f44228",
+  "epochs": 1,
+  "evaluation_holdout": {
+    "entries": [
+      "gse_closed_class:modal:might",
+      "wordnet:accident:accident.n.02",
+      "wordnet:arrest:apprehension.n.04",
+      "wordnet:arrest:arrest.n.02",
+      "wordnet:arrival:arrival.n.03",
+      "wordnet:buying:buying.n.01",
+      "wordnet:change:change.n.01",
+      "wordnet:cleaning:cleaning.n.01",
+      "wordnet:collapse:collapse.n.02",
+      "wordnet:cut:cut.n.01",
+      "wordnet:cut:cut.n.17",
+      "wordnet:finish:finish.n.05",
+      "wordnet:fire:fire.n.01",
+      "wordnet:incident:incident.n.01",
+      "wordnet:injection:injection.n.03",
+      "wordnet:kick:kick.n.01",
+      "wordnet:push:push.n.01",
+      "wordnet:repair:repair.n.01",
+      "wordnet:shot:shot.n.02",
+      "wordnet:sunrise:sunrise.n.03",
+      "wordnet:work:work.n.02"
+    ],
+    "lemmas": [
+      "accident",
+      "arrest",
+      "arrival",
+      "break",
+      "buying",
+      "change",
+      "cleaning",
+      "collapse",
+      "cut",
+      "finish",
+      "fire",
+      "incident",
+      "injection",
+      "kick",
+      "might",
+      "push",
+      "repair",
+      "run",
+      "shot",
+      "sunrise",
+      "work"
+    ]
+  },
+  "families": [
+    {
+      "antecedent": null,
+      "consequent": [
+        "HAPPEN",
+        1
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "native_noun_frame:explicit_occurrence",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wordnet:repeat:repeat.n.01",
+        "wiktionary:en-wreck-en-noun-T~4xAL81:f2b82d7c21ed8b4d28641e019254035641fbbf9ab557b63f04fc44c769c11254"
+      ],
+      "id": "explicit-occurrence",
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "explicit-occurrence-scope",
+        "reviewer": "Source-backed construction review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-sentence-event-action/SOURCE_SCOPE.md",
+          "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "statement": "The exact noun gloss defines the occurrence itself. Its independent NSM explication begins with something happens.",
+        "warrant_id": "explicit-occurrence"
+      }
+    },
+    {
+      "antecedent": null,
+      "consequent": [
+        "DO",
+        1
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "native_noun_frame:agentive_intervention",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wordnet:roll:cast.n.07",
+        "wiktionary:en-implantation-en-noun-uS3hsoky:eec70b79d7b9c5b24717c49340f782812b9308160d7324320b905393c3641708"
+      ],
+      "id": "agentive-intervention",
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "agentive-intervention-scope",
+        "reviewer": "Source-backed construction review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-sentence-event-action/SOURCE_SCOPE.md",
+          "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "statement": "The exact noun gloss defines an intervention by what an actor does to something. The approved DO to HAPPEN relation adds event content.",
+        "warrant_id": "agentive-intervention"
+      }
+    }
+  ],
+  "format": "gse.lexicon-epoch-plan/1"
+}

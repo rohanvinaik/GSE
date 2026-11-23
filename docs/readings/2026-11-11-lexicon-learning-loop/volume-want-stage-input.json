@@ -1,0 +1,53 @@
+{
+  "baseline_sha256": "816d4b854761125378da8742af93c7b441074a7655abe2958873b8cf27a47275",
+  "format": "gse.coherence-stage-input/2",
+  "proposals": [
+    {
+      "antecedent": [
+        "QUANTITY",
+        1
+      ],
+      "consequent": [
+        "WANT",
+        0
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:volume_unit.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:quarter.n.09",
+          "true"
+        ]
+      ],
+      "id": "stage:native-volume-unit:quantity-want",
+      "source_refs": [
+        "docs/readings/2026-11-11-lexicon-learning-loop/volume-want-scope.json"
+      ]
+    }
+  ],
+  "scope_challenges": [
+    {
+      "antecedent": [
+        "QUANTITY",
+        1
+      ],
+      "consequent": [
+        "WANT",
+        0
+      ],
+      "native_synset": "quarter.n.09",
+      "reason": "The exact definition is a fraction of a hundredweight."
+    }
+  ],
+  "semantics": "RELATIONAL_CONSTRAINT"
+}

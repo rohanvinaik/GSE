@@ -1,0 +1,53 @@
+{
+  "audit_entry_ids": [
+    "wordnet:pump:heart.n.02",
+    "wordnet:crop:craw.n.01",
+    "wordnet:colon:colon.n.01",
+    "wordnet:breadbasket:stomach.n.01",
+    "wordnet:megacolon:megacolon.n.01",
+    "wordnet:ctenidium:ctenidium.n.01",
+    "wordnet:reticulum:reticulum.n.03",
+    "wordnet:innards:viscera.n.01"
+  ],
+  "discovery_entry_ids": [
+    "wordnet:kidney:kidney.n.01"
+  ],
+  "format": "gse.reviewed-pattern-selection/1",
+  "guarded_candidates": [
+    {
+      "absent_evidence": [],
+      "antecedent": null,
+      "consequent": [
+        "BODY",
+        1
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_ancestor:internal_organ.n.01",
+          "true"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ]
+      ],
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "native-internal-organ-body-proposal-2026-11-11",
+        "reviewer": "Codex primary source-backed proposal",
+        "source_refs": [
+          "docs/readings/2026-11-01-lexicon-alias-identity/internal-organ-body-inventory.json@sha256:7ccc515d557c5d82a6eaf04766f2b832c785fd91237578f254ee9bb762c695c2",
+          "docs/readings/2026-11-01-lexicon-you-body/you-body-reading.md",
+          "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#body-reference-content-scope"
+        ],
+        "statement": "Every inspected native WordNet 3.0 sense in the internal_organ.n.01 branch defines an animal anatomical organ, a part or group of organs, or a named physical enlargement of an organ. The bodily structure is constitutive of each meaning. This includes mollusk respiration, the ruminant stomach compartments, and external gills within WordNet's branch. Branch membership does not assert that each organ lies inside the body. Exact noun identity, witnessed ancestry, and an attested native spelling are all required. A native in-scope definition lacking its own bodily component falsifies this law. Same-spelling pumps, crop yields, punctuation, currency and geographic meanings remain outside the guard. Derived spellings require separate identity evidence. The rule assigns only BODY=+1 and requires a separate withheld-answer model audit.",
+        "warrant_id": "native-internal-organ-body-2026-11-11"
+      }
+    }
+  ],
+  "reviews": []
+}

@@ -1,0 +1,26 @@
+{
+  "approval": {
+    "actor": "Rohan",
+    "answer": "Yes—own state denotation is sufficient for BE=+1.",
+    "code": "APPROVED",
+    "date": "2026-11-18",
+    "question": "Proposed BE convention: when a noun’s own meaning denotes a state of being in a condition, that is sufficient for BE=+1—including “order” defined as “the state of being well arranged.” A grammatical copula alone would not qualify. Is this the intended representation? Your approved “own stative content” requirement establishes a necessary condition but leaves this sufficiency question open. The model returned 0 for this exact order sense; that answer remains uncommitted."
+  },
+  "consequent": [
+    "BE",
+    1
+  ],
+  "convention_id": "founder:own-state-denotation-be-2026-11-18",
+  "format": "gse.approved-convention/1",
+  "guards": [
+    [
+      "pos",
+      "noun"
+    ],
+    [
+      "native_noun_frame:stative_being",
+      "true"
+    ]
+  ],
+  "premises": []
+}

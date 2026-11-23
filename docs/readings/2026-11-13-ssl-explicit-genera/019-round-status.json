@@ -1,0 +1,67 @@
+{
+  "active": {
+    "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-018.db",
+    "pointer_sha256": "6168d2896d7bc10f800e77d614b1f89a47754591c7bb00e70685714d31aa1d7a",
+    "sha256": "a3919c7146809e5bbc898e5d08f0cf2b34aeedb22b42efb4c5b94cf382be9bfd"
+  },
+  "active_baseline_replay": {
+    "code": "REPLAY_VALIDATED",
+    "complete_search": true,
+    "entries_checked": 401596,
+    "entries_mismatched": 0,
+    "entries_validated": 401596,
+    "format": "gse.lexicon-replay-report/1",
+    "gold": "NOT_CHECKED",
+    "inference_counts": {
+      "components_joint_checked": 2495392,
+      "components_solver_limited": 0,
+      "entries_complete_search": 401596,
+      "entries_replayed": 401596,
+      "entries_solver_limited": 0
+    },
+    "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+    "metadata_verification": {
+      "build_report": "NOT_CHECKED",
+      "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+      "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+      "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+      "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+      "catalog_definition_source_ids": "NOT_PERSISTED",
+      "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+      "representation_contract": "VERIFIED",
+      "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+    },
+    "mismatch_counts": {},
+    "mismatches": [],
+    "replayed_outcomes": {
+      "PARTIAL": 401596
+    }
+  },
+  "calibration_model_outcomes": {
+    "matched_admitted_seed": 5
+  },
+  "calibration_model_questions": 5,
+  "care_receipt": {
+    "answer": {
+      "BE": null
+    },
+    "code": "TEACHING_ABSTAINED",
+    "request_id": "faa2ba6d05d275c0995eac2698be87af122358601f674eb6539c80127afc13f1"
+  },
+  "code": "AWAITING_BE_SUFFICIENCY_CONVENTION",
+  "complete_lexicon_claimed": false,
+  "construction_model_outcomes": {
+    "abstained": 4,
+    "positive": 4,
+    "zero_disagreement_uncommitted": 1
+  },
+  "construction_model_questions": 9,
+  "new_committed_cells": 0,
+  "next_required_decision": "Whether a noun\u2019s own qualified state denotation is sufficient for BE=+1, including relational/resultative well-arranged order.",
+  "no_candidate_databases": true,
+  "proposed_cells": 463,
+  "publication_performed": false,
+  "rule_admission": "WITHHELD",
+  "tests_passed": 1743,
+  "unresolved_reservations": 3
+}

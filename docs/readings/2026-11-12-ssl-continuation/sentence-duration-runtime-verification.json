@@ -1,0 +1,280 @@
+{
+  "active_pointer_sha256": "449020ca41a461a7d418e4bdffe402da5c0798cb98444c5f88e7ecf6acd099b5",
+  "candidate_sha256": "68ba5c75a06247e7da0d372ba776ce2787d450c3f43cabdcf52c101b01cb5ca8",
+  "code": "SENTENCE_DURATION_CONTRAST_VALIDATED",
+  "format": "gse.sentence-duration-runtime-verification/1",
+  "runtime_cases": [
+    {
+      "emitted": {
+        "args": [
+          "i"
+        ],
+        "features": {
+          "verb": "wait"
+        },
+        "op": "EVENT"
+      },
+      "text": "I waited."
+    },
+    {
+      "emitted": {
+        "args": [
+          "i"
+        ],
+        "features": {
+          "duration": {
+            "extent": "unspecified",
+            "relation": "during"
+          },
+          "verb": "wait"
+        },
+        "op": "EVENT"
+      },
+      "text": "I waited for some time."
+    },
+    {
+      "emitted": {
+        "args": [
+          "i"
+        ],
+        "features": {
+          "duration": {
+            "extent": "short",
+            "relation": "during"
+          },
+          "verb": "wait"
+        },
+        "op": "EVENT"
+      },
+      "text": "I waited for a short time."
+    },
+    {
+      "emitted": {
+        "args": [
+          "i"
+        ],
+        "features": {
+          "duration": {
+            "extent": "long",
+            "relation": "during"
+          },
+          "verb": "wait"
+        },
+        "op": "EVENT"
+      },
+      "text": "I waited for a long time."
+    },
+    {
+      "emitted": {
+        "args": [
+          "i"
+        ],
+        "features": {
+          "duration": {
+            "extent": "unspecified",
+            "relation": "during"
+          },
+          "verb": "wait"
+        },
+        "op": "EVENT"
+      },
+      "text": "For some time, I waited."
+    },
+    {
+      "emitted": {
+        "args": [
+          "i",
+          "ill"
+        ],
+        "features": {
+          "duration": {
+            "extent": "unspecified",
+            "relation": "during"
+          }
+        },
+        "op": "TYPE_ASSERT"
+      },
+      "text": "I was ill for some time."
+    },
+    {
+      "emitted": {
+        "args": [
+          {
+            "args": [
+              "he"
+            ],
+            "features": {
+              "verb": "speak"
+            },
+            "op": "EVENT"
+          },
+          {
+            "args": [
+              "i"
+            ],
+            "features": {
+              "verb": "leave"
+            },
+            "op": "EVENT"
+          }
+        ],
+        "features": {
+          "conjunction": "before",
+          "duration": {
+            "extent": "unspecified",
+            "relation": "before"
+          }
+        },
+        "op": "TEMPORAL"
+      },
+      "text": "I left some time before he spoke."
+    },
+    {
+      "emitted": {
+        "args": [
+          {
+            "args": [
+              "he"
+            ],
+            "features": {
+              "verb": "speak"
+            },
+            "op": "EVENT"
+          },
+          {
+            "args": [
+              "i"
+            ],
+            "features": {
+              "verb": "leave"
+            },
+            "op": "EVENT"
+          }
+        ],
+        "features": {
+          "conjunction": "after",
+          "duration": {
+            "extent": "unspecified",
+            "relation": "after"
+          }
+        },
+        "op": "TEMPORAL"
+      },
+      "text": "Some time after he spoke, I left."
+    },
+    {
+      "emitted": {
+        "args": [
+          {
+            "args": [
+              "he"
+            ],
+            "features": {
+              "verb": "speak"
+            },
+            "op": "EVENT"
+          },
+          {
+            "args": [
+              "i"
+            ],
+            "features": {
+              "duration": {
+                "extent": "unspecified",
+                "relation": "during"
+              },
+              "verb": "wait"
+            },
+            "op": "EVENT"
+          }
+        ],
+        "features": {
+          "conjunction": "before"
+        },
+        "op": "TEMPORAL"
+      },
+      "text": "I waited for some time before he spoke."
+    },
+    {
+      "emitted": {
+        "args": [
+          "i",
+          "i",
+          {
+            "args": [
+              "i"
+            ],
+            "features": {
+              "duration": {
+                "extent": "unspecified",
+                "relation": "during"
+              },
+              "verb": "wait"
+            },
+            "op": "EVENT"
+          }
+        ],
+        "features": {
+          "verb": "decide"
+        },
+        "op": "CONTROL"
+      },
+      "text": "I decided to wait for some time."
+    },
+    {
+      "emitted": {
+        "args": [
+          {
+            "args": [
+              "i"
+            ],
+            "features": {
+              "duration": {
+                "extent": "long",
+                "relation": "during"
+              },
+              "verb": "wait"
+            },
+            "op": "EVENT"
+          }
+        ],
+        "features": {},
+        "op": "NOT"
+      },
+      "text": "I did not wait for a long time."
+    },
+    {
+      "emitted": {
+        "args": [
+          "he",
+          "this"
+        ],
+        "features": {
+          "duration": {
+            "extent": "unspecified",
+            "relation": "during"
+          },
+          "verb": "do"
+        },
+        "op": "EVENT"
+      },
+      "text": "He did this for some time."
+    },
+    {
+      "emitted": {
+        "args": [
+          "i",
+          "lease"
+        ],
+        "features": {
+          "themes": [
+            "long time"
+          ],
+          "verb": "sign"
+        },
+        "op": "EVENT"
+      },
+      "text": "I signed a lease for a long time."
+    }
+  ]
+}

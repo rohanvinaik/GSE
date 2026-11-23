@@ -1,0 +1,754 @@
+{
+  "activation_performed": false,
+  "active_pointer_sha256": "449020ca41a461a7d418e4bdffe402da5c0798cb98444c5f88e7ecf6acd099b5",
+  "candidate_sha256": "2e46555f1801a87f326c167a6fd8a3efdf45192f6d7f14d8b9a9e4fcf177d8c7",
+  "format": "gse.sparse-release-sentence-compatibility/1",
+  "results": {
+    "active": {
+      "cases": [
+        {
+          "code": "ENCODED",
+          "operator": "None",
+          "text": "I walked the dog.",
+          "tokens": [
+            {
+              "definition_status": null,
+              "lemma": "walk",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "VERB",
+              "sense_count": 17,
+              "token": "walked"
+            },
+            {
+              "definition_status": null,
+              "lemma": "dog",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 8,
+              "token": "dog"
+            }
+          ]
+        },
+        {
+          "code": "ENCODED",
+          "operator": "None",
+          "text": "The cat chased the mouse.",
+          "tokens": [
+            {
+              "definition_status": null,
+              "lemma": "cat",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 10,
+              "token": "cat"
+            },
+            {
+              "definition_status": null,
+              "lemma": "chase",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "VERB",
+              "sense_count": 7,
+              "token": "chased"
+            },
+            {
+              "definition_status": null,
+              "lemma": "mouse",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 6,
+              "token": "mouse"
+            }
+          ]
+        },
+        {
+          "code": "ENCODED",
+          "operator": "None",
+          "text": "I deposited money at the bank.",
+          "tokens": [
+            {
+              "definition_status": null,
+              "lemma": "deposit",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "VERB",
+              "sense_count": 12,
+              "token": "deposited"
+            },
+            {
+              "definition_status": null,
+              "lemma": "money",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 3,
+              "token": "money"
+            },
+            {
+              "definition_status": null,
+              "lemma": "bank",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 18,
+              "token": "bank"
+            }
+          ]
+        },
+        {
+          "code": "ENCODED",
+          "operator": "None",
+          "text": "The river rose above the bank.",
+          "tokens": [
+            {
+              "definition_status": "PARTIAL",
+              "lemma": "river",
+              "lexical_primitives": {
+                "SOMETHING": 1
+              },
+              "lexical_selection": "IDENTIFIED",
+              "pos": "NOUN",
+              "sense_count": 1,
+              "token": "river"
+            },
+            {
+              "definition_status": null,
+              "lemma": "rise",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "VERB",
+              "sense_count": 27,
+              "token": "rose"
+            },
+            {
+              "definition_status": null,
+              "lemma": "bank",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 18,
+              "token": "bank"
+            }
+          ]
+        },
+        {
+          "code": "ENCODED",
+          "operator": "None",
+          "text": "She filled a glass with water.",
+          "tokens": [
+            {
+              "definition_status": null,
+              "lemma": "fill",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "VERB",
+              "sense_count": 11,
+              "token": "filled"
+            },
+            {
+              "definition_status": null,
+              "lemma": "glass",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 12,
+              "token": "glass"
+            },
+            {
+              "definition_status": null,
+              "lemma": "water",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 10,
+              "token": "water"
+            }
+          ]
+        },
+        {
+          "code": "ENCODED",
+          "operator": "None",
+          "text": "An electrician repaired the light.",
+          "tokens": [
+            {
+              "definition_status": "PARTIAL",
+              "lemma": "electrician",
+              "lexical_primitives": {
+                "ALIVE": 1,
+                "SOMEONE": 1,
+                "SOMETHING": 1
+              },
+              "lexical_selection": "IDENTIFIED",
+              "pos": "NOUN",
+              "sense_count": 1,
+              "token": "electrician"
+            },
+            {
+              "definition_status": null,
+              "lemma": "repair",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "VERB",
+              "sense_count": 8,
+              "token": "repaired"
+            },
+            {
+              "definition_status": null,
+              "lemma": "light",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 47,
+              "token": "light"
+            }
+          ]
+        },
+        {
+          "code": "ENCODED",
+          "operator": "None",
+          "text": "I thought about her idea.",
+          "tokens": [
+            {
+              "definition_status": null,
+              "lemma": "think",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "VERB",
+              "sense_count": 14,
+              "token": "thought"
+            },
+            {
+              "definition_status": null,
+              "lemma": "idea",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 5,
+              "token": "idea"
+            }
+          ]
+        },
+        {
+          "code": "ENCODED",
+          "operator": "None",
+          "text": "She is very happy.",
+          "tokens": [
+            {
+              "definition_status": null,
+              "lemma": "very",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "ADV",
+              "sense_count": 4,
+              "token": "very"
+            },
+            {
+              "definition_status": null,
+              "lemma": "happy",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "ADJ",
+              "sense_count": 4,
+              "token": "happy"
+            }
+          ]
+        },
+        {
+          "code": "GRAMMATICAL_DEFINITION_ERROR",
+          "error": "MISSING_GRAMMATICAL_DEFINITION: might (gse_closed_class:modal:might)",
+          "text": "She might leave."
+        },
+        {
+          "code": "ENCODED",
+          "operator": "None",
+          "text": "I waited for some time.",
+          "tokens": [
+            {
+              "definition_status": null,
+              "lemma": "wait",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "VERB",
+              "sense_count": 6,
+              "token": "waited"
+            },
+            {
+              "definition_status": null,
+              "lemma": "time",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 15,
+              "token": "time"
+            }
+          ]
+        },
+        {
+          "code": "ENCODED",
+          "operator": "None",
+          "text": "John gave Mary a book.",
+          "tokens": [
+            {
+              "definition_status": null,
+              "lemma": "john",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "PROPN",
+              "sense_count": 5,
+              "token": "John"
+            },
+            {
+              "definition_status": null,
+              "lemma": "give",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "VERB",
+              "sense_count": 45,
+              "token": "gave"
+            },
+            {
+              "definition_status": "PARTIAL",
+              "lemma": "mary",
+              "lexical_primitives": {
+                "ALIVE": 1,
+                "SOMEONE": 1,
+                "SOMETHING": 1
+              },
+              "lexical_selection": "IDENTIFIED",
+              "pos": "PROPN",
+              "sense_count": 1,
+              "token": "Mary"
+            },
+            {
+              "definition_status": null,
+              "lemma": "book",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 15,
+              "token": "book"
+            }
+          ]
+        },
+        {
+          "code": "ENCODED",
+          "operator": "None",
+          "text": "I took the train home.",
+          "tokens": [
+            {
+              "definition_status": null,
+              "lemma": "take",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "VERB",
+              "sense_count": 44,
+              "token": "took"
+            },
+            {
+              "definition_status": null,
+              "lemma": "train",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 17,
+              "token": "train"
+            },
+            {
+              "definition_status": null,
+              "lemma": "home",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "ADV",
+              "sense_count": 17,
+              "token": "home"
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "AMBIGUOUS": 27,
+        "IDENTIFIED": 3,
+        "content_tokens": 30,
+        "content_with_signed_lexical_evidence": 3,
+        "grammar_error": 1
+      }
+    },
+    "candidate": {
+      "cases": [
+        {
+          "code": "ENCODED",
+          "operator": "None",
+          "text": "I walked the dog.",
+          "tokens": [
+            {
+              "definition_status": null,
+              "lemma": "walk",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "VERB",
+              "sense_count": 56,
+              "token": "walked"
+            },
+            {
+              "definition_status": null,
+              "lemma": "dog",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 45,
+              "token": "dog"
+            }
+          ]
+        },
+        {
+          "code": "ENCODED",
+          "operator": "None",
+          "text": "The cat chased the mouse.",
+          "tokens": [
+            {
+              "definition_status": null,
+              "lemma": "cat",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 72,
+              "token": "cat"
+            },
+            {
+              "definition_status": null,
+              "lemma": "chase",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "VERB",
+              "sense_count": 50,
+              "token": "chased"
+            },
+            {
+              "definition_status": null,
+              "lemma": "mouse",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 25,
+              "token": "mouse"
+            }
+          ]
+        },
+        {
+          "code": "ENCODED",
+          "operator": "None",
+          "text": "I deposited money at the bank.",
+          "tokens": [
+            {
+              "definition_status": null,
+              "lemma": "deposit",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "VERB",
+              "sense_count": 24,
+              "token": "deposited"
+            },
+            {
+              "definition_status": null,
+              "lemma": "money",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 15,
+              "token": "money"
+            },
+            {
+              "definition_status": null,
+              "lemma": "bank",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 62,
+              "token": "bank"
+            }
+          ]
+        },
+        {
+          "code": "ENCODED",
+          "operator": "None",
+          "text": "The river rose above the bank.",
+          "tokens": [
+            {
+              "definition_status": null,
+              "lemma": "river",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 12,
+              "token": "river"
+            },
+            {
+              "definition_status": null,
+              "lemma": "rise",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "VERB",
+              "sense_count": 63,
+              "token": "rose"
+            },
+            {
+              "definition_status": null,
+              "lemma": "bank",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 62,
+              "token": "bank"
+            }
+          ]
+        },
+        {
+          "code": "ENCODED",
+          "operator": "None",
+          "text": "She filled a glass with water.",
+          "tokens": [
+            {
+              "definition_status": null,
+              "lemma": "fill",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "VERB",
+              "sense_count": 36,
+              "token": "filled"
+            },
+            {
+              "definition_status": null,
+              "lemma": "glass",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 39,
+              "token": "glass"
+            },
+            {
+              "definition_status": null,
+              "lemma": "water",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 42,
+              "token": "water"
+            }
+          ]
+        },
+        {
+          "code": "ENCODED",
+          "operator": "None",
+          "text": "An electrician repaired the light.",
+          "tokens": [
+            {
+              "definition_status": null,
+              "lemma": "electrician",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 3,
+              "token": "electrician"
+            },
+            {
+              "definition_status": null,
+              "lemma": "repair",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "VERB",
+              "sense_count": 18,
+              "token": "repaired"
+            },
+            {
+              "definition_status": null,
+              "lemma": "light",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 117,
+              "token": "light"
+            }
+          ]
+        },
+        {
+          "code": "ENCODED",
+          "operator": "None",
+          "text": "I thought about her idea.",
+          "tokens": [
+            {
+              "definition_status": null,
+              "lemma": "think",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "VERB",
+              "sense_count": 26,
+              "token": "thought"
+            },
+            {
+              "definition_status": null,
+              "lemma": "idea",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 15,
+              "token": "idea"
+            }
+          ]
+        },
+        {
+          "code": "ENCODED",
+          "operator": "None",
+          "text": "She is very happy.",
+          "tokens": [
+            {
+              "definition_status": null,
+              "lemma": "very",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "ADV",
+              "sense_count": 11,
+              "token": "very"
+            },
+            {
+              "definition_status": null,
+              "lemma": "happy",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "ADJ",
+              "sense_count": 21,
+              "token": "happy"
+            }
+          ]
+        },
+        {
+          "code": "ENCODED",
+          "operator": "None",
+          "text": "She might leave.",
+          "tokens": [
+            {
+              "definition_status": null,
+              "lemma": "leave",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "VERB",
+              "sense_count": 39,
+              "token": "leave"
+            }
+          ]
+        },
+        {
+          "code": "ENCODED",
+          "operator": "None",
+          "text": "I waited for some time.",
+          "tokens": [
+            {
+              "definition_status": null,
+              "lemma": "wait",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "VERB",
+              "sense_count": 22,
+              "token": "waited"
+            },
+            {
+              "definition_status": null,
+              "lemma": "time",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 52,
+              "token": "time"
+            }
+          ]
+        },
+        {
+          "code": "ENCODED",
+          "operator": "None",
+          "text": "John gave Mary a book.",
+          "tokens": [
+            {
+              "definition_status": null,
+              "lemma": "john",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "PROPN",
+              "sense_count": 19,
+              "token": "John"
+            },
+            {
+              "definition_status": null,
+              "lemma": "give",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "VERB",
+              "sense_count": 75,
+              "token": "gave"
+            },
+            {
+              "definition_status": null,
+              "lemma": "mary",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "PROPN",
+              "sense_count": 12,
+              "token": "Mary"
+            },
+            {
+              "definition_status": null,
+              "lemma": "book",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 49,
+              "token": "book"
+            }
+          ]
+        },
+        {
+          "code": "ENCODED",
+          "operator": "None",
+          "text": "I took the train home.",
+          "tokens": [
+            {
+              "definition_status": null,
+              "lemma": "take",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "VERB",
+              "sense_count": 146,
+              "token": "took"
+            },
+            {
+              "definition_status": null,
+              "lemma": "train",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "NOUN",
+              "sense_count": 65,
+              "token": "train"
+            },
+            {
+              "definition_status": null,
+              "lemma": "home",
+              "lexical_primitives": {},
+              "lexical_selection": "AMBIGUOUS",
+              "pos": "ADV",
+              "sense_count": 51,
+              "token": "home"
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "AMBIGUOUS": 31,
+        "content_tokens": 31,
+        "content_with_signed_lexical_evidence": 0
+      }
+    }
+  },
+  "sampling": "fixed illustrative sentences including common polysemy and grammar"
+}

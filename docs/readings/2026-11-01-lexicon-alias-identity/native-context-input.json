@@ -1,0 +1,2907 @@
+{
+  "format": "gse.source-enrichment-input/1",
+  "observations": [
+    {
+      "entry_id": "wordnet:is:embody.v.02",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:0f409736bcf6b14d2bc47ed1273c76d58cbc33f2ad1ed8d5048106f03009a9c1",
+      "family": "wordnet",
+      "features": {
+        "definition": "represent, as of a character on stage",
+        "entry_id": "wordnet:is:embody.v.02",
+        "lemma": "is",
+        "pos": "verb",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "EXCEPTION_DERIVED",
+          "reason": "EXPLICIT_NATIVE_EXCEPTION",
+          "authority": "IDENTITY_EVIDENCE_WITHIN_SELECTED_SENSE",
+          "surface": "is",
+          "normalized_surface": "is",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "embody.v.02",
+            "pos": "v",
+            "definition": "represent, as of a character on stage",
+            "lemma_names": [
+              "embody",
+              "be",
+              "personify"
+            ],
+            "lexname": "verb.stative"
+          },
+          "analyses": [
+            {
+              "base": "be",
+              "native_lemmas": [
+                "be"
+              ],
+              "derivation": {
+                "kind": "EXCEPTION",
+                "exception_bases": [
+                  "be"
+                ],
+                "substitutions": []
+              },
+              "native_records": [
+                {
+                  "word": "be",
+                  "pos": "verb",
+                  "synset_name": "embody.v.02",
+                  "hypernym_depth": 10,
+                  "hyponym_count": 2,
+                  "has_meronyms": false,
+                  "has_holonyms": false,
+                  "lexname": "verb.stative"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:is:embody.v.02"
+      ]
+    },
+    {
+      "entry_id": "wordnet:as:angstrom.n.01",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:dc67317b34d3436733cb6ac1a0b67134df583e52ca7aa5a4af1cdc1d1d61764b",
+      "family": "wordnet",
+      "features": {
+        "definition": "a metric unit of length equal to one ten billionth of a meter (or 0.0001 micron); used to specify wavelengths of electromagnetic radiation",
+        "entry_id": "wordnet:as:angstrom.n.01",
+        "lemma": "as",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "as",
+          "normalized_surface": "as",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "angstrom.n.01",
+            "pos": "n",
+            "definition": "a metric unit of length equal to one ten billionth of a meter (or 0.0001 micron); used to specify wavelengths of electromagnetic radiation",
+            "lemma_names": [
+              "angstrom",
+              "angstrom_unit",
+              "A"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "a",
+              "native_lemmas": [
+                "A"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "a",
+                  "pos": "noun",
+                  "synset_name": "angstrom.n.01",
+                  "hypernym_depth": 8,
+                  "hyponym_count": 0,
+                  "has_meronyms": true,
+                  "has_holonyms": true,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [
+            "as"
+          ],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:as:angstrom.n.01"
+      ]
+    },
+    {
+      "entry_id": "wordnet:aus:astronomical_unit.n.01",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:6b6d842ac5fbe60e3bb70d1ab9042e9cdced710b919395cee86d834321ad2426",
+      "family": "wordnet",
+      "features": {
+        "definition": "a unit of length used for distances within the solar system; equal to the mean distance between the Earth and the Sun (approximately 93 million miles or 150 million kilometers)",
+        "entry_id": "wordnet:aus:astronomical_unit.n.01",
+        "lemma": "aus",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "aus",
+          "normalized_surface": "aus",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "astronomical_unit.n.01",
+            "pos": "n",
+            "definition": "a unit of length used for distances within the solar system; equal to the mean distance between the Earth and the Sun (approximately 93 million miles or 150 million kilometers)",
+            "lemma_names": [
+              "Astronomical_Unit",
+              "AU"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "au",
+              "native_lemmas": [
+                "AU"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "au",
+                  "pos": "noun",
+                  "synset_name": "astronomical_unit.n.01",
+                  "hypernym_depth": 8,
+                  "hyponym_count": 0,
+                  "has_meronyms": false,
+                  "has_holonyms": false,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:aus:astronomical_unit.n.01"
+      ]
+    },
+    {
+      "entry_id": "wordnet:cables:cable.n.04",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:6feaf32130ec1c55fd52b4e5a4243e8c6e760a7bd457d617da01a85b912f04d7",
+      "family": "wordnet",
+      "features": {
+        "definition": "a nautical unit of depth",
+        "entry_id": "wordnet:cables:cable.n.04",
+        "lemma": "cables",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "cables",
+          "normalized_surface": "cables",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "cable.n.04",
+            "pos": "n",
+            "definition": "a nautical unit of depth",
+            "lemma_names": [
+              "cable",
+              "cable_length",
+              "cable's_length"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "cable",
+              "native_lemmas": [
+                "cable"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "cable",
+                  "pos": "noun",
+                  "synset_name": "cable.n.04",
+                  "hypernym_depth": 7,
+                  "hyponym_count": 0,
+                  "has_meronyms": false,
+                  "has_holonyms": false,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:cables:cable.n.04"
+      ]
+    },
+    {
+      "entry_id": "wordnet:chains:chain.n.06",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:e541cd9aa0819bfeafb57114e17bab57762f0b4edae3c866119ec416cc0a291b",
+      "family": "wordnet",
+      "features": {
+        "definition": "a unit of length",
+        "entry_id": "wordnet:chains:chain.n.06",
+        "lemma": "chains",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "chains",
+          "normalized_surface": "chains",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "chain.n.06",
+            "pos": "n",
+            "definition": "a unit of length",
+            "lemma_names": [
+              "chain"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "chain",
+              "native_lemmas": [
+                "chain"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "chain",
+                  "pos": "noun",
+                  "synset_name": "chain.n.06",
+                  "hypernym_depth": 7,
+                  "hyponym_count": 3,
+                  "has_meronyms": true,
+                  "has_holonyms": false,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [
+            "chains"
+          ],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:chains:chain.n.06"
+      ]
+    },
+    {
+      "entry_id": "wordnet:nuts:en.n.01",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:2237e6e8b63c870861f40eb42259fed2fd6421f86cee931fdc580e7a3987fec6",
+      "family": "wordnet",
+      "features": {
+        "definition": "half the width of an em",
+        "entry_id": "wordnet:nuts:en.n.01",
+        "lemma": "nuts",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "nuts",
+          "normalized_surface": "nuts",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "en.n.01",
+            "pos": "n",
+            "definition": "half the width of an em",
+            "lemma_names": [
+              "en",
+              "nut"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "nut",
+              "native_lemmas": [
+                "nut"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "nut",
+                  "pos": "noun",
+                  "synset_name": "en.n.01",
+                  "hypernym_depth": 7,
+                  "hyponym_count": 0,
+                  "has_meronyms": false,
+                  "has_holonyms": true,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:nuts:en.n.01"
+      ]
+    },
+    {
+      "entry_id": "wordnet:digits:finger.n.02",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:fd92a07eed913dd57eaf1d3b137835805ec2f29f0bb02a811406f030f9e90de6",
+      "family": "wordnet",
+      "features": {
+        "definition": "the length of breadth of a finger used as a linear measure",
+        "entry_id": "wordnet:digits:finger.n.02",
+        "lemma": "digits",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "digits",
+          "normalized_surface": "digits",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "finger.n.02",
+            "pos": "n",
+            "definition": "the length of breadth of a finger used as a linear measure",
+            "lemma_names": [
+              "finger",
+              "fingerbreadth",
+              "finger's_breadth",
+              "digit"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "digit",
+              "native_lemmas": [
+                "digit"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "digit",
+                  "pos": "noun",
+                  "synset_name": "finger.n.02",
+                  "hypernym_depth": 7,
+                  "hyponym_count": 0,
+                  "has_meronyms": false,
+                  "has_holonyms": false,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:digits:finger.n.02"
+      ]
+    },
+    {
+      "entry_id": "wordnet:fingers:finger.n.02",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:e2a21360307b6cf2adf0a2bc3af826ea253fb41b1635c27cfaab0bf33780d495",
+      "family": "wordnet",
+      "features": {
+        "definition": "the length of breadth of a finger used as a linear measure",
+        "entry_id": "wordnet:fingers:finger.n.02",
+        "lemma": "fingers",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "fingers",
+          "normalized_surface": "fingers",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "finger.n.02",
+            "pos": "n",
+            "definition": "the length of breadth of a finger used as a linear measure",
+            "lemma_names": [
+              "finger",
+              "fingerbreadth",
+              "finger's_breadth",
+              "digit"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "finger",
+              "native_lemmas": [
+                "finger"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "finger",
+                  "pos": "noun",
+                  "synset_name": "finger.n.02",
+                  "hypernym_depth": 7,
+                  "hyponym_count": 0,
+                  "has_meronyms": false,
+                  "has_holonyms": false,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:fingers:finger.n.02"
+      ]
+    },
+    {
+      "entry_id": "wordnet:feet:foot.n.02",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:1598d39a463aedc9736da36854abeeec85c865e80cba9ad0b62c0e8f0e9fe894",
+      "family": "wordnet",
+      "features": {
+        "definition": "a linear unit of length equal to 12 inches or a third of a yard",
+        "entry_id": "wordnet:feet:foot.n.02",
+        "lemma": "feet",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "EXCEPTION_DERIVED",
+          "reason": "EXPLICIT_NATIVE_EXCEPTION",
+          "authority": "IDENTITY_EVIDENCE_WITHIN_SELECTED_SENSE",
+          "surface": "feet",
+          "normalized_surface": "feet",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "foot.n.02",
+            "pos": "n",
+            "definition": "a linear unit of length equal to 12 inches or a third of a yard",
+            "lemma_names": [
+              "foot",
+              "ft"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "foot",
+              "native_lemmas": [
+                "foot"
+              ],
+              "derivation": {
+                "kind": "EXCEPTION",
+                "exception_bases": [
+                  "foot"
+                ],
+                "substitutions": []
+              },
+              "native_records": [
+                {
+                  "word": "foot",
+                  "pos": "noun",
+                  "synset_name": "foot.n.02",
+                  "hypernym_depth": 7,
+                  "hyponym_count": 0,
+                  "has_meronyms": true,
+                  "has_holonyms": true,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:feet:foot.n.02"
+      ]
+    },
+    {
+      "entry_id": "wordnet:hands:hand.n.09",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:a9056285bdf2b679c32f774796d5b0ffe868575b0d3e23cdcd4f8e2c60c523a3",
+      "family": "wordnet",
+      "features": {
+        "definition": "a unit of length equal to 4 inches; used in measuring horses",
+        "entry_id": "wordnet:hands:hand.n.09",
+        "lemma": "hands",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "hands",
+          "normalized_surface": "hands",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "hand.n.09",
+            "pos": "n",
+            "definition": "a unit of length equal to 4 inches; used in measuring horses",
+            "lemma_names": [
+              "hand"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "hand",
+              "native_lemmas": [
+                "hand"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "hand",
+                  "pos": "noun",
+                  "synset_name": "hand.n.09",
+                  "hypernym_depth": 8,
+                  "hyponym_count": 0,
+                  "has_meronyms": false,
+                  "has_holonyms": false,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [
+            "hands"
+          ],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:hands:hand.n.09"
+      ]
+    },
+    {
+      "entry_id": "wordnet:heads:head.n.11",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:0ba015e094804a7290be788df5ffd7db289fc8194a5f537032d9d0295204a58e",
+      "family": "wordnet",
+      "features": {
+        "definition": "the length or height based on the size of a human or animal head",
+        "entry_id": "wordnet:heads:head.n.11",
+        "lemma": "heads",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "heads",
+          "normalized_surface": "heads",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "head.n.11",
+            "pos": "n",
+            "definition": "the length or height based on the size of a human or animal head",
+            "lemma_names": [
+              "head"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "head",
+              "native_lemmas": [
+                "head"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "head",
+                  "pos": "noun",
+                  "synset_name": "head.n.11",
+                  "hypernym_depth": 7,
+                  "hyponym_count": 0,
+                  "has_meronyms": false,
+                  "has_holonyms": false,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:heads:head.n.11"
+      ]
+    },
+    {
+      "entry_id": "wordnet:inches:inch.n.01",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:8badfa6d92cc7b2e99f9162016b4d61df82813e2eb421d3b3c0ea5f96f02f3e6",
+      "family": "wordnet",
+      "features": {
+        "definition": "a unit of length equal to one twelfth of a foot",
+        "entry_id": "wordnet:inches:inch.n.01",
+        "lemma": "inches",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "inches",
+          "normalized_surface": "inches",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "inch.n.01",
+            "pos": "n",
+            "definition": "a unit of length equal to one twelfth of a foot",
+            "lemma_names": [
+              "inch",
+              "in"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "inch",
+              "native_lemmas": [
+                "inch"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "ches",
+                    "replacement": "ch"
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "inch",
+                  "pos": "noun",
+                  "synset_name": "inch.n.01",
+                  "hypernym_depth": 7,
+                  "hyponym_count": 0,
+                  "has_meronyms": true,
+                  "has_holonyms": true,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:inches:inch.n.01"
+      ]
+    },
+    {
+      "entry_id": "wordnet:ins:inch.n.01",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:8300ac03d91f6c0368bdb916f9b3cc351575a6eb76605869671770588908408b",
+      "family": "wordnet",
+      "features": {
+        "definition": "a unit of length equal to one twelfth of a foot",
+        "entry_id": "wordnet:ins:inch.n.01",
+        "lemma": "ins",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "ins",
+          "normalized_surface": "ins",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "inch.n.01",
+            "pos": "n",
+            "definition": "a unit of length equal to one twelfth of a foot",
+            "lemma_names": [
+              "inch",
+              "in"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "in",
+              "native_lemmas": [
+                "in"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "in",
+                  "pos": "noun",
+                  "synset_name": "inch.n.01",
+                  "hypernym_depth": 7,
+                  "hyponym_count": 0,
+                  "has_meronyms": true,
+                  "has_holonyms": true,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [
+            "ins"
+          ],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:ins:inch.n.01"
+      ]
+    },
+    {
+      "entry_id": "wordnet:kilometers:kilometer.n.01",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:a84868ddc51e91ddee64dc7c3164495459fe36e88963c6c677c4280628d7d836",
+      "family": "wordnet",
+      "features": {
+        "definition": "a metric unit of length equal to 1000 meters (or 0.621371 miles)",
+        "entry_id": "wordnet:kilometers:kilometer.n.01",
+        "lemma": "kilometers",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "kilometers",
+          "normalized_surface": "kilometers",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "kilometer.n.01",
+            "pos": "n",
+            "definition": "a metric unit of length equal to 1000 meters (or 0.621371 miles)",
+            "lemma_names": [
+              "kilometer",
+              "kilometre",
+              "km",
+              "klick"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "kilometer",
+              "native_lemmas": [
+                "kilometer"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "kilometer",
+                  "pos": "noun",
+                  "synset_name": "kilometer.n.01",
+                  "hypernym_depth": 8,
+                  "hyponym_count": 0,
+                  "has_meronyms": true,
+                  "has_holonyms": true,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:kilometers:kilometer.n.01"
+      ]
+    },
+    {
+      "entry_id": "wordnet:links:link.n.05",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:15e9a5fb8a65cf8bf2404776d10aeed5924e7fb23283efd30b077196b05e14f3",
+      "family": "wordnet",
+      "features": {
+        "definition": "a unit of length equal to 1/100 of a chain",
+        "entry_id": "wordnet:links:link.n.05",
+        "lemma": "links",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "links",
+          "normalized_surface": "links",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "link.n.05",
+            "pos": "n",
+            "definition": "a unit of length equal to 1/100 of a chain",
+            "lemma_names": [
+              "link"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "link",
+              "native_lemmas": [
+                "link"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "link",
+                  "pos": "noun",
+                  "synset_name": "link.n.05",
+                  "hypernym_depth": 7,
+                  "hyponym_count": 0,
+                  "has_meronyms": false,
+                  "has_holonyms": true,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [
+            "links"
+          ],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:links:link.n.05"
+      ]
+    },
+    {
+      "entry_id": "wordnet:meshes:mesh.n.01",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:5215715f4b9694a0b6f42a9c251087730ba7ce2de22283bdacee0ba41e0c5485",
+      "family": "wordnet",
+      "features": {
+        "definition": "the number of openings per linear inch of a screen; measures size of particles",
+        "entry_id": "wordnet:meshes:mesh.n.01",
+        "lemma": "meshes",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "meshes",
+          "normalized_surface": "meshes",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "mesh.n.01",
+            "pos": "n",
+            "definition": "the number of openings per linear inch of a screen; measures size of particles",
+            "lemma_names": [
+              "mesh"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "mesh",
+              "native_lemmas": [
+                "mesh"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "shes",
+                    "replacement": "sh"
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "mesh",
+                  "pos": "noun",
+                  "synset_name": "mesh.n.01",
+                  "hypernym_depth": 7,
+                  "hyponym_count": 0,
+                  "has_meronyms": false,
+                  "has_holonyms": true,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:meshes:mesh.n.01"
+      ]
+    },
+    {
+      "entry_id": "wordnet:meters:meter.n.01",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:2cdc8ca2634e9ff1bfcb98b328c346e393177ae4ce344e0a19b0f298e29c9119",
+      "family": "wordnet",
+      "features": {
+        "definition": "the basic unit of length adopted under the Systeme International d'Unites (approximately 1.094 yards)",
+        "entry_id": "wordnet:meters:meter.n.01",
+        "lemma": "meters",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "meters",
+          "normalized_surface": "meters",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "meter.n.01",
+            "pos": "n",
+            "definition": "the basic unit of length adopted under the Systeme International d'Unites (approximately 1.094 yards)",
+            "lemma_names": [
+              "meter",
+              "metre",
+              "m"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "meter",
+              "native_lemmas": [
+                "meter"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "meter",
+                  "pos": "noun",
+                  "synset_name": "meter.n.01",
+                  "hypernym_depth": 8,
+                  "hyponym_count": 0,
+                  "has_meronyms": true,
+                  "has_holonyms": true,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:meters:meter.n.01"
+      ]
+    },
+    {
+      "entry_id": "wordnet:metres:meter.n.01",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:34affb17782b59388678a3fbd745ee7ca3faf49db6d2ff0086cfe82f6a7c4e27",
+      "family": "wordnet",
+      "features": {
+        "definition": "the basic unit of length adopted under the Systeme International d'Unites (approximately 1.094 yards)",
+        "entry_id": "wordnet:metres:meter.n.01",
+        "lemma": "metres",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "metres",
+          "normalized_surface": "metres",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "meter.n.01",
+            "pos": "n",
+            "definition": "the basic unit of length adopted under the Systeme International d'Unites (approximately 1.094 yards)",
+            "lemma_names": [
+              "meter",
+              "metre",
+              "m"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "metre",
+              "native_lemmas": [
+                "metre"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "metre",
+                  "pos": "noun",
+                  "synset_name": "meter.n.01",
+                  "hypernym_depth": 8,
+                  "hyponym_count": 0,
+                  "has_meronyms": true,
+                  "has_holonyms": true,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:metres:meter.n.01"
+      ]
+    },
+    {
+      "entry_id": "wordnet:ms:meter.n.01",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:2cce8f9703386b2fd58c3e68d8414a8b975943257c64464b1f6fb2c07325c847",
+      "family": "wordnet",
+      "features": {
+        "definition": "the basic unit of length adopted under the Systeme International d'Unites (approximately 1.094 yards)",
+        "entry_id": "wordnet:ms:meter.n.01",
+        "lemma": "ms",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "ms",
+          "normalized_surface": "ms",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "meter.n.01",
+            "pos": "n",
+            "definition": "the basic unit of length adopted under the Systeme International d'Unites (approximately 1.094 yards)",
+            "lemma_names": [
+              "meter",
+              "metre",
+              "m"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "m",
+              "native_lemmas": [
+                "m"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "m",
+                  "pos": "noun",
+                  "synset_name": "meter.n.01",
+                  "hypernym_depth": 8,
+                  "hyponym_count": 0,
+                  "has_meronyms": true,
+                  "has_holonyms": true,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [
+            "ms"
+          ],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:ms:meter.n.01"
+      ]
+    },
+    {
+      "entry_id": "wordnet:miles:mile.n.01",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:feeb43ec2b6763cd2f64cdc64232e83ff5f3d2a5b96acbdf7432af068003009b",
+      "family": "wordnet",
+      "features": {
+        "definition": "a unit of length equal to 1,760 yards or 5,280 feet; exactly 1609.344 meters",
+        "entry_id": "wordnet:miles:mile.n.01",
+        "lemma": "miles",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "miles",
+          "normalized_surface": "miles",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "mile.n.01",
+            "pos": "n",
+            "definition": "a unit of length equal to 1,760 yards or 5,280 feet; exactly 1609.344 meters",
+            "lemma_names": [
+              "mile",
+              "statute_mile",
+              "stat_mi",
+              "land_mile",
+              "international_mile",
+              "mi"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "mile",
+              "native_lemmas": [
+                "mile"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "mile",
+                  "pos": "noun",
+                  "synset_name": "mile.n.01",
+                  "hypernym_depth": 7,
+                  "hyponym_count": 0,
+                  "has_meronyms": true,
+                  "has_holonyms": true,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:miles:mile.n.01"
+      ]
+    },
+    {
+      "entry_id": "wordnet:mis:mile.n.01",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:07b1289d8bcdc979fe610b5a33f6640849710772c8067ee48795565f55c802f2",
+      "family": "wordnet",
+      "features": {
+        "definition": "a unit of length equal to 1,760 yards or 5,280 feet; exactly 1609.344 meters",
+        "entry_id": "wordnet:mis:mile.n.01",
+        "lemma": "mis",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "mis",
+          "normalized_surface": "mis",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "mile.n.01",
+            "pos": "n",
+            "definition": "a unit of length equal to 1,760 yards or 5,280 feet; exactly 1609.344 meters",
+            "lemma_names": [
+              "mile",
+              "statute_mile",
+              "stat_mi",
+              "land_mile",
+              "international_mile",
+              "mi"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "mi",
+              "native_lemmas": [
+                "mi"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "mi",
+                  "pos": "noun",
+                  "synset_name": "mile.n.01",
+                  "hypernym_depth": 7,
+                  "hyponym_count": 0,
+                  "has_meronyms": true,
+                  "has_holonyms": true,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:mis:mile.n.01"
+      ]
+    },
+    {
+      "entry_id": "wordnet:miles:mile.n.06",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:91c8eb3e58bad188c57e867f9d726e801aaadfd370626353b5930d4cf35277ce",
+      "family": "wordnet",
+      "features": {
+        "definition": "an ancient Roman unit of length equivalent to 1620 yards",
+        "entry_id": "wordnet:miles:mile.n.06",
+        "lemma": "miles",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "miles",
+          "normalized_surface": "miles",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "mile.n.06",
+            "pos": "n",
+            "definition": "an ancient Roman unit of length equivalent to 1620 yards",
+            "lemma_names": [
+              "mile",
+              "Roman_mile"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "mile",
+              "native_lemmas": [
+                "mile"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "mile",
+                  "pos": "noun",
+                  "synset_name": "mile.n.06",
+                  "hypernym_depth": 7,
+                  "hyponym_count": 0,
+                  "has_meronyms": false,
+                  "has_holonyms": false,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:miles:mile.n.06"
+      ]
+    },
+    {
+      "entry_id": "wordnet:miles:mile.n.07",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:b22d25917dc374d2265949b93f04478db67d7969dac27c2df565639ce0b6ee3d",
+      "family": "wordnet",
+      "features": {
+        "definition": "a Swedish unit of length equivalent to 10 km",
+        "entry_id": "wordnet:miles:mile.n.07",
+        "lemma": "miles",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "miles",
+          "normalized_surface": "miles",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "mile.n.07",
+            "pos": "n",
+            "definition": "a Swedish unit of length equivalent to 10 km",
+            "lemma_names": [
+              "mile",
+              "mil",
+              "Swedish_mile"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "mile",
+              "native_lemmas": [
+                "mile"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "mile",
+                  "pos": "noun",
+                  "synset_name": "mile.n.07",
+                  "hypernym_depth": 7,
+                  "hyponym_count": 0,
+                  "has_meronyms": false,
+                  "has_holonyms": false,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:miles:mile.n.07"
+      ]
+    },
+    {
+      "entry_id": "wordnet:nails:nail.n.03",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:d21d6677893530f72f2a4887d2aa88cf1ca8ee0e3c08ddb905f7b43cc191d260",
+      "family": "wordnet",
+      "features": {
+        "definition": "a former unit of length for cloth equal to 1/16 of a yard",
+        "entry_id": "wordnet:nails:nail.n.03",
+        "lemma": "nails",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "nails",
+          "normalized_surface": "nails",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "nail.n.03",
+            "pos": "n",
+            "definition": "a former unit of length for cloth equal to 1/16 of a yard",
+            "lemma_names": [
+              "nail"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "nail",
+              "native_lemmas": [
+                "nail"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "nail",
+                  "pos": "noun",
+                  "synset_name": "nail.n.03",
+                  "hypernym_depth": 7,
+                  "hyponym_count": 0,
+                  "has_meronyms": false,
+                  "has_holonyms": false,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:nails:nail.n.03"
+      ]
+    },
+    {
+      "entry_id": "wordnet:miles:nautical_mile.n.01",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:c9b0059b9c2a11a8eaa5ef6b972cc6ec12aeb277846ea2ba80b7301b3aed892f",
+      "family": "wordnet",
+      "features": {
+        "definition": "a former British unit of length equivalent to 6,080 feet (1,853.184 meters); 800 feet longer than a statute mile",
+        "entry_id": "wordnet:miles:nautical_mile.n.01",
+        "lemma": "miles",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "miles",
+          "normalized_surface": "miles",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "nautical_mile.n.01",
+            "pos": "n",
+            "definition": "a former British unit of length equivalent to 6,080 feet (1,853.184 meters); 800 feet longer than a statute mile",
+            "lemma_names": [
+              "nautical_mile",
+              "naut_mi",
+              "mile",
+              "mi",
+              "geographical_mile",
+              "Admiralty_mile"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "mile",
+              "native_lemmas": [
+                "mile"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "mile",
+                  "pos": "noun",
+                  "synset_name": "nautical_mile.n.01",
+                  "hypernym_depth": 8,
+                  "hyponym_count": 0,
+                  "has_meronyms": false,
+                  "has_holonyms": false,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:miles:nautical_mile.n.01"
+      ]
+    },
+    {
+      "entry_id": "wordnet:mis:nautical_mile.n.01",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:7cdae24783f0571449a048bcd667de714cf8b52df60b38888ea01c5f4c3401ed",
+      "family": "wordnet",
+      "features": {
+        "definition": "a former British unit of length equivalent to 6,080 feet (1,853.184 meters); 800 feet longer than a statute mile",
+        "entry_id": "wordnet:mis:nautical_mile.n.01",
+        "lemma": "mis",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "mis",
+          "normalized_surface": "mis",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "nautical_mile.n.01",
+            "pos": "n",
+            "definition": "a former British unit of length equivalent to 6,080 feet (1,853.184 meters); 800 feet longer than a statute mile",
+            "lemma_names": [
+              "nautical_mile",
+              "naut_mi",
+              "mile",
+              "mi",
+              "geographical_mile",
+              "Admiralty_mile"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "mi",
+              "native_lemmas": [
+                "mi"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "mi",
+                  "pos": "noun",
+                  "synset_name": "nautical_mile.n.01",
+                  "hypernym_depth": 8,
+                  "hyponym_count": 0,
+                  "has_meronyms": false,
+                  "has_holonyms": false,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:mis:nautical_mile.n.01"
+      ]
+    },
+    {
+      "entry_id": "wordnet:miles:nautical_mile.n.02",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:eef43fe8d546598a8fe89923dcd9d5d91a731aaa4faf20472b66877531a1cc8d",
+      "family": "wordnet",
+      "features": {
+        "definition": "a unit of length used in navigation; exactly 1,852 meters; historically based on the distance spanned by one minute of arc in latitude",
+        "entry_id": "wordnet:miles:nautical_mile.n.02",
+        "lemma": "miles",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "miles",
+          "normalized_surface": "miles",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "nautical_mile.n.02",
+            "pos": "n",
+            "definition": "a unit of length used in navigation; exactly 1,852 meters; historically based on the distance spanned by one minute of arc in latitude",
+            "lemma_names": [
+              "nautical_mile",
+              "mile",
+              "mi",
+              "naut_mi",
+              "knot",
+              "international_nautical_mile",
+              "air_mile"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "mile",
+              "native_lemmas": [
+                "mile"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "mile",
+                  "pos": "noun",
+                  "synset_name": "nautical_mile.n.02",
+                  "hypernym_depth": 8,
+                  "hyponym_count": 0,
+                  "has_meronyms": false,
+                  "has_holonyms": false,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:miles:nautical_mile.n.02"
+      ]
+    },
+    {
+      "entry_id": "wordnet:mis:nautical_mile.n.02",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:055822e0e03ac6a60859b11bdf2ef86ce7db5475ecbe35f3e01862b469664d9f",
+      "family": "wordnet",
+      "features": {
+        "definition": "a unit of length used in navigation; exactly 1,852 meters; historically based on the distance spanned by one minute of arc in latitude",
+        "entry_id": "wordnet:mis:nautical_mile.n.02",
+        "lemma": "mis",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "mis",
+          "normalized_surface": "mis",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "nautical_mile.n.02",
+            "pos": "n",
+            "definition": "a unit of length used in navigation; exactly 1,852 meters; historically based on the distance spanned by one minute of arc in latitude",
+            "lemma_names": [
+              "nautical_mile",
+              "mile",
+              "mi",
+              "naut_mi",
+              "knot",
+              "international_nautical_mile",
+              "air_mile"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "mi",
+              "native_lemmas": [
+                "mi"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "mi",
+                  "pos": "noun",
+                  "synset_name": "nautical_mile.n.02",
+                  "hypernym_depth": 8,
+                  "hyponym_count": 0,
+                  "has_meronyms": false,
+                  "has_holonyms": false,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:mis:nautical_mile.n.02"
+      ]
+    },
+    {
+      "entry_id": "wordnet:poles:perch.n.02",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:03d94768b4aff608e0e08bc0089e470af1c39aacd7bc6bd8ccd70b285a0ea2b2",
+      "family": "wordnet",
+      "features": {
+        "definition": "a linear measure of 16.5 feet",
+        "entry_id": "wordnet:poles:perch.n.02",
+        "lemma": "poles",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "poles",
+          "normalized_surface": "poles",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "perch.n.02",
+            "pos": "n",
+            "definition": "a linear measure of 16.5 feet",
+            "lemma_names": [
+              "perch",
+              "rod",
+              "pole"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "pole",
+              "native_lemmas": [
+                "pole"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "pole",
+                  "pos": "noun",
+                  "synset_name": "perch.n.02",
+                  "hypernym_depth": 7,
+                  "hyponym_count": 0,
+                  "has_meronyms": true,
+                  "has_holonyms": true,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:poles:perch.n.02"
+      ]
+    },
+    {
+      "entry_id": "wordnet:rods:perch.n.02",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:62a23094b10d4195686d714ffa8bb158d20b07ab37ad468b7650a379659d3d36",
+      "family": "wordnet",
+      "features": {
+        "definition": "a linear measure of 16.5 feet",
+        "entry_id": "wordnet:rods:perch.n.02",
+        "lemma": "rods",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "rods",
+          "normalized_surface": "rods",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "perch.n.02",
+            "pos": "n",
+            "definition": "a linear measure of 16.5 feet",
+            "lemma_names": [
+              "perch",
+              "rod",
+              "pole"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "rod",
+              "native_lemmas": [
+                "rod"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "rod",
+                  "pos": "noun",
+                  "synset_name": "perch.n.02",
+                  "hypernym_depth": 7,
+                  "hyponym_count": 0,
+                  "has_meronyms": true,
+                  "has_holonyms": true,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:rods:perch.n.02"
+      ]
+    },
+    {
+      "entry_id": "wordnet:points:point.n.17",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:0c1d7b9591467af04edb70592aea40d76e16b5eb27b70b376e11fc841dfd80ba",
+      "family": "wordnet",
+      "features": {
+        "definition": "a linear unit used to measure the size of type; approximately 1/72 inch",
+        "entry_id": "wordnet:points:point.n.17",
+        "lemma": "points",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "points",
+          "normalized_surface": "points",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "point.n.17",
+            "pos": "n",
+            "definition": "a linear unit used to measure the size of type; approximately 1/72 inch",
+            "lemma_names": [
+              "point"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "point",
+              "native_lemmas": [
+                "point"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "point",
+                  "pos": "noun",
+                  "synset_name": "point.n.17",
+                  "hypernym_depth": 7,
+                  "hyponym_count": 0,
+                  "has_meronyms": false,
+                  "has_holonyms": true,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:points:point.n.17"
+      ]
+    },
+    {
+      "entry_id": "wordnet:miles:sea_mile.n.01",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:0920b40a232c56bb86685fb606407601af4bc3aba524c860caecc1943dc7bbd1",
+      "family": "wordnet",
+      "features": {
+        "definition": "a former British unit of length once used in navigation; equivalent to 6,000 feet (1828.8 meters)",
+        "entry_id": "wordnet:miles:sea_mile.n.01",
+        "lemma": "miles",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "miles",
+          "normalized_surface": "miles",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "sea_mile.n.01",
+            "pos": "n",
+            "definition": "a former British unit of length once used in navigation; equivalent to 6,000 feet (1828.8 meters)",
+            "lemma_names": [
+              "sea_mile",
+              "mile"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "mile",
+              "native_lemmas": [
+                "mile"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "mile",
+                  "pos": "noun",
+                  "synset_name": "sea_mile.n.01",
+                  "hypernym_depth": 8,
+                  "hyponym_count": 0,
+                  "has_meronyms": false,
+                  "has_holonyms": false,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:miles:sea_mile.n.01"
+      ]
+    },
+    {
+      "entry_id": "wordnet:spans:span.n.04",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:84f5912dff7e1af75cd809dd1f681bddb9ced72026b90b4330935c90e9b2118f",
+      "family": "wordnet",
+      "features": {
+        "definition": "a unit of length based on the width of the expanded human hand (usually taken as 9 inches)",
+        "entry_id": "wordnet:spans:span.n.04",
+        "lemma": "spans",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "spans",
+          "normalized_surface": "spans",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "span.n.04",
+            "pos": "n",
+            "definition": "a unit of length based on the width of the expanded human hand (usually taken as 9 inches)",
+            "lemma_names": [
+              "span"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "span",
+              "native_lemmas": [
+                "span"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "span",
+                  "pos": "noun",
+                  "synset_name": "span.n.04",
+                  "hypernym_depth": 7,
+                  "hyponym_count": 0,
+                  "has_meronyms": false,
+                  "has_holonyms": false,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:spans:span.n.04"
+      ]
+    },
+    {
+      "entry_id": "wordnet:yards:yard.n.01",
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet_identity:aa2fa856792778e5b2df13bcdd9249a4cf9d19268a628273fb1dcfab6a3b2545",
+      "family": "wordnet",
+      "features": {
+        "definition": "a unit of length equal to 3 feet; defined as 91.44 centimeters; originally taken to be the average length of a stride",
+        "entry_id": "wordnet:yards:yard.n.01",
+        "lemma": "yards",
+        "pos": "noun",
+        "definition_identity": {
+          "format": "gse.wordnet-definition-identity/1",
+          "code": "REGULAR_RULE_CANDIDATES",
+          "reason": "SUFFIX_RULE_IS_CANDIDATE_ONLY",
+          "authority": "CANDIDATE_ONLY",
+          "surface": "yards",
+          "normalized_surface": "yards",
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "native_synset": {
+            "name": "yard.n.01",
+            "pos": "n",
+            "definition": "a unit of length equal to 3 feet; defined as 91.44 centimeters; originally taken to be the average length of a stride",
+            "lemma_names": [
+              "yard",
+              "pace"
+            ],
+            "lexname": "noun.quantity"
+          },
+          "analyses": [
+            {
+              "base": "yard",
+              "native_lemmas": [
+                "yard"
+              ],
+              "derivation": {
+                "kind": "REGULAR_SUBSTITUTION",
+                "exception_bases": [],
+                "substitutions": [
+                  {
+                    "suffix": "s",
+                    "replacement": ""
+                  }
+                ]
+              },
+              "native_records": [
+                {
+                  "word": "yard",
+                  "pos": "noun",
+                  "synset_name": "yard.n.01",
+                  "hypernym_depth": 7,
+                  "hyponym_count": 0,
+                  "has_meronyms": true,
+                  "has_holonyms": true,
+                  "lexname": "noun.quantity"
+                }
+              ]
+            }
+          ],
+          "unmatched_candidates": [],
+          "selects_sense": false,
+          "assigns_banks": false
+        },
+        "context_only": true
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wordnet:yards:yard.n.01"
+      ]
+    },
+    {
+      "entry_id": "wiktionary:en-IT-en-adj-N0V58kbS:520df74924d176806d07ce216ab3eb04aeb3e54e2dde3fc6ebd104298b8cecdc",
+      "source": "wiktionary",
+      "record_id": "wiktionary_reference:IT:167e67986e73763bb09187da75769141c5ae9303396e36bbcbdea66258b97d91",
+      "family": "wiktionary",
+      "features": {
+        "entry_id": "wiktionary:en-IT-en-adj-N0V58kbS:520df74924d176806d07ce216ab3eb04aeb3e54e2dde3fc6ebd104298b8cecdc",
+        "lemma": "it",
+        "word": "IT",
+        "pos": "adj",
+        "definition": "Initialism of intrathecal.",
+        "reference_semantics": "ONE_HOP_NATIVE_REFERENCE_CONTEXT_NOT_IDENTITY_OR_BANK_TRANSFER",
+        "native_reference": {
+          "code": "TARGET_DEFINITIONS_AVAILABLE",
+          "format": "gse.wiktionary-definition-reference/1",
+          "link": {
+            "word": "intrathecal"
+          },
+          "other_pos_entries": [
+            {
+              "definition": "An intrathecal injection.",
+              "entry_id": "wiktionary:en-intrathecal-en-noun-er4~vtp-:53bd50516f591d78ea57ee9db9857a9edfdd437fc69f63b2cdadc86b2cc52d74",
+              "identity_scheme": "gse.wiktionary-native-leaf/1",
+              "lemma": "intrathecal",
+              "native_id": "en-intrathecal-en-noun-er4~vtp-",
+              "native_sense": {
+                "categories": [
+                  {
+                    "kind": "other",
+                    "langcode": "en",
+                    "name": "Medicine",
+                    "orig": "en:Medicine",
+                    "parents": [],
+                    "source": "w"
+                  }
+                ],
+                "glosses": [
+                  "An intrathecal injection."
+                ],
+                "id": "en-intrathecal-en-noun-er4~vtp-",
+                "links": [
+                  [
+                    "medicine",
+                    "medicine"
+                  ],
+                  [
+                    "injection",
+                    "injection"
+                  ]
+                ],
+                "raw_glosses": [
+                  "(medicine) An intrathecal injection."
+                ],
+                "topics": [
+                  "medicine",
+                  "sciences"
+                ]
+              },
+              "pos": "noun",
+              "record_context": {
+                "etymology_templates": [
+                  {
+                    "args": {
+                      "1": "en",
+                      "2": "intra",
+                      "3": "theca<id:portion of dura mater covering spinal cord>",
+                      "4": "al"
+                    },
+                    "expansion": "intra- + theca + -al",
+                    "name": "confix"
+                  }
+                ],
+                "etymology_text": "From intra- + theca + -al.",
+                "forms": [
+                  {
+                    "form": "intrathecals",
+                    "tags": [
+                      "plural"
+                    ]
+                  }
+                ],
+                "head_templates": [
+                  {
+                    "args": {},
+                    "expansion": "intrathecal (plural intrathecals)",
+                    "name": "en-noun"
+                  }
+                ],
+                "lang": "English",
+                "lang_code": "en",
+                "pos": "noun",
+                "word": "intrathecal"
+              },
+              "record_sha256": "d5cb1644eead8a0b455bc0cf9f6bd73ef1b6682b37e24a0ccf81d54733bf62f0",
+              "sense_count": 1,
+              "sense_index": 0,
+              "senseid_path": [],
+              "source_line": 55541,
+              "source_sha256": "8f6814f7909bdf64106e7fe746a004526930bf698d7230ad212da545975c76a9",
+              "word": "intrathecal"
+            }
+          ],
+          "relation": "alt_of",
+          "source_entry": {
+            "definition": "Initialism of intrathecal.",
+            "entry_id": "wiktionary:en-IT-en-adj-N0V58kbS:520df74924d176806d07ce216ab3eb04aeb3e54e2dde3fc6ebd104298b8cecdc",
+            "identity_scheme": "gse.wiktionary-native-leaf/1",
+            "lemma": "it",
+            "native_id": "en-IT-en-adj-N0V58kbS",
+            "native_sense": {
+              "alt_of": [
+                {
+                  "word": "intrathecal"
+                }
+              ],
+              "categories": [
+                {
+                  "kind": "other",
+                  "langcode": "en",
+                  "name": "Medicine",
+                  "orig": "en:Medicine",
+                  "parents": [],
+                  "source": "w"
+                },
+                {
+                  "kind": "other",
+                  "langcode": "en",
+                  "name": "Pharmacology",
+                  "orig": "en:Pharmacology",
+                  "parents": [],
+                  "source": "w"
+                }
+              ],
+              "glosses": [
+                "Initialism of intrathecal."
+              ],
+              "id": "en-IT-en-adj-N0V58kbS",
+              "links": [
+                [
+                  "medicine",
+                  "medicine"
+                ],
+                [
+                  "pharmacology",
+                  "pharmacology"
+                ],
+                [
+                  "intrathecal",
+                  "intrathecal#English"
+                ]
+              ],
+              "raw_glosses": [
+                "(medicine, pharmacology) Initialism of intrathecal."
+              ],
+              "tags": [
+                "abbreviation",
+                "alt-of",
+                "initialism",
+                "not-comparable"
+              ],
+              "topics": [
+                "medicine",
+                "pharmacology",
+                "sciences"
+              ]
+            },
+            "pos": "adj",
+            "record_context": {
+              "head_templates": [
+                {
+                  "args": {
+                    "1": "-"
+                  },
+                  "expansion": "IT (not comparable)",
+                  "name": "en-adj"
+                }
+              ],
+              "lang": "English",
+              "lang_code": "en",
+              "pos": "adj",
+              "word": "IT"
+            },
+            "record_sha256": "3fda55ebd97e8a0fdc343a19cc05705efcc41afbca70cf10af2d4d1d1695f295",
+            "sense_count": 1,
+            "sense_index": 0,
+            "senseid_path": [],
+            "source_line": 57951,
+            "source_sha256": "8f6814f7909bdf64106e7fe746a004526930bf698d7230ad212da545975c76a9",
+            "word": "IT"
+          },
+          "source_sha256": "8f6814f7909bdf64106e7fe746a004526930bf698d7230ad212da545975c76a9",
+          "target_entries": [
+            {
+              "definition": "Delivered into the spinal canal (intrathecal space surrounding the spinal cord), e.g. a spinal anesthesia.",
+              "entry_id": "wiktionary:en-intrathecal-en-adj-w4Oa2qhh:ed898098303123b5f7658dbab6c595d5677d62de52c1715fbb8c9f38631b1b98",
+              "identity_scheme": "gse.wiktionary-native-leaf/1",
+              "lemma": "intrathecal",
+              "native_id": "en-intrathecal-en-adj-w4Oa2qhh",
+              "native_sense": {
+                "categories": [
+                  {
+                    "kind": "other",
+                    "langcode": "en",
+                    "name": "Medicine",
+                    "orig": "en:Medicine",
+                    "parents": [],
+                    "source": "w"
+                  },
+                  {
+                    "_dis": "94 6",
+                    "kind": "other",
+                    "name": "English entries with incorrect language header",
+                    "parents": [],
+                    "source": "w+disamb"
+                  },
+                  {
+                    "_dis": "73 27",
+                    "kind": "other",
+                    "name": "English terms prefixed with intra-",
+                    "parents": [],
+                    "source": "w+disamb"
+                  },
+                  {
+                    "_dis": "73 27",
+                    "kind": "other",
+                    "name": "English terms suffixed with -al",
+                    "parents": [],
+                    "source": "w+disamb"
+                  },
+                  {
+                    "_dis": "96 4",
+                    "kind": "other",
+                    "name": "Entries with translation boxes",
+                    "parents": [],
+                    "source": "w+disamb"
+                  },
+                  {
+                    "_dis": "96 4",
+                    "kind": "other",
+                    "name": "Pages with 1 entry",
+                    "parents": [],
+                    "source": "w+disamb"
+                  },
+                  {
+                    "_dis": "96 4",
+                    "kind": "other",
+                    "name": "Pages with entries",
+                    "parents": [],
+                    "source": "w+disamb"
+                  },
+                  {
+                    "_dis": "93 7",
+                    "kind": "other",
+                    "name": "Terms with Czech translations",
+                    "parents": [],
+                    "source": "w+disamb"
+                  },
+                  {
+                    "_dis": "89 11",
+                    "kind": "other",
+                    "name": "Terms with French translations",
+                    "parents": [],
+                    "source": "w+disamb"
+                  },
+                  {
+                    "_dis": "90 10",
+                    "kind": "other",
+                    "name": "Terms with Mandarin translations",
+                    "parents": [],
+                    "source": "w+disamb"
+                  },
+                  {
+                    "_dis": "92 8",
+                    "kind": "other",
+                    "name": "Terms with Spanish translations",
+                    "parents": [],
+                    "source": "w+disamb"
+                  }
+                ],
+                "derived": [
+                  {
+                    "word": "intrathecally"
+                  },
+                  {
+                    "tags": [
+                      "adverb"
+                    ],
+                    "word": "intrathecally"
+                  }
+                ],
+                "glosses": [
+                  "Delivered into the spinal canal (intrathecal space surrounding the spinal cord), e.g. a spinal anesthesia."
+                ],
+                "id": "en-intrathecal-en-adj-w4Oa2qhh",
+                "links": [
+                  [
+                    "medicine",
+                    "medicine"
+                  ],
+                  [
+                    "spinal canal",
+                    "spinal canal"
+                  ],
+                  [
+                    "spinal cord",
+                    "spinal cord"
+                  ],
+                  [
+                    "anesthesia",
+                    "anesthesia"
+                  ]
+                ],
+                "raw_glosses": [
+                  "(medicine) Delivered into the spinal canal (intrathecal space surrounding the spinal cord), e.g. a spinal anesthesia."
+                ],
+                "related": [
+                  {
+                    "word": "extrathecal"
+                  },
+                  {
+                    "word": "thecal"
+                  }
+                ],
+                "tags": [
+                  "not-comparable"
+                ],
+                "topics": [
+                  "medicine",
+                  "sciences"
+                ],
+                "translations": [
+                  {
+                    "code": "cmn",
+                    "lang": "Chinese Mandarin",
+                    "lang_code": "cmn",
+                    "sense": "delivered into the spinal canal",
+                    "word": "\u8166\u810a\u9ad3\u819c\u5167\u7684 /\u8111\u810a\u9ad3\u819c\u5185\u7684"
+                  },
+                  {
+                    "code": "cs",
+                    "lang": "Czech",
+                    "lang_code": "cs",
+                    "sense": "delivered into the spinal canal",
+                    "word": "intratek\u00e1ln\u00ed"
+                  },
+                  {
+                    "code": "cs",
+                    "lang": "Czech",
+                    "lang_code": "cs",
+                    "sense": "delivered into the spinal canal",
+                    "word": "intrathek\u00e1ln\u00ed"
+                  },
+                  {
+                    "code": "fr",
+                    "lang": "French",
+                    "lang_code": "fr",
+                    "sense": "delivered into the spinal canal",
+                    "word": "intrath\u00e9cal"
+                  },
+                  {
+                    "code": "es",
+                    "lang": "Spanish",
+                    "lang_code": "es",
+                    "sense": "delivered into the spinal canal",
+                    "word": "intratecal"
+                  }
+                ]
+              },
+              "pos": "adj",
+              "record_context": {
+                "etymology_templates": [
+                  {
+                    "args": {
+                      "1": "en",
+                      "2": "intra",
+                      "3": "theca<id:portion of dura mater covering spinal cord>",
+                      "4": "al"
+                    },
+                    "expansion": "intra- + theca + -al",
+                    "name": "confix"
+                  }
+                ],
+                "etymology_text": "From intra- + theca + -al.",
+                "head_templates": [
+                  {
+                    "args": {
+                      "1": "-"
+                    },
+                    "expansion": "intrathecal (not comparable)",
+                    "name": "en-adj"
+                  }
+                ],
+                "lang": "English",
+                "lang_code": "en",
+                "pos": "adj",
+                "word": "intrathecal"
+              },
+              "record_sha256": "8e51c9ec0762eb9a177a31b0edde942b5566385aee4fe6d3eab59d9e6eb8c3b4",
+              "sense_count": 1,
+              "sense_index": 0,
+              "senseid_path": [],
+              "source_line": 55540,
+              "source_sha256": "8f6814f7909bdf64106e7fe746a004526930bf698d7230ad212da545975c76a9",
+              "word": "intrathecal"
+            }
+          ],
+          "target_lookup": "intrathecal",
+          "target_word": "intrathecal"
+        }
+      },
+      "scope": "lexical",
+      "candidate_entry_ids": [
+        "wiktionary:en-IT-en-adj-N0V58kbS:520df74924d176806d07ce216ab3eb04aeb3e54e2dde3fc6ebd104298b8cecdc"
+      ]
+    }
+  ]
+}

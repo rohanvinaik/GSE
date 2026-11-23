@@ -1,0 +1,273 @@
+{
+  "code": "READ_ONLY_COHORT_PREVIEW",
+  "candidate": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-01/constructed-corpus-identity-prepared.db",
+  "assumption": "Fresh protocol schedule; enrichment does not change domains; monetary QUANTITY migration may change tie-breaks only for monetary entries",
+  "priority": {
+    "mode": "zipf",
+    "policy": "gse.completion-priority/subtlex-count-order/2",
+    "source": "/Users/rohanvinaik/Projects/gse/data/external/concreteness.csv",
+    "sha256": "fa636292ba0b1b5cf4d6d335690ddcf3a162e4a8204124d95c64e795eb336226",
+    "word_column": "Word",
+    "frequency_column": "SUBTLEX",
+    "ordering": "DESCENDING_POSITIVE_COUNT_THEN_CONSTRAINT_PRIORITY_THEN_DEFINITION_ID",
+    "score": "MONOTONIC_ZIPF_ORDER_NOT_ABSOLUTE_ZIPF_SCORE",
+    "unranked": "ZERO_OR_ABSENT_FREQUENCY_LAST_NOT_SEMANTIC_ZERO",
+    "rows": 39954,
+    "included_words": 39953,
+    "excluded_count": 1,
+    "excluded_records": [
+      {
+        "code": "MISSING_WORD",
+        "record_number": 21731,
+        "csv_line": 21732,
+        "count": 27
+      }
+    ],
+    "ranked_words": 28902,
+    "zero_count_words": 11051,
+    "semantic_authority": "NONE_SCHEDULING_ONLY"
+  },
+  "rows": [
+    {
+      "entry_id": "wiktionary:en-You-en-name-j8uMPsK5:a9147949697f6d435e78334c0782cc583f11017268be883b08dec5d6303d3b9e",
+      "lemma": "you",
+      "pos": "name",
+      "definition": "A surname from Chinese",
+      "priority_key": [
+        [
+          -2134713,
+          3
+        ],
+        -2,
+        "wiktionary:en-You-en-name-j8uMPsK5:a9147949697f6d435e78334c0782cc583f11017268be883b08dec5d6303d3b9e"
+      ],
+      "cohort": 1
+    },
+    {
+      "entry_id": "wiktionary:en-I-en-noun-3MiJga7v:8371195b6840d4247b286cfa444c70d32e88c4ef839ad74d2881eb7513dc7dc4",
+      "lemma": "i",
+      "pos": "noun",
+      "definition": "Abbreviation of instruction.",
+      "priority_key": [
+        [
+          -2038529,
+          3
+        ],
+        -1,
+        "wiktionary:en-I-en-noun-3MiJga7v:8371195b6840d4247b286cfa444c70d32e88c4ef839ad74d2881eb7513dc7dc4"
+      ],
+      "cohort": 1
+    },
+    {
+      "entry_id": "wiktionary:en-IT-en-adj-N0V58kbS:520df74924d176806d07ce216ab3eb04aeb3e54e2dde3fc6ebd104298b8cecdc",
+      "lemma": "it",
+      "pos": "adj",
+      "definition": "Initialism of intrathecal.",
+      "priority_key": [
+        [
+          -963712,
+          3
+        ],
+        -1,
+        "wiktionary:en-IT-en-adj-N0V58kbS:520df74924d176806d07ce216ab3eb04aeb3e54e2dde3fc6ebd104298b8cecdc"
+      ],
+      "cohort": 1
+    },
+    {
+      "entry_id": "wiktionary:en-what-en-adv-ts39e90S:bd4e6702f3438e09ac47e2bb89a9faa70d0c5866542673825d8ef0fd4814485c",
+      "lemma": "what",
+      "pos": "adv",
+      "definition": "Used before a prepositional phrase to emphasise that something is taken into consideration as a cause or reason; usually used in combination with 'with' (see what with), and much less commonly with other prepositions.",
+      "priority_key": [
+        [
+          -501965,
+          3
+        ],
+        -1,
+        "wiktionary:en-what-en-adv-ts39e90S:bd4e6702f3438e09ac47e2bb89a9faa70d0c5866542673825d8ef0fd4814485c"
+      ],
+      "cohort": 1
+    },
+    {
+      "entry_id": "wordnet:in:indiana.n.01",
+      "lemma": "in",
+      "pos": "noun",
+      "definition": "a state in midwestern United States",
+      "priority_key": [
+        [
+          -498444,
+          3
+        ],
+        -2,
+        "wordnet:in:indiana.n.01"
+      ],
+      "cohort": 1
+    },
+    {
+      "entry_id": "gse_closed_class:pronoun:me",
+      "lemma": "me",
+      "pos": "pronoun",
+      "definition": "Curated GSE pronoun use of 'me'. Declared lexical components: SOMEONE=+1. Grammatical features: {\"animacy\": \"ANIMATE\", \"gram\": {\"case\": \"ACC\", \"number\": \"SINGULAR\", \"person\": 1}}.",
+      "priority_key": [
+        [
+          -471339,
+          3
+        ],
+        -1,
+        "gse_closed_class:pronoun:me"
+      ],
+      "cohort": 1
+    },
+    {
+      "entry_id": "wordnet:is:embody.v.02",
+      "lemma": "is",
+      "pos": "verb",
+      "definition": "represent, as of a character on stage",
+      "priority_key": [
+        [
+          -459663,
+          3
+        ],
+        -2,
+        "wordnet:is:embody.v.02"
+      ],
+      "cohort": 1
+    },
+    {
+      "entry_id": "gse_closed_class:pronoun:we",
+      "lemma": "we",
+      "pos": "pronoun",
+      "definition": "Curated GSE pronoun use of 'we'. Declared lexical components: SOMEONE=+1. Grammatical features: {\"animacy\": \"ANIMATE\", \"gram\": {\"case\": \"NOM\", \"number\": \"PLURAL\", \"person\": 1}}.",
+      "priority_key": [
+        [
+          -459607,
+          3
+        ],
+        -1,
+        "gse_closed_class:pronoun:we"
+      ],
+      "cohort": 1
+    },
+    {
+      "entry_id": "wiktionary:en-You-en-pron-xI8HvWFm:9a4843015ee1e368f28fc60cf88240ef0dd2812f22b7f698d6cdd53205fdd5e2",
+      "lemma": "you",
+      "pos": "pron",
+      "definition": "Honorific alternative letter-case form of you, sometimes used when referring to God or another important figure who is understood from context.",
+      "priority_key": [
+        [
+          -2134713,
+          3
+        ],
+        -2,
+        "wiktionary:en-You-en-pron-xI8HvWFm:9a4843015ee1e368f28fc60cf88240ef0dd2812f22b7f698d6cdd53205fdd5e2"
+      ],
+      "cohort": 2
+    },
+    {
+      "entry_id": "wiktionary:en-I-en-noun-EtkDupl5:546710b8ed681719bfc29c868cdd6f4f0e9c847254884e4038f8c9f1dd1e2272",
+      "lemma": "i",
+      "pos": "noun",
+      "definition": "The ego.",
+      "priority_key": [
+        [
+          -2038529,
+          3
+        ],
+        -1,
+        "wiktionary:en-I-en-noun-EtkDupl5:546710b8ed681719bfc29c868cdd6f4f0e9c847254884e4038f8c9f1dd1e2272"
+      ],
+      "cohort": 2
+    },
+    {
+      "entry_id": "wiktionary:en-IT-en-noun-en:information_technology:e92356d7754f89656f508b08336bd147d3900d0f1f96014ef29b8a882ccabbc1",
+      "lemma": "it",
+      "pos": "noun",
+      "definition": "Initialism of information technology.",
+      "priority_key": [
+        [
+          -963712,
+          3
+        ],
+        -1,
+        "wiktionary:en-IT-en-noun-en:information_technology:e92356d7754f89656f508b08336bd147d3900d0f1f96014ef29b8a882ccabbc1"
+      ],
+      "cohort": 2
+    },
+    {
+      "entry_id": "wiktionary:en-what-en-noun-1v4QWe46:b077c21a4fbb4d277828f0b41e773b84f736e9c68ba3e617a1ecbab698da0642",
+      "lemma": "what",
+      "pos": "noun",
+      "definition": "Something that is addressed by what, as opposed to a person, addressed by who.",
+      "priority_key": [
+        [
+          -501965,
+          3
+        ],
+        -1,
+        "wiktionary:en-what-en-noun-1v4QWe46:b077c21a4fbb4d277828f0b41e773b84f736e9c68ba3e617a1ecbab698da0642"
+      ],
+      "cohort": 2
+    },
+    {
+      "entry_id": "wordnet:in:indium.n.01",
+      "lemma": "in",
+      "pos": "noun",
+      "definition": "a rare soft silvery metallic element; occurs in small quantities in sphalerite",
+      "priority_key": [
+        [
+          -498444,
+          3
+        ],
+        -2,
+        "wordnet:in:indium.n.01"
+      ],
+      "cohort": 2
+    },
+    {
+      "entry_id": "wiktionary:en-ME-en-noun-OM6mL~L4:aa06572147c7cd5c40fcc46fe83ea4588eec1fdbe3675205a203acfd1f99749f",
+      "lemma": "me",
+      "pos": "noun",
+      "definition": "Initialism of main engine.",
+      "priority_key": [
+        [
+          -471339,
+          3
+        ],
+        -1,
+        "wiktionary:en-ME-en-noun-OM6mL~L4:aa06572147c7cd5c40fcc46fe83ea4588eec1fdbe3675205a203acfd1f99749f"
+      ],
+      "cohort": 2
+    },
+    {
+      "entry_id": "gse_closed_class:auxiliary:is",
+      "lemma": "is",
+      "pos": "auxiliary",
+      "definition": "Curated GSE auxiliary use of 'is'. Declared lexical components: BE=+1. Grammatical features: {\"lemma\": \"be\"}.",
+      "priority_key": [
+        [
+          -459663,
+          3
+        ],
+        -1,
+        "gse_closed_class:auxiliary:is"
+      ],
+      "cohort": 2
+    },
+    {
+      "entry_id": "wiktionary:en-WE-en-noun-fbTQ6cua:0fff5b03d41ef8d6ec83b18ba0f366177a18a9c71cd33a08a81d9c2d233c1afd",
+      "lemma": "we",
+      "pos": "noun",
+      "definition": "Initialism of war establishment.",
+      "priority_key": [
+        [
+          -459607,
+          3
+        ],
+        -1,
+        "wiktionary:en-WE-en-noun-fbTQ6cua:0fff5b03d41ef8d6ec83b18ba0f366177a18a9c71cd33a08a81d9c2d233c1afd"
+      ],
+      "cohort": 2
+    }
+  ],
+  "model_calls": 0
+}

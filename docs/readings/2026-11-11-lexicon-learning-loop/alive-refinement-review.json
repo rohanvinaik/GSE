@@ -1,0 +1,22 @@
+{
+  "ancestor": "monetary_unit.n.01",
+  "audit_entry_ids": [
+    "wordnet:anna:anna.n.01",
+    "wordnet:eurodollar:eurodollar.n.01",
+    "wordnet:mark:mark.n.07",
+    "wordnet:pound:british_pound.n.01",
+    "wordnet:real:real.n.02",
+    "wordnet:yen:yen.n.02"
+  ],
+  "warrant": {
+    "warrant_id": "native-monetary-unit-alive-2026-11-11",
+    "kind": "DEFINITIONAL_DERIVATION",
+    "source_refs": [
+      "docs/readings/2026-11-11-lexicon-learning-loop/alive-native-scope.json",
+      "gse/curation/lexicon_builder/model_protocol.py#coordinate_contract"
+    ],
+    "statement": "In the inspected exact native noun monetary-unit scope, the definiendum is an exchange denomination, a denomination-bearing coin type, or a deposited monetary unit. The definition concerns monetary amount, tender or exchange. These are orthogonal to living and dying, which warrants ALIVE=0 on those senses. Former use as currency concerns a monetary convention, with no death of an organism encoded. The GOOD=0 premise is retained to specialize the observed parent pair and has no explanatory force for ALIVE. The claim is restricted to this exact sense scope and its attested native spellings. An in-scope definition that encodes an organism or its living or dead state falsifies the warrant. The audit separates current and former units, a coin, and a monetary deposit across six native synsets disjoint from the teaching synsets.",
+    "review_id": "native-monetary-unit-alive-source-warrant-2026-11-11",
+    "reviewer": "Codex source-backed review"
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "arm_receipt": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-external-anatomical-parts/closure/arm-result.json",
+  "audit_outcomes": {
+    "MODEL_AGREEMENT": 2
+  },
+  "cells": {
+    "assigned": 406358,
+    "explicit_zero": 280661,
+    "unresolved": 22082962
+  },
+  "code": "ACTIVE_SSL_EXTERNAL_ANATOMICAL_PARTS_VERIFIED",
+  "delta": {
+    "BODY": 105
+  },
+  "format": "gse.active-ssl-external-anatomical-parts/1",
+  "holdouts": [
+    "wordnet:finger:finger.n.01",
+    "wordnet:paw:paw.n.01"
+  ],
+  "mismatches": 0,
+  "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-006.db",
+  "pointer_sha256": "45e20bfd6ba78521f54bd763ba76a09163636e549bb13984babbe46092cb6672",
+  "previous_path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-005.db",
+  "publication_receipt": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-external-anatomical-parts/closure/sparse-publication.json",
+  "records_replayed": 401596,
+  "rule_id": "reviewed-guarded-pattern:f03108ad6d664f341966d19172d2d3230dd14e6e25da0f2d30fc17fdb39e1e8e",
+  "semantic_outcomes": {
+    "ABSTAINED": 1,
+    "CONFLICT": 0,
+    "IDENTIFIED_CORRECT": 36,
+    "NOT_FOUND": 0,
+    "WRONG": 0
+  },
+  "sha256": "4839bc547431ad4ea735ed0e16fe21c06f9a79e4474baa7f45f5915e24d34e39",
+  "symbolic_new_cells": 104,
+  "teaching_entry_id": "wordnet:right:right.n.05",
+  "typed_questions_used": 3,
+  "verified_controls": {
+    "wordnet:finger:finger.n.01": [
+      1
+    ],
+    "wordnet:hand:hand.n.01": [
+      1
+    ],
+    "wordnet:head:head.n.01": [
+      1
+    ],
+    "wordnet:hood:hood.n.10": [
+      -1,
+      0,
+      1
+    ],
+    "wordnet:hoof:hoof.n.01": [
+      1
+    ],
+    "wordnet:lip:lip.n.01": [
+      1
+    ],
+    "wordnet:paw:paw.n.01": [
+      1
+    ],
+    "wordnet:right:right.n.05": [
+      1
+    ]
+  },
+  "working_snapshot_retention": {
+    "code": "WORK_SNAPSHOTS_RETIRED",
+    "deferred": [],
+    "published_snapshot": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-006.db",
+    "retired": [
+      "epoch-01/teaching.db",
+      "epoch-01/candidate.db"
+    ]
+  }
+}

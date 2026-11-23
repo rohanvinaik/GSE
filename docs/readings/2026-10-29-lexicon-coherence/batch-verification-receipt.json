@@ -1,0 +1,71 @@
+{
+  "format": "gse.lexicon-batch-verification/1",
+  "test_scope": "FULL_REPOSITORY_WITH_PROCESS_LOCAL_CANDIDATE_POINTER",
+  "candidate": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-10-29/constructed-corpus.db",
+  "tests": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "66",
+    "tests": "6283",
+    "time": "263.303",
+    "timestamp": "2026-10-29T18:53:35.401600-04:00",
+    "hostname": "MacBookPro"
+  },
+  "junit_sha256": "a56ee961db126db4f3bdb2ca491e78b1c57b11376a553a33391fbb6ee960b53a",
+  "calibrations": [
+    {
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-10-29/batch-protocol-calibration-27b.json",
+      "sha256": "3bd4741984372b78d052d76652949aa0a76c93e7270b7ab0325b0852edcd0ae9",
+      "identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@2c72cdc9a5d068087814eeb0324b588a61bd7d90c1e0fa56cc01c3a2ee7c572b:batch@8db4d9c487aae99553af3b89fa0bbb88dd59c62837c5fd4d406d7aad61d48356",
+      "label_authority": "AUTHORED_CONTRACT_PROBES_NOT_INDEPENDENT_GOLD",
+      "questions": 28,
+      "invocations": 7,
+      "outcomes": {
+        "1": {
+          "IDENTIFIED": 9
+        },
+        "-1": {
+          "IDENTIFIED": 6
+        },
+        "0": {
+          "IDENTIFIED": 9
+        },
+        "UNRESOLVED": {
+          "IDENTIFIED": 4
+        }
+      },
+      "recorded_invocation_seconds": 380.904
+    },
+    {
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-10-29/batch-slot-protocol-calibration-27b.json",
+      "sha256": "7fe22fe3e382537c9c2b2e16d0bfe0726639ea1852353ccacc1a6561d5d52376",
+      "identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@2c72cdc9a5d068087814eeb0324b588a61bd7d90c1e0fa56cc01c3a2ee7c572b:batch@8275ce1474f1229eaa286c9e485ee02c93fad6f922f7dbce408459ad439e71b7",
+      "label_authority": "AUTHORED_CONTRACT_PROBES_NOT_INDEPENDENT_GOLD",
+      "questions": 28,
+      "invocations": 7,
+      "outcomes": {
+        "1": {
+          "IDENTIFIED": 9
+        },
+        "-1": {
+          "IDENTIFIED": 6
+        },
+        "0": {
+          "IDENTIFIED": 9
+        },
+        "UNRESOLVED": {
+          "IDENTIFIED": 4
+        }
+      },
+      "recorded_invocation_seconds": 235.305
+    }
+  ],
+  "semantic_full_corpus_status": "NOT_VALIDATED",
+  "publication_status": "NOT_PERFORMED",
+  "model_pilot_status": "RUNNING_SEPARATE_RECEIPT_REQUIRED",
+  "active_pointer": {
+    "format": "gse.active-lexicon/1",
+    "path": "lexicon_builder/2026-10-29/replacement.db"
+  }
+}

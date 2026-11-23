@@ -1,0 +1,3610 @@
+{
+  "format": "gse.single-ruling-review/1",
+  "parent_packet": "/Users/rohanvinaik/Projects/gse/docs/readings/2026-10-29-lexicon-coherence/first-zipf-model-review.json",
+  "parent_packet_sha256": "f4b2c46b17681f8331922d0405242794ab9766938ebe2b3b4c277bb3ac3f0ae1",
+  "snapshot": {
+    "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-10-29/constructed-corpus.db",
+    "started_utc": "2026-10-29T23:38:03.554972+00:00",
+    "closed_utc": "2026-10-29T23:38:03.677056+00:00",
+    "read_seconds": 0.1221
+  },
+  "semantic_review": "UNREVIEWED_MODEL_RULING",
+  "ruling": {
+    "entry_id": "gse_closed_class:pronoun:you",
+    "full_definition": {
+      "definition": "Curated GSE pronoun use of 'you'. Declared lexical components: SOMEONE=+1. Grammatical features: {\"animacy\": \"ANIMATE\", \"gram\": {\"case\": \"NOM\", \"person\": 2}}.",
+      "entry_id": "gse_closed_class:pronoun:you",
+      "lemma": "you",
+      "pos": "pronoun"
+    },
+    "bank": "BE",
+    "recorded_value": 1,
+    "semantic_review": "UNREVIEWED_MODEL_RULING",
+    "original_request_id": "5d2ba6eeed5b948d90fdc7f0a9e554afdb82fc9e1dc471a33f6f140cd5d52c2d",
+    "original_request_hash_verified": true,
+    "model_assertion": {
+      "bank": "BE",
+      "family": "model",
+      "record_id": "5d2ba6eeed5b948d90fdc7f0a9e554afdb82fc9e1dc471a33f6f140cd5d52c2d",
+      "scope": "lexical",
+      "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@d064293c2541aa8d8c8c96c95cd2750ad43c03f2a4dd25bd71d8c233de90a449:batch@faae179fbd2a0ed19462c54a10d17e23811f9b1b5b7f9c89b8ca3d19cbc9130f",
+      "value": 1
+    },
+    "original_output_schema": {
+      "additionalProperties": false,
+      "properties": {
+        "BE": {
+          "enum": [
+            -1,
+            0,
+            1,
+            null
+          ],
+          "type": [
+            "integer",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "BE"
+      ],
+      "type": "object"
+    },
+    "original_request_fields": {
+      "allowed_values": [
+        -1,
+        0,
+        1
+      ],
+      "bank": "BE",
+      "entry_id": "gse_closed_class:pronoun:you",
+      "fill": {
+        "BE": null
+      },
+      "format": "gse.bank-request/2",
+      "known": {
+        "ABOVE": 0,
+        "ALIVE": 0,
+        "SOMEONE": 1
+      },
+      "definition": {
+        "definition": "Curated GSE pronoun use of 'you'. Declared lexical components: SOMEONE=+1. Grammatical features: {\"animacy\": \"ANIMATE\", \"gram\": {\"case\": \"NOM\", \"person\": 2}}.",
+        "entry_id": "gse_closed_class:pronoun:you",
+        "lemma": "you",
+        "pos": "pronoun"
+      },
+      "scaffold": {
+        "approved_relations": [
+          {
+            "absent_evidence": [
+              "GOOD"
+            ],
+            "allowed_rows": [
+              [
+                -1,
+                0
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "BIG",
+              "GOOD"
+            ],
+            "disposition": "BLOCKED",
+            "guards": [
+              [
+                "pos",
+                "adjective"
+              ]
+            ],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+            ],
+            "reason": "GUARD_MISMATCH",
+            "requested_component": false,
+            "rule_id": "founder:absence:big-good"
+          },
+          {
+            "absent_evidence": [
+              "BIG"
+            ],
+            "allowed_rows": [
+              [
+                -1,
+                0
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "GOOD",
+              "BIG"
+            ],
+            "disposition": "BLOCKED",
+            "guards": [
+              [
+                "pos",
+                "adjective"
+              ]
+            ],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+            ],
+            "reason": "GUARD_MISMATCH",
+            "requested_component": false,
+            "rule_id": "founder:absence:good-big"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                0
+              ]
+            ],
+            "approved": true,
+            "authority": "foundational",
+            "banks": [
+              "SOMETHING"
+            ],
+            "disposition": "BLOCKED",
+            "guards": [
+              [
+                "pos",
+                "adjective"
+              ]
+            ],
+            "provenance": [
+              "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+            ],
+            "reason": "GUARD_MISMATCH",
+            "requested_component": false,
+            "rule_id": "founder:adjective-not-object"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                0
+              ]
+            ],
+            "approved": true,
+            "authority": "foundational",
+            "banks": [
+              "SOMETHING"
+            ],
+            "disposition": "BLOCKED",
+            "guards": [
+              [
+                "pos",
+                "adverb"
+              ]
+            ],
+            "provenance": [
+              "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+            ],
+            "reason": "GUARD_MISMATCH",
+            "requested_component": false,
+            "rule_id": "founder:adverb-not-object"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "ABOVE",
+              "WHERE"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:above-where"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "BEFORE",
+              "WHEN"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:before-when"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "BODY",
+              "SOMETHING"
+            ],
+            "disposition": "BLOCKED",
+            "guards": [
+              [
+                "pos",
+                "noun"
+              ]
+            ],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "GUARD_MISMATCH",
+            "requested_component": false,
+            "rule_id": "founder:category:body-something"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "CAUSE",
+              "HAPPEN"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:cause-happen"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "DO",
+              "HAPPEN"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:do-happen"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "FAR",
+              "WHERE"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:far-where"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "HERE",
+              "WHERE"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:here-where"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "I",
+              "SOMEONE"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:i-someone"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "LONG_TIME",
+              "WHEN"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:long_time-when"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "MOMENT",
+              "WHEN"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:moment-when"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "MOVE",
+              "HAPPEN"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:move-happen"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "ONE",
+              "QUANTITY"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:one-quantity"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "OUTSIDE",
+              "WHERE"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:outside-where"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "SIDE",
+              "WHERE"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:side-where"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "THEN",
+              "WHEN"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:then-when"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "TOWARD",
+              "WHERE"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:toward-where"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "TWO",
+              "QUANTITY"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:two-quantity"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "YOU",
+              "SOMEONE"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:you-someone"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                0
+              ]
+            ],
+            "approved": true,
+            "authority": "foundational",
+            "banks": [
+              "GOOD"
+            ],
+            "disposition": "BLOCKED",
+            "guards": [
+              [
+                "pos",
+                "noun"
+              ]
+            ],
+            "provenance": [
+              "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+            ],
+            "reason": "GUARD_MISMATCH",
+            "requested_component": false,
+            "rule_id": "founder:noun-own-evaluation"
+          }
+        ],
+        "context": {
+          "pos": "pronoun"
+        },
+        "domains": {
+          "ABOVE": [
+            0
+          ],
+          "ALIVE": [
+            0
+          ],
+          "BE": [
+            -1,
+            0,
+            1
+          ],
+          "BECAUSE": [
+            -1,
+            0,
+            1
+          ],
+          "BEFORE": [
+            -1,
+            0,
+            1
+          ],
+          "BIG": [
+            -1,
+            0,
+            1
+          ],
+          "BODY": [
+            -1,
+            0,
+            1
+          ],
+          "CAN": [
+            -1,
+            0,
+            1
+          ],
+          "CAUSE": [
+            -1,
+            0,
+            1
+          ],
+          "CERTAINTY": [
+            -1,
+            0,
+            1
+          ],
+          "DO": [
+            -1,
+            0,
+            1
+          ],
+          "EXIST": [
+            -1,
+            0,
+            1
+          ],
+          "FAR": [
+            -1,
+            0,
+            1
+          ],
+          "FEEL": [
+            -1,
+            0,
+            1
+          ],
+          "GOOD": [
+            -1,
+            0,
+            1
+          ],
+          "HAPPEN": [
+            -1,
+            0,
+            1
+          ],
+          "HAVE": [
+            -1,
+            0,
+            1
+          ],
+          "HEAR": [
+            -1,
+            0,
+            1
+          ],
+          "HERE": [
+            -1,
+            0,
+            1
+          ],
+          "I": [
+            -1,
+            0,
+            1
+          ],
+          "IF": [
+            -1,
+            0,
+            1
+          ],
+          "INFER": [
+            -1,
+            0,
+            1
+          ],
+          "INTENSITY": [
+            -1,
+            0,
+            1
+          ],
+          "KIND": [
+            -1,
+            0,
+            1
+          ],
+          "KNOW": [
+            -1,
+            0,
+            1
+          ],
+          "LIKE": [
+            -1,
+            0,
+            1
+          ],
+          "LONG_TIME": [
+            -1,
+            0,
+            1
+          ],
+          "MAYBE": [
+            -1,
+            0,
+            1
+          ],
+          "MOMENT": [
+            -1,
+            0,
+            1
+          ],
+          "MOVE": [
+            -1,
+            0,
+            1
+          ],
+          "MUST": [
+            -1,
+            0,
+            1
+          ],
+          "NOT": [
+            -1,
+            0,
+            1
+          ],
+          "ONE": [
+            -1,
+            0,
+            1
+          ],
+          "OUTSIDE": [
+            -1,
+            0,
+            1
+          ],
+          "PART": [
+            -1,
+            0,
+            1
+          ],
+          "PEOPLE": [
+            -1,
+            0,
+            1
+          ],
+          "QUANTITY": [
+            -1,
+            0,
+            1
+          ],
+          "SAME": [
+            -1,
+            0,
+            1
+          ],
+          "SAY": [
+            -1,
+            0,
+            1
+          ],
+          "SEE": [
+            -1,
+            0,
+            1
+          ],
+          "SIDE": [
+            -1,
+            0,
+            1
+          ],
+          "SOMEONE": [
+            1
+          ],
+          "SOMETHING": [
+            -1,
+            0,
+            1
+          ],
+          "START": [
+            -1,
+            0,
+            1
+          ],
+          "THEN": [
+            -1,
+            0,
+            1
+          ],
+          "THINK": [
+            -1,
+            0,
+            1
+          ],
+          "TOUCH": [
+            -1,
+            0,
+            1
+          ],
+          "TOWARD": [
+            -1,
+            0,
+            1
+          ],
+          "TRUE": [
+            -1,
+            0,
+            1
+          ],
+          "TWO": [
+            -1,
+            0,
+            1
+          ],
+          "WANT": [
+            -1,
+            0,
+            1
+          ],
+          "WHEN": [
+            -1,
+            0,
+            1
+          ],
+          "WHERE": [
+            -1,
+            0,
+            1
+          ],
+          "WITH": [
+            -1,
+            0,
+            1
+          ],
+          "WORDS": [
+            -1,
+            0,
+            1
+          ],
+          "YOU": [
+            -1,
+            0,
+            1
+          ]
+        },
+        "format": "gse.symbolic-scaffold/1",
+        "proof_semantics": "SYMBOLIC_JUSTIFICATION_NOT_ADDITIONAL_MODEL_OUTPUT",
+        "proof_trace": [
+          {
+            "bank": "ABOVE",
+            "family": "model",
+            "kind": "ASSERTION",
+            "record_id": "7292b7b1140cda797375611e08ae49443e981d681a190fa073cf2bc591b5d429",
+            "remaining": [
+              0
+            ],
+            "removed": [
+              -1,
+              1
+            ],
+            "scope": "lexical",
+            "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@d064293c2541aa8d8c8c96c95cd2750ad43c03f2a4dd25bd71d8c233de90a449:batch@faae179fbd2a0ed19462c54a10d17e23811f9b1b5b7f9c89b8ca3d19cbc9130f",
+            "value": 0
+          },
+          {
+            "bank": "ALIVE",
+            "family": "model",
+            "kind": "ASSERTION",
+            "record_id": "7a172235256c0d244f7e73b5221d7bc2435eb958d60350a1410f3465ec309150",
+            "remaining": [
+              0
+            ],
+            "removed": [
+              -1,
+              1
+            ],
+            "scope": "lexical",
+            "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@d064293c2541aa8d8c8c96c95cd2750ad43c03f2a4dd25bd71d8c233de90a449:batch@faae179fbd2a0ed19462c54a10d17e23811f9b1b5b7f9c89b8ca3d19cbc9130f",
+            "value": 0
+          },
+          {
+            "bank": "SOMEONE",
+            "family": "gse_curated_grammar",
+            "kind": "ASSERTION",
+            "record_id": "gse_closed_class:you:fbff12e440d68d97d943dd6e45a5ff93016a4fe8fe259c2c1e91e114ef17165b",
+            "remaining": [
+              1
+            ],
+            "removed": [
+              -1,
+              0
+            ],
+            "scope": "lexical",
+            "source": "gse_closed_class",
+            "value": 1
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "founder:adjective-not-object"
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "founder:adverb-not-object"
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "founder:category:body-something"
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "founder:noun-own-evaluation"
+          },
+          {
+            "banks": [
+              "ABOVE",
+              "FAR",
+              "HERE",
+              "OUTSIDE",
+              "SIDE",
+              "TOWARD",
+              "WHERE"
+            ],
+            "domains_before": {
+              "ABOVE": [
+                0
+              ],
+              "FAR": [
+                -1,
+                0,
+                1
+              ],
+              "HERE": [
+                -1,
+                0,
+                1
+              ],
+              "OUTSIDE": [
+                -1,
+                0,
+                1
+              ],
+              "SIDE": [
+                -1,
+                0,
+                1
+              ],
+              "TOWARD": [
+                -1,
+                0,
+                1
+              ],
+              "WHERE": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 729,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:above-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:far-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:here-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:outside-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:side-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:toward-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:above-where",
+              "founder:category:far-where",
+              "founder:category:here-where",
+              "founder:category:outside-where",
+              "founder:category:side-where",
+              "founder:category:toward-where"
+            ],
+            "witnesses": 251
+          },
+          {
+            "banks": [
+              "BEFORE",
+              "LONG_TIME",
+              "MOMENT",
+              "THEN",
+              "WHEN"
+            ],
+            "domains_before": {
+              "BEFORE": [
+                -1,
+                0,
+                1
+              ],
+              "LONG_TIME": [
+                -1,
+                0,
+                1
+              ],
+              "MOMENT": [
+                -1,
+                0,
+                1
+              ],
+              "THEN": [
+                -1,
+                0,
+                1
+              ],
+              "WHEN": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 243,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:before-when",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:long_time-when",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:moment-when",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:then-when",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:before-when",
+              "founder:category:long_time-when",
+              "founder:category:moment-when",
+              "founder:category:then-when"
+            ],
+            "witnesses": 85
+          },
+          {
+            "banks": [
+              "CAUSE",
+              "DO",
+              "HAPPEN",
+              "MOVE"
+            ],
+            "domains_before": {
+              "CAUSE": [
+                -1,
+                0,
+                1
+              ],
+              "DO": [
+                -1,
+                0,
+                1
+              ],
+              "HAPPEN": [
+                -1,
+                0,
+                1
+              ],
+              "MOVE": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 81,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:cause-happen",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:do-happen",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:move-happen",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:cause-happen",
+              "founder:category:do-happen",
+              "founder:category:move-happen"
+            ],
+            "witnesses": 43
+          },
+          {
+            "banks": [
+              "I",
+              "SOMEONE",
+              "YOU"
+            ],
+            "domains_before": {
+              "I": [
+                -1,
+                0,
+                1
+              ],
+              "SOMEONE": [
+                1
+              ],
+              "YOU": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 9,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:i-someone",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:you-someone",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:i-someone",
+              "founder:category:you-someone"
+            ],
+            "witnesses": 9
+          },
+          {
+            "banks": [
+              "ONE",
+              "QUANTITY",
+              "TWO"
+            ],
+            "domains_before": {
+              "ONE": [
+                -1,
+                0,
+                1
+              ],
+              "QUANTITY": [
+                -1,
+                0,
+                1
+              ],
+              "TWO": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 27,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:one-quantity",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:two-quantity",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:one-quantity",
+              "founder:category:two-quantity"
+            ],
+            "witnesses": 17
+          },
+          {
+            "complete_search": true,
+            "kind": "INFERENCE_SCOPE",
+            "method": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+            "partial_means": "AMBIGUOUS_JOINT_SUPPORTED_DOMAINS",
+            "satisfiability": "SATISFIABLE"
+          },
+          {
+            "context": {
+              "pos": "pronoun"
+            },
+            "kind": "EVIDENCE_GUARD",
+            "reason": "GUARD_MISMATCH",
+            "relation": {
+              "absent_evidence": [
+                "GOOD"
+              ],
+              "allowed_rows": [
+                [
+                  -1,
+                  0
+                ],
+                [
+                  0,
+                  -1
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ],
+                [
+                  1,
+                  0
+                ]
+              ],
+              "approved": true,
+              "authority": "conditional",
+              "banks": [
+                "BIG",
+                "GOOD"
+              ],
+              "guards": [
+                [
+                  "pos",
+                  "adjective"
+                ]
+              ],
+              "provenance": [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+              ],
+              "rule_id": "founder:absence:big-good"
+            },
+            "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+            "rule_id": "founder:absence:big-good",
+            "status": "BLOCKED",
+            "witnesses": [
+              {
+                "assertions": [],
+                "bank": "GOOD",
+                "baseline_domain": [
+                  -1,
+                  0,
+                  1
+                ],
+                "baseline_narrowed": false,
+                "baseline_rule_ids": [],
+                "supplied_evidence": true
+              }
+            ]
+          },
+          {
+            "context": {
+              "pos": "pronoun"
+            },
+            "kind": "EVIDENCE_GUARD",
+            "reason": "GUARD_MISMATCH",
+            "relation": {
+              "absent_evidence": [
+                "BIG"
+              ],
+              "allowed_rows": [
+                [
+                  -1,
+                  0
+                ],
+                [
+                  0,
+                  -1
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ],
+                [
+                  1,
+                  0
+                ]
+              ],
+              "approved": true,
+              "authority": "conditional",
+              "banks": [
+                "GOOD",
+                "BIG"
+              ],
+              "guards": [
+                [
+                  "pos",
+                  "adjective"
+                ]
+              ],
+              "provenance": [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+              ],
+              "rule_id": "founder:absence:good-big"
+            },
+            "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+            "rule_id": "founder:absence:good-big",
+            "status": "BLOCKED",
+            "witnesses": [
+              {
+                "assertions": [],
+                "bank": "BIG",
+                "baseline_domain": [
+                  -1,
+                  0,
+                  1
+                ],
+                "baseline_narrowed": false,
+                "baseline_rule_ids": [],
+                "supplied_evidence": true
+              }
+            ]
+          }
+        ],
+        "relation_semantics": "ONLY_ACTIVE_TABLES_CONSTRAIN_THIS_DEFINITION"
+      }
+    },
+    "requested_coordinate_contract": {
+      "positive_pole": "BE",
+      "negative_pole": {
+        "code": "NOT_DECLARED"
+      },
+      "negative_without_declared_pole": "REQUIRES_EXPLICIT_SOURCE_DEFINITION_ELSE_UNRESOLVED",
+      "zero": "JUSTIFIED_ORTHOGONALITY",
+      "null": "CANNOT_DETERMINE",
+      "scale": "WORD",
+      "category": "ACTION",
+      "bipolar_dimension": null,
+      "families": [
+        "state_existence"
+      ],
+      "registry_gloss": null,
+      "registry_source": "gse/primitives_v2.py",
+      "hierarchy_base": false,
+      "hierarchy_semantics": "ORDINAL_METADATA_SEPARATE_FROM_BASE_SIGN",
+      "polarity_source": "gse/curation/schema.py#BIPOLAR_PAIRS"
+    },
+    "observation_count": 165,
+    "observation_counts_by_source": {
+      "conceptnet": 162,
+      "concreteness": 1,
+      "gse_closed_class": 1,
+      "lancaster_sensorimotor": 1
+    },
+    "full_observations_sha256": "a875bfe90fff70e400a95866f2ae12fad496e9679acb88bc230a2031bd69e519",
+    "retained_record_refs": [
+      {
+        "full_record_sha256": "e6738ef3bdaff2b9b3523efc7864ff4917ee8dcc2d5df193ff47ca63add166bb",
+        "source": "concreteness",
+        "record_id": "concreteness:you:17ff6c9a5288d6a2b88bf7e7f32ab6336103275d09624505b3b66505c7d867ad",
+        "classification": "UNCLASSIFIED_CONSERVATIVELY_RETAINED"
+      },
+      {
+        "full_record_sha256": "243d7fac73aff612045e869daeee5c538c7d21cf41d18ba929e031ba69d79997",
+        "source": "gse_closed_class",
+        "record_id": "gse_closed_class:you:fbff12e440d68d97d943dd6e45a5ff93016a4fe8fe259c2c1e91e114ef17165b",
+        "classification": "UNCLASSIFIED_CONSERVATIVELY_RETAINED"
+      },
+      {
+        "full_record_sha256": "ebd7197fc9d6498eb32c07f148fe6d37a09944d2b9a7479c19b48a94f5ecac16",
+        "source": "lancaster_sensorimotor",
+        "record_id": "lancaster_sensorimotor:you:d9671f5907a6c7c4461b12a9515f11c7ca25595da248fa536d45033c939d1766",
+        "classification": "UNCLASSIFIED_CONSERVATIVELY_RETAINED"
+      }
+    ],
+    "excluded_records": [
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:0758c0c710596368b461ec8ac9c0d424dc27dcc3a496c78014331aff5e75e278",
+        "scope": "source_structure",
+        "full_record_sha256": "02be85b83c66a94b24a42a6599e7b016628533efe4e4c79c80e0a050d1c781b3",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:08976f6622d8c3eaea914af41885fdce2c4d2e406f6b4538834eacd6fdcd6ecf",
+        "scope": "source_structure",
+        "full_record_sha256": "d316ba15a86aa0d8f51fe6a85aa6beda98ab886e0343b4bfdd56ec565d595fe5",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:0a06b158c3bbe22f1aa6bcc94d2609b2d13d033bb94ee036b64d837504fc6ba9",
+        "scope": "source_structure",
+        "full_record_sha256": "09b3d909bd4ae96dc2930c61391554aa6a3e8082a8c717f39f90525440e87dd0",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:0abc66e0dad7c6534977c66a1f8452c6f6d12f286dabefdcf0f8a50021d5b807",
+        "scope": "source_structure",
+        "full_record_sha256": "ac0efaa1827f11ac991e2bc1b33bdc177d8b1b5c77a6a85ef8471688c21cf7be",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:0b881435494d2ef19bafe2698100080e7574f551400816820930f88cd58bbf32",
+        "scope": "source_structure",
+        "full_record_sha256": "dbedbc8e80c478af76aa1322026c7f981b860b9d872f4d8ac5f980462863f435",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:1107cfe021546d34bb93c1f930064ebd9270024bb3265a1b0e70465edba84b88",
+        "scope": "source_structure",
+        "full_record_sha256": "8c20bf491392f0c05f50b1770b5e2549056895b5f78d14c9ceb0b591eab10148",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:15e4397c014440654aef923294927c71d855b5012fc2b468930d20e96d8a31b5",
+        "scope": "source_structure",
+        "full_record_sha256": "4454e512a6cb47696bda669791f2ab94c1103e1de44e66ee74350c4c6e56ac9f",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:199de815e8d885ed3bacc97a81ee5594a57c845fbc0be5ba6306d6d20a84db45",
+        "scope": "source_structure",
+        "full_record_sha256": "847a4ee775318a2baf027ab9bb89fec09364dfab8c07cad640ac8075e09d7eaa",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:1a201c230dfcb85a29ea0963f863d0d5cbc375550e21d1634fdd41496e324449",
+        "scope": "source_structure",
+        "full_record_sha256": "5190a1f7de8f8021c25a82ef1b2d0b3c2ea9b08705625048be59bc2d6c650497",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:1c0803d32276693c219f42ea3e1484c59e5fe09e9501710ea4f6b79912f5bcd1",
+        "scope": "source_structure",
+        "full_record_sha256": "84751b6c3eca49275218332e5f5f2a4ab3fa0327a0ffc2b726173f338631734e",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:1c57a5c5fc074917a62bd94b3ab32e18ca9a07560e353f2b38f0c2457eb5005d",
+        "scope": "source_structure",
+        "full_record_sha256": "4dd05f99e33e8cfdf50a83fed2ec2ef72c85939c86d1b744e1caefabbc341814",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:1d17d48c5a1d7f49ae9ab62f4fc1ae5acf1208652e4dd2beada1dee292183665",
+        "scope": "source_structure",
+        "full_record_sha256": "d5047905f6b619f0fbc2bc0715a864ef72d123d41f3bf03e3242101c5038aafb",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:1ee42186a0cac4c4a290a21a8c6558f7799cf11a87c812ea77118b180641486f",
+        "scope": "source_structure",
+        "full_record_sha256": "5bfb26cf1aa1a4d8b751d3427296d7797eb96aed440690bab1b109ed02e9906e",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:1f7881a73a1ee9b72ce4a9f926bb99a8ffd8b06ffdabb3f1c92d1c7aaa9b0bd2",
+        "scope": "source_structure",
+        "full_record_sha256": "001bd1af450e5c1008b760ee8bc96b646f0eba80c4f99139ef6a320a62a3b1e3",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:22d57287a4358fb39edf33a58133886ffd8a2210ec3c341d4bd42f3ab3d96fc3",
+        "scope": "source_structure",
+        "full_record_sha256": "661b23eb8c5e8af3155512fa6e42fc78bd4cb1d1aac3941820318d7cf27aad4b",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:2311b15a3dc7d567ff9c74da9c5568ab89a0c019b2f4f0c7108985da9ec1d1a1",
+        "scope": "source_structure",
+        "full_record_sha256": "14691a7802cd056874585d85b0acaa8d13b28fd1cf616df3b2283cede91ccf0a",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:24744f05c2d8d405de1207cad8759a21c0e82fceb822c45326a2c820a43fcf58",
+        "scope": "source_structure",
+        "full_record_sha256": "ef1d385cb0aef3b51f5ab252df41e7286d091b27a03c832461ec0217f1fafb81",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:24888d3c55d79d521d88339ee45dc9b9a5b46c749a4fe97800ea2fbc6ef2f7dc",
+        "scope": "source_structure",
+        "full_record_sha256": "c4831c715b8352db0f5b05a263500d96e96ccbb6f236831b3f754d703a8e05c6",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:259e35254153491a972ece15ca1ed14bdd8693a986aa209c866c28cd4590a7bb",
+        "scope": "source_structure",
+        "full_record_sha256": "c63ea75c9bd71666f0edd253114159380cf0ed66ba266db61e55e0dfdfdf7122",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:2f037777201266e21d97c56a2660c304299dc7a0e77a47fefcba1d54b99dc653",
+        "scope": "source_structure",
+        "full_record_sha256": "7f85dc77657ea237c3fa0666a1fb4c046f92549f86c80ed1afa7c0ecfc301282",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:2fb812cb9ebc856f73a4fced2015b2f0a0fa87fcfc94d977e5e1021050c7dc9c",
+        "scope": "source_structure",
+        "full_record_sha256": "d2f10ad20fdbcfab59431dd88faac2688865993eab9377831c36c723dbe7b68a",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:30b25cc9d9687522749329e51cb5d22db201360bfae32ed29e931a20f03cbf5d",
+        "scope": "source_structure",
+        "full_record_sha256": "4b3b6e3190a8c986db5fb3eaf091560f6b3cbd9e1fc51e0e1ae403a30a8308b4",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:33f0f0780bd949e57f38d5c965a5804e0b0000f5c7898a60c361d3ab6a177d4e",
+        "scope": "source_structure",
+        "full_record_sha256": "f52d6ffe28efd4b175737e7ee1e20c347e4a3028fc3144be151d23bb49a4aeef",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:34a7efe1027f61b0dd76d6ccc79d8034848892a8204cee910cde38af4a47148d",
+        "scope": "source_structure",
+        "full_record_sha256": "aaa361188e21528198d416503f4618ce1b57f58f0e45b79a5e4d992103adcbda",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:365d0c65d563aed0d26db097eedf74dd2ed6a66cc6053306a48dbc2a9cfbf8f0",
+        "scope": "source_structure",
+        "full_record_sha256": "4c9e38bcfc24a2f2591c7ea0686a955553e9c4d2a45615a159f552ca0bd1f8ff",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:3856fe29d03eb049267237522f6ed41db08c4bdf4a00f9d459fa5eafb6afd70d",
+        "scope": "source_structure",
+        "full_record_sha256": "33b7f1b53c6422434b03afcb71a83369abe387d9ba897dfc9c7c983e1a1bed3f",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:38c3abd9769c43e3ad4e85b11363697d5707bd0512d31b9866407fb768014fad",
+        "scope": "source_structure",
+        "full_record_sha256": "2e06484332dc406d13942c5ab0a3a386eca5914268cbf16ff4771ad4c1eeafca",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:395fdfa40bc9504296ae15e9a7a80b05f19d16323298a375cfcac1098b4c49ac",
+        "scope": "source_structure",
+        "full_record_sha256": "018b7810b481cc9655e1f1a138daff6591a38027c7f84eeb717b0607ad1402a9",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:396458d901fe72a28327c729437db817a27e0fce5527de865ee19f1a93108c95",
+        "scope": "source_structure",
+        "full_record_sha256": "c17ba66d65c1aaa63f27daf2af001f4128a562e91bf518e67421b62e65aa093a",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:3c32a1ec519bc6a51f99d53443fccf544fbb5a20b742f19d44929589b7df31f4",
+        "scope": "source_structure",
+        "full_record_sha256": "98ff0dc67eb579b93764be454f99149e0e550e168ba91fee45a41a364c64522a",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:3d429cfef375a496897021a65914c64723f1c32502c11042e43af84aacabb156",
+        "scope": "source_structure",
+        "full_record_sha256": "f26f33770f8cf2f5000574a7919e71abc40e279024af1dfa7e5ed9b1193e5607",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:3efbc906230c555d3a8b16ff534dfc427c2bc92056855127ee07dbd4033b05ae",
+        "scope": "source_structure",
+        "full_record_sha256": "c277c6c0c4ab893cf09b9f7f856ddc86bf091e0b0486517bcb694baebb55967c",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:3f52cac12c4d14a7451bc54d94c0c7d597a8c5d1882b1b8ab2c3664eb614b785",
+        "scope": "source_structure",
+        "full_record_sha256": "d9d73a5149384ff734e834be75b1fb33113ab14195d186ec034b5f4656e77cea",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:3fed509e31a8429327f2b16ba24e8ed67e84d7bf5ecbde0f5875a8cb3489aeb2",
+        "scope": "source_structure",
+        "full_record_sha256": "0c1659e4f6af3b792bdb84073f9d8d384cf241172472f428b104d9ec0880721d",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:429b272f08ff4b9698419dfdbd6aa9019b3c328f2bdc53dff91faa336561da18",
+        "scope": "source_structure",
+        "full_record_sha256": "0c05e953cf0db6f786523e705ee8a68ffefa1a4c681e24c6d7d98df65c3fa937",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:42a19bb68f658a715c7d3761ad138df020808274bdf78867f575ebeed0134a6f",
+        "scope": "source_structure",
+        "full_record_sha256": "f9f84d4d61bdc80b7c4ffeb7e946222283554510fbc14970dc5acd31d18782d5",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:4481f9e633796db3ddf013a36025e081b3e16b3467c12c4ad7e7e52819f00638",
+        "scope": "source_structure",
+        "full_record_sha256": "0280a27050feb47d8469cfbd5c44a08829a84093c2819f00b6233e5d1f99ba5c",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:4530d04538f195a850031328ac127cb90032a9c4d9c8ba25b3db3879e33eae7b",
+        "scope": "source_structure",
+        "full_record_sha256": "e781ea999fce36c4e906e179c2ce94d500ee3ed3fe627f08548b3eacecc42a55",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:45d6e64ccbc195de4f99c5eb676236a1e930bcc6b33fe9d8f2f978955e3752f9",
+        "scope": "source_structure",
+        "full_record_sha256": "7eb9364a7cbaeeb052fba04c9ddae19d0f5872a752739a05ba43d6fcac63201f",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:460ccb5d3ed0fdde8a1efa174ada1b3ec3efddc5f77c539a95819920d92e3052",
+        "scope": "source_structure",
+        "full_record_sha256": "a90b45687c2a47b5d37e561f6729a0f9b9c93f1da13054548c7eb49879635c33",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:49622267b6bced7457f4d45994196cc7368f0dad16b375bab227666fb10bc4e5",
+        "scope": "source_structure",
+        "full_record_sha256": "a853bbd4cdd70ba523675ddf43d80371c4e2cad770d24bba87a2be36134ee9b4",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:4ad4259bfb157d8be215033cb96ce9ebb6ebfa11ed1a5f98ff9e0bd8cc0ce6e1",
+        "scope": "source_structure",
+        "full_record_sha256": "357f0d61968b8dbdbcc00f394c33c298e34429d44c0bba517048765ed5a9ccf7",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:4b00c1ce729bb60bae5cc16b7088b8ddc22deade4cffc472514381497bf6f55a",
+        "scope": "source_structure",
+        "full_record_sha256": "a5dca7632ffd7351f10209806a701d8fb8edcb1f5d9154d0340fea5e757d7fd9",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:4b933b32c6738a11713093253e587eb810e210fc43420f8cea217fa1333486e2",
+        "scope": "source_structure",
+        "full_record_sha256": "0a0e46b535be413161de5e2071cb6353366071f8fb37327ed13e8be64b9aa4c8",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:5035a1b2779ee04e4f3049d7c7fa0b70332f22f2641b4c8e9ed17498c6edb7fb",
+        "scope": "source_structure",
+        "full_record_sha256": "84b7df73e53af66015822fa791c7bae98cbf17b313a893100960d3e05ad155cf",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:538b1d6f42b8d20557c3f8bd02340d8291f9b50fd153773fe27b999a38f396e2",
+        "scope": "source_structure",
+        "full_record_sha256": "812804ced63ee9d59223c065f88aebe424ebe295e76d7ff2f96cb54b79767992",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:5412a3fa9956beec242f30eeaed258b8afce3e21179ff7f9f086c75cd8e3c0ee",
+        "scope": "source_structure",
+        "full_record_sha256": "dba58c903ee3425b91db768c20771c61636dccf41b6acae4cce1f541bf85adcb",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:56f8f126bd106137d4c0387f16b1a77839989f54c920cd0bd9e78ae9bdcba408",
+        "scope": "source_structure",
+        "full_record_sha256": "cf1e945b9f95a3dcfe3b43f4adec15c85a7277612656d3def62093f13c851c4a",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:57331947e8ac70c1fef06662a3b198edb9ee51bd0e8a215780a2385547955a1d",
+        "scope": "source_structure",
+        "full_record_sha256": "191090ac396f31ed467f9b02a9d35568b86d29b5d53a14ee333db47be7ad69b7",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:577dde6ee7a461b3aae80e845727739e054ce4285557d7b5c298876aa9dfdf77",
+        "scope": "source_structure",
+        "full_record_sha256": "98f2c83394b31e6d881952f3c0f0edf14b124f1768ac02b7b60ad7db5db262cd",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:57d3fbd9be461386b0ceec82355f5e187b87fee955215b7ed4f00a85e49e4eb5",
+        "scope": "source_structure",
+        "full_record_sha256": "8e7de3b6d1ce7185fbfadfa1cdcb562fee7dcfa561de6c33783e513407e14734",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:590eea8c52b1af96f71b2447921a93a6e2b1ae7c2fe886390c63c55da73f923e",
+        "scope": "source_structure",
+        "full_record_sha256": "ebf8b87889e4f247123f3d16cbce6dd16cd522bd03f0995daeaa19a851157415",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:5a847a802eca453b0c69f09816c81e4df3b7397f0762299047e092de26bfe426",
+        "scope": "source_structure",
+        "full_record_sha256": "83d7d2a739d10c37261fd5aca36b59223ff934e2908669297a5c3d2f7bacdd08",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:5c0bf27333ec0dbdc83aa6e55654a66ebc0226f01e90115910d7863d063c848a",
+        "scope": "source_structure",
+        "full_record_sha256": "365c21523fac0fc01435cab8b75fe8b6d7d839a70117ef23aac9e6fbb5c904a9",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:5d9f2fedafd44cec969c25935c488d53432b440433329465f1d9283f9bebbdb9",
+        "scope": "source_structure",
+        "full_record_sha256": "f30339bb8fdf7be3c1d60786541f7615cf35c092d321c11d00052f8e3efa0da3",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:5e25033a9baf203fe77450e616107962a442c40af3047cfb7545512390618333",
+        "scope": "source_structure",
+        "full_record_sha256": "5ba8a7dae71e3c48d5997c420d45f63d6b91de46499ef63dd29cd3e7a1dfeb7f",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:5fa4bc5950ba53de910a7f17877e560ebae3a755a9c84a14266221f85ec7b175",
+        "scope": "source_structure",
+        "full_record_sha256": "2e875a5c88da2d9aef006023288f18a755ad29816c61091eea79f294a24333ae",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:61f1d7dcb40402f9a0ba5203cb343c968ae92b363b98525a1580569944f7f408",
+        "scope": "source_structure",
+        "full_record_sha256": "cfd16312f34d8905df5e4684896cdada56acc9f72ff1793ccb5670c50dc74d3f",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:636fbb45bbd28dcb1eb2e47ebeda334cc6b9fdc93089c39174fca7778f82849e",
+        "scope": "source_structure",
+        "full_record_sha256": "a836168fdfec873e5a3e2dbc9ab228f6ffa840762aa7f8c96de208938321be1d",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:64d7b6a4b0b80c3e2e246b29bc341733796432c485e9e0d724eadebf75f51e4f",
+        "scope": "source_structure",
+        "full_record_sha256": "eb2d2441b17aed5f182900a4dd3a119977929ea8c090d2339670f59b3213239b",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:65a1b26bf4a59820ee07db473bdac7bb1584003a50457d8aea156b1cfa6837fd",
+        "scope": "source_structure",
+        "full_record_sha256": "733bad38bf9c750ad0e4461bfa79ebcbac3050341c253b1ad73f2579da4d3a31",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:66be7e94f1d4e880d6379b1358a88d75e6f4a6a09690b59204757408e9a9704c",
+        "scope": "source_structure",
+        "full_record_sha256": "3391d17a3e8d7b60d7512724c93fa20375bc4d54979b1f9f894257ef0186c091",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:671431be3a9e2e107c9681b19c9d28e6d151ba70a7a524b8a3c811747a187cb9",
+        "scope": "source_structure",
+        "full_record_sha256": "5fc693d7d1ca19f27e5613de5745a890b9aaa776f2fc2a2b0bea8f6fe83166e0",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:6797b57bf3d309c981abb01a18967c4c0a991636ce0812e30d92d3d81c81c8c4",
+        "scope": "source_structure",
+        "full_record_sha256": "eed3095aaf4068adb0b4c8112bc8023829bf58ba5fd1fa108b1fe1c06707a3f1",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:6882a6df350bc17109822696a7dcf6e041446b5bf4febc05bd36090f64c68a03",
+        "scope": "source_structure",
+        "full_record_sha256": "dd60139586365649cf19237124acf7431c8795c137d9cf15531526f76d547c6c",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:694d52184528dbf1bc8c8bd32f8c71601c0ca5a320c4f50e0cc4b5bcb10e5d0a",
+        "scope": "source_structure",
+        "full_record_sha256": "bbab89a60d6710ed7853cd4627d8adeaf2f56d238f67562efba388d386da4a58",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:697ef5424b922e6e976d99f0e0524a2bf5aea4309134d0cfdb2bcf041a6f3090",
+        "scope": "source_structure",
+        "full_record_sha256": "23c993672755342cbcd7e507a85582ea530f9919333e3f560600915d2a27d810",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:6ad7941d4fe3cf05f1f0ef00be37ceabc20c04f62a07782d2447c4f168a473b5",
+        "scope": "source_structure",
+        "full_record_sha256": "b9b0f47c0ebdbec55a2be6711158f308faa51b6a69b152e38c9b44585f112010",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:6c12e5705f2cc45bb74d57c9ecafd3be4c3baedf64dd1d476c140fdca576e339",
+        "scope": "source_structure",
+        "full_record_sha256": "f5de384f764d2a35cc0fef690219b0ed538203990bf8d933df4c8a09455a529e",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:6e9ce812f81ab0e20d4163fdfdbd48a0eeedd175f3a4a8ed234a4d90903e619f",
+        "scope": "source_structure",
+        "full_record_sha256": "321cc21d1a9c76c1c5f6f22698b1c07617cdb3b410f521a6800de6ef6bb566bb",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:709610752dacdbdc0a901801fca537b9a81ce57d282f30224d06c79fa45b7b2b",
+        "scope": "source_structure",
+        "full_record_sha256": "49f1ce8d9297ad721c449eacdc33bdf30188253add5e84ee826c95127b891368",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:72ebdcea709cfb41787a157ea35e95b3aa93b43d42cb46adce5031070292745a",
+        "scope": "source_structure",
+        "full_record_sha256": "af8fb88d993f839b7562db55381c653a44c9a801ad28b1e7495c45fc2bfcf71f",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:746d7d77898b745e47c67157fc37266e76a33e551d183a009ba81bf1ba7b987c",
+        "scope": "source_structure",
+        "full_record_sha256": "32e6733c31e2b45f949e8f8e9d53fa3d4f35e0508187efba944d76c75934e816",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:74b0b0fce8add0a206728b8fca4298b50e842895ededc576d8a23df0c2181eb4",
+        "scope": "source_structure",
+        "full_record_sha256": "e544a4af7f0b72d5f3d9f21dedd322c097b82de2a99f8a4d117a911ec24d2cf6",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:765707ed2ad738614d096633c4ffcb39eb51fbc74ba46f5c3a63b881e670a142",
+        "scope": "source_structure",
+        "full_record_sha256": "0c12043154b864e72e0584beec52080b1bc66f1ed50109dbbfbd8a6fd0614493",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:7da25d533ce7757e5fa9f31a7dfcb139b50e290c62c1846895d91cf1a5911d96",
+        "scope": "source_structure",
+        "full_record_sha256": "7f6e843b6ed3c9ac1e8d7876c08d3f6c39ac639a5f5b480992448a1e10f98238",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:818516d53a6303f60dc7ece6b6e27c237a058890db7a70d9a00fffdb42e0ddbf",
+        "scope": "source_structure",
+        "full_record_sha256": "bd92002287415b5b06d66379d391a090e4405401f6f3161d6bd46cb3fe42c702",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:8299f3de146a0681b4539c7bc06bdee8e2d79886574be493300ddf0c73c145c2",
+        "scope": "source_structure",
+        "full_record_sha256": "487f96cb937914712940de4a4cefee10ed39626e4f2652d04c1152bfa0f3592a",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:82b316ac33fdb11a67fdfb17dc2ebd7d203e3ce855774ae04a31a2cce0cbd820",
+        "scope": "source_structure",
+        "full_record_sha256": "5071cb176d20b757b3d6891b027c9242767ac07402e30aded0223955779882df",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:861b8c2c9467eeaa6683985dd8bdeba79fc33b1a9a3aa4182d4d7d75522f20b2",
+        "scope": "source_structure",
+        "full_record_sha256": "28fdeaa4eb058ca18863a7ef0afeb90870a1af19cb51243d57c58ab0a0cf7b9e",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:865f3d0d1c5847a65a3b1d1e084d58c7f936b5b6682499c8d5211d27197614df",
+        "scope": "source_structure",
+        "full_record_sha256": "48efadb97bc89305ade1f19e40b24d52cb17129b7514df2d5d3d545a0a0c8ef4",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:878f1e69e93e916a5876914c387f3a96b1c342b369966eb0879d9ca4f05312b6",
+        "scope": "source_structure",
+        "full_record_sha256": "fc50b0238ba6972599f5b1a34119f8124b6810d6bd0dc7569fb9e30a08d53303",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:88b18d34a554b293a4256167514d45a5e728ee18773cf9f314659bd9750d2675",
+        "scope": "source_structure",
+        "full_record_sha256": "6b56cb63356e5d9e14d896f07ac5fcd5415b7e12b8b813384ade989caef8da82",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:8d71b7850f12d7d19940cf108b38490c695c34dd63cfe5d4e56c6a1a88139f59",
+        "scope": "source_structure",
+        "full_record_sha256": "3b8e9a54f17182d8ba3983d11b1c0541d27e0bca7c3873f7ecf423e863d62708",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:8da4373d001faccda6196815713e72c38189c9e4b7a501d0a8a97c9817b15cc0",
+        "scope": "source_structure",
+        "full_record_sha256": "9e95c73c4c512ca96544bff1f02b3e72904c798dcf1d4016b1cbae48d1494596",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:8f5659688fa278146557c92a4704de59da9db2b87d16b3551c083a26bed83cff",
+        "scope": "source_structure",
+        "full_record_sha256": "1c47bd5b6e009933a2bb5367be9bb6d36fe965a412457b90a0340aae98a9941d",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:92bff09b9006110d5416e3ccafa3b91b43f9fd23ca248e95085ff8e936e8506f",
+        "scope": "source_structure",
+        "full_record_sha256": "e585e0f05057e0668f1e1d71c849da9a8441cbaf790589c72a78d1100c210865",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:93e4762d2e8f4c295bed529e176f6005e01f8a54f04eca0d594bb0daaf52f883",
+        "scope": "source_structure",
+        "full_record_sha256": "fa8744ede7cd32645b4abaeb4672db44f13c35f5f22f534b25cbe6f6a1015907",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:94ddd3053a065dfe126a4cb249027fe279150f717fb60c258482d9893132093f",
+        "scope": "source_structure",
+        "full_record_sha256": "0d662e537a3cfa8c07b47b69a1776299f910efe69310e34c6ce8b7aaf50e05f8",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:95c403aefbc7c0e03bf490cfd7134484e90030592f925425b0ad5781287e8c50",
+        "scope": "source_structure",
+        "full_record_sha256": "32cc427819c0c90991b8156080d21bf798d5d4ff18f0b1cb26ee131d3138bf29",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:96e4428dcbf64219cda5a9eb49971a420245ab70a8cc209bd903aa6e7b338f8d",
+        "scope": "source_structure",
+        "full_record_sha256": "3c5550a133194520e907df2acdd395402fc2e29a8f1c6273e915be2e822d724b",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:9a559ba01cee78abc086916aae02ab77777567d70289930ee5bf30b1bbb41797",
+        "scope": "source_structure",
+        "full_record_sha256": "20dacbc52687de7db3db8e0aa709bd9915485b35d44f48aeff9832740c84367e",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:9ae6853e0f66579e22f76caa8a4839902454aa17566c9d637bd54bca0ed542a3",
+        "scope": "source_structure",
+        "full_record_sha256": "35df22d2ff83900753a4a850f4f88ffaa6b5854699dbf9d07bd7446e8ca97ae7",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:9bc321f0dd84bdfa7d71a08a371771569a4e688d3d23ec83d09a8e80fbb4c27a",
+        "scope": "source_structure",
+        "full_record_sha256": "efd6d1d8cedb9790be4cf7bd6f34b6a8c44980a28e77e19b31507b4ce7c65630",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:9ec613b3139ff33ccb3dd8f473ac2d43f0a0ce40fb700fb8825679e953b5a5b8",
+        "scope": "source_structure",
+        "full_record_sha256": "c87411ddb2563d67ed2d9ff5f3d609bcb8ffd4e0be9084cca17f839313c813cd",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:9f337050b564a99d563c9999fd0adf7c1bb319b7d0a9f212aa1f50814c602037",
+        "scope": "source_structure",
+        "full_record_sha256": "ebd43fe591e4848ce69f4d7455eee3e576393eb658fda7f5f96740c9c86e416d",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:a3c11bd8962f5109adfb1ed23899b5186948033d19d46bd68d1e6414ce5314d7",
+        "scope": "source_structure",
+        "full_record_sha256": "41abb97038bc8b1d8f15516e715a64036a0ac0a67b1bae1089970d561ac9c603",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:a664ee203af9113375f17197ff6c16595fdf15fd0e18094ce21ffa2c7c4f6281",
+        "scope": "source_structure",
+        "full_record_sha256": "a52077837bfe4dfccabb923ba38e60a8e141a714a09e08e85cce3655fd7d9aa4",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:a7fa4fa0a150d78d409eb0f9007187c3065df2844de056471f87dd24d2261883",
+        "scope": "source_structure",
+        "full_record_sha256": "38bce3da993a2908c243a5d8f9a22fb58cd259479677415cf5eaed1933ffc407",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:a9f7c3e88f950dc0381a19de205136ee6ccf3438c8b0d0e61531cd11ee7dd3a5",
+        "scope": "source_structure",
+        "full_record_sha256": "ae684215336cb7da8080752493b1c880e6e0f731211b628cd33821f62eab89f8",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:ab44543024a463d75aea91c8932b79170c186159d33223a4dab67a18b71c3009",
+        "scope": "source_structure",
+        "full_record_sha256": "76e4d81f2a03e9f4a62e5de068fe003430aad71f12bdac5af0f157930922cf52",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:acfbc58dab0dbcf7249187b06f28f8417958179c140c8a0e0b51baa2e634cd3a",
+        "scope": "source_structure",
+        "full_record_sha256": "78d70015c67eb27e90309f4116b055cb7edf9340623d1d9ecc36bbc4704e201c",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:adcddaf2c16120b6eba579797d182e75669458d42453cd53e9d940339c302430",
+        "scope": "source_structure",
+        "full_record_sha256": "b20d16b365f20cb2b49b8483168ce13af519aff0718039897269b387a5d90de6",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:addcb6aeeb2738b77ba6e858f8178bdf0091b9c0ce7c8acf681c485857262de8",
+        "scope": "source_structure",
+        "full_record_sha256": "d9b8f5e2e9c2c043936be0816109f1fa8c1554520e9b1822809c67fb11340ffe",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:ae4073af1b1dc4be1469d2440ea71e281bb35d616fd6c1dea8ad058a8b34b9dd",
+        "scope": "source_structure",
+        "full_record_sha256": "7243265f6923413731be6730eea75c457321a2772a2df4cd8ad1ee546614c745",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:ae9748865c622ac45dd38054b482fa66862cd7a85818e1e5146e8302814f21b3",
+        "scope": "source_structure",
+        "full_record_sha256": "a09fc5c1e3001db63202ec8122def3b8771e2c2264d81fa7b4bb695041b54db7",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:aebb814c336216b086f51c9e42795f1fdbd940548856b21a9e6e5250e4f4b85c",
+        "scope": "source_structure",
+        "full_record_sha256": "64c1b376d0967ef7746f13c6d7b5f6ccc8c25af55e300b2d3ac1384311d89ac5",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:af3b7d6c7b1b0144cea6bf1d3bd719965c7ff2309939859f6b208a329ec2e81c",
+        "scope": "source_structure",
+        "full_record_sha256": "b873423553a634bbd78dcb33c8a8fb7d09fb31189da471e769db40530954dc90",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:b5fdf580d0c560fbf90f361b8a908e839c7e637c99e5862aaa00f24e8acc0711",
+        "scope": "source_structure",
+        "full_record_sha256": "c749f45d4e69a5ec212faa879cd818c129b9ffb6422f6de0bacbabeedd7d828c",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:b66e9f3205ca48fca92c12764f534bc73f6d428fd106ac1fc6277611e3f970cf",
+        "scope": "source_structure",
+        "full_record_sha256": "b95ff6814eb1fcfc6219c9e67ffc6b57273ee15edaf2ed6a0f0746ebc4aeb718",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:b76e1a72fdfd95c33dd1d93290e9dc8cc3511e377987a3a7b6bea7f660a905e9",
+        "scope": "source_structure",
+        "full_record_sha256": "5d84792df4d7dabccfc2df497faf88d9cb271e688ac8b77a2e50d1b365294624",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:b966543aeec03c5e70dd9707aa29b0f2bb37500905bf46d5a6f3d3fcb13825bc",
+        "scope": "source_structure",
+        "full_record_sha256": "567f2679903a2be4d26175d29d4f291e1a307103b46c3284cff8d782adb8bd28",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:ba373dd8e27ef6811d7ee6879860ddbce179839f48d4beb2e802546d57742d61",
+        "scope": "source_structure",
+        "full_record_sha256": "0b4aeba26159657770d90c0628c2b798d544d2ba0d9da3d36d7ed8ca114068e9",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:ba421ae085784d43c1002b4cfa98eb291f41fc00270866458c1563f389efda95",
+        "scope": "source_structure",
+        "full_record_sha256": "53970fd22faf3b73168af044dd72b3ed6b37170b16cda5c87a35a1ef35963868",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:bb2c49abaa48ce20b4e3d88a7ec06ec8637f829f726e84a03c74cd9d19fb234f",
+        "scope": "source_structure",
+        "full_record_sha256": "b95e5997cb6c8f4a83599344d3182167465c411ea0f4fc0d108c4ee4cd91b82d",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:bb6da738b4a3a7e15cf8e3b5050f51acebddc02f92a482ae04f3df1126a57839",
+        "scope": "source_structure",
+        "full_record_sha256": "b45ee7bca109ee3f72face705061042284d0c94175df637b9f76a6b7d4838dde",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:bbb01e784d2409daede6488756290f73199386d55867e5901757cd8ef6ebd9c6",
+        "scope": "source_structure",
+        "full_record_sha256": "af2c15bea7816cf266c8575668a6d21aa2883f7b1c1b620a10b20b6fea0e9d38",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:bc42c054bbe704d8145255236a83b3669247721ce948c1cca75fca79c77e256a",
+        "scope": "source_structure",
+        "full_record_sha256": "6264505297afcadc6e1d913b68a22b08e20759cc82b3ee1b06fb6a35e96ef1dd",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:bcc6c2b205cc68230c56c5fa3c3ccb3e7eeb887c6817ac6e6f85363b859e56c0",
+        "scope": "source_structure",
+        "full_record_sha256": "bf2a8945e4bdd53c5912443bd8a8d76de760f8620d211bfa73c153126201545a",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:beb33d992cd26072b42c152069aa1dea077b1bd63587d388ee5976fd30f6a4c2",
+        "scope": "source_structure",
+        "full_record_sha256": "213107c1d3b207622daf4811d7b842b65769a110540701734a0dade2d12742be",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:bebaff8cfcdf8e682417ce7956581811e461bedf646f53fdff4024cef68bebd4",
+        "scope": "source_structure",
+        "full_record_sha256": "61f751259bc4b23286b1345dbfbe1fb06553fe2ff8c93b42e0e367bca751521f",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:bf07db05f85588c38618db2f98f0123b9fe307557c0d34336ae348aaaf1aee4b",
+        "scope": "source_structure",
+        "full_record_sha256": "01dfd8a0045cb99271bc46acac2f3d0e3a62592848963b9bb12c0b0db4823ae6",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:c0969fe0b2b16b8e71efc8366ce2de68598118f0e008487811ffbd26d852a1e7",
+        "scope": "source_structure",
+        "full_record_sha256": "0e6fb4ae8d7c34714bedc5102c37a73a2dee372b875737679b6a36bdfb0be12d",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:c0f8ea33d8586487ac9874f96e585d4528b68f0394393c485b0d870db701f493",
+        "scope": "source_structure",
+        "full_record_sha256": "fed1ca9d1dbfb649cfac562e0951891637a50f78c736cc6701be2ae5a6af5b17",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:c1a48778685cebd7ecb6644e47a88029bb490c90d7e2e8c27936e1072812282f",
+        "scope": "source_structure",
+        "full_record_sha256": "0a129b22b7398c860430ddc2e853912205a2b35779b5dbaf0e8d4674f3bdbf8a",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:c3379ec6817f68ca2781b854578dbfec59ae71009cd2e3666b449b52ef40adce",
+        "scope": "source_structure",
+        "full_record_sha256": "915a5dcc96d42aab798223e13b890bcb65b5715c9dd332a53125c4a6f98621e0",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:c483693d07873744ca76f581d7d5c425a556ffd8ba84b71f742711ed9997b04b",
+        "scope": "source_structure",
+        "full_record_sha256": "22f7f693cb9f980657c64c2222c7751b260afca2e9f2fe086eb627ac6304c762",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:c4df2ff48f7ec0f3d016bfe7c070a8d3e88fef794b4306ca5a361f38af332a6d",
+        "scope": "source_structure",
+        "full_record_sha256": "f6cec95161d3340e5ab9846847973da051d7f1c912716392bcf19c585a01ff2e",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:c4f3444c6c1585f2d7675bedf2139363e962fc064f75b3d0a8ee06e55218862d",
+        "scope": "source_structure",
+        "full_record_sha256": "76b332a1268e386666dfc139f0bc7904bd7da63d50c50a8d2d7cf19f7e324b2f",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:c6ece5086ea67755b96ecc0dea42b71f075b62c96e69950a45e9ef2451069efa",
+        "scope": "source_structure",
+        "full_record_sha256": "31070b51816f5dd4d9fff780f012b126ea36525e89bf2ff3f5fba64462362863",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:c797e6e1371dac3139766ba304373017232cef6e8b51a67fbe50bab8a3746e6f",
+        "scope": "source_structure",
+        "full_record_sha256": "72c32f0b14e82f2c919a66cacfd9d03fff8fb5bd71fb8467aba6a19099519194",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:cae34482c70ce18e84382681ab3e267420aef416eeceb00849c60b181c99b613",
+        "scope": "source_structure",
+        "full_record_sha256": "f8427b30096fb190d4f80f72bfe97b61b748b5d736b58098a18acb8887fff3df",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:cc8d93ebed247bfa87983d8ea71443ec371faf6cee61ab079330ca230df4e111",
+        "scope": "source_structure",
+        "full_record_sha256": "5361b2d596894ba0dc070886fd9dc92e58f44b1620929c0c8a4a7f4625e4b48b",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:cddf83261ca3401e121e62d6ce96d76af64e556472bbe2d094d57bf0c626b061",
+        "scope": "source_structure",
+        "full_record_sha256": "8e7f1faa14c22d8f208bc719b0f773b4ef0cb24bd974d121440e3c3eaeae5ed0",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:ce8f7f74d66a040f61ae82d072e61648ef228a2cb2e5593e4beb25a317e2cfdb",
+        "scope": "source_structure",
+        "full_record_sha256": "27fb3be1cfa47cdadb7ace2d6663cf6b60048b254ec7ce6bdacc1773ab1cb843",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:cf9891aec0f31a38fcd0f2647f28c332db7352c945ad021c8a1fbf17c7f189a3",
+        "scope": "source_structure",
+        "full_record_sha256": "9819f0d7f625d444a3e2db391425c919b45f774b0a5e6794a3702519cee77dfe",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:d2c15518c8973baf2022d1e5aa56c26d1738035fdb993dd2e9bbc6c2da8a8ea8",
+        "scope": "source_structure",
+        "full_record_sha256": "da9a9ca6b40fe9ef51728e55296df9aee8263c685d79dab255793c8ac1778bb1",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:d5ceb0e9702e60d2caa6a07e9486ed9ee80606dfcdb17be897f58bb38e6a4637",
+        "scope": "source_structure",
+        "full_record_sha256": "880c9347b9dbc49cbcecc4cfb91dc3795d947fdb0293988b2b14e9fdd8ca979e",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:d5d070a018965fe8262fa69f3f502922c4af053f83301a8cb9073be540b5cd2d",
+        "scope": "source_structure",
+        "full_record_sha256": "d59a9ab74c109e2613d12e80f7673d99dfe9eb08016b876e7878827ee4f1a6bb",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:d70350e2510b7596acfebbd0d597978e4aaa0cbb6f935a53b317b905b76f3e14",
+        "scope": "source_structure",
+        "full_record_sha256": "b7afae569f64cefb18ec8bdf1ae9bb77ab0c7fb836a4a89d53a6beb939d7a9cd",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:db2d6d6874a584aba67f02b2e31777af7ca72b32a51bd3c8c5f9e665bc4f7158",
+        "scope": "source_structure",
+        "full_record_sha256": "68bddbb5be1e9dbc408142b63e0218a7ee17b5b75f458110c57911d44db8b9b4",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:dbfdda011a0d329cc44258080850ba2eed719daaa4f25aa0cba6faa98403a6a2",
+        "scope": "source_structure",
+        "full_record_sha256": "f9afaf9d89c0f9dc406f8b10c0327d5b98e1af0f7bce2ffd790a1ae86dd45d35",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:dffac2c0ede8ac87f076b9c6e6719479f8c2de1d735b7ae3002553114911cc07",
+        "scope": "source_structure",
+        "full_record_sha256": "8214afd28ffc453c1a06d6add2dacc76c6d71edbecab533a27c00b88f90047ec",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:e044275f644b6d7df035f928d58b0a47127f37d9a0b03cd57050c127e675cb18",
+        "scope": "source_structure",
+        "full_record_sha256": "a94959d79a0fb84cd3bcb68fc4169bccf9f4e74a6962c7aaf222b47a2578ee16",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:e059e0fbdbabc7e61e3aa10e7cc2211dc91e84001207490a4dda6eb2532687bd",
+        "scope": "source_structure",
+        "full_record_sha256": "0af71a2778dc4ca44c9d5222a53f88a6f10a9af2ae9a82c261e4a13cd39abe35",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:e2b9b176ee3e9b26dea2dd84cf269b4e8d2677d55530cbf34ca955ffc2a09ec1",
+        "scope": "source_structure",
+        "full_record_sha256": "65fd0e8555aed54baf016dd373dd982639c93c5326d51d8a33d7f687322dcd9f",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:e6407ac755378722b728b3c3e9eb1eab6f6dbc0abe58f73e595dfdcfa7eac5e8",
+        "scope": "source_structure",
+        "full_record_sha256": "24f93ebe1316aa3509d2ac1ffbabfbf3f9fdb4911b7f36a0847b53b7082485c6",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:e7ea75e5fade8a8b0637cc75c6dacb1f1d7373f04d38ef2911ca4347b2d877a4",
+        "scope": "source_structure",
+        "full_record_sha256": "e588bfe03ea77d3c7729335a94d7e7d6dab2a14b48e8f5b3fef0a74f93986410",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:e820a42a7d3878af7e82ef8b3a0b2ce8ab69b4370f1e4d41d32ee699a5d12e3a",
+        "scope": "source_structure",
+        "full_record_sha256": "3cb98fcffb4dbe4a336d8dbbb29968ed45966efdd7972b94c40f42a49a2d5a64",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:e847f2deae62c0cc0bf85212b0b75ae4455228bad856d09daba99c5f2d181414",
+        "scope": "source_structure",
+        "full_record_sha256": "1b32ee4c81722361c202c222db4a2f5bbb59389c6d2da45fabd70618eed9c559",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:edd24c291d14cb7c7e7387b250cc3e9aa052e802ca627ef0ead99e759c116209",
+        "scope": "source_structure",
+        "full_record_sha256": "e058702ebf1e0ad60c7854a6a2db6e57bf3805186f411e51229cb02fbb5e19c2",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:ef330b636efdb1af2c38a80eb168e3c085142a3b9996052dac703956484f6213",
+        "scope": "source_structure",
+        "full_record_sha256": "a8623831f820771d9187541592f0a3d14d1cef11aef01c6a8906fe4e59eea378",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:f15d5139d461afc2f080471ce9aa5febc87ebe45a040f425b1b5af90e651facc",
+        "scope": "source_structure",
+        "full_record_sha256": "e5c43d0fc02180a08198e3331e8dae9eed6384ba7ddd807e9d94d6f63ee82baa",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:f17dfae6b315e0cfaefb340a6a129f1bd2774c16224171feaac0a5f98a2dd43e",
+        "scope": "source_structure",
+        "full_record_sha256": "a52034ff9cc691aef78e5f7bf4b92c8878417268c37a345ddf4f2fe114c48f96",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:f186a660b88c47aeb04eb4ead8f206f0d36b7c8c84c2cae5523e8640b2cd13b0",
+        "scope": "source_structure",
+        "full_record_sha256": "38bb3d9e41ccc465ee0ecc6a341fdbea7b719a1d1943b9999fbd42ea0c505d84",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:f2df418d54b013ac50ebf1dde842cc3676f11b91b11ebad5289a89fe77f1f1f1",
+        "scope": "source_structure",
+        "full_record_sha256": "034a82574c39f2838b7fb9c432b8b6ab18e324d186c27f2d0f033a99c0869685",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:f8fee6eac87d471546d2414dbba76676c00d4345d8faf46a911ebdd50add20f0",
+        "scope": "source_structure",
+        "full_record_sha256": "3f2cfd5b531863751c9bc91f47ec9274b115f1badf585506dbdcab1d0c510e92",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:faea787d592bdf8c44a8d641700fa6075d5f38c4c8539e27b838a1bf7186c37f",
+        "scope": "source_structure",
+        "full_record_sha256": "05f4121d1934f60baf74120ae4c3b3c0dadb0a41e6d770ea85ca71951c841591",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:fc8d8bfa11cf2d71d002285dab3c12f970453d92ce125e5e93b1a5e8626f152f",
+        "scope": "source_structure",
+        "full_record_sha256": "55d449cd7c0fcc50debb306647f49f648af207387a16ef0d389895f46687d4b5",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:fd9e231f4b8797fedcce8f49916dd95766820067d57fc9a3d326ecd62a11caa7",
+        "scope": "source_structure",
+        "full_record_sha256": "20eb3059f8b3bc4be475f6ef121c3a6de03e5bcf4a442ce46b39deef588de805",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:fdd9955793bbf930aaf9367a7ff76a682e4c27bc9e65a97695f37631aed35f16",
+        "scope": "source_structure",
+        "full_record_sha256": "26ceea2413f655ebd216e311993af0cbaff71af898bad7ac783f5dc95d195ef2",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      },
+      {
+        "source": "conceptnet",
+        "record_id": "conceptnet:you:ff0b5cf7e353329d44cd817293821d0b53caf751aa12ebe56baf7b8e5871bebd",
+        "scope": "source_structure",
+        "full_record_sha256": "19e042c452ddea665e870529f49c61b6dcb65878152b84c55e6d9a521a7817b1",
+        "reason": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+        "bank_relevance_annotation": null
+      }
+    ],
+    "reconstructed_expanded_model_evidence": {
+      "format": "gse.model-evidence/4",
+      "bank": "BE",
+      "code": "PARTIAL_TYPED_VIEW",
+      "omission_semantics": "OMITTED_IS_NOT_ZERO",
+      "selection": "SOURCE_SCHEMA_ALL_BANK_CONTEXT",
+      "role_semantics": "ARGUMENT_ROLES_ARE_NOT_OWN_WORD_BANK_ASSIGNMENTS",
+      "candidate_semantics": "PROJECTION_CANDIDATES_ARE_ASSOCIATION_NOT_ASSIGNMENTS",
+      "record_count": 165,
+      "records": [
+        {
+          "candidate_entry_ids": [
+            "gse_closed_class:pronoun:you",
+            "wiktionary:en-You-en-name-0mwj1dYY:7234799d123248384c3484c387b692b48d20910a2b9dc802284d97c3ffd7624b",
+            "wiktionary:en-You-en-name-D6-sNozV:dc51e3c48f665cca6ad321b7a04562ddfe2bd9a092c70d12ec980d043e729d05",
+            "wiktionary:en-You-en-name-j8uMPsK5:a9147949697f6d435e78334c0782cc583f11017268be883b08dec5d6303d3b9e",
+            "wiktionary:en-You-en-pron-xI8HvWFm:9a4843015ee1e368f28fc60cf88240ef0dd2812f22b7f698d6cdd53205fdd5e2",
+            "wiktionary:en-you-en-det-UalyzIdG:d04627490a2714881a4178559595efe9f28cff73b7a305e51d243697bbad62f1",
+            "wiktionary:en-you-en-det-cETw4r4E:c2d9737029a6e6b714fc84955a847f0550b8590fd621db3e61186923b1edf8e3",
+            "wiktionary:en-you-en-det-ppKe~vKx:a3b429ce71e000e71911e421b6b42cf0aa906db74d3300276f8bb83cd105d372",
+            "wiktionary:en-you-en-noun-2YsMsj8i:1a8439a0a38c9ceda0caa33ff6c2362469673c22b330b24292e5176d7be33894",
+            "wiktionary:en-you-en-pron-2LSqalKj:9668929a339a55583add1f0d51a0efbb36feddcabea20443226ca03da474da55",
+            "wiktionary:en-you-en-pron-HaQwzWRI:1295d3d5da7dba78418a90d60168f97d251449dce1d5103ed163a088427e1b70",
+            "wiktionary:en-you-en-pron-M7hbUBCF:d42e9c16442d37ceb686b1d8af8566d0be8e70ac86931168ccc00c8cd448cf8b",
+            "wiktionary:en-you-en-pron-en:dummy:9e5fbc823fa9cd6a73eca0b8cbace4e052e1290f9d58efd5c63c5bdc14b7e3a8",
+            "wiktionary:en-you-en-pron-en:indefinite:8f3e6ad44f8472d9822a64093a60cee3f0eaa9dea9048db393e675b3b14a63a3",
+            "wiktionary:en-you-en-pron-rwcdiI~X:d0073ae2c947dca6309e0fa19f668f1f93df915c15338c687a4c083768cac625",
+            "wiktionary:en-you-en-pron-yQF~npAz:733d2918c05b6c41545666e5f0135845c02336d845c373b46f45117d7b0d0c1b",
+            "wiktionary:en-you-en-pron-zMxwQ80H:369966d845c5482bcbb5362d1341ca0936359b42557bf358317ec9d4230e7bcb",
+            "wiktionary:en-you-en-verb-en:verb:a6085b254da7b75e65974d0bc4e115285dc0e37601b771c51d927e30ea4efa6e"
+          ],
+          "entry_id": null,
+          "family": "concreteness",
+          "record_id": "concreteness:you:17ff6c9a5288d6a2b88bf7e7f32ab6336103275d09624505b3b66505c7d867ad",
+          "scope": "association",
+          "source": "concreteness",
+          "features": {
+            "concreteness": 4.11,
+            "known_percent": 27.0,
+            "lemma": "you",
+            "n_ratings": 30,
+            "word": "you"
+          },
+          "selected_fields": [
+            "/candidate_entry_ids",
+            "/entry_id",
+            "/family",
+            "/features/concreteness",
+            "/features/known_percent",
+            "/features/lemma",
+            "/features/n_ratings",
+            "/features/word",
+            "/record_id",
+            "/scope",
+            "/source"
+          ],
+          "omitted_fields": [],
+          "full_record_sha256": "e6738ef3bdaff2b9b3523efc7864ff4917ee8dcc2d5df193ff47ca63add166bb"
+        },
+        {
+          "candidate_entry_ids": [
+            "gse_closed_class:pronoun:you"
+          ],
+          "entry_id": "gse_closed_class:pronoun:you",
+          "family": "gse_curated_grammar",
+          "record_id": "gse_closed_class:you:fbff12e440d68d97d943dd6e45a5ff93016a4fe8fe259c2c1e91e114ef17165b",
+          "scope": "lexical",
+          "source": "gse_closed_class",
+          "features": {
+            "catalog": "pronoun",
+            "cohort": "MANDATORY_FOUNDATION_COHORT",
+            "definition": "Curated GSE pronoun use of 'you'. Declared lexical components: SOMEONE=+1. Grammatical features: {\"animacy\": \"ANIMATE\", \"gram\": {\"case\": \"NOM\", \"person\": 2}}.",
+            "entry_id": "gse_closed_class:pronoun:you",
+            "grammar_roles": [
+              "PRON"
+            ],
+            "grammatical_features": {
+              "animacy": "ANIMATE",
+              "gram": {
+                "case": "NOM",
+                "person": 2
+              }
+            },
+            "lemma": "you",
+            "native_encodings": [
+              {
+                "key": "you",
+                "module": "gse.lexicon.pronouns",
+                "symbol": "PRONOUN_ENCODINGS",
+                "value": {
+                  "animacy": "ANIMATE",
+                  "gram": {
+                    "case": "NOM",
+                    "person": 2
+                  },
+                  "primitives": {
+                    "SOMEONE": 1
+                  }
+                }
+              }
+            ],
+            "pos": "pronoun",
+            "primitives": {
+              "SOMEONE": 1
+            },
+            "provenance": [
+              "gse.lexicon.pronouns:PRONOUN_ENCODINGS:you"
+            ]
+          },
+          "selected_fields": [
+            "/candidate_entry_ids",
+            "/entry_id",
+            "/family",
+            "/features/catalog",
+            "/features/cohort",
+            "/features/definition",
+            "/features/entry_id",
+            "/features/grammar_roles",
+            "/features/grammatical_features",
+            "/features/lemma",
+            "/features/native_encodings",
+            "/features/pos",
+            "/features/primitives",
+            "/features/provenance",
+            "/record_id",
+            "/scope",
+            "/source"
+          ],
+          "omitted_fields": [],
+          "full_record_sha256": "243d7fac73aff612045e869daeee5c538c7d21cf41d18ba929e031ba69d79997"
+        },
+        {
+          "candidate_entry_ids": [
+            "gse_closed_class:pronoun:you",
+            "wiktionary:en-You-en-name-0mwj1dYY:7234799d123248384c3484c387b692b48d20910a2b9dc802284d97c3ffd7624b",
+            "wiktionary:en-You-en-name-D6-sNozV:dc51e3c48f665cca6ad321b7a04562ddfe2bd9a092c70d12ec980d043e729d05",
+            "wiktionary:en-You-en-name-j8uMPsK5:a9147949697f6d435e78334c0782cc583f11017268be883b08dec5d6303d3b9e",
+            "wiktionary:en-You-en-pron-xI8HvWFm:9a4843015ee1e368f28fc60cf88240ef0dd2812f22b7f698d6cdd53205fdd5e2",
+            "wiktionary:en-you-en-det-UalyzIdG:d04627490a2714881a4178559595efe9f28cff73b7a305e51d243697bbad62f1",
+            "wiktionary:en-you-en-det-cETw4r4E:c2d9737029a6e6b714fc84955a847f0550b8590fd621db3e61186923b1edf8e3",
+            "wiktionary:en-you-en-det-ppKe~vKx:a3b429ce71e000e71911e421b6b42cf0aa906db74d3300276f8bb83cd105d372",
+            "wiktionary:en-you-en-noun-2YsMsj8i:1a8439a0a38c9ceda0caa33ff6c2362469673c22b330b24292e5176d7be33894",
+            "wiktionary:en-you-en-pron-2LSqalKj:9668929a339a55583add1f0d51a0efbb36feddcabea20443226ca03da474da55",
+            "wiktionary:en-you-en-pron-HaQwzWRI:1295d3d5da7dba78418a90d60168f97d251449dce1d5103ed163a088427e1b70",
+            "wiktionary:en-you-en-pron-M7hbUBCF:d42e9c16442d37ceb686b1d8af8566d0be8e70ac86931168ccc00c8cd448cf8b",
+            "wiktionary:en-you-en-pron-en:dummy:9e5fbc823fa9cd6a73eca0b8cbace4e052e1290f9d58efd5c63c5bdc14b7e3a8",
+            "wiktionary:en-you-en-pron-en:indefinite:8f3e6ad44f8472d9822a64093a60cee3f0eaa9dea9048db393e675b3b14a63a3",
+            "wiktionary:en-you-en-pron-rwcdiI~X:d0073ae2c947dca6309e0fa19f668f1f93df915c15338c687a4c083768cac625",
+            "wiktionary:en-you-en-pron-yQF~npAz:733d2918c05b6c41545666e5f0135845c02336d845c373b46f45117d7b0d0c1b",
+            "wiktionary:en-you-en-pron-zMxwQ80H:369966d845c5482bcbb5362d1341ca0936359b42557bf358317ec9d4230e7bcb",
+            "wiktionary:en-you-en-verb-en:verb:a6085b254da7b75e65974d0bc4e115285dc0e37601b771c51d927e30ea4efa6e"
+          ],
+          "entry_id": null,
+          "family": "lancaster_sensorimotor",
+          "record_id": "lancaster_sensorimotor:you:d9671f5907a6c7c4461b12a9515f11c7ca25595da248fa536d45033c939d1766",
+          "scope": "association",
+          "source": "lancaster_sensorimotor",
+          "features": {
+            "auditory": 2.5,
+            "dominant_action": "head",
+            "dominant_perceptual": "interoceptive",
+            "foot_leg": 3.263,
+            "gustatory": 0.556,
+            "hand_arm": 3.526,
+            "haptic": 3.0,
+            "head": 4.421,
+            "interoceptive": 3.722,
+            "lemma": "you",
+            "max_action": 4.421,
+            "max_perceptual": 3.722,
+            "mouth": 3.842,
+            "olfactory": 1.389,
+            "raw_extra_fields": [],
+            "raw_fields": {
+              "Auditory.mean": "2.5",
+              "Foot_leg.mean": "3.263",
+              "Gustatory.mean": "0.556",
+              "Hand_arm.mean": "3.526",
+              "Haptic.mean": "3",
+              "Head.mean": "4.421",
+              "Interoceptive.mean": "3.722",
+              "Mouth.mean": "3.842",
+              "Olfactory.mean": "1.389",
+              "Torso.mean": "3.526",
+              "Visual.mean": "3.556",
+              "Word": "YOU"
+            },
+            "torso": 3.526,
+            "visual": 3.556,
+            "word": "you"
+          },
+          "selected_fields": [
+            "/candidate_entry_ids",
+            "/entry_id",
+            "/family",
+            "/features/auditory",
+            "/features/dominant_action",
+            "/features/dominant_perceptual",
+            "/features/foot_leg",
+            "/features/gustatory",
+            "/features/hand_arm",
+            "/features/haptic",
+            "/features/head",
+            "/features/interoceptive",
+            "/features/lemma",
+            "/features/max_action",
+            "/features/max_perceptual",
+            "/features/mouth",
+            "/features/olfactory",
+            "/features/raw_extra_fields",
+            "/features/raw_fields",
+            "/features/torso",
+            "/features/visual",
+            "/features/word",
+            "/record_id",
+            "/scope",
+            "/source"
+          ],
+          "omitted_fields": [],
+          "full_record_sha256": "ebd7197fc9d6498eb32c07f148fe6d37a09944d2b9a7479c19b48a94f5ecac16"
+        }
+      ],
+      "excluded_sources": [
+        {
+          "source": "conceptnet",
+          "code": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+          "record_count": 162,
+          "full_records_sha256": "b8dcdf579e79b9393b04b98bcf8c46d28dfa4d79407c30543b98250085c1fcce",
+          "digest_scheme": "SHA256_CANONICAL_JSON_SORTED_FULL_RECORD_SHA256",
+          "selected_fields": [],
+          "omitted_fields": [
+            "/candidate_entry_ids",
+            "/entry_id",
+            "/family",
+            "/features/end_word",
+            "/features/id",
+            "/features/lemma",
+            "/features/relation",
+            "/features/source",
+            "/features/start_word",
+            "/features/weight",
+            "/record_id",
+            "/scope",
+            "/source"
+          ]
+        }
+      ]
+    }
+  },
+  "complete_retained_source_records": [
+    {
+      "candidate_entry_ids": [
+        "gse_closed_class:pronoun:you",
+        "wiktionary:en-You-en-name-0mwj1dYY:7234799d123248384c3484c387b692b48d20910a2b9dc802284d97c3ffd7624b",
+        "wiktionary:en-You-en-name-D6-sNozV:dc51e3c48f665cca6ad321b7a04562ddfe2bd9a092c70d12ec980d043e729d05",
+        "wiktionary:en-You-en-name-j8uMPsK5:a9147949697f6d435e78334c0782cc583f11017268be883b08dec5d6303d3b9e",
+        "wiktionary:en-You-en-pron-xI8HvWFm:9a4843015ee1e368f28fc60cf88240ef0dd2812f22b7f698d6cdd53205fdd5e2",
+        "wiktionary:en-you-en-det-UalyzIdG:d04627490a2714881a4178559595efe9f28cff73b7a305e51d243697bbad62f1",
+        "wiktionary:en-you-en-det-cETw4r4E:c2d9737029a6e6b714fc84955a847f0550b8590fd621db3e61186923b1edf8e3",
+        "wiktionary:en-you-en-det-ppKe~vKx:a3b429ce71e000e71911e421b6b42cf0aa906db74d3300276f8bb83cd105d372",
+        "wiktionary:en-you-en-noun-2YsMsj8i:1a8439a0a38c9ceda0caa33ff6c2362469673c22b330b24292e5176d7be33894",
+        "wiktionary:en-you-en-pron-2LSqalKj:9668929a339a55583add1f0d51a0efbb36feddcabea20443226ca03da474da55",
+        "wiktionary:en-you-en-pron-HaQwzWRI:1295d3d5da7dba78418a90d60168f97d251449dce1d5103ed163a088427e1b70",
+        "wiktionary:en-you-en-pron-M7hbUBCF:d42e9c16442d37ceb686b1d8af8566d0be8e70ac86931168ccc00c8cd448cf8b",
+        "wiktionary:en-you-en-pron-en:dummy:9e5fbc823fa9cd6a73eca0b8cbace4e052e1290f9d58efd5c63c5bdc14b7e3a8",
+        "wiktionary:en-you-en-pron-en:indefinite:8f3e6ad44f8472d9822a64093a60cee3f0eaa9dea9048db393e675b3b14a63a3",
+        "wiktionary:en-you-en-pron-rwcdiI~X:d0073ae2c947dca6309e0fa19f668f1f93df915c15338c687a4c083768cac625",
+        "wiktionary:en-you-en-pron-yQF~npAz:733d2918c05b6c41545666e5f0135845c02336d845c373b46f45117d7b0d0c1b",
+        "wiktionary:en-you-en-pron-zMxwQ80H:369966d845c5482bcbb5362d1341ca0936359b42557bf358317ec9d4230e7bcb",
+        "wiktionary:en-you-en-verb-en:verb:a6085b254da7b75e65974d0bc4e115285dc0e37601b771c51d927e30ea4efa6e"
+      ],
+      "entry_id": null,
+      "family": "concreteness",
+      "features": {
+        "concreteness": 4.11,
+        "known_percent": 27.0,
+        "lemma": "you",
+        "n_ratings": 30,
+        "word": "you"
+      },
+      "record_id": "concreteness:you:17ff6c9a5288d6a2b88bf7e7f32ab6336103275d09624505b3b66505c7d867ad",
+      "scope": "association",
+      "source": "concreteness"
+    },
+    {
+      "candidate_entry_ids": [
+        "gse_closed_class:pronoun:you"
+      ],
+      "entry_id": "gse_closed_class:pronoun:you",
+      "family": "gse_curated_grammar",
+      "features": {
+        "catalog": "pronoun",
+        "cohort": "MANDATORY_FOUNDATION_COHORT",
+        "definition": "Curated GSE pronoun use of 'you'. Declared lexical components: SOMEONE=+1. Grammatical features: {\"animacy\": \"ANIMATE\", \"gram\": {\"case\": \"NOM\", \"person\": 2}}.",
+        "entry_id": "gse_closed_class:pronoun:you",
+        "grammar_roles": [
+          "PRON"
+        ],
+        "grammatical_features": {
+          "animacy": "ANIMATE",
+          "gram": {
+            "case": "NOM",
+            "person": 2
+          }
+        },
+        "lemma": "you",
+        "native_encodings": [
+          {
+            "key": "you",
+            "module": "gse.lexicon.pronouns",
+            "symbol": "PRONOUN_ENCODINGS",
+            "value": {
+              "animacy": "ANIMATE",
+              "gram": {
+                "case": "NOM",
+                "person": 2
+              },
+              "primitives": {
+                "SOMEONE": 1
+              }
+            }
+          }
+        ],
+        "pos": "pronoun",
+        "primitives": {
+          "SOMEONE": 1
+        },
+        "provenance": [
+          "gse.lexicon.pronouns:PRONOUN_ENCODINGS:you"
+        ]
+      },
+      "record_id": "gse_closed_class:you:fbff12e440d68d97d943dd6e45a5ff93016a4fe8fe259c2c1e91e114ef17165b",
+      "scope": "lexical",
+      "source": "gse_closed_class"
+    },
+    {
+      "candidate_entry_ids": [
+        "gse_closed_class:pronoun:you",
+        "wiktionary:en-You-en-name-0mwj1dYY:7234799d123248384c3484c387b692b48d20910a2b9dc802284d97c3ffd7624b",
+        "wiktionary:en-You-en-name-D6-sNozV:dc51e3c48f665cca6ad321b7a04562ddfe2bd9a092c70d12ec980d043e729d05",
+        "wiktionary:en-You-en-name-j8uMPsK5:a9147949697f6d435e78334c0782cc583f11017268be883b08dec5d6303d3b9e",
+        "wiktionary:en-You-en-pron-xI8HvWFm:9a4843015ee1e368f28fc60cf88240ef0dd2812f22b7f698d6cdd53205fdd5e2",
+        "wiktionary:en-you-en-det-UalyzIdG:d04627490a2714881a4178559595efe9f28cff73b7a305e51d243697bbad62f1",
+        "wiktionary:en-you-en-det-cETw4r4E:c2d9737029a6e6b714fc84955a847f0550b8590fd621db3e61186923b1edf8e3",
+        "wiktionary:en-you-en-det-ppKe~vKx:a3b429ce71e000e71911e421b6b42cf0aa906db74d3300276f8bb83cd105d372",
+        "wiktionary:en-you-en-noun-2YsMsj8i:1a8439a0a38c9ceda0caa33ff6c2362469673c22b330b24292e5176d7be33894",
+        "wiktionary:en-you-en-pron-2LSqalKj:9668929a339a55583add1f0d51a0efbb36feddcabea20443226ca03da474da55",
+        "wiktionary:en-you-en-pron-HaQwzWRI:1295d3d5da7dba78418a90d60168f97d251449dce1d5103ed163a088427e1b70",
+        "wiktionary:en-you-en-pron-M7hbUBCF:d42e9c16442d37ceb686b1d8af8566d0be8e70ac86931168ccc00c8cd448cf8b",
+        "wiktionary:en-you-en-pron-en:dummy:9e5fbc823fa9cd6a73eca0b8cbace4e052e1290f9d58efd5c63c5bdc14b7e3a8",
+        "wiktionary:en-you-en-pron-en:indefinite:8f3e6ad44f8472d9822a64093a60cee3f0eaa9dea9048db393e675b3b14a63a3",
+        "wiktionary:en-you-en-pron-rwcdiI~X:d0073ae2c947dca6309e0fa19f668f1f93df915c15338c687a4c083768cac625",
+        "wiktionary:en-you-en-pron-yQF~npAz:733d2918c05b6c41545666e5f0135845c02336d845c373b46f45117d7b0d0c1b",
+        "wiktionary:en-you-en-pron-zMxwQ80H:369966d845c5482bcbb5362d1341ca0936359b42557bf358317ec9d4230e7bcb",
+        "wiktionary:en-you-en-verb-en:verb:a6085b254da7b75e65974d0bc4e115285dc0e37601b771c51d927e30ea4efa6e"
+      ],
+      "entry_id": null,
+      "family": "lancaster_sensorimotor",
+      "features": {
+        "auditory": 2.5,
+        "dominant_action": "head",
+        "dominant_perceptual": "interoceptive",
+        "foot_leg": 3.263,
+        "gustatory": 0.556,
+        "hand_arm": 3.526,
+        "haptic": 3.0,
+        "head": 4.421,
+        "interoceptive": 3.722,
+        "lemma": "you",
+        "max_action": 4.421,
+        "max_perceptual": 3.722,
+        "mouth": 3.842,
+        "olfactory": 1.389,
+        "raw_extra_fields": [],
+        "raw_fields": {
+          "Auditory.mean": "2.5",
+          "Foot_leg.mean": "3.263",
+          "Gustatory.mean": "0.556",
+          "Hand_arm.mean": "3.526",
+          "Haptic.mean": "3",
+          "Head.mean": "4.421",
+          "Interoceptive.mean": "3.722",
+          "Mouth.mean": "3.842",
+          "Olfactory.mean": "1.389",
+          "Torso.mean": "3.526",
+          "Visual.mean": "3.556",
+          "Word": "YOU"
+        },
+        "torso": 3.526,
+        "visual": 3.556,
+        "word": "you"
+      },
+      "record_id": "lancaster_sensorimotor:you:d9671f5907a6c7c4461b12a9515f11c7ca25595da248fa536d45033c939d1766",
+      "scope": "association",
+      "source": "lancaster_sensorimotor"
+    }
+  ],
+  "registry_source_units": [
+    {
+      "path": "/Users/rohanvinaik/Projects/gse/gse/primitives_v2.py",
+      "symbol": "BANK_4_UNIPOLAR",
+      "first_line": 338,
+      "source": "BANK_4_UNIPOLAR = [\n    \"SAY\",  # Speech act\n    \"WORDS\",  # Linguistic content\n    \"DO\",  # Agentive action\n    \"HAPPEN\",  # Non-agentive event\n    \"MOVE\",  # Change of location\n    \"BE\",  # Stative existence\n    \"HAVE\",  # Possession\n    \"EXIST\",  # Ontological status\n]"
+    }
+  ],
+  "database_writes": 0,
+  "model_calls": 0
+}

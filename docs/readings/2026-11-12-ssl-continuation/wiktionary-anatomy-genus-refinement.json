@@ -1,0 +1,3195 @@
+{
+  "active_pointer_sha256": "449020ca41a461a7d418e4bdffe402da5c0798cb98444c5f88e7ecf6acd099b5",
+  "authority": "STAGED_SCOPE_WARRANT_AND_REVIEW_REQUIRED",
+  "candidate_sha256": "2e46555f1801a87f326c167a6fd8a3efdf45192f6d7f14d8b9a9e4fcf177d8c7",
+  "candidate_writes": false,
+  "format": "gse.wiktionary-anatomy-genus-refinement/1",
+  "frequency_source": {
+    "excluded_count": 1,
+    "excluded_records": [
+      {
+        "code": "MISSING_WORD",
+        "count": 27,
+        "csv_line": 21732,
+        "record_number": 21731
+      }
+    ],
+    "frequency_column": "SUBTLEX",
+    "included_words": 39953,
+    "mode": "zipf",
+    "ordering": "DESCENDING_POSITIVE_COUNT_THEN_CONSTRAINT_PRIORITY_THEN_DEFINITION_ID",
+    "policy": "gse.completion-priority/subtlex-count-order/2",
+    "ranked_words": 28902,
+    "rows": 39954,
+    "score": "MONOTONIC_ZIPF_ORDER_NOT_ABSOLUTE_ZIPF_SCORE",
+    "semantic_authority": "NONE_SCHEDULING_ONLY",
+    "sha256": "fa636292ba0b1b5cf4d6d335690ddcf3a162e4a8204124d95c64e795eb336226",
+    "source": "/Users/rohanvinaik/Projects/gse/data/external/concreteness.csv",
+    "unranked": "ZERO_OR_ABSENT_FREQUENCY_LAST_NOT_SEMANTIC_ZERO",
+    "word_column": "Word",
+    "zero_count_words": 11051
+  },
+  "proposal": {
+    "bank": "BODY",
+    "sign": 1
+  },
+  "proposed_audit_ids": [
+    "wiktionary:en-heart-en-noun-en:Q1072:181adf258580fcb213e17539d733e06f42748edd8540a6e0b1d3b165d6257de4",
+    "wiktionary:en-tail-en-noun-~hkk8LGA:fbf9dc45e433ed39e373586271ef3bed529ba747ab4348017ffa1103b9d48722",
+    "wiktionary:en-radius-en-noun-BnGNiC-k:454474dc4f700836ee9c922a14d28a327bfb359048348f79efd6a2ed6234774f"
+  ],
+  "rows": [
+    {
+      "after_genus": [
+        "that",
+        "PRON",
+        "that"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "A muscular organ that pumps blood through the body, traditionally thought to be the seat of emotion.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-heart-en-noun-en:Q1072:181adf258580fcb213e17539d733e06f42748edd8540a6e0b1d3b165d6257de4",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "muscular",
+          "ADJ",
+          "muscular"
+        ],
+        [
+          "organ",
+          "NOUN",
+          "organ"
+        ]
+      ],
+      "lemma": "heart",
+      "native_source_record": "wiktionary:heart:5f4603b5e0e6bdc46173a6b01a4528215ea18b52b7abb82c3d5bd836cc75a6bd",
+      "subtlex": 12453
+    },
+    {
+      "after_genus": [
+        "of",
+        "ADP",
+        "of"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "The distal tendon of a muscle.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-tail-en-noun-~hkk8LGA:fbf9dc45e433ed39e373586271ef3bed529ba747ab4348017ffa1103b9d48722",
+      "genus_witness": [
+        [
+          "The",
+          "DET",
+          "the"
+        ],
+        [
+          "distal",
+          "ADJ",
+          "distal"
+        ],
+        [
+          "tendon",
+          "NOUN",
+          "tendon"
+        ]
+      ],
+      "lemma": "tail",
+      "native_source_record": "wiktionary:tail:bfcc2e4a663f0bf469ce99f8faef1fc1d4accc10a1ee36ea3533bb799e368999",
+      "subtlex": 1219
+    },
+    {
+      "after_genus": [
+        "in",
+        "ADP",
+        "in"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "A large organ in the body that stores and metabolizes nutrients, destroys toxins and produces bile. It is responsible for thousands of biochemical reactions.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-liver-en-noun-7DT1YtAk:a067cc809939b1bf8358f8b3619d291320709f3725222166ffcc472711f82053",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "large",
+          "ADJ",
+          "large"
+        ],
+        [
+          "organ",
+          "NOUN",
+          "organ"
+        ]
+      ],
+      "lemma": "liver",
+      "native_source_record": "wiktionary:liver:067d4e8fa9c3b1275c281327e620713b1307fec604d7478c296953795e6770cd",
+      "subtlex": 729
+    },
+    {
+      "after_genus": [
+        "of",
+        "ADP",
+        "of"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "A biological organ of vertebrates that controls breathing and oxygenates the blood.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-lung-en-noun-rbqNN2WD:a17a6d74ce73c390545589b33af042053be94ffe9e17f65863a160ece5067569",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "biological",
+          "ADJ",
+          "biological"
+        ],
+        [
+          "organ",
+          "NOUN",
+          "organ"
+        ]
+      ],
+      "lemma": "lung",
+      "native_source_record": "wiktionary:lung:36bb044a24027538b30639ed27158e271c06b31381a76d7b24f42602657eb894",
+      "subtlex": 420
+    },
+    {
+      "after_genus": [
+        "in",
+        "ADP",
+        "in"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "The long bone in the forearm, on the side of the thumb.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-radius-en-noun-BnGNiC-k:454474dc4f700836ee9c922a14d28a327bfb359048348f79efd6a2ed6234774f",
+      "genus_witness": [
+        [
+          "The",
+          "DET",
+          "the"
+        ],
+        [
+          "long",
+          "ADJ",
+          "long"
+        ],
+        [
+          "bone",
+          "NOUN",
+          "bone"
+        ]
+      ],
+      "lemma": "radius",
+      "native_source_record": "wiktionary:radius:0458dd4e80d912fc21f3a47caa89a98529dec486077979ac1d47eb0ff2a5ac25",
+      "subtlex": 224
+    },
+    {
+      "after_genus": [
+        "that",
+        "PRON",
+        "that"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "A short vein that carries blood into the liver.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-portal-en-noun-lNUrreMk:dd9c1f9beaa26c752d3ed4adef628139f5b6fc32914abd9fb484bcd09b298a7d",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "short",
+          "ADJ",
+          "short"
+        ],
+        [
+          "vein",
+          "NOUN",
+          "vein"
+        ]
+      ],
+      "lemma": "portal",
+      "native_source_record": "wiktionary:portal:7f542d1a136a567cc9d605471b207885c1ec2d4201771bfee52dafaeaae1451b",
+      "subtlex": 222
+    },
+    {
+      "after_genus": [
+        ".",
+        "PUNCT",
+        "."
+      ],
+      "code": "GENUS_BEFORE_CLAUSE_BOUNDARY",
+      "definition": "A sympathetic nerve.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-sympathetic-en-noun-L4X~zurR:d409825d99db5fd747e575c1c3101e658866b6a75be08621f8e685cffe9ee9aa",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "sympathetic",
+          "ADJ",
+          "sympathetic"
+        ],
+        [
+          "nerve",
+          "NOUN",
+          "nerve"
+        ]
+      ],
+      "lemma": "sympathetic",
+      "native_source_record": "wiktionary:sympathetic:4945ce3b63bab9481ea45a64223f3ed7eed68238ca02f2f78b69ce0a3b21b3fa",
+      "subtlex": 194
+    },
+    {
+      "after_genus": [
+        ".",
+        "PUNCT",
+        "."
+      ],
+      "code": "GENUS_BEFORE_CLAUSE_BOUNDARY",
+      "definition": "A turbinate bone.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-scroll-en-noun-BfGF6gfl:a594e4186ab814cfc1bce8c31b0d9b6a68f39b7245ec7e6a8678073b35560d67",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "turbinate",
+          "ADJ",
+          "turbinate"
+        ],
+        [
+          "bone",
+          "NOUN",
+          "bone"
+        ]
+      ],
+      "lemma": "scroll",
+      "native_source_record": "wiktionary:scroll:fb67bd3baa5747e18d47cdaa6454789b9f97a26586550d5edd097689702864d9",
+      "subtlex": 116
+    },
+    {
+      "after_genus": [
+        "of",
+        "ADP",
+        "of"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "A reproductive organ of therian mammals in which the young are conceived and develop until birth.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-uterus-en-noun-tbgLMDu6:2ca172324d086a083d99000ff64cab08658702e6a915fc41674e36f2f8d70bbb",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "reproductive",
+          "ADJ",
+          "reproductive"
+        ],
+        [
+          "organ",
+          "NOUN",
+          "organ"
+        ]
+      ],
+      "lemma": "uterus",
+      "native_source_record": "wiktionary:uterus:45ad504ff80b3282f14220efb0483a8a4c38be18dcd0eea6f56f01c41fd2041a",
+      "subtlex": 92
+    },
+    {
+      "after_genus": [
+        "which",
+        "PRON",
+        "which"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "The great artery which carries the blood from the heart to all parts of the body except the lungs; the main trunk of the arterial system.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-aorta-en-noun-en:Q101004:7843be2899d20ac10865cd43e641d8676622d7285f1b7bcaf47ecb0e914a658e",
+      "genus_witness": [
+        [
+          "The",
+          "DET",
+          "the"
+        ],
+        [
+          "great",
+          "ADJ",
+          "great"
+        ],
+        [
+          "artery",
+          "NOUN",
+          "artery"
+        ]
+      ],
+      "lemma": "aorta",
+      "native_source_record": "wiktionary:aorta:71611c76d664b42c534525d2e6cd85375043ae2de648d88c6d22c3c33ff6c26d",
+      "subtlex": 78
+    },
+    {
+      "after_genus": [
+        "near",
+        "ADP",
+        "near"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "A gland near the stomach which secretes a fluid into the duodenum to assist with food digestion.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-pancreas-en-noun-y0qWM6Sy:f53e26107a852a1d2cac61e0a561a67570daa747e3c38c6f70618c6d61f94225",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "gland",
+          "NOUN",
+          "gland"
+        ]
+      ],
+      "lemma": "pancreas",
+      "native_source_record": "wiktionary:pancreas:9144e631e4fcda42298639eaa5031a1c3b75655d2165167cf1b957c1a103dc7c",
+      "subtlex": 40
+    },
+    {
+      "after_genus": [
+        ";",
+        "PUNCT",
+        ";"
+      ],
+      "code": "GENUS_BEFORE_CLAUSE_BOUNDARY",
+      "definition": "The pituitary gland; sometimes including together with the pituitary stalk.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-pituitary-en-noun-f9exTaqP:14ccb9942430b06e122f60c0ceaeaabdedd6747589f3af000c1f6877d0467244",
+      "genus_witness": [
+        [
+          "The",
+          "DET",
+          "the"
+        ],
+        [
+          "pituitary",
+          "ADJ",
+          "pituitary"
+        ],
+        [
+          "gland",
+          "NOUN",
+          "gland"
+        ]
+      ],
+      "lemma": "pituitary",
+      "native_source_record": "wiktionary:pituitary:718885e08465f23c895e91b0aca88f82511d906d1ecf3b4334d4080738864da0",
+      "subtlex": 32
+    },
+    {
+      "after_genus": [
+        "that",
+        "PRON",
+        "that"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "A muscle that compresses certain parts.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-compressor-en-noun-THhe5IE9:0f57d51ac6153e3f0eb3d4660d3637edd956935f32adcbdecf70bab6c17b707d",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "muscle",
+          "NOUN",
+          "muscle"
+        ]
+      ],
+      "lemma": "compressor",
+      "native_source_record": "wiktionary:compressor:dafd6a2db5140eceef6167dace86878afa42050af79630d7e6b9728755b503c4",
+      "subtlex": 25
+    },
+    {
+      "after_genus": [
+        "in",
+        "ADP",
+        "in"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "An organ in most mammals during gestation that supplies food and oxygen to the foetus and passes back waste. It is on the wall of the uterus and links to the foetus through the umbilical cord. It is expelled after birth.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-placenta-en-noun-hq5KfEnM:1a59d37e8d80654f4d28cefb94c186837d5d38a8c688be9b8a0496dbe8f92f81",
+      "genus_witness": [
+        [
+          "An",
+          "DET",
+          "an"
+        ],
+        [
+          "organ",
+          "NOUN",
+          "organ"
+        ]
+      ],
+      "lemma": "placenta",
+      "native_source_record": "wiktionary:placenta:81806c29f01252d6cc543341bb37dcdc5d3aeef2a2a1782e3b9d7ac2405d6d12",
+      "subtlex": 24
+    },
+    {
+      "after_genus": [
+        "or",
+        "CCONJ",
+        "or"
+      ],
+      "code": "GENUS_ATTACHMENT_REQUIRES_REVIEW",
+      "definition": "A central vein or nerve, especially the median vein or median nerve running through the forearm and arm.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-median-en-noun-en:anatomy__a_central_vein_or_nerve:4f1511551e9d7835663d89c249d653538b0e851ae9f3cd30c9884bd569633435",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "central",
+          "ADJ",
+          "central"
+        ],
+        [
+          "vein",
+          "NOUN",
+          "vein"
+        ]
+      ],
+      "lemma": "median",
+      "native_source_record": "wiktionary:median:bd0a7da7336bd7d85f9665e1ded33064af17d324e48267bb7371d7769e48d674",
+      "subtlex": 20
+    },
+    {
+      "after_genus": [
+        "which",
+        "PRON",
+        "which"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "A muscle which serves to draw a part out, or from the median line of the body",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-abductor-en-noun-en:muscle:36de24cd3ff4468715f559a35c0868b96d80b0afa45b36101a30248010ce5b72",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "muscle",
+          "NOUN",
+          "muscle"
+        ]
+      ],
+      "lemma": "abductor",
+      "native_source_record": "wiktionary:abductor:cb6e9711b00dbb3bab2a0adc4f034e7a9a69f8eb28e0a4511838cc867d43edb7",
+      "subtlex": 18
+    },
+    {
+      "after_genus": [
+        "-",
+        "PUNCT",
+        "-"
+      ],
+      "code": "GENUS_ATTACHMENT_REQUIRES_REVIEW",
+      "definition": "The nerve-dense, retractable fold of skin which covers and protects the glans of the penis in humans and some other mammals.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-foreskin-en-noun-en:Q673203:aef23c38eb729e516cfbb67c59aadef90a2b1ba018b8a8da6ee97778e766cec3",
+      "genus_witness": [
+        [
+          "The",
+          "DET",
+          "the"
+        ],
+        [
+          "nerve",
+          "NOUN",
+          "nerve"
+        ]
+      ],
+      "lemma": "foreskin",
+      "native_source_record": "wiktionary:foreskin:54909d3bb46e96a7d4adfdc58b3a79f46146e9fec497b770b48793ceba4a5406",
+      "subtlex": 18
+    },
+    {
+      "after_genus": [
+        "which",
+        "PRON",
+        "which"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "A vein which drains into another vein.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-tributary-en-noun-wFP184tz:a0074e3470f6f1b74b2d56df2702f21975da6a848f9e7e0c15d145afefc18fc6",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "vein",
+          "NOUN",
+          "vein"
+        ]
+      ],
+      "lemma": "tributary",
+      "native_source_record": "wiktionary:tributary:2203391e5d1bf713cd87f5ca80eabcbd591b87cd93114a15a74a865fdddb726a",
+      "subtlex": 16
+    },
+    {
+      "after_genus": [
+        "of",
+        "ADP",
+        "of"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "The bone of the upper arm.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-humerus-en-noun-MPVGkUN0:8310b08a58d50567cacf72a6591bf9b03adc3ce97191f4a863f6d80a2168fb75",
+      "genus_witness": [
+        [
+          "The",
+          "DET",
+          "the"
+        ],
+        [
+          "bone",
+          "NOUN",
+          "bone"
+        ]
+      ],
+      "lemma": "humerus",
+      "native_source_record": "wiktionary:humerus:6109f4b410923cbc6b4648c8d11b3ed0f1f6eb72ac3a62050381bd226415d68f",
+      "subtlex": 14
+    },
+    {
+      "after_genus": [
+        "that",
+        "PRON",
+        "that"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "A muscle that acts in opposition to another.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-antagonist-en-noun-WtWyV2i6:c52a7fb30ec11fdc9bfb05cfd954097f81ee582b1225bcd97ff0adbee5357761",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "muscle",
+          "NOUN",
+          "muscle"
+        ]
+      ],
+      "lemma": "antagonist",
+      "native_source_record": "wiktionary:antagonist:830642d6e28f73ae4e72e6678960610ede3b210d1f48b76533c3e2c2f1298752",
+      "subtlex": 13
+    },
+    {
+      "after_genus": [
+        "in",
+        "ADP",
+        "in"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "A bone in the base of the lower jaw of many birds, reptiles, and fishes.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-angular-en-noun-yXmtzXxC:c9b697c4ab3dd51a2a33e9cc9152fbe0ed50d5532819265251d6c857775addc6",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "bone",
+          "NOUN",
+          "bone"
+        ]
+      ],
+      "lemma": "angular",
+      "native_source_record": "wiktionary:angular:d71372f6cc6de0da43e11c03a94c075090ff34e1d88fc762833bd6bebdd21dd4",
+      "subtlex": 7
+    },
+    {
+      "after_genus": [
+        "having",
+        "VERB",
+        "have"
+      ],
+      "code": "GENUS_ATTACHMENT_REQUIRES_REVIEW",
+      "definition": "A muscle having four heads, especially the large extensor at the front of the thigh.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-quadriceps-en-noun-ZH84nFYV:94220b0ebc990049c8603c50aa7e237eccaacd4fd1b1f30f2c38aa513e298ed9",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "muscle",
+          "NOUN",
+          "muscle"
+        ]
+      ],
+      "lemma": "quadriceps",
+      "native_source_record": "wiktionary:quadriceps:c077f880321c61fd1b7ab5780f5dfe17495d21816c617c56663d6fdce6f31103",
+      "subtlex": 4
+    },
+    {
+      "after_genus": [
+        "that",
+        "PRON",
+        "that"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "A muscle that extends an organ or part; opposed to retractor.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-protractor-en-noun-Ihw-V~Fl:079dae44655980dd6f5f93907f5844fc006e1daaa9672ba9905d4036deb8aabf",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "muscle",
+          "NOUN",
+          "muscle"
+        ]
+      ],
+      "lemma": "protractor",
+      "native_source_record": "wiktionary:protractor:99c3e05ba8cdb6addbd606cc3dcbd330907af3d10bb5d8559cc7247f35f2957c",
+      "subtlex": 3
+    },
+    {
+      "after_genus": [
+        "that",
+        "PRON",
+        "that"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "The bone that extends from the pelvis to the knee in humans; the femur.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-thighbone-en-noun-eXy~2bgD:deedac114f97230a13bec5dee5fe4f89a509522b62a1dee7b859f68920dd475a",
+      "genus_witness": [
+        [
+          "The",
+          "DET",
+          "the"
+        ],
+        [
+          "bone",
+          "NOUN",
+          "bone"
+        ]
+      ],
+      "lemma": "thighbone",
+      "native_source_record": "wiktionary:thighbone:ff48dfd9e1d4cf87c65f47a68ab0b28f749662c4e2b8b9ce75091fde63caa08d",
+      "subtlex": 2
+    },
+    {
+      "after_genus": [
+        "which",
+        "PRON",
+        "which"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "A muscle which draws a limb or part of the body toward the middle line of the body, or closes extended parts of the body\u2014opposed to abductor.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-adductor-en-noun-en:Q66572230:51171172765721ef38a93a5eaa9c9e9e3beb6b9d183450abdac81222a7021a1f",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "muscle",
+          "NOUN",
+          "muscle"
+        ]
+      ],
+      "lemma": "adductor",
+      "native_source_record": "wiktionary:adductor:2ef6ae5494b5c112de3e1ceef05f33861e84d18dcc3a5b1c6cf0beae132ccd63",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        "tissue",
+        "NOUN",
+        "tissue"
+      ],
+      "code": "GENUS_ATTACHMENT_REQUIRES_REVIEW",
+      "definition": "The white nerve tissue of the cerebellum that has a branching structure.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-arborvitae-en-noun-en:nerve_tissue:70a53c8532f25554ef7f924947ecb63bf7b5fbc01e29fe6237a6aa894a3b75a1",
+      "genus_witness": [
+        [
+          "The",
+          "DET",
+          "the"
+        ],
+        [
+          "white",
+          "ADJ",
+          "white"
+        ],
+        [
+          "nerve",
+          "NOUN",
+          "nerve"
+        ]
+      ],
+      "lemma": "arborvitae",
+      "native_source_record": "wiktionary:arborvitae:6820fdabb20f808a8c3fef780fdd70dd64e84a5c2cd0f0a06105e2c017104293",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        ";",
+        "PUNCT",
+        ";"
+      ],
+      "code": "GENUS_BEFORE_CLAUSE_BOUNDARY",
+      "definition": "The articular bone; a bone in the lower jaw of many birds, reptiles, amphibians, and fishes.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-articulary-en-noun-v3vh3A~V:667d1e65e5f06abcb4d0c8c5d41c9bf9aa132aa72139c44b8c7f991a21fe1c4a",
+      "genus_witness": [
+        [
+          "The",
+          "DET",
+          "the"
+        ],
+        [
+          "articular",
+          "ADJ",
+          "articular"
+        ],
+        [
+          "bone",
+          "NOUN",
+          "bone"
+        ]
+      ],
+      "lemma": "articulary",
+      "native_source_record": "wiktionary:articulary:76a82b66ba5b59c0a449f566a15e79e33d4580101d6a0aa04b2d6cea640ef1c1",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        "ending",
+        "VERB",
+        "end"
+      ],
+      "code": "GENUS_ATTACHMENT_REQUIRES_REVIEW",
+      "definition": "A nerve ending that is sensitive to changes in blood pressure.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-baroreceptor-en-noun-1YAw-RLH:132be0898e8e7ba5e0adc319ba8b305026715e849f2f66a2896593f00d9eb3c3",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "nerve",
+          "NOUN",
+          "nerve"
+        ]
+      ],
+      "lemma": "baroreceptor",
+      "native_source_record": "wiktionary:baroreceptor:3aa81f2348ad65f6414adb900961929c4ece7c79418776429094dee7dae361ac",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        "of",
+        "ADP",
+        "of"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "The capitate bone of the wrist.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-capitate-en-noun-ajsdoh6H:6112c1204843c400f640832aeaf370490449ff2f5f13d39452ce3976086cd2fc",
+      "genus_witness": [
+        [
+          "The",
+          "DET",
+          "the"
+        ],
+        [
+          "capitate",
+          "ADJ",
+          "capitate"
+        ],
+        [
+          "bone",
+          "NOUN",
+          "bone"
+        ]
+      ],
+      "lemma": "capitate",
+      "native_source_record": "wiktionary:capitate:20b7f90a3340b74f5e26aa25a912a9cfbd4dacaf5ca41c6f6e6ff797b551fc1e",
+      "subtlex": 0
+    },
+    {
+      "after_genus": null,
+      "code": "GENUS_AT_GLOSS_END",
+      "definition": "The pineal gland",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-conoid-en-noun-B5N45GWs:0e964eefe70cf2891d2c0f30433ccfc3597866fffe656e6af02da9c5c63f19fd",
+      "genus_witness": [
+        [
+          "The",
+          "DET",
+          "the"
+        ],
+        [
+          "pineal",
+          "ADJ",
+          "pineal"
+        ],
+        [
+          "gland",
+          "NOUN",
+          "gland"
+        ]
+      ],
+      "lemma": "conoid",
+      "native_source_record": "wiktionary:conoid:fd69607c2f89e9e20316190e168e1feb7a09d5fd749ce26624cc5c8c22919680",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        ".",
+        "PUNCT",
+        "."
+      ],
+      "code": "GENUS_BEFORE_CLAUSE_BOUNDARY",
+      "definition": "The cuboid bone.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-cuboid-en-noun-uPqNkSua:7b1c7798233e6b8b25219eafbf6eb0b1d49a688f2c9c2968be627cd1ae0da256",
+      "genus_witness": [
+        [
+          "The",
+          "DET",
+          "the"
+        ],
+        [
+          "cuboid",
+          "ADJ",
+          "cuboid"
+        ],
+        [
+          "bone",
+          "NOUN",
+          "bone"
+        ]
+      ],
+      "lemma": "cuboid",
+      "native_source_record": "wiktionary:cuboid:62ba4e67d2bdf3d868c87ec6fbe10aca5a19e6192ec10f309e60cc04da1558c3",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        ",",
+        "PUNCT",
+        ","
+      ],
+      "code": "GENUS_BEFORE_CLAUSE_BOUNDARY",
+      "definition": "The deltoid ligament, a triangular ligament on the human ankle.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-deltoid-en-noun-5uS9I7N5:7b685203ce06d6dd58432e185382d660ed2aebda8490713fa49a243b4071baf4",
+      "genus_witness": [
+        [
+          "The",
+          "DET",
+          "the"
+        ],
+        [
+          "deltoid",
+          "ADJ",
+          "deltoid"
+        ],
+        [
+          "ligament",
+          "NOUN",
+          "ligament"
+        ]
+      ],
+      "lemma": "deltoid",
+      "native_source_record": "wiktionary:deltoid:a66ddbe8c439b97aadca7e3567d55f60e170111c85371a522a42092f2b8710ab",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        ",",
+        "PUNCT",
+        ","
+      ],
+      "code": "GENUS_BEFORE_CLAUSE_BOUNDARY",
+      "definition": "The deltoid muscle, a triangular muscle on the human shoulder.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-deltoid-en-noun-WFQOalAu:7883b760ea025a06f7faabfdd47a46ad3602fe7290bd0d5f2d2aa082227f14eb",
+      "genus_witness": [
+        [
+          "The",
+          "DET",
+          "the"
+        ],
+        [
+          "deltoid",
+          "ADJ",
+          "deltoid"
+        ],
+        [
+          "muscle",
+          "NOUN",
+          "muscle"
+        ]
+      ],
+      "lemma": "deltoid",
+      "native_source_record": "wiktionary:deltoid:adfc3ae996d150b6c8ff688752509fbfcdcacc60a0545ec0657810460de29c82",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        "fibre",
+        "NOUN",
+        "fibre"
+      ],
+      "code": "GENUS_ATTACHMENT_REQUIRES_REVIEW",
+      "definition": "A modified muscle fibre in the form of a flattened discoid at a neuromuscular junction.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-endplate-en-noun-X2IV3m5B:597d063ca5f729b4f74b8af4f7d0b2a5c4859cd6fdd2727c3c2721a0ddd95a26",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "modified",
+          "ADJ",
+          "modified"
+        ],
+        [
+          "muscle",
+          "NOUN",
+          "muscle"
+        ]
+      ],
+      "lemma": "endplate",
+      "native_source_record": "wiktionary:endplate:5dfb924b1746a59615e2b8400ddbc9ccc427e74730cd1d04ce042d333a23ab04",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        "in",
+        "ADP",
+        "in"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "A cartilaginous organ in the throat of terrestrial vertebrates covering the glottis when swallowing to prevent food and liquid from entering the trachea, and in Homo sapiens also a speech organ.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-epiglottis-en-noun-VRfrlQdq:9323ca2ac23e5a17546dbcd16609a712eedf979158a0e8be9bc89d8a4c4d00bc",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "cartilaginous",
+          "ADJ",
+          "cartilaginous"
+        ],
+        [
+          "organ",
+          "NOUN",
+          "organ"
+        ]
+      ],
+      "lemma": "epiglottis",
+      "native_source_record": "wiktionary:epiglottis:f88bb594aa2b99c025d40b1379e95aed6144f130c2e66c8ac39c385d1613ce04",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        ".",
+        "PUNCT",
+        "."
+      ],
+      "code": "GENUS_BEFORE_CLAUSE_BOUNDARY",
+      "definition": "The pineal gland.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-epiphysis-en-noun-rQSRqTxP:07b5222228b91aca913a9794860cae385d0ea7bcf62440e8f17293368db9ae69",
+      "genus_witness": [
+        [
+          "The",
+          "DET",
+          "the"
+        ],
+        [
+          "pineal",
+          "ADJ",
+          "pineal"
+        ],
+        [
+          "gland",
+          "NOUN",
+          "gland"
+        ]
+      ],
+      "lemma": "epiphysis",
+      "native_source_record": "wiktionary:epiphysis:2db2fd6843aafad187cad4aa2552cf6de2c098c61a2c6fa505f2655b2dad0a28",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        "whose",
+        "PRON",
+        "whose"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "A muscle whose contraction extends or straightens a limb or body part.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-extensor-en-noun-PHENi7bj:00be7890612e6714750c70cc1be2ab11ec2aa67918ded3201d211313a68b58b7",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "muscle",
+          "NOUN",
+          "muscle"
+        ]
+      ],
+      "lemma": "extensor",
+      "native_source_record": "wiktionary:extensor:69279f8a231243087a959fbcfc135fd113c56e0dd736557334b957c9fce4fb36",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        "twitch",
+        "NOUN",
+        "twitch"
+      ],
+      "code": "GENUS_ATTACHMENT_REQUIRES_REVIEW",
+      "definition": "An involuntary muscle twitch, usually localised and temporary, but that may be intensified and prolonged fatally by particular poisons and venoms such as acetylcholinesterase inhibitors.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-fasciculation-en-noun-~yjlyCSX:7f435070c545adf15bb713208083f14060edf5c86c6c5face13bfdfc2851d522",
+      "genus_witness": [
+        [
+          "An",
+          "DET",
+          "an"
+        ],
+        [
+          "involuntary",
+          "ADJ",
+          "involuntary"
+        ],
+        [
+          "muscle",
+          "NOUN",
+          "muscle"
+        ]
+      ],
+      "lemma": "fasciculation",
+      "native_source_record": "wiktionary:fasciculation:fd0ae61335fd7dc854460d0a0e5ae16271519640733b1668cb22f3c827dddcc4",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        "or",
+        "CCONJ",
+        "or"
+      ],
+      "code": "GENUS_ATTACHMENT_REQUIRES_REVIEW",
+      "definition": "The tendons or other structures resembling cords once thought to be attached to, or to brace, the heart; especially the aorta, pulmonary artery, and other large arteries connected to them; also, the diaphragm.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-heartstrings-en-noun-w0hef0SD:3d9ab22915d72fb789d0ba829c56d5b7bb121310b4851d72db09c71b9f9a26bc",
+      "genus_witness": [
+        [
+          "The",
+          "DET",
+          "the"
+        ],
+        [
+          "tendons",
+          "NOUN",
+          "tendon"
+        ]
+      ],
+      "lemma": "heartstrings",
+      "native_source_record": "wiktionary:heartstrings:2f98ca9ead2b917598c2eff08e52dc9420b327c01ebdf008ba637f0e9bc4e5e0",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        "of",
+        "ADP",
+        "of"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "The bone of the heel; the calcaneus.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-heelbone-en-noun-63Or-k6k:cf59723cb589aee380e52575b9f3ef6be03d02b6e1b1d08e8646cd24219366e5",
+      "genus_witness": [
+        [
+          "The",
+          "DET",
+          "the"
+        ],
+        [
+          "bone",
+          "NOUN",
+          "bone"
+        ]
+      ],
+      "lemma": "heelbone",
+      "native_source_record": "wiktionary:heelbone:ea4aa6f7d583ab7fd0334f06dcbe5d7018e9ca9fa4f3a7e38f030e76c1b22e4f",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        ".",
+        "PUNCT",
+        "."
+      ],
+      "code": "GENUS_BEFORE_CLAUSE_BOUNDARY",
+      "definition": "The pituitary gland.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-hypophysis-en-noun-sU-qlD0-:6f574112c904a5302b16a3464c22f9bd8ec5da9732331ad5d352bd1ad6fb7052",
+      "genus_witness": [
+        [
+          "The",
+          "DET",
+          "the"
+        ],
+        [
+          "pituitary",
+          "ADJ",
+          "pituitary"
+        ],
+        [
+          "gland",
+          "NOUN",
+          "gland"
+        ]
+      ],
+      "lemma": "hypophysis",
+      "native_source_record": "wiktionary:hypophysis:be0afdd01b2c3e33f3a075aa70af3c32ba4cef7538465991ec84cfbda9e8a211",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        ".",
+        "PUNCT",
+        "."
+      ],
+      "code": "GENUS_BEFORE_CLAUSE_BOUNDARY",
+      "definition": "The lunate bone.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-lunate-en-noun--vIAGv8z:157704f780a55a49b6be642f699769d45c8b750d64d4692c16b2943d183f2802",
+      "genus_witness": [
+        [
+          "The",
+          "DET",
+          "the"
+        ],
+        [
+          "lunate",
+          "ADJ",
+          "lunate"
+        ],
+        [
+          "bone",
+          "NOUN",
+          "bone"
+        ]
+      ],
+      "lemma": "lunate",
+      "native_source_record": "wiktionary:lunate:f5c473321628a9a5df5581cbaa3b595c1d04babe7c0199cf4fd7b12e7fcd56bc",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        "which",
+        "PRON",
+        "which"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "The large muscle which runs through the rear part of the cheek from the temporal bone to the lower jaw on each side, raises the lower jaw, and assists in mastication.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-masseter-en-noun-jnbVTMFv:257a2db61f4647ab0c69753c56c0ddcb227b2a4e84455618d2a3f9086f94d716",
+      "genus_witness": [
+        [
+          "The",
+          "DET",
+          "the"
+        ],
+        [
+          "large",
+          "ADJ",
+          "large"
+        ],
+        [
+          "muscle",
+          "NOUN",
+          "muscle"
+        ]
+      ],
+      "lemma": "masseter",
+      "native_source_record": "wiktionary:masseter:2869b3f164f295e56220fce9aab28c4d6c5b54fe1b057acba579bab4dce6042d",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        ".",
+        "PUNCT",
+        "."
+      ],
+      "code": "GENUS_BEFORE_CLAUSE_BOUNDARY",
+      "definition": "A muscle.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-musculus-en-noun-uyRqGrhh:2c8554eccaddde5bdcc88e7e89706da412f52b490ca5d40fdfe7c115720d9502",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "muscle",
+          "NOUN",
+          "muscle"
+        ]
+      ],
+      "lemma": "musculus",
+      "native_source_record": "wiktionary:musculus:76e68cb17aebb4693b032dd3b9427fc3d4bd919c5c23430739131c62c2969d5d",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        "-",
+        "PUNCT",
+        "-"
+      ],
+      "code": "GENUS_ATTACHMENT_REQUIRES_REVIEW",
+      "definition": "A muscle-like structure.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-myoid-en-noun-LIuif7DE:9b673a2caf27b8a560ea76ddf0f5a3905196d0eab812edfbee38056f76e0c9dd",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "muscle",
+          "NOUN",
+          "muscle"
+        ]
+      ],
+      "lemma": "myoid",
+      "native_source_record": "wiktionary:myoid:52097126bb4f27fce4b99f20084108e18e6551f89c8aa6a32e37b57fead0ca82",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        "forming",
+        "VERB",
+        "form"
+      ],
+      "code": "GENUS_ATTACHMENT_REQUIRES_REVIEW",
+      "definition": "The smooth muscle forming the wall of the uterus.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-myometrium-en-noun-Au-ssiyS:c96c9e65edb0b501dc064eb76595a4e014818bf6b3c67571649bea7f997fa6bf",
+      "genus_witness": [
+        [
+          "The",
+          "DET",
+          "the"
+        ],
+        [
+          "smooth",
+          "ADJ",
+          "smooth"
+        ],
+        [
+          "muscle",
+          "NOUN",
+          "muscle"
+        ]
+      ],
+      "lemma": "myometrium",
+      "native_source_record": "wiktionary:myometrium:0603378236898aedfbb9a1d23e5ae30ca87625c32ee12999380264cadce86e9f",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        "on",
+        "ADP",
+        "on"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "A small muscle on each side of the nose that constricts the nasal aperture by the action of a triangular transverse portion which draws the lateral part of the aperture upward and a quadrangular alar portion which draws it downward.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-nasalis-en-noun-dMw5BECv:833184dcadae542339e2f991e5b120665bee19cc9fffff8311ac5bde09544568",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "small",
+          "ADJ",
+          "small"
+        ],
+        [
+          "muscle",
+          "NOUN",
+          "muscle"
+        ]
+      ],
+      "lemma": "nasalis",
+      "native_source_record": "wiktionary:nasalis:44f5e6c80c4ffba8f43fc87c9a08801b19cd86ef2d29b833baf4531b240978f6",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        ".",
+        "PUNCT",
+        "."
+      ],
+      "code": "GENUS_BEFORE_CLAUSE_BOUNDARY",
+      "definition": "A navicular bone.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-navicular-en-noun-eTbANdWo:e2d9e3ad952eb7b312559016f706ad0c1cfec26c47cd2b7ff2a19962b6f94b80",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "navicular",
+          "ADJ",
+          "navicular"
+        ],
+        [
+          "bone",
+          "NOUN",
+          "bone"
+        ]
+      ],
+      "lemma": "navicular",
+      "native_source_record": "wiktionary:navicular:4b7e6d898e3b82614e4aee8e100b3b14110d3aa66770fde635c22f76151b7c21",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        "(",
+        "PUNCT",
+        "("
+      ],
+      "code": "GENUS_ATTACHMENT_REQUIRES_REVIEW",
+      "definition": "A small bone (or bony structure), especially one of the three of the middle ear.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-ossicle-en-noun-MoqV9QkH:11f67a50dca140f0274f0219a8caa9c2b9fe455eb01b8846e9fa514efbca5a16",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "small",
+          "ADJ",
+          "small"
+        ],
+        [
+          "bone",
+          "NOUN",
+          "bone"
+        ]
+      ],
+      "lemma": "ossicle",
+      "native_source_record": "wiktionary:ossicle:409f6b3cfc7e26110ad0a571cda6a171b3ba7e8412b64993ab85069df025626c",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        ".",
+        "PUNCT",
+        "."
+      ],
+      "code": "GENUS_BEFORE_CLAUSE_BOUNDARY",
+      "definition": "A parasympathetic nerve.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-parasympathetic-en-noun-f4r-PL1z:d92a7ea4b8d7f857982ed6f440f1ee8fc4d55708f79406fa37d39adec93a5304",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "parasympathetic",
+          "ADJ",
+          "parasympathetic"
+        ],
+        [
+          "nerve",
+          "NOUN",
+          "nerve"
+        ]
+      ],
+      "lemma": "parasympathetic",
+      "native_source_record": "wiktionary:parasympathetic:78633820f66b29eb478a904faa02325cc7573bd4c64bb307261cc8435d34fbb0",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        "of",
+        "ADP",
+        "of"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "A superficial muscle of the human neck that overlaps the sternocleidomastoid.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-platysma-en-noun-gc6R4RRI:4c473f7815e44586b9065a60839af5e2c786a165a5daeae0814f092741034a4e",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "superficial",
+          "ADJ",
+          "superficial"
+        ],
+        [
+          "muscle",
+          "NOUN",
+          "muscle"
+        ]
+      ],
+      "lemma": "platysma",
+      "native_source_record": "wiktionary:platysma:12d38439d89042e6e37df89c6747af6d445a37ec5537e0bd144750f58874260d",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        ";",
+        "PUNCT",
+        ";"
+      ],
+      "code": "GENUS_BEFORE_CLAUSE_BOUNDARY",
+      "definition": "The pneumogastric nerve; one of the tenth pair of cranial nerves which are distributed to the pharynx, esophagus, larynx, lungs, heart, stomach, liver, and spleen, and, in fishes and many amphibia, to the branchial apparatus and also to the sides of the body.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-pneumogastric-en-noun-4R3DSNnr:9a53810a09c1f6f87b149df99320e211b54a52c050fd564dda5d056ff25c929f",
+      "genus_witness": [
+        [
+          "The",
+          "DET",
+          "the"
+        ],
+        [
+          "pneumogastric",
+          "ADJ",
+          "pneumogastric"
+        ],
+        [
+          "nerve",
+          "NOUN",
+          "nerve"
+        ]
+      ],
+      "lemma": "pneumogastric",
+      "native_source_record": "wiktionary:pneumogastric:1e3faddd02152f424f97a61b5f13bbc5ae6563962f938592d40532c30b5bd6e7",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        "ending",
+        "VERB",
+        "end"
+      ],
+      "code": "GENUS_ATTACHMENT_REQUIRES_REVIEW",
+      "definition": "A nerve ending that functions as a sensory receptor in muscles, tendons, joints and the inner ear; they respond to movement and position",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-proprioceptor-en-noun-rdl8RxLR:f4a619ecb0df11b0994fe9c8564b1b9d3e4532b83bb40671f2074870fa4b099f",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "nerve",
+          "NOUN",
+          "nerve"
+        ]
+      ],
+      "lemma": "proprioceptor",
+      "native_source_record": "wiktionary:proprioceptor:999a0bd51242b33659da8b0b452394df55ef8eb7e1ef2588a1ed56dc0d4d0431",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        ".",
+        "PUNCT",
+        "."
+      ],
+      "code": "GENUS_BEFORE_CLAUSE_BOUNDARY",
+      "definition": "The quadrate bone.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-quadrate-en-noun--FWE7V1m:68d298f4617c269b99ad00359b08c36686fd781d60ca63cbf02cf959b4eb3dea",
+      "genus_witness": [
+        [
+          "The",
+          "DET",
+          "the"
+        ],
+        [
+          "quadrate",
+          "ADJ",
+          "quadrate"
+        ],
+        [
+          "bone",
+          "NOUN",
+          "bone"
+        ]
+      ],
+      "lemma": "quadrate",
+      "native_source_record": "wiktionary:quadrate:f32955b204b9d1f4a623e0a2026611568b9f8a5350f24e500c88ca73553cf353",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        ",",
+        "PUNCT",
+        ","
+      ],
+      "code": "GENUS_BEFORE_CLAUSE_BOUNDARY",
+      "definition": "The lunate bone, or semilunar bone.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-semilunar-en-noun-7vkEcr7u:92c7a8f5ee63d004b326435f3ba209f64307d60429608879b5a4a6a4aa951281",
+      "genus_witness": [
+        [
+          "The",
+          "DET",
+          "the"
+        ],
+        [
+          "lunate",
+          "ADJ",
+          "lunate"
+        ],
+        [
+          "bone",
+          "NOUN",
+          "bone"
+        ]
+      ],
+      "lemma": "semilunar",
+      "native_source_record": "wiktionary:semilunar:cb6dc500f4ff4f274cc77d422678bb6a55ae8a38007336bbfc692c4ec0b46213",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        ".",
+        "PUNCT",
+        "."
+      ],
+      "code": "GENUS_BEFORE_CLAUSE_BOUNDARY",
+      "definition": "A nerve.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-sinew-en-noun--RfiZelb:949fbe88b888129583c5c55e48403df18c7e76102bc8d7d03a363087187b9fa1",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "nerve",
+          "NOUN",
+          "nerve"
+        ]
+      ],
+      "lemma": "sinew",
+      "native_source_record": "wiktionary:sinew:d9b76ee8290ab906dc7495fa2e363e6088e24b61b0e66455696dd16b0f5d864a",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        "of",
+        "ADP",
+        "of"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "The bone of the ankle.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-talus-en-noun-q9XgNzmI:619c61ebc28d5da877d9f414dbaf7e1771fe36e5e638cb7304e19fb03fb09568",
+      "genus_witness": [
+        [
+          "The",
+          "DET",
+          "the"
+        ],
+        [
+          "bone",
+          "NOUN",
+          "bone"
+        ]
+      ],
+      "lemma": "talus",
+      "native_source_record": "wiktionary:talus:ae56057730350aa1b9e3617c60c2eb24869c77607af3cc6ec82f907a66740592",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        "that",
+        "PRON",
+        "that"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "A muscle that tightens or stretches a part, or renders it tense.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-tensor-en-noun-zkMSWL7J:7ce493df0583c82c9bee45a6439e83b897d7b006e5127f4f5cd16cbb94681a73",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "muscle",
+          "NOUN",
+          "muscle"
+        ]
+      ],
+      "lemma": "tensor",
+      "native_source_record": "wiktionary:tensor:6ef8f070c7b13d5117efc1502c3906b9d523e7b1f809b9899c1d77c8636c8b6c",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        ".",
+        "PUNCT",
+        "."
+      ],
+      "code": "GENUS_BEFORE_CLAUSE_BOUNDARY",
+      "definition": "A terete muscle.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-teres-en-noun-n8GFJrZn:38f91f53dba42f9ad34d2359950e43422da3d26809dcb16cdc163a7afec945d4",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "terete",
+          "ADJ",
+          "terete"
+        ],
+        [
+          "muscle",
+          "NOUN",
+          "muscle"
+        ]
+      ],
+      "lemma": "teres",
+      "native_source_record": "wiktionary:teres:383b4b80bd5d4b3067a99fc29f0551aff6386f919e9a9d8522edccd35d79d939",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        ".",
+        "PUNCT",
+        "."
+      ],
+      "code": "GENUS_BEFORE_CLAUSE_BOUNDARY",
+      "definition": "A tibial bone.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-tibial-en-noun-iSU3ksiF:f013dd302cd21e9b46743c9d4694e4e63d4b957c00571331e33dd558ec6df3ae",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "tibial",
+          "ADJ",
+          "tibial"
+        ],
+        [
+          "bone",
+          "NOUN",
+          "bone"
+        ]
+      ],
+      "lemma": "tibial",
+      "native_source_record": "wiktionary:tibial:6652bce6e7a0c8969ecb36ad265daf1908415756061692345d67f737f251ce46",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        ".",
+        "PUNCT",
+        "."
+      ],
+      "code": "GENUS_BEFORE_CLAUSE_BOUNDARY",
+      "definition": "A turbinate bone.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-turbinal-en-noun-BfGF6gfl:d7c12241c8bc6303a5252e2df27ea80fd05a154f0e8012ecc5e14aff5a19123c",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "turbinate",
+          "ADJ",
+          "turbinate"
+        ],
+        [
+          "bone",
+          "NOUN",
+          "bone"
+        ]
+      ],
+      "lemma": "turbinal",
+      "native_source_record": "wiktionary:turbinal:b01bd69334faa0fe8c30d131107f06d63141bdbe34e91d17cf236dfb6c5311b6",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        "of",
+        "ADP",
+        "of"
+      ],
+      "code": "GENUS_BEFORE_DEFINITIONAL_COMPLEMENT",
+      "definition": "The bone of the forearm that extends from the elbow to the wrist on the side opposite to the thumb, corresponding to the fibula of the hind limb. Also, the corresponding bone in the forelimb of any vertebrate.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-ulna-en-noun-9tToaHfQ:5f39c4cf7f928491782462f2c46fdda6c2c7e00361eb2e0616c14195c78b84ff",
+      "genus_witness": [
+        [
+          "The",
+          "DET",
+          "the"
+        ],
+        [
+          "bone",
+          "NOUN",
+          "bone"
+        ]
+      ],
+      "lemma": "ulna",
+      "native_source_record": "wiktionary:ulna:c58e1d51b492d320cf663a69866566724cf0cbd9958613aba6d5d48353fcd9d6",
+      "subtlex": 0
+    },
+    {
+      "after_genus": [
+        ",",
+        "PUNCT",
+        ","
+      ],
+      "code": "GENUS_BEFORE_CLAUSE_BOUNDARY",
+      "definition": "A small vein, especially one that connects capillaries to a larger vein.",
+      "domains": {
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "entry_id": "wiktionary:en-venule-en-noun-IqKeNELh:e9004cfd7c4b25f4a5c842c97d26d61ad59820d1f5e5753f90773d3b52352586",
+      "genus_witness": [
+        [
+          "A",
+          "DET",
+          "a"
+        ],
+        [
+          "small",
+          "ADJ",
+          "small"
+        ],
+        [
+          "vein",
+          "NOUN",
+          "vein"
+        ]
+      ],
+      "lemma": "venule",
+      "native_source_record": "wiktionary:venule:12cca331ff93b9382d9d13dabe6b284de4ad90d134b1a7d99c596607367e0ba1",
+      "subtlex": 0
+    }
+  ]
+}

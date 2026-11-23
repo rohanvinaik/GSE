@@ -1,0 +1,110 @@
+{
+  "banks": [
+    "BODY"
+  ],
+  "batch_size": 4,
+  "code": "SELECTED_SCOPE_RESOLVED",
+  "continue_cohorts": true,
+  "dictionary_cells": {
+    "assigned": 403838,
+    "conflicted": 0,
+    "explicit_zero": 279633,
+    "unresolved": 22085538
+  },
+  "dictionary_outcomes": {
+    "PARTIAL": 401596
+  },
+  "dictionary_status": "INCOMPLETE",
+  "format": "gse.lexicon-completion-report/1",
+  "max_calls_per_entry": 1,
+  "max_entries_per_pass": 8,
+  "max_model_calls": 8,
+  "model": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@9ed4ba381f34e9596c06ddb5b1797a55f9e82662facf64195963b8006a9a9620:batch@cee23fb5929847f28d46c27f4e3abefd49aea66bbb0373aa6b433b6961f251de",
+  "model_calls": 8,
+  "outcomes": {
+    "ASSIGNED": 8
+  },
+  "outside_selected_scope": {
+    "unresolved_or_conflicted_cells": 22085538
+  },
+  "preflight": "REPLAY_VALIDATED",
+  "priority": {
+    "excluded_count": 1,
+    "excluded_records": [
+      {
+        "code": "MISSING_WORD",
+        "count": 27,
+        "csv_line": 21732,
+        "record_number": 21731
+      }
+    ],
+    "frequency_column": "SUBTLEX",
+    "included_words": 39953,
+    "mode": "zipf",
+    "ordering": "DESCENDING_POSITIVE_COUNT_THEN_CONSTRAINT_PRIORITY_THEN_DEFINITION_ID",
+    "policy": "gse.completion-priority/subtlex-count-order/2",
+    "ranked_words": 28902,
+    "rows": 39954,
+    "score": "MONOTONIC_ZIPF_ORDER_NOT_ABSOLUTE_ZIPF_SCORE",
+    "semantic_authority": "NONE_SCHEDULING_ONLY",
+    "sha256": "fa636292ba0b1b5cf4d6d335690ddcf3a162e4a8204124d95c64e795eb336226",
+    "source": "/Users/rohanvinaik/Projects/gse/data/external/concreteness.csv",
+    "unranked": "ZERO_OR_ABSENT_FREQUENCY_LAST_NOT_SEMANTIC_ZERO",
+    "word_column": "Word",
+    "zero_count_words": 11051
+  },
+  "question_order": {
+    "bank_order": "DOMAIN_SIZE_THEN_EXPLICIT_EVIDENCE_THEN_ACTIVE_UNRESOLVED_NEIGHBORS_THEN_BANK",
+    "bank_priority": "evidence",
+    "cohort_order": "CASEFOLDED_SPELLING_ROUNDS_THEN_EXISTING_PRIORITY",
+    "cohort_policy": "spelling",
+    "policy": "gse.completion-question-order/1",
+    "semantic_authority": "NONE_QUESTION_ORDER_ONLY"
+  },
+  "remaining_selected_scope": {
+    "cells": 0,
+    "conflicted_entries": 0,
+    "entries": 0
+  },
+  "scheduling": {
+    "code": "MODEL_BUDGET_EXHAUSTED",
+    "cohorts_processed": 1,
+    "cursor_after": [
+      [
+        -459607,
+        3
+      ],
+      0,
+      "wiktionary:en-WE-en-name-OLZQZdM9:9f5bff1b53bc902ef73f8ab6a0c5a1ec81ebed8a1c6fcac7f96ef05be213a561"
+    ],
+    "cursor_before": null,
+    "pass_number": 1,
+    "policy": "gse.completion-schedule/3",
+    "resume_frontier": "COMPLETED_OR_PER_ENTRY_LIMIT_VISITS",
+    "visited_entry_ids": [
+      "wiktionary:en-you-en-det-UalyzIdG:d04627490a2714881a4178559595efe9f28cff73b7a305e51d243697bbad62f1",
+      "wiktionary:en-I-en-noun-Fq6lUwfd:55da473bde1778f1e616fe8da78b96768f179795831ad40eef40ad3986be94af",
+      "wiktionary:en-IT-en-noun-en:intercept_time_method:c3a1ecc4816b07749d8ce4e4fd529fb8da92b09d4bb84665fb231af6ab7680a2",
+      "wiktionary:en-what-en-noun-4k94vVfO:099f683199df0389fa2a4649f864a72adee6238aab22f20fdcaf85e5feb4d9ae",
+      "wiktionary:en-IN-en-noun-en:Q412550:941833cad40356b3bd5c110b0fec4339eafdeab9343af13338bc4608a14e6bee",
+      "wiktionary:en-ME-en-noun-Ptu9i8C1:0e41f66e6807c916bb217aa6cdb975da7f3fc2584a82fa30a4d1d44bb88fbae5",
+      "wiktionary:en-IS-en-noun-BA6SV6p2:aa60f55d1576821ca8608f8d332b2a1aed2f2da9586992b27475b520d81918aa",
+      "wiktionary:en-WE-en-name-OLZQZdM9:9f5bff1b53bc902ef73f8ab6a0c5a1ec81ebed8a1c6fcac7f96ef05be213a561"
+    ],
+    "wrapped": false
+  },
+  "selected_entry_ids": [
+    "wiktionary:en-you-en-det-UalyzIdG:d04627490a2714881a4178559595efe9f28cff73b7a305e51d243697bbad62f1",
+    "wiktionary:en-I-en-noun-Fq6lUwfd:55da473bde1778f1e616fe8da78b96768f179795831ad40eef40ad3986be94af",
+    "wiktionary:en-IT-en-noun-en:intercept_time_method:c3a1ecc4816b07749d8ce4e4fd529fb8da92b09d4bb84665fb231af6ab7680a2",
+    "wiktionary:en-what-en-noun-4k94vVfO:099f683199df0389fa2a4649f864a72adee6238aab22f20fdcaf85e5feb4d9ae",
+    "wiktionary:en-IN-en-noun-en:Q412550:941833cad40356b3bd5c110b0fec4339eafdeab9343af13338bc4608a14e6bee",
+    "wiktionary:en-ME-en-noun-Ptu9i8C1:0e41f66e6807c916bb217aa6cdb975da7f3fc2584a82fa30a4d1d44bb88fbae5",
+    "wiktionary:en-IS-en-noun-BA6SV6p2:aa60f55d1576821ca8608f8d332b2a1aed2f2da9586992b27475b520d81918aa",
+    "wiktionary:en-WE-en-name-OLZQZdM9:9f5bff1b53bc902ef73f8ab6a0c5a1ec81ebed8a1c6fcac7f96ef05be213a561"
+  ],
+  "semantic_gold": "NOT_CHECKED",
+  "skipped_attempts": {},
+  "transport_invocations": 4,
+  "unselected_residual": false
+}

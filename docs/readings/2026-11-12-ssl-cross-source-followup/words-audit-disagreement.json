@@ -1,0 +1,23 @@
+{
+  "audit_outcomes": {
+    "MODEL_AGREEMENT": 1,
+    "MODEL_COUNTEREXAMPLE": 1
+  },
+  "audit_path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-cross-source-followup/closure/epoch-02/audit.json",
+  "audit_sha256": "dc517111e385aa8cd6485dc1db32eb2c5b5783f67d5085ad203d5765e5e5ea95",
+  "code": "WORDS_RULE_WITHHELD",
+  "counterexample": {
+    "bank": "WORDS",
+    "code": "MODEL_COUNTEREXAMPLE",
+    "entry_id": "wiktionary:en-negative-en-noun-oErVryuq:f929932ee4decec428c342a9ff05b8fa09166f885d0dbe75886cee63960c33b9",
+    "gloss": "A word that indicates negation.",
+    "proposed_value": 1,
+    "request_id": "b5ac5ba4f887360ed70ced47dcd13476dd530869d42ef8c61c2a165ae994b869",
+    "value": 0,
+    "writes": false
+  },
+  "disposition": "KEEP_SCOPE_AND_UNRESOLVED_DOMAIN_PENDING_INDEPENDENT_SCOPE_REVIEW",
+  "format": "gse.words-audit-disagreement/1",
+  "scope_diagnosis": "The exact noun gloss explicitly names a word. The competing zero is a model ruling. The audit supplies no source distinction supporting orthogonality in this sense.",
+  "teaching_entry_id": "wordnet:silly:silly.n.01"
+}

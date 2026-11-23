@@ -1,0 +1,58 @@
+{
+  "additional_boundary_questions_budget": 2,
+  "baseline_sha256": "92158b9b2b17bd9376083d8458a0e56bcf66b3fd60f46826fa5c54c5c653c219",
+  "construction_questions_budget": 8,
+  "disposition": "DIAGNOSTIC_PARENT_AUDIT_NO_LEXICON_WRITES_OR_RULE_ADMISSION",
+  "format": "gse.lexicon-boundary-audit-plan/1",
+  "selection": {
+    "audit_entry_ids": [
+      "wordnet:argue:argue.v.03",
+      "wordnet:sign:sign.v.03"
+    ],
+    "discovery_entry_ids": [
+      "wordnet:autograph:autograph.v.01",
+      "wordnet:endorse:endorse.v.04"
+    ],
+    "format": "gse.reviewed-pattern-selection/1",
+    "guarded_candidates": [
+      {
+        "absent_evidence": [],
+        "antecedent": [
+          "SAY",
+          1
+        ],
+        "consequent": [
+          "DO",
+          1
+        ],
+        "guards": [
+          [
+            "pos",
+            "verb"
+          ],
+          [
+            "wordnet_native_lemma",
+            "true"
+          ],
+          [
+            "wordnet_ancestor:express.v.02",
+            "true"
+          ]
+        ],
+        "warrant": {
+          "kind": "DEFINITIONAL_DERIVATION",
+          "review_id": "020:unrefined-expression-parent-boundary-probe",
+          "reviewer": "Source-backed construction review",
+          "source_refs": [
+            "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/020-source-review.json",
+            "/Users/rohanvinaik/Projects/gse/docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content",
+            "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+          ],
+          "statement": "Diagnostic hypothesis: an own SAY component within the unrefined native expression ancestor entails DO=+1. The two stative boundary definitions test precisely the proposed sufficiency. This parent is not approved; retained child exclusions do not depend on the model agreeing.",
+          "warrant_id": "020:unrefined-expression-parent-boundary-probe"
+        }
+      }
+    ],
+    "reviews": []
+  }
+}

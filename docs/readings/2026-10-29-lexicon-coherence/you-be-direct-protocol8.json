@@ -1,0 +1,100 @@
+{
+  "format": "gse.direct-model-transport-audit/1",
+  "code": "IDENTIFIED",
+  "entry_id": "gse_closed_class:pronoun:you",
+  "bank": "BE",
+  "request_path": "/tmp/gse-you-be-original-request.json",
+  "request_id": "5d2ba6eeed5b948d90fdc7f0a9e554afdb82fc9e1dc471a33f6f140cd5d52c2d",
+  "request_file_sha256": "5d2ba6eeed5b948d90fdc7f0a9e554afdb82fc9e1dc471a33f6f140cd5d52c2d",
+  "original_request_unchanged": true,
+  "previous_answer_included": false,
+  "expected_label_included": false,
+  "wire_protocol": "gse.lexical-component-entailment/8",
+  "batch_protocol": "gse.lexical-component-batch/2",
+  "model_pin": {
+    "model": "qwen3.8:27b-q4_K_M",
+    "digest": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+    "batch_protocol_digest": "00e0aaeff0c324e33709e30acd9b9857e20b481a8410c6ed3475108859f09196"
+  },
+  "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@00e0aaeff0c324e33709e30acd9b9857e20b481a8410c6ed3475108859f09196",
+  "input_bytes": 14022,
+  "max_input_bytes": 30720,
+  "body_sha256": "0b27610399dc6f35c519542211cea29a063b29425fa1c1e9a9bb6a349a824add",
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "BE": {
+        "type": [
+          "integer",
+          "null"
+        ],
+        "enum": [
+          -1,
+          0,
+          1,
+          null
+        ]
+      }
+    },
+    "required": [
+      "BE"
+    ],
+    "additionalProperties": false
+  },
+  "requested_coordinate": {
+    "positive_pole": "BE",
+    "negative_pole": {
+      "code": "NOT_DECLARED"
+    },
+    "negative_without_declared_pole": "REQUIRES_EXPLICIT_SOURCE_DEFINITION_ELSE_UNRESOLVED",
+    "zero": "JUSTIFIED_ORTHOGONALITY",
+    "null": "CANNOT_DETERMINE",
+    "scale": "WORD",
+    "category": "ACTION",
+    "bipolar_dimension": null,
+    "families": [
+      "state_existence"
+    ],
+    "registry_gloss": "Stative existence",
+    "registry_source": "gse/primitives_v2.py",
+    "hierarchy_base": false,
+    "hierarchy_semantics": "ORDINAL_METADATA_SEPARATE_FROM_BASE_SIGN",
+    "polarity_source": "gse/curation/schema.py#BIPOLAR_PAIRS",
+    "scope_convention": {
+      "code": "DEFINITION_OWN_STATIVE_CONTENT_REQUIRED",
+      "positive_requires": "DEFINITION_OWN_STATIVE_CONTENT",
+      "insufficient_for_positive": [
+        "ENTITY_REFERENCE_ALONE"
+      ],
+      "zero_requires": "INDEPENDENT_DEFINITION_SCOPED_JUSTIFICATION",
+      "unsupported_remains": "UNRESOLVED",
+      "authority": "FOUNDER_APPROVED",
+      "source": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#be-stative-content-scope"
+    }
+  },
+  "configuration": {
+    "thinking": false,
+    "context_tokens": 32768,
+    "output_tokens": 1024,
+    "timeout_seconds": 300
+  },
+  "model_calls": 1,
+  "database_writes": 0,
+  "scope": "ISOLATED_CALIBRATION_NOT_DATABASE_ACCEPTANCE",
+  "launch_owner": "owned-run:GSE-YOU-BE-protocol8-audit",
+  "started_utc": "2026-10-30T00:05:37.168483+00:00",
+  "parsed_value": 1,
+  "returned_single_bank_json": "{\"BE\":1}",
+  "returned_single_bank_sha256": "c9c6b3848cde050cf24cabe2558bd255b015d34d0efdfcd8691bab2c0504eba9",
+  "transport_metrics": {
+    "input_bytes": 14022,
+    "item_count": 1,
+    "prompt_eval_count": 4950,
+    "eval_count": 21,
+    "prompt_eval_duration": 43236048000,
+    "eval_duration": 2174333000,
+    "total_duration": 57683446292
+  },
+  "elapsed_seconds": 57.73296,
+  "finished_utc": "2026-10-30T00:06:34.902077+00:00"
+}

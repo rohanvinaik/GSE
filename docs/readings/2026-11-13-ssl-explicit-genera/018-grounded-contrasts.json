@@ -1,0 +1,178 @@
+{
+  "benchmark_sha256": "2ed90740edc6c26a82bba6b60c21133de69043cd8a457b9590b15c34670bb16a",
+  "by_class": {
+    "ambiguous": {
+      "exact_sense_bank": {},
+      "runtime_bank": {},
+      "sense": {
+        "ABSTAINED_AS_EXPECTED": 2
+      }
+    },
+    "contrast": {
+      "exact_sense_bank": {
+        "OPEN_AS_EXPECTED": 2
+      },
+      "runtime_bank": {
+        "OPEN_AS_EXPECTED": 2
+      },
+      "sense": {
+        "CORRECT": 2
+      }
+    },
+    "occurrence": {
+      "exact_sense_bank": {
+        "CORRECT": 2
+      },
+      "runtime_bank": {
+        "CORRECT": 2
+      },
+      "sense": {
+        "CORRECT": 2
+      }
+    }
+  },
+  "cases": [
+    {
+      "banks": {
+        "HAPPEN": {
+          "domain": [
+            1
+          ],
+          "emitted": 1,
+          "exact_sense": "CORRECT",
+          "expected": 1,
+          "runtime": "CORRECT"
+        }
+      },
+      "basis": "The complement repeats WordNet's defining nominal and identifies the cause of the delay.",
+      "class": "occurrence",
+      "grounding": "EXACT_WORDNET_SENSE",
+      "id": "incident-explicit-event",
+      "lemma": "incident",
+      "observed_sense": "wordnet:incident:incident.n.01",
+      "parser_lemma": "incident",
+      "parser_pos": "NOUN",
+      "selection_status": "IDENTIFIED",
+      "sense": "wordnet:incident:incident.n.01",
+      "sense_outcome": "CORRECT",
+      "text": "The incident was a single distinct event that delayed the train.",
+      "token": "incident"
+    },
+    {
+      "banks": {
+        "HAPPEN": {
+          "domain": [
+            -1,
+            0,
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "OPEN_AS_EXPECTED",
+          "expected": null,
+          "runtime": "OPEN_AS_EXPECTED"
+        }
+      },
+      "basis": "The complement repeats the competing definition. Its HAPPEN bank is open in release 014.",
+      "class": "contrast",
+      "grounding": "EXACT_WORDNET_SENSE",
+      "id": "incident-disturbance",
+      "lemma": "incident",
+      "observed_sense": "wordnet:incident:incident.n.02",
+      "parser_lemma": "incident",
+      "parser_pos": "NOUN",
+      "selection_status": "IDENTIFIED",
+      "sense": "wordnet:incident:incident.n.02",
+      "sense_outcome": "CORRECT",
+      "text": "The incident was a public disturbance.",
+      "token": "incident"
+    },
+    {
+      "banks": {
+        "HAPPEN": {
+          "domain": [
+            1
+          ],
+          "emitted": 1,
+          "exact_sense": "CORRECT",
+          "expected": 1,
+          "runtime": "CORRECT"
+        }
+      },
+      "basis": "Chance event is an attested multiword lemma of this exact WordNet sense.",
+      "class": "occurrence",
+      "grounding": "EXACT_WORDNET_SENSE",
+      "id": "accident-chance-event",
+      "lemma": "accident",
+      "observed_sense": "wordnet:accident:accident.n.02",
+      "parser_lemma": "accident",
+      "parser_pos": "NOUN",
+      "selection_status": "IDENTIFIED",
+      "sense": "wordnet:accident:accident.n.02",
+      "sense_outcome": "CORRECT",
+      "text": "The accident was a chance event that brought the ships into port together.",
+      "token": "accident"
+    },
+    {
+      "banks": {
+        "HAPPEN": {
+          "domain": [
+            -1,
+            0,
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "OPEN_AS_EXPECTED",
+          "expected": null,
+          "runtime": "OPEN_AS_EXPECTED"
+        }
+      },
+      "basis": "The noun and elaboration match the unfortunate mishap definition. Its HAPPEN bank is open in release 014.",
+      "class": "contrast",
+      "grounding": "EXACT_WORDNET_SENSE",
+      "id": "accident-damaging-mishap",
+      "lemma": "accident",
+      "observed_sense": "wordnet:accident:accident.n.01",
+      "parser_lemma": "accident",
+      "parser_pos": "NOUN",
+      "selection_status": "IDENTIFIED",
+      "sense": "wordnet:accident:accident.n.01",
+      "sense_outcome": "CORRECT",
+      "text": "The accident was a mishap that caused damage and injury.",
+      "token": "accident"
+    },
+    {
+      "banks": {},
+      "basis": "The result phrase names what the incident caused and supplies no definition of the incident itself.",
+      "class": "ambiguous",
+      "grounding": "INSUFFICIENT_CONTEXTUAL_SUPPORT",
+      "id": "incident-cause-is-not-identity",
+      "lemma": "incident",
+      "observed_sense": null,
+      "parser_lemma": "incident",
+      "parser_pos": "NOUN",
+      "selection_status": "AMBIGUOUS",
+      "sense": null,
+      "sense_outcome": "ABSTAINED_AS_EXPECTED",
+      "text": "The incident caused a public disturbance.",
+      "token": "incident"
+    },
+    {
+      "banks": {},
+      "basis": "The context permits both a chance occurrence and a mishap with injury.",
+      "class": "ambiguous",
+      "grounding": "INSUFFICIENT_CONTEXTUAL_SUPPORT",
+      "id": "accident-alternative-readings",
+      "lemma": "accident",
+      "observed_sense": null,
+      "parser_lemma": "accident",
+      "parser_pos": "NOUN",
+      "selection_status": "AMBIGUOUS",
+      "sense": null,
+      "sense_outcome": "ABSTAINED_AS_EXPECTED",
+      "text": "It was an accident that the woman fell and broke her arm.",
+      "token": "accident"
+    }
+  ],
+  "format": "gse.lexicon-sentence-benchmark-report/1",
+  "lexicon_sha256": "a3919c7146809e5bbc898e5d08f0cf2b34aeedb22b42efb4c5b94cf382be9bfd"
+}

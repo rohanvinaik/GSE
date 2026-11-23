@@ -1,0 +1,57 @@
+{
+  "bank_questions": 2,
+  "input_sha256": "06ceb97e1991884946f77797bc363520e5ca580b39d056120867fef79ecdd671",
+  "model": "claude-fable-5-2",
+  "schema": {
+    "additionalProperties": false,
+    "properties": {
+      "q0": {
+        "additionalProperties": false,
+        "properties": {
+          "BODY": {
+            "enum": [
+              -1,
+              0,
+              1,
+              null
+            ],
+            "type": [
+              "integer",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "BODY"
+        ],
+        "type": "object"
+      },
+      "q1": {
+        "additionalProperties": false,
+        "properties": {
+          "BODY": {
+            "enum": [
+              -1,
+              0,
+              1,
+              null
+            ],
+            "type": [
+              "integer",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "BODY"
+        ],
+        "type": "object"
+      }
+    },
+    "required": [
+      "q0",
+      "q1"
+    ],
+    "type": "object"
+  }
+}

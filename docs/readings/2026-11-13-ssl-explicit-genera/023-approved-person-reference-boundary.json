@@ -1,0 +1,30 @@
+{
+  "format": "gse.representation-convention-decision/1",
+  "code": "FOUNDER_APPROVED_PERSON_REFERENCE_BOUNDARY",
+  "recorded_at_utc": "2026-11-23T19:47:43.149824+00:00",
+  "question": "For the next broad rule, do I/YOU encode first-/second-person reference specifically, or does I also encode generic selfhood? For example, WordNet defines self.n.02 as “a person considered as a unique individual.” Under the registry’s “First person”/“Second person” meanings, I propose I=0 and YOU=0 for that generic definition. This boundary matters before applying exclusions across noun populations; the current WHEN/PEOPLE build continues independently.",
+  "answer": "First-/second-person reference only; generic self is I=0, YOU=0",
+  "coordinates": {
+    "I": "FIRST_PERSON_REFERENCE_ONLY",
+    "YOU": "SECOND_PERSON_REFERENCE_ONLY"
+  },
+  "explicit_control": {
+    "entry_id": "wordnet:self:self.n.02",
+    "definition": "a person considered as a unique individual",
+    "I": 0,
+    "YOU": 0
+  },
+  "does_not_authorize": [
+    "ALL_NOUNS_ARE_AUTOMATICALLY_ZERO",
+    "UNRELATED_BANK_ZEROS",
+    "SILENCE_EQUALS_ZERO"
+  ],
+  "current_022_protocol": "UNCHANGED_14_WHILE_FROZEN_RUN_CONTINUES",
+  "next_obligations": [
+    "VERSION_SHARED_COORDINATE_CONTRACT",
+    "DERIVE_SOURCE_WITNESSED_NONDEICTIC_SCOPE",
+    "FRESH_TEACHING_AND_DISJOINT_BOUNDARY_AUDITS",
+    "FULL_POPULATION_STAGE_AND_REPLAY",
+    "VALIDATE_BEFORE_SPARSE_PUBLICATION"
+  ]
+}

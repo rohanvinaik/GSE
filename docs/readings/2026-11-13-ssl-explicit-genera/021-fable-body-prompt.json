@@ -1,0 +1,784 @@
+{
+  "request_verbatim": "Yes, continue. Finish the remaining BODY audits, reconcile the disagreements, and update the experiment notebook. Keep unknowns distinct from zero and publish only after full replay and validation.",
+  "intent_verbatim": [
+    "The lexicon encodes the geometric representation of meaning. \"Dog\" and \"cat\" encode an almost identical *concept* as a lexical object, but they are obviously not the SAME object.",
+    "The point isn't for the symbolic layer to achieve complete coverage, with gaps as failures.",
+    "The LLM is a statistical model to produce a ruling in balanced ternary for a specific bank given the context of the source data and the other banks, and that is IT"
+  ],
+  "thesis": "Classical symbolic AI over a closed ternary definitional basis. Zipf-prioritized bounded missing-bank teaching seeds causal, scoped coherence rules; full-corpus propagation, typed exceptions and replay drive SSL refinement. Unknown is not zero. Model answers are bounded reports, not authorities or votes. World facts are orthogonal to lexical meaning.",
+  "question": "Give an independent source/contract reading of the BODY disagreements. Which of explicit own anatomical structure, inherited defining vertebrate structure, entity reference and grammatical animacy are distinguished by the supplied contract and complete NSM article? Does a BODY=0 answer for the literal bird gloss have independent justification under this contract? Identify a concrete source-backed resolution if determined, or name the exact missing convention. Do not redesign the workflow, infer founder intent beyond his words, vote among model answers, or propose dropping hard cases. No bank output is requested from you.",
+  "only_source": "This supplied packet; no tools or other files. Return evidence, interpretation and unresolved convention separately, with references to the supplied section or explication.",
+  "design_body_section": "\nThe November 1 YOU/BODY ruling prompted a source-backed review of Goddard (2012), especially the complete semantic-molecules section, Wierzbicka (2022) *I and Thou* §§1 and 3, the complete GSE sentence-architecture document and the current pronoun catalog. The review is recorded in `docs/readings/2026-11-01-lexicon-you-body/you-body-reading.md`. It is an implementation interpretation of the existing definitional boundary, not a new founder-supplied signature or independent semantic gold.\n\n**Entity reference and grammatical animacy alone do not justify BODY=+1.** Goddard's bodily explications explicitly distinguish a person argument from bodily components. Wierzbicka distinguishes pronoun meaning from physical pointing and role-shifted referents; she does not reduce YOU to a reference index or SOMEONE. GSE's word-scale projection is correspondingly distinguished from its full grammatical representation. None of these sources supplies a complete GSE prime vector, and none licenses complement zeros.\n\nThe source-scope check is limited to complete exact native reference-only pronoun records, verified against the existing catalog. It refuses an unsupported positive BODY ruling with `SCOPE_UNJUSTIFIED` and `ENTITY_REFERENCE_ALONE_DOES_NOT_JUSTIFY_POSITIVE_BODY`. Additional exact lexical evidence or non-reference content prevents that narrow classification. This is not a spelling mask, a general pronoun rule, a negative BODY assertion, or a zero assignment. The current domains remain unchanged.\n\nProtocol 9 adds this scope as typed BODY metadata with authority `SOURCE_BACKED_DESIGN_INTERPRETATION`, while preserving the separately founder-approved BE convention. Live completion and publication use the same admission check. Reconsideration archived exactly the disputed YOU/BODY receipt, retained its three earlier model receipts, and reclosed the definition through the existing resolver. BODY returned to `[-1, 0, 1]`; no zero was supplied. Full preflight replay validated 401,596 definitions with no mismatches, and the changed definition passed local replay. See `docs/readings/2026-11-01-lexicon-you-body/you-body-reconsideration.json`, archive event `b1442da5df03d13689fdf2422a967b732cf6a21d60f0ea9c0762f6a2cf754db2`. A subsequent BODY sign still requires an accepted bounded ruling and its own review. Excluding the old warrant alone does not settle that replacement sign.\n\nThe subsequent `body-zipf-005` checkpoint returned a fresh BODY=0 ruling for the exact curated YOU definition, request `37ba074cf5e6b039577907cc6e3f3e1f446d65dbd3922fbab539ac7bc7cf637d`. Its separate source-backed review justifies component orthogonality from the addressee-role meaning and GSE's separation of lexical reference from the referent's bodily properties. The role remains the same under changes in those properties; an anatomical description requires additional content. This is not the complement of the withdrawn +1, a blanket remaining-bank zero, or a founder-authored complete prime signature. The review is bound to the exact receipt in `docs/readings/2026-11-01-lexicon-you-body/body-zipf-005-source-review.json`.\n\nThe native Wiktionary adapter can supply BODY=+1 for a noun whose single anatomy gloss explicitly identifies an anatomical genus. A determiner, optional modifiers, and a recognized noun head establish the opening phrase. A bounded disjunction requires an anatomical genus in each alternative. The source adapter also recognizes postnominal *having* and *forming* phrases, the exact tissue, ending, and fibre compounds in the reviewed scope, and a fold explicitly made of skin. Figurative senses, native references, and attachments outside these constructions leave the projection open. Replay checks the same matcher against the exact stored definition and its linked source record. SOMETHING=+1 follows through the existing BODY-to-SOMETHING noun rule. See `docs/readings/2026-11-12-ssl-continuation/SOURCE_SCOPE.md` for the active-snapshot scope and audit.\n",
+  "typed_coordinate": {
+    "positive_pole": "BODY",
+    "negative_pole": {
+      "code": "NOT_DECLARED"
+    },
+    "negative_without_declared_pole": "REQUIRES_EXPLICIT_SOURCE_DEFINITION_ELSE_UNRESOLVED",
+    "zero": "JUSTIFIED_ORTHOGONALITY",
+    "null": "CANNOT_DETERMINE",
+    "scale": "WORD",
+    "category": "SUBSTANTIVES",
+    "bipolar_dimension": null,
+    "families": [
+      "entity_animate"
+    ],
+    "registry_gloss": null,
+    "registry_source": "gse/primitives_v2.py",
+    "hierarchy_base": false,
+    "hierarchy_semantics": "ORDINAL_METADATA_SEPARATE_FROM_BASE_SIGN",
+    "polarity_source": "gse/curation/schema.py#BIPOLAR_PAIRS",
+    "examples": [
+      {
+        "input": {
+          "definition": "Delivered into a vein",
+          "pos": "adj"
+        },
+        "output": {
+          "BODY": 1
+        }
+      },
+      {
+        "input": {
+          "definition": "Delivered into the chamber of a pump",
+          "pos": "adj"
+        },
+        "output": {
+          "BODY": 0
+        }
+      },
+      {
+        "input": {
+          "definition": null,
+          "pos": "adj"
+        },
+        "output": {
+          "BODY": null
+        }
+      }
+    ],
+    "scope_convention": {
+      "code": "DEFINITION_OWN_BODILY_CONTENT_REQUIRED",
+      "positive_requires": "DEFINITION_OWN_BODILY_CONTENT",
+      "positive_content": [
+        "ANATOMICAL_STRUCTURE",
+        "ANATOMICAL_SITE_REQUIRED_BY_DEFINITION"
+      ],
+      "insufficient_for_positive": [
+        "ENTITY_REFERENCE_ALONE",
+        "GRAMMATICAL_ANIMACY_ALONE"
+      ],
+      "zero_requires": "INDEPENDENT_DEFINITION_SCOPED_JUSTIFICATION",
+      "unsupported_remains": "UNRESOLVED",
+      "authority": "SOURCE_BACKED_DESIGN_INTERPRETATION",
+      "source": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#body-reference-content-scope"
+    }
+  },
+  "typed_task_contract": {
+    "format": "gse.lexical-component-entailment/13",
+    "operation": "LEXICAL_COMPONENT_ENTAILMENT",
+    "scope": "OWN_DEFINITION",
+    "definition_text": {
+      "content": "/input/definition/definition",
+      "identity": "/input/definition/entry_id",
+      "expansion_witness": "/input/definition_content"
+    },
+    "excluded_scope": [
+      "WORLD_ASSOCIATION",
+      "ARGUMENT_IDENTITY",
+      "EXAMPLE_CONTENT"
+    ],
+    "codebook": {
+      "-1": "DEFINITIONAL_NEGATIVE_POLE",
+      "0": "JUSTIFIED_ORTHOGONALITY",
+      "1": "DEFINITIONAL_POSITIVE_POLE",
+      "null": "UNRESOLVED"
+    },
+    "negative_poles": {
+      "SAME": "OTHER",
+      "GOOD": "BAD",
+      "BIG": "SMALL",
+      "ALIVE": "DEAD",
+      "LONG_TIME": "SHORT_TIME",
+      "BEFORE": "AFTER",
+      "THEN": "NOW",
+      "START": "END",
+      "ABOVE": "BELOW",
+      "FAR": "NEAR",
+      "OUTSIDE": "INSIDE",
+      "TOWARD": "AWAY",
+      "WITH": "WITHOUT",
+      "TRUE": "FALSE",
+      "WANT": "NOT_WANT"
+    },
+    "output_fields": "REQUESTED_BANK_ONLY",
+    "known_values": "IMMUTABLE",
+    "symbolic_context": "APPROVED_RULES_WITH_GUARDS_DISPOSITIONS_DOMAINS_AND_PROOF",
+    "scaffold_view": "gse.symbolic-scaffold-view/1",
+    "candidate_evidence": "IDENTITY_LINK_AND_SCOPE_REQUIRED_NOT_AUTOMATIC_ASSIGNMENT",
+    "evidence_view": "gse.model-evidence/5",
+    "candidate_links": {
+      "format": "gse.model-candidate-links/1",
+      "reference_field": "candidate_entry_ids_ref",
+      "reference_target": "candidate_sets[reference].entry_ids",
+      "expanded_field": "candidate_entry_ids",
+      "interpretation": "DEREFERENCE_BEFORE_IDENTITY_OR_SCOPE_REASONING",
+      "semantics": "EXACT_ORDER_AND_DUPLICATES_PRESERVED_NO_CANDIDATES_REMOVED",
+      "unknown": "UNRESOLVED_CANDIDATE_LINK_IS_NOT_ZERO_OR_EXACT_IDENTITY",
+      "integrity": "SHA256_CANONICAL_JSON_FULL_EXPANDED_VIEW_AND_EACH_SHARED_LIST"
+    },
+    "examples": [
+      {
+        "input": {
+          "lemma": "want",
+          "definition": "feel a desire for something",
+          "pos": "verb",
+          "bank": "WANT"
+        },
+        "output": {
+          "WANT": 1
+        }
+      },
+      {
+        "input": {
+          "lemma": "not want",
+          "definition": "not wanting something",
+          "pos": "verb",
+          "bank": "WANT"
+        },
+        "output": {
+          "WANT": -1
+        }
+      },
+      {
+        "input": {
+          "lemma": "stone",
+          "definition": "a lump of hard mineral matter",
+          "pos": "noun",
+          "bank": "WANT"
+        },
+        "output": {
+          "WANT": 0
+        }
+      },
+      {
+        "input": {
+          "lemma": "unidentified",
+          "definition": null,
+          "pos": null,
+          "bank": "SEE"
+        },
+        "output": {
+          "SEE": null
+        }
+      }
+    ]
+  },
+  "native_sources": [
+    {
+      "entry_id": "wordnet:man:homo.n.02",
+      "exact_native_record": {
+        "candidate_entry_ids": [
+          "wordnet:man:homo.n.02"
+        ],
+        "entry_id": "wordnet:man:homo.n.02",
+        "family": "wordnet",
+        "features": {
+          "definition": "any living or extinct member of the family Hominidae characterized by superior intelligence, articulate speech, and erect carriage",
+          "examples": [],
+          "hypernym_paths": [
+            [
+              "entity.n.01",
+              "physical_entity.n.01",
+              "object.n.01",
+              "whole.n.02",
+              "living_thing.n.01",
+              "organism.n.01",
+              "animal.n.01",
+              "chordate.n.01",
+              "vertebrate.n.01",
+              "mammal.n.01",
+              "placental.n.01",
+              "primate.n.02",
+              "hominid.n.01",
+              "homo.n.02"
+            ]
+          ],
+          "lemma": "man",
+          "lemma_names": [
+            "homo",
+            "man",
+            "human_being",
+            "human"
+          ],
+          "lexname": "noun.animal",
+          "native_records": [
+            {
+              "has_holonyms": true,
+              "has_meronyms": true,
+              "hypernym_depth": 14,
+              "hyponym_count": 7,
+              "lexname": "noun.animal",
+              "pos": "noun",
+              "synset_name": "homo.n.02",
+              "word": "man"
+            }
+          ],
+          "pos": "noun",
+          "synset_name": "homo.n.02",
+          "taxonomy_proposals": [
+            {
+              "kind": "lexname",
+              "origin": "noun.animal",
+              "primitive": "ALIVE",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "lexname",
+              "origin": "noun.animal",
+              "primitive": "SOMETHING",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "is_a",
+              "origin": "entity.n.01",
+              "primitive": "SOMETHING",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "is_a",
+              "origin": "living_thing.n.01",
+              "primitive": "ALIVE",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "is_a",
+              "origin": "organism.n.01",
+              "primitive": "ALIVE",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "is_a",
+              "origin": "physical_entity.n.01",
+              "primitive": "SOMETHING",
+              "status": "CANDIDATE",
+              "value": 1
+            }
+          ]
+        },
+        "record_id": "wordnet:man:homo.n.02",
+        "scope": "lexical",
+        "source": "wordnet_hierarchy"
+      }
+    },
+    {
+      "entry_id": "wordnet:bird:bird.n.01",
+      "exact_native_record": {
+        "candidate_entry_ids": [
+          "wordnet:bird:bird.n.01"
+        ],
+        "entry_id": "wordnet:bird:bird.n.01",
+        "family": "wordnet",
+        "features": {
+          "definition": "warm-blooded egg-laying vertebrates characterized by feathers and forelimbs modified as wings",
+          "examples": [],
+          "hypernym_paths": [
+            [
+              "entity.n.01",
+              "physical_entity.n.01",
+              "object.n.01",
+              "whole.n.02",
+              "living_thing.n.01",
+              "organism.n.01",
+              "animal.n.01",
+              "chordate.n.01",
+              "vertebrate.n.01",
+              "bird.n.01"
+            ]
+          ],
+          "lemma": "bird",
+          "lemma_names": [
+            "bird"
+          ],
+          "lexname": "noun.animal",
+          "native_records": [
+            {
+              "has_holonyms": true,
+              "has_meronyms": true,
+              "hypernym_depth": 10,
+              "hyponym_count": 26,
+              "lexname": "noun.animal",
+              "pos": "noun",
+              "synset_name": "bird.n.01",
+              "word": "bird"
+            }
+          ],
+          "pos": "noun",
+          "synset_name": "bird.n.01",
+          "taxonomy_proposals": [
+            {
+              "kind": "lexname",
+              "origin": "noun.animal",
+              "primitive": "ALIVE",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "lexname",
+              "origin": "noun.animal",
+              "primitive": "SOMETHING",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "is_a",
+              "origin": "entity.n.01",
+              "primitive": "SOMETHING",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "is_a",
+              "origin": "living_thing.n.01",
+              "primitive": "ALIVE",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "is_a",
+              "origin": "organism.n.01",
+              "primitive": "ALIVE",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "is_a",
+              "origin": "physical_entity.n.01",
+              "primitive": "SOMETHING",
+              "status": "CANDIDATE",
+              "value": 1
+            }
+          ]
+        },
+        "record_id": "wordnet:bird:bird.n.01",
+        "scope": "lexical",
+        "source": "wordnet_hierarchy"
+      }
+    },
+    {
+      "entry_id": "wordnet:fish:fish.n.01",
+      "exact_native_record": {
+        "candidate_entry_ids": [
+          "wordnet:fish:fish.n.01"
+        ],
+        "entry_id": "wordnet:fish:fish.n.01",
+        "family": "wordnet",
+        "features": {
+          "definition": "any of various mostly cold-blooded aquatic vertebrates usually having scales and breathing through gills",
+          "examples": [
+            "the shark is a large fish",
+            "in the living room there was a tank of colorful fish"
+          ],
+          "hypernym_paths": [
+            [
+              "entity.n.01",
+              "physical_entity.n.01",
+              "object.n.01",
+              "whole.n.02",
+              "living_thing.n.01",
+              "organism.n.01",
+              "animal.n.01",
+              "chordate.n.01",
+              "vertebrate.n.01",
+              "aquatic_vertebrate.n.01",
+              "fish.n.01"
+            ]
+          ],
+          "lemma": "fish",
+          "lemma_names": [
+            "fish"
+          ],
+          "lexname": "noun.animal",
+          "native_records": [
+            {
+              "has_holonyms": true,
+              "has_meronyms": true,
+              "hypernym_depth": 11,
+              "hyponym_count": 13,
+              "lexname": "noun.animal",
+              "pos": "noun",
+              "synset_name": "fish.n.01",
+              "word": "fish"
+            }
+          ],
+          "pos": "noun",
+          "synset_name": "fish.n.01",
+          "taxonomy_proposals": [
+            {
+              "kind": "lexname",
+              "origin": "noun.animal",
+              "primitive": "ALIVE",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "lexname",
+              "origin": "noun.animal",
+              "primitive": "SOMETHING",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "is_a",
+              "origin": "entity.n.01",
+              "primitive": "SOMETHING",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "is_a",
+              "origin": "living_thing.n.01",
+              "primitive": "ALIVE",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "is_a",
+              "origin": "organism.n.01",
+              "primitive": "ALIVE",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "is_a",
+              "origin": "physical_entity.n.01",
+              "primitive": "SOMETHING",
+              "status": "CANDIDATE",
+              "value": 1
+            }
+          ]
+        },
+        "record_id": "wordnet:fish:fish.n.01",
+        "scope": "lexical",
+        "source": "wordnet_hierarchy"
+      }
+    },
+    {
+      "entry_id": "wordnet:snake:snake.n.01",
+      "exact_native_record": {
+        "candidate_entry_ids": [
+          "wordnet:snake:snake.n.01"
+        ],
+        "entry_id": "wordnet:snake:snake.n.01",
+        "family": "wordnet",
+        "features": {
+          "definition": "limbless scaly elongate reptile; some are venomous",
+          "examples": [],
+          "hypernym_paths": [
+            [
+              "entity.n.01",
+              "physical_entity.n.01",
+              "object.n.01",
+              "whole.n.02",
+              "living_thing.n.01",
+              "organism.n.01",
+              "animal.n.01",
+              "chordate.n.01",
+              "vertebrate.n.01",
+              "reptile.n.01",
+              "diapsid.n.01",
+              "snake.n.01"
+            ]
+          ],
+          "lemma": "snake",
+          "lemma_names": [
+            "snake",
+            "serpent",
+            "ophidian"
+          ],
+          "lexname": "noun.animal",
+          "native_records": [
+            {
+              "has_holonyms": true,
+              "has_meronyms": false,
+              "hypernym_depth": 12,
+              "hyponym_count": 6,
+              "lexname": "noun.animal",
+              "pos": "noun",
+              "synset_name": "snake.n.01",
+              "word": "snake"
+            }
+          ],
+          "pos": "noun",
+          "synset_name": "snake.n.01",
+          "taxonomy_proposals": [
+            {
+              "kind": "lexname",
+              "origin": "noun.animal",
+              "primitive": "ALIVE",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "lexname",
+              "origin": "noun.animal",
+              "primitive": "SOMETHING",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "is_a",
+              "origin": "entity.n.01",
+              "primitive": "SOMETHING",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "is_a",
+              "origin": "living_thing.n.01",
+              "primitive": "ALIVE",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "is_a",
+              "origin": "organism.n.01",
+              "primitive": "ALIVE",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "is_a",
+              "origin": "physical_entity.n.01",
+              "primitive": "SOMETHING",
+              "status": "CANDIDATE",
+              "value": 1
+            }
+          ]
+        },
+        "record_id": "wordnet:snake:snake.n.01",
+        "scope": "lexical",
+        "source": "wordnet_hierarchy"
+      }
+    },
+    {
+      "entry_id": "wordnet:frog:frog.n.01",
+      "exact_native_record": {
+        "candidate_entry_ids": [
+          "wordnet:frog:frog.n.01"
+        ],
+        "entry_id": "wordnet:frog:frog.n.01",
+        "family": "wordnet",
+        "features": {
+          "definition": "any of various tailless stout-bodied amphibians with long hind limbs for leaping; semiaquatic and terrestrial species",
+          "examples": [],
+          "hypernym_paths": [
+            [
+              "entity.n.01",
+              "physical_entity.n.01",
+              "object.n.01",
+              "whole.n.02",
+              "living_thing.n.01",
+              "organism.n.01",
+              "animal.n.01",
+              "chordate.n.01",
+              "vertebrate.n.01",
+              "amphibian.n.03",
+              "frog.n.01"
+            ]
+          ],
+          "lemma": "frog",
+          "lemma_names": [
+            "frog",
+            "toad",
+            "toad_frog",
+            "anuran",
+            "batrachian",
+            "salientian"
+          ],
+          "lexname": "noun.animal",
+          "native_records": [
+            {
+              "has_holonyms": false,
+              "has_meronyms": false,
+              "hypernym_depth": 11,
+              "hyponym_count": 19,
+              "lexname": "noun.animal",
+              "pos": "noun",
+              "synset_name": "frog.n.01",
+              "word": "frog"
+            }
+          ],
+          "pos": "noun",
+          "synset_name": "frog.n.01",
+          "taxonomy_proposals": [
+            {
+              "kind": "lexname",
+              "origin": "noun.animal",
+              "primitive": "ALIVE",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "lexname",
+              "origin": "noun.animal",
+              "primitive": "SOMETHING",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "is_a",
+              "origin": "entity.n.01",
+              "primitive": "SOMETHING",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "is_a",
+              "origin": "living_thing.n.01",
+              "primitive": "ALIVE",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "is_a",
+              "origin": "organism.n.01",
+              "primitive": "ALIVE",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "is_a",
+              "origin": "physical_entity.n.01",
+              "primitive": "SOMETHING",
+              "status": "CANDIDATE",
+              "value": 1
+            }
+          ]
+        },
+        "record_id": "wordnet:frog:frog.n.01",
+        "scope": "lexical",
+        "source": "wordnet_hierarchy"
+      }
+    },
+    {
+      "entry_id": "wordnet:vertebrate:vertebrate.n.01",
+      "exact_native_record": {
+        "candidate_entry_ids": [
+          "wordnet:vertebrate:vertebrate.n.01"
+        ],
+        "entry_id": "wordnet:vertebrate:vertebrate.n.01",
+        "family": "wordnet",
+        "features": {
+          "definition": "animals having a bony or cartilaginous skeleton with a segmented spinal column and a large brain enclosed in a skull or cranium",
+          "examples": [],
+          "hypernym_paths": [
+            [
+              "entity.n.01",
+              "physical_entity.n.01",
+              "object.n.01",
+              "whole.n.02",
+              "living_thing.n.01",
+              "organism.n.01",
+              "animal.n.01",
+              "chordate.n.01",
+              "vertebrate.n.01"
+            ]
+          ],
+          "lemma": "vertebrate",
+          "lemma_names": [
+            "vertebrate",
+            "craniate"
+          ],
+          "lexname": "noun.animal",
+          "native_records": [
+            {
+              "has_holonyms": true,
+              "has_meronyms": true,
+              "hypernym_depth": 9,
+              "hyponym_count": 10,
+              "lexname": "noun.animal",
+              "pos": "noun",
+              "synset_name": "vertebrate.n.01",
+              "word": "vertebrate"
+            }
+          ],
+          "pos": "noun",
+          "synset_name": "vertebrate.n.01",
+          "taxonomy_proposals": [
+            {
+              "kind": "lexname",
+              "origin": "noun.animal",
+              "primitive": "ALIVE",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "lexname",
+              "origin": "noun.animal",
+              "primitive": "SOMETHING",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "is_a",
+              "origin": "entity.n.01",
+              "primitive": "SOMETHING",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "is_a",
+              "origin": "living_thing.n.01",
+              "primitive": "ALIVE",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "is_a",
+              "origin": "organism.n.01",
+              "primitive": "ALIVE",
+              "status": "CANDIDATE",
+              "value": 1
+            },
+            {
+              "kind": "is_a",
+              "origin": "physical_entity.n.01",
+              "primitive": "SOMETHING",
+              "status": "CANDIDATE",
+              "value": 1
+            }
+          ]
+        },
+        "record_id": "wordnet:vertebrate:vertebrate.n.01",
+        "scope": "lexical",
+        "source": "wordnet_hierarchy"
+      }
+    }
+  ],
+  "observed_outcomes": {
+    "teacher_man": 0,
+    "reserved_bird": 0,
+    "other_reserved_questions": "pending; not supplied as votes"
+  },
+  "actual_bird_input_facts": {
+    "definition": "warm-blooded egg-laying vertebrates characterized by feathers and forelimbs modified as wings",
+    "known": {
+      "ALIVE": 1,
+      "GOOD": 0,
+      "SOMETHING": 1
+    },
+    "ancestor_evidence": "exact native IDs and full hypernym paths; no complete ancestor definitions in the model view",
+    "lexicon_writes": false
+  },
+  "primary_source": {
+    "citation": "Cliff Goddard (2018), A Semantic Menagerie: The Conceptual Semantics of Ethnozoological Categories, pp.539–559. DOI 10.22363/2312-9182-2018-22-3-539-559",
+    "sha256": "4fba1e666598aba542ebfd98ded45ad7035211f56be625bf61a19cc74ec13c09",
+    "complete_text": "                               Russian Journal of Linguistics                      2018 Vol. 22 No. 3 539—559\n                          Вестник РУДН. Серия: ЛИНГВИСТИКА                        http://journals.rudn.ru/linguistics\n\n\n\n\nDOI: 10.22363/2312-9182-2018-22-3-539-559\n\n    A Semantic Menagerie: The Conceptual Semantics\n             of Ethnozoological Categories\n                                            Cliff Goddard\n                                         Griffith University\n                        170 Kessels Road, Nathan, Queensland 4111 Australia\n\nAbstract\nFollowing the seminal work of Wierzbicka (1985, 2013), this paper proposes and discusses a set of semantic\nanalyses of words from three different levels of the English ethnozoological taxonomic hierarchy (Berlin\n1992): creature (unique beginner), bird, fish, snake, and animal (life-form level), dog and kangaroo (generic\nlevel). The analytical framework is the Natural Semantic Metalanguage approach (Wierzbicka 1996, 2014,\nGoddard and Wierzbicka 2014). Though ultimately resting on the foundational elements of the NSM\nsystem, i.e. 65 semantic primes and their inherent grammar of combination, the analysis relies on\nthe analytical concepts of semantic molecules and semantic templates (Goddard 2012, 2016). These provide\nmechanisms for encapsulating semantic complexity and for modelling relations between successive layers\nof the hierarchy. Other issues considered include the extent to which cultural components feature\nin the semantics of ethnozoological categories, and the extent to which semantic knowledge may vary across\ndifferent speech communities.\nKeywords: lexical semantics; NSM; ethnozoology; semantic complexity; semantic molecules; Anna\nWierzbicka\n\n\n\n\n                       Семантическая менажерия:\n                       концептуальная семантика\n                      этнозоологических категорий\n                                          Клифф Годдард\n                                      Университет Гриффит\n                        170 Kessels Road, Nathan, Queensland 4111 Australia\n\nАннотация\nОсновываясь на фундаментальных работах Анны Вежбицкой (Wierzbicka 1985, 2013), автор статьи\nпредлагает семантический анализ слов, принадлежащих к разным уровням английской этнозоологи-\nческой иерархии (Berlin 1992): creature (первичная форма жизни), bird, fish, snake, animal (уровень\nжизненных форм), dog, kangaroo (родовой уровень). В работе используется подход Естественного\nСемантического Метаязыка (ЕСМ) (Wierzbicka 1996, 2014; Goddard and Wierzbicka 2014). Используя\nосновополагающие принципы ЕСМ, то есть 65 семантических примитивов и присущую им грам-\nматику сочетаемости, анализ основывается на аналитических концептах семантических молекул\nи семантических моделей (Goddard 2012, 2016). Они предоставляют механизмы для отражения\nсемантической сложности и моделирования отношений между последовательными уровнями\n\n\n                                                                                                               539\n\f       Клифф Годдард. Вестник РУДН. Серия: ЛИНГВИСТИКА. 2018. Т. 22. № 3. С. 539—559\n\nиерархии. В работе также рассматриваются вопросы степени присутствия культурных компонентов\nв семантике этнозоологических категорий и степени различия семантического знания между\nязыковыми сообществами.\nКлючевые слова: лексическая семантика, Естественный Семантический Метаязык (ЕСМ),\nэтнозоология, семантическая сложность, семантические молекулы, Анна Вежбицкая\n\n                                    1. BACKGROUND\n     There is an enormous literature on natural kind concepts. In ethnobiology the major\nreference points include Berlin (1972, 1992), Brown (1977), and Atran (1990), in\nphilosophy Kripke (1977), and in cognitive psychology Rosch (1977, 1978). In linguistic\nsemantics, the foundational work is Wierzbicka (1985), building on Apresjan (1969,\n1992 [1974]).\n     Across this literature, there is broad agreement that it makes sense to recognise\ntaxonomic hierarchies (Berlin 1992), with the words at each rank being semantically\nmore general and wider in their denotative range than the ones below them. The maxi-\nmum number of levels, not found in all languages or in all domains, is said to be five:\nunique beginner > life-form > generic > specific > varietal. Berlin claims, however,\nthat all languages distinguish at least two levels: life-form and generic. This paper\nproposes a set of semantic analyses (explications) of words from three levels of the\nEnglish ethnozoological taxonomic hierarchy: creature (unique beginner), bird, fish,\nsnake, and animal (life-form level), dog and kangaroo (generic level).\n                                     1.1. Framework\n      The analytical framework is the Natural Semantic Metalanguage approach\n(Wierzbicka 1996, Goddard and Wierzbicka 2014), a system of meaning representation\nbased on a small inventory of fundamental, indefinable elements of meaning: semantic\nprimes. They are listed in Appendix A using English exponents. Comparable lists exist\nfor about 30 languages.\n      Semantic primes have an inherent syntax which allows them to be combined into\nphrases, sentences and texts. Evidence suggests that this syntax is language-independent,\nin the sense that the same combinations can be realised in all or most languages. As well\nas simple combinatorial possibilities (e.g. ‘something good/bad’, ‘in many places’),\nsemantic primes can have extended valency and complement options. Language-specific\nvariant forms or “allolexes”, and portmanteau expressions, are also allowed, e.g. English\nelse for other, often for ‘at many times’. Together, semantic primes and their associated\ngrammar make up the core of the Natural Semantic Metalanguage. In addition to\nsemantic primes, many explications require the use of various semantic molecules\n(Goddard and Wierzbicka 2014, Goddard 2016). These are complex meanings,\nthemselves definable in terms of semantic primes, that function alongside primes as\nbuilding blocks of linguistic meaning. They are marked with [m] to distinguish them\nfrom semantic primes. Cross-linguistic research indicates that semantic primes, and many\nimportant semantic molecules, are expressible lexically in all or most languages1.\n   1\n   The metalanguage of the explications reflects the version current in 2018, sometimes termed\nNSM4 (Goddard 2018: 36).\n\n540\n\f              Cliff Goddard. Russian Journal of Linguistics, 2018, 22 (3), 539—559\n\n     Using this metalanguage allows researchers to decompose complex language-\nspecific meanings into text-like configurations (semantic explications) of simple cross-\ntranslatable concepts. Explications for a given semantic subclass typically follow\na consistent semantic template, i.e. the content is arranged into sections that appear in\na logical sequence. The role of each section is indicated by labels on the right-hand side,\nbut these are not part of the explications proper.\n                                       1.2. Preview\n      To present seven complex explications in the space available, it is necessary to\nconfine the discussion and justification to key points. By way of overview, it will be\nhelpful to make three general comments. First, even though in most cases I have been\nable to build on previous work, (re)formulating each one of these explications has been\nan arduous process. Most have presented numerous puzzles of expression connected with\nthe challenge of capturing intricacies of meaning using a very small metalanguage.\n      A second issue (or pair of issues) concerns the optimal selection of semantic mole-\ncules and the structure of the semantic templates. I want to flag that I am proposing\na new solution to a paradox concerning the role of ‘animal [m]’ as a semantic molecule\nof English. The paradox arises because from the intuitive point of view of an English\nspeaker, dogs, horses, kangaroos, and so on, are clearly categorised as animals; and\nyet it is well-known that the meaning of this English word is rather language-specific.\nIf ‘animal [m]’ is used as a taxonomic head, as it was in Goddard (2011), the implication\nis that the English-language conceptualisation of all the lower-level generic words\nis significantly different to that of closely related European languages. On the other\nhand, if ‘living thing’ or ‘creature [m]’ is used as the top-level taxonomic head and\n‘animal [m]’ is omitted altogether, the explications seem to be missing an important\nelement. Briefly, the solution proposed here is to include ‘animals [m]’, but not as\na taxonomic head.\n      Third, there is the long-recognised issue of how much semantic detail deserves\nto be included in an explication (the “what’s in, what’s out?” question), and, relatedly,\nthe question as to how much semantic variation there can be across English-speaking\ncommunities and between individuals. Wierzbicka (1985) distinguished between what\nshe termed “concept maximum” and “concept minimum”. The “concept maximum” desig-\nnates what competent adult speakers know in virtue of knowing the language well, as\nevidenced by phraseology and collocation: a linguistically scaffolded, shared stereotype.\nIt may include cultural knowledge and culturally-conditioned construals. The “concept\nminimum” can be thought of as the minimum collection of features that a person needs\nto know in order to recognise a given creature as an instance of, say, the category dog,\nhorse, or kangaroo. I accept the usefulness of this distinction, and in this study I am\ngenerally out to capture the concept maximum. Notwithstanding, however, it seems\nclear that for some words, speakers of some varieties of English have richer semantic\nentries than others because they have richer shared understandings of the concept\nin question. To open up this issue, section 5 considers two generic-level concepts which\ndiffer markedly in this respect: dogs and kangaroos. Section 6 is a concluding discussion.\n\n                                                                                      541\n\f       Клифф Годдард. Вестник РУДН. Серия: ЛИНГВИСТИКА. 2018. Т. 22. № 3. С. 539—559\n\n                            2. A UNIQUE BEGINNER: ‘CREATURE’\n    It can be hypothesised that all or most languages share a rather simple “unique\nbeginner” in the ethnozoological domain, explicated in [A] below. This explication is\nsimpler than the version presented in Goddard (2011).\n    [A] creatures\n            something living\n            something like this can move\n            something like this can feel something\n\n     It must be admitted that the universality of this meaning has not yet been thoroughly\ntested and the picture is complicated, in some languages, by polysemy and other\nlanguage-specific factors.\n     In Russian, the closest equivalent is (zhivye) sushchestva ‘(living) creatures’2,\nin Polish stworzenia. In German Tier(e) is probably the preferred equivalent. Though\nnormally translated as ‘animal(s)’, it is much broader in its range of application and can\nbe used freely about birds, insects, snails, and so on. For French, the best candidate\nis probably bête, for similar reasons. Both German Tier(e) and French bête(s) are likely\nto be polysemous, as suggested by the fact that bête, for example, normally suggests\na large creature3.\n     As an example of a different kind of polysemy, in the Australian Aboriginal\nlanguage Warlpiri the equivalent meaning appears to be expressible by the polysemous\nword kuyu, which also can have the narrower meaning ‘edible creature, game’, as well as\n‘meat’. Kuyu in both these narrower senses can apply equally well to all edible creatures,\nincluding birds, lizards and snakes. Both meanings are very frequent and salient but\na broader meaning is also attested, for example, in the title of the Warlpiri booklet Kuyu\nNgarninja-wangu (“Kuyu we do not eat”) by Robertson George Jampijinpa (1980).\nWhether this broader meaning is precisely identical to ‘creature’ requires further\nresearch, but it seems clear that they are substantially equivalent.\n\n                                     3. LIFE-FORM WORDS\n     It is arguable that all or most languages have taxonomic heads comparable in\nmeaning to ‘birds’ and ‘fish’. To say this is not to claim that such words are absolute\nuniversals (cf. Goddard 2018: 57—59), because it is well established in the linguistic\nand anthropological literature that such words can differ in their range of application,\nespecially in relation to large flightless birds and bats.\n   2\n      Sushchestva can also be understood as ‘beings’, consistent with its morphological makeup,\nthough clearly it would not make sense to speak of a fish or snail as a ‘being’. Together with the fact\nthat sushchestva can be used about people, e.g. pisateli — eto verkhovnye sushchestva ‘writers —\nthey are supreme beings’, and about ‘extraterrestrial beings’ vnezemnye sushchestva, this indicates\nthat sushchestva is polysemous between ‘creatures’ and ‘beings’. The adjective zhivye ‘living’ serves to\n“select” the ‘creature’ meaning.\n    3\n      All three languages also have other, more abstract-sounding and/or technical words, e.g. Russian\nsozdanie, tvorenie, tvar’, French animal, créatures, German Lebewesen, but these are not preferred\ncandidates in view of the existence of “plainer” and more stylistically versatile alternatives.\n\n542\n\f                Cliff Goddard. Russian Journal of Linguistics, 2018, 22 (3), 539—559\n\n                                               3.1. Birds\n      Explication [B] follows the previously-proposed semantic template (see section\nlabels at right-hand side), with the addition of a new second section (b) called Main\nFeatures.\n      A few selective comments follow. The wording of section (a) (‘creatures [m] of one\nkind, there are many kinds of such creatures [m]’) corresponds to Berlin’s observation\nthat life-form words are characterised by “polytypicity”. (The expression ‘such creatures’\nis a portmanteau for ‘creatures like these’.) Explications for the molecules ‘wings [m]’,\n‘feathers [m]’ and ‘eggs [m]’, used in section (b), are given in Appendix B. Needless\nto say, to avoid circularity, they are phrased without reference to birds. The third line\nof section (b) is phrased to allow for the existence of flightless birds, while acknowledg-\ning that birds are commonly thought of as being able to fly. Sections (c) and (d) capture,\nrespectively, diversity in the range of places where birds live and where they are\ncommonly found, and in their sizes. Provision for a range of habitats and sizes is typical\nfor major life-form concepts.\n      In section (e), Body, the various parts of the bird’s body design are described as\nbeing like human body-parts, such as ‘head’ and ‘legs’. This detail of wording is\nnecessary because the explications for ‘head’ and ‘legs’, and so on, are based explicitly\non people’s bodies (Wierzbicka 2007). Section (f), Behaviour, provides for the existence\nof flightless birds, as well as saying something about what birds eat. Section (g), Sounds,\nis an important part of the bird concept, since many birds make distinctive species-\nspecific sounds which are often pleasant to the ear. In connection with this last point,\nwe can note the English use of the verb sing about birds, and expressions such as bird\nsong and song birds; on the other hand, some birds, such as crows and parrots, are not\nsaid to ‘sing’, but to chirp, screech, caw, etc.\n     [B] birds\n     a. creatures [m] of one kind                                                                CATEGORY\n          there are many kinds of such creatures [m]                                   WITH SUB-CATEGORIES\n\n     b. creatures [m] of all these kinds have wings [m],                                     MAIN FEATURES\n          there are many many feathers [m] on [m] the wings [m]\n        when they are very small, their bodies are inside eggs [m]\n        when people think about them, they often think like this: “they can fly [m]”\n     c. many kinds of such creatures [m] live in places                                    WHERE THEY LIVE\n          above the ground [m], often they are flying [m],\n          sometimes they are in trees [m]\n        some kinds live in places where there is much water [m],\n          sometimes they are flying [m], sometimes they are on the water [m]\n        some kinds, not many, live in places on the ground [m]\n     d. many kinds of these creatures [m] are small, some kinds are very small                        SIZE\n        some kinds are big, some (not many) are very big\n     e. the bodies of these creatures [m] are not like the bodies                                    BODY\n          of creatures [m] of other kinds\n\n\n                                                                                                      543\n\f      Клифф Годдард. Вестник РУДН. Серия: ЛИНГВИСТИКА. 2018. Т. 22. № 3. С. 539—559\n\n           their bodies are like this:\n           — one part of their bodies is like people’s heads [m]                                — head\n              two parts are like people’s eyes [m], one of them is on one side\n                   of the head [m], the other one is on the other side of the head [m]\n           — they don’t have a part like people’s nose [m],                                  — beak/bill\n                   they don’t have a part like people’s mouth [m]\n              in the place where these parts of people’s face [m] are, these creatures [m]\n                   have another part, it is not like any part of people’s body\n              it has two parts, they are hard [m], one of them is above the other one\n           — two other parts of their bodies are like people’s legs [m]                          — legs\n           — one part of their bodies is not like any part of people’s bodies                     — tail\n              this part is at the back [m] of the body\n           — these creatures [m] can have bodies of two kinds,                      — male and female\n                 like people can have bodies of two kinds\n             there can be eggs [m] inside the bodies of creatures [m]\n                 of one of these two kinds\n      f.   many kinds of these creatures [m] can fly [m],                                    BEHAVIOUR\n              some (not many) can’t fly [m]\n           these creatures [m] eat [m] very small things\n              some of these very small things are living creatures [m],\n              some are not living creatures [m]\n      g. many kinds of these creatures [m]                                                      SOUNDS\n            often do something like people do with their mouths [m]\n            when they want to say something\n         people can hear something because of this\n         sometimes when people hear it, they can know what kind of creature [m] it is,\n            sometimes they can think: “this is like singing [m]”\n\n     Nothing has been included in explication [B] about nests, but probably this should\nbe added.\n\n                                               3.2. Fish\n     The explication in [C] follows the same template as used for birds, except that two\nsections, Behaviour and Sounds, are omitted, and there is a final section ‘Relation\nto People’, which indicates the existence of fishing as a human activity.\n     Here are a few selective comments. In the final line of section (b), the word ‘swim’\nhas been avoided, since it is well known that in many languages one does not speak\nabout fish “swimming”. In section (c), it is assumed that ‘sea [m]’ is a widespread\n“approximate” semantic molecule. In the Body section, nothing is said about there being\ntwo kinds of bodies, i.e. male and female. In fact, fish bodies do come in two types but\nthe differences are difficult to discern, and, in my view, do not form part of the general\nconcept of fish.\n      [C] fish\n      a. creatures [m] of one kind                                                            CATEGORY\n         there are many kinds of such creatures [m]                                WITH SUB-CATEGORIES\n\n      b. creatures [m] of all these kinds live in places                                 MAIN FEATURES\n           where there is much water [m]\n         they live in (inside) this water [m]\n\n\n544\n\f                 Cliff Goddard. Russian Journal of Linguistics, 2018, 22 (3), 539—559\n\n          they can move in this water [m] as they want\n          if they are not in water [m] for some time, they can’t live\n     c. many kinds of these creatures [m] live in the sea [m]                           WHERE THEY LIVE\n        many kinds live in other places where there is much water [m]\n     d. some kinds of these creatures [m] are small, some kinds are very small                     SIZE\n        some kinds are big, some (not many) are very big\n     e. the bodies of these creatures [m] are not like the bodies                           BODY\n          of creatures [m] of other kinds\n        their bodies are like this:\n        — they are long [m]\n        — they don’t have parts like people’s arms [m],\n                they don’t have parts like people’s legs [m]                          — limbless\n        — they have some flat [m] parts on two sides of their bodies                       — fins\n             these parts can move when this creature [m] wants\n             when this happens, the body can move in the water [m] as this creature [m] wants\n        — one part of their bodies is like people’s heads [m]                            — head\n             two parts of this part are like people’s eyes [m],\n                one part of this part is like people’s mouth [m]\n        — they don’t have a part of the head [m] like people’s nose [m]\n        — one part of their bodies is not like any part of people’s bodies,                — tail\n                this part is at the back [m] of the body, this part can move\n        — there are many very small flat [m] thin [m] things                            — scales\n                on all sides of their bodies\n                                                                                 RELATION TO PEOPLE\n     f.   people can eat [m] parts of the bodies of these creatures [m]                   — food\n          because of this, some people do many things in many places                     — fishing\n            where there is much water [m]\n            because they want some of these creatures [m] not to be in water [m] anymore\n\n     An issue which is open for discussion is whether there should be an additional ‘How\nPeople Think About Them’ section, as proposed in Wierzbicka (1985). Such a section\nseems well motivated for many generic-level words, but it is not clear whether the same\napplies for life-form words. In the case of fish, one candidate for such a section would\nbe a component along the following lines: ‘when something bad happens to their bodies,\nthey don’t feel something bad like people feel something when something bad happens\nto people’s bodies’. This would capture an apparently widespread folk belief that fish\ndo not feel pain.\n\n                               3.3. Minor life-form words\n     Not all life-form concepts are as complex as ‘fish’ and ‘birds’, or as prolific as\ntaxonomic heads; and not all have equal claim to the status of approximate or near-\nuniversals. On the contrary, it appears that languages may possess various minor, less\nwell differentiated, life-forms (cf. Atran 2000). Consider the English word snakes. There\nare some primary lexemes for individual kinds of snake, e.g. python, viper, cobra, and\n(in Australia) death adder and taipan, but people are well aware that there are many\nother kinds which go unnamed. A tentative explication is given in [D].\n     [D] snakes\n            creatures [m]\n            there are many kinds of such creatures [m]\n\n\n                                                                                                  545\n\f      Клифф Годдард. Вестник РУДН. Серия: ЛИНГВИСТИКА. 2018. Т. 22. № 3. С. 539—559\n\n           the bodies of creatures [m] of this kind are long [m]\n           their bodies touch the ground [m] at all times\n           when people see their bodies, they can think that the body is all one thing,\n                 it has no parts like people’s arms [m], it has no parts like people’s legs [m]\n           some creatures [m] of this kind can do something very bad to people\n\n     Spider deserves to be recognized as another minor life-form word of English, given\nthe existence of primary lexemes like tarantula, daddy long-legs, and, in Australia, red\nback, funnel-web, and huntsman.\n     Languages vary in the number and semantic composition of these minor categories,\nand in whether or not they function as taxonomic heads. For example, Polish grzyby,\nthe near-equivalent of ‘mushroom’, functions as a taxonomic head in words for various\nkinds of mushrooms, such as kurki, maślaki, koźlaki, prawdziwki, borowiki, rydze,\npieczarki, and muchomory (Wierzbicka 2009).\n\n                                            4. ANIMALS\n      Explication [E] below is based on that presented in Wierzbicka (2013). The main\ndifference that the molecule ‘creatures [m]’ is used in place of the expression ‘living\nthings’. There are a number of notable points. First and foremost, the initial component\npresents animals as a multi-category concept, i.e. not ‘creatures [m] of one kind’, but\nrather ‘creatures [m] of many kinds’. This is the hallmark of a collective (as opposed\nto a taxonomic) hyponym (Goddard 2017).\n      Second, in section (b), there is an immediate physical comparison with people:\n‘their bodies are like people’s bodies, not like the bodies of creatures [m] of many other\nkinds’. As we will see, throughout the explication there is a series of alignments and\ncontrasts with the concept of people. This may seem unexceptional but not all languages\ndo this — not even all European languages. As mentioned, if we compare English\nanimals with its nearest counterpart in German, we see that German Tiere (singular:\nTier) embraces a much broader range of creatures. Fish, birds, snakes, and even spiders\nand insects, can be regarded as Tiere (and likewise, in Danish, as dyr).\n      In section (c), ‘Where They Live’, we can see other components that help delimit\nthe concept of animals. They are said to live in ‘places where parts of their bodies can\noften touch the ground [m]’. This serves to exclude fish and other aquatic creatures, but\nit does not exclude tree-dwelling creatures such as squirrels and monkeys. Living on land,\nsquirrels and monkeys can still often be in contact with the ground, even though they\nspend much of their time in the trees. Skipping down to section (g), the last two\ncomponents provide for the existence of numerous wild animals, and also for a number\nof animal kinds that live in association with people.\n      A couple of further points follow. In section (d), the Body section, it is stated that\nmany animals have two legs at the front and two at the back (this wording allows for\nexceptions such as kangaroos and chimpanzees). Section (e), ‘Male and Female’, says\nthat their bodies come in two kinds, one with some parts ‘like parts of women’s [m]\nbodies’ and the other with some parts ‘like parts of men’s [m] bodies’. The comparison\nwith people continues in section (f), in relation to how animals are ‘born [m]’ and cared\nfor after birth.\n\n546\n\f                 Cliff Goddard. Russian Journal of Linguistics, 2018, 22 (3), 539—559\n\n     Finally, there is a section ‘How People Think About Them’, which sums up\npeople’s ambivalent attitudes towards animals: recognising that they can do many things\nand feel many things, but equally that they lack human capacity for knowledge, speech\nand thought, and in particular that they lack any “sense of right and wrong” (‘they can’t\nthink like this about something: ‘it will be good if I do this, it will be bad if I do this’);\ncf. words and expressions such as animalistic, like an animal, they behaved like animals,\nand the like.\n     [E] animals\n     a. creatures [m] of many kinds                                                   MACRO-CATEGORY\n\n     b. people can think about them like this:                                            MAIN FEATURES\n          “their bodies are like people’s bodies, not like the bodies\n          of creatures [m] of many other kinds”\n     c. such creatures [m] live in places of many kinds                                 WHERE THEY LIVE\n        people can think about it like this:\n          “they live in places where parts of their bodies can often touch the ground [m]”\n     d. many parts of their bodies are like parts of people’s bodies                               BODY\n        — one part is like people’s head [m]                                                    — head\n        — one part is like people’s mouth [m]                                                  — mouth\n          — some parts of their bodies are like people’s legs [m]                                — legs\n            when people think about these parts of the bodies of such creatures [m],\n               they can think like this:\n               “two of these parts are at the front [m] of the body, two others are\n               at the back [m] of the body”\n               at the same time people can know that the bodies of some kinds\n               of such creatures [m] are not like this\n          — one part of the bodies of such creatures [m] is not like                              — tail\n                 any part of people’s bodies\n            this part is at the back [m] of their bodies, it is long [m]\n            this part can move when this creature [m] wants it\n     e. creatures [m] of all these kinds can have bodies of two kinds                  MALE AND FEMALE\n          like people can have bodies of two kinds\n        some parts of the bodies of one of these two kinds are like some parts\n          of men’s [m] bodies,\n        some parts of the bodies of the other kind are like some parts\n          of women’s [m] bodies\n     f.   people can think about it like this:                                                      YOUNG\n             because creatures [m] of all these kinds have bodies of these two kinds,\n                 small creatures [m] of these kinds can be born [m] like people are born [m]\n          before they are born [m], their bodies are for some time inside the body\n             of a big creature [m] of the same kind,\n             like a child’s [m] body is inside the body of this child’s [m] mother [m]\n             before this child [m] is born\n          for some time after these small creatures [m] are born [m], they are often\n             with this big creature [m],\n             like a child [m] is often with its mother [m] for some time after it is born [m]\n          this big creature [m] can do some good things for these small creatures [m] during this time,\n             like a child’s [m] mother [m] can do some good things for this child [m] for some time\n                after this child [m] is born [m]\n\n                                                                                                    547\n\f      Клифф Годдард. Вестник РУДН. Серия: ЛИНГВИСТИКА. 2018. Т. 22. № 3. С. 539—559\n\n      g. people can think about these creatures [m] like this:                     RELATION TO PEOPLE\n           “there are many kinds of these creatures [m]\n           creatures [m] of some of these kinds live in places where people live\n           sometimes people want this because it can be good for people,\n           sometimes people don’t want this\n           creatures [m] of some other kinds live far from places where people live\n           they don’t want to live near places where people live\n           at the same time, people don’t want them to live near places where people live\n               because creatures [m] of some of these other kinds can do very bad things to people”\n      h. people can think about creatures [m] of all these kinds like this:           HOW PEOPLE THINK\n           “they can do many things, they can feel many things”                             ABOUT THEM\n         at the same time, people can think about them like this:\n           “they can’t know many things like people know many things\n           they can’t say something with words like people can say something with words\n           they can’t think like people can think, they can’t think like this about something:\n              ‘it will be good if I do this, it will be bad if I do this’”\n\n                                  5. GENERIC-LEVEL WORDS\n     As mentioned, Goddard (2011) had proposed that in English the word ‘animal’\nfunctions as a taxonomic head in the explications for individual species words such as\ndog, cat, mouse, and so on. This proposal brought with it certain difficulties, however,\nbecause it seems counter-intuitive to say that the semantics of English dog and German\nHund, for example, are different at the very highest level of categorisation. The present\npaper proposes an alternative strategy, according to which ‘animal [m]’ does appear\nin the explication of dog and kangaroo — though not as a taxonomic head.\n     Wierzbicka (1985) explicated many generic-level terms, including dogs, cats,\nhorses, cows, tigers, squirrels, foxes, wolves, lions, and elephants, among others. See\nGoddard (2011) for more recent explications of cats, mice, and rats. As noted by\nWierzbicka (1985), people’s general knowledge about an animal species greatly depends\non its role in human life: expressions such as domestic animals, farm animals, zoo\nanimals and wild animals reflecting different domains and degrees of contact.\n     The template used below follows Wierzbicka (1985, 2013) with the following\nsections (except that with dogs, there is a special ‘Exceptional Relation With People’\nsection inserted in second position): Category, Where They Live, Size, Body, Sounds,\nBehavior, Relation to People, How People Think About Them. One open question is\nwhether the final section deserves to be included or whether it should be dealt with as\na cultural script; see end of section 5.1.\n                                         5.1. Dogs\n     Explication [F] is one of the longest and most complex of all generic-level explica-\ntions, which is only to be expected, given that dogs are the most familiar of all domestic\nanimals. Indeed, it is believed that they co-evolved with humans from wolf-like\nancestors, this accounting for their highly developed social cognition (Hare, et al. 2002).\nDogs also come close to being a “universal animal”, in the sense of being known by\nthe vast majority of the world’s cultures, albeit with differing roles and cultural attitudes.\nHere we focus on dogs as they are seen in the Anglo English linguaculture.\n\n548\n\f                Cliff Goddard. Russian Journal of Linguistics, 2018, 22 (3), 539—559\n\n     The phraseology associated with dogs is extensive, including body-parts and\nendonyms, vocalisations, stage of life, words related to keeping and looking after dogs,\ncompounds related to “working dogs”, commands, breeds (specifics), cousin species,\nand numerous sayings and proverbs. Space prohibits reviewing these in any detail here.\n     ♦ paws, snout, wag tail ♦ bark, growl, whimper, whine, howl, snarl, pant, yelp\n     ♦ woof-woof, bow-wow ♦ puppy, pup, bitch ♦ leash, collar, muzzle, kennel, dog\n     food ♦ walk the dog, train a dog, wash the dog, dog-trainer ♦ farm dog, sheep\n     dog, cattle dog, working dog, hunting dogs, police dogs, security dogs, guard dogs,\n     sniffer dogs, guide dogs, seeing-eye dogs, show dogs ♦ commands (fetch!, sit!, lie\n     down!, come!, heel!) ♦ mongrel, mutt, dog breeds (Labrador, poodle, terrier,\n     beagle, greyhound, Corgi, etc.) ♦ wolf, dingo, hyena\n     ♦ sick as a dog, treated like a dog, a dog’s life, in the dog house, die like a dog\n     ♦ man’s best friend, you can’t teach an old dog new tricks, let sleeping dogs lie.\n      There are many aspects of explication [F] that warrant discussion. Space permits\nonly five observations at this point. First, the explication asserts “canine exceptionalism”\nfrom the onset, in sections (a) and (b), and this is elaborated in great detail in the lengthy\nsection (g) ‘Relation to People’. Second, the Size and Body sections, (c) and (d) re-\nspectively, provide for a great deal of diversity. Third, section (e) attempts to capture\nsome of the complexities of dog sounds, in particular, the “messages’ expressed\n(or thought to be expressed) by barking and by growling. The existence of howling\n(whimpering, etc.) is also briefly alluded to. Fourth, the Behaviour section (f) includes\nnot only some typical behaviours and abilities of dogs, but also their tail wagging and\ntheir sense of smell. Fifth, the ‘Relation to People’ section (g) is extensive, including\ntheir role as pets and companions, the special relationship that dogs can have with their\nowner or master, their territoriality (though possibly this should be positioned under\nBehaviour), and how they can help people in many tasks. The possibility of people\nmistreating dogs is also mentioned. I reserve discussion of the final section (h) until after\nthe explication.\n      Along with the astonishing degree of semantic detail, a striking feature of the\nexplication is how frequently it attributes human-like capacities of thinking (and even,\nsaying) to dogs, albeit the model thoughts are short and context-bound.\n     [F] dogs\n     a. creatures [m] of one kind                                                             CATEGORY\n        they are animals [m], at the same time they are not like animals [m] of other kinds\n     b. they want to do many things with people, they can do many things EXCEPTIONAL RELATION\n          as people want                                                             WITH PEOPLE\n        many of them live with people because people want this\n        many of them are like this: when people say some words to them because\n          these people want them to do something, they can know what these people want to say\n     c. some of them are big, someone can’t pick up [m] one like this                             SIZE\n        some of them are small, someone can pick up [m] one like this with two hands [m]\n        some are very small, some are very big\n\n\n                                                                                                  549\n\f      Клифф Годдард. Вестник РУДН. Серия: ЛИНГВИСТИКА. 2018. Т. 22. № 3. С. 539—559\n\n      d. their bodies are like this:                                                                 BODY\n         — one part of the head [m] sticks out [m], this part is below the eyes [m]\n               the nose [m] is part of this part of the head [m], the mouth [m]\n               is part of this part of the head [m]\n         — their ears [m] are on two sides of the top [m] of the head [m]\n         — they have sharp [m] teeth [m]\n              they have long [m] tongues [m], often people can see parts of their tongues [m]\n         — they have two legs [m] at the front [m] of the body\n              they have two legs [m] at the back [m] of the body\n         — some of them have long [m] legs [m], some don’t have long [m] legs [m]\n         — many of them have a long [m] tail [m], some don’t have a long [m] tail [m]\n      e. they can do some things with the mouth [m], when they do this, people can hear            SOUNDS\n            something of one kind because of it, someone far away can hear it                   — barking\n         when people hear something of this kind, they can think about it like this:\n            “it wants to say something like this: ‘something is happening here now,\n            I feel something now because of it, I want to do something now because of it’ \"\n           they can do some other things with the mouth [m], when they do this,                — growling\n              people can hear something of another kind because of it\n           when people hear something of this other kind, they can think about it like this:\n              “it wants to say something like this to someone: ‘I feel something bad towards you,\n                   I want to do something bad to you with my teeth [m]’”\n           they can do some other things with the mouth [m]                               — other sounds\n           when people hear something because of this, they can think about it like this:\n             “it is feeling something very bad now”\n      f.   they can do things like this:                                                        BEHAVIOUR\n           — when they want to be somewhere else after a short time,\n                  they can move quickly [m]\n           — they can do many things with their mouths [m]\n               they can bite [m] other creatures [m], they can bite [m] people\n               they can pick up [m] something with their mouth [m],\n               they can hold [m] something with their mouth [m]\n           — often when they want to eat [m] something, they want to eat [m] meat [m]\n           — sometimes they kill [m] creatures [m] of other kinds\n           — when they feel something good towards someone,                              — tail wagging\n               they often do something with their tails [m]\n             when they do this, the tail [m] moves many times in a short time\n           — when one of them is in a place, it can know many things                  — sense of smell\n                 about this place because it can do something with the nose [m]\n             if someone was in this place not long before, it can know it\n      g. many people feel good things towards them                                  RELATION TO PEOPLE\n         — many of them live in people’s houses [m] because                                — domestic\n                these people want this,\n           many of them live near people’s houses [m] because these people want this\n         — often these people think about such animals [m] like this: “this is someone”         — pets\n           they do some good things for this animal [m]\n           they often want it to know that they feel something good towards it\n           at the same time they want to know that it feels something good towards them\n         — sometimes it is not like this, sometimes some people                         — mistreatment\n                do very bad things to animals [m] of this kind\n         — many animals [m] of this kind think about someone like this:               — owner, master\n                “this someone is not like any other someone”\n           when one of them thinks like this about someone, it wants to often\n             be with this someone, it wants to often do things with this someone\n      — sometimes animals [m] of this kind think about a place like this:                       — territory\n          “this place is not like any other place”\n        when one of them thinks like this about a place, it wants\n          other animals [m] not to be in this place\n\n\n550\n\f                Cliff Goddard. Russian Journal of Linguistics, 2018, 22 (3), 539—559\n\n     — some animals [m] of this kind can do things of some kinds as people want            — work\n       it can be good for people if these animals [m] do these things\n     h. when people think about animals [m] of this kind,                          HOW PEOPLE THINK\n          they often think about them like this:                                        ABOUT THEM\n          “animals [m] of this kind are like no other animal [m]\n          when someone is with one of them, this someone can feel something good\n              like someone can feel when this someone is with other people”\n        at other times they think about them like this:\n          “they are not like people\n          sometimes they do things with their parts of their bodies not like people do\n          if people did such things, it would be very bad”\n\n      There are several notable aspects surrounding the ‘How People Think About Them’\nsection. First, the wording of the introductory component (‘when people think about\nanimals [m] of this kind, they often think about them like this: ...’) is slightly different\nto that of the comparable section in explication [E] (‘people can think about creatures [m]\nof all these kinds like this: ...’). This is a minor, and presumably innocuous, difference\ndue to the different structure of generic-level, as opposed to life-form, concepts. Second,\nthere is the more problematical issue of how to capture the idea that dogs can be thought\nof as sexually loose, i.e. indiscriminate in their mating, as well as sometimes engaging\nin other potentially disgusting bodily behaviours, e.g. licking or sniffing each other’s\ngenitals. The idea behind the component is to indicate the general nature of such\nbehaviours without going into too much detail.\n      A final and more general question is whether a ‘How People Think About Them’\nsection deserves to be included in the semantic explication at all. An alternative approach\nwould be to represent the same content using a kind of cultural script (Goddard 2009,\nWierzbicka 2015). Cultural scripts, briefly, are the NSM mechanism for representing\nsocial attitudes and norms, especially concerning ways of speaking, thinking and acting.\nThey typically begin with a component like: ‘many people think like this: ....’ or ‘people\noften think about it like this: ....’. To depict commonly-held attitudes about dogs and\nother species, the following framing components might work:\n     it is like this:\n          when people think about dogs, they often think like this: ...\n          “....\n          ....”\n     many people know this\n\n      This issue is not a simple one and it is not possible to explore all the ramifications\nand possibilities here. Whatever the appropriate mechanism for capturing cultural\nattitudes towards dogs (or any other species), it is clear that they can differ widely across\ncultures and thus must be captured as part of any comprehensive ethnolinguistic\ndescription.\n                                   5.2. Kangaroos\n     From an ethnosemantic point of view, kangaroos contrast with dogs in many ways.\nThey are little known by personal contact to English speakers outside Australia, but are\nwidely known by reputation, as it were. Kangaroo was one of the earliest loan words into\nEnglish from an Australian Aboriginal language, the Guugu Yimidhirr language of north\nQueensland (Haviland 1977). It was first recorded by the botanist Joseph Banks during\n\n                                                                                              551\n\f      Клифф Годдард. Вестник РУДН. Серия: ЛИНГВИСТИКА. 2018. Т. 22. № 3. С. 539—559\n\nCaptain Cook’s 1770 voyage to Australia, and on account of the strangeness of the\nanimal (to Europeans), the word kangaroo quickly became internationally well-known.\n      Kangaroos are well represented in films, television, books, toys and souvenirs\naround the world. They are strongly associated with Australia, and indeed, the kangaroo\nis a symbol of Australia. There is a kangaroo on the Australian coat of arms (along with\nan emu), a kangaroo in motion is the logo of the national airline Qantas, and numerous\nAustralian sporting mascots and other logos feature kangaroos. Visitors to Australia will\nfind a kangaroo (a small group of them) on the $1 coin. Figure 1 shows some visual\nimages that are familiar to most Australians.\n      The phraseology associated with kangaroos is not as varied as that for dogs, which\nof course makes sense given that kangaroos are wild animals. With the exception\nof pouch, and possibly joey (young kangaroo), much of it is not widely known outside\nAustralia. In Australia, kangaroos are often called roos. They are very common, so much\nso that on many country roads people worry about hitting a roo (hence the value\nof having a roo bar fitted to your car). “Kangaroo crossing” road signs are common.\nThe form -roos is used in the names or nicknames of national sports teams, such\nas the socceroos and hockeyroos (men’s soccer and women’s field hockey teams,\nrespectively) and jillaroos, the national women’s rugby team. In Australia, most people\nwould be familiar with the collective noun mob, referring to a group of kangaroos\n(often 6-10, or more, in number).\n      Kangaroo meat (roo meat) is available in many supermarkets. People know that\nkangaroos are not farmed and that kangaroo meat is obtained from commercial shooting\nof wild kangaroos. The collocations roo shooter and roo shooting are well attested (also\nkangaroo hunting, kangaroo hunter, and less so the term kangaroo harvest). Kangaroos\nare also shot as a population control measure on farms and in national parks, a contro-\nversial practice known as kangaroo culling (also, the kangaroo cull).\n\n\n\n\n             Figure 1: Some familiar images and iconographic uses of kangaroo in Australia.\n                 At the bottom right is an advertising still for a 2018 movie “Kangaroo”.\n                        Note the small figure of the roo shooter in the background\n\n\n552\n\f               Cliff Goddard. Russian Journal of Linguistics, 2018, 22 (3), 539—559\n\n     Explication [G] is intended to capture the “concept maximum” of kangaroo\nin Australian English, supported by the linguistic and other evidence summarized\nabove. How much of this semantic content is shared across English speakers will be\ndiscussed in section 6.\n     A few observations follow. In relation to section (a), it is interesting to note that\nin reality “the kangaroo” is not a single species at all. There are several distinct species\nof kangaroo, and as well there are wallabies, which are smaller but have a similar body\nshape (they are all technically macropods). Nonetheless, from the semantic-conceptual\npoint of view of Anglo Australians, kangaroos are ‘creatures [m] of one kind’.\n     Section (b) is notable for including the country word ‘Australia [m]’ as a semantic\nmolecule in the ‘Where They Live’ section. It is more usual to find words for “habitat\nzones”, such as ‘jungle’ or ‘desert’, in this section (or expressions like ‘places where\nthere is a lot of snow’), though presumably ‘Africa [m]’ appears as a molecule in English\nwords like lion and giraffe. As it happens, there are a large number of species endemic\nto Australia, and some of them, such as koala, dingo, and platypus, are part of the every-\nday, non-specialist lexicon. As with kangaroos, there would be a case for including\n‘Australia [m]’ in explications for these words; cf. also Bromhead (2011) on the Australian\nEnglish sense of ‘the bush’.\n     The idea behind section (c) is that the Size component depends on comparison\nwith the human body, but the exact wording is open to question. It would be possible\nto use the expression ‘someone’s body’, but intuitively this sounds vague, even odd,\nand allows the unwanted possibility that the ‘someone’ could be a child. The solution\nadopted here is to make the comparison with a ‘man’s [m] body’. Needless to say, it\ngives one pause to think that the implicitly anthropocentric standard of comparison\nmay be “crypto-gendered”.\n     The Body section (d) is detailed, with attention paid to the unusual non-quadrapedal\nbody, the long feet, long tail, typically upright stance, and so on. The description of the\nlegs as ‘strong [m]’ echoes the common expression “powerful hind legs” and in relation\nto the feet it is interesting to note the Latin name for the genus, i.e. macropod, literally,\n‘large foot’. The internal ordering in this section, i.e. with legs coming first, is motivated\nby its conceptual prominence against the prototypical four-legged “model animal”.\nIt should also be noted that the Marsupial aspects of the kangaroo’s body (pouch, etc.)\nare not included here but are given in a separate section: section (g). This is because\nthese components seem to require coordinated use of “body” and “behavior” com-\nponents, on account of the relationship between ‘pouch’ and ‘joey’.\n     The Sounds (e) section of the template is empty.\n     In section (f), the words ‘jump’ and ‘hop’ have not been used, even though they\nare commonly used to describe the kangaroo’s mode of locomotion. There are three\nreasons: first, the basic sense of ‘jump’ is a single action in one place, which creates\nproblems with using it as a molecule to describe repeated actions; second, it would be\nhard to choose between ‘jump’ and ‘hop’; third, to describe the “bounding” forward\nmotion requires such an amount of additional detail that there is little to be gained\nby employing ‘jump’ or ‘hop’ as molecules.\n\n                                                                                         553\n\f      Клифф Годдард. Вестник РУДН. Серия: ЛИНГВИСТИКА. 2018. Т. 22. № 3. С. 539—559\n\n     As mentioned the “marsupial” aspects of the explication, essentially, the distinctive\n‘pouch’ of the female kangaroo, and its role in sheltering and nurturing the young ‘joey’,\nare dealt with in section (g). Some aspects of this section are no doubt unknown to many\nEnglish speakers outside Australia, and probably to some Australians as well. Note that\nthe word ‘pouch’ is included, not as a molecule but as a name: ‘it is called [m] a pouch’.\n     The Relation to People section (h) deals with kangaroos as a source of meat, and\nwith the fact that they are hunted and ‘culled’. The final ‘How People Think About\nThem’ section attempts to capture the role of kangaroos as an international symbol of\nAustralia: ‘when people in many countries [m] think about these animals [m], they\noften think about Australia [m] at the same time’. The form of this component is perhaps\nnot optimal.\n      [G] kangaroos\n      a. creatures [m] of one kind                                                               CATEGORY\n         they are animals [m], at the same time their bodies are not like\n           the bodies of many other animals [m]\n      b. they live in many places in Australia [m]                                          WHERE THEY LIVE\n\n      c. they are big                                                                                  SIZE\n         their bodies can be big like a man’s [m] body\n      d. their bodies are like this:                                                                  BODY\n           the two legs [m] at the front [m] of the body are not like                               — legs\n               other animals’ [m] legs [m] they are like small arms [m]\n           the two legs [m] at the back [m] of the body are big, they are very strong [m]\n           at the bottom [m] of the legs [m] at the back [m], there are two long [m] feet [m]\n           — they have a very long [m] tail [m]                                                      — tail\n             the part of the tail [m] close to the back [m] of the body is very thick [m]\n             when they are not moving, the tail [m] touches the ground [m]\n           — the bottom [m] part of their body is very wide [m]                          — general “look”\n           — the head [m] is small\n             one part of the head [m] sticks out [m], this part is below the eyes [m]\n             the nose [m] is part of this part of the head [m]\n             the mouth [m] is part of this part of the head [m]\n           — their two ears [m] stick up [m] on two sides of the top [m] of the head [m]\n           — when they are not moving, their head [m] is often above all the other — upright posture\n                parts of their body, like a person’s head [m] is above\n                all the other parts of a person’s body when the person is standing [m]\n      e. —                                                                                         SOUNDS\n\n      f.   animals [m] of this kind can do things like this:                                 BEHAVIOUR\n           — when they want to be somewhere else after a short time, they move            — movement\n              not like many other animals [m]\n           when they do it, the same thing happens many times\n              it happens like this:\n              — for a very short time the front [m] parts of the feet [m] touch the ground [m],\n                      at this time the tail is high (= far) above the ground [m]\n              — after that the whole body is above the ground [m] for some time\n              — during this time it moves forwards [m] quickly [m]\n              — after that it touches the ground [m] like before\n           when they do this, they can move quickly [m]\n           — often when they want to eat [m] something, they want to eat [m] grass [m]              — food\n           — often people can see many animals [m] of this kind in one place                        — mob\n\n554\n\f                Cliff Goddard. Russian Journal of Linguistics, 2018, 22 (3), 539—559\n\n     g. animals [m] of this kind have bodies of two kinds,                                     MARSUPIAL POUCH\n               like other animals [m] have bodies of two kinds\n        before one of them is born [m], its small body is inside the body of a big animal [m]\n            of one these two kinds, like a child [m] is inside its mother’s body [m] before it is born [m]\n        after it is born [m], the body of the small one is very very small,\n            not like many other animals [m]\n        before it can be big, it has to (= can’t not) be for some time inside\n            a part of its mother’s [m] body\n        this part is not like any other part of this animal’s [m] body, it is called [m] ‘a pouch’\n        it is at the front [m] of the big animal’s [m] body, in the middle [m]\n        it is open [m] at the top [m]\n        after it is born [m], a small animal [m] of this kind lives inside this part                  — joey\n           for some time, when its body is very very small, it is always inside this part\n        after its body is not very very small anymore, its small head [m] can be not\n           inside this part at some times (people can see the head [m] sticking out [m])\n        after some time more, when its body is big, the small animal [m]\n           can be not inside this part for a short tine\n        it can be eating [m] grass [m] near its mother [m] for a short time\n           if it feels something bad during this time, it can jump [m] inside this part like before\n     h. — people can eat meat [m] of animals [m] of this kinds                        RELATION\n        — sometimes some men kill [m] them with guns [m] because they know that      TO PEOPLE\n             many people think like this: “it is good if people can eat\n             this meat [m] when they want”\n        — sometimes some men [m] kill [m] them with guns [m]\n             because some people think like this about a place:\n             “there are very many animals [m] of this kind in this place,\n             this is bad for this place”\n     i. — when people in many countries [m] think about these animals [m],     HOW PEOPLE THINK\n             they often think about Australia [m] at the same time                  ABOUT THEM\n\n      Needless to say, there are many facts about kangaroos which are not mentioned\nin this explication; for example, the use of the tail in pushing forward while grazing and\nhopping, the fact that kangaroos have claws, that there is a notable size differences\nbetween male and female, that Aboriginal people hunt kangaroos for meat and many\nother purposes. I have tried to stick to aspects which are well supported by linguistic\nevidence.\n                              6. DISCUSSION AND CONCLUSION\n     The present study has sought to revisit Wierzbicka’s (1985) ground-breaking\nexplorations into the semantics of words for natural kinds, and to update and augment\nher many insights from the perspective of the NSM approach in its current stage\nof development, more than three decades later.\n     The most striking claim remains that it is indeed possible to explicate the conceptual\ncontent of natural kind terms, given detailed attention to linguistic evidence, but that\nsuch explications are astonishingly complex — both in their sheer length (typically 30-\n40 lines of semantic text) and in the number of semantic molecules involved (more than\n50 unique molecules in this study alone). Many of the semantic molecules required\nfor ethnozoological concepts are not specific to this domain, e.g. words for body-parts,\nphysical qualities, environmental words, some action and activity verbs, but others are:\nspecifically, the higher-level categories such as ‘creatures’, ‘animals’, ‘birds’, and ‘fish’.\n\n                                                                                                         555\n\f      Клифф Годдард. Вестник РУДН. Серия: ЛИНГВИСТИКА. 2018. Т. 22. № 3. С. 539—559\n\nThe present study has focused on the English language, while acknowledging that the\nnear-equivalents of most of the words explicated, including those designating higher-\nlevel categories, vary across languages.\n      Clearly, semantic templates play an indispensable role in disciplining the vast\nsemantic complexity of ethnozoological concepts. The templates, shared by numerous\nwords from the same domain, provide a stable frame (like a questionnaire or checklist,\nWierzbicka 1985: 192) which can be filled out and elaborated over childhood as one\nacquires more and more knowledge and integrates it into the updated cognitive model.\nThe template concept helps us understand how one’s model of an unfamiliar species may\nhave “placeholder” sections which are very sketchy or even blank, and — evidently —\nthere can be variation between speech communities, and, presumably, even between\nindividual speakers of a single language. The idea of “concept maximum” and “concept\nminimum” are useful constructs to help support discussion of such variation.\n      It must be remembered that the extent to which a speech community or individual\napproaches the concept maximum for a given species does not depend only, or even\nmainly, on their personal contact with the species in question. In many cases, the great\nmajority of one’s semantic knowledge is linguistically mediated, i.e. acquired from\ndiscourse. Yet the volume, detail and character of discourse about animals differs\naccording to physical, environmental and cultural setting. In Australia, for example,\nkangaroos feature in discourse to a much greater extent than say, badgers or beavers,\nthough the opposite would be the case in England or Canada, respectively. As Wierzbicka\n(1985: 223) put it: “having said all this I feel it should be admitted that folk names of\nbiological genera ... do seem to be more subject to interpersonal variation than nearly\nall other kinds of concepts encoded in natural language”.\n\n\n                                       Appendix A: Semantic primes\n                     Semantic primes (English exponents) grouped into related categories\n\n I, you, someone, something∼thing, people, body, kinds, parts                      Substantives\n this, the same, other∼else                                                        Determiners\n one, two, much∼many, little∼few, some, all                                        Quantifiers\n good, bad, big, small                                                             Evaluators and Descriptors\n know, think, want, don’t want, feel, see, hear                                    Mental Predicates\n say, words, true                                                                  Speech\n do, happen, move                                                                  Actions, Events, Movement\n be (somewhere), there is, be (someone/something)                                  Location, Existence, Specification\n (is) mine                                                                         Possession\n live, die                                                                         Life and Death\n when∼time, now, before, after, a long time, a short time, for some                Time\n time, moment\n where∼place, here, above, below, far, near, side, inside, touch                   Locational\n not, maybe, can, because, if, very, more, like                                    “Logical” Concepts\n  Notes: — Exponents of primes can be polysemous, i.e. they can have other meanings in addition to the semantically primitive\nmeaning — Exponents of primes may be words, bound morphemes, or phrasemes — They can be formally complex — They\ncan have language-specific combinatorial variants or “allolexes” (indicated with ~) — Each prime has well-specified syntactic\n(combinatorial) properties.\n\n\n556\n\f                Cliff Goddard. Russian Journal of Linguistics, 2018, 22 (3), 539—559\n\n                    Appendix B: Explications for semantic molecules:\n                               ‘eggs’, ‘wings’, ‘feathers’\n     eggs\n     things of one kind\n     when people see one of these things, they can know that some time before\n         it was inside the body of a creature [m] of one kind\n     people can know that there can be a small creature [m] of the same kind inside it\n     at the same time they know that there can be something else inside it, they can know\n         that people can eat [m] this something else (this other stuff)\n     things of this kind are small, someone can hold [m] one of them in one hand [m]\n     they are smooth [m]\n     people know that when someone’s hands [m] touch one of these things on all sides,\n         this someone can think: “this is like something round [m]”\n     people know that if something hard [m] touches one of these things quickly [m],\n         something can happen to it in one moment because of this\n     they can know that if this happens, after this, this thing can be not one thing anymore\n     ♦ Note: There is another egg meaning, basically, ‘chicken egg’.\n\n     wings\n     two parts of the bodies of some creatures [m]\n     they are on two sides of the bodies of these creatures [m]\n     they can move as this creature [m] wants\n     because their bodies have these parts, these creatures [m] can move as they want\n        in places above the ground [m]\n\n     feathers\n     things of one kind\n     they are parts of the wings [m] of some creatures [m]\n     when people see the wings [m] of these creatures [m], they can see many of these things there\n     if people see things of this kind somewhere else at some time, they can know that before\n         they were part of the body of one of these creatures [m]\n     people can think about things of this kind like this:\n         “many parts of these things are soft [m]\n         one part is not soft [m], this part is something long [m], it is in the middle [m] of this thing\n         one small part of this long thing is sharp [m]\n         when things of this kind are part of the body of a creature [m], this small part is\n            inside this creature/s [m] skin [m]\n\n                                                                                      © Cliff Goddard, 2018\n                                              REFERENCES\nApresjan, Ju D. (1969). O yazyke dlya opisaniya znachenii slov. Izvestiya Akademii Nauk SSSR, Seriya\n      Literatury i Yazyka, 28, 415—28.\nApresjan, Ju D. (1992[1974]). Lexical Semantics: User’s Guide to Contemporary Russian Vocabulary.\n      Ann Arbor: Karoma. [Orig. published in 1974 as Leksicheskaya semantika — sinonimicheskie\n      sredstva yazyka (In Russ.), Moskva: Nauka].\nApresjan, Ju D. (2000). Systematic lexicography. (Windle, K. Trans.). Oxford: Oxford University\n      Press.\nAtran, S. (1990). Cognitive foundations of natural history. Cambridge: Cambridge University Press.\nBerlin, B. (1992). Ethnobiological classification: Principles of categorization of plants and animals\n      in traditional society. Princeton, N.J.: Princeton University Press.\n\n                                                                                                            557\n\f      Клифф Годдард. Вестник РУДН. Серия: ЛИНГВИСТИКА. 2018. Т. 22. № 3. С. 539—559\n\nBromhead, H. (2011). The bush in Australian English. Australian Journal of Linguistics, 31, 445—471.\nBrown, C. (1979). Folk zoological life forms: Their universality and growth. American Anthropologist,\n     81, 791—817.\nGoddard, C. (ed.). (2008). Cross-linguistic semantics. Amsterdam: John Benjamins.\nGoddard, C. (2009). Cultural scripts. In Senft, G., Östman, J-O, & Verschueren, J. (eds.), Culture\n     and language use. Amsterdam: John Benjamins, 68—80.\nGoddard, C. (2011). Semantic analysis. A practical introduction. Revised 2nd edition. Oxford: Oxford\n     University Press.\nGoddard, C. (2012). Semantic primes, semantic molecules, semantic templates: Key concepts\n     in the NSM approach to lexical typology. Linguistics, 50(3), 711—743.\nGoddard, C. (2016). Semantic molecules and their role in NSM lexical definitions. Cahiers de\n     lexicologie 2016-2, No 109, 13—36.\nGoddard, C. (2017). Furniture, vegetables, weapons: Functional collective superordinates in\n     the English lexicon. In Ye, Z. (ed.) The semantics of nouns. Oxford: Oxford University Press,\n     246—281.\nGoddard, C. (2018). Minimal English: The science behind it. In Goddard, C. (ed.) Minimal English\n     for a global world: Improved communication using fewer words. London: Palgrave Macmillan,\n     29—70.\nGoddard, C. & Wierzbicka, A. (eds.) (2002). Meaning and universal grammar: Theory and empirical\n     findings, 2 vols. Amsterdam: John Benjamins.\nGoddard, C. & Wierzbicka, A. (2014). Words and meanings: Lexical semantics across domains,\n     languages and cultures. Oxford: Oxford University Press.\nHaviland, J. B. (1974). A last look at Cook’s Guugu-Yimidhirr wordlist. Oceania, 44 (3), 216—232.\n     [http://pages.ucsd.edu/~jhaviland/Publications/HavilandOceania.pdf]\nKripke, S. (1977). Naming and necessity. In Davidson, D. & G. Harman (eds.), Semantics of natural\n     language. Dordrecht: Reidel, 253—355.\nHare, B., Brown, M., Williamson, K. & Tomasello, M. (2002). The domestication of social cognition\n     in dogs. Science 298, 1634—1636.\nRosch, E. (1977). Human categorization. In Warren, N. (ed.), Advances in cross-cultural psychology.\n     Vol. 1. London: Academic Press, 1—49.\nRosch, E. (1978). Principles of categorization. In Rosch, E. & B. Lloyd (eds.), Cognition and\n     categorization. Hillsdale, NJ: Lawrence Erlbaum, 27—48.\nWierzbicka, A. (1985). Lexicography and conceptual analysis. Ann Arbor: Karoma.\nWierzbicka, A. (1996). Semantics: Primes and universals. New York: Oxford University Press.\nWierzbicka, A. (2007). Bodies and their parts: An NSM approach to semantic typology. Language\n     Sciences, 29(1), 14—65.\nWierzbicka, A. (2009). The theory of the mental lexicon. In Kempgen, S., P. Kosta, B. Tilman &\n     K. Gutschmidt (eds.), The Slavic languages: An international handbook of their structure, their\n     history and their investigation. Berlin: Mouton de Gruyter, 848—863.\nWierzbicka, A. (2013). Polish zwierzęta ‘animals’ and jabłka ‘apples’: an ethnosemantic inquiry.\n     In Głaz, A., Danaher, D.S. & Łozowski, P. (eds.), The linguistic worldview: Ethnolinguistics,\n     cognition, and culture. London: Versita, 137—159.\nWierzbicka, A. (2014). Imprisoned in English: The hazards of English as a default language. New\n     York: Oxford University Press.\nWierzbicka, A. (2015). Language and cultural scripts. In Sharifian, F. (ed.), The Routledge handbook\n     of language and culture. Routledge, 339—56.\nYe, Z. (ed.). (2017). The semantics of nouns. Oxford: Oxford University Press.\n\n558\n\f                Cliff Goddard. Russian Journal of Linguistics, 2018, 22 (3), 539—559\n\nArticle history:\nReceived: 10 April 2018\nRevised: 25 May 2018\nAccepted: 30 May 2018\nИстория статьи:\nДата поступления в редакцию: 10 апреля 2018\nДата принятия к печати: 30 мая 2018\n\nFor citation:\nGoddard, Cliff (2018). A Semantic Menagerie: The Conceptual Semantics of Ethnozoological\nCategories. Russian Journal of Linguistics, 22 (3), 539—559. doi: 10.22363/2312-9182-2018-22-\n3-539-559.\nДля цитирования:\nGoddard, Cliff. A Semantic Menagerie: The Conceptual Semantics of Ethnozoological Categories //\nВестник Российского университета дружбы народов. Серия: Лингвистика = Russian Journal\nof Linguistics. 2018. Т. 22. № 3. С. 539—559. doi: 10.22363/2312-9182-2018-22-3-539-559.\n\nBionote:\nCLIFF GODDARD is Professor of Linguistics at Griffith University. He is a leading proponent of\nthe Natural Semantic Metalanguage approach to semantics and its sister theory, the cultural scripts\napproach to pragmatics, also known as ethnopragmatics. His recent publications include the edited\nvolume Minimal English for a Global World (2018 Palgrave), Words and Meanings: Lexical Semantics\nAcross Domains, Languages and Cultures (co-authored with Anna Wierzbicka; 2014 OUP),\nthe textbook Semantic Analysis (2nd ed., 2011 OUP) and Ten Lectures on Natural Semantic\nMetalanguage (2018 Brill).\nContact information: E-mail: c.goddard@griffith.edu.au\nСведения об авторе\nКЛИФФ ГОДДАРД — профессор лингвистики в Университете Гриффит (г. Брисбен,\nАвстралия). Он является ведущим разработчиком Естественного Семантического Метаязыка\nв семантике и теории культурных скриптов в прагматике, также известной как этнопрагматика.\nСреди его недавних публикаций: сборник статей под его редакцией Minimal English for\na Global World (Минимальный английский для глобального мира) (2018, Palgrave), книга\nв соавторстве с Анной Вежбицкой Words and Meanings: Lexical Semantics Across Domains\n(Слова и значения: лексическая семантика в разных языках и культурах) (2014, Oxford\nUniversity Press), второе издание учебника Semantic Analysis (Семантический анализ) (2011,\nOxford University Press) и Ten Lectures on Natural Semantic Metalanguage (Десять лекций\nпо Естественному Семантическому Метаязыку) (2018, Brill).\nКонтактная информация: c.goddard@griffith.edu.au.\n\nACKNOWLEDGEMENTS\nThis study is a way-station an ongoing program of semantic inquiry into ethnobiology. Much\nof the work reported was co-developed with Anna Wierzbicka. Some of the material appeared\nin Goddard (2011), though all the explications have been revised. The material on kangaroos was\npresented at the 2018 Semantic Workshop at Australian National University.\nБЛАГОДАРНОСТИ\nДанная работа является частью проекта по семантическим исследованиям в сфере этнобио-\nлогии, в разработке которого активное участие принимала Анна Вежбицкая. Часть материала\nбыла ранее опубликована в (Goddard 2011), однако все толкования в данной статье обновлены.\nМатериал по кенгуру был представлен на ежегодном Семинаре по семантике в 2018 в Австра-\nлийском национальном университете.\n\n                                                                                              559\n\f"
+  }
+}

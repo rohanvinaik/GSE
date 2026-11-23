@@ -1,0 +1,645 @@
+{
+  "active_pointer": {
+    "artifact": {
+      "path": "data/lexicon_active.json",
+      "sha256": "449020ca41a461a7d418e4bdffe402da5c0798cb98444c5f88e7ecf6acd099b5"
+    },
+    "value": {
+      "format": "gse.active-lexicon/1",
+      "path": "lexicon_builder/2026-10-29/replacement.db"
+    }
+  },
+  "candidate_status": "INCOMPLETE",
+  "contrast_audits": [
+    {
+      "artifact": {
+        "path": "docs/readings/2026-11-01-lexicon-next-stage/semantic-contrast-assessment.json",
+        "sha256": "354218df35f0f4ae8c89cd164cb675ad386d16adc47978d346bb8942a20b9851"
+      },
+      "cell_questions": 28,
+      "code": "AUDIT_FINDINGS",
+      "context_sensitive_cases": 1,
+      "execution_complete": true,
+      "per_class": {
+        "APPROVED_SIGN_-1": {
+          "IDENTIFIED": 4
+        },
+        "APPROVED_SIGN_1": {
+          "IDENTIFIED": 12
+        },
+        "INTERPRETED_ZERO": {
+          "IDENTIFIED": 4
+        },
+        "MISSING_EVIDENCE_CONTRACT": {
+          "EXPECTED_ABSTENTION": 4
+        },
+        "REFERENCE_SCOPE": {
+          "ABSTAINED": 2,
+          "NOT_ADJUDICATED": 1,
+          "SCOPE_VIOLATION": 1
+        }
+      },
+      "request_changed_cases": 0,
+      "semantic_gold": "CALLER_LABELS_NOT_INDEPENDENTLY_CERTIFIED_BY_RUNNER",
+      "transport_invocations": 13
+    },
+    {
+      "artifact": {
+        "path": "docs/readings/2026-11-01-lexicon-next-stage/semantic-contrast-nonexample-assessment.json",
+        "sha256": "8a499da12017f920a05d7dae12463d5592c307a3ea0eb8284a257f0789fe298d"
+      },
+      "cell_questions": 10,
+      "code": "AUDIT_FINDINGS",
+      "context_sensitive_cases": 0,
+      "execution_complete": true,
+      "per_class": {
+        "INTERPRETED_ZERO_NONEXAMPLE": {
+          "IDENTIFIED": 5
+        },
+        "REFERENCE_SCOPE": {
+          "SCOPE_VIOLATION": 5
+        }
+      },
+      "request_changed_cases": 0,
+      "semantic_gold": "CALLER_LABELS_NOT_INDEPENDENTLY_CERTIFIED_BY_RUNNER",
+      "transport_invocations": 7
+    }
+  ],
+  "created_utc": "2026-11-01T18:47:45.634039+00:00",
+  "format": "gse.lexicon-implementation-verification/1",
+  "next_run": "zipf-want-batch-003-execution.json",
+  "post_change_corpus_replay": {
+    "artifact": {
+      "path": "docs/readings/2026-11-01-lexicon-next-stage/post-change-corpus-replay.json",
+      "sha256": "a20469ebf2d5f3e77690cffd1fd24c1d4da63d96e1a62a2decd55c86ab69077e"
+    },
+    "result": {
+      "code": "REPLAY_VALIDATED",
+      "complete_search": true,
+      "entries_checked": 401596,
+      "entries_mismatched": 0,
+      "entries_validated": 401596,
+      "format": "gse.lexicon-replay-report/1",
+      "gold": "NOT_CHECKED",
+      "inference_counts": {
+        "components_joint_checked": 2495934,
+        "components_solver_limited": 0,
+        "entries_complete_search": 401596,
+        "entries_replayed": 401596,
+        "entries_solver_limited": 0
+      },
+      "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+      "metadata_verification": {
+        "build_report": "NOT_CHECKED",
+        "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+        "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+        "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+        "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+        "catalog_definition_source_ids": "NOT_PERSISTED",
+        "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+        "representation_contract": "VERIFIED",
+        "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+      },
+      "mismatch_counts": {},
+      "mismatches": [],
+      "replayed_outcomes": {
+        "PARTIAL": 401596
+      }
+    }
+  },
+  "publication_performed": false,
+  "reconsideration": {
+    "artifact": {
+      "path": "docs/readings/2026-11-01-lexicon-next-stage/you-be-context-reconsideration.json",
+      "sha256": "c8cb62fbdc72e26168e25e67f401c4e6c02d5f1e9a911ac49f931b801ec54ccf"
+    },
+    "result": {
+      "after_assignments": {
+        "ABOVE": 0,
+        "ALIVE": 0,
+        "SOMEONE": 1
+      },
+      "after_coverage": {
+        "cells": {
+          "assigned": 403284,
+          "conflicted": 0,
+          "explicit_zero": 279440,
+          "unresolved": 22086092
+        },
+        "definitions": 401596,
+        "outcomes": {
+          "PARTIAL": 401596
+        }
+      },
+      "after_domains": {
+        "ABOVE": [
+          0
+        ],
+        "ALIVE": [
+          0
+        ],
+        "BE": [
+          -1,
+          0,
+          1
+        ],
+        "BECAUSE": [
+          -1,
+          0,
+          1
+        ],
+        "BEFORE": [
+          -1,
+          0,
+          1
+        ],
+        "BIG": [
+          -1,
+          0,
+          1
+        ],
+        "BODY": [
+          -1,
+          0,
+          1
+        ],
+        "CAN": [
+          -1,
+          0,
+          1
+        ],
+        "CAUSE": [
+          -1,
+          0,
+          1
+        ],
+        "CERTAINTY": [
+          -1,
+          0,
+          1
+        ],
+        "DO": [
+          -1,
+          0,
+          1
+        ],
+        "EXIST": [
+          -1,
+          0,
+          1
+        ],
+        "FAR": [
+          -1,
+          0,
+          1
+        ],
+        "FEEL": [
+          -1,
+          0,
+          1
+        ],
+        "GOOD": [
+          -1,
+          0,
+          1
+        ],
+        "HAPPEN": [
+          -1,
+          0,
+          1
+        ],
+        "HAVE": [
+          -1,
+          0,
+          1
+        ],
+        "HEAR": [
+          -1,
+          0,
+          1
+        ],
+        "HERE": [
+          -1,
+          0,
+          1
+        ],
+        "I": [
+          -1,
+          0,
+          1
+        ],
+        "IF": [
+          -1,
+          0,
+          1
+        ],
+        "INFER": [
+          -1,
+          0,
+          1
+        ],
+        "INTENSITY": [
+          -1,
+          0,
+          1
+        ],
+        "KIND": [
+          -1,
+          0,
+          1
+        ],
+        "KNOW": [
+          -1,
+          0,
+          1
+        ],
+        "LIKE": [
+          -1,
+          0,
+          1
+        ],
+        "LONG_TIME": [
+          -1,
+          0,
+          1
+        ],
+        "MAYBE": [
+          -1,
+          0,
+          1
+        ],
+        "MOMENT": [
+          -1,
+          0,
+          1
+        ],
+        "MOVE": [
+          -1,
+          0,
+          1
+        ],
+        "MUST": [
+          -1,
+          0,
+          1
+        ],
+        "NOT": [
+          -1,
+          0,
+          1
+        ],
+        "ONE": [
+          -1,
+          0,
+          1
+        ],
+        "OUTSIDE": [
+          -1,
+          0,
+          1
+        ],
+        "PART": [
+          -1,
+          0,
+          1
+        ],
+        "PEOPLE": [
+          -1,
+          0,
+          1
+        ],
+        "QUANTITY": [
+          -1,
+          0,
+          1
+        ],
+        "SAME": [
+          -1,
+          0,
+          1
+        ],
+        "SAY": [
+          -1,
+          0,
+          1
+        ],
+        "SEE": [
+          -1,
+          0,
+          1
+        ],
+        "SIDE": [
+          -1,
+          0,
+          1
+        ],
+        "SOMEONE": [
+          1
+        ],
+        "SOMETHING": [
+          -1,
+          0,
+          1
+        ],
+        "START": [
+          -1,
+          0,
+          1
+        ],
+        "THEN": [
+          -1,
+          0,
+          1
+        ],
+        "THINK": [
+          -1,
+          0,
+          1
+        ],
+        "TOUCH": [
+          -1,
+          0,
+          1
+        ],
+        "TOWARD": [
+          -1,
+          0,
+          1
+        ],
+        "TRUE": [
+          -1,
+          0,
+          1
+        ],
+        "TWO": [
+          -1,
+          0,
+          1
+        ],
+        "WANT": [
+          -1,
+          0,
+          1
+        ],
+        "WHEN": [
+          -1,
+          0,
+          1
+        ],
+        "WHERE": [
+          -1,
+          0,
+          1
+        ],
+        "WITH": [
+          -1,
+          0,
+          1
+        ],
+        "WORDS": [
+          -1,
+          0,
+          1
+        ],
+        "YOU": [
+          -1,
+          0,
+          1
+        ]
+      },
+      "applied": true,
+      "archive_event_id": "2e99b02ae1c9b0f0cb63b2dd7bab77016cb7eddedd94641f4a51c25cca12c7bf",
+      "before_assignments": {
+        "ABOVE": 0,
+        "ALIVE": 0,
+        "BE": 0,
+        "BECAUSE": 0,
+        "SOMEONE": 1
+      },
+      "before_coverage": {
+        "cells": {
+          "assigned": 403286,
+          "conflicted": 0,
+          "explicit_zero": 279442,
+          "unresolved": 22086090
+        },
+        "definitions": 401596,
+        "outcomes": {
+          "PARTIAL": 401596
+        }
+      },
+      "code": "RECONSIDERED",
+      "convention": "BE_OWN_STATIVE_CONTENT_PROTOCOL8_CONTEXT_AUDIT",
+      "entry_id": "gse_closed_class:pronoun:you",
+      "format": "gse.model-reconsideration/1",
+      "hierarchy": {},
+      "journal_history": "UNCHANGED",
+      "model_calls": 0,
+      "post_local_replay": "LOCAL_REPLAY_VALIDATED",
+      "preflight": {
+        "code": "REPLAY_VALIDATED",
+        "complete_search": true,
+        "entries_checked": 401596,
+        "entries_mismatched": 0,
+        "entries_validated": 401596,
+        "format": "gse.lexicon-replay-report/1",
+        "gold": "NOT_CHECKED",
+        "inference_counts": {
+          "components_joint_checked": 2495934,
+          "components_solver_limited": 0,
+          "entries_complete_search": 401596,
+          "entries_replayed": 401596,
+          "entries_solver_limited": 0
+        },
+        "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+        "metadata_verification": {
+          "build_report": "NOT_CHECKED",
+          "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+          "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+          "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+          "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+          "catalog_definition_source_ids": "NOT_PERSISTED",
+          "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+          "representation_contract": "VERIFIED",
+          "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+        },
+        "mismatch_counts": {},
+        "mismatches": [],
+        "replayed_outcomes": {
+          "PARTIAL": 401596
+        }
+      },
+      "reason": "The exact accepted BE=0 question reproduced forbidden BE=+1 in the independent protocol-8 singleton and one-item-batch contrast audit. Withdraw this unconfirmed model ruling and its same-definition dependent suffix; this supplies no replacement zero. Evidence: docs/readings/2026-11-01-lexicon-next-stage/",
+      "retained_same_definition_model_receipts": 2,
+      "root_ordinal": 2,
+      "root_request_id": "5d2ba6eeed5b948d90fdc7f0a9e554afdb82fc9e1dc471a33f6f140cd5d52c2d",
+      "scope": "ROOT_AND_ALL_LATER_SAME_DEFINITION_MODEL_RECEIPTS",
+      "snapshot_sha256": "eda139d574d18ec18247cbab4f7e9e3dd861baa56465729a64c3e75c5ba38413",
+      "withdrawn_banks": [
+        "BE",
+        "BECAUSE"
+      ],
+      "withdrawn_request_ids": [
+        "5d2ba6eeed5b948d90fdc7f0a9e554afdb82fc9e1dc471a33f6f140cd5d52c2d",
+        "053ec0bd837cdb2f91fffa1cd94cf54c6a7d18d5af8035c1d099d03825e633e9"
+      ]
+    }
+  },
+  "rule_promotions": 0,
+  "source_files": [
+    {
+      "path": "gse/curation/cli/commands.py",
+      "sha256": "239e35c6081590bfdfd75052a2d902866b9bd90691a0439f5033a5a88ed95b7e"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/__init__.py",
+      "sha256": "34fb005b6861c0dc111f7ce03ccffc3d15a78ed9870b66bf2633e3559ce43a4c"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/batching.py",
+      "sha256": "32629d77a9ff14f1e3fe3d1f45deafe3aa579e32cbb1621d302214944eedd9d2"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/catalog.py",
+      "sha256": "43b46a0c5c21c9d685e1590d6d7ccb1a47b832de7e52fc542fef52575438986c"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/completion.py",
+      "sha256": "5609c9585e925635e22aeb78e06b6100e6c289f08d4d3af094f28aa98733b408"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/discovery.py",
+      "sha256": "e74e913525b6f6051e60c5a9b3a041b635d3c056fcdb9cfb4f15316123cbfb6d"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/engine.py",
+      "sha256": "1f53a4f63103694824696bdc63af6d17d4415764360cf276b0eaa09f452c4b9f"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/evaluation.py",
+      "sha256": "a54b507509420789011a1b0446b455e1858fb66f8e4b99526c02f9daa000ce6b"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/evidence.py",
+      "sha256": "5eceeddad344ae5e51f6f07fbaff8172a925cc1be244b93848ea7a66dd692d73"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/foundation.py",
+      "sha256": "4fce7527de99bc86909a26015618af078cf0b867f3642d024a4227c56b83fd32"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/interchange.py",
+      "sha256": "300a6c7a918dc0667fe05f17532a693d4bb7a734beae89c190ff84463ebd29f2"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/model_batch.py",
+      "sha256": "c537b83f3975f7639614432c4af7291dc12a9f9524ad08a3d9930555ab6184bf"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/model_evidence.py",
+      "sha256": "2e0518c933b31a542a0f7b8ff2f929ece76ae316e821be3fae76d70b89804cbe"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/model_protocol.py",
+      "sha256": "30f7a706a828ad412f4317d847f6b8563b068d977f09919188780abe00f934ec"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/model_receipts.py",
+      "sha256": "db8b281bae6baddf96387f677c1d8e49c1aee6cbda6ccc9c4f5c6a8fbf789f02"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/pipeline.py",
+      "sha256": "6bfed5052c0a4654be6f18d03862ff8d3036ef5a8944e36a25f129f759f8380d"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/publication.py",
+      "sha256": "f053b712b380b8eddeb34fda5880facadd514d47fd6cd7d7dbbde53e80265c53"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/reconsideration.py",
+      "sha256": "d1004ee89fda261395a5c9d2cc6bc93b57e25d08e22f113ac74057814dea5c59"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/relevance.py",
+      "sha256": "b229501847ecad1f40b1c86bdf61374ad706bf5d1051e2d6baee8395520a5639"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/residual.py",
+      "sha256": "88757e0bac9b6860538f9756d6a89c8493c9eb783042dda315e280c45abe8ee9"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/resolution.py",
+      "sha256": "69d6fe441f471a1179b04c63b617766a93701ea54912e2e3548b24501e2d91fa"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/reviewed_export.py",
+      "sha256": "d17564d49de33c3ca77edcfb4f4e122be63bfcbd3d9a023480a1fa8baa6e2559"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/reviewed_patterns.py",
+      "sha256": "e44922a49b4709e4ecd3b77e3941a4a0da16ef489acc9ff34fe34439075109dd"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/rule_admission.py",
+      "sha256": "f56966bfd013aa809aba77d2d973e8b8006148872f85204910c3a0e321dc39a1"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/rule_history.py",
+      "sha256": "07c775ab85fc18f9d12181dd24ba8b33625d240864b4e2c021f6a17b8e64c46c"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/rule_migration.py",
+      "sha256": "e8ca181f9875ef98914cdd7d1b21b4b9d095936b30c2698bf1d666779f164a8d"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/scheduling.py",
+      "sha256": "50bf19153fc85226823169f813c58d04efa1902f11d4e5a0f052ab4bae2661ac"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/scope_admission.py",
+      "sha256": "136d0da9ee0d4aebc228487e1edecc43a9cebb821f90f26c95b4c22914c5c7f5"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/storage.py",
+      "sha256": "7b318b9bfc9bf8aaceadf4a26c6905398721805b214a70363e8ef7a6d4063cb4"
+    },
+    {
+      "path": "gse/curation/lexicon_builder/validation.py",
+      "sha256": "d4162c654dff45aa717f71dd46e11b7c4ca8538b7dd379ae1f753ca39d6b8deb"
+    },
+    {
+      "path": "scripts/audit_lexicon_contrasts.py",
+      "sha256": "96f305c9a394310f991aa37630e293f4185fd8ee60ecf0336966863d9b000010"
+    },
+    {
+      "path": "scripts/audit_lexicon_model_protocol.py",
+      "sha256": "e115afc4928eff0dd442247d7b9cb4bee9a989d6c573623b7e553960e8387391"
+    },
+    {
+      "path": "scripts/audit_lexicon_patterns.py",
+      "sha256": "5cb7ea3a5b84c99df2bb4fd7bf08879baaa128e10f21a8a3ede0a51c5ef94c59"
+    },
+    {
+      "path": "scripts/export_lexicon_patterns.py",
+      "sha256": "97f19060fb3bdb1417619bdb453da86f6a8451154273524d6eda8743a926b5f8"
+    },
+    {
+      "path": "scripts/migrate_lexicon_rule.py",
+      "sha256": "4c6e47fd8627a52e0ff1814e5612be106a25847ac0a1d8b958bdf7ba64020067"
+    }
+  ],
+  "static_checks": {
+    "ruff": "PASSED",
+    "ty": "PASSED"
+  },
+  "test_receipt": {
+    "path": "docs/readings/2026-11-01-lexicon-next-stage/post-change-tests.xml",
+    "sha256": "2b75fa365fb74b87f998c2602b2efbf62ea7fad6d1f7e132217aeb5bcc587506"
+  },
+  "tests": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 1274
+  }
+}

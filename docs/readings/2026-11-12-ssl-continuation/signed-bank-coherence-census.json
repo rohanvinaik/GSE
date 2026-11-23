@@ -1,0 +1,2393 @@
+{
+  "active_pointer_sha256": "449020ca41a461a7d418e4bdffe402da5c0798cb98444c5f88e7ecf6acd099b5",
+  "authority": "PROPOSAL_SEARCH_ONLY",
+  "candidate_sha256": "2e46555f1801a87f326c167a6fd8a3efdf45192f6d7f14d8b9a9e4fcf177d8c7",
+  "candidate_writes": false,
+  "data_limits": [
+    "Coverage is incomplete and selected by previous evidence and rules.",
+    "Entries can share underlying source senses.",
+    "Entropies describe observed signs, with no assumed distribution over open domains."
+  ],
+  "format": "gse.signed-bank-coherence-census/1",
+  "minimum_observed_pair_count": 5,
+  "profiles": [
+    {
+      "antecedent": [
+        "GOOD",
+        0
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wiktionary:en-I-en-noun-3MiJga7v:8371195b6840d4247b286cfa444c70d32e88c4ef839ad74d2881eb7513dc7dc4",
+          "wiktionary:en-I-en-noun-EtkDupl5:546710b8ed681719bfc29c868cdd6f4f0e9c847254884e4038f8c9f1dd1e2272",
+          "wiktionary:en-I-en-noun-Fq6lUwfd:55da473bde1778f1e616fe8da78b96768f179795831ad40eef40ad3986be94af",
+          "wiktionary:en-IN-en-noun-en:Q412550:941833cad40356b3bd5c110b0fec4339eafdeab9343af13338bc4608a14e6bee"
+        ]
+      },
+      "paired_observed": 14,
+      "pos": "noun",
+      "source": "wiktionary",
+      "target_bank": "BODY",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 14,
+        "1": 0
+      },
+      "unresolved_with_antecedent": 130759
+    },
+    {
+      "antecedent": [
+        "GOOD",
+        0
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wiktionary:en-ADDer-en-noun-cOv~QSBp:bc46cc205796d9fc3906ed4ff6c6bb18f05720806a46b75badb0796e412e4a8d",
+          "wiktionary:en-AWOL-en-noun-rN~16B42:5b84195a6482962e84dbbb89c1298841aa29959ecd0d96b4a0c50120370fcc2d",
+          "wiktionary:en-Babbitt-en-noun-ymtrPswj:6bd26e5a27c186fd6930436fbf36be5ee3af3e6b6a33b11f17694bee8c289d31",
+          "wiktionary:en-Columbus-en-noun-npJWRVQB:68da9616c854ab898e7cf2f205fe4f489ca5e0a04f55b44550b27f51e48c0447"
+        ]
+      },
+      "paired_observed": 606,
+      "pos": "noun",
+      "source": "wiktionary",
+      "target_bank": "SOMEONE",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 606
+      },
+      "unresolved_with_antecedent": 130167
+    },
+    {
+      "antecedent": [
+        "GOOD",
+        0
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wordnet:afghani:afghani.n.01",
+          "wordnet:agora:agora.n.01",
+          "wordnet:angstrom:angstrom.n.01",
+          "wordnet:anna:anna.n.01"
+        ],
+        "1": [
+          "wordnet:abomasum:abomasum.n.01",
+          "wordnet:bowel:intestine.n.01",
+          "wordnet:branchia:gill.n.04",
+          "wordnet:breadbasket:stomach.n.01"
+        ]
+      },
+      "paired_observed": 435,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "BODY",
+      "target_entropy_bits": 0.46534137614907495,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.46534137614907495,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 392,
+        "1": 43
+      },
+      "unresolved_with_antecedent": 77344
+    },
+    {
+      "antecedent": [
+        "SOMETHING",
+        1
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wordnet:afghani:afghani.n.01",
+          "wordnet:agora:agora.n.01",
+          "wordnet:angstrom:angstrom.n.01",
+          "wordnet:anna:anna.n.01"
+        ],
+        "1": [
+          "wordnet:abomasum:abomasum.n.01",
+          "wordnet:bowel:intestine.n.01",
+          "wordnet:branchia:gill.n.04",
+          "wordnet:breadbasket:stomach.n.01"
+        ]
+      },
+      "paired_observed": 435,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "BODY",
+      "target_entropy_bits": 0.46534137614907495,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.46534137614907495,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 392,
+        "1": 43
+      },
+      "unresolved_with_antecedent": 77344
+    },
+    {
+      "antecedent": [
+        "GOOD",
+        0
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wordnet:afghani:afghani.n.01",
+          "wordnet:agora:agora.n.01",
+          "wordnet:angstrom:angstrom.n.01",
+          "wordnet:anna:anna.n.01"
+        ]
+      },
+      "paired_observed": 537,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "WANT",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 537,
+        "1": 0
+      },
+      "unresolved_with_antecedent": 77242
+    },
+    {
+      "antecedent": [
+        "SOMETHING",
+        1
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wordnet:afghani:afghani.n.01",
+          "wordnet:agora:agora.n.01",
+          "wordnet:angstrom:angstrom.n.01",
+          "wordnet:anna:anna.n.01"
+        ]
+      },
+      "paired_observed": 537,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "WANT",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 537,
+        "1": 0
+      },
+      "unresolved_with_antecedent": 77242
+    },
+    {
+      "antecedent": [
+        "GOOD",
+        0
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:abamp:abampere.n.01",
+          "wordnet:abampere:abampere.n.01",
+          "wordnet:abcoulomb:abcoulomb.n.01",
+          "wordnet:abfarad:abfarad.n.01"
+        ]
+      },
+      "paired_observed": 712,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "QUANTITY",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 712
+      },
+      "unresolved_with_antecedent": 77067
+    },
+    {
+      "antecedent": [
+        "SOMETHING",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:abamp:abampere.n.01",
+          "wordnet:abampere:abampere.n.01",
+          "wordnet:abcoulomb:abcoulomb.n.01",
+          "wordnet:abfarad:abfarad.n.01"
+        ]
+      },
+      "paired_observed": 712,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "QUANTITY",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 712
+      },
+      "unresolved_with_antecedent": 77067
+    },
+    {
+      "antecedent": [
+        "GOOD",
+        0
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:abandon:wildness.n.01",
+          "wordnet:abandons:wildness.n.01",
+          "wordnet:abashment:abashment.n.01",
+          "wordnet:abhorrence:abhorrence.n.01"
+        ]
+      },
+      "paired_observed": 853,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "FEEL",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 853
+      },
+      "unresolved_with_antecedent": 76926
+    },
+    {
+      "antecedent": [
+        "SOMETHING",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:abandon:wildness.n.01",
+          "wordnet:abandons:wildness.n.01",
+          "wordnet:abashment:abashment.n.01",
+          "wordnet:abhorrence:abhorrence.n.01"
+        ]
+      },
+      "paired_observed": 853,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "FEEL",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 853
+      },
+      "unresolved_with_antecedent": 76926
+    },
+    {
+      "antecedent": [
+        "GOOD",
+        0
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:ab:abdominal.n.01",
+          "wordnet:abdomen:abdomen.n.01",
+          "wordnet:abdomen:abdominal_cavity.n.01",
+          "wordnet:abdominal:abdominal.n.01"
+        ]
+      },
+      "paired_observed": 1466,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "PART",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 1466
+      },
+      "unresolved_with_antecedent": 76313
+    },
+    {
+      "antecedent": [
+        "SOMETHING",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:ab:abdominal.n.01",
+          "wordnet:abdomen:abdomen.n.01",
+          "wordnet:abdomen:abdominal_cavity.n.01",
+          "wordnet:abdominal:abdominal.n.01"
+        ]
+      },
+      "paired_observed": 1466,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "PART",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 1466
+      },
+      "unresolved_with_antecedent": 76313
+    },
+    {
+      "antecedent": [
+        "GOOD",
+        0
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:aaron:aaron.n.01",
+          "wordnet:aaron:aaron.n.02",
+          "wordnet:abator:abator.n.01",
+          "wordnet:abbe:abbe.n.01"
+        ]
+      },
+      "paired_observed": 10149,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "SOMEONE",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 10149
+      },
+      "unresolved_with_antecedent": 67630
+    },
+    {
+      "antecedent": [
+        "SOMETHING",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:aaron:aaron.n.01",
+          "wordnet:aaron:aaron.n.02",
+          "wordnet:abator:abator.n.01",
+          "wordnet:abbe:abbe.n.01"
+        ]
+      },
+      "paired_observed": 10149,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "SOMEONE",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 10149
+      },
+      "unresolved_with_antecedent": 67630
+    },
+    {
+      "antecedent": [
+        "GOOD",
+        0
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wordnet:afghani:afghani.n.01",
+          "wordnet:agora:agora.n.01",
+          "wordnet:anna:anna.n.01",
+          "wordnet:asper:asper.n.01"
+        ],
+        "1": [
+          "wordnet:aaron:aaron.n.01",
+          "wordnet:aaron:aaron.n.02",
+          "wordnet:abaca:abaca.n.02",
+          "wordnet:abalone:abalone.n.01"
+        ]
+      },
+      "paired_observed": 15051,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "ALIVE",
+      "target_entropy_bits": 0.11245495878140467,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.11245495878140467,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 226,
+        "1": 14825
+      },
+      "unresolved_with_antecedent": 62728
+    },
+    {
+      "antecedent": [
+        "SOMETHING",
+        1
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wordnet:afghani:afghani.n.01",
+          "wordnet:agora:agora.n.01",
+          "wordnet:anna:anna.n.01",
+          "wordnet:asper:asper.n.01"
+        ],
+        "1": [
+          "wordnet:aaron:aaron.n.01",
+          "wordnet:aaron:aaron.n.02",
+          "wordnet:abaca:abaca.n.02",
+          "wordnet:abalone:abalone.n.01"
+        ]
+      },
+      "paired_observed": 15051,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "ALIVE",
+      "target_entropy_bits": 0.11245495878140467,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.11245495878140467,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 226,
+        "1": 14825
+      },
+      "unresolved_with_antecedent": 62728
+    },
+    {
+      "antecedent": [
+        "HAPPEN",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:autograph:autograph.v.01",
+          "wordnet:consecrate:consecrate.v.04",
+          "wordnet:endorse:endorse.v.04",
+          "wordnet:guarantee:undertake.v.03"
+        ]
+      },
+      "paired_observed": 9,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "SAY",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 9
+      },
+      "unresolved_with_antecedent": 7252
+    },
+    {
+      "antecedent": [
+        "HAPPEN",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:appreciate:appreciate.v.01",
+          "wordnet:approve:approve.v.01",
+          "wordnet:bother:trouble_oneself.v.01",
+          "wordnet:cringe:flinch.v.01"
+        ]
+      },
+      "paired_observed": 17,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "FEEL",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 17
+      },
+      "unresolved_with_antecedent": 7244
+    },
+    {
+      "antecedent": [
+        "HAPPEN",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:adopt:espouse.v.03",
+          "wordnet:appraise:measure.v.04",
+          "wordnet:assess:measure.v.04",
+          "wordnet:canonize:canonize.v.01"
+        ]
+      },
+      "paired_observed": 19,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "THINK",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 19
+      },
+      "unresolved_with_antecedent": 7242
+    },
+    {
+      "antecedent": [
+        "HAPPEN",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:abduct:kidnap.v.01",
+          "wordnet:abstract:pilfer.v.01",
+          "wordnet:accept:accept.v.02",
+          "wordnet:accomplish:carry_through.v.01"
+        ]
+      },
+      "paired_observed": 1347,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "CAUSE",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 1347
+      },
+      "unresolved_with_antecedent": 5914
+    },
+    {
+      "antecedent": [
+        "HAPPEN",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:abandon:abandon.v.01",
+          "wordnet:abandon:vacate.v.02",
+          "wordnet:accompany:accompany.v.02",
+          "wordnet:advance:advance.v.01"
+        ]
+      },
+      "paired_observed": 1774,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "MOVE",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 1774
+      },
+      "unresolved_with_antecedent": 5487
+    },
+    {
+      "antecedent": [
+        "DO",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:autograph:autograph.v.01",
+          "wordnet:consecrate:consecrate.v.04",
+          "wordnet:endorse:endorse.v.04",
+          "wordnet:guarantee:undertake.v.03"
+        ]
+      },
+      "paired_observed": 9,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "SAY",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 9
+      },
+      "unresolved_with_antecedent": 5269
+    },
+    {
+      "antecedent": [
+        "DO",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:appreciate:appreciate.v.01",
+          "wordnet:approve:approve.v.01",
+          "wordnet:bother:trouble_oneself.v.01",
+          "wordnet:enthuse:enthuse.v.02"
+        ]
+      },
+      "paired_observed": 16,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "FEEL",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 16
+      },
+      "unresolved_with_antecedent": 5262
+    },
+    {
+      "antecedent": [
+        "DO",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:adopt:espouse.v.03",
+          "wordnet:appraise:measure.v.04",
+          "wordnet:assess:measure.v.04",
+          "wordnet:canonize:canonize.v.01"
+        ]
+      },
+      "paired_observed": 19,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "THINK",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 19
+      },
+      "unresolved_with_antecedent": 5259
+    },
+    {
+      "antecedent": [
+        "DO",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:archive:archive.v.01",
+          "wordnet:arrange:arrange.v.01",
+          "wordnet:asphalt:asphalt.v.01",
+          "wordnet:bag:bag.v.05"
+        ]
+      },
+      "paired_observed": 283,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "MOVE",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 283
+      },
+      "unresolved_with_antecedent": 4995
+    },
+    {
+      "antecedent": [
+        "ALIVE",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:aaron:aaron.n.01",
+          "wordnet:aaron:aaron.n.02",
+          "wordnet:abator:abator.n.01",
+          "wordnet:abbe:abbe.n.01"
+        ]
+      },
+      "paired_observed": 10149,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "SOMEONE",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 10149
+      },
+      "unresolved_with_antecedent": 4676
+    },
+    {
+      "antecedent": [
+        "DO",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:abduct:kidnap.v.01",
+          "wordnet:abstract:pilfer.v.01",
+          "wordnet:accept:accept.v.02",
+          "wordnet:acquire:get.v.01"
+        ]
+      },
+      "paired_observed": 1023,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "CAUSE",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 1023
+      },
+      "unresolved_with_antecedent": 4255
+    },
+    {
+      "antecedent": [
+        "HAPPEN",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:abduce:adduce.v.01",
+          "wordnet:abduct:kidnap.v.01",
+          "wordnet:abide:digest.v.03",
+          "wordnet:abides:digest.v.03"
+        ]
+      },
+      "paired_observed": 5278,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "DO",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 5278
+      },
+      "unresolved_with_antecedent": 1983
+    },
+    {
+      "antecedent": [
+        "THINK",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:adopt:espouse.v.03",
+          "wordnet:appraise:measure.v.04",
+          "wordnet:assess:measure.v.04",
+          "wordnet:canonize:canonize.v.01"
+        ]
+      },
+      "paired_observed": 19,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "CAUSE",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 19
+      },
+      "unresolved_with_antecedent": 1902
+    },
+    {
+      "antecedent": [
+        "THINK",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:adopt:espouse.v.03",
+          "wordnet:appraise:measure.v.04",
+          "wordnet:assess:measure.v.04",
+          "wordnet:canonize:canonize.v.01"
+        ]
+      },
+      "paired_observed": 19,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "DO",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 19
+      },
+      "unresolved_with_antecedent": 1902
+    },
+    {
+      "antecedent": [
+        "THINK",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:adopt:espouse.v.03",
+          "wordnet:appraise:measure.v.04",
+          "wordnet:assess:measure.v.04",
+          "wordnet:canonize:canonize.v.01"
+        ]
+      },
+      "paired_observed": 19,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "HAPPEN",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 19
+      },
+      "unresolved_with_antecedent": 1902
+    },
+    {
+      "antecedent": [
+        "THINK",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:admire:admire.v.01",
+          "wordnet:appreciate:prize.v.01",
+          "wordnet:approve:approve.v.02",
+          "wordnet:care:worry.v.02"
+        ]
+      },
+      "paired_observed": 26,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "FEEL",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 26
+      },
+      "unresolved_with_antecedent": 1895
+    },
+    {
+      "antecedent": [
+        "MOVE",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:archive:archive.v.01",
+          "wordnet:arrange:arrange.v.01",
+          "wordnet:asphalt:asphalt.v.01",
+          "wordnet:bag:bag.v.05"
+        ]
+      },
+      "paired_observed": 273,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "CAUSE",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 273
+      },
+      "unresolved_with_antecedent": 1501
+    },
+    {
+      "antecedent": [
+        "MOVE",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:archive:archive.v.01",
+          "wordnet:arrange:arrange.v.01",
+          "wordnet:asphalt:asphalt.v.01",
+          "wordnet:bag:bag.v.05"
+        ]
+      },
+      "paired_observed": 283,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "DO",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 283
+      },
+      "unresolved_with_antecedent": 1491
+    },
+    {
+      "antecedent": [
+        "PART",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:abomasum:abomasum.n.01",
+          "wordnet:bowel:intestine.n.01",
+          "wordnet:branchia:gill.n.04",
+          "wordnet:breadbasket:stomach.n.01"
+        ]
+      },
+      "paired_observed": 33,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "BODY",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 33
+      },
+      "unresolved_with_antecedent": 1433
+    },
+    {
+      "antecedent": [
+        "CAUSE",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:autograph:autograph.v.01",
+          "wordnet:consecrate:consecrate.v.04",
+          "wordnet:endorse:endorse.v.04",
+          "wordnet:guarantee:undertake.v.03"
+        ]
+      },
+      "paired_observed": 9,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "SAY",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 9
+      },
+      "unresolved_with_antecedent": 1338
+    },
+    {
+      "antecedent": [
+        "CAUSE",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:adopt:espouse.v.03",
+          "wordnet:appraise:measure.v.04",
+          "wordnet:assess:measure.v.04",
+          "wordnet:canonize:canonize.v.01"
+        ]
+      },
+      "paired_observed": 19,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "THINK",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 19
+      },
+      "unresolved_with_antecedent": 1328
+    },
+    {
+      "antecedent": [
+        "CAUSE",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:archive:archive.v.01",
+          "wordnet:arrange:arrange.v.01",
+          "wordnet:asphalt:asphalt.v.01",
+          "wordnet:bag:bag.v.05"
+        ]
+      },
+      "paired_observed": 273,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "MOVE",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 273
+      },
+      "unresolved_with_antecedent": 1074
+    },
+    {
+      "antecedent": [
+        "SAY",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:autograph:autograph.v.01",
+          "wordnet:consecrate:consecrate.v.04",
+          "wordnet:endorse:endorse.v.04",
+          "wordnet:guarantee:undertake.v.03"
+        ]
+      },
+      "paired_observed": 9,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "CAUSE",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 9
+      },
+      "unresolved_with_antecedent": 644
+    },
+    {
+      "antecedent": [
+        "SAY",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:autograph:autograph.v.01",
+          "wordnet:consecrate:consecrate.v.04",
+          "wordnet:endorse:endorse.v.04",
+          "wordnet:guarantee:undertake.v.03"
+        ]
+      },
+      "paired_observed": 9,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "DO",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 9
+      },
+      "unresolved_with_antecedent": 644
+    },
+    {
+      "antecedent": [
+        "SAY",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:autograph:autograph.v.01",
+          "wordnet:consecrate:consecrate.v.04",
+          "wordnet:endorse:endorse.v.04",
+          "wordnet:guarantee:undertake.v.03"
+        ]
+      },
+      "paired_observed": 9,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "HAPPEN",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 9
+      },
+      "unresolved_with_antecedent": 644
+    },
+    {
+      "antecedent": [
+        "QUANTITY",
+        1
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wordnet:afghani:afghani.n.01",
+          "wordnet:agora:agora.n.01",
+          "wordnet:anna:anna.n.01",
+          "wordnet:asper:asper.n.01"
+        ]
+      },
+      "paired_observed": 226,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "ALIVE",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 226,
+        "1": 0
+      },
+      "unresolved_with_antecedent": 486
+    },
+    {
+      "antecedent": [
+        "QUANTITY",
+        1
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wordnet:afghani:afghani.n.01",
+          "wordnet:agora:agora.n.01",
+          "wordnet:angstrom:angstrom.n.01",
+          "wordnet:anna:anna.n.01"
+        ],
+        "1": [
+          "wordnet:cubit:cubit.n.01",
+          "wordnet:digit:finger.n.02",
+          "wordnet:finger:finger.n.02",
+          "wordnet:fingerbreadth:finger.n.02"
+        ]
+      },
+      "paired_observed": 346,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "BODY",
+      "target_entropy_bits": 0.18885384901667532,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.18885384901667532,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 336,
+        "1": 10
+      },
+      "unresolved_with_antecedent": 366
+    },
+    {
+      "antecedent": [
+        "CAUSE",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:abduct:kidnap.v.01",
+          "wordnet:abstract:pilfer.v.01",
+          "wordnet:accept:accept.v.02",
+          "wordnet:acquire:get.v.01"
+        ]
+      },
+      "paired_observed": 1023,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "DO",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 1023
+      },
+      "unresolved_with_antecedent": 324
+    },
+    {
+      "antecedent": [
+        "WANT",
+        0
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wordnet:afghani:afghani.n.01",
+          "wordnet:agora:agora.n.01",
+          "wordnet:anna:anna.n.01",
+          "wordnet:asper:asper.n.01"
+        ]
+      },
+      "paired_observed": 226,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "ALIVE",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 226,
+        "1": 0
+      },
+      "unresolved_with_antecedent": 311
+    },
+    {
+      "antecedent": [
+        "FEEL",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:envy:envy.v.02",
+          "wordnet:fancy:fancy.v.02",
+          "wordnet:hunger:crave.v.01",
+          "wordnet:miss:miss.v.02"
+        ]
+      },
+      "paired_observed": 6,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "WANT",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 6
+      },
+      "unresolved_with_antecedent": 236
+    },
+    {
+      "antecedent": [
+        "FEEL",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:appreciate:appreciate.v.01",
+          "wordnet:approve:approve.v.01",
+          "wordnet:bother:trouble_oneself.v.01",
+          "wordnet:enthuse:enthuse.v.02"
+        ]
+      },
+      "paired_observed": 16,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "DO",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 16
+      },
+      "unresolved_with_antecedent": 226
+    },
+    {
+      "antecedent": [
+        "FEEL",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:appreciate:appreciate.v.01",
+          "wordnet:approve:approve.v.01",
+          "wordnet:bother:trouble_oneself.v.01",
+          "wordnet:cringe:flinch.v.01"
+        ]
+      },
+      "paired_observed": 17,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "HAPPEN",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 17
+      },
+      "unresolved_with_antecedent": 225
+    },
+    {
+      "antecedent": [
+        "FEEL",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:admire:admire.v.01",
+          "wordnet:appreciate:prize.v.01",
+          "wordnet:approve:approve.v.02",
+          "wordnet:care:worry.v.02"
+        ]
+      },
+      "paired_observed": 26,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "THINK",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 26
+      },
+      "unresolved_with_antecedent": 216
+    },
+    {
+      "antecedent": [
+        "QUANTITY",
+        1
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wordnet:afghani:afghani.n.01",
+          "wordnet:agora:agora.n.01",
+          "wordnet:angstrom:angstrom.n.01",
+          "wordnet:anna:anna.n.01"
+        ]
+      },
+      "paired_observed": 500,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "WANT",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 500,
+        "1": 0
+      },
+      "unresolved_with_antecedent": 212
+    },
+    {
+      "antecedent": [
+        "WANT",
+        0
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wordnet:afghani:afghani.n.01",
+          "wordnet:agora:agora.n.01",
+          "wordnet:angstrom:angstrom.n.01",
+          "wordnet:anna:anna.n.01"
+        ],
+        "1": [
+          "wordnet:cubit:cubit.n.01",
+          "wordnet:digit:finger.n.02",
+          "wordnet:finger:finger.n.02",
+          "wordnet:fingerbreadth:finger.n.02"
+        ]
+      },
+      "paired_observed": 350,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "BODY",
+      "target_entropy_bits": 0.18717625687320816,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.18717625687320816,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 340,
+        "1": 10
+      },
+      "unresolved_with_antecedent": 187
+    },
+    {
+      "antecedent": [
+        "BODY",
+        0
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wordnet:afghani:afghani.n.01",
+          "wordnet:agora:agora.n.01",
+          "wordnet:anna:anna.n.01",
+          "wordnet:asper:asper.n.01"
+        ]
+      },
+      "paired_observed": 226,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "ALIVE",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 226,
+        "1": 0
+      },
+      "unresolved_with_antecedent": 166
+    },
+    {
+      "antecedent": [
+        "WANT",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:envy:envy.v.02",
+          "wordnet:fancy:fancy.v.02",
+          "wordnet:hunger:crave.v.01",
+          "wordnet:miss:miss.v.02"
+        ]
+      },
+      "paired_observed": 6,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "FEEL",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 6
+      },
+      "unresolved_with_antecedent": 106
+    },
+    {
+      "antecedent": [
+        "BODY",
+        0
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:afghani:afghani.n.01",
+          "wordnet:agora:agora.n.01",
+          "wordnet:angstrom:angstrom.n.01",
+          "wordnet:anna:anna.n.01"
+        ]
+      },
+      "paired_observed": 336,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "QUANTITY",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 336
+      },
+      "unresolved_with_antecedent": 56
+    },
+    {
+      "antecedent": [
+        "BODY",
+        0
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wordnet:afghani:afghani.n.01",
+          "wordnet:agora:agora.n.01",
+          "wordnet:angstrom:angstrom.n.01",
+          "wordnet:anna:anna.n.01"
+        ]
+      },
+      "paired_observed": 340,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "WANT",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 340,
+        "1": 0
+      },
+      "unresolved_with_antecedent": 52
+    },
+    {
+      "antecedent": [
+        "WANT",
+        0
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:afghani:afghani.n.01",
+          "wordnet:agora:agora.n.01",
+          "wordnet:angstrom:angstrom.n.01",
+          "wordnet:anna:anna.n.01"
+        ]
+      },
+      "paired_observed": 500,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "QUANTITY",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 500
+      },
+      "unresolved_with_antecedent": 37
+    },
+    {
+      "antecedent": [
+        "BODY",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:cubit:cubit.n.01",
+          "wordnet:digit:finger.n.02",
+          "wordnet:finger:finger.n.02",
+          "wordnet:fingerbreadth:finger.n.02"
+        ]
+      },
+      "paired_observed": 10,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "QUANTITY",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 10
+      },
+      "unresolved_with_antecedent": 33
+    },
+    {
+      "antecedent": [
+        "BODY",
+        1
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wordnet:cubit:cubit.n.01",
+          "wordnet:digit:finger.n.02",
+          "wordnet:finger:finger.n.02",
+          "wordnet:fingerbreadth:finger.n.02"
+        ]
+      },
+      "paired_observed": 10,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "WANT",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 10,
+        "1": 0
+      },
+      "unresolved_with_antecedent": 33
+    },
+    {
+      "antecedent": [
+        "BODY",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:abomasum:abomasum.n.01",
+          "wordnet:bowel:intestine.n.01",
+          "wordnet:branchia:gill.n.04",
+          "wordnet:breadbasket:stomach.n.01"
+        ]
+      },
+      "paired_observed": 33,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "PART",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 33
+      },
+      "unresolved_with_antecedent": 10
+    },
+    {
+      "antecedent": [
+        "GOOD",
+        0
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:0:zero.n.02",
+          "wordnet:10000:ten_thousand.n.01",
+          "wordnet:1000:thousand.n.01",
+          "wordnet:100:hundred.n.01"
+        ]
+      },
+      "paired_observed": 77779,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "SOMETHING",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 77779
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "SOMETHING",
+        1
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wordnet:0:zero.n.02",
+          "wordnet:10000:ten_thousand.n.01",
+          "wordnet:1000:thousand.n.01",
+          "wordnet:100:hundred.n.01"
+        ]
+      },
+      "paired_observed": 77779,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "GOOD",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 77779,
+        "1": 0
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "ALIVE",
+        1
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wordnet:aaron:aaron.n.01",
+          "wordnet:aaron:aaron.n.02",
+          "wordnet:abaca:abaca.n.02",
+          "wordnet:abalone:abalone.n.01"
+        ]
+      },
+      "paired_observed": 14825,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "GOOD",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 14825,
+        "1": 0
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "ALIVE",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:aaron:aaron.n.01",
+          "wordnet:aaron:aaron.n.02",
+          "wordnet:abaca:abaca.n.02",
+          "wordnet:abalone:abalone.n.01"
+        ]
+      },
+      "paired_observed": 14825,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "SOMETHING",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 14825
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "SOMEONE",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:aaron:aaron.n.01",
+          "wordnet:aaron:aaron.n.02",
+          "wordnet:abator:abator.n.01",
+          "wordnet:abbe:abbe.n.01"
+        ]
+      },
+      "paired_observed": 10149,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "ALIVE",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 10149
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "SOMEONE",
+        1
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wordnet:aaron:aaron.n.01",
+          "wordnet:aaron:aaron.n.02",
+          "wordnet:abator:abator.n.01",
+          "wordnet:abbe:abbe.n.01"
+        ]
+      },
+      "paired_observed": 10149,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "GOOD",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 10149,
+        "1": 0
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "SOMEONE",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:aaron:aaron.n.01",
+          "wordnet:aaron:aaron.n.02",
+          "wordnet:abator:abator.n.01",
+          "wordnet:abbe:abbe.n.01"
+        ]
+      },
+      "paired_observed": 10149,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "SOMETHING",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 10149
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "DO",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:abduce:adduce.v.01",
+          "wordnet:abduct:kidnap.v.01",
+          "wordnet:abide:digest.v.03",
+          "wordnet:abides:digest.v.03"
+        ]
+      },
+      "paired_observed": 5278,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "HAPPEN",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 5278
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "MOVE",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:abandon:abandon.v.01",
+          "wordnet:abandon:vacate.v.02",
+          "wordnet:accompany:accompany.v.02",
+          "wordnet:advance:advance.v.01"
+        ]
+      },
+      "paired_observed": 1774,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "HAPPEN",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 1774
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "PART",
+        1
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wordnet:ab:abdominal.n.01",
+          "wordnet:abdomen:abdomen.n.01",
+          "wordnet:abdomen:abdominal_cavity.n.01",
+          "wordnet:abdominal:abdominal.n.01"
+        ]
+      },
+      "paired_observed": 1466,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "GOOD",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 1466,
+        "1": 0
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "PART",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:ab:abdominal.n.01",
+          "wordnet:abdomen:abdomen.n.01",
+          "wordnet:abdomen:abdominal_cavity.n.01",
+          "wordnet:abdominal:abdominal.n.01"
+        ]
+      },
+      "paired_observed": 1466,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "SOMETHING",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 1466
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "CAUSE",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:abduct:kidnap.v.01",
+          "wordnet:abstract:pilfer.v.01",
+          "wordnet:accept:accept.v.02",
+          "wordnet:accomplish:carry_through.v.01"
+        ]
+      },
+      "paired_observed": 1347,
+      "pos": "verb",
+      "source": "wordnet",
+      "target_bank": "HAPPEN",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 1347
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "FEEL",
+        1
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wordnet:abandon:wildness.n.01",
+          "wordnet:abandons:wildness.n.01",
+          "wordnet:abashment:abashment.n.01",
+          "wordnet:abhorrence:abhorrence.n.01"
+        ]
+      },
+      "paired_observed": 853,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "GOOD",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 853,
+        "1": 0
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "FEEL",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:abandon:wildness.n.01",
+          "wordnet:abandons:wildness.n.01",
+          "wordnet:abashment:abashment.n.01",
+          "wordnet:abhorrence:abhorrence.n.01"
+        ]
+      },
+      "paired_observed": 853,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "SOMETHING",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 853
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "QUANTITY",
+        1
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wordnet:abamp:abampere.n.01",
+          "wordnet:abampere:abampere.n.01",
+          "wordnet:abcoulomb:abcoulomb.n.01",
+          "wordnet:abfarad:abfarad.n.01"
+        ]
+      },
+      "paired_observed": 712,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "GOOD",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 712,
+        "1": 0
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "QUANTITY",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:abamp:abampere.n.01",
+          "wordnet:abampere:abampere.n.01",
+          "wordnet:abcoulomb:abcoulomb.n.01",
+          "wordnet:abfarad:abfarad.n.01"
+        ]
+      },
+      "paired_observed": 712,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "SOMETHING",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 712
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "SOMEONE",
+        1
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wiktionary:en-ADDer-en-noun-cOv~QSBp:bc46cc205796d9fc3906ed4ff6c6bb18f05720806a46b75badb0796e412e4a8d",
+          "wiktionary:en-AWOL-en-noun-rN~16B42:5b84195a6482962e84dbbb89c1298841aa29959ecd0d96b4a0c50120370fcc2d",
+          "wiktionary:en-Babbitt-en-noun-ymtrPswj:6bd26e5a27c186fd6930436fbf36be5ee3af3e6b6a33b11f17694bee8c289d31",
+          "wiktionary:en-Columbus-en-noun-npJWRVQB:68da9616c854ab898e7cf2f205fe4f489ca5e0a04f55b44550b27f51e48c0447"
+        ]
+      },
+      "paired_observed": 606,
+      "pos": "noun",
+      "source": "wiktionary",
+      "target_bank": "GOOD",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 606,
+        "1": 0
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "WANT",
+        0
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wordnet:afghani:afghani.n.01",
+          "wordnet:agora:agora.n.01",
+          "wordnet:angstrom:angstrom.n.01",
+          "wordnet:anna:anna.n.01"
+        ]
+      },
+      "paired_observed": 537,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "GOOD",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 537,
+        "1": 0
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "WANT",
+        0
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:afghani:afghani.n.01",
+          "wordnet:agora:agora.n.01",
+          "wordnet:angstrom:angstrom.n.01",
+          "wordnet:anna:anna.n.01"
+        ]
+      },
+      "paired_observed": 537,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "SOMETHING",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 537
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "BODY",
+        0
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wordnet:afghani:afghani.n.01",
+          "wordnet:agora:agora.n.01",
+          "wordnet:angstrom:angstrom.n.01",
+          "wordnet:anna:anna.n.01"
+        ]
+      },
+      "paired_observed": 392,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "GOOD",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 392,
+        "1": 0
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "BODY",
+        0
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:afghani:afghani.n.01",
+          "wordnet:agora:agora.n.01",
+          "wordnet:angstrom:angstrom.n.01",
+          "wordnet:anna:anna.n.01"
+        ]
+      },
+      "paired_observed": 392,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "SOMETHING",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 392
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "ALIVE",
+        0
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wordnet:afghani:afghani.n.01",
+          "wordnet:agora:agora.n.01",
+          "wordnet:anna:anna.n.01",
+          "wordnet:asper:asper.n.01"
+        ]
+      },
+      "paired_observed": 226,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "BODY",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 226,
+        "1": 0
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "ALIVE",
+        0
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wordnet:afghani:afghani.n.01",
+          "wordnet:agora:agora.n.01",
+          "wordnet:anna:anna.n.01",
+          "wordnet:asper:asper.n.01"
+        ]
+      },
+      "paired_observed": 226,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "GOOD",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 226,
+        "1": 0
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "ALIVE",
+        0
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:afghani:afghani.n.01",
+          "wordnet:agora:agora.n.01",
+          "wordnet:anna:anna.n.01",
+          "wordnet:asper:asper.n.01"
+        ]
+      },
+      "paired_observed": 226,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "QUANTITY",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 226
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "ALIVE",
+        0
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:afghani:afghani.n.01",
+          "wordnet:agora:agora.n.01",
+          "wordnet:anna:anna.n.01",
+          "wordnet:asper:asper.n.01"
+        ]
+      },
+      "paired_observed": 226,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "SOMETHING",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 226
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "ALIVE",
+        0
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wordnet:afghani:afghani.n.01",
+          "wordnet:agora:agora.n.01",
+          "wordnet:anna:anna.n.01",
+          "wordnet:asper:asper.n.01"
+        ]
+      },
+      "paired_observed": 226,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "WANT",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 226,
+        "1": 0
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "BODY",
+        1
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wordnet:abomasum:abomasum.n.01",
+          "wordnet:bowel:intestine.n.01",
+          "wordnet:branchia:gill.n.04",
+          "wordnet:breadbasket:stomach.n.01"
+        ]
+      },
+      "paired_observed": 43,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "GOOD",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 43,
+        "1": 0
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "BODY",
+        1
+      ],
+      "examples_by_target_sign": {
+        "1": [
+          "wordnet:abomasum:abomasum.n.01",
+          "wordnet:bowel:intestine.n.01",
+          "wordnet:branchia:gill.n.04",
+          "wordnet:breadbasket:stomach.n.01"
+        ]
+      },
+      "paired_observed": 43,
+      "pos": "noun",
+      "source": "wordnet",
+      "target_bank": "SOMETHING",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 0,
+        "1": 43
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "BODY",
+        0
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wiktionary:en-I-en-noun-3MiJga7v:8371195b6840d4247b286cfa444c70d32e88c4ef839ad74d2881eb7513dc7dc4",
+          "wiktionary:en-I-en-noun-EtkDupl5:546710b8ed681719bfc29c868cdd6f4f0e9c847254884e4038f8c9f1dd1e2272",
+          "wiktionary:en-I-en-noun-Fq6lUwfd:55da473bde1778f1e616fe8da78b96768f179795831ad40eef40ad3986be94af",
+          "wiktionary:en-IN-en-noun-en:Q412550:941833cad40356b3bd5c110b0fec4339eafdeab9343af13338bc4608a14e6bee"
+        ]
+      },
+      "paired_observed": 14,
+      "pos": "noun",
+      "source": "wiktionary",
+      "target_bank": "GOOD",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 14,
+        "1": 0
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "ABOVE",
+        0
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wiktionary:en-You-en-pron-xI8HvWFm:9a4843015ee1e368f28fc60cf88240ef0dd2812f22b7f698d6cdd53205fdd5e2",
+          "wiktionary:en-you-en-pron-2LSqalKj:9668929a339a55583add1f0d51a0efbb36feddcabea20443226ca03da474da55",
+          "wiktionary:en-you-en-pron-HaQwzWRI:1295d3d5da7dba78418a90d60168f97d251449dce1d5103ed163a088427e1b70",
+          "wiktionary:en-you-en-pron-M7hbUBCF:d42e9c16442d37ceb686b1d8af8566d0be8e70ac86931168ccc00c8cd448cf8b"
+        ]
+      },
+      "paired_observed": 8,
+      "pos": "pron",
+      "source": "wiktionary",
+      "target_bank": "ALIVE",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 8,
+        "1": 0
+      },
+      "unresolved_with_antecedent": 0
+    },
+    {
+      "antecedent": [
+        "ALIVE",
+        0
+      ],
+      "examples_by_target_sign": {
+        "0": [
+          "wiktionary:en-You-en-pron-xI8HvWFm:9a4843015ee1e368f28fc60cf88240ef0dd2812f22b7f698d6cdd53205fdd5e2",
+          "wiktionary:en-you-en-pron-2LSqalKj:9668929a339a55583add1f0d51a0efbb36feddcabea20443226ca03da474da55",
+          "wiktionary:en-you-en-pron-HaQwzWRI:1295d3d5da7dba78418a90d60168f97d251449dce1d5103ed163a088427e1b70",
+          "wiktionary:en-you-en-pron-M7hbUBCF:d42e9c16442d37ceb686b1d8af8566d0be8e70ac86931168ccc00c8cd448cf8b"
+        ]
+      },
+      "paired_observed": 8,
+      "pos": "pron",
+      "source": "wiktionary",
+      "target_bank": "ABOVE",
+      "target_entropy_bits": 0.0,
+      "target_entropy_given_antecedent_bank_observed_bits": 0.0,
+      "target_sign_counts": {
+        "-1": 0,
+        "0": 8,
+        "1": 0
+      },
+      "unresolved_with_antecedent": 0
+    }
+  ],
+  "scope": "source identity prefix and part of speech",
+  "unit": "exact definition with a stored singleton"
+}

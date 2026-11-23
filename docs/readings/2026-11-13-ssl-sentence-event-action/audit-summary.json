@@ -1,0 +1,100 @@
+{
+  "arms": {
+    "closure": {
+      "audit_evidence": [
+        {
+          "bank": "DO",
+          "code": "MODEL_AGREEMENT",
+          "entry_id": "wiktionary:en-implantation-en-noun-uS3hsoky:eec70b79d7b9c5b24717c49340f782812b9308160d7324320b905393c3641708",
+          "request_id": "54a0c6e74ae0ba5534e8f721fc32ef6cfa7d70f0f5b8b3890e6ed7c947848b0b",
+          "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@70fb5b398dd5ab932841d11c4bad97e9c1454b71261206346619664f4fd361f4",
+          "value": 1
+        },
+        {
+          "bank": "DO",
+          "code": "MODEL_AGREEMENT",
+          "entry_id": "wordnet:roll:cast.n.07",
+          "request_id": "f77da1bd20021f0841a1719b3876f1a2395cc71133347a2cb2009a55b6221342",
+          "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@80ad5b3e27e1496bacddfb9642721b045667b605310554688cedf628217b2add",
+          "value": 1
+        }
+      ],
+      "audit_outcomes": {
+        "MODEL_AGREEMENT": 2
+      },
+      "raw_audit_path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-sentence-event-action/closure/epoch-01/audit-recovered.json",
+      "rule_id": "reviewed-guarded-pattern:907bc6895fc441905747d0316ccba11bea897a657bdf23d86c4b561330884322",
+      "selected": {
+        "bank": "DO",
+        "bridge_options": [],
+        "contradictions": 0,
+        "entry_id": "wordnet:set:set.n.07",
+        "family": "agentive-intervention",
+        "premise": null,
+        "sense_group": "wordnet:set.n.07",
+        "singletons": 152,
+        "subtlex": 11805
+      },
+      "teaching": {
+        "code": "REVIEWED_TEACHING",
+        "receipt_sha256": "78257f0b0cfd6df631118bfba012a926e978eab83e95a80c2603c5f74bf89352",
+        "request_id": "ee18b8fecfeb79a0e62d4aba64c4eed28194f757670f0ab1a815f228f456e60c"
+      },
+      "transport_recovery": {
+        "code": "AUDIT_CONTEXT_RECOVERED",
+        "context": 98304,
+        "format": "gse.lexicon-audit-context-recovery/1",
+        "old_context": 65536,
+        "payload_bytes": 88845,
+        "recovered_outcomes": {
+          "MODEL_AGREEMENT": 2
+        },
+        "refusal": "MODEL_CONTEXT_EXCEEDED",
+        "refusal_remote_invocations": 0,
+        "request_id": "f77da1bd20021f0841a1719b3876f1a2395cc71133347a2cb2009a55b6221342"
+      }
+    },
+    "zipf": {
+      "audit_evidence": [
+        {
+          "bank": "HAPPEN",
+          "code": "MODEL_AGREEMENT",
+          "entry_id": "wiktionary:en-wreck-en-noun-T~4xAL81:f2b82d7c21ed8b4d28641e019254035641fbbf9ab557b63f04fc44c769c11254",
+          "request_id": "8961e650d568911bca59b42e747a9972ff8041e18fbbec1cda72e13530f71560",
+          "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@70fb5b398dd5ab932841d11c4bad97e9c1454b71261206346619664f4fd361f4",
+          "value": 1
+        },
+        {
+          "bank": "HAPPEN",
+          "code": "MODEL_AGREEMENT",
+          "entry_id": "wordnet:repeat:repeat.n.01",
+          "request_id": "c36a95b9d1a05986f76eedad3b53510a707f77f6f19bc46ccc19d66b1be9a7dc",
+          "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@70fb5b398dd5ab932841d11c4bad97e9c1454b71261206346619664f4fd361f4",
+          "value": 1
+        }
+      ],
+      "audit_outcomes": {
+        "MODEL_AGREEMENT": 2
+      },
+      "raw_audit_path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-sentence-event-action/zipf/epoch-01/audit.json",
+      "rule_id": "reviewed-guarded-pattern:3a2f84cecc33494518217d2e6be7beaa687b05e2237b0d3691dc31cf4bf30e5c",
+      "selected": {
+        "bank": "HAPPEN",
+        "bridge_options": [],
+        "contradictions": 0,
+        "entry_id": "wordnet:thing:thing.n.05",
+        "family": "explicit-occurrence",
+        "premise": null,
+        "sense_group": "wordnet:thing.n.05",
+        "singletons": 89,
+        "subtlex": 55522
+      },
+      "teaching": {
+        "code": "REVIEWED_TEACHING",
+        "receipt_sha256": "606b21d620825dba0863d0ee025679d0dc61dcf964d22a9f3c7f54b842eb5009",
+        "request_id": "10aba3c75721e0c03137e43152e2aef68c3ad280ab997ae013c6b1d53daff67e"
+      }
+    }
+  },
+  "format": "gse.sentence-guided-rule-audit/1"
+}

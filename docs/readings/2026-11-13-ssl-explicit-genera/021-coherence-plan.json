@@ -1,0 +1,53 @@
+{
+  "active_pointer_sha256": "86c3b92dedf178901b8e5fc846307f0157c8a425604cc5656d5c5479aecbc151",
+  "audits_per_epoch": 4,
+  "baseline_sha256": "d2b966385b71a8674615607355c75375d043b48a6c30a42eca8b2882825f5379",
+  "epochs": 1,
+  "families": [
+    {
+      "antecedent": [
+        "ALIVE",
+        1
+      ],
+      "consequent": [
+        "BODY",
+        1
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:vertebrate.n.01",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wordnet:bird:bird.n.01",
+        "wordnet:fish:fish.n.01",
+        "wordnet:snake:snake.n.01",
+        "wordnet:frog:frog.n.01"
+      ],
+      "id": "scoped-vertebrate-alive-body",
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "021:vertebrate-defining-body-structure",
+        "reviewer": "Source-backed construction review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/021-vertebrate-source-review.json",
+          "/Users/rohanvinaik/Projects/gse/docs/program/LEXICON_CONSTRUCTION_DESIGN.md#body-reference-content-scope",
+          "https://doi.org/10.22363/2312-9182-2018-22-3-539-559",
+          "wordnet:vertebrate:vertebrate.n.01"
+        ],
+        "statement": "Within exact native vertebrate noun senses, the defining genus requires the organism's skeletal, spinal and cranial bodily structure. The complete NSM vertebrate examples distinguish such target-body components from observer, participant and cultural-script content. With independently justified ALIVE=+1, this own bodily-kind content supports BODY=+1 under GSE's existing projection boundary. This conditional derivation is narrower than all animals and is not an NSM theorem, a spelling association or a blanket entity-reference inference. It assigns no WANT, PART, MOVE, capacity, evaluative or other bank value. A source identity gap, missing premise, audit abstention or excluded taxon leaves its domain unchanged. Admission requires independent typed audits and replay.",
+        "warrant_id": "021:scoped-vertebrate-alive-body"
+      }
+    }
+  ],
+  "format": "gse.lexicon-epoch-plan/1"
+}

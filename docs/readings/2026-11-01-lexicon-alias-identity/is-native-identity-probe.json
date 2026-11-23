@@ -1,0 +1,43 @@
+{
+  "format": "gse.identity-source-probe/1",
+  "source": {
+    "name": "WordNet",
+    "version": "3.0"
+  },
+  "surface": "is",
+  "pos": "v",
+  "exception_bases": [
+    "be"
+  ],
+  "morphology_candidates": [
+    "be"
+  ],
+  "selected_synset": {
+    "name": "embody.v.02",
+    "pos": "v",
+    "definition": "represent, as of a character on stage",
+    "examples": [
+      "Derek Jacobi was Hamlet"
+    ],
+    "native_lemmas": [
+      "embody",
+      "be",
+      "personify"
+    ],
+    "hypernym_paths": [
+      [
+        "act.v.01",
+        "interact.v.01",
+        "communicate.v.02",
+        "inform.v.01",
+        "tell.v.02",
+        "impart.v.01",
+        "convey.v.01",
+        "mean.v.01",
+        "typify.v.02",
+        "embody.v.02"
+      ]
+    ]
+  },
+  "scope": "IDENTITY_WITHIN_SELECTED_SENSE_NOT_SENSE_SELECTION_OR_BANK_VALUE"
+}

@@ -1,0 +1,26 @@
+{
+  "model_pin": {
+    "batch_protocol_digest": "501a30076a83fb46d9262a8fecb6e8c55a250dfa1f48f97d87dcfa121ee0b47d",
+    "digest": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+    "model": "qwen3.8:27b-q4_K_M"
+  },
+  "options": {
+    "bank_priority": "evidence",
+    "banks": [
+      "QUANTITY"
+    ],
+    "batch_size": 4,
+    "cohort_policy": "spelling",
+    "continue_cohorts": true,
+    "entry_ids": [
+      "wordnet:in:inch.n.01",
+      "wordnet:are:are.n.01",
+      "wordnet:at:at.n.02"
+    ],
+    "max_calls_per_entry": 1,
+    "max_entries_per_pass": 8,
+    "priority": "zipf",
+    "retry": false
+  },
+  "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@25d2a12067b281d742dc77401f754ec70cea123122b8415a098ebcca7efaceaa:batch@501a30076a83fb46d9262a8fecb6e8c55a250dfa1f48f97d87dcfa121ee0b47d"
+}

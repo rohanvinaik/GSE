@@ -1,0 +1,632 @@
+{
+  "format": "gse.lexicon-rule-coverage/1",
+  "definitions": 155113,
+  "rules": 23,
+  "banks": [
+    {
+      "bank": "I",
+      "rule_ids": [
+        "founder:category:i-someone"
+      ],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "YOU",
+      "rule_ids": [
+        "founder:category:you-someone"
+      ],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "SOMEONE",
+      "rule_ids": [
+        "founder:category:i-someone",
+        "founder:category:you-someone"
+      ],
+      "known_cells": 10149,
+      "unresolved_cells": 144964,
+      "domains": {
+        "-1,0,1": 144964,
+        "1": 10149
+      }
+    },
+    {
+      "bank": "SOMETHING",
+      "rule_ids": [
+        "founder:adjective-not-object",
+        "founder:adverb-not-object",
+        "founder:category:body-something"
+      ],
+      "known_cells": 106607,
+      "unresolved_cells": 48506,
+      "domains": {
+        "-1,0,1": 48506,
+        "1": 77780,
+        "0": 28827
+      }
+    },
+    {
+      "bank": "PEOPLE",
+      "rule_ids": [],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "BODY",
+      "rule_ids": [
+        "founder:category:body-something"
+      ],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "KIND",
+      "rule_ids": [],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "PART",
+      "rule_ids": [],
+      "known_cells": 1466,
+      "unresolved_cells": 153647,
+      "domains": {
+        "-1,0,1": 153647,
+        "1": 1466
+      }
+    },
+    {
+      "bank": "SAME",
+      "rule_ids": [],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "ONE",
+      "rule_ids": [
+        "founder:category:one-quantity"
+      ],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "TWO",
+      "rule_ids": [
+        "founder:category:two-quantity"
+      ],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "QUANTITY",
+      "rule_ids": [
+        "founder:category:one-quantity",
+        "founder:category:two-quantity"
+      ],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "GOOD",
+      "rule_ids": [
+        "founder:noun-own-evaluation",
+        "founder:absence:good-big",
+        "founder:absence:big-good"
+      ],
+      "known_cells": 77779,
+      "unresolved_cells": 77334,
+      "domains": {
+        "-1,0,1": 77334,
+        "0": 77779
+      }
+    },
+    {
+      "bank": "BIG",
+      "rule_ids": [
+        "founder:absence:good-big",
+        "founder:absence:big-good"
+      ],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "THINK",
+      "rule_ids": [],
+      "known_cells": 1921,
+      "unresolved_cells": 153192,
+      "domains": {
+        "-1,0,1": 153192,
+        "1": 1921
+      }
+    },
+    {
+      "bank": "KNOW",
+      "rule_ids": [],
+      "known_cells": 28,
+      "unresolved_cells": 155085,
+      "domains": {
+        "-1,0,1": 155085,
+        "1": 28
+      }
+    },
+    {
+      "bank": "WANT",
+      "rule_ids": [],
+      "known_cells": 113,
+      "unresolved_cells": 155000,
+      "domains": {
+        "-1": 1,
+        "-1,0,1": 155000,
+        "1": 112
+      }
+    },
+    {
+      "bank": "FEEL",
+      "rule_ids": [],
+      "known_cells": 1095,
+      "unresolved_cells": 154018,
+      "domains": {
+        "-1,0,1": 154018,
+        "1": 1095
+      }
+    },
+    {
+      "bank": "SEE",
+      "rule_ids": [],
+      "known_cells": 15,
+      "unresolved_cells": 155098,
+      "domains": {
+        "-1,0,1": 155098,
+        "1": 15
+      }
+    },
+    {
+      "bank": "HEAR",
+      "rule_ids": [],
+      "known_cells": 18,
+      "unresolved_cells": 155095,
+      "domains": {
+        "-1,0,1": 155095,
+        "1": 18
+      }
+    },
+    {
+      "bank": "INFER",
+      "rule_ids": [],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "SAY",
+      "rule_ids": [],
+      "known_cells": 673,
+      "unresolved_cells": 154440,
+      "domains": {
+        "-1,0,1": 154440,
+        "1": 673
+      }
+    },
+    {
+      "bank": "WORDS",
+      "rule_ids": [],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "DO",
+      "rule_ids": [
+        "founder:category:do-happen"
+      ],
+      "known_cells": 4285,
+      "unresolved_cells": 150828,
+      "domains": {
+        "-1,0,1": 150828,
+        "1": 4285
+      }
+    },
+    {
+      "bank": "HAPPEN",
+      "rule_ids": [
+        "founder:category:move-happen",
+        "founder:category:do-happen",
+        "founder:category:cause-happen"
+      ],
+      "known_cells": 7530,
+      "unresolved_cells": 147583,
+      "domains": {
+        "-1,0,1": 147583,
+        "1": 7530
+      }
+    },
+    {
+      "bank": "MOVE",
+      "rule_ids": [
+        "founder:category:move-happen"
+      ],
+      "known_cells": 1774,
+      "unresolved_cells": 153339,
+      "domains": {
+        "-1,0,1": 153339,
+        "1": 1774
+      }
+    },
+    {
+      "bank": "BE",
+      "rule_ids": [],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "HAVE",
+      "rule_ids": [],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "EXIST",
+      "rule_ids": [],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "ALIVE",
+      "rule_ids": [],
+      "known_cells": 14825,
+      "unresolved_cells": 140288,
+      "domains": {
+        "-1,0,1": 140288,
+        "1": 14825
+      }
+    },
+    {
+      "bank": "MOMENT",
+      "rule_ids": [
+        "founder:category:moment-when"
+      ],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "WHEN",
+      "rule_ids": [
+        "founder:category:then-when",
+        "founder:category:before-when",
+        "founder:category:long_time-when",
+        "founder:category:moment-when"
+      ],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "LONG_TIME",
+      "rule_ids": [
+        "founder:category:long_time-when"
+      ],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "BEFORE",
+      "rule_ids": [
+        "founder:category:before-when"
+      ],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "THEN",
+      "rule_ids": [
+        "founder:category:then-when"
+      ],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "START",
+      "rule_ids": [],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "WHERE",
+      "rule_ids": [
+        "founder:category:above-where",
+        "founder:category:far-where",
+        "founder:category:outside-where",
+        "founder:category:toward-where",
+        "founder:category:here-where",
+        "founder:category:side-where"
+      ],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "HERE",
+      "rule_ids": [
+        "founder:category:here-where"
+      ],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "SIDE",
+      "rule_ids": [
+        "founder:category:side-where"
+      ],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "TOUCH",
+      "rule_ids": [],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "ABOVE",
+      "rule_ids": [
+        "founder:category:above-where"
+      ],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "FAR",
+      "rule_ids": [
+        "founder:category:far-where"
+      ],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "OUTSIDE",
+      "rule_ids": [
+        "founder:category:outside-where"
+      ],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "TOWARD",
+      "rule_ids": [
+        "founder:category:toward-where"
+      ],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "WITH",
+      "rule_ids": [],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "NOT",
+      "rule_ids": [],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "MAYBE",
+      "rule_ids": [],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "CAN",
+      "rule_ids": [],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "MUST",
+      "rule_ids": [],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "BECAUSE",
+      "rule_ids": [],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "CAUSE",
+      "rule_ids": [
+        "founder:category:cause-happen"
+      ],
+      "known_cells": 1761,
+      "unresolved_cells": 153352,
+      "domains": {
+        "-1,0,1": 153352,
+        "1": 1761
+      }
+    },
+    {
+      "bank": "IF",
+      "rule_ids": [],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "LIKE",
+      "rule_ids": [],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "TRUE",
+      "rule_ids": [],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    },
+    {
+      "bank": "INTENSITY",
+      "rule_ids": [],
+      "known_cells": 2,
+      "unresolved_cells": 155111,
+      "domains": {
+        "-1,0,1": 155111,
+        "1": 2
+      }
+    },
+    {
+      "bank": "CERTAINTY",
+      "rule_ids": [],
+      "known_cells": 0,
+      "unresolved_cells": 155113,
+      "domains": {
+        "-1,0,1": 155113
+      }
+    }
+  ],
+  "unconstrained_by_any_relation": [
+    "ALIVE",
+    "BE",
+    "BECAUSE",
+    "CAN",
+    "CERTAINTY",
+    "EXIST",
+    "FEEL",
+    "HAVE",
+    "HEAR",
+    "IF",
+    "INFER",
+    "INTENSITY",
+    "KIND",
+    "KNOW",
+    "LIKE",
+    "MAYBE",
+    "MUST",
+    "NOT",
+    "PART",
+    "PEOPLE",
+    "SAME",
+    "SAY",
+    "SEE",
+    "START",
+    "THINK",
+    "TOUCH",
+    "TRUE",
+    "WANT",
+    "WITH",
+    "WORDS"
+  ],
+  "interpretation": "CURRENT_RULE_SET_ONLY_NOT_A_CLAIM_THAT_MEANINGS_ARE_UNRESOLVABLE"
+}

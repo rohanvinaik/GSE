@@ -1,0 +1,440 @@
+{
+  "format": "gse.checkpoint-composed-consumer-probe/1",
+  "cases": [
+    {
+      "text": "The dog is bigger than the cat.",
+      "phases": {
+        "intake": {
+          "state": "read",
+          "expected": 1,
+          "read": 1,
+          "failed": 0
+        },
+        "resolution": {
+          "state": "read",
+          "error": null
+        },
+        "fold": {
+          "state": "read",
+          "error": null
+        },
+        "graph": {
+          "state": "read",
+          "error": null
+        }
+      },
+      "claims": [
+        {
+          "kind": "Comparison",
+          "verb": null,
+          "commitment": "committed",
+          "key": {
+            "state": "supported",
+            "key": [
+              "gse.claim/1",
+              [
+                "comparison",
+                "big",
+                1
+              ],
+              [
+                [
+                  "lhs",
+                  [
+                    "referent",
+                    "checkpoint-probe",
+                    "e0"
+                  ]
+                ],
+                [
+                  "rhs",
+                  [
+                    "referent",
+                    "checkpoint-probe",
+                    "e1"
+                  ]
+                ]
+              ],
+              []
+            ],
+            "polarity": {
+              "state": "read",
+              "clause_sign": 1,
+              "lexical_sign": 1,
+              "sign": 1,
+              "base": null,
+              "reason": ""
+            },
+            "projection": "resolved_roles_signed_primitives_context/1",
+            "reason": ""
+          }
+        }
+      ],
+      "trees": [
+        {
+          "_kind": "Comparison",
+          "lhs": {
+            "_kind": "Entity",
+            "head": {
+              "_kind": "Atom",
+              "lemma": "dog",
+              "word_primitives": {},
+              "role": null,
+              "position": 1,
+              "pos": "NOUN",
+              "number": "sing"
+            },
+            "possessor": null,
+            "role": null,
+            "modifier": {
+              "_kind": "Atom",
+              "lemma": "big",
+              "word_primitives": {},
+              "role": null,
+              "position": 3,
+              "pos": "ADJ",
+              "graded": true
+            },
+            "entity_id": "e0"
+          },
+          "rhs": {
+            "_kind": "Entity",
+            "head": {
+              "_kind": "Atom",
+              "lemma": "cat",
+              "word_primitives": {},
+              "role": null,
+              "position": 6,
+              "pos": "NOUN",
+              "number": "sing"
+            },
+            "possessor": null,
+            "role": null,
+            "modifier": null,
+            "entity_id": "e1"
+          },
+          "sign": 1,
+          "axis": null
+        }
+      ],
+      "utterances": [
+        {
+          "content": "The dog is bigger than the cat.",
+          "speaker": null,
+          "quoted": false,
+          "state": "read"
+        }
+      ]
+    },
+    {
+      "text": "The dog is an animal.",
+      "phases": {
+        "intake": {
+          "state": "read",
+          "expected": 1,
+          "read": 1,
+          "failed": 0
+        },
+        "resolution": {
+          "state": "read",
+          "error": null
+        },
+        "fold": {
+          "state": "read",
+          "error": null
+        },
+        "graph": {
+          "state": "read",
+          "error": null
+        }
+      },
+      "claims": [
+        {
+          "kind": "TypeAssertion",
+          "verb": null,
+          "commitment": "committed",
+          "key": {
+            "state": "supported",
+            "key": [
+              "gse.claim/1",
+              [
+                "type",
+                "animal"
+              ],
+              [
+                [
+                  "entity",
+                  [
+                    "referent",
+                    "checkpoint-probe",
+                    "e0"
+                  ]
+                ]
+              ],
+              []
+            ],
+            "polarity": {
+              "state": "read",
+              "clause_sign": 1,
+              "lexical_sign": 1,
+              "sign": 1,
+              "base": "animal",
+              "reason": ""
+            },
+            "projection": "resolved_roles_signed_primitives_context/1",
+            "reason": ""
+          }
+        }
+      ],
+      "trees": [
+        {
+          "_kind": "TypeAssertion",
+          "entity": {
+            "_kind": "Entity",
+            "head": {
+              "_kind": "Atom",
+              "lemma": "dog",
+              "word_primitives": {},
+              "role": null,
+              "position": 1,
+              "pos": "NOUN",
+              "number": "sing"
+            },
+            "possessor": null,
+            "role": null,
+            "modifier": null,
+            "entity_id": "e0"
+          },
+          "kind": {
+            "_kind": "Entity",
+            "head": {
+              "_kind": "Atom",
+              "lemma": "animal",
+              "word_primitives": {},
+              "role": null,
+              "position": 4,
+              "pos": "NOUN",
+              "number": "sing"
+            },
+            "possessor": null,
+            "role": null,
+            "modifier": null,
+            "entity_id": "e1"
+          }
+        }
+      ],
+      "utterances": [
+        {
+          "content": "The dog is an animal.",
+          "speaker": null,
+          "quoted": false,
+          "state": "read"
+        }
+      ]
+    },
+    {
+      "text": "Alice says that Bob left.",
+      "phases": {
+        "intake": {
+          "state": "read",
+          "expected": 1,
+          "read": 1,
+          "failed": 0
+        },
+        "resolution": {
+          "state": "read",
+          "error": null
+        },
+        "fold": {
+          "state": "read",
+          "error": null
+        },
+        "graph": {
+          "state": "read",
+          "error": null
+        }
+      },
+      "claims": [
+        {
+          "kind": "Event",
+          "verb": "say",
+          "commitment": "committed",
+          "key": {
+            "state": "unsupported",
+            "key": null,
+            "polarity": {
+              "state": "read",
+              "clause_sign": 1,
+              "lexical_sign": 1,
+              "sign": 1,
+              "base": null,
+              "reason": ""
+            },
+            "projection": "resolved_roles_signed_primitives_context/1",
+            "reason": "missing_relation_primitive_evidence"
+          }
+        },
+        {
+          "kind": "Event",
+          "verb": "leave",
+          "commitment": "committed",
+          "key": {
+            "state": "unsupported",
+            "key": null,
+            "polarity": {
+              "state": "read",
+              "clause_sign": 1,
+              "lexical_sign": 1,
+              "sign": 1,
+              "base": null,
+              "reason": ""
+            },
+            "projection": "resolved_roles_signed_primitives_context/1",
+            "reason": "missing_relation_primitive_evidence"
+          }
+        }
+      ],
+      "trees": [
+        {
+          "_kind": "Event",
+          "verb": "say",
+          "agent": {
+            "_kind": "Entity",
+            "head": {
+              "_kind": "Atom",
+              "lemma": "alice",
+              "word_primitives": {},
+              "role": null,
+              "position": 0,
+              "pos": "PROPN",
+              "number": "sing"
+            },
+            "possessor": null,
+            "role": null,
+            "modifier": null,
+            "entity_id": "e0"
+          },
+          "patient": {
+            "_kind": "Event",
+            "verb": "leave",
+            "agent": {
+              "_kind": "Entity",
+              "head": {
+                "_kind": "Atom",
+                "lemma": "bob",
+                "word_primitives": {},
+                "role": null,
+                "position": 3,
+                "pos": "PROPN",
+                "number": "sing"
+              },
+              "possessor": null,
+              "role": null,
+              "modifier": null,
+              "entity_id": "e1"
+            },
+            "patient": null
+          }
+        }
+      ],
+      "utterances": [
+        {
+          "content": "Alice says that Bob left.",
+          "speaker": null,
+          "quoted": false,
+          "state": "read"
+        }
+      ]
+    },
+    {
+      "text": "The dog chases the cat.",
+      "phases": {
+        "intake": {
+          "state": "read",
+          "expected": 1,
+          "read": 1,
+          "failed": 0
+        },
+        "resolution": {
+          "state": "read",
+          "error": null
+        },
+        "fold": {
+          "state": "read",
+          "error": null
+        },
+        "graph": {
+          "state": "read",
+          "error": null
+        }
+      },
+      "claims": [
+        {
+          "kind": "Event",
+          "verb": "chase",
+          "commitment": "committed",
+          "key": {
+            "state": "unsupported",
+            "key": null,
+            "polarity": {
+              "state": "read",
+              "clause_sign": 1,
+              "lexical_sign": 1,
+              "sign": 1,
+              "base": null,
+              "reason": ""
+            },
+            "projection": "resolved_roles_signed_primitives_context/1",
+            "reason": "missing_relation_primitive_evidence"
+          }
+        }
+      ],
+      "trees": [
+        {
+          "_kind": "Event",
+          "verb": "chase",
+          "agent": {
+            "_kind": "Entity",
+            "head": {
+              "_kind": "Atom",
+              "lemma": "dog",
+              "word_primitives": {},
+              "role": null,
+              "position": 1,
+              "pos": "NOUN",
+              "number": "sing"
+            },
+            "possessor": null,
+            "role": null,
+            "modifier": null,
+            "entity_id": "e0"
+          },
+          "patient": {
+            "_kind": "Entity",
+            "head": {
+              "_kind": "Atom",
+              "lemma": "cat",
+              "word_primitives": {},
+              "role": null,
+              "position": 4,
+              "pos": "NOUN",
+              "number": "sing"
+            },
+            "possessor": null,
+            "role": null,
+            "modifier": null,
+            "entity_id": "e1"
+          }
+        }
+      ],
+      "utterances": [
+        {
+          "content": "The dog chases the cat.",
+          "speaker": null,
+          "quoted": false,
+          "state": "read"
+        }
+      ]
+    }
+  ]
+}

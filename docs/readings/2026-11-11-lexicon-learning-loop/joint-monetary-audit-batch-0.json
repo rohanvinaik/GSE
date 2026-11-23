@@ -1,0 +1,5691 @@
+[
+  {
+    "bank": "BODY",
+    "code": "AUDIT_CALL_BUDGET_EXHAUSTED",
+    "comparison_authority": "UNAPPROVED_PATTERN_NOT_GOLD",
+    "entry_id": "wordnet:anna:anna.n.01",
+    "model_calls": 0,
+    "raw_output": "{\"BODY\":0}",
+    "request": {
+      "allowed_values": [
+        -1,
+        0,
+        1
+      ],
+      "bank": "BODY",
+      "definition": {
+        "definition": "a former copper coin of Pakistan and India",
+        "entry_id": "wordnet:anna:anna.n.01",
+        "lemma": "anna",
+        "pos": "noun"
+      },
+      "entry_id": "wordnet:anna:anna.n.01",
+      "fill": {
+        "BODY": null
+      },
+      "format": "gse.bank-request/2",
+      "known": {
+        "ALIVE": 0,
+        "GOOD": 0,
+        "QUANTITY": 1,
+        "SOMETHING": 1
+      },
+      "observations": [
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Anna-en-name-3VyYljXK:7ded72014c98274806747e5d410ad4e1bc50233fc8f7f2f52f2f7edc2070d871",
+            "wiktionary:en-Anna-en-name-6ZvNuSZK:9df31cf4c1a830f1d59537094dc2dcc95a69e45c7ab598c1f72b29df8a882a33",
+            "wiktionary:en-Anna-en-name-B7r~DZdf:e3de4c7107a660ce415eb830ef4b13fd36ed63c24f8f55c4420b98d11b769856",
+            "wiktionary:en-Anna-en-name-MmRldYGu:da2b21202e2c23233ed87c2dd2e06d534ee6012142eca20b6849d80cae2fb162",
+            "wiktionary:en-Anna-en-name-ObDdStiJ:aeb07ebc2e91312059d6e91d01897aee7b71dff714056875a8296b178d14b1da",
+            "wiktionary:en-Anna-en-name-WltBXWjX:49165815777526e0d856989930122e16435705eb5de924c3e215c3c2dd01f3ca",
+            "wiktionary:en-Anna-en-name-dFntQmu6:12e2fef7ec1220bfca4c484e59aa32076dff99bf47299ca053ed31e68dfaee34",
+            "wiktionary:en-Anna-en-name-g84OSjQn:54e39d2cd2ffd8d5659130743af2d0067ed85532f2eac2590af7054ece188252",
+            "wiktionary:en-Anna-en-name-gQoJTTk-:02fcf28ab750f2fb4e74857600d8ebbaf7505255fa1a493e02443ca1436f5b7e",
+            "wiktionary:en-Anna-en-name-oQj8gvFL:e52ceb6c864364376eb07b6fa855e1fb55fbd0d2367b1411388946cd6a234277",
+            "wiktionary:en-Anna-en-name-zzYkvB~W:2e2c88a75fb5b69261052e1bb20407362686479593b4ae92a639f19a38170aa0",
+            "wiktionary:en-anna-en-noun-886u12GV:0cd12a72a994bfdf60151cee8a5cdfe2837a2676a77d65c996fd0862c7667f8d",
+            "wiktionary:en-anna-en-noun-L572aQO9:1b888012fa0ad4a10368ff19bbaf539ee184592bbce4e928e5922f7833301975",
+            "wordnet:anna:anna.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "anna",
+            "id": 329558,
+            "lemma": "anna",
+            "relation": "DerivedFrom",
+            "source": "/d/wiktionary/en",
+            "start_word": "rosanna",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:anna:005e867e3f67a136c4a98cf94f2bacc5620aa103bcfa9325d90afea45d96779c",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Anna-en-name-3VyYljXK:7ded72014c98274806747e5d410ad4e1bc50233fc8f7f2f52f2f7edc2070d871",
+            "wiktionary:en-Anna-en-name-6ZvNuSZK:9df31cf4c1a830f1d59537094dc2dcc95a69e45c7ab598c1f72b29df8a882a33",
+            "wiktionary:en-Anna-en-name-B7r~DZdf:e3de4c7107a660ce415eb830ef4b13fd36ed63c24f8f55c4420b98d11b769856",
+            "wiktionary:en-Anna-en-name-MmRldYGu:da2b21202e2c23233ed87c2dd2e06d534ee6012142eca20b6849d80cae2fb162",
+            "wiktionary:en-Anna-en-name-ObDdStiJ:aeb07ebc2e91312059d6e91d01897aee7b71dff714056875a8296b178d14b1da",
+            "wiktionary:en-Anna-en-name-WltBXWjX:49165815777526e0d856989930122e16435705eb5de924c3e215c3c2dd01f3ca",
+            "wiktionary:en-Anna-en-name-dFntQmu6:12e2fef7ec1220bfca4c484e59aa32076dff99bf47299ca053ed31e68dfaee34",
+            "wiktionary:en-Anna-en-name-g84OSjQn:54e39d2cd2ffd8d5659130743af2d0067ed85532f2eac2590af7054ece188252",
+            "wiktionary:en-Anna-en-name-gQoJTTk-:02fcf28ab750f2fb4e74857600d8ebbaf7505255fa1a493e02443ca1436f5b7e",
+            "wiktionary:en-Anna-en-name-oQj8gvFL:e52ceb6c864364376eb07b6fa855e1fb55fbd0d2367b1411388946cd6a234277",
+            "wiktionary:en-Anna-en-name-zzYkvB~W:2e2c88a75fb5b69261052e1bb20407362686479593b4ae92a639f19a38170aa0",
+            "wiktionary:en-anna-en-noun-886u12GV:0cd12a72a994bfdf60151cee8a5cdfe2837a2676a77d65c996fd0862c7667f8d",
+            "wiktionary:en-anna-en-noun-L572aQO9:1b888012fa0ad4a10368ff19bbaf539ee184592bbce4e928e5922f7833301975",
+            "wordnet:anna:anna.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "new testament",
+            "id": 1395768,
+            "lemma": "anna",
+            "relation": "RelatedTo",
+            "source": "/d/wiktionary/en",
+            "start_word": "anna",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:anna:0376609ed2eab81f73c70fa5d32d20288b666cc5141dfe35012071fcea251ced",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Anna-en-name-3VyYljXK:7ded72014c98274806747e5d410ad4e1bc50233fc8f7f2f52f2f7edc2070d871",
+            "wiktionary:en-Anna-en-name-6ZvNuSZK:9df31cf4c1a830f1d59537094dc2dcc95a69e45c7ab598c1f72b29df8a882a33",
+            "wiktionary:en-Anna-en-name-B7r~DZdf:e3de4c7107a660ce415eb830ef4b13fd36ed63c24f8f55c4420b98d11b769856",
+            "wiktionary:en-Anna-en-name-MmRldYGu:da2b21202e2c23233ed87c2dd2e06d534ee6012142eca20b6849d80cae2fb162",
+            "wiktionary:en-Anna-en-name-ObDdStiJ:aeb07ebc2e91312059d6e91d01897aee7b71dff714056875a8296b178d14b1da",
+            "wiktionary:en-Anna-en-name-WltBXWjX:49165815777526e0d856989930122e16435705eb5de924c3e215c3c2dd01f3ca",
+            "wiktionary:en-Anna-en-name-dFntQmu6:12e2fef7ec1220bfca4c484e59aa32076dff99bf47299ca053ed31e68dfaee34",
+            "wiktionary:en-Anna-en-name-g84OSjQn:54e39d2cd2ffd8d5659130743af2d0067ed85532f2eac2590af7054ece188252",
+            "wiktionary:en-Anna-en-name-gQoJTTk-:02fcf28ab750f2fb4e74857600d8ebbaf7505255fa1a493e02443ca1436f5b7e",
+            "wiktionary:en-Anna-en-name-oQj8gvFL:e52ceb6c864364376eb07b6fa855e1fb55fbd0d2367b1411388946cd6a234277",
+            "wiktionary:en-Anna-en-name-zzYkvB~W:2e2c88a75fb5b69261052e1bb20407362686479593b4ae92a639f19a38170aa0",
+            "wiktionary:en-anna-en-noun-886u12GV:0cd12a72a994bfdf60151cee8a5cdfe2837a2676a77d65c996fd0862c7667f8d",
+            "wiktionary:en-anna-en-noun-L572aQO9:1b888012fa0ad4a10368ff19bbaf539ee184592bbce4e928e5922f7833301975",
+            "wordnet:anna:anna.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "prophetess",
+            "id": 1395770,
+            "lemma": "anna",
+            "relation": "RelatedTo",
+            "source": "/d/wiktionary/en",
+            "start_word": "anna",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:anna:208359ba29a1c43c7b4d330252fdf448886e73a980409986d6d21bc7b5c822de",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Anna-en-name-3VyYljXK:7ded72014c98274806747e5d410ad4e1bc50233fc8f7f2f52f2f7edc2070d871",
+            "wiktionary:en-Anna-en-name-6ZvNuSZK:9df31cf4c1a830f1d59537094dc2dcc95a69e45c7ab598c1f72b29df8a882a33",
+            "wiktionary:en-Anna-en-name-B7r~DZdf:e3de4c7107a660ce415eb830ef4b13fd36ed63c24f8f55c4420b98d11b769856",
+            "wiktionary:en-Anna-en-name-MmRldYGu:da2b21202e2c23233ed87c2dd2e06d534ee6012142eca20b6849d80cae2fb162",
+            "wiktionary:en-Anna-en-name-ObDdStiJ:aeb07ebc2e91312059d6e91d01897aee7b71dff714056875a8296b178d14b1da",
+            "wiktionary:en-Anna-en-name-WltBXWjX:49165815777526e0d856989930122e16435705eb5de924c3e215c3c2dd01f3ca",
+            "wiktionary:en-Anna-en-name-dFntQmu6:12e2fef7ec1220bfca4c484e59aa32076dff99bf47299ca053ed31e68dfaee34",
+            "wiktionary:en-Anna-en-name-g84OSjQn:54e39d2cd2ffd8d5659130743af2d0067ed85532f2eac2590af7054ece188252",
+            "wiktionary:en-Anna-en-name-gQoJTTk-:02fcf28ab750f2fb4e74857600d8ebbaf7505255fa1a493e02443ca1436f5b7e",
+            "wiktionary:en-Anna-en-name-oQj8gvFL:e52ceb6c864364376eb07b6fa855e1fb55fbd0d2367b1411388946cd6a234277",
+            "wiktionary:en-Anna-en-name-zzYkvB~W:2e2c88a75fb5b69261052e1bb20407362686479593b4ae92a639f19a38170aa0",
+            "wiktionary:en-anna-en-noun-886u12GV:0cd12a72a994bfdf60151cee8a5cdfe2837a2676a77d65c996fd0862c7667f8d",
+            "wiktionary:en-anna-en-noun-L572aQO9:1b888012fa0ad4a10368ff19bbaf539ee184592bbce4e928e5922f7833301975",
+            "wordnet:anna:anna.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "anna",
+            "id": 1893447,
+            "lemma": "anna",
+            "relation": "RelatedTo",
+            "source": "/d/wiktionary/en",
+            "start_word": "georgianna",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:anna:2718d327d86ae20c37a1d45c5c281b8e4034393e21d103fd6fe4fc218b3f72d0",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Anna-en-name-3VyYljXK:7ded72014c98274806747e5d410ad4e1bc50233fc8f7f2f52f2f7edc2070d871",
+            "wiktionary:en-Anna-en-name-6ZvNuSZK:9df31cf4c1a830f1d59537094dc2dcc95a69e45c7ab598c1f72b29df8a882a33",
+            "wiktionary:en-Anna-en-name-B7r~DZdf:e3de4c7107a660ce415eb830ef4b13fd36ed63c24f8f55c4420b98d11b769856",
+            "wiktionary:en-Anna-en-name-MmRldYGu:da2b21202e2c23233ed87c2dd2e06d534ee6012142eca20b6849d80cae2fb162",
+            "wiktionary:en-Anna-en-name-ObDdStiJ:aeb07ebc2e91312059d6e91d01897aee7b71dff714056875a8296b178d14b1da",
+            "wiktionary:en-Anna-en-name-WltBXWjX:49165815777526e0d856989930122e16435705eb5de924c3e215c3c2dd01f3ca",
+            "wiktionary:en-Anna-en-name-dFntQmu6:12e2fef7ec1220bfca4c484e59aa32076dff99bf47299ca053ed31e68dfaee34",
+            "wiktionary:en-Anna-en-name-g84OSjQn:54e39d2cd2ffd8d5659130743af2d0067ed85532f2eac2590af7054ece188252",
+            "wiktionary:en-Anna-en-name-gQoJTTk-:02fcf28ab750f2fb4e74857600d8ebbaf7505255fa1a493e02443ca1436f5b7e",
+            "wiktionary:en-Anna-en-name-oQj8gvFL:e52ceb6c864364376eb07b6fa855e1fb55fbd0d2367b1411388946cd6a234277",
+            "wiktionary:en-Anna-en-name-zzYkvB~W:2e2c88a75fb5b69261052e1bb20407362686479593b4ae92a639f19a38170aa0",
+            "wiktionary:en-anna-en-noun-886u12GV:0cd12a72a994bfdf60151cee8a5cdfe2837a2676a77d65c996fd0862c7667f8d",
+            "wiktionary:en-anna-en-noun-L572aQO9:1b888012fa0ad4a10368ff19bbaf539ee184592bbce4e928e5922f7833301975",
+            "wordnet:anna:anna.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "anna",
+            "id": 428857,
+            "lemma": "anna",
+            "relation": "FormOf",
+            "source": "/d/wiktionary/en",
+            "start_word": "annas",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:anna:38b254c87f3d4d44fa64354253922a30757128786ac08f4fb1194d9703bd725a",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Anna-en-name-3VyYljXK:7ded72014c98274806747e5d410ad4e1bc50233fc8f7f2f52f2f7edc2070d871",
+            "wiktionary:en-Anna-en-name-6ZvNuSZK:9df31cf4c1a830f1d59537094dc2dcc95a69e45c7ab598c1f72b29df8a882a33",
+            "wiktionary:en-Anna-en-name-B7r~DZdf:e3de4c7107a660ce415eb830ef4b13fd36ed63c24f8f55c4420b98d11b769856",
+            "wiktionary:en-Anna-en-name-MmRldYGu:da2b21202e2c23233ed87c2dd2e06d534ee6012142eca20b6849d80cae2fb162",
+            "wiktionary:en-Anna-en-name-ObDdStiJ:aeb07ebc2e91312059d6e91d01897aee7b71dff714056875a8296b178d14b1da",
+            "wiktionary:en-Anna-en-name-WltBXWjX:49165815777526e0d856989930122e16435705eb5de924c3e215c3c2dd01f3ca",
+            "wiktionary:en-Anna-en-name-dFntQmu6:12e2fef7ec1220bfca4c484e59aa32076dff99bf47299ca053ed31e68dfaee34",
+            "wiktionary:en-Anna-en-name-g84OSjQn:54e39d2cd2ffd8d5659130743af2d0067ed85532f2eac2590af7054ece188252",
+            "wiktionary:en-Anna-en-name-gQoJTTk-:02fcf28ab750f2fb4e74857600d8ebbaf7505255fa1a493e02443ca1436f5b7e",
+            "wiktionary:en-Anna-en-name-oQj8gvFL:e52ceb6c864364376eb07b6fa855e1fb55fbd0d2367b1411388946cd6a234277",
+            "wiktionary:en-Anna-en-name-zzYkvB~W:2e2c88a75fb5b69261052e1bb20407362686479593b4ae92a639f19a38170aa0",
+            "wiktionary:en-anna-en-noun-886u12GV:0cd12a72a994bfdf60151cee8a5cdfe2837a2676a77d65c996fd0862c7667f8d",
+            "wiktionary:en-anna-en-noun-L572aQO9:1b888012fa0ad4a10368ff19bbaf539ee184592bbce4e928e5922f7833301975",
+            "wordnet:anna:anna.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "pakistani monetary unit",
+            "id": 1104401,
+            "lemma": "anna",
+            "relation": "IsA",
+            "source": "/d/wordnet/3.1",
+            "start_word": "anna",
+            "weight": 2.0
+          },
+          "record_id": "conceptnet:anna:38d78a3cd9078ae6fcced2dc4476e1b2a930a1933f23fef2d0c9da8bbeef5354",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Anna-en-name-3VyYljXK:7ded72014c98274806747e5d410ad4e1bc50233fc8f7f2f52f2f7edc2070d871",
+            "wiktionary:en-Anna-en-name-6ZvNuSZK:9df31cf4c1a830f1d59537094dc2dcc95a69e45c7ab598c1f72b29df8a882a33",
+            "wiktionary:en-Anna-en-name-B7r~DZdf:e3de4c7107a660ce415eb830ef4b13fd36ed63c24f8f55c4420b98d11b769856",
+            "wiktionary:en-Anna-en-name-MmRldYGu:da2b21202e2c23233ed87c2dd2e06d534ee6012142eca20b6849d80cae2fb162",
+            "wiktionary:en-Anna-en-name-ObDdStiJ:aeb07ebc2e91312059d6e91d01897aee7b71dff714056875a8296b178d14b1da",
+            "wiktionary:en-Anna-en-name-WltBXWjX:49165815777526e0d856989930122e16435705eb5de924c3e215c3c2dd01f3ca",
+            "wiktionary:en-Anna-en-name-dFntQmu6:12e2fef7ec1220bfca4c484e59aa32076dff99bf47299ca053ed31e68dfaee34",
+            "wiktionary:en-Anna-en-name-g84OSjQn:54e39d2cd2ffd8d5659130743af2d0067ed85532f2eac2590af7054ece188252",
+            "wiktionary:en-Anna-en-name-gQoJTTk-:02fcf28ab750f2fb4e74857600d8ebbaf7505255fa1a493e02443ca1436f5b7e",
+            "wiktionary:en-Anna-en-name-oQj8gvFL:e52ceb6c864364376eb07b6fa855e1fb55fbd0d2367b1411388946cd6a234277",
+            "wiktionary:en-Anna-en-name-zzYkvB~W:2e2c88a75fb5b69261052e1bb20407362686479593b4ae92a639f19a38170aa0",
+            "wiktionary:en-anna-en-noun-886u12GV:0cd12a72a994bfdf60151cee8a5cdfe2837a2676a77d65c996fd0862c7667f8d",
+            "wiktionary:en-anna-en-noun-L572aQO9:1b888012fa0ad4a10368ff19bbaf539ee184592bbce4e928e5922f7833301975",
+            "wordnet:anna:anna.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "rupee",
+            "id": 1395771,
+            "lemma": "anna",
+            "relation": "RelatedTo",
+            "source": "/d/wiktionary/en",
+            "start_word": "anna",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:anna:40d97b57798aaff583183db33bf2e3067f96f8ba27bc11bc42e99222a0bf60d6",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Anna-en-name-3VyYljXK:7ded72014c98274806747e5d410ad4e1bc50233fc8f7f2f52f2f7edc2070d871",
+            "wiktionary:en-Anna-en-name-6ZvNuSZK:9df31cf4c1a830f1d59537094dc2dcc95a69e45c7ab598c1f72b29df8a882a33",
+            "wiktionary:en-Anna-en-name-B7r~DZdf:e3de4c7107a660ce415eb830ef4b13fd36ed63c24f8f55c4420b98d11b769856",
+            "wiktionary:en-Anna-en-name-MmRldYGu:da2b21202e2c23233ed87c2dd2e06d534ee6012142eca20b6849d80cae2fb162",
+            "wiktionary:en-Anna-en-name-ObDdStiJ:aeb07ebc2e91312059d6e91d01897aee7b71dff714056875a8296b178d14b1da",
+            "wiktionary:en-Anna-en-name-WltBXWjX:49165815777526e0d856989930122e16435705eb5de924c3e215c3c2dd01f3ca",
+            "wiktionary:en-Anna-en-name-dFntQmu6:12e2fef7ec1220bfca4c484e59aa32076dff99bf47299ca053ed31e68dfaee34",
+            "wiktionary:en-Anna-en-name-g84OSjQn:54e39d2cd2ffd8d5659130743af2d0067ed85532f2eac2590af7054ece188252",
+            "wiktionary:en-Anna-en-name-gQoJTTk-:02fcf28ab750f2fb4e74857600d8ebbaf7505255fa1a493e02443ca1436f5b7e",
+            "wiktionary:en-Anna-en-name-oQj8gvFL:e52ceb6c864364376eb07b6fa855e1fb55fbd0d2367b1411388946cd6a234277",
+            "wiktionary:en-Anna-en-name-zzYkvB~W:2e2c88a75fb5b69261052e1bb20407362686479593b4ae92a639f19a38170aa0",
+            "wiktionary:en-anna-en-noun-886u12GV:0cd12a72a994bfdf60151cee8a5cdfe2837a2676a77d65c996fd0862c7667f8d",
+            "wiktionary:en-anna-en-noun-L572aQO9:1b888012fa0ad4a10368ff19bbaf539ee184592bbce4e928e5922f7833301975",
+            "wordnet:anna:anna.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "anna",
+            "id": 95454,
+            "lemma": "anna",
+            "relation": "DerivedFrom",
+            "source": "/d/wiktionary/en",
+            "start_word": "annabeth",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:anna:4660c642e2f4fc8e0eb9886ea8f08a782763e363cb84ea68ef29256f9f7d1889",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Anna-en-name-3VyYljXK:7ded72014c98274806747e5d410ad4e1bc50233fc8f7f2f52f2f7edc2070d871",
+            "wiktionary:en-Anna-en-name-6ZvNuSZK:9df31cf4c1a830f1d59537094dc2dcc95a69e45c7ab598c1f72b29df8a882a33",
+            "wiktionary:en-Anna-en-name-B7r~DZdf:e3de4c7107a660ce415eb830ef4b13fd36ed63c24f8f55c4420b98d11b769856",
+            "wiktionary:en-Anna-en-name-MmRldYGu:da2b21202e2c23233ed87c2dd2e06d534ee6012142eca20b6849d80cae2fb162",
+            "wiktionary:en-Anna-en-name-ObDdStiJ:aeb07ebc2e91312059d6e91d01897aee7b71dff714056875a8296b178d14b1da",
+            "wiktionary:en-Anna-en-name-WltBXWjX:49165815777526e0d856989930122e16435705eb5de924c3e215c3c2dd01f3ca",
+            "wiktionary:en-Anna-en-name-dFntQmu6:12e2fef7ec1220bfca4c484e59aa32076dff99bf47299ca053ed31e68dfaee34",
+            "wiktionary:en-Anna-en-name-g84OSjQn:54e39d2cd2ffd8d5659130743af2d0067ed85532f2eac2590af7054ece188252",
+            "wiktionary:en-Anna-en-name-gQoJTTk-:02fcf28ab750f2fb4e74857600d8ebbaf7505255fa1a493e02443ca1436f5b7e",
+            "wiktionary:en-Anna-en-name-oQj8gvFL:e52ceb6c864364376eb07b6fa855e1fb55fbd0d2367b1411388946cd6a234277",
+            "wiktionary:en-Anna-en-name-zzYkvB~W:2e2c88a75fb5b69261052e1bb20407362686479593b4ae92a639f19a38170aa0",
+            "wiktionary:en-anna-en-noun-886u12GV:0cd12a72a994bfdf60151cee8a5cdfe2837a2676a77d65c996fd0862c7667f8d",
+            "wiktionary:en-anna-en-noun-L572aQO9:1b888012fa0ad4a10368ff19bbaf539ee184592bbce4e928e5922f7833301975",
+            "wordnet:anna:anna.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "anna",
+            "id": 1941211,
+            "lemma": "anna",
+            "relation": "RelatedTo",
+            "source": "/d/wiktionary/en",
+            "start_word": "hannah",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:anna:4c41f0c5b0145ee7b26f3a1ac71e5f3910373e8cfe4aa6f3e6426d7c2f9cfdb8",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Anna-en-name-3VyYljXK:7ded72014c98274806747e5d410ad4e1bc50233fc8f7f2f52f2f7edc2070d871",
+            "wiktionary:en-Anna-en-name-6ZvNuSZK:9df31cf4c1a830f1d59537094dc2dcc95a69e45c7ab598c1f72b29df8a882a33",
+            "wiktionary:en-Anna-en-name-B7r~DZdf:e3de4c7107a660ce415eb830ef4b13fd36ed63c24f8f55c4420b98d11b769856",
+            "wiktionary:en-Anna-en-name-MmRldYGu:da2b21202e2c23233ed87c2dd2e06d534ee6012142eca20b6849d80cae2fb162",
+            "wiktionary:en-Anna-en-name-ObDdStiJ:aeb07ebc2e91312059d6e91d01897aee7b71dff714056875a8296b178d14b1da",
+            "wiktionary:en-Anna-en-name-WltBXWjX:49165815777526e0d856989930122e16435705eb5de924c3e215c3c2dd01f3ca",
+            "wiktionary:en-Anna-en-name-dFntQmu6:12e2fef7ec1220bfca4c484e59aa32076dff99bf47299ca053ed31e68dfaee34",
+            "wiktionary:en-Anna-en-name-g84OSjQn:54e39d2cd2ffd8d5659130743af2d0067ed85532f2eac2590af7054ece188252",
+            "wiktionary:en-Anna-en-name-gQoJTTk-:02fcf28ab750f2fb4e74857600d8ebbaf7505255fa1a493e02443ca1436f5b7e",
+            "wiktionary:en-Anna-en-name-oQj8gvFL:e52ceb6c864364376eb07b6fa855e1fb55fbd0d2367b1411388946cd6a234277",
+            "wiktionary:en-Anna-en-name-zzYkvB~W:2e2c88a75fb5b69261052e1bb20407362686479593b4ae92a639f19a38170aa0",
+            "wiktionary:en-anna-en-noun-886u12GV:0cd12a72a994bfdf60151cee8a5cdfe2837a2676a77d65c996fd0862c7667f8d",
+            "wiktionary:en-anna-en-noun-L572aQO9:1b888012fa0ad4a10368ff19bbaf539ee184592bbce4e928e5922f7833301975",
+            "wordnet:anna:anna.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "anna",
+            "id": 2530699,
+            "lemma": "anna",
+            "relation": "RelatedTo",
+            "source": "/d/wiktionary/en",
+            "start_word": "rupee",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:anna:4e8eb70f33a9088bb601483d208843d1430496350d6f0ce623fe3e10c1893add",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Anna-en-name-3VyYljXK:7ded72014c98274806747e5d410ad4e1bc50233fc8f7f2f52f2f7edc2070d871",
+            "wiktionary:en-Anna-en-name-6ZvNuSZK:9df31cf4c1a830f1d59537094dc2dcc95a69e45c7ab598c1f72b29df8a882a33",
+            "wiktionary:en-Anna-en-name-B7r~DZdf:e3de4c7107a660ce415eb830ef4b13fd36ed63c24f8f55c4420b98d11b769856",
+            "wiktionary:en-Anna-en-name-MmRldYGu:da2b21202e2c23233ed87c2dd2e06d534ee6012142eca20b6849d80cae2fb162",
+            "wiktionary:en-Anna-en-name-ObDdStiJ:aeb07ebc2e91312059d6e91d01897aee7b71dff714056875a8296b178d14b1da",
+            "wiktionary:en-Anna-en-name-WltBXWjX:49165815777526e0d856989930122e16435705eb5de924c3e215c3c2dd01f3ca",
+            "wiktionary:en-Anna-en-name-dFntQmu6:12e2fef7ec1220bfca4c484e59aa32076dff99bf47299ca053ed31e68dfaee34",
+            "wiktionary:en-Anna-en-name-g84OSjQn:54e39d2cd2ffd8d5659130743af2d0067ed85532f2eac2590af7054ece188252",
+            "wiktionary:en-Anna-en-name-gQoJTTk-:02fcf28ab750f2fb4e74857600d8ebbaf7505255fa1a493e02443ca1436f5b7e",
+            "wiktionary:en-Anna-en-name-oQj8gvFL:e52ceb6c864364376eb07b6fa855e1fb55fbd0d2367b1411388946cd6a234277",
+            "wiktionary:en-Anna-en-name-zzYkvB~W:2e2c88a75fb5b69261052e1bb20407362686479593b4ae92a639f19a38170aa0",
+            "wiktionary:en-anna-en-noun-886u12GV:0cd12a72a994bfdf60151cee8a5cdfe2837a2676a77d65c996fd0862c7667f8d",
+            "wiktionary:en-anna-en-noun-L572aQO9:1b888012fa0ad4a10368ff19bbaf539ee184592bbce4e928e5922f7833301975",
+            "wordnet:anna:anna.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "anna",
+            "id": 1340685,
+            "lemma": "anna",
+            "relation": "RelatedTo",
+            "source": "/d/wiktionary/en",
+            "start_word": "a",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:anna:53e1d514c36af9cfcf245aff4015dc8ff71103cb663fc7192742c7e253670a83",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Anna-en-name-3VyYljXK:7ded72014c98274806747e5d410ad4e1bc50233fc8f7f2f52f2f7edc2070d871",
+            "wiktionary:en-Anna-en-name-6ZvNuSZK:9df31cf4c1a830f1d59537094dc2dcc95a69e45c7ab598c1f72b29df8a882a33",
+            "wiktionary:en-Anna-en-name-B7r~DZdf:e3de4c7107a660ce415eb830ef4b13fd36ed63c24f8f55c4420b98d11b769856",
+            "wiktionary:en-Anna-en-name-MmRldYGu:da2b21202e2c23233ed87c2dd2e06d534ee6012142eca20b6849d80cae2fb162",
+            "wiktionary:en-Anna-en-name-ObDdStiJ:aeb07ebc2e91312059d6e91d01897aee7b71dff714056875a8296b178d14b1da",
+            "wiktionary:en-Anna-en-name-WltBXWjX:49165815777526e0d856989930122e16435705eb5de924c3e215c3c2dd01f3ca",
+            "wiktionary:en-Anna-en-name-dFntQmu6:12e2fef7ec1220bfca4c484e59aa32076dff99bf47299ca053ed31e68dfaee34",
+            "wiktionary:en-Anna-en-name-g84OSjQn:54e39d2cd2ffd8d5659130743af2d0067ed85532f2eac2590af7054ece188252",
+            "wiktionary:en-Anna-en-name-gQoJTTk-:02fcf28ab750f2fb4e74857600d8ebbaf7505255fa1a493e02443ca1436f5b7e",
+            "wiktionary:en-Anna-en-name-oQj8gvFL:e52ceb6c864364376eb07b6fa855e1fb55fbd0d2367b1411388946cd6a234277",
+            "wiktionary:en-Anna-en-name-zzYkvB~W:2e2c88a75fb5b69261052e1bb20407362686479593b4ae92a639f19a38170aa0",
+            "wiktionary:en-anna-en-noun-886u12GV:0cd12a72a994bfdf60151cee8a5cdfe2837a2676a77d65c996fd0862c7667f8d",
+            "wiktionary:en-anna-en-noun-L572aQO9:1b888012fa0ad4a10368ff19bbaf539ee184592bbce4e928e5922f7833301975",
+            "wordnet:anna:anna.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "anna",
+            "id": 95456,
+            "lemma": "anna",
+            "relation": "DerivedFrom",
+            "source": "/d/wiktionary/en",
+            "start_word": "annalee",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:anna:7820772f897b4a8a65f386de7dee8cabc371eb2633e28b19ea4b05af85bd5b84",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Anna-en-name-3VyYljXK:7ded72014c98274806747e5d410ad4e1bc50233fc8f7f2f52f2f7edc2070d871",
+            "wiktionary:en-Anna-en-name-6ZvNuSZK:9df31cf4c1a830f1d59537094dc2dcc95a69e45c7ab598c1f72b29df8a882a33",
+            "wiktionary:en-Anna-en-name-B7r~DZdf:e3de4c7107a660ce415eb830ef4b13fd36ed63c24f8f55c4420b98d11b769856",
+            "wiktionary:en-Anna-en-name-MmRldYGu:da2b21202e2c23233ed87c2dd2e06d534ee6012142eca20b6849d80cae2fb162",
+            "wiktionary:en-Anna-en-name-ObDdStiJ:aeb07ebc2e91312059d6e91d01897aee7b71dff714056875a8296b178d14b1da",
+            "wiktionary:en-Anna-en-name-WltBXWjX:49165815777526e0d856989930122e16435705eb5de924c3e215c3c2dd01f3ca",
+            "wiktionary:en-Anna-en-name-dFntQmu6:12e2fef7ec1220bfca4c484e59aa32076dff99bf47299ca053ed31e68dfaee34",
+            "wiktionary:en-Anna-en-name-g84OSjQn:54e39d2cd2ffd8d5659130743af2d0067ed85532f2eac2590af7054ece188252",
+            "wiktionary:en-Anna-en-name-gQoJTTk-:02fcf28ab750f2fb4e74857600d8ebbaf7505255fa1a493e02443ca1436f5b7e",
+            "wiktionary:en-Anna-en-name-oQj8gvFL:e52ceb6c864364376eb07b6fa855e1fb55fbd0d2367b1411388946cd6a234277",
+            "wiktionary:en-Anna-en-name-zzYkvB~W:2e2c88a75fb5b69261052e1bb20407362686479593b4ae92a639f19a38170aa0",
+            "wiktionary:en-anna-en-noun-886u12GV:0cd12a72a994bfdf60151cee8a5cdfe2837a2676a77d65c996fd0862c7667f8d",
+            "wiktionary:en-anna-en-noun-L572aQO9:1b888012fa0ad4a10368ff19bbaf539ee184592bbce4e928e5922f7833301975",
+            "wordnet:anna:anna.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "anna",
+            "id": 236340,
+            "lemma": "anna",
+            "relation": "DerivedFrom",
+            "source": "/d/wiktionary/en",
+            "start_word": "lilyanna",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:anna:9364effd15f084c834201ee2f539af12863a1ca35a825d497a3cda17bf77a4c0",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Anna-en-name-3VyYljXK:7ded72014c98274806747e5d410ad4e1bc50233fc8f7f2f52f2f7edc2070d871",
+            "wiktionary:en-Anna-en-name-6ZvNuSZK:9df31cf4c1a830f1d59537094dc2dcc95a69e45c7ab598c1f72b29df8a882a33",
+            "wiktionary:en-Anna-en-name-B7r~DZdf:e3de4c7107a660ce415eb830ef4b13fd36ed63c24f8f55c4420b98d11b769856",
+            "wiktionary:en-Anna-en-name-MmRldYGu:da2b21202e2c23233ed87c2dd2e06d534ee6012142eca20b6849d80cae2fb162",
+            "wiktionary:en-Anna-en-name-ObDdStiJ:aeb07ebc2e91312059d6e91d01897aee7b71dff714056875a8296b178d14b1da",
+            "wiktionary:en-Anna-en-name-WltBXWjX:49165815777526e0d856989930122e16435705eb5de924c3e215c3c2dd01f3ca",
+            "wiktionary:en-Anna-en-name-dFntQmu6:12e2fef7ec1220bfca4c484e59aa32076dff99bf47299ca053ed31e68dfaee34",
+            "wiktionary:en-Anna-en-name-g84OSjQn:54e39d2cd2ffd8d5659130743af2d0067ed85532f2eac2590af7054ece188252",
+            "wiktionary:en-Anna-en-name-gQoJTTk-:02fcf28ab750f2fb4e74857600d8ebbaf7505255fa1a493e02443ca1436f5b7e",
+            "wiktionary:en-Anna-en-name-oQj8gvFL:e52ceb6c864364376eb07b6fa855e1fb55fbd0d2367b1411388946cd6a234277",
+            "wiktionary:en-Anna-en-name-zzYkvB~W:2e2c88a75fb5b69261052e1bb20407362686479593b4ae92a639f19a38170aa0",
+            "wiktionary:en-anna-en-noun-886u12GV:0cd12a72a994bfdf60151cee8a5cdfe2837a2676a77d65c996fd0862c7667f8d",
+            "wiktionary:en-anna-en-noun-L572aQO9:1b888012fa0ad4a10368ff19bbaf539ee184592bbce4e928e5922f7833301975",
+            "wordnet:anna:anna.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "nuts",
+            "id": 1063071,
+            "lemma": "anna",
+            "relation": "HasProperty",
+            "source": "/d/conceptnet/4/en",
+            "start_word": "anna",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:anna:a17955530de2e55a504015fd973b42cf923cec9ea9635558b398cc9a04932960",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Anna-en-name-3VyYljXK:7ded72014c98274806747e5d410ad4e1bc50233fc8f7f2f52f2f7edc2070d871",
+            "wiktionary:en-Anna-en-name-6ZvNuSZK:9df31cf4c1a830f1d59537094dc2dcc95a69e45c7ab598c1f72b29df8a882a33",
+            "wiktionary:en-Anna-en-name-B7r~DZdf:e3de4c7107a660ce415eb830ef4b13fd36ed63c24f8f55c4420b98d11b769856",
+            "wiktionary:en-Anna-en-name-MmRldYGu:da2b21202e2c23233ed87c2dd2e06d534ee6012142eca20b6849d80cae2fb162",
+            "wiktionary:en-Anna-en-name-ObDdStiJ:aeb07ebc2e91312059d6e91d01897aee7b71dff714056875a8296b178d14b1da",
+            "wiktionary:en-Anna-en-name-WltBXWjX:49165815777526e0d856989930122e16435705eb5de924c3e215c3c2dd01f3ca",
+            "wiktionary:en-Anna-en-name-dFntQmu6:12e2fef7ec1220bfca4c484e59aa32076dff99bf47299ca053ed31e68dfaee34",
+            "wiktionary:en-Anna-en-name-g84OSjQn:54e39d2cd2ffd8d5659130743af2d0067ed85532f2eac2590af7054ece188252",
+            "wiktionary:en-Anna-en-name-gQoJTTk-:02fcf28ab750f2fb4e74857600d8ebbaf7505255fa1a493e02443ca1436f5b7e",
+            "wiktionary:en-Anna-en-name-oQj8gvFL:e52ceb6c864364376eb07b6fa855e1fb55fbd0d2367b1411388946cd6a234277",
+            "wiktionary:en-Anna-en-name-zzYkvB~W:2e2c88a75fb5b69261052e1bb20407362686479593b4ae92a639f19a38170aa0",
+            "wiktionary:en-anna-en-noun-886u12GV:0cd12a72a994bfdf60151cee8a5cdfe2837a2676a77d65c996fd0862c7667f8d",
+            "wiktionary:en-anna-en-noun-L572aQO9:1b888012fa0ad4a10368ff19bbaf539ee184592bbce4e928e5922f7833301975",
+            "wordnet:anna:anna.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "anna",
+            "id": 2456077,
+            "lemma": "anna",
+            "relation": "RelatedTo",
+            "source": "/d/wiktionary/en",
+            "start_word": "pya",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:anna:a35d9164cfb1c521917b4fc9fa01196f61a99e975645f76681efffc9c9bc878c",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Anna-en-name-3VyYljXK:7ded72014c98274806747e5d410ad4e1bc50233fc8f7f2f52f2f7edc2070d871",
+            "wiktionary:en-Anna-en-name-6ZvNuSZK:9df31cf4c1a830f1d59537094dc2dcc95a69e45c7ab598c1f72b29df8a882a33",
+            "wiktionary:en-Anna-en-name-B7r~DZdf:e3de4c7107a660ce415eb830ef4b13fd36ed63c24f8f55c4420b98d11b769856",
+            "wiktionary:en-Anna-en-name-MmRldYGu:da2b21202e2c23233ed87c2dd2e06d534ee6012142eca20b6849d80cae2fb162",
+            "wiktionary:en-Anna-en-name-ObDdStiJ:aeb07ebc2e91312059d6e91d01897aee7b71dff714056875a8296b178d14b1da",
+            "wiktionary:en-Anna-en-name-WltBXWjX:49165815777526e0d856989930122e16435705eb5de924c3e215c3c2dd01f3ca",
+            "wiktionary:en-Anna-en-name-dFntQmu6:12e2fef7ec1220bfca4c484e59aa32076dff99bf47299ca053ed31e68dfaee34",
+            "wiktionary:en-Anna-en-name-g84OSjQn:54e39d2cd2ffd8d5659130743af2d0067ed85532f2eac2590af7054ece188252",
+            "wiktionary:en-Anna-en-name-gQoJTTk-:02fcf28ab750f2fb4e74857600d8ebbaf7505255fa1a493e02443ca1436f5b7e",
+            "wiktionary:en-Anna-en-name-oQj8gvFL:e52ceb6c864364376eb07b6fa855e1fb55fbd0d2367b1411388946cd6a234277",
+            "wiktionary:en-Anna-en-name-zzYkvB~W:2e2c88a75fb5b69261052e1bb20407362686479593b4ae92a639f19a38170aa0",
+            "wiktionary:en-anna-en-noun-886u12GV:0cd12a72a994bfdf60151cee8a5cdfe2837a2676a77d65c996fd0862c7667f8d",
+            "wiktionary:en-anna-en-noun-L572aQO9:1b888012fa0ad4a10368ff19bbaf539ee184592bbce4e928e5922f7833301975",
+            "wordnet:anna:anna.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "anna",
+            "id": 2378767,
+            "lemma": "anna",
+            "relation": "RelatedTo",
+            "source": "/d/wiktionary/en",
+            "start_word": "pie",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:anna:a644e5da9f5766628735c3398651ff69553df988ce08573be7ff6f6ccfec82fb",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Anna-en-name-3VyYljXK:7ded72014c98274806747e5d410ad4e1bc50233fc8f7f2f52f2f7edc2070d871",
+            "wiktionary:en-Anna-en-name-6ZvNuSZK:9df31cf4c1a830f1d59537094dc2dcc95a69e45c7ab598c1f72b29df8a882a33",
+            "wiktionary:en-Anna-en-name-B7r~DZdf:e3de4c7107a660ce415eb830ef4b13fd36ed63c24f8f55c4420b98d11b769856",
+            "wiktionary:en-Anna-en-name-MmRldYGu:da2b21202e2c23233ed87c2dd2e06d534ee6012142eca20b6849d80cae2fb162",
+            "wiktionary:en-Anna-en-name-ObDdStiJ:aeb07ebc2e91312059d6e91d01897aee7b71dff714056875a8296b178d14b1da",
+            "wiktionary:en-Anna-en-name-WltBXWjX:49165815777526e0d856989930122e16435705eb5de924c3e215c3c2dd01f3ca",
+            "wiktionary:en-Anna-en-name-dFntQmu6:12e2fef7ec1220bfca4c484e59aa32076dff99bf47299ca053ed31e68dfaee34",
+            "wiktionary:en-Anna-en-name-g84OSjQn:54e39d2cd2ffd8d5659130743af2d0067ed85532f2eac2590af7054ece188252",
+            "wiktionary:en-Anna-en-name-gQoJTTk-:02fcf28ab750f2fb4e74857600d8ebbaf7505255fa1a493e02443ca1436f5b7e",
+            "wiktionary:en-Anna-en-name-oQj8gvFL:e52ceb6c864364376eb07b6fa855e1fb55fbd0d2367b1411388946cd6a234277",
+            "wiktionary:en-Anna-en-name-zzYkvB~W:2e2c88a75fb5b69261052e1bb20407362686479593b4ae92a639f19a38170aa0",
+            "wiktionary:en-anna-en-noun-886u12GV:0cd12a72a994bfdf60151cee8a5cdfe2837a2676a77d65c996fd0862c7667f8d",
+            "wiktionary:en-anna-en-noun-L572aQO9:1b888012fa0ad4a10368ff19bbaf539ee184592bbce4e928e5922f7833301975",
+            "wordnet:anna:anna.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "indian monetary unit",
+            "id": 1104400,
+            "lemma": "anna",
+            "relation": "IsA",
+            "source": "/d/wordnet/3.1",
+            "start_word": "anna",
+            "weight": 2.0
+          },
+          "record_id": "conceptnet:anna:aeb83bc4a2ca6b9aba68f46b314604329f01b204edf0deae6d54dbd0fe42a7a6",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Anna-en-name-3VyYljXK:7ded72014c98274806747e5d410ad4e1bc50233fc8f7f2f52f2f7edc2070d871",
+            "wiktionary:en-Anna-en-name-6ZvNuSZK:9df31cf4c1a830f1d59537094dc2dcc95a69e45c7ab598c1f72b29df8a882a33",
+            "wiktionary:en-Anna-en-name-B7r~DZdf:e3de4c7107a660ce415eb830ef4b13fd36ed63c24f8f55c4420b98d11b769856",
+            "wiktionary:en-Anna-en-name-MmRldYGu:da2b21202e2c23233ed87c2dd2e06d534ee6012142eca20b6849d80cae2fb162",
+            "wiktionary:en-Anna-en-name-ObDdStiJ:aeb07ebc2e91312059d6e91d01897aee7b71dff714056875a8296b178d14b1da",
+            "wiktionary:en-Anna-en-name-WltBXWjX:49165815777526e0d856989930122e16435705eb5de924c3e215c3c2dd01f3ca",
+            "wiktionary:en-Anna-en-name-dFntQmu6:12e2fef7ec1220bfca4c484e59aa32076dff99bf47299ca053ed31e68dfaee34",
+            "wiktionary:en-Anna-en-name-g84OSjQn:54e39d2cd2ffd8d5659130743af2d0067ed85532f2eac2590af7054ece188252",
+            "wiktionary:en-Anna-en-name-gQoJTTk-:02fcf28ab750f2fb4e74857600d8ebbaf7505255fa1a493e02443ca1436f5b7e",
+            "wiktionary:en-Anna-en-name-oQj8gvFL:e52ceb6c864364376eb07b6fa855e1fb55fbd0d2367b1411388946cd6a234277",
+            "wiktionary:en-Anna-en-name-zzYkvB~W:2e2c88a75fb5b69261052e1bb20407362686479593b4ae92a639f19a38170aa0",
+            "wiktionary:en-anna-en-noun-886u12GV:0cd12a72a994bfdf60151cee8a5cdfe2837a2676a77d65c996fd0862c7667f8d",
+            "wiktionary:en-anna-en-noun-L572aQO9:1b888012fa0ad4a10368ff19bbaf539ee184592bbce4e928e5922f7833301975",
+            "wordnet:anna:anna.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "anna",
+            "id": 428856,
+            "lemma": "anna",
+            "relation": "FormOf",
+            "source": "/d/wiktionary/en",
+            "start_word": "annas",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:anna:b56b2e8fee94d24c5c2c5846a9e27822819cf01348587091a75e89c94db69fc2",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Anna-en-name-3VyYljXK:7ded72014c98274806747e5d410ad4e1bc50233fc8f7f2f52f2f7edc2070d871",
+            "wiktionary:en-Anna-en-name-6ZvNuSZK:9df31cf4c1a830f1d59537094dc2dcc95a69e45c7ab598c1f72b29df8a882a33",
+            "wiktionary:en-Anna-en-name-B7r~DZdf:e3de4c7107a660ce415eb830ef4b13fd36ed63c24f8f55c4420b98d11b769856",
+            "wiktionary:en-Anna-en-name-MmRldYGu:da2b21202e2c23233ed87c2dd2e06d534ee6012142eca20b6849d80cae2fb162",
+            "wiktionary:en-Anna-en-name-ObDdStiJ:aeb07ebc2e91312059d6e91d01897aee7b71dff714056875a8296b178d14b1da",
+            "wiktionary:en-Anna-en-name-WltBXWjX:49165815777526e0d856989930122e16435705eb5de924c3e215c3c2dd01f3ca",
+            "wiktionary:en-Anna-en-name-dFntQmu6:12e2fef7ec1220bfca4c484e59aa32076dff99bf47299ca053ed31e68dfaee34",
+            "wiktionary:en-Anna-en-name-g84OSjQn:54e39d2cd2ffd8d5659130743af2d0067ed85532f2eac2590af7054ece188252",
+            "wiktionary:en-Anna-en-name-gQoJTTk-:02fcf28ab750f2fb4e74857600d8ebbaf7505255fa1a493e02443ca1436f5b7e",
+            "wiktionary:en-Anna-en-name-oQj8gvFL:e52ceb6c864364376eb07b6fa855e1fb55fbd0d2367b1411388946cd6a234277",
+            "wiktionary:en-Anna-en-name-zzYkvB~W:2e2c88a75fb5b69261052e1bb20407362686479593b4ae92a639f19a38170aa0",
+            "wiktionary:en-anna-en-noun-886u12GV:0cd12a72a994bfdf60151cee8a5cdfe2837a2676a77d65c996fd0862c7667f8d",
+            "wiktionary:en-anna-en-noun-L572aQO9:1b888012fa0ad4a10368ff19bbaf539ee184592bbce4e928e5922f7833301975",
+            "wordnet:anna:anna.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "anna",
+            "id": 1395848,
+            "lemma": "anna",
+            "relation": "RelatedTo",
+            "source": "/d/wiktionary/fr",
+            "start_word": "annas",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:anna:b959a5360919f8dc698221dfdc5efc7be8665a300a47c589a88c21d8d474597e",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Anna-en-name-3VyYljXK:7ded72014c98274806747e5d410ad4e1bc50233fc8f7f2f52f2f7edc2070d871",
+            "wiktionary:en-Anna-en-name-6ZvNuSZK:9df31cf4c1a830f1d59537094dc2dcc95a69e45c7ab598c1f72b29df8a882a33",
+            "wiktionary:en-Anna-en-name-B7r~DZdf:e3de4c7107a660ce415eb830ef4b13fd36ed63c24f8f55c4420b98d11b769856",
+            "wiktionary:en-Anna-en-name-MmRldYGu:da2b21202e2c23233ed87c2dd2e06d534ee6012142eca20b6849d80cae2fb162",
+            "wiktionary:en-Anna-en-name-ObDdStiJ:aeb07ebc2e91312059d6e91d01897aee7b71dff714056875a8296b178d14b1da",
+            "wiktionary:en-Anna-en-name-WltBXWjX:49165815777526e0d856989930122e16435705eb5de924c3e215c3c2dd01f3ca",
+            "wiktionary:en-Anna-en-name-dFntQmu6:12e2fef7ec1220bfca4c484e59aa32076dff99bf47299ca053ed31e68dfaee34",
+            "wiktionary:en-Anna-en-name-g84OSjQn:54e39d2cd2ffd8d5659130743af2d0067ed85532f2eac2590af7054ece188252",
+            "wiktionary:en-Anna-en-name-gQoJTTk-:02fcf28ab750f2fb4e74857600d8ebbaf7505255fa1a493e02443ca1436f5b7e",
+            "wiktionary:en-Anna-en-name-oQj8gvFL:e52ceb6c864364376eb07b6fa855e1fb55fbd0d2367b1411388946cd6a234277",
+            "wiktionary:en-Anna-en-name-zzYkvB~W:2e2c88a75fb5b69261052e1bb20407362686479593b4ae92a639f19a38170aa0",
+            "wiktionary:en-anna-en-noun-886u12GV:0cd12a72a994bfdf60151cee8a5cdfe2837a2676a77d65c996fd0862c7667f8d",
+            "wiktionary:en-anna-en-noun-L572aQO9:1b888012fa0ad4a10368ff19bbaf539ee184592bbce4e928e5922f7833301975",
+            "wordnet:anna:anna.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "anna",
+            "id": 1396031,
+            "lemma": "anna",
+            "relation": "RelatedTo",
+            "source": "/d/wiktionary/en",
+            "start_word": "annika",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:anna:d1a5270b492c9f716761ea4ee33d4bdb2962ceb3379252f2a45d269c6dc71bce",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Anna-en-name-3VyYljXK:7ded72014c98274806747e5d410ad4e1bc50233fc8f7f2f52f2f7edc2070d871",
+            "wiktionary:en-Anna-en-name-6ZvNuSZK:9df31cf4c1a830f1d59537094dc2dcc95a69e45c7ab598c1f72b29df8a882a33",
+            "wiktionary:en-Anna-en-name-B7r~DZdf:e3de4c7107a660ce415eb830ef4b13fd36ed63c24f8f55c4420b98d11b769856",
+            "wiktionary:en-Anna-en-name-MmRldYGu:da2b21202e2c23233ed87c2dd2e06d534ee6012142eca20b6849d80cae2fb162",
+            "wiktionary:en-Anna-en-name-ObDdStiJ:aeb07ebc2e91312059d6e91d01897aee7b71dff714056875a8296b178d14b1da",
+            "wiktionary:en-Anna-en-name-WltBXWjX:49165815777526e0d856989930122e16435705eb5de924c3e215c3c2dd01f3ca",
+            "wiktionary:en-Anna-en-name-dFntQmu6:12e2fef7ec1220bfca4c484e59aa32076dff99bf47299ca053ed31e68dfaee34",
+            "wiktionary:en-Anna-en-name-g84OSjQn:54e39d2cd2ffd8d5659130743af2d0067ed85532f2eac2590af7054ece188252",
+            "wiktionary:en-Anna-en-name-gQoJTTk-:02fcf28ab750f2fb4e74857600d8ebbaf7505255fa1a493e02443ca1436f5b7e",
+            "wiktionary:en-Anna-en-name-oQj8gvFL:e52ceb6c864364376eb07b6fa855e1fb55fbd0d2367b1411388946cd6a234277",
+            "wiktionary:en-Anna-en-name-zzYkvB~W:2e2c88a75fb5b69261052e1bb20407362686479593b4ae92a639f19a38170aa0",
+            "wiktionary:en-anna-en-noun-886u12GV:0cd12a72a994bfdf60151cee8a5cdfe2837a2676a77d65c996fd0862c7667f8d",
+            "wiktionary:en-anna-en-noun-L572aQO9:1b888012fa0ad4a10368ff19bbaf539ee184592bbce4e928e5922f7833301975",
+            "wordnet:anna:anna.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "pie",
+            "id": 1395769,
+            "lemma": "anna",
+            "relation": "RelatedTo",
+            "source": "/d/wiktionary/en",
+            "start_word": "anna",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:anna:d259431406a302dc5ac5735c5876cff3decd0db6e26108f27c9dc410299299a7",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Anna-en-name-3VyYljXK:7ded72014c98274806747e5d410ad4e1bc50233fc8f7f2f52f2f7edc2070d871",
+            "wiktionary:en-Anna-en-name-6ZvNuSZK:9df31cf4c1a830f1d59537094dc2dcc95a69e45c7ab598c1f72b29df8a882a33",
+            "wiktionary:en-Anna-en-name-B7r~DZdf:e3de4c7107a660ce415eb830ef4b13fd36ed63c24f8f55c4420b98d11b769856",
+            "wiktionary:en-Anna-en-name-MmRldYGu:da2b21202e2c23233ed87c2dd2e06d534ee6012142eca20b6849d80cae2fb162",
+            "wiktionary:en-Anna-en-name-ObDdStiJ:aeb07ebc2e91312059d6e91d01897aee7b71dff714056875a8296b178d14b1da",
+            "wiktionary:en-Anna-en-name-WltBXWjX:49165815777526e0d856989930122e16435705eb5de924c3e215c3c2dd01f3ca",
+            "wiktionary:en-Anna-en-name-dFntQmu6:12e2fef7ec1220bfca4c484e59aa32076dff99bf47299ca053ed31e68dfaee34",
+            "wiktionary:en-Anna-en-name-g84OSjQn:54e39d2cd2ffd8d5659130743af2d0067ed85532f2eac2590af7054ece188252",
+            "wiktionary:en-Anna-en-name-gQoJTTk-:02fcf28ab750f2fb4e74857600d8ebbaf7505255fa1a493e02443ca1436f5b7e",
+            "wiktionary:en-Anna-en-name-oQj8gvFL:e52ceb6c864364376eb07b6fa855e1fb55fbd0d2367b1411388946cd6a234277",
+            "wiktionary:en-Anna-en-name-zzYkvB~W:2e2c88a75fb5b69261052e1bb20407362686479593b4ae92a639f19a38170aa0",
+            "wiktionary:en-anna-en-noun-886u12GV:0cd12a72a994bfdf60151cee8a5cdfe2837a2676a77d65c996fd0862c7667f8d",
+            "wiktionary:en-anna-en-noun-L572aQO9:1b888012fa0ad4a10368ff19bbaf539ee184592bbce4e928e5922f7833301975",
+            "wordnet:anna:anna.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "anna",
+            "id": 1641683,
+            "lemma": "anna",
+            "relation": "RelatedTo",
+            "source": "/d/wiktionary/en",
+            "start_word": "copper",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:anna:d2780481da9eeb48f50d1c8f9910e7327121f4eca77bf49ecbcc4be66752978a",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Anna-en-name-3VyYljXK:7ded72014c98274806747e5d410ad4e1bc50233fc8f7f2f52f2f7edc2070d871",
+            "wiktionary:en-Anna-en-name-6ZvNuSZK:9df31cf4c1a830f1d59537094dc2dcc95a69e45c7ab598c1f72b29df8a882a33",
+            "wiktionary:en-Anna-en-name-B7r~DZdf:e3de4c7107a660ce415eb830ef4b13fd36ed63c24f8f55c4420b98d11b769856",
+            "wiktionary:en-Anna-en-name-MmRldYGu:da2b21202e2c23233ed87c2dd2e06d534ee6012142eca20b6849d80cae2fb162",
+            "wiktionary:en-Anna-en-name-ObDdStiJ:aeb07ebc2e91312059d6e91d01897aee7b71dff714056875a8296b178d14b1da",
+            "wiktionary:en-Anna-en-name-WltBXWjX:49165815777526e0d856989930122e16435705eb5de924c3e215c3c2dd01f3ca",
+            "wiktionary:en-Anna-en-name-dFntQmu6:12e2fef7ec1220bfca4c484e59aa32076dff99bf47299ca053ed31e68dfaee34",
+            "wiktionary:en-Anna-en-name-g84OSjQn:54e39d2cd2ffd8d5659130743af2d0067ed85532f2eac2590af7054ece188252",
+            "wiktionary:en-Anna-en-name-gQoJTTk-:02fcf28ab750f2fb4e74857600d8ebbaf7505255fa1a493e02443ca1436f5b7e",
+            "wiktionary:en-Anna-en-name-oQj8gvFL:e52ceb6c864364376eb07b6fa855e1fb55fbd0d2367b1411388946cd6a234277",
+            "wiktionary:en-Anna-en-name-zzYkvB~W:2e2c88a75fb5b69261052e1bb20407362686479593b4ae92a639f19a38170aa0",
+            "wiktionary:en-anna-en-noun-886u12GV:0cd12a72a994bfdf60151cee8a5cdfe2837a2676a77d65c996fd0862c7667f8d",
+            "wiktionary:en-anna-en-noun-L572aQO9:1b888012fa0ad4a10368ff19bbaf539ee184592bbce4e928e5922f7833301975",
+            "wordnet:anna:anna.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "anna",
+            "id": 329602,
+            "lemma": "anna",
+            "relation": "DerivedFrom",
+            "source": "/d/wiktionary/en",
+            "start_word": "roseanna",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:anna:d407fc4cb3ade7de6a2b65f6bbf92d540520c847a5e9ea4f895bc8340be2c1ff",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Anna-en-name-3VyYljXK:7ded72014c98274806747e5d410ad4e1bc50233fc8f7f2f52f2f7edc2070d871",
+            "wiktionary:en-Anna-en-name-6ZvNuSZK:9df31cf4c1a830f1d59537094dc2dcc95a69e45c7ab598c1f72b29df8a882a33",
+            "wiktionary:en-Anna-en-name-B7r~DZdf:e3de4c7107a660ce415eb830ef4b13fd36ed63c24f8f55c4420b98d11b769856",
+            "wiktionary:en-Anna-en-name-MmRldYGu:da2b21202e2c23233ed87c2dd2e06d534ee6012142eca20b6849d80cae2fb162",
+            "wiktionary:en-Anna-en-name-ObDdStiJ:aeb07ebc2e91312059d6e91d01897aee7b71dff714056875a8296b178d14b1da",
+            "wiktionary:en-Anna-en-name-WltBXWjX:49165815777526e0d856989930122e16435705eb5de924c3e215c3c2dd01f3ca",
+            "wiktionary:en-Anna-en-name-dFntQmu6:12e2fef7ec1220bfca4c484e59aa32076dff99bf47299ca053ed31e68dfaee34",
+            "wiktionary:en-Anna-en-name-g84OSjQn:54e39d2cd2ffd8d5659130743af2d0067ed85532f2eac2590af7054ece188252",
+            "wiktionary:en-Anna-en-name-gQoJTTk-:02fcf28ab750f2fb4e74857600d8ebbaf7505255fa1a493e02443ca1436f5b7e",
+            "wiktionary:en-Anna-en-name-oQj8gvFL:e52ceb6c864364376eb07b6fa855e1fb55fbd0d2367b1411388946cd6a234277",
+            "wiktionary:en-Anna-en-name-zzYkvB~W:2e2c88a75fb5b69261052e1bb20407362686479593b4ae92a639f19a38170aa0",
+            "wiktionary:en-anna-en-noun-886u12GV:0cd12a72a994bfdf60151cee8a5cdfe2837a2676a77d65c996fd0862c7667f8d",
+            "wiktionary:en-anna-en-noun-L572aQO9:1b888012fa0ad4a10368ff19bbaf539ee184592bbce4e928e5922f7833301975",
+            "wordnet:anna:anna.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "anna",
+            "id": 427490,
+            "lemma": "anna",
+            "relation": "FormOf",
+            "source": "/d/wiktionary/en",
+            "start_word": "ana",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:anna:d9dfc1ca4f6e708ec08c578749a6e55aa9dca71b167fcc87ad79cb6a6bdc9403",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-anna-en-noun-886u12GV:0cd12a72a994bfdf60151cee8a5cdfe2837a2676a77d65c996fd0862c7667f8d",
+            "wiktionary:en-anna-en-noun-L572aQO9:1b888012fa0ad4a10368ff19bbaf539ee184592bbce4e928e5922f7833301975",
+            "wordnet:anna:anna.n.01"
+          ],
+          "entry_id": "wordnet:anna:anna.n.01",
+          "family": "wordnet",
+          "features": {
+            "bank_relevance": {
+              "banks": [
+                "GOOD"
+              ],
+              "code": "CLASSIFIED",
+              "provenance": [
+                "sentiwordnet:SentiWordEntry/1:positive-negative-objective-sentiment",
+                "sentiwordnet:synset:anna.n.01"
+              ]
+            },
+            "lemma": "anna",
+            "neg_score": 0.0,
+            "obj_score": 1.0,
+            "pos": "noun",
+            "pos_score": 0.0,
+            "projection_candidates": [],
+            "synset_id": "anna.n.01",
+            "word": "anna"
+          },
+          "record_id": "sentiwordnet:anna:7eeb0d59aab2aeae93f000ddfc6cdb6049e1412627a69393d58a62b075d1ea9b",
+          "scope": "association",
+          "source": "sentiwordnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wordnet:anna:anna.n.01"
+          ],
+          "entry_id": "wordnet:anna:anna.n.01",
+          "family": "wordnet",
+          "features": {
+            "definition": "a former copper coin of Pakistan and India",
+            "examples": [],
+            "hypernym_paths": [
+              [
+                "entity.n.01",
+                "abstraction.n.06",
+                "measure.n.02",
+                "definite_quantity.n.01",
+                "unit_of_measurement.n.01",
+                "monetary_unit.n.01",
+                "indian_monetary_unit.n.01",
+                "anna.n.01"
+              ],
+              [
+                "entity.n.01",
+                "abstraction.n.06",
+                "measure.n.02",
+                "definite_quantity.n.01",
+                "unit_of_measurement.n.01",
+                "monetary_unit.n.01",
+                "pakistani_monetary_unit.n.01",
+                "anna.n.01"
+              ]
+            ],
+            "lemma": "anna",
+            "lemma_names": [
+              "anna"
+            ],
+            "lexname": "noun.quantity",
+            "native_records": [
+              {
+                "has_holonyms": false,
+                "has_meronyms": false,
+                "hypernym_depth": 8,
+                "hyponym_count": 0,
+                "lexname": "noun.quantity",
+                "pos": "noun",
+                "synset_name": "anna.n.01",
+                "word": "anna"
+              }
+            ],
+            "pos": "noun",
+            "synset_name": "anna.n.01",
+            "taxonomy_proposals": [
+              {
+                "kind": "lexname",
+                "origin": "noun.quantity",
+                "primitive": "QUANTITY",
+                "status": "CANDIDATE",
+                "value": 1
+              },
+              {
+                "kind": "is_a",
+                "origin": "abstraction.n.06",
+                "primitive": "THINK",
+                "status": "CANDIDATE",
+                "value": 1
+              },
+              {
+                "kind": "is_a",
+                "origin": "entity.n.01",
+                "primitive": "SOMETHING",
+                "status": "CANDIDATE",
+                "value": 1
+              },
+              {
+                "kind": "is_a",
+                "origin": "measure.n.02",
+                "primitive": "QUANTITY",
+                "status": "CANDIDATE",
+                "value": 1
+              }
+            ]
+          },
+          "record_id": "wordnet:anna:anna.n.01",
+          "scope": "lexical",
+          "source": "wordnet_hierarchy"
+        }
+      ],
+      "scaffold": {
+        "approved_relations": [
+          {
+            "absent_evidence": [
+              "GOOD"
+            ],
+            "allowed_rows": [
+              [
+                -1,
+                0
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "BIG",
+              "GOOD"
+            ],
+            "disposition": "BLOCKED",
+            "guards": [
+              [
+                "pos",
+                "adjective"
+              ]
+            ],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+            ],
+            "reason": "GUARD_MISMATCH",
+            "requested_component": false,
+            "rule_id": "founder:absence:big-good"
+          },
+          {
+            "absent_evidence": [
+              "BIG"
+            ],
+            "allowed_rows": [
+              [
+                -1,
+                0
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "GOOD",
+              "BIG"
+            ],
+            "disposition": "BLOCKED",
+            "guards": [
+              [
+                "pos",
+                "adjective"
+              ]
+            ],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+            ],
+            "reason": "GUARD_MISMATCH",
+            "requested_component": false,
+            "rule_id": "founder:absence:good-big"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                0
+              ]
+            ],
+            "approved": true,
+            "authority": "foundational",
+            "banks": [
+              "SOMETHING"
+            ],
+            "disposition": "BLOCKED",
+            "guards": [
+              [
+                "pos",
+                "adjective"
+              ]
+            ],
+            "provenance": [
+              "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+            ],
+            "reason": "GUARD_MISMATCH",
+            "requested_component": true,
+            "rule_id": "founder:adjective-not-object"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                0
+              ]
+            ],
+            "approved": true,
+            "authority": "foundational",
+            "banks": [
+              "SOMETHING"
+            ],
+            "disposition": "BLOCKED",
+            "guards": [
+              [
+                "pos",
+                "adverb"
+              ]
+            ],
+            "provenance": [
+              "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+            ],
+            "reason": "GUARD_MISMATCH",
+            "requested_component": true,
+            "rule_id": "founder:adverb-not-object"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "ABOVE",
+              "WHERE"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:above-where"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "BEFORE",
+              "WHEN"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:before-when"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "BODY",
+              "SOMETHING"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [
+              [
+                "pos",
+                "noun"
+              ]
+            ],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": true,
+            "rule_id": "founder:category:body-something"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "CAUSE",
+              "HAPPEN"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:cause-happen"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "DO",
+              "HAPPEN"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:do-happen"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "FAR",
+              "WHERE"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:far-where"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "HERE",
+              "WHERE"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:here-where"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "I",
+              "SOMEONE"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:i-someone"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "LONG_TIME",
+              "WHEN"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:long_time-when"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "MOMENT",
+              "WHEN"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:moment-when"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "MOVE",
+              "HAPPEN"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:move-happen"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "ONE",
+              "QUANTITY"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:one-quantity"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "OUTSIDE",
+              "WHERE"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:outside-where"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "SIDE",
+              "WHERE"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:side-where"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "THEN",
+              "WHEN"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:then-when"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "TOWARD",
+              "WHERE"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:toward-where"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "TWO",
+              "QUANTITY"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:two-quantity"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "YOU",
+              "SOMEONE"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:you-someone"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                0
+              ]
+            ],
+            "approved": true,
+            "authority": "foundational",
+            "banks": [
+              "GOOD"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [
+              [
+                "pos",
+                "noun"
+              ]
+            ],
+            "provenance": [
+              "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:noun-own-evaluation"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "QUANTITY"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [
+              [
+                "pos",
+                "noun"
+              ],
+              [
+                "wordnet_ancestor:monetary_unit.n.01",
+                "true"
+              ],
+              [
+                "wordnet_native_lemma",
+                "true"
+              ]
+            ],
+            "provenance": [
+              "warrant:native-monetary-unit-quantity-2026-11-01:57bc1998651b2c64b7cf1dd3058d22f2557347e18de6906dd77bc50e0d18b202",
+              "docs/readings/2026-11-01-lexicon-next-stage/quantity-unit-population-inventory.json@sha256:5a392a773cef5cebd2e9d05df34258bf17c35307cddd82d46be9dbb8134ced79",
+              "docs/readings/2026-11-01-lexicon-you-body/you-body-reading.md",
+              "gse/curation/lexicon_builder/foundation.py#projection_relations"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "reviewed-guarded-pattern:3bf66d8b1cf0cf629d8bd968d3a5e7cdcfee5b508d007afcd49793d8b4bbace1"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "BODY"
+            ],
+            "disposition": "BLOCKED",
+            "guards": [
+              [
+                "pos",
+                "noun"
+              ],
+              [
+                "wordnet_ancestor:internal_organ.n.01",
+                "true"
+              ],
+              [
+                "wordnet_native_lemma",
+                "true"
+              ]
+            ],
+            "provenance": [
+              "warrant:native-internal-organ-body-2026-11-11:fbde542054619b8cca0a50daeafe129fae0c8040a988828eb97cae54d0f94ba2",
+              "docs/readings/2026-11-01-lexicon-alias-identity/internal-organ-body-inventory.json@sha256:7ccc515d557c5d82a6eaf04766f2b832c785fd91237578f254ee9bb762c695c2",
+              "docs/readings/2026-11-01-lexicon-you-body/you-body-reading.md",
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#body-reference-content-scope"
+            ],
+            "reason": "GUARD_MISMATCH",
+            "requested_component": true,
+            "rule_id": "reviewed-guarded-pattern:4020ffd7ce72eb23aea7686a62a21eaa2bdc974306586560d69cbc89a63853a7"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "QUANTITY"
+            ],
+            "disposition": "BLOCKED",
+            "guards": [
+              [
+                "pos",
+                "noun"
+              ],
+              [
+                "wordnet_ancestor:linear_unit.n.01",
+                "true"
+              ],
+              [
+                "wordnet_native_lemma",
+                "true"
+              ]
+            ],
+            "provenance": [
+              "warrant:native-linear-unit-quantity-2026-11-01:7734adc5cf42a3fce86a013df3ce152ea06c4c4ac06b498a6131f8272a0440e3",
+              "docs/readings/2026-11-01-lexicon-next-stage/quantity-unit-population-inventory.json@sha256:5a392a773cef5cebd2e9d05df34258bf17c35307cddd82d46be9dbb8134ced79",
+              "docs/readings/2026-11-01-lexicon-you-body/you-body-reading.md",
+              "data/external/references/goddard-2012-primes-molecules-templates.pdf#section-3",
+              "gse/curation/lexicon_builder/foundation.py#projection_relations",
+              "docs/readings/2026-11-01-lexicon-you-body/linear-unit-native-lemma-scope.json"
+            ],
+            "reason": "GUARD_MISMATCH",
+            "requested_component": false,
+            "rule_id": "reviewed-guarded-pattern:65d16959c01e4411fe908f0a08ab3a0b130fa0cdf3095f20602b256862b56aa2"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                -1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "GOOD",
+              "ALIVE"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [
+              [
+                "pos",
+                "noun"
+              ],
+              [
+                "wordnet_native_lemma",
+                "true"
+              ],
+              [
+                "wordnet_ancestor:monetary_unit.n.01",
+                "true"
+              ]
+            ],
+            "provenance": [
+              "warrant:native-monetary-unit-alive-2026-11-11:1487fdd9c6ec8dafc701f5e345743957f38d635ddb91be96d01f2f17fee70f4b",
+              "docs/readings/2026-11-11-lexicon-learning-loop/alive-native-scope.json",
+              "gse/curation/lexicon_builder/model_protocol.py#coordinate_contract",
+              "refinement:sha256:0e8f3a9b990cb56105a9f32f7dd36a2db81957ad93872f84781be91eb97aa1a8",
+              "parent:reviewed-pattern:bdc292921dbbe6df814aa35fbeee67b21995ca3167cd394c17196c1d4604251d"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "reviewed-guarded-pattern:d5c74077e4237a30ca36de5ae0808fe2646ce7efd860ac2f9f999b8e80ccf634"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                0
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "WANT"
+            ],
+            "disposition": "BLOCKED",
+            "guards": [
+              [
+                "pos",
+                "noun"
+              ],
+              [
+                "wordnet_ancestor:linear_unit.n.01",
+                "true"
+              ]
+            ],
+            "provenance": [
+              "warrant:linear-unit-want-2026-11-01:15e40a4fdc532701c2778eec427a7fe9bdb5da0ed36fad95509add81b980ac7a",
+              "docs/readings/2026-11-01-lexicon-next-stage/linear-unit-inventory.json",
+              "docs/readings/2026-11-01-lexicon-next-stage/linear-unit-rule-ledger.md",
+              "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+            ],
+            "reason": "GUARD_MISMATCH",
+            "requested_component": false,
+            "rule_id": "reviewed-guarded-pattern:f4ff18466dbc0cfce0b075ac7dae052e0a42eee33e6ceebfb979c63f0cbbab37"
+          }
+        ],
+        "context": {
+          "pos": "noun",
+          "wordnet_ancestor:monetary_unit.n.01": "true",
+          "wordnet_native_lemma": "true"
+        },
+        "domains": {
+          "ABOVE": [
+            -1,
+            0,
+            1
+          ],
+          "ALIVE": [
+            0
+          ],
+          "BE": [
+            -1,
+            0,
+            1
+          ],
+          "BECAUSE": [
+            -1,
+            0,
+            1
+          ],
+          "BEFORE": [
+            -1,
+            0,
+            1
+          ],
+          "BIG": [
+            -1,
+            0,
+            1
+          ],
+          "BODY": [
+            -1,
+            0,
+            1
+          ],
+          "CAN": [
+            -1,
+            0,
+            1
+          ],
+          "CAUSE": [
+            -1,
+            0,
+            1
+          ],
+          "CERTAINTY": [
+            -1,
+            0,
+            1
+          ],
+          "DO": [
+            -1,
+            0,
+            1
+          ],
+          "EXIST": [
+            -1,
+            0,
+            1
+          ],
+          "FAR": [
+            -1,
+            0,
+            1
+          ],
+          "FEEL": [
+            -1,
+            0,
+            1
+          ],
+          "GOOD": [
+            0
+          ],
+          "HAPPEN": [
+            -1,
+            0,
+            1
+          ],
+          "HAVE": [
+            -1,
+            0,
+            1
+          ],
+          "HEAR": [
+            -1,
+            0,
+            1
+          ],
+          "HERE": [
+            -1,
+            0,
+            1
+          ],
+          "I": [
+            -1,
+            0,
+            1
+          ],
+          "IF": [
+            -1,
+            0,
+            1
+          ],
+          "INFER": [
+            -1,
+            0,
+            1
+          ],
+          "INTENSITY": [
+            -1,
+            0,
+            1
+          ],
+          "KIND": [
+            -1,
+            0,
+            1
+          ],
+          "KNOW": [
+            -1,
+            0,
+            1
+          ],
+          "LIKE": [
+            -1,
+            0,
+            1
+          ],
+          "LONG_TIME": [
+            -1,
+            0,
+            1
+          ],
+          "MAYBE": [
+            -1,
+            0,
+            1
+          ],
+          "MOMENT": [
+            -1,
+            0,
+            1
+          ],
+          "MOVE": [
+            -1,
+            0,
+            1
+          ],
+          "MUST": [
+            -1,
+            0,
+            1
+          ],
+          "NOT": [
+            -1,
+            0,
+            1
+          ],
+          "ONE": [
+            -1,
+            0,
+            1
+          ],
+          "OUTSIDE": [
+            -1,
+            0,
+            1
+          ],
+          "PART": [
+            -1,
+            0,
+            1
+          ],
+          "PEOPLE": [
+            -1,
+            0,
+            1
+          ],
+          "QUANTITY": [
+            1
+          ],
+          "SAME": [
+            -1,
+            0,
+            1
+          ],
+          "SAY": [
+            -1,
+            0,
+            1
+          ],
+          "SEE": [
+            -1,
+            0,
+            1
+          ],
+          "SIDE": [
+            -1,
+            0,
+            1
+          ],
+          "SOMEONE": [
+            -1,
+            0,
+            1
+          ],
+          "SOMETHING": [
+            1
+          ],
+          "START": [
+            -1,
+            0,
+            1
+          ],
+          "THEN": [
+            -1,
+            0,
+            1
+          ],
+          "THINK": [
+            -1,
+            0,
+            1
+          ],
+          "TOUCH": [
+            -1,
+            0,
+            1
+          ],
+          "TOWARD": [
+            -1,
+            0,
+            1
+          ],
+          "TRUE": [
+            -1,
+            0,
+            1
+          ],
+          "TWO": [
+            -1,
+            0,
+            1
+          ],
+          "WANT": [
+            -1,
+            0,
+            1
+          ],
+          "WHEN": [
+            -1,
+            0,
+            1
+          ],
+          "WHERE": [
+            -1,
+            0,
+            1
+          ],
+          "WITH": [
+            -1,
+            0,
+            1
+          ],
+          "WORDS": [
+            -1,
+            0,
+            1
+          ],
+          "YOU": [
+            -1,
+            0,
+            1
+          ]
+        },
+        "format": "gse.symbolic-scaffold/1",
+        "proof_semantics": "SYMBOLIC_JUSTIFICATION_NOT_ADDITIONAL_MODEL_OUTPUT",
+        "proof_trace": [
+          {
+            "bank": "SOMETHING",
+            "family": "wordnet",
+            "kind": "ASSERTION",
+            "record_id": "wordnet:anna:anna.n.01",
+            "remaining": [
+              1
+            ],
+            "removed": [
+              -1,
+              0
+            ],
+            "scope": "lexical",
+            "source": "wordnet_hierarchy",
+            "value": 1
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "founder:adjective-not-object"
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "founder:adverb-not-object"
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "reviewed-guarded-pattern:4020ffd7ce72eb23aea7686a62a21eaa2bdc974306586560d69cbc89a63853a7"
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "reviewed-guarded-pattern:65d16959c01e4411fe908f0a08ab3a0b130fa0cdf3095f20602b256862b56aa2"
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "reviewed-guarded-pattern:f4ff18466dbc0cfce0b075ac7dae052e0a42eee33e6ceebfb979c63f0cbbab37"
+          },
+          {
+            "bank": "GOOD",
+            "domains_before": {
+              "GOOD": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "kind": "RELATION",
+            "provenance": [
+              "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+            ],
+            "remaining": [
+              0
+            ],
+            "removed": [
+              -1,
+              1
+            ],
+            "rule_id": "founder:noun-own-evaluation",
+            "support_rows": [
+              [
+                0
+              ]
+            ]
+          },
+          {
+            "bank": "QUANTITY",
+            "domains_before": {
+              "QUANTITY": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "kind": "RELATION",
+            "provenance": [
+              "warrant:native-monetary-unit-quantity-2026-11-01:57bc1998651b2c64b7cf1dd3058d22f2557347e18de6906dd77bc50e0d18b202",
+              "docs/readings/2026-11-01-lexicon-next-stage/quantity-unit-population-inventory.json@sha256:5a392a773cef5cebd2e9d05df34258bf17c35307cddd82d46be9dbb8134ced79",
+              "docs/readings/2026-11-01-lexicon-you-body/you-body-reading.md",
+              "gse/curation/lexicon_builder/foundation.py#projection_relations"
+            ],
+            "remaining": [
+              1
+            ],
+            "removed": [
+              -1,
+              0
+            ],
+            "rule_id": "reviewed-guarded-pattern:3bf66d8b1cf0cf629d8bd968d3a5e7cdcfee5b508d007afcd49793d8b4bbace1",
+            "support_rows": [
+              [
+                1
+              ]
+            ]
+          },
+          {
+            "bank": "ALIVE",
+            "domains_before": {
+              "ALIVE": [
+                -1,
+                0,
+                1
+              ],
+              "GOOD": [
+                0
+              ]
+            },
+            "kind": "RELATION",
+            "provenance": [
+              "warrant:native-monetary-unit-alive-2026-11-11:1487fdd9c6ec8dafc701f5e345743957f38d635ddb91be96d01f2f17fee70f4b",
+              "docs/readings/2026-11-11-lexicon-learning-loop/alive-native-scope.json",
+              "gse/curation/lexicon_builder/model_protocol.py#coordinate_contract",
+              "refinement:sha256:0e8f3a9b990cb56105a9f32f7dd36a2db81957ad93872f84781be91eb97aa1a8",
+              "parent:reviewed-pattern:bdc292921dbbe6df814aa35fbeee67b21995ca3167cd394c17196c1d4604251d"
+            ],
+            "remaining": [
+              0
+            ],
+            "removed": [
+              -1,
+              1
+            ],
+            "rule_id": "reviewed-guarded-pattern:d5c74077e4237a30ca36de5ae0808fe2646ce7efd860ac2f9f999b8e80ccf634",
+            "support_rows": [
+              [
+                0,
+                0
+              ]
+            ]
+          },
+          {
+            "banks": [
+              "ABOVE",
+              "FAR",
+              "HERE",
+              "OUTSIDE",
+              "SIDE",
+              "TOWARD",
+              "WHERE"
+            ],
+            "domains_before": {
+              "ABOVE": [
+                -1,
+                0,
+                1
+              ],
+              "FAR": [
+                -1,
+                0,
+                1
+              ],
+              "HERE": [
+                -1,
+                0,
+                1
+              ],
+              "OUTSIDE": [
+                -1,
+                0,
+                1
+              ],
+              "SIDE": [
+                -1,
+                0,
+                1
+              ],
+              "TOWARD": [
+                -1,
+                0,
+                1
+              ],
+              "WHERE": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 2187,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:above-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:far-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:here-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:outside-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:side-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:toward-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:above-where",
+              "founder:category:far-where",
+              "founder:category:here-where",
+              "founder:category:outside-where",
+              "founder:category:side-where",
+              "founder:category:toward-where"
+            ],
+            "witnesses": 737
+          },
+          {
+            "banks": [
+              "ALIVE",
+              "GOOD"
+            ],
+            "domains_before": {
+              "ALIVE": [
+                0
+              ],
+              "GOOD": [
+                0
+              ]
+            },
+            "joint_assignments": 1,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:noun-own-evaluation",
+                [
+                  "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+                ]
+              ],
+              [
+                "reviewed-guarded-pattern:d5c74077e4237a30ca36de5ae0808fe2646ce7efd860ac2f9f999b8e80ccf634",
+                [
+                  "warrant:native-monetary-unit-alive-2026-11-11:1487fdd9c6ec8dafc701f5e345743957f38d635ddb91be96d01f2f17fee70f4b",
+                  "docs/readings/2026-11-11-lexicon-learning-loop/alive-native-scope.json",
+                  "gse/curation/lexicon_builder/model_protocol.py#coordinate_contract",
+                  "refinement:sha256:0e8f3a9b990cb56105a9f32f7dd36a2db81957ad93872f84781be91eb97aa1a8",
+                  "parent:reviewed-pattern:bdc292921dbbe6df814aa35fbeee67b21995ca3167cd394c17196c1d4604251d"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:noun-own-evaluation",
+              "reviewed-guarded-pattern:d5c74077e4237a30ca36de5ae0808fe2646ce7efd860ac2f9f999b8e80ccf634"
+            ],
+            "witnesses": 1
+          },
+          {
+            "banks": [
+              "BEFORE",
+              "LONG_TIME",
+              "MOMENT",
+              "THEN",
+              "WHEN"
+            ],
+            "domains_before": {
+              "BEFORE": [
+                -1,
+                0,
+                1
+              ],
+              "LONG_TIME": [
+                -1,
+                0,
+                1
+              ],
+              "MOMENT": [
+                -1,
+                0,
+                1
+              ],
+              "THEN": [
+                -1,
+                0,
+                1
+              ],
+              "WHEN": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 243,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:before-when",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:long_time-when",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:moment-when",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:then-when",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:before-when",
+              "founder:category:long_time-when",
+              "founder:category:moment-when",
+              "founder:category:then-when"
+            ],
+            "witnesses": 85
+          },
+          {
+            "banks": [
+              "BODY",
+              "SOMETHING"
+            ],
+            "domains_before": {
+              "BODY": [
+                -1,
+                0,
+                1
+              ],
+              "SOMETHING": [
+                1
+              ]
+            },
+            "joint_assignments": 3,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:body-something",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:body-something"
+            ],
+            "witnesses": 3
+          },
+          {
+            "banks": [
+              "CAUSE",
+              "DO",
+              "HAPPEN",
+              "MOVE"
+            ],
+            "domains_before": {
+              "CAUSE": [
+                -1,
+                0,
+                1
+              ],
+              "DO": [
+                -1,
+                0,
+                1
+              ],
+              "HAPPEN": [
+                -1,
+                0,
+                1
+              ],
+              "MOVE": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 81,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:cause-happen",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:do-happen",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:move-happen",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:cause-happen",
+              "founder:category:do-happen",
+              "founder:category:move-happen"
+            ],
+            "witnesses": 43
+          },
+          {
+            "banks": [
+              "I",
+              "SOMEONE",
+              "YOU"
+            ],
+            "domains_before": {
+              "I": [
+                -1,
+                0,
+                1
+              ],
+              "SOMEONE": [
+                -1,
+                0,
+                1
+              ],
+              "YOU": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 27,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:i-someone",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:you-someone",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:i-someone",
+              "founder:category:you-someone"
+            ],
+            "witnesses": 17
+          },
+          {
+            "banks": [
+              "ONE",
+              "QUANTITY",
+              "TWO"
+            ],
+            "domains_before": {
+              "ONE": [
+                -1,
+                0,
+                1
+              ],
+              "QUANTITY": [
+                1
+              ],
+              "TWO": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 9,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:one-quantity",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:two-quantity",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "reviewed-guarded-pattern:3bf66d8b1cf0cf629d8bd968d3a5e7cdcfee5b508d007afcd49793d8b4bbace1",
+                [
+                  "warrant:native-monetary-unit-quantity-2026-11-01:57bc1998651b2c64b7cf1dd3058d22f2557347e18de6906dd77bc50e0d18b202",
+                  "docs/readings/2026-11-01-lexicon-next-stage/quantity-unit-population-inventory.json@sha256:5a392a773cef5cebd2e9d05df34258bf17c35307cddd82d46be9dbb8134ced79",
+                  "docs/readings/2026-11-01-lexicon-you-body/you-body-reading.md",
+                  "gse/curation/lexicon_builder/foundation.py#projection_relations"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:one-quantity",
+              "founder:category:two-quantity",
+              "reviewed-guarded-pattern:3bf66d8b1cf0cf629d8bd968d3a5e7cdcfee5b508d007afcd49793d8b4bbace1"
+            ],
+            "witnesses": 9
+          },
+          {
+            "complete_search": true,
+            "kind": "INFERENCE_SCOPE",
+            "method": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+            "partial_means": "AMBIGUOUS_JOINT_SUPPORTED_DOMAINS",
+            "satisfiability": "SATISFIABLE"
+          },
+          {
+            "context": {
+              "pos": "noun",
+              "wordnet_ancestor:monetary_unit.n.01": "true",
+              "wordnet_native_lemma": "true"
+            },
+            "kind": "EVIDENCE_GUARD",
+            "reason": "GUARD_MISMATCH",
+            "relation": {
+              "absent_evidence": [
+                "GOOD"
+              ],
+              "allowed_rows": [
+                [
+                  -1,
+                  0
+                ],
+                [
+                  0,
+                  -1
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ],
+                [
+                  1,
+                  0
+                ]
+              ],
+              "approved": true,
+              "authority": "conditional",
+              "banks": [
+                "BIG",
+                "GOOD"
+              ],
+              "guards": [
+                [
+                  "pos",
+                  "adjective"
+                ]
+              ],
+              "provenance": [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+              ],
+              "rule_id": "founder:absence:big-good"
+            },
+            "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+            "rule_id": "founder:absence:big-good",
+            "status": "BLOCKED",
+            "witnesses": [
+              {
+                "assertions": [],
+                "bank": "GOOD",
+                "baseline_domain": [
+                  0
+                ],
+                "baseline_narrowed": true,
+                "baseline_rule_ids": [
+                  "founder:noun-own-evaluation"
+                ],
+                "supplied_evidence": true
+              }
+            ]
+          },
+          {
+            "context": {
+              "pos": "noun",
+              "wordnet_ancestor:monetary_unit.n.01": "true",
+              "wordnet_native_lemma": "true"
+            },
+            "kind": "EVIDENCE_GUARD",
+            "reason": "GUARD_MISMATCH",
+            "relation": {
+              "absent_evidence": [
+                "BIG"
+              ],
+              "allowed_rows": [
+                [
+                  -1,
+                  0
+                ],
+                [
+                  0,
+                  -1
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ],
+                [
+                  1,
+                  0
+                ]
+              ],
+              "approved": true,
+              "authority": "conditional",
+              "banks": [
+                "GOOD",
+                "BIG"
+              ],
+              "guards": [
+                [
+                  "pos",
+                  "adjective"
+                ]
+              ],
+              "provenance": [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+              ],
+              "rule_id": "founder:absence:good-big"
+            },
+            "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+            "rule_id": "founder:absence:good-big",
+            "status": "BLOCKED",
+            "witnesses": [
+              {
+                "assertions": [],
+                "bank": "BIG",
+                "baseline_domain": [
+                  -1,
+                  0,
+                  1
+                ],
+                "baseline_narrowed": false,
+                "baseline_rule_ids": [],
+                "supplied_evidence": true
+              }
+            ]
+          }
+        ],
+        "relation_semantics": "ONLY_ACTIVE_TABLES_CONSTRAIN_THIS_DEFINITION"
+      }
+    },
+    "request_id": "06226df0266216d21d144813cdb845a5cfaef10d39594f020cec852f87287fd4",
+    "schema": {
+      "additionalProperties": false,
+      "properties": {
+        "BODY": {
+          "enum": [
+            -1,
+            0,
+            1,
+            null
+          ],
+          "type": [
+            "integer",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "BODY"
+      ],
+      "type": "object"
+    },
+    "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@7b41cbefb558bbfcbac8c1665c7f52219497c72cfaef4647a1736f50b68c25c6"
+  },
+  {
+    "bank": "BODY",
+    "code": "AUDIT_CALL_BUDGET_EXHAUSTED",
+    "comparison_authority": "UNAPPROVED_PATTERN_NOT_GOLD",
+    "entry_id": "wordnet:eurodollar:eurodollar.n.01",
+    "model_calls": 0,
+    "raw_output": "{\"BODY\":0}",
+    "request": {
+      "allowed_values": [
+        -1,
+        0,
+        1
+      ],
+      "bank": "BODY",
+      "definition": {
+        "definition": "a United States dollar deposited in a European bank and used as an international currency to finance trade",
+        "entry_id": "wordnet:eurodollar:eurodollar.n.01",
+        "lemma": "eurodollar",
+        "pos": "noun"
+      },
+      "entry_id": "wordnet:eurodollar:eurodollar.n.01",
+      "fill": {
+        "BODY": null
+      },
+      "format": "gse.bank-request/2",
+      "known": {
+        "ALIVE": 0,
+        "GOOD": 0,
+        "QUANTITY": 1,
+        "SOMETHING": 1
+      },
+      "observations": [
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Eurodollar-en-noun-0udU2o2Q:3b0d12251a5201faabda25753a61ba93df2fe33942b31e1ead6161c03fa710b1",
+            "wiktionary:en-Eurodollar-en-noun-1liP9RR6:a6a51ea7ad8947fae798d241ef998449c8f829b7cbbc76a4d5d55a30d22f3eaf",
+            "wiktionary:en-eurodollar-en-noun-ELhyaJ0P:19cf85c163bfac1c924488be26f7734743409633231667a20243f1aa896affc1",
+            "wordnet:eurodollar:eurodollar.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "eurocurrency",
+            "id": 1158572,
+            "lemma": "eurodollar",
+            "relation": "IsA",
+            "source": "/d/wiktionary/en",
+            "start_word": "eurodollar",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:eurodollar:1125c534032d1111baecfaec335a145b09efe6afc8921b5a195935687c044abb",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Eurodollar-en-noun-0udU2o2Q:3b0d12251a5201faabda25753a61ba93df2fe33942b31e1ead6161c03fa710b1",
+            "wiktionary:en-Eurodollar-en-noun-1liP9RR6:a6a51ea7ad8947fae798d241ef998449c8f829b7cbbc76a4d5d55a30d22f3eaf",
+            "wiktionary:en-eurodollar-en-noun-ELhyaJ0P:19cf85c163bfac1c924488be26f7734743409633231667a20243f1aa896affc1",
+            "wordnet:eurodollar:eurodollar.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "eurodollar",
+            "id": 1803974,
+            "lemma": "eurodollar",
+            "relation": "RelatedTo",
+            "source": "/d/wiktionary/en",
+            "start_word": "eurocent",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:eurodollar:202b8f8860dfab938d993bd6251af387a3bbe2b2d61763ae8a80be12ad38bb61",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Eurodollar-en-noun-0udU2o2Q:3b0d12251a5201faabda25753a61ba93df2fe33942b31e1ead6161c03fa710b1",
+            "wiktionary:en-Eurodollar-en-noun-1liP9RR6:a6a51ea7ad8947fae798d241ef998449c8f829b7cbbc76a4d5d55a30d22f3eaf",
+            "wiktionary:en-eurodollar-en-noun-ELhyaJ0P:19cf85c163bfac1c924488be26f7734743409633231667a20243f1aa896affc1",
+            "wordnet:eurodollar:eurodollar.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "united states",
+            "id": 1804051,
+            "lemma": "eurodollar",
+            "relation": "RelatedTo",
+            "source": "/d/wiktionary/en",
+            "start_word": "eurodollar",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:eurodollar:3e4146c635d68eab4947f80414dff41693f0d9bc7fdea4fab5f1c068cb930194",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Eurodollar-en-noun-0udU2o2Q:3b0d12251a5201faabda25753a61ba93df2fe33942b31e1ead6161c03fa710b1",
+            "wiktionary:en-Eurodollar-en-noun-1liP9RR6:a6a51ea7ad8947fae798d241ef998449c8f829b7cbbc76a4d5d55a30d22f3eaf",
+            "wiktionary:en-eurodollar-en-noun-ELhyaJ0P:19cf85c163bfac1c924488be26f7734743409633231667a20243f1aa896affc1",
+            "wordnet:eurodollar:eurodollar.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "eurodollar",
+            "id": 1804053,
+            "lemma": "eurodollar",
+            "relation": "RelatedTo",
+            "source": "/d/wiktionary/fr",
+            "start_word": "eurodollars",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:eurodollar:6d12f08c560b81073f1f0deb9bfe17cd9c311f42b7233251a81702c7468e0f7b",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Eurodollar-en-noun-0udU2o2Q:3b0d12251a5201faabda25753a61ba93df2fe33942b31e1ead6161c03fa710b1",
+            "wiktionary:en-Eurodollar-en-noun-1liP9RR6:a6a51ea7ad8947fae798d241ef998449c8f829b7cbbc76a4d5d55a30d22f3eaf",
+            "wiktionary:en-eurodollar-en-noun-ELhyaJ0P:19cf85c163bfac1c924488be26f7734743409633231667a20243f1aa896affc1",
+            "wordnet:eurodollar:eurodollar.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "dollar",
+            "id": 1804050,
+            "lemma": "eurodollar",
+            "relation": "RelatedTo",
+            "source": "/d/wiktionary/en",
+            "start_word": "eurodollar",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:eurodollar:79dae94fa848062c091a099bbe01e3dbeb842cadb5c23bbf899c3b4a7c6f1ffb",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Eurodollar-en-noun-0udU2o2Q:3b0d12251a5201faabda25753a61ba93df2fe33942b31e1ead6161c03fa710b1",
+            "wiktionary:en-Eurodollar-en-noun-1liP9RR6:a6a51ea7ad8947fae798d241ef998449c8f829b7cbbc76a4d5d55a30d22f3eaf",
+            "wiktionary:en-eurodollar-en-noun-ELhyaJ0P:19cf85c163bfac1c924488be26f7734743409633231667a20243f1aa896affc1",
+            "wordnet:eurodollar:eurodollar.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "deposit",
+            "id": 1804049,
+            "lemma": "eurodollar",
+            "relation": "RelatedTo",
+            "source": "/d/wiktionary/en",
+            "start_word": "eurodollar",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:eurodollar:7b39897d5a60cbae63b64a61da9e2a2ba672828ecfdcdbc2d1e64cf273e76ceb",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Eurodollar-en-noun-0udU2o2Q:3b0d12251a5201faabda25753a61ba93df2fe33942b31e1ead6161c03fa710b1",
+            "wiktionary:en-Eurodollar-en-noun-1liP9RR6:a6a51ea7ad8947fae798d241ef998449c8f829b7cbbc76a4d5d55a30d22f3eaf",
+            "wiktionary:en-eurodollar-en-noun-ELhyaJ0P:19cf85c163bfac1c924488be26f7734743409633231667a20243f1aa896affc1",
+            "wordnet:eurodollar:eurodollar.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "eurocurrency",
+            "id": 1158573,
+            "lemma": "eurodollar",
+            "relation": "IsA",
+            "source": "/d/wordnet/3.1",
+            "start_word": "eurodollar",
+            "weight": 2.0
+          },
+          "record_id": "conceptnet:eurodollar:8f1238e84e9ea1732e8c7f94eca870dcfe36d04ec13149d12291c17a433f1800",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Eurodollar-en-noun-0udU2o2Q:3b0d12251a5201faabda25753a61ba93df2fe33942b31e1ead6161c03fa710b1",
+            "wiktionary:en-Eurodollar-en-noun-1liP9RR6:a6a51ea7ad8947fae798d241ef998449c8f829b7cbbc76a4d5d55a30d22f3eaf",
+            "wiktionary:en-eurodollar-en-noun-ELhyaJ0P:19cf85c163bfac1c924488be26f7734743409633231667a20243f1aa896affc1",
+            "wordnet:eurodollar:eurodollar.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "eurobond",
+            "id": 1158571,
+            "lemma": "eurodollar",
+            "relation": "IsA",
+            "source": "/d/wiktionary/en",
+            "start_word": "eurodollar",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:eurodollar:be2911e8a3bfb17f312989f73131fa90a127d2caed49ca1a899cd5d0c6fb86a7",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Eurodollar-en-noun-0udU2o2Q:3b0d12251a5201faabda25753a61ba93df2fe33942b31e1ead6161c03fa710b1",
+            "wiktionary:en-Eurodollar-en-noun-1liP9RR6:a6a51ea7ad8947fae798d241ef998449c8f829b7cbbc76a4d5d55a30d22f3eaf",
+            "wiktionary:en-eurodollar-en-noun-ELhyaJ0P:19cf85c163bfac1c924488be26f7734743409633231667a20243f1aa896affc1",
+            "wordnet:eurodollar:eurodollar.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "us",
+            "id": 1804052,
+            "lemma": "eurodollar",
+            "relation": "RelatedTo",
+            "source": "/d/wiktionary/en",
+            "start_word": "eurodollar",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:eurodollar:cb1bd85fcae6f1a9dac052e80068fcff8998c27ce4c2cc1077a956d8ca3da197",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Eurodollar-en-noun-0udU2o2Q:3b0d12251a5201faabda25753a61ba93df2fe33942b31e1ead6161c03fa710b1",
+            "wiktionary:en-Eurodollar-en-noun-1liP9RR6:a6a51ea7ad8947fae798d241ef998449c8f829b7cbbc76a4d5d55a30d22f3eaf",
+            "wiktionary:en-eurodollar-en-noun-ELhyaJ0P:19cf85c163bfac1c924488be26f7734743409633231667a20243f1aa896affc1",
+            "wordnet:eurodollar:eurodollar.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "bank",
+            "id": 1804048,
+            "lemma": "eurodollar",
+            "relation": "RelatedTo",
+            "source": "/d/wiktionary/en",
+            "start_word": "eurodollar",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:eurodollar:ce1af0119563582d5380fa3b0410f03be9a4cbe66154d3c6dfca3d7605249c52",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Eurodollar-en-noun-0udU2o2Q:3b0d12251a5201faabda25753a61ba93df2fe33942b31e1ead6161c03fa710b1",
+            "wiktionary:en-Eurodollar-en-noun-1liP9RR6:a6a51ea7ad8947fae798d241ef998449c8f829b7cbbc76a4d5d55a30d22f3eaf",
+            "wiktionary:en-eurodollar-en-noun-ELhyaJ0P:19cf85c163bfac1c924488be26f7734743409633231667a20243f1aa896affc1",
+            "wordnet:eurodollar:eurodollar.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "united states dollar",
+            "id": 1158574,
+            "lemma": "eurodollar",
+            "relation": "IsA",
+            "source": "/d/wordnet/3.1",
+            "start_word": "eurodollar",
+            "weight": 2.0
+          },
+          "record_id": "conceptnet:eurodollar:dbcbbb6e2cf465e0ee292579f9b8919a1c0b83475d2bf92f7457bcbddd34120c",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Eurodollar-en-noun-0udU2o2Q:3b0d12251a5201faabda25753a61ba93df2fe33942b31e1ead6161c03fa710b1",
+            "wiktionary:en-Eurodollar-en-noun-1liP9RR6:a6a51ea7ad8947fae798d241ef998449c8f829b7cbbc76a4d5d55a30d22f3eaf",
+            "wiktionary:en-eurodollar-en-noun-ELhyaJ0P:19cf85c163bfac1c924488be26f7734743409633231667a20243f1aa896affc1",
+            "wordnet:eurodollar:eurodollar.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "dollar",
+            "id": 175961,
+            "lemma": "eurodollar",
+            "relation": "DerivedFrom",
+            "source": "/d/wiktionary/en",
+            "start_word": "eurodollar",
+            "weight": 1.0
+          },
+          "record_id": "conceptnet:eurodollar:e03c4b458429a7bfe1312b8ae03e93850d51d6027e81d3be03a58ac4a558596e",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Eurodollar-en-noun-0udU2o2Q:3b0d12251a5201faabda25753a61ba93df2fe33942b31e1ead6161c03fa710b1",
+            "wiktionary:en-Eurodollar-en-noun-1liP9RR6:a6a51ea7ad8947fae798d241ef998449c8f829b7cbbc76a4d5d55a30d22f3eaf",
+            "wiktionary:en-eurodollar-en-noun-ELhyaJ0P:19cf85c163bfac1c924488be26f7734743409633231667a20243f1aa896affc1",
+            "wordnet:eurodollar:eurodollar.n.01"
+          ],
+          "entry_id": null,
+          "family": "topical",
+          "features": {
+            "end_word": "eurodollar",
+            "id": 530279,
+            "lemma": "eurodollar",
+            "relation": "FormOf",
+            "source": "/d/wiktionary/en",
+            "start_word": "eurodollars",
+            "weight": 2.0
+          },
+          "record_id": "conceptnet:eurodollar:e1f44eb79d7277c40ce7e1c17d0ee2c5448c756f481ee135120cf29cc1a71904",
+          "scope": "source_structure",
+          "source": "conceptnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wiktionary:en-Eurodollar-en-noun-0udU2o2Q:3b0d12251a5201faabda25753a61ba93df2fe33942b31e1ead6161c03fa710b1",
+            "wiktionary:en-Eurodollar-en-noun-1liP9RR6:a6a51ea7ad8947fae798d241ef998449c8f829b7cbbc76a4d5d55a30d22f3eaf",
+            "wiktionary:en-eurodollar-en-noun-ELhyaJ0P:19cf85c163bfac1c924488be26f7734743409633231667a20243f1aa896affc1",
+            "wordnet:eurodollar:eurodollar.n.01"
+          ],
+          "entry_id": "wordnet:eurodollar:eurodollar.n.01",
+          "family": "wordnet",
+          "features": {
+            "bank_relevance": {
+              "banks": [
+                "GOOD"
+              ],
+              "code": "CLASSIFIED",
+              "provenance": [
+                "sentiwordnet:SentiWordEntry/1:positive-negative-objective-sentiment",
+                "sentiwordnet:synset:eurodollar.n.01"
+              ]
+            },
+            "lemma": "eurodollar",
+            "neg_score": 0.0,
+            "obj_score": 1.0,
+            "pos": "noun",
+            "pos_score": 0.0,
+            "projection_candidates": [],
+            "synset_id": "eurodollar.n.01",
+            "word": "eurodollar"
+          },
+          "record_id": "sentiwordnet:eurodollar:44f53e10cdd4541896e9806e877de99470df7e2163ff20fb1e2024c56f00a827",
+          "scope": "association",
+          "source": "sentiwordnet"
+        },
+        {
+          "candidate_entry_ids": [
+            "wordnet:eurodollar:eurodollar.n.01"
+          ],
+          "entry_id": "wordnet:eurodollar:eurodollar.n.01",
+          "family": "wordnet",
+          "features": {
+            "definition": "a United States dollar deposited in a European bank and used as an international currency to finance trade",
+            "examples": [],
+            "hypernym_paths": [
+              [
+                "entity.n.01",
+                "abstraction.n.06",
+                "measure.n.02",
+                "definite_quantity.n.01",
+                "unit_of_measurement.n.01",
+                "monetary_unit.n.01",
+                "dollar.n.01",
+                "united_states_dollar.n.01",
+                "eurodollar.n.01"
+              ],
+              [
+                "entity.n.01",
+                "abstraction.n.06",
+                "measure.n.02",
+                "system_of_measurement.n.01",
+                "standard.n.01",
+                "medium_of_exchange.n.01",
+                "currency.n.01",
+                "eurocurrency.n.01",
+                "eurodollar.n.01"
+              ]
+            ],
+            "lemma": "eurodollar",
+            "lemma_names": [
+              "Eurodollar"
+            ],
+            "lexname": "noun.quantity",
+            "native_records": [
+              {
+                "has_holonyms": false,
+                "has_meronyms": false,
+                "hypernym_depth": 9,
+                "hyponym_count": 0,
+                "lexname": "noun.quantity",
+                "pos": "noun",
+                "synset_name": "eurodollar.n.01",
+                "word": "eurodollar"
+              }
+            ],
+            "pos": "noun",
+            "synset_name": "eurodollar.n.01",
+            "taxonomy_proposals": [
+              {
+                "kind": "lexname",
+                "origin": "noun.quantity",
+                "primitive": "QUANTITY",
+                "status": "CANDIDATE",
+                "value": 1
+              },
+              {
+                "kind": "is_a",
+                "origin": "abstraction.n.06",
+                "primitive": "THINK",
+                "status": "CANDIDATE",
+                "value": 1
+              },
+              {
+                "kind": "is_a",
+                "origin": "entity.n.01",
+                "primitive": "SOMETHING",
+                "status": "CANDIDATE",
+                "value": 1
+              },
+              {
+                "kind": "is_a",
+                "origin": "measure.n.02",
+                "primitive": "QUANTITY",
+                "status": "CANDIDATE",
+                "value": 1
+              }
+            ]
+          },
+          "record_id": "wordnet:eurodollar:eurodollar.n.01",
+          "scope": "lexical",
+          "source": "wordnet_hierarchy"
+        }
+      ],
+      "scaffold": {
+        "approved_relations": [
+          {
+            "absent_evidence": [
+              "GOOD"
+            ],
+            "allowed_rows": [
+              [
+                -1,
+                0
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "BIG",
+              "GOOD"
+            ],
+            "disposition": "BLOCKED",
+            "guards": [
+              [
+                "pos",
+                "adjective"
+              ]
+            ],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+            ],
+            "reason": "GUARD_MISMATCH",
+            "requested_component": false,
+            "rule_id": "founder:absence:big-good"
+          },
+          {
+            "absent_evidence": [
+              "BIG"
+            ],
+            "allowed_rows": [
+              [
+                -1,
+                0
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "GOOD",
+              "BIG"
+            ],
+            "disposition": "BLOCKED",
+            "guards": [
+              [
+                "pos",
+                "adjective"
+              ]
+            ],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+            ],
+            "reason": "GUARD_MISMATCH",
+            "requested_component": false,
+            "rule_id": "founder:absence:good-big"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                0
+              ]
+            ],
+            "approved": true,
+            "authority": "foundational",
+            "banks": [
+              "SOMETHING"
+            ],
+            "disposition": "BLOCKED",
+            "guards": [
+              [
+                "pos",
+                "adjective"
+              ]
+            ],
+            "provenance": [
+              "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+            ],
+            "reason": "GUARD_MISMATCH",
+            "requested_component": true,
+            "rule_id": "founder:adjective-not-object"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                0
+              ]
+            ],
+            "approved": true,
+            "authority": "foundational",
+            "banks": [
+              "SOMETHING"
+            ],
+            "disposition": "BLOCKED",
+            "guards": [
+              [
+                "pos",
+                "adverb"
+              ]
+            ],
+            "provenance": [
+              "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+            ],
+            "reason": "GUARD_MISMATCH",
+            "requested_component": true,
+            "rule_id": "founder:adverb-not-object"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "ABOVE",
+              "WHERE"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:above-where"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "BEFORE",
+              "WHEN"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:before-when"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "BODY",
+              "SOMETHING"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [
+              [
+                "pos",
+                "noun"
+              ]
+            ],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": true,
+            "rule_id": "founder:category:body-something"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "CAUSE",
+              "HAPPEN"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:cause-happen"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "DO",
+              "HAPPEN"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:do-happen"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "FAR",
+              "WHERE"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:far-where"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "HERE",
+              "WHERE"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:here-where"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "I",
+              "SOMEONE"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:i-someone"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "LONG_TIME",
+              "WHEN"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:long_time-when"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "MOMENT",
+              "WHEN"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:moment-when"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "MOVE",
+              "HAPPEN"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:move-happen"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "ONE",
+              "QUANTITY"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:one-quantity"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "OUTSIDE",
+              "WHERE"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:outside-where"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "SIDE",
+              "WHERE"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:side-where"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "THEN",
+              "WHEN"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:then-when"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "TOWARD",
+              "WHERE"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:toward-where"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "TWO",
+              "QUANTITY"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:two-quantity"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "YOU",
+              "SOMEONE"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [],
+            "provenance": [
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:category:you-someone"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                0
+              ]
+            ],
+            "approved": true,
+            "authority": "foundational",
+            "banks": [
+              "GOOD"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [
+              [
+                "pos",
+                "noun"
+              ]
+            ],
+            "provenance": [
+              "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "founder:noun-own-evaluation"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "QUANTITY"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [
+              [
+                "pos",
+                "noun"
+              ],
+              [
+                "wordnet_ancestor:monetary_unit.n.01",
+                "true"
+              ],
+              [
+                "wordnet_native_lemma",
+                "true"
+              ]
+            ],
+            "provenance": [
+              "warrant:native-monetary-unit-quantity-2026-11-01:57bc1998651b2c64b7cf1dd3058d22f2557347e18de6906dd77bc50e0d18b202",
+              "docs/readings/2026-11-01-lexicon-next-stage/quantity-unit-population-inventory.json@sha256:5a392a773cef5cebd2e9d05df34258bf17c35307cddd82d46be9dbb8134ced79",
+              "docs/readings/2026-11-01-lexicon-you-body/you-body-reading.md",
+              "gse/curation/lexicon_builder/foundation.py#projection_relations"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "reviewed-guarded-pattern:3bf66d8b1cf0cf629d8bd968d3a5e7cdcfee5b508d007afcd49793d8b4bbace1"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "BODY"
+            ],
+            "disposition": "BLOCKED",
+            "guards": [
+              [
+                "pos",
+                "noun"
+              ],
+              [
+                "wordnet_ancestor:internal_organ.n.01",
+                "true"
+              ],
+              [
+                "wordnet_native_lemma",
+                "true"
+              ]
+            ],
+            "provenance": [
+              "warrant:native-internal-organ-body-2026-11-11:fbde542054619b8cca0a50daeafe129fae0c8040a988828eb97cae54d0f94ba2",
+              "docs/readings/2026-11-01-lexicon-alias-identity/internal-organ-body-inventory.json@sha256:7ccc515d557c5d82a6eaf04766f2b832c785fd91237578f254ee9bb762c695c2",
+              "docs/readings/2026-11-01-lexicon-you-body/you-body-reading.md",
+              "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#body-reference-content-scope"
+            ],
+            "reason": "GUARD_MISMATCH",
+            "requested_component": true,
+            "rule_id": "reviewed-guarded-pattern:4020ffd7ce72eb23aea7686a62a21eaa2bdc974306586560d69cbc89a63853a7"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "QUANTITY"
+            ],
+            "disposition": "BLOCKED",
+            "guards": [
+              [
+                "pos",
+                "noun"
+              ],
+              [
+                "wordnet_ancestor:linear_unit.n.01",
+                "true"
+              ],
+              [
+                "wordnet_native_lemma",
+                "true"
+              ]
+            ],
+            "provenance": [
+              "warrant:native-linear-unit-quantity-2026-11-01:7734adc5cf42a3fce86a013df3ce152ea06c4c4ac06b498a6131f8272a0440e3",
+              "docs/readings/2026-11-01-lexicon-next-stage/quantity-unit-population-inventory.json@sha256:5a392a773cef5cebd2e9d05df34258bf17c35307cddd82d46be9dbb8134ced79",
+              "docs/readings/2026-11-01-lexicon-you-body/you-body-reading.md",
+              "data/external/references/goddard-2012-primes-molecules-templates.pdf#section-3",
+              "gse/curation/lexicon_builder/foundation.py#projection_relations",
+              "docs/readings/2026-11-01-lexicon-you-body/linear-unit-native-lemma-scope.json"
+            ],
+            "reason": "GUARD_MISMATCH",
+            "requested_component": false,
+            "rule_id": "reviewed-guarded-pattern:65d16959c01e4411fe908f0a08ab3a0b130fa0cdf3095f20602b256862b56aa2"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                -1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "GOOD",
+              "ALIVE"
+            ],
+            "disposition": "ACTIVE",
+            "guards": [
+              [
+                "pos",
+                "noun"
+              ],
+              [
+                "wordnet_native_lemma",
+                "true"
+              ],
+              [
+                "wordnet_ancestor:monetary_unit.n.01",
+                "true"
+              ]
+            ],
+            "provenance": [
+              "warrant:native-monetary-unit-alive-2026-11-11:1487fdd9c6ec8dafc701f5e345743957f38d635ddb91be96d01f2f17fee70f4b",
+              "docs/readings/2026-11-11-lexicon-learning-loop/alive-native-scope.json",
+              "gse/curation/lexicon_builder/model_protocol.py#coordinate_contract",
+              "refinement:sha256:0e8f3a9b990cb56105a9f32f7dd36a2db81957ad93872f84781be91eb97aa1a8",
+              "parent:reviewed-pattern:bdc292921dbbe6df814aa35fbeee67b21995ca3167cd394c17196c1d4604251d"
+            ],
+            "reason": "SYMBOLIC_CLOSURE",
+            "requested_component": false,
+            "rule_id": "reviewed-guarded-pattern:d5c74077e4237a30ca36de5ae0808fe2646ce7efd860ac2f9f999b8e80ccf634"
+          },
+          {
+            "absent_evidence": [],
+            "allowed_rows": [
+              [
+                0
+              ]
+            ],
+            "approved": true,
+            "authority": "conditional",
+            "banks": [
+              "WANT"
+            ],
+            "disposition": "BLOCKED",
+            "guards": [
+              [
+                "pos",
+                "noun"
+              ],
+              [
+                "wordnet_ancestor:linear_unit.n.01",
+                "true"
+              ]
+            ],
+            "provenance": [
+              "warrant:linear-unit-want-2026-11-01:15e40a4fdc532701c2778eec427a7fe9bdb5da0ed36fad95509add81b980ac7a",
+              "docs/readings/2026-11-01-lexicon-next-stage/linear-unit-inventory.json",
+              "docs/readings/2026-11-01-lexicon-next-stage/linear-unit-rule-ledger.md",
+              "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+            ],
+            "reason": "GUARD_MISMATCH",
+            "requested_component": false,
+            "rule_id": "reviewed-guarded-pattern:f4ff18466dbc0cfce0b075ac7dae052e0a42eee33e6ceebfb979c63f0cbbab37"
+          }
+        ],
+        "context": {
+          "pos": "noun",
+          "wordnet_ancestor:monetary_unit.n.01": "true",
+          "wordnet_native_lemma": "true"
+        },
+        "domains": {
+          "ABOVE": [
+            -1,
+            0,
+            1
+          ],
+          "ALIVE": [
+            0
+          ],
+          "BE": [
+            -1,
+            0,
+            1
+          ],
+          "BECAUSE": [
+            -1,
+            0,
+            1
+          ],
+          "BEFORE": [
+            -1,
+            0,
+            1
+          ],
+          "BIG": [
+            -1,
+            0,
+            1
+          ],
+          "BODY": [
+            -1,
+            0,
+            1
+          ],
+          "CAN": [
+            -1,
+            0,
+            1
+          ],
+          "CAUSE": [
+            -1,
+            0,
+            1
+          ],
+          "CERTAINTY": [
+            -1,
+            0,
+            1
+          ],
+          "DO": [
+            -1,
+            0,
+            1
+          ],
+          "EXIST": [
+            -1,
+            0,
+            1
+          ],
+          "FAR": [
+            -1,
+            0,
+            1
+          ],
+          "FEEL": [
+            -1,
+            0,
+            1
+          ],
+          "GOOD": [
+            0
+          ],
+          "HAPPEN": [
+            -1,
+            0,
+            1
+          ],
+          "HAVE": [
+            -1,
+            0,
+            1
+          ],
+          "HEAR": [
+            -1,
+            0,
+            1
+          ],
+          "HERE": [
+            -1,
+            0,
+            1
+          ],
+          "I": [
+            -1,
+            0,
+            1
+          ],
+          "IF": [
+            -1,
+            0,
+            1
+          ],
+          "INFER": [
+            -1,
+            0,
+            1
+          ],
+          "INTENSITY": [
+            -1,
+            0,
+            1
+          ],
+          "KIND": [
+            -1,
+            0,
+            1
+          ],
+          "KNOW": [
+            -1,
+            0,
+            1
+          ],
+          "LIKE": [
+            -1,
+            0,
+            1
+          ],
+          "LONG_TIME": [
+            -1,
+            0,
+            1
+          ],
+          "MAYBE": [
+            -1,
+            0,
+            1
+          ],
+          "MOMENT": [
+            -1,
+            0,
+            1
+          ],
+          "MOVE": [
+            -1,
+            0,
+            1
+          ],
+          "MUST": [
+            -1,
+            0,
+            1
+          ],
+          "NOT": [
+            -1,
+            0,
+            1
+          ],
+          "ONE": [
+            -1,
+            0,
+            1
+          ],
+          "OUTSIDE": [
+            -1,
+            0,
+            1
+          ],
+          "PART": [
+            -1,
+            0,
+            1
+          ],
+          "PEOPLE": [
+            -1,
+            0,
+            1
+          ],
+          "QUANTITY": [
+            1
+          ],
+          "SAME": [
+            -1,
+            0,
+            1
+          ],
+          "SAY": [
+            -1,
+            0,
+            1
+          ],
+          "SEE": [
+            -1,
+            0,
+            1
+          ],
+          "SIDE": [
+            -1,
+            0,
+            1
+          ],
+          "SOMEONE": [
+            -1,
+            0,
+            1
+          ],
+          "SOMETHING": [
+            1
+          ],
+          "START": [
+            -1,
+            0,
+            1
+          ],
+          "THEN": [
+            -1,
+            0,
+            1
+          ],
+          "THINK": [
+            -1,
+            0,
+            1
+          ],
+          "TOUCH": [
+            -1,
+            0,
+            1
+          ],
+          "TOWARD": [
+            -1,
+            0,
+            1
+          ],
+          "TRUE": [
+            -1,
+            0,
+            1
+          ],
+          "TWO": [
+            -1,
+            0,
+            1
+          ],
+          "WANT": [
+            -1,
+            0,
+            1
+          ],
+          "WHEN": [
+            -1,
+            0,
+            1
+          ],
+          "WHERE": [
+            -1,
+            0,
+            1
+          ],
+          "WITH": [
+            -1,
+            0,
+            1
+          ],
+          "WORDS": [
+            -1,
+            0,
+            1
+          ],
+          "YOU": [
+            -1,
+            0,
+            1
+          ]
+        },
+        "format": "gse.symbolic-scaffold/1",
+        "proof_semantics": "SYMBOLIC_JUSTIFICATION_NOT_ADDITIONAL_MODEL_OUTPUT",
+        "proof_trace": [
+          {
+            "bank": "SOMETHING",
+            "family": "wordnet",
+            "kind": "ASSERTION",
+            "record_id": "wordnet:eurodollar:eurodollar.n.01",
+            "remaining": [
+              1
+            ],
+            "removed": [
+              -1,
+              0
+            ],
+            "scope": "lexical",
+            "source": "wordnet_hierarchy",
+            "value": 1
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "founder:adjective-not-object"
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "founder:adverb-not-object"
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "reviewed-guarded-pattern:4020ffd7ce72eb23aea7686a62a21eaa2bdc974306586560d69cbc89a63853a7"
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "reviewed-guarded-pattern:65d16959c01e4411fe908f0a08ab3a0b130fa0cdf3095f20602b256862b56aa2"
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "reviewed-guarded-pattern:f4ff18466dbc0cfce0b075ac7dae052e0a42eee33e6ceebfb979c63f0cbbab37"
+          },
+          {
+            "bank": "GOOD",
+            "domains_before": {
+              "GOOD": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "kind": "RELATION",
+            "provenance": [
+              "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+            ],
+            "remaining": [
+              0
+            ],
+            "removed": [
+              -1,
+              1
+            ],
+            "rule_id": "founder:noun-own-evaluation",
+            "support_rows": [
+              [
+                0
+              ]
+            ]
+          },
+          {
+            "bank": "QUANTITY",
+            "domains_before": {
+              "QUANTITY": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "kind": "RELATION",
+            "provenance": [
+              "warrant:native-monetary-unit-quantity-2026-11-01:57bc1998651b2c64b7cf1dd3058d22f2557347e18de6906dd77bc50e0d18b202",
+              "docs/readings/2026-11-01-lexicon-next-stage/quantity-unit-population-inventory.json@sha256:5a392a773cef5cebd2e9d05df34258bf17c35307cddd82d46be9dbb8134ced79",
+              "docs/readings/2026-11-01-lexicon-you-body/you-body-reading.md",
+              "gse/curation/lexicon_builder/foundation.py#projection_relations"
+            ],
+            "remaining": [
+              1
+            ],
+            "removed": [
+              -1,
+              0
+            ],
+            "rule_id": "reviewed-guarded-pattern:3bf66d8b1cf0cf629d8bd968d3a5e7cdcfee5b508d007afcd49793d8b4bbace1",
+            "support_rows": [
+              [
+                1
+              ]
+            ]
+          },
+          {
+            "bank": "ALIVE",
+            "domains_before": {
+              "ALIVE": [
+                -1,
+                0,
+                1
+              ],
+              "GOOD": [
+                0
+              ]
+            },
+            "kind": "RELATION",
+            "provenance": [
+              "warrant:native-monetary-unit-alive-2026-11-11:1487fdd9c6ec8dafc701f5e345743957f38d635ddb91be96d01f2f17fee70f4b",
+              "docs/readings/2026-11-11-lexicon-learning-loop/alive-native-scope.json",
+              "gse/curation/lexicon_builder/model_protocol.py#coordinate_contract",
+              "refinement:sha256:0e8f3a9b990cb56105a9f32f7dd36a2db81957ad93872f84781be91eb97aa1a8",
+              "parent:reviewed-pattern:bdc292921dbbe6df814aa35fbeee67b21995ca3167cd394c17196c1d4604251d"
+            ],
+            "remaining": [
+              0
+            ],
+            "removed": [
+              -1,
+              1
+            ],
+            "rule_id": "reviewed-guarded-pattern:d5c74077e4237a30ca36de5ae0808fe2646ce7efd860ac2f9f999b8e80ccf634",
+            "support_rows": [
+              [
+                0,
+                0
+              ]
+            ]
+          },
+          {
+            "banks": [
+              "ABOVE",
+              "FAR",
+              "HERE",
+              "OUTSIDE",
+              "SIDE",
+              "TOWARD",
+              "WHERE"
+            ],
+            "domains_before": {
+              "ABOVE": [
+                -1,
+                0,
+                1
+              ],
+              "FAR": [
+                -1,
+                0,
+                1
+              ],
+              "HERE": [
+                -1,
+                0,
+                1
+              ],
+              "OUTSIDE": [
+                -1,
+                0,
+                1
+              ],
+              "SIDE": [
+                -1,
+                0,
+                1
+              ],
+              "TOWARD": [
+                -1,
+                0,
+                1
+              ],
+              "WHERE": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 2187,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:above-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:far-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:here-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:outside-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:side-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:toward-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:above-where",
+              "founder:category:far-where",
+              "founder:category:here-where",
+              "founder:category:outside-where",
+              "founder:category:side-where",
+              "founder:category:toward-where"
+            ],
+            "witnesses": 737
+          },
+          {
+            "banks": [
+              "ALIVE",
+              "GOOD"
+            ],
+            "domains_before": {
+              "ALIVE": [
+                0
+              ],
+              "GOOD": [
+                0
+              ]
+            },
+            "joint_assignments": 1,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:noun-own-evaluation",
+                [
+                  "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+                ]
+              ],
+              [
+                "reviewed-guarded-pattern:d5c74077e4237a30ca36de5ae0808fe2646ce7efd860ac2f9f999b8e80ccf634",
+                [
+                  "warrant:native-monetary-unit-alive-2026-11-11:1487fdd9c6ec8dafc701f5e345743957f38d635ddb91be96d01f2f17fee70f4b",
+                  "docs/readings/2026-11-11-lexicon-learning-loop/alive-native-scope.json",
+                  "gse/curation/lexicon_builder/model_protocol.py#coordinate_contract",
+                  "refinement:sha256:0e8f3a9b990cb56105a9f32f7dd36a2db81957ad93872f84781be91eb97aa1a8",
+                  "parent:reviewed-pattern:bdc292921dbbe6df814aa35fbeee67b21995ca3167cd394c17196c1d4604251d"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:noun-own-evaluation",
+              "reviewed-guarded-pattern:d5c74077e4237a30ca36de5ae0808fe2646ce7efd860ac2f9f999b8e80ccf634"
+            ],
+            "witnesses": 1
+          },
+          {
+            "banks": [
+              "BEFORE",
+              "LONG_TIME",
+              "MOMENT",
+              "THEN",
+              "WHEN"
+            ],
+            "domains_before": {
+              "BEFORE": [
+                -1,
+                0,
+                1
+              ],
+              "LONG_TIME": [
+                -1,
+                0,
+                1
+              ],
+              "MOMENT": [
+                -1,
+                0,
+                1
+              ],
+              "THEN": [
+                -1,
+                0,
+                1
+              ],
+              "WHEN": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 243,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:before-when",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:long_time-when",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:moment-when",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:then-when",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:before-when",
+              "founder:category:long_time-when",
+              "founder:category:moment-when",
+              "founder:category:then-when"
+            ],
+            "witnesses": 85
+          },
+          {
+            "banks": [
+              "BODY",
+              "SOMETHING"
+            ],
+            "domains_before": {
+              "BODY": [
+                -1,
+                0,
+                1
+              ],
+              "SOMETHING": [
+                1
+              ]
+            },
+            "joint_assignments": 3,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:body-something",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:body-something"
+            ],
+            "witnesses": 3
+          },
+          {
+            "banks": [
+              "CAUSE",
+              "DO",
+              "HAPPEN",
+              "MOVE"
+            ],
+            "domains_before": {
+              "CAUSE": [
+                -1,
+                0,
+                1
+              ],
+              "DO": [
+                -1,
+                0,
+                1
+              ],
+              "HAPPEN": [
+                -1,
+                0,
+                1
+              ],
+              "MOVE": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 81,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:cause-happen",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:do-happen",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:move-happen",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:cause-happen",
+              "founder:category:do-happen",
+              "founder:category:move-happen"
+            ],
+            "witnesses": 43
+          },
+          {
+            "banks": [
+              "I",
+              "SOMEONE",
+              "YOU"
+            ],
+            "domains_before": {
+              "I": [
+                -1,
+                0,
+                1
+              ],
+              "SOMEONE": [
+                -1,
+                0,
+                1
+              ],
+              "YOU": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 27,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:i-someone",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:you-someone",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:i-someone",
+              "founder:category:you-someone"
+            ],
+            "witnesses": 17
+          },
+          {
+            "banks": [
+              "ONE",
+              "QUANTITY",
+              "TWO"
+            ],
+            "domains_before": {
+              "ONE": [
+                -1,
+                0,
+                1
+              ],
+              "QUANTITY": [
+                1
+              ],
+              "TWO": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 9,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:one-quantity",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:two-quantity",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "reviewed-guarded-pattern:3bf66d8b1cf0cf629d8bd968d3a5e7cdcfee5b508d007afcd49793d8b4bbace1",
+                [
+                  "warrant:native-monetary-unit-quantity-2026-11-01:57bc1998651b2c64b7cf1dd3058d22f2557347e18de6906dd77bc50e0d18b202",
+                  "docs/readings/2026-11-01-lexicon-next-stage/quantity-unit-population-inventory.json@sha256:5a392a773cef5cebd2e9d05df34258bf17c35307cddd82d46be9dbb8134ced79",
+                  "docs/readings/2026-11-01-lexicon-you-body/you-body-reading.md",
+                  "gse/curation/lexicon_builder/foundation.py#projection_relations"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:one-quantity",
+              "founder:category:two-quantity",
+              "reviewed-guarded-pattern:3bf66d8b1cf0cf629d8bd968d3a5e7cdcfee5b508d007afcd49793d8b4bbace1"
+            ],
+            "witnesses": 9
+          },
+          {
+            "complete_search": true,
+            "kind": "INFERENCE_SCOPE",
+            "method": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+            "partial_means": "AMBIGUOUS_JOINT_SUPPORTED_DOMAINS",
+            "satisfiability": "SATISFIABLE"
+          },
+          {
+            "context": {
+              "pos": "noun",
+              "wordnet_ancestor:monetary_unit.n.01": "true",
+              "wordnet_native_lemma": "true"
+            },
+            "kind": "EVIDENCE_GUARD",
+            "reason": "GUARD_MISMATCH",
+            "relation": {
+              "absent_evidence": [
+                "GOOD"
+              ],
+              "allowed_rows": [
+                [
+                  -1,
+                  0
+                ],
+                [
+                  0,
+                  -1
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ],
+                [
+                  1,
+                  0
+                ]
+              ],
+              "approved": true,
+              "authority": "conditional",
+              "banks": [
+                "BIG",
+                "GOOD"
+              ],
+              "guards": [
+                [
+                  "pos",
+                  "adjective"
+                ]
+              ],
+              "provenance": [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+              ],
+              "rule_id": "founder:absence:big-good"
+            },
+            "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+            "rule_id": "founder:absence:big-good",
+            "status": "BLOCKED",
+            "witnesses": [
+              {
+                "assertions": [],
+                "bank": "GOOD",
+                "baseline_domain": [
+                  0
+                ],
+                "baseline_narrowed": true,
+                "baseline_rule_ids": [
+                  "founder:noun-own-evaluation"
+                ],
+                "supplied_evidence": true
+              }
+            ]
+          },
+          {
+            "context": {
+              "pos": "noun",
+              "wordnet_ancestor:monetary_unit.n.01": "true",
+              "wordnet_native_lemma": "true"
+            },
+            "kind": "EVIDENCE_GUARD",
+            "reason": "GUARD_MISMATCH",
+            "relation": {
+              "absent_evidence": [
+                "BIG"
+              ],
+              "allowed_rows": [
+                [
+                  -1,
+                  0
+                ],
+                [
+                  0,
+                  -1
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ],
+                [
+                  1,
+                  0
+                ]
+              ],
+              "approved": true,
+              "authority": "conditional",
+              "banks": [
+                "GOOD",
+                "BIG"
+              ],
+              "guards": [
+                [
+                  "pos",
+                  "adjective"
+                ]
+              ],
+              "provenance": [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+              ],
+              "rule_id": "founder:absence:good-big"
+            },
+            "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+            "rule_id": "founder:absence:good-big",
+            "status": "BLOCKED",
+            "witnesses": [
+              {
+                "assertions": [],
+                "bank": "BIG",
+                "baseline_domain": [
+                  -1,
+                  0,
+                  1
+                ],
+                "baseline_narrowed": false,
+                "baseline_rule_ids": [],
+                "supplied_evidence": true
+              }
+            ]
+          }
+        ],
+        "relation_semantics": "ONLY_ACTIVE_TABLES_CONSTRAIN_THIS_DEFINITION"
+      }
+    },
+    "request_id": "df215fc2248dc809f5bfa269c24964e028175173038468fe138b9bcd6960b889",
+    "schema": {
+      "additionalProperties": false,
+      "properties": {
+        "BODY": {
+          "enum": [
+            -1,
+            0,
+            1,
+            null
+          ],
+          "type": [
+            "integer",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "BODY"
+      ],
+      "type": "object"
+    },
+    "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@7b41cbefb558bbfcbac8c1665c7f52219497c72cfaef4647a1736f50b68c25c6"
+  }
+]

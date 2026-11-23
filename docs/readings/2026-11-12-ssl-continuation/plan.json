@@ -1,0 +1,115 @@
+{
+  "active_pointer_sha256": "449020ca41a461a7d418e4bdffe402da5c0798cb98444c5f88e7ecf6acd099b5",
+  "audits_per_epoch": 2,
+  "baseline_sha256": "b4cd1698e5c176bdec671a1e07e2621964c3fb2ab5e5fbe59142bae55227d58a",
+  "epochs": 1,
+  "families": [
+    {
+      "antecedent": [
+        "SOMETHING",
+        1
+      ],
+      "consequent": [
+        "BODY",
+        0
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:plane_figure.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:cladogram.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:delta.n.02",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:ellipsoid.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:quadrate.n.02",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:stemma.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:tree.n.02",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wordnet:heart:heart.n.07",
+        "wordnet:parabola:parabola.n.01"
+      ],
+      "id": "plane-figure-body",
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "plane-figure-body-source-review",
+        "reviewer": "Source-backed construction review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-continuation/SOURCE_SCOPE.md"
+        ],
+        "statement": "The exact source defines the retained form by geometric structure. The conventional heart-shaped glyph has an explicit plane contour. These criteria are independent of anatomical structure. Diagram-specific definitions and objects classified only by resemblance are excluded.",
+        "warrant_id": "plane-figure-body"
+      }
+    },
+    {
+      "antecedent": [
+        "SOMETHING",
+        1
+      ],
+      "consequent": [
+        "BODY",
+        0
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:polyhedron.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:quadrate.n.01",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wordnet:tetrahedron:tetrahedron.n.01",
+        "wordnet:tesseract:tesseract.n.01"
+      ],
+      "id": "polyhedron-body",
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "polyhedron-body-source-review",
+        "reviewer": "Source-backed construction review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-continuation/SOURCE_SCOPE.md"
+        ],
+        "statement": "The exact source defines the retained forms through geometric boundaries and dimension. The face of the solid is a geometric boundary, and the four-dimensional analogue is defined by formal structure. The cubelike object sense is excluded.",
+        "warrant_id": "polyhedron-body"
+      }
+    }
+  ],
+  "format": "gse.lexicon-epoch-plan/1"
+}

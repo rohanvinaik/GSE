@@ -1,0 +1,177 @@
+{
+  "cells": {
+    "assigned": 405847,
+    "explicit_zero": 280661,
+    "unresolved": 22083473
+  },
+  "code": "ACTIVE_SPARSE_LEXICON_VERIFIED",
+  "explicit_zero_and_unknown": {
+    "BODY": [
+      1
+    ],
+    "GOOD": [
+      0
+    ],
+    "WANT": [
+      -1,
+      0,
+      1
+    ]
+  },
+  "fixed_sample": {
+    "after": {
+      "AMBIGUOUS": 29,
+      "IDENTIFIED": 2,
+      "content_tokens": 31,
+      "content_with_signed_lexical_evidence": 2
+    },
+    "before": {
+      "AMBIGUOUS": 31,
+      "content_tokens": 31,
+      "content_with_signed_lexical_evidence": 0
+    },
+    "selected": [
+      {
+        "entry_id": "wordnet:bank:bank.n.01",
+        "text": "The river rose above the bank.",
+        "token": "bank"
+      },
+      {
+        "entry_id": "wordnet:light:light.n.08",
+        "text": "An electrician repaired the light.",
+        "token": "light"
+      }
+    ]
+  },
+  "format": "gse.active-sparse-verification/1",
+  "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-001.db",
+  "pointer_sha256": "b501783082951519f45abbdaf7d30bc6a1e248ef93c144b9c4fb0119d04a387f",
+  "previous_path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-10-29/replacement.db",
+  "replay": {
+    "mismatches": 0,
+    "records": 401596
+  },
+  "runtime_controls": [
+    {
+      "expected": "wordnet:bank:bank.n.01",
+      "observed": "wordnet:bank:bank.n.01",
+      "passed": true,
+      "text": "The river rose above the bank."
+    },
+    {
+      "expected": "wordnet:bank:depository_financial_institution.n.01",
+      "observed": "wordnet:bank:depository_financial_institution.n.01",
+      "passed": true,
+      "text": "A bank approved the mortgage."
+    },
+    {
+      "expected": null,
+      "observed": null,
+      "passed": true,
+      "text": "I saw a bank."
+    },
+    {
+      "observed": "gse_closed_class:modal:might",
+      "passed": true,
+      "text": "She might leave."
+    },
+    {
+      "observed": [
+        "unspecified",
+        "during"
+      ],
+      "passed": true,
+      "text": "I waited for some time."
+    },
+    {
+      "observed": [
+        "long",
+        "during"
+      ],
+      "passed": true,
+      "text": "I waited for a long time."
+    }
+  ],
+  "runtime_counts": {
+    "causal": {
+      "IDENTIFIED": 1
+    },
+    "comparison": {
+      "IDENTIFIED": 1
+    },
+    "control": {
+      "IDENTIFIED": 1
+    },
+    "coordination": {
+      "IDENTIFIED": 1
+    },
+    "degree_scope_distinction": {
+      "IDENTIFIED": 1
+    },
+    "degree_vector_distinction": {
+      "IDENTIFIED": 1
+    },
+    "demonstrative": {
+      "IDENTIFIED": 1
+    },
+    "event": {
+      "IDENTIFIED": 1
+    },
+    "extreme_degree": {
+      "IDENTIFIED": 1
+    },
+    "extremely_degree": {
+      "IDENTIFIED": 1
+    },
+    "negation": {
+      "IDENTIFIED": 1
+    },
+    "not_very_scope": {
+      "IDENTIFIED": 1
+    },
+    "ordinal_distinction": {
+      "IDENTIFIED": 1
+    },
+    "other_very_senses_anchor_isolation": {
+      "IDENTIFIED": 3
+    },
+    "repeated_degree": {
+      "IDENTIFIED": 1
+    },
+    "repeated_extreme_equivalence": {
+      "IDENTIFIED": 1
+    },
+    "restriction": {
+      "IDENTIFIED": 1
+    },
+    "single_degree": {
+      "IDENTIFIED": 1
+    },
+    "temporal": {
+      "IDENTIFIED": 1
+    },
+    "this_object": {
+      "IDENTIFIED": 1
+    },
+    "very_degree": {
+      "IDENTIFIED": 1
+    },
+    "very_not_scope": {
+      "IDENTIFIED": 1
+    },
+    "want_negative": {
+      "IDENTIFIED": 1
+    },
+    "want_positive": {
+      "IDENTIFIED": 1
+    }
+  },
+  "semantic_outcomes": {
+    "ABSTAINED": 1,
+    "CONFLICT": 0,
+    "IDENTIFIED_CORRECT": 12,
+    "NOT_FOUND": 0,
+    "WRONG": 0
+  },
+  "sha256": "dfb1fedbc5a07ebcc0f6a620d80c314622151395e6081d4a84cbf5e1fce7b1d9"
+}

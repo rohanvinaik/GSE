@@ -1,0 +1,51 @@
+{
+  "baseline_sha256": "92158b9b2b17bd9376083d8458a0e56bcf66b3fd60f46826fa5c54c5c653c219",
+  "claim_ledger": {
+    "falsifier": "A matching biological sense whose own definition has no justified bodily component under GSE word-scale projection.",
+    "kind": "CONJECTURE",
+    "scope": "Exact native biological animal senses with independently justified ALIVE=+1.",
+    "test": "Read the complete relevant NSM molecule/template and GSE projection contracts; then audit disjoint exact senses before admission."
+  },
+  "code": "UNADMITTED_REQUIRES_MOLECULE_AND_PROJECTION_WARRANT",
+  "contradictions": [],
+  "format": "gse.lexicon-rule-opportunity/1",
+  "hypothesis": {
+    "antecedent": [
+      "ALIVE",
+      1
+    ],
+    "consequent": [
+      "BODY",
+      1
+    ],
+    "guards": [
+      [
+        "pos",
+        "noun"
+      ],
+      [
+        "wordnet_native_lemma",
+        "true"
+      ],
+      [
+        "wordnet_ancestor:animal.n.01",
+        "true"
+      ]
+    ]
+  },
+  "lexicon_writes": false,
+  "model_questions": 0,
+  "native_sense_groups": 1881,
+  "next_step": "Verify semantic molecule and projection warrant; do not infer BODY solely from entity reference or flatten all prime mentions.",
+  "provisional_new_cells_by_bank": {
+    "BODY": 2366
+  },
+  "rule_admission": false,
+  "scope_definitions": 2366,
+  "source_reading": {
+    "complete_section": "3. Semantic molecules, with adjacent manuscript material",
+    "evidence": "Semantic molecules nest through lexical meanings, including body-part and bodily-activity dependencies.",
+    "not_established": "A complete animal molecule or a role- and modality-preserving GSE BODY projection for every animal sense.",
+    "path": "data/external/references/goddard-2012-primes-molecules-templates.txt"
+  }
+}

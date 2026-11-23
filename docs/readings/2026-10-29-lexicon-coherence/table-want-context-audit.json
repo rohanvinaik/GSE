@@ -1,0 +1,384 @@
+{
+  "snapshot": {
+    "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-10-29/constructed-corpus.db",
+    "started": "2026-10-29T23:08:29.236557+00:00",
+    "closed": "2026-10-29T23:08:45.941953+00:00",
+    "request_id": "c571856f1b0926f651cf426d127879fb96ea76adf944303f790baedfdb37cbe8"
+  },
+  "original_payload_bytes": 2656065,
+  "single_wire_bytes": 29720,
+  "batch_prompt_bytes": 30341,
+  "raw_observations_by_source": {
+    "conceptnet": 695,
+    "concreteness": 1,
+    "lancaster_sensorimotor": 1,
+    "nrc_emotion": 1,
+    "nrc_vad": 1,
+    "sentiwordnet": 1,
+    "usas": 1,
+    "wordnet_hierarchy": 1
+  },
+  "retained_sources": {
+    "concreteness": {
+      "records": 1,
+      "bytes": 4032
+    },
+    "lancaster_sensorimotor": {
+      "records": 1,
+      "bytes": 4900
+    },
+    "nrc_emotion": {
+      "records": 1,
+      "bytes": 4113
+    },
+    "nrc_vad": {
+      "records": 1,
+      "bytes": 4245
+    },
+    "sentiwordnet": {
+      "records": 1,
+      "bytes": 3203
+    },
+    "usas": {
+      "records": 1,
+      "bytes": 2776
+    },
+    "wordnet_hierarchy": {
+      "records": 1,
+      "bytes": 1576
+    }
+  },
+  "record_field_bytes": {
+    "candidate_entry_ids": 18160,
+    "entry_id": 72,
+    "family": 87,
+    "record_id": 532,
+    "scope": 92,
+    "source": 99,
+    "features": 2296,
+    "selected_fields": 1817,
+    "omitted_fields": 185,
+    "full_record_sha256": 462
+  },
+  "duplicate_fields": {
+    "candidate_entry_ids": {
+      "occurrences": 7,
+      "distinct": 3,
+      "total_bytes": 18160,
+      "distinct_bytes": 5682
+    },
+    "selected_fields": {
+      "occurrences": 7,
+      "distinct": 7,
+      "total_bytes": 1817,
+      "distinct_bytes": 1817
+    },
+    "omitted_fields": {
+      "occurrences": 7,
+      "distinct": 2,
+      "total_bytes": 185,
+      "distinct_bytes": 175
+    }
+  },
+  "wire_input_fields": {
+    "format": 20,
+    "entry_id": 26,
+    "definition": 184,
+    "bank": 6,
+    "allowed_values": 8,
+    "known": 24,
+    "scaffold": 2006,
+    "evidence": 25712
+  },
+  "records": [
+    {
+      "source": "concreteness",
+      "record_id": "concreteness:table:57d4312b11bf23d21d973ed4043badca30b413098399e98b47aa2f8ce004e04e",
+      "bytes": 4032,
+      "fields": {
+        "candidate_entry_ids": 3412,
+        "entry_id": 4,
+        "family": 14,
+        "record_id": 85,
+        "scope": 13,
+        "source": 14,
+        "features": 87,
+        "selected_fields": 186,
+        "omitted_fields": 2,
+        "full_record_sha256": 66
+      },
+      "feature_fields": {
+        "concreteness": 3,
+        "known_percent": 4,
+        "lemma": 7,
+        "n_ratings": 2,
+        "word": 7
+      }
+    },
+    {
+      "source": "lancaster_sensorimotor",
+      "record_id": "lancaster_sensorimotor:table:503936cf73713d351880a118bf03783911cc6ea593e9348d3cd3a06456731ed5",
+      "bytes": 4900,
+      "fields": {
+        "candidate_entry_ids": 3412,
+        "entry_id": 4,
+        "family": 24,
+        "record_id": 95,
+        "scope": 13,
+        "source": 24,
+        "features": 612,
+        "selected_fields": 499,
+        "omitted_fields": 2,
+        "full_record_sha256": 66
+      },
+      "feature_fields": {
+        "auditory": 5,
+        "dominant_action": 10,
+        "dominant_perceptual": 8,
+        "foot_leg": 4,
+        "gustatory": 5,
+        "hand_arm": 4,
+        "haptic": 5,
+        "head": 4,
+        "interoceptive": 5,
+        "lemma": 7,
+        "max_action": 4,
+        "max_perceptual": 5,
+        "mouth": 4,
+        "olfactory": 5,
+        "raw_extra_fields": 2,
+        "raw_fields": 268,
+        "torso": 4,
+        "visual": 5,
+        "word": 7
+      }
+    },
+    {
+      "source": "nrc_emotion",
+      "record_id": "nrc_emotion:table:f799b6c3fabba24509cd9e8fd886835e24fb2ecc918a9636c227eb3643a36e26",
+      "bytes": 4113,
+      "fields": {
+        "candidate_entry_ids": 3412,
+        "entry_id": 4,
+        "family": 13,
+        "record_id": 84,
+        "scope": 13,
+        "source": 13,
+        "features": 189,
+        "selected_fields": 168,
+        "omitted_fields": 2,
+        "full_record_sha256": 66
+      },
+      "feature_fields": {
+        "emotions": 118,
+        "lemma": 7,
+        "projection_candidates": 2,
+        "word": 7
+      }
+    },
+    {
+      "source": "nrc_vad",
+      "record_id": "nrc_vad:table:11cf50082fab39d721b17963e080d8102c3fd0ff3dbc9a3a470aaa4b8bf2a3ef",
+      "bytes": 4245,
+      "fields": {
+        "candidate_entry_ids": 3412,
+        "entry_id": 4,
+        "family": 9,
+        "record_id": 80,
+        "scope": 13,
+        "source": 9,
+        "features": 214,
+        "selected_fields": 287,
+        "omitted_fields": 2,
+        "full_record_sha256": 66
+      },
+      "feature_fields": {
+        "arousal": 5,
+        "dominance": 6,
+        "lemma": 7,
+        "native_header": 40,
+        "native_scale": 10,
+        "native_version": 3,
+        "projection_candidates": 2,
+        "valence": 5,
+        "word": 7
+      }
+    },
+    {
+      "source": "sentiwordnet",
+      "record_id": "sentiwordnet:table:5b527e62072b988096effd96e997dd309f022e39e01371b7b733d3d48d41ad68",
+      "bytes": 3203,
+      "fields": {
+        "candidate_entry_ids": 2242,
+        "entry_id": 26,
+        "family": 9,
+        "record_id": 85,
+        "scope": 13,
+        "source": 14,
+        "features": 319,
+        "selected_fields": 278,
+        "omitted_fields": 2,
+        "full_record_sha256": 66
+      },
+      "feature_fields": {
+        "bank_relevance": 156,
+        "lemma": 7,
+        "neg_score": 3,
+        "obj_score": 3,
+        "pos": 6,
+        "pos_score": 3,
+        "projection_candidates": 2,
+        "synset_id": 12,
+        "word": 7
+      }
+    },
+    {
+      "source": "usas",
+      "record_id": "usas:table:0cd135224dc94e06f2ac4131e46b223db28a714aae500aee2dc0596a7b221a60",
+      "bytes": 2776,
+      "fields": {
+        "candidate_entry_ids": 2242,
+        "entry_id": 4,
+        "family": 9,
+        "record_id": 77,
+        "scope": 18,
+        "source": 6,
+        "features": 65,
+        "selected_fields": 138,
+        "omitted_fields": 2,
+        "full_record_sha256": 66
+      },
+      "feature_fields": {
+        "lemma": 7,
+        "pos": 6,
+        "semantic_tags": 18
+      }
+    },
+    {
+      "source": "wordnet_hierarchy",
+      "record_id": "wordnet:table:table.n.02",
+      "bytes": 1576,
+      "fields": {
+        "candidate_entry_ids": 28,
+        "entry_id": 26,
+        "family": 9,
+        "record_id": 26,
+        "scope": 9,
+        "source": 19,
+        "features": 810,
+        "selected_fields": 261,
+        "omitted_fields": 173,
+        "full_record_sha256": 66
+      },
+      "feature_fields": {
+        "definition": 102,
+        "hypernym_paths": 154,
+        "lemma": 7,
+        "lemma_names": 9,
+        "lexname": 15,
+        "pos": 6,
+        "synset_name": 12,
+        "taxonomy_proposals": 393
+      }
+    }
+  ],
+  "excluded_sources": [
+    {
+      "source": "conceptnet",
+      "code": "WORLD_ASSOCIATION_NOT_LEXICAL_EVIDENCE",
+      "record_count": 695,
+      "full_records_sha256": "b8f1b18162681ffe99764a63a6a1b92691a9abfa79f39a2b8dbbc3b0033fb5f8",
+      "digest_scheme": "SHA256_CANONICAL_JSON_SORTED_FULL_RECORD_SHA256",
+      "selected_fields": [],
+      "omitted_fields": [
+        "/candidate_entry_ids",
+        "/entry_id",
+        "/family",
+        "/features/end_word",
+        "/features/id",
+        "/features/lemma",
+        "/features/relation",
+        "/features/source",
+        "/features/start_word",
+        "/features/weight",
+        "/record_id",
+        "/scope",
+        "/source"
+      ]
+    }
+  ],
+  "lossless_candidate_list_interning": {
+    "code": "AUDIT_SIMULATION_NOT_PRODUCTION_CHANGE",
+    "original_prompt_bytes": 30341,
+    "interned_prompt_bytes": 18034,
+    "saved_prompt_bytes": 12307,
+    "shared_lists": 2,
+    "exact_reconstruction": true,
+    "all_record_digests_unchanged": true,
+    "original_body_bytes_at_32768": 32457,
+    "interned_body_bytes_at_32768": 19892,
+    "unchanged_preflight_byte_budget": 30720
+  },
+  "tokenizer": {
+    "tool": "/opt/homebrew/bin/llama-tokenize",
+    "gguf_path": "/Users/rohanvinaik/.ollama/models/blobs/sha256-f5f1dd8920d417aac2718b0bda3403da274301efdd6760b4f0f4b864ff2ad57d",
+    "gguf_manifest_digest": "sha256:f5f1dd8920d417aac2718b0bda3403da274301efdd6760b4f0f4b864ff2ad57d",
+    "ollama_manifest_sha256": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+    "options": [
+      "--offline",
+      "--ids",
+      "--no-bos",
+      "--no-escape"
+    ],
+    "measurements": [
+      {
+        "file": "/tmp/gse-table-want-wire.json",
+        "bytes": 29720,
+        "tokens": 16257,
+        "sha256": "1c5ceaee6746bad7d2f06bc4bf25f70de48e1369f38f51513feb9d7c2e5a0339",
+        "tokenizer_stderr": "0.06.279.460 W llama_context: n_ctx_seq (512) > n_ctx_train (0) -- possible training context overflow\n"
+      },
+      {
+        "file": "/tmp/gse-table-want-batch-prompt.json",
+        "bytes": 30341,
+        "tokens": 16452,
+        "sha256": "8409411ff1fc00dcc0373044a4f6d79fe22496ed6c75ec0e9baa6f5cddc148fa",
+        "tokenizer_stderr": "0.00.469.257 W llama_context: n_ctx_seq (512) > n_ctx_train (0) -- possible training context overflow\n"
+      },
+      {
+        "file": "/tmp/gse-table-want-batch-prompt-interned.json",
+        "bytes": 18034,
+        "tokens": 8165,
+        "sha256": "ce6fa305abe4e3369ef82783f30aa5957dc5028f9391535dd7a641f0331d80a5",
+        "tokenizer_stderr": "0.00.500.912 W llama_context: n_ctx_seq (512) > n_ctx_train (0) -- possible training context overflow\n"
+      }
+    ],
+    "generation_calls": 0,
+    "ollama_metadata": {
+      "template": "{{ .Prompt }}",
+      "add_bos_token": false,
+      "native_context_length": 262144
+    },
+    "limitation": "Offline tokenizer counts measured; exact equality to Ollama runner prompt accounting has not been tested on this prompt."
+  },
+  "batch_body_bytes_at_diagnostic_context_262144": 32458,
+  "batch_body_bytes": 32457,
+  "production_compaction_preflight": {
+    "before": {
+      "code": "BATCH_INPUT_TOO_LARGE",
+      "wire_protocol": "gse.lexical-component-entailment/5"
+    },
+    "after": {
+      "code": "PREPARED",
+      "wire_protocol": "gse.lexical-component-entailment/6",
+      "body_bytes": 21161,
+      "byte_budget": 30720,
+      "request_ids": [
+        "c571856f1b0926f651cf426d127879fb96ea76adf944303f790baedfdb37cbe8"
+      ],
+      "evidence_roundtrip_exact": true
+    },
+    "candidate_db_reads": 0,
+    "generation_calls": 0
+  }
+}

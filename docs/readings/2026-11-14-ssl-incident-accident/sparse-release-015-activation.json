@@ -1,0 +1,91 @@
+{
+  "cells": {
+    "assigned": 407560,
+    "explicit_zero": 280661,
+    "unresolved": 22081760
+  },
+  "changes": [
+    {
+      "after": [
+        1
+      ],
+      "bank": "HAPPEN",
+      "before": [
+        -1,
+        0,
+        1
+      ],
+      "entry_id": "wordnet:accident:accident.n.02"
+    }
+  ],
+  "code": "ACTIVE_SSL_INCIDENT_ACCIDENT_VERIFIED",
+  "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-015.db",
+  "pointer_sha256": "83af67ea36d3c1152cb186da3dd7988a561ed596438426cb0d307ef5b268bc86",
+  "previous_path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-014.db",
+  "replay": {
+    "code": "REPLAY_VALIDATED",
+    "complete_search": true,
+    "entries_checked": 401596,
+    "entries_mismatched": 0,
+    "entries_validated": 401596,
+    "format": "gse.lexicon-replay-report/1",
+    "gold": "NOT_CHECKED",
+    "inference_counts": {
+      "components_joint_checked": 2495392,
+      "components_solver_limited": 0,
+      "entries_complete_search": 401596,
+      "entries_replayed": 401596,
+      "entries_solver_limited": 0
+    },
+    "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+    "metadata_verification": {
+      "build_report": "NOT_CHECKED",
+      "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+      "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+      "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+      "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+      "catalog_definition_source_ids": "NOT_PERSISTED",
+      "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+      "representation_contract": "VERIFIED",
+      "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+    },
+    "mismatch_counts": {},
+    "mismatches": [],
+    "replayed_outcomes": {
+      "PARTIAL": 401596
+    }
+  },
+  "semantic_outcomes": {
+    "ABSTAINED": 1,
+    "CONFLICT": 0,
+    "IDENTIFIED_CORRECT": 87,
+    "NOT_FOUND": 0,
+    "WRONG": 0
+  },
+  "sentence_comparison": {
+    "baseline_sha256": "49705cc89afa52e0136ecade746906497d344101a0068e72abd5739337878f2f",
+    "benchmark_sha256": "7a7b0af0064bffe4c3cd37d5d0e3546a6061e6d5febeac1a9a0c6f87993fae68",
+    "by_class": {
+      "action": {
+        "exact_sense_bits_removed": 0.0
+      },
+      "ambiguous": {},
+      "grammar": {
+        "exact_sense_bits_removed": 0.0
+      },
+      "occurrence": {
+        "exact_sense_bits_removed": 1.584962500721156,
+        "exact_sense_new_correct": 1
+      },
+      "participant": {
+        "exact_sense_bits_removed": 0.0
+      },
+      "result-or-state": {}
+    },
+    "candidate_sha256": "a2360f0ccb52950f1fba0607ce44e15b31466b094bf91e112c9bdef2a979584a",
+    "code": "SENTENCE_BENCHMARK_VALIDATED",
+    "failures": [],
+    "format": "gse.lexicon-sentence-benchmark-comparison/1"
+  },
+  "sha256": "a2360f0ccb52950f1fba0607ce44e15b31466b094bf91e112c9bdef2a979584a"
+}

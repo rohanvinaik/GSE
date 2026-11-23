@@ -1,0 +1,142 @@
+{
+  "basis_size": 56,
+  "candidate_sha256": "b4cd1698e5c176bdec671a1e07e2621964c3fb2ab5e5fbe59142bae55227d58a",
+  "code": "DURATION_CONTRAST_UNREPRESENTED_IN_SYMBOLIC_EXPRESSION",
+  "coverage_counts": {
+    "MISSING_FOUNDATION_EVIDENCE": 43,
+    "PARTIAL_FOUNDATION_CLOSURE": 22
+  },
+  "format": "gse.foundation-duration-probe/1",
+  "mapping_counts": {
+    "ADAPTED": 24,
+    "EXACT": 34,
+    "METADATA": 6,
+    "MISSING": 1
+  },
+  "missing_units": [
+    {
+      "id": "nsm:v20:some-time",
+      "mapping": {
+        "approved_claims": [],
+        "assignment_approved": false,
+        "bank": null,
+        "code": "MISSING",
+        "correspondence_approved": false,
+        "note": "No distinct FOR SOME TIME coordinate; LONG_TIME and WHEN do not by themselves specify this duration unit.",
+        "value": null
+      },
+      "status": "MISSING_FOUNDATION_EVIDENCE",
+      "unit": "(FOR) SOME TIME"
+    }
+  ],
+  "runtime_cases": [
+    {
+      "expression": {
+        "_kind": "Op",
+        "args": [
+          {
+            "_kind": "Phrase",
+            "atoms": [
+              {
+                "_kind": "Atom",
+                "lemma": "i",
+                "pos": "PRON",
+                "position": 0,
+                "role": null,
+                "word_primitives": {}
+              }
+            ]
+          }
+        ],
+        "arity": 1,
+        "operation": "EVENT",
+        "primitive": "wait"
+      },
+      "operators": [],
+      "text": "I waited for some time."
+    },
+    {
+      "expression": {
+        "_kind": "Op",
+        "args": [
+          {
+            "_kind": "Phrase",
+            "atoms": [
+              {
+                "_kind": "Atom",
+                "lemma": "i",
+                "pos": "PRON",
+                "position": 0,
+                "role": null,
+                "word_primitives": {}
+              }
+            ]
+          }
+        ],
+        "arity": 1,
+        "operation": "EVENT",
+        "primitive": "wait"
+      },
+      "operators": [],
+      "text": "I waited for a long time."
+    },
+    {
+      "expression": {
+        "_kind": "Op",
+        "args": [
+          {
+            "_kind": "Op",
+            "args": [
+              {
+                "_kind": "Phrase",
+                "atoms": [
+                  {
+                    "_kind": "Atom",
+                    "lemma": "i",
+                    "pos": "PRON",
+                    "position": 0,
+                    "role": null,
+                    "word_primitives": {}
+                  }
+                ]
+              }
+            ],
+            "arity": 1,
+            "operation": "EVENT",
+            "primitive": "wait"
+          },
+          {
+            "_kind": "Op",
+            "args": [
+              {
+                "_kind": "Phrase",
+                "atoms": [
+                  {
+                    "_kind": "Atom",
+                    "lemma": "he",
+                    "pos": "PRON",
+                    "position": 3,
+                    "role": null,
+                    "word_primitives": {}
+                  }
+                ]
+              }
+            ],
+            "arity": 1,
+            "operation": "EVENT",
+            "primitive": "speak"
+          }
+        ],
+        "arity": 2,
+        "operation": "TEMPORAL",
+        "primitive": "COMP_WHEN"
+      },
+      "operators": [
+        "TEMPORAL"
+      ],
+      "text": "I waited while he spoke."
+    }
+  ],
+  "runtime_lexicon_pointer_sha256": "449020ca41a461a7d418e4bdffe402da5c0798cb98444c5f88e7ecf6acd099b5",
+  "units": 65
+}

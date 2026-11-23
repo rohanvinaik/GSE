@@ -1,0 +1,53 @@
+{
+  "ablation_sha256": "05a0996ec2b6c1b99cb98884d477b9ebe85019ddb2469562710ceb95bbd01cb6",
+  "attempted_questions": 6,
+  "baseline_sha256": "d1929fbfbb54b81260581de4cc192132bef5f6a9b340f6cc7895956e8724b29a",
+  "candidate_sha256": "2915bc84d40b9c2f02c7f01c68519ec5533baf8efff1372467d9cdfa4db8cfb9",
+  "code": "FOLLOWUP_PARTITIVE_REPLAY_VALIDATED_WORDS_WITHHELD",
+  "format": "gse.ssl-cross-source-followup/2",
+  "fraction_of_initial_potential_removed": 7.381332402047681e-06,
+  "initial_potential_bits": 35000305.3034001,
+  "new_cells": 163,
+  "new_cells_by_bank_and_source": {
+    "SOMETHING": {
+      "wiktionary": 163
+    }
+  },
+  "published_scope_questions": 3,
+  "removed_potential_bits": 258.3488876175484,
+  "reopened_cells": 0,
+  "replay": {
+    "code": "REPLAY_VALIDATED",
+    "complete_search": true,
+    "entries_checked": 401596,
+    "entries_mismatched": 0,
+    "entries_validated": 401596,
+    "format": "gse.lexicon-replay-report/1",
+    "gold": "NOT_CHECKED",
+    "inference_counts": {
+      "components_joint_checked": 2495368,
+      "components_solver_limited": 0,
+      "entries_complete_search": 401596,
+      "entries_replayed": 401596,
+      "entries_solver_limited": 0
+    },
+    "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+    "metadata_verification": {
+      "build_report": "NOT_CHECKED",
+      "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+      "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+      "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+      "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+      "catalog_definition_source_ids": "NOT_PERSISTED",
+      "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+      "representation_contract": "VERIFIED",
+      "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+    },
+    "mismatch_counts": {},
+    "mismatches": [],
+    "replayed_outcomes": {
+      "PARTIAL": 401596
+    }
+  },
+  "withheld_audit_sha256": "0bf8500844afb348838c43f201eee1fbec5a172a3f21ed64f07051d26ab48277"
+}

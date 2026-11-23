@@ -1,0 +1,36 @@
+{
+  "baseline_sha256": "e3444b0c959e3e928fc8c5507f1e1b720bb1413f694c3bc8019e0b128196cb67",
+  "format": "gse.coherence-stage-input/2",
+  "proposals": [
+    {
+      "antecedent": [
+        "QUANTITY",
+        1
+      ],
+      "consequent": [
+        "WANT",
+        0
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:monetary_unit.n.01",
+          "true"
+        ]
+      ],
+      "id": "stage:native-monetary-unit:quantity-want",
+      "source_refs": [
+        "docs/readings/2026-11-11-lexicon-learning-loop/monetary-want-scope.json"
+      ]
+    }
+  ],
+  "scope_challenges": [],
+  "semantics": "RELATIONAL_CONSTRAINT"
+}

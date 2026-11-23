@@ -1,0 +1,1131 @@
+{
+  "format": "gse.source-enrichment-input/1",
+  "observations": [
+    {
+      "candidate_entry_ids": [
+        "wordnet:man:homo.n.02"
+      ],
+      "entry_id": "wordnet:man:homo.n.02",
+      "family": "wordnet",
+      "features": {
+        "context_only": true,
+        "definition": "any living or extinct member of the family Hominidae characterized by superior intelligence, articulate speech, and erect carriage",
+        "definition_identity": {
+          "analyses": [
+            {
+              "base": "man",
+              "derivation": {
+                "exception_bases": [],
+                "kind": "NATIVE_LEMMA",
+                "substitutions": []
+              },
+              "native_lemmas": [
+                "man"
+              ],
+              "native_records": [
+                {
+                  "has_holonyms": true,
+                  "has_meronyms": true,
+                  "hypernym_depth": 14,
+                  "hyponym_count": 7,
+                  "lexname": "noun.animal",
+                  "pos": "noun",
+                  "synset_name": "homo.n.02",
+                  "word": "man"
+                }
+              ]
+            }
+          ],
+          "assigns_banks": false,
+          "authority": "IDENTITY_EVIDENCE_WITHIN_SELECTED_SENSE",
+          "code": "NATIVE_LEMMA",
+          "defining_ancestry": {
+            "code": "EXACT_NATIVE_HYPERNYM_PATHS",
+            "format": "gse.wordnet-defining-ancestry/1",
+            "paths": [
+              [
+                "entity.n.01",
+                "physical_entity.n.01",
+                "object.n.01",
+                "whole.n.02",
+                "living_thing.n.01",
+                "organism.n.01",
+                "animal.n.01",
+                "chordate.n.01",
+                "vertebrate.n.01",
+                "mammal.n.01",
+                "placental.n.01",
+                "primate.n.02",
+                "hominid.n.01",
+                "homo.n.02"
+              ]
+            ],
+            "semantics": "DEFINING_GENUS_CONTEXT_NOT_AUTOMATIC_BANK_TRANSFER",
+            "synsets": {
+              "animal.n.01": {
+                "definition": "a living organism characterized by voluntary movement",
+                "lemma_names": [
+                  "animal",
+                  "animate_being",
+                  "beast",
+                  "brute",
+                  "creature",
+                  "fauna"
+                ],
+                "lexname": "noun.Tops",
+                "name": "animal.n.01",
+                "pos": "n"
+              },
+              "chordate.n.01": {
+                "definition": "any animal of the phylum Chordata having a notochord or spinal column",
+                "lemma_names": [
+                  "chordate"
+                ],
+                "lexname": "noun.animal",
+                "name": "chordate.n.01",
+                "pos": "n"
+              },
+              "entity.n.01": {
+                "definition": "that which is perceived or known or inferred to have its own distinct existence (living or nonliving)",
+                "lemma_names": [
+                  "entity"
+                ],
+                "lexname": "noun.Tops",
+                "name": "entity.n.01",
+                "pos": "n"
+              },
+              "hominid.n.01": {
+                "definition": "a primate of the family Hominidae",
+                "lemma_names": [
+                  "hominid"
+                ],
+                "lexname": "noun.animal",
+                "name": "hominid.n.01",
+                "pos": "n"
+              },
+              "homo.n.02": {
+                "definition": "any living or extinct member of the family Hominidae characterized by superior intelligence, articulate speech, and erect carriage",
+                "lemma_names": [
+                  "homo",
+                  "man",
+                  "human_being",
+                  "human"
+                ],
+                "lexname": "noun.animal",
+                "name": "homo.n.02",
+                "pos": "n"
+              },
+              "living_thing.n.01": {
+                "definition": "a living (or once living) entity",
+                "lemma_names": [
+                  "living_thing",
+                  "animate_thing"
+                ],
+                "lexname": "noun.Tops",
+                "name": "living_thing.n.01",
+                "pos": "n"
+              },
+              "mammal.n.01": {
+                "definition": "any warm-blooded vertebrate having the skin more or less covered with hair; young are born alive except for the small subclass of monotremes and nourished with milk",
+                "lemma_names": [
+                  "mammal",
+                  "mammalian"
+                ],
+                "lexname": "noun.animal",
+                "name": "mammal.n.01",
+                "pos": "n"
+              },
+              "object.n.01": {
+                "definition": "a tangible and visible entity; an entity that can cast a shadow",
+                "lemma_names": [
+                  "object",
+                  "physical_object"
+                ],
+                "lexname": "noun.Tops",
+                "name": "object.n.01",
+                "pos": "n"
+              },
+              "organism.n.01": {
+                "definition": "a living thing that has (or can develop) the ability to act or function independently",
+                "lemma_names": [
+                  "organism",
+                  "being"
+                ],
+                "lexname": "noun.Tops",
+                "name": "organism.n.01",
+                "pos": "n"
+              },
+              "physical_entity.n.01": {
+                "definition": "an entity that has physical existence",
+                "lemma_names": [
+                  "physical_entity"
+                ],
+                "lexname": "noun.Tops",
+                "name": "physical_entity.n.01",
+                "pos": "n"
+              },
+              "placental.n.01": {
+                "definition": "mammals having a placenta; all mammals except monotremes and marsupials",
+                "lemma_names": [
+                  "placental",
+                  "placental_mammal",
+                  "eutherian",
+                  "eutherian_mammal"
+                ],
+                "lexname": "noun.animal",
+                "name": "placental.n.01",
+                "pos": "n"
+              },
+              "primate.n.02": {
+                "definition": "any placental mammal of the order Primates; has good eyesight and flexible hands and feet",
+                "lemma_names": [
+                  "primate"
+                ],
+                "lexname": "noun.animal",
+                "name": "primate.n.02",
+                "pos": "n"
+              },
+              "vertebrate.n.01": {
+                "definition": "animals having a bony or cartilaginous skeleton with a segmented spinal column and a large brain enclosed in a skull or cranium",
+                "lemma_names": [
+                  "vertebrate",
+                  "craniate"
+                ],
+                "lexname": "noun.animal",
+                "name": "vertebrate.n.01",
+                "pos": "n"
+              },
+              "whole.n.02": {
+                "definition": "an assemblage of parts that is regarded as a single entity",
+                "lemma_names": [
+                  "whole",
+                  "unit"
+                ],
+                "lexname": "noun.Tops",
+                "name": "whole.n.02",
+                "pos": "n"
+              }
+            }
+          },
+          "format": "gse.wordnet-definition-identity/2",
+          "native_synset": {
+            "definition": "any living or extinct member of the family Hominidae characterized by superior intelligence, articulate speech, and erect carriage",
+            "lemma_names": [
+              "homo",
+              "man",
+              "human_being",
+              "human"
+            ],
+            "lexname": "noun.animal",
+            "name": "homo.n.02",
+            "pos": "n"
+          },
+          "normalized_surface": "man",
+          "reason": "EXPLICIT_NATIVE_LEMMA_MEMBERSHIP",
+          "selects_sense": false,
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "surface": "man",
+          "unmatched_candidates": []
+        },
+        "entry_id": "wordnet:man:homo.n.02",
+        "lemma": "man",
+        "pos": "noun"
+      },
+      "record_id": "wordnet_identity:b7ab7dd485532892ff0b887eeabea8b0e284464e901cbabed1d820663e1636a9",
+      "scope": "lexical",
+      "source": "wordnet_hierarchy"
+    },
+    {
+      "candidate_entry_ids": [
+        "wordnet:cat:cat.n.01"
+      ],
+      "entry_id": "wordnet:cat:cat.n.01",
+      "family": "wordnet",
+      "features": {
+        "context_only": true,
+        "definition": "feline mammal usually having thick soft fur and no ability to roar: domestic cats; wildcats",
+        "definition_identity": {
+          "analyses": [
+            {
+              "base": "cat",
+              "derivation": {
+                "exception_bases": [],
+                "kind": "NATIVE_LEMMA",
+                "substitutions": []
+              },
+              "native_lemmas": [
+                "cat"
+              ],
+              "native_records": [
+                {
+                  "has_holonyms": false,
+                  "has_meronyms": false,
+                  "hypernym_depth": 14,
+                  "hyponym_count": 2,
+                  "lexname": "noun.animal",
+                  "pos": "noun",
+                  "synset_name": "cat.n.01",
+                  "word": "cat"
+                }
+              ]
+            }
+          ],
+          "assigns_banks": false,
+          "authority": "IDENTITY_EVIDENCE_WITHIN_SELECTED_SENSE",
+          "code": "NATIVE_LEMMA",
+          "defining_ancestry": {
+            "code": "EXACT_NATIVE_HYPERNYM_PATHS",
+            "format": "gse.wordnet-defining-ancestry/1",
+            "paths": [
+              [
+                "entity.n.01",
+                "physical_entity.n.01",
+                "object.n.01",
+                "whole.n.02",
+                "living_thing.n.01",
+                "organism.n.01",
+                "animal.n.01",
+                "chordate.n.01",
+                "vertebrate.n.01",
+                "mammal.n.01",
+                "placental.n.01",
+                "carnivore.n.01",
+                "feline.n.01",
+                "cat.n.01"
+              ]
+            ],
+            "semantics": "DEFINING_GENUS_CONTEXT_NOT_AUTOMATIC_BANK_TRANSFER",
+            "synsets": {
+              "animal.n.01": {
+                "definition": "a living organism characterized by voluntary movement",
+                "lemma_names": [
+                  "animal",
+                  "animate_being",
+                  "beast",
+                  "brute",
+                  "creature",
+                  "fauna"
+                ],
+                "lexname": "noun.Tops",
+                "name": "animal.n.01",
+                "pos": "n"
+              },
+              "carnivore.n.01": {
+                "definition": "a terrestrial or aquatic flesh-eating mammal",
+                "lemma_names": [
+                  "carnivore"
+                ],
+                "lexname": "noun.animal",
+                "name": "carnivore.n.01",
+                "pos": "n"
+              },
+              "cat.n.01": {
+                "definition": "feline mammal usually having thick soft fur and no ability to roar: domestic cats; wildcats",
+                "lemma_names": [
+                  "cat",
+                  "true_cat"
+                ],
+                "lexname": "noun.animal",
+                "name": "cat.n.01",
+                "pos": "n"
+              },
+              "chordate.n.01": {
+                "definition": "any animal of the phylum Chordata having a notochord or spinal column",
+                "lemma_names": [
+                  "chordate"
+                ],
+                "lexname": "noun.animal",
+                "name": "chordate.n.01",
+                "pos": "n"
+              },
+              "entity.n.01": {
+                "definition": "that which is perceived or known or inferred to have its own distinct existence (living or nonliving)",
+                "lemma_names": [
+                  "entity"
+                ],
+                "lexname": "noun.Tops",
+                "name": "entity.n.01",
+                "pos": "n"
+              },
+              "feline.n.01": {
+                "definition": "any of various lithe-bodied roundheaded fissiped mammals, many with retractile claws",
+                "lemma_names": [
+                  "feline",
+                  "felid"
+                ],
+                "lexname": "noun.animal",
+                "name": "feline.n.01",
+                "pos": "n"
+              },
+              "living_thing.n.01": {
+                "definition": "a living (or once living) entity",
+                "lemma_names": [
+                  "living_thing",
+                  "animate_thing"
+                ],
+                "lexname": "noun.Tops",
+                "name": "living_thing.n.01",
+                "pos": "n"
+              },
+              "mammal.n.01": {
+                "definition": "any warm-blooded vertebrate having the skin more or less covered with hair; young are born alive except for the small subclass of monotremes and nourished with milk",
+                "lemma_names": [
+                  "mammal",
+                  "mammalian"
+                ],
+                "lexname": "noun.animal",
+                "name": "mammal.n.01",
+                "pos": "n"
+              },
+              "object.n.01": {
+                "definition": "a tangible and visible entity; an entity that can cast a shadow",
+                "lemma_names": [
+                  "object",
+                  "physical_object"
+                ],
+                "lexname": "noun.Tops",
+                "name": "object.n.01",
+                "pos": "n"
+              },
+              "organism.n.01": {
+                "definition": "a living thing that has (or can develop) the ability to act or function independently",
+                "lemma_names": [
+                  "organism",
+                  "being"
+                ],
+                "lexname": "noun.Tops",
+                "name": "organism.n.01",
+                "pos": "n"
+              },
+              "physical_entity.n.01": {
+                "definition": "an entity that has physical existence",
+                "lemma_names": [
+                  "physical_entity"
+                ],
+                "lexname": "noun.Tops",
+                "name": "physical_entity.n.01",
+                "pos": "n"
+              },
+              "placental.n.01": {
+                "definition": "mammals having a placenta; all mammals except monotremes and marsupials",
+                "lemma_names": [
+                  "placental",
+                  "placental_mammal",
+                  "eutherian",
+                  "eutherian_mammal"
+                ],
+                "lexname": "noun.animal",
+                "name": "placental.n.01",
+                "pos": "n"
+              },
+              "vertebrate.n.01": {
+                "definition": "animals having a bony or cartilaginous skeleton with a segmented spinal column and a large brain enclosed in a skull or cranium",
+                "lemma_names": [
+                  "vertebrate",
+                  "craniate"
+                ],
+                "lexname": "noun.animal",
+                "name": "vertebrate.n.01",
+                "pos": "n"
+              },
+              "whole.n.02": {
+                "definition": "an assemblage of parts that is regarded as a single entity",
+                "lemma_names": [
+                  "whole",
+                  "unit"
+                ],
+                "lexname": "noun.Tops",
+                "name": "whole.n.02",
+                "pos": "n"
+              }
+            }
+          },
+          "format": "gse.wordnet-definition-identity/2",
+          "native_synset": {
+            "definition": "feline mammal usually having thick soft fur and no ability to roar: domestic cats; wildcats",
+            "lemma_names": [
+              "cat",
+              "true_cat"
+            ],
+            "lexname": "noun.animal",
+            "name": "cat.n.01",
+            "pos": "n"
+          },
+          "normalized_surface": "cat",
+          "reason": "EXPLICIT_NATIVE_LEMMA_MEMBERSHIP",
+          "selects_sense": false,
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "surface": "cat",
+          "unmatched_candidates": []
+        },
+        "entry_id": "wordnet:cat:cat.n.01",
+        "lemma": "cat",
+        "pos": "noun"
+      },
+      "record_id": "wordnet_identity:6851988b3a2159212d58b4fc5de5381afad6455c4b070c978ce031cf7da51428",
+      "scope": "lexical",
+      "source": "wordnet_hierarchy"
+    },
+    {
+      "candidate_entry_ids": [
+        "wordnet:duck:duck.n.01"
+      ],
+      "entry_id": "wordnet:duck:duck.n.01",
+      "family": "wordnet",
+      "features": {
+        "context_only": true,
+        "definition": "small wild or domesticated web-footed broad-billed swimming bird usually having a depressed body and short legs",
+        "definition_identity": {
+          "analyses": [
+            {
+              "base": "duck",
+              "derivation": {
+                "exception_bases": [],
+                "kind": "NATIVE_LEMMA",
+                "substitutions": []
+              },
+              "native_lemmas": [
+                "duck"
+              ],
+              "native_records": [
+                {
+                  "has_holonyms": true,
+                  "has_meronyms": true,
+                  "hypernym_depth": 14,
+                  "hyponym_count": 24,
+                  "lexname": "noun.animal",
+                  "pos": "noun",
+                  "synset_name": "duck.n.01",
+                  "word": "duck"
+                }
+              ]
+            }
+          ],
+          "assigns_banks": false,
+          "authority": "IDENTITY_EVIDENCE_WITHIN_SELECTED_SENSE",
+          "code": "NATIVE_LEMMA",
+          "defining_ancestry": {
+            "code": "EXACT_NATIVE_HYPERNYM_PATHS",
+            "format": "gse.wordnet-defining-ancestry/1",
+            "paths": [
+              [
+                "entity.n.01",
+                "physical_entity.n.01",
+                "object.n.01",
+                "whole.n.02",
+                "living_thing.n.01",
+                "organism.n.01",
+                "animal.n.01",
+                "chordate.n.01",
+                "vertebrate.n.01",
+                "bird.n.01",
+                "aquatic_bird.n.01",
+                "waterfowl.n.01",
+                "anseriform_bird.n.01",
+                "duck.n.01"
+              ]
+            ],
+            "semantics": "DEFINING_GENUS_CONTEXT_NOT_AUTOMATIC_BANK_TRANSFER",
+            "synsets": {
+              "animal.n.01": {
+                "definition": "a living organism characterized by voluntary movement",
+                "lemma_names": [
+                  "animal",
+                  "animate_being",
+                  "beast",
+                  "brute",
+                  "creature",
+                  "fauna"
+                ],
+                "lexname": "noun.Tops",
+                "name": "animal.n.01",
+                "pos": "n"
+              },
+              "anseriform_bird.n.01": {
+                "definition": "chiefly web-footed swimming birds",
+                "lemma_names": [
+                  "anseriform_bird"
+                ],
+                "lexname": "noun.animal",
+                "name": "anseriform_bird.n.01",
+                "pos": "n"
+              },
+              "aquatic_bird.n.01": {
+                "definition": "wading and swimming and diving birds of either fresh or salt water",
+                "lemma_names": [
+                  "aquatic_bird"
+                ],
+                "lexname": "noun.animal",
+                "name": "aquatic_bird.n.01",
+                "pos": "n"
+              },
+              "bird.n.01": {
+                "definition": "warm-blooded egg-laying vertebrates characterized by feathers and forelimbs modified as wings",
+                "lemma_names": [
+                  "bird"
+                ],
+                "lexname": "noun.animal",
+                "name": "bird.n.01",
+                "pos": "n"
+              },
+              "chordate.n.01": {
+                "definition": "any animal of the phylum Chordata having a notochord or spinal column",
+                "lemma_names": [
+                  "chordate"
+                ],
+                "lexname": "noun.animal",
+                "name": "chordate.n.01",
+                "pos": "n"
+              },
+              "duck.n.01": {
+                "definition": "small wild or domesticated web-footed broad-billed swimming bird usually having a depressed body and short legs",
+                "lemma_names": [
+                  "duck"
+                ],
+                "lexname": "noun.animal",
+                "name": "duck.n.01",
+                "pos": "n"
+              },
+              "entity.n.01": {
+                "definition": "that which is perceived or known or inferred to have its own distinct existence (living or nonliving)",
+                "lemma_names": [
+                  "entity"
+                ],
+                "lexname": "noun.Tops",
+                "name": "entity.n.01",
+                "pos": "n"
+              },
+              "living_thing.n.01": {
+                "definition": "a living (or once living) entity",
+                "lemma_names": [
+                  "living_thing",
+                  "animate_thing"
+                ],
+                "lexname": "noun.Tops",
+                "name": "living_thing.n.01",
+                "pos": "n"
+              },
+              "object.n.01": {
+                "definition": "a tangible and visible entity; an entity that can cast a shadow",
+                "lemma_names": [
+                  "object",
+                  "physical_object"
+                ],
+                "lexname": "noun.Tops",
+                "name": "object.n.01",
+                "pos": "n"
+              },
+              "organism.n.01": {
+                "definition": "a living thing that has (or can develop) the ability to act or function independently",
+                "lemma_names": [
+                  "organism",
+                  "being"
+                ],
+                "lexname": "noun.Tops",
+                "name": "organism.n.01",
+                "pos": "n"
+              },
+              "physical_entity.n.01": {
+                "definition": "an entity that has physical existence",
+                "lemma_names": [
+                  "physical_entity"
+                ],
+                "lexname": "noun.Tops",
+                "name": "physical_entity.n.01",
+                "pos": "n"
+              },
+              "vertebrate.n.01": {
+                "definition": "animals having a bony or cartilaginous skeleton with a segmented spinal column and a large brain enclosed in a skull or cranium",
+                "lemma_names": [
+                  "vertebrate",
+                  "craniate"
+                ],
+                "lexname": "noun.animal",
+                "name": "vertebrate.n.01",
+                "pos": "n"
+              },
+              "waterfowl.n.01": {
+                "definition": "freshwater aquatic bird",
+                "lemma_names": [
+                  "waterfowl",
+                  "water_bird",
+                  "waterbird"
+                ],
+                "lexname": "noun.animal",
+                "name": "waterfowl.n.01",
+                "pos": "n"
+              },
+              "whole.n.02": {
+                "definition": "an assemblage of parts that is regarded as a single entity",
+                "lemma_names": [
+                  "whole",
+                  "unit"
+                ],
+                "lexname": "noun.Tops",
+                "name": "whole.n.02",
+                "pos": "n"
+              }
+            }
+          },
+          "format": "gse.wordnet-definition-identity/2",
+          "native_synset": {
+            "definition": "small wild or domesticated web-footed broad-billed swimming bird usually having a depressed body and short legs",
+            "lemma_names": [
+              "duck"
+            ],
+            "lexname": "noun.animal",
+            "name": "duck.n.01",
+            "pos": "n"
+          },
+          "normalized_surface": "duck",
+          "reason": "EXPLICIT_NATIVE_LEMMA_MEMBERSHIP",
+          "selects_sense": false,
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "surface": "duck",
+          "unmatched_candidates": []
+        },
+        "entry_id": "wordnet:duck:duck.n.01",
+        "lemma": "duck",
+        "pos": "noun"
+      },
+      "record_id": "wordnet_identity:31ca037b2dfb1a4430d6fd4ecae5503d152a5a838194972779912d0bfdd23988",
+      "scope": "lexical",
+      "source": "wordnet_hierarchy"
+    },
+    {
+      "candidate_entry_ids": [
+        "wordnet:shark:shark.n.01"
+      ],
+      "entry_id": "wordnet:shark:shark.n.01",
+      "family": "wordnet",
+      "features": {
+        "context_only": true,
+        "definition": "any of numerous elongate mostly marine carnivorous fishes with heterocercal caudal fins and tough skin covered with small toothlike scales",
+        "definition_identity": {
+          "analyses": [
+            {
+              "base": "shark",
+              "derivation": {
+                "exception_bases": [],
+                "kind": "NATIVE_LEMMA",
+                "substitutions": []
+              },
+              "native_lemmas": [
+                "shark"
+              ],
+              "native_records": [
+                {
+                  "has_holonyms": false,
+                  "has_meronyms": false,
+                  "hypernym_depth": 14,
+                  "hyponym_count": 12,
+                  "lexname": "noun.animal",
+                  "pos": "noun",
+                  "synset_name": "shark.n.01",
+                  "word": "shark"
+                }
+              ]
+            }
+          ],
+          "assigns_banks": false,
+          "authority": "IDENTITY_EVIDENCE_WITHIN_SELECTED_SENSE",
+          "code": "NATIVE_LEMMA",
+          "defining_ancestry": {
+            "code": "EXACT_NATIVE_HYPERNYM_PATHS",
+            "format": "gse.wordnet-defining-ancestry/1",
+            "paths": [
+              [
+                "entity.n.01",
+                "physical_entity.n.01",
+                "object.n.01",
+                "whole.n.02",
+                "living_thing.n.01",
+                "organism.n.01",
+                "animal.n.01",
+                "chordate.n.01",
+                "vertebrate.n.01",
+                "aquatic_vertebrate.n.01",
+                "fish.n.01",
+                "cartilaginous_fish.n.01",
+                "elasmobranch.n.01",
+                "shark.n.01"
+              ]
+            ],
+            "semantics": "DEFINING_GENUS_CONTEXT_NOT_AUTOMATIC_BANK_TRANSFER",
+            "synsets": {
+              "animal.n.01": {
+                "definition": "a living organism characterized by voluntary movement",
+                "lemma_names": [
+                  "animal",
+                  "animate_being",
+                  "beast",
+                  "brute",
+                  "creature",
+                  "fauna"
+                ],
+                "lexname": "noun.Tops",
+                "name": "animal.n.01",
+                "pos": "n"
+              },
+              "aquatic_vertebrate.n.01": {
+                "definition": "animal living wholly or chiefly in or on water",
+                "lemma_names": [
+                  "aquatic_vertebrate"
+                ],
+                "lexname": "noun.animal",
+                "name": "aquatic_vertebrate.n.01",
+                "pos": "n"
+              },
+              "cartilaginous_fish.n.01": {
+                "definition": "fishes in which the skeleton may be calcified but not ossified",
+                "lemma_names": [
+                  "cartilaginous_fish",
+                  "chondrichthian"
+                ],
+                "lexname": "noun.animal",
+                "name": "cartilaginous_fish.n.01",
+                "pos": "n"
+              },
+              "chordate.n.01": {
+                "definition": "any animal of the phylum Chordata having a notochord or spinal column",
+                "lemma_names": [
+                  "chordate"
+                ],
+                "lexname": "noun.animal",
+                "name": "chordate.n.01",
+                "pos": "n"
+              },
+              "elasmobranch.n.01": {
+                "definition": "any of numerous fishes of the class Chondrichthyes characterized by a cartilaginous skeleton and placoid scales: sharks; rays; skates",
+                "lemma_names": [
+                  "elasmobranch",
+                  "selachian"
+                ],
+                "lexname": "noun.animal",
+                "name": "elasmobranch.n.01",
+                "pos": "n"
+              },
+              "entity.n.01": {
+                "definition": "that which is perceived or known or inferred to have its own distinct existence (living or nonliving)",
+                "lemma_names": [
+                  "entity"
+                ],
+                "lexname": "noun.Tops",
+                "name": "entity.n.01",
+                "pos": "n"
+              },
+              "fish.n.01": {
+                "definition": "any of various mostly cold-blooded aquatic vertebrates usually having scales and breathing through gills",
+                "lemma_names": [
+                  "fish"
+                ],
+                "lexname": "noun.animal",
+                "name": "fish.n.01",
+                "pos": "n"
+              },
+              "living_thing.n.01": {
+                "definition": "a living (or once living) entity",
+                "lemma_names": [
+                  "living_thing",
+                  "animate_thing"
+                ],
+                "lexname": "noun.Tops",
+                "name": "living_thing.n.01",
+                "pos": "n"
+              },
+              "object.n.01": {
+                "definition": "a tangible and visible entity; an entity that can cast a shadow",
+                "lemma_names": [
+                  "object",
+                  "physical_object"
+                ],
+                "lexname": "noun.Tops",
+                "name": "object.n.01",
+                "pos": "n"
+              },
+              "organism.n.01": {
+                "definition": "a living thing that has (or can develop) the ability to act or function independently",
+                "lemma_names": [
+                  "organism",
+                  "being"
+                ],
+                "lexname": "noun.Tops",
+                "name": "organism.n.01",
+                "pos": "n"
+              },
+              "physical_entity.n.01": {
+                "definition": "an entity that has physical existence",
+                "lemma_names": [
+                  "physical_entity"
+                ],
+                "lexname": "noun.Tops",
+                "name": "physical_entity.n.01",
+                "pos": "n"
+              },
+              "shark.n.01": {
+                "definition": "any of numerous elongate mostly marine carnivorous fishes with heterocercal caudal fins and tough skin covered with small toothlike scales",
+                "lemma_names": [
+                  "shark"
+                ],
+                "lexname": "noun.animal",
+                "name": "shark.n.01",
+                "pos": "n"
+              },
+              "vertebrate.n.01": {
+                "definition": "animals having a bony or cartilaginous skeleton with a segmented spinal column and a large brain enclosed in a skull or cranium",
+                "lemma_names": [
+                  "vertebrate",
+                  "craniate"
+                ],
+                "lexname": "noun.animal",
+                "name": "vertebrate.n.01",
+                "pos": "n"
+              },
+              "whole.n.02": {
+                "definition": "an assemblage of parts that is regarded as a single entity",
+                "lemma_names": [
+                  "whole",
+                  "unit"
+                ],
+                "lexname": "noun.Tops",
+                "name": "whole.n.02",
+                "pos": "n"
+              }
+            }
+          },
+          "format": "gse.wordnet-definition-identity/2",
+          "native_synset": {
+            "definition": "any of numerous elongate mostly marine carnivorous fishes with heterocercal caudal fins and tough skin covered with small toothlike scales",
+            "lemma_names": [
+              "shark"
+            ],
+            "lexname": "noun.animal",
+            "name": "shark.n.01",
+            "pos": "n"
+          },
+          "normalized_surface": "shark",
+          "reason": "EXPLICIT_NATIVE_LEMMA_MEMBERSHIP",
+          "selects_sense": false,
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "surface": "shark",
+          "unmatched_candidates": []
+        },
+        "entry_id": "wordnet:shark:shark.n.01",
+        "lemma": "shark",
+        "pos": "noun"
+      },
+      "record_id": "wordnet_identity:dc482f4e229b551a465fcba86c638bfb875eb529fbd2c6c056af9c8d9a8e0cb7",
+      "scope": "lexical",
+      "source": "wordnet_hierarchy"
+    },
+    {
+      "candidate_entry_ids": [
+        "wordnet:salamander:salamander.n.01"
+      ],
+      "entry_id": "wordnet:salamander:salamander.n.01",
+      "family": "wordnet",
+      "features": {
+        "context_only": true,
+        "definition": "any of various typically terrestrial amphibians that resemble lizards and that return to water only to breed",
+        "definition_identity": {
+          "analyses": [
+            {
+              "base": "salamander",
+              "derivation": {
+                "exception_bases": [],
+                "kind": "NATIVE_LEMMA",
+                "substitutions": []
+              },
+              "native_lemmas": [
+                "salamander"
+              ],
+              "native_records": [
+                {
+                  "has_holonyms": false,
+                  "has_meronyms": false,
+                  "hypernym_depth": 11,
+                  "hyponym_count": 21,
+                  "lexname": "noun.animal",
+                  "pos": "noun",
+                  "synset_name": "salamander.n.01",
+                  "word": "salamander"
+                }
+              ]
+            }
+          ],
+          "assigns_banks": false,
+          "authority": "IDENTITY_EVIDENCE_WITHIN_SELECTED_SENSE",
+          "code": "NATIVE_LEMMA",
+          "defining_ancestry": {
+            "code": "EXACT_NATIVE_HYPERNYM_PATHS",
+            "format": "gse.wordnet-defining-ancestry/1",
+            "paths": [
+              [
+                "entity.n.01",
+                "physical_entity.n.01",
+                "object.n.01",
+                "whole.n.02",
+                "living_thing.n.01",
+                "organism.n.01",
+                "animal.n.01",
+                "chordate.n.01",
+                "vertebrate.n.01",
+                "amphibian.n.03",
+                "salamander.n.01"
+              ]
+            ],
+            "semantics": "DEFINING_GENUS_CONTEXT_NOT_AUTOMATIC_BANK_TRANSFER",
+            "synsets": {
+              "amphibian.n.03": {
+                "definition": "cold-blooded vertebrate typically living on land but breeding in water; aquatic larvae undergo metamorphosis into adult form",
+                "lemma_names": [
+                  "amphibian"
+                ],
+                "lexname": "noun.animal",
+                "name": "amphibian.n.03",
+                "pos": "n"
+              },
+              "animal.n.01": {
+                "definition": "a living organism characterized by voluntary movement",
+                "lemma_names": [
+                  "animal",
+                  "animate_being",
+                  "beast",
+                  "brute",
+                  "creature",
+                  "fauna"
+                ],
+                "lexname": "noun.Tops",
+                "name": "animal.n.01",
+                "pos": "n"
+              },
+              "chordate.n.01": {
+                "definition": "any animal of the phylum Chordata having a notochord or spinal column",
+                "lemma_names": [
+                  "chordate"
+                ],
+                "lexname": "noun.animal",
+                "name": "chordate.n.01",
+                "pos": "n"
+              },
+              "entity.n.01": {
+                "definition": "that which is perceived or known or inferred to have its own distinct existence (living or nonliving)",
+                "lemma_names": [
+                  "entity"
+                ],
+                "lexname": "noun.Tops",
+                "name": "entity.n.01",
+                "pos": "n"
+              },
+              "living_thing.n.01": {
+                "definition": "a living (or once living) entity",
+                "lemma_names": [
+                  "living_thing",
+                  "animate_thing"
+                ],
+                "lexname": "noun.Tops",
+                "name": "living_thing.n.01",
+                "pos": "n"
+              },
+              "object.n.01": {
+                "definition": "a tangible and visible entity; an entity that can cast a shadow",
+                "lemma_names": [
+                  "object",
+                  "physical_object"
+                ],
+                "lexname": "noun.Tops",
+                "name": "object.n.01",
+                "pos": "n"
+              },
+              "organism.n.01": {
+                "definition": "a living thing that has (or can develop) the ability to act or function independently",
+                "lemma_names": [
+                  "organism",
+                  "being"
+                ],
+                "lexname": "noun.Tops",
+                "name": "organism.n.01",
+                "pos": "n"
+              },
+              "physical_entity.n.01": {
+                "definition": "an entity that has physical existence",
+                "lemma_names": [
+                  "physical_entity"
+                ],
+                "lexname": "noun.Tops",
+                "name": "physical_entity.n.01",
+                "pos": "n"
+              },
+              "salamander.n.01": {
+                "definition": "any of various typically terrestrial amphibians that resemble lizards and that return to water only to breed",
+                "lemma_names": [
+                  "salamander"
+                ],
+                "lexname": "noun.animal",
+                "name": "salamander.n.01",
+                "pos": "n"
+              },
+              "vertebrate.n.01": {
+                "definition": "animals having a bony or cartilaginous skeleton with a segmented spinal column and a large brain enclosed in a skull or cranium",
+                "lemma_names": [
+                  "vertebrate",
+                  "craniate"
+                ],
+                "lexname": "noun.animal",
+                "name": "vertebrate.n.01",
+                "pos": "n"
+              },
+              "whole.n.02": {
+                "definition": "an assemblage of parts that is regarded as a single entity",
+                "lemma_names": [
+                  "whole",
+                  "unit"
+                ],
+                "lexname": "noun.Tops",
+                "name": "whole.n.02",
+                "pos": "n"
+              }
+            }
+          },
+          "format": "gse.wordnet-definition-identity/2",
+          "native_synset": {
+            "definition": "any of various typically terrestrial amphibians that resemble lizards and that return to water only to breed",
+            "lemma_names": [
+              "salamander"
+            ],
+            "lexname": "noun.animal",
+            "name": "salamander.n.01",
+            "pos": "n"
+          },
+          "normalized_surface": "salamander",
+          "reason": "EXPLICIT_NATIVE_LEMMA_MEMBERSHIP",
+          "selects_sense": false,
+          "source": {
+            "name": "wordnet_hierarchy",
+            "version": "3.0"
+          },
+          "surface": "salamander",
+          "unmatched_candidates": []
+        },
+        "entry_id": "wordnet:salamander:salamander.n.01",
+        "lemma": "salamander",
+        "pos": "noun"
+      },
+      "record_id": "wordnet_identity:c511327a32c8b7e60935836bc50ada0498ea066fb628d27867dc3ac66000b177",
+      "scope": "lexical",
+      "source": "wordnet_hierarchy"
+    }
+  ]
+}

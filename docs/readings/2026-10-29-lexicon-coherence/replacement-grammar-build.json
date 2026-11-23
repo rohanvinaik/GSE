@@ -1,0 +1,162 @@
+{
+  "approved_relations": 23,
+  "candidate_relations": 38,
+  "cells": {
+    "assigned": 230169,
+    "conflicted": 0,
+    "explicit_zero": 106637,
+    "unresolved": 8468087
+  },
+  "convention_version": "gse.lexicon-conventions/2026-10-29",
+  "coordinates": 56,
+  "definitions": 155326,
+  "domain_restrictions": 0,
+  "explicit_anchor_definitions": 5,
+  "format": "gse.lexicon-build-report/1",
+  "foundation_readiness": {
+    "all_anchor_domains_resolved": false,
+    "all_units_linked": false,
+    "code": "SEMANTIC_FOUNDATION_NOT_VALIDATED",
+    "founder_signature_completeness": "NOT_ESTABLISHED",
+    "gold": "NOT_CHECKED",
+    "mapping_complete": false
+  },
+  "foundation_status": "PARTIAL_PROJECTED_BASELINE",
+  "gold_validation": "NOT_RUN_NO_GOLD_SUPPLIED",
+  "local_sources": [
+    {
+      "code": "LOADED",
+      "cohort": "MANDATORY_FOUNDATION_COHORT",
+      "mandatory_definitions": 213,
+      "native_records": 213,
+      "source": "gse_closed_class",
+      "words": 192
+    },
+    {
+      "code": "LOADED",
+      "native_records": 206978,
+      "source": "wordnet_hierarchy",
+      "words": 147306
+    },
+    {
+      "code": "LOADED",
+      "native_records": 206978,
+      "source": "sentiwordnet",
+      "words": 147306
+    },
+    {
+      "code": "LOADED",
+      "native_records": 14154,
+      "source": "nrc_emotion",
+      "words": 14154
+    },
+    {
+      "code": "LOADED",
+      "native_records": 54801,
+      "source": "nrc_vad",
+      "words": 54801
+    },
+    {
+      "code": "LOADED",
+      "native_records": 4991,
+      "source": "verbnet",
+      "words": 3626
+    },
+    {
+      "code": "LOADED",
+      "native_records": 39954,
+      "source": "concreteness",
+      "words": 39954
+    },
+    {
+      "code": "LOADED",
+      "native_records": 39707,
+      "source": "lancaster_sensorimotor",
+      "words": 39707
+    },
+    {
+      "code": "LOADED",
+      "native_records": 13572,
+      "source": "framenet",
+      "words": 9413
+    },
+    {
+      "code": "LOADED",
+      "native_records": 4659,
+      "source": "propbank",
+      "words": 3319
+    },
+    {
+      "code": "LOADED",
+      "native_records": 3143479,
+      "path": "/Users/rohanvinaik/Projects/gse/data/external/conceptnet-en.sqlite",
+      "source": "conceptnet"
+    },
+    {
+      "code": "LOADED",
+      "native_records": 54797,
+      "source": "usas",
+      "words": 46147
+    }
+  ],
+  "model_calls": 0,
+  "model_outcomes": {},
+  "outcomes": {
+    "PARTIAL": 155326
+  },
+  "per_pos": {
+    "adjective": {
+      "PARTIAL": 24446
+    },
+    "adverb": {
+      "PARTIAL": 4412
+    },
+    "auxiliary": {
+      "PARTIAL": 31
+    },
+    "conjunction": {
+      "PARTIAL": 24
+    },
+    "demonstrative": {
+      "PARTIAL": 1
+    },
+    "determiner": {
+      "PARTIAL": 25
+    },
+    "noun": {
+      "PARTIAL": 77779
+    },
+    "particle": {
+      "PARTIAL": 2
+    },
+    "preposition": {
+      "PARTIAL": 42
+    },
+    "pronoun": {
+      "PARTIAL": 58
+    },
+    "verb": {
+      "PARTIAL": 48506
+    }
+  },
+  "prime_coverage": {
+    "PARTIAL_ANCHOR_CLOSURE": 2,
+    "UNLINKED": 63
+  },
+  "source_observations": {
+    "conceptnet": 2772740,
+    "concreteness": 29348,
+    "framenet": 11865,
+    "gse_closed_class": 213,
+    "lancaster_sensorimotor": 29186,
+    "nrc_emotion": 13542,
+    "nrc_vad": 34284,
+    "propbank": 4598,
+    "sentiwordnet": 114316,
+    "usas": 32924,
+    "verbnet": 10440,
+    "wordnet_hierarchy": 155111
+  },
+  "unresolved_source_records": 2930823,
+  "weighted_outcomes": null
+}

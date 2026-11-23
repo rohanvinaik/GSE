@@ -1,0 +1,159 @@
+{
+  "cells": {
+    "assigned": 408627,
+    "explicit_zero": 280858,
+    "unresolved": 22080693
+  },
+  "code": "ACTIVE_019_RUNTIME_VERIFIED",
+  "format": "gse.active-lexicon-consumer-verification/1",
+  "historical_order_audit_retained": true,
+  "original_model_receipts": [
+    {
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-explicit-genera/stative-019/zipf/epoch-01/teaching.json",
+      "receipt": {
+        "answer": {
+          "BE": null
+        },
+        "code": "TEACHING_ABSTAINED",
+        "request_id": "faa2ba6d05d275c0995eac2698be87af122358601f674eb6539c80127afc13f1"
+      },
+      "sha256": "b1d18876ff9afe29a5077aa651827901f74c3a46bbb2d4bdb3135a80333b414e"
+    },
+    {
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-explicit-genera/stative-019/zipf/epoch-01/teach-faa2ba6d05d275c0995eac2698be87af122358601f674eb6539c80127afc13f1.result.json",
+      "receipt": {
+        "raw_output": "{\n\"BE\": null\n}"
+      },
+      "sha256": "47c574e7177d95a4848e733b3a3d79a24c5c679415c429953213aa374a02248f"
+    },
+    {
+      "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-explicit-genera/stative-019/refined/audit-e42067afed19750004eb27033d3168f6d16db9c010b2f49bc4f4fd4735cab61c.result.json",
+      "receipt": {
+        "raw_output": "{\n\"BE\": 0\n}"
+      },
+      "sha256": "5a9335fa9ea1545d47155054ec99be69c808a65a176c2507497e240f9cd7d49a"
+    }
+  ],
+  "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-019.db",
+  "pointer_sha256": "95c3ea26bc32c01042f3e2ba8dcbaee798feff6b3f331e02cba5b642ffeba5b9",
+  "positive_controls": [
+    {
+      "BE_domain": [
+        1
+      ],
+      "compiled": true,
+      "entry_id": "wiktionary:en-annihilation-en-noun-N-HM9F9z:6467b1b20733fc3a44f3fea82ccb253e336244ca369f7650b163521360b748c0"
+    },
+    {
+      "BE_domain": [
+        1
+      ],
+      "compiled": true,
+      "entry_id": "wiktionary:en-care-en-noun-T0l2lkXK:624c24c8c3a7c1c5863f56cd94f16340d7bc58660dbc6e30f5b31e95692145d6"
+    },
+    {
+      "BE_domain": [
+        1
+      ],
+      "compiled": true,
+      "entry_id": "wiktionary:en-order-en-noun-tbotEJlt:b19893fb015d4777d2cc3d7f7584ad13f86e5758d6d977f41472a8b89f302bbc"
+    },
+    {
+      "BE_domain": [
+        1
+      ],
+      "compiled": true,
+      "entry_id": "wiktionary:en-unreality-en-noun-kI5sOzXu:6baad8e4ab794c0eba496fc9a1f04fdd3dc6152f8e5c3d4d1e473ce0e67d95be"
+    },
+    {
+      "BE_domain": [
+        1
+      ],
+      "compiled": true,
+      "entry_id": "wordnet:unattainableness:unattainableness.n.01"
+    }
+  ],
+  "replay": {
+    "code": "REPLAY_VALIDATED",
+    "complete_search": true,
+    "entries_checked": 401596,
+    "entries_mismatched": 0,
+    "entries_validated": 401596,
+    "format": "gse.lexicon-replay-report/1",
+    "gold": "NOT_CHECKED",
+    "inference_counts": {
+      "components_joint_checked": 2495858,
+      "components_solver_limited": 0,
+      "entries_complete_search": 401596,
+      "entries_replayed": 401596,
+      "entries_solver_limited": 0
+    },
+    "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+    "metadata_verification": {
+      "build_report": "NOT_CHECKED",
+      "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+      "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+      "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+      "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+      "catalog_definition_source_ids": "NOT_PERSISTED",
+      "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+      "representation_contract": "VERIFIED",
+      "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+    },
+    "mismatch_counts": {},
+    "mismatches": [],
+    "replayed_outcomes": {
+      "PARTIAL": 401596
+    }
+  },
+  "reserved_controls": [
+    {
+      "BE_domain": [
+        -1,
+        0,
+        1
+      ],
+      "entry_id": "wordnet:nonbeing:nonbeing.n.01"
+    },
+    {
+      "BE_domain": [
+        -1,
+        0,
+        1
+      ],
+      "entry_id": "wordnet:nonexistence:nonexistence.n.01"
+    },
+    {
+      "BE_domain": [
+        -1,
+        0,
+        1
+      ],
+      "entry_id": "wordnet:life:life.n.03"
+    }
+  ],
+  "semantic_outcomes": {
+    "ABSTAINED": 0,
+    "CONFLICT": 0,
+    "IDENTIFIED_CORRECT": 109,
+    "NOT_FOUND": 0,
+    "WRONG": 0
+  },
+  "sha256": "92158b9b2b17bd9376083d8458a0e56bcf66b3fd60f46826fa5c54c5c653c219",
+  "tested_source_hashes_match": {
+    "docs/readings/2026-11-13-ssl-explicit-genera/stative_transfer.py": true,
+    "gse/api/encoder.py": true,
+    "gse/curation/lexicon_builder/definition_frames.py": true,
+    "gse/curation/lexicon_builder/foundation.py": true,
+    "gse/curation/lexicon_builder/model_protocol.py": true,
+    "gse/curation/lexicon_builder/reviewed_patterns.py": true,
+    "gse/curation/lexicon_builder/rule_admission.py": true,
+    "gse/curation/lexicon_builder/rule_history.py": true,
+    "gse/curation/lexicon_builder/rule_migration.py": true,
+    "gse/curation/lexicon_builder/rule_reservations.py": true,
+    "gse/curation/lexicon_builder/rule_revisions.py": true,
+    "gse/curation/lexicon_builder/validation.py": true,
+    "gse/symbolic/lexical_grounding.py": true
+  },
+  "verified_at_utc": "2026-11-19T04:19:00.330001+00:00"
+}

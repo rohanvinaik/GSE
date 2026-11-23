@@ -1,0 +1,44 @@
+{
+  "banks": [
+    "WANT"
+  ],
+  "code": "BUDGET_EXHAUSTED",
+  "dictionary_outcomes": {
+    "PARTIAL": 155113
+  },
+  "format": "gse.lexicon-completion-report/1",
+  "max_calls_per_entry": 1,
+  "max_model_calls": 3,
+  "model": "qwen3.8:27b-q4_K_M@57d0c16fd9c81e9c7f2cc61364a27c73388b0f8bea6021407038aa02abd0a90f",
+  "model_calls": 3,
+  "outcomes": {
+    "ASSIGNED": 2,
+    "TRANSPORT_ERROR": 1
+  },
+  "preflight": "REPLAY_VALIDATED",
+  "remaining_selected_scope": {
+    "cells": 1,
+    "conflicted_entries": 0,
+    "entries": 1
+  },
+  "scheduling": {
+    "code": "EXPLICIT_SCOPE",
+    "cursor_after": null,
+    "cursor_before": null,
+    "pass_number": null,
+    "visited_entry_ids": [
+      "wordnet:table:table.n.02",
+      "wordnet:eager:eager.a.01",
+      "wordnet:reluctant:loath.s.01"
+    ],
+    "wrapped": false
+  },
+  "selected_entry_ids": [
+    "wordnet:table:table.n.02",
+    "wordnet:eager:eager.a.01",
+    "wordnet:reluctant:loath.s.01"
+  ],
+  "semantic_gold": "NOT_CHECKED",
+  "skipped_attempts": {},
+  "unselected_residual": false
+}

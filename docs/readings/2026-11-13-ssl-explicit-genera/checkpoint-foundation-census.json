@@ -1,0 +1,1146 @@
+{
+  "code": "READ_ONLY_FOUNDATION_COORDINATE_CENSUS",
+  "baseline": "data/lexicon_builder/2026-11-12/sparse-release-021.db",
+  "readiness": {
+    "all_foundation_domains_resolved": false,
+    "all_units_linked": true,
+    "code": "SEMANTIC_FOUNDATION_NOT_VALIDATED",
+    "founder_signature_completeness": "NOT_ESTABLISHED",
+    "gold": "NOT_CHECKED",
+    "mapping_complete": true
+  },
+  "units": [
+    {
+      "unit_id": "nsm:v20:i",
+      "bank": "I",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "gse_closed_class:pronoun:i",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:you",
+      "bank": "YOU",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "gse_closed_class:pronoun:you",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:someone",
+      "bank": "SOMEONE",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "gse_closed_class:pronoun:someone",
+          "own_bank_domain": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:people",
+      "bank": "PEOPLE",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "wordnet:people:people.n.01",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:body",
+      "bank": "BODY",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "wordnet:body:body.n.01",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:something",
+      "bank": "SOMETHING",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "gse_closed_class:pronoun:something",
+          "own_bank_domain": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:words",
+      "bank": "WORDS",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "wordnet:word:word.n.01",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:parts",
+      "bank": "PART",
+      "value": 1,
+      "mapping_code": "ADAPTED",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "wordnet:part:part.n.01",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:kinds",
+      "bank": "KIND",
+      "value": 1,
+      "mapping_code": "ADAPTED",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "wordnet:kind:kind.n.01",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:this",
+      "bank": "SOMETHING",
+      "value": 1,
+      "mapping_code": "ADAPTED",
+      "correspondence_approved": true,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "gse:prime:this",
+          "own_bank_domain": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:same",
+      "bank": "SAME",
+      "value": 1,
+      "mapping_code": "ADAPTED",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "wordnet:same:same.a.01",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:other",
+      "bank": "SAME",
+      "value": -1,
+      "mapping_code": "ADAPTED",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "wordnet:other:other.a.01",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:much-many",
+      "bank": "QUANTITY",
+      "value": null,
+      "mapping_code": "METADATA",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:much-many",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:two",
+      "bank": "TWO",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "wordnet:two:two.s.01",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:one",
+      "bank": "ONE",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "wordnet:one:one.s.01",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:little-few",
+      "bank": "QUANTITY",
+      "value": null,
+      "mapping_code": "METADATA",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:little-few",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:some",
+      "bank": "QUANTITY",
+      "value": null,
+      "mapping_code": "METADATA",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:some",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:all",
+      "bank": "QUANTITY",
+      "value": null,
+      "mapping_code": "METADATA",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "gse_closed_class:determiner:all",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:time",
+      "bank": "WHEN",
+      "value": 1,
+      "mapping_code": "ADAPTED",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:time",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:now",
+      "bank": "THEN",
+      "value": -1,
+      "mapping_code": "ADAPTED",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:now",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:moment",
+      "bank": "MOMENT",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:moment",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:short-time",
+      "bank": "LONG_TIME",
+      "value": -1,
+      "mapping_code": "ADAPTED",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:short-time",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:long-time",
+      "bank": "LONG_TIME",
+      "value": 1,
+      "mapping_code": "ADAPTED",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:long-time",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:some-time",
+      "bank": null,
+      "value": null,
+      "mapping_code": "METADATA",
+      "correspondence_approved": true,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:some-time",
+          "own_bank_domain": null
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:after",
+      "bank": "BEFORE",
+      "value": -1,
+      "mapping_code": "ADAPTED",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "gse_closed_class:conjunction:after",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:before",
+      "bank": "BEFORE",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "gse_closed_class:conjunction:before",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:want",
+      "bank": "WANT",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": true,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "wordnet:want:desire.v.01",
+          "own_bank_domain": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:dont-want",
+      "bank": "WANT",
+      "value": -1,
+      "mapping_code": "ADAPTED",
+      "correspondence_approved": true,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "gse:prime:dont-want",
+          "own_bank_domain": [
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:feel",
+      "bank": "FEEL",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:feel",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:know",
+      "bank": "KNOW",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "wordnet:know:know.v.01",
+          "own_bank_domain": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:say",
+      "bank": "SAY",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:say",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:do",
+      "bank": "DO",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "wordnet:do:perform.v.01",
+          "own_bank_domain": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:think",
+      "bank": "THINK",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:think",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:hear",
+      "bank": "HEAR",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "wordnet:hear:hear.v.01",
+          "own_bank_domain": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:see",
+      "bank": "SEE",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "wordnet:see:see.v.01",
+          "own_bank_domain": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:not",
+      "bank": "NOT",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "gse_closed_class:negation:not",
+          "own_bank_domain": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:can",
+      "bank": "CAN",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "gse_closed_class:modal:can",
+          "own_bank_domain": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:because",
+      "bank": "BECAUSE",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "gse_closed_class:conjunction:because",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:like",
+      "bank": "LIKE",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "gse_closed_class:preposition:like",
+          "own_bank_domain": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:maybe",
+      "bank": "MAYBE",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "gse_closed_class:modal:maybe",
+          "own_bank_domain": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:if",
+      "bank": "IF",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "gse_closed_class:conjunction:if",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:more",
+      "bank": null,
+      "value": null,
+      "mapping_code": "METADATA",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:more",
+          "own_bank_domain": null
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:very",
+      "bank": "INTENSITY",
+      "value": null,
+      "mapping_code": "METADATA",
+      "correspondence_approved": true,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "wordnet:very:very.r.01",
+          "own_bank_domain": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:die",
+      "bank": "ALIVE",
+      "value": -1,
+      "mapping_code": "ADAPTED",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:die",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:happen",
+      "bank": "HAPPEN",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "wordnet:happen:happen.v.01",
+          "own_bank_domain": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:be-somewhere",
+      "bank": "BE",
+      "value": 1,
+      "mapping_code": "ADAPTED",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:be-somewhere",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:live",
+      "bank": "ALIVE",
+      "value": 1,
+      "mapping_code": "ADAPTED",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:live",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:mine",
+      "bank": "HAVE",
+      "value": 1,
+      "mapping_code": "ADAPTED",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:mine",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:be-someone-something",
+      "bank": "BE",
+      "value": 1,
+      "mapping_code": "ADAPTED",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:be-someone-something",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:there-is",
+      "bank": "EXIST",
+      "value": 1,
+      "mapping_code": "ADAPTED",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:there-is",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:inside",
+      "bank": "OUTSIDE",
+      "value": -1,
+      "mapping_code": "ADAPTED",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "gse_closed_class:preposition:inside",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:touch",
+      "bank": "TOUCH",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:touch",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:move",
+      "bank": "MOVE",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:move",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:small",
+      "bank": "BIG",
+      "value": -1,
+      "mapping_code": "ADAPTED",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:small",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:big",
+      "bank": "BIG",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:big",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:good",
+      "bank": "GOOD",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:good",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:bad",
+      "bank": "GOOD",
+      "value": -1,
+      "mapping_code": "ADAPTED",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:bad",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:true",
+      "bank": "TRUE",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "wordnet:true:true.a.01",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:place",
+      "bank": "WHERE",
+      "value": 1,
+      "mapping_code": "ADAPTED",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:place",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:here",
+      "bank": "HERE",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "wordnet:here:here.r.01",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:side",
+      "bank": "SIDE",
+      "value": 1,
+      "mapping_code": "ADAPTED",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:side",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:below",
+      "bank": "ABOVE",
+      "value": -1,
+      "mapping_code": "ADAPTED",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "gse_closed_class:preposition:below",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:above",
+      "bank": "ABOVE",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "gse_closed_class:preposition:above",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:far",
+      "bank": "FAR",
+      "value": 1,
+      "mapping_code": "EXACT",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:far",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "nsm:v20:near",
+      "bank": "FAR",
+      "value": -1,
+      "mapping_code": "ADAPTED",
+      "correspondence_approved": false,
+      "assignment_approved": false,
+      "definitions": [
+        {
+          "entry_id": "nsm_chart:v20:near",
+          "own_bank_domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ]
+    }
+  ]
+}

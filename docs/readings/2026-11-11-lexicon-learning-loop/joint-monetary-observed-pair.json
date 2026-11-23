@@ -1,0 +1,2195 @@
+{
+  "admission": "UNAPPROVED_CANDIDATE",
+  "antecedent": [
+    "QUANTITY",
+    1
+  ],
+  "audit_entry_ids": [],
+  "audit_outcomes": {},
+  "audits": [],
+  "consequent": [
+    "BODY",
+    0
+  ],
+  "discovery": [
+    {
+      "code": "OBSERVED_AGREEMENT",
+      "entry_id": "wordnet:at:at.n.02",
+      "premise_witness": {
+        "bank": "QUANTITY",
+        "baseline_sha256": "97aa7a37fdac0722ff44eb89cf8f6c6857a57c3657fc60f5056bc9bf9aceeecd",
+        "kind": "BASELINE_CLOSURE",
+        "proof_trace": [
+          {
+            "bank": "SOMETHING",
+            "family": "wordnet",
+            "kind": "ASSERTION",
+            "record_id": "wordnet:at:at.n.02",
+            "remaining": [
+              1
+            ],
+            "removed": [
+              -1,
+              0
+            ],
+            "scope": "lexical",
+            "source": "wordnet_hierarchy",
+            "value": 1
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "founder:adjective-not-object"
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "founder:adverb-not-object"
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "reviewed-guarded-pattern:4020ffd7ce72eb23aea7686a62a21eaa2bdc974306586560d69cbc89a63853a7"
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "reviewed-guarded-pattern:65d16959c01e4411fe908f0a08ab3a0b130fa0cdf3095f20602b256862b56aa2"
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "reviewed-guarded-pattern:f4ff18466dbc0cfce0b075ac7dae052e0a42eee33e6ceebfb979c63f0cbbab37"
+          },
+          {
+            "bank": "GOOD",
+            "domains_before": {
+              "GOOD": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "kind": "RELATION",
+            "provenance": [
+              "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+            ],
+            "remaining": [
+              0
+            ],
+            "removed": [
+              -1,
+              1
+            ],
+            "rule_id": "founder:noun-own-evaluation",
+            "support_rows": [
+              [
+                0
+              ]
+            ]
+          },
+          {
+            "bank": "QUANTITY",
+            "domains_before": {
+              "QUANTITY": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "kind": "RELATION",
+            "provenance": [
+              "warrant:native-monetary-unit-quantity-2026-11-01:57bc1998651b2c64b7cf1dd3058d22f2557347e18de6906dd77bc50e0d18b202",
+              "docs/readings/2026-11-01-lexicon-next-stage/quantity-unit-population-inventory.json@sha256:5a392a773cef5cebd2e9d05df34258bf17c35307cddd82d46be9dbb8134ced79",
+              "docs/readings/2026-11-01-lexicon-you-body/you-body-reading.md",
+              "gse/curation/lexicon_builder/foundation.py#projection_relations"
+            ],
+            "remaining": [
+              1
+            ],
+            "removed": [
+              -1,
+              0
+            ],
+            "rule_id": "reviewed-guarded-pattern:3bf66d8b1cf0cf629d8bd968d3a5e7cdcfee5b508d007afcd49793d8b4bbace1",
+            "support_rows": [
+              [
+                1
+              ]
+            ]
+          },
+          {
+            "bank": "ALIVE",
+            "domains_before": {
+              "ALIVE": [
+                -1,
+                0,
+                1
+              ],
+              "GOOD": [
+                0
+              ]
+            },
+            "kind": "RELATION",
+            "provenance": [
+              "warrant:native-monetary-unit-alive-2026-11-11:1487fdd9c6ec8dafc701f5e345743957f38d635ddb91be96d01f2f17fee70f4b",
+              "docs/readings/2026-11-11-lexicon-learning-loop/alive-native-scope.json",
+              "gse/curation/lexicon_builder/model_protocol.py#coordinate_contract",
+              "refinement:sha256:0e8f3a9b990cb56105a9f32f7dd36a2db81957ad93872f84781be91eb97aa1a8",
+              "parent:reviewed-pattern:bdc292921dbbe6df814aa35fbeee67b21995ca3167cd394c17196c1d4604251d"
+            ],
+            "remaining": [
+              0
+            ],
+            "removed": [
+              -1,
+              1
+            ],
+            "rule_id": "reviewed-guarded-pattern:d5c74077e4237a30ca36de5ae0808fe2646ce7efd860ac2f9f999b8e80ccf634",
+            "support_rows": [
+              [
+                0,
+                0
+              ]
+            ]
+          },
+          {
+            "banks": [
+              "ABOVE",
+              "FAR",
+              "HERE",
+              "OUTSIDE",
+              "SIDE",
+              "TOWARD",
+              "WHERE"
+            ],
+            "domains_before": {
+              "ABOVE": [
+                -1,
+                0,
+                1
+              ],
+              "FAR": [
+                -1,
+                0,
+                1
+              ],
+              "HERE": [
+                -1,
+                0,
+                1
+              ],
+              "OUTSIDE": [
+                -1,
+                0,
+                1
+              ],
+              "SIDE": [
+                -1,
+                0,
+                1
+              ],
+              "TOWARD": [
+                -1,
+                0,
+                1
+              ],
+              "WHERE": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 2187,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:above-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:far-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:here-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:outside-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:side-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:toward-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:above-where",
+              "founder:category:far-where",
+              "founder:category:here-where",
+              "founder:category:outside-where",
+              "founder:category:side-where",
+              "founder:category:toward-where"
+            ],
+            "witnesses": 737
+          },
+          {
+            "banks": [
+              "ALIVE",
+              "GOOD"
+            ],
+            "domains_before": {
+              "ALIVE": [
+                0
+              ],
+              "GOOD": [
+                0
+              ]
+            },
+            "joint_assignments": 1,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:noun-own-evaluation",
+                [
+                  "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+                ]
+              ],
+              [
+                "reviewed-guarded-pattern:d5c74077e4237a30ca36de5ae0808fe2646ce7efd860ac2f9f999b8e80ccf634",
+                [
+                  "warrant:native-monetary-unit-alive-2026-11-11:1487fdd9c6ec8dafc701f5e345743957f38d635ddb91be96d01f2f17fee70f4b",
+                  "docs/readings/2026-11-11-lexicon-learning-loop/alive-native-scope.json",
+                  "gse/curation/lexicon_builder/model_protocol.py#coordinate_contract",
+                  "refinement:sha256:0e8f3a9b990cb56105a9f32f7dd36a2db81957ad93872f84781be91eb97aa1a8",
+                  "parent:reviewed-pattern:bdc292921dbbe6df814aa35fbeee67b21995ca3167cd394c17196c1d4604251d"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:noun-own-evaluation",
+              "reviewed-guarded-pattern:d5c74077e4237a30ca36de5ae0808fe2646ce7efd860ac2f9f999b8e80ccf634"
+            ],
+            "witnesses": 1
+          },
+          {
+            "banks": [
+              "BEFORE",
+              "LONG_TIME",
+              "MOMENT",
+              "THEN",
+              "WHEN"
+            ],
+            "domains_before": {
+              "BEFORE": [
+                -1,
+                0,
+                1
+              ],
+              "LONG_TIME": [
+                -1,
+                0,
+                1
+              ],
+              "MOMENT": [
+                -1,
+                0,
+                1
+              ],
+              "THEN": [
+                -1,
+                0,
+                1
+              ],
+              "WHEN": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 243,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:before-when",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:long_time-when",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:moment-when",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:then-when",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:before-when",
+              "founder:category:long_time-when",
+              "founder:category:moment-when",
+              "founder:category:then-when"
+            ],
+            "witnesses": 85
+          },
+          {
+            "banks": [
+              "BODY",
+              "SOMETHING"
+            ],
+            "domains_before": {
+              "BODY": [
+                -1,
+                0,
+                1
+              ],
+              "SOMETHING": [
+                1
+              ]
+            },
+            "joint_assignments": 3,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:body-something",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:body-something"
+            ],
+            "witnesses": 3
+          },
+          {
+            "banks": [
+              "CAUSE",
+              "DO",
+              "HAPPEN",
+              "MOVE"
+            ],
+            "domains_before": {
+              "CAUSE": [
+                -1,
+                0,
+                1
+              ],
+              "DO": [
+                -1,
+                0,
+                1
+              ],
+              "HAPPEN": [
+                -1,
+                0,
+                1
+              ],
+              "MOVE": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 81,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:cause-happen",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:do-happen",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:move-happen",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:cause-happen",
+              "founder:category:do-happen",
+              "founder:category:move-happen"
+            ],
+            "witnesses": 43
+          },
+          {
+            "banks": [
+              "I",
+              "SOMEONE",
+              "YOU"
+            ],
+            "domains_before": {
+              "I": [
+                -1,
+                0,
+                1
+              ],
+              "SOMEONE": [
+                -1,
+                0,
+                1
+              ],
+              "YOU": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 27,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:i-someone",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:you-someone",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:i-someone",
+              "founder:category:you-someone"
+            ],
+            "witnesses": 17
+          },
+          {
+            "banks": [
+              "ONE",
+              "QUANTITY",
+              "TWO"
+            ],
+            "domains_before": {
+              "ONE": [
+                -1,
+                0,
+                1
+              ],
+              "QUANTITY": [
+                1
+              ],
+              "TWO": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 9,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:one-quantity",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:two-quantity",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "reviewed-guarded-pattern:3bf66d8b1cf0cf629d8bd968d3a5e7cdcfee5b508d007afcd49793d8b4bbace1",
+                [
+                  "warrant:native-monetary-unit-quantity-2026-11-01:57bc1998651b2c64b7cf1dd3058d22f2557347e18de6906dd77bc50e0d18b202",
+                  "docs/readings/2026-11-01-lexicon-next-stage/quantity-unit-population-inventory.json@sha256:5a392a773cef5cebd2e9d05df34258bf17c35307cddd82d46be9dbb8134ced79",
+                  "docs/readings/2026-11-01-lexicon-you-body/you-body-reading.md",
+                  "gse/curation/lexicon_builder/foundation.py#projection_relations"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:one-quantity",
+              "founder:category:two-quantity",
+              "reviewed-guarded-pattern:3bf66d8b1cf0cf629d8bd968d3a5e7cdcfee5b508d007afcd49793d8b4bbace1"
+            ],
+            "witnesses": 9
+          },
+          {
+            "complete_search": true,
+            "kind": "INFERENCE_SCOPE",
+            "method": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+            "partial_means": "AMBIGUOUS_JOINT_SUPPORTED_DOMAINS",
+            "satisfiability": "SATISFIABLE"
+          },
+          {
+            "context": {
+              "pos": "noun",
+              "wordnet_ancestor:monetary_unit.n.01": "true",
+              "wordnet_native_lemma": "true"
+            },
+            "kind": "EVIDENCE_GUARD",
+            "reason": "GUARD_MISMATCH",
+            "relation": {
+              "absent_evidence": [
+                "GOOD"
+              ],
+              "allowed_rows": [
+                [
+                  -1,
+                  0
+                ],
+                [
+                  0,
+                  -1
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ],
+                [
+                  1,
+                  0
+                ]
+              ],
+              "approved": true,
+              "authority": "conditional",
+              "banks": [
+                "BIG",
+                "GOOD"
+              ],
+              "guards": [
+                [
+                  "pos",
+                  "adjective"
+                ]
+              ],
+              "provenance": [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+              ],
+              "rule_id": "founder:absence:big-good"
+            },
+            "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+            "rule_id": "founder:absence:big-good",
+            "status": "BLOCKED",
+            "witnesses": [
+              {
+                "assertions": [],
+                "bank": "GOOD",
+                "baseline_domain": [
+                  0
+                ],
+                "baseline_narrowed": true,
+                "baseline_rule_ids": [
+                  "founder:noun-own-evaluation"
+                ],
+                "supplied_evidence": true
+              }
+            ]
+          },
+          {
+            "context": {
+              "pos": "noun",
+              "wordnet_ancestor:monetary_unit.n.01": "true",
+              "wordnet_native_lemma": "true"
+            },
+            "kind": "EVIDENCE_GUARD",
+            "reason": "GUARD_MISMATCH",
+            "relation": {
+              "absent_evidence": [
+                "BIG"
+              ],
+              "allowed_rows": [
+                [
+                  -1,
+                  0
+                ],
+                [
+                  0,
+                  -1
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ],
+                [
+                  1,
+                  0
+                ]
+              ],
+              "approved": true,
+              "authority": "conditional",
+              "banks": [
+                "GOOD",
+                "BIG"
+              ],
+              "guards": [
+                [
+                  "pos",
+                  "adjective"
+                ]
+              ],
+              "provenance": [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+              ],
+              "rule_id": "founder:absence:good-big"
+            },
+            "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+            "rule_id": "founder:absence:good-big",
+            "status": "BLOCKED",
+            "witnesses": [
+              {
+                "assertions": [],
+                "bank": "BIG",
+                "baseline_domain": [
+                  -1,
+                  0,
+                  1
+                ],
+                "baseline_narrowed": false,
+                "baseline_rule_ids": [],
+                "supplied_evidence": true
+              }
+            ]
+          }
+        ],
+        "value": 1
+      },
+      "rulings": [
+        {
+          "bank": "BODY",
+          "entry_id": "wordnet:at:at.n.02",
+          "rationale": "The exact lexical definition supplies a conventional unit of length or denomination. Its defining magnitude is independent of bodily structure.",
+          "receipt_sha256": "7f838df24de236da5d50f244e77412e145793260c4b51190dacffd34ce9ea569",
+          "request_id": "1b48675d4b049078ad91a0964c565226343addeca3dac474c791fc4c6db68d39",
+          "review_id": "joint-body-source-review:wordnet:at:at.n.02",
+          "reviewer": "Codex source-backed review",
+          "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@7b41cbefb558bbfcbac8c1665c7f52219497c72cfaef4647a1736f50b68c25c6",
+          "source_refs": [
+            "docs/readings/2026-11-11-lexicon-learning-loop/joint-body-source-scope.json",
+            "exact-source:sha256:88eb458557d1ca653ad8a97f126cdce8ff4e44bd3c6838beb7609cbb5e7e48b8"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "code": "OBSERVED_AGREEMENT",
+      "entry_id": "wordnet:real:real.n.02",
+      "premise_witness": {
+        "bank": "QUANTITY",
+        "baseline_sha256": "97aa7a37fdac0722ff44eb89cf8f6c6857a57c3657fc60f5056bc9bf9aceeecd",
+        "kind": "BASELINE_CLOSURE",
+        "proof_trace": [
+          {
+            "bank": "SOMETHING",
+            "family": "wordnet",
+            "kind": "ASSERTION",
+            "record_id": "wordnet:real:real.n.02",
+            "remaining": [
+              1
+            ],
+            "removed": [
+              -1,
+              0
+            ],
+            "scope": "lexical",
+            "source": "wordnet_hierarchy",
+            "value": 1
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "founder:adjective-not-object"
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "founder:adverb-not-object"
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "reviewed-guarded-pattern:4020ffd7ce72eb23aea7686a62a21eaa2bdc974306586560d69cbc89a63853a7"
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "reviewed-guarded-pattern:65d16959c01e4411fe908f0a08ab3a0b130fa0cdf3095f20602b256862b56aa2"
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "reviewed-guarded-pattern:f4ff18466dbc0cfce0b075ac7dae052e0a42eee33e6ceebfb979c63f0cbbab37"
+          },
+          {
+            "bank": "GOOD",
+            "domains_before": {
+              "GOOD": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "kind": "RELATION",
+            "provenance": [
+              "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+            ],
+            "remaining": [
+              0
+            ],
+            "removed": [
+              -1,
+              1
+            ],
+            "rule_id": "founder:noun-own-evaluation",
+            "support_rows": [
+              [
+                0
+              ]
+            ]
+          },
+          {
+            "bank": "QUANTITY",
+            "domains_before": {
+              "QUANTITY": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "kind": "RELATION",
+            "provenance": [
+              "warrant:native-monetary-unit-quantity-2026-11-01:57bc1998651b2c64b7cf1dd3058d22f2557347e18de6906dd77bc50e0d18b202",
+              "docs/readings/2026-11-01-lexicon-next-stage/quantity-unit-population-inventory.json@sha256:5a392a773cef5cebd2e9d05df34258bf17c35307cddd82d46be9dbb8134ced79",
+              "docs/readings/2026-11-01-lexicon-you-body/you-body-reading.md",
+              "gse/curation/lexicon_builder/foundation.py#projection_relations"
+            ],
+            "remaining": [
+              1
+            ],
+            "removed": [
+              -1,
+              0
+            ],
+            "rule_id": "reviewed-guarded-pattern:3bf66d8b1cf0cf629d8bd968d3a5e7cdcfee5b508d007afcd49793d8b4bbace1",
+            "support_rows": [
+              [
+                1
+              ]
+            ]
+          },
+          {
+            "bank": "ALIVE",
+            "domains_before": {
+              "ALIVE": [
+                -1,
+                0,
+                1
+              ],
+              "GOOD": [
+                0
+              ]
+            },
+            "kind": "RELATION",
+            "provenance": [
+              "warrant:native-monetary-unit-alive-2026-11-11:1487fdd9c6ec8dafc701f5e345743957f38d635ddb91be96d01f2f17fee70f4b",
+              "docs/readings/2026-11-11-lexicon-learning-loop/alive-native-scope.json",
+              "gse/curation/lexicon_builder/model_protocol.py#coordinate_contract",
+              "refinement:sha256:0e8f3a9b990cb56105a9f32f7dd36a2db81957ad93872f84781be91eb97aa1a8",
+              "parent:reviewed-pattern:bdc292921dbbe6df814aa35fbeee67b21995ca3167cd394c17196c1d4604251d"
+            ],
+            "remaining": [
+              0
+            ],
+            "removed": [
+              -1,
+              1
+            ],
+            "rule_id": "reviewed-guarded-pattern:d5c74077e4237a30ca36de5ae0808fe2646ce7efd860ac2f9f999b8e80ccf634",
+            "support_rows": [
+              [
+                0,
+                0
+              ]
+            ]
+          },
+          {
+            "banks": [
+              "ABOVE",
+              "FAR",
+              "HERE",
+              "OUTSIDE",
+              "SIDE",
+              "TOWARD",
+              "WHERE"
+            ],
+            "domains_before": {
+              "ABOVE": [
+                -1,
+                0,
+                1
+              ],
+              "FAR": [
+                -1,
+                0,
+                1
+              ],
+              "HERE": [
+                -1,
+                0,
+                1
+              ],
+              "OUTSIDE": [
+                -1,
+                0,
+                1
+              ],
+              "SIDE": [
+                -1,
+                0,
+                1
+              ],
+              "TOWARD": [
+                -1,
+                0,
+                1
+              ],
+              "WHERE": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 2187,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:above-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:far-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:here-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:outside-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:side-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:toward-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:above-where",
+              "founder:category:far-where",
+              "founder:category:here-where",
+              "founder:category:outside-where",
+              "founder:category:side-where",
+              "founder:category:toward-where"
+            ],
+            "witnesses": 737
+          },
+          {
+            "banks": [
+              "ALIVE",
+              "GOOD"
+            ],
+            "domains_before": {
+              "ALIVE": [
+                0
+              ],
+              "GOOD": [
+                0
+              ]
+            },
+            "joint_assignments": 1,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:noun-own-evaluation",
+                [
+                  "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+                ]
+              ],
+              [
+                "reviewed-guarded-pattern:d5c74077e4237a30ca36de5ae0808fe2646ce7efd860ac2f9f999b8e80ccf634",
+                [
+                  "warrant:native-monetary-unit-alive-2026-11-11:1487fdd9c6ec8dafc701f5e345743957f38d635ddb91be96d01f2f17fee70f4b",
+                  "docs/readings/2026-11-11-lexicon-learning-loop/alive-native-scope.json",
+                  "gse/curation/lexicon_builder/model_protocol.py#coordinate_contract",
+                  "refinement:sha256:0e8f3a9b990cb56105a9f32f7dd36a2db81957ad93872f84781be91eb97aa1a8",
+                  "parent:reviewed-pattern:bdc292921dbbe6df814aa35fbeee67b21995ca3167cd394c17196c1d4604251d"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:noun-own-evaluation",
+              "reviewed-guarded-pattern:d5c74077e4237a30ca36de5ae0808fe2646ce7efd860ac2f9f999b8e80ccf634"
+            ],
+            "witnesses": 1
+          },
+          {
+            "banks": [
+              "BEFORE",
+              "LONG_TIME",
+              "MOMENT",
+              "THEN",
+              "WHEN"
+            ],
+            "domains_before": {
+              "BEFORE": [
+                -1,
+                0,
+                1
+              ],
+              "LONG_TIME": [
+                -1,
+                0,
+                1
+              ],
+              "MOMENT": [
+                -1,
+                0,
+                1
+              ],
+              "THEN": [
+                -1,
+                0,
+                1
+              ],
+              "WHEN": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 243,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:before-when",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:long_time-when",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:moment-when",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:then-when",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:before-when",
+              "founder:category:long_time-when",
+              "founder:category:moment-when",
+              "founder:category:then-when"
+            ],
+            "witnesses": 85
+          },
+          {
+            "banks": [
+              "BODY",
+              "SOMETHING"
+            ],
+            "domains_before": {
+              "BODY": [
+                -1,
+                0,
+                1
+              ],
+              "SOMETHING": [
+                1
+              ]
+            },
+            "joint_assignments": 3,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:body-something",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:body-something"
+            ],
+            "witnesses": 3
+          },
+          {
+            "banks": [
+              "CAUSE",
+              "DO",
+              "HAPPEN",
+              "MOVE"
+            ],
+            "domains_before": {
+              "CAUSE": [
+                -1,
+                0,
+                1
+              ],
+              "DO": [
+                -1,
+                0,
+                1
+              ],
+              "HAPPEN": [
+                -1,
+                0,
+                1
+              ],
+              "MOVE": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 81,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:cause-happen",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:do-happen",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:move-happen",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:cause-happen",
+              "founder:category:do-happen",
+              "founder:category:move-happen"
+            ],
+            "witnesses": 43
+          },
+          {
+            "banks": [
+              "I",
+              "SOMEONE",
+              "YOU"
+            ],
+            "domains_before": {
+              "I": [
+                -1,
+                0,
+                1
+              ],
+              "SOMEONE": [
+                -1,
+                0,
+                1
+              ],
+              "YOU": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 27,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:i-someone",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:you-someone",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:i-someone",
+              "founder:category:you-someone"
+            ],
+            "witnesses": 17
+          },
+          {
+            "banks": [
+              "ONE",
+              "QUANTITY",
+              "TWO"
+            ],
+            "domains_before": {
+              "ONE": [
+                -1,
+                0,
+                1
+              ],
+              "QUANTITY": [
+                1
+              ],
+              "TWO": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 9,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:one-quantity",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:two-quantity",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "reviewed-guarded-pattern:3bf66d8b1cf0cf629d8bd968d3a5e7cdcfee5b508d007afcd49793d8b4bbace1",
+                [
+                  "warrant:native-monetary-unit-quantity-2026-11-01:57bc1998651b2c64b7cf1dd3058d22f2557347e18de6906dd77bc50e0d18b202",
+                  "docs/readings/2026-11-01-lexicon-next-stage/quantity-unit-population-inventory.json@sha256:5a392a773cef5cebd2e9d05df34258bf17c35307cddd82d46be9dbb8134ced79",
+                  "docs/readings/2026-11-01-lexicon-you-body/you-body-reading.md",
+                  "gse/curation/lexicon_builder/foundation.py#projection_relations"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:one-quantity",
+              "founder:category:two-quantity",
+              "reviewed-guarded-pattern:3bf66d8b1cf0cf629d8bd968d3a5e7cdcfee5b508d007afcd49793d8b4bbace1"
+            ],
+            "witnesses": 9
+          },
+          {
+            "complete_search": true,
+            "kind": "INFERENCE_SCOPE",
+            "method": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+            "partial_means": "AMBIGUOUS_JOINT_SUPPORTED_DOMAINS",
+            "satisfiability": "SATISFIABLE"
+          },
+          {
+            "context": {
+              "pos": "noun",
+              "wordnet_ancestor:monetary_unit.n.01": "true",
+              "wordnet_native_lemma": "true"
+            },
+            "kind": "EVIDENCE_GUARD",
+            "reason": "GUARD_MISMATCH",
+            "relation": {
+              "absent_evidence": [
+                "GOOD"
+              ],
+              "allowed_rows": [
+                [
+                  -1,
+                  0
+                ],
+                [
+                  0,
+                  -1
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ],
+                [
+                  1,
+                  0
+                ]
+              ],
+              "approved": true,
+              "authority": "conditional",
+              "banks": [
+                "BIG",
+                "GOOD"
+              ],
+              "guards": [
+                [
+                  "pos",
+                  "adjective"
+                ]
+              ],
+              "provenance": [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+              ],
+              "rule_id": "founder:absence:big-good"
+            },
+            "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+            "rule_id": "founder:absence:big-good",
+            "status": "BLOCKED",
+            "witnesses": [
+              {
+                "assertions": [],
+                "bank": "GOOD",
+                "baseline_domain": [
+                  0
+                ],
+                "baseline_narrowed": true,
+                "baseline_rule_ids": [
+                  "founder:noun-own-evaluation"
+                ],
+                "supplied_evidence": true
+              }
+            ]
+          },
+          {
+            "context": {
+              "pos": "noun",
+              "wordnet_ancestor:monetary_unit.n.01": "true",
+              "wordnet_native_lemma": "true"
+            },
+            "kind": "EVIDENCE_GUARD",
+            "reason": "GUARD_MISMATCH",
+            "relation": {
+              "absent_evidence": [
+                "BIG"
+              ],
+              "allowed_rows": [
+                [
+                  -1,
+                  0
+                ],
+                [
+                  0,
+                  -1
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ],
+                [
+                  1,
+                  0
+                ]
+              ],
+              "approved": true,
+              "authority": "conditional",
+              "banks": [
+                "GOOD",
+                "BIG"
+              ],
+              "guards": [
+                [
+                  "pos",
+                  "adjective"
+                ]
+              ],
+              "provenance": [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+              ],
+              "rule_id": "founder:absence:good-big"
+            },
+            "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+            "rule_id": "founder:absence:good-big",
+            "status": "BLOCKED",
+            "witnesses": [
+              {
+                "assertions": [],
+                "bank": "BIG",
+                "baseline_domain": [
+                  -1,
+                  0,
+                  1
+                ],
+                "baseline_narrowed": false,
+                "baseline_rule_ids": [],
+                "supplied_evidence": true
+              }
+            ]
+          }
+        ],
+        "value": 1
+      },
+      "rulings": [
+        {
+          "bank": "BODY",
+          "entry_id": "wordnet:real:real.n.02",
+          "rationale": "The exact lexical definition supplies a conventional unit of length or denomination. Its defining magnitude is independent of bodily structure.",
+          "receipt_sha256": "6ad849730e09961a53985c9cdb5cc68456551286f918a6df5901738bc4cfa746",
+          "request_id": "e7d8dcc758677ac59ed78453497a2082cf3604a56e64c5f87e634e5ff763f69f",
+          "review_id": "joint-body-source-review:wordnet:real:real.n.02",
+          "reviewer": "Codex source-backed review",
+          "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@7b41cbefb558bbfcbac8c1665c7f52219497c72cfaef4647a1736f50b68c25c6",
+          "source_refs": [
+            "docs/readings/2026-11-11-lexicon-learning-loop/joint-body-source-scope.json",
+            "exact-source:sha256:c905b160f3124c6de7f53b9755117fe792ea3689eee431567b02797d537d2b23"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "code": "OBSERVED_AGREEMENT",
+      "entry_id": "wordnet:won:south_korean_won.n.01",
+      "premise_witness": {
+        "bank": "QUANTITY",
+        "baseline_sha256": "97aa7a37fdac0722ff44eb89cf8f6c6857a57c3657fc60f5056bc9bf9aceeecd",
+        "kind": "BASELINE_CLOSURE",
+        "proof_trace": [
+          {
+            "bank": "SOMETHING",
+            "family": "wordnet",
+            "kind": "ASSERTION",
+            "record_id": "wordnet:won:south_korean_won.n.01",
+            "remaining": [
+              1
+            ],
+            "removed": [
+              -1,
+              0
+            ],
+            "scope": "lexical",
+            "source": "wordnet_hierarchy",
+            "value": 1
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "founder:adjective-not-object"
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "founder:adverb-not-object"
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "reviewed-guarded-pattern:4020ffd7ce72eb23aea7686a62a21eaa2bdc974306586560d69cbc89a63853a7"
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "reviewed-guarded-pattern:65d16959c01e4411fe908f0a08ab3a0b130fa0cdf3095f20602b256862b56aa2"
+          },
+          {
+            "kind": "RELATION_SKIPPED",
+            "reason": "GUARD_MISMATCH",
+            "rule_id": "reviewed-guarded-pattern:f4ff18466dbc0cfce0b075ac7dae052e0a42eee33e6ceebfb979c63f0cbbab37"
+          },
+          {
+            "bank": "GOOD",
+            "domains_before": {
+              "GOOD": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "kind": "RELATION",
+            "provenance": [
+              "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+            ],
+            "remaining": [
+              0
+            ],
+            "removed": [
+              -1,
+              1
+            ],
+            "rule_id": "founder:noun-own-evaluation",
+            "support_rows": [
+              [
+                0
+              ]
+            ]
+          },
+          {
+            "bank": "QUANTITY",
+            "domains_before": {
+              "QUANTITY": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "kind": "RELATION",
+            "provenance": [
+              "warrant:native-monetary-unit-quantity-2026-11-01:57bc1998651b2c64b7cf1dd3058d22f2557347e18de6906dd77bc50e0d18b202",
+              "docs/readings/2026-11-01-lexicon-next-stage/quantity-unit-population-inventory.json@sha256:5a392a773cef5cebd2e9d05df34258bf17c35307cddd82d46be9dbb8134ced79",
+              "docs/readings/2026-11-01-lexicon-you-body/you-body-reading.md",
+              "gse/curation/lexicon_builder/foundation.py#projection_relations"
+            ],
+            "remaining": [
+              1
+            ],
+            "removed": [
+              -1,
+              0
+            ],
+            "rule_id": "reviewed-guarded-pattern:3bf66d8b1cf0cf629d8bd968d3a5e7cdcfee5b508d007afcd49793d8b4bbace1",
+            "support_rows": [
+              [
+                1
+              ]
+            ]
+          },
+          {
+            "bank": "ALIVE",
+            "domains_before": {
+              "ALIVE": [
+                -1,
+                0,
+                1
+              ],
+              "GOOD": [
+                0
+              ]
+            },
+            "kind": "RELATION",
+            "provenance": [
+              "warrant:native-monetary-unit-alive-2026-11-11:1487fdd9c6ec8dafc701f5e345743957f38d635ddb91be96d01f2f17fee70f4b",
+              "docs/readings/2026-11-11-lexicon-learning-loop/alive-native-scope.json",
+              "gse/curation/lexicon_builder/model_protocol.py#coordinate_contract",
+              "refinement:sha256:0e8f3a9b990cb56105a9f32f7dd36a2db81957ad93872f84781be91eb97aa1a8",
+              "parent:reviewed-pattern:bdc292921dbbe6df814aa35fbeee67b21995ca3167cd394c17196c1d4604251d"
+            ],
+            "remaining": [
+              0
+            ],
+            "removed": [
+              -1,
+              1
+            ],
+            "rule_id": "reviewed-guarded-pattern:d5c74077e4237a30ca36de5ae0808fe2646ce7efd860ac2f9f999b8e80ccf634",
+            "support_rows": [
+              [
+                0,
+                0
+              ]
+            ]
+          },
+          {
+            "banks": [
+              "ABOVE",
+              "FAR",
+              "HERE",
+              "OUTSIDE",
+              "SIDE",
+              "TOWARD",
+              "WHERE"
+            ],
+            "domains_before": {
+              "ABOVE": [
+                -1,
+                0,
+                1
+              ],
+              "FAR": [
+                -1,
+                0,
+                1
+              ],
+              "HERE": [
+                -1,
+                0,
+                1
+              ],
+              "OUTSIDE": [
+                -1,
+                0,
+                1
+              ],
+              "SIDE": [
+                -1,
+                0,
+                1
+              ],
+              "TOWARD": [
+                -1,
+                0,
+                1
+              ],
+              "WHERE": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 2187,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:above-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:far-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:here-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:outside-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:side-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:toward-where",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:above-where",
+              "founder:category:far-where",
+              "founder:category:here-where",
+              "founder:category:outside-where",
+              "founder:category:side-where",
+              "founder:category:toward-where"
+            ],
+            "witnesses": 737
+          },
+          {
+            "banks": [
+              "ALIVE",
+              "GOOD"
+            ],
+            "domains_before": {
+              "ALIVE": [
+                0
+              ],
+              "GOOD": [
+                0
+              ]
+            },
+            "joint_assignments": 1,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:noun-own-evaluation",
+                [
+                  "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+                ]
+              ],
+              [
+                "reviewed-guarded-pattern:d5c74077e4237a30ca36de5ae0808fe2646ce7efd860ac2f9f999b8e80ccf634",
+                [
+                  "warrant:native-monetary-unit-alive-2026-11-11:1487fdd9c6ec8dafc701f5e345743957f38d635ddb91be96d01f2f17fee70f4b",
+                  "docs/readings/2026-11-11-lexicon-learning-loop/alive-native-scope.json",
+                  "gse/curation/lexicon_builder/model_protocol.py#coordinate_contract",
+                  "refinement:sha256:0e8f3a9b990cb56105a9f32f7dd36a2db81957ad93872f84781be91eb97aa1a8",
+                  "parent:reviewed-pattern:bdc292921dbbe6df814aa35fbeee67b21995ca3167cd394c17196c1d4604251d"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:noun-own-evaluation",
+              "reviewed-guarded-pattern:d5c74077e4237a30ca36de5ae0808fe2646ce7efd860ac2f9f999b8e80ccf634"
+            ],
+            "witnesses": 1
+          },
+          {
+            "banks": [
+              "BEFORE",
+              "LONG_TIME",
+              "MOMENT",
+              "THEN",
+              "WHEN"
+            ],
+            "domains_before": {
+              "BEFORE": [
+                -1,
+                0,
+                1
+              ],
+              "LONG_TIME": [
+                -1,
+                0,
+                1
+              ],
+              "MOMENT": [
+                -1,
+                0,
+                1
+              ],
+              "THEN": [
+                -1,
+                0,
+                1
+              ],
+              "WHEN": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 243,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:before-when",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:long_time-when",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:moment-when",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:then-when",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:before-when",
+              "founder:category:long_time-when",
+              "founder:category:moment-when",
+              "founder:category:then-when"
+            ],
+            "witnesses": 85
+          },
+          {
+            "banks": [
+              "BODY",
+              "SOMETHING"
+            ],
+            "domains_before": {
+              "BODY": [
+                -1,
+                0,
+                1
+              ],
+              "SOMETHING": [
+                1
+              ]
+            },
+            "joint_assignments": 3,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:body-something",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:body-something"
+            ],
+            "witnesses": 3
+          },
+          {
+            "banks": [
+              "CAUSE",
+              "DO",
+              "HAPPEN",
+              "MOVE"
+            ],
+            "domains_before": {
+              "CAUSE": [
+                -1,
+                0,
+                1
+              ],
+              "DO": [
+                -1,
+                0,
+                1
+              ],
+              "HAPPEN": [
+                -1,
+                0,
+                1
+              ],
+              "MOVE": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 81,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:cause-happen",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:do-happen",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:move-happen",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:cause-happen",
+              "founder:category:do-happen",
+              "founder:category:move-happen"
+            ],
+            "witnesses": 43
+          },
+          {
+            "banks": [
+              "I",
+              "SOMEONE",
+              "YOU"
+            ],
+            "domains_before": {
+              "I": [
+                -1,
+                0,
+                1
+              ],
+              "SOMEONE": [
+                -1,
+                0,
+                1
+              ],
+              "YOU": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 27,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:i-someone",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:you-someone",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:i-someone",
+              "founder:category:you-someone"
+            ],
+            "witnesses": 17
+          },
+          {
+            "banks": [
+              "ONE",
+              "QUANTITY",
+              "TWO"
+            ],
+            "domains_before": {
+              "ONE": [
+                -1,
+                0,
+                1
+              ],
+              "QUANTITY": [
+                1
+              ],
+              "TWO": [
+                -1,
+                0,
+                1
+              ]
+            },
+            "joint_assignments": 9,
+            "kind": "JOINT_CHECK",
+            "max_joint_assignments": 100000,
+            "provenance": [
+              [
+                "founder:category:one-quantity",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "founder:category:two-quantity",
+                [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                ]
+              ],
+              [
+                "reviewed-guarded-pattern:3bf66d8b1cf0cf629d8bd968d3a5e7cdcfee5b508d007afcd49793d8b4bbace1",
+                [
+                  "warrant:native-monetary-unit-quantity-2026-11-01:57bc1998651b2c64b7cf1dd3058d22f2557347e18de6906dd77bc50e0d18b202",
+                  "docs/readings/2026-11-01-lexicon-next-stage/quantity-unit-population-inventory.json@sha256:5a392a773cef5cebd2e9d05df34258bf17c35307cddd82d46be9dbb8134ced79",
+                  "docs/readings/2026-11-01-lexicon-you-body/you-body-reading.md",
+                  "gse/curation/lexicon_builder/foundation.py#projection_relations"
+                ]
+              ]
+            ],
+            "rule_ids": [
+              "founder:category:one-quantity",
+              "founder:category:two-quantity",
+              "reviewed-guarded-pattern:3bf66d8b1cf0cf629d8bd968d3a5e7cdcfee5b508d007afcd49793d8b4bbace1"
+            ],
+            "witnesses": 9
+          },
+          {
+            "complete_search": true,
+            "kind": "INFERENCE_SCOPE",
+            "method": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+            "partial_means": "AMBIGUOUS_JOINT_SUPPORTED_DOMAINS",
+            "satisfiability": "SATISFIABLE"
+          },
+          {
+            "context": {
+              "pos": "noun",
+              "wordnet_ancestor:monetary_unit.n.01": "true",
+              "wordnet_native_lemma": "true"
+            },
+            "kind": "EVIDENCE_GUARD",
+            "reason": "GUARD_MISMATCH",
+            "relation": {
+              "absent_evidence": [
+                "GOOD"
+              ],
+              "allowed_rows": [
+                [
+                  -1,
+                  0
+                ],
+                [
+                  0,
+                  -1
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ],
+                [
+                  1,
+                  0
+                ]
+              ],
+              "approved": true,
+              "authority": "conditional",
+              "banks": [
+                "BIG",
+                "GOOD"
+              ],
+              "guards": [
+                [
+                  "pos",
+                  "adjective"
+                ]
+              ],
+              "provenance": [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+              ],
+              "rule_id": "founder:absence:big-good"
+            },
+            "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+            "rule_id": "founder:absence:big-good",
+            "status": "BLOCKED",
+            "witnesses": [
+              {
+                "assertions": [],
+                "bank": "GOOD",
+                "baseline_domain": [
+                  0
+                ],
+                "baseline_narrowed": true,
+                "baseline_rule_ids": [
+                  "founder:noun-own-evaluation"
+                ],
+                "supplied_evidence": true
+              }
+            ]
+          },
+          {
+            "context": {
+              "pos": "noun",
+              "wordnet_ancestor:monetary_unit.n.01": "true",
+              "wordnet_native_lemma": "true"
+            },
+            "kind": "EVIDENCE_GUARD",
+            "reason": "GUARD_MISMATCH",
+            "relation": {
+              "absent_evidence": [
+                "BIG"
+              ],
+              "allowed_rows": [
+                [
+                  -1,
+                  0
+                ],
+                [
+                  0,
+                  -1
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ],
+                [
+                  1,
+                  0
+                ]
+              ],
+              "approved": true,
+              "authority": "conditional",
+              "banks": [
+                "GOOD",
+                "BIG"
+              ],
+              "guards": [
+                [
+                  "pos",
+                  "adjective"
+                ]
+              ],
+              "provenance": [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+              ],
+              "rule_id": "founder:absence:good-big"
+            },
+            "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+            "rule_id": "founder:absence:good-big",
+            "status": "BLOCKED",
+            "witnesses": [
+              {
+                "assertions": [],
+                "bank": "BIG",
+                "baseline_domain": [
+                  -1,
+                  0,
+                  1
+                ],
+                "baseline_narrowed": false,
+                "baseline_rule_ids": [],
+                "supplied_evidence": true
+              }
+            ]
+          }
+        ],
+        "value": 1
+      },
+      "rulings": [
+        {
+          "bank": "BODY",
+          "entry_id": "wordnet:won:south_korean_won.n.01",
+          "rationale": "The exact lexical definition supplies a conventional unit of length or denomination. Its defining magnitude is independent of bodily structure.",
+          "receipt_sha256": "75c89bba2b29d7514f0a09ee95ed066c1bdc38a02a798d4a9756899b6fd9cb3d",
+          "request_id": "e4720e2f04086db88d1d2d5b2a975c73100eb3aa2d74cefa5f582ff26c26c855",
+          "review_id": "joint-body-source-review:wordnet:won:south_korean_won.n.01",
+          "reviewer": "Codex source-backed review",
+          "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@7b41cbefb558bbfcbac8c1665c7f52219497c72cfaef4647a1736f50b68c25c6",
+          "source_refs": [
+            "docs/readings/2026-11-11-lexicon-learning-loop/joint-body-source-scope.json",
+            "exact-source:sha256:552d75c872041e3edbb0d630de1f723da4d53012e13f0c8ee734bb9d1537ed9b"
+          ],
+          "value": 0
+        }
+      ]
+    }
+  ],
+  "discovery_entry_ids": [
+    "wordnet:at:at.n.02",
+    "wordnet:real:real.n.02",
+    "wordnet:won:south_korean_won.n.01"
+  ],
+  "discovery_outcomes": {
+    "OBSERVED_AGREEMENT": 3
+  },
+  "proposal_kind": "OBSERVED_PAIR",
+  "relation": {
+    "absent_evidence": [],
+    "allowed_rows": [
+      [
+        -1,
+        -1
+      ],
+      [
+        -1,
+        0
+      ],
+      [
+        -1,
+        1
+      ],
+      [
+        0,
+        -1
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "approved": false,
+    "authority": "conditional",
+    "banks": [
+      "QUANTITY",
+      "BODY"
+    ],
+    "guards": [],
+    "provenance": [
+      "review:joint-body-source-review:wordnet:at:at.n.02:7f838df24de236da5d50f244e77412e145793260c4b51190dacffd34ce9ea569",
+      "review:joint-body-source-review:wordnet:real:real.n.02:6ad849730e09961a53985c9cdb5cc68456551286f918a6df5901738bc4cfa746",
+      "review:joint-body-source-review:wordnet:won:south_korean_won.n.01:75c89bba2b29d7514f0a09ee95ed066c1bdc38a02a798d4a9756899b6fd9cb3d"
+    ],
+    "rule_id": "reviewed-pattern:3f8a4fe5a0d2353d1de69dc49cc038d850f76be6a153eae7f5199222a13603df"
+  },
+  "staging": [],
+  "warrant": null,
+  "warrant_sha256": null
+}

@@ -1,0 +1,126 @@
+{
+  "banks": [
+    "BODY"
+  ],
+  "batch_size": 4,
+  "code": "SELECTED_SCOPE_RESOLVED",
+  "continue_cohorts": true,
+  "dictionary_cells": {
+    "assigned": 403558,
+    "conflicted": 0,
+    "explicit_zero": 279612,
+    "unresolved": 22085818
+  },
+  "dictionary_outcomes": {
+    "PARTIAL": 401596
+  },
+  "dictionary_status": "INCOMPLETE",
+  "format": "gse.lexicon-completion-report/1",
+  "max_calls_per_entry": 1,
+  "max_entries_per_pass": 8,
+  "max_model_calls": 16,
+  "model": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@25d2a12067b281d742dc77401f754ec70cea123122b8415a098ebcca7efaceaa:batch@501a30076a83fb46d9262a8fecb6e8c55a250dfa1f48f97d87dcfa121ee0b47d",
+  "model_calls": 16,
+  "outcomes": {
+    "ASSIGNED": 16
+  },
+  "outside_selected_scope": {
+    "unresolved_or_conflicted_cells": 22085818
+  },
+  "preflight": "REPLAY_VALIDATED",
+  "priority": {
+    "excluded_count": 1,
+    "excluded_records": [
+      {
+        "code": "MISSING_WORD",
+        "count": 27,
+        "csv_line": 21732,
+        "record_number": 21731
+      }
+    ],
+    "frequency_column": "SUBTLEX",
+    "included_words": 39953,
+    "mode": "zipf",
+    "ordering": "DESCENDING_POSITIVE_COUNT_THEN_CONSTRAINT_PRIORITY_THEN_DEFINITION_ID",
+    "policy": "gse.completion-priority/subtlex-count-order/2",
+    "ranked_words": 28902,
+    "rows": 39954,
+    "score": "MONOTONIC_ZIPF_ORDER_NOT_ABSOLUTE_ZIPF_SCORE",
+    "semantic_authority": "NONE_SCHEDULING_ONLY",
+    "sha256": "fa636292ba0b1b5cf4d6d335690ddcf3a162e4a8204124d95c64e795eb336226",
+    "source": "/Users/rohanvinaik/Projects/gse/data/external/concreteness.csv",
+    "unranked": "ZERO_OR_ABSENT_FREQUENCY_LAST_NOT_SEMANTIC_ZERO",
+    "word_column": "Word",
+    "zero_count_words": 11051
+  },
+  "question_order": {
+    "bank_order": "DOMAIN_SIZE_THEN_EXPLICIT_EVIDENCE_THEN_ACTIVE_UNRESOLVED_NEIGHBORS_THEN_BANK",
+    "bank_priority": "evidence",
+    "cohort_order": "CASEFOLDED_SPELLING_ROUNDS_THEN_EXISTING_PRIORITY",
+    "cohort_policy": "spelling",
+    "policy": "gse.completion-question-order/1",
+    "semantic_authority": "NONE_QUESTION_ORDER_ONLY"
+  },
+  "remaining_selected_scope": {
+    "cells": 0,
+    "conflicted_entries": 0,
+    "entries": 0
+  },
+  "scheduling": {
+    "code": "MODEL_BUDGET_EXHAUSTED",
+    "cohorts_processed": 2,
+    "cursor_after": [
+      [
+        -459663,
+        3
+      ],
+      -2,
+      "wordnet:is:embody.v.02"
+    ],
+    "cursor_before": null,
+    "pass_number": 1,
+    "policy": "gse.completion-schedule/3",
+    "resume_frontier": "COMPLETED_OR_PER_ENTRY_LIMIT_VISITS",
+    "visited_entry_ids": [
+      "gse_closed_class:pronoun:you",
+      "wordnet:i:one.n.01",
+      "gse_closed_class:determiner:a",
+      "wiktionary:en-IT-en-adj-N0V58kbS:520df74924d176806d07ce216ab3eb04aeb3e54e2dde3fc6ebd104298b8cecdc",
+      "gse_closed_class:pronoun:that",
+      "gse_closed_class:conjunction:and",
+      "gse_closed_class:preposition:of",
+      "gse_closed_class:pronoun:what",
+      "wiktionary:en-You-en-name-D6-sNozV:dc51e3c48f665cca6ad321b7a04562ddfe2bd9a092c70d12ec980d043e729d05",
+      "gse_closed_class:pronoun:i",
+      "wiktionary:en-IT-en-noun-en:inclusive_tour:c2d32c6227cad5ab309460a5887e854a902542df564dfd27bf75236a4c215fd2",
+      "gse_closed_class:determiner:that",
+      "wiktionary:en-what-en-adv-K9DA82LL:fa552fc249723d9d13e1554416cb720e68f7a4aa5d0c13bf245db8712d64bbbd",
+      "wordnet:in:inch.n.01",
+      "wordnet:me:maine.n.01",
+      "wordnet:is:embody.v.02"
+    ],
+    "wrapped": false
+  },
+  "selected_entry_ids": [
+    "gse_closed_class:pronoun:you",
+    "wordnet:i:one.n.01",
+    "gse_closed_class:determiner:a",
+    "wiktionary:en-IT-en-adj-N0V58kbS:520df74924d176806d07ce216ab3eb04aeb3e54e2dde3fc6ebd104298b8cecdc",
+    "gse_closed_class:pronoun:that",
+    "gse_closed_class:conjunction:and",
+    "gse_closed_class:preposition:of",
+    "gse_closed_class:pronoun:what",
+    "wiktionary:en-You-en-name-D6-sNozV:dc51e3c48f665cca6ad321b7a04562ddfe2bd9a092c70d12ec980d043e729d05",
+    "gse_closed_class:pronoun:i",
+    "wiktionary:en-IT-en-noun-en:inclusive_tour:c2d32c6227cad5ab309460a5887e854a902542df564dfd27bf75236a4c215fd2",
+    "gse_closed_class:determiner:that",
+    "wiktionary:en-what-en-adv-K9DA82LL:fa552fc249723d9d13e1554416cb720e68f7a4aa5d0c13bf245db8712d64bbbd",
+    "wordnet:in:inch.n.01",
+    "wordnet:me:maine.n.01",
+    "wordnet:is:embody.v.02"
+  ],
+  "semantic_gold": "NOT_CHECKED",
+  "skipped_attempts": {},
+  "transport_invocations": 5,
+  "unselected_residual": false
+}

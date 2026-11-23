@@ -1,0 +1,91 @@
+{
+  "baseline_sha256": "1da61580f92b7b8799110d2c9d5a57363f9cfa1a7ea24c63d28e66d29ac66fb9",
+  "format": "gse.coherence-stage-input/2",
+  "proposals": [
+    {
+      "antecedent": [
+        "SOMETHING",
+        1
+      ],
+      "consequent": [
+        "QUANTITY",
+        1
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:unit_of_measurement.n.01",
+          "true"
+        ]
+      ],
+      "id": "stage:native-measurement-unit:quantity",
+      "source_refs": [
+        "wordnet:unit_of_measurement.n.01",
+        "measurement-unit quantity scope hypothesis"
+      ]
+    },
+    {
+      "antecedent": [
+        "QUANTITY",
+        1
+      ],
+      "consequent": [
+        "WANT",
+        0
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:unit_of_measurement.n.01",
+          "true"
+        ]
+      ],
+      "id": "stage:native-measurement-unit:quantity-want",
+      "source_refs": [
+        "wordnet:unit_of_measurement.n.01",
+        "measurement-unit WANT orthogonality scope hypothesis"
+      ]
+    }
+  ],
+  "scope_challenges": [
+    {
+      "antecedent": [
+        "SOMETHING",
+        1
+      ],
+      "consequent": [
+        "QUANTITY",
+        1
+      ],
+      "native_synset": "word.n.07",
+      "reason": "The exact definition describes a string of bits without giving its number or width."
+    },
+    {
+      "antecedent": [
+        "SOMETHING",
+        1
+      ],
+      "consequent": [
+        "QUANTITY",
+        1
+      ],
+      "native_synset": "block.n.06",
+      "reason": "The definition describes a storage unit's granularity and an allowed group of sectors."
+    }
+  ],
+  "semantics": "RELATIONAL_CONSTRAINT"
+}

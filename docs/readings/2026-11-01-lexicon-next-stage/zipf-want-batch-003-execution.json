@@ -1,0 +1,27 @@
+{
+  "BE": "EXCLUDED_AFTER_SCOPE_AUDIT",
+  "bank_priority": "evidence",
+  "banks": [
+    "WANT"
+  ],
+  "batch_size": 4,
+  "candidate": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-10-29/constructed-corpus.db",
+  "cohort_policy": "spelling",
+  "context_tokens": 65536,
+  "continue_cohorts": true,
+  "format": "gse.bounded-run-execution/1",
+  "max_calls_per_entry": 1,
+  "max_entries_per_pass": 8,
+  "max_model_calls": 16,
+  "model_pin": {
+    "batch_protocol_digest": "7dca8c7e77a91b51ce48c954cfbfe17054aa821dde95466fa5a100c60ee55bec",
+    "digest": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+    "model": "qwen3.8:27b-q4_K_M"
+  },
+  "output_tokens": 1024,
+  "priority": "zipf",
+  "semantic_gold": "NOT_CHECKED",
+  "started_utc": "2026-11-01T18:45:54.828016+00:00",
+  "thinking": false,
+  "timeout": 300
+}

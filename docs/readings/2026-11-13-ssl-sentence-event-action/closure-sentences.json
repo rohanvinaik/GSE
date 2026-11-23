@@ -1,0 +1,863 @@
+{
+  "benchmark_sha256": "6241f11078cdfa07659b972e67cd0170d8749f9d3bdc473bafb6e400dd9ff9df",
+  "by_class": {
+    "action": {
+      "exact_sense_bank": {
+        "CORRECT": 12,
+        "OPEN": 4
+      },
+      "runtime_bank": {
+        "BLOCKED_BY_SENSE": 14,
+        "CORRECT": 2
+      },
+      "sense": {
+        "ABSTAINED": 7,
+        "CORRECT": 1
+      }
+    },
+    "ambiguous": {
+      "exact_sense_bank": {},
+      "runtime_bank": {},
+      "sense": {
+        "ABSTAINED_AS_EXPECTED": 3
+      }
+    },
+    "grammar": {
+      "exact_sense_bank": {
+        "CORRECT": 1
+      },
+      "runtime_bank": {
+        "CORRECT": 1
+      },
+      "sense": {
+        "CORRECT": 1
+      }
+    },
+    "occurrence": {
+      "exact_sense_bank": {
+        "OPEN": 7
+      },
+      "runtime_bank": {
+        "BLOCKED_BY_SENSE": 7
+      },
+      "sense": {
+        "ABSTAINED": 7
+      }
+    },
+    "participant": {
+      "exact_sense_bank": {
+        "CORRECT": 1,
+        "OPEN_AS_EXPECTED": 2
+      },
+      "runtime_bank": {
+        "BLOCKED_BY_SENSE": 3
+      },
+      "sense": {
+        "ABSTAINED": 1
+      }
+    },
+    "result-or-state": {
+      "exact_sense_bank": {
+        "OPEN_AS_EXPECTED": 8
+      },
+      "runtime_bank": {
+        "BLOCKED_BY_SENSE": 8
+      },
+      "sense": {
+        "ABSTAINED": 4
+      }
+    }
+  },
+  "cases": [
+    {
+      "banks": {
+        "HAPPEN": {
+          "domain": [
+            -1,
+            0,
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "OPEN",
+          "expected": 1,
+          "runtime": "BLOCKED_BY_SENSE"
+        }
+      },
+      "basis": "The referent is the transition from one state to another.",
+      "class": "occurrence",
+      "grounding": "INSUFFICIENT_CONTEXTUAL_SUPPORT",
+      "id": "change-of-state",
+      "lemma": "change",
+      "observed_sense": null,
+      "parser_lemma": "change",
+      "parser_pos": "NOUN",
+      "selection_status": "AMBIGUOUS",
+      "sense": "wordnet:change:change.n.01",
+      "sense_outcome": "ABSTAINED",
+      "text": "The change from liquid to solid took less than a minute.",
+      "token": "change"
+    },
+    {
+      "banks": {
+        "HAPPEN": {
+          "domain": [
+            -1,
+            0,
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "OPEN",
+          "expected": 1,
+          "runtime": "BLOCKED_BY_SENSE"
+        }
+      },
+      "basis": "The indefinite nominal refers to a distinct occurrence that caused a delay.",
+      "class": "occurrence",
+      "grounding": "INSUFFICIENT_CONTEXTUAL_SUPPORT",
+      "id": "unexpected-incident",
+      "lemma": "incident",
+      "observed_sense": null,
+      "parser_lemma": "incident",
+      "parser_pos": "NOUN",
+      "selection_status": "AMBIGUOUS",
+      "sense": "wordnet:incident:incident.n.01",
+      "sense_outcome": "ABSTAINED",
+      "text": "An incident delayed the train by twenty minutes.",
+      "token": "incident"
+    },
+    {
+      "banks": {
+        "HAPPEN": {
+          "domain": [
+            -1,
+            0,
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "OPEN",
+          "expected": 1,
+          "runtime": "BLOCKED_BY_SENSE"
+        }
+      },
+      "basis": "The complement specifies an unplanned occurrence and no injury or damage.",
+      "class": "occurrence",
+      "grounding": "INSUFFICIENT_CONTEXTUAL_SUPPORT",
+      "id": "unplanned-accident",
+      "lemma": "accident",
+      "observed_sense": null,
+      "parser_lemma": "accident",
+      "parser_pos": "NOUN",
+      "selection_status": "AMBIGUOUS",
+      "sense": "wordnet:accident:accident.n.02",
+      "sense_outcome": "ABSTAINED",
+      "text": "It was an accident that the two trains arrived at the same minute.",
+      "token": "accident"
+    },
+    {
+      "banks": {
+        "HAPPEN": {
+          "domain": [
+            -1,
+            0,
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "OPEN",
+          "expected": 1,
+          "runtime": "BLOCKED_BY_SENSE"
+        }
+      },
+      "basis": "The clause gives the start and duration of the burning event.",
+      "class": "occurrence",
+      "grounding": "NO_NOMINAL_CONTEXT",
+      "id": "night-fire",
+      "lemma": "fire",
+      "observed_sense": null,
+      "parser_lemma": "fire",
+      "parser_pos": "NOUN",
+      "selection_status": "AMBIGUOUS",
+      "sense": "wordnet:fire:fire.n.01",
+      "sense_outcome": "ABSTAINED",
+      "text": "The fire started after midnight and burned all night.",
+      "token": "fire"
+    },
+    {
+      "banks": {
+        "HAPPEN": {
+          "domain": [
+            -1,
+            0,
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "OPEN",
+          "expected": 1,
+          "runtime": "BLOCKED_BY_SENSE"
+        }
+      },
+      "basis": "The sentence identifies the rising event, as distinct from its time or atmospheric effects.",
+      "class": "occurrence",
+      "grounding": "NO_NOMINAL_CONTEXT",
+      "id": "daily-sunrise",
+      "lemma": "sunrise",
+      "observed_sense": null,
+      "parser_lemma": "sunrise",
+      "parser_pos": "NOUN",
+      "selection_status": "AMBIGUOUS",
+      "sense": "wordnet:sunrise:sunrise.n.03",
+      "sense_outcome": "ABSTAINED",
+      "text": "The sunrise came before six, when the sun rose above the horizon.",
+      "token": "sunrise"
+    },
+    {
+      "banks": {
+        "HAPPEN": {
+          "domain": [
+            -1,
+            0,
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "OPEN",
+          "expected": 1,
+          "runtime": "BLOCKED_BY_SENSE"
+        }
+      },
+      "basis": "The roof physically falls. This is the natural-event sense.",
+      "class": "occurrence",
+      "grounding": "INSUFFICIENT_CONTEXTUAL_SUPPORT",
+      "id": "roof-collapse",
+      "lemma": "collapse",
+      "observed_sense": null,
+      "parser_lemma": "collapse",
+      "parser_pos": "NOUN",
+      "selection_status": "AMBIGUOUS",
+      "sense": "wordnet:collapse:collapse.n.02",
+      "sense_outcome": "ABSTAINED",
+      "text": "Snow caused the collapse of the roof when the center beam fell.",
+      "token": "collapse"
+    },
+    {
+      "banks": {
+        "HAPPEN": {
+          "domain": [
+            -1,
+            0,
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "OPEN",
+          "expected": 1,
+          "runtime": "BLOCKED_BY_SENSE"
+        }
+      },
+      "basis": "The contest concludes through the event of crossing the line.",
+      "class": "occurrence",
+      "grounding": "INSUFFICIENT_CONTEXTUAL_SUPPORT",
+      "id": "finish-event",
+      "lemma": "finish",
+      "observed_sense": null,
+      "parser_lemma": "finish",
+      "parser_pos": "NOUN",
+      "selection_status": "AMBIGUOUS",
+      "sense": "wordnet:finish:finish.n.05",
+      "sense_outcome": "ABSTAINED",
+      "text": "The finish of the race came when two runners crossed the line together.",
+      "token": "finish"
+    },
+    {
+      "banks": {
+        "DO": {
+          "domain": [
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "CORRECT",
+          "expected": 1,
+          "runtime": "BLOCKED_BY_SENSE"
+        },
+        "HAPPEN": {
+          "domain": [
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "CORRECT",
+          "expected": 1,
+          "runtime": "BLOCKED_BY_SENSE"
+        }
+      },
+      "basis": "The repair is what the mechanic did to return the motor to working order.",
+      "class": "action",
+      "grounding": "INSUFFICIENT_CONTEXTUAL_SUPPORT",
+      "id": "motor-repair",
+      "lemma": "repair",
+      "observed_sense": null,
+      "parser_lemma": "repair",
+      "parser_pos": "NOUN",
+      "selection_status": "AMBIGUOUS",
+      "sense": "wordnet:repair:repair.n.01",
+      "sense_outcome": "ABSTAINED",
+      "text": "The mechanic carried out the repair and put the motor in working order.",
+      "token": "repair"
+    },
+    {
+      "banks": {
+        "DO": {
+          "domain": [
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "CORRECT",
+          "expected": 1,
+          "runtime": "BLOCKED_BY_SENSE"
+        },
+        "HAPPEN": {
+          "domain": [
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "CORRECT",
+          "expected": 1,
+          "runtime": "BLOCKED_BY_SENSE"
+        }
+      },
+      "basis": "The kick is the player's act of delivering a blow with her foot.",
+      "class": "action",
+      "grounding": "INSUFFICIENT_CONTEXTUAL_SUPPORT",
+      "id": "delivery-kick",
+      "lemma": "kick",
+      "observed_sense": null,
+      "parser_lemma": "kick",
+      "parser_pos": "NOUN",
+      "selection_status": "AMBIGUOUS",
+      "sense": "wordnet:kick:kick.n.01",
+      "sense_outcome": "ABSTAINED",
+      "text": "The player delivered a kick with her left foot.",
+      "token": "kick"
+    },
+    {
+      "banks": {
+        "DO": {
+          "domain": [
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "CORRECT",
+          "expected": 1,
+          "runtime": "BLOCKED_BY_SENSE"
+        },
+        "HAPPEN": {
+          "domain": [
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "CORRECT",
+          "expected": 1,
+          "runtime": "BLOCKED_BY_SENSE"
+        }
+      },
+      "basis": "The nominal describes the application of force by the guard.",
+      "class": "action",
+      "grounding": "INSUFFICIENT_CONTEXTUAL_SUPPORT",
+      "id": "manual-push",
+      "lemma": "push",
+      "observed_sense": null,
+      "parser_lemma": "push",
+      "parser_pos": "NOUN",
+      "selection_status": "AMBIGUOUS",
+      "sense": "wordnet:push:push.n.01",
+      "sense_outcome": "ABSTAINED",
+      "text": "With a push, the guard applied enough force to move the gate.",
+      "token": "push"
+    },
+    {
+      "banks": {
+        "DO": {
+          "domain": [
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "CORRECT",
+          "expected": 1,
+          "runtime": "BLOCKED_BY_SENSE"
+        },
+        "HAPPEN": {
+          "domain": [
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "CORRECT",
+          "expected": 1,
+          "runtime": "BLOCKED_BY_SENSE"
+        }
+      },
+      "basis": "The nominal picks out the act of dividing something into parts.",
+      "class": "action",
+      "grounding": null,
+      "id": "deliberate-cut",
+      "lemma": "cut",
+      "observed_sense": null,
+      "parser_lemma": "cut",
+      "parser_pos": "VERB",
+      "selection_status": "AMBIGUOUS",
+      "sense": "wordnet:cut:cut.n.17",
+      "sense_outcome": "ABSTAINED",
+      "text": "With one cut, she divided the rope into two parts.",
+      "token": "cut"
+    },
+    {
+      "banks": {
+        "DO": {
+          "domain": [
+            1
+          ],
+          "emitted": 1,
+          "exact_sense": "CORRECT",
+          "expected": 1,
+          "runtime": "CORRECT"
+        },
+        "HAPPEN": {
+          "domain": [
+            1
+          ],
+          "emitted": 1,
+          "exact_sense": "CORRECT",
+          "expected": 1,
+          "runtime": "CORRECT"
+        }
+      },
+      "basis": "The injection is the act of putting liquid into the body by syringe.",
+      "class": "action",
+      "grounding": "EXACT_WORDNET_SENSE",
+      "id": "syringe-injection",
+      "lemma": "injection",
+      "observed_sense": "wordnet:injection:injection.n.03",
+      "parser_lemma": "injection",
+      "parser_pos": "NOUN",
+      "selection_status": "IDENTIFIED",
+      "sense": "wordnet:injection:injection.n.03",
+      "sense_outcome": "CORRECT",
+      "text": "The nurse gave the injection with a syringe.",
+      "token": "injection"
+    },
+    {
+      "banks": {
+        "DO": {
+          "domain": [
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "CORRECT",
+          "expected": 1,
+          "runtime": "BLOCKED_BY_SENSE"
+        },
+        "HAPPEN": {
+          "domain": [
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "CORRECT",
+          "expected": 1,
+          "runtime": "BLOCKED_BY_SENSE"
+        }
+      },
+      "basis": "The duration belongs to the act of making something clean.",
+      "class": "action",
+      "grounding": "INSUFFICIENT_CONTEXTUAL_SUPPORT",
+      "id": "cleaning-action",
+      "lemma": "cleaning",
+      "observed_sense": null,
+      "parser_lemma": "cleaning",
+      "parser_pos": "NOUN",
+      "selection_status": "AMBIGUOUS",
+      "sense": "wordnet:cleaning:cleaning.n.01",
+      "sense_outcome": "ABSTAINED",
+      "text": "The cleaning took an hour because she scrubbed every shelf.",
+      "token": "cleaning"
+    },
+    {
+      "banks": {
+        "DO": {
+          "domain": [
+            -1,
+            0,
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "OPEN",
+          "expected": 1,
+          "runtime": "BLOCKED_BY_SENSE"
+        },
+        "HAPPEN": {
+          "domain": [
+            -1,
+            0,
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "OPEN",
+          "expected": 1,
+          "runtime": "BLOCKED_BY_SENSE"
+        }
+      },
+      "basis": "This is the police action of taking someone into custody.",
+      "class": "action",
+      "grounding": "INSUFFICIENT_CONTEXTUAL_SUPPORT",
+      "id": "criminal-arrest",
+      "lemma": "arrest",
+      "observed_sense": null,
+      "parser_lemma": "arrest",
+      "parser_pos": "NOUN",
+      "selection_status": "AMBIGUOUS",
+      "sense": "wordnet:arrest:apprehension.n.04",
+      "sense_outcome": "ABSTAINED",
+      "text": "The arrest took place when the police apprehended the fugitive.",
+      "token": "arrest"
+    },
+    {
+      "banks": {
+        "DO": {
+          "domain": [
+            -1,
+            0,
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "OPEN",
+          "expected": 1,
+          "runtime": "BLOCKED_BY_SENSE"
+        },
+        "HAPPEN": {
+          "domain": [
+            -1,
+            0,
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "OPEN",
+          "expected": 1,
+          "runtime": "BLOCKED_BY_SENSE"
+        }
+      },
+      "basis": "The target is her activity of buying, with the time adjunct locating the activity.",
+      "class": "action",
+      "grounding": "INSUFFICIENT_CONTEXTUAL_SUPPORT",
+      "id": "buying-action",
+      "lemma": "buying",
+      "observed_sense": null,
+      "parser_lemma": "buying",
+      "parser_pos": "NOUN",
+      "selection_status": "AMBIGUOUS",
+      "sense": "wordnet:buying:buying.n.01",
+      "sense_outcome": "ABSTAINED",
+      "text": "The buying took all morning as she purchased supplies for the shop.",
+      "token": "buying"
+    },
+    {
+      "banks": {
+        "DO": {
+          "domain": [
+            -1,
+            0,
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "OPEN_AS_EXPECTED",
+          "expected": null,
+          "runtime": "BLOCKED_BY_SENSE"
+        },
+        "HAPPEN": {
+          "domain": [
+            -1,
+            0,
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "OPEN_AS_EXPECTED",
+          "expected": null,
+          "runtime": "BLOCKED_BY_SENSE"
+        },
+        "SOMEONE": {
+          "domain": [
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "CORRECT",
+          "expected": 1,
+          "runtime": "BLOCKED_BY_SENSE"
+        }
+      },
+      "basis": "The sense denotes the person. Her arriving describes which person; this gloss does not warrant projecting the action or event from that relative.",
+      "class": "participant",
+      "grounding": "INSUFFICIENT_CONTEXTUAL_SUPPORT",
+      "id": "late-arrival",
+      "lemma": "arrival",
+      "observed_sense": null,
+      "parser_lemma": "arrival",
+      "parser_pos": "NOUN",
+      "selection_status": "AMBIGUOUS",
+      "sense": "wordnet:arrival:arrival.n.03",
+      "sense_outcome": "ABSTAINED",
+      "text": "The late arrival was a woman carrying a green suitcase.",
+      "token": "arrival"
+    },
+    {
+      "banks": {
+        "DO": {
+          "domain": [
+            -1,
+            0,
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "OPEN_AS_EXPECTED",
+          "expected": null,
+          "runtime": "BLOCKED_BY_SENSE"
+        },
+        "HAPPEN": {
+          "domain": [
+            -1,
+            0,
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "OPEN_AS_EXPECTED",
+          "expected": null,
+          "runtime": "BLOCKED_BY_SENSE"
+        }
+      },
+      "basis": "The referent is the projectile that lodged in the door, distinct from the firing event.",
+      "class": "result-or-state",
+      "grounding": "INSUFFICIENT_CONTEXTUAL_SUPPORT",
+      "id": "embedded-projectile",
+      "lemma": "shot",
+      "observed_sense": null,
+      "parser_lemma": "shot",
+      "parser_pos": "NOUN",
+      "selection_status": "AMBIGUOUS",
+      "sense": "wordnet:shot:shot.n.02",
+      "sense_outcome": "ABSTAINED",
+      "text": "The shot lodged in the oak door, and the carpenter dug it out.",
+      "token": "shot"
+    },
+    {
+      "banks": {
+        "DO": {
+          "domain": [
+            -1,
+            0,
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "OPEN_AS_EXPECTED",
+          "expected": null,
+          "runtime": "BLOCKED_BY_SENSE"
+        },
+        "HAPPEN": {
+          "domain": [
+            -1,
+            0,
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "OPEN_AS_EXPECTED",
+          "expected": null,
+          "runtime": "BLOCKED_BY_SENSE"
+        }
+      },
+      "basis": "The product sense is distinct from the effort that produced the sculpture.",
+      "class": "result-or-state",
+      "grounding": "INSUFFICIENT_CONTEXTUAL_SUPPORT",
+      "id": "work-product",
+      "lemma": "work",
+      "observed_sense": null,
+      "parser_lemma": "work",
+      "parser_pos": "NOUN",
+      "selection_status": "AMBIGUOUS",
+      "sense": "wordnet:work:work.n.02",
+      "sense_outcome": "ABSTAINED",
+      "text": "The work was a marble sculpture that stood in the courtyard.",
+      "token": "work"
+    },
+    {
+      "banks": {
+        "DO": {
+          "domain": [
+            -1,
+            0,
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "OPEN_AS_EXPECTED",
+          "expected": null,
+          "runtime": "BLOCKED_BY_SENSE"
+        },
+        "HAPPEN": {
+          "domain": [
+            -1,
+            0,
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "OPEN_AS_EXPECTED",
+          "expected": null,
+          "runtime": "BLOCKED_BY_SENSE"
+        }
+      },
+      "basis": "The injury is the result of cutting, and it is the wound that needs stitches.",
+      "class": "result-or-state",
+      "grounding": "INSUFFICIENT_CONTEXTUAL_SUPPORT",
+      "id": "cut-wound",
+      "lemma": "cut",
+      "observed_sense": null,
+      "parser_lemma": "cut",
+      "parser_pos": "NOUN",
+      "selection_status": "AMBIGUOUS",
+      "sense": "wordnet:cut:cut.n.01",
+      "sense_outcome": "ABSTAINED",
+      "text": "The cut in her skin needed three stitches.",
+      "token": "cut"
+    },
+    {
+      "banks": {
+        "DO": {
+          "domain": [
+            -1,
+            0,
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "OPEN_AS_EXPECTED",
+          "expected": null,
+          "runtime": "BLOCKED_BY_SENSE"
+        },
+        "HAPPEN": {
+          "domain": [
+            -1,
+            0,
+            1
+          ],
+          "emitted": null,
+          "exact_sense": "OPEN_AS_EXPECTED",
+          "expected": null,
+          "runtime": "BLOCKED_BY_SENSE"
+        }
+      },
+      "basis": "The referent is an inactive state after interruption.",
+      "class": "result-or-state",
+      "grounding": "INSUFFICIENT_CONTEXTUAL_SUPPORT",
+      "id": "arrest-state",
+      "lemma": "arrest",
+      "observed_sense": null,
+      "parser_lemma": "arrest",
+      "parser_pos": "NOUN",
+      "selection_status": "AMBIGUOUS",
+      "sense": "wordnet:arrest:arrest.n.02",
+      "sense_outcome": "ABSTAINED",
+      "text": "The heartbeat remained in arrest until the pump restarted it.",
+      "token": "arrest"
+    },
+    {
+      "banks": {},
+      "basis": "The sentence leaves a pause, fracture, lucky break, and other readings open.",
+      "class": "ambiguous",
+      "grounding": "NO_NOMINAL_CONTEXT",
+      "id": "ambiguous-break",
+      "lemma": "break",
+      "observed_sense": null,
+      "parser_lemma": "break",
+      "parser_pos": "NOUN",
+      "selection_status": "AMBIGUOUS",
+      "sense": null,
+      "sense_outcome": "ABSTAINED_AS_EXPECTED",
+      "text": "She told me about the break.",
+      "token": "break"
+    },
+    {
+      "banks": {},
+      "basis": "A photograph, projectile, injection, and other readings are compatible.",
+      "class": "ambiguous",
+      "grounding": "NO_NOMINAL_CONTEXT",
+      "id": "ambiguous-shot",
+      "lemma": "shot",
+      "observed_sense": null,
+      "parser_lemma": "shot",
+      "parser_pos": "NOUN",
+      "selection_status": "AMBIGUOUS",
+      "sense": null,
+      "sense_outcome": "ABSTAINED_AS_EXPECTED",
+      "text": "He was surprised by the shot.",
+      "token": "shot"
+    },
+    {
+      "banks": {},
+      "basis": "A race, trip, operating interval, and other readings remain possible.",
+      "class": "ambiguous",
+      "grounding": "NO_NOMINAL_CONTEXT",
+      "id": "ambiguous-run",
+      "lemma": "run",
+      "observed_sense": null,
+      "parser_lemma": "run",
+      "parser_pos": "NOUN",
+      "selection_status": "AMBIGUOUS",
+      "sense": null,
+      "sense_outcome": "ABSTAINED_AS_EXPECTED",
+      "text": "She told me about the run.",
+      "token": "run"
+    },
+    {
+      "banks": {
+        "MAYBE": {
+          "domain": [
+            1
+          ],
+          "emitted": 1,
+          "exact_sense": "CORRECT",
+          "expected": 1,
+          "runtime": "CORRECT"
+        }
+      },
+      "basis": "The auxiliary marks possibility in the registered modal construction.",
+      "class": "grammar",
+      "grounding": null,
+      "id": "modal-might",
+      "lemma": "might",
+      "observed_sense": "gse_closed_class:modal:might",
+      "parser_lemma": "might",
+      "parser_pos": "AUX",
+      "selection_status": "IDENTIFIED",
+      "sense": "gse_closed_class:modal:might",
+      "sense_outcome": "CORRECT",
+      "text": "The guests might leave early.",
+      "token": "might"
+    }
+  ],
+  "comparison": {
+    "baseline_sha256": "04c318118ef6c972f9b59cb8cbd9dad0b696e0da57c40be3ff1b3ed824f44228",
+    "benchmark_sha256": "6241f11078cdfa07659b972e67cd0170d8749f9d3bdc473bafb6e400dd9ff9df",
+    "by_class": {
+      "action": {
+        "exact_sense_bits_removed": 19.019550008653873,
+        "exact_sense_new_correct": 12,
+        "runtime_new_correct": 2
+      },
+      "ambiguous": {},
+      "grammar": {
+        "exact_sense_bits_removed": 0.0
+      },
+      "occurrence": {
+        "exact_sense_bits_removed": 0.0
+      },
+      "participant": {
+        "exact_sense_bits_removed": 0.0
+      },
+      "result-or-state": {}
+    },
+    "candidate_sha256": "d5f34bf9fac90e8d916a42fb38ad29405a47772bfd563f115fa3336a0cb237ae",
+    "code": "SENTENCE_BENCHMARK_VALIDATED",
+    "failures": [],
+    "format": "gse.lexicon-sentence-benchmark-comparison/1"
+  },
+  "format": "gse.lexicon-sentence-benchmark-report/1",
+  "lexicon_sha256": "d5f34bf9fac90e8d916a42fb38ad29405a47772bfd563f115fa3336a0cb237ae"
+}

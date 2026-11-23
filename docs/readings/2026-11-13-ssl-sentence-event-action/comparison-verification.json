@@ -1,0 +1,216 @@
+{
+  "arms": {
+    "closure": {
+      "benchmark_comparison": {
+        "baseline_sha256": "04c318118ef6c972f9b59cb8cbd9dad0b696e0da57c40be3ff1b3ed824f44228",
+        "benchmark_sha256": "6241f11078cdfa07659b972e67cd0170d8749f9d3bdc473bafb6e400dd9ff9df",
+        "by_class": {
+          "action": {
+            "exact_sense_bits_removed": 19.019550008653873,
+            "exact_sense_new_correct": 12,
+            "runtime_new_correct": 2
+          },
+          "ambiguous": {},
+          "grammar": {
+            "exact_sense_bits_removed": 0.0
+          },
+          "occurrence": {
+            "exact_sense_bits_removed": 0.0
+          },
+          "participant": {
+            "exact_sense_bits_removed": 0.0
+          },
+          "result-or-state": {}
+        },
+        "candidate_sha256": "d5f34bf9fac90e8d916a42fb38ad29405a47772bfd563f115fa3336a0cb237ae",
+        "code": "SENTENCE_BENCHMARK_VALIDATED",
+        "failures": [],
+        "format": "gse.lexicon-sentence-benchmark-comparison/1"
+      },
+      "benchmark_event_action": {
+        "correct_senses": 1,
+        "exact_correct": 12,
+        "required": 23,
+        "runtime_correct": 2,
+        "sense_abstentions": 14
+      },
+      "by_bank": {
+        "DO": 76,
+        "HAPPEN": 76
+      },
+      "by_source": {
+        "wiktionary": 30,
+        "wordnet": 122
+      },
+      "candidate_sha256": "d5f34bf9fac90e8d916a42fb38ad29405a47772bfd563f115fa3336a0cb237ae",
+      "frequency_sha256": "fa636292ba0b1b5cf4d6d335690ddcf3a162e4a8204124d95c64e795eb336226",
+      "inventory_sha256": "8107edd1e52f9776024c344250809d7f51678902ac71cc6b7dc3315104e16083",
+      "local_transport_refusals": 1,
+      "marginal_bits_removed": 240.91430010961574,
+      "model_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+      "model_questions": 3,
+      "new_cells": 152,
+      "outcomes": {
+        "MODEL_AGREEMENT": 2
+      },
+      "plan_sha256": "23629515d63461b1a4c5c9d248dc02e431deb49921942ef045e6dfaac5bfe887",
+      "replay": {
+        "code": "REPLAY_VALIDATED",
+        "complete_search": true,
+        "entries_checked": 401596,
+        "entries_mismatched": 0,
+        "entries_validated": 401596,
+        "format": "gse.lexicon-replay-report/1",
+        "gold": "NOT_CHECKED",
+        "inference_counts": {
+          "components_joint_checked": 2495392,
+          "components_solver_limited": 0,
+          "entries_complete_search": 401596,
+          "entries_replayed": 401596,
+          "entries_solver_limited": 0
+        },
+        "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+        "metadata_verification": {
+          "build_report": "NOT_CHECKED",
+          "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+          "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+          "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+          "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+          "catalog_definition_source_ids": "NOT_PERSISTED",
+          "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+          "representation_contract": "VERIFIED",
+          "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+        },
+        "mismatch_counts": {},
+        "mismatches": [],
+        "replayed_outcomes": {
+          "PARTIAL": 401596
+        }
+      },
+      "rule_id": "reviewed-guarded-pattern:907bc6895fc441905747d0316ccba11bea897a657bdf23d86c4b561330884322",
+      "selected": {
+        "bank": "DO",
+        "bridge_options": [],
+        "contradictions": 0,
+        "entry_id": "wordnet:set:set.n.07",
+        "family": "agentive-intervention",
+        "premise": null,
+        "sense_group": "wordnet:set.n.07",
+        "singletons": 152,
+        "subtlex": 11805
+      },
+      "symbolic_cells_after_teaching": 150,
+      "typed_attempts": 4
+    },
+    "zipf": {
+      "benchmark_comparison": {
+        "baseline_sha256": "04c318118ef6c972f9b59cb8cbd9dad0b696e0da57c40be3ff1b3ed824f44228",
+        "benchmark_sha256": "6241f11078cdfa07659b972e67cd0170d8749f9d3bdc473bafb6e400dd9ff9df",
+        "by_class": {
+          "action": {
+            "exact_sense_bits_removed": 0.0
+          },
+          "ambiguous": {},
+          "grammar": {
+            "exact_sense_bits_removed": 0.0
+          },
+          "occurrence": {
+            "exact_sense_bits_removed": 3.169925001442312,
+            "exact_sense_new_correct": 2
+          },
+          "participant": {
+            "exact_sense_bits_removed": 0.0
+          },
+          "result-or-state": {}
+        },
+        "candidate_sha256": "3ac3de73f7bc2ca295ebf99823eb891dad766725f687e2ec1dcad6db75007653",
+        "code": "SENTENCE_BENCHMARK_VALIDATED",
+        "failures": [],
+        "format": "gse.lexicon-sentence-benchmark-comparison/1"
+      },
+      "benchmark_event_action": {
+        "correct_senses": 1,
+        "exact_correct": 2,
+        "required": 23,
+        "runtime_correct": 0,
+        "sense_abstentions": 14
+      },
+      "by_bank": {
+        "HAPPEN": 89
+      },
+      "by_source": {
+        "wiktionary": 17,
+        "wordnet": 72
+      },
+      "candidate_sha256": "3ac3de73f7bc2ca295ebf99823eb891dad766725f687e2ec1dcad6db75007653",
+      "frequency_sha256": "fa636292ba0b1b5cf4d6d335690ddcf3a162e4a8204124d95c64e795eb336226",
+      "inventory_sha256": "8107edd1e52f9776024c344250809d7f51678902ac71cc6b7dc3315104e16083",
+      "local_transport_refusals": 0,
+      "marginal_bits_removed": 141.06166256418288,
+      "model_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+      "model_questions": 3,
+      "new_cells": 89,
+      "outcomes": {
+        "MODEL_AGREEMENT": 2
+      },
+      "plan_sha256": "23629515d63461b1a4c5c9d248dc02e431deb49921942ef045e6dfaac5bfe887",
+      "replay": {
+        "code": "REPLAY_VALIDATED",
+        "complete_search": true,
+        "entries_checked": 401596,
+        "entries_mismatched": 0,
+        "entries_validated": 401596,
+        "format": "gse.lexicon-replay-report/1",
+        "gold": "NOT_CHECKED",
+        "inference_counts": {
+          "components_joint_checked": 2495392,
+          "components_solver_limited": 0,
+          "entries_complete_search": 401596,
+          "entries_replayed": 401596,
+          "entries_solver_limited": 0
+        },
+        "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+        "metadata_verification": {
+          "build_report": "NOT_CHECKED",
+          "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+          "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+          "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+          "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+          "catalog_definition_source_ids": "NOT_PERSISTED",
+          "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+          "representation_contract": "VERIFIED",
+          "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+        },
+        "mismatch_counts": {},
+        "mismatches": [],
+        "replayed_outcomes": {
+          "PARTIAL": 401596
+        }
+      },
+      "rule_id": "reviewed-guarded-pattern:3a2f84cecc33494518217d2e6be7beaa687b05e2237b0d3691dc31cf4bf30e5c",
+      "selected": {
+        "bank": "HAPPEN",
+        "bridge_options": [],
+        "contradictions": 0,
+        "entry_id": "wordnet:thing:thing.n.05",
+        "family": "explicit-occurrence",
+        "premise": null,
+        "sense_group": "wordnet:thing.n.05",
+        "singletons": 89,
+        "subtlex": 55522
+      },
+      "symbolic_cells_after_teaching": 88,
+      "typed_attempts": 3
+    }
+  },
+  "baseline_sha256": "04c318118ef6c972f9b59cb8cbd9dad0b696e0da57c40be3ff1b3ed824f44228",
+  "benchmark_sha256": "6241f11078cdfa07659b972e67cd0170d8749f9d3bdc473bafb6e400dd9ff9df",
+  "budget_per_arm": {
+    "audits": 2,
+    "teaching": 1
+  },
+  "closure_minus_zipf_bits": 99.85263754543286,
+  "closure_to_zipf_ratio": 1.707865168539326,
+  "code": "EQUAL_MODEL_QUESTION_BUDGET_REPLAY_VALIDATED",
+  "format": "gse.sentence-guided-equal-budget-comparison/1"
+}

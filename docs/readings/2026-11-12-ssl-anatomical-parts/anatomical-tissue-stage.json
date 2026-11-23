@@ -1,0 +1,3973 @@
+{
+  "authority": "UNADMITTED",
+  "format": "gse.anatomical-part-followup-stage/1",
+  "marginal_if_skeletal_admitted": 171,
+  "plan": {
+    "active_pointer_sha256": "c458d88ccd4b5bb142a77b04044cd87627d38d9e64f4d0cc5bcb42f9eefbb5c6",
+    "audits_per_epoch": 2,
+    "baseline_sha256": "e269224e4ed59dd5ca61b6617c2476bc934d8a43d2417a5713098c10de8d85e7",
+    "epochs": 1,
+    "families": [
+      {
+        "antecedent": [
+          "PART",
+          1
+        ],
+        "consequent": [
+          "BODY",
+          1
+        ],
+        "guards": [
+          [
+            "pos",
+            "noun"
+          ],
+          [
+            "wordnet_native_lemma",
+            "true"
+          ],
+          [
+            "wordnet_ancestor:tissue.n.01",
+            "true"
+          ],
+          [
+            "wordnet_other_than_synset:albuginea.n.01",
+            "true"
+          ],
+          [
+            "wordnet_other_than_synset:cell_membrane.n.01",
+            "true"
+          ],
+          [
+            "wordnet_other_than_synset:conodont.n.01",
+            "true"
+          ],
+          [
+            "wordnet_other_than_synset:cortex.n.02",
+            "true"
+          ],
+          [
+            "wordnet_other_than_synset:fiber_bundle.n.01",
+            "true"
+          ],
+          [
+            "wordnet_other_than_synset:intima.n.01",
+            "true"
+          ],
+          [
+            "wordnet_other_than_synset:investment.n.04",
+            "true"
+          ],
+          [
+            "wordnet_other_than_synset:lens_cortex.n.01",
+            "true"
+          ],
+          [
+            "wordnet_other_than_synset:medulla.n.03",
+            "true"
+          ],
+          [
+            "wordnet_other_than_synset:membrane.n.02",
+            "true"
+          ],
+          [
+            "wordnet_other_than_synset:pellicle.n.01",
+            "true"
+          ],
+          [
+            "wordnet_other_than_synset:stroma.n.03",
+            "true"
+          ],
+          [
+            "wordnet_other_than_synset:tissue.n.01",
+            "true"
+          ],
+          [
+            "wordnet_other_than_synset:tunic.n.01",
+            "true"
+          ]
+        ],
+        "holdouts": [
+          "wordnet:skin:skin.n.01",
+          "wordnet:retina:retina.n.01"
+        ],
+        "id": "animal-anatomical-tissue-part-body",
+        "warrant": {
+          "kind": "DEFINITIONAL_DERIVATION",
+          "review_id": "animal-anatomical-tissue-gloss-review",
+          "reviewer": "Source-backed construction review",
+          "source_refs": [
+            "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-anatomical-parts/SOURCE_SCOPE.md",
+            "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#body-reference-content-scope"
+          ],
+          "statement": "The reviewed definitions specify animal tissue, an anatomical membrane, subdivision, covering or other bodily material, or a bodily location required for that material. Generic cellular or tissue senses, explicit plant alternatives, generic genus with illustrative examples, and the fossil tooth are separately reserved.",
+          "warrant_id": "animal-anatomical-tissue-part-body"
+        }
+      }
+    ],
+    "format": "gse.lexicon-epoch-plan/1"
+  },
+  "scope_challenges": [
+    {
+      "BODY": [
+        -1,
+        0,
+        1
+      ],
+      "PART": [
+        1
+      ],
+      "branch_count": 1,
+      "code": "GENERIC_ORGANISM_GENUS",
+      "definition": "part of an organism consisting of an aggregate of cells having a similar structure and function",
+      "entry_id": "wordnet:tissue:tissue.n.01",
+      "lemma": "tissue",
+      "pos": "noun",
+      "subtlex": 547,
+      "synset": "tissue.n.01"
+    },
+    {
+      "BODY": [
+        -1,
+        0,
+        1
+      ],
+      "PART": [
+        1
+      ],
+      "branch_count": 1,
+      "code": "COVERING_GENUS_INCLUDES_GENERIC_PART_OR_ORGANISM",
+      "definition": "outer layer or covering of an organ or part or organism",
+      "entry_id": "wordnet:investment:investment.n.04",
+      "lemma": "investment",
+      "pos": "noun",
+      "subtlex": 497,
+      "synset": "investment.n.04"
+    },
+    {
+      "BODY": [
+        -1,
+        0,
+        1
+      ],
+      "PART": [
+        1
+      ],
+      "branch_count": 1,
+      "code": "EXPLICIT_PLANT_OR_ANIMAL_ALTERNATIVES",
+      "definition": "the tissue forming the outer layer of an organ or structure in plant or animal",
+      "entry_id": "wordnet:cortex:cortex.n.02",
+      "lemma": "cortex",
+      "pos": "noun",
+      "subtlex": 57,
+      "synset": "cortex.n.02"
+    },
+    {
+      "BODY": [
+        -1,
+        0,
+        1
+      ],
+      "PART": [
+        1
+      ],
+      "branch_count": 1,
+      "code": "BRIEF_GENUS_NEEDS_EXACT_DISAMBIGUATION",
+      "definition": "the tissue that surrounds the lens nucleus",
+      "entry_id": "wordnet:cortex:lens_cortex.n.01",
+      "lemma": "cortex",
+      "pos": "noun",
+      "subtlex": 57,
+      "synset": "lens_cortex.n.01"
+    },
+    {
+      "BODY": [
+        -1,
+        0,
+        1
+      ],
+      "PART": [
+        1
+      ],
+      "branch_count": 1,
+      "code": "EXPLICIT_PLANT_OR_ANIMAL_ALTERNATIVES",
+      "definition": "a pliable sheet of tissue that covers or lines or connects the organs or cells of animals or plants",
+      "entry_id": "wordnet:membrane:membrane.n.02",
+      "lemma": "membrane",
+      "pos": "noun",
+      "subtlex": 57,
+      "synset": "membrane.n.02"
+    },
+    {
+      "BODY": [
+        -1,
+        0,
+        1
+      ],
+      "PART": [
+        1
+      ],
+      "branch_count": 1,
+      "code": "GENERIC_MEMBRANE_ALTERNATIVE",
+      "definition": "an enveloping or covering membrane or layer of body tissue",
+      "entry_id": "wordnet:tunic:tunic.n.01",
+      "lemma": "tunic",
+      "pos": "noun",
+      "subtlex": 28,
+      "synset": "tunic.n.01"
+    },
+    {
+      "BODY": [
+        -1,
+        0,
+        1
+      ],
+      "PART": [
+        1
+      ],
+      "branch_count": 1,
+      "code": "EXPLICIT_PLANT_OR_ANIMAL_ALTERNATIVES",
+      "definition": "the inner part of an organ or structure in plant or animal",
+      "entry_id": "wordnet:medulla:medulla.n.03",
+      "lemma": "medulla",
+      "pos": "noun",
+      "subtlex": 16,
+      "synset": "medulla.n.03"
+    },
+    {
+      "BODY": [
+        -1,
+        0,
+        1
+      ],
+      "PART": [
+        1
+      ],
+      "branch_count": 1,
+      "code": "GENERIC_MEMBRANE_ALTERNATIVE",
+      "definition": "an enveloping or covering membrane or layer of body tissue",
+      "entry_id": "wordnet:adventitia:tunic.n.01",
+      "lemma": "adventitia",
+      "pos": "noun",
+      "subtlex": 0,
+      "synset": "tunic.n.01"
+    },
+    {
+      "BODY": [
+        -1,
+        0,
+        1
+      ],
+      "PART": [
+        1
+      ],
+      "branch_count": 1,
+      "code": "BRIEF_GENUS_NEEDS_EXACT_DISAMBIGUATION",
+      "definition": "whitish tunic",
+      "entry_id": "wordnet:albuginea:albuginea.n.01",
+      "lemma": "albuginea",
+      "pos": "noun",
+      "subtlex": 0,
+      "synset": "albuginea.n.01"
+    },
+    {
+      "BODY": [
+        -1,
+        0,
+        1
+      ],
+      "PART": [
+        1
+      ],
+      "branch_count": 1,
+      "code": "FOSSIL_ORIGINAL_STRUCTURE_SCOPE_UNSETTLED",
+      "definition": "the tiny fossil cone-shaped tooth of a primitive vertebrate of order Conodonta",
+      "entry_id": "wordnet:conodont:conodont.n.01",
+      "lemma": "conodont",
+      "pos": "noun",
+      "subtlex": 0,
+      "synset": "conodont.n.01"
+    },
+    {
+      "BODY": [
+        -1,
+        0,
+        1
+      ],
+      "PART": [
+        1
+      ],
+      "branch_count": 1,
+      "code": "CELLULAR_CONSTRUCTION_INCLUDES_NONANIMAL_SENSES",
+      "definition": "a thin membrane (a double layer of lipids) enclosing the cytoplasm of a cell; proteins in the membrane control passage of ions (like sodium or potassium or calcium) in and out of the cell",
+      "entry_id": "wordnet:cytomembrane:cell_membrane.n.01",
+      "lemma": "cytomembrane",
+      "pos": "noun",
+      "subtlex": 0,
+      "synset": "cell_membrane.n.01"
+    },
+    {
+      "BODY": [
+        -1,
+        0,
+        1
+      ],
+      "PART": [
+        1
+      ],
+      "branch_count": 1,
+      "code": "GENERIC_FIBERS_WITH_NEURAL_EXAMPLE",
+      "definition": "a bundle of fibers (especially nerve fibers)",
+      "entry_id": "wordnet:fascicle:fiber_bundle.n.01",
+      "lemma": "fascicle",
+      "pos": "noun",
+      "subtlex": 0,
+      "synset": "fiber_bundle.n.01"
+    },
+    {
+      "BODY": [
+        -1,
+        0,
+        1
+      ],
+      "PART": [
+        1
+      ],
+      "branch_count": 1,
+      "code": "GENERIC_FIBERS_WITH_NEURAL_EXAMPLE",
+      "definition": "a bundle of fibers (especially nerve fibers)",
+      "entry_id": "wordnet:fasciculus:fiber_bundle.n.01",
+      "lemma": "fasciculus",
+      "pos": "noun",
+      "subtlex": 0,
+      "synset": "fiber_bundle.n.01"
+    },
+    {
+      "BODY": [
+        -1,
+        0,
+        1
+      ],
+      "PART": [
+        1
+      ],
+      "branch_count": 1,
+      "code": "GENERIC_ORGAN_GENUS_WITH_VASCULAR_EXAMPLE",
+      "definition": "the innermost membrane of an organ (especially the inner lining of an artery or vein or lymphatic vessel)",
+      "entry_id": "wordnet:intima:intima.n.01",
+      "lemma": "intima",
+      "pos": "noun",
+      "subtlex": 0,
+      "synset": "intima.n.01"
+    },
+    {
+      "BODY": [
+        -1,
+        0,
+        1
+      ],
+      "PART": [
+        1
+      ],
+      "branch_count": 1,
+      "code": "PROTOZOAN_BODY_SCOPE_UNSETTLED",
+      "definition": "thin protective membrane in some protozoa",
+      "entry_id": "wordnet:pellicle:pellicle.n.01",
+      "lemma": "pellicle",
+      "pos": "noun",
+      "subtlex": 0,
+      "synset": "pellicle.n.01"
+    },
+    {
+      "BODY": [
+        -1,
+        0,
+        1
+      ],
+      "PART": [
+        1
+      ],
+      "branch_count": 1,
+      "code": "GENERIC_ORGAN_NEEDS_ANIMAL_WITNESS",
+      "definition": "the supporting tissue of an organ (as opposed to parenchyma)",
+      "entry_id": "wordnet:stroma:stroma.n.03",
+      "lemma": "stroma",
+      "pos": "noun",
+      "subtlex": 0,
+      "synset": "stroma.n.03"
+    },
+    {
+      "BODY": [
+        -1,
+        0,
+        1
+      ],
+      "PART": [
+        1
+      ],
+      "branch_count": 1,
+      "code": "GENERIC_MEMBRANE_ALTERNATIVE",
+      "definition": "an enveloping or covering membrane or layer of body tissue",
+      "entry_id": "wordnet:tunica:tunic.n.01",
+      "lemma": "tunica",
+      "pos": "noun",
+      "subtlex": 0,
+      "synset": "tunic.n.01"
+    }
+  ],
+  "scope_size": 286,
+  "skeletal_overlap": [
+    "wordnet:anklebone:anklebone.n.01",
+    "wordnet:anterior:front_tooth.n.01",
+    "wordnet:anvil:incus.n.01",
+    "wordnet:astragal:anklebone.n.01",
+    "wordnet:astragalus:anklebone.n.01",
+    "wordnet:atlas:atlas.n.03",
+    "wordnet:axis:axis.n.05",
+    "wordnet:bicuspid:premolar.n.01",
+    "wordnet:bone:bone.n.01",
+    "wordnet:bonelet:ossicle.n.01",
+    "wordnet:braincase:cranium.n.01",
+    "wordnet:brainpan:cranium.n.01",
+    "wordnet:breastbone:sternum.n.01",
+    "wordnet:bucktooth:bucktooth.n.01",
+    "wordnet:calcaneus:heelbone.n.01",
+    "wordnet:calvaria:calvaria.n.01",
+    "wordnet:capitate:capitate.n.01",
+    "wordnet:carpal:carpal_bone.n.01",
+    "wordnet:centrum:centrum.n.01",
+    "wordnet:cheekbone:cheekbone.n.01",
+    "wordnet:chop:chop.n.03",
+    "wordnet:chopper:chopper.n.02",
+    "wordnet:clavicle:clavicle.n.01",
+    "wordnet:coccyx:coccyx.n.01",
+    "wordnet:collarbone:clavicle.n.01",
+    "wordnet:costa:rib.n.02",
+    "wordnet:cranium:cranium.n.01",
+    "wordnet:cuspid:canine.n.01",
+    "wordnet:dentin:dentine.n.02",
+    "wordnet:dentine:dentine.n.02",
+    "wordnet:diaphysis:diaphysis.n.01",
+    "wordnet:dogtooth:canine.n.01",
+    "wordnet:epiphysis:epiphysis.n.01",
+    "wordnet:eyetooth:canine.n.01",
+    "wordnet:fang:fang.n.03",
+    "wordnet:fang:fang.n.04",
+    "wordnet:femur:femur.n.01",
+    "wordnet:fibula:fibula.n.01",
+    "wordnet:fishbone:fishbone.n.01",
+    "wordnet:forehead:frontal_bone.n.01",
+    "wordnet:furcula:furcula.n.01",
+    "wordnet:gladiolus:gladiolus.n.02",
+    "wordnet:grinder:molar.n.01",
+    "wordnet:hamate:hamate.n.01",
+    "wordnet:hammer:malleus.n.01",
+    "wordnet:heelbone:heelbone.n.01",
+    "wordnet:hipbone:hipbone.n.01",
+    "wordnet:humerus:humerus.n.01",
+    "wordnet:hyoid:hyoid.n.01",
+    "wordnet:ilium:ilium.n.02",
+    "wordnet:incisor:incisor.n.01",
+    "wordnet:incus:incus.n.01",
+    "wordnet:ischium:ischium.n.01",
+    "wordnet:jaw:jaw.n.01",
+    "wordnet:jawbone:lower_jaw.n.01",
+    "wordnet:jowl:lower_jaw.n.01",
+    "wordnet:kneecap:patella.n.01",
+    "wordnet:kneepan:patella.n.01",
+    "wordnet:malar:cheekbone.n.01",
+    "wordnet:malleus:malleus.n.01",
+    "wordnet:mandible:lower_jaw.n.01",
+    "wordnet:mandibula:lower_jaw.n.01",
+    "wordnet:manubrium:manubrium.n.01",
+    "wordnet:marrowbone:marrowbone.n.01",
+    "wordnet:maxilla:upper_jaw.n.01",
+    "wordnet:maxillary:upper_jaw.n.01",
+    "wordnet:modiolus:modiolus.n.01",
+    "wordnet:molar:molar.n.01",
+    "wordnet:nasal:nasal.n.02",
+    "wordnet:navicular:scaphoid_bone.n.01",
+    "wordnet:occiput:occiput.n.01",
+    "wordnet:os:bone.n.01",
+    "wordnet:ossicle:ossicle.n.01",
+    "wordnet:ossiculum:ossicle.n.01",
+    "wordnet:palatine:palatine.n.04",
+    "wordnet:pastern:pastern.n.01",
+    "wordnet:patella:patella.n.01",
+    "wordnet:pearly:chopper.n.02",
+    "wordnet:phalanx:phalanx.n.01",
+    "wordnet:posterior:back_tooth.n.01",
+    "wordnet:premolar:premolar.n.01",
+    "wordnet:pubis:pubis.n.01",
+    "wordnet:radius:radius.n.04",
+    "wordnet:ramus:ramus.n.01",
+    "wordnet:rib:rib.n.02",
+    "wordnet:sacrum:sacrum.n.01",
+    "wordnet:scapula:scapula.n.01",
+    "wordnet:shaft:diaphysis.n.01",
+    "wordnet:shin:tibia.n.01",
+    "wordnet:shinbone:tibia.n.01",
+    "wordnet:sinciput:sinciput.n.01",
+    "wordnet:skull:skull.n.01",
+    "wordnet:skullcap:calvaria.n.01",
+    "wordnet:sphenoid:sphenoid_bone.n.01",
+    "wordnet:stapes:stapes.n.01",
+    "wordnet:sternum:sternum.n.01",
+    "wordnet:stirrup:stapes.n.01",
+    "wordnet:submaxilla:lower_jaw.n.01",
+    "wordnet:talus:anklebone.n.01",
+    "wordnet:tarsal:tarsal.n.01",
+    "wordnet:thighbone:femur.n.01",
+    "wordnet:tibia:tibia.n.01",
+    "wordnet:tooth:tooth.n.01",
+    "wordnet:trapezium:trapezium.n.03",
+    "wordnet:trapezoid:trapezoid.n.02",
+    "wordnet:triquetral:triquetral.n.01",
+    "wordnet:turbinal:turbinate_bone.n.01",
+    "wordnet:turbinate:turbinate_bone.n.01",
+    "wordnet:tusk:tusk.n.02",
+    "wordnet:ulna:ulna.n.01",
+    "wordnet:vertebra:vertebra.n.01",
+    "wordnet:vomer:vomer.n.01",
+    "wordnet:wishbone:wishbone.n.01",
+    "wordnet:zygoma:zygoma.n.01",
+    "wordnet:zygomatic:cheekbone.n.01"
+  ],
+  "staged": {
+    "changes": [
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:abducens:abducent.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:abducent:abducent.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:adenoid:pharyngeal_tonsil.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:adhesion:adhesion.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:afferent:sensory_nerve.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:agnail:hangnail.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:allantois:allantois.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:allograft:homograft.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:anklebone:anklebone.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:anterior:front_tooth.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:anvil:incus.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:aponeurosis:aponeurosis.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:arcus:arcus.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:astragal:anklebone.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:astragalus:anklebone.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:astroglia:astroglia.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:atheroma:atheroma.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:atlas:atlas.n.03"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:autograft:autograft.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:autoplasty:autograft.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:axis:axis.n.05"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:axolemma:axolemma.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:band:isthmus.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:belly:belly.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:bicuspid:premolar.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:bone:bone.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:bonelet:ossicle.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:braincase:cranium.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:brainpan:cranium.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:breastbone:sternum.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:bubo:bubo.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:bucktooth:bucktooth.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:buff:buff.n.03"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:calcaneus:heelbone.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:calvaria:calvaria.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:capitate:capitate.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:carpal:carpal_bone.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:cartilage:cartilage.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:caul:caul.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:caul:greater_omentum.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:cellulite:cellulite.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:centrum:centrum.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:chalaza:chalaza.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:cheekbone:cheekbone.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:chop:chop.n.03"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:chopper:chopper.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:chordamesoderm:chordamesoderm.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:chorioallantois:chorioallantois.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:choroid:choroid.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:clavicle:clavicle.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:coccyx:coccyx.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:collarbone:clavicle.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:commissure:commissure.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:conjunctiva:conjunctiva.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:cornea:cornea.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:coronet:coronet.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:corporation:pot.n.07"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:costa:rib.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:cranium:cranium.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:cusp:cusp.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:cuspid:canine.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:cuticle:cuticle.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:cutis:skin.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:decidua:decidua.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:dentin:dentine.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:dentine:dentine.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:depressor:depressor.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:dewlap:dewlap.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:diaphragm:diaphragm.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:diaphysis:diaphysis.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:dogtooth:canine.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:dura:dura_mater.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:eardrum:eardrum.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:ectoblast:ectoderm.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:ectoderm:ectoderm.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:efferent:motor_nerve.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:endoblast:endoderm.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:endocardium:endocardium.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:endocranium:endocranium.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:endoderm:endoderm.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:endometrium:endometrium.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:endoneurium:endoneurium.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:endosteum:endosteum.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:endothelium:endothelium.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:entoblast:endoderm.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:entoderm:endoderm.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:ependyma:ependyma.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:epicardium:epicardium.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:epiphysis:epiphysis.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:epithelium:epithelium.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:exoderm:ectoderm.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:eyelid:eyelid.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:eyetooth:canine.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:facia:fascia.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:facial:facial.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:fang:fang.n.03"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:fang:fang.n.04"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:fascia:fascia.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:fat:adipose_tissue.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:femur:femur.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:fibrocartilage:fibrocartilage.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:fibula:fibula.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:fillet:lemniscus.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:fishbone:fishbone.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:flab:flab.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:flap:flap.n.04"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:flesh:flesh.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:forehead:frontal_bone.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:foreskin:prepuce.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:foreskin:prepuce.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:fornix:fornix.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:furcula:furcula.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:gingiva:gingiva.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:gladiolus:gladiolus.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:glia:neuroglia.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:graft:graft.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:granulation:granulation.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:grinder:molar.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:gristle:cartilage.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:gum:gingiva.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:hamate:hamate.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:hammer:malleus.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:hamstring:hamstring.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:hangnail:hangnail.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:haw:haw.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:heelbone:heelbone.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:heterograft:heterograft.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:hipbone:hipbone.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:homograft:homograft.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:humerus:humerus.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:hyaloid:hyaloid_membrane.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:hymen:hymen.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:hyoid:hyoid.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:hypoblast:endoderm.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:hypoglossal:hypoglossal.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:ilium:ilium.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:incisor:incisor.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:incus:incus.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:iris:iris.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:ischium:ischium.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:isthmus:isthmus.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:jaw:jaw.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:jawbone:lower_jaw.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:jowl:lower_jaw.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:kneecap:patella.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:kneepan:patella.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:lamella:lamella.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:leaflet:cusp.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:lemniscus:lemniscus.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:leptomeninges:leptomeninges.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:lid:eyelid.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:lien:spleen.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:ligament:ligament.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:macroglia:astroglia.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:malar:cheekbone.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:malleus:malleus.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:mandible:lower_jaw.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:mandibula:lower_jaw.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:manubrium:manubrium.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:marrow:marrow.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:marrowbone:marrowbone.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:matrix:matrix.n.05"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:maxilla:upper_jaw.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:maxillary:upper_jaw.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:meninges:meninx.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:meninx:meninx.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:meniscus:meniscus.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:mesenchyme:mesenchyme.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:mesentery:mesentery.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:mesoblast:mesoderm.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:mesocolon:mesocolon.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:mesoderm:mesoderm.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:mesothelium:mesothelium.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:microglia:microglia.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:midriff:diaphragm.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:modiolus:modiolus.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:molar:molar.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:mons:mons.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:mucosa:mucous_membrane.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:muscle:muscle.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:myocardium:myocardium.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:myringa:eardrum.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:nasal:nasal.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:navicular:scaphoid_bone.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:nerve:nerve.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:neuroepithelium:neuroepithelium.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:neuroglia:neuroglia.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:neuropil:neuropil.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:neuropile:neuropil.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:node:lymph_node.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:occiput:occiput.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:oculomotor:oculomotor.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:oligodendroglia:oligodendroglia.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:omentum:omentum.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:os:bone.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:ossicle:ossicle.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:ossiculum:ossicle.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:pacemaker:pacemaker.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:palatine:palatine.n.04"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:palpebra:eyelid.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:parenchyma:parenchyma.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:pastern:pastern.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:patella:patella.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:pathway:nerve_pathway.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:paunch:belly.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:pearly:chopper.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:peduncle:peduncle.n.03"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:pericardium:pericardium.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:perimysium:perimysium.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:periosteum:periosteum.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:perithelium:perithelium.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:peritoneum:peritoneum.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:phalanx:phalanx.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:pinguecula:pinguecula.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:pleura:pleura.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:pneumogastric:vagus.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:posterior:back_tooth.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:pot:pot.n.07"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:potbelly:pot.n.07"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:premolar:premolar.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:prepuce:prepuce.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:prepuce:prepuce.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:pterygium:pterygium.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:pubis:pubis.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:radius:radius.n.04"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:ramus:ramus.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:retina:retina.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:rib:rib.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:sacrum:sacrum.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:sarcolemma:sarcolemma.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:scalp:scalp.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:scapula:scapula.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:sclera:sclera.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:serosa:serous_membrane.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:shaft:diaphysis.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:shin:tibia.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:shinbone:tibia.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:sinciput:sinciput.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:sinew:tendon.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:skin:skin.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:skull:skull.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:skullcap:calvaria.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:sphenoid:sphenoid_bone.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:spleen:spleen.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:stapes:stapes.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:sternum:sternum.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:stirrup:stapes.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:submaxilla:lower_jaw.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:submucosa:submucosa.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:synovium:synovial_membrane.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:talus:anklebone.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:tarsal:tarsal.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:tegument:skin.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:tendon:tendon.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:thighbone:femur.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:tibia:tibia.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:tonsil:tonsil.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:tooth:tooth.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:trabecula:trabecula.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:tract:nerve_pathway.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:transplant:graft.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:trapezium:trapezium.n.03"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:trapezoid:trapezoid.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:trigeminal:trigeminal.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:trigeminus:trigeminal.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:triquetral:triquetral.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:trochlear:trochlear.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:trophoblast:trophoblast.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:tummy:pot.n.07"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:turbinal:turbinate_bone.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:turbinate:turbinate_bone.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:tusk:tusk.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:tympanum:eardrum.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:ulna:ulna.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:umbilical:umbilical_cord.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:uvula:uvula.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:vagus:vagus.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:veil:caul.n.02"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:velum:soft_palate.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:vertebra:vertebra.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:vomer:vomer.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:web:web.n.07"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:wishbone:wishbone.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:xenograft:heterograft.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:zygoma:zygoma.n.01"
+      },
+      {
+        "after": [
+          1
+        ],
+        "bank": "BODY",
+        "before": [
+          -1,
+          0,
+          1
+        ],
+        "entry_id": "wordnet:zygomatic:cheekbone.n.01"
+      }
+    ],
+    "contradictions": []
+  }
+}

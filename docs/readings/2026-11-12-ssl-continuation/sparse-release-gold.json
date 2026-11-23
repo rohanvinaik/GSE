@@ -1,0 +1,18 @@
+{
+  "format": "gse.lexicon-gold/1",
+  "records": [
+    {"entry_id": "gse:prime:dont-want", "bank": "WANT", "expected": -1},
+    {"entry_id": "gse:prime:this", "bank": "SOMETHING", "expected": 1},
+    {"entry_id": "wordnet:want:desire.v.01", "bank": "WANT", "expected": 1},
+    {"entry_id": "wordnet:very:very.r.01", "bank": "INTENSITY", "expected": 1},
+    {"entry_id": "wordnet:extremely:extremely.r.02", "bank": "INTENSITY", "expected": 1},
+    {"entry_id": "wordnet:heart:heart.n.02", "bank": "BODY", "expected": 1},
+    {"entry_id": "wordnet:heart:heart.n.07", "bank": "BODY", "expected": 0},
+    {"entry_id": "wordnet:pyramid:pyramid.n.01", "bank": "BODY", "expected": 0},
+    {"entry_id": "wordnet:tetrahedron:tetrahedron.n.01", "bank": "BODY", "expected": 0},
+    {"entry_id": "wordnet:tesseract:tesseract.n.01", "bank": "BODY", "expected": 0},
+    {"entry_id": "wordnet:bank:bank.n.01", "bank": "SOMETHING", "expected": 1},
+    {"entry_id": "wordnet:bank:depository_financial_institution.n.01", "bank": "SOMETHING", "expected": 1},
+    {"entry_id": "wordnet:heart:heart.n.02", "bank": "WANT", "expected": 0}
+  ]
+}

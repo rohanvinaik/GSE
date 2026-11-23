@@ -1,0 +1,275 @@
+{
+  "authority": "READ_ONLY_FOOTPRINT_NOT_MARGINAL_RULE_EFFECT_OR_GOLD",
+  "candidate": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-01/constructed-corpus-body-internal-organs.db",
+  "counts": {
+    "conditional_exception_records": 0,
+    "definitions": 401596,
+    "definitions_with_relation_singletons": 286499
+  },
+  "format": "gse.existing-closure-footprint/1",
+  "joint_components": [
+    {
+      "banks": [
+        "ABOVE",
+        "FAR",
+        "HERE",
+        "OUTSIDE",
+        "SIDE",
+        "TOWARD",
+        "WHERE"
+      ],
+      "components": 401596,
+      "conditional_joint_support_reduction_bits": 630189.0832473253,
+      "volume_counts": [
+        [
+          243,
+          243,
+          1
+        ],
+        [
+          729,
+          251,
+          16
+        ],
+        [
+          2187,
+          737,
+          401579
+        ]
+      ]
+    },
+    {
+      "banks": [
+        "BEFORE",
+        "LONG_TIME",
+        "MOMENT",
+        "THEN",
+        "WHEN"
+      ],
+      "components": 401596,
+      "conditional_joint_support_reduction_bits": 608587.1100410358,
+      "volume_counts": [
+        [
+          81,
+          31,
+          1
+        ],
+        [
+          243,
+          85,
+          401595
+        ]
+      ]
+    },
+    {
+      "banks": [
+        "BODY",
+        "SOMETHING"
+      ],
+      "components": 208553,
+      "conditional_joint_support_reduction_bits": 47411.83900082077,
+      "volume_counts": [
+        [
+          1,
+          1,
+          41
+        ],
+        [
+          3,
+          3,
+          77746
+        ],
+        [
+          9,
+          7,
+          130766
+        ]
+      ]
+    },
+    {
+      "banks": [
+        "CAUSE",
+        "DO",
+        "HAPPEN",
+        "MOVE"
+      ],
+      "components": 401596,
+      "conditional_joint_support_reduction_bits": 360254.73834047676,
+      "volume_counts": [
+        [
+          1,
+          1,
+          273
+        ],
+        [
+          3,
+          3,
+          760
+        ],
+        [
+          9,
+          9,
+          6064
+        ],
+        [
+          27,
+          17,
+          1
+        ],
+        [
+          27,
+          27,
+          168
+        ],
+        [
+          81,
+          43,
+          394330
+        ]
+      ]
+    },
+    {
+      "banks": [
+        "GOOD"
+      ],
+      "components": 208553,
+      "conditional_joint_support_reduction_bits": 0.0,
+      "volume_counts": [
+        [
+          1,
+          1,
+          208553
+        ]
+      ]
+    },
+    {
+      "banks": [
+        "I",
+        "SOMEONE",
+        "YOU"
+      ],
+      "components": 401596,
+      "conditional_joint_support_reduction_bits": 261232.68198004234,
+      "volume_counts": [
+        [
+          9,
+          9,
+          10192
+        ],
+        [
+          27,
+          17,
+          391404
+        ]
+      ]
+    },
+    {
+      "banks": [
+        "ONE",
+        "QUANTITY",
+        "TWO"
+      ],
+      "components": 401596,
+      "conditional_joint_support_reduction_bits": 267816.82625995035,
+      "volume_counts": [
+        [
+          9,
+          9,
+          327
+        ],
+        [
+          27,
+          17,
+          401269
+        ]
+      ]
+    },
+    {
+      "banks": [
+        "SOMETHING"
+      ],
+      "components": 70848,
+      "conditional_joint_support_reduction_bits": 0.0,
+      "volume_counts": [
+        [
+          1,
+          1,
+          70848
+        ]
+      ]
+    },
+    {
+      "banks": [
+        "WANT"
+      ],
+      "components": 133,
+      "conditional_joint_support_reduction_bits": 0.0,
+      "volume_counts": [
+        [
+          1,
+          1,
+          133
+        ]
+      ]
+    }
+  ],
+  "joint_measure": "LOG2_PRODUCT_DOMAIN_SIZE_OVER_JOINT_WITNESSES_AT_RECORDED_COMPLETE_CHECK",
+  "relation_singletons": [
+    {
+      "bank": "GOOD",
+      "definitions": 208553,
+      "rule_id": "founder:noun-own-evaluation"
+    },
+    {
+      "bank": "SOMETHING",
+      "definitions": 60669,
+      "rule_id": "founder:adjective-not-object"
+    },
+    {
+      "bank": "SOMETHING",
+      "definitions": 10179,
+      "rule_id": "founder:adverb-not-object"
+    },
+    {
+      "bank": "HAPPEN",
+      "definitions": 4259,
+      "rule_id": "founder:category:do-happen"
+    },
+    {
+      "bank": "HAPPEN",
+      "definitions": 1491,
+      "rule_id": "founder:category:move-happen"
+    },
+    {
+      "bank": "HAPPEN",
+      "definitions": 1347,
+      "rule_id": "founder:category:cause-happen"
+    },
+    {
+      "bank": "QUANTITY",
+      "definitions": 226,
+      "rule_id": "reviewed-guarded-pattern:3bf66d8b1cf0cf629d8bd968d3a5e7cdcfee5b508d007afcd49793d8b4bbace1"
+    },
+    {
+      "bank": "WANT",
+      "definitions": 133,
+      "rule_id": "reviewed-guarded-pattern:f4ff18466dbc0cfce0b075ac7dae052e0a42eee33e6ceebfb979c63f0cbbab37"
+    },
+    {
+      "bank": "QUANTITY",
+      "definitions": 100,
+      "rule_id": "reviewed-guarded-pattern:65d16959c01e4411fe908f0a08ab3a0b130fa0cdf3095f20602b256862b56aa2"
+    },
+    {
+      "bank": "BODY",
+      "definitions": 33,
+      "rule_id": "reviewed-guarded-pattern:4020ffd7ce72eb23aea7686a62a21eaa2bdc974306586560d69cbc89a63853a7"
+    },
+    {
+      "bank": "WHERE",
+      "definitions": 1,
+      "rule_id": "founder:category:above-where"
+    }
+  ],
+  "rule_version": "feced645b816f0d5faa594b7c6502a51702c3e77fae16c55c2faa37c68cd7015"
+}

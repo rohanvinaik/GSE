@@ -1,0 +1,155 @@
+{
+  "arm_receipt": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-anatomical-tissue/closure/arm-result.json",
+  "audit_outcomes": {
+    "MODEL_AGREEMENT": 2
+  },
+  "cells": {
+    "assigned": 406253,
+    "explicit_zero": 280661,
+    "unresolved": 22083067
+  },
+  "code": "ACTIVE_SSL_ANATOMICAL_TISSUE_VERIFIED",
+  "delta": {
+    "BODY": 171
+  },
+  "format": "gse.active-ssl-anatomical-tissue/1",
+  "holdouts": [
+    "wordnet:skin:skin.n.01",
+    "wordnet:retina:retina.n.01"
+  ],
+  "mismatches": 0,
+  "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-005.db",
+  "pointer_sha256": "de025ad8bdc1bd82fb33a54fdbd9d0b09b26a2d61f10412958d552ca683fc495",
+  "previous_path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-004.db",
+  "publication_receipt": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-anatomical-tissue/closure/sparse-publication.json",
+  "records_replayed": 401596,
+  "rule_id": "reviewed-guarded-pattern:275d72d2802ac76818610dcfd7c0e52aa0bf7b8675bf996759a83227a3cb674d",
+  "semantic_outcomes": {
+    "ABSTAINED": 1,
+    "CONFLICT": 0,
+    "IDENTIFIED_CORRECT": 32,
+    "NOT_FOUND": 0,
+    "WRONG": 0
+  },
+  "sha256": "63db90e7ae2044213d7c5dbaa401b03c8fe1fbec390b2fed1cc0045494c2fbe4",
+  "symbolic_new_cells": 170,
+  "teaching_entry_id": "wordnet:fat:adipose_tissue.n.01",
+  "typed_questions_used": 3,
+  "verified_controls": {
+    "wordnet:adventitia:tunic.n.01": [
+      -1,
+      0,
+      1
+    ],
+    "wordnet:albuginea:albuginea.n.01": [
+      -1,
+      0,
+      1
+    ],
+    "wordnet:conodont:conodont.n.01": [
+      -1,
+      0,
+      1
+    ],
+    "wordnet:cornea:cornea.n.01": [
+      1
+    ],
+    "wordnet:cortex:cortex.n.02": [
+      -1,
+      0,
+      1
+    ],
+    "wordnet:cortex:lens_cortex.n.01": [
+      -1,
+      0,
+      1
+    ],
+    "wordnet:cytomembrane:cell_membrane.n.01": [
+      -1,
+      0,
+      1
+    ],
+    "wordnet:fascicle:fiber_bundle.n.01": [
+      -1,
+      0,
+      1
+    ],
+    "wordnet:fasciculus:fiber_bundle.n.01": [
+      -1,
+      0,
+      1
+    ],
+    "wordnet:fat:adipose_tissue.n.01": [
+      1
+    ],
+    "wordnet:intima:intima.n.01": [
+      -1,
+      0,
+      1
+    ],
+    "wordnet:investment:investment.n.04": [
+      -1,
+      0,
+      1
+    ],
+    "wordnet:ligament:ligament.n.01": [
+      1
+    ],
+    "wordnet:marrow:marrow.n.01": [
+      1
+    ],
+    "wordnet:medulla:medulla.n.03": [
+      -1,
+      0,
+      1
+    ],
+    "wordnet:membrane:membrane.n.02": [
+      -1,
+      0,
+      1
+    ],
+    "wordnet:myocardium:myocardium.n.01": [
+      1
+    ],
+    "wordnet:pellicle:pellicle.n.01": [
+      -1,
+      0,
+      1
+    ],
+    "wordnet:retina:retina.n.01": [
+      1
+    ],
+    "wordnet:skin:skin.n.01": [
+      1
+    ],
+    "wordnet:stroma:stroma.n.03": [
+      -1,
+      0,
+      1
+    ],
+    "wordnet:tissue:tissue.n.01": [
+      -1,
+      0,
+      1
+    ],
+    "wordnet:tunic:tunic.n.01": [
+      -1,
+      0,
+      1
+    ],
+    "wordnet:tunica:tunic.n.01": [
+      -1,
+      0,
+      1
+    ]
+  },
+  "working_snapshot_retention": {
+    "code": "WORK_SNAPSHOTS_RETIRED",
+    "deferred": [],
+    "published_snapshot": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-005.db",
+    "retired": [
+      "epoch-01/teaching.db",
+      "epoch-01/candidate.db"
+    ]
+  }
+}

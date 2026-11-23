@@ -1,0 +1,92 @@
+{
+  "active_path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-019.db",
+  "active_sha256": "92158b9b2b17bd9376083d8458a0e56bcf66b3fd60f46826fa5c54c5c653c219",
+  "code": "PUBLISHED_AND_ROLLING_RETENTION_VERIFIED",
+  "external_backups_modified": false,
+  "format": "gse.lexicon-learning-round-status/1",
+  "fraction_baseline_unknown_cells": 2.1103964696780637e-05,
+  "human_representation_decisions": 1,
+  "lexical_cells": {
+    "assigned": 408627,
+    "conflicted": 0,
+    "explicit_zero": 280858,
+    "unresolved": 22080693
+  },
+  "living_notebook": "/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/Semantic_Specification_Learning/07_GSE_LEXICON_NSM_WORKING_DRAFT.md",
+  "local_date": "2026-11-18",
+  "local_model_calibration_questions": 5,
+  "local_model_construction_questions": 9,
+  "log2_support_factor": 738.5925253360588,
+  "logical_bytes_unlinked": 39019843584,
+  "modeled_support_factor": "3^466",
+  "new_cells": 466,
+  "new_cells_by_bank": {
+    "BE": 466
+  },
+  "new_cells_by_source": {
+    "wiktionary": 460,
+    "wordnet": 6
+  },
+  "new_model_questions_after_approval": 0,
+  "notebook_result_links_verified": {
+    "../../../../gse/docs/readings/2026-11-13-ssl-explicit-genera/019-approved-be-convention.json": true,
+    "../../../../gse/docs/readings/2026-11-13-ssl-explicit-genera/019-contraction.json": true,
+    "../../../../gse/docs/readings/2026-11-13-ssl-explicit-genera/019-convention-implementation-validation.json": true,
+    "../../../../gse/docs/readings/2026-11-13-ssl-explicit-genera/019-convention-stage.json": true,
+    "../../../../gse/docs/readings/2026-11-13-ssl-explicit-genera/019-free-coordinate-support-proof.json": true,
+    "../../../../gse/docs/readings/2026-11-13-ssl-explicit-genera/019-publication.json": true,
+    "../../../../gse/docs/readings/2026-11-13-ssl-explicit-genera/019-published-consumer-verification.json": true,
+    "../../../../gse/docs/readings/2026-11-13-ssl-explicit-genera/019-rollback-retention.json": true,
+    "../../../../gse/docs/readings/2026-11-13-ssl-explicit-genera/019-verification.json": true,
+    "../../../../gse/docs/readings/2026-11-13-ssl-explicit-genera/sparse-release-019-activation.json": true
+  },
+  "notebook_sha256": "272bb2246440105e552cbe4c0eeb38e569f3f0591487aaba1522c610657957a8",
+  "original_model_receipts_preserved": true,
+  "previous_path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-018.db",
+  "replay": {
+    "code": "REPLAY_VALIDATED",
+    "complete_search": true,
+    "entries_checked": 401596,
+    "entries_mismatched": 0,
+    "entries_validated": 401596,
+    "format": "gse.lexicon-replay-report/1",
+    "gold": "NOT_CHECKED",
+    "inference_counts": {
+      "components_joint_checked": 2495858,
+      "components_solver_limited": 0,
+      "entries_complete_search": 401596,
+      "entries_replayed": 401596,
+      "entries_solver_limited": 0
+    },
+    "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+    "metadata_verification": {
+      "build_report": "NOT_CHECKED",
+      "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+      "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+      "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+      "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+      "catalog_definition_source_ids": "NOT_PERSISTED",
+      "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+      "representation_contract": "VERIFIED",
+      "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+    },
+    "mismatch_counts": {},
+    "mismatches": [],
+    "replayed_outcomes": {
+      "PARTIAL": 401596
+    }
+  },
+  "runtime_consumer": "ACTIVE_019_RUNTIME_VERIFIED",
+  "scope_note": "Sparse release; unknown is not zero. Supplied semantic labels do not prove all unlabelled cells. No equal-budget convergence claim for this convention round.",
+  "semantic_authority": "FOUNDER_APPROVED_CONVENTION_MODEL_AUDITS_DIAGNOSTIC",
+  "semantic_outcomes": {
+    "ABSTAINED": 0,
+    "CONFLICT": 0,
+    "IDENTIFIED_CORRECT": 109,
+    "NOT_FOUND": 0,
+    "WRONG": 0
+  },
+  "source_and_audit_records_preserved": true,
+  "tests_passed": 1756,
+  "verified_at_utc": "2026-11-19T04:23:11.517088+00:00"
+}

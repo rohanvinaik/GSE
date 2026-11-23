@@ -1,0 +1,99 @@
+{
+  "audit": [
+    {
+      "bank": "CAN",
+      "code": "MODEL_AGREEMENT",
+      "entry_id": "wiktionary:en-literate-en-noun-e-Kh8qRa:f0c1cd062f5e12cb79cdd9409291b3583e7e371cf278332c3c3be89d6ae3afec",
+      "request_id": "ad9e9acd7e8e4bd7afd182a634ef3a037dff1e0a505037b7096338e6a91225b2",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@70fb5b398dd5ab932841d11c4bad97e9c1454b71261206346619664f4fd361f4",
+      "value": 1,
+      "writes": false
+    },
+    {
+      "bank": "CAN",
+      "code": "MODEL_AGREEMENT",
+      "entry_id": "wordnet:aliterate:aliterate.n.01",
+      "request_id": "00453626033eabe20e3b14d107e449ba1d4620aed392da9dd9e2a7031000786b",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@70fb5b398dd5ab932841d11c4bad97e9c1454b71261206346619664f4fd361f4",
+      "value": 1,
+      "writes": false
+    },
+    {
+      "bank": "CAN",
+      "code": "MODEL_AGREEMENT",
+      "entry_id": "wordnet:signer:signer.n.01",
+      "request_id": "62b2fa46166c63af24285256a0d5cf330b6764b7db553fa9a2050e535ce24dc2",
+      "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@70fb5b398dd5ab932841d11c4bad97e9c1454b71261206346619664f4fd361f4",
+      "value": 1,
+      "writes": false
+    }
+  ],
+  "baseline_sha256": "c9513434bca9450adbc969c2d8653b551d22b575119b3542657f20646276cc42",
+  "bits_removed": 14.264662506490405,
+  "candidate_sha256": "145225558ab044afbeb062764853a5080bc13b8c44b9391256c6e81c7559a855",
+  "changes_by_source": {
+    "wiktionary": 2,
+    "wordnet": 7
+  },
+  "code": "CAN_RULE_REPLAY_VALIDATED",
+  "epoch_code": "RULE_ADMITTED",
+  "format": "gse.ssl-person-capacity/1",
+  "fraction_of_initial_potential_removed": 4.075622173159782e-07,
+  "new_cells": 9,
+  "reopened_cells": 0,
+  "replay": {
+    "code": "REPLAY_VALIDATED",
+    "complete_search": true,
+    "entries_checked": 401596,
+    "entries_mismatched": 0,
+    "entries_validated": 401596,
+    "format": "gse.lexicon-replay-report/1",
+    "gold": "NOT_CHECKED",
+    "inference_counts": {
+      "components_joint_checked": 2495392,
+      "components_solver_limited": 0,
+      "entries_complete_search": 401596,
+      "entries_replayed": 401596,
+      "entries_solver_limited": 0
+    },
+    "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+    "metadata_verification": {
+      "build_report": "NOT_CHECKED",
+      "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+      "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+      "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+      "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+      "catalog_definition_source_ids": "NOT_PERSISTED",
+      "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+      "representation_contract": "VERIFIED",
+      "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+    },
+    "mismatch_counts": {},
+    "mismatches": [],
+    "replayed_outcomes": {
+      "PARTIAL": 401596
+    }
+  },
+  "replayed_ablation": {
+    "wiktionary:en-literate-en-noun-e-Kh8qRa:f0c1cd062f5e12cb79cdd9409291b3583e7e371cf278332c3c3be89d6ae3afec": {
+      "both": [
+        1
+      ],
+      "child_alone": [
+        -1,
+        0,
+        1
+      ],
+      "gloss": "A person who is able to read and write."
+    }
+  },
+  "rule_id": "reviewed-guarded-pattern:7cbbaee934518a7032d8ecaff3ecb8127803896f1f9685b1d6fdb9a330f77e39",
+  "teaching_entry_id": "wordnet:writer:writer.n.02",
+  "typed_questions_used": 4,
+  "unchanged_open_controls": [
+    "wiktionary:en-aliterate-en-noun-r0GKhLR0:d7f0f69a76cdc051bde54499f81c169cd4b38ad311ac75be4ecd777b21fe4d10",
+    "wiktionary:en-intersex-en-noun-PX-AwM8K:4bded4fad00c7c45fa4201c955681a644bb3b017f425e51b68691c70cbf49ea6",
+    "wordnet:operative:private_detective.n.01",
+    "wordnet:reader:reader.n.03"
+  ]
+}

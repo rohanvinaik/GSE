@@ -1,0 +1,76 @@
+{
+  "format": "gse.direct-model-transport-audit/1",
+  "started_utc": "2026-10-29T23:22:48.710772+00:00",
+  "code": "IDENTIFIED",
+  "definition_id": "wordnet:table:table.n.02",
+  "bank": "WANT",
+  "request_id": "c571856f1b0926f651cf426d127879fb96ea76adf944303f790baedfdb37cbe8",
+  "request_path": "/tmp/gse-table-want-request.json",
+  "request_file_sha256": "c571856f1b0926f651cf426d127879fb96ea76adf944303f790baedfdb37cbe8",
+  "model_pin": {
+    "model": "qwen3.8:27b-q4_K_M",
+    "digest": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+    "batch_protocol_digest": "0e3617f47ae142c1fdeafc182525df1d2b0086d4235d8942c8390ff33fedaa30"
+  },
+  "transport_identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@d064293c2541aa8d8c8c96c95cd2750ad43c03f2a4dd25bd71d8c233de90a449:batch@0e3617f47ae142c1fdeafc182525df1d2b0086d4235d8942c8390ff33fedaa30",
+  "wire_protocol": "gse.lexical-component-entailment/6",
+  "batch_protocol": "gse.lexical-component-batch/2",
+  "configuration": {
+    "thinking": false,
+    "context_tokens": 32768,
+    "output_tokens": 1024,
+    "timeout_seconds": 300,
+    "max_input_bytes": 30720
+  },
+  "input_bytes": 21161,
+  "wire_body_sha256": "19bbdddbabfc1f20d9db10354194c52958b27c470e38dd0463eb2ac1043312ce",
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "WANT": {
+        "type": [
+          "integer",
+          "null"
+        ],
+        "enum": [
+          -1,
+          0,
+          1,
+          null
+        ]
+      }
+    },
+    "required": [
+      "WANT"
+    ],
+    "additionalProperties": false
+  },
+  "database_writes": 0,
+  "scope": "TRANSPORT_RESULT_ONLY_NOT_DATABASE_ACCEPTANCE",
+  "parsed_value": 0,
+  "returned_single_bank_json": "{\"WANT\":0}",
+  "returned_single_bank_sha256": "f5a888a27e021359aaa20d00fb2b8cfc5adcbc2885dc1740d0d213bd0e0845ae",
+  "transport_metrics": {
+    "input_bytes": 21161,
+    "item_count": 1,
+    "prompt_eval_count": 8599,
+    "eval_count": 22,
+    "prompt_eval_duration": 72592616000,
+    "eval_duration": 2591052000,
+    "total_duration": 90643137417
+  },
+  "transport_invocations": 1,
+  "elapsed_seconds": 90.774494,
+  "finished_utc": "2026-10-29T23:24:19.487666+00:00",
+  "request_unchanged": true,
+  "tokenizer_crosscheck": {
+    "tool": "/opt/homebrew/bin/llama-tokenize",
+    "gguf_digest": "sha256:f5f1dd8920d417aac2718b0bda3403da274301efdd6760b4f0f4b864ff2ad57d",
+    "prompt_sha256": "baa9297463722979293b7205da11cbe1c6670790d2a136e5fa48f9d91294877f",
+    "offline_prompt_tokens": 8587,
+    "ollama_prompt_eval_count": 8599,
+    "equal_for_this_request": false,
+    "scope": "ONE_EXACT_PINNED_MODEL_AND_TEMPLATE_REQUEST_NOT_UNIVERSAL_TOKENIZER_EQUIVALENCE",
+    "generation_calls_added": 0
+  }
+}

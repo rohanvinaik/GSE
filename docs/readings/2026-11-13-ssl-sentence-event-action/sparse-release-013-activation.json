@@ -1,0 +1,50 @@
+{
+  "cells": {
+    "assigned": 407511,
+    "explicit_zero": 280661,
+    "unresolved": 22081809
+  },
+  "code": "ACTIVE_SSL_EVENT_ACTION_VERIFIED",
+  "format": "gse.active-ssl-sentence-event-action/1",
+  "mismatches": 0,
+  "path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-013.db",
+  "pointer_sha256": "466c6fe22bf71cf09dc99ed7aef8516399481afe408d8a1cd83ca998bf80ceed",
+  "previous_path": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/sparse-release-012.db",
+  "publication_receipt": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-sentence-event-action/joint/sparse-publication.json",
+  "records_replayed": 401596,
+  "semantic_outcomes": {
+    "ABSTAINED": 10,
+    "CONFLICT": 0,
+    "IDENTIFIED_CORRECT": 78,
+    "NOT_FOUND": 0,
+    "WRONG": 0
+  },
+  "sentence_benchmark": {
+    "baseline_sha256": "04c318118ef6c972f9b59cb8cbd9dad0b696e0da57c40be3ff1b3ed824f44228",
+    "benchmark_sha256": "6241f11078cdfa07659b972e67cd0170d8749f9d3bdc473bafb6e400dd9ff9df",
+    "by_class": {
+      "action": {
+        "exact_sense_bits_removed": 19.019550008653873,
+        "exact_sense_new_correct": 12,
+        "runtime_new_correct": 2
+      },
+      "ambiguous": {},
+      "grammar": {
+        "exact_sense_bits_removed": 0.0
+      },
+      "occurrence": {
+        "exact_sense_bits_removed": 3.169925001442312,
+        "exact_sense_new_correct": 2
+      },
+      "participant": {
+        "exact_sense_bits_removed": 0.0
+      },
+      "result-or-state": {}
+    },
+    "candidate_sha256": "5b00c3927a6626a4cc258ad740f685d32ecf3bc16a34119d0d78324ac40f5310",
+    "code": "SENTENCE_BENCHMARK_VALIDATED",
+    "failures": [],
+    "format": "gse.lexicon-sentence-benchmark-comparison/1"
+  },
+  "sha256": "5b00c3927a6626a4cc258ad740f685d32ecf3bc16a34119d0d78324ac40f5310"
+}

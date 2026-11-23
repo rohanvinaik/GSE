@@ -1,0 +1,86 @@
+{
+  "activation_performed": false,
+  "active_pointer_sha256": "449020ca41a461a7d418e4bdffe402da5c0798cb98444c5f88e7ecf6acd099b5",
+  "baseline_sha256": "68ba5c75a06247e7da0d372ba776ce2787d450c3f43cabdcf52c101b01cb5ca8",
+  "basis_size": 56,
+  "candidate": "/Users/rohanvinaik/Projects/gse/data/lexicon_builder/2026-11-12/ssl-continuation/sentence-duration-catalog.db",
+  "candidate_sha256": "2e46555f1801a87f326c167a6fd8a3efdf45192f6d7f14d8b9a9e4fcf177d8c7",
+  "cells": {
+    "assigned": 405829,
+    "explicit_zero": 280643,
+    "unresolved": 22083547
+  },
+  "code": "DURATION_MAPPING_REPLAY_VALIDATED",
+  "definition_domains_changed": 0,
+  "duration_mapping": {
+    "approved_claims": [],
+    "assignment_approved": false,
+    "bank": null,
+    "code": "METADATA",
+    "construction": {
+      "extent": "unspecified",
+      "field": "duration",
+      "relations": [
+        "during",
+        "before",
+        "after"
+      ],
+      "source": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#word-and-sentence-boundary"
+    },
+    "correspondence_approved": true,
+    "note": "Sentence duration and temporal offset carry an interval with unspecified extent.",
+    "value": null
+  },
+  "format": "gse.sentence-duration-catalog-verification/1",
+  "foundation_readiness": {
+    "all_foundation_domains_resolved": false,
+    "all_units_linked": true,
+    "code": "SEMANTIC_FOUNDATION_NOT_VALIDATED",
+    "founder_signature_completeness": "NOT_ESTABLISHED",
+    "gold": "NOT_CHECKED",
+    "mapping_complete": true
+  },
+  "mapping_counts": {
+    "ADAPTED": 24,
+    "EXACT": 34,
+    "METADATA": 7
+  },
+  "publication_blockers": [
+    "INCOMPLETE_DEFINITIONS",
+    "INCOMPLETE_PRIME_FOUNDATION",
+    "SEMANTIC_AUDIT_NOT_SUPPLIED"
+  ],
+  "replay": {
+    "code": "REPLAY_VALIDATED",
+    "complete_search": true,
+    "entries_checked": 401596,
+    "entries_mismatched": 0,
+    "entries_validated": 401596,
+    "format": "gse.lexicon-replay-report/1",
+    "gold": "NOT_CHECKED",
+    "inference_counts": {
+      "components_joint_checked": 2495368,
+      "components_solver_limited": 0,
+      "entries_complete_search": 401596,
+      "entries_replayed": 401596,
+      "entries_solver_limited": 0
+    },
+    "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+    "metadata_verification": {
+      "build_report": "NOT_CHECKED",
+      "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+      "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+      "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+      "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+      "catalog_definition_source_ids": "NOT_PERSISTED",
+      "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+      "representation_contract": "VERIFIED",
+      "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+    },
+    "mismatch_counts": {},
+    "mismatches": [],
+    "replayed_outcomes": {
+      "PARTIAL": 401596
+    }
+  }
+}
