@@ -12,7 +12,7 @@
 
 Build **Geometric Semantic Encoding (GSE)**: a symbolic NLP system that encodes natural language as high-dimensional sparse ternary vectors. This is a standalone semantic processing pipeline.
 
-**Reference Specification**: `gse_implementation_spec.md` (attached)
+**Reference Specification**: `GSE_implementation_spec.md` (attached)
 
 ---
 
@@ -231,7 +231,7 @@ ROLES = [
 
 ## Reference
 
-Full specification with code templates: `gse_implementation_spec.md`
+Full specification with code templates: `GSE_implementation_spec.md`
 
 Start with Phase 1. Run tests. Proceed to Phase 2. Repeat.
 

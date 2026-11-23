@@ -427,7 +427,7 @@ would be written; the apply step writes it.
 * `test_primitives_v2.py` — basis-level orthogonality, bipolar cos = −1
 * `test_polarity_propagation.py` — emergent antonymy
 * `test_orchestrator.py` — cascade, hierarchical segmentation
-* `test_gse_verification_proof_suite.py` — reproducibility, similarity,
+* `test_GSE_verification_proof_suite.py` — reproducibility, similarity,
   entity recovery, operator antisymmetry, compositional operator
   resolution, structural similarity (35 tests)
 * `test_klines.py` — pattern completion

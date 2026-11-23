@@ -786,7 +786,7 @@ drift. Confirmed drift / not on the functional path:
 | `GSE/encoders/`, `GSE/nlp/sentence_parser.py`, `GSE/scales/`, `GSE/composition/`, `GSE/parsing/`, `GSE/evaluation/`, `GSE/teaching/`, `GSE/profiles/`, `GSE/orchestration/`, `GSE/graph/` | **not on the spine** | None are imported by `GSE.api`/`GSE.symbolic`/`GSE.cli`. Older or auxiliary; treat as drift unless wired back in. |
 
 The older planning docs (`UNIFIED_ARCHITECTURE.md`, `SYSTEM_SUMMARY.md`, `STATUS.md`,
-`gse_implementation_spec.md`, `gse_agent_instructions.md`, `gse_otp_genomevault_synthesis.md`,
+`GSE_implementation_spec.md`, `GSE_agent_instructions.md`, `GSE_otp_genomevault_synthesis.md`,
 moved from the repository root to [`docs/planning/`](planning/) on 2026-10-04, each marked
 unverified) predate the current core — defer to this document and the code.
 

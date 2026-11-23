@@ -394,4 +394,4 @@ Violations detected:
 
 - Natural Semantic Metalanguage (Wierzbicka & Goddard)
 - Hyperdimensional Computing (Kanerva)
-- Geometric Semantic Encoding theory documents in `GSE/gse_otp_architecture.md`
+- Geometric Semantic Encoding theory documents in `GSE/GSE_otp_architecture.md`
