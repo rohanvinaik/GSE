@@ -145,45 +145,52 @@ The census should add obligations for those before removing tests elsewhere.
 
 Status: proposal for task 5.2. Nothing here is built until the owner has reviewed it. It implements `specs/gse-interface/spec.md` and is derived from the call sites traced on 2026-11-24 (*Call sites and their kinds* below).
 
+### What GSE is asked to read
+
+GSE's work arrives in three sizes, and the interface is built for the largest, because that is where today's arrangement breaks.
+
+- **Corpora:** many documents in one run. CareerForge sends over 1,000 startup narratives through Regenesis's `understand_batch`; Regenesis tests read whole books and Wikipedia articles. Today each document becomes a temporary file and a fresh GSE process (about 2.7 s of loading before a word is read, card #19), the file is deleted afterwards, and Regenesis keeps its own content-keyed staging file so that a killed run can resume.
+- **Documents:** one book, article or prose file. GSE reads a document as a whole. Its context is composed once over the whole text (`reading-evidence`), cassettes work over the ±2-line neighbourhood and the document fold, and offsets are code points over the exact original bytes, whose hash is kept (`text-healing`; voice-boundary contract §7). A document can therefore be neither split across requests nor merged with its neighbours.
+- **Snippets:** a sentence, a rule clause or a word list, asked interactively (Genesis's sentence and rule bridge, word lookups).
+
 ### The door
 
-A project runs GSE as its own process and never imports it. One command, `$GSE_ROOT/.venv/bin/GSE serve`, loads GSE once (card #19), reads one request per line on stdin and writes each response's records as JSON lines on stdout. stderr carries logs only and is never part of a response. The process does not depend on its working directory. `GSE_ROOT` is the one variable that locates GSE; Regenesis, StartupForge and ARC_AGI_3 already use it, SquishOS uses `GSE_REPO`, and Genesis hardcodes the path.
+A project runs GSE as its own process and never imports it. `$GSE_ROOT/.venv/bin/GSE serve` loads GSE once (card #19) and stays resident. The project writes one docket per line on stdin and reads the docket ledger's lines on stdout; stderr carries logs only. The process does not depend on its working directory: paths in a docket are absolute or relative to the docket's manifest. `GSE_ROOT` is the one variable that locates GSE; Regenesis, StartupForge and ARC_AGI_3 already use it, SquishOS uses `GSE_REPO`, and Genesis hardcodes the path.
 
-### Request (`GSE.request/1`)
+### The docket (`GSE.request/1`)
 
-```json
-{"contract": "GSE.request/1", "kind": "contracts", "id": "regenesis:macbeth",
- "input": {"text": "Macbeth killed Duncan. Lady Macbeth said that the guards did it."},
- "options": {"unit": "document", "genre": "NARRATIVE", "identity": true, "heal": false, "compact": false}}
-```
-
-`id` is the caller's own label, echoed back. `input` and `options` are declared per kind; `describe` publishes every kind's accepted input forms and options with their defaults.
-
-### Response (`GSE.response/1`)
-
-An ordered list of records: one `slip`, the department's records, one `end`.
+A request is a docket: a request for one kind of work over a list of documents. Documents are referenced, never pasted in. GSE opens each one itself, so it reads the original bytes, records their hash, and refuses an unreadable document by name (`INVALID_INPUT`, with the byte position of invalid UTF-8).
 
 ```json
-{"record": "slip", "contract": "GSE.response/1", "slip": "sha256:<canonical request>", "request_id": "regenesis:macbeth",
- "kind": "contracts", "department": "reading",
- "input": {"form": "text", "sha256": "...", "characters": 66},
- "options": {"unit": "document", "genre": "NARRATIVE", "identity": true, "heal": false, "compact": false, "obliques": false},
- "normalized": [],
- "gse": {"version": "2.0.0", "commit": "...", "dirty": false},
- "resources": {"lexicon": {"state": "read", "sha256": "..."}, "genealogy": {"state": "read", "sha256": "..."}}}
-{"record": "contract", "unit": "s0", "span": [0, 22], "outcome": "emitted", "contract": {"contract_version": "v2", "predicate": {"op": "EVENT", "...": "..."}}}
-{"record": "contract", "unit": "s1", "span": [23, 66], "outcome": "emitted", "contract": {"...": "..."}}
-{"record": "end", "outcome": "answered", "refusal": null, "counts": {"units": 2, "emitted": 2, "abstained": 0, "failed": 0}}
+{"contract": "GSE.request/1", "kind": "contracts", "id": "careerforge:yc-batch-7",
+ "documents": {"manifest": "runs/yc-batch-7/documents.jsonl"},
+ "options": {"unit": "document", "genre": "NARRATIVE", "identity": true},
+ "destination": "runs/yc-batch-7/gse"}
 ```
 
-The slip records the options as applied, with every default filled in, so the response says exactly what was done. The same request against the same GSE identity produces byte-identical records; timing is never part of a record. That is what makes recorded responses stand in for GSE (the "homunculus" scenario) and what lets a project cache by slip.
+- `documents` is a manifest file with one `{"id", "path"}` line per document, for a corpus of any size, or an inline list of the same objects for a few documents. A document may carry its own unit segmentation as a sidecar file: SquishOS supplies its sentence and paragraph IDs so it can join the reading back to its source.
+- `destination` is a directory in the requesting project. GSE writes the responses there: the formal written response, kept in the project's own repository.
+- Snippets are the one exception. `{"input": {"sentences": [...]}}`, `{"input": {"rules": [...]}}` or `{"input": {"words": [...]}}` is sent inline and answered inline, because an interactive sentence or a word list has no document to keep.
 
-A refusal is the same envelope with the reason named:
+### The written response (`GSE.response/1`)
+
+For each document, GSE writes one response file in `destination`, named by the document's content hash: the document's slip, the department's records, and its `end`. The slip records the document's identity (path, byte hash, size), the options as applied with every default filled in, any normalizations, and GSE's identity (version, commit, lexicon and other resources used).
+
+Beside the responses GSE keeps the docket ledger, `docket.jsonl`. It opens with a manifest line listing every document before any work starts (the `GSE.intake/1` discipline at corpus scale), then has exactly one outcome line per document as each finishes (its id, hash, outcome and the path of its response), then the docket's own `end`. The resident process streams those same ledger lines on stdout, so the requesting project sees progress as it happens; book-sized readings never pass through a pipe.
 
 ```json
-{"record": "slip", "contract": "GSE.response/1", "slip": "sha256:...", "kind": "contracts", "department": "reading", "...": "..."}
-{"record": "end", "outcome": "refused", "refusal": {"code": "RESOURCE_UNAVAILABLE", "resource": "genealogy", "state": "missing", "path": "data/genealogy.db", "fix": "python scripts/build_genealogy_db.py"}, "counts": {"units": 0}}
+{"record": "manifest", "docket": "sha256:...", "kind": "contracts", "documents": 1043}
+{"record": "document", "id": "yc-0001", "sha256": "...", "outcome": "answered", "response": "runs/yc-batch-7/gse/3f9a….jsonl"}
+{"record": "document", "id": "yc-0412", "sha256": "...", "outcome": "refused", "refusal": {"code": "INVALID_INPUT", "field": "path", "problem": "invalid UTF-8", "position": 18211}}
+{"record": "end", "outcome": "partial", "counts": {"documents": 1043, "answered": 1041, "partial": 1, "refused": 1}}
 ```
+
+- **One document's failure never sinks the docket.** It is named in its own outcome line.
+- **Content-addressed and resumable.** A response is identified by the document's byte hash, the kind, the options as applied and GSE's identity. Re-submitting a docket to the same destination keeps every response that still matches and reads only what is missing or stale, so an interrupted corpus costs only what was left. This is the lexicon builder's journaled `--retry` and Regenesis's staging, done once, by the desk.
+- **Deterministic.** The same document under the same options and GSE identity gives byte-identical records; timing is never part of a record. A project's tests therefore run on its kept responses without GSE (the "homunculus" scenario).
+- **One process, one load.** The resident door works through the whole docket and schedules its documents within a memory bound: the job Regenesis's `run_batch` does for itself today.
+
+A docket refused before any work starts (for example `UNSUPPORTED_CONTRACT_VERSION`) writes the manifest line and the docket's `end` with the named refusal, and nothing else. A document refused for its own reason (for example `RESOURCE_UNAVAILABLE` naming `genealogy`, with the fix `python scripts/build_genealogy_db.py`) is one outcome line.
 
 ### Named refusals at the desk
 

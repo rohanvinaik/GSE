@@ -1,0 +1,5 @@
+{
+  "command": "cat scripts/ci_local.sh && cat GSE/curation/lexicon_builder/publication.py && python3 - <<'PY'\nfrom pathlib import Path\nimport json,subprocess,datetime\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nprint('\\n### live execution',datetime.datetime.now(datetime.timezone.utc).isoformat())\nprint(subprocess.run(['ps','-p','80478,84036','-o','pid=,ppid=,etime=,%cpu=,rss='],capture_output=True,text=True).stdout)\nfor name in ['ssl-api-controller-continuation-exit.json','ssl-api-controller-prime-child-writer.json','ssl-api-controller-happening-phase.json']:\n f=n/name;print(name, f.read_text() if f.exists() else 'ABSENT')\nr=json.loads((n/'ssl-api-runtime-result.json').read_text());print('runtime synchronization status', {k:r.get(k) for k in ['status','source_edits_finished','frozen_at_utc']})\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json, datetime\nw=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint')\nfor name in ['space-baseline.json','space-post-source.json','space-post-teaching.json','joint-stage.json']:\n d=json.loads((w/name).read_text()); print('\\n###',name, 'keys=', list(d))\n for k,v in d.items():\n  if k not in ['entries','changes','joint_counts','per_entry','definitions']:\n   s=json.dumps(v,indent=2)\n   if len(s)<15000: print(k,s)\n   else: print(k, 'structured_length',len(v))\n  else: print(k,'structured_length',len(v) if hasattr(v,'__len__') else v)\nprint('now',datetime.datetime.now(datetime.timezone.utc).isoformat())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

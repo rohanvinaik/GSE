@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\np=Path('openspec/changes/lexicon-symbolic-foundation/tasks.md')\nt=p.read_text();print('### tasks');print(t)\np=Path('/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/Semantic_Specification_Learning/07_GSE_LEXICON_NSM_WORKING_DRAFT.md')\nt=p.read_text();a=t.index('### 5.') if '### 5.' in t else 0\nb=t.index('### 6.',a+1) if '### 6.' in t[a+1:] else len(t)\nprint('### notebook section');print(t[a:b])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

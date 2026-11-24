@@ -792,11 +792,16 @@ class NativeNLP:
 
         # A complete bare gerund can name an activity in a nominal copula,
         # rather than describe an agent doing it ("occupation is teaching").
-        # Demand positive native activity ancestry on BOTH nominals and only
-        # abstract readings of the subject. An animate/mixed subject, an
-        # object, or a following modifier leaves the progressive available.
-        if low.endswith("ing") and has_n and prev in _AUX_BE and i >= 2:
-            subject = wn.synsets(surfaces[i - 2].lower(), pos="n")
+        # Demand a positive native IS-A path from the gerund noun to the
+        # subject's activity reading, not merely a shared broad ancestor.
+        # This licenses a nominal construction, not a lexical bank or a
+        # claim that abstract things cannot act. Animate/mixed subjects,
+        # objects, and following modifiers keep the progressive available.
+        be_index = i - 1
+        while be_index >= 0 and surfaces[be_index].lower() in _NEG:
+            be_index -= 1
+        if low.endswith("ing") and has_n and be_index >= 1 and surfaces[be_index].lower() in _AUX_BE:
+            subject = wn.synsets(surfaces[be_index - 1].lower(), pos="n")
 
             def has_ancestor(synset, name):
                 return any(item.name() == name for path in synset.hypernym_paths() for item in path)
@@ -806,8 +811,11 @@ class NativeNLP:
                 complete
                 and subject
                 and all(has_ancestor(s, "abstraction.n.06") for s in subject)
-                and any(has_ancestor(s, "act.n.02") for s in subject)
-                and any(has_ancestor(s, "act.n.02") for s in senses[1])
+                and any(
+                    has_ancestor(s, "act.n.02") and has_ancestor(gerund, s.name())
+                    for s in subject
+                    for gerund in senses[1]
+                )
             ):
                 return "NOUN"
 

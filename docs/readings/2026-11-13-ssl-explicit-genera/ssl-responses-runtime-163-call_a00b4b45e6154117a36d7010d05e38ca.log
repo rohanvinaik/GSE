@@ -1,0 +1,46 @@
+4 files reformatted, 14 files left unchanged
+I001 [*] Import block is un-sorted or un-formatted
+  --> GSE/symbolic/operators.py:17:1
+   |
+15 |   """
+16 |
+17 | / from __future__ import annotations
+18 | |
+19 | | from dataclasses import replace
+20 | | from typing import Callable, Dict
+21 | |
+22 | | from GSE.symbolic.expression import Negation, Op, Operand
+23 | | from GSE.symbolic.resolution import Coordination
+24 | | from GSE.symbolic.predicates import (
+25 | |     BoundaryCase,
+26 | |     Causation,
+27 | |     ClauseCoordination,
+28 | |     Comparison,
+29 | |     Conditional,
+30 | |     Contrast,
+31 | |     Control,
+32 | |     DegreeQuery,
+33 | |     Equality,
+34 | |     Event,
+35 | |     MinimalSufficiency,
+36 | |     Predicate,
+37 | |     RelativeRestriction,
+38 | |     SetRestriction,
+39 | |     Temporal,
+40 | |     TypeAssertion,
+41 | |     TypeQuery,
+42 | | )
+   | |_^
+help: Organize imports
+   |
+22 | from GSE.symbolic.expression import Negation, Op, Operand
+   - from GSE.symbolic.resolution import Coordination
+23 | from GSE.symbolic.predicates import (
+--------------------------------------------------------------------------------
+41 | )
+42 + from GSE.symbolic.resolution import Coordination
+43 |
+   |
+
+Found 1 error.
+[*] 1 fixable with the `--fix` option.

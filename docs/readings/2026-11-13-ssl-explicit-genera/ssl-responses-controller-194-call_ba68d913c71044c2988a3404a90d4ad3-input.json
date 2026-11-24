@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-controller-blockers.json','ssl-api-controller-root-handoff.json','ssl-api-controller-joint-job.json','ssl-api-controller-continuation-job.json','ssl-api-controller-happening-job.json','ssl_api_checkpoint.py','ssl_api_checkpoint_continue.py']:\n p=n/name; print('\\n###',name); print(p.read_text())\np=Path('/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/Semantic_Specification_Learning/07_GSE_LEXICON_NSM_WORKING_DRAFT.md')\ntext=p.read_text(); print('\\n### NOTEBOOK HEADINGS')\nfor i,line in enumerate(text.splitlines(),1):\n if line.startswith('#'): print(i,line)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

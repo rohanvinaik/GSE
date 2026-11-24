@@ -466,6 +466,13 @@ class LexicalGrounding:
         }
         type_witness = self._construction_type(position, tokens, linked)
         predication = self._definition_predication(position)
+        sentence_start, sentence_end = self._bounds(position, self.sentence_boundaries)
+        # A construction span can stop at a coordinator. The material before
+        # an alternative is not, by itself, asserted context: deriving a noun
+        # identity from just that first disjunct would silently discard the
+        # other reading. Complete definition matching already checks this
+        # scope; weaker gloss/derivation evidence must not bypass that check.
+        alternative_context = any(t.lemma_ == "or" for t in self.doc[sentence_start + 1 : sentence_end])
         derivations = {word: _verb_derivations(word) for word, pos in cues.items() if pos == "VERB"}
         linked_verbs = {t.lemma_ for t in tokens if linked is not None and t.i > linked and t.pos_ == "VERB"}
         witnesses, definition_witnesses = {}, {}
@@ -476,7 +483,11 @@ class LexicalGrounding:
             verb_match = any(gloss[word] == cues[word] == "VERB" for word in matched)
             typed = self._matches_construction_type(sense, type_witness, matched, gloss)
             repeated = self._matches_definition_predication(sense, predication)
-            if repeated or (not definition_only and (exact or (verb_match and len(matched) >= 2) or related or typed)):
+            if repeated or (
+                not definition_only
+                and not alternative_context
+                and (exact or (verb_match and len(matched) >= 2) or related or typed)
+            ):
                 witnesses[entry_id] = {
                     "gloss_terms": sorted(matched),
                     "exact_derivation": exact,
@@ -487,7 +498,10 @@ class LexicalGrounding:
                     definition_witnesses[entry_id] = witnesses[entry_id]
         # Complete definition identity precedes weaker derivational similarity;
         # two exact definitions still abstain rather than choosing by order.
-        return _unique_native_witness(definition_witnesses or witnesses)
+        result = _unique_native_witness(definition_witnesses or witnesses)
+        if alternative_context:
+            result["unasserted_context"] = "DISJUNCTIVE_CONSTRUCTION_ALTERNATIVES"
+        return result
 
     def _definition_predication(self, position):
         """Read an explicit nominal equivalence with the target as its subject."""

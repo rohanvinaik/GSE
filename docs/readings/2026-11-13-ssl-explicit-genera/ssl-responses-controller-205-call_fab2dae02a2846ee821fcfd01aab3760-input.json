@@ -1,0 +1,5 @@
+{
+  "command": "pwd && python3 - <<'PY'\nfrom pathlib import Path\nimport json\np=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-responses-controller-steering.json','ssl-api-controller-joint-exit.json','ssl-api-controller-continuation-job.json','ssl-api-controller-continuation-exit.json','ssl-api-controller-delayed-precheck.json','ssl-api-controller-happening-phase.json','ssl-api-controller-happening-exit.json','ssl-api-runtime-result.json','ssl-api-controller-blockers.json','ssl-api-controller-root-handoff.json']:\n f=p/name\n print('\\n###',name)\n print(f.read_text() if f.exists() else 'ABSENT')\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

@@ -1,22 +1,24 @@
 {
   "format": "GSE.controller-operational-handoff/1",
   "role_scope": "ASSIGNMENT A \u2014 COMPLETE AND EXECUTE THE CONNECTED SSL LEARNER (primary integration ownership)",
-  "updated_utc": "2026-11-24T18:25:02.524159+00:00",
-  "code": "JOINT_CORPUS_MIGRATION_RUNNING_TYPED_PACKETS_COMPLETE",
+  "updated_utc": "2026-11-24T18:42:00+00:00",
+  "code": "JOINT_REFERENCE_REVISION_COMPLETED_EXACT_PRIME_WRITER_PREFLIGHT_RUNNING",
   "root_instruction": "No further root model calls requested. Seven 98K root prime answers received and verified by packet tests; six controller child requests all completed. Do not duplicate any.",
   "source_state": "Owned builder edits finished: minimal exact historical-request reconstruction/version binding only; original model protocol/schema unchanged. 90 targeted writer/history/packet tests passed, 45 orchestration tests passed (overlap not additive). Helper orchestration stable. Broader generic learner work deferred.",
   "joint_job": {
     "pid": 75199,
     "python_pid": 75256,
     "started_utc": "2026-11-24T17:29:22.521081+00:00",
-    "phase": "Atomic working-copy migration; candidate not yet installed at 18:18Z. Original preflight/reclosure/postflight path unchanged.",
+    "phase": "COMPLETED exit 0 at 18:36:42Z. Both full replays: 401596 validated, zero mismatches and solver limits. Exact delta and joint H/buckets completed. No active-pointer change.",
+    "exit_code": 0,
+    "exit_receipt": "ssl-api-controller-joint-exit.json",
     "receipt": "ssl-api-controller-joint-job.json",
     "do_not_restart": true
   },
   "actual_private_changes": {
     "source_own_coordinate_assertions": 4,
     "accepted_reference_teaching_cells": 2,
-    "joint_rules_installed": false,
+    "joint_rules_installed": true,
     "root_prime_cells_written": 0,
     "child_cells_written": 0
   },
@@ -30,15 +32,16 @@
   "next_job": {
     "pid": 80478,
     "receipt": "ssl-api-controller-continuation-job.json",
-    "operation": "Waiting exact joint result and child packet; reconstruct ten original wires against verified history; mandatory full writer preflight; one sustained retained-answer writer; full exact H."
+    "operation": "All ten exact historical wires reconstructed against verified history (delayed-precheck.json); mandatory full writer preflight now running before one sustained retained-answer writer and full exact H."
   },
-  "native_child": "Source-guarded 1289-definition own-happening child ready, 1198 open cells forecast before discovery teaching. Existing three old-law audits retained, never rebound. Following current-head teaching, three genuinely current-head audit questions via existing workflow required before admission/full replay. Tested orchestration helper ssl_api_checkpoint_happening.py; not launched yet.",
-  "runtime_boundary": "Latest receipt has CODE_FREEZE_READY at 18:16Z but still explicitly names two composed wrong classes; latest steering says runtime second unfreeze to fix both. Await genuinely repaired freeze before final repository gate. No publication with known wrong scope.",
+  "native_child": "Source-guarded 1289-definition own-happening child ready, 1198 open cells forecast before discovery teaching. Existing three old-law audits retained, never rebound. Queued PID 84036 waits for current teaching/H, then three genuinely current-head audits, ordinary admission and full replay. No child rule installed yet.",
+  "runtime_boundary": "Latest receipt SOURCE_EDITING_UNFROZEN_SECOND / source_edits_finished false. ASSIGNMENT B is repairing teacher relative-copula and femur coordinated-modifier scope. Await genuinely repaired freeze before final integrated repository gate; full workload and fresh final audit still required.",
+  "joint_committed": {"net_filled_cells_from_post_teaching": 50517, "exact_joint_gain_bits_from_post_teaching": 63216.05024011806, "net_filled_cells_from_foundation": 50523, "exact_joint_gain_bits_from_foundation": 63224.95030596107, "reopened_preexisting_dependent_cells": 6, "rule_version": "0391164684e2311935905a69f9028f5e5b40d80fbc4bfe6d1952e2a97cd6ad5f", "initial_candidate_sha256": "258e310972762601e1e8223e4c1707fdc0fe5b866ac092d8f574677cb2387c74", "candidate_sha_note": "Before queued ten-coordinate writer; not a final artifact pin."},
+  "measured_private_phase": {"definitions": 401595, "filled_cells": 461608, "unknown_cells": 22027712, "exact_H_bits": 32756107.198461812, "baseline_exact_H_bits": 32819332.148767773, "search_limits": 0, "receipt": "WORK/space-post-revision.json", "excludes_unfinished_prime_child_teaching": true},
   "active_pointer_changed": false,
   "published": false,
   "necessary_blockers": [
-    "Joint migration postflight/install/exact delta/H not finished",
-    "Actual ten-coordinate historical writer/reclosure not executed yet",
+    "Ten-coordinate historical writer full preflight/reclosure/H in progress; exact historical precheck passed",
     "Current-head own-happening audit/admission/replay not executed",
     "Runtime repaired freeze, full artifact-verified workload and integrated gate pending"
   ],

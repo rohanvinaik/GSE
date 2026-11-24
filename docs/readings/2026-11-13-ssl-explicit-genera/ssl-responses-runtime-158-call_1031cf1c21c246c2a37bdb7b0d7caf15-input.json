@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-test-reference-index -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast\nfor p in Path('tests').glob('test*.py'):\n tree=ast.parse(p.read_text())\n matches=[]\n for n in tree.body:\n  if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and any(x in n.name.lower() for x in ['relative','possess','coordination','embedded']):matches.append(n.name)\n if matches:print(p, matches)\nfor filename in ['GSE/symbolic/queries.py','GSE/symbolic/claims.py']:\n p=Path(filename);tree=ast.parse(p.read_text());lines=p.read_text().splitlines()\n for n in tree.body:\n  if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and n.name in {'is_logically_equal_to','_operand_key','_entity_key','claim_key'}:print('\\n###',filename,n.name,'\\n','\\n'.join(lines[n.lineno-1:n.end_lineno]))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

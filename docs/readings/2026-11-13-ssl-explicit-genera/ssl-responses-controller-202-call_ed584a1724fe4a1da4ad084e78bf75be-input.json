@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nimport ast\nfrom pathlib import Path\np=Path('scripts/audit_lexicon_sentences.py');s=p.read_text();t=ast.parse(s)\nprint('### complete acceptance functions')\nfor n in t.body:\n if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and any(k in n.name for k in ['artifact','gate','workload','receipt']):\n  print(ast.get_source_segment(s,n))\nprint('### owned source freeze receipt\\n'+Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-source-freeze.json').read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

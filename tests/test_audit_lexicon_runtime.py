@@ -76,6 +76,14 @@ def test_audit_exercises_approved_degree_vectors_and_leaves_database_unchanged(t
         "ordinal_distinction",
     ):
         assert report["by_class"][name] == {"IDENTIFIED": 1}
+    for name in (
+        "matrix_copula_relative",
+        "coordinated_modifier_attachment",
+        "relative_predicate_group",
+        "possessor_not_patient",
+        "nominal_coordination_preserved",
+    ):
+        assert report["by_class"][name] == {"IDENTIFIED": 1}
     json.dumps(report, allow_nan=False)
 
 

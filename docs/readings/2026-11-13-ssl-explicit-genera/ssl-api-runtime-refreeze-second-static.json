@@ -1,0 +1,82 @@
+[
+  {
+    "command": [
+      "env",
+      "UV_OFFLINE=1",
+      "uvx",
+      "ruff@0.16.10",
+      "format",
+      "GSE/api/encoder.py",
+      "GSE/api/parse_repair.py",
+      "GSE/api/trace.py",
+      "GSE/nlp/native.py",
+      "GSE/symbolic/lexical_grounding.py",
+      "GSE/symbolic/grounding.py",
+      "GSE/symbolic/expression.py",
+      "GSE/symbolic/resolution.py",
+      "GSE/symbolic/operators.py",
+      "scripts/audit_lexicon_runtime.py",
+      "scripts/audit_lexicon_sentences.py",
+      "tests/test_runtime_native_identity_controls.py",
+      "tests/test_runtime_native_composed_controls.py",
+      "tests/test_audit_lexicon_runtime.py",
+      "tests/test_lexicon_builder_grammatical_definitions.py",
+      "tests/test_audit_lexicon_sentences.py",
+      "tests/test_symbolic_expression.py",
+      "docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_runtime_workload.py"
+    ],
+    "exit_code": 0,
+    "output": "1 file reformatted, 17 files left unchanged\n"
+  },
+  {
+    "command": [
+      "env",
+      "UV_OFFLINE=1",
+      "uvx",
+      "ruff@0.16.10",
+      "check",
+      "GSE/api/encoder.py",
+      "GSE/api/parse_repair.py",
+      "GSE/api/trace.py",
+      "GSE/nlp/native.py",
+      "GSE/symbolic/lexical_grounding.py",
+      "GSE/symbolic/grounding.py",
+      "GSE/symbolic/expression.py",
+      "GSE/symbolic/resolution.py",
+      "GSE/symbolic/operators.py",
+      "scripts/audit_lexicon_runtime.py",
+      "scripts/audit_lexicon_sentences.py",
+      "tests/test_runtime_native_identity_controls.py",
+      "tests/test_runtime_native_composed_controls.py",
+      "tests/test_audit_lexicon_runtime.py",
+      "tests/test_lexicon_builder_grammatical_definitions.py",
+      "tests/test_audit_lexicon_sentences.py",
+      "tests/test_symbolic_expression.py",
+      "docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_runtime_workload.py"
+    ],
+    "exit_code": 0,
+    "output": "All checks passed!\n"
+  },
+  {
+    "command": [
+      "env",
+      "UV_OFFLINE=1",
+      "uvx",
+      "ty",
+      "check",
+      "GSE/api/encoder.py",
+      "GSE/api/parse_repair.py",
+      "GSE/api/trace.py",
+      "GSE/nlp/native.py",
+      "GSE/symbolic/lexical_grounding.py",
+      "GSE/symbolic/grounding.py",
+      "GSE/symbolic/expression.py",
+      "GSE/symbolic/resolution.py",
+      "GSE/symbolic/operators.py",
+      "scripts/audit_lexicon_runtime.py",
+      "scripts/audit_lexicon_sentences.py"
+    ],
+    "exit_code": 1,
+    "output": "error[missing-union-attribute]: Attribute `position` is not defined on `None` in union `TokenTrace | None`\n    --> GSE/symbolic/expression.py:1417:63\n     |\n1417 |             if isinstance(node, Phrase) and any(a.position == owned.position for a in node.atoms):\n     |                                                               ^^^^^^^^^^^^^^\n\nerror[not-callable]: Object of type `object` is not callable\n    --> GSE/symbolic/grounding.py:1211:44\n     |\n1211 |                 cands = [tuple(t) for t in genealogy.candidates(appos, \"NOUN\", False)]\n     |                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nerror[invalid-explicit-return]: Return type does not match returned value\n   --> GSE/symbolic/resolution.py:246:20\n    |\n246 |               return Entity(\n    |  ____________________^\n247 | |                 head=head_entity.head,\n248 | |                 possessor=possessor_entity,\n249 | |                 modifier=modifier or head_entity.modifier,\n250 | |             )\n    | |_____________^ expected `Atom | Phrase | Negation | Op`, found `Entity`\n    |\n   ::: GSE/symbolic/resolution.py:206:51\n    |\n206 |   def _collapse_phrase_to_entity(phrase: Phrase) -> Expression:\n    |                                                     ---------- Expected `Atom | Phrase | Negation | Op` because of return type\n\nerror[invalid-explicit-return]: Return type does not match returned value\n   --> GSE/symbolic/resolution.py:280:16\n    |\n280 |         return Coordination(members=members, conjunction=atoms[split].lemma, modifier=modifier)\n    |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected `Atom | Phrase | Negation | Op`, found `Coordination`\n    |\n   ::: GSE/symbolic/resolution.py:206:51\n    |\n206 | def _collapse_phrase_to_entity(phrase: Phrase) -> Expression:\n    |                                                   ---------- Expected `Atom | Phrase | Negation | Op` because of return type\n\nerror[invalid-argument-type]: Argument is incorrect\n   --> GSE/symbolic/resolution.py:316:84\n    |\n316 |             restriction = Op(primitive=\"COPULA\", operation=\"TYPE_ASSERT\", arity=2, args=[head, kind])\n    |                                                                                    ^^^^^^^^^^^^^^^^^ Expected `list[Atom | Phrase | Negation | ... omitted 17 union elements]`, found `list[Atom | Phrase | Negation | ... omitted 19 union elements]`\ninfo: element `Entity` of union `Atom | Phrase | Negation | ... omitted 19 union elements` is not assignable to `Atom | Phrase | Negation | ... omitted 17 union elements`\n\nerror[invalid-argument-type]: Argument is incorrect\n   --> GSE/symbolic/resolution.py:317:75\n    |\n317 |             return Op(primitive=\"REL\", operation=\"REL_RESTRICT\", arity=2, args=[head, restriction])\n    |                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^ Expected `list[Atom | Phrase | Negation | ... omitted 17 union elements]`, found `list[Atom | Phrase | Negation | ... omitted 18 union elements]`\ninfo: element `Entity` of union `Atom | Phrase | Negation | ... omitted 18 union elements` is not assignable to `Atom | Phrase | Negation | ... omitted 17 union elements`\n\nerror[invalid-explicit-return]: Return type does not match returned value\n   --> GSE/symbolic/resolution.py:321:16\n    |\n321 |           return Entity(\n    |  ________________^\n322 | |             head=entity_atoms[0],\n323 | |             role=entity_atoms[0].role,\n324 | |             modifier=modifier,\n325 | |         )\n    | |_________^ expected `Atom | Phrase | Negation | Op`, found `Entity`\n    |\n   ::: GSE/symbolic/resolution.py:206:51\n    |\n206 |   def _collapse_phrase_to_entity(phrase: Phrase) -> Expression:\n    |                                                     ---------- Expected `Atom | Phrase | Negation | Op` because of return type\n\nerror[invalid-explicit-return]: Return type does not match returned value\n   --> GSE/symbolic/resolution.py:338:24\n    |\n338 |                 return ArgSplit(members=members)\n    |                        ^^^^^^^^^^^^^^^^^^^^^^^^^ expected `Atom | Phrase | Negation | Op`, found `ArgSplit`\n    |\n   ::: GSE/symbolic/resolution.py:206:51\n    |\n206 | def _collapse_phrase_to_entity(phrase: Phrase) -> Expression:\n    |                                                   ---------- Expected `Atom | Phrase | Negation | Op` because of return type\n\nerror[invalid-explicit-return]: Return type does not match returned value\n   --> GSE/symbolic/resolution.py:345:16\n    |\n345 |           return Entity(\n    |  ________________^\n346 | |             head=entity_atoms[-1],\n347 | |             role=entity_atoms[-1].role,\n348 | |             modifier=modifier,\n349 | |             span=tuple(a.lemma for a in entity_atoms),\n350 | |         )\n    | |_________^ expected `Atom | Phrase | Negation | Op`, found `Entity`\n    |\n   ::: GSE/symbolic/resolution.py:206:51\n    |\n206 |   def _collapse_phrase_to_entity(phrase: Phrase) -> Expression:\n    |                                                     ---------- Expected `Atom | Phrase | Negation | Op` because of return type\n\nerror[invalid-explicit-return]: Return type does not match returned value\n   --> GSE/symbolic/resolution.py:406:24\n    |\n406 |                 return Entity(head=prior.head, possessor=prior.possessor, role=e.role)\n    |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected `Atom | Phrase | Negation | Op`, found `Entity`\n    |\n   ::: GSE/symbolic/resolution.py:392:48\n    |\n392 |     def _bind_one(e: Entity, excluded: set) -> Expression:\n    |                                                ---------- Expected `Atom | Phrase | Negation | Op` because of return type\n\nerror[invalid-explicit-return]: Return type does not match returned value\n   --> GSE/symbolic/resolution.py:412:20\n    |\n412 |             return Entity(head=prior.head, possessor=prior.possessor, role=e.role)\n    |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected `Atom | Phrase | Negation | Op`, found `Entity`\n    |\n   ::: GSE/symbolic/resolution.py:392:48\n    |\n392 |     def _bind_one(e: Entity, excluded: set) -> Expression:\n    |                                                ---------- Expected `Atom | Phrase | Negation | Op` because of return type\n\nerror[invalid-explicit-return]: Return type does not match returned value\n   --> GSE/symbolic/resolution.py:413:16\n    |\n413 |         return e\n    |                ^ expected `Atom | Phrase | Negation | Op`, found `Entity`\n    |\n   ::: GSE/symbolic/resolution.py:392:48\n    |\n392 |     def _bind_one(e: Entity, excluded: set) -> Expression:\n    |                                                ---------- Expected `Atom | Phrase | Negation | Op` because of return type\n\nerror[invalid-argument-type]: Argument to function `_walk` is incorrect\n   --> GSE/symbolic/resolution.py:433:47\n    |\n433 |                 return replace(e, args=[_walk(a) for a in e.args])\n    |                                               ^ Expected `Atom | Phrase | Negation | Op`, found `Atom | Phrase | Negation | ... omitted 17 union elements`\ninfo: element `Event` of union `Atom | Phrase | Negation | ... omitted 17 union elements` is not assignable to `Atom | Phrase | Negation | Op`\ninfo: Function defined here\n   --> GSE/symbolic/resolution.py:415:9\n    |\n415 |     def _walk(e: Expression) -> Expression:\n    |         ^^^^^ ------------- Parameter declared here\n\nerror[invalid-assignment]: Object of type `list[Atom | Phrase | Negation | Op | None]` is not assignable to `list[Atom | Phrase | Negation | Op]`\n   --> GSE/symbolic/resolution.py:434:42\n    |\n434 |             new_args: List[Expression] = [None] * len(e.args)  # type: ignore[list-item]\n    |                       ----------------   ^^^^^^^^^^^^^^^^^^^^ Incompatible value of type `list[Atom | Phrase | Negation | Op | None]`\n    |                       |\n    |                       Declared type\ninfo: element `None` of union `Atom | Phrase | Negation | Op | None` is not assignable to `Atom | Phrase | Negation | Op`\n\nerror[invalid-argument-type]: Argument to function `_walk` is incorrect\n   --> GSE/symbolic/resolution.py:441:37\n    |\n441 |                 new_args[i] = _walk(a)\n    |                                     ^ Expected `Atom | Phrase | Negation | Op`, found `Atom | Phrase | Negation | ... omitted 17 union elements`\ninfo: element `Event` of union `Atom | Phrase | Negation | ... omitted 17 union elements` is not assignable to `Atom | Phrase | Negation | Op`\ninfo: Function defined here\n   --> GSE/symbolic/resolution.py:415:9\n    |\n415 |     def _walk(e: Expression) -> Expression:\n    |         ^^^^^ ------------- Parameter declared here\n\nerror[missing-attribute]: Object of type `Atom | Phrase | Negation | Op` has no attribute `head`\n   --> GSE/symbolic/resolution.py:443:34\n    |\n443 |                     excluded.add(new_args[i].head.lemma)\n    |                                  ^^^^^^^^^^^^^^^^\n\nerror[invalid-argument-type]: Argument to function `_refine` is incorrect\n   --> GSE/symbolic/resolution.py:518:25\n    |\n518 |             r = _refine(a)\n    |                         ^ Expected `Atom | Phrase | Negation | Op`, found `Atom | Phrase | Negation | ... omitted 17 union elements`\ninfo: element `Event` of union `Atom | Phrase | Negation | ... omitted 17 union elements` is not assignable to `Atom | Phrase | Negation | Op`\ninfo: Function defined here\n   --> GSE/symbolic/resolution.py:504:5\n    |\n504 | def _refine(expr: Expression) -> Expression:\n    |     ^^^^^^^ ---------------- Parameter declared here\n\nerror[invalid-explicit-return]: Return type does not match returned value\n   --> GSE/symbolic/resolution.py:532:20\n    |\n532 |             return Entity(head=expr, role=expr.role)\n    |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected `Atom | Phrase | Negation | Op`, found `Entity`\n    |\n   ::: GSE/symbolic/resolution.py:504:34\n    |\n504 | def _refine(expr: Expression) -> Expression:\n    |                                  ---------- Expected `Atom | Phrase | Negation | Op` because of return type\n\nFound 18 diagnostics\n"
+  }
+]

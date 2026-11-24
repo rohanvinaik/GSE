@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-reanchor -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast\nfor p in ['AGENTS.md','docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-result.json','docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-blockers.json']:\n print('\\n###',p); print(Path(p).read_text())\np=Path('GSE/symbolic/lexical_grounding.py');s=p.read_text(); t=ast.parse(s)\nfor n in ast.walk(t):\n if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef)) and n.name in {'_construction_support','_native_definition_support','_native_example_support','ground_token','select'}:\n  print('\\n###',p,n.name); print(ast.get_source_segment(s,n))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

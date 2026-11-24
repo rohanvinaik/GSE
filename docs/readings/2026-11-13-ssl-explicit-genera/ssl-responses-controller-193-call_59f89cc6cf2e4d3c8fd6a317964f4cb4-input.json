@@ -1,0 +1,5 @@
+{
+  "command": "pwd; .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json, subprocess\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-responses-controller-steering.json','ssl-api-runtime-result.json','ssl-api-controller-joint-exit.json','ssl-api-controller-continuation-exit.json','ssl-api-controller-happening-phase.json','ssl-api-controller-happening-exit.json','ssl-api-controller-source-freeze.json']:\n p=n/name\n print('\\n###',name)\n if p.exists():\n  if name.endswith('source-freeze.json'):\n   d=json.loads(p.read_text()); print(json.dumps({k:v for k,v in d.items() if k not in ['source_pins','files','pins']},indent=2))\n  else: print(p.read_text())\n else: print('ABSENT')\nprint('\\n### OWNED PROCESS NUMERIC STATUS')\nsubprocess.run(['ps','-p','75199,75203,75205,75256,80478,84036','-o','pid=,ppid=,etime=,pcpu=,rss='])\nfor name in ['ssl-api-controller-joint-job.log','ssl-api-controller-continuation-job.log','ssl-api-controller-happening-job.log']:\n p=n/name; print('\\n###',name); print(p.read_text() if p.exists() else 'ABSENT')\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

@@ -1,0 +1,5 @@
+{
+  "command": "date -u; ps -p 75199,75256,80478,84036 -o pid=,ppid=,etime=,pcpu=,rss=; python3 - <<'PY'\nfrom pathlib import Path\nimport json\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera');w=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint')\nfor parent,names in [(n,['ssl-api-controller-joint-exit.json','ssl-api-controller-joint-job.log','ssl-api-controller-continuation-exit.json','ssl-api-controller-continuation-job.log','ssl-api-controller-delayed-precheck.json','ssl-api-controller-happening-phase.json','ssl-api-controller-happening-exit.json']), (w,['migration.json','result.json'])]:\n for name in names:\n  p=parent/name;print('\\n###',name);print(p.read_text() if p.exists() and p.stat().st_size<100000 else 'ABSENT_OR_LARGE '+str(p.stat().st_size if p.exists() else None))\np=n/'ssl-api-runtime-result.json';j=json.loads(p.read_text());print('RUNTIME_BOUNDARY',json.dumps({k:j.get(k) for k in ['status','source_edits_finished','frozen_at_utc']}))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

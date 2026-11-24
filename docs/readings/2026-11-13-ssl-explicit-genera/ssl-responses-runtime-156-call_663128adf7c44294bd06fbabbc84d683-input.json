@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-construction-native-paths -- .venv/bin/python - <<'PY'\nfrom nltk.corpus import wordnet as wn\nfor word in ['teaching','swimming','occupation','profession']:\n print(word,[[s.name() for s in path] for ss in wn.synsets(word,pos='n') for path in ss.hypernym_paths()])\nfrom pathlib import Path\nimport ast\nfor p in Path('tests').glob('test*.py'):\n if any(x in p.name for x in ['complex','clause','embedding','serializ','coord']):print(p)\nprint('git status')\nPY\n git status --short",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

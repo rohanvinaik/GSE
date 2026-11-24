@@ -20,7 +20,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from GSE.api import GSEEncoder
 from GSE.discourse.speech import encode_document_utterance_events
-from GSE.symbolic import emit_contract, negation_signs, resolve_references
+from GSE.symbolic import emit_contract, evaluate_tree, from_trace, negation_signs, resolve, resolve_references
 from GSE.symbolic.queries import is_logically_equal_to
 
 PROBES = (
@@ -222,13 +222,72 @@ def _definitions(encoder):
     return records
 
 
+def _composed_nominals(encoder):
+    """Exact development contracts, beyond a passing top-operation label.
+
+    These inspected cases exercise the public encoder and the actual
+    construction/resolution/evaluation/emission consumers. They are not a
+    fresh final holdout or a lexical coverage/accuracy measurement.
+    """
+
+    def op(name, *args, **features):
+        return {"op": name, "args": list(args), "features": features}
+
+    teacher = op(
+        "TYPE_ASSERT", "teacher", op("REL_RESTRICT", "person", op("TYPE_ASSERT", "person's occupation", "teaching"))
+    )
+    femur = op(
+        "TYPE_ASSERT",
+        "femur",
+        op(
+            "REL_RESTRICT",
+            op("REL_RESTRICT", "bone", op("TYPE_ASSERT", "bone", op("COORD", "long", "thick", conjunction="and"))),
+            op("EVENT", "bone", "human skeleton", verb="of"),
+        ),
+    )
+    controls = (
+        ("matrix_copula_relative", "The teacher was a person whose occupation is teaching.", teacher),
+        ("coordinated_modifier_attachment", "The femur is the longest and thickest bone of the human skeleton.", femur),
+        (
+            "relative_predicate_group",
+            "The child who is teaching works.",
+            op("EVENT", op("REL_RESTRICT", "child", op("EVENT", "child", verb="teach")), verb="work"),
+        ),
+        (
+            "possessor_not_patient",
+            "The person whose child is teaching works.",
+            op("EVENT", op("REL_RESTRICT", "person", op("EVENT", "person's child", verb="teach")), verb="work"),
+        ),
+        (
+            "nominal_coordination_preserved",
+            "The bone and the skeleton are hard.",
+            op("TYPE_ASSERT", op("COORD", "bone", "skeleton", conjunction="and"), "hard"),
+        ),
+    )
+    records = []
+    for name, text, expected in controls:
+        trace = encoder.encode(text)
+        actual = emit_contract(evaluate_tree(resolve(from_trace(trace))))["predicate"]
+        records.append(
+            {
+                "class": name,
+                "text": text,
+                "expected_contract": expected,
+                "actual_contract": actual,
+                "outcome": "IDENTIFIED" if actual == expected else "WRONG",
+                "scope": "INSPECTED_DEVELOPMENT_COMPOSITION_NOT_FULL_SEMANTIC_GOLD",
+            }
+        )
+    return records
+
+
 def audit_runtime(lexicon_db):
     path = Path(lexicon_db).expanduser().resolve()
     with path.open("rb") as stream:
         before = hashlib.file_digest(stream, "sha256").hexdigest()
     with GSEEncoder(str(path)) as encoder:
         encoder.conn.execute("PRAGMA query_only=ON")
-        records = _structure(encoder) + _definitions(encoder)
+        records = _structure(encoder) + _definitions(encoder) + _composed_nominals(encoder)
     with path.open("rb") as stream:
         if hashlib.file_digest(stream, "sha256").hexdigest() != before:
             raise ValueError("RUNTIME_AUDIT_INPUT_CHANGED")
@@ -248,6 +307,7 @@ def audit_runtime(lexicon_db):
             "world_grounding": "UNVERIFIED",
             "corpus_semantic_accuracy": "NOT_MEASURED",
             "degree_composition": "Canonical adjective degree, signed scope, repeated-VERY/extremely equivalence and ordinal distinction; not exhaustive grammar coverage.",
+            "nominal_composition": "Five exact development contracts: matrix/relative ownership, genitive gaps, predicate groups, coordinated modifiers, of-attachment and genuine nominal coordination. Not a final holdout.",
         },
         "by_class": {name: dict(outcomes) for name, outcomes in sorted(counts.items())},
         "records": records,

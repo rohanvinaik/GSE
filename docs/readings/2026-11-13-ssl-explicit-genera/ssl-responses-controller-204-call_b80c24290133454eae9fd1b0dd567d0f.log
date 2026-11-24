@@ -1,0 +1,494 @@
+Tue Nov 24 18:37:18 UTC 2026
+80478     1 26:11   0.0  11376
+84036     1 13:01   0.0  12880
+
+### ssl-api-controller-joint-exit.json
+{
+  "exit_code": 0,
+  "finished_utc": "2026-11-24T18:36:42.564271+00:00"
+}
+
+
+### ssl-api-controller-joint-job.log
+........................                                                 [100%]
+24 passed in 6.41s
+All checks passed!
+2 files already formatted
+
+
+### ssl-api-controller-continuation-exit.json
+ABSENT_OR_LARGE None
+
+### ssl-api-controller-continuation-job.log
+
+
+### ssl-api-controller-delayed-precheck.json
+ABSENT_OR_LARGE None
+
+### ssl-api-controller-happening-phase.json
+{
+  "phase": "WAITING_FOR_COMPLETED_EXACT_TEN_COORDINATE_WRITER_AND_H",
+  "updated_utc": "2026-11-24T18:24:17.872199+00:00",
+  "active_pointer_changed": false
+}
+
+
+### ssl-api-controller-happening-exit.json
+ABSENT_OR_LARGE None
+
+### migration.json
+{
+  "active_pointer_changed": false,
+  "archived_model_receipts": 8,
+  "candidate": "/Users/rohanvinaik/Projects/GSE/data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/candidate.db",
+  "cells_symbolically_narrowed": 50525,
+  "code": "MIGRATED_CANDIDATE",
+  "coverage": {
+    "cells": {
+      "assigned": 461608,
+      "conflicted": 0,
+      "explicit_zero": 331372,
+      "unresolved": 22027768
+    },
+    "definitions": 401596,
+    "outcomes": {
+      "PARTIAL": 401596
+    }
+  },
+  "entries_changed_domains": 25263,
+  "entries_reclosed": 401596,
+  "event_id": "289d9967f0897b9a4a32d9015f7139327fc70fdffec543fe4e91f75048ba46c7",
+  "format": "GSE.rule-migration/2",
+  "from_version": "9aeb7c65650902cbf3139400c64acff3aa9645a9937069d95015f5b728e06436",
+  "known_domain_changes": [
+    {
+      "after": [
+        -1,
+        0,
+        1
+      ],
+      "bank": "BODY",
+      "before": [
+        0
+      ],
+      "entry_id": "wordnet:i:iodine.n.01"
+    },
+    {
+      "after": [
+        -1,
+        0,
+        1
+      ],
+      "bank": "WANT",
+      "before": [
+        0
+      ],
+      "entry_id": "wordnet:i:iodine.n.01"
+    },
+    {
+      "after": [
+        -1,
+        0,
+        1
+      ],
+      "bank": "BODY",
+      "before": [
+        0
+      ],
+      "entry_id": "wordnet:in:indiana.n.01"
+    },
+    {
+      "after": [
+        -1,
+        0,
+        1
+      ],
+      "bank": "BODY",
+      "before": [
+        0
+      ],
+      "entry_id": "wordnet:in:indium.n.01"
+    },
+    {
+      "after": [
+        -1,
+        0,
+        1
+      ],
+      "bank": "BODY",
+      "before": [
+        0
+      ],
+      "entry_id": "wordnet:me:maine.n.01"
+    },
+    {
+      "after": [
+        -1,
+        0,
+        1
+      ],
+      "bank": "WANT",
+      "before": [
+        0
+      ],
+      "entry_id": "wordnet:me:maine.n.01"
+    }
+  ],
+  "model_calls": 0,
+  "postflight": {
+    "code": "REPLAY_VALIDATED",
+    "complete_search": true,
+    "entries_checked": 401596,
+    "entries_mismatched": 0,
+    "entries_validated": 401596,
+    "format": "GSE.lexicon-replay-report/1",
+    "gold": "NOT_CHECKED",
+    "inference_counts": {
+      "components_joint_checked": 2495950,
+      "components_solver_limited": 0,
+      "entries_complete_search": 401596,
+      "entries_replayed": 401596,
+      "entries_solver_limited": 0
+    },
+    "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+    "metadata_verification": {
+      "build_report": "NOT_CHECKED",
+      "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+      "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+      "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+      "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+      "catalog_definition_source_ids": "NOT_PERSISTED",
+      "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+      "representation_contract": "VERIFIED",
+      "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+    },
+    "mismatch_counts": {},
+    "mismatches": [],
+    "replayed_outcomes": {
+      "PARTIAL": 401596
+    }
+  },
+  "preflight": {
+    "code": "REPLAY_VALIDATED",
+    "complete_search": true,
+    "entries_checked": 401596,
+    "entries_mismatched": 0,
+    "entries_validated": 401596,
+    "format": "GSE.lexicon-replay-report/1",
+    "gold": "NOT_CHECKED",
+    "inference_counts": {
+      "components_joint_checked": 2495950,
+      "components_solver_limited": 0,
+      "entries_complete_search": 401596,
+      "entries_replayed": 401596,
+      "entries_solver_limited": 0
+    },
+    "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+    "metadata_verification": {
+      "build_report": "NOT_CHECKED",
+      "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+      "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+      "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+      "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+      "catalog_definition_source_ids": "NOT_PERSISTED",
+      "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+      "representation_contract": "VERIFIED",
+      "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+    },
+    "mismatch_counts": {},
+    "mismatches": [],
+    "replayed_outcomes": {
+      "PARTIAL": 401596
+    }
+  },
+  "retained_model_receipts": 118,
+  "reviewed_exceptions": [],
+  "reviewed_reservations": [
+    {
+      "after_domain": [
+        -1,
+        0,
+        1
+      ],
+      "audit_request_id": "dd546b6abc5f439cb7b2ba017090c4bc21f0ac6ec389841ee3c996745d437e09",
+      "bank": "I",
+      "baseline_domain": [
+        -1,
+        0,
+        1
+      ],
+      "code": "REVIEWED_UNRESOLVED_RESERVATION",
+      "entry_id": "wordnet:dog:dog.n.01",
+      "rule_id": "reviewed-guarded-pattern:74df3f2544e155e28de0ff5fc018fe099672dfbd63579650151aab104ea4a7e0"
+    }
+  ],
+  "revised_scope_changes": {
+    "new_rule_ids": [
+      "reviewed-guarded-pattern:74df3f2544e155e28de0ff5fc018fe099672dfbd63579650151aab104ea4a7e0",
+      "reviewed-guarded-pattern:7ca9ff06b5f0bee5f1e50e023d0508de26cf529f4d3d21c41800c631d69fc1a4"
+    ],
+    "old_rule_ids": []
+  },
+  "source": "/Users/rohanvinaik/Projects/GSE/data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/teaching.db",
+  "to_version": "0391164684e2311935905a69f9028f5e5b40d80fbc4bfe6d1952e2a97cd6ad5f"
+}
+
+
+### result.json
+{
+  "activation_performed": false,
+  "candidate": "/Users/rohanvinaik/Projects/GSE/data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/candidate.db",
+  "candidate_sha256": "258e310972762601e1e8223e4c1707fdc0fe5b866ac092d8f574677cb2387c74",
+  "code": "JOINT_REFERENCE_REVISION_REPLAYED_WORKLOAD_GATE_PENDING",
+  "definitions_replayed": 401596,
+  "external_local_questions_replayed": 6,
+  "historical_water_I_question_cost": 1,
+  "new_model_calls_by_this_script": 0,
+  "replay": {
+    "code": "REPLAY_VALIDATED",
+    "complete_search": true,
+    "entries_checked": 401596,
+    "entries_mismatched": 0,
+    "entries_validated": 401596,
+    "format": "GSE.lexicon-replay-report/1",
+    "gold": "NOT_CHECKED",
+    "inference_counts": {
+      "components_joint_checked": 2495950,
+      "components_solver_limited": 0,
+      "entries_complete_search": 401596,
+      "entries_replayed": 401596,
+      "entries_solver_limited": 0
+    },
+    "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+    "metadata_verification": {
+      "build_report": "NOT_CHECKED",
+      "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+      "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+      "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+      "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+      "catalog_definition_source_ids": "NOT_PERSISTED",
+      "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+      "representation_contract": "VERIFIED",
+      "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+    },
+    "mismatch_counts": {},
+    "mismatches": [],
+    "replayed_outcomes": {
+      "PARTIAL": 401596
+    }
+  },
+  "rule_revision": {
+    "buckets": {
+      "1-500": {
+        "domain_potential_gain_bits": 1239.4406755641103,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 782,
+        "specification_gain_bits": 976.4753591641784,
+        "unresolved_banks_reduction": 782
+      },
+      "1501-5000": {
+        "domain_potential_gain_bits": 9208.632129189558,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 5810,
+        "specification_gain_bits": 7269.763489237055,
+        "unresolved_banks_reduction": 5810
+      },
+      "5001+": {
+        "domain_potential_gain_bits": 24170.678135998547,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 15250,
+        "specification_gain_bits": 19086.23706916161,
+        "unresolved_banks_reduction": 15250
+      },
+      "501-1500": {
+        "domain_potential_gain_bits": 3412.424264052883,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 2153,
+        "specification_gain_bits": 2693.9127588309348,
+        "unresolved_banks_reduction": 2153
+      },
+      "unranked": {
+        "domain_potential_gain_bits": 42036.375444125384,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 26522,
+        "specification_gain_bits": 33189.66156372428,
+        "unresolved_banks_reduction": 26522
+      }
+    },
+    "lexicon": {
+      "domain_potential_gain_bits": 80067.55064893514,
+      "joint_count_comparison": "EXACT",
+      "net_filled_banks": 50517,
+      "specification_gain_bits": 63216.05024011806,
+      "unresolved_banks_reduction": 50517
+    },
+    "sentence_constructions": {
+      "domain_potential_gain_bits": 0.0,
+      "joint_count_comparison": "EXACT",
+      "net_filled_banks": 0,
+      "specification_gain_bits": 0.0,
+      "unresolved_banks_reduction": 0
+    }
+  },
+  "source_projection": {
+    "buckets": {
+      "1-500": {
+        "domain_potential_gain_bits": 4.754887501941994,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 3,
+        "specification_gain_bits": 4.7548875021748245,
+        "unresolved_banks_reduction": 3
+      },
+      "1501-5000": {
+        "domain_potential_gain_bits": 0.0,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 0,
+        "specification_gain_bits": 0.0,
+        "unresolved_banks_reduction": 0
+      },
+      "5001+": {
+        "domain_potential_gain_bits": 0.0,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 0,
+        "specification_gain_bits": 0.0,
+        "unresolved_banks_reduction": 0
+      },
+      "501-1500": {
+        "domain_potential_gain_bits": 1.5849625007249415,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 1,
+        "specification_gain_bits": 1.5849625007249415,
+        "unresolved_banks_reduction": 1
+      },
+      "unranked": {
+        "domain_potential_gain_bits": 0.0,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 0,
+        "specification_gain_bits": 0.0,
+        "unresolved_banks_reduction": 0
+      }
+    },
+    "lexicon": {
+      "domain_potential_gain_bits": 6.339850008487701,
+      "joint_count_comparison": "EXACT",
+      "net_filled_banks": 4,
+      "specification_gain_bits": 6.339850004762411,
+      "unresolved_banks_reduction": 4
+    },
+    "sentence_constructions": {
+      "domain_potential_gain_bits": 0.0,
+      "joint_count_comparison": "EXACT",
+      "net_filled_banks": 0,
+      "specification_gain_bits": 0.0,
+      "unresolved_banks_reduction": 0
+    }
+  },
+  "teaching": {
+    "buckets": {
+      "1-500": {
+        "domain_potential_gain_bits": 1.5849625007249415,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 1,
+        "specification_gain_bits": 1.2801079193595797,
+        "unresolved_banks_reduction": 1
+      },
+      "1501-5000": {
+        "domain_potential_gain_bits": 0.0,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 0,
+        "specification_gain_bits": 0.0,
+        "unresolved_banks_reduction": 0
+      },
+      "5001+": {
+        "domain_potential_gain_bits": 0.0,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 0,
+        "specification_gain_bits": 0.0,
+        "unresolved_banks_reduction": 0
+      },
+      "501-1500": {
+        "domain_potential_gain_bits": 1.5849625007249415,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 1,
+        "specification_gain_bits": 1.280107919126749,
+        "unresolved_banks_reduction": 1
+      },
+      "unranked": {
+        "domain_potential_gain_bits": 0.0,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 0,
+        "specification_gain_bits": 0.0,
+        "unresolved_banks_reduction": 0
+      }
+    },
+    "lexicon": {
+      "domain_potential_gain_bits": 3.16992499679327,
+      "joint_count_comparison": "EXACT",
+      "net_filled_banks": 2,
+      "specification_gain_bits": 2.560215838253498,
+      "unresolved_banks_reduction": 2
+    },
+    "sentence_constructions": {
+      "domain_potential_gain_bits": 0.0,
+      "joint_count_comparison": "EXACT",
+      "net_filled_banks": 0,
+      "specification_gain_bits": 0.0,
+      "unresolved_banks_reduction": 0
+    }
+  },
+  "total": {
+    "buckets": {
+      "1-500": {
+        "domain_potential_gain_bits": 1245.7805255667772,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 786,
+        "specification_gain_bits": 982.5103545857128,
+        "unresolved_banks_reduction": 786
+      },
+      "1501-5000": {
+        "domain_potential_gain_bits": 9208.632129189558,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 5810,
+        "specification_gain_bits": 7269.763489237055,
+        "unresolved_banks_reduction": 5810
+      },
+      "5001+": {
+        "domain_potential_gain_bits": 24170.678135998547,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 15250,
+        "specification_gain_bits": 19086.23706916161,
+        "unresolved_banks_reduction": 15250
+      },
+      "501-1500": {
+        "domain_potential_gain_bits": 3415.5941890543327,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 2155,
+        "specification_gain_bits": 2696.7778292507865,
+        "unresolved_banks_reduction": 2155
+      },
+      "unranked": {
+        "domain_potential_gain_bits": 42036.375444125384,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 26522,
+        "specification_gain_bits": 33189.66156372428,
+        "unresolved_banks_reduction": 26522
+      }
+    },
+    "lexicon": {
+      "domain_potential_gain_bits": 80077.06042394042,
+      "joint_count_comparison": "EXACT",
+      "net_filled_banks": 50523,
+      "specification_gain_bits": 63224.95030596107,
+      "unresolved_banks_reduction": 50523
+    },
+    "sentence_constructions": {
+      "domain_potential_gain_bits": 0.0,
+      "joint_count_comparison": "EXACT",
+      "net_filled_banks": 0,
+      "specification_gain_bits": 0.0,
+      "unresolved_banks_reduction": 0
+    }
+  }
+}
+
+RUNTIME_BOUNDARY {"status": "SOURCE_EDITING_UNFROZEN_SECOND", "source_edits_finished": false, "frozen_at_utc": "2026-11-24T18:16:01.800234+00:00"}

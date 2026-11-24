@@ -1429,6 +1429,16 @@ def _build_relative_restriction(
         (t for t in inner_tokens if t.pos == "VERB" and t.lemma != _COPULA_LEMMA and not t.is_operator),
         None,
     )
+    if (
+        verb is None
+        and emb.gap_role == "subject"
+        and emb.attaches_to_token is not None
+        and not emb.operator_indices
+        and any(t.lemma == _COPULA_LEMMA and t.pos == "AUX" for t in inner_tokens)
+    ):
+        # A copular relative has a subject gap too: "person who is king".
+        # Dropping who without supplying its antecedent loses the assertion.
+        return _clause_core([tokens[emb.attaches_to_token], *inner_tokens], None, signs)
     if verb is None or emb.gap_role not in ("subject", "object") or emb.attaches_to_token is None:
         return _build_clause_expr(emb, tokens, operators, operator_positions, drop_relativizers=True, signs=signs)
 

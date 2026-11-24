@@ -20,7 +20,6 @@ from dataclasses import replace
 from typing import Callable, Dict
 
 from GSE.symbolic.expression import Negation, Op, Operand
-from GSE.symbolic.resolution import Coordination
 from GSE.symbolic.predicates import (
     BoundaryCase,
     Causation,
@@ -40,6 +39,7 @@ from GSE.symbolic.predicates import (
     TypeAssertion,
     TypeQuery,
 )
+from GSE.symbolic.resolution import Coordination
 
 
 class UnknownOperation(ValueError):

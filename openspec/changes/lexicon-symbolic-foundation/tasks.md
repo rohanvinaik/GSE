@@ -18,12 +18,36 @@ That receipt marks controller edits stopped, not a whole-run protocol freeze:
 the runtime peer's repaired completion receipt remains the synchronization boundary.
 
 The original v1 plan remains unchanged. The explicit v2 rebase and eight exact
-typed questions are retained beside it. The root is executing seven fresh local
-questions and reusing the original water/I journal without repetition; no
-production admission or 50,526-cell write is claimed before the actual receipts,
-ordinary writer, joint migration and full replay complete. A native event-genus
-frontier retains an actual source/role scope challenge rather than admitting a
-broad ancestry prediction automatically.
+typed questions are retained beside it. The reference packet completed, with
+dog/I NULL explicitly reserved. Four canonical source own-coordinates and two
+typed reference coordinates are actually written to the private teaching head.
+On the fixed 401,595-definition lexical cohort, exact joint H changes from
+32,819,332.148767773 to 32,819,323.24870193 bits (zero search limits); no
+unfinished population migration is included in that measurement.
+
+The atomic joint I/YOU corpus migration completed at 18:36:42Z, exit 0. Both
+mandatory full replays validate all 401,596 entries with zero mismatches and
+zero solver limits. After six unsupported dependent cells reopen, the rule
+revision adds a net 50,517 filled coordinates and contracts exact joint H by
+63,216.05024011806 bits relative to the post-teaching head. Including the six
+earlier source/teaching coordinates, the actual foundation-to-candidate net is
+50,523 filled coordinates and 63,224.95030596107 bits, not the old 50,526 forecast.
+The private lexical head has 461,608 filled / 22,027,712 unknown coordinates,
+H = 32,756,107.198461812 bits. Seven separately identified 98K-context prime
+answers and six controller residual/child answers are retained. The queued
+ordinary writer reconstructs exact historical requests before using ten of
+these answers; exact historical precheck passed and mandatory full writer
+preflight is running, with no service-call repetition.
+A scoped 1,289-definition own-happening child excludes the retained euphemism
+and abbreviation challenges; its queued fresh current-head audits precede
+ordinary admission and replay. The broad event ancestor remains unadmitted.
+
+Controller builder edits are stopped (`ssl-api-controller-source-freeze.json`).
+The runtime peer is explicitly unfrozen for two composed-scope defects. The
+integrated repository gate, full eight-operation artifact-verified workload,
+fresh final semantic audit and CAS publication remain open. Active release 021
+has not changed. See `ssl-api-controller-blockers.json` and
+`ssl-api-controller-root-handoff.json` for actual phase and exit receipts.
 
 ## Contract reconciliation
 

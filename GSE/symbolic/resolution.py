@@ -272,7 +272,11 @@ def _collapse_phrase_to_entity(phrase: Phrase) -> Expression:
     if split is not None:
         left = _collapse_phrase_to_entity(Phrase(atoms=atoms[:split]))
         right = _collapse_phrase_to_entity(Phrase(atoms=atoms[split + 1 :]))
-        members = (left, *right.members) if isinstance(right, Coordination) and right.conjunction == atoms[split].lemma else (left, right)
+        members = (
+            (left, *right.members)
+            if isinstance(right, Coordination) and right.conjunction == atoms[split].lemma
+            else (left, right)
+        )
         return Coordination(members=members, conjunction=atoms[split].lemma, modifier=modifier)
 
     # A nominal of-postmodifier stays attached to its noun. Preserve the
@@ -282,7 +286,8 @@ def _collapse_phrase_to_entity(phrase: Phrase) -> Expression:
         (
             i
             for i, a in enumerate(atoms)
-            if a.pos == "ADP" and a.lemma == "of"
+            if a.pos == "ADP"
+            and a.lemma == "of"
             and any(_is_entity_atom(x) for x in atoms[:i])
             and any(_is_entity_atom(x) for x in atoms[i + 1 :])
         ),

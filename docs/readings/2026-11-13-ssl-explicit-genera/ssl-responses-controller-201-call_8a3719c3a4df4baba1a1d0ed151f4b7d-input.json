@@ -1,0 +1,5 @@
+{
+  "command": "git diff --check -- openspec/changes/lexicon-symbolic-foundation/tasks.md docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-blockers.json docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-root-handoff.json; git -C /Users/rohanvinaik/Projects/rohan-vinaik.github.io diff --check -- 'papers/Core Documents/Semantic_Specification_Learning/07_GSE_LEXICON_NSM_WORKING_DRAFT.md'; python3 - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor n in ['ssl-api-controller-blockers.json','ssl-api-controller-root-handoff.json','ssl-api-controller-source-freeze.json']:\n j=json.loads((p/n).read_text());print(n, 'JSON_VALID',j.get('status',j.get('code')))\nprint('### repository gate command unit\\n'+Path('scripts/ci_local.sh').read_text())\nprint('### workload helper complete unit\\n'+(p/'ssl_api_runtime_workload.py').read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

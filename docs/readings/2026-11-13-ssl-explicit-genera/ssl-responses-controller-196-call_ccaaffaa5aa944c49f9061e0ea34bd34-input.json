@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\nw=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint')\nfor name in ['space-baseline.json','space-post-source.json','space-post-teaching.json','joint-stage.json']:\n p=w/name; d=json.loads(p.read_text()); print('\\n###',name)\n if name=='joint-stage.json': print(json.dumps({k:v for k,v in d.items() if k!='changes'},indent=2)); print('staged_change_count',len(d.get('changes',[])))\n else: print(json.dumps(d,indent=2))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}
