@@ -139,7 +139,7 @@ GSE itself reaches Sparse Wiki by ingesting its world data into local tables (`s
 
 ### Test suite
 
-314 test files and about 7,640 tests take about six and a half minutes. By imports, 164 files exercise one subsystem, 150 exercise two to six, and 11 import no GSE module. Single-subsystem files: lexicon-build 81, legacy 28, symbolic 12, lexicon 11, parse 11, substrate 10, encode 4, apps 3, spellcheck 3, document 1. A known no-op: `test_returns_existing_gse_data_path` (`tests/test_GSE_curation_frequency_integration.py`) ends in `pass`.
+314 test files and about 7,640 tests take about six and a half minutes. By imports, 164 files exercise one subsystem, 150 exercise two to six, and 11 import no GSE module. Single-subsystem files: lexicon-build 81, legacy 28, symbolic 12, lexicon 11, parse 11, substrate 10, encode 4, apps 3, spellcheck 3, document 1. A known no-op, `test_returns_existing_gse_data_path` (`tests/test_GSE_curation_frequency_integration.py`), ended in `pass`; it now checks the default path (`5792ca3`).
 
 Coverage of the full suite puts the testing where it is least needed. Tests execute 55 of the 63 legacy modules. No test executes these live modules:
 

@@ -79,6 +79,8 @@ No task edits the owner's concurrent lexicon session's files (`GSE/curation/lexi
 ## 8. GSE-00 completion receipt
 
 - [ ] 8.1 Fixtures that protect existing correct readings, run through the real entry points.
+  - [x] The proof packet's readings that reproduce today (sections 1, 3, 4 and 6: comparison and causation direction, the LSAT derivations and refusals, the needle at 10–100 steps, the policy rulings) are pinned through the packet's own reproduce command (`tests/test_proof_packet_readings.py`); they pass locally and on a checkout with only tracked data.
+  - [ ] Readings outside the packet: which other readings count as correct is the owner's to name.
 - [x] 8.2 Reproduce the dated proof-packet demonstrations, or mark each unverified (`docs/readings/2026-11-24-proof-packet-rerun/`, at `5792ca3`): 4 reproduced (§1, §3, §4, §6), 1 changed (§7), 4 broken (§8–§11), 6 unverifiable here (§2, §5, §12–§15; `genealogy.db`, `spell_entities.db` and `frequency.db` are missing, or the packet gives no command). §8–§11 break because the active definition lexicon holds several definitions for each word they use, so ordinary encoding attaches no word meaning; they reproduce on the flat `lexicon_clean.db`.
 - [ ] 8.3 A per-class outcome ledger (identified / abstained / wrong / unavailable / partial), attached to issue #166 with source, data and code hashes.
 
