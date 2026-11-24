@@ -857,6 +857,18 @@ def _try_event(
     # A modal auxiliary before the verb ("might", "can", "must") qualifies the event, keyed on its primes (#66).
     modal = modal_primes([t.word_primitives for t in tokens if t.position < verb.position and t.pos == "AUX"])
     event = Op(primitive=verb.lemma, operation="EVENT", arity=len(args), args=args, modal=modal)
+    # A bare post-verbal PP qualifies the event; it is not the verb's direct
+    # patient. Use the existing relation-over-event representation (also used
+    # for unresolved nominal prepositions), preserving BOTH the preposition
+    # and its anchor. Previously these constituents were silently discarded
+    # just because there was no object to put before them in EVENT.args.
+    if not object_atoms and len(obl_tokens) > 1:
+        event = Op(
+            primitive=obl_tokens[0].lemma,
+            operation="EVENT",
+            arity=2,
+            args=[event, Phrase(atoms=[_atom_from_token(t, "SYN_OBL") for t in obl_tokens[1:]])],
+        )
     return Negation(operand=event) if negated else event
 
 

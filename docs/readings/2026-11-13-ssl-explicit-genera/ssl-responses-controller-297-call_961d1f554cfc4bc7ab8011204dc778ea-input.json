@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport ast,json\nfor p in Path('GSE').rglob('*.py'):\n if 'lexicon_builder' not in str(p) and 'external_sources' not in str(p): continue\n t=ast.parse(p.read_text())\n for f in t.body:\n  if isinstance(f,(ast.FunctionDef,ast.ClassDef)) and any(x in f.name for x in ['nsm','prime','catalog','basis']): print(p,f.name,f.lineno,f.end_lineno)\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-controller-basis-manifest.json','ssl-root-canonical-prime-projection-review.json']:\n print('\\n###',name);print((n/name).read_text())\nprint('\\nSOURCE NSM CHART');print(Path('GSE/curation/external_sources/nsm_chart.py').read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

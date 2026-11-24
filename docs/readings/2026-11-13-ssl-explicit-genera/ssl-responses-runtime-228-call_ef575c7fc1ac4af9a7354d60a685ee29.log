@@ -1,0 +1,221 @@
+# GSE
+
+## Docs are not ground truth.
+
+This repo is in active drift. `docs/THEORY.md` is known-invalid — do not use
+it as a source. Treat the other planning docs as unverified. Authoritative
+sources: Rohan, then the code. When sources conflict, surface it.
+
+## The statement healer is biology-shaped (design framing).
+
+The Genesis-facing statement healer (the voice-mode repair layer that produces clean
+statements) is modeled on DNA error-correction + gene regulation — biology as a tested
+reference design, not loose analogy. A sentence is a **coding sequence**: a *coding-sequence
+repair* re-reads a mis-parsed ORF under the structural law. A correct read's driver is often
+in the bounded **cis-regulatory neighborhood** (~±2 lines — `resolve_document` /
+`encode_document_utterances`), sourced by a *regulatory repair*. **Intervention scope (one
+clean statement) ≠ signal scope (±2 lines)**; meaning is in the combination of local +
+regional frames. Full: Genesis `docs/ARCHITECTURE.md` + memory `project_l2_voice_modes_flywheel`.
+
+## The cassette layer (additive; `GSE/cassettes/`).
+
+Domain-portable experts that resolve ONE in-frame uncertainty using OUT-OF-frame multi-scale context —
+**GSE is the player, a cassette is the tape**; the single-sentence scale is the ceiling, cassettes are
+contingent on the higher scales. Built: `MultiScaleDoc` (four scales, composed once) + `Cassette` base
+(SymbolicSpellCheck spine) + `entity_identity` / `relational_identity` / `person_validation` +
+`CassetteDeck` + `cheatsheet` (ride-along + span-aware `make_merge_repair` at the
+`from_document(repair=)` seam). Non-negotiable laws: **compose existing tools (read_fold / grounding /
+facets), never re-ground; confidence = CONVERGENCE; never destroy a correct value; validate
+resolve-or-abstain across the WHOLE corpus.** Purely additive — no existing GSE source is modified.
+Full: `~/Genesis/docs/CASSETTE_ARCHITECTURE.md` + `CASSETTE_ARCHITECTURE_DESIGN_BRIEF.md`.
+
+## Design constraints
+
+- **Grounding goes through the existing pipeline.** A new grounding source is a parser exposing `to_primitives`, one
+  entry in `integrator.load_all_sources()` and one scope in `SOURCE_PRIMITIVE_SCOPE`, not a new grounding module, a
+  flat word→primitive lookup or a similarity score.
+- **The lexicon is definitional only, over a closed basis.** A word's meaning is a ternary sign {-1, 0, +1} over the
+  build's fixed set of primes; a component not expressible that way is not lexical meaning, so `dog` and `cat` may be
+  near-identical, correctly. World facts and world-affect belong to sparse-wiki, the orthogonal world leg.
+- **No cosine resolver.** Meaning is discrete structure (IS-A genealogy, exact sign-match, resolved keys); GSE's own
+  resolver is `grounding._select_by_coherence` with `_jaccard` over type threads. The HDC `sense_resonance` cosine is
+  a guarded secondary re-ranker only.
+- **DeepNSM is silver: anchors and evaluation only.** Its text is LLM-generated and CC-BY-NC-SA 4.0, so it is never
+  baked into the shipped lexicon (Rohan's decision, 2026-06-19).
+
+## Recovery contract — usable checkpoint and the SSL learning mechanism
+
+**Owner-confirmed recovery record, 2026-11-24 (“shame sheet”).** Rohan requested this record after the implementation missed his urgent usable-checkpoint deadline. Read this section before resuming GSE-01 after a compaction or handoff. It restates his controlling requirements and the explanation he asked to preserve; it is part of this existing build contract, not a new plan or a substitute for executable evidence. The detailed SSL-01–SSL-11 and CP-01–CP-08 requirements below remain binding.
+
+### Deliverable and priority
+
+Establish a broad, justified symbolic foundation sufficient to make GSE usable for ordinary, frequent language; validate and publish that sparse state as a stable checkpoint; continue SSL learning from **the same artifact and production path**. Whole-dictionary completion is continuing work. Do not postpone the usable checkpoint until every bank of every rare sense is resolved, and do not manufacture usability by weakening the promised workload.
+
+The artifact is definition-indexed over the fixed 56 ordinary banks, with hierarchy and NUMBER separate. Distinct definitions keep their identities even when their geometry is near-identical. Each asserted sign, including zero, carries justification. Unknown is not zero, negation, absence or definitional silence. Grammar, reference, argument binding, operator scope and sentence/document relationships stay at their proper scales; a missing raw word-bank emission does not establish missing meaning when the actual operation already expresses it structurally.
+
+There is one source → constraint state → typed residual writer → revision/replay → publication → normal GSE consumer chain. A checkpoint pins this chain's validated state and rules. No parallel constructor, alternate grounding table, weaker checkpoint lexicon or separate learning build is authorized.
+
+### What the theory requires the implementation to do
+
+Make common sense computable as **justified exclusions and relationships**. For a located reading, source/role facts and admitted laws constrain the joint set of legal assignments. Inside a definition, banks constrain one another. Across definitions, a reviewed semantic rule applies to its entire justified population. Contradictory reading eligibility is checked before popularity or similarity can select an interpretation. Pronoun “He” and chemical-symbol “He” remain distinct possibilities; contextual and grammatical constraints determine which are eligible. Case, POS or frequency alone is not a semantic ruling.
+
+Filled cells are only one progress signal. Two ternary banks can narrow from nine joint assignments to three while both marginal domains remain unchanged. That is real information even with zero new singletons. Retain the joint constraints, removed possibilities and their causes; apply closure again when new evidence arrives. A rule is not worthless merely because its isolated singleton gain is zero, and a bridge can make another rule newly useful.
+
+SSL's learning dynamics separate direct teaching from structural amplification. Zipf prioritization makes carefully examined cases useful and well supported; the current constrained state's marginal resolution and discriminating cases guide which question is informative. The intended recurring cycle is:
+
+1. Compile all warranted source projections and admitted laws into the existing constrained state and propagate to closure.
+2. Group unresolved common-use questions by semantic mechanism, native features, competing rules and remaining joint alternatives.
+3. Select a bounded informative question, simulate its legal answers and downstream closure, and retain the declared search limits. Do not inject an expected answer into the request.
+4. Resolve only the specific surviving definition–bank questions through the existing typed writer; retain any legal sign or explicit abstention with exact context and provenance.
+5. Turn recurring evidence or surprise into a scoped rule hypothesis or refinement. Establish definitional warrant and independent positive and MUST-NOT witnesses before admission.
+6. Admit a justified revision, replay its entire eligible population and affected dependents, retain exceptions/reservations and reopen unsupported conclusions.
+7. Recompute feasible-space complexity, singleton/domain changes, frequency-bucket residuals and marginal rule/question value, then select again from the changed state.
+
+Discovery and refinement must feed the **next** decision. Exporting candidates at the end of a fixed-family run, maintaining a durable log without consuming its discoveries, or repeatedly filling independent cells does not implement this cycle. TrialLedger provides the engineering pattern: finite-domain closure, joint satisfiability, typed contradictions and survivor-discriminating evidence requests. Its clinical laws are not GSE laws.
+
+An exception is learning evidence. Classify wrong identity, unsupported projection, missing condition, justified local exception and unresolved disagreement separately. Learn and independently audit a distinguishing guard where possible; retain an independently warranted exact exception where necessary. Do not silently discard counterexamples, replace generalization with unexplained word patches, or discard an otherwise useful law wholesale. A null model answer remains unresolved.
+
+The old generated lexicon and patterns in the current holes may nominate hypotheses. Native source evidence, explicit owner conventions and NSM/semantic reasoning establish their warrants; generated signs, recurrence and the candidate rule's own consequences cannot certify it. Unknown guards remove nothing. Source absence without an applicable closed-world/coverage proof removes nothing.
+
+For each definition retain the legal configuration set Ω. Measure H as the corpus sum of log2|Ω| under the declared factorization, together with exact-count coverage/limits, filled and unknown cells, marginal-domain potential, reopened conclusions and typed contradictions. Distinguish this declared specification-space measure from a computed minimum teaching-set size. Separate direct teaching, existing-law propagation and newly admitted-rule effects. Report the whole fixed cohort in ranks 1–500, 501–1500, 1501–5000, 5001+ and unranked, retaining all senses and the requested averages.
+
+The predicted bulk acceleration is **structural amplification across successive learning rounds**. The identity that a bit halves a possibility count is not evidence of an exponential learning curve. Measure the actual contraction at equal teaching budgets, with audit/review costs and overlapping consequences accounted for. Recompute priorities as rules change; static-graph constants and guarantees are not a certificate for a growing graph with complementary bridges.
+
+### The execution failure this record must prevent
+
+The recent approximately 50,500-cell population gain concerns a narrow I/YOU family. It demonstrates propagation, not a broad completed semantic foundation. A replay-valid candidate and passing repair tests do not establish usable GSE. The historical handoff's statement “Broader generic learner work deferred” must not be silently turned into a claim that the complete recursive controller ran. Earlier experiments retain their actual scope.
+
+Real runtime repairs remain necessary: a correct token identity cannot certify a sentence that loses a spatial relation, scope or argument. Equally, endless individual repairs, model receipts, migrations and passing fixtures cannot substitute for closing the common-use foundation and its acceptance path. Carry existing approved semantic decisions into production before asking the owner or model again. The approved generic-self I=0/YOU=0 boundary is a specific regression witness for this obligation.
+
+### Finish the checkpoint, then continue from it
+
+1. **Close common-use foundation gaps.** Reconcile approved conventions and source-supported content with installed state. Examine residuals across banks, group them by semantic mechanism, and admit justified exclusions, dependencies and joint rules. A reusable warranted rule takes precedence over repeating equivalent isolated questions.
+2. **Verify actual consumers.** Sense eligibility consumes the constraints; required bank queries receive warranted values; sentence/document geometry preserves meaning at its proper scale. Supported ordinary readings must be reachable beyond verbatim dictionary examples. Preserve genuine ambiguity rather than hiding it.
+3. **Complete the frozen usability audit.** Meet the existing 90% eligible token-mass requirement in both frequency and independent real-text aggregates; retain all senses and report genre slices. This is breadth, not 90% semantic accuracy. Use representative independent positive/MUST-NOT cases for the promised lexical, sentence, query, inference, document, profile, decoder/pipeline and integration operations. Do not invent labels for every common spelling, a per-genre percentage gate or a new universal raw-bank-emission requirement.
+4. **Publish and verify.** Finish applicable integrated repository checks and full final-candidate replay, activate through the existing atomic publication path, and verify normal GSE consumers load that exact artifact. Retain one rollback, sources and compact audit records; update the living experiment draft from computed receipts. A queued command, code freeze, unit-test result, candidate DB or publication-regression gold is not a completion receipt.
+
+The checkpoint finish line is a pinned, installed artifact that passes its agreed common-use workload with explicit sparse limitations. Continue the same rigorous learning cycle from that installed state. Do not reopen broad research work that is unnecessary to this first checkpoint, and do not call an execution budget, pending warrant or bounded search limit the irreducible semantic tail.
+
+### Resume test
+
+Before editing or delegating, state the current artifact, actual failed consumer, applicable constraint, next bounded remedy and receipt that will close it. If the next work has become another handful of unrelated cells, explain its reusable mechanism or direct checkpoint necessity before spending the budget. When a gate fails, preserve the failure and fix its cause; never narrow the workload to erase it. The owner has already authorized implementation and activation after validation. No repeated permission request is needed for that scope.
+
+
+UNIT INDEX GSE/symbolic/expression.py
+Atom 36 74
+Phrase 78 88
+Negation 92 100
+Op 104 122
+sign_uptake 155 188
+_starts_comparative 191 200
+_bound_intensifier 203 211
+_unbound_intensifier 214 218
+_uptake_kinds 221 253
+_sign_owners 263 285
+DegreeScopeError 288 291
+bind_degree_modifiers 294 364
+node_negation_count 367 373
+node_polarity 376 385
+_takes_sign 388 402
+_negated_operators 405 411
+_atom_from_token 414 438
+_promote_nominalized_adjective_subject 441 467
+_build_arg_expression 470 521
+_try_copula_type_assertion 542 648
+_appositive_positions 651 673
+_leading_adjunct_positions 676 701
+_select_clause_verb 709 733
+_try_event 736 872
+_with_clause_modal 875 885
+_operator_primitive 888 893
+_build_operator_op 896 919
+_left_fold_operators 922 950
+operator_composition_plan 953 968
+_nominal_temporal_attachment 971 1016
+_clause_core 1019 1044
+_build_clause_expr 1047 1155
+_is_relativizer 1163 1164
+_wrap_antecedent 1167 1209
+_is_all_punct 1212 1219
+_unwrap_negations 1222 1227
+_rewrap_negations 1230 1233
+_build_control 1236 1309
+_attach_complement 1312 1357
+_build_complement 1360 1395
+_build_relative_restriction 1398 1476
+prepare_degree_modifiers 1479 1503
+from_trace 1506 1536
+_event_subject_atoms 1539 1548
+_from_trace_segmented 1551 1637
+def _clause_core(tokens, shared_subject, signs):
+    """Build the recoverable clause before a qualifying operator is attached."""
+    content, duration = split_duration(tokens)
+    if duration is not None and split_duration(content)[1] is None:
+        qualified = _clause_core(content, shared_subject, signs)
+        core, negations = _unwrap_negations(qualified)
+        if isinstance(core, Op) and core.operation in {"EVENT", "TYPE_ASSERT"}:
+            return _rewrap_negations(replace(core, duration=duration), negations)
+    temporal = _nominal_temporal_attachment(tokens)
+    if temporal is not None:
+        content, linker, anchor, operation = temporal
+        return Op(
+            primitive=linker.lemma.upper() if operation == "TEMPORAL" else linker.lemma,
+            operation=operation,
+            arity=2,
+            args=[_clause_core(content, shared_subject, signs), Phrase(atoms=[_atom_from_token(t) for t in anchor])],
+        )
+    copula = _try_copula_type_assertion(tokens, signs)
+    if copula is not None:
+        return _with_clause_modal(copula, tokens)
+    event = _try_event(tokens, shared_subject=shared_subject, signs=signs)
+    if event is not None:
+        return event
+    atoms = [_atom_from_token(t) for t in tokens if t.lemma not in _NEGATION_LEMMAS or t.pos in {"NOUN", "PRON"}]
+    core = atoms[0] if len(atoms) == 1 else Phrase(atoms=atoms)
+    return Negation(operand=core) if _takes_sign(tokens, signs) else core
+def from_trace(trace: OperationTrace) -> Expression:
+    """Build a symbolic Expression from an OperationTrace.
+
+    Single-clause (``trace.clauses`` empty):
+
+    * No operators → content atoms as a Phrase (or a single Atom), with a
+      copula "X is a Y" synthesized into a TYPE_ASSERT.
+    * One operator → that ``Op`` with args from ``arg{1,2}_tokens``.
+    * Multiple operators → left-folded by position.
+
+    Multi-clause (``trace.clauses`` populated): each clause span is resolved by
+    the single-clause logic above, then the **clause-linking** operators
+    (CONSEQUENCE, CAUSAL_SOURCE, …) are folded over the clause results in
+    surface order. This is what gives correct nesting — e.g. "Rex barks because
+    the dog is cuter than the cat" builds ``CAUSAL_SOURCE(rex-barks,
+    SET_DIFF(dog, cat))`` rather than the positional inversion. See
+    ``docs/COMPLEX_SENTENCE_DESIGN.md`` §0.
+    """
+    tokens = trace.tokens
+    prepare_degree_modifiers(tokens)
+    operators = sorted(trace.operators, key=lambda o: o.position)
+    operator_positions = [op.position for op in operators]
+    # Where each negation's sign lands, decided once for the whole sentence (sentence_architecture.md L27, L45, L66).
+    signs = _sign_owners(tokens)
+
+    if trace.clauses:
+        return _from_trace_segmented(trace, tokens, operator_positions, signs)
+
+    # The implicit single clause and segmented clauses share attachment rules.
+    clause = ClauseSpan(0, 0, len(tokens), list(range(len(operators))))
+    return _build_clause_expr(clause, tokens, operators, operator_positions, signs=signs)
+
+UNIT INDEX GSE/nlp/native.py
+copula_left_role 332 345
+copula_participle_kind 348 360
+copula_modifier_context 363 371
+copula_complement_reading 374 399
+copula_degree_reading 402 406
+_wn_lemma 409 414
+_tokenize 417 423
+_skip_adverbs 426 437
+_rule_lemma 440 487
+_inflected_pos 490 507
+NativeToken 510 540
+NativeDoc 543 558
+NativeNLP 561 1046

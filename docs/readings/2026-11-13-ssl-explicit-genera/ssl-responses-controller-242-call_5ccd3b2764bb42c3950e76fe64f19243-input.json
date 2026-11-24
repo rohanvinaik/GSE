@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nimport sqlite3,json,pathlib,collections\np=pathlib.Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/candidate.db');c=sqlite3.connect(f'file:{p}?mode=ro',uri=True)\nids=['wordnet:good:good.a.01','wordnet:bad:bad.a.01','wordnet:big:large.a.01','wordnet:small:small.a.01','wordnet:have:have.v.01','wordnet:have:own.v.01','wordnet:here:here.r.01','wordnet:leap:leap.n.01','wordnet:whisper:whisper.n.01','wordnet:explosion:explosion.n.01']\nfor eid in ids:\n domains,trace=map(json.loads,c.execute('select domains,trace from definition_states where entry_id=?',(eid,)).fetchone())\n print(json.dumps({'entry_id':eid,'singleton_domains':{k:v for k,v in domains.items() if len(v)==1},'trace_type':type(trace).__name__,'trace_record_shapes':[{'keys':list(k),'count':v} for k,v in collections.Counter(tuple(sorted(t)) for t in trace).items()]}))\n if eid=='wordnet:whisper:whisper.n.01': print('whisper complete trace',json.dumps(trace))\nc.close()\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 20
+}

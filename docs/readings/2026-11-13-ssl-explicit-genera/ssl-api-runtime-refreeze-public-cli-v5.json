@@ -1,0 +1,96 @@
+{
+  "commands": [
+    {
+      "label": "active",
+      "kind": "runtime",
+      "command": [
+        ".venv/bin/python",
+        "scripts/audit_lexicon_runtime.py",
+        "--lexicon-db",
+        "data/lexicon_builder/2026-11-12/sparse-release-021.db",
+        "--sparse",
+        "--report",
+        "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-active-audit-v5.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 50.537370666861534,
+      "stdout": "{\"report\": \"/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-active-audit-v5.json\", \"by_class\": {\"causal\": {\"IDENTIFIED\": 1}, \"comparison\": {\"IDENTIFIED\": 1}, \"control\": {\"IDENTIFIED\": 1}, \"coordinated_modifier_attachment\": {\"IDENTIFIED\": 1}, \"coordination\": {\"IDENTIFIED\": 1}, \"degree_scope_distinction\": {\"IDENTIFIED\": 1}, \"degree_vector_distinction\": {\"IDENTIFIED\": 1}, \"demonstrative\": {\"IDENTIFIED\": 1}, \"event\": {\"IDENTIFIED\": 1}, \"extreme_degree\": {\"IDENTIFIED\": 1}, \"extremely_degree\": {\"IDENTIFIED\": 1}, \"matrix_copula_relative\": {\"IDENTIFIED\": 1}, \"negation\": {\"IDENTIFIED\": 1}, \"nominal_coordination_preserved\": {\"IDENTIFIED\": 1}, \"not_very_scope\": {\"IDENTIFIED\": 1}, \"ordinal_distinction\": {\"IDENTIFIED\": 1}, \"other_very_senses_anchor_isolation\": {\"IDENTIFIED\": 3}, \"possessor_not_patient\": {\"IDENTIFIED\": 1}, \"relative_predicate_group\": {\"IDENTIFIED\": 1}, \"repeated_degree\": {\"IDENTIFIED\": 1}, \"repeated_extreme_equivalence\": {\"IDENTIFIED\": 1}, \"restriction\": {\"IDENTIFIED\": 1}, \"single_degree\": {\"IDENTIFIED\": 1}, \"temporal\": {\"IDENTIFIED\": 1}, \"this_object\": {\"IDENTIFIED\": 1}, \"very_degree\": {\"IDENTIFIED\": 1}, \"very_not_scope\": {\"IDENTIFIED\": 1}, \"want_negative\": {\"IDENTIFIED\": 1}, \"want_positive\": {\"IDENTIFIED\": 1}}}\n",
+      "stderr": "",
+      "report": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-active-audit-v5.json"
+    },
+    {
+      "label": "active",
+      "kind": "checkpoint",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "scripts.audit_lexicon_sentences",
+        "--lexicon",
+        "data/lexicon_builder/2026-11-12/sparse-release-021.db",
+        "--benchmark",
+        "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-final-cases.json",
+        "--checkpoint",
+        "--report",
+        "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-active-checkpoint-v5.json"
+      ],
+      "exit_code": 2,
+      "elapsed_seconds": 72.48751733405516,
+      "stdout": "",
+      "stderr": "",
+      "report": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-active-checkpoint-v5.json"
+    },
+    {
+      "label": "foundation",
+      "kind": "runtime",
+      "command": [
+        ".venv/bin/python",
+        "scripts/audit_lexicon_runtime.py",
+        "--lexicon-db",
+        "data/lexicon_builder/2026-11-12/ssl-explicit-genera/checkpoint-foundation.db",
+        "--sparse",
+        "--report",
+        "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-foundation-audit-v5.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 69.72671429207548,
+      "stdout": "{\"report\": \"/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-foundation-audit-v5.json\", \"by_class\": {\"causal\": {\"IDENTIFIED\": 1}, \"comparison\": {\"IDENTIFIED\": 1}, \"control\": {\"IDENTIFIED\": 1}, \"coordinated_modifier_attachment\": {\"IDENTIFIED\": 1}, \"coordination\": {\"IDENTIFIED\": 1}, \"degree_scope_distinction\": {\"IDENTIFIED\": 1}, \"degree_vector_distinction\": {\"IDENTIFIED\": 1}, \"demonstrative\": {\"IDENTIFIED\": 1}, \"event\": {\"IDENTIFIED\": 1}, \"extreme_degree\": {\"IDENTIFIED\": 1}, \"extremely_degree\": {\"IDENTIFIED\": 1}, \"matrix_copula_relative\": {\"IDENTIFIED\": 1}, \"negation\": {\"IDENTIFIED\": 1}, \"nominal_coordination_preserved\": {\"IDENTIFIED\": 1}, \"not_very_scope\": {\"IDENTIFIED\": 1}, \"ordinal_distinction\": {\"IDENTIFIED\": 1}, \"other_very_senses_anchor_isolation\": {\"IDENTIFIED\": 3}, \"possessor_not_patient\": {\"IDENTIFIED\": 1}, \"relative_predicate_group\": {\"IDENTIFIED\": 1}, \"repeated_degree\": {\"IDENTIFIED\": 1}, \"repeated_extreme_equivalence\": {\"IDENTIFIED\": 1}, \"restriction\": {\"IDENTIFIED\": 1}, \"single_degree\": {\"IDENTIFIED\": 1}, \"temporal\": {\"IDENTIFIED\": 1}, \"this_object\": {\"IDENTIFIED\": 1}, \"very_degree\": {\"IDENTIFIED\": 1}, \"very_not_scope\": {\"IDENTIFIED\": 1}, \"want_negative\": {\"IDENTIFIED\": 1}, \"want_positive\": {\"IDENTIFIED\": 1}}}\n",
+      "stderr": "",
+      "report": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-foundation-audit-v5.json"
+    },
+    {
+      "label": "foundation",
+      "kind": "checkpoint",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "scripts.audit_lexicon_sentences",
+        "--lexicon",
+        "data/lexicon_builder/2026-11-12/ssl-explicit-genera/checkpoint-foundation.db",
+        "--benchmark",
+        "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-final-cases.json",
+        "--checkpoint",
+        "--report",
+        "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-foundation-checkpoint-v5.json"
+      ],
+      "exit_code": 2,
+      "elapsed_seconds": 92.87577279098332,
+      "stdout": "",
+      "stderr": "",
+      "report": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-foundation-checkpoint-v5.json"
+    }
+  ],
+  "pins_before": {
+    "data/lexicon_active.json": "13d9d1f610355995928d0f9147bee1e8cf7289714e38131e746a00c09326660a",
+    "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-final-cases.json": "11e92b1bb066aa5c763342b1347d39b0428bf3ebf67785c2a636160e8a0936e2",
+    "data/lexicon_builder/2026-11-12/sparse-release-021.db": "91e744cdb4012738d7c9c15929c39cd44211306f75613aeea8e4409708cc6e00",
+    "data/lexicon_builder/2026-11-12/ssl-explicit-genera/checkpoint-foundation.db": "0a1ddba83ccca919a810305fa609199e6aa0b1d0f3431e9a50fb039ea979cc47"
+  },
+  "pins_after": {
+    "data/lexicon_active.json": "13d9d1f610355995928d0f9147bee1e8cf7289714e38131e746a00c09326660a",
+    "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-final-cases.json": "11e92b1bb066aa5c763342b1347d39b0428bf3ebf67785c2a636160e8a0936e2",
+    "data/lexicon_builder/2026-11-12/sparse-release-021.db": "91e744cdb4012738d7c9c15929c39cd44211306f75613aeea8e4409708cc6e00",
+    "data/lexicon_builder/2026-11-12/ssl-explicit-genera/checkpoint-foundation.db": "0a1ddba83ccca919a810305fa609199e6aa0b1d0f3431e9a50fb039ea979cc47"
+  },
+  "source_inputs_unchanged": true,
+  "lineage": "Original benchmark is inspected development, not untouched final."
+}

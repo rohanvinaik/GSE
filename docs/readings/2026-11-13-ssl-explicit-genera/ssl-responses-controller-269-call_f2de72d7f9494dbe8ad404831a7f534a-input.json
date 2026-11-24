@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport datetime,json\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nprint(datetime.datetime.now(datetime.timezone.utc).isoformat())\nfor name in ['ssl-api-controller-integrated-gate-exit.json','ssl-api-controller-integrated-gate-output.log']:\n p=n/name;print('\\nFILE',name);print(p.read_text() if p.exists() else 'MISSING')\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

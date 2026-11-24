@@ -1,0 +1,5 @@
+{
+  "command": "python - <<'PY'\nfrom pathlib import Path\nimport ast,json\nfor f,names in [('GSE/curation/lexicon_builder/publication.py',{'publish_sparse','sparse_readiness'}),('GSE/curation/lexicon_builder/epoch.py',{'load_workload'})]:\n p=Path(f);t=p.read_text();print(f)\n for node in ast.walk(ast.parse(t)):\n  if isinstance(node,ast.FunctionDef) and node.name in names: print(ast.get_source_segment(t,node))\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera'); print('TY_ADVISORY', (n/'ssl-api-controller-ty-advisory.log').read_text())\np=n/'ssl-api-runtime-result.json';x=json.loads(p.read_text());print('B_CURRENT',json.dumps({k:v for k,v in x.items() if k in ['status','source_edits_finished','updated_utc','current_progress','workload','acceptance','blockers']},indent=2))\nprint('RECENT_B_ARTIFACTS',[(p.name,p.stat().st_size) for p in n.iterdir() if p.is_file() and p.name.startswith('ssl-api-runtime') and p.stat().st_mtime>1795548600])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-primary-hierarchy-reference -- .venv/bin/python - <<'PY'\nimport ast\nfrom pathlib import Path\nfor fn in ['GSE/symbolic/expression.py','GSE/primitives_v2.py']:\n t=Path(fn).read_text(); a=ast.parse(t)\n print(fn)\n if fn.endswith('expression.py'):\n  for n in a.body:\n   if isinstance(n,(ast.Import,ast.ImportFrom)):print(ast.get_source_segment(t,n))\n else:\n  for n in a.body:\n   if isinstance(n,ast.FunctionDef) and n.name=='get_hierarchy_encoding':print(ast.get_source_segment(t,n))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

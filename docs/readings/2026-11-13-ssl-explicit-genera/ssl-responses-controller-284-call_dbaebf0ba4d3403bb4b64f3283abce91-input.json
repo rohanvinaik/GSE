@@ -1,0 +1,5 @@
+{
+  "command": "pwd && .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-responses-controller-steering.json','ssl-api-controller-self-boundary-exit.json','ssl-api-controller-self-boundary-phase.json','ssl-api-runtime-blockers.json','ssl-api-runtime-result.json','ssl-api-runtime-complete-operation-cases-v1.json']:\n p=n/name\n print('\\nFILE',p)\n if p.exists():\n  data=json.loads(p.read_text())\n  if name.endswith('runtime-result.json'):\n   print(json.dumps({k:v for k,v in data.items() if k not in ['source_pins','source_file_pins','file_hashes','tests']},indent=2))\n  else: print(json.dumps(data,indent=2))\n else: print('MISSING')\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

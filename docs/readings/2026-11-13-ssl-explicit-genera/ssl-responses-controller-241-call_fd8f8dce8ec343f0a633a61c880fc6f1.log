@@ -1,0 +1,24 @@
+state schema [(0, 'entry_id', 'TEXT', 0, None, 1), (1, 'lexeme_id', 'INTEGER', 1, None, 0), (2, 'code', 'TEXT', 1, None, 0), (3, 'domains', 'TEXT', 1, None, 0), (4, 'conflicts', 'TEXT', 1, None, 0), (5, 'trace', 'TEXT', 1, None, 0), (6, 'hierarchy', 'TEXT', 1, None, 0)]
+Traceback (most recent call last):
+  File "<stdin>", line 10, in <module>
+  File "/Users/rohanvinaik/.local/share/uv/python/cpython-3.14.7-macos-aarch64-none/lib/python3.14/json/__init__.py", line 242, in dumps
+    **kw).encode(obj)
+          ~~~~~~^^^^^
+  File "/Users/rohanvinaik/.local/share/uv/python/cpython-3.14.7-macos-aarch64-none/lib/python3.14/json/encoder.py", line 202, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/Users/rohanvinaik/.local/share/uv/python/cpython-3.14.7-macos-aarch64-none/lib/python3.14/json/encoder.py", line 263, in iterencode
+    return _iterencode(o, 0)
+TypeError: keys must be str, int, float, bool or None, not tuple
+when serializing dict item 'trace_record_shapes'
+ M .claude/rules/lg_focus.md
+ M .claude/rules/lg_session.md
+ M GSE/api/encoder.py
+ M GSE/symbolic/lexical_grounding.py
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-blockers.json
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-continuation-job.log
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-root-handoff.json
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-checkpoint-demand.json
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-status.json
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-status.json
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-steering.json
+ M tests/test_runtime_native_identity_controls.py

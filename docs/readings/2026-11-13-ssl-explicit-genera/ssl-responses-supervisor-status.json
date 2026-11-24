@@ -1,0 +1,32 @@
+{
+  "state": "CONTINUING_AUTHORIZED_CHECKPOINT",
+  "at_utc": "2026-11-24T19:50:08.675388+00:00",
+  "workers": {
+    "controller": {
+      "state": "RUNNING",
+      "turns": 299,
+      "response_id": "resp_02d2f1a2860b74e1006b05ea429ce487d28e34054745acadde"
+    },
+    "runtime": {
+      "state": "RUNNING",
+      "turns": 236,
+      "response_id": "resp_0d66c4c7356128c8006b05ea4ea50087d2b63614415d457b1f"
+    }
+  },
+  "launches": {
+    "controller": 1,
+    "runtime": 1
+  },
+  "budget": {
+    "format": "GSE.api-continuation-budget/1",
+    "at_utc": "2026-11-24T19:49:44.908084+00:00",
+    "completed_calls": 19,
+    "conservative_charge_usd": 2.2479072,
+    "outstanding_reservations_usd": 0,
+    "next_request_reserve_usd": 9.71152,
+    "limit_usd": 80.0,
+    "source": "https://developers.openai.com/api/docs/models/gpt-6.1-sol.md",
+    "is_account_balance": false
+  },
+  "finish_receipt": "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-checkpoint-delivery.json"
+}

@@ -1,0 +1,161 @@
+
+=== AGENTS.md ===
+# GSE
+
+## Docs are not ground truth.
+
+This repo is in active drift. `docs/THEORY.md` is known-invalid — do not use
+it as a source. Treat the other planning docs as unverified. Authoritative
+sources: Rohan, then the code. When sources conflict, surface it.
+
+## The statement healer is biology-shaped (design framing).
+
+The Genesis-facing statement healer (the voice-mode repair layer that produces clean
+statements) is modeled on DNA error-correction + gene regulation — biology as a tested
+reference design, not loose analogy. A sentence is a **coding sequence**: a *coding-sequence
+repair* re-reads a mis-parsed ORF under the structural law. A correct read's driver is often
+in the bounded **cis-regulatory neighborhood** (~±2 lines — `resolve_document` /
+`encode_document_utterances`), sourced by a *regulatory repair*. **Intervention scope (one
+clean statement) ≠ signal scope (±2 lines)**; meaning is in the combination of local +
+regional frames. Full: Genesis `docs/ARCHITECTURE.md` + memory `project_l2_voice_modes_flywheel`.
+
+## The cassette layer (additive; `GSE/cassettes/`).
+
+Domain-portable experts that resolve ONE in-frame uncertainty using OUT-OF-frame multi-scale context —
+**GSE is the player, a cassette is the tape**; the single-sentence scale is the ceiling, cassettes are
+contingent on the higher scales. Built: `MultiScaleDoc` (four scales, composed once) + `Cassette` base
+(SymbolicSpellCheck spine) + `entity_identity` / `relational_identity` / `person_validation` +
+`CassetteDeck` + `cheatsheet` (ride-along + span-aware `make_merge_repair` at the
+`from_document(repair=)` seam). Non-negotiable laws: **compose existing tools (read_fold / grounding /
+facets), never re-ground; confidence = CONVERGENCE; never destroy a correct value; validate
+resolve-or-abstain across the WHOLE corpus.** Purely additive — no existing GSE source is modified.
+Full: `~/Genesis/docs/CASSETTE_ARCHITECTURE.md` + `CASSETTE_ARCHITECTURE_DESIGN_BRIEF.md`.
+
+## Design constraints
+
+- **Grounding goes through the existing pipeline.** A new grounding source is a parser exposing `to_primitives`, one
+  entry in `integrator.load_all_sources()` and one scope in `SOURCE_PRIMITIVE_SCOPE`, not a new grounding module, a
+  flat word→primitive lookup or a similarity score.
+- **The lexicon is definitional only, over a closed basis.** A word's meaning is a ternary sign {-1, 0, +1} over the
+  build's fixed set of primes; a component not expressible that way is not lexical meaning, so `dog` and `cat` may be
+  near-identical, correctly. World facts and world-affect belong to sparse-wiki, the orthogonal world leg.
+- **No cosine resolver.** Meaning is discrete structure (IS-A genealogy, exact sign-match, resolved keys); GSE's own
+  resolver is `grounding._select_by_coherence` with `_jaccard` over type threads. The HDC `sense_resonance` cosine is
+  a guarded secondary re-ranker only.
+- **DeepNSM is silver: anchors and evaluation only.** Its text is LLM-generated and CC-BY-NC-SA 4.0, so it is never
+  baked into the shipped lexicon (Rohan's decision, 2026-06-19).
+
+
+=== docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-steering.json ===
+{
+  "authority": "NEW_DIRECT_USER_INSTRUCTION_OVERRIDES_EARLIER_JOB_PRIORITIES",
+  "user_words_verbatim": "I need a working lexicon checkpoint done yesterday. I was willing to humor your slow and charming refusal to follow directions while I was doing other things, but the time has come where I need to use GSE, and I can't do that without a working lexicon checkpoint. Follow the plan, get the base established as we agreed upon over the past day, and provide me with a working lexicon checkpoint ASAP. The full learning loop can keep iterating in the fullness of time. But I need a working lexicon that can power the full repertoire of GSE tools for the majority of sane uses, and I need it by tomorrow morning, in the next 6-8 hours",
+  "received_utc": "2026-11-24T08:09:27Z",
+  "target_activation_utc": "2026-11-24T14:09:27Z",
+  "latest_requested_window_utc": "2026-11-24T16:09:27Z",
+  "priority": "ESTABLISH_VALIDATE_AND_ACTIVATE_USABLE_CHECKPOINT_FIRST",
+  "contract": "Existing formal usable-workload and source/semantic/replay/runtime gates apply. Unknown remains unknown; rigor is not waived. Full generic learning-loop completion is explicitly deferred until after the usable checkpoint.",
+  "coordination": "These are the same two API worker conversations, resumed from completed tool outcomes. Your prior code, tests, evidence and context remain. Read any new peer coordination message in ssl-responses-ROLE-steering.json via the parent driver. No repeat of old model or completed tool requests.",
+  "scope_control": "Do not create a replacement constructor, alternate lexicon or alternate runtime. Use existing foundation candidate, approved rules and ordinary admission/migration/replay/publication path. Keep active and rollback protected. Do not spend the checkpoint window completing general controller features that do not block the checkpoint.",
+  "source_freeze_target_utc": "2026-11-24T10:09:27Z",
+  "replay_budget": "Reserve substantial time for the existing full-cohort replay (previously roughly two hours wall). Start final replay promptly once actual code/rule revisions settle. Full repository gate after both worker code scopes finish; unchanged passing checks need no gratuitous repeats.",
+  "reporting": "A running job or passing toy fixture is not the deliverable. Required deliverable is a validated activated usable checkpoint with workload outcomes and exact source/rule pins. Never call the 50526 forecast committed unless migration and replay actually deliver it. Report real blockers promptly in ssl-api-ROLE-blockers.json, with exact failed outcomes, while continuing independent checkpoint work.",
+  "role": "runtime",
+  "next_execution": "Finish existing critical runtime identity/grammar edits and focused tests promptly. Freeze the usable checkpoint acceptance manifest NOW against the agreed full GSE repertoire and >=90% eligible token mass in frequency source AND independent real text. Inventory actual public GSE tasks and required bank/sense/grammar demands; compute present failures and send actionable compact missing-cell/rule populations to controller via ssl-api-runtime-checkpoint-demand.json. Use original founder-approved checkpoint scope, no narrowing after failures. Validate ordinary/function ambiguity, he/He, speaker/addressee, WANT, BE, anatomy, NOT/VERY scope and duration plus real sentence/tool operations. Produce real source-warranted held-out positive/MUST-NOT expected outcomes outside construction requests. Once your code edits pass their appropriate tests, write ssl-api-runtime-result.json early as CODE_FREEZE_READY even if the evolving lexicon still fails workload; tell controller exactly what remains. You may continue read-only demand audits afterward without changing pinned runtime source. Do not wait for generic learner completion. Coordinate final runtime/workload proof and usable sparse publication with controller.",
+  "parallel_factual_census": "A third read-only API worker is producing ssl-api-coverage-checkpoint-facts.json (and result.json) on approved source/rule applications and common-form blind spots beyond the known I/YOU forecast. Consume checked exact evidence as useful, but do not wait for it. It writes no code or lexical data.",
+  "root_independent_runtime_counterexamples": {
+    "code": "CONFIRMED_PUBLIC_ENCODER_REGRESSION_REQUIRES_REPAIR",
+    "evidence_file": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-root-identity-probes.json",
+    "observed": "On actual active021 GSEEncoder.encode, He is an entity / He is a thing / He is an organism / He is an animal all yield pronoun CONFLICT and empty banks. He is happy / He is a person preserve correct pronoun. He is an inert gas already computes contextual_grounding EXACT_WORDNET_SENSE wordnet:he:helium.n.01 but encode drops that exact result and emits unread.",
+    "cause_to_verify": "grammatical_eligibility treats absence of person.n.01 among an asserted type ancestry as explicit non-person exclusion. Broad ancestor types entity/organism legitimately include people. This is unknown/comparability being mistaken for disjointness. Use actual native constraints; do not patch a list of words. Consume exact independently grounded contextual identity where legitimately established rather than computing and then ignoring it.",
+    "acceptance": "Add positive/MUST-NOT tests through actual encoder for broad generic types and unrelated substance mentions, maintain specific chemical challenges, preserve legitimate pronoun readings; no release with this regression. Root report is development evidence; do not relabel it untouched final holdout."
+  },
+  "root_prime_operation_demand": {
+    "evidence": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-root-prime-demand-probes.json",
+    "measurement": "Actual GSEEncoder on active021, 19 elementary contexts: only DO and CAN emitted the probed literal prime sign. This is emission availability, NOT a semantic accuracy score; all original source hashes are pinned and unchanged during the probe.",
+    "exact_observed_gap": "want/think/know/see/hear/feel/say/happen/move/good/bad/big/small/have/here all remain AMBIGUOUS with empty word primitives; above and before select curated grammatical rows but have no ABOVE/BEFORE lexical component. Ordinary primitive usage is consequently not powered by the current checkpoint.",
+    "checked_consumer_fact": "Current GSEEncoder.encode only invokes contextual grounding for NOUN/PROPN tokens after grammatical lookup fails; VERB/ADJ/ADV ambiguity never reaches that selector. It also selects curated grammatical rows ahead of ordinary source candidates, so missing lexical components in those exact rows need source-aligned projection, not blanket lookup.",
+    "required_action": "Use these as DEVELOPMENT demand to establish the common-word/prime base and actual runtime access as the user requested. Separate missing lexical evidence from unresolved identity; extend/reuse existing typed source/role/construction grounding and correct source integration. Do not bolt on word->prime lookup, silently zero domains, force a sense contradicted by context, or call these untouched final holdouts. Where a sentence truly remains ambiguous, record it and verify a sufficiently specified variant rather than forcing its annotated literal intent.",
+    "coordination": "Runtime worker owns the consumer/eligibility path; controller owns justified bank/source projections and corpus revisions. Coverage worker supplies factual source/rule reach. This is a checkpoint-critical observed failure, not optional broad learner research. Source freeze waits for the corrected base path and proper tests."
+  },
+  "completed_root_and_coverage_evidence": {
+    "reference_audit_receipt": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-root-reference-audit.json",
+    "reference_audit_fact": "All7 fresh typed local requests finished, plus exact original water/I reused. RockYOU0; doorI0; treeI0; catYOU0; houseYOU0; glassYOU0. DogI explicitlyNULL remainsunknown. No lexical cellswritten byroot. Original raw journal/model/schema identities and interned contexts are retained. Do not repeat these questions. Process audit null as explicit reservation/unknown, not zero or negative exception. If existing admission requires another signed animal audit, ask a fresh disjoint exact sense rather than repeatingdog.",
+    "coverage_census": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-coverage-result.md and .json",
+    "prime_crosswalk": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-coverage-prime-demand-crosswalk.json",
+    "facts": "Nine nonemitting prime lemmas already have signed same-POS candidates: runtime must access eligible exact identities. Eight lack requested signs on parsed-POS candidates: good,bad,big,small,have,here,above,before. Existing117779 native projectioncells alreadyapplied; no blanket missed-source flood found. Actual unadmitted rule reach includes physicalcontactTOUCH269, own/possessHAVE4, guardedpossessionHAVE181, humanpersonBODY9021 withtitlechallenges, explicitpersongenusBODY1453; scopesoverlap, notsummable. Prime catalogue16supported,42open,7construction/hierarchy. Read governingproofs beforeusing.",
+    "execution_authority_fixed": "New developer/tool scope explicitly authorizes controller local GSE/Ollama. Temporary TPM429 handling now bounded and coordinated; existing completed tool outputs replayed exactly, not rerun. Server-side context compaction enabled; original owner intent, checkpointpriority and sourcecontracts remain authoritative. After compaction re-ground required obligations, do not restart archaeology or rewrite the plan."
+  },
+  "word_sentence_boundary_check": "Root re-read the WHOLE formal Word and sentence boundary section. Do NOT turn the19 raw word-bank emission probes into a demand to duplicate meaning already correctly carried by sentence geometry/operator/grammar structures. Above/before have native spatial/temporal metadata: verify the actual composed relation before calling absence of a raw lexical sign a task failure. The observed noun-only contextual-selection branch and unreachable signed verb candidates remain concrete consumer gaps. For source-only holes such as good/bad/size, establish actual source-warranted lexical meaning and permitted construction. Check auxiliary-have/do versus main-verb roles under the existing contract; do not simply map lemma->bank to make probes pass. Preserve complete meaning across scales. Root probes are development diagnostics, not new universal word-level requirements.",
+  "root_exact_prime_warrant": "Root independently read the COMPLETE primary NSM chart and COMPLETE EVALUATION/SIZE bipolar declarations in both GSE/primitives_v2.py and curation/schema.py. Explicit scoped derivation review saved at ssl-root-canonical-prime-projection-review.json for canonical nsm_chart:v20:good/bad/big/small only. It supports only GOOD+1/-1 and BIG+1/-1, not a full signature, same-spelling ordinary senses, participant banks, hierarchy or zero defaults. It is a source-derived implementation review, not a new founder convention. Consume through the existing tested projection/admission/replay machinery; do not simply flip approval flags. Runtime must preserve exact source/role eligibility and composed scope.",
+  "owner_resume": "Continue, complete this task please",
+  "resume_priority": "Deliver usable rigorous checkpoint, not another generic learner infrastructure round. Existing receipt CODE_FREEZE_READY was not usable-checkpoint acceptance. Deadline already missed; execute shortest safe dependency chain now.",
+  "coordinated_unfreeze": {
+    "authorized": true,
+    "scope": "Existing real runtime/construction/resolution/evaluation/emission modules and associated tests, plus your previous owned paths. Do not touch builder or lexical DBs.",
+    "task": "Fix all three actual composed-tool defects in ssl-api-runtime-postfreeze-findings.json through the existing production seams. Above/below must retain distinct spatial relation; temporal preposition must retain anchor and not become patient; copular inert-gas sentence must be nominal type assertion, preserving native chemical identity. Then resolve exact common noun grounding gaps femur/teacher with actual source/context constraints. No tiny word lists, flat mappings, forced first senses or unknown->zero. Trace real consumers. Run focused/adversarial tests and re-freeze source pins promptly. Keep all failure classes visible; no false held-out claims. Controller is working on lexical source/rule migration separately. If existing independent runtime source machinery can fill genuine workload manifest evidence, run it; do not invent synthetic receipt booleans."
+  },
+  "root_acceptance_contract_trace": {
+    "formal_unit": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md / Checkpoint workload and acceptance (read whole by root)",
+    "code_units_read": "scripts.audit_lexicon_sentences.load_workload and checkpoint_result (whole bodies read by root)",
+    "concrete_overconstraints": [
+      {
+        "code": "WHOLE_COMMON_FORM_LABEL_REQUIREMENT_INVENTED",
+        "location": "load_workload two_sided_semantic_audit set(audited_forms)==set(common_forms)",
+        "formal": "Item2 specifies90% common-form cohort and retainingall senses; items3/4/5 specify actual operations, needed components, source-warranted positive/MUST-NOT cases and independent final cases. It does not require manually authoring two-sign semantic gold for every one of16692 spelling forms. Do not confuse cohort/sourcecoverage with semantic accuracy. Use all existing common-form demand inventory plus declared representative independent finite semantic cases across genres/tail and exact promised required operations. Preserve missing-sign and known-wrong checks; no fabricated gate booleans."
+      },
+      {
+        "code": "EACH_GENRE_90_THRESHOLD_INVENTED",
+        "location": "checkpoint_result token mass all(genres)>=90%",
+        "formal": "Item2 explicitly says90% in BOTH frequency source and an independent real-text corpus, WITH genre slices. Report each genre slice honestly; there is no specified independent90% threshold for everygenre. Keep aggregate two-source90% requirement. Do not narrowcohort or discard failedgenre aftermeasurement."
+      }
+    ],
+    "action": "Correct these new unapproved extra gates to match the established formal contract, preserving all actual failures and finite two-sided semantic validation. Explain exact before/after in receipt; this is removalof implementation drift, notwaivinguserrequirements. Root traced references beforethisrequestedchange."
+  },
+  "root_lint_preflight": "Root read-only Ruff preflight during your edits found definition_witnesses initialized in _native_example_support but used undefined in _construction_support. Likely transient patch placement; ensure correct scope before freeze. Formatter also flags native.py/new composed tests/audit script; you own those, root leaves them alone.",
+  "root_new_negative_witness": {
+    "development_not_final": true,
+    "source_read": "Whole new expression._nominal_temporal_attachment and tests.test_runtime_native_composed_controls read by root",
+    "specific_risk": "Current any WordNet sense time_period/clock_time check proves grammatical possibility, not uniquely time denotation. Existing negative king lacks any time sense and misses ambiguity. Probe Alice stood before the spring and Alice stood before the period: spring can mean mechanical object orseason; period can punctuationorinterval. Preserve unresolved role/anchor alternatives insteadof silentlyforcingtemporal merelybecauseonesenseistime. Useexisting source/grammarconstraints, no wordlistpatch.",
+    "additional_positive": "Check ordinary determined copula with degree-adverb modifiers (e.g. He is a very strict judge) preserves nominal head; noun/verb repair currently scans adjectivesonly. Fix if actual malformed event; do not use lexical rarity to force sense.",
+    "frozen_critical_reminder": "control-he-chemical original text The chemical symbol He denotes helium still requires exact native identity. Inert-gas positive fix by itselfdoesnotpassoriginalfrozencriticalcase. Originalcasesnowdevafterinspection; finalauditneedsfreshlineage-separatedcaseartifacts oncecodefreezes."
+  },
+  "process_inventory_safety": "Never print full ps command lines or full environment: some unrelated MCP launch commands contain credentials. Capture only the specific owned process subtree, and print pid/ppid/elapsed/CPU/RSS plus sanitized role labels, never command arguments. No credential discovery or inspection; do not read old full process listings. Do not include those logs in result prose or final commit.",
+  "coordinated_unfreeze_second": {
+    "authorized": true,
+    "reason": "Root read COMPLETE current blockers and full composed findings: known wrong teacherrelativecopula andfemur coordinatedmodifierremain. Direct ownerrequirescompleteusablecheckpoint; theseactualdevelopmentcasesmustnotbeleftasblockersaftercodeready.",
+    "scope": "Existing production sentence construction/resolution/coordination paths +associatedtests. Keep existing APIs, ordinary bank values andidentity fixes. No builder/DBwrites.",
+    "execute": "Fix RELATIVE_COPULA_COMPOSITION_WRONG and COORDINATED_MODIFIER_NOMINAL_COMPOSITION_WRONG now throughrealentry. Preserve mainmatrix copular predicateandproperrelativeclauseownership; do not solvebydroppingrelativeclauseorofattachment. Keep adjectivecoordinationasmodifiersandboneofhuman skeletonasnominalattachment, notbone/skeletoncoordinatepeers. Reusenativegrammar/operators/roleframes; no sentence-stringpatches. Run finitepositive/MUST-NOT controlsthenre-freeze promptly. Roothasnotauthorizedanotherbroadresearchround. Existing fullfreezeLineage/failureevidence retained.",
+    "acceptance": "Complete actual finite workload operation witnesses +fresh independent final slice before stopping ifpossiblewithreadonlycandidateaccess. No manufacturedmanifestbooleans, allcommonformmanualgold orpergenre90gate. Keep sourceexample-matcheddevcasesseparatefromfreshfinal. Controllerprepareslexicalcandidate andownsfullrepo gate/publication; notifycontrolleractualfreeze.",
+    "do_not_wait_for_root_approval": "Owner hasalreadyexplicitlyauthorizedfullimplementationandpublicationaftervalidation. Ifrootquiet/compacted, continuetheseauthorizedrepairsandcoordinateviaartifactsthenstopedits. No furtherhumanapprovalisrequiredforreversiblefixesorgatedactivation."
+  },
+  "root_common_primitive_access_release_obligation": {
+    "existing_blocker_not_new_scope": "Your current result explicitly retains COMMON_OPERATION_IDENTITY_OPEN; root original19prime-operation probes are existing checkpoint demand. Do not close usablecheckpoint with only verbatim native dictionary examples while ordinary elementary NSM uses still yield no geometry. The stored7prime rulings are necessary but do not by themselvessolve runtimeaccess.",
+    "action": "Aftertwo composedfixes, rerun actual elementary NEW literal contexts for commonprimes through the real encoder and composed/profile consumers, and identify missingvalue vs missingidentity separately. Reuse existing GSE grounding/source/grammar machinery. Inspect savedprimaryNSMchart frames as possible typed construction/role witnesses for canonical units: these frames are preserved as context, notparticipant bankcontent; approved own-coordinate anchors muststaypartial. A source-licensed canonical meaning neednot falselyassertwhichmore-specificWordNetreadingisintended. Do notforceanysourceIDbyspelling, POSalone, popularity, cosineorfirstsense. No flatword->bankfallback. Ifallremainingeligibleidentitiesprovablyshareasingletonbank, a commonconsequenceislogicallydistinctfrommergingidentities, but onlyimplementifexistingcontractsupportswithfullsourceproof; anyunknownorconflictcandidateblocksassertion. Neither bankuncertainty noridentityuncertainty maybehidden.",
+    "acceptance_boundary": "Finite representative genuinely novel normal uses ofcritical primitives plusnegative alternate roles, withsourcewarrants and all outcomes reported. No universalpromiseallambiguousEnglishsentencesmustresolve. Preservegenuinelyunderconstrainedcases. Source-attestedaccess aloneisnotbroad heldoutaccuracy; currentbank/identitygapsneedconcretesolutionor preciseexplicitobligation remaining, notanunsupportedusablelabel. A ownsthebank/ruledata andpublication; coordinateactualneededcellpopulations. Do notstartunboundednewresearch."
+  },
+  "root_primary_frame_source_locations": {
+    "existing_code": "GSE/curation/external_sources/nsm_chart.py; GSE/curation/lexicon_builder/catalog.py chart_definition_records, foundation_prime_links, _NATIVE_PRIME_DEFINITIONS and _CHART_CONSTRUCTIONS; existing integrator/source competence contracts. Readwholeunits, verifyactualstoredfeatures ratherthanassumingframesparsedalready.",
+    "available_test_data": "data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/teaching.db contains the four justified partial canonical GOOD/BAD/BIG/SMALL own-coordinate anchors; foundation.db itself doesnotyetcontainthose4. Read-onlyaccessauthorized. Do nottouch liveprivate .gse-migration files ormodifyanylexDB. Publicationcandidatewillcarrytheseanchorsandlater7WordNetprime rulings.",
+    "representation_boundary": "Use saved frames as actual source/contextual sense-eligibility evidence onlywherewarranted. Never copy frameparticipants into own-unit banks or complete a signature by zeroing. Some canonical units already link native WordNet IDs; verifyidentitymappingauthority ratherthanforceanysame-spelledsource. Ifcanonicalprimarymeaningcanbelicensed bytypedconstruction, retainexactsourceunitwitnessandfinerambiguity honestly; noflatmapping. RootisnotauthorizingunwarrantednewfullsignatureorIDalignment."
+  },
+  "root_frame_sufficiency_negative_witnesses": {
+    "principle": "SavedNSMallowableframesarepositivecompatibilityevidence, not automaticallyaunique Englishsenseproof. Differentmeaningscanfitidenticalgrammar. Do not substituteprimary-frame match forfullconcurrentcontext/sourceconstraints.",
+    "negative_development_cases": [
+      {
+        "text": "I see my doctor.",
+        "must_not": "ForceprimaryvisualSEEmerelybecauseperson+SEE+personfitsthechart; consultationandvisualreadingscanbothremain. No ungroundedzeroeither."
+      },
+      {
+        "text": "The court heard the case.",
+        "must_not": "ForceprimaryauditoryHEARsolelyfromthegenerictransitiveframe; judicialdefinition/source rolesmustbeconsidered."
+      },
+      {
+        "text": "It was a good forty miles.",
+        "must_not": "EmitcanonicalGOOD=+1byspelling/ADJframe; quantity/intensityuseisnotpositiveevaluation."
+      }
+    ],
+    "positive_scope": "Useexplicit sufficientlyqualifiedperceptual/qualitycontextswithgenuinesourcewitnessesfornovelpositivecases. Genericframepossibilityalonedoesnotkillcompetingmeaning. Reuseexistingrole/grounding/typestructures, no sentence-keylookup. These arefinitecounterexamples toanoverbroadimplementation, notanunboundednewrequiredvocabulary."
+  },
+  "root_word_sentence_boundary_reaffirmed": "Judge common-prime usability through actual promised complete GSE operations, notonlyraw tokenbank emissions. Existing Control/propositional-attitude/speech/grammar/degree/spatial/temporal structures mayalreadycarrymeaning. Root earlier19emissionprobeisdiagnosticNOT19universalrawbankrequirements. Do NOTduplicatecorrectsentencegeometryintowordbanks toforceemissions. Requiredexplicitbankqueriesstillneedwarrantedknownvaluesorhonestunknown; identityambiguitycanremainwhenoperationdoesnotrequireitsfinerresolution. Fixrealconsumer/workload failures, e.g. ordinary sourcedpositiveevaluativeprofile wherecritical, anddocumentlegitimateunderconstraint. Thisdoesnotauthorizeallunknownprofilesas90%semanticaccuracy. StaywithfullGSEword/sentenceboundaryalreadyformalized."
+}

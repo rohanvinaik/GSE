@@ -1,0 +1,63 @@
+    def __init__(self, db_path: str | Path | None = None, strict: bool = False):
+        """
+        Initialize encoder with bases and database.
+
+        Args:
+            db_path: Explicit database path, or the activated lexical resource.
+            strict: If True, raise exceptions for OOV words and errors.
+                    If False (default), use graceful fallbacks.
+
+        Token front-end: the deterministic, arc-free GSE-native parser (WS1). spaCy
+        was retired — native is the ONLY front-end (there is no stochastic POS path).
+        """
+        self.db_path = resolve_lexicon_path(db_path)
+        self.strict = strict
+
+        # Load HDC bases
+        self.word_basis = create_basis()
+        self.sent_basis = create_sentence_basis()
+
+        # Token front-end — pure-Python/deterministic, the only engine.
+        from GSE.nlp.native import NativeNLP
+
+        self.nlp = NativeNLP()
+
+        # Database connection. A relative db_path resolves against CWD, so a wrong
+        # path is the silent-empty-lexicon footgun: sqlite3.connect() *creates* an
+        # empty file rather than failing, leaving the lexical oracle blind with no
+        # error. Fail loud — a missing file or a zero-row lexicon is a broken brain,
+        # not a degraded one (distinct from ``strict=``, which governs OOV words at
+        # encode time, not a missing lexicon).
+        if not self.db_path.exists():
+            raise FileNotFoundError(
+                f"GSE lexicon not found: {self.db_path} (cwd={Path.cwd()}). Pass an "
+                "absolute db_path or run with cwd at the GSE project root."
+            )
+        self.conn = sqlite3.connect(self.db_path)
+        self.cursor = self.conn.cursor()
+        from GSE.lexical_evidence import is_definition_database
+
+        try:
+            self._definition_database = is_definition_database(self.conn)
+        except sqlite3.Error, ValueError:
+            self.conn.close()
+            raise
+        try:
+            n_lexemes = self.cursor.execute("SELECT count(*) FROM lexemes").fetchone()[0]
+        except sqlite3.Error as e:  # no 'lexemes' table → not a lexicon db
+            self.conn.close()
+            raise ValueError(
+                f"GSE lexicon {self.db_path} has no 'lexemes' table ({e}); it is not a valid lexicon database."
+            ) from e
+        if n_lexemes == 0:
+            self.conn.close()
+            raise ValueError(
+                f"GSE lexicon {self.db_path} has 0 lexemes — the lexical oracle would "
+                "be blind. Refusing to construct a silently-empty encoder."
+            )
+
+        # WS1: derive core syntactic roles arc-free (positional) rather than from
+        # spaCy ``dep_``. Flipped off only by the parity harness to A/B the two.
+        self._arcfree_syn = True
+        self._repair = None  # lazy native parse-repair (built on first encode)
+

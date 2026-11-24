@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-resume-state -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\np=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-runtime-result.json','ssl-api-runtime-blockers.json','ssl-responses-runtime-steering.json']:\n f=p/name\n print('\\nFILE',f)\n if f.exists(): print(f.read_text())\n else: print('ABSENT')\nprint('\\nROOT STEERING PATHS')\nfor f in Path('.').glob('ssl-responses-*-steering.json'): print(f)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

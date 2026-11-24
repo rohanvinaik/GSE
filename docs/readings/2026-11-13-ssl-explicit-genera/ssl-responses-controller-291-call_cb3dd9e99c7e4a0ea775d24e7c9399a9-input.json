@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport json\np=Path('docs/program/LEXICON_CONSTRUCTION_DESIGN.md')\ns=p.read_text(); lines=s.splitlines(); start=next(i for i,x in enumerate(lines) if x.lstrip('# ').startswith('Recovery contract — usable checkpoint and the SSL learning mechanism')); level=len(lines[start])-len(lines[start].lstrip('#')); end=len(lines)\nfor i in range(start+1,len(lines)):\n x=lines[i]\n if x.startswith('#') and len(x)-len(x.lstrip('#'))<=level:\n  end=i; break\nprint('\\n'.join(lines[start:end]))\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ('ssl-api-controller-self-boundary-job.json','ssl-api-controller-self-measure-job.json'):\n print('\\nOWNED JOB RECEIPT:',name);print((n/name).read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

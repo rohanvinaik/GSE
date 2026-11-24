@@ -2,6 +2,63 @@
 
 Status: approved semantic decisions with an implementation status ledger. Version: `GSE.lexicon-conventions/2026-10-29`. Owner of semantic decisions: Rohan. This document consolidates the lexicon construction contract; it does not make historical planning documents authoritative.
 
+## Recovery contract — usable checkpoint and the SSL learning mechanism
+
+**Owner-confirmed recovery record, 2026-11-24 (“shame sheet”).** Rohan requested this record after the implementation missed his urgent usable-checkpoint deadline. Read this section before resuming GSE-01 after a compaction or handoff. It restates his controlling requirements and the explanation he asked to preserve; it is part of this existing build contract, not a new plan or a substitute for executable evidence. The detailed SSL-01–SSL-11 and CP-01–CP-08 requirements below remain binding.
+
+### Deliverable and priority
+
+Establish a broad, justified symbolic foundation sufficient to make GSE usable for ordinary, frequent language; validate and publish that sparse state as a stable checkpoint; continue SSL learning from **the same artifact and production path**. Whole-dictionary completion is continuing work. Do not postpone the usable checkpoint until every bank of every rare sense is resolved, and do not manufacture usability by weakening the promised workload.
+
+The artifact is definition-indexed over the fixed 56 ordinary banks, with hierarchy and NUMBER separate. Distinct definitions keep their identities even when their geometry is near-identical. Each asserted sign, including zero, carries justification. Unknown is not zero, negation, absence or definitional silence. Grammar, reference, argument binding, operator scope and sentence/document relationships stay at their proper scales; a missing raw word-bank emission does not establish missing meaning when the actual operation already expresses it structurally.
+
+There is one source → constraint state → typed residual writer → revision/replay → publication → normal GSE consumer chain. A checkpoint pins this chain's validated state and rules. No parallel constructor, alternate grounding table, weaker checkpoint lexicon or separate learning build is authorized.
+
+### What the theory requires the implementation to do
+
+Make common sense computable as **justified exclusions and relationships**. For a located reading, source/role facts and admitted laws constrain the joint set of legal assignments. Inside a definition, banks constrain one another. Across definitions, a reviewed semantic rule applies to its entire justified population. Contradictory reading eligibility is checked before popularity or similarity can select an interpretation. Pronoun “He” and chemical-symbol “He” remain distinct possibilities; contextual and grammatical constraints determine which are eligible. Case, POS or frequency alone is not a semantic ruling.
+
+Filled cells are only one progress signal. Two ternary banks can narrow from nine joint assignments to three while both marginal domains remain unchanged. That is real information even with zero new singletons. Retain the joint constraints, removed possibilities and their causes; apply closure again when new evidence arrives. A rule is not worthless merely because its isolated singleton gain is zero, and a bridge can make another rule newly useful.
+
+SSL's learning dynamics separate direct teaching from structural amplification. Zipf prioritization makes carefully examined cases useful and well supported; the current constrained state's marginal resolution and discriminating cases guide which question is informative. The intended recurring cycle is:
+
+1. Compile all warranted source projections and admitted laws into the existing constrained state and propagate to closure.
+2. Group unresolved common-use questions by semantic mechanism, native features, competing rules and remaining joint alternatives.
+3. Select a bounded informative question, simulate its legal answers and downstream closure, and retain the declared search limits. Do not inject an expected answer into the request.
+4. Resolve only the specific surviving definition–bank questions through the existing typed writer; retain any legal sign or explicit abstention with exact context and provenance.
+5. Turn recurring evidence or surprise into a scoped rule hypothesis or refinement. Establish definitional warrant and independent positive and MUST-NOT witnesses before admission.
+6. Admit a justified revision, replay its entire eligible population and affected dependents, retain exceptions/reservations and reopen unsupported conclusions.
+7. Recompute feasible-space complexity, singleton/domain changes, frequency-bucket residuals and marginal rule/question value, then select again from the changed state.
+
+Discovery and refinement must feed the **next** decision. Exporting candidates at the end of a fixed-family run, maintaining a durable log without consuming its discoveries, or repeatedly filling independent cells does not implement this cycle. TrialLedger provides the engineering pattern: finite-domain closure, joint satisfiability, typed contradictions and survivor-discriminating evidence requests. Its clinical laws are not GSE laws.
+
+An exception is learning evidence. Classify wrong identity, unsupported projection, missing condition, justified local exception and unresolved disagreement separately. Learn and independently audit a distinguishing guard where possible; retain an independently warranted exact exception where necessary. Do not silently discard counterexamples, replace generalization with unexplained word patches, or discard an otherwise useful law wholesale. A null model answer remains unresolved.
+
+The old generated lexicon and patterns in the current holes may nominate hypotheses. Native source evidence, explicit owner conventions and NSM/semantic reasoning establish their warrants; generated signs, recurrence and the candidate rule's own consequences cannot certify it. Unknown guards remove nothing. Source absence without an applicable closed-world/coverage proof removes nothing.
+
+For each definition retain the legal configuration set Ω. Measure H as the corpus sum of log2|Ω| under the declared factorization, together with exact-count coverage/limits, filled and unknown cells, marginal-domain potential, reopened conclusions and typed contradictions. Distinguish this declared specification-space measure from a computed minimum teaching-set size. Separate direct teaching, existing-law propagation and newly admitted-rule effects. Report the whole fixed cohort in ranks 1–500, 501–1500, 1501–5000, 5001+ and unranked, retaining all senses and the requested averages.
+
+The predicted bulk acceleration is **structural amplification across successive learning rounds**. The identity that a bit halves a possibility count is not evidence of an exponential learning curve. Measure the actual contraction at equal teaching budgets, with audit/review costs and overlapping consequences accounted for. Recompute priorities as rules change; static-graph constants and guarantees are not a certificate for a growing graph with complementary bridges.
+
+### The execution failure this record must prevent
+
+The recent approximately 50,500-cell population gain concerns a narrow I/YOU family. It demonstrates propagation, not a broad completed semantic foundation. A replay-valid candidate and passing repair tests do not establish usable GSE. The historical handoff's statement “Broader generic learner work deferred” must not be silently turned into a claim that the complete recursive controller ran. Earlier experiments retain their actual scope.
+
+Real runtime repairs remain necessary: a correct token identity cannot certify a sentence that loses a spatial relation, scope or argument. Equally, endless individual repairs, model receipts, migrations and passing fixtures cannot substitute for closing the common-use foundation and its acceptance path. Carry existing approved semantic decisions into production before asking the owner or model again. The approved generic-self I=0/YOU=0 boundary is a specific regression witness for this obligation.
+
+### Finish the checkpoint, then continue from it
+
+1. **Close common-use foundation gaps.** Reconcile approved conventions and source-supported content with installed state. Examine residuals across banks, group them by semantic mechanism, and admit justified exclusions, dependencies and joint rules. A reusable warranted rule takes precedence over repeating equivalent isolated questions.
+2. **Verify actual consumers.** Sense eligibility consumes the constraints; required bank queries receive warranted values; sentence/document geometry preserves meaning at its proper scale. Supported ordinary readings must be reachable beyond verbatim dictionary examples. Preserve genuine ambiguity rather than hiding it.
+3. **Complete the frozen usability audit.** Meet the existing 90% eligible token-mass requirement in both frequency and independent real-text aggregates; retain all senses and report genre slices. This is breadth, not 90% semantic accuracy. Use representative independent positive/MUST-NOT cases for the promised lexical, sentence, query, inference, document, profile, decoder/pipeline and integration operations. Do not invent labels for every common spelling, a per-genre percentage gate or a new universal raw-bank-emission requirement.
+4. **Publish and verify.** Finish applicable integrated repository checks and full final-candidate replay, activate through the existing atomic publication path, and verify normal GSE consumers load that exact artifact. Retain one rollback, sources and compact audit records; update the living experiment draft from computed receipts. A queued command, code freeze, unit-test result, candidate DB or publication-regression gold is not a completion receipt.
+
+The checkpoint finish line is a pinned, installed artifact that passes its agreed common-use workload with explicit sparse limitations. Continue the same rigorous learning cycle from that installed state. Do not reopen broad research work that is unnecessary to this first checkpoint, and do not call an execution budget, pending warrant or bounded search limit the irreducible semantic tail.
+
+### Resume test
+
+Before editing or delegating, state the current artifact, actual failed consumer, applicable constraint, next bounded remedy and receipt that will close it. If the next work has become another handful of unrelated cells, explain its reusable mechanism or direct checkpoint necessity before spending the budget. When a gate fails, preserve the failure and fix its cause; never narrow the workload to erase it. The owner has already authorized implementation and activation after validation. No repeated permission request is needed for that scope.
+
 ## Authority and purpose
 
 The controlling sources are Rohan's current instructions and `LEXICON_FOUNDER_WORDS_2026-10-24.md`. His 2026-10-29 decisions admit the category relations below, specify evidence-conditioned absence, fix WANT's three values, clarify THIS through the word/sentence boundary, and require defensible stable ordinals. The primary NSM v20 chart supplies prime units and combinatorial frames; it does not itself supply complete GSE signatures. Existing code is evidence of implementation, not authority over those decisions. `docs/THEORY.md` is not used.
@@ -199,6 +256,17 @@ forms, or unreviewed case variants. Original definitions and source records
 remain unchanged. The historical pronoun module's claim that I/YOU differ only
 at sentence scale is superseded for this projection by Rohan's approved bank
 meanings; grammatical reference binding still belongs to sentence composition.
+
+The separately approved generic-self boundary is definition-specific:
+`wordnet:self:self.n.02`, “a person considered as a unique individual”, has
+I=0 and YOU=0 under the owner's explicit decision, “First-/second-person
+reference only; generic self is I=0, YOU=0”. The checkpoint source revision
+encodes exactly these two anchors with the retained founder-decision citation,
+after verifying the complete native definition and source witness. It does not
+generalize by spelling, person ancestry, or vector similarity. Existing other
+coordinate domains and first-/second-person reference controls are preserved.
+The contrast is an exposed development boundary audit, not fresh final gold;
+ordinary provenance validation and full publication replay remain mandatory.
 
 Replay independently reconstructs these derived reference signs from the
 stored native witness. Source competence alone cannot certify a sign. The

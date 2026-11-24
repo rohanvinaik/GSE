@@ -1,0 +1,437 @@
+
+FILE GSE/curation/lexicon_builder/validation.py IMPORTS
+from __future__ import annotations
+import hashlib
+import json
+import math
+import sqlite3
+from collections import Counter, defaultdict
+from dataclasses import asdict, fields
+from functools import lru_cache
+from pathlib import Path
+from typing import NamedTuple
+from GSE.namespace import current_id, identity_form
+from .definition_frames import NATIVE_FRAME_PREFIX, WIKTIONARY_ANATOMY_FRAME_PREFIX, native_noun_frames
+from .discovery import BankObservation
+from .engine import TERNARY, Assertion, DomainRestriction, Relation, propagate
+from .evidence import Definition, Observation, validate_assertion_competence
+from .foundation import BANKS, lexical_context
+from .model_receipts import read_model_receipts
+from .residual import build_request
+from .resolution import resolve_dictionary
+from .storage import DOMAIN_RESTRICTIONS_VERSION, VERSION
+
+def _observations(conn, entries, mismatch, model_entries=()):
+    """Stream full validation but retain only narrow lexical provenance records.
+
+    Full feature objects are discarded after each row. Model context retains
+    record IDs only for definitions with accepted model receipts, and is loaded
+    lazily during those receipts' replay.
+    """
+    native = {}
+    relevant = defaultdict(list)
+    bank_relevance = {}
+    from .relevance import observation_relevance
+
+    required = {field.name for field in fields(Observation)}
+    duplicates = {
+        row[0]
+        for row in conn.execute("SELECT record_id FROM source_observations GROUP BY record_id HAVING COUNT(*) > 1")
+    }
+    for row in conn.execute("SELECT * FROM source_observations"):
+        entry_id = row["entry_id"]
+        try:
+            record = _read_json(row["payload"])
+            if not isinstance(record, dict) or set(record) != required:
+                raise ValueError("INVALID_OBSERVATION_FIELDS")
+            if not isinstance(record["candidate_entry_ids"], list):
+                raise ValueError("INVALID_OBSERVATION_CANDIDATES")
+            observation = Observation(
+                entry_id=record["entry_id"],
+                source=record["source"],
+                record_id=record["record_id"],
+                family=record["family"],
+                features=record["features"],
+                scope=record["scope"],
+                candidate_entry_ids=tuple(record["candidate_entry_ids"]),
+            )
+            banks = observation_relevance(observation)
+            if any(
+                getattr(observation, key) != row[key] for key in ("entry_id", "record_id", "source", "family", "scope")
+            ):
+                raise ValueError("OBSERVATION_COLUMN_PAYLOAD_MISMATCH")
+            if observation.record_id in duplicates:
+                raise ValueError("AMBIGUOUS_OBSERVATION_ID")
+            targets = (entry_id,) if entry_id is not None else observation.candidate_entry_ids
+            if any(target not in entries for target in targets):
+                raise ValueError("ORPHAN_OBSERVATION_DEFINITION")
+        except (TypeError, ValueError) as error:
+            mismatch(entry_id, "MALFORMED_OBSERVATION", record_id=row["record_id"], reason=str(error))
+            continue
+        if observation.scope == "lexical":
+            native[(observation.source, observation.record_id)] = _NativeReference(
+                observation.entry_id, observation.family, observation.scope
+            )
+        for target in targets:
+            previous = bank_relevance.get(target, frozenset())
+            if len(previous) < len(BANKS):
+                bank_relevance[target] = previous | banks
+            if target in model_entries:
+                relevant[target].append(observation.record_id)
+    return native, relevant, bank_relevance
+
+def _stored_context(conn, definition, relations):
+    return lexical_context(
+        definition, _context_observations(conn, definition.entry_id, relations, definition), relations
+    )
+
+def _provenance(
+    entry_id,
+    assertions,
+    definition,
+    relations,
+    native,
+    relevant,
+    anchors,
+    models,
+    conn,
+    evidence_banks=(),
+    domain_restrictions=(),
+    *,
+    rule_history=None,
+):
+    """Check authority separately from whether an assertion changes a domain."""
+    remaining_anchors = Counter(anchors.get(entry_id, ()))
+    remaining_models = list(models.get(entry_id, ()))
+    prefix = ()
+    model_started = False
+    for assertion in assertions:
+        if remaining_anchors[assertion]:
+            if model_started:
+                raise ValueError("MODEL_BEFORE_SYMBOLIC_EVIDENCE")
+            remaining_anchors[assertion] -= 1
+        else:
+            matching = [record for record in remaining_models if record["assertion"] == asdict(assertion)]
+            if matching:
+                model_started = True
+                if len(matching) != 1:
+                    raise ValueError("AMBIGUOUS_MODEL_AUTHORITY")
+                receipt = matching[0]
+                from .rule_history import read_history, receipt_relations
+
+                if rule_history is None:
+                    rule_history = read_history(conn, relations)
+                payload = receipt["request"]
+                if not isinstance(payload, dict) or not isinstance(payload.get("observations"), list):
+                    raise ValueError("INVALID_MODEL_REQUEST")
+                if Counter(map(_canonical, payload["observations"])) != Counter(
+                    map(_canonical, _model_observations(conn, relevant[entry_id]))
+                ):
+                    raise ValueError("MODEL_OBSERVATIONS_MISMATCH")
+                request_relations = receipt_relations(
+                    receipt, relations, None, rule_history, definition=definition, observations=payload["observations"]
+                )
+                request_context = lexical_context(definition, payload["observations"], request_relations)
+                before = resolve_dictionary(
+                    BANKS,
+                    prefix,
+                    request_relations,
+                    request_context,
+                    evidence_banks=evidence_banks,
+                    domain_restrictions=domain_restrictions,
+                )
+                request = build_request(
+                    entry_id,
+                    assertion.bank,
+                    before,
+                    tuple(payload["observations"]),
+                    definition=definition,
+                    relations=request_relations,
+                    context=request_context,
+                    request_format=payload["format"],
+                )
+                if (
+                    request.request_id != receipt["request_id"]
+                    or _canonical(identity_form(request.payload())) != _canonical(identity_form(payload))
+                    or _canonical(identity_form(request.output_schema()))
+                    != _canonical(identity_form(receipt["schema"]))
+                    or assertion.value not in request.allowed_values
+                ):
+                    raise ValueError("MODEL_REQUEST_MISMATCH")
+                after = resolve_dictionary(
+                    BANKS,
+                    prefix + (assertion,),
+                    request_relations,
+                    request_context,
+                    evidence_banks=evidence_banks,
+                    domain_restrictions=domain_restrictions,
+                )
+                if after.code == "CONFLICT":
+                    raise ValueError("MODEL_ACCEPTED_CONTRADICTION")
+                previous_exceptions = {
+                    rule_id
+                    for record in before.trace
+                    if record["kind"] == "CONDITIONAL_EXCEPTION"
+                    for rule_id in record["rule_ids"]
+                }
+                if any(
+                    record["kind"] == "CONDITIONAL_EXCEPTION" and set(record["rule_ids"]) - previous_exceptions
+                    for record in after.trace
+                ):
+                    raise ValueError("MODEL_ADDED_CONDITIONAL_EXCEPTION")
+                if any(after.assignments.get(bank) != value for bank, value in before.assignments.items()):
+                    raise ValueError("MODEL_CHANGED_KNOWN_ASSIGNMENT")
+                remaining_models.remove(receipt)
+            else:
+                if model_started:
+                    raise ValueError("MODEL_BEFORE_SYMBOLIC_EVIDENCE")
+                validate_assertion_competence(assertion)
+                observation = native.get((assertion.source, assertion.record_id))
+                if (
+                    observation is None
+                    or observation.entry_id != entry_id
+                    or observation.family != assertion.family
+                    or observation.scope != "lexical"
+                ):
+                    raise ValueError("ASSERTION_PROVENANCE_MISMATCH")
+                if assertion.source == "wiktionary":
+                    from .evidence import wiktionary_definition_projection
+
+                    row = conn.execute(
+                        "SELECT payload FROM source_observations WHERE record_id=?", (assertion.record_id,)
+                    ).fetchone()
+                    features = _read_json(row[0])["features"] if row is not None else {}
+                    projected = wiktionary_definition_projection(definition, features)
+                    if projected.get(assertion.bank) != assertion.value:
+                        genus = "PERSON" if assertion.bank == "SOMEONE" else "ANATOMY"
+                        raise ValueError(f"WIKTIONARY_{genus}_PROJECTION_WITNESS_MISMATCH")
+                if assertion.source == "gse_closed_class" and assertion.bank in {"I", "YOU"}:
+                    from GSE.curation.external_sources.gse_closed_class import GSEClosedClassParser
+
+                    row = conn.execute(
+                        "SELECT payload FROM source_observations WHERE record_id=?", (assertion.record_id,)
+                    ).fetchone()
+                    features = _read_json(row[0])["features"] if row is not None else {}
+                    if (
+                        features.get("entry_id") != entry_id
+                        or features.get("lemma") != definition.lemma
+                        or features.get("definition") != definition.definition
+                        or GSEClosedClassParser().reference_projection_for_observation(features).get(assertion.bank)
+                        != assertion.value
+                    ):
+                        raise ValueError("CLOSED_CLASS_REFERENCE_PROJECTION_WITNESS_MISMATCH")
+        prefix += (assertion,)
+    if any(remaining_anchors.values()) or remaining_models:
+        raise ValueError("UNCONSUMED_ASSERTION_AUTHORITY")
+
+FILE GSE/curation/lexicon_builder/source_enrichment.py IMPORTS
+from __future__ import annotations
+import hashlib
+import json
+import os
+import sqlite3
+import tempfile
+from collections import defaultdict
+from contextlib import closing
+from dataclasses import asdict
+from pathlib import Path
+from GSE.namespace import current_id, identity_form
+from .evidence import Observation
+from .interchange import read_json
+from .model_receipts import read_model_receipts
+from .storage import _json, store_observations
+from .validation import validate_build
+
+def _refuse_bound_receipts(conn, entries):
+    if set(read_model_receipts(conn)) & entries:
+        raise ValueError("ENRICHMENT_REQUIRES_MODEL_RECONSIDERATION")
+    if conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='rule_migrations'").fetchone():
+        for (payload,) in conn.execute("SELECT payload FROM rule_migrations"):
+            event = json.loads(payload)
+            if any(record["definition"]["entry_id"] in entries for record in event["archived"]):
+                raise ValueError("ENRICHMENT_RULE_ARCHIVE_CONTEXT_BOUND")
+
+def revise_source_candidate(candidate, output, baseline, apply_revision, *, format_tag, metadata_key):
+    """Replay a reviewed source transition on a private copy of a pinned baseline."""
+    from GSE.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
+
+    from .completion import _refresh_coverage, _set_metadata
+    from .sqlite_snapshot import copy_database
+
+    candidate = Path(candidate).resolve(strict=True)
+    output = Path(output).absolute()
+    if output.exists() or output.is_symlink() or output.suffix != ".db":
+        raise ValueError("SOURCE_REVISION_OUTPUT_MUST_BE_NEW_DATABASE")
+    output = output.resolve()
+    active = resolve_lexicon_path().resolve()
+    if output == active or output == candidate:
+        raise ValueError("SOURCE_REVISION_REQUIRES_SEPARATE_CANDIDATE")
+    replay = baseline["replay"]
+    source_hash = _file_digest(candidate)
+    pointer_hash = _file_digest(ACTIVE_POINTER)
+    if (
+        source_hash != baseline["candidate_sha256"]
+        or pointer_hash != baseline["active_pointer_sha256"]
+        or replay["code"] != "REPLAY_VALIDATED"
+        or not replay["complete_search"]
+        or replay["entries_mismatched"]
+        or replay["entries_validated"] != replay["entries_checked"]
+    ):
+        raise ValueError("SOURCE_REVISION_REQUIRES_PINNED_REPLAY")
+    with tempfile.TemporaryDirectory(prefix=".gse-source-revision-", dir=output.parent) as directory:
+        snapshot = Path(directory) / "snapshot.db"
+        copy_database(candidate, snapshot)
+        with closing(sqlite3.connect(snapshot.as_uri() + "?mode=rw", uri=True)) as conn:
+            conn.row_factory = sqlite3.Row
+            with conn:
+                changes = apply_revision(conn)
+                discovery = _refresh_unweighted_discovery(conn)
+                coverage = _refresh_coverage(conn)
+                _set_metadata(
+                    conn,
+                    metadata_key,
+                    {"format": format_tag, "baseline_sha256": source_hash, "changes": changes},
+                )
+        replayed = validate_build(snapshot)
+        if (
+            replayed["code"] != "REPLAY_VALIDATED"
+            or not replayed["complete_search"]
+            or replayed["entries_checked"] != replay["entries_checked"]
+            or replayed["entries_mismatched"]
+        ):
+            raise ValueError("SOURCE_REVISION_REPLAY_FAILED:" + _json(replayed["mismatch_counts"]))
+        if _file_digest(candidate) != source_hash or _file_digest(ACTIVE_POINTER) != pointer_hash:
+            raise ValueError("SOURCE_REVISION_INPUT_CHANGED")
+        candidate_hash = _file_digest(snapshot)
+        os.link(snapshot, output)
+    return {
+        "format": format_tag,
+        "code": "SOURCE_PROJECTION_REVISED_AND_REPLAYED",
+        "candidate": str(output),
+        "candidate_sha256": candidate_hash,
+        "baseline_sha256": source_hash,
+        "active_pointer_sha256": pointer_hash,
+        "activation_performed": False,
+        "changes": changes,
+        "discovery": discovery,
+        "coverage": coverage["cells"],
+        "replay": replayed,
+    }
+
+FILE GSE/curation/lexicon_builder/foundation.py IMPORTS
+import hashlib
+import json
+import re
+from itertools import product
+from pathlib import Path
+from urllib.parse import quote
+from GSE.curation.schema import ALL_PRIMITIVES, BIPOLAR_PAIRS
+from GSE.namespace import current_id
+from .definition_frames import (
+    NATIVE_FRAME_PREFIX,
+    NATIVE_NOUN_FRAMES,
+    WIKTIONARY_ANATOMY_FRAME_PREFIX,
+    WIKTIONARY_ANATOMY_FRAMES,
+    native_noun_frames,
+    wiktionary_anatomy_frame,
+)
+from .engine import Assertion, Relation
+from .interchange import read_json
+
+def load_manifest(path: str | Path | None) -> tuple[tuple[Relation, ...], dict[str, tuple[Assertion, ...]], dict]:
+    """Load explicit approved rules/anchors and NUMBER metadata, never infer approval.
+
+    Anchors are keyed by dictionary entry ID, not spelling. Each assertion must
+    name its source and record. A manifest cannot mint additional coordinates.
+    """
+    if path is None:
+        return (), {}, {}
+    raw = read_json(path)
+    if not isinstance(raw, dict) or current_id(raw.get("format")) != "GSE.lexicon-rules/1":
+        raise ValueError("INVALID_RULE_MANIFEST")
+    if set(raw) - {"format", "relations", "anchors", "hierarchy", "definitions", "prime_entries"}:
+        raise ValueError("UNKNOWN_MANIFEST_FIELD")
+    if not isinstance(raw.get("relations", []), list) or not isinstance(raw.get("anchors", {}), dict):
+        raise ValueError("INVALID_RULE_MANIFEST")
+    for entry_id, records in raw.get("anchors", {}).items():
+        if not isinstance(entry_id, str) or not entry_id.strip() or not isinstance(records, list):
+            raise ValueError("INVALID_ANCHORS")
+    relations = []
+    for record in raw.get("relations", []):
+        required = {"rule_id", "banks", "allowed_rows", "provenance"}
+        if (
+            not isinstance(record, dict)
+            or not required <= record.keys()
+            or set(record) - required - {"authority", "approved", "guards", "absent_evidence"}
+        ):
+            raise ValueError("INVALID_RELATION_RECORD")
+        for key in ("banks", "provenance", "allowed_rows", "guards", "absent_evidence"):
+            if not isinstance(record.get(key, []), list):
+                raise ValueError("INVALID_RELATION_SEQUENCE")
+        if any(not isinstance(row, list) for row in record["allowed_rows"] + record.get("guards", [])):
+            raise ValueError("INVALID_RELATION_ROWS")
+        record = dict(record)
+        for key in ("banks", "provenance"):
+            record[key] = tuple(record[key])
+        record["allowed_rows"] = tuple(tuple(row) for row in record["allowed_rows"])
+        record["guards"] = tuple(tuple(pair) for pair in record.get("guards", []))
+        record["absent_evidence"] = tuple(record.get("absent_evidence", []))
+        relations.append(Relation(**record))
+    try:
+        anchors = {
+            entry_id: tuple(Assertion(**record) for record in records)
+            for entry_id, records in raw.get("anchors", {}).items()
+        }
+    except TypeError as exc:
+        raise ValueError("INVALID_ANCHOR_RECORD") from exc
+    hierarchy = raw.get("hierarchy", {})
+    if not isinstance(hierarchy, dict):
+        raise ValueError("INVALID_HIERARCHY")
+    for entry_id, targets in hierarchy.items():
+        if not isinstance(entry_id, str) or not isinstance(targets, dict):
+            raise ValueError("INVALID_HIERARCHY")
+        for bank, level in targets.items():
+            if bank not in BANKS or type(level) is not int:
+                raise ValueError("INVALID_HIERARCHY_TARGET")
+    validate_lexical_guards(relations)
+    return tuple(relations), anchors, hierarchy
+
+FILE GSE/curation/lexicon_builder/completion.py IMPORTS
+from __future__ import annotations
+import csv
+import hashlib
+import heapq
+import io
+import sqlite3
+from collections import Counter, defaultdict
+from dataclasses import asdict
+from pathlib import Path
+from GSE.namespace import identity_form
+from .catalog import SENTENCE_DURATION_SOURCE_RECORD
+from .evidence import Definition, Observation
+from .foundation import BANKS, definition_context, lexical_context, validate_lexical_guards
+from .model_receipts import append_model_receipt, migrate_model_receipts
+from .relevance import observation_relevance
+from .residual import build_request, complete_bank
+from .resolution import resolve_dictionary
+from .rule_history import digest, read_history, receipt_binding_key, relation_records, version_relations
+from .scheduling import pending_banks, question_order_policy, spelling_cohort
+from .storage import _json, store_entry
+from .validation import _assertions, _domain_restrictions, _read_json, _relations, validate_build
+
+TABLES [('lexemes', "CREATE TABLE lexemes (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    lemma TEXT NOT NULL,\n    pos TEXT NOT NULL,\n    sense_id TEXT DEFAULT '01',\n    gloss TEXT,\n    source TEXT DEFAULT 'llm',\n    confidence REAL DEFAULT 1.0,\n    frequency_rank INTEGER,\n    frequency_weight REAL,\n    phase INTEGER DEFAULT 0,\n    validation_status TEXT DEFAULT 'pending',\n    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, comp_primitive TEXT, comp_arity INTEGER DEFAULT 0, comp_operation TEXT,\n    UNIQUE(lemma, pos, sense_id)\n)"), ('builder_metadata', 'CREATE TABLE builder_metadata (key TEXT PRIMARY KEY, value TEXT NOT NULL)'), ('source_observations', 'CREATE TABLE source_observations (\n record_id TEXT PRIMARY KEY, entry_id TEXT, source TEXT NOT NULL,\n family TEXT NOT NULL, scope TEXT NOT NULL, payload TEXT NOT NULL)'), ('builder_assertions', 'CREATE TABLE builder_assertions (\n entry_id TEXT NOT NULL, ordinal INTEGER NOT NULL, payload TEXT NOT NULL,\n PRIMARY KEY(entry_id,ordinal))'), ('builder_domain_restrictions', 'CREATE TABLE builder_domain_restrictions (\n entry_id TEXT NOT NULL, ordinal INTEGER NOT NULL, payload TEXT NOT NULL,\n PRIMARY KEY(entry_id,ordinal))')]
+
+SELF lexemes
+no such column: entry_id
+
+SELF builder_assertions
+[{'entry_id': 'wordnet:self:self.n.02', 'ordinal': 0, 'payload': '{"bank": "ALIVE", "family": "wordnet", "record_id": "wordnet:self:self.n.02", "scope": "lexical", "source": "wordnet_hierarchy", "value": 1}'}, {'entry_id': 'wordnet:self:self.n.02', 'ordinal': 1, 'payload': '{"bank": "SOMEONE", "family": "wordnet", "record_id": "wordnet:self:self.n.02", "scope": "lexical", "source": "wordnet_hierarchy", "value": 1}'}, {'entry_id': 'wordnet:self:self.n.02', 'ordinal': 2, 'payload': '{"bank": "SOMETHING", "family": "wordnet", "record_id": "wordnet:self:self.n.02", "scope": "lexical", "source": "wordnet_hierarchy", "value": 1}'}]
+
+SELF definition_state
+no such table: definition_state
+
+OBSERVATION SELF
+[{'record_id': 'sentiwordnet:self:e5fe5cbc0335fd1f2e3062ef63e0e705ca6ec860612020c36bd669737832598a', 'entry_id': 'wordnet:self:self.n.02', 'source': 'sentiwordnet', 'family': 'wordnet', 'scope': 'association', 'payload': '{"candidate_entry_ids": ["wiktionary:en-self-en-noun-2Kmklzq0:0500209c7864aef39e83025f6d76cded7357ae4d488574f53230e3b3d1d92710", "wiktionary:en-self-en-noun-3kuxvvJc:07e19cd806e63fde91ae11fb4dc36307a3c25fc866c561d3421fda5889e52d4d", "wiktionary:en-self-en-noun-4sPve4Xy:4d378b8c32a906a7ea757e5f7e8bea2977f170bc760cb697b095b99e22c233fd", "wiktionary:en-self-en-noun-7Kf1U~AO:241a00f7775e9080d25fd9831a4320d1b3114b11955cd5d6cfe595e69938763f", "wiktionary:en-self-en-noun-A-J3w9O9:bbc3b342e87d1f62353e333513eac56b6ac9937e06be3659ad32beecb0d9909d", "wiktionary:en-self-en-noun-ZVMWhuQz:1b0139a50c3e2a62d0fd0a389bc6a810f6565234052df50921fa0dc1835fd9f2", "wiktionary:en-self-en-noun-en:immunologic:88179046bcb80797cad5a20647a85f6b1dd4dee4fa4072bfd79b0312d77df3b9", "wordnet:self:self.n.01", "wordnet:self:self.n.02"], "entry_id": "wordnet:self:self.n.02", "family": "wordnet", "features": {"bank_relevance": {"banks": ["GOOD"], "code": "CLASSIFIED", "provenance": ["sentiwordnet:SentiWordEntry/1:positive-negative-objective-sentiment", "sentiwordnet:synset:self.n.02"]}, "lemma": "self", "neg_score": 0.0, "obj_score": 1.0, "pos": "noun", "pos_score": 0.0, "projection_candidates": [], "synset_id": "self.n.02", "word": "self"}, "record_id": "sentiwordnet:self:e5fe5cbc0335fd1f2e3062ef63e0e705ca6ec860612020c36bd669737832598a", "scope": "association", "source": "sentiwordnet"}'}, {'record_id': 'wordnet:self:self.n.02', 'entry_id': 'wordnet:self:self.n.02', 'source': 'wordnet_hierarchy', 'family': 'wordnet', 'scope': 'lexical', 'payload': '{"candidate_entry_ids": ["wordnet:self:self.n.02"], "entry_id": "wordnet:self:self.n.02", "family": "wordnet", "features": {"definition": "a person considered as a unique individual", "examples": ["one\'s own self"], "hypernym_paths": [["entity.n.01", "physical_entity.n.01", "causal_agent.n.01", "person.n.01", "self.n.02"], ["entity.n.01", "physical_entity.n.01", "object.n.01", "whole.n.02", "living_thing.n.01", "organism.n.01", "person.n.01", "self.n.02"]], "lemma": "self", "lemma_names": ["self"], "lexname": "noun.person", "native_records": [{"has_holonyms": false, "has_meronyms": false, "hypernym_depth": 5, "hyponym_count": 1, "lexname": "noun.person", "pos": "noun", "synset_name": "self.n.02", "word": "self"}], "pos": "noun", "synset_name": "self.n.02", "taxonomy_proposals": [{"kind": "lexname", "origin": "noun.person", "primitive": "ALIVE", "status": "CANDIDATE", "value": 1}, {"kind": "lexname", "origin": "noun.person", "primitive": "SOMEONE", "status": "CANDIDATE", "value": 1}, {"kind": "is_a", "origin": "causal_agent.n.01", "primitive": "CAUSE", "status": "CANDIDATE", "value": 1}, {"kind": "is_a", "origin": "causal_agent.n.01", "primitive": "DO", "status": "CANDIDATE", "value": 1}, {"kind": "is_a", "origin": "entity.n.01", "primitive": "SOMETHING", "status": "CANDIDATE", "value": 1}, {"kind": "is_a", "origin": "living_thing.n.01", "primitive": "ALIVE", "status": "CANDIDATE", "value": 1}, {"kind": "is_a", "origin": "organism.n.01", "primitive": "ALIVE", "status": "CANDIDATE", "value": 1}, {"kind": "is_a", "origin": "person.n.01", "primitive": "SOMEONE", "status": "CANDIDATE", "value": 1}, {"kind": "is_a", "origin": "physical_entity.n.01", "primitive": "SOMETHING", "status": "CANDIDATE", "value": 1}]}, "record_id": "wordnet:self:self.n.02", "scope": "lexical", "source": "wordnet_hierarchy"}'}]
+Traceback (most recent call last):
+  File "<stdin>", line 23, in <module>
+sqlite3.OperationalError: no such table: build_metadata

@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nfor name in ['ssl-api-controller-root-handoff.json','ssl-api-controller-blockers.json']:\n p=Path('docs/readings/2026-11-13-ssl-explicit-genera')/name\n print('\\nFILE',p);print(p.read_text())\np=Path('/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/Semantic_Specification_Learning/07_GSE_LEXICON_NSM_WORKING_DRAFT.md')\ns=p.read_text();start=s.find('2026-11-24 18:42')\nprint('\\nNOTEBOOK section offset',start)\n# Complete final top-level section is a coherent notebook unit.\nparts=s.split('\\n## '); print('\\n## '+parts[-1])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 20
+}

@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-recovery-contract-trace -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast\nprint(Path('AGENTS.md').read_text())\ns=Path('docs/program/LEXICON_CONSTRUCTION_DESIGN.md').read_text(); lines=s.splitlines(); starts=[i for i,l in enumerate(lines) if l.startswith('#') and 'Recovery contract' in l]\nfor start in starts:\n depth=len(lines[start])-len(lines[start].lstrip('#')); end=next((i for i in range(start+1,len(lines)) if lines[i].startswith('#') and len(lines[i])-len(lines[i].lstrip('#'))<=depth),len(lines)); print('\\n'.join(lines[start:end]))\nfor path in ('GSE/symbolic/expression.py','GSE/nlp/native.py'):\n p=Path(path); text=p.read_text(); tree=ast.parse(text); print('\\nUNIT INDEX',path)\n for n in tree.body:\n  if isinstance(n,(ast.FunctionDef,ast.ClassDef)): print(n.name,n.lineno,n.end_lineno)\n if path.endswith('expression.py'):\n  for n in tree.body:\n   if isinstance(n,ast.FunctionDef) and n.name in ('_clause_core','from_trace'):\n    print(ast.get_source_segment(text,n))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

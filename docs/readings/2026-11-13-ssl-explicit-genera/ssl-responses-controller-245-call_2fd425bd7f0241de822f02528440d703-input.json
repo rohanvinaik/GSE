@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nfor name in ['ssl-api-controller-root-handoff.json','ssl-api-controller-blockers.json']:\n p=Path('docs/readings/2026-11-13-ssl-explicit-genera')/name; print('\\nFILE',p);print(p.read_text())\np=Path('/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/Semantic_Specification_Learning/07_GSE_LEXICON_NSM_WORKING_DRAFT.md'); lines=p.read_text().splitlines();heads=[(i,x) for i,x in enumerate(lines) if x.startswith('#')]\nprint('\\nNOTEBOOK most recent dated headings')\nfor i,x in heads:\n if '19:04' in x or '18:42' in x or '2026-11-24' in x: print(i+1,x)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 20
+}

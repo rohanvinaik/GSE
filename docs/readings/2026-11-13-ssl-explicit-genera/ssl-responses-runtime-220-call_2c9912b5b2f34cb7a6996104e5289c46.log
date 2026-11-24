@@ -1,0 +1,632 @@
+
+### scripts/audit_lexicon_sentences.py
+def checkpoint_result(report, runtime=None, workload=None):
+    """Compute the formal checkpoint verdict, separately from nonregression.
+
+    This consumes measured sentence/runtime results and a byte-pinned workload
+    receipt. Missing evidence blocks acceptance; no singleton, homing count or
+    sparse runtime success substitutes for the declared independent workload.
+    The workload receipt records predeclared token denominators, operations,
+    critical cases, lineage separation and full replay/repository receipts.
+    It is evaluation-only and supplies no construction authority.
+    """
+    blockers, outcomes = [], defaultdict(Counter)
+    good_banks = {"CORRECT", "OPEN_AS_EXPECTED"}
+    rows = {row["id"]: row for row in report["cases"]}
+    for row in rows.values():
+        sense = row["sense_outcome"]
+        cells = [cell["runtime"] for cell in row["banks"].values()]
+        wrong = sense == "WRONG" or any(
+            cell[field]
+            in {"WRONG", "UNSUPPORTED_ASSIGNMENT", "UNSUPPORTED_EMISSION", "WRONG_EMISSION", "INVALID_DOMAIN"}
+            for cell in row["banks"].values()
+            for field in ("runtime", "exact_sense")
+        )
+        outcome = (
+            "WRONG"
+            if wrong
+            else "ABSTAINED"
+            if sense in {"ABSTAINED", "ABSTAINED_AS_EXPECTED"}
+            else "IDENTIFIED"
+            if sense == "CORRECT" and all(c in good_banks for c in cells)
+            else "PARTIAL"
+            if sense == "CORRECT"
+            else "UNAVAILABLE"
+        )
+        outcomes[row["class"]][outcome] += 1
+        if wrong:
+            blockers.append({"code": "KNOWN_WRONG_ASSERTION", "case": row["id"]})
+    if runtime is None or runtime.get("code") != "SPARSE_RUNTIME_VALIDATED":
+        blockers.append({"code": "RUNTIME_NOT_VALIDATED"})
+    elif runtime.get("lexicon_sha256") != report["lexicon_sha256"]:
+        blockers.append({"code": "RUNTIME_RESOURCE_MISMATCH"})
+    coverage = {}
+    if workload is None:
+        blockers.append({"code": "WORKLOAD_MANIFEST_NOT_FROZEN"})
+    else:
+        if current_id(workload.get("format")) != "GSE.checkpoint-workload/1":
+            raise ValueError("INVALID_CHECKPOINT_WORKLOAD")
+        expected_pins = {
+            "lexicon_sha256": report["lexicon_sha256"],
+            "benchmark_sha256": report["benchmark_sha256"],
+            **report["snapshot_pins"],
+        }
+        if workload.get("pins") != expected_pins:
+            blockers.append({"code": "WORKLOAD_PINS_MISMATCH"})
+        split = workload.get("evaluation", {})
+        if split.get("split") != "FINAL_UNEXPOSED":
+            blockers.append({"code": "FINAL_HOLDOUT_NOT_UNEXPOSED"})
+        for scale in ("senses", "families"):
+            development, final = split.get(f"development_{scale}"), split.get(f"final_{scale}")
+            if not isinstance(development, list) or not isinstance(final, list) or not final:
+                blockers.append({"code": "HOLDOUT_LINEAGE_UNAVAILABLE", "scale": scale})
+            elif set(development) & set(final):
+                blockers.append({"code": "HOLDOUT_LINEAGE_OVERLAP", "scale": scale})
+        if set(split.get("final_senses", [])) != {r["sense"] for r in rows.values() if r["sense"] is not None}:
+            blockers.append({"code": "FINAL_SENSE_INVENTORY_MISMATCH"})
+        critical = workload.get("critical_case_ids", [])
+        if not critical or not set(critical) <= rows.keys():
+            blockers.append({"code": "CRITICAL_CASE_INVENTORY_MISSING"})
+        for case_id in critical:
+            row = rows.get(case_id)
+            if row is not None and (
+                row["sense_outcome"] not in {"CORRECT", "ABSTAINED_AS_EXPECTED"}
+                or any(c["runtime"] not in good_banks for c in row["banks"].values())
+            ):
+                blockers.append({"code": "CRITICAL_ANSWER_NOT_ESTABLISHED", "case": case_id})
+        operations = workload.get("operations", [])
+        claimed = set()
+        if not operations:
+            blockers.append({"code": "PROMISED_OPERATIONS_NOT_DECLARED"})
+        runtime_classes = {row["class"]: row["outcome"] for row in (runtime or {}).get("records", [])}
+        for operation in operations:
+            cases = operation.get("case_ids", [])
+            structures = operation.get("runtime_classes", [])
+            claimed.update(cases)
+            if not cases and not structures:
+                blockers.append({"code": "OPERATION_WITHOUT_WITNESSES", "operation": operation.get("id")})
+            if not set(cases) <= set(critical) or any(runtime_classes.get(c) != "IDENTIFIED" for c in structures):
+                blockers.append({"code": "PROMISED_OPERATION_NOT_ESTABLISHED", "operation": operation.get("id")})
+            for case_id, banks in operation.get("required_banks", {}).items():
+                if case_id not in cases or not set(banks) <= rows.get(case_id, {}).get("banks", {}).keys():
+                    blockers.append({"code": "REQUIRED_BANK_NOT_TESTED", "case": case_id})
+        if not set(critical) <= claimed:
+            blockers.append({"code": "CRITICAL_CASE_WITHOUT_OPERATION"})
+        demand = workload.get("token_demand", {})
+        forms = demand.get("common_forms", [])
+        if (
+            not forms
+            or len(set(forms)) != len(forms)
+            or any(not isinstance(f, str) or f != f.casefold() for f in forms)
+        ):
+            blockers.append({"code": "COMMON_FORM_COHORT_NOT_PINNED"})
+        for key in ("frequency_source_sha256", "corpus_source_sha256", "denominator_rules", "exclusions"):
+            if key not in demand or (key != "exclusions" and not demand[key]):
+                blockers.append({"code": "TOKEN_DEMAND_PROVENANCE_MISSING", "field": key})
+        if demand.get("frequency_source_sha256") == demand.get("corpus_source_sha256"):
+            blockers.append({"code": "INDEPENDENT_CORPUS_REQUIRED"})
+        try:
+            coverage["frequency"] = _mass(demand.get("frequency_counts"), set(forms))
+            genres = demand.get("corpus_genres", {})
+            if not genres:
+                raise ValueError("CORPUS_GENRES_MISSING")
+            combined = Counter()
+            coverage["genres"] = {}
+            for genre, counts in genres.items():
+                coverage["genres"][genre] = _mass(counts, set(forms))
+                combined.update(counts)
+            coverage["independent_corpus"] = _mass(dict(combined), set(forms))
+            # The formal threshold applies to the two aggregate sources.
+            # Genre slices remain reported, including below-threshold slices;
+            # there is no independently authorized per-genre percentage gate.
+            if not all(row["meets_90_percent"] for row in [coverage["frequency"], coverage["independent_corpus"]]):
+                blockers.append({"code": "ELIGIBLE_TOKEN_MASS_BELOW_90_PERCENT"})
+        except ValueError as error:
+            blockers.append({"code": "TOKEN_DEMAND_UNAVAILABLE", "reason": str(error)})
+        for name in ("full_replay", "repository_gate", "two_sided_semantic_audit"):
+            gate = workload.get("gates", {}).get(name, {})
+            if (
+                gate.get("code") != "PASSED"
+                or gate.get("lexicon_sha256") != report["lexicon_sha256"]
+                or not gate.get("receipt_sha256")
+            ):
+                blockers.append({"code": "REQUIRED_GATE_NOT_ESTABLISHED", "gate": name})
+    return {
+        "format": "GSE.checkpoint-acceptance/1",
+        "code": "CHECKPOINT_BLOCKED" if blockers else "CHECKPOINT_ACCEPTED_FOR_DECLARED_WORKLOAD",
+        "lexicon_sha256": report["lexicon_sha256"],
+        "benchmark_sha256": report["benchmark_sha256"],
+        "workload_sha256": _digest(workload) if workload is not None else None,
+        "by_class": {key: dict(value) for key, value in sorted(outcomes.items())},
+        "token_mass": coverage,
+        "blockers": blockers,
+        "scope": "DECLARED_WORKLOAD_ONLY_NOT_FULL_LEXICON_COMPLETION",
+    }
+def load_workload(path):
+    """Verify original resource/receipt bytes before consuming their claims.
+
+    Relative paths are relative to the manifest. Every source and gate digest
+    consumed by checkpoint_result must have a retained artifact, including the
+    denominator/exclusion computation receipt. Merely declaring a hash is not
+    a resource pin. This does not independently certify supplied semantic gold.
+    """
+    workload = read(path)
+    artifacts = workload.get("artifacts", [])
+    verified = set()
+    paths = {}
+    for artifact in artifacts:
+        target = (Path(path).parent / artifact["path"]).resolve(strict=True)
+        actual = fingerprint(target)
+        if actual != artifact["sha256"]:
+            raise ValueError("CHECKPOINT_ARTIFACT_CHANGED")
+        verified.add(actual)
+        paths[actual] = target
+    demand = workload.get("token_demand", {})
+    needed = {
+        demand.get("frequency_source_sha256"),
+        demand.get("corpus_source_sha256"),
+        demand.get("counts_receipt_sha256"),
+        workload.get("scope_freeze_sha256"),
+    }
+    needed.update(g.get("receipt_sha256") for g in workload.get("gates", {}).values())
+    if None in needed or not needed <= verified:
+        raise ValueError("CHECKPOINT_ARTIFACT_UNPINNED")
+    counts = read(paths[demand["counts_receipt_sha256"]])
+    fields = {
+        "common_forms",
+        "frequency_source_sha256",
+        "corpus_source_sha256",
+        "frequency_counts",
+        "corpus_genres",
+        "denominator_rules",
+        "exclusions",
+    }
+    if counts != {key: demand.get(key) for key in fields}:
+        raise ValueError("CHECKPOINT_COUNTS_RECEIPT_MISMATCH")
+    scope = read(paths[workload["scope_freeze_sha256"]])
+    if (
+        current_id(scope.get("format")) != "GSE.checkpoint-workload-scope-freeze/1"
+        or scope.get("token_demand_sha256") != demand["counts_receipt_sha256"]
+        or not scope.get("operations")
+        or {operation.get("id") for operation in workload.get("operations", [])} != set(scope["operations"])
+        or len(workload["operations"]) != len(scope["operations"])
+    ):
+        raise ValueError("CHECKPOINT_FROZEN_SCOPE_CHANGED")
+    for name, gate in workload.get("gates", {}).items():
+        receipt = read(paths[gate["receipt_sha256"]])
+        if any(receipt.get(key) != gate.get(key) for key in ("code", "lexicon_sha256")):
+            raise ValueError("CHECKPOINT_GATE_RECEIPT_MISMATCH")
+        if not receipt.get("command") or receipt.get("exit_code") != 0:
+            raise ValueError("CHECKPOINT_GATE_EXECUTION_UNAVAILABLE")
+        if name == "full_replay" and (
+            receipt.get("definition_cohort_sha256") != workload["pins"]["definition_cohort_sha256"]
+            or receipt.get("checked_definitions") != workload["pins"]["definitions"]
+            or receipt.get("mismatches") != 0
+            or receipt.get("solver_limits") != 0
+        ):
+            raise ValueError("CHECKPOINT_FULL_REPLAY_INCOMPLETE")
+        # Semantic gold is a declared finite two-sided audit across the
+        # promised operations/genres/tail, not a label for every spelling in
+        # the token-mass cohort. These are separate kinds of evidence.
+        if name == "two_sided_semantic_audit" and (
+            not receipt.get("audited_forms")
+            or not all(isinstance(form, str) and form for form in receipt["audited_forms"])
+            or receipt.get("known_wrong") != 0
+            or receipt.get("missing_required") != 0
+            or any(
+                receipt.get("checks", {}).get(key) != "PASSED"
+                for key in (
+                    "positive",
+                    "must_not",
+                    "missing_sign",
+                    "source_warrants",
+                    "morphology",
+                    "pos_roles",
+                    "tail_strata",
+                    "genre_strata",
+                )
+            )
+        ):
+            raise ValueError("CHECKPOINT_TWO_SIDED_AUDIT_INCOMPLETE")
+    return workload
+
+### GSE/discourse/profile.py
+def text_profile(encoder, text: str, prime_basis: Sequence[str] | None = None) -> TextProfile:
+    """Encode every sentence of ``text`` with ``encoder`` and aggregate the
+    per-sentence GSE signals into a :class:`TextProfile`.
+
+    ``prime_basis`` fixes the primitive-bank key order (defaults to the encoder's
+    word basis) so profiles across texts share one vector layout.
+    """
+    from GSE.discourse.speech import encode_document_utterance_events
+
+    units = document_sentences(text)
+    if prime_basis is None:
+        prime_basis = sorted(encoder.word_basis.primitives.keys())
+    op_counts: Dict[str, int] = {op: 0 for op in OPERATION_VOCABULARY}
+    n_clauses = n_embedded = n_tokens = n_content = n_func = n_oov = 0
+    n_past = 0
+    degraded = 0
+    failures: List[dict] = []
+    read_ids: List[str] = []
+    depths: List[int] = []
+    losses: List[dict] = []
+    lemma_lens: List[int] = []
+    prim_sums: Dict[str, float] = {p: 0.0 for p in prime_basis}
+    per_sentence_valence: List[float] = []
+    valences: List[int] = []
+
+    for event in encode_document_utterance_events(encoder, units):
+        if event["type"] != "utterance":
+            continue
+        if event["state"] != "read":
+            failures.append(
+                {
+                    "utterance_id": event["utterance_id"],
+                    "source_sentence_id": event["source_sentence_id"],
+                    "error": event["error"],
+                }
+            )
+            continue
+        tr = event["trace"]
+        # Prepare a complete observation locally before committing accumulators.
+        # An exception must never leave a partially counted sentence behind.
+        try:
+            counts = event.get("operations", operation_counts(event["tree"]))
+            depth = event.get("embedding_depth", clause_depth(event["tree"]))
+            content = func = oov = 0
+            lengths = []
+            sent_val: List[int] = []
+            for t in tr.tokens:
+                if t.pos in _CONTENT_POS:
+                    content += 1
+                    lengths.append(len(t.lemma))
+                    wp, _sp, _m = encoder._lookup_lexeme(t.lemma)
+                    if not wp:
+                        oov += 1
+                    elif "GOOD" in wp or "BAD" in wp:
+                        v = int(wp.get("GOOD", 0)) - int(wp.get("BAD", 0))
+                        sent_val.append(v)
+                elif t.pos != "PUNCT":
+                    func += 1
+            degraded_count = len(coherence_report(event["tree"], tr))
+            activations = {p: float(tr.word_primitive_activations.get(p, 0.0)) for p in prime_basis}
+            clause_count = max(len(tr.clauses), 1)
+            embedded_count = sum(1 for clause in tr.clauses if clause.kind in _EMBED_KINDS)
+            token_count = len(tr.tokens)
+            past = int(any("SYN_TENSE_PAST" in (getattr(token, "sent_primitives", None) or {}) for token in tr.tokens))
+        except Exception as exc:
+            failures.append(
+                {
+                    "utterance_id": event["utterance_id"],
+                    "source_sentence_id": event["source_sentence_id"],
+                    "error": {
+                        "code": "profile_observation_error",
+                        "error_type": type(exc).__name__,
+                        "message": str(exc),
+                    },
+                }
+            )
+            continue
+        for operation, count in counts.items():
+            op_counts[operation] = op_counts.get(operation, 0) + count
+        read_ids.append(event["utterance_id"])
+        depths.append(depth)
+        losses.extend(event.get("structural_loss", []))
+        n_clauses += clause_count
+        n_embedded += embedded_count
+        n_tokens += token_count
+        n_content += content
+        n_func += func
+        n_oov += oov
+        lemma_lens.extend(lengths)
+        valences.extend(sent_val)
+        if sent_val:
+            per_sentence_valence.append(mean(sent_val))
+        n_past += past
+        for prime, activation in activations.items():
+            prim_sums[prime] += activation
+        degraded += degraded_count
+
+    n = len(read_ids)
+    state = "empty" if not units else ("unread" if not n else ("partial" if failures else "read"))
+    half = max(len(per_sentence_valence) // 2, 1)
+    arc = (
+        mean(per_sentence_valence[half:]) - mean(per_sentence_valence[:half])
+        if len(per_sentence_valence) >= 2
+        else None
+    )
+
+    def ratio(num, den):
+        return num / den if den else None
+
+    operator_mix = {op: ratio(op_counts.get(op, 0), n) for op in _OPERATIONS}
+    complexity = {
+        "clauses_per_sent": ratio(n_clauses, n),
+        "ops_per_sent": ratio(sum(op_counts.get(op, 0) for op in _OPERATIONS), n),
+        "tokens_per_sent": ratio(n_tokens, n),
+        "embed_rate": ratio(n_embedded, n),
+        "past_tense_rate": ratio(n_past, n),
+    }
+    coherence = {"degraded_rate": ratio(degraded, n_clauses)}
+    affect = {
+        "valence_mean": mean(valences) if valences else None,
+        "valence_spread": pstdev(valences) if valences else None,
+        "valence_arc": arc,
+    }
+    register = {
+        "func_word_ratio": ratio(n_func, n_content + n_func),
+        "oov_rate": ratio(n_oov, n_content),
+        "mean_lemma_len": mean(lemma_lens) if lemma_lens else None,
+    }
+    primitives = {p: ratio(prim_sums[p], n) for p in prime_basis}
+    populations = {}
+    for name, count, definition in (
+        ("structure", n, "successfully aggregated encoded utterances"),
+        ("coherence", n_clauses, "clauses from successfully aggregated utterances"),
+        ("affect", len(valences), "content tokens with explicit GOOD/BAD evidence"),
+        ("affect_arc", len(per_sentence_valence), "utterances with explicit GOOD/BAD evidence"),
+        ("content", n_content, "content-POS tokens from successfully aggregated utterances"),
+    ):
+        populations[name] = {
+            "state": ("partial" if failures else "measured") if count else ("unread" if failures else "absent"),
+            "n": count,
+            "failed": len(failures),
+            "support": "sufficient" if count >= 2 else ("thin" if count else "none"),
+            "evidence": read_ids,
+            "definition": definition,
+        }
+    return TextProfile(
+        n_sentences=len(units),
+        operator_mix=operator_mix,
+        complexity=complexity,
+        coherence=coherence,
+        affect=affect,
+        register=register,
+        primitives=primitives,
+        state=state,
+        n_read=n,
+        failures=failures,
+        populations=populations,
+        operations=op_counts,
+        embedding_depths=depths,
+        structural_loss=losses,
+    )
+
+### GSE/cassettes/multiscale.py
+class MultiScaleDoc:
+    """Build the four-scale grounding of a raw document ONCE; expose it for cassettes to converge over.
+
+    Pipeline (the existing GSE public surface, composed): per sentence
+    ``evaluate_tree(resolve(from_trace(encoder.encode(s))))`` → the document-scope
+    ``resolve_document(trees, store, genre)`` (cross-sentence coref + ``entity_id`` + ``type_thread``)
+    → ``read_fold`` for the document-scale fold. Nothing is re-grounded."""
+
+    def __init__(self, raw_text: str, encoder: Optional[GSEEncoder] = None, store: Optional[GenealogyStore] = None):
+        self.raw = raw_text
+        self.source_sentences = document_sentences(_strip_scaffold(raw_text))
+        self.sentences = [unit.text for unit in self.source_sentences]
+        m = _GENRE_RE.search(raw_text[:300])
+        self.genre = m.group(1).upper() if m else None
+        self.encoder = encoder or GSEEncoder()
+        self.store = store if store is not None else _safe_store()
+
+        # sentence scale — the resolved per-sentence predicate trees
+        self.intake_events = list(encode_document_utterance_events(self.encoder, self.source_sentences))
+        self.manifest = self.intake_events[0]
+        self.utterance_outcomes = [event for event in self.intake_events if event["type"] == "utterance"]
+        self.failures = [event for event in self.utterance_outcomes if event["state"] != "read"]
+        successes = [event for event in self.utterance_outcomes if event["state"] == "read"]
+        trees = [event["tree"] for event in successes]
+        self.sentence_trees = list(trees)
+        sentence_indices = {unit.id: index for index, unit in enumerate(self.source_sentences)}
+        self._sent_of_tree: List[int] = []
+        self.tree_sources: List[Dict[str, Any]] = []
+        for index, event in enumerate(successes):
+            self._sent_of_tree.append(sentence_indices[event["source_sentence_id"]])
+            self.tree_sources.append(
+                {
+                    "tree_index": index,
+                    "utterance_id": event["utterance_id"],
+                    "source_sentence_id": event["source_sentence_id"],
+                }
+            )
+        self.phases = {}
+        expected = len(self.utterance_outcomes)
+        state = "empty" if not expected else ("unread" if not trees else ("partial" if self.failures else "read"))
+        self.phases["intake"] = {"state": state, "expected": expected, "read": len(trees), "failed": len(self.failures)}
+        self.sentence_states = {}
+        for unit in self.manifest["sentences"]:
+            outcomes = [event for event in self.utterance_outcomes if event["source_sentence_id"] == unit["id"]]
+            n_read = sum(event["state"] == "read" for event in outcomes)
+            self.sentence_states[unit["id"]] = (
+                "empty"
+                if not outcomes
+                else "unread"
+                if not n_read
+                else "read"
+                if n_read == len(outcomes)
+                else "partial"
+            )
+        try:
+            self.resolved = resolve_document(trees, self.store, genre=self.genre, raw_text=raw_text) if trees else []
+            self.phases["resolution"] = {"state": state, "error": None}
+        except Exception as exc:
+            self.resolved = trees
+            self.phases["resolution"] = {"state": "unread", "error": _phase_error("resolution", exc)}
+
+        # document scale — the multi-strand fold (recurrence × span, role, eligibility, strands)
+        self.timed = []
+        try:
+            self.timed = [(t, p) for t, tree in enumerate(self.resolved) for p in _collect_predicates(tree)]
+            self.fold: Dict[str, EntityFold] = read_fold(self.timed, None, self.store) if trees else {}
+            self.phases["fold"] = {"state": state, "error": None}
+            if self.phases["resolution"]["state"] == "unread" and trees:
+                self.phases["fold"] = {"state": "unread", "error": {"code": "unresolved_document"}}
+        except Exception as exc:
+            self.fold = {}
+            self.phases["fold"] = {"state": "unread", "error": _phase_error("fold", exc)}
+        self.graph = None
+        try:
+            if trees and self.phases["resolution"]["state"] != "unread":
+                from GSE.symbolic.narrative import NarrativeGraph
+
+                self.graph = NarrativeGraph.from_document(self.resolved, self.store, raw_text=raw_text)
+                self.phases["graph"] = {"state": state, "error": None}
+            else:
+                self.phases["graph"] = {
+                    "state": state if not trees else "unread",
+                    "error": None if not trees else {"code": "unresolved_document"},
+                }
+        except Exception as exc:
+            self.phases["graph"] = {"state": "unread", "error": _phase_error("graph", exc)}
+
+        # word + paragraph scale — every mention, tagged with its sentence and its discriminators
+        self.mentions: List[Mention] = []
+        self.by_id: Dict[str, List[Mention]] = {}
+        self._identity_links_cache: Optional[Dict[str, set]] = None
+        self._index_mentions()
+
+    # -- mention indexing ---------------------------------------------------
+    def _agent_eids(self) -> set:
+        from GSE.symbolic.predicates import Event
+
+        out = set()
+        for _t, pred in self.timed:
+            for n in walk(pred):
+                if isinstance(n, Event):
+                    ag = getattr(n, "agent", None)
+                    eid = getattr(ag, "entity_id", None)
+                    if eid:
+                        out.add(eid)
+        return out
+
+    def _index_mentions(self) -> None:
+        agents = self._agent_eids()
+        for ti, tree in enumerate(self.resolved):
+            sent = self._sent_of_tree[ti] if ti < len(self._sent_of_tree) else ti
+            for n in walk(tree):
+                if not isinstance(n, Entity):
+                    continue
+                h = _head_atom(n)
+                if h is None or not h.lemma:
+                    continue
+                mod = getattr(n, "modifier", None)
+                poss = getattr(n, "possessor", None)
+                men = Mention(
+                    eid=getattr(n, "entity_id", None),
+                    lemma=h.lemma.lower(),
+                    pos=h.pos,
+                    sent=sent,
+                    type_thread=tuple(getattr(n, "type_thread", ()) or ()),
+                    prims=dict(getattr(h, "word_primitives", None) or {}),
+                    number=getattr(h, "number", None),
+                    modifier=(mod.lemma.lower() if isinstance(mod, Atom) and mod.lemma else None),
+                    graded=bool(getattr(mod, "graded", False)) if isinstance(mod, Atom) else False,
+                    possessor_lemma=_possessor_lemma(n),
+                    possessor_eid=getattr(poss, "entity_id", None) if poss is not None else None,
+                    possessor_span=tuple(getattr(poss, "span", ()) or ()) if poss is not None else (),
+                    span=tuple(getattr(n, "span", ()) or ()),
+                    is_agent=getattr(n, "entity_id", None) in agents,
+                    source_sentence_id=self.tree_sources[ti]["source_sentence_id"],
+                    utterance_id=self.tree_sources[ti]["utterance_id"],
+                )
+                self.mentions.append(men)
+                if men.eid:
+                    self.by_id.setdefault(men.eid, []).append(men)
+
+    # -- the four-scale accessors a cassette composes -----------------------
+    def window(self, sent: int, k: int = 2) -> List[Mention]:
+        """The paragraph-scale ±k-line cis-neighborhood of a sentence — the recent referents that
+        ground a dropped/ambiguous element. The ``±2`` of the design's ``±2-line`` neighborhood."""
+        return [m for m in self.mentions if abs(m.sent - sent) <= k]
+
+    def unit_view(self, *, paragraph_id: str | None = None, source_sentence_id: str | None = None) -> dict:
+        """Select from the one document reading; retain out-of-unit antecedents.
+
+        No encoding or resolution is performed. Supporting mentions carry their
+        original source sentence and utterance IDs, including earlier paragraphs.
+        """
+        selected_ids = {
+            unit.id
+            for unit in self.source_sentences
+            if (paragraph_id is None or unit.paragraph_id == paragraph_id)
+            and (source_sentence_id is None or unit.id == source_sentence_id)
+        }
+        mentions = [mention for mention in self.mentions if mention.source_sentence_id in selected_ids]
+        referents = {mention.eid for mention in mentions if mention.eid is not None}
+        sources = [source for source in self.tree_sources if source["source_sentence_id"] in selected_ids]
+        return {
+            "source_sentence_ids": [unit.id for unit in self.source_sentences if unit.id in selected_ids],
+            "tree_sources": sources,
+            "trees": [self.resolved[source["tree_index"]] for source in sources],
+            "mentions": mentions,
+            "supporting_mentions": [
+                mention
+                for mention in self.mentions
+                if mention.eid in referents and mention.source_sentence_id not in selected_ids
+            ],
+            "phases": self.phases,
+        }
+
+    def gender(self, m: Mention) -> Optional[str]:
+        """Word-scale agreement gender of a mention: from its lexical gender (husband=m, wife=f), its
+        possessor (his=m, her=f), or its type_thread roots. None = unknown → the agreement strand stays
+        silent (it never fabricates a gender; an unknown gender simply does not license a merge)."""
+        lemmas = {m.lemma} | set(m.span)
+        if m.possessor_lemma:
+            lemmas.add(m.possessor_lemma)
+        if lemmas & _MALE:
+            return "m"
+        if lemmas & _FEMALE:
+            return "f"
+        for root in m.type_thread:
+            if root in _MALE:
+                return "m"
+            if root in _FEMALE:
+                return "f"
+        return None
+
+    def is_person(self, m: Mention) -> PersonEligibility:
+        """Return person/non-person/unknown from grounded or definitional evidence.
+
+        Proper-name syntax, recurrence, and ``fold.eligible`` establish neither
+        personhood nor non-personhood. Conflicting accepted type evidence remains
+        unknown. Other mentions with the same resolved ID can supply evidence.
+        """
+        mentions = [m] + list(self.by_id.get(m.eid or "", []))
+        roots = {root.lower() for mention in mentions for root in mention.type_thread}
+        positive = sorted(roots & _PERSON_ROOTS)
+        negative = sorted(roots & _NONPERSON_ROOTS)
+        lexical = [
+            mention.lemma
+            for mention in mentions
+            if mention.pos in ("NOUN", "PROPN") and mention.lemma in (_MALE | _FEMALE)
+        ]
+        positive.extend(f"lexical:{lemma}" for lemma in sorted(set(lexical)))
+        if positive and negative:
+            return PersonEligibility("unknown", tuple(["conflicting_types"] + positive + negative))
+        if negative:
+            return PersonEligibility("non_person", tuple(negative))
+        if positive:
+            return PersonEligibility("person", tuple(positive))
+        return PersonEligibility("unknown", ("no_decisive_person_evidence",))
+
+    def is_proper(self, eid: Optional[str]) -> bool:
+        """Is this id a proper-NAME referent? (a merge target must be a name, not another description)."""
+        ms = self.by_id.get(eid or "", [])
+        return any(m.pos == "PROPN" for m in ms)
+def _safe_store() -> Optional[GenealogyStore]:
+    try:
+        return GenealogyStore()
+    except Exception:
+        return None
+Traceback (most recent call last):
+  File "<stdin>", line 5, in <module>
+  File "/Users/rohanvinaik/.local/share/uv/python/cpython-3.14.7-macos-aarch64-none/lib/python3.14/pathlib/__init__.py", line 787, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rohanvinaik/.local/share/uv/python/cpython-3.14.7-macos-aarch64-none/lib/python3.14/pathlib/__init__.py", line 771, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'GSE/symbolic/genealogy.py'

@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\np=Path('/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/Semantic_Specification_Learning/07_GSE_LEXICON_NSM_WORKING_DRAFT.md');t=p.read_text();start=t.index('#### Checkpoint-first execution and durable controller evidence');end=t.index('### 6. Linguistic and sociological implications',start);print(t[start:end])\nprint('\\n### Relevant schema full declarations')\nimport sqlite3\np=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/candidate.db');c=sqlite3.connect(f'file:{p}?mode=ro',uri=True)\nfor name,sql in c.execute(\"SELECT name,sql FROM sqlite_master WHERE type='table' ORDER BY name\"):\n if name in {'entries','cell_domains','assertions','entry_assertions','bank_domains','resolution','entry_resolution'} or 'domain' in name or 'assertion' in name:\n  print(name,sql)\nprint('TABLE NAMES', [r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table' ORDER BY name\")]);c.close()\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

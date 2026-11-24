@@ -1,0 +1,1538 @@
+
+FILE GSE/symbolic/lexical_grounding.py
+"""Bind a contextual word-strand witness to an exact dictionary definition."""
+
+from __future__ import annotations
+
+import json
+import re
+from dataclasses import dataclass
+from functools import lru_cache
+
+from nltk.corpus import wordnet as wn
+from nltk.corpus.reader.wordnet import WordNetError
+
+from GSE.curation.lexicon_builder.foundation import _attested_wordnet_lemma, _exact_wordnet_ancestry
+from GSE.lexicon.numerals import get_numeral_encoding, is_numeral
+from GSE.nlp.native import NativeNLP
+
+from .expression import Atom
+from .grounding import _COHERENCE_MARGIN, _jaccard, _select_by_coherence, _signature
+from .resolution import Entity
+
+_GENERIC = {"entity.n.01", "physical_entity.n.01", "abstraction.n.06", "object.n.01", "thing.n.12"}
+_SENTENCE_BOUNDARIES = {".", "!", "?", ";", ":"}
+_CONTENT_POS = {"NOUN", "VERB", "ADJ", "ADV"}
+_GENERIC_TERMS = {"act", "event", "something", "someone", "thing", "one", "be", "have", "do", "get", "make"}
+_EXPLANATORY_LINKERS = {"when", "as", "because"}
+_PARTICIPANT_ROOT = "person.n.01"
+_PERSON_OR_COLLECTION = {_PARTICIPANT_ROOT, "group.n.01"}
+_EVENT_ROOT = "event.n.01"
+_MATTER_STATE_ROOT = "state_of_matter.n.01"
+_TIME_MEASURE_ROOT = "time_unit.n.01"
+
+
+def _anchors(features: dict) -> set[str]:
+    examples = features.get("examples")
+    texts = [features["definition"]]
+    if isinstance(examples, list):
+        texts.extend(example for example in examples if isinstance(example, str))
+    return {word for text in texts for word in re.findall(r"[^\W\d_]+", text.casefold())}
+
+
+@dataclass(frozen=True)
+class NativeSense:
+    synset: str
+    nodes: frozenset[str]
+    gloss: str
+    anchors: frozenset[str]
+    names: frozenset[str]
+    examples: tuple[str, ...] = ()
+
+
+class _NativeThreads:
+    """Adapter of already verified snapshot threads to the existing selector."""
+
+    def __init__(self, threads):
+        self.threads = threads
+
+    def candidates(self, lemma, pos, is_proper):
+        return self.threads.get(lemma, ())
+
+
+def _unique_native_witness(witnesses):
+    if not witnesses:
+        return {"code": "NO_DEFINITION_CONSTRUCTION_WITNESS"}
+    if len(witnesses) > 1:
+        return {"code": "COMPETING_DEFINITION_CONSTRUCTIONS", "construction_candidates": sorted(witnesses)}
+    entry_id, evidence = next(iter(witnesses.items()))
+    return {
+        "code": "EXACT_WORDNET_SENSE",
+        "entry_id": entry_id,
+        "witness_kind": "WORDNET_DEFINITION_CONSTRUCTION",
+        **evidence,
+    }
+
+
+@lru_cache(maxsize=8192)
+def _gloss_content(gloss):
+    return tuple(
+        (token.lemma_, token.pos_)
+        for token in NativeNLP()(gloss)
+        if token.pos_ in _CONTENT_POS
+        and not token.is_stop
+        and not is_numeral(token.lemma_)
+        and token.lemma_ not in _GENERIC_TERMS
+    )
+
+
+@lru_cache(maxsize=4096)
+def _verb_derivations(word):
+    """Exact noun targets of the verb spelling's attested WordNet pointers."""
+    try:
+        verbs = wn.synsets(word, pos=wn.VERB)
+        return {
+            synset.name(): frozenset(
+                related.synset().name()
+                for lemma in synset.lemmas()
+                if lemma.name() == word
+                for related in lemma.derivationally_related_forms()
+                if related.synset().pos() == wn.NOUN
+            )
+            for synset in verbs
+        }
+    except LookupError, WordNetError:
+        return {}
+
+
+@lru_cache(maxsize=4096)
+def _live_native_sense(sense):
+    try:
+        candidate = wn.synset(sense.synset)
+        return candidate.definition() == sense.gloss and frozenset(candidate.lemma_names()) == sense.names
+    except LookupError, WordNetError:
+        return False
+
+
+@lru_cache(maxsize=4096)
+def _noun_thread(synset):
+    try:
+        return frozenset(node.name() for path in wn.synset(synset).hypernym_paths() for node in path)
+    except LookupError, WordNetError:
+        return frozenset()
+
+
+@lru_cache(maxsize=4096)
+def _noun_forms(word):
+    try:
+        return frozenset(wn._morphy(word.casefold(), wn.NOUN))
+    except LookupError:
+        return frozenset()
+
+
+@lru_cache(maxsize=256)
+def _catalog_reading(lemma, entry_id):
+    from GSE.curation.external_sources.gse_closed_class import GSEClosedClassParser
+
+    return next((e for e in GSEClosedClassParser().get_entries(lemma) if e.entry_id == entry_id), None)
+
+
+@lru_cache(maxsize=8192)
+def _native_example_signature(text, lemma=None, pos=None):
+    """Complete native construction, retaining roles, operators and arguments.
+
+    An example is a positive attestation, not an exhaustive selectional rule.
+    In particular, shared examples do not authorize choosing the first sense,
+    and omitted examples never exclude a reading. No bank value participates.
+    """
+    native_pos = {"VERB": wn.VERB, "ADJ": wn.ADJ, "ADV": wn.ADV}.get(pos)
+    signature = []
+    tokens = tuple(NativeNLP()(text))
+    for index, token in enumerate(tokens):
+        if index == len(tokens) - 1 and token.text in {".", "!", "?"}:
+            continue
+        word = token.lemma_.casefold()
+        # Membership in the complete native inflection set is not a
+        # first-stem preference. The complete source construction is still
+        # required; all matching senses compete below.
+        if native_pos and token.pos_ == pos and lemma in wn._morphy(token.text.casefold(), native_pos):
+            word = lemma
+        signature.append((word, token.pos_))
+    return tuple(signature)
+
+
+class LexicalGrounding:
+    """Sentence-local grounding from the snapshot's exact WordNet records.
+
+    Nominal anchors and type threads are the first path. When they abstain,
+    a bounded grammatical construction can supply a unique native witness.
+    The selected definition supplies the bank values.
+    """
+
+    def __init__(self, conn, doc, clause_linkers):
+        self.conn = conn
+        self.doc = doc
+        self.sentence_boundaries = {token.i for token in doc if token.text in _SENTENCE_BOUNDARIES}
+        self.boundaries = clause_linkers | self.sentence_boundaries
+        self._by_lemma: dict[tuple[str, str], dict[str, NativeSense]] = {}
+
+    def _senses(self, lemma, pos="NOUN"):
+        key = (lemma, pos)
+        if key in self._by_lemma:
+            return self._by_lemma[key]
+        rows = self.conn.execute(
+            """SELECT d.entry_id, d.code, l.lemma, l.pos, l.gloss, o.payload
+               FROM lexemes l JOIN definition_states d ON d.lexeme_id=l.id
+               JOIN source_observations o ON o.entry_id=d.entry_id AND o.record_id=d.entry_id
+               WHERE l.lemma=? AND o.source='wordnet_hierarchy' AND o.family='wordnet' AND o.scope='lexical'
+               ORDER BY d.entry_id""",
+            (lemma,),
+        )
+        results = {}
+        eligible_pos = {
+            "NOUN": {"n", "noun"},
+            "VERB": {"v", "verb"},
+            "ADJ": {"a", "s", "adj", "adjective"},
+            "ADV": {"r", "adv", "adverb"},
+        }.get(pos, set())
+        for entry_id, code, word, native_pos, gloss, raw in rows:
+            if native_pos not in eligible_pos or code not in {"PARTIAL", "RESOLVED"}:
+                continue
+            try:
+                observation = json.loads(raw)
+            except ValueError, TypeError:
+                continue
+            definition = {"entry_id": entry_id, "lemma": word, "pos": native_pos, "definition": gloss}
+            nodes = _exact_wordnet_ancestry(definition, observation)
+            if nodes and _attested_wordnet_lemma(definition, observation):
+                features = observation["features"]
+                results[entry_id] = NativeSense(
+                    features["synset_name"],
+                    nodes - _GENERIC,
+                    gloss,
+                    frozenset(_anchors(features)),
+                    frozenset(features["lemma_names"]),
+                    tuple(e for e in features.get("examples", ()) if isinstance(e, str)),
+                )
+        self._by_lemma[key] = results
+        return results
+
+    def grammatical_eligibility(self, position, lemma, entry_id):
+        """Challenge a catalog role with a *local construction*, never a keyword.
+
+        The native front-end labels closed-class spellings before reading their
+        surroundings. A determined nominal followed by that token (``the ...
+        symbol He``), or a positively witnessed specific native type, can
+        challenge that role. Absence of a person node is NOT disjointness:
+        broad ancestors such as entity/organism remain compatible with people.
+        Merely mentioning a substance elsewhere cannot challenge a pronoun.
+        """
+        native = _catalog_reading(lemma, entry_id)
+        if native is None or native.catalog != "pronoun" or native.primitives.get("SOMEONE") != 1:
+            return {"code": "GRAMMATICAL_ROLE_ELIGIBLE"}
+        start, end = self._bounds(position, self.sentence_boundaries)
+        left = tuple(self.doc[start + 1 : position])
+        right = tuple(self.doc[position + 1 : end])
+        witness = None
+        if (
+            len(left) >= 2
+            and left[0].pos_ == "DET"
+            and left[-1].pos_ == "NOUN"
+            and all(t.pos_ in {"ADJ", "NOUN"} for t in left[1:])
+        ):
+            witness = {"kind": "DETERMINED_NOMINAL_NAME", "tokens": [t.i for t in left]}
+        elif (
+            len(right) >= 3
+            and right[0].lemma_ == "be"
+            and right[0].pos_ == "AUX"
+            and right[1].lemma_ in {"a", "an"}
+            and (end == len(self.doc) or self.doc[end].text != "?")
+        ):
+            nominal = right[2:]
+            # Native noun witnesses can challenge a mislabeled complement too
+            # (e.g. zero-inflection ``gas`` also has a verb reading). The
+            # article/copula construction, not that POS label, supplies the role.
+            if nominal and all(t.pos_ in {"ADJ", "NOUN"} for t in nominal[:-1]):
+                phrase = "_".join(t.lemma_ for t in nominal)
+                # Read the complete nominal type (``noble gas``), not a POS
+                # veto or a list of chemistry words. These are the existing
+                # local WordNet type threads, never lexical-bank projections.
+                types = wn.synsets(phrase, pos=wn.NOUN)
+                person_ancestors = _noun_thread(_PARTICIPANT_ROOT)
+                specific = {t.name() for t in types if t.name() not in person_ancestors}
+                supported = {key for key, sense in self._senses(lemma).items() if sense.nodes & specific}
+                if specific and len(supported) == 1:
+                    witness = {
+                        "kind": "ASSERTED_NATIVE_READING_TYPE",
+                        "tokens": [t.i for t in right],
+                        "native_type_ids": sorted(specific),
+                        "supported_entry_ids": sorted(supported),
+                    }
+        if witness is None:
+            return {"code": "GRAMMATICAL_ROLE_ELIGIBLE"}
+        alternatives = sorted(self._senses(lemma))
+        contextual = (
+            self.select(position, lemma, alternatives) if alternatives else {"code": "NO_EXACT_WORDNET_WITNESS"}
+        )
+        if witness["kind"] == "ASSERTED_NATIVE_READING_TYPE":
+            supported = witness["supported_entry_ids"][0]
+            if contextual["code"] == "EXACT_WORDNET_SENSE" and contextual["entry_id"] != supported:
+                contextual = {"code": "CONTEXTUAL_WITNESSES_DISAGREE", "construction_witness": contextual}
+            elif contextual["code"] != "CONTEXTUAL_WITNESSES_DISAGREE":
+                # The complete positively asserted native type itself is an
+                # independent witness, even when the head is parsed correctly
+                # as nominal and no accidental verbal derivation is available.
+                contextual = {
+                    **contextual,
+                    "code": "EXACT_WORDNET_SENSE",
+                    "entry_id": supported,
+                    "witness_kind": "ASSERTED_NATIVE_READING_TYPE",
+                    "native_type_ids": witness["native_type_ids"],
+                }
+        if contextual["code"] == "EXACT_WORDNET_SENSE":
+            return {
+                "code": "CONTEXTUAL_DEFINITION_SELECTED",
+                "entry_id": contextual["entry_id"],
+                "challenged_grammatical_entry_id": entry_id,
+                "catalog_provenance": list(native.provenance),
+                "construction": witness,
+                "contextual_grounding": contextual,
+                "considered_entry_ids": alternatives,
+            }
+        return {
+            "code": "GRAMMATICAL_CONTEXT_CONFLICT",
+            "entry_id": entry_id,
+            "catalog_provenance": list(native.provenance),
+            "grammar_roles": list(native.grammar_roles),
+            "grammatical_features": native.grammatical_features,
+            "construction": witness,
+            "contextual_grounding": contextual,
+            "considered_entry_ids": alternatives,
+        }
+
+    def select(self, position, lemma, candidates, *, pos="NOUN"):
+        candidate_ids = set(candidates)
+        senses = {key: value for key, value in self._senses(lemma, pos).items() if key in candidate_ids}
+        if not senses:
+            return {"code": "NO_EXACT_WORDNET_WITNESS"}
+        if pos in {"VERB", "ADJ", "ADV"}:
+            return self._native_example_support(position, lemma, senses, pos)
+        start, end = self._bounds(position, self.boundaries)
+        nominal = self._nominal_support(lemma, senses, start, end)
+        definition_only = self.doc[position].pos_ == "PROPN"
+        if nominal["code"] == "CONTEXTUAL_WITNESSES_DISAGREE" or (
+            nominal["code"] == "EXACT_WORDNET_SENSE" and not definition_only
+        ):
+            return nominal
+        contextual = self._construction_support(position, lemma, senses, definition_only=definition_only)
+        if contextual["code"] != "EXACT_WORDNET_SENSE":
+            code = contextual["code"] if definition_only else nominal["code"]
+            return {**nominal, "code": code, "construction": contextual}
+        supported = set(nominal.get("native_anchor_support", {}))
+        thread = nominal.get("type_thread_candidate")
+        if (supported and contextual["entry_id"] not in supported) or (thread and thread != contextual["entry_id"]):
+            return {**nominal, "code": "CONTEXTUAL_WITNESSES_DISAGREE", "construction_witness": contextual}
+        return {**nominal, **contextual, "code": "EXACT_WORDNET_SENSE"}
+
+    def _native_example_support(self, position, lemma, senses, pos):
+        """Make attested non-nominal identities reachable without a POS override.
+
+        Compare the complete sentence construction rather than isolated cue
+        words. This deliberately abstains on underspecified or novel uses;
+        grammatical role alone, frequency and already-filled banks cannot
+        license a definition. Existing nominal type-thread grounding is kept
+        separate because noun and verb threads are not comparable types.
+        """
+        start, end = self._bounds(position, self.sentence_boundaries)
+        actual = tuple((t.lemma_.casefold(), t.pos_) for t in self.doc[start + 1 : end])
+        witnesses = {}
+        for entry_id, sense in senses.items():
+            examples = [
+                example for example in sense.examples if _native_example_signature(example, lemma, pos) == actual
+            ]
+            if examples:
+                witnesses[entry_id] = {
+                    "witness_kind": "WORDNET_NATIVE_EXAMPLE_CONSTRUCTION",
+                    "native_synset": sense.synset,
+                    "native_examples": examples,
+                    "construction_signature": [list(pair) for pair in actual],
+                    "eligible_pos": pos,
+                    "source_record_id": entry_id,
+                }
+        return _unique_native_witness(witnesses)
+
+    def _bounds(self, position, boundaries):
+        return (
+            max((i for i in boundaries if i < position), default=-1),
+            min((i for i in boundaries if i > position), default=len(self.doc)),
+        )
+
+    def _nominal_support(self, lemma, senses, start, end):
+        context = {
+            token.lemma_.casefold()
+            for token in self.doc[start + 1 : end]
+            if token.pos_ == "NOUN" and token.lemma_.casefold() != lemma
+        }
+        if not context:
+            return {"code": "NO_NOMINAL_CONTEXT"}
+        context_nodes = set()
+        witnessed_words = set()
+        context_senses = {}
+        context_entry_ids = {}
+        for word in sorted(context):
+            alternatives = self._senses(word)
+            if len(alternatives) == 1:
+                native_sense = next(iter(alternatives.values()))
+                context_senses[word] = native_sense
+                context_entry_ids[word] = next(iter(alternatives))
+                context_nodes.update(native_sense.nodes)
+                witnessed_words.add(word)
+        # An independently unambiguous context noun can name the very same
+        # native synset (a symbol and its expanded name, for example). This is
+        # native lexical identity, not mere ancestry or a first-sense guess.
+        # Keep the ordinary production type-thread agreement check below.
+        synonym_support = {
+            key: sorted(word for word, native in context_senses.items() if native.synset == sense.synset)
+            for key, sense in senses.items()
+            if any(native.synset == sense.synset for native in context_senses.values())
+        }
+        support = {
+            key: sorted((sense.anchors & witnessed_words) | set(synonym_support.get(key, ())))
+            for key, sense in senses.items()
+            if sense.anchors & witnessed_words or key in synonym_support
+        }
+        common = set.intersection(*(set(sense.nodes) for sense in senses.values())) if len(senses) > 1 else set()
+        scores = sorted(
+            (
+                (_jaccard(set(sense.nodes) - common, context_nodes), key)
+                for key, sense in senses.items()
+                if (sense.nodes - common) & context_nodes
+            ),
+            reverse=True,
+        )
+        thread = (
+            scores[0][1]
+            if scores and scores[0][0] > (scores[1][0] if len(scores) > 1 else 0) + _COHERENCE_MARGIN
+            else None
+        )
+        if thread:
+            # Eligibility and lexical witnesses are established above. The
+            # production coherence selector, not a parallel similarity resolver,
+            # then consumes the native type threads. Common nodes carry no WSD
+            # signal and are removed on both sides, as in the diagnostics.
+            ordered = sorted(senses)
+            threads = {lemma: [tuple(sorted(senses[key].nodes - common)) for key in ordered]}
+            threads.update(
+                (word, [tuple(sorted(next(iter(self._senses(word).values())).nodes))])
+                for word in sorted(witnessed_words)
+            )
+            entities = [Entity(Atom(word, pos="NOUN")) for word in threads]
+            chosen = _select_by_coherence(entities, _NativeThreads(threads), native_only=True)
+            selected_thread = chosen.get(_signature(entities[0]), ())
+            if selected_thread != threads[lemma][ordered.index(thread)]:
+                thread = None
+        anchor = next(iter(support)) if len(support) == 1 else None
+        evidence = {"native_anchor_support": support, "type_coherence": dict((key, score) for score, key in scores)}
+        if synonym_support:
+            evidence["native_synonym_support"] = {
+                key: {
+                    "synset": senses[key].synset,
+                    "context_entry_ids": {word: context_entry_ids[word] for word in words},
+                }
+                for key, words in synonym_support.items()
+            }
+        if thread:
+            evidence["type_thread_candidate"] = thread
+        if not support:
+            code = "TYPE_COHERENCE_WITHOUT_LEXICAL_WITNESS" if thread else "INSUFFICIENT_CONTEXTUAL_SUPPORT"
+            return {"code": code, **evidence}
+        if thread and thread not in support:
+            return {"code": "CONTEXTUAL_WITNESSES_DISAGREE", **evidence}
+        selected = anchor or thread
+        if selected is None:
+            return {"code": "INSUFFICIENT_CONTEXTUAL_SUPPORT", **evidence}
+        return {"code": "EXACT_WORDNET_SENSE", "entry_id": selected, **evidence}
+
+    def _construction_support(self, position, lemma, senses, *, definition_only=False):
+        """Bind multiple gloss cues or an exact derivation in a linked clause."""
+        tokens, linked = self._construction_span(position)
+        cues = {
+            token.lemma_: token.pos_
+            for token in tokens
+            if token.i != position
+            and token.lemma_ != lemma
+            and token.pos_ in _CONTENT_POS
+            and token.lemma_ not in _GENERIC_TERMS
+            and not token.is_stop
+            and not is_numeral(token.lemma_)
+        }
+        type_witness = self._construction_type(position, tokens, linked)
+        predication = self._definition_predication(position)
+        sentence_start, sentence_end = self._bounds(position, self.sentence_boundaries)
+        # A construction span can stop at a coordinator. The material before
+        # an alternative is not, by itself, asserted context: deriving a noun
+        # identity from just that first disjunct would silently discard the
+        # other reading. Complete definition matching already checks this
+        # scope; weaker gloss/derivation evidence must not bypass that check.
+        alternative_context = any(t.lemma_ == "or" for t in self.doc[sentence_start + 1 : sentence_end])
+        derivations = {word: _verb_derivations(word) for word, pos in cues.items() if pos == "VERB"}
+        linked_verbs = {t.lemma_ for t in tokens if linked is not None and t.i > linked and t.pos_ == "VERB"}
+        witnesses, definition_witnesses = {}, {}
+        for entry_id, sense in senses.items():
+            gloss = dict(_gloss_content(sense.gloss))
+            matched = frozenset(gloss.keys() & cues.keys())
+            exact, related = self._derivation_support(sense, gloss, matched, derivations, linked_verbs, type_witness)
+            verb_match = any(gloss[word] == cues[word] == "VERB" for word in matched)
+            typed = self._matches_construction_type(sense, type_witness, matched, gloss)
+            repeated = self._matches_definition_predication(sense, predication)
+            if repeated or (
+                not definition_only
+                and not alternative_context
+                and (exact or (verb_match and len(matched) >= 2) or related or typed)
+            ):
+                witnesses[entry_id] = {
+                    "gloss_terms": sorted(matched),
+                    "exact_derivation": exact,
+                    "related_derivation": related,
+                    "construction_type": predication if repeated else type_witness if typed or related else None,
+                }
+                if repeated:
+                    definition_witnesses[entry_id] = witnesses[entry_id]
+        # Complete definition identity precedes weaker derivational similarity;
+        # two exact definitions still abstain rather than choosing by order.
+        result = _unique_native_witness(definition_witnesses or witnesses)
+        if alternative_context:
+            result["unasserted_context"] = "DISJUNCTIVE_CONSTRUCTION_ALTERNATIVES"
+        return result
+
+    def _definition_predication(self, position):
+        """Read an explicit nominal equivalence with the target as its subject."""
+        start, end = self._bounds(position, self.sentence_boundaries)
+        preceding = tuple(self.doc[start + 1 : position])
+        following = tuple(self.doc[position + 1 : end])
+        if (
+            (preceding and (len(preceding) != 1 or preceding[0].lemma_ != "the"))
+            or len(following) < 4
+            or following[0].lemma_ != "be"
+            or following[0].pos_ != "AUX"
+            or following[1].lemma_ not in {"a", "an", "the"}
+            or (end < len(self.doc) and self.doc[end].text == "?")
+            or any(t.lemma_ == "or" for t in following)
+        ):
+            return None
+        complement = following[2:]
+        # A state's defining condition can contain its own prepositions,
+        # predicates and negation. Match that complete native definition;
+        # negation of the outer copula never reaches this article-led branch.
+        if (
+            len(complement) >= 3
+            and complement[0].lemma_ == "state"
+            and complement[0].pos_ == "NOUN"
+            and (
+                complement[1].lemma_ == "of"
+                or (len(complement) >= 4 and [t.lemma_ for t in complement[1:3]] == ["in", "which"])
+            )
+            and not any(t.pos_ == "PUNCT" for t in complement)
+        ):
+            return {
+                "kind": "EXPLICIT_DEFINITION_PREDICATION",
+                "terms": [t.text.casefold() for t in complement],
+                "state_condition": complement[2].text.casefold()
+                if len(complement) == 3 and complement[1].lemma_ == "of" and complement[2].pos_ == "NOUN"
+                else None,
+            }
+        if any(t.lemma_ in {"not", "never"} for t in following):
+            return None
+        # Retain the entire asserted nominal clause, including a relative or
+        # prepositional modifier. It may identify a source reading only by
+        # exact comparison with that reading's complete native definition (or
+        # its complete principal clause before an explanatory semicolon).
+        complete_terms = [t.text.casefold() for t in complement]
+        # A relative clause can elaborate an already asserted complement.
+        relative = next((i for i, t in enumerate(following[2:], 2) if t.lemma_ in {"that", "which"}), len(following))
+        nominal = following[2:relative]
+        if (
+            len(nominal) < 2
+            or nominal[-1].pos_ != "NOUN"
+            or any(t.pos_ not in {"ADJ", "NOUN"} for t in nominal)
+            or (relative < len(following) and not any(t.pos_ == "VERB" for t in following[relative + 1 :]))
+        ):
+            return {
+                "kind": "EXPLICIT_DEFINITION_PREDICATION",
+                "terms": complete_terms,
+                "complete_terms": complete_terms,
+                "exact_clause_only": True,
+            }
+        return {
+            "kind": "EXPLICIT_DEFINITION_PREDICATION",
+            "terms": [t.text.casefold() for t in nominal],
+            "complete_terms": complete_terms,
+        }
+
+    @staticmethod
+    def _matches_definition_predication(sense, predication):
+        if predication is None:
+            return False
+        principal = sense.gloss.casefold().split(";", 1)[0].removesuffix(".")
+        principal_terms = re.findall(r"\w+|[^\w\s]", principal)
+        if principal_terms and principal_terms[0] in {"a", "an", "the"}:
+            principal_terms = principal_terms[1:]
+        if predication.get("complete_terms") == principal_terms:
+            return True
+        if predication.get("exact_clause_only"):
+            return False
+        terms = predication["terms"]
+        gloss = sense.gloss.casefold().removesuffix(".").split()
+        if gloss and gloss[0] in {"a", "an", "the"}:
+            gloss = gloss[1:]
+        if terms == gloss or "_".join(terms) in sense.names:
+            return True
+        # An explicitly asserted state genus can identify a unique native
+        # reading even when its definition adds a qualifier after the complete
+        # condition noun (e.g. inactivity following an interruption).
+        return (
+            predication.get("state_condition") is not None
+            and "state.n.02" in sense.nodes
+            and len(gloss) > len(terms)
+            and gloss[: len(terms)] == terms
+        )
+
+    def _construction_span(self, position):
+        start, end = self._bounds(position, self.boundaries)
+        _, sentence_end = self._bounds(position, self.sentence_boundaries)
+        cuts = sorted(self.boundaries | {sentence_end})
+        # A temporal preposition with no predicate in its own segment is
+        # nominal context, e.g. “before six, when …” or “after midnight”.
+        while end < sentence_end and self.doc[end].lemma_ in {"after", "before"}:
+            following = next(i for i in cuts if i > end)
+            if any(token.pos_ == "VERB" for token in self.doc[end + 1 : following]):
+                break
+            end = following
+        linked = next(
+            (
+                t.i
+                for t in self.doc[position + 1 : min(end + 1, sentence_end)]
+                if t.lemma_ in _EXPLANATORY_LINKERS and t.pos_ == "SCONJ"
+            ),
+            None,
+        )
+        if linked is not None:
+            linked_end = next(i for i in cuts if i > linked)
+            if any(token.pos_ == "VERB" for token in self.doc[linked + 1 : linked_end]):
+                end = linked_end
+            else:
+                linked = None
+        elif end < sentence_end and self.doc[end].lemma_ == "and":
+            following = next(i for i in cuts if i > end)
+            if self.doc[end + 1 : following] and self.doc[end + 1].pos_ == "VERB":
+                end = following
+            elif self.doc[end + 1 : following] and not self.doc[end + 1].is_stop:
+                # A zero-inflection verb with an immediate object determiner
+                # is a shared-subject conjunct even when POS remains nominal.
+                if (
+                    end + 2 < following
+                    and self.doc[end + 2].pos_ == "DET"
+                    and _verb_derivations(self.doc[end + 1].lemma_)
+                ):
+                    end = following
+        return tuple(self.doc[start + 1 : end]), linked
+
+    def _construction_type(self, position, tokens, linked):
+        following = [t for t in tokens if t.i > position]
+        if len(following) >= 3 and [t.lemma_ for t in following[:2]] in (["be", "a"], ["be", "an"]):
+            complement = following[2]
+            if complement.pos_ == "NOUN" and not any(t.lemma_ == "not" for t in tokens):
+                threads = tuple(s.nodes for s in self._senses(complement.lemma_).values())
+                if any(_PARTICIPANT_ROOT in thread for thread in threads) and all(
+                    thread & _PERSON_OR_COLLECTION for thread in threads
+                ):
+                    return {"kind": "PERSON_TYPE_ASSERTION", "token": complement.i}
+        if (
+            len(following) >= 4
+            and following[0].lemma_ == "from"
+            and following[2].lemma_ == "to"
+            and following[1].lemma_ != following[3].lemma_
+            and all(
+                t.pos_ == "NOUN" and any(_MATTER_STATE_ROOT in s.nodes for s in self._senses(t.lemma_).values())
+                for t in (following[1], following[3])
+            )
+        ):
+            return {"kind": "STATE_TRANSITION", "tokens": [t.i for t in following[:4]]}
+        if linked is not None and len(following) >= 3 and following[0].lemma_ == "take":
+            if any(_TIME_MEASURE_ROOT in s.nodes for s in self._senses(following[2].lemma_).values()):
+                return {
+                    "kind": "ELABORATED_DURATION",
+                    "token": linked,
+                    "elaboration_verbs": sorted({t.lemma_ for t in following if t.i > linked and t.pos_ == "VERB"}),
+                }
+        if (
+            linked is not None
+            and self.doc[linked].lemma_ == "when"
+            and len(following) >= 5
+            and [t.lemma_ for t in following[:2]] == ["of", "the"]
+            and following[2].pos_ == "NOUN"
+            and following[3].lemma_ == "come"
+            and following[4].i == linked
+        ):
+            return {"kind": "EVENT_TIME_ELABORATION", "topic": following[2].lemma_, "token": linked}
+        if len(following) >= 2 and following[0].lemma_ == "start":
+            return {"kind": "EVENT_ONSET", "token": following[0].i}
+        for first, second in zip(following, following[1:]):
+            numeral = get_numeral_encoding(first.lemma_) or {}
+            if numeral.get("quantity_type") == "cardinal":
+                forms = _noun_forms(second.text)
+                if forms and first.i > position + 1 and self.doc[first.i - 1].lemma_ in {"into", "to"}:
+                    return {"kind": "COUNTED_RESULT", "token": second.i, "lemmas": sorted(forms | {second.lemma_})}
+        return None
+
+    def _matches_construction_type(self, sense, witness, matched, gloss):
+        if witness is None:
+            return False
+        kind = witness["kind"]
+        if kind == "PERSON_TYPE_ASSERTION":
+            return _PARTICIPANT_ROOT in sense.nodes
+        if kind == "STATE_TRANSITION":
+            return _EVENT_ROOT in sense.nodes and "state" in gloss
+        if kind == "EVENT_TIME_ELABORATION":
+            return _EVENT_ROOT in sense.nodes and witness["topic"] in matched
+        if kind == "EVENT_ONSET":
+            return _EVENT_ROOT in sense.nodes and any(gloss[term] == "VERB" for term in matched)
+        return False
+
+    def _derivation_support(self, sense, gloss, matched, derivations, linked_verbs, type_witness):
+        if not derivations or not _live_native_sense(sense):
+            return [], []
+        exact, related = [], []
+        kind = type_witness["kind"] if type_witness else None
+        for word, verbs in derivations.items():
+            targets = frozenset().union(*verbs.values())
+            if sense.synset in targets and (
+                (len(verbs) == 1 and word in linked_verbs) or (word in matched and gloss[word] == "VERB")
+            ):
+                exact.append(word)
+            if (
+                kind == "ELABORATED_DURATION"
+                and word in type_witness["elaboration_verbs"]
+                and any(sense.synset in _noun_thread(target) for target in targets)
+            ):
+                related.append(word)
+            if (
+                kind == "COUNTED_RESULT"
+                and (sense.nodes - {sense.synset}) & targets
+                and gloss.keys() & set(type_witness["lemmas"])
+            ):
+                related.append(word)
+        return sorted(exact), sorted(related)
+
+
+FILE GSE/api/encoder.py
+def lexical_lookup(self, lemma: str, pos: str | None = None, *, entry_id: Optional[str] = None) -> Dict:
+        """Source evidence with explicit selection status for versioned definitions."""
+        from GSE.lexical_evidence import lookup_lexeme
+
+        return lookup_lexeme(lemma, self.db_path, pos=pos, entry_id=entry_id)
+def encode(self, text: str) -> OperationTrace:
+        """
+        Encode text to HDC vector with full operation trace.
+
+        Args:
+            text: Input text (sentence)
+
+        Returns:
+            OperationTrace with all encoding steps
+        """
+        from GSE.nlp.morphology import negation_admission, negation_evidence
+
+        # 1. Tokenize
+        doc = self.nlp(text)
+        head_position = next((i for i, token in enumerate(doc) if token.pos_ != "PUNCT"), None)
+        lexical_rows: Dict[str, Dict] = {}
+        grammatical_rows: Dict[Tuple[str, str, str], Optional[Tuple[str, str, Dict]]] = {}
+
+        # 1b. Upstream parse repair: spaCy mistags some verbs as nouns
+        #     ("Macbeth murders Duncan"). Promote buried verbs to POS=VERB so the
+        #     position-based EVENT synthesis downstream finds a predicate.
+        promote_to_verb = verbs_to_promote(doc)
+
+        # 1c. Clause-coordinating "and"/"or": a coordinator with a predicate on
+        #     BOTH sides joins two CLAUSES (WS1 — derived from the verb-inventory,
+        #     no spaCy arcs), distinct from NP/VP coordination. Marked as the
+        #     clause-linking CLAUSE_COORD operator so it becomes a clause boundary.
+        clause_coords = self._clause_coordinator_positions(doc, promote_to_verb)
+        clause_coords |= self._copula_clause_coordinator_positions(doc)
+
+        # 1c'. Fronted conditional "if": a clause-initial "if" with a predicate in
+        #      its antecedent → the IMPLIES clause-linker. Not a lexicon operator
+        #      ("if" carries no comp_operation), so it is marked here like "and".
+        implies_positions = self._conditional_positions(doc, promote_to_verb)
+
+        # 1c''. Fronted temporal subordinator "when/while/after/before": a clause-initial
+        #       one with a predicate in its subordinate clause → the TEMPORAL clause-linker
+        #       (both clauses asserted). Like "if", carries no lexicon comp_operation.
+        temporal_positions = self._temporal_positions(doc, promote_to_verb)
+
+        # 1d. Arc-free core syntactic roles (positional), computed once for the
+        #     sentence. ``None`` falls the per-token extractor back to spaCy dep_.
+        syn_map = self._syn_roles(doc, promote_to_verb) if self._arcfree_syn else None
+        # 1d'. Parse-strand auto-repair: on a DEGRADED clause the native Tier-1 repair
+        #      re-assigns roles (commit only) before EVENT synthesis; clean parses pass
+        #      through untouched. Guarded so a repair failure never breaks encode.
+        if syn_map is not None and not getattr(self, "_in_repair", False):
+            try:
+                self._in_repair = True
+                syn_map = self._parse_repair().repair_syn_map(doc, syn_map)
+            except Exception:
+                pass
+            finally:
+                self._in_repair = False
+
+        # 2. Process each token
+        from GSE.symbolic.lexical_grounding import LexicalGrounding
+
+        grounding = (
+            LexicalGrounding(self.conn, doc, clause_coords | implies_positions | temporal_positions)
+            if self._definition_database
+            else None
+        )
+        token_traces: List[TokenTrace] = []
+        token_vectors: List[Tuple[int, SparseVector, CompositionalMetadata]] = []
+        operator_indices: List[int] = []
+        comp_meta: CompositionalMetadata
+
+        for i, tok in enumerate(doc):
+            # Lexicon lookup (static primitives from database)
+            lemma = tok.lemma_.lower()
+            lookup_form = lemma
+            grammatical = None
+            contextual_pos = None
+            if self._definition_database:
+                # Predicate promotion assigns a sentence role; an existing AUX
+                # reading still licenses its exact grammatical definition.
+                grammar_key = (tok.text.lower(), lemma, tok.pos_)
+                if grammar_key not in grammatical_rows:
+                    grammatical_rows[grammar_key] = self._grammatical_definition(*grammar_key)
+                grammatical = grammatical_rows[grammar_key]
+            if self._definition_database and grammatical is None and tok.text.lower() != lemma:
+                if lemma not in lexical_rows:
+                    lexical_rows[lemma] = self.lexical_lookup(lemma)
+                # Exact surface spelling can recover a missing lemma (tired ->
+                # tire), but never resolves an ambiguous lemma by substitution.
+                if lexical_rows[lemma].get("selection_status") == "NOT_FOUND":
+                    lookup_form = tok.text.lower()
+            lexical: Dict[str, Any]
+            if grammatical is not None:
+                lookup_form, entry_id, lexical = grammatical
+                if grounding is None:
+                    raise ValueError("GRAMMATICAL_SELECTION_REQUIRES_GROUNDING")
+                eligibility = grounding.grammatical_eligibility(i, lookup_form, entry_id)
+                if eligibility["code"] == "CONTEXTUAL_DEFINITION_SELECTED":
+                    entry_id = eligibility["entry_id"]
+                    lexical = {
+                        **self.lexical_lookup(lookup_form, entry_id=entry_id),
+                        "reading_eligibility": eligibility,
+                        "contextual_grounding": eligibility["contextual_grounding"],
+                    }
+                    # An exact source/role witness repairs this occurrence,
+                    # not every occurrence sharing the parser's POS/spelling.
+                    contextual_pos = "NOUN"
+                elif eligibility["code"] == "GRAMMATICAL_CONTEXT_CONFLICT":
+                    # POS is evidence, not a veto over native/context facts.
+                    # Retain both rivals, but publish neither reading nor banks.
+                    lexical = {
+                        **lexical,
+                        "state": "unread",
+                        "reason": eligibility["code"],
+                        "selection_status": "CONFLICT",
+                        "selected_record": None,
+                        "sense_resolved": False,
+                        "primitives": {},
+                        "domains": {},
+                        "hierarchy": {},
+                        "primitive_evidence": [],
+                        "reading_eligibility": eligibility,
+                    }
+                    entry_id = None
+                else:
+                    lexical = {**lexical, "reading_eligibility": eligibility}
+                word_prims, sent_prims, comp_meta = self._lookup_lexeme(
+                    lookup_form, entry_id=entry_id, lexical_evidence=lexical
+                )
+            else:
+                if lookup_form not in lexical_rows:
+                    lexical_rows[lookup_form] = self.lexical_lookup(lookup_form)
+                lexical = lexical_rows[lookup_form]
+                entry_id = None
+                if (
+                    grounding is not None
+                    and (tok.pos_ in {"NOUN", "PROPN", "VERB", "ADJ", "ADV"} or i in promote_to_verb)
+                    and lexical.get("selection_status") == "AMBIGUOUS"
+                ):
+                    alternatives = lexical["candidate_entry_ids"]
+                    eligible_pos = "VERB" if i in promote_to_verb else "NOUN" if tok.pos_ == "PROPN" else tok.pos_
+                    selection = grounding.select(i, lookup_form, alternatives, pos=eligible_pos)
+                    if selection["code"] == "EXACT_WORDNET_SENSE":
+                        entry_id = selection["entry_id"]
+                        lexical = self.lexical_lookup(lookup_form, entry_id=entry_id)
+                    lexical = {**lexical, "contextual_grounding": {**selection, "considered_entry_ids": alternatives}}
+                # The trace and vector must consume the same selected source row.
+                word_prims, sent_prims, comp_meta = self._lookup_lexeme(
+                    lookup_form, entry_id=entry_id, lexical_evidence=lexical
+                )
+            if self._definition_database:
+                lexical = {**lexical, "lookup_form": lookup_form, "parser_lemma": lemma}
+            negative = negation_evidence(lemma)
+
+            # Recognition does not authorize overriding a different selected
+            # lexical sense. Admit only a supported, compatible signed base.
+            if negative.get("feature") == NEGATION:
+                base_lemma = negative["base"]
+                if base_lemma not in lexical_rows:
+                    lexical_rows[base_lemma] = self.lexical_lookup(base_lemma)
+                admission: Dict[str, Any] = negation_admission(
+                    negative, lexical, lexical_rows[base_lemma], "VERB" if i in promote_to_verb else tok.pos_
+                )
+                if self._definition_database and admission["decision"] == "compose":
+                    selected = lexical.get("selected_record") or {}
+                    known = selected.get("assignments", {})
+                    candidate = admission["primitives"]
+                    if any(candidate.get(bank, 0) != value for bank, value in known.items()):
+                        admission.update(
+                            decision="preserve", code="selected_definition_assignment_conflict", primitives=None
+                        )
+                    elif selected and any(
+                        value not in selected["domains"].get(bank, []) for bank, value in candidate.items()
+                    ):
+                        admission.update(
+                            decision="preserve", code="selected_definition_domain_conflict", primitives=None
+                        )
+                negative = {**negative, "admission": admission}
+                if admission["decision"] == "compose":
+                    word_prims = admission["primitives"]
+
+            if i in clause_coords:
+                comp_meta = {"comp_primitive": "COMP_AND", "comp_operation": "CLAUSE_COORD", "comp_arity": 2}
+            if i in implies_positions:
+                comp_meta = {"comp_primitive": "COMP_IF", "comp_operation": "IMPLIES", "comp_arity": 2}
+            if i in temporal_positions:
+                comp_meta = {"comp_primitive": "COMP_WHEN", "comp_operation": "TEMPORAL", "comp_arity": 2}
+            head_operation = head_linker_operation(lemma, i == head_position)
+            if head_operation != "none":
+                primitive = {
+                    "CONTRAST": "COMP_BUT",
+                    "CONSEQUENCE": "COMP_SO",
+                    "CLAUSE_COORD": "COMP_AND",
+                    "TEMPORAL": "COMP_WHEN",
+                }[head_operation]
+                comp_meta = {"comp_primitive": primitive, "comp_operation": head_operation, "comp_arity": 2}
+
+            # DYNAMIC: Replace core syntactic role primitives based on dependency parsing
+            # This ensures argument order matters (dog as SUBJ vs dog as OBJ)
+            # The dynamic primitives OVERRIDE static ones for core roles
+            dynamic_sent_prims = self._extract_dynamic_primitives(tok, syn_map)
+
+            # Remove static core role primitives - dynamic parsing is authoritative
+            core_roles = {"SYN_SUBJ", "SYN_OBJ", "SYN_PRED", "SYN_COMPL"}
+            sent_prims = {k: v for k, v in sent_prims.items() if k not in core_roles}
+            sent_prims = {**sent_prims, **dynamic_sent_prims}
+
+            # Encode vectors
+            word_vec = (
+                self._encode_definition_primitives(word_prims, lexical.get("hierarchy", {}))
+                if self._definition_database
+                else self._encode_word_primitives(word_prims)
+            )
+            sent_vec = self._encode_sent_primitives(sent_prims)
+
+            # Compose: word_full = bundle([word_vec, sent_vec])
+            # Using bundle() instead of bind() to preserve both signals
+            # (bind() destroys signal when word-scale and sent-scale are orthogonal)
+            if word_vec.nnz > 0 and sent_vec.nnz > 0:
+                full_vec = bundle([word_vec, sent_vec])
+            elif word_vec.nnz > 0:
+                full_vec = word_vec
+            elif sent_vec.nnz > 0:
+                full_vec = sent_vec
+            else:
+                full_vec = SparseVector.zeros(self.word_basis.dimension)
+
+            # Create token trace
+            is_operator = bool(comp_meta.get("comp_primitive"))
+            token_trace = TokenTrace(
+                token=tok.text,
+                lemma=tok.lemma_.lower(),
+                pos=(contextual_pos or ("VERB" if i in promote_to_verb else tok.pos_)),
+                position=i,
+                word_primitives=word_prims,
+                sent_primitives=sent_prims,
+                word_vec_nnz=word_vec.nnz,
+                sent_vec_nnz=sent_vec.nnz,
+                full_vec_nnz=full_vec.nnz,
+                is_operator=is_operator,
+                comp_primitive=comp_meta.get("comp_primitive"),
+                comp_operation=comp_meta.get("comp_operation"),
+                comp_arity=comp_meta.get("comp_arity", 0),
+                lexicon_status={"primes": "found", "no_primes": "found", "no_row": "unknown", "unread": "unread"}[
+                    lexical["state"]
+                ],
+                lexical_evidence=lexical,
+                negation_evidence=negative,
+                operator_tier=(
+                    "discourse"
+                    if head_operation != "none"
+                    else "clause"
+                    if is_operator
+                    and (is_clause_linking(comp_meta.get("comp_operation") or "") or comp_meta.get("comp_arity") == 1)
+                    else "phrase"
+                )
+                if is_operator
+                else None,
+            )
+            token_traces.append(token_trace)
+            token_vectors.append((i, full_vec, comp_meta))
+
+            if is_operator:
+                operator_indices.append(i)
+
+        # Sentence degree is grammatical evidence even when lexical senses
+        # abstain. It never creates a base or selects a candidate definition.
+        from GSE.symbolic.expression import bind_degree_modifiers
+
+        bind_degree_modifiers(token_traces)
+        for token in token_traces:
+            if not token.degree and not token.degree_modifier:
+                continue
+            primitives = token.word_primitives
+            if token.degree_modifier and not self._definition_database:
+                primitives = {}
+                token.word_primitives = primitives
+            hierarchy = dict(token.lexical_evidence.get("hierarchy", {}))
+            bases = [bank for bank, value in primitives.items() if bank in BIPOLAR_PRIMITIVES and value]
+            if token.degree and len(bases) == 1:
+                target = bases[0]
+                if self._definition_database:
+                    hierarchy[target] = hierarchy.get(target, 0) + token.degree["level"]
+                else:
+                    level = primitives.get("HIER_PLUS", 0) - primitives.get("HIER_MINUS", 0) + token.degree["level"]
+                    primitives = {
+                        key: value for key, value in primitives.items() if key not in {"HIER_PLUS", "HIER_MINUS"}
+                    }
+                    if level:
+                        primitives["HIER_PLUS" if level > 0 else "HIER_MINUS"] = abs(level)
+                    token.word_primitives = primitives
+            word_vec = (
+                self._encode_definition_primitives(primitives, hierarchy)
+                if self._definition_database
+                else self._encode_word_primitives(primitives)
+            )
+            sent_vec = self._encode_sent_primitives(token.sent_primitives)
+            components = [vector for vector in (word_vec, sent_vec) if vector.nnz]
+            full_vec = bundle(components) if components else SparseVector.zeros(self.word_basis.dimension)
+            token.word_vec_nnz = word_vec.nnz
+            token.sent_vec_nnz = sent_vec.nnz
+            token.full_vec_nnz = full_vec.nnz
+            position, _, metadata = token_vectors[token.position]
+            token_vectors[token.position] = (position, full_vec, metadata)
+
+        # 3. Plan clauses (sequential because/so splits + embedded relative
+        #    clauses), then resolve operators within their innermost clause.
+        n_tokens = len(token_vectors)
+        op_meta = [(op_idx, token_vectors[op_idx][2].get("comp_operation")) for op_idx in operator_indices]
+        sequential = self._segment_clauses(token_traces, op_meta)
+        embedded = self._detect_embedded_clauses(doc, promote_to_verb)
+
+        # An embedded clause forces clause planning even without a sequential
+        # boundary: synthesize a single implicit main clause to hang it on.
+        if embedded and not sequential:
+            sequential = [(0, 0, n_tokens)]
+
+        # Unify into planned spans: (clause_id, start, end, kind, parent_id,
+        # attaches_to). Sequential clauses keep ids [0..k); embedded follow.
+        planned: List[Tuple[int, int, int, str, Optional[int], Optional[int]]] = [
+            (cid, s, e, "sequential", None, None) for cid, s, e in sequential
+        ]
+        next_id = len(sequential)
+        gap_roles: Dict[int, Optional[str]] = {}  # clause_id → relativizer gap role
+        for s, e, kind, attaches, gap_role in embedded:
+            parent = next(
+                (cid for cid, ps, pe, k, _, _ in planned if k == "sequential" and ps <= attaches < pe),
+                0,
+            )
+            # An embedded clause must not CROSS a sequential (clause-linking)
+            # boundary: spaCy sometimes spans an xcomp/relcl across a coordination
+            # or because/so split (e.g. it reads "Duncan and Macduff killed Macbeth"
+            # as an xcomp of "murdered"). If start and end-1 fall in different
+            # sequential clauses, drop the bogus embedding — the clause-linker owns it.
+            seq_start = next((cid for cid, ps, pe, k, _, _ in planned if k == "sequential" and ps <= s < pe), None)
+            seq_end = next((cid for cid, ps, pe, k, _, _ in planned if k == "sequential" and ps <= e - 1 < pe), None)
+            if seq_start is not None and seq_start != seq_end:
+                continue
+            # A complement whose clause sits in a *different* sequential clause
+            # than its matrix verb is really a so/because-linked clause (spaCy
+            # tags the consequence verb as ccomp); the clause-linker owns it.
+            if kind == "complement":
+                span_clause = next(
+                    (cid for cid, ps, pe, k, _, _ in planned if k == "sequential" and ps <= s < pe),
+                    parent,
+                )
+                if span_clause != parent:
+                    continue
+            planned.append((next_id, s, e, kind, parent, attaches))
+            gap_roles[next_id] = gap_role
+            next_id += 1
+
+        def _innermost_of(pos: int) -> Optional[tuple]:
+            """Smallest planned span containing pos (embedded beats parent)."""
+            best = None
+            for span in planned:
+                _, s, e, _, _, _ = span
+                if s <= pos < e and (best is None or (e - s) < (best[2] - best[1])):
+                    best = span
+            return best
+
+        def _sequential_of(pos: int) -> Optional[Tuple[int, int, int]]:
+            for cid, s, e in sequential:
+                if s <= pos < e:
+                    return (cid, s, e)
+            return None
+
+        # Token positions inside any embedded clause — kept out of a parent
+        # operator's arguments (but an operator inside the embedded clause keeps
+        # its own tokens).
+        embedded_tokens_by_clause: Dict[int, set] = {
+            cid: set(range(s, e)) for cid, s, e, k, _, _ in planned if k != "sequential"
+        }
+        all_embedded_tokens = set().union(*embedded_tokens_by_clause.values()) if embedded_tokens_by_clause else set()
+
+        operator_traces: List[OperatorTrace] = []
+        operator_results: List[SparseVector] = []
+        op_trace_index: Dict[int, int] = {}  # op_idx → index in operator_traces
+        op_clause: Dict[int, int] = {}  # op_idx → innermost clause_id
+
+        for op_idx in operator_indices:
+            _, _, comp_meta = token_vectors[op_idx]
+            operation = comp_meta.get("comp_operation")
+            arg1_range: Optional[Tuple[int, int]] = None
+            arg2_range: Optional[Tuple[int, int]] = None
+
+            linking = (
+                operation
+                and is_clause_linking(operation)
+                and head_linker_operation(token_traces[op_idx].lemma, op_idx == head_position) == "none"
+            )
+            if planned and linking:
+                # Operands are the sequential clauses left/right of the
+                # connective — whole clauses, not raw token spans.
+                left = _sequential_of(op_idx - 1)
+                right = _sequential_of(op_idx + 1)
+                if left:
+                    arg1_range = (left[1], left[2])
+                if right:
+                    arg2_range = (right[1], right[2])
+            this_clause_id: Optional[int] = None
+            if planned:
+                inner = _innermost_of(op_idx)
+                if inner:
+                    this_clause_id = inner[0]
+            if planned and not linking:
+                # Within-clause operator: restrict args to its innermost clause
+                # (so a THAN inside a relative clause stays inside it).
+                c = _innermost_of(op_idx)
+                if c:
+                    op_clause[op_idx] = c[0]
+                    arg1_range = (c[1], op_idx)
+                    arg2_range = (op_idx + 1, c[2])
+
+            # Keep embedded-clause tokens out of this operator's args, except
+            # the operator's own embedded clause.
+            excluded = set(all_embedded_tokens)
+            if this_clause_id in embedded_tokens_by_clause:
+                excluded -= embedded_tokens_by_clause[this_clause_id]
+
+            op_trace, result_vec = self._resolve_operator(
+                op_idx,
+                comp_meta,
+                token_vectors,
+                token_traces,
+                arg1_range,
+                arg2_range,
+                excluded,
+            )
+            if op_trace:
+                op_trace_index[op_idx] = len(operator_traces)
+                operator_traces.append(op_trace)
+                if result_vec and result_vec.nnz > 0:
+                    operator_results.append(result_vec)
+
+        # Build the clause spans for the trace (only when actually planned).
+        clauses: List[ClauseSpan] = []
+        for cid, s, e, kind, parent_id, attaches in planned:
+            within = [
+                op_trace_index[oi] for oi in operator_indices if oi in op_trace_index and op_clause.get(oi) == cid
+            ]
+            clauses.append(
+                ClauseSpan(
+                    clause_id=cid,
+                    token_start=s,
+                    token_end=e,
+                    operator_indices=within,
+                    kind=kind,
+                    parent_id=parent_id,
+                    attaches_to_token=attaches,
+                    gap_role=gap_roles.get(cid),
+                )
+            )
+
+        # 4. Position encoding + bundling
+        components: List[SparseVector] = []
+
+        for i, (pos, full_vec, _) in enumerate(token_vectors):
+            if full_vec.nnz > 0:
+                # Apply positional permutation
+                positioned = permute(full_vec, shift=pos * 100)
+                components.append(positioned)
+
+        # Add operator results
+        components.extend(operator_results)
+
+        # Bundle all components
+        if components:
+            sentence_vec = bundle(components)
+        else:
+            sentence_vec = SparseVector.zeros(self.word_basis.dimension)
+
+        # 5. Compute primitive activations
+        word_activations = self._compute_primitive_activations(sentence_vec, self.word_basis)
+        sent_activations = self._compute_primitive_activations(sentence_vec, self.sent_basis)
+
+        # 6. Compute vector hash
+        vector_hash = self._hash_vector(sentence_vec)
+
+        # 7. Create trace
+        trace = OperationTrace(
+            input_text=text,
+            tokens=token_traces,
+            operators=operator_traces,
+            final_nnz=sentence_vec.nnz,
+            sparsity=sentence_vec.sparsity,
+            word_primitive_activations=word_activations,
+            sent_primitive_activations=sent_activations,
+            vector_hash=vector_hash,
+            clauses=clauses,
+        )
+        trace.vector = sentence_vec
+
+        return trace
+def _lookup_lexeme(
+        self,
+        lemma: str,
+        pos: str | None = None,
+        *,
+        entry_id: Optional[str] = None,
+        lexical_evidence: Dict | None = None,
+    ) -> Tuple[Dict[str, int], Dict[str, int], CompositionalMetadata]:
+        """
+        Look up word-scale and sentence-scale primitives for a lemma.
+
+        Fallback behavior (strict=False): Returns empty content for OOV words.
+        Strict behavior (strict=True): Raises OOVError for unrecognized words.
+        Versioned dictionaries obtain registered grammatical operators separately
+        from lexical definition selection; their content can remain unresolved.
+        """
+        if self._definition_database:
+            from GSE.curation.lexicon_builder.storage import runtime_lookup
+
+            primitive = f"COMP_{lemma.upper()}"
+            registered = COMP_METADATA.get(primitive)
+            grammar: CompositionalMetadata = (
+                {
+                    "comp_primitive": primitive,
+                    "comp_arity": cast(int, registered["arity"]),
+                    "comp_operation": cast(str, registered["operation"]),
+                }
+                if registered is not None
+                else {}
+            )
+            # A contextual refusal must not be undone by a second, narrower
+            # lookup (especially when storage has only one same-spelling row).
+            selection = (
+                {
+                    "code": lexical_evidence["selection_status"],
+                    "selected": lexical_evidence.get("selected_record"),
+                }
+                if lexical_evidence is not None
+                else runtime_lookup(self.conn, lemma.lower(), entry_id)
+            )
+            if selection["code"] != "IDENTIFIED":
+                if selection["code"] == "NOT_FOUND" and self.strict and not grammar:
+                    raise OOVError(lemma)
+                return {}, {}, grammar
+            entry = selection["selected"]
+            word_prims = {bank: value for bank, value in entry["assignments"].items() if value != 0}
+            sent_prims = dict(
+                self.conn.execute(
+                    "SELECT primitive,value FROM sentence_primitive_values WHERE lexeme_id=? AND value!=0",
+                    (entry["id"],),
+                ).fetchall()
+            )
+            comp_meta: CompositionalMetadata = (
+                {
+                    "comp_primitive": entry["comp_primitive"],
+                    "comp_arity": entry["comp_arity"] or 0,
+                    "comp_operation": entry["comp_operation"],
+                }
+                if entry.get("comp_primitive")
+                else {}
+            )
+            if grammar and comp_meta and grammar != comp_meta:
+                raise ValueError("GRAMMATICAL_OPERATOR_METADATA_MISMATCH")
+            return word_prims, sent_prims, grammar or comp_meta
+
+        if entry_id is not None:
+            raise ValueError("DEFINITION_SELECTION_REQUIRES_VERSIONED_DATABASE")
+
+        # Legacy active database: the trace and vector must consume the same selected source row.
+        evidence = lexical_evidence if lexical_evidence is not None else self.lexical_lookup(lemma, pos)
+        if evidence["state"] == "unread":
+            if self.strict:
+                raise EncodingError(lemma, evidence.get("reason", "lexical_source_unread"))
+            return {}, {}, {}
+        selected = evidence["selected_record"]
+        if selected is None:
+            if self.strict:
+                raise OOVError(lemma)
+            return {}, {}, {}  # Graceful fallback: OOV word contributes nothing
+
+        lexeme_id = selected["id"]
+        comp_prim = selected.get("comp_primitive")
+        comp_arity = selected.get("comp_arity")
+        comp_op = selected.get("comp_operation")
+        comp_meta: CompositionalMetadata = (
+            {
+                "comp_primitive": comp_prim,
+                "comp_arity": comp_arity or 0,
+                "comp_operation": comp_op,
+            }
+            if comp_prim
+            else {}
+        )
+
+        # Get word-scale primitives
+        self.cursor.execute(
+            """
+            SELECT primitive, value FROM primitive_values
+            WHERE lexeme_id = ? AND value != 0
+        """,
+            (lexeme_id,),
+        )
+        word_prims = {row[0]: row[1] for row in self.cursor.fetchall()}
+
+        # Get sentence-scale primitives
+        self.cursor.execute(
+            """
+            SELECT primitive, value FROM sentence_primitive_values
+            WHERE lexeme_id = ? AND value != 0
+        """,
+            (lexeme_id,),
+        )
+        sent_prims = {row[0]: row[1] for row in self.cursor.fetchall()}
+
+        return word_prims, sent_prims, comp_meta
+
+FILE tests/test_runtime_native_identity_controls.py
+"""Actual activated resource, native parser and public encoder identity witnesses."""
+
+import pytest
+
+from GSE.api import GSEEncoder
+
+
+@pytest.fixture(scope="module")
+def encoder():
+    with GSEEncoder() as instance:
+        instance.conn.execute("PRAGMA query_only=ON")
+        yield instance
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "He is an entity.",
+        "He is a thing.",
+        "He is an organism.",
+        "He is an animal.",
+        "He is a person.",
+        "He is happy.",
+        "He studies helium.",
+        "He discusses gas.",
+        "He is not a gas.",
+        "He is an inert gas?",
+    ],
+)
+def test_broad_ancestor_or_unasserted_type_cannot_veto_person_reference(encoder, text):
+    token = encoder.encode(text).tokens[0]
+    assert token.lexical_evidence["selected_record"]["entry_id"] == "gse_closed_class:pronoun:he"
+    assert token.word_primitives == {"SOMEONE": 1}
+
+
+def test_exact_native_context_is_consumed_not_dropped_after_pos_challenge(encoder):
+    token = encoder.encode("He is an inert gas.").tokens[0]
+    evidence = token.lexical_evidence
+    assert evidence["selected_record"]["entry_id"] == "wordnet:he:helium.n.01"
+    assert evidence["reading_eligibility"]["code"] == "CONTEXTUAL_DEFINITION_SELECTED"
+    assert evidence["contextual_grounding"]["code"] == "EXACT_WORDNET_SENSE"
+    assert token.pos == "NOUN"  # prevents subsequent pronoun recency binding
+    assert token.word_primitives == {k: v for k, v in evidence["selected_record"]["assignments"].items() if v}
+    assert evidence["domains"] == encoder.lookup_definition("wordnet:he:helium.n.01")["selected"]["domains"]
+    assert evidence["domains"]["WANT"] == [-1, 0, 1]
+
+
+def test_native_expansion_name_and_type_thread_identify_symbol_not_person(encoder):
+    token = next(t for t in encoder.encode("The chemical symbol He denotes helium.").tokens if t.token == "He")
+    evidence = token.lexical_evidence
+    assert evidence["selected_record"]["entry_id"] == "wordnet:he:helium.n.01"
+    witness = evidence["contextual_grounding"]["native_synonym_support"]["wordnet:he:helium.n.01"]
+    assert witness["synset"] == "helium.n.01"
+    assert witness["context_entry_ids"] == {"helium": "wordnet:helium:helium.n.01"}
+    assert token.word_primitives.get("SOMEONE") != 1
+    assert evidence["domains"]["WANT"] == [-1, 0, 1]
+
+
+@pytest.mark.parametrize("text", ["The chemical symbol He was discussed."])
+def test_specific_unsupported_reading_remains_named_abstention_not_person(encoder, text):
+    token = next(t for t in encoder.encode(text).tokens if t.token == "He")
+    assert token.lexical_evidence["selection_status"] == "CONFLICT"
+    assert token.lexical_evidence["selected_record"] is None
+    assert token.lexical_evidence["reading_eligibility"]["code"] == "GRAMMATICAL_CONTEXT_CONFLICT"
+    assert token.word_primitives == {} and token.word_vec_nnz == 0
+
+
+def test_complete_asserted_native_type_is_independent_of_accidental_verbal_parse(encoder):
+    token = encoder.encode("He is a noble gas.").tokens[0]
+    assert token.lexical_evidence["selected_record"]["entry_id"] == "wordnet:he:helium.n.01"
+    assert token.lexical_evidence["contextual_grounding"]["witness_kind"] == "ASSERTED_NATIVE_READING_TYPE"
+
+
+@pytest.mark.parametrize(
+    "text,lemma,entry,bank",
+    [
+        (
+            "The femur is the longest and thickest bone of the human skeleton.",
+            "femur",
+            "wordnet:femur:femur.n.01",
+            "BODY",
+        ),
+        ("The teacher is a person whose occupation is teaching.", "teacher", "wordnet:teacher:teacher.n.01", "SOMEONE"),
+    ],
+)
+def test_complete_native_definition_clause_identifies_occurrence_not_spelling(encoder, text, lemma, entry, bank):
+    token = next(t for t in encoder.encode(text).tokens if t.lemma == lemma)
+    assert token.lexical_evidence["selected_record"]["entry_id"] == entry
+    assert token.lexical_evidence["contextual_grounding"]["witness_kind"] == "WORDNET_DEFINITION_CONSTRUCTION"
+    assert token.word_primitives[bank] == 1
+    assert token.lexical_evidence["domains"]["TOUCH"] == [-1, 0, 1]
+
+
+@pytest.mark.parametrize(
+    "text,lemma",
+    [
+        ("The femur is the longest bone.", "femur"),
+        ("The femur is not the longest and thickest bone of the human skeleton.", "femur"),
+        ("The femur is the longest and thickest bone of the human skeleton?", "femur"),
+        ("The teacher is a person whose occupation is teaching or nursing.", "teacher"),
+        ("The teacher is not a person whose occupation is teaching.", "teacher"),
+    ],
+)
+def test_partial_negated_queried_or_disjunctive_definition_does_not_license_exact_identity(encoder, text, lemma):
+    token = next(t for t in encoder.encode(text).tokens if t.lemma == lemma)
+    assert token.lexical_evidence["selected_record"] is None
+
+
+@pytest.mark.parametrize(
+    "text, lemma, entry, bank",
+    [
+        ("I want to go home now.", "want", "desire.v.01", "WANT"),
+        ("I think he is very smart.", "think", "think.v.01", "THINK"),
+        ("I know that the President lied to the people.", "know", "know.v.01", "KNOW"),
+        ("You have to be a good observer to see all the details.", "see", "see.v.01", "SEE"),
+        ("She feels resentful.", "feel", "feel.v.01", "FEEL"),
+        ("He said that he wanted to marry her.", "say", "state.v.01", "SAY"),
+        ("What is happening?", "happen", "happen.v.01", "HAPPEN"),
+        ("He moved his hand slightly to the right.", "move", "move.v.03", "MOVE"),
+    ],
+)
+def test_native_predicate_constructions_are_reachable_without_first_sense_selection(encoder, text, lemma, entry, bank):
+    token = next(t for t in encoder.encode(text).tokens if t.lemma == lemma)
+    proof = token.lexical_evidence["contextual_grounding"]
+    assert proof["code"] == "EXACT_WORDNET_SENSE"
+    assert proof["witness_kind"] == "WORDNET_NATIVE_EXAMPLE_CONSTRUCTION"
+    assert proof["native_examples"] and proof["eligible_pos"] == "VERB"
+    assert token.lexical_evidence["selected_record"]["entry_id"] == f"wordnet:{lemma}:{entry}"
+    assert token.word_primitives[bank] == 1
+    assert token.lexical_evidence["domains"]["TOUCH"] == [-1, 0, 1]
+
+
+@pytest.mark.parametrize(
+    "text, lemma",
+    [
+        ("I want something.", "want"),
+        ("I think about something.", "think"),
+        ("I hear a sound.", "hear"),
+        ("I feel pain.", "feel"),
+        ("I want to go home now or stay here.", "want"),
+        ("I do not want to go home now.", "want"),
+    ],
+)
+def test_pos_or_partial_native_example_cannot_force_a_predicate_reading(encoder, text, lemma):
+    trace = encoder.encode(text)
+    token = next(t for t in trace.tokens if t.lemma == lemma)
+    assert token.lexical_evidence["selection_status"] == "AMBIGUOUS"
+    assert token.lexical_evidence["selected_record"] is None
+    assert token.word_primitives == {}
+
+
+FILE AGENTS.md
+# GSE
+
+## Docs are not ground truth.
+
+This repo is in active drift. `docs/THEORY.md` is known-invalid — do not use
+it as a source. Treat the other planning docs as unverified. Authoritative
+sources: Rohan, then the code. When sources conflict, surface it.
+
+## The statement healer is biology-shaped (design framing).
+
+The Genesis-facing statement healer (the voice-mode repair layer that produces clean
+statements) is modeled on DNA error-correction + gene regulation — biology as a tested
+reference design, not loose analogy. A sentence is a **coding sequence**: a *coding-sequence
+repair* re-reads a mis-parsed ORF under the structural law. A correct read's driver is often
+in the bounded **cis-regulatory neighborhood** (~±2 lines — `resolve_document` /
+`encode_document_utterances`), sourced by a *regulatory repair*. **Intervention scope (one
+clean statement) ≠ signal scope (±2 lines)**; meaning is in the combination of local +
+regional frames. Full: Genesis `docs/ARCHITECTURE.md` + memory `project_l2_voice_modes_flywheel`.
+
+## The cassette layer (additive; `GSE/cassettes/`).
+
+Domain-portable experts that resolve ONE in-frame uncertainty using OUT-OF-frame multi-scale context —
+**GSE is the player, a cassette is the tape**; the single-sentence scale is the ceiling, cassettes are
+contingent on the higher scales. Built: `MultiScaleDoc` (four scales, composed once) + `Cassette` base
+(SymbolicSpellCheck spine) + `entity_identity` / `relational_identity` / `person_validation` +
+`CassetteDeck` + `cheatsheet` (ride-along + span-aware `make_merge_repair` at the
+`from_document(repair=)` seam). Non-negotiable laws: **compose existing tools (read_fold / grounding /
+facets), never re-ground; confidence = CONVERGENCE; never destroy a correct value; validate
+resolve-or-abstain across the WHOLE corpus.** Purely additive — no existing GSE source is modified.
+Full: `~/Genesis/docs/CASSETTE_ARCHITECTURE.md` + `CASSETTE_ARCHITECTURE_DESIGN_BRIEF.md`.
+
+## Design constraints
+
+- **Grounding goes through the existing pipeline.** A new grounding source is a parser exposing `to_primitives`, one
+  entry in `integrator.load_all_sources()` and one scope in `SOURCE_PRIMITIVE_SCOPE`, not a new grounding module, a
+  flat word→primitive lookup or a similarity score.
+- **The lexicon is definitional only, over a closed basis.** A word's meaning is a ternary sign {-1, 0, +1} over the
+  build's fixed set of primes; a component not expressible that way is not lexical meaning, so `dog` and `cat` may be
+  near-identical, correctly. World facts and world-affect belong to sparse-wiki, the orthogonal world leg.
+- **No cosine resolver.** Meaning is discrete structure (IS-A genealogy, exact sign-match, resolved keys); GSE's own
+  resolver is `grounding._select_by_coherence` with `_jaccard` over type threads. The HDC `sense_resonance` cosine is
+  a guarded secondary re-ranker only.
+- **DeepNSM is silver: anchors and evaluation only.** Its text is LLM-generated and CC-BY-NC-SA 4.0, so it is never
+  baked into the shipped lexicon (Rohan's decision, 2026-06-19).
+

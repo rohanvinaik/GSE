@@ -1,0 +1,114 @@
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-complete-operation-cases-v1.json
+
+### GSE/symbolic/genealogy_store.py
+
+### GSE/symbolic/propositions.py
+class Proposition:
+    """One predicate a tree states, with its scopes, outermost first; none means it is stated outright."""
+
+    node: Any
+    scopes: Tuple[Scope, ...] = ()
+    state: str = "read"
+    reason: str = ""
+
+    @property
+    def kind(self) -> str:
+        return type(self.node).__name__
+
+    @property
+    def status(self) -> str:
+        return proposition_status([scope.mode for scope in self.scopes])
+
+### GSE/symbolic/claims.py
+class Polarity:
+    state: str
+    clause_sign: int | None
+    lexical_sign: int | None
+    sign: int | None
+    base: str | None = None
+    reason: str = ""
+class ClaimKey:
+    state: str
+    key: tuple | None
+    polarity: Polarity
+    projection: str
+    reason: str = ""
+
+### GSE/symbolic/inference.py
+class Derivation:
+    """The verdict of a query, with its proof chain."""
+
+    holds: bool
+    relation: str  # "is_a" | "greater"
+    query: Tuple[str, str]  # (x, y)
+    chain: Tuple[str, ...]  # the derivation path; () when not entailed
+    axis: Optional[str] = None
+    source_ids: Tuple[str, ...] = ()
+
+    @property
+    def state(self) -> str:
+        """Named decision; ``holds`` remains the compatibility projection."""
+        return "entailed" if self.holds else "not_entailed"
+
+    def __str__(self) -> str:
+        q = f"{self.relation}({self.query[0]}, {self.query[1]})"
+        if self.holds:
+            return f"{q}  =  TRUE     ⊢  {' → '.join(self.chain)}"
+        return f"{q}  =  not entailed"
+
+### GSE/discourse/profile.py
+class TextProfile:
+    """The aggregated feature profile of a text — the SoM router's input."""
+
+    n_sentences: int
+    operator_mix: Dict[str, float | None]
+    complexity: Dict[str, float | None]
+    coherence: Dict[str, float | None]
+    affect: Dict[str, float | None]
+    register: Dict[str, float | None]
+    primitives: Dict[str, float | None]
+    version: str = "GSE.profile/2"
+    state: str = "unread"
+    n_read: int = 0
+    failures: List[dict] = field(default_factory=list)
+    populations: Dict[str, dict] = field(default_factory=dict)
+    operations: Dict[str, int] = field(default_factory=dict)
+    embedding_depths: List[int] = field(default_factory=list)
+    structural_loss: List[dict] = field(default_factory=list)
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "version": self.version,
+            "state": self.state,
+            "n_sentences": self.n_sentences,
+            "n_read": self.n_read,
+            "n_failed": len(self.failures),
+            "failures": self.failures,
+            "populations": self.populations,
+            "operations": self.operations,
+            "embedding_depths": self.embedding_depths,
+            "structural_loss": self.structural_loss,
+            "operator_mix": self.operator_mix,
+            "complexity": self.complexity,
+            "coherence": self.coherence,
+            "affect": self.affect,
+            "register": self.register,
+            "primitives": self.primitives,
+        }
+
+    def vector(self) -> List[float]:
+        """Compatibility alias for :meth:`legacy_vector` (layout GSE.profile/1).
+
+        This projection fills missing measurements with zero for historical
+        classifiers only; it must not be used as an auditable reading record.
+        """
+        return self.legacy_vector()
+
+    def legacy_vector(self, missing: float = 0.0) -> List[float]:
+        """Explicit fixed-layout projection; unsupported operations are omitted."""
+        out: List[float] = []
+        for bank in (self.operator_mix, self.complexity, self.coherence, self.affect, self.register, self.primitives):
+            for key in sorted(bank):
+                value = bank[key]
+                out.append(missing if value is None else value)
+        return out

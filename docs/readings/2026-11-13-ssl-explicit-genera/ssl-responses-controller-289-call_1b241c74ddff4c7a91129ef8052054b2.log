@@ -1,0 +1,259 @@
+
+FILE GSE/curation/lexicon_builder/specification.py
+[('measure_space', 26, 86), ('measure_resolution', 89, 91), ('space_delta', 94, 114), ('normalized_spelling', 117, 119), ('frequency_buckets', 122, 133), ('_aggregate', 136, 176), ('measure_dictionary', 179, 221), ('compare_measurements', 224, 248)]
+"""Count the actual factorized specification space, alongside lexical coverage.
+
+The existing solver supplies exhaustive component witness counts. Marginal
+domains alone cannot recover those counts. This module never supplies signs,
+approves rules, or treats an unfinished search as an empty/settled space.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import math
+import sqlite3
+import unicodedata
+from collections import Counter, defaultdict
+from contextlib import closing
+from pathlib import Path
+
+from GSE.namespace import identity_form
+
+FORMAT = "GSE.specification-space/1"
+CONTRACT = "GSE.ssl-construction/2"
+BUCKETS = ("1-500", "501-1500", "1501-5000", "5001+", "unranked")
+
+
+def measure_space(domains, trace, *, conflicted=False):
+    """Count complete bank assignments from disjoint, exhaustively solved factors."""
+    if not isinstance(domains, dict) or not domains:
+        raise ValueError("SPECIFICATION_DOMAINS_REQUIRED")
+    for name, values in domains.items():
+        if not isinstance(name, str) or not name or not isinstance(values, (list, tuple, set, frozenset)):
+            raise ValueError("INVALID_SPECIFICATION_DOMAIN")
+        if any(type(value) is not int or value not in (-1, 0, 1) for value in values):
+            raise ValueError("INVALID_SPECIFICATION_TRIT")
+        if len(set(values)) != len(values):
+            raise ValueError("DUPLICATE_SPECIFICATION_TRIT")
+    conflict = conflicted or any(not values for values in domains.values())
+    filled = sum(len(values) == 1 for values in domains.values())
+    result = {
+        "code": "CONFLICT" if conflict else "EXACT",
+        "banks": len(domains),
+        "filled_banks": filled,
+        "explicit_zero_banks": sum(list(values) == [0] for values in domains.values()),
+        "unresolved_banks": sum(len(values) > 1 for values in domains.values()),
+        "possible_assignments": None,
+        "specification_bits": None,
+        "domain_potential_bits": None if conflict else math.fsum(math.log2(len(v)) for v in domains.values()),
+        "upper_bound_bits": None,
+        "limited_components": 0,
+    }
+    if conflict:
+        result["possible_assignments"] = 0
+        return result
+    scopes = [row for row in trace if row.get("kind") == "INFERENCE_SCOPE"]
+    if len(scopes) != 1:
+        result["code"] = "MISSING_SOLVER_CERTIFICATE"
+        result["upper_bound_bits"] = result["domain_potential_bits"]
+        return result
+    covered, factors = set(), []
+    limited = 0
+    for receipt in trace:
+        if receipt.get("kind") not in ("JOINT_CHECK", "SOLVER_LIMIT"):
+            continue
+        names = receipt["banks"]
+        if len(set(names)) != len(names) or not set(names) <= domains.keys() or covered.intersection(names):
+            raise ValueError("SPECIFICATION_FACTORS_NOT_DISJOINT")
+        covered.update(names)
+        upper = math.prod(len(domains[name]) for name in names)
+        if receipt["kind"] == "SOLVER_LIMIT":
+            limited += 1
+            factors.append(upper)
+        else:
+            count = receipt["witnesses"]
+            if type(count) is not int or not 1 <= count <= upper:
+                raise ValueError("INVALID_SPECIFICATION_WITNESS_COUNT")
+            factors.append(count)
+    factors.extend(len(values) for name, values in domains.items() if name not in covered)
+    count = math.prod(factors)
+    result["upper_bound_bits"] = math.log2(count)
+    result["limited_components"] = limited
+    if limited or not scopes[0].get("complete_search") or scopes[0].get("satisfiability") != "SATISFIABLE":
+        result["code"] = "SOLVER_LIMIT" if limited else "INCOMPLETE_SOLVER_CERTIFICATE"
+    else:
+        result["possible_assignments"] = count
+        result["specification_bits"] = math.log2(count)
+    return result
+
+
+def measure_resolution(resolution):
+    """Consume the production resolver's domains and proof, without re-solving."""
+    return measure_space(resolution.domains, resolution.trace, conflicted=resolution.code == "CONFLICT")
+
+
+def space_delta(before, after):
+    """Keep exact contraction, marginal narrowing, reopening and limits distinct."""
+    exact = before["code"] == after["code"] == "EXACT"
+    bits = before["specification_bits"] - after["specification_bits"] if exact else None
+    return {
+        "code": "CONTRACTION"
+        if bits is not None and bits > 0
+        else "EXPANSION"
+        if bits is not None and bits < 0
+        else "UNCHANGED"
+        if exact
+        else "UNAVAILABLE",
+        "specification_gain_bits": bits,
+        "removed_assignments": before["possible_assignments"] - after["possible_assignments"] if exact else None,
+        "domain_potential_gain_bits": (
+            before["domain_potential_bits"] - after["domain_potential_bits"]
+            if before["domain_potential_bits"] is not None and after["domain_potential_bits"] is not None
+            else None
+        ),
+        "net_filled_banks": after["filled_banks"] - before["filled_banks"],
+    }
+
+
+def normalized_spelling(word):
+    """Share canonical spelling identity without claiming same-sense identity."""
+    return unicodedata.normalize("NFC", word).strip().casefold()
+
+
+def frequency_buckets(spellings, frequencies):
+    """Rank corpus spellings, retaining zero/absent-frequency words separately."""
+    words = {normalized_spelling(word) for word in spellings}
+    ranked = sorted(
+        (word for word in words if frequencies.get(word, 0) > 0), key=lambda word: (-frequencies[word], word)
+    )
+    result = dict.fromkeys(words, "unranked")
+    for rank, word in enumerate(ranked, 1):
+        result[word] = (
+            "1-500" if rank <= 500 else "501-1500" if rank <= 1500 else "1501-5000" if rank <= 5000 else "5001+"
+        )
+    return result
+
+
+def _aggregate(records):
+    counts = Counter(
+        dict.fromkeys(
+            ("definitions", "filled_banks", "explicit_zero_banks", "unresolved_banks", "banks", "limited_components"), 0
+        )
+    )
+    exact_bits, marginal, upper = [], [], []
+    spellings = defaultdict(lambda: [0, 0])
+    histogram = Counter()
+    for spelling, state in records:
+        counts["definitions"] += 1
+        counts[state["code"]] += 1
+        for key in ("filled_banks", "explicit_zero_banks", "unresolved_banks", "banks", "limited_components"):
+            counts[key] += state[key]
+        spellings[spelling][0] += state["unresolved_banks"]
+        spellings[spelling][1] += 1
+        if state["specification_bits"] is not None:
+            exact_bits.append(state["specification_bits"])
+            histogram[str(state["possible_assignments"])] += 1
+        if state["domain_potential_bits"] is not None:
+            marginal.append(state["domain_potential_bits"])
+        if state["upper_bound_bits"] is not None:
+            upper.append(state["upper_bound_bits"])
+    n = counts["definitions"]
+    return {
+        **dict(counts),
+        "spellings": len(spellings),
+        "mean_unresolved_banks_per_definition": counts["unresolved_banks"] / n if n else None,
+        "spelling_weighted_mean_unresolved_banks": math.fsum(total / senses for total, senses in spellings.values())
+        / len(spellings)
+        if spellings
+        else None,
+        "specification_bits": math.fsum(exact_bits) if counts["EXACT"] == n and n else None,
+        "exact_subset_specification_bits": math.fsum(exact_bits),
+        "exact_definitions": counts["EXACT"],
+        "domain_potential_bits": math.fsum(marginal),
+        "upper_bound_bits": math.fsum(upper) if len(upper) == n and n else None,
+        "assignment_count_histogram": dict(sorted(histogram.items(), key=lambda item: int(item[0]))),
+        "joint_assignment_count_representation": "PRODUCT_OF_EACH_HISTOGRAM_BASE_RAISED_TO_ITS_COUNT",
+        "joint_assignment_product_complete": counts["EXACT"] == n and n > 0,
+    }
+
+
+def measure_dictionary(path, frequency_path=None):
+    """Read one consistent whole-corpus snapshot; write no database or checkpoint."""
+    from .catalog import SENTENCE_DURATION_SOURCE_RECORD
+    from .completion import _priority_source
+
+    path = Path(path).resolve(strict=True)
+    frequency, frequencies = _priority_source("zipf", frequency_path)
+    groups = defaultdict(list)
+    cohort = hashlib.sha256()
+    with closing(sqlite3.connect(path.as_uri() + "?mode=ro", uri=True)) as conn:
+        conn.execute("BEGIN")
+        metadata = dict(conn.execute("SELECT key,value FROM builder_metadata WHERE key IN ('rule_version','format')"))
+        names = [
+            row[0]
+            for row in conn.execute(
+                "SELECT DISTINCT l.lemma FROM definition_states d JOIN lexemes l ON l.id=d.lexeme_id WHERE d.entry_id != ?",
+                (SENTENCE_DURATION_SOURCE_RECORD,),
+            )
+        ]
+        buckets = frequency_buckets(names, frequencies)
+        query = "SELECT d.entry_id,l.lemma,l.pos,d.code,d.domains,d.trace FROM definition_states d JOIN lexemes l ON l.id=d.lexeme_id ORDER BY d.entry_id"
+        for identity, lemma, pos, code, domains, trace in conn.execute(query):
+            cohort.update(json.dumps(identity, ensure_ascii=False).encode() + b"\n")
+            spelling = normalized_spelling(lemma)
+            state = measure_space(json.loads(domains), json.loads(trace), conflicted=code == "CONFLICT")
+            groups[
+                "sentence_constructions" if identity == SENTENCE_DURATION_SOURCE_RECORD else buckets[spelling]
+            ].append((spelling, state))
+    lexical = [record for name in BUCKETS for record in groups[name]]
+    return {
+        "format": FORMAT,
+        "contract": CONTRACT,
+        "path": str(path),
+        "cohort_sha256": cohort.hexdigest(),
+        "rule_version": metadata.get("rule_version"),
+        "frequency": frequency,
+        "frequency_semantics": "SPELLING_RANK_NOT_SENSE_FREQUENCY",
+        "count_semantics": "PRODUCT_OF_EXHAUSTIVE_COMPONENT_COUNTS_AND_FREE_DOMAINS",
+        "measurement_scope": "PERSISTED_SOLVER_RECEIPTS_NOT_A_NEW_SEMANTIC_VALIDATION",
+        "lexicon": _aggregate(lexical),
+        "buckets": {name: _aggregate(groups[name]) for name in BUCKETS},
+        "sentence_constructions": _aggregate(groups["sentence_constructions"]),
+    }
+
+
+def compare_measurements(before, after):
+    """Compare a fixed cohort and frequency policy; never reward a changed target."""
+    if any(
+        identity_form(before.get(key)) != identity_form(after.get(key))
+        for key in ("format", "contract", "cohort_sha256", "frequency")
+    ):
+        raise ValueError("SPECIFICATION_MEASUREMENT_POPULATION_CHANGED")
+
+    def difference(left, right):
+        if left["definitions"] != right["definitions"] or left["banks"] != right["banks"]:
+            raise ValueError("SPECIFICATION_MEASUREMENT_BASIS_CHANGED")
+        exact = left["specification_bits"] is not None and right["specification_bits"] is not None
+        return {
+            "net_filled_banks": right["filled_banks"] - left["filled_banks"],
+            "unresolved_banks_reduction": left["unresolved_banks"] - right["unresolved_banks"],
+            "specification_gain_bits": left["specification_bits"] - right["specification_bits"] if exact else None,
+            "domain_potential_gain_bits": left["domain_potential_bits"] - right["domain_potential_bits"],
+            "joint_count_comparison": "EXACT" if exact else "UNAVAILABLE",
+        }
+
+    return {
+        "lexicon": difference(before["lexicon"], after["lexicon"]),
+        "buckets": {name: difference(before["buckets"][name], after["buckets"][name]) for name in BUCKETS},
+        "sentence_constructions": difference(before["sentence_constructions"], after["sentence_constructions"]),
+    }
+
+
+FILE docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py
+[('basis_assertion', 61, 94), ('stage_basis_projection', 97, 187), ('RetainedTransport', 190, 257), ('prepare', 260, 308), ('reserved_reviewed_input', 311, 338), ('execute', 341, 625)]
+
+FILE docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_runtime_workload.py
+[('save', 23, 27), ('prefix', 30, 37), ('main', 40, 138)]
+ARTIFACT ssl-api-runtime-workload-freeze.json KEYS ['acceptance', 'authority', 'cohort_forms', 'coverage', 'final_holdout_policy', 'format', 'frequency_source', 'frozen_at', 'independent_corpus', 'operations', 'runtime_development_cases', 'token_demand_sha256']

@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label queued-gate-launch-health -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport subprocess,json\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-controller-postwriter-job.log','ssl-api-controller-integrated-gate-job.log','ssl-api-controller-postwriter-phase.json','ssl-api-controller-integrated-gate-phase.json']:\n p=n/name;print('FILE',name);print(p.read_text() if p.exists() else 'ABSENT')\nraw=subprocess.check_output(['ps','-axo','pid=,ppid=,etime=,%cpu=,rss='],text=True);rows=[l.split() for l in raw.splitlines()];roots={80478,87595,87780};keep=set(roots)\nwhile True:\n new={int(r[0]) for r in rows if int(r[1]) in keep}\n if new<=keep:break\n keep|=new\nprint('OWNED_NUMERIC_PROCESS_SUBTREE pid ppid elapsed cpu rss')\nfor r in rows:\n if int(r[0]) in keep: print(' '.join(r))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

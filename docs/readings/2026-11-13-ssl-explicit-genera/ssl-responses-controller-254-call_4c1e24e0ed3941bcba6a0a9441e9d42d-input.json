@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport json\np=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-runtime-checkpoint-demand.json','ssl-api-controller-postwriter-phase.json','ssl-api-controller-postwriter-exit.json','ssl-api-runtime-result.json','ssl-api-controller-basis-manifest.json']:\n q=p/name;print('\\nFILE',name)\n if not q.exists(): print('ABSENT'); continue\n x=json.loads(q.read_text()); print('keys',list(x))\n if name=='ssl-api-runtime-checkpoint-demand.json': print(json.dumps(x.get('primary_frame_runtime_access'),indent=2))\n elif name=='ssl-api-runtime-result.json': print(json.dumps({k:v for k,v in x.items() if k not in ['owned_files','artifacts','source_pins','evidence']},indent=2))\n else: print(json.dumps(x,indent=2))\nprint('BASIS FILES',[q.name for q in p.iterdir() if 'basis' in q.name and q.is_file()])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

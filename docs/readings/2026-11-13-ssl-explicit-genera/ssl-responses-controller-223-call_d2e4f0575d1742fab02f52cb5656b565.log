@@ -1,0 +1,225 @@
+
+FILE GSE/curation/lexicon_builder/validation.py
+from __future__ import annotations
+import hashlib
+import json
+import math
+import sqlite3
+from collections import Counter, defaultdict
+from dataclasses import asdict, fields
+from functools import lru_cache
+from pathlib import Path
+from typing import NamedTuple
+from GSE.namespace import current_id, identity_form
+from .definition_frames import NATIVE_FRAME_PREFIX, WIKTIONARY_ANATOMY_FRAME_PREFIX, native_noun_frames
+from .discovery import BankObservation
+from .engine import TERNARY, Assertion, DomainRestriction, Relation, propagate
+from .evidence import Definition, Observation, validate_assertion_competence
+from .foundation import BANKS, lexical_context
+from .model_receipts import read_model_receipts
+from .residual import build_request
+from .resolution import resolve_dictionary
+from .storage import DOMAIN_RESTRICTIONS_VERSION, VERSION
+def validate_build(path: str | Path) -> dict:
+    """Replay an existing build using a read-only SQLite connection.
+
+    Unsupported formats or unreadable global contracts raise named ValueError.
+    Malformed entry records produce REPLAY_MISMATCH receipts and are never silently
+    coerced into a valid assignment or default zero.
+    """
+    file = Path(path).expanduser().resolve()
+    if not file.is_file():
+        raise ValueError("BUILD_NOT_FOUND")
+    try:
+        conn = sqlite3.connect(file.as_uri() + "?mode=ro", uri=True)
+        try:
+            conn.row_factory = sqlite3.Row
+            conn.execute("PRAGMA query_only=ON")
+            conn.execute("BEGIN")
+            _schema(conn)
+            if current_id(_metadata(conn, "format")) != VERSION:
+                raise ValueError("UNSUPPORTED_BUILD_FORMAT")
+            relations = _relations(_metadata(conn, "relations"))
+            return _replay(conn, relations)
+        finally:
+            conn.close()
+    except sqlite3.DatabaseError as error:
+        raise ValueError("INVALID_BUILD_DATABASE") from error
+
+FILE GSE/curation/lexicon_builder/evaluation.py
+from __future__ import annotations
+import hashlib
+import json
+import math
+import sqlite3
+from collections import defaultdict
+from contextlib import closing
+from pathlib import Path
+from GSE.namespace import current_id
+from .foundation import BANKS, definition_context
+from .interchange import read_json
+from .storage import VERSION, read_entries
+def evaluate_build(path: str | Path, gold_path: str | Path) -> dict:
+    """Read exact entry/bank labels and return named outcomes without writing files.
+
+    Gold format: ``{"format":"GSE.lexicon-gold/1","records":[
+    {"entry_id":"...","bank":"GOOD","expected":0}]}``.
+    Optional nonnegative finite ``weight`` must appear on every record or none.
+    Coverage counts identified cells (correct plus wrong) over all supplied gold
+    cells, including NOT_FOUND. Zero total weight has undefined weighted coverage.
+    """
+    gold_file = Path(gold_path).expanduser().resolve()
+    if not gold_file.is_file():
+        raise ValueError("GOLD_NOT_FOUND")
+    gold, weighted = _load_gold(gold_file)
+    file = Path(path).expanduser().resolve()
+    if not file.is_file():
+        raise ValueError("BUILD_NOT_FOUND")
+    try:
+        with closing(sqlite3.connect(file.as_uri() + "?mode=ro", uri=True)) as conn:
+            conn.execute("PRAGMA query_only=ON")
+            conn.execute("BEGIN")
+            row = conn.execute("SELECT value FROM builder_metadata WHERE key='format'").fetchone()
+            if row is None or current_id(json.loads(row[0])) != VERSION:
+                raise ValueError("UNSUPPORTED_BUILD_FORMAT")
+            cache = {}
+            source_index = _source_index(conn, {record["entry_id"] for record in gold})
+            records = [_cell(conn, record, cache, source_index) for record in gold]
+    except sqlite3.DatabaseError as error:
+        raise ValueError("INVALID_BUILD_DATABASE") from error
+    per_bank, per_pos, per_source = defaultdict(list), defaultdict(list), defaultdict(list)
+    for record in records:
+        per_bank[record["bank"]].append(record)
+        per_pos[record["pos"] or "NOT_FOUND"].append(record)
+        for source in record["sources"] or ["NOT_FOUND"]:
+            per_source[source].append(record)
+    return {
+        "format": "GSE.lexicon-gold-report/1",
+        "code": "GOLD_EVALUATED",
+        "gold": {
+            "path": str(gold_file),
+            "sha256": hashlib.sha256(gold_file.read_bytes()).hexdigest(),
+            "origin": "SUPPLIED_LABELS",
+        },
+        "build": {"path": str(file), "format": VERSION},
+        "verification": "PUBLISHED_PROJECTION_ONLY",
+        "source_grouping": "OVERLAPPING_EXACT_DEFINITION_EVIDENCE_COHORTS_NOT_CAUSAL_ATTRIBUTION",
+        **_summary(records, weighted),
+        "per_bank": {key: _summary(values, weighted) for key, values in sorted(per_bank.items())},
+        "per_pos": {key: _summary(values, weighted) for key, values in sorted(per_pos.items())},
+        "per_source": {key: _summary(values, weighted) for key, values in sorted(per_source.items())},
+        "records": records,
+    }
+
+FILE docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_continue.py
+"""Continue the private checkpoint only after exact joint-migration completion.
+
+No service calls or activation. All retained answers are reconstructed at their
+original rule version, then consumed by the full-preflight sustained writer.
+"""
+
+import importlib.util
+import json
+import sqlite3
+import time
+from contextlib import closing
+from pathlib import Path
+
+from GSE.curation.lexicon_builder.completion import _contexts, _entry, _historical_request
+from GSE.curation.lexicon_builder.epoch import fingerprint, read, record
+from GSE.curation.lexicon_builder.rule_history import read_history
+from GSE.curation.lexicon_builder.specification import measure_dictionary
+from GSE.curation.lexicon_builder.validation import _metadata, _relations
+
+
+def main():
+    notes = Path(__file__).resolve().parent
+    root = notes.parents[2]
+    work = root / "data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint"
+    result_path = work / "result.json"
+    child_answers = notes / "ssl-api-controller-child-answers.json"
+    deadline = time.monotonic() + 3 * 3600
+    while not result_path.exists() or not child_answers.exists():
+        if time.monotonic() > deadline:
+            raise TimeoutError("CHECKPOINT_PREREQUISITES_NOT_FINISHED_NO_WRITES")
+        time.sleep(30)
+    result = read(result_path)
+    candidate = work / "candidate.db"
+    if (
+        result["code"] != "JOINT_REFERENCE_REVISION_REPLAYED_WORKLOAD_GATE_PENDING"
+        or Path(result["candidate"]).resolve() != candidate
+        or fingerprint(candidate) != result["candidate_sha256"]
+    ):
+        raise ValueError("CHECKPOINT_JOINT_HEAD_IDENTITY_CHANGED")
+    helper = notes / "ssl_api_checkpoint_packets.py"
+    spec = importlib.util.spec_from_file_location("checkpoint_packets", helper)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    configuration = read(notes / "ssl-root-prime-transport.json")
+    transports = [
+        module.PacketTransport(
+            notes / ("ssl-api-controller-" + kind + "-questions.json"),
+            notes / ("ssl-api-controller-" + kind + "-answers.json"),
+            configuration,
+        )
+        for kind in ("prime", "child")
+    ]
+    coordinates = [*transports[0].packet["coordinates"], *transports[1].packet["coordinates"][:3]]
+    original_version = "9aeb7c65650902cbf3139400c64acff3aa9645a9937069d95015f5b728e06436"
+    # This read-only diagnostic refuses obsolete/affected source contexts before
+    # paying for the writer's mandatory full preflight. It is NOT a certificate
+    # that substitutes for that replay.
+    with closing(sqlite3.connect(candidate.as_uri() + "?mode=ro", uri=True)) as conn:
+        conn.execute("BEGIN")
+        relations = _relations(_metadata(conn, "relations"))
+        history = read_history(conn, relations)
+        observations, relevance = _contexts(conn, tuple(pair[0] for pair in coordinates))
+        requests = {
+            (row["request"]["entry_id"], row["request"]["bank"]): row
+            for transport in transports
+            for row in transport.requests.values()
+        }
+        verified = []
+        for entry, bank in coordinates:
+            definition, assertions, restrictions, _ = _entry(conn, entry)
+            raw = {"rule_version": original_version, **requests[(entry, bank)]}
+            request, _, _ = _historical_request(
+                raw,
+                definition,
+                bank,
+                assertions,
+                restrictions,
+                observations[entry],
+                tuple(sorted(relevance[entry])),
+                relations,
+                history,
+            )
+            verified.append(request.request_id)
+    record(
+        notes / "ssl-api-controller-delayed-precheck.json",
+        {
+            "code": "EXACT_HISTORICAL_REQUESTS_RECONSTRUCTED_FULL_PREFLIGHT_STILL_REQUIRED",
+            "candidate_sha256": result["candidate_sha256"],
+            "request_ids": verified,
+            "transport": transports[0].identity,
+            "service_calls": 0,
+            "writes": 0,
+        },
+    )
+    report = module.write_packets(
+        candidate,
+        transports,
+        coordinates,
+        notes / "ssl-api-controller-prime-child-writer.json",
+        rule_version=original_version,
+    )
+    print(json.dumps(report), flush=True)
+    record(work / "space-post-prime-child-teaching.json", measure_dictionary(candidate))
+
+
+if __name__ == "__main__":
+    main()
+
+
+STEERING KEYS ['authority', 'user_words_verbatim', 'received_utc', 'target_activation_utc', 'latest_requested_window_utc', 'priority', 'contract', 'coordination', 'scope_control', 'source_freeze_target_utc', 'replay_budget', 'reporting', 'role', 'next_execution', 'do_not_block_on', 'transport_authority', 'parallel_factual_census', 'runtime_freeze_notice', 'root_local_audit_execution', 'checkpoint_replay_economy', 'root_prime_operation_demand', 'completed_root_and_coverage_evidence', 'word_sentence_boundary_check', 'specific_foundation_projection_fact', 'reference_protocol_audit_fact', 'root_exact_prime_warrant', 'owner_resume', 'resume_priority', 'execution_now', 'root_prime_service', 'root_checkpoint_critical_residuals', 'root_event_frontier_process', 'root_prime_service_failure', 'root_prime_wire_diagnosis', 'root_lint_preflight', 'process_inventory_safety', 'root_native_equivalence_census', 'root_pending_request_coordination', 'root_equivalence_census_finished', 'root_seven_prime_answers_ready', 'root_runtime_ready_for_integrated_gate', 'runtime_second_unfreeze_notice', 'resume_after_199', 'checkpoint_before_additional_rule_cycle', 'record_verified_migration_now']
+"Update existing living07_GSE_LEXICON_NSM_WORKING_DRAFT.md now with the actual completedintermediate measurement andfixedbuckettablefromresult/space-post-revision artifacts: foundation411085filled ->461608filled,22027712unknown, H32756107.198461812,50,523netgainincl4canonical+2teaching+50,517netrulecontribution,6reopens. Full401596postflightzero mismatch/solverlimit,66->68laws. Markprivateintermediate, notusableacceptance/notpublished; sevenprime+3childteachingnotincludedyet. Keep actualobservedquestionbudgets separate fromretainedwriterinvocations; snapshotforecast1198notcommitted. Thispreservesexperimentrecordduringthelongbuild; finalreleaseupdatecanfollow. Useactualcomputedvalues, notthisproseasmeasurementauthority."

@@ -1,5 +1,7 @@
 # GSE build program — start here
 
+**Resuming GSE-01 after a compaction or handoff:** first read the [owner-confirmed recovery contract (“shame sheet”)](LEXICON_CONSTRUCTION_DESIGN.md#recovery-contract--usable-checkpoint-and-the-ssl-learning-mechanism). It records the usable-checkpoint deliverable, joint constraint/SSL mechanism, anti-drift witnesses and concrete completion conditions. The checkpoint and continuing learner are one system; neither isolated bank filling nor replay alone establishes delivery.
+
 For the issue/OpenSpec/receipt workflow, read [EXECUTION_WORKFLOW.md](EXECUTION_WORKFLOW.md). `ISSUE_MAP.json` maps stable IDs to the cross-repository board.
 
 The [gap ledger](BUILD_GAPS.md) maps observed seams and dated reports to the work packages. Read it with the glossary, specification, assurance contract and source manifest before implementing.

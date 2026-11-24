@@ -1,0 +1,6 @@
+usage: owned_resources.py [-h] --label LABEL [--stdin-eof] [--socket SOCKET]
+                          [--timeout TIMEOUT] [--grace GRACE]
+                          [--state-dir STATE_DIR] [--control-fd CONTROL_FD]
+                          [--owner OWNER] [--caller-pid CALLER_PID]
+                          {run,_supervise}
+owned_resources.py: error: Separate the payload with --

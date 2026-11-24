@@ -1,0 +1,5 @@
+{
+  "command": "pwd; date -u '+%Y-%m-%dT%H:%M:%SZ'; python3 - <<'PY'\nfrom pathlib import Path\nimport json\np=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-controller-root-handoff.json','ssl-api-controller-blockers.json','ssl-api-controller-integrated-gate-phase.json','ssl-api-runtime-result.json','ssl-api-runtime-blockers.json']:\n f=p/name\n print('\\n###',name)\n if f.exists(): print(f.read_text())\n else: print('ABSENT')\nprint('\\n### steering locations')\nfor f in p.glob('*steering.json'): print(f, f.stat().st_mtime)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

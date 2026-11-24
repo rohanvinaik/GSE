@@ -1,0 +1,77 @@
+GSE/symbolic/expression.py def bind_degree_modifiers(tokens: Sequence[TokenTrace]) -> None:
+    """Bind the existing ordinal grammar without choosing lexical definitions.
+
+    A contiguous chain of intensity adverbs and sign arguments takes an
+    adjective/adverb operand. Nominal uses, punctuation and other operators
+    terminate this construction. The ordinary sign-uptake decision owns NOT;
+    its hierarchy signs change ordinal direction, never a lexical base sign.
+    """
+    ordered = sorted(tokens, key=lambda token: token.position)
+    modifiers = {}
+    sources = {}
+    uncertain = set()
+    for token in ordered:
+        token.degree_modifier = {}
+        token.degree = {}
+        encoding = get_hierarchy_encoding(token.lemma.upper())
+        if encoding and encoding[0] == "INTENSITY" and token.pos == "ADV" and not token.is_operator:
+            modifiers[token.position] = encoding[1]
+        elif token.pos == "ADV" and not token.is_operator:
+            lexical = token.lexical_evidence
+            original = lexical.get("primitives") or token.word_primitives
+            if "selection_status" not in lexical and "INTENSITY" in original and _HIER_MARKS & original.keys():
+                modifiers[token.position] = original.get("HIER_PLUS", 0) - original.get("HIER_MINUS", 0)
+                sources[token.position] = "legacy_lexical_hierarchy"
+            elif lexical.get("selection_status") in {"AMBIGUOUS", "CONFLICT"} and any(
+                candidate.get("hierarchy", {}).get("INTENSITY") for candidate in lexical.get("candidates", [])
+            ):
+                uncertain.add(token.position)
+    for index, token in enumerate(ordered):
+        if token.position not in modifiers and token.position not in uncertain:
+            continue
+        for following in ordered[index + 1 :]:
+            if following.is_operator or following.pos == "PUNCT":
+                break
+            if (
+                following.position in modifiers
+                or following.position in uncertain
+                or following.lemma in _NEGATION_LEMMAS
+            ):
+                continue
+            if following.pos in {"ADJ", "ADV"}:
+                if token.position in uncertain:
+                    raise DegreeScopeError(f"{DegreeScopeError.code}: token {token.position}")
+                token.degree_modifier = {
+                    "state": "bound",
+                    "scale": "INTENSITY",
+                    "target": following.position,
+                    "level": modifiers[token.position],
+                    "source": sources.get(token.position, "canonical_intensity_grammar"),
+                }
+                if not following.degree:
+                    following.degree = {"scale": "INTENSITY", "level": 0, "sources": []}
+            break
+    signs = _sign_owners(ordered)
+    for token in ordered:
+        if not token.degree_modifier:
+            continue
+        binding = token.degree_modifier
+        arguments = [
+            (position, lemma)
+            for position, (code, owner, lemma) in signs.items()
+            if code == "hierarchy" and owner == token.position
+        ]
+        polarity = -1 if node_polarity([lemma for _, lemma in arguments]) == "negated" else 1
+        binding["signed_level"] = polarity * binding["level"]
+        binding["sign_positions"] = [position for position, _ in arguments]
+        target = next(item for item in ordered if item.position == binding["target"])
+        if not target.degree:
+            target.degree = {"scale": "INTENSITY", "level": 0, "sources": []}
+        target.degree["level"] += binding["signed_level"]
+        target.degree["sources"].append(token.position)
+This is not good. [('This', 'this', 'PRON'), ('is', 'be', 'AUX'), ('not', 'not', 'PART'), ('good', 'good', 'ADJ'), ('.', '.', 'PUNCT')]
+This is very good. [('This', 'this', 'PRON'), ('is', 'be', 'AUX'), ('very', 'very', 'ADV'), ('good', 'good', 'ADJ'), ('.', '.', 'PUNCT')]
+This is not very good. [('This', 'this', 'PRON'), ('is', 'be', 'AUX'), ('not', 'not', 'PART'), ('very', 'very', 'ADV'), ('good', 'good', 'ADJ'), ('.', '.', 'PUNCT')]
+This is very not good. [('This', 'this', 'PRON'), ('is', 'be', 'AUX'), ('very', 'very', 'ADV'), ('not', 'not', 'PART'), ('good', 'good', 'ADJ'), ('.', '.', 'PUNCT')]
+He wants this. [('He', 'he', 'PRON'), ('wants', 'want', 'VERB'), ('this', 'this', 'PRON'), ('.', '.', 'PUNCT')]
+Him wants this. [('Him', 'him', 'PRON'), ('wants', 'want', 'VERB'), ('this', 'this', 'PRON'), ('.', '.', 'PUNCT')]

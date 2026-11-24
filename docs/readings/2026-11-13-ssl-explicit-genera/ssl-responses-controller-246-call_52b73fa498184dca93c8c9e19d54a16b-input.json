@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\np=Path('/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/Semantic_Specification_Learning/07_GSE_LEXICON_NSM_WORKING_DRAFT.md');s=p.read_text().splitlines();a=next(i for i,l in enumerate(s) if l.startswith('#### Checkpoint-first execution and durable controller evidence'))\nb=next((i for i in range(a+1,len(s)) if s[i].startswith('#') and len(s[i])-len(s[i].lstrip('#'))<=4),len(s));print('\\n'.join(s[a:b]))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 20
+}

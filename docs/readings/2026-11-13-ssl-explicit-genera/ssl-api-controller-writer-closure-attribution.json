@@ -1,0 +1,30 @@
+{
+  "format": "GSE.checkpoint-writer-closure-attribution/1",
+  "updated_utc": "2026-11-24T19:12:00+00:00",
+  "role_scope": "ASSIGNMENT A — COMPLETE AND EXECUTE THE CONNECTED SSL LEARNER (primary integration ownership)",
+  "candidate_sha256": "2f63c8647996ac4b89fdc41f9eb2c67c81079bed08dcf6499a80f462a8963952",
+  "measurement": "data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/space-post-prime-child-teaching.json",
+  "direct_assignments": 10,
+  "measured_net_filled_delta": 11,
+  "additional_existing_closure": {
+    "entry_id": "wordnet:here:here.r.01",
+    "bank": "WHERE",
+    "foundation_domain": [-1, 0, 1],
+    "post_source_and_reference_teaching_domain": [-1, 0, 1],
+    "current_domain": [1],
+    "trace_step": {
+      "bank": "WHERE",
+      "domains_before": {"HERE": [1], "WHERE": [-1, 0, 1]},
+      "kind": "RELATION",
+      "provenance": ["docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"],
+      "remaining": [1],
+      "removed": [-1, 0],
+      "rule_id": "founder:category:here-where",
+      "support_rows": [[1, 1]]
+    }
+  },
+  "method": "Read-only exact-entry SQL on pinned foundation, teaching and current candidate definition_states. Current persisted complete relation trace identifies the existing HERE-to-WHERE consequence; no new rule or semantic assignment was introduced by this inspection.",
+  "lexical_writes": 0,
+  "model_service_calls": 0,
+  "usable_acceptance": false
+}

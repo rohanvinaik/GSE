@@ -1,0 +1,1029 @@
+
+=== GSE/symbolic/queries.py ===
+def entities(tree: TreeNode) -> List[Entity]:
+    """Return every Entity in the tree, in document order.
+
+    "The dog is cuter than the cat" → [Entity(dog), Entity(cat)].
+    """
+    seen_lemmas: Set[tuple] = set()
+    out: List[Entity] = []
+
+    def _walk(n: TreeNode) -> None:
+        if isinstance(n, Entity):
+            key = (n.head.lemma, n.head.position)
+            if key not in seen_lemmas:
+                seen_lemmas.add(key)
+                out.append(n)
+            if n.possessor is not None:
+                _walk(n.possessor)
+            return
+        if isinstance(n, Coordination):
+            for m in n.members:
+                _walk(m)
+            return
+        if isinstance(n, Op):
+            for a in n.args:
+                _walk(a)
+            return
+        if isinstance(n, Negation):
+            _walk(n.operand)
+            return
+        if isinstance(n, Phrase):
+            for a in n.atoms:
+                _walk(a)
+            return
+        # Predicate types — walk their content fields
+        if isinstance(n, Comparison):
+            _walk(n.lhs)
+            _walk(n.rhs)
+            return
+        if isinstance(n, Equality):
+            _walk(n.lhs)
+            _walk(n.rhs)
+            return
+        if isinstance(n, TypeQuery):
+            _walk(n.entity)
+            return
+        if isinstance(n, TypeAssertion):
+            _walk(n.entity)
+            _walk(n.kind)
+            return
+        if isinstance(n, DegreeQuery):
+            _walk(n.entity)
+            return
+        if isinstance(n, MinimalSufficiency):
+            _walk(n.threshold)
+            _walk(n.purpose)
+            return
+        if isinstance(n, SetRestriction):
+            _walk(n.member)
+            _walk(n.predicate)
+            return
+        if isinstance(n, BoundaryCase):
+            _walk(n.entity)
+            _walk(n.predicate)
+            return
+        if isinstance(n, Contrast):
+            _walk(n.left)
+            _walk(n.right)
+            return
+        if isinstance(n, Causation):
+            _walk(n.cause)
+            _walk(n.effect)
+            return
+        if isinstance(n, ClauseCoordination):
+            _walk(n.left)
+            _walk(n.right)
+            return
+        if isinstance(n, Conditional):
+            _walk(n.antecedent)
+            _walk(n.consequent)
+            return
+        if isinstance(n, Temporal):
+            _walk(n.setting)
+            _walk(n.event)
+            return
+        if isinstance(n, RelativeRestriction):
+            _walk(n.head)
+            _walk(n.restriction)
+            return
+        if isinstance(n, Control):
+            if n.subject is not None:
+                _walk(n.subject)
+            _walk(n.controller)
+            _walk(n.inner)
+            return
+        if isinstance(n, Event):
+            _walk(n.agent)
+            if n.patient is not None:
+                _walk(n.patient)
+            return
+        # Atom — leaf, nothing to traverse further
+
+    _walk(tree)
+    return out
+def clauses(tree: TreeNode) -> List[Predicate]:
+    """Return the clause-level predicates in the tree, in document order.
+
+    A "clause" in the multi-clause sense surfaces as a clause-linking or
+    embedding predicate: a clause linker joining two clauses — Causation
+    (because/so), Contrast (but), ClauseCoordination (and), Conditional (if)
+    or Temporal (when/while/after/before) — a RelativeRestriction
+    (who/which/that), or a Control ('to'). Per decision B clauses are
+    *implicit* — this walk is how you discover them. Returns ``[]`` for a
+    single-clause sentence. Use ``entities(clause)`` for clause-scoped
+    entities, since :func:`entities` accepts any subtree node.
+    """
+    return [p for p in predicates(tree) if isinstance(p, _CLAUSE_PREDICATES)]
+def predicates(tree: TreeNode) -> List[Predicate]:
+    """Return every Predicate in the tree (nested traversal)."""
+    out: List[Predicate] = []
+    _predicate_classes = (
+        Comparison,
+        Equality,
+        TypeQuery,
+        TypeAssertion,
+        DegreeQuery,
+        MinimalSufficiency,
+        SetRestriction,
+        BoundaryCase,
+        Contrast,
+        Causation,
+        ClauseCoordination,
+        Conditional,
+        Temporal,
+        RelativeRestriction,
+        Control,
+        Event,
+    )
+
+    def _walk(n: TreeNode) -> None:
+        if isinstance(n, _predicate_classes):
+            out.append(n)
+        # Predicates can wrap Expression children — walk them too in case
+        # of nested operators.
+        if isinstance(n, Op):
+            for a in n.args:
+                _walk(a)
+        elif isinstance(n, Negation):
+            _walk(n.operand)
+        elif isinstance(n, Phrase):
+            for a in n.atoms:
+                _walk(a)
+        elif isinstance(n, Entity):
+            if n.possessor is not None:
+                _walk(n.possessor)
+        # Walk Predicate children (in case of nesting)
+        if isinstance(n, Comparison):
+            _walk(n.lhs)
+            _walk(n.rhs)
+        elif isinstance(n, Equality):
+            _walk(n.lhs)
+            _walk(n.rhs)
+        elif isinstance(n, TypeQuery):
+            _walk(n.entity)
+        elif isinstance(n, TypeAssertion):
+            _walk(n.entity)
+            _walk(n.kind)
+        elif isinstance(n, DegreeQuery):
+            _walk(n.entity)
+        elif isinstance(n, MinimalSufficiency):
+            _walk(n.threshold)
+            _walk(n.purpose)
+        elif isinstance(n, SetRestriction):
+            _walk(n.member)
+            _walk(n.predicate)
+        elif isinstance(n, BoundaryCase):
+            _walk(n.entity)
+            _walk(n.predicate)
+        elif isinstance(n, Contrast):
+            _walk(n.left)
+            _walk(n.right)
+        elif isinstance(n, Causation):
+            _walk(n.cause)
+            _walk(n.effect)
+        elif isinstance(n, ClauseCoordination):
+            _walk(n.left)
+            _walk(n.right)
+        elif isinstance(n, Conditional):
+            _walk(n.antecedent)
+            _walk(n.consequent)
+        elif isinstance(n, Temporal):
+            _walk(n.setting)
+            _walk(n.event)
+        elif isinstance(n, RelativeRestriction):
+            _walk(n.head)
+            _walk(n.restriction)
+        elif isinstance(n, Control):
+            if n.subject is not None:
+                _walk(n.subject)
+            _walk(n.controller)
+            _walk(n.inner)
+        elif isinstance(n, Event):
+            _walk(n.agent)
+            if n.patient is not None:
+                _walk(n.patient)
+
+    _walk(tree)
+    return out
+def is_logically_equal_to(a: TreeNode, b: TreeNode) -> bool:
+    """True if two trees have the same logical structure + entity content.
+
+    Stricter than ``==`` because it ignores positions, roles, and
+    word_primitives — just looks at structural shape and lemma identity.
+    "Dog is taller than cat" should logically equal itself even if the
+    two trees were built from different traces.
+    """
+    return _structural_signature(a) == _structural_signature(b)
+def is_argument_swap_of(a: TreeNode, b: TreeNode) -> bool:
+    """True if ``a`` is ``b`` with the args of some top-level operator swapped.
+
+    "Dog cuter than cat" and "Cat cuter than dog" → True. The operation
+    and entity set are the same; only the directional argument
+    assignment differs.
+    """
+    if not isinstance(
+        a,
+        (Op, Comparison, Equality, Contrast, ClauseCoordination, Causation, Conditional, Temporal, MinimalSufficiency),
+    ):
+        return False
+    if type(a) is not type(b):
+        return False
+    # Swap b's args and compare structurally
+    swapped = _swap_args(b)
+    return is_logically_equal_to(a, swapped)
+
+=== GSE/symbolic/claims.py ===
+def commitment(proposition: Any, *, interrogative: bool = False) -> str:
+    """Return committed/non_committed/abstained/in_question/unresolved.
+
+    Every ordered scope is inspected. A possible negative is non_committed even
+    though the legacy outermost-status projection says ``negated``.
+    """
+    if not _readable(proposition):
+        return commitment_modes((), valid=False)
+    scopes = getattr(proposition, "scopes", ())
+    modes = tuple(scope.mode for scope in scopes)
+    decision = commitment_modes(
+        modes, interrogative=interrogative or type(proposition.node).__name__ in {"TypeQuery", "DegreeQuery"}
+    )
+    if decision == "committed" and any(scope.mode == "negated" and not _valid_negation(scope) for scope in scopes):
+        return "non_committed"
+    return decision
+def polarity(proposition: Any) -> Polarity:
+    """Compose clause NOT with verified lexical negation; reversal never flips.
+
+    A negative primitive such as GOOD=-1 is lexical content, not by itself
+    evidence of a negative-prefix operation or a denied clause.
+    """
+    if not _readable(proposition):
+        return Polarity("unresolved", None, None, None, reason="unread_proposition")
+    scopes = getattr(proposition, "scopes", ())
+    if any(scope.mode == "negated" and not _valid_negation(scope) for scope in scopes):
+        return Polarity("unsupported", None, None, None, reason="non_atomic_negation")
+    owned_negations = sum(scope.mode == "negated" and _negation_targets(scope, proposition.node) for scope in scopes)
+    # A denial of the matrix attitude is not a denial of its complement.
+    # Its governing NOT remains available in scopes, and commitment abstains.
+    clause = -1 if owned_negations % 2 else 1
+    lexical, base = 1, None
+    node = proposition.node
+    if type(node).__name__ == "TypeAssertion":
+        base = _lemma(node.kind)
+        if base is None:
+            return Polarity("unresolved", clause, None, None, reason="missing_kind")
+        from GSE.nlp import morphology
+
+        try:
+            evidence_record = morphology.negation_evidence(base)
+            if evidence_record["state"] in {"unresolved", "unread"}:
+                return Polarity("unresolved", clause, None, None, base, evidence_record["decision"])
+            evidence = (evidence_record["base"], evidence_record["feature"])
+        except (LookupError, OSError) as exc:
+            return Polarity("unresolved", clause, None, None, base, type(exc).__name__)
+        if evidence is not None and evidence[1] == morphology.NEGATION:
+            base, lexical = evidence[0], -1
+    return Polarity("read", clause, lexical, clause * lexical, base)
+def claim_key(
+    proposition: Any,
+    relation_primitives: Mapping[str, Any] | Callable[[str], Mapping[str, Any]] | None = None,
+    *,
+    namespace: str | None = None,
+) -> ClaimKey:
+    """Versioned comparison key for atomic Event/TypeAssertion/Comparison.
+
+    Event primitive evidence must be supplied from the producer's selected
+    lexical record. Empty or generic forms abstain. All represented theme roles
+    participate, and unresolved identity yields only a candidate, never a key.
+    """
+    pol = polarity(proposition)
+    projection = "resolved_roles_signed_primitives_context/1"
+    if pol.state != "read":
+        return ClaimKey(pol.state, None, pol, projection, pol.reason)
+    node, kind = proposition.node, type(proposition.node).__name__
+    roles: list[tuple[str, Any]] = []
+    if kind == "Event":
+        try:
+            evidence = relation_primitives(node.verb) if callable(relation_primitives) else relation_primitives
+        except Exception as exc:
+            return ClaimKey("unread", None, pol, projection, f"relation_evidence_error:{type(exc).__name__}")
+        if not isinstance(evidence, Mapping):
+            return ClaimKey("unsupported", None, pol, projection, "missing_relation_primitive_evidence")
+        from GSE.primitives_v2 import ALL_HIERARCHY_LEVELS, PRIMITIVE_REGISTRY
+
+        if any(not isinstance(p, str) or p not in PRIMITIVE_REGISTRY for p in evidence):
+            return ClaimKey("unresolved", None, pol, projection, "unknown_relation_primitives")
+        if any(
+            not isinstance(v, (int, float)) or isinstance(v, bool) or not math.isfinite(v) for v in evidence.values()
+        ):
+            return ClaimKey("unresolved", None, pol, projection, "malformed_relation_primitives")
+        form = tuple(sorted((str(p), v) for p, v in evidence.items() if v))
+        semantic_names = {p for p, _ in form} - {"HIER_PLUS", "HIER_MINUS"} - set(ALL_HIERARCHY_LEVELS)
+        if not form or semantic_names <= _GENERIC_PRIMES:
+            return ClaimKey("unsupported", None, pol, projection, "generic_relation")
+        relation = ("event", ("signed_primitives", form))
+        roles = [("agent", node.agent)]
+        if node.patient is not None:
+            roles.append(("patient", node.patient))
+        roles.extend((f"theme:{index}", operand) for index, operand in enumerate(getattr(node, "themes", ())))
+    elif kind == "TypeAssertion":
+        if pol.base in _GENERIC_KINDS:
+            return ClaimKey("unsupported", None, pol, projection, "generic_kind")
+        relation, roles = ("type", pol.base), [("entity", node.entity)]
+    elif kind == "Comparison":
+        if node.sign not in {-1, 1}:
+            return ClaimKey("unresolved", None, pol, projection, "invalid_comparison_direction")
+        axis = node.axis
+        if axis is None:
+            modifiers = {
+                getattr(getattr(operand, "modifier", None), "lemma", None) for operand in (node.lhs, node.rhs)
+            } - {None}
+            if len(modifiers) > 1:
+                return ClaimKey("unresolved", None, pol, projection, "ambiguous_comparison_axis")
+            axis = next(iter(modifiers), None)
+        relation = ("comparison", axis, node.sign)
+        roles = [("lhs", node.lhs), ("rhs", node.rhs)]
+    else:
+        return ClaimKey("unsupported", None, pol, projection, "unsupported_predicate_kind")
+    duration = getattr(node, "duration", None)
+    if duration is not None:
+        relation = (*relation, ("duration", _freeze(duration)))
+    ids = [(role, identity(operand, namespace)) for role, operand in roles]
+    if any(item.state != "resolved" for _, item in ids):
+        return ClaimKey("unresolved", None, pol, projection, "unresolved_argument_identity")
+    signature = scope_signature(proposition)
+
+    def unresolved_context(value):
+        if not isinstance(value, tuple):
+            return False
+        if value and value[0] in {"local", "unsupported", "unresolved"}:
+            return True
+        if len(value) > 1 and value[0] == "Entity" and value[1] is None:
+            return True
+        return any(unresolved_context(item) for item in value)
+
+    if unresolved_context(signature):
+        return ClaimKey("unresolved", None, pol, projection, "unresolved_scope_identity")
+    key = (CLAIM_KEY_VERSION, relation, tuple((role, item.key) for role, item in ids), signature)
+    return ClaimKey("supported", key, pol, projection)
+
+=== GSE/symbolic/propositions.py ===
+def propositions(tree: Any, *, interrogative: bool = False, source_text: str | None = None) -> List[Proposition]:
+    """Every predicate, with ordered scopes and explicit source question evidence.
+
+    ``source_text`` is the original utterance; its terminal question mark is
+    retained even where the current tree has no interrogative node. Callers
+    with independent interrogative evidence may pass ``interrogative=True``.
+    """
+    out: List[Proposition] = []
+
+    def walk(node: Any, scopes: Tuple[Scope, ...], depth: int) -> None:
+        if node is None or depth > _MAX_DEPTH or isinstance(node, (str, int, float, bool)):
+            return
+        if isinstance(node, (list, tuple)):
+            for item in node:
+                walk(item, scopes, depth + 1)
+            return
+        kind = type(node).__name__
+        if kind == "Negation":
+            walk(getattr(node, "operand", None), (*scopes, Scope("negated", node, "operand")), depth + 1)
+            return
+        fields = OPERAND_FIELDS.get(kind)
+        if fields is not None:
+            # A modal event ("He might leave") is stated as possible or necessary, never as a fact (#66); the mode
+            # covers the event itself and everything under it.
+            force = modal_force(",".join(getattr(node, "modal", ()) or ()))
+            if force != "asserted":
+                scopes = (*scopes, Scope(force, node, "modal"))
+            if kind in {"TypeQuery", "DegreeQuery"}:
+                scopes = (*scopes, Scope("question", node, "source"))
+            out.append(Proposition(node, scopes))
+            patient_kind = type(getattr(node, "patient", None)).__name__
+            mode = assertion_mode(kind, getattr(node, "verb", "") or "", patient_kind)
+            governed = _GOVERNED.get(mode, ())
+            for field in fields:
+                inner = (*scopes, Scope(mode, node, field)) if field in governed else scopes
+                if kind == "Temporal":
+                    # Both clauses remain committed, while their represented
+                    # temporal qualification participates in comparison.
+                    inner = (*inner, Scope("asserted", node, field))
+                walk(getattr(node, field, None), inner, depth + 1)
+            return
+        if dataclasses.is_dataclass(node) and not isinstance(node, type):
+            for field in dataclasses.fields(node):
+                walk(getattr(node, field.name, None), scopes, depth + 1)
+
+    question = interrogative or (isinstance(source_text, str) and source_text.rstrip().endswith("?"))
+    scopes = (Scope("question", tree, "source"),) if question else ()
+    walk(tree, scopes, 0)
+    return out
+
+=== GSE/api/encoder.py ===
+def __init__(self, db_path: str | Path | None = None, strict: bool = False):
+        """
+        Initialize encoder with bases and database.
+
+        Args:
+            db_path: Explicit database path, or the activated lexical resource.
+            strict: If True, raise exceptions for OOV words and errors.
+                    If False (default), use graceful fallbacks.
+
+        Token front-end: the deterministic, arc-free GSE-native parser (WS1). spaCy
+        was retired — native is the ONLY front-end (there is no stochastic POS path).
+        """
+        self.db_path = resolve_lexicon_path(db_path)
+        self.strict = strict
+
+        # Load HDC bases
+        self.word_basis = create_basis()
+        self.sent_basis = create_sentence_basis()
+
+        # Token front-end — pure-Python/deterministic, the only engine.
+        from GSE.nlp.native import NativeNLP
+
+        self.nlp = NativeNLP()
+
+        # Database connection. A relative db_path resolves against CWD, so a wrong
+        # path is the silent-empty-lexicon footgun: sqlite3.connect() *creates* an
+        # empty file rather than failing, leaving the lexical oracle blind with no
+        # error. Fail loud — a missing file or a zero-row lexicon is a broken brain,
+        # not a degraded one (distinct from ``strict=``, which governs OOV words at
+        # encode time, not a missing lexicon).
+        if not self.db_path.exists():
+            raise FileNotFoundError(
+                f"GSE lexicon not found: {self.db_path} (cwd={Path.cwd()}). Pass an "
+                "absolute db_path or run with cwd at the GSE project root."
+            )
+        self.conn = sqlite3.connect(self.db_path)
+        self.cursor = self.conn.cursor()
+        from GSE.lexical_evidence import is_definition_database
+
+        try:
+            self._definition_database = is_definition_database(self.conn)
+        except sqlite3.Error, ValueError:
+            self.conn.close()
+            raise
+        try:
+            n_lexemes = self.cursor.execute("SELECT count(*) FROM lexemes").fetchone()[0]
+        except sqlite3.Error as e:  # no 'lexemes' table → not a lexicon db
+            self.conn.close()
+            raise ValueError(
+                f"GSE lexicon {self.db_path} has no 'lexemes' table ({e}); it is not a valid lexicon database."
+            ) from e
+        if n_lexemes == 0:
+            self.conn.close()
+            raise ValueError(
+                f"GSE lexicon {self.db_path} has 0 lexemes — the lexical oracle would "
+                "be blind. Refusing to construct a silently-empty encoder."
+            )
+
+        # WS1: derive core syntactic roles arc-free (positional) rather than from
+        # spaCy ``dep_``. Flipped off only by the parity harness to A/B the two.
+        self._arcfree_syn = True
+        self._repair = None
+def _lookup_lexeme(
+        self,
+        lemma: str,
+        pos: str | None = None,
+        *,
+        entry_id: Optional[str] = None,
+        lexical_evidence: Dict | None = None,
+    ) -> Tuple[Dict[str, int], Dict[str, int], CompositionalMetadata]:
+        """
+        Look up word-scale and sentence-scale primitives for a lemma.
+
+        Fallback behavior (strict=False): Returns empty content for OOV words.
+        Strict behavior (strict=True): Raises OOVError for unrecognized words.
+        Versioned dictionaries obtain registered grammatical operators separately
+        from lexical definition selection; their content can remain unresolved.
+        """
+        if self._definition_database:
+            from GSE.curation.lexicon_builder.storage import runtime_lookup
+
+            primitive = f"COMP_{lemma.upper()}"
+            registered = COMP_METADATA.get(primitive)
+            grammar: CompositionalMetadata = (
+                {
+                    "comp_primitive": primitive,
+                    "comp_arity": cast(int, registered["arity"]),
+                    "comp_operation": cast(str, registered["operation"]),
+                }
+                if registered is not None
+                else {}
+            )
+            # A contextual refusal must not be undone by a second, narrower
+            # lookup (especially when storage has only one same-spelling row).
+            selection = (
+                {
+                    "code": lexical_evidence["selection_status"],
+                    "selected": lexical_evidence.get("selected_record"),
+                }
+                if lexical_evidence is not None
+                else runtime_lookup(self.conn, lemma.lower(), entry_id)
+            )
+            if selection["code"] != "IDENTIFIED":
+                if selection["code"] == "NOT_FOUND" and self.strict and not grammar:
+                    raise OOVError(lemma)
+                return {}, {}, grammar
+            entry = selection["selected"]
+            word_prims = {bank: value for bank, value in entry["assignments"].items() if value != 0}
+            sent_prims = dict(
+                self.conn.execute(
+                    "SELECT primitive,value FROM sentence_primitive_values WHERE lexeme_id=? AND value!=0",
+                    (entry["id"],),
+                ).fetchall()
+            )
+            comp_meta: CompositionalMetadata = (
+                {
+                    "comp_primitive": entry["comp_primitive"],
+                    "comp_arity": entry["comp_arity"] or 0,
+                    "comp_operation": entry["comp_operation"],
+                }
+                if entry.get("comp_primitive")
+                else {}
+            )
+            if grammar and comp_meta and grammar != comp_meta:
+                raise ValueError("GRAMMATICAL_OPERATOR_METADATA_MISMATCH")
+            return word_prims, sent_prims, grammar or comp_meta
+
+        if entry_id is not None:
+            raise ValueError("DEFINITION_SELECTION_REQUIRES_VERSIONED_DATABASE")
+
+        # Legacy active database: the trace and vector must consume the same selected source row.
+        evidence = lexical_evidence if lexical_evidence is not None else self.lexical_lookup(lemma, pos)
+        if evidence["state"] == "unread":
+            if self.strict:
+                raise EncodingError(lemma, evidence.get("reason", "lexical_source_unread"))
+            return {}, {}, {}
+        selected = evidence["selected_record"]
+        if selected is None:
+            if self.strict:
+                raise OOVError(lemma)
+            return {}, {}, {}  # Graceful fallback: OOV word contributes nothing
+
+        lexeme_id = selected["id"]
+        comp_prim = selected.get("comp_primitive")
+        comp_arity = selected.get("comp_arity")
+        comp_op = selected.get("comp_operation")
+        comp_meta: CompositionalMetadata = (
+            {
+                "comp_primitive": comp_prim,
+                "comp_arity": comp_arity or 0,
+                "comp_operation": comp_op,
+            }
+            if comp_prim
+            else {}
+        )
+
+        # Get word-scale primitives
+        self.cursor.execute(
+            """
+            SELECT primitive, value FROM primitive_values
+            WHERE lexeme_id = ? AND value != 0
+        """,
+            (lexeme_id,),
+        )
+        word_prims = {row[0]: row[1] for row in self.cursor.fetchall()}
+
+        # Get sentence-scale primitives
+        self.cursor.execute(
+            """
+            SELECT primitive, value FROM sentence_primitive_values
+            WHERE lexeme_id = ? AND value != 0
+        """,
+            (lexeme_id,),
+        )
+        sent_prims = {row[0]: row[1] for row in self.cursor.fetchall()}
+
+        return word_prims, sent_prims, comp_meta
+
+=== GSE/api/decoder.py ===
+def _build_lexeme_index(self):
+        """Build index of lexeme vectors for similarity search."""
+        # Distinct definition IDs remain distinct even when their lemma and
+        # geometric representation coincide. Displaying a lemma is not selecting
+        # one of its definitions.
+        self.lexeme_vectors: Dict[int, Tuple[SparseVector, str]] = {}
+        self.lexeme_labels: Dict[int, str] = {}
+
+        # Get all lexemes with primitives
+        self.cursor.execute("""
+            SELECT l.id, l.lemma, l.pos
+            FROM lexemes l
+            WHERE EXISTS (
+                SELECT 1 FROM primitive_values pv
+                WHERE pv.lexeme_id = l.id AND pv.value != 0
+            )
+        """)
+        lexemes = self.cursor.fetchall()
+
+        for lexeme_id, lemma, pos in lexemes:
+            # Get word primitives
+            self.cursor.execute(
+                """
+                SELECT primitive, value FROM primitive_values
+                WHERE lexeme_id = ? AND value != 0
+            """,
+                (lexeme_id,),
+            )
+            prims = {row[0]: row[1] for row in self.cursor.fetchall()}
+
+            if prims:
+                vec = self._encode_primitives(prims)
+                if vec.nnz > 0:
+                    self.lexeme_vectors[lexeme_id] = (vec, pos or "UNK")
+                    self.lexeme_labels[lexeme_id] = lemma
+
+=== GSE/pipeline_v2.py ===
+def load_lexicon(self, path: str):
+        """
+        Load lexicon from SQLite database.
+
+        Args:
+            path: Path to SQLite database
+        """
+        self.translator = SQLiteMerkleTranslator(path)
+        self.tree = self.translator.import_to_tree()
+
+        # Initialize router, decomposer, and bridge
+        self._init_components()
+def decompose_word(
+        self,
+        word: str,
+        pos: str,
+        context: Optional[str] = None,
+        gloss: str = "",
+    ) -> DecompositionResult:
+        """
+        Decompose a word into primitives.
+
+        Args:
+            word: Word to decompose
+            pos: Part of speech
+            context: Optional context sentence
+            gloss: Optional definition hint
+
+        Returns:
+            DecompositionResult with inferred decomposition
+        """
+        self._decomposition_count += 1
+
+        # Check if in lexicon
+        for sense_id in ["01", "02", "03"]:
+            key = f"{word.lower()}_{pos}_{sense_id}"
+            lexeme = self.tree.get_lexeme(key)
+            if lexeme:
+                return DecompositionResult(
+                    word=word,
+                    pos=pos,
+                    decomposition=lexeme.decomposition,
+                    vector=SparseVector(D, lexeme.vector_positive, lexeme.vector_negative),
+                    confidence=1.0,
+                    source="lexicon",
+                )
+
+        # Use decomposer for unknown word
+        if self.decomposer:
+            result = self.decomposer.decompose(word, pos, gloss=gloss)
+            return DecompositionResult(
+                word=word,
+                pos=pos,
+                decomposition=result.decomposition,
+                vector=result.vector,
+                confidence=result.overall_confidence,
+                source="inferred",
+                similar_words=result.similar_words,
+            )
+
+        # Fallback
+        return DecompositionResult(
+            word=word,
+            pos=pos,
+            decomposition=[],
+            confidence=0.0,
+            source="unknown",
+        )
+
+=== GSE/nlp/spellcheck.py ===
+def __init__(self, db_path: str | Path | None = None) -> None:
+        self._explicit_db_path = db_path
+        self._selected_db_path = resolve_lexicon_path(db_path)
+        self._lex_vocab: Optional[FrozenSet[str]] = None
+        self._wn_vocab: Optional[FrozenSet[str]] = None
+        self._validity_vocab = None
+        self._allowlist: Optional[FrozenSet[str]] = None
+        self._usage: Optional[Dict[str, int]] = None
+        self._usage_state: Optional[str] = None
+        self._usage_reason: Optional[str] = None
+        self._freq: Optional[Dict[str, int]] = None
+        self._confusions: Optional[Dict[str, List[str]]] = None
+        self._conn: Optional[sqlite3.Connection] = None
+        self._database_version: Optional[int] = None
+        self._database_file_identity: Optional[tuple[int, int]] = None
+def correct(
+    surface: str,
+    context: Optional[Sequence[str]] = None,
+    lexicon: _Lexicon = _DEFAULT_LEXICON,
+) -> Correction:
+    """Correct one token under the noisy-channel model.
+
+    * If ``surface`` grounds, it is correct -> ``fired=False``, no change.
+    * Else propose grounded candidates (error model + grounding gate), rank by
+      (edit cost, then coherence with ``context``), and COMMIT only when the choice
+      is unambiguous; otherwise abstain and return the ranked set.
+    """
+    word = surface.lower()
+    if lexicon.grounds(word):
+        return Correction(surface, fired=False, committed=word, note="surface grounds")
+
+    cands = propose(surface, lexicon)
+    if not cands:
+        return Correction(surface, fired=True, committed=None, note="no grounded candidate")
+
+    # shape gate: acronym / code / proper-noun -> offer, never auto-commit
+    if looks_non_lexical(surface):
+        return Correction(
+            surface,
+            fired=True,
+            committed=None,
+            ranked=tuple(cands),
+            note="non-lexical shape (acronym/code/proper-noun): offered, not committed",
+        )
+
+    # advisory coherence: context's pooled primitive set vs each candidate's. Sits
+    # BELOW the frequency prior in the sort key (measured too coarse to lead).
+    ctx_prims: FrozenSet[str] = frozenset()
+    if context:
+        pooled: Set[str] = set()
+        for w in context:
+            pooled |= lexicon.primitives(w)
+        ctx_prims = frozenset(pooled)
+    if ctx_prims:
+        cands = [
+            Candidate(c.word, c.edit_cost, c.prior, _jaccard(lexicon.primitives(c.word), ctx_prims)) for c in cands
+        ]
+    # noisy-channel score, then advisory coherence, then alpha
+    cands.sort(key=lambda c: (c.score, -c.coherence, c.word))
+
+    best = cands[0]
+    second = cands[1] if len(cands) > 1 else None
+    # commit only on a decisive margin (same discipline as the context path)
+    unambiguous = second is None or (second.score - best.score) >= WORD_COMMIT_MARGIN
+    committed = best.word if unambiguous else None
+    note = "committed" if committed else "no decisive winner: abstained"
+    return Correction(surface, fired=True, committed=committed, ranked=tuple(cands), note=note)
+
+=== GSE/symbolic/grounding.py ===
+class NullGenealogy:
+    """The empty provider — every thread is ``()``.
+
+    The DB-free default: reference resolution still assigns ids and produces
+    valid v2 entity-refs (with empty threads), so the contract shape is
+    exercisable without any lexical database. M2.2 swaps in the real provider.
+    """
+
+    def thread(self, lemma: str, pos: str, is_proper: bool) -> Sequence[str]:
+        return ()
+
+=== tests/test_runtime_native_composed_controls.py ===
+"""Development regressions through actual native encoder and composed consumers.
+
+The three reported failures and subsequently inspected cases are development,
+not a fresh final holdout or evidence of full workload acceptance.
+"""
+
+import pytest
+
+from GSE.api import GSEEncoder
+from GSE.symbolic import emit_contract, evaluate_tree, from_trace, resolve
+from GSE.symbolic.expression import Negation
+from GSE.symbolic.predicates import Event, RelativeRestriction, Temporal, TypeAssertion
+from GSE.symbolic.queries import is_logically_equal_to
+from GSE.symbolic.resolution import Coordination, Entity
+from GSE.symbolic.serialization import from_dict, to_dict
+
+
+@pytest.fixture(scope="module")
+def encoder():
+    with GSEEncoder() as instance:
+        instance.conn.execute("PRAGMA query_only=ON")
+        yield instance
+
+
+def compose(encoder, text):
+    return evaluate_tree(resolve(from_trace(encoder.encode(text))))
+
+
+def test_spatial_opposites_reach_query_and_emitted_contract(encoder):
+    above = compose(encoder, "The bird is above the tree.")
+    below = compose(encoder, "The bird is below the tree.")
+    assert isinstance(above, Event) and isinstance(below, Event)
+    assert (above.verb, below.verb) == ("above", "below")
+    assert above.agent.head.lemma == below.agent.head.lemma == "bird"
+    assert above.patient.head.lemma == below.patient.head.lemma == "tree"
+    assert not is_logically_equal_to(above, below)
+    assert emit_contract(above)["predicate"]["features"]["verb"] == "above"
+    assert emit_contract(below)["predicate"]["features"]["verb"] == "below"
+    negated = compose(encoder, "The bird is not above the tree.")
+    assert isinstance(negated, Negation) and negated.operand.verb == "above"
+
+
+@pytest.mark.parametrize("linker,anchor", [("before", "dawn"), ("after", "noon"), ("after", "winter")])
+def test_native_time_typed_nominal_is_setting_not_patient(encoder, linker, anchor):
+    tree = compose(encoder, f"Alice arrived {linker} {anchor}.")
+    assert isinstance(tree, Temporal) and tree.conjunction == linker
+    assert tree.setting.head.lemma == anchor
+    assert isinstance(tree.event, Event) and tree.event.verb == "arrive"
+    assert tree.event.agent.head.lemma == "alice" and tree.event.patient is None
+    assert emit_contract(tree)["predicate"]["features"]["conjunction"] == linker
+
+
+@pytest.mark.parametrize("linker", ["before", "after"])
+def test_existing_clausal_temporal_arguments_remain_events(encoder, linker):
+    tree = compose(encoder, f"Alice arrived {linker} Bob left.")
+    assert isinstance(tree, Temporal) and tree.conjunction == linker
+    assert isinstance(tree.setting, Event) and tree.setting.verb == "leave"
+    assert isinstance(tree.event, Event) and tree.event.verb == "arrive"
+
+
+def test_non_time_anchor_cannot_become_temporal_from_preposition_alone(encoder):
+    assert not isinstance(compose(encoder, "Alice stood before the king."), Temporal)
+
+
+@pytest.mark.parametrize("anchor", ["spring", "period"])
+def test_possible_time_sense_does_not_erase_other_anchor_readings(encoder, anchor):
+    trace = encoder.encode(f"Alice stood before the {anchor}.")
+    tree = evaluate_tree(resolve(from_trace(trace)))
+    assert isinstance(tree, Event) and tree.verb == "before"
+    assert isinstance(tree.agent, Event) and tree.agent.verb == "stand"
+    assert tree.agent.patient is None and tree.patient.head.lemma == anchor
+    linker = next(t for t in trace.tokens if t.lemma == "before")
+    witness = linker.lexical_evidence["nominal_preposition_reading"]
+    assert witness["code"] == "UNRESOLVED_PREPOSITION_ANCHOR_ROLE"
+    assert witness["alternatives"] == ["TEMPORAL", "SPATIAL"]
+    assert len(witness["native_noun_readings"]) > len(witness["temporal_readings"])
+
+
+@pytest.mark.parametrize("text,head", [("He is a very strict judge.", "judge"), ("He is a very inert gas.", "gas")])
+def test_degree_modified_copular_nominal_keeps_its_head(encoder, text, head):
+    trace = encoder.encode(text)
+    token = next(t for t in trace.tokens if t.lemma == head)
+    assert token.pos == "NOUN" and "SYN_COMPL" in token.sent_primitives
+    assert isinstance(evaluate_tree(resolve(from_trace(trace))), TypeAssertion)
+
+
+def test_native_chemical_identity_survives_nominal_copula_and_emission(encoder):
+    trace = encoder.encode("He is an inert gas.")
+    assert trace.tokens[0].lexical_evidence["selected_record"]["entry_id"] == "wordnet:he:helium.n.01"
+    gas = next(t for t in trace.tokens if t.lemma == "gas")
+    assert gas.pos == "NOUN" and "SYN_COMPL" in gas.sent_primitives
+    tree = evaluate_tree(resolve(from_trace(trace)))
+    assert isinstance(tree, TypeAssertion)
+    assert tree.entity.head.lemma == "he"
+    assert emit_contract(tree)["predicate"]["op"] == "TYPE_ASSERT"
+
+
+@pytest.mark.parametrize(
+    "text,verb", [("He gases the room.", "gas"), ("He is moving.", "move"), ("He was killed.", "kill")]
+)
+def test_nominal_copula_repair_does_not_override_main_progressive_or_passive_verb(encoder, text, verb):
+    tree = compose(encoder, text)
+    assert isinstance(tree, Event) and tree.verb == verb
+
+
+@pytest.mark.parametrize("copula", ["is", "was"])
+def test_matrix_copula_and_genitive_relative_keep_separate_predicates(encoder, copula):
+    trace = encoder.encode(f"The teacher {copula} a person whose occupation is teaching.")
+    teacher = next(t for t in trace.tokens if t.lemma == "teacher")
+    assert teacher.word_primitives.get("SOMEONE") == 1
+    relative = next(c for c in trace.clauses if c.kind == "relative")
+    assert relative.gap_role == "possessor"
+    tree = evaluate_tree(resolve(from_trace(trace)))
+    assert isinstance(tree, TypeAssertion) and tree.entity.head.lemma == "teacher"
+    assert isinstance(tree.kind, RelativeRestriction) and tree.kind.head.head.lemma == "person"
+    inner = tree.kind.restriction
+    assert isinstance(inner, TypeAssertion) and inner.entity.head.lemma == "occupation"
+    assert inner.entity.possessor.head.lemma == "person" and inner.kind.head.lemma == "teaching"
+    assert from_dict(to_dict(tree)) == tree
+    payload = emit_contract(tree)["predicate"]
+    assert payload["op"] == "TYPE_ASSERT"
+    assert payload["args"][1]["args"][1]["args"] == ["person's occupation", "teaching"]
+
+
+def test_relative_auxiliary_and_participle_do_not_steal_matrix_predicate(encoder):
+    tree = compose(encoder, "The child who is teaching works.")
+    assert isinstance(tree, Event) and tree.verb == "work"
+    assert isinstance(tree.agent, RelativeRestriction) and tree.agent.head.head.lemma == "child"
+    inner = tree.agent.restriction
+    assert isinstance(inner, Event) and inner.verb == "teach" and inner.agent.head.lemma == "child"
+    assert inner.patient is None
+
+
+def test_genitive_relative_does_not_turn_its_owner_into_a_patient(encoder):
+    tree = compose(encoder, "The person whose child is teaching works.")
+    assert isinstance(tree, Event) and tree.verb == "work"
+    inner = tree.agent.restriction
+    assert isinstance(inner, Event) and inner.verb == "teach"
+    assert inner.agent.head.lemma == "child" and inner.agent.possessor.head.lemma == "person"
+    assert inner.patient is None
+
+
+def test_copular_relative_binds_its_subject_gap(encoder):
+    tree = compose(encoder, "The person who is king works.")
+    assert isinstance(tree, Event) and tree.verb == "work"
+    inner = tree.agent.restriction
+    assert isinstance(inner, TypeAssertion)
+    assert inner.entity.head.lemma == "person" and inner.kind.head.lemma == "king"
+
+
+def test_genitive_relative_keeps_its_own_negation(encoder):
+    tree = compose(encoder, "The teacher is a person whose occupation is not teaching.")
+    assert isinstance(tree, TypeAssertion) and not isinstance(tree, Negation)
+    inner = tree.kind.restriction
+    assert isinstance(inner, Negation) and isinstance(inner.operand, TypeAssertion)
+    assert inner.operand.entity.possessor.head.lemma == "person"
+
+
+@pytest.mark.parametrize("text", ["The child is teaching.", "The occupation is teaching the child."])
+def test_gerund_activity_noun_requires_the_complete_nominal_construction(encoder, text):
+    tree = compose(encoder, text)
+    assert isinstance(tree, Event) and tree.verb == "teach"
+
+
+def test_coordinated_adjectives_and_of_attachment_modify_one_nominal_head(encoder):
+    trace = encoder.encode("The femur is the longest and thickest bone of the human skeleton.")
+    assert next(t for t in trace.tokens if t.lemma == "femur").word_primitives.get("BODY") == 1
+    tree = evaluate_tree(resolve(from_trace(trace)))
+    assert isinstance(tree, TypeAssertion) and tree.entity.head.lemma == "femur"
+    assert isinstance(tree.kind, RelativeRestriction)
+    modified = tree.kind.head
+    assert isinstance(modified, RelativeRestriction) and modified.head.head.lemma == "bone"
+    assert isinstance(modified.restriction, TypeAssertion)
+    modifiers = modified.restriction.kind
+    assert isinstance(modifiers, Coordination) and modifiers.conjunction == "and"
+    assert [a.lemma for a in modifiers.members] == ["long", "thick"]
+    assert all(a.graded for a in modifiers.members)
+    of = tree.kind.restriction
+    assert isinstance(of, Event) and of.verb == "of"
+    assert of.agent.head.lemma == "bone" and of.patient.head.lemma == "skeleton"
+    assert of.patient.modifier.lemma == "human" and of.patient.possessor is None
+    assert from_dict(to_dict(tree)) == tree
+    payload = emit_contract(tree)["predicate"]["args"][1]
+    assert payload["args"][1]["features"]["verb"] == "of"
+    assert payload["args"][0]["args"][1]["args"][1]["args"] == ["long", "thick"]
+
+
+@pytest.mark.parametrize("conjunction", ["and", "or"])
+def test_genuine_nominal_coordination_is_not_reclassified_as_adjectival(encoder, conjunction):
+    tree = compose(encoder, f"The bone {conjunction} the skeleton is hard.")
+    assert isinstance(tree, TypeAssertion) and isinstance(tree.entity, Coordination)
+    assert tree.entity.conjunction == conjunction
+    assert [m.head.lemma for m in tree.entity.members] == ["bone", "skeleton"]
+
+
+def test_of_anchor_coordination_stays_inside_the_nominal_attachment(encoder):
+    tree = compose(encoder, "The bone of the child and the adult is hard.")
+    assert isinstance(tree, TypeAssertion) and isinstance(tree.entity, RelativeRestriction)
+    of = tree.entity.restriction
+    assert isinstance(of, Event) and of.verb == "of" and of.agent.head.lemma == "bone"
+    assert isinstance(of.patient, Coordination)
+    assert all(isinstance(m, Entity) for m in of.patient.members)
+    assert [m.head.lemma for m in of.patient.members] == ["child", "adult"]
+
+
+@pytest.mark.parametrize(
+    "text,verb,preposition,anchor",
+    [
+        ("Something happens to me.", "happen", "to", "me"),
+        ("Alice stood by the window.", "stand", "by", "window"),
+        ("Alice moved toward the door.", "move", "toward", "door"),
+    ],
+)
+def test_intransitive_preposition_keeps_relation_and_anchor_without_inventing_patient(
+    encoder, text, verb, preposition, anchor
+):
+    tree = compose(encoder, text)
+    assert isinstance(tree, Event) and tree.verb == preposition
+    assert isinstance(tree.agent, Event) and tree.agent.verb == verb
+    assert tree.agent.patient is None
+    assert tree.patient.head.lemma == anchor
+    assert from_dict(to_dict(tree)) == tree
+    emitted = emit_contract(tree)["predicate"]
+    assert emitted["features"]["verb"] == preposition
+    assert emitted["args"][0]["features"]["verb"] == verb
+    assert anchor in emitted["args"][1]
+
+
+=== BENCHMARK FORMAT AND COMPLETE ONE CASE ===
+GSE.lexicon-sentence-benchmark/1
+{
+  "id": "final-neatness-state",
+  "class": "own-state",
+  "text": "The neatness was the state of being neat and smart and trim.",
+  "token": "neatness",
+  "lemma": "neatness",
+  "sense": "wordnet:neatness:neatness.n.01",
+  "banks": {
+    "BE": 1
+  },
+  "basis": "Exact WordNet neatness.n.01 complete definition; founder-approved own-state denotation sufficient for BE=+1, LEXICON_CONSTRUCTION_DESIGN.md#be-stative-content-scope. Novel native sense and morphological family, frozen before scoring."
+}

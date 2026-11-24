@@ -1,0 +1,21 @@
+FILE ssl-api-controller-postwriter-job.log
+usage: owned_resources.py [-h] --label LABEL [--stdin-eof] [--socket SOCKET]
+                          [--timeout TIMEOUT] [--grace GRACE]
+                          [--state-dir STATE_DIR] [--control-fd CONTROL_FD]
+                          [--owner OWNER] [--caller-pid CALLER_PID]
+                          {run,_supervise}
+owned_resources.py: error: Separate the payload with --
+
+FILE ssl-api-controller-integrated-gate-job.log
+usage: owned_resources.py [-h] --label LABEL [--stdin-eof] [--socket SOCKET]
+                          [--timeout TIMEOUT] [--grace GRACE]
+                          [--state-dir STATE_DIR] [--control-fd CONTROL_FD]
+                          [--owner OWNER] [--caller-pid CALLER_PID]
+                          {run,_supervise}
+owned_resources.py: error: Separate the payload with --
+
+FILE ssl-api-controller-postwriter-phase.json
+ABSENT
+FILE ssl-api-controller-integrated-gate-phase.json
+ABSENT
+OWNED_NUMERIC_PROCESS_SUBTREE pid ppid elapsed cpu rss

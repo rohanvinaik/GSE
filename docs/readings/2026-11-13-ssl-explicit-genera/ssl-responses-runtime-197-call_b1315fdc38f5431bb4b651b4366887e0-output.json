@@ -1,0 +1,8 @@
+{
+  "code": "COMMAND_COMPLETED",
+  "exit_code": 0,
+  "elapsed_seconds": 56.41552250017412,
+  "complete_output_path": "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-197-call_b1315fdc38f5431bb4b651b4366887e0.log",
+  "output_characters": 1407,
+  "output": "This is good. {'GOOD': 1} {'op': 'TYPE_ASSERT', 'args': ['this', 'good'], 'features': {}}\nThis is not good. {'GOOD': 1} {'op': 'NOT', 'args': [{'op': 'TYPE_ASSERT', 'args': ['this', 'good'], 'features': {}}], 'features': {}}\nThis is very good. {'GOOD': 1} {'op': 'TYPE_ASSERT', 'args': ['this', 'good'], 'features': {'degree': [{'argument': 1, 'target': 'good', 'scale': 'INTENSITY', 'level': 1}]}}\nThis is not very good. {'GOOD': 1} {'op': 'TYPE_ASSERT', 'args': ['this', 'good'], 'features': {'degree': [{'argument': 1, 'target': 'good', 'scale': 'INTENSITY', 'level': -1}]}}\nThis is very not good. {'GOOD': 1} {'op': 'NOT', 'args': [{'op': 'TYPE_ASSERT', 'args': ['this', 'good'], 'features': {'degree': [{'argument': 1, 'target': 'good', 'scale': 'INTENSITY', 'level': 1}]}}], 'features': {}}\nYou want something. {'WANT': 1} {'op': 'EVENT', 'args': ['you', 'something'], 'features': {'verb': 'want'}}\nI see someone. {'SEE': 1} {'op': 'EVENT', 'args': ['i', 'someone'], 'features': {'verb': 'see'}}\nShe hears something. {'HEAR': 1} {'op': 'EVENT', 'args': ['she', 'something'], 'features': {'verb': 'hear'}}\nSomething happens to me. {'HAPPEN': 1} {'op': 'EVENT', 'args': ['something'], 'features': {'verb': 'happen'}}\nYou move. {} {'op': 'EVENT', 'args': ['you'], 'features': {'verb': 'move'}}\nCONTROLLER_DEMAND_WRITTEN docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-checkpoint-demand.json\n"
+}

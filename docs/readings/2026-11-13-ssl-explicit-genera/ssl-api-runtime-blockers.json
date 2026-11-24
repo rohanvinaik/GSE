@@ -1,8 +1,8 @@
 {
   "format": "GSE.runtime-blockers/1",
   "role_scope": "B \u2014 CP-07 REAL RUNTIME IDENTITY / CHECKPOINT ACCEPTANCE",
-  "status": "SOURCE_EDITING_UNFROZEN_SECOND",
-  "updated_utc": "2026-11-24T18:16:01.800234+00:00",
+  "status": "CODE_FREEZE_READY_WORKLOAD_OPEN",
+  "updated_utc": "2026-11-24T19:40:25.870086+00:00",
   "identity_regression": {
     "status": "REPAIRED_VERIFIED_REAL_ENCODER",
     "evidence": "ssl-api-runtime-code-freeze-tests.xml",
@@ -13,62 +13,32 @@
   "checkpoint_demand": "ssl-api-runtime-checkpoint-demand.json",
   "current_failures": [
     {
-      "code": "REQUIRED_BANKS_OPEN",
+      "code": "FULL_DECLARED_WORKLOAD_NOT_ACCEPTED",
+      "evidence": "No artifact-verified final workload manifest plus integrated repository/full replay receipt for candidate in Worker B scope."
+    },
+    {
+      "code": "FRESH_FINAL_SLICE_PENDING",
+      "evidence": "Original benchmark cases and source-example variants are exposed development, not untouched final."
+    },
+    {
+      "code": "REQUIRED_BANK_AND_SOURCE_GAPS",
+      "evidence": "Operation-specific signed bank availability remains partial; latest controller candidate must be audited read-only. No raw-emission-only semantic accuracy claim."
+    },
+    {
+      "code": "POSTFREEZE_ORDINARY_OPERATION_WRONG",
       "cases": [
         {
-          "id": "final-leap-event",
-          "definition_id": "wordnet:leap:leap.n.01",
-          "bank": "HAPPEN",
-          "required": 1,
-          "domain": [
-            -1,
-            0,
-            1
-          ]
+          "code": "MAIN_DO_EVENT_LOST",
+          "text": "Nora did the work.",
+          "observed": "public encoder -> emitted predicate is nora only; action and object absent"
         },
         {
-          "id": "final-whisper-words",
-          "definition_id": "wordnet:whisper:whisper.n.01",
-          "bank": "SAY",
-          "required": 1,
-          "domain": [
-            -1,
-            0,
-            1
-          ]
+          "code": "FRONTED_ADJUNCT_STEALS_MATRIX_PREDICATE",
+          "text": "With her eyes open, Nora sees the bright lamp.",
+          "observed": "EVENT open(eyes,nora), with lamp/her themes, rather than matrix visual event; do not count as visual success"
         }
       ],
-      "required_action": "Controller source-warranted admission/migration and full replay; no inferred zero."
-    },
-    {
-      "code": "COMMON_OPERATION_IDENTITY_OPEN",
-      "observed": "Exact native attested predicate examples now reachable for WANT/THINK/KNOW/SEE/FEEL/SAY/HAPPEN/MOVE. Underspecified/novel clauses are not forced; literal HEAR lacks native example witnesses. Source-attested access is not broad held-out accuracy.",
-      "required_action": "Retain full workload and establish independently justified construction/source eligibility for unresolved common operations."
-    },
-    {
-      "code": "WORKLOAD_ACCEPTANCE_NOT_ESTABLISHED",
-      "scope_freeze": "ssl-api-runtime-workload-freeze.json",
-      "required_action": "Full eight-operation inventory and actual finite representative source-warranted positive/MUST-NOT semantic cases across genres/tail; required-bank operation witnesses; >=90% eligible token mass in BOTH frequency and independent corpus aggregate, with genre slices reported; exact artifact/source/cohort pins; full replay and integrated gate. No all-common-form manual gold or per-genre 90% requirement."
-    },
-    {
-      "text": "The teacher is a person whose occupation is teaching.",
-      "observed": "Composed EVENT teach(REL_RESTRICT(teacher,occupation)); exact teacher identity succeeds but matrix copular complement is lost.",
-      "code": "RELATIVE_COPULA_COMPOSITION_WRONG",
-      "severity": "KNOWN_WRONG_BLOCKS_CHECKPOINT",
-      "evidence": "ssl-api-runtime-refreeze-composed-observations.json",
-      "required_action": "Existing production construction/resolution repair with fresh composed controls; token-level exact identity is already correct. Not repaired or waived by this receipt."
-    },
-    {
-      "text": "The femur is the longest and thickest bone of the human skeleton.",
-      "observed": "TYPE_ASSERT(femur,COORD(bone,skeleton)) with modifier long; adjective coordination wrongly becomes nominal coordination and of attachment is lost.",
-      "code": "COORDINATED_MODIFIER_NOMINAL_COMPOSITION_WRONG",
-      "severity": "KNOWN_WRONG_BLOCKS_CHECKPOINT",
-      "evidence": "ssl-api-runtime-refreeze-composed-observations.json",
-      "required_action": "Existing production construction/resolution repair with fresh composed controls; token-level exact identity is already correct. Not repaired or waived by this receipt."
-    },
-    {
-      "code": "FRESH_FINAL_AUDIT_REQUIRED",
-      "required_action": "Original immutable benchmark retained with first-pass lineage; inspected and repair-driving cases are development now. Establish fresh lineage-separated final cases after source freeze. Do not relabel native source example matches as untouched held-out success."
+      "evidence": "ssl-api-runtime-complete-operation-observations-v2.json"
     }
   ],
   "ongoing_runtime_repair": "FINISHED: source edits stopped at this receipt. Further runtime repair requires coordinated unfreeze; CP-07 acceptance remains OPEN.",
@@ -80,7 +50,7 @@
   "corpus_writes": 0,
   "active_pointer_changed": false,
   "source_freeze_receipt": "ssl-api-runtime-result.json",
-  "source_edits_finished": false,
+  "source_edits_finished": true,
   "postfreeze_readonly_findings": {
     "format": "GSE.runtime-postfreeze-readonly-findings/1",
     "measured_at_utc": "2026-11-24T09:09:52.260842+00:00",
@@ -179,6 +149,101 @@
     {
       "status": "CODE_FREEZE_READY_CHECKPOINT_BLOCKED",
       "source_edits_finished": true
+    },
+    {
+      "at_utc": "2026-11-24T19:24:24.796933+00:00",
+      "previous_current_failures": [
+        {
+          "code": "REQUIRED_BANKS_OPEN",
+          "cases": [
+            {
+              "id": "final-leap-event",
+              "definition_id": "wordnet:leap:leap.n.01",
+              "bank": "HAPPEN",
+              "required": 1,
+              "domain": [
+                -1,
+                0,
+                1
+              ]
+            },
+            {
+              "id": "final-whisper-words",
+              "definition_id": "wordnet:whisper:whisper.n.01",
+              "bank": "SAY",
+              "required": 1,
+              "domain": [
+                -1,
+                0,
+                1
+              ]
+            }
+          ],
+          "required_action": "Controller source-warranted admission/migration and full replay; no inferred zero."
+        },
+        {
+          "code": "COMMON_OPERATION_IDENTITY_OPEN",
+          "observed": "Exact native attested predicate examples now reachable for WANT/THINK/KNOW/SEE/FEEL/SAY/HAPPEN/MOVE. Underspecified/novel clauses are not forced; literal HEAR lacks native example witnesses. Source-attested access is not broad held-out accuracy.",
+          "required_action": "Retain full workload and establish independently justified construction/source eligibility for unresolved common operations."
+        },
+        {
+          "code": "WORKLOAD_ACCEPTANCE_NOT_ESTABLISHED",
+          "scope_freeze": "ssl-api-runtime-workload-freeze.json",
+          "required_action": "Full eight-operation inventory and actual finite representative source-warranted positive/MUST-NOT semantic cases across genres/tail; required-bank operation witnesses; >=90% eligible token mass in BOTH frequency and independent corpus aggregate, with genre slices reported; exact artifact/source/cohort pins; full replay and integrated gate. No all-common-form manual gold or per-genre 90% requirement."
+        },
+        {
+          "text": "The teacher is a person whose occupation is teaching.",
+          "observed": "Composed EVENT teach(REL_RESTRICT(teacher,occupation)); exact teacher identity succeeds but matrix copular complement is lost.",
+          "code": "RELATIVE_COPULA_COMPOSITION_WRONG",
+          "severity": "KNOWN_WRONG_BLOCKS_CHECKPOINT",
+          "evidence": "ssl-api-runtime-refreeze-composed-observations.json",
+          "required_action": "Existing production construction/resolution repair with fresh composed controls; token-level exact identity is already correct. Not repaired or waived by this receipt."
+        },
+        {
+          "text": "The femur is the longest and thickest bone of the human skeleton.",
+          "observed": "TYPE_ASSERT(femur,COORD(bone,skeleton)) with modifier long; adjective coordination wrongly becomes nominal coordination and of attachment is lost.",
+          "code": "COORDINATED_MODIFIER_NOMINAL_COMPOSITION_WRONG",
+          "severity": "KNOWN_WRONG_BLOCKS_CHECKPOINT",
+          "evidence": "ssl-api-runtime-refreeze-composed-observations.json",
+          "required_action": "Existing production construction/resolution repair with fresh composed controls; token-level exact identity is already correct. Not repaired or waived by this receipt."
+        },
+        {
+          "code": "FRESH_FINAL_AUDIT_REQUIRED",
+          "required_action": "Original immutable benchmark retained with first-pass lineage; inspected and repair-driving cases are development now. Establish fresh lineage-separated final cases after source freeze. Do not relabel native source example matches as untouched held-out success."
+        }
+      ],
+      "previous_current_progress": {
+        "updated_utc": "2026-11-24T19:15:53.221286+00:00",
+        "source_edits_finished": false,
+        "status": "FINAL_REGRESSION_PENDING",
+        "closed_development_defects": [
+          "RELATIVE_COPULA_COMPOSITION_WRONG",
+          "COORDINATED_MODIFIER_NOMINAL_COMPOSITION_WRONG",
+          "INTRANSITIVE_PP_ANCHOR_DROPPED"
+        ],
+        "not_closed": [
+          "COMMON_OPERATION_IDENTITY_OPEN",
+          "FULL_WORKLOAD_EVIDENCE_UNAVAILABLE",
+          "FINAL_LINEAGE_SEPARATED_AUDIT_PENDING"
+        ],
+        "semantic_safety_correction": "NSM generic allowable frames are compatibility-only, no longer force selected identity or banks. Earlier overclaim evidence retained as development history.",
+        "focused_result": "93 passed in 20.74s (primary-focused-v2.xml)"
+      }
     }
-  ]
+  ],
+  "current_progress": {
+    "at_utc": "2026-11-24T19:24:24.796933+00:00",
+    "source_edits_finished": true,
+    "status": "CODE_FREEZE_READY",
+    "closed_defects": [
+      "RELATIVE_COPULA_COMPOSITION_WRONG",
+      "COORDINATED_MODIFIER_NOMINAL_COMPOSITION_WRONG",
+      "INTRANSITIVE_POSTVERBAL_PP_DROPPED"
+    ],
+    "regression": "857 passed, 1 skipped",
+    "lint": "18 owned paths pass pinned Ruff lint and format",
+    "type": "17 advisory findings retained",
+    "boundary": "No usable-checkpoint acceptance; no corpus writes or activation."
+  },
+  "latest_complete_operation_findings": "ssl-api-runtime-postfreeze-operation-findings.json"
 }

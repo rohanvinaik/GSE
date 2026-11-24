@@ -1,0 +1,154 @@
+{
+  "access_programs": {
+    "cyber": "standard"
+  },
+  "background": false,
+  "billing": {
+    "payer": "developer"
+  },
+  "completed_at": 1795547007,
+  "created_at": 1795546987,
+  "error": null,
+  "frequency_penalty": 0.0,
+  "id": "resp_0d66c4c7356128c8006b05df69da8087d2a3be3df8c285c813",
+  "image": {
+    "context_compression": "disabled"
+  },
+  "incomplete_details": null,
+  "input_transformations": [],
+  "instructions": "You are a GSE implementation worker running through the ordinary OpenAI Responses API. Your tools execute on the authorized local project. No Codex CLI is running. No MCP servers are loaded; use full-unit AST/reference tracing instead of claiming Serena was used. Do not call external model APIs, modify billing, read secrets, or touch the API launcher. The controller IS AUTHORIZED to run the existing LOCAL GSE/Ollama typed semantic transport for its bounded checkpoint questions and audits; this is not a forbidden external model call. Use the two supplied local tools to READ, IMPLEMENT and TEST the task, not merely describe it. The run_command output is complete when included; a larger output is saved without truncation. Use exact role scopes in the handoff. Final factual results retain their requested filenames. Your peer's completion receipt is the synchronization boundary before the controller freezes source pins. Read the full owner intent in the handoff; never replace it with convenient familiar architecture. You have at most four hours and 100 API turns. No commits until both scopes stop editing and gates pass.",
+  "max_output_tokens": 32768,
+  "max_tool_calls": null,
+  "model": "gpt-6.1-sol",
+  "moderation": null,
+  "object": "response",
+  "output": [
+    {
+      "content": [],
+      "encrypted_content": "gAAAAABrBd92Z3wI6VO__Jp7mq2HTxxvZL_tC9gX670zvAggkKOzBJQIB35HLv4P0U8eZy216XCP9iEwV4PM4R52Lq3hxmSQS1esME0oMC-1tTBLq-Hk4RO-lcpQQMvaSkWEpZC4vcWN6qeVntphXU65ikDfBIMzpu0jYCSM07zhU5Q6s-1DKKFevVppXrkmLRU8cpPVv659BODITUxYvHIfrwMGArXXzZhoyemzZk5z7sTcSj3LjzvA16mER80pc3YwK2MVok6ZPnK42ZGvmQaS3WQu9oJTdCEDTM6TFHodHVMbc69LRa4MxxWx3sKkRtUjJHRw0YgJgifRn_spS0JN0ZDoumZA9xf3ab5Zw3l9L_M7IDwPRtliYpP1CDoDlm0Vn-1tAnQHbF1-vHprvFxZeczyxY0Or9y7nG1t1qmuVxrB4X8xSIc0rxq9-lIqH3XcGXcu4CRqszk2kgk7X6P-WunB_FPRe3y3ZG6lN8kJIWtdUjqCjgTN5mBG-8VGla3hHGmIWG_8AOnUf2Q7oHe3kIVPFvaK7MWHxv4M4BQrnGRPU8bHPUZj5YG9wmLEWKhaklYvE0XxlSmS5ae1m3rF9rPa43TJL2GQt5xT24bXpjMcBYpzaTfM5-bhHNAU4AJw9-PqZ8og8VkTBwsuv0BrKU2DfSqbFZ8rTI84_ovbK59TMCHLfAss-PHwRJrU8bjxdbySvJFe-32SQsKwLaEIdXVcarFtPF3EkXN46Ko0njdJwzE7N3JHsdaZptxLNOT14h4pFZF3qMx5xQ2mMBF1_-gs-WQu4S5vU32pjfEebUYmMLv9DdsvZo56QDIrWFen6GhMrrSp2UdfhXighrwL5JA-XowpqlTzlR_913dGjRlkENyKej2w8_Ph--0QYkASPLs9rmL1_evaRnuFpVXdFSvCMdHLCE8kO_7ILHY2AIpU1p6uLexlGCGe0zp31VbEqRcbrGM3fuISL9rLsjc2_tEOOZKzyF0RRYVu0YZOWeZqbm78rf5OguIg5Fl-QSpNvaosIIOipEAHGbn5ARbTcrFDYaCKMqrK4yZzkKJyG0qGtFT930z4xFceok8Yriu3o7R_WY7LwcCTCMNuFzocM2PY3OEvo2-gatHJRjulp8HRoziihX2C8W8N0XQt2H_6o2Ff0FWi5IF3A-V4fBKujs6CnGsm0Bk6KWGqvB9nIT8Ju78NWfyct226cNWQQ0zhfsaeSIHNlNlop0IulLv1PrOwqL3p6qnJ1Pm6SeDeCjrhlTVRGClcTyP3DkQAHI65h73k_bNtgWnfOiX9Agkn1ieeCM17_nU2Xe78zb54UJsQdM3uy9MQi-DiAx4PZgPyYEgcS8caNTDi6NJVBXyqbNYXNV0kOO59jS2wLun1-NKflM6RU_gQgdoc3mlEuCMZAvu_VXylgK4BTubKOUJhPkRjOsJAXpQg5GRBbmRoWRNgpoU8MX1QW3Jrlhmj-Tz-XOMxfVnc_5zJ9teUmZeD4vVZ23a6qNsxdpHo2KwsHRxOTkmq2HoO8ApOFpPTg7EH5jDXz5MF4PJX5ssa1FEpFnbhfrE86oE7Mu9yy3ZR-zGmh2ydigrJXGg0oQXkukkS0IMEfSI3erGjKTA1KDyR0Qc6Vxpwsj0JRxMCjWVVUk25eboyjqxXlWAqn5FhUYSiOEWYVKXfSPoHN6dgzgwulFuOUHnJXEHePlsziuJBgMZnwsXZe9OAAjO1-5SJmYZFaMHydjMj9QSF_qO8BMqGoB86quWX6d2W3P45waPSkw2zu-f1oyEpFviNuBoDDurr7DwPrWnO9sOn5zsxnQ9F0-NIO0sS-V3jGd5QAH3Um0tXjcUfisySM7yIQJ2kSNBWZqmC0fD8tKDOtEwmo0vBxmzDyTMQsAAUuy46uvUD_vqyhQ7xahgd_lh_fwuIZI2H8JXV-d1155Sb31OAvA5MoedAJxwltcNWc_TmfmdDby61_1-rdEkK8RR6Ivf60vKZE1Uy3lwBL5BZjRomK8sHuELc7U0J1UMlVcxJ6jQg_bRAWGU0al3kPWGVSPTXccYzb_B6SmSsEDwlWaWA3mGhQL0IPUxNGn7vW_TwU4hteHwUoH_CGU5gk6RgnPz86ur-DiPafiAIPytRlnPFLjI1dlwC-exJlrGm7NVW_0HxQCYaaGnY01-gt0QkAZzeJTZWYqQaMKHFnw9YcymnTWumK2aN1ShoSY24C9J6j7eevEcFnfHjwT-eblCkJjJShZzRezKeVYeChQK3wUPWqk1lPXPZdn7O4QtcWslm-xiK11YKLKOWZhrM9CjgAB9ouie0mi9uKGxZvYqxYDCDr648Ydn18Rg27bgeB75nPK_xZZhLhJPFcwidI_5GZ_ccw0Z_UVUI9FAn-kSuW7UD97Igzm3HMnWL07Cy-JKLCapDlHdQ1Mwg3foDEel6xcuEA9uerfFimRwJZHguQWuMSUzHkBM-WyWZgJMgPvqkgtGEgmBFm64MgnlVqr4mDkSXeV0L3nA5XPaNDRTr4E3Oym4FZP3YNpJbbRomn_a9HGu1N1T2rUNIRP1kEql71kmW1UBbhAot1L-IOk3_EtQu1yOJ7JPvDwnQ__FA5tNCdJZG3g8czkxhiNTtQMVELEr9wcf6gBH3NbuzReAgIGEQK4sZ05aItfPepovPfCMrGIMIctNJ6hZhGZqUZyS7CSLdQARi5D_bv56oiAwBv-FzdUcMbY3QHRg52j1HwgjNZ642PbUJUBw3vszPWKU8tCHm-WZR5VUiV3b4Hs7twGvb09iE1YIz38GHxjY3D0anvZvA52wq_BDPE05ScwHr6Ns_HsyP63rCmrL0JkzbZny23Uody2f2dwj_yPdaE_yGtnsViIz0Viz7T5FMraBc2w2Ru-DM6vcE9R2Dx5lXc164gPHcBm-y-YhlXGC0_fT1tjQqQa6iCHCuUgCw-o7vhMGYQpJmf23Wm00HUaBiwCGzj-I2xQD_PmcIPi21oLtqp8OFNDLWJSKzC-gHQKdgvNsBLQ5F_kdEu0YrruijX9V0vIpCG0xrDsFxZpiiScDitQy4u2pieY-EZxPs8_VlDJxu3DsyqBMhbVGUyl0Oig9es61jP3InK3oi7UR5w090tOEWikNope1Zs0cbKHOLAIak-6la38FBsF7-Z1_gtiyZOBHrS80EDompOYPOhoSQVC75BA_69HDVt-hLgFXKnI7f20qITFXe0siTL0_xtTqp6HZwYA6uM0_IFEiXZaU0SJZJBlbAma9UzQBZhz0tgew8i3VO9nDqdNAiI8zq-6bKluoaE62dK3reGe_d8O1kKS05V0382rs_uwE0w5OSko5tzy0H7A0KvKS8pW547ql8YzrwAByC8xinth3gEPB6uhjKvL3yS_ypXpcGPWZ6Ed14Qexr1h0OYkh_6jznTYvGS4i6pdLikj5QQko2ynICV-hc0po3ZFVTa7lJpS2rM-BlreimduMMxeNPYzi6pqSI3x37Sxbb5-fxGilZB0v7VQdXzCzrtRS7maZGAaI0ltVsaOI5Fj8ddkfMpNCSwNiIBZAM6mGM5MYcyeoUAKtwFTOSVxJo5nBCHb0irXrTtW8JOXpmi3FdPLOoUtg49dhxuPenzSW2QK6a9Yl2hVW28kIMhzya9P-W8mtdaCiz-yW0qdkrrFdYwU3eNFdCFkr-a1TWeSbno9zt1qVPgnLyzn_p44ZkJstxSAjgN-6ozlvxH8teJjbUHKo8uBnIkhw7XizUuNrdNtKJMj4WPPoalLf1rZExq-hQx0wYXk_5cRgY3nrBtCOz9V5BZDePtyZrYzoWszJFEHDrVjbc6aHcL6J5K59IEoE9vkJ0D2zCknT_GidB_0xk_Y0CsfU_gZOD-sfwxUCm0vrf8E0AYYTvll-CrO9S1PfNt0dZ3QadOO56ehjxPEKIUdxlxUJDphv23soPwPM5mS-qruHFVo0y7kH4jf5oAax7m3hcluezeY0FzeVY8-moACOqOcc8CYWZlS8pVHB9atCpMlolgRjnaWLLrqLrzf5sggrgR8F35zz4trb1JRqcEsMcraavE4New6Nla5SyvC93yhLSkg3U5rjxiF66mMsId0y0MqjjAVKlGsxW3ItNyhkPEKBSwfpIssrDcRCIkMb7k9FdaT7PPaO-zsHPlxk_g2hDEO8mbQFT2Eeq21uU5nLu4TC3MGeXv6J3WAlioyw1VPBdHC2qdNkvlm7ytSxS94Yoar2teQFmV73chTJFzqPa9jC_tqJsT0IZCEsD_kCm11DBAwJUL-rD2LNfgSxNj_MDVsb7Txo19WeD7ODVfijfvSsIHsDlNV0Nh8uqIuz6IQpWy6pVib0r73ztUkZ1DeX_GPJCiVvL2oYPXybpxWOq6eryDPUis08DfDJ84sWwJTbxC97w4xLDnh1pCyUNkKrdEhUI0rSWOuI7JYR30oy6j48DGWKVhHWMR-UDIi6IoWl5ypqKMUR2YE-M7cD-wHfFSPRJ5t6xETmgjQ9AqWj8ekyvXNtjDKV1v1xMf2w_mrfJZdk0VAOJ_RFvmaxMWbMMQwKBuRPONlhjJ8g2-DLwvHPue2TkbQHFuXZDjyvWrzCdgEROSWMRZTNanl-9xu6Pdaw6xTwewRn24prEZRvcK-aFdgyCYHlI5U8-bQvPP37z92bYd0ylMCVdfYDhw1qm9E4VybSobD5C-0x4BzkxTItmXSXue2u0ai1n6UToXb10sCz7qn1NB09xsPchJ76qTmhPG6k4rDH_JJ3CnmMPddHq8d1NrEXCROXTmribSI6KCjXGYhHngayWp1EuzqZLmpWJBtB0x8DNuJgjsnqsbOTC9UMFneRj4erz7gQwXSt7euClaQaJXIHS1eLYZdT6t10RMDoewasP2lxoIqPNeb6bXAwGRBHcRgScciPgB9Dt4-47otD3Z0oCKK-W0niSBTOC8pfmp6NNU5s6AiRKiDbQh33EEUF0-BVE15tAMK2I4pjgsW8IxSYYUQ2agY0fsfEqZeEi-77ty1586fr-GAilLrgwmooBVwEK_zNh-VqxKz2nM27pUaIosBwOGCdWDLrpuVAzw9OANtHDAC_ZVnORO1BHx4X7gX8OMvZqFgeJA-lOqSmi29w3SihvSC3Ar0dW_pb_ayKpw5dRb7a5-XMWidxWxdjkEHbwPf0RX96J0Pi9j0qRtUEYHvYvuFnTBjVUsky5KZkxJViGxtS6-ZDvYnjjuvp5o-fgEWTbpdhUJEIU5IBQ7mGZHgRiNE53b5ygiBrSHHuGzdC6i8-Zkqk5omqQ1eFdHBd-bIveHpYH7HBhRrSTVY1TiFu8Dvq9tgbMKgP9aPiOCyQkWGH1-3vZByi5uOcMJEN_WsFd32FG-UtJx0SiyNT7-TrtXNlLBaPJVKkEgWMeEAW4TJIojFIGUSmv_UrC3r-yXojDaPHX9TMJPfqyButasmnig8kbk-DYg18LiboS5E-87FhWzw5rC75Ce16D5eixoMYi3cKn_OSzWilmkiDDCNa1Re-gYsiK4kHFU38zBPktmMXD80A22ox3lE4vubMJaOW3B4Q6iwPT2ofJvUT2szwXJ_LHooeBr5hYGEsHDtKq7vBT1qwpeSukOtsJ8ZYhBAeiNqufWq-WsXTMLae3cBzYArBlhbkuyiIy4KFfcpws6xqEXpaEphWLFkp2RE2oxV_z4tjc5TnszbtIQu_EXVSLBDl2BHZVdTsRlokHopavUocHILxJECWxlLzBKvN9RT6ccbcHzHBJuA5bO83nt4qfJzoa_BBycOXxcbar_xCSkGyZmYjsW1oXhF_87VoOwm3clqu5W1n4OLlHcAQyJhiPXE1GO5g_X6FSZrZ9Sk31NMppiuvHtdTmiECuqJJ3rXcRiof3vS4wAHMNH8716ldXHLxI-Ds64nSTFQFF-niIF9DMehHtnfUOnPhcWR4WdqWbMALXzRpxM1Ls2q6iQkkFqTw0OLQcE_4w6GdbqyiB2hG4N4ZY9gQJaAUdr0tWJmxdD_oxCsCwsPOAKPqmlRuARNr5b9y4rZRwbdMtEKd4jJ92t1XuPm2km6vdfYqViVkwPlx9HqoJKPY2of9ZuvPu67zUOVoGZe5VIS0uzcjSQDfC4dyBbLRy-hxfyyxxGIQNZ0W3crW_FQwUQgDZ7S7gWjdieAtvY3bemvlM2UWkR9mNvg_fuSOpeAx478SxV20HarQ6hAYecu1IC4vRIag16XzbD0-JJ-l1HTzQKWZj11KhVr3dHH0mBEwCcFJ9fsjdGXv41sROIDGxXayr3sCXfgRzOSqoNR9s5Hr86_pqjKOgax01I8RrUHnJJFL8uam7f-7wtJ-kNPducKRXq0tEot1Rc5iYuwMu0vF9wNCKGCgxyRJXbIA23F3QvQFbQPjETGOCxKhH6v6UigS_3CbpnF_AJzAJvHnRf-DYyMg_qM3Eog3QPvUoiCOOKpx95Kx5BM2UUL9zInsOFzRvfl9kUy416ELkW-rOLL4K4Pn2UsTwRYVaqNsGNhHJbKiZsMHWtPV_h0B1pcG0DfIt5m3qkmVvtrcwt6aL4g8ZtKL4ZwnYMNNiZAf3g2pJLLYGjGnndBBU0gTx_zD802T-KC_SZAoujPQbUNv-SBOhcqmYBLKoUj4-pg5aNAWWTkkPertZFv5f-sB3PqnapmAZxaHsRXFBov9FLg9mlFulA7grHb2Q4nPaQlFJShKYQR3zxiYfeZYyxzjO_8_IlT5ZCLyCsOqmfarjpQuc3FWRHDyXqZhRAx5S9kV5xJF75SAEcjPwWHpWI1yWoR7QhUCKqxHDb59LPW7IC5LK6A60fBpJGeT2tdkFf7pu7GCxrPdELQbCzw_y7hoKu7juLO22y8giNFeDwF9Q1ZF7MUetUonqTceed8D93H2MEpCystP8ObxmZFYZln3vZGMHW117jzp8BZQnqtgWaP-H8xcOtMpi6FyY1ii0bzl4bJb_6ygN3nRj8p0STH-55iH5-jvwdgF_RPus75qm6iadgBsG4qaaSvlEsinuKoZXNP1iyLx1bR3RgVB4UlXbAKDSGheoj_WTlbR4NMxDM5EdkcIWnpxWheP7teZCmSVGzXdYCj0zqfkNFfxkEC366sT2kBcZ-UrGlOGk7M2-LR3s0cJrrwbFgXZUoy5HHmtoyd-Ugqq1vvR6NbFV-nI9w5NR-mZlaUgRyZtYiVNVmPiadMQ0dqY-zTm2GRoN0joOpZl-gmyRmsaWEwo6ReA6j45gkg8jyL4K4e5Fonykn0gS98qTvkwdr1T1Cn2JJ_hbuoI6ptPstC_jZCSm_8VRUS9MLLfedb8ATItwJ1T6X4JWCITmpH8QQK4rt8GrwSIc6D-ffphDcVdPft8N7uAN6jgj6HrAl4pi9ZI33PDmcMY2W7e-QN2EHzijj6HCwHa8rt0vhGB8a1Kcqg==",
+      "id": "rs_0d66c4c7356128c8006b05df76921887d282df9ea8b5a9dfdf",
+      "summary": [],
+      "type": "reasoning"
+    },
+    {
+      "arguments": "{\"patch\":\"*** Begin Patch\\n*** Update File: /Users/rohanvinaik/Projects/GSE/GSE/symbolic/lexical_grounding.py\\n@@\\n from GSE.nlp.native import NativeNLP\\n+from GSE.primitives_v2 import get_hierarchy_encoding\\n \\n-from .expression import Atom\\n+from .expression import Atom, _NEGATION_LEMMAS\\n@@\\n def _primary_frames():\\n@@\\n     return tuple(frames), dict(SOURCE)\\n+\\n+\\n+@lru_cache(maxsize=1)\\n+def _primary_records():\\n+    \\\"\\\"\\\"Exact existing catalogue observations, in their JSON wire form.\\\"\\\"\\\"\\n+    from GSE.curation.lexicon_builder.catalog import chart_definition_records\\n+\\n+    return {record[\\\"entry_id\\\"]: json.loads(json.dumps(record)) for record in chart_definition_records()}\\n@@\\n         start, end = self._bounds(position, self.sentence_boundaries)\\n         actual = tuple(self.doc[start + 1 : end])\\n+        scope = []\\n+        # Existing ordinal/sign grammar is orthogonal to lexical identity.\\n+        # Only a contiguous pre-adjectival/adverbial chain can scope the head;\\n+        # never erase arguments, clause operators or a verb's valency. The\\n+        # actual tokens remain in the trace for bind_degree_modifiers/_sign_owners.\\n+        if pos in {\\\"ADJ\\\", \\\"ADV\\\"}:\\n+            head_index = next((i for i, token in enumerate(actual) if token.i == position), -1)\\n+            first = head_index\\n+            while first > 0:\\n+                token = actual[first - 1]\\n+                hierarchy = get_hierarchy_encoding(token.lemma_.upper())\\n+                if token.lemma_ in _NEGATION_LEMMAS and token.pos_ in {\\\"PART\\\", \\\"ADV\\\"}:\\n+                    kind = \\\"EXISTING_SIGN_GRAMMAR\\\"\\n+                elif token.pos_ == \\\"ADV\\\" and hierarchy and hierarchy[0] == \\\"INTENSITY\\\":\\n+                    kind = \\\"EXISTING_INTENSITY_GRAMMAR\\\"\\n+                else:\\n+                    break\\n+                scope.insert(0, {\\\"position\\\": token.i, \\\"lemma\\\": token.lemma_, \\\"grammar\\\": kind})\\n+                first -= 1\\n+            actual = actual[:first] + actual[head_index:]\\n         witnesses = {}\\n@@\\n-                            if (features := json.loads(raw).get(\\\"features\\\", {})).get(\\\"unit_id\\\") == unit_id\\n-                            and features.get(\\\"source_reference\\\") == source\\n-                            and features.get(\\\"frames_are\\\") == \\\"COMBINATORIAL_NOT_OWN_WORD_ASSIGNMENTS\\\"\\n+                            if json.loads(raw).get(\\\"features\\\", {}) == _primary_records().get(entry_id)\\n@@\\n                             \\\"role_witnesses\\\": slots,\\n+                            \\\"orthogonal_scope_grammar\\\": scope,\\n*** End Patch\"}",
+      "call_id": "call_2e082ce5ee1742b8a5d204d52aa4ecd6",
+      "id": "fc_0d66c4c7356128c8006b05df76941487d28870862f9f64b8b0",
+      "name": "apply_patch",
+      "status": "completed",
+      "type": "function_call"
+    }
+  ],
+  "parallel_tool_calls": false,
+  "presence_penalty": 0.0,
+  "previous_response_id": "resp_0d66c4c7356128c8006b05dee9c26887d28c66e300dc24920e",
+  "prompt_cache_key": null,
+  "prompt_cache_retention": "24h",
+  "reasoning": {
+    "context": "all_turns",
+    "effort": "high",
+    "mode": "standard",
+    "summary": null
+  },
+  "safety_identifier": null,
+  "service_tier": "default",
+  "status": "completed",
+  "store": true,
+  "temperature": 1.0,
+  "text": {
+    "format": {
+      "type": "text"
+    },
+    "verbosity": "medium"
+  },
+  "tool_choice": "auto",
+  "tool_usage": {
+    "image_gen": {
+      "input_tokens": 0,
+      "input_tokens_details": {
+        "image_tokens": 0,
+        "text_tokens": 0
+      },
+      "output_tokens": 0,
+      "output_tokens_details": {
+        "image_tokens": 0,
+        "text_tokens": 0
+      },
+      "total_tokens": 0
+    },
+    "web_search": {
+      "num_requests": 0
+    }
+  },
+  "tools": [
+    {
+      "description": "Run a local command for the assigned implementation, returning complete output or a saved whole-output artifact. Read whole coherent units, never grep/rg or snippets. Credentials, billing, external model clients and other edit scopes are forbidden. The controller may invoke the existing LOCAL GSE/Ollama typed semantic transport.",
+      "name": "run_command",
+      "output_schema": null,
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "command": {
+            "type": "string"
+          },
+          "cwd": {
+            "type": "string"
+          },
+          "timeout_seconds": {
+            "maximum": 10800,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "command",
+          "cwd",
+          "timeout_seconds"
+        ],
+        "type": "object"
+      },
+      "strict": true,
+      "type": "function"
+    },
+    {
+      "description": "Apply an *** Begin Patch formatted edit to owned project files after tracing their consumers.",
+      "name": "apply_patch",
+      "output_schema": null,
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "patch": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "patch"
+        ],
+        "type": "object"
+      },
+      "strict": true,
+      "type": "function"
+    }
+  ],
+  "top_logprobs": 0,
+  "top_p": 0.98,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 98465,
+    "input_tokens_details": {
+      "cache_write_tokens": 909,
+      "cache_write_tokens_details": {
+        "ttl_12h_tokens": 0,
+        "ttl_30m_tokens": 909
+      },
+      "cached_tokens": 97553
+    },
+    "output_tokens": 927,
+    "output_tokens_details": {
+      "reasoning_tokens": 255
+    },
+    "total_tokens": 99392
+  },
+  "user": null,
+  "metadata": {}
+}

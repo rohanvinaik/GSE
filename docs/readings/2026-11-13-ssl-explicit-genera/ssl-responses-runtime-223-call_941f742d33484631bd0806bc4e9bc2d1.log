@@ -1,0 +1,29 @@
+want ERROR {'contract_version': '1.0', 'predicate': {'op': 'CONTROL', 'args': ['mira', 'mira', {'op': 'EVENT', 'args': ['mira'], 'features': {'verb': 'rest'}}], 'features': {'verb': 'want'}}}
+want-negative ERROR {'contract_version': '1.0', 'predicate': {'op': 'NOT', 'args': [{'op': 'CONTROL', 'args': ['mira', 'mira', {'op': 'EVENT', 'args': ['mira'], 'features': {'verb': 'rest'}}], 'features': {'verb': 'want'}}], 'features': {}}}
+think ERROR {'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': ['nora', {'op': 'EVENT', 'args': ['child'], 'features': {'verb': 'tire'}}], 'features': {'verb': 'think'}}}
+know ERROR {'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': ['nora', {'op': 'EVENT', 'args': ['child'], 'features': {'verb': 'tire'}}], 'features': {'verb': 'know'}}}
+see-qualified ERROR {'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': ['eyes', 'nora'], 'features': {'verb': 'open', 'themes': ['bright lamp', 'her']}}}
+hear-qualified ERROR {'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': ['nora', 'ringing bell'], 'features': {'verb': 'hear', 'themes': ['ear']}}}
+feel ERROR {'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': ['nora', 'afraid'], 'features': {'verb': 'feel'}}}
+say ERROR {'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': ['nora', {'op': 'EVENT', 'args': ['child'], 'features': {'verb': 'tire'}}], 'features': {'verb': 'say'}}}
+happen ERROR {'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': [{'op': 'EVENT', 'args': ['strange event'], 'features': {'verb': 'happen'}}, 'bridge'], 'features': {'verb': 'near'}}}
+move ERROR {'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': [{'op': 'EVENT', 'args': ['child'], 'features': {'verb': 'move'}}, 'gate'], 'features': {'verb': 'toward'}}}
+good ERROR {'contract_version': '1.0', 'predicate': {'op': 'TYPE_ASSERT', 'args': ['kindness', 'morally good'], 'features': {}}}
+bad ERROR {'contract_version': '1.0', 'predicate': {'op': 'TYPE_ASSERT', 'args': ['cruelty', 'morally bad'], 'features': {}}}
+big ERROR {'contract_version': '1.0', 'predicate': {'op': 'TYPE_ASSERT', 'args': ['building', 'big'], 'features': {'degree': [{'argument': 1, 'target': 'big', 'scale': 'INTENSITY', 'level': 1}]}}}
+small ERROR {'contract_version': '1.0', 'predicate': {'op': 'TYPE_ASSERT', 'args': ['building', 'small'], 'features': {'degree': [{'argument': 1, 'target': 'small', 'scale': 'INTENSITY', 'level': -1}]}}}
+have-main ERROR {'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': ['nora', 'bicycle'], 'features': {'verb': 'have'}}}
+have-aux ERROR {'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': ['nora', 'bicycle'], 'features': {'verb': 'repair'}}}
+do-main ERROR {'contract_version': '1.0', 'predicate': 'nora'}
+do-aux ERROR {'contract_version': '1.0', 'predicate': {'op': 'NOT', 'args': [{'op': 'EVENT', 'args': ['nora', 'bicycle'], 'features': {'verb': 'repair'}}], 'features': {}}}
+here ERROR {'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': ['child', 'here'], 'features': {'verb': 'wait'}}}
+above ERROR {'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': [{'op': 'EVENT', 'args': ['eagle'], 'features': {'verb': 'fly'}}, 'cliff'], 'features': {'verb': 'above'}}}
+below ERROR {'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': [{'op': 'EVENT', 'args': ['eagle'], 'features': {'verb': 'fly'}}, 'cliff'], 'features': {'verb': 'below'}}}
+before ERROR {'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': [{'op': 'EVENT', 'args': ['traveler'], 'features': {'verb': 'depart'}}, 'sunrise'], 'features': {'verb': 'before'}}}
+not-very ERROR {'contract_version': '1.0', 'predicate': {'op': 'TYPE_ASSERT', 'args': ['child', 'tall'], 'features': {'degree': [{'argument': 1, 'target': 'tall', 'scale': 'INTENSITY', 'level': -1}]}}}
+very-not ERROR {'contract_version': '1.0', 'predicate': {'op': 'NOT', 'args': [{'op': 'TYPE_ASSERT', 'args': ['child', 'tall'], 'features': {'degree': [{'argument': 1, 'target': 'tall', 'scale': 'INTENSITY', 'level': 1}]}}], 'features': {}}}
+duration ERROR {'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': ['pause', 'long time'], 'features': {'verb': 'last'}}}
+generic-see-negative ERROR {'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': ['i', 'my doctor'], 'features': {'verb': 'see'}}}
+judicial-hear-negative ERROR {'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': ['court', 'case'], 'features': {'verb': 'hear'}}}
+quantity-good-negative ERROR {'contract_version': '1.0', 'predicate': {'op': 'TYPE_ASSERT', 'args': ['it', 'forty mile'], 'features': {}}}
+saved docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-complete-operation-observations-v1.json unchanged True

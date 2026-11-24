@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-frame-seam-read -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast\nfor file,names in {\n 'GSE/symbolic/lexical_grounding.py':['NativeSense','LexicalGrounder','LexicalGrounding'],\n 'GSE/api/encoder.py':['GSEEncoder'],\n 'tests/test_runtime_native_identity_controls.py':[],\n 'AGENTS.md':[],\n}.items():\n p=Path(file);text=p.read_text(); print('\\nFILE',file)\n if file.endswith('.md') or file.startswith('tests/'): print(text); continue\n tree=ast.parse(text)\n if 'lexical_grounding' in file:\n  print(text)\n else:\n  for node in ast.walk(tree):\n   if isinstance(node,(ast.FunctionDef,ast.AsyncFunctionDef)) and node.name in ('encode','lexical_lookup','_lookup_lexeme'): print(ast.get_source_segment(text,node))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

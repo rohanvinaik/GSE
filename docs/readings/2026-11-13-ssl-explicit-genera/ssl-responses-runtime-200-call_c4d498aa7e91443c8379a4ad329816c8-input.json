@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-resume-state -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast,json\nfor p in ['AGENTS.md','docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-steering.json']:\n print('\\n###',p); print(Path(p).read_text())\nfor p,names in [('GSE/symbolic/lexical_grounding.py',{'select','_primary_frame_support','_primary_frames','_primary_role'}),('GSE/symbolic/operators.py',{'event'}),('GSE/symbolic/expression.py',{'_try_event'}),('tests/test_runtime_native_identity_controls.py',set())]:\n s=Path(p).read_text(); tree=ast.parse(s); print('\\n###',p)\n if not names: print(s); continue\n for n in ast.walk(tree):\n  if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef)) and n.name in names: print(ast.get_source_segment(s,n))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast,json\nfor filename in ['GSE/curation/lexicon_builder/specification.py','docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py','docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_runtime_workload.py']:\n p=Path(filename);s=p.read_text();t=ast.parse(s);print('\\nFILE',filename)\n print([(x.name,x.lineno,x.end_lineno) for x in t.body if isinstance(x,(ast.FunctionDef,ast.ClassDef))])\n if p.name=='specification.py':print(s)\nfor p in Path('docs/readings/2026-11-13-ssl-explicit-genera').glob('*workload*.json'):\n d=json.loads(p.read_text());print('ARTIFACT',p.name,'KEYS',list(d) if isinstance(d,dict) else 'list')\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

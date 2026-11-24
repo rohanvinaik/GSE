@@ -1,0 +1,140 @@
+
+FILE GSE/curation/lexicon_builder/specification.py
+[('measure_space', 26, 86), ('measure_resolution', 89, 91), ('space_delta', 94, 114), ('normalized_spelling', 117, 119), ('frequency_buckets', 122, 133), ('_aggregate', 136, 176), ('measure_dictionary', 179, 221), ('compare_measurements', 224, 248)]
+
+FILE docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_self_boundary.py
+[('sha', 33, 38), ('checked_anchors', 41, 68), ('apply_boundary', 71, 139), ('run', 142, 184)]
+def run(candidate, output, manifest, warrant, baseline_replay, gold, result):
+    baseline = {
+        "candidate_sha256": sha(candidate),
+        "active_pointer_sha256": sha(ACTIVE_POINTER),
+        "replay": json.loads(Path(baseline_replay).read_text()),
+    }
+    # Bind the reused computation to the immutable head it actually validated.
+    replay_phase = json.loads((Path(baseline_replay).parent / "postwriter-validation.json").read_text())
+    if (
+        replay_phase["candidate_sha256"] != baseline["candidate_sha256"]
+        or replay_phase["replay"]["sha256"] != sha(baseline_replay)
+        or any(sha(record["path"]) != record["sha256"] for record in replay_phase["builder_source_pins"])
+    ):
+        raise ValueError("GENERIC_SELF_BASELINE_REPLAY_HEAD_CHANGED")
+    report = revise_source_candidate(
+        candidate,
+        output,
+        baseline,
+        lambda conn: apply_boundary(conn, manifest, warrant),
+        format_tag="GSE.founder-generic-self-boundary/1",
+        metadata_key="founder_generic_self_boundary",
+    )
+    audit = evaluate_build(output, gold)
+    if audit["outcomes"]["IDENTIFIED_CORRECT"] != 4 or any(
+        value for key, value in audit["outcomes"].items() if key != "IDENTIFIED_CORRECT"
+    ):
+        raise ValueError("GENERIC_SELF_DEVELOPMENT_BOUNDARY_AUDIT_FAILED")
+    with closing(sqlite3.connect(Path(output).resolve().as_uri() + "?mode=ro", uri=True)) as conn:
+        for entry, (bank, value) in CONTROLS.items():
+            before_conn = sqlite3.connect(Path(candidate).resolve().as_uri() + "?mode=ro", uri=True)
+            try:
+                before = before_conn.execute(
+                    "SELECT domains FROM definition_states WHERE entry_id=?", (entry,)
+                ).fetchone()[0]
+            finally:
+                before_conn.close()
+            after = conn.execute("SELECT domains FROM definition_states WHERE entry_id=?", (entry,)).fetchone()[0]
+            if before != after or json.loads(after)[bank] != [value]:
+                raise ValueError("GENERIC_SELF_CHANGED_REFERENCE_CONTROL")
+    report["development_boundary_audit"] = audit
+    report["evaluation_lineage"] = "EXPOSED_DEVELOPMENT_NOT_FINAL_HOLDOUT"
+    Path(result).write_text(_json(report) + "\n")
+    return report
+
+FILE docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_continue.py
+[('main', 21, 103)]
+def main():
+    notes = Path(__file__).resolve().parent
+    root = notes.parents[2]
+    work = root / "data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint"
+    result_path = work / "result.json"
+    child_answers = notes / "ssl-api-controller-child-answers.json"
+    deadline = time.monotonic() + 3 * 3600
+    while not result_path.exists() or not child_answers.exists():
+        if time.monotonic() > deadline:
+            raise TimeoutError("CHECKPOINT_PREREQUISITES_NOT_FINISHED_NO_WRITES")
+        time.sleep(30)
+    result = read(result_path)
+    candidate = work / "candidate.db"
+    if (
+        result["code"] != "JOINT_REFERENCE_REVISION_REPLAYED_WORKLOAD_GATE_PENDING"
+        or Path(result["candidate"]).resolve() != candidate
+        or fingerprint(candidate) != result["candidate_sha256"]
+    ):
+        raise ValueError("CHECKPOINT_JOINT_HEAD_IDENTITY_CHANGED")
+    helper = notes / "ssl_api_checkpoint_packets.py"
+    spec = importlib.util.spec_from_file_location("checkpoint_packets", helper)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    configuration = read(notes / "ssl-root-prime-transport.json")
+    transports = [
+        module.PacketTransport(
+            notes / ("ssl-api-controller-" + kind + "-questions.json"),
+            notes / ("ssl-api-controller-" + kind + "-answers.json"),
+            configuration,
+        )
+        for kind in ("prime", "child")
+    ]
+    coordinates = [*transports[0].packet["coordinates"], *transports[1].packet["coordinates"][:3]]
+    original_version = "9aeb7c65650902cbf3139400c64acff3aa9645a9937069d95015f5b728e06436"
+    # This read-only diagnostic refuses obsolete/affected source contexts before
+    # paying for the writer's mandatory full preflight. It is NOT a certificate
+    # that substitutes for that replay.
+    with closing(sqlite3.connect(candidate.as_uri() + "?mode=ro", uri=True)) as conn:
+        conn.execute("BEGIN")
+        relations = _relations(_metadata(conn, "relations"))
+        history = read_history(conn, relations)
+        observations, relevance = _contexts(conn, tuple(pair[0] for pair in coordinates))
+        requests = {
+            (row["request"]["entry_id"], row["request"]["bank"]): row
+            for transport in transports
+            for row in transport.requests.values()
+        }
+        verified = []
+        for entry, bank in coordinates:
+            definition, assertions, restrictions, _ = _entry(conn, entry)
+            raw = {"rule_version": original_version, **requests[(entry, bank)]}
+            request, _, _ = _historical_request(
+                raw,
+                definition,
+                bank,
+                assertions,
+                restrictions,
+                observations[entry],
+                tuple(sorted(relevance[entry])),
+                relations,
+                history,
+            )
+            verified.append(request.request_id)
+    record(
+        notes / "ssl-api-controller-delayed-precheck.json",
+        {
+            "code": "EXACT_HISTORICAL_REQUESTS_RECONSTRUCTED_FULL_PREFLIGHT_STILL_REQUIRED",
+            "candidate_sha256": result["candidate_sha256"],
+            "request_ids": verified,
+            "transport": transports[0].identity,
+            "service_calls": 0,
+            "writes": 0,
+        },
+    )
+    report = module.write_packets(
+        candidate,
+        transports,
+        coordinates,
+        notes / "ssl-api-controller-prime-child-writer.json",
+        rule_version=original_version,
+    )
+    print(json.dumps(report), flush=True)
+    record(work / "space-post-prime-child-teaching.json", measure_dictionary(candidate))
+OWNED DESCENDANT NUMERIC STATS
+91155 1 04:08 0:00.37 21824 self-boundary-owned
+91159 91155 04:08 0:00.35 22064 self-boundary-owned
+91161 91159 04:08 0:00.14 20304 self-boundary-owned
+91163 91161 04:08 3:17.34 2868704 self-boundary-owned

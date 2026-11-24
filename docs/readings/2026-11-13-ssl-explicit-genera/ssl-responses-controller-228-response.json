@@ -1,0 +1,154 @@
+{
+  "access_programs": {
+    "cyber": "standard"
+  },
+  "background": false,
+  "billing": {
+    "payer": "developer"
+  },
+  "completed_at": 1795546651,
+  "created_at": 1795546620,
+  "error": null,
+  "frequency_penalty": 0.0,
+  "id": "resp_02d2f1a2860b74e1006b05ddfa5b9487d2988176d1489715f5",
+  "image": {
+    "context_compression": "disabled"
+  },
+  "incomplete_details": null,
+  "input_transformations": [],
+  "instructions": "You are a GSE implementation worker running through the ordinary OpenAI Responses API. Your tools execute on the authorized local project. No Codex CLI is running. No MCP servers are loaded; use full-unit AST/reference tracing instead of claiming Serena was used. Do not call external model APIs, modify billing, read secrets, or touch the API launcher. The controller IS AUTHORIZED to run the existing LOCAL GSE/Ollama typed semantic transport for its bounded checkpoint questions and audits; this is not a forbidden external model call. Use the two supplied local tools to READ, IMPLEMENT and TEST the task, not merely describe it. The run_command output is complete when included; a larger output is saved without truncation. Use exact role scopes in the handoff. Final factual results retain their requested filenames. Your peer's completion receipt is the synchronization boundary before the controller freezes source pins. Read the full owner intent in the handoff; never replace it with convenient familiar architecture. You have at most four hours and 100 API turns. No commits until both scopes stop editing and gates pass.",
+  "max_output_tokens": 32768,
+  "max_tool_calls": null,
+  "model": "gpt-6.1-sol",
+  "moderation": null,
+  "object": "response",
+  "output": [
+    {
+      "content": [],
+      "encrypted_content": "gAAAAABrBd4C9kk_yZl8vmj1yWiylLB_R-dCU8tJum-WoQB0f3GnthE3Dknr0XWmumgzzoRqzftql2k8qdGrTKg2J6jjxo7fw0cEdm0ZhZNsLtP-4rvCWsFLDkXKQelQtkj32FWYNPFfsbutbEGxMw675HnPSbB9NK9QJtsG3Pu_ApBfKVaYZWKXkjsfPE8nB7WvuCtBA8UedM8Tpmsuywgc3ULWrt8bR3S8boiD7w4CxFowf54dsk_3Y6-mh5dIFelXOHc1Gbm49InUCF1MaRWajVmTl_qCVF6Mj4diiZoCW5JMElKnQJZOdBsGzyqTEvdBAiX3AkOrV9ipgGyGMNeQj61-c1sGgtaoAu_6N9ah0O7aTZnVDVBFMs0m_MOzXsipWBOtujaYLO4aUm3vX8hN0jM1UqT7IWq4Vpp-Y9X6WQUXgHoAg7KHwlzV8glURZU_ZxcS0Qpk0drUbvVB-cN1rUbF4C4x9fnUotfN_2ABOKoBsSUTTo_P6BvMxu7BhWsZte_EX-5GoH_d3MlW9PXICIs5-7ayigCwGPEJUn3o34Ss9UvPSMrkaYTckjF4xkZGwtTbpA4C6xpWcSxK65PZ3eGNh6GX_xxASJNsjgdcFAoSDKWxvUXTT946dC57qCYOTAuop8mKzaBnBvgPBXLmmoahpKZK9tjJXU5NGXuJXUV356TH3AhtPwGKup9Gfzcqx1q1j1sqCPt7EjhoQ1wXuQLtEKOqz4moXsBXx_-fs9H9hGbpue9jZFHKFZQxdE6Lz_QiJQy6aNkilv9ZhVk-h48AysBJUIL3NuaDpUaJKqiYM-o02UDrv3dyRkBiTqqumw3C0MTyYevz38kMzenLHcXz6jI0zETQZo24VGwt2Acn5T1IRFnukSSKyWM-6fGeD6LsJxl6Qd49-cmkJp7eaE44Xi_tHDIBGamwuh11AVVGe1s3GZSj1RnfSHCmkB7w8ZXXbPdUXWFQA_4b0s-6HQmEDoZnwDUOCgvvplZzwOBgvo-nwDH2TtWZLYNxaz8JqwBFY0UZMuV31QuhsZRTYNOxj8lZJHuIKEsxk7DKNgH9fkuUGYzIUo9Sz5XhXbY8JACxBTkGDzuMp4NiIbjJTIJ5ORLBPgWt0qITi4MSIMk3DhY_3YcN2Hvs2vKo6fN8aF0K-C8W-nvCii41yUluLJDhR5JezmMG4x4zhkzrY6DwFFxAZ3QUIDy5ZPjE581c1nobaX_0bToxqjCPk9h5wUqVTe5dQkP2psW9jHrXUYVhGJChXxXVXXT-0LziwgHrpUMhTCbsDenwfenMHrjjIJ3xLulvpQuNbfGjhmm-1Lw0mDYICAFxLDeMX4tILfL0ateJSzqWNuRZf7iT8TZd06z1T_d-XUQG8-EFwxPtmRheO8_Db7lsIx3zNwK0M4c3wc4Y_JKh6KYDOoBDAmtGrzpkzA3fqUvkY18IarvRifNutMxcd00b_wW79-SWzPW0Aai8aCLAl6K1uGzuzksMTKUIRNv8N9u4NWM2V4VL4vCjzcFE8r0f1Y7ZLNvP0dYi3u-oFZZPS3feXXNDbU8gVb8pXrxWpN6SYshFd0M4-PtKyzTlm0iNnG-9lodFkrlSD9JWv8Ww3LCqM1oorK6h_q6ZKRMVpWW34pHHpRZMVFKjUqAUcDuYg2TQ83TsFzo97ZzSnOuWcFLc3JVOFxYd7_FOpHGQw2HC7iksouKsDcilSbls6Who30TU77yzs6NC_a5kLUoTqi3Wv6BfMWVT8bhaWKrICrIcBVa8VZzYuTcbJmSDslocVwyuFHA1V8AIVuNvx4VnPtHZY-JXy8CF3h2Tw83-PilROlF5FlEpdt615FqaSoYmbZXChQxod9Up2TEk1_RUifh0dBu6lsejjkSWXWmxTjMQnBBiL_Y0DWilPfjjkdnMQQgGn2dAmw5rIPHC9IyjjL84Iaaiwny7-TiO1-zzE--QP9dSNQnjQDZTJIXq1M9hzPOEu9MCFZrCGlb1xqq1x50XOKzYfdqinqmBwUunk7gUKHvulL58MKDTebDZ9QsaK6nQFpvoZ4XnEgRM4yyKVID61Uaxq-9xZ1301APfjAlTzMJEnQvZiSJ8exsQwYliTZh89j-kplUb4cxvbTXiu6YPJewwV2FsIhg86kL4SJRzx8Uf_neIyAKCycPIpX_LQ3YF9WoIiiwm0fzjkxFUjR0TuubCcn_JGUZLxottVQY3j3Nxc4XEzYfr80MjA3aCbOE16Q7r1gnGIheJKbZZLc8-J1yx6Ddxaa1NcNWzlJXqMb78oYfCMlIKjGwTHo9l3lBzDEZxtUrqOsg7fHTARQk72ksC1gzJcCO-n0cwCq25CI3R8ZU7m9cPnxncIm7EERzqipNlU5wFR1SCHmHo8Mj_IpgyJN3APJkBBVrhHlqG6sNg7TpNbhIgWFU9bj3mGtp3QH68fjgSzu9V4_a8qPWrO1op-BH9rSud6Uzwm3CezG0fMrj9Uat2F9MDB00Vx6Pds-0K3ADY05Yb4wqT7tGvPAoi2zl8mfsP31jRvQGL5_6HZmnUp3CiJg1MfnFrP5X1fdvlB79zhZGE0gpCPwUnkSkfl91UGx1CvZKrXXq27gqQPcHlFVG-iT5K7IjbwiL9cFxwLSVn64k9-Ytf3ViknmlckAJIGw76JWbzNGgZUuxKJbGVSFRPhHu4iv0YOLkDWnqY2RgfW0xBo-d1J_4gXphCc7HWTS8_JcQWUCBGJ0ABu3La9G-FfImbJGrALIzmdnk9Ag0Ru1sLdIleYrSRtSkHJ2d4DM7zmYEt__Jh5ahYMcKv_XJjf3HhrMViFx1PRkqGYZaFx_22e820h3Ejo0Z4ySPJv3y4sfCYS3j7kJw8BA1MP9yGo-a5OtWDyTM56ABEzn87618_kfCVWPhfN-xQYVfMWeldMwyeBppYO_0KidPTvooYzPYrZXS9weXVRV8mYQrPzUivRx08Vk80nc6DEwshOiLhOZXTdpqdgdoWG3XTochnxbD6L8-Vz_DBxMvHmdY0vQBo0NhqPsv04U8tBZ0ibTBMt15p2zV3OdU2JgFa6bQu7JzNR7KHVgDbTsCyHoeAlwGxlKyhYu5HBwa1jJgcZLOy7PzihuupZ7MG9yIxZma92OY-8IegrmBS7dzudPrZ2Ay0eaEXCNzrKyLLdXSZguwJs7DYcwnvy3ztUKsWSq7JQcDbnCvMnPhC-Au1v-qMaBjwcgAuTpBgSOqmzuiWPs0L7YgyuV0EMRSBJi8jAVhMmNr5IAczG29Mt-JCc1JCGOMXjxKDGRtKP2Yc-Qe8ZexOXQmqJVFXaznUAIG_KsgZykyk_DD6L6qHpY71KQUwubBlihv9ndZsmQogk-M2-eEoAV9f_0tZI9zXdoIRecngDUyw4zLAufgPbQjrKdLT_lLDsfdcOv5_RbBG_-7Z6NY4UWrPvECSIQaqst6o6shH5J572DvmskitdjnVSE1vqahSqtyZWmgev9va5_73YsfzpghXBWjBHGT6Z686e21UZmqapn3gtJyxZzKWRnWq3gtRkCQTGQcvN_bPEoSuPMLG-Drydzvhvi3Nn5ZwBqiqOqytIV_23Gp0NbLcR5cXmDrC2PrPx_Jqr30R26kWK-gEnFEF8zKRHbqoXLHbGJAEpE6LeOIyEaUDM5HPyvqYGbom1_nNEZDIluWxBSgSVt9nyqG--E7j8uVAGjZ8VsHaCfCHkRvj6dIIwqdQ__Wl7wY21qMJI5r-Dxys_T9-7TAuHULfVddLnoLWUxtYwgS76GXQmsrPmXFtyeeZSyXddCOEBn496IZMRgY7arZFpPbLpMprXnjqasjBzH85ViC_ksJWXIU5BD0byseqFbBxbxROHxEOSI77jKeourTez0NsznmXcy4N9aOpLoYU4qc3gAl9xUnEBhYG91pfdVmxXjxRQ6trMTyLEuQKKw35owbo_1akCpkrHJFLZpEGH-lpzaLF2OHm2T9XnfvFodf8dkNWp2DPDIzmWCltbnN0I69qf7tBzwm4R-aVg-ySHmbnnQ5GhpczVQZqigEnpA092uvdoRYCVx6SjBBLgtd8uiNxo16mCb-0scN1-ErrB3NFEN_Gqa1Fz0C_qpD5_JfU-UvDC3clBrsSUzyhI7VthYqLT0Xn45siS30bkw2abgh4JFJEdHyTYM8avvIwV0pg4Jr5sfjj74hRulr_9bCQR7vb6L1boZ9ZQFsEnP9R3NQSK1rO5RCDDmtmcx0Mbd4IWyyQlzF-KGliu1jk8s5eazJvvoxU3UwhWjORdpvWbry53GjKIi_WHvLSLMeQMPjJAj5qbk8qyRo0shmVpB9qcrQTvktDC_tjtAuXuU2uOPxgWpvB6pCSRotWKN9eUen_84HIJLyu8siwDg4b7_wiarVqtxWlUuqYvaH2cQx0U_alQJtQqLy0Ff4db3O2F3S6sQWUvZ2Dv4AnmxsA6q4W7WeqSeFV5HTQ0-yeKcTHrm7biK153wi_Guj9wcLacK0TuAMME49wY_pmkSg0nadCD_TRmEu0q3dKcuCKYrd1L0zEIeVxEg6kIz1pvBQzneqtgrQGUXJcUlKnFPijFH6Gbi84jerBW4s6_QjOJAvuJVye9vX3F0Xx21kDKxmg9S-CSJMsvVRksK6oIIwA3q-PolADzujmYyPDj6J8743VHV5y1ZkLezGEuAgpgLLsXlbnqWHXHTNfmQjL5zWIIBGcxIPnrpc64196NeAI0yulHLxmoC1rIcsK4aFhyTHy4KbnsPkJIv_0uPgbKnV1trBwq2_j3g5yPwzlvBelLv8Ixhy2q5EdxDt-eb4hyA_KaVG5Nmz-1xZ02gv0mFjHehP5zmmMHBm9XaLbKrlrYkRtPDCBh7xio_VrJVw1ExnfHJUCUKe7I3WgywY14JtT8oi0D7XHvGANeR80Wi9_2w00H6V4G32KQO6xWLSw6Y2o47td50iAqqlgvl0GUL4FkeuAfXVlKzqo3oi9dHeqaNYLsOIfB9Sr9CKtramLZPi-7ZKNhUwLAK-eCUQa6Pe-wUm5WBBr4VfG8CanyMfHdxkHlyr7GR82NkECr1mWzvc-a8D5MRZP_SeZTmwU4ABjkEhQ5KFlhKxDeyT6mQ6cgRTisK_l3vahMIJpikbVcTUp6SqV-H1oAnvZW-rwB0KK5FLWSCYQ0Eltmixu7i6ObGsKGyiUX2EclsH99A9sveD8pFnsqYSMnMrdDZseRlCvi0g1izGBpSYJXSWlmb1Hn7oiLrF50U5LMfcbWSNp0Gk0RD-uWY1bQGjLiZlCl4cqWiJ4acVcMMylqPcBipeMwT8-MtwijuVkJJU58os2JeH1_yhlzRjCqwSUpWN5tDWNILh6oITu7r_UdXrqMcv0-XN4Ku439JXegZ2Qz68W2-UyopOj9VIUy0nj7udOl0szyPCQLvcimZzWYcsm9c9kH2Mmap4p_hYtN6mxP7sFJwp8vsdnp_a5qFU0CCUYYIc2bYT4rwxBufUq3UPMs2aP-Ye86jU2_f7D9VoYYhMeTtGuk1KyRkeGvVqcvCC8bbwGIRfnbJhe6pF6LSvufKpbpMcRaSZJ15-Son16FAYcfCq_Q959uw7Hk_iEG7iWNphqyz8vP0hcQis5Dk-0_Haa4tAQNGGp-_ObUBprejVvVRPCztjz8HW4ukxjjIT7Ay3MaWlH_vTrfPhlXrEZK4TlvuM7N9K_kEJWQlCn5aoSGqTHGqtpcHJZpBeHg_4odaY0jjvb0HXLf5ipaAa37xdr1RhYDsaPwuyA36KfhNaatAX6qggiSUUUYwPlbtOX3iY_C9SJV9JB9FHMVx5KwG-F9BydGln7qaLDm9SZIk5zccoBnzUvHGFlfhyTwn1_aAU94yK0S45XNFPxW6X3B8DnPuJ9u5-jc0dmYAGThSXm6kIrftd-_F6BGLRIwxDnxI7ozQTJc3voamjIqk7wGWIl7I14RSa6C6Ua-56AYWwOCSoACWIWvjEXMzqQ4f4UPPVGkxLQW7kWC2bqC0j4pTzDuM75B8LDxG7sMZ1J_mSjzeeJkGhC_3p6th60L4M2ueSyHWHxsQ3nrrRXGAU4OnABTG_FjGznqhtIMeE1Ga8yBqX4lhoPh5yqzGkBXs3L6JFuRGoUJq_TgP8D5JM-cPwhH5f6tsblV6vSoCjFVL6HtBvNso491C4-OoRelY_zve_y1ohyom7ooJWN4zmS2tP_9m1MKfNpcXJ7EBVR2NWmygzpK-Qww-NbonoxCxR93t39Qg5C0aWePVlH5EYP0OuK-mfw8mZkfliXMplWKBkxe07qkUyph0bvziPApELUA2FRD6NDpHl48LUNZKg27XxsN8F4gUP6iOwCChVhq0zZZ8IUfHMVYB9sYtZe6iil2QiSqTMs6if5f1FdQrdcNprgNhFFYtY1MEb6eXvMyePXqYZfAIf--A4B1gguYFYV298LgTK3cXXF8QW1oLkCydr-5FGmefP6sdmAcsknj6wjgvTvCW33mvKBH3Hv8QNjI1RqcNTjDyG-Znk9VEEJOe6MdniqnUd9nyyfzuVbTMuFVLsuJLLlNTvnoVAqVpopa8YKXGYJriCX7zp5FcPaQwGDyRwS1HmZPXnrmKC2DDWbNiLKC0jJ_3qQoLv8YhSFOYMgYevYIqzWdIylR2FukhBw5LmR7q56TBRluESQYcltzx0EHJm8ZWmwhs1IjkxHzrwhWflFrHx3iNK9ag==",
+      "id": "rs_02d2f1a2860b74e1006b05de02b28c87d2afa2cad3d32d0fb0",
+      "summary": [],
+      "type": "reasoning"
+    },
+    {
+      "arguments": "{\"command\":\"/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label queue-integrated-repository-gate -- .venv/bin/python - <<'PY'\\nfrom pathlib import Path\\nimport subprocess,json,sys,datetime,hashlib\\nroot=Path.cwd();n=root/'docs/readings/2026-11-13-ssl-explicit-genera';job=n/'ssl-api-controller-integrated-gate-job.json'\\nif job.exists():raise SystemExit('REFUSE_DUPLICATE_INTEGRATED_GATE_JOB')\\ncode=r'''\\nfrom pathlib import Path\\nimport json,time,hashlib,datetime,subprocess,traceback\\nROOT=Path.cwd();N=ROOT/'docs/readings/2026-11-13-ssl-explicit-genera';W=ROOT/'data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint'\\ndef now():return datetime.datetime.now(datetime.timezone.utc).isoformat()\\ndef save(p,x):\\n t=p.with_name(p.name+'.tmp');t.write_text(json.dumps(x,indent=2)+'\\\\n');t.replace(p)\\ndef sha(p):\\n h=hashlib.sha256()\\n with p.open('rb') as f:\\n  for b in iter(lambda:f.read(8*1024*1024),b''):h.update(b)\\n return h.hexdigest()\\ndef read(p):return json.loads(p.read_text())\\ndef verify(rows):\\n bad=[r['path'] for r in rows if sha(ROOT/r['path'])!=r['sha256']]\\n if bad:raise ValueError('SOURCE_FREEZE_PIN_MISMATCH:'+repr(bad))\\nphase=N/'ssl-api-controller-integrated-gate-phase.json'\\ntry:\\n deadline=time.monotonic()+3*3600\\n save(phase,{'code':'WAITING_FOR_ACTUAL_RUNTIME_FREEZE_AND_COMPLETED_TEN_COORDINATE_HEAD','updated_utc':now(),'activation_performed':False})\\n while True:\\n  a=read(N/'ssl-api-controller-source-freeze.json');b=read(N/'ssl-api-runtime-result.json')\\n  exitpath=N/'ssl-api-controller-continuation-exit.json'\\n  if exitpath.exists() and read(exitpath)['exit_code']!=0:raise ValueError('TEN_COORDINATE_WRITER_FAILED')\\n  if a.get('source_edits_finished') is True and b.get('source_edits_finished') is True and b.get('status')=='CODE_FREEZE_READY' and exitpath.exists() and (W/'space-post-prime-child-teaching.json').exists():break\\n  if time.monotonic()>deadline:raise TimeoutError('REPAIRED_SOURCE_FREEZE_OR_FINAL_LEXICAL_HEAD_NOT_READY')\\n  time.sleep(30)\\n pins={r['path']:r for r in a['pins']+b['owned_files']};verify(pins.values())\\n names=subprocess.check_output(['git','ls-files','-z','--','*.py','scripts/ci_local.sh','pyproject.toml','uv.lock'],text=True).split('\\\\0')\\n inventory={f:sha(ROOT/f) for f in names if f and (ROOT/f).is_file()}\\n writer=read(N/'ssl-api-controller-prime-child-writer.json');candidate_sha=sha(W/'candidate.db')\\n if candidate_sha!=writer['after_sha256']:raise ValueError('INTEGRATED_GATE_CANDIDATE_HEAD_CHANGED')\\n binding={'lexicon_sha256':candidate_sha,'source_head':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'source_freeze_pins':list(pins.values()),'tracked_gate_input_pins':inventory,'runtime_freeze_receipt_sha256':sha(N/'ssl-api-runtime-result.json'),'builder_freeze_receipt_sha256':sha(N/'ssl-api-controller-source-freeze.json')}\\n save(phase,{'code':'INTEGRATED_REPOSITORY_GATE_RUNNING','updated_utc':now(),**binding})\\n command=['bash','scripts/ci_local.sh']; log=N/'ssl-api-controller-integrated-gate-output.log'\\n with log.open('x') as stream:\\n  completed=subprocess.run(command,cwd=ROOT,stdout=stream,stderr=subprocess.STDOUT,timeout=10800)\\n verify(pins.values())\\n changed=[f for f,v in inventory.items() if not (ROOT/f).is_file() or sha(ROOT/f)!=v]\\n if changed:raise ValueError('GATE_INPUTS_CHANGED_DURING_EXECUTION:'+repr(changed))\\n currentb=read(N/'ssl-api-runtime-result.json')\\n if currentb.get('source_edits_finished') is not True or currentb.get('status')!='CODE_FREEZE_READY':raise ValueError('RUNTIME_UNFROZEN_DURING_GATE')\\n result={'format':'GSE.checkpoint-repository-gate/1','code':'REPOSITORY_GATE_PASSED' if completed.returncode==0 else 'REPOSITORY_GATE_FAILED','command':command,'exit_code':completed.returncode,'finished_utc':now(),'log':str(log),'log_sha256':sha(log),**binding,'activation_performed':False,'usable_checkpoint_accepted':False}\\n save(N/'ssl-api-controller-integrated-gate.json',result);save(phase,result)\\n save(N/'ssl-api-controller-integrated-gate-exit.json',{'exit_code':completed.returncode,'finished_utc':now()})\\n if completed.returncode:raise SystemExit(completed.returncode)\\nexcept BaseException as error:\\n if not (N/'ssl-api-controller-integrated-gate-exit.json').exists():\\n  save(phase,{'code':'INTEGRATED_GATE_STOPPED','updated_utc':now(),'error_type':type(error).__name__,'error':str(error),'activation_performed':False})\\n  save(N/'ssl-api-controller-integrated-gate-exit.json',{'exit_code':1,'finished_utc':now(),'error_type':type(error).__name__,'error':str(error)})\\n traceback.print_exc();raise\\n'''\\nrecipe=n/'ssl-api-controller-integrated-gate-recipe.json';recipe.write_text(json.dumps({'format':'GSE.local-gate-orchestration/1','python_source':code,'source_sha256':hashlib.sha256(code.encode()).hexdigest(),'scope':'Wait for genuine repaired runtime freeze and final lexical writer/H, verify pins, execute unchanged bash scripts/ci_local.sh. No lexical writes/service/publication.'},indent=2)+'\\\\n')\\nlog=n/'ssl-api-controller-integrated-gate-job.log'\\nwith log.open('x') as f:p=subprocess.Popen(['/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run','--label','checkpoint-integrated-repository-gate',sys.executable,'-u','-c',code],cwd=root,stdout=f,stderr=subprocess.STDOUT,start_new_session=True)\\nx={'pid':p.pid,'started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'status':'QUEUED_WAITING_FOR_REPAIRED_RUNTIME_FREEZE_AND_FINAL_LEXICAL_HEAD','operation':'Verify actual A/B source freeze and execute unchanged full repository gate; no usable acceptance implied.','recipe':str(recipe),'log':str(log),'exit_receipt':str(n/'ssl-api-controller-integrated-gate-exit.json'),'activation_performed':False};job.write_text(json.dumps(x,indent=2)+'\\\\n');print(json.dumps(x,indent=2))\\nPY\",\"cwd\":\"/Users/rohanvinaik/Projects/GSE\",\"timeout_seconds\":30}",
+      "call_id": "call_a325e46d2d6641378d37b1539aacf6cf",
+      "id": "fc_02d2f1a2860b74e1006b05de02c70887d2bd1dd31a3fa9a744",
+      "name": "run_command",
+      "status": "completed",
+      "type": "function_call"
+    }
+  ],
+  "parallel_tool_calls": false,
+  "presence_penalty": 0.0,
+  "previous_response_id": "resp_02d2f1a2860b74e1006b05dddec74c87d2a1d995e8b31a0c67",
+  "prompt_cache_key": null,
+  "prompt_cache_retention": "24h",
+  "reasoning": {
+    "context": "all_turns",
+    "effort": "high",
+    "mode": "standard",
+    "summary": null
+  },
+  "safety_identifier": null,
+  "service_tier": "default",
+  "status": "completed",
+  "store": true,
+  "temperature": 1.0,
+  "text": {
+    "format": {
+      "type": "text"
+    },
+    "verbosity": "medium"
+  },
+  "tool_choice": "auto",
+  "tool_usage": {
+    "image_gen": {
+      "input_tokens": 0,
+      "input_tokens_details": {
+        "image_tokens": 0,
+        "text_tokens": 0
+      },
+      "output_tokens": 0,
+      "output_tokens_details": {
+        "image_tokens": 0,
+        "text_tokens": 0
+      },
+      "total_tokens": 0
+    },
+    "web_search": {
+      "num_requests": 0
+    }
+  },
+  "tools": [
+    {
+      "description": "Run a local command for the assigned implementation, returning complete output or a saved whole-output artifact. Read whole coherent units, never grep/rg or snippets. Credentials, billing, external model clients and other edit scopes are forbidden. The controller may invoke the existing LOCAL GSE/Ollama typed semantic transport.",
+      "name": "run_command",
+      "output_schema": null,
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "command": {
+            "type": "string"
+          },
+          "cwd": {
+            "type": "string"
+          },
+          "timeout_seconds": {
+            "maximum": 10800,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "command",
+          "cwd",
+          "timeout_seconds"
+        ],
+        "type": "object"
+      },
+      "strict": true,
+      "type": "function"
+    },
+    {
+      "description": "Apply an *** Begin Patch formatted edit to owned project files after tracing their consumers.",
+      "name": "apply_patch",
+      "output_schema": null,
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "patch": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "patch"
+        ],
+        "type": "object"
+      },
+      "strict": true,
+      "type": "function"
+    }
+  ],
+  "top_logprobs": 0,
+  "top_p": 0.98,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 104486,
+    "input_tokens_details": {
+      "cache_write_tokens": 3228,
+      "cache_write_tokens_details": {
+        "ttl_12h_tokens": 0,
+        "ttl_30m_tokens": 3228
+      },
+      "cached_tokens": 101255
+    },
+    "output_tokens": 1880,
+    "output_tokens_details": {
+      "reasoning_tokens": 222
+    },
+    "total_tokens": 106366
+  },
+  "user": null,
+  "metadata": {}
+}

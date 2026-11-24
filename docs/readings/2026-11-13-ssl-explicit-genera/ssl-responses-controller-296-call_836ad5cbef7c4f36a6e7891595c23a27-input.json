@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport ast\nfor p in Path('GSE/curation').rglob('*.py'):\n if any(x in p.name for x in ['nsm','basis','prime','source','competence','anchor','checkpoint','workload']):\n  print('\\nMODULE',p)\n  for f in ast.parse(p.read_text()).body:\n   if isinstance(f,(ast.FunctionDef,ast.ClassDef)): print(f.name,f.lineno,f.end_lineno)\nprint('\\nWARRANT/CATALOGUE ARTIFACTS')\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor p in sorted(n.glob('*.json')):\n if any(x in p.name for x in ['canonical','catalog','basis','prime-projection','anchor']): print(p.name,p.stat().st_size)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

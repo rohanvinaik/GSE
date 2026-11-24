@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label final-replay-consumer-trace -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast,json\nfor file,names in [('GSE/curation/lexicon_builder/validation.py',{'validate_build'}),('GSE/curation/lexicon_builder/evaluation.py',{'evaluate_build'}),('docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_continue.py',None)]:\n p=Path(file);s=p.read_text();t=ast.parse(s)\n print('\\nFILE',file)\n if names is None: print(s)\n else:\n  for x in t.body:\n   if isinstance(x,(ast.Import,ast.ImportFrom)) or isinstance(x,(ast.FunctionDef,ast.AsyncFunctionDef)) and x.name in names:\n    print(ast.get_source_segment(s,x))\np=Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-steering.json');x=json.loads(p.read_text());print('\\nSTEERING KEYS',list(x));print(json.dumps(x.get('record_verified_migration_now'),indent=2))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport ast\nunits={'GSE/curation/lexicon_builder/foundation.py':['BANKS','partial_anchors','anchor_assertions','founder_anchors'], 'GSE/curation/lexicon_builder/evidence.py':['validate_assertion_competence'], 'GSE/curation/lexicon_builder/catalog.py':['catalog_report']}\nfor file,names in units.items():\n p=Path(file);s=p.read_text();t=ast.parse(s);ls=s.splitlines();print('\\nMODULE',file)\n for f in t.body:\n  if isinstance(f,(ast.FunctionDef,ast.ClassDef)):\n   if f.name in names: print('\\n'.join(ls[f.lineno-1:f.end_lineno]))\n   elif file.endswith('foundation.py'):print('UNIT',f.name,f.lineno,f.end_lineno)\n  elif file.endswith('foundation.py') and isinstance(f,(ast.Assign,ast.AnnAssign)):\n   print('\\n'.join(ls[f.lineno-1:f.end_lineno]))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nimport sqlite3,json,pathlib\nroot=pathlib.Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera')\nfor rel in ['checkpoint-foundation.db','ssl-api-checkpoint/teaching.db','ssl-api-checkpoint/candidate.db']:\n p=root/rel\n if not p.exists(): continue\n with sqlite3.connect(f'file:{p}?mode=ro',uri=True) as c:\n  row=c.execute('select domains,trace from definition_states where entry_id=?',('wordnet:here:here.r.01',)).fetchone();d,t=map(json.loads,row)\n  print(json.dumps({'file':rel,'here_where_domains':{k:d[k] for k in ['HERE','WHERE']},'complete_relation_steps':[x for x in t if x.get('kind')=='RELATION']}))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 20
+}

@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-final-proof-authority -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast,json\nprint(Path('AGENTS.md').read_text())\ns=Path('docs/program/LEXICON_CONSTRUCTION_DESIGN.md').read_text();ls=s.splitlines();start=next(i for i,l in enumerate(ls) if 'Checkpoint workload and acceptance' in l and l.startswith('#'));level=len(ls[start])-len(ls[start].lstrip('#'));end=next((i for i in range(start+1,len(ls)) if ls[i].startswith('#') and len(ls[i])-len(ls[i].lstrip('#'))<=level),len(ls));print('\\n'.join(ls[start:end]))\np=Path('docs/readings/2026-11-13-ssl-explicit-genera');r=json.loads((p/'ssl-api-runtime-refreeze-public-cli-v5.json').read_text());print('CLI receipt keys',list(r));print(json.dumps(r,indent=2))\nfor f in ['GSE/symbolic/__init__.py','GSE/discourse/profile.py']:\n a=ast.parse(Path(f).read_text());print('### declarations',f,[(getattr(x,'name',None),getattr(x,'module',None)) for x in a.body if isinstance(x,(ast.FunctionDef,ast.ClassDef,ast.ImportFrom))])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

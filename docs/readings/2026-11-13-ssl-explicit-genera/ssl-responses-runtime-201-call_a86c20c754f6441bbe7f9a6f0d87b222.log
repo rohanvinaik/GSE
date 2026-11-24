@@ -1,0 +1,630 @@
+
+### GSE/symbolic/expression.py
+class Op:
+    """A compositional operator from the trace, lifted into the AST.
+
+    Args:
+        primitive: the COMP_* name (e.g., ``COMP_THAN``).
+        operation: the operation label from COMP_METADATA (e.g.,
+            ``SET_DIFF``). This is what B2 dispatches on.
+        arity: 1 or 2 — number of arguments the operator consumes.
+        args: the lifted argument expressions.
+        modal: an EVENT's modal primes, from its clause's auxiliaries ("might" → ``("MAYBE",)``); empty otherwise
+            (#66). Every rebuild of an Op carries it.
+    """
+
+    primitive: str
+    operation: str
+    arity: int
+    args: List["Operand"]
+    modal: tuple = ()
+    duration: Duration | None = None
+
+### GSE/symbolic/resolution.py
+def resolve_with_sources(expr: Expression) -> dict[str, Expression]:
+    """Expose the same refinement before and after local reference binding.
+
+    The source tree retains each mention's own head and token coordinate. The
+    bound tree preserves resolve's established antecedent-substitution behavior.
+    One refinement and the existing binding authority produce both views.
+    """
+    refined = _refine(expr)
+    # A whole-tree that is a bare multi-NP Phrase has no predicate to host several args;
+    # keep the primary member (the Op branch already flattened ArgSplits inside predicates).
+    if isinstance(refined, ArgSplit):
+        refined = refined.members[0]
+    return {"source": refined, "bound": _bind_pronouns(refined)}
+
+### GSE/symbolic/operators.py
+def evaluate(op: Op) -> Predicate:
+    """Dispatch a single Op to its semantic function."""
+    func = OPERATION_DISPATCH.get(op.operation)
+    if func is None:
+        raise UnknownOperation(f"No semantic function for operation {op.operation!r} on primitive {op.primitive!r}")
+    return func(op)
+def evaluate_tree(expr: Operand):
+    """Walk an Expression tree, evaluating every Op into a Predicate.
+
+    Returns:
+        Either an unchanged leaf (Atom, Phrase, Negation of leaf) or a
+        Predicate (for Op nodes). Nested Ops are evaluated recursively:
+        each Op's args are evaluated before the Op itself, so the result
+        is a tree of Predicates with Expression leaves.
+    """
+    if isinstance(expr, Op):
+        # Recurse into args first so nested Ops become Predicates before
+        # the parent dispatch sees them.
+        evaluated_args = [evaluate_tree(a) for a in expr.args]
+        return evaluate(replace(expr, args=evaluated_args))
+    if isinstance(expr, Negation):
+        # Preserve the sign around WHATEVER the operand evaluates to — including a
+        # Predicate (a negated event/type-assertion, "X does not harm Y"). The old
+        # guard kept the wrapper only around leaves/Ops and dropped it for
+        # Predicates, silently losing clausal negation; emit_contract already
+        # turns a Negation(Predicate) into {"op": "NOT", ...}.
+        return Negation(operand=evaluate_tree(expr.operand))
+    if isinstance(expr, Coordination):
+        return replace(expr, members=tuple(evaluate_tree(member) for member in expr.members))
+    return expr
+
+### tests/test_runtime_native_composed_controls.py
+"""Development regressions through actual native encoder and composed consumers.
+
+The three reported failures and subsequently inspected cases are development,
+not a fresh final holdout or evidence of full workload acceptance.
+"""
+
+import pytest
+
+from GSE.api import GSEEncoder
+from GSE.symbolic import emit_contract, evaluate_tree, from_trace, resolve
+from GSE.symbolic.expression import Negation
+from GSE.symbolic.predicates import Event, RelativeRestriction, Temporal, TypeAssertion
+from GSE.symbolic.queries import is_logically_equal_to
+from GSE.symbolic.resolution import Coordination, Entity
+from GSE.symbolic.serialization import from_dict, to_dict
+
+
+@pytest.fixture(scope="module")
+def encoder():
+    with GSEEncoder() as instance:
+        instance.conn.execute("PRAGMA query_only=ON")
+        yield instance
+
+
+def compose(encoder, text):
+    return evaluate_tree(resolve(from_trace(encoder.encode(text))))
+
+
+def test_spatial_opposites_reach_query_and_emitted_contract(encoder):
+    above = compose(encoder, "The bird is above the tree.")
+    below = compose(encoder, "The bird is below the tree.")
+    assert isinstance(above, Event) and isinstance(below, Event)
+    assert (above.verb, below.verb) == ("above", "below")
+    assert above.agent.head.lemma == below.agent.head.lemma == "bird"
+    assert above.patient.head.lemma == below.patient.head.lemma == "tree"
+    assert not is_logically_equal_to(above, below)
+    assert emit_contract(above)["predicate"]["features"]["verb"] == "above"
+    assert emit_contract(below)["predicate"]["features"]["verb"] == "below"
+    negated = compose(encoder, "The bird is not above the tree.")
+    assert isinstance(negated, Negation) and negated.operand.verb == "above"
+
+
+@pytest.mark.parametrize("linker,anchor", [("before", "dawn"), ("after", "noon"), ("after", "winter")])
+def test_native_time_typed_nominal_is_setting_not_patient(encoder, linker, anchor):
+    tree = compose(encoder, f"Alice arrived {linker} {anchor}.")
+    assert isinstance(tree, Temporal) and tree.conjunction == linker
+    assert tree.setting.head.lemma == anchor
+    assert isinstance(tree.event, Event) and tree.event.verb == "arrive"
+    assert tree.event.agent.head.lemma == "alice" and tree.event.patient is None
+    assert emit_contract(tree)["predicate"]["features"]["conjunction"] == linker
+
+
+@pytest.mark.parametrize("linker", ["before", "after"])
+def test_existing_clausal_temporal_arguments_remain_events(encoder, linker):
+    tree = compose(encoder, f"Alice arrived {linker} Bob left.")
+    assert isinstance(tree, Temporal) and tree.conjunction == linker
+    assert isinstance(tree.setting, Event) and tree.setting.verb == "leave"
+    assert isinstance(tree.event, Event) and tree.event.verb == "arrive"
+
+
+def test_non_time_anchor_cannot_become_temporal_from_preposition_alone(encoder):
+    assert not isinstance(compose(encoder, "Alice stood before the king."), Temporal)
+
+
+@pytest.mark.parametrize("anchor", ["spring", "period"])
+def test_possible_time_sense_does_not_erase_other_anchor_readings(encoder, anchor):
+    trace = encoder.encode(f"Alice stood before the {anchor}.")
+    tree = evaluate_tree(resolve(from_trace(trace)))
+    assert isinstance(tree, Event) and tree.verb == "before"
+    assert isinstance(tree.agent, Event) and tree.agent.verb == "stand"
+    assert tree.agent.patient is None and tree.patient.head.lemma == anchor
+    linker = next(t for t in trace.tokens if t.lemma == "before")
+    witness = linker.lexical_evidence["nominal_preposition_reading"]
+    assert witness["code"] == "UNRESOLVED_PREPOSITION_ANCHOR_ROLE"
+    assert witness["alternatives"] == ["TEMPORAL", "SPATIAL"]
+    assert len(witness["native_noun_readings"]) > len(witness["temporal_readings"])
+
+
+@pytest.mark.parametrize("text,head", [("He is a very strict judge.", "judge"), ("He is a very inert gas.", "gas")])
+def test_degree_modified_copular_nominal_keeps_its_head(encoder, text, head):
+    trace = encoder.encode(text)
+    token = next(t for t in trace.tokens if t.lemma == head)
+    assert token.pos == "NOUN" and "SYN_COMPL" in token.sent_primitives
+    assert isinstance(evaluate_tree(resolve(from_trace(trace))), TypeAssertion)
+
+
+def test_native_chemical_identity_survives_nominal_copula_and_emission(encoder):
+    trace = encoder.encode("He is an inert gas.")
+    assert trace.tokens[0].lexical_evidence["selected_record"]["entry_id"] == "wordnet:he:helium.n.01"
+    gas = next(t for t in trace.tokens if t.lemma == "gas")
+    assert gas.pos == "NOUN" and "SYN_COMPL" in gas.sent_primitives
+    tree = evaluate_tree(resolve(from_trace(trace)))
+    assert isinstance(tree, TypeAssertion)
+    assert tree.entity.head.lemma == "he"
+    assert emit_contract(tree)["predicate"]["op"] == "TYPE_ASSERT"
+
+
+@pytest.mark.parametrize(
+    "text,verb", [("He gases the room.", "gas"), ("He is moving.", "move"), ("He was killed.", "kill")]
+)
+def test_nominal_copula_repair_does_not_override_main_progressive_or_passive_verb(encoder, text, verb):
+    tree = compose(encoder, text)
+    assert isinstance(tree, Event) and tree.verb == verb
+
+
+@pytest.mark.parametrize("copula", ["is", "was"])
+def test_matrix_copula_and_genitive_relative_keep_separate_predicates(encoder, copula):
+    trace = encoder.encode(f"The teacher {copula} a person whose occupation is teaching.")
+    teacher = next(t for t in trace.tokens if t.lemma == "teacher")
+    assert teacher.word_primitives.get("SOMEONE") == 1
+    relative = next(c for c in trace.clauses if c.kind == "relative")
+    assert relative.gap_role == "possessor"
+    tree = evaluate_tree(resolve(from_trace(trace)))
+    assert isinstance(tree, TypeAssertion) and tree.entity.head.lemma == "teacher"
+    assert isinstance(tree.kind, RelativeRestriction) and tree.kind.head.head.lemma == "person"
+    inner = tree.kind.restriction
+    assert isinstance(inner, TypeAssertion) and inner.entity.head.lemma == "occupation"
+    assert inner.entity.possessor.head.lemma == "person" and inner.kind.head.lemma == "teaching"
+    assert from_dict(to_dict(tree)) == tree
+    payload = emit_contract(tree)["predicate"]
+    assert payload["op"] == "TYPE_ASSERT"
+    assert payload["args"][1]["args"][1]["args"] == ["person's occupation", "teaching"]
+
+
+def test_relative_auxiliary_and_participle_do_not_steal_matrix_predicate(encoder):
+    tree = compose(encoder, "The child who is teaching works.")
+    assert isinstance(tree, Event) and tree.verb == "work"
+    assert isinstance(tree.agent, RelativeRestriction) and tree.agent.head.head.lemma == "child"
+    inner = tree.agent.restriction
+    assert isinstance(inner, Event) and inner.verb == "teach" and inner.agent.head.lemma == "child"
+    assert inner.patient is None
+
+
+def test_genitive_relative_does_not_turn_its_owner_into_a_patient(encoder):
+    tree = compose(encoder, "The person whose child is teaching works.")
+    assert isinstance(tree, Event) and tree.verb == "work"
+    inner = tree.agent.restriction
+    assert isinstance(inner, Event) and inner.verb == "teach"
+    assert inner.agent.head.lemma == "child" and inner.agent.possessor.head.lemma == "person"
+    assert inner.patient is None
+
+
+def test_copular_relative_binds_its_subject_gap(encoder):
+    tree = compose(encoder, "The person who is king works.")
+    assert isinstance(tree, Event) and tree.verb == "work"
+    inner = tree.agent.restriction
+    assert isinstance(inner, TypeAssertion)
+    assert inner.entity.head.lemma == "person" and inner.kind.head.lemma == "king"
+
+
+def test_genitive_relative_keeps_its_own_negation(encoder):
+    tree = compose(encoder, "The teacher is a person whose occupation is not teaching.")
+    assert isinstance(tree, TypeAssertion) and not isinstance(tree, Negation)
+    inner = tree.kind.restriction
+    assert isinstance(inner, Negation) and isinstance(inner.operand, TypeAssertion)
+    assert inner.operand.entity.possessor.head.lemma == "person"
+
+
+@pytest.mark.parametrize("text", ["The child is teaching.", "The occupation is teaching the child."])
+def test_gerund_activity_noun_requires_the_complete_nominal_construction(encoder, text):
+    tree = compose(encoder, text)
+    assert isinstance(tree, Event) and tree.verb == "teach"
+
+
+def test_coordinated_adjectives_and_of_attachment_modify_one_nominal_head(encoder):
+    trace = encoder.encode("The femur is the longest and thickest bone of the human skeleton.")
+    assert next(t for t in trace.tokens if t.lemma == "femur").word_primitives.get("BODY") == 1
+    tree = evaluate_tree(resolve(from_trace(trace)))
+    assert isinstance(tree, TypeAssertion) and tree.entity.head.lemma == "femur"
+    assert isinstance(tree.kind, RelativeRestriction)
+    modified = tree.kind.head
+    assert isinstance(modified, RelativeRestriction) and modified.head.head.lemma == "bone"
+    assert isinstance(modified.restriction, TypeAssertion)
+    modifiers = modified.restriction.kind
+    assert isinstance(modifiers, Coordination) and modifiers.conjunction == "and"
+    assert [a.lemma for a in modifiers.members] == ["long", "thick"]
+    assert all(a.graded for a in modifiers.members)
+    of = tree.kind.restriction
+    assert isinstance(of, Event) and of.verb == "of"
+    assert of.agent.head.lemma == "bone" and of.patient.head.lemma == "skeleton"
+    assert of.patient.modifier.lemma == "human" and of.patient.possessor is None
+    assert from_dict(to_dict(tree)) == tree
+    payload = emit_contract(tree)["predicate"]["args"][1]
+    assert payload["args"][1]["features"]["verb"] == "of"
+    assert payload["args"][0]["args"][1]["args"][1]["args"] == ["long", "thick"]
+
+
+@pytest.mark.parametrize("conjunction", ["and", "or"])
+def test_genuine_nominal_coordination_is_not_reclassified_as_adjectival(encoder, conjunction):
+    tree = compose(encoder, f"The bone {conjunction} the skeleton is hard.")
+    assert isinstance(tree, TypeAssertion) and isinstance(tree.entity, Coordination)
+    assert tree.entity.conjunction == conjunction
+    assert [m.head.lemma for m in tree.entity.members] == ["bone", "skeleton"]
+
+
+def test_of_anchor_coordination_stays_inside_the_nominal_attachment(encoder):
+    tree = compose(encoder, "The bone of the child and the adult is hard.")
+    assert isinstance(tree, TypeAssertion) and isinstance(tree.entity, RelativeRestriction)
+    of = tree.entity.restriction
+    assert isinstance(of, Event) and of.verb == "of" and of.agent.head.lemma == "bone"
+    assert isinstance(of.patient, Coordination)
+    assert all(isinstance(m, Entity) for m in of.patient.members)
+    assert [m.head.lemma for m in of.patient.members] == ["child", "adult"]
+
+
+### EVENT constructor/rebuilder references
+GSE/symbolic/operators.py def event(op: Op) -> Event:
+    """EVENT — a verb roleframe over its arguments (the base-case predicate).
+
+    "Duncan rewarded Macbeth" → ``Event(verb="reward", agent=duncan,
+    patient=macbeth)``. Synthesized in ``from_trace`` from a plain verb clause;
+    the verb lemma rides on ``Op.primitive``, arg0 = subject, arg1 = object (when
+    present, else intransitive).
+    """
+    if not op.args:
+        raise ValueError(f"EVENT expects ≥1 arg, got {op.arity}")
+    # Args beyond agent+patient are the SECONDARY constituents the role-split peeled off a
+    # ditransitive / object+complement (resolution's ArgSplit flattened them in). Preserve
+    # them as latent `themes` — the clean primary read (agent, patient) is unchanged; themes
+    # ride along, dropped from the default analysis but revivable.
+    return Event(
+        verb=op.primitive,
+        agent=op.args[0],
+        patient=op.args[1] if len(op.args) > 1 else None,
+        themes=tuple(op.args[2:]) if len(op.args) > 2 else (),
+        modal=op.modal,
+        duration=op.duration,
+    )
+GSE/symbolic/serialization.py def from_dict(d: Dict[str, Any]) -> Node:
+    """Reconstruct a node tree from a ``to_dict`` result."""
+    kind = _require_kind(d)
+    if kind == "Atom":
+        return Atom(
+            lemma=d["lemma"],
+            word_primitives=dict(d.get("word_primitives") or {}),
+            role=d.get("role"),
+            position=d.get("position", 0),
+            pos=d.get("pos"),
+            number=d.get("number"),
+            graded=d.get("graded", False),
+            apposition=d.get("apposition"),
+            degree=dict(d.get("degree") or {}),
+            degree_modifier=d.get("degree_modifier", False),
+        )
+    if kind == "Phrase":
+        return Phrase(atoms=[from_dict(x) for x in d["atoms"]])
+    if kind == "Negation":
+        return Negation(operand=from_dict(d["operand"]))
+    if kind == "Op":
+        return Op(
+            primitive=d["primitive"],
+            operation=d["operation"],
+            arity=d["arity"],
+            args=[from_dict(x) for x in d["args"]],
+            modal=tuple(d.get("modal") or ()),
+            duration=_read_duration(d),
+        )
+    if kind == "Entity":
+        return Entity(
+            head=from_dict(d["head"]),
+            possessor=from_dict(d["possessor"]) if d.get("possessor") else None,
+            role=d.get("role"),
+            modifier=from_dict(d["modifier"]) if d.get("modifier") else None,
+            entity_id=d.get("entity_id"),
+            type_thread=tuple(d.get("type_thread") or ()),
+            span=tuple(d.get("span") or ()),
+            apposition_thread=tuple(d.get("apposition_thread") or ()),
+        )
+    if kind == "Comparison":
+        return Comparison(
+            lhs=from_dict(d["lhs"]),
+            rhs=from_dict(d["rhs"]),
+            sign=d.get("sign", +1),
+            axis=d.get("axis"),
+        )
+    if kind == "Equality":
+        return Equality(
+            lhs=from_dict(d["lhs"]),
+            rhs=from_dict(d["rhs"]),
+            axis=d.get("axis"),
+        )
+    if kind == "TypeQuery":
+        return TypeQuery(entity=from_dict(d["entity"]))
+    if kind == "DegreeQuery":
+        return DegreeQuery(entity=from_dict(d["entity"]), axis=d.get("axis"))
+    if kind == "MinimalSufficiency":
+        return MinimalSufficiency(
+            threshold=from_dict(d["threshold"]),
+            purpose=from_dict(d["purpose"]),
+        )
+    if kind == "SetRestriction":
+        return SetRestriction(
+            member=from_dict(d["member"]),
+            predicate=from_dict(d["predicate"]),
+        )
+    if kind == "BoundaryCase":
+        # ``note`` has a default so deserializing older payloads stays safe.
+        return BoundaryCase(
+            entity=from_dict(d["entity"]),
+            predicate=from_dict(d["predicate"]),
+            note=d.get("note", "deferred"),
+        )
+    if kind == "Event":
+        return Event(
+            verb=d["verb"],
+            agent=from_dict(d["agent"]),
+            patient=from_dict(d["patient"]) if d.get("patient") else None,
+            themes=tuple(from_dict(t) for t in d.get("themes") or ()),
+            modal=tuple(d.get("modal") or ()),
+            duration=_read_duration(d),
+        )
+    if kind == "Contrast":
+        return Contrast(left=from_dict(d["left"]), right=from_dict(d["right"]))
+    if kind == "ClauseCoordination":
+        return ClauseCoordination(
+            left=from_dict(d["left"]),
+            right=from_dict(d["right"]),
+            conjunction=d.get("conjunction", "and"),
+        )
+    if kind == "Causation":
+        return Causation(
+            cause=from_dict(d["cause"]),
+            effect=from_dict(d["effect"]),
+            conjunction=d.get("conjunction", "so"),
+        )
+    if kind == "Conditional":
+        return Conditional(
+            antecedent=from_dict(d["antecedent"]),
+            consequent=from_dict(d["consequent"]),
+            conjunction=d.get("conjunction", "if"),
+        )
+    if kind == "Temporal":
+        duration = _read_duration(d)
+        return Temporal(
+            setting=from_dict(d["setting"]),
+            event=from_dict(d["event"]),
+            conjunction=d.get("conjunction", duration.relation if duration else "when"),
+            duration=duration,
+        )
+    if kind == "TypeAssertion":
+        return TypeAssertion(
+            entity=from_dict(d["entity"]),
+            kind=from_dict(d["kind"]),
+            modal=tuple(d.get("modal") or ()),
+            duration=_read_duration(d),
+        )
+    if kind == "RelativeRestriction":
+        return RelativeRestriction(
+            head=from_dict(d["head"]),
+            restriction=from_dict(d["restriction"]),
+        )
+    if kind == "Control":
+        return Control(
+            controller=from_dict(d["controller"]),
+            inner=from_dict(d["inner"]),
+            verb=d.get("verb", ""),
+            subject=from_dict(d["subject"]) if d.get("subject") else None,
+            modal=tuple(d.get("modal") or ()),
+            duration=_read_duration(d),
+        )
+    if kind == "Coordination":
+        return Coordination(
+            members=tuple(from_dict(m) for m in d["members"]),
+            conjunction=d.get("conjunction", "and"),
+            modifier=from_dict(d["modifier"]) if d.get("modifier") else None,
+        )
+    raise SerializationError(f"Unknown _kind: {kind!r}")
+GSE/symbolic/healer/lenses/infinitival_control.py def emit(self, predicates, env, folds=None):
+        if env is None:
+            return []
+        cands = env.infinitival_complements()
+        if not cands:
+            return []
+        # LAYER-2: the controller is the recurring protagonist (shape from the field), else abstain.
+        subj = best_subject(candidate_subjects(predicates), folds) if folds else main_animate_subject(predicates)
+        already = event_verbs(predicates)
+        mem = None
+        mem_loaded = False  # lazy: load the warm memory only on abstain
+        out = []
+        for pos, lemma in cands:
+            if not lemma or lemma in already:
+                continue
+            senses = env.senses.get(pos, {})
+            if senses.get("n") and not senses.get("v"):
+                continue  # noun-only homograph mis-tagged VERB → abstain
+
+            anchor = subj
+            note = f"infinitival → EVENT({_lemma(subj)}, {lemma})" if subj is not None else ""
+            if anchor is None:
+                # the fold abstained → RECOLLECTIVE RECALL of the controller binding (the residual the
+                # trained infinitival K-line owns).
+                if not mem_loaded:
+                    from ..recollect import default_memory
+
+                    mem = default_memory(name="baseline")  # the ONE Brown-baseline library
+                    mem_loaded = True
+                if mem is not None:
+                    from ..recollect import envelope_query
+
+                    q = envelope_query(env, pos, "infinitival")  # superposition: firing-pattern tag
+                    if q is not None:
+                        key_syms, cand_descs = q
+                        rec = mem.recall(key_syms, [d for _, d in cand_descs])
+                        if rec.index is not None and rec.confidence >= _THETA:
+                            anchor = _subject_for_lemma(cand_descs[rec.index][0], predicates)
+                            note = (
+                                f"infinitival → EVENT({_lemma(anchor)}, {lemma}) "
+                                f"via k-line recall (conf {rec.confidence:.2f})"
+                            )
+            if anchor is None:
+                continue  # no eligible controller → honest hole
+            out.append(Repair(Event(verb=lemma, agent=anchor, patient=None), self.name, note=note))
+            already.add(lemma)
+        return out
+GSE/symbolic/healer/lenses/vp_coord.py def apply(self, node, env, folds=None):
+        # HIGH PRECISION (user 2026-06-24): fire only on an unambiguous coordinated FINITE verb;
+        # abstain on everything doubtful (the chum bucket / later laws catch it). A wrong recovered
+        # Event pollutes the spine; an honest hole is free.
+        if getattr(node, "conjunction", "and") not in ("and", "or"):
+            return Hole(self.name, "not_and_or")  # only parallel coordination
+        le = has_event(node.left)
+        good = node.left if le else node.right
+        bad = node.right if le else node.left
+        # Find the stranded orphan FIRST — its position is needed for both recovery and recall.
+        orphans = free_verbs(bad, boundary=_SUBORD_BOUNDARY)
+        if not orphans:
+            return Hole(self.name, "orphan_subordinate_only")  # only subordinate-clause verbs, not a VP head
+        orphan = orphans[0]
+        pos = getattr(orphan, "position", None)
+        if pos is None or not env.is_inflected_verb(pos):
+            return Hole(self.name, "orphan_not_inflected")
+        senses = env.senses.get(pos, {})
+        surf = (env.surface.get(pos, orphan.lemma) or "").lower()
+        prev_lemma = env.prev.get(pos, ("", ""))[0]
+        # the false-fire families, each killed by a tag the envelope already carries:
+        if senses.get("a"):
+            return Hole(self.name, "adjectival_orphan")  # jagged/situated/down/chosen — attributive/particle
+        if surf.endswith("ing"):
+            return Hole(self.name, "ing_form")  # gerund/participial → L3 / gerund-noun, not finite VP
+        if prev_lemma in ("be", "being", "been"):
+            return Hole(self.name, "passive_participle")  # "may be used" — passive, not a stranded VP verb
+
+        # SUBJECT: the structural shared subject (from the good conjunct) first; null it if inanimate or
+        # fold-judged a non-referent, then fall back to recollective recall (the thin degraded residual).
+        subj = subject_operand(good)
+        if subj is not None and not animate_subject(subj):
+            subj = None  # mauve/performance can't be an agent → try recall
+        if subj is not None and folds is not None:
+            f = folds.get(getattr(subj, "entity_id", None))
+            if f is not None and not f.eligible:
+                subj = None
+        note = f"vp_coord: stranded '{orphan.lemma}' → EVENT({_lemma(subj)}, {orphan.lemma})"
+        if subj is None:
+            from ..recollect import default_memory, envelope_query
+
+            mem = default_memory(name="baseline")  # the ONE Brown-baseline library
+            if mem is not None:
+                q = envelope_query(env, pos, "vpcoord")  # superposition: firing-pattern tag
+                if q is not None:
+                    key_syms, cand_descs = q
+                    rec = mem.recall(key_syms, [d for _, d in cand_descs])
+                    if rec.index is not None and rec.confidence >= _THETA:
+                        subj = _operand_for_lemma(cand_descs[rec.index][0], node)
+                        if subj is not None:
+                            note = (
+                                f"vp_coord: stranded '{orphan.lemma}' → EVENT({_lemma(subj)}, "
+                                f"{orphan.lemma}) via k-line recall (conf {rec.confidence:.2f})"
+                            )
+        if subj is None:
+            return Hole(self.name, "no_shared_subject")
+        recovered = Event(verb=orphan.lemma, agent=subj, patient=None)
+        return Repair(recovered, self.name, note=note)
+GSE/symbolic/healer/lenses/participial.py def emit(self, predicates, env, folds=None):
+        if env is None:
+            return []
+        cands = env.participial_adjuncts()
+        if not cands:
+            return []
+        # LAYER-2 REVIVAL: pick the subject by document-scale SIGNIFICANCE ("shape from the field" —
+        # the recurring protagonist over a one-shot nearby noun), the disambiguator for the attachment
+        # wall. Falls back to the lexical first-clean-animate anchor when no fold map is supplied.
+        subj = best_subject(candidate_subjects(predicates), folds) if folds else main_animate_subject(predicates)
+        already = event_verbs(predicates)
+        mem = None
+        mem_loaded = False  # lazy: load the warm memory only on abstain
+        out = []
+        for pos, lemma in cands:
+            if not lemma or lemma in already:
+                continue  # already surfaced as an event
+            senses = env.senses.get(pos, {})
+            if senses.get("a"):
+                continue  # -ing ADJECTIVE (interesting/boiling), not an adjunct
+            prev_pos = env.prev.get(pos, ("", ""))[1]
+            if senses.get("n") and (env.prev_func.get(pos) or prev_pos in _NOMINAL_PREV):
+                continue  # GERUND-NOUN ("good lodging" / "their muttering")
+
+            anchor = subj
+            note = f"participial adjunct → EVENT({_lemma(subj)}, {lemma})" if subj is not None else ""
+            if anchor is None:
+                # the fold abstained (no recurring agent) → RECOLLECTIVE RECALL by resemblance, the
+                # residual the trained K-line memory owns (Law-as-Architecture §6).
+                if not mem_loaded:
+                    from ..recollect import default_memory
+
+                    mem = default_memory(name="baseline")  # the ONE Brown-baseline library
+                    mem_loaded = True
+                if mem is not None:
+                    from ..recollect import envelope_query
+
+                    q = envelope_query(env, pos, "participial")  # superposition: firing-pattern tag
+                    if q is not None:
+                        key_syms, cand_descs = q
+                        rec = mem.recall(key_syms, [d for _, d in cand_descs])
+                        if rec.index is not None and rec.confidence >= _THETA:
+                            anchor = _subject_for_lemma(cand_descs[rec.index][0], predicates)
+                            note = (
+                                f"participial adjunct → EVENT({_lemma(anchor)}, {lemma}) "
+                                f"via k-line recall (conf {rec.confidence:.2f})"
+                            )
+            if anchor is None:
+                continue  # no eligible anchor → honest hole (clean-or-hole)
+            out.append(Repair(Event(verb=lemma, agent=anchor, patient=None), self.name, note=note))
+            already.add(lemma)
+        return out
+
+### FORMAL
+## Word and sentence boundary
+
+Word geometry contains the minimal definitional content relevant at word scale. Sentence geometry carries grammatical capabilities, operator scope, argument binding, tense, reference, and the set-theoretic relationships among identified objects. Complete representation across these scales does not require putting every grammatical distinction in the word vector.
+
+THIS has demonstrative object-reference content: the approved lexical anchor is SOMETHING=+1. It does not gain a new THIS coordinate or a HAVE assignment. WHICH object is designated is a grammatical/contextual binding, represented through structured identity. Ownership here must not be conflated with possession: an object's assignment to a grammatical referent is different from asserting that someone possesses it.
+
+At the interface, grammar constrains the permitted roles and bindings. A present but uninstantiated grammatical dimension is distinct from a dimension outside the permitted set. This distinction does not require storing every possible role in the lexical artifact: the active encoder assigns roles dynamically. Set membership, argument ownership, and operator scope operate on structured identities, not vector equality. Two sentences can have similar lexical geometry and different comparison truth conditions.
+
+GSE already implements this separation. `GSE/lexicon/pronouns.py` supplies demonstrative reference metadata, `GSE/lexicon/function_words.py` supplies determiner metadata, and the symbolic/document paths bind references and represent possession separately. The separate `SentenceParser` also implements possible-role constraints; its existence is not a reason to replace the active dynamic path. Empty `sentence_primitive_values` tables do not establish missing grammar. The earlier requirement to populate static role masks as a prerequisite to this build was unsupported and is withdrawn.
+
+For versioned dictionaries, the encoder now obtains the established `COMP_METADATA` grammatical operations independently of lexical definition selection. BECAUSE, ONLY and THAN therefore retain their causal, restriction and comparison operations even when the word's lexical lookup is missing or ambiguous. No lexical definition or bank value is manufactured by this bridge. Conflicting selected-row operator metadata fails with `GRAMMATICAL_OPERATOR_METADATA_MISMATCH`; the legacy lookup path retains its existing behavior.
+
+Audit probes distinguish actual behavior from intermediate tags: “This dog runs” retains its running event, and “A dog runs. This is a dog” binds THIS to the antecedent. “A dog runs. This runs” instead loses the second event without a structural-loss warning. That is a specific existing parsing defect, not evidence that a new demonstrative or reference subsystem is needed. The lexicon migration obligation is compatibility with these existing consumers, including their grammatical metadata needs; sentence-wide repairs are tracked separately from dictionary construction.
+
+The approved NSM mapping for *(for) some time* uses the typed sentence-level duration qualifier. It carries an unspecified extent on a qualified event or state and an unspecified interval on a *before* or *after* link. Explicit short and long forms carry their respective extents. Recognized attachments include fronted and trailing *for*-adjuncts and extents immediately before temporal clause linkers. An unresolved attachment, such as a duration following a nominal object, stays outside this mapping.
+
+The exact chart record `nsm_chart:v20:some-time` remains in the declared replay cohort as source provenance. Both lexical writers exclude that identity from bank questions. Release accounting recognizes it as a sentence construction only with the approved catalogue mapping, exact chart link and source witness, and a fully open legacy domain payload. Any lexical narrowing on that record blocks publication. Every word definition retains its full lexical completion obligation.
+
+
+### FORMAL
+#### Checkpoint workload and acceptance
+
+Before teaching against a checkpoint target, freeze an acceptance manifest containing:
+
+1. The fixed ordinary-bank basis and hierarchy convention, full definition/word cohort, source/rule versions, and the already pinned frequency bytes.
+2. The common-form cohort meeting the existing GSE-01 **90% eligible token-mass requirement in both the frequency source and an independent real-text corpus**, with genre slices and all denominator/exclusion rules. Retain every sense and every out-of-cohort definition; spelling frequency is not sense-use frequency.
+3. The actual NLP operations the checkpoint promises: exact lexical/sense selection, required bank queries, grammar/reference binding and composed sentence outputs. Inventory which cells and structures those operations require. Homing or recognizing 90% of tokens is not a 90% semantic-accuracy acceptance rule.
+4. Source-warranted positive and MUST-NOT cases for those operations, including ordinary/function-word ambiguity, he/He, first-/second-person boundaries, WANT polarity, BE own-state content, constitutive anatomy, negation, VERY scope and unspecified/long duration. Gold and expected answers stay outside construction requests and rule-warrant evidence.
+5. Separate development and final evaluation cases. Earlier sentence benchmarks used to choose teaching or refine rules are development diagnostics, not untouched final holdouts. Freeze a separate final audit with lineage-separated senses/families and corpus/genre coverage. A subsequently inspected holdout becomes development evidence and needs a replacement final slice.
+6. Explicit pass/abstention/partial/unavailable outcomes per class. Every promised acceptance-critical answer needs its warranted expected result; a critical abstention or resource refusal blocks that promise. No known wrong assertion, missing required component or failed negative witness is accepted. Unclaimed/unlabelled banks remain declared unknown or unverified rather than acquiring credit from the tested subset.
+7. Full-cohort solver/provenance/catalogue replay, changed-cell and reopened-cell accounting, real runtime tests and applicable repository checks. Sparse publication's finite label/runtime checks are necessary mechanics, not sufficient evidence of this usable-checkpoint milestone.
+
+The checkpoint is complete **for that declared and passed workload**, with its sparse limitations published. It is not a complete 56-bank assignment for every dictionary definition. Do not narrow a workload or remove a failing sense after seeing the result to manufacture a pass. A material scope change is a new version with the old failure retained. No new percentage or task waiver is authorized by this engineering section.
+

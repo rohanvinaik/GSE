@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-resume-contract -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport re\np=Path('docs/program/LEXICON_CONSTRUCTION_DESIGN.md'); s=p.read_text(); lines=s.splitlines()\nstart=next(i for i,x in enumerate(lines) if x.startswith('#') and 'Recovery contract' in x)\nlevel=len(lines[start])-len(lines[start].lstrip('#')); end=next((i for i in range(start+1,len(lines)) if lines[i].startswith('#') and len(lines[i])-len(lines[i].lstrip('#'))<=level),len(lines))\nprint('\\n'.join(lines[start:end]))\np=Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-steering.json')\nif p.exists(): print('\\nSTEERING\\n'+p.read_text())\nprint('\\nROOT\\n'+str(Path.cwd()))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

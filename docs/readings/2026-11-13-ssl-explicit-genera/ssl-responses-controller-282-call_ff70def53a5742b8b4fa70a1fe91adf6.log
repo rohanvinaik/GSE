@@ -1,0 +1,30 @@
+ssl-api-controller-self-boundary-phase.json {
+  "status": "RUNNING",
+  "started_utc": "2026-11-24T19:35:54.879891+00:00",
+  "command": [
+    ".venv/bin/python",
+    "-u",
+    "docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_self_boundary.py",
+    "--candidate",
+    "data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/candidate.db",
+    "--output",
+    "data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/candidate-self-boundary.db",
+    "--manifest",
+    "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-generic-self-manifest.json",
+    "--warrant",
+    "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-generic-self-founder-decision.json",
+    "--baseline-replay",
+    "data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/postwriter-replay.json",
+    "--gold",
+    "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-generic-self-development-gold.json",
+    "--result",
+    "data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/self-boundary-revision.json"
+  ],
+  "model_service_calls": 0,
+  "activation_performed": false
+}
+
+ssl-api-controller-self-boundary-exit.json PENDING
+ssl-api-controller-self-boundary-job.log 
+A_CODE_FREEZE_READY 52 pins; builder and typed protocol unchanged
+TY_ADVISORY_EXIT=1

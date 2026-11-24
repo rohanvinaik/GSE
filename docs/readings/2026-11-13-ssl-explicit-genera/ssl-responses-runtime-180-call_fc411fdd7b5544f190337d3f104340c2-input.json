@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-primary-unit-contract -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast\nfor name in ['GSE/curation/lexicon_builder/catalog.py','GSE/curation/external_sources/nsm_chart.py','GSE/curation/external_sources/gse_closed_class.py','GSE/lexical_evidence.py']:\n text=Path(name).read_text();tree=ast.parse(text);print('\\nFILE',name)\n if name.endswith(('nsm_chart.py','lexical_evidence.py')): print(text);continue\n for node in tree.body:\n  if isinstance(node,(ast.FunctionDef,ast.ClassDef)) and node.name in {'chart_definition_records','foundation_prime_links','GSEClosedClassParser'}: print(ast.get_source_segment(text,node))\n  if isinstance(node,(ast.Assign,ast.AnnAssign)):\n   targets=[n.id for n in ast.walk(node) if isinstance(n,ast.Name) and isinstance(n.ctx,ast.Store)]\n   if any(t in {'_CHART_BOXES','_NATIVE_PRIME_DEFINITIONS','_CHART_CONSTRUCTIONS','SOURCE'} for t in targets): print(ast.get_source_segment(text,node))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

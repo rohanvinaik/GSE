@@ -1,0 +1,5 @@
+{
+  "command": "pwd; python - <<'PY'\nfrom pathlib import Path\nimport json\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\np=n/'ssl_api_checkpoint_self_boundary.py'\nprint('HELPER_EXISTS',p.exists())\nif p.exists(): print(p.read_text())\nfor name in ['ssl-api-controller-integrated-gate-exit.json','ssl-api-runtime-blockers.json','ssl-responses-controller-steering.json']:\n p=n/name\n print('\\nARTIFACT',name,p.exists())\n if p.exists(): print(p.read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

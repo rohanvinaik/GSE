@@ -1,0 +1,5 @@
+{
+  "command": "date -u '+%Y-%m-%dT%H:%M:%SZ' && cat data/external/references/nsm-primes-chart-v20-2022.txt && cat GSE/curation/schema.py && python3 - <<'PY'\nimport ast\nfrom pathlib import Path\nfor path in ['GSE/primitives_v2.py','GSE/curation/lexicon_builder/catalog.py']:\n s=Path(path).read_text();t=ast.parse(s);print('\\nAST',path)\n for n in t.body:\n  if isinstance(n,(ast.FunctionDef,ast.ClassDef)):print(n.name,n.lineno,n.end_lineno)\n  elif isinstance(n,(ast.Assign,ast.AnnAssign)):\n   print(ast.get_source_segment(s,n))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

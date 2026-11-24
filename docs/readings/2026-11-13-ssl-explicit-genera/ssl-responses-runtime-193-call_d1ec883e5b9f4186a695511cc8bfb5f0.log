@@ -1,0 +1,34 @@
+GSE/symbolic/expression.py
+from __future__ import annotations
+from dataclasses import dataclass, field, replace
+from typing import TYPE_CHECKING, Dict, List, Optional, Sequence, Tuple, Union
+from GSE.api.trace import ClauseSpan, OperationTrace, OperatorTrace, TokenTrace
+from GSE.lexicon.function_words import get_preposition_encoding
+from GSE.primitives_v2 import get_hierarchy_encoding
+from GSE.symbolic.duration import Duration, split_duration, temporal_offset
+from GSE.symbolic.modality import modal_primes
+GSE/primitives_v2.py
+def get_hierarchy_encoding(modifier: str) -> Optional[Tuple[str, int, int]]:
+    """
+    Get the hierarchy encoding for a modifier.
+
+    Returns:
+        (base_primitive, level, marker_count) or None
+
+    Example:
+        get_hierarchy_encoding("MANY") -> ("QUANTITY", 2, 2)
+        Meaning: QUANTITY base + 2 positive markers
+    """
+    if modifier not in ALL_HIERARCHY_LEVELS:
+        return None
+
+    hier_type, level = ALL_HIERARCHY_LEVELS[modifier]
+
+    if hier_type == HierarchyType.QUANTITY:
+        base = "QUANTITY"
+    elif hier_type == HierarchyType.INTENSITY:
+        base = "INTENSITY"
+    else:  # HierarchyType.CERTAINTY
+        base = "CERTAINTY"
+
+    return (base, level.level, level.markers)

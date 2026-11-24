@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-pp-contract-trace -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast\nprint(Path('tests/test_thatless_complement.py').read_text())\nprint(Path('GSE/lexicon/function_words.py').read_text() if Path('GSE/lexicon/function_words.py').stat().st_size<30000 else 'large function_words: AST selected definitions follow')\ns=Path('GSE/lexicon/function_words.py').read_text();t=ast.parse(s)\nfor n in t.body:\n if isinstance(n,(ast.Assign,ast.AnnAssign,ast.FunctionDef)) and any(x in ast.get_source_segment(s,n) for x in ['PREPOSITION_ENCODINGS','def get_preposition_encoding']): print(ast.get_source_segment(s,n))\nfor fn in ['GSE/symbolic/expression.py','GSE/symbolic/resolution.py']:\n s=Path(fn).read_text();t=ast.parse(s)\n print('\\nDEF REFERENCE',fn,[(n.name,n.lineno) for n in t.body if isinstance(n,(ast.ClassDef,ast.FunctionDef))])\n if fn.endswith('resolution.py'):\n  for n in t.body:\n   if isinstance(n,ast.FunctionDef) and n.name=='resolve':print(ast.get_source_segment(s,n))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

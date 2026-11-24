@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nimport json,pathlib,datetime,subprocess\nn=pathlib.Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-responses-runtime-status.json','ssl-api-controller-postwriter-job.json','ssl-api-controller-integrated-gate-job.json']:\n p=n/name;print('\\nFILE',name);print(p.read_text())\nprint('\\nRecent runtime artifact inventory (filenames only)')\nfor p in sorted(n.glob('ssl-api-runtime*'),key=lambda p:p.stat().st_mtime,reverse=True)[:15]: print(datetime.datetime.fromtimestamp(p.stat().st_mtime,datetime.timezone.utc).isoformat(),p.name)\nprint('\\nOwned replay/gate numeric health')\nprint(subprocess.run(['ps','-p','88081,88090,88091,88082,88089,88093','-o','pid=,ppid=,etime=,pcpu=,rss='],text=True,capture_output=True).stdout)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 20
+}

@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport ast,json\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nprint((n/'ssl-api-runtime-continuation-handoff.json').read_text())\nfor file in ['GSE/curation/lexicon_builder/checkpoint.py','GSE/curation/lexicon_builder/publication.py']:\n p=Path(file)\n if not p.exists(): continue\n s=p.read_text();t=ast.parse(s)\n print('\\n',file)\n for f in t.body:\n  if isinstance(f,(ast.FunctionDef,ast.ClassDef)): print(f.name,f.lineno,f.end_lineno)\nprint('\\nCHECKPOINT RELATED MODULE PATHS')\nfor p in Path('GSE/curation/lexicon_builder').glob('*.py'):\n t=ast.parse(p.read_text())\n for f in t.body:\n  if isinstance(f,ast.FunctionDef) and f.name in ['load_workload','publish_round','validate_checkpoint','evaluate_checkpoint']:\n   print(p,f.name,f.lineno,f.end_lineno)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

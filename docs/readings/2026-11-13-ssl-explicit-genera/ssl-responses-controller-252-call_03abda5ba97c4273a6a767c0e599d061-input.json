@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nfor name in ['docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py','docs/readings/2026-11-13-ssl-explicit-genera/basis-manifest.json','docs/readings/2026-11-13-ssl-explicit-genera/basis-warrant.md','GSE/curation/lexicon_builder/foundation.py']:\n p=Path(name);print('\\nFILE',name,p.exists())\n if p.exists():print(p.read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 20
+}

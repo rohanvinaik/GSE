@@ -1,0 +1,5 @@
+{
+  "command": "python - <<'PY'\nimport ast,json\nfrom pathlib import Path\nfor f,names in [('GSE/curation/lexicon_builder/models.py',{'Definition','Assertion'}),('GSE/curation/lexicon_builder/source_enrichment.py',{'revise_source_candidate'}),('GSE/curation/lexicon_builder/foundation.py',{'load_manifest'}),('GSE/curation/lexicon_builder/evaluation.py',{'load_gold'})]:\n p=Path(f)\n if p.exists():\n  t=p.read_text(); a=ast.parse(t)\n  print(f)\n  for node in ast.walk(a):\n   if isinstance(node,(ast.ClassDef,ast.FunctionDef)) and node.name in names: print(ast.get_source_segment(t,node))\nw=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint')\np=w/'postwriter-validation.json';x=json.loads(p.read_text());print('VALIDATION',json.dumps(x,indent=2))\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nprint('NEW ARTIFACTS',[(p.name,p.stat().st_size) for p in n.iterdir() if ('self' in p.name or 'integrated-gate' in p.name) and p.is_file()])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

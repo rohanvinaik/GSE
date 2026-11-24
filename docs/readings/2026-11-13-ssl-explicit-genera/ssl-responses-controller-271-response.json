@@ -1,0 +1,154 @@
+{
+  "access_programs": {
+    "cyber": "standard"
+  },
+  "background": false,
+  "billing": {
+    "payer": "developer"
+  },
+  "completed_at": 1795548559,
+  "created_at": 1795548513,
+  "error": null,
+  "frequency_penalty": 0.0,
+  "id": "resp_02d2f1a2860b74e1006b05e55f268487d2bae008118714d8cc",
+  "image": {
+    "context_compression": "disabled"
+  },
+  "incomplete_details": null,
+  "input_transformations": [],
+  "instructions": "You are a GSE implementation worker running through the ordinary OpenAI Responses API. Your tools execute on the authorized local project. No Codex CLI is running. No MCP servers are loaded; use full-unit AST/reference tracing instead of claiming Serena was used. Do not call external model APIs, modify billing, read secrets, or touch the API launcher. The controller IS AUTHORIZED to run the existing LOCAL GSE/Ollama typed semantic transport for its bounded checkpoint questions and audits; this is not a forbidden external model call. Use the two supplied local tools to READ, IMPLEMENT and TEST the task, not merely describe it. The run_command output is complete when included; a larger output is saved without truncation. Use exact role scopes in the handoff. Final factual results retain their requested filenames. Your peer's completion receipt is the synchronization boundary before the controller freezes source pins. Read the full owner intent in the handoff; never replace it with convenient familiar architecture. You have at most four hours and 100 API turns. No commits until both scopes stop editing and gates pass.",
+  "max_output_tokens": 32768,
+  "max_tool_calls": null,
+  "model": "gpt-6.1-sol",
+  "moderation": null,
+  "object": "response",
+  "output": [
+    {
+      "content": [],
+      "encrypted_content": "gAAAAABrBeVt8xcIw4RNaaeprnTAIYwbR2sNGdwMJlBptsw6yLxfht8lOBvmml5gSt0DZIfe3XMOzFvqrwfSwXl0L_XrdLrtlDPw7m7_fSZs-KnwPhtxR9OcFL5jHkC_04iicdMOWT5q3n9HiA-wolxpnP4IKlMf6vzCBvwauVlI7NiEK48UCi0wtHMU3qerOSIlQnfBhvbUgABZj6x4EqbgEkt-3IPGeNQy-ZNmZYswWJXogLSPr69pGUTGm9avBPLwnX8zaZ64uMflvO6WJoBvtXfzIh4O37329jxJjm42gCxDPdp9FXhKQH-C16Bse7G9ktKLl_P6bBhdIkPfzr9JlbnSHFmyY7FKp7w8-gRsRyuQrzv9ikAQZRaZUvZn9AhPfooZz0TdV71gOkXraoD654KUZvYA166iYHyilj89kt9D7dE5ifUAsL1YnE0UfJTJpApKkje2WOctX9X1Z5vOCWkX8TsZ_2tRh6hNbd1VCeZt_UsAjlA37YmINGlymsd-Kbqc1f5bz91HDiuaNNevmJYOE0Hu5YdHZyKu1u7feQ6CbWoGDXC19ruZMjplKebiZ4Rx_TfvuOdk8nDzt_6Py5k1gDwU50Kfy0z28I4Tr-JoaiQaQKZku5dj8VBGP-SKpsUxc-y4iS1onb7s05dygOpC9xgs6Jv7qt_NmhVT9d0mGJUA1fwSO8SRvv7MbeAzCe9yFUUIlqg_5q-vvaMXc8u4RCNR9DeD0NjwTlRsfwAw7yf6NILy61f0c3YQEFxApOwTr4peF-jjiob_Ga49zKpm607IOTnn20wV__fmrw5cyZgqjMBGpY8NfByE1sFCShimSYiRH0TiY139L2xbj4pAcdNlc841yKn7Y9dRi95bwhYwOIicFnzVlfpDuHmLkJSpgR5V-3WRt1DkYySJIGtd-LyE2g81cO7LSNoNfPc2YaZ2X_wAcBAKke-iRTirrw4gETzjCBGQcLzz6leyZMRqhqgJa8fsyXfrnvxLelqAHf4hV_tCtIMsoEs0KOMupwo66EqFYeGXlC2YuKSsjJAV-en5qhJ5z7Po1mqyvKbyaS9gA6HEjnJfg6EjOb3f5ZUDMA_9QnSOA5rE-H9LNT1hh5rWr3AbW1lR18L8A_7j51ifJvus1YkpXEWFSYKO3Zrjzsf6N9tIMPY31D6CeXEx6RdWrRgw6X9lxNWAdD5-WSD3GceILzZkwbBcS2OcwxrcDob4KJ7keXPA1Xe2aB3lOAaZQyfVXCwmMvClvV5WzNeUNlpy9uPGeiQZrpN-uLPezQtzESSAK1AD340HzhojLer7T1fwtDQ-Fa1WHw1WZ67grvIIdXuG71uPbsQUO32nV6DQZAuzTG6pkhi5JtyY8nrDXQSu-mRaESKE4rpeg4Z1bQ9bqxWqPTct_8rcQ3enXCtaIEUzWLORgRsA383qKiPRpGYgdCZW0u8NR4bP4s-VSBeUirGcd_rAtJ7N8dqC-KPAINlAeL6E-Jp663fKegmJv7hNZGQNtg_VsUiuiKQs4riee49hrRas2g2mF0_4QDOPEcPcuAF5owsOCwgT_ejX8r1lB8qMT7Yw8F6w3-b9k5jNtBQ1ChHy-KraDO9y3AKiK4uZgMBG7GYvo9WgnIsvEeUXTC4wuFbaFAke_4TxAtnC2vWrFojUxAF_dRbpPBOcvyNzqzEVRLycwYLaEtcLzqxxNyLhLSa5Tiy5AQeuyVXqo3bAQyFP5mvBveF1b81PY73Nbu5DYxiC0L78hKA28c8toMXXgN-EK1InreTgESQzhNpFHOyyiaezA26eUTYH35yLernPacuwtMHNbWA-PZspa5sV-Thq54h7uY86xz2-B-pEBF8t0IJ2aSvagdHaBATsE6seLotb-IC0FpiZaW4US3a8WJP11s1Gxhva4KDXee1Oe3aFkFnUevWuPSf8EbgfDCvdQW-9_HYedp_PSbZQwJDqzEMYJugftzpEDzt9uFL2unq4AuqzePEj29sNYBcINITKohJcBgClQMCgsaek3HGG5xWlvhT8LdS-MwY9OJC_rkrKdpSvY0u_aAwzIP9MDoHN_77ivvz46YLfvbojCL3yDKXNKsU6sJprp7SRixvRFabOa7srvy9KfKfN17K8aKKWVq25Ta7Fx4KQ9qdvPtKhdiQAawiDqRhaabE1elvXNNTzrVMup8KFXqXpMmz59j-xKLtPxJyVDAfnXAkiDUnjKSNJlUrnou3sDfYnKRXxyuXMSlYtqOOkuc1uwsElsTj95RAG1ot190BGUbLDFmvLywUaicWUnWcAExL3GE0xEkrIPQWwp0N6R3GGJy6yV-Jyj3_t_prFbVfxKYrIjSzvoi9WIORCyggJ0o9Lv-ceyqmBbCbhYUFoWrBGtMrqAPyJ0K3q4qT3Q2DBkWPd7nqOB8GmvPnCZsrnunInIkRt7xVe2GAF0hj4GQVmKcYgQTETiGoYlby6tDhnb06RffPFJ3vjZtvBNkUxL_rUI69KCITq_31pkoRXuZpNNkjGFM7TRHjazQGAEBrl7aDS9MQ04v8ojN1gekYyXJhU9-6doEQTkYG5ctFEBUFVUY860AFWGR8BguHxU1ShCtQVHJEI43qCD7gMF2YmrnXSOjgLWjONYRg6KjmM54Tza64UwG-pEAl5gniLOygqXZnQ9cj2XpQ4jG-77gY0sKtIshYq8bSZ97wmFJ8XTCEz23UtxlG0bUX47yWokycYFIZ_QDU7a6Etmnww6STEUAALtzkVnKLZmdWTeSPSDI_crQMmjL2IZNOc8vtYAWCxPpwhyoP7WKXZJHZfgPS0LDp8C7yBsq4Dd5ex385tRq4PY5HAdlMjBu8xmCmnXcx6vE-RzFK0XwH1dJT2b39V1Omj5faGPraIUDxcpuZ1EXz4cz3ZuUs5hsoo55bkyf_uWEYIHHf9Ndk8KCZHVAW-_SB3XzbPdEBBjI-9W4coaYm2ounCN4Q2Nstjh0ESfiSR2QRZFZPdhErKHuToDhGUsK-J3_DkehLiMU39WE6_k8yUMzhgQKOFzOvaKf0HH9KbCZl1B63xWJAXbZPcvrOipMswuBfqI7mnz1XzokfhPpDurQKc5RXYpsRSw9MbUqmuZbOBXCCTj80m0BqdPRL6758QlPUy9JBsp3t_4-pKuwCH_XNFGqkK25aguS9-hf74HQVj1xA1FG4-KJEziga_1VVYLnniX3CeJO3wxWSRBJElPD5a_45DGQDAwAWx-3dXzOKSf4qJA96ByizAf1kWqG0UmpU_0qT2I9pqdPK6LHDLSV7GL3klpUj4wgci7_--Xa_e8t9xLF8_uReM_8FdULWTq1O_k1VVwnGOpJBIXqiHMd4hZocfKNBF8YfJZ2l0byW05EPLJpgAuD3gYzhiSWnzzVPS2umD-J3Z7tUp5ZTLH-D9Jr6GojVjqk-48Iuk5noqgnZsXcgAZpZnS8CCs7ZeH3AgVv0KUQdx90R-FMw140sRmhB6904oaXk_y-GUpYlneQRDES8ZlqkXF1Xp6Xc0BKkWODBrBv07KpqL1zQmU5pxWwEgsbwmpaDJxMDx-Xt0mLFGLntvzZ2Bkwmv1eMq73enUjeozbbOQy-PzuFbfgBvAxKFIXKuotXSnBCcks7k2sqW3VzaoayeQpWbyEYFhQvD8QdFFoBi-IiCerJ-lgwbHp604F9W-qIATpgEM7MfUc93SbzAxYUw2Nz1qL4WBVes8P2DWKzWnU9Qf_XZAMXkyYHGd2I1gsbdEdccBQSqc24Xfgss08CjS2Ldt0Q2zN587UfjyMyuWFlDQzD8Mp4qgqIhdxxhnwv-XFoHdFdVSDy2HunQGba01Rkw0k51FF_ihZ2EThIHbEwo58lk0eG1CZCjgzrvUyqalslnESVZZYvnbLXKwNY0yHK_B1mlfSdzzpjeN6zS34jbhZnhuArwE-ZEoScIR_749_ZnStWNgFPcLZECzUxdpywCOSda5Um-FdWC5u3E4yIwDnny7TCtq5sDBFqehMFg5Fr0iCPDpHNlTnXJLU1O9lfB4PqIz7SribbR5W1EplyFzkIin0m_vmTPKO-3Lzdfy60I0onDxn1GJdDCh0j63RndUvyvudXZ64H-KM96bxl6S7lEihlg9l_KEDSBu7cgZMjnegItGHj5GGnJhtrfh8AOnXm4ggctyG3C7_to0J9A1IrBxHV6f-ixdRNPUZLDln_LA4X4BU88qDsimLNZoAUgRktYzrMwQ-GVP38yU2OEmuGl5lXsjrQI93uUFuaYrjHd6UNmuu98tt6-cdTZMkzgLoPN7L7d197M58C-nGhR-5htlwI6QXOheiyoC9xcoGC4vaqZuKRY0focEkRfcGWDF48wUOj6SdflRlSLQE7Ixwt3R_327DlN11EJjwUomZJIcpVkUsdde7lQBoskzXR2tL39kJcs0xj98OenkFOdVL2iXtwg6qYhbu6FUZtNjpBuig_Ef-srv0wZE9D051HTr8aoBTFc80AgU77WpoS3S0u7PnziUOTUBkCkcqK39f1l9PaUTLekZDwov6nH32WE7KFnkl9STOeah19qJMY9Uul5iuZvMLUQN7CjlRGqyy2sTAhSuMt3TlwoAt-URHMFfeH7PZ3J1sjSpIUl7XZBwbcII8nbqJnbOr0TLDyVRV1h82MKHs1ZNAcwF0ZabCsxUvkJZYhVIsPH71KndyiCP14V4qBzv740RNlGQSf-eX3NbBQN-6D853g92ojC7QRd0_UTN0MFuexgBELLVnT1IGLmwpmcV0bFVJi1m5ByqwxcPI8PG9LqyalzIQmyuAT6YFpNKPF8nnrvJB4XbTtMgUL-OqtMIBwkrmhwoYSTAhm2rYLE4cohtujM4fxbWj9l_lkhWK6k_4fJElT_sE-GQAdw5oFp2TnVJG7tkjXCXssuW5YBLqiMyYORJ3ZBEOr2MWVcSsQaiEiMQzpqIrbtA209MhAok24xVyqvmCg7NgFVtyIcYMmFQoTq4RUOOBkKD53wW-qFubz4W5NYr9Io2O3TRKMzQ6q5A2rGKYF0wmWMblEs7ekU_h65DBsFyjcmHBQSIoqvFhMDBwDnm2OVpWX8-elFBn7Lweiw9glvnmMD8Wx6ZyZRPw4X1enbb6w9iP5c1lFH0gDVqTBIYtQEsN43qqs4YNmxROHlJdLMpFWWjXia39Lx2nZ_ltTxL3OWuhwYjd9Xg2gB8aU9HfvUiWLBqHjyGpyZAWAeOJVXDvly77_5toe5QkoBPBVeBsK8-xY2zsmw7wkIMF2CtiE0u_xl2fT5eEYfLvl9YgUBFe2kDebB_acFotnKltrWdlrGMdsl3UHBmCZJrfjXSek8S0e6weAkAIwNk_d0VZ7jNsS9aSt70KXttxwyTb5qrlKdbNSQL1dRiaF2Uu9OUQ6U5VbfhKOYuL9yXtvSMm5nu-onSTL1o7ALi9EO2PYXzMWDsD-71DNnbO13iDcmjjwzmMB0pNq2vNZ6Qn5yqz2YUtXlnB9QPaKOh8RJJvkVonr_6Vd7wcQLkvzH9X9a_B_kDK6_LrD5AquZOBpFNhrkJ0Ns4l0sUOIvSl46-fRqJOBjNVAHfqgPFYIIwVwjHira2ZLGdvlOa_haMsZVPnaW4bK2y55N2Xzn8tp1VfNGywB0PFsJqDiqM1zhqozG9jN62prD1PzA5iO5JLWFC4jIfuTrGVRirs8OQ1yyRYW-lQEulF3r73wcNH9l1Gz0MmT4oeyAlq_vmwIZn-1ydwq4oXO473SS2yCWCrMt01nlnG1sR5_Uk-zUSbcVvrcU9O-hYAWxXTux7RbMNjEumCiPPndktGqVdhnfNfmlmV-kztxke155wLqDbRI72zRTzdLIp2GeMCnHkR1JpUjp897LGeWfs_afWpqprph1KZEPZMcy8LRTWogEOORbvY2kyB49QCAc7Lb67vWcfld0qm3Ix4G8iyGq8PBYw7SPYMMPQblHiYBsTxpIpOi67r6o1o3hqWiyMrL4mdAEbDU1D5bqmu6exkAzkqsSop9lJm5NApVE0isotRucme8SSCdBh2G1i47v90PMTqp9NR-wuKu384xjE5UjUAeJDfKw-EHrnfEJfQeAlz4g8jNK7j62CJxn_YTpOiVyU6t27Jsy7Nk608y90Jw4SGHdBf4YBuKiKK9dWkznv4sB3p8s9B2HQeJcUN7cp69SN8bCG50x3gLE70xdbEdUkZbIERoY9W_35v3nHS-MefES5QM38caoMAQ6396LWAQDpS-YOLSxv2C-n054O_v9ZyuYjzTQoz0YzyBZ_xzJZqZDXVnE6_FSCSaPVakAjwfPRPjT0pjeGxJGCR_TvHQhPnCGYPEELFqNglZWNdxqWp_ubLyOVhbG3hlpW8gfnLrvatlfsOT0K4VTaCJe9_NcVCS-vPlXF2u5C4Rm0D9EFduPMT2vRt3_mO9D_yuFU2gfkuCjkgtKWwVXHgtjksSIV5MZA-QnFZmIaOD2cwAFmkkbBTKfWer8Ww8D6mv40Cdw4FS2cOXlglBCe0UPQuN6BoE2AEQeBga3UbrCZ9BLLANEvI8ysXasPSgTbsDltuIX1RhKkWJfaTusuRW_ACOIq46iiEivatKseV8FglyB8Dh_R7NuivBEGJLYmoM99-pPzV4LF5aAN48dzDBOtoZ7KibkAGJcMuiVXLEWy5EtxCKqjlViZCkmLexUNtpGXMy0WwvAxv3pAr1Bsrn0BiAx02ca2REmWxSrNRmh87tOSy_wWozosXs19CvZAQmd5Sghs2UCmtWYj-xx4UkV1ISBCUY2yexl_MMfdcYEYHqspZC406ZzIi8RL6sKgNXKHYF6f3_p-janTWUrUdQAVjxizNSlLYIRRjl9BEhk10Inxhmr4leoCu8YCxjMNsK82g5qo4j1y_zjEZO2opYtisWvpoDPo-gey4kxV8ba6cePmo-2S2Urv36u9fvlvZdEMwufEuAszZig0kHvCzO4hN_LJ34M5vPuo6RckEaPGRweega7rjWxbXOXYp8_PI0vqupp3EIfzdBTSML1NXO9owE3oX3yEivQJgoklNILGgQVIjWBF5Z2oGpMRAMIS774tB3iMqCTV2M2QHKWmLtT4cRrL9XZw3xq4P-AG5qIfTboyigrowhudFMh6pXma7eU_fmpayie31vTRWDax9V9f5SJCQucTrUikPOMqcJL5SOmopPaA3dZjRrDVz3Fr_EdY7wRvWYfX1OXVFhd9HDN_Qj0EqlrcZxPbpGIDFSzi787H_bNIM7P302bMTSsU6K3pIBKicxj8vScgFxRY084Sr2VwpNa9ss4hQRii86EugWhun22L0yKweNdWvgV5NahIwCixGlUt4zxx1uNpIBOPgEfpghJ6kAuDO9rzDlhy5zhfwc6C5_6iKrwMTZVOZSBGZc0O_f-3qDvF0IL4gQwYtwAYxW0gZvIvVTyrj5nDmSBuQBxsfxDRYesoKbif_VYsw-jO5X_Adscr4N4AIks_WbNoM2_eEIGRTbPtjBNkwsX98DQF_b_C-oyTzJ2eR5Fz7UKi0UZ43SFt7izl1zq4zlX_YeL8D6dGDJamxmZtLBJUr42qCQqmolT_42zNm581jee1EMQTo-9RsItKTJcjjQVFV1LiPs7UtOVaEXHzMsGu9VHBSrCLsYGQDVMHQeFGpFaBvsNSbBj3wv-7T9gyjAn6H4q6Km5-lp6kICUiZYhgXVts90m4Ajm1-Mkizy7QF5oVy2X6R_kSraAaHAZCVoHuxGAcKZ4iaWJCfzsPZ4_HEmZSL_fkj1PpDDTY_FUMWo34Hy6TIUgQSrKpu11rqZJsTuFWG3WvlpOWGfAJW0_6l35v88CfZzrY_RJWN4b0PqmNzoibwDADFzxMpMdEu8Dpd3eruPRqq-xzT6roRFs8BfRN2GZfxWVCJ3CD3l7fWreMK72NHvWNE5WavitjlZFbJ8PIbqW-yQ6fYWgBls0gSArQVGSXJ1KHo1RJt4flLJmtqoJuRiBl-XLvA9wwSPaUiiTfdnVeiqLxnMSzRmri2jxzRUUz_JiDYpXpGLYWgakSd44hioe7c9IWmXEOYW8WF34HfDz-Sl2tPxJHWtlZQ_UsMzL6rXlXXCppYehooDME5smh5UsXH8fkohUF627GI9k3t9GFjb5_gUcmTDYqEy3IsyPNmDgQHCd98oqXYHZoFt7oIuMqbtAUjDb1lIDgSatl2Rc3z1Y_pELtOW14o6tff9zVeEVUghoKUkdd_d96_Nhm8r-dGZqSsPr0hhhxW57nCYSAnzaclVvTJv3qHgFlXqzk38BKNKH7EEiMTym-Z8GeFt8VUGcbggz1IMqcLi83X2fasf8jP_RRgX_SwoEaM03NjWmGZdJZ8xnEX__PpE1eFTWvSlqVG23jDTDAz9LlMl4GAUSMqXb3l-FzQAtESNXPCQKg0mQ2D4IWVQ1Dd04MrFBqum69s3mL7siTE3iVDEj9O_q6X-QWxG-pBbBrnY91QL2a0wJG5mMHl3o99tpwu3SBlOvY_M_YZ_vEzvkfiDjkuPCbYiCPtIGL0m8EFm1Z6qGXDEgY41jRsO-b-eeLYPlfusXDEY6R5g6zoSI-pCusRxd0oQ7QKmP4fYIx7bhjWQUNX5N-rnqCUs99LzIVddo7QTGxVRnrsE0cSkEEPRM4mHn7d2z2yZ-PXnX9G1bs9N9yEzqD4piay37T7ByK7KMWJbOyHKTkmWcC8IV9mLF2r5bIEK5XEHWucEA97X6sMwzyOryWe_fxkGsdu3TCcwJ5r53dDKd1KEwTw9PYfphZxWrg3rBNzEdHntbvFg45eOEOwCsJAPyh5H6D4TbIOAg7Ap7HGBQawdvfiGIjqPev8Su1IOa9P8ds6WU7Mm49qRP3AQWKu7h1WCy27EZQrb4TKU4grYgEaTeThsHyRkGvQ8EwZur1lemnppDsHfFYBx8Dxxl1rW-3ETeLXnkWUYgjNq0QSOlojmjlpWXwKyQTFFJs8iLAUceslLllW7OFgPLS33GEWPzjHqHO50dEV9IQxJ-NJ9EjfOlohh1QgWrYBTSNexpYqQx_nm4qVzkOeMAmaTmIyp4b-tRs6s-Q7RpKqVACd-0eKMdYZFZS_h1hgbf0VLBo36V9uuh3FPgNOo9ardMgXRtaqmLqvjGfjs05QjCnLf3_n2_wQzX1C9ahaoqQDlnuNXQy2duxfzT2aGLskQwgdXldBohbz_1en7pdgVNws9YRxfhwR95GabKyrnRAU4eklakpJGhcaoKzJzImOeInLB88-MAwWOGnCaaS6U6VdKPMw==",
+      "id": "rs_02d2f1a2860b74e1006b05e56d807487d282c556a73cc530c2",
+      "summary": [],
+      "type": "reasoning"
+    },
+    {
+      "arguments": "{\"patch\":\"*** Begin Patch\\n*** Add File: /Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_self_boundary.py\\n+\\\"\\\"\\\"Apply one already approved definition anchor through the existing source revision.\\n+\\n+This is checkpoint orchestration, not a new constructor or a population rule.\\n+The validated input stays immutable. No model request is made.\\n+\\\"\\\"\\\"\\n+\\n+from __future__ import annotations\\n+\\n+import argparse\\n+import hashlib\\n+import json\\n+import sqlite3\\n+from contextlib import closing\\n+from dataclasses import asdict\\n+from pathlib import Path\\n+\\n+from GSE.curation.lexicon_builder.completion import _contexts, _entry, _set_metadata\\n+from GSE.curation.lexicon_builder.evaluation import evaluate_build\\n+from GSE.curation.lexicon_builder.foundation import BANKS, load_manifest\\n+from GSE.curation.lexicon_builder.resolution import resolve_dictionary\\n+from GSE.curation.lexicon_builder.rule_migration import _refresh_catalog\\n+from GSE.curation.lexicon_builder.source_enrichment import _refuse_bound_receipts, revise_source_candidate\\n+from GSE.curation.lexicon_builder.storage import _json, store_entry\\n+from GSE.curation.lexicon_builder.validation import _metadata, _observations, _relations, _stored_context\\n+from GSE.lexicon_resource import ACTIVE_POINTER\\n+\\n+ENTRY = \\\"wordnet:self:self.n.02\\\"\\n+GLOSS = \\\"a person considered as a unique individual\\\"\\n+APPROVAL = \\\"First-/second-person reference only; generic self is I=0, YOU=0\\\"\\n+CONTROLS = {\\\"gse_closed_class:pronoun:i\\\": (\\\"I\\\", 1), \\\"gse_closed_class:pronoun:you\\\": (\\\"YOU\\\", 1)}\\n+\\n+\\n+def sha(path):\\n+    h = hashlib.sha256()\\n+    with Path(path).open(\\\"rb\\\") as stream:\\n+        for block in iter(lambda: stream.read(8 * 1024 * 1024), b\\\"\\\"):\\n+            h.update(block)\\n+    return h.hexdigest()\\n+\\n+\\n+def checked_anchors(manifest, warrant):\\n+    review = json.loads(Path(warrant).read_text())\\n+    if (\\n+        review[\\\"owner_approval_verbatim\\\"] != APPROVAL\\n+        or review[\\\"entry_id\\\"] != ENTRY\\n+        or review[\\\"definition\\\"] != GLOSS\\n+        or review[\\\"evaluation_lineage\\\"] != \\\"EXPOSED_DEVELOPMENT_NOT_FINAL_HOLDOUT\\\"\\n+    ):\\n+        raise ValueError(\\\"GENERIC_SELF_APPROVAL_OBJECT_CHANGED\\\")\\n+    relations, anchors, hierarchy = load_manifest(manifest)\\n+    if relations or hierarchy or set(anchors) != {ENTRY}:\\n+        raise ValueError(\\\"GENERIC_SELF_MANIFEST_SCOPE_CHANGED\\\")\\n+    records = anchors[ENTRY]\\n+    expected = [\\n+        {\\n+            \\\"bank\\\": bank,\\n+            \\\"value\\\": 0,\\n+            \\\"source\\\": \\\"founder_approved:person_reference_boundary\\\",\\n+            \\\"record_id\\\": f\\\"founder:generic-self:{sha(warrant)}:{bank}\\\",\\n+            \\\"family\\\": \\\"founder\\\",\\n+            \\\"scope\\\": \\\"lexical\\\",\\n+        }\\n+        for bank in (\\\"I\\\", \\\"YOU\\\")\\n+    ]\\n+    if [asdict(record) for record in records] != expected:\\n+        raise ValueError(\\\"GENERIC_SELF_MANIFEST_AUTHORITY_CHANGED\\\")\\n+    return records\\n+\\n+\\n+def apply_boundary(conn, manifest, warrant):\\n+    requested = checked_anchors(manifest, warrant)\\n+    _refuse_bound_receipts(conn, {ENTRY})\\n+    definition, assertions, restrictions, hierarchy = _entry(conn, ENTRY)\\n+    if definition.lemma != \\\"self\\\" or definition.pos != \\\"noun\\\" or definition.definition != GLOSS:\\n+        raise ValueError(\\\"GENERIC_SELF_NATIVE_DEFINITION_CHANGED\\\")\\n+    rows = conn.execute(\\n+        \\\"SELECT payload FROM source_observations WHERE entry_id=? AND source='wordnet_hierarchy'\\\", (ENTRY,)\\n+    ).fetchall()\\n+    if len(rows) != 1:\\n+        raise ValueError(\\\"GENERIC_SELF_NATIVE_WITNESS_MISSING\\\")\\n+    native = json.loads(rows[0][0])\\n+    features = native[\\\"features\\\"]\\n+    if (\\n+        native[\\\"entry_id\\\"] != ENTRY\\n+        or native[\\\"record_id\\\"] != ENTRY\\n+        or native[\\\"scope\\\"] != \\\"lexical\\\"\\n+        or features[\\\"synset_name\\\"] != \\\"self.n.02\\\"\\n+        or features[\\\"lemma\\\"] != \\\"self\\\"\\n+        or features[\\\"pos\\\"] != \\\"noun\\\"\\n+        or features[\\\"definition\\\"] != GLOSS\\n+    ):\\n+        raise ValueError(\\\"GENERIC_SELF_NATIVE_WITNESS_CHANGED\\\")\\n+    anchors = _metadata(conn, \\\"anchors\\\")\\n+    if ENTRY in anchors:\\n+        raise ValueError(\\\"GENERIC_SELF_ANCHOR_ALREADY_PRESENT\\\")\\n+    before = json.loads(conn.execute(\\\"SELECT domains FROM definition_states WHERE entry_id=?\\\", (ENTRY,)).fetchone()[0])\\n+    if any(before[bank] != [-1, 0, 1] for bank in (\\\"I\\\", \\\"YOU\\\")):\\n+        raise ValueError(\\\"GENERIC_SELF_BOUNDARY_NOT_OPEN\\\")\\n+    relations = _relations(_metadata(conn, \\\"relations\\\"))\\n+    _, relevance = _contexts(conn, (ENTRY,))\\n+    resolution = resolve_dictionary(\\n+        BANKS,\\n+        assertions + requested,\\n+        relations,\\n+        _stored_context(conn, definition, relations),\\n+        evidence_banks=tuple(sorted(relevance[ENTRY])),\\n+        domain_restrictions=restrictions,\\n+    )\\n+    after = {bank: sorted(values) for bank, values in resolution.domains.items()}\\n+    expected = {**before, \\\"I\\\": [0], \\\"YOU\\\": [0]}\\n+    if resolution.code == \\\"CONFLICT\\\" or after != expected:\\n+        raise ValueError(\\\"GENERIC_SELF_UNEXPECTED_CLOSURE_OR_CONFLICT\\\")\\n+    store_entry(conn, definition, resolution, assertions + requested, hierarchy, domain_restrictions=restrictions)\\n+    anchors[ENTRY] = [asdict(record) for record in requested]\\n+    _set_metadata(conn, \\\"anchors\\\", anchors)\\n+    mismatches = []\\n+    native_index, _, bank_relevance = _observations(\\n+        conn,\\n+        {row[0] for row in conn.execute(\\\"SELECT entry_id FROM definition_states\\\")},\\n+        lambda *args, **kwargs: mismatches.append((args, kwargs)),\\n+    )\\n+    if mismatches:\\n+        raise ValueError(\\\"GENERIC_SELF_SOURCE_OBSERVATIONS_INVALID\\\")\\n+    _refresh_catalog(conn, relations, native_index, bank_relevance)\\n+    return {\\n+        \\\"entry_id\\\": ENTRY,\\n+        \\\"definition\\\": asdict(definition),\\n+        \\\"native_witness\\\": native,\\n+        \\\"manifest_sha256\\\": sha(manifest),\\n+        \\\"founder_decision_sha256\\\": sha(warrant),\\n+        \\\"assertions_added\\\": [asdict(record) for record in requested],\\n+        \\\"assertions_preserved\\\": [asdict(record) for record in assertions],\\n+        \\\"before\\\": before,\\n+        \\\"after\\\": after,\\n+        \\\"all_other_coordinate_domains_unchanged\\\": True,\\n+        \\\"scope\\\": \\\"EXACT_DEFINITION_ONLY_NOT_POPULATION_OR_SPELLING\\\",\\n+        \\\"model_service_calls\\\": 0,\\n+    }\\n+\\n+\\n+def run(candidate, output, manifest, warrant, baseline_replay, gold, result):\\n+    baseline = {\\n+        \\\"candidate_sha256\\\": sha(candidate),\\n+        \\\"active_pointer_sha256\\\": sha(ACTIVE_POINTER),\\n+        \\\"replay\\\": json.loads(Path(baseline_replay).read_text()),\\n+    }\\n+    # Bind the reused computation to the immutable head it actually validated.\\n+    replay_phase = json.loads((Path(baseline_replay).parent / \\\"postwriter-validation.json\\\").read_text())\\n+    if replay_phase[\\\"candidate_sha256\\\"] != baseline[\\\"candidate_sha256\\\"]:\\n+        raise ValueError(\\\"GENERIC_SELF_BASELINE_REPLAY_HEAD_CHANGED\\\")\\n+    report = revise_source_candidate(\\n+        candidate,\\n+        output,\\n+        baseline,\\n+        lambda conn: apply_boundary(conn, manifest, warrant),\\n+        format_tag=\\\"GSE.founder-generic-self-boundary/1\\\",\\n+        metadata_key=\\\"founder_generic_self_boundary\\\",\\n+    )\\n+    audit = evaluate_build(output, gold)\\n+    if audit[\\\"outcomes\\\"][\\\"IDENTIFIED_CORRECT\\\"] != 4 or any(\\n+        value for key, value in audit[\\\"outcomes\\\"].items() if key != \\\"IDENTIFIED_CORRECT\\\"\\n+    ):\\n+        raise ValueError(\\\"GENERIC_SELF_DEVELOPMENT_BOUNDARY_AUDIT_FAILED\\\")\\n+    with closing(sqlite3.connect(Path(output).resolve().as_uri() + \\\"?mode=ro\\\", uri=True)) as conn:\\n+        for entry, (bank, value) in CONTROLS.items():\\n+            before_conn = sqlite3.connect(Path(candidate).resolve().as_uri() + \\\"?mode=ro\\\", uri=True)\\n+            try:\\n+                before = before_conn.execute(\\\"SELECT domains FROM definition_states WHERE entry_id=?\\\", (entry,)).fetchone()[0]\\n+            finally:\\n+                before_conn.close()\\n+            after = conn.execute(\\\"SELECT domains FROM definition_states WHERE entry_id=?\\\", (entry,)).fetchone()[0]\\n+            if before != after or json.loads(after)[bank] != [value]:\\n+                raise ValueError(\\\"GENERIC_SELF_CHANGED_REFERENCE_CONTROL\\\")\\n+    report[\\\"development_boundary_audit\\\"] = audit\\n+    report[\\\"evaluation_lineage\\\"] = \\\"EXPOSED_DEVELOPMENT_NOT_FINAL_HOLDOUT\\\"\\n+    Path(result).write_text(_json(report) + \\\"\\\\n\\\")\\n+    return report\\n+\\n+\\n+if __name__ == \\\"__main__\\\":\\n+    parser = argparse.ArgumentParser(description=__doc__)\\n+    for name in (\\\"candidate\\\", \\\"output\\\", \\\"manifest\\\", \\\"warrant\\\", \\\"baseline_replay\\\", \\\"gold\\\", \\\"result\\\"):\\n+        parser.add_argument(\\\"--\\\" + name.replace(\\\"_\\\", \\\"-\\\"), required=True, type=Path)\\n+    args = parser.parse_args()\\n+    run(**vars(args))\\n*** Update File: /Users/rohanvinaik/Projects/GSE/docs/program/LEXICON_CONSTRUCTION_DESIGN.md\\n@@\\n The historical pronoun module's claim that I/YOU differ only\\n*** End Patch\"}",
+      "call_id": "call_0e77c8a893d74c4c9ed842e618459ac4",
+      "id": "fc_02d2f1a2860b74e1006b05e56d958c87d2b73b9328dd808d12",
+      "name": "apply_patch",
+      "status": "completed",
+      "type": "function_call"
+    }
+  ],
+  "parallel_tool_calls": false,
+  "presence_penalty": 0.0,
+  "previous_response_id": "resp_02d2f1a2860b74e1006b05e54b5ce487d2a7a25817f2b0134f",
+  "prompt_cache_key": null,
+  "prompt_cache_retention": "24h",
+  "reasoning": {
+    "context": "all_turns",
+    "effort": "high",
+    "mode": "standard",
+    "summary": null
+  },
+  "safety_identifier": null,
+  "service_tier": "default",
+  "status": "completed",
+  "store": true,
+  "temperature": 1.0,
+  "text": {
+    "format": {
+      "type": "text"
+    },
+    "verbosity": "medium"
+  },
+  "tool_choice": "auto",
+  "tool_usage": {
+    "image_gen": {
+      "input_tokens": 0,
+      "input_tokens_details": {
+        "image_tokens": 0,
+        "text_tokens": 0
+      },
+      "output_tokens": 0,
+      "output_tokens_details": {
+        "image_tokens": 0,
+        "text_tokens": 0
+      },
+      "total_tokens": 0
+    },
+    "web_search": {
+      "num_requests": 0
+    }
+  },
+  "tools": [
+    {
+      "description": "Run a local command for the assigned implementation, returning complete output or a saved whole-output artifact. Read whole coherent units, never grep/rg or snippets. Credentials, billing, external model clients and other edit scopes are forbidden. The controller may invoke the existing LOCAL GSE/Ollama typed semantic transport.",
+      "name": "run_command",
+      "output_schema": null,
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "command": {
+            "type": "string"
+          },
+          "cwd": {
+            "type": "string"
+          },
+          "timeout_seconds": {
+            "maximum": 10800,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "command",
+          "cwd",
+          "timeout_seconds"
+        ],
+        "type": "object"
+      },
+      "strict": true,
+      "type": "function"
+    },
+    {
+      "description": "Apply an *** Begin Patch formatted edit to owned project files after tracing their consumers.",
+      "name": "apply_patch",
+      "output_schema": null,
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "patch": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "patch"
+        ],
+        "type": "object"
+      },
+      "strict": true,
+      "type": "function"
+    }
+  ],
+  "top_logprobs": 0,
+  "top_p": 0.98,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 118899,
+    "input_tokens_details": {
+      "cache_write_tokens": 5118,
+      "cache_write_tokens_details": {
+        "ttl_12h_tokens": 0,
+        "ttl_30m_tokens": 5118
+      },
+      "cached_tokens": 113778
+    },
+    "output_tokens": 2911,
+    "output_tokens_details": {
+      "reasoning_tokens": 401
+    },
+    "total_tokens": 121810
+  },
+  "user": null,
+  "metadata": {}
+}

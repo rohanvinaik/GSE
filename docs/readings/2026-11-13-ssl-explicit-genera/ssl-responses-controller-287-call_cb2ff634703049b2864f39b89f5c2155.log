@@ -1,0 +1,2129 @@
+[
+  {
+    "id": "want",
+    "text": "Mira wants to rest.",
+    "expected": "Control with Mira as want-er, rest embedded; not asserted rest event",
+    "tree": {
+      "_kind": "Control",
+      "controller": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "mira",
+          "word_primitives": {},
+          "role": null,
+          "position": 0,
+          "pos": "PROPN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      },
+      "inner": {
+        "_kind": "Event",
+        "verb": "rest",
+        "agent": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "mira",
+            "word_primitives": {},
+            "role": null,
+            "position": 0,
+            "pos": "PROPN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        },
+        "patient": null
+      },
+      "verb": "want",
+      "subject": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "mira",
+          "word_primitives": {},
+          "role": null,
+          "position": 0,
+          "pos": "PROPN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      }
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "CONTROL",
+        "args": [
+          "mira",
+          "mira",
+          {
+            "op": "EVENT",
+            "args": [
+              "mira"
+            ],
+            "features": {
+              "verb": "rest"
+            }
+          }
+        ],
+        "features": {
+          "verb": "want"
+        }
+      }
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 12.882894959067926
+  },
+  {
+    "id": "want-negative",
+    "text": "Mira does not want to rest.",
+    "expected": "Negation scopes wanting, not rest alone",
+    "tree": {
+      "_kind": "Negation",
+      "operand": {
+        "_kind": "Control",
+        "controller": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "mira",
+            "word_primitives": {},
+            "role": null,
+            "position": 0,
+            "pos": "PROPN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        },
+        "inner": {
+          "_kind": "Event",
+          "verb": "rest",
+          "agent": {
+            "_kind": "Entity",
+            "head": {
+              "_kind": "Atom",
+              "lemma": "mira",
+              "word_primitives": {},
+              "role": null,
+              "position": 0,
+              "pos": "PROPN",
+              "number": "sing"
+            },
+            "possessor": null,
+            "role": null,
+            "modifier": null
+          },
+          "patient": null
+        },
+        "verb": "want",
+        "subject": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "mira",
+            "word_primitives": {},
+            "role": null,
+            "position": 0,
+            "pos": "PROPN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        }
+      }
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "NOT",
+        "args": [
+          {
+            "op": "CONTROL",
+            "args": [
+              "mira",
+              "mira",
+              {
+                "op": "EVENT",
+                "args": [
+                  "mira"
+                ],
+                "features": {
+                  "verb": "rest"
+                }
+              }
+            ],
+            "features": {
+              "verb": "want"
+            }
+          }
+        ],
+        "features": {}
+      }
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 0.04452945804223418
+  },
+  {
+    "id": "think",
+    "text": "Nora thinks that the child is tired.",
+    "expected": "Attitude with complete child tired complement; not globally asserted tired",
+    "tree": {
+      "_kind": "Event",
+      "verb": "think",
+      "agent": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "nora",
+          "word_primitives": {},
+          "role": null,
+          "position": 0,
+          "pos": "PROPN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      },
+      "patient": {
+        "_kind": "Event",
+        "verb": "tire",
+        "agent": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "child",
+            "word_primitives": {},
+            "role": null,
+            "position": 4,
+            "pos": "NOUN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        },
+        "patient": null
+      }
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "EVENT",
+        "args": [
+          "nora",
+          {
+            "op": "EVENT",
+            "args": [
+              "child"
+            ],
+            "features": {
+              "verb": "tire"
+            }
+          }
+        ],
+        "features": {
+          "verb": "think"
+        }
+      }
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 0.07155866618268192
+  },
+  {
+    "id": "know",
+    "text": "Nora knows that the child is tired.",
+    "expected": "Knowledge/complement structure preserved",
+    "tree": {
+      "_kind": "Event",
+      "verb": "know",
+      "agent": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "nora",
+          "word_primitives": {},
+          "role": null,
+          "position": 0,
+          "pos": "PROPN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      },
+      "patient": {
+        "_kind": "Event",
+        "verb": "tire",
+        "agent": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "child",
+            "word_primitives": {},
+            "role": null,
+            "position": 4,
+            "pos": "NOUN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        },
+        "patient": null
+      }
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "EVENT",
+        "args": [
+          "nora",
+          {
+            "op": "EVENT",
+            "args": [
+              "child"
+            ],
+            "features": {
+              "verb": "tire"
+            }
+          }
+        ],
+        "features": {
+          "verb": "know"
+        }
+      }
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 0.048279374837875366
+  },
+  {
+    "id": "see-qualified",
+    "text": "With her eyes open, Nora sees the bright lamp.",
+    "expected": "Perception development demand; competing identities must not be forced",
+    "tree": {
+      "_kind": "Event",
+      "verb": "open",
+      "agent": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "eyes",
+          "word_primitives": {},
+          "role": null,
+          "position": 2,
+          "pos": "NOUN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      },
+      "patient": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "nora",
+          "word_primitives": {},
+          "role": null,
+          "position": 5,
+          "pos": "PROPN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      },
+      "themes": [
+        {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "lamp",
+            "word_primitives": {},
+            "role": null,
+            "position": 9,
+            "pos": "NOUN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": {
+            "_kind": "Atom",
+            "lemma": "bright",
+            "word_primitives": {},
+            "role": null,
+            "position": 8,
+            "pos": "ADJ"
+          }
+        },
+        {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "her",
+            "word_primitives": {
+              "SOMEONE": 1
+            },
+            "role": "SYN_OBL",
+            "position": 1,
+            "pos": "PRON"
+          },
+          "possessor": null,
+          "role": "SYN_OBL",
+          "modifier": null
+        }
+      ]
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "EVENT",
+        "args": [
+          "eyes",
+          "nora"
+        ],
+        "features": {
+          "verb": "open",
+          "themes": [
+            "bright lamp",
+            "her"
+          ]
+        }
+      }
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 0.21435433393344283
+  },
+  {
+    "id": "hear-qualified",
+    "text": "With both ears, Nora hears the ringing bell.",
+    "expected": "Perception development demand; retain acoustic event if source-qualified",
+    "tree": {
+      "_kind": "Event",
+      "verb": "hear",
+      "agent": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "nora",
+          "word_primitives": {},
+          "role": null,
+          "position": 4,
+          "pos": "PROPN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      },
+      "patient": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "bell",
+          "word_primitives": {},
+          "role": null,
+          "position": 8,
+          "pos": "NOUN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": {
+          "_kind": "Atom",
+          "lemma": "ringing",
+          "word_primitives": {},
+          "role": null,
+          "position": 7,
+          "pos": "ADJ"
+        }
+      },
+      "themes": [
+        {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "ear",
+            "word_primitives": {},
+            "role": "SYN_OBL",
+            "position": 2,
+            "pos": "NOUN",
+            "number": "plur"
+          },
+          "possessor": null,
+          "role": "SYN_OBL",
+          "modifier": null
+        }
+      ]
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "EVENT",
+        "args": [
+          "nora",
+          "ringing bell"
+        ],
+        "features": {
+          "verb": "hear",
+          "themes": [
+            "ear"
+          ]
+        }
+      }
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 0.07486387505196035
+  },
+  {
+    "id": "feel",
+    "text": "Nora feels afraid.",
+    "expected": "Experiencer and afraid property retained",
+    "tree": {
+      "_kind": "Event",
+      "verb": "feel",
+      "agent": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "nora",
+          "word_primitives": {},
+          "role": null,
+          "position": 0,
+          "pos": "PROPN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      },
+      "patient": {
+        "_kind": "Atom",
+        "lemma": "afraid",
+        "word_primitives": {},
+        "role": null,
+        "position": 2,
+        "pos": "ADJ"
+      }
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "EVENT",
+        "args": [
+          "nora",
+          "afraid"
+        ],
+        "features": {
+          "verb": "feel"
+        }
+      }
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 0.0465638330206275
+  },
+  {
+    "id": "say",
+    "text": "Nora says that the child is tired.",
+    "expected": "Speech content with speaker Nora; no global child-tired assertion",
+    "tree": {
+      "_kind": "Event",
+      "verb": "say",
+      "agent": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "nora",
+          "word_primitives": {},
+          "role": null,
+          "position": 0,
+          "pos": "PROPN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      },
+      "patient": {
+        "_kind": "Event",
+        "verb": "tire",
+        "agent": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "child",
+            "word_primitives": {},
+            "role": null,
+            "position": 4,
+            "pos": "NOUN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        },
+        "patient": null
+      }
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "EVENT",
+        "args": [
+          "nora",
+          {
+            "op": "EVENT",
+            "args": [
+              "child"
+            ],
+            "features": {
+              "verb": "tire"
+            }
+          }
+        ],
+        "features": {
+          "verb": "say"
+        }
+      }
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 0.04219229193404317
+  },
+  {
+    "id": "happen",
+    "text": "A strange event happened near the bridge.",
+    "expected": "Event occurrence and near bridge anchor retained",
+    "tree": {
+      "_kind": "Event",
+      "verb": "near",
+      "agent": {
+        "_kind": "Event",
+        "verb": "happen",
+        "agent": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "event",
+            "word_primitives": {},
+            "role": null,
+            "position": 2,
+            "pos": "NOUN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": {
+            "_kind": "Atom",
+            "lemma": "strange",
+            "word_primitives": {},
+            "role": null,
+            "position": 1,
+            "pos": "ADJ"
+          }
+        },
+        "patient": null
+      },
+      "patient": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "bridge",
+          "word_primitives": {},
+          "role": "SYN_OBL",
+          "position": 6,
+          "pos": "NOUN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": "SYN_OBL",
+        "modifier": null
+      }
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "EVENT",
+        "args": [
+          {
+            "op": "EVENT",
+            "args": [
+              "strange event"
+            ],
+            "features": {
+              "verb": "happen"
+            }
+          },
+          "bridge"
+        ],
+        "features": {
+          "verb": "near"
+        }
+      }
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 0.1547237909398973
+  },
+  {
+    "id": "move",
+    "text": "The child moved toward the gate.",
+    "expected": "Motion and toward gate retained; gate not direct patient",
+    "tree": {
+      "_kind": "Event",
+      "verb": "toward",
+      "agent": {
+        "_kind": "Event",
+        "verb": "move",
+        "agent": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "child",
+            "word_primitives": {},
+            "role": null,
+            "position": 1,
+            "pos": "NOUN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        },
+        "patient": null
+      },
+      "patient": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "gate",
+          "word_primitives": {},
+          "role": "SYN_OBL",
+          "position": 5,
+          "pos": "NOUN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": "SYN_OBL",
+        "modifier": null
+      }
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "EVENT",
+        "args": [
+          {
+            "op": "EVENT",
+            "args": [
+              "child"
+            ],
+            "features": {
+              "verb": "move"
+            }
+          },
+          "gate"
+        ],
+        "features": {
+          "verb": "toward"
+        }
+      }
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 0.077041249955073
+  },
+  {
+    "id": "good",
+    "text": "The kindness was morally good.",
+    "expected": "Positive evaluation requires lexical source evidence, not spelling/frame only",
+    "tree": {
+      "_kind": "TypeAssertion",
+      "entity": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "kindness",
+          "word_primitives": {},
+          "role": null,
+          "position": 1,
+          "pos": "NOUN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      },
+      "kind": {
+        "_kind": "Phrase",
+        "atoms": [
+          {
+            "_kind": "Atom",
+            "lemma": "morally",
+            "word_primitives": {},
+            "role": null,
+            "position": 3,
+            "pos": "ADV"
+          },
+          {
+            "_kind": "Atom",
+            "lemma": "good",
+            "word_primitives": {},
+            "role": null,
+            "position": 4,
+            "pos": "ADJ"
+          }
+        ]
+      }
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "TYPE_ASSERT",
+        "args": [
+          "kindness",
+          "morally good"
+        ],
+        "features": {}
+      }
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 0.07320037507452071
+  },
+  {
+    "id": "bad",
+    "text": "The cruelty was morally bad.",
+    "expected": "Negative evaluation requires lexical source evidence",
+    "tree": {
+      "_kind": "TypeAssertion",
+      "entity": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "cruelty",
+          "word_primitives": {},
+          "role": null,
+          "position": 1,
+          "pos": "NOUN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      },
+      "kind": {
+        "_kind": "Phrase",
+        "atoms": [
+          {
+            "_kind": "Atom",
+            "lemma": "morally",
+            "word_primitives": {},
+            "role": null,
+            "position": 3,
+            "pos": "ADV"
+          },
+          {
+            "_kind": "Atom",
+            "lemma": "bad",
+            "word_primitives": {},
+            "role": null,
+            "position": 4,
+            "pos": "ADJ"
+          }
+        ]
+      }
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "TYPE_ASSERT",
+        "args": [
+          "cruelty",
+          "morally bad"
+        ],
+        "features": {}
+      }
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 0.057974457973614335
+  },
+  {
+    "id": "big",
+    "text": "The building was very big.",
+    "expected": "Size/degree predication retained; lexical size requires evidence",
+    "tree": {
+      "_kind": "TypeAssertion",
+      "entity": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "building",
+          "word_primitives": {},
+          "role": null,
+          "position": 1,
+          "pos": "NOUN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      },
+      "kind": {
+        "_kind": "Atom",
+        "lemma": "big",
+        "word_primitives": {},
+        "role": null,
+        "position": 4,
+        "pos": "ADJ",
+        "degree": {
+          "scale": "INTENSITY",
+          "level": 1,
+          "sources": [
+            3
+          ]
+        }
+      }
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "TYPE_ASSERT",
+        "args": [
+          "building",
+          "big"
+        ],
+        "features": {
+          "degree": [
+            {
+              "argument": 1,
+              "target": "big",
+              "scale": "INTENSITY",
+              "level": 1
+            }
+          ]
+        }
+      }
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 0.15226745908148587
+  },
+  {
+    "id": "small",
+    "text": "The building was not very small.",
+    "expected": "Negation wider than degree, negative size evidence if licensed",
+    "tree": {
+      "_kind": "TypeAssertion",
+      "entity": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "building",
+          "word_primitives": {},
+          "role": null,
+          "position": 1,
+          "pos": "NOUN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      },
+      "kind": {
+        "_kind": "Atom",
+        "lemma": "small",
+        "word_primitives": {},
+        "role": null,
+        "position": 5,
+        "pos": "ADJ",
+        "degree": {
+          "scale": "INTENSITY",
+          "level": -1,
+          "sources": [
+            4
+          ]
+        }
+      }
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "TYPE_ASSERT",
+        "args": [
+          "building",
+          "small"
+        ],
+        "features": {
+          "degree": [
+            {
+              "argument": 1,
+              "target": "small",
+              "scale": "INTENSITY",
+              "level": -1
+            }
+          ]
+        }
+      }
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 0.0552368329372257
+  },
+  {
+    "id": "have-main",
+    "text": "Nora has a bicycle.",
+    "expected": "Possession main role not perfect auxiliary; underconstrained exact sense may abstain",
+    "tree": {
+      "_kind": "Event",
+      "verb": "have",
+      "agent": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "nora",
+          "word_primitives": {},
+          "role": null,
+          "position": 0,
+          "pos": "PROPN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      },
+      "patient": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "bicycle",
+          "word_primitives": {},
+          "role": null,
+          "position": 3,
+          "pos": "NOUN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      }
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "EVENT",
+        "args": [
+          "nora",
+          "bicycle"
+        ],
+        "features": {
+          "verb": "have"
+        }
+      }
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 0.05803929083049297
+  },
+  {
+    "id": "have-aux",
+    "text": "Nora has repaired a bicycle.",
+    "expected": "Perfect auxiliary not possession argument",
+    "tree": {
+      "_kind": "Event",
+      "verb": "repair",
+      "agent": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "nora",
+          "word_primitives": {},
+          "role": null,
+          "position": 0,
+          "pos": "PROPN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      },
+      "patient": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "bicycle",
+          "word_primitives": {},
+          "role": null,
+          "position": 4,
+          "pos": "NOUN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      }
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "EVENT",
+        "args": [
+          "nora",
+          "bicycle"
+        ],
+        "features": {
+          "verb": "repair"
+        }
+      }
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 0.031013499945402145
+  },
+  {
+    "id": "do-main",
+    "text": "Nora did the work.",
+    "expected": "Main action DO distinct from auxiliary",
+    "tree": {
+      "_kind": "Entity",
+      "head": {
+        "_kind": "Atom",
+        "lemma": "nora",
+        "word_primitives": {},
+        "role": null,
+        "position": 0,
+        "pos": "PROPN",
+        "number": "sing"
+      },
+      "possessor": null,
+      "role": null,
+      "modifier": null
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": "nora"
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 0.06958970800042152
+  },
+  {
+    "id": "do-aux",
+    "text": "Nora did not repair the bicycle.",
+    "expected": "Auxiliary supports scoped negative repair",
+    "tree": {
+      "_kind": "Negation",
+      "operand": {
+        "_kind": "Event",
+        "verb": "repair",
+        "agent": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "nora",
+            "word_primitives": {},
+            "role": null,
+            "position": 0,
+            "pos": "PROPN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        },
+        "patient": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "bicycle",
+            "word_primitives": {},
+            "role": null,
+            "position": 5,
+            "pos": "NOUN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        }
+      }
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "NOT",
+        "args": [
+          {
+            "op": "EVENT",
+            "args": [
+              "nora",
+              "bicycle"
+            ],
+            "features": {
+              "verb": "repair"
+            }
+          }
+        ],
+        "features": {}
+      }
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 0.03349170787259936
+  },
+  {
+    "id": "here",
+    "text": "The child waited here.",
+    "expected": "Locative information retained at complete operation scale",
+    "tree": {
+      "_kind": "Event",
+      "verb": "wait",
+      "agent": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "child",
+          "word_primitives": {},
+          "role": null,
+          "position": 1,
+          "pos": "NOUN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      },
+      "patient": {
+        "_kind": "Atom",
+        "lemma": "here",
+        "word_primitives": {},
+        "role": null,
+        "position": 3,
+        "pos": "ADV"
+      }
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "EVENT",
+        "args": [
+          "child",
+          "here"
+        ],
+        "features": {
+          "verb": "wait"
+        }
+      }
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 0.11712870793417096
+  },
+  {
+    "id": "above",
+    "text": "The eagle flew above the cliff.",
+    "expected": "Above distinct from below; cliff not direct fly patient",
+    "tree": {
+      "_kind": "Event",
+      "verb": "above",
+      "agent": {
+        "_kind": "Event",
+        "verb": "fly",
+        "agent": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "eagle",
+            "word_primitives": {},
+            "role": null,
+            "position": 1,
+            "pos": "NOUN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        },
+        "patient": null
+      },
+      "patient": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "cliff",
+          "word_primitives": {},
+          "role": "SYN_OBL",
+          "position": 5,
+          "pos": "NOUN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": "SYN_OBL",
+        "modifier": null
+      }
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "EVENT",
+        "args": [
+          {
+            "op": "EVENT",
+            "args": [
+              "eagle"
+            ],
+            "features": {
+              "verb": "fly"
+            }
+          },
+          "cliff"
+        ],
+        "features": {
+          "verb": "above"
+        }
+      }
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 0.06912550004199147
+  },
+  {
+    "id": "below",
+    "text": "The eagle flew below the cliff.",
+    "expected": "Below distinct from above",
+    "tree": {
+      "_kind": "Event",
+      "verb": "below",
+      "agent": {
+        "_kind": "Event",
+        "verb": "fly",
+        "agent": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "eagle",
+            "word_primitives": {},
+            "role": null,
+            "position": 1,
+            "pos": "NOUN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        },
+        "patient": null
+      },
+      "patient": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "cliff",
+          "word_primitives": {},
+          "role": "SYN_OBL",
+          "position": 5,
+          "pos": "NOUN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": "SYN_OBL",
+        "modifier": null
+      }
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "EVENT",
+        "args": [
+          {
+            "op": "EVENT",
+            "args": [
+              "eagle"
+            ],
+            "features": {
+              "verb": "fly"
+            }
+          },
+          "cliff"
+        ],
+        "features": {
+          "verb": "below"
+        }
+      }
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 0.05568895908072591
+  },
+  {
+    "id": "before",
+    "text": "The traveler departed before sunrise.",
+    "expected": "Temporal setting retains sunrise, not patient",
+    "tree": {
+      "_kind": "Event",
+      "verb": "before",
+      "agent": {
+        "_kind": "Event",
+        "verb": "depart",
+        "agent": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "traveler",
+            "word_primitives": {},
+            "role": null,
+            "position": 1,
+            "pos": "NOUN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        },
+        "patient": null
+      },
+      "patient": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "sunrise",
+          "word_primitives": {},
+          "role": null,
+          "position": 4,
+          "pos": "NOUN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      }
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "EVENT",
+        "args": [
+          {
+            "op": "EVENT",
+            "args": [
+              "traveler"
+            ],
+            "features": {
+              "verb": "depart"
+            }
+          },
+          "sunrise"
+        ],
+        "features": {
+          "verb": "before"
+        }
+      }
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 0.03868395811878145
+  },
+  {
+    "id": "not-very",
+    "text": "The child is not very tall.",
+    "expected": "Not wider than very",
+    "tree": {
+      "_kind": "TypeAssertion",
+      "entity": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "child",
+          "word_primitives": {},
+          "role": null,
+          "position": 1,
+          "pos": "NOUN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      },
+      "kind": {
+        "_kind": "Atom",
+        "lemma": "tall",
+        "word_primitives": {},
+        "role": null,
+        "position": 5,
+        "pos": "ADJ",
+        "degree": {
+          "scale": "INTENSITY",
+          "level": -1,
+          "sources": [
+            4
+          ]
+        }
+      }
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "TYPE_ASSERT",
+        "args": [
+          "child",
+          "tall"
+        ],
+        "features": {
+          "degree": [
+            {
+              "argument": 1,
+              "target": "tall",
+              "scale": "INTENSITY",
+              "level": -1
+            }
+          ]
+        }
+      }
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 0.0420178750064224
+  },
+  {
+    "id": "very-not",
+    "text": "The child is very not tall.",
+    "expected": "Very wider than not; distinct from not very",
+    "tree": {
+      "_kind": "Negation",
+      "operand": {
+        "_kind": "TypeAssertion",
+        "entity": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "child",
+            "word_primitives": {},
+            "role": null,
+            "position": 1,
+            "pos": "NOUN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        },
+        "kind": {
+          "_kind": "Atom",
+          "lemma": "tall",
+          "word_primitives": {},
+          "role": null,
+          "position": 5,
+          "pos": "ADJ",
+          "degree": {
+            "scale": "INTENSITY",
+            "level": 1,
+            "sources": [
+              3
+            ]
+          }
+        }
+      }
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "NOT",
+        "args": [
+          {
+            "op": "TYPE_ASSERT",
+            "args": [
+              "child",
+              "tall"
+            ],
+            "features": {
+              "degree": [
+                {
+                  "argument": 1,
+                  "target": "tall",
+                  "scale": "INTENSITY",
+                  "level": 1
+                }
+              ]
+            }
+          }
+        ],
+        "features": {}
+      }
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 0.03648712486028671
+  },
+  {
+    "id": "duration",
+    "text": "The pause lasted a long time.",
+    "expected": "Duration construction retains long time",
+    "tree": {
+      "_kind": "Event",
+      "verb": "last",
+      "agent": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "pause",
+          "word_primitives": {},
+          "role": null,
+          "position": 1,
+          "pos": "NOUN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      },
+      "patient": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "time",
+          "word_primitives": {},
+          "role": null,
+          "position": 5,
+          "pos": "NOUN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": {
+          "_kind": "Atom",
+          "lemma": "long",
+          "word_primitives": {},
+          "role": null,
+          "position": 4,
+          "pos": "ADJ"
+        }
+      }
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "EVENT",
+        "args": [
+          "pause",
+          "long time"
+        ],
+        "features": {
+          "verb": "last"
+        }
+      }
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 0.14902966585941613
+  },
+  {
+    "id": "generic-see-negative",
+    "text": "I see my doctor.",
+    "expected": "MUST NOT force primary visual sense from compatible frame",
+    "tree": {
+      "_kind": "Event",
+      "verb": "see",
+      "agent": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "i",
+          "word_primitives": {
+            "I": 1,
+            "SOMEONE": 1
+          },
+          "role": null,
+          "position": 0,
+          "pos": "PRON"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      },
+      "patient": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "doctor",
+          "word_primitives": {},
+          "role": null,
+          "position": 3,
+          "pos": "NOUN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null,
+        "span": [
+          "my",
+          "doctor"
+        ]
+      }
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "EVENT",
+        "args": [
+          "i",
+          "my doctor"
+        ],
+        "features": {
+          "verb": "see"
+        }
+      }
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 0.0524204159155488
+  },
+  {
+    "id": "judicial-hear-negative",
+    "text": "The court heard the case.",
+    "expected": "MUST NOT force auditory sense from generic transitive grammar",
+    "tree": {
+      "_kind": "Event",
+      "verb": "hear",
+      "agent": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "court",
+          "word_primitives": {},
+          "role": null,
+          "position": 1,
+          "pos": "NOUN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      },
+      "patient": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "case",
+          "word_primitives": {},
+          "role": null,
+          "position": 4,
+          "pos": "NOUN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      }
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "EVENT",
+        "args": [
+          "court",
+          "case"
+        ],
+        "features": {
+          "verb": "hear"
+        }
+      }
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 0.07118162512779236
+  },
+  {
+    "id": "quantity-good-negative",
+    "text": "It was a good forty miles.",
+    "expected": "MUST NOT emit positive evaluation from quantity/intensity use",
+    "tree": {
+      "_kind": "TypeAssertion",
+      "entity": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "it",
+          "word_primitives": {
+            "SOMETHING": 1
+          },
+          "role": null,
+          "position": 0,
+          "pos": "PRON"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      },
+      "kind": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "mile",
+          "word_primitives": {},
+          "role": null,
+          "position": 5,
+          "pos": "NOUN",
+          "number": "plur"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": {
+          "_kind": "Atom",
+          "lemma": "good",
+          "word_primitives": {},
+          "role": null,
+          "position": 3,
+          "pos": "ADJ"
+        },
+        "span": [
+          "forty",
+          "mile"
+        ]
+      }
+    },
+    "contract": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "TYPE_ASSERT",
+        "args": [
+          "it",
+          "forty mile"
+        ],
+        "features": {}
+      }
+    },
+    "execution": "ERROR",
+    "error": {
+      "type": "AttributeError",
+      "message": "'TokenTrace' object has no attribute 'text'"
+    },
+    "seconds": 0.06778149981983006
+  }
+]
+
+FULL FUNCTION publication_readiness
+def publication_readiness(path: str | Path, gold_path: str | Path | None = None, *, sparse: bool = False) -> dict:
+    """Compute whole-snapshot completeness; a successful replay alone is insufficient.
+
+    Gold evaluation is scoped to the supplied labels, never described as proof
+    of every unlabelled cell. Every coordinate must be represented in that audit.
+    Neither a smaller worklist nor deletion of a difficult sense can turn a
+    checkpoint into a complete release.
+    """
+    file = Path(path).expanduser().resolve()
+    if not file.is_file():
+        raise ValueError("BUILD_NOT_FOUND")
+    blockers, cells, outcomes = [], Counter(), Counter()
+    with closing(sqlite3.connect(file.as_uri() + "?mode=ro", uri=True)) as conn:
+        conn.execute("BEGIN")
+        if current_id(_metadata(conn, "format")) != VERSION:
+            raise ValueError("UNSUPPORTED_BUILD_FORMAT")
+        if identity_form(_metadata(conn, "representation_contract")) != identity_form(representation_contract()):
+            blockers.append("REPRESENTATION_CONTRACT_MISMATCH")
+        words = _metadata(conn, "requested_words")
+        requested_ids = _metadata(conn, "requested_definition_ids")
+        if not isinstance(words, list) or not words or any(not isinstance(w, str) or not w for w in words):
+            blockers.append("MISSING_DECLARED_WORD_COHORT")
+            words = []
+        cohort_known = True
+        if (
+            not isinstance(requested_ids, list)
+            or not requested_ids
+            or any(not isinstance(i, str) or not i for i in requested_ids)
+        ):
+            blockers.append("MISSING_DECLARED_DEFINITION_COHORT")
+            cohort_known = False
+            requested_ids = []
+        prime_entries = _metadata(conn, "prime_entries")
+        linked = prime_entries if isinstance(prime_entries, dict) else {}
+        units = {unit["unit_id"]: unit for unit in catalog_inventory()["units"]}
+        duration = _sentence_duration_binding(conn, linked, units)
+        sentence_constructions = {}
+        states = {}
+        for entry_id, code, payload in conn.execute("SELECT entry_id,code,domains FROM definition_states"):
+            if entry_id in states:
+                blockers.append("DUPLICATE_DEFINITION_ID")
+            states[entry_id] = code
+            domains = _read_json(payload)
+            if not isinstance(domains, dict) or set(domains) != set(BANKS):
+                blockers.append("INVALID_DOMAIN_BASIS")
+                continue
+            if entry_id == SENTENCE_DURATION_SOURCE_RECORD:
+                if (
+                    duration
+                    and code == "PARTIAL"
+                    and all(
+                        domain == [-1, 0, 1] and all(type(value) is int for value in domain)
+                        for domain in domains.values()
+                    )
+                ):
+                    sentence_constructions[SENTENCE_DURATION_UNIT] = duration
+                    outcomes["SENTENCE_CONSTRUCTION"] += 1
+                    continue
+                blockers.append("INVALID_SENTENCE_CONSTRUCTION_RECORD")
+            outcomes[code] += 1
+            for domain in domains.values():
+                if (
+                    not isinstance(domain, list)
+                    or any(type(v) is not int or v not in {-1, 0, 1} for v in domain)
+                    or len(set(domain)) != len(domain)
+                ):
+                    blockers.append("INVALID_DOMAIN_VALUES")
+                elif not domain:
+                    cells["conflicted"] += 1
+                elif len(domain) > 1:
+                    cells["unresolved"] += 1
+                else:
+                    cells["assigned"] += 1
+                    cells["explicit_zero"] += domain == [0]
+        present_words = {row[0].strip().lower() for row in conn.execute("SELECT lemma FROM lexemes")}
+        missing_words = sorted(set(words) - present_words)
+        missing_ids = sorted(set(requested_ids) - states.keys()) if cohort_known else []
+        extra_ids = sorted(states.keys() - set(requested_ids)) if cohort_known else []
+        if missing_words:
+            blockers.append("REQUESTED_WORDS_MISSING")
+        if missing_ids or extra_ids:
+            blockers.append("DEFINITION_COHORT_MISMATCH")
+        if not states:
+            blockers.append("EMPTY_BUILD")
+        allowed = {"RESOLVED", "SENTENCE_CONSTRUCTION"}
+        if sparse:
+            allowed.add("PARTIAL")
+        if (cells["unresolved"] and not sparse) or cells["conflicted"] or set(outcomes) - allowed:
+            blockers.append("INCOMPLETE_DEFINITIONS")
+        if sparse and not cells["assigned"]:
+            blockers.append("NO_COMMITTED_LEXICAL_VALUES")
+        unlinked_units = sorted(unit for unit in units if not linked.get(unit))
+        if unlinked_units or any(
+            not isinstance(ids, list) or any(states.get(entry) not in allowed for entry in ids)
+            for unit_id, ids in linked.items()
+            if unit_id not in sentence_constructions
+        ):
+            blockers.append("INCOMPLETE_PRIME_FOUNDATION")
+        model_scope = _model_scope_audit(conn)
+        if model_scope["outcomes"].get("SCOPE_UNJUSTIFIED"):
+            blockers.append("MODEL_SCOPE_UNJUSTIFIED")
+        if model_scope["code"] == "INVALID_MODEL_RECEIPT":
+            blockers.append("MODEL_SCOPE_AUDIT_INVALID_RECEIPT")
+    # A failed completeness check needs no expensive replay to refuse promotion.
+    replay = {"code": "NOT_RUN_INCOMPLETE_CANDIDATE"}
+    if not blockers:
+        replay = validate_build(file)
+        if replay["code"] != "REPLAY_VALIDATED":
+            blockers.append("REPLAY_FAILED")
+        if not replay.get("complete_search", False):
+            blockers.append("SOLVER_SEARCH_INCOMPLETE")
+    gold = {"code": "NOT_SUPPLIED"}
+    if gold_path is None:
+        blockers.append("SEMANTIC_AUDIT_NOT_SUPPLIED")
+    elif not blockers:
+        gold = evaluate_build(file, gold_path)
+        permitted_audit = {"IDENTIFIED_CORRECT", "ABSTAINED"} if sparse else {"IDENTIFIED_CORRECT"}
+        if any(count for code, count in gold["outcomes"].items() if code not in permitted_audit):
+            blockers.append("SEMANTIC_AUDIT_FAILURE")
+        if sparse and not gold["outcomes"]["IDENTIFIED_CORRECT"]:
+            blockers.append("SEMANTIC_AUDIT_NO_CONFIRMED_VALUES")
+        if not sparse and set(gold["per_bank"]) != set(BANKS):
+            blockers.append("SEMANTIC_AUDIT_MISSING_COORDINATES")
+    else:
+        gold = {"code": "NOT_RUN_INCOMPLETE_CANDIDATE", "path": str(Path(gold_path).resolve())}
+    return {
+        "format": "GSE.lexicon-publication-audit/1",
+        "publication_mode": "sparse" if sparse else "complete",
+        "code": "READY_FOR_PUBLICATION" if not blockers else "PUBLICATION_BLOCKED",
+        "blockers": sorted(set(blockers)),
+        "definitions": len(states),
+        "outcomes": dict(outcomes),
+        "cells": dict(cells),
+        "sentence_constructions": sentence_constructions,
+        "missing_words": missing_words,
+        "missing_definition_ids": missing_ids,
+        "unexpected_definition_ids": extra_ids,
+        "definition_cohort": "DECLARED" if cohort_known else "NOT_RECORDED",
+        "unlinked_prime_units": unlinked_units,
+        "replay": replay,
+        "semantic_audit": gold,
+        "semantic_audit_scope": "SUPPLIED_LABELS_NOT_A_PROOF_OF_UNLABELLED_CELLS",
+        "model_scope_audit": model_scope,
+    }
+
+FULL FUNCTION _publish
+def _publish(path, destination, gold_path, pointer_path, *, sparse, expected_sha256=None, expected_pointer_sha256=None):
+    source, destination, pointer = (Path(p).expanduser().resolve() for p in (path, destination, pointer_path))
+    if not source.is_file():
+        raise ValueError("BUILD_NOT_FOUND")
+    if source == destination or destination.exists() or pointer in {source, destination}:
+        raise ValueError("PUBLICATION_REQUIRES_NEW_DESTINATION")
+    prior_pointer = pointer.read_bytes() if pointer.exists() else None
+    if expected_pointer_sha256 is not None and (
+        prior_pointer is None or hashlib.sha256(prior_pointer).hexdigest() != expected_pointer_sha256
+    ):
+        return {"code": "PUBLICATION_BLOCKED", "blockers": ["ACTIVE_POINTER_CHANGED"]}
+    if not sparse:
+        readiness = publication_readiness(source, gold_path)
+        if readiness["code"] != "READY_FOR_PUBLICATION":
+            return readiness
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix=".lexicon-release-", dir=destination.parent) as staging:
+        temporary = Path(staging) / "snapshot.db"
+        copy_database(source, temporary)
+        readiness = (
+            publication_readiness(temporary, gold_path, sparse=True)
+            if sparse
+            else publication_readiness(temporary, gold_path)
+        )
+        if readiness["code"] != "READY_FOR_PUBLICATION":
+            return readiness
+        with temporary.open("rb") as stream:
+            os.fsync(stream.fileno())
+            digest = hashlib.file_digest(stream, "sha256").hexdigest()
+        if expected_sha256 is not None and expected_sha256 != digest:
+            return {**readiness, "code": "PUBLICATION_BLOCKED", "blockers": ["PUBLICATION_SNAPSHOT_CHANGED"]}
+        pointer.parent.mkdir(parents=True, exist_ok=True)
+        with pointer.with_name(pointer.name + ".lock").open("a") as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX)
+            if (pointer.read_bytes() if pointer.exists() else None) != prior_pointer:
+                return {**readiness, "code": "PUBLICATION_BLOCKED", "blockers": ["ACTIVE_POINTER_CHANGED"]}
+            previous = resolve_lexicon_path(pointer_path=pointer) if sparse and prior_pointer is not None else None
+            if previous is not None:
+                with closing(sqlite3.connect(temporary.as_uri() + "?mode=ro", uri=True)) as conn:
+                    conn.execute("ATTACH DATABASE ? AS prior", (previous.as_uri() + "?mode=ro",))
+                    missing = conn.execute(
+                        "SELECT entry_id FROM prior.definition_states EXCEPT SELECT entry_id FROM definition_states"
+                    ).fetchall()
+                if missing:
+                    return {
+                        **readiness,
+                        "code": "PUBLICATION_BLOCKED",
+                        "blockers": ["ACTIVE_DEFINITION_IDS_MISSING"],
+                        "active_definition_ids_missing": [row[0] for row in missing],
+                    }
+            _activate_snapshot(temporary, destination, pointer)
+        return {
+            **readiness,
+            "code": "PUBLISHED_SPARSE_LEXICON" if sparse else "PUBLISHED_COMPLETE_LEXICON",
+            "path": str(destination),
+            "sha256": digest,
+            "previous_path": str(previous) if previous is not None else None,
+        }
+
+FULL FUNCTION _activate_snapshot
+def _activate_snapshot(temporary: Path, destination: Path, pointer: Path) -> None:
+    descriptor, filename = tempfile.mkstemp(prefix=".lexicon-active-", suffix=".json", dir=pointer.parent)
+    pointer_temp = Path(filename)
+    payload = {"format": POINTER_FORMAT, "path": os.path.relpath(destination, pointer.parent)}
+    try:
+        with os.fdopen(descriptor, "w") as stream:
+            stream.write(json.dumps(payload, sort_keys=True) + "\n")
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.link(temporary, destination)
+        try:
+            os.replace(pointer_temp, pointer)
+        except OSError:
+            destination.unlink()
+            raise
+    finally:
+        pointer_temp.unlink(missing_ok=True)
+HANDOFF UPDATED

@@ -2,10 +2,12 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 from dataclasses import dataclass
 from functools import lru_cache
+from pathlib import Path
 
 from nltk.corpus import wordnet as wn
 from nltk.corpus.reader.wordnet import WordNetError
@@ -13,8 +15,9 @@ from nltk.corpus.reader.wordnet import WordNetError
 from GSE.curation.lexicon_builder.foundation import _attested_wordnet_lemma, _exact_wordnet_ancestry
 from GSE.lexicon.numerals import get_numeral_encoding, is_numeral
 from GSE.nlp.native import NativeNLP
+from GSE.primitives_v2 import get_hierarchy_encoding
 
-from .expression import Atom
+from .expression import _NEGATION_LEMMAS, Atom
 from .grounding import _COHERENCE_MARGIN, _jaccard, _select_by_coherence, _signature
 from .resolution import Entity
 
@@ -157,6 +160,77 @@ def _native_example_signature(text, lemma=None, pos=None):
             word = lemma
         signature.append((word, token.pos_))
     return tuple(signature)
+
+
+@lru_cache(maxsize=1)
+def _primary_frames():
+    """Read the existing primary-unit identities and their bounded frames.
+
+    This is source syntax, NOT a second prime/sign registry. In particular a
+    frame never supplies a bank, a negative default, or a finer WordNet sense.
+    Unsupported chart notation stays unsupported rather than becoming a
+    wildcard. The existing catalogue is the authority for native alignments.
+    """
+    from GSE.curation.lexicon_builder.catalog import _CHART_BOXES, SOURCE, foundation_prime_links
+
+    source = Path(__file__).resolve().parents[2] / SOURCE["path"]
+    if hashlib.sha256(source.read_bytes()).hexdigest() != SOURCE["sha256"]:
+        raise ValueError("NSM_CHART_SOURCE_REVISION_MISMATCH")
+    links = foundation_prime_links()
+    frames = []
+    for key, _, _, box in _CHART_BOXES:
+        # Wrapped parentheses and slash alternatives are one source frame.
+        lines = []
+        for line in box.splitlines():
+            if lines and (lines[-1].endswith("/") or lines[-1].count("(") > lines[-1].count(")")):
+                lines[-1] += " " + line
+            else:
+                lines.append(line)
+        for line in lines:
+            for fragment in line.split(","):
+                pending = [fragment.strip()]
+                expanded = []
+                while pending and len(pending) + len(expanded) < 64:
+                    variant = pending.pop()
+                    optional = re.search(r"\(([^()]*)\)", variant)
+                    if optional:
+                        pending.extend(
+                            variant[: optional.start()] + value + variant[optional.end() :]
+                            for value in ("", optional[1])
+                        )
+                        continue
+                    # The chart's NP alternative is a whole proform phrase,
+                    # not the nonsensical token substitution 'someone something'.
+                    alternative = re.search(r"\b(someone|something) else/\s*(someone|something)\b", variant)
+                    if alternative:
+                        pending.extend(
+                            variant[: alternative.start()] + value + variant[alternative.end() :]
+                            for value in (alternative[1] + " else", alternative[2])
+                        )
+                        continue
+                    alternative = re.search(r"\b(\w+(?:/\s*\w+)+)\b", variant)
+                    if alternative:
+                        pending.extend(
+                            variant[: alternative.start()] + value + variant[alternative.end() :]
+                            for value in re.split(r"/\s*", alternative[1])
+                        )
+                        continue
+                    if not re.fullmatch(r"[A-Za-z ]+", variant):
+                        continue
+                    tokens = tuple(NativeNLP()(variant))
+                    if tokens:
+                        expanded.append(tokens)
+                for tokens in expanded:
+                    frames.append((f"nsm:v20:{key}", links[f"nsm:v20:{key}"], line, tokens))
+    return tuple(frames), dict(SOURCE)
+
+
+@lru_cache(maxsize=1)
+def _primary_records():
+    """Exact existing catalogue observations, in their JSON wire form."""
+    from GSE.curation.lexicon_builder.catalog import chart_definition_records
+
+    return {record["entry_id"]: json.loads(json.dumps(record)) for record in chart_definition_records()}
 
 
 class LexicalGrounding:
@@ -312,9 +386,13 @@ class LexicalGrounding:
         candidate_ids = set(candidates)
         senses = {key: value for key, value in self._senses(lemma, pos).items() if key in candidate_ids}
         if not senses:
-            return {"code": "NO_EXACT_WORDNET_WITNESS"}
+            return self._primary_frame_support(position, lemma, candidate_ids, pos)
         if pos in {"VERB", "ADJ", "ADV"}:
-            return self._native_example_support(position, lemma, senses, pos)
+            native = self._native_example_support(position, lemma, senses, pos)
+            if native["code"] != "NO_DEFINITION_CONSTRUCTION_WITNESS":
+                return native
+            primary = self._primary_frame_support(position, lemma, candidate_ids, pos)
+            return native if primary["code"] == "NO_PRIMARY_FRAME_WITNESS" else primary
         start, end = self._bounds(position, self.boundaries)
         nominal = self._nominal_support(lemma, senses, start, end)
         definition_only = self.doc[position].pos_ == "PROPN"
@@ -332,30 +410,204 @@ class LexicalGrounding:
             return {**nominal, "code": "CONTEXTUAL_WITNESSES_DISAGREE", "construction_witness": contextual}
         return {**nominal, **contextual, "code": "EXACT_WORDNET_SENSE"}
 
+    def _primary_role(self, token):
+        """A source-attested proform role, independent of learned bank values.
+
+        Arbitrary nouns are deliberately NOT slot wildcards. An unknown noun,
+        a nominal chemical symbol, or a conflicting grammatical reading cannot
+        become a person just to make a primary frame match.
+        """
+        if token.pos_ != "PRON":
+            return None
+        entry_id = f"gse_closed_class:pronoun:{token.lemma_}"
+        native = _catalog_reading(token.lemma_, entry_id)
+        if native is None or native.grammar_roles != ("PRON",):
+            return None
+        rows = self.conn.execute(
+            """SELECT o.record_id,o.payload FROM source_observations o
+               JOIN definition_states d ON d.entry_id=o.entry_id
+               WHERE o.entry_id=? AND o.source='gse_closed_class'
+                 AND o.family='gse_curated_grammar' AND o.scope='lexical'
+                 AND d.code IN ('PARTIAL','RESOLVED')""",
+            (entry_id,),
+        ).fetchall()
+        for record_id, raw in rows:
+            features = json.loads(raw).get("features", {})
+            if (
+                features.get("entry_id") == entry_id
+                and features.get("definition") == native.definition
+                and features.get("grammar_roles") == list(native.grammar_roles)
+                and features.get("grammatical_features") == native.grammatical_features
+                and features.get("primitives") == native.primitives
+                and self.grammatical_eligibility(token.i, token.lemma_, entry_id)["code"] == "GRAMMATICAL_ROLE_ELIGIBLE"
+            ):
+                return {"entry_id": entry_id, "record_id": record_id, "roles": dict(native.primitives)}
+        return None
+
+    def _primary_frame_support(self, position, lemma, candidate_ids, pos):
+        """Unify a complete source frame as compatibility, not sense identity.
+
+        Primary chart units are independently named meanings. Their allowable
+        frames attest a possible use, not exclusion of ordinary meanings with
+        the same grammar (visual seeing versus consulting someone, for example).
+        Even an explicit catalogue alignment therefore cannot turn this match
+        into a selected row. Retain the exact source/role proof for concurrent
+        grounding, but assert no identity or bank from this witness alone.
+        """
+        if pos not in {"VERB", "ADJ", "ADV"}:
+            return {"code": "NO_PRIMARY_FRAME_WITNESS"}
+        frames, source = _primary_frames()
+        units = {}
+        for unit_id, linked_ids, _, _ in frames:
+            for entry_id in set(linked_ids) & candidate_ids:
+                # The unit identity itself must be usable in this snapshot.
+                row = self.conn.execute("SELECT code FROM definition_states WHERE entry_id=?", (entry_id,)).fetchone()
+                if row and row[0] in {"PARTIAL", "RESOLVED"}:
+                    if entry_id.startswith("wordnet:") and entry_id not in self._senses(lemma, pos):
+                        continue
+                    units[entry_id] = unit_id
+        if not units:
+            return {"code": "NO_PRIMARY_FRAME_WITNESS"}
+        start, end = self._bounds(position, self.sentence_boundaries)
+        actual = tuple(self.doc[start + 1 : end])
+        scope = []
+        # Existing ordinal/sign grammar is orthogonal to lexical identity.
+        # Only a contiguous pre-adjectival/adverbial chain can scope the head;
+        # never erase arguments, clause operators or a verb's valency. The
+        # actual tokens remain in the trace for bind_degree_modifiers/_sign_owners.
+        if pos in {"ADJ", "ADV"}:
+            head_index = next((i for i, token in enumerate(actual) if token.i == position), -1)
+            first = head_index
+            while first > 0:
+                token = actual[first - 1]
+                hierarchy = get_hierarchy_encoding(token.lemma_.upper())
+                if token.lemma_ in _NEGATION_LEMMAS and token.pos_ in {"PART", "ADV"}:
+                    kind = "EXISTING_SIGN_GRAMMAR"
+                elif token.pos_ == "ADV" and hierarchy and hierarchy[0] == "INTENSITY":
+                    kind = "EXISTING_INTENSITY_GRAMMAR"
+                else:
+                    break
+                scope.insert(0, {"position": token.i, "lemma": token.lemma_, "grammar": kind})
+                first -= 1
+            actual = actual[:first] + actual[head_index:]
+        witnesses = {}
+        for frame_unit, _, original, pattern in frames:
+            heads = [i for i, t in enumerate(pattern) if t.lemma_ == lemma and t.pos_ in _CONTENT_POS]
+            if len(heads) != 1 or len(pattern) != len(actual) or actual[heads[0]].i != position:
+                continue
+            slots = []
+            for i, (expected, observed) in enumerate(zip(pattern, actual, strict=True)):
+                if i == heads[0]:
+                    continue
+                expected_native = _catalog_reading(expected.lemma_, f"gse_closed_class:pronoun:{expected.lemma_}")
+                if expected.pos_ == "PRON" and expected_native is not None:
+                    role = self._primary_role(observed)
+                    required = expected_native.primitives
+                    if role is None or not required or any(role["roles"].get(k) != v for k, v in required.items()):
+                        break
+                    slots.append({"position": observed.i, "source_exponent": expected.text, **role})
+                elif (expected.lemma_, expected.pos_) != (observed.lemma_, observed.pos_):
+                    break
+            else:
+                # A canonical chart identity must still carry its exact source
+                # observation. A stale/changed chart row is not runtime authority.
+                for entry_id, unit_id in units.items():
+                    if entry_id.startswith("nsm_chart:"):
+                        observations = self.conn.execute(
+                            """SELECT record_id,payload FROM source_observations WHERE entry_id=?
+                               AND source='nsm_chart' AND family='nsm_primary_chart' AND scope='source_structure'""",
+                            (entry_id,),
+                        ).fetchall()
+                        records = [
+                            record_id
+                            for record_id, raw in observations
+                            if json.loads(raw).get("features", {}) == _primary_records().get(entry_id)
+                        ]
+                        if not records:
+                            continue
+                    else:
+                        records = [entry_id]
+                    witnesses.setdefault(entry_id, []).append(
+                        {
+                            "primary_unit_id": unit_id,
+                            "source_frame_unit_id": frame_unit,
+                            "source_frame": original,
+                            "expanded_frame": " ".join(t.text for t in pattern),
+                            "source_record_ids": records,
+                            "role_witnesses": slots,
+                            "orthogonal_scope_grammar": scope,
+                        }
+                    )
+        if len(witnesses) != 1:
+            return {
+                "code": "COMPETING_PRIMARY_FRAMES" if witnesses else "NO_PRIMARY_FRAME_WITNESS",
+                "primary_candidates": sorted(witnesses),
+            }
+        entry_id = next(iter(witnesses))
+        return {
+            "code": "PRIMARY_FRAME_COMPATIBLE_NOT_IDENTIFYING",
+            "compatible_entry_id": entry_id,
+            "witness_kind": "NSM_PRIMARY_TYPED_FRAME",
+            "identity_scope": "UNRESOLVED",
+            "missing_witness": "INDEPENDENT_MEANING_DISCRIMINATION",
+            "unresolved_ordinary_entry_ids": sorted(candidate_ids - {entry_id}),
+            "source_reference": source,
+            "frames": witnesses[entry_id],
+        }
+
     def _native_example_support(self, position, lemma, senses, pos):
         """Make attested non-nominal identities reachable without a POS override.
 
         Compare the complete sentence construction rather than isolated cue
-        words. This deliberately abstains on underspecified or novel uses;
-        grammatical role alone, frequency and already-filled banks cannot
-        license a definition. Existing nominal type-thread grounding is kept
-        separate because noun and verb threads are not comparable types.
+        words. A source example's initial personal subject may vary only with
+        independently attested person-reference grammar and an otherwise
+        identical complete construction. This is source-example-derived
+        evidence, NOT independent held-out accuracy or arbitrary frame matching.
+        Nominal type threads remain separate: noun/verb types are incomparable.
         """
         start, end = self._bounds(position, self.sentence_boundaries)
-        actual = tuple((t.lemma_.casefold(), t.pos_) for t in self.doc[start + 1 : end])
+        actual_tokens = tuple(self.doc[start + 1 : end])
+        actual = tuple((t.lemma_.casefold(), t.pos_) for t in actual_tokens)
         witnesses = {}
         for entry_id, sense in senses.items():
-            examples = [
-                example for example in sense.examples if _native_example_signature(example, lemma, pos) == actual
-            ]
+            examples, subject_variants = [], []
+            for example in sense.examples:
+                expected = _native_example_signature(example, lemma, pos)
+                if expected == actual:
+                    examples.append(example)
+                elif (
+                    expected
+                    and len(expected) == len(actual)
+                    and expected[1:] == actual[1:]
+                    and expected[0][1] == actual[0][1] == "PRON"
+                    and actual_tokens[0].i < position
+                ):
+                    # The substitution changes WHO bears the attested meaning,
+                    # not the word's valency, complements, scope or qualifiers.
+                    source_token = NativeNLP()(example)[0]
+                    source_role = self._primary_role(source_token)
+                    actual_role = self._primary_role(actual_tokens[0])
+                    if (
+                        source_role
+                        and actual_role
+                        and source_role["roles"].get("SOMEONE") == 1
+                        and actual_role["roles"].get("SOMEONE") == 1
+                    ):
+                        examples.append(example)
+                        subject_variants.append({"source": source_role, "occurrence": actual_role})
             if examples:
                 witnesses[entry_id] = {
-                    "witness_kind": "WORDNET_NATIVE_EXAMPLE_CONSTRUCTION",
+                    "witness_kind": (
+                        "WORDNET_NATIVE_EXAMPLE_PERSON_SUBSTITUTION"
+                        if subject_variants
+                        else "WORDNET_NATIVE_EXAMPLE_CONSTRUCTION"
+                    ),
                     "native_synset": sense.synset,
                     "native_examples": examples,
                     "construction_signature": [list(pair) for pair in actual],
                     "eligible_pos": pos,
                     "source_record_id": entry_id,
+                    "subject_role_witnesses": subject_variants,
                 }
         return _unique_native_witness(witnesses)
 

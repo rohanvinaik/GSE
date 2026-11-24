@@ -1,0 +1,216 @@
+GSE/_archive/lexicon_builder/conditionals.py catalog_entry_status 101 136
+GSE/_archive/lexicon_builder/conditionals.py compile_catalog 139 166
+GSE/_archive/lexicon_builder/conditionals.py load_catalog 169 176
+GSE/_archive/lexicon_builder/conditionals.py catalog_report 179 202
+GSE/_archive/lexicon_builder/conditionals.py evaluate_catalog 378 422
+GSE/curation/lexicon_builder/catalog.py foundation_prime_links 534 538
+GSE/curation/lexicon_builder/catalog.py catalog_inventory 582 650
+GSE/curation/lexicon_builder/catalog.py basis_audit 653 684
+GSE/curation/lexicon_builder/catalog.py catalog_report 772 982
+GSE/curation/lexicon_builder/scope_admission.py _catalog_reference_record 13 45
+GSE/curation/lexicon_builder/rule_migration.py _refresh_catalog 58 81
+GSE/curation/lexicon_builder/validation.py _catalog_foundation 806 835
+GSE/curation/lexicon_builder/validation.py _native_catalog 838 883
+GSE/curation/lexicon_builder/validation.py _catalog_integrity 886 934
+GSE/curation/lexicon_builder/validation.py _prime_definition_links 1189 1204
+GSE/curation/lexicon_builder/validation.py _catalog_revision 1207 1213
+GSE/curation/lexicon_builder/validation.py refresh_catalog 1216 1277
+GSE/curation/external_sources/gse_closed_class.py _catalog_entries 209 264
+
+### ssl-api-controller-basis-manifest.json
+{
+  "anchors": {
+    "nsm_chart:v20:bad": [
+      {
+        "bank": "GOOD",
+        "family": "nsm_basis_correspondence",
+        "record_id": "nsm_chart:v20:bad:own-coordinate",
+        "scope": "lexical",
+        "source": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-basis-manifest.json",
+        "value": -1
+      }
+    ],
+    "nsm_chart:v20:big": [
+      {
+        "bank": "BIG",
+        "family": "nsm_basis_correspondence",
+        "record_id": "nsm_chart:v20:big:own-coordinate",
+        "scope": "lexical",
+        "source": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-basis-manifest.json",
+        "value": 1
+      }
+    ],
+    "nsm_chart:v20:good": [
+      {
+        "bank": "GOOD",
+        "family": "nsm_basis_correspondence",
+        "record_id": "nsm_chart:v20:good:own-coordinate",
+        "scope": "lexical",
+        "source": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-basis-manifest.json",
+        "value": 1
+      }
+    ],
+    "nsm_chart:v20:small": [
+      {
+        "bank": "BIG",
+        "family": "nsm_basis_correspondence",
+        "record_id": "nsm_chart:v20:small:own-coordinate",
+        "scope": "lexical",
+        "source": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-basis-manifest.json",
+        "value": -1
+      }
+    ]
+  },
+  "format": "GSE.lexicon-rules/1",
+  "relations": []
+}
+
+
+### ssl-root-canonical-prime-projection-review.json
+{
+  "format": "GSE.source-projection-review/1",
+  "status": "ROOT_REVIEWED_DEFINITIONAL_DERIVATION_REQUIRES_ORDINARY_ADMISSION_AND_REPLAY",
+  "reviewer": "Root implementation review of complete saved primary NSM chart and complete GSE bipolar declarations",
+  "is_new_founder_convention": false,
+  "is_full_signature_approval": false,
+  "bank_writes": 0,
+  "source_pins": {
+    "data/external/references/nsm-primes-chart-v20-2022.txt": "5847b39219381181f98a2afbfc57b149ad16cd77157ca0d205b341d1466cf732",
+    "GSE/primitives_v2.py": "ad14c3e4348e453124b3d8904d94266570916b6902009b69a23350ce971556de",
+    "GSE/curation/schema.py": "f5eb1b758eccde2c6653c4b4e214d38c9834ba34ec320588e4eacf9ff704de55",
+    "GSE/curation/lexicon_builder/catalog.py": "08151fa4d5386249b3d478535778610cd3b94a85518bee678dbe0775eab2d20c",
+    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md": "cbc188ab55c0d654f25b632819e75440d26f2644e6949f054c06ea217fcf1bf6"
+  },
+  "warrant": {
+    "kind": "DEFINITIONAL_DERIVATION",
+    "warrant_id": "nsm-v20:canonical-evaluation-size-poles",
+    "review_id": "root:primary-chart-and-existing-gse-bipolar-declarations:2026-11-24",
+    "reviewer": "Root source/representation review; not presented as a new founder ruling",
+    "source_refs": [
+      "data/external/references/nsm-primes-chart-v20-2022.txt",
+      "GSE/primitives_v2.py",
+      "GSE/curation/schema.py",
+      "GSE/curation/lexicon_builder/catalog.py",
+      "docs/program/LEXICON_CONSTRUCTION_DESIGN.md"
+    ],
+    "statement": "The primary chart explicitly declares GOOD, BAD, BIG and SMALL as their respective elementary NSM meanings. GSE already declares GOOD/BAD as the EVALUATION antipodes and BIG/SMALL as the SIZE antipodes in both live registry and curation schema. For these exact monosemantic primary units, mapping the declared positive/negative pole supplies only the corresponding scalar sign. It supplies no orthogonal zero, complete signature, ordinary-English word-sense selection, or new bank meaning."
+  },
+  "claims": [
+    {
+      "unit_id": "nsm:v20:good",
+      "entry_id": "nsm_chart:v20:good",
+      "bank": "GOOD",
+      "value": 1,
+      "required_native_source": "nsm_primary_chart",
+      "scope": "EXACT_CANONICAL_UNIT_ONLY"
+    },
+    {
+      "unit_id": "nsm:v20:bad",
+      "entry_id": "nsm_chart:v20:bad",
+      "bank": "GOOD",
+      "value": -1,
+      "required_native_source": "nsm_primary_chart",
+      "scope": "EXACT_CANONICAL_UNIT_ONLY"
+    },
+    {
+      "unit_id": "nsm:v20:big",
+      "entry_id": "nsm_chart:v20:big",
+      "bank": "BIG",
+      "value": 1,
+      "required_native_source": "nsm_primary_chart",
+      "scope": "EXACT_CANONICAL_UNIT_ONLY"
+    },
+    {
+      "unit_id": "nsm:v20:small",
+      "entry_id": "nsm_chart:v20:small",
+      "bank": "BIG",
+      "value": -1,
+      "required_native_source": "nsm_primary_chart",
+      "scope": "EXACT_CANONICAL_UNIT_ONLY"
+    }
+  ],
+  "preserve": [
+    "Every other unresolved coordinate remains unresolved absent independent justification.",
+    "NSM combinatorial frame participants are not copied as own-unit bank content.",
+    "No same-spelled ordinary dictionary sense receives these signs without its own proven semantic alignment.",
+    "Hierarchy level and ordinal metadata remain separate from base sign.",
+    "Existing metadata-only correspondence flags do not themselves authorize lexical writes; this explicit source-derived warrant must be consumed by ordinary tested projection/admission/migration."
+  ],
+  "must_not_examples": [
+    "wordnet:good:commodity.n.01 is not the canonical NSM GOOD unit.",
+    "wordnet:bad:bad.s.01 (very intense) cannot inherit GOOD=-1 by spelling.",
+    "A positive GOOD projection cannot fill BIG=0 unless the existing iff absence guard independently licenses it."
+  ],
+  "experimental_scope": "Independent source review, not a final held-out semantic score or observed corpus gain."
+}
+
+SOURCE NSM CHART
+"""Primary NSM chart definitions and frames; no inferred bank assignments."""
+
+from __future__ import annotations
+
+import hashlib
+from dataclasses import dataclass
+from pathlib import Path
+
+
+@dataclass(frozen=True)
+class NSMChartEntry:
+    entry_id: str
+    unit_id: str
+    lemma: str
+    pos: str
+    definition: str
+    definition_kind: str
+    chart_heading: str
+    forms: tuple[str, ...]
+    frame_text: str
+    source_reference: dict
+    chart_notes: str
+    frames_are: str
+
+
+class NSMChartParser:
+    """Expose exact chart units through the ordinary source parser boundary.
+
+    Native equivalents remain native definitions; only the remaining chart
+    units are introduced here. Nothing projects participants in a frame into
+    its head's lexical vector, and silence never supplies a zero.
+    """
+
+    def __init__(self):
+        self.entries: dict[str, list[NSMChartEntry]] = {}
+        self._loaded = False
+
+    def load(self) -> bool:
+        from GSE.curation.lexicon_builder.catalog import SOURCE, chart_definition_records
+
+        path = Path(__file__).resolve().parents[3] / SOURCE["path"]
+        if hashlib.sha256(path.read_bytes()).hexdigest() != SOURCE["sha256"]:
+            raise ValueError("NSM_CHART_SOURCE_REVISION_MISMATCH")
+        entries: dict[str, list[NSMChartEntry]] = {}
+        for record in chart_definition_records():
+            entry = NSMChartEntry(**record)
+            entries.setdefault(entry.lemma, []).append(entry)
+        self.entries = entries
+        self._loaded = True
+        return True
+
+    def get_all_words(self) -> list[str]:
+        if not self._loaded:
+            self.load()
+        return sorted(self.entries)
+
+    def get_entries(self, word: str) -> tuple[NSMChartEntry, ...]:
+        if not self._loaded:
+            self.load()
+        return tuple(self.entries.get(word.lower(), ()))
+
+    def to_primitives_for_entry(self, entry: NSMChartEntry) -> dict[str, int]:
+        if not isinstance(entry, NSMChartEntry) or entry not in self.get_entries(entry.lemma):
+            raise ValueError("UNKNOWN_NSM_CHART_DEFINITION")
+        return {}
+
+    def to_primitives(self, word: str) -> dict[str, int]:
+        return {}
+

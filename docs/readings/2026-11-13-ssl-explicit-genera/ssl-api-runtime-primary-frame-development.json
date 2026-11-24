@@ -1,0 +1,2235 @@
+{
+  "scope": "DEVELOPMENT_NOT_FINAL",
+  "records": [
+    {
+      "text": "You want something.",
+      "lemma": "want",
+      "pos": "VERB",
+      "primitives": {
+        "WANT": 1
+      },
+      "status": "IDENTIFIED",
+      "selected": "wordnet:want:desire.v.01",
+      "proof": {
+        "code": "PRIMARY_UNIT_FRAME",
+        "entry_id": "wordnet:want:desire.v.01",
+        "witness_kind": "NSM_PRIMARY_TYPED_FRAME",
+        "identity_scope": "EXPLICIT_NATIVE_ALIGNMENT",
+        "unresolved_ordinary_entry_ids": [
+          "wiktionary:en-Want-en-name-pGbmnTF5:5c9c0c6107aad2b8d548426562873b5d35e6b01279415bc9ac6199e716351614",
+          "wiktionary:en-want-en-noun-4zL4B0Ph:a4b5f96a0713133fee85c3d7ce3b33d3375113250688b5bbb5cbe37666c23ab6",
+          "wiktionary:en-want-en-noun-F6jH~XuL:e0276d69426eeeb12aceab21c98c9fd67c734d687a2793ff5424533d533d6519",
+          "wiktionary:en-want-en-noun-LPnoOccN:7f1dc76e912b3e658d720fd98c9223b2a62ae1455b8974af69d8d902e2273e07",
+          "wiktionary:en-want-en-noun-en:poverty:7bd0ca684fea17e61ee54222601e40e20c9f2bd51e746d3eeb9dd253c7e6c854",
+          "wiktionary:en-want-en-noun-lbhGUhQl:01cfc5979aed5ce997416c4b1ea3f384549f9028062f00db8b8ae18676f9b955",
+          "wiktionary:en-want-en-noun-ue2PZHoS:a8bccf49048e080448e5fea854be4a5a43ff1b1603185539beefb2336cc740de",
+          "wiktionary:en-want-en-verb-4KexdX0q:84c2d452719b3764c5451da3d2bbd8e9098e8b7c4433caaf3304af73794051c8",
+          "wiktionary:en-want-en-verb-9kpDn9xc:03091a586ed764eb4a519b9da6af77cf568c3b205501b87a98b272d4e1e40771",
+          "wiktionary:en-want-en-verb-HL0Cb9I8:98d9e9c6dd0ca8b922a2b4bae903a9383a5f63ddc5019a9e65ec0765120a49f1",
+          "wiktionary:en-want-en-verb-MeSObaDu:2baf8d0d431a01339c1fda54d30a6e29344044edbcb80acf94c966c0c65adb63",
+          "wiktionary:en-want-en-verb-NtdnRx-o:272400d4d0b4e0b103eb491a81dd4cc2ee2363395ce31bf94754a3c4cda55b13",
+          "wiktionary:en-want-en-verb-QWtNKEjZ:c2b051dba022ceae0c7c4c44144668370da135f1491d2182e32ae70b92aea14a",
+          "wiktionary:en-want-en-verb-Qyb2Sc1T:36632aaf53e65c02efb6086f2fc5f294847be4c75d45137392f25c6ae4e327bf",
+          "wiktionary:en-want-en-verb-SXsg1EpI:7d7f789e8b7e73e64752863e27b85e8f668ed2b2c2ab1d86be590730fc5da8de",
+          "wiktionary:en-want-en-verb-XHO7etX6:118e29f0ebd0e7a5cb4255f6b4027fdfac7e69dcee73581c1bc427e9a9a9d90f",
+          "wiktionary:en-want-en-verb-mxP1DP9g:aac967261a16dea9b2b6e3737a86936559599cf60e7a7eb921ca6e3d78139bc4",
+          "wiktionary:en-want-en-verb-sK6HWIzp:09024d70cfec5571371a1ada9deba30dfe615c73c3915b364daf7592f64dd3f6",
+          "wiktionary:en-want-en-verb-whnQJYGG:ad216369dd529339911560813842b5222a56d52f73fefc6922f9583cd1f748f9",
+          "wordnet:want:lack.n.01",
+          "wordnet:want:need.n.02",
+          "wordnet:want:privation.n.01",
+          "wordnet:want:want.v.02",
+          "wordnet:want:want.v.03",
+          "wordnet:want:want.v.04",
+          "wordnet:want:want.v.05",
+          "wordnet:want:wish.n.01"
+        ],
+        "source_reference": {
+          "title": "Chart of NSM Semantic Primes",
+          "version": "v20",
+          "date": "2022-05-10",
+          "path": "data/external/references/nsm-primes-chart-v20-2022.txt",
+          "url": "https://nsm-approach.net",
+          "sha256": "5847b39219381181f98a2afbfc57b149ad16cd77157ca0d205b341d1466cf732"
+        },
+        "frames": [
+          {
+            "primary_unit_id": "nsm:v20:want",
+            "source_frame_unit_id": "nsm:v20:i",
+            "source_frame": "I want this, I don\u2019t want this",
+            "expanded_frame": "I want this",
+            "source_record_ids": [
+              "wordnet:want:desire.v.01"
+            ],
+            "role_witnesses": [
+              {
+                "position": 0,
+                "source_exponent": "I",
+                "entry_id": "gse_closed_class:pronoun:you",
+                "record_id": "gse_closed_class:you:fbff12e440d68d97d943dd6e45a5ff93016a4fe8fe259c2c1e91e114ef17165b",
+                "roles": {
+                  "SOMEONE": 1
+                }
+              },
+              {
+                "position": 2,
+                "source_exponent": "this",
+                "entry_id": "gse_closed_class:pronoun:something",
+                "record_id": "gse_closed_class:something:4c7bbbcf7d67bded28522de5247f1fb7ef00f9dabe889eb86b7718e943befcd5",
+                "roles": {
+                  "SOMETHING": 1
+                }
+              }
+            ]
+          },
+          {
+            "primary_unit_id": "nsm:v20:want",
+            "source_frame_unit_id": "nsm:v20:want",
+            "source_frame": "I want this",
+            "expanded_frame": "I want this",
+            "source_record_ids": [
+              "wordnet:want:desire.v.01"
+            ],
+            "role_witnesses": [
+              {
+                "position": 0,
+                "source_exponent": "I",
+                "entry_id": "gse_closed_class:pronoun:you",
+                "record_id": "gse_closed_class:you:fbff12e440d68d97d943dd6e45a5ff93016a4fe8fe259c2c1e91e114ef17165b",
+                "roles": {
+                  "SOMEONE": 1
+                }
+              },
+              {
+                "position": 2,
+                "source_exponent": "this",
+                "entry_id": "gse_closed_class:pronoun:something",
+                "record_id": "gse_closed_class:something:4c7bbbcf7d67bded28522de5247f1fb7ef00f9dabe889eb86b7718e943befcd5",
+                "roles": {
+                  "SOMETHING": 1
+                }
+              }
+            ]
+          },
+          {
+            "primary_unit_id": "nsm:v20:want",
+            "source_frame_unit_id": "nsm:v20:want",
+            "source_frame": "someone wants something",
+            "expanded_frame": "someone wants something",
+            "source_record_ids": [
+              "wordnet:want:desire.v.01"
+            ],
+            "role_witnesses": [
+              {
+                "position": 0,
+                "source_exponent": "someone",
+                "entry_id": "gse_closed_class:pronoun:you",
+                "record_id": "gse_closed_class:you:fbff12e440d68d97d943dd6e45a5ff93016a4fe8fe259c2c1e91e114ef17165b",
+                "roles": {
+                  "SOMEONE": 1
+                }
+              },
+              {
+                "position": 2,
+                "source_exponent": "something",
+                "entry_id": "gse_closed_class:pronoun:something",
+                "record_id": "gse_closed_class:something:4c7bbbcf7d67bded28522de5247f1fb7ef00f9dabe889eb86b7718e943befcd5",
+                "roles": {
+                  "SOMETHING": 1
+                }
+              }
+            ]
+          }
+        ],
+        "considered_entry_ids": [
+          "wiktionary:en-Want-en-name-pGbmnTF5:5c9c0c6107aad2b8d548426562873b5d35e6b01279415bc9ac6199e716351614",
+          "wiktionary:en-want-en-noun-4zL4B0Ph:a4b5f96a0713133fee85c3d7ce3b33d3375113250688b5bbb5cbe37666c23ab6",
+          "wiktionary:en-want-en-noun-F6jH~XuL:e0276d69426eeeb12aceab21c98c9fd67c734d687a2793ff5424533d533d6519",
+          "wiktionary:en-want-en-noun-LPnoOccN:7f1dc76e912b3e658d720fd98c9223b2a62ae1455b8974af69d8d902e2273e07",
+          "wiktionary:en-want-en-noun-en:poverty:7bd0ca684fea17e61ee54222601e40e20c9f2bd51e746d3eeb9dd253c7e6c854",
+          "wiktionary:en-want-en-noun-lbhGUhQl:01cfc5979aed5ce997416c4b1ea3f384549f9028062f00db8b8ae18676f9b955",
+          "wiktionary:en-want-en-noun-ue2PZHoS:a8bccf49048e080448e5fea854be4a5a43ff1b1603185539beefb2336cc740de",
+          "wiktionary:en-want-en-verb-4KexdX0q:84c2d452719b3764c5451da3d2bbd8e9098e8b7c4433caaf3304af73794051c8",
+          "wiktionary:en-want-en-verb-9kpDn9xc:03091a586ed764eb4a519b9da6af77cf568c3b205501b87a98b272d4e1e40771",
+          "wiktionary:en-want-en-verb-HL0Cb9I8:98d9e9c6dd0ca8b922a2b4bae903a9383a5f63ddc5019a9e65ec0765120a49f1",
+          "wiktionary:en-want-en-verb-MeSObaDu:2baf8d0d431a01339c1fda54d30a6e29344044edbcb80acf94c966c0c65adb63",
+          "wiktionary:en-want-en-verb-NtdnRx-o:272400d4d0b4e0b103eb491a81dd4cc2ee2363395ce31bf94754a3c4cda55b13",
+          "wiktionary:en-want-en-verb-QWtNKEjZ:c2b051dba022ceae0c7c4c44144668370da135f1491d2182e32ae70b92aea14a",
+          "wiktionary:en-want-en-verb-Qyb2Sc1T:36632aaf53e65c02efb6086f2fc5f294847be4c75d45137392f25c6ae4e327bf",
+          "wiktionary:en-want-en-verb-SXsg1EpI:7d7f789e8b7e73e64752863e27b85e8f668ed2b2c2ab1d86be590730fc5da8de",
+          "wiktionary:en-want-en-verb-XHO7etX6:118e29f0ebd0e7a5cb4255f6b4027fdfac7e69dcee73581c1bc427e9a9a9d90f",
+          "wiktionary:en-want-en-verb-mxP1DP9g:aac967261a16dea9b2b6e3737a86936559599cf60e7a7eb921ca6e3d78139bc4",
+          "wiktionary:en-want-en-verb-sK6HWIzp:09024d70cfec5571371a1ada9deba30dfe615c73c3915b364daf7592f64dd3f6",
+          "wiktionary:en-want-en-verb-whnQJYGG:ad216369dd529339911560813842b5222a56d52f73fefc6922f9583cd1f748f9",
+          "wordnet:want:desire.v.01",
+          "wordnet:want:lack.n.01",
+          "wordnet:want:need.n.02",
+          "wordnet:want:privation.n.01",
+          "wordnet:want:want.v.02",
+          "wordnet:want:want.v.03",
+          "wordnet:want:want.v.04",
+          "wordnet:want:want.v.05",
+          "wordnet:want:wish.n.01"
+        ]
+      }
+    },
+    {
+      "text": "She thinks about something.",
+      "lemma": "think",
+      "pos": "VERB",
+      "primitives": {},
+      "status": "IDENTIFIED",
+      "selected": "nsm_chart:v20:think",
+      "proof": {
+        "code": "PRIMARY_UNIT_FRAME",
+        "entry_id": "nsm_chart:v20:think",
+        "witness_kind": "NSM_PRIMARY_TYPED_FRAME",
+        "identity_scope": "PRIMARY_UNIT_ONLY",
+        "unresolved_ordinary_entry_ids": [
+          "wiktionary:en-think-en-noun-KnoZqiVJ:21d0a56c8887622292d71ca52c87f458550acd32fc87b4fdcb191c3541a5f105",
+          "wiktionary:en-think-en-verb-3Cipfadn:9ff871c6f695f9aaf6701beac9366b828c3d8e6ddb4101724b768580621d04e0",
+          "wiktionary:en-think-en-verb-3QwgFSRP:9989a0fa5e561d2ff80f77b762f0675e9cc92e4e83284746565a26e2c4e5d8b0",
+          "wiktionary:en-think-en-verb-4UuhN3ZM:25be32203a7d6acf012b34e3715569dba78305288a4430228fbd6ee992fd9f3b",
+          "wiktionary:en-think-en-verb-cPdssCtd:0c46d24e5138d2e162b0aa56ef1a34be701519175050f96b00d0ac339c76a981",
+          "wiktionary:en-think-en-verb-ctRAwtYf:25bbf3a7787e9790d99f6885f2a71452f0e718d39c76e334b6b4524c0c2fe431",
+          "wiktionary:en-think-en-verb-en:seem:7a5e3075836eac2b3bfccc2186a1a85d64a741638ea6ed717858c2ac1aa4820a",
+          "wiktionary:en-think-en-verb-gzsJThCQ:68eb0743e47711512503d9d94738e490dffe9d6cc5fc04c051004fd065a2fbbc",
+          "wiktionary:en-think-en-verb-q3amd~7-:18bd8dbb6767a849741bc48dc83713fb79a801d33b458c0282ee648f78465709",
+          "wiktionary:en-think-en-verb-rhigjWiL:9b3a75f39cffe7dc7489503a78fdc68a9e827e656f4579a3cf95c1767304aaa7",
+          "wiktionary:en-think-en-verb-zCTNytJs:87a1df4cee95735f196c83bdb54e31d5ba2da0493d29b124de30df4465703962",
+          "wordnet:think:intend.v.01",
+          "wordnet:think:remember.v.01",
+          "wordnet:think:think.n.01",
+          "wordnet:think:think.v.01",
+          "wordnet:think:think.v.02",
+          "wordnet:think:think.v.03",
+          "wordnet:think:think.v.05",
+          "wordnet:think:think.v.06",
+          "wordnet:think:think.v.08",
+          "wordnet:think:think.v.09",
+          "wordnet:think:think.v.10",
+          "wordnet:think:think.v.11",
+          "wordnet:think:think.v.12",
+          "wordnet:think:think.v.13"
+        ],
+        "source_reference": {
+          "title": "Chart of NSM Semantic Primes",
+          "version": "v20",
+          "date": "2022-05-10",
+          "path": "data/external/references/nsm-primes-chart-v20-2022.txt",
+          "url": "https://nsm-approach.net",
+          "sha256": "5847b39219381181f98a2afbfc57b149ad16cd77157ca0d205b341d1466cf732"
+        },
+        "frames": [
+          {
+            "primary_unit_id": "nsm:v20:think",
+            "source_frame_unit_id": "nsm:v20:think",
+            "source_frame": "someone thinks about someone else/ something",
+            "expanded_frame": "someone thinks about something",
+            "source_record_ids": [
+              "nsm_chart:think:74efdaf4f913184df0bfea365515db20d0fb3418a1fdb6fab4dd70fbca36aaa4"
+            ],
+            "role_witnesses": [
+              {
+                "position": 0,
+                "source_exponent": "someone",
+                "entry_id": "gse_closed_class:pronoun:she",
+                "record_id": "gse_closed_class:she:89136271f53b671a519a7bc2e4afa0d153e39269286ff124efb52e3d88899c36",
+                "roles": {
+                  "SOMEONE": 1
+                }
+              },
+              {
+                "position": 3,
+                "source_exponent": "something",
+                "entry_id": "gse_closed_class:pronoun:something",
+                "record_id": "gse_closed_class:something:4c7bbbcf7d67bded28522de5247f1fb7ef00f9dabe889eb86b7718e943befcd5",
+                "roles": {
+                  "SOMETHING": 1
+                }
+              }
+            ]
+          }
+        ],
+        "considered_entry_ids": [
+          "nsm_chart:v20:think",
+          "wiktionary:en-think-en-noun-KnoZqiVJ:21d0a56c8887622292d71ca52c87f458550acd32fc87b4fdcb191c3541a5f105",
+          "wiktionary:en-think-en-verb-3Cipfadn:9ff871c6f695f9aaf6701beac9366b828c3d8e6ddb4101724b768580621d04e0",
+          "wiktionary:en-think-en-verb-3QwgFSRP:9989a0fa5e561d2ff80f77b762f0675e9cc92e4e83284746565a26e2c4e5d8b0",
+          "wiktionary:en-think-en-verb-4UuhN3ZM:25be32203a7d6acf012b34e3715569dba78305288a4430228fbd6ee992fd9f3b",
+          "wiktionary:en-think-en-verb-cPdssCtd:0c46d24e5138d2e162b0aa56ef1a34be701519175050f96b00d0ac339c76a981",
+          "wiktionary:en-think-en-verb-ctRAwtYf:25bbf3a7787e9790d99f6885f2a71452f0e718d39c76e334b6b4524c0c2fe431",
+          "wiktionary:en-think-en-verb-en:seem:7a5e3075836eac2b3bfccc2186a1a85d64a741638ea6ed717858c2ac1aa4820a",
+          "wiktionary:en-think-en-verb-gzsJThCQ:68eb0743e47711512503d9d94738e490dffe9d6cc5fc04c051004fd065a2fbbc",
+          "wiktionary:en-think-en-verb-q3amd~7-:18bd8dbb6767a849741bc48dc83713fb79a801d33b458c0282ee648f78465709",
+          "wiktionary:en-think-en-verb-rhigjWiL:9b3a75f39cffe7dc7489503a78fdc68a9e827e656f4579a3cf95c1767304aaa7",
+          "wiktionary:en-think-en-verb-zCTNytJs:87a1df4cee95735f196c83bdb54e31d5ba2da0493d29b124de30df4465703962",
+          "wordnet:think:intend.v.01",
+          "wordnet:think:remember.v.01",
+          "wordnet:think:think.n.01",
+          "wordnet:think:think.v.01",
+          "wordnet:think:think.v.02",
+          "wordnet:think:think.v.03",
+          "wordnet:think:think.v.05",
+          "wordnet:think:think.v.06",
+          "wordnet:think:think.v.08",
+          "wordnet:think:think.v.09",
+          "wordnet:think:think.v.10",
+          "wordnet:think:think.v.11",
+          "wordnet:think:think.v.12",
+          "wordnet:think:think.v.13"
+        ]
+      }
+    },
+    {
+      "text": "You know.",
+      "lemma": "know",
+      "pos": "VERB",
+      "primitives": {
+        "KNOW": 1
+      },
+      "status": "IDENTIFIED",
+      "selected": "wordnet:know:know.v.01",
+      "proof": {
+        "code": "PRIMARY_UNIT_FRAME",
+        "entry_id": "wordnet:know:know.v.01",
+        "witness_kind": "NSM_PRIMARY_TYPED_FRAME",
+        "identity_scope": "EXPLICIT_NATIVE_ALIGNMENT",
+        "unresolved_ordinary_entry_ids": [
+          "wiktionary:en-know-en-noun-6qMKG71C:3ad9d5cb06df7b5c47fe98531d34a2f4f31000af842c3a1558bac53aabbb08ec",
+          "wiktionary:en-know-en-noun-ZYQqruX7:a5d32c2d6d4e3fcf18310d94b86406ba5403a0056481e2b0d85f6fd7347e37f8",
+          "wiktionary:en-know-en-noun-sdtuba6R:258b7508c8a82d1e92a5f66b62f7c062e85444cc83b4c7057670c271eaa80b3e",
+          "wiktionary:en-know-en-particle-Shn-Xtz8:f68f8fc54857c7265fb7da746d0b4f9b99b0559fd7cda598e2b7641d9566af10",
+          "wiktionary:en-know-en-verb-0nYnvNEy:122413ea6ce6c3db604f1e1ec6240788c58936947b70664fe595f27271bdbbdc",
+          "wiktionary:en-know-en-verb-4PssVrZO:fd3ae27e4615d7aabd691b2b30202236d9def9df733045b24fd4530ba1343d75",
+          "wiktionary:en-know-en-verb-7vKVVxOv:c56d8ea3d5aca6cb810be9aa7c109d81ca9a2da8221345078e5ebca160d096f2",
+          "wiktionary:en-know-en-verb-AbxnLcF2:201302ca68f5a2817af0f9d765b514ffb36c277d0494926bd5daf32d50081f5b",
+          "wiktionary:en-know-en-verb-Dwbi689H:19f261d8a358da8565c0e956312ac1b526c86c9a47869ff260abbbd15927f915",
+          "wiktionary:en-know-en-verb-EVmwj7iL:751337fdb7db2be0b9c769a9c1e6cd7bbe155ddb662127e06395af54582ad5bd",
+          "wiktionary:en-know-en-verb-IVba1Ghe:640498d657b96815403aa05645614cb99c1cc4f6fb36b69e73764649882e6abb",
+          "wiktionary:en-know-en-verb-MVdULO4u:644cb3ae3018fc6ec2fa40ceee0c56d1fb590b0a3a5636b42d9dcbe5b8c71053",
+          "wiktionary:en-know-en-verb-Yfr6xTOV:83a2e4e0b961048efa9f5e6aa5f2943594eb5afefa39a1bd893f947434af2b95",
+          "wiktionary:en-know-en-verb-YkTt3rHP:a55fa6ad93e66173fd181209f912f512d7eff1bffcd2614e2439be586c2de05d",
+          "wiktionary:en-know-en-verb-efbEIy~g:4382a811667e012c15a193c664031eedd5382543296d8b79176032ec5b02b5f2",
+          "wiktionary:en-know-en-verb-fPNW2-cX:549dff90f58924974090f4c278537927f25486acc79a98105af95ab4018067ee",
+          "wiktionary:en-know-en-verb-uabkyTdF:cda252dfd0ccea21242fb584feee98591219f26c4e572813c46060bdf3e8116c",
+          "wiktionary:en-know-en-verb-vxREB8YX:14dd11d63ca940dc26437f3ba5b0af04ae7668e05a28f77b940cf5dd83fe961f",
+          "wordnet:know:acknowledge.v.06",
+          "wordnet:know:know.n.01",
+          "wordnet:know:know.v.02",
+          "wordnet:know:know.v.03",
+          "wordnet:know:know.v.04",
+          "wordnet:know:know.v.05",
+          "wordnet:know:know.v.07",
+          "wordnet:know:know.v.09",
+          "wordnet:know:know.v.10",
+          "wordnet:know:know.v.11",
+          "wordnet:know:sleep_together.v.01"
+        ],
+        "source_reference": {
+          "title": "Chart of NSM Semantic Primes",
+          "version": "v20",
+          "date": "2022-05-10",
+          "path": "data/external/references/nsm-primes-chart-v20-2022.txt",
+          "url": "https://nsm-approach.net",
+          "sha256": "5847b39219381181f98a2afbfc57b149ad16cd77157ca0d205b341d1466cf732"
+        },
+        "frames": [
+          {
+            "primary_unit_id": "nsm:v20:know",
+            "source_frame_unit_id": "nsm:v20:know",
+            "source_frame": "I know",
+            "expanded_frame": "I know",
+            "source_record_ids": [
+              "wordnet:know:know.v.01"
+            ],
+            "role_witnesses": [
+              {
+                "position": 0,
+                "source_exponent": "I",
+                "entry_id": "gse_closed_class:pronoun:you",
+                "record_id": "gse_closed_class:you:fbff12e440d68d97d943dd6e45a5ff93016a4fe8fe259c2c1e91e114ef17165b",
+                "roles": {
+                  "SOMEONE": 1
+                }
+              }
+            ]
+          }
+        ],
+        "considered_entry_ids": [
+          "wiktionary:en-know-en-noun-6qMKG71C:3ad9d5cb06df7b5c47fe98531d34a2f4f31000af842c3a1558bac53aabbb08ec",
+          "wiktionary:en-know-en-noun-ZYQqruX7:a5d32c2d6d4e3fcf18310d94b86406ba5403a0056481e2b0d85f6fd7347e37f8",
+          "wiktionary:en-know-en-noun-sdtuba6R:258b7508c8a82d1e92a5f66b62f7c062e85444cc83b4c7057670c271eaa80b3e",
+          "wiktionary:en-know-en-particle-Shn-Xtz8:f68f8fc54857c7265fb7da746d0b4f9b99b0559fd7cda598e2b7641d9566af10",
+          "wiktionary:en-know-en-verb-0nYnvNEy:122413ea6ce6c3db604f1e1ec6240788c58936947b70664fe595f27271bdbbdc",
+          "wiktionary:en-know-en-verb-4PssVrZO:fd3ae27e4615d7aabd691b2b30202236d9def9df733045b24fd4530ba1343d75",
+          "wiktionary:en-know-en-verb-7vKVVxOv:c56d8ea3d5aca6cb810be9aa7c109d81ca9a2da8221345078e5ebca160d096f2",
+          "wiktionary:en-know-en-verb-AbxnLcF2:201302ca68f5a2817af0f9d765b514ffb36c277d0494926bd5daf32d50081f5b",
+          "wiktionary:en-know-en-verb-Dwbi689H:19f261d8a358da8565c0e956312ac1b526c86c9a47869ff260abbbd15927f915",
+          "wiktionary:en-know-en-verb-EVmwj7iL:751337fdb7db2be0b9c769a9c1e6cd7bbe155ddb662127e06395af54582ad5bd",
+          "wiktionary:en-know-en-verb-IVba1Ghe:640498d657b96815403aa05645614cb99c1cc4f6fb36b69e73764649882e6abb",
+          "wiktionary:en-know-en-verb-MVdULO4u:644cb3ae3018fc6ec2fa40ceee0c56d1fb590b0a3a5636b42d9dcbe5b8c71053",
+          "wiktionary:en-know-en-verb-Yfr6xTOV:83a2e4e0b961048efa9f5e6aa5f2943594eb5afefa39a1bd893f947434af2b95",
+          "wiktionary:en-know-en-verb-YkTt3rHP:a55fa6ad93e66173fd181209f912f512d7eff1bffcd2614e2439be586c2de05d",
+          "wiktionary:en-know-en-verb-efbEIy~g:4382a811667e012c15a193c664031eedd5382543296d8b79176032ec5b02b5f2",
+          "wiktionary:en-know-en-verb-fPNW2-cX:549dff90f58924974090f4c278537927f25486acc79a98105af95ab4018067ee",
+          "wiktionary:en-know-en-verb-uabkyTdF:cda252dfd0ccea21242fb584feee98591219f26c4e572813c46060bdf3e8116c",
+          "wiktionary:en-know-en-verb-vxREB8YX:14dd11d63ca940dc26437f3ba5b0af04ae7668e05a28f77b940cf5dd83fe961f",
+          "wordnet:know:acknowledge.v.06",
+          "wordnet:know:know.n.01",
+          "wordnet:know:know.v.01",
+          "wordnet:know:know.v.02",
+          "wordnet:know:know.v.03",
+          "wordnet:know:know.v.04",
+          "wordnet:know:know.v.05",
+          "wordnet:know:know.v.07",
+          "wordnet:know:know.v.09",
+          "wordnet:know:know.v.10",
+          "wordnet:know:know.v.11",
+          "wordnet:know:sleep_together.v.01"
+        ]
+      }
+    },
+    {
+      "text": "I see someone.",
+      "lemma": "see",
+      "pos": "VERB",
+      "primitives": {
+        "SEE": 1
+      },
+      "status": "IDENTIFIED",
+      "selected": "wordnet:see:see.v.01",
+      "proof": {
+        "code": "PRIMARY_UNIT_FRAME",
+        "entry_id": "wordnet:see:see.v.01",
+        "witness_kind": "NSM_PRIMARY_TYPED_FRAME",
+        "identity_scope": "EXPLICIT_NATIVE_ALIGNMENT",
+        "unresolved_ordinary_entry_ids": [
+          "wiktionary:en-SEE-en-noun-8k17lsMZ:39282a817ed4b8ecac4d4d9acaf93bb83e1dd5d92d35fafe936a61a86cb9c3f2",
+          "wiktionary:en-SEE-en-noun-CBDHq~Pg:b6e49fba30670ba92fbdfe0f0448b6fce263552b4861951e9b4ebc5f2f191d74",
+          "wiktionary:en-See-en-name-4Oz9V0sE:24497af1a2fde7d0cace91491a1cc550d418d3edf3ab623e7b770740d406bfc5",
+          "wiktionary:en-See-en-name-7L5tMhbZ:5d9c9558571140b0e5a4e4c9a9fa6299ce6c69840c77b19aff6e7715a659582e",
+          "wiktionary:en-See-en-name-SYodj5QM:cbb737d4197548f573995bea9780b8b6f1fa8d073c069d299b14044793f325ef",
+          "wiktionary:en-See-en-noun-l5Zos0ZH:0f156e45c21793197d957b7a96d89d26323e5cd6de0d88a02d1ac2079b2969bb",
+          "wiktionary:en-see-en-intj-c68cIu1J:1c645f28fac87fad6643b2e4bf2708863243dfecd8f797eb5e7790cb685bae18",
+          "wiktionary:en-see-en-noun-en:Q665487_or_Q2072238:fa19aa6bc6b00810405c9e1b7d4b4014ba6ac731b1f5adc44451a529fe69308a",
+          "wiktionary:en-see-en-noun-en:office_of_bishop_or_archbishop:90235b2e5ad8c8cef18b460906f985835985e0b01882990bad55fcc4b0d6bc68",
+          "wiktionary:en-see-en-noun-en:seat_of_power:8ae7965a52f1da5a51e2228ab8cdeed651c4be6368b7c02425c7dbf22ad1d4be",
+          "wiktionary:en-see-en-noun-syrQeADD:fcd244fa287fe08354502b20a6e49b7bc42f29753beb391bf5b16667502f9869",
+          "wiktionary:en-see-en-verb-0yBdgEqw:eb8a4fc99a151172f2c9149585f6a624a46cc95e91a055d4042f74bd78dade60",
+          "wiktionary:en-see-en-verb-3IJfIjfp:d837029addf529dfefc1316b0e6adf18a49207226d4fba3c02023fe5f839792e",
+          "wiktionary:en-see-en-verb-D1BdlKpQ:9321815081bf825727f1ad6d356c06596d77f6a87efee975bc450cd4017c52fc",
+          "wiktionary:en-see-en-verb-D91bzkR3:e17ce1096eb70bc9c0f486a826c6f329aead50157f150e32485a70b1c5fb11eb",
+          "wiktionary:en-see-en-verb-FCfAKGOF:b81c22042e9aa160c8c4aa3090d98261f5cc7e0d21733d7c208d5469ca543604",
+          "wiktionary:en-see-en-verb-K2jBmA1h:c015abc2adb311b5c281fcacdeafda98f5113b4090c342bde3f55a9e0ce597cb",
+          "wiktionary:en-see-en-verb-N4eRZX5U:e3419d4e6d62c0910a50aa159d7071fb340e8ec3e699efb142d92e331693ad21",
+          "wiktionary:en-see-en-verb-X9rBFnpD:e7ad1a21efe38bf1c943e9ed51a8a27185d0005bb9e7a2b83332c8499c045810",
+          "wiktionary:en-see-en-verb-XOcVBBdR:7a56799daa01da777691649e92a9369d508c4c781e8f6158299fca23215a9ed0",
+          "wiktionary:en-see-en-verb-aVMdlxwE:16e29b02b6da9e8c27df80eacfb94d3bc867acbb6be0484e1622df6594b86ba8",
+          "wiktionary:en-see-en-verb-cufUmWTL:c2a5c4b0140c3b97adc2a4080730b02bb89d7c17f32629160c510b42e5bf823d",
+          "wiktionary:en-see-en-verb-d6bjJreQ:7904d36464a209d03f2a5405756aba665a8966fd652ecd4a0eb7ed75000c3c51",
+          "wiktionary:en-see-en-verb-ege9gke1:9c1632d1adf408575eec6dcb59af99882c97fe80145c5fdefdd1890ea6be0a2f",
+          "wiktionary:en-see-en-verb-en:to_date:8aa53c88f9591ddde3254faeb4fd93f0fb9dacd7da1bce9a1fe5bf59be7bdedb",
+          "wiktionary:en-see-en-verb-lmf6GiR7:ecf40315c5375d27c7377eaf5adc9c7157e08dab72ee89267474dd7a24b14d97",
+          "wiktionary:en-see-en-verb-mAjaKhle:42fa2889350735edaa57de2747012aae0977b2b44c4599c945f337487be7b779",
+          "wiktionary:en-see-en-verb-oZDRa5GD:4b4626d2ca8ec61ba2044f7c7b2cd47149978b357f0d521e322eb07abf1d300e",
+          "wiktionary:en-see-en-verb-vzH16rxu:796a5bc235cd4424006521b93acaa7a52e8d837608ddf4636d36b4ec33d1fa98",
+          "wiktionary:en-see-en-verb-wc1W7cxg:f84f5f99060f38e6f0cad372d920a0542b9bcf0c2203cf6bda58c86221454cd3",
+          "wiktionary:en-see-en-verb-zeM61BFr:f4f76e939490c2cdcadd0e8fb8f4b3cfd121f7aa18c301ae7275989ed7e7d513",
+          "wordnet:see:attend.v.02",
+          "wordnet:see:determine.v.08",
+          "wordnet:see:examine.v.02",
+          "wordnet:see:experience.v.01",
+          "wordnet:see:go_steady.v.01",
+          "wordnet:see:interpret.v.01",
+          "wordnet:see:learn.v.02",
+          "wordnet:see:meet.v.01",
+          "wordnet:see:see.n.01",
+          "wordnet:see:see.v.05",
+          "wordnet:see:see.v.10",
+          "wordnet:see:see.v.11",
+          "wordnet:see:see.v.12",
+          "wordnet:see:see.v.15",
+          "wordnet:see:see.v.17",
+          "wordnet:see:see.v.18",
+          "wordnet:see:see.v.19",
+          "wordnet:see:see.v.22",
+          "wordnet:see:see.v.23",
+          "wordnet:see:understand.v.02",
+          "wordnet:see:visit.v.01",
+          "wordnet:see:visualize.v.01",
+          "wordnet:see:watch.v.03",
+          "wordnet:see:witness.v.02"
+        ],
+        "source_reference": {
+          "title": "Chart of NSM Semantic Primes",
+          "version": "v20",
+          "date": "2022-05-10",
+          "path": "data/external/references/nsm-primes-chart-v20-2022.txt",
+          "url": "https://nsm-approach.net",
+          "sha256": "5847b39219381181f98a2afbfc57b149ad16cd77157ca0d205b341d1466cf732"
+        },
+        "frames": [
+          {
+            "primary_unit_id": "nsm:v20:see",
+            "source_frame_unit_id": "nsm:v20:see",
+            "source_frame": "someone sees someone/something (in a place)",
+            "expanded_frame": "someone sees someone",
+            "source_record_ids": [
+              "wordnet:see:see.v.01"
+            ],
+            "role_witnesses": [
+              {
+                "position": 0,
+                "source_exponent": "someone",
+                "entry_id": "gse_closed_class:pronoun:i",
+                "record_id": "gse_closed_class:i:45dd086ebaae4c403290881c319b5ced907e675dfbddde7e8555b0a72bd184f4",
+                "roles": {
+                  "SOMEONE": 1
+                }
+              },
+              {
+                "position": 2,
+                "source_exponent": "someone",
+                "entry_id": "gse_closed_class:pronoun:someone",
+                "record_id": "gse_closed_class:someone:15c996b6a5194c2677ea0dbcb84f44d4149959a652fe41909a26ef556b71b7c2",
+                "roles": {
+                  "SOMEONE": 1
+                }
+              }
+            ]
+          }
+        ],
+        "considered_entry_ids": [
+          "wiktionary:en-SEE-en-noun-8k17lsMZ:39282a817ed4b8ecac4d4d9acaf93bb83e1dd5d92d35fafe936a61a86cb9c3f2",
+          "wiktionary:en-SEE-en-noun-CBDHq~Pg:b6e49fba30670ba92fbdfe0f0448b6fce263552b4861951e9b4ebc5f2f191d74",
+          "wiktionary:en-See-en-name-4Oz9V0sE:24497af1a2fde7d0cace91491a1cc550d418d3edf3ab623e7b770740d406bfc5",
+          "wiktionary:en-See-en-name-7L5tMhbZ:5d9c9558571140b0e5a4e4c9a9fa6299ce6c69840c77b19aff6e7715a659582e",
+          "wiktionary:en-See-en-name-SYodj5QM:cbb737d4197548f573995bea9780b8b6f1fa8d073c069d299b14044793f325ef",
+          "wiktionary:en-See-en-noun-l5Zos0ZH:0f156e45c21793197d957b7a96d89d26323e5cd6de0d88a02d1ac2079b2969bb",
+          "wiktionary:en-see-en-intj-c68cIu1J:1c645f28fac87fad6643b2e4bf2708863243dfecd8f797eb5e7790cb685bae18",
+          "wiktionary:en-see-en-noun-en:Q665487_or_Q2072238:fa19aa6bc6b00810405c9e1b7d4b4014ba6ac731b1f5adc44451a529fe69308a",
+          "wiktionary:en-see-en-noun-en:office_of_bishop_or_archbishop:90235b2e5ad8c8cef18b460906f985835985e0b01882990bad55fcc4b0d6bc68",
+          "wiktionary:en-see-en-noun-en:seat_of_power:8ae7965a52f1da5a51e2228ab8cdeed651c4be6368b7c02425c7dbf22ad1d4be",
+          "wiktionary:en-see-en-noun-syrQeADD:fcd244fa287fe08354502b20a6e49b7bc42f29753beb391bf5b16667502f9869",
+          "wiktionary:en-see-en-verb-0yBdgEqw:eb8a4fc99a151172f2c9149585f6a624a46cc95e91a055d4042f74bd78dade60",
+          "wiktionary:en-see-en-verb-3IJfIjfp:d837029addf529dfefc1316b0e6adf18a49207226d4fba3c02023fe5f839792e",
+          "wiktionary:en-see-en-verb-D1BdlKpQ:9321815081bf825727f1ad6d356c06596d77f6a87efee975bc450cd4017c52fc",
+          "wiktionary:en-see-en-verb-D91bzkR3:e17ce1096eb70bc9c0f486a826c6f329aead50157f150e32485a70b1c5fb11eb",
+          "wiktionary:en-see-en-verb-FCfAKGOF:b81c22042e9aa160c8c4aa3090d98261f5cc7e0d21733d7c208d5469ca543604",
+          "wiktionary:en-see-en-verb-K2jBmA1h:c015abc2adb311b5c281fcacdeafda98f5113b4090c342bde3f55a9e0ce597cb",
+          "wiktionary:en-see-en-verb-N4eRZX5U:e3419d4e6d62c0910a50aa159d7071fb340e8ec3e699efb142d92e331693ad21",
+          "wiktionary:en-see-en-verb-X9rBFnpD:e7ad1a21efe38bf1c943e9ed51a8a27185d0005bb9e7a2b83332c8499c045810",
+          "wiktionary:en-see-en-verb-XOcVBBdR:7a56799daa01da777691649e92a9369d508c4c781e8f6158299fca23215a9ed0",
+          "wiktionary:en-see-en-verb-aVMdlxwE:16e29b02b6da9e8c27df80eacfb94d3bc867acbb6be0484e1622df6594b86ba8",
+          "wiktionary:en-see-en-verb-cufUmWTL:c2a5c4b0140c3b97adc2a4080730b02bb89d7c17f32629160c510b42e5bf823d",
+          "wiktionary:en-see-en-verb-d6bjJreQ:7904d36464a209d03f2a5405756aba665a8966fd652ecd4a0eb7ed75000c3c51",
+          "wiktionary:en-see-en-verb-ege9gke1:9c1632d1adf408575eec6dcb59af99882c97fe80145c5fdefdd1890ea6be0a2f",
+          "wiktionary:en-see-en-verb-en:to_date:8aa53c88f9591ddde3254faeb4fd93f0fb9dacd7da1bce9a1fe5bf59be7bdedb",
+          "wiktionary:en-see-en-verb-lmf6GiR7:ecf40315c5375d27c7377eaf5adc9c7157e08dab72ee89267474dd7a24b14d97",
+          "wiktionary:en-see-en-verb-mAjaKhle:42fa2889350735edaa57de2747012aae0977b2b44c4599c945f337487be7b779",
+          "wiktionary:en-see-en-verb-oZDRa5GD:4b4626d2ca8ec61ba2044f7c7b2cd47149978b357f0d521e322eb07abf1d300e",
+          "wiktionary:en-see-en-verb-vzH16rxu:796a5bc235cd4424006521b93acaa7a52e8d837608ddf4636d36b4ec33d1fa98",
+          "wiktionary:en-see-en-verb-wc1W7cxg:f84f5f99060f38e6f0cad372d920a0542b9bcf0c2203cf6bda58c86221454cd3",
+          "wiktionary:en-see-en-verb-zeM61BFr:f4f76e939490c2cdcadd0e8fb8f4b3cfd121f7aa18c301ae7275989ed7e7d513",
+          "wordnet:see:attend.v.02",
+          "wordnet:see:determine.v.08",
+          "wordnet:see:examine.v.02",
+          "wordnet:see:experience.v.01",
+          "wordnet:see:go_steady.v.01",
+          "wordnet:see:interpret.v.01",
+          "wordnet:see:learn.v.02",
+          "wordnet:see:meet.v.01",
+          "wordnet:see:see.n.01",
+          "wordnet:see:see.v.01",
+          "wordnet:see:see.v.05",
+          "wordnet:see:see.v.10",
+          "wordnet:see:see.v.11",
+          "wordnet:see:see.v.12",
+          "wordnet:see:see.v.15",
+          "wordnet:see:see.v.17",
+          "wordnet:see:see.v.18",
+          "wordnet:see:see.v.19",
+          "wordnet:see:see.v.22",
+          "wordnet:see:see.v.23",
+          "wordnet:see:understand.v.02",
+          "wordnet:see:visit.v.01",
+          "wordnet:see:visualize.v.01",
+          "wordnet:see:watch.v.03",
+          "wordnet:see:witness.v.02"
+        ]
+      }
+    },
+    {
+      "text": "She hears something.",
+      "lemma": "hear",
+      "pos": "VERB",
+      "primitives": {
+        "HEAR": 1
+      },
+      "status": "IDENTIFIED",
+      "selected": "wordnet:hear:hear.v.01",
+      "proof": {
+        "code": "PRIMARY_UNIT_FRAME",
+        "entry_id": "wordnet:hear:hear.v.01",
+        "witness_kind": "NSM_PRIMARY_TYPED_FRAME",
+        "identity_scope": "EXPLICIT_NATIVE_ALIGNMENT",
+        "unresolved_ordinary_entry_ids": [
+          "wiktionary:en-hear-en-intj-ubvqFQeI:3846beceee148b492da9e92e753990e367fa89b93c8f178785863130e040f5b6",
+          "wiktionary:en-hear-en-verb-4JqS5mQt:40f5a9ba48a6bb42d54dafafd484c4b1d360bd49a6058eeb61a94eaef1993ba2",
+          "wiktionary:en-hear-en-verb-DPG6et1c:0288430ddca8c00540706cd4f218feba338bd570e76ea84ed9d3c3fc0acab331",
+          "wiktionary:en-hear-en-verb-KV~~N6R2:004c961e77ffae7fef557a670d85fc777940cec89cc369c00d02d1377c30f872",
+          "wiktionary:en-hear-en-verb-PFZRJWmP:5baacdedfed95bc3b8303086d655c5c0e3f2d2cc1ac100ec6b86743cc6b7a263",
+          "wiktionary:en-hear-en-verb-Ys6mnjfP:578a86864d543ec4950616c7fe7f2a5efac5a343ac63d88f61b99d435940bad2",
+          "wiktionary:en-hear-en-verb-kXRF~SxA:33c47abd8a686a522b17b78ff1609223798c96be38935a53bd157f9c087169bd",
+          "wiktionary:en-hear-en-verb-pUNjqi0T:c754d256f07060a5d0fbce471ab74af16795bdc2fd83a261bc547b59ae22bf72",
+          "wiktionary:en-hear-en-verb-qnwCLKFX:4018ca56a8c3a8ff1fe09043bb4fe46e4cfc6c46b2b5fc13b426d7f51494ce89",
+          "wiktionary:en-hear-en-verb-vMkfbI2P:462f42433a1515c4cc717c598baff54170e0f5d077cd27b1236da8c7d1bed9de",
+          "wordnet:hear:hear.v.03",
+          "wordnet:hear:hear.v.04",
+          "wordnet:hear:learn.v.02",
+          "wordnet:hear:listen.v.02"
+        ],
+        "source_reference": {
+          "title": "Chart of NSM Semantic Primes",
+          "version": "v20",
+          "date": "2022-05-10",
+          "path": "data/external/references/nsm-primes-chart-v20-2022.txt",
+          "url": "https://nsm-approach.net",
+          "sha256": "5847b39219381181f98a2afbfc57b149ad16cd77157ca0d205b341d1466cf732"
+        },
+        "frames": [
+          {
+            "primary_unit_id": "nsm:v20:hear",
+            "source_frame_unit_id": "nsm:v20:hear",
+            "source_frame": "someone hears something",
+            "expanded_frame": "someone hears something",
+            "source_record_ids": [
+              "wordnet:hear:hear.v.01"
+            ],
+            "role_witnesses": [
+              {
+                "position": 0,
+                "source_exponent": "someone",
+                "entry_id": "gse_closed_class:pronoun:she",
+                "record_id": "gse_closed_class:she:89136271f53b671a519a7bc2e4afa0d153e39269286ff124efb52e3d88899c36",
+                "roles": {
+                  "SOMEONE": 1
+                }
+              },
+              {
+                "position": 2,
+                "source_exponent": "something",
+                "entry_id": "gse_closed_class:pronoun:something",
+                "record_id": "gse_closed_class:something:4c7bbbcf7d67bded28522de5247f1fb7ef00f9dabe889eb86b7718e943befcd5",
+                "roles": {
+                  "SOMETHING": 1
+                }
+              }
+            ]
+          }
+        ],
+        "considered_entry_ids": [
+          "wiktionary:en-hear-en-intj-ubvqFQeI:3846beceee148b492da9e92e753990e367fa89b93c8f178785863130e040f5b6",
+          "wiktionary:en-hear-en-verb-4JqS5mQt:40f5a9ba48a6bb42d54dafafd484c4b1d360bd49a6058eeb61a94eaef1993ba2",
+          "wiktionary:en-hear-en-verb-DPG6et1c:0288430ddca8c00540706cd4f218feba338bd570e76ea84ed9d3c3fc0acab331",
+          "wiktionary:en-hear-en-verb-KV~~N6R2:004c961e77ffae7fef557a670d85fc777940cec89cc369c00d02d1377c30f872",
+          "wiktionary:en-hear-en-verb-PFZRJWmP:5baacdedfed95bc3b8303086d655c5c0e3f2d2cc1ac100ec6b86743cc6b7a263",
+          "wiktionary:en-hear-en-verb-Ys6mnjfP:578a86864d543ec4950616c7fe7f2a5efac5a343ac63d88f61b99d435940bad2",
+          "wiktionary:en-hear-en-verb-kXRF~SxA:33c47abd8a686a522b17b78ff1609223798c96be38935a53bd157f9c087169bd",
+          "wiktionary:en-hear-en-verb-pUNjqi0T:c754d256f07060a5d0fbce471ab74af16795bdc2fd83a261bc547b59ae22bf72",
+          "wiktionary:en-hear-en-verb-qnwCLKFX:4018ca56a8c3a8ff1fe09043bb4fe46e4cfc6c46b2b5fc13b426d7f51494ce89",
+          "wiktionary:en-hear-en-verb-vMkfbI2P:462f42433a1515c4cc717c598baff54170e0f5d077cd27b1236da8c7d1bed9de",
+          "wordnet:hear:hear.v.01",
+          "wordnet:hear:hear.v.03",
+          "wordnet:hear:hear.v.04",
+          "wordnet:hear:learn.v.02",
+          "wordnet:hear:listen.v.02"
+        ]
+      }
+    },
+    {
+      "text": "You feel something.",
+      "lemma": "feel",
+      "pos": "VERB",
+      "primitives": {},
+      "status": "IDENTIFIED",
+      "selected": "nsm_chart:v20:feel",
+      "proof": {
+        "code": "PRIMARY_UNIT_FRAME",
+        "entry_id": "nsm_chart:v20:feel",
+        "witness_kind": "NSM_PRIMARY_TYPED_FRAME",
+        "identity_scope": "PRIMARY_UNIT_ONLY",
+        "unresolved_ordinary_entry_ids": [
+          "wiktionary:en-feel-en-adj-ce1Bi~xZ:940d93e89a65398b4d6bfe8691a36db88f93ab17d5029f3a4b2556377c11c797",
+          "wiktionary:en-feel-en-adv-ce1Bi~xZ:9cfa5df0ca878bff4f2d04c939d3e89ddbdefb10db54d1d810c62a32bc5d21f0",
+          "wiktionary:en-feel-en-noun-4L7tZb2h:61cd16d3b26b051c21958f75971b711353e6225bfc6f180d3fd0ed99ee51f9cc",
+          "wiktionary:en-feel-en-noun-Olq6m1dq:83a334bbdf76b9b4ee5707f71e009e7257c9af88e779c067514636a57a2ca319",
+          "wiktionary:en-feel-en-noun-Up~NAfic:4f5c792c741146d06f93153e973b34abfba96c0a1ba6b6cdc0277ddb5707d674",
+          "wiktionary:en-feel-en-noun-iHdu8v7u:97884e1792a1b93fc9f0f83f283a0c67888e9f163f652d3029a7d607a69fb17e",
+          "wiktionary:en-feel-en-noun-jlaoiApR:99a63fc4504a9cc6149d930f3d92c383d6f1ee266baaaa870dd5c574f3b335ec",
+          "wiktionary:en-feel-en-noun-pVJMq~ge:dfb0db7fd1781e9acc2a1e37da0ce92015be0c42d359cd4d21a02706c088b20d",
+          "wiktionary:en-feel-en-noun-uCaOwF4y:1c00bb63ae47281ca4e50fedee02268f4af04522e71a4746510d26d3f5ce6c3a",
+          "wiktionary:en-feel-en-pron-ce1Bi~xZ:9e30694077b1b7a862c70cf9e2641c13e52d309fbc046f28b87ba9f37a6d7da8",
+          "wiktionary:en-feel-en-verb--piOs68e:27ab22f050f4a0384f81f13b14fb05f821ba4b3ee87d2e2487487d38e4e7682c",
+          "wiktionary:en-feel-en-verb-1VIeL30n:a1c0c6454afa6e982d760505887d393353cf68339a7df4a1b0a625983a9d4818",
+          "wiktionary:en-feel-en-verb-286A18TU:b025f11d4955a532e96f728f53bd895a97d0605b4479b7dfcd4f0287bc113fc7",
+          "wiktionary:en-feel-en-verb-DucWMMDr:9957367c4a5134f4530e73e17e1b9ec8b704856f29443fabb69fb97f3e4c9144",
+          "wiktionary:en-feel-en-verb-LPSebaOE:15b782247e0248aebf8009ff1a5eff31990fe75378e92de715fb2adab4b79e90",
+          "wiktionary:en-feel-en-verb-PTRm-AOe:f6ad0e714b1f141f3e4cdd373b0861895db74cb424862de63aad2f9d0b22c191",
+          "wiktionary:en-feel-en-verb-a1zzQ-Zz:bfb5cac2ec92f78115f16ad8841d486ede91bde99c068db5f0ca469d7e08d2bb",
+          "wiktionary:en-feel-en-verb-b-T4HZ0j:5188f944bb1c3ab830fd74f89f30dcf1afeb07e1a673adcb7c1d273861e6bf9a",
+          "wiktionary:en-feel-en-verb-en:understand:5793e8d8f39b03629af90ab451940025d7dac84fd0d2dffeda9e3ce4d3cfc645",
+          "wiktionary:en-feel-en-verb-f7W03HxP:8d6dcc1de2cd9a714223f7993805021cabd217200f2642fe985c02b33aaf49ac",
+          "wiktionary:en-feel-en-verb-iWbuWusk:f03b219580708579c7fb15b768d26796342c4c51652526890f63a5817b2c9335",
+          "wiktionary:en-feel-en-verb-tgMfGkNX:1c8758eabccac1a6ac2ef599874bce66b97e4854b51a8e475413d5261bf832b8",
+          "wordnet:feel:feel.n.01",
+          "wordnet:feel:feel.n.04",
+          "wordnet:feel:feel.v.01",
+          "wordnet:feel:feel.v.03",
+          "wordnet:feel:feel.v.04",
+          "wordnet:feel:feel.v.05",
+          "wordnet:feel:feel.v.06",
+          "wordnet:feel:feel.v.07",
+          "wordnet:feel:feel.v.08",
+          "wordnet:feel:feel.v.09",
+          "wordnet:feel:feel.v.11",
+          "wordnet:feel:feel.v.12",
+          "wordnet:feel:feel.v.13",
+          "wordnet:feel:find.v.05",
+          "wordnet:feel:palpate.v.01",
+          "wordnet:feel:spirit.n.02",
+          "wordnet:feel:tactile_property.n.01"
+        ],
+        "source_reference": {
+          "title": "Chart of NSM Semantic Primes",
+          "version": "v20",
+          "date": "2022-05-10",
+          "path": "data/external/references/nsm-primes-chart-v20-2022.txt",
+          "url": "https://nsm-approach.net",
+          "sha256": "5847b39219381181f98a2afbfc57b149ad16cd77157ca0d205b341d1466cf732"
+        },
+        "frames": [
+          {
+            "primary_unit_id": "nsm:v20:feel",
+            "source_frame_unit_id": "nsm:v20:feel",
+            "source_frame": "someone feels something (good/bad)",
+            "expanded_frame": "someone feels something",
+            "source_record_ids": [
+              "nsm_chart:feel:375b165e8ae32fbea37940a8ae11fee7f9b97650373d1c86de27ee8efd3ac940"
+            ],
+            "role_witnesses": [
+              {
+                "position": 0,
+                "source_exponent": "someone",
+                "entry_id": "gse_closed_class:pronoun:you",
+                "record_id": "gse_closed_class:you:fbff12e440d68d97d943dd6e45a5ff93016a4fe8fe259c2c1e91e114ef17165b",
+                "roles": {
+                  "SOMEONE": 1
+                }
+              },
+              {
+                "position": 2,
+                "source_exponent": "something",
+                "entry_id": "gse_closed_class:pronoun:something",
+                "record_id": "gse_closed_class:something:4c7bbbcf7d67bded28522de5247f1fb7ef00f9dabe889eb86b7718e943befcd5",
+                "roles": {
+                  "SOMETHING": 1
+                }
+              }
+            ]
+          }
+        ],
+        "considered_entry_ids": [
+          "nsm_chart:v20:feel",
+          "wiktionary:en-feel-en-adj-ce1Bi~xZ:940d93e89a65398b4d6bfe8691a36db88f93ab17d5029f3a4b2556377c11c797",
+          "wiktionary:en-feel-en-adv-ce1Bi~xZ:9cfa5df0ca878bff4f2d04c939d3e89ddbdefb10db54d1d810c62a32bc5d21f0",
+          "wiktionary:en-feel-en-noun-4L7tZb2h:61cd16d3b26b051c21958f75971b711353e6225bfc6f180d3fd0ed99ee51f9cc",
+          "wiktionary:en-feel-en-noun-Olq6m1dq:83a334bbdf76b9b4ee5707f71e009e7257c9af88e779c067514636a57a2ca319",
+          "wiktionary:en-feel-en-noun-Up~NAfic:4f5c792c741146d06f93153e973b34abfba96c0a1ba6b6cdc0277ddb5707d674",
+          "wiktionary:en-feel-en-noun-iHdu8v7u:97884e1792a1b93fc9f0f83f283a0c67888e9f163f652d3029a7d607a69fb17e",
+          "wiktionary:en-feel-en-noun-jlaoiApR:99a63fc4504a9cc6149d930f3d92c383d6f1ee266baaaa870dd5c574f3b335ec",
+          "wiktionary:en-feel-en-noun-pVJMq~ge:dfb0db7fd1781e9acc2a1e37da0ce92015be0c42d359cd4d21a02706c088b20d",
+          "wiktionary:en-feel-en-noun-uCaOwF4y:1c00bb63ae47281ca4e50fedee02268f4af04522e71a4746510d26d3f5ce6c3a",
+          "wiktionary:en-feel-en-pron-ce1Bi~xZ:9e30694077b1b7a862c70cf9e2641c13e52d309fbc046f28b87ba9f37a6d7da8",
+          "wiktionary:en-feel-en-verb--piOs68e:27ab22f050f4a0384f81f13b14fb05f821ba4b3ee87d2e2487487d38e4e7682c",
+          "wiktionary:en-feel-en-verb-1VIeL30n:a1c0c6454afa6e982d760505887d393353cf68339a7df4a1b0a625983a9d4818",
+          "wiktionary:en-feel-en-verb-286A18TU:b025f11d4955a532e96f728f53bd895a97d0605b4479b7dfcd4f0287bc113fc7",
+          "wiktionary:en-feel-en-verb-DucWMMDr:9957367c4a5134f4530e73e17e1b9ec8b704856f29443fabb69fb97f3e4c9144",
+          "wiktionary:en-feel-en-verb-LPSebaOE:15b782247e0248aebf8009ff1a5eff31990fe75378e92de715fb2adab4b79e90",
+          "wiktionary:en-feel-en-verb-PTRm-AOe:f6ad0e714b1f141f3e4cdd373b0861895db74cb424862de63aad2f9d0b22c191",
+          "wiktionary:en-feel-en-verb-a1zzQ-Zz:bfb5cac2ec92f78115f16ad8841d486ede91bde99c068db5f0ca469d7e08d2bb",
+          "wiktionary:en-feel-en-verb-b-T4HZ0j:5188f944bb1c3ab830fd74f89f30dcf1afeb07e1a673adcb7c1d273861e6bf9a",
+          "wiktionary:en-feel-en-verb-en:understand:5793e8d8f39b03629af90ab451940025d7dac84fd0d2dffeda9e3ce4d3cfc645",
+          "wiktionary:en-feel-en-verb-f7W03HxP:8d6dcc1de2cd9a714223f7993805021cabd217200f2642fe985c02b33aaf49ac",
+          "wiktionary:en-feel-en-verb-iWbuWusk:f03b219580708579c7fb15b768d26796342c4c51652526890f63a5817b2c9335",
+          "wiktionary:en-feel-en-verb-tgMfGkNX:1c8758eabccac1a6ac2ef599874bce66b97e4854b51a8e475413d5261bf832b8",
+          "wordnet:feel:feel.n.01",
+          "wordnet:feel:feel.n.04",
+          "wordnet:feel:feel.v.01",
+          "wordnet:feel:feel.v.03",
+          "wordnet:feel:feel.v.04",
+          "wordnet:feel:feel.v.05",
+          "wordnet:feel:feel.v.06",
+          "wordnet:feel:feel.v.07",
+          "wordnet:feel:feel.v.08",
+          "wordnet:feel:feel.v.09",
+          "wordnet:feel:feel.v.11",
+          "wordnet:feel:feel.v.12",
+          "wordnet:feel:feel.v.13",
+          "wordnet:feel:find.v.05",
+          "wordnet:feel:palpate.v.01",
+          "wordnet:feel:spirit.n.02",
+          "wordnet:feel:tactile_property.n.01"
+        ]
+      }
+    },
+    {
+      "text": "He says something.",
+      "lemma": "say",
+      "pos": "VERB",
+      "primitives": {},
+      "status": "IDENTIFIED",
+      "selected": "nsm_chart:v20:say",
+      "proof": {
+        "code": "PRIMARY_UNIT_FRAME",
+        "entry_id": "nsm_chart:v20:say",
+        "witness_kind": "NSM_PRIMARY_TYPED_FRAME",
+        "identity_scope": "PRIMARY_UNIT_ONLY",
+        "unresolved_ordinary_entry_ids": [
+          "wiktionary:en-Say-en-name-EMUC1F3L:67954ccb59339ffa878a86716f1d70039e749f54ed03515e96d0fd6300446280",
+          "wiktionary:en-say-en-adv-wBvDZL9p:ee825b65fddd468c534a25f55aeee10cd62e72c311d401f4cc980b01375544cf",
+          "wiktionary:en-say-en-intj-qxjECRTA:587dc81ab79afe0acf48d9eba664ba3b4f31c2de5397d7d2a1aa6a5db9f9b33b",
+          "wiktionary:en-say-en-noun-B-QK-0rf:9176f1692d2ac5c5bcdc3fcc2f496c5f31c5c3add88372f349e29d332cdeeb6f",
+          "wiktionary:en-say-en-noun-PGUAgVh-:73bb0620b6eb37013c8378e6baf1b9442e9e91aa7b557425ace7b5657e0f2bc8",
+          "wiktionary:en-say-en-noun-Wp5V6kRw:dfb6ef24016f7b6acb854d0ad43c06210695404b813edae849c4b72e59390c45",
+          "wiktionary:en-say-en-noun-YH~ZuQyB:f0c0488e9ad656b17fba8ec36346e8774c2c61166a668af8471a32d3d644206e",
+          "wiktionary:en-say-en-noun-en:cloth:0022f24f56d09ca82b39173dd2fc31e9d6b08513691846db1c398cc1b74f6970",
+          "wiktionary:en-say-en-noun-yoH25Rk0:bd8d187b052b1cb94716ed59175b58626f81797317e68077fe69c529302888c2",
+          "wiktionary:en-say-en-verb-D1YcvfdX:5a76c0c76afe9615cb9f24481be9d56451d78ff678adfed8fb830beb6a67a3ea",
+          "wiktionary:en-say-en-verb-TkvpWpmN:c76606a2ad72b5bc39586f62db03e1a400927109c4747ffb9531787d0b7d0c67",
+          "wiktionary:en-say-en-verb-U0eYFS-n:7c0425d753eebe100eadd20ec0eba386966b769059c72c69514af648283990ad",
+          "wiktionary:en-say-en-verb-X8fSUb1k:4017b7b4faad5609dbee51ea0700de78a02b8721b0ecc510a405179c400d874e",
+          "wiktionary:en-say-en-verb-grri-p-l:cefc89c3749d301f08910c161d0ed6f31933289b8b3cbe5d22acebf425d6a5a2",
+          "wiktionary:en-say-en-verb-peUtSooF:f8119191e43eb7ad38c9e5863309dd0d08f05624dfc38e77dde393ceadebc9d5",
+          "wiktionary:en-say-en-verb-uDNsT5~Y:8c5aa49c882ebaf2eb29e1b6437e214c92453b7b46ca2a99e4dfe94cd5558eb5",
+          "wiktionary:en-say-en-verb-zGDI~oTf:ac3366012b5c23aafe6d6778767ac59e5ca6dcba13b6e57565823a8033baf995",
+          "wiktionary:en-say-en-verb-zMgGZfdI:b3cc0b32673a7668e481581f4086e59a3856c29ee619337d3b90fce16199c38d",
+          "wordnet:say:allege.v.01",
+          "wordnet:say:order.v.01",
+          "wordnet:say:pronounce.v.01",
+          "wordnet:say:read.v.02",
+          "wordnet:say:say.n.01",
+          "wordnet:say:say.v.07",
+          "wordnet:say:say.v.08",
+          "wordnet:say:say.v.09",
+          "wordnet:say:say.v.10",
+          "wordnet:say:say.v.11",
+          "wordnet:say:state.v.01",
+          "wordnet:say:suppose.v.01"
+        ],
+        "source_reference": {
+          "title": "Chart of NSM Semantic Primes",
+          "version": "v20",
+          "date": "2022-05-10",
+          "path": "data/external/references/nsm-primes-chart-v20-2022.txt",
+          "url": "https://nsm-approach.net",
+          "sha256": "5847b39219381181f98a2afbfc57b149ad16cd77157ca0d205b341d1466cf732"
+        },
+        "frames": [
+          {
+            "primary_unit_id": "nsm:v20:say",
+            "source_frame_unit_id": "nsm:v20:someone",
+            "source_frame": "someone does/says something",
+            "expanded_frame": "someone says something",
+            "source_record_ids": [
+              "nsm_chart:say:73b579ad37cb142d2e404ef67a5680ac2b0a0117d2fcbaaf356ef7262b895111"
+            ],
+            "role_witnesses": [
+              {
+                "position": 0,
+                "source_exponent": "someone",
+                "entry_id": "gse_closed_class:pronoun:he",
+                "record_id": "gse_closed_class:he:bc3dc94e30b8994bf29a21825df023841f6c9197657777ba5e3439e301d1e136",
+                "roles": {
+                  "SOMEONE": 1
+                }
+              },
+              {
+                "position": 2,
+                "source_exponent": "something",
+                "entry_id": "gse_closed_class:pronoun:something",
+                "record_id": "gse_closed_class:something:4c7bbbcf7d67bded28522de5247f1fb7ef00f9dabe889eb86b7718e943befcd5",
+                "roles": {
+                  "SOMETHING": 1
+                }
+              }
+            ]
+          },
+          {
+            "primary_unit_id": "nsm:v20:say",
+            "source_frame_unit_id": "nsm:v20:say",
+            "source_frame": "someone says something (good/bad)",
+            "expanded_frame": "someone says something",
+            "source_record_ids": [
+              "nsm_chart:say:73b579ad37cb142d2e404ef67a5680ac2b0a0117d2fcbaaf356ef7262b895111"
+            ],
+            "role_witnesses": [
+              {
+                "position": 0,
+                "source_exponent": "someone",
+                "entry_id": "gse_closed_class:pronoun:he",
+                "record_id": "gse_closed_class:he:bc3dc94e30b8994bf29a21825df023841f6c9197657777ba5e3439e301d1e136",
+                "roles": {
+                  "SOMEONE": 1
+                }
+              },
+              {
+                "position": 2,
+                "source_exponent": "something",
+                "entry_id": "gse_closed_class:pronoun:something",
+                "record_id": "gse_closed_class:something:4c7bbbcf7d67bded28522de5247f1fb7ef00f9dabe889eb86b7718e943befcd5",
+                "roles": {
+                  "SOMETHING": 1
+                }
+              }
+            ]
+          },
+          {
+            "primary_unit_id": "nsm:v20:say",
+            "source_frame_unit_id": "nsm:v20:say",
+            "source_frame": "someone says something (good/bad)",
+            "expanded_frame": "someone says something",
+            "source_record_ids": [
+              "nsm_chart:say:73b579ad37cb142d2e404ef67a5680ac2b0a0117d2fcbaaf356ef7262b895111"
+            ],
+            "role_witnesses": [
+              {
+                "position": 0,
+                "source_exponent": "someone",
+                "entry_id": "gse_closed_class:pronoun:he",
+                "record_id": "gse_closed_class:he:bc3dc94e30b8994bf29a21825df023841f6c9197657777ba5e3439e301d1e136",
+                "roles": {
+                  "SOMEONE": 1
+                }
+              },
+              {
+                "position": 2,
+                "source_exponent": "something",
+                "entry_id": "gse_closed_class:pronoun:something",
+                "record_id": "gse_closed_class:something:4c7bbbcf7d67bded28522de5247f1fb7ef00f9dabe889eb86b7718e943befcd5",
+                "roles": {
+                  "SOMETHING": 1
+                }
+              }
+            ]
+          }
+        ],
+        "considered_entry_ids": [
+          "nsm_chart:v20:say",
+          "wiktionary:en-Say-en-name-EMUC1F3L:67954ccb59339ffa878a86716f1d70039e749f54ed03515e96d0fd6300446280",
+          "wiktionary:en-say-en-adv-wBvDZL9p:ee825b65fddd468c534a25f55aeee10cd62e72c311d401f4cc980b01375544cf",
+          "wiktionary:en-say-en-intj-qxjECRTA:587dc81ab79afe0acf48d9eba664ba3b4f31c2de5397d7d2a1aa6a5db9f9b33b",
+          "wiktionary:en-say-en-noun-B-QK-0rf:9176f1692d2ac5c5bcdc3fcc2f496c5f31c5c3add88372f349e29d332cdeeb6f",
+          "wiktionary:en-say-en-noun-PGUAgVh-:73bb0620b6eb37013c8378e6baf1b9442e9e91aa7b557425ace7b5657e0f2bc8",
+          "wiktionary:en-say-en-noun-Wp5V6kRw:dfb6ef24016f7b6acb854d0ad43c06210695404b813edae849c4b72e59390c45",
+          "wiktionary:en-say-en-noun-YH~ZuQyB:f0c0488e9ad656b17fba8ec36346e8774c2c61166a668af8471a32d3d644206e",
+          "wiktionary:en-say-en-noun-en:cloth:0022f24f56d09ca82b39173dd2fc31e9d6b08513691846db1c398cc1b74f6970",
+          "wiktionary:en-say-en-noun-yoH25Rk0:bd8d187b052b1cb94716ed59175b58626f81797317e68077fe69c529302888c2",
+          "wiktionary:en-say-en-verb-D1YcvfdX:5a76c0c76afe9615cb9f24481be9d56451d78ff678adfed8fb830beb6a67a3ea",
+          "wiktionary:en-say-en-verb-TkvpWpmN:c76606a2ad72b5bc39586f62db03e1a400927109c4747ffb9531787d0b7d0c67",
+          "wiktionary:en-say-en-verb-U0eYFS-n:7c0425d753eebe100eadd20ec0eba386966b769059c72c69514af648283990ad",
+          "wiktionary:en-say-en-verb-X8fSUb1k:4017b7b4faad5609dbee51ea0700de78a02b8721b0ecc510a405179c400d874e",
+          "wiktionary:en-say-en-verb-grri-p-l:cefc89c3749d301f08910c161d0ed6f31933289b8b3cbe5d22acebf425d6a5a2",
+          "wiktionary:en-say-en-verb-peUtSooF:f8119191e43eb7ad38c9e5863309dd0d08f05624dfc38e77dde393ceadebc9d5",
+          "wiktionary:en-say-en-verb-uDNsT5~Y:8c5aa49c882ebaf2eb29e1b6437e214c92453b7b46ca2a99e4dfe94cd5558eb5",
+          "wiktionary:en-say-en-verb-zGDI~oTf:ac3366012b5c23aafe6d6778767ac59e5ca6dcba13b6e57565823a8033baf995",
+          "wiktionary:en-say-en-verb-zMgGZfdI:b3cc0b32673a7668e481581f4086e59a3856c29ee619337d3b90fce16199c38d",
+          "wordnet:say:allege.v.01",
+          "wordnet:say:order.v.01",
+          "wordnet:say:pronounce.v.01",
+          "wordnet:say:read.v.02",
+          "wordnet:say:say.n.01",
+          "wordnet:say:say.v.07",
+          "wordnet:say:say.v.08",
+          "wordnet:say:say.v.09",
+          "wordnet:say:say.v.10",
+          "wordnet:say:say.v.11",
+          "wordnet:say:state.v.01",
+          "wordnet:say:suppose.v.01"
+        ]
+      }
+    },
+    {
+      "text": "Something happens to me.",
+      "lemma": "happen",
+      "pos": "VERB",
+      "primitives": {
+        "HAPPEN": 1
+      },
+      "status": "IDENTIFIED",
+      "selected": "wordnet:happen:happen.v.01",
+      "proof": {
+        "code": "PRIMARY_UNIT_FRAME",
+        "entry_id": "wordnet:happen:happen.v.01",
+        "witness_kind": "NSM_PRIMARY_TYPED_FRAME",
+        "identity_scope": "EXPLICIT_NATIVE_ALIGNMENT",
+        "unresolved_ordinary_entry_ids": [
+          "wiktionary:en-happen-en-adv-eFiV821l:07be1e6213a826a918fe5a0f1f90d58238b10fe5ecef006e7fa8df3280fc3b01",
+          "wiktionary:en-happen-en-verb--C64c1U3:cd7a1e7d526a648075634d9e042d1fc12c27fd4a1fd1f2885302c642726a6319",
+          "wiktionary:en-happen-en-verb-g1kLOArz:344c5d21098afeb667b83a79efc29ed197ea25249ef3d1462d4bdc910cccdb54",
+          "wiktionary:en-happen-en-verb-n-I8oY-S:30e77970b93a6e0a1f7bb3c8b6bef3686bf4e89730cd9ce73d8d5d19543e373e",
+          "wiktionary:en-happen-en-verb-oA~jCdEL:22efba7bca62481aa558b7a73667d6d9df0b83fd671bdc112cdd68b5b6987321",
+          "wiktionary:en-happen-en-verb-tLMbrcZH:ac95410c45050e046542704298bfb8d09220c8c66923b0b63df749cfbc8f4645",
+          "wordnet:happen:find.v.01",
+          "wordnet:happen:happen.v.02",
+          "wordnet:happen:happen.v.03",
+          "wordnet:happen:happen.v.04"
+        ],
+        "source_reference": {
+          "title": "Chart of NSM Semantic Primes",
+          "version": "v20",
+          "date": "2022-05-10",
+          "path": "data/external/references/nsm-primes-chart-v20-2022.txt",
+          "url": "https://nsm-approach.net",
+          "sha256": "5847b39219381181f98a2afbfc57b149ad16cd77157ca0d205b341d1466cf732"
+        },
+        "frames": [
+          {
+            "primary_unit_id": "nsm:v20:happen",
+            "source_frame_unit_id": "nsm:v20:happen",
+            "source_frame": "something happens to someone",
+            "expanded_frame": "something happens to someone",
+            "source_record_ids": [
+              "wordnet:happen:happen.v.01"
+            ],
+            "role_witnesses": [
+              {
+                "position": 0,
+                "source_exponent": "something",
+                "entry_id": "gse_closed_class:pronoun:something",
+                "record_id": "gse_closed_class:something:4c7bbbcf7d67bded28522de5247f1fb7ef00f9dabe889eb86b7718e943befcd5",
+                "roles": {
+                  "SOMETHING": 1
+                }
+              },
+              {
+                "position": 3,
+                "source_exponent": "someone",
+                "entry_id": "gse_closed_class:pronoun:me",
+                "record_id": "gse_closed_class:me:ad00002a47533de9e6eef4c4d6f065ee0ce1250b5ab802567359a4fcf443019a",
+                "roles": {
+                  "SOMEONE": 1
+                }
+              }
+            ]
+          }
+        ],
+        "considered_entry_ids": [
+          "wiktionary:en-happen-en-adv-eFiV821l:07be1e6213a826a918fe5a0f1f90d58238b10fe5ecef006e7fa8df3280fc3b01",
+          "wiktionary:en-happen-en-verb--C64c1U3:cd7a1e7d526a648075634d9e042d1fc12c27fd4a1fd1f2885302c642726a6319",
+          "wiktionary:en-happen-en-verb-g1kLOArz:344c5d21098afeb667b83a79efc29ed197ea25249ef3d1462d4bdc910cccdb54",
+          "wiktionary:en-happen-en-verb-n-I8oY-S:30e77970b93a6e0a1f7bb3c8b6bef3686bf4e89730cd9ce73d8d5d19543e373e",
+          "wiktionary:en-happen-en-verb-oA~jCdEL:22efba7bca62481aa558b7a73667d6d9df0b83fd671bdc112cdd68b5b6987321",
+          "wiktionary:en-happen-en-verb-tLMbrcZH:ac95410c45050e046542704298bfb8d09220c8c66923b0b63df749cfbc8f4645",
+          "wordnet:happen:find.v.01",
+          "wordnet:happen:happen.v.01",
+          "wordnet:happen:happen.v.02",
+          "wordnet:happen:happen.v.03",
+          "wordnet:happen:happen.v.04"
+        ]
+      }
+    },
+    {
+      "text": "You move.",
+      "lemma": "move",
+      "pos": "VERB",
+      "primitives": {},
+      "status": "IDENTIFIED",
+      "selected": "nsm_chart:v20:move",
+      "proof": {
+        "code": "PRIMARY_UNIT_FRAME",
+        "entry_id": "nsm_chart:v20:move",
+        "witness_kind": "NSM_PRIMARY_TYPED_FRAME",
+        "identity_scope": "PRIMARY_UNIT_ONLY",
+        "unresolved_ordinary_entry_ids": [
+          "wiktionary:en-move-en-noun-2530CUJs:ef5db0ef1c39a814692a3067661e657ccc0f4699bbfeba687ecc88dfab721c30",
+          "wiktionary:en-move-en-noun-9TK5z4RG:80682777f901af91dee617c0c1e1336a1ce6bd7ebd9d991a60e2cde6ffa6bc04",
+          "wiktionary:en-move-en-noun-JCdsVdl~:b06493520385e930a544f905f51b0ea4e34a26bafc90a287155371fcff1ebf00",
+          "wiktionary:en-move-en-noun-W77xOrA8:040516eb55ba14810df64f4a0669b88da5c880bb20d5b194d3de9bf502bef932",
+          "wiktionary:en-move-en-noun-WXhnHCRY:bc564bdba444d92fafcce7399d1aa183e12c0a3880306f8fe7c1c7f75fac2daa",
+          "wiktionary:en-move-en-noun-WuObAMft:f37788d61b33390e15ebb0d557fe668bf449d5c973189bb8edc212db62694b02",
+          "wiktionary:en-move-en-noun-l3slsImU:46d3a88054b4534b6a86319d22b47145bd56919fd9e79ca0a09d7d7418ef6b53",
+          "wiktionary:en-move-en-noun-xUAOXx8k:23ab1e6cd48eb89a1ac89a60b6c2fce4d7b229c19b0f202e04cbb50f5986020e",
+          "wiktionary:en-move-en-noun-xho8yx51:4f779d5b00194661a36e0ee172f6d1f6d0407cd169bcf70d236692b88e400923",
+          "wiktionary:en-move-en-verb-29weZNPF:7cdb7365f040142048bf24b17b7652d69058211e2c99ee4e41a8b0cd913e5b7f",
+          "wiktionary:en-move-en-verb-2KcJEnOx:506968b41629a0d6371d48a9d2598847ccf0af0987ae0d7a7f462aa1523a28b9",
+          "wiktionary:en-move-en-verb-7IDQfv0n:baa0e79a7dd6ff66512f25515479f676495f2ed718ed727ab2e172548d59e9b1",
+          "wiktionary:en-move-en-verb-AKPiBGe4:6a59ffec00cd22cf3a79c124ba1fb5799d6b70f1fb16728333612320bf82da4d",
+          "wiktionary:en-move-en-verb-Cs4N4EKe:a8647ae65738b512187399736d416dd922f573c580c3feb3bcb0c75f3a54df96",
+          "wiktionary:en-move-en-verb-NFezCmHK:10d5e0277514da8a52afc937729edd2cd83acf0066be745b6b08f326b7d0bfba",
+          "wiktionary:en-move-en-verb-QV-xPJl0:059ef43913bd6afbdcb821249cc007cf1f41f9e878a88238bf0d21a39d454594",
+          "wiktionary:en-move-en-verb-Tl4C8jYj:39215fe83bbd5c4bfec9be532d1d046cdad89016c63cb42eae7b93b2513d4ab8",
+          "wiktionary:en-move-en-verb-VWRn2IZc:c5f48785f21887e6b8040a9ab94d048b05b104b03b011bfbcb1722a3e4f8d842",
+          "wiktionary:en-move-en-verb-WpZo6G8y:d6e3f813dab4025e00ee2286c807fb44732c2316696778284941bf5ca84b5138",
+          "wiktionary:en-move-en-verb-XvLeGiaJ:5916f7d72ae20d617086bc4dd422c7e6bbdf34f6912c3b8e6077b77bc6da7d81",
+          "wiktionary:en-move-en-verb-edXvpdDb:61fe8bb2f63bf516e715f027878e7e8c7afda955d1524ec3d5e3b699d9d63d67",
+          "wiktionary:en-move-en-verb-en:affect_emotionally:b483a57f6d6d48393c9a8730ff5b959aa610621a0503e87c8170f937cba8b296",
+          "wiktionary:en-move-en-verb-en:to_change_residence:8243f05d338e77920053ebca658c798f49b39f8bb952eaa213044436110b78c4",
+          "wiktionary:en-move-en-verb-pfKdOqkg:61235313a144ac4fa98e405e6d836ec3242004ac65a6710a86926a46e1adfc01",
+          "wiktionary:en-move-en-verb-vqPHRUoa:df8d88f066888f8e4e64215c28f6c8b78aacb94779dc281a0998f0fe02d0f516",
+          "wordnet:move:act.v.01",
+          "wordnet:move:affect.v.05",
+          "wordnet:move:be_active.v.01",
+          "wordnet:move:go.v.02",
+          "wordnet:move:motion.n.03",
+          "wordnet:move:motion.n.06",
+          "wordnet:move:motivate.v.01",
+          "wordnet:move:move.n.01",
+          "wordnet:move:move.n.02",
+          "wordnet:move:move.n.05",
+          "wordnet:move:move.v.02",
+          "wordnet:move:move.v.03",
+          "wordnet:move:move.v.04",
+          "wordnet:move:move.v.07",
+          "wordnet:move:move.v.11",
+          "wordnet:move:move.v.12",
+          "wordnet:move:move.v.13",
+          "wordnet:move:move.v.14",
+          "wordnet:move:move.v.15",
+          "wordnet:move:move.v.16",
+          "wordnet:move:travel.v.01"
+        ],
+        "source_reference": {
+          "title": "Chart of NSM Semantic Primes",
+          "version": "v20",
+          "date": "2022-05-10",
+          "path": "data/external/references/nsm-primes-chart-v20-2022.txt",
+          "url": "https://nsm-approach.net",
+          "sha256": "5847b39219381181f98a2afbfc57b149ad16cd77157ca0d205b341d1466cf732"
+        },
+        "frames": [
+          {
+            "primary_unit_id": "nsm:v20:move",
+            "source_frame_unit_id": "nsm:v20:move",
+            "source_frame": "someone moves (in this place)",
+            "expanded_frame": "someone moves",
+            "source_record_ids": [
+              "nsm_chart:move:b565ceed977c299f4b08385ebb2dfe8b7a127e9118efcace6b8ea9377b881131"
+            ],
+            "role_witnesses": [
+              {
+                "position": 0,
+                "source_exponent": "someone",
+                "entry_id": "gse_closed_class:pronoun:you",
+                "record_id": "gse_closed_class:you:fbff12e440d68d97d943dd6e45a5ff93016a4fe8fe259c2c1e91e114ef17165b",
+                "roles": {
+                  "SOMEONE": 1
+                }
+              }
+            ]
+          }
+        ],
+        "considered_entry_ids": [
+          "nsm_chart:v20:move",
+          "wiktionary:en-move-en-noun-2530CUJs:ef5db0ef1c39a814692a3067661e657ccc0f4699bbfeba687ecc88dfab721c30",
+          "wiktionary:en-move-en-noun-9TK5z4RG:80682777f901af91dee617c0c1e1336a1ce6bd7ebd9d991a60e2cde6ffa6bc04",
+          "wiktionary:en-move-en-noun-JCdsVdl~:b06493520385e930a544f905f51b0ea4e34a26bafc90a287155371fcff1ebf00",
+          "wiktionary:en-move-en-noun-W77xOrA8:040516eb55ba14810df64f4a0669b88da5c880bb20d5b194d3de9bf502bef932",
+          "wiktionary:en-move-en-noun-WXhnHCRY:bc564bdba444d92fafcce7399d1aa183e12c0a3880306f8fe7c1c7f75fac2daa",
+          "wiktionary:en-move-en-noun-WuObAMft:f37788d61b33390e15ebb0d557fe668bf449d5c973189bb8edc212db62694b02",
+          "wiktionary:en-move-en-noun-l3slsImU:46d3a88054b4534b6a86319d22b47145bd56919fd9e79ca0a09d7d7418ef6b53",
+          "wiktionary:en-move-en-noun-xUAOXx8k:23ab1e6cd48eb89a1ac89a60b6c2fce4d7b229c19b0f202e04cbb50f5986020e",
+          "wiktionary:en-move-en-noun-xho8yx51:4f779d5b00194661a36e0ee172f6d1f6d0407cd169bcf70d236692b88e400923",
+          "wiktionary:en-move-en-verb-29weZNPF:7cdb7365f040142048bf24b17b7652d69058211e2c99ee4e41a8b0cd913e5b7f",
+          "wiktionary:en-move-en-verb-2KcJEnOx:506968b41629a0d6371d48a9d2598847ccf0af0987ae0d7a7f462aa1523a28b9",
+          "wiktionary:en-move-en-verb-7IDQfv0n:baa0e79a7dd6ff66512f25515479f676495f2ed718ed727ab2e172548d59e9b1",
+          "wiktionary:en-move-en-verb-AKPiBGe4:6a59ffec00cd22cf3a79c124ba1fb5799d6b70f1fb16728333612320bf82da4d",
+          "wiktionary:en-move-en-verb-Cs4N4EKe:a8647ae65738b512187399736d416dd922f573c580c3feb3bcb0c75f3a54df96",
+          "wiktionary:en-move-en-verb-NFezCmHK:10d5e0277514da8a52afc937729edd2cd83acf0066be745b6b08f326b7d0bfba",
+          "wiktionary:en-move-en-verb-QV-xPJl0:059ef43913bd6afbdcb821249cc007cf1f41f9e878a88238bf0d21a39d454594",
+          "wiktionary:en-move-en-verb-Tl4C8jYj:39215fe83bbd5c4bfec9be532d1d046cdad89016c63cb42eae7b93b2513d4ab8",
+          "wiktionary:en-move-en-verb-VWRn2IZc:c5f48785f21887e6b8040a9ab94d048b05b104b03b011bfbcb1722a3e4f8d842",
+          "wiktionary:en-move-en-verb-WpZo6G8y:d6e3f813dab4025e00ee2286c807fb44732c2316696778284941bf5ca84b5138",
+          "wiktionary:en-move-en-verb-XvLeGiaJ:5916f7d72ae20d617086bc4dd422c7e6bbdf34f6912c3b8e6077b77bc6da7d81",
+          "wiktionary:en-move-en-verb-edXvpdDb:61fe8bb2f63bf516e715f027878e7e8c7afda955d1524ec3d5e3b699d9d63d67",
+          "wiktionary:en-move-en-verb-en:affect_emotionally:b483a57f6d6d48393c9a8730ff5b959aa610621a0503e87c8170f937cba8b296",
+          "wiktionary:en-move-en-verb-en:to_change_residence:8243f05d338e77920053ebca658c798f49b39f8bb952eaa213044436110b78c4",
+          "wiktionary:en-move-en-verb-pfKdOqkg:61235313a144ac4fa98e405e6d836ec3242004ac65a6710a86926a46e1adfc01",
+          "wiktionary:en-move-en-verb-vqPHRUoa:df8d88f066888f8e4e64215c28f6c8b78aacb94779dc281a0998f0fe02d0f516",
+          "wordnet:move:act.v.01",
+          "wordnet:move:affect.v.05",
+          "wordnet:move:be_active.v.01",
+          "wordnet:move:go.v.02",
+          "wordnet:move:motion.n.03",
+          "wordnet:move:motion.n.06",
+          "wordnet:move:motivate.v.01",
+          "wordnet:move:move.n.01",
+          "wordnet:move:move.n.02",
+          "wordnet:move:move.n.05",
+          "wordnet:move:move.v.02",
+          "wordnet:move:move.v.03",
+          "wordnet:move:move.v.04",
+          "wordnet:move:move.v.07",
+          "wordnet:move:move.v.11",
+          "wordnet:move:move.v.12",
+          "wordnet:move:move.v.13",
+          "wordnet:move:move.v.14",
+          "wordnet:move:move.v.15",
+          "wordnet:move:move.v.16",
+          "wordnet:move:travel.v.01"
+        ]
+      }
+    },
+    {
+      "text": "This is good.",
+      "lemma": "good",
+      "pos": "ADJ",
+      "primitives": {
+        "GOOD": 1
+      },
+      "status": "IDENTIFIED",
+      "selected": "nsm_chart:v20:good",
+      "proof": {
+        "code": "PRIMARY_UNIT_FRAME",
+        "entry_id": "nsm_chart:v20:good",
+        "witness_kind": "NSM_PRIMARY_TYPED_FRAME",
+        "identity_scope": "PRIMARY_UNIT_ONLY",
+        "unresolved_ordinary_entry_ids": [
+          "wiktionary:en-Good-en-name-DK7NWj8F:7e6d30a33bbc1bfa0ed681e3c863749fba9f6568901e2f886631d997a68d2041",
+          "wiktionary:en-Good-en-name-EMUC1F3L:046c4f329a58a2cc8a30d10d64c1d7175da20bce4a20b2c5356a5d1c66499624",
+          "wiktionary:en-Good-en-name-nFXc2s3d:cf5127b776c234f4df93ea5cf5542aee837013eef7cc290d8df81382a7bcfe15",
+          "wiktionary:en-good-en-adj-14ZwF8uH:758c3c5f8b0251076d110b7bc19a68468ab1dca2cc83da68d73ac8b59bae5db2",
+          "wiktionary:en-good-en-adj-4ghG0gvN:6d270df1be45ba75a99e3284ef1b708e3c053ae9ec52bd301015d8ac560140c0",
+          "wiktionary:en-good-en-adj-5SvqAh1Y:b031b7cef10a061aa6b1108387223ddf5d3d05a4223c6bd4583423ebce712aab",
+          "wiktionary:en-good-en-adj-6fskMeWY:2909784a436c249b6cb690f8a30c32e9b81d0ca6938344b3180cd32d18f6a2b6",
+          "wiktionary:en-good-en-adj-Ajj49j3c:8a39c119c6bf90210c48da533a5b78532ff919a59c4e84457190b39f4dbe37d1",
+          "wiktionary:en-good-en-adj-BFSYO00P:c32af0cc4551b038148956a02cff6fe5ddcce05c8169d3424a45bdb17bdcb11c",
+          "wiktionary:en-good-en-adj-DXjFgHa2:259de961e521630c361b3f7d284328ca9e16a7e316c2ebc7ed1441fb58f9f9e7",
+          "wiktionary:en-good-en-adj-Dsgg1NWr:5127873c917df83a2a6f65e1de98a9bca832630bcc700ad09d3b77f2516dd648",
+          "wiktionary:en-good-en-adj-E1xge8mP:1078444b46396aaa62feb00890509589061b566198328d78144ed985be7277b6",
+          "wiktionary:en-good-en-adj-EAWgiMma:4a796a2538a910a06d6a978ee584c48f405935026b46cd97bffd84123e1bf11b",
+          "wiktionary:en-good-en-adj-HBAakWT3:120518cbe86c33f081627900e2ffb981a4cb7e5d6c8d5affa82ed9a6c346c920",
+          "wiktionary:en-good-en-adj-HegLOE2n:e4372647633f509fb8d740a4415b1b148a911195e50034b3c0312ea40405342c",
+          "wiktionary:en-good-en-adj-I4qINzIw:531bb3800bc56f10668175c2db353bfe53437b02bbf4c34738c8f10e72d49e4a",
+          "wiktionary:en-good-en-adj-JF5X6-c4:0280d9995c224a6bfeb18c08ad180250736a3eb38fce6f679c8606bc4494d9b4",
+          "wiktionary:en-good-en-adj-KLboqsqy:7b41100dbb6838324d28e453d57b1f547d381a03d8f5c2e62add6333d5d7e37f",
+          "wiktionary:en-good-en-adj-KosU7vfw:af39da8491c1c37dda400d62ae18f4afcac51a86e7b9df99f43dd6be62ffd841",
+          "wiktionary:en-good-en-adj-LyPIDH0O:b0f846777e0cf8b57b395f61dfa201cafded8542e0859b6d189949209bd00358",
+          "wiktionary:en-good-en-adj-PeGMmpHz:1e420857df2ffa6894fd4bdc905c3f4f57dc32600dddce549724406a3766f99f",
+          "wiktionary:en-good-en-adj-QGkmJWTX:12ca626574ae6b916be0d1233ac0894ce8d8032c7d50f4f38a2705db123a9366",
+          "wiktionary:en-good-en-adj-UTHHEfnP:133c9cd546f0a590b0e74b08a05357a046e45227a934dbf6faeaa0db0e523433",
+          "wiktionary:en-good-en-adj-V-VMYVAp:38ac32bd25d6dcbf61584cfd8e96acda38c1c529b2d52c5271cbc52ac9d73017",
+          "wiktionary:en-good-en-adj-cpa-fO7q:9b895ddd3c1261dd6b7504d383d916d2b4379c9de6f5aaf2bb5935a7777ab5f8",
+          "wiktionary:en-good-en-adj-dohfMxb0:b975a2d7baab8290c47268a55f79a974fbf4a9ff6202ce4ad27faaaaff1743c8",
+          "wiktionary:en-good-en-adj-dwx6-DEy:7d53b64dd4eba69e9340c65ddaa76236ca585a3405f99deba4cd48b8f2341665",
+          "wiktionary:en-good-en-adj-eUkWu25w:12dbeddf5ed1dc8d2b05429ad157b0faab78df08de78411873b7808d730c16f2",
+          "wiktionary:en-good-en-adj-fDZw0n4T:a51a564c70d6b708bc52eb3598460e38bb3b64a9d4d60966a2c1fcbdee4344e4",
+          "wiktionary:en-good-en-adj-lHRKgLaW:14b7e5bd6c9ae1faa42f9016cff90168360b8498f6c85a9e75e004002f5dd9cc",
+          "wiktionary:en-good-en-adj-oQ7DEpbG:69963677969c8ceba6b22e32fff3c94a40f3fde8c104750873a3f50ab9d6404e",
+          "wiktionary:en-good-en-adj-t~9Pyswf:df4d9b392171ed4c0204e747d987a32dd37b21e3e68f618e8c569df6157fb6ec",
+          "wiktionary:en-good-en-adj-xnvBYGgR:eefa866799f86ee5f9c05ab9ee57f4e45bdcda7a097b87e9568211d112ad5ae8",
+          "wiktionary:en-good-en-adv-qs5Y~kfT:64d00f8b70f524ae5d4dbba0adeafe7794743f466bf791e10cd4641d523892a4",
+          "wiktionary:en-good-en-intj-B~DUv~xl:87d351b6eeee7e4f725971cbcd0f986bc03de77e659f7373d240d95fbcb3f615",
+          "wiktionary:en-good-en-noun-6QkHKcqR:8165976b6c47b7f89c2e7429d1d11dc62f60857193d692f13afe2df411ead6ae",
+          "wiktionary:en-good-en-noun-EMvGcC~G:95aaeca7137641bd090a20711dbe9dc68be731ae5c4742b80345a21c395119ab",
+          "wiktionary:en-good-en-noun-T2GrqCsj:7300453be8a4bf9f68d9be7ddcd6e1c447c4223fcfd72ebab476960a91261ea7",
+          "wiktionary:en-good-en-noun-en:merchandise:6a895a8dfe58dcc71fac867607165677367b63ebfe32015bf448d9343593c15f",
+          "wiktionary:en-good-en-noun-en:property:336b044af51215261a06befe82fc2c26de0c7cabd66649c14a789dfb97c9f7c1",
+          "wiktionary:en-good-en-verb--KcWTqu6:05a6dd458b4b237494c07b7c05fd3ddc86512e2331b3657e5075613d59816193",
+          "wiktionary:en-good-en-verb-CZSR4H-0:9e7ae95702f31c3a3505685349c53035e3387a1b9fde2c7497b926b32c208783",
+          "wiktionary:en-good-en-verb-E8vhwLRA:f942787657b6b590108c01c1e3fd0da8e1d487762d3d58a724cb39e0af4a7317",
+          "wiktionary:en-good-en-verb-LSGLmfWc:62ac407fa052093a5e78006ab425101170883891dfb2b8a511d20c63a66a41bf",
+          "wiktionary:en-good-en-verb-NS-IKflg:6b7c9d64583aa4eddaef1aa224c18859b24268f360624a86edc78be682578b83",
+          "wiktionary:en-good-en-verb-PM70C-Vh:97f3450499a364f47093171609288d8912a3bbfdf911d84b7ecddc86eb56a269",
+          "wiktionary:en-good-en-verb-YaqHU58k:460cf8406eb7e2b651df13e38ff7108f8cb1a47f564f1a5831726778796371d1",
+          "wiktionary:en-good-en-verb-ZIKLmuXo:95b1f15897268bb08bce852416e1bd162d494a654036d858580fd8e3efda6f5d",
+          "wordnet:good:adept.s.01",
+          "wordnet:good:beneficial.s.01",
+          "wordnet:good:commodity.n.01",
+          "wordnet:good:dear.s.02",
+          "wordnet:good:dependable.s.03",
+          "wordnet:good:effective.s.03",
+          "wordnet:good:estimable.s.01",
+          "wordnet:good:full.s.04",
+          "wordnet:good:good.a.01",
+          "wordnet:good:good.a.03",
+          "wordnet:good:good.n.01",
+          "wordnet:good:good.n.02",
+          "wordnet:good:good.n.03",
+          "wordnet:good:good.s.04",
+          "wordnet:good:good.s.05",
+          "wordnet:good:good.s.07",
+          "wordnet:good:good.s.10",
+          "wordnet:good:good.s.11",
+          "wordnet:good:good.s.13",
+          "wordnet:good:good.s.14",
+          "wordnet:good:good.s.15",
+          "wordnet:good:good.s.16",
+          "wordnet:good:good.s.17",
+          "wordnet:good:good.s.18",
+          "wordnet:good:good.s.19",
+          "wordnet:good:thoroughly.r.02",
+          "wordnet:good:well.r.01"
+        ],
+        "source_reference": {
+          "title": "Chart of NSM Semantic Primes",
+          "version": "v20",
+          "date": "2022-05-10",
+          "path": "data/external/references/nsm-primes-chart-v20-2022.txt",
+          "url": "https://nsm-approach.net",
+          "sha256": "5847b39219381181f98a2afbfc57b149ad16cd77157ca0d205b341d1466cf732"
+        },
+        "frames": [
+          {
+            "primary_unit_id": "nsm:v20:good",
+            "source_frame_unit_id": "nsm:v20:good",
+            "source_frame": "this is good",
+            "expanded_frame": "this is good",
+            "source_record_ids": [
+              "nsm_chart:good:4c5ef47d3238b3cf70ecd5dfd29296f17ada6c99164d5daa1a8ce2acc39118df"
+            ],
+            "role_witnesses": [
+              {
+                "position": 0,
+                "source_exponent": "this",
+                "entry_id": "gse_closed_class:pronoun:this",
+                "record_id": "gse_closed_class:this:529a57d30ab89efa698c9d3a339df4e06526d077bd2e86895c7e302e6f1856e6",
+                "roles": {
+                  "SOMETHING": 1
+                }
+              }
+            ]
+          }
+        ],
+        "considered_entry_ids": [
+          "nsm_chart:v20:good",
+          "wiktionary:en-Good-en-name-DK7NWj8F:7e6d30a33bbc1bfa0ed681e3c863749fba9f6568901e2f886631d997a68d2041",
+          "wiktionary:en-Good-en-name-EMUC1F3L:046c4f329a58a2cc8a30d10d64c1d7175da20bce4a20b2c5356a5d1c66499624",
+          "wiktionary:en-Good-en-name-nFXc2s3d:cf5127b776c234f4df93ea5cf5542aee837013eef7cc290d8df81382a7bcfe15",
+          "wiktionary:en-good-en-adj-14ZwF8uH:758c3c5f8b0251076d110b7bc19a68468ab1dca2cc83da68d73ac8b59bae5db2",
+          "wiktionary:en-good-en-adj-4ghG0gvN:6d270df1be45ba75a99e3284ef1b708e3c053ae9ec52bd301015d8ac560140c0",
+          "wiktionary:en-good-en-adj-5SvqAh1Y:b031b7cef10a061aa6b1108387223ddf5d3d05a4223c6bd4583423ebce712aab",
+          "wiktionary:en-good-en-adj-6fskMeWY:2909784a436c249b6cb690f8a30c32e9b81d0ca6938344b3180cd32d18f6a2b6",
+          "wiktionary:en-good-en-adj-Ajj49j3c:8a39c119c6bf90210c48da533a5b78532ff919a59c4e84457190b39f4dbe37d1",
+          "wiktionary:en-good-en-adj-BFSYO00P:c32af0cc4551b038148956a02cff6fe5ddcce05c8169d3424a45bdb17bdcb11c",
+          "wiktionary:en-good-en-adj-DXjFgHa2:259de961e521630c361b3f7d284328ca9e16a7e316c2ebc7ed1441fb58f9f9e7",
+          "wiktionary:en-good-en-adj-Dsgg1NWr:5127873c917df83a2a6f65e1de98a9bca832630bcc700ad09d3b77f2516dd648",
+          "wiktionary:en-good-en-adj-E1xge8mP:1078444b46396aaa62feb00890509589061b566198328d78144ed985be7277b6",
+          "wiktionary:en-good-en-adj-EAWgiMma:4a796a2538a910a06d6a978ee584c48f405935026b46cd97bffd84123e1bf11b",
+          "wiktionary:en-good-en-adj-HBAakWT3:120518cbe86c33f081627900e2ffb981a4cb7e5d6c8d5affa82ed9a6c346c920",
+          "wiktionary:en-good-en-adj-HegLOE2n:e4372647633f509fb8d740a4415b1b148a911195e50034b3c0312ea40405342c",
+          "wiktionary:en-good-en-adj-I4qINzIw:531bb3800bc56f10668175c2db353bfe53437b02bbf4c34738c8f10e72d49e4a",
+          "wiktionary:en-good-en-adj-JF5X6-c4:0280d9995c224a6bfeb18c08ad180250736a3eb38fce6f679c8606bc4494d9b4",
+          "wiktionary:en-good-en-adj-KLboqsqy:7b41100dbb6838324d28e453d57b1f547d381a03d8f5c2e62add6333d5d7e37f",
+          "wiktionary:en-good-en-adj-KosU7vfw:af39da8491c1c37dda400d62ae18f4afcac51a86e7b9df99f43dd6be62ffd841",
+          "wiktionary:en-good-en-adj-LyPIDH0O:b0f846777e0cf8b57b395f61dfa201cafded8542e0859b6d189949209bd00358",
+          "wiktionary:en-good-en-adj-PeGMmpHz:1e420857df2ffa6894fd4bdc905c3f4f57dc32600dddce549724406a3766f99f",
+          "wiktionary:en-good-en-adj-QGkmJWTX:12ca626574ae6b916be0d1233ac0894ce8d8032c7d50f4f38a2705db123a9366",
+          "wiktionary:en-good-en-adj-UTHHEfnP:133c9cd546f0a590b0e74b08a05357a046e45227a934dbf6faeaa0db0e523433",
+          "wiktionary:en-good-en-adj-V-VMYVAp:38ac32bd25d6dcbf61584cfd8e96acda38c1c529b2d52c5271cbc52ac9d73017",
+          "wiktionary:en-good-en-adj-cpa-fO7q:9b895ddd3c1261dd6b7504d383d916d2b4379c9de6f5aaf2bb5935a7777ab5f8",
+          "wiktionary:en-good-en-adj-dohfMxb0:b975a2d7baab8290c47268a55f79a974fbf4a9ff6202ce4ad27faaaaff1743c8",
+          "wiktionary:en-good-en-adj-dwx6-DEy:7d53b64dd4eba69e9340c65ddaa76236ca585a3405f99deba4cd48b8f2341665",
+          "wiktionary:en-good-en-adj-eUkWu25w:12dbeddf5ed1dc8d2b05429ad157b0faab78df08de78411873b7808d730c16f2",
+          "wiktionary:en-good-en-adj-fDZw0n4T:a51a564c70d6b708bc52eb3598460e38bb3b64a9d4d60966a2c1fcbdee4344e4",
+          "wiktionary:en-good-en-adj-lHRKgLaW:14b7e5bd6c9ae1faa42f9016cff90168360b8498f6c85a9e75e004002f5dd9cc",
+          "wiktionary:en-good-en-adj-oQ7DEpbG:69963677969c8ceba6b22e32fff3c94a40f3fde8c104750873a3f50ab9d6404e",
+          "wiktionary:en-good-en-adj-t~9Pyswf:df4d9b392171ed4c0204e747d987a32dd37b21e3e68f618e8c569df6157fb6ec",
+          "wiktionary:en-good-en-adj-xnvBYGgR:eefa866799f86ee5f9c05ab9ee57f4e45bdcda7a097b87e9568211d112ad5ae8",
+          "wiktionary:en-good-en-adv-qs5Y~kfT:64d00f8b70f524ae5d4dbba0adeafe7794743f466bf791e10cd4641d523892a4",
+          "wiktionary:en-good-en-intj-B~DUv~xl:87d351b6eeee7e4f725971cbcd0f986bc03de77e659f7373d240d95fbcb3f615",
+          "wiktionary:en-good-en-noun-6QkHKcqR:8165976b6c47b7f89c2e7429d1d11dc62f60857193d692f13afe2df411ead6ae",
+          "wiktionary:en-good-en-noun-EMvGcC~G:95aaeca7137641bd090a20711dbe9dc68be731ae5c4742b80345a21c395119ab",
+          "wiktionary:en-good-en-noun-T2GrqCsj:7300453be8a4bf9f68d9be7ddcd6e1c447c4223fcfd72ebab476960a91261ea7",
+          "wiktionary:en-good-en-noun-en:merchandise:6a895a8dfe58dcc71fac867607165677367b63ebfe32015bf448d9343593c15f",
+          "wiktionary:en-good-en-noun-en:property:336b044af51215261a06befe82fc2c26de0c7cabd66649c14a789dfb97c9f7c1",
+          "wiktionary:en-good-en-verb--KcWTqu6:05a6dd458b4b237494c07b7c05fd3ddc86512e2331b3657e5075613d59816193",
+          "wiktionary:en-good-en-verb-CZSR4H-0:9e7ae95702f31c3a3505685349c53035e3387a1b9fde2c7497b926b32c208783",
+          "wiktionary:en-good-en-verb-E8vhwLRA:f942787657b6b590108c01c1e3fd0da8e1d487762d3d58a724cb39e0af4a7317",
+          "wiktionary:en-good-en-verb-LSGLmfWc:62ac407fa052093a5e78006ab425101170883891dfb2b8a511d20c63a66a41bf",
+          "wiktionary:en-good-en-verb-NS-IKflg:6b7c9d64583aa4eddaef1aa224c18859b24268f360624a86edc78be682578b83",
+          "wiktionary:en-good-en-verb-PM70C-Vh:97f3450499a364f47093171609288d8912a3bbfdf911d84b7ecddc86eb56a269",
+          "wiktionary:en-good-en-verb-YaqHU58k:460cf8406eb7e2b651df13e38ff7108f8cb1a47f564f1a5831726778796371d1",
+          "wiktionary:en-good-en-verb-ZIKLmuXo:95b1f15897268bb08bce852416e1bd162d494a654036d858580fd8e3efda6f5d",
+          "wordnet:good:adept.s.01",
+          "wordnet:good:beneficial.s.01",
+          "wordnet:good:commodity.n.01",
+          "wordnet:good:dear.s.02",
+          "wordnet:good:dependable.s.03",
+          "wordnet:good:effective.s.03",
+          "wordnet:good:estimable.s.01",
+          "wordnet:good:full.s.04",
+          "wordnet:good:good.a.01",
+          "wordnet:good:good.a.03",
+          "wordnet:good:good.n.01",
+          "wordnet:good:good.n.02",
+          "wordnet:good:good.n.03",
+          "wordnet:good:good.s.04",
+          "wordnet:good:good.s.05",
+          "wordnet:good:good.s.07",
+          "wordnet:good:good.s.10",
+          "wordnet:good:good.s.11",
+          "wordnet:good:good.s.13",
+          "wordnet:good:good.s.14",
+          "wordnet:good:good.s.15",
+          "wordnet:good:good.s.16",
+          "wordnet:good:good.s.17",
+          "wordnet:good:good.s.18",
+          "wordnet:good:good.s.19",
+          "wordnet:good:thoroughly.r.02",
+          "wordnet:good:well.r.01"
+        ]
+      }
+    },
+    {
+      "text": "That is bad.",
+      "lemma": "bad",
+      "pos": "ADJ",
+      "primitives": {
+        "GOOD": -1
+      },
+      "status": "IDENTIFIED",
+      "selected": "nsm_chart:v20:bad",
+      "proof": {
+        "code": "PRIMARY_UNIT_FRAME",
+        "entry_id": "nsm_chart:v20:bad",
+        "witness_kind": "NSM_PRIMARY_TYPED_FRAME",
+        "identity_scope": "PRIMARY_UNIT_ONLY",
+        "unresolved_ordinary_entry_ids": [
+          "wiktionary:en-bad-en-adj-08cnXjFO:2e15fdfbc8c22e529c4911747e63b3aa196a9ae6787200b3de2b65121467dc29",
+          "wiktionary:en-bad-en-adj-0LS6POzn:11aecf952ac0d7447a723fefd34366f5b9e83f1bfea9176aafc018d3ca762d9e",
+          "wiktionary:en-bad-en-adj-7swL8ZSZ:586be7c03eabf1bc239f758d079c0af68ab41384259fdbd6e8b33a8e740a5d27",
+          "wiktionary:en-bad-en-adj-DUDY64Hb:d206fdd68ea9d35be426aeca4b9bd169b6e5456613e0ba5b10d66e4d49cf171c",
+          "wiktionary:en-bad-en-adj-F5wBA20J:784668e065277cd5e952b6af4152d9ffdc95188efbb32d38107dc896de1361ff",
+          "wiktionary:en-bad-en-adj-GwlFCF-g:7066a271b97e1d28aaf24bc6f01e2dcd015f899d87242c8fe141f23654989950",
+          "wiktionary:en-bad-en-adj-H3Vm0ozO:c544b509b749c12f56359300e33121c037057b564d237ec9a41004afb1478ef9",
+          "wiktionary:en-bad-en-adj-Hy0HUv4B:13fb25036d73235d33f04346fdf6415b5a089a391e181580243259b0f4d68319",
+          "wiktionary:en-bad-en-adj-KJgtvMOC:8afb3762caa3af718c0dc90687c9ea804aae3b6dffa7695e32cd4d2a6ebb49e8",
+          "wiktionary:en-bad-en-adj-MBHAEV33:604aa4f130c5d0f8320e2ad55e2c6a389dd182fa7cfb879aee631d9a84df784a",
+          "wiktionary:en-bad-en-adj-MrMg7t2e:d7e76f6e39e17df4308f15fbbec8d33119e2acf29b75f7214a0dd2e225816de4",
+          "wiktionary:en-bad-en-adj-SW9rC2do:af6ba2c43a5754a0ab6ad5a4327e407694745cf7518d0783f6d3c31722c24e32",
+          "wiktionary:en-bad-en-adj-SnXwdCKL:0c80c33fa69e5bf10a16dd25fb2ffe61d61b9f2701923cc9c92f7ca0bc49f72d",
+          "wiktionary:en-bad-en-adj-TGNN4npe:46e784ebf3ff97608fd1997fa3e5216bebb613d998f5e8e6e16c9dcc236227f1",
+          "wiktionary:en-bad-en-adj-TuyVSUaS:7f4a8a1640b54c1a948fde64ca0bc00caea5140158f8edf19eab47ff71804092",
+          "wiktionary:en-bad-en-adj-XNszpqvG:6a889d2307a4807143cea5d614b1d5d34e53eb32150cace5bd12344d0a62d048",
+          "wiktionary:en-bad-en-adj-en:slang:727783b55af75d15cbf815c23042861044af0d7f80bcc9c62192fd8075cd9704",
+          "wiktionary:en-bad-en-adj-fcmRlZgx:4b8ceb7c5cb0e6682a9c8bda2bc2c9447fe1e51dbf831f8415d53a86cd1dfa3b",
+          "wiktionary:en-bad-en-adj-gMF4ij~S:501e1d0483f7486e7e71048e1d3d6d135f6ff94fe229a451d3f89945e7bc93b0",
+          "wiktionary:en-bad-en-adj-hcG8XBjm:b2c26b91babbef1809af4ee3b5f94056091c4fb227c5e2c446799b5ded94d2ca",
+          "wiktionary:en-bad-en-adj-ijsvB6dt:163d0306b1ba4a6d91ebdb2cacf6b5143186a759847ff5849de279e27dcdb916",
+          "wiktionary:en-bad-en-adj-iqLkZsiA:775c62b5ff5f068faf3c488fea3b658bf4f7e4e5285aecaf38110ae949a88784",
+          "wiktionary:en-bad-en-adj-l3rIkxjh:958eb057a3582b21ff32da7f81438f7040a69b9f74ddcf15653e5d061ec86921",
+          "wiktionary:en-bad-en-adj-lUDDYGqO:d4127c5f69cac867aa12bea9c063557870e976a4b1b1ac773150b92504bc69dd",
+          "wiktionary:en-bad-en-adj-n2t0cEeB:3b33e73e1a6ed6c3570cd1e969cdd5e1e33fe790a89f4b0332eb23323c9366d1",
+          "wiktionary:en-bad-en-adj-t1jo4lpP:4f5a3d5bd9d1bbd65fc29e081a17c6e474a427160594f2e8231e01081f6fbd22",
+          "wiktionary:en-bad-en-adj-wmJq5EBn:5ce9b714039232f49dfff4ebbbd3ed68375478b1a63f3f92af00d710643638ee",
+          "wiktionary:en-bad-en-adv-I9sND6lY:43e40f6583f7c4736ebe84de142518cf4f1d4100c2f7ca2a6e573e0fe96b0ee4",
+          "wiktionary:en-bad-en-adv-vZtfruQF:fb5696e4f3dae8dafb15d485e0767d4d56b7c1cd0edde9d8fa0c34d46872c5bd",
+          "wiktionary:en-bad-en-intj-JPt2mAJI:cbc4bb7256784e38d0875258f33a14b1414e4a72c57805b644b60f5c879f260a",
+          "wiktionary:en-bad-en-noun-JcRWFbXJ:e5f5e496e33e2b62a7dbd1055e3ee1870abf4735bc337d5ebb3b1a3a36df4fa1",
+          "wiktionary:en-bad-en-noun-MUlyz~ZA:82fc747ae391b832b7249461865596d5767f61220aee5b7702119be5bdcb4377",
+          "wiktionary:en-bad-en-noun-frWkBUFY:241489c23fef73a761c2ad8ef7838ad14d146b2b217be43a8788e62d2100457b",
+          "wiktionary:en-bad-en-verb-AowJq6Hs:d91f30648acf0f3efc5a2fe37c33d860c03a06609a17ad3da71135b3b36275f9",
+          "wiktionary:en-bad-en-verb-fbqJ0nkp:b928be0b2aeeb14c4715db40052ef2c83569a0139649714209b4ff3854f7bc70",
+          "wordnet:bad:bad.a.01",
+          "wordnet:bad:bad.n.01",
+          "wordnet:bad:bad.s.01",
+          "wordnet:bad:bad.s.02",
+          "wordnet:bad:bad.s.03",
+          "wordnet:bad:bad.s.04",
+          "wordnet:bad:bad.s.05",
+          "wordnet:bad:bad.s.06",
+          "wordnet:bad:bad.s.07",
+          "wordnet:bad:bad.s.08",
+          "wordnet:bad:bad.s.09",
+          "wordnet:bad:bad.s.10",
+          "wordnet:bad:bad.s.11",
+          "wordnet:bad:bad.s.12",
+          "wordnet:bad:badly.r.05",
+          "wordnet:bad:badly.r.06",
+          "wordnet:bad:regretful.a.01"
+        ],
+        "source_reference": {
+          "title": "Chart of NSM Semantic Primes",
+          "version": "v20",
+          "date": "2022-05-10",
+          "path": "data/external/references/nsm-primes-chart-v20-2022.txt",
+          "url": "https://nsm-approach.net",
+          "sha256": "5847b39219381181f98a2afbfc57b149ad16cd77157ca0d205b341d1466cf732"
+        },
+        "frames": [
+          {
+            "primary_unit_id": "nsm:v20:bad",
+            "source_frame_unit_id": "nsm:v20:bad",
+            "source_frame": "this is bad",
+            "expanded_frame": "this is bad",
+            "source_record_ids": [
+              "nsm_chart:bad:bbb05522eb694881243ea96584375a8b526554264b22c8695052860330a546f9"
+            ],
+            "role_witnesses": [
+              {
+                "position": 0,
+                "source_exponent": "this",
+                "entry_id": "gse_closed_class:pronoun:that",
+                "record_id": "gse_closed_class:that:9a45fabf841b3af13b33ff8dc2498629baf99028c6ff00a4f490cdcdb6c29259",
+                "roles": {
+                  "SOMETHING": 1
+                }
+              }
+            ]
+          }
+        ],
+        "considered_entry_ids": [
+          "nsm_chart:v20:bad",
+          "wiktionary:en-bad-en-adj-08cnXjFO:2e15fdfbc8c22e529c4911747e63b3aa196a9ae6787200b3de2b65121467dc29",
+          "wiktionary:en-bad-en-adj-0LS6POzn:11aecf952ac0d7447a723fefd34366f5b9e83f1bfea9176aafc018d3ca762d9e",
+          "wiktionary:en-bad-en-adj-7swL8ZSZ:586be7c03eabf1bc239f758d079c0af68ab41384259fdbd6e8b33a8e740a5d27",
+          "wiktionary:en-bad-en-adj-DUDY64Hb:d206fdd68ea9d35be426aeca4b9bd169b6e5456613e0ba5b10d66e4d49cf171c",
+          "wiktionary:en-bad-en-adj-F5wBA20J:784668e065277cd5e952b6af4152d9ffdc95188efbb32d38107dc896de1361ff",
+          "wiktionary:en-bad-en-adj-GwlFCF-g:7066a271b97e1d28aaf24bc6f01e2dcd015f899d87242c8fe141f23654989950",
+          "wiktionary:en-bad-en-adj-H3Vm0ozO:c544b509b749c12f56359300e33121c037057b564d237ec9a41004afb1478ef9",
+          "wiktionary:en-bad-en-adj-Hy0HUv4B:13fb25036d73235d33f04346fdf6415b5a089a391e181580243259b0f4d68319",
+          "wiktionary:en-bad-en-adj-KJgtvMOC:8afb3762caa3af718c0dc90687c9ea804aae3b6dffa7695e32cd4d2a6ebb49e8",
+          "wiktionary:en-bad-en-adj-MBHAEV33:604aa4f130c5d0f8320e2ad55e2c6a389dd182fa7cfb879aee631d9a84df784a",
+          "wiktionary:en-bad-en-adj-MrMg7t2e:d7e76f6e39e17df4308f15fbbec8d33119e2acf29b75f7214a0dd2e225816de4",
+          "wiktionary:en-bad-en-adj-SW9rC2do:af6ba2c43a5754a0ab6ad5a4327e407694745cf7518d0783f6d3c31722c24e32",
+          "wiktionary:en-bad-en-adj-SnXwdCKL:0c80c33fa69e5bf10a16dd25fb2ffe61d61b9f2701923cc9c92f7ca0bc49f72d",
+          "wiktionary:en-bad-en-adj-TGNN4npe:46e784ebf3ff97608fd1997fa3e5216bebb613d998f5e8e6e16c9dcc236227f1",
+          "wiktionary:en-bad-en-adj-TuyVSUaS:7f4a8a1640b54c1a948fde64ca0bc00caea5140158f8edf19eab47ff71804092",
+          "wiktionary:en-bad-en-adj-XNszpqvG:6a889d2307a4807143cea5d614b1d5d34e53eb32150cace5bd12344d0a62d048",
+          "wiktionary:en-bad-en-adj-en:slang:727783b55af75d15cbf815c23042861044af0d7f80bcc9c62192fd8075cd9704",
+          "wiktionary:en-bad-en-adj-fcmRlZgx:4b8ceb7c5cb0e6682a9c8bda2bc2c9447fe1e51dbf831f8415d53a86cd1dfa3b",
+          "wiktionary:en-bad-en-adj-gMF4ij~S:501e1d0483f7486e7e71048e1d3d6d135f6ff94fe229a451d3f89945e7bc93b0",
+          "wiktionary:en-bad-en-adj-hcG8XBjm:b2c26b91babbef1809af4ee3b5f94056091c4fb227c5e2c446799b5ded94d2ca",
+          "wiktionary:en-bad-en-adj-ijsvB6dt:163d0306b1ba4a6d91ebdb2cacf6b5143186a759847ff5849de279e27dcdb916",
+          "wiktionary:en-bad-en-adj-iqLkZsiA:775c62b5ff5f068faf3c488fea3b658bf4f7e4e5285aecaf38110ae949a88784",
+          "wiktionary:en-bad-en-adj-l3rIkxjh:958eb057a3582b21ff32da7f81438f7040a69b9f74ddcf15653e5d061ec86921",
+          "wiktionary:en-bad-en-adj-lUDDYGqO:d4127c5f69cac867aa12bea9c063557870e976a4b1b1ac773150b92504bc69dd",
+          "wiktionary:en-bad-en-adj-n2t0cEeB:3b33e73e1a6ed6c3570cd1e969cdd5e1e33fe790a89f4b0332eb23323c9366d1",
+          "wiktionary:en-bad-en-adj-t1jo4lpP:4f5a3d5bd9d1bbd65fc29e081a17c6e474a427160594f2e8231e01081f6fbd22",
+          "wiktionary:en-bad-en-adj-wmJq5EBn:5ce9b714039232f49dfff4ebbbd3ed68375478b1a63f3f92af00d710643638ee",
+          "wiktionary:en-bad-en-adv-I9sND6lY:43e40f6583f7c4736ebe84de142518cf4f1d4100c2f7ca2a6e573e0fe96b0ee4",
+          "wiktionary:en-bad-en-adv-vZtfruQF:fb5696e4f3dae8dafb15d485e0767d4d56b7c1cd0edde9d8fa0c34d46872c5bd",
+          "wiktionary:en-bad-en-intj-JPt2mAJI:cbc4bb7256784e38d0875258f33a14b1414e4a72c57805b644b60f5c879f260a",
+          "wiktionary:en-bad-en-noun-JcRWFbXJ:e5f5e496e33e2b62a7dbd1055e3ee1870abf4735bc337d5ebb3b1a3a36df4fa1",
+          "wiktionary:en-bad-en-noun-MUlyz~ZA:82fc747ae391b832b7249461865596d5767f61220aee5b7702119be5bdcb4377",
+          "wiktionary:en-bad-en-noun-frWkBUFY:241489c23fef73a761c2ad8ef7838ad14d146b2b217be43a8788e62d2100457b",
+          "wiktionary:en-bad-en-verb-AowJq6Hs:d91f30648acf0f3efc5a2fe37c33d860c03a06609a17ad3da71135b3b36275f9",
+          "wiktionary:en-bad-en-verb-fbqJ0nkp:b928be0b2aeeb14c4715db40052ef2c83569a0139649714209b4ff3854f7bc70",
+          "wordnet:bad:bad.a.01",
+          "wordnet:bad:bad.n.01",
+          "wordnet:bad:bad.s.01",
+          "wordnet:bad:bad.s.02",
+          "wordnet:bad:bad.s.03",
+          "wordnet:bad:bad.s.04",
+          "wordnet:bad:bad.s.05",
+          "wordnet:bad:bad.s.06",
+          "wordnet:bad:bad.s.07",
+          "wordnet:bad:bad.s.08",
+          "wordnet:bad:bad.s.09",
+          "wordnet:bad:bad.s.10",
+          "wordnet:bad:bad.s.11",
+          "wordnet:bad:bad.s.12",
+          "wordnet:bad:badly.r.05",
+          "wordnet:bad:badly.r.06",
+          "wordnet:bad:regretful.a.01"
+        ]
+      }
+    },
+    {
+      "text": "Something big.",
+      "lemma": "big",
+      "pos": "ADV",
+      "primitives": {
+        "BIG": 1
+      },
+      "status": "IDENTIFIED",
+      "selected": "nsm_chart:v20:big",
+      "proof": {
+        "code": "PRIMARY_UNIT_FRAME",
+        "entry_id": "nsm_chart:v20:big",
+        "witness_kind": "NSM_PRIMARY_TYPED_FRAME",
+        "identity_scope": "PRIMARY_UNIT_ONLY",
+        "unresolved_ordinary_entry_ids": [
+          "wiktionary:en-BIG-en-noun-FPxIlTc2:914b6a4ec9cec52484d1a2462f1ccf40e22e33c31e68169b7be68e150cedd3c1",
+          "wiktionary:en-BIG-en-phrase-zGM6YpE4:e2d32f33a276937ea34d65ac421097384f250e510195b92b2ea1aa791e875165",
+          "wiktionary:en-big-en-adj-3NVYw~o~:4eda2958fe159e4b4a89be7e8f001a2a0aeaf8cc13af715d608f398aaa677dc2",
+          "wiktionary:en-big-en-adj-9QH9~OGL:5b2dccf2b90a4f90f6a0eefaa5aba217f7b222a2a938e514bf16049af9210cca",
+          "wiktionary:en-big-en-adj-Dl4ZDk4c:583033019e08ede63409c618c01069275555ab3861e58735edd346477bcb09df",
+          "wiktionary:en-big-en-adj-IeDviAsE:05e3404ad56987952b2192870304b22ef335da511f113f2fd84d1460207faa59",
+          "wiktionary:en-big-en-adj-JCeNSTGl:f8e6cc60df21ec04d67a92d11d1d5a1cf2acca01421d68be07aa1b8009f5182d",
+          "wiktionary:en-big-en-adj-Nb9m-UwY:e40c4358561c92c52e858a13e69e4dd2ebb6d0dc116c0ab425d689d203c422df",
+          "wiktionary:en-big-en-adj-ObruIgUg:04008ec1b026d0f69180b18048e115836f4229dc0a2fc0b433cde12ce36db93a",
+          "wiktionary:en-big-en-adj-ScfRXCNP:8646e325eb7b16a9e7f183b41edb56eecf90306c01bda1945dfa8824c8a1f150",
+          "wiktionary:en-big-en-adj-en:big_of:36222901f431cb38a148c70d3a8a63f47578a30841037457fbce516788227efc",
+          "wiktionary:en-big-en-adj-hPuQw5No:a0532aee497f391f971baf685953e3ed7d1c8ed3aed3176112abc97d87971100",
+          "wiktionary:en-big-en-adj-iHDnOhIM:116d046a13fc2245dec6dd7dad9a3ee797db722b3b03aa40ecc1b0afb0ea6f34",
+          "wiktionary:en-big-en-adj-wlsyJvi6:043329343d8af396dffd2154048a297ef7b3027f3a720dfddbb2ecf42072d993",
+          "wiktionary:en-big-en-adj-xZ5~v--3:3659fe33924874067bb9713ba72c691822aaaedc0b1a2fd51bff2a77daeb803e",
+          "wiktionary:en-big-en-adj-xvNFfH~v:4e2a2277f429a3cb731578446d5d9cf073b81489ddecb83c65e97c34881de594",
+          "wiktionary:en-big-en-adj-~v7jWDeQ:9f6afc28179515653c28f0a56d492119973ec1f49ab2d7b3cd8887850e920a43",
+          "wiktionary:en-big-en-adv-AETu9NPr:21eaaae22522a74caef3ff415ef5f1efed47554d8c62607dbc15a6e88ddc80b3",
+          "wiktionary:en-big-en-adv-CSFaGn~c:f0afae656fcdfa18b670195fd078a3038ce91b3bafc8a33644524c08c69e968d",
+          "wiktionary:en-big-en-adv-INCYSWYl:b88f397f3e230fc9456a57a278d19ad37ed5f4d7be276d39f4ce200ccc236dac",
+          "wiktionary:en-big-en-adv-MhgMOJlC:6d6c17b362efa8f2b65164d9cb87c297c444fef11e01b5b9097b15c5c3dfcc9b",
+          "wiktionary:en-big-en-adv-T0QSsCW9:31457c065830829cdb6d8e864f802b2df46941b99a83fd36f17ce6a6c4ca49df",
+          "wiktionary:en-big-en-adv-Xi8vgd~J:6561f939f16c4664f5259df8fdb63b08601dce04e37f30628aaea8e5a0d7e1da",
+          "wiktionary:en-big-en-noun-5B4kTqxY:c973db0f300cba6c5fe6fe5e6480e256ead714c77888c750b7486bdbd793e7b0",
+          "wiktionary:en-big-en-noun-BKMHQ--r:5d1b92b98298a3e03d96ea999b30e3855acdb5ae7052cb40e6fc814863c292b4",
+          "wiktionary:en-big-en-noun-U2FMWDIs:6a3fb13d2f93bfe7a78155e3d903920bb3ee18316b9df267672c43738c5c72ae",
+          "wiktionary:en-big-en-noun-UdAMgYZp:548bd6dd1ae5ef46fae0a04d22e0d5ae8329cc28b6e8e03e739e2b2ec9e78805",
+          "wiktionary:en-big-en-noun-f5m7ojI2:7459cc277295e0500c4de432b1fba15d093fd75436db5107c99210a7ed62933f",
+          "wiktionary:en-big-en-noun-mq0ZNlXu:11ee73c2b34ac1040301924af8146826070ac06ea931c640a49f81158e950f9f",
+          "wiktionary:en-big-en-verb-3lQN0c6q:6c6c51c87a992953dbee217620b814fcfda5fb3afac422fff239c660929e5a36",
+          "wiktionary:en-big-en-verb-DXA0zQ8a:aec063b7a02edcd78c5526bfa65c15cae473fe7f1cfa8cad31bb7fe3f8b42661",
+          "wiktionary:en-big-en-verb-LP1vu6kF:8779fc04614b0a64015f0cbb957df93818acb80c0fa66438ff00e7a61a1f6426",
+          "wiktionary:en-big-en-verb-t9vu4XOj:dd2163ced8093cb8d29a25d428e8e2cb57b8d812fb15385c06b5840073f8e3f6",
+          "wordnet:big:adult.s.01",
+          "wordnet:big:bad.s.01",
+          "wordnet:big:big.r.01",
+          "wordnet:big:big.r.03",
+          "wordnet:big:big.r.04",
+          "wordnet:big:big.s.01",
+          "wordnet:big:big.s.03",
+          "wordnet:big:big.s.04",
+          "wordnet:big:big.s.05",
+          "wordnet:big:big.s.07",
+          "wordnet:big:big.s.09",
+          "wordnet:big:big.s.10",
+          "wordnet:big:big.s.11",
+          "wordnet:big:big.s.12",
+          "wordnet:big:boastful.s.01",
+          "wordnet:big:boastfully.r.01",
+          "wordnet:big:large.a.01"
+        ],
+        "source_reference": {
+          "title": "Chart of NSM Semantic Primes",
+          "version": "v20",
+          "date": "2022-05-10",
+          "path": "data/external/references/nsm-primes-chart-v20-2022.txt",
+          "url": "https://nsm-approach.net",
+          "sha256": "5847b39219381181f98a2afbfc57b149ad16cd77157ca0d205b341d1466cf732"
+        },
+        "frames": [
+          {
+            "primary_unit_id": "nsm:v20:big",
+            "source_frame_unit_id": "nsm:v20:something",
+            "source_frame": "something big, something small",
+            "expanded_frame": "something big",
+            "source_record_ids": [
+              "nsm_chart:big:97de87e17de2eeea572105bffb22f2c8eb96725e9f9417fd2046867de570d1f7"
+            ],
+            "role_witnesses": [
+              {
+                "position": 0,
+                "source_exponent": "something",
+                "entry_id": "gse_closed_class:pronoun:something",
+                "record_id": "gse_closed_class:something:4c7bbbcf7d67bded28522de5247f1fb7ef00f9dabe889eb86b7718e943befcd5",
+                "roles": {
+                  "SOMETHING": 1
+                }
+              }
+            ]
+          },
+          {
+            "primary_unit_id": "nsm:v20:big",
+            "source_frame_unit_id": "nsm:v20:big",
+            "source_frame": "something big",
+            "expanded_frame": "something big",
+            "source_record_ids": [
+              "nsm_chart:big:97de87e17de2eeea572105bffb22f2c8eb96725e9f9417fd2046867de570d1f7"
+            ],
+            "role_witnesses": [
+              {
+                "position": 0,
+                "source_exponent": "something",
+                "entry_id": "gse_closed_class:pronoun:something",
+                "record_id": "gse_closed_class:something:4c7bbbcf7d67bded28522de5247f1fb7ef00f9dabe889eb86b7718e943befcd5",
+                "roles": {
+                  "SOMETHING": 1
+                }
+              }
+            ]
+          }
+        ],
+        "considered_entry_ids": [
+          "nsm_chart:v20:big",
+          "wiktionary:en-BIG-en-noun-FPxIlTc2:914b6a4ec9cec52484d1a2462f1ccf40e22e33c31e68169b7be68e150cedd3c1",
+          "wiktionary:en-BIG-en-phrase-zGM6YpE4:e2d32f33a276937ea34d65ac421097384f250e510195b92b2ea1aa791e875165",
+          "wiktionary:en-big-en-adj-3NVYw~o~:4eda2958fe159e4b4a89be7e8f001a2a0aeaf8cc13af715d608f398aaa677dc2",
+          "wiktionary:en-big-en-adj-9QH9~OGL:5b2dccf2b90a4f90f6a0eefaa5aba217f7b222a2a938e514bf16049af9210cca",
+          "wiktionary:en-big-en-adj-Dl4ZDk4c:583033019e08ede63409c618c01069275555ab3861e58735edd346477bcb09df",
+          "wiktionary:en-big-en-adj-IeDviAsE:05e3404ad56987952b2192870304b22ef335da511f113f2fd84d1460207faa59",
+          "wiktionary:en-big-en-adj-JCeNSTGl:f8e6cc60df21ec04d67a92d11d1d5a1cf2acca01421d68be07aa1b8009f5182d",
+          "wiktionary:en-big-en-adj-Nb9m-UwY:e40c4358561c92c52e858a13e69e4dd2ebb6d0dc116c0ab425d689d203c422df",
+          "wiktionary:en-big-en-adj-ObruIgUg:04008ec1b026d0f69180b18048e115836f4229dc0a2fc0b433cde12ce36db93a",
+          "wiktionary:en-big-en-adj-ScfRXCNP:8646e325eb7b16a9e7f183b41edb56eecf90306c01bda1945dfa8824c8a1f150",
+          "wiktionary:en-big-en-adj-en:big_of:36222901f431cb38a148c70d3a8a63f47578a30841037457fbce516788227efc",
+          "wiktionary:en-big-en-adj-hPuQw5No:a0532aee497f391f971baf685953e3ed7d1c8ed3aed3176112abc97d87971100",
+          "wiktionary:en-big-en-adj-iHDnOhIM:116d046a13fc2245dec6dd7dad9a3ee797db722b3b03aa40ecc1b0afb0ea6f34",
+          "wiktionary:en-big-en-adj-wlsyJvi6:043329343d8af396dffd2154048a297ef7b3027f3a720dfddbb2ecf42072d993",
+          "wiktionary:en-big-en-adj-xZ5~v--3:3659fe33924874067bb9713ba72c691822aaaedc0b1a2fd51bff2a77daeb803e",
+          "wiktionary:en-big-en-adj-xvNFfH~v:4e2a2277f429a3cb731578446d5d9cf073b81489ddecb83c65e97c34881de594",
+          "wiktionary:en-big-en-adj-~v7jWDeQ:9f6afc28179515653c28f0a56d492119973ec1f49ab2d7b3cd8887850e920a43",
+          "wiktionary:en-big-en-adv-AETu9NPr:21eaaae22522a74caef3ff415ef5f1efed47554d8c62607dbc15a6e88ddc80b3",
+          "wiktionary:en-big-en-adv-CSFaGn~c:f0afae656fcdfa18b670195fd078a3038ce91b3bafc8a33644524c08c69e968d",
+          "wiktionary:en-big-en-adv-INCYSWYl:b88f397f3e230fc9456a57a278d19ad37ed5f4d7be276d39f4ce200ccc236dac",
+          "wiktionary:en-big-en-adv-MhgMOJlC:6d6c17b362efa8f2b65164d9cb87c297c444fef11e01b5b9097b15c5c3dfcc9b",
+          "wiktionary:en-big-en-adv-T0QSsCW9:31457c065830829cdb6d8e864f802b2df46941b99a83fd36f17ce6a6c4ca49df",
+          "wiktionary:en-big-en-adv-Xi8vgd~J:6561f939f16c4664f5259df8fdb63b08601dce04e37f30628aaea8e5a0d7e1da",
+          "wiktionary:en-big-en-noun-5B4kTqxY:c973db0f300cba6c5fe6fe5e6480e256ead714c77888c750b7486bdbd793e7b0",
+          "wiktionary:en-big-en-noun-BKMHQ--r:5d1b92b98298a3e03d96ea999b30e3855acdb5ae7052cb40e6fc814863c292b4",
+          "wiktionary:en-big-en-noun-U2FMWDIs:6a3fb13d2f93bfe7a78155e3d903920bb3ee18316b9df267672c43738c5c72ae",
+          "wiktionary:en-big-en-noun-UdAMgYZp:548bd6dd1ae5ef46fae0a04d22e0d5ae8329cc28b6e8e03e739e2b2ec9e78805",
+          "wiktionary:en-big-en-noun-f5m7ojI2:7459cc277295e0500c4de432b1fba15d093fd75436db5107c99210a7ed62933f",
+          "wiktionary:en-big-en-noun-mq0ZNlXu:11ee73c2b34ac1040301924af8146826070ac06ea931c640a49f81158e950f9f",
+          "wiktionary:en-big-en-verb-3lQN0c6q:6c6c51c87a992953dbee217620b814fcfda5fb3afac422fff239c660929e5a36",
+          "wiktionary:en-big-en-verb-DXA0zQ8a:aec063b7a02edcd78c5526bfa65c15cae473fe7f1cfa8cad31bb7fe3f8b42661",
+          "wiktionary:en-big-en-verb-LP1vu6kF:8779fc04614b0a64015f0cbb957df93818acb80c0fa66438ff00e7a61a1f6426",
+          "wiktionary:en-big-en-verb-t9vu4XOj:dd2163ced8093cb8d29a25d428e8e2cb57b8d812fb15385c06b5840073f8e3f6",
+          "wordnet:big:adult.s.01",
+          "wordnet:big:bad.s.01",
+          "wordnet:big:big.r.01",
+          "wordnet:big:big.r.03",
+          "wordnet:big:big.r.04",
+          "wordnet:big:big.s.01",
+          "wordnet:big:big.s.03",
+          "wordnet:big:big.s.04",
+          "wordnet:big:big.s.05",
+          "wordnet:big:big.s.07",
+          "wordnet:big:big.s.09",
+          "wordnet:big:big.s.10",
+          "wordnet:big:big.s.11",
+          "wordnet:big:big.s.12",
+          "wordnet:big:boastful.s.01",
+          "wordnet:big:boastfully.r.01",
+          "wordnet:big:large.a.01"
+        ]
+      }
+    },
+    {
+      "text": "Something small.",
+      "lemma": "small",
+      "pos": "ADV",
+      "primitives": {
+        "BIG": -1
+      },
+      "status": "IDENTIFIED",
+      "selected": "nsm_chart:v20:small",
+      "proof": {
+        "code": "PRIMARY_UNIT_FRAME",
+        "entry_id": "nsm_chart:v20:small",
+        "witness_kind": "NSM_PRIMARY_TYPED_FRAME",
+        "identity_scope": "PRIMARY_UNIT_ONLY",
+        "unresolved_ordinary_entry_ids": [
+          "wiktionary:en-Small-en-name-EMUC1F3L:428fcc2f8bee85d251c7e6aeb1324b30abd5aeceb1fd91f16af537f4efbbe568",
+          "wiktionary:en-small-en-adj-3b5rNUeS:c217388e45e384ff858dd2035c79fb1d963ccd2b4064e65578473dd2df213402",
+          "wiktionary:en-small-en-adj-4ALi1jKM:87ff8ac2b0118330d07b999e6ca1a93cde25164d722319a79523cbdb9e49c712",
+          "wiktionary:en-small-en-adj-GjFvP2UX:33272445c5d3c478b901916c8cb87ae6b4be6cbfa9a902df56075852c6970922",
+          "wiktionary:en-small-en-adj-KIqwj5ib:a2ef1bc41ccb57c4edbc4a15da95313f9351f5fbe06ee62b4c387a967095f7b9",
+          "wiktionary:en-small-en-adj-TXacF~FI:7992124aa1e08fc9316cdab6253119e4a0f064d218e7167761d174425a974930",
+          "wiktionary:en-small-en-adj-f-VXzuXe:73a3f17c26f328e75866bd288c427e164f9a881deb89ab5595bbf42e4504a97f",
+          "wiktionary:en-small-en-adj-gzBYf9nZ:dc13eee5751a45d5ee26b7b05013960341d495e24932eb2e5066997d9a8445f3",
+          "wiktionary:en-small-en-adj-h8vNEsXL:e59391130bf4dbc553c78c1d51ce34f4ae5539fd3c5a9dbeab6cc3fb44a1e806",
+          "wiktionary:en-small-en-adj-l4~k7zf9:04fed887230d8c38252d5b88138064397592c10c609b94b449dc1dadf14d7f30",
+          "wiktionary:en-small-en-adj-nEo-jwr~:44e03b18a7fe7135a9b4c685c3f3e0b747343e09b13dbecfccbd26dbfa9cbc3f",
+          "wiktionary:en-small-en-adv-MO~WAqQJ:1f0b83cb01164407c697df9d3ead2305b60f307ecd71e4035b6fe825baeab12c",
+          "wiktionary:en-small-en-adv-V~MgphNM:9a32eb7c032b88012003ee567e40b80f5eb40bec0759989d6e8a00eb84f522cb",
+          "wiktionary:en-small-en-adv-d~Zi~Lde:79f44cd7dc4215b8cb424408effd02f38a6bdae123f1d446e94671c018c8c3df",
+          "wiktionary:en-small-en-adv-nHpMadsJ:21c2275759ec9d19cecd68afc6c64d3e98e90b2747678404aaf1c003d35ea02c",
+          "wiktionary:en-small-en-noun-ALjGdZOa:0685c01112508f9787494d117155de08236be6ff1c001c22fd98da7680f8ddd4",
+          "wiktionary:en-small-en-noun-Gy716R3K:a9c72c2ba6c29181a6b56e46c5178d45d4adba925c2451d953c93dfa79182a3c",
+          "wiktionary:en-small-en-noun-eNgfiYWk:bbc4a7edd31dd8faf2ebd31fadd72f3dd8796185d98351ebefbb5a7d66bd3e2e",
+          "wiktionary:en-small-en-noun-kqVWj0Lc:c1b25c33defd3b3da55bbb3e03461e44c3ffe2fdcb007643eb9dc219ad14a46c",
+          "wiktionary:en-small-en-verb-6SAdJBs7:0d1526e9c7f4055c069c40ec9357f42c034144a909c116450fba3c26c7280131",
+          "wiktionary:en-small-en-verb-wGiXLQVN:344622ed9709e008a03bfeed89af1ef94c96e85fa96a58eb21f0a8015b5e6aca",
+          "wordnet:small:belittled.s.01",
+          "wordnet:small:humble.s.01",
+          "wordnet:small:little.s.01",
+          "wordnet:small:little.s.03",
+          "wordnet:small:little.s.04",
+          "wordnet:small:minor.s.03",
+          "wordnet:small:modest.s.01",
+          "wordnet:small:small.a.01",
+          "wordnet:small:small.n.01",
+          "wordnet:small:small.n.02",
+          "wordnet:small:small.r.01",
+          "wordnet:small:small.s.03",
+          "wordnet:small:small.s.07"
+        ],
+        "source_reference": {
+          "title": "Chart of NSM Semantic Primes",
+          "version": "v20",
+          "date": "2022-05-10",
+          "path": "data/external/references/nsm-primes-chart-v20-2022.txt",
+          "url": "https://nsm-approach.net",
+          "sha256": "5847b39219381181f98a2afbfc57b149ad16cd77157ca0d205b341d1466cf732"
+        },
+        "frames": [
+          {
+            "primary_unit_id": "nsm:v20:small",
+            "source_frame_unit_id": "nsm:v20:something",
+            "source_frame": "something big, something small",
+            "expanded_frame": "something small",
+            "source_record_ids": [
+              "nsm_chart:small:701217e5a548217ec5746ec75e1a2b25b073e84d05e3b30f4e1fe58e8116f4f3"
+            ],
+            "role_witnesses": [
+              {
+                "position": 0,
+                "source_exponent": "something",
+                "entry_id": "gse_closed_class:pronoun:something",
+                "record_id": "gse_closed_class:something:4c7bbbcf7d67bded28522de5247f1fb7ef00f9dabe889eb86b7718e943befcd5",
+                "roles": {
+                  "SOMETHING": 1
+                }
+              }
+            ]
+          },
+          {
+            "primary_unit_id": "nsm:v20:small",
+            "source_frame_unit_id": "nsm:v20:small",
+            "source_frame": "something small",
+            "expanded_frame": "something small",
+            "source_record_ids": [
+              "nsm_chart:small:701217e5a548217ec5746ec75e1a2b25b073e84d05e3b30f4e1fe58e8116f4f3"
+            ],
+            "role_witnesses": [
+              {
+                "position": 0,
+                "source_exponent": "something",
+                "entry_id": "gse_closed_class:pronoun:something",
+                "record_id": "gse_closed_class:something:4c7bbbcf7d67bded28522de5247f1fb7ef00f9dabe889eb86b7718e943befcd5",
+                "roles": {
+                  "SOMETHING": 1
+                }
+              }
+            ]
+          }
+        ],
+        "considered_entry_ids": [
+          "nsm_chart:v20:small",
+          "wiktionary:en-Small-en-name-EMUC1F3L:428fcc2f8bee85d251c7e6aeb1324b30abd5aeceb1fd91f16af537f4efbbe568",
+          "wiktionary:en-small-en-adj-3b5rNUeS:c217388e45e384ff858dd2035c79fb1d963ccd2b4064e65578473dd2df213402",
+          "wiktionary:en-small-en-adj-4ALi1jKM:87ff8ac2b0118330d07b999e6ca1a93cde25164d722319a79523cbdb9e49c712",
+          "wiktionary:en-small-en-adj-GjFvP2UX:33272445c5d3c478b901916c8cb87ae6b4be6cbfa9a902df56075852c6970922",
+          "wiktionary:en-small-en-adj-KIqwj5ib:a2ef1bc41ccb57c4edbc4a15da95313f9351f5fbe06ee62b4c387a967095f7b9",
+          "wiktionary:en-small-en-adj-TXacF~FI:7992124aa1e08fc9316cdab6253119e4a0f064d218e7167761d174425a974930",
+          "wiktionary:en-small-en-adj-f-VXzuXe:73a3f17c26f328e75866bd288c427e164f9a881deb89ab5595bbf42e4504a97f",
+          "wiktionary:en-small-en-adj-gzBYf9nZ:dc13eee5751a45d5ee26b7b05013960341d495e24932eb2e5066997d9a8445f3",
+          "wiktionary:en-small-en-adj-h8vNEsXL:e59391130bf4dbc553c78c1d51ce34f4ae5539fd3c5a9dbeab6cc3fb44a1e806",
+          "wiktionary:en-small-en-adj-l4~k7zf9:04fed887230d8c38252d5b88138064397592c10c609b94b449dc1dadf14d7f30",
+          "wiktionary:en-small-en-adj-nEo-jwr~:44e03b18a7fe7135a9b4c685c3f3e0b747343e09b13dbecfccbd26dbfa9cbc3f",
+          "wiktionary:en-small-en-adv-MO~WAqQJ:1f0b83cb01164407c697df9d3ead2305b60f307ecd71e4035b6fe825baeab12c",
+          "wiktionary:en-small-en-adv-V~MgphNM:9a32eb7c032b88012003ee567e40b80f5eb40bec0759989d6e8a00eb84f522cb",
+          "wiktionary:en-small-en-adv-d~Zi~Lde:79f44cd7dc4215b8cb424408effd02f38a6bdae123f1d446e94671c018c8c3df",
+          "wiktionary:en-small-en-adv-nHpMadsJ:21c2275759ec9d19cecd68afc6c64d3e98e90b2747678404aaf1c003d35ea02c",
+          "wiktionary:en-small-en-noun-ALjGdZOa:0685c01112508f9787494d117155de08236be6ff1c001c22fd98da7680f8ddd4",
+          "wiktionary:en-small-en-noun-Gy716R3K:a9c72c2ba6c29181a6b56e46c5178d45d4adba925c2451d953c93dfa79182a3c",
+          "wiktionary:en-small-en-noun-eNgfiYWk:bbc4a7edd31dd8faf2ebd31fadd72f3dd8796185d98351ebefbb5a7d66bd3e2e",
+          "wiktionary:en-small-en-noun-kqVWj0Lc:c1b25c33defd3b3da55bbb3e03461e44c3ffe2fdcb007643eb9dc219ad14a46c",
+          "wiktionary:en-small-en-verb-6SAdJBs7:0d1526e9c7f4055c069c40ec9357f42c034144a909c116450fba3c26c7280131",
+          "wiktionary:en-small-en-verb-wGiXLQVN:344622ed9709e008a03bfeed89af1ef94c96e85fa96a58eb21f0a8015b5e6aca",
+          "wordnet:small:belittled.s.01",
+          "wordnet:small:humble.s.01",
+          "wordnet:small:little.s.01",
+          "wordnet:small:little.s.03",
+          "wordnet:small:little.s.04",
+          "wordnet:small:minor.s.03",
+          "wordnet:small:modest.s.01",
+          "wordnet:small:small.a.01",
+          "wordnet:small:small.n.01",
+          "wordnet:small:small.n.02",
+          "wordnet:small:small.r.01",
+          "wordnet:small:small.s.03",
+          "wordnet:small:small.s.07"
+        ]
+      }
+    },
+    {
+      "text": "She feels the cloth.",
+      "lemma": "feel",
+      "pos": "VERB",
+      "primitives": {},
+      "status": "AMBIGUOUS",
+      "selected": null,
+      "proof": {
+        "code": "NO_DEFINITION_CONSTRUCTION_WITNESS",
+        "considered_entry_ids": [
+          "nsm_chart:v20:feel",
+          "wiktionary:en-feel-en-adj-ce1Bi~xZ:940d93e89a65398b4d6bfe8691a36db88f93ab17d5029f3a4b2556377c11c797",
+          "wiktionary:en-feel-en-adv-ce1Bi~xZ:9cfa5df0ca878bff4f2d04c939d3e89ddbdefb10db54d1d810c62a32bc5d21f0",
+          "wiktionary:en-feel-en-noun-4L7tZb2h:61cd16d3b26b051c21958f75971b711353e6225bfc6f180d3fd0ed99ee51f9cc",
+          "wiktionary:en-feel-en-noun-Olq6m1dq:83a334bbdf76b9b4ee5707f71e009e7257c9af88e779c067514636a57a2ca319",
+          "wiktionary:en-feel-en-noun-Up~NAfic:4f5c792c741146d06f93153e973b34abfba96c0a1ba6b6cdc0277ddb5707d674",
+          "wiktionary:en-feel-en-noun-iHdu8v7u:97884e1792a1b93fc9f0f83f283a0c67888e9f163f652d3029a7d607a69fb17e",
+          "wiktionary:en-feel-en-noun-jlaoiApR:99a63fc4504a9cc6149d930f3d92c383d6f1ee266baaaa870dd5c574f3b335ec",
+          "wiktionary:en-feel-en-noun-pVJMq~ge:dfb0db7fd1781e9acc2a1e37da0ce92015be0c42d359cd4d21a02706c088b20d",
+          "wiktionary:en-feel-en-noun-uCaOwF4y:1c00bb63ae47281ca4e50fedee02268f4af04522e71a4746510d26d3f5ce6c3a",
+          "wiktionary:en-feel-en-pron-ce1Bi~xZ:9e30694077b1b7a862c70cf9e2641c13e52d309fbc046f28b87ba9f37a6d7da8",
+          "wiktionary:en-feel-en-verb--piOs68e:27ab22f050f4a0384f81f13b14fb05f821ba4b3ee87d2e2487487d38e4e7682c",
+          "wiktionary:en-feel-en-verb-1VIeL30n:a1c0c6454afa6e982d760505887d393353cf68339a7df4a1b0a625983a9d4818",
+          "wiktionary:en-feel-en-verb-286A18TU:b025f11d4955a532e96f728f53bd895a97d0605b4479b7dfcd4f0287bc113fc7",
+          "wiktionary:en-feel-en-verb-DucWMMDr:9957367c4a5134f4530e73e17e1b9ec8b704856f29443fabb69fb97f3e4c9144",
+          "wiktionary:en-feel-en-verb-LPSebaOE:15b782247e0248aebf8009ff1a5eff31990fe75378e92de715fb2adab4b79e90",
+          "wiktionary:en-feel-en-verb-PTRm-AOe:f6ad0e714b1f141f3e4cdd373b0861895db74cb424862de63aad2f9d0b22c191",
+          "wiktionary:en-feel-en-verb-a1zzQ-Zz:bfb5cac2ec92f78115f16ad8841d486ede91bde99c068db5f0ca469d7e08d2bb",
+          "wiktionary:en-feel-en-verb-b-T4HZ0j:5188f944bb1c3ab830fd74f89f30dcf1afeb07e1a673adcb7c1d273861e6bf9a",
+          "wiktionary:en-feel-en-verb-en:understand:5793e8d8f39b03629af90ab451940025d7dac84fd0d2dffeda9e3ce4d3cfc645",
+          "wiktionary:en-feel-en-verb-f7W03HxP:8d6dcc1de2cd9a714223f7993805021cabd217200f2642fe985c02b33aaf49ac",
+          "wiktionary:en-feel-en-verb-iWbuWusk:f03b219580708579c7fb15b768d26796342c4c51652526890f63a5817b2c9335",
+          "wiktionary:en-feel-en-verb-tgMfGkNX:1c8758eabccac1a6ac2ef599874bce66b97e4854b51a8e475413d5261bf832b8",
+          "wordnet:feel:feel.n.01",
+          "wordnet:feel:feel.n.04",
+          "wordnet:feel:feel.v.01",
+          "wordnet:feel:feel.v.03",
+          "wordnet:feel:feel.v.04",
+          "wordnet:feel:feel.v.05",
+          "wordnet:feel:feel.v.06",
+          "wordnet:feel:feel.v.07",
+          "wordnet:feel:feel.v.08",
+          "wordnet:feel:feel.v.09",
+          "wordnet:feel:feel.v.11",
+          "wordnet:feel:feel.v.12",
+          "wordnet:feel:feel.v.13",
+          "wordnet:feel:find.v.05",
+          "wordnet:feel:palpate.v.01",
+          "wordnet:feel:spirit.n.02",
+          "wordnet:feel:tactile_property.n.01"
+        ]
+      }
+    },
+    {
+      "text": "They hear a case.",
+      "lemma": "hear",
+      "pos": "VERB",
+      "primitives": {},
+      "status": "AMBIGUOUS",
+      "selected": null,
+      "proof": {
+        "code": "NO_DEFINITION_CONSTRUCTION_WITNESS",
+        "considered_entry_ids": [
+          "wiktionary:en-hear-en-intj-ubvqFQeI:3846beceee148b492da9e92e753990e367fa89b93c8f178785863130e040f5b6",
+          "wiktionary:en-hear-en-verb-4JqS5mQt:40f5a9ba48a6bb42d54dafafd484c4b1d360bd49a6058eeb61a94eaef1993ba2",
+          "wiktionary:en-hear-en-verb-DPG6et1c:0288430ddca8c00540706cd4f218feba338bd570e76ea84ed9d3c3fc0acab331",
+          "wiktionary:en-hear-en-verb-KV~~N6R2:004c961e77ffae7fef557a670d85fc777940cec89cc369c00d02d1377c30f872",
+          "wiktionary:en-hear-en-verb-PFZRJWmP:5baacdedfed95bc3b8303086d655c5c0e3f2d2cc1ac100ec6b86743cc6b7a263",
+          "wiktionary:en-hear-en-verb-Ys6mnjfP:578a86864d543ec4950616c7fe7f2a5efac5a343ac63d88f61b99d435940bad2",
+          "wiktionary:en-hear-en-verb-kXRF~SxA:33c47abd8a686a522b17b78ff1609223798c96be38935a53bd157f9c087169bd",
+          "wiktionary:en-hear-en-verb-pUNjqi0T:c754d256f07060a5d0fbce471ab74af16795bdc2fd83a261bc547b59ae22bf72",
+          "wiktionary:en-hear-en-verb-qnwCLKFX:4018ca56a8c3a8ff1fe09043bb4fe46e4cfc6c46b2b5fc13b426d7f51494ce89",
+          "wiktionary:en-hear-en-verb-vMkfbI2P:462f42433a1515c4cc717c598baff54170e0f5d077cd27b1236da8c7d1bed9de",
+          "wordnet:hear:hear.v.01",
+          "wordnet:hear:hear.v.03",
+          "wordnet:hear:hear.v.04",
+          "wordnet:hear:learn.v.02",
+          "wordnet:hear:listen.v.02"
+        ]
+      }
+    },
+    {
+      "text": "You do something about it.",
+      "lemma": "do",
+      "pos": "AUX",
+      "primitives": {
+        "DO": 1,
+        "HAPPEN": 1
+      },
+      "status": "IDENTIFIED",
+      "selected": "gse_closed_class:auxiliary:do",
+      "proof": null
+    },
+    {
+      "text": "She feels good about this.",
+      "lemma": "feel",
+      "pos": "VERB",
+      "primitives": {},
+      "status": "AMBIGUOUS",
+      "selected": null,
+      "proof": {
+        "code": "NO_DEFINITION_CONSTRUCTION_WITNESS",
+        "considered_entry_ids": [
+          "nsm_chart:v20:feel",
+          "wiktionary:en-feel-en-adj-ce1Bi~xZ:940d93e89a65398b4d6bfe8691a36db88f93ab17d5029f3a4b2556377c11c797",
+          "wiktionary:en-feel-en-adv-ce1Bi~xZ:9cfa5df0ca878bff4f2d04c939d3e89ddbdefb10db54d1d810c62a32bc5d21f0",
+          "wiktionary:en-feel-en-noun-4L7tZb2h:61cd16d3b26b051c21958f75971b711353e6225bfc6f180d3fd0ed99ee51f9cc",
+          "wiktionary:en-feel-en-noun-Olq6m1dq:83a334bbdf76b9b4ee5707f71e009e7257c9af88e779c067514636a57a2ca319",
+          "wiktionary:en-feel-en-noun-Up~NAfic:4f5c792c741146d06f93153e973b34abfba96c0a1ba6b6cdc0277ddb5707d674",
+          "wiktionary:en-feel-en-noun-iHdu8v7u:97884e1792a1b93fc9f0f83f283a0c67888e9f163f652d3029a7d607a69fb17e",
+          "wiktionary:en-feel-en-noun-jlaoiApR:99a63fc4504a9cc6149d930f3d92c383d6f1ee266baaaa870dd5c574f3b335ec",
+          "wiktionary:en-feel-en-noun-pVJMq~ge:dfb0db7fd1781e9acc2a1e37da0ce92015be0c42d359cd4d21a02706c088b20d",
+          "wiktionary:en-feel-en-noun-uCaOwF4y:1c00bb63ae47281ca4e50fedee02268f4af04522e71a4746510d26d3f5ce6c3a",
+          "wiktionary:en-feel-en-pron-ce1Bi~xZ:9e30694077b1b7a862c70cf9e2641c13e52d309fbc046f28b87ba9f37a6d7da8",
+          "wiktionary:en-feel-en-verb--piOs68e:27ab22f050f4a0384f81f13b14fb05f821ba4b3ee87d2e2487487d38e4e7682c",
+          "wiktionary:en-feel-en-verb-1VIeL30n:a1c0c6454afa6e982d760505887d393353cf68339a7df4a1b0a625983a9d4818",
+          "wiktionary:en-feel-en-verb-286A18TU:b025f11d4955a532e96f728f53bd895a97d0605b4479b7dfcd4f0287bc113fc7",
+          "wiktionary:en-feel-en-verb-DucWMMDr:9957367c4a5134f4530e73e17e1b9ec8b704856f29443fabb69fb97f3e4c9144",
+          "wiktionary:en-feel-en-verb-LPSebaOE:15b782247e0248aebf8009ff1a5eff31990fe75378e92de715fb2adab4b79e90",
+          "wiktionary:en-feel-en-verb-PTRm-AOe:f6ad0e714b1f141f3e4cdd373b0861895db74cb424862de63aad2f9d0b22c191",
+          "wiktionary:en-feel-en-verb-a1zzQ-Zz:bfb5cac2ec92f78115f16ad8841d486ede91bde99c068db5f0ca469d7e08d2bb",
+          "wiktionary:en-feel-en-verb-b-T4HZ0j:5188f944bb1c3ab830fd74f89f30dcf1afeb07e1a673adcb7c1d273861e6bf9a",
+          "wiktionary:en-feel-en-verb-en:understand:5793e8d8f39b03629af90ab451940025d7dac84fd0d2dffeda9e3ce4d3cfc645",
+          "wiktionary:en-feel-en-verb-f7W03HxP:8d6dcc1de2cd9a714223f7993805021cabd217200f2642fe985c02b33aaf49ac",
+          "wiktionary:en-feel-en-verb-iWbuWusk:f03b219580708579c7fb15b768d26796342c4c51652526890f63a5817b2c9335",
+          "wiktionary:en-feel-en-verb-tgMfGkNX:1c8758eabccac1a6ac2ef599874bce66b97e4854b51a8e475413d5261bf832b8",
+          "wordnet:feel:feel.n.01",
+          "wordnet:feel:feel.n.04",
+          "wordnet:feel:feel.v.01",
+          "wordnet:feel:feel.v.03",
+          "wordnet:feel:feel.v.04",
+          "wordnet:feel:feel.v.05",
+          "wordnet:feel:feel.v.06",
+          "wordnet:feel:feel.v.07",
+          "wordnet:feel:feel.v.08",
+          "wordnet:feel:feel.v.09",
+          "wordnet:feel:feel.v.11",
+          "wordnet:feel:feel.v.12",
+          "wordnet:feel:feel.v.13",
+          "wordnet:feel:find.v.05",
+          "wordnet:feel:palpate.v.01",
+          "wordnet:feel:spirit.n.02",
+          "wordnet:feel:tactile_property.n.01"
+        ]
+      }
+    },
+    {
+      "text": "He moved the proposal.",
+      "lemma": "move",
+      "pos": "VERB",
+      "primitives": {},
+      "status": "AMBIGUOUS",
+      "selected": null,
+      "proof": {
+        "code": "NO_DEFINITION_CONSTRUCTION_WITNESS",
+        "considered_entry_ids": [
+          "nsm_chart:v20:move",
+          "wiktionary:en-move-en-noun-2530CUJs:ef5db0ef1c39a814692a3067661e657ccc0f4699bbfeba687ecc88dfab721c30",
+          "wiktionary:en-move-en-noun-9TK5z4RG:80682777f901af91dee617c0c1e1336a1ce6bd7ebd9d991a60e2cde6ffa6bc04",
+          "wiktionary:en-move-en-noun-JCdsVdl~:b06493520385e930a544f905f51b0ea4e34a26bafc90a287155371fcff1ebf00",
+          "wiktionary:en-move-en-noun-W77xOrA8:040516eb55ba14810df64f4a0669b88da5c880bb20d5b194d3de9bf502bef932",
+          "wiktionary:en-move-en-noun-WXhnHCRY:bc564bdba444d92fafcce7399d1aa183e12c0a3880306f8fe7c1c7f75fac2daa",
+          "wiktionary:en-move-en-noun-WuObAMft:f37788d61b33390e15ebb0d557fe668bf449d5c973189bb8edc212db62694b02",
+          "wiktionary:en-move-en-noun-l3slsImU:46d3a88054b4534b6a86319d22b47145bd56919fd9e79ca0a09d7d7418ef6b53",
+          "wiktionary:en-move-en-noun-xUAOXx8k:23ab1e6cd48eb89a1ac89a60b6c2fce4d7b229c19b0f202e04cbb50f5986020e",
+          "wiktionary:en-move-en-noun-xho8yx51:4f779d5b00194661a36e0ee172f6d1f6d0407cd169bcf70d236692b88e400923",
+          "wiktionary:en-move-en-verb-29weZNPF:7cdb7365f040142048bf24b17b7652d69058211e2c99ee4e41a8b0cd913e5b7f",
+          "wiktionary:en-move-en-verb-2KcJEnOx:506968b41629a0d6371d48a9d2598847ccf0af0987ae0d7a7f462aa1523a28b9",
+          "wiktionary:en-move-en-verb-7IDQfv0n:baa0e79a7dd6ff66512f25515479f676495f2ed718ed727ab2e172548d59e9b1",
+          "wiktionary:en-move-en-verb-AKPiBGe4:6a59ffec00cd22cf3a79c124ba1fb5799d6b70f1fb16728333612320bf82da4d",
+          "wiktionary:en-move-en-verb-Cs4N4EKe:a8647ae65738b512187399736d416dd922f573c580c3feb3bcb0c75f3a54df96",
+          "wiktionary:en-move-en-verb-NFezCmHK:10d5e0277514da8a52afc937729edd2cd83acf0066be745b6b08f326b7d0bfba",
+          "wiktionary:en-move-en-verb-QV-xPJl0:059ef43913bd6afbdcb821249cc007cf1f41f9e878a88238bf0d21a39d454594",
+          "wiktionary:en-move-en-verb-Tl4C8jYj:39215fe83bbd5c4bfec9be532d1d046cdad89016c63cb42eae7b93b2513d4ab8",
+          "wiktionary:en-move-en-verb-VWRn2IZc:c5f48785f21887e6b8040a9ab94d048b05b104b03b011bfbcb1722a3e4f8d842",
+          "wiktionary:en-move-en-verb-WpZo6G8y:d6e3f813dab4025e00ee2286c807fb44732c2316696778284941bf5ca84b5138",
+          "wiktionary:en-move-en-verb-XvLeGiaJ:5916f7d72ae20d617086bc4dd422c7e6bbdf34f6912c3b8e6077b77bc6da7d81",
+          "wiktionary:en-move-en-verb-edXvpdDb:61fe8bb2f63bf516e715f027878e7e8c7afda955d1524ec3d5e3b699d9d63d67",
+          "wiktionary:en-move-en-verb-en:affect_emotionally:b483a57f6d6d48393c9a8730ff5b959aa610621a0503e87c8170f937cba8b296",
+          "wiktionary:en-move-en-verb-en:to_change_residence:8243f05d338e77920053ebca658c798f49b39f8bb952eaa213044436110b78c4",
+          "wiktionary:en-move-en-verb-pfKdOqkg:61235313a144ac4fa98e405e6d836ec3242004ac65a6710a86926a46e1adfc01",
+          "wiktionary:en-move-en-verb-vqPHRUoa:df8d88f066888f8e4e64215c28f6c8b78aacb94779dc281a0998f0fe02d0f516",
+          "wordnet:move:act.v.01",
+          "wordnet:move:affect.v.05",
+          "wordnet:move:be_active.v.01",
+          "wordnet:move:go.v.02",
+          "wordnet:move:motion.n.03",
+          "wordnet:move:motion.n.06",
+          "wordnet:move:motivate.v.01",
+          "wordnet:move:move.n.01",
+          "wordnet:move:move.n.02",
+          "wordnet:move:move.n.05",
+          "wordnet:move:move.v.02",
+          "wordnet:move:move.v.03",
+          "wordnet:move:move.v.04",
+          "wordnet:move:move.v.07",
+          "wordnet:move:move.v.11",
+          "wordnet:move:move.v.12",
+          "wordnet:move:move.v.13",
+          "wordnet:move:move.v.14",
+          "wordnet:move:move.v.15",
+          "wordnet:move:move.v.16",
+          "wordnet:move:travel.v.01"
+        ]
+      }
+    },
+    {
+      "text": "A good ten miles.",
+      "lemma": "good",
+      "pos": "ADJ",
+      "primitives": {},
+      "status": "AMBIGUOUS",
+      "selected": null,
+      "proof": {
+        "code": "NO_DEFINITION_CONSTRUCTION_WITNESS",
+        "considered_entry_ids": [
+          "nsm_chart:v20:good",
+          "wiktionary:en-Good-en-name-DK7NWj8F:7e6d30a33bbc1bfa0ed681e3c863749fba9f6568901e2f886631d997a68d2041",
+          "wiktionary:en-Good-en-name-EMUC1F3L:046c4f329a58a2cc8a30d10d64c1d7175da20bce4a20b2c5356a5d1c66499624",
+          "wiktionary:en-Good-en-name-nFXc2s3d:cf5127b776c234f4df93ea5cf5542aee837013eef7cc290d8df81382a7bcfe15",
+          "wiktionary:en-good-en-adj-14ZwF8uH:758c3c5f8b0251076d110b7bc19a68468ab1dca2cc83da68d73ac8b59bae5db2",
+          "wiktionary:en-good-en-adj-4ghG0gvN:6d270df1be45ba75a99e3284ef1b708e3c053ae9ec52bd301015d8ac560140c0",
+          "wiktionary:en-good-en-adj-5SvqAh1Y:b031b7cef10a061aa6b1108387223ddf5d3d05a4223c6bd4583423ebce712aab",
+          "wiktionary:en-good-en-adj-6fskMeWY:2909784a436c249b6cb690f8a30c32e9b81d0ca6938344b3180cd32d18f6a2b6",
+          "wiktionary:en-good-en-adj-Ajj49j3c:8a39c119c6bf90210c48da533a5b78532ff919a59c4e84457190b39f4dbe37d1",
+          "wiktionary:en-good-en-adj-BFSYO00P:c32af0cc4551b038148956a02cff6fe5ddcce05c8169d3424a45bdb17bdcb11c",
+          "wiktionary:en-good-en-adj-DXjFgHa2:259de961e521630c361b3f7d284328ca9e16a7e316c2ebc7ed1441fb58f9f9e7",
+          "wiktionary:en-good-en-adj-Dsgg1NWr:5127873c917df83a2a6f65e1de98a9bca832630bcc700ad09d3b77f2516dd648",
+          "wiktionary:en-good-en-adj-E1xge8mP:1078444b46396aaa62feb00890509589061b566198328d78144ed985be7277b6",
+          "wiktionary:en-good-en-adj-EAWgiMma:4a796a2538a910a06d6a978ee584c48f405935026b46cd97bffd84123e1bf11b",
+          "wiktionary:en-good-en-adj-HBAakWT3:120518cbe86c33f081627900e2ffb981a4cb7e5d6c8d5affa82ed9a6c346c920",
+          "wiktionary:en-good-en-adj-HegLOE2n:e4372647633f509fb8d740a4415b1b148a911195e50034b3c0312ea40405342c",
+          "wiktionary:en-good-en-adj-I4qINzIw:531bb3800bc56f10668175c2db353bfe53437b02bbf4c34738c8f10e72d49e4a",
+          "wiktionary:en-good-en-adj-JF5X6-c4:0280d9995c224a6bfeb18c08ad180250736a3eb38fce6f679c8606bc4494d9b4",
+          "wiktionary:en-good-en-adj-KLboqsqy:7b41100dbb6838324d28e453d57b1f547d381a03d8f5c2e62add6333d5d7e37f",
+          "wiktionary:en-good-en-adj-KosU7vfw:af39da8491c1c37dda400d62ae18f4afcac51a86e7b9df99f43dd6be62ffd841",
+          "wiktionary:en-good-en-adj-LyPIDH0O:b0f846777e0cf8b57b395f61dfa201cafded8542e0859b6d189949209bd00358",
+          "wiktionary:en-good-en-adj-PeGMmpHz:1e420857df2ffa6894fd4bdc905c3f4f57dc32600dddce549724406a3766f99f",
+          "wiktionary:en-good-en-adj-QGkmJWTX:12ca626574ae6b916be0d1233ac0894ce8d8032c7d50f4f38a2705db123a9366",
+          "wiktionary:en-good-en-adj-UTHHEfnP:133c9cd546f0a590b0e74b08a05357a046e45227a934dbf6faeaa0db0e523433",
+          "wiktionary:en-good-en-adj-V-VMYVAp:38ac32bd25d6dcbf61584cfd8e96acda38c1c529b2d52c5271cbc52ac9d73017",
+          "wiktionary:en-good-en-adj-cpa-fO7q:9b895ddd3c1261dd6b7504d383d916d2b4379c9de6f5aaf2bb5935a7777ab5f8",
+          "wiktionary:en-good-en-adj-dohfMxb0:b975a2d7baab8290c47268a55f79a974fbf4a9ff6202ce4ad27faaaaff1743c8",
+          "wiktionary:en-good-en-adj-dwx6-DEy:7d53b64dd4eba69e9340c65ddaa76236ca585a3405f99deba4cd48b8f2341665",
+          "wiktionary:en-good-en-adj-eUkWu25w:12dbeddf5ed1dc8d2b05429ad157b0faab78df08de78411873b7808d730c16f2",
+          "wiktionary:en-good-en-adj-fDZw0n4T:a51a564c70d6b708bc52eb3598460e38bb3b64a9d4d60966a2c1fcbdee4344e4",
+          "wiktionary:en-good-en-adj-lHRKgLaW:14b7e5bd6c9ae1faa42f9016cff90168360b8498f6c85a9e75e004002f5dd9cc",
+          "wiktionary:en-good-en-adj-oQ7DEpbG:69963677969c8ceba6b22e32fff3c94a40f3fde8c104750873a3f50ab9d6404e",
+          "wiktionary:en-good-en-adj-t~9Pyswf:df4d9b392171ed4c0204e747d987a32dd37b21e3e68f618e8c569df6157fb6ec",
+          "wiktionary:en-good-en-adj-xnvBYGgR:eefa866799f86ee5f9c05ab9ee57f4e45bdcda7a097b87e9568211d112ad5ae8",
+          "wiktionary:en-good-en-adv-qs5Y~kfT:64d00f8b70f524ae5d4dbba0adeafe7794743f466bf791e10cd4641d523892a4",
+          "wiktionary:en-good-en-intj-B~DUv~xl:87d351b6eeee7e4f725971cbcd0f986bc03de77e659f7373d240d95fbcb3f615",
+          "wiktionary:en-good-en-noun-6QkHKcqR:8165976b6c47b7f89c2e7429d1d11dc62f60857193d692f13afe2df411ead6ae",
+          "wiktionary:en-good-en-noun-EMvGcC~G:95aaeca7137641bd090a20711dbe9dc68be731ae5c4742b80345a21c395119ab",
+          "wiktionary:en-good-en-noun-T2GrqCsj:7300453be8a4bf9f68d9be7ddcd6e1c447c4223fcfd72ebab476960a91261ea7",
+          "wiktionary:en-good-en-noun-en:merchandise:6a895a8dfe58dcc71fac867607165677367b63ebfe32015bf448d9343593c15f",
+          "wiktionary:en-good-en-noun-en:property:336b044af51215261a06befe82fc2c26de0c7cabd66649c14a789dfb97c9f7c1",
+          "wiktionary:en-good-en-verb--KcWTqu6:05a6dd458b4b237494c07b7c05fd3ddc86512e2331b3657e5075613d59816193",
+          "wiktionary:en-good-en-verb-CZSR4H-0:9e7ae95702f31c3a3505685349c53035e3387a1b9fde2c7497b926b32c208783",
+          "wiktionary:en-good-en-verb-E8vhwLRA:f942787657b6b590108c01c1e3fd0da8e1d487762d3d58a724cb39e0af4a7317",
+          "wiktionary:en-good-en-verb-LSGLmfWc:62ac407fa052093a5e78006ab425101170883891dfb2b8a511d20c63a66a41bf",
+          "wiktionary:en-good-en-verb-NS-IKflg:6b7c9d64583aa4eddaef1aa224c18859b24268f360624a86edc78be682578b83",
+          "wiktionary:en-good-en-verb-PM70C-Vh:97f3450499a364f47093171609288d8912a3bbfdf911d84b7ecddc86eb56a269",
+          "wiktionary:en-good-en-verb-YaqHU58k:460cf8406eb7e2b651df13e38ff7108f8cb1a47f564f1a5831726778796371d1",
+          "wiktionary:en-good-en-verb-ZIKLmuXo:95b1f15897268bb08bce852416e1bd162d494a654036d858580fd8e3efda6f5d",
+          "wordnet:good:adept.s.01",
+          "wordnet:good:beneficial.s.01",
+          "wordnet:good:commodity.n.01",
+          "wordnet:good:dear.s.02",
+          "wordnet:good:dependable.s.03",
+          "wordnet:good:effective.s.03",
+          "wordnet:good:estimable.s.01",
+          "wordnet:good:full.s.04",
+          "wordnet:good:good.a.01",
+          "wordnet:good:good.a.03",
+          "wordnet:good:good.n.01",
+          "wordnet:good:good.n.02",
+          "wordnet:good:good.n.03",
+          "wordnet:good:good.s.04",
+          "wordnet:good:good.s.05",
+          "wordnet:good:good.s.07",
+          "wordnet:good:good.s.10",
+          "wordnet:good:good.s.11",
+          "wordnet:good:good.s.13",
+          "wordnet:good:good.s.14",
+          "wordnet:good:good.s.15",
+          "wordnet:good:good.s.16",
+          "wordnet:good:good.s.17",
+          "wordnet:good:good.s.18",
+          "wordnet:good:good.s.19",
+          "wordnet:good:thoroughly.r.02",
+          "wordnet:good:well.r.01"
+        ]
+      }
+    },
+    {
+      "text": "This is very good.",
+      "lemma": "good",
+      "pos": "ADJ",
+      "primitives": {},
+      "status": "AMBIGUOUS",
+      "selected": null,
+      "proof": {
+        "code": "NO_DEFINITION_CONSTRUCTION_WITNESS",
+        "considered_entry_ids": [
+          "nsm_chart:v20:good",
+          "wiktionary:en-Good-en-name-DK7NWj8F:7e6d30a33bbc1bfa0ed681e3c863749fba9f6568901e2f886631d997a68d2041",
+          "wiktionary:en-Good-en-name-EMUC1F3L:046c4f329a58a2cc8a30d10d64c1d7175da20bce4a20b2c5356a5d1c66499624",
+          "wiktionary:en-Good-en-name-nFXc2s3d:cf5127b776c234f4df93ea5cf5542aee837013eef7cc290d8df81382a7bcfe15",
+          "wiktionary:en-good-en-adj-14ZwF8uH:758c3c5f8b0251076d110b7bc19a68468ab1dca2cc83da68d73ac8b59bae5db2",
+          "wiktionary:en-good-en-adj-4ghG0gvN:6d270df1be45ba75a99e3284ef1b708e3c053ae9ec52bd301015d8ac560140c0",
+          "wiktionary:en-good-en-adj-5SvqAh1Y:b031b7cef10a061aa6b1108387223ddf5d3d05a4223c6bd4583423ebce712aab",
+          "wiktionary:en-good-en-adj-6fskMeWY:2909784a436c249b6cb690f8a30c32e9b81d0ca6938344b3180cd32d18f6a2b6",
+          "wiktionary:en-good-en-adj-Ajj49j3c:8a39c119c6bf90210c48da533a5b78532ff919a59c4e84457190b39f4dbe37d1",
+          "wiktionary:en-good-en-adj-BFSYO00P:c32af0cc4551b038148956a02cff6fe5ddcce05c8169d3424a45bdb17bdcb11c",
+          "wiktionary:en-good-en-adj-DXjFgHa2:259de961e521630c361b3f7d284328ca9e16a7e316c2ebc7ed1441fb58f9f9e7",
+          "wiktionary:en-good-en-adj-Dsgg1NWr:5127873c917df83a2a6f65e1de98a9bca832630bcc700ad09d3b77f2516dd648",
+          "wiktionary:en-good-en-adj-E1xge8mP:1078444b46396aaa62feb00890509589061b566198328d78144ed985be7277b6",
+          "wiktionary:en-good-en-adj-EAWgiMma:4a796a2538a910a06d6a978ee584c48f405935026b46cd97bffd84123e1bf11b",
+          "wiktionary:en-good-en-adj-HBAakWT3:120518cbe86c33f081627900e2ffb981a4cb7e5d6c8d5affa82ed9a6c346c920",
+          "wiktionary:en-good-en-adj-HegLOE2n:e4372647633f509fb8d740a4415b1b148a911195e50034b3c0312ea40405342c",
+          "wiktionary:en-good-en-adj-I4qINzIw:531bb3800bc56f10668175c2db353bfe53437b02bbf4c34738c8f10e72d49e4a",
+          "wiktionary:en-good-en-adj-JF5X6-c4:0280d9995c224a6bfeb18c08ad180250736a3eb38fce6f679c8606bc4494d9b4",
+          "wiktionary:en-good-en-adj-KLboqsqy:7b41100dbb6838324d28e453d57b1f547d381a03d8f5c2e62add6333d5d7e37f",
+          "wiktionary:en-good-en-adj-KosU7vfw:af39da8491c1c37dda400d62ae18f4afcac51a86e7b9df99f43dd6be62ffd841",
+          "wiktionary:en-good-en-adj-LyPIDH0O:b0f846777e0cf8b57b395f61dfa201cafded8542e0859b6d189949209bd00358",
+          "wiktionary:en-good-en-adj-PeGMmpHz:1e420857df2ffa6894fd4bdc905c3f4f57dc32600dddce549724406a3766f99f",
+          "wiktionary:en-good-en-adj-QGkmJWTX:12ca626574ae6b916be0d1233ac0894ce8d8032c7d50f4f38a2705db123a9366",
+          "wiktionary:en-good-en-adj-UTHHEfnP:133c9cd546f0a590b0e74b08a05357a046e45227a934dbf6faeaa0db0e523433",
+          "wiktionary:en-good-en-adj-V-VMYVAp:38ac32bd25d6dcbf61584cfd8e96acda38c1c529b2d52c5271cbc52ac9d73017",
+          "wiktionary:en-good-en-adj-cpa-fO7q:9b895ddd3c1261dd6b7504d383d916d2b4379c9de6f5aaf2bb5935a7777ab5f8",
+          "wiktionary:en-good-en-adj-dohfMxb0:b975a2d7baab8290c47268a55f79a974fbf4a9ff6202ce4ad27faaaaff1743c8",
+          "wiktionary:en-good-en-adj-dwx6-DEy:7d53b64dd4eba69e9340c65ddaa76236ca585a3405f99deba4cd48b8f2341665",
+          "wiktionary:en-good-en-adj-eUkWu25w:12dbeddf5ed1dc8d2b05429ad157b0faab78df08de78411873b7808d730c16f2",
+          "wiktionary:en-good-en-adj-fDZw0n4T:a51a564c70d6b708bc52eb3598460e38bb3b64a9d4d60966a2c1fcbdee4344e4",
+          "wiktionary:en-good-en-adj-lHRKgLaW:14b7e5bd6c9ae1faa42f9016cff90168360b8498f6c85a9e75e004002f5dd9cc",
+          "wiktionary:en-good-en-adj-oQ7DEpbG:69963677969c8ceba6b22e32fff3c94a40f3fde8c104750873a3f50ab9d6404e",
+          "wiktionary:en-good-en-adj-t~9Pyswf:df4d9b392171ed4c0204e747d987a32dd37b21e3e68f618e8c569df6157fb6ec",
+          "wiktionary:en-good-en-adj-xnvBYGgR:eefa866799f86ee5f9c05ab9ee57f4e45bdcda7a097b87e9568211d112ad5ae8",
+          "wiktionary:en-good-en-adv-qs5Y~kfT:64d00f8b70f524ae5d4dbba0adeafe7794743f466bf791e10cd4641d523892a4",
+          "wiktionary:en-good-en-intj-B~DUv~xl:87d351b6eeee7e4f725971cbcd0f986bc03de77e659f7373d240d95fbcb3f615",
+          "wiktionary:en-good-en-noun-6QkHKcqR:8165976b6c47b7f89c2e7429d1d11dc62f60857193d692f13afe2df411ead6ae",
+          "wiktionary:en-good-en-noun-EMvGcC~G:95aaeca7137641bd090a20711dbe9dc68be731ae5c4742b80345a21c395119ab",
+          "wiktionary:en-good-en-noun-T2GrqCsj:7300453be8a4bf9f68d9be7ddcd6e1c447c4223fcfd72ebab476960a91261ea7",
+          "wiktionary:en-good-en-noun-en:merchandise:6a895a8dfe58dcc71fac867607165677367b63ebfe32015bf448d9343593c15f",
+          "wiktionary:en-good-en-noun-en:property:336b044af51215261a06befe82fc2c26de0c7cabd66649c14a789dfb97c9f7c1",
+          "wiktionary:en-good-en-verb--KcWTqu6:05a6dd458b4b237494c07b7c05fd3ddc86512e2331b3657e5075613d59816193",
+          "wiktionary:en-good-en-verb-CZSR4H-0:9e7ae95702f31c3a3505685349c53035e3387a1b9fde2c7497b926b32c208783",
+          "wiktionary:en-good-en-verb-E8vhwLRA:f942787657b6b590108c01c1e3fd0da8e1d487762d3d58a724cb39e0af4a7317",
+          "wiktionary:en-good-en-verb-LSGLmfWc:62ac407fa052093a5e78006ab425101170883891dfb2b8a511d20c63a66a41bf",
+          "wiktionary:en-good-en-verb-NS-IKflg:6b7c9d64583aa4eddaef1aa224c18859b24268f360624a86edc78be682578b83",
+          "wiktionary:en-good-en-verb-PM70C-Vh:97f3450499a364f47093171609288d8912a3bbfdf911d84b7ecddc86eb56a269",
+          "wiktionary:en-good-en-verb-YaqHU58k:460cf8406eb7e2b651df13e38ff7108f8cb1a47f564f1a5831726778796371d1",
+          "wiktionary:en-good-en-verb-ZIKLmuXo:95b1f15897268bb08bce852416e1bd162d494a654036d858580fd8e3efda6f5d",
+          "wordnet:good:adept.s.01",
+          "wordnet:good:beneficial.s.01",
+          "wordnet:good:commodity.n.01",
+          "wordnet:good:dear.s.02",
+          "wordnet:good:dependable.s.03",
+          "wordnet:good:effective.s.03",
+          "wordnet:good:estimable.s.01",
+          "wordnet:good:full.s.04",
+          "wordnet:good:good.a.01",
+          "wordnet:good:good.a.03",
+          "wordnet:good:good.n.01",
+          "wordnet:good:good.n.02",
+          "wordnet:good:good.n.03",
+          "wordnet:good:good.s.04",
+          "wordnet:good:good.s.05",
+          "wordnet:good:good.s.07",
+          "wordnet:good:good.s.10",
+          "wordnet:good:good.s.11",
+          "wordnet:good:good.s.13",
+          "wordnet:good:good.s.14",
+          "wordnet:good:good.s.15",
+          "wordnet:good:good.s.16",
+          "wordnet:good:good.s.17",
+          "wordnet:good:good.s.18",
+          "wordnet:good:good.s.19",
+          "wordnet:good:thoroughly.r.02",
+          "wordnet:good:well.r.01"
+        ]
+      }
+    }
+  ]
+}

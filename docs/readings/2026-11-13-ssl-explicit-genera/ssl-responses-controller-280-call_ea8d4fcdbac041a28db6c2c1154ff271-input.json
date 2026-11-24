@@ -1,0 +1,5 @@
+{
+  "command": "python - <<'PY'\nfrom pathlib import Path\nimport json\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-controller-self-boundary-job.log','ssl-api-controller-self-boundary-exit.json','ssl-api-controller-source-freeze.json']:\n p=n/name; print(name, p.read_text() if p.exists() else 'PENDING')\np=Path('/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/Semantic_Specification_Learning/07_GSE_LEXICON_NSM_WORKING_DRAFT.md');t=p.read_text();start=t.index('#### Checkpoint-first execution and durable controller evidence');end=t.find('\\n#### ',start+5);print(t[start:end if end>=0 else None])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

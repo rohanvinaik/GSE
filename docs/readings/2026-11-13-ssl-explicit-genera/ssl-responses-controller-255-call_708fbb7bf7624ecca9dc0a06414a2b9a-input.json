@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport json,ast\np=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nq=p/'ssl-responses-controller-steering.json'; x=json.loads(q.read_text()) if q.exists() else {};print('STEERING KEYS',list(x));print(json.dumps({k:v for k,v in x.items() if k not in ['instruction','handoff','user_instruction','user','owner_intent'] and len(json.dumps(v))<18000},indent=2))\nfor name in ['ssl-api-controller-basis-warrant.md','ssl-root-canonical-prime-projection-review.json','ssl-api-controller-root-handoff.json','ssl-api-controller-blockers.json']:\n print('\\nFILE',name); print((p/name).read_text())\nfor path in ['GSE/curation/lexicon_builder/source_enrichment.py','GSE/curation/lexicon_builder/storage.py','GSE/curation/lexicon_builder/validation.py']:\n t=ast.parse(Path(path).read_text());print('AST',path,[(n.name,n.lineno,n.end_lineno) for n in t.body if isinstance(n,(ast.FunctionDef,ast.ClassDef))])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

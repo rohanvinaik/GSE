@@ -1,0 +1,149 @@
+{
+  "format": "GSE.runtime-complete-operation-observation-cases/1",
+  "frozen_at_utc": "2026-11-24T19:35:30.271415+00:00",
+  "source_freeze": "ssl-api-runtime-result.json",
+  "evaluation_scope": "POSTFREEZE_PREDECLARED_OPERATION_DIAGNOSTIC_NOT_FULL_LINEAGE_SEPARATED_LEXICAL_FINAL",
+  "basis": "Owner complete-operation/word-sentence boundary contract; finite English structural positives and MUST-NOT controls, not rule warrants. Common prime families already development, so no untouched lexical-family holdout claim.",
+  "cases": [
+    {
+      "id": "want",
+      "text": "Mira wants to rest.",
+      "expected": "Control with Mira as want-er, rest embedded; not asserted rest event"
+    },
+    {
+      "id": "want-negative",
+      "text": "Mira does not want to rest.",
+      "expected": "Negation scopes wanting, not rest alone"
+    },
+    {
+      "id": "think",
+      "text": "Nora thinks that the child is tired.",
+      "expected": "Attitude with complete child tired complement; not globally asserted tired"
+    },
+    {
+      "id": "know",
+      "text": "Nora knows that the child is tired.",
+      "expected": "Knowledge/complement structure preserved"
+    },
+    {
+      "id": "see-qualified",
+      "text": "With her eyes open, Nora sees the bright lamp.",
+      "expected": "Perception development demand; competing identities must not be forced"
+    },
+    {
+      "id": "hear-qualified",
+      "text": "With both ears, Nora hears the ringing bell.",
+      "expected": "Perception development demand; retain acoustic event if source-qualified"
+    },
+    {
+      "id": "feel",
+      "text": "Nora feels afraid.",
+      "expected": "Experiencer and afraid property retained"
+    },
+    {
+      "id": "say",
+      "text": "Nora says that the child is tired.",
+      "expected": "Speech content with speaker Nora; no global child-tired assertion"
+    },
+    {
+      "id": "happen",
+      "text": "A strange event happened near the bridge.",
+      "expected": "Event occurrence and near bridge anchor retained"
+    },
+    {
+      "id": "move",
+      "text": "The child moved toward the gate.",
+      "expected": "Motion and toward gate retained; gate not direct patient"
+    },
+    {
+      "id": "good",
+      "text": "The kindness was morally good.",
+      "expected": "Positive evaluation requires lexical source evidence, not spelling/frame only"
+    },
+    {
+      "id": "bad",
+      "text": "The cruelty was morally bad.",
+      "expected": "Negative evaluation requires lexical source evidence"
+    },
+    {
+      "id": "big",
+      "text": "The building was very big.",
+      "expected": "Size/degree predication retained; lexical size requires evidence"
+    },
+    {
+      "id": "small",
+      "text": "The building was not very small.",
+      "expected": "Negation wider than degree, negative size evidence if licensed"
+    },
+    {
+      "id": "have-main",
+      "text": "Nora has a bicycle.",
+      "expected": "Possession main role not perfect auxiliary; underconstrained exact sense may abstain"
+    },
+    {
+      "id": "have-aux",
+      "text": "Nora has repaired a bicycle.",
+      "expected": "Perfect auxiliary not possession argument"
+    },
+    {
+      "id": "do-main",
+      "text": "Nora did the work.",
+      "expected": "Main action DO distinct from auxiliary"
+    },
+    {
+      "id": "do-aux",
+      "text": "Nora did not repair the bicycle.",
+      "expected": "Auxiliary supports scoped negative repair"
+    },
+    {
+      "id": "here",
+      "text": "The child waited here.",
+      "expected": "Locative information retained at complete operation scale"
+    },
+    {
+      "id": "above",
+      "text": "The eagle flew above the cliff.",
+      "expected": "Above distinct from below; cliff not direct fly patient"
+    },
+    {
+      "id": "below",
+      "text": "The eagle flew below the cliff.",
+      "expected": "Below distinct from above"
+    },
+    {
+      "id": "before",
+      "text": "The traveler departed before sunrise.",
+      "expected": "Temporal setting retains sunrise, not patient"
+    },
+    {
+      "id": "not-very",
+      "text": "The child is not very tall.",
+      "expected": "Not wider than very"
+    },
+    {
+      "id": "very-not",
+      "text": "The child is very not tall.",
+      "expected": "Very wider than not; distinct from not very"
+    },
+    {
+      "id": "duration",
+      "text": "The pause lasted a long time.",
+      "expected": "Duration construction retains long time"
+    },
+    {
+      "id": "generic-see-negative",
+      "text": "I see my doctor.",
+      "expected": "MUST NOT force primary visual sense from compatible frame"
+    },
+    {
+      "id": "judicial-hear-negative",
+      "text": "The court heard the case.",
+      "expected": "MUST NOT force auditory sense from generic transitive grammar"
+    },
+    {
+      "id": "quantity-good-negative",
+      "text": "It was a good forty miles.",
+      "expected": "MUST NOT emit positive evaluation from quantity/intensity use"
+    }
+  ]
+}

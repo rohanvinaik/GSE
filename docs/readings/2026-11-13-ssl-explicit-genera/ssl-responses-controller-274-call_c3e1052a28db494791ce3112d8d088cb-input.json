@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nimport inspect\nfrom GSE.curation.lexicon_builder import completion,storage,evaluation\nfrom GSE.curation.lexicon_builder.resolution import Assertion\nprint(inspect.getsource(storage.Definition));print(inspect.getsource(Assertion));print(inspect.getsource(evaluation))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

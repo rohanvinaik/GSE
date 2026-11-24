@@ -1,0 +1,193 @@
+{
+  "activation_performed": false,
+  "after_sha256": "2f63c8647996ac4b89fdc41f9eb2c67c81079bed08dcf6499a80f462a8963952",
+  "before_sha256": "258e310972762601e1e8223e4c1707fdc0fe5b866ac092d8f574677cb2387c74",
+  "database": "/Users/rohanvinaik/Projects/GSE/data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/candidate.db",
+  "format": "GSE.checkpoint-retained-packet-writer/1",
+  "new_model_service_calls": 0,
+  "original_rule_version": "9aeb7c65650902cbf3139400c64acff3aa9645a9937069d95015f5b728e06436",
+  "packets": [
+    {
+      "answers": "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-prime-answers.json",
+      "answers_sha256": "1a8f30d4e5570263fa42fc645532f827bf7797f05bc1fe638fe30df911e6e2d0",
+      "questions": "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-prime-questions.json",
+      "questions_sha256": "74502331cc71288e0d97835bbf7f345c9163b7b3a486d5c4fbba7cb93ae43208",
+      "replayed_request_ids": [
+        "9d93a681c918f74086e15adf2d0291123b5ac916e5e3ab4a18d2aefc890a31bc",
+        "8aa4ee03cb3eee47198ad7684d4bedffc1b27e6e1986adb05b24103a71d46857",
+        "cc26c477b424adb39407265f5b6894c7a7572831ef20522f7a4182ec2dce975d",
+        "a232c4bc6b548c3c2d3303ea5a09ee95414c2c7a1cd6aa981353700369a8d51d",
+        "51f44aad7b3e000e507271c334424ff9cf1c797dadc4bb13fa703d42913218db",
+        "d713521784c62cf943d387ec5e7ee033bbc6567624ec38d52f1434af6bf6c87f",
+        "1da4cf1cc20468bb64ff1b6c03c7a4cb057a2e09eef472e013ea718a58778d00"
+      ]
+    },
+    {
+      "answers": "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-child-answers.json",
+      "answers_sha256": "f5f4e4c4e1ad7dc6eab97a339438139e2b9a913102dc9013e8fdf24d07c88d24",
+      "questions": "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-child-questions.json",
+      "questions_sha256": "a31c4c4cce79a610758277e53e8fd981c0b805892ce3f895924b66cf22d38ede",
+      "replayed_request_ids": [
+        "347684458201811539d87d01862cffa052ef531a354aabda05cabb988a6137d1",
+        "3233207fe62a68936d85ee53e5dfdab86a8856b96b67d1f777faabdefd53a581",
+        "16cf5eea41cecd1a36300c620dab5135edf5ed6b6025cafb0bc03a1b7ef4df2c"
+      ]
+    }
+  ],
+  "postflight": "REQUIRED_BEFORE_PUBLICATION",
+  "transport": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@f45ed12218fe9fb2d6b8fd92b4ed387ee514a83242f1334bebf7d900b25e1265",
+  "writer": {
+    "banks": [
+      "BIG",
+      "GOOD",
+      "HAPPEN",
+      "HAVE",
+      "HERE",
+      "SAY"
+    ],
+    "batch_size": 1,
+    "code": "SELECTED_SCOPE_RESOLVED",
+    "continue_cohorts": true,
+    "dictionary_cells": {
+      "assigned": 461619,
+      "conflicted": 0,
+      "explicit_zero": 331372,
+      "unresolved": 22027757
+    },
+    "dictionary_outcomes": {
+      "PARTIAL": 401596
+    },
+    "dictionary_status": "INCOMPLETE",
+    "entry_bank_questions": [
+      [
+        "wordnet:good:good.a.01",
+        "GOOD"
+      ],
+      [
+        "wordnet:bad:bad.a.01",
+        "GOOD"
+      ],
+      [
+        "wordnet:big:large.a.01",
+        "BIG"
+      ],
+      [
+        "wordnet:small:small.a.01",
+        "BIG"
+      ],
+      [
+        "wordnet:have:have.v.01",
+        "HAVE"
+      ],
+      [
+        "wordnet:have:own.v.01",
+        "HAVE"
+      ],
+      [
+        "wordnet:here:here.r.01",
+        "HERE"
+      ],
+      [
+        "wordnet:leap:leap.n.01",
+        "HAPPEN"
+      ],
+      [
+        "wordnet:whisper:whisper.n.01",
+        "SAY"
+      ],
+      [
+        "wordnet:explosion:explosion.n.01",
+        "HAPPEN"
+      ]
+    ],
+    "format": "GSE.lexicon-completion-report/1",
+    "max_calls_per_entry": 1,
+    "max_entries_per_pass": 10,
+    "max_model_calls": 10,
+    "model": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@f45ed12218fe9fb2d6b8fd92b4ed387ee514a83242f1334bebf7d900b25e1265",
+    "model_calls": 10,
+    "outcomes": {
+      "ASSIGNED": 10
+    },
+    "outside_selected_scope": {
+      "unresolved_or_conflicted_cells": 22027757
+    },
+    "preflight": "REPLAY_VALIDATED",
+    "priority": {
+      "excluded_count": 1,
+      "excluded_records": [
+        {
+          "code": "MISSING_WORD",
+          "count": 27,
+          "csv_line": 21732,
+          "record_number": 21731
+        }
+      ],
+      "frequency_column": "SUBTLEX",
+      "included_words": 39953,
+      "mode": "zipf",
+      "ordering": "DESCENDING_POSITIVE_COUNT_THEN_CONSTRAINT_PRIORITY_THEN_DEFINITION_ID",
+      "policy": "GSE.completion-priority/subtlex-count-order/2",
+      "ranked_words": 28902,
+      "rows": 39954,
+      "score": "MONOTONIC_ZIPF_ORDER_NOT_ABSOLUTE_ZIPF_SCORE",
+      "semantic_authority": "NONE_SCHEDULING_ONLY",
+      "sha256": "fa636292ba0b1b5cf4d6d335690ddcf3a162e4a8204124d95c64e795eb336226",
+      "source": "/Users/rohanvinaik/Projects/GSE/data/external/concreteness.csv",
+      "unranked": "ZERO_OR_ABSENT_FREQUENCY_LAST_NOT_SEMANTIC_ZERO",
+      "word_column": "Word",
+      "zero_count_words": 11051
+    },
+    "question_order": {
+      "bank_order": "DOMAIN_SIZE_THEN_BANK",
+      "bank_priority": "constraint",
+      "cohort_order": "EXISTING_DEFINITION_PRIORITY",
+      "cohort_policy": "definition",
+      "policy": "GSE.completion-question-order/1",
+      "semantic_authority": "NONE_QUESTION_ORDER_ONLY"
+    },
+    "remaining_selected_scope": {
+      "cells": 0,
+      "conflicted_entries": 0,
+      "entries": 0
+    },
+    "scheduling": {
+      "code": "EXPLICIT_SCOPE",
+      "cohorts_processed": 1,
+      "cursor_after": null,
+      "cursor_before": null,
+      "pass_number": null,
+      "policy": "GSE.completion-schedule/2",
+      "resume_frontier": "COMPLETED_OR_PER_ENTRY_LIMIT_VISITS",
+      "visited_entry_ids": [
+        "wordnet:have:have.v.01",
+        "wordnet:have:own.v.01",
+        "wordnet:here:here.r.01",
+        "wordnet:good:good.a.01",
+        "wordnet:big:large.a.01",
+        "wordnet:bad:bad.a.01",
+        "wordnet:small:small.a.01",
+        "wordnet:explosion:explosion.n.01",
+        "wordnet:whisper:whisper.n.01",
+        "wordnet:leap:leap.n.01"
+      ],
+      "wrapped": false
+    },
+    "selected_entry_ids": [
+      "wordnet:have:have.v.01",
+      "wordnet:have:own.v.01",
+      "wordnet:here:here.r.01",
+      "wordnet:good:good.a.01",
+      "wordnet:big:large.a.01",
+      "wordnet:bad:bad.a.01",
+      "wordnet:small:small.a.01",
+      "wordnet:explosion:explosion.n.01",
+      "wordnet:whisper:whisper.n.01",
+      "wordnet:leap:leap.n.01"
+    ],
+    "semantic_gold": "NOT_CHECKED",
+    "skipped_attempts": {},
+    "transport_invocations": 10,
+    "unselected_residual": false
+  }
+}

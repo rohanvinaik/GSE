@@ -1,0 +1,319 @@
+MIGRATION FULL PREFLIGHT/POSTFLIGHT RECEIPTS
+preflight {
+  "code": "REPLAY_VALIDATED",
+  "complete_search": true,
+  "entries_checked": 401596,
+  "entries_mismatched": 0,
+  "entries_validated": 401596,
+  "format": "GSE.lexicon-replay-report/1",
+  "gold": "NOT_CHECKED",
+  "inference_counts": {
+    "components_joint_checked": 2495950,
+    "components_solver_limited": 0,
+    "entries_complete_search": 401596,
+    "entries_replayed": 401596,
+    "entries_solver_limited": 0
+  },
+  "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+  "metadata_verification": {
+    "build_report": "NOT_CHECKED",
+    "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+    "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+    "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+    "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+    "catalog_definition_source_ids": "NOT_PERSISTED",
+    "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+    "representation_contract": "VERIFIED",
+    "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+  },
+  "mismatch_counts": {},
+  "mismatches": [],
+  "replayed_outcomes": {
+    "PARTIAL": 401596
+  }
+}
+postflight {
+  "code": "REPLAY_VALIDATED",
+  "complete_search": true,
+  "entries_checked": 401596,
+  "entries_mismatched": 0,
+  "entries_validated": 401596,
+  "format": "GSE.lexicon-replay-report/1",
+  "gold": "NOT_CHECKED",
+  "inference_counts": {
+    "components_joint_checked": 2495950,
+    "components_solver_limited": 0,
+    "entries_complete_search": 401596,
+    "entries_replayed": 401596,
+    "entries_solver_limited": 0
+  },
+  "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+  "metadata_verification": {
+    "build_report": "NOT_CHECKED",
+    "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+    "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+    "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+    "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+    "catalog_definition_source_ids": "NOT_PERSISTED",
+    "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+    "representation_contract": "VERIFIED",
+    "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED"
+  },
+  "mismatch_counts": {},
+  "mismatches": [],
+  "replayed_outcomes": {
+    "PARTIAL": 401596
+  }
+}
+
+WHOLE _replay
+ def _replay(conn: sqlite3.Connection, relations: tuple[Relation, ...], *, catalog_links: dict | None = None) -> dict:
+    mismatches: list[dict] = []
+
+    def mismatch(entry_id, code, **details):
+        mismatches.append({"entry_id": entry_id if _identity(entry_id) else None, "code": code, **_diagnostic(details)})
+
+    from .foundation import representation_contract
+
+    convention = _optional_metadata(conn, "convention_version", None)
+    representation_verification = "LEGACY_NOT_DECLARED"
+    if convention is not None:
+        expected_contract = representation_contract()
+        if (
+            identity_form(convention) != identity_form(expected_contract["version"])
+            or identity_form(_optional_metadata(conn, "representation_contract", None))
+            != identity_form(expected_contract)
+            or identity_form(_optional_metadata(conn, "want_polarity", None))
+            != identity_form(expected_contract["want_polarity"])
+        ):
+            mismatch(None, "REPRESENTATION_CONTRACT_MISMATCH")
+            representation_verification = "MISMATCH"
+        else:
+            representation_verification = "VERIFIED"
+
+    identities = conn.execute("SELECT entry_id,lexeme_id FROM definition_states").fetchall()
+    entry_counts = Counter(row[0] for row in identities)
+    state_counts = Counter(row[1] for row in identities)
+    anchors, models = _authorities(conn)
+    from .rule_history import read_history, replay_archives
+
+    rule_history = read_history(conn, relations)
+    archived_entries = {
+        record["definition"]["entry_id"]
+        for event in (rule_history["events"] if rule_history else ())
+        for record in event["archived"]
+    }
+    for entry_id in (set(anchors) | set(models)) - entry_counts.keys():
+        mismatch(entry_id, "ORPHAN_ASSERTION_AUTHORITY")
+    native, relevant, bank_relevance = _observations(conn, entry_counts, mismatch, set(models) | archived_entries)
+    replay_archives(conn, rule_history, native, relevant, anchors)
+    _unresolved_integrity(conn, mismatch)
+    _candidates_integrity(conn, native, mismatch)
+    for entry_id, count in entry_counts.items():
+        if not _identity(entry_id):
+            mismatch(entry_id, "INVALID_DEFINITION_ID")
+        if count != 1:
+            mismatch(entry_id, "DUPLICATE_DEFINITION_STATE", rows=count)
+    for entry_id, lexeme_id in identities:
+        if type(lexeme_id) is not int or lexeme_id <= 0:
+            mismatch(entry_id, "INVALID_LEXEME_ID")
+        elif state_counts[lexeme_id] != 1:
+            mismatch(entry_id, "AMBIGUOUS_LEXEME_LINK", lexeme_id=lexeme_id)
+
+    lexemes: dict[int, sqlite3.Row] = {}
+    duplicate_lexemes = set()
+    for row in conn.execute("SELECT id,lemma,pos,sense_id,gloss,source,validation_status FROM lexemes"):
+        if row["id"] in lexemes:
+            duplicate_lexemes.add(row["id"])
+            mismatch(row["sense_id"], "DUPLICATE_LEXEME_ID", lexeme_id=row["id"])
+        lexemes[row["id"]] = row
+        if row["id"] not in state_counts:
+            mismatch(row["sense_id"], "LEXEME_WITHOUT_DEFINITION_STATE", lexeme_id=row["id"])
+
+    evidence: dict[str, list[tuple[int, str]]] = defaultdict(list)
+    for row in conn.execute("SELECT entry_id,ordinal,payload FROM builder_assertions"):
+        if row["entry_id"] not in entry_counts:
+            mismatch(row["entry_id"], "ORPHAN_ASSERTION", ordinal=row["ordinal"])
+        evidence[row["entry_id"]].append((row["ordinal"], row["payload"]))
+    restriction_evidence = defaultdict(list)
+    restriction_table = conn.execute(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='builder_domain_restrictions'"
+    ).fetchone()
+    restriction_format = _optional_metadata(conn, "domain_restrictions_format", None)
+    if restriction_table is None:
+        if restriction_format is not None:
+            raise ValueError("MISSING_DOMAIN_RESTRICTIONS_TABLE")
+    else:
+        if current_id(restriction_format) != DOMAIN_RESTRICTIONS_VERSION:
+            raise ValueError("UNSUPPORTED_DOMAIN_RESTRICTIONS_FORMAT")
+        for row in conn.execute("SELECT entry_id,ordinal,payload FROM builder_domain_restrictions"):
+            if row["entry_id"] not in entry_counts:
+                mismatch(row["entry_id"], "ORPHAN_DOMAIN_RESTRICTION", ordinal=row["ordinal"])
+            restriction_evidence[row["entry_id"]].append((row["ordinal"], row["payload"]))
+    projections: dict[int, list[tuple[str, int]]] = defaultdict(list)
+    for row in conn.execute("SELECT lexeme_id,primitive,value FROM primitive_values"):
+        if row["lexeme_id"] not in state_counts:
+            mismatch(None, "ORPHAN_PUBLISHED_ASSIGNMENT", lexeme_id=row["lexeme_id"], bank=row["primitive"])
+        projections[row["lexeme_id"]].append((row["primitive"], row["value"]))
+
+    validated = set()
+    outcomes: Counter = Counter()
+    inference_counts: Counter = Counter()
+    for row in conn.execute("SELECT * FROM definition_states ORDER BY entry_id,lexeme_id"):
+        entry_id, lexeme_id = row["entry_id"], row["lexeme_id"]
+        if not _identity(entry_id) or entry_counts[entry_id] != 1 or state_counts[lexeme_id] != 1:
+            continue
+        if type(lexeme_id) is not int or lexeme_id <= 0 or lexeme_id in duplicate_lexemes:
+            continue
+        lexeme = lexemes.get(lexeme_id)
+        if lexeme is None:
+            mismatch(entry_id, "DEFINITION_WITHOUT_LEXEME", lexeme_id=lexeme_id)
+            continue
+        start = len(mismatches)
+        if lexeme["sense_id"] != entry_id:
+            mismatch(entry_id, "DEFINITION_IDENTITY_MISMATCH", stored_sense_id=lexeme["sense_id"])
+        if not _identity(lexeme["lemma"]) or not _identity(lexeme["pos"]):
+            mismatch(entry_id, "INVALID_LEXICAL_IDENTITY")
+            continue
+        if current_id(lexeme["source"]) != VERSION:
+            mismatch(entry_id, "LEXEME_FORMAT_MISMATCH")
+        try:
+            assertions = _assertions(evidence[entry_id])
+            domain_restrictions = _domain_restrictions(restriction_evidence[entry_id])
+            _restriction_provenance(entry_id, domain_restrictions, native)
+            definition = Definition(entry_id, lexeme["lemma"], lexeme["pos"], lexeme["gloss"])
+            evidence_banks = tuple(sorted(bank_relevance.get(entry_id, ())))
+            _provenance(
+                entry_id,
+                assertions,
+                definition,
+                relations,
+                native,
+                relevant,
+                anchors,
+                models,
+                conn,
+                evidence_banks,
+                domain_restrictions,
+                rule_history=rule_history,
+            )
+            saved_domains = _domains(_read_json(row["domains"]))
+            published = _published(projections[lexeme_id])
+            hierarchy = _read_json(row["hierarchy"])
+            saved_trace = _read_json(row["trace"])
+            saved_conflicts = _read_json(row["conflicts"])
+            if row["code"] not in {"RESOLVED", "PARTIAL", "CONFLICT"}:
+                raise ValueError("INVALID_STORED_RESOLUTION_CODE")
+            if not isinstance(hierarchy, dict):
+                raise ValueError("INVALID_HIERARCHY")
+            if not isinstance(saved_trace, list) or any(not isinstance(record, dict) for record in saved_trace):
+                raise ValueError("INVALID_TRACE")
+            if not isinstance(saved_conflicts, list) or any(not isinstance(record, dict) for record in saved_conflicts):
+                raise ValueError("INVALID_CONFLICT_RECORDS")
+            resolution = resolve_dictionary(
+                BANKS,
+                assertions,
+                relations,
+                _stored_context(conn, definition, relations),
+                evidence_banks=evidence_banks,
+                domain_restrictions=domain_restrictions,
+            )
+        except (ValueError, TypeError) as error:
+            mismatch(entry_id, "MALFORMED_ENTRY", reason=str(error))
+            continue
+        outcomes[resolution.code] += 1
+        scope = next(record for record in resolution.trace if record["kind"] == "INFERENCE_SCOPE")
+        inference_counts["entries_replayed"] += 1
+        inference_counts["entries_complete_search"] += int(scope["complete_search"])
+        limited_components = sum(record["kind"] == "SOLVER_LIMIT" for record in resolution.trace)
+        inference_counts["entries_solver_limited"] += int(limited_components > 0)
+        inference_counts["components_solver_limited"] += limited_components
+        inference_counts["components_joint_checked"] += sum(
+            record["kind"] == "JOINT_CHECK" for record in resolution.trace
+        )
+        if resolution.code != row["code"]:
+            mismatch(entry_id, "RESOLUTION_CODE_MISMATCH", stored=row["code"], replayed=resolution.code)
+        if resolution.domains != saved_domains:
+            mismatch(
+                entry_id,
+                "DOMAIN_MISMATCH",
+                banks=sorted(bank for bank in BANKS if resolution.domains[bank] != saved_domains[bank]),
+            )
+        expected = {} if resolution.code == "CONFLICT" else resolution.assignments
+        if published != expected:
+            mismatch(entry_id, "PUBLISHED_ASSIGNMENT_MISMATCH", stored=published, replayed=expected)
+        if (row["code"] == "CONFLICT" or resolution.code == "CONFLICT") and published:
+            mismatch(entry_id, "CONFLICT_PUBLISHED_ASSIGNMENTS")
+        expected_status = {"CONFLICT": "rejected", "PARTIAL": "partial", "RESOLVED": "validated"}[resolution.code]
+        if lexeme["validation_status"] != expected_status:
+            mismatch(entry_id, "LEXEME_STATUS_MISMATCH", stored=lexeme["validation_status"], replayed=expected_status)
+        for bank, level in hierarchy.items():
+            if bank not in BANKS or type(level) is not int:
+                mismatch(entry_id, "INVALID_HIERARCHY_TARGET", bank=bank)
+            elif resolution.code == "CONFLICT" or resolution.assignments.get(bank) not in {-1, 1}:
+                mismatch(entry_id, "HIERARCHY_WITHOUT_NONZERO_BASE", bank=bank)
+        if _canonical(identity_form(saved_trace)) != _canonical(identity_form(resolution.trace)):
+            mismatch(entry_id, "TRACE_MISMATCH")
+        if _canonical(identity_form(saved_conflicts)) != _canonical(identity_form(resolution.conflicts)):
+            mismatch(entry_id, "CONFLICT_RECEIPT_MISMATCH")
+        if len(mismatches) == start:
+            validated.add(entry_id)
+    # Explicit link replacement rebuilds this derived cache from the replayed
+    # state below. Requiring the old cache to match first prevents repairing a
+    # stale catalogue. Every authoritative input and dictionary check above is
+    # still required; ordinary replay continues to verify the saved cache.
+    catalog_verification = "REPLACEMENT_NOT_VALIDATED"
+    if catalog_links is None:
+        catalog_verification = _catalog_integrity(
+            conn, anchors, relations, lexemes, mismatch, models, evidence, restriction_evidence, native, bank_relevance
+        )
+    mismatches.sort(key=lambda item: _canonical(item))
+    validated.difference_update(item["entry_id"] for item in mismatches)
+    report = {
+        "format": "GSE.lexicon-replay-report/1",
+        "code": "REPLAY_MISMATCH" if mismatches else "REPLAY_VALIDATED",
+        "gold": "NOT_CHECKED",
+        "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+        "complete_search": (
+            bool(identities)
+            and len(validated) == len(identities)
+            and inference_counts["entries_complete_search"] == len(identities)
+        ),
+        "inference_counts": dict(sorted(inference_counts.items())),
+        "metadata_verification": {
+            "representation_contract": representation_verification,
+            "catalog": catalog_verification,
+            "catalog_definition_source_ids": "NOT_PERSISTED",
+            "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED",
+            "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED"
+            if restriction_table
+            else "LEGACY_NO_RESTRICTIONS",
+            "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+            "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+            "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+            "build_report": "NOT_CHECKED",
+        },
+        "entries_checked": len(identities),
+        "entries_validated": len(validated),
+        "entries_mismatched": len({item["entry_id"] for item in mismatches if item["entry_id"] is not None}),
+        "replayed_outcomes": dict(sorted(outcomes.items())),
+        "mismatch_counts": dict(sorted(Counter(item["code"] for item in mismatches).items())),
+        "mismatches": mismatches,
+    }
+    if catalog_links is not None and not mismatches:
+        # Reuse the one source-observation pass and its validated authority maps.
+        # This proposal changes no saved semantics and excludes model assertions.
+        report["proposed_catalog"] = _native_catalog(
+            anchors,
+            relations,
+            lexemes,
+            catalog_links,
+            models,
+            evidence,
+            restriction_evidence,
+            native,
+            bank_relevance,
+            conn=conn,
+        )
+        report["metadata_verification"]["catalog"] = "RECOMPUTED_REPLACEMENT_FROM_VALIDATED_STATE"
+    return report

@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-postfreeze-units -- .venv/bin/python - <<'PY'\nimport ast,json\nfrom pathlib import Path\np=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor f,names in [('scripts/audit_lexicon_sentences.py',{'load_workload','checkpoint_result'}),('GSE/discourse/profile.py',{'text_profile'}),('GSE/cassettes/multiscale.py',{'MultiScaleDoc','_safe_store'}),('GSE/symbolic/genealogy.py',{'NullGenealogy'})]:\n s=Path(f).read_text();a=ast.parse(s);print('\\n###',f)\n for x in a.body:\n  if getattr(x,'name',None) in names:print(ast.get_source_segment(s,x))\nprint('\\n### public CLI receipt'); r=json.loads((p/'ssl-api-runtime-refreeze-public-cli-v5.json').read_text());print(json.dumps(r,indent=2))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

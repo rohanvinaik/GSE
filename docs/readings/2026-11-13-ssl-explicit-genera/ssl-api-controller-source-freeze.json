@@ -1,10 +1,10 @@
 {
   "format": "GSE.controller-source-freeze/1",
   "role_scope": "ASSIGNMENT A \u2014 COMPLETE AND EXECUTE THE CONNECTED SSL LEARNER (primary integration ownership)",
-  "status": "OWNED_SOURCE_EDITS_FINISHED_RUNTIME_REPAIR_PENDING",
+  "status": "CODE_FREEZE_READY_RUNTIME_REGRESSION_OPEN",
   "source_edits_finished": true,
-  "updated_utc": "2026-11-24T18:25:02.524159+00:00",
-  "source_head": "a7295fb7a06744f45ff983dca7573085b9d14fb6",
+  "updated_utc": "2026-11-24T19:36:48.793949+00:00",
+  "source_head": "e9649add315aecbab18e661746f2af4f6ea564be",
   "pins": [
     {
       "path": "GSE/curation/lexicon_builder/__init__.py",
@@ -205,6 +205,14 @@
     {
       "path": "docs/readings/2026-11-13-ssl-explicit-genera/finish_coherence_020.py",
       "sha256": "6d99664fe4bd3282322e3ac33938fcb3ffce37aab335d493a9f61e11bdd01230"
+    },
+    {
+      "path": "docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_self_boundary.py",
+      "sha256": "dcbd9b43216d6e6a1ae9c172d5f4a8683835081ca44ffb6cde9bdd0c64d79cb9"
+    },
+    {
+      "path": "tests/test_checkpoint_self_boundary.py",
+      "sha256": "eb83a7b3a6bb72676988e6c944b16f7bd1281284a7664b177b6cdfbb5266e02d"
     }
   ],
   "protocol_note": "Original typed request protocol/schema unchanged; delayed packets reconstructed exactly at original verified rule version and true transport identity. No model wire identity rebinding.",
@@ -216,9 +224,15 @@
     {
       "receipt": "ssl-api-controller-happening-orchestration-tests.xml",
       "outcome": "45 passed in 11.08s; overlaps earlier suite, not additive"
+    },
+    {
+      "outcome": "6 passed in 0.24s; pinned Ruff lint/format pass",
+      "scope": "Exact generic-self founder manifest guards",
+      "source_protocol_changed": false
     }
   ],
   "global_freeze": false,
-  "global_freeze_blocker": "Runtime second coordinated unfreeze; await repaired B completion receipt.",
-  "activation_performed": false
+  "global_freeze_blocker": "One integrated runtime regression returned to B; final workload acceptance pending.",
+  "activation_performed": false,
+  "unfreeze_reason": "Encode existing explicit founder decision only for wordnet:self:self.n.02 on separate successor via existing revise_source_candidate; original builder/model protocol unchanged. Existing integrated gate continues on old immutable source pins; new helper receives targeted validation and final gate as required."
 }

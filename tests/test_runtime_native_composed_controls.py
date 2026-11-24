@@ -201,3 +201,26 @@ def test_of_anchor_coordination_stays_inside_the_nominal_attachment(encoder):
     assert isinstance(of.patient, Coordination)
     assert all(isinstance(m, Entity) for m in of.patient.members)
     assert [m.head.lemma for m in of.patient.members] == ["child", "adult"]
+
+
+@pytest.mark.parametrize(
+    "text,verb,preposition,anchor",
+    [
+        ("Something happens to me.", "happen", "to", "me"),
+        ("Alice stood by the window.", "stand", "by", "window"),
+        ("Alice moved toward the door.", "move", "toward", "door"),
+    ],
+)
+def test_intransitive_preposition_keeps_relation_and_anchor_without_inventing_patient(
+    encoder, text, verb, preposition, anchor
+):
+    tree = compose(encoder, text)
+    assert isinstance(tree, Event) and tree.verb == preposition
+    assert isinstance(tree.agent, Event) and tree.agent.verb == verb
+    assert tree.agent.patient is None
+    assert tree.patient.head.lemma == anchor
+    assert from_dict(to_dict(tree)) == tree
+    emitted = emit_contract(tree)["predicate"]
+    assert emitted["features"]["verb"] == preposition
+    assert emitted["args"][0]["features"]["verb"] == verb
+    assert anchor in emitted["args"][1]

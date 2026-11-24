@@ -1,0 +1,154 @@
+{
+  "access_programs": {
+    "cyber": "standard"
+  },
+  "background": false,
+  "billing": {
+    "payer": "developer"
+  },
+  "completed_at": 1795547055,
+  "created_at": 1795547025,
+  "error": null,
+  "frequency_penalty": 0.0,
+  "id": "resp_0d66c4c7356128c8006b05df90752c87d2882419992ceb1115",
+  "image": {
+    "context_compression": "disabled"
+  },
+  "incomplete_details": null,
+  "input_transformations": [],
+  "instructions": "You are a GSE implementation worker running through the ordinary OpenAI Responses API. Your tools execute on the authorized local project. No Codex CLI is running. No MCP servers are loaded; use full-unit AST/reference tracing instead of claiming Serena was used. Do not call external model APIs, modify billing, read secrets, or touch the API launcher. The controller IS AUTHORIZED to run the existing LOCAL GSE/Ollama typed semantic transport for its bounded checkpoint questions and audits; this is not a forbidden external model call. Use the two supplied local tools to READ, IMPLEMENT and TEST the task, not merely describe it. The run_command output is complete when included; a larger output is saved without truncation. Use exact role scopes in the handoff. Final factual results retain their requested filenames. Your peer's completion receipt is the synchronization boundary before the controller freezes source pins. Read the full owner intent in the handoff; never replace it with convenient familiar architecture. You have at most four hours and 100 API turns. No commits until both scopes stop editing and gates pass.",
+  "max_output_tokens": 32768,
+  "max_tool_calls": null,
+  "model": "gpt-6.1-sol",
+  "moderation": null,
+  "object": "response",
+  "output": [
+    {
+      "content": [],
+      "encrypted_content": "gAAAAABrBd-exn87aBbslhv7XdXWg4TDSxMGjG_AOXe_ttiVd1p0dHOOsaaq6KPCszoq4VPY4HvZsUeh8tMWDc-R6uuiujg_F4L5VZc3LcYzAykMyUnyWF196Q8XF9hxhZ8VIYbnbLktXxhwmcw9GxvNuxQKWQkxZWduXg320TqSQpyLVwCcn4q0EBB3TXwDWONeBHOqFXsfnmXUztZIerkJ1DhHld0pFOyG_p2vTjd63fPQv_so1C9qb_Hq5MzcaJmZQjn7f0WSYpbk1DdSCZOieWHDgJDos8GutR92oeYceljtSzFxsgKVecAEdXb1C4q4A89HK0TrohnpCPH3sY-ejQVO1QOOHpQfXpNWBLAWij1mKjLcrv6ZFQrd-gqwdiFVuwGJZ2o6e4dqKy_UW7MYH-azUSsODT8G6Zz4c4PxsznNMie0a0yz_C0Sa0kvbOFNRWfX2C1tgmqvRBhTidlCvtlnmbjuxmhdCxbiIGKEZawDsrC6W1sWIu1hBpR8PZISWbwIfXZUSU72dXE22k72tK0Ie-TnQ6D87xwLgO4JyBP9BNStb1yLo0EOvhaonJ4KIjsLBeyu6tuARYadEBeYQJbFD7_MRXSeIIr6Kmn4ciDqPz_DZRDaXn-QJYnofuutfnxrxEYx0PAupi_BEATRnmm-xXwxx2F6FrqebLj9e6d07pc9Tov4zlhPQV4Z-oo3qqd5vmWS2DNBdv9AqM1cDuPOugEQ5hT67CvSA8RWTI2tAMZzMcE1US7ao3EM0SZX6q0CjtcBlHAc927WSeL8n01noL1sUY0mRAJ2jiDOW1Qs0OckK7KT3l3GKodGQKwEW3RzRNnt-B4xIxybG44fsCvnd1OCmxm2ykWZVm-3dtuaI3GMiHpTYhK0d7LJMvb-83ZWVaGRNqSd_J6Kdre9IYKz-Q8yTLt_WqtBD9cAyH8bH3vagm61MhftilX_Itqk0wT6QytVi7bR4538M5Atz-_qu3IoXrCiWGVpbdI9ZcEXqsAq6n1z52cK3BkicNBxwIiHuEFz9UUaQWwPwJkEO3SRx_3n1yZp-L7s8aFPSGYAALcyp0uBoaOSbAwco4CpHRvoX-3qUhHhOL7Q2QGBkw3QkWphFcR528SS_YPb5h-1U5hQFdVZYhyJm2j8_FLSe62MlIBfwt7pyq6UdhaLhrbyDe6vPN5jI6Oed-2U7mC9c7nQm0ICSXBArj_Onohe6hyKkUB8XZ7DsrUEK_WTw9NAf1cASDoVSVZigSDIQre0UEgsI6OYsw-0yR2Np0v-_mFisN_Nlrq4Hub4310-BS0G30xEtboPkxIMlDOc6jUKFm3HCF7m6PQzfQCEV5yWqm7-HyRjRGZ5UrN9QHWQIcRQSYq4rb8KjrirdRFVPGgjDOw-d_6raSlEci8y-Q9sGSwfvybutTDicfCz24eMaUduZLJ3H0Qah6HfAzHLElb0B1m71lw5Q96zHbM4hyNHekoSV7fxpu2rQrbS3Rpq-miu7SPnJ4TY3n3H3w-RpYLfGapdB6OD2DmahIcSLY2_cSwqLULvCyhlnRsSD6iXHd2_GEDA8FmLDL6iUz7GgsVJGETEVyXkRISt5vfoW9zY4vl2u3489m2O6h4Le12nv2HJhS2KWm-nlu3v13BPG-_JnEZmC6I1aMQ6WwkIX3Du7BkSHT3gIzaEqwLkjUlpiEGqTJCcWNGCOptSIDLMf6b_tGTS7doR1c_R0BLZdYoDDY6nCCpijFofBfirqrv-Om1WzauX78eabbqclwHO7Ii2pL6tO5tOUXswvDtg08kVYOhpwY9pF0c3mccK2s5Q3KhsBJypi82LVnKDVIrcKJOM_-WF-6yrAbkI8B5c3O3t2wanJ_Af9NpmSLPrp_BbIBp9_4BqC8tlG8XFmkDYqwuR6-ryRT5ACfBZNsWMjHCkyOMZxns2eFEDCB4HKWzAgcW9EO9jQg2sUuq_Nnb4YczOE3JREzdi5Xn8BonKH1f8DF912T8h8QImDhLFwCyPztoDjhNQQEZP2RlLWYUChyvXwP-y-Vo95tnflw3jMCFkMRp8vCNB0SURXd8K9Ox-kghbnhOTatRi51RsPhrQrnnNHgZLunFmXDnSwBQRyMCvRkD1zlxB4uBR1fnlvVs2k0t1ZmY9gtRARhdkTBMUrU_zzYziX1LBVFgwjfstsRFUC1bIm6DpPLMAujJ2A1JDB-PfZmDOPlhQLcNyYtsm6Z2njGG4rDUcA47-VWn8BG118iVCI93ZbskTidlHBg2jrxy6mXw0NUVfI6JIL-aTfkauusoK03FYZ8rrxiTsAm9SHv2pHYLQLGSjH_Zw_cTE9peo5SgUgzEru1bGglK-c3ea4GKoyckxV8gDyPzj6Mrwdc2lrLoVy7MiwJ8eTdUFCsofE1Ja7Vpu3QcSxZ4sC6isTDVtRk2rhT7cx6o-ZmTs12XPl9xr3ekUwnCz39B47CZCTxNLtKNe4VPO0d0K_31nHlcl_uARKKrd0v0Eoclkq0p26dPLfHITXpIdqWxuxvjX8FpVMJN7H8tP-vfhKKyFjJ3oeFs-ClkOJNBZQlF4LJV3UhkSbnJr3K_bB3LWicuZOvZyMC0LxEj-TmHEidfvYHqDLl3sStKXYkh95IreZaxiaX92akxs0uM2lHkSPnLu_dO1gMnq-e9QMYb8o1lRh3fX_fvxxoC_PX47jUOsIXCNrpFO0hsQhrJE_m2fdz6ElPRM5qNRwEGwrgFuraac1gsIfnbIqEYwiCjoDW4CXIo2WDJw_fMhIUWR3CRpOieL-H_-dV5P98GK9vnnRlCMMr01lr_5AeaAZmpU12s87CHy9AVufSrKSH1LnE8BIrxgUM11yX1wCrMHh6I7ZN5ED0ksefykwz2ztLufc58Qnj9LWlZxeuc6ceWRoAOLmodN3drOC_srJ-_vUM1xtoPZ_Gbs7asDiItnAcccz1pmxj6G2IBZOeotzvgzdVDhEtNp-VhyPzW4nStgDpPWj-9Rf02C6gGhCVezUuaiOJTkC0A70guA2ripeZgvkikMHbndoIzRC54rlZm61FSqPNWTaTFz2nRwRdq7ijThWknVsXamNtZI2K9Z7P0ub4uLbd3UkKgljM0V-lZ9f2Cu8JDOr034O-JTevos9yxh_TIvo5wNXNsszMVnN3li_Kpt2lkDL8wk0sRfErAVeXj7edqhNa9smxlLL00kvdd1W2QhJ3EBmkWkzY0irz5jRo_LHc5Epk1UAwOuR7IRR5U2G3Ji1QYARt9WvRak67Mi4RTqJyw20D0QfvZ-vT9xugBWmtye205IZE_cL8RXwj9WKlz7m8gLZQi-_9f97X9mLEY-2LnoOHk84kh1qRPcAJuo3ui6s5fL0ZLTejO5QdLBx_nC6a8OHfmCzS7hwbyOp_Ka6mkVT0oDTFtsZXEnvrRNIYpjxXDm_r4YmH62Q4I8bpRig6dycNzVlCcHSVm9csEDtSqcHBdfJysVyQMQy5oJgRZZZkBHahmIYqwnVJZczbGwOZ6EXqxsu-XenDzfbOe90sBvG50zRb840vr-mInl5ktU3YiDViuv0x8FQHRlwvuZHTHvUXlh0MTXVwnMWl7e79ZZ-2oDf805gGxjOdaaqJWlIfMP1aVQKdZwbEtVf8AyD7XAGOmGaAxNQw_mrrsACdPTORw_dyLdavVk8yvvDN_cdcevzJLtUkEDooYZMQ0piKKFby_XyIDxgPUc3IJR0mn8DB-9gdAHeybFIMhot8oUkHaNQ58Yj3hFER6Lw3zOK8082YIWnyuc7YP-rtkcHOS_UP6UE-8vkPHtU3hkoN0eLrxndR_NFIovbvJjxbRbL857pTkh30CMvSoyKFWU_HCfRxWBJz4QhgMqvPcfJZPQNSRdXwdwR6r7hcAYq8QHQgutJf7wbaXaU6lC6nu0DkgJjbO5o73h6EZ7TGOKQzo3NcFUAuQFXMqOOSOFrsX-2scQl09-nfunDrNLD5TOFi7soE7MHl7eAz8rQnWlkmW2aPfKY14h7JYM1zrdxsz6UOO7h85zrEQDpN93qBXGM6WWgTOYrP_uhVcrwXIUrzeNzn19ybhkVnIqLSXRWVar4n9IKuEg5Nj5CD736vnz2YcCoHrZc3OIBJ1kn5jriAlsD3soHBwVohfV_qnVWrFOxk_9OX07FbX0Ds0FvNYwVs5Ix9qID7uMiLnQ1xpD2XYS_OFTxMeg4PncLc8s7DQLwu4sIY8WysGtzSs2ICJfkuwIu7LPYErcQtjh8kMtuYBSzv14N95DayzoxXKd5TKmCpL4MNdlPXq2FGuX-ygihAawN-o8EKwoLuFyijSjlzzx0hR67Pd2ppqSb-0JJU6UpyT8lhHx8LwtKYHobFquokWGX4i8hzBCfikG_jNGll9uZ4cNTxtrk8ieDy4bBO7-DHYOy-wQ6l6dalloyvxnYCrl6FX9ovr8kgqWpeRUlS5Dz7gyAC975rhifr8imW8xd0V6OQA-PWvHCWFh61wYdx9Lcwj3tLhGjiPbqBG_WJfi3FJpbZJ6myE9o-zyPGTjeuFMKUD_jBTTAnFtyIQVjGX-eRBVBktyBK5kHWCXR1DjCZm3_AGEiJjZEJJ9s5gtXx4ssGoinXyVqV7x2Ai2jzeaz8bdbrQmOvd0XvOyDQ7RfMYA-HkylwWA8iCJpq1OknTD3yW8ABXacUq_GlC3egPTGCg7W4two4Vch225st4QioYA7hPED-AYXpu34iIGvyWwE1_CG2fpRIqXHgivyvubMXjYpXPH6h-b-dU_C9IZ_J93RNDTa05DxgP4acfo9OOE_zgxt7FnVFL-VTF2OxsQY_h_2bnqKNPePnnyIvntMAkq_cGVEB5hpn0k2_uCkkM0Wk9C0Z8m_Q-LnzTdG0WJmenw0jtsziC0ycl_pK06SDQ9oe1M05n6iUtpjBwNCsTVyXuNT0qpf1v9Nl8VGo-SQyHDm79Gzwti8dhPWvscCcDtR8k5F4S6fTkyRpVB4Bhxh6nQAdhpEKuecmhAGLkkLTqLD9lCI0mTNV9Sz7DJtAq6Yr7Dmx4CJ_Nj3n-e_Fqrz2Kvzz0WSdjXj_0oI-MClbXODSSKPEOMaWVgIiVST__uRIFtda3pg42SAOCtUUmOPiQpdPZljOHh66bCkZ-jytm9sQgA9paHw0DvO9CJFK-Rt96-2sH_Xrvk7iFP29bgaW_sU3oN4JF6Os1AwP3n1oQHBB6pZ49D_lphGV0pwcmiZfGG8UauuYCx4bXMU_OQFgYWpG5zwm0OLJcBq6biwGc9LsdrkeUHxhAhTbpJ0Jb62JfcST7CZ1BqE9DksedndXD4M7YbAWuu2ZEt87xolxddxc8Bs1AeboZrlzW6OZPh1hTCUZaZThn9hiDMf49BwOc-7iZNPTIUMOls375sNMe_QqqLaKajhVeQsgs3qrKvb50Mp51RJ1jWL7sLY3VseKBhMriKb3VmDhx4DtYJC-vKg6qnM7e6JEJZBaER-XVLTaKnJ74qT_yKxQG4a_oGiDHmg3r-SVzS6r1E7lNX8PG73uhcDZNRUY0CIbWtH5eRAhO2snB-ZZvEer4fQM0U_BwQQ6749ilEcBH0evIj9gm219qcfOcBnGroWRgzY_w3ZX-PpCeR01QGaiddbOxIN0xUbeiXCcIY56_j5j4bEb_n3rjdE4f0t9CR0wjpHEnpjbFBseB9-sSaJCv9V_HrtUI5sz2sEV978rjXzaakTDj_cTYkDKd21a3xQvpkgSw1WyP0ZftdDOOgAAHeS5gd_VtADrFTDdCVMA_Vjy-ne3FNOLd-PXvu9iC-NbiXRs4rKpHa1ycybk_KOwnNAgCIdgSIzgU56sXPiyeXux4aC2XAWeqTYg6NlBgg0BCcsAxmVIDJ8rSyv2h-aKnzzZKrMKheoKEiazBAjCPELPQUKsMaXCGbiCiDe2v_Z7szJi3m7oszyqX418LJCZCkoO-t_61AeOUD1RiuhWWGQ3eRioCEl_Hmnw2vNUFnldSIyAmnivtF6TsjD0aHLaReiB0qTL1G8tgaZKI2QXDfqtjDGIqIOFKPFuhLnXh1S-MYX8p2bpVBufSQih7rF94WdpZWW3u2R5q7JaTtWmYEjvadjEF3EanK69B8qFXP54Xo9VCIX5Xz3w4xj2BIeRnWsCIjqbJs-AV5mmcXPH1CN5fb0ou4AG2It7-PKF0GiGrNYq0aVAZSDVhsnRZTziiMo0tNRpVXI870pmaIbLql2BNPx4KHJrZ9aVQ4-Q_XZbTAplVk1rIxYlEknaFhIltFiMXCls9ZY-S9WvWEPIsBhyzM_R662tLO962ua3aCiHgYnCNcE1jLf9ayRZu7YzGa0y0X6AXQrFHBQ15mfZnuYVnJwPwXj3te1BsII3hQ8axvd0366iBOQfRlHB2Mc_Iv8vRpYRatycVrAB9CJ8nLDlul77alkFB-jo-yV_amnMd51hFgvlRg7iNOv1cU_2-8R9S-KP3k-vUvtth92Uoh4NiaK-_NX2Fr4Cuz8Vi8O9R84L5X0_75Rrwvt2ZBXDRv4JWIYTI4ucgiIBG6BsSa-pvMaajOqcb9mSTkpFSStSTgnhIeF7gsIgFjBT-CxzWg2ngPUKaXzw9mflEOF4TAQKxGE2IEQTcEjEgTSrKfYYcpmDjZrY2R6w9hWeYXiJ9ut-J55bUh0hXFEhCd2ebQe_MXgJIjgRgqVrlht9ETykDBnfBJx65Yb7mxhNVJK4fHP9yk1G5QynGEygLzZEywqMn8sOADxG8DdpHNLr7_kd8uuxah79wlBgYXWxjfYKvdJLFatNt1EcF5Y1Irw-RNLKvfEC_Rk50nra6pPCw8sHFue0uScZskOJN8l7sBMQTa5nk1X54OkWIpttUQv2M0w9oNgfhJeKp5F2a12t4wdwangcnEyqjrY6tJ3QXfvbo39M5HIphlSS-bRCI12D5I99jvCByEh0e1HWd4becwbZAX7hWKEbn8b44wmh-u7RV5sV-WS4pK4-mNzlP5iyGk3bNtU5Xvu9xqLim-VhSfr2Bc7Z_Wcq3ADMi1N8XsSKMbXHIOdfSvMkXNPVBEXgp5jRuwoQyQCvQ2ktDUPKnaTyLZZTZ0oq9JinR7f_Bdthu04OyFbPa1CFAytRddbOPodIMwSUmG5u_DniiKVXo8UlFyrjm9TMTsRo2A-qQvDKZZfASPoc_h90PugqB0z3c7i29_xcudwO86k6LCTJu9kzkPutPMyNB9RjSvLDFCMW9-2vpR0sS-AJgB_Be_S_gG7EUjU5USD70BZ72SDPKvDdksQ0VKdYyUhJEahiZlnxELQQ0bq1QUmnjlc46ydPGVtY3OChbM60JEEMjDkjfXUfSLE4QyKmdOMm8xdIsCqgpBVEtxDAOZp04zXH6H3CZ0ePUo6UmPHKtCCV-eBCijdW7Z7jQI8fV7Re0xDLcefbhUBjCIYRu4xd0mzKu_74d605aJHqbZGyYbfSwZdHctlGjR08UnSHd5x2yCeLDeNvjq64gun6ZBfbTrXtZfLHwazTvKNjS4kef96q2Wd1cPlLCJkrKFtn3Fb398gqjLXmL_rxk4A3Exh1Z-3W7Exv99_Q9AQ9PZccpzFDGZN8SnGIwxgwezq7NwTHs-XXmMpW_2F3b_U_ovPCDFDIzwGZAPrQbbTGUZlB4R-8FaU45L5QwQB_nCLy6e-ytjMZGPBT3n_bFeTTXCUadg3H0yanx0oVYObGDs5WO12Z39kQba22qO0oZxRgyOK3EZeZ6AAuKDn03a1RXDFxmVKNccehqMxTKz7IdNwsYMmE08TeWRIXqV30QowRSYMHXhwzUlKjFJkUoo6HafBtwyLfVMwIih5aeC_oql6dFS0O86oBLMNGmHqYULsr6u-qPwsJFDE0Eu_VE_VyZpGEVJOWaPAV94IpLq_h4CoynvXhneTriSw0RdyGQcDRzq7IhNQ4tmf_ocLeHP52bQF6uQUZH5spTF7TTU8MQmfVLiWaF3Hr3CCv65yNxfDmJcwStHTG4t9pDSN9Q7YzI=",
+      "id": "rs_0d66c4c7356128c8006b05df9e2b3487d2bf5755e43c81d078",
+      "summary": [],
+      "type": "reasoning"
+    },
+    {
+      "arguments": "{\"patch\":\"*** Begin Patch\\n*** Update File: /Users/rohanvinaik/Projects/GSE/tests/test_runtime_native_identity_controls.py\\n@@\\n     \\\"text, lemma\\\",\\n     [\\n-        (\\\"I want something.\\\", \\\"want\\\"),\\n-        (\\\"I think about something.\\\", \\\"think\\\"),\\n         (\\\"I hear a sound.\\\", \\\"hear\\\"),\\n@@\\n     assert token.word_primitives == {}\\n+\\n+\\n+@pytest.mark.parametrize(\\n+    \\\"text,lemma,entry,scope\\\",\\n+    [\\n+        (\\\"You want something.\\\", \\\"want\\\", \\\"wordnet:want:desire.v.01\\\", \\\"EXPLICIT_NATIVE_ALIGNMENT\\\"),\\n+        (\\\"She thinks about something.\\\", \\\"think\\\", \\\"nsm_chart:v20:think\\\", \\\"PRIMARY_UNIT_ONLY\\\"),\\n+        (\\\"You know.\\\", \\\"know\\\", \\\"wordnet:know:know.v.01\\\", \\\"EXPLICIT_NATIVE_ALIGNMENT\\\"),\\n+        (\\\"I see someone.\\\", \\\"see\\\", \\\"wordnet:see:see.v.01\\\", \\\"EXPLICIT_NATIVE_ALIGNMENT\\\"),\\n+        (\\\"She hears something.\\\", \\\"hear\\\", \\\"wordnet:hear:hear.v.01\\\", \\\"EXPLICIT_NATIVE_ALIGNMENT\\\"),\\n+        (\\\"You feel something.\\\", \\\"feel\\\", \\\"nsm_chart:v20:feel\\\", \\\"PRIMARY_UNIT_ONLY\\\"),\\n+        (\\\"He says something.\\\", \\\"say\\\", \\\"nsm_chart:v20:say\\\", \\\"PRIMARY_UNIT_ONLY\\\"),\\n+        (\\\"Something happens to me.\\\", \\\"happen\\\", \\\"wordnet:happen:happen.v.01\\\", \\\"EXPLICIT_NATIVE_ALIGNMENT\\\"),\\n+        (\\\"You move.\\\", \\\"move\\\", \\\"nsm_chart:v20:move\\\", \\\"PRIMARY_UNIT_ONLY\\\"),\\n+        (\\\"This is good.\\\", \\\"good\\\", \\\"nsm_chart:v20:good\\\", \\\"PRIMARY_UNIT_ONLY\\\"),\\n+        (\\\"That is bad.\\\", \\\"bad\\\", \\\"nsm_chart:v20:bad\\\", \\\"PRIMARY_UNIT_ONLY\\\"),\\n+        (\\\"Something big.\\\", \\\"big\\\", \\\"nsm_chart:v20:big\\\", \\\"PRIMARY_UNIT_ONLY\\\"),\\n+        (\\\"Something small.\\\", \\\"small\\\", \\\"nsm_chart:v20:small\\\", \\\"PRIMARY_UNIT_ONLY\\\"),\\n+    ],\\n+)\\n+def test_complete_primary_frame_licenses_only_its_source_unit_and_admitted_partial_values(\\n+    encoder, text, lemma, entry, scope\\n+):\\n+    token = next(t for t in encoder.encode(text).tokens if t.lemma == lemma)\\n+    evidence = token.lexical_evidence\\n+    proof = evidence[\\\"contextual_grounding\\\"]\\n+    assert proof[\\\"code\\\"] == \\\"PRIMARY_UNIT_FRAME\\\" and proof[\\\"identity_scope\\\"] == scope\\n+    assert evidence[\\\"selected_record\\\"][\\\"entry_id\\\"] == entry\\n+    assert proof[\\\"unresolved_ordinary_entry_ids\\\"]  # finer identities were NOT merged\\n+    assert proof[\\\"source_reference\\\"][\\\"sha256\\\"] == \\\"5847b39219381181f98a2afbfc57b149ad16cd77157ca0d205b341d1466cf732\\\"\\n+    assert all(frame[\\\"source_record_ids\\\"] and frame[\\\"role_witnesses\\\"] for frame in proof[\\\"frames\\\"])\\n+    selected = encoder.lookup_definition(entry)[\\\"selected\\\"]\\n+    assert evidence[\\\"domains\\\"] == selected[\\\"domains\\\"]\\n+    assert token.word_primitives == {k: v for k, v in selected[\\\"assignments\\\"].items() if v}\\n+    # Neither someone/something slots nor the lexical gaps become own-unit signs.\\n+    assert evidence[\\\"domains\\\"][\\\"TOUCH\\\"] == [-1, 0, 1]\\n+    assert token.word_primitives.get(\\\"SOMEONE\\\") != 1\\n+\\n+\\n+@pytest.mark.parametrize(\\n+    \\\"text,lemma\\\",\\n+    [\\n+        (\\\"She feels the cloth.\\\", \\\"feel\\\"),\\n+        (\\\"They hear a case.\\\", \\\"hear\\\"),\\n+        (\\\"She feels good about this.\\\", \\\"feel\\\"),\\n+        (\\\"He moved the proposal.\\\", \\\"move\\\"),\\n+        (\\\"A good ten miles.\\\", \\\"good\\\"),\\n+        (\\\"Something wants someone.\\\", \\\"want\\\"),\\n+        (\\\"He wants something or someone.\\\", \\\"want\\\"),\\n+        (\\\"The rock knows.\\\", \\\"know\\\"),\\n+    ],\\n+)\\n+def test_primary_frame_requires_whole_valency_and_independently_attested_roles(encoder, text, lemma):\\n+    token = next(t for t in encoder.encode(text).tokens if t.lemma == lemma)\\n+    assert token.lexical_evidence[\\\"selected_record\\\"] is None\\n+    assert token.word_primitives == {}\\n+    assert token.lexical_evidence[\\\"contextual_grounding\\\"][\\\"code\\\"] != \\\"PRIMARY_UNIT_FRAME\\\"\\n+\\n+\\n+def test_primary_unit_source_observation_must_match_complete_original_features(encoder, monkeypatch):\\n+    from GSE.symbolic import lexical_grounding\\n+\\n+    records = {k: dict(v) for k, v in lexical_grounding._primary_records().items()}\\n+    records[\\\"nsm_chart:v20:think\\\"][\\\"frame_text\\\"] = \\\"changed frame\\\"\\n+    monkeypatch.setattr(lexical_grounding, \\\"_primary_records\\\", lambda: records)\\n+    token = next(t for t in encoder.encode(\\\"You think about something.\\\").tokens if t.lemma == \\\"think\\\")\\n+    assert token.lexical_evidence[\\\"selected_record\\\"] is None\\n+    assert token.word_primitives == {}\\n*** End Patch\"}",
+      "call_id": "call_c9fadc76b8b04c5ca072fe2f6cb7fcd2",
+      "id": "fc_0d66c4c7356128c8006b05df9e402c87d28fa0034ecd21aac9",
+      "name": "apply_patch",
+      "status": "completed",
+      "type": "function_call"
+    }
+  ],
+  "parallel_tool_calls": false,
+  "presence_penalty": 0.0,
+  "previous_response_id": "resp_0d66c4c7356128c8006b05df69da8087d2a3be3df8c285c813",
+  "prompt_cache_key": null,
+  "prompt_cache_retention": "24h",
+  "reasoning": {
+    "context": "all_turns",
+    "effort": "high",
+    "mode": "standard",
+    "summary": null
+  },
+  "safety_identifier": null,
+  "service_tier": "default",
+  "status": "completed",
+  "store": true,
+  "temperature": 1.0,
+  "text": {
+    "format": {
+      "type": "text"
+    },
+    "verbosity": "medium"
+  },
+  "tool_choice": "auto",
+  "tool_usage": {
+    "image_gen": {
+      "input_tokens": 0,
+      "input_tokens_details": {
+        "image_tokens": 0,
+        "text_tokens": 0
+      },
+      "output_tokens": 0,
+      "output_tokens_details": {
+        "image_tokens": 0,
+        "text_tokens": 0
+      },
+      "total_tokens": 0
+    },
+    "web_search": {
+      "num_requests": 0
+    }
+  },
+  "tools": [
+    {
+      "description": "Run a local command for the assigned implementation, returning complete output or a saved whole-output artifact. Read whole coherent units, never grep/rg or snippets. Credentials, billing, external model clients and other edit scopes are forbidden. The controller may invoke the existing LOCAL GSE/Ollama typed semantic transport.",
+      "name": "run_command",
+      "output_schema": null,
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "command": {
+            "type": "string"
+          },
+          "cwd": {
+            "type": "string"
+          },
+          "timeout_seconds": {
+            "maximum": 10800,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "command",
+          "cwd",
+          "timeout_seconds"
+        ],
+        "type": "object"
+      },
+      "strict": true,
+      "type": "function"
+    },
+    {
+      "description": "Apply an *** Begin Patch formatted edit to owned project files after tracing their consumers.",
+      "name": "apply_patch",
+      "output_schema": null,
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "patch": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "patch"
+        ],
+        "type": "object"
+      },
+      "strict": true,
+      "type": "function"
+    }
+  ],
+  "top_logprobs": 0,
+  "top_p": 0.98,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 99540,
+    "input_tokens_details": {
+      "cache_write_tokens": 1075,
+      "cache_write_tokens_details": {
+        "ttl_12h_tokens": 0,
+        "ttl_30m_tokens": 1075
+      },
+      "cached_tokens": 98462
+    },
+    "output_tokens": 1617,
+    "output_tokens_details": {
+      "reasoning_tokens": 298
+    },
+    "total_tokens": 101157
+  },
+  "user": null,
+  "metadata": {}
+}

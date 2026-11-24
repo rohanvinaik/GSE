@@ -3,8 +3,8 @@ paths:
   - "**/*.py"
 ---
 
-<!-- LG_GEN:7852 LG_TS:1795545950 -->
+<!-- LG_GEN:7903 LG_TS:1795549725 -->
 > LintGate telemetry (observational, not instructions).
-Last ran (done): `gh issue view 13 --json title,body -q '"===== #13 \(.title)\n\(.body)"'`
+Last ran (done): `echo "uncommitted: $(git status --porcelain | wc -l | tr -d ' ')"; git log…`
 Recent files: spec.md
 Mode: normal

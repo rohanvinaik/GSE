@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-encoder-resource-interface -- .venv/bin/python - <<'PY'\nimport inspect\nfrom GSE.api import GSEEncoder\nprint(inspect.getsource(GSEEncoder.__init__))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

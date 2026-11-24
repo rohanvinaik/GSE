@@ -1,0 +1,1223 @@
+
+=== GSE/symbolic/expression.py ===
+def _leading_adjunct_positions(tokens: Sequence[TokenTrace], verb: TokenTrace) -> set:
+    """Positions of a LEADING ADJUNCT — a sentence-initial phrase set off by a comma BEFORE the main-clause
+    subject ("Angered by the insult, the king banished …" / "Consumed by ambition, Macbeth murders …") — to
+    drop, so the real subject survives instead of the adjunct's head contaminating the agent.
+
+    A capitalized sentence-initial participle ("Angered", "Consumed", "Exhausted") is POS-tagged PROPN, so it
+    is INDISTINGUISHABLE from a proper-noun subject by tag; the reliable signal is the COMMA — the syntactic
+    boundary English uses for a fronted adjunct (participial/absolute/adverbial). The subject is the nominal
+    AFTER the last pre-verb comma; everything from sentence start up to that comma is the leading adjunct.
+
+    Conservative guards, so a comma is not over-read: fire only when (a) a subject-eligible nominal (NOUN/
+    PROPN) actually follows the last pre-verb comma, and (b) that following span carries NO coordinator — so a
+    comma-separated LIST subject ("Tom, Dick and Harry ran") stays whole (there the coordinator sits AFTER the
+    comma, whereas in a coordinated leading adjunct "Consumed by X and spurred by Y, Macbeth …" it sits
+    BEFORE). The subject-initial appositive ("Haemon, Creon's son, pledged") has NO nominal after its last
+    comma, so this abstains and `_appositive_positions` handles it — the two are disjoint by construction."""
+    pre = sorted([t for t in tokens if t.position < verb.position], key=lambda t: t.position)
+    commas = [i for i, t in enumerate(pre) if t.pos == "PUNCT" and t.lemma == ","]
+    if not commas:
+        return set()
+    after = pre[commas[-1] + 1 :]  # tokens between the last pre-verb comma and the verb
+    if not any(t.pos in ("NOUN", "PROPN") for t in after):
+        return set()  # no subject after the comma -> not a fronted adjunct
+    if any(t.lemma in ("and", "or") for t in after):
+        return set()  # coordinator after the comma -> a list subject, keep it
+    return {t.position for t in pre[: commas[-1]]}
+def _select_clause_verb(tokens: Sequence[TokenTrace]):
+    """The clause's predicate verb. Normally the first eligible VERB (non-copula, non-operator).
+
+    LEADING-ADJUNCT override (the verb twin of `_leading_adjunct_positions`): a coordinated/fronted
+    PARTICIPLE inside a leading adjunct is POS=VERB and comes first ("Consumed by X and spurred by Y,
+    Macbeth murders …" → `spur` before `murder`), so the naive first-VERB pick takes the adjunct's verb.
+    The signal that the first verb is adjunct-internal: it is NOT immediately preceded by its own subject
+    (a bare PROPN/NOUN/PRON). When that holds AND a later verb sits after a comma with a subject before it
+    (the real main clause), that later verb is the predicate. A TRAILING adjunct ("Macbeth fled, fearing
+    capture") is untouched — its first verb IS preceded by its subject "Macbeth", so the override abstains."""
+    by_pos = sorted(tokens, key=lambda t: t.position)
+    eligible = [t for t in by_pos if t.pos == "VERB" and t.lemma != _COPULA_LEMMA and not t.is_operator]
+    if not eligible:
+        return None
+    v1 = eligible[0]
+    before_v1 = [t for t in by_pos if t.position < v1.position]
+    if before_v1 and before_v1[-1].pos in _SUBJECT_POS:
+        return v1  # v1 preceded by its subject -> main/trailing verb
+    comma = next((t.position for t in by_pos if t.pos == "PUNCT" and t.lemma == "," and t.position > v1.position), None)
+    if comma is None:
+        return v1
+    for v2 in eligible:
+        if v2.position > comma and any(comma < n.position < v2.position and n.pos in _SUBJECT_POS for n in by_pos):
+            return v2  # a later verb whose subject sits after the adjunct comma
+    return v1
+def _try_event(
+    tokens: Sequence[TokenTrace], shared_subject: Optional[Sequence] = None, signs: Optional[Signs] = None
+) -> Optional[Expression]:
+    """Synthesize an EVENT ``Op`` from a plain verb clause "X verbs Y".
+
+    The base case the operator set was missing: a clause with an ordinary content
+    verb (not the copula "be", not a COMP_* operator token) and no other
+    operator. Mirrors :func:`_try_copula_type_assertion` — the verb is detected by
+    POS (so it works for sub-clause verbs that aren't the sentence ROOT, e.g. the
+    ``became`` of "…because Duncan became happy"); subject = tokens before it,
+    object/complement = tokens after. Returns ``None`` when no content verb is
+    present, so callers fall through to the default phrase build.
+
+    The verb lemma rides on ``Op.primitive``; ``operators.event`` reads it back.
+    """
+    verb = _select_clause_verb(tokens)
+    if verb is None:
+        return None
+    # Clausal negation ("X does not harm Y"): NOT is a sign-direction argument
+    # (sentence_architecture.md), so drop the marker from the argument spans and
+    # wrap the synthesized EVENT in a Negation — the same node the in-span path
+    # (_build_arg_expression) and the emitter already understand. Only a sign that
+    # lands on this event's own verb or participants: "I think this doesn't work"
+    # does not negate think, and "He left not because…" negates the because.
+    negated = _takes_sign(tokens, _sign_owners(tokens) if signs is None else signs, verb.position)
+    _ordered = sorted(tokens, key=lambda t: t.position)
+
+    def _prep_governed(tok) -> bool:
+        """Is ``tok`` the object of a preposition? Walk back over its own determiner/adjective
+        premodifiers (only — NOT other nominals, so a fronted PP's object is not confused with
+        the following subject head); if the governing token is a preposition, ``tok`` is a PP
+        oblique. Catches a FRONTED adverbial before the subject ("In the daytime I ran" →
+        daytime governed, I not) — the subject-side twin of the post-verb object/oblique split,
+        so a fronted PP no longer blobs into the subject ("daytime i"). Text-agnostic.
+
+        EXCEPTION — a genitive/territorial ``of``-postmodifier of a preceding NAME/head-NOUN
+        ("Richard of Gloucester", "Duncan of Scotland", "the son of Duncan") is PART of that
+        nominal, not a fronted PP: its object stays with the subject rather than being peeled off
+        as a SYN_OBL (which `event()` then mis-reads as a `theme`). Restricted to ``of`` (the
+        genitive connector) so an adverbial PP after the subject head ("Macbeth in his rage …")
+        stays an oblique. This is PRE-verb only; a real imputed-act complement ("accuses Y OF
+        treason") is post-verb and split by the object/oblique boundary below, so it is untouched."""
+        for t in reversed([x for x in _ordered if x.position < tok.position]):
+            if t.pos in ("DET", "ADJ"):
+                continue
+            if t.pos != "ADP":
+                return False
+            if t.lemma == "of":
+                for u in reversed([x for x in _ordered if x.position < t.position]):
+                    if u.pos in ("DET", "ADJ"):
+                        continue
+                    return u.pos not in ("PROPN", "NOUN")  # head noun before "of" -> postmodifier -> keep
+            return True
+        return False
+
+    appositive = _appositive_positions(tokens, verb)  # NAME, description, → keep the name (Haemon)
+    leading_adjunct = _leading_adjunct_positions(tokens, verb)  # "Angered by X, the king …" → keep the king
+    subject_tokens = [
+        t
+        for t in tokens
+        if t.position < verb.position
+        and t.pos != "PUNCT"
+        and t.lemma not in _NEGATION_LEMMAS
+        and not _prep_governed(t)
+        and t.position not in appositive
+        and t.position not in leading_adjunct
+    ]
+    # A nominalized-adjective subject ("A giant attacks", "A stranger helps") is the NP head used as a
+    # noun; promote it so it grounds as the agent instead of being dropped as a bare adjective atom.
+    subject_atoms = _promote_nominalized_adjective_subject(
+        subject_tokens, [_atom_from_token(t) for t in subject_tokens]
+    )
+    # Appositive type-inheritance (hint only — the thread is filled at the grounding annotate seam): when
+    # the subject is a NAME described by an appositive ("Arjun, a warrior" / "Haemon, Creon's son"), carry
+    # the description's head noun onto the kept proper-noun atom. The name stays the agent (this does not
+    # touch subject selection); grounding later types it from what the TEXT says when the name itself can't
+    # be placed. The apposition head is the LAST noun of the dropped appositive span.
+    if appositive:
+        _appos_nouns = [
+            t
+            for t in sorted(tokens, key=lambda t: t.position)
+            if t.position in appositive and t.pos in ("NOUN", "PROPN")
+        ]
+        if _appos_nouns:
+            _ah = _appos_nouns[-1].lemma
+            subject_atoms = [replace(a, apposition=_ah) if a.pos == "PROPN" else a for a in subject_atoms]
+    fronted_obliques = [
+        _atom_from_token(t, "SYN_OBL")
+        for t in tokens
+        if t.position < verb.position and t.pos != "PUNCT" and t.lemma not in _NEGATION_LEMMAS and _prep_governed(t)
+    ]
+    # Direct object vs PP obliques. The clause's direct object is the post-verb nominal
+    # span UP TO the first preposition; tokens from the first preposition on are PP
+    # obliques ("for months", "with this result", "to Macbeth"). Without this split the
+    # object accretes every trailing PP nominal into one blobbed entity (the demi-word
+    # span — "penny she month this result"). The obliques are RESOLVED as a typed
+    # SYN_OBL constituent rather than merged or discarded; the narrative spine's
+    # set-operation keeps them off the protagonist backbone. (Text-agnostic: the boundary
+    # is the preposition POS, not any story-specific word.)
+    post_verb = [
+        t for t in tokens if t.position > verb.position and t.pos != "PUNCT" and t.lemma not in _NEGATION_LEMMAS
+    ]
+    first_prep = next((idx for idx, t in enumerate(post_verb) if t.pos == "ADP"), None)
+    obj_tokens = post_verb if first_prep is None else post_verb[:first_prep]
+    obl_tokens = [] if first_prep is None else post_verb[first_prep:]
+    object_atoms = [_atom_from_token(t) for t in obj_tokens]
+    oblique_atoms = fronted_obliques + [_atom_from_token(t, "SYN_OBL") for t in obl_tokens]
+    if not subject_atoms:
+        # VP-coordination with an elided shared subject ("Bertran [betrayed Aldric] and
+        # [murdered him]") — inherit the prior conjunct's subject so the 2nd event survives
+        # instead of collapsing to its bare object. Only fires when the clause has no subject.
+        if not shared_subject:
+            return None
+        subject_atoms = list(shared_subject)
+    args: List[Operand] = [Phrase(atoms=subject_atoms)]
+    if object_atoms:
+        args.append(Phrase(atoms=object_atoms))
+        # Carry obliques only BEHIND a real object, so a bare PP after an intransitive
+        # ("stood by the window") never slides into the patient slot (args[1]).
+        if oblique_atoms:
+            args.append(Phrase(atoms=oblique_atoms))
+    # A modal auxiliary before the verb ("might", "can", "must") qualifies the event, keyed on its primes (#66).
+    modal = modal_primes([t.word_primitives for t in tokens if t.position < verb.position and t.pos == "AUX"])
+    event = Op(primitive=verb.lemma, operation="EVENT", arity=len(args), args=args, modal=modal)
+    # A bare post-verbal PP qualifies the event; it is not the verb's direct
+    # patient. Use the existing relation-over-event representation (also used
+    # for unresolved nominal prepositions), preserving BOTH the preposition
+    # and its anchor. Previously these constituents were silently discarded
+    # just because there was no object to put before them in EVENT.args.
+    if not object_atoms and len(obl_tokens) > 1:
+        event = Op(
+            primitive=obl_tokens[0].lemma,
+            operation="EVENT",
+            arity=2,
+            args=[event, Phrase(atoms=[_atom_from_token(t, "SYN_OBL") for t in obl_tokens[1:]])],
+        )
+    return Negation(operand=event) if negated else event
+def _nominal_temporal_attachment(tokens):
+    """A native temporal preposition + time-typed nominal is an event setting.
+
+    The native closed-class source supplies the relation; WordNet time-period,
+    clock-time or event-beginning ancestry supplies grammatical eligibility, not a
+    selected lexical sense or bank assignment. Clausal anchors stay on the
+    existing clause-linker path; a spatial anchor cannot become a time merely
+    because the same preposition also has a temporal reading.
+    """
+    from nltk.corpus import wordnet as wn
+
+    for index, token in enumerate(tokens):
+        encoding = get_preposition_encoding(token.lemma) or {}
+        if token.pos not in {"ADP", "SCONJ"} or encoding.get("temporal_type") not in {"ANTERIOR", "POSTERIOR"}:
+            continue
+        before = tokens[:index]
+        anchor = [t for t in tokens[index + 1 :] if t.pos != "PUNCT"]
+        if (
+            not any(t.pos == "VERB" or (t.pos == "AUX" and t.lemma == "be") for t in before)
+            or not anchor
+            or any(t.pos not in {"DET", "ADJ", "NOUN", "PROPN"} for t in anchor)
+            or anchor[-1].pos not in {"NOUN", "PROPN"}
+        ):
+            continue
+        head = anchor[-1]
+        senses = wn.synsets(head.lemma, pos="n")
+        time_readings = [
+            sense.name()
+            for sense in senses
+            if {node.name() for node in (sense, *sense.closure(lambda n: n.hypernyms()))}
+            & {"time_period.n.01", "clock_time.n.01", "beginning.n.01"}
+        ]
+        unambiguous = bool(senses) and len(time_readings) == len(senses)
+        token.lexical_evidence["nominal_preposition_reading"] = {
+            "code": "NATIVE_TEMPORAL_ANCHOR" if unambiguous else "UNRESOLVED_PREPOSITION_ANCHOR_ROLE",
+            "source": "GSE.lexicon.function_words:PREPOSITION_ENCODINGS",
+            "anchor_position": head.position,
+            "native_noun_readings": [sense.name() for sense in senses],
+            "temporal_readings": time_readings,
+            "alternatives": ["TEMPORAL"] if unambiguous else ["TEMPORAL", "SPATIAL"],
+        }
+        # A surviving non-time reading (spring, punctuation period, etc.) is
+        # not erased by the existence of a time sense. Preserve the original
+        # relation and nominal without claiming a Temporal or a patient role.
+        return before, token, anchor, "TEMPORAL" if unambiguous else "EVENT"
+    return None
+def _build_clause_expr(
+    clause: ClauseSpan,
+    tokens: Sequence[TokenTrace],
+    operators: Sequence[OperatorTrace],
+    operator_positions: Sequence[int],
+    excluded: Optional[set] = None,
+    drop_relativizers: bool = False,
+    shared_subject: Optional[Sequence] = None,
+    signs: Optional[Signs] = None,
+) -> Expression:
+    """Build the Expression for one clause span.
+
+    A clause resolves through the *existing* single-clause logic: its
+    within-clause operators (if any) are built and left-folded; otherwise the
+    clause's content tokens fold into a copula TYPE_ASSERT or a Phrase / Atom.
+
+    ``excluded`` token positions are dropped (an embedded child clause's tokens
+    are excluded from the parent). ``drop_relativizers`` strips a leading
+    who/which/that pronoun — used when building a relative clause's restriction.
+    ``signs`` is the sentence's negation landings (:func:`_sign_owners`).
+    """
+    signs = _sign_owners(tokens) if signs is None else signs
+    excluded = excluded or set()
+    clause_tokens = [
+        t
+        for t in tokens
+        if clause.token_start <= t.position < clause.token_end
+        and t.position not in excluded
+        and not (drop_relativizers and _is_relativizer(t))
+    ]
+    clause_ops = [operators[i] for i in clause.operator_indices]
+
+    if not clause_ops:
+        return _clause_core(clause_tokens, shared_subject, signs)
+
+    for index in sorted(clause.operator_indices, key=lambda i: operators[i].position):
+        op = operators[index]
+        left = [t for t in clause_tokens if t.position < op.position]
+        right = [t for t in clause_tokens if t.position > op.position]
+        left_pred = any(t.pos == "VERB" or (t.pos == "AUX" and t.lemma == "be") for t in left if not t.is_operator)
+        right_pred = any(t.pos == "VERB" or (t.pos == "AUX" and t.lemma == "be") for t in right if not t.is_operator)
+        head = not any(t.pos not in ("PUNCT", "CCONJ", "SCONJ") for t in left)
+        plan = operator_composition_plan(op.operation, op.arity, left_pred, right_pred, head)
+        remaining = [i for i in clause.operator_indices if i != index]
+        args: List[Operand]
+        duration = None
+        if plan == "clause_pair":
+            operand_exclusions = excluded
+            if op.operation == "TEMPORAL":
+                duration, offset_positions = temporal_offset(clause_tokens, op.position)
+                operand_exclusions = excluded | offset_positions
+            before = replace(
+                clause,
+                token_end=op.position,
+                operator_indices=[i for i in remaining if operators[i].position < op.position],
+            )
+            after = replace(
+                clause,
+                token_start=op.position + 1,
+                operator_indices=[i for i in remaining if operators[i].position > op.position],
+            )
+            args = [
+                _build_clause_expr(
+                    before,
+                    tokens,
+                    operators,
+                    operator_positions,
+                    operand_exclusions,
+                    drop_relativizers,
+                    shared_subject,
+                    signs,
+                ),
+                _build_clause_expr(
+                    after, tokens, operators, operator_positions, excluded, drop_relativizers, shared_subject, signs
+                ),
+            ]
+        elif plan in ("qualified_core", "open_discourse"):
+            inner_clause = replace(clause, operator_indices=remaining)
+            core = _build_clause_expr(
+                inner_clause,
+                tokens,
+                operators,
+                operator_positions,
+                excluded | {op.position},
+                drop_relativizers,
+                shared_subject,
+                signs,
+            )
+            args = [Phrase(atoms=[]), core] if plan == "open_discourse" else [core]
+        elif plan == "matrix_core":
+            event = _try_event(clause_tokens, shared_subject=shared_subject, signs=signs)
+            if event is not None:
+                return event
+            continue
+        else:
+            continue
+        built = Op(
+            primitive=_operator_primitive(op, clause_tokens),
+            operation=op.operation,
+            arity=len(args),
+            args=args,
+            duration=duration,
+        )
+        return Negation(operand=built) if op.position in _negated_operators(signs) else built
+
+    built = [_build_operator_op(op, tokens, operator_positions, signs) for op in clause_ops]
+    if len(built) == 1:
+        return built[0]
+    return _left_fold_operators(built)
+
+=== GSE/nlp/native.py ===
+class NativeNLP:
+    """Deterministic, arc-free token front-end. Call it like ``spacy.load(...)``."""
+
+    def __call__(self, text: str) -> NativeDoc:
+        surfaces = _tokenize(text)
+        tokens: List[NativeToken] = []
+        for i, surf in enumerate(surfaces):
+            pos = self._pos(surf, i, surfaces)
+            lemma = self._lemma(surf, pos)
+            morph = self._morph(surf, pos)
+            tokens.append(NativeToken(surf, lemma, pos, i, morph))
+        self._resolve_contractions(tokens)
+        self._resolve_apostrophe_s(tokens)
+        return NativeDoc(tokens)
+
+    def _resolve_contractions(self, tokens: List["NativeToken"]) -> None:
+        """Give each contracted auxiliary ('m 're 've 'll 'd) the lemma and tense of the word it stands for, as
+        :func:`GSE.nlp.contractions.resolve_contraction` reads it from the token after it: "I'd gone" → had (have,
+        Tense=Past), "I'd go" → would, "I'm" → am (be, Tense=Pres)."""
+        pos_tags, texts = [t.pos_ for t in tokens], [t.text for t in tokens]
+        for i, t in enumerate(tokens):
+            if t.text.lower() not in _CONTRACTED_AUX:
+                continue
+            j = _skip_adverbs(pos_tags, texts, i + 1)  # "I'd already gone" is decided by gone
+            reading = resolve_contraction(t.text, tokens[j] if j < len(tokens) else None)
+            if reading:
+                t.lemma_ = _IRREGULAR_LEMMA.get(reading, reading)
+                t._morph = self._morph(reading, t.pos_)
+
+    def _resolve_apostrophe_s(self, tokens: List["NativeToken"]) -> None:
+        """Spell-check voice-mode: re-tag a VERBAL ``'s`` to its copula/perfect verb so
+        the downstream copula TYPE_ASSERT synthesis fires (``fire's too big`` → fire IS
+        too big). Possessive ``'s`` is left as the PART — its resolution already works,
+        and re-tagging is conservative (only when nothing else could be the predicate).
+        See :func:`GSE.nlp.contractions.resolve_apostrophe_s`."""
+        for i, t in enumerate(tokens):
+            if t.text.lower() != "'s" or t.pos_ != "PART":
+                continue
+            # The very next token, not the verb past an adverb as for 'd: before a participle 's is "is" (passive,
+            # "It's instead retained as a whole") or "has" (perfect), which the participle alone cannot decide (#76).
+            following = tokens[i + 1] if i + 1 < len(tokens) else None
+            # 's is possessive when the clause ALREADY has a predicate — a verb/copula
+            # elsewhere in the SAME clause, BEFORE or after the 's. (Scanning only AFTER
+            # missed the matrix verb in "Gnash destroyed Pip's house" / "...could not
+            # destroy Hew's house", misread the genitive as the copula, and dropped the
+            # verb.) Both directions, stopping at a clause boundary so a verb in a
+            # NEIGHBOURING clause ("Because Mike ran, Pip's happy") can't suppress a real
+            # copula.
+            verb_or_copula_in_clause = self._clause_has_predicate(tokens, i)
+            host = tokens[i - 1] if i > 0 else None
+            reading = resolve_apostrophe_s(
+                following,
+                verb_or_copula_in_clause,
+                host.text if host is not None else "",
+                host is not None and host.pos_ == "PROPN",
+            )
+            if reading == "is":
+                t.lemma_, t.pos_ = "be", "AUX"
+            elif reading == "has":
+                t.lemma_, t.pos_ = "have", "AUX"
+            elif reading == "us":
+                t.lemma_, t.pos_ = self._lemma("us", "PRON"), "PRON"
+            elif reading == POSSESSIVE_PLURAL and following is not None:
+                # "Duncan's guards": the plural the third-singular rule tagged VERB is the possessed noun.
+                following.pos_ = "NOUN"
+                following.lemma_ = self._lemma(following.text, "NOUN")
+                following._morph = self._morph(following.text, "NOUN")
+            if reading in ("is", "has"):
+                t._morph = self._morph(reading, t.pos_)
+            # POSSESSIVE → leave the PART unchanged (the possessive path handles it).
+
+    # A clause boundary for the local 's scan: a connective or punctuation separates
+    # the genitive's clause from a neighbour's predicate.
+    _CLAUSE_BOUNDARY_POS = ("SCONJ", "CCONJ", "PUNCT")
+
+    def _clause_has_predicate(self, tokens: List["NativeToken"], i: int) -> bool:
+        """Is there a VERB/AUX in the same clause as ``tokens[i]`` (the ``'s``), excluding
+        it — scanning both directions and stopping at a clause boundary?"""
+        for rng in (range(i + 1, len(tokens)), range(i - 1, -1, -1)):
+            for j in rng:
+                if tokens[j].pos_ in self._CLAUSE_BOUNDARY_POS:
+                    break
+                if tokens[j].pos_ in ("VERB", "AUX"):
+                    return True
+        return False
+
+    # --- POS ---------------------------------------------------------------
+    def _pos(self, surf: str, i: int, surfaces: List[str]) -> str:
+        low = surf.lower()
+        previous = surfaces[i - 1] if i > 0 else ""
+        prev = previous.lower() if isinstance(previous, str) else ""
+        if _PUNCT_RE.fullmatch(surf):
+            return "PUNCT"
+        if surf.replace(",", "").replace(".", "").isdigit():
+            return "NUM"
+        if (
+            low in _AUX_MODAL
+            and i > 0
+            and (surfaces[i - 1].lower() in _POSS_PRON or surfaces[i - 1].lower() in ("the", "a", "an"))
+        ):
+            # A modal homograph right after an article or possessive is the NOUN, not the modal:
+            # "makes his will" / "opened the can". A SUBJECT pronoun ("he will go") is not in this
+            # set, so the modal reading is preserved. Without this, "will" tagged AUX is dropped as a
+            # function word and "his will" collapses to the bare possessor (make(alonso, alonso)).
+            return "NOUN"
+        if low in _AUX_BE or low in _AUX_MODAL or low in _AUX_DO:
+            return "AUX"
+        if low in _NT_STEM and i + 1 < len(surfaces) and surfaces[i + 1].lower() == "n't":
+            return "AUX"
+        if low in ("has", "have", "had", "'ve"):
+            # Perfect auxiliary ("had murdered Duncan") vs main/possessive verb ("had a
+            # crown"): a determiner/pronoun/preposition next → the main verb; a verb
+            # (the participle) next → the perfect auxiliary. Scan past intervening
+            # adverbs/negation ("had never murdered"). Without this, "had" was tagged
+            # VERB and stole the predicate slot, dropping the real verb (have(x,y)).
+            j = i + 1
+            while j < len(surfaces) and (surfaces[j].lower().endswith("ly") or surfaces[j].lower() in _NEG):
+                j += 1
+            nxt = surfaces[j].lower() if j < len(surfaces) else ""
+            if nxt in _DET or nxt in _PRON or nxt in _POSS_PRON or nxt in _ADP:
+                return "VERB"
+            return "AUX" if self._looks_verbal(nxt) else "VERB"
+        if low in _NEG:
+            return "PART"
+        if low == "to":
+            # infinitival 'to' (next is a verb) → PART, else preposition.
+            nxt = surfaces[i + 1].lower() if i + 1 < len(surfaces) else ""
+            return "PART" if self._looks_verbal(nxt) else "ADP"
+        if low in _POSS_PRON:
+            return "PRON"
+        if low in _DET and low not in _PRON:
+            return "DET"
+        if low in _PRON and low != "that":
+            return "PRON"
+        if low in _CCONJ:
+            return "CCONJ"
+        if low in _SCONJ and low not in ("that",):
+            return "SCONJ"
+        if low == "that":
+            # 'that' is genuinely 3-way (DET/SCONJ/PRON); resolved by enumerate-and-score,
+            # not the _PRON trap above (excluded) nor a next-token rule.
+            return self._resolve_that(i, surfaces)
+        if low == "than":
+            return "ADP"
+        if low in _ADP:
+            return "ADP"
+        if low == "'s":
+            return "PART"
+        # Closed-class adverb / connective / deictic adverb — no entity reading; tag ADV
+        # before the open-class WordNet/title-case logic that was mis-promoting these to
+        # NOUN/PROPN and then to AGENT. (See _ADV_CLOSED.)
+        if copula_degree_reading(low, prev in _DET or prev in _POSS_PRON) == "DEGREE_ADV":
+            return "ADV"
+        if low in _ADV_CLOSED:
+            return "ADV"
+
+        # --- open class ----------------------------------------------------
+        # Title-case alphabetic non-stop word → proper noun (the register's
+        # names: Macbeth/Mike/Rex/Spot/Lady — incl. sentence-initial).
+        if surf.isalpha() and surf.istitle() and low not in _STOP:
+            at_head = i == 0 or previous in (".", "!", "?")
+            nxt = surfaces[i + 1].lower() if i + 1 < len(surfaces) else ""
+            # Capitalization at a sentence boundary is orthographic evidence.
+            # A known verb followed by a nominal opener is an imperative;
+            # an adverb before a boundary retains its discourse reading.
+            if at_head and wn.synsets(low, pos="v") and nxt in (_DET | _POSS_PRON | _PRON):
+                return "VERB"
+            if at_head and wn.synsets(low, pos="r") and nxt in (",", ".", "!", "?"):
+                return "ADV"
+            return "PROPN"
+
+        senses = [wn.synsets(low, pos=pos) for pos in ("v", "n", "a", "s", "r")]
+        mv = wn.morphy(low, "v") or ""
+        has_v = bool(senses[0] or mv)
+        has_n = bool(senses[1])
+        has_a = bool(senses[2] or senses[3])
+        has_r = bool(senses[4])
+        closed_nonverbs = _NEG | _ADV_CLOSED | _ADV_DEGREE | _DET | _PRON | _POSS_PRON | _ADP | _CCONJ | _SCONJ
+        participle_kind = copula_participle_kind(
+            low,
+            mv,
+            has_v,
+            low in closed_nonverbs,
+        )
+        next_kind = "NOT_PARTICIPLE"
+        if i + 1 < len(surfaces):
+            nxt = surfaces[i + 1].lower()
+            next_senses = [wn.synsets(nxt, pos=pos) for pos in ("v", "n", "a", "s", "r")]
+            next_mv = wn.morphy(nxt, "v") or ""
+            next_kind = copula_participle_kind(
+                nxt,
+                next_mv,
+                bool(next_senses[0] or next_mv),
+                nxt in closed_nonverbs,
+            )
+        modifier_context = copula_modifier_context(
+            low,
+            has_a,
+            has_r,
+            next_kind,
+        )
+        left_roles = []
+        j = i - 1
+        while j >= 0:
+            left = surfaces[j].lower()
+            left_previous = surfaces[j - 1].lower() if j > 0 else ""
+            left_a = wn.synsets(left, pos="a")
+            left_s = wn.synsets(left, pos="s")
+            role = copula_left_role(
+                left,
+                left_previous,
+                bool(left_a or left_s),
+                left in _AUX_BE,
+                left in _NEG,
+            )
+            left_roles.append(role)
+            if role != "SKIP":
+                break
+            j -= 1
+        left_roles.reverse()
+        reading = copula_complement_reading(
+            left_roles,
+            participle_kind == "PARTICIPLE",
+            modifier_context == "MODIFIER",
+            has_a,
+            has_n,
+        )
+        if reading == "ADJ":
+            return "ADJ"
+        if reading == "NOUN":
+            return "NOUN"
+
+        # A complete bare gerund can name an activity in a nominal copula,
+        # rather than describe an agent doing it ("occupation is teaching").
+        # Demand a positive native IS-A path from the gerund noun to the
+        # subject's activity reading, not merely a shared broad ancestor.
+        # This licenses a nominal construction, not a lexical bank or a
+        # claim that abstract things cannot act. Animate/mixed subjects,
+        # objects, and following modifiers keep the progressive available.
+        be_index = i - 1
+        while be_index >= 0 and surfaces[be_index].lower() in _NEG:
+            be_index -= 1
+        if low.endswith("ing") and has_n and be_index >= 1 and surfaces[be_index].lower() in _AUX_BE:
+            subject = wn.synsets(surfaces[be_index - 1].lower(), pos="n")
+
+            def has_ancestor(synset, name):
+                return any(item.name() == name for path in synset.hypernym_paths() for item in path)
+
+            complete = all(_PUNCT_RE.fullmatch(item) for item in surfaces[i + 1 :])
+            if (
+                complete
+                and subject
+                and all(has_ancestor(s, "abstraction.n.06") for s in subject)
+                and any(
+                    has_ancestor(s, "act.n.02") and has_ancestor(gerund, s.name())
+                    for s in subject
+                    for gerund in senses[1]
+                )
+            ):
+                return "NOUN"
+
+        # A determined copular NP can have adjective modifiers between its
+        # article and head. Its attested noun head is not a finite -s verb
+        # ("is an inert gas"). This is occurrence grammar, not sense choice;
+        # a noun/verb elsewhere and an article-less participle remain eligible
+        # for their ordinary predicate readings.
+        if has_n:
+            j = i - 1
+            while (
+                j >= 0
+                and surfaces[j].lower() not in _STOP
+                and (
+                    surfaces[j].lower() in _ADV_DEGREE
+                    or wn.synsets(surfaces[j].lower(), pos="a")
+                    or wn.synsets(surfaces[j].lower(), pos="s")
+                )
+            ):
+                j -= 1
+            if j < i - 1 and j >= 1 and surfaces[j].lower() in {"a", "an", "the"}:
+                k = j - 1
+                while k >= 0 and surfaces[k].lower() in (_NEG | _COPULA_SKIP):
+                    k -= 1
+                next_word = surfaces[i + 1].lower() if i + 1 < len(surfaces) else ""
+                at_nominal_end = (
+                    not next_word or bool(_PUNCT_RE.fullmatch(next_word)) or next_word in (_ADP | _SCONJ | _CCONJ)
+                )
+                if k >= 0 and surfaces[k].lower() in _AUX_BE and at_nominal_end:
+                    return "NOUN"
+
+        if low.endswith("ly") and low != "only":
+            return "ADV"
+
+        # A *demonstrative-or-relativizer* "that" before this word is NOT a determiner context:
+        # "the king that FELL" / "the sword that Macbeth HELD" — the verb after a relativizer
+        # "that" must stay a verb, not be nominalized like the head of "that DOG". (When "that"
+        # really is a determiner, the following word is a noun, which `has_n` tags NOUN anyway.)
+        prev_det = (prev in _DET or prev in _POSS_PRON) and prev != "that"
+
+        # An isolated content word with a verb reading is the predicate (no
+        # object-position context to make it a noun) — matches spaCy's default
+        # for single-token input and keeps a lemma's forms POS-consistent.
+        if len(surfaces) == 1 and has_v and not has_a:
+            return "VERB"
+
+        # Inflectional morphology beats a noun sense, except right after an article or a possessive, where the word
+        # opens or modifies a noun phrase ("the meaning", "a dividing cell") rather than being the predicate.
+        if low.endswith(("ing", "ed")):
+            nxt = surfaces[i + 1].lower() if i + 1 < len(surfaces) else ""
+            next_is_noun = bool(nxt) and nxt not in _STOP and bool(wn.synsets(nxt, pos="n"))
+            prev_kind = "np_opener" if prev in _NP_OPENER else "other"
+            return _inflected_pos(prev_kind, has_v, has_n, has_a, next_is_noun)
+        # Irregular past / participle: morphy maps to a *different* verb lemma
+        # (sang→sing, left→leave, saw→see) — a verb even when also a noun. But a
+        # determiner/possessive in front forces the nominal reading when the word
+        # has a noun sense (``the dove``=the bird, not past-of-dive; ``the saw``=the
+        # tool): a finite-verb position settles it, exactly as for the morphy-opaque
+        # table below. The ``-s`` forms are excluded here (handled positionally below).
+        if mv and mv != low and not low.endswith("s") and not (has_n and prev_det):
+            return "VERB"
+        # Morphy-opaque irregular past (fell/rose/…): a finite-verb position settles it.
+        if low in _IRREGULAR_PAST_VERB and not prev_det:
+            return "VERB"
+        if low.endswith(("ous", "ful", "less", "ive", "able", "ible")):
+            return "ADJ"
+        # Comparative / superlative (incl. suppletive better/best/worse): the
+        # morphology operation is the single source of truth for "is this a degree
+        # form?". A grounded degree form is an ADJ — except in clearly verbal position
+        # (after a modal/do/neg/"to"), where a homographic verb wins ("will best
+        # them"). Subsumes the old -er/-est heuristic and also catches the suppletives.
+        if resolve_degree(low) is not None and not (
+            prev in _AUX_MODAL or prev in _AUX_DO or prev in _NEG or prev == "to"
+        ):
+            return "ADJ"
+
+        # Positional disambiguation relative to the verb-inventory.
+        if (prev in _AUX_DO or prev in _AUX_MODAL or prev in _NEG or prev == "to") and has_v:
+            return "VERB"  # content word after do/modal/neg/to
+        # Predicate by exclusion: a verb-capable word right after a nominative SUBJECT pronoun
+        # ("I know", "they think", "he wants") is the clause predicate — the subject slot is
+        # filled and the predicate is the only role left to assign, so a stray noun sense
+        # (know/think/want all have one) must not strand the clause verb-less.
+        if prev in _SUBJ_PRON and has_v:
+            return "VERB"
+        # Pre-nominal adjective: a determiner-preceded word that is adjectival AND is
+        # followed by a noun head is a modifier, not the NP head — "the old king" → old
+        # is ADJ (king is the head), not the nominalized "the old". Without this, an adj
+        # with a noun sense (old/young/rich/poor/great…) was tagged NOUN before the head,
+        # garbling the NP ("old king" as one unit). Guards the DET→NOUN rule below.
+        nxt = surfaces[i + 1].lower() if i + 1 < len(surfaces) else ""
+        if prev_det and has_a and nxt and nxt not in _STOP and bool(wn.synsets(nxt, pos="n")):
+            return "ADJ"
+        if prev_det and has_n:
+            return "NOUN"  # head of a determined NP
+        if low.endswith("s") and has_v and not low.endswith("ss") and prev not in _ADP:
+            return "VERB"  # 3sg present (barks, murders, falls); but the
+            # object of a preposition is nominal ("of sticks")
+        # Adverb in modifier position: a word with a WordNet adverb sense, not in a determined
+        # nominal slot, not a preposition's object, and not clause-initial, modifies the
+        # predicate — "loved him much", "go far", "ran away" — rather than being a second
+        # object/the subject. Determined ("the well"), PP ("of much"), copula-complement, and
+        # subject-initial nominal uses were all settled by the rules above, so reaching here
+        # with an adverb sense means the modifier reading. Keeps degree/quantity adverbs out
+        # of the object span (they were defaulting to NOUN via the has_n fallback below).
+        if has_r and not prev_det and prev not in _ADP and i > 0:
+            return "ADV"
+
+        # A complete bare degree phrase provides adjective context even without
+        # a copula. Use the existing adjective inventory, not lexical bank
+        # values, and leave determined NPs, following noun heads, prepositional
+        # complements and intervening operators to their existing readings.
+        # This selects a grammatical category, never an individual word sense.
+        if has_a and i > 0 and all(_PUNCT_RE.fullmatch(item) for item in surfaces[i + 1 :]):
+            prefix = [item.lower() for item in surfaces[:i] if item.lower() not in _NEG]
+            encodings = [get_hierarchy_encoding(item.upper()) for item in prefix]
+            if encodings and all(encoding and encoding[0] == "INTENSITY" for encoding in encodings):
+                return "ADJ"
+
+        if has_n:
+            return "NOUN"
+        if has_v:
+            return "VERB"
+        if has_a:
+            return "ADJ"
+        return "NOUN"
+
+    @staticmethod
+    def _rule_base(word: str) -> str:
+        for suf in ("ing", "ed", "s"):
+            if word.endswith(suf) and len(word) > len(suf) + 2:
+                return word[: -len(suf)]
+        return word
+
+    def _looks_verbal(self, low: str) -> bool:
+        base = self._rule_base(low)
+        return bool(wn.synsets(low, pos="v") or wn.synsets(base, pos="v"))
+
+    def _resolve_that(self, i: int, surfaces: List[str]) -> str:
+        """Resolve the 3-way ambiguity of "that" by enumerate-and-score (not a next-token rule).
+
+        The three readings each imply a different clause decomposition:
+          * **DET** — determines the following nominal as an argument NP head ("that dog").
+          * **SCONJ** — a complementizer opening a finite subordinate clause ("…knows that she
+            left"): a main predicate before AND a subject+predicate after.
+          * **PRON** — a relativizer ("the king *that* fell": noun before + verb right after) or a
+            demonstrative subject ("*That* is mine": clause-initial + verb right after).
+
+        Each reading is scored by how well-formed the decomposition it induces is — predicates
+        homed in clauses with a present main clause, an orphaned verb penalised — with clause-token
+        balance as the tie-break. Generalises the parse-repair enumerate→score→commit shape to a
+        high-ambiguity function word. ("that DOG barks"=DET vs "knows that DOGS bark"=SCONJ turns
+        on whether what follows is an NP or a subject+predicate, i.e. mini-parsing; no next-token
+        rule can split them — the silent-PRON-trap residual this replaces.)
+        """
+        n = len(surfaces)
+
+        def pos_of(j: int) -> str:
+            if j < 0 or j >= n:
+                return ""
+            if surfaces[j].lower() == "that":
+                return ""  # an adjacent 'that' is no evidence (avoid recursion)
+            return self._pos(surfaces[j], j, surfaces)
+
+        prev, nxt = pos_of(i - 1), pos_of(i + 1)
+        # The GOVERNOR (the reliable preceding token) decides attachment — not the ambiguous
+        # following predicate, which can't be tagged in isolation:
+        #   noun/pronoun before → relativizer ("the king that fell") → PRON, the POS the
+        #                         relative-clause builder keys on (expression._is_relativizer);
+        #   verb before         → complementizer ("knows that she left") → SCONJ, a clean
+        #                         nested complement clause;
+        #   clause-initial/other:
+        #       nominal after   → demonstrative determiner ("that dog") → DET (filtered; deixis
+        #                         only, no propositional content);
+        #       predicate after → demonstrative pronoun ("that is mine") → PRON (a referent).
+        # Only the demonstrative PRON carries meaning; DET/SCONJ/relativizer are structural glue.
+        if prev in ("NOUN", "PROPN", "PRON"):
+            return "PRON"
+        if prev == "VERB":
+            return "SCONJ"
+        if nxt in ("NOUN", "PROPN", "ADJ"):
+            return "DET"
+        if nxt in ("VERB", "AUX"):
+            return "PRON"
+        return "DET"
+
+    # --- lemma -------------------------------------------------------------
+    def _lemma(self, surf: str, pos: str) -> str:
+        low = surf.lower()
+        if pos == "PROPN":
+            return low
+        # _IRREGULAR_LEMMA holds POS-invariant maps (function words: be/have/do,
+        # contraction parts) plus open-class verb-pasts whose surface collides with a
+        # distinct noun ("saw"=past-of-see AND the cutting tool). For the latter, a
+        # NOUN reading must NOT inherit the verbal lemma — defer to POS-aware morphy
+        # below ("the saw" → "saw", not "see"), exactly as the _IRREGULAR_PAST_VERB
+        # table is gated to verbal position. Function words never tag NOUN, so they
+        # are unaffected.
+        if low in _IRREGULAR_LEMMA and not (pos == "NOUN" and wn.synsets(low, pos="n")):
+            return _IRREGULAR_LEMMA[low]
+        if pos == "VERB" and low in _IRREGULAR_PAST_VERB:  # fell→fall only when verbal
+            return _IRREGULAR_PAST_VERB[low]
+        # Comparative/superlative: a word-scale morphological OPERATION — propose
+        # candidate bases via the inverse orthographic formation, select the one that
+        # grounds as a gradable adjective (GSE/nlp/morphology.py; see
+        # docs/MORPHOLOGY_RESEARCH_BRIEF.md). Replaces the old suffix-strip. The base
+        # is the word-lens identity (the lemma); the degree is the sentence-lens half.
+        if pos in ("ADJ", "ADV"):
+            degree = resolve_degree(low)
+            if degree is not None:
+                return degree[0]
+        wnl = _wn_lemma(low, pos)
+        if wnl:
+            return wnl
+        return _rule_lemma(low, pos)
+
+    # --- morph (only the four TAM features MORPH_TO_TAM consumes) -----------
+    def _morph(self, surf: str, pos: str) -> str:
+        low = surf.lower()
+        feats: Dict[str, str] = {}
+        if pos in ("VERB", "AUX"):
+            if low.endswith("ing"):
+                feats["Aspect"] = "Prog"
+            if low in ("was", "were", "did", "had") or (low.endswith("ed") and pos == "VERB"):
+                feats["Tense"] = "Past"
+            elif low in ("is", "am", "are", "has", "does") or (low.endswith("s") and pos == "VERB"):
+                feats["Tense"] = "Pres"
+        return "|".join(f"{k}={v}" for k, v in sorted(feats.items()))
+
+=== GSE/api/parse_repair.py ===
+"""Upstream parse repair for the verb-POS mistag.
+
+spaCy's small model mistags an unknown proper-noun subject + a noun/verb
+ambiguous predicate ("Macbeth murders Duncan") so that the verb is tagged NOUN
+and the subject demoted to ADJ. With no ``pos == "VERB"`` token in the clause,
+``expression._try_event`` finds no predicate and the clause collapses to a bare
+nominal — dropping the subject, which blocks rule-learning downstream (Genesis).
+
+This module detects the buried verb from its *local dependency arc-neighbourhood*
+and reports its token index; the encoder promotes that token's POS to VERB so the
+existing position-based EVENT synthesis fires. Detection is conservative by
+construction: it requires a verb-sense token flanked by entity-like tokens on
+*both* sides (subject before, object after), the transitive mistag signature —
+so a verbless noun phrase ("the big red ball"), whose verb-sense head has no
+entity-like flankers, is never promoted.
+
+Only POS is corrected (the clause-graph fix the seam needs); the HDC vector's
+role binding is a separate, deliberate follow-up.
+"""
+
+from __future__ import annotations
+
+from typing import Set
+
+from nltk.corpus import wordnet as wn
+
+from GSE.lexicon.numerals import get_numeral_encoding
+
+_NOMINAL_POS = {"PROPN", "NOUN", "PRON"}
+
+# Tokens skipped when finding the nearest *content* flanker (determiners and
+# punctuation sit between a verb and its arguments without being arguments).
+# Locality alone discriminates the copula cases the arc version drew via arcs:
+# "Duncan is a king" (right content = king → promote, feeds TYPE_ASSERT) vs
+# "Mike is taller than Rex" (right content = taller/ADJ → no promote).
+_SKIP_FLANK_POS = {"PUNCT", "DET"}
+
+# Possessive DETERMINERS — the native front-end tags these PRON (not DET), so the
+# flank skip above misses them, and _entity_like reads a PRON as an entity. But a
+# possessive determiner is NOT a subject: the verb-sense token it governs is the
+# possessed NOUN head ("his ambition", "her plan"), not the clause verb. Keyed by
+# LEMMA (mirrors encoder._POSSESSIVE_DET; kept local to avoid a circular import).
+_POSSESSIVE_DET = frozenset({"my", "your", "his", "her", "its", "our", "their", "whose"})
+
+
+def _is_possessive_determiner(tok) -> bool:
+    """A possessive determiner ("his"/"her"/…) — a governor of the following noun, not a subject."""
+    return tok.lemma_.lower() in _POSSESSIVE_DET
+
+
+def _has_verb_sense(lemma: str) -> bool:
+    """Dictionary fact: does this lemma have a verb reading? (Not a verb list.)"""
+    return bool(wn.synsets(lemma, pos="v"))
+
+
+def _has_adjective_sense(lemma: str) -> bool:
+    return bool(wn.synsets(lemma, pos="a") or wn.synsets(lemma, pos="s"))
+
+
+def _entity_like(tok) -> bool:
+    """True for a referential nominal — including a proper noun the mistag has
+    demoted to ADJ (a title-case content word that is not actually an adjective).
+    """
+    if tok.pos_ in _NOMINAL_POS:
+        return True
+    return tok.is_alpha and tok.is_title and not tok.is_stop and not _has_adjective_sense(tok.lemma_)
+
+
+def _in_hyphen_compound(toks, i: int) -> bool:
+    """True when ``toks[i]`` is a member of a hyphenated nominal compound
+    (``cart-horse``) — a noun *modifier*, never a buried verb.
+
+    The flanker search skips PUNCT, so it discards the hyphen — the one token that
+    marks ``cart - horse colts`` a compound — and reads it as subject-verb-object,
+    spuriously promoting the verb-sensed middle noun (``horse``). The hyphen is the
+    compound signal; a real transitive verb is never directly joined by one. Detection
+    is local and text-agnostic: a hyphen token immediately adjacent to the candidate
+    whose other side is entity-like. (A spaced clause dash — ``There -- take`` — is a
+    separate token shape and does not match.)
+    """
+    n = len(toks)
+    if i - 2 >= 0 and toks[i - 1].text == "-" and _entity_like(toks[i - 2]):
+        return True
+    if i + 2 < n and toks[i + 1].text == "-" and _entity_like(toks[i + 2]):
+        return True
+    return False
+
+
+def verbs_to_promote(doc) -> Set[int]:
+    """Token indices of buried (mis-tagged) verbs to promote to ``pos == VERB``.
+
+    A buried verb is a non-VERB token whose lemma has a verb sense and whose
+    nearest *content* token on each side (determiners/punctuation skipped) is
+    entity-like — the transitive-mistag signature (subject before, object
+    after). WS1: the flanking signal is *positional* (the token stream), NOT
+    spaCy dependency arcs — ``children``/``head`` are never read. Validated to
+    match the arc version on the bounded register (``scripts/ws1_parity.py``);
+    the coherence gate flags any tail divergence.
+    """
+    toks = list(doc)
+
+    def _nearest_content(i: int, step: int):
+        j = i + step
+        while 0 <= j < len(toks):
+            if toks[j].pos_ not in _SKIP_FLANK_POS:
+                return toks[j]
+            j += step
+        return None
+
+    promote: Set[int] = set()
+    for i, t in enumerate(toks):
+        if t.pos_ in ("VERB", "AUX", "PUNCT"):
+            continue
+        if not _has_verb_sense(t.lemma_):
+            continue
+        if _in_hyphen_compound(toks, i):  # a hyphenated noun-compound member is a modifier, not a verb
+            continue
+        # In a governed counted NP, the cardinal belongs to the noun phrase.
+        # A clause-initial "one" can still serve as the subject of a real verb.
+        if t.pos_ == "NOUN" and i >= 2 and toks[i - 2].pos_ in {"ADP", "DET"}:
+            numeral = get_numeral_encoding(toks[i - 1].lemma_) or {}
+            if numeral.get("quantity_type") == "cardinal":
+                continue
+        left = _nearest_content(i, -1)
+        right = _nearest_content(i, +1)
+        # A possessive determiner on the left is NOT the subject — it governs the candidate as the
+        # possessed noun head ("his ambition, Macbeth murdered …" → ambition is a NOUN, murder the verb).
+        # Without this, the PRON-tagged possessive reads as an entity-like subject and buries the real verb.
+        if (
+            left is not None
+            and right is not None
+            and _entity_like(left)
+            and not _is_possessive_determiner(left)
+            and _entity_like(right)
+        ):
+            promote.add(t.i)
+    return promote
+
+
+def _verbs_to_promote_arcs(doc) -> Set[int]:
+    """Legacy arc-based reference — kept only for the WS1 parity harness.
+
+    Reads spaCy ``children``/``head``/``dep_``; the production path no longer
+    does. Delete once the parity gate is green and the engine swap lands.
+    """
+    promote: Set[int] = set()
+    for t in doc:
+        if t.pos_ == "VERB" or t.dep_ == "punct":
+            continue
+        if not _has_verb_sense(t.lemma_):
+            continue
+        neighbors = list(t.children)
+        if t.head.i != t.i:
+            neighbors.append(t.head)
+        ents = [n for n in neighbors if n.dep_ != "punct" and _entity_like(n)]
+        if any(n.i < t.i for n in ents) and any(n.i > t.i for n in ents):
+            promote.add(t.i)
+    return promote
+
+
+=== tests/test_runtime_native_composed_controls.py ===
+"""Development regressions through actual native encoder and composed consumers.
+
+The three reported failures and subsequently inspected cases are development,
+not a fresh final holdout or evidence of full workload acceptance.
+"""
+
+import pytest
+
+from GSE.api import GSEEncoder
+from GSE.symbolic import emit_contract, evaluate_tree, from_trace, resolve
+from GSE.symbolic.expression import Negation
+from GSE.symbolic.predicates import Event, RelativeRestriction, Temporal, TypeAssertion
+from GSE.symbolic.queries import is_logically_equal_to
+from GSE.symbolic.resolution import Coordination, Entity
+from GSE.symbolic.serialization import from_dict, to_dict
+
+
+@pytest.fixture(scope="module")
+def encoder():
+    with GSEEncoder() as instance:
+        instance.conn.execute("PRAGMA query_only=ON")
+        yield instance
+
+
+def compose(encoder, text):
+    return evaluate_tree(resolve(from_trace(encoder.encode(text))))
+
+
+def test_spatial_opposites_reach_query_and_emitted_contract(encoder):
+    above = compose(encoder, "The bird is above the tree.")
+    below = compose(encoder, "The bird is below the tree.")
+    assert isinstance(above, Event) and isinstance(below, Event)
+    assert (above.verb, below.verb) == ("above", "below")
+    assert above.agent.head.lemma == below.agent.head.lemma == "bird"
+    assert above.patient.head.lemma == below.patient.head.lemma == "tree"
+    assert not is_logically_equal_to(above, below)
+    assert emit_contract(above)["predicate"]["features"]["verb"] == "above"
+    assert emit_contract(below)["predicate"]["features"]["verb"] == "below"
+    negated = compose(encoder, "The bird is not above the tree.")
+    assert isinstance(negated, Negation) and negated.operand.verb == "above"
+
+
+@pytest.mark.parametrize("linker,anchor", [("before", "dawn"), ("after", "noon"), ("after", "winter")])
+def test_native_time_typed_nominal_is_setting_not_patient(encoder, linker, anchor):
+    tree = compose(encoder, f"Alice arrived {linker} {anchor}.")
+    assert isinstance(tree, Temporal) and tree.conjunction == linker
+    assert tree.setting.head.lemma == anchor
+    assert isinstance(tree.event, Event) and tree.event.verb == "arrive"
+    assert tree.event.agent.head.lemma == "alice" and tree.event.patient is None
+    assert emit_contract(tree)["predicate"]["features"]["conjunction"] == linker
+
+
+@pytest.mark.parametrize("linker", ["before", "after"])
+def test_existing_clausal_temporal_arguments_remain_events(encoder, linker):
+    tree = compose(encoder, f"Alice arrived {linker} Bob left.")
+    assert isinstance(tree, Temporal) and tree.conjunction == linker
+    assert isinstance(tree.setting, Event) and tree.setting.verb == "leave"
+    assert isinstance(tree.event, Event) and tree.event.verb == "arrive"
+
+
+def test_non_time_anchor_cannot_become_temporal_from_preposition_alone(encoder):
+    assert not isinstance(compose(encoder, "Alice stood before the king."), Temporal)
+
+
+@pytest.mark.parametrize("anchor", ["spring", "period"])
+def test_possible_time_sense_does_not_erase_other_anchor_readings(encoder, anchor):
+    trace = encoder.encode(f"Alice stood before the {anchor}.")
+    tree = evaluate_tree(resolve(from_trace(trace)))
+    assert isinstance(tree, Event) and tree.verb == "before"
+    assert isinstance(tree.agent, Event) and tree.agent.verb == "stand"
+    assert tree.agent.patient is None and tree.patient.head.lemma == anchor
+    linker = next(t for t in trace.tokens if t.lemma == "before")
+    witness = linker.lexical_evidence["nominal_preposition_reading"]
+    assert witness["code"] == "UNRESOLVED_PREPOSITION_ANCHOR_ROLE"
+    assert witness["alternatives"] == ["TEMPORAL", "SPATIAL"]
+    assert len(witness["native_noun_readings"]) > len(witness["temporal_readings"])
+
+
+@pytest.mark.parametrize("text,head", [("He is a very strict judge.", "judge"), ("He is a very inert gas.", "gas")])
+def test_degree_modified_copular_nominal_keeps_its_head(encoder, text, head):
+    trace = encoder.encode(text)
+    token = next(t for t in trace.tokens if t.lemma == head)
+    assert token.pos == "NOUN" and "SYN_COMPL" in token.sent_primitives
+    assert isinstance(evaluate_tree(resolve(from_trace(trace))), TypeAssertion)
+
+
+def test_native_chemical_identity_survives_nominal_copula_and_emission(encoder):
+    trace = encoder.encode("He is an inert gas.")
+    assert trace.tokens[0].lexical_evidence["selected_record"]["entry_id"] == "wordnet:he:helium.n.01"
+    gas = next(t for t in trace.tokens if t.lemma == "gas")
+    assert gas.pos == "NOUN" and "SYN_COMPL" in gas.sent_primitives
+    tree = evaluate_tree(resolve(from_trace(trace)))
+    assert isinstance(tree, TypeAssertion)
+    assert tree.entity.head.lemma == "he"
+    assert emit_contract(tree)["predicate"]["op"] == "TYPE_ASSERT"
+
+
+@pytest.mark.parametrize(
+    "text,verb", [("He gases the room.", "gas"), ("He is moving.", "move"), ("He was killed.", "kill")]
+)
+def test_nominal_copula_repair_does_not_override_main_progressive_or_passive_verb(encoder, text, verb):
+    tree = compose(encoder, text)
+    assert isinstance(tree, Event) and tree.verb == verb
+
+
+@pytest.mark.parametrize("copula", ["is", "was"])
+def test_matrix_copula_and_genitive_relative_keep_separate_predicates(encoder, copula):
+    trace = encoder.encode(f"The teacher {copula} a person whose occupation is teaching.")
+    teacher = next(t for t in trace.tokens if t.lemma == "teacher")
+    assert teacher.word_primitives.get("SOMEONE") == 1
+    relative = next(c for c in trace.clauses if c.kind == "relative")
+    assert relative.gap_role == "possessor"
+    tree = evaluate_tree(resolve(from_trace(trace)))
+    assert isinstance(tree, TypeAssertion) and tree.entity.head.lemma == "teacher"
+    assert isinstance(tree.kind, RelativeRestriction) and tree.kind.head.head.lemma == "person"
+    inner = tree.kind.restriction
+    assert isinstance(inner, TypeAssertion) and inner.entity.head.lemma == "occupation"
+    assert inner.entity.possessor.head.lemma == "person" and inner.kind.head.lemma == "teaching"
+    assert from_dict(to_dict(tree)) == tree
+    payload = emit_contract(tree)["predicate"]
+    assert payload["op"] == "TYPE_ASSERT"
+    assert payload["args"][1]["args"][1]["args"] == ["person's occupation", "teaching"]
+
+
+def test_relative_auxiliary_and_participle_do_not_steal_matrix_predicate(encoder):
+    tree = compose(encoder, "The child who is teaching works.")
+    assert isinstance(tree, Event) and tree.verb == "work"
+    assert isinstance(tree.agent, RelativeRestriction) and tree.agent.head.head.lemma == "child"
+    inner = tree.agent.restriction
+    assert isinstance(inner, Event) and inner.verb == "teach" and inner.agent.head.lemma == "child"
+    assert inner.patient is None
+
+
+def test_genitive_relative_does_not_turn_its_owner_into_a_patient(encoder):
+    tree = compose(encoder, "The person whose child is teaching works.")
+    assert isinstance(tree, Event) and tree.verb == "work"
+    inner = tree.agent.restriction
+    assert isinstance(inner, Event) and inner.verb == "teach"
+    assert inner.agent.head.lemma == "child" and inner.agent.possessor.head.lemma == "person"
+    assert inner.patient is None
+
+
+def test_copular_relative_binds_its_subject_gap(encoder):
+    tree = compose(encoder, "The person who is king works.")
+    assert isinstance(tree, Event) and tree.verb == "work"
+    inner = tree.agent.restriction
+    assert isinstance(inner, TypeAssertion)
+    assert inner.entity.head.lemma == "person" and inner.kind.head.lemma == "king"
+
+
+def test_genitive_relative_keeps_its_own_negation(encoder):
+    tree = compose(encoder, "The teacher is a person whose occupation is not teaching.")
+    assert isinstance(tree, TypeAssertion) and not isinstance(tree, Negation)
+    inner = tree.kind.restriction
+    assert isinstance(inner, Negation) and isinstance(inner.operand, TypeAssertion)
+    assert inner.operand.entity.possessor.head.lemma == "person"
+
+
+@pytest.mark.parametrize("text", ["The child is teaching.", "The occupation is teaching the child."])
+def test_gerund_activity_noun_requires_the_complete_nominal_construction(encoder, text):
+    tree = compose(encoder, text)
+    assert isinstance(tree, Event) and tree.verb == "teach"
+
+
+def test_coordinated_adjectives_and_of_attachment_modify_one_nominal_head(encoder):
+    trace = encoder.encode("The femur is the longest and thickest bone of the human skeleton.")
+    assert next(t for t in trace.tokens if t.lemma == "femur").word_primitives.get("BODY") == 1
+    tree = evaluate_tree(resolve(from_trace(trace)))
+    assert isinstance(tree, TypeAssertion) and tree.entity.head.lemma == "femur"
+    assert isinstance(tree.kind, RelativeRestriction)
+    modified = tree.kind.head
+    assert isinstance(modified, RelativeRestriction) and modified.head.head.lemma == "bone"
+    assert isinstance(modified.restriction, TypeAssertion)
+    modifiers = modified.restriction.kind
+    assert isinstance(modifiers, Coordination) and modifiers.conjunction == "and"
+    assert [a.lemma for a in modifiers.members] == ["long", "thick"]
+    assert all(a.graded for a in modifiers.members)
+    of = tree.kind.restriction
+    assert isinstance(of, Event) and of.verb == "of"
+    assert of.agent.head.lemma == "bone" and of.patient.head.lemma == "skeleton"
+    assert of.patient.modifier.lemma == "human" and of.patient.possessor is None
+    assert from_dict(to_dict(tree)) == tree
+    payload = emit_contract(tree)["predicate"]["args"][1]
+    assert payload["args"][1]["features"]["verb"] == "of"
+    assert payload["args"][0]["args"][1]["args"][1]["args"] == ["long", "thick"]
+
+
+@pytest.mark.parametrize("conjunction", ["and", "or"])
+def test_genuine_nominal_coordination_is_not_reclassified_as_adjectival(encoder, conjunction):
+    tree = compose(encoder, f"The bone {conjunction} the skeleton is hard.")
+    assert isinstance(tree, TypeAssertion) and isinstance(tree.entity, Coordination)
+    assert tree.entity.conjunction == conjunction
+    assert [m.head.lemma for m in tree.entity.members] == ["bone", "skeleton"]
+
+
+def test_of_anchor_coordination_stays_inside_the_nominal_attachment(encoder):
+    tree = compose(encoder, "The bone of the child and the adult is hard.")
+    assert isinstance(tree, TypeAssertion) and isinstance(tree.entity, RelativeRestriction)
+    of = tree.entity.restriction
+    assert isinstance(of, Event) and of.verb == "of" and of.agent.head.lemma == "bone"
+    assert isinstance(of.patient, Coordination)
+    assert all(isinstance(m, Entity) for m in of.patient.members)
+    assert [m.head.lemma for m in of.patient.members] == ["child", "adult"]
+
+
+@pytest.mark.parametrize(
+    "text,verb,preposition,anchor",
+    [
+        ("Something happens to me.", "happen", "to", "me"),
+        ("Alice stood by the window.", "stand", "by", "window"),
+        ("Alice moved toward the door.", "move", "toward", "door"),
+    ],
+)
+def test_intransitive_preposition_keeps_relation_and_anchor_without_inventing_patient(
+    encoder, text, verb, preposition, anchor
+):
+    tree = compose(encoder, text)
+    assert isinstance(tree, Event) and tree.verb == preposition
+    assert isinstance(tree.agent, Event) and tree.agent.verb == verb
+    assert tree.agent.patient is None
+    assert tree.patient.head.lemma == anchor
+    assert from_dict(to_dict(tree)) == tree
+    emitted = emit_contract(tree)["predicate"]
+    assert emitted["features"]["verb"] == preposition
+    assert emitted["args"][0]["features"]["verb"] == verb
+    assert anchor in emitted["args"][1]
+

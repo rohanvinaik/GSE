@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label workload-production-contract-read -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nfor f in ['docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_runtime_workload.py','GSE/curation/checkpoint_acceptance.py']:\n p=Path(f);print('\\nFILE',f)\n if p.exists(): print(p.read_text())\n else: print('NOT_FOUND')\nprint('\\nCURRENT_RECEIPTS')\np=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor f in sorted(p.glob('ssl-api-runtime-*')):\n if f.suffix=='.json' and any(s in f.name for s in ('workload','gate','final','blockers','handoff')):\n  print(f.name, f.stat().st_size)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

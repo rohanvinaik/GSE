@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-primary-consumer-trace -- .venv/bin/python - <<'PY'\nimport ast\nfrom pathlib import Path\nfor fn,names in [('GSE/symbolic/expression.py',{'_clause_core','_try_event'}),('GSE/symbolic/predicates.py',{'Event'}),('GSE/symbolic/resolution.py',{'_build_event','resolve'}),('GSE/api/encoder.py',{'encode'})]:\n t=Path(fn).read_text();a=ast.parse(t);print('FILE',fn)\n for n in ast.walk(a):\n  if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and n.name in names:print(ast.get_source_segment(t,n))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

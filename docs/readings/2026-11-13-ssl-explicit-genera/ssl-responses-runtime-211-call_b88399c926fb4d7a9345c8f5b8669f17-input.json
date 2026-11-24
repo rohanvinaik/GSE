@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-workload-entrypoint-inventory -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast\nfor root in ['GSE','tests']:\n for p in sorted(Path(root).rglob('*.py')):\n  if any(w in p.name for w in ['profile','pipeline','knowledge','decoder','multiscale','utterance','spell','regenesis']):print(p)\nprint('### ARTIFACT FILENAMES')\nfor p in sorted(Path('docs/readings/2026-11-13-ssl-explicit-genera').iterdir()):\n if p.name.startswith('ssl-api-runtime-') and not p.name.endswith('.xml'):print(p.name)\nfor p in ['GSE/symbolic/text_profile.py','GSE/api/__init__.py','GSE/symbolic/__init__.py']:\n if Path(p).exists():print('\\n###',p,Path(p).read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

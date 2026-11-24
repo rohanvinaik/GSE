@@ -1,0 +1,80 @@
+{
+  "status": "CODE_FREEZE_READY",
+  "frozen_at_utc": "2026-11-24T19:24:24.796933+00:00",
+  "source_head": "e9649add315aecbab18e661746f2af4f6ea564be",
+  "source_pins": [
+    {
+      "path": "GSE/api/encoder.py",
+      "sha256": "6537fd919d3e8084a487c2cfa461f62a4cab2fad526db9619de3f1cac4c1448d"
+    },
+    {
+      "path": "GSE/api/parse_repair.py",
+      "sha256": "768dc732ff0a26d0c8e1a208c9797b15b858e458420809dd4ae9dd70efe02d79"
+    },
+    {
+      "path": "GSE/api/trace.py",
+      "sha256": "3f54ef54b91b6847bd3274db65ca8cca7f2d959e7ff3a93447042ba3d309f0b8"
+    },
+    {
+      "path": "GSE/nlp/native.py",
+      "sha256": "a1dc6dbeb2bbc2b43d81ed11907c0dab2ef88bcaedec740147f834a65052c53f"
+    },
+    {
+      "path": "GSE/symbolic/lexical_grounding.py",
+      "sha256": "4657541171bd3c119791449ed23913e3c00981507973b965e4d78ecb8c6527a8"
+    },
+    {
+      "path": "GSE/symbolic/grounding.py",
+      "sha256": "e0a2563378597d72488fb60ff1b1fd3cd332f5c4af02658cf4ec57674dd54da7"
+    },
+    {
+      "path": "GSE/symbolic/expression.py",
+      "sha256": "c121ab26beda5dfaf578c433bea40b8dd4c82688499904d8b74ff0cd37c71ad6"
+    },
+    {
+      "path": "GSE/symbolic/resolution.py",
+      "sha256": "4bc89c825408a7bb4df2621369fb034525513f23ef73595d72601bd1b2a3b91c"
+    },
+    {
+      "path": "GSE/symbolic/operators.py",
+      "sha256": "2294e095302c41df0ca2c5138fc3c7ee953ac63c78d8d7d24fbe015cd962a06d"
+    },
+    {
+      "path": "scripts/audit_lexicon_runtime.py",
+      "sha256": "587191c58a8a79a5df7c07c489540b5558333585ecba0b890241fa1ab1e31995"
+    },
+    {
+      "path": "scripts/audit_lexicon_sentences.py",
+      "sha256": "50fdf281c906fdfabad02ac14f4877806d130f68fc350f19d1e64c43a41f341a"
+    },
+    {
+      "path": "tests/test_runtime_native_identity_controls.py",
+      "sha256": "11dd802023e2c010e183e3bfe9e8242e8c3d02fcccc28c989f9b8ec0a671d4d5"
+    },
+    {
+      "path": "tests/test_runtime_native_composed_controls.py",
+      "sha256": "c524dfd2255d18940f5fd57eec63f6d8019b04b2a2f73f312bf3fb6cffdc620d"
+    },
+    {
+      "path": "tests/test_audit_lexicon_runtime.py",
+      "sha256": "1f7c70c647b626323428a5398bf6b42ae0c87ff02d4f3e7a5409a9e06b78d88a"
+    },
+    {
+      "path": "tests/test_lexicon_builder_grammatical_definitions.py",
+      "sha256": "f43a9db843f8c7d8b1b23a8841fde4fc2bcc9ee824b6e550c317ef956f444903"
+    },
+    {
+      "path": "tests/test_audit_lexicon_sentences.py",
+      "sha256": "86eb702c2554d89b3c06392f991d11f3ad06ed9c8a36471382205eb6a90b9f94"
+    },
+    {
+      "path": "tests/test_symbolic_expression.py",
+      "sha256": "1886a1f01b9cf6050a3c71d4412a1531b7f6fde19c723a0bb91051a879b94928"
+    },
+    {
+      "path": "docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_runtime_workload.py",
+      "sha256": "11d42a1a1ce1a716bca0fcfbe76cdac9e950f088a1005402f81fec7ed527d534"
+    }
+  ],
+  "scope_writes": "runtime/evidence only; no DB/pointer changes"
+}

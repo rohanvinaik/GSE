@@ -68,6 +68,53 @@ def api_response(request, role, number):
     for attempt in range(1, 5):
         with (NOTES / "ssl-responses-request.lock").open("a") as lock:
             fcntl.flock(lock, fcntl.LOCK_EX)
+            budget_file = NOTES / "ssl-responses-continuation-budget.json"
+            if budget_file.exists():
+                budget = json.loads(budget_file.read_text())
+                reservations_file = NOTES / "ssl-responses-budget-reservations.json"
+                reservations = json.loads(reservations_file.read_text()) if reservations_file.exists() else {}
+                reservations = {
+                    key: value for key, value in reservations.items() if not (NOTES / value["response_file"]).exists()
+                }
+                charged = 0.0
+                calls = 0
+                for response_file in NOTES.glob("ssl-responses-*-response.json"):
+                    if response_file.stat().st_mtime < budget["started_epoch"]:
+                        continue
+                    response_data = json.loads(response_file.read_text())
+                    usage = response_data.get("usage") or {}
+                    total_input = usage.get("input_tokens", 0)
+                    cached = usage.get("input_tokens_details", {}).get("cached_tokens", 0)
+                    multiplier = 2 if total_input > 272000 else 1
+                    charged += (
+                        max(0, total_input - cached) * 5.0 * multiplier
+                        + cached * 0.1 * multiplier
+                        + usage.get("output_tokens", 0) * (15.0 if multiplier == 2 else 10.0)
+                    ) / 1_000_000
+                    calls += 1
+                # Reserve the complete model maximum at the highest Standard cache-write
+                # rate. Count cache writes conservatively; this is not a billing receipt.
+                reserve = (922000 * 10.0 + 32768 * 15.0) / 1_000_000
+                outstanding = sum(item["usd"] for item in reservations.values())
+                measurement = {
+                    "format": "GSE.api-continuation-budget/1",
+                    "at_utc": datetime.now(timezone.utc).isoformat(),
+                    "completed_calls": calls,
+                    "conservative_charge_usd": charged,
+                    "outstanding_reservations_usd": outstanding,
+                    "next_request_reserve_usd": reserve,
+                    "limit_usd": budget["limit_usd"],
+                    "source": budget["pricing_source"],
+                    "is_account_balance": False,
+                }
+                (NOTES / "ssl-responses-continuation-cost.json").write_text(json.dumps(measurement, indent=2))
+                if charged + outstanding + reserve > budget["limit_usd"]:
+                    return {"api_failure": {"code": "LOCAL_AUTHORIZED_BUDGET_REACHED", **measurement}}
+                reservations[f"{role}:{number}"] = {
+                    "usd": reserve,
+                    "response_file": f"ssl-responses-{role}-{number:03d}-response.json",
+                }
+                reservations_file.write_text(json.dumps(reservations, indent=2))
             try:
                 with urllib.request.urlopen(request, timeout=1800) as response:
                     return json.load(response)
@@ -77,6 +124,9 @@ def api_response(request, role, number):
                     NOTES / f"ssl-responses-{role}-{number:03d}-attempt-{attempt}-http-error.json",
                     {"status": error.code, "error": detail},
                 )
+                if error.code == 429 and budget_file.exists():
+                    reservations.pop(f"{role}:{number}", None)
+                    reservations_file.write_text(json.dumps(reservations, indent=2))
                 if error.code != 429 or detail.get("error", {}).get("code") != "rate_limit_exceeded" or attempt == 4:
                     return {"api_failure": {"http_status": error.code, "error": detail}}
                 delay = min(60, max(2, float(error.headers.get("Retry-After", "30")) + 0.25))
@@ -217,6 +267,7 @@ def main(role, *, resume=False):
             break
         body = {
             "model": "gpt-6.1-sol",
+            "service_tier": "default",
             "reasoning": {"effort": "high"},
             "instructions": instructions,
             "input": pending,

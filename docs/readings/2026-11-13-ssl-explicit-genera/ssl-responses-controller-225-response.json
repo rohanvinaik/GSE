@@ -1,0 +1,169 @@
+{
+  "access_programs": {
+    "cyber": "standard"
+  },
+  "background": false,
+  "billing": {
+    "payer": "developer"
+  },
+  "completed_at": 1795546560,
+  "created_at": 1795546528,
+  "error": null,
+  "frequency_penalty": 0.0,
+  "id": "resp_02d2f1a2860b74e1006b05dd9ef23487d2b797a9fe686aaea2",
+  "image": {
+    "context_compression": "disabled"
+  },
+  "incomplete_details": null,
+  "input_transformations": [],
+  "instructions": "You are a GSE implementation worker running through the ordinary OpenAI Responses API. Your tools execute on the authorized local project. No Codex CLI is running. No MCP servers are loaded; use full-unit AST/reference tracing instead of claiming Serena was used. Do not call external model APIs, modify billing, read secrets, or touch the API launcher. The controller IS AUTHORIZED to run the existing LOCAL GSE/Ollama typed semantic transport for its bounded checkpoint questions and audits; this is not a forbidden external model call. Use the two supplied local tools to READ, IMPLEMENT and TEST the task, not merely describe it. The run_command output is complete when included; a larger output is saved without truncation. Use exact role scopes in the handoff. Final factual results retain their requested filenames. Your peer's completion receipt is the synchronization boundary before the controller freezes source pins. Read the full owner intent in the handoff; never replace it with convenient familiar architecture. You have at most four hours and 100 API turns. No commits until both scopes stop editing and gates pass.",
+  "max_output_tokens": 32768,
+  "max_tool_calls": null,
+  "model": "gpt-6.1-sol",
+  "moderation": null,
+  "object": "response",
+  "output": [
+    {
+      "content": [],
+      "encrypted_content": "gAAAAABrBd2kvAztv5ybxbLVbM4DmkCLhfbapHEumgX6FBzUs6tE25aI6Sr_zbzNKl7-vmXWC8jFWGmn3d8NrjxoN1UOWWCre8E9azH0XpPrF9QR0oQtT184N0v7SQ3P7jrCgjgm4O5PdgI3H7Fz2SLQTemlYKfhq2rlyMkCAD99R_Mdfr_5JOVvxClhDnGwVLMvZbdQBkg_steul1HGGHgLuPEyb9bsKC573PSgcrhJUW6eD2l85u3ePlQ95CmeYCv4my9IGcnlX8rc0PkxgxhKhze2o96BqJvTCXCMH1Ho_Lg4iRctqdddj8OrHgBEKssSG7ky9_3t3lLKFGBmvnJXh4LbyGCbOFryyL3x6SVCg_LRBwIGpgQ3yIKj46MahCPKtRzAHbilTQ0976eMCZ6w71Ac-V1Btt9wcA2nVy6VXenZRuK2AOO_JL52aVMQgWMTC_wwfC25wzJSngwERwYkLlTjRO1VlknpDKrlzQizJmqS8k8tqSq05BiNuw8NKsUfgWU0d0QJaSpP9NKpchm9iIGvt5PM-Ihqp3TjYeZRkNlOSNATIHNGiomrJJeV2uU4-qtP-rU9liRq1ebcAc5Qp8DTPgpyxRTi7G6MW78897WJgh8qtqq82I1IAY_pz5pWBhOY5L_ov_EAqG68aQwXi9a20lgC6xbUXaJDFMEpC9WTMG1KhFwXTyr1h7GCp3Nu2En3Ietu5Ftunl75iZmRJL0W05gB_XV68hVVFZSeIj_ZQHPifURfkCTCZmEvpqFlM-luotT6aeqiMHVH7p21Ov7J4y4I-dzo7enSmTNDtLnRhiyTbAe4dVQ2zWqeaDi_Ls0lJJUvr6EufTk6cDtbU5HYCovihp-qfUJPQ93fEowi50IGNYzFfexAtvYiWc-XbF2klJd3Q8JfVS34f4q4petkDst5OhlfaNefmN6rWPKVDUm3VEXBVkn1_T8gGdfwPa0OY7sIFmaR6XfYROpvaP34jHi3ZTaCN57cwNKIqmsw_L6fiaF2P9LgwWRWKjxCD1sBc7ZCgQp9qR96lfFCuLX3BB2DcsGPvghVp0yIVn6XUngQNSNj_CV0vdIfdPPsKcR2SA1jS3WpRjl0-SdW-mLb1Wx8nNew5E3fiMU2zgrQe4M5nJpuPXiowl8vtmXknN8-Ah-nczdh8USNoO6tspnRjERufoQIEd9OqZ2XJ4-IsuO26kSDKy6UrZD4IxwmRKU_yaM2h70dkgn8MQfJX46ECi-6llfF_b3GN-fGwiHiCEHwwSUAAMblDQi6JUNY-qTHicHJJ1o5PeK3VD9IGKO-Kt6FsNx713P1ZCoSfil3bSW7Tq-mtL0MjdvTmssQqXE7mb3pxlD8vlqyX-XU8VaeI0ZsZpT6xjypmcxmZdt-TaKhgbac4Tq_7Md2zS4KZuCnojQbtZ6KVn5Toe6TBGabXXqt88Z1mi2KpPSBxl41VlMeqPNjRsrPJe2vva487iDLUEckzqHuPe91w6gUDjPgQrXgY7bQTtyDbk4kzqxpVHnIIQvKN2uYQWaoWlvIg3xUMIPfru5UIEmJKK7_CH0OdagulMZXNESTJoRHTVo5HwUhunOQO9Mjx95zmolW_WXFLLpAPaPh6tZZtvXOksk1fhpKQ3LGOG19Ip7eGoMkqRKV4SwoF9yq_lurxNYUW5Ji7NWg58VAsm8QddEJ9EuhmxTJv1mf3iZpmjjDS2gpYsZ1ku-nVoYkDsHJH6OKx8D4raBVZQn4ecPsvghWa_MB3lRZyM5kHzOE1_i3RdwCRlPR727WtbVa6pFWWcDHp8Qin-FZk57BOdGIzbvNtTbNC1IUq8CF0BBwt4IMrJEUgpDO6acncXVYCs4sxLzagNPk7avtUg07PCQ98SNIay4_0YSMrD6WhpYPK56IckfA1yKYkgyPsF7HqSQWE2CJXrR9MJeXGjTc-J9rH-0vKFR0igRcKF8NXhw7SuoiKlxFAhgDbN3y_vRGrO6vxe9YBP7O0JOk3Gfi10ApPRf_94J8TV8QhBdtM3F8LtGqp_fd3ZdKRxj8l3m4jy9Ih4a5CALn7FTPkVYWLEvfyQOLx0Wv7om9k3ZZtpTtZtEhLN01ig4TgDyIq_nlE-K7kX3_hmn5MVpMFfirsRZ5rh7P0oHS1mbv2d6PaGx2SyPTstW6TMfEo9fiBmN1KfH80emzOJjDRZLzdPrwkmvnFu4IBKFiOuEafv--BpVAQl8vnGVG7Isev167himM4buSUPYZgGQcBVteR0z5AcX9Q63vMPEOuP7M6l-UcA6lKV2ttrU75xN_V1v0AqTQLYCq3RH9yQ0J81ljFVkQZcQ-rARbKkLMf8norWgKXIJixFIMxO85d-BShtkZ3wFo6UZCWD2srmQ9gSQ8nedaTTjqvx00tCdRVzfEIuFlAP3cIbKEPACaUcLvvNveWXlns5YfuVqRXHupm77cG18aXsBnyZat9maAsB-kGGCz3xzj-DQj9I4yYG3Mn7gamLNnAs8ofVxlDAOtUqW13fvcpHe6Kr-Sl2mJQP2K8GaJxvypa3eYTOr9ZdapE9nuemLk43PexWNQ2CfnHsJ74pN-PaNM-fW49HLVH45oOAP-Lbi3OlU_eNuBU8c77cIylV6Tl8fNoatUz5FlN1kAyrW7GkPEzkel3_yZUi_r4UPiypuX37gJC57tj_1TrgFFuRuRFB-TPiGsD6YLVeJyWCESMuSAUjbd02uLOYRnuMRqgNh2_D42kDBk3uO3NPyaiqf_CyXP2LgraUro-HboSihk3r3mD1mIS7RV7N_d3qN6VdULklY-5XH7st3Or2zy5lHNiP6xqXylXZhabUvD1Nr7YmqXi6LeiJEqSgX6bqO3o2RfwFrPBDUmY1SafyY2QaBGofcoS1s97Xia0U-5nHTrhlrWTumf5epJmeAN4ZGbqmy_S41SUzToGwrxGbFcvqO3YMHVVjelJXakOHdf4S44XdexquNwPrV6fXh8c6ys-7X4Lb8qHOpKfzd-7CYOXVKWj0eh08abWGl5zvFXBA4bxJHQRC7PcWUT72cY4lPpGZ_LFAFGkKAPB2BBjTijeGohoAB6hj2VATXqdP1_npsi_mafRQXeFpYt8zEA32CA9Y7Bdy7T37njwnKmluugd7iFvmZy4Nnl0V2HMa4MwURS_CUxnKD8pjhX6WhMB1fN9mmsAZ0Wm2Ml3hVXe5xjl8N--0J-eesmxzRwu8eOEx73eRMxu6eKb4O_OWcCxnr6_CBhZocijBnhznttmqHNxdCvQu-EsJrgpaTkoT02moy0xGZVH8pomHkiwBAByRcSrYywlnjMLNt77L5QvwtGG50UxQUR1VtpyB4l2uDGfjzVEA4HfVKkXzA_G-rFjDnPGTqbOsDfOl_2cM_uRomWD5GOjtOsf1g9-m-KcAc0gUQG3pHEFzqLxdZgicj-VmYdkGzQ2XCXoQpxwtmbjPDwWgABCButvOutdhMh9xxIRL1nyXgegrKsd1R6ROjzJJGsOKDvQO0AvAASxeRccHyhUcpWJyEVg4NGFgC8ZsXhKnNOpxQpEvPcvx9c0FM9dqRqqLtYGZKvM1WGX95-AeUWrWpiXvT_SpsgrPIWefHCltnADzlNgn6PaNL8kfgpgthY-5cR-aNf7nhCqHEqk2riQVnDc4bIHGWIwHaRXVkfSni--jjjz669egXXUF5ZGSid0XVSqIRirQmXOc7RC56myjk90KvigaR_3IxPOHCzr8i1LnS5876tUVSpuQ2uUgWicVe-7EvyRR5B6p-m6NHBizh4a3Ph73jD4gNxY-vCIQBLZhl-ZqpeBQUS6ZZ64HdZr-D5PYPQSPN9F-Hng3FRVbNtYV9GJHuQvaUC_HpMSDcLlev_Dhelu8X_lYKUzz7YyIctK3e9LJ9y9ibLr21XCdDfMIVElzKlvz61DA4KfXwT6asudXi7t5Q5xmX5WDbFe-cZwUrL9a-laRoMUB3CxxZ2K8BEyITeb-sU_moKVSFYAO0VsnKSNOYrMatYjSdjCExzQLeJ6YWIRISwrh-t-bv7qnNqV3Jxryek_Na7NZrOknkuNZsv7wKUjTyX1n9cQolqXlw1ZFQUCCqpcrD7KgCeTlMH_Ua49OKLzNYmE15Xqh2RgEseNs8nXjbxB3E0bFn0JyWoi50Mtw8-XA89Du_6HZ0Q-hXeaLTlNKhNdBPwhEkviQfk_u9Vn3ZOMm-LaPHIV8My7iXI1JYt5tgYi1M8hAJ1Sy4sd8Butms5uh7JDlm193jEUZsm0HeFZZY_mmcSfenMsVGXMzYHxk9oiW6J164ZFgI60oNzZKT4ofPrBpf1etaC3mPUC5d8HRL0JgTWLqUifkacTheQETdMvMQakVDqUcxXixxXFTNYeXqH_GMfH5An0j4wr6I6ulWXhGYcsMqBRA0TxAAlNf4ytP8t7hnKS-D0B4osQaAlPvlOQ2oKLm9IochYm2olCiuUoluv4t8ZGTRVweS_Y8rEkEHgt2uTBidoME4RVeb1bsmAKoFwfV_V3j3BFjp7_iOKxXWQQ8dZvdO0L4bypxnmZALq2xj9shLd-PRmhEJF4bw0GYq-Oy5ZPWYrtV35CzyD0hkpcp920bqoLdM_ysuTJkTQLYQF7OJbZIy3Ar9GOTobGN_f6FNOjYDD9uoG3SBtpxB8JngGensFAZGmTgZg-TNBdFRzZByfUDvxMf1tbGPspuCO92KrYHv8lATs0GCMev9trEIt7JzCoZ2DJPQJLaOsCnXuat3j7Q37PwZWBp2LMwLj1UkYE32aZ2Gf_na0Qc0ptzaBRqjbtFRBaCvx-A8_vBm--NYO-KaKFLucZ16XW7ZABgMmgG1fec2ptXaXnSjGO_v1cmA2b5P5R5Eoxtao49qwt0HoJ7Ui-RuPQsTCMjaxefoUQOku8IG4fikFrJK7j811LEVzFnQEcPzEzt7gqsE0mhi38JH9_RqR6pmPxWYD-pPURZKEjfkGVF01-AnXl83k4OlahxpL9vNUcw8UuFr67p4-fG10_ein3BCn27Au2c6sRwxUiP57EOXRJeTNuh6N-Nonshg0CQdFAifbgW1ZAAWxrVvu4dx-pANuqFk2G5pdRzMrw9RGF4RFMMVsZJNEjfZu2n8pzBOm_ysO_MUYOY0aBleDeDTd89Bg4vTb9JXfVwNNf7UvQKpodawT2j7W8G1GTgAZPl7k9aN0tgYRDEe7AQxGw8yYvs1OM_fwh6sPMbCt7FnQqpHZiMoxzik9C80A5eYxB5wPzqcMy66CxTlrehw8TCrS7gT8xEILSJGqsGdGXKEMMc1Lh3ExammRGePNQEvhoGupMudMmfVwcDoKXlMr_lByRnIxZOG-C0nEpkgsQDz_Qg==",
+      "id": "rs_02d2f1a2860b74e1006b05dda47dc087d29d3b2ef5fb55dafa",
+      "summary": [],
+      "type": "reasoning"
+    },
+    {
+      "content": [
+        {
+          "annotations": [],
+          "logprobs": [],
+          "text": "The full I/YOU revision has passed replay with 50,523 net additional filled cells. The exact ten-coordinate writer is still in preflight. I’m queuing its post-write replay now; the optional happening-rule cycle remains paused, and publication still requires the repaired runtime and workload gates.",
+          "type": "output_text"
+        }
+      ],
+      "id": "msg_02d2f1a2860b74e1006b05dda47f6887d2afe1b53d3d6b2788",
+      "phase": "commentary",
+      "role": "assistant",
+      "status": "completed",
+      "type": "message"
+    },
+    {
+      "arguments": "{\"command\":\"/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label queue-postwriter-full-replay -- .venv/bin/python - <<'PY'\\nfrom pathlib import Path\\nimport subprocess,json,sys,datetime,hashlib\\nroot=Path.cwd();n=root/'docs/readings/2026-11-13-ssl-explicit-genera'\\njob=n/'ssl-api-controller-postwriter-job.json'\\nif job.exists(): raise SystemExit('REFUSE_DUPLICATE_POSTWRITER_JOB')\\ncode=r'''\\nfrom pathlib import Path\\nimport json,time,hashlib,datetime,traceback\\nROOT=Path.cwd(); N=ROOT/'docs/readings/2026-11-13-ssl-explicit-genera'; W=ROOT/'data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint'\\ndef now():return datetime.datetime.now(datetime.timezone.utc).isoformat()\\ndef save(path,value):\\n tmp=path.with_name(path.name+'.tmp');tmp.write_text(json.dumps(value,indent=2)+'\\\\n');tmp.replace(path)\\ndef sha(path):\\n h=hashlib.sha256()\\n with path.open('rb') as f:\\n  for b in iter(lambda:f.read(8*1024*1024),b''):h.update(b)\\n return h.hexdigest()\\ndef pins():\\n x=json.loads((N/'ssl-api-controller-source-freeze.json').read_text())\\n bad=[p['path'] for p in x['pins'] if sha(ROOT/p['path'])!=p['sha256']]\\n if bad:raise ValueError('OWNED_SOURCE_PINS_CHANGED:'+repr(bad))\\n return x['pins']\\nphase=N/'ssl-api-controller-postwriter-phase.json'\\ntry:\\n save(phase,{'code':'WAITING_FOR_TEN_COORDINATE_WRITER_EXIT_AND_EXACT_H','updated_utc':now(),'lexical_writes':0,'model_service_calls':0,'activation_performed':False})\\n deadline=time.monotonic()+3*3600\\n prerequisites=[N/'ssl-api-controller-continuation-exit.json',N/'ssl-api-controller-prime-child-writer.json',W/'space-post-prime-child-teaching.json']\\n while not all(p.exists() for p in prerequisites):\\n  if prerequisites[0].exists() and json.loads(prerequisites[0].read_text())['exit_code']!=0:raise ValueError('TEN_COORDINATE_WRITER_FAILED')\\n  if time.monotonic()>deadline:raise TimeoutError('TEN_COORDINATE_WRITER_PREREQUISITES_TIMEOUT_NO_WRITES')\\n  time.sleep(30)\\n if json.loads(prerequisites[0].read_text())['exit_code']!=0:raise ValueError('TEN_COORDINATE_WRITER_FAILED')\\n source_pins=pins(); db=W/'candidate.db'; before=sha(db)\\n writer=json.loads(prerequisites[1].read_text())\\n if writer['after_sha256']!=before or writer['new_model_service_calls']!=0 or writer['activation_performed']:raise ValueError('POSTWRITER_HEAD_IDENTITY_INVALID')\\n save(phase,{'code':'FULL_POSTWRITER_REPLAY_RUNNING','updated_utc':now(),'candidate_sha256':before,'lexical_writes':0,'model_service_calls':0,'activation_performed':False})\\n from GSE.curation.lexicon_builder.validation import validate_build\\n from GSE.curation.lexicon_builder.evaluation import evaluate_build\\n replay=validate_build(db);save(W/'postwriter-replay.json',replay)\\n if replay['code']!='REPLAY_VALIDATED' or replay['entries_checked']!=401596 or replay['entries_validated']!=401596 or replay['entries_mismatched']!=0 or replay['inference_counts']['components_solver_limited']!=0 or not replay['complete_search']:raise ValueError('POSTWRITER_FULL_REPLAY_FAILED')\\n gold=N/'sparse-release-021-gold.json'; evaluation=evaluate_build(db,gold);save(W/'postwriter-regression-gold.json',evaluation)\\n outcomes=evaluation['outcomes']\\n if outcomes.get('WRONG',0) or outcomes.get('NOT_FOUND',0) or not outcomes.get('IDENTIFIED_CORRECT',0):raise ValueError('POSTWRITER_REGRESSION_GOLD_FAILED')\\n if sha(db)!=before:raise ValueError('POSTWRITER_DATABASE_CHANGED_DURING_READONLY_AUDIT')\\n if pins()!=source_pins:raise ValueError('POSTWRITER_SOURCE_FREEZE_CHANGED_DURING_AUDIT')\\n result={'format':'GSE.checkpoint-postwriter-validation/1','code':'POSTWRITER_REPLAY_AND_REGRESSION_VALIDATED_WORKLOAD_PENDING','updated_utc':now(),'candidate':str(db),'candidate_sha256':before,'replay':{'path':str(W/'postwriter-replay.json'),'sha256':sha(W/'postwriter-replay.json'),'entries_checked':replay['entries_checked'],'entries_validated':replay['entries_validated'],'entries_mismatched':replay['entries_mismatched'],'complete_search':replay['complete_search'],'inference_counts':replay['inference_counts']},'regression_gold':{'path':str(W/'postwriter-regression-gold.json'),'sha256':sha(W/'postwriter-regression-gold.json'),'gold_sha256':sha(gold),'outcomes':outcomes,'scope':'EXISTING_PUBLICATION_REGRESSION_NOT_FRESH_FINAL_GOLD'},'space_measurement':{'path':str(prerequisites[2]),'sha256':sha(prerequisites[2])},'builder_source_pins':source_pins,'lexical_writes':0,'new_model_service_calls':0,'runtime_workload_acceptance':'PENDING','usable_checkpoint_accepted':False,'activation_performed':False}\\n save(W/'postwriter-validation.json',result);save(phase,result)\\n save(N/'ssl-api-controller-postwriter-exit.json',{'exit_code':0,'finished_utc':now()})\\nexcept BaseException as error:\\n save(phase,{'code':'POSTWRITER_VALIDATION_STOPPED','updated_utc':now(),'error_type':type(error).__name__,'error':str(error),'activation_performed':False})\\n save(N/'ssl-api-controller-postwriter-exit.json',{'exit_code':1,'finished_utc':now(),'error_type':type(error).__name__,'error':str(error)})\\n traceback.print_exc();raise\\n'''\\nrecipe=n/'ssl-api-controller-postwriter-recipe.json'\\nrecipe.write_text(json.dumps({'format':'GSE.local-readonly-orchestration/1','python_source':code,'source_sha256':hashlib.sha256(code.encode()).hexdigest(),'scope':'Wait for existing writer, then invoke existing full validate_build and evaluate_build. No lexical writes, no service, no publication.'},indent=2)+'\\\\n')\\nlog=n/'ssl-api-controller-postwriter-job.log'\\nwith log.open('x') as f:\\n p=subprocess.Popen(['/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run','--label','checkpoint-postwriter-full-replay',sys.executable,'-u','-c',code],cwd=root,stdout=f,stderr=subprocess.STDOUT,start_new_session=True)\\nx={'pid':p.pid,'started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'status':'QUEUED_WAITING_FOR_EXISTING_WRITER_AND_H','operation':'Read-only full postwriter replay and existing publication regression gold; not workload acceptance or activation.','recipe':str(recipe),'log':str(log),'exit_receipt':str(n/'ssl-api-controller-postwriter-exit.json'),'model_service_calls':0,'lexical_writes':0,'activation_performed':False}\\njob.write_text(json.dumps(x,indent=2)+'\\\\n');print(json.dumps(x,indent=2))\\nPY\",\"cwd\":\"/Users/rohanvinaik/Projects/GSE\",\"timeout_seconds\":30}",
+      "call_id": "call_409e73e0f70a4038ab76daf905223233",
+      "id": "fc_02d2f1a2860b74e1006b05dda5a3e487d28b9f73655b3a4a82",
+      "name": "run_command",
+      "status": "completed",
+      "type": "function_call"
+    }
+  ],
+  "parallel_tool_calls": false,
+  "presence_penalty": 0.0,
+  "previous_response_id": "resp_02d2f1a2860b74e1006b05dd8686d487d2993014dcaf618dfa",
+  "prompt_cache_key": null,
+  "prompt_cache_retention": "24h",
+  "reasoning": {
+    "context": "all_turns",
+    "effort": "high",
+    "mode": "standard",
+    "summary": null
+  },
+  "safety_identifier": null,
+  "service_tier": "default",
+  "status": "completed",
+  "store": true,
+  "temperature": 1.0,
+  "text": {
+    "format": {
+      "type": "text"
+    },
+    "verbosity": "medium"
+  },
+  "tool_choice": "auto",
+  "tool_usage": {
+    "image_gen": {
+      "input_tokens": 0,
+      "input_tokens_details": {
+        "image_tokens": 0,
+        "text_tokens": 0
+      },
+      "output_tokens": 0,
+      "output_tokens_details": {
+        "image_tokens": 0,
+        "text_tokens": 0
+      },
+      "total_tokens": 0
+    },
+    "web_search": {
+      "num_requests": 0
+    }
+  },
+  "tools": [
+    {
+      "description": "Run a local command for the assigned implementation, returning complete output or a saved whole-output artifact. Read whole coherent units, never grep/rg or snippets. Credentials, billing, external model clients and other edit scopes are forbidden. The controller may invoke the existing LOCAL GSE/Ollama typed semantic transport.",
+      "name": "run_command",
+      "output_schema": null,
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "command": {
+            "type": "string"
+          },
+          "cwd": {
+            "type": "string"
+          },
+          "timeout_seconds": {
+            "maximum": 10800,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "command",
+          "cwd",
+          "timeout_seconds"
+        ],
+        "type": "object"
+      },
+      "strict": true,
+      "type": "function"
+    },
+    {
+      "description": "Apply an *** Begin Patch formatted edit to owned project files after tracing their consumers.",
+      "name": "apply_patch",
+      "output_schema": null,
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "patch": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "patch"
+        ],
+        "type": "object"
+      },
+      "strict": true,
+      "type": "function"
+    }
+  ],
+  "top_logprobs": 0,
+  "top_p": 0.98,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 96433,
+    "input_tokens_details": {
+      "cache_write_tokens": 4062,
+      "cache_write_tokens_details": {
+        "ttl_12h_tokens": 0,
+        "ttl_30m_tokens": 4062
+      },
+      "cached_tokens": 92368
+    },
+    "output_tokens": 1914,
+    "output_tokens_details": {
+      "reasoning_tokens": 100
+    },
+    "total_tokens": 98347
+  },
+  "user": null,
+  "metadata": {}
+}

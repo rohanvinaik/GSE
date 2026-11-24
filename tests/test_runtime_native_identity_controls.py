@@ -131,10 +131,29 @@ def test_native_predicate_constructions_are_reachable_without_first_sense_select
 
 
 @pytest.mark.parametrize(
+    "text,lemma,entry,bank",
+    [
+        ("She wants to go home now.", "want", "desire.v.01", "WANT"),
+        ("You think he is very smart.", "think", "think.v.01", "THINK"),
+        ("She knows that the President lied to the people.", "know", "know.v.01", "KNOW"),
+        ("He feels resentful.", "feel", "feel.v.01", "FEEL"),
+        ("She moved his hand slightly to the right.", "move", "move.v.03", "MOVE"),
+    ],
+)
+def test_person_reference_can_vary_in_complete_source_example_not_arbitrary_frames(encoder, text, lemma, entry, bank):
+    token = next(t for t in encoder.encode(text).tokens if t.lemma == lemma)
+    proof = token.lexical_evidence["contextual_grounding"]
+    assert proof["code"] == "EXACT_WORDNET_SENSE"
+    assert proof["witness_kind"] == "WORDNET_NATIVE_EXAMPLE_PERSON_SUBSTITUTION"
+    assert proof["subject_role_witnesses"]
+    assert token.lexical_evidence["selected_record"]["entry_id"] == f"wordnet:{lemma}:{entry}"
+    assert token.word_primitives[bank] == 1
+    assert token.lexical_evidence["domains"]["TOUCH"] == [-1, 0, 1]
+
+
+@pytest.mark.parametrize(
     "text, lemma",
     [
-        ("I want something.", "want"),
-        ("I think about something.", "think"),
         ("I hear a sound.", "hear"),
         ("I feel pain.", "feel"),
         ("I want to go home now or stay here.", "want"),
@@ -145,5 +164,72 @@ def test_pos_or_partial_native_example_cannot_force_a_predicate_reading(encoder,
     trace = encoder.encode(text)
     token = next(t for t in trace.tokens if t.lemma == lemma)
     assert token.lexical_evidence["selection_status"] == "AMBIGUOUS"
+    assert token.lexical_evidence["selected_record"] is None
+    assert token.word_primitives == {}
+
+
+@pytest.mark.parametrize(
+    "text,lemma,entry",
+    [
+        ("You want something.", "want", "wordnet:want:desire.v.01"),
+        ("She thinks about something.", "think", "nsm_chart:v20:think"),
+        ("You know.", "know", "wordnet:know:know.v.01"),
+        ("I see someone.", "see", "wordnet:see:see.v.01"),
+        ("She hears something.", "hear", "wordnet:hear:hear.v.01"),
+        ("You feel something.", "feel", "nsm_chart:v20:feel"),
+        ("He says something.", "say", "nsm_chart:v20:say"),
+        ("Something happens to me.", "happen", "wordnet:happen:happen.v.01"),
+        ("You move.", "move", "nsm_chart:v20:move"),
+        ("This is good.", "good", "nsm_chart:v20:good"),
+        ("That is bad.", "bad", "nsm_chart:v20:bad"),
+        ("Something big.", "big", "nsm_chart:v20:big"),
+        ("Something small.", "small", "nsm_chart:v20:small"),
+    ],
+)
+def test_complete_primary_frame_is_compatibility_not_unique_meaning(encoder, text, lemma, entry):
+    token = next(t for t in encoder.encode(text).tokens if t.lemma == lemma)
+    evidence = token.lexical_evidence
+    proof = evidence["contextual_grounding"]
+    assert proof["code"] == "PRIMARY_FRAME_COMPATIBLE_NOT_IDENTIFYING"
+    assert proof["identity_scope"] == "UNRESOLVED"
+    assert proof["compatible_entry_id"] == entry
+    assert proof["missing_witness"] == "INDEPENDENT_MEANING_DISCRIMINATION"
+    assert evidence["selected_record"] is None
+    assert proof["unresolved_ordinary_entry_ids"]  # finer identities were NOT merged
+    assert proof["source_reference"]["sha256"] == "5847b39219381181f98a2afbfc57b149ad16cd77157ca0d205b341d1466cf732"
+    assert all(frame["source_record_ids"] and frame["role_witnesses"] for frame in proof["frames"])
+    assert token.word_primitives == {} and token.word_vec_nnz == 0
+
+
+@pytest.mark.parametrize(
+    "text,lemma",
+    [
+        ("She feels the cloth.", "feel"),
+        ("They hear a case.", "hear"),
+        ("She feels good about this.", "feel"),
+        ("He moved the proposal.", "move"),
+        ("A good ten miles.", "good"),
+        ("Something wants someone.", "want"),
+        ("He wants something or someone.", "want"),
+        ("The rock knows.", "know"),
+        ("I see my doctor.", "see"),
+        ("The court heard the case.", "hear"),
+        ("It was a good forty miles.", "good"),
+    ],
+)
+def test_primary_frame_requires_whole_valency_and_independently_attested_roles(encoder, text, lemma):
+    token = next(t for t in encoder.encode(text).tokens if t.lemma == lemma)
+    assert token.lexical_evidence["selected_record"] is None
+    assert token.word_primitives == {}
+    assert token.lexical_evidence["contextual_grounding"]["code"] != "PRIMARY_UNIT_FRAME"
+
+
+def test_primary_unit_source_observation_must_match_complete_original_features(encoder, monkeypatch):
+    from GSE.symbolic import lexical_grounding
+
+    records = {k: dict(v) for k, v in lexical_grounding._primary_records().items()}
+    records["nsm_chart:v20:think"]["frame_text"] = "changed frame"
+    monkeypatch.setattr(lexical_grounding, "_primary_records", lambda: records)
+    token = next(t for t in encoder.encode("You think about something.").tokens if t.lemma == "think")
     assert token.lexical_evidence["selected_record"] is None
     assert token.word_primitives == {}

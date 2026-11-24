@@ -1,0 +1,5 @@
+{
+  "command": "pwd && /Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label checkpoint-resume-status -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-controller-continuation-job.json','ssl-api-controller-continuation-exit.json','ssl-api-controller-prime-child-writer.json','ssl-api-runtime-result.json','ssl-api-controller-source-freeze.json']:\n p=n/name\n print('\\nFILE',p)\n if p.exists():\n  x=json.loads(p.read_text())\n  if name.endswith('source-freeze.json'):\n   print(json.dumps({k:v for k,v in x.items() if k!='source_pins'},indent=2))\n  else: print(json.dumps(x,indent=2))\n else: print('ABSENT')\nw=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint')\nfor name in ['space-post-prime-child-teaching.json','postwriter-replay.json']:\n p=w/name\n print('ARTIFACT',str(p),p.exists(),p.stat().st_size if p.exists() else None)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport json\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-controller-self-boundary-exit.json','ssl-api-controller-self-measure-exit.json','ssl-api-controller-self-measure-phase.json','ssl-api-runtime-blockers.json']:\n p=n/name\n print('\\n###',name)\n print(p.read_text() if p.exists() else 'PENDING')\np=n/'ssl-responses-controller-steering.json'\nif p.exists():\n d=json.loads(p.read_text()); print('\\nSTEERING STRUCTURE', {k:type(v).__name__ for k,v in d.items()} if isinstance(d,dict) else type(d).__name__)\n if isinstance(d,dict):\n  for k,v in d.items():\n   if k not in ('history','messages','prior'):\n    print(k,json.dumps(v,ensure_ascii=False))\nprint('\\nNEW RUNTIME RECEIPTS')\nfor p in sorted(n.glob('ssl-api-runtime-*'),key=lambda p:p.stat().st_mtime,reverse=True)[:12]:\n print(p.name,p.stat().st_size)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

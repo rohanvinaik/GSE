@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport sqlite3,json\nw=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint')\nc=sqlite3.connect(f'file:{w/\"candidate.db\"}?mode=ro',uri=True)\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera');q=json.loads((n/'ssl-api-controller-prime-child-writer.json').read_text())['writer']['entry_bank_questions']\nfor e,bank in q:\n row=c.execute('SELECT domains,trace,conflicts,code FROM definition_states WHERE entry_id=?',(e,)).fetchone();dom=json.loads(row[0]);trace=json.loads(row[1]);print('\\n###',e,'exact-selected-domain',dom[bank], 'state',row[3], 'conflicts',row[2]); print('TRACE',json.dumps(trace,indent=2))\nprint('\\n### Work directory top-level inventory')\nfor p in sorted(w.iterdir()):print(p.name,'DIR' if p.is_dir() else p.stat().st_size)\nc.close()\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

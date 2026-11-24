@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport ast\npaths=[Path('GSE/curation/lexicon_builder'),Path('docs/readings/2026-11-13-ssl-explicit-genera')]\nfor base in paths:\n for p in sorted(base.glob('*.py')):\n  if base.name=='2026-11-13-ssl-explicit-genera' and not p.name.startswith('ssl_api_checkpoint'):continue\n  t=ast.parse(p.read_text())\n  found=[n for n in t.body if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and any(s in n.name for s in ['basis','projection','canonical'])]\n  if found: print(p,[(n.name,n.lineno,n.end_lineno) for n in found])\nprint('\\nWORK basis files')\nw=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint')\nfor p in sorted(w.iterdir()):\n if any(x in p.name for x in ['basis','source']):print(p)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 20
+}

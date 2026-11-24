@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-primary-source-shape -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport sqlite3,json,ast\np=Path('GSE/symbolic/lexical_grounding.py'); t=p.read_text(); print('\\n'.join(t.splitlines()[:65]))\nc=sqlite3.connect('file:data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/teaching.db?mode=ro',uri=True)\nfor eid in ['nsm_chart:v20:think','wordnet:want:desire.v.01','gse_closed_class:pronoun:someone']:\n print('ROWS',eid)\n for row in c.execute('select record_id,source,family,scope,payload from source_observations where entry_id=?',(eid,)):\n  if row[1]!='wordnet': print(row[:4],json.loads(row[4]))\nfor fn in ['GSE/degree.py','GSE/api/degree.py','GSE/api/encoder.py']:\n p=Path(fn)\n if p.exists():\n  t=p.read_text()\n  for n in ast.walk(ast.parse(t)):\n   if isinstance(n,ast.FunctionDef) and n.name in {'bind_degree_modifiers','get_hierarchy_encoding'}:print(fn,ast.get_source_segment(t,n))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}
