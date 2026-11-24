@@ -1,28 +1,17 @@
-"""
-GSE Curation Module - Lexicon Builder
+"""Lexicon curation, and the parts of the runtime lexicon that live beside it.
 
-Build and curate semantic decompositions for the GSE lexicon.
-Supports full 72-primitive decomposition with validation.
+The lexicon builder (``lexicon_builder``), its sources (``external_sources``) and
+its command line (``cli``) build definition databases offline. The runtime lexicon's
+schema, protected dictionary (``personal_dictionary``) and frequency integration live
+here too, as does the older flat-lexicon builder (``lexicon_db``, ``build_clean_*``).
 
-Usage:
-    from GSE.curation import LexiconDatabase, StagedBuilder
-
-    db = LexiconDatabase("lexicon.db")
-    builder = StagedBuilder(db)
-    builder.build_phase_one()
-
-CLI Usage:
-    python -m GSE.curation.cli.commands build --phases 1
-    python -m GSE.curation.cli.commands status
-    python -m GSE.curation.cli.commands lookup happy
+The names exported below load on first use (PEP 562), so importing one runtime
+module, such as the protected dictionary, does not load a builder.
 """
 
-from GSE.curation.frequency_integration import (
-    FrequencyDatabase,
-    FrequencyIntegration,
-    WordFrequency,
-)
-from GSE.curation.lexicon_db import LexemeEntry, LexiconDatabase
+from importlib import import_module
+from typing import TYPE_CHECKING
+
 from GSE.curation.schema import (
     ALL_PRIMITIVES,
     BIPOLAR_PAIRS,
@@ -32,6 +21,31 @@ from GSE.curation.schema import (
     QUANTITY_HIERARCHY,
     SCHEMA,
 )
+
+if TYPE_CHECKING:
+    from GSE.curation.frequency_integration import FrequencyDatabase, FrequencyIntegration, WordFrequency
+    from GSE.curation.lexicon_db import LexemeEntry, LexiconDatabase
+
+_LAZY = {
+    "FrequencyDatabase": "GSE.curation.frequency_integration",
+    "FrequencyIntegration": "GSE.curation.frequency_integration",
+    "WordFrequency": "GSE.curation.frequency_integration",
+    "LexemeEntry": "GSE.curation.lexicon_db",
+    "LexiconDatabase": "GSE.curation.lexicon_db",
+}
+
+
+def __getattr__(name: str):
+    if name not in _LAZY:
+        raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+    value = getattr(import_module(_LAZY[name]), name)
+    globals()[name] = value
+    return value
+
+
+def __dir__():
+    return sorted(set(globals()) | set(_LAZY))
+
 
 __all__ = [
     # Schema
