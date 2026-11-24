@@ -31,7 +31,7 @@ No task edits the owner's concurrent lexicon session's files (`GSE/curation/lexi
 ## 2. Setup receipt and pass brief
 
 - [x] 2.1 Pass brief per the workflow's §0 (design.md).
-- [ ] 2.2 Setup receipt with remedy codes (READY / MISSING / STALE / CONFLICT / UNVERIFIED), from Prism, SetupAtlas and LintGate, plus the repo-hygiene kit: pip-audit over the lock with all extras and groups, zizmor, a secret scan, sp-repo-review, deptry. Each finding is checked at its source before it is recorded. Done except LintGate's project check, which runs tests against the working tree and waits until the owner's in-progress edits are committed; no secret scanner is installed (recorded as MISSING).
+- [x] 2.2 Setup receipt with remedy codes (READY / MISSING / STALE / CONFLICT / UNVERIFIED), from Prism, SetupAtlas and LintGate, plus the repo-hygiene kit: pip-audit over the lock with all extras and groups, zizmor, a secret scan, sp-repo-review, deptry. Each finding is checked at its source before it is recorded. LintGate's project check ran on a clean extract of `9a773a4`, so the owner's working tree was untouched. No secret scanner is configured in the project (recorded as MISSING); this pass scans each commit through `uvx`.
 - [x] 2.3 Add `[tool.deptry]` exclusions matching the other tools' archive and record exclusions, so its report is readable (`1cd6dc8`: 224 reported issues become 25 real findings).
 
 ## 3. Pin what must not change

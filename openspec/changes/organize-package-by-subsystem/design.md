@@ -27,14 +27,15 @@ Codes are the workflow's: READY, MISSING, STALE, CONFLICT, UNVERIFIED. Each row 
 | Known vulnerabilities | READY | `pip-audit` over `uv export --all-extras --all-groups`: none. `en-core-web-sm` (URL dependency) is UNVERIFIED |
 | Workflow security | READY | `zizmor --offline .github/workflows`: no findings |
 | Local gate | READY | ruff check and pinned ruff format check pass on the committed tree; the full suite per commit is compared test by test (tasks.md) |
-| Remote gate (CI) | CONFLICT | Red since the Nov 23 pushes; local and remote disagree because CI lacks local data. 64 failures at `67c49b0`, itemized under *CI* below |
-| Secret scanning | MISSING | Prism: secrets unconfigured; neither `detect-secrets` nor `gitleaks` is installed (card #35) |
+| Remote gate (CI) | CONFLICT | Red since the Nov 23 pushes; local and remote disagree because CI lacks local data. 64 failures at `67c49b0`, 162 at `5792ca3`, itemized under *CI* below |
+| Secret scanning | MISSING | Prism: secrets unconfigured; no scanner is configured in the project or the gate (card #35). This pass scans every commit's files with `detect-secrets`' Python API through `uvx` (regex plugins, files under 10 MB) |
 | License | CONFLICT | `README.md` says MIT; there is no `LICENSE` file (repo-review PY003) |
 | pytest warnings policy | MISSING | No `filterwarnings` (repo-review PP309; card #34) |
 | Pre-commit hooks, task runner | MISSING | repo-review PY006, PY007 (cards #36, #37) |
 | Ruff rule set | STALE | Bugbear not selected; `target-version` duplicates `requires-python` (repo-review RF101, RF002; card #38) |
 | Declared dependencies | CONFLICT | deptry, in the project environment: live modules import undeclared `torch` (the register-router experiments, `qwen_client`), `transformers` (`qwen_client`) and `amrlib` (`nlp/sentence_parser`); scripts import undeclared `datasets`, `ijson`, `gensim`, `sentence_transformers`. Matches card #152 (gates-23). deptry needs the archive and record exclusions the other tools have before its 224-issue report is readable |
-| Layer contracts | MISSING | Import Linter is installed but the project has no `[tool.importlinter]` contract (task 4.4) |
+| Layer contracts | READY | Five Import Linter contracts in `pyproject.toml`, run by the gate locally and in CI; 7 recorded exceptions, each naming the task that removes it (`3464b35`) |
+| Code check (LintGate) | READY | `check_project` on a clean extract of `9a773a4` (not the working tree): deps, behavior and git pass. 31 blocking lint findings: 4 size findings that hold at source (`GSEEncoder.encode` cyclomatic complexity 127, `_detect_embedded_clauses` 41, `MultiScaleDoc.__init__` 37 with 22 attributes, the encoder's maintainability index 0) and 27 type findings; three of those checked at source are annotations too broad (`Dict[str, object]`) or `Optional` values not narrowed, not runtime faults. 4,115 warnings, 3,563 of them the coherence channel. All advisory, like `ty` |
 | Detective state | STALE | Generated-test content hashes predate the rename; five certificate entries name the archived constructor |
 | LintGate files | STALE | `.claude/rules/lg_*.md` are tracked but rewritten on every tool call (card #45) |
 | Machine inventory | STALE | SetupAtlas last scanned 2026-05-03; not used as evidence for this session |
