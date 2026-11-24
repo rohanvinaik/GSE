@@ -786,7 +786,8 @@ consumer-style calls; the method and full evidence are in
 | `GSE/_archive/` | **archived** | Self-evidently old. Exclude. |
 | `GSE/pipeline_v2.py`, `GSE/merkle/`, `GSE/patterns/`, `GSE/teaching/`, `GSE/profiles/` | **older stack, never observed** | The Hebbian learning-network design of the June 14 import; adaptation conflicts with the determinism guarantee. Last substantive change 2026-06-14 for nearly all modules. |
 | `GSE/parsing/`, `GSE/composition/` | **superseded, test-only** | Replaced by the native front end (`GSE/nlp/native.py`) and the encoder's own composition. |
-| `GSE/curation/llm/`, `decomposition/`, `constraint_aggregation/`, `pipeline/`, `validation/` | **superseded, test-only or unreferenced** | Replaced by `GSE/curation/lexicon_builder`; their only other consumer is the uninstalled `daemon/`. |
+| `GSE/curation/llm/` except `ollama_client.py` | **superseded, test-only** | Replaced by the model protocol in `GSE/curation/lexicon_builder`, which still uses `ollama_client.py` as its model transport. |
+| `GSE/curation/decomposition/`, `pipeline/`, `validation/`, `constraint_aggregation/` | **old build tools** | Used only by the offline `build_clean_layer2.py`, the old curation CLI (`curation/cli/commands.py`), scripts and, for `constraint_aggregation`, the uninstalled `daemon/`. |
 | `GSE/evaluation/`, `GSE/verb_templates.py`, `GSE/benchmarks/`, `GSE/cache.py`, `GSE/orchestration/` | **not on any consumer path** | Tooling, test-only or unreferenced. |
 | `GSE/demo/` other than `reasoning.py` | **unreferenced** | |
 | `GSE/cli.py` | **dead** | The `GSE/cli/` package shadows it on import. |

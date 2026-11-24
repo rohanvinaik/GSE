@@ -11,7 +11,7 @@ Evidence below was measured on 2026-11-23 at `67c49b0`: an AST import graph of `
 | Revision | `main` = `origin/main`, Python 3.14.7 (uv-managed) |
 | Dependencies | `uv.lock` current (`uv lock --check`); `.venv` built by `uv sync --locked` |
 | Gate | `scripts/ci_local.sh`: ruff check, ruff format check (pinned 0.16.10), pytest; `ty` advisory. `.github/workflows/ci.yml` runs the same script |
-| CI | **Red.** The last green run was 2026-10-26. The Nov 23 pushes failed the format check (70 files), which `67c49b0` fixes. At `67c49b0`, pytest in CI has 64 failures with two causes. 45 (`UNKNOWN_BANK:YOU` in the body-scope and scope-admission tests) come from the in-progress I/YOU projection, which older tests do not admit. About 19 read local data that CI lacks (`data/external/concreteness.csv`, the NSM primes chart, frequency data, an NLTK resource) without the skip guard that older data-dependent tests use |
+| CI | **Red.** The last green run was 2026-10-26. The Nov 23 pushes failed the format check (70 files), which `67c49b0` fixes. At `67c49b0`, pytest in CI has 64 failures. 45 (`UNKNOWN_BANK:YOU`, body-scope and scope-admission tests) come from the in-progress I/YOU projection and also fail with full local data. The other 19 pass locally with `data/` present: 3 are a regression from `1a520dd` (`load_all_sources` loads the NSM chart without the guard every other source has, so a checkout without the chart crashes instead of keeping the built-in grammar); 3 PropBank load tests raise `LookupError` because CI has no PropBank corpus and patching NLTK's lazy loader forces a load (these tests predate Oct 26, when CI passed; the change is not yet explained); 13 epoch, linkage, catalog, publication and runtime-audit tests read local lexicon data (frequency database, NSM chart) |
 | Entry points | `python -m GSE.cli` (encode, compare, decode, verify, interactive); `GSE-spellcheck-mcp`; `GSE-lexicon` (upstream constructor); `python -m GSE.curation.build_*`; `scripts/` |
 | Active lexicon | `data/lexicon_active.json` → `data/lexicon_builder/2026-11-12/sparse-release-021.db`; replay validated 401,596 entries, 0 mismatches |
 | Missing data | **MISSING** `data/genealogy.db` (blocks `resolve_document`, narrative compression and the Genesis bridge script). Also missing: the HDC speller cache, `spell_entities.db`, and the Wiktionary wordlist with `frequency.db`. These, plus the absent `torch`, account for the suite's 54 skips |
@@ -66,9 +66,8 @@ The owner's three tiers map onto these as follows. **Tier 1, the text-to-math en
 |---|---|---|
 | `parsing/` (constraint-propagation parser, Jun 14) | `nlp/native` (deterministic front end, Jun 20–Nov 14) | test-only |
 | `composition/` (HDC composer, Jun 14) | composition inside `api/encoder` | test-only |
-| `curation/llm/` (Ollama decomposition, Jun 14–Oct 29) | `curation/lexicon_builder` model protocol (Oct 29–Nov 23) | test-only (7 of 11) |
-| `curation/decomposition/` (Jun 20) | definition-scoped construction | unreferenced |
-| `curation/constraint_aggregation/`, `curation/pipeline/`, `curation/validation/` (Jun 14) | the current constructors | test-only or unreferenced (its only consumer is the uninstalled daemon) |
+| `curation/llm/` except `ollama_client` (Ollama decomposition, Jun 14–Oct 29) | `curation/lexicon_builder` model protocol (Oct 29–Nov 23), which still uses `ollama_client` as its transport | test-only |
+| `curation/decomposition/` (Jun 20), `curation/pipeline/`, `curation/validation/`, `curation/constraint_aggregation/` (Jun 14) | the current constructors | old build tools: used only by `build_clean_layer2`, the old curation CLI, scripts and, for `constraint_aggregation`, the uninstalled daemon |
 | `pipeline_v2`, `merkle/`, `patterns/`, `teaching/`, `profiles/` (the Hebbian learning-network stack, Jun 14) | the deterministic engine; the trained SoM register router | never observed; reachable only through the root's lazy exports |
 | `evaluation/`, `verb_templates`, `benchmarks/`, `cache`, `orchestration` (Jun 14) | none in use | tooling, test-only or unreferenced |
 | `demo/` other than `reasoning` | none | unreferenced |

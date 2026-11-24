@@ -13,7 +13,7 @@ Every task is one reviewable commit on `main`. It updates every importer: the pa
 
 - [ ] 0.1 Owner decisions 1–4 in proposal.md are recorded here.
 - [ ] 0.2 The concurrent Codex session is paused; `main` is clean and equals `origin/main`.
-- [ ] 0.3 CI is green on `main`: the lexicon work settles the 45 tests its I/YOU projection contradicts, and tests that read local `data/` skip when it is absent, as the older data-dependent tests do.
+- [ ] 0.3 CI is green on `main`: the lexicon work settles the 45 tests its I/YOU projection contradicts; `load_all_sources` treats the NSM chart as optional like every other source; the PropBank tests stop depending on the corpus being installed; the 13 tests that need local lexicon data use a fixture or skip when it is absent.
 
 ## 1. Pin what must not change
 
