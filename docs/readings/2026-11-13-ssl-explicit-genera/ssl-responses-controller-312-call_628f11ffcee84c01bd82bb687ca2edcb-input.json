@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json,ast\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-controller-integrated-gate-job.json','ssl-api-controller-integrated-gate-exit.json']:\n p=n/name;print('\\n##',name,'\\n',p.read_text())\nprint('\\n## CI\\n',Path('scripts/ci_local.sh').read_text())\np=n/'ssl-api-runtime-result.json';d=json.loads(p.read_text());print('\\nB top-level keys',list(d));print('B freeze field shapes',json.dumps({k:({'size':len(v),'keys':list(v)[:12]} if isinstance(v,dict) else {'size':len(v)} if isinstance(v,list) else v) for k,v in d.items() if k in {'status','code','source_edits_finished','updated_utc','source_pins','code_freeze','source_freeze','role_scope','current_failures','owned_jobs'}}))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

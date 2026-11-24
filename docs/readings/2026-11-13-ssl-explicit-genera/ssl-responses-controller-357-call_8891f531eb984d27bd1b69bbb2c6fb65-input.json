@@ -1,0 +1,5 @@
+{
+  "command": "git diff -- GSE/curation/lexicon_builder/storage.py && .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-controller-source-freeze.json','ssl-api-controller-root-handoff.json']:\n p=n/name\n if p.exists():\n  d=json.loads(p.read_text());print(name, list(d));print(json.dumps({k:v for k,v in d.items() if 'pin' in k or k in ['updated_utc','at_utc','code','status']},indent=2))\np=n/'ssl-api-controller-canonical-witness-exit.json';print('WITNESS_EXIT',p.read_text() if p.exists() else 'not completed')\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 20
+}

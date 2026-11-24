@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label coverage-canonical-final-verification -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json, sqlite3, hashlib\nr=Path('docs/readings/2026-11-13-ssl-explicit-genera')\np=r/'ssl-api-coverage-canonical-reconciliation.json'\nd=json.loads(p.read_text())\nprint('JSON_TOP_LEVEL_KEYS',list(d))\nfor k,v in d.items():\n    if isinstance(v,list): print('LIST',k,len(v))\n    elif isinstance(v,dict): print('DICT',k,list(v))\nprint('FULL_MARKDOWN')\nprint((r/'ssl-api-coverage-canonical-reconciliation.md').read_text())\nprint('REPORT_SHA256',hashlib.sha256(p.read_bytes()).hexdigest())\nprint('ACTIVE_POINTER',Path('data/lexicon_active.json').read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

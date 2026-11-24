@@ -151,8 +151,11 @@ def modal_force(primes: str) -> str:
     * ``"necessary"`` — MUST, with neither of those ("He must leave", "He should leave"): stated as required, not as
       having happened.
     * ``"asserted"`` — no modal prime: the event holds as stated.
+    * ``"directive"`` — grammatical IMPERATIVE mood: a requested act, not a committed fact.
     """
     names = {name.strip() for name in primes.split(",")}
+    if "IMPERATIVE" in names:
+        return "directive"
     if names & {"MAYBE", "CAN"}:
         return "possible"
     if "MUST" in names:

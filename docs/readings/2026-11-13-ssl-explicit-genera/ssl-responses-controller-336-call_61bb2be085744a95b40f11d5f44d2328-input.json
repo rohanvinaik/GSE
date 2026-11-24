@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nimport ast,json\nfrom pathlib import Path\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera'); c=json.loads((n/'ssl-api-coverage-canonical-reconciliation.json').read_text())\nfor u in c['units']:\n print(json.dumps({k:u[k] for k in ['unit_id','entry','own_bank','own_pole','own_domain','mapping']},ensure_ascii=False))\nfor file in ['GSE/primitives_v2.py','GSE/curation/schema.py']:\n s=Path(file).read_text();t=ast.parse(s);print('\\nFILE',file)\n for node in t.body:\n  if isinstance(node,(ast.ClassDef,ast.FunctionDef,ast.Assign,ast.AnnAssign)) and any(w in ast.get_source_segment(s,node) for w in ['\"THINK\"','\"MOMENT\"','\"PEOPLE\"']):\n   print(ast.get_source_segment(s,node))\nprint((n/'ssl-root-prime-transport.json').read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

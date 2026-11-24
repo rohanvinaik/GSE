@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nimport subprocess,hashlib,json,ast\nfrom pathlib import Path\np=Path('GSE/curation/lexicon_builder/storage.py');old=subprocess.check_output(['git','show','HEAD:'+str(p)]);print('HEAD_SHA',hashlib.sha256(old).hexdigest());print('CURRENT_SHA',hashlib.sha256(p.read_bytes()).hexdigest()); print('CURRENT_UNIT',p.read_text());print('RUNTIME_DEFINITIONS',Path('GSE/lexicon/definitions.py').read_text());n=Path('docs/readings/2026-11-13-ssl-explicit-genera');print('clock',__import__('datetime').datetime.now(__import__('datetime').timezone.utc).isoformat())\nfor name in ['ssl-api-controller-canonical-witness.log','ssl-api-controller-canonical-witness-exit.json']:\n q=n/name\n if q.exists():print(name,q.read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 20
+}

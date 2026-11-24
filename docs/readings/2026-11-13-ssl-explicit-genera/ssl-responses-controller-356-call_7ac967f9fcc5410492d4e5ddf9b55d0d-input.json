@@ -1,0 +1,5 @@
+{
+  "command": "cat tests/test_checkpoint_canonical_audit.py && .venv/bin/ruff check docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_canonical_projection.py && .venv/bin/ruff format docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_canonical_projection.py && .venv/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\nfrom GSE.curation.lexicon_builder.epoch import fingerprint\nw=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint'); p=w/'postwriter-validation.json';c=json.loads(p.read_text());print('BASELINE_SOURCE_CHECK',[(x['path'],fingerprint(Path(x['path']))==x['sha256']) for x in c['builder_source_pins']]);print('SOURCE_CERT_SHA',fingerprint(p))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

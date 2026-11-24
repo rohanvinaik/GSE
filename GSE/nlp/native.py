@@ -675,7 +675,17 @@ class NativeNLP:
             while j < len(surfaces) and (surfaces[j].lower().endswith("ly") or surfaces[j].lower() in _NEG):
                 j += 1
             nxt = surfaces[j].lower() if j < len(surfaces) else ""
-            inverted = i == 0 or prev in _SCONJ or prev in _CCONJ
+            # At a clause boundary, a following subject plus a predicate is
+            # inversion; a complete nominal complement of bare DO is an
+            # imperative. A conjunction alone does not prove inversion.
+            boundary = i == 0 or prev in _SCONJ or prev in _CCONJ
+            following_predicate = any(
+                self._looks_verbal(surfaces[k].lower())
+                and surfaces[k - 1].lower() not in (_DET | _POSS_PRON)
+                and surfaces[k].lower() not in _STOP
+                for k in range(j + 1, len(surfaces))
+            )
+            inverted = boundary and following_predicate
             if not inverted and nxt in (_DET | _POSS_PRON | _PRON):
                 return "VERB"
             return "AUX"

@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json,sqlite3,ast\np=Path('GSE/curation/lexicon_builder/validation.py');s=p.read_text()\nfor f in ast.parse(s).body:\n if isinstance(f,ast.FunctionDef) and f.name=='_metadata':print(ast.get_source_segment(s,f))\nw=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint');c=sqlite3.connect(f'file:{w}/candidate-self-boundary.db?mode=ro',uri=True)\nprint('TABLES',c.execute(\"select name from sqlite_master where type='table'\").fetchall())\nfrom GSE.curation.lexicon_builder.validation import _metadata\nc.row_factory=sqlite3.Row\nd=_metadata(c,'prime_entries');print('LINKS', {k:d.get(k) for k in ['nsm:v20:people','nsm:v20:think']});print('SAMPLE',list(d.items())[:2])\np=Path('docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json');d=json.loads(p.read_text());print('ANCHOR KEYS',list(d));print('ANCHOR HEAD',json.dumps({k:v for k,v in d.items() if k not in ['anchors','definitions']})[:1000])\nprint('SELF REPORT KEYS',list(json.loads((w/'self-boundary-revision.json').read_text())))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

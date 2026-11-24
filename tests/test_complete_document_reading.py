@@ -148,8 +148,12 @@ def test_all_unread_profile_never_claims_measured_neutrality(simple_pipeline):
     assert all(value == 0.0 for value in profile.legacy_vector())
 
 
-def test_late_profile_failure_cannot_leave_partial_observation(simple_pipeline):
-    profile = text_profile(Encoder(lookup_fail=True), "good.")
+def test_late_profile_failure_cannot_leave_partial_observation(simple_pipeline, monkeypatch):
+    def fail_late(*args, **kwargs):
+        raise ValueError("late coherence observation failure")
+
+    monkeypatch.setattr("GSE.discourse.profile.coherence_report", fail_late)
+    profile = text_profile(Encoder(), "good.")
     assert profile.n_read == 0
     assert profile.register["mean_lemma_len"] is None
     assert profile.operator_mix["EVENT"] is None

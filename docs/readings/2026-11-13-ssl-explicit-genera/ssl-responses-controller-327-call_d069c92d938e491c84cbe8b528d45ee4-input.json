@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport ast,json\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\np=n/'ssl_api_checkpoint.py';s=p.read_text();t=ast.parse(s)\nfor v in t.body:\n if isinstance(v,ast.FunctionDef) and v.name in ['basis_assertion','stage_basis_projection']:print(ast.get_source_segment(s,v))\nfor name in ['ssl-api-controller-basis-manifest.json','ssl-root-canonical-prime-projection-review.json']:\n p=n/name;print(name);print(p.read_text())\nd=json.loads((n/'ssl-api-coverage-canonical-reconciliation.json').read_text())\nfor u in d['units']:\n if u['unit_id'].split(':')[-1] in ['moment','touch','side','far','near','now','long-time','short-time','time','place']:\n  print(json.dumps({k:u[k] for k in ['unit_id','chart_heading','forms','frame_text','mapping','explicit_identity_link','entry','own_bank','own_pole']},indent=2))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 20
+}

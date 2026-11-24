@@ -1,0 +1,5 @@
+{
+  "command": "python - <<'PY'\nfrom pathlib import Path\nimport ast\nfor path in ['tests/test_checkpoint_self_boundary.py','GSE/curation/lexicon_builder/grammatical_definitions.py','docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-root-handoff.json']:\n p=Path(path)\n if p.exists():\n  if p.suffix=='.json':\n   import json\n   v=json.loads(p.read_text()); print('HANDOFF TOPLEVEL',list(v));print(json.dumps({k:v[k] for k in ('phase','source_state','auxiliary_bank_coordination','updated_utc') if k in v},indent=2))\n  else:print('\\n---COMPLETE',path,'---\\n'+p.read_text())\nfor p in Path('GSE').rglob('*.py'):\n if p.parts[:3] not in [('GSE','curation','lexicon_builder'),('GSE','lexicon')]:continue\n t=ast.parse(p.read_text());refs=[]\n for n in ast.walk(t):\n  if isinstance(n,ast.Constant) and isinstance(n.value,str) and ('COMP'==n.value or 'HAVE'==n.value or 'BE'==n.value):refs.append(n.lineno)\n if refs: print(str(p),refs)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

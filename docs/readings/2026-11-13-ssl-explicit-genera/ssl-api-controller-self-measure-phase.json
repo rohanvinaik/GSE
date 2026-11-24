@@ -1,0 +1,87 @@
+{
+  "activation_performed": false,
+  "candidate_sha256": "dac0b0141e483640f30789c76ad0013a4035ab3a7064570ced79b6d21d2e83c7",
+  "delta": {
+    "buckets": {
+      "1-500": {
+        "domain_potential_gain_bits": 0.0,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 0,
+        "specification_gain_bits": 0.0,
+        "unresolved_banks_reduction": 0
+      },
+      "1501-5000": {
+        "domain_potential_gain_bits": 3.169925001449883,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 2,
+        "specification_gain_bits": 3.169925001449883,
+        "unresolved_banks_reduction": 2
+      },
+      "5001+": {
+        "domain_potential_gain_bits": 0.0,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 0,
+        "specification_gain_bits": 0.0,
+        "unresolved_banks_reduction": 0
+      },
+      "501-1500": {
+        "domain_potential_gain_bits": 0.0,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 0,
+        "specification_gain_bits": 0.0,
+        "unresolved_banks_reduction": 0
+      },
+      "unranked": {
+        "domain_potential_gain_bits": 0.0,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 0,
+        "specification_gain_bits": 0.0,
+        "unresolved_banks_reduction": 0
+      }
+    },
+    "lexicon": {
+      "domain_potential_gain_bits": 3.16992499679327,
+      "joint_count_comparison": "EXACT",
+      "net_filled_banks": 2,
+      "specification_gain_bits": 3.1699250005185604,
+      "unresolved_banks_reduction": 2
+    },
+    "sentence_constructions": {
+      "domain_potential_gain_bits": 0.0,
+      "joint_count_comparison": "EXACT",
+      "net_filled_banks": 0,
+      "specification_gain_bits": 0.0,
+      "unresolved_banks_reduction": 0
+    }
+  },
+  "finished_utc": "2026-11-24T20:00:42.516436+00:00",
+  "lexical_space": {
+    "EXACT": 401595,
+    "banks": 22489320,
+    "definitions": 401595,
+    "domain_potential_bits": 34913076.89217291,
+    "exact_definitions": 401595,
+    "exact_subset_specification_bits": 32756089.990336496,
+    "explicit_zero_banks": 331374,
+    "filled_banks": 461621,
+    "joint_assignment_count_representation": "PRODUCT_OF_EACH_HISTOGRAM_BASE_RAISED_TO_ITS_COUNT",
+    "joint_assignment_product_complete": true,
+    "limited_components": 0,
+    "mean_unresolved_banks_per_definition": 54.85053100760717,
+    "specification_bits": 32756089.990336496,
+    "spelling_weighted_mean_unresolved_banks": 54.620306337870424,
+    "spellings": 67173,
+    "unresolved_banks": 22027699,
+    "upper_bound_bits": 32756089.990336496
+  },
+  "lexical_writes": 0,
+  "model_calls": 0,
+  "regression_outcomes": {
+    "ABSTAINED": 0,
+    "CONFLICT": 0,
+    "IDENTIFIED_CORRECT": 123,
+    "NOT_FOUND": 0,
+    "WRONG": 0
+  },
+  "status": "MEASURED_AND_EXISTING_REGRESSION_PASSED_WORKLOAD_PENDING"
+}

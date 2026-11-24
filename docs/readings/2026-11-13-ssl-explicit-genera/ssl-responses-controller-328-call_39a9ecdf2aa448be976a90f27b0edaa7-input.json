@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport ast\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl_api_checkpoint_packets.py','ssl_api_checkpoint_child_audit.py']:\n p=n/name;print('FILE',p);print(p.read_text())\nfor p in Path('GSE/curation/lexicon_builder').glob('*.py'):\n t=ast.parse(p.read_text())\n for node in ast.walk(t):\n  if isinstance(node,(ast.FunctionDef,ast.ClassDef)) and node.name in ['revise_source_candidate','JournaledTransport','OllamaTransport']:\n   print('FILE',p);print(ast.get_source_segment(p.read_text(),node))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 20
+}

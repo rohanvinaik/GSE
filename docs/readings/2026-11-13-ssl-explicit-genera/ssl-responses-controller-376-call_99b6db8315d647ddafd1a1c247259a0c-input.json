@@ -1,0 +1,5 @@
+{
+  "command": "python - <<'PY'\nfrom pathlib import Path\nimport ast\np=Path('GSE/curation/lexicon_builder/evidence.py');s=p.read_text();t=ast.parse(s)\nfor node in t.body:\n if isinstance(node,(ast.FunctionDef,ast.ClassDef)) and node.name in {'_closed_class_definitions','_record_id','Definition','Observation','_FAMILIES','_canonical_json'}:\n  print('\\nUNIT',node.name);print('\\n'.join(s.splitlines()[node.lineno-1:node.end_lineno]))\np=Path('tests/test_checkpoint_canonical_projection.py');print(p.read_text())\np=Path('GSE/curation/lexicon_builder/validation.py');t=ast.parse(p.read_text());s=p.read_text()\nfor node in t.body:\n if isinstance(node,ast.FunctionDef) and node.name in {'_native_definition','_entry','validate_build','_definition'}:\n  print('\\nUNIT',p,node.name);print('\\n'.join(s.splitlines()[node.lineno-1:node.end_lineno]))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

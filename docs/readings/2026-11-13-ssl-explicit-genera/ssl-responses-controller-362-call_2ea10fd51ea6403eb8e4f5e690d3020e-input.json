@@ -1,0 +1,5 @@
+{
+  "command": "python - <<'PY'\nfrom pathlib import Path\nimport json\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ('ssl-api-controller-canonical-witness-exit.json','ssl-api-controller-canonical-witness-phase.json','ssl-api-runtime-blockers.json','ssl-api-runtime-result.json'):\n p=n/name\n print('\\n---',name,'---')\n if p.exists():\n  v=json.loads(p.read_text()); print(json.dumps(v if name not in ('ssl-api-runtime-result.json',) else {k:v[k] for k in v if k not in ('runtime_validation','full_operation_observations','history','previous')},indent=2))\n else:print('NOT PRESENT')\nfor p in (Path('tests/test_checkpoint_canonical_audit.py'),Path('GSE/lexicon/definitions.py')):\n print('\\n--- COMPLETE',p,'---\\n'+p.read_text())\nw=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/canonical-witness')\np=w/'audit.json'; print('\\nAUDIT',p.exists())\nif p.exists():print(p.read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

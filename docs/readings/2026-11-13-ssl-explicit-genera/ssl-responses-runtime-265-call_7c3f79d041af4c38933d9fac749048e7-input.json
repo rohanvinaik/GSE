@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport json\nD=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-runtime-result.json','ssl-api-runtime-workload-freeze.json','ssl-api-runtime-complete-operation-cases-v1.json','ssl-api-runtime-refreeze-final-lint.json']:\n d=json.loads((D/name).read_text()); print(name)\n if name=='ssl-api-runtime-result.json': print(json.dumps({k:v for k,v in d.items() if k in ['status','source_edits_finished','source_pins','owned_paths','verification','current_progress','source_freeze','code_freeze']},indent=2)); print('KEYS',list(d))\n else: print(json.dumps(d,indent=2))\nprint('COORDINATION FILES', [p.name for p in D.iterdir() if (p.name.startswith('ssl-api-controller') or p.name.startswith('ssl-api-builder') or p.name.endswith('steering.json'))])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

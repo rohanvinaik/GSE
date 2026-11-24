@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast\nfor filename, wanted in [('GSE/primitives_v2.py',{'BipolarDimension','BIPOLAR_DIMENSIONS','BANK_0_UNIPOLAR','BANK_1_UNIPOLAR','BANK_2_UNIPOLAR','BANK_3_UNIPOLAR','BANK_4_UNIPOLAR','BANK_5_UNIPOLAR','BANK_6_UNIPOLAR','BANK_7_UNIPOLAR','_build_registry'}),('GSE/curation/schema.py',{'BANK_0_PRIMITIVES','BANK_1_PRIMITIVES','BANK_2_PRIMITIVES','BANK_3_PRIMITIVES','BANK_4_PRIMITIVES','BANK_5_PRIMITIVES','BANK_6_PRIMITIVES','BANK_7_PRIMITIVES','BIPOLAR_PAIRS'})]:\n p=Path(filename);s=p.read_text();lines=s.splitlines();t=ast.parse(s)\n for n in t.body:\n  names={getattr(n,'name','')}|{x.id for x in getattr(n,'targets',[]) if isinstance(x,ast.Name)}\n  if isinstance(n,ast.AnnAssign) and isinstance(n.target,ast.Name):names.add(n.target.id)\n  if names&wanted:print('\\n##',filename,','.join(names),'\\n'+'\\n'.join(lines[n.lineno-1:n.end_lineno]))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nimport json,sqlite3\nfrom pathlib import Path\nfrom GSE.curation.lexicon_builder.storage import read_model_receipts\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera'); r=json.loads((n/'ssl-api-controller-canonical-source-review.json').read_text()); entries={c['entry_id'] for c in r['claims']}\nwith sqlite3.connect(Path(r['baseline']['path']).resolve().as_uri()+'?mode=ro',uri=True) as con:\n print('bound_model_receipts',sorted(entries&set(read_model_receipts(con))))\n for (raw,) in con.execute('SELECT payload FROM rule_migrations'):\n  d=json.loads(raw); print('migration',d.keys(),'archived',len(d['archived']),'target_intersection',sorted(entries&{x['definition']['entry_id'] for x in d['archived']}))\n print('METADATA relevant',[(x[0],len(x[1])) for x in con.execute('SELECT key,value FROM builder_metadata') if any(w in x[0] for w in ['revision','source','manifest'])])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

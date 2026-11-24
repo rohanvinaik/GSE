@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nimport json\np=Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-blockers.json'); d=json.loads(p.read_text()); d['source_edits_finished']=False; d['status']='SOURCE_EDITING_UNFROZEN_THIRD'; d['updated_utc']=datetime.now(timezone.utc).isoformat(); d['ongoing_runtime_repair']='Third authorized unfreeze: topic complement, main DO, fronted adjunct repairs; imperative/inversion boundary regression verification in progress. Prior freezes are historical, not current.'; d['current_progress']={'source_edits_finished':False,'status':'THIRD_REGRESSION_REPAIR','latest_test':'ssl-api-runtime-third-regression.xml','cause':'Transient imperative initialization placement plus isolated-word imperative overreach; repairing before new freeze.'}; p.write_text(json.dumps(d,indent=2)+'\\n')\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

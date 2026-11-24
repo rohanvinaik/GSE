@@ -1,0 +1,998 @@
+{
+  "activation": false,
+  "bank_writes": 0,
+  "baseline": {
+    "path": "data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/candidate-self-boundary.db",
+    "sha256": "dac0b0141e483640f30789c76ad0013a4035ab3a7064570ced79b6d21d2e83c7"
+  },
+  "census": {
+    "authority": "FACTUAL_IDENTITY_AND_STATE_INVENTORY_NOT_SEMANTIC_APPROVAL",
+    "path": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-coverage-canonical-reconciliation.json",
+    "sha256": "22bb44c1363f364b928ddbdc94897fe82870b793ed7935016bcee167a5e33d7a"
+  },
+  "claims": [
+    {
+      "bank": "PEOPLE",
+      "bank_meaning": "Collective animate",
+      "chart_heading": "PEOPLE",
+      "definition": "(plural) any group of human beings (men or women or children) collectively",
+      "derivation": "The exact native sense explicitly denotes human beings collectively, not an arbitrary grammatical plural.",
+      "entry_id": "wordnet:people:people.n.01",
+      "forms": [
+        "PEOPLE"
+      ],
+      "frame_text": "these people, many people, some\npeople, few people\nmany people think like this:...\npeople can say...\npeople of one kind",
+      "identity_link": {
+        "artifact": "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json",
+        "entry_ids": [
+          "wordnet:people:people.n.01"
+        ],
+        "scope": "IDENTITY_ONLY_NOT_FULL_SIGNATURE_OR_OWN_BANK_AUTHORITY"
+      },
+      "native_observation_sha256": "fa6c39fe3abc31fd91d043a1d795a89c83ed8996679291e8da421472ee6f52d2",
+      "native_record_id": "wordnet:people:people.n.01",
+      "native_source": "wordnet_hierarchy",
+      "pos": "noun",
+      "scope": "EXACT_SOURCE_DEFINITION_AND_OWN_COORDINATE_ONLY",
+      "unit_id": "nsm:v20:people",
+      "value": 1
+    },
+    {
+      "bank": "BODY",
+      "bank_meaning": "Physical embodiment",
+      "chart_heading": "BODY",
+      "definition": "the entire structure of an organism (an animal, plant, or human being)",
+      "derivation": "The exact native sense denotes the entire physical structure of an organism, not a text body or organized association.",
+      "entry_id": "wordnet:body:body.n.01",
+      "forms": [
+        "BODY"
+      ],
+      "frame_text": "people\u2019s bodies\na body of one kind, bodies of two kinds\nsomething bad happens inside\nsomeone\u2019s body\nsomeone feels something in the body",
+      "identity_link": {
+        "artifact": "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json",
+        "entry_ids": [
+          "wordnet:body:body.n.01"
+        ],
+        "scope": "IDENTITY_ONLY_NOT_FULL_SIGNATURE_OR_OWN_BANK_AUTHORITY"
+      },
+      "native_observation_sha256": "55db75e2c2075f1c9e39be7105025400bf3d4766c8d409e517ada220230dc8e8",
+      "native_record_id": "wordnet:body:body.n.01",
+      "native_source": "wordnet_hierarchy",
+      "pos": "noun",
+      "scope": "EXACT_SOURCE_DEFINITION_AND_OWN_COORDINATE_ONLY",
+      "unit_id": "nsm:v20:body",
+      "value": 1
+    },
+    {
+      "bank": "WORDS",
+      "bank_meaning": "Linguistic content",
+      "chart_heading": "WORDS",
+      "definition": "a unit of language that native speakers can identify",
+      "derivation": "The exact native sense denotes an identifiable unit of language, within the approved WORDS linguistic-content boundary, not an unspecified SAY event.",
+      "entry_id": "wordnet:word:word.n.01",
+      "forms": [
+        "WORDS"
+      ],
+      "frame_text": "many words, other words, one word\nwords of one kind\nsay something with (not with) words, say\nsomething in other words\nsay these words",
+      "identity_link": {
+        "artifact": "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json",
+        "entry_ids": [
+          "wordnet:word:word.n.01"
+        ],
+        "scope": "IDENTITY_ONLY_NOT_FULL_SIGNATURE_OR_OWN_BANK_AUTHORITY"
+      },
+      "native_observation_sha256": "f04213c6d38ea25a3e3acc8ccbcb6793589ae31cd86d5a01760de073036b4318",
+      "native_record_id": "wordnet:word:word.n.01",
+      "native_source": "wordnet_hierarchy",
+      "pos": "noun",
+      "scope": "EXACT_SOURCE_DEFINITION_AND_OWN_COORDINATE_ONLY",
+      "unit_id": "nsm:v20:words",
+      "value": 1
+    },
+    {
+      "bank": "PART",
+      "bank_meaning": "Part-whole relation",
+      "chart_heading": "(HAVE) PARTS",
+      "definition": "something determined in relation to something that includes it",
+      "derivation": "The exact native sense is determined by inclusion in a whole. Singular PART corresponds to this relation; no HAVE or participant content follows.",
+      "entry_id": "wordnet:part:part.n.01",
+      "forms": [
+        "(HAVE) PARTS"
+      ],
+      "frame_text": "people\u2019s bodies have many parts\none/two of these parts...\nsomething of this kind has two/many\nparts\nthis part, the same part, this other part",
+      "identity_link": {
+        "artifact": "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json",
+        "entry_ids": [
+          "wordnet:part:part.n.01"
+        ],
+        "scope": "IDENTITY_ONLY_NOT_FULL_SIGNATURE_OR_OWN_BANK_AUTHORITY"
+      },
+      "native_observation_sha256": "89671ab0e7df67a72c315ca546bb4426e8a442df0a04c8f0226f765cdab2fa46",
+      "native_record_id": "wordnet:part:part.n.01",
+      "native_source": "wordnet_hierarchy",
+      "pos": "noun",
+      "scope": "EXACT_SOURCE_DEFINITION_AND_OWN_COORDINATE_ONLY",
+      "unit_id": "nsm:v20:parts",
+      "value": 1
+    },
+    {
+      "bank": "KIND",
+      "bank_meaning": "Category/type",
+      "chart_heading": "KINDS",
+      "definition": "a category of things distinguished by some common characteristic or quality",
+      "derivation": "The exact native definition is a category distinguished by common characteristics; this is the taxonomic KIND meaning, not kindness.",
+      "entry_id": "wordnet:kind:kind.n.01",
+      "forms": [
+        "KINDS"
+      ],
+      "frame_text": "people of one/two/many kinds\nthis kind, the same kind, another kind,\nthis other kind\nsomething/someone of one kind\na place of one kind",
+      "identity_link": {
+        "artifact": "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json",
+        "entry_ids": [
+          "wordnet:kind:kind.n.01"
+        ],
+        "scope": "IDENTITY_ONLY_NOT_FULL_SIGNATURE_OR_OWN_BANK_AUTHORITY"
+      },
+      "native_observation_sha256": "e1b3f52c1f12591b1663bba45086213e93ab15241e1e97dc2b47e8dc4b94b953",
+      "native_record_id": "wordnet:kind:kind.n.01",
+      "native_source": "wordnet_hierarchy",
+      "pos": "noun",
+      "scope": "EXACT_SOURCE_DEFINITION_AND_OWN_COORDINATE_ONLY",
+      "unit_id": "nsm:v20:kinds",
+      "value": 1
+    },
+    {
+      "bank": "SAME",
+      "bank_meaning": "Positive IDENTITY pole SAME",
+      "chart_heading": "THE SAME",
+      "definition": "same in identity",
+      "derivation": "The complete native definition is same in identity, exactly the positive identity pole.",
+      "entry_id": "wordnet:same:same.a.01",
+      "forms": [
+        "THE SAME"
+      ],
+      "frame_text": "the same someone, the same thing, the\nsame kind\nat the same time, in the same place\nsomeone says/does/thinks/knows/\nwants/feels the same",
+      "identity_link": {
+        "artifact": "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json",
+        "entry_ids": [
+          "wordnet:same:same.a.01"
+        ],
+        "scope": "IDENTITY_ONLY_NOT_FULL_SIGNATURE_OR_OWN_BANK_AUTHORITY"
+      },
+      "native_observation_sha256": "74b355b9672ab82be55fea7c437d4999b8db0c97766b9fa591458ba4c0b19cb0",
+      "native_record_id": "wordnet:same:same.a.01",
+      "native_source": "wordnet_hierarchy",
+      "pos": "adj",
+      "scope": "EXACT_SOURCE_DEFINITION_AND_OWN_COORDINATE_ONLY",
+      "unit_id": "nsm:v20:same",
+      "value": 1
+    },
+    {
+      "bank": "SAME",
+      "bank_meaning": "Negative IDENTITY pole OTHER",
+      "chart_heading": "OTHER~ELSE",
+      "definition": "not the same one or ones already mentioned or implied; - the White Queen",
+      "derivation": "The native definition explicitly denies sameness of identity. The fixed bipolar declaration represents this content as SAME=-1, not negation of unrelated banks.",
+      "entry_id": "wordnet:other:other.a.01",
+      "forms": [
+        "OTHER",
+        "ELSE"
+      ],
+      "frame_text": "someone else, something else, at\nanother time, somewhere else\nsome other kinds, some other parts\nthis other kind, this other part, this other\nsomeone, this other thing",
+      "identity_link": {
+        "artifact": "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json",
+        "entry_ids": [
+          "wordnet:other:other.a.01"
+        ],
+        "scope": "IDENTITY_ONLY_NOT_FULL_SIGNATURE_OR_OWN_BANK_AUTHORITY"
+      },
+      "native_observation_sha256": "a82984a2b15b98ab23b03b10840512fed4f80a583de77818670b0124167457d7",
+      "native_record_id": "wordnet:other:other.a.01",
+      "native_source": "wordnet_hierarchy",
+      "pos": "adj",
+      "scope": "EXACT_SOURCE_DEFINITION_AND_OWN_COORDINATE_ONLY",
+      "unit_id": "nsm:v20:other",
+      "value": -1
+    },
+    {
+      "bank": "TWO",
+      "bank_meaning": "Dual/minimal plural",
+      "chart_heading": "TWO",
+      "definition": "being one more than one",
+      "derivation": "The native cardinal sense is one more than one: exactly TWO, not a generic unspecified plural. No NUMBER/hierarchy assignment is made.",
+      "entry_id": "wordnet:two:two.s.01",
+      "forms": [
+        "TWO"
+      ],
+      "frame_text": "two someones/people, two things, two\nkinds\ntwo of these parts\nsomething of this kind has two parts\ntwo of these things/people\ntwo more things",
+      "identity_link": {
+        "artifact": "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json",
+        "entry_ids": [
+          "wordnet:two:two.s.01"
+        ],
+        "scope": "IDENTITY_ONLY_NOT_FULL_SIGNATURE_OR_OWN_BANK_AUTHORITY"
+      },
+      "native_observation_sha256": "3c0a2ac3ae18d32894c154f7d888e531b9cd8c917aac093ecd2ff40a4bcef0d0",
+      "native_record_id": "wordnet:two:two.s.01",
+      "native_source": "wordnet_hierarchy",
+      "pos": "adj",
+      "scope": "EXACT_SOURCE_DEFINITION_AND_OWN_COORDINATE_ONLY",
+      "unit_id": "nsm:v20:two",
+      "value": 1
+    },
+    {
+      "bank": "ONE",
+      "bank_meaning": "Singular",
+      "chart_heading": "ONE",
+      "definition": "used of a single unit or thing; not two or more",
+      "derivation": "The native definition explicitly specifies a single unit and excludes two or more; no NUMBER/hierarchy assignment is made.",
+      "entry_id": "wordnet:one:one.s.01",
+      "forms": [
+        "ONE"
+      ],
+      "frame_text": "one someone, one thing, one kind\none of these parts\none of these things/people\nin one place, at one time\nsomething of one kind\none more thing",
+      "identity_link": {
+        "artifact": "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json",
+        "entry_ids": [
+          "wordnet:one:one.s.01"
+        ],
+        "scope": "IDENTITY_ONLY_NOT_FULL_SIGNATURE_OR_OWN_BANK_AUTHORITY"
+      },
+      "native_observation_sha256": "1bf0f6d9257f040f6b39a4a5a77fea904fd1a56da3ed4c37677df9596d09f409",
+      "native_record_id": "wordnet:one:one.s.01",
+      "native_source": "wordnet_hierarchy",
+      "pos": "adj",
+      "scope": "EXACT_SOURCE_DEFINITION_AND_OWN_COORDINATE_ONLY",
+      "unit_id": "nsm:v20:one",
+      "value": 1
+    },
+    {
+      "bank": "THEN",
+      "bank_meaning": "Negative TEMPORAL_REF pole NOW",
+      "chart_heading": "NOW",
+      "definition": "NSM v20 lexical unit NOW. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+      "derivation": "The primary NOW unit locates an occurrence at the time of saying this now. The explicit fixed THEN/NOW bipolar declaration gives this unit THEN=-1; not BEFORE or arbitrary temporal content.",
+      "entry_id": "nsm_chart:v20:now",
+      "forms": [
+        "NOW"
+      ],
+      "frame_text": "something is happening here now\nwhen I say this now, ...",
+      "identity_link": {
+        "artifact": "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json",
+        "entry_ids": [
+          "nsm_chart:v20:now"
+        ],
+        "scope": "IDENTITY_ONLY_NOT_FULL_SIGNATURE_OR_OWN_BANK_AUTHORITY"
+      },
+      "native_observation_sha256": "161edd293ed57ad337f834a5438ca6823cd09d91b3e6d5ad35ea7e4aaec0854b",
+      "native_record_id": "nsm_chart:now:e0730af7ce71fc34c36186e57a6579530e0254cdf3b9a489c5f6036638e66f5a",
+      "native_source": "nsm_chart",
+      "pos": "nsm_lexical_unit",
+      "scope": "EXACT_SOURCE_DEFINITION_AND_OWN_COORDINATE_ONLY",
+      "unit_id": "nsm:v20:now",
+      "value": -1
+    },
+    {
+      "bank": "MOMENT",
+      "bank_meaning": "Punctual time",
+      "chart_heading": "MOMENT",
+      "definition": "NSM v20 lexical unit MOMENT. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+      "derivation": "The exact MOMENT unit supports in one moment/at this moment and before/after a moment; its punctual-time content matches MOMENT, not a duration or participant assignment.",
+      "entry_id": "nsm_chart:v20:moment",
+      "forms": [
+        "MOMENT"
+      ],
+      "frame_text": "it happens in one moment\na moment before, a moment after\nat this moment",
+      "identity_link": {
+        "artifact": "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json",
+        "entry_ids": [
+          "nsm_chart:v20:moment"
+        ],
+        "scope": "IDENTITY_ONLY_NOT_FULL_SIGNATURE_OR_OWN_BANK_AUTHORITY"
+      },
+      "native_observation_sha256": "f0763560908a2ec98804749941a1fef5776bf36bb5a325ac8d2c798c959b97bb",
+      "native_record_id": "nsm_chart:moment:c34f9dffef8c2349b09e4ae25c094f25b24518c752848f547f3d35aae5c48efb",
+      "native_source": "nsm_chart",
+      "pos": "nsm_lexical_unit",
+      "scope": "EXACT_SOURCE_DEFINITION_AND_OWN_COORDINATE_ONLY",
+      "unit_id": "nsm:v20:moment",
+      "value": 1
+    },
+    {
+      "bank": "FEEL",
+      "bank_meaning": "Affective/sensory",
+      "chart_heading": "FEEL",
+      "definition": "NSM v20 lexical unit FEEL. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+      "derivation": "The primary FEEL unit permits good/bad feeling and feeling in a body part. FEEL names the experience itself; no GOOD/BODY value is imported and no about-valency is invented.",
+      "entry_id": "nsm_chart:v20:feel",
+      "forms": [
+        "FEEL"
+      ],
+      "frame_text": "someone feels something (good/bad)\nsomeone feels something (good/bad) in\nthis part of the body\nsomeone feels like this",
+      "identity_link": {
+        "artifact": "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json",
+        "entry_ids": [
+          "nsm_chart:v20:feel"
+        ],
+        "scope": "IDENTITY_ONLY_NOT_FULL_SIGNATURE_OR_OWN_BANK_AUTHORITY"
+      },
+      "native_observation_sha256": "c67d3d3a8e4b465738802450a70d452d6fc26a706e199e1fad055bd3a4067906",
+      "native_record_id": "nsm_chart:feel:375b165e8ae32fbea37940a8ae11fee7f9b97650373d1c86de27ee8efd3ac940",
+      "native_source": "nsm_chart",
+      "pos": "nsm_lexical_unit",
+      "scope": "EXACT_SOURCE_DEFINITION_AND_OWN_COORDINATE_ONLY",
+      "unit_id": "nsm:v20:feel",
+      "value": 1
+    },
+    {
+      "bank": "SAY",
+      "bank_meaning": "Speech act",
+      "chart_heading": "SAY",
+      "definition": "NSM v20 lexical unit SAY. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+      "derivation": "The primary SAY unit is saying something to/about someone. Only the speech act is projected, not WORDS or the content/recipient banks.",
+      "entry_id": "nsm_chart:v20:say",
+      "forms": [
+        "SAY"
+      ],
+      "frame_text": "I say: ...\nsomeone says something (good/bad)\n(to someone)\nsomeone says something (good/bad)\n(about someone/something)\nsomeone says something like this: \u201c--\u201d\nsomeone says something with words\nsomeone says a word to someone",
+      "identity_link": {
+        "artifact": "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json",
+        "entry_ids": [
+          "nsm_chart:v20:say"
+        ],
+        "scope": "IDENTITY_ONLY_NOT_FULL_SIGNATURE_OR_OWN_BANK_AUTHORITY"
+      },
+      "native_observation_sha256": "f63fc841c6f25360c170077be0f1b2af4ef5b4a4e477c7d251d108f5df60532a",
+      "native_record_id": "nsm_chart:say:73b579ad37cb142d2e404ef67a5680ac2b0a0117d2fcbaaf356ef7262b895111",
+      "native_source": "nsm_chart",
+      "pos": "nsm_lexical_unit",
+      "scope": "EXACT_SOURCE_DEFINITION_AND_OWN_COORDINATE_ONLY",
+      "unit_id": "nsm:v20:say",
+      "value": 1
+    },
+    {
+      "bank": "THINK",
+      "bank_meaning": "Cognitive processing",
+      "chart_heading": "THINK",
+      "definition": "NSM v20 lexical unit THINK. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+      "derivation": "The primary unit THINK permits thinking about an entity or thinking like this. Its own cognitive processing is the bank meaning; no GOOD/BAD or participant content is projected.",
+      "entry_id": "nsm_chart:v20:think",
+      "forms": [
+        "THINK"
+      ],
+      "frame_text": "someone thinks about someone else/\nsomething\nsomeone thinks something good/bad\nabout someone else/something\nsomeone thinks like this: \u201c- -\u201d\nmany people think like this: \u201c- -\u201d",
+      "identity_link": {
+        "artifact": "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json",
+        "entry_ids": [
+          "nsm_chart:v20:think"
+        ],
+        "scope": "IDENTITY_ONLY_NOT_FULL_SIGNATURE_OR_OWN_BANK_AUTHORITY"
+      },
+      "native_observation_sha256": "d1d1f9ab1b1ba6feea57b5a4bfff1260e9272257f83608c5c9b8d93e99903360",
+      "native_record_id": "nsm_chart:think:74efdaf4f913184df0bfea365515db20d0fb3418a1fdb6fab4dd70fbca36aaa4",
+      "native_source": "nsm_chart",
+      "pos": "nsm_lexical_unit",
+      "scope": "EXACT_SOURCE_DEFINITION_AND_OWN_COORDINATE_ONLY",
+      "unit_id": "nsm:v20:think",
+      "value": 1
+    },
+    {
+      "bank": "TOUCH",
+      "bank_meaning": "Contact relation",
+      "chart_heading": "TOUCH",
+      "definition": "NSM v20 lexical unit TOUCH. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+      "derivation": "The primary TOUCH unit denotes contact between entities/body parts. Only the contact relation is projected, without importing the entities or BODY.",
+      "entry_id": "nsm_chart:v20:touch",
+      "forms": [
+        "TOUCH"
+      ],
+      "frame_text": "something touches something else\n(somewhere)\nsomething touches part of someone\u2019s\nbody\nsomeone/people can/can\u2019t touch this\nsomething",
+      "identity_link": {
+        "artifact": "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json",
+        "entry_ids": [
+          "nsm_chart:v20:touch"
+        ],
+        "scope": "IDENTITY_ONLY_NOT_FULL_SIGNATURE_OR_OWN_BANK_AUTHORITY"
+      },
+      "native_observation_sha256": "9bb3774c7577c33ce3e887f26df763ffdfc84e7a56d9a11376c770c946abbbcf",
+      "native_record_id": "nsm_chart:touch:2682246e0d42bd6bfdbd44220e906e8c57ff2e14d81941392650b1a331c60250",
+      "native_source": "nsm_chart",
+      "pos": "nsm_lexical_unit",
+      "scope": "EXACT_SOURCE_DEFINITION_AND_OWN_COORDINATE_ONLY",
+      "unit_id": "nsm:v20:touch",
+      "value": 1
+    },
+    {
+      "bank": "MOVE",
+      "bank_meaning": "Change of location",
+      "chart_heading": "MOVE",
+      "definition": "NSM v20 lexical unit MOVE. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+      "derivation": "The primary MOVE unit is movement of someone/something or a body part in a place, corresponding to change of location. No agent, body, goal or spatial participant banks are imported.",
+      "entry_id": "nsm_chart:v20:move",
+      "forms": [
+        "MOVE"
+      ],
+      "frame_text": "someone moves (in this place)\nsomething moves in this place\nparts of this someone\u2019s body move as\nthis someone wants",
+      "identity_link": {
+        "artifact": "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json",
+        "entry_ids": [
+          "nsm_chart:v20:move"
+        ],
+        "scope": "IDENTITY_ONLY_NOT_FULL_SIGNATURE_OR_OWN_BANK_AUTHORITY"
+      },
+      "native_observation_sha256": "66ce1d088c1352ce665f129e10c89eb995045310cb4f18054d346a5cd9c5dc87",
+      "native_record_id": "nsm_chart:move:b565ceed977c299f4b08385ebb2dfe8b7a127e9118efcace6b8ea9377b881131",
+      "native_source": "nsm_chart",
+      "pos": "nsm_lexical_unit",
+      "scope": "EXACT_SOURCE_DEFINITION_AND_OWN_COORDINATE_ONLY",
+      "unit_id": "nsm:v20:move",
+      "value": 1
+    },
+    {
+      "bank": "TRUE",
+      "bank_meaning": "Positive TRUTH pole TRUE",
+      "chart_heading": "TRUE",
+      "definition": "consistent with fact or reality; not false; ; - B. Russell",
+      "derivation": "The exact native definition states consistency with fact or reality and not false; exactly the fixed positive truth pole.",
+      "entry_id": "wordnet:true:true.a.01",
+      "forms": [
+        "TRUE"
+      ],
+      "frame_text": "this is true\nthis is not true",
+      "identity_link": {
+        "artifact": "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json",
+        "entry_ids": [
+          "wordnet:true:true.a.01"
+        ],
+        "scope": "IDENTITY_ONLY_NOT_FULL_SIGNATURE_OR_OWN_BANK_AUTHORITY"
+      },
+      "native_observation_sha256": "761f9b5f3499e97efe044b93015e5abfb178ef6ca4c07b8adccf60dd88da1e56",
+      "native_record_id": "wordnet:true:true.a.01",
+      "native_source": "wordnet_hierarchy",
+      "pos": "adj",
+      "scope": "EXACT_SOURCE_DEFINITION_AND_OWN_COORDINATE_ONLY",
+      "unit_id": "nsm:v20:true",
+      "value": 1
+    },
+    {
+      "bank": "FAR",
+      "bank_meaning": "Positive DISTANCE pole FAR",
+      "chart_heading": "FAR",
+      "definition": "NSM v20 lexical unit FAR. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+      "derivation": "The primary FAR relation is distance from a place. It matches the explicit positive FAR/NEAR distance pole, without copying place arguments.",
+      "entry_id": "nsm_chart:v20:far",
+      "forms": [
+        "FAR"
+      ],
+      "frame_text": "far from this place\nfar above/below this place",
+      "identity_link": {
+        "artifact": "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json",
+        "entry_ids": [
+          "nsm_chart:v20:far"
+        ],
+        "scope": "IDENTITY_ONLY_NOT_FULL_SIGNATURE_OR_OWN_BANK_AUTHORITY"
+      },
+      "native_observation_sha256": "922ecbabca7ed312e327f429ea72a0e0109b53f5add28bc4156de689c965adc0",
+      "native_record_id": "nsm_chart:far:7a796c55ac598ebc83bfa44c4b8e3feece0e48a6ffcf02256d1c031a858a36eb",
+      "native_source": "nsm_chart",
+      "pos": "nsm_lexical_unit",
+      "scope": "EXACT_SOURCE_DEFINITION_AND_OWN_COORDINATE_ONLY",
+      "unit_id": "nsm:v20:far",
+      "value": 1
+    },
+    {
+      "bank": "FAR",
+      "bank_meaning": "Negative DISTANCE pole NEAR",
+      "chart_heading": "NEAR",
+      "definition": "NSM v20 lexical unit NEAR. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+      "derivation": "The primary NEAR relation is proximity to a place/person. The explicit FAR/NEAR bipolar declaration gives FAR=-1, not zero or an identity claim about ordinary near senses.",
+      "entry_id": "nsm_chart:v20:near",
+      "forms": [
+        "NEAR"
+      ],
+      "frame_text": "near this place\nnear someone",
+      "identity_link": {
+        "artifact": "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json",
+        "entry_ids": [
+          "nsm_chart:v20:near"
+        ],
+        "scope": "IDENTITY_ONLY_NOT_FULL_SIGNATURE_OR_OWN_BANK_AUTHORITY"
+      },
+      "native_observation_sha256": "b57a1db1da5f904ba358d2aab8c886d1c30a71173b37c5e83ca2b4b6e1bde2bd",
+      "native_record_id": "nsm_chart:near:54cb0e37b3a8e76503ddb7e23be9bf29f5e6dbde8fabf6cf7f59678875fcb28d",
+      "native_source": "nsm_chart",
+      "pos": "nsm_lexical_unit",
+      "scope": "EXACT_SOURCE_DEFINITION_AND_OWN_COORDINATE_ONLY",
+      "unit_id": "nsm:v20:near",
+      "value": -1
+    }
+  ],
+  "created_utc": "2026-11-24T20:24:23.561723+00:00",
+  "format": "GSE.canonical-source-correspondence-review/1",
+  "inventory_counts": {
+    "ADAPTED_OR_CONSTRUCTION_MEANING_REQUIRES_SEPARATE_REVIEW": 11,
+    "GRAMMATICAL_RELATION_VERIFY_COMPOSITION_NOT_RAW_BANK_GAP": 7,
+    "HIERARCHY_OR_CONSTRUCTION_NO_SCALAR_ASSIGNMENT": 6,
+    "OWN_COORDINATE_ALREADY_INSTALLED": 22,
+    "SOURCE_CORRESPONDENCE_PROPOSED_INDEPENDENT_WITNESS_PENDING": 19
+  },
+  "nonclaims": [
+    "No full signature, default zero, hierarchy or NUMBER assignments.",
+    "No spelling-to-prime runtime fallback or frame-compatibility identity.",
+    "No transfer to other senses or source IDs.",
+    "Every non-own cell stays unknown unless existing independently admitted closure entails a value."
+  ],
+  "remaining_adapted_questions": [
+    "DIE is an event transition, not automatically the DEAD state.",
+    "LIVE needs sense-specific vitality versus residence distinction.",
+    "BE specification/location and existential THERE IS must preserve distinct construction roles.",
+    "MINE includes reference and possession; do not flatten the construction to HAVE.",
+    "TIME/PLACE deixis versus temporal/spatial entity roles need exact correspondence.",
+    "LONG/SHORT TIME and SIDE are source constructions; retain composed relations."
+  ],
+  "review_kind": "DEFINITIONAL_DERIVATION_NOT_NEW_FOUNDER_POLICY",
+  "role_scope": "ASSIGNMENT A \u2014 COMPLETE AND EXECUTE THE CONNECTED SSL LEARNER (primary integration ownership)",
+  "source_pins": {
+    "GSE/curation/schema.py": "f5eb1b758eccde2c6653c4b4e214d38c9834ba34ec320588e4eacf9ff704de55",
+    "GSE/primitives_v2.py": "ad14c3e4348e453124b3d8904d94266570916b6902009b69a23350ce971556de",
+    "data/external/references/nsm-primes-chart-v20-2022.txt": "5847b39219381181f98a2afbfc57b149ad16cd77157ca0d205b341d1466cf732"
+  },
+  "status": "SOURCE_REVIEWED_INDEPENDENT_TYPED_WITNESSES_PENDING",
+  "whole_65_unit_inventory": [
+    {
+      "classification": "OWN_COORDINATE_ALREADY_INSTALLED",
+      "entry_id": "gse_closed_class:pronoun:i",
+      "own_bank": "I",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:i"
+    },
+    {
+      "classification": "OWN_COORDINATE_ALREADY_INSTALLED",
+      "entry_id": "gse_closed_class:pronoun:you",
+      "own_bank": "YOU",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:you"
+    },
+    {
+      "classification": "OWN_COORDINATE_ALREADY_INSTALLED",
+      "entry_id": "gse_closed_class:pronoun:someone",
+      "own_bank": "SOMEONE",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:someone"
+    },
+    {
+      "classification": "SOURCE_CORRESPONDENCE_PROPOSED_INDEPENDENT_WITNESS_PENDING",
+      "entry_id": "wordnet:people:people.n.01",
+      "own_bank": "PEOPLE",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:people"
+    },
+    {
+      "classification": "SOURCE_CORRESPONDENCE_PROPOSED_INDEPENDENT_WITNESS_PENDING",
+      "entry_id": "wordnet:body:body.n.01",
+      "own_bank": "BODY",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:body"
+    },
+    {
+      "classification": "OWN_COORDINATE_ALREADY_INSTALLED",
+      "entry_id": "gse_closed_class:pronoun:something",
+      "own_bank": "SOMETHING",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:something"
+    },
+    {
+      "classification": "SOURCE_CORRESPONDENCE_PROPOSED_INDEPENDENT_WITNESS_PENDING",
+      "entry_id": "wordnet:word:word.n.01",
+      "own_bank": "WORDS",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:words"
+    },
+    {
+      "classification": "SOURCE_CORRESPONDENCE_PROPOSED_INDEPENDENT_WITNESS_PENDING",
+      "entry_id": "wordnet:part:part.n.01",
+      "own_bank": "PART",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:parts"
+    },
+    {
+      "classification": "SOURCE_CORRESPONDENCE_PROPOSED_INDEPENDENT_WITNESS_PENDING",
+      "entry_id": "wordnet:kind:kind.n.01",
+      "own_bank": "KIND",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:kinds"
+    },
+    {
+      "classification": "OWN_COORDINATE_ALREADY_INSTALLED",
+      "entry_id": "gse:prime:this",
+      "own_bank": "SOMETHING",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:this"
+    },
+    {
+      "classification": "SOURCE_CORRESPONDENCE_PROPOSED_INDEPENDENT_WITNESS_PENDING",
+      "entry_id": "wordnet:same:same.a.01",
+      "own_bank": "SAME",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:same"
+    },
+    {
+      "classification": "SOURCE_CORRESPONDENCE_PROPOSED_INDEPENDENT_WITNESS_PENDING",
+      "entry_id": "wordnet:other:other.a.01",
+      "own_bank": "SAME",
+      "own_pole": -1,
+      "unit_id": "nsm:v20:other"
+    },
+    {
+      "classification": "HIERARCHY_OR_CONSTRUCTION_NO_SCALAR_ASSIGNMENT",
+      "entry_id": "nsm_chart:v20:much-many",
+      "own_bank": "QUANTITY",
+      "own_pole": null,
+      "unit_id": "nsm:v20:much-many"
+    },
+    {
+      "classification": "SOURCE_CORRESPONDENCE_PROPOSED_INDEPENDENT_WITNESS_PENDING",
+      "entry_id": "wordnet:two:two.s.01",
+      "own_bank": "TWO",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:two"
+    },
+    {
+      "classification": "SOURCE_CORRESPONDENCE_PROPOSED_INDEPENDENT_WITNESS_PENDING",
+      "entry_id": "wordnet:one:one.s.01",
+      "own_bank": "ONE",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:one"
+    },
+    {
+      "classification": "HIERARCHY_OR_CONSTRUCTION_NO_SCALAR_ASSIGNMENT",
+      "entry_id": "nsm_chart:v20:little-few",
+      "own_bank": "QUANTITY",
+      "own_pole": null,
+      "unit_id": "nsm:v20:little-few"
+    },
+    {
+      "classification": "HIERARCHY_OR_CONSTRUCTION_NO_SCALAR_ASSIGNMENT",
+      "entry_id": "nsm_chart:v20:some",
+      "own_bank": "QUANTITY",
+      "own_pole": null,
+      "unit_id": "nsm:v20:some"
+    },
+    {
+      "classification": "HIERARCHY_OR_CONSTRUCTION_NO_SCALAR_ASSIGNMENT",
+      "entry_id": "gse_closed_class:determiner:all",
+      "own_bank": "QUANTITY",
+      "own_pole": null,
+      "unit_id": "nsm:v20:all"
+    },
+    {
+      "classification": "ADAPTED_OR_CONSTRUCTION_MEANING_REQUIRES_SEPARATE_REVIEW",
+      "entry_id": "nsm_chart:v20:time",
+      "own_bank": "WHEN",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:time"
+    },
+    {
+      "classification": "SOURCE_CORRESPONDENCE_PROPOSED_INDEPENDENT_WITNESS_PENDING",
+      "entry_id": "nsm_chart:v20:now",
+      "own_bank": "THEN",
+      "own_pole": -1,
+      "unit_id": "nsm:v20:now"
+    },
+    {
+      "classification": "SOURCE_CORRESPONDENCE_PROPOSED_INDEPENDENT_WITNESS_PENDING",
+      "entry_id": "nsm_chart:v20:moment",
+      "own_bank": "MOMENT",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:moment"
+    },
+    {
+      "classification": "ADAPTED_OR_CONSTRUCTION_MEANING_REQUIRES_SEPARATE_REVIEW",
+      "entry_id": "nsm_chart:v20:short-time",
+      "own_bank": "LONG_TIME",
+      "own_pole": -1,
+      "unit_id": "nsm:v20:short-time"
+    },
+    {
+      "classification": "ADAPTED_OR_CONSTRUCTION_MEANING_REQUIRES_SEPARATE_REVIEW",
+      "entry_id": "nsm_chart:v20:long-time",
+      "own_bank": "LONG_TIME",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:long-time"
+    },
+    {
+      "classification": "HIERARCHY_OR_CONSTRUCTION_NO_SCALAR_ASSIGNMENT",
+      "entry_id": "nsm_chart:v20:some-time",
+      "own_bank": null,
+      "own_pole": null,
+      "unit_id": "nsm:v20:some-time"
+    },
+    {
+      "classification": "GRAMMATICAL_RELATION_VERIFY_COMPOSITION_NOT_RAW_BANK_GAP",
+      "entry_id": "gse_closed_class:conjunction:after",
+      "own_bank": "BEFORE",
+      "own_pole": -1,
+      "unit_id": "nsm:v20:after"
+    },
+    {
+      "classification": "GRAMMATICAL_RELATION_VERIFY_COMPOSITION_NOT_RAW_BANK_GAP",
+      "entry_id": "gse_closed_class:conjunction:before",
+      "own_bank": "BEFORE",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:before"
+    },
+    {
+      "classification": "OWN_COORDINATE_ALREADY_INSTALLED",
+      "entry_id": "wordnet:want:desire.v.01",
+      "own_bank": "WANT",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:want"
+    },
+    {
+      "classification": "OWN_COORDINATE_ALREADY_INSTALLED",
+      "entry_id": "gse:prime:dont-want",
+      "own_bank": "WANT",
+      "own_pole": -1,
+      "unit_id": "nsm:v20:dont-want"
+    },
+    {
+      "classification": "SOURCE_CORRESPONDENCE_PROPOSED_INDEPENDENT_WITNESS_PENDING",
+      "entry_id": "nsm_chart:v20:feel",
+      "own_bank": "FEEL",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:feel"
+    },
+    {
+      "classification": "OWN_COORDINATE_ALREADY_INSTALLED",
+      "entry_id": "wordnet:know:know.v.01",
+      "own_bank": "KNOW",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:know"
+    },
+    {
+      "classification": "SOURCE_CORRESPONDENCE_PROPOSED_INDEPENDENT_WITNESS_PENDING",
+      "entry_id": "nsm_chart:v20:say",
+      "own_bank": "SAY",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:say"
+    },
+    {
+      "classification": "OWN_COORDINATE_ALREADY_INSTALLED",
+      "entry_id": "wordnet:do:perform.v.01",
+      "own_bank": "DO",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:do"
+    },
+    {
+      "classification": "SOURCE_CORRESPONDENCE_PROPOSED_INDEPENDENT_WITNESS_PENDING",
+      "entry_id": "nsm_chart:v20:think",
+      "own_bank": "THINK",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:think"
+    },
+    {
+      "classification": "OWN_COORDINATE_ALREADY_INSTALLED",
+      "entry_id": "wordnet:hear:hear.v.01",
+      "own_bank": "HEAR",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:hear"
+    },
+    {
+      "classification": "OWN_COORDINATE_ALREADY_INSTALLED",
+      "entry_id": "wordnet:see:see.v.01",
+      "own_bank": "SEE",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:see"
+    },
+    {
+      "classification": "OWN_COORDINATE_ALREADY_INSTALLED",
+      "entry_id": "gse_closed_class:negation:not",
+      "own_bank": "NOT",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:not"
+    },
+    {
+      "classification": "OWN_COORDINATE_ALREADY_INSTALLED",
+      "entry_id": "gse_closed_class:modal:can",
+      "own_bank": "CAN",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:can"
+    },
+    {
+      "classification": "GRAMMATICAL_RELATION_VERIFY_COMPOSITION_NOT_RAW_BANK_GAP",
+      "entry_id": "gse_closed_class:conjunction:because",
+      "own_bank": "BECAUSE",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:because"
+    },
+    {
+      "classification": "OWN_COORDINATE_ALREADY_INSTALLED",
+      "entry_id": "gse_closed_class:preposition:like",
+      "own_bank": "LIKE",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:like"
+    },
+    {
+      "classification": "OWN_COORDINATE_ALREADY_INSTALLED",
+      "entry_id": "gse_closed_class:modal:maybe",
+      "own_bank": "MAYBE",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:maybe"
+    },
+    {
+      "classification": "GRAMMATICAL_RELATION_VERIFY_COMPOSITION_NOT_RAW_BANK_GAP",
+      "entry_id": "gse_closed_class:conjunction:if",
+      "own_bank": "IF",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:if"
+    },
+    {
+      "classification": "HIERARCHY_OR_CONSTRUCTION_NO_SCALAR_ASSIGNMENT",
+      "entry_id": "nsm_chart:v20:more",
+      "own_bank": null,
+      "own_pole": null,
+      "unit_id": "nsm:v20:more"
+    },
+    {
+      "classification": "OWN_COORDINATE_ALREADY_INSTALLED",
+      "entry_id": "wordnet:very:very.r.01",
+      "own_bank": "INTENSITY",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:very"
+    },
+    {
+      "classification": "ADAPTED_OR_CONSTRUCTION_MEANING_REQUIRES_SEPARATE_REVIEW",
+      "entry_id": "nsm_chart:v20:die",
+      "own_bank": "ALIVE",
+      "own_pole": -1,
+      "unit_id": "nsm:v20:die"
+    },
+    {
+      "classification": "OWN_COORDINATE_ALREADY_INSTALLED",
+      "entry_id": "wordnet:happen:happen.v.01",
+      "own_bank": "HAPPEN",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:happen"
+    },
+    {
+      "classification": "ADAPTED_OR_CONSTRUCTION_MEANING_REQUIRES_SEPARATE_REVIEW",
+      "entry_id": "nsm_chart:v20:be-somewhere",
+      "own_bank": "BE",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:be-somewhere"
+    },
+    {
+      "classification": "ADAPTED_OR_CONSTRUCTION_MEANING_REQUIRES_SEPARATE_REVIEW",
+      "entry_id": "nsm_chart:v20:live",
+      "own_bank": "ALIVE",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:live"
+    },
+    {
+      "classification": "ADAPTED_OR_CONSTRUCTION_MEANING_REQUIRES_SEPARATE_REVIEW",
+      "entry_id": "nsm_chart:v20:mine",
+      "own_bank": "HAVE",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:mine"
+    },
+    {
+      "classification": "ADAPTED_OR_CONSTRUCTION_MEANING_REQUIRES_SEPARATE_REVIEW",
+      "entry_id": "nsm_chart:v20:be-someone-something",
+      "own_bank": "BE",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:be-someone-something"
+    },
+    {
+      "classification": "ADAPTED_OR_CONSTRUCTION_MEANING_REQUIRES_SEPARATE_REVIEW",
+      "entry_id": "nsm_chart:v20:there-is",
+      "own_bank": "EXIST",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:there-is"
+    },
+    {
+      "classification": "GRAMMATICAL_RELATION_VERIFY_COMPOSITION_NOT_RAW_BANK_GAP",
+      "entry_id": "gse_closed_class:preposition:inside",
+      "own_bank": "OUTSIDE",
+      "own_pole": -1,
+      "unit_id": "nsm:v20:inside"
+    },
+    {
+      "classification": "SOURCE_CORRESPONDENCE_PROPOSED_INDEPENDENT_WITNESS_PENDING",
+      "entry_id": "nsm_chart:v20:touch",
+      "own_bank": "TOUCH",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:touch"
+    },
+    {
+      "classification": "SOURCE_CORRESPONDENCE_PROPOSED_INDEPENDENT_WITNESS_PENDING",
+      "entry_id": "nsm_chart:v20:move",
+      "own_bank": "MOVE",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:move"
+    },
+    {
+      "classification": "OWN_COORDINATE_ALREADY_INSTALLED",
+      "entry_id": "nsm_chart:v20:small",
+      "own_bank": "BIG",
+      "own_pole": -1,
+      "unit_id": "nsm:v20:small"
+    },
+    {
+      "classification": "OWN_COORDINATE_ALREADY_INSTALLED",
+      "entry_id": "nsm_chart:v20:big",
+      "own_bank": "BIG",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:big"
+    },
+    {
+      "classification": "OWN_COORDINATE_ALREADY_INSTALLED",
+      "entry_id": "nsm_chart:v20:good",
+      "own_bank": "GOOD",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:good"
+    },
+    {
+      "classification": "OWN_COORDINATE_ALREADY_INSTALLED",
+      "entry_id": "nsm_chart:v20:bad",
+      "own_bank": "GOOD",
+      "own_pole": -1,
+      "unit_id": "nsm:v20:bad"
+    },
+    {
+      "classification": "SOURCE_CORRESPONDENCE_PROPOSED_INDEPENDENT_WITNESS_PENDING",
+      "entry_id": "wordnet:true:true.a.01",
+      "own_bank": "TRUE",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:true"
+    },
+    {
+      "classification": "ADAPTED_OR_CONSTRUCTION_MEANING_REQUIRES_SEPARATE_REVIEW",
+      "entry_id": "nsm_chart:v20:place",
+      "own_bank": "WHERE",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:place"
+    },
+    {
+      "classification": "OWN_COORDINATE_ALREADY_INSTALLED",
+      "entry_id": "wordnet:here:here.r.01",
+      "own_bank": "HERE",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:here"
+    },
+    {
+      "classification": "ADAPTED_OR_CONSTRUCTION_MEANING_REQUIRES_SEPARATE_REVIEW",
+      "entry_id": "nsm_chart:v20:side",
+      "own_bank": "SIDE",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:side"
+    },
+    {
+      "classification": "GRAMMATICAL_RELATION_VERIFY_COMPOSITION_NOT_RAW_BANK_GAP",
+      "entry_id": "gse_closed_class:preposition:below",
+      "own_bank": "ABOVE",
+      "own_pole": -1,
+      "unit_id": "nsm:v20:below"
+    },
+    {
+      "classification": "GRAMMATICAL_RELATION_VERIFY_COMPOSITION_NOT_RAW_BANK_GAP",
+      "entry_id": "gse_closed_class:preposition:above",
+      "own_bank": "ABOVE",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:above"
+    },
+    {
+      "classification": "SOURCE_CORRESPONDENCE_PROPOSED_INDEPENDENT_WITNESS_PENDING",
+      "entry_id": "nsm_chart:v20:far",
+      "own_bank": "FAR",
+      "own_pole": 1,
+      "unit_id": "nsm:v20:far"
+    },
+    {
+      "classification": "SOURCE_CORRESPONDENCE_PROPOSED_INDEPENDENT_WITNESS_PENDING",
+      "entry_id": "nsm_chart:v20:near",
+      "own_bank": "FAR",
+      "own_pole": -1,
+      "unit_id": "nsm:v20:near"
+    }
+  ]
+}

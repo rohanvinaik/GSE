@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport time,json,datetime\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nwatched=['ssl-api-controller-self-boundary-exit.json','ssl-api-coverage-canonical-reconciliation.json']\nend=time.monotonic()+240\nwhile time.monotonic()<end and not any((n/x).exists() for x in watched):time.sleep(10)\nprint('collected_utc',datetime.datetime.now(datetime.timezone.utc).isoformat())\nfor name in watched:\n p=n/name\n if p.exists():\n  d=json.loads(p.read_text());print(name,'bytes',p.stat().st_size,'keys',list(d))\n  if p.stat().st_size<3000:print(json.dumps(d,indent=2))\n else:print(name,'NOT_YET_RECORDED')\np=n/'ssl-api-runtime-result.json';d=json.loads(p.read_text());print('runtime_phase',json.dumps({k:d.get(k) for k in ['status','source_edits_finished','frozen_at_utc']}))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 250
+}

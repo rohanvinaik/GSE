@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport ast,json\nfor f in ['tests/test_runtime_native_composed_controls.py','tests/test_discourse_profile.py','docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-complete-operation-cases-v1.json']:\n p=Path(f); print('\\nFILE',f); print(p.read_text())\nfor f in ['GSE/api/trace.py','GSE/discourse/profile.py']:\n p=Path(f); t=ast.parse(p.read_text()); print('\\nAST',f); print([(x.name,x.lineno,x.end_lineno) for x in t.body if isinstance(x,(ast.ClassDef,ast.FunctionDef))])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 20
+}

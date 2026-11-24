@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast,json\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl_api_checkpoint_self_boundary.py','ssl_api_checkpoint_canonical_audit.py']:\n print('\\nFILE',name);print((n/name).read_text())\np=Path('GSE/curation/lexicon_builder/source_enrichment.py');t=p.read_text();a=ast.parse(t)\nfor f in a.body:\n if isinstance(f,(ast.FunctionDef,ast.ClassDef)) and f.name in ['revise_source_candidate','_refuse_bound_receipts']:\n  print('\\n',ast.get_source_segment(t,f))\nr=json.loads((n/'ssl-api-controller-canonical-source-review.json').read_text()); print('\\nREVIEW HEADER',json.dumps({k:v for k,v in r.items() if k not in ['claims','inventory']},indent=2)); print('\\nCLAIM',json.dumps(r['claims'][0],indent=2))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 20
+}

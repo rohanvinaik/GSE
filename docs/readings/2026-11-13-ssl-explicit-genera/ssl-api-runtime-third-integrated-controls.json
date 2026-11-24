@@ -1,0 +1,706 @@
+{
+  "lexicon": "data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/candidate-self-boundary.db",
+  "sha256": "dac0b0141e483640f30789c76ad0013a4035ab3a7064570ced79b6d21d2e83c7",
+  "scope": "DEVELOPMENT; changed runtime input, no repeated semantic model requests",
+  "cases": [
+    {
+      "text": "I have eaten.",
+      "tree": "Op(primitive='eat', operation='EVENT', arity=1, args=[Entity(head=Atom(lemma='i', word_primitives={'I': 1, 'SOMEONE': 1}, role=None, position=0, pos='PRON', number=None, graded=False, apposition=None, degree={}, degree_modifier=False), possessor=None, role=None, modifier=None, entity_id=None, type_thread=(), span=(), apposition_thread=())], modal=(), duration=None)",
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "EVENT",
+          "args": [
+            "i"
+          ],
+          "features": {
+            "verb": "eat"
+          }
+        }
+      },
+      "tokens": [
+        {
+          "token": "I",
+          "lemma": "i",
+          "pos": "PRON",
+          "word": {
+            "I": 1,
+            "SOMEONE": 1
+          },
+          "sentence": {
+            "SYN_SUBJ": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": "have",
+          "lemma": "have",
+          "pos": "AUX",
+          "word": {
+            "HAVE": 1
+          },
+          "sentence": {},
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": "eaten",
+          "lemma": "eat",
+          "pos": "VERB",
+          "word": {},
+          "sentence": {
+            "SYN_PRED": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word": {},
+          "sentence": {},
+          "status": null,
+          "selected": null
+        }
+      ]
+    },
+    {
+      "text": "I have a bicycle.",
+      "tree": "Op(primitive='have', operation='EVENT', arity=2, args=[Entity(head=Atom(lemma='i', word_primitives={'I': 1, 'SOMEONE': 1}, role=None, position=0, pos='PRON', number=None, graded=False, apposition=None, degree={}, degree_modifier=False), possessor=None, role=None, modifier=None, entity_id=None, type_thread=(), span=(), apposition_thread=()), Entity(head=Atom(lemma='bicycle', word_primitives={}, role=None, position=3, pos='NOUN', number='sing', graded=False, apposition=None, degree={}, degree_modifier=False), possessor=None, role=None, modifier=None, entity_id=None, type_thread=(), span=(), apposition_thread=())], modal=(), duration=None)",
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "EVENT",
+          "args": [
+            "i",
+            "bicycle"
+          ],
+          "features": {
+            "verb": "have"
+          }
+        }
+      },
+      "tokens": [
+        {
+          "token": "I",
+          "lemma": "i",
+          "pos": "PRON",
+          "word": {
+            "I": 1,
+            "SOMEONE": 1
+          },
+          "sentence": {
+            "SYN_SUBJ": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": "have",
+          "lemma": "have",
+          "pos": "VERB",
+          "word": {},
+          "sentence": {
+            "SYN_PRED": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": "a",
+          "lemma": "a",
+          "pos": "DET",
+          "word": {},
+          "sentence": {
+            "SYN_DET": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": "bicycle",
+          "lemma": "bicycle",
+          "pos": "NOUN",
+          "word": {},
+          "sentence": {
+            "SYN_OBJ": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word": {},
+          "sentence": {},
+          "status": null,
+          "selected": null
+        }
+      ]
+    },
+    {
+      "text": "She is running.",
+      "tree": "Op(primitive='run', operation='EVENT', arity=1, args=[Entity(head=Atom(lemma='she', word_primitives={'SOMEONE': 1}, role=None, position=0, pos='PRON', number=None, graded=False, apposition=None, degree={}, degree_modifier=False), possessor=None, role=None, modifier=None, entity_id=None, type_thread=(), span=(), apposition_thread=())], modal=(), duration=None)",
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "EVENT",
+          "args": [
+            "she"
+          ],
+          "features": {
+            "verb": "run"
+          }
+        }
+      },
+      "tokens": [
+        {
+          "token": "She",
+          "lemma": "she",
+          "pos": "PRON",
+          "word": {
+            "SOMEONE": 1
+          },
+          "sentence": {
+            "SYN_SUBJ": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": "is",
+          "lemma": "be",
+          "pos": "AUX",
+          "word": {
+            "BE": 1
+          },
+          "sentence": {
+            "SYN_PRED": 1,
+            "SYN_TENSE_PRES": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": "running",
+          "lemma": "run",
+          "pos": "VERB",
+          "word": {},
+          "sentence": {
+            "SYN_PRED": 1,
+            "SYN_ASPECT_PROG": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word": {},
+          "sentence": {},
+          "status": null,
+          "selected": null
+        }
+      ]
+    },
+    {
+      "text": "She is a person.",
+      "tree": "Op(primitive='COPULA', operation='TYPE_ASSERT', arity=2, args=[Entity(head=Atom(lemma='she', word_primitives={'SOMEONE': 1}, role=None, position=0, pos='PRON', number=None, graded=False, apposition=None, degree={}, degree_modifier=False), possessor=None, role=None, modifier=None, entity_id=None, type_thread=(), span=(), apposition_thread=()), Entity(head=Atom(lemma='person', word_primitives={}, role=None, position=3, pos='NOUN', number='sing', graded=False, apposition=None, degree={}, degree_modifier=False), possessor=None, role=None, modifier=None, entity_id=None, type_thread=(), span=(), apposition_thread=())], modal=(), duration=None)",
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "TYPE_ASSERT",
+          "args": [
+            "she",
+            "person"
+          ],
+          "features": {}
+        }
+      },
+      "tokens": [
+        {
+          "token": "She",
+          "lemma": "she",
+          "pos": "PRON",
+          "word": {
+            "SOMEONE": 1
+          },
+          "sentence": {
+            "SYN_SUBJ": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": "is",
+          "lemma": "be",
+          "pos": "AUX",
+          "word": {
+            "BE": 1
+          },
+          "sentence": {
+            "SYN_PRED": 1,
+            "SYN_TENSE_PRES": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": "a",
+          "lemma": "a",
+          "pos": "DET",
+          "word": {},
+          "sentence": {
+            "SYN_DET": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": "person",
+          "lemma": "person",
+          "pos": "NOUN",
+          "word": {},
+          "sentence": {
+            "SYN_COMPL": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word": {},
+          "sentence": {},
+          "status": null,
+          "selected": null
+        }
+      ]
+    },
+    {
+      "text": "Nora waited here.",
+      "tree": "Op(primitive='wait', operation='EVENT', arity=2, args=[Entity(head=Atom(lemma='nora', word_primitives={}, role=None, position=0, pos='PROPN', number='sing', graded=False, apposition=None, degree={}, degree_modifier=False), possessor=None, role=None, modifier=None, entity_id=None, type_thread=(), span=(), apposition_thread=()), Phrase(atoms=[Atom(lemma='here', word_primitives={}, role='SYN_OBL', position=2, pos='ADV', number=None, graded=False, apposition=None, degree={}, degree_modifier=False)])], modal=(), duration=None)",
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "EVENT",
+          "args": [
+            "nora"
+          ],
+          "features": {
+            "verb": "wait",
+            "themes": [
+              "here"
+            ]
+          }
+        }
+      },
+      "tokens": [
+        {
+          "token": "Nora",
+          "lemma": "nora",
+          "pos": "PROPN",
+          "word": {},
+          "sentence": {
+            "SYN_SUBJ": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": "waited",
+          "lemma": "wait",
+          "pos": "VERB",
+          "word": {},
+          "sentence": {
+            "SYN_PRED": 1,
+            "SYN_TENSE_PAST": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": "here",
+          "lemma": "here",
+          "pos": "ADV",
+          "word": {},
+          "sentence": {
+            "SYN_ADV_MOD": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word": {},
+          "sentence": {},
+          "status": null,
+          "selected": null
+        }
+      ]
+    },
+    {
+      "text": "I think about the door.",
+      "tree": "Op(primitive='think', operation='EVENT', arity=2, args=[Entity(head=Atom(lemma='i', word_primitives={'I': 1, 'SOMEONE': 1}, role=None, position=0, pos='PRON', number=None, graded=False, apposition=None, degree={}, degree_modifier=False), possessor=None, role=None, modifier=None, entity_id=None, type_thread=(), span=(), apposition_thread=()), Phrase(atoms=[Atom(lemma='about', word_primitives={}, role='SYN_OBL', position=2, pos='ADP', number=None, graded=False, apposition=None, degree={}, degree_modifier=False), Atom(lemma='the', word_primitives={}, role='SYN_OBL', position=3, pos='DET', number=None, graded=False, apposition=None, degree={}, degree_modifier=False), Atom(lemma='door', word_primitives={}, role='SYN_OBL', position=4, pos='NOUN', number='sing', graded=False, apposition=None, degree={}, degree_modifier=False)])], modal=(), duration=None)",
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "EVENT",
+          "args": [
+            "i"
+          ],
+          "features": {
+            "verb": "think",
+            "themes": [
+              "about the door"
+            ]
+          }
+        }
+      },
+      "tokens": [
+        {
+          "token": "I",
+          "lemma": "i",
+          "pos": "PRON",
+          "word": {
+            "I": 1,
+            "SOMEONE": 1
+          },
+          "sentence": {
+            "SYN_SUBJ": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": "think",
+          "lemma": "think",
+          "pos": "VERB",
+          "word": {},
+          "sentence": {
+            "SYN_PRED": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": "about",
+          "lemma": "about",
+          "pos": "ADP",
+          "word": {},
+          "sentence": {},
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": "the",
+          "lemma": "the",
+          "pos": "DET",
+          "word": {},
+          "sentence": {
+            "SYN_DET": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": "door",
+          "lemma": "door",
+          "pos": "NOUN",
+          "word": {},
+          "sentence": {
+            "SYN_OBJ": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word": {},
+          "sentence": {},
+          "status": null,
+          "selected": null
+        }
+      ]
+    },
+    {
+      "text": "Do the work.",
+      "tree": "Op(primitive='do', operation='EVENT', arity=2, args=[Entity(head=Atom(lemma='you', word_primitives={}, role='SYN_SUBJ', position=-1, pos='PRON', number=None, graded=False, apposition=None, degree={}, degree_modifier=False), possessor=None, role='SYN_SUBJ', modifier=None, entity_id=None, type_thread=(), span=(), apposition_thread=()), Entity(head=Atom(lemma='work', word_primitives={}, role=None, position=2, pos='NOUN', number='sing', graded=False, apposition=None, degree={}, degree_modifier=False), possessor=None, role=None, modifier=None, entity_id=None, type_thread=(), span=(), apposition_thread=())], modal=('IMPERATIVE',), duration=None)",
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "EVENT",
+          "args": [
+            "you",
+            "work"
+          ],
+          "features": {
+            "verb": "do",
+            "modal": [
+              "IMPERATIVE"
+            ]
+          }
+        }
+      },
+      "tokens": [
+        {
+          "token": "Do",
+          "lemma": "do",
+          "pos": "VERB",
+          "word": {},
+          "sentence": {
+            "SYN_PRED": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": "the",
+          "lemma": "the",
+          "pos": "DET",
+          "word": {},
+          "sentence": {
+            "SYN_DET": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": "work",
+          "lemma": "work",
+          "pos": "NOUN",
+          "word": {},
+          "sentence": {
+            "SYN_OBJ": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word": {},
+          "sentence": {},
+          "status": null,
+          "selected": null
+        }
+      ]
+    },
+    {
+      "text": "Do it.",
+      "tree": "Op(primitive='do', operation='EVENT', arity=2, args=[Entity(head=Atom(lemma='you', word_primitives={}, role='SYN_SUBJ', position=-1, pos='PRON', number=None, graded=False, apposition=None, degree={}, degree_modifier=False), possessor=None, role='SYN_SUBJ', modifier=None, entity_id=None, type_thread=(), span=(), apposition_thread=()), Entity(head=Atom(lemma='it', word_primitives={'SOMETHING': 1}, role=None, position=1, pos='PRON', number=None, graded=False, apposition=None, degree={}, degree_modifier=False), possessor=None, role=None, modifier=None, entity_id=None, type_thread=(), span=(), apposition_thread=())], modal=('IMPERATIVE',), duration=None)",
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "EVENT",
+          "args": [
+            "you",
+            "it"
+          ],
+          "features": {
+            "verb": "do",
+            "modal": [
+              "IMPERATIVE"
+            ]
+          }
+        }
+      },
+      "tokens": [
+        {
+          "token": "Do",
+          "lemma": "do",
+          "pos": "VERB",
+          "word": {},
+          "sentence": {
+            "SYN_PRED": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": "it",
+          "lemma": "it",
+          "pos": "PRON",
+          "word": {
+            "SOMETHING": 1
+          },
+          "sentence": {
+            "SYN_OBJ": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word": {},
+          "sentence": {},
+          "status": null,
+          "selected": null
+        }
+      ]
+    },
+    {
+      "text": "Does Nora repair the bicycle?",
+      "tree": "Op(primitive='repair', operation='EVENT', arity=2, args=[Entity(head=Atom(lemma='nora', word_primitives={}, role=None, position=1, pos='PROPN', number='sing', graded=False, apposition=None, degree={}, degree_modifier=False), possessor=None, role=None, modifier=None, entity_id=None, type_thread=(), span=(), apposition_thread=()), Entity(head=Atom(lemma='bicycle', word_primitives={}, role=None, position=4, pos='NOUN', number='sing', graded=False, apposition=None, degree={}, degree_modifier=False), possessor=None, role=None, modifier=None, entity_id=None, type_thread=(), span=(), apposition_thread=())], modal=(), duration=None)",
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "EVENT",
+          "args": [
+            "nora",
+            "bicycle"
+          ],
+          "features": {
+            "verb": "repair"
+          }
+        }
+      },
+      "tokens": [
+        {
+          "token": "Does",
+          "lemma": "do",
+          "pos": "AUX",
+          "word": {
+            "DO": 1,
+            "HAPPEN": 1
+          },
+          "sentence": {
+            "SYN_TENSE_PRES": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": "Nora",
+          "lemma": "nora",
+          "pos": "PROPN",
+          "word": {},
+          "sentence": {
+            "SYN_SUBJ": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": "repair",
+          "lemma": "repair",
+          "pos": "VERB",
+          "word": {},
+          "sentence": {
+            "SYN_PRED": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": "the",
+          "lemma": "the",
+          "pos": "DET",
+          "word": {},
+          "sentence": {
+            "SYN_DET": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": "bicycle",
+          "lemma": "bicycle",
+          "pos": "NOUN",
+          "word": {},
+          "sentence": {
+            "SYN_OBJ": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": "?",
+          "lemma": "?",
+          "pos": "PUNCT",
+          "word": {},
+          "sentence": {},
+          "status": null,
+          "selected": null
+        }
+      ]
+    },
+    {
+      "text": "Does it work?",
+      "tree": "Op(primitive='work', operation='EVENT', arity=1, args=[Entity(head=Atom(lemma='it', word_primitives={'SOMETHING': 1}, role=None, position=1, pos='PRON', number=None, graded=False, apposition=None, degree={}, degree_modifier=False), possessor=None, role=None, modifier=None, entity_id=None, type_thread=(), span=(), apposition_thread=())], modal=(), duration=None)",
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "EVENT",
+          "args": [
+            "it"
+          ],
+          "features": {
+            "verb": "work"
+          }
+        }
+      },
+      "tokens": [
+        {
+          "token": "Does",
+          "lemma": "do",
+          "pos": "AUX",
+          "word": {
+            "DO": 1,
+            "HAPPEN": 1
+          },
+          "sentence": {
+            "SYN_TENSE_PRES": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": "it",
+          "lemma": "it",
+          "pos": "PRON",
+          "word": {
+            "SOMETHING": 1
+          },
+          "sentence": {
+            "SYN_SUBJ": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": "work",
+          "lemma": "work",
+          "pos": "VERB",
+          "word": {},
+          "sentence": {
+            "SYN_PRED": 1
+          },
+          "status": null,
+          "selected": null
+        },
+        {
+          "token": "?",
+          "lemma": "?",
+          "pos": "PUNCT",
+          "word": {},
+          "sentence": {},
+          "status": null,
+          "selected": null
+        }
+      ]
+    }
+  ]
+}

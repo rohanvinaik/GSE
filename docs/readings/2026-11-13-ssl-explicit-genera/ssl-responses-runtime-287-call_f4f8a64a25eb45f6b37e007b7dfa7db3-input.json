@@ -1,0 +1,5 @@
+{
+  "command": "python - <<'PY'\nimport ast\nfrom pathlib import Path\nfor f in ['GSE/document.py','GSE/symbolic/inference.py','GSE/api/decoder.py','GSE/pipeline.py','GSE/spellcheck.py','GSE/symbolic/claims.py','GSE/symbolic/propositions.py','GSE/symbolic/grounding.py','GSE/symbolic/queries.py']:\n p=Path(f)\n if not p.exists():continue\n m=ast.parse(p.read_text());print(f)\n for n in m.body:\n  if isinstance(n,(ast.ClassDef,ast.FunctionDef)):\n   print(n.name,n.lineno,n.end_lineno,[(s.name,s.lineno,s.end_lineno) for s in n.body if isinstance(s,ast.FunctionDef)] if isinstance(n,ast.ClassDef) else '')\nprint('api files',[p.name for p in Path('GSE/api').iterdir() if p.suffix=='.py'])\nprint('integration files',[str(p) for p in Path('GSE').rglob('*') if p.is_file() and p.suffix=='.py' and any(s in str(p).lower() for s in ['sparsewiki','regenesis','spell','pipeline','document'])])\nfor f in ['tests/test_propositions.py','tests/test_kb_assertion_modality.py']:\n print(f);print(Path(f).read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

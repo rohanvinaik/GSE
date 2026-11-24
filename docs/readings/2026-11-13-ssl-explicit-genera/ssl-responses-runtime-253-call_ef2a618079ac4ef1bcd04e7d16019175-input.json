@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom xml.etree import ElementTree as E\nfrom pathlib import Path\np=Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-third-regression.xml'); root=E.parse(p).getroot()\nfor s in root: print(s.attrib)\nfor tc in root.iter('testcase'):\n for c in tc:\n  if c.tag in {'failure','error'}:\n   print(tc.attrib); print(c.attrib); print(c.text)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

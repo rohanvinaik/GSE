@@ -231,7 +231,7 @@ def _collapse_phrase_to_entity(phrase: Phrase) -> Expression:
     # preposition may be thrown away. Keep the source relation and its
     # modifiers together for Event.themes (including nominal topic PPs and
     # fronted absolute phrases). Ordinary patient/subject NPs still resolve.
-    if atoms[0].pos == "ADP" and all(a.role == "SYN_OBL" for a in atoms):
+    if (atoms[0].pos == "ADP" or all(a.pos == "ADV" for a in atoms)) and all(a.role == "SYN_OBL" for a in atoms):
         return Phrase(atoms=atoms)
 
     # The phrase's modifier (ADJ/ADV) is the comparison axis — preserve it

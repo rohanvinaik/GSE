@@ -1,0 +1,5 @@
+{
+  "command": "pwd && python - <<'PY'\nfrom pathlib import Path\nimport ast,json\np=Path('tests/test_complete_document_reading.py');t=p.read_text();m=ast.parse(t)\nfor n in m.body:\n if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and n.name in {'test_late_profile_failure_cannot_leave_partial_observation','Encoder'}: print(ast.get_source_segment(t,n))\np=Path('docs/program/LEXICON_CONSTRUCTION_DESIGN.md');t=p.read_text();ls=t.splitlines();start=next(i for i,s in enumerate(ls) if s.startswith('#') and 'Recovery contract' in s);level=len(ls[start])-len(ls[start].lstrip('#'));end=next((i for i in range(start+1,len(ls)) if ls[i].startswith('#') and len(ls[i])-len(ls[i].lstrip('#'))<=level),len(ls));print('\\n'.join(ls[start:end]))\nfor name in ['ssl-api-runtime-blockers.json','ssl-api-runtime-result.json']:\n d=json.loads((Path('docs/readings/2026-11-13-ssl-explicit-genera')/name).read_text());print(name,{k:d.get(k) for k in ('status','source_edits_finished','frozen_at_utc')})\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

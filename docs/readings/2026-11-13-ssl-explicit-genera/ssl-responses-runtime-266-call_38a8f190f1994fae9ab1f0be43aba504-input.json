@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport json,ast\nD=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor f in ['ssl-api-controller-code-freeze.json','ssl-api-controller-self-boundary-phase.json','ssl-api-controller-self-measure-phase.json','ssl-api-controller-blockers.json']:\n print(f); print((D/f).read_text())\nfor f in ['GSE/profile.py','GSE/api/profile.py','GSE/discourse/profile.py','docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_runtime_workload.py']:\n p=Path(f)\n if p.exists(): print(f); print(p.read_text())\nprint('PROFILEFILE',[str(p) for p in Path('GSE').rglob('*profile*.py')])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

@@ -843,16 +843,37 @@ def _try_event(
     first_prep = next((idx for idx, t in enumerate(post_verb) if t.pos == "ADP"), None)
     obj_tokens = post_verb if first_prep is None else post_verb[:first_prep]
     obl_tokens = [] if first_prep is None else post_verb[first_prep:]
+    # A bare adverbial after an intransitive predicate is a modifier, not
+    # its patient. Preserve its own lexical evidence without manufacturing
+    # a preposition or selecting a more specific lexical identity.
+    adverbial_tokens = obj_tokens if obj_tokens and all(t.pos == "ADV" for t in obj_tokens) else []
+    if adverbial_tokens:
+        obj_tokens = []
     object_atoms = [_atom_from_token(t) for t in obj_tokens]
     oblique_atoms = fronted_obliques + [_atom_from_token(t, "SYN_OBL") for t in obl_tokens]
+    imperative = False
     if not subject_atoms:
         # VP-coordination with an elided shared subject ("Bertran [betrayed Aldric] and
         # [murdered him]") — inherit the prior conjunct's subject so the 2nd event survives
         # instead of collapsing to its bare object. Only fires when the clause has no subject.
-        if not shared_subject:
+        if shared_subject:
+            subject_atoms = list(shared_subject)
+        elif (
+            object_atoms
+            and _ordered[0] == verb
+            and verb.token.casefold() == verb.lemma
+            and not any(t.token == "?" for t in tokens)
+        ):
+            # The bare clause-initial predicate has an implicit addressee,
+            # not an asserted event with a fabricated named participant.
+            # Leave its lexical banks unknown and retain directive mood.
+            subject_atoms = [Atom(lemma="you", role="SYN_SUBJ", position=-1, pos="PRON")]
+            imperative = True
+        else:
             return None
-        subject_atoms = list(shared_subject)
     args: List[Operand] = [Phrase(atoms=subject_atoms)]
+    if adverbial_tokens:
+        args.append(Phrase(atoms=[_atom_from_token(t, "SYN_OBL") for t in adverbial_tokens]))
     if object_atoms:
         args.append(Phrase(atoms=object_atoms))
         # Carry obliques only BEHIND a real object, so a bare PP after an intransitive
@@ -864,12 +885,14 @@ def _try_event(
     # an asserted event from an ambiguous small-clause adjective (eyes open).
     if leading_adjunct and tokens[0].pos == "ADP":
         args.append(Phrase(atoms=[_atom_from_token(t, "SYN_OBL") for t in tokens if t.position in leading_adjunct]))
-    prep_encoding = get_preposition_encoding(obl_tokens[0].lemma) or {} if obl_tokens else {}
+    prep_encoding = (get_preposition_encoding(obl_tokens[0].lemma) or {}) if obl_tokens else {}
     topic_complement = prep_encoding.get("relation_type") == "TOPIC"
     if not object_atoms and topic_complement:
         args.append(Phrase(atoms=[_atom_from_token(t, "SYN_OBL") for t in obl_tokens]))
     # A modal auxiliary before the verb ("might", "can", "must") qualifies the event, keyed on its primes (#66).
     modal = modal_primes([t.word_primitives for t in tokens if t.position < verb.position and t.pos == "AUX"])
+    if imperative:
+        modal = (*modal, "IMPERATIVE")
     event = Op(primitive=verb.lemma, operation="EVENT", arity=len(args), args=args, modal=modal)
     # A bare post-verbal PP qualifies the event; it is not the verb's direct
     # patient. Use the existing relation-over-event representation (also used

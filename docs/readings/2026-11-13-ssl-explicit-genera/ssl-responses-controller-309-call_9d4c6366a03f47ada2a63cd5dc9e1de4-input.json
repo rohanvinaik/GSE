@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json,ast\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-controller-generic-self-development-gold.json','sparse-release-021-gold.json']:\n d=json.loads((n/name).read_text());print(name,'type',type(d).__name__,'keys',list(d) if isinstance(d,dict) else 'list')\n if name.startswith('ssl-'):print(json.dumps(d,indent=2))\n else:print('case count',len(d.get('cases',[])));print('first full case',json.dumps(d.get('cases',[None])[0],indent=2))\np=Path('GSE/curation/lexicon_builder/evaluation.py')\nprint('\\nEVALUATION SOURCE')\ns=p.read_text();t=ast.parse(s)\nfor x in t.body:\n if isinstance(x,ast.FunctionDef) and x.name in {'evaluate_build','load_gold','_gold_cases'}:print('\\n'.join(s.splitlines()[x.lineno-1:x.end_lineno]))\nprint('\\nSAFE CHANGED CODE INVENTORY')\nimport subprocess\nprint(subprocess.run(['git','status','--short','--untracked-files=no'],text=True,capture_output=True).stdout)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

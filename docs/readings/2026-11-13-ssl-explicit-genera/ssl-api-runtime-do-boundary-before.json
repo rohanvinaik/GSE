@@ -1,0 +1,486 @@
+[
+  {
+    "text": "Do the work.",
+    "tokens": [
+      [
+        "Do",
+        "do",
+        "AUX"
+      ],
+      [
+        "the",
+        "the",
+        "DET"
+      ],
+      [
+        "work",
+        "work",
+        "NOUN"
+      ],
+      [
+        ".",
+        ".",
+        "PUNCT"
+      ]
+    ],
+    "tree": {
+      "_kind": "Entity",
+      "head": {
+        "_kind": "Atom",
+        "lemma": "work",
+        "word_primitives": {},
+        "role": null,
+        "position": 2,
+        "pos": "NOUN",
+        "number": "sing"
+      },
+      "possessor": null,
+      "role": null,
+      "modifier": null
+    },
+    "emission": {
+      "contract_version": "1.0",
+      "predicate": "work"
+    }
+  },
+  {
+    "text": "Do it.",
+    "tokens": [
+      [
+        "Do",
+        "do",
+        "AUX"
+      ],
+      [
+        "it",
+        "it",
+        "PRON"
+      ],
+      [
+        ".",
+        ".",
+        "PUNCT"
+      ]
+    ],
+    "tree": {
+      "_kind": "Entity",
+      "head": {
+        "_kind": "Atom",
+        "lemma": "it",
+        "word_primitives": {
+          "SOMETHING": 1
+        },
+        "role": null,
+        "position": 1,
+        "pos": "PRON"
+      },
+      "possessor": null,
+      "role": null,
+      "modifier": null
+    },
+    "emission": {
+      "contract_version": "1.0",
+      "predicate": "it"
+    }
+  },
+  {
+    "text": "Does Nora repair the bicycle?",
+    "tokens": [
+      [
+        "Does",
+        "do",
+        "AUX"
+      ],
+      [
+        "Nora",
+        "nora",
+        "PROPN"
+      ],
+      [
+        "repair",
+        "repair",
+        "VERB"
+      ],
+      [
+        "the",
+        "the",
+        "DET"
+      ],
+      [
+        "bicycle",
+        "bicycle",
+        "NOUN"
+      ],
+      [
+        "?",
+        "?",
+        "PUNCT"
+      ]
+    ],
+    "tree": {
+      "_kind": "Event",
+      "verb": "repair",
+      "agent": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "nora",
+          "word_primitives": {},
+          "role": null,
+          "position": 1,
+          "pos": "PROPN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      },
+      "patient": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "bicycle",
+          "word_primitives": {},
+          "role": null,
+          "position": 4,
+          "pos": "NOUN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      }
+    },
+    "emission": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "EVENT",
+        "args": [
+          "nora",
+          "bicycle"
+        ],
+        "features": {
+          "verb": "repair"
+        }
+      }
+    }
+  },
+  {
+    "text": "Does it work?",
+    "tokens": [
+      [
+        "Does",
+        "do",
+        "AUX"
+      ],
+      [
+        "it",
+        "it",
+        "PRON"
+      ],
+      [
+        "work",
+        "work",
+        "VERB"
+      ],
+      [
+        "?",
+        "?",
+        "PUNCT"
+      ]
+    ],
+    "tree": {
+      "_kind": "Event",
+      "verb": "work",
+      "agent": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "it",
+          "word_primitives": {
+            "SOMETHING": 1
+          },
+          "role": null,
+          "position": 1,
+          "pos": "PRON"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      },
+      "patient": null
+    },
+    "emission": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "EVENT",
+        "args": [
+          "it"
+        ],
+        "features": {
+          "verb": "work"
+        }
+      }
+    }
+  },
+  {
+    "text": "Nora sings and does the work.",
+    "tokens": [
+      [
+        "Nora",
+        "nora",
+        "PROPN"
+      ],
+      [
+        "sings",
+        "sing",
+        "VERB"
+      ],
+      [
+        "and",
+        "and",
+        "CCONJ"
+      ],
+      [
+        "does",
+        "do",
+        "AUX"
+      ],
+      [
+        "the",
+        "the",
+        "DET"
+      ],
+      [
+        "work",
+        "work",
+        "NOUN"
+      ],
+      [
+        ".",
+        ".",
+        "PUNCT"
+      ]
+    ],
+    "tree": {
+      "_kind": "Event",
+      "verb": "sing",
+      "agent": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "nora",
+          "word_primitives": {},
+          "role": null,
+          "position": 0,
+          "pos": "PROPN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      },
+      "patient": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "work",
+          "word_primitives": {},
+          "role": null,
+          "position": 5,
+          "pos": "NOUN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      }
+    },
+    "emission": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "EVENT",
+        "args": [
+          "nora",
+          "work"
+        ],
+        "features": {
+          "verb": "sing"
+        }
+      }
+    }
+  },
+  {
+    "text": "Nora did the work.",
+    "tokens": [
+      [
+        "Nora",
+        "nora",
+        "PROPN"
+      ],
+      [
+        "did",
+        "do",
+        "VERB"
+      ],
+      [
+        "the",
+        "the",
+        "DET"
+      ],
+      [
+        "work",
+        "work",
+        "NOUN"
+      ],
+      [
+        ".",
+        ".",
+        "PUNCT"
+      ]
+    ],
+    "tree": {
+      "_kind": "Event",
+      "verb": "do",
+      "agent": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "nora",
+          "word_primitives": {},
+          "role": null,
+          "position": 0,
+          "pos": "PROPN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      },
+      "patient": {
+        "_kind": "Entity",
+        "head": {
+          "_kind": "Atom",
+          "lemma": "work",
+          "word_primitives": {},
+          "role": null,
+          "position": 3,
+          "pos": "NOUN",
+          "number": "sing"
+        },
+        "possessor": null,
+        "role": null,
+        "modifier": null
+      }
+    },
+    "emission": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "EVENT",
+        "args": [
+          "nora",
+          "work"
+        ],
+        "features": {
+          "verb": "do"
+        }
+      }
+    }
+  },
+  {
+    "text": "Nora did not repair the bicycle.",
+    "tokens": [
+      [
+        "Nora",
+        "nora",
+        "PROPN"
+      ],
+      [
+        "did",
+        "do",
+        "AUX"
+      ],
+      [
+        "not",
+        "not",
+        "PART"
+      ],
+      [
+        "repair",
+        "repair",
+        "VERB"
+      ],
+      [
+        "the",
+        "the",
+        "DET"
+      ],
+      [
+        "bicycle",
+        "bicycle",
+        "NOUN"
+      ],
+      [
+        ".",
+        ".",
+        "PUNCT"
+      ]
+    ],
+    "tree": {
+      "_kind": "Negation",
+      "operand": {
+        "_kind": "Event",
+        "verb": "repair",
+        "agent": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "nora",
+            "word_primitives": {},
+            "role": null,
+            "position": 0,
+            "pos": "PROPN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        },
+        "patient": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "bicycle",
+            "word_primitives": {},
+            "role": null,
+            "position": 5,
+            "pos": "NOUN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        }
+      }
+    },
+    "emission": {
+      "contract_version": "1.0",
+      "predicate": {
+        "op": "NOT",
+        "args": [
+          {
+            "op": "EVENT",
+            "args": [
+              "nora",
+              "bicycle"
+            ],
+            "features": {
+              "verb": "repair"
+            }
+          }
+        ],
+        "features": {}
+      }
+    }
+  }
+]

@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nimport ast\nfrom pathlib import Path\nfor f,names in [('GSE/symbolic/propositions.py',{'proposition_status','Proposition'}),('GSE/symbolic/inference.py',{'_ingest','from_trees'}),('GSE/nlp/native.py',{'_morph'})]:\n t=Path(f).read_text();print(f)\n for n in ast.walk(ast.parse(t)):\n  if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and n.name in names: print(ast.get_source_segment(t,n))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

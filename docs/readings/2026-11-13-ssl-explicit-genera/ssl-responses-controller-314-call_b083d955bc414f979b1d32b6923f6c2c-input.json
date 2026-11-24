@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera');w=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint')\nfor p in [w/'self-boundary-revision.json',n/'ssl-api-controller-self-measure-exit.json',n/'ssl-api-controller-self-measure-phase.json']:\n print('\\n##',p.name)\n if not p.exists():print('MISSING');continue\n d=json.loads(p.read_text());print('keys',list(d))\n if p.stat().st_size<12000:print(json.dumps(d,indent=2))\n else:print(json.dumps({k:v for k,v in d.items() if k not in {'replay','source_revision','validation','source_pins','basis','coverage','records'}},indent=2)[:22000])\np=n/'ssl-api-coverage-canonical-reconciliation.md';print('\\n## CANONICAL REVIEW\\n',p.read_text())\nd=json.loads((n/'ssl-api-coverage-canonical-reconciliation.json').read_text())\nfor k in ['summary','governing_partial_claim_reconciliation','source_consumer_findings','unresolved_named_facts']:\n print('\\n##',k,'\\n',json.dumps(d[k],indent=2))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

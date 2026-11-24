@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast\nfor p in Path('GSE').rglob('*.py'):\n if any(x in p.parts for x in ['curation','mcp']):continue\n try:a=ast.parse(p.read_text())\n except:continue\n for n in a.body:\n  if isinstance(n,ast.ClassDef) and any(x in n.name.lower() for x in ['sqlite','wiki','regen','cassette','spellcheck']):\n   print(p,n.name,[(m.name,m.lineno,m.end_lineno) for m in n.body if isinstance(m,ast.FunctionDef)])\nprint('\\nFROZEN OPERATIONS')\nimport json\nx=json.loads(Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-workload-freeze.json').read_text());print(json.dumps(x,indent=2))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nimport ast\nfrom pathlib import Path\nfor f in ['GSE/primitives_v2.py','GSE/curation/schema.py']:\n s=Path(f).read_text();t=ast.parse(s); print('\\n',f)\n for x in t.body:\n  if isinstance(x,(ast.Assign,ast.AnnAssign)):\n   name=ast.unparse(x.targets[0] if isinstance(x,ast.Assign) else x.target)\n   print('BINDING',name)\n   if x.lineno<=443: print(ast.get_source_segment(s,x))\nprint('\\nNSM ADAPTER\\n'+Path('GSE/curation/external_sources/nsm_chart.py').read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport json,ast\nD=Path('docs/readings/2026-11-13-ssl-explicit-genera'); j=json.loads((D/'ssl-api-runtime-candidate-operation-probe-v3.json').read_text())\nfor c in j['cases']:\n if c['id'] in ['good','bad','here','think']:\n  print('CASE',c['id']); print(json.dumps(c['tokens'],indent=2))\nfor f in ['GSE/discourse/profile.py','GSE/symbolic/expression.py','GSE/nlp/native.py']:\n p=Path(f); s=p.read_text(); t=ast.parse(s); print('\\nUNITS',f)\n for n in ast.walk(t):\n  if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef)) and n.name in ['text_profile','_try_event','_try_copula_type_assertion','_pos','_is_participle']:\n   print(ast.get_source_segment(s,n))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 20
+}

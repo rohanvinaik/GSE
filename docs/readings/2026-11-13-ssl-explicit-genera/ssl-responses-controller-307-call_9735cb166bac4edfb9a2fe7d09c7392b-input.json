@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast\np=Path('GSE/primitives_v2.py');s=p.read_text();t=ast.parse(s)\nfor n in t.body:\n if isinstance(n,(ast.ClassDef,ast.Assign,ast.AnnAssign)):\n  names=[getattr(n,'name','')]+[x.id for x in getattr(n,'targets',[]) if isinstance(x,ast.Name)]\n  if isinstance(n,ast.AnnAssign) and isinstance(n.target,ast.Name):names+=[n.target.id]\n  print(names,n.lineno,n.end_lineno)\np=Path('GSE/curation/schema.py');s=p.read_text();t=ast.parse(s)\nprint('\\nSCHEMA units')\nfor n in t.body:\n if isinstance(n,(ast.ClassDef,ast.Assign,ast.AnnAssign)):\n  names=[getattr(n,'name','')]+[x.id for x in getattr(n,'targets',[]) if isinstance(x,ast.Name)]\n  if isinstance(n,ast.AnnAssign) and isinstance(n.target,ast.Name):names+=[n.target.id]\n  print(names,n.lineno,n.end_lineno)\nprint('\\nPRIMARY NSM CHART\\n'+Path('data/external/references/nsm-primes-chart-v20-2022.txt').read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

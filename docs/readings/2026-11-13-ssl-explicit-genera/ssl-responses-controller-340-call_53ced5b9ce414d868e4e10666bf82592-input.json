@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json,importlib.util\nfrom GSE.curation.lexicon_builder.epoch import make_questions,read\nfrom GSE.curation.lexicon_builder.model_protocol import model_input\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera');r=read(n/'ssl-api-controller-canonical-source-review.json')\nfor q in make_questions(Path(r['baseline']['path']),[(x['entry_id'],x['bank']) for x in r['claims']]):\n size=len(json.dumps(model_input(q.payload()),sort_keys=True,separators=(',',':')).encode());print(q.entry_id,q.bank,size,'fits98K',size<=97024)\nprint(Path('tests/test_checkpoint_self_boundary.py').read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nimport sqlite3,json,ast\nfrom pathlib import Path\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera');r=json.loads((n/'ssl-api-controller-canonical-source-review.json').read_text()); print('identity_links',json.dumps([x['identity_link'] for x in r['claims'][:2]],indent=2))\nwith sqlite3.connect(Path(r['baseline']['path']).resolve().as_uri()+'?mode=ro',uri=True) as c:\n print('METADATA_KEYS',[x[0] for x in c.execute('SELECT key FROM builder_metadata')]);print('CATALOG_TABLES',list(c.execute(\"SELECT name,sql FROM sqlite_master WHERE type='table' AND name LIKE '%prime%'\")))\np=Path('GSE/curation/lexicon_builder/rule_migration.py');s=p.read_text();t=ast.parse(s)\nfor x in t.body:\n if isinstance(x,ast.FunctionDef) and x.name=='_refresh_catalog':print(ast.get_source_segment(s,x))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

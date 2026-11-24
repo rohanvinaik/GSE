@@ -2,7 +2,7 @@
   "format": "GSE.runtime-blockers/1",
   "role_scope": "B \u2014 CP-07 REAL RUNTIME IDENTITY / CHECKPOINT ACCEPTANCE",
   "status": "CODE_FREEZE_READY_WORKLOAD_OPEN",
-  "updated_utc": "2026-11-24T19:40:25.870086+00:00",
+  "updated_utc": "2026-11-24T20:17:18.465079+00:00",
   "identity_regression": {
     "status": "REPAIRED_VERIFIED_REAL_ENCODER",
     "evidence": "ssl-api-runtime-code-freeze-tests.xml",
@@ -41,7 +41,7 @@
       "evidence": "ssl-api-runtime-complete-operation-observations-v2.json"
     }
   ],
-  "ongoing_runtime_repair": "FINISHED: source edits stopped at this receipt. Further runtime repair requires coordinated unfreeze; CP-07 acceptance remains OPEN.",
+  "ongoing_runtime_repair": "Third authorized unfreeze: topic complement, main DO, fronted adjunct repairs; imperative/inversion boundary regression verification in progress. Prior freezes are historical, not current.",
   "controller_source_demands": [
     "Stored lexical bank holes leap.n.01 HAPPEN and whisper.n.01 SAY under existing source/competence contracts. Evaluation gold is not a rule warrant.",
     "good/bad/big/small/have/here source/role lexical demand requires warranted projections; above/before must be checked at composed relation scale, not automatically missing from raw bank emission.",
@@ -232,18 +232,54 @@
     }
   ],
   "current_progress": {
-    "at_utc": "2026-11-24T19:24:24.796933+00:00",
-    "source_edits_finished": true,
-    "status": "CODE_FREEZE_READY",
-    "closed_defects": [
-      "RELATIVE_COPULA_COMPOSITION_WRONG",
-      "COORDINATED_MODIFIER_NOMINAL_COMPOSITION_WRONG",
-      "INTRANSITIVE_POSTVERBAL_PP_DROPPED"
-    ],
-    "regression": "857 passed, 1 skipped",
-    "lint": "18 owned paths pass pinned Ruff lint and format",
-    "type": "17 advisory findings retained",
-    "boundary": "No usable-checkpoint acceptance; no corpus writes or activation."
+    "source_edits_finished": false,
+    "status": "THIRD_REGRESSION_REPAIR",
+    "latest_test": "ssl-api-runtime-third-regression.xml",
+    "cause": "Transient imperative initialization placement plus isolated-word imperative overreach; repairing before new freeze."
   },
-  "latest_complete_operation_findings": "ssl-api-runtime-postfreeze-operation-findings.json"
+  "latest_complete_operation_findings": "ssl-api-runtime-postfreeze-operation-findings.json",
+  "historical_blocker_receipts": [
+    {
+      "superseded_at": "2026-11-24T20:45:44.153885+00:00",
+      "note": "Third unfreeze structural failures now have passing actual candidate controls and regression tests; historical source editing status is not current."
+    }
+  ],
+  "updated_at_utc": "2026-11-24T20:45:44.153885+00:00",
+  "current_source_freeze": "ssl-api-runtime-third-source-freeze.json",
+  "candidate_sha256": "dac0b0141e483640f30789c76ad0013a4035ab3a7064570ced79b6d21d2e83c7",
+  "current_critical_cases": [
+    {
+      "id": "aux-have-possession-leak",
+      "text": "I have eaten.",
+      "observed": "AUX have word HAVE=1; EVENT eat(i), no possession event",
+      "required": "No unsupported lexical possession sign on grammatical auxiliary",
+      "cause": "source/role projection: A producer review; preserve grammar",
+      "next": "A review exact curated auxiliary source projection and existing migration/replay"
+    },
+    {
+      "id": "aux-be-state-leak",
+      "text": "She is running. / She is a person.",
+      "observed": "AUX be word BE=1; EVENT run / TYPE_ASSERT geometry correct",
+      "required": "Own-state BE only when source/role warrants, not grammatical copula/progressive alone",
+      "cause": "source/role projection: A producer review",
+      "next": "A inspect exact source assertions; B preserves grammatical structure"
+    },
+    {
+      "id": "dev-good",
+      "text": "Kindness is morally good.",
+      "observed": "TYPE_ASSERT retained, no explicit signed lexical GOOD; profile affect unavailable",
+      "required": "Warranted positive evaluative profile on sufficiently specified ordinary use",
+      "cause": "identity/context eligibility, not missing four canonical anchor cells",
+      "next": "B finite source/context eligibility audit; no spelling/POS-only selection"
+    },
+    {
+      "id": "dev-bad",
+      "text": "Cruelty is morally bad.",
+      "observed": "TYPE_ASSERT retained, no explicit signed lexical GOOD=-1; profile affect unavailable",
+      "required": "Warranted negative evaluative profile on sufficiently specified ordinary use",
+      "cause": "identity/context eligibility",
+      "next": "B finite source/context eligibility audit"
+    }
+  ],
+  "workload_status": "All eight operations require integrated audit receipt; not checkpoint acceptance"
 }

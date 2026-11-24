@@ -1,0 +1,5 @@
+{
+  "command": "python - <<'PY'\nimport ast\nfrom pathlib import Path\nfor f in ['tests/test_runtime_native_composed_controls.py','GSE/discourse/speech.py','tests/test_GSE_document.py','tests/test_GSE_api_decoder.py']:\n p=Path(f)\n if not p.exists():continue\n t=p.read_text();m=ast.parse(t);print(f)\n for n in m.body:\n  if isinstance(n,(ast.Import,ast.ImportFrom)):print(ast.get_source_segment(t,n))\nprint([p.name for p in Path('GSE/symbolic').iterdir() if p.suffix=='.py'])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

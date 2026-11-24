@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json,datetime,subprocess\nprint('UTC',datetime.datetime.now(datetime.timezone.utc).isoformat())\nprint(subprocess.run(['ps','-p','91155,91159,91161,91163,91823','-o','pid=,ppid=,etime=,time=,rss='],text=True,capture_output=True).stdout)\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor stem in ['ssl-api-controller-self-boundary','ssl-api-controller-self-measure']:\n for suffix in ['-exit.json','-phase.json','-job.log']:\n  p=n/(stem+suffix)\n  if p.exists():\n   print(p.name,'bytes',p.stat().st_size)\n   if p.stat().st_size<9000:print(p.read_text())\nprint('Current safe final helper candidates')\nfor p in sorted(n.glob('ssl*checkpoint*.py')):print(p.name,p.stat().st_size)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-do-boundary -- .venv/bin/python - <<'PY'\nimport json\nfrom GSE.api import GSEEncoder\nfrom GSE.symbolic import evaluate_tree, resolve, from_trace, emit_contract\nfrom GSE.symbolic.serialization import to_dict\nfrom pathlib import Path\nrows=[]\nwith GSEEncoder() as e:\n e.conn.execute('PRAGMA query_only=ON')\n for text in ['Do the work.','Do it.','Does Nora repair the bicycle?','Does it work?','Nora sings and does the work.','Nora did the work.','Nora did not repair the bicycle.']:\n  tr=e.encode(text); tree=evaluate_tree(resolve(from_trace(tr)))\n  rows.append({'text':text,'tokens':[(t.token,t.lemma,t.pos) for t in tr.tokens],'tree':to_dict(tree),'emission':emit_contract(tree)})\np=Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-do-boundary-before.json'); p.write_text(json.dumps(rows,indent=2,default=str)+'\\n')\nfor r in rows: print(r['text'], r['tokens'], r['tree'])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

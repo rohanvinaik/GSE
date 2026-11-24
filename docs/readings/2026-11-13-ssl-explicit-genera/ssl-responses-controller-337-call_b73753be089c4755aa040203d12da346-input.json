@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport sqlite3,json,ast\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera'); con=sqlite3.connect('file:data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/candidate-self-boundary.db?mode=ro',uri=True)\nfor entry in ['wordnet:word:word.n.01','nsm_chart:v20:think']:\n rows=con.execute('SELECT payload FROM source_observations WHERE entry_id=?',(entry,)).fetchall()\n for (raw,) in rows:\n  d=json.loads(raw)\n  if d['source'] in ['nsm_chart','wordnet_hierarchy']: print(json.dumps(d,indent=2))\nfor name in ['ssl_api_checkpoint_self_boundary.py','ssl_api_checkpoint.py']:\n p=n/name;s=p.read_text();t=ast.parse(s);print('FILE',name)\n if name.endswith('self_boundary.py'):print(s)\n else:\n  for node in t.body:\n   if isinstance(node,(ast.FunctionDef,ast.ClassDef)) and node.name in ['basis_assertion','stage_basis_projection']:print(ast.get_source_segment(s,node))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

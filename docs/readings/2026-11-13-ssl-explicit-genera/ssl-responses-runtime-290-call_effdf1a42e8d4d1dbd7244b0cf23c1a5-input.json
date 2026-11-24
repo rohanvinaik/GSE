@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nimport ast\nfrom pathlib import Path\nfor name in ['GSE/cassettes/multiscale.py','GSE/discourse/profile.py','GSE/nlp/spellcheck.py']:\n p=Path(name); print('\\nFILE',name); print(p.read_text())\nprint('\\nAPI INVENTORY')\nfor root in ['GSE/cassettes','GSE/integrations','GSE/storage','tests']:\n p=Path(root)\n if not p.exists(): continue\n for f in p.rglob('*.py'):\n  if root=='tests' and not any(t in f.name for t in ['multiscale','cassette','wiki','regen','spellcheck','translator']): continue\n  s=f.read_text()\n  if root!='tests' and not any(t in s for t in ['class SQLiteMerkleTranslator','class SparseWiki','class Regenesis','def read_fold','def narrative_graph']): continue\n  try: a=ast.parse(s)\n  except SyntaxError: continue\n  print(str(f),[(n.name,n.lineno,n.end_lineno) for n in a.body if isinstance(n,(ast.FunctionDef,ast.ClassDef))])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

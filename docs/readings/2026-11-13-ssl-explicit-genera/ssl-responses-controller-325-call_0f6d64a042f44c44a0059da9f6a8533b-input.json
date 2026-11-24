@@ -1,0 +1,5 @@
+{
+  "command": "pwd && python3 - <<'PY'\nfrom pathlib import Path\nimport json\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-controller-root-handoff.json','ssl-api-runtime-result.json','ssl-api-runtime-blockers.json','ssl-responses-controller-steering.json']:\n p=n/name\n if not p.exists():\n  print(name,'MISSING');continue\n d=json.loads(p.read_text());print(name,'bytes',p.stat().st_size)\n if name.endswith('steering.json'):print(json.dumps(d,indent=2))\n else:\n  print(json.dumps({k:v for k,v in d.items() if k in ['status','code','at_utc','updated_utc','source_edits_finished','source_freeze','blockers','next_actions','candidate_readonly_audit_pin']},indent=2))\nprint('owned checkpoint helpers:')\nfor p in n.iterdir():\n if p.suffix=='.py' and any(x in p.name for x in ['checkpoint','canonical','projection','coherence']):print(p.name)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 20
+}

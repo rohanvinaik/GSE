@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nimport ast\nfrom pathlib import Path\nfor f in ['GSE/symbolic/propositions.py','GSE/symbolic/inference.py','GSE/nlp/native.py']:\n t=Path(f).read_text(); print(f)\n for n in ast.walk(ast.parse(t)):\n  if isinstance(n,ast.FunctionDef) and ((f.endswith('native.py') and n.name in {'__call__','_deps'}) or ('modal_force(' in ast.get_source_segment(t,n))): print(ast.get_source_segment(t,n))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

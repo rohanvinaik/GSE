@@ -1,6 +1,6 @@
 {
   "format": "GSE.ssl-controller-blockers/1",
-  "updated_utc": "2026-11-24T19:35:54.770571+00:00",
+  "updated_utc": "2026-11-24T20:11:43.854553+00:00",
   "role": "controller",
   "actual_execution": {
     "full_writer_preflight": "REPLAY_VALIDATED",
@@ -8,7 +8,13 @@
     "accepted_teaching_coordinates": 2,
     "prime_retained_transport_errors": 7,
     "new_model_service_calls_by_controller": "Six completed typed positive proposals, explicit exit 0 at 18:16:15Z; zero lexical writes from this packet itself. Three proposed current-head child audits were deferred before service by latest checkpoint-first steering; no duplicate calls.",
-    "candidate": "candidate.db; immutable private ten-coordinate head SHA256 2f63c8647996ac4b89fdc41f9eb2c67c81079bed08dcf6499a80f462a8963952; ready for read-only runtime/workload audits, not usable accepted",
+    "candidate": {
+      "path": "data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/candidate-self-boundary.db",
+      "sha256": "dac0b0141e483640f30789c76ad0013a4035ab3a7064570ced79b6d21d2e83c7",
+      "rule_version": "0391164684e2311935905a69f9028f5e5b40d80fbc4bfe6d1952e2a97cd6ad5f",
+      "lexical_writes_finished": true,
+      "usable_acceptance": false
+    },
     "rule_migration": "COMPLETED exit 0 at 18:36:42Z. Both mandatory full replays validated all 401596 entries with zero mismatches and zero solver limits. Rules 66 -> 68; event 289d9967f0897b9a4a32d9015f7139327fc70fdffec543fe4e91f75048ba46c7.",
     "joint_committed": {
       "changed_definition_spaces": 25263,
@@ -25,16 +31,16 @@
     "new_happening_child": "Source-reviewed 1289-definition clean child retained for post-checkpoint SSL. Latest checkpoint-first steering defers this extra migration; waiting owned subtree 84036/84040/84041 terminated before any new service or lexical write, explicit exit receipt retained. 1198 forecast cells remain uncommitted, not a prerequisite for first usable publication.",
     "measured_private_lexical_space": {
       "definitions": 401595,
-      "filled_cells": 461619,
-      "unknown_cells": 22027701,
-      "exact_H_bits": 32756093.160261497,
+      "filled_cells": 461621,
+      "unknown_cells": 22027699,
+      "exact_H_bits": 32756089.990336496,
       "baseline_exact_H_bits": 32819332.148767773,
-      "net_filled_cells_from_foundation": 50534,
-      "exact_joint_gain_bits_from_foundation": 63238.98850627616,
+      "net_filled_cells_from_foundation": 50536,
+      "exact_joint_gain_bits_from_foundation": 63242.15843127668,
       "search_limits": 0,
-      "scope": "Completed canonical source, reference teaching, joint I/YOU revision and ten-coordinate historical writer. Persisted exact solver receipts, not new semantic acceptance."
+      "scope": "Completed founder generic-self source successor, all prior source/teaching/rules retained; immutable private not usable accepted."
     },
-    "runtime_boundary": "ASSIGNMENT B is SOURCE_EDITING_UNFROZEN_SECOND, source_edits_finished false. Teacher relative-copula and femur coordinated-modifier scope repairs remain publication blockers; final integrated gate waits for the repaired receipt.",
+    "runtime_boundary": "B SOURCE_EDITING_UNFROZEN_THIRD; think-about/mainDO/fronted-adjunct repairs then full actual workload required.",
     "queued_final_gates": "Postwriter wrapper 88081 COMPLETED exit 0 at 19:17:25Z: all 401596 checked/validated, zero mismatches, zero solver limits, complete search; release-021 regression 123 IDENTIFIED_CORRECT, zero wrong/not-found/conflict/abstained. Exact candidate SHA unchanged. Repository wrapper 88082 waits for genuinely repaired B freeze; no duplicate CI. Initial refused wrappers retained.",
     "primary_frame_coordination": "Latest B demand correctly supersedes generic primary compatibility as semantic identification. Four missing exact canonical THINK/FEEL/SAY/MOVE cells are prospective only. Filling them alone cannot establish ordinary-word identity. No new lexical write or source edit; current fully replayed head immutable. Independent source-correspondence review may proceed without pretending it resolves runtime workload."
   },
@@ -43,7 +49,8 @@
     "four canonical own-coordinate anchors staged and full writer preflight passed",
     "in-memory relation tuples now normalized through JSON before strict persisted loader",
     "reviewed child cohort correctly re-exported through existing exporter, preserving old invalid-child evidence and dog NULL reservation",
-    "exact historical-request writer proves unchanged native context and complete original payload/schema/model identity; unchanged marginals alone cannot authorize delayed answers"
+    "exact historical-request writer proves unchanged native context and complete original payload/schema/model identity; unchanged marginals alone cannot authorize delayed answers",
+    "Exact approved generic-self I0/YOU0 successor complete: full401596 replay zero mismatch/limits; only two domains changed; development4/4, old publication123/123 correct."
   ],
   "pending": [
     "joint I/YOU migration, exact delta and full H/bucket measurement are complete; this private replay result is not usable-checkpoint acceptance",
@@ -53,9 +60,9 @@
   ],
   "active_pointer_changed": false,
   "forecast_committed": false,
-  "forecast_note": "Original 50526 forecast is not the delivered rule net count. Joint-revision net from foundation was 50523 with six reopened cells. Subsequent ten direct assignments plus closure add 11, yielding current measured net 50534. Stage, engine narrowing metric and net-filled counts are distinct.",
+  "forecast_note": "Current measured net50536 includes exact source/typed/rule phases; original50526 forecast not represented as rule net. Optional1198 remains uncommitted.",
   "activation_performed": false,
-  "status": "FULL_REPOSITORY_ONE_RUNTIME_REGRESSION_WORKLOAD_PENDING",
+  "status": "SOURCE_SUCCESSOR_REPLAYED_RUNTIME_WORKLOAD_PENDING",
   "current_failures": [
     {
       "code": "FULL_REPOSITORY_RUNTIME_REGRESSION",
@@ -73,10 +80,6 @@
     {
       "code": "CP07_WORKLOAD_AND_FRESH_FINAL_PENDING",
       "owner": "ASSIGNMENT B \u2014 CP-07 REAL RUNTIME IDENTITY / CHECKPOINT ACCEPTANCE"
-    },
-    {
-      "code": "EXACT_FOUNDER_SELF_BOUNDARY_REVISION_PENDING",
-      "action": "Separate existing source-revision path; no model calls; full replay mandatory"
     }
   ]
 }

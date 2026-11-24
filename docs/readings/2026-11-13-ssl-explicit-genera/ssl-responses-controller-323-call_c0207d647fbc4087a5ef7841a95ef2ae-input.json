@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nimport ast,json\nfrom pathlib import Path\nfor f,names in [('GSE/primitives_v2.py',['BIPOLAR_DIMENSIONS','UNIPOLAR_PRIMITIVES','PRIMITIVE_GLOSSES','_build_primitive_registry']),('GSE/curation/schema.py',['PRIMITIVE_DESCRIPTIONS']),('GSE/curation/lexicon_builder/catalog.py',['_EXACT','_ADAPTED','chart_definition_records'])]:\n s=Path(f).read_text();t=ast.parse(s);print('\\nSOURCE',f)\n for x in t.body:\n  name=getattr(x,'name',None) or (ast.unparse(x.targets[0]) if isinstance(x,ast.Assign) else ast.unparse(x.target) if isinstance(x,ast.AnnAssign) else '')\n  if name in names: print(ast.get_source_segment(s,x))\nd=json.loads(Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-coverage-canonical-reconciliation.json').read_text());print('\\nCRITICAL UNITS');print(json.dumps([x for x in d['units'] if x['unit_id'] in ['think','feel','say','move'] or any(k in x['unit_id'] for k in [':think',':feel',':say',':move'])],indent=2))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

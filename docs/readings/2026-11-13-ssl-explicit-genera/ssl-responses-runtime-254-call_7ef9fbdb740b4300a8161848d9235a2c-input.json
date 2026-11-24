@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom xml.etree import ElementTree as E\nfrom collections import Counter\np='docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-third-regression.xml';root=E.parse(p).getroot()\nprint([s.attrib for s in root]); failures=[(tc,c) for tc in root.iter('testcase') for c in tc if c.tag in {'failure','error'}]; print('Failure classes:',Counter(c.attrib.get('message','').splitlines()[-1] for tc,c in failures))\nfor tc,c in failures[:1]: print(tc.attrib);print(c.text)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

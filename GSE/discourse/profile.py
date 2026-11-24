@@ -176,7 +176,10 @@ def text_profile(encoder, text: str, prime_basis: Sequence[str] | None = None) -
                 if t.pos in _CONTENT_POS:
                     content += 1
                     lengths.append(len(t.lemma))
-                    wp, _sp, _m = encoder._lookup_lexeme(t.lemma)
+                    # The encoded occurrence already carries source/role/context
+                    # eligibility. A new lemma-only lookup discards that proof
+                    # (and can restore a reading excluded by this very sentence).
+                    wp = t.word_primitives
                     if not wp:
                         oov += 1
                     elif "GOOD" in wp or "BAD" in wp:

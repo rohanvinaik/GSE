@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-profile-final -- .venv/bin/python -m pytest -q tests/test_complete_document_reading.py tests/test_discourse_profile.py tests/test_runtime_native_composed_controls.py --junitxml=docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-third-final-focused.xml\npython - <<'PY'\nfrom pathlib import Path\nimport json\nD=Path('docs/readings/2026-11-13-ssl-explicit-genera')\np=D/'ssl-api-runtime-refreeze-final-lint.json';d=json.loads(p.read_text());print('lint keys',list(d));print('paths',[k for k in d if 'file' in k or 'pin' in k])\nprint('workload helper');print((D/'ssl_api_runtime_workload.py').read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 300
+}

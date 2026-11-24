@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport json\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera'); w=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint')\nfor f,keys in [('ssl-api-runtime-result.json',['status','source_edits_finished','blockers','second_refreeze']),('ssl-api-runtime-blockers.json',['updated_utc','current_failures','controller_source_demands','current_progress']),('ssl-api-controller-self-measure-phase.json',None)]:\n d=json.loads((n/f).read_text()); print(f);print(json.dumps(d if keys is None else {k:d.get(k) for k in keys},indent=2))\nfor f,keys in [('space-post-self-boundary.json',['lexicon','buckets']),('self-boundary-space-delta.json',None)]:\n d=json.loads((w/f).read_text());print(f);print(json.dumps(d if keys is None else {k:d[k] for k in keys},indent=2))\nfor f in ['ssl-api-controller-root-handoff.json','ssl-api-controller-blockers.json']:\n d=json.loads((n/f).read_text()); print(f,'KEYS',list(d))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

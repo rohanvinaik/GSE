@@ -29,6 +29,15 @@ def test_topic_pp_is_a_constituent_not_an_asserted_about_event(encoder, text):
     assert emit_contract(tree)["predicate"]["features"]["verb"] == "think"
 
 
+@pytest.mark.parametrize("modifier", ["here", "quietly"])
+def test_intransitive_adverbial_is_not_a_patient(encoder, modifier):
+    tree = compose(encoder, f"The child waited {modifier}.")
+    assert isinstance(tree, Event) and tree.verb == "wait"
+    assert tree.patient is None
+    assert [a.lemma for a in tree.themes[0].atoms] == [modifier]
+    assert from_dict(to_dict(tree)) == tree
+
+
 @pytest.mark.parametrize("text", ["Nora did the work.", "Nora does her work.", "Nora did it."])
 def test_main_do_retains_the_event_and_nominal_complement(encoder, text):
     trace = encoder.encode(text)
@@ -49,6 +58,38 @@ def test_do_support_does_not_steal_the_content_predicate(encoder, text):
         tree = tree.operand
     assert isinstance(tree, Event) and tree.verb == "repair"
     assert tree.agent.head.lemma == "nora" and tree.patient.head.lemma == "bicycle"
+
+
+@pytest.mark.parametrize("text,patient", [("Do the work.", "work"), ("Do it.", "it")])
+def test_imperative_do_retains_directive_not_a_committed_fact(encoder, text, patient):
+    from GSE.symbolic.propositions import commitment, propositions
+
+    trace = encoder.encode(text)
+    assert trace.tokens[0].pos == "VERB"
+    tree = evaluate_tree(resolve(from_trace(trace)))
+    assert isinstance(tree, Event) and tree.verb == "do"
+    assert tree.agent.head.lemma == "you" and tree.agent.head.word_primitives == {}
+    assert tree.patient.head.lemma == patient
+    readings = propositions(tree)
+    assert readings[0].status == "directive"
+    assert commitment(readings[0]) != "committed"
+
+
+@pytest.mark.parametrize("text,verb", [("Does Nora repair the bicycle?", "repair"), ("Does it work?", "work")])
+def test_inverted_do_support_retains_the_content_predicate(encoder, text, verb):
+    trace = encoder.encode(text)
+    assert trace.tokens[0].pos == "AUX"
+    tree = evaluate_tree(resolve(from_trace(trace)))
+    assert isinstance(tree, Event) and tree.verb == verb
+
+
+def test_coordinating_conjunction_does_not_turn_main_do_into_an_auxiliary(encoder):
+    trace = encoder.encode("Nora sings and does the work.")
+    assert next(t for t in trace.tokens if t.lemma == "do").pos == "VERB"
+    from GSE.symbolic.queries import predicates
+
+    tree = evaluate_tree(resolve(from_trace(trace)))
+    assert {p.verb for p in predicates(tree) if isinstance(p, Event)} == {"sing", "do"}
 
 
 def test_fronted_absolute_retains_matrix_predicate_and_adjunct(encoder):

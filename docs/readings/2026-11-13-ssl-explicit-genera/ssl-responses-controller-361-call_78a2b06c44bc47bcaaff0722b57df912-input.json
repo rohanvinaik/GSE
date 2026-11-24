@@ -1,0 +1,5 @@
+{
+  "command": "pwd && python - <<'PY'\nfrom pathlib import Path\np=Path('docs/program/LEXICON_CONSTRUCTION_DESIGN.md')\ns=p.read_text(); h='Recovery contract — usable checkpoint and the SSL learning mechanism'; start=s.index(h); a=s.rfind('\\n#',0,start); end=s.find('\\n## ',start); print(s[a+1:end if end!=-1 else len(s)])\np=Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_canonical_projection.py'); print('\\n--- COMPLETE PROJECTION HELPER ---\\n'+p.read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

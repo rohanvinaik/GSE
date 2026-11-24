@@ -1142,8 +1142,6 @@ class GSEEncoder:
             "may",
             "might",
             "to",
-            "have",
-            "do",
             "shall",
             "ought",
         }

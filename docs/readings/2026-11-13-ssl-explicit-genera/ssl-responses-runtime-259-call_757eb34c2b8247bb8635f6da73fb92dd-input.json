@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-third-regression-v2 -- .venv/bin/python -m pytest -q tests/test_runtime_native_composed_controls.py tests/test_runtime_native_identity_controls.py tests/test_thatless_complement.py tests/test_symbolic_expression.py tests/test_symbolic_operators.py tests/test_symbolic_resolution.py tests/test_symbolic_queries.py tests/test_propositions.py tests/test_modality_complements.py tests/test_kb_assertion_modality.py tests/test_complete_document_reading.py tests/test_GSE_document.py --junitxml=docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-third-regression-v2.xml",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 240
+}

@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label coverage-canonical-independent-report-check -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nfrom collections import Counter\nimport json,hashlib\np=Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-coverage-canonical-reconciliation.json')\nd=json.loads(p.read_text())\nprint('SUMMARY',json.dumps(d['summary'],sort_keys=True))\nprint('FIRST_UNIT',json.dumps(d['units'][0],sort_keys=True))\nprint('FIRST_CHECK',json.dumps(d['checks'][0],sort_keys=True))\nprint('CHECK_STATUSES',dict(Counter(str(x.get('passed',x.get('ok',x.get('status','unspecified')))) for x in d['checks'])))\nprint('DATABASE_PIN',json.dumps(d['database_pin'],sort_keys=True))\nprint('SOURCE_PIN_FIRST',json.dumps(next(iter(d['source_pins'].items()))))\nprint('COMPLETION',json.dumps(d['completion_receipt'],sort_keys=True))\nprint('REPORT_UNIT_COUNT',len(d['units']))\nprint('DEVELOPMENT_FORM_COUNT',len(d['development_demand_all_saved_identities']))\nprint('CLAIM_COUNT',len(d['governing_partial_claim_reconciliation']))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

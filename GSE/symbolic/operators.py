@@ -244,7 +244,7 @@ def event(op: Op) -> Event:
         if isinstance(argument, Phrase):
             return (
                 bool(argument.atoms)
-                and argument.atoms[0].pos == "ADP"
+                and (argument.atoms[0].pos == "ADP" or all(atom.pos == "ADV" for atom in argument.atoms))
                 and all(atom.role == "SYN_OBL" for atom in argument.atoms)
             )
         return False

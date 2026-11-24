@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nprint('OWNED HELPER PHASE FILES', [p.name for p in n.glob('ssl-api-controller-*-phase.json')])\nfor name in ['ssl-api-controller-self-boundary-phase.json','ssl-api-controller-self-measure-phase.json']:\n p=n/name\n if p.exists():print(p.read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

@@ -1,0 +1,3 @@
+{
+  "patch": "*** Begin Patch\n*** Update File: /Users/rohanvinaik/Projects/GSE/tests/test_complete_document_reading.py\n@@\n-def test_late_profile_failure_cannot_leave_partial_observation(simple_pipeline):\n-    profile = text_profile(Encoder(lookup_fail=True), \"good.\")\n+def test_late_profile_failure_cannot_leave_partial_observation(simple_pipeline, monkeypatch):\n+    def fail_late(*args, **kwargs):\n+        raise ValueError(\"late coherence observation failure\")\n+\n+    monkeypatch.setattr(\"GSE.discourse.profile.coherence_report\", fail_late)\n+    profile = text_profile(Encoder(), \"good.\")\n*** End Patch"
+}
