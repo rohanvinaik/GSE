@@ -25,6 +25,19 @@ from GSE.symbolic.modality import MODAL_PRIMES
 SOURCE = "gse_closed_class"
 FOUNDATION_COHORT = "MANDATORY_FOUNDATION_COHORT"
 
+# Stored provenance labels. Each names where a closed-class value was declared,
+# and each is hashed into stored record identity. They are labels, not import
+# paths: they never follow code when modules move, and are never derived from
+# a module's __name__. tests/test_closed_class_provenance_labels.py pins them.
+ORIGIN_PRONOUNS = "GSE.lexicon.pronouns"
+ORIGIN_FUNCTION_WORDS = "GSE.lexicon.function_words"
+ORIGIN_CLOSED_CLASS_BUILD = "GSE.curation.build_clean_closed_class"
+ORIGIN_TIER_0_DISPATCH = "GSE.curation.external_sources.tier_0_dispatch"
+ORIGIN_NATIVE_FRONT_END = "GSE.nlp.native"
+ORIGIN_LABELS = frozenset(
+    {ORIGIN_PRONOUNS, ORIGIN_FUNCTION_WORDS, ORIGIN_CLOSED_CLASS_BUILD, ORIGIN_TIER_0_DISPATCH, ORIGIN_NATIVE_FRONT_END}
+)
+
 
 def _require_native_json(value) -> None:
     if value is None or type(value) in (str, bool, int):
@@ -140,7 +153,7 @@ def _function_entries() -> list[GSEClosedClassEntry]:
                 ("PRON",),
                 encoding["primitives"],
                 grammar,
-                [_origin("GSE.lexicon.pronouns", "PRONOUN_ENCODINGS", word, encoding)],
+                [_origin(ORIGIN_PRONOUNS, "PRONOUN_ENCODINGS", word, encoding)],
             )
         )
     for catalog, table, symbol in (
@@ -158,11 +171,11 @@ def _function_entries() -> list[GSEClosedClassEntry]:
                 if word in _CCONJ
                 else "SCONJ"
             )
-            origins = [_origin("GSE.lexicon.function_words", symbol, word, encoding)]
+            origins = [_origin(ORIGIN_FUNCTION_WORDS, symbol, word, encoding)]
             primitives = {}
             if catalog == "preposition" and word in EXPONENTS:
                 primitives = EXPONENTS[word]
-                origins.append(_origin("GSE.curation.build_clean_closed_class", "EXPONENTS", word, primitives))
+                origins.append(_origin(ORIGIN_CLOSED_CLASS_BUILD, "EXPONENTS", word, primitives))
             entries.append(_entry(word, catalog, catalog, (role,), primitives, encoding, origins))
     return entries
 
@@ -185,18 +198,16 @@ def _auxiliary_entries() -> list[GSEClosedClassEntry]:
             key = word if word in table else lemma
             if key in table:
                 primitives = table[key]
-                origins.append(_origin("GSE.curation.build_clean_closed_class", symbol, key, primitives))
+                origins.append(_origin(ORIGIN_CLOSED_CLASS_BUILD, symbol, key, primitives))
                 break
         else:
             primitives = canonical_decomposition(lemma) or {}
-            origins.append(
-                _origin("GSE.curation.external_sources.tier_0_dispatch", "canonical_decomposition", lemma, primitives)
-            )
+            origins.append(_origin(ORIGIN_TIER_0_DISPATCH, "canonical_decomposition", lemma, primitives))
         if word in _IRREGULAR_LEMMA:
-            origins.append(_origin("GSE.nlp.native", "_IRREGULAR_LEMMA", word, lemma))
+            origins.append(_origin(ORIGIN_NATIVE_FRONT_END, "_IRREGULAR_LEMMA", word, lemma))
         for table, symbol in ((_AUX_MODAL, "_AUX_MODAL"), (_AUX_BE, "_AUX_BE"), (_AUX_DO, "_AUX_DO")):
             if word in table:
-                origins.append(_origin("GSE.nlp.native", symbol, word, word))
+                origins.append(_origin(ORIGIN_NATIVE_FRONT_END, symbol, word, word))
         modal = word in _AUX_MODAL or bool(set(primitives) & MODAL_PRIMES)
         entries.append(
             _entry(
@@ -221,7 +232,7 @@ def _catalog_entries() -> tuple[GSEClosedClassEntry, ...]:
                 (role,),
                 primitives,
                 {},
-                [_origin("GSE.curation.build_clean_closed_class", "EXPONENTS", word, primitives)],
+                [_origin(ORIGIN_CLOSED_CLASS_BUILD, "EXPONENTS", word, primitives)],
             )
         )
     for word in sorted(_NEG | {prime.lower() for prime in MODAL_PRIMES if prime.lower() in _ADV_CLOSED}):
@@ -237,10 +248,8 @@ def _catalog_entries() -> tuple[GSEClosedClassEntry, ...]:
                 primitives,
                 {"lemma": lemma},
                 [
-                    _origin("GSE.nlp.native", "_NEG" if role == "PART" else "_ADV_CLOSED", word, word),
-                    _origin(
-                        "GSE.curation.external_sources.tier_0_dispatch", "canonical_decomposition", lemma, primitives
-                    ),
+                    _origin(ORIGIN_NATIVE_FRONT_END, "_NEG" if role == "PART" else "_ADV_CLOSED", word, word),
+                    _origin(ORIGIN_TIER_0_DISPATCH, "canonical_decomposition", lemma, primitives),
                 ],
             )
         )
@@ -255,7 +264,7 @@ def _catalog_entries() -> tuple[GSEClosedClassEntry, ...]:
                 (role,),
                 {},
                 {},
-                [_origin("GSE.curation.build_clean_closed_class", "ZERO", word, {"declared_lexical_components": {}})],
+                [_origin(ORIGIN_CLOSED_CLASS_BUILD, "ZERO", word, {"declared_lexical_components": {}})],
             )
         )
     identities = [entry.entry_id for entry in entries]
@@ -348,7 +357,7 @@ class GSEClosedClassParser:
         # not merely by an arbitrary JSON field called 'person'.
         native = PRONOUN_ENCODINGS.get(entry.lemma)
         expected_grammar = {key: value for key, value in (native or {}).items() if key != "primitives"}
-        expected_origin = _origin("GSE.lexicon.pronouns", "PRONOUN_ENCODINGS", entry.lemma, native)
+        expected_origin = _origin(ORIGIN_PRONOUNS, "PRONOUN_ENCODINGS", entry.lemma, native)
         if (
             native is None
             or entry.grammatical_features != expected_grammar
@@ -380,8 +389,8 @@ class GSEClosedClassParser:
             if not isinstance(encodings, (list, tuple)):
                 raise ValueError("INVALID_CLOSED_CLASS_REFERENCE_OBSERVATION")
             for encoding in encodings:
-                if current_id(encoding["module"]) == "GSE.lexicon.pronouns":
-                    encoding["module"] = "GSE.lexicon.pronouns"
+                if current_id(encoding["module"]) == ORIGIN_PRONOUNS:
+                    encoding["module"] = ORIGIN_PRONOUNS
             native["native_encodings"] = tuple(encodings)
             entry = GSEClosedClassEntry(**native)
         except (KeyError, TypeError) as error:
