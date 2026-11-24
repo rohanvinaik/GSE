@@ -1,0 +1,49 @@
+{
+  "format": "gse.checkpoint-implementation-verification/1",
+  "code": "SOURCE_AND_CONSUMER_INTEGRATION_VERIFIED_CORPUS_MIGRATION_RUNNING",
+  "observed_at_utc": "2026-11-23T22:32:48.152122+00:00",
+  "suites": [
+    {
+      "report": "checkpoint-integration-tests.xml",
+      "tests": 392,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "checkpoint-proof-and-retirement-tests.xml",
+      "tests": 283,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "checkpoint-native-transition-tests.xml",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "overlapping_suites_not_additive": true,
+  "ruff": "PASSED",
+  "source_proof_retirement_and_driver_ty": "PASSED",
+  "narrative_ty": "TWO_EXISTING_FINDINGS_OUTSIDE_CHANGED_LOGIC",
+  "source_sha256": {
+    "GSE/curation/external_sources/gse_closed_class.py": "0540fd8a231be258a170f2f285d5bb745c6a49bbb4cd466c2a464f9e0f91eb4f",
+    "GSE/curation/external_sources/source_scope.py": "62e592db4d9351d41d0dd14047112f20281c37d444b82680b28bfd1ca67ff9bb",
+    "GSE/curation/lexicon_builder/reconsideration.py": "f3f1e4d4d697b70aeacef025a46d6b00ab7bb8b827256dfce1bf2a50b728bd3e",
+    "GSE/curation/lexicon_builder/validation.py": "30172d3f07f2fb428dd316172cf540534218449252fcc0088137a8d899839ac8",
+    "GSE/symbolic/modality.py": "1ab940bdbc42e6b4d88c44e78e6e43275535c41faf31f19b848eb571fe9b9a7f",
+    "GSE/symbolic/propositions.py": "1c4fd0694acedcd36537f0da5e5f3c545a11870f936401cb2d1f829b2033d713",
+    "GSE/symbolic/claims.py": "038758cca905604a706bc3f55caaf0997686ef5fb13cc2e4d812de1fd3413d7b",
+    "GSE/symbolic/narrative.py": "dd59c7a1614cb1856f0b9cb1734fb55d80414ca25b1536bb80c5e504a84ad333",
+    "GSE/symbolic/inference.py": "7305140112a19046af44a65145ef4014d684ed2edafafa5c55f38a648936c832",
+    "scripts/reconsider_lexicon_model.py": "eb661a6dcb998d473fef55241b9654b74e6cb2627851d09dcc73f4844acb85ab",
+    "docs/readings/2026-11-13-ssl-explicit-genera/checkpoint_reference_migration.py": "9a2ef9f4a61121210fb5107f9c1a8370421e794107190803265d59671e982359"
+  },
+  "model_calls": 0,
+  "activation_performed": false,
+  "corpus_transition_receipt": "checkpoint-reference-migration.json",
+  "usable_checkpoint": "NOT_YET_ESTABLISHED"
+}

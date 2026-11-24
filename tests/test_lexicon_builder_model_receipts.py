@@ -61,6 +61,7 @@ def test_new_build_uses_indexed_rows_and_lazy_entry_loading(modeled):
 def test_legacy_replay_then_one_time_completion_migration(modeled):
     old = make_legacy(modeled)
     assert validate_build(modeled)["code"] == "REPLAY_VALIDATED"
+
     report = complete_dictionary(
         modeled, lambda payload, schema: json.dumps({payload["bank"]: 1}), 1, entry_ids=("d",), banks=("GOOD",)
     )
@@ -155,3 +156,20 @@ def test_receipt_payload_schema_tampering_is_checked_by_replay(modeled):
         receipt["schema"]["additionalProperties"] = True
         conn.execute("UPDATE accepted_model_receipts SET payload=?", (json.dumps(receipt),))
     assert validate_build(modeled)["code"] == "REPLAY_MISMATCH"
+
+
+def test_pre_rename_nested_request_replays_without_rewriting_its_identity(modeled):
+    from GSE.namespace import identity_form
+
+    original = make_legacy(modeled)
+    legacy = identity_form(original)
+    assert legacy[0]["request_id"] == original[0]["request_id"]
+    assert legacy[0]["request"]["scaffold"]["format"].startswith("gse.")
+    with sqlite3.connect(modeled) as conn:
+        conn.execute("UPDATE builder_metadata SET value=? WHERE key='model_completions'", (json.dumps(legacy),))
+    assert validate_build(modeled)["code"] == "REPLAY_VALIDATED"
+    with sqlite3.connect(modeled) as conn:
+        assert (
+            json.loads(conn.execute("SELECT value FROM builder_metadata WHERE key='model_completions'").fetchone()[0])
+            == legacy
+        )

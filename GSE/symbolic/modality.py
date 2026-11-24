@@ -47,6 +47,9 @@ ATTITUDE_VERBS = frozenset(
 # projection lives in GSE.symbolic.propositions.proposition_status. Only the two ruled members: the rest of the class
 # (learn, discover, notice, prove, …) is later work, by his 01:37:36 ruling.
 EPISTEMIC_VERBS = frozenset({"know", "realize", "realise"})
+# A clausal report commits to the reporting event, not to its content. This
+# lemma class is deliberately separate from surface quote-attribution verbs.
+REPORTING_VERBS = frozenset({"say", "tell", "report", "claim", "assert", "state", "announce", "declare", "allege"})
 # IRREALIS control matrices: the controlled INNER act is not a fact and must never be yielded
 # as a standalone assertion (the same discipline as ATTITUDE_VERBS' clausal complement and the
 # Negation non-container). Two closed classes (Karttunen's implicative-verb taxonomy):
@@ -175,6 +178,8 @@ def assertion_mode(kind: str, verb: str = "", patient_kind: str = "") -> str:
     * ``"epistemic"`` — a knowing ``Event`` over a clausal complement ("knows that X"): the
       patient is committed, as stated; under a negation its truth abstains instead
       (:func:`GSE.symbolic.propositions.proposition_status`).
+    * ``"reported"`` — a reporting ``Event`` over a clausal complement ("says that X"):
+      the report is asserted; the content is attributed and remains uncommitted.
     * ``"irrealis"`` — a ``Control`` under an irrealis matrix ("refused to bow", "plots to
       kill"): the inner act is negated or unasserted; the matrix itself is asserted.
     * ``"asserted"`` — anything else: its operand content holds as stated.
@@ -187,6 +192,8 @@ def assertion_mode(kind: str, verb: str = "", patient_kind: str = "") -> str:
         return "belief"
     if kind == "Event" and verb in EPISTEMIC_VERBS and patient_kind in _CLAUSAL_COMPLEMENT_KINDS:
         return "epistemic"
+    if kind == "Event" and verb in REPORTING_VERBS and patient_kind in _CLAUSAL_COMPLEMENT_KINDS:
+        return "reported"
     if kind == "Control" and verb in IRREALIS_CONTROL_VERBS:
         return "irrealis"
     return "asserted"

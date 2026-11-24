@@ -4,13 +4,13 @@ import argparse
 import json
 from pathlib import Path
 
-from GSE.curation.lexicon_builder.reconsideration import reconsider
+from GSE.curation.lexicon_builder.reconsideration import reconsider, reconsider_many
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--lexicon-db", type=Path, required=True)
-    parser.add_argument("--request-id", required=True)
+    parser.add_argument("--request-id", required=True, action="append")
     parser.add_argument("--convention", required=True)
     parser.add_argument("--reason", required=True)
     parser.add_argument("--expected-snapshot")
@@ -23,9 +23,10 @@ def main():
         and args.report.samefile(args.lexicon_db)
     ):
         raise ValueError("RECONSIDERATION_REPORT_CANNOT_OVERWRITE_DATABASE")
-    report = reconsider(
+    writer = reconsider if len(args.request_id) == 1 else reconsider_many
+    report = writer(
         args.lexicon_db,
-        args.request_id,
+        args.request_id[0] if len(args.request_id) == 1 else args.request_id,
         convention=args.convention,
         reason=args.reason,
         apply=args.apply,

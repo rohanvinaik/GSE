@@ -43,10 +43,11 @@ _GOVERNED = {
     "conditional": ("antecedent", "consequent"),
     "belief": ("patient",),
     "epistemic": ("patient",),
+    "reported": ("patient",),
     "irrealis": ("inner",),
 }
 # The modes of a verb whose clausal content a negation over it leaves unknown (the knowability rulings).
-_ATTITUDE_MODES = frozenset({"belief", "epistemic"})
+_ATTITUDE_MODES = frozenset({"belief", "epistemic", "reported"})
 # Deeper than any parsed sentence; a guard against a malformed, self-referencing tree.
 _MAX_DEPTH = 64
 

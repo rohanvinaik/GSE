@@ -131,3 +131,70 @@ The execution target is a usable foundation-and-consumer checkpoint across the d
 6. Publish only after the existing complete-cohort replay, source/model lineage checks, semantic audits and the practical consumer gate pass. Keep one rollback. Resume the same SSL loop from the actual validated artifact, now with source-backed foundation breadth and improved representation-space measurements.
 
 The first exact source-projection review is concrete: the stored curated pronoun observations already contain `gram.person=1` for I and `gram.person=2` for YOU. Together with the approved first-/second-person bank meanings, this supports their own positive coordinates on the exact pronoun identities. The [warrant packet](checkpoint-source-projection-warrants.json) retains the full native observations, hashes and derivations. It does not assign any other bank or transfer by spelling. One earlier model assertion on I and four on YOU require dependency review when those projections are integrated. The packet has made no model call and no bank write; the frozen 022 run remains unchanged.
+
+## Checkpoint implementation continuation
+
+Rohan's implementation instruction, verbatim:
+
+> Good, then let's proceed properly to get this in place. I'd like the usable checkpoint first. That entails a complete set of resolved rules that unambiguously pass enough of the most common (Zipf-front loaded distribution) words to be useful in general. Then those rules can be pinned and formally resolved to build the checkpoint, then the consequences of that resolution can follow the SSL-driven constraint propagation and collapse in uncertain representational space to resume the work we've been doing for over a week, but with an enhanced base set to reason off of, which should enable us to make massive progress from before
+
+After the local post-compaction lock, Rohan explicitly resumed: “Yes, continue please”.
+Instrument: the same SSL/workflow construction and release contracts. Specimens:
+the source adapters, the real sentence consumers and the pending corpus candidate.
+
+| Claim | Kind | Scope | Falsifier | Test/status |
+| --- | --- | --- | --- | --- |
+| Existing native reference features justify the two reviewed positive coordinates | Source-backed semantic derivation under the approved bank meanings | Exact I/YOU pronoun definitions | Wrong native row, changed reference features or different lexical identity | Registered source collection and independent witness reconstruction during real builder replay; forged sign refused |
+| Reports do not commit their clausal content | Semantic scope requirement | Typed clausal complements of the declared reporting lemmas | A reported proposition enters the KB as a categorical fact | Public encoder/document/KB/narrative tests, including negated matrix and content; KNOW remains committed |
+| Batch retirement preserves the existing reconsideration contract | Engineering invariant | Requested accepted model suffixes | Partial writes, unarchived receipts, stale snapshots or native assertion deletion | Real CLI, rollback on second-entry failure, missing roots, duplicate/invalid inputs, complete fixture replay |
+| These changes establish a generally usable checkpoint | Empirical readiness claim, still pending | Frozen practical common-language operations | Ordinary supported meanings remain unavailable or unsupported readings are asserted | Not established by these tests; basis breadth, broader grounding and the practical gate remain necessary |
+
+The 022 arm has finished its two admitted epochs: its immutable result records
+118 new cells, eight typed questions and 401,596 compared definitions, with no
+reopened cells. The finalizer stopped on a changed frozen design-document
+digest. Subsequent inspection also found the package rename. The old source
+pins were not silently rewritten, and 022 has not been activated.
+
+The source adapter now emits the two exact reference projections. No full
+signature, generic noun exclusion, BODY sign or unknown-to-zero conversion is
+introduced. Its complete native observation remains the proof input. A source
+witness from the historical package namespace can be replayed without changing
+the stored bytes. The report-scope correction adds a named `reported` mode to
+the existing shared proposition/claim discipline and its narrative/KB consumers.
+
+Verification receipts: [392 initial integration regressions](checkpoint-integration-tests.xml),
+[283 source-proof/retirement regressions](checkpoint-proof-and-retirement-tests.xml),
+and [two real source-transition controls](checkpoint-native-transition-tests.xml).
+These suites overlap and must not be summed as independent evidence.
+Ruff passes on the changed files. The source/proof/retirement modules, driver
+and new tests pass ty; the broader narrative check retains two preexisting
+findings outside the changed logic.
+
+The earlier read-only revalidation was explicitly stopped to complete the
+source-witness contract. The owned `checkpoint_reference_migration` run now
+uses one working clone, conservatively retires the five dependent model
+receipts, installs only the witnessed source claims, and requires full
+pre/post replay. Its [computed state](checkpoint-reference-migration.json)
+is authoritative for whether those operations have finished. No activation
+is performed by that driver. Broader foundation projections, ordinary-word
+grounding, the frozen practical gate and checkpoint publication remain open.
+
+## Historical curriculum attribution correction
+
+Rohan asks, verbatim:
+
+> Is this a new thing, or have you been doing this for the over a week we've been doing the SSL-driven lexicon fill? Because if it's the latter, then I think I know why it's bee a HELL of a lot slower than it should be
+
+Instrument: SSL and significance-weighted constraint propagation, including the existing identity/scope and independent-evidence requirements. Specimens: the saved teacher selections and current controller. The [computed history audit](checkpoint-curriculum-history-audit.json) retains all 32 located teacher-selection records and their hashes. It does not cover every earlier manual batch or establish the first calendar date of the defect.
+
+| Claim | Kind | Scope | Falsifier | Test/status |
+| --- | --- | --- | --- | --- |
+| The spelling-priority attribution gap predates today's investigation | Historical implementation finding | Located earlier persistent epochs | Earlier counts have exact-sense frequency attribution | Confirmed: area-unit are.n.01 receives 265,672; will.v.01, “decree or ordain,” receives 108,306; privation want receives 140,718 |
+| This explains a quantified amount of lost time | Causal/cost claim, not yet established | End-to-end runtime and useful outcomes | Paired corrected execution produces a different cost breakdown | Not measured; distinguish queue diversion, propagation breadth and replay cost |
+| Historical measurements establish the full intended SSL regime | Interpretation requiring correction | Curriculum, discovery and joint contraction | Required mechanisms are absent from the measured controller | Not established: spelling counts are not sense-linked, and selection uses singleton/limited-bridge proxies |
+
+Changing the frequency heuristic does not repair a missing eligibility gate. An occurrence's semantic/type/context constraints must eliminate incompatible identities before selection. Frequency evidence must retain its supported identity and scope: an aggregate spelling count cannot silently become the commonness of every homograph. Unattributed sense frequency remains unresolved. This neither deletes a lawful dictionary sense nor writes a zero into its banks.
+
+Public controls currently select the pronoun for “He went home” and “He knows her.” The adversarial “The chemical symbol He denotes helium” also selects the pronoun, exposing a separate consumer gap: grammatical selection consumes the parsed role without checking explicit contextual identity evidence. Helium is excluded from a pronoun occurrence; a chemical-symbol occurrence must likewise avoid a forced pronoun reading. Its lawful dictionary identity remains available in the appropriate scope.
+
+Earlier exact-sense rule and replay results retain their actual measured meaning. They must be described as results of the restricted implemented controller, with these method gaps attached. Corrected eligibility and information accounting require a new equal-budget comparison. No historical count or lexical value is silently rewritten by this audit. Helium appeared in the new candidate-priority diagnostic; this audit does not establish that it was previously selected as a teacher.

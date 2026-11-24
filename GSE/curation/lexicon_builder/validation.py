@@ -370,7 +370,9 @@ def _context_observations(conn, entry_id, relations, definition=None):
 
 
 def _stored_context(conn, definition, relations):
-    return lexical_context(definition, _context_observations(conn, definition.entry_id, relations, definition), relations)
+    return lexical_context(
+        definition, _context_observations(conn, definition.entry_id, relations, definition), relations
+    )
 
 
 def _provenance(
@@ -492,6 +494,21 @@ def _provenance(
                     if projected.get(assertion.bank) != assertion.value:
                         genus = "PERSON" if assertion.bank == "SOMEONE" else "ANATOMY"
                         raise ValueError(f"WIKTIONARY_{genus}_PROJECTION_WITNESS_MISMATCH")
+                if assertion.source == "gse_closed_class" and assertion.bank in {"I", "YOU"}:
+                    from GSE.curation.external_sources.gse_closed_class import GSEClosedClassParser
+
+                    row = conn.execute(
+                        "SELECT payload FROM source_observations WHERE record_id=?", (assertion.record_id,)
+                    ).fetchone()
+                    features = _read_json(row[0])["features"] if row is not None else {}
+                    if (
+                        features.get("entry_id") != entry_id
+                        or features.get("lemma") != definition.lemma
+                        or features.get("definition") != definition.definition
+                        or GSEClosedClassParser().reference_projection_for_observation(features).get(assertion.bank)
+                        != assertion.value
+                    ):
+                        raise ValueError("CLOSED_CLASS_REFERENCE_PROJECTION_WITNESS_MISMATCH")
         prefix += (assertion,)
     if any(remaining_anchors.values()) or remaining_models:
         raise ValueError("UNCONSUMED_ASSERTION_AUTHORITY")
@@ -816,8 +833,18 @@ def _catalog_foundation(links, anchors, models, evidence, restriction_evidence, 
 
 
 def _native_catalog(
-    anchors, relations, lexemes, links, models, evidence, restriction_evidence, native, bank_relevance, *,
-    conn=None, legacy_duration=False
+    anchors,
+    relations,
+    lexemes,
+    links,
+    models,
+    evidence,
+    restriction_evidence,
+    native,
+    bank_relevance,
+    *,
+    conn=None,
+    legacy_duration=False,
 ):
     from .catalog import catalog_report
     from .foundation import WORDNET_ANCESTRY_GUARD_PREFIXES
@@ -867,8 +894,7 @@ def _catalog_integrity(
         if not isinstance(saved, dict):
             raise ValueError("INVALID_CATALOG_METADATA")
         legacy_duration = any(
-            unit["unit_id"] == "nsm:v20:some-time" and unit["mapping"]["code"] == "MISSING"
-            for unit in saved["units"]
+            unit["unit_id"] == "nsm:v20:some-time" and unit["mapping"]["code"] == "MISSING" for unit in saved["units"]
         )
         if current_id(saved.get("format")) == "GSE.nsm-catalog-coverage/1":
             definitions = tuple(

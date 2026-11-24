@@ -14,7 +14,7 @@ from typing import Any, Callable, Mapping
 
 CLAIM_KEY_VERSION = "GSE.claim/1"
 _TRANSPARENT = frozenset({"asserted", "epistemic", "negated"})
-_ATTITUDES = frozenset({"epistemic", "belief"})
+_ATTITUDES = frozenset({"epistemic", "belief", "reported"})
 _GENERIC_PRIMES = frozenset(
     {
         "DO",

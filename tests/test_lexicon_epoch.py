@@ -193,10 +193,12 @@ def test_exact_native_gloss_scope_propagates_across_sources(tmp_path):
         ("alternative", "a part of a key or another tool"),
     ):
         definition, observation = native(lemma, "part.n.01")
-        wordnet.append((
-            replace(definition, definition=gloss),
-            replace(observation, features={**observation.features, "definition": gloss}),
-        ))
+        wordnet.append(
+            (
+                replace(definition, definition=gloss),
+                replace(observation, features={**observation.features, "definition": gloss}),
+            )
+        )
     identity = "wiktionary:en-stop-test"
     gloss = "A part of a photographic system that reduces light."
     wiki = Definition(identity, "stop", "noun", gloss)
@@ -211,7 +213,13 @@ def test_exact_native_gloss_scope_propagates_across_sources(tmp_path):
         "native_sense": {"glosses": [gloss]},
     }
     observation = Observation(
-        identity, "wiktionary", _record_id("wiktionary", "stop", features), "wiktionary", features, "lexical", (identity,)
+        identity,
+        "wiktionary",
+        _record_id("wiktionary", "stop", features),
+        "wiktionary",
+        features,
+        "lexical",
+        (identity,),
     )
     definitions, observations = zip(*wordnet, (wiki, observation))
     build_dictionary(EvidenceBundle(definitions, observations, (), ()), base)
@@ -221,12 +229,14 @@ def test_exact_native_gloss_scope_propagates_across_sources(tmp_path):
         "active_pointer_sha256": fingerprint(pointer),
         "epochs": 1,
         "audits_per_epoch": 2,
-        "families": [{
-            **family("exact-part", "part.n.01", ["SOMETHING", 1], ["PART", 1], "bit"),
-            "antecedent": None,
-            "guards": [["pos", "noun"], ["native_noun_frame:part_of", "true"]],
-            "holdouts": ["wordnet:bit:bit.n.01", identity],
-        }],
+        "families": [
+            {
+                **family("exact-part", "part.n.01", ["SOMETHING", 1], ["PART", 1], "bit"),
+                "antecedent": None,
+                "guards": [["pos", "noun"], ["native_noun_frame:part_of", "true"]],
+                "holdouts": ["wordnet:bit:bit.n.01", identity],
+            }
+        ],
     }
 
     class PartRulings:
@@ -238,19 +248,34 @@ def test_exact_native_gloss_scope_propagates_across_sources(tmp_path):
 
     inventory = census(base, parse_plan(plan))
     assert {row["entry_id"] for row in inventory["exact-part"]} == {
-        "wordnet:back:back.n.01", "wordnet:bit:bit.n.01", identity,
+        "wordnet:back:back.n.01",
+        "wordnet:bit:bit.n.01",
+        identity,
     }
     # Reserve the only discovery sense while keeping it in the propagation census.
-    assert choose(
-        base, inventory, parse_plan(plan), set(), set(), "zipf", {},
-        {"entries": ["wordnet:back:back.n.01"], "lemmas": ["back"]},
-    ) is None
-    arm = run_arm(plan, base, pointer, tmp_path / "closure", inventory, "closure", PartRulings(), tmp_path / "model.lock")
+    assert (
+        choose(
+            base,
+            inventory,
+            parse_plan(plan),
+            set(),
+            set(),
+            "zipf",
+            {},
+            {"entries": ["wordnet:back:back.n.01"], "lemmas": ["back"]},
+        )
+        is None
+    )
+    arm = run_arm(
+        plan, base, pointer, tmp_path / "closure", inventory, "closure", PartRulings(), tmp_path / "model.lock"
+    )
     assert arm["typed_questions_used"] == 3
     assert arm["epochs"][0]["code"] == "RULE_ADMITTED"
     assert arm["replay"]["entries_mismatched"] == 0
     assert {row["entry_id"] for row in arm["changes"]} == {
-        "wordnet:back:back.n.01", "wordnet:bit:bit.n.01", identity,
+        "wordnet:back:back.n.01",
+        "wordnet:bit:bit.n.01",
+        identity,
     }
     assert all(row["bank"] == "PART" and row["before"] == [-1, 0, 1] and row["after"] == [1] for row in arm["changes"])
 
@@ -297,13 +322,23 @@ def test_wiktionary_anatomy_scope_replays_without_filling_unknown_controls(tmp_p
         identity = "wiktionary:fixture-" + word
         definition = Definition(identity, word, "noun", gloss)
         features = {
-            "identity_scheme": "GSE.wiktionary-native-leaf/1", "entry_id": identity,
-            "lemma": word, "word": word, "pos": "noun", "native_id": "fixture-" + word,
-            "definition": gloss, "native_sense": {"glosses": [gloss], "topics": topics},
+            "identity_scheme": "GSE.wiktionary-native-leaf/1",
+            "entry_id": identity,
+            "lemma": word,
+            "word": word,
+            "pos": "noun",
+            "native_id": "fixture-" + word,
+            "definition": gloss,
+            "native_sense": {"glosses": [gloss], "topics": topics},
         }
         observation = Observation(
-            identity, "wiktionary", _record_id("wiktionary", word, features),
-            "wiktionary", features, "lexical", (identity,),
+            identity,
+            "wiktionary",
+            _record_id("wiktionary", word, features),
+            "wiktionary",
+            features,
+            "lexical",
+            (identity,),
         )
         definitions.append(definition)
         observations.append(observation)
@@ -311,18 +346,25 @@ def test_wiktionary_anatomy_scope_replays_without_filling_unknown_controls(tmp_p
             assertions.append(Assertion("BODY", 1, "wiktionary", observation.record_id, "wiktionary"))
     build_dictionary(EvidenceBundle(tuple(definitions), tuple(observations), tuple(assertions), ()), base)
     plan = {
-        "format": "GSE.lexicon-epoch-plan/1", "baseline_sha256": fingerprint(base),
-        "active_pointer_sha256": fingerprint(pointer), "epochs": 1, "audits_per_epoch": 2,
-        "families": [{
-            **family("anatomy-want", "body_part.n.01", ["BODY", 1], ["WANT", 0], "beta"),
-            "guards": [["pos", "noun"], ["wiktionary_anatomy_frame:physical_structure", "true"]],
-            "holdouts": ["wiktionary:fixture-beta", "wiktionary:fixture-gamma"],
-        }],
+        "format": "GSE.lexicon-epoch-plan/1",
+        "baseline_sha256": fingerprint(base),
+        "active_pointer_sha256": fingerprint(pointer),
+        "epochs": 1,
+        "audits_per_epoch": 2,
+        "families": [
+            {
+                **family("anatomy-want", "body_part.n.01", ["BODY", 1], ["WANT", 0], "beta"),
+                "guards": [["pos", "noun"], ["wiktionary_anatomy_frame:physical_structure", "true"]],
+                "holdouts": ["wiktionary:fixture-beta", "wiktionary:fixture-gamma"],
+            }
+        ],
     }
     families = parse_plan(plan)
     inventory = census(base, families)
     assert {r["entry_id"] for r in inventory["anatomy-want"]} == {
-        "wiktionary:fixture-alpha", "wiktionary:fixture-beta", "wiktionary:fixture-gamma",
+        "wiktionary:fixture-alpha",
+        "wiktionary:fixture-beta",
+        "wiktionary:fixture-gamma",
     }
     relation = families["anatomy-want"].relation()
     assert lexical_context(definitions[0], (), (relation,)) == {"pos": "noun"}
@@ -553,15 +595,20 @@ def test_stative_being_requires_own_qualified_condition(gloss, expected):
         ([["pos", "noun"]], "EPOCH_REQUIRES_WITNESSED_NATIVE_SCOPE"),
         ([["pos", "noun"], ["wordnet_ancestor:time_period.n.01", "true"]], "EPOCH_REQUIRES_WITNESSED_NATIVE_SCOPE"),
         ([["pos", "noun"], ["wordnet_native_lemma", "true"]], "EPOCH_REQUIRES_WITNESSED_NATIVE_SCOPE"),
-        ([["pos", "noun"], ["wordnet_native_lemma", "false"], ["wordnet_ancestor:time_period.n.01", "true"]],
-         "UNSUPPORTED_LEXICAL_GUARD"),
+        (
+            [["pos", "noun"], ["wordnet_native_lemma", "false"], ["wordnet_ancestor:time_period.n.01", "true"]],
+            "UNSUPPORTED_LEXICAL_GUARD",
+        ),
     ],
 )
 def test_unary_ancestry_plan_refuses_unwitnessed_scope(guards, code):
     item = family("period-when", "time_period.n.01", ["SOMETHING", 1], ["WHEN", 1], "beta")
     plan = {
-        "format": "GSE.lexicon-epoch-plan/1", "baseline_sha256": "a" * 64,
-        "active_pointer_sha256": "b" * 64, "epochs": 1, "audits_per_epoch": 1,
+        "format": "GSE.lexicon-epoch-plan/1",
+        "baseline_sha256": "a" * 64,
+        "active_pointer_sha256": "b" * 64,
+        "epochs": 1,
+        "audits_per_epoch": 1,
         "families": [{**item, "antecedent": None, "guards": guards}],
     }
     with pytest.raises(ValueError, match=code):
@@ -578,7 +625,8 @@ def test_unary_native_ancestry_runs_through_real_epoch_cli(tmp_path, monkeypatch
     members = [native(word, "time_period.n.01") for word in ("alpha", "beta", "gamma", "unattested")]
     definition, observation = members[-1]
     members[-1] = (
-        definition, replace(observation, features={**observation.features, "lemma_names": ["different_native_base"]})
+        definition,
+        replace(observation, features={**observation.features, "lemma_names": ["different_native_base"]}),
     )
     members.append(native("outside", "physical_object.n.01"))
     definitions, observations = zip(*members)
@@ -586,8 +634,11 @@ def test_unary_native_ancestry_runs_through_real_epoch_cli(tmp_path, monkeypatch
     item = family("period-when", "time_period.n.01", ["SOMETHING", 1], ["WHEN", 1], "beta")
     item.update(antecedent=None, holdouts=["wordnet:beta:beta.n.01", "wordnet:gamma:gamma.n.01"])
     plan = {
-        "format": "GSE.lexicon-epoch-plan/1", "baseline_sha256": fingerprint(base),
-        "active_pointer_sha256": fingerprint(pointer), "epochs": 1, "audits_per_epoch": 2,
+        "format": "GSE.lexicon-epoch-plan/1",
+        "baseline_sha256": fingerprint(base),
+        "active_pointer_sha256": fingerprint(pointer),
+        "epochs": 1,
+        "audits_per_epoch": 2,
         "families": [item],
     }
     path, directory = tmp_path / "plan.json", tmp_path / "round"
@@ -624,10 +675,13 @@ def test_unary_native_ancestry_runs_through_real_epoch_cli(tmp_path, monkeypatch
     assert result["replay"]["code"] == "REPLAY_VALIDATED"
     assert result["replay"]["complete_search"] and result["replay"]["entries_mismatched"] == 0
     assert {row["entry_id"] for row in result["changes"]} == {
-        "wordnet:alpha:alpha.n.01", "wordnet:beta:beta.n.01", "wordnet:gamma:gamma.n.01",
+        "wordnet:alpha:alpha.n.01",
+        "wordnet:beta:beta.n.01",
+        "wordnet:gamma:gamma.n.01",
     }
-    assert all(row["bank"] == "WHEN" and row["before"] == [-1, 0, 1] and row["after"] == [1]
-               for row in result["changes"])
+    assert all(
+        row["bank"] == "WHEN" and row["before"] == [-1, 0, 1] and row["after"] == [1] for row in result["changes"]
+    )
     assert fingerprint(base) == plan["baseline_sha256"]
     assert fingerprint(pointer) == plan["active_pointer_sha256"]
 
@@ -665,14 +719,26 @@ def test_literal_extent_and_collective_frames_preserve_the_defining_head(gloss, 
 @pytest.mark.parametrize(
     "frame,bank,glosses",
     [
-        ("temporal_extent", "WHEN", (
-            "A short period of time.", "The time period between two events.",
-            "An interval of time spent waiting.", "A device measuring a period of time.",
-        )),
-        ("human_collective", "PEOPLE", (
-            "People who share an interest.", "The people of a country.",
-            "A group of persons who live in one place.", "A person who studies people.",
-        )),
+        (
+            "temporal_extent",
+            "WHEN",
+            (
+                "A short period of time.",
+                "The time period between two events.",
+                "An interval of time spent waiting.",
+                "A device measuring a period of time.",
+            ),
+        ),
+        (
+            "human_collective",
+            "PEOPLE",
+            (
+                "People who share an interest.",
+                "The people of a country.",
+                "A group of persons who live in one place.",
+                "A person who studies people.",
+            ),
+        ),
     ],
 )
 def test_literal_genus_rule_replays_across_sources_without_complement_zeros(tmp_path, frame, bank, glosses):
@@ -681,29 +747,52 @@ def test_literal_genus_rule_replays_across_sources_without_complement_zeros(tmp_
     records = []
     for lemma, gloss in zip(("alpha", "beta", "control"), (glosses[0], glosses[1], glosses[3])):
         definition, observation = native(lemma, "entity_kind.n.01")
-        records.append((
-            replace(definition, definition=gloss),
-            replace(observation, features={**observation.features, "definition": gloss}),
-        ))
+        records.append(
+            (
+                replace(definition, definition=gloss),
+                replace(observation, features={**observation.features, "definition": gloss}),
+            )
+        )
     wiki_id, gloss = "wiktionary:literal-gamma", glosses[2]
     definition = Definition(wiki_id, "gamma", "noun", gloss)
     features = {
-        "identity_scheme": "GSE.wiktionary-native-leaf/1", "entry_id": wiki_id,
-        "lemma": "gamma", "word": "gamma", "pos": "noun", "native_id": "literal-gamma",
-        "definition": gloss, "native_sense": {"glosses": [gloss]},
+        "identity_scheme": "GSE.wiktionary-native-leaf/1",
+        "entry_id": wiki_id,
+        "lemma": "gamma",
+        "word": "gamma",
+        "pos": "noun",
+        "native_id": "literal-gamma",
+        "definition": gloss,
+        "native_sense": {"glosses": [gloss]},
     }
-    records.append((definition, Observation(
-        wiki_id, "wiktionary", _record_id("wiktionary", "gamma", features), "wiktionary", features,
-        "lexical", (wiki_id,),
-    )))
+    records.append(
+        (
+            definition,
+            Observation(
+                wiki_id,
+                "wiktionary",
+                _record_id("wiktionary", "gamma", features),
+                "wiktionary",
+                features,
+                "lexical",
+                (wiki_id,),
+            ),
+        )
+    )
     definitions, observations = zip(*records)
     build_dictionary(EvidenceBundle(definitions, observations, (), ()), base)
     item = family("literal-genus", "entity_kind.n.01", ["SOMETHING", 1], [bank, 1], "beta")
-    item.update(antecedent=None, guards=[["pos", "noun"], ["native_noun_frame:" + frame, "true"]],
-                holdouts=["wordnet:beta:beta.n.01", wiki_id])
+    item.update(
+        antecedent=None,
+        guards=[["pos", "noun"], ["native_noun_frame:" + frame, "true"]],
+        holdouts=["wordnet:beta:beta.n.01", wiki_id],
+    )
     plan = {
-        "format": "GSE.lexicon-epoch-plan/1", "baseline_sha256": fingerprint(base),
-        "active_pointer_sha256": fingerprint(pointer), "epochs": 1, "audits_per_epoch": 2,
+        "format": "GSE.lexicon-epoch-plan/1",
+        "baseline_sha256": fingerprint(base),
+        "active_pointer_sha256": fingerprint(pointer),
+        "epochs": 1,
+        "audits_per_epoch": 2,
         "families": [item],
     }
 
@@ -724,3 +813,63 @@ def test_literal_genus_rule_replays_across_sources_without_complement_zeros(tmp_
     assert arm["replay"]["complete_search"]
     assert {r["entry_id"] for r in arm["changes"]} == {"wordnet:alpha:alpha.n.01", "wordnet:beta:beta.n.01", wiki_id}
     assert all(r["bank"] == bank and r["before"] == [-1, 0, 1] and r["after"] == [1] for r in arm["changes"])
+
+
+def test_constraint_only_rule_is_taught_audited_admitted_and_replayed(tmp_path):
+    """A disjunctive consequence must survive the full production learning path."""
+    base, pointer = tmp_path / "base.db", tmp_path / "pointer.json"
+    pointer.write_text("{}")
+    definitions, observations = zip(*(native(word, "area_unit.n.01") for word in ("alpha", "beta", "gamma")))
+    assertions = tuple(Assertion("SOMETHING", 1, "wordnet_hierarchy", d.entry_id, "wordnet") for d in definitions)
+    build_dictionary(EvidenceBundle(definitions, observations, assertions, ()), base)
+    proposal = family("synthetic-exclusion", "area_unit.n.01", ["SOMETHING", 1], ["WANT", 0], "beta")
+    proposal.update(allowed_values=[0, 1], holdouts=["wordnet:beta:beta.n.01", "wordnet:gamma:gamma.n.01"])
+    plan = {
+        "format": "GSE.lexicon-epoch-plan/1",
+        "baseline_sha256": fingerprint(base),
+        "active_pointer_sha256": fingerprint(pointer),
+        "epochs": 1,
+        "audits_per_epoch": 2,
+        "teaching_entry_ids": ["wordnet:alpha:alpha.n.01"],
+        "families": [proposal],
+    }
+
+    class MaskRulings:
+        identity = "synthetic-two-allowed-values"
+
+        def __call__(self, payload, schema):
+            assert payload["allowed_values"] == [-1, 0, 1]  # No proposed answer leaks into the question.
+            return json.dumps({"WANT": 1 if payload["entry_id"] == "wordnet:beta:beta.n.01" else 0})
+
+    inventory = census(base, parse_plan(plan))
+    result = run_arm(
+        plan, base, pointer, tmp_path / "round", inventory, "closure", MaskRulings(), tmp_path / "model.lock"
+    )
+    [epoch] = result["epochs"]
+    assert epoch["code"] == "RULE_ADMITTED" and result["typed_questions_used"] == 3
+    assert result["new_cells"] == 0
+    learning = epoch["specification_learning"]
+    assert learning["total"]["lexicon"]["specification_gain_bits"] > 0
+    assert learning["post_revision"]["lexicon"]["filled_banks"] == learning["baseline"]["lexicon"]["filled_banks"]
+    assert result["replay"]["code"] == "REPLAY_VALIDATED" and result["replay"]["complete_search"]
+    with sqlite3.connect(result["candidate"]) as conn:
+        assert all(
+            json.loads(row[0])["WANT"] == [0, 1] for row in conn.execute("SELECT domains FROM definition_states")
+        )
+
+
+@pytest.mark.parametrize("values", [[], [True, 0], [0, 0], [-1, 0, 1], [1]])
+def test_exclusion_plan_rejects_malformed_or_vacuous_domains(values):
+    proposal = family("synthetic-exclusion", "area_unit.n.01", ["SOMETHING", 1], ["WANT", 0], "beta")
+    proposal["allowed_values"] = values
+    with pytest.raises(ValueError, match="INVALID_EPOCH_ALLOWED_CONSEQUENTS"):
+        parse_plan(
+            {
+                "format": "GSE.lexicon-epoch-plan/1",
+                "baseline_sha256": "a" * 64,
+                "active_pointer_sha256": "b" * 64,
+                "epochs": 1,
+                "audits_per_epoch": 1,
+                "families": [proposal],
+            }
+        )

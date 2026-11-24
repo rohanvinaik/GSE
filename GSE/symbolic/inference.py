@@ -133,7 +133,7 @@ class KnowledgeBase:
         if (
             p.patient is not None
             and patient is None
-            and assertion_mode("Event", p.verb, type(p.patient).__name__) not in {"belief", "epistemic"}
+            and assertion_mode("Event", p.verb, type(p.patient).__name__) not in {"belief", "epistemic", "reported"}
         ):
             return None
         if not p.verb or _lemma(p.agent) is None:

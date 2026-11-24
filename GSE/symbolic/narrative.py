@@ -431,13 +431,14 @@ class NarrativeGraph:
             elif nm == "Event":
                 if p.verb in _STATE_VERBS and p.patient is not None:
                     ok = g._state(p.agent, p.patient, t)  # "became king" → role
-                elif assertion_mode(nm, p.verb, type(p.patient).__name__) in ("belief", "epistemic"):
+                elif assertion_mode(nm, p.verb, type(p.patient).__name__) in ("belief", "epistemic", "reported"):
                     # Propositional-attitude complement ("believes he is righteous"): the belief CONTENT
                     # is surfaced as a THEME of the attitude event (the bridge reads it as the held
                     # value), attributed to the believer and NOT asserted as a fact. A knowing's complement
                     # ("knows that X") is surfaced the same way here and is ALSO committed: the predicate
                     # walk yields it as story content (_collect_predicates descends into it, never under a
-                    # Negation).
+                    # Negation). Reported content is likewise attributed as a theme,
+                    # while the proposition walker withholds its truth commitment.
                     val = _belief_value(p.patient)
                     ok = g._edge("event", p.agent, p.verb, None, t, themes=(val,) if val else ())
                 else:
@@ -485,14 +486,24 @@ class NarrativeGraph:
                 # the un-negated opposite).
                 inner = getattr(p, "operand", None)
                 inm = type(inner).__name__ if inner is not None else ""
-                if inm == "Event" and not (inner.verb in _STATE_VERBS and inner.patient is not None):
+                if (
+                    inner is not None
+                    and inm == "Event"
+                    and not (inner.verb in _STATE_VERBS and inner.patient is not None)
+                ):
+                    clausal = assertion_mode(inm, inner.verb, type(inner.patient).__name__) in (
+                        "belief",
+                        "epistemic",
+                        "reported",
+                    )
+                    val = _belief_value(inner.patient) if clausal else ""
                     ok = g._edge(
                         "event",
                         inner.agent,
                         inner.verb,
-                        inner.patient,
+                        None if clausal else inner.patient,
                         t,
-                        themes=tuple(_label(th, 0) for th in getattr(inner, "themes", ())),
+                        themes=(val,) if val else tuple(_label(th, 0) for th in getattr(inner, "themes", ())),
                         negated=True,
                     )
                 else:

@@ -16,7 +16,7 @@ from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Ob
 from GSE.curation.lexicon_builder.foundation import BANKS
 from GSE.curation.lexicon_builder.model_receipts import read_model_receipts
 from GSE.curation.lexicon_builder.pipeline import build_dictionary
-from GSE.curation.lexicon_builder.reconsideration import TABLE, reconsider
+from GSE.curation.lexicon_builder.reconsideration import TABLE, reconsider, reconsider_many
 from GSE.curation.lexicon_builder.storage import read_entries
 from GSE.curation.lexicon_builder.validation import validate_build
 from scripts.reconsider_lexicon_model import main
@@ -323,3 +323,132 @@ def test_cli_refuses_database_hardlink_report(tmp_path, monkeypatch):
     with pytest.raises(ValueError, match="REPORT_CANNOT_OVERWRITE_DATABASE"):
         main()
     assert path.read_bytes() == before
+
+
+def test_batch_uses_one_preflight_coalesces_same_entry_and_replays(tmp_path, monkeypatch):
+    path = built(tmp_path)
+    original_receipts = receipts(path)
+    roots = [
+        original_receipts["a"][2]["request_id"],
+        original_receipts["b"][0]["request_id"],
+        original_receipts["a"][1]["request_id"],
+    ]
+    validate = reconsider_module.validate_build
+    calls = []
+
+    def counted(file):
+        calls.append(file)
+        return validate(file)
+
+    monkeypatch.setattr(reconsider_module, "validate_build", counted)
+    before = path.read_bytes()
+    dry = reconsider_many(path, roots, convention="fixture/1", reason="joint source correction")
+    assert len(calls) == 1 and path.read_bytes() == before
+    assert [report["entry_id"] for report in dry["reports"]] == ["a", "b"]
+    assert dry["reports"][0]["withdrawn_banks"] == ["BE", "LIKE"]
+    applied = reconsider_many(
+        path,
+        roots,
+        convention="fixture/1",
+        reason="joint source correction",
+        apply=True,
+        expected_snapshot=dry["snapshot_sha256"],
+    )
+    assert len(calls) == 2
+    assert applied["code"] == "RECONSIDERED" and applied["model_calls"] == 0
+    assert receipts(path) == {"a": original_receipts["a"][:1]}
+    assert len(query(path, f"SELECT * FROM {TABLE}")) == 2
+    assert applied["after_coverage"]["cells"]["unresolved"] == applied["before_coverage"]["cells"]["unresolved"] + 3
+    assert validate_build(path)["code"] == "REPLAY_VALIDATED"
+
+
+def test_batch_failure_on_second_entry_rolls_back_every_archive_and_write(tmp_path, monkeypatch):
+    path = built(tmp_path)
+    original = receipts(path)
+    roots = [original[entry][0]["request_id"] for entry in ("a", "b")]
+    before = path.read_bytes()
+    store = reconsider_module.store_entry
+    calls = []
+
+    def fail_second(*args, **kwargs):
+        store(*args, **kwargs)
+        calls.append(1)
+        if len(calls) == 2:
+            raise RuntimeError("forced second-entry failure")
+
+    monkeypatch.setattr(reconsider_module, "store_entry", fail_second)
+    with pytest.raises(RuntimeError, match="second-entry failure"):
+        reconsider_many(path, roots, convention="fixture/1", reason="joint correction", apply=True)
+    assert len(calls) == 2 and path.read_bytes() == before
+    assert receipts(path) == original
+    assert validate_build(path)["code"] == "REPLAY_VALIDATED"
+
+
+def test_batch_missing_root_refuses_the_whole_set(tmp_path):
+    path = built(tmp_path)
+    root = receipts(path)["a"][0]["request_id"]
+    before = path.read_bytes()
+    with pytest.raises(ValueError, match="ROOT_NOT_ACCEPTED_MODEL_REQUEST"):
+        reconsider_many(path, [root, "0" * 64], convention="fixture/1", reason="correction", apply=True)
+    assert path.read_bytes() == before
+
+
+@pytest.mark.parametrize(
+    "roots,code",
+    [
+        (None, "INVALID_RECONSIDERATION_REQUEST_IDS"),
+        ([], "INVALID_RECONSIDERATION_REQUEST_IDS"),
+        ("a" * 64, "INVALID_RECONSIDERATION_REQUEST_IDS"),
+        ([None], "INVALID_RECONSIDERATION_REQUEST_ID"),
+        (["a" * 64, "a" * 64], "DUPLICATE_RECONSIDERATION_REQUEST_ID"),
+    ],
+)
+def test_batch_invalid_collection_never_opens_or_creates_a_database(tmp_path, roots, code):
+    path = tmp_path / "missing.db"
+    with pytest.raises(ValueError, match=code):
+        reconsider_many(path, roots, convention="fixture/1", reason="correction", apply=True)
+    assert not path.exists()
+
+
+def test_batch_snapshot_binds_the_complete_root_set(tmp_path):
+    path = built(tmp_path)
+    original = receipts(path)
+    a, b = (original[entry][0]["request_id"] for entry in ("a", "b"))
+    dry = reconsider_many(path, [a, b], convention="fixture/1", reason="correction")
+    before = path.read_bytes()
+    with pytest.raises(ValueError, match="RECONSIDERATION_SNAPSHOT_CHANGED"):
+        reconsider_many(
+            path, [a], convention="fixture/1", reason="correction", apply=True, expected_snapshot=dry["snapshot_sha256"]
+        )
+    assert path.read_bytes() == before
+
+
+def test_cli_repeated_roots_use_atomic_batch_path(tmp_path, monkeypatch, capsys):
+    path = built(tmp_path)
+    original = receipts(path)
+    report = tmp_path / "batch.json"
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "reconsider",
+            "--lexicon-db",
+            str(path),
+            "--request-id",
+            original["a"][0]["request_id"],
+            "--request-id",
+            original["b"][0]["request_id"],
+            "--convention",
+            "fixture/1",
+            "--reason",
+            "correction",
+            "--apply",
+            "--report",
+            str(report),
+        ],
+    )
+    assert main() == 0
+    assert json.loads(report.read_text())["format"] == "GSE.model-reconsideration-batch/1"
+    assert receipts(path) == {}
+    assert validate_build(path)["code"] == "REPLAY_VALIDATED"
+    capsys.readouterr()

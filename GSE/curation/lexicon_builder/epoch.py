@@ -17,7 +17,7 @@ from GSE.namespace import current_id, identity_form
 
 from .completion import _contexts, _entry, _priority_source, complete_dictionary
 from .definition_frames import NATIVE_FRAME_PREFIX, WIKTIONARY_ANATOMY_FRAME_PREFIX
-from .engine import Relation
+from .engine import Assertion, Relation
 from .evidence import Definition
 from .foundation import BANKS, lexical_context, native_frame_source, validate_lexical_guards
 from .grounded_rules import MAX_PREMISES, discover_reviewed_groundings, grounded_chains, implication_rows
@@ -32,6 +32,7 @@ from .rule_history import digest
 from .rule_migration import migrate_revision
 from .rule_revisions import FORMAT as REVISION_FORMAT
 from .rule_revisions import exception_source, touches_scope
+from .specification import CONTRACT, compare_measurements, measure_dictionary, measure_resolution, space_delta
 from .validation import _context_observations, _metadata, _relations, validate_build
 
 FORMAT = "GSE.lexicon-epoch-plan/1"
@@ -86,10 +87,15 @@ class Family:
     holdouts: tuple[str, ...]
     warrant: dict
     premises: tuple[tuple[str, int], ...] = ()
+    allowed_values: tuple[int, ...] = ()
 
     @property
     def antecedents(self):
         return self.premises or ((self.antecedent,) if self.antecedent is not None else ())
+
+    @property
+    def allowed_consequents(self):
+        return self.allowed_values or (self.consequent[1],)
 
     def proposal(self):
         return {
@@ -102,13 +108,22 @@ class Family:
             "guards": [list(pair) for pair in self.guards],
             "absent_evidence": [],
             "warrant": self.warrant,
+            **({"allowed_values": list(self.allowed_values)} if self.allowed_values else {}),
         }
 
     def relation(self):
         return Relation(
             "epoch-stage:" + self.id,
             tuple(bank for bank, _ in (*self.antecedents, self.consequent)),
-            implication_rows(self.antecedents, self.consequent),
+            tuple(
+                sorted(
+                    {
+                        row
+                        for value in self.allowed_consequents
+                        for row in implication_rows(self.antecedents, (self.consequent[0], value))
+                    }
+                )
+            ),
             ("epoch-proposal:" + self.id,),
             "conditional",
             True,
@@ -121,7 +136,7 @@ def parse_plan(raw):
     if (
         type(raw) is not dict
         or not required <= raw.keys()
-        or raw.keys() - required - {"evaluation_holdout"}
+        or raw.keys() - required - {"evaluation_holdout", "teaching_entry_ids"}
         or current_id(raw["format"]) != FORMAT
     ):
         raise ValueError("INVALID_EPOCH_PLAN")
@@ -137,6 +152,15 @@ def parse_plan(raw):
                 or len(set(items)) != len(items)
             ):
                 raise ValueError("INVALID_EPOCH_EVALUATION_HOLDOUT")
+    if "teaching_entry_ids" in raw:
+        teaching = raw["teaching_entry_ids"]
+        if (
+            type(teaching) is not list
+            or not teaching
+            or any(type(i) is not str or not i for i in teaching)
+            or len(set(teaching)) != len(teaching)
+        ):
+            raise ValueError("INVALID_EPOCH_TEACHING_CURRICULUM")
     for field in ("baseline_sha256", "active_pointer_sha256"):
         if type(raw[field]) is not str or len(raw[field]) != 64 or any(c not in "0123456789abcdef" for c in raw[field]):
             raise ValueError("INVALID_EPOCH_PLAN_DIGEST")
@@ -150,7 +174,7 @@ def parse_plan(raw):
         if (
             type(item) is not dict
             or not required_family <= item.keys()
-            or (item.keys() - required_family) not in ({"antecedent"}, {"premises"})
+            or (item.keys() - required_family - {"allowed_values"}) not in ({"antecedent"}, {"premises"})
         ):
             raise ValueError("INVALID_EPOCH_RULE_FAMILY")
         identity = item["id"]
@@ -170,6 +194,15 @@ def parse_plan(raw):
             ):
                 raise ValueError("INVALID_EPOCH_LITERAL")
         held = item["holdouts"]
+        allowed = item.get("allowed_values", [])
+        if "allowed_values" in item and (
+            type(allowed) is not list
+            or not 1 <= len(allowed) <= 2
+            or any(type(v) is not int or v not in SIGNS for v in allowed)
+            or len(set(allowed)) != len(allowed)
+            or item["consequent"][1] not in allowed
+        ):
+            raise ValueError("INVALID_EPOCH_ALLOWED_CONSEQUENTS")
         if (
             type(held) is not list
             or len(held) != raw["audits_per_epoch"]
@@ -187,12 +220,16 @@ def parse_plan(raw):
             tuple(held),
             item["warrant"],
             tuple(tuple(pair) for pair in premises) if "premises" in item else (),
+            tuple(allowed),
         )
         validate_lexical_guards((family.relation(),))
-        native_frame = any(k.startswith((NATIVE_FRAME_PREFIX, WIKTIONARY_ANATOMY_FRAME_PREFIX)) for k, _ in family.guards)
-        wordnet_scope = any(k.startswith("wordnet_ancestor:") for k, _ in family.guards) and (
-            "wordnet_native_lemma", "true"
-        ) in family.guards
+        native_frame = any(
+            k.startswith((NATIVE_FRAME_PREFIX, WIKTIONARY_ANATOMY_FRAME_PREFIX)) for k, _ in family.guards
+        )
+        wordnet_scope = (
+            any(k.startswith("wordnet_ancestor:") for k, _ in family.guards)
+            and ("wordnet_native_lemma", "true") in family.guards
+        )
         if len({bank for bank, _ in (*family.antecedents, family.consequent)}) != len(premises) + 1 or not (
             native_frame or wordnet_scope
         ):
@@ -279,16 +316,20 @@ def _append_native_frame_scopes(conn, framed, inventory):
         context = lexical_context(definition, (observation,), requested)
         for identity, rule in framed.items():
             if touches_scope((rule,), context):
-                inventory[identity].append({
-                    "entry_id": entry,
-                    "lemma": lemma,
-                    "sense_group": group,
-                    "source_record_id": observation["record_id"],
-                    "source_sha256": digest({
-                        "definition": {"entry_id": entry, "lemma": lemma, "pos": pos, "definition": gloss},
-                        "observation": observation,
-                    }),
-                })
+                inventory[identity].append(
+                    {
+                        "entry_id": entry,
+                        "lemma": lemma,
+                        "sense_group": group,
+                        "source_record_id": observation["record_id"],
+                        "source_sha256": digest(
+                            {
+                                "definition": {"entry_id": entry, "lemma": lemma, "pos": pos, "definition": gloss},
+                                "observation": observation,
+                            }
+                        ),
+                    }
+                )
 
 
 def _domains(state):
@@ -373,7 +414,7 @@ def mine_scope_chains(candidate, inventory):
 
 def forecast(rows, rules, proposals):
     """Simulate the same model retirement and closure as an additive revision."""
-    changes, conflicts = [], []
+    changes, conflicts, space_changes = [], [], []
     for identity, row in rows.items():
         definition, _, _, observation, before = row
         scope = lexical_context(definition, (observation,), proposals)
@@ -385,13 +426,7 @@ def forecast(rows, rules, proposals):
         retained = _resolve(row, rules, retire_models=True)
         new = _resolve(row, rules + proposals, retire_models=True)
         before_exceptions = {digest(x) for x in retained.trace if x["kind"] == "CONDITIONAL_EXCEPTION"}
-        issues = [
-            x
-            for x in new.trace
-            if x["kind"] == "SOLVER_LIMIT"
-            or x["kind"] == "CONDITIONAL_EXCEPTION"
-            and digest(x) not in before_exceptions
-        ]
+        issues = [x for x in new.trace if x["kind"] == "CONDITIONAL_EXCEPTION" and digest(x) not in before_exceptions]
         if (
             new.code == "CONFLICT"
             or issues
@@ -399,17 +434,70 @@ def forecast(rows, rules, proposals):
         ):
             conflicts.append({"entry_id": identity, "issues": issues, "conflicts": new.conflicts})
             continue
+        before_space, after_space = measure_resolution(retained), measure_resolution(new)
+        delta = space_delta(before_space, after_space)
+        if delta["code"] != "UNCHANGED":
+            space_changes.append({"entry_id": identity, "before": before_space, "after": after_space, **delta})
         for bank, after in _domains(new).items():
             if before[bank] != after:
                 changes.append({"entry_id": identity, "bank": bank, "before": before[bank], "after": after})
-    return {"changes": changes, "contradictions": conflicts}
+    unavailable = sum(row["code"] == "UNAVAILABLE" for row in space_changes)
+    bits = sum(row["specification_gain_bits"] or 0 for row in space_changes)
+    return {
+        "changes": changes,
+        "contradictions": conflicts,
+        "space_changes": space_changes,
+        "specification_gain_bits": None if unavailable else bits,
+        "progress_code": "CONTRADICTION"
+        if conflicts
+        else "UNAVAILABLE"
+        if unavailable
+        else "CONTRACTION"
+        if bits > 0
+        else "UNCHANGED",
+        "contract": CONTRACT,
+    }
 
 
 def gains(report):
     return {(r["entry_id"], r["bank"]) for r in report["changes"] if len(r["before"]) > 1 and len(r["after"]) == 1}
 
 
-def choose(candidate, inventory, families, done, used_synsets, policy, frequencies, evaluation_holdout=None):
+def question_effects(row, rules, bank):
+    """Simulate every surviving answer through the same joint closure, without writing."""
+    baseline = _resolve(row, rules)
+    known = baseline.assignments
+    old_exceptions = {digest(r) for r in baseline.trace if r["kind"] == "CONDITIONAL_EXCEPTION"}
+    before = measure_resolution(baseline)
+    effects = []
+    for value in sorted(baseline.domains[bank]):
+        definition, assertions, restrictions, observation, domains = row
+        hypothetical = Assertion(bank, value, "counterfactual:question-planning", definition.entry_id, "hypothetical")
+        after = _resolve((definition, assertions + (hypothetical,), restrictions, observation, domains), rules)
+        challenges = [
+            r for r in after.trace if r["kind"] == "CONDITIONAL_EXCEPTION" and digest(r) not in old_exceptions
+        ]
+        if after.code == "CONFLICT" or challenges or any(after.assignments.get(k) != v for k, v in known.items()):
+            effects.append(
+                {"value": value, "code": "CONSTRAINT_CHALLENGE", "conflicts": after.conflicts, "exceptions": challenges}
+            )
+        else:
+            measured = measure_resolution(after)
+            effects.append({"value": value, **space_delta(before, measured), "remaining": measured})
+    return effects
+
+
+def choose(
+    candidate,
+    inventory,
+    families,
+    done,
+    used_synsets,
+    policy,
+    frequencies,
+    evaluation_holdout=None,
+    teaching_entry_ids=None,
+):
     """Rank eligible exact questions by Zipf or marginal closure plus bridge gain."""
     everyone = {row["entry_id"]: row for group in inventory.values() for row in group}
     rules, rows = scope_rows(candidate, everyone.values())
@@ -420,7 +508,7 @@ def choose(candidate, inventory, families, done, used_synsets, policy, frequenci
         held_spellings.update(lemma.casefold() for lemma in evaluation_holdout["lemmas"])
     remaining = {key: rule for key, rule in families.items() if key not in done}
     projections = {key: forecast(rows, rules, (family.relation(),)) for key, family in remaining.items()}
-    options = []
+    options, answer_cache = [], {}
     for key, family in remaining.items():
         right, _ = family.consequent
         if any(
@@ -429,9 +517,11 @@ def choose(candidate, inventory, families, done, used_synsets, policy, frequenci
             continue
         projection = projections[key]
         immediate = gains(projection)
-        bridges = []
+        bridges: list[dict[str, Any]] = []
         for other, neighbor in remaining.items():
-            if other == key or family.consequent not in neighbor.antecedents:
+            if other == key or not any(
+                (family.consequent[0], value) in neighbor.antecedents for value in family.allowed_consequents
+            ):
                 continue
             pair = forecast(rows, rules, (family.relation(), neighbor.relation()))
             changes = {(r["entry_id"], r["bank"]): r["after"] for r in projection["changes"]}
@@ -442,13 +532,25 @@ def choose(candidate, inventory, families, done, used_synsets, policy, frequenci
             )
             if not pair["contradictions"] and enabled:
                 joint = gains(pair) - immediate - gains(projections[other])
-                if joint:
-                    bridges.append({"family": other, "joint_only": len(joint)})
+                pair_bits = pair["specification_gain_bits"]
+                own_bits, other_bits = (
+                    projection["specification_gain_bits"],
+                    projections[other]["specification_gain_bits"],
+                )
+                synergy = (
+                    pair_bits - own_bits - other_bits
+                    if all(v is not None for v in (pair_bits, own_bits, other_bits))
+                    else None
+                )
+                if joint or (synergy is not None and synergy > 0):
+                    bridges.append({"family": other, "joint_only": len(joint), "complementary_bits": synergy})
         for item in inventory[key]:
             identity, sense_group = item["entry_id"], _sense_group(item)
             state = rows[identity][-1]
             if (
                 sense_group in held
+                or teaching_entry_ids is not None
+                and identity not in teaching_entry_ids
                 or item["lemma"].casefold() in held_spellings
                 or sense_group in used_synsets
                 or not premises_proved(state, family.antecedents)
@@ -456,6 +558,9 @@ def choose(candidate, inventory, families, done, used_synsets, policy, frequenci
             ):
                 continue
             support = _resolve(rows[identity], rules)
+            answer_key = (identity, right)
+            if answer_key not in answer_cache:
+                answer_cache[answer_key] = question_effects(rows[identity], rules, right)
             options.append(
                 {
                     "family": key,
@@ -464,6 +569,10 @@ def choose(candidate, inventory, families, done, used_synsets, policy, frequenci
                     "bank": right,
                     "subtlex": frequencies.get(item["lemma"].casefold(), 0),
                     "singletons": len(immediate),
+                    "specification_gain_bits": projection["specification_gain_bits"],
+                    "progress_code": projection["progress_code"],
+                    "per_answer_closure": answer_cache[answer_key],
+                    "contract": CONTRACT,
                     "contradictions": len(projection["contradictions"]),
                     "bridge_options": sorted(bridges, key=lambda b: (-b["joint_only"], b["family"])),
                     **(
@@ -480,10 +589,13 @@ def choose(candidate, inventory, families, done, used_synsets, policy, frequenci
     def key(option):
         if policy == "zipf":
             return (-option["subtlex"], option["entry_id"], option["bank"], option["family"])
-        bridge = max((b["joint_only"] for b in option["bridge_options"]), default=0)
+        bridge = max((b["complementary_bits"] or 0 for b in option["bridge_options"]), default=0)
+        measured = option["specification_gain_bits"]
         return (
             option["contradictions"],
-            -option["singletons"] - bridge,
+            measured is None,
+            -(measured or 0) - bridge,
+            -option["singletons"],
             -option["subtlex"],
             option["entry_id"],
             option["family"],
@@ -561,13 +673,24 @@ def make_questions(candidate, coordinates):
             definition, assertions, restrictions, _ = _entry(conn, identity)
             context = lexical_context(definition, observations[identity], rules)
             state = resolve_dictionary(
-                BANKS, assertions, rules, context, evidence_banks=tuple(sorted(evidence[identity])),
+                BANKS,
+                assertions,
+                rules,
+                context,
+                evidence_banks=tuple(sorted(evidence[identity])),
                 domain_restrictions=restrictions,
             )
-            requests.append(build_request(
-                identity, bank, state, tuple(observations[identity]), definition=definition, relations=rules,
-                context=context,
-            ))
+            requests.append(
+                build_request(
+                    identity,
+                    bank,
+                    state,
+                    tuple(observations[identity]),
+                    definition=definition,
+                    relations=rules,
+                    context=context,
+                )
+            )
     return tuple(requests)
 
 
@@ -588,7 +711,7 @@ def teach(base, working, selected, family, transport, directory):
     except ValueError, TypeError:
         answer = None
     value = answer.get(bank) if type(answer) is dict and answer.keys() == {bank} else None
-    if type(value) is not int or value != family.consequent[1]:
+    if type(value) is not int or value not in family.allowed_consequents:
         result = {
             "code": "TEACHING_SOURCE_DISAGREEMENT" if value in SIGNS and type(value) is int else "TEACHING_ABSTAINED",
             "answer": answer,
@@ -674,6 +797,11 @@ def pair_discovery(raw, family):
 def epoch_discovery(raw, family, families):
     relevant_banks = {bank for item in families.values() for bank, _ in item.antecedents}
     report = discover_reviewed_groundings(raw, relevant_banks)
+    if family.allowed_values:
+        [observed] = run_workflow_input({**raw, "audit_entry_ids": []})["candidates"]
+        if observed["discovery_outcomes"] != {"OBSERVED_AGREEMENT": 1}:
+            raise ValueError("EPOCH_TEACHING_DID_NOT_DISCOVER_EXCLUSION")
+        return report, observed
     if family.premises:
         required = set(family.premises)
         matches = [
@@ -802,6 +930,7 @@ def run_arm(plan, baseline, active_pointer, directory, inventory, policy, transp
         directory / "arm.json",
         {
             "policy": policy,
+            "contract": CONTRACT,
             "plan_sha256": digest(plan),
             "inventory_sha256": digest(inventory),
             "frequency_sha256": priority["sha256"],
@@ -847,7 +976,9 @@ def run_arm(plan, baseline, active_pointer, directory, inventory, policy, transp
             selected = (
                 read(pick_file)
                 if pick_file.exists()
-                else choose(base, inventory, families, done, used, policy, frequencies, holdout)
+                else choose(
+                    base, inventory, families, done, used, policy, frequencies, holdout, plan.get("teaching_entry_ids")
+                )
             )
             record(pick_file, selected)
             if selected is None:
@@ -928,9 +1059,18 @@ def run_epoch(plan, base, phase, inventory, everyone, families, selected, admitt
     teaching = JournaledTransport(transport, phase, "teach", 1, lock_path)
     auditing = JournaledTransport(transport, phase, "audit", plan["audits_per_epoch"], lock_path)
     working, output = (phase / name for name in ("teaching.db", "candidate.db"))
+    baseline_measurement_path = phase / "space-baseline.json"
+    if not baseline_measurement_path.exists():
+        record(baseline_measurement_path, measure_dictionary(base))
+    baseline_measurement = read(baseline_measurement_path)
     taught = teach(base, working, selected, family, teaching, phase)
     outcome["teaching"] = taught
+    teaching_measurement = baseline_measurement
     if taught["code"] == "REVIEWED_TEACHING":
+        teaching_measurement_path = phase / "space-post-teaching.json"
+        if not teaching_measurement_path.exists():
+            record(teaching_measurement_path, measure_dictionary(working))
+        teaching_measurement = read(teaching_measurement_path)
         outcome.update(code="RULE_WITHHELD", candidate=str(working))
         raw_file = phase / "reviewed-input.json"
         raw = read(raw_file) if raw_file.exists() else reviewed_input(working, family, selected, taught)
@@ -944,9 +1084,7 @@ def run_epoch(plan, base, phase, inventory, everyone, families, selected, admitt
         record(phase / "staged.json", staged)
         if staged["contradictions"]:
             outcome["code"] = "RULE_WITHHELD_SCOPE_CONTRADICTION"
-        elif any(len(row["before"]) == 1 for row in staged["changes"]):
-            outcome["code"] = "RULE_WITHHELD_REQUIRES_RECEIPT_RECONSIDERATION"
-        elif gains(staged):
+        elif staged["progress_code"] == "CONTRACTION":
             audit_file = phase / "audit.json"
             audited = (
                 read(audit_file)
@@ -963,5 +1101,20 @@ def run_epoch(plan, base, phase, inventory, everyone, families, selected, admitt
                 outcome.update(migration, code="RULE_ADMITTED", candidate=str(output))
             else:
                 outcome["code"] = "RULE_WITHHELD_INDEPENDENT_AUDIT"
+    final_measurement = teaching_measurement
+    if outcome["code"] == "RULE_ADMITTED":
+        revision_measurement_path = phase / "space-post-revision.json"
+        if not revision_measurement_path.exists():
+            record(revision_measurement_path, measure_dictionary(output))
+        final_measurement = read(revision_measurement_path)
+    outcome["specification_learning"] = {
+        "contract": CONTRACT,
+        "baseline": baseline_measurement,
+        "post_teaching": teaching_measurement,
+        "post_revision": final_measurement,
+        "direct_teaching": compare_measurements(baseline_measurement, teaching_measurement),
+        "rule_revision": compare_measurements(teaching_measurement, final_measurement),
+        "total": compare_measurements(baseline_measurement, final_measurement),
+    }
     outcome["typed_questions_used"] = teaching.count() + auditing.count()
     return outcome

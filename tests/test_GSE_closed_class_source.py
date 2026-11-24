@@ -3,6 +3,7 @@
 import copy
 import importlib
 import json
+import sqlite3
 from dataclasses import asdict, replace
 from types import SimpleNamespace
 
@@ -23,7 +24,8 @@ from GSE.curation.lexicon_builder.evidence import (
     validate_assertion_competence,
 )
 from GSE.curation.lexicon_builder.model_evidence import evidence_view
-from GSE.curation.lexicon_builder.pipeline import load_evidence
+from GSE.curation.lexicon_builder.pipeline import build_dictionary, load_evidence
+from GSE.curation.lexicon_builder.validation import validate_build
 from GSE.lexicon.function_words import DETERMINER_ENCODINGS
 from GSE.lexicon.pronouns import PRONOUN_ENCODINGS
 
@@ -31,6 +33,8 @@ from GSE.lexicon.pronouns import PRONOUN_ENCODINGS
 @pytest.mark.parametrize(
     "word,role,category,primitives",
     [
+        ("i", "PRON", "pronoun", {"SOMEONE": 1, "I": 1}),
+        ("you", "PRON", "pronoun", {"SOMEONE": 1, "YOU": 1}),
         ("he", "PRON", "pronoun", {"SOMEONE": 1}),
         ("this", "PRON", "pronoun", {"SOMETHING": 1}),
         ("might", "AUX", "modal", {"MAYBE": 1}),
@@ -72,6 +76,85 @@ def test_distinct_grammar_roles_are_not_merged_or_first_selected():
     assert parser.to_primitives("that") == {}
     assert grammatical_entry_ids("'d", "AUX") == ()
     assert grammatical_entry_ids("has", "VERB") == ()
+
+
+@pytest.mark.parametrize("word", ["he", "she", "it", "who", "someone", "we", "me", "my", "your", "self"])
+def test_reference_projection_does_not_invent_other_coordinates_or_senses(word):
+    parser = GSEClosedClassParser()
+    for entry in parser.get_entries(word):
+        projected = parser.to_primitives_for_entry(entry)
+        assert "I" not in projected and "YOU" not in projected
+        assert "BODY" not in projected and "ALIVE" not in projected
+        assert all(value != 0 for value in projected.values())
+    assert grammatical_entry_ids(word, "NOUN") == ()
+
+
+def test_reference_projection_preserves_native_definition_and_cannot_trust_forged_person():
+    parser = GSEClosedClassParser()
+    entry = parser.get_entries("i")[0]
+    before = asdict(entry)
+    assert parser.to_primitives_for_entry(entry) == {"SOMEONE": 1, "I": 1}
+    assert asdict(entry) == before
+    features = copy.deepcopy(entry.grammatical_features)
+    features["gram"]["person"] = 2
+    with pytest.raises(ValueError, match="CLOSED_CLASS_REFERENCE_WITNESS_MISMATCH"):
+        parser.to_primitives_for_entry(replace(entry, grammatical_features=features))
+    features["gram"]["person"] = True
+    assert parser.to_primitives_for_entry(replace(entry, grammatical_features=features)) == {"SOMEONE": 1}
+
+
+def test_reference_projection_reaches_exact_definition_source_assertions():
+    parsers, _ = load_local_sources(("gse_closed_class",))
+    bundle = collect_evidence(parsers, ())
+    links = {o.record_id: o.entry_id for o in bundle.observations}
+    references = {(links[a.record_id], a.bank, a.value) for a in bundle.assertions if a.bank in {"I", "YOU"}}
+    assert references == {("gse_closed_class:pronoun:i", "I", 1), ("gse_closed_class:pronoun:you", "YOU", 1)}
+    for assertion in bundle.assertions:
+        validate_assertion_competence(assertion)
+
+
+@pytest.mark.parametrize("legacy_module", [False, True])
+def test_reference_witness_replays_preserved_native_namespace(legacy_module):
+    parser = GSEClosedClassParser()
+    features = asdict(parser.get_entries("i")[0])
+    if legacy_module:
+        features["native_encodings"][0]["module"] = "GSE.lexicon.pronouns"
+        features["provenance"] = ("GSE.lexicon.pronouns:PRONOUN_ENCODINGS:i",)
+    before = copy.deepcopy(features)
+    assert parser.reference_projection_for_observation(features) == {"I": 1}
+    assert features == before
+
+
+@pytest.mark.parametrize("features", [None, {}, {"grammar_roles": None}])
+def test_reference_witness_rejects_missing_or_malformed_native_payload(features):
+    with pytest.raises(ValueError, match="INVALID_CLOSED_CLASS_REFERENCE_OBSERVATION"):
+        GSEClosedClassParser().reference_projection_for_observation(features)
+
+
+def test_reference_proof_passes_real_builder_replay(tmp_path):
+    parsers, _ = load_local_sources(("gse_closed_class",))
+    bundle = collect_evidence(parsers, ())
+    path = tmp_path / "references.db"
+    build_dictionary(bundle, path)
+    report = validate_build(path)
+    assert report["code"] == "REPLAY_VALIDATED"
+    with sqlite3.connect(path) as conn:
+        values = conn.execute(
+            "SELECT d.entry_id,p.primitive,p.value FROM definition_states d "
+            "JOIN primitive_values p ON p.lexeme_id=d.lexeme_id WHERE p.primitive IN ('I','YOU')"
+        ).fetchall()
+    assert set(values) == {("gse_closed_class:pronoun:i", "I", 1), ("gse_closed_class:pronoun:you", "YOU", 1)}
+
+
+def test_source_competence_cannot_certify_an_unwitnessed_reference_sign(tmp_path):
+    parsers, _ = load_local_sources(("gse_closed_class",))
+    bundle = collect_evidence(parsers, ())
+    forged = tuple(replace(a, value=-1) if a.bank == "I" else a for a in bundle.assertions)
+    path = tmp_path / "forged.db"
+    build_dictionary(replace(bundle, assertions=forged), path)
+    report = validate_build(path)
+    assert report["code"] == "REPLAY_MISMATCH"
+    assert any("CLOSED_CLASS_REFERENCE_PROJECTION_WITNESS_MISMATCH" in str(row) for row in report["mismatches"])
 
 
 def test_source_tables_are_unchanged_and_possession_remains_grammar():

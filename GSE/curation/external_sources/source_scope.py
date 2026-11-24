@@ -66,9 +66,23 @@ SOURCE_PRIMITIVE_SCOPE: Mapping[str, Set[str]] = {
     # Native Wiktionary senses supply definitions and typed relations only.
     # No text pattern or unresolved form/alternative link is a bank proof.
     "wiktionary": set(),
-    # Existing authored pronoun/form/modal components, never grammar features
-    # projected into lexical banks and never the complement of these values.
-    "gse_closed_class": {"SOMEONE", "SOMETHING", "BE", "DO", "HAVE", "CAN", "NOT", "LIKE", "BELOW", "MAYBE", "MUST"},
+    # Authored components and the approved, native-witnessed I/YOU reference
+    # projection. No other grammar feature or complement-zero is licensed.
+    "gse_closed_class": {
+        "I",
+        "YOU",
+        "SOMEONE",
+        "SOMETHING",
+        "BE",
+        "DO",
+        "HAVE",
+        "CAN",
+        "NOT",
+        "LIKE",
+        "BELOW",
+        "MAYBE",
+        "MUST",
+    },
     # NRC Emotion Lexicon: 8 emotions + 2 sentiments. Affective signal only.
     "nrc_emotion": {"GOOD", "BAD", "FEEL", "WANT", "KNOW"},
     # NRC VAD: valence/arousal/dominance. Currently valence-only after the

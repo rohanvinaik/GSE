@@ -182,10 +182,17 @@
     "standing": "complete"
   },
   "GSE/symbolic/modality.py::assertion_mode": {
-    "cut_reasons": [],
-    "function_digest": "56a7da81ecd03356",
+    "cut_reasons": [
+      "budget_exhausted",
+      "coverage_truncated"
+    ],
+    "function_digest": "8612ae33e9dfb057",
+    "modulo": {
+      "candidate_equivalent": [],
+      "crash_class": []
+    },
     "refusal": "",
-    "standing": "complete"
+    "standing": "ungateable"
   },
   "GSE/symbolic/modality.py::modal_force": {
     "cut_reasons": [],

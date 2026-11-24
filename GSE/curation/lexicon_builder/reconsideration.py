@@ -252,32 +252,102 @@ def _local_replay(conn, plan):
     return "LOCAL_REPLAY_VALIDATED"
 
 
-def reconsider(
-    path: str | Path,
-    request_id: str,
-    *,
-    convention: str,
-    reason: str,
-    apply: bool = False,
-    expected_snapshot: str | None = None,
-) -> dict:
-    """Dry-run by default; explicit apply archives and retracts atomically.
+def _plan_report(plan, convention, reason, preflight, before_coverage):
+    request_id = plan["removed_receipts"][0]["request_id"]
+    root_entry = plan["definition"].entry_id
+    report = {
+        "format": FORMAT,
+        "code": "DRY_RUN",
+        "root_request_id": request_id,
+        "entry_id": root_entry,
+        "convention": convention,
+        "reason": reason,
+        "snapshot_sha256": plan["snapshot_sha256"],
+        "scope": "ROOT_AND_ALL_LATER_SAME_DEFINITION_MODEL_RECEIPTS",
+        "root_ordinal": plan["root_ordinal"],
+        "withdrawn_request_ids": [row["request_id"] for row in plan["removed_receipts"]],
+        "withdrawn_banks": [row["assertion"]["bank"] for row in plan["removed_receipts"]],
+        "retained_same_definition_model_receipts": len(plan["retained_receipts"]),
+        "before_assignments": plan["before"]["assignments"],
+        "after_assignments": plan["after"].assignments,
+        "after_domains": {bank: sorted(values) for bank, values in plan["after"].domains.items()},
+        "hierarchy": plan["hierarchy"],
+        "preflight": preflight,
+        "before_coverage": before_coverage,
+        "journal_history": "UNCHANGED",
+        "model_calls": 0,
+        "applied": False,
+    }
+    return report
 
-    expected_snapshot optionally pins the exact definition/context dry-run plan.
-    PRAGMA data_version independently refuses any concurrent database change
-    throughout full preflight and plan construction. No replay cache is trusted.
-    """
-    _text(request_id, "INVALID_RECONSIDERATION_REQUEST_ID", 64)
-    if len(request_id) != 64 or any(character not in "0123456789abcdef" for character in request_id):
-        raise ValueError("INVALID_RECONSIDERATION_REQUEST_ID")
+
+def _apply_plan(conn, plan, report, convention, reason):
+    request_id = plan["removed_receipts"][0]["request_id"]
+    root_entry = plan["definition"].entry_id
+    archive = {
+        "format": FORMAT,
+        "root_request_id": request_id,
+        "entry_id": root_entry,
+        "convention": convention,
+        "reason": reason,
+        "created_utc": datetime.now(UTC).isoformat(),
+        "snapshot_sha256": plan["snapshot_sha256"],
+        "before": plan["before"],
+        "original_assertions": [
+            {"ordinal": ordinal, "assertion": asdict(assertion)}
+            for ordinal, assertion in enumerate(plan["original_assertions"])
+        ],
+        "removed_assertions": plan["removed_assertions"],
+        "archived_receipts": [
+            {"original_ordinal": plan["root_ordinal"] + ordinal, "receipt": receipt}
+            for ordinal, receipt in enumerate(plan["removed_receipts"])
+        ],
+        "after_assignments": plan["after"].assignments,
+        "after_domains": report["after_domains"],
+        "hierarchy": plan["hierarchy"],
+    }
+    event_id = _digest(archive)
+    conn.execute(
+        f"INSERT INTO {TABLE} VALUES (?,?,?,?,?,?,?)",
+        (event_id, request_id, root_entry, convention, reason, archive["created_utc"], _json(archive)),
+    )
+    deleted = conn.execute(
+        "DELETE FROM accepted_model_receipts WHERE entry_id=? AND ordinal>=?",
+        (root_entry, plan["root_ordinal"]),
+    ).rowcount
+    if deleted != len(plan["removed_receipts"]):
+        raise ValueError("RECONSIDERATION_RECEIPT_DELETE_MISMATCH")
+    store_entry(
+        conn,
+        plan["definition"],
+        plan["after"],
+        plan["assertions"],
+        plan["hierarchy"],
+        domain_restrictions=plan["restrictions"],
+    )
+    local = _local_replay(conn, plan)
+    report.update(code="RECONSIDERED", applied=True, archive_event_id=event_id, post_local_replay=local)
+
+
+def _request_id(value, code="INVALID_RECONSIDERATION_REQUEST_ID"):
+    _text(value, code, 64)
+    if len(value) != 64 or any(character not in "0123456789abcdef" for character in value):
+        raise ValueError(code)
+
+
+def _reconsider(path, request_ids, *, convention, reason, apply, expected_snapshot, single):
+    if type(request_ids) not in (tuple, list) or not request_ids:
+        raise ValueError("INVALID_RECONSIDERATION_REQUEST_IDS")
+    for request_id in request_ids:
+        _request_id(request_id)
+    if len(set(request_ids)) != len(request_ids):
+        raise ValueError("DUPLICATE_RECONSIDERATION_REQUEST_ID")
     _text(convention, "INVALID_RECONSIDERATION_CONVENTION", 512)
     _text(reason, "INVALID_RECONSIDERATION_REASON", 4096)
     if type(apply) is not bool:
         raise ValueError("INVALID_RECONSIDERATION_APPLY")
     if expected_snapshot is not None:
-        _text(expected_snapshot, "INVALID_RECONSIDERATION_SNAPSHOT", 64)
-        if len(expected_snapshot) != 64 or any(c not in "0123456789abcdef" for c in expected_snapshot):
-            raise ValueError("INVALID_RECONSIDERATION_SNAPSHOT")
+        _request_id(expected_snapshot, "INVALID_RECONSIDERATION_SNAPSHOT")
     file = Path(path).expanduser().resolve()
     if not file.is_file():
         raise ValueError("BUILD_NOT_FOUND")
@@ -291,100 +361,117 @@ def reconsider(
             raise ValueError("RECONSIDERATION_SNAPSHOT_CHANGED")
         conn.execute("BEGIN")
         try:
-            plan = _prepare(conn, request_id)
+            by_entry = {}
+            for request_id in request_ids:
+                plan = _prepare(conn, request_id)
+                entry = plan["definition"].entry_id
+                if entry not in by_entry or plan["root_ordinal"] < by_entry[entry]["root_ordinal"]:
+                    by_entry[entry] = plan
+            plans = [by_entry[entry] for entry in sorted(by_entry)]
             before_coverage = _coverage(conn)
         finally:
             conn.rollback()
         if _revision(conn) != version:
             raise ValueError("RECONSIDERATION_SNAPSHOT_CHANGED")
-        if expected_snapshot is not None and expected_snapshot != plan["snapshot_sha256"]:
+        snapshot = (
+            plans[0]["snapshot_sha256"]
+            if single
+            else _digest(
+                {
+                    "requested_request_ids": sorted(request_ids),
+                    "plans": [plan["snapshot_sha256"] for plan in plans],
+                }
+            )
+        )
+        if expected_snapshot is not None and expected_snapshot != snapshot:
             raise ValueError("RECONSIDERATION_SNAPSHOT_CHANGED")
-        root_entry = plan["definition"].entry_id
-        report = {
-            "format": FORMAT,
-            "code": "DRY_RUN",
-            "root_request_id": request_id,
-            "entry_id": root_entry,
-            "convention": convention,
-            "reason": reason,
-            "snapshot_sha256": plan["snapshot_sha256"],
-            "scope": "ROOT_AND_ALL_LATER_SAME_DEFINITION_MODEL_RECEIPTS",
-            "root_ordinal": plan["root_ordinal"],
-            "withdrawn_request_ids": [row["request_id"] for row in plan["removed_receipts"]],
-            "withdrawn_banks": [row["assertion"]["bank"] for row in plan["removed_receipts"]],
-            "retained_same_definition_model_receipts": len(plan["retained_receipts"]),
-            "before_assignments": plan["before"]["assignments"],
-            "after_assignments": plan["after"].assignments,
-            "after_domains": {bank: sorted(values) for bank, values in plan["after"].domains.items()},
-            "hierarchy": plan["hierarchy"],
-            "preflight": preflight,
-            "before_coverage": before_coverage,
-            "journal_history": "UNCHANGED",
-            "model_calls": 0,
-            "applied": False,
-        }
+        reports = [_plan_report(plan, convention, reason, preflight, before_coverage) for plan in plans]
+        result = (
+            reports[0]
+            if single
+            else {
+                "format": "GSE.model-reconsideration-batch/1",
+                "code": "DRY_RUN",
+                "applied": False,
+                "snapshot_sha256": snapshot,
+                "requested_request_ids": sorted(request_ids),
+                "reports": reports,
+                "preflight": preflight,
+                "before_coverage": before_coverage,
+                "convention": convention,
+                "reason": reason,
+                "model_calls": 0,
+                "scope": "EARLIEST_REQUESTED_SUFFIX_PER_EXACT_DEFINITION",
+                "journal_history": "UNCHANGED",
+            }
+        )
         if not apply:
-            return report
+            return result
         conn.execute("BEGIN IMMEDIATE")
         try:
             if _revision(conn) != version:
                 raise ValueError("RECONSIDERATION_SNAPSHOT_CHANGED")
             _archive_schema(conn)
-            archive = {
-                "format": FORMAT,
-                "root_request_id": request_id,
-                "entry_id": root_entry,
-                "convention": convention,
-                "reason": reason,
-                "created_utc": datetime.now(UTC).isoformat(),
-                "snapshot_sha256": plan["snapshot_sha256"],
-                "before": plan["before"],
-                "original_assertions": [
-                    {"ordinal": ordinal, "assertion": asdict(assertion)}
-                    for ordinal, assertion in enumerate(plan["original_assertions"])
-                ],
-                "removed_assertions": plan["removed_assertions"],
-                "archived_receipts": [
-                    {"original_ordinal": plan["root_ordinal"] + ordinal, "receipt": receipt}
-                    for ordinal, receipt in enumerate(plan["removed_receipts"])
-                ],
-                "after_assignments": plan["after"].assignments,
-                "after_domains": report["after_domains"],
-                "hierarchy": plan["hierarchy"],
-            }
-            event_id = _digest(archive)
-            conn.execute(
-                f"INSERT INTO {TABLE} VALUES (?,?,?,?,?,?,?)",
-                (event_id, request_id, root_entry, convention, reason, archive["created_utc"], _json(archive)),
-            )
-            deleted = conn.execute(
-                "DELETE FROM accepted_model_receipts WHERE entry_id=? AND ordinal>=?",
-                (root_entry, plan["root_ordinal"]),
-            ).rowcount
-            if deleted != len(plan["removed_receipts"]):
-                raise ValueError("RECONSIDERATION_RECEIPT_DELETE_MISMATCH")
-            store_entry(
-                conn,
-                plan["definition"],
-                plan["after"],
-                plan["assertions"],
-                plan["hierarchy"],
-                domain_restrictions=plan["restrictions"],
-            )
-            local = _local_replay(conn, plan)
+            for plan, report in zip(plans, reports, strict=True):
+                _apply_plan(conn, plan, report, convention, reason)
             coverage = _refresh_coverage(conn)
-            report.update(
-                code="RECONSIDERED",
-                applied=True,
-                archive_event_id=event_id,
-                post_local_replay=local,
-                after_coverage={key: coverage[key] for key in ("definitions", "outcomes", "cells")},
-            )
+            after_coverage = {key: coverage[key] for key in ("definitions", "outcomes", "cells")}
+            for report in reports:
+                report["after_coverage"] = after_coverage
+            if not single:
+                result.update(code="RECONSIDERED", applied=True, after_coverage=after_coverage)
             conn.execute(
-                "INSERT OR REPLACE INTO builder_metadata VALUES ('last_reconsideration_report',?)", (_json(report),)
+                "INSERT OR REPLACE INTO builder_metadata VALUES ('last_reconsideration_report',?)", (_json(result),)
             )
             conn.commit()
         except BaseException:
             conn.rollback()
             raise
-        return report
+        return result
+
+
+def reconsider(
+    path: str | Path,
+    request_id: str,
+    *,
+    convention: str,
+    reason: str,
+    apply: bool = False,
+    expected_snapshot: str | None = None,
+) -> dict:
+    """Withdraw one model suffix through the shared replay/transaction path."""
+    return _reconsider(
+        path,
+        (request_id,),
+        convention=convention,
+        reason=reason,
+        apply=apply,
+        expected_snapshot=expected_snapshot,
+        single=True,
+    )
+
+
+def reconsider_many(
+    path: str | Path,
+    request_ids: tuple[str, ...] | list[str],
+    *,
+    convention: str,
+    reason: str,
+    apply: bool = False,
+    expected_snapshot: str | None = None,
+) -> dict:
+    """One full preflight, then atomic retirement of all requested model suffixes.
+
+    Multiple roots on one definition coalesce to the earliest suffix. Every
+    root must exist; any failure rolls back all entries and their archives.
+    Dry-run snapshots bind the complete requested set and every affected entry.
+    """
+    return _reconsider(
+        path,
+        request_ids,
+        convention=convention,
+        reason=reason,
+        apply=apply,
+        expected_snapshot=expected_snapshot,
+        single=False,
+    )

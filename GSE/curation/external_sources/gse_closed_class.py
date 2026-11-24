@@ -1,7 +1,8 @@
 """Source-native GSE grammatical definitions, separate from lexical homographs.
 
-Only existing catalogs supply declared lexical values. Undeclared banks remain
-unknown: an empty operator encoding never becomes a vector of zeros.
+Existing catalogs supply declared lexical values and native reference features.
+The approved I/YOU boundary permits the narrow person-reference projection
+below. Undeclared banks remain unknown: an empty encoding is never all zeros.
 """
 
 from __future__ import annotations
@@ -17,6 +18,7 @@ from GSE.curation.build_clean_closed_class import EXPONENTS, PERIPHRASTIC_MODALS
 from GSE.curation.external_sources.tier_0_dispatch import canonical_decomposition
 from GSE.lexicon.function_words import CONJUNCTION_ENCODINGS, DETERMINER_ENCODINGS, PREPOSITION_ENCODINGS
 from GSE.lexicon.pronouns import PRONOUN_ENCODINGS
+from GSE.namespace import current_id
 from GSE.nlp.native import _ADP, _ADV_CLOSED, _AUX_BE, _AUX_DO, _AUX_MODAL, _CCONJ, _IRREGULAR_LEMMA, _NEG
 from GSE.symbolic.modality import MODAL_PRIMES
 
@@ -331,9 +333,71 @@ class GSEClosedClassParser:
         if not isinstance(entry, GSEClosedClassEntry):
             raise ValueError("INVALID_CLOSED_CLASS_ENTRY")
         entry.__post_init__()
-        return dict(entry.primitives)
+        primitives = dict(entry.primitives)
+        # The bank is reference person, not generic selfhood or possession.
+        # Start with the reviewed nominative forms; other cases stay open.
+        grammar = entry.grammatical_features.get("gram")
+        if entry.catalog != "pronoun" or entry.grammar_roles != ("PRON",) or not isinstance(grammar, dict):
+            return primitives
+        person = grammar.get("person")
+        if type(person) is not int or person not in (1, 2) or grammar.get("case") != "NOM":
+            return primitives
+        if person == 1 and grammar.get("number") != "SINGULAR":
+            return primitives
+        # A derived projection must be witnessed by the native catalog row,
+        # not merely by an arbitrary JSON field called 'person'.
+        native = PRONOUN_ENCODINGS.get(entry.lemma)
+        expected_grammar = {key: value for key, value in (native or {}).items() if key != "primitives"}
+        expected_origin = _origin("GSE.lexicon.pronouns", "PRONOUN_ENCODINGS", entry.lemma, native)
+        if (
+            native is None
+            or entry.grammatical_features != expected_grammar
+            or entry.native_encodings != (expected_origin,)
+            or entry.primitives != native["primitives"]
+        ):
+            raise ValueError("CLOSED_CLASS_REFERENCE_WITNESS_MISMATCH")
+        primitives["I" if person == 1 else "YOU"] = 1
+        return primitives
 
     def to_primitives(self, word: str) -> dict[str, int]:
         """Legacy spelling-only consumers abstain on multiple definitions."""
         entries = self.get_entries(word)
         return self.to_primitives_for_entry(entries[0]) if len(entries) == 1 else {}
+
+    def reference_projection_for_observation(self, features: dict) -> dict[str, int]:
+        """Replay a derived reference proof from its complete stored native row.
+
+        Original module spelling is retained in storage. Only the known package
+        rename is normalized for witness comparison; no semantic field changes.
+        """
+        if type(features) is not dict:
+            raise ValueError("INVALID_CLOSED_CLASS_REFERENCE_OBSERVATION")
+        try:
+            native = copy.deepcopy(features)
+            native["grammar_roles"] = tuple(native["grammar_roles"])
+            native["provenance"] = tuple(native["provenance"])
+            encodings = native["native_encodings"]
+            if not isinstance(encodings, (list, tuple)):
+                raise ValueError("INVALID_CLOSED_CLASS_REFERENCE_OBSERVATION")
+            for encoding in encodings:
+                if current_id(encoding["module"]) == "GSE.lexicon.pronouns":
+                    encoding["module"] = "GSE.lexicon.pronouns"
+            native["native_encodings"] = tuple(encodings)
+            entry = GSEClosedClassEntry(**native)
+        except (KeyError, TypeError) as error:
+            raise ValueError("INVALID_CLOSED_CLASS_REFERENCE_OBSERVATION") from error
+        expected = _entry(
+            entry.lemma,
+            entry.catalog,
+            entry.pos,
+            entry.grammar_roles,
+            entry.primitives,
+            entry.grammatical_features,
+            list(entry.native_encodings),
+        )
+        normalized_provenance = tuple(
+            value.replace("GSE.lexicon.pronouns:", "GSE.lexicon.pronouns:", 1) for value in entry.provenance
+        )
+        if entry.definition != expected.definition or normalized_provenance != expected.provenance:
+            raise ValueError("CLOSED_CLASS_REFERENCE_WITNESS_MISMATCH")
+        return {bank: value for bank, value in self.to_primitives_for_entry(entry).items() if bank in {"I", "YOU"}}

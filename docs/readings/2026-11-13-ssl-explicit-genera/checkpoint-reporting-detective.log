@@ -1,0 +1,30 @@
+  … assertion_mode: tracing 233 function-routed tests
+  … assertion_mode: baseline traced · 233 tests · 35.6s
+  … assertion_mode: 1/65 mutants · 17.1s/mutant · ETA estimating… (heartbeat)
+  … assertion_mode: 51/65 mutants · 1.0/s · ETA ~9s (heartbeat)
+  … assertion_mode: 52/65 mutants · 1.3s/mutant · ETA ~13s (heartbeat)
+  … assertion_mode: 65/65 mutants · 1.0s/mutant · done in 66.4s
+  ▸ pass 0: 2 value-survivor(s) — synthesizing killing tests…
+  ▸ pass 0: +6 new killing test(s) written [test_GSE_symbolic_modality_assertion_mode_03a8e2a48f_synth.py]
+  … assertion_mode: tracing 239 function-routed tests
+  … assertion_mode: baseline traced · 239 tests · 0.1s
+  … assertion_mode: 65/65 mutants · 1.1s/mutant · done in 68.5s
+  ▸ pass 1: 2 survivor(s) — no progress, at floor
+  ▸ witness pass: searching richer inputs for a distinguishing kill…
+  ▸ finalizing — re-profiling the full mutant universe against the written suite…
+  … assertion_mode: tracing 239 function-routed tests
+  … assertion_mode: baseline traced · 239 tests · 0.1s
+  … assertion_mode: 65/65 mutants · 1.1/s · done in 60.0s
+  ▸ ⚠ aggregate deadline exhausted during finalization — result CUT, non-gateable
+──────────────────────────────────────────────────────────────────────────────
+GSE/symbolic/modality.py::assertion_mode — converge · 6 behaviours · 6 pinned
+
+  ⚠ CUT                the aggregate deadline ran out during finalization
+  · full report        .detective/reports/converge_assertion_mode.txt (measurement partial)
+
+DO THIS:  re-run with a larger wall, e.g. --deadline 900 — or 0 to
+       disable it — on a target that genuinely needs longer. If the
+       target prints megabytes above, it is an integration function
+       that cannot be isolated in-process; that is the real finding.
+
+FINAL GSE/symbolic/modality.py::assertion_mode: ⚠ CUT — aggregate deadline exhausted during finalization; measurement partial, re-run with a larger --deadline · policy 10.d7705603e06e

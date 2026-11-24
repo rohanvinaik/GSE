@@ -190,8 +190,10 @@ def cmd_publish(args):
         else:
             result = publish_complete(args.lexicon_db, args.destination, args.gold)
     else:
-        result = publication_readiness(args.lexicon_db, args.gold, sparse=True) if args.sparse else publication_readiness(
-            args.lexicon_db, args.gold
+        result = (
+            publication_readiness(args.lexicon_db, args.gold, sparse=True)
+            if args.sparse
+            else publication_readiness(args.lexicon_db, args.gold)
         )
     encoded = json.dumps(result, indent=2, sort_keys=True)
     if args.report:
@@ -574,8 +576,12 @@ def main():
     status_parser.set_defaults(func=cmd_status)
 
     measure_parser = subparsers.add_parser("measure", help="Count joint specification space and Zipf-bucket coverage")
-    measure_parser.add_argument("--frequency-file", help="Pinned local Word/SUBTLEX CSV; default uses the existing source")
-    measure_parser.add_argument("--compare-to", help="Earlier measurement with the identical cohort and frequency policy")
+    measure_parser.add_argument(
+        "--frequency-file", help="Pinned local Word/SUBTLEX CSV; default uses the existing source"
+    )
+    measure_parser.add_argument(
+        "--compare-to", help="Earlier measurement with the identical cohort and frequency policy"
+    )
     measure_parser.add_argument("--report", help="Write the compact whole-corpus measurement")
     measure_parser.set_defaults(func=cmd_measure)
 

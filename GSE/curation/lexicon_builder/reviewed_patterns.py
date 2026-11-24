@@ -69,6 +69,7 @@ class Pattern:
     records: tuple[dict, ...]
     warrant: dict | None = None
     premises: tuple[tuple[str, int], ...] = ()
+    allowed_values: tuple[int, ...] = ()
 
 
 def _fields(record, required, optional=()):
@@ -319,7 +320,9 @@ def guarded_patterns(
         raise ValueError("INVALID_GUARDED_PATTERN_CANDIDATES")
     patterns, seen = [], set()
     for record in records:
-        _fields(record, ("consequent", "guards", "absent_evidence", "warrant"), ("antecedent", "premises"))
+        _fields(
+            record, ("consequent", "guards", "absent_evidence", "warrant"), ("antecedent", "premises", "allowed_values")
+        )
         if ("antecedent" in record) == ("premises" in record):
             raise ValueError("PATTERN_REQUIRES_ONE_PREMISE_FORM")
         left, right = record.get("antecedent"), record["consequent"]
@@ -364,7 +367,21 @@ def guarded_patterns(
                     raise ValueError("INVALID_REQUIRED_REVISION_EXCEPTIONS")
         if not premises and not record["guards"]:
             raise ValueError("UNARY_PATTERN_REQUIRES_TYPED_GUARD")
-        allowed = [list(row) for row in implication_rows(premises, right)]
+        expected_values = record.get("allowed_values", [right[1]])
+        if (
+            type(expected_values) is not list
+            or not 1 <= len(expected_values) <= 2
+            or any(type(v) is not int or v not in (-1, 0, 1) for v in expected_values)
+            or len(set(expected_values)) != len(expected_values)
+            or right[1] not in expected_values
+        ):
+            raise ValueError("INVALID_PATTERN_ALLOWED_CONSEQUENTS")
+        allowed = [
+            list(row)
+            for row in sorted(
+                {row for value in expected_values for row in implication_rows(premises, (right[0], value))}
+            )
+        ]
         relation = _relation(
             {
                 "rule_id": "reviewed-guarded-pattern:" + _request_id(record),
@@ -398,6 +415,7 @@ def guarded_patterns(
             (),
             dict(warrant),
             tuple(tuple(pair) for pair in premises) if conjunctive else (),
+            tuple(expected_values) if "allowed_values" in record else (),
         )
         observed = []
         for entry_id in discovery:
@@ -426,7 +444,7 @@ def guarded_patterns(
                             else "CONSEQUENT_UNKNOWN"
                             if not values
                             else "OBSERVED_AGREEMENT"
-                            if values == {right[1]}
+                            if values <= set(expected_values)
                             else "OBSERVED_COUNTEREXAMPLE"
                         ),
                         "rulings": [
@@ -468,7 +486,7 @@ def guarded_patterns(
                 else "CONSEQUENT_UNKNOWN"
                 if not values
                 else "OBSERVED_AGREEMENT"
-                if values == {right[1]}
+                if values <= set(expected_values)
                 else "OBSERVED_COUNTEREXAMPLE"
             )
             observed.append(
@@ -913,7 +931,7 @@ def audit_pattern(pattern, entry, relations, rulings, transport=None, *, allow_c
     if completion.code == "ASSIGNED":
         assert completion.assertion is not None
         value = completion.assertion.value
-        code = "MODEL_AGREEMENT" if value == expected else "MODEL_COUNTEREXAMPLE"
+        code = "MODEL_AGREEMENT" if value in (pattern.allowed_values or (expected,)) else "MODEL_COUNTEREXAMPLE"
         result["value"] = value
         result["accepted_assertion"] = asdict(completion.assertion)
     else:
@@ -926,6 +944,7 @@ def audit_pattern(pattern, entry, relations, rulings, transport=None, *, allow_c
         "raw_output": captured.raw,
         "transport_identity": captured.identity,
         "proposed_value": expected,
+        **({"proposed_allowed_values": list(pattern.allowed_values)} if pattern.allowed_values else {}),
         "writes": False,
     }
 

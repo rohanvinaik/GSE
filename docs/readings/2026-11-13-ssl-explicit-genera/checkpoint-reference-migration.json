@@ -1,0 +1,1462 @@
+{
+  "format": "gse.checkpoint-reference-migration/1",
+  "identity": {
+    "baseline_sha256": "72a6367013a5652ade3dc33da0a5313782e3df9b9115c1ffe31a90e04c751e03",
+    "warrants_sha256": "de96dc8bfc4eed2133df5ff66e7268e9946a5f9c902991744d67cca53bdb62fa",
+    "source_sha256": {
+      "GSE/__init__.py": "cd279dbb885597853c4777094080cfb03894d79470b69413a6958bbd981c3259",
+      "GSE/api/__init__.py": "b4f450bafb52afed8d9ee9f980c8a052160c628952cdd47c319c3ab583d7071b",
+      "GSE/api/decoder.py": "68ebb58a208de9e6aba53a511a82ee5af75125bc55448d441315d71974b56267",
+      "GSE/api/encoder.py": "06196899b4d16c469fcc8e3a14db0a67a9e7207f7642c4a73d6b7009a872703f",
+      "GSE/api/errors.py": "3d3cff81ca50ef30af1ea6ef0309036b4808f47d5a94500abc5dc15e9427c4ba",
+      "GSE/api/native_repair.py": "b5657f08d085d2e1197a5c549430d275533b3ea2412c9db3803b626d09f50cd3",
+      "GSE/api/parse_repair.py": "d9eef456422bfb0c63832a74f35899b1679383aa7fcc7548849acefc60e7fd73",
+      "GSE/api/trace.py": "ea7a02b0a530d3a7d067800bb2b372761369385a907e6c8a58270ca97c1d6dd8",
+      "GSE/benchmarks/__init__.py": "cb414849b32de0506cb33f016a28af7aeadbd9ed2b998964d809cc67854f9dc0",
+      "GSE/benchmarks/datasets.py": "54ccc06df6c3cefecc6e81f60a699b23cda8fce31629d0ccdd23fb08567f81ff",
+      "GSE/benchmarks/metrics.py": "8a639942fad774df6845c614313cfcff0fa6f4c1535a6a828e2dd180ba7ef54d",
+      "GSE/benchmarks/run.py": "3acffd6db4c6dedda32b7464afe255ae99e26d293d2ec3a1897e48870be93428",
+      "GSE/cache/__init__.py": "a373e185d81e97d2778e90bc5eee4ff5b543b5d8f49183883dc01229673cd840",
+      "GSE/cassettes/__init__.py": "f0f1a3a8f739af69f20f965bb9a6b4a5b6ecbff7e316de5e382f804d949fc22d",
+      "GSE/cassettes/agent_eligibility.py": "d4e00141a021940b821fed256047f6043b234bd87b7f5f9c21eb5b3e604e0fbe",
+      "GSE/cassettes/base.py": "ec5d36158e4ba8dc75d7d679043517fe80b2ef136b80d7bbe59725cf4b358685",
+      "GSE/cassettes/cheatsheet.py": "082dacfddd110997e7b71ad7bf8dca751ca3661edec65904d65b24d1b12302e3",
+      "GSE/cassettes/coref_junk.py": "688f8dc901a4790fb5a828308fe7917002695bbdea8603a24c90b863f4974725",
+      "GSE/cassettes/deck.py": "f43d66444ab2fc43e296727a934f11e4ece9f78d087b88fcf48d9cf9b268edee",
+      "GSE/cassettes/entity_identity.py": "6797eb90bae06026fd384e6b4a5c78a712a28807df6b144c4af0c623cf8fef5e",
+      "GSE/cassettes/multiscale.py": "fbc9b86471292e42501999c7f2763b989e57c6e22ea347d55e992091fb431f83",
+      "GSE/cassettes/person_validation.py": "0e64b8272fccc88d563eb5b2f7073ba0b1cd8c57a3150e4f2f7ef13c228d56a9",
+      "GSE/cassettes/referent_validation.py": "8905174c90bd60a19370f95e6ecce13d1bc029771167f607b785da45eac70914",
+      "GSE/cassettes/relational_identity.py": "5d64a4c64e1750d95f9d55183c9a8501254d6a109f776f17b2ab78e9221e3d8b",
+      "GSE/cli/__init__.py": "1b45367334f7b12d40ba8410e3bf76f95529a1d6be5028dfef811dfe7a880585",
+      "GSE/cli/__main__.py": "04d8a808b1b1618b44356eadf6ee29c923a4792cc706a233c2d7841b0c72c44a",
+      "GSE/cli/main.py": "83998863bf0e313942e88dd675d4e305b77e8e52ed70d0b7b7ee23d07d45420d",
+      "GSE/cli.py": "abb8b1bc8d9553a14c0de421762f937e011b599d85afbfb33b47c366999a0580",
+      "GSE/composition/__init__.py": "19e549efce729541bdc211e82a1dccf668e83b77f55c8662196df1d7d11eb9eb",
+      "GSE/composition/composer.py": "0eaa4d18c06dee7796d87317001c7a56221512ebda8c00bdf129224c3190ed59",
+      "GSE/curation/__init__.py": "bda23189a6a0ce9f5299f7ac474e329d40a3728d5ee0f71eb88559c858ea9768",
+      "GSE/curation/build_clean_closed_class.py": "599858b68139cfa11c197186c720dc64a7c75d46f2e53b40a8258e3469e48e43",
+      "GSE/curation/build_clean_layer1.py": "179ad84ef1f3f4f9fe7884c53eb33436e27b2c081a0f822801d3ae93e7b9828a",
+      "GSE/curation/build_clean_layer2.py": "421af46779ab9abd3c8cee7a2e1c07949cc3ba019977bdc8aae9eff5eb6f8289",
+      "GSE/curation/build_clean_operators.py": "ec83c535ac40597920812ad674a662d8a7511b7dcd10e89a3a1f00c64a40b561",
+      "GSE/curation/build_clean_quantifiers.py": "5cd0ba5ec65b1b3caf35f6a56fa9f466cf531859e4367ec64dedbab613e3d543",
+      "GSE/curation/build_hdc_speller.py": "550b8bd4b838f01c1a06387db8bf1955a4ed1ed5561db180e64cbaee24b288e8",
+      "GSE/curation/build_misspellings.py": "f30001e2212cc90872bbd565838631fd0b5795dd99290322530e24e2a1a83221",
+      "GSE/curation/build_spell_entities.py": "cbc16efeb7689f2ed4907dbae513fed1ae97762cbc466578564407b61cd8f441",
+      "GSE/curation/build_spellcheck_data.py": "ab2eae5df1016b2cb9638b69223e77cbb7dec5c0bad7e7026fb9353a562df318",
+      "GSE/curation/build_wordlist.py": "0eba7eb0cf5b3450517b4fb9cdefb7627eee0ecd7fca5d1c87de1615ef7b6427",
+      "GSE/curation/cli/__init__.py": "355a6c1cd5e0ffb7872081a906b9977c455cf846ba188fb9e691f05b53a0316a",
+      "GSE/curation/cli/commands.py": "06e9c9fd9a67e61a8db5144b95409ee52e39e3f5670f7679bc28c878b8f7cec6",
+      "GSE/curation/constraint_aggregation/__init__.py": "9d9130bf275d620dab8fb817fae604c0a0ad1cc83458f53fd7ce493810cafd6e",
+      "GSE/curation/constraint_aggregation/conflict_detector.py": "b8cfc3b90115956fd905b9e45d24646a56b31d9f24838880f0af6a8e0a51c9bf",
+      "GSE/curation/constraint_aggregation/engine.py": "8968f5753d25ba0cbeb8ba2ce46aef39087793e1f3ae9a0de244b23fe0f0e36c",
+      "GSE/curation/constraint_aggregation/mapping_registry.py": "cc7870eac4b1f3ba7a0ccb269e740aa59cf09f10ab0c1a137aad3111257a2644",
+      "GSE/curation/constraint_aggregation/scoring.py": "3720177e62eefb3c6b5c859e98736d1a91f76995091696fb43dfa9ac1746e8cb",
+      "GSE/curation/constraint_aggregation/types.py": "337e21901649678bc16bd16209e4317c701967857a052b897f0fb34466a59906",
+      "GSE/curation/decomposition/__init__.py": "2feda5c743618e92c679b03b5fbdf9137282a5c090ddfd1b15cbe647c437d6e3",
+      "GSE/curation/decomposition/definition_linker.py": "86b94f0bbc7838977d34a0f9f006f824abab643f8dba9e7be2fd5a5aa3fe60e1",
+      "GSE/curation/decomposition/definition_structure.py": "58479c78314fb81f1ceb8eef86e2027385b5108cd8a81ae580040509ed966150",
+      "GSE/curation/decomposition/definitional_decomposer.py": "abbc798b46bbfcad5be32de929402511b504769bf93451e70420cad3c019ab0d",
+      "GSE/curation/decomposition/source_index.py": "b47c406ac48ae65b85063ca28205d495c766a551a323dacbc11f81f688019e39",
+      "GSE/curation/external_sources/__init__.py": "5f32ffcfe20a91c09621a290f826f3bd00283c523d1c443f1f44cee990111d30",
+      "GSE/curation/external_sources/base_parser.py": "bdfdd67400e3e0d1a4a2efd83e1a94c5b261c6583f48f6eb695ec6623a5fd3fd",
+      "GSE/curation/external_sources/bipolar_exclusion.py": "a8d8bb6373dd69c3355e96c12e1577f6697e5b9e263bef3d003e8732b9c615a1",
+      "GSE/curation/external_sources/comparator.py": "c22c8afbfc9bbfd7885ea353ffb709a3c7497c7c1df4e5c9ddd224a5997e38f7",
+      "GSE/curation/external_sources/conceptnet.py": "8c2c19e23ab363a7e24851792e93c00a2b3620dc1787f451f545dc47e79d0d7c",
+      "GSE/curation/external_sources/concreteness.py": "6370d7312ced6cc1c8cd9dafa5d4c677be70509670e4f0b12dd37c6916faf478",
+      "GSE/curation/external_sources/framenet.py": "352964f5d6ce579204514121b47ef77ef1658b18571ec8fca63ffce9fa5a7c0e",
+      "GSE/curation/external_sources/gse_closed_class.py": "0540fd8a231be258a170f2f285d5bb745c6a49bbb4cd466c2a464f9e0f91eb4f",
+      "GSE/curation/external_sources/integrator.py": "438990d6a401d5420545a7d35eca866c8fd37e16abd152571edb9f2caaf2772f",
+      "GSE/curation/external_sources/lancaster_sensorimotor.py": "572716c9b60ed55085ad91ba01622d7fef25491bfd7fda4019fa9db9753fec3c",
+      "GSE/curation/external_sources/nrc_emotion.py": "be002fdb14cc4512f4eb29bc54a8e5a47a886b7cda41285364103a999f6d0f06",
+      "GSE/curation/external_sources/nrc_vad.py": "1bd0b4747a968a9e7ce2c4f9cd41d99fcb356ac5516d6cc1fd8df2f306c8f589",
+      "GSE/curation/external_sources/nsm_chart.py": "ff07f79d835fdca7cd6a4765256e683082da19268c9be41942914ca8012ebff3",
+      "GSE/curation/external_sources/populate.py": "5cf9ad58d8690f6f2b4350a38f3e4d53aeb89100dc8cda1986623fb0d4581c60",
+      "GSE/curation/external_sources/prepopulate.py": "1dd237eb50e92eabfffc5bcccc846ab54b04124d558c2fc7d87930532e1884dd",
+      "GSE/curation/external_sources/propbank.py": "e4e4bf0d509e9f50490d4f0becb81760a1f6af67ca67b34ead0b218ae4c8fcda",
+      "GSE/curation/external_sources/run_comparison.py": "e064201fda831a4691b965373732f5ea32eed8e8fb20b63b86f0e67c595c1378",
+      "GSE/curation/external_sources/sentiwordnet.py": "5faf04e568d55bf661b3d84aa8d02cfe4268a68cf0397df57812792feb321e99",
+      "GSE/curation/external_sources/source_scope.py": "62e592db4d9351d41d0dd14047112f20281c37d444b82680b28bfd1ca67ff9bb",
+      "GSE/curation/external_sources/tier_0_dispatch.py": "6deaa372e781cb8f8583e67f52e9c743ef1244648132e3076dc1e13b449721d3",
+      "GSE/curation/external_sources/usas.py": "46ab3038c8d8229d4eba9849c70aa57edf2dc5840a3381d4bc5afc733ceca4ab",
+      "GSE/curation/external_sources/verbnet.py": "3ccc23885b0a69a0d1ffc2c94cc41c3f0eb34a8c12804b0b3d811f85ad9d1c6e",
+      "GSE/curation/external_sources/websters1913.py": "79ab0c412dc7f3762bb7516b10106a38f63e75fd749cc83f6d6111f2232e2e65",
+      "GSE/curation/external_sources/weighted_voting.py": "31664630138658d06ac6e799e448f9f2c5771793c7f43afcd5a8c93f1e8c26e4",
+      "GSE/curation/external_sources/wiktionary.py": "0471efa78d38a8f12e876d3ff6b73af91cd5651bacaa43657222a2132091f93c",
+      "GSE/curation/external_sources/wordnet_hierarchy.py": "4cce57ec8b74ebfeacb0ed110a9e0f1f97a2713eb37251af8efa317b130cdaf2",
+      "GSE/curation/frequency_integration.py": "4b1d6dd48eebd3daf041b34fd0a7463c35e0f4ab616c0408aaf700496a2401ce",
+      "GSE/curation/lexicon_builder/__init__.py": "34fb005b6861c0dc111f7ce03ccffc3d15a78ed9870b66bf2633e3559ce43a4c",
+      "GSE/curation/lexicon_builder/batching.py": "abfab706f9742453f77d121990cf58d66c51b3e7cb0bc852e47c7f31897a9c5f",
+      "GSE/curation/lexicon_builder/catalog.py": "caf7f40746d09151726d16b3a4e84a6427d7ccaeb903fe6429c91ac137fdccbb",
+      "GSE/curation/lexicon_builder/completion.py": "796c764b0ebaac5fbb80327698acb05490016776f592060e35a673ad7cfbf477",
+      "GSE/curation/lexicon_builder/definition_frames.py": "3954e11daf8f887bfb221f715093745a4e305ab061037c7c4b6df6345c580a54",
+      "GSE/curation/lexicon_builder/discovery.py": "e74e913525b6f6051e60c5a9b3a041b635d3c056fcdb9cfb4f15316123cbfb6d",
+      "GSE/curation/lexicon_builder/engine.py": "1f53a4f63103694824696bdc63af6d17d4415764360cf276b0eaa09f452c4b9f",
+      "GSE/curation/lexicon_builder/epoch.py": "aa24ff7f18466f352fc2df542e64c4062af0bc938f1ba7438b6659b298d051e5",
+      "GSE/curation/lexicon_builder/evaluation.py": "a54b507509420789011a1b0446b455e1858fb66f8e4b99526c02f9daa000ce6b",
+      "GSE/curation/lexicon_builder/evidence.py": "985091fc6ddd6417072d01e5a82d51b67bcf6161433e48d1792defacb7c02ce3",
+      "GSE/curation/lexicon_builder/foundation.py": "6a3b3ce5ec3369349be22eb3a090507ae254cc76b0af4c33cae4c36ea5dc2d1d",
+      "GSE/curation/lexicon_builder/grounded_rules.py": "e8b24f3525a3c393cdf884c92341ec868df1ca0f0b59d77c5fc60066dc7ac12e",
+      "GSE/curation/lexicon_builder/interchange.py": "300a6c7a918dc0667fe05f17532a693d4bb7a734beae89c190ff84463ebd29f2",
+      "GSE/curation/lexicon_builder/model_batch.py": "b2280878eff567307560b24bbb457a301e25aa6e93073985fcc681f164306ccd",
+      "GSE/curation/lexicon_builder/model_evidence.py": "3a6c415264ca227cac423e114a2ddc522fce8b1050834a57a6aa8186fd2e563c",
+      "GSE/curation/lexicon_builder/model_protocol.py": "af23867d35457e97e2b62005d782825dad9caa09ce94a2feb7300233a582849a",
+      "GSE/curation/lexicon_builder/model_receipts.py": "db8b281bae6baddf96387f677c1d8e49c1aee6cbda6ccc9c4f5c6a8fbf789f02",
+      "GSE/curation/lexicon_builder/pipeline.py": "9c6f6f3eb4504a96e913e77189a474571b9dd41b228c94c411e0943cc3bb6804",
+      "GSE/curation/lexicon_builder/publication.py": "8647487a3e367654a7402e6eefa15d7158d1cb9192e0d7567af8407deb37438c",
+      "GSE/curation/lexicon_builder/reconsideration.py": "f3f1e4d4d697b70aeacef025a46d6b00ab7bb8b827256dfce1bf2a50b728bd3e",
+      "GSE/curation/lexicon_builder/relevance.py": "b229501847ecad1f40b1c86bdf61374ad706bf5d1051e2d6baee8395520a5639",
+      "GSE/curation/lexicon_builder/residual.py": "f47ecc8c60a11eb2a58abea0afdb3ea4db151e328f9a72aacf5c16bf3cba297c",
+      "GSE/curation/lexicon_builder/resolution.py": "69d6fe441f471a1179b04c63b617766a93701ea54912e2e3548b24501e2d91fa",
+      "GSE/curation/lexicon_builder/retention.py": "5a963adb3e25fc1ea2e5d40f3601502fac40874cef4c4131b3f78e9d187312bc",
+      "GSE/curation/lexicon_builder/reviewed_export.py": "7b4871bc770e1312294957a54b4ea9cdcd6c4b58a432354bc0711deb763256ed",
+      "GSE/curation/lexicon_builder/reviewed_patterns.py": "84922a27c45ddde10fe7d8512ee5a5225cf6c0f3f34eca0f1179227c522370b7",
+      "GSE/curation/lexicon_builder/rule_admission.py": "0d1f5303ccae9383f7af85c911fe0785016b4e2d891475c05c1966c70129eda1",
+      "GSE/curation/lexicon_builder/rule_history.py": "b33a2b25bec84c616f0000a00761c05660d9b9d32cd8539c8da0f4a95453351e",
+      "GSE/curation/lexicon_builder/rule_migration.py": "3ab299601ece88b829e64843fc9847ab09b829407d29794ccd2ce3e1abca4c70",
+      "GSE/curation/lexicon_builder/rule_reservations.py": "65913054b312c3748cdaa0b0c4aba5c025f7759ada3ddbd1b4fd66355a82fca5",
+      "GSE/curation/lexicon_builder/rule_revisions.py": "003e0c8e4fd3f721f0c10b333aeea28657c701c8d38561b4c69ab9ef7a282a53",
+      "GSE/curation/lexicon_builder/scheduling.py": "50bf19153fc85226823169f813c58d04efa1902f11d4e5a0f052ab4bae2661ac",
+      "GSE/curation/lexicon_builder/scope_admission.py": "898cda76ae025a0c5d5d03c21da54965212f71a838e78d07c5b1e7f71e68be42",
+      "GSE/curation/lexicon_builder/source_enrichment.py": "f55f0967e9fd06943cd0c588c8c457cd65a5fca27b66206d3fe30d63e6d7825e",
+      "GSE/curation/lexicon_builder/sqlite_snapshot.py": "fbfcce3829f4daaa68aa065325d7103282cdb3979469709fa61a015272907e9f",
+      "GSE/curation/lexicon_builder/storage.py": "a787ff47f8a79ca939fdc78b121192080a4934ef83f28511667eae4592405706",
+      "GSE/curation/lexicon_builder/validation.py": "30172d3f07f2fb428dd316172cf540534218449252fcc0088137a8d899839ac8",
+      "GSE/curation/lexicon_builder/wordnet_identity.py": "97b765c6f3f78ae59b28cfc34b50202c935d8b51554dbd34959035e1a17ecb4c",
+      "GSE/curation/lexicon_db.py": "2ee2887dcfa6b23c7ec97f7f71876e177e99b90c0cb70171ec426edb74e638d0",
+      "GSE/curation/llm/__init__.py": "90c944cbf656935e50d71acb56c84f59158d467bb0616233a027cb238be66bf2",
+      "GSE/curation/llm/batch_processor.py": "cf36ff4642c77c1aa7207ec28d497ab35b9c547a5d08c44751da631e17b95e30",
+      "GSE/curation/llm/gap_filler.py": "74a4149ab589fd4aaedbaf27e8d03df193dfc9a8271222752249e19869bee1a9",
+      "GSE/curation/llm/granular_decomposer.py": "94dfc2fcd13938121c5ab5ddeda7feec29b771a014aa2306ddbb808a758779b4",
+      "GSE/curation/llm/hybrid_builder.py": "d16705436729d668b704a58164cb1aeeb5331d19ba6b43ef7e09d228ff700c81",
+      "GSE/curation/llm/ollama_client.py": "3e0896fc22416e31831749aa92fe89be2ef89e802ebb3f5b95fc40038377f280",
+      "GSE/curation/llm/primitive_matcher.py": "8312bc42c055d060fe1e911b23bff74ffc2f6feb0b2585676edef5898e998dcc",
+      "GSE/curation/llm/primitive_sweep.py": "7b052648a21112f4773d6baf99deebfe52b139d1f727dfd6791af081e56b17df",
+      "GSE/curation/llm/prompts.py": "11c9711774b839f6e2b4f6b1ae71a5b9a04746811f3468130691e2eef94d8312",
+      "GSE/curation/llm/qwen_client.py": "6d5804eb65812f0433ae9fc64d46592f4e856e81d683ac57f2373a05e3e7a4a3",
+      "GSE/curation/llm/response_parser.py": "9acb88036a37bf4eee53eb1433e0734ba05eecd4c93b332e60f8da23e21da0c4",
+      "GSE/curation/personal_dictionary.py": "bd2fc5dc4e08ab6e1d29d845e1843a076862a9750a9bfe5b5ef76bf5a4b7c0ae",
+      "GSE/curation/pipeline/__init__.py": "fed458ef628c2be7adb715d6937d6fea5416391c8cad97c3846d633288b7c34f",
+      "GSE/curation/pipeline/staged_builder.py": "8be584faf1a43eda48756b4e04d8670f072f5376552e857c67461a434ad25bbd",
+      "GSE/curation/schema.py": "f5eb1b758eccde2c6653c4b4e214d38c9834ba34ec320588e4eacf9ff704de55",
+      "GSE/curation/validation/__init__.py": "9e16d9d2dfd7699f93aaa73374b7aa10b3de572fb71b73ca35f4e6f2fa8d5ccb",
+      "GSE/curation/validation/bipolar_validator.py": "219b00a40c2c60648391cfd1f2b89a3fda66ea8af9a425e7ad0fb8d80a74c90f",
+      "GSE/curation/validation/coverage_checker.py": "bce25d291bb8f03493d48e553291ed961f32bbe4f7cc1c25b75e0dcc0d2c7865",
+      "GSE/curation/validation/discrimination_gate.py": "2e2fe7ef20f0eeb53f90bf6bafebcac20a4878b09eb081a9ad3891fec1675cbc",
+      "GSE/curation/validation/hierarchy_validator.py": "b17cffc4e8418ef0756a891229a79035f41c92a49abb6c9bd988787ff33f9bf4",
+      "GSE/demo/__init__.py": "19235abcf20ca2a6298d91df5da914b534f2c8e9221af05d861b99599f973309",
+      "GSE/demo/enum_measure.py": "36c10666e3c85adb391663dcba81347a5993ad98fb5ce1a07608d02cfd4f6600",
+      "GSE/demo/enum_repair.py": "79f56bd721988c2f67e168863b8a3492eaca688832d4f3a4750e2a998a08c5da",
+      "GSE/demo/reasoning.py": "4368fe3753c30a51e122fdea486a9d364a604102a32da200d2837e720a5af462",
+      "GSE/demo/showcase.py": "cd65c8e98b82d1b0ef271717aa4a445f0605101db5d9570b262b1008c8d6931a",
+      "GSE/discourse/__init__.py": "3b3073aab4a2e1daee5f1f344d4b231956cba678829ee2f1e5f816a22be7dd48",
+      "GSE/discourse/infer.py": "78f30c63b31fdafb6cd72fef3ae52dfb5090d0a2d84765d41a0fca7d85763a2b",
+      "GSE/discourse/intake.py": "2d84191275616756f24175482d6f977aa0f198986e84acba60cb6e93052af607",
+      "GSE/discourse/nested_router.py": "83320555d973f131a089c43fabdb7971dd0c13b921ef503470f90d90989adb5e",
+      "GSE/discourse/profile.py": "800e12288c60f0f9d02cf62f27c03dc15a6076431336b2f5e6be2c6b7e03cf2d",
+      "GSE/discourse/registers.py": "bc0870767767c34fdb9f4d99e36e75f6df2cf7845e8278d56ff302158b56afd7",
+      "GSE/discourse/router.py": "9dea6f55d61818f430e5ceef9ad435ec63971bd442b614efd2774108ac23e977",
+      "GSE/discourse/speech.py": "f3d87acd204a09383a7c3c2ed72c00438b6e7f389f28028cf5b2897b587cc6e5",
+      "GSE/encoders/__init__.py": "3a46feb440f207d96e24363df4b99d70ae7a6618577b05383fe68c55a5d2e536",
+      "GSE/encoders/marker_detection.py": "22cde92cdc62b65a866aa2c912f186af9b2103978feecf821f16a1526db8d35f",
+      "GSE/encoders/paragraph_structure_encoder.py": "223ba3469036342ace85f934d7168d5f3f241a395f6a7c13ffbfe5a2bb2273b1",
+      "GSE/encoders/sentence_structure_encoder.py": "2e175c379b3a532e025aa9baffc31b17c9217727c30c5683e87ef4bb80166d11",
+      "GSE/encoders/som_genre.py": "b135c8b5cab98eae15d5240b0caacd4afe0e24bf867c59ea9109528d27d84e72",
+      "GSE/encoders/text_structure_encoder.py": "8c8e76a938579bbc0c6aca0785106ae72ccaddabd4b181b55315fa672e04a8b6",
+      "GSE/evaluation/__init__.py": "5befb1b004ee8149936c9058b7bea1dcb839572a4f5a5bfdc19e3e10ad6c5611",
+      "GSE/evaluation/world_model.py": "2e2028898f5fa70e3fc197d3664b2624665920e61e3454a2452be8521a33df97",
+      "GSE/frequency.py": "a28c6779f8f1149792476a194d1ec8d55b1d177e43603a601a3e7588004bf4c5",
+      "GSE/gse/encoders/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "GSE/lexical_evidence.py": "b50ad90e73ddfabee34e64b50ff491778d6321290cb0d0c15c1c2a38a46b8580",
+      "GSE/lexicon/__init__.py": "9a0d9eab226d2e300cde2717be6f2ec8185d964f35574c6e8f90b41382bc60c6",
+      "GSE/lexicon/function_words.py": "1eae08655ac9357c601df781c92efed73a5a24f63968ff6006945038c3a2ab2c",
+      "GSE/lexicon/modifier_hierarchy.py": "8876486bdbd545d918391a4fea09924205cd85853452b2bd0e45c566ae051a88",
+      "GSE/lexicon/numerals.py": "592301fd4e045ba2fe53fa2faaa2c1bcb37f28f456b157b85870c912b6c98fbb",
+      "GSE/lexicon/pronouns.py": "fe8378e3eca12958b0c0d2d8cd9bcdbc7ae8d8481363356dd63db1e3551b9726",
+      "GSE/lexicon/similarity.py": "d81e2025eda05c6d435f15b1ef0122772f1f11f62aafd8b7b50097c0b496285a",
+      "GSE/lexicon/word_encoding.py": "de67a769187e3f52aa70db24aeafca13c0368658c5af4343200333bd8fdfd0e8",
+      "GSE/lexicon_builder/__init__.py": "6419f246c2579ae1967d225ccea65c8120cbcf3b22933f19d8aaa478069308a6",
+      "GSE/lexicon_builder/__main__.py": "b53407a98d7aae6714df30acc7b8cb32ad11cb64b7e9938c06b23c24c88d6899",
+      "GSE/lexicon_builder/artifact.py": "6610e10cb4ae7f2b0af3f5a94744fa34b0567a39d1cdc79427b3ef638b9d47f4",
+      "GSE/lexicon_builder/atomics.py": "4abec0089d3578cb01c47ffeb5546e30057d256fd129e4ba26285dd935750974",
+      "GSE/lexicon_builder/audit.py": "b58b0067cc6f7e35250af5a5fe4e41e9c42f8d674224f35417025e7ff3e8044a",
+      "GSE/lexicon_builder/basis.py": "ab45551986507a1968dc27169ad9426f3cc7885975a54e8b1b4ef3d4bb62971e",
+      "GSE/lexicon_builder/build.py": "c58ae3f72bb5fb9b0fd63a55e80f33cdc0042ef668c0717b3c632ed8ecc566b8",
+      "GSE/lexicon_builder/cli.py": "acef73554027b3b9418b5752c8b759f40d762f53d85705932a65948f943023a5",
+      "GSE/lexicon_builder/conditionals.py": "b1a7e436824a10a05a7bea9198e040b2d2002aac364ba6ffa8cb317df17f9880",
+      "GSE/lexicon_builder/core.py": "9dc69bd42b5f1a0cdbc8cc94a26e2e524aa0c83531bc158d24baa4df5a1c74cd",
+      "GSE/lexicon_builder/coverage.py": "818c8fea24540e4b8615c06da39cda54f36a7f26443f0c862af7bca34c278857",
+      "GSE/lexicon_builder/evaluation.py": "1f1b72edacfd07b72bce70645a2fb2af5b507ea7f5e7a0162bd3f76edb37a79e",
+      "GSE/lexicon_builder/families.py": "e11170d88039ac45eb40527cb22ca3a41b8920085cf729a6b8dd75c14a344780",
+      "GSE/lexicon_builder/fill.py": "416a7c35d04a75e1ac31894e00453edc669b4350f51187f0f846e99b147bef58",
+      "GSE/lexicon_builder/foundation.py": "df6a1d5a751579810a64f953f0d1d5ab3f75096da2d7542753da1698c9d36612",
+      "GSE/lexicon_builder/model.py": "b968bf68593ddbb3cb850df5c35c10461341ff3c85c05f1a77abb94a5f602f12",
+      "GSE/lexicon_builder/native_constraints.py": "1a6b9ef462316e16ec1f99cc7872c23946c5bf67e9a3d1b72f2e78ee544f1804",
+      "GSE/lexicon_builder/nouns.py": "05516bf22250680deedc71c0bb75542f9c278810c0facc8875bbc5abcf44d82e",
+      "GSE/lexicon_builder/number.py": "79706af0d1021f30214a468060fe78a3585f99ba7773e6693cb72fbcc20ad486",
+      "GSE/lexicon_builder/perception.py": "671a74f820a2ef70e463ce4a0a2b7c0a164e5aa3bb8db05c8553a2966fe283dd",
+      "GSE/lexicon_builder/reading.py": "91f5ff3dcf647b7075598d3e982972f4017cacdb3ec920c7cd6a236b32d1b545",
+      "GSE/lexicon_builder/registry.py": "2e4e92cdb67ab0e9c7a6b02f9432fcb47a96a546c8e04b4b92d7d3e12fa1d82c",
+      "GSE/lexicon_builder/release_audit.py": "e2af3aa0a736d86538e00c44de3e9348a0408c2f74424873a04c530230165fbc",
+      "GSE/lexicon_builder/runtime.py": "b4d500bce6ead017b59a275faf3797fc19b69b046abe316817bd156ac82747a5",
+      "GSE/lexicon_builder/sources.py": "8d65fa99a933e1de4b61dc0e959b796b396399b5a5d5a3eff93904ae94b6d016",
+      "GSE/lexicon_builder/surprise.py": "3014770351a5ea0ce995fd1f90119c8e474d03cd5b9e0c4b391058bdb1506f42",
+      "GSE/lexicon_builder/tail.py": "c313f7aa39fc7ec962e71895a525aee4ddbce147041cefa877e36c2f40dc1b11",
+      "GSE/lexicon_resource.py": "3642579e31ba353bc08b6f3adf7d2de0cc5e025a7e217601c23cee27068868be",
+      "GSE/mcp/__init__.py": "2bf9c3fe3fc5418e5e657db880a608282ee07e3e0a16e31584d87437e0019899",
+      "GSE/mcp/spell_server.py": "9f8581cf9ac4bce01cae87059a0c894be01ce2b97e40d30622c871fd00b8c6c5",
+      "GSE/merkle/__init__.py": "d7f490b730a07d6a1d054db0fa5510bfd0b400dda84e6af4075ddaacf7584893",
+      "GSE/merkle/decomposer.py": "fe8659a819eef79fa38bd8190240d02f093bb3ecb26963344b2303dfbfe213a6",
+      "GSE/merkle/hash_chain.py": "1240508a5a31e4a3da71ec005fcdccc009a81d608f0502abd36c6d5f82a88b74",
+      "GSE/merkle/learning_bridge.py": "d808db818e4300cac174bfeb26ca604a898d9f9bcf5975c262ec92c26e9a2e4f",
+      "GSE/merkle/nodes.py": "b761f7e4c295241e73043b6fc9dbec897783ab075eadf206eae4199a208129f6",
+      "GSE/merkle/router.py": "c218e556a71de7b75fa35ca380c06c8059407258b114b37ff26c2b03b3c9e33f",
+      "GSE/merkle/translator.py": "0636c261edda695c6ae78e48f773d7219d2decba760b736d7f8a030c5f7f2ffa",
+      "GSE/merkle/tree.py": "434359bf2ac6c5c958a9e8cf8edea3c742034e7668349ba0632d3ce155d582da",
+      "GSE/nlp/__init__.py": "3bca375d89e85c7495c77bbf9048d1e0b45747d94dc515565f045d84b9c489e5",
+      "GSE/nlp/contractions.py": "9c954d455c81ec3051ab978aa7b230c4678140c93c71ee95d04750ca6488b57e",
+      "GSE/nlp/hdc_speller.py": "2086b7d8d1faf9415b29a3a02cd024ec832ec40cd31e885f6f168c4b372bf10b",
+      "GSE/nlp/heal.py": "9e370c043506d79a3829a92d4fe836439bdfa80bed57386562512d46fff6c45a",
+      "GSE/nlp/healing_resources.py": "5df0f7564dd14e23202e3c0a896a81a465fe3d231d171142490a11946f28e5ff",
+      "GSE/nlp/linkers.py": "60ab5c2c049a3928668e136c673f2f6f00ccf7efb6d4b0aef479f7195e77630f",
+      "GSE/nlp/morphology.py": "f74f525598b5506e7ef5ce4efaaae04efd1f8405d684224332264754da7b2532",
+      "GSE/nlp/native.py": "0e4cf924e10160e78929f9b80c349b5cdd19ede053ddb31bd03b312eb894503c",
+      "GSE/nlp/sentence_parser.py": "9c7040eefcfb4e568180f579b7bc6f5d9142767b44830e9064c262aefae55ced",
+      "GSE/nlp/spellcheck.py": "d6dc1d7849257cf652ad111b8cffb8d753dac7891026fb808ad2676c69ad4c0b",
+      "GSE/nlp/spellcheck_context.py": "b137c9b51dcda951bde8f850c72ec063e2fc97cfdef74822759132ae475ca096",
+      "GSE/nlp/spellcheck_entity.py": "c6941309c3f5ecd490c81804b7ea84480ae775dbb48a8a11ed6dc82f26451957",
+      "GSE/nlp/spellcheck_repl.py": "560783f35479cbd3bc60a7e5d3abac3aaf1e9277f80363c73c0b37712723c780",
+      "GSE/orchestration/__init__.py": "249c36c354ebc31909ff5987b707bebccdadef5a7d2c63db6d16e45ed23585bf",
+      "GSE/parsing/__init__.py": "3856c191c68f8450909cab34c32fadddaf5e3c10320342f5877664d15393f793",
+      "GSE/parsing/graph.py": "988ff57bdef4bc402c91cd3c8cc92783b5165bdeefdd8743e0685c8f93e0d44e",
+      "GSE/parsing/operators.py": "65eff9b7b6dd1e2b4bcb0edb2e764e94fd6398fa9bf495ad81d4e12f65d18aa6",
+      "GSE/parsing/parser.py": "c3afd03ad7e66c8d5b47002e7a489978f512bede3ec665013cfa2e2aa21c8679",
+      "GSE/patterns/__init__.py": "c0f8d037f57c9d77a5ee2ca798f06163dca35ada0e92429c44503d5a0d45c70c",
+      "GSE/patterns/klines.py": "3a6bf8057428761dc0028ac816dd4caa2f6e5ecb1c8381cc085ead03a873cd86",
+      "GSE/patterns/networks_v2.py": "b5c43c894d8be94ebf532eb0c258f43a990978080e857a0d8d76a31aaadb2b8e",
+      "GSE/patterns/orchestrator.py": "b95ecda2dd3824669cefdeaf40ae57078912d2a615eaa951028d7f393bb38e2d",
+      "GSE/pipeline_v2.py": "d095d6e5eca51243391c0ccec74a5c181fbc025cb392864b24ad688feea0b9b6",
+      "GSE/pragmatics/__init__.py": "8b22dc8f46ff6dbf27a7487e1173eb5e234452c9aee723a18d105d3d9d81ad5f",
+      "GSE/pragmatics/figure_store.py": "54eeaf219143cf237b7bb6f182be6db28e4a1af843d3325d34ae01e93699c30f",
+      "GSE/pragmatics/figures.py": "a75e3cd6092befe0176f68be881a7eaa2aecdab7be710b00cf72a6357fe71375",
+      "GSE/pragmatics/janus.py": "f9888f9fe19fd89a0a7bbf5b0fa2a81086e1b72e885e586b7d0f92ac1870e5a2",
+      "GSE/prime_projection.py": "95f8eb01f1ab3d47d45751f885279d9a8ac74b31c90c509ceb17641fec87f68c",
+      "GSE/primitives_v2.py": "ad14c3e4348e453124b3d8904d94266570916b6902009b69a23350ce971556de",
+      "GSE/profiles/__init__.py": "40890d8f5046a5a4d14c9f7d59da10fe0e1c8e32e1393ddffc4be77e3c2f391d",
+      "GSE/profiles/profile_manager.py": "19d7942531ae570fdad546fd52d8ee6f94717470a0f7e4ef6c8190119b296c30",
+      "GSE/scale_definition.py": "e504e788916300050aa926eb1e9a293e639a1f925e05df1d464c7d65bb30110a",
+      "GSE/scales/__init__.py": "3422d75c8afe2b001bbef8e0fa24edf88f247f01f800e45e5e4b3541f5958d26",
+      "GSE/scales/syntactic_structure.py": "8b613adea85a242b26755820252eba047a2667e119dacd89d86d3a384c0cd5ca",
+      "GSE/structure.py": "5a2cd3e7e9430a288a4158c76573dfd35b193abdf2760c2ea0d070b272213441",
+      "GSE/symbolic/__init__.py": "1c9dfc286e97fe767d94da38a11d35fbe3431677f8352853501166bbdfa52820",
+      "GSE/symbolic/claims.py": "038758cca905604a706bc3f55caaf0997686ef5fb13cc2e4d812de1fd3413d7b",
+      "GSE/symbolic/coherence.py": "f25cfcb261953a11d526be3a18de31fe3e98cc03363012ff1bf51aa21790ae97",
+      "GSE/symbolic/duration.py": "97b332cacd4c47b0e0d7ac5583000a40e6390d76b73ced6e877147f587134f9c",
+      "GSE/symbolic/emit.py": "a8b6d76dff49606a551ce78af124cf19b3a1c719df12466863dd3d970c1fc764",
+      "GSE/symbolic/expression.py": "a0ba93475c717ec60f3616fb6bca4ca82220682153031846d938fbe444ab14ce",
+      "GSE/symbolic/genealogy_store.py": "7ed0535350eec47847eb7b1d6477fb6c5c142ac461301b57dcb64d0466428b37",
+      "GSE/symbolic/grounding.py": "aed74cebff1e28d0470ba95d9e5b6724c7fb8fc826d22454f4fcec5c0f6ff617",
+      "GSE/symbolic/healer/__init__.py": "43996e97f07c42041ec40b6ac16637109d11ffc148b74aa09c6526ad9e737f6a",
+      "GSE/symbolic/healer/envelope.py": "c92593edd5d0170729aecf211202f940f9f690cdfd942da6fc72ee4f9079852c",
+      "GSE/symbolic/healer/fold_reader.py": "897fe5a002306b22e9cc15e523ec67d5848fd071b6cf8734dcc9553f7d59f6d4",
+      "GSE/symbolic/healer/lens.py": "83fe51a63a3eff10791d019e9e6114ca99733a35b13d2b9b2081ad029338cd54",
+      "GSE/symbolic/healer/lenses/__init__.py": "72672b344f268e18e0be97eee017f88f768c879fa87020cac9c2bdd28f6cba1e",
+      "GSE/symbolic/healer/lenses/copula_predicate.py": "6625a5a1042fa527e08722cfcc2bf36a05d213f1e9ba022bac02bcda83afa7c9",
+      "GSE/symbolic/healer/lenses/infinitival_control.py": "162729122c4523ceb94d9995950c341b0f6afe5fbf28ee14c9abda239f10ea47",
+      "GSE/symbolic/healer/lenses/participial.py": "9c572f9a31715256dda234f11c3bf8d8c275ca3420b79100dfb271b53b9edf5d",
+      "GSE/symbolic/healer/lenses/vp_coord.py": "c92e73aad026e831a559b61e04d2b3197bf25a6142f9a790bb6130244ea154f8",
+      "GSE/symbolic/healer/recollect.py": "3c2ee636f9c52f93df0405b4501e5b1b19ae55278ab83885d485e3da49dbf5f7",
+      "GSE/symbolic/healer/society.py": "831083dbbe7e75f0627b16b2c484c0002863616d25fb4776ab6c610fb81dd710",
+      "GSE/symbolic/healer/treewalk.py": "b5f24b50857cd400f23d18de3d414766d1a189fb8398278ded128eeb1c899fc6",
+      "GSE/symbolic/inference.py": "7305140112a19046af44a65145ef4014d684ed2edafafa5c55f38a648936c832",
+      "GSE/symbolic/lexical_grounding.py": "fb437e978382d85b3867e9c4009581e3d03f39bb9d8ac70eac5bc73cc82c4140",
+      "GSE/symbolic/modality.py": "1ab940bdbc42e6b4d88c44e78e6e43275535c41faf31f19b848eb571fe9b9a7f",
+      "GSE/symbolic/narrative.py": "dd59c7a1614cb1856f0b9cb1734fb55d80414ca25b1536bb80c5e504a84ad333",
+      "GSE/symbolic/operators.py": "f61cf5878984f4ae41eb104990509025c7495717882a6c10cffa1a76cd140b99",
+      "GSE/symbolic/predicates.py": "7aff8933b50891551e57a9cde89f5312c4f77b4b26e22615c16496f6c25e2c6c",
+      "GSE/symbolic/propositions.py": "1c4fd0694acedcd36537f0da5e5f3c545a11870f936401cb2d1f829b2033d713",
+      "GSE/symbolic/queries.py": "20dbaa91be34ec19a7375195565f9c0f2ebed9d821e81f5486e8454ebdc7102c",
+      "GSE/symbolic/resolution.py": "b19780491b832521544c576b27e6c74ef60344741fa83594a554b02db0d3eae2",
+      "GSE/symbolic/sense_resonance.py": "1b1d35a317c9558d172117b96a399157a54c453118b240b1ff89728b63c2b59f",
+      "GSE/symbolic/serialization.py": "7eb0efc0124a8eeacacd167eed38286b29f13e1199fb1ebb88b011e0e34fdb59",
+      "GSE/symbolic/signs.py": "c142cc0610dde7045207ad54b8e435d9fcab865cea89c48077713e0436634c65",
+      "GSE/symbolic/templating.py": "edfb845d13e8a5ee9ece2c2e2d924d3369780ae5af54cb93bc24bf699cf22901",
+      "GSE/symbolic/tiers.py": "5af29b5772754314b9f7319a2f26512c01d4f60fddd51aa54363de840e3e8638",
+      "GSE/symbolic/variables.py": "5d5ea53eb73e0ee45aa57d74d01f955c5acc19a1da7f5865ff41c38a14e2e4dc",
+      "GSE/teaching/__init__.py": "17f2d0be6218236df9643234d832ba903b294c30d3d208e820c948bcddaacec6",
+      "GSE/teaching/conversation_processor.py": "2c4812d3621abce5e6d3e858006be6cd2598de809324bd0cea221828c8672806",
+      "GSE/teaching/feature_extractor.py": "ef6397de6d2b4a10c3a177deee8cff499a39500d5b7fba0ba6706d475cd8411b",
+      "GSE/teaching/teacher.py": "77800cdb871f486552a62d2042b8d30d4282a049697ae2a4105f75e842ea2a4d",
+      "GSE/vectors_v2.py": "96b298089ddc491400e720be50c2fef73c806cdccff547075eaf0ea6f02e7493",
+      "GSE/verb_templates.py": "1ce2baa3a21c8ddaa4e01ad2c3dea40df1e70a11eb39672fc019b04ef2a46c28",
+      "GSE/verification/__init__.py": "3c52c502cd28e37e7be12d80fcc187734126d295f4236d103f534859ae8fe152",
+      "GSE/verification/proof_suite.py": "c4af8048cf9dcce6cf9086945195891790aa92acab9c8796cdd328fdd30db532",
+      "GSE/verification/symbolic_proof_suite.py": "18b24b9ba229e10a1cec080dd6dc52d0a419640b66d963520f9b19182c257d95",
+      "docs/readings/2026-11-13-ssl-explicit-genera/checkpoint_reference_migration.py": "9a2ef9f4a61121210fb5107f9c1a8370421e794107190803265d59671e982359"
+    },
+    "requested_roots": [
+      "1198f122b413bb0503443d6e7adf2a34049f4cafab20b607a2f98facf20269f0",
+      "37ba074cf5e6b039577907cc6e3f3e1f446d65dbd3922fbab539ac7bc7cf637d",
+      "7292b7b1140cda797375611e08ae49443e981d681a190fa073cf2bc591b5d429",
+      "7a172235256c0d244f7e73b5221d7bc2435eb958d60350a1410f3465ec309150",
+      "9347f832bcfc9a3038bb27189b0b1fc484a322f87f44b2a0eb87b2bd549daed1"
+    ]
+  },
+  "candidate": "/Users/rohanvinaik/Projects/GSE/data/lexicon_builder/2026-11-12/ssl-explicit-genera/checkpoint-foundation.db",
+  "activation_performed": false,
+  "model_calls": 0,
+  "code": "POST_PROJECTION_FULL_REPLAY_RUNNING",
+  "cloned": true,
+  "updated_utc": "2026-11-23T22:42:50.827117+00:00",
+  "retirement": {
+    "format": "gse.model-reconsideration-batch/1",
+    "code": "RECONSIDERED",
+    "applied": true,
+    "snapshot_sha256": "be96a612dd3f97abf07f9a44ff22e5d9e760b321841116152f7127f0fef35fb4",
+    "requested_request_ids": [
+      "1198f122b413bb0503443d6e7adf2a34049f4cafab20b607a2f98facf20269f0",
+      "37ba074cf5e6b039577907cc6e3f3e1f446d65dbd3922fbab539ac7bc7cf637d",
+      "7292b7b1140cda797375611e08ae49443e981d681a190fa073cf2bc591b5d429",
+      "7a172235256c0d244f7e73b5221d7bc2435eb958d60350a1410f3465ec309150",
+      "9347f832bcfc9a3038bb27189b0b1fc484a322f87f44b2a0eb87b2bd549daed1"
+    ],
+    "reports": [
+      {
+        "format": "gse.model-reconsideration/1",
+        "code": "RECONSIDERED",
+        "root_request_id": "9347f832bcfc9a3038bb27189b0b1fc484a322f87f44b2a0eb87b2bd549daed1",
+        "entry_id": "gse_closed_class:pronoun:i",
+        "convention": "founder-person-reference-boundary/2026-11-23",
+        "reason": "Retire stale model prefixes before integrating exact native I/YOU reference proofs.",
+        "snapshot_sha256": "f85aa75d2b8baf5c52ac772128f0c5b2ff90b62ec85bda2ec225902b16341f35",
+        "scope": "ROOT_AND_ALL_LATER_SAME_DEFINITION_MODEL_RECEIPTS",
+        "root_ordinal": 0,
+        "withdrawn_request_ids": [
+          "9347f832bcfc9a3038bb27189b0b1fc484a322f87f44b2a0eb87b2bd549daed1"
+        ],
+        "withdrawn_banks": [
+          "BODY"
+        ],
+        "retained_same_definition_model_receipts": 0,
+        "before_assignments": {
+          "BODY": 0,
+          "SOMEONE": 1
+        },
+        "after_assignments": {
+          "SOMEONE": 1
+        },
+        "after_domains": {
+          "ABOVE": [
+            -1,
+            0,
+            1
+          ],
+          "ALIVE": [
+            -1,
+            0,
+            1
+          ],
+          "BE": [
+            -1,
+            0,
+            1
+          ],
+          "BECAUSE": [
+            -1,
+            0,
+            1
+          ],
+          "BEFORE": [
+            -1,
+            0,
+            1
+          ],
+          "BIG": [
+            -1,
+            0,
+            1
+          ],
+          "BODY": [
+            -1,
+            0,
+            1
+          ],
+          "CAN": [
+            -1,
+            0,
+            1
+          ],
+          "CAUSE": [
+            -1,
+            0,
+            1
+          ],
+          "CERTAINTY": [
+            -1,
+            0,
+            1
+          ],
+          "DO": [
+            -1,
+            0,
+            1
+          ],
+          "EXIST": [
+            -1,
+            0,
+            1
+          ],
+          "FAR": [
+            -1,
+            0,
+            1
+          ],
+          "FEEL": [
+            -1,
+            0,
+            1
+          ],
+          "GOOD": [
+            -1,
+            0,
+            1
+          ],
+          "HAPPEN": [
+            -1,
+            0,
+            1
+          ],
+          "HAVE": [
+            -1,
+            0,
+            1
+          ],
+          "HEAR": [
+            -1,
+            0,
+            1
+          ],
+          "HERE": [
+            -1,
+            0,
+            1
+          ],
+          "I": [
+            -1,
+            0,
+            1
+          ],
+          "IF": [
+            -1,
+            0,
+            1
+          ],
+          "INFER": [
+            -1,
+            0,
+            1
+          ],
+          "INTENSITY": [
+            -1,
+            0,
+            1
+          ],
+          "KIND": [
+            -1,
+            0,
+            1
+          ],
+          "KNOW": [
+            -1,
+            0,
+            1
+          ],
+          "LIKE": [
+            -1,
+            0,
+            1
+          ],
+          "LONG_TIME": [
+            -1,
+            0,
+            1
+          ],
+          "MAYBE": [
+            -1,
+            0,
+            1
+          ],
+          "MOMENT": [
+            -1,
+            0,
+            1
+          ],
+          "MOVE": [
+            -1,
+            0,
+            1
+          ],
+          "MUST": [
+            -1,
+            0,
+            1
+          ],
+          "NOT": [
+            -1,
+            0,
+            1
+          ],
+          "ONE": [
+            -1,
+            0,
+            1
+          ],
+          "OUTSIDE": [
+            -1,
+            0,
+            1
+          ],
+          "PART": [
+            -1,
+            0,
+            1
+          ],
+          "PEOPLE": [
+            -1,
+            0,
+            1
+          ],
+          "QUANTITY": [
+            -1,
+            0,
+            1
+          ],
+          "SAME": [
+            -1,
+            0,
+            1
+          ],
+          "SAY": [
+            -1,
+            0,
+            1
+          ],
+          "SEE": [
+            -1,
+            0,
+            1
+          ],
+          "SIDE": [
+            -1,
+            0,
+            1
+          ],
+          "SOMEONE": [
+            1
+          ],
+          "SOMETHING": [
+            -1,
+            0,
+            1
+          ],
+          "START": [
+            -1,
+            0,
+            1
+          ],
+          "THEN": [
+            -1,
+            0,
+            1
+          ],
+          "THINK": [
+            -1,
+            0,
+            1
+          ],
+          "TOUCH": [
+            -1,
+            0,
+            1
+          ],
+          "TOWARD": [
+            -1,
+            0,
+            1
+          ],
+          "TRUE": [
+            -1,
+            0,
+            1
+          ],
+          "TWO": [
+            -1,
+            0,
+            1
+          ],
+          "WANT": [
+            -1,
+            0,
+            1
+          ],
+          "WHEN": [
+            -1,
+            0,
+            1
+          ],
+          "WHERE": [
+            -1,
+            0,
+            1
+          ],
+          "WITH": [
+            -1,
+            0,
+            1
+          ],
+          "WORDS": [
+            -1,
+            0,
+            1
+          ],
+          "YOU": [
+            -1,
+            0,
+            1
+          ]
+        },
+        "hierarchy": {},
+        "preflight": {
+          "format": "gse.lexicon-replay-report/1",
+          "code": "REPLAY_VALIDATED",
+          "gold": "NOT_CHECKED",
+          "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+          "complete_search": true,
+          "inference_counts": {
+            "components_joint_checked": 2495950,
+            "components_solver_limited": 0,
+            "entries_complete_search": 401596,
+            "entries_replayed": 401596,
+            "entries_solver_limited": 0
+          },
+          "metadata_verification": {
+            "representation_contract": "VERIFIED",
+            "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+            "catalog_definition_source_ids": "NOT_PERSISTED",
+            "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED",
+            "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+            "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+            "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+            "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+            "build_report": "NOT_CHECKED"
+          },
+          "entries_checked": 401596,
+          "entries_validated": 401596,
+          "entries_mismatched": 0,
+          "replayed_outcomes": {
+            "PARTIAL": 401596
+          },
+          "mismatch_counts": {},
+          "mismatches": []
+        },
+        "before_coverage": {
+          "definitions": 401596,
+          "outcomes": {
+            "PARTIAL": 401596
+          },
+          "cells": {
+            "assigned": 411088,
+            "explicit_zero": 280858,
+            "unresolved": 22078288,
+            "conflicted": 0
+          }
+        },
+        "journal_history": "UNCHANGED",
+        "model_calls": 0,
+        "applied": true,
+        "archive_event_id": "e3f20c31f2a31707d99cc4b653bfcf57a44a7e8833877208205e7eda4ed9ec3e",
+        "post_local_replay": "LOCAL_REPLAY_VALIDATED",
+        "after_coverage": {
+          "definitions": 401596,
+          "outcomes": {
+            "PARTIAL": 401596
+          },
+          "cells": {
+            "assigned": 411083,
+            "explicit_zero": 280853,
+            "unresolved": 22078293,
+            "conflicted": 0
+          }
+        }
+      },
+      {
+        "format": "gse.model-reconsideration/1",
+        "code": "RECONSIDERED",
+        "root_request_id": "7292b7b1140cda797375611e08ae49443e981d681a190fa073cf2bc591b5d429",
+        "entry_id": "gse_closed_class:pronoun:you",
+        "convention": "founder-person-reference-boundary/2026-11-23",
+        "reason": "Retire stale model prefixes before integrating exact native I/YOU reference proofs.",
+        "snapshot_sha256": "95f2b34e3d5f6a32a3b7315d3c65b656d0ec66b02f131e7b28b4df3599f68626",
+        "scope": "ROOT_AND_ALL_LATER_SAME_DEFINITION_MODEL_RECEIPTS",
+        "root_ordinal": 0,
+        "withdrawn_request_ids": [
+          "7292b7b1140cda797375611e08ae49443e981d681a190fa073cf2bc591b5d429",
+          "7a172235256c0d244f7e73b5221d7bc2435eb958d60350a1410f3465ec309150",
+          "1198f122b413bb0503443d6e7adf2a34049f4cafab20b607a2f98facf20269f0",
+          "37ba074cf5e6b039577907cc6e3f3e1f446d65dbd3922fbab539ac7bc7cf637d"
+        ],
+        "withdrawn_banks": [
+          "ABOVE",
+          "ALIVE",
+          "WANT",
+          "BODY"
+        ],
+        "retained_same_definition_model_receipts": 0,
+        "before_assignments": {
+          "ABOVE": 0,
+          "ALIVE": 0,
+          "BODY": 0,
+          "SOMEONE": 1,
+          "WANT": 0
+        },
+        "after_assignments": {
+          "SOMEONE": 1
+        },
+        "after_domains": {
+          "ABOVE": [
+            -1,
+            0,
+            1
+          ],
+          "ALIVE": [
+            -1,
+            0,
+            1
+          ],
+          "BE": [
+            -1,
+            0,
+            1
+          ],
+          "BECAUSE": [
+            -1,
+            0,
+            1
+          ],
+          "BEFORE": [
+            -1,
+            0,
+            1
+          ],
+          "BIG": [
+            -1,
+            0,
+            1
+          ],
+          "BODY": [
+            -1,
+            0,
+            1
+          ],
+          "CAN": [
+            -1,
+            0,
+            1
+          ],
+          "CAUSE": [
+            -1,
+            0,
+            1
+          ],
+          "CERTAINTY": [
+            -1,
+            0,
+            1
+          ],
+          "DO": [
+            -1,
+            0,
+            1
+          ],
+          "EXIST": [
+            -1,
+            0,
+            1
+          ],
+          "FAR": [
+            -1,
+            0,
+            1
+          ],
+          "FEEL": [
+            -1,
+            0,
+            1
+          ],
+          "GOOD": [
+            -1,
+            0,
+            1
+          ],
+          "HAPPEN": [
+            -1,
+            0,
+            1
+          ],
+          "HAVE": [
+            -1,
+            0,
+            1
+          ],
+          "HEAR": [
+            -1,
+            0,
+            1
+          ],
+          "HERE": [
+            -1,
+            0,
+            1
+          ],
+          "I": [
+            -1,
+            0,
+            1
+          ],
+          "IF": [
+            -1,
+            0,
+            1
+          ],
+          "INFER": [
+            -1,
+            0,
+            1
+          ],
+          "INTENSITY": [
+            -1,
+            0,
+            1
+          ],
+          "KIND": [
+            -1,
+            0,
+            1
+          ],
+          "KNOW": [
+            -1,
+            0,
+            1
+          ],
+          "LIKE": [
+            -1,
+            0,
+            1
+          ],
+          "LONG_TIME": [
+            -1,
+            0,
+            1
+          ],
+          "MAYBE": [
+            -1,
+            0,
+            1
+          ],
+          "MOMENT": [
+            -1,
+            0,
+            1
+          ],
+          "MOVE": [
+            -1,
+            0,
+            1
+          ],
+          "MUST": [
+            -1,
+            0,
+            1
+          ],
+          "NOT": [
+            -1,
+            0,
+            1
+          ],
+          "ONE": [
+            -1,
+            0,
+            1
+          ],
+          "OUTSIDE": [
+            -1,
+            0,
+            1
+          ],
+          "PART": [
+            -1,
+            0,
+            1
+          ],
+          "PEOPLE": [
+            -1,
+            0,
+            1
+          ],
+          "QUANTITY": [
+            -1,
+            0,
+            1
+          ],
+          "SAME": [
+            -1,
+            0,
+            1
+          ],
+          "SAY": [
+            -1,
+            0,
+            1
+          ],
+          "SEE": [
+            -1,
+            0,
+            1
+          ],
+          "SIDE": [
+            -1,
+            0,
+            1
+          ],
+          "SOMEONE": [
+            1
+          ],
+          "SOMETHING": [
+            -1,
+            0,
+            1
+          ],
+          "START": [
+            -1,
+            0,
+            1
+          ],
+          "THEN": [
+            -1,
+            0,
+            1
+          ],
+          "THINK": [
+            -1,
+            0,
+            1
+          ],
+          "TOUCH": [
+            -1,
+            0,
+            1
+          ],
+          "TOWARD": [
+            -1,
+            0,
+            1
+          ],
+          "TRUE": [
+            -1,
+            0,
+            1
+          ],
+          "TWO": [
+            -1,
+            0,
+            1
+          ],
+          "WANT": [
+            -1,
+            0,
+            1
+          ],
+          "WHEN": [
+            -1,
+            0,
+            1
+          ],
+          "WHERE": [
+            -1,
+            0,
+            1
+          ],
+          "WITH": [
+            -1,
+            0,
+            1
+          ],
+          "WORDS": [
+            -1,
+            0,
+            1
+          ],
+          "YOU": [
+            -1,
+            0,
+            1
+          ]
+        },
+        "hierarchy": {},
+        "preflight": {
+          "format": "gse.lexicon-replay-report/1",
+          "code": "REPLAY_VALIDATED",
+          "gold": "NOT_CHECKED",
+          "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+          "complete_search": true,
+          "inference_counts": {
+            "components_joint_checked": 2495950,
+            "components_solver_limited": 0,
+            "entries_complete_search": 401596,
+            "entries_replayed": 401596,
+            "entries_solver_limited": 0
+          },
+          "metadata_verification": {
+            "representation_contract": "VERIFIED",
+            "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+            "catalog_definition_source_ids": "NOT_PERSISTED",
+            "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED",
+            "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+            "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+            "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+            "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+            "build_report": "NOT_CHECKED"
+          },
+          "entries_checked": 401596,
+          "entries_validated": 401596,
+          "entries_mismatched": 0,
+          "replayed_outcomes": {
+            "PARTIAL": 401596
+          },
+          "mismatch_counts": {},
+          "mismatches": []
+        },
+        "before_coverage": {
+          "definitions": 401596,
+          "outcomes": {
+            "PARTIAL": 401596
+          },
+          "cells": {
+            "assigned": 411088,
+            "explicit_zero": 280858,
+            "unresolved": 22078288,
+            "conflicted": 0
+          }
+        },
+        "journal_history": "UNCHANGED",
+        "model_calls": 0,
+        "applied": true,
+        "archive_event_id": "3073ab5db3e0f5d6df10fa94b197b6779c3c4aca129a7b5ea68e78a3458415c7",
+        "post_local_replay": "LOCAL_REPLAY_VALIDATED",
+        "after_coverage": {
+          "definitions": 401596,
+          "outcomes": {
+            "PARTIAL": 401596
+          },
+          "cells": {
+            "assigned": 411083,
+            "explicit_zero": 280853,
+            "unresolved": 22078293,
+            "conflicted": 0
+          }
+        }
+      }
+    ],
+    "preflight": {
+      "format": "gse.lexicon-replay-report/1",
+      "code": "REPLAY_VALIDATED",
+      "gold": "NOT_CHECKED",
+      "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+      "complete_search": true,
+      "inference_counts": {
+        "components_joint_checked": 2495950,
+        "components_solver_limited": 0,
+        "entries_complete_search": 401596,
+        "entries_replayed": 401596,
+        "entries_solver_limited": 0
+      },
+      "metadata_verification": {
+        "representation_contract": "VERIFIED",
+        "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+        "catalog_definition_source_ids": "NOT_PERSISTED",
+        "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED",
+        "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+        "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+        "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+        "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+        "build_report": "NOT_CHECKED"
+      },
+      "entries_checked": 401596,
+      "entries_validated": 401596,
+      "entries_mismatched": 0,
+      "replayed_outcomes": {
+        "PARTIAL": 401596
+      },
+      "mismatch_counts": {},
+      "mismatches": []
+    },
+    "before_coverage": {
+      "definitions": 401596,
+      "outcomes": {
+        "PARTIAL": 401596
+      },
+      "cells": {
+        "assigned": 411088,
+        "explicit_zero": 280858,
+        "unresolved": 22078288,
+        "conflicted": 0
+      }
+    },
+    "convention": "founder-person-reference-boundary/2026-11-23",
+    "reason": "Retire stale model prefixes before integrating exact native I/YOU reference proofs.",
+    "model_calls": 0,
+    "scope": "EARLIEST_REQUESTED_SUFFIX_PER_EXACT_DEFINITION",
+    "journal_history": "UNCHANGED",
+    "after_coverage": {
+      "definitions": 401596,
+      "outcomes": {
+        "PARTIAL": 401596
+      },
+      "cells": {
+        "assigned": 411083,
+        "explicit_zero": 280853,
+        "unresolved": 22078293,
+        "conflicted": 0
+      }
+    }
+  },
+  "projection": {
+    "identity": {
+      "baseline_sha256": "72a6367013a5652ade3dc33da0a5313782e3df9b9115c1ffe31a90e04c751e03",
+      "warrants_sha256": "de96dc8bfc4eed2133df5ff66e7268e9946a5f9c902991744d67cca53bdb62fa",
+      "source_sha256": {
+        "GSE/__init__.py": "cd279dbb885597853c4777094080cfb03894d79470b69413a6958bbd981c3259",
+        "GSE/api/__init__.py": "b4f450bafb52afed8d9ee9f980c8a052160c628952cdd47c319c3ab583d7071b",
+        "GSE/api/decoder.py": "68ebb58a208de9e6aba53a511a82ee5af75125bc55448d441315d71974b56267",
+        "GSE/api/encoder.py": "06196899b4d16c469fcc8e3a14db0a67a9e7207f7642c4a73d6b7009a872703f",
+        "GSE/api/errors.py": "3d3cff81ca50ef30af1ea6ef0309036b4808f47d5a94500abc5dc15e9427c4ba",
+        "GSE/api/native_repair.py": "b5657f08d085d2e1197a5c549430d275533b3ea2412c9db3803b626d09f50cd3",
+        "GSE/api/parse_repair.py": "d9eef456422bfb0c63832a74f35899b1679383aa7fcc7548849acefc60e7fd73",
+        "GSE/api/trace.py": "ea7a02b0a530d3a7d067800bb2b372761369385a907e6c8a58270ca97c1d6dd8",
+        "GSE/benchmarks/__init__.py": "cb414849b32de0506cb33f016a28af7aeadbd9ed2b998964d809cc67854f9dc0",
+        "GSE/benchmarks/datasets.py": "54ccc06df6c3cefecc6e81f60a699b23cda8fce31629d0ccdd23fb08567f81ff",
+        "GSE/benchmarks/metrics.py": "8a639942fad774df6845c614313cfcff0fa6f4c1535a6a828e2dd180ba7ef54d",
+        "GSE/benchmarks/run.py": "3acffd6db4c6dedda32b7464afe255ae99e26d293d2ec3a1897e48870be93428",
+        "GSE/cache/__init__.py": "a373e185d81e97d2778e90bc5eee4ff5b543b5d8f49183883dc01229673cd840",
+        "GSE/cassettes/__init__.py": "f0f1a3a8f739af69f20f965bb9a6b4a5b6ecbff7e316de5e382f804d949fc22d",
+        "GSE/cassettes/agent_eligibility.py": "d4e00141a021940b821fed256047f6043b234bd87b7f5f9c21eb5b3e604e0fbe",
+        "GSE/cassettes/base.py": "ec5d36158e4ba8dc75d7d679043517fe80b2ef136b80d7bbe59725cf4b358685",
+        "GSE/cassettes/cheatsheet.py": "082dacfddd110997e7b71ad7bf8dca751ca3661edec65904d65b24d1b12302e3",
+        "GSE/cassettes/coref_junk.py": "688f8dc901a4790fb5a828308fe7917002695bbdea8603a24c90b863f4974725",
+        "GSE/cassettes/deck.py": "f43d66444ab2fc43e296727a934f11e4ece9f78d087b88fcf48d9cf9b268edee",
+        "GSE/cassettes/entity_identity.py": "6797eb90bae06026fd384e6b4a5c78a712a28807df6b144c4af0c623cf8fef5e",
+        "GSE/cassettes/multiscale.py": "fbc9b86471292e42501999c7f2763b989e57c6e22ea347d55e992091fb431f83",
+        "GSE/cassettes/person_validation.py": "0e64b8272fccc88d563eb5b2f7073ba0b1cd8c57a3150e4f2f7ef13c228d56a9",
+        "GSE/cassettes/referent_validation.py": "8905174c90bd60a19370f95e6ecce13d1bc029771167f607b785da45eac70914",
+        "GSE/cassettes/relational_identity.py": "5d64a4c64e1750d95f9d55183c9a8501254d6a109f776f17b2ab78e9221e3d8b",
+        "GSE/cli/__init__.py": "1b45367334f7b12d40ba8410e3bf76f95529a1d6be5028dfef811dfe7a880585",
+        "GSE/cli/__main__.py": "04d8a808b1b1618b44356eadf6ee29c923a4792cc706a233c2d7841b0c72c44a",
+        "GSE/cli/main.py": "83998863bf0e313942e88dd675d4e305b77e8e52ed70d0b7b7ee23d07d45420d",
+        "GSE/cli.py": "abb8b1bc8d9553a14c0de421762f937e011b599d85afbfb33b47c366999a0580",
+        "GSE/composition/__init__.py": "19e549efce729541bdc211e82a1dccf668e83b77f55c8662196df1d7d11eb9eb",
+        "GSE/composition/composer.py": "0eaa4d18c06dee7796d87317001c7a56221512ebda8c00bdf129224c3190ed59",
+        "GSE/curation/__init__.py": "bda23189a6a0ce9f5299f7ac474e329d40a3728d5ee0f71eb88559c858ea9768",
+        "GSE/curation/build_clean_closed_class.py": "599858b68139cfa11c197186c720dc64a7c75d46f2e53b40a8258e3469e48e43",
+        "GSE/curation/build_clean_layer1.py": "179ad84ef1f3f4f9fe7884c53eb33436e27b2c081a0f822801d3ae93e7b9828a",
+        "GSE/curation/build_clean_layer2.py": "421af46779ab9abd3c8cee7a2e1c07949cc3ba019977bdc8aae9eff5eb6f8289",
+        "GSE/curation/build_clean_operators.py": "ec83c535ac40597920812ad674a662d8a7511b7dcd10e89a3a1f00c64a40b561",
+        "GSE/curation/build_clean_quantifiers.py": "5cd0ba5ec65b1b3caf35f6a56fa9f466cf531859e4367ec64dedbab613e3d543",
+        "GSE/curation/build_hdc_speller.py": "550b8bd4b838f01c1a06387db8bf1955a4ed1ed5561db180e64cbaee24b288e8",
+        "GSE/curation/build_misspellings.py": "f30001e2212cc90872bbd565838631fd0b5795dd99290322530e24e2a1a83221",
+        "GSE/curation/build_spell_entities.py": "cbc16efeb7689f2ed4907dbae513fed1ae97762cbc466578564407b61cd8f441",
+        "GSE/curation/build_spellcheck_data.py": "ab2eae5df1016b2cb9638b69223e77cbb7dec5c0bad7e7026fb9353a562df318",
+        "GSE/curation/build_wordlist.py": "0eba7eb0cf5b3450517b4fb9cdefb7627eee0ecd7fca5d1c87de1615ef7b6427",
+        "GSE/curation/cli/__init__.py": "355a6c1cd5e0ffb7872081a906b9977c455cf846ba188fb9e691f05b53a0316a",
+        "GSE/curation/cli/commands.py": "06e9c9fd9a67e61a8db5144b95409ee52e39e3f5670f7679bc28c878b8f7cec6",
+        "GSE/curation/constraint_aggregation/__init__.py": "9d9130bf275d620dab8fb817fae604c0a0ad1cc83458f53fd7ce493810cafd6e",
+        "GSE/curation/constraint_aggregation/conflict_detector.py": "b8cfc3b90115956fd905b9e45d24646a56b31d9f24838880f0af6a8e0a51c9bf",
+        "GSE/curation/constraint_aggregation/engine.py": "8968f5753d25ba0cbeb8ba2ce46aef39087793e1f3ae9a0de244b23fe0f0e36c",
+        "GSE/curation/constraint_aggregation/mapping_registry.py": "cc7870eac4b1f3ba7a0ccb269e740aa59cf09f10ab0c1a137aad3111257a2644",
+        "GSE/curation/constraint_aggregation/scoring.py": "3720177e62eefb3c6b5c859e98736d1a91f76995091696fb43dfa9ac1746e8cb",
+        "GSE/curation/constraint_aggregation/types.py": "337e21901649678bc16bd16209e4317c701967857a052b897f0fb34466a59906",
+        "GSE/curation/decomposition/__init__.py": "2feda5c743618e92c679b03b5fbdf9137282a5c090ddfd1b15cbe647c437d6e3",
+        "GSE/curation/decomposition/definition_linker.py": "86b94f0bbc7838977d34a0f9f006f824abab643f8dba9e7be2fd5a5aa3fe60e1",
+        "GSE/curation/decomposition/definition_structure.py": "58479c78314fb81f1ceb8eef86e2027385b5108cd8a81ae580040509ed966150",
+        "GSE/curation/decomposition/definitional_decomposer.py": "abbc798b46bbfcad5be32de929402511b504769bf93451e70420cad3c019ab0d",
+        "GSE/curation/decomposition/source_index.py": "b47c406ac48ae65b85063ca28205d495c766a551a323dacbc11f81f688019e39",
+        "GSE/curation/external_sources/__init__.py": "5f32ffcfe20a91c09621a290f826f3bd00283c523d1c443f1f44cee990111d30",
+        "GSE/curation/external_sources/base_parser.py": "bdfdd67400e3e0d1a4a2efd83e1a94c5b261c6583f48f6eb695ec6623a5fd3fd",
+        "GSE/curation/external_sources/bipolar_exclusion.py": "a8d8bb6373dd69c3355e96c12e1577f6697e5b9e263bef3d003e8732b9c615a1",
+        "GSE/curation/external_sources/comparator.py": "c22c8afbfc9bbfd7885ea353ffb709a3c7497c7c1df4e5c9ddd224a5997e38f7",
+        "GSE/curation/external_sources/conceptnet.py": "8c2c19e23ab363a7e24851792e93c00a2b3620dc1787f451f545dc47e79d0d7c",
+        "GSE/curation/external_sources/concreteness.py": "6370d7312ced6cc1c8cd9dafa5d4c677be70509670e4f0b12dd37c6916faf478",
+        "GSE/curation/external_sources/framenet.py": "352964f5d6ce579204514121b47ef77ef1658b18571ec8fca63ffce9fa5a7c0e",
+        "GSE/curation/external_sources/gse_closed_class.py": "0540fd8a231be258a170f2f285d5bb745c6a49bbb4cd466c2a464f9e0f91eb4f",
+        "GSE/curation/external_sources/integrator.py": "438990d6a401d5420545a7d35eca866c8fd37e16abd152571edb9f2caaf2772f",
+        "GSE/curation/external_sources/lancaster_sensorimotor.py": "572716c9b60ed55085ad91ba01622d7fef25491bfd7fda4019fa9db9753fec3c",
+        "GSE/curation/external_sources/nrc_emotion.py": "be002fdb14cc4512f4eb29bc54a8e5a47a886b7cda41285364103a999f6d0f06",
+        "GSE/curation/external_sources/nrc_vad.py": "1bd0b4747a968a9e7ce2c4f9cd41d99fcb356ac5516d6cc1fd8df2f306c8f589",
+        "GSE/curation/external_sources/nsm_chart.py": "ff07f79d835fdca7cd6a4765256e683082da19268c9be41942914ca8012ebff3",
+        "GSE/curation/external_sources/populate.py": "5cf9ad58d8690f6f2b4350a38f3e4d53aeb89100dc8cda1986623fb0d4581c60",
+        "GSE/curation/external_sources/prepopulate.py": "1dd237eb50e92eabfffc5bcccc846ab54b04124d558c2fc7d87930532e1884dd",
+        "GSE/curation/external_sources/propbank.py": "e4e4bf0d509e9f50490d4f0becb81760a1f6af67ca67b34ead0b218ae4c8fcda",
+        "GSE/curation/external_sources/run_comparison.py": "e064201fda831a4691b965373732f5ea32eed8e8fb20b63b86f0e67c595c1378",
+        "GSE/curation/external_sources/sentiwordnet.py": "5faf04e568d55bf661b3d84aa8d02cfe4268a68cf0397df57812792feb321e99",
+        "GSE/curation/external_sources/source_scope.py": "62e592db4d9351d41d0dd14047112f20281c37d444b82680b28bfd1ca67ff9bb",
+        "GSE/curation/external_sources/tier_0_dispatch.py": "6deaa372e781cb8f8583e67f52e9c743ef1244648132e3076dc1e13b449721d3",
+        "GSE/curation/external_sources/usas.py": "46ab3038c8d8229d4eba9849c70aa57edf2dc5840a3381d4bc5afc733ceca4ab",
+        "GSE/curation/external_sources/verbnet.py": "3ccc23885b0a69a0d1ffc2c94cc41c3f0eb34a8c12804b0b3d811f85ad9d1c6e",
+        "GSE/curation/external_sources/websters1913.py": "79ab0c412dc7f3762bb7516b10106a38f63e75fd749cc83f6d6111f2232e2e65",
+        "GSE/curation/external_sources/weighted_voting.py": "31664630138658d06ac6e799e448f9f2c5771793c7f43afcd5a8c93f1e8c26e4",
+        "GSE/curation/external_sources/wiktionary.py": "0471efa78d38a8f12e876d3ff6b73af91cd5651bacaa43657222a2132091f93c",
+        "GSE/curation/external_sources/wordnet_hierarchy.py": "4cce57ec8b74ebfeacb0ed110a9e0f1f97a2713eb37251af8efa317b130cdaf2",
+        "GSE/curation/frequency_integration.py": "4b1d6dd48eebd3daf041b34fd0a7463c35e0f4ab616c0408aaf700496a2401ce",
+        "GSE/curation/lexicon_builder/__init__.py": "34fb005b6861c0dc111f7ce03ccffc3d15a78ed9870b66bf2633e3559ce43a4c",
+        "GSE/curation/lexicon_builder/batching.py": "abfab706f9742453f77d121990cf58d66c51b3e7cb0bc852e47c7f31897a9c5f",
+        "GSE/curation/lexicon_builder/catalog.py": "caf7f40746d09151726d16b3a4e84a6427d7ccaeb903fe6429c91ac137fdccbb",
+        "GSE/curation/lexicon_builder/completion.py": "796c764b0ebaac5fbb80327698acb05490016776f592060e35a673ad7cfbf477",
+        "GSE/curation/lexicon_builder/definition_frames.py": "3954e11daf8f887bfb221f715093745a4e305ab061037c7c4b6df6345c580a54",
+        "GSE/curation/lexicon_builder/discovery.py": "e74e913525b6f6051e60c5a9b3a041b635d3c056fcdb9cfb4f15316123cbfb6d",
+        "GSE/curation/lexicon_builder/engine.py": "1f53a4f63103694824696bdc63af6d17d4415764360cf276b0eaa09f452c4b9f",
+        "GSE/curation/lexicon_builder/epoch.py": "aa24ff7f18466f352fc2df542e64c4062af0bc938f1ba7438b6659b298d051e5",
+        "GSE/curation/lexicon_builder/evaluation.py": "a54b507509420789011a1b0446b455e1858fb66f8e4b99526c02f9daa000ce6b",
+        "GSE/curation/lexicon_builder/evidence.py": "985091fc6ddd6417072d01e5a82d51b67bcf6161433e48d1792defacb7c02ce3",
+        "GSE/curation/lexicon_builder/foundation.py": "6a3b3ce5ec3369349be22eb3a090507ae254cc76b0af4c33cae4c36ea5dc2d1d",
+        "GSE/curation/lexicon_builder/grounded_rules.py": "e8b24f3525a3c393cdf884c92341ec868df1ca0f0b59d77c5fc60066dc7ac12e",
+        "GSE/curation/lexicon_builder/interchange.py": "300a6c7a918dc0667fe05f17532a693d4bb7a734beae89c190ff84463ebd29f2",
+        "GSE/curation/lexicon_builder/model_batch.py": "b2280878eff567307560b24bbb457a301e25aa6e93073985fcc681f164306ccd",
+        "GSE/curation/lexicon_builder/model_evidence.py": "3a6c415264ca227cac423e114a2ddc522fce8b1050834a57a6aa8186fd2e563c",
+        "GSE/curation/lexicon_builder/model_protocol.py": "af23867d35457e97e2b62005d782825dad9caa09ce94a2feb7300233a582849a",
+        "GSE/curation/lexicon_builder/model_receipts.py": "db8b281bae6baddf96387f677c1d8e49c1aee6cbda6ccc9c4f5c6a8fbf789f02",
+        "GSE/curation/lexicon_builder/pipeline.py": "9c6f6f3eb4504a96e913e77189a474571b9dd41b228c94c411e0943cc3bb6804",
+        "GSE/curation/lexicon_builder/publication.py": "8647487a3e367654a7402e6eefa15d7158d1cb9192e0d7567af8407deb37438c",
+        "GSE/curation/lexicon_builder/reconsideration.py": "f3f1e4d4d697b70aeacef025a46d6b00ab7bb8b827256dfce1bf2a50b728bd3e",
+        "GSE/curation/lexicon_builder/relevance.py": "b229501847ecad1f40b1c86bdf61374ad706bf5d1051e2d6baee8395520a5639",
+        "GSE/curation/lexicon_builder/residual.py": "f47ecc8c60a11eb2a58abea0afdb3ea4db151e328f9a72aacf5c16bf3cba297c",
+        "GSE/curation/lexicon_builder/resolution.py": "69d6fe441f471a1179b04c63b617766a93701ea54912e2e3548b24501e2d91fa",
+        "GSE/curation/lexicon_builder/retention.py": "5a963adb3e25fc1ea2e5d40f3601502fac40874cef4c4131b3f78e9d187312bc",
+        "GSE/curation/lexicon_builder/reviewed_export.py": "7b4871bc770e1312294957a54b4ea9cdcd6c4b58a432354bc0711deb763256ed",
+        "GSE/curation/lexicon_builder/reviewed_patterns.py": "84922a27c45ddde10fe7d8512ee5a5225cf6c0f3f34eca0f1179227c522370b7",
+        "GSE/curation/lexicon_builder/rule_admission.py": "0d1f5303ccae9383f7af85c911fe0785016b4e2d891475c05c1966c70129eda1",
+        "GSE/curation/lexicon_builder/rule_history.py": "b33a2b25bec84c616f0000a00761c05660d9b9d32cd8539c8da0f4a95453351e",
+        "GSE/curation/lexicon_builder/rule_migration.py": "3ab299601ece88b829e64843fc9847ab09b829407d29794ccd2ce3e1abca4c70",
+        "GSE/curation/lexicon_builder/rule_reservations.py": "65913054b312c3748cdaa0b0c4aba5c025f7759ada3ddbd1b4fd66355a82fca5",
+        "GSE/curation/lexicon_builder/rule_revisions.py": "003e0c8e4fd3f721f0c10b333aeea28657c701c8d38561b4c69ab9ef7a282a53",
+        "GSE/curation/lexicon_builder/scheduling.py": "50bf19153fc85226823169f813c58d04efa1902f11d4e5a0f052ab4bae2661ac",
+        "GSE/curation/lexicon_builder/scope_admission.py": "898cda76ae025a0c5d5d03c21da54965212f71a838e78d07c5b1e7f71e68be42",
+        "GSE/curation/lexicon_builder/source_enrichment.py": "f55f0967e9fd06943cd0c588c8c457cd65a5fca27b66206d3fe30d63e6d7825e",
+        "GSE/curation/lexicon_builder/sqlite_snapshot.py": "fbfcce3829f4daaa68aa065325d7103282cdb3979469709fa61a015272907e9f",
+        "GSE/curation/lexicon_builder/storage.py": "a787ff47f8a79ca939fdc78b121192080a4934ef83f28511667eae4592405706",
+        "GSE/curation/lexicon_builder/validation.py": "30172d3f07f2fb428dd316172cf540534218449252fcc0088137a8d899839ac8",
+        "GSE/curation/lexicon_builder/wordnet_identity.py": "97b765c6f3f78ae59b28cfc34b50202c935d8b51554dbd34959035e1a17ecb4c",
+        "GSE/curation/lexicon_db.py": "2ee2887dcfa6b23c7ec97f7f71876e177e99b90c0cb70171ec426edb74e638d0",
+        "GSE/curation/llm/__init__.py": "90c944cbf656935e50d71acb56c84f59158d467bb0616233a027cb238be66bf2",
+        "GSE/curation/llm/batch_processor.py": "cf36ff4642c77c1aa7207ec28d497ab35b9c547a5d08c44751da631e17b95e30",
+        "GSE/curation/llm/gap_filler.py": "74a4149ab589fd4aaedbaf27e8d03df193dfc9a8271222752249e19869bee1a9",
+        "GSE/curation/llm/granular_decomposer.py": "94dfc2fcd13938121c5ab5ddeda7feec29b771a014aa2306ddbb808a758779b4",
+        "GSE/curation/llm/hybrid_builder.py": "d16705436729d668b704a58164cb1aeeb5331d19ba6b43ef7e09d228ff700c81",
+        "GSE/curation/llm/ollama_client.py": "3e0896fc22416e31831749aa92fe89be2ef89e802ebb3f5b95fc40038377f280",
+        "GSE/curation/llm/primitive_matcher.py": "8312bc42c055d060fe1e911b23bff74ffc2f6feb0b2585676edef5898e998dcc",
+        "GSE/curation/llm/primitive_sweep.py": "7b052648a21112f4773d6baf99deebfe52b139d1f727dfd6791af081e56b17df",
+        "GSE/curation/llm/prompts.py": "11c9711774b839f6e2b4f6b1ae71a5b9a04746811f3468130691e2eef94d8312",
+        "GSE/curation/llm/qwen_client.py": "6d5804eb65812f0433ae9fc64d46592f4e856e81d683ac57f2373a05e3e7a4a3",
+        "GSE/curation/llm/response_parser.py": "9acb88036a37bf4eee53eb1433e0734ba05eecd4c93b332e60f8da23e21da0c4",
+        "GSE/curation/personal_dictionary.py": "bd2fc5dc4e08ab6e1d29d845e1843a076862a9750a9bfe5b5ef76bf5a4b7c0ae",
+        "GSE/curation/pipeline/__init__.py": "fed458ef628c2be7adb715d6937d6fea5416391c8cad97c3846d633288b7c34f",
+        "GSE/curation/pipeline/staged_builder.py": "8be584faf1a43eda48756b4e04d8670f072f5376552e857c67461a434ad25bbd",
+        "GSE/curation/schema.py": "f5eb1b758eccde2c6653c4b4e214d38c9834ba34ec320588e4eacf9ff704de55",
+        "GSE/curation/validation/__init__.py": "9e16d9d2dfd7699f93aaa73374b7aa10b3de572fb71b73ca35f4e6f2fa8d5ccb",
+        "GSE/curation/validation/bipolar_validator.py": "219b00a40c2c60648391cfd1f2b89a3fda66ea8af9a425e7ad0fb8d80a74c90f",
+        "GSE/curation/validation/coverage_checker.py": "bce25d291bb8f03493d48e553291ed961f32bbe4f7cc1c25b75e0dcc0d2c7865",
+        "GSE/curation/validation/discrimination_gate.py": "2e2fe7ef20f0eeb53f90bf6bafebcac20a4878b09eb081a9ad3891fec1675cbc",
+        "GSE/curation/validation/hierarchy_validator.py": "b17cffc4e8418ef0756a891229a79035f41c92a49abb6c9bd988787ff33f9bf4",
+        "GSE/demo/__init__.py": "19235abcf20ca2a6298d91df5da914b534f2c8e9221af05d861b99599f973309",
+        "GSE/demo/enum_measure.py": "36c10666e3c85adb391663dcba81347a5993ad98fb5ce1a07608d02cfd4f6600",
+        "GSE/demo/enum_repair.py": "79f56bd721988c2f67e168863b8a3492eaca688832d4f3a4750e2a998a08c5da",
+        "GSE/demo/reasoning.py": "4368fe3753c30a51e122fdea486a9d364a604102a32da200d2837e720a5af462",
+        "GSE/demo/showcase.py": "cd65c8e98b82d1b0ef271717aa4a445f0605101db5d9570b262b1008c8d6931a",
+        "GSE/discourse/__init__.py": "3b3073aab4a2e1daee5f1f344d4b231956cba678829ee2f1e5f816a22be7dd48",
+        "GSE/discourse/infer.py": "78f30c63b31fdafb6cd72fef3ae52dfb5090d0a2d84765d41a0fca7d85763a2b",
+        "GSE/discourse/intake.py": "2d84191275616756f24175482d6f977aa0f198986e84acba60cb6e93052af607",
+        "GSE/discourse/nested_router.py": "83320555d973f131a089c43fabdb7971dd0c13b921ef503470f90d90989adb5e",
+        "GSE/discourse/profile.py": "800e12288c60f0f9d02cf62f27c03dc15a6076431336b2f5e6be2c6b7e03cf2d",
+        "GSE/discourse/registers.py": "bc0870767767c34fdb9f4d99e36e75f6df2cf7845e8278d56ff302158b56afd7",
+        "GSE/discourse/router.py": "9dea6f55d61818f430e5ceef9ad435ec63971bd442b614efd2774108ac23e977",
+        "GSE/discourse/speech.py": "f3d87acd204a09383a7c3c2ed72c00438b6e7f389f28028cf5b2897b587cc6e5",
+        "GSE/encoders/__init__.py": "3a46feb440f207d96e24363df4b99d70ae7a6618577b05383fe68c55a5d2e536",
+        "GSE/encoders/marker_detection.py": "22cde92cdc62b65a866aa2c912f186af9b2103978feecf821f16a1526db8d35f",
+        "GSE/encoders/paragraph_structure_encoder.py": "223ba3469036342ace85f934d7168d5f3f241a395f6a7c13ffbfe5a2bb2273b1",
+        "GSE/encoders/sentence_structure_encoder.py": "2e175c379b3a532e025aa9baffc31b17c9217727c30c5683e87ef4bb80166d11",
+        "GSE/encoders/som_genre.py": "b135c8b5cab98eae15d5240b0caacd4afe0e24bf867c59ea9109528d27d84e72",
+        "GSE/encoders/text_structure_encoder.py": "8c8e76a938579bbc0c6aca0785106ae72ccaddabd4b181b55315fa672e04a8b6",
+        "GSE/evaluation/__init__.py": "5befb1b004ee8149936c9058b7bea1dcb839572a4f5a5bfdc19e3e10ad6c5611",
+        "GSE/evaluation/world_model.py": "2e2028898f5fa70e3fc197d3664b2624665920e61e3454a2452be8521a33df97",
+        "GSE/frequency.py": "a28c6779f8f1149792476a194d1ec8d55b1d177e43603a601a3e7588004bf4c5",
+        "GSE/gse/encoders/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "GSE/lexical_evidence.py": "b50ad90e73ddfabee34e64b50ff491778d6321290cb0d0c15c1c2a38a46b8580",
+        "GSE/lexicon/__init__.py": "9a0d9eab226d2e300cde2717be6f2ec8185d964f35574c6e8f90b41382bc60c6",
+        "GSE/lexicon/function_words.py": "1eae08655ac9357c601df781c92efed73a5a24f63968ff6006945038c3a2ab2c",
+        "GSE/lexicon/modifier_hierarchy.py": "8876486bdbd545d918391a4fea09924205cd85853452b2bd0e45c566ae051a88",
+        "GSE/lexicon/numerals.py": "592301fd4e045ba2fe53fa2faaa2c1bcb37f28f456b157b85870c912b6c98fbb",
+        "GSE/lexicon/pronouns.py": "fe8378e3eca12958b0c0d2d8cd9bcdbc7ae8d8481363356dd63db1e3551b9726",
+        "GSE/lexicon/similarity.py": "d81e2025eda05c6d435f15b1ef0122772f1f11f62aafd8b7b50097c0b496285a",
+        "GSE/lexicon/word_encoding.py": "de67a769187e3f52aa70db24aeafca13c0368658c5af4343200333bd8fdfd0e8",
+        "GSE/lexicon_builder/__init__.py": "6419f246c2579ae1967d225ccea65c8120cbcf3b22933f19d8aaa478069308a6",
+        "GSE/lexicon_builder/__main__.py": "b53407a98d7aae6714df30acc7b8cb32ad11cb64b7e9938c06b23c24c88d6899",
+        "GSE/lexicon_builder/artifact.py": "6610e10cb4ae7f2b0af3f5a94744fa34b0567a39d1cdc79427b3ef638b9d47f4",
+        "GSE/lexicon_builder/atomics.py": "4abec0089d3578cb01c47ffeb5546e30057d256fd129e4ba26285dd935750974",
+        "GSE/lexicon_builder/audit.py": "b58b0067cc6f7e35250af5a5fe4e41e9c42f8d674224f35417025e7ff3e8044a",
+        "GSE/lexicon_builder/basis.py": "ab45551986507a1968dc27169ad9426f3cc7885975a54e8b1b4ef3d4bb62971e",
+        "GSE/lexicon_builder/build.py": "c58ae3f72bb5fb9b0fd63a55e80f33cdc0042ef668c0717b3c632ed8ecc566b8",
+        "GSE/lexicon_builder/cli.py": "acef73554027b3b9418b5752c8b759f40d762f53d85705932a65948f943023a5",
+        "GSE/lexicon_builder/conditionals.py": "b1a7e436824a10a05a7bea9198e040b2d2002aac364ba6ffa8cb317df17f9880",
+        "GSE/lexicon_builder/core.py": "9dc69bd42b5f1a0cdbc8cc94a26e2e524aa0c83531bc158d24baa4df5a1c74cd",
+        "GSE/lexicon_builder/coverage.py": "818c8fea24540e4b8615c06da39cda54f36a7f26443f0c862af7bca34c278857",
+        "GSE/lexicon_builder/evaluation.py": "1f1b72edacfd07b72bce70645a2fb2af5b507ea7f5e7a0162bd3f76edb37a79e",
+        "GSE/lexicon_builder/families.py": "e11170d88039ac45eb40527cb22ca3a41b8920085cf729a6b8dd75c14a344780",
+        "GSE/lexicon_builder/fill.py": "416a7c35d04a75e1ac31894e00453edc669b4350f51187f0f846e99b147bef58",
+        "GSE/lexicon_builder/foundation.py": "df6a1d5a751579810a64f953f0d1d5ab3f75096da2d7542753da1698c9d36612",
+        "GSE/lexicon_builder/model.py": "b968bf68593ddbb3cb850df5c35c10461341ff3c85c05f1a77abb94a5f602f12",
+        "GSE/lexicon_builder/native_constraints.py": "1a6b9ef462316e16ec1f99cc7872c23946c5bf67e9a3d1b72f2e78ee544f1804",
+        "GSE/lexicon_builder/nouns.py": "05516bf22250680deedc71c0bb75542f9c278810c0facc8875bbc5abcf44d82e",
+        "GSE/lexicon_builder/number.py": "79706af0d1021f30214a468060fe78a3585f99ba7773e6693cb72fbcc20ad486",
+        "GSE/lexicon_builder/perception.py": "671a74f820a2ef70e463ce4a0a2b7c0a164e5aa3bb8db05c8553a2966fe283dd",
+        "GSE/lexicon_builder/reading.py": "91f5ff3dcf647b7075598d3e982972f4017cacdb3ec920c7cd6a236b32d1b545",
+        "GSE/lexicon_builder/registry.py": "2e4e92cdb67ab0e9c7a6b02f9432fcb47a96a546c8e04b4b92d7d3e12fa1d82c",
+        "GSE/lexicon_builder/release_audit.py": "e2af3aa0a736d86538e00c44de3e9348a0408c2f74424873a04c530230165fbc",
+        "GSE/lexicon_builder/runtime.py": "b4d500bce6ead017b59a275faf3797fc19b69b046abe316817bd156ac82747a5",
+        "GSE/lexicon_builder/sources.py": "8d65fa99a933e1de4b61dc0e959b796b396399b5a5d5a3eff93904ae94b6d016",
+        "GSE/lexicon_builder/surprise.py": "3014770351a5ea0ce995fd1f90119c8e474d03cd5b9e0c4b391058bdb1506f42",
+        "GSE/lexicon_builder/tail.py": "c313f7aa39fc7ec962e71895a525aee4ddbce147041cefa877e36c2f40dc1b11",
+        "GSE/lexicon_resource.py": "3642579e31ba353bc08b6f3adf7d2de0cc5e025a7e217601c23cee27068868be",
+        "GSE/mcp/__init__.py": "2bf9c3fe3fc5418e5e657db880a608282ee07e3e0a16e31584d87437e0019899",
+        "GSE/mcp/spell_server.py": "9f8581cf9ac4bce01cae87059a0c894be01ce2b97e40d30622c871fd00b8c6c5",
+        "GSE/merkle/__init__.py": "d7f490b730a07d6a1d054db0fa5510bfd0b400dda84e6af4075ddaacf7584893",
+        "GSE/merkle/decomposer.py": "fe8659a819eef79fa38bd8190240d02f093bb3ecb26963344b2303dfbfe213a6",
+        "GSE/merkle/hash_chain.py": "1240508a5a31e4a3da71ec005fcdccc009a81d608f0502abd36c6d5f82a88b74",
+        "GSE/merkle/learning_bridge.py": "d808db818e4300cac174bfeb26ca604a898d9f9bcf5975c262ec92c26e9a2e4f",
+        "GSE/merkle/nodes.py": "b761f7e4c295241e73043b6fc9dbec897783ab075eadf206eae4199a208129f6",
+        "GSE/merkle/router.py": "c218e556a71de7b75fa35ca380c06c8059407258b114b37ff26c2b03b3c9e33f",
+        "GSE/merkle/translator.py": "0636c261edda695c6ae78e48f773d7219d2decba760b736d7f8a030c5f7f2ffa",
+        "GSE/merkle/tree.py": "434359bf2ac6c5c958a9e8cf8edea3c742034e7668349ba0632d3ce155d582da",
+        "GSE/nlp/__init__.py": "3bca375d89e85c7495c77bbf9048d1e0b45747d94dc515565f045d84b9c489e5",
+        "GSE/nlp/contractions.py": "9c954d455c81ec3051ab978aa7b230c4678140c93c71ee95d04750ca6488b57e",
+        "GSE/nlp/hdc_speller.py": "2086b7d8d1faf9415b29a3a02cd024ec832ec40cd31e885f6f168c4b372bf10b",
+        "GSE/nlp/heal.py": "9e370c043506d79a3829a92d4fe836439bdfa80bed57386562512d46fff6c45a",
+        "GSE/nlp/healing_resources.py": "5df0f7564dd14e23202e3c0a896a81a465fe3d231d171142490a11946f28e5ff",
+        "GSE/nlp/linkers.py": "60ab5c2c049a3928668e136c673f2f6f00ccf7efb6d4b0aef479f7195e77630f",
+        "GSE/nlp/morphology.py": "f74f525598b5506e7ef5ce4efaaae04efd1f8405d684224332264754da7b2532",
+        "GSE/nlp/native.py": "0e4cf924e10160e78929f9b80c349b5cdd19ede053ddb31bd03b312eb894503c",
+        "GSE/nlp/sentence_parser.py": "9c7040eefcfb4e568180f579b7bc6f5d9142767b44830e9064c262aefae55ced",
+        "GSE/nlp/spellcheck.py": "d6dc1d7849257cf652ad111b8cffb8d753dac7891026fb808ad2676c69ad4c0b",
+        "GSE/nlp/spellcheck_context.py": "b137c9b51dcda951bde8f850c72ec063e2fc97cfdef74822759132ae475ca096",
+        "GSE/nlp/spellcheck_entity.py": "c6941309c3f5ecd490c81804b7ea84480ae775dbb48a8a11ed6dc82f26451957",
+        "GSE/nlp/spellcheck_repl.py": "560783f35479cbd3bc60a7e5d3abac3aaf1e9277f80363c73c0b37712723c780",
+        "GSE/orchestration/__init__.py": "249c36c354ebc31909ff5987b707bebccdadef5a7d2c63db6d16e45ed23585bf",
+        "GSE/parsing/__init__.py": "3856c191c68f8450909cab34c32fadddaf5e3c10320342f5877664d15393f793",
+        "GSE/parsing/graph.py": "988ff57bdef4bc402c91cd3c8cc92783b5165bdeefdd8743e0685c8f93e0d44e",
+        "GSE/parsing/operators.py": "65eff9b7b6dd1e2b4bcb0edb2e764e94fd6398fa9bf495ad81d4e12f65d18aa6",
+        "GSE/parsing/parser.py": "c3afd03ad7e66c8d5b47002e7a489978f512bede3ec665013cfa2e2aa21c8679",
+        "GSE/patterns/__init__.py": "c0f8d037f57c9d77a5ee2ca798f06163dca35ada0e92429c44503d5a0d45c70c",
+        "GSE/patterns/klines.py": "3a6bf8057428761dc0028ac816dd4caa2f6e5ecb1c8381cc085ead03a873cd86",
+        "GSE/patterns/networks_v2.py": "b5c43c894d8be94ebf532eb0c258f43a990978080e857a0d8d76a31aaadb2b8e",
+        "GSE/patterns/orchestrator.py": "b95ecda2dd3824669cefdeaf40ae57078912d2a615eaa951028d7f393bb38e2d",
+        "GSE/pipeline_v2.py": "d095d6e5eca51243391c0ccec74a5c181fbc025cb392864b24ad688feea0b9b6",
+        "GSE/pragmatics/__init__.py": "8b22dc8f46ff6dbf27a7487e1173eb5e234452c9aee723a18d105d3d9d81ad5f",
+        "GSE/pragmatics/figure_store.py": "54eeaf219143cf237b7bb6f182be6db28e4a1af843d3325d34ae01e93699c30f",
+        "GSE/pragmatics/figures.py": "a75e3cd6092befe0176f68be881a7eaa2aecdab7be710b00cf72a6357fe71375",
+        "GSE/pragmatics/janus.py": "f9888f9fe19fd89a0a7bbf5b0fa2a81086e1b72e885e586b7d0f92ac1870e5a2",
+        "GSE/prime_projection.py": "95f8eb01f1ab3d47d45751f885279d9a8ac74b31c90c509ceb17641fec87f68c",
+        "GSE/primitives_v2.py": "ad14c3e4348e453124b3d8904d94266570916b6902009b69a23350ce971556de",
+        "GSE/profiles/__init__.py": "40890d8f5046a5a4d14c9f7d59da10fe0e1c8e32e1393ddffc4be77e3c2f391d",
+        "GSE/profiles/profile_manager.py": "19d7942531ae570fdad546fd52d8ee6f94717470a0f7e4ef6c8190119b296c30",
+        "GSE/scale_definition.py": "e504e788916300050aa926eb1e9a293e639a1f925e05df1d464c7d65bb30110a",
+        "GSE/scales/__init__.py": "3422d75c8afe2b001bbef8e0fa24edf88f247f01f800e45e5e4b3541f5958d26",
+        "GSE/scales/syntactic_structure.py": "8b613adea85a242b26755820252eba047a2667e119dacd89d86d3a384c0cd5ca",
+        "GSE/structure.py": "5a2cd3e7e9430a288a4158c76573dfd35b193abdf2760c2ea0d070b272213441",
+        "GSE/symbolic/__init__.py": "1c9dfc286e97fe767d94da38a11d35fbe3431677f8352853501166bbdfa52820",
+        "GSE/symbolic/claims.py": "038758cca905604a706bc3f55caaf0997686ef5fb13cc2e4d812de1fd3413d7b",
+        "GSE/symbolic/coherence.py": "f25cfcb261953a11d526be3a18de31fe3e98cc03363012ff1bf51aa21790ae97",
+        "GSE/symbolic/duration.py": "97b332cacd4c47b0e0d7ac5583000a40e6390d76b73ced6e877147f587134f9c",
+        "GSE/symbolic/emit.py": "a8b6d76dff49606a551ce78af124cf19b3a1c719df12466863dd3d970c1fc764",
+        "GSE/symbolic/expression.py": "a0ba93475c717ec60f3616fb6bca4ca82220682153031846d938fbe444ab14ce",
+        "GSE/symbolic/genealogy_store.py": "7ed0535350eec47847eb7b1d6477fb6c5c142ac461301b57dcb64d0466428b37",
+        "GSE/symbolic/grounding.py": "aed74cebff1e28d0470ba95d9e5b6724c7fb8fc826d22454f4fcec5c0f6ff617",
+        "GSE/symbolic/healer/__init__.py": "43996e97f07c42041ec40b6ac16637109d11ffc148b74aa09c6526ad9e737f6a",
+        "GSE/symbolic/healer/envelope.py": "c92593edd5d0170729aecf211202f940f9f690cdfd942da6fc72ee4f9079852c",
+        "GSE/symbolic/healer/fold_reader.py": "897fe5a002306b22e9cc15e523ec67d5848fd071b6cf8734dcc9553f7d59f6d4",
+        "GSE/symbolic/healer/lens.py": "83fe51a63a3eff10791d019e9e6114ca99733a35b13d2b9b2081ad029338cd54",
+        "GSE/symbolic/healer/lenses/__init__.py": "72672b344f268e18e0be97eee017f88f768c879fa87020cac9c2bdd28f6cba1e",
+        "GSE/symbolic/healer/lenses/copula_predicate.py": "6625a5a1042fa527e08722cfcc2bf36a05d213f1e9ba022bac02bcda83afa7c9",
+        "GSE/symbolic/healer/lenses/infinitival_control.py": "162729122c4523ceb94d9995950c341b0f6afe5fbf28ee14c9abda239f10ea47",
+        "GSE/symbolic/healer/lenses/participial.py": "9c572f9a31715256dda234f11c3bf8d8c275ca3420b79100dfb271b53b9edf5d",
+        "GSE/symbolic/healer/lenses/vp_coord.py": "c92e73aad026e831a559b61e04d2b3197bf25a6142f9a790bb6130244ea154f8",
+        "GSE/symbolic/healer/recollect.py": "3c2ee636f9c52f93df0405b4501e5b1b19ae55278ab83885d485e3da49dbf5f7",
+        "GSE/symbolic/healer/society.py": "831083dbbe7e75f0627b16b2c484c0002863616d25fb4776ab6c610fb81dd710",
+        "GSE/symbolic/healer/treewalk.py": "b5f24b50857cd400f23d18de3d414766d1a189fb8398278ded128eeb1c899fc6",
+        "GSE/symbolic/inference.py": "7305140112a19046af44a65145ef4014d684ed2edafafa5c55f38a648936c832",
+        "GSE/symbolic/lexical_grounding.py": "fb437e978382d85b3867e9c4009581e3d03f39bb9d8ac70eac5bc73cc82c4140",
+        "GSE/symbolic/modality.py": "1ab940bdbc42e6b4d88c44e78e6e43275535c41faf31f19b848eb571fe9b9a7f",
+        "GSE/symbolic/narrative.py": "dd59c7a1614cb1856f0b9cb1734fb55d80414ca25b1536bb80c5e504a84ad333",
+        "GSE/symbolic/operators.py": "f61cf5878984f4ae41eb104990509025c7495717882a6c10cffa1a76cd140b99",
+        "GSE/symbolic/predicates.py": "7aff8933b50891551e57a9cde89f5312c4f77b4b26e22615c16496f6c25e2c6c",
+        "GSE/symbolic/propositions.py": "1c4fd0694acedcd36537f0da5e5f3c545a11870f936401cb2d1f829b2033d713",
+        "GSE/symbolic/queries.py": "20dbaa91be34ec19a7375195565f9c0f2ebed9d821e81f5486e8454ebdc7102c",
+        "GSE/symbolic/resolution.py": "b19780491b832521544c576b27e6c74ef60344741fa83594a554b02db0d3eae2",
+        "GSE/symbolic/sense_resonance.py": "1b1d35a317c9558d172117b96a399157a54c453118b240b1ff89728b63c2b59f",
+        "GSE/symbolic/serialization.py": "7eb0efc0124a8eeacacd167eed38286b29f13e1199fb1ebb88b011e0e34fdb59",
+        "GSE/symbolic/signs.py": "c142cc0610dde7045207ad54b8e435d9fcab865cea89c48077713e0436634c65",
+        "GSE/symbolic/templating.py": "edfb845d13e8a5ee9ece2c2e2d924d3369780ae5af54cb93bc24bf699cf22901",
+        "GSE/symbolic/tiers.py": "5af29b5772754314b9f7319a2f26512c01d4f60fddd51aa54363de840e3e8638",
+        "GSE/symbolic/variables.py": "5d5ea53eb73e0ee45aa57d74d01f955c5acc19a1da7f5865ff41c38a14e2e4dc",
+        "GSE/teaching/__init__.py": "17f2d0be6218236df9643234d832ba903b294c30d3d208e820c948bcddaacec6",
+        "GSE/teaching/conversation_processor.py": "2c4812d3621abce5e6d3e858006be6cd2598de809324bd0cea221828c8672806",
+        "GSE/teaching/feature_extractor.py": "ef6397de6d2b4a10c3a177deee8cff499a39500d5b7fba0ba6706d475cd8411b",
+        "GSE/teaching/teacher.py": "77800cdb871f486552a62d2042b8d30d4282a049697ae2a4105f75e842ea2a4d",
+        "GSE/vectors_v2.py": "96b298089ddc491400e720be50c2fef73c806cdccff547075eaf0ea6f02e7493",
+        "GSE/verb_templates.py": "1ce2baa3a21c8ddaa4e01ad2c3dea40df1e70a11eb39672fc019b04ef2a46c28",
+        "GSE/verification/__init__.py": "3c52c502cd28e37e7be12d80fcc187734126d295f4236d103f534859ae8fe152",
+        "GSE/verification/proof_suite.py": "c4af8048cf9dcce6cf9086945195891790aa92acab9c8796cdd328fdd30db532",
+        "GSE/verification/symbolic_proof_suite.py": "18b24b9ba229e10a1cec080dd6dc52d0a419640b66d963520f9b19182c257d95",
+        "docs/readings/2026-11-13-ssl-explicit-genera/checkpoint_reference_migration.py": "9a2ef9f4a61121210fb5107f9c1a8370421e794107190803265d59671e982359"
+      },
+      "requested_roots": [
+        "1198f122b413bb0503443d6e7adf2a34049f4cafab20b607a2f98facf20269f0",
+        "37ba074cf5e6b039577907cc6e3f3e1f446d65dbd3922fbab539ac7bc7cf637d",
+        "7292b7b1140cda797375611e08ae49443e981d681a190fa073cf2bc591b5d429",
+        "7a172235256c0d244f7e73b5221d7bc2435eb958d60350a1410f3465ec309150",
+        "9347f832bcfc9a3038bb27189b0b1fc484a322f87f44b2a0eb87b2bd549daed1"
+      ]
+    },
+    "changes": [
+      {
+        "entry_id": "gse_closed_class:pronoun:i",
+        "bank": "I",
+        "value": 1,
+        "source_record_id": "gse_closed_class:i:45dd086ebaae4c403290881c319b5ced907e675dfbddde7e8555b0a72bd184f4"
+      },
+      {
+        "entry_id": "gse_closed_class:pronoun:you",
+        "bank": "YOU",
+        "value": 1,
+        "source_record_id": "gse_closed_class:you:fbff12e440d68d97d943dd6e45a5ff93016a4fe8fe259c2c1e91e114ef17165b"
+      }
+    ],
+    "discovery": {
+      "table": "candidate_relations",
+      "evidence_table": "candidate_evidence",
+      "records": 44
+    },
+    "coverage": {
+      "assigned": 411085,
+      "explicit_zero": 280853,
+      "unresolved": 22078291,
+      "conflicted": 0
+    }
+  }
+}
