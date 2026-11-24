@@ -1125,9 +1125,15 @@ def _replay(conn: sqlite3.Connection, relations: tuple[Relation, ...], *, catalo
             mismatch(entry_id, "CONFLICT_RECEIPT_MISMATCH")
         if len(mismatches) == start:
             validated.add(entry_id)
-    catalog_verification = _catalog_integrity(
-        conn, anchors, relations, lexemes, mismatch, models, evidence, restriction_evidence, native, bank_relevance
-    )
+    # Explicit link replacement rebuilds this derived cache from the replayed
+    # state below. Requiring the old cache to match first prevents repairing a
+    # stale catalogue. Every authoritative input and dictionary check above is
+    # still required; ordinary replay continues to verify the saved cache.
+    catalog_verification = "REPLACEMENT_NOT_VALIDATED"
+    if catalog_links is None:
+        catalog_verification = _catalog_integrity(
+            conn, anchors, relations, lexemes, mismatch, models, evidence, restriction_evidence, native, bank_relevance
+        )
     mismatches.sort(key=lambda item: _canonical(item))
     validated.difference_update(item["entry_id"] for item in mismatches)
     report = {
@@ -1176,6 +1182,7 @@ def _replay(conn: sqlite3.Connection, relations: tuple[Relation, ...], *, catalo
             bank_relevance,
             conn=conn,
         )
+        report["metadata_verification"]["catalog"] = "RECOMPUTED_REPLACEMENT_FROM_VALIDATED_STATE"
     return report
 
 
@@ -1207,7 +1214,7 @@ def _catalog_revision(conn) -> str:
 
 
 def refresh_catalog(path: str | Path, links_path: str | Path, *, apply_links: bool = False) -> dict:
-    """Replay once, preview explicit links, optionally replace only catalog metadata.
+    """Replay authoritative state, rebuild the catalog, optionally install metadata.
 
     The read snapshot's revision must survive obtaining the write lock. A busy
     or changed database is refused, never retried against a different snapshot.
@@ -1233,6 +1240,8 @@ def refresh_catalog(path: str | Path, links_path: str | Path, *, apply_links: bo
         replay = _replay(conn, _relations(_metadata(conn, "relations")), catalog_links=links)
         if replay["code"] != "REPLAY_VALIDATED":
             raise ValueError("CATALOG_REQUIRES_VALID_REPLAY:" + _canonical(replay["mismatch_counts"]))
+        if not replay["complete_search"]:
+            raise ValueError("CATALOG_REQUIRES_COMPLETE_REPLAY")
         catalog = replay.pop("proposed_catalog")
         result = {
             "format": "GSE.catalog-links-update/1",

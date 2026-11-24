@@ -13,7 +13,7 @@ from GSE.curation.lexicon_builder.model_batch import OllamaBatchTransport
 from GSE.curation.lexicon_builder.residual import OllamaTransport, build_request, complete_bank
 from GSE.curation.lexicon_builder.scope_admission import model_scope_admission
 
-BANKS = ("BE", "SOMEONE", "SOMETHING", "EXIST")
+BANKS = ("I", "YOU", "BE", "SOMEONE", "SOMETHING", "EXIST")
 
 
 def native_request(word="you", bank="BE", *, extra=()):
@@ -159,7 +159,7 @@ def test_refusal_also_follows_actual_batch_transport_and_preserves_known_value(m
     assert result.assertion is None
     assert result.resolution == current
     assert result.resolution is not None
-    assert result.resolution.assignments == {"SOMEONE": 1}
+    assert result.resolution.assignments == {"SOMEONE": 1, "YOU": 1}
 
 
 def test_zero_still_obeys_existing_symbolic_contradiction_check():

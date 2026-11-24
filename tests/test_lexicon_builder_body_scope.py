@@ -18,7 +18,7 @@ from GSE.curation.lexicon_builder.residual import OllamaTransport, build_request
 from GSE.curation.lexicon_builder.scope_admission import BODY_SCOPE_SOURCE, model_scope_admission
 from GSE.curation.lexicon_builder.validation import validate_build
 
-BANKS = ("BODY", "BE", "SOMEONE", "SOMETHING", "EXIST")
+BANKS = ("I", "YOU", "BODY", "BE", "SOMEONE", "SOMETHING", "EXIST")
 
 
 def native(word="you"):

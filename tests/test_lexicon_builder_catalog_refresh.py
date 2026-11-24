@@ -101,6 +101,70 @@ def test_apply_changes_only_three_metadata_records_and_replays(tmp_path):
     assert validation.validate_build(path)["code"] == "REPLAY_VALIDATED"
 
 
+def test_real_cli_repairs_stale_derived_catalog_without_changing_dictionary(tmp_path):
+    path = _build(tmp_path)
+    with sqlite3.connect(path) as conn:
+        catalog = _metadata(path)["catalog"]
+        catalog["coverage_counts"] = {"STALE_CACHE": 99}
+        conn.execute("UPDATE builder_metadata SET value=? WHERE key='catalog'", (json.dumps(catalog),))
+    assert validation.validate_build(path)["mismatch_counts"] == {"CATALOG_METADATA_MISMATCH": 1}
+    dictionary = _non_metadata(path)
+    before = path.read_bytes()
+    command = [sys.executable, "-m", "GSE.curation.cli.commands", "--lexicon-db", str(path), "catalog"]
+    arguments = ["--links", str(_links(tmp_path))]
+    preview = subprocess.run(command + arguments, capture_output=True, text=True, check=True)
+    report = json.loads(preview.stdout)
+    assert report["code"] == "CATALOG_LINKS_PREVIEW"
+    assert report["replay"]["metadata_verification"]["catalog"] == "RECOMPUTED_REPLACEMENT_FROM_VALIDATED_STATE"
+    assert path.read_bytes() == before
+    assert validation.validate_build(path)["code"] == "REPLAY_MISMATCH"
+    applied = subprocess.run(command + arguments + ["--apply-links"], capture_output=True, text=True, check=True)
+    assert json.loads(applied.stdout)["code"] == "CATALOG_LINKS_APPLIED"
+    assert _non_metadata(path) == dictionary
+    assert validation.validate_build(path)["code"] == "REPLAY_VALIDATED"
+
+
+@pytest.mark.parametrize("damage", ["published", "domains", "source", "basis"])
+def test_stale_catalog_repair_never_bypasses_authoritative_state_failure(tmp_path, damage):
+    path = _build(tmp_path)
+    with sqlite3.connect(path) as conn:
+        catalog = _metadata(path)["catalog"]
+        catalog["coverage_counts"] = {"STALE_CACHE": 99}
+        conn.execute("UPDATE builder_metadata SET value=? WHERE key='catalog'", (json.dumps(catalog),))
+        if damage == "published":
+            conn.execute("UPDATE primitive_values SET value=-1 WHERE primitive='GOOD'")
+        elif damage == "domains":
+            domains = json.loads(conn.execute("SELECT domains FROM definition_states").fetchone()[0])
+            domains["THINK"] = [0]
+            conn.execute("UPDATE definition_states SET domains=?", (json.dumps(domains),))
+        elif damage == "source":
+            payload = json.loads(conn.execute("SELECT payload FROM builder_assertions").fetchone()[0])
+            payload["record_id"] = "unrelated-source-record"
+            conn.execute("UPDATE builder_assertions SET payload=?", (json.dumps(payload),))
+        else:
+            conn.execute("UPDATE builder_metadata SET value=? WHERE key='representation_contract'", ("{}",))
+    before = path.read_bytes()
+    with pytest.raises(ValueError, match="CATALOG_REQUIRES_VALID_REPLAY"):
+        validation.refresh_catalog(path, _links(tmp_path), apply_links=True)
+    assert path.read_bytes() == before
+
+
+def test_catalog_repair_refuses_an_incomplete_solver_replay(tmp_path, monkeypatch):
+    path = _build(tmp_path)
+    before = path.read_bytes()
+    original = validation._replay
+
+    def limited(*args, **kwargs):
+        report = original(*args, **kwargs)
+        report["complete_search"] = False
+        return report
+
+    monkeypatch.setattr(validation, "_replay", limited)
+    with pytest.raises(ValueError, match="CATALOG_REQUIRES_COMPLETE_REPLAY"):
+        validation.refresh_catalog(path, _links(tmp_path), apply_links=True)
+    assert path.read_bytes() == before
+
+
 def test_explicit_empty_mapping_replaces_links_without_deleting_values(tmp_path):
     path = _build(tmp_path)
     validation.refresh_catalog(path, _links(tmp_path), apply_links=True)
