@@ -1,78 +1,118 @@
-# Execution and verification tasks
+# GSE-01 execution checklist
 
-The initial checkpoint was reviewed at F159-F160. Its dated definition, one-hot, typed-chart,
-deictic-binding, validator and replay history remains in
-`docs/verification/lexicon-rebuild/foundation-2026-10-25/REPORT.md` and `REPLAY.md`.
-That checkpoint is historical evidence, not the current whole-build status.
+The single engineering sequence is CP-01–CP-08 in
+`docs/program/LEXICON_CONSTRUCTION_DESIGN.md#engineering-execution-one-checkpoint-and-a-continuing-learner`.
+This checklist records implementation/verification, not another specification or release result.
+Historical October foundation/family reports remain evidence of their original scope.
 
-The subsequent ordinary-family experiment is recorded separately in
-`docs/verification/lexicon-rebuild/family-2026-10-25/REPORT.md`. It introduces
-authored conditional family boundaries and does not claim whole-lexicon semantic acceptance.
+## Contract reconciliation
 
-Current implementation is on main. The sole acceptance index is planned at
-`docs/verification/lexicon-rebuild/execution-2026-10-25/REPORT.md`.
-The items below remain unchecked until their real verification receipt is linked; code presence or
-this documentation update is not completion evidence. Rohan's live execution authorization allows
-proceeding with this work without reopening the historical checkpoint's approval questions.
+- [x] Read the complete SSL paper skeleton and the relevant whole significance/workflow units.
+- [x] Trace the production runner, discovery consumers, comparison and publication/retention path.
+- [x] Reconcile GSE-01, the current lexical design and this existing change around the active
+  56-ordinary-bank path; retain the upstream 58-coordinate contract as distinct historical work.
+- [x] Link the [engineering-audit receipt](../../../docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-engineering-audit.json):
+  strict OpenSpec validation, three-repository reference/dependency check and document whitespace
+  checks pass. This closes the specification audit only; CP-01–CP-08 remain implementation work.
 
-## Foundation and construction — implemented; pending verification receipts
+## CP-01 — valid opening state
 
-- [ ] Link the whole-basis prime reconstruction and named-code validation receipt, including typed
-  source claims, authored boundaries, GSE adaptation definitions and all-coordinate decisions.
-- [ ] Link independently rooted provenance controls: permission gives no credit; same-decision and
-  cross-decision cycles cannot self-prove; background conflict/limits remain named; independent
-  redundant roots survive ablation; withheld claims leave the premise list.
-- [ ] Link ordinary-homograph and head controls: prime-only one-hot, authored time/place typing,
-  sourced nominal heads, box/dog, person/collective/body/part/category distinctions, hand/glove and
-  wheel/handle, and unknown nominal targets retained without default zeros or silence.
-- [ ] Link source adapter pin/role tests and CAUSE controls for speech, result placeholders,
-  reflexive/body-part identity, native frame inheritance and preserved alternatives.
-- [ ] Link real function-word construction homes and explicit projection accounts, including
-  articles, pronouns/reference binding and THIS's basis gap.
+- [x] Diagnose and repair catalogue derivation/refresh without relaxing noncatalogue replay checks;
+  explicit repair and subsequent ordinary replay now pass for all 401,596 entries.
+  Trace: `_replay` checks the saved derived catalogue before allowing `refresh_catalog` to propose
+  its replacement. Separate that repair phase and test refusal on corrupted authoritative evidence.
+- [ ] Preserve exact historical source/request identities across namespace alias comparison.
+- [x] Upgrade the two reduced-basis fixtures consuming native YOU evidence; do not filter valid
+  assertions or weaken unknown-bank validation. Rerun affected tests and the full repository gate.
+  Latest maintained-suite gate: 7,520 tests, zero failures/errors, 66 skips. Whole-project ty
+  reports 216 advisory diagnostics; the changed controller files pass their scoped type check.
+- [ ] Pin the replay-valid baseline, basis, cohort, source/rule/link/frequency identities and H report.
+  If metadata changes, record a rebase; reuse a journal only when its exact request still matches.
+- [ ] Distinguish the published 021 baseline from the unpublished foundation working head, preserve
+  intervening migration lineage and reconcile publication's active-baseline check without relabelling.
 
-## Admission, native diagnostics and exceptions — implemented; pending verification receipts
+## CP-02 — discovery feeds subsequent work
 
-- [ ] Link exact contract-digest admission receipts and positive/MUST-NOT node execution; stale,
-  unvalidated, retired, empirical-foundational and invented founder-approval records are refused.
-- [ ] Link exact reading/rule/application retraction with independent evidence, ambiguity/duplicate/
-  foundational/nonindependent refusals, reopening of dependent cells and retained independent support.
-- [ ] Link the complete native association catalog's named dispositions and source lineage;
-  corroboration/contradiction remains diagnostic and never writes a cell or self-admits a rule.
+- [ ] Add versioned durable head/candidate/surprise/task records to the existing working state.
+- [ ] Consume native, reviewed and source-backed discovery plus newly grounded chains during the
+  run. Retain source/role/sense witnesses, warrants, counterexamples and original dependencies.
+- [ ] Schedule a candidate absent from the opening family list without a replacement manual plan.
+  Synthetic integration witnesses now cover open-bank discovery, durable warrant intake, fresh
+  audit and replay under the same plan; real-corpus execution remains CP-08 work.
+- [ ] Teach an unresolved bank absent from every opening family; retain any legal answer and
+  feed its scoped hypotheses through durable warrant intake, fresh audit and replay under the
+  same frozen plan. Keep teaching tasks independent of proposed signs and audit sense aliases.
+- [ ] Preserve complementary candidates, pending warrants, already-entailed shortcuts and typed
+  operational refusals; candidate or legacy-vector output cannot self-validate.
 
-## Sparse sweep and gold-independent tail — implemented; pending verification receipts
+## CP-03 — counterexample to refinement to replay
 
-- [ ] Link the frozen replay and justified baseline refresh with cell-level semantic differences.
-- [ ] Link the declared worklist and streamed full symbolic sweep: every input has an outcome,
-  native availability/absence is explicit, and actual ordinary-build model requests are counted.
-- [ ] Link source/domain-bound task planning, zero selection, abstention, stale/already-resolved
-  tasks, backend failure, task identity/deduplication, per-reading limits and call-budget controls.
-- [ ] Link gold-isolation controls: changed reference answers cannot change construction/tasks;
-  non-gold words can receive independently diagnosed tasks; unsupported always-positive fills fail.
+- [ ] Route scope/audit challenges into the existing refinement/revision machinery.
+- [ ] Learn an independently justified distinguishing condition; retain the rejected parent's
+  counterexamples, valid exact exceptions and null reservations separately.
+- [ ] Freshly audit the changed rule and its boundary with proposed-rule descendants withheld.
+- [ ] Jointly migrate additions/retirements/exceptions/reservations, replay every eligible entry,
+  preserve independent support and reopen unsupported conclusions before choosing again.
 
-## Audit, runtime and release — implemented; pending verification receipts
+## CP-04 — scheduling from the constrained state
 
-- [ ] Link the full sparse/structure/candidate validation and malformed/empty/null/boundary controls.
-- [ ] Link the computed Brown genre and Gutenberg text audits with all input hashes, separate
-  vocabulary/homing/signed/head-zero/other-zero/coordinate-completion thresholds, OOV counts and
-  source-conflict quarantine. Do not equate recognized or head-only words with completed definitions.
-- [ ] Link the independent published-explication ledger with two-sided error classes and its
-  explicit evaluation-only and template-derivation scope.
-- [ ] Link deterministic atomic SQLite publication, failure preservation, manifest/payload/digest
-  checks and the real lexical-evidence consumer retaining full sparse states and symbolic status.
-- [ ] Link Detective intent/negative-spec receipts and applicable local/full repository gates.
-- [ ] Publish the final REPORT index with computed outcomes and named semantic/source-coverage
-  residuals; commit only the scoped, verified changes without AI attribution. No performance or
-  semantic-completeness claim follows from passing serialization, homing or gate checks alone.
+- [ ] Recompute strata, per-answer closure and interacting proposal reach after every accepted
+  teaching or revision. Frequency ranks eligible senses; it supplies no semantic sign.
+- [ ] Extend needed joint-tuple/guard candidates through the existing Relation and source-context
+  contracts, including multiple surviving signs and unchanged-marginal exclusions.
+- [ ] Verify a complementary multi-rule bridge changes priority; limits stay unavailable and
+  unsupported guards, hypothetical candidate outputs and unadmitted rules enable nothing.
 
-## Ordinary-family experiment
+## CP-05 — reporting consumes actual joint measurements
 
-- [x] Implement per-coordinate authored family accounts and non-writing required-component checks.
-- [x] Preserve omission and boundary-retraction controls through the shared constructor.
-- [x] Forward projection scope, signed-pole vocabulary and abstention on both selector routes.
-- [x] Derive typed SOMETIMES quantification symbolically; ablation reopens QUANTITY.
-- [x] Freeze separate evaluation, retain all development trials and report source qualifications.
-- [x] Separate structural-only, lexical-only, mixed and unhomed surface evidence in corpus audits.
-- [ ] Establish semantic acceptance of the Fear family: resolve the recorded residual component,
-  omission, addition and zero/silence challenges through shared source/scope rules.
-- [ ] Obtain an unqualified current Detective result for the family validator; the attempted
-  convergence and passing standalone reproduction remain separately recorded.
+- [ ] Update the public equal-budget comparison and acceptance code to consume phase joint H,
+  exact-count coverage and bucket deltas, retaining singleton diagnostics separately.
+- [ ] Separate direct teaching, propagation, new-rule effects, overlap and reopened cells using
+  replayed counterfactuals. Keep sigma_sem minimum teaching evidence distinct from log-space H.
+- [ ] Compare closure-aware and Zipf arms with identical frozen starting inputs/search language
+  and equal actual question budgets; report audit/review costs and incomplete arms honestly.
+- [ ] Record the observed amplification curve across successive rounds; no exponential result
+  follows from the prospective I/YOU population stage alone.
+
+## CP-06 — bounded working storage and crash recovery
+
+- [ ] Reuse the existing sustained writer's shared replay for explicit bounded definition–bank
+  work; preserve identical single/batch acceptance and invalidate changed rules/sources. The
+  current per-question `complete_dictionary` invocation repeats full preflight.
+- [ ] Replace per-epoch retained whole DBs with one working head and compact transition records,
+  reusing existing transactions, copy-on-write staging, receipt deduplication and retention.
+- [ ] Resume correctly after teaching, audit, transition installation and pointer activation,
+  including partial output and a process interrupted before its receipt is finalized.
+- [ ] Verify resumption after obsolete owned staging DBs are removed; no request repeats or
+  unsupported answer commits. Active/previous/source/audit resources remain protected.
+- [ ] Demonstrate a fixed bound on working DB count as epoch count grows.
+
+## CP-07 — usable-checkpoint workload and actual consumer
+
+- [ ] Freeze the workload manifest: basis/cohort/frequency/corpora, eligible token denominators,
+  operations, required bank queries/structures, labels and development/final split.
+- [ ] Use the existing 90% eligible-token-mass requirement in both sources, with genre slices;
+  keep every dictionary sense/tail entry and separately report missing-sign challenges.
+- [ ] Repair real closed-class/contextual identity eligibility, including pronoun versus chemical
+  symbol He; test parser-role error, ambiguity, proper names and preservation of correct readings.
+- [ ] Exercise WANT polarity, BE own-state, anatomy, modifier/negation scope, reference binding,
+  unspecified/long duration and required event/action outputs through the real encoder.
+- [ ] Require all promised critical outcomes and no known wrong/missing required component;
+  report partial/abstained/unavailable outcomes without treating them as passed NLP functions.
+- [ ] Retire development-exposed benchmarks from untouched-holdout claims and run independent
+  final audits. Finite sparse-publication labels cannot certify untested banks or general usability.
+
+## CP-08 — execute and publish the same system
+
+- [ ] Run one mechanical public-entry cycle that discovers a new rule, encounters a genuine
+  contradiction, refines it, audits independently, replays, selects again and resumes exactly.
+- [ ] Kill regressions for 3→2 narrowing, 9→3 unchanged marginals, cyclic/self-confirming support,
+  stale context, source identity, alias leakage, unknown guards, retraction and solver limits.
+- [ ] Complete the real I/YOU teaching/audits without assuming admission, then use the connected
+  learner for the pinned common-word workload and record exact counterexamples/refinements.
+- [ ] Run full candidate replay, semantic/corpus/runtime acceptance and applicable repository
+  gates. Detective remains explicitly deferred, not reported as complete.
+- [ ] Activate the pinned sparse successor atomically through existing publication, with one
+  rollback and protected sources/audit. Verify real consumers select that artifact.
+- [ ] Update the living draft from computed receipts, then continue the same controller from the
+  installed checkpoint with expanded scope and unchanged epistemic requirements.

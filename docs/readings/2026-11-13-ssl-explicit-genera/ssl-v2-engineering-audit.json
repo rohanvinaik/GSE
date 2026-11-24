@@ -1,0 +1,148 @@
+{
+  "format": "GSE.lexicon-engineering-audit/1",
+  "recorded_at": "2026-11-23T19:56:59.796114-05:00",
+  "kind": "ENGINEERING_AUDIT_NOT_LEARNING_ROUND",
+  "specification_status": "RECONCILED_AND_VALIDATED",
+  "implementation_status": "CP_01_THROUGH_CP_08_PENDING_CONSUMER_ACCEPTANCE",
+  "active_pointer": {
+    "format": "gse.active-lexicon/1",
+    "path": "lexicon_builder/2026-11-12/sparse-release-021.db"
+  },
+  "new_lexical_bank_writes": 0,
+  "new_model_invocations": 0,
+  "activation_performed": false,
+  "checks": {
+    "program_references_and_dependencies": {
+      "command": [
+        "/Users/rohanvinaik/Projects/GSE/.venv/bin/python",
+        "scripts/check_program.py"
+      ],
+      "returncode": 0,
+      "stdout": "Program references and dependency graph verified (three-repository).\n",
+      "stderr": ""
+    },
+    "openspec_strict": {
+      "command": [
+        "openspec",
+        "validate",
+        "lexicon-symbolic-foundation",
+        "--strict",
+        "--no-interactive",
+        "--json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"items\": [\n    {\n      \"id\": \"lexicon-symbolic-foundation\",\n      \"type\": \"change\",\n      \"valid\": true,\n      \"issues\": [],\n      \"durationMs\": 16\n    }\n  ],\n  \"summary\": {\n    \"totals\": {\n      \"items\": 1,\n      \"passed\": 1,\n      \"failed\": 0\n    },\n    \"byType\": {\n      \"change\": {\n        \"items\": 1,\n        \"passed\": 1,\n        \"failed\": 0\n      }\n    }\n  },\n  \"version\": \"1.0\",\n  \"root\": {\n    \"path\": \"/Users/rohanvinaik/Projects/GSE\",\n    \"source\": \"nearest\"\n  }\n}\n",
+      "stderr": ""
+    },
+    "git_whitespace": {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "external_documents_whitespace": {
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "cross_repository_links": {
+      "build_to_ssl": {
+        "path": "/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/Semantic_Specification_Learning/01_PAPER_SKELETON.md",
+        "exists": true
+      },
+      "workflow_to_design": {
+        "path": "/Users/rohanvinaik/Projects/GSE/docs/program/LEXICON_CONSTRUCTION_DESIGN.md",
+        "exists": true
+      },
+      "workflow_to_tasks": {
+        "path": "/Users/rohanvinaik/Projects/GSE/openspec/changes/lexicon-symbolic-foundation/tasks.md",
+        "exists": true
+      },
+      "draft_to_probe": {
+        "path": "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-checkpoint-identity-probe.json",
+        "exists": true
+      }
+    }
+  },
+  "code_observed_open_work": {
+    "CP-01": "Catalog refresh replay validates the stale derived cache before proposing its replacement; retain authoritative-state checks.",
+    "CP-02": "run_arm families are fixed at plan load; mined chains have no next-cycle scheduling consumer.",
+    "CP-03": "run_epoch withholds independent audit challenges without dispatching refinement.",
+    "CP-04": "Expand and refresh the supported discovery/question portfolio through existing typed contracts.",
+    "CP-05": "compare acceptance still uses singleton and interaction counts, despite joint phase measurements.",
+    "CP-06": "Per-epoch teaching/candidate DBs remain until publication, and resume expects intermediate paths.",
+    "CP-07": "Real encoder still selects a pronoun for chemical-symbol He; full workload gate is not implemented by finite runtime probes.",
+    "CP-08": "The unpublished working head and published baseline need explicit lineage before checkpoint publication and continuation."
+  },
+  "recorded_candidate_preflight": {
+    "source": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-candidate-preflight-final.json",
+    "sha256": "519c378a2e58c3fdd30c118c4c8a0075218caea4e729e3b805606b1f9f2de64b",
+    "code": "REPLAY_MISMATCH",
+    "entries_validated": 401596,
+    "entries_mismatched": 0,
+    "mismatch_counts": {
+      "CATALOG_METADATA_MISMATCH": 1
+    },
+    "complete_search": true
+  },
+  "recorded_repository_gate": {
+    "source": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-project-gate-final-tests.xml",
+    "sha256": "965f385cd10222de2ac2141ecccd908a27ad27e7544350cb4932d17f1303790f",
+    "suites": [
+      {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "45",
+        "skipped": "66",
+        "tests": "7940",
+        "time": "366.050",
+        "timestamp": "2026-11-23T19:15:43.264354-05:00",
+        "hostname": "MacBookPro"
+      }
+    ],
+    "failure_classes": {
+      "tests.test_lexicon_builder_body_scope": 25,
+      "tests.test_lexicon_builder_scope_admission": 20
+    },
+    "failure_messages": {
+      "ValueError: UNKNOWN_BANK:YOU": 45
+    },
+    "status": "RECORDED_FAILED_GATE_REPAIR_AND_RERUN_REQUIRED"
+  },
+  "fresh_runtime_probe": {
+    "source": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-checkpoint-identity-probe.json",
+    "sha256": "f060fae50895c794d6944d640530233771000d2efc949edbf5458e2284e21fb4",
+    "code": "WRONG_PRONOUN_FOR_CHEMICAL_SYMBOL",
+    "scope": "EXACT_IDENTITY_CONTROL_NOT_CORPUS_ACCURACY"
+  },
+  "reviewed_file_sha256": {
+    "docs/program/BUILD_SPEC.md": "ab4bfdcd3bb684a3a2daffb13acc34f7d1699f571a35b4ce3230090d6565b3e0",
+    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md": "aabd8d48f2adf83b507feb719f57914b495d12e5b427895afc54c80e57389ef0",
+    "openspec/changes/lexicon-symbolic-foundation/proposal.md": "fdc9672049dd471747d23426e2fb07a7d743928351875be033c5280c69455737",
+    "openspec/changes/lexicon-symbolic-foundation/design.md": "ab19d083ecab230b9cc449ba8f4dc0a3a13ded11555e44be9ad2a2ec6bf9a4f3",
+    "openspec/changes/lexicon-symbolic-foundation/tasks.md": "29837baab44c481166e7969e7b49aa7e809507bfdcedaead9412fa2a47589988",
+    "openspec/changes/lexicon-symbolic-foundation/specs/lexicon-construction/spec.md": "81e880436206f905fde81dc9f16f2bdef6f95c996e4c9004d82e58f70a241619",
+    "GSE/curation/lexicon_builder/epoch.py": "facd871a382901280639e69d962a0300231a06ff1b61c87a2121428c112af9e1",
+    "GSE/curation/lexicon_builder/validation.py": "f30b2813280975fd7de8b0d95c57ed1b4e3038e46ced5366e504ee36c56d3741",
+    "GSE/curation/lexicon_builder/specification.py": "88734f5130936ff0836b1ed8be4c4088fba4f0b56b8696d21082598e23f9026f",
+    "scripts/run_lexicon_epochs.py": "d777c704ba602c5ef088300b39a28bd8884f8be80b9215da82425a8c69256629",
+    "scripts/audit_lexicon_runtime.py": "56671fdb1b4c329e5dbf204f62bd504c8ab1a8f60da4e2f9a2049b1a774e50dd",
+    "scripts/audit_lexicon_sentences.py": "f0cb53bdb305711afdcb3108cd6e98a70b799d68ac0f424196c721e9ce04f951",
+    "GSE/api/encoder.py": "06196899b4d16c469fcc8e3a14db0a67a9e7207f7642c4a73d6b7009a872703f"
+  },
+  "unperformed": [
+    "Production feedback/retention/runtime repairs",
+    "Fresh full-repository gate after those repairs",
+    "Real recursive corpus learning round",
+    "Usable-checkpoint workload acceptance",
+    "Sparse publication"
+  ],
+  "external_document_sha256": {
+    "/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/LLM_WORKFLOW/SEMANTIC_CONSTRUCTION_WORKFLOW.md": "09995bc77b6b471831ac4ec7831c0eacb4e8cd2ff1ff38122a6cbd04a5146e02",
+    "/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/Semantic_Specification_Learning/07_GSE_LEXICON_NSM_WORKING_DRAFT.md": "a1e0d64c0e0954689592d80f69945af987321c3f19dd6755bf52204bbbee23a0"
+  }
+}

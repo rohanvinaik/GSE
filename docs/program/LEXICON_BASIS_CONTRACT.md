@@ -1,5 +1,13 @@
 # GSE lexical basis contract
 
+**Scope clarification, 2026-11-23:** this document describes the upstream
+`GSE/lexicon_builder/` 58-coordinate foundation artifact. The active
+`GSE/curation/lexicon_builder/` contract has 56 ordinary banks and separate hierarchy metadata.
+Its later approved semantics, including I/SOMEONE and evidence-conditioned absence, govern the
+production build. The authored-silence and prime-only one-hot decisions below must not be imported
+as production defaults. See the single [construction design's reconciliation](LEXICON_CONSTRUCTION_DESIGN.md#reconciliation-with-the-existing-upstream-constructor)
+and [engineering sequence](LEXICON_CONSTRUCTION_DESIGN.md#engineering-execution-one-checkpoint-and-a-continuing-learner).
+
 This is the authored completion of the prime definitions requested in F148 and F158, under the semantic-design delegation at F152. It preserves the existing 72 names, fourteen opposite-pole aliases and 58 canonical signed coordinates. These GSE choices are not attributed to the NSM inventory. The founder record controls intent; the chart and cited primary literature identify NSM lexical units. The research packets locate evidence and do not decide the definitions.
 
 ## Meaning, warrants and closure

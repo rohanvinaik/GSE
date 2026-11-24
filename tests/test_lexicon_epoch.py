@@ -842,9 +842,14 @@ def test_constraint_only_rule_is_taught_audited_admitted_and_replayed(tmp_path):
             return json.dumps({"WANT": 1 if payload["entry_id"] == "wordnet:beta:beta.n.01" else 0})
 
     inventory = census(base, parse_plan(plan))
-    result = run_arm(
-        plan, base, pointer, tmp_path / "round", inventory, "closure", MaskRulings(), tmp_path / "model.lock"
-    )
+    record(tmp_path / "inventory.json", inventory)
+    arms = {
+        policy: run_arm(
+            plan, base, pointer, tmp_path / policy, inventory, policy, MaskRulings(), tmp_path / "model.lock"
+        )
+        for policy in ("closure", "zipf")
+    }
+    result = arms["closure"]
     [epoch] = result["epochs"]
     assert epoch["code"] == "RULE_ADMITTED" and result["typed_questions_used"] == 3
     assert result["new_cells"] == 0
@@ -856,6 +861,27 @@ def test_constraint_only_rule_is_taught_audited_admitted_and_replayed(tmp_path):
         assert all(
             json.loads(row[0])["WANT"] == [0, 1] for row in conn.execute("SELECT domains FROM definition_states")
         )
+    comparison = compare(tmp_path, plan)
+    assert comparison["code"] == "EQUAL_BUDGET_JOINT_CONTRACTION_VALIDATED"
+    assert comparison["format"] == "GSE.lexicon-epoch-comparison/2"
+    assert comparison["joint_learning"]["code"] == "EXACT_JOINT_COMPARISON"
+    assert all(arm["new_cells"] == 0 for arm in comparison["arms"].values())
+    assert comparison["joint_learning"]["closure_minus_zipf_specification_gain_bits"] == 0
+    assert all(
+        arm["total"]["lexicon"]["specification_gain_bits"] > 0 for arm in comparison["joint_learning"]["arms"].values()
+    )
+    assert (tmp_path / "comparison-joint-v2.json").is_file()
+
+    from scripts.run_lexicon_epochs import joint_learning
+
+    incomplete = json.loads(json.dumps(arms))
+    del incomplete["closure"]["epochs"][0]["specification_learning"]
+    assert joint_learning(incomplete)["code"] == "JOINT_PHASE_MEASUREMENTS_UNAVAILABLE"
+    unavailable = json.loads(json.dumps(arms))
+    unavailable["closure"]["epochs"][0]["specification_learning"]["post_revision"]["lexicon"]["specification_bits"] = (
+        None
+    )
+    assert joint_learning(unavailable)["code"] == "JOINT_PHASE_COUNTS_UNAVAILABLE"
 
 
 def test_full_portfolio_changes_priority_beyond_two_rule_lookahead(tmp_path):
@@ -904,3 +930,429 @@ def test_exclusion_plan_rejects_malformed_or_vacuous_domains(values):
                 "families": [proposal],
             }
         )
+
+
+def counterexample_inputs(tmp_path):
+    base, pointer = tmp_path / "counterexample-base.db", tmp_path / "pointer.json"
+    pointer.write_text("{}")
+    definitions, observations = zip(*(native(word, "area_unit.n.01") for word in ("alpha", "beta", "gamma")))
+    assertions = tuple(Assertion("SOMETHING", 1, "wordnet_hierarchy", d.entry_id, "wordnet") for d in definitions)
+    build_dictionary(EvidenceBundle(definitions, observations, assertions, ()), base)
+    plan = {
+        "format": "GSE.lexicon-epoch-plan/1",
+        "baseline_sha256": fingerprint(base),
+        "active_pointer_sha256": fingerprint(pointer),
+        "epochs": 2,
+        "audits_per_epoch": 1,
+        "teaching_entry_ids": ["wordnet:alpha:alpha.n.01"],
+        "families": [family("unconfirmed-want", "area_unit.n.01", ["SOMETHING", 1], ["WANT", 1], "beta")],
+    }
+    return base, pointer, plan, census(base, parse_plan(plan))
+
+
+def test_legal_teaching_counterexample_is_written_preserved_and_blocks_parent(tmp_path):
+    base, pointer, plan, inventory = counterexample_inputs(tmp_path)
+    model = Rulings()  # A legal WANT=0 answer to a proposed WANT=+1 rule.
+    args = (plan, base, pointer, tmp_path / "counterexample", inventory, "closure", model, tmp_path / "model.lock")
+    result = run_arm(*args)
+    first, second = result["epochs"]
+    assert first["code"] == "RULE_CHALLENGED_BY_TEACHING"
+    assert first["teaching"]["code"] == "REVIEWED_TEACHING_COUNTEREXAMPLE"
+    assert first["surprise"]["expected_values"] == [1]
+    assert first["surprise"]["observed_value"] == 0
+    assert first["surprise"]["authority"] == "BOUNDED_MODEL_EVIDENCE_REQUIRES_SCOPE_REVIEW"
+    assert second["code"] == "NO_ELIGIBLE_QUESTION"
+    assert result["admitted"] == []
+    assert result["typed_questions_used"] == len(model.calls) == 1
+    assert result["pending_challenges"] == [
+        {"epoch": 1, "family": "unconfirmed-want", "code": "RULE_CHALLENGED_BY_TEACHING"}
+    ]
+    assert result["replay"]["code"] == "REPLAY_VALIDATED"
+    with sqlite3.connect(result["candidate"]) as conn:
+        states = {
+            entry: json.loads(domains)
+            for entry, domains in conn.execute("SELECT entry_id,domains FROM definition_states")
+        }
+        assert states["wordnet:alpha:alpha.n.01"]["WANT"] == [0]
+        assert states["wordnet:beta:beta.n.01"]["WANT"] == [-1, 0, 1]
+        assert states["wordnet:alpha:alpha.n.01"]["THINK"] == [-1, 0, 1]
+        assert conn.execute("SELECT COUNT(*) FROM accepted_model_receipts").fetchone()[0] == 1
+    assert run_arm(*args) == result
+    assert len(model.calls) == 1
+    assert fingerprint(base) == plan["baseline_sha256"]
+
+
+@pytest.mark.parametrize(
+    "raw,expected",
+    [
+        ('{"WANT":null}', "TEACHING_ABSTAINED"),
+        ('{"WANT":true}', "TEACHING_INVALID_OUTPUT"),
+        ('{"WANT":2}', "TEACHING_INVALID_OUTPUT"),
+        ('{"WANT":0,"WANT":1}', "TEACHING_INVALID_OUTPUT"),
+        ('{"WANT":0,"THINK":1}', "TEACHING_INVALID_OUTPUT"),
+        ("{}", "TEACHING_INVALID_OUTPUT"),
+        ("null", "TEACHING_INVALID_OUTPUT"),
+        ("", "TEACHING_INVALID_OUTPUT"),
+    ],
+)
+def test_invalid_or_abstained_teaching_is_not_an_assignment_or_signed_counterexample(tmp_path, raw, expected):
+    base, pointer, plan, inventory = counterexample_inputs(tmp_path)
+    plan["epochs"] = 1
+
+    class InvalidRuling:
+        identity = "synthetic-invalid-teaching"
+
+        def __call__(self, payload, schema):
+            return raw
+
+    result = run_arm(
+        plan, base, pointer, tmp_path / "invalid-round", inventory, "closure", InvalidRuling(), tmp_path / "model.lock"
+    )
+    assert result["epochs"][0]["teaching"]["code"] == expected
+    assert result["admitted"] == result["pending_challenges"] == []
+    assert result["changes"] == []
+    assert result["typed_questions_used"] == 1
+    assert result["candidate"] == str(base)
+    assert fingerprint(base) == plan["baseline_sha256"]
+
+
+def open_curriculum_inputs(tmp_path, *, resolved_alpha=False):
+    from GSE.curation.lexicon_builder.learning_curriculum import plan_inventory
+
+    base, pointer = tmp_path / "open-base.db", tmp_path / "pointer.json"
+    pointer.write_text("{}")
+    definitions, observations = zip(*(native(word, "time_unit.n.01") for word in ("alpha", "beta", "gamma", "delta")))
+    assertions = tuple(Assertion("SOMETHING", 1, "wordnet_hierarchy", d.entry_id, "wordnet") for d in definitions)
+    manifest = None
+    if resolved_alpha:
+        manifest = tmp_path / "known-alpha.json"
+        manifest.write_text(
+            json.dumps(
+                {
+                    "format": "GSE.lexicon-rules/1",
+                    "relations": [
+                        {
+                            "rule_id": "synthetic-known-alpha",
+                            "banks": ["QUANTITY"],
+                            "allowed_rows": [[1]],
+                            "provenance": ["synthetic:scheduling-control"],
+                            "authority": "conditional",
+                            "approved": True,
+                            "guards": [["wordnet_native_lemma", "true"], ["wordnet_ancestor:alpha.n.01", "true"]],
+                        }
+                    ],
+                }
+            )
+        )
+    build_dictionary(EvidenceBundle(definitions, observations, assertions, ()), base, manifest=manifest)
+    plan = {
+        "format": "GSE.lexicon-epoch-plan/2",
+        "baseline_sha256": fingerprint(base),
+        "active_pointer_sha256": fingerprint(pointer),
+        "epochs": 3,
+        "audits_per_epoch": 2,
+        "families": [],
+        "teaching_entry_ids": ["wordnet:alpha:alpha.n.01"],
+        "curriculum": {
+            "banks": ["QUANTITY"],
+            "frontier_limit": 4,
+            "banks_per_entry": 1,
+            "candidate_limit": 1,
+            "audit_entry_ids": ["wordnet:beta:beta.n.01", "wordnet:gamma:gamma.n.01"],
+            "scopes": [
+                {
+                    "id": "curriculum:units",
+                    "guards": [
+                        ["pos", "noun"],
+                        ["wordnet_native_lemma", "true"],
+                        ["wordnet_ancestor:time_unit.n.01", "true"],
+                    ],
+                }
+            ],
+        },
+    }
+    return base, pointer, plan, plan_inventory(base, plan)
+
+
+def test_open_bank_discovery_review_audit_and_replay_resume_under_the_same_plan(tmp_path):
+    from GSE.curation.lexicon_builder.learning_curriculum import REVIEW_FORMAT
+    from GSE.curation.lexicon_builder.learning_state import LearningState
+
+    base, pointer, plan, inventory = open_curriculum_inputs(tmp_path)
+    directory, model = tmp_path / "learner", Rulings()
+    args = (plan, base, pointer, directory, inventory, "closure", model, tmp_path / "model.lock")
+    first = run_arm(*args)
+    assert first["code"] == "LEARNING_REVIEW_REQUIRED"
+    assert first["typed_questions_used"] == 1 == len(model.calls)
+    [epoch] = first["epochs"]
+    assert epoch["selected"]["task"] == "OPEN_BANK_TEACHING" and epoch["selected"]["family"] is None
+    assert epoch["teaching"]["proposal_outcome"] == "NO_PROPOSED_ANSWER"
+    assert first["admitted"] == [] and first["new_cells"] == 1
+    [pending] = first["learning_state"]["pending"]
+    assert pending["disposition"] == "AWAITING_WARRANT"
+    assert pending["contract"]["banks"] == ["QUANTITY"]
+    assert not (directory / "arm-result.json").exists()
+    assert run_arm(*args) == first and len(model.calls) == 1
+    item = family("learned-unit-quantity", "time_unit.n.01", ["SOMETHING", 1], ["QUANTITY", 1], "beta")
+    item.update(antecedent=None, holdouts=["wordnet:beta:beta.n.01", "wordnet:gamma:gamma.n.01"])
+    (directory / "reviews.json").write_text(
+        json.dumps(
+            {
+                "format": REVIEW_FORMAT,
+                "records": [{"mechanism_id": pending["mechanism_id"], "family": item}],
+            }
+        )
+    )
+    result = run_arm(*args)
+    assert result["epochs"][1]["code"] == "RULE_ADMITTED"
+    assert result["epochs"][1]["selected"]["task"] == "AUDIT_DISCOVERED_MECHANISM"
+    assert result["typed_questions_used"] == len(model.calls) == 3
+    assert model.calls.count(("wordnet:alpha:alpha.n.01", "QUANTITY")) == 1
+    assert result["new_cells"] == 4 and result["reopened_cells"] == 0
+    assert result["replay"]["code"] == "REPLAY_VALIDATED" and result["replay"]["complete_search"]
+    assert result["epochs"][1]["specification_learning"]["rule_revision"]["lexicon"]["specification_gain_bits"] > 0
+    with sqlite3.connect(result["candidate"]) as conn:
+        for (encoded,) in conn.execute("SELECT domains FROM definition_states"):
+            domains = json.loads(encoded)
+            assert domains["QUANTITY"] == [1] and domains["THINK"] == [-1, 0, 1]
+    assert result["learning_state"]["pending"] == []
+    (directory / "reviews.json").unlink()  # Durable reviews are independent of the intake file.
+    assert run_arm(*args) == result and len(model.calls) == 3
+    state = LearningState(directory / "learning.sqlite", json.loads((directory / "arm.json").read_text()))
+    assert state.reviewed()[0]["disposition"] == "ADMITTED"
+    assert fingerprint(base) == plan["baseline_sha256"]
+    assert fingerprint(pointer) == plan["active_pointer_sha256"]
+
+
+def test_null_open_bank_answer_remains_unknown_and_proposes_no_rule(tmp_path):
+    base, pointer, plan, inventory = open_curriculum_inputs(tmp_path)
+
+    class Abstention:
+        identity = "synthetic-open-null"
+
+        def __call__(self, payload, schema):
+            return json.dumps({payload["bank"]: None})
+
+    result = run_arm(plan, base, pointer, tmp_path / "null", inventory, "zipf", Abstention(), tmp_path / "model.lock")
+    assert result["typed_questions_used"] == 1
+    assert result["epochs"][0]["teaching"]["code"] == "TEACHING_ABSTAINED"
+    assert result["new_cells"] == 0 and result["learning_state"]["pending"] == []
+    assert result["candidate"] == str(base)
+
+
+def test_learning_review_cannot_change_the_observed_mechanism(tmp_path):
+    from GSE.curation.lexicon_builder.learning_curriculum import REVIEW_FORMAT
+
+    base, pointer, plan, inventory = open_curriculum_inputs(tmp_path)
+    directory, model = tmp_path / "review-change", Rulings()
+    args = (plan, base, pointer, directory, inventory, "zipf", model, tmp_path / "model.lock")
+    first = run_arm(*args)
+    [pending] = first["learning_state"]["pending"]
+    item = family("changed", "time_unit.n.01", ["SOMETHING", 1], ["QUANTITY", 0], "beta")
+    item.update(antecedent=None, holdouts=["wordnet:beta:beta.n.01", "wordnet:gamma:gamma.n.01"])
+    (directory / "reviews.json").write_text(
+        json.dumps(
+            {
+                "format": REVIEW_FORMAT,
+                "records": [{"mechanism_id": pending["mechanism_id"], "family": item}],
+            }
+        )
+    )
+    with pytest.raises(ValueError, match="LEARNING_REVIEW_MECHANISM_CHANGED"):
+        run_arm(*args)
+    assert len(model.calls) == 1
+
+
+def test_old_fixed_plan_cannot_silently_acquire_open_bank_curriculum(tmp_path):
+    _, _, plan, _ = open_curriculum_inputs(tmp_path)
+    plan["format"] = "GSE.lexicon-epoch-plan/1"
+    with pytest.raises(ValueError, match="CURRICULUM_REQUIRES_VERSIONED_LEARNING_PLAN"):
+        parse_plan(plan)
+
+
+def test_resolved_frequent_word_does_not_hide_the_open_bank_frontier(tmp_path):
+    from GSE.curation.lexicon_builder.learning_curriculum import choose_open
+
+    base, _, plan, inventory = open_curriculum_inputs(tmp_path, resolved_alpha=True)
+    plan["teaching_entry_ids"].append("wordnet:delta:delta.n.01")
+    plan["curriculum"]["frontier_limit"] = 1
+    selected = choose_open(base, plan, inventory, {}, set(), "zipf", {"alpha": 1000, "delta": 1})
+    assert selected["entry_id"] == "wordnet:delta:delta.n.01"
+    assert selected["family"] is None and selected["bank"] == "QUANTITY"
+
+
+def test_equal_budget_comparison_consumes_discovered_inventory_and_actual_teaching_cost(tmp_path):
+    from GSE.curation.lexicon_builder.learning_curriculum import REVIEW_FORMAT
+
+    base, pointer, plan, inventory = open_curriculum_inputs(tmp_path)
+    record(tmp_path / "inventory.json", inventory)
+    arms = {}
+    for policy in ("closure", "zipf"):
+        model, directory = Rulings(), tmp_path / policy
+        args = (plan, base, pointer, directory, inventory, policy, model, tmp_path / "model.lock")
+        pending = run_arm(*args)["learning_state"]["pending"][0]
+        item = family("discovered", "time_unit.n.01", ["SOMETHING", 1], ["QUANTITY", 1], "beta")
+        item.update(antecedent=None, holdouts=["wordnet:beta:beta.n.01", "wordnet:gamma:gamma.n.01"])
+        (directory / "reviews.json").write_text(
+            json.dumps(
+                {"format": REVIEW_FORMAT, "records": [{"mechanism_id": pending["mechanism_id"], "family": item}]}
+            )
+        )
+        arms[policy] = run_arm(*args)
+        assert arms[policy]["typed_questions_used"] == len(model.calls) == 3
+        assert arms[policy]["code"] == "LEARNING_DECLARED_FRONTIER_EXHAUSTED"
+    comparison = compare(tmp_path, plan)
+    assert comparison["code"] == "EQUAL_BUDGET_JOINT_CONTRACTION_VALIDATED"
+    assert comparison["equal_budget"] and comparison["budget"] == {"closure": 3, "zipf": 3}
+    assert all(arm["direct_typed_assignments"] == arm["semantic_reviews"] == 1 for arm in comparison["arms"].values())
+    assert comparison["joint_learning"]["closure_minus_zipf_specification_gain_bits"] == 0
+    reference = arms["closure"]["learned_inventory"]["discovered"]
+    path = tmp_path / "closure" / ("inventory-" + pending["mechanism_id"] + ".json")
+    original = path.read_text()
+    rows = json.loads(original)
+    rows[0]["source_sha256"] = "0" * 64
+    path.write_text(json.dumps(rows))
+    with pytest.raises(ValueError, match="EPOCH_LEARNED_INVENTORY_CHANGED"):
+        compare(tmp_path, plan)
+    path.write_text(original)
+    assert reference["path"] == str(path)
+
+
+def test_open_bank_curriculum_runs_through_the_public_epoch_entry_point(tmp_path, monkeypatch):
+    import sys
+
+    from scripts import run_lexicon_epochs
+
+    base, pointer, plan, _ = open_curriculum_inputs(tmp_path)
+    plan_path, directory = tmp_path / "plan.json", tmp_path / "public-round"
+    plan_path.write_text(json.dumps(plan))
+    model = Rulings()
+    model.identity = "fixture:open#" + "f" * 64 + "@native-open-test"
+    model.pin = lambda: None
+    monkeypatch.setattr(run_lexicon_epochs, "ACTIVE_POINTER", pointer)
+    monkeypatch.setattr(run_lexicon_epochs, "OllamaTransport", lambda *a, **k: model)
+    args = ["epochs", "init", "--plan", str(plan_path), "--baseline", str(base), "--directory", str(directory)]
+    monkeypatch.setattr(sys, "argv", args)
+    run_lexicon_epochs.main()
+    assert set(json.loads((directory / "inventory.json").read_text())) == {"curriculum:units"}
+    args[1] = "run"
+    args.extend(["--policy", "closure", "--model", "fixture:open", "--model-digest", "f" * 64])
+    run_lexicon_epochs.main()
+    [pending] = (directory / "closure").glob("review-pending-*.json")
+    result = json.loads(pending.read_text())
+    assert result["code"] == "LEARNING_REVIEW_REQUIRED" and result["typed_questions_used"] == 1
+    assert result["epochs"][0]["selected"]["bank"] == "QUANTITY"
+    run_lexicon_epochs.main()
+    assert len(model.calls) == 1
+
+
+def test_real_guard_imputer_refines_a_counterexample_and_replays_with_fresh_audits(tmp_path):
+    pytest.importorskip("regenesis.promotion_ledger", reason="Integration: run with Regenesis on PYTHONPATH")
+    from GSE.curation.lexicon_builder.learning_curriculum import REVIEW_FORMAT, plan_inventory
+    from GSE.curation.lexicon_builder.learning_state import LearningState
+
+    base, pointer = tmp_path / "contrast.db", tmp_path / "pointer.json"
+    pointer.write_text("{}")
+    members = []
+    for word in ("alpha", "beta", "gamma", "delta", "epsilon", "cold"):
+        definition, observation = native(word, "unit.n.01")
+        subtype = "negative_unit.n.01" if word == "beta" else "positive_unit.n.01"
+        observation = replace(
+            observation,
+            features={
+                **observation.features,
+                "hypernym_paths": [["entity.n.01", "unit.n.01", subtype, word + ".n.01"]],
+            },
+        )
+        members.append((definition, observation))
+    definitions, observations = zip(*members)
+    assertions = tuple(Assertion("SOMETHING", 1, "wordnet_hierarchy", d.entry_id, "wordnet") for d in definitions)
+    build_dictionary(EvidenceBundle(definitions, observations, assertions, ()), base)
+    parent = family("broad-fixture", "unit.n.01", ["SOMETHING", 1], ["QUANTITY", 1], "beta")
+    parent.update(antecedent=None, holdouts=["wordnet:beta:beta.n.01", "wordnet:gamma:gamma.n.01"])
+    plan = {
+        "format": "GSE.lexicon-epoch-plan/2",
+        "baseline_sha256": fingerprint(base),
+        "active_pointer_sha256": fingerprint(pointer),
+        "epochs": 3,
+        "audits_per_epoch": 2,
+        "families": [parent],
+        "teaching_entry_ids": ["wordnet:alpha:alpha.n.01"],
+        "curriculum": {
+            "banks": ["QUANTITY"],
+            "frontier_limit": 4,
+            "banks_per_entry": 1,
+            "candidate_limit": 1,
+            "audit_entry_ids": [f"wordnet:{word}:{word}.n.01" for word in ("beta", "gamma", "delta", "epsilon")],
+            "scopes": [{"id": "curriculum:unit", "guards": parent["guards"]}],
+        },
+    }
+
+    class ContrastRulings(Rulings):
+        identity = "synthetic-native-contrast"
+
+        def __call__(self, payload, schema):
+            super().__call__(payload, schema)
+            return json.dumps({"QUANTITY": 0 if payload["entry_id"] == "wordnet:beta:beta.n.01" else 1})
+
+    directory, model = tmp_path / "contrast", ContrastRulings()
+    args = (plan, base, pointer, directory, plan_inventory(base, plan), "closure", model, tmp_path / "model.lock")
+    first = run_arm(*args)
+    assert first["code"] == "LEARNING_REVIEW_REQUIRED" and first["typed_questions_used"] == 3
+    first_epoch = first["epochs"][0]
+    assert first_epoch["code"] == "RULE_WITHHELD_INDEPENDENT_AUDIT"
+    refinement = first_epoch["refinement"]
+    assert refinement["code"] == "IMPUTED_GUARDS_AWAITING_WARRANT"
+    assert refinement["model_calls"] == refinement["bank_writes"] == 0
+    assert refinement["counterexamples"][0]["value"] == 0
+    [child] = [row for row in first["learning_state"]["pending"] if row["disposition"] == "AWAITING_WARRANT"]
+    assert ["wordnet_ancestor:positive_unit.n.01", "true"] in child["contract"]["guards"]
+    from GSE.curation.lexicon_builder.learning_refinement import propose_refinements
+
+    phase = directory / "epoch-01"
+    raw = json.loads((phase / "reviewed-input.json").read_text())
+    audited = json.loads((phase / "audit.json").read_text())
+    audited["candidates"][0]["audits"][0]["raw_output"] = '{"QUANTITY":1}'
+    witness = next(row for row in args[4][parent["id"]] if row["entry_id"] == first_epoch["selected"]["entry_id"])
+    with pytest.raises(ValueError, match="REFINEMENT_AUDIT_REPLAY_MISMATCH"):
+        propose_refinements(
+            raw, audited, parse_plan(plan)[parent["id"]], first_epoch["selected"], first_epoch["teaching"], witness
+        )
+    narrowed = {
+        **parent,
+        "id": "narrowed-fixture",
+        "guards": child["contract"]["guards"],
+        "holdouts": ["wordnet:delta:delta.n.01", "wordnet:epsilon:epsilon.n.01"],
+    }
+    invalid_review = {**narrowed, "holdouts": ["wordnet:gamma:gamma.n.01", "wordnet:delta:delta.n.01"]}
+    (directory / "reviews.json").write_text(
+        json.dumps(
+            {"format": REVIEW_FORMAT, "records": [{"mechanism_id": child["mechanism_id"], "family": invalid_review}]}
+        )
+    )
+    with pytest.raises(ValueError, match="INVALID_EPOCH_HOLDOUT_BUDGET_OR_OVERLAP"):
+        run_arm(*args)
+    control = LearningState(directory / "learning.sqlite", json.loads((directory / "arm.json").read_text()))
+    assert (
+        next(row for row in control.pending() if row["mechanism_id"] == child["mechanism_id"])["disposition"]
+        == "AWAITING_WARRANT"
+    )
+    (directory / "reviews.json").write_text(
+        json.dumps({"format": REVIEW_FORMAT, "records": [{"mechanism_id": child["mechanism_id"], "family": narrowed}]})
+    )
+    result = run_arm(*args)
+    assert result["epochs"][1]["code"] == "RULE_ADMITTED" and len(result["admitted"]) == 1
+    assert result["typed_questions_used"] == len(model.calls) == 5
+    assert result["new_cells"] == 5 and result["replay"]["code"] == "REPLAY_VALIDATED"
+    assert result["replay"]["complete_search"] and result["learning_state"]["pending"] == []
+    with sqlite3.connect(result["candidate"]) as conn:
+        for identity, encoded in conn.execute("SELECT entry_id,domains FROM definition_states"):
+            domains = json.loads(encoded)
+            assert domains["QUANTITY"] == ([-1, 0, 1] if identity == "wordnet:beta:beta.n.01" else [1])
+            assert domains["THINK"] == [-1, 0, 1]
+    state = LearningState(directory / "learning.sqlite", json.loads((directory / "arm.json").read_text()))
+    assert {row["family"]["id"]: row["disposition"] for row in state.reviewed()} == {
+        "broad-fixture": "RETIRED",
+        "narrowed-fixture": "ADMITTED",
+    }
+    assert run_arm(*args) == result and len(model.calls) == 5

@@ -276,6 +276,148 @@ The residual is allowed to be large. Its size determines execution cost, not per
 
 The formal contract is binding immediately; implementation status is established by executable receipts, not by this declaration. Record remaining failures explicitly in the experiment notebook. The reference operations are TrialLedger's finite-domain closure, joint satisfiability and survivor-discriminating evidence requests; its clinical rules and any unfinished significance orchestration are not imported as GSE laws.
 
+### Engineering execution: one checkpoint and a continuing learner
+
+**GSE-01 execution delta, 2026-11-23.** This is the implementation sequence for SSL-01–SSL-11, not another constructor or a declaration that the sequence has run. The bounded change and executable checklist live in `openspec/changes/lexicon-symbolic-foundation/`. `BUILD_SPEC.md#gse-01` owns the program milestone; this document owns lexical semantics and the execution contract; that OpenSpec change owns the engineering delta; computed receipts and the living experiment draft own observed results. These are views of one build, not alternative authorities.
+
+#### Production composition and the second constructor
+
+The production construction/state owner is `GSE/curation/lexicon_builder/`, called by `GSE.curation.cli.commands` and `scripts/run_lexicon_epochs.py`. The public consumer is `GSEEncoder` through the active sparse resource. Keep this producer → stored state → consumer chain intact. The historical constructor, now archived at `GSE/_archive/lexicon_builder/` (formerly `GSE/lexicon_builder/`), contains native-role, joint-support and provenance work; its 58-coordinate authored-silence contract is not interchangeable with the production 56-ordinary-bank contract. Reuse compatible mechanisms through explicit tested adapters. Do not create a third builder, alternate grounding table, second rule registry or alternate release pointer. No adaptation may turn upstream authored silence into an ordinary zero or inherit a prime-only one-hot boundary for ordinary words.
+
+The checkpoint and subsequent corpus learning use the **same** evidence, rule history, controller, resolver, runtime and publication path. A checkpoint pins a validated usable state and its rules. Continuing the learner expands that state under the same contracts; it does not start a less constrained or separately maintained build.
+
+#### Dependency-ordered engineering work
+
+All IDs below belong to GSE-01. A row closes from its consumer receipt, not from the existence of its producer.
+
+| ID | Change in the existing system | Produced state and consuming decision | Acceptance witness |
+|---|---|---|---|
+| CP-01 | Restore a valid opening candidate using `validation.py`, the native reference adapters and existing catalogue operation. Reconcile namespace aliases without rewriting original evidence/request identities. Upgrade reduced test fixtures to include the native reference banks they consume. | Replayed candidate, representation/basis pin, source/link pins and opening measurement; consumed by every model writer and migration preflight. | Complete full-cohort replay, catalogue consistency and repository gate. A catalogue repair may rebuild derived metadata from pinned inputs; it must not bypass provenance or rewrite semantic cells to make replay pass. |
+| CP-02 | Extend `epoch.py` with one durable hypothesis/surprise work ledger. Consume `grounded_rules.py`, native discovery, reviewed export, source-backed continuations and existing `mine_scope_chains` outputs **during** execution. | Versioned unapproved candidates with evidence, scope, warrant status, parent/counterexample links and next action; consumed by scheduling and audit. | A useful candidate absent from the opening family list is discovered, audited and considered in a later epoch without a hand-written replacement plan. A proposal lacking a warrant remains pending and writes nothing. |
+| CP-03 | Route scope challenges and independent audit outcomes through existing refinement, `rule_revisions.py`, reservations and `rule_migration.migrate_revision`. | Reviewed child guards, retained counterexamples, exact exceptions/reservations, additions and retirements in one transition; consumed by replay and the next epoch. | A real in-scope counterexample causes an evidenced refinement, fresh audit and whole-scope replay; an unseen near miss remains protected. Abstention is not a signed exception, and a model disagreement alone does not establish the correct revision. |
+| CP-04 | Recompute eligible questions, source strata and interacting candidate reach after teaching or revision. Extend the candidate language through the existing `Relation` boundary where pair/unary templates cannot express an allowed/forbidden joint tuple. | Per-legal-answer closure, exact joint deltas where available, portfolio/bridge effects, typed unavailable outcomes and refreshed priorities; consumed by `choose` and subsequent candidate generation. | A constraint-only rule and a complementary multi-rule chain change the next decision. Unknown guards do not activate rules; resource-limited search is unavailable, never zero gain or exhausted semantic structure. |
+| CP-05 | Make the comparison and reporting consumers use `specification.py` and epoch phase measurements. Retain singleton and marginal-domain measures as separate diagnostics. | Fixed-cohort baseline/post-teaching/post-revision H, signed changes, budgets, bucket tables and joint interactions; consumed by equal-budget comparison and the notebook. | Equal-budget comparison detects a joint 9→3 reduction with unchanged marginal domains and zero new cells. It refuses changed cohorts, evidence, model/protocol, missing exact counts or unequal actual budgets as a completed comparison. |
+| CP-06 | Make resume and retention operate on one current working head and compact transition records rather than retained teaching/candidate DBs for every epoch. Reuse existing receipt deduplication, transactional migration, snapshot and retention code. | Durable head/transition identities, unfinished work and archived evidence; consumed by interruption recovery and the next epoch. | Resume after teaching, audit, migration or publication neither repeats accepted questions nor depends on deleted intermediate DBs. Working DB count is bounded independently of epoch count. Active and previous releases, source data and audit records remain protected. |
+| CP-07 | Enforce exact reading/role eligibility on the real encoder path, including closed-class selection, using existing grammar/grounding and source witnesses. Connect sentence/corpus demand reports to the checkpoint gate. | A selected exact identity or named abstention plus preserved domains/signs and grammatical structure; consumed by actual NLP tasks and the release gate. | Pronoun “He” and chemical-symbol “He” cannot silently share a pronoun decision. Test real parsing, contextual evidence, unresolved ambiguity, negation/degree scope, duration and preservation of independently correct readings. A parser POS label alone cannot overrule contradictory evidence. |
+| CP-08 | Run the connected loop against the declared common-sense workload, then publish through existing `publication.py` and `publish_round`. | Pinned sparse checkpoint, acceptance report, rule/source/benchmark/representation digests and rolling rollback; consumed by normal GSE and the next learning round. | Full replay plus the workload, semantic and runtime gates below; atomic activation only on success. Continue from the installed successor with the same controller and retained unresolved tail. |
+
+CP-01 precedes semantic writes. CP-02–CP-06 form the connected learning implementation and must be verified together; CP-07 can be repaired against the existing active snapshot. CP-08 depends on those mechanisms and the declared workload audit. The first checkpoint does not wait for every tail definition or every bank in the dictionary to resolve, and it does not waive the rigorous loop for the common-word work that constructs it.
+
+The catalogue failure has a traced producer/consumer cause: `refresh_catalog` calls `_replay`
+with proposed links, but `_replay` unconditionally checks the saved derived catalogue through
+`_catalog_integrity` before producing its replacement. A stale cache therefore blocks its own
+refresh. CP-01 must separate full authoritative-state validation from the cached-catalogue
+comparison for this explicit repair operation. Ordinary validation still checks the saved
+catalogue. The repair must refuse every noncatalogue mismatch, preserve all dictionary states and
+original evidence, recompute from explicit validated links, and prove subsequent ordinary replay
+passes. Tests must distinguish a stale derived catalogue from tampered source/bank/link evidence.
+
+#### Persistent feedback and admission protocol
+
+The controller has one durable state model in the current working store. Extend its versioned
+schema with normalized records and compact exported receipts; do not add a second lexical store:
+
+| Record | Required fields | Consumer |
+|---|---|---|
+| Learning head | Run/epoch ID, current candidate digest, published-baseline identity and pointer digest, cohort/basis/source/rule/curriculum/search-language pins, remaining execution budgets | Resume, scheduler, writer preflight and atomic publication |
+| Candidate mechanism | Canonical relation/guard contract digest, source and teaching witnesses, warrant/review state, parent/refinement IDs, counterexamples, dependency versions and named disposition | Forecast, next-work selection, independent audit and admission |
+| Surprise work | Exact definition/role/source IDs, affected bank or joint tuple, expected and observed alternatives, rival derivations, challenge classification, proposed remedy and resolution | Existing refinement/projector/identity repair, reservation or bounded semantic review |
+| Next work | Operation kind, target identities, prerequisites and their digests, priority components, request/attempt references, unfinished/completed/refused state | Existing teaching/audit/revision operations; refreshed after dependency changes |
+| Transition | Prior/new head, evidence/rule delta, archived request contexts, full replay and stage-versus-committed joint/domain deltas, phase measurements | Head installation, reporting, retention and the next cycle |
+
+Separate the **published baseline** from an **unpublished working head**. The current foundation
+candidate is not release 021 merely because its plan pins the 021 pointer. Preserve its actual
+migration lineage and rebase receipt. The present runner permits `--publish-sparse-to` only with
+an active-path baseline; the new head/resume protocol must make this relationship explicit rather
+than relabel a candidate or silently discard its intervening work. Publication still compares and
+swaps against the pinned active pointer and validates the complete successor lineage/cohort.
+
+The next controller schema must version the curriculum and hypothesis language explicitly and preserve historical fixed-plan replay. The current `GSE.lexicon-epoch-plan/1` plans are frozen evidence, not files to silently rewrite after a catalogue, source or representation change. A rebase records what changed, what remained identical, the new pins and the validity of any reused exact requests.
+
+Each cycle reads the validated working head, closes admitted constraints, measures remaining alternatives, updates reusable examples and candidate mechanisms, stages useful interacting proposals, selects an informative question or audit, processes the resulting surprise, and commits a warranted revision before selecting again. Discoveries and refinements are inputs to this cycle, not merely final JSON exports. Preserve a candidate whose value appears only jointly; neither singleton gain nor strong pair correlation is a prerequisite. Candidate guards may be extended only through reviewed native feature/projector contracts shared by ingestion, staging, requests, migration and replay.
+
+**A teaching question is not a rule hypothesis.** The versioned curriculum must permit an
+unresolved definition–bank question even when no opening family proposes a sign for that bank.
+Use the existing source-aware scheduler and per-legal-answer closure on a declared bounded
+Zipf frontier; retain the frontier/search limits explicitly. Neither the proposed answer nor an
+expected sign enters the model request. Every legal answer goes through the same typed writer,
+including answers that contradict a proposed rule. A null answer remains unknown. Teaching may
+nominate a new scoped relation for semantic review, but cannot authorize that relation. A durable
+review intake must let the same controller audit and replay such a newly discovered mechanism
+without replacing its frozen plan. Its audit senses and spellings must be disjoint from teaching.
+The acceptance test starts with no proposal for the taught bank, discovers a candidate from that
+answer, pauses only the dependent work for warrant review, then resumes its independent audit
+and full replay under the original curriculum. A fixed family list with a durable log does not
+satisfy CP-02 or CP-04.
+
+The work ledger distinguishes at least: awaiting evidence/warrant, awaiting independent audit, counterexample/scope challenge, unresolved audit reservation, operational refusal/solver limit, already entailed, rejected, refined, admitted and retired. These are named dispositions with different next actions, not one failure boolean or a permanent visited bit. Changes in source, rule, guard or dependent domains invalidate the appropriate queued work; they do not license repeating an unchanged request indefinitely. A bounded semantic review may remain pending while independent work proceeds.
+
+A composed shortcut already entailed by admitted rules carries no new information merely because it has a new name. Its scheduling or execution benefit is separate from actual reduction of the legal configuration space. A genuinely new constraint still requires its own semantic warrant and independent evidence. Legacy generated vectors and pattern frequency can propose investigations but cannot validate them. An audit receives the unstaged baseline, excluding the proposed answer and its descendants. Preserve discovery/audit separation by native sense and evidence lineage as well as spelling.
+
+Candidate generation consumes four existing evidence channels: native cross-source contingency
+and joint-condition diagnostics; `discover_reviewed_groundings`/`observed_conjunctions` over
+reviewed and independently rooted source conclusions; newly grounded rule chains; and recurring
+surprise/residual patterns eligible for guard imputation. Keep word-level discovery observations
+when exact alignment is not yet established; they nominate work but cannot write every sense of
+the word. Group open workload questions by native features, current domains and competing
+mechanisms to select distinguishing cases, rather than independently filling every blank.
+Retain disjoint-source/family/contrast strata and candidate populations outside the opening scope.
+Any newly needed native predicate follows the existing source-enrichment and context/replay
+contracts. Discovery output lacks semantic authority until its own warrant is established.
+
+Counterexamples must retain their parent rule and full source/role context. Reuse existing guard imputation and revision machinery; do not replace a failed generalization with an unexplained list of word patches. An independently justified exact exception is allowed, with its scope and proof retained, while a reusable distinguishing condition is investigated. Model abstentions retain their surviving domain through reservations. A revised rule needs a fresh audit of the changed boundary and full replay of every eligible definition. Related additions, retirements and exceptions can share one reviewed atomic revision; per-rule full DB snapshots are not the unit of learning.
+
+#### Checkpoint workload and acceptance
+
+Before teaching against a checkpoint target, freeze an acceptance manifest containing:
+
+1. The fixed ordinary-bank basis and hierarchy convention, full definition/word cohort, source/rule versions, and the already pinned frequency bytes.
+2. The common-form cohort meeting the existing GSE-01 **90% eligible token-mass requirement in both the frequency source and an independent real-text corpus**, with genre slices and all denominator/exclusion rules. Retain every sense and every out-of-cohort definition; spelling frequency is not sense-use frequency.
+3. The actual NLP operations the checkpoint promises: exact lexical/sense selection, required bank queries, grammar/reference binding and composed sentence outputs. Inventory which cells and structures those operations require. Homing or recognizing 90% of tokens is not a 90% semantic-accuracy acceptance rule.
+4. Source-warranted positive and MUST-NOT cases for those operations, including ordinary/function-word ambiguity, he/He, first-/second-person boundaries, WANT polarity, BE own-state content, constitutive anatomy, negation, VERY scope and unspecified/long duration. Gold and expected answers stay outside construction requests and rule-warrant evidence.
+5. Separate development and final evaluation cases. Earlier sentence benchmarks used to choose teaching or refine rules are development diagnostics, not untouched final holdouts. Freeze a separate final audit with lineage-separated senses/families and corpus/genre coverage. A subsequently inspected holdout becomes development evidence and needs a replacement final slice.
+6. Explicit pass/abstention/partial/unavailable outcomes per class. Every promised acceptance-critical answer needs its warranted expected result; a critical abstention or resource refusal blocks that promise. No known wrong assertion, missing required component or failed negative witness is accepted. Unclaimed/unlabelled banks remain declared unknown or unverified rather than acquiring credit from the tested subset.
+7. Full-cohort solver/provenance/catalogue replay, changed-cell and reopened-cell accounting, real runtime tests and applicable repository checks. Sparse publication's finite label/runtime checks are necessary mechanics, not sufficient evidence of this usable-checkpoint milestone.
+
+The checkpoint is complete **for that declared and passed workload**, with its sparse limitations published. It is not a complete 56-bank assignment for every dictionary definition. Do not narrow a workload or remove a failing sense after seeing the result to manufacture a pass. A material scope change is a new version with the old failure retained. No new percentage or task waiver is authorized by this engineering section.
+
+#### Learning evidence, stopping and storage
+
+Use H for the exact corpus sum of log feasible joint assignments, keeping the existing declared `sigma_GSE` report meaning explicit and separate from a computed minimum teaching set. Record direct teaching under old laws, propagation from those facts, and the additional effect of each admitted rule revision, including reopened cells and overlap. Use controlled counterfactual replay to attribute effects; do not add isolated rule gains as if they were independent. Record actual teaching/audit/review budgets, operational failures, exact-count coverage and the SSL-09 frequency buckets with fixed denominators.
+
+The skeleton's bulk prediction concerns decay of remaining H when amplification is proportional to H; the identity that each bit halves a count is not evidence of that dynamic. Compare successive rounds at equal actual question budgets and report the observed amplification curve. Fixed-coverage greedy results and another experiment's knee/constants do not certify a growing rule graph with complementary bridges. Evidence or hypothesis-language changes start a separately accounted phase rather than an unexplained jump in the learning curve.
+
+Stop for a declared execution budget, a pending semantic decision or an explicitly exhausted **searched** rule language; do not call these the irreducible tail. Teaching continues on the informative residual, and each accepted residual ruling can reveal a new broad rule. A useful checkpoint may be pinned while that work continues.
+
+Keep the active release, one previous release and one current working head, with only bounded owned staging files during an atomic transition. Preserve compact source/evidence objects, model journals, historical rule contracts, review/exception records and replay receipts; they must suffice to reproduce the transition without retaining every whole-corpus DB. The epoch head/resume logic and retention logic must agree before removing old working files. Never purge source data or another session's files as part of this change.
+
+The writer trace also matters here: `teach` currently invokes `complete_dictionary` once per
+question, and each invocation runs `validate_build` before writing. The existing sustained-cohort
+mode shares a validated connection and replay across bounded work. CP-06 must reuse that
+mechanism for explicitly selected definition–bank questions and compose it with the working-head
+protocol. It must not introduce a blind skip-validation switch. A changed source/rule version,
+stale connection or altered request must invalidate the relevant work; full rule-revision replay
+and publication validation remain mandatory. Preserve the same typed acceptance/journal path for
+single and batch requests.
+
+#### Dated engineering audit, not a completion receipt
+
+The 2026-11-23 read of production code found: `run_arm` fixes its candidate families at plan load and emits newly mined chains at the end; `run_epoch` withholds challenged proposals without invoking a refinement cycle; `scripts/run_lexicon_epochs.compare` still bases its acceptance decision on singleton/interaction counts; and per-epoch teaching/candidate DBs are retired only after publication. These are CP-02–CP-06 integration obligations despite the existence of the underlying components.
+
+The recorded full candidate replay validates all 401,596 entries with complete search but fails catalogue metadata. The attempted catalogue refresh also refuses that mismatch, so CP-01 is open. The recorded full repository test run has 45 `UNKNOWN_BANK:YOU` failures in two reduced-basis fixture modules; this is a failed gate, not a passed production release. The current active pointer still names sparse release 021. The 50,526 additional singleton assignments remain a staged, unadmitted forecast. None of these facts is a new admitted SSL learning result. Receipts are under `docs/readings/2026-11-13-ssl-explicit-genera/`; the living draft records their experimental meaning.
+
+**Implementation follow-up, same date:** catalogue repair and subsequent ordinary replay now
+validate all 401,596 entries with zero mismatches and no solver limits. The catalogue-only rebase
+preserves every measured bank/joint-space total and permits exact reuse of the journaled water/I
+question. Open-bank teaching, durable warrant intake, model-audit guard imputation, fresh child
+audits and replay have synthetic integration witnesses; they do not close the remaining generic
+surprise, joint-language, storage or usable-workload obligations. The current maintained-suite
+gate passes 7,520 tests with 66 skips and zero failures/errors. Whole-project ty has 216 advisory
+diagnostics; scoped checks of the changed controller files pass. See
+`docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-controller-verification.json` and
+`ssl-v2-catalogue-rebase.json` in the same directory. No new production linguistic law or release
+has been admitted by this engineering stage.
+
 ### Incremental frequency-prioritized construction
 
 Rohan's execution decision is to make the local workflow work and proceed in bounded batches, prioritizing common words. A faster inference host is not a prerequisite. The production `complete` command defaults to `--priority zipf`: descending positive SUBTLEX counts from the existing local frequency table, followed by constraint priority and definition identity. This is a monotonic frequency ordering, not a calibrated absolute Zipf score. Frequency chooses work; it never supplies a semantic sign. Zero or absent frequency leaves a definition eligible at the end of the queue. A blank spelling is excluded with a named source-record diagnostic rather than invented. The complete frequency-file hash and ordering-policy version pin the resumable schedule.
@@ -415,7 +557,7 @@ This ledger distinguishes a capability already present elsewhere in GSE from an 
 | Stable supported ordinal laws and competing writer prevention | Implemented; other existing scales require explicit reconciliation |
 | Complete reviewed, definition-scoped prime signatures | Not established by the inspected one-hot Tier-0 catalog; partial anchors are not complete signatures |
 | Native-record relevance | Existing source interpretation must feed the new guards; unrestricted or unresolved records remain conservative |
-| Lexical discovery and significance machinery | Native-source discovery, reviewed-model export/dependency replay, guarded proposals, direct audit, explicit admission and additive historical-rule migration are implemented; each actual causal warrant and production rule still needs evidence and review |
+| Lexical discovery and significance machinery | Native discovery, reviewed export, guarded/constraint-only proposals, direct audit, admission and joint versioned migration components exist. Production feedback from new discoveries and audit challenges into revised curricula/refinement remains CP-02–CP-04 work; comparison and bounded working-head retention remain CP-05–CP-06. Each causal warrant still needs evidence and review. |
 | Grammatical roles, THIS reference and possession | Existing in the active GSE path; no new static-mask prerequisite |
 | Modifier and negation scope | Existing machinery integrated with composed degree, final output and fragment sign ownership; focused public-entry regressions pass |
 | Runtime activation, caches and decoder identity | Centralized selection implemented; current activated checkpoint is partial; complete publication has a separate refusal gate |

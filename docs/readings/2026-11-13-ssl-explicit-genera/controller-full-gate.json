@@ -1,0 +1,20 @@
+[
+  {
+    "command": [
+      "uvx",
+      "ruff@0.16.10",
+      "format",
+      "tests/test_lexicon_epoch.py"
+    ],
+    "exit_code": 0,
+    "log": "docs/readings/2026-11-13-ssl-explicit-genera/controller-full-gate-0.log"
+  },
+  {
+    "command": [
+      "bash",
+      "scripts/ci_local.sh"
+    ],
+    "exit_code": 0,
+    "log": "docs/readings/2026-11-13-ssl-explicit-genera/controller-full-gate-1.log"
+  }
+]

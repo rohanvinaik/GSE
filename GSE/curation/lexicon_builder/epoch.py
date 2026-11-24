@@ -21,9 +21,10 @@ from .engine import Assertion, Relation
 from .evidence import Definition
 from .foundation import BANKS, lexical_context, native_frame_source, validate_lexical_guards
 from .grounded_rules import MAX_PREMISES, discover_reviewed_groundings, grounded_chains, implication_rows
+from .learning_state import LearningState, mechanism_id
 from .model_receipts import read_model_receipts
 from .publication import publication_readiness
-from .residual import ModelTransportError, _request_id, build_request
+from .residual import ModelTransportError, _read_value, _request_id, build_request
 from .resolution import resolve_dictionary
 from .reviewed_export import export_reviewed_input
 from .reviewed_patterns import run_workflow_input
@@ -132,12 +133,15 @@ class Family:
 
 
 def parse_plan(raw):
+    from .learning_curriculum import FORMAT as DYNAMIC_FORMAT
+    from .learning_curriculum import curriculum
+
     required = {"format", "baseline_sha256", "active_pointer_sha256", "epochs", "audits_per_epoch", "families"}
     if (
         type(raw) is not dict
         or not required <= raw.keys()
-        or raw.keys() - required - {"evaluation_holdout", "teaching_entry_ids"}
-        or current_id(raw["format"]) != FORMAT
+        or raw.keys() - required - {"evaluation_holdout", "teaching_entry_ids", "curriculum"}
+        or current_id(raw["format"]) not in {FORMAT, DYNAMIC_FORMAT}
     ):
         raise ValueError("INVALID_EPOCH_PLAN")
     if "evaluation_holdout" in raw:
@@ -166,7 +170,12 @@ def parse_plan(raw):
             raise ValueError("INVALID_EPOCH_PLAN_DIGEST")
     if any(type(raw[key]) is not int or raw[key] < 1 for key in ("epochs", "audits_per_epoch")):
         raise ValueError("INVALID_EPOCH_BUDGET")
-    if type(raw["families"]) is not list or not raw["families"]:
+    dynamic = current_id(raw["format"]) == DYNAMIC_FORMAT
+    if dynamic:
+        curriculum(raw)
+    elif "curriculum" in raw:
+        raise ValueError("CURRICULUM_REQUIRES_VERSIONED_LEARNING_PLAN")
+    if type(raw["families"]) is not list or not raw["families"] and not dynamic:
         raise ValueError("EMPTY_EPOCH_RULE_FAMILIES")
     families, holdouts = {}, set()
     for item in raw["families"]:
@@ -178,7 +187,7 @@ def parse_plan(raw):
         ):
             raise ValueError("INVALID_EPOCH_RULE_FAMILY")
         identity = item["id"]
-        if type(identity) is not str or not identity or identity in families:
+        if type(identity) is not str or not identity or identity in families or identity.startswith("curriculum:"):
             raise ValueError("INVALID_EPOCH_RULE_IDENTITY")
         left = item.get("antecedent")
         premises = item.get("premises", [] if left is None else [left])
@@ -499,6 +508,8 @@ def choose(
     teaching_entry_ids=None,
 ):
     """Rank eligible exact questions by Zipf or marginal closure plus bridge gain."""
+    if not any(key not in done for key in families):
+        return None
     everyone = {row["entry_id"]: row for group in inventory.values() for row in group}
     rules, rows = scope_rows(candidate, everyone.values())
     held = {_sense_group(everyone[i]) for family in families.values() for i in family.holdouts}
@@ -743,16 +754,17 @@ def teach(base, working, selected, family, transport, directory):
         record(receipt_file, result)
         return result
     try:
-        answer = json.loads(raw)
-    except ValueError, TypeError:
-        answer = None
-    value = answer.get(bank) if type(answer) is dict and answer.keys() == {bank} else None
-    if type(value) is not int or value not in family.allowed_consequents:
+        value = _read_value(raw, request)
+    except (ValueError, TypeError) as error:
         result = {
-            "code": "TEACHING_SOURCE_DISAGREEMENT" if value in SIGNS and type(value) is int else "TEACHING_ABSTAINED",
-            "answer": answer,
+            "code": "TEACHING_INVALID_OUTPUT",
+            "reason": str(error),
             "request_id": request.request_id,
         }
+        record(receipt_file, result)
+        return result
+    if value is None:
+        result = {"code": "TEACHING_ABSTAINED", "request_id": request.request_id}
         record(receipt_file, result)
         return result
     snapshot_copy(base, working)
@@ -788,7 +800,21 @@ def teach(base, working, selected, family, transport, directory):
             return result
     if identity_form(receipt["request"]) != identity_form(request.payload()) or receipt["assertion"]["value"] != value:
         raise ValueError("EPOCH_TEACHING_RECEIPT_CHANGED")
-    result = {"code": "REVIEWED_TEACHING", "request_id": request.request_id, "receipt_sha256": _request_id(receipt)}
+    result = {
+        "code": "TYPED_TEACHING"
+        if family is None
+        else "REVIEWED_TEACHING"
+        if value in family.allowed_consequents
+        else "REVIEWED_TEACHING_COUNTEREXAMPLE",
+        "request_id": request.request_id,
+        "receipt_sha256": _request_id(receipt),
+        "value": value,
+        "proposal_outcome": "NO_PROPOSED_ANSWER"
+        if family is None
+        else "AGREEMENT"
+        if value in family.allowed_consequents
+        else "COUNTEREXAMPLE",
+    }
     record(receipt_file, result)
     return result
 
@@ -957,22 +983,41 @@ def admit_and_migrate(working, output, directory, raw, audited, family, staged):
 
 
 def run_arm(plan, baseline, active_pointer, directory, inventory, policy, transport, lock_path):
+    from .learning_curriculum import (
+        choose_open,
+        curriculum,
+        refresh_reviews,
+        retain_discoveries,
+        reviewed_choice,
+    )
+
     families = parse_plan(plan)
+    inventory = dict(inventory)
+    opening_inventory_keys = set(inventory)
+    dynamic = curriculum(plan)
     if policy not in POLICIES:
         raise ValueError("INVALID_EPOCH_POLICY")
     directory.mkdir(exist_ok=True)
     priority, frequencies = _priority_source("zipf", None)
-    record(
-        directory / "arm.json",
-        {
-            "policy": policy,
-            "contract": CONTRACT,
-            "plan_sha256": digest(plan),
-            "inventory_sha256": digest(inventory),
-            "frequency_sha256": priority["sha256"],
-            "transport": transport.identity,
-        },
-    )
+    configuration = {
+        "policy": policy,
+        "contract": CONTRACT,
+        "plan_sha256": digest(plan),
+        "inventory_sha256": digest(inventory),
+        "frequency_sha256": priority["sha256"],
+        "transport": transport.identity,
+    }
+    if dynamic:
+        from .learning_refinement import provider_identity
+
+        configuration["learning_protocol"] = {
+            "files": {
+                name: fingerprint(Path(__file__).with_name(name))
+                for name in ("epoch.py", "learning_state.py", "learning_curriculum.py", "learning_refinement.py")
+            },
+            "guard_imputer": provider_identity(),
+        }
+    record(directory / "arm.json", configuration)
     report_path = directory / "arm-result.json"
     if report_path.exists():
         result = read(report_path)
@@ -987,8 +1032,15 @@ def run_arm(plan, baseline, active_pointer, directory, inventory, policy, transp
         ):
             raise ValueError("EPOCH_RESULT_SNAPSHOT_CHANGED")
         return result
-    used, done, reports, admitted = set(), set(), [], []
+    learning = LearningState(directory / "learning.sqlite", configuration)
+    for item in plan["families"]:
+        family = families[item["id"]]
+        identity = learning.propose(family.relation(), {"warrant": family.warrant}, origin="DECLARED_CURRICULUM")
+        learning.review(identity, family.relation(), item)
+    used, done, challenged, reports, admitted = set(), set(), set(), [], []
     base = baseline
+    waiting_review = False
+    frontier_exhausted = False
     everyone = {row["entry_id"]: row for group in inventory.values() for row in group}
     holdout = plan.get("evaluation_holdout")
     if holdout:
@@ -1000,7 +1052,26 @@ def run_arm(plan, baseline, active_pointer, directory, inventory, policy, transp
             for entry in family.holdouts
         ):
             raise ValueError("EPOCH_AUDIT_OVERLAPS_EVALUATION_HOLDOUT")
+    question_holdout = holdout
+    if dynamic:
+        reserved = set(dynamic["audit_entry_ids"])
+        if any(not set(family.holdouts) <= reserved for family in families.values()):
+            raise ValueError("LEARNING_AUDIT_OUTSIDE_RESERVED_POOL")
+        if not reserved <= everyone.keys():
+            raise ValueError("LEARNING_RESERVED_AUDIT_IDENTITY_MISSING")
+        if holdout and any(
+            everyone[i]["lemma"].casefold() in held_lemmas or _sense_group(everyone[i]) in held_senses for i in reserved
+        ):
+            raise ValueError("LEARNING_AUDIT_OVERLAPS_EVALUATION_HOLDOUT")
+        question_holdout = {
+            "entries": sorted(reserved | set((holdout or {}).get("entries", ()))),
+            "lemmas": list((holdout or {}).get("lemmas", ())),
+        }
     for epoch in range(1, plan["epochs"] + 1):
+        refresh_reviews(plan, baseline, directory, learning, families, inventory)
+        everyone = {row["entry_id"]: row for group in inventory.values() for row in group}
+        if dynamic and not set(dynamic["audit_entry_ids"]) <= everyone.keys():
+            raise ValueError("LEARNING_RESERVED_AUDIT_IDENTITY_MISSING")
         phase = directory / f"epoch-{epoch:02d}"
         phase.mkdir(exist_ok=True)
         finished = phase / "result.json"
@@ -1009,13 +1080,44 @@ def run_arm(plan, baseline, active_pointer, directory, inventory, policy, transp
             outcome = read(finished)
         else:
             pick_file = phase / "selection.json"
-            selected = (
-                read(pick_file)
-                if pick_file.exists()
-                else choose(
-                    base, inventory, families, done, used, policy, frequencies, holdout, plan.get("teaching_entry_ids")
+            ready = {row["mechanism_id"] for row in learning.ready()}
+            pending_review = {key for key, family in families.items() if mechanism_id(family.relation()) not in ready}
+            if pick_file.exists():
+                selected = read(pick_file)
+            else:
+                selected = (
+                    reviewed_choice(base, learning, families, inventory, done | challenged, policy, frequencies)
+                    if dynamic
+                    else None
                 )
-            )
+                if selected is None:
+                    selected = choose(
+                        base,
+                        inventory,
+                        families,
+                        done | challenged | pending_review,
+                        used,
+                        policy,
+                        frequencies,
+                        question_holdout,
+                        plan.get("teaching_entry_ids"),
+                    )
+                if selected is None and dynamic:
+                    attempted = {
+                        (report["selected"]["entry_id"], report["selected"]["bank"])
+                        for report in reports
+                        if report.get("selected")
+                    }
+                    selected = choose_open(base, plan, inventory, families, attempted, policy, frequencies)
+            if selected is None and dynamic and learning.pending():
+                # Do not seal an empty epoch or a completed arm while an
+                # observed mechanism awaits warrant/refinement. The same frozen
+                # run can receive reviews and continue from this boundary.
+                waiting_review = True
+                break
+            if selected is None and dynamic:
+                frontier_exhausted = True
+                break
             record(pick_file, selected)
             if selected is None:
                 outcome = {"code": "NO_ELIGIBLE_QUESTION", "epoch": epoch, "candidate": str(base)}
@@ -1026,6 +1128,8 @@ def run_arm(plan, baseline, active_pointer, directory, inventory, policy, transp
                 outcome["epoch"] = epoch
             outcome["candidate_sha256"] = fingerprint(Path(outcome["candidate"]))
             record(finished, outcome)
+        learning.record_epoch(epoch, outcome)
+        retain_discoveries(learning, outcome)
         base = Path(outcome["candidate"])
         if fingerprint(base) != outcome["candidate_sha256"]:
             raise ValueError("EPOCH_RESULT_SNAPSHOT_CHANGED")
@@ -1035,6 +1139,38 @@ def run_arm(plan, baseline, active_pointer, directory, inventory, policy, transp
         if outcome["code"] == "RULE_ADMITTED":
             done.add(outcome["selected"]["family"])
             admitted.append({"epoch": epoch, "family": outcome["selected"]["family"], "rule_id": outcome["rule_id"]})
+            learning.disposition(
+                mechanism_id(families[outcome["selected"]["family"]].relation()),
+                "ADMITTED",
+                {"epoch": epoch, "rule_id": outcome["rule_id"]},
+            )
+            if dynamic:
+                child = mechanism_id(families[outcome["selected"]["family"]].relation())
+                dispositions = {row["mechanism_id"]: row["disposition"] for row in learning.reviewed()}
+                for witness in learning.witnesses(child):
+                    parent = witness["evidence"].get("parent_mechanism_id")
+                    if parent and dispositions.get(parent) in {"NEEDS_REFINEMENT", "AWAITING_AUDIT_REVIEW"}:
+                        learning.disposition(
+                            parent,
+                            "RETIRED",
+                            {
+                                "code": "UNADMITTED_PARENT_REPLACED",
+                                "child": child,
+                                "epoch": epoch,
+                                "rule_id": outcome["rule_id"],
+                            },
+                        )
+        elif outcome["code"] in {
+            "RULE_CHALLENGED_BY_TEACHING",
+            "RULE_WITHHELD_SCOPE_CONTRADICTION",
+            "RULE_WITHHELD_INDEPENDENT_AUDIT",
+        }:
+            challenged.add(outcome["selected"]["family"])
+            learning.disposition(
+                mechanism_id(families[outcome["selected"]["family"]].relation()),
+                "AWAITING_AUDIT_REVIEW" if outcome["code"] == "RULE_WITHHELD_INDEPENDENT_AUDIT" else "NEEDS_REFINEMENT",
+                {"epoch": epoch, "code": outcome["code"], "outcome_sha256": digest(outcome)},
+            )
         reports.append(outcome)
         print(
             json.dumps(
@@ -1058,9 +1194,25 @@ def run_arm(plan, baseline, active_pointer, directory, inventory, policy, transp
     if fingerprint(active_pointer) != plan["active_pointer_sha256"] or fingerprint(baseline) != plan["baseline_sha256"]:
         raise ValueError("EPOCH_FROZEN_INPUT_CHANGED")
     final_grounding = mine_scope_chains(base, inventory)
-    record(directory / "grounded-chains-final.json", final_grounding)
+    grounding_path = directory / (
+        "grounded-chains-observation-" + digest(final_grounding) + ".json"
+        if waiting_review
+        else "grounded-chains-final.json"
+    )
+    record(grounding_path, final_grounding)
     result = {
         "format": "GSE.lexicon-epoch-arm/1",
+        **(
+            {
+                "code": "LEARNING_REVIEW_REQUIRED"
+                if waiting_review
+                else "LEARNING_DECLARED_FRONTIER_EXHAUSTED"
+                if frontier_exhausted
+                else "LEARNING_EPOCH_LIMIT_REACHED"
+            }
+            if dynamic
+            else {}
+        ),
         "policy": policy,
         "candidate": str(base),
         "candidate_sha256": fingerprint(base),
@@ -1069,6 +1221,29 @@ def run_arm(plan, baseline, active_pointer, directory, inventory, policy, transp
         "active_pointer_sha256": plan["active_pointer_sha256"],
         "epochs": reports,
         "admitted": admitted,
+        "pending_challenges": [
+            {"epoch": report["epoch"], "family": report["selected"]["family"], "code": report["code"]}
+            for report in reports
+            if report.get("selected", {}).get("family") in challenged
+        ],
+        "learning_state": {"format": "GSE.lexicon-learning-state/1", "pending": learning.pending()},
+        **(
+            {
+                "learned_inventory": {
+                    key: {
+                        "sha256": digest(rows),
+                        "path": str(directory / ("inventory-" + mechanism_id(families[key].relation()) + ".json")),
+                    }
+                    for key, rows in inventory.items()
+                    if key not in opening_inventory_keys
+                },
+                "semantic_reviews": sum(
+                    row["family"]["id"] not in {item["id"] for item in plan["families"]} for row in learning.reviewed()
+                ),
+            }
+            if dynamic
+            else {}
+        ),
         "grounded_chain_proposals": len(final_grounding["proposals"]),
         "changes": changes,
         "new_cells": len(gains({"changes": changes})),
@@ -1079,12 +1254,53 @@ def run_arm(plan, baseline, active_pointer, directory, inventory, policy, transp
         "publication": publication_readiness(base),
         "activation_performed": False,
     }
+    if waiting_review:
+        record(directory / ("review-pending-" + digest(result) + ".json"), result)
+        return result
     record(report_path, result)
     return read(report_path)
 
 
-def run_epoch(plan, base, phase, inventory, everyone, families, selected, admitted, transport, lock_path):
+def learn_reviewed_rule(plan, working, output, phase, inventory, families, selected, taught, auditing):
+    """Discover and independently audit the proposed rule after confirming teaching."""
     family = families[selected["family"]]
+    outcome = {"code": "RULE_WITHHELD", "candidate": str(working)}
+    raw_file = phase / "reviewed-input.json"
+    raw = read(raw_file) if raw_file.exists() else reviewed_input(working, family, selected, taught)
+    record(raw_file, raw)
+    grounding, observed = epoch_discovery(raw, family, families)
+    record(phase / "grounded-discovery.json", grounding)
+    discovery_kind = "conjunction" if family.premises else "pair" if family.antecedent is not None else "guard"
+    record(phase / f"observed-{discovery_kind}.json", observed)
+    rules, rows = scope_rows(working, inventory[family.id])
+    staged = forecast(rows, rules, (family.relation(),))
+    record(phase / "staged.json", staged)
+    if staged["contradictions"]:
+        outcome["code"] = "RULE_WITHHELD_SCOPE_CONTRADICTION"
+    elif staged["progress_code"] == "CONTRACTION":
+        audit_file = phase / "audit.json"
+        audited = (
+            read(audit_file)
+            if audit_file.exists()
+            else run_workflow_input(raw, auditing, max_calls=plan["audits_per_epoch"])
+        )
+        record(audit_file, audited)
+        [report] = audited["candidates"]
+        outcome["audit_outcomes"] = report["audit_outcomes"]
+        if report["audit_outcomes"] == {"MODEL_AGREEMENT": plan["audits_per_epoch"]} and all(
+            row["code"] == "STAGED_ONLY" for row in report["staging"]
+        ):
+            migration = admit_and_migrate(working, output, phase, raw, audited, family, staged)
+            outcome.update(migration, code="RULE_ADMITTED", candidate=str(output))
+        else:
+            outcome["code"] = "RULE_WITHHELD_INDEPENDENT_AUDIT"
+    return outcome
+
+
+def run_epoch(plan, base, phase, inventory, everyone, families, selected, admitted, transport, lock_path):
+    from .learning_curriculum import discover_teaching
+
+    family = families.get(selected["family"])
     parents = premise_dependencies(base, everyone, selected, admitted)
     outcome = {
         "code": "TEACHING_NOT_ACCEPTED",
@@ -1095,48 +1311,68 @@ def run_epoch(plan, base, phase, inventory, everyone, families, selected, admitt
     teaching = JournaledTransport(transport, phase, "teach", 1, lock_path)
     auditing = JournaledTransport(transport, phase, "audit", plan["audits_per_epoch"], lock_path)
     working, output = (phase / name for name in ("teaching.db", "candidate.db"))
+    if selected.get("reviewed_teaching"):
+        working = base
     baseline_measurement_path = phase / "space-baseline.json"
     if not baseline_measurement_path.exists():
         record(baseline_measurement_path, measure_dictionary(base))
     baseline_measurement = read(baseline_measurement_path)
-    taught = teach(base, working, selected, family, teaching, phase)
+    taught = selected.get("reviewed_teaching") or teach(base, working, selected, family, teaching, phase)
     outcome["teaching"] = taught
     teaching_measurement = baseline_measurement
-    if taught["code"] == "REVIEWED_TEACHING":
+    if taught["code"] in {"TYPED_TEACHING", "REVIEWED_TEACHING", "REVIEWED_TEACHING_COUNTEREXAMPLE"}:
         teaching_measurement_path = phase / "space-post-teaching.json"
         if not teaching_measurement_path.exists():
             record(teaching_measurement_path, measure_dictionary(working))
         teaching_measurement = read(teaching_measurement_path)
-        outcome.update(code="RULE_WITHHELD", candidate=str(working))
-        raw_file = phase / "reviewed-input.json"
-        raw = read(raw_file) if raw_file.exists() else reviewed_input(working, family, selected, taught)
-        record(raw_file, raw)
-        grounding, observed = epoch_discovery(raw, family, families)
-        record(phase / "grounded-discovery.json", grounding)
-        discovery_kind = "conjunction" if family.premises else "pair" if family.antecedent is not None else "guard"
-        record(phase / f"observed-{discovery_kind}.json", observed)
-        rules, rows = scope_rows(working, inventory[family.id])
-        staged = forecast(rows, rules, (family.relation(),))
-        record(phase / "staged.json", staged)
-        if staged["contradictions"]:
-            outcome["code"] = "RULE_WITHHELD_SCOPE_CONTRADICTION"
-        elif staged["progress_code"] == "CONTRACTION":
-            audit_file = phase / "audit.json"
-            audited = (
-                read(audit_file)
-                if audit_file.exists()
-                else run_workflow_input(raw, auditing, max_calls=plan["audits_per_epoch"])
+        outcome["candidate"] = str(working)
+        if not selected.get("reviewed_teaching"):
+            outcome["discoveries"] = discover_teaching(base, plan, inventory, selected, taught)
+            record(phase / "teaching-discovery.json", outcome["discoveries"])
+            if plan.get("curriculum"):
+                limit = plan["curriculum"]["candidate_limit"]
+                outcome["discovery_search"] = {
+                    "language": "SCOPED_UNARY_AND_SIGNED_CONJUNCTIONS_UP_TO_THREE_PREMISES",
+                    "candidate_limit": limit,
+                    "candidates": len(outcome["discoveries"]),
+                    "code": "BOUND_REACHED_NOT_SEMANTIC_EXHAUSTION"
+                    if len(outcome["discoveries"]) == limit
+                    else "DECLARED_LANGUAGE_ENUMERATED_FOR_THIS_OBSERVATION",
+                }
+        if family is None:
+            outcome["code"] = "TEACHING_RETAINED_FOR_DISCOVERY"
+        elif taught["code"] == "REVIEWED_TEACHING_COUNTEREXAMPLE":
+            surprise = {
+                "code": "TEACHING_COUNTEREXAMPLE_REQUIRES_REFINEMENT",
+                "entry_id": selected["entry_id"],
+                "bank": selected["bank"],
+                "expected_values": list(family.allowed_consequents),
+                "observed_value": taught["value"],
+                "request_id": taught["request_id"],
+                "receipt_sha256": taught["receipt_sha256"],
+                "parent": family.proposal(),
+                "authority": "BOUNDED_MODEL_EVIDENCE_REQUIRES_SCOPE_REVIEW",
+            }
+            record(phase / "teaching-counterexample.json", surprise)
+            outcome.update(code="RULE_CHALLENGED_BY_TEACHING", surprise=surprise)
+        else:
+            outcome.update(
+                learn_reviewed_rule(plan, working, output, phase, inventory, families, selected, taught, auditing)
             )
-            record(audit_file, audited)
-            [report] = audited["candidates"]
-            outcome["audit_outcomes"] = report["audit_outcomes"]
-            if report["audit_outcomes"] == {"MODEL_AGREEMENT": plan["audits_per_epoch"]} and all(
-                row["code"] == "STAGED_ONLY" for row in report["staging"]
-            ):
-                migration = admit_and_migrate(working, output, phase, raw, audited, family, staged)
-                outcome.update(migration, code="RULE_ADMITTED", candidate=str(output))
-            else:
-                outcome["code"] = "RULE_WITHHELD_INDEPENDENT_AUDIT"
+            if outcome["code"] == "RULE_WITHHELD_INDEPENDENT_AUDIT" and plan.get("curriculum"):
+                from .learning_refinement import propose_refinements
+
+                refined = propose_refinements(
+                    read(phase / "reviewed-input.json"),
+                    read(phase / "audit.json"),
+                    family,
+                    selected,
+                    taught,
+                    everyone[selected["entry_id"]],
+                )
+                record(phase / "guard-refinement.json", refined)
+                outcome["refinement"] = refined
+                outcome.setdefault("discoveries", []).extend(refined["candidates"])
     final_measurement = teaching_measurement
     if outcome["code"] == "RULE_ADMITTED":
         revision_measurement_path = phase / "space-post-revision.json"

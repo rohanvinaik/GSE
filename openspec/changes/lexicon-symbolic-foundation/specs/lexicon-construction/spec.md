@@ -1,166 +1,144 @@
 ## ADDED Requirements
 
-### Requirement: The basis and state contract remain fixed
-The builder SHALL use the versioned 72-name GSE basis over 58 canonical signed coordinates. NUMBER
-SHALL remain a separate scale operation. Signed content, written zero, explicit silence, unresolved
-legal domains and conflict SHALL remain distinct through construction and consumption.
+### Requirement: One production construction and representation contract
+The build SHALL extend `GSE/curation/lexicon_builder/` and its existing CLI, runtime and publication
+consumers under SSL-01–SSL-11 and CP-01–CP-08. Its ordinary lexical basis SHALL have 56 pinned banks,
+with hierarchy and NUMBER separate. The upstream 58-coordinate authored-silence format SHALL
+require an explicit tested adapter and SHALL NOT become an alternate default.
 
-#### Scenario: An unknown cell cannot become zero or silence
-- **WHEN** no applicable sourced constraint settles a coordinate
-- **THEN** its legal domain remains unresolved with a null written mask and no numeric value
+#### Scenario: Unknown or upstream silence cannot become production zero
+- **WHEN** no definition-scoped warrant settles an ordinary bank, or an upstream record is silent
+- **THEN** the production domain remains unresolved unless an independently justified adapter
+  establishes a value; no complement zero or prime-only ordinary-word boundary is introduced
 
-#### Scenario: Scale does not change lexical states
-- **WHEN** NUMBER orders or scales compatible readings
-- **THEN** it creates no lexical coordinate and changes no sign, zero, mask or unresolved state
+#### Scenario: Scale preserves the lexical state
+- **WHEN** NUMBER or hierarchy orders compatible content
+- **THEN** it changes no lexical sign, zero, presence mask or unresolved domain
 
-### Requirement: Prime definitions are authored whole-profile decisions
-An examined prime SHALL partition all 58 coordinates exactly once with authority, location and
-warrant. Every judged chart line SHALL point to a claim of the right type. Only an examined authored
-boundary SHALL compile directly into silence laws. Draft boundaries SHALL close nothing.
+### Requirement: Every production input preserves exact identity and evidence roots
+Source projections, native roles, reviewed primes, ordinary words and model requests SHALL preserve
+exact definition identity, competence and lineage. Co-occurring arguments SHALL NOT automatically
+become own-word components. Permissions, cyclic support and derived self-confirmation SHALL NOT
+supply semantic warrants. Original evidence/request identities SHALL survive namespace comparison.
 
-#### Scenario: Missing or malformed definition evidence is refused
-- **WHEN** a definition omits a coordinate, has invalid authority or value types, or an untyped/mistyped chart judgment
-- **THEN** the loader returns a named refusal rather than inventing a state or crashing on the value type
+#### Scenario: An ordinary homograph does not inherit a prime definition
+- **WHEN** a source reading shares an exponent with a prime or function word
+- **THEN** applicability is established for that exact reading and uncovered banks remain open
 
-#### Scenario: Combinability is not content
-- **WHEN** the chart permits I with WANT, or FEEL with something GOOD
-- **THEN** that permission writes neither WANT into I nor FEEL into GOOD
+#### Scenario: A parser label conflicts with the contextual reading
+- **WHEN** chemical-symbol He is labelled PRON by the parser
+- **THEN** real encoder selection uses the existing context/grounding constraints to reject the
+  incompatible pronoun reading or abstain, while ordinary pronoun He remains protected
 
-#### Scenario: An ordinary homograph does not inherit a prime boundary
-- **WHEN** an ordinary source reading shares a prime's surface spelling
-- **THEN** its uncovered coordinates remain unresolved and no prime-boundary law applies
+### Requirement: Discovery and surprise feed the persistent controller
+The production controller SHALL consume newly grounded and source-backed candidates during the
+run and persist their warrant, scope, dependency and review states. The candidate universe SHALL
+NOT remain restricted to the opening family list. Candidate output SHALL remain unapproved until
+the existing independent admission requirements are satisfied.
 
-### Requirement: Provenance is forcing and independently rooted
-Content and explicit absence SHALL be reconstructed through shared rules. Every credited relation
-SHALL be active, cover the decision, force its value and have support independent of that decision's
-target coordinates. Target columns SHALL be existentially erased from every background relation
-before checking outside witnesses. Solver limits and background conflicts SHALL not count as proof.
+#### Scenario: A newly discovered candidate becomes subsequent work
+- **WHEN** teaching or source evidence reveals a useful candidate absent from the opening plan
+- **THEN** it enters the durable ledger and next scheduling/audit decisions without a manual new plan
 
-#### Scenario: Permissive and cyclic support earns no credit
-- **WHEN** a cited law merely permits the final value, or an equality cycle relies on the targets' own final values
-- **THEN** reconstruction returns the appropriate nonforcing/unrooted named result
+#### Scenario: A discovered shortcut adds no new information
+- **WHEN** a relation is already entailed by admitted closure
+- **THEN** its new name earns no additional semantic-contraction credit
 
-#### Scenario: Ablation preserves only independent support
-- **WHEN** a source claim, degree warrant, boundary decision or conditional application is removed
-- **THEN** unsupported consequences reopen, withheld claims leave the premises, and redundant independent support survives
+### Requirement: Challenges enter justified refinement and joint revision
+The controller SHALL distinguish identity errors, unsupported projections, missing conditions,
+scoped exceptions, abstentions and operational limits. It SHALL route counterexamples through
+existing refinement, fresh audit, joint revision and full replay. It SHALL preserve parent evidence
+and legal alternatives; a disagreement SHALL NOT automatically select a correction.
 
-### Requirement: Head conventions are scoped to the located lexical target
-The prime one-hot substantive convention SHALL require an identified prime profile. Authored
-modifier/predicate/operator/time/place head contracts SHALL require their own guards. Ordinary noun
-heads SHALL be projected only from reviewed nominal target or complete located LU-definition claims,
-without inheriting the prime one-hot zeros or generic physical-entity family content.
+#### Scenario: A near miss changes the next learning problem
+- **WHEN** independent evidence contradicts an admitted/proposed rule in one scope
+- **THEN** the distinguishing condition is investigated, its warranted child is freshly audited,
+  affected dependents are replayed and the next curriculum reflects the revised state
 
-#### Scenario: A substantive prime
-- **WHEN** the prime I is reconstructed
-- **THEN** its own I cell is positive, the other substantive-prime cells follow its authored convention, and no SAY or SOMEONE content is inferred from speaker binding
+#### Scenario: An unresolved audit remains open
+- **WHEN** a valid audit abstains on an open bank
+- **THEN** its domain is retained with a named reservation, not a zero or signed counterexample
 
-#### Scenario: An ordinary noun target
-- **WHEN** the container or animal target is established for box or dog
-- **THEN** SOMETHING is +1 and KIND is 0, while unrelated head cells remain unresolved
+### Requirement: Partial and joint restrictions drive real decisions
+Closure, scheduling, audit eligibility, admission and comparison SHALL retain allowed/forbidden
+joint configurations and multiple surviving signs. Each legal answer SHALL be evaluated through
+existing closure. Complementary candidates SHALL be considered together; limited search SHALL
+remain unavailable rather than count as zero gain or proven exhaustion.
 
-#### Scenario: Arguments do not become target components
-- **WHEN** a frame lists a container's Part/Contents/Type or clothing's Wearer/Body_location
-- **THEN** those arguments do not write the noun's own PART, KIND, BODY or person content
+#### Scenario: Joint progress without a filled cell
+- **WHEN** nine legal configurations narrow to three with unchanged marginal domains
+- **THEN** the actual scheduler, admission path and comparison recognize the joint contraction
 
-#### Scenario: A part target retains its whole as an argument
-- **WHEN** a reviewed Body_parts or explicit subpart target licenses PART
-- **THEN** PART is +1 and KIND is 0 for that noncategory reading, with the whole/possessor retained as a relation and no automatic SOMETHING or BODY cell
+#### Scenario: Unknown guard or circular support supplies no consequence
+- **WHEN** an applicability witness is missing or a consequence supplies its own only root
+- **THEN** it enables neither a lexical assertion nor an admitted rule
 
-#### Scenario: Native alternatives remain separate
-- **WHEN** a word has volume/container, leadership/anatomy, artifact/subpart or whole-body/collective-body readings
-- **THEN** each located native reading remains separate, and an unsupported target receives a named unresolved result rather than disappearing
+### Requirement: Measurement distinguishes teaching, propagation and new rules
+The runner and equal-budget comparison SHALL consume `specification.py` phase measurements over
+fixed cohort/source/frequency identities. They SHALL separately report exact joint H, marginal
+potential, filled/zero/unresolved/reopened banks, bucket outcomes and actual question/review costs.
 
-### Requirement: Native observations retain their own scope and source identities
-FrameNet LU semantic types, incorporated FEs, raw DEN bindings, frame elements and source locations
-SHALL remain native evidence. VerbNet origin frames, syntax, role restriction trees and inherited
-membership restrictions SHALL remain distinct. Every consumed source file SHALL be pinned.
+#### Scenario: Incomparable arms cannot pass
+- **WHEN** starting evidence, model/protocol, cohort, discovery language or actual budgets differ,
+  or exact counts needed for the claimed comparison are unavailable
+- **THEN** the comparison reports incomplete/unavailable rather than a validated learning advantage
 
-#### Scenario: Incorporation and corpus bindings are not unique lexical identity
-- **WHEN** a LU incorporates Age or has alternative DEN roles in different annotated constructions
-- **THEN** the adapter preserves those observations and no implicit unique-head or majority-vote law is created
+### Requirement: Counted space and learning claims remain distinct
+Reports SHALL distinguish log feasible-count H from minimum teaching evidence and SHALL require
+a measured multi-round trajectory for claims about exponential bulk learning.
 
-#### Scenario: Inherited annotations are not independent confirmations
-- **WHEN** several memberships inherit one native frame
-- **THEN** the frame keeps one origin and all membership provenance without multiplying its evidence
+#### Scenario: A forecast is not a measured learning curve
+- **WHEN** one proposed rule forecasts a large configuration-space reduction
+- **THEN** the report retains its unadmitted status and makes no measured exponential-learning claim
 
-### Requirement: Admission requires an exact reviewed contract
-Authority, tier, lifecycle and validation SHALL be recorded separately. A validated registry rule
-SHALL carry source/warrant references, positive and MUST-NOT test node IDs and a matching contract
-digest. Legacy founder approval SHALL apply only to its recorded exact contract. Withheld rules
-SHALL write neither cells nor enabling facts nor model questions.
+### Requirement: Independent audits and gold cannot feed their own construction
+Independent audits SHALL omit the proposed answer and its descendants. Gold SHALL remain
+evaluation-only and SHALL NOT determine construction requests, options or semantic warrants.
 
-#### Scenario: A label or stale receipt cannot admit a change
-- **WHEN** a new rule merely says founder-approved, or an approved rule changes without a matching validation receipt
-- **THEN** it is refused with a named admission reason
+#### Scenario: Changing gold does not change construction
+- **WHEN** independent expected answers change
+- **THEN** construction requests, options and semantic warrants remain unchanged
 
-#### Scenario: Native association diagnostics cannot write lexical cells
-- **WHEN** a catalog entry is corroborated or contradicted by native observations
-- **THEN** it remains a diagnostic with source lineage, never a lexical premise, rule confirmation or automatic promotion
+### Requirement: Storage remains bounded and resumable
+The build SHALL retain the active release, one previous release, one current working head and
+compact source/audit/transition records, with bounded owned staging during atomic writes. Resume
+SHALL NOT require a whole database for every preceding epoch. Interrupted operations SHALL retain
+accepted decisions and exactly identify unfinished work without stale commits or duplicate calls.
 
-### Requirement: Conditional exceptions retract one exact independently evidenced application
-An exception SHALL name a reading, rule, independent source record and reason, and an application ID
-when required to distinguish contracts. It SHALL remove only that conditional application and
-re-resolve from remaining facts. It SHALL neither retract a foundational rule nor globally confirm,
-demote or rewrite a rule from the builder's own output.
+#### Scenario: Obsolete working snapshots are retired
+- **WHEN** a new head is durably validated and old owned staging files are removed
+- **THEN** resume reconstructs the correct next operation from retained records and protects the
+  active/previous releases, source data and audit history
 
-#### Scenario: Ambiguous or nonindependent corrections are refused
-- **WHEN** an exception is ambiguous, duplicate, inapplicable, foundational or derived from model/builder output
-- **THEN** the solver returns its named exception refusal
+### Requirement: The usable checkpoint is declared and independently accepted
+The build SHALL freeze the promised NLP workload and required bank/structure outputs, source and
+corpus pins, development/final split and critical acceptance cases. Workload changes SHALL retain
+the original failure and receive a new version rather than manufacture a passing result.
 
-### Requirement: CAUSE requires a bound lexical change in another participant
-A cause predicate SHALL write CAUSE and its DO/HAPPEN companion only when its caused event establishes
-a bound lexical outcome in another participant. Explanatory BECAUSE SHALL remain distinct.
+#### Scenario: A benchmark used to refine rules is development evidence
+- **WHEN** benchmark outcomes influence teaching or rule refinement
+- **THEN** those cases lose untouched-holdout status and a separate frozen final audit is required
 
-#### Scenario: Agentive speech alone does not establish causation
-- **WHEN** a speech frame asserts passing information without the required affected-participant change
-- **THEN** CAUSE and its companion stay unresolved and the rejected predicate remains in the derivation
+### Requirement: Token coverage and semantic correctness have separate gates
+The checkpoint SHALL retain the existing 90% eligible token-mass cohort requirement in both
+frequency and independent text sources, with genre slices. That threshold SHALL NOT become an
+allowed semantic error rate or credit for untested banks.
 
-#### Scenario: Construction results and unconfirmed identity do not supply a lexical outcome
-- **WHEN** the only proposed outcome is a result placeholder, reflexive role or body-part role with unconfirmed identity
-- **THEN** it supplies no caused-change warrant and retains a named blocked-evidence reason
+#### Scenario: Recognition supplies no missing-sign certification
+- **WHEN** a token has a structural home or a partial head assignment
+- **THEN** its homing count does not certify the correctness of its other unresolved banks
 
-### Requirement: Tail choices are explicit, bounded and independent of gold
-Ordinary builds SHALL instantiate no model. Optional task execution SHALL bind to independently
-established source IDs, projector-nominated coordinates and the exact current legal domain, with an
-explicit call budget and recorded task disposition. Every surviving lexical state, including zero,
-SHALL be selectable; rules may exclude zero only within their actual guarded domain.
+### Requirement: Activation requires the complete checkpoint workload gate
+Complete replay, promised semantic outcomes, runtime correctness and applicable repository gates
+SHALL precede atomic checkpoint activation. Sparse activation and full lexical completion SHALL
+remain distinct claims. Subsequent learning SHALL use the same production pipeline.
 
-#### Scenario: Legal zero and abstention
-- **WHEN** a nominated unresolved domain permits zero
-- **THEN** zero is offered and accepted as a candidate selection, while abstention leaves the coordinate open
+#### Scenario: Homing or a finite probe set is insufficient
+- **WHEN** token recognition is high or sparse runtime probes pass but a promised critical bank or
+  exact reading is unresolved/wrong, or the full catalogue replay fails
+- **THEN** the usable-checkpoint gate remains blocked and preserves the earlier active release
 
-#### Scenario: Stale or exhausted work does not create a fill
-- **WHEN** a task's premises/domain no longer match, a previous choice settled it, or its call budget is exhausted
-- **THEN** the task receives the appropriate named disposition and no replacement value is invented
-
-#### Scenario: Gold is evaluation-only
-- **WHEN** published reference values change
-- **THEN** construction, task nomination, options and model payloads remain unchanged; only the independent comparison ledger may change
-
-### Requirement: Sparse publication and consumption preserve every state
-The sparse artifact SHALL validate basis, reading identity, domains, masks and values. SQLite
-publication SHALL preserve full sparse payloads, structural homes, symbolic statuses and provenance,
-validate staged output and atomically preserve the previous release on failure. The real consumer
-SHALL validate the authoritative payload rather than infer silence from missing compatibility rows.
-
-#### Scenario: A damaged mask or payload is refused
-- **WHEN** an unresolved cell is changed to a false mask or a published payload/digest/identity disagrees
-- **THEN** the reader returns a named refusal rather than consuming the damaged definition
-
-#### Scenario: A scoped source conflict is quarantined
-- **WHEN** a reading has SOURCE_CONFLICT even though its coordinate domains are nonempty
-- **THEN** it remains audit evidence, supplies no selectable compatibility components, and contributes no signed/zero support or completion coverage
-
-### Requirement: Coverage metrics do not certify semantic completion
-The release audit SHALL read the complete sparse artifact and local pinned corpora. It SHALL report
-native source availability/absence, reading/cell outcomes, structural homes, OOV frequency mass and
-per-corpus/per-genre or text metrics. Vocabulary, homing, signed content, head zeros, other zeros and
-coordinate completion SHALL have separate named threshold outcomes.
-
-#### Scenario: Recognition or head-only evidence is not completion
-- **WHEN** a word has a construction home, partial head cells or only head zeros
-- **THEN** its homing/evidence counts may increase without increasing its complete-coordinate or semantic-completion claim
-
-#### Scenario: Missing data and threshold failure remain visible
-- **WHEN** a corpus/source is unavailable or a coverage metric misses 90 percent
-- **THEN** its named unavailable/not-met result remains in the report and is not converted into a semantic success verdict
+#### Scenario: Continue after a passing checkpoint
+- **WHEN** the declared sparse checkpoint passes and is activated
+- **THEN** the same evidence/rule/controller pipeline resumes from that successor, retaining every
+  unfilled tail definition, justified zero and unresolved domain

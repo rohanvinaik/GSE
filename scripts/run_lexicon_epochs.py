@@ -10,7 +10,6 @@ from GSE.curation.lexicon_builder.epoch import (
     POLICIES,
     _domains,
     _resolve,
-    census,
     fingerprint,
     mine_scope_chains,
     parse_plan,
@@ -19,8 +18,10 @@ from GSE.curation.lexicon_builder.epoch import (
     run_arm,
     scope_rows,
 )
+from GSE.curation.lexicon_builder.learning_curriculum import curriculum, plan_inventory
 from GSE.curation.lexicon_builder.residual import OllamaTransport
 from GSE.curation.lexicon_builder.rule_history import digest
+from GSE.curation.lexicon_builder.specification import compare_measurements
 from GSE.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
 
 
@@ -99,15 +100,76 @@ def conjunctive_results(directory, policy, arm, inventory):
     return results
 
 
+def joint_learning(arms):
+    """Compare actual phase measurements, including zero-singleton contraction."""
+    summaries, baselines = {}, {}
+    for policy, arm in arms.items():
+        epochs = arm["epochs"]
+        if not epochs or any("specification_learning" not in epoch for epoch in epochs):
+            return {"code": "JOINT_PHASE_MEASUREMENTS_UNAVAILABLE", "policy": policy}
+        phases = [epoch["specification_learning"] for epoch in epochs]
+        baseline = phases[0]["baseline"]
+        previous = baseline
+        direct, revisions = [], []
+        for phase in phases:
+            before, taught, revised = (phase[name] for name in ("baseline", "post_teaching", "post_revision"))
+            compare_measurements(previous, before)
+            if any(previous[name] != before[name] for name in ("lexicon", "buckets", "sentence_constructions")):
+                raise ValueError("EPOCH_JOINT_MEASUREMENT_CHAIN_BROKEN")
+            direct.append(compare_measurements(before, taught))
+            revisions.append(compare_measurements(taught, revised))
+            previous = revised
+        total = compare_measurements(baseline, previous)
+        if any(change["lexicon"]["joint_count_comparison"] != "EXACT" for change in (*direct, *revisions, total)):
+            return {"code": "JOINT_PHASE_COUNTS_UNAVAILABLE", "policy": policy}
+        direct_bits = math.fsum(item["lexicon"]["specification_gain_bits"] for item in direct)
+        revision_bits = math.fsum(item["lexicon"]["specification_gain_bits"] for item in revisions)
+        if not math.isclose(
+            direct_bits + revision_bits, total["lexicon"]["specification_gain_bits"], rel_tol=1e-12, abs_tol=1e-7
+        ):
+            raise ValueError("EPOCH_JOINT_MEASUREMENT_ACCOUNTING_MISMATCH")
+        baselines[policy] = baseline
+        summaries[policy] = {
+            "baseline_specification_bits": baseline["lexicon"]["specification_bits"],
+            "final_specification_bits": previous["lexicon"]["specification_bits"],
+            "teaching_with_existing_closure_gain_bits": direct_bits,
+            "rule_revision_gain_bits": revision_bits,
+            "total": total,
+        }
+    left, right = (baselines[policy] for policy in POLICIES)
+    compare_measurements(left, right)
+    if any(left[name] != right[name] for name in ("lexicon", "buckets", "sentence_constructions")):
+        raise ValueError("EPOCH_JOINT_BASELINES_DIFFER")
+    return {
+        "code": "EXACT_JOINT_COMPARISON",
+        "arms": summaries,
+        "closure_minus_zipf_specification_gain_bits": (
+            summaries["closure"]["total"]["lexicon"]["specification_gain_bits"]
+            - summaries["zipf"]["total"]["lexicon"]["specification_gain_bits"]
+        ),
+    }
+
+
+def arm_inventory(arm, initial):
+    """Resolve the exact discovered populations used by one learning arm."""
+    result = dict(initial)
+    for key, reference in arm.get("learned_inventory", {}).items():
+        rows = read(Path(reference["path"]))
+        if key in result or digest(rows) != reference["sha256"]:
+            raise ValueError("EPOCH_LEARNED_INVENTORY_CHANGED")
+        result[key] = rows
+    return result
+
+
 def compare(directory, plan):
     arms = {policy: read(directory / policy / "arm-result.json") for policy in POLICIES}
     configuration = {policy: read(directory / policy / "arm.json") for policy in POLICIES}
     if any(arm["plan_sha256"] != digest(plan) for arm in arms.values()):
         raise ValueError("EPOCH_COMPARISON_PLAN_CHANGED")
-    if any(
-        len({config[key] for config in configuration.values()}) != 1
-        for key in ("plan_sha256", "inventory_sha256", "frequency_sha256", "transport")
-    ):
+    shared_keys = ("plan_sha256", "inventory_sha256", "frequency_sha256", "transport")
+    if curriculum(plan):
+        shared_keys += ("learning_protocol",)
+    if any(len({digest(config.get(key)) for config in configuration.values()}) != 1 for key in shared_keys):
         raise ValueError("EPOCH_COMPARISON_INPUTS_DIFFER")
     if any(
         arm["replay"]["code"] != "REPLAY_VALIDATED"
@@ -120,9 +182,16 @@ def compare(directory, plan):
     equal = len(set(budgets.values())) == 1 and all(
         arm["typed_questions_used"] == arm["typed_question_budget"] for arm in arms.values()
     )
+    if curriculum(plan):
+        equal = len(set(budgets.values())) == 1 and all(
+            0 < arm["typed_questions_used"] <= arm["typed_question_budget"]
+            and arm["code"] in {"LEARNING_DECLARED_FRONTIER_EXHAUSTED", "LEARNING_EPOCH_LIMIT_REACHED"}
+            for arm in arms.values()
+        )
     inventory = read(directory / "inventory.json")
     if digest(inventory) != configuration["closure"]["inventory_sha256"]:
         raise ValueError("EPOCH_COMPARISON_INVENTORY_CHANGED")
+    inventories = {policy: arm_inventory(arm, inventory) for policy, arm in arms.items()}
     feedback = [
         {
             "epoch": epoch["epoch"],
@@ -132,7 +201,7 @@ def compare(directory, plan):
             "audit_outcomes": epoch["audit_outcomes"],
             "interactions": rule_interactions(
                 Path(arms["closure"]["candidate"]),
-                inventory[epoch["selected"]["family"]],
+                inventories["closure"][epoch["selected"]["family"]],
                 epoch["rule_id"],
                 epoch["premise_depends_on"],
                 epoch["selected"]["bank"],
@@ -142,10 +211,15 @@ def compare(directory, plan):
         if epoch["code"] == "RULE_ADMITTED" and epoch["premise_depends_on"]
     ]
     grounded_files = {policy: directory / policy / "grounded-chains-final.json" for policy in arms}
-    conjunctive = {policy: conjunctive_results(directory, policy, arm, inventory) for policy, arm in arms.items()}
+    conjunctive = {
+        policy: conjunctive_results(directory, policy, arm, inventories[policy]) for policy, arm in arms.items()
+    }
     grounded = {policy: len(read(path)["proposals"]) if path.exists() else 0 for policy, path in grounded_files.items()}
-    if not equal:
+    joint = joint_learning(arms)
+    if not equal or joint["code"] != "EXACT_JOINT_COMPARISON":
         code = "EPOCH_ACCEPTANCE_INCOMPLETE"
+    elif not any(summary["total"]["lexicon"]["specification_gain_bits"] > 0 for summary in joint["arms"].values()):
+        code = "EQUAL_BUDGET_NO_JOINT_CONTRACTION"
     elif any(row["joint_only"] for generation in feedback for row in generation["interactions"]):
         code = "EQUAL_BUDGET_FEEDBACK_VALIDATED"
     elif all(
@@ -154,12 +228,13 @@ def compare(directory, plan):
     ):
         code = "EQUAL_BUDGET_GROUNDED_DISCOVERY_VALIDATED"
     else:
-        code = "EPOCH_ACCEPTANCE_INCOMPLETE"
+        code = "EQUAL_BUDGET_JOINT_CONTRACTION_VALIDATED"
     result = {
-        "format": "GSE.lexicon-epoch-comparison/1",
+        "format": "GSE.lexicon-epoch-comparison/2",
         "code": code,
         "budget": budgets,
         "equal_budget": equal,
+        "joint_learning": joint,
         "second_generation_rules": feedback,
         **(
             {"conjunctive_admissions": conjunctive, "grounded_chain_proposals": grounded}
@@ -173,7 +248,10 @@ def compare(directory, plan):
                 "reopened_cells": arm["reopened_cells"],
                 "epoch_families": [e.get("selected", {}).get("family") for e in arm["epochs"]],
                 "direct_typed_assignments": sum(
-                    e.get("teaching", {}).get("code") == "REVIEWED_TEACHING" for e in arm["epochs"]
+                    e.get("teaching", {}).get("code")
+                    in {"TYPED_TEACHING", "REVIEWED_TEACHING", "REVIEWED_TEACHING_COUNTEREXAMPLE"}
+                    and not e.get("selected", {}).get("reviewed_teaching")
+                    for e in arm["epochs"]
                 ),
                 "symbolic_new_cells": sum(e.get("symbolic_new_cells", 0) for e in arm["epochs"]),
                 "marginal_domain_potential_removed_bits": sum(
@@ -182,13 +260,14 @@ def compare(directory, plan):
                     if row["before"] and row["after"]
                 ),
                 "remaining_unknown": arm["publication"]["cells"]["unresolved"],
+                "semantic_reviews": arm.get("semantic_reviews", 0),
             }
             for policy, arm in arms.items()
         },
         "closure_minus_zipf_new_cells": arms["closure"]["new_cells"] - arms["zipf"]["new_cells"],
         "activation_performed": False,
     }
-    record(directory / "comparison.json", result)
+    record(directory / "comparison-joint-v2.json", result)
     return result
 
 
@@ -273,7 +352,7 @@ def main():
     if bool(args.publish_sparse_to) != bool(args.release_gold) or (args.publish_sparse_to and args.phase != "run"):
         parser.error("Sparse round publication requires run, --publish-sparse-to, and --release-gold")
     plan = read(args.plan)
-    families = parse_plan(plan)
+    parse_plan(plan)
     baseline, directory = args.baseline.resolve(strict=True), args.directory.resolve()
     if fingerprint(baseline) != plan["baseline_sha256"] or fingerprint(ACTIVE_POINTER) != plan["active_pointer_sha256"]:
         raise ValueError("EPOCH_FROZEN_INPUT_MISMATCH")
@@ -283,7 +362,7 @@ def main():
     record(directory / "plan.json", plan)
     inventory_path = directory / "inventory.json"
     if args.phase == "init":
-        inventory = census(baseline, families)
+        inventory = plan_inventory(baseline, plan)
         record(inventory_path, inventory)
         groundings = mine_scope_chains(baseline, inventory)
         record(directory / "grounded-chains.json", groundings)

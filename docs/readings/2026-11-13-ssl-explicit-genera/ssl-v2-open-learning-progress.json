@@ -1,0 +1,218 @@
+{
+  "format": "GSE.ssl-engineering-progress/1",
+  "stage": "OPEN_CURRICULUM_AND_AUDIT_REFINEMENT_IMPLEMENTATION",
+  "source_sha256": {
+    "GSE/curation/lexicon_builder/validation.py": "5dd5f123807ce5c37ab5a7508c93e9689b70fcb147a696c9ec8f03dd1e91aa3a",
+    "GSE/curation/lexicon_builder/epoch.py": "36bfb787fcb4d79bee81797aac597370edd3f237c63c60ae4fa0ae72b0e8a57c",
+    "GSE/curation/lexicon_builder/learning_state.py": "14f703c29ddf7864d2b21b9851fd8cc05c9fdf3416bf8caf1e030bfbfb1f27f4",
+    "GSE/curation/lexicon_builder/learning_curriculum.py": "7f8a1bc8e96a8a55e7e0e5b0a47102ab02155baf505f5ccf01648d3844ff643e",
+    "GSE/curation/lexicon_builder/learning_refinement.py": "60ff02fd5a72bbb102602b4b11428456505830503a2f343196090318d7b48732",
+    "scripts/run_lexicon_epochs.py": "0458e6c9ab775c696134db9534d80001b50d0269999720400292d5f9d796443f"
+  },
+  "tests": {
+    "cp01-full-gate-tests.xml": [
+      {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "66",
+        "tests": "7946",
+        "time": "364.443",
+        "timestamp": "2026-11-23T20:11:11.405717-05:00",
+        "hostname": "MacBookPro"
+      }
+    ],
+    "persistent-learning-tests.xml": [
+      {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "162",
+        "time": "372.036",
+        "timestamp": "2026-11-23T21:20:40.643927-05:00",
+        "hostname": "MacBookPro"
+      }
+    ],
+    "open-bank-learning-tests.xml": [
+      {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "166",
+        "time": "1193.155",
+        "timestamp": "2026-11-23T22:00:53.103063-05:00",
+        "hostname": "MacBookPro"
+      }
+    ],
+    "connected-learning-pass3.xml": [
+      {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "6",
+        "time": "356.069",
+        "timestamp": "2026-11-23T22:25:27.899248-05:00",
+        "hostname": "MacBookPro"
+      }
+    ],
+    "learning-preflight-4.xml": [
+      {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "1",
+        "skipped": "0",
+        "tests": "172",
+        "time": "82.236",
+        "timestamp": "2026-11-23T22:43:27.111989-05:00",
+        "hostname": "MacBookPro"
+      }
+    ]
+  },
+  "ordinary_corpus_replay": {
+    "code": "NO_FINISHED_RECEIPT"
+  },
+  "measurement": {
+    "source": "docs/readings/2026-11-13-ssl-explicit-genera/cp01-space-after-refresh.json",
+    "cohort_sha256": "0fb31598c9368cc974eefa4787da39058eacfad571c1df7e823ba37efb8b63f7",
+    "lexicon": {
+      "EXACT": 401595,
+      "banks": 22489320,
+      "definitions": 401595,
+      "domain_potential_bits": 34993174.557109356,
+      "exact_definitions": 401595,
+      "exact_subset_specification_bits": 32819332.148767773,
+      "explicit_zero_banks": 280853,
+      "filled_banks": 411085,
+      "joint_assignment_count_representation": "PRODUCT_OF_EACH_HISTOGRAM_BASE_RAISED_TO_ITS_COUNT",
+      "joint_assignment_product_complete": true,
+      "limited_components": 0,
+      "mean_unresolved_banks_per_definition": 54.97636922770453,
+      "specification_bits": 32819332.148767773,
+      "spelling_weighted_mean_unresolved_banks": 54.7956763181226,
+      "spellings": 67173,
+      "unresolved_banks": 22078235,
+      "upper_bound_bits": 32819332.148767773
+    },
+    "change": {
+      "buckets": {
+        "1-500": {
+          "domain_potential_gain_bits": 0.0,
+          "joint_count_comparison": "EXACT",
+          "net_filled_banks": 0,
+          "specification_gain_bits": 0.0,
+          "unresolved_banks_reduction": 0
+        },
+        "1501-5000": {
+          "domain_potential_gain_bits": 0.0,
+          "joint_count_comparison": "EXACT",
+          "net_filled_banks": 0,
+          "specification_gain_bits": 0.0,
+          "unresolved_banks_reduction": 0
+        },
+        "5001+": {
+          "domain_potential_gain_bits": 0.0,
+          "joint_count_comparison": "EXACT",
+          "net_filled_banks": 0,
+          "specification_gain_bits": 0.0,
+          "unresolved_banks_reduction": 0
+        },
+        "501-1500": {
+          "domain_potential_gain_bits": 0.0,
+          "joint_count_comparison": "EXACT",
+          "net_filled_banks": 0,
+          "specification_gain_bits": 0.0,
+          "unresolved_banks_reduction": 0
+        },
+        "unranked": {
+          "domain_potential_gain_bits": 0.0,
+          "joint_count_comparison": "EXACT",
+          "net_filled_banks": 0,
+          "specification_gain_bits": 0.0,
+          "unresolved_banks_reduction": 0
+        }
+      },
+      "lexicon": {
+        "domain_potential_gain_bits": 0.0,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 0,
+        "specification_gain_bits": 0.0,
+        "unresolved_banks_reduction": 0
+      },
+      "sentence_constructions": {
+        "domain_potential_gain_bits": 0.0,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 0,
+        "specification_gain_bits": 0.0,
+        "unresolved_banks_reduction": 0
+      }
+    },
+    "buckets": {
+      "1-500": {
+        "definitions": 15028,
+        "filled_banks": 11502,
+        "limited_components": 0,
+        "mean_unresolved_banks_per_definition": 55.2346286931062,
+        "specification_bits": 1234720.9751115942,
+        "spelling_weighted_mean_unresolved_banks": 55.2272530101218,
+        "spellings": 500,
+        "unresolved_banks": 830066
+      },
+      "1501-5000": {
+        "definitions": 56654,
+        "filled_banks": 51665,
+        "limited_components": 0,
+        "mean_unresolved_banks_per_definition": 55.08806086066297,
+        "specification_bits": 4639384.61127008,
+        "spelling_weighted_mean_unresolved_banks": 55.02117582939999,
+        "spellings": 3500,
+        "unresolved_banks": 3120959
+      },
+      "5001+": {
+        "definitions": 132300,
+        "filled_banks": 134123,
+        "limited_components": 0,
+        "mean_unresolved_banks_per_definition": 54.98622071050642,
+        "specification_bits": 10812803.004935583,
+        "spelling_weighted_mean_unresolved_banks": 54.86555000661705,
+        "spellings": 20402,
+        "unresolved_banks": 7274677
+      },
+      "501-1500": {
+        "definitions": 25440,
+        "filled_banks": 21525,
+        "limited_components": 0,
+        "mean_unresolved_banks_per_definition": 55.15389150943396,
+        "specification_bits": 2086286.2412178167,
+        "spelling_weighted_mean_unresolved_banks": 55.11697986439637,
+        "spellings": 1000,
+        "unresolved_banks": 1403115
+      },
+      "unranked": {
+        "definitions": 172173,
+        "filled_banks": 192270,
+        "limited_components": 0,
+        "mean_unresolved_banks_per_definition": 54.883274381000504,
+        "specification_bits": 14046137.316232698,
+        "spelling_weighted_mean_unresolved_banks": 54.72979560723687,
+        "spellings": 41771,
+        "unresolved_banks": 9449418
+      }
+    }
+  },
+  "active_pointer": {
+    "format": "gse.active-lexicon/1",
+    "path": "lexicon_builder/2026-11-12/sparse-release-021.db"
+  },
+  "new_linguistic_rules_admitted_in_this_stage": 0,
+  "publication_attempted": false,
+  "remaining_consumer_gates": [
+    "REPLAY_VALID_OPENING_HEAD",
+    "GENERAL_SURPRISE_AND_JOINT_REVISION_FEEDBACK",
+    "BOUNDED_HEAD_AND_SUSTAINED_WRITER_RECOVERY",
+    "COMMON_WORD_WORKLOAD_AND_RUNTIME_IDENTITY",
+    "REAL_CORPUS_CYCLE_AND_EQUAL_BUDGET_REPLAY"
+  ]
+}
