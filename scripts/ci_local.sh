@@ -3,6 +3,7 @@
 #
 #   ruff check      lint — blocking
 #   ruff format     format check — blocking (Python only; Markdown is excluded in pyproject)
+#   lint-imports    import direction — blocking (contracts and recorded exceptions in pyproject)
 #   pytest          the suite — blocking (strict markers/config, xfail_strict; see pyproject)
 #   ty              type check — ADVISORY: printed, never fails the gate (findings are leads)
 #
@@ -18,6 +19,9 @@ $RUFF check .
 
 echo "== ruff format --check"
 $RUFF format --check .
+
+echo "== import direction"
+uv run lint-imports
 
 echo "== pytest"
 uv run pytest

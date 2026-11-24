@@ -47,6 +47,7 @@ dev = [
     "mcp>=1.30.0",        # tests import GSE.mcp.spell_server; runtime consumers use the extra
     "requests>=2.28.0",  # tests import external_sources modules (previously undeclared)
     "hypothesis>=6",  # generated producer/adoption contract tests
+    "import-linter>=2.17",
 ]
 # Detective pins behaviour by running this suite in-process under its own interpreter, so it runs from
 # this venv (`.venv/bin/detective`), never from a throwaway `uv run --with detective-spec` environment:
@@ -108,3 +109,167 @@ norecursedirs = ["archive", "_archive", "*_archive"]
 
 [tool.uv.sources]
 en-core-web-sm = { url = "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl" }
+
+# Import direction, checked by `lint-imports` in scripts/ci_local.sh. A forbidden direction is a
+# rule; a line under ignore_imports is a recorded exception, named with the task in
+# openspec/changes/organize-package-by-subsystem/tasks.md that removes it. Exceptions only ever
+# shrink: a new violation fails the gate.
+[tool.importlinter]
+root_package = "GSE"
+exclude_type_checking_imports = true
+
+[[tool.importlinter.contracts]]
+id = "runtime-not-build"
+name = "The runtime never imports lexicon construction"
+type = "forbidden"
+allow_indirect_imports = true
+source_modules = [
+    "GSE.api",
+    "GSE.symbolic",
+    "GSE.nlp",
+    "GSE.discourse",
+    "GSE.cassettes",
+    "GSE.lexical_evidence",
+    "GSE.lexicon_resource",
+    "GSE.lexicon",
+    "GSE.frequency",
+    "GSE.structure",
+    "GSE.scales",
+    "GSE.vectors_v2",
+    "GSE.primitives_v2",
+    "GSE.prime_projection",
+    "GSE.scale_definition",
+    "GSE.namespace",
+    "GSE.encoders",
+    "GSE.pragmatics",
+    "GSE.mcp",
+    "GSE.cli",
+    "GSE.verification",
+    "GSE.curation.schema",
+    "GSE.curation.personal_dictionary",
+    "GSE.curation.frequency_integration",
+]
+forbidden_modules = [
+    "GSE.curation.lexicon_builder",
+    "GSE.curation.external_sources",
+    "GSE.curation.lexicon_db",
+    "GSE.curation.cli",
+]
+ignore_imports = [
+    # Task 4.1: the definition reader and the closed-class catalog move into the runtime lexicon.
+    "GSE.api.encoder -> GSE.curation.external_sources.gse_closed_class",
+    "GSE.symbolic.lexical_grounding -> GSE.curation.lexicon_builder.foundation",
+    "GSE.symbolic.lexical_grounding -> GSE.curation.lexicon_builder.catalog",
+    "GSE.symbolic.lexical_grounding -> GSE.curation.external_sources.gse_closed_class",
+    # Task 1.5 (owner decision): the flat-lexicon builder behind data/lexicon_clean.db.
+    "GSE.curation.frequency_integration -> GSE.curation.lexicon_db",
+]
+
+[[tool.importlinter.contracts]]
+id = "runtime-not-experiments"
+name = "The runtime never imports the unfinished experiments"
+type = "forbidden"
+allow_indirect_imports = true
+source_modules = [
+    "GSE.api",
+    "GSE.symbolic",
+    "GSE.nlp",
+    "GSE.discourse",
+    "GSE.cassettes",
+    "GSE.lexical_evidence",
+    "GSE.lexicon_resource",
+    "GSE.lexicon",
+    "GSE.frequency",
+    "GSE.structure",
+    "GSE.scales",
+    "GSE.vectors_v2",
+    "GSE.primitives_v2",
+    "GSE.encoders",
+    "GSE.pragmatics",
+    "GSE.mcp",
+    "GSE.cli",
+]
+forbidden_modules = [
+    "GSE.pipeline_v2",
+    "GSE.merkle",
+    "GSE.patterns",
+    "GSE.teaching",
+    "GSE.profiles",
+    "GSE.cache",
+    "GSE.orchestration",
+    "GSE.parsing",
+    "GSE.composition",
+    "GSE.evaluation",
+    "GSE.benchmarks",
+    "GSE.verb_templates",
+    "GSE.curation.llm",
+]
+
+[[tool.importlinter.contracts]]
+id = "trace-types-standalone"
+name = "The trace types never import the encoder or the symbolic layer"
+type = "forbidden"
+allow_indirect_imports = true
+source_modules = ["GSE.api.trace", "GSE.api.errors"]
+forbidden_modules = ["GSE.api.encoder", "GSE.api.decoder", "GSE.symbolic"]
+
+[[tool.importlinter.contracts]]
+id = "symbolic-not-bridge"
+name = "The symbolic layer never imports the Genesis/Regenesis bridge"
+type = "forbidden"
+allow_indirect_imports = true
+source_modules = [
+    "GSE.symbolic.claims",
+    "GSE.symbolic.coherence",
+    "GSE.symbolic.duration",
+    "GSE.symbolic.expression",
+    "GSE.symbolic.genealogy_store",
+    "GSE.symbolic.grounding",
+    "GSE.symbolic.inference",
+    "GSE.symbolic.lexical_grounding",
+    "GSE.symbolic.modality",
+    "GSE.symbolic.operators",
+    "GSE.symbolic.predicates",
+    "GSE.symbolic.propositions",
+    "GSE.symbolic.queries",
+    "GSE.symbolic.resolution",
+    "GSE.symbolic.sense_resonance",
+    "GSE.symbolic.serialization",
+    "GSE.symbolic.signs",
+    "GSE.symbolic.templating",
+    "GSE.symbolic.tiers",
+]
+forbidden_modules = ["GSE.symbolic.emit", "GSE.symbolic.variables", "GSE.symbolic.healer", "GSE.symbolic.narrative"]
+ignore_imports = [
+    # Task 5.4: emit_contract_with_coherence and its variable form are bridge functions that live in
+    # coherence; they move to the bridge with the interface, since Genesis imports them today.
+    "GSE.symbolic.coherence -> GSE.symbolic.emit",
+    "GSE.symbolic.coherence -> GSE.symbolic.variables",
+]
+
+[[tool.importlinter.contracts]]
+id = "core-not-apps"
+name = "The core never imports the applications"
+type = "forbidden"
+allow_indirect_imports = true
+source_modules = [
+    "GSE.api",
+    "GSE.symbolic",
+    "GSE.nlp",
+    "GSE.cassettes",
+    "GSE.discourse.speech",
+    "GSE.discourse.intake",
+    "GSE.discourse.profile",
+    "GSE.lexical_evidence",
+    "GSE.lexicon",
+    "GSE.structure",
+]
+forbidden_modules = [
+    "GSE.discourse.registers",
+    "GSE.discourse.router",
+    "GSE.discourse.nested_router",
+    "GSE.discourse.infer",
+    "GSE.encoders",
+    "GSE.pragmatics",
+    "GSE.demo",
+]
