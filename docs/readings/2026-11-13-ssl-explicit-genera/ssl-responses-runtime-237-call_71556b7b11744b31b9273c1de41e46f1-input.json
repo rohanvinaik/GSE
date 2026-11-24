@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-roleframe-consumers -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast\nfor fn,names in [('GSE/symbolic/operators.py',set()),('GSE/symbolic/resolution.py',{'_refine','_collapse_phrase_to_entity','Entity'}),('GSE/symbolic/expression.py',{'_atom_from_token'}),('tests/test_runtime_native_composed_controls.py',set())]:\n s=Path(fn).read_text();t=ast.parse(s);print('\\nFILE',fn)\n for n in t.body:\n  if isinstance(n,(ast.Import,ast.ImportFrom)) or isinstance(n,(ast.FunctionDef,ast.ClassDef)) and n.name in names:print(ast.get_source_segment(s,n))\n# exact relevant callers of event args and Theme\nfor p in Path('tests').glob('*.py'):\n s=p.read_text()\n if 'SYN_OBL' in s and ('event(' in s or 'Event(' in s):\n  t=ast.parse(s)\n  for n in t.body:\n   if isinstance(n,ast.FunctionDef) and 'SYN_OBL' in ast.get_source_segment(s,n):print(str(p),ast.get_source_segment(s,n))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

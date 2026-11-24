@@ -15,6 +15,60 @@ from GSE.symbolic.resolution import Coordination, Entity
 from GSE.symbolic.serialization import from_dict, to_dict
 
 
+@pytest.mark.parametrize("text", ["I think about the door.", "Nora thinks about the lamp."])
+def test_topic_pp_is_a_constituent_not_an_asserted_about_event(encoder, text):
+    trace = encoder.encode(text)
+    tree = evaluate_tree(resolve(from_trace(trace)))
+    assert isinstance(tree, Event) and tree.verb == "think"
+    assert tree.patient is None
+    assert len(tree.themes) == 1
+    theme = tree.themes[0]
+    assert [atom.lemma for atom in theme.atoms][0] == "about"
+    assert theme.atoms[-1].lemma in {"door", "lamp"}
+    assert from_dict(to_dict(tree)) == tree
+    assert emit_contract(tree)["predicate"]["features"]["verb"] == "think"
+
+
+@pytest.mark.parametrize("text", ["Nora did the work.", "Nora does her work.", "Nora did it."])
+def test_main_do_retains_the_event_and_nominal_complement(encoder, text):
+    trace = encoder.encode(text)
+    assert next(t for t in trace.tokens if t.lemma == "do").pos == "VERB"
+    tree = evaluate_tree(resolve(from_trace(trace)))
+    assert isinstance(tree, Event) and tree.verb == "do"
+    assert tree.agent.head.lemma == "nora"
+    assert isinstance(tree.patient, Entity)
+
+
+@pytest.mark.parametrize("text", ["Nora did repair the bicycle.", "Nora did not repair the bicycle."])
+def test_do_support_does_not_steal_the_content_predicate(encoder, text):
+    trace = encoder.encode(text)
+    assert next(t for t in trace.tokens if t.lemma == "do").pos == "AUX"
+    tree = evaluate_tree(resolve(from_trace(trace)))
+    if "not" in text:
+        assert isinstance(tree, Negation)
+        tree = tree.operand
+    assert isinstance(tree, Event) and tree.verb == "repair"
+    assert tree.agent.head.lemma == "nora" and tree.patient.head.lemma == "bicycle"
+
+
+def test_fronted_absolute_retains_matrix_predicate_and_adjunct(encoder):
+    trace = encoder.encode("With her eyes open, Nora sees the bright lamp.")
+    tree = evaluate_tree(resolve(from_trace(trace)))
+    assert isinstance(tree, Event) and tree.verb == "see"
+    assert tree.agent.head.lemma == "nora"
+    assert tree.patient.head.lemma == "lamp"
+    assert len(tree.themes) == 1
+    assert [atom.lemma for atom in tree.themes[0].atoms] == ["with", "her", "eyes", "open"]
+    assert from_dict(to_dict(tree)) == tree
+    assert "eyes open" in emit_contract(tree)["predicate"]["features"]["themes"][0]
+
+
+def test_trailing_participle_does_not_steal_matrix_predicate(encoder):
+    tree = evaluate_tree(resolve(from_trace(encoder.encode("Nora fled, fearing capture."))))
+    assert isinstance(tree, Event) and tree.verb == "flee"
+    assert tree.agent.head.lemma == "nora"
+
+
 @pytest.fixture(scope="module")
 def encoder():
     with GSEEncoder() as instance:

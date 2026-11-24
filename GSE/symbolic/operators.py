@@ -19,7 +19,7 @@ from __future__ import annotations
 from dataclasses import replace
 from typing import Callable, Dict
 
-from GSE.symbolic.expression import Negation, Op, Operand
+from GSE.symbolic.expression import Negation, Op, Operand, Phrase
 from GSE.symbolic.predicates import (
     BoundaryCase,
     Causation,
@@ -239,11 +239,22 @@ def event(op: Op) -> Event:
     # ditransitive / object+complement (resolution's ArgSplit flattened them in). Preserve
     # them as latent `themes` — the clean primary read (agent, patient) is unchanged; themes
     # ride along, dropped from the default analysis but revivable.
+    def oblique(argument):
+        if isinstance(argument, Phrase):
+            return (
+                bool(argument.atoms)
+                and argument.atoms[0].pos == "ADP"
+                and all(atom.role == "SYN_OBL" for atom in argument.atoms)
+            )
+        return False
+
+    complements = list(op.args[1:])
+    patient = complements.pop(0) if complements and not oblique(complements[0]) else None
     return Event(
         verb=op.primitive,
         agent=op.args[0],
-        patient=op.args[1] if len(op.args) > 1 else None,
-        themes=tuple(op.args[2:]) if len(op.args) > 2 else (),
+        patient=patient,
+        themes=tuple(complements),
         modal=op.modal,
         duration=op.duration,
     )

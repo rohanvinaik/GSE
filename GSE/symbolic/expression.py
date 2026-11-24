@@ -722,7 +722,8 @@ def _select_clause_verb(tokens: Sequence[TokenTrace]):
         return None
     v1 = eligible[0]
     before_v1 = [t for t in by_pos if t.position < v1.position]
-    if before_v1 and before_v1[-1].pos in _SUBJECT_POS:
+    fronted_pp = bool(by_pos and by_pos[0].pos == "ADP")
+    if before_v1 and before_v1[-1].pos in _SUBJECT_POS and not fronted_pp:
         return v1  # v1 preceded by its subject -> main/trailing verb
     comma = next((t.position for t in by_pos if t.pos == "PUNCT" and t.lemma == "," and t.position > v1.position), None)
     if comma is None:
@@ -822,7 +823,11 @@ def _try_event(
     fronted_obliques = [
         _atom_from_token(t, "SYN_OBL")
         for t in tokens
-        if t.position < verb.position and t.pos != "PUNCT" and t.lemma not in _NEGATION_LEMMAS and _prep_governed(t)
+        if t.position < verb.position
+        and t.pos != "PUNCT"
+        and t.lemma not in _NEGATION_LEMMAS
+        and t.position not in leading_adjunct
+        and _prep_governed(t)
     ]
     # Direct object vs PP obliques. The clause's direct object is the post-verb nominal
     # span UP TO the first preposition; tokens from the first preposition on are PP
@@ -854,6 +859,15 @@ def _try_event(
         # ("stood by the window") never slides into the patient slot (args[1]).
         if oblique_atoms:
             args.append(Phrase(atoms=oblique_atoms))
+    # An adjunct's internal subject/predicate is not the matrix roleframe.
+    # Retain the entire source constituent as an oblique, without inventing
+    # an asserted event from an ambiguous small-clause adjective (eyes open).
+    if leading_adjunct and tokens[0].pos == "ADP":
+        args.append(Phrase(atoms=[_atom_from_token(t, "SYN_OBL") for t in tokens if t.position in leading_adjunct]))
+    prep_encoding = get_preposition_encoding(obl_tokens[0].lemma) or {} if obl_tokens else {}
+    topic_complement = prep_encoding.get("relation_type") == "TOPIC"
+    if not object_atoms and topic_complement:
+        args.append(Phrase(atoms=[_atom_from_token(t, "SYN_OBL") for t in obl_tokens]))
     # A modal auxiliary before the verb ("might", "can", "must") qualifies the event, keyed on its primes (#66).
     modal = modal_primes([t.word_primitives for t in tokens if t.position < verb.position and t.pos == "AUX"])
     event = Op(primitive=verb.lemma, operation="EVENT", arity=len(args), args=args, modal=modal)
@@ -862,7 +876,7 @@ def _try_event(
     # for unresolved nominal prepositions), preserving BOTH the preposition
     # and its anchor. Previously these constituents were silently discarded
     # just because there was no object to put before them in EVENT.args.
-    if not object_atoms and len(obl_tokens) > 1:
+    if not object_atoms and len(obl_tokens) > 1 and not topic_complement:
         event = Op(
             primitive=obl_tokens[0].lemma,
             operation="EVENT",

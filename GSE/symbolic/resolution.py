@@ -227,6 +227,13 @@ def _collapse_phrase_to_entity(phrase: Phrase) -> Expression:
     if not atoms:
         return phrase
 
+    # A complete prepositional oblique is a constituent, not an NP whose
+    # preposition may be thrown away. Keep the source relation and its
+    # modifiers together for Event.themes (including nominal topic PPs and
+    # fronted absolute phrases). Ordinary patient/subject NPs still resolve.
+    if atoms[0].pos == "ADP" and all(a.role == "SYN_OBL" for a in atoms):
+        return Phrase(atoms=atoms)
+
     # The phrase's modifier (ADJ/ADV) is the comparison axis — preserve it
     # so axis_of_comparison can recover it post-resolution.
     modifier = _first_adj_or_adv(atoms)

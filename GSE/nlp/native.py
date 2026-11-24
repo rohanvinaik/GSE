@@ -663,7 +663,21 @@ class NativeNLP:
             # set, so the modal reading is preserved. Without this, "will" tagged AUX is dropped as a
             # function word and "his will" collapses to the bare possessor (make(alonso, alonso)).
             return "NOUN"
-        if low in _AUX_BE or low in _AUX_MODAL or low in _AUX_DO:
+        if low in _AUX_BE or low in _AUX_MODAL:
+            return "AUX"
+        if low in _AUX_DO:
+            # Do-support precedes a verbal predicate, whereas main DO can
+            # take a nominal complement ("did the work"). Do not discard
+            # that predicate merely because the same lemma is an auxiliary.
+            # An inverted subject remains on the auxiliary path; here we
+            # only license the main-verb reading with a following NP opener.
+            j = i + 1
+            while j < len(surfaces) and (surfaces[j].lower().endswith("ly") or surfaces[j].lower() in _NEG):
+                j += 1
+            nxt = surfaces[j].lower() if j < len(surfaces) else ""
+            inverted = i == 0 or prev in _SCONJ or prev in _CCONJ
+            if not inverted and nxt in (_DET | _POSS_PRON | _PRON):
+                return "VERB"
             return "AUX"
         if low in _NT_STEM and i + 1 < len(surfaces) and surfaces[i + 1].lower() == "n't":
             return "AUX"

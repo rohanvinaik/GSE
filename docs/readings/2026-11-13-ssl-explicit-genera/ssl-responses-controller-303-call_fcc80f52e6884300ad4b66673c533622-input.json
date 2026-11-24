@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast,json\nfor root in ['GSE','scripts']:\n for p in Path(root).rglob('*.py'):\n  try:s=p.read_text();t=ast.parse(s)\n  except (SyntaxError,UnicodeError):continue\n  nodes=[x for x in ast.walk(t) if isinstance(x,(ast.FunctionDef,ast.ClassDef)) and any(w in x.name.lower() for w in ['workload','publish_round','checkpoint_gate'])]\n  for x in nodes: print(p,x.name,x.lineno,x.end_lineno)\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor p in sorted(n.glob('*workload*')):print('ARTIFACT',p.name,p.stat().st_size)\np=n/'ssl-api-runtime-blockers.json';d=json.loads(p.read_text());print('B_BLOCKERS_CURRENT',json.dumps({k:v for k,v in d.items() if k in {'updated_utc','at_utc','status','source_edits_finished','current_failures','blockers','next_actions'}}))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}
