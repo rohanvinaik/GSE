@@ -1,43 +1,63 @@
-# Organize GSE by subsystem
+# GSE-00: live capability map, retirement of dead code, and package organization
+
+Issue: https://github.com/rohanvinaik/GSE/issues/166
+
+The enduring contract is `docs/program/BUILD_SPEC.md#gse-00`. Program work ID: **GSE-00**. This change also carries the owner's 2026-11-23 professional-pass instruction (organization, documentation and tests), which BUILD_SPEC does not cover.
 
 ## Why
 
-GSE grew by accretion into one namespace: a June 14 import of an earlier design (the HDC learning-network stack), the deterministic text-to-math engine built June–November, two lexicon constructors built in parallel (`GSE/lexicon_builder`, Oct 24–26; `GSE/curation/lexicon_builder`, Oct 29–Nov 23), the applications built on the engine, and the offline build tooling. The 2026-11-23 import graph and runtime trace (design.md) show what that costs:
+USER_INTENT (2026-11-23): map the codebase by the owner's three tiers and trace how input becomes output; document it; get the code into flat modules that say what they do, connected where they should be and separate where they should be; scope tests by subsystem; find wasted, duplicate and stale tests; where code conflicts, use dates to find improvements whose old version was never retired. The workflow is `PROFESSIONAL_CODING_PERFORMANCE_ENGINEERING.md`.
 
-- 63 modules (about 19,600 lines, 22% of the package) never run on any consumer path, and 28 test files exercise only them.
-- The runtime depends on build tooling: the encoder, lexical evidence and the spell checker read the lexicon through `curation.lexicon_builder.storage`, and the encoder takes its grammatical catalog from `curation.external_sources`.
-- Core modules import the Genesis/Regenesis bridge and the genre application; `encode` and `symbolic` import each other; the package root advertises the legacy stack.
-- The test suite is one flat directory, so every change runs about 7,600 tests (six and a half minutes).
-- Two consumer imports (`GSE.discourse.document.claim_records`, `GSE.nlp.spellcheck.spelling_protection`, both in SquishOS) target functions GSE does not publish.
+USER_INTENT (2026-11-24, the owner's decisions on this change):
+
+1. `GSE/curation/lexicon_builder/` is the one lexicon builder; check that it is complete on its own and not a wrapper over the upstream constructor.
+2. Archive dead code only when it is certainly dead. Code not in active use is not dead; experiments the owner put off are kept.
+3. Consumers will reach GSE through one central interface on the cassette model, designed with the owner. Nothing here designs it before that.
+4. The owner's lexicon session (the `lexicon-symbolic-foundation` change) continues in this checkout. This change never edits that session's files.
+5. The custom-model-training work means both the trained register router and `curation/llm` (with the Qwen client); both are unfinished experiments.
+
+CODE_OBSERVED (2026-11-23, design.md):
+
+- 63 modules (about 19,600 lines) never ran on a consumer path. Most belong to the June 14 learning-network experiment, which decision 5 keeps.
+- The runtime reads the lexicon through build code: the encoder, lexical evidence and the spell checker import `curation.lexicon_builder.storage`.
+- `encode` and `symbolic` import each other, and `symbolic` re-exports the Genesis/Regenesis bridge modules.
+- Tests run 55 of the 63 never-observed modules, but nothing tests the live register router, Janus figures, four statement-healer lenses or `symbolic.variables`.
+- SquishOS imports two functions GSE does not publish (`GSE.discourse.document.claim_records`, `GSE.nlp.spellcheck.spelling_protection`).
+
+## Work-package restatement
+
+- **Authored input:** the repository at a pinned commit, the consumer repositories' import sites, and the owner's decisions.
+- **Computation:** an AST import graph; a coverage trace of consumer-style calls; full-suite coverage; module dates that exclude repository-wide sweeps; re-verification of the 2026-10-04 theory audit's dead-code findings (card #152) against current code.
+- **Emitted artifact:** `docs/ARCHITECTURE.md` §7 (drift map) and §8 (module reference), and this change's design.
+- **Consuming decision:** which code is archived, which stays as an experiment, and how the package and tests are organized. Each archive is one commit with its evidence.
+- **Named abstention:** a module whose status cannot be established is labelled, never archived: "not confirmed dead", "unfinished experiment", or **UNMEASURED** where a required resource is missing (`data/genealogy.db` for `resolve_document` and narrative compression).
+
+GSE-00's completion receipt also requires fixtures that protect existing correct readings, reproduction of the dated proof-packet demonstrations (or marking them unverified), and a per-class outcome ledger. Those remain open in tasks.md.
 
 ## What Changes
 
-- Group the package into subsystems, each with one job and a fixed dependency direction (design.md, *Target structure*).
-- Move the read side of the lexicon (definition-database reader, closed-class catalog, prime basis) into the runtime lexicon subsystem; the constructors depend on it, never the reverse.
-- Move the legacy stack into `GSE/_archive/` once the owner confirms it; nothing is deleted, and the package root stops advertising it.
-- Arrange tests by subsystem with a scoped gate command, and select cross-cutting tests by change impact.
-- Each move is one reviewable commit that updates every importer (package, tests, scripts, readings runners and consumer repositories) and passes the gates listed in tasks.md.
+- Archive code that is certainly dead, one reviewed commit each, with the evidence in the commit and in `docs/ARCHITECTURE.md` §7. Done so far: the shadowed `GSE/cli.py`; eight scripts that could not start; the upstream constructor (decision 1).
+- Keep experiments in place and label them (decision 5).
+- Make dependencies point one way: the read side of the lexicon moves out of build code into the runtime lexicon.
+- Organize modules and tests by subsystem, after the consumer interface (decision 3) exists, so consumers are not moved twice.
 - What GSE computes does not change. Stored identifiers that name module paths are pinned before any module moves.
 
 ## Capabilities
 
 ### New Capabilities
 
-None.
+None yet. The consumer interface will add one, specified with the owner.
 
 ### Modified Capabilities
 
-None. This change rearranges code; no specification changes.
+None. Retiring the upstream constructor removes its unpublished release-format reader; flat-format rows it wrote are now refused as `RETIRED_RELEASE_FORMAT`.
+
+## Related cards on the GSE overhaul board (Project #4)
+
+Read in full: #152 (periphery: archived imports, shadowed CLI, dead daemon, demos) and #29 (W9 engineering foundations; keep-or-archive for off-spine modules). Related by title, not yet read: #26 (repository root resolved in 18 modules), #33 (`TestResult` collected as a test class), #45 and #46 (tracked LintGate and Serena files), #47 (root leftovers: `deploy_to_desktop.sh`, `lootdrop.db`, the `lexicon.db` stub), #96 and #111 and #134 (dead and duplicate code in the front end, encoder and symbolic layer), #107 (two word-encoding paths), #144 (superseded keyword encoders), #21 (import cost of `GSE.symbolic`), #102 (publish the contract spec). This change cites their evidence and closes nothing on its own.
 
 ## Impact
 
-- Import paths used by Genesis, Regenesis, SquishOS, StartupForge, StoryClaude, CareerForge and ShortcutForge, updated in the same commits.
-- Detective certificates keyed by source path, regenerated for each moved module.
-- Documentation that cites module paths.
-
-## Decisions required from the owner before any module moves
-
-1. Which lexicon constructor remains, or how the two are combined (their record formats differ; see `docs/program/LEXICON_CONSTRUCTION_DESIGN.md`).
-2. Whether the legacy stack is archived.
-3. Whether consumers keep today's import names (`GSE.api`, `GSE.symbolic`, …) as stable public modules or move to the new paths.
-4. Pausing the concurrent Codex session in this checkout while modules move.
+- `GSE-lexicon` runs the retained builder's CLI (`GSE.curation.cli.commands`).
+- Import paths used by Genesis, Regenesis, SquishOS, StartupForge, StoryClaude, CareerForge and ShortcutForge change only when the interface exists.
+- Detective certificates keyed by source path: the five entries for the archived constructor are stale until Detective's next run.

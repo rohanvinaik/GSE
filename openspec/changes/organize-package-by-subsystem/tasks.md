@@ -1,59 +1,73 @@
 # Tasks
 
-Every task is one reviewable commit on `main`. It updates every importer: the package, tests, scripts, readings runners and consumer repositories. It must pass all of these gates before the next task starts:
+Every task is one reviewable commit on `main` that updates every importer: the package, tests, scripts, readings runners and consumer repositories. Before the next task starts, it must pass:
 
-- the full suite in a fresh case-sensitive clone;
-- a replay of the active lexicon build (0 mismatches);
+- the full suite in a fresh directory, compared test by test with the previous commit;
+- a replay of the active lexicon build (0 mismatches) when lexicon reading or construction code changed;
 - entry-point output identical to the recorded probe;
-- SquishOS's GSE-facing tests, with no new failures;
 - `scripts/check_program.py`;
-- CI green.
+- CI green, once 0.3 holds.
+
+No task edits the owner's concurrent lexicon session's files (`GSE/curation/lexicon_builder/`, `docs/program/`, `openspec/changes/lexicon-symbolic-foundation/`, `scripts/run_lexicon_epochs.py` and its tests) or disturbs its running processes.
 
 ## 0. Decisions and preconditions
 
-- [ ] 0.1 Owner decisions 1–4 in proposal.md are recorded here.
-- [ ] 0.2 The concurrent Codex session is paused; `main` is clean and equals `origin/main`.
-- [ ] 0.3 CI is green on `main`: the lexicon work settles the 45 tests its I/YOU projection contradicts; `load_all_sources` treats the NSM chart as optional like every other source; the PropBank tests stop depending on the corpus being installed; the 13 tests that need local lexicon data use a fixture or skip when it is absent.
+- [x] 0.1 Owner decisions recorded in proposal.md (2026-11-24).
+- [ ] 0.2 The interface design session with the owner (decision 3).
+- [ ] 0.3 CI is green on `main`:
+  - the lexicon work settles the 45 tests its I/YOU projection contradicts;
+  - the owner decides whether an absent NSM chart refuses (the integrator tests then supply or skip it) or is skipped like the optional sources;
+  - the PropBank tests stop depending on the corpus being installed;
+  - the 13 tests that need local lexicon data use a fixture or skip when it is absent.
 
-## 1. Pin what must not change
+## 1. Retire what is certainly dead (decision 2)
 
-- [ ] 1.1 The five closed-class provenance labels become named constants with a test that pins their exact bytes.
-- [ ] 1.2 An explicit source registry replaces importing source modules by stored key (`curation.lexicon_builder.evidence`).
-- [ ] 1.3 `GSE/__init__.py` exports only the public surface chosen in decision 3.
+- [x] 1.1 `GSE/cli.py`, shadowed by the `GSE/cli/` package (`973d97f`).
+- [x] 1.2 Eight scripts that import modules existing only in `GSE/_archive/` (`af6e230`).
+- [x] 1.3 The upstream constructor `GSE/lexicon_builder/` (decision 1), with its tests, gate scripts and Detective-generated tests. `GSE-lexicon` runs the retained builder. Flat rows from its release format are refused as `RETIRED_RELEASE_FORMAT`, with a MUST-NOT test. Full suite before and after: 7,940 → 7,486 collected (455 tests left with the 32 archived files; 1 added); every shared test kept its outcome; entry-point probe identical apart from the checkout path; active-lexicon replay 0 mismatches over 401,596 entries (`00657d0`).
+- [ ] 1.4 Owner decision (card #47): `daemon/` (not installed; would write 0 for "unknown") together with `deploy_to_desktop.sh`, which installs it, and the root `lexicon.db` stub.
+- [ ] 1.5 Owner decision: the flat-lexicon builder (`curation/build_clean_*`, `curation/lexicon_db`, `data/lexicon_clean.db`), which the runtime still uses when the active pointer is absent.
 
-## 2. Make dependencies point one way (no files move)
+## 2. Setup receipt and pass brief
 
-- [ ] 2.1 The read side of the lexicon lives in the runtime: the definition reader (`runtime_lookup`, `read_entries`, format check), the prime basis and the closed-class catalog. The constructors import them; the encoder, lexical evidence, spell checker and lexical grounding stop importing `curation.*`.
-- [ ] 2.2 The vocabularies the encoder needs (modality, clause tiers) move below `symbolic`, removing the `encode` ↔ `symbolic` cycle.
-- [ ] 2.3 `symbolic` stops re-exporting bridge modules, and `discourse/__init__.py` stops importing `discourse.registers`.
-- [ ] 2.4 Settle the two consumer imports GSE does not publish (`GSE.discourse.document.claim_records`, `GSE.nlp.spellcheck.spelling_protection`) with the SquishOS owner: publish them or remove the imports.
+- [x] 2.1 Pass brief per the workflow's §0 (design.md).
+- [ ] 2.2 Setup receipt with remedy codes (READY / MISSING / STALE / CONFLICT / UNVERIFIED), from Prism, SetupAtlas and LintGate, plus the repo-hygiene kit: pip-audit over the lock with all extras and groups, zizmor, a secret scan, sp-repo-review, deptry. Each finding is checked at its source before it is recorded. Done except LintGate's project check, which runs tests against the working tree and waits until the owner's in-progress edits are committed; no secret scanner is installed (recorded as MISSING).
+- [ ] 2.3 Add `[tool.deptry]` exclusions matching the other tools' archive and record exclusions, so its report is readable.
 
-## 3. Retire superseded code (decision 2)
+## 3. Pin what must not change
 
-- [ ] 3.1 Move the legacy modules in design.md to `GSE/_archive/` and their tests to `tests/_archive/`; record the move in `docs/ARCHITECTURE.md` §7.
-- [ ] 3.2 Trace the live surface of `nlp/sentence_parser` before classifying it.
-- [ ] 3.3 Retire `GSE/cli.py`, which the `GSE/cli/` package shadows.
+- [ ] 3.1 The five closed-class provenance labels become named constants with a test that pins their exact bytes.
+- [ ] 3.2 An explicit source registry replaces importing source modules by stored key (`curation.lexicon_builder.evidence`). This touches the owner's lexicon session's files; schedule it with the owner.
 
-## 4. Move subsystems, in dependency order
+## 4. Make dependencies point one way (no files move)
 
-- [ ] 4.1 `substrate`
-- [ ] 4.2 `lexicon`
-- [ ] 4.3 `heal`
-- [ ] 4.4 `parse`
-- [ ] 4.5 `encode`
-- [ ] 4.6 `symbolic`
-- [ ] 4.7 `document`
-- [ ] 4.8 `bridges`
-- [ ] 4.9 `apps`
-- [ ] 4.10 `build` (after decision 1)
+- [ ] 4.1 The read side of the lexicon lives in the runtime: the definition reader (`runtime_lookup`, `read_entries`, format check), the prime basis and the closed-class catalog. The encoder, lexical evidence, spell checker and lexical grounding stop importing `curation.*`.
+- [ ] 4.2 The vocabularies the encoder needs (modality, clause tiers) move below `symbolic`, removing the `encode` ↔ `symbolic` cycle.
+- [ ] 4.3 `symbolic` stops re-exporting bridge modules, and `discourse/__init__.py` stops importing `discourse.registers`.
+- [ ] 4.4 An Import Linter contract in `pyproject.toml` states the dependency direction, and the gate runs it.
 
-For each move, also regenerate the Detective tests and certificates for the moved modules.
+## 5. The consumer interface (decision 3)
 
-## 5. Tests by subsystem
+- [ ] 5.1 Designed with the owner. Spec deltas with scenarios follow that session; nothing is built before it.
+- [ ] 5.2 Settle the two consumer imports GSE does not publish (`GSE.discourse.document.claim_records`, `GSE.nlp.spellcheck.spelling_protection`) through the interface.
 
-- [ ] 5.1 Move tests to `tests/<subsystem>/` by the rule in design.md; document the scoped command and impact selection beside the gate.
-- [ ] 5.2 Run the suite census (durations, overlap, stale and no-op tests); list removal candidates with their obligations. Remove only what keeps every obligation, using Detective where its function contract applies.
+## 6. Move subsystems, in dependency order (after 5)
 
-## 6. Documentation
+- [ ] 6.1 `substrate`, `lexicon`, `heal`, `parse`, `encode`, `symbolic`, `document`, `bridges`, `apps`, `build`: one commit each, with the Detective tests and certificates for moved modules regenerated by Detective.
+- [ ] 6.2 Experiments (decision 5) get their place in the structure from the owner.
 
-- [ ] 6.1 `docs/ARCHITECTURE.md` describes the new tree; the stale root `README.md` follows it.
+## 7. Tests by subsystem
+
+- [ ] 7.1 Move tests to `tests/<subsystem>/` by the rule in design.md; document the scoped command and impact selection beside the gate.
+- [ ] 7.2 Suite census: durations, overlap, stale and no-op tests, each candidate with its suite candidate record. Remove only what keeps every obligation, with Detective where its function contract applies.
+- [ ] 7.3 Add obligations for the live modules no test executes (design.md, *Test suite*).
+
+## 8. GSE-00 completion receipt
+
+- [ ] 8.1 Fixtures that protect existing correct readings, run through the real entry points.
+- [ ] 8.2 Reproduce the dated proof-packet demonstrations, or mark each unverified.
+- [ ] 8.3 A per-class outcome ledger (identified / abstained / wrong / unavailable / partial), attached to issue #166 with source, data and code hashes.
+
+## 9. Documentation
+
+- [ ] 9.1 `docs/ARCHITECTURE.md` describes the final tree; the root `README.md` follows it.

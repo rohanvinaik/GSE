@@ -1,22 +1,54 @@
-# Design: organize GSE by subsystem
+# Design: GSE-00 capability map and package organization
 
 Evidence below was measured on 2026-11-23 at `67c49b0`: an AST import graph of `GSE/` (288 modules, 87,187 lines, `GSE/_archive/` excluded), a coverage trace of consumer-style calls, and the test suite. "Latest substantive change" excludes repository-wide sweeps (the Oct 4 format and lint commits, the Nov 23 rename and format commits). The `__main__` modules and `curation/validation/__init__.py` show Nov 23 only because the rename recorded them as delete-and-add.
 
 ## Current state
 
-### Setup receipt
+### Pass brief (workflow §0)
 
-| Item | State |
+| Field | Content |
 |---|---|
-| Revision | `main` = `origin/main`, Python 3.14.7 (uv-managed) |
-| Dependencies | `uv.lock` current (`uv lock --check`); `.venv` built by `uv sync --locked` |
-| Gate | `scripts/ci_local.sh`: ruff check, ruff format check (pinned 0.16.10), pytest; `ty` advisory. `.github/workflows/ci.yml` runs the same script |
-| CI | **Red.** The last green run was 2026-10-26. The Nov 23 pushes failed the format check (70 files), which `67c49b0` fixes. At `67c49b0`, pytest in CI has 64 failures. 45 (`UNKNOWN_BANK:YOU`, body-scope and scope-admission tests) come from the in-progress I/YOU projection and also fail with full local data. The other 19 pass locally with `data/` present: 3 are a regression from `1a520dd` (`load_all_sources` loads the NSM chart without the guard every other source has, so a checkout without the chart crashes instead of keeping the built-in grammar); 3 PropBank load tests raise `LookupError` because CI has no PropBank corpus and patching NLTK's lazy loader forces a load (these tests predate Oct 26, when CI passed; the change is not yet explained); 13 epoch, linkage, catalog, publication and runtime-audit tests read local lexicon data (frequency database, NSM chart) |
-| Entry points | `python -m GSE.cli` (encode, compare, decode, verify, interactive); `GSE-spellcheck-mcp`; `GSE-lexicon` (upstream constructor); `python -m GSE.curation.build_*`; `scripts/` |
-| Active lexicon | `data/lexicon_active.json` → `data/lexicon_builder/2026-11-12/sparse-release-021.db`; replay validated 401,596 entries, 0 mismatches |
-| Missing data | **MISSING** `data/genealogy.db` (blocks `resolve_document`, narrative compression and the Genesis bridge script). Also missing: the HDC speller cache, `spell_entities.db`, and the Wiktionary wordlist with `frequency.db`. These, plus the absent `torch`, account for the suite's 54 skips |
-| Stale | Detective test content hashes after the rename; LintGate telemetry (`.claude/rules/lg_*.md`) tracked in git; root `README.md` (see `docs/ARCHITECTURE.md` §7) |
-| Concurrency | A Codex session edits this checkout while the lexicon work continues |
+| Objective | A reproducible, documented, organized GSE: a capability map, certainly-dead code retired, modules and tests arranged by subsystem, consumers bound through one interface (USER_INTENT) |
+| Protected behavior | Every entry point's output (the recorded probe), every stored identifier and hash, the active lexicon's replay, and each live test's outcome |
+| Permitted change | Same-answer reorganization and retirement only; no semantic change. Retiring the upstream constructor removes its release-format reader, which no data uses |
+| Workload | The probe's sentences and commands; the full suite; the active lexicon's replay; the consumer repositories' import sites |
+| Entry point | `python -m GSE.cli`; `GSE-lexicon`; `GSE-spellcheck-mcp`; the Python API that consumers import |
+| Environment | Python 3.14.7 (uv-managed), `uv sync --locked`; macOS case-insensitive disk, checked on a case-sensitive clone where names matter |
+| Gate | `scripts/ci_local.sh` locally and in `.github/workflows/ci.yml` |
+| Unknowns | `resolve_document` and narrative compression (**UNMEASURED**: no `data/genealogy.db`); the experiments' intended consumers; the consumer interface (decision 3) |
+
+### Setup receipt (2026-11-24)
+
+Codes are the workflow's: READY, MISSING, STALE, CONFLICT, UNVERIFIED. Each row names the check that established it. The receipt describes the committed tree; the working tree also holds the owner's lexicon session's uncommitted edits.
+
+| Operation | Code | Evidence |
+|---|---|---|
+| Dependency resolution | READY | `uv lock --check`: 82 packages resolved. Prism reports the lock STALE by file time after the `pyproject.toml` edit; the package manager's own check governs |
+| Known vulnerabilities | READY | `pip-audit` over `uv export --all-extras --all-groups`: none. `en-core-web-sm` (URL dependency) is UNVERIFIED |
+| Workflow security | READY | `zizmor --offline .github/workflows`: no findings |
+| Local gate | READY | ruff check and pinned ruff format check pass on the committed tree; the full suite per commit is compared test by test (tasks.md) |
+| Remote gate (CI) | CONFLICT | Red since the Nov 23 pushes; local and remote disagree because CI lacks local data. 64 failures at `67c49b0`, itemized under *CI* below |
+| Secret scanning | MISSING | Prism: secrets unconfigured; neither `detect-secrets` nor `gitleaks` is installed (card #35) |
+| License | CONFLICT | `README.md` says MIT; there is no `LICENSE` file (repo-review PY003) |
+| pytest warnings policy | MISSING | No `filterwarnings` (repo-review PP309; card #34) |
+| Pre-commit hooks, task runner | MISSING | repo-review PY006, PY007 (cards #36, #37) |
+| Ruff rule set | STALE | Bugbear not selected; `target-version` duplicates `requires-python` (repo-review RF101, RF002; card #38) |
+| Declared dependencies | CONFLICT | deptry, in the project environment: live modules import undeclared `torch` (the register-router experiments, `qwen_client`), `transformers` (`qwen_client`) and `amrlib` (`nlp/sentence_parser`); scripts import undeclared `datasets`, `ijson`, `gensim`, `sentence_transformers`. Matches card #152 (gates-23). deptry needs the archive and record exclusions the other tools have before its 224-issue report is readable |
+| Layer contracts | MISSING | Import Linter is installed but the project has no `[tool.importlinter]` contract (task 4.4) |
+| Detective state | STALE | Generated-test content hashes predate the rename; five certificate entries name the archived constructor |
+| LintGate files | STALE | `.claude/rules/lg_*.md` are tracked but rewritten on every tool call (card #45) |
+| Machine inventory | STALE | SetupAtlas last scanned 2026-05-03; not used as evidence for this session |
+| Data: active lexicon | READY | `data/lexicon_active.json` → `sparse-release-021.db`; replay 401,596 entries, 0 mismatches (2026-11-23) |
+| Data: `genealogy.db` | MISSING | Blocks `resolve_document`, narrative compression and the Genesis bridge script |
+| Data: spelling and frequency resources | MISSING | HDC speller cache, `spell_entities.db`, the Wiktionary wordlist with `frequency.db`; with absent `torch`, these account for the suite's skips |
+| Model transport (Ollama) | UNVERIFIED | Not exercised in this pass |
+
+#### CI
+
+At `67c49b0`, 64 tests fail in CI:
+
+- 45 (`UNKNOWN_BANK:YOU`, body-scope and scope-admission tests) come from the in-progress I/YOU projection and also fail with full local data.
+- The other 19 pass locally with `data/` present. 3 fail because `load_all_sources` (since `1a520dd`) loads the NSM chart without the guard the optional sources have, so a checkout without the chart raises instead of keeping the built-in grammar. The chart loader deliberately refuses a revision mismatch (`NSM_CHART_SOURCE_REVISION_MISMATCH`); whether an absent chart should refuse or be skipped is the owner's lexicon-design call. 3 PropBank load tests raise `LookupError` because CI has no PropBank corpus and patching NLTK's lazy loader forces a load; these tests predate Oct 26, when CI passed, and the change is not yet explained. 13 epoch, linkage, catalog, publication and runtime-audit tests read local lexicon data (frequency database, NSM chart).
 
 ### Subsystems
 
@@ -64,15 +96,16 @@ The owner's three tiers map onto these as follows. **Tier 1, the text-to-math en
 
 | Older code | Replaced by | Older code's status |
 |---|---|---|
-| `parsing/` (constraint-propagation parser, Jun 14) | `nlp/native` (deterministic front end, Jun 20–Nov 14) | test-only |
-| `composition/` (HDC composer, Jun 14) | composition inside `api/encoder` | test-only |
-| `curation/llm/` except `ollama_client` (Ollama decomposition, Jun 14–Oct 29) | `curation/lexicon_builder` model protocol (Oct 29–Nov 23), which still uses `ollama_client` as its transport | test-only |
+| `parsing/` (constraint-propagation parser, Jun 14) | `nlp/native` (deterministic front end, Jun 20–Nov 14) took the live path | test-only; not confirmed dead |
+| `composition/` (HDC composer, Jun 14) | composition inside `api/encoder` took the live path | test-only; not confirmed dead |
+| `curation/llm/` (Ollama decomposition and the Qwen client, Jun 14–Oct 29) | partly, by the `curation/lexicon_builder` model protocol, which still uses `ollama_client` as its transport | **unfinished experiment, kept** (decision 5); test-only |
 | `curation/decomposition/` (Jun 20), `curation/pipeline/`, `curation/validation/`, `curation/constraint_aggregation/` (Jun 14) | the current constructors | old build tools: used only by `build_clean_layer2`, the old curation CLI, scripts and, for `constraint_aggregation`, the uninstalled daemon |
-| `pipeline_v2`, `merkle/`, `patterns/`, `teaching/`, `profiles/` (the Hebbian learning-network stack, Jun 14) | the deterministic engine; the trained SoM register router | never observed; reachable only through the root's lazy exports |
-| `evaluation/`, `verb_templates`, `benchmarks/`, `cache`, `orchestration` (Jun 14) | none in use | tooling, test-only or unreferenced |
+| `pipeline_v2`, `merkle/`, `patterns/`, `teaching/`, `profiles/`, with the `cache/` and `orchestration/` re-export shims (the learning-network stack, Jun 14) | not replaced: the deterministic engine took the live path | **unfinished experiment, kept** (decision 5); never observed; reachable only through the root's lazy exports |
+| `evaluation/`, `verb_templates`, `benchmarks/` (Jun 14) | none in use | tooling, test-only or unreferenced; not confirmed dead |
 | `demo/` other than `reasoning` | none | unreferenced |
-| `GSE/cli.py` | the `GSE/cli/` package, which shadows it on import | dead |
-| `GSE/lexicon_builder` (upstream constructor, Oct 24–26) | `GSE/curation/lexicon_builder` (Oct 29–Nov 23)? | **owner decision.** The formats differ (58 vs 56 coordinates); only the release reader is on the product path |
+| `GSE/cli.py` | the `GSE/cli/` package, which shadows it on import | **archived** (task 1.1) |
+| eight scripts importing modules that exist only in `GSE/_archive/` | none needed | **archived** (task 1.2) |
+| `GSE/lexicon_builder` (upstream constructor, Oct 24–26) | `GSE/curation/lexicon_builder` (Oct 29–Nov 23), decision 1 | **archived** (task 1.3). The retained builder imported nothing from it and shared no function with it, checked with names and literals stripped |
 
 `nlp/sentence_parser` (Jun 14–24, the spaCy/AMR/CCG bridge) still loads on the encoding path. Its live surface has to be traced before it is classified.
 
@@ -87,8 +120,7 @@ Coverage of the full suite puts the testing where it is least needed. Tests exec
 - four statement-healer lenses and `healer.recollect`;
 - `symbolic.variables`, which Genesis imports;
 - `demo.reasoning`;
-- the `mcp` package module;
-- the upstream constructor's CLI and audit.
+- the `mcp` package module.
 
 The census should add obligations for those before removing tests elsewhere.
 
@@ -111,9 +143,10 @@ Each subsystem is one directory under `GSE/` whose name states its job. A subsys
 | `GSE/document/` | Multi-sentence reading and multiscale grounding | `discourse/speech`, `intake`, `split_sentences`; `cassettes/*` |
 | `GSE/bridges/` | Genesis and Regenesis contracts | `symbolic/emit`, `variables`, `healer/`, `narrative` |
 | `GSE/apps/` | Register classification, Janus figures, the reasoning showcase | `discourse/registers`, `router`, `nested_router`, `infer`, `text_profile`; `encoders/*`; `pragmatics/*`; `demo/reasoning` |
-| `GSE/build/` | Offline lexicon construction | `curation/lexicon_builder`, `lexicon_builder` (pending decision 1), `curation/external_sources` minus the catalog, `curation/cli`, `curation/build_*`, `curation/lexicon_db` |
+| `GSE/build/` | Offline lexicon construction | `curation/lexicon_builder`, `curation/external_sources` minus the catalog, `curation/cli`; `curation/build_*` and `curation/lexicon_db` pending task 1.5 |
 | `GSE/cli/`, `GSE/mcp/`, `GSE/verification/` | Entry points and proof suites | unchanged |
-| `GSE/_archive/` | Retired code, kept for provenance | the legacy rows above (pending decision 2) |
+| `GSE/_archive/` | Retired code, kept for provenance | only code that is certainly dead (decision 2) |
+| experiments | Unfinished experiments (decision 5) | the learning-network stack and `curation/llm`; their place is the owner's call (task 6.2) |
 
 ## Constraints on moving modules
 
@@ -127,7 +160,7 @@ Moving a module must not change any stored identifier. These name module paths t
 6. **Consumers.** Consumer imports move in the same commit, or keep working through public modules (decision 3).
 7. **Package exports.** `GSE/__init__.py` keeps only the public surface.
 8. **Format identifiers** (`GSE.lexicon-builder/1`, …) are not module paths and do not change.
-9. **Package data.** `pyproject.toml` package data names `GSE.lexicon_builder`; it moves with the package.
+9. **Package data.** The only package-data entry named the archived constructor and was removed with it (task 1.3).
 
 ## Test scoping
 
