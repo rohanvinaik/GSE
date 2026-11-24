@@ -58,7 +58,17 @@ The geometric stack remains available through `GSEPipeline` as a separate interf
 
 ## Verification and theory status
 
-Run `scripts/ci_local.sh` for the repository's lint, format, test and advisory type checks. The output of a fresh run is the current measurement; historical counts in research records are not live status. Expected failures name unresolved probes and do not certify those readings.
+Run `scripts/ci_local.sh` for the repository's lint, format, test and advisory type checks. It is the full gate: before a push, and in CI.
+
+While working, run only what a change touches:
+
+```bash
+uv run pytest -m symbolic                                   # tests whose files import GSE.symbolic
+uv run pytest -m "lexicon_builder or external_sources"      # every top-level area of GSE/ is a marker
+uv run --with pytest-testmon pytest --testmon               # only tests affected by changed code
+```
+
+Area markers are derived from each test file's imports at collection (`tests/conftest.py`); `uv run pytest --markers` lists them. The impact selector records a baseline on its first run and keeps its state in `.testmondata`, which is not committed. The output of a fresh run is the current measurement; historical counts in research records are not live status. Expected failures name unresolved probes and do not certify those readings.
 
 `CLAUDE.md` marks `docs/THEORY.md` invalid, while that document describes itself as reconciled. This unresolved authority conflict is recorded in the OpenSpec evidence matrix. This README does not promote either claim into a replacement theory. The current repair's scope and preserved outputs are specified in [the typed-reading change](openspec/changes/archive/2026-10-20-preserve-typed-prose-readings/proposal.md).
 
