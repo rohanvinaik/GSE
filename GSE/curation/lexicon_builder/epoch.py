@@ -508,6 +508,34 @@ def choose(
         held_spellings.update(lemma.casefold() for lemma in evaluation_holdout["lemmas"])
     remaining = {key: rule for key, rule in families.items() if key not in done}
     projections = {key: forecast(rows, rules, (family.relation(),)) for key, family in remaining.items()}
+    # Evaluate the complete declared hypothesis portfolio and leave-one-out
+    # consequences. This includes chains/conjunctions of any portfolio depth;
+    # the older pair diagnostics below are retained only as explanatory detail.
+    portfolio = forecast(rows, rules, tuple(family.relation() for family in remaining.values()))
+    conditional_reach = {}
+    for key in remaining:
+        other_keys = [other for other in remaining if other != key]
+        without = (
+            projections[other_keys[0]]
+            if len(other_keys) == 1
+            else forecast(rows, rules, tuple(remaining[other].relation() for other in other_keys))
+        )
+        available = (
+            not portfolio["contradictions"]
+            and not without["contradictions"]
+            and portfolio["specification_gain_bits"] is not None
+            and without["specification_gain_bits"] is not None
+        )
+        conditional_reach[key] = {
+            "code": "EXACT_DECLARED_PORTFOLIO" if available else "UNAVAILABLE_OR_CHALLENGED",
+            "families": sorted(remaining),
+            "with_all_bits": portfolio["specification_gain_bits"],
+            "without_this_bits": without["specification_gain_bits"],
+            "marginal_bits": portfolio["specification_gain_bits"] - without["specification_gain_bits"]
+            if available
+            else None,
+            "contradictions": portfolio["contradictions"],
+        }
     options, answer_cache = [], {}
     for key, family in remaining.items():
         right, _ = family.consequent
@@ -572,6 +600,7 @@ def choose(
                     "specification_gain_bits": projection["specification_gain_bits"],
                     "progress_code": projection["progress_code"],
                     "per_answer_closure": answer_cache[answer_key],
+                    "portfolio_reach": conditional_reach[key],
                     "contract": CONTRACT,
                     "contradictions": len(projection["contradictions"]),
                     "bridge_options": sorted(bridges, key=lambda b: (-b["joint_only"], b["family"])),
@@ -589,12 +618,19 @@ def choose(
     def key(option):
         if policy == "zipf":
             return (-option["subtlex"], option["entry_id"], option["bank"], option["family"])
-        bridge = max((b["complementary_bits"] or 0 for b in option["bridge_options"]), default=0)
         measured = option["specification_gain_bits"]
+        conditional = option["portfolio_reach"]["marginal_bits"]
+        reach = max(measured or 0, conditional or 0)
+        answers = option["per_answer_closure"]
+        local = [answer.get("specification_gain_bits") for answer in answers]
+        complete_answers = bool(local) and all(value is not None for value in local)
+        guaranteed = min(local) if complete_answers else 0
         return (
             option["contradictions"],
             measured is None,
-            -(measured or 0) - bridge,
+            -reach,
+            not complete_answers,
+            -guaranteed,
             -option["singletons"],
             -option["subtlex"],
             option["entry_id"],

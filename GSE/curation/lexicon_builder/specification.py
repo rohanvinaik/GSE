@@ -16,6 +16,8 @@ from collections import Counter, defaultdict
 from contextlib import closing
 from pathlib import Path
 
+from GSE.namespace import identity_form
+
 FORMAT = "GSE.specification-space/1"
 CONTRACT = "GSE.ssl-construction/2"
 BUCKETS = ("1-500", "501-1500", "1501-5000", "5001+", "unranked")
@@ -169,6 +171,8 @@ def _aggregate(records):
         "domain_potential_bits": math.fsum(marginal),
         "upper_bound_bits": math.fsum(upper) if len(upper) == n and n else None,
         "assignment_count_histogram": dict(sorted(histogram.items(), key=lambda item: int(item[0]))),
+        "joint_assignment_count_representation": "PRODUCT_OF_EACH_HISTOGRAM_BASE_RAISED_TO_ITS_COUNT",
+        "joint_assignment_product_complete": counts["EXACT"] == n and n > 0,
     }
 
 
@@ -219,7 +223,10 @@ def measure_dictionary(path, frequency_path=None):
 
 def compare_measurements(before, after):
     """Compare a fixed cohort and frequency policy; never reward a changed target."""
-    if any(before.get(key) != after.get(key) for key in ("format", "contract", "cohort_sha256", "frequency")):
+    if any(
+        identity_form(before.get(key)) != identity_form(after.get(key))
+        for key in ("format", "contract", "cohort_sha256", "frequency")
+    ):
         raise ValueError("SPECIFICATION_MEASUREMENT_POPULATION_CHANGED")
 
     def difference(left, right):

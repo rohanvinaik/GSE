@@ -118,8 +118,9 @@ def test_reference_witness_replays_preserved_native_namespace(legacy_module):
     parser = GSEClosedClassParser()
     features = asdict(parser.get_entries("i")[0])
     if legacy_module:
-        features["native_encodings"][0]["module"] = "GSE.lexicon.pronouns"
-        features["provenance"] = ("GSE.lexicon.pronouns:PRONOUN_ENCODINGS:i",)
+        from GSE.namespace import identity_form
+
+        features = identity_form(features)
     before = copy.deepcopy(features)
     assert parser.reference_projection_for_observation(features) == {"I": 1}
     assert features == before

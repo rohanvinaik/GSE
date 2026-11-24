@@ -165,6 +165,9 @@ def test_public_measure_cli_keeps_all_senses_and_does_not_modify_database(tmp_pa
     assert measured["buckets"]["unranked"]["definitions"] == 1
     assert measured["lexicon"]["exact_definitions"] == 3
     assert compare_measurements(measured, measured)["lexicon"]["specification_gain_bits"] == 0
+    from GSE.namespace import identity_form
+
+    assert compare_measurements(identity_form(measured), measured)["lexicon"]["specification_gain_bits"] == 0
     assert hashlib.sha256(database.read_bytes()).hexdigest() == before
     changed = dict(measured, cohort_sha256="changed")
     with pytest.raises(ValueError, match="POPULATION_CHANGED"):

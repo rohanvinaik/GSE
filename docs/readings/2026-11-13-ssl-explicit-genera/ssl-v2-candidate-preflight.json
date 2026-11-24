@@ -1,0 +1,57 @@
+{
+  "format": "GSE.lexicon-replay-report/1",
+  "code": "REPLAY_MISMATCH",
+  "gold": "NOT_CHECKED",
+  "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+  "complete_search": false,
+  "inference_counts": {
+    "components_joint_checked": 2495940,
+    "components_solver_limited": 0,
+    "entries_complete_search": 401594,
+    "entries_replayed": 401594,
+    "entries_solver_limited": 0
+  },
+  "metadata_verification": {
+    "representation_contract": "MISMATCH",
+    "catalog": "MISMATCH",
+    "catalog_definition_source_ids": "NOT_PERSISTED",
+    "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED",
+    "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+    "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+    "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+    "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+    "build_report": "NOT_CHECKED"
+  },
+  "entries_checked": 401596,
+  "entries_validated": 401594,
+  "entries_mismatched": 2,
+  "replayed_outcomes": {
+    "PARTIAL": 401594
+  },
+  "mismatch_counts": {
+    "CATALOG_METADATA_MISMATCH": 1,
+    "MALFORMED_ENTRY": 2,
+    "REPRESENTATION_CONTRACT_MISMATCH": 1
+  },
+  "mismatches": [
+    {
+      "entry_id": null,
+      "code": "CATALOG_METADATA_MISMATCH",
+      "reason": "CATALOG_REPLAY_MISMATCH"
+    },
+    {
+      "entry_id": "gse_closed_class:pronoun:i",
+      "code": "MALFORMED_ENTRY",
+      "reason": "CLOSED_CLASS_REFERENCE_WITNESS_MISMATCH"
+    },
+    {
+      "entry_id": "gse_closed_class:pronoun:you",
+      "code": "MALFORMED_ENTRY",
+      "reason": "CLOSED_CLASS_REFERENCE_WITNESS_MISMATCH"
+    },
+    {
+      "entry_id": null,
+      "code": "REPRESENTATION_CONTRACT_MISMATCH"
+    }
+  ]
+}

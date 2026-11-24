@@ -395,9 +395,7 @@ class GSEClosedClassParser:
             entry.grammatical_features,
             list(entry.native_encodings),
         )
-        normalized_provenance = tuple(
-            value.replace("GSE.lexicon.pronouns:", "GSE.lexicon.pronouns:", 1) for value in entry.provenance
-        )
+        normalized_provenance = tuple(current_id(value) for value in entry.provenance)
         if entry.definition != expected.definition or normalized_provenance != expected.provenance:
             raise ValueError("CLOSED_CLASS_REFERENCE_WITNESS_MISMATCH")
         return {bank: value for bank, value in self.to_primitives_for_entry(entry).items() if bank in {"I", "YOU"}}

@@ -858,6 +858,37 @@ def test_constraint_only_rule_is_taught_audited_admitted_and_replayed(tmp_path):
         )
 
 
+def test_full_portfolio_changes_priority_beyond_two_rule_lookahead(tmp_path):
+    base = tmp_path / "base.db"
+    durations = [native(word, "time_unit.n.01") for word in ("da", "db", "dc", "dd")]
+    areas = [native(f"area{i}", "area_unit.n.01") for i in range(9)]
+    definitions, observations = zip(*durations, *areas)
+    assertions = tuple(Assertion("SOMETHING", 1, "wordnet_hierarchy", d.entry_id, "wordnet") for d in definitions)
+    build_dictionary(EvidenceBundle(definitions, observations, assertions, ()), base)
+    plan = {
+        "format": "GSE.lexicon-epoch-plan/1",
+        "baseline_sha256": fingerprint(base),
+        "active_pointer_sha256": "a" * 64,
+        "epochs": 1,
+        "audits_per_epoch": 1,
+        "families": [
+            family("first", "time_unit.n.01", ["SOMETHING", 1], ["THINK", 1], "da"),
+            family("second", "time_unit.n.01", ["THINK", 1], ["FEEL", 0], "db"),
+            family("third", "time_unit.n.01", ["FEEL", 0], ["WANT", 0], "dc"),
+            family("isolated", "area_unit.n.01", ["SOMETHING", 1], ["HEAR", 0], "area8"),
+        ],
+    }
+    families = parse_plan(plan)
+    inventory = census(base, families)
+    frequencies = {d.lemma: 1000 if d.lemma.startswith("area") else 1 for d in definitions}
+    selected = choose(base, inventory, families, set(), set(), "closure", frequencies)
+    assert selected["family"] == "first"
+    pair_gain = selected["specification_gain_bits"] + max(b["complementary_bits"] for b in selected["bridge_options"])
+    assert pair_gain < 9 * 1.584962500721156
+    assert selected["portfolio_reach"]["marginal_bits"] > 9 * 1.584962500721156
+    assert selected["portfolio_reach"]["code"] == "EXACT_DECLARED_PORTFOLIO"
+
+
 @pytest.mark.parametrize("values", [[], [True, 0], [0, 0], [-1, 0, 1], [1]])
 def test_exclusion_plan_rejects_malformed_or_vacuous_domains(values):
     proposal = family("synthetic-exclusion", "area_unit.n.01", ["SOMETHING", 1], ["WANT", 0], "beta")
